@@ -17,7 +17,7 @@ func after_each() -> void:
 
 func test_monarch_counts_only_when_its_bonus_is_applied_to_a_fairy_ring() -> void:
 	var kit: KIT = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	kit.put("fairy_monarch", 0)
 	var fairy: RecruitUnit = kit.put("wisp", 1)
 	BoardUpkeep.add_ring(kit.player, 1, {"attack": 1, "health": 1})
@@ -35,7 +35,7 @@ func test_monarch_counts_only_when_its_bonus_is_applied_to_a_fairy_ring() -> voi
 
 func test_monarch_without_a_fairy_on_a_ring_does_not_count() -> void:
 	var kit: KIT = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	kit.put("fairy_monarch", 0)
 	kit.put("wisp", 1)
 	kit.put("pill_bug", 2)

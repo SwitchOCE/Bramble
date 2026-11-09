@@ -1,0 +1,157 @@
+{
+  "fairies_ring": {
+    "kind": "engine_carry",
+    "tribe": "fairies",
+    "engine_flag": true,
+    "priority": [
+      "old_moth_annis",
+      "cluricaun",
+      "nan_toadstool",
+      "lob_lie_by_the_fire",
+      "cradle_fetch",
+      "fairy_monarch",
+      "silky",
+      "belladonna",
+      "hob_in_the_hearth",
+      "sally_spore",
+      "reel_mistress",
+      "hedge_witch",
+      "changeling",
+      "rainbow_chaser",
+      "will_o_the_wisp",
+      "queen_of_elfland"
+    ],
+    "keep": [
+      "old_moth_annis",
+      "cluricaun",
+      "cradle_fetch",
+      "fairy_monarch",
+      "belladonna"
+    ],
+    "buy_only_if": {
+      "rainbow_chaser": "sell it the same turn it pays 5 or more",
+      "will_o_the_wisp": "a ringed slot will stay empty at combat",
+      "queen_of_elfland": "pivot to fairies_court",
+      "sally_spore": "before T5; sell her when the slot is needed"
+    },
+    "place": {
+      "carry_slot": "B1",
+      "old_moth_annis": "F1",
+      "cradle_fetch": "F2",
+      "cluricaun": "F3",
+      "shy_units": "B2 or B3, the slots with the fewest Rings",
+      "fairy_monarch": "B2",
+      "reel_mistress": "B3",
+      "nan_toadstool": "played on B1 while B1 is empty; sold from B1"
+    },
+    "stander_on_carry_slot": [
+      "changeling if the enemy unit in B1 is bigger than our stander would be",
+      "hedge_witch if the enemy unit in B1 has Attack at least half our B1 Ring",
+      "otherwise belladonna, else the biggest body we own"
+    ],
+    "spells": {
+      "spore_cloud": "buy; aim at the rainbow's missing slot, else B1",
+      "boundary_stone": "buy; aim at the rainbow's missing slot, else B1",
+      "pinch_of_dust": "only to thank a Shy unit",
+      "hiring_fair": "at T5+ with 5+ Fairies and no fairy_monarch by R11",
+      "horseshoe": "buy when the scout shows a Fairy carry; aim across its slot",
+      "harvest_supper": "skip"
+    },
+    "thank": [
+      "lob_lie_by_the_fire: when its turns on board reach a multiple of 3 and silky is on board; else at 6",
+      "hob_in_the_hearth: only with silky on board, or when the slot is needed (about R13)",
+      "silky: last, after the other Shy units have left"
+    ],
+    "climb": {
+      "T2": 2,
+      "T3": 4,
+      "T4": 6,
+      "T5": 9,
+      "T6": 11
+    },
+    "save": [
+      "R1-R8: spend to 0, holding only the next scheduled tier-up",
+      "from R9: hold 6 for hiring_fair while at T5+ with no fairy_monarch",
+      "otherwise churn the rest: buy the cheapest unit, play it in the flex slot, sell it (Annis Rings B1); stop at 1 gold"
+    ],
+    "knobs": [
+      "Annis F1 or F2 (one giant or two)",
+      "thank turn for Lob",
+      "churn on or off",
+      "stander rule"
+    ]
+  },
+  "fairies_court": {
+    "kind": "tempo",
+    "tribe": "fairies",
+    "engine_flag": false,
+    "priority": [
+      "old_moth_annis",
+      "nan_toadstool",
+      "sally_spore",
+      "rainbow_chaser",
+      "cluricaun",
+      "lob_lie_by_the_fire",
+      "hedge_witch",
+      "changeling",
+      "silky",
+      "belladonna",
+      "queen_of_elfland",
+      "will_o_the_wisp",
+      "fairy_monarch",
+      "reel_mistress",
+      "cradle_fetch",
+      "hob_in_the_hearth"
+    ],
+    "keep": [
+      "old_moth_annis",
+      "cluricaun",
+      "queen_of_elfland",
+      "belladonna",
+      "changeling"
+    ],
+    "buy_only_if": {
+      "rainbow_chaser": "hold until 6+ slots have a Ring, then sell",
+      "cradle_fetch": "one slot holds over a third of the board"
+    },
+    "place": {
+      "old_moth_annis": "F2",
+      "cluricaun": "F3",
+      "queen_of_elfland": "F4; a cheap unit in B3 every turn",
+      "will_o_the_wisp": "B2 once the Queen is down",
+      "changeling": "B1, or across the scouted biggest enemy",
+      "hedge_witch": "across their highest-Attack unit",
+      "nan_toadstool": "played into an unringed slot, then sold",
+      "sally_spore": "beside the gap that most needs a Ring; later beside the tithe slot"
+    },
+    "spells": {
+      "spore_cloud": "the rainbow's missing slot first, then B1 or B2",
+      "boundary_stone": "the rainbow's missing slot first, then B1 or B2",
+      "pinch_of_dust": "only to thank a Shy unit",
+      "harvest_supper": "when 3 gold is spare",
+      "hiring_fair": "at T6 with 5+ Fairies and no Fairy tier 6",
+      "horseshoe": "buy when the scout shows a Fairy carry"
+    },
+    "thank": [
+      "lob_lie_by_the_fire: at 3 turns if silky is on board, else at 6",
+      "silky: the turn after Lob"
+    ],
+    "climb": {
+      "T2": 2,
+      "T3": 4,
+      "T4": 6,
+      "T5": 8,
+      "T6": 10
+    },
+    "save": [
+      "never bank more than 2, except to hold the Chaser for a turn where its sale pays a tier-up and a buy",
+      "with the Queen down: keep 3 gold each turn for the unit she tithes",
+      "churn the rest through Annis (2 Rings a sale from F2); stop at 1 gold"
+    ],
+    "knobs": [
+      "Queen in F2/F3 (two tithes a turn) or F4",
+      "Monarch or a second answer on B1",
+      "rainbow by R7 or R8"
+    ]
+  }
+}

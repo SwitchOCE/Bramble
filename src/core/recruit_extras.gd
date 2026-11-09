@@ -102,3 +102,20 @@ static func _remove_item(player: PlayerState, card: String) -> void:
 		if player.items[index].def_id() == card:
 			player.items.remove_at(index)
 			return
+
+
+## The player-owned state copied into each fight and ghost snapshot.
+static func fight_rules(rules: RecruitRules, player: PlayerState) -> Dictionary:
+	return {
+		"pass3_content": player.pass3_content,
+		"ring_size": player.ring_size,
+		"larder": player.larder(),
+		"back_row_first": rules.ask("back_row_first", player, 0) > 0,
+		"bands": player.bands.duplicate(),
+		"ammo": player.acorn_values(),
+		"nests": HeldUnits.nest_rules(player),
+		"goose": HeldUnits.goose_strikes(player),
+		"away_birds": HeldUnits.away_birds(player),
+		"away_specs": HeldUnits.away_specs(player),
+		"homecomings": player.homecomings_this_turn,
+	}

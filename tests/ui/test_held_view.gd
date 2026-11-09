@@ -103,7 +103,7 @@ func test_the_sky_card_lists_birds_away_and_on_the_doorstep() -> void:
 		"away": [{"name": "Mrs Jay", "turns_left": 1, "nest": 4}], "doorstep": [{"name": "Tern"}]
 	}
 	var text: String = RecruitHeld.sky_card(state)["text"]
-	assert_string_contains(text, "Mrs Jay: home in 1 turn (Nest on B1).")
+	assert_string_contains(text, "Mrs Jay · home in 1 turn · B1")
 	assert_string_contains(text, "Tern: on the doorstep")
 	assert_true(RecruitHeld.sky_card({}).is_empty(), "nobody out: no card")
 

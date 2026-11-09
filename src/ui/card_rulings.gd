@@ -12,13 +12,14 @@ static var _cache: Dictionary = {}
 
 ## The rulings for this view's card, golden ones for a golden unit; "" when it has none.
 static func for_view(view: Dictionary) -> String:
+	var current: String = str(view.get("details", ""))
 	var def: Dictionary = _def(str(view.get("def_id", "")))
 	if def.is_empty():
-		return ""
+		return current
 	var details: String = str(def.get("details", ""))
 	if view.get("golden", false) == true:
-		return str(def.get("golden_details", details))
-	return details
+		details = str(def.get("golden_details", details))
+	return (current + " " + details).strip_edges()
 
 
 static func _def(id: String) -> Dictionary:

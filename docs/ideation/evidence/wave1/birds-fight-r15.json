@@ -1,0 +1,1209 @@
+{
+  "round": 15,
+  "opponent_id": 4,
+  "winner": 1,
+  "damage": 14,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mrs_jay",
+            "name": "Mrs Jay",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 35,
+            "health": 39,
+            "max_health": 39,
+            "golden": false,
+            "text": "Fly South. When sold: get an Acorn.",
+            "keywords": [
+              "Fly South",
+              "Acorn"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              },
+              {
+                "keyword": "Acorn",
+                "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+              }
+            ]
+          },
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "cuckoo",
+            "name": "The Cuckoo",
+            "tier": 4,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 50,
+            "health": 65,
+            "max_health": 65,
+            "golden": false,
+            "text": "After a Bird comes home: other Birds gain a tenth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 3,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "one_swallow",
+            "name": "One Swallow",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 70,
+            "health": 106,
+            "max_health": 106,
+            "golden": false,
+            "text": "Fly South. When played: get 1 gold.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 4,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "chiffchaff",
+            "name": "Chiffchaff",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 58,
+            "health": 78,
+            "max_health": 78,
+            "golden": false,
+            "text": "Fly South. When played: gain +1/+1.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 5,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "one_swallow",
+            "name": "One Swallow",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 46,
+            "health": 58,
+            "max_health": 58,
+            "golden": false,
+            "text": "Fly South. When played: get 1 gold.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 6,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mr_redbreast",
+            "name": "Mr Redbreast",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 141,
+            "health": 182,
+            "max_health": 182,
+            "golden": false,
+            "text": "After a Bird comes home: gain an eighth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 7,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "great_lump",
+            "name": "The Great Lump",
+            "tier": 5,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 116,
+            "health": 151,
+            "max_health": 151,
+            "golden": false,
+            "text": "Cleave. On a Nest, this has its Bird's stats too.",
+            "keywords": [
+              "Cleave",
+              "Nest"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Cleave",
+                "text": "Attacks also hit the units beside the target."
+              },
+              {
+                "keyword": "Nest",
+                "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "uid": 8,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "seven_whistlers",
+            "name": "The Seven Whistlers",
+            "tier": 6,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 14,
+            "health": 16,
+            "max_health": 16,
+            "golden": false,
+            "text": "Start of Combat: halve the enemy across. With seven different Birds, halve every enemy.",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": []
+          },
+          {
+            "uid": 9,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mother_goose",
+            "name": "Mother Goose",
+            "tier": 5,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 13,
+            "health": 15,
+            "max_health": 15,
+            "golden": false,
+            "text": "Fly South. When played: get a Golden Egg.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 10,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "great_lump",
+            "name": "The Great Lump",
+            "tier": 5,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 267,
+            "health": 342,
+            "max_health": 342,
+            "golden": true,
+            "text": "Cleave. On a Nest, this has twice its Bird's stats too.",
+            "keywords": [
+              "Cleave",
+              "Nest"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Cleave",
+                "text": "Attacks also hit the units beside the target."
+              },
+              {
+                "keyword": "Nest",
+                "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+              }
+            ]
+          },
+          {
+            "uid": 11,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "queen_of_elfland",
+            "name": "Queen of Elfland",
+            "tier": 6,
+            "tribes": [
+              "Fairies"
+            ],
+            "attack": 10,
+            "health": 10,
+            "max_health": 10,
+            "golden": false,
+            "text": "End of Turn: destroy the units behind this. Ring every slot for each.",
+            "keywords": [
+              "Ring"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Ring",
+                "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+              }
+            ]
+          },
+          {
+            "uid": 12,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "gabble_ratchet",
+            "name": "The Gabble Ratchet",
+            "tier": 6,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 11,
+            "health": 15,
+            "max_health": 15,
+            "golden": false,
+            "text": "When a unit on a Nest dies: its Bird drops in.",
+            "keywords": [
+              "Nest"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Nest",
+                "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+              }
+            ]
+          },
+          {
+            "uid": 13,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "seven_whistlers",
+            "name": "The Seven Whistlers",
+            "tier": 6,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 19,
+            "health": 23,
+            "max_health": 23,
+            "golden": false,
+            "text": "Start of Combat: halve the enemy across. With seven different Birds, halve every enemy.",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": []
+          },
+          null
+        ]
+      ],
+      "first_side": 0,
+      "player_ids": [
+        0,
+        4
+      ],
+      "slot_effects": [
+        [
+          [],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 4,
+              "golden": false,
+              "attack": 4,
+              "health": 4,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 4,
+              "golden": false,
+              "attack": 4,
+              "health": 4,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 5,
+              "golden": false,
+              "attack": 5,
+              "health": 5,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ]
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "trigger",
+      "uid": 8,
+      "mechanic": "whistlers"
+    },
+    {
+      "seq": 3,
+      "type": "stats",
+      "target": 1,
+      "attack_delta": -17,
+      "health_delta": -19,
+      "attack": 18,
+      "health": 20,
+      "max_health": 20,
+      "source": 8,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 4,
+      "type": "trigger",
+      "uid": 13,
+      "mechanic": "whistlers"
+    },
+    {
+      "seq": 5,
+      "type": "stats",
+      "target": 6,
+      "attack_delta": -70,
+      "health_delta": -91,
+      "attack": 71,
+      "health": 91,
+      "max_health": 91,
+      "source": 13,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 6,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 7,
+      "type": "attack",
+      "side": 0,
+      "attacker": 1,
+      "defender": 11,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 8,
+      "type": "damage",
+      "source": 1,
+      "target": 11,
+      "amount": 18,
+      "raw": 18,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -8
+    },
+    {
+      "seq": 9,
+      "type": "damage",
+      "source": 11,
+      "target": 1,
+      "amount": 10,
+      "raw": 10,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 10
+    },
+    {
+      "seq": 10,
+      "type": "death",
+      "uid": 11,
+      "side": 1,
+      "slot": 3
+    },
+    {
+      "seq": 11,
+      "type": "attack",
+      "side": 1,
+      "attacker": 8,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 12,
+      "type": "damage",
+      "source": 8,
+      "target": 1,
+      "amount": 14,
+      "raw": 14,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -4
+    },
+    {
+      "seq": 13,
+      "type": "damage",
+      "source": 1,
+      "target": 8,
+      "amount": 18,
+      "raw": 18,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -2
+    },
+    {
+      "seq": 14,
+      "type": "death",
+      "uid": 8,
+      "side": 1,
+      "slot": 0
+    },
+    {
+      "seq": 15,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 0
+    },
+    {
+      "seq": 16,
+      "type": "trigger",
+      "uid": 12,
+      "mechanic": "gabble_ratchet"
+    },
+    {
+      "seq": 17,
+      "type": "summon",
+      "unit": {
+        "uid": 14,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mother_goose",
+        "name": "Mother Goose",
+        "tier": 5,
+        "tribes": [
+          "Birds"
+        ],
+        "attack": 51,
+        "health": 67,
+        "max_health": 67,
+        "golden": false,
+        "text": "Fly South. When played: get a Golden Egg.",
+        "keywords": [
+          "Fly South"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ]
+      },
+      "side": 1,
+      "slot": 0,
+      "source": 12,
+      "landed": true
+    },
+    {
+      "seq": 18,
+      "type": "stats",
+      "target": 14,
+      "attack_delta": 4,
+      "health_delta": 4,
+      "attack": 55,
+      "health": 71,
+      "max_health": 71,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": [
+        {
+          "source": null,
+          "name": "Ring",
+          "change": "gained"
+        }
+      ]
+    },
+    {
+      "seq": 19,
+      "type": "attack",
+      "side": 0,
+      "attacker": 2,
+      "defender": 14,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 20,
+      "type": "damage",
+      "source": 2,
+      "target": 14,
+      "amount": 50,
+      "raw": 50,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 21
+    },
+    {
+      "seq": 21,
+      "type": "damage",
+      "source": 14,
+      "target": 2,
+      "amount": 55,
+      "raw": 55,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 10
+    },
+    {
+      "seq": 22,
+      "type": "attack",
+      "side": 1,
+      "attacker": 14,
+      "defender": 3,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 23,
+      "type": "damage",
+      "source": 14,
+      "target": 3,
+      "amount": 55,
+      "raw": 55,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 51
+    },
+    {
+      "seq": 24,
+      "type": "damage",
+      "source": 3,
+      "target": 14,
+      "amount": 70,
+      "raw": 70,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -49
+    },
+    {
+      "seq": 25,
+      "type": "death",
+      "uid": 14,
+      "side": 1,
+      "slot": 0
+    },
+    {
+      "seq": 26,
+      "type": "attack",
+      "side": 0,
+      "attacker": 3,
+      "defender": 9,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 27,
+      "type": "damage",
+      "source": 3,
+      "target": 9,
+      "amount": 70,
+      "raw": 70,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -55
+    },
+    {
+      "seq": 28,
+      "type": "damage",
+      "source": 9,
+      "target": 3,
+      "amount": 13,
+      "raw": 13,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 38
+    },
+    {
+      "seq": 29,
+      "type": "death",
+      "uid": 9,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 30,
+      "type": "trigger",
+      "uid": 12,
+      "mechanic": "gabble_ratchet"
+    },
+    {
+      "seq": 31,
+      "type": "summon",
+      "unit": {
+        "uid": 15,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "chiffchaff",
+        "name": "Chiffchaff",
+        "tier": 1,
+        "tribes": [
+          "Birds"
+        ],
+        "attack": 66,
+        "health": 82,
+        "max_health": 82,
+        "golden": false,
+        "text": "Fly South. When played: gain +1/+1.",
+        "keywords": [
+          "Fly South"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ]
+      },
+      "side": 1,
+      "slot": 1,
+      "source": 12,
+      "landed": true
+    },
+    {
+      "seq": 32,
+      "type": "stats",
+      "target": 15,
+      "attack_delta": 4,
+      "health_delta": 4,
+      "attack": 70,
+      "health": 86,
+      "max_health": 86,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": [
+        {
+          "source": null,
+          "name": "Ring",
+          "change": "gained"
+        }
+      ]
+    },
+    {
+      "seq": 33,
+      "type": "attack",
+      "side": 1,
+      "attacker": 15,
+      "defender": 3,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 34,
+      "type": "damage",
+      "source": 15,
+      "target": 3,
+      "amount": 70,
+      "raw": 70,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -32
+    },
+    {
+      "seq": 35,
+      "type": "damage",
+      "source": 3,
+      "target": 15,
+      "amount": 70,
+      "raw": 70,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 16
+    },
+    {
+      "seq": 36,
+      "type": "death",
+      "uid": 3,
+      "side": 0,
+      "slot": 2
+    },
+    {
+      "seq": 37,
+      "type": "attack",
+      "side": 0,
+      "attacker": 4,
+      "defender": 10,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 38,
+      "type": "damage",
+      "source": 4,
+      "target": 10,
+      "amount": 58,
+      "raw": 58,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 284
+    },
+    {
+      "seq": 39,
+      "type": "damage",
+      "source": 10,
+      "target": 4,
+      "amount": 267,
+      "raw": 267,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -189
+    },
+    {
+      "seq": 40,
+      "type": "death",
+      "uid": 4,
+      "side": 0,
+      "slot": 3
+    },
+    {
+      "seq": 41,
+      "type": "attack",
+      "side": 1,
+      "attacker": 10,
+      "defender": 2,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 42,
+      "type": "damage",
+      "source": 10,
+      "target": 2,
+      "amount": 267,
+      "raw": 267,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -257
+    },
+    {
+      "seq": 43,
+      "type": "damage",
+      "source": 2,
+      "target": 10,
+      "amount": 50,
+      "raw": 50,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 234
+    },
+    {
+      "seq": 44,
+      "type": "death",
+      "uid": 2,
+      "side": 0,
+      "slot": 1
+    },
+    {
+      "seq": 45,
+      "type": "attack",
+      "side": 0,
+      "attacker": 5,
+      "defender": 15,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 46,
+      "type": "damage",
+      "source": 5,
+      "target": 15,
+      "amount": 46,
+      "raw": 46,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -30
+    },
+    {
+      "seq": 47,
+      "type": "damage",
+      "source": 15,
+      "target": 5,
+      "amount": 70,
+      "raw": 70,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -12
+    },
+    {
+      "seq": 48,
+      "type": "death",
+      "uid": 5,
+      "side": 0,
+      "slot": 4
+    },
+    {
+      "seq": 49,
+      "type": "death",
+      "uid": 15,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 50,
+      "type": "attack",
+      "side": 1,
+      "attacker": 12,
+      "defender": 6,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 51,
+      "type": "damage",
+      "source": 12,
+      "target": 6,
+      "amount": 11,
+      "raw": 11,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 80
+    },
+    {
+      "seq": 52,
+      "type": "damage",
+      "source": 6,
+      "target": 12,
+      "amount": 71,
+      "raw": 71,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -56
+    },
+    {
+      "seq": 53,
+      "type": "death",
+      "uid": 12,
+      "side": 1,
+      "slot": 4
+    },
+    {
+      "seq": 54,
+      "type": "attack",
+      "side": 0,
+      "attacker": 6,
+      "defender": 10,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 55,
+      "type": "damage",
+      "source": 6,
+      "target": 10,
+      "amount": 71,
+      "raw": 71,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 163
+    },
+    {
+      "seq": 56,
+      "type": "damage",
+      "source": 10,
+      "target": 6,
+      "amount": 267,
+      "raw": 267,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -187
+    },
+    {
+      "seq": 57,
+      "type": "death",
+      "uid": 6,
+      "side": 0,
+      "slot": 5
+    },
+    {
+      "seq": 58,
+      "type": "attack",
+      "side": 1,
+      "attacker": 13,
+      "defender": 7,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 59,
+      "type": "damage",
+      "source": 13,
+      "target": 7,
+      "amount": 19,
+      "raw": 19,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 132
+    },
+    {
+      "seq": 60,
+      "type": "damage",
+      "source": 7,
+      "target": 13,
+      "amount": 116,
+      "raw": 116,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -93
+    },
+    {
+      "seq": 61,
+      "type": "death",
+      "uid": 13,
+      "side": 1,
+      "slot": 5
+    },
+    {
+      "seq": 62,
+      "type": "attack",
+      "side": 0,
+      "attacker": 7,
+      "defender": 10,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 63,
+      "type": "damage",
+      "source": 7,
+      "target": 10,
+      "amount": 116,
+      "raw": 116,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 47
+    },
+    {
+      "seq": 64,
+      "type": "damage",
+      "source": 10,
+      "target": 7,
+      "amount": 267,
+      "raw": 267,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -135
+    },
+    {
+      "seq": 65,
+      "type": "death",
+      "uid": 7,
+      "side": 0,
+      "slot": 6
+    },
+    {
+      "seq": 66,
+      "type": "combat_end",
+      "winner": 1,
+      "reason": "board_empty",
+      "survivors": [
+        [],
+        [
+          10
+        ]
+      ],
+      "damage": 14,
+      "damage_uncapped": 14,
+      "damage_base": 13,
+      "damage_performance": 1,
+      "damage_mode": "v05",
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": "",
+      "last_stand_sides": [
+        0
+      ],
+      "alive": 4,
+      "damage_cap": 0
+    }
+  ]
+}

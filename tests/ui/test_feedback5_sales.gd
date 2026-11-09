@@ -8,7 +8,7 @@ const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 
 
 func test_chaser_sale_tag_matches_actual_partial_and_full_payouts() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	for golden: bool in [false, true]:
 		for painted: int in [0, 3, 7]:
 			for origin: String in [RecruitUnit.ORIGIN_BOUGHT, RecruitUnit.ORIGIN_CREATED]:
@@ -44,7 +44,7 @@ func test_shared_rainbow_rule_handles_disabled_partial_and_complete_paint() -> v
 
 
 func test_sale_and_preview_use_shared_rule_with_changed_and_borrowed_rainbow_params() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	for borrowed: bool in [false, true]:
 		for golden: bool in [false, true]:
 			var session := GameSession.create(91828, library)

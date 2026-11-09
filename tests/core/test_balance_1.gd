@@ -1,9 +1,11 @@
 extends GutTest
 ## The balance step after playtest round 1 (docs/ideation/evidence/playtest-1.md): runaways capped,
 ## late shops, Discover's three options, economy heroes and the next card batch.
+## Historical card assertions use the frozen pre-pass-3 library.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const LEGACY := preload("res://tests/core/legacy_wave1.gd")
 const F1: int = 0
 const F2: int = 1
 const F3: int = 2
@@ -19,7 +21,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
@@ -90,8 +92,9 @@ func test_a_triple_keeps_a_waiting_cold_frame() -> void:
 
 
 func test_a_tier_6_shop_is_mostly_high_tiers() -> void:
-	var library := UnitLibrary.load_dir()
+	var library: UnitLibrary = LEGACY.library()
 	var config := GameConfig.full_game()
+	config.set_value("pass3_content", false)
 	var pool := UnitPool.create(library, config)
 	var odds: Array = config.get_value("shop_tier_odds")[5]
 	var rng := RandomNumberGenerator.new()
@@ -109,8 +112,10 @@ func test_a_tier_6_shop_is_mostly_high_tiers() -> void:
 
 
 func test_odds_for_an_empty_tier_fall_to_the_rest() -> void:
-	var library := UnitLibrary.load_dir()
-	var pool := UnitPool.create(library, GameConfig.full_game())
+	var library: UnitLibrary = LEGACY.library()
+	var config := GameConfig.full_game()
+	config.set_value("pass3_content", false)
+	var pool := UnitPool.create(library, config)
 	for id: String in pool.ids():
 		while pool.tier_of(id) == 1 and pool.copies_left(id) > 0:
 			pool.take(id)

@@ -22,7 +22,7 @@
     "Fast"
   ],
   "row_hint": "back",
-  "pool": true,
+  "pool": false,
   "priority": 16,
   "skeleton": false,
   "source": {

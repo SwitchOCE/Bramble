@@ -1,0 +1,819 @@
+{
+  "seed": 1,
+  "commitment": "Birds",
+  "phase": "game_over",
+  "round": 19,
+  "placement": 1,
+  "health": 1,
+  "actions": 269,
+  "event_counts": {
+    "buy": 25,
+    "play": 55,
+    "trigger": 135,
+    "buff": 175,
+    "buy_spell": 3,
+    "cast": 16,
+    "rainy_day": 1,
+    "rule": 2,
+    "gold": 23,
+    "fly_south": 35,
+    "slot_effect": 2,
+    "home": 30,
+    "tribe_bonus": 1,
+    "card": 13,
+    "nest_replaced": 7,
+    "move": 6,
+    "sell": 13
+  },
+  "checkpoints": {
+    "mixed_shop": {
+      "action_count": 4,
+      "round": 2
+    },
+    "ring_and_away": {
+      "action_count": 22,
+      "round": 4
+    },
+    "first_homecoming": {
+      "action_count": 24,
+      "round": 5
+    },
+    "homecoming_following_fight": {
+      "action_count": 31,
+      "round": 6
+    }
+  },
+  "refused": [],
+  "final_board": [
+    {
+      "iid": 1109,
+      "def_id": "great_lump",
+      "name": "The Great Lump",
+      "tier": 5,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 557,
+      "health": 729,
+      "golden": false,
+      "origin": "bought",
+      "text": "Cleave. On a Nest, this has its Bird's stats too.",
+      "keywords": [
+        "Cleave",
+        "Nest"
+      ],
+      "counters": {
+        "egged": true
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Cleave",
+          "text": "Attacks also hit the units beside the target."
+        },
+        {
+          "keyword": "Nest",
+          "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 5,
+        "base_health": 8,
+        "perm_attack": 212,
+        "perm_health": 283,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 339,
+        "aura_health": 437
+      },
+      "turns_in_slot": 2,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 13,
+      "plain_copy": false,
+      "poached": false,
+      "egged": true,
+      "pass3_content": true,
+      "nest_multiplier": 1.0,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 507,
+      "def_id": "cuckoo",
+      "name": "The Cuckoo",
+      "tier": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 194,
+      "health": 258,
+      "golden": false,
+      "origin": "bought",
+      "text": "After a Bird comes home: other Birds gain a tenth of its stats.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 4,
+        "base_health": 7,
+        "perm_attack": 189,
+        "perm_health": 250,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 11,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 9,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 494,
+      "def_id": "one_swallow",
+      "name": "One Swallow",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 230,
+      "health": 294,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: get 1 gold.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 19
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 227,
+        "perm_health": 290,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 1,
+        "aura_health": 1
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 1,
+      "played_round": 19,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 189,
+      "def_id": "one_swallow",
+      "name": "One Swallow",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 649,
+      "health": 969,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: get 1 gold.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 19,
+        "egged": true
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 647,
+        "perm_health": 966,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 2,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 1,
+      "played_round": 19,
+      "plain_copy": false,
+      "poached": false,
+      "egged": true,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 1100,
+      "def_id": "mother_goose",
+      "name": "Mother Goose",
+      "tier": 5,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 156,
+      "health": 202,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: get a Golden Egg.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 19
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 6,
+        "base_health": 8,
+        "perm_attack": 148,
+        "perm_health": 192,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 1,
+        "aura_health": 1
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 19,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 326,
+      "def_id": "mr_redbreast",
+      "name": "Mr Redbreast",
+      "tier": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 464,
+      "health": 615,
+      "golden": false,
+      "origin": "bought",
+      "text": "After a Bird comes home: gain an eighth of its stats.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "egged": true
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 4,
+        "perm_attack": 461,
+        "perm_health": 610,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 12,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 8,
+      "plain_copy": false,
+      "poached": false,
+      "egged": true,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 1753,
+      "def_id": "gabble_ratchet",
+      "name": "The Gabble Ratchet",
+      "tier": 6,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 7,
+      "health": 11,
+      "golden": false,
+      "origin": "bought",
+      "text": "When a unit on a Nest dies: its Bird drops in.",
+      "keywords": [
+        "Nest"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Nest",
+          "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 6,
+        "base_health": 10,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 19,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    }
+  ],
+  "final_away": [
+    {
+      "iid": 1599,
+      "def_id": "mother_goose",
+      "name": "Mother Goose",
+      "tier": 5,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 27,
+      "health": 35,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: get a Golden Egg.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 6,
+        "base_health": 8,
+        "perm_attack": 20,
+        "perm_health": 26,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 17,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "home_attack": 53,
+      "home_health": 69,
+      "nest": -1,
+      "due": 20,
+      "turns_left": 1,
+      "egg_attack": 0,
+      "egg_health": 1
+    },
+    {
+      "iid": 51,
+      "def_id": "chiffchaff",
+      "name": "Chiffchaff",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 339,
+      "health": 437,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: gain +1/+1.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 17,
+        "egged": true
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 337,
+        "perm_health": 434,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 17,
+      "plain_copy": false,
+      "poached": false,
+      "egged": true,
+      "pass3_content": true,
+      "home_attack": 677,
+      "home_health": 873,
+      "nest": 0,
+      "due": 20,
+      "turns_left": 1,
+      "egg_attack": 0,
+      "egg_health": 1
+    },
+    {
+      "iid": 1725,
+      "def_id": "mother_goose",
+      "name": "Mother Goose",
+      "tier": 5,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 79,
+      "health": 108,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: get a Golden Egg.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 6,
+        "base_health": 8,
+        "perm_attack": 72,
+        "perm_health": 99,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 18,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "home_attack": 157,
+      "home_health": 215,
+      "nest": 3,
+      "due": 21,
+      "turns_left": 2,
+      "egg_attack": 0,
+      "egg_health": 1
+    },
+    {
+      "iid": 243,
+      "def_id": "mrs_jay",
+      "name": "Mrs Jay",
+      "tier": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 147,
+      "health": 184,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When sold: get an Acorn.",
+      "keywords": [
+        "Fly South",
+        "Acorn"
+      ],
+      "counters": {
+        "pass3_home_round": 18
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        },
+        {
+          "keyword": "Acorn",
+          "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 3,
+        "base_health": 3,
+        "perm_attack": 143,
+        "perm_health": 180,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 18,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "home_attack": 293,
+      "home_health": 367,
+      "nest": 2,
+      "due": 21,
+      "turns_left": 2,
+      "egg_attack": 0,
+      "egg_health": 1
+    },
+    {
+      "iid": 82,
+      "def_id": "chiffchaff",
+      "name": "Chiffchaff",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 1
+      },
+      "attack": 315,
+      "health": 426,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: gain +1/+1.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 18,
+        "egged": true
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 313,
+        "perm_health": 423,
+        "tribe_attack": 1,
+        "tribe_health": 1,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 18,
+      "plain_copy": false,
+      "poached": false,
+      "egged": true,
+      "pass3_content": true,
+      "home_attack": 629,
+      "home_health": 851,
+      "nest": 6,
+      "due": 21,
+      "turns_left": 2,
+      "egg_attack": 0,
+      "egg_health": 1
+    }
+  ],
+  "ring_size": 1.0,
+  "selection": "First seed from 1 with both tribes in the ordinary rotated lobby; no outcome selection.",
+  "bought_by_tribe": {
+    "Hunters": 1,
+    "Birds": 21,
+    "Oozes": 1,
+    "Fairies": 1
+  },
+  "tribe_unit_rounds": {
+    "Hunters": 8,
+    "Birds": 80,
+    "Oozes": 6,
+    "Fairies": 5
+  },
+  "gold_spent": 201,
+  "player_game_over": true,
+  "lobby_fully_resolved": true
+}

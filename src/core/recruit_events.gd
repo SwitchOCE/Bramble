@@ -45,6 +45,9 @@ func _deliver(event: Dictionary) -> void:
 	var player: PlayerState = event["player"]
 	var trigger: String = event["trigger"]
 	var fields: Dictionary = event["fields"]
+	player.owner_counters["pass3_event_serial"] = (
+		CoreUtil.to_int(player.owner_counters.get("pass3_event_serial", 0)) + 1
+	)
 	var ctx: RecruitContext = RecruitContext.make(_rules(), player, trigger, fields)
 	_deliver_to_hero(ctx, player)
 	for slot: int in BoardGeometry.SLOTS:
@@ -113,6 +116,7 @@ func _deliver_one(ctx: RecruitContext, mechanic: Mechanic, params: Dictionary) -
 	ctx.params = params
 	var repeats: int = EndTurnRepeats.count(ctx)
 	for _repeat: int in repeats:
+		ctx.repeat_index = _repeat
 		if _delivered > _rules().config.get_int("trigger_limit_action"):
 			ctx.player.log_event("trigger_limit", {"dropped": ctx.trigger})
 			return

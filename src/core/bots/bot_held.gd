@@ -40,6 +40,8 @@ static func _profile_fly_turn(
 
 
 static func _best_flight(player: PlayerState, value: BotEval, round_number: int) -> int:
+	if BotPass3.active(player):
+		return BotPass3.best_flight(player, value, round_number)
 	if player.board_count() <= min_bodies(value, round_number) or _too_far_behind(player, value):
 		return -1
 	var best: int = -1
@@ -57,6 +59,8 @@ static func _best_flight(player: PlayerState, value: BotEval, round_number: int)
 
 ## Flying costs the difference from the actual Egg body plus text lost while away.
 static func trip_score(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
+	if BotPass3.active(player):
+		return BotPass3.trip_score(unit, player, value)
 	var gain: float = value.fly_value(unit)
 	var slot: int = player.board.find(unit)
 	var egg: Dictionary = HeldUnits.egg_forecast(player, unit, slot)

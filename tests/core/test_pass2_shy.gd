@@ -21,7 +21,7 @@ func test_tripling_preserves_combat_growth_without_thanking_shy() -> void:
 
 func before_each() -> void:
 	_kit = K.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_kit.rules.start_phase(_kit.player, 1)
 
 

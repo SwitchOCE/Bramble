@@ -2,42 +2,45 @@
   "id": "silky",
   "name": "Silky",
   "set": "slice",
-  "tier": 4,
+  "tier": 3,
   "attack": 3,
-  "health": 6,
+  "health": 7,
   "tribes": [
     "Fairies"
   ],
-  "text": "Shy. After a Shy unit leaves: Ring its slot +2/+2.",
-  "golden_text": "Shy pays 4 gold. After a Shy unit leaves: Ring its slot +4/+4.",
+  "text": "Shy. After a Shy unit leaves: your Rings grow +1/+1.",
+  "golden_text": "Shy. After a Shy unit leaves: your Rings grow +2/+2.",
   "mechanics": [
     {
       "id": "shy",
       "gold": 2
     },
     {
-      "id": "silky",
-      "stats": 2
+      "id": "pass3_fairy",
+      "ability": "silky",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Shy"
+    "Shy",
+    "Ring size"
   ],
-  "row_hint": "back",
+  "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
-  "details": "This counts too. The Ring cap (+4/+4) applies. Destroying or selling a Shy unit does not count.",
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
+  "details": "Shy pays 2 gold; only thanking counts, including Silky herself. Copies grow once per departure, using the strongest copy.",
+  "golden_details": "Shy pays 4 gold. Copies grow once per departure, using the strongest copy.",
   "mechanic_text": {
     "1": {
-      "id": "silky",
-      "text": "After a Shy unit leaves: Ring its slot +2/+2.",
-      "golden_text": "After a Shy unit leaves: Ring its slot +4/+4."
+      "id": "pass3_fairy",
+      "text": "After a Shy unit leaves: your Rings grow +1/+1.",
+      "golden_text": "After a Shy unit leaves: your Rings grow +2/+2."
     }
   }
 }

@@ -12,7 +12,11 @@ static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
 	var how: String = str(spec.get("pick", ""))
 	if how == "":
 		return units
-	_order(units, how, world.rng)
+	var fight: CombatWorld = world as CombatWorld
+	var reading_ties: bool = (
+		how == "biggest" and fight != null and Pass3Combat.enabled(fight.combat)
+	)
+	_order(units, how, world.rng, reading_ties)
 	var count: int = CoreUtil.to_int(spec.get("count", 1))
 	if units.size() > count:
 		units.resize(count)
@@ -59,6 +63,13 @@ static func _base(select: String, spec: Dictionary, world: EffectWorld) -> Array
 		"others":
 			return _without(_all(world.own), world.source)
 		"enemies":
+			var fight: CombatWorld = world as CombatWorld
+			if (
+				str(spec.get("pick", "")) == "biggest"
+				and fight != null
+				and Pass3Combat.enabled(fight.combat)
+			):
+				return _all(Pass3Combat.enemies(fight.combat, fight.side))
 			return _all(world.enemy)
 		"hand":
 			return _all(world.hand)
@@ -174,8 +185,19 @@ static func _in_row(unit: BoardUnit, row: String, world: EffectWorld) -> bool:
 
 
 ## 1.2.2: random, and highest or lowest with ties broken at random.
-static func _order(units: Array[BoardUnit], how: String, rng: RandomNumberGenerator) -> void:
+static func _order(
+	units: Array[BoardUnit], how: String, rng: RandomNumberGenerator, reading_ties: bool = false
+) -> void:
 	if how == "first":
+		return
+	if reading_ties:
+		for index: int in range(1, units.size()):
+			var item: BoardUnit = units[index]
+			var at: int = index
+			while at > 0 and _value(item, how) > _value(units[at - 1], how):
+				units[at] = units[at - 1]
+				at -= 1
+			units[at] = item
 		return
 	var keys: Dictionary = {}
 	for unit: BoardUnit in units:

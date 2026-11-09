@@ -41,7 +41,7 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 static func _keeps_its_nest(player: PlayerState, unit: RecruitUnit, slot: int) -> bool:
 	if player.nest_at(slot).is_empty():
 		return false
-	return unit.has_mechanic_id("lump")
+	return unit.has_mechanic_id("lump") or unit.def_id() == "great_lump"
 
 
 ## Arranges the board as the level says.
@@ -126,6 +126,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	BotLanes.arrange(player, value, layout, pinned)
 	if value.level.reads_text:
 		BotEggs.preserve(player, layout, pinned)
+	BotPass3.arrange(player, value, layout, pinned)
 	return layout
 
 
@@ -150,6 +151,9 @@ static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array
 ## An empty slot for a unit about to be played. A unit that may gain stats takes the biggest empty
 ## Ring; otherwise its row if it has room, else any. -1 if the board is full.
 static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	var pass3_slot: int = BotPass3.play_slot(player, unit, value)
+	if pass3_slot >= 0:
+		return pass3_slot
 	if value.level.reads_text and HeldUnits.redwing_factor(unit) > 0:
 		return BotContent5.redwing_play_slot(player, unit)
 	var shy: bool = unit.has_mechanic_id("shy")
@@ -470,6 +474,12 @@ static func _search_pins(
 			most = worth
 	if best >= 0 and not out.has(best):
 		out.append(best)
+	if BotPass3.active(player) and BotPass3.fairy_build(value):
+		for slot: int in BoardGeometry.SLOTS:
+			if layout[slot] >= 0:
+				var unit: RecruitUnit = player.board[layout[slot]]
+				if unit.def_id() in BotPass3.FAIRY_ENGINES and not out.has(slot):
+					out.append(slot)
 	return out
 
 

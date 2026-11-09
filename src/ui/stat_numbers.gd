@@ -32,6 +32,10 @@ static func compact(value: int, decimals: int = 1, force: bool = false) -> Strin
 	return "%d%s" % [whole, suffix] if decimal == 0 else "%d.%d%s" % [whole, decimal, suffix]
 
 
+static func signed(value: int) -> String:
+	return ("+" if value >= 0 else "-") + compact(absi(value))
+
+
 ## Last-resort fractions of the next suffix keep narrow badges readable: .1m, .9m, .1b.
 static func candidates(value: int) -> PackedStringArray:
 	var options: PackedStringArray = [compact(value)]

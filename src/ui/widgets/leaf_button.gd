@@ -131,7 +131,8 @@ func set_label_size(font_size: int) -> void:
 func _place_face() -> void:
 	var left: float = size.x * (0.17 if flipped else 0.11)
 	var right: float = size.x * (0.1 if flipped else 0.16)
-	_face.position = Vector2(left, 0)
+	# The pointed leaf narrows below its centre: keep a second line clear of its lower rim.
+	_face.position = Vector2(left, -size.y * 0.05 if _sub.visible else 0.0)
 	_face.size = Vector2(size.x - left - right, size.y)
 
 

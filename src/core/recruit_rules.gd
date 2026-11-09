@@ -35,6 +35,7 @@ static func create(
 	var rules := RecruitRules.new()
 	rules.library = ScaleOverlay.library_for(unit_library, game_config)
 	rules.config = game_config
+	Pass3Birds.detect_pool(rules)
 	rules.pool = unit_pool
 	rules.events = RecruitEvents.create(rules)
 	if game_config.get_bool("spells_in_shop"):
@@ -54,6 +55,7 @@ func new_iid() -> int:
 
 
 func setup_player(player: PlayerState) -> void:
+	Pass3Birds.setup(self, player)
 	player.card_size_caps = config.get_bool("card_size_caps")
 	player.card_rate_limits = config.get_bool("card_rate_limits")
 	player.health = config.get_int("starting_health")
@@ -171,6 +173,7 @@ func end_phase(player: PlayerState) -> void:
 	while player.is_choosing():
 		choose(player, 0)
 	board_changed(player)
+	Pass3Fairies.tick_turns(player)
 	BoardUpkeep.tick_turns(self, player)
 	BoardUpkeep.resolve_passes(self, player)
 	events.fire(player, "end_of_turn")
@@ -194,6 +197,8 @@ func board_changed(player: PlayerState) -> void:
 	if _settling:
 		return
 	_settling = true
+	Pass3Birds.prepare(self, player)
+	Pass3Fairies.sync_rings(player)
 	BoardUpkeep.settle(self, player)
 	_settling = false
 
@@ -201,6 +206,7 @@ func board_changed(player: PlayerState) -> void:
 ## After the round's fights (12.1.1): "next combat" buffs and combat-only keywords end, then
 ## "after combat" effects run.
 func after_fights(player: PlayerState) -> void:
+	Pass3Birds.missed_fight(player)
 	check_triples(player)
 	for effects: Array in player.slot_effects:
 		for index: int in range(effects.size() - 1, -1, -1):
@@ -276,16 +282,7 @@ func buys_left(player: PlayerState) -> int:
 
 ## What a fight needs to know of this player: the Larder and the rules that bend the fight.
 func fight_rules(player: PlayerState) -> Dictionary:
-	return {
-		"larder": player.larder(),
-		"back_row_first": ask("back_row_first", player, 0) > 0,
-		"bands": player.bands.duplicate(),
-		"ammo": player.acorn_values(),
-		"nests": HeldUnits.nest_rules(player),
-		"goose": HeldUnits.goose_strikes(player),
-		"away_birds": HeldUnits.away_birds(player),
-		"homecomings": player.homecomings_this_turn,
-	}
+	return RecruitExtras.fight_rules(self, player)
 
 
 ## 4.3 sell a board unit.
@@ -509,6 +506,8 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 			)
 		# A wait the player paid for stays: it starts over when the golden lands, as any move does.
 		golden.timers.append_array(copy.timers)
+		if CoreUtil.to_bool(copy.counters.get("egged", false)):
+			golden.counters["egged"] = true
 		for counter: String in ["hex", "hex_percent"]:
 			if copy.counters.has(counter):
 				var grown: int = CoreUtil.to_int(golden.counters.get(counter, 0))
@@ -703,8 +702,12 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		thanked = player.board[slot]
 	ctx.params = item.def
 	player.log_event("cast", {"card": item.def_id(), "slot": slot})
-	EffectRunner.run(item.def, ctx)
-	RecruitExtras.echo(self, player, item, slot, ctx)
+	if item.def_id() == "golden_egg":
+		Pass3Birds.golden_egg(self, player, player.board[slot])
+	else:
+		EffectRunner.run(item.def, ctx)
+	if item.def_id() != "golden_egg":
+		RecruitExtras.echo(self, player, item, slot, ctx)
 	if item.is_spell():
 		events.fire(player, "on_spell_cast", fields)
 		if thanked != null:
@@ -724,9 +727,11 @@ func _feed(player: PlayerState, index: int, slot: int) -> String:
 ## A Ring spell cannot be spent on a full Ring.
 func item_aim_problem(player: PlayerState, item: HandItem, slot: int) -> String:
 	var problem: String = aim_problem(player, item.aim(), slot)
+	if problem == "" and item.def_id() == "golden_egg":
+		problem = Pass3Birds.egg_problem(player.board[slot], player.pass3_loop_guards)
 	if problem == "" and BoardGeometry.is_valid(slot) and item.ring_add() != Vector2i.ZERO:
 		var rings: Array = player.slot_effects[slot]
-		if BoardUpkeep.ring_full(rings, player.card_size_caps):
+		if BoardUpkeep.ring_full(rings, player.card_size_caps and not player.pass3_fairies):
 			return "That Ring is full"
 	return problem
 

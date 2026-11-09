@@ -3,28 +3,26 @@
   "name": "Mother Goose",
   "set": "slice",
   "tier": 5,
-  "attack": 4,
-  "health": 7,
+  "attack": 6,
+  "health": 8,
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.",
-  "golden_text": "Fly South. While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2.",
+  "text": "Fly South. When played: get a Golden Egg.",
+  "golden_text": "Fly South. When played: get two Golden Eggs.",
   "mechanics": [
     {
       "id": "fly_south",
       "turns": 2
     },
     {
-      "id": "mother_goose",
-      "damage": 2,
-      "attack": 1,
-      "health": 1
+      "id": "pass3_bird",
+      "ability": "goose",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Fly South",
-    "Nest"
+    "Fly South"
   ],
   "row_hint": null,
   "pool": true,
@@ -32,14 +30,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
+  "details": "A Golden Egg doubles one Bird permanently, once per Bird. A golden Bird comes home at the same multiplier as any Bird.",
   "mechanic_text": {
     "1": {
-      "id": "mother_goose",
-      "text": "While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.",
-      "golden_text": "While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2."
+      "id": "pass3_bird",
+      "text": "When played: get a Golden Egg.",
+      "golden_text": "When played: get two Golden Eggs."
     }
-  },
-  "details": "Its Egg follows the normal rule. The homecoming buff is permanent and reaches Birds away."
+  }
 }

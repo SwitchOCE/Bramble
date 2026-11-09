@@ -36,35 +36,35 @@
    "buy": 6
   },
   "sally_spore": {
-   "keep": 5
+   "keep": 6
   },
   "will_o_the_wisp": {
    "keep": 8,
    "row": "back"
   },
   "hedge_witch": {
-   "keep": 3,
+   "keep": 8,
    "faces": "across"
   },
   "hob_in_the_hearth": {
-   "keep": 7,
+   "keep": 10,
    "row": "back"
   },
   "old_moth_annis": {
-   "keep": 7,
+   "keep": 12,
    "row": "front",
    "feeds": "behind"
   },
   "rainbow_chaser": {
    "keep": 1,
-   "sell_at_bands": 7
+   "sell_at_bands": 6
   },
   "belladonna": {
-   "keep": 12,
-   "faces": "behind"
+   "keep": 14,
+   "faces": "across"
   },
   "queen_of_elfland": {
-   "keep": 10,
+   "keep": 14,
    "row": "front"
   },
   "lamp_moth": {
@@ -141,11 +141,11 @@
    "faces": "across"
   },
   "cradle_fetch": {
-   "keep": 6,
+   "keep": 12,
    "row": "front"
   },
   "cluricaun": {
-   "keep": 6
+   "keep": 8
   },
   "beadle_warrenby": {
    "keep": 5,
@@ -258,39 +258,38 @@
   },
   "one_swallow": {
    "keep": 2,
-   "fly": 4
+   "fly": 5
   },
   "chiffchaff": {
    "keep": 2,
-   "fly": 4
+   "fly": 6
   },
   "tom_tit": {
-   "keep": 6,
+   "keep": 10,
    "row": "back"
   },
   "mrs_dunnock": {
-   "keep": 3
+   "keep": 5
   },
   "mrs_jay": {
    "keep": 2,
-   "fly": 6
+   "fly": 7
   },
   "great_lump": {
-   "keep": 5,
+   "keep": 10,
    "on_nest": true,
    "row": "front"
   },
   "mr_redbreast": {
-   "keep": 4,
-   "row": "front"
+   "keep": 10,
+   "row": "back"
   },
   "old_tern": {
-   "keep": 3,
-   "fly": 5
+   "keep": 4,
+   "fly": 8
   },
   "jack_daw": {
-   "keep": 4,
-   "fly": 2,
+   "keep": 7,
    "faces": "across",
    "row": "front"
   },
@@ -299,15 +298,15 @@
    "faces": "across"
   },
   "mrs_stork": {
-   "keep": 7,
+   "keep": 12,
    "row": "back"
   },
   "mother_goose": {
-   "keep": 6,
-   "fly": 14
+   "keep": 8,
+   "fly": 16
   },
   "gabble_ratchet": {
-   "keep": 8,
+   "keep": 12,
    "row": "back"
   },
   "seven_whistlers": {
@@ -436,7 +435,7 @@
    "row": "back"
   },
   "fairy_monarch": {
-   "keep": 12,
+   "keep": 16,
    "row": "back"
   },
   "elder_ooze": {
@@ -448,7 +447,7 @@
    "row": "back"
   },
   "redwing": {
-   "keep": 2
+   "keep": 5
   },
   "horseshoe": {
    "value": 0
@@ -457,7 +456,8 @@
    "value": 0
   },
   "cuckoo": {
-   "keep": 6
+   "keep": 12,
+   "row": "back"
   },
   "grey_agnes": {
    "keep": 8,
@@ -497,11 +497,17 @@
    "row": "back"
   },
   "lob_lie_by_the_fire": {
-   "keep": 7
+   "keep": 8,
+   "row": "back"
   },
   "silky": {
-   "keep": 7,
+   "keep": 10,
    "row": "back"
+  },
+  "golden_egg": {
+   "value": 30,
+   "aim_at": "carry",
+   "cast_last": true
   }
  },
  "heroes": {

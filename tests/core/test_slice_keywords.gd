@@ -5,6 +5,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const LEGACY := preload("res://tests/core/legacy_wave1.gd")
 const WORDS: Array = [
 	"Acorn", "Spill", "Pass", "Ring", "Rainbow", "Shy", "Bristle", "Hunker", "Hex", "Nightshade"
 ]
@@ -23,14 +24,16 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
 
 
 func _session(game_seed: int = 5) -> GameSession:
-	var session := GameSession.create(game_seed, UnitLibrary.load_dir(), GameConfig.full_game())
+	var config := GameConfig.full_game()
+	config.set_value("pass3_content", false)
+	var session := GameSession.create(game_seed, LEGACY.library(), config)
 	while session.get_state()["pending_choice"] != null:
 		session.choose(0)
 	return session
@@ -349,8 +352,10 @@ func test_legal_actions_lists_every_slice_aim() -> void:
 
 
 func test_full_game_pool_keeps_shops_varied_and_uses_only_the_slice() -> void:
-	var library := UnitLibrary.load_dir()
-	var pool := UnitPool.create(library, GameConfig.full_game())
+	var library: UnitLibrary = LEGACY.library()
+	var config := GameConfig.full_game()
+	config.set_value("pass3_content", false)
+	var pool := UnitPool.create(library, config)
 	for id: String in pool.ids():
 		assert_eq(library.get_unit(id).get("set"), "slice", id)
 	assert_eq(pool.ids().size(), 109)

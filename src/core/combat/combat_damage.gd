@@ -16,6 +16,7 @@ static func apply(combat: Combat, hits: Array[Hit]) -> void:
 			hit.amount = hit.target.scripts[index].modify_damage_taken(
 				hit.target, hit.target.params[index], hit
 			)
+		Pass3BirdCombat.reduce_hit(combat, hit)
 		if hit.amount <= 0:
 			continue
 		live.append(hit)

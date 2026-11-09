@@ -1,0 +1,22 @@
+{
+  "id": "golden_egg",
+  "name": "Golden Egg",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "unit",
+  "text": "Double a Bird's stats. Once per Bird.",
+  "keywords": [],
+  "details": "Only a Bird that has not had a Golden Egg can be aimed at. Triples keep the mark if any copy had it.",
+  "do": {
+    "effect": "stat_fraction",
+    "operation": "gain",
+    "numerator": 1,
+    "denominator": 1,
+    "target": {
+      "select": "chosen"
+    }
+  }
+}

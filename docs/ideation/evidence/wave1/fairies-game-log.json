@@ -1,0 +1,6247 @@
+{
+  "lobby_tribes": [
+    "Birds",
+    "Bog folk",
+    "Fairies",
+    "Hunters",
+    "Oozes"
+  ],
+  "rounds": 11,
+  "players": [
+    {
+      "player_id": 0,
+      "name": "You",
+      "personality": "human",
+      "hero": "brother_bracken",
+      "placement": 8,
+      "health": -9,
+      "tier": 6,
+      "gold_spent": 86,
+      "main_tribe": "Fairies",
+      "bought_by_tribe": {
+        "Fairies": 9
+      },
+      "tribe_unit_rounds": {
+        "Fairies": 48
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 3,
+          "gold_at_start": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 1,
+          "health": 40,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 2,
+          "gold_spent": 4,
+          "gold_at_start": 4,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 1,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 2,
+          "gold_spent": 5,
+          "gold_at_start": 5,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 2,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 3,
+          "gold_spent": 7,
+          "gold_at_start": 7,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 2,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 3,
+          "gold_spent": 8,
+          "gold_at_start": 8,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 4,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 4,
+          "gold_spent": 8,
+          "gold_at_start": 8,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 4,
+          "health": 37,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 4,
+          "gold_spent": 9,
+          "gold_at_start": 9,
+          "gold_left": 0,
+          "paid_refreshes": 3,
+          "items": [],
+          "units_bought": 6,
+          "health": 32,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "changeling",
+              "name": "Changeling",
+              "attack": 3,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 4,
+          "gold_spent": 11,
+          "gold_at_start": 10,
+          "gold_left": 0,
+          "paid_refreshes": 5,
+          "items": [],
+          "units_bought": 8,
+          "health": 25,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "cluricaun",
+              "name": "Cluricaun",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 5,
+          "gold_spent": 10,
+          "gold_at_start": 10,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 8,
+          "health": 15,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "cluricaun",
+              "name": "Cluricaun",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 5,
+          "gold_spent": 10,
+          "gold_at_start": 10,
+          "gold_left": 1,
+          "paid_refreshes": 3,
+          "items": [],
+          "units_bought": 9,
+          "health": 4,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "reel_mistress",
+              "name": "Reel-Mistress",
+              "attack": 5,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 5,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "cluricaun",
+              "name": "Cluricaun",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 6,
+          "gold_spent": 11,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 9,
+          "health": -9,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "reel_mistress",
+              "name": "Reel-Mistress",
+              "attack": 5,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 5,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "sally_spore",
+              "name": "Sally Spore",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "cluricaun",
+              "name": "Cluricaun",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 1,
+      "name": "Bot 1 (hard)",
+      "personality": "hard:hunters_open_season",
+      "hero": "little_king_wren",
+      "placement": null,
+      "health": 33,
+      "tier": 5,
+      "gold_spent": 93,
+      "main_tribe": "Hunters",
+      "bought_by_tribe": {
+        "Hunters": 8,
+        "Fairies": 2,
+        "Bog folk": 3,
+        "Oozes": 2
+      },
+      "tribe_unit_rounds": {
+        "Hunters": 36,
+        "Fairies": 9,
+        "Bog folk": 4,
+        "Oozes": 11
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 3,
+          "gold_at_start": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 1,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            null,
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 4,
+          "gold_at_start": 5,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 2,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            null,
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 2,
+          "gold_spent": 7,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 3,
+          "health": 38,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 2,
+          "gold_spent": 7,
+          "gold_at_start": 7,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 5,
+          "health": 38,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 4,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 2,
+          "gold_spent": 7,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 7,
+          "health": 38,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 4,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 6,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 3,
+          "gold_spent": 8,
+          "gold_at_start": 10,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 8,
+          "health": 38,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 7,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 4,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 4,
+          "gold_spent": 10,
+          "gold_at_start": 11,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 8,
+          "health": 38,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 9,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 5,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "hob_in_the_hearth",
+              "name": "Hob-in-the-Hearth",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 4,
+          "gold_spent": 11,
+          "gold_at_start": 11,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 11,
+          "health": 38,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 10,
+              "health": 12,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 5,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 5,
+          "gold_spent": 12,
+          "gold_at_start": 12,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 12,
+          "health": 33,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 5,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "grey_agnes",
+              "name": "Grey Agnes",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 7,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 11,
+              "health": 13,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 5,
+          "gold_spent": 9,
+          "gold_at_start": 11,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 13,
+          "health": 33,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 5,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "old_isegrim",
+              "name": "Old Isegrim",
+              "attack": 7,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "grey_agnes",
+              "name": "Grey Agnes",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 11,
+              "health": 13,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 7,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 5,
+          "gold_spent": 15,
+          "gold_at_start": 13,
+          "gold_left": 0,
+          "paid_refreshes": 3,
+          "items": [],
+          "units_bought": 15,
+          "health": 33,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mistress_russet",
+              "name": "Mistress Russet",
+              "attack": 5,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "old_isegrim",
+              "name": "Old Isegrim",
+              "attack": 9,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 12,
+              "health": 14,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "stone_soup",
+              "name": "Stone Soup",
+              "attack": 8,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mountain_glutton",
+              "name": "The Mountain Glutton",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mountain_glutton",
+              "name": "The Mountain Glutton",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 2,
+      "name": "Bot 2 (hard)",
+      "personality": "hard:oozes_second_helpings",
+      "hero": "dame_farthing",
+      "placement": null,
+      "health": 2,
+      "tier": 4,
+      "gold_spent": 104,
+      "main_tribe": "Oozes",
+      "bought_by_tribe": {
+        "Oozes": 6,
+        "Bog folk": 3,
+        "Hunters": 7,
+        "Birds": 5
+      },
+      "tribe_unit_rounds": {
+        "Hunters": 7,
+        "Oozes": 30,
+        "Bog folk": 10,
+        "Birds": 8
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 1,
+          "gold_at_start": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 0,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 9,
+          "gold_at_start": 9,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 3,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 2,
+          "gold_spent": 6,
+          "gold_at_start": 6,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 4,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 2,
+          "gold_spent": 6,
+          "gold_at_start": 7,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 6,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 2,
+          "gold_spent": 8,
+          "gold_at_start": 9,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 9,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "cricket_busker",
+              "name": "Cricket Busker",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 3,
+          "gold_spent": 11,
+          "gold_at_start": 9,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 11,
+          "health": 34,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "cricket_busker",
+              "name": "Cricket Busker",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 3,
+          "gold_spent": 6,
+          "gold_at_start": 10,
+          "gold_left": 5,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 12,
+          "health": 29,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "cricket_busker",
+              "name": "Cricket Busker",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 4,
+          "gold_spent": 11,
+          "gold_at_start": 15,
+          "gold_left": 7,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 13,
+          "health": 29,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "brother_wolf",
+              "name": "Brother Wolf",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "cricket_busker",
+              "name": "Cricket Busker",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 4,
+          "gold_spent": 15,
+          "gold_at_start": 17,
+          "gold_left": 6,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 15,
+          "health": 21,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "brother_wolf",
+              "name": "Brother Wolf",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "his_highness",
+              "name": "His Highness, Allegedly",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mag_pye",
+              "name": "Mag Pye",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 4,
+          "gold_spent": 20,
+          "gold_at_start": 16,
+          "gold_left": 1,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 20,
+          "health": 14,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_stork",
+              "name": "Mrs Stork",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "cuckoo",
+              "name": "The Cuckoo",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 4,
+          "gold_spent": 11,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 22,
+          "health": 2,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "cuckoo",
+              "name": "The Cuckoo",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "wee_wobbly",
+              "name": "Wee Wobbly",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_stork",
+              "name": "Mrs Stork",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 3,
+      "name": "Bot 3 (hard)",
+      "personality": "hard:oozes_waste_not",
+      "hero": "old_mother_mousewife",
+      "placement": null,
+      "health": 32,
+      "tier": 5,
+      "gold_spent": 93,
+      "main_tribe": "Oozes",
+      "bought_by_tribe": {
+        "Oozes": 7,
+        "Bog folk": 4,
+        "Fairies": 2,
+        "Birds": 1,
+        "Hunters": 2
+      },
+      "tribe_unit_rounds": {
+        "Oozes": 30,
+        "Bog folk": 17,
+        "Fairies": 6,
+        "Hunters": 1
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 1,
+          "gold_at_start": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 0,
+          "health": 40,
+          "armor": 0,
+          "result": "tie",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 6,
+          "gold_at_start": 6,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 2,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "warty_nan",
+              "name": "Warty Nan",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 2,
+          "gold_spent": 4,
+          "gold_at_start": 5,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 3,
+          "health": 38,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "warty_nan",
+              "name": "Warty Nan",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 2,
+          "gold_spent": 9,
+          "gold_at_start": 10,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 6,
+          "health": 36,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "warty_nan",
+              "name": "Warty Nan",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "pill_bug",
+              "name": "Pill Bug",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            },
+            null,
+            null,
+            {
+              "def_id": "peat_cutter",
+              "name": "The Peat Cutter",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 3,
+          "gold_spent": 8,
+          "gold_at_start": 8,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 7,
+          "health": 36,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 1,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "warty_nan",
+              "name": "Warty Nan",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "pill_bug",
+              "name": "Pill Bug",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "peat_cutter",
+              "name": "The Peat Cutter",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null,
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 3,
+          "gold_spent": 9,
+          "gold_at_start": 9,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 9,
+          "health": 36,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "pill_bug",
+              "name": "Pill Bug",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 5,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "warty_nan",
+              "name": "Warty Nan",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "peat_cutter",
+              "name": "The Peat Cutter",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 3,
+          "gold_spent": 11,
+          "gold_at_start": 10,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 12,
+          "health": 36,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "sixpenny_pie",
+              "name": "The Sixpenny Pie",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 8,
+              "health": 12,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "warty_nan",
+              "name": "Warty Nan",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "peat_cutter",
+              "name": "The Peat Cutter",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 4,
+          "gold_spent": 10,
+          "gold_at_start": 12,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 13,
+          "health": 32,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "sixpenny_pie",
+              "name": "The Sixpenny Pie",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 10,
+              "health": 14,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "peat_cutter",
+              "name": "The Peat Cutter",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 4,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 4,
+          "gold_spent": 16,
+          "gold_at_start": 14,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 17,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "sixpenny_pie",
+              "name": "The Sixpenny Pie",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 12,
+              "health": 16,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 4,
+          "gold_spent": 11,
+          "gold_at_start": 10,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 18,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 5,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "sixpenny_pie",
+              "name": "The Sixpenny Pie",
+              "attack": 12,
+              "health": 15,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mr_syllabub",
+              "name": "Mr Syllabub",
+              "attack": 5,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 7,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 5,
+          "gold_spent": 8,
+          "gold_at_start": 11,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 18,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "sixpenny_pie",
+              "name": "The Sixpenny Pie",
+              "attack": 5,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_dollop",
+              "name": "Little Dollop",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mr_syllabub",
+              "name": "Mr Syllabub",
+              "attack": 14,
+              "health": 17,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "figgy_duff",
+              "name": "Figgy Duff",
+              "attack": 7,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 4,
+      "name": "Bot 4 (hard)",
+      "personality": "hard:birds_highway",
+      "hero": "march_hare",
+      "placement": null,
+      "health": 11,
+      "tier": 5,
+      "gold_spent": 106,
+      "main_tribe": "Birds",
+      "bought_by_tribe": {
+        "Birds": 7,
+        "Fairies": 7,
+        "Bog folk": 4,
+        "Hunters": 1,
+        "Oozes": 2
+      },
+      "tribe_unit_rounds": {
+        "Birds": 19,
+        "Fairies": 18,
+        "Bog folk": 5,
+        "Hunters": 3,
+        "Oozes": 5
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 1,
+          "gold_at_start": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 0,
+          "health": 40,
+          "armor": 0,
+          "result": "tie",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 4,
+          "gold_at_start": 7,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 1,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 1,
+          "gold_spent": 9,
+          "gold_at_start": 11,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 4,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            null,
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 3,
+          "gold_spent": 7,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 4,
+          "health": 36,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            null,
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 5,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 3,
+          "gold_spent": 11,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [
+            "acorn",
+            "acorn"
+          ],
+          "units_bought": 7,
+          "health": 31,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 6,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null,
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 3,
+          "gold_spent": 9,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [
+            "acorn"
+          ],
+          "units_bought": 9,
+          "health": 25,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 6,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "cluricaun",
+              "name": "Cluricaun",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "old_lutra",
+              "name": "Old Lutra",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 5,
+          "gold_spent": 12,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 10,
+          "health": 20,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 6,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "bridge_toad",
+              "name": "Bridge Toad",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "cluricaun",
+              "name": "Cluricaun",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "gideon",
+              "name": "Gideon, Basso Profundo",
+              "attack": 2,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "old_lutra",
+              "name": "Old Lutra",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 5,
+          "gold_spent": 16,
+          "gold_at_start": 10,
+          "gold_left": 2,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 14,
+          "health": 16,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 6,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "prima_donna",
+              "name": "The Prima Donna",
+              "attack": 2,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mother_goose",
+              "name": "Mother Goose",
+              "attack": 12,
+              "health": 16,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 6,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hasty_pudding",
+              "name": "Hasty Pudding",
+              "attack": 3,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "old_lutra",
+              "name": "Old Lutra",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 5,
+          "gold_spent": 16,
+          "gold_at_start": 13,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 18,
+          "health": 16,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "great_lump",
+              "name": "The Great Lump",
+              "attack": 11,
+              "health": 16,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "hasty_pudding",
+              "name": "Hasty Pudding",
+              "attack": 2,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 11,
+              "health": 15,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "mother_goose",
+              "name": "Mother Goose",
+              "attack": 13,
+              "health": 17,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 7,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 6,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "elder_ooze",
+              "name": "Elder Ooze",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 5,
+          "gold_spent": 9,
+          "gold_at_start": 10,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 20,
+          "health": 11,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mother_goose",
+              "name": "Mother Goose",
+              "attack": 14,
+              "health": 18,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 6,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "great_lump",
+              "name": "The Great Lump",
+              "attack": 21,
+              "health": 29,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "mother_goose",
+              "name": "Mother Goose",
+              "attack": 14,
+              "health": 18,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "elder_ooze",
+              "name": "Elder Ooze",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 6,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 5,
+          "gold_spent": 12,
+          "gold_at_start": 12,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 22,
+          "health": 11,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "great_lump",
+              "name": "The Great Lump",
+              "attack": 24,
+              "health": 32,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "whirligig_beetle",
+              "name": "Whirligig Beetle",
+              "attack": 6,
+              "health": 8,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 10,
+              "health": 18,
+              "golden": true,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "great_lump",
+              "name": "The Great Lump",
+              "attack": 20,
+              "health": 27,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "chiffchaff",
+              "name": "Chiffchaff",
+              "attack": 13,
+              "health": 17,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "elder_ooze",
+              "name": "Elder Ooze",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 6,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 5,
+      "name": "Bot 5 (hard)",
+      "personality": "hard:neutrals_low_roll",
+      "hero": "dame_hoolet",
+      "placement": null,
+      "health": 17,
+      "tier": 4,
+      "gold_spent": 91,
+      "main_tribe": "Hunters",
+      "bought_by_tribe": {
+        "Hunters": 5,
+        "Birds": 3,
+        "Fairies": 3,
+        "Bog folk": 4
+      },
+      "tribe_unit_rounds": {
+        "Hunters": 22,
+        "Birds": 10,
+        "Bog folk": 19,
+        "Fairies": 9
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 3,
+          "gold_at_start": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 1,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            null,
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 4,
+          "gold_at_start": 5,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 2,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            null,
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 1,
+          "gold_spent": 7,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 4,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 5,
+              "health": 7,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 1,
+          "gold_spent": 7,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 6,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 6,
+              "health": 9,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 2,
+          "gold_spent": 8,
+          "gold_at_start": 9,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 8,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 7,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 3,
+              "health": 2,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 2,
+          "gold_spent": 7,
+          "gold_at_start": 9,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 10,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 7,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": true,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 3,
+          "gold_spent": 13,
+          "gold_at_start": 12,
+          "gold_left": 1,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 11,
+          "health": 35,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 8,
+              "health": 11,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": true,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 3,
+          "gold_spent": 13,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 13,
+          "health": 30,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 10,
+              "health": 13,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": true,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 3,
+              "health": 9,
+              "golden": true,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "will_o_the_wisp",
+              "name": "Will-o'-the-Wisp",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 3,
+          "gold_spent": 9,
+          "gold_at_start": 10,
+          "gold_left": 1,
+          "paid_refreshes": 3,
+          "items": [
+            "acorn",
+            "acorn"
+          ],
+          "units_bought": 13,
+          "health": 30,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 11,
+              "health": 14,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": true,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 4,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "will_o_the_wisp",
+              "name": "Will-o'-the-Wisp",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 3,
+          "gold_spent": 13,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 3,
+          "items": [],
+          "units_bought": 15,
+          "health": 25,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 11,
+              "health": 14,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": true,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 8,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 4,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 4,
+          "gold_spent": 7,
+          "gold_at_start": 10,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 15,
+          "health": 17,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 18,
+              "health": 21,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": true,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "natterjack_chorus",
+              "name": "The Natterjack Chorus",
+              "attack": 8,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "madame_bufo",
+              "name": "Madame Bufo",
+              "attack": 4,
+              "health": 10,
+              "golden": true,
+              "tribes": [
+                "Bog folk"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "silky",
+              "name": "Silky",
+              "attack": 3,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 6,
+      "name": "Bot 6 (hard)",
+      "personality": "hard:birds_passage",
+      "hero": "hob_mumblecrust",
+      "placement": null,
+      "health": 32,
+      "tier": 5,
+      "gold_spent": 92,
+      "main_tribe": "Birds",
+      "bought_by_tribe": {
+        "Birds": 7,
+        "Fairies": 4,
+        "Hunters": 2,
+        "Oozes": 1,
+        "Bog folk": 2
+      },
+      "tribe_unit_rounds": {
+        "Birds": 32,
+        "Fairies": 13,
+        "Hunters": 5,
+        "Oozes": 5
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 1,
+          "gold_at_start": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 0,
+          "health": 40,
+          "armor": 0,
+          "result": "tie",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 6,
+          "gold_at_start": 6,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 2,
+          "health": 40,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            null,
+            null,
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 2,
+          "gold_spent": 5,
+          "gold_at_start": 6,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 3,
+          "health": 38,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 3,
+          "gold_spent": 7,
+          "gold_at_start": 7,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 3,
+          "health": 35,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            null,
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 3,
+          "gold_spent": 8,
+          "gold_at_start": 9,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 5,
+          "health": 32,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            null,
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "nan_toadstool",
+              "name": "Nan Toadstool",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 3,
+          "gold_spent": 9,
+          "gold_at_start": 9,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 8,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "tom_tit",
+              "name": "Tom Tit",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 4,
+          "gold_spent": 9,
+          "gold_at_start": 10,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 9,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "old_moth_annis",
+              "name": "Old Moth Annis",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "hedge_witch",
+              "name": "Hedge Witch",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "tom_tit",
+              "name": "Tom Tit",
+              "attack": 7,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 4,
+          "gold_spent": 13,
+          "gold_at_start": 12,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 12,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_stork",
+              "name": "Mrs Stork",
+              "attack": 6,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "tom_tit",
+              "name": "Tom Tit",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 5,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 5,
+          "gold_spent": 9,
+          "gold_at_start": 11,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 12,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mrs_dunnock",
+              "name": "Mrs Dunnock",
+              "attack": 4,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_stork",
+              "name": "Mrs Stork",
+              "attack": 7,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "tom_tit",
+              "name": "Tom Tit",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 5,
+          "gold_spent": 9,
+          "gold_at_start": 12,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 13,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "seven_whistlers",
+              "name": "The Seven Whistlers",
+              "attack": 9,
+              "health": 12,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "redwing",
+              "name": "Redwing",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "mrs_stork",
+              "name": "Mrs Stork",
+              "attack": 6,
+              "health": 10,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "tom_tit",
+              "name": "Tom Tit",
+              "attack": 7,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 5,
+          "gold_spent": 16,
+          "gold_at_start": 14,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 16,
+          "health": 32,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "belladonna",
+              "name": "Lady Belladonna",
+              "attack": 7,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Fairies"
+              ]
+            },
+            {
+              "def_id": "bubble_and_squeak",
+              "name": "Bubble and Squeak",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "mrs_stork",
+              "name": "Mrs Stork",
+              "attack": 7,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "jack_daw",
+              "name": "Jack Daw",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "seven_whistlers",
+              "name": "The Seven Whistlers",
+              "attack": 18,
+              "health": 24,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "mother_goose",
+              "name": "Mother Goose",
+              "attack": 7,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            },
+            {
+              "def_id": "tom_tit",
+              "name": "Tom Tit",
+              "attack": 7,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "player_id": 7,
+      "name": "Bot 7 (hard)",
+      "personality": "hard:hunters_sett",
+      "hero": "jill_down_the_tree",
+      "placement": null,
+      "health": 10,
+      "tier": 5,
+      "gold_spent": 96,
+      "main_tribe": "Hunters",
+      "bought_by_tribe": {
+        "Hunters": 9,
+        "Oozes": 1,
+        "Birds": 1,
+        "Bog folk": 1
+      },
+      "tribe_unit_rounds": {
+        "Hunters": 45,
+        "Oozes": 8,
+        "Birds": 2
+      },
+      "rounds": [
+        {
+          "round": 1,
+          "tier": 1,
+          "gold_spent": 1,
+          "gold_at_start": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 0,
+          "health": 40,
+          "armor": 0,
+          "result": "tie",
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 2,
+          "tier": 1,
+          "gold_spent": 6,
+          "gold_at_start": 7,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 2,
+          "health": 39,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            null,
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 3,
+          "tier": 1,
+          "gold_spent": 6,
+          "gold_at_start": 6,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 4,
+          "health": 39,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 4,
+              "golden": false,
+              "tribes": []
+            },
+            null,
+            null,
+            null
+          ]
+        },
+        {
+          "round": 4,
+          "tier": 2,
+          "gold_spent": 6,
+          "gold_at_start": 7,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 5,
+          "health": 34,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 5,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null
+          ]
+        },
+        {
+          "round": 5,
+          "tier": 3,
+          "gold_spent": 11,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 6,
+          "health": 30,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 3,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 6,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            null,
+            {
+              "def_id": "mr_redbreast",
+              "name": "Mr Redbreast",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "tier": 3,
+          "gold_spent": 7,
+          "gold_at_start": 8,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 8,
+          "health": 26,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 1,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 2,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "pennywort_snail",
+              "name": "Pennywort Snail",
+              "attack": 1,
+              "health": 6,
+              "golden": false,
+              "tribes": []
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 2,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mr_redbreast",
+              "name": "Mr Redbreast",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Birds"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "tier": 3,
+          "gold_spent": 14,
+          "gold_at_start": 10,
+          "gold_left": 1,
+          "paid_refreshes": 3,
+          "items": [],
+          "units_bought": 10,
+          "health": 26,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 2,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 3,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 5,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 7,
+              "health": 8,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 3,
+              "health": 4,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 5,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "tier": 4,
+          "gold_spent": 13,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 1,
+          "items": [],
+          "units_bought": 10,
+          "health": 26,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 6,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 6,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 8,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 4,
+              "health": 5,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 6,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "tier": 4,
+          "gold_spent": 10,
+          "gold_at_start": 10,
+          "gold_left": 0,
+          "paid_refreshes": 3,
+          "items": [],
+          "units_bought": 11,
+          "health": 19,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 4,
+              "health": 3,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 10,
+              "health": 12,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 10,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mountain_glutton",
+              "name": "The Mountain Glutton",
+              "attack": 6,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 6,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 6,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "tier": 5,
+          "gold_spent": 9,
+          "gold_at_start": 10,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "items": [],
+          "units_bought": 11,
+          "health": 19,
+          "armor": 0,
+          "result": "win",
+          "board": [
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 12,
+              "health": 14,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 5,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 6,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 6,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mountain_glutton",
+              "name": "The Mountain Glutton",
+              "attack": 6,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mrs_posset",
+              "name": "Mrs Posset",
+              "attack": 2,
+              "health": 1,
+              "golden": false,
+              "tribes": [
+                "Oozes"
+              ]
+            },
+            {
+              "def_id": "little_nip",
+              "name": "Little Nip",
+              "attack": 11,
+              "health": 12,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "tier": 5,
+          "gold_spent": 13,
+          "gold_at_start": 11,
+          "gold_left": 0,
+          "paid_refreshes": 2,
+          "items": [],
+          "units_bought": 13,
+          "health": 10,
+          "armor": 0,
+          "result": "loss",
+          "board": [
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 9,
+              "health": 11,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "wick",
+              "name": "Wick",
+              "attack": 13,
+              "health": 15,
+              "golden": true,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "young_brock",
+              "name": "Young Brock",
+              "attack": 6,
+              "health": 9,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 6,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "mountain_glutton",
+              "name": "The Mountain Glutton",
+              "attack": 6,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "old_brock",
+              "name": "Old Brock",
+              "attack": 4,
+              "health": 7,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            },
+            {
+              "def_id": "lodger",
+              "name": "The Lodger",
+              "attack": 6,
+              "health": 6,
+              "golden": false,
+              "tribes": [
+                "Hunters"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tribes": {
+    "Fairies": {
+      "bought": 27,
+      "unit_rounds": 103,
+      "main_players": 1,
+      "placement_sum": 8,
+      "wins": 0,
+      "avg_placement": 8.0
+    },
+    "Hunters": {
+      "bought": 34,
+      "unit_rounds": 119,
+      "main_players": 0,
+      "placement_sum": 0,
+      "wins": 0,
+      "avg_placement": 0.0
+    },
+    "Bog folk": {
+      "bought": 21,
+      "unit_rounds": 55,
+      "main_players": 0,
+      "placement_sum": 0,
+      "wins": 0,
+      "avg_placement": 0.0
+    },
+    "Oozes": {
+      "bought": 19,
+      "unit_rounds": 89,
+      "main_players": 0,
+      "placement_sum": 0,
+      "wins": 0,
+      "avg_placement": 0.0
+    },
+    "Birds": {
+      "bought": 24,
+      "unit_rounds": 71,
+      "main_players": 0,
+      "placement_sum": 0,
+      "wins": 0,
+      "avg_placement": 0.0
+    }
+  }
+}

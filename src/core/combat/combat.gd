@@ -389,6 +389,9 @@ func _start_of_combat() -> void:
 	CombatHeld.goose_strikes(self, first)
 	reactions.drain(self)
 	_hero_start_of_combat(first)
+	if Pass3Combat.enabled(self):
+		Pass3Combat.start(self, first)
+		return
 	var queues: Array = [units_of(first), units_of(1 - first)]
 	for queue: Array in queues:
 		for unit: CombatUnit in queue:
@@ -402,6 +405,9 @@ func _start_of_combat() -> void:
 
 ## 9.3.1, 9.3.3: hero powers before units, in the random player order.
 func _hero_start_of_combat(first: int) -> void:
+	if Pass3Combat.enabled(self):
+		Pass3Combat.heroes(self, first)
+		return
 	for side: int in [first, 1 - first]:
 		var entries: Array = hero_effects[side]
 		for value: Variant in entries:

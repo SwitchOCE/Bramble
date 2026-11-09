@@ -191,7 +191,7 @@ static func flies(unit: RecruitUnit, player: PlayerState) -> bool:
 	return (
 		not unit.plain_copy
 		and unit.has_mechanic_id(FLY)
-		and unit.played_round != player.round_number
+		and (unit.played_round != player.round_number or not player.pass3_loop_guards)
 	)
 
 
@@ -205,12 +205,22 @@ static func send_south(
 			var previous: RecruitUnit = entry["unit"]
 			player.log_event("nest_replaced", {"name": str(previous.def["name"]), "slot": slot})
 			entry["nest"] = -1
-	var due: int = player.round_number + unit.flight_turns()
+	var turns: int = unit.flight_turns()
+	if unit.has_mechanic_id("pass3_bird"):
+		var key: String = "birds_trip_turns"
+		if unit.def_id() == "one_swallow":
+			key = "birds_swallow_trip_turns"
+		elif unit.golden and Pass3Birds.ability(unit, "old_tern"):
+			key = "birds_golden_tern_trip_turns"
+		turns = Pass3Rates.integer(_rules.config, key)
+	var due: int = player.round_number + turns
 	for adjacent: int in BoardGeometry.adjacent(slot):
 		var cuckoo: RecruitUnit = player.board[adjacent]
 		if cuckoo != null:
 			due += support_number(cuckoo, "cuckoo", "turns")
-	player.away.append({"unit": unit, "left": player.round_number, "due": due, "nest": slot})
+	player.away.append(
+		{"unit": unit, "left": player.round_number, "due": due, "nest": slot, "missed_fight": false}
+	)
 	unit.set_aura(0, 0)
 	unit.clear_combat_layer()
 	player.log_event("fly_south", {"unit": unit.def_id(), "slot": slot, "due": due})
@@ -232,7 +242,11 @@ static func land_due(rules: RecruitRules, player: PlayerState) -> void:
 static func bring_home(rules: RecruitRules, player: PlayerState, count: int) -> void:
 	var ready: Array[Dictionary] = []
 	for entry: Dictionary in player.away:
-		if CoreUtil.to_int(entry["left"]) < player.round_number:
+		var unit: RecruitUnit = entry["unit"]
+		var eligible: bool = CoreUtil.to_int(entry["left"]) < player.round_number
+		if unit.has_mechanic_id("pass3_bird") and player.pass3_loop_guards:
+			eligible = CoreUtil.to_bool(entry.get("missed_fight", false))
+		if eligible or not player.pass3_loop_guards:
 			ready.append(entry)
 	ready.sort_custom(_longest_away)
 	if ready.size() > count:
@@ -245,6 +259,13 @@ static func _longest_away(first: Dictionary, second: Dictionary) -> bool:
 	var b: int = CoreUtil.to_int(second["left"])
 	if a != b:
 		return a < b
+	var first_bird: RecruitUnit = first["unit"]
+	var second_bird: RecruitUnit = second["unit"]
+	if first_bird.has_mechanic_id("pass3_bird") or second_bird.has_mechanic_id("pass3_bird"):
+		var first_size: int = first_bird.attack + first_bird.health
+		var second_size: int = second_bird.attack + second_bird.health
+		if first_size != second_size:
+			return first_size > second_size
 	var first_slot: int = BoardGeometry.ZIGZAG.find(CoreUtil.to_int(first["nest"]))
 	var second_slot: int = BoardGeometry.ZIGZAG.find(CoreUtil.to_int(second["nest"]))
 	return (7 if first_slot < 0 else first_slot) < (7 if second_slot < 0 else second_slot)
@@ -256,6 +277,12 @@ static func land_flock(rules: RecruitRules, player: PlayerState) -> void:
 	for entry: Dictionary in player.away:
 		var bird: RecruitUnit = entry["unit"]
 		if bird.has_tribe(BIRDS):
+			if (
+				bird.has_mechanic_id("pass3_bird")
+				and player.pass3_loop_guards
+				and not CoreUtil.to_bool(entry.get("missed_fight", false))
+			):
+				continue
 			flock.append(entry)
 	_land(rules, player, flock)
 
@@ -263,9 +290,12 @@ static func land_flock(rules: RecruitRules, player: PlayerState) -> void:
 static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dictionary]) -> void:
 	var landed: Array[RecruitUnit] = []
 	for entry: Dictionary in entries:
+		if not player.away.has(entry):
+			continue
 		player.away.erase(entry)
 		var unit: RecruitUnit = entry["unit"]
 		unit.played_round = player.round_number
+		Pass3Birds.homecoming(rules, player, unit)
 		if _completes_triple(player, unit):
 			player.hand.append(unit)
 		else:
@@ -324,7 +354,10 @@ static func drain_doorstep(rules: RecruitRules, player: PlayerState) -> void:
 ## What a fight reads of the sky, for a ghost to keep.
 static func sky_rules(player: PlayerState) -> Dictionary:
 	return {
+		"pass3_content": player.pass3_content,
+		"ring_size": player.ring_size,
 		"nests": nest_rules(player),
+		"away_specs": away_specs(player),
 		"goose": goose_strikes(player),
 		"away_birds": away_birds(player),
 		"homecomings": player.homecomings_this_turn,
@@ -342,6 +375,8 @@ static func lump_bonus(bird: RecruitUnit, factor: int = 1) -> Vector2i:
 
 ## An empty Nest keeps half its Bird's current stats and none of its text.
 static func egg_spec(bird: RecruitUnit) -> Dictionary:
+	if bird.has_mechanic_id("pass3_bird"):
+		return {"def_id": EGG, "golden": false, "egg": true, "attack": 0, "health": 1}
 	var body: Vector2i = lump_bonus(bird)
 	return {"def_id": EGG, "golden": false, "egg": true, "attack": body.x, "health": body.y}
 
@@ -355,6 +390,8 @@ static func egg_forecast(
 	if not BoardGeometry.is_valid(slot):
 		return out
 	var row: Array = player.board if layout.is_empty() else layout
+	if bird.has_mechanic_id("pass3_bird"):
+		return _pass3_egg_forecast(player, bird, row, out)
 	var factor: int = 0
 	for adjacent: int in BoardGeometry.adjacent(slot):
 		var source: RecruitUnit = row[adjacent]
@@ -446,6 +483,19 @@ static func away_views(player: PlayerState) -> Array:
 	for entry: Dictionary in player.away:
 		var unit: RecruitUnit = entry["unit"]
 		var view: Dictionary = unit.view()
+		if unit.has_mechanic_id("pass3_bird"):
+			var key: String = (
+				"birds_golden_homecoming_multiplier"
+				if unit.golden
+				else "birds_homecoming_multiplier"
+			)
+			var multiplier: float = CoreUtil.to_float(player.pass3_rates.get(key, 2.0))
+			view["home_attack"] = (
+				ceili((unit.base_attack_now() + unit.perm_attack) * multiplier) + unit.tribe_attack
+			)
+			view["home_health"] = (
+				ceili((unit.base_health_now() + unit.perm_health) * multiplier) + unit.tribe_health
+			)
 		view["nest"] = entry["nest"]
 		view["due"] = entry["due"]
 		view["turns_left"] = CoreUtil.to_int(entry["due"]) - player.round_number
@@ -472,3 +522,47 @@ static func feed(rules: RecruitRules, player: PlayerState, index: int, slot: int
 	rules.events.fire(player, "on_item_played", {"card_def": item.def})
 	rules.board_changed(player)
 	return ""
+
+
+## Redwing supports the biggest away Birds globally; duplicate copies do not multiply Eggs.
+static func _pass3_egg_forecast(
+	player: PlayerState, bird: RecruitUnit, row: Array, out: Dictionary
+) -> Dictionary:
+	var count: int = 0
+	for source: RecruitUnit in row:
+		if source != null and Pass3Birds.ability(source, "redwing"):
+			count = maxi(
+				count,
+				(
+					CoreUtil.to_int(player.pass3_rates.get("birds_redwing_targets", 2))
+					* source.golden_factor()
+				)
+			)
+	var candidates: Array[RecruitUnit] = []
+	for entry: Dictionary in player.away:
+		var candidate: RecruitUnit = entry["unit"]
+		if candidate.has_tribe(BIRDS):
+			candidates.append(candidate)
+	if not candidates.has(bird):
+		candidates.append(bird)
+	candidates.sort_custom(
+		func(a: RecruitUnit, b: RecruitUnit) -> bool:
+			return a.attack + a.health > b.attack + b.health
+	)
+	if candidates.find(bird) < count:
+		var body: Dictionary = bird.combat_spec()
+		var share: float = CoreUtil.to_float(player.pass3_rates.get("birds_redwing_share", 0.5))
+		out["attack"] = ceili(CoreUtil.to_int(body["attack"]) * share)
+		out["health"] = maxi(1, ceili(CoreUtil.to_int(body["health"]) * share))
+	return out
+
+
+## All away Birds take part in biggest-away selection even after their Nest was replaced.
+static func away_specs(player: PlayerState) -> Array:
+	var out: Array = []
+	for entry: Dictionary in player.away:
+		var bird: RecruitUnit = entry["unit"]
+		var spec: Dictionary = bird.combat_spec()
+		spec["slot"] = entry["nest"]
+		out.append(spec)
+	return out

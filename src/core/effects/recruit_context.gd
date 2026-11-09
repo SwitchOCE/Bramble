@@ -13,6 +13,8 @@ var paid: bool = false
 var card_def: Dictionary = {}
 ## Echoes reach neighbours, but the player did not aim the spell at them.
 var direct_spell: bool = true
+## Extra firings cannot repeat a doubling or advance a countdown.
+var repeat_index: int = 0
 
 
 static func make(
@@ -169,7 +171,7 @@ func add_card(card: String, count: int, from_pool: bool) -> void:
 
 func ring_full_at(slot: int) -> bool:
 	var rings: Array = player.slot_effects[slot]
-	return BoardUpkeep.ring_full(rings, player.card_size_caps)
+	return BoardUpkeep.ring_full(rings, player.card_size_caps and not player.pass3_fairies)
 
 
 func add_slot_effect(slot: int, step: Dictionary) -> void:

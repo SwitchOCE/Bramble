@@ -8,7 +8,7 @@ const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 func test_board_and_cli_hex_match_the_fight_before_and_after_every_spell() -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		var witch: RecruitUnit = kit.put("hedge_witch", 0, golden)
 		for spells: int in 12:
 			var view: Dictionary = witch.view()
@@ -34,7 +34,7 @@ func test_board_and_cli_hex_match_the_fight_before_and_after_every_spell() -> vo
 func test_borrowed_and_granted_hex_display_matches_combat() -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		var ooze: RecruitUnit = kit.put("frumenty", 0)
 		kit.put("hedge_witch", -1, golden)
 		assert_eq(kit.rules.swallow(kit.player, HeldUnits.HAND, 0, 0), "")
@@ -47,7 +47,7 @@ func test_borrowed_and_granted_hex_display_matches_combat() -> void:
 			if event["type"] == "slot_hex":
 				assert_eq(event["amount"], expected)
 	var grant_kit := Kit.new()
-	grant_kit.setup(GameConfig.full_game())
+	grant_kit.setup(GameConfig.full_game(), true)
 	var granted: RecruitUnit = grant_kit.put("field_vole", 0)
 	granted.grants.append({"entry": {"id": "hex", "n": 1, "most": 8}})
 	assert_eq(grant_kit.cast("pinch_of_dust", 0), "")

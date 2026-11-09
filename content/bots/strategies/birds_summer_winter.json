@@ -1,7 +1,7 @@
 {
  "id": "birds_summer_winter",
  "name": "Summer and Winter",
- "shape": "homecomings, Goose and the Whistlers",
+ "shape": "homecoming growth and the seven-Bird omen",
  "needs_tribes": [
   "Birds"
  ],
@@ -10,30 +10,33 @@
  },
  "units": {
   "one_swallow": 4,
-  "chiffchaff": 4,
-  "mrs_jay": 4,
+  "chiffchaff": 6,
+  "mrs_jay": 5,
   "old_tern": 8,
-  "mr_redbreast": 5,
-  "great_lump": 3,
+  "mr_redbreast": 10,
+  "great_lump": 10,
   "mrs_dunnock": 5,
-  "mrs_stork": 10,
+  "mrs_stork": 12,
   "seven_whistlers": 14,
   "redwing": 7,
   "mother_goose": 12,
-  "cuckoo": 2
+  "cuckoo": 8,
+  "tom_tit": 9,
+  "gabble_ratchet": 12
  },
  "fly": {
-  "old_tern": 4,
-  "mother_goose": 6
+  "mother_goose": 6,
+  "chiffchaff": 3,
+  "mrs_jay": 2
  },
  "curve": [
-  4,
+  3,
+  5,
   7,
-  9,
-  11,
-  13
+  10,
+  12
  ],
- "power": 1,
+ "power": 3,
  "spells": {
   "bread_from_the_back": 3,
   "stand_behind_me": 3,

@@ -10,7 +10,7 @@ var _brain: BotBrain
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_player.round_number = 5
 	_brain = BotBrain.from_name("hard:birds_passage")

@@ -8,21 +8,26 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share the destroyed units' stats.",
-  "golden_text": "Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share double the destroyed units' stats.",
+  "text": "End of Turn: destroy the units behind this. Ring every slot for each.",
+  "golden_text": "End of Turn: destroy the units behind this. Ring every slot twice for each.",
   "mechanics": [
     {
-      "id": "teind"
+      "id": "pass3_fairy",
+      "ability": "queen",
+      "factor": 1
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Ring"
+  ],
   "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Teind counts End of Turns since this was played and resets after 3. Shares base stats and permanent buffs evenly; spare points go in board order."
+  "details": "Destroyed Shy units pay no gold and do not count as leaving. With no unit behind, this does nothing."
 }

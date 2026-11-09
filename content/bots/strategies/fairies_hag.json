@@ -1,7 +1,7 @@
 {
  "id": "fairies_hag",
  "name": "Hag and Nightshade",
- "shape": "spell-fuelled scam",
+ "shape": "Ring carry, Fetch twin and holders",
  "needs_tribes": [
   "Fairies"
  ],
@@ -9,29 +9,36 @@
   "Fairies": 4
  },
  "units": {
-  "hedge_witch": 10,
+  "hedge_witch": 8,
   "belladonna": 14,
   "will_o_the_wisp": 6,
   "cricket_busker": 6,
   "turnip_scarecrow": 3,
   "changeling": 8,
   "ichneumon_wasp": 4,
-  "fairy_monarch": 8
+  "fairy_monarch": 14,
+  "old_moth_annis": 12,
+  "cluricaun": 8,
+  "silky": 8,
+  "lob_lie_by_the_fire": 8,
+  "cradle_fetch": 10,
+  "hob_in_the_hearth": 8
  },
  "spells": {
-  "pinch_of_dust": 2,
+  "pinch_of_dust": 1,
   "elderflower_cordial": 2,
-  "spore_cloud": 2
+  "spore_cloud": 6,
+  "boundary_stone": 6
  },
  "heroes": {
   "little_king_wren": 3
  },
  "curve": [
+  2,
   4,
   6,
-  8,
-  10,
-  12
+  9,
+  11
  ],
- "power": 6
+ "power": 3
 }

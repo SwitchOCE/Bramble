@@ -1,7 +1,7 @@
 {
  "id": "birds_passage",
  "name": "The Passage",
- "shape": "grown Nests, then both halves of the Birds",
+ "shape": "away carry, the Lump and the Ratchet",
  "needs_tribes": [
   "Birds"
  ],
@@ -9,28 +9,32 @@
   "Birds": 5
  },
  "units": {
-  "mr_redbreast": 6,
-  "great_lump": 5,
-  "mrs_stork": 6,
+  "mr_redbreast": 10,
+  "great_lump": 10,
+  "mrs_stork": 12,
   "mother_goose": 12,
   "gabble_ratchet": 12,
   "jack_daw": 3,
-  "old_tern": 5,
+  "old_tern": 4,
   "mrs_dunnock": -2,
   "seven_whistlers": 2,
   "redwing": 5,
-  "cuckoo": 10,
-  "tom_tit": 6
+  "cuckoo": 8,
+  "tom_tit": 9,
+  "chiffchaff": 6,
+  "one_swallow": 4,
+  "mrs_jay": 5
  },
  "fly": {
   "mother_goose": 6,
-  "jack_daw": 4
+  "chiffchaff": 3,
+  "mrs_jay": 2
  },
  "min_bodies": 4,
  "curve": [
-  4,
-  6,
-  8,
+  3,
+  5,
+  7,
   10,
   12
  ],

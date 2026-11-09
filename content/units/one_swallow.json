@@ -8,12 +8,12 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. When played: get 1 gold.",
-  "golden_text": "Fly South. When played: get 2 gold.",
+  "text": "Fly South. Its trips last 1 turn. When played: get 1 gold.",
+  "golden_text": "Fly South. Its trips last 1 turn. When played: get 2 gold.",
   "mechanics": [
     {
       "id": "fly_south",
-      "turns": 2
+      "turns": 1
     },
     {
       "id": "effect",
@@ -23,6 +23,11 @@
         "effect": "gold",
         "amount": 1
       }
+    },
+    {
+      "id": "pass3_bird",
+      "ability": "swallow",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -34,7 +39,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Pays again when replayed after coming home."
+  "details": "Trips last 1 turn. Played this turn, this sells normally; flying pays no sale gold. It doubles its permanent stats once per homecoming.",
+  "mechanic_text": {
+    "2": {
+      "id": "pass3_bird",
+      "text": "When played: get 1 gold.",
+      "golden_text": "When played: get 2 gold."
+    }
+  }
 }

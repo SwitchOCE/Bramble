@@ -190,12 +190,19 @@ func _finish() -> void:
 ## stay in each unit's source.note.
 static func _fill_keyword_text(units: Array[Dictionary]) -> void:
 	for unit: Dictionary in units:
+		var config: GameConfig = GameConfig.defaults()
+		for key: String in unit.get("pass3_rates", {}):
+			config.set_value(key, unit["pass3_rates"][key])
+		Pass3Text.configure(unit, config)
 		var entries: Array = []
 		var note: String = _note_of(unit)
 		var keywords: Array = unit.get("keywords", [])
 		var reminders: Dictionary = EffectSchema.section("keywords")
+		var overrides: Dictionary = unit.get("keyword_text_overrides", {})
 		for keyword: Variant in keywords:
-			if unit.has("set") and reminders.has(keyword):
+			if overrides.has(keyword):
+				entries.append({"keyword": str(keyword), "text": str(overrides[keyword])})
+			elif unit.has("set") and reminders.has(keyword):
 				entries.append({"keyword": str(keyword), "text": str(reminders[keyword])})
 			elif note != "":
 				entries.append({"keyword": str(keyword), "text": note})

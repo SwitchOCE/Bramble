@@ -10,7 +10,7 @@ var _combat: Combat
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 71
 	_combat = Combat.create(_kit.library, _kit.config, rng)
