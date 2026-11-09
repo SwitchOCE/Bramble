@@ -2,7 +2,7 @@ extends RefCounted
 ## Shared evidence counter. Counts nonempty, visible text controls rather than drawn digits.
 
 
-static func text_nodes(node: Node) -> Array[Dictionary]:
+static func text_nodes(node: Node, exclude_primary_stats: bool = false) -> Array[Dictionary]:
 	var found: Array[Dictionary] = []
 	var draws_self: bool = true
 	if node is CanvasItem:
@@ -10,6 +10,7 @@ static func text_nodes(node: Node) -> Array[Dictionary]:
 		if not item.is_visible_in_tree() or item.modulate.a < 0.05:
 			return found
 		draws_self = item.self_modulate.a >= 0.05
+	var primary: bool = node.get_meta("combat_primary_stat", false)
 	var words: String = ""
 	if node is Label:
 		words = (node as Label).text
@@ -17,11 +18,20 @@ static func text_nodes(node: Node) -> Array[Dictionary]:
 		words = (node as RichTextLabel).get_parsed_text()
 	elif node is Button and not node.has_meta("drawn_face"):
 		words = (node as Button).text
-	if draws_self and not words.strip_edges().is_empty():
-		found.append({"path": str(node.get_path()), "text": words})
+	if (
+		draws_self
+		and not words.strip_edges().is_empty()
+		and not (exclude_primary_stats and primary)
+	):
+		found.append({"path": str(node.get_path()), "text": words, "primary_stat": primary})
 	for child: Node in node.get_children():
-		found.append_array(text_nodes(child))
+		found.append_array(text_nodes(child, exclude_primary_stats))
 	return found
+
+
+## Budget only ancillary text; the unit Attack/Health and hero Health labels carry explicit tags.
+static func budget_nodes(node: Node) -> Array[Dictionary]:
+	return text_nodes(node, true)
 
 
 static func combat_node(node: Node) -> Control:
@@ -156,3 +166,58 @@ static func floor_marks(input: Dictionary) -> Array:
 				mark["nest"] = true
 		out.append(marks)
 	return out
+
+
+## The saved seed-72 field proof includes post-round Health, unlike its fight boundary.
+## Verify the replay result against that history before attaching exact plaque values.
+static func recorded_hero_health(
+	source: Dictionary, input: Dictionary, fight: Dictionary
+) -> Dictionary:
+	var game_log: Dictionary = source.get("game_log", {})
+	var players: Array = game_log.get("players", [])
+	var ids: Array = input.get("player_ids", [])
+	var round_number: int = CoreUtil.to_int(input.get("round", -1))
+	var before: Array[int] = []
+	var after: Array[int] = []
+	var armor: Array[int] = []
+	for id: Variant in ids:
+		var previous: Dictionary = {}
+		var current: Dictionary = {}
+		for player: Dictionary in players:
+			if CoreUtil.to_int(player.get("player_id", -2)) != CoreUtil.to_int(id):
+				continue
+			var records: Array = player.get("rounds", [])
+			for record: Dictionary in records:
+				var recorded_round: int = CoreUtil.to_int(record.get("round", -1))
+				if recorded_round == round_number - 1:
+					previous = record
+				elif recorded_round == round_number:
+					current = record
+		assert(not previous.is_empty() and not current.is_empty(), "recorded Health exists")
+		before.append(CoreUtil.to_int(previous.get("health", -1)))
+		after.append(CoreUtil.to_int(current.get("health", -1)))
+		armor.append(CoreUtil.to_int(previous.get("armor", 0)))
+	assert(before.size() == 2 and after.size() == 2)
+	var winner: int = CoreUtil.to_int(fight.get("winner", -1))
+	var damage: int = CoreUtil.to_int(fight.get("damage", 0))
+	for side: int in 2:
+		assert(before[side] >= 0 and after[side] >= 0)
+		assert(armor[side] == 0, "this replay requires no unrecorded armor transition")
+		var expected: int = before[side]
+		if winner != side:
+			expected = maxi(0, expected - damage)
+		assert(after[side] == expected, "current replay damage matches recorded round Health")
+	return {
+		"before": before,
+		"after": after,
+		"provenance":
+		{
+			"source": "docs/ideation/evidence/strong-field/ui-1688x780.json",
+			"before_round": round_number - 1,
+			"after_round": round_number,
+			"field": "game_log.players[*].rounds[*].health",
+			"armor_before": armor,
+			"verified_replay_damage": damage,
+			"observed_history": true,
+		},
+	}

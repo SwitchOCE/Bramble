@@ -1182,6 +1182,14 @@
 				}
 			]
 		],
+		"hero_health_after": [
+			23,
+			40
+		],
+		"hero_health_before": [
+			30,
+			40
+		],
 		"last_blow": false,
 		"reason": "board_empty",
 		"takes": [
@@ -1623,9 +1631,21 @@
 		"version": 1.0
 	},
 	"hero_health": [
-		-1.0,
-		40.0
+		30,
+		40
 	],
+	"hero_health_provenance": {
+		"after_round": 8,
+		"armor_before": [
+			0,
+			0
+		],
+		"before_round": 7,
+		"field": "game_log.players[*].rounds[*].health",
+		"observed_history": true,
+		"source": "docs/ideation/evidence/strong-field/ui-1688x780.json",
+		"verified_replay_damage": 7
+	},
 	"hero_views": [
 		{
 			"details": "Up to 5 gold a turn.",

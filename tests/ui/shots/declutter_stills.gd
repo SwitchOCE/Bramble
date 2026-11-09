@@ -61,11 +61,15 @@ func _run() -> void:
 			assert(image.get_size() == pixels)
 			assert(image.save_png(_out.path_join(stem + ".png")) == OK)
 			var nodes: Array[Dictionary] = Capture.text_nodes(screen)
+			var budgeted: Array[Dictionary] = Capture.budget_nodes(screen)
 			var report: Dictionary = {
 				"scenario": scenario,
 				"pixels": [pixels.x, pixels.y],
 				"before_labels": fixture["visible_text_count"],
 				"after_labels": nodes.size(),
+				"ancillary_labels": budgeted.size(),
+				"ancillary_budget": 10,
+				"budgeted_text_nodes": budgeted,
 				"visible_text_nodes": nodes,
 				"next_index": screen.next_index,
 				"same_event_checkpoint": true,
@@ -75,11 +79,16 @@ func _run() -> void:
 			reports.append(report)
 			print(
 				(
-					"declutter pair: %s labels before=%d after=%d"
-					% [stem, CoreUtil.to_int(fixture["visible_text_count"]), nodes.size()]
+					"declutter pair: %s labels before=%d after=%d ancillary=%d/10"
+					% [
+						stem,
+						CoreUtil.to_int(fixture["visible_text_count"]),
+						nodes.size(),
+						budgeted.size()
+					]
 				)
 			)
-			assert(nodes.size() <= 30, "combat label budget")
+			assert(budgeted.size() <= 10, "combat ancillary label budget")
 			root.remove_child(screen)
 			screen.queue_free()
 			await process_frame

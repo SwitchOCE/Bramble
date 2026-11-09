@@ -35,6 +35,9 @@ func _run() -> void:
 	assert(CoreUtil.to_int(input["round"]) == 8)
 	var fight: Dictionary = Replay.replay(input, UnitLibrary.load_dir())
 	fight["floor_marks"] = Capture.floor_marks(input)
+	var health: Dictionary = Capture.recorded_hero_health(source, input, fight)
+	fight["hero_health_before"] = health["before"]
+	fight["hero_health_after"] = health["after"]
 	var screen := CombatScreen.new()
 	root.add_child(screen)
 	screen.setup(fight, PackedStringArray(["You", "Rival 4 · Brother Bracken"]), 0, "Round 8", 40)
@@ -57,7 +60,8 @@ func _run() -> void:
 		if str(hero.get("id", "")) == "brother_bracken":
 			heroes[1] = hero
 	report["hero_views"] = heroes
-	report["hero_health"] = [-1, 40]
+	report["hero_health"] = health["before"]
+	report["hero_health_provenance"] = health["provenance"]
 	report["combat"] = fight
 	report["fight_input"] = input
 	var report_file := FileAccess.open(report_path, FileAccess.WRITE)
