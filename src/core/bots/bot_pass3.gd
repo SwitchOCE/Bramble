@@ -258,6 +258,9 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	var factor: int = unit.golden_factor()
 	match unit.def_id():
 		"cluricaun":
+			# Fairy routes plan rainbow completion; a splash must already meet the trigger.
+			if not fairy_build(value) and ring_count(player) < BoardGeometry.SLOTS:
+				return 0.0
 			var rings: int = maxi(ring_total(player), 7 if fairy_build(value) else 0)
 			return factor * rings * 2.0 * _rate(value, "fairies_ring_growth", 1.0)
 		"lob_lie_by_the_fire":

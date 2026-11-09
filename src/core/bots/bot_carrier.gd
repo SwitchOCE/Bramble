@@ -84,7 +84,11 @@ static func _trade_gain(brain: BotBrain, unit: RecruitUnit, slot: int) -> float:
 static func _intrinsic(
 	brain: BotBrain, unit: RecruitUnit, board: Array[RecruitUnit], slot: int
 ) -> float:
-	var score: float = brain.value.keep_value(unit) - brain.value.build_bonus(unit.def)
+	var score: float = (
+		brain.value.keep_value(unit)
+		+ BotEval.ring_change(unit, brain._player, slot)
+		- brain.value.build_bonus(unit.def)
+	)
 	var text: float = engine_text(brain, unit, board, slot)
 	if text >= 0.0:
 		score += text - (2.0 if unit.golden else 1.0) * brain.value.text_value(unit)

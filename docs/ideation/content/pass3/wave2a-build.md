@@ -224,3 +224,10 @@ The first full run exposed capture precision: ordinary JSON serialization shorte
 Generic current-pool checks now count the seven retired Hunter prototypes. The triple-reward fixture explicitly supplies a third real tier-3 card so it continues testing three next-tier offers rather than accidentally invoking the documented lower-tier fallback in the depleted prototype pool.
 
 The expanded full suite reached its former 600-second watchdog during UI coverage. Only the GUT wall-time budget rises to 900 seconds; import/compile budgets, every assertion and the strict hook stay intact. All runs retain the shared lock and 3G scope. The first run is not reported as a passed gate.
+
+
+## Review follow-up: pinned B strategy and Bird recruit coverage
+
+The reviewer's B probe reported Parish seats buying too many Fairies while their declared build remained Parish. This was action valuation, not a changed `build_of` identity: off-route Cluricaun priced growth without a seven-slot rainbow, and replacement scoring credited an incumbent's slot Ring without transferring that Ring to the incoming unit. The fix checks Cluricaun's live condition and compares incoming/current bodies on the same destination Ring, respecting Shy and removing a moved body's previous slot Ring. Fairy-route rainbow planning and legitimate splashes remain available.
+
+The strategy regression now runs **B, seeds 31–34**, retaining the original >0.6 Fairy-pin and <0.4 Parish-pin Fairy-share bars and checking all eight declared builds. It prints raw group purchases and ratios for the validation log. Four directed tests cover the condition and real replacement purchase/play path. The whole-suite A override is removed from `test_pass3_birds_recruit.gd`; its twenty-two cases run under current B. The requested frozen `0946909` regression re-record is reserved for the orchestrator's subsequent merge, not changed here.

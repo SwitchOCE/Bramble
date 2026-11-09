@@ -2,6 +2,8 @@ extends GutTest
 ## The levelled bots, the scouting rule and the placer.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
+const KIT := preload("res://tests/core/recruit_kit.gd")
+
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
 
@@ -306,28 +308,160 @@ func test_a_pinned_bot_plays_its_strategy() -> void:
 	for strategy_id: String in ["fairies_hag", "hedgerow_parish"]:
 		for _copy: int in 4:
 			seats.append("hard:%s" % strategy_id)
-	# Keep the historical purchase-share threshold independent of the re-based field power.
-	var config: GameConfig = GameConfig.full_game()
-	config.set_value("pass3_preset", "A")
-	config.set_value("tribes_per_lobby", 6)
-	config.set_value("human_bot", str(seats[0]))
-	config.set_value("bots", seats.slice(1))
-	var session: GameSession = GameSession.create(31, _library, config)
-	_play_out(session)
-	var rows: Array = session.get_game_log()["players"]
-	var fairy_share: Array[float] = [0.0, 0.0]
-	for group: int in 2:
-		var fairies: int = 0
-		var hedgerow: int = 0
-		for seat: int in range(group * 4, group * 4 + 4):
-			var bought: Dictionary = rows[seat]["bought_by_tribe"]
-			fairies += CoreUtil.to_int(bought.get("Fairies", 0))
-			hedgerow += CoreUtil.to_int(bought.get("Hedgerow folk", 0))
-		fairy_share[group] = float(fairies) / maxi(1, fairies + hedgerow)
-	assert_gt(fairy_share[0], 0.6, "the fairy pin buys mostly Fairies")
-	assert_lt(fairy_share[1], 0.4, "the hedgerow pin buys mostly Hedgerow folk")
-	assert_eq(session.build_of(0), "fairies_hag", "and is still on its build")
-	assert_eq(session.build_of(7), "hedgerow_parish", "and is still on its build")
+	for game_seed: int in range(31, 35):
+		var config: GameConfig = GameConfig.full_game()
+		config.set_value("pass3_preset", "B")
+		config.set_value("tribes_per_lobby", 6)
+		config.set_value("human_bot", str(seats[0]))
+		config.set_value("bots", seats.slice(1))
+		var session: GameSession = GameSession.create(game_seed, _library, config)
+		_play_out(session)
+		var rows: Array = session.get_game_log()["players"]
+		var fairy_share: Array[float] = [0.0, 0.0]
+		var purchases: Array = []
+		for group: int in 2:
+			var fairies: int = 0
+			var hedgerow: int = 0
+			for seat: int in range(group * 4, group * 4 + 4):
+				var bought: Dictionary = rows[seat]["bought_by_tribe"]
+				fairies += CoreUtil.to_int(bought.get("Fairies", 0))
+				hedgerow += CoreUtil.to_int(bought.get("Hedgerow folk", 0))
+			fairy_share[group] = float(fairies) / maxi(1, fairies + hedgerow)
+			purchases.append({"fairies": fairies, "hedgerow": hedgerow})
+		var builds: Array[String] = []
+		for seat: int in 8:
+			builds.append(session.build_of(seat))
+		print(
+			"pinned_B_result ",
+			JSON.stringify(
+				{
+					"seed": game_seed,
+					"fairy_share": fairy_share,
+					"purchases": purchases,
+					"builds": builds
+				}
+			)
+		)
+		assert_gt(fairy_share[0], 0.6, "B seed %d: the fairy pin buys mostly Fairies" % game_seed)
+		assert_lt(
+			fairy_share[1], 0.4, "B seed %d: the hedgerow pin buys mostly Hedgerow folk" % game_seed
+		)
+		for seat: int in 8:
+			var expected: String = "fairies_hag" if seat < 4 else "hedgerow_parish"
+			assert_eq(
+				session.build_of(seat),
+				expected,
+				"B seed %d seat %d retains its build" % [game_seed, seat]
+			)
+
+
+func test_off_route_cluricaun_requires_seven_ringed_slots_not_stacked_rings() -> void:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	var cluricaun: RecruitUnit = kit.put("cluricaun")
+	BoardUpkeep.add_ring(kit.player, 4, {"attack": 250, "health": 250})
+	var parish: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	parish.value.recruit_rules = kit.rules
+	assert_eq(BotPass3.text_value(cluricaun, kit.player, parish.value), 0.0)
+	var fairies: BotBrain = _brain("hard:fairies_hag", kit.player, kit.rules)
+	fairies.value.recruit_rules = kit.rules
+	assert_gt(
+		BotPass3.text_value(cluricaun, kit.player, fairies.value),
+		0.0,
+		"the Fairy route still plans rainbow completion"
+	)
+	for slot: int in BoardGeometry.SLOTS:
+		if slot != 4:
+			BoardUpkeep.add_ring(kit.player, slot, {"attack": 1, "health": 1})
+	assert_gt(
+		BotPass3.text_value(cluricaun, kit.player, parish.value),
+		0.0,
+		"a full rainbow remains a useful off-route engine"
+	)
+
+
+func _ring_replacement_fixture(engine: bool) -> Dictionary:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	kit.player.gold = 3
+	kit.player.tier = 6
+	kit.player.round_number = 12
+	var old_id: String = kit.card("ring_incumbent", [], ["Fairies"], 2, 3)
+	var old: RecruitUnit = kit.put(old_id, 0)
+	for slot: int in range(1, BoardGeometry.SLOTS):
+		var filler: String = kit.card("ring_filler_%d" % slot, [], [], 5000, 5000)
+		kit.put(filler, slot)
+	var mechanics: Array = []
+	if engine:
+		mechanics.append(
+			KIT.effect(
+				"start_of_combat",
+				{"effect": "buff", "attack": 1, "health": 1, "target": {"select": "touching"}}
+			)
+		)
+	var new_id: String = kit.card("ring_recruit", mechanics, ["Hedgerow folk"], 3, 4)
+	if engine:
+		kit.library.get_unit(new_id)["tier"] = 4
+	var recruit: RecruitUnit = kit.shop(new_id)
+	BoardUpkeep.add_ring(kit.player, 0, {"attack": 100, "health": 100})
+	kit.rules.board_changed(kit.player)
+	var brain: BotBrain = _brain("hard:hedgerow_parish", kit.player, kit.rules)
+	brain._round_now = 12
+	brain.value.library = kit.library
+	brain.value.recruit_rules = kit.rules
+	brain.value.board_owner = kit.player
+	return {"kit": kit, "brain": brain, "old": old, "recruit": recruit}
+
+
+func test_replacement_purchase_and_play_keep_the_destination_ring() -> void:
+	var fixture: Dictionary = _ring_replacement_fixture(false)
+	var kit: KIT = fixture["kit"]
+	var brain: BotBrain = fixture["brain"]
+	var recruit: RecruitUnit = fixture["recruit"]
+	var ring: Vector2i = BoardUpkeep.ring_value(kit.player.slot_effects[0])
+	assert_gt(
+		brain._ordinary_unit_gain(recruit), 0.0, "the incumbent does not own the Ring's stats"
+	)
+	assert_gt(
+		brain._replacement_gain(recruit, 0), 0.0, "execution uses the same destination comparison"
+	)
+	var offer: Dictionary = brain._best_offer()
+	assert_false(offer.is_empty())
+	assert_true(brain._buy_offer(offer))
+	assert_same(kit.player.board[0], recruit)
+	assert_false(kit.player.board.has(fixture["old"]))
+	assert_eq(recruit.attack, recruit.base_attack_now() + ring.x)
+	assert_eq(recruit.health, recruit.base_health_now() + ring.y)
+	assert_eq(BoardUpkeep.ring_value(kit.player.slot_effects[0]), ring)
+
+
+func test_carrier_upgrade_prices_its_engine_on_the_same_destination_ring() -> void:
+	var fixture: Dictionary = _ring_replacement_fixture(true)
+	var brain: BotBrain = fixture["brain"]
+	var recruit: RecruitUnit = fixture["recruit"]
+	var plan: Dictionary = BotCarrier.upgrade_plan(brain, recruit)
+	assert_eq(plan.get("slot"), 0)
+	assert_gt(CoreUtil.to_float(plan.get("gain", 0)), 0.0)
+
+
+func test_ring_projection_removes_the_current_slot_and_never_buffs_shy() -> void:
+	var kit: KIT = KIT.new()
+	kit.setup(GameConfig.full_game())
+	var id: String = kit.card("ring_mover", [], [], 3, 4)
+	var mover: RecruitUnit = kit.put(id, 0)
+	var shy: RecruitUnit = kit.put("lob_lie_by_the_fire", 6)
+	BoardUpkeep.add_ring(kit.player, 0, {"attack": 10, "health": 10})
+	BoardUpkeep.add_ring(kit.player, 1, {"attack": 30, "health": 30})
+	kit.rules.board_changed(kit.player)
+	var predicted: int = mover.attack + mover.health + BotEval.ring_change(mover, kit.player, 1)
+	assert_eq(kit.rules.move(kit.player, 0, 1), "")
+	assert_eq(mover.attack + mover.health, predicted, "moving replaces its old Ring contribution")
+	assert_eq(BotEval.ring_change(shy, kit.player, 0), 0)
+	var shy_body := Vector2i(shy.attack, shy.health)
+	assert_eq(kit.rules.move(kit.player, 6, 0), "")
+	assert_eq(
+		Vector2i(shy.attack, shy.health), shy_body, "the legal move confirms Shy gets no Ring"
+	)
 
 
 ## What the bots may know of the next opponent is what a player can see.

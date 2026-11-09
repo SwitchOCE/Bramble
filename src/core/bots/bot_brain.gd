@@ -380,12 +380,22 @@ func _ordinary_unit_gain(unit: RecruitUnit) -> float:
 	var weakest: int = _weakest_slot()
 	if weakest < 0:
 		return 0.0
-	var gain: float = worth - value.keep_value(_player.board[weakest]) - level.replace_margin
+	var gain: float = (
+		worth
+		+ BotEval.ring_change(unit, _player, weakest)
+		- value.keep_value(_player.board[weakest])
+		- level.replace_margin
+	)
 	return gain
 
 
 func _replacement_gain(unit: RecruitUnit, slot: int) -> float:
-	return value.keep_value(unit) - value.keep_value(_player.board[slot]) - level.replace_margin
+	return (
+		value.keep_value(unit)
+		+ BotEval.ring_change(unit, _player, slot)
+		- value.keep_value(_player.board[slot])
+		- level.replace_margin
+	)
 
 
 ## Slots the bot means to fill. A build or hero that wants gaps has fewer than 7.

@@ -8,7 +8,6 @@ var _kit: KIT
 func before_each() -> void:
 	_kit = KIT.new()
 	var config: GameConfig = GameConfig.full_game()
-	config.set_value("pass3_preset", "A")
 	_kit.setup(config)
 	_kit.rules.start_phase(_kit.player, 1)
 
