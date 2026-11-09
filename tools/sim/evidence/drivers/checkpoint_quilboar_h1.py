@@ -16,12 +16,12 @@ from quilboar_h1 import ARMS  # noqa: E402
 from quilboar_h1_report import QB, TRIBE_LINES, bootstrap, paper_reference, ratio_interval  # noqa: E402
 
 
-def archive(arm):
-    plan = read_json(ROOT / "tools/sim/evidence/quilboar-h1-plan.json")
-    progress = read_json(ROOT / "build/quilboar-h1/run/progress.json")
+def archive(arm, plan_path=None, run_folder=None, target_root=None):
+    plan = read_json(plan_path or ROOT / "tools/sim/evidence/quilboar-h1-plan.json")
+    progress = read_json((run_folder or ROOT / "build/quilboar-h1/run") / "progress.json")
     if progress["completed"][arm] != ARMS[arm]:
         raise ValueError("the arm's predeclared lobby budget is not complete")
-    target = ROOT / "tools/sim/evidence/quilboar-h1" / arm
+    target = (target_root or ROOT / "tools/sim/evidence/quilboar-h1") / arm
     target.mkdir(parents=True, exist_ok=True)
     chunks, games = [], []
     for chunk in progress["chunks"]:
@@ -107,5 +107,9 @@ def archive(arm):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("arms", nargs="+", choices=list(ARMS))
-    for selected_arm in parser.parse_args().arms:
-        archive(selected_arm)
+    parser.add_argument("--plan", type=Path)
+    parser.add_argument("--folder", type=Path)
+    parser.add_argument("--target", type=Path)
+    args = parser.parse_args()
+    for selected_arm in args.arms:
+        archive(selected_arm, args.plan, args.folder, args.target)
