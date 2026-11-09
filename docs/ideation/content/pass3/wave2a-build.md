@@ -291,3 +291,7 @@ The unchanged B pin bars pass on seeds 31–34 with the approved flexible openin
 | 34 | 97.78% | 7.69% |
 
 Evidence: [gate summary](../../evidence/wave2a/hunters-gate-summary.log), [raw pin counts and identities](../../evidence/wave2a/pinned-b-shares.json), and [commits since 5cd5cd71](../../evidence/wave2a/commits-since-5cd5cd71.md). Full local output remains in `build/wave2a-review-gate.log` and `build/check/gut.log`. The merged-tree frozen normal fixture re-record remains the explicitly reserved next step after the orchestrator's merge.
+
+## Validation after the main merge `09d60646`
+
+The requested targeted Python runs initially found stale real-designed metadata and a paper loader assuming flat rates. Regenerating `real_designed_recipes.json` adds only Bog/Hunter line hashes; all eight board recipes remain identical. The frozen wave 1 accounting report now reads its already-published `wave1-accounting-paper.json` denominator alongside the archived run, rather than accidentally recomputing it from today's B values. Its statistics and bars are unchanged. The separate paper builder resolves structured preset data, then still rejects changes its historical models cannot parameterize; it does not silently substitute A for B. Historical known-answer model tests use the explicit archived rate map, retaining all numerical answers and timing checks. These historical diagnostics are not a new current-B accounting result.

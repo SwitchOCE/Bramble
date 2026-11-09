@@ -116,7 +116,10 @@ def _timing_reconciled_fairies(module, rates):
 def build_paper_reference(rates=None):
     """Return authored and explicitly distinguished built-timing denominators."""
     rates_path = ROOT / "content/pass3/rates.json"
-    rates = json.loads(rates_path.read_text()) if rates is None else dict(rates)
+    document = json.loads(rates_path.read_text()) if rates is None else dict(rates)
+    rates = dict(document.get("rates", document))
+    if "presets" in document:
+        rates.update(document["presets"].get(document.get("default_preset", "B"), {}))
     # These rates are hard-coded, rather than parameterized, in the paper
     # engines. Refuse changed values instead of claiming to have mapped them.
     fixed = {

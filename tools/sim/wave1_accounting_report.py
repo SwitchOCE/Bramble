@@ -3,8 +3,8 @@
 
 import argparse
 import csv
-import re
 import hashlib
+import re
 import statistics
 from collections import Counter
 from pathlib import Path
@@ -12,7 +12,8 @@ from pathlib import Path
 from evidence_io import read_json, write_json
 from lever_sweep import ROOT, atomic_json, file_sha
 from wave1_accounting import LINES, ROUNDS, measurements
-from wave1_paper import build_paper_reference
+
+PAPER_REFERENCE = ROOT / "tools/sim/evidence/wave1-accounting-paper.json"
 
 PIECES = (
     "old_moth_annis",
@@ -27,6 +28,11 @@ PIECES = (
     "mother_goose",
     "great_lump",
 )
+
+
+def load_paper_reference(path=PAPER_REFERENCE):
+    """Keep the published denominator paired with the archived accounting run."""
+    return read_json(path)
 
 
 def diagnostic(rows):
@@ -341,7 +347,7 @@ def main():
                 "scope": "Sufficient analysis rows only, not refight inputs. Original full capture hashes and local paths are in progress.",
             },
         )
-    paper = build_paper_reference()
+    paper = load_paper_reference()
     result = summarize(rows, seeds, paper, plan["bootstrap_replicates"], plan["bootstrap_seed"])
     result.update(
         paper=paper,
