@@ -4,6 +4,22 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Generous first: the presets move up, and cuts come from the top
+**The owner's words** (note 2026-11-09h): "giving out power overly generously and then dialing it back, rather than starting from too weak and dialing up … it's probably going to be more enjoyable to have overly powerful effects and an unbalanced game than weak effects and a boring game."
+
+**Picked (orchestrator):**
+- **B (about 900 at R12) becomes the default.** Fairies and Oozes stay at their design size. The Fetch twin goes back to full, which reverses amendment 1's halving in B, and the other four tribes are raised to match.
+- **A new preset C** doubles B's engine rates (about 1,800 at R12).
+- **Checkpoint 1 plays B against C blind.** A (about 500) is kept only as a fallback, if both fail for reasons a smaller scale would fix.
+- Every new dial in wave 2 lands at B's value or above. The paper workflow writes values for B and C.
+- **Cuts:** a high total never fails a preset on its own. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or fights decided before they start. Cuts are made dial by dial, at the outlier.
+- **The Quilboar reference port** is budgeted at B, not A, so the A/B runs at the scale we will play.
+- **The wave 1 fun probe** runs on B.
+
+**Why:** the owner's direction, and it fits 09a (the scale is too low) and 09c (rewards give power). Starting at B and C tests the owner's doubt about the size from above. An overpowered build also shows which dial to cut.
+
+**Deviation:** none from the owner. This replaces plan v3's A-against-B checkpoint. The plan text is updated (`plan-scale-rework.md`, step 2 and step 6, and the band).
+
 ### 9 Nov 2026 — The declutter spec and the calls where its reviewers disagreed
 **The owner's words** (note 2026-11-09e): "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment." And: "Animations should, by player feel, capture how a game is and how it plays."
 

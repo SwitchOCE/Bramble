@@ -29,11 +29,12 @@
    - **Then W2a:** Bog and Hunters.
    - **Then W2b,** rebased onto W2a: Oozes, the Hedgerow light pass and the neutrals. The neutrals: keep 9, change 4, add Shieldbug and Click Beetle, and retire the 38 prototype bodies last.
    - One reviewed commit per tribe, each with its line JSON and Hard-bot fixes. One integration gate on the merged tree.
-   - Every engine rate is a dial, with two presets:
-     - **A:** the September 2025 shape, typical about 500 at R12. This is the size the owner doubted ("50/50 may be too small").
-     - **B:** about 900 at R12. This tests that doubt: Fairies and Oozes stay at their design size, and the other four are raised.
+   - Every engine rate is a dial. **Generous first** (owner, 9 Nov: `docs/design/owner-notes/2026-11-09h-generous-power-first.md`): dials start at the generous end and are cut back on evidence, never raised from weak. The presets:
+     - **B, the default:** about 900 at R12. Fairies and Oozes stay at their design size (the Fetch twin is full), and the other four are raised to match.
+     - **C, overly generous:** B's engine rates doubled, about 1,800 at R12. This is the start the owner recommends, and it shows which dial to cut.
+     - **A, the fallback only:** the September 2025 shape, about 500 at R12, the size the owner doubted ("50/50 may be too small"). It is played only if both B and C fail for reasons that a smaller scale would fix.
 
-     A paper workflow writes B's values during wave 2.
+     A paper workflow writes B's and C's values during wave 2. Every new dial lands at B's value or above.
 3. **The UI declutter** (owner, 9 Nov: `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`):
    - A workflow audit produces the spec: cut, move or animate every element, plus what the tutorial must teach.
    - A UI branch builds it in batches, with before/after screenshots and a reviewer briefed with the note.
@@ -48,7 +49,7 @@
    - **Offline damage and Health replay:** a shortlist of 2–3 tables in which winners finish by R14–16.
 5. **Measure the full pass 3 pool, locally** (cloud shards only if both slots are busy):
    - first, the line-strength gate on the new lines against `hard_field`;
-   - 150 or more line lobbies per preset;
+   - 150 or more line lobbies per preset (B and C);
    - fields at R6–16;
    - designed setups against predeclared bars: Granny, the Whistlers, and each tribe's carry against a common board with one answer;
    - the splash audit, as a lobby output;
@@ -58,15 +59,16 @@
 
    The checkpoint config: pass 3 on, caps off, loop guards on, hero and spell scaling on, the chosen damage table.
 6. **Checkpoint 1 on the full pass 3 pool.**
-   - Three or more reward-lens playtesters play A and B blind, in counterbalanced order, against the strong field, and say which they prefer and why.
-   - The portal build (Windows and Android) carries both presets as a setting, with the agents' pick as the default.
+   - Three or more reward-lens playtesters play B and C blind, in counterbalanced order, against the strong field, and say which they prefer and why. The cut back from C is made dial by dial, on what they and the measurements show.
+   - The portal build (Windows and Android) carries presets B and C as a setting (A only as a fallback), with the agents' pick as the default.
    - The owner hears plainly whether the scale problem is fixed.
 7. **Step 4 as written:** opponents, build 8, playtest round 6 and the remaining Done means evidence. Done means 2 is rewritten onto the harness here, before build 8 sign-off.
 
 **The guardrail band before the owner plays** (each preset). The bands are wide and fun comes first, so a miss is triaged, not an automatic fail. The bars marked *guard* already pass on today's flat pool. Only the others can show the fix.
 - **Growth and size:**
   - The median grows ×1.3 or more a round from R8 to R14.
-  - The R12 median is 300–900 for A and 700–1,800 for B.
+  - The R12 median is 700–1,800 for B and 1,400–3,600 for C (A, if used: 300–900).
+  - **Generous first:** a high total alone never fails a preset. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or fights decided before they start.
 - **The tail:**
   - 8–25% of R10–14 boards are at twice the median or more.
   - The top 1% is *reported only* (09d).
