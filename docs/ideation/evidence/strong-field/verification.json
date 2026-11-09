@@ -1,0 +1,79 @@
+{
+  "production_revision": "9cfe2ec",
+  "unchanged_production_trees": {
+    "src": "4cbacaa71d294f62f91a502ed52fa6a295570a14",
+    "tools": "6d6f51e564c3f7f983b0b6473af35e6a028191ef",
+    "content": "0bb6ff9988e23ebaab453069ef5c1ab584bfc233"
+  },
+  "seed": 72,
+  "natural_ghost_round": 14,
+  "test_scene_used": false,
+  "same_game_logs_across_sizes": true,
+  "same_human_fight_inputs_across_sizes": true,
+  "missed_clicks": 0,
+  "automated_layout_observations": 0,
+  "manual_display_issues": "See strong-field.md; zero automated findings does not mean no visual issues.",
+  "capture_driver_sha256": "05c2dba8099494418e5b7613889e25279e580e80dfb53b0b85f3cd6e922c97cc",
+  "images": [
+    {
+      "file": "lobby_1688x780.png",
+      "width": 1688,
+      "height": 780,
+      "sha256": "9cfbb23c7eeebb58bdf67cc8bafedd6d8cb6fa09af76ac45c925e008d79d9e15"
+    },
+    {
+      "file": "scout_1688x780.png",
+      "width": 1688,
+      "height": 780,
+      "sha256": "cf33ca6531a008629e2e044bcf7ac7fc71e27799d03cb9f9f7fc70123520af2b"
+    },
+    {
+      "file": "rival-fight_1688x780.png",
+      "width": 1688,
+      "height": 780,
+      "sha256": "397f43caceca513084c4a51469d97964ace15f10d6f9181e8da7b19dab229a12"
+    },
+    {
+      "file": "ghost-scout_1688x780.png",
+      "width": 1688,
+      "height": 780,
+      "sha256": "93a245f640ff2c1f4939c9d4e9a6dcece86fca17cbb4b6387bc642cc5c9c5a00"
+    },
+    {
+      "file": "ghost-fight_1688x780.png",
+      "width": 1688,
+      "height": 780,
+      "sha256": "b8d0ef8fd56458c22e12320022f60101da593e8eebf7b9bc5de04796ec9d4d60"
+    },
+    {
+      "file": "lobby_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "0767704e62dad4497d3e2d0f9ef94b9da52db02aecbec2ab5754100386cbbc5c"
+    },
+    {
+      "file": "scout_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "79d459b9dc102b3868e49d1e13f8e666caf236c8d022e1a8a4aa92af45af1398"
+    },
+    {
+      "file": "rival-fight_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "e29ed02afb40d85cac2e22ce89320ab4684e2a8cc97653cb6700091abe7ca4e8"
+    },
+    {
+      "file": "ghost-scout_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "6fd99a9fad12cd96a4bcc76c478158f9ff5dbf9b630e75fd4030e91a35063ebd"
+    },
+    {
+      "file": "ghost-fight_1920x1080.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "33d8807f9eabdb056189501ccc008b46fdfb218edb11de059432593d16f53bcd"
+    }
+  ]
+}
