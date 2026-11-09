@@ -34,6 +34,18 @@ static func budget_nodes(node: Node) -> Array[Dictionary]:
 	return text_nodes(node, true)
 
 
+## Archived UI predates the explicit tags; identify its stat labels by their actual owners.
+static func tag_baseline_primary_stats(combat: Control) -> void:
+	var cards: Dictionary = combat.get("_cards")
+	for value: Variant in cards.values():
+		var card: Control = value
+		for property: String in ["_attack_label", "_health_label"]:
+			var number: Label = card.get(property)
+			number.set_meta("combat_primary_stat", true)
+	var hero_health: Label = combat.get("_fight_health")
+	hero_health.set_meta("combat_primary_stat", true)
+
+
 static func combat_node(node: Node) -> Control:
 	if node.get_script() == preload("res://src/ui/screens/combat_screen.gd"):
 		return node as Control
@@ -50,7 +62,9 @@ static func baseline(viewport: Window, image_path: String, source_seed: int = -1
 		return
 	var log_text: RefCounted = combat.get("_log_text")
 	var model: RefCounted = combat.get("model")
+	tag_baseline_primary_stats(combat)
 	var nodes: Array[Dictionary] = text_nodes(combat)
+	var ancillary: Array[Dictionary] = budget_nodes(combat)
 	var reader_uid: int = -1
 	var heading: Label = combat.get("_note_head")
 	var units: Dictionary = model.get("units")
@@ -91,6 +105,8 @@ static func baseline(viewport: Window, image_path: String, source_seed: int = -1
 		"pixels": [viewport.size.x, viewport.size.y],
 		"visible_text_count": nodes.size(),
 		"visible_text_nodes": nodes,
+		"ancillary_count": ancillary.size(),
+		"budgeted_text_nodes": ancillary,
 		"combat": full_combat,
 		"fight_input": fight_input,
 		"state": source_state,
@@ -103,7 +119,12 @@ static func baseline(viewport: Window, image_path: String, source_seed: int = -1
 	var file := FileAccess.open(image_path.get_basename() + ".json", FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, "\t", true, true))
 	file.close()
-	print("declutter baseline: %s visible_text=%d" % [image_path, nodes.size()])
+	print(
+		(
+			"declutter baseline: %s visible_text=%d ancillary=%d"
+			% [image_path, nodes.size(), ancillary.size()]
+		)
+	)
 
 
 ## New plaques consume existing state that the old single opponent plaque did not draw.

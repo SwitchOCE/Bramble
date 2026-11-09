@@ -56,7 +56,14 @@ func _run() -> void:
 			assert(root.get_texture().get_image().save_png(image_path) == OK)
 			var report_path: String = image_path.get_basename() + ".json"
 			var report: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(report_path))
-			for key: String in ["combat", "state", "hero_views", "hero_health", "fight_input"]:
+			for key: String in [
+				"combat",
+				"state",
+				"hero_views",
+				"hero_health",
+				"hero_health_provenance",
+				"fight_input"
+			]:
 				if fixture.has(key):
 					report[key] = fixture[key]
 			report["capture_method"] = "old UI, saved exact event checkpoint, synchronous events"

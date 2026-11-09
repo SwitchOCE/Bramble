@@ -5,6 +5,47 @@ const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 
 
+class OldCard:
+	extends Control
+	var _attack_label: Label
+	var _health_label: Label
+
+
+class OldCombat:
+	extends Control
+	var _cards: Dictionary = {}
+	var _fight_health: Label
+
+
+func test_baseline_budget_excludes_only_explicitly_owned_primary_stat_labels() -> void:
+	var screen := OldCombat.new()
+	add_child_autofree(screen)
+	var card := OldCard.new()
+	screen.add_child(card)
+	screen._cards[1] = card
+	card._attack_label = Label.new()
+	card._attack_label.text = "12"
+	card.add_child(card._attack_label)
+	card._health_label = Label.new()
+	card._health_label.text = "7"
+	card.add_child(card._health_label)
+	screen._fight_health = Label.new()
+	screen._fight_health.text = "30"
+	screen.add_child(screen._fight_health)
+	var speed := Label.new()
+	speed.text = "1×"
+	screen.add_child(speed)
+	Capture.tag_baseline_primary_stats(screen)
+	var raw: Array[Dictionary] = Capture.text_nodes(screen)
+	var ancillary: Array[Dictionary] = Capture.budget_nodes(screen)
+	assert_eq(raw.size(), 4, "raw count retains every visible label")
+	assert_eq(ancillary.size(), 1, "only unit stats and hero Health are excluded")
+	assert_eq(str(ancillary[0]["text"]), "1×", "a numeric control still spends the budget")
+	assert_true(card._attack_label.get_meta("combat_primary_stat", false))
+	assert_true(card._health_label.get_meta("combat_primary_stat", false))
+	assert_true(screen._fight_health.get_meta("combat_primary_stat", false))
+
+
 func test_rival_plaque_health_is_recovered_from_recorded_round_history() -> void:
 	var source: Dictionary = FixturePort.load_json(
 		"res://docs/ideation/evidence/strong-field/ui-1688x780.json"

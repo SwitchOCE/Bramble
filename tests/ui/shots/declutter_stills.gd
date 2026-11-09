@@ -67,6 +67,7 @@ func _run() -> void:
 				"pixels": [pixels.x, pixels.y],
 				"before_labels": fixture["visible_text_count"],
 				"after_labels": nodes.size(),
+				"before_ancillary_labels": fixture["ancillary_count"],
 				"ancillary_labels": budgeted.size(),
 				"ancillary_budget": 10,
 				"budgeted_text_nodes": budgeted,
@@ -79,11 +80,12 @@ func _run() -> void:
 			reports.append(report)
 			print(
 				(
-					"declutter pair: %s labels before=%d after=%d ancillary=%d/10"
+					"declutter pair: %s labels before=%d after=%d ancillary before=%d after=%d/10"
 					% [
 						stem,
 						CoreUtil.to_int(fixture["visible_text_count"]),
 						nodes.size(),
+						CoreUtil.to_int(fixture["ancillary_count"]),
 						budgeted.size()
 					]
 				)
