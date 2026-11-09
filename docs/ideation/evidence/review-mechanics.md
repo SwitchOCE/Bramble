@@ -17,3 +17,12 @@ A fresh scope reviewer, 9 Nov 2026. 23 items: 17 keep, 0 cut, 1 simplify, 5 ask.
 - a Shield status tag;
 - displayed text matching the rules when an overlay is on;
 - the overlaid library built once per game, not per fight.
+
+## Follow-ups (same reviewer)
+- **First (9b076c2): not clear, 2 cuts.**
+  - A tie-breaking rewrite changed same-seed fights in the default game.
+  - Card text still contradicted the rules under the overlays (Dozey, Pipkin, golden Money Spider).
+- **Second (7053eaa): clear to merge.**
+  - The tie rule and its RNG are restored. All 637 same-seed fight traces on seeds 93001–93012 match 04f5beb line for line.
+  - `overlay_text` is added on five cards, and an 812-check test covers all 203 cards under all four overlay combinations.
+  - The gate passes at 1,655 tests.
