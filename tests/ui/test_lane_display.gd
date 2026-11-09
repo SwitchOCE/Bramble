@@ -53,7 +53,10 @@ func test_own_quarry_beats_brock_and_earlier_lender_beats_laird() -> void:
 		States.unit("mother_goose", 105),
 		null
 	]
-	var marks: Array = LaneProjection.new().forecast([own, enemy])["quarries"]
+	# These are the archived lenders: native Young Brock and Laird no longer lend Quarry.
+	var projection: LaneProjection = LaneProjection.new()
+	projection.set("_library", LegacyHunters.library())
+	var marks: Array = projection.forecast([own, enemy])["quarries"]
 	var mine: Dictionary = {}
 	for mark: Dictionary in marks:
 		if Data.as_int(mark["from_side"]) == 0:
