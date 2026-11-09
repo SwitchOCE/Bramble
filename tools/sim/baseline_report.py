@@ -34,13 +34,6 @@ def flatten(value, path=()):
         yield ".".join(path), value
 
 
-def write_csv(path, header, rows):
-    with path.open("w", newline="") as stream:
-        writer = csv.writer(stream, lineterminator="\n")
-        writer.writerow(header)
-        writer.writerows(rows)
-
-
 def render(metrics, field, plan, progress, replay, tails, players, evidence):
     assert progress["completed_lobbies"] == plan["lobbies"] == 500
     assert progress["completed_field_fights"] == plan["field_fights"] == 193536
@@ -351,9 +344,8 @@ def render(metrics, field, plan, progress, replay, tails, players, evidence):
             "calibrated confidence coverage for correlated trials. "
             "No significance or human-play optimality claim follows from a line ranking.\n",
             f"All per-line/per-round distributions and every scalar metric: [{root}/metrics.json]({root}/metrics.json) "
-            f"and [flat CSV]({root}/metrics.csv). Within-line summaries separate strategy mix from tails. "
-            f"Every sampled board's weight and field rate: [boards.csv]({root}/boards.csv). "
-            f"All line matrices: [matrices.csv]({root}/matrices.csv). "
+            "Within-line summaries separate strategy mix from tails. "
+            "Every sampled board's weight and field rate and all line matrices are in the field report. "
             f"Complete counts, pair probabilities and Wilson intervals: [field report]({root}/field-report.json.gz). "
             f"Exact selected board inputs: [field.json.gz]({root}/field.json.gz). "
             f"Raw field counts: [pairs.jsonl.gz]({root}/pairs.jsonl.gz).\n",
@@ -375,26 +367,6 @@ def render(metrics, field, plan, progress, replay, tails, players, evidence):
     evidence.mkdir(parents=True, exist_ok=True)
     (evidence / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n")
     (evidence / "tails.json").write_text(json.dumps(tails, indent=2) + "\n")
-    write_csv(evidence / "metrics.csv", ["metric", "value"], flatten(metrics))
-    write_csv(
-        evidence / "boards.csv",
-        ["round", "id", "line", "weight", "field_point_rate"],
-        [
-            [r, b["id"], b["line"], b["weight"], b["field_point_rate"]]
-            for r, data in field["rounds"].items()
-            for b in data["boards"]
-        ],
-    )
-    write_csv(
-        evidence / "matrices.csv",
-        ["round", "line", "opponent", "point_rate"],
-        [
-            [r, line, opponent, rate]
-            for r, data in field["rounds"].items()
-            for line, values in data["win_matrix"].items()
-            for opponent, rate in values.items()
-        ],
-    )
     with (
         (evidence / "field-report.json.gz").open("wb") as stream,
         gzip.GzipFile(fileobj=stream, mode="wb", mtime=0) as compressed,

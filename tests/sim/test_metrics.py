@@ -3,7 +3,7 @@ import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
-from metrics import clustered_rate, percentile, summarize
+from metrics import clustered_rate, curvature_check, percentile, summarize
 
 
 def board(seed, seat, number, stats, line="hard", tier=1, iid=None):
@@ -45,11 +45,31 @@ class MetricsTests(unittest.TestCase):
             for seat in range(4)
         ]
         result = summarize(boards, players)
-        self.assertTrue(result["historical_flat_shape_check"]["matches_historical_flat_shape"])
-        self.assertEqual(result["historical_flat_shape_check"]["slope"], 10)
+        self.assertTrue(result["curvature_check"]["flat"])
+        self.assertEqual(result["curvature_check"]["slope"], 10)
         self.assertEqual(result["rounds"]["8"]["growth_delta"]["p50"], 10)
         self.assertEqual(percentile([0, 10], 0.9), 9)
         self.assertEqual(result["outcomes"]["r8_stat_leader_wins"]["rate"], 0.25)
+
+    def test_fifteen_percent_compounding_fails_the_curvature_flat_check(self):
+        result = curvature_check([(r, 100 * 1.15 ** (r - 6)) for r in range(6, 17)])
+        self.assertFalse(result["flat"])
+        self.assertGreater(result["late_early_growth_ratio"], 2)
+
+    def test_post_start_stats_and_concentration_have_a_reader(self):
+        row = board(1, 0, 8, 100)
+        after = {
+            **row["combat_start"],
+            "active_stats": 400,
+            "largest_share": 0.75,
+            "units": [{**row["combat_start"]["units"][0], "attack": 200, "health": 200}],
+        }
+        row["after_start_effects"] = after
+        result = summarize([row], [{"seed": 1, "seat": 0, "place": 1, "rounds": 8}])
+        self.assertEqual(result["rounds"]["8"]["stats"]["p50"], 400)
+        self.assertEqual(result["rounds"]["8"]["largest_share"]["p50"], 0.75)
+        self.assertEqual(result["rounds"]["8"]["start_effect_delta"]["p50"], 300)
+        self.assertEqual(result["stats_phase_counts"], {"after_start_effects": 1})
 
     def test_own_median_is_the_tier_arrival_denominator(self):
         result = summarize(

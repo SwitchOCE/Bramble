@@ -9,7 +9,8 @@ import json
 import math
 import random
 import statistics
-from collections import defaultdict
+from collections import Counter, defaultdict
+from itertools import pairwise
 from pathlib import Path
 
 from field import boards_from_capture
@@ -60,7 +61,11 @@ def compact_boards(boards, catalog):
     for board in boards:
         key = (board["seed"], board["leg"], board["seat"])
         old = previous.get(key)
-        snapshot = board["combat_start"]
+        before = board["combat_start"]
+        after = board.get("after_start_effects")
+        snapshot = {**before, **after} if after is not None else before
+        if after is not None:
+            snapshot["units"] = after["units"] + [u for u in before["units"] if not u["active"]]
         active = [unit for unit in snapshot["units"] if unit["active"]]
         stats = snapshot["active_stats"]
         median_unit = statistics.median([u["attack"] + u["health"] for u in active]) if active else 0
@@ -73,6 +78,9 @@ def compact_boards(boards, catalog):
             "tier": int(board["tier"]),
             "line": board["line"],
             "stats": stats,
+            "pre_start_stats": before["active_stats"],
+            "start_effect_delta": stats - before["active_stats"],
+            "stats_phase": "after_start_effects" if after is not None else "pre_start_fallback",
             "health": snapshot["health"],
             "largest_share": snapshot["largest_share"],
             "stats_per_gold": stats / snapshot["gold_spent_game"] if snapshot["gold_spent_game"] else None,
@@ -96,6 +104,8 @@ def compact_boards(boards, catalog):
             for unit in active:
                 spec = board["board"][unit["slot"]]
                 tier = int(unit["tier"])
+                if not isinstance(spec, dict) or spec.get("def_id", unit["def_id"]) != unit["def_id"]:
+                    continue
                 if spec.get("iid") in old["ids"] or (key, tier) not in pending:
                     continue
                 denominator = pending.pop((key, tier))
@@ -125,13 +135,76 @@ def round_stats(rows):
         "share_2x_round_median": sum(value >= 2 * median for value in stats) / len(stats) if median else None,
         **{
             key: distribution([row[key] for row in rows if row[key] is not None])
-            for key in ["growth_delta", "growth_ratio", "growth_per_gold", "stats_per_gold", "largest_share"]
+            for key in [
+                "growth_delta",
+                "growth_ratio",
+                "growth_per_gold",
+                "stats_per_gold",
+                "largest_share",
+                "pre_start_stats",
+                "start_effect_delta",
+            ]
         },
         "reserve_stats": {
             loc: distribution([row["reserves"].get(loc, 0) for row in rows])
             for loc in sorted({loc for row in rows for loc in row["reserves"]})
         },
     }
+
+
+def curvature_check(medians):
+    """Fixed descriptive curvature tolerances; a 15%-per-round positive control must fail flatness."""
+    result = {
+        "round_range": [6, 16],
+        "rounds": len(medians),
+        "linear_r2": None,
+        "slope": None,
+        "linear_relative_rmse": None,
+        "late_early_growth_ratio": None,
+        "relative_rmse_limit": 0.05,
+        "growth_ratio_tolerance": 0.25,
+        "flat": None,
+    }
+    if len(medians) < 6:
+        return result
+    xs, ys = zip(*medians, strict=True)
+    mx, my = statistics.mean(xs), statistics.mean(ys)
+    slope = sum((x - mx) * (y - my) for x, y in medians) / sum((x - mx) ** 2 for x in xs)
+    residual = sum((y - my - slope * (x - mx)) ** 2 for x, y in medians)
+    total = sum((y - my) ** 2 for y in ys)
+    increments = [(b[1] - a[1]) / (b[0] - a[0]) for a, b in pairwise(medians)]
+    width = max(2, len(increments) // 3)
+    early, late = statistics.mean(increments[:width]), statistics.mean(increments[-width:])
+    ratio = late / early if early > 0 else (1.0 if late == early else None)
+    relative = math.sqrt(residual / len(medians)) / abs(my) if my else (0.0 if residual == 0 else None)
+    result.update(
+        linear_r2=1 - residual / total if total else 1.0,
+        slope=slope,
+        linear_relative_rmse=relative,
+        late_early_growth_ratio=ratio,
+        flat=relative is not None and relative <= 0.05 and ratio is not None and abs(ratio - 1) <= 0.25,
+    )
+    return result
+
+
+def placement_ranking(players):
+    observations = defaultdict(list)
+    for row in players:
+        label = "hard" if str(row.get("bot", "")).startswith("hard_field") else row["strategy"]
+        observations[label].append((int(row["seed"]), float(row["place"]), 1))
+    result = []
+    for line, values in observations.items():
+        estimate = clustered_rate(values)
+        result.append(
+            {
+                "line": line,
+                "seats": estimate["n"],
+                "seed_clusters": estimate["seed_clusters"],
+                "mean_place": estimate["rate"],
+                "ci95": estimate["ci95"],
+            }
+        )
+    return sorted(result, key=lambda r: (r["mean_place"], r["line"]))
 
 
 def summarize(boards, players, catalog=None, field=None):
@@ -162,22 +235,6 @@ def summarize(boards, players, catalog=None, field=None):
         for r, values in sorted(by_round.items())
         if 6 <= r <= 16 and values
     ]
-    flat = {"round_range": [6, 16], "linear_r2": None, "slope": None, "two_x_boards": 0}
-    if len(medians) >= 3:
-        xs, ys = zip(*medians, strict=True)
-        mx, my = statistics.mean(xs), statistics.mean(ys)
-        slope = sum((x - mx) * (y - my) for x, y in medians) / sum((x - mx) ** 2 for x in xs)
-        error = sum((y - my - slope * (x - mx)) ** 2 for x, y in medians)
-        total = sum((y - my) ** 2 for y in ys)
-        flat.update(linear_r2=1 - error / total if total else 1.0, slope=slope)
-        flat["two_x_boards"] = sum(
-            sum(row["stats"] >= 2 * statistics.median([x["stats"] for x in values]) for row in values)
-            for number, values in by_round.items()
-            if 6 <= number <= 16 and values
-        )
-    flat["matches_historical_flat_shape"] = (
-        flat["linear_r2"] is not None and flat["linear_r2"] >= 0.95 and flat["two_x_boards"] == 0
-    )
     outcomes = {
         "r8_stat_leader_wins": clustered_rate(leader),
         "r8_health_leader_wins": clustered_rate(health_leader),
@@ -216,7 +273,9 @@ def summarize(boards, players, catalog=None, field=None):
             for tier in range(2, 7)
         },
         "outcomes": outcomes,
-        "historical_flat_shape_check": flat,
+        "curvature_check": curvature_check(medians),
+        "stats_phase_counts": dict(Counter(row["stats_phase"] for row in rows)),
+        "line_placement_ranking": placement_ranking(players) if players and "strategy" in players[0] else [],
     }
 
 
