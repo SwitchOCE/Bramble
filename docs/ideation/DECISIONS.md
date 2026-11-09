@@ -4,6 +4,24 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Hunters narrow check: clear to merge; the splash cause is open
+**Source:** narrow check of `ideation/wave2a` 5cd5cd71..e3711131 (`evidence/review-wave2a-hunters-narrow.md`): 12 keep, 0 cut, 0 simplify, 1 ask.
+- **The cut** (line seats selling their own engines) is fixed through one `_can_replace` check. Negative controls fail without it.
+- **The narrowed pin** matches the call: R1–3 buys are as free as with no pin, and after R4 only 3.2% are off-build.
+- **C Birds** equal paper C, and B is unchanged.
+- At the head, 8 shipped games grow ×1.38 a round (R8–R14), and the R12 median is 291.
+
+**Picked on the ask:** take the reviewer's wording. The "Hunters build review" call asked whether the bot overvalues Hunters or Hunters are strong at B. The answer so far:
+- Two real valuation bugs are fixed (Glutton, Russet), and fixing them didn't change the splash.
+- Per card offered, bots pick Bog (0.38) and Hunters (0.31) about three times as often as other off-build tribes.
+- The cause isn't separated: nothing measured whether a splash helps a seat.
+
+w3 rewords `wave2a-build.md` to match. It matters less now, because the narrowed pin leaves splash only in R1–3.
+
+**Added to the head measurement:** one constructed-board check, a splash buy against an on-build buy at R6–R10 (09d form), for Bog and Hunters. It is reported, not deciding.
+
+**Not covered, logged for later:** four older sell routes (Annis fodder, Bird flights, naive random sells, Rainbow cash-outs) don't use `_can_replace`. They predate wave 2a. The Annis route could sell a Fairy line piece that isn't in `FAIRY_ENGINES`.
+
 ### 10 Nov 2026 — Godot slots: take whichever frees first; full gates can run in the cloud
 **What was seen (20:10 UTC):** one reviewer probe held the shared lock for up to 40 minutes. Three worker jobs queued behind it while the sim lock sat idle with 6.7 GB free, so only one Godot process ran on a machine allowed two.
 
