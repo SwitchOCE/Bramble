@@ -45,9 +45,9 @@ in detached `bramble-declutter-merge-targeted2.service`. Logs are
   an instantaneous, held 42-pixel attack pose for each partner instead of travel.
   Separate damage contributions and the real retaliation target are retained.
 - A dead unit's permanent reward travels to a retained recruit portrait outside the
-  fighting pockets. Its numeric pending pair persists after the dead source fades;
-  it is not a resurrected unit and has no current combat stats. This replaces the
-  vanished stat echo the reader found ambiguous.
+  fighting pockets. Its numeric pending pair lands briefly, then the portrait fades
+  and is freed. It has no current combat stats and creates no standing reserve.
+  The narrow follow-up below supersedes the earlier persistent version.
 - Counter's self-gain finishes before a red sword transfer goes from the answering
   unit to the attacker it answers. The attack then follows. The former simultaneous
   gold link stays removed, preserving the unambiguous self-source of the stat gain.
@@ -66,8 +66,9 @@ formatting/lint pass. No rule text was added to the resting board.
 Kiss pips read the configured period, initial nested counters and replayed shared
 count, with modulo progress. The reader keeps the exact cumulative count/period.
 Pending gains use a folded hourglass mark on a live combat card, with colored
-Attack/Health dots and a source-to-tag transfer. A dead recipient instead keeps its
-reserve portrait and queued numeric pair. Recruit's numeric tag is unchanged.
+Attack/Health dots and a source-to-tag transfer. A dead recipient gets a transient
+portrait landing; its exact queued pair remains in the reader. Recruit's numeric
+tag is unchanged in this batch.
 Bog Toll travels from its source to that side's hero and pulses on arrival, then
 fades. No badge or running total remains on the plaque. The hero reader retains
 the exact total, and end-of-fight damage still includes Toll. Replay rebuilds motion.
@@ -229,3 +230,63 @@ the longer self-loop delay wins, regardless of source order. A new targeted file
 requires the prior route, mote and landing to settle before the next attack at
 ×1, ×4 and reduce motion. Final-death settlement keeps its existing bypass.
 This adds at most 0.6 s after the last stat cue; speed scaling remains batch 3.
+
+### Narrow follow-up validation
+
+Accepted validation runs use `GODOT_SLOT_CLASS=worker scripts/godot_slot.sh`, one process at a
+time, with the strict post-run hook and writable temporary XDG directories.
+Clean editor import and all five targeted files pass with no script/runtime errors:
+
+| File | Tests | Assertions | GUT time |
+| --- | ---: | ---: | ---: |
+| `test_combat_declutter.gd` | 34 | 316 | 6.109 s |
+| `test_combat_wave2a.gd` | 7 | 473 | 2.371 s |
+| `test_combat_face.gd` | 11 | 179 | 0.439 s |
+| `test_pending_gains_ui.gd` | 7 | 75 | 2.590 s |
+| `test_combat_cue_lifetime.gd` (new) | 3 | 45 | 1.371 s |
+
+Logs: `build/declutter/narrow4-*.log` and `narrow4cue-*.log`. GUT reports 1,173
+orphans in the existing recruit-replay and simultaneous-Take tests; the new tests
+report none. Formatting/lint and whitespace checks pass. No full gate or new cold
+reader was run here. The committed reshoot cold-reader files are the orchestrator's
+verbatim input on the earlier packet, not a claim about these new strips.
+
+### Bog moments and final reshoots
+
+`strips/bog-followup/` records one designed native-card fight generated once on
+**d400831e**, seed **23**, and replayed unchanged before and after. Bridge Toad
+(8/24) and The Prince Restored (3/20), recruit iids 41/42, face three Field Voles
+(8/10, 2/3, 1/3). The 35-event stream contains real core events:
+
+- **Bog Toll**, event 23 in attack window 017: the Prince sends 1 Toll to its hero,
+  cumulative total 3.
+- **Queued Soak gain**, `gain_pending` event 24 in window 017: the Prince queues
+  +2/+2 while its fighting stats stay unchanged.
+- **Kiss**, event 29 in attack window 025: the Prince gains its first of three pips
+  after the Mired Field Vole dies.
+
+Both heads have six sheets / 48 frames: those two windows at ×1, ×4 and reduce
+motion. Their complete event-stream SHA-256 is identical, and each discovery pass
+matches its own fixed-step render pass. Timing is allowed to change between heads.
+Hero Health settles to 30/28 in every run. Manifests and `capture-report.json`
+retain the moments, hashes, label counts, event ticks and source provenance.
+
+`strips/narrow-followup/` contains the final requested ×1 and reduce-motion
+reshoots: **rival 025** (Pounce handoff), **combat_mid 045** (Mire wait target), and
+**rival 033**, explicitly labelled adjacent context showing Pounce's actual lunge.
+Its six sheets / 48 frames replay the existing original saved fight streams.
+The earlier packets are preserved. Every new sheet is 6752×1640, assembled from
+eight native 1688×780 viewport samples spaced evenly at 1/120 s. Every saved frame
+passes the 10-ancillary-label cap; unit stats and hero Health remain counted in
+raw totals and excluded only from the established ancillary budget. No text is
+hidden for capture. A fresh cold reader of this final packet remains the
+orchestrator's next check.
+
+Reproduce with `tests/ui/shots/declutter_bog_capture.sh` and
+`declutter_bog_narrow_capture.sh`; both run Godot sequentially through the worker
+wrapper and use the same discovery/replay/assembly path as the preceding strips.
+
+An initial failed fixture probe survived an attempted cancellation until its timeout
+and briefly overlapped regeneration. The accepted render passes ran sequentially;
+`strips/bog-followup/process-history.md` records the exact overlap and timing.
+No Godot process remains.

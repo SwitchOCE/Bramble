@@ -73,7 +73,7 @@ func _assert_stat_cue_settles_before_attack(speed: float, reduced: bool) -> void
 		screen.events = [
 			{
 				"type": "stats",
-				"source": source if source >= 0 else null,
+				"source": source,
 				"causes": [{"source": 8}, {"source": 1}] if source < 0 else [],
 				"target": 1,
 				"attack": 5,
@@ -85,6 +85,9 @@ func _assert_stat_cue_settles_before_attack(speed: float, reduced: bool) -> void
 		screen._wait = 0.0
 		screen.advance_playback(STEP)
 		assert_eq(screen.next_index, 1, "the stat event precedes the next attack")
+		for lead_tick: int in 24:
+			screen.advance_playback(STEP)
+		assert_eq(screen.next_index, 1, "the source lead remains within the stat effect")
 		assert_gt(
 			_live_stat_cues(screen), 0, "the source cue really exists; this is not a vacuous cut"
 		)
