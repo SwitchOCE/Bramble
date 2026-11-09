@@ -127,7 +127,7 @@ func header_width(slot: int) -> float:
 			. get_string_size(_ring_words(mark), HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL)
 			. x
 		)
-		+ 8.0
+		+ 4.0
 	)
 
 
@@ -167,8 +167,8 @@ func _place() -> void:
 				"font", UiTheme.bold_font() if header else UiTheme.number_font()
 			)
 			var face: StyleBoxFlat = label.get_theme_stylebox("normal") as StyleBoxFlat
-			face.content_margin_left = 4 if header else 10
-			face.content_margin_right = 4 if header else 10
+			face.content_margin_left = 2 if header else 10
+			face.content_margin_right = 2 if header else 10
 			face.content_margin_top = 0 if header else 1
 			face.content_margin_bottom = 0 if header else 3
 			label.size = label.get_minimum_size()
