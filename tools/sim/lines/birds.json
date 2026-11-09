@@ -66,7 +66,8 @@
     },
     "great_lump_seat": "End of Turn: the Nest of the biggest Bird away",
     "golden_egg": "the biggest Bird without an Egg; hold it while that Bird is away; play it at End of Turn if that Bird isn't due home next turn",
-    "placement": "seven_whistlers across the scouted biggest enemy, jack_daw across the second biggest, mag_pye across the enemy with the best text; back row: the biggest Bird, then tom_tit, gabble_ratchet, mr_redbreast, mrs_stork; Eggs and the rest in the front row"
+    "placement": "seven_whistlers across the scouted biggest enemy, jack_daw across the second biggest, mag_pye across the enemy with the best text; back row: the biggest Bird, then tom_tit, gabble_ratchet, mr_redbreast, mrs_stork; Eggs and the rest in the front row",
+    "base_strategy": "birds_passage"
   },
   "birds_tempo": {
     "tribe": "birds",
@@ -133,10 +134,15 @@
       "from_round": 4,
       "who": "Chiffchaff and One Swallow only, until the switch round; never mrs_jay before it",
       "keep_home_min": 4,
-      "max_away": 3
+      "max_away": 3,
+      "allowed": [
+        "chiffchaff",
+        "one_swallow"
+      ]
     },
     "great_lump_seat": "as birds_homecoming",
     "golden_egg": "as birds_homecoming",
-    "placement": "as birds_homecoming"
+    "placement": "as birds_homecoming",
+    "base_strategy": "birds_highway"
   }
 }

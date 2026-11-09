@@ -551,11 +551,11 @@
         }
       ],
       "source": "docs/ideation/content/pass3/oozes-pass3.md#non-carry-route-pot-luck",
-      "assumptions": "Documented R12 Pot Luck outer bodies; unspecified three meals are printed Mice. Current library text governs Granny and reserves, including unmerged Ooze designs."
+      "assumptions": "Pass 3 document outer-body budgets applied to current pass 2 Ooze cards, with three printed 1/1 Mice inside. This is not a pass 3 Ooze test. Regenerate and remeasure after W2b supplies the Ooze library."
     },
     {
-      "id": "r12:real-seven-whistlers-omen",
-      "line": "seven_whistlers_omen",
+      "id": "r12:real-seven-whistlers-tern-swap",
+      "line": "seven_whistlers_tern_swap",
       "round": 12,
       "tier": 6,
       "units": [
@@ -577,7 +577,11 @@
           ]
         },
         {
-          "def_id": "seven_whistlers"
+          "def_id": "mrs_jay",
+          "stats": [
+            34,
+            34
+          ]
         },
         {
           "def_id": "mrs_stork",
@@ -594,20 +598,43 @@
           ]
         },
         {
-          "def_id": "old_tern",
+          "def_id": "seven_whistlers",
           "stats": [
-            10,
-            12
+            9,
+            11
           ]
         }
       ],
+      "away": [
+        {
+          "def_id": "chiffchaff",
+          "stats": [
+            78,
+            94
+          ],
+          "nest": 0
+        },
+        {
+          "def_id": "one_swallow",
+          "stats": [
+            8,
+            13
+          ],
+          "nest": -1
+        },
+        {
+          "def_id": "mother_goose",
+          "nest": -1
+        }
+      ],
+      "tribe_bonus": 1,
       "source": "docs/ideation/content/pass3/birds-pass3.md",
-      "assumptions": "Homecoming R12 bodies with the second Jay replaced by Whistlers: exactly seven distinct Birds home, none away. Constructed omen turn, not a sampled shop outcome."
+      "assumptions": "Documented R12 line A ablation: replace the Tern with Whistlers, preserving both Jays, the occupied Chiffchaff Nest, all three away Birds and the +1/+1 tribe bonus. Whistlers enters at 10/12 before combat effects. Six distinct Birds are home, so the omen is inactive. No achieved shop history is inferred; no R15 omen board is authored."
     }
   ],
   "line_files_sha256": {
-    "tools/sim/lines/birds.json": "033e41674257fabc69157d8d0148b130a9856f9b6df8f9193251c13706d89feb",
-    "tools/sim/lines/fairies.json": "d6f9cb4b0e473456e9e596af1d84f311323a42ecbd260305ba7d94f3bb35e067"
+    "tools/sim/lines/birds.json": "f1272a9eabb87fb385da8afe5e241cf3514fe1a5e39c3cab673d5f57f262a340",
+    "tools/sim/lines/fairies.json": "c054b1af55cc9c1c637feb346634e633e241c2df31b44685cb85985185d2af1f"
   },
   "construction": "explicit pass 3 modeled snapshots; not observed frequencies or achieved-by-round histories"
 }

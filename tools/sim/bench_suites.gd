@@ -57,7 +57,7 @@ static func _registry() -> Dictionary:
 	for id: String in LinePolicies.ALIASES:
 		if not out.has(id):
 			out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
-	for id: String in LinePolicies.BASES:
+	for id: String in LinePolicies.source_aliases():
 		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}
 	for id: String in ["line_tempo", "line_engine"]:
 		out[id] = {"profile": "hard@blind", "script": LINE_BRAIN}

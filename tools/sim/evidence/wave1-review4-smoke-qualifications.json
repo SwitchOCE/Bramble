@@ -1,0 +1,21 @@
+{
+  "measurement_source": "109d404",
+  "original_report": "tools/sim/evidence/wave1-real-smoke.json",
+  "original_report_sha256": "0df5cce2ecc6921d253cb620e96601f5f68b7fe132b72c79da9ac42183617b8d",
+  "new_field_run": false,
+  "whistlers": {
+    "original_id": "r12:real-seven-whistlers-omen",
+    "label": "Exploratory all-home omen, not documented R12 Tern-swap test",
+    "withdrawn_as_doc_ablation": true,
+    "affected_pairs": 3,
+    "corrected_id": "r12:real-seven-whistlers-tern-swap",
+    "corrected_state": "Tern replaced by 10/12 Whistlers; both Jays, Nest, three away Birds and tribe bonus retained; six distinct Birds, no omen",
+    "r15_omen": "deferred until an R15 board exists"
+  },
+  "granny": {
+    "id": "r12:real-granny-pot-luck",
+    "label": "Pass 2 Oozes, three printed 1/1 Mice inside",
+    "regenerate_after": "W2b"
+  },
+  "old_evidence_rule": "Every result above Wave-1 line files in HARNESS.md and every measurement artifact not named wave1-* is pre-wave-1, including head-to-head confirmations, current-pool-strength-result, upset diagnostic, analogue/boundary, d curvature1.188 and damage replay smoke."
+}

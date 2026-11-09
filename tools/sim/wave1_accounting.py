@@ -71,55 +71,56 @@ def plan(path, games=640, first_seed=1901001, chunk=20):
 def compact_capture(path, first_seed, count):
     rows, seen = [], set()
     rosters = defaultdict(Counter)
-    for raw in path.open():
-        record = json.loads(raw)
-        seed = record["seed"]
-        if not first_seed <= seed < first_seed + count:
-            raise ValueError("capture seed outside chunk")
-        fight = record["input"]
-        for key, expected in CONFIG.items():
-            if fight["config"][key] != expected:
-                raise ValueError("wrong runtime configuration: " + key)
-        for side, seat in enumerate(fight["player_ids"]):
-            if int(seat) < 0:
-                continue
-            number = int(fight["round"])
-            identity = seed, int(seat), number
-            if identity in seen:
-                raise ValueError("duplicate real seat capture")
-            seen.add(identity)
-            snapshot = record["combat_start"][side]
-            assigned = snapshot["assigned_line"]
-            if assigned not in (*LINES, "hard_field"):
-                raise ValueError("unexpected assigned policy")
-            if number == 1:
-                rosters[seed][assigned] += 1
-            allowed = {assigned}
-            if assigned == "line_birds_tempo" and number >= 7:
-                allowed.add("line_birds_homecoming")
-            if assigned in LINES and str(snapshot["line"]) not in allowed:
-                raise ValueError("committed seat fell back or changed line")
-            if 8 <= number <= 14:
-                after = record.get("after_start_effects")
-                rules = fight["fight_rules"][side]
-                rows.append(
-                    {
-                        "seed": seed,
-                        "seat": int(seat),
-                        "round": number,
-                        "line": assigned,
-                        "actual_policy": snapshot["policy"],
-                        "stats": snapshot["active_stats"],
-                        "post_start_stats": after[side]["active_stats"] if after else None,
-                        "tier": fight["tiers"][side],
-                        "largest_share": snapshot["largest_share"],
-                        "gold_spent": snapshot["gold_spent_game"],
-                        "units": snapshot["units"],
-                        "ring_size": rules["ring_size"],
-                        "slots": fight["slots"][side],
-                        "homecomings": rules["homecomings"],
-                    }
-                )
+    with path.open() as stream:
+        for raw in stream:
+            record = json.loads(raw)
+            seed = record["seed"]
+            if not first_seed <= seed < first_seed + count:
+                raise ValueError("capture seed outside chunk")
+            fight = record["input"]
+            for key, expected in CONFIG.items():
+                if fight["config"][key] != expected:
+                    raise ValueError("wrong runtime configuration: " + key)
+            for side, seat in enumerate(fight["player_ids"]):
+                if int(seat) < 0:
+                    continue
+                number = int(fight["round"])
+                identity = seed, int(seat), number
+                if identity in seen:
+                    raise ValueError("duplicate real seat capture")
+                seen.add(identity)
+                snapshot = record["combat_start"][side]
+                assigned = snapshot["assigned_line"]
+                if assigned not in (*LINES, "hard_field"):
+                    raise ValueError("unexpected assigned policy")
+                if number == 1:
+                    rosters[seed][assigned] += 1
+                allowed = {assigned}
+                if assigned == "line_birds_tempo" and number >= 7:
+                    allowed.add("line_birds_homecoming")
+                if assigned in LINES and str(snapshot["line"]) not in allowed:
+                    raise ValueError("committed seat fell back or changed line")
+                if 8 <= number <= 14:
+                    after = record.get("after_start_effects")
+                    rules = fight["fight_rules"][side]
+                    rows.append(
+                        {
+                            "seed": seed,
+                            "seat": int(seat),
+                            "round": number,
+                            "line": assigned,
+                            "actual_policy": snapshot["policy"],
+                            "stats": snapshot["active_stats"],
+                            "post_start_stats": after[side]["active_stats"] if after else None,
+                            "tier": fight["tiers"][side],
+                            "largest_share": snapshot["largest_share"],
+                            "gold_spent": snapshot["gold_spent_game"],
+                            "units": snapshot["units"],
+                            "ring_size": rules["ring_size"],
+                            "slots": fight["slots"][side],
+                            "homecomings": rules["homecomings"],
+                        }
+                    )
     expected_roster = Counter({**dict.fromkeys(LINES, 1), "hard_field": 4})
     if set(rosters) != set(range(first_seed, first_seed + count)) or any(
         r != expected_roster for r in rosters.values()

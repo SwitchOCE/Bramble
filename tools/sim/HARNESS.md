@@ -7,6 +7,14 @@ implemented and verified. The fixed 500-lobby baseline is complete; see
 
 ## Combat-version boundary: pre-wave-1 evidence
 
+**Provenance rule:** every result above **“Wave-1 line files on the current combat
+build”** below is pre-wave-1. Every measurement evidence file not named
+`wave1-*` is pre-wave-1 too, regardless of legacy words such as “current”. This
+includes line head-to-heads and fresh confirmations, `current-pool-strength-result`,
+the upset diagnostic, analogue/boundary fields, the (d) 1.188 reading, and the
+damage-replay smoke. Source code, plans and driver programs are not themselves
+measurement results. These old results are not comparisons with step 5.
+
 The **fixed baseline, caps screen, lever-build comparisons, first designed field,
 and planted engine/real-null results below were measured on pre-wave-1 combat**.
 They preserve their original source hashes and outcomes; rebuilding an offline
@@ -640,8 +648,11 @@ general strength-plan format or agency measure was started in this follow-up.
 
 ## Wave-1 line files on the current combat build
 
-Default `LinePolicies` loads the sorted `tools/sim/lines/*.json` files, retaining
-the committed profiles for the four unchanged tribes. Birds and Fairies use
+Default `LinePolicies` loads the sorted `tools/sim/lines/*.json` files. Each
+entry declares its tribe and `base_strategy`; the base must exist and match that
+tribe. Entries replace the historical profiles only for tribes present in the
+files. Bog and Hunters files load through this same path without a code change.
+Current Birds and Fairies use
 `line_birds_homecoming`, `line_birds_tempo`, `line_fairies_ring` and
 `line_fairies_court`; file keys without `line_` also resolve. The former engine
 and tempo aliases resolve to their replacements. Explicit
@@ -651,7 +662,11 @@ Current source fingerprints also include the designer JSON files.
 
 Schema checks reject malformed card lists, duplicates, unknown base strategies,
 invalid engine flags, incomplete/non-increasing climb schedules and invalid
-switch/flight minima. The loader normalizes priorities, tier rounds, engine flags
+switch/flight minima. Unknown root and nested keys fail loudly, including
+misspelt `max_away`. `from_round` must be a positive integer; `keep_home_min`
+must be an integer from 1 to 7. Duplicate priorities/canonical names and unknown
+bases have rejection tests. The optional `max_away` limit applies only when
+explicitly set by a policy; ordinary Hard has no added default away cap. The loader normalizes priorities, tier rounds, engine flags
 and keep lists into committed Hard profiles. Birds' structured flight limits and
 R7 tempo-to-homecoming switch execute; the Fairy Court arrangement is explicit.
 Next-climb savings use the shared affordability rule. The original source policy
@@ -667,23 +682,32 @@ gameplay bars or evidence of line superiority.
 ## Current-library real-card designed setups: small smoke only
 
 `designed_setups.py real` writes eight explicit recipes: committed Homecoming
-Birds and Ring Fairies at R8/R10/R12, plus R12 Granny Pot Luck and an all-home
-Seven Whistlers omen. Priorities and climb rounds come from the wave-1 line
+Birds and Ring Fairies at R8/R10/R12, plus R12 Granny Pot Luck and the
+documented Whistlers Tern swap. Priorities and climb rounds come from the wave-1 line
 files. Composition and authored stats/Ring budgets follow the pass-3 model
 examples; these are constructed snapshots, not sampled player boards or evidence
 that shops attain those states by those rounds. Fairies use real line cards in
-place of the model's neutral placeholders. Granny uses the current Ooze text;
-the not-yet-merged pass-3 Ooze design is not silently installed.
+place of the model's neutral placeholders. **Granny uses today's pass 2 Ooze
+text, with three printed 1/1 Mice inside.** Its smoke rows are pass 2 Oozes;
+regeneration and remeasurement wait for W2b, which supplies pass 3 Oozes.
 
 `export_real_designed.gd` resolves the current `full_game` overlaid library and
 serializes actual `PlayerState.combat_board()`, `combat_slots()` and
 `RecruitRules.fight_rules()`. Bird away/Nest state, Fairy Ring counts/size and
 Granny's three explicit held Mouse bodies are preserved. The R12 Homecoming
-board has an occupied Nest; the Whistlers setup has seven distinct Birds home
-and no away Birds. Explicit budgets and substitutions are recorded per recipe.
+board has an occupied Nest. The corrected R12 Whistlers setup keeps that Nest,
+all three away Birds, both Jays and the tribe bonus, replacing only the Tern.
+Whistlers has 10/12 pre-start stats (9/11 plus the +1/+1 tribe bonus). Six
+different Birds stand at home, so the omen is inactive. This is the doc
+42%→96% ablation, not an all-home omen. Add the R15 everyone-home omen only
+once an R15 board exists; none is authored here. Explicit budgets and
+substitutions are recorded per recipe.
 No card text or combat rule is copied into Python or changed by this generator.
 
-The only field run here is **eight boards, eight within-round pairs, eight
+The recorded field at `109d404` used the earlier, incorrect all-home Whistlers
+setup. Its three rows marked † below are exploratory omen results, **withdrawn
+as evidence for the doc's Tern-swap test**. The corrected input has not had a
+new field run. The archived run is **eight boards, eight within-round pairs, eight
 independent paired-orientation seeds per pair: 128 fights**, in **1.061 s** of
 fight-loop time. Fixed blind layouts have no opponent-specific search. The table
 shows strict wins for its left board and conservative 95% Hoeffding intervals;
@@ -694,11 +718,11 @@ the two orientations share one seed cluster. No draws occurred.
 | 8 | Homecoming | Ring Fairies | 14 | 87.5% [39.5%, 100%] |
 | 10 | Homecoming | Ring Fairies | 4 | 25.0% [0%, 73.0%] |
 | 12 | Homecoming | Ring Fairies | 2 | 12.5% [0%, 60.5%] |
-| 12 | Homecoming | Granny Pot Luck | 2 | 12.5% [0%, 60.5%] |
-| 12 | Homecoming | Whistlers omen | 2 | 12.5% [0%, 60.5%] |
-| 12 | Ring Fairies | Granny Pot Luck | 3 | 18.8% [0%, 66.8%] |
-| 12 | Ring Fairies | Whistlers omen | 13 | 81.2% [33.2%, 100%] |
-| 12 | Granny Pot Luck | Whistlers omen | 16 | 100% [52.0%, 100%] |
+| 12 | Homecoming | Granny (pass 2 Oozes) | 2 | 12.5% [0%, 60.5%] |
+| 12 | Homecoming | Exploratory Whistlers omen† | 2 | 12.5% [0%, 60.5%] |
+| 12 | Ring Fairies | Granny (pass 2 Oozes) | 3 | 18.8% [0%, 66.8%] |
+| 12 | Ring Fairies | Exploratory Whistlers omen† | 13 | 81.2% [33.2%, 100%] |
+| 12 | Granny (pass 2 Oozes) | Exploratory Whistlers omen† | 16 | 100% [52.0%, 100%] |
 
 This demonstrates that current real-card inputs, reserves and wave-1 timing
 fight through the harness; the wide conditional intervals and authored states
@@ -710,10 +734,10 @@ archive hashes. Exact input and paired-seed output bytes are in
 `evidence/wave1-real-input.json.gz` and `evidence/wave1-real-pairs.jsonl.gz`.
 `evidence/drivers/real_designed_smoke.py` validates complete pair/seed coverage
 and rebuilds the small report offline; its README records generation/run commands.
-Six Python recipe tests and two core tests cover all eight current-card boards,
+Seven Python recipe tests and two core tests cover all eight current-card boards,
 real fights, full input state, line-priority drift, tiers and authored assumptions.
 
-Current-tree verification: the full shared-lock, 3G `./scripts/check.sh` gate
+At `109d404`, the full shared-lock, 3G `./scripts/check.sh` gate
 passes **1,854 tests / 30,682 assertions**, with no risky/pending tests. The
 standalone Python harness suite passes **134 tests**. Focused runs pass the six
 wave-1 line tests (167 assertions), five existing line tests (248 assertions)
@@ -721,3 +745,25 @@ and two real-card tests (120 assertions).
 `evidence/wave1-followup-verification.json` and its compressed gate log record
 the command, counts and hashes. All Godot processes ran sequentially from this
 worker, with bounded timeouts and the requested locks.
+
+## Review 4: labels, corrected setup and the accounting run
+
+`evidence/wave1-review4-smoke-qualifications.json` attaches the Whistlers
+withdrawal and pass 2 Ooze labels to the immutable `109d404` archives. Counts and
+original source hashes are retained; they are not a new measurement of the
+corrected setup. No additional field is run for this fix-up.
+
+Capture now stores the immutable resolved `starting_line` beside `current_line`
+and the original roster's `assigned_line`. Field/metrics readers group scripted
+lines by their starting label, including after Tempo switches to Homecoming.
+Historical captures without these labels retain their old source-pinned names.
+The accounting driver already used `assigned_line` throughout, so no lobbies
+were rerun or moved from Tempo to Homecoming. Its result also records each
+seat's starting and final lobby line from the CSV's `bot` and `strategy` fields;
+final strategies never select the accounting groups.
+
+The fixed wave-1 accounting run and same-dial paper reconciliation are reported
+in `docs/ideation/evidence/wave1-accounting.md`, with seed intervals, phase
+conversions, starting/final seat labels and the sole R12 0.5–2× criterion. Growth
+is labelled preliminary and has no pass/fail role in this step. The plan and
+execution source are frozen at `fa95a41`, before this review fix-up.

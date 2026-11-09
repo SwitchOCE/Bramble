@@ -373,25 +373,30 @@ def real_card_recipes(lines_dir=None):
             "units": granny,
             "source": "docs/ideation/content/pass3/oozes-pass3.md#non-carry-route-pot-luck",
             "assumptions": (
-                "Documented R12 Pot Luck outer bodies; unspecified three meals are printed Mice. "
-                "Current library text governs Granny and reserves, including unmerged Ooze designs."
+                "Pass 3 document outer-body budgets applied to current pass 2 Ooze cards, "
+                "with three printed 1/1 Mice inside. This is not a pass 3 Ooze test. "
+                "Regenerate and remeasure after W2b supplies the Ooze library."
             ),
         }
     )
-    omen = copy.deepcopy(birds[12])
-    omen[3] = body("seven_whistlers")
+    tern_swap = copy.deepcopy(birds[12])
+    tern_swap[6] = body("seven_whistlers", (9, 11))
     recipes.append(
         {
-            "id": "r12:real-seven-whistlers-omen",
-            "line": "seven_whistlers_omen",
+            "id": "r12:real-seven-whistlers-tern-swap",
+            "line": "seven_whistlers_tern_swap",
             "round": 12,
             "tier": 6,
-            "units": omen,
+            "units": tern_swap,
+            "away": copy.deepcopy(skies[12]),
+            "tribe_bonus": 1,
             "source": "docs/ideation/content/pass3/birds-pass3.md",
             "assumptions": (
-                "Homecoming R12 bodies with the second Jay replaced by Whistlers: "
-                "exactly seven distinct Birds home, none away. "
-                "Constructed omen turn, not a sampled shop outcome."
+                "Documented R12 line A ablation: replace the Tern with Whistlers, "
+                "preserving both Jays, the occupied Chiffchaff Nest, all three away Birds "
+                "and the +1/+1 tribe bonus. Whistlers enters at 10/12 before combat effects. "
+                "Six distinct Birds are home, so the omen is inactive. "
+                "No achieved shop history is inferred; no R15 omen board is authored."
             ),
         }
     )

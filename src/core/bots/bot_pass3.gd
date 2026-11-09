@@ -30,7 +30,7 @@ static func best_flight(player: PlayerState, value: BotEval, round_number: int) 
 	var keep_home: int = CoreUtil.to_int(policy.get("keep_home_min", 3))
 	if round_number < from_round or player.board_count() <= keep_home or _omen(player):
 		return -1
-	if player.away.size() >= CoreUtil.to_int(policy.get("max_away", BoardGeometry.SLOTS)):
+	if policy.has("max_away") and player.away.size() >= CoreUtil.to_int(policy["max_away"]):
 		return -1
 	var largest: RecruitUnit = _biggest_bird(player)
 	var danger: bool = player.health <= maxi(8, 2 * round_number)

@@ -77,6 +77,8 @@ def compact_boards(boards, catalog):
             "round": board["round"],
             "tier": int(board["tier"]),
             "line": board["line"],
+            "starting_line": board.get("starting_line", board["line"]),
+            "current_line": board.get("current_line", board["line"]),
             "stats": stats,
             "pre_start_stats": before["active_stats"],
             "start_effect_delta": stats - before["active_stats"],
@@ -358,8 +360,14 @@ def checkpoint_growth(rows, replicates=2000, bootstrap_seed=14531):
 
 def placement_ranking(players):
     observations = defaultdict(list)
+    final_strategies = defaultdict(Counter)
     for row in players:
-        label = "hard" if str(row.get("bot", "")).startswith("hard_field") else row["strategy"]
+        bot = str(row.get("bot", "")).split(":")[0]
+        starting = row.get("starting_line")
+        if not starting and bot.startswith("line_") and bot not in ("line_tempo", "line_engine", "line_mixture"):
+            starting = bot
+        label = "hard" if bot.startswith("hard_field") else starting or row["strategy"]
+        final_strategies[label][row["strategy"]] += 1
         observations[label].append((int(row["seed"]), float(row["place"]), 1))
     result = []
     for line, values in observations.items():
@@ -370,6 +378,7 @@ def placement_ranking(players):
                 "seats": estimate["n"],
                 "seed_clusters": estimate["seed_clusters"],
                 "mean_place": estimate["rate"],
+                "final_strategy_counts": dict(final_strategies[line]),
                 "ci95": estimate["ci95"],
             }
         )
@@ -384,6 +393,16 @@ def summarize(boards, players, catalog=None, field=None):
         by_line[row["line"], row["round"]].append(row)
         if row["round"] == 8:
             games[row["seed"], row["leg"]].append(row)
+    origins = {(int(row["seed"]), int(row["leg"]), int(row["seat"])): row["line"] for row in rows}
+    ranked_players = [
+        {
+            **player,
+            "starting_line": origins.get(
+                (int(player["seed"]), int(player.get("leg", 0)), int(player["seat"])), player.get("starting_line")
+            ),
+        }
+        for player in players
+    ]
     places = {(int(r["seed"]), int(r.get("leg", 0)), int(r["seat"])): int(r["place"]) for r in players}
     leader, health_leader, below, below_local = [], [], [], []
     pooled_median = statistics.median([r["stats"] for r in by_round[8]]) if by_round[8] else None
@@ -440,7 +459,7 @@ def summarize(boards, players, catalog=None, field=None):
         "curvature_check": curvature_with_intervals(rows),
         "checkpoint_1_growth": checkpoint_growth(rows),
         "stats_phase_counts": dict(Counter(row["stats_phase"] for row in rows)),
-        "line_placement_ranking": placement_ranking(players) if players and "strategy" in players[0] else [],
+        "line_placement_ranking": placement_ranking(ranked_players) if players and "strategy" in players[0] else [],
     }
 
 

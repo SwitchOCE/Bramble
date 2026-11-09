@@ -29,7 +29,7 @@ func test_all_eight_setups_use_current_cards_complete_fight_inputs_and_pass3_tim
 		assert_true(result.has("winner"), str(board["id"]))
 
 
-func test_nests_belly_reserves_rings_and_omen_are_serialized_from_real_player_state() -> void:
+func test_nests_belly_reserves_rings_and_tern_swap_are_serialized_from_real_player_state() -> void:
 	var boards: Array = _document()["boards"]
 	var by_id: Dictionary = {}
 	for board: Dictionary in boards:
@@ -49,10 +49,23 @@ func test_nests_belly_reserves_rings_and_omen_are_serialized_from_real_player_st
 	assert_eq(granny["board"][0]["held"].size(), 2)
 	assert_eq(granny["board"][5]["held"].size(), 1)
 	assert_eq(granny["reserves"].size(), 0, "Belly state lives in the combat specs")
-	var omen: Dictionary = by_id["r12:real-seven-whistlers-omen"]
-	assert_eq(omen["fight_rules"]["away_birds"].size(), 0)
+	var tern_swap: Dictionary = by_id["r12:real-seven-whistlers-tern-swap"]
+	assert_eq(tern_swap["fight_rules"]["away_birds"], bird["fight_rules"]["away_birds"])
+	assert_eq(tern_swap["fight_rules"]["nests"], bird["fight_rules"]["nests"])
+	assert_eq(tern_swap["fight_rules"]["nests"][0]["slot"], 0)
 	var identities: Dictionary = {}
-	for spec: Dictionary in omen["board"]:
+	for spec: Dictionary in tern_swap["board"]:
 		identities[spec["def_id"]] = true
-	assert_eq(identities.size(), 7)
+	assert_eq(identities.size(), 6, "Two Jays prevent the seven-different-Birds omen")
 	assert_true(identities.has("seven_whistlers"))
+	assert_eq(tern_swap["board"][1]["def_id"], "mrs_jay")
+	assert_eq(tern_swap["board"][3]["def_id"], "mrs_jay")
+	assert_eq(tern_swap["board"].slice(0, 6), bird["board"].slice(0, 6))
+	var whistlers: Dictionary = tern_swap["board"][6]
+	assert_eq(whistlers["def_id"], "seven_whistlers")
+	assert_eq([whistlers["tribe_attack"], whistlers["tribe_health"]], [1, 1])
+	assert_eq(
+		[whistlers["attack"], whistlers["health"]],
+		[10, 12],
+		"Pre-start stats include the tribe bonus"
+	)

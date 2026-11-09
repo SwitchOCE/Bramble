@@ -8,7 +8,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
 from field import boards_from_capture
-from metrics import checkpoint_growth, clustered_rate, curvature_check, curvature_with_intervals, percentile, summarize
+from metrics import (
+    placement_ranking,
+    checkpoint_growth,
+    clustered_rate,
+    curvature_check,
+    curvature_with_intervals,
+    percentile,
+    summarize,
+)
 
 
 def board(seed, seat, number, stats, line="hard", tier=1, iid=None):
@@ -285,3 +293,15 @@ class MetricsTests(unittest.TestCase):
         self.assertEqual(rate["seed_clusters"], 2)
         self.assertEqual(rate["n"], 16)
         self.assertEqual(rate["rate"], 0.5)
+
+    def test_placement_rank_keeps_starting_tempo_separate_from_final_homecoming(self):
+        players = [
+            {"seed": seed, "bot": bot, "strategy": "line_birds_homecoming", "place": place}
+            for seed in (1, 2)
+            for bot, place in (("line_birds_tempo", 4), ("line_birds_homecoming", 1))
+        ]
+        ranked = {row["line"]: row for row in placement_ranking(players)}
+        self.assertEqual(set(ranked), {"line_birds_tempo", "line_birds_homecoming"})
+        self.assertEqual(ranked["line_birds_tempo"]["mean_place"], 4)
+        self.assertEqual(ranked["line_birds_tempo"]["seats"], 2)
+        self.assertEqual(ranked["line_birds_tempo"]["final_strategy_counts"], {"line_birds_homecoming": 2})

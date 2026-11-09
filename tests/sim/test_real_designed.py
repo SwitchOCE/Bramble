@@ -21,7 +21,7 @@ class RealDesignedTests(unittest.TestCase):
         self.assertEqual(
             lines,
             {(line, number) for line in ("birds_homecoming", "fairies_ring") for number in (8, 10, 12)}
-            | {("granny_pot_luck", 12), ("seven_whistlers_omen", 12)},
+            | {("granny_pot_luck", 12), ("seven_whistlers_tern_swap", 12)},
         )
         self.assertEqual(document, json.loads((ROOT / "tests/core/data/real_designed_recipes.json").read_text()))
 
@@ -45,15 +45,32 @@ class RealDesignedTests(unittest.TestCase):
         self.assertEqual(fairies[-1]["units"][1]["def_id"], "cradle_fetch")
         self.assertEqual(fairies[-1]["units"][4]["def_id"], "belladonna")
 
-    def test_granny_keeps_bellies_and_omen_has_seven_distinct_home_birds(self):
+    def test_granny_is_labelled_pass2_with_three_printed_mice_until_w2b(self):
         boards = {board["line"]: board for board in real_card_recipes()["boards"]}
         granny = boards["granny_pot_luck"]
         self.assertEqual(granny["units"][1]["def_id"], "granny_stir_up")
         self.assertEqual(sum(len(unit.get("held", [])) for unit in granny["units"]), 3)
-        omen = boards["seven_whistlers_omen"]
-        self.assertEqual(len({body["def_id"] for body in omen["units"]}), 7)
-        self.assertIn("seven_whistlers", {body["def_id"] for body in omen["units"]})
-        self.assertFalse(omen.get("away"))
+        self.assertIn("current pass 2 Ooze cards", granny["assumptions"])
+        self.assertIn("three printed 1/1 Mice", granny["assumptions"])
+        self.assertIn("W2b", granny["assumptions"])
+        self.assertTrue(all(meal == {"def_id": "mouse"} for unit in granny["units"] for meal in unit.get("held", [])))
+
+    def test_whistlers_is_the_documented_r12_tern_swap_without_an_omen(self):
+        boards = {board["line"]: board for board in real_card_recipes()["boards"] if board["round"] == 12}
+        homecoming = boards["birds_homecoming"]
+        swap = boards["seven_whistlers_tern_swap"]
+        self.assertEqual(swap["units"][:6], homecoming["units"][:6])
+        self.assertEqual(homecoming["units"][6]["def_id"], "old_tern")
+        self.assertEqual(swap["units"][6], {"def_id": "seven_whistlers", "stats": [9, 11]})
+        self.assertEqual(sum(unit["def_id"] == "mrs_jay" for unit in swap["units"]), 2)
+        self.assertEqual(len({unit["def_id"] for unit in swap["units"]}), 6)
+        self.assertEqual(swap["away"], homecoming["away"])
+        self.assertEqual(swap["away"][0]["nest"], 0)
+        self.assertEqual(swap["tribe_bonus"], homecoming["tribe_bonus"])
+        self.assertEqual(swap["tribe_bonus"], 1)
+        self.assertEqual([value + swap["tribe_bonus"] for value in swap["units"][6]["stats"]], [10, 12])
+        self.assertIn("omen is inactive", swap["assumptions"])
+        self.assertFalse(any(board["round"] == 15 for board in real_card_recipes()["boards"]))
 
     def test_profiles_are_required_and_a_drifted_priority_fails(self):
         with tempfile.TemporaryDirectory() as directory:

@@ -116,3 +116,84 @@ func test_accounting_roster_keeps_all_four_written_lines_and_four_blind_hard_sea
 	for line_name: String in NAMES:
 		assert_eq(names.count("line_" + line_name), 1)
 	assert_eq(names.count("hard_field:varied"), 4)
+
+
+func _written_birds() -> Dictionary:
+	return JSON.parse_string(FileAccess.get_file_as_string("res://tools/sim/lines/birds.json"))
+
+
+func test_schema_rejects_duplicate_priorities_unknown_base_and_keep_home_min() -> void:
+	var table: Dictionary = _written_birds()
+	var source: Dictionary = table["birds_tempo"]
+	source["buy_priority"].append(source["buy_priority"][0])
+	assert_false(LinePolicies.validate_wave1(table).is_empty(), "duplicate card")
+	table = _written_birds()
+	table["line_birds_tempo"] = table["birds_tempo"].duplicate(true)
+	assert_false(LinePolicies.validate_wave1(table).is_empty(), "duplicate canonical profile name")
+	table = _written_birds()
+	table["birds_tempo"]["base_strategy"] = "not_a_strategy"
+	assert_false(LinePolicies.validate_wave1(table).is_empty(), "unknown base")
+	for invalid: Variant in [0, -1, 8, 1.5, "4", true]:
+		table = _written_birds()
+		table["birds_tempo"]["fly_policy"]["keep_home_min"] = invalid
+		assert_false(LinePolicies.validate_wave1(table).is_empty(), str(invalid))
+
+
+func test_schema_rejects_unknown_root_and_nested_keys_and_invalid_from_round() -> void:
+	var table: Dictionary = _written_birds()
+	table["birds_tempo"]["clmib"] = {}
+	assert_false(LinePolicies.validate_wave1(table).is_empty(), "unknown root key")
+	table = _written_birds()
+	table["birds_tempo"]["fly_policy"]["max_awya"] = 3
+	assert_false(LinePolicies.validate_wave1(table).is_empty(), "misspelled max_away")
+	table = _written_birds()
+	table["birds_tempo"]["switch_to"]["roud"] = 7
+	assert_false(LinePolicies.validate_wave1(table).is_empty(), "unknown switch sub-key")
+	table = _written_birds()
+	table["birds_tempo"]["save"] = {"unknown_nested_key": "must not bypass validation"}
+	assert_false(
+		LinePolicies.validate_wave1(table).is_empty(), "object hidden in a text-list field"
+	)
+	for invalid: Variant in [0, -1, 1.5, "4", true]:
+		table = _written_birds()
+		table["birds_tempo"]["fly_policy"]["from_round"] = invalid
+		assert_false(LinePolicies.validate_wave1(table).is_empty(), str(invalid))
+
+
+func test_bog_and_hunters_files_load_from_declared_tribe_and_base_without_named_code() -> void:
+	var path: String = "user://review4_line_files"
+	DirAccess.make_dir_recursive_absolute(path)
+	var table: Dictionary = {
+		"line_bog_example":
+		{
+			"tribe": "Bog folk",
+			"base_strategy": "bog_bitter",
+			"engine": true,
+			"priority": ["bridge_toad"],
+			"keep": ["bridge_toad"],
+			"climb_schedule": [2, 4, 6, 9, 11],
+		},
+		"hunters_example":
+		{
+			"tribe": "Hunters",
+			"base_strategy": "hunters_pact",
+			"engine_flag": false,
+			"buy_priority": ["little_nip"],
+			"keep": ["little_nip"],
+			"climb": {"T2": 2, "T3": 4, "T4": 6, "T5": 9, "T6": 11},
+		},
+	}
+	assert_true(LinePolicies.validate_wave1(table).is_empty())
+	var output := FileAccess.open(path.path_join("tribes.json"), FileAccess.WRITE)
+	output.store_string(JSON.stringify(table))
+	output.close()
+	BenchSuites.reload_lines(path)
+	for alias: String in ["line_bog_example", "hunters_example"]:
+		var brain: LineBrain = BenchSuites.create_bot(alias)
+		assert_true(brain is CommittedLineBrain)
+		assert_eq(brain.profile["base_strategy"], table[alias]["base_strategy"])
+		assert_eq(brain.profile["tribe"], table[alias]["tribe"])
+		assert_eq(brain.build_name(), LinePolicies.profile_id(alias))
+	assert_false(LinePolicies.profiles().has("line_line_bog_example"))
+	DirAccess.remove_absolute(path.path_join("tribes.json"))
+	DirAccess.remove_absolute(path)

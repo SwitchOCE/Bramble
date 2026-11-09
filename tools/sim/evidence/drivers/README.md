@@ -140,3 +140,17 @@ python3 tools/sim/evidence/drivers/real_designed_smoke.py report build/sim/wave1
 This reproduces every pair count and interval. `wave1-real-smoke.json` adds
 recorded runtime, archive integrity hashes and the exact runtime source hashes;
 those provenance fields are not recomputed as if an offline rebuild were a run.
+
+
+## Review 4 correction to the real-card smoke
+
+The archived 128-fight real-card smoke ran the `109d404` inputs. Its all-home
+Whistlers board was an exploratory omen, not the doc's R12 Tern-swap ablation;
+its three Whistlers comparisons are withdrawn for that claim. The current
+recipe keeps the Nest, away Birds, both Jays and tribe bonus, swaps only the
+Tern, and sets Whistlers to 10/12 before Start of Combat. No field rerun is
+implied. The generation commands above now produce this corrected input; use
+the archived gzip input/pairs to reconstruct the original measurements.
+Granny's archived rows use current pass 2 Oozes and three printed 1/1 Mice;
+regeneration waits for W2b. Qualifications are recorded in
+`../wave1-review4-smoke-qualifications.json` and HARNESS.md.
