@@ -164,3 +164,58 @@ from Hard's knowledge, eligible tribe assignments and a complete live line lobby
 `python3 -m unittest discover -s tests/sim` checks the statistical checker against
 planted positive/null placement data, rejects incomplete/duplicate legs, and checks
 that knob generation leaves the reference profiles untouched.
+
+## Fixed-sample confirmation and the tribal mixture
+
+`evidence/line-fast-confirm-plan.json` freezes version 1's shared fast line at the
+recorded profile SHA. The 12-seed pilot SD was 1.227 places. Detecting its observed
++0.396-place gain with normal-approximation 80% power at two-sided alpha .05 requires
+76 independent seed clusters, rounded up to 80 (160 lobbies, seeds 51001–51080).
+The projected 95% half-width is 0.273 places and prior runtime predicts 23.2 minutes.
+The run has no sample extension or mid-run policy changes. A power calculation does
+not guarantee a positive result.
+
+The completed confirmation **rejected** version one: -0.294 places, 95% interval
+[-0.568, -0.020], despite 91 wins to Hard's 69. It took 1,425.2 seconds. The observed
+seed SD was 1.231, close to the planning value. The full 160-lobby CSV and result are
+retained as `evidence/line-fast-confirm.players.csv` and `line-fast-confirm.json`.
+The candidate therefore needs improvement; its earlier positive pilot estimate was
+not promoted or extended until it passed.
+
+`size_line_check.py` repeats that calculation from an archived pilot CSV and an
+explicit minimum detectable effect, records the profile SHA, and refuses to overwrite
+an existing plan. `check_lines.py --plan <plan.json>` rejects incomplete seed sets,
+even when their provisional gain is positive. `--profiles <table.json>` adds
+exploratory per-line/tribe seat-controlled gains with seed-cluster robust intervals;
+these diagnostics do not create additional promotion tests.
+
+`candidate=line_mixture` in the existing head-to-head suite covers the all-line
+lobby's exact family roster over each seed's two swapped legs: four tempo, three
+engine and one shared fast seat. Each seat receives the normal available-tribe deal
+in both legs. This tests the family mixture that will generate the field; a win by
+the shared fast line alone does not validate the tribal profiles. The mixture alias
+is a composition and is only accepted for head-to-head, not as a single bot.
+
+## Separate committed-line candidate
+
+`line_profiles.committed.json` opts into `CommittedLineBrain` with `policy_version=2`.
+It starts from the original untuned priority lists and schedules; it does not use the
+two-game sweep's selected knobs. Version 1 and ordinary Hard are preserved.
+
+- Priority bonuses add to Hard's original card bonuses, rather than replacing them.
+- From round four with at least three bodies, purchases commit to the declared tribe
+  or an explicitly listed splash. Neutral fillers can still fill empty spaces.
+- Named `engine_pieces` protect the best on-board copy of each component from ordinary
+  replacement and the carrier-retirement bypass. Weaker duplicates can still upgrade.
+- A healthy board can climb before its scheduled round when it can pay and still buy
+  a body, or when leftover money can climb and the shop offers no worthwhile purchase.
+- At low Health, a climb must leave enough money for a body even when scheduled.
+
+These changes address code-level omissions, not tuning choices inferred from small
+samples. Fixtures cover prior preservation, commitment, engine retention, affordable
+climbs, insufficient cash and the unchanged version-one factory. Version two remains
+an unvalidated candidate until its pre-sized mixture check beats Hard. That comparison
+is planned for a minimum detectable gain of half a place: the pilot seed SD calls for
+48 clusters, rounded to 50 (100 lobbies, fresh seeds 61001–61050), with a projected
+95% half-width of 0.349. The shared-line pilot variance is a planning approximation
+for the mixture, not a guarantee. No new knob sweep selects this candidate.

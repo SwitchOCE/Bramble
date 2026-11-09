@@ -1,0 +1,51 @@
+{
+  "candidate": "line_fast",
+  "incumbent": "hard",
+  "independent_seeds": 80,
+  "lobbies": 160,
+  "seed_range": [
+    51001,
+    51080
+  ],
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+  "mean_place_gain": -0.29375,
+  "seed_sd": 1.2310429611316978,
+  "ci95": [
+    -0.5677051854984327,
+    -0.01979481450156728
+  ],
+  "wins": {
+    "candidate": 91,
+    "incumbent": 69
+  },
+  "passes": false,
+  "plan_validated": true,
+  "profiles_validated": true,
+  "breakdown": {
+    "method": "exploratory seat-controlled gains; seed-cluster robust ratio SE; unadjusted intervals",
+    "groups": {
+      "line:line_fast": {
+        "candidate_seats": 640,
+        "seed_clusters": 80,
+        "mean_place_gain": -0.29375,
+        "ci95": [
+          -0.5677051854984327,
+          -0.019794814501567226
+        ]
+      },
+      "tribe:Shared": {
+        "candidate_seats": 640,
+        "seed_clusters": 80,
+        "mean_place_gain": -0.29375,
+        "ci95": [
+          -0.5677051854984327,
+          -0.019794814501567226
+        ]
+      }
+    }
+  },
+  "seconds": 1425.2,
+  "profile_table": "tools/sim/line_profiles.tuned.json",
+  "simulation_revision": "85caf4ef78fe3dce8f6198c635be79475ce22ca3",
+  "note": "Rejected on the fixed 80-seed sample. More first places do not compensate for worse mean placement. No sample extension."
+}

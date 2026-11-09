@@ -42,9 +42,10 @@ func _initialize() -> void:
 		_options[parts[0]] = parts[1]
 	if str(_options["lines"]) != "":
 		BenchSuites.reload_lines(str(_options["lines"]))
+	var suite: String = str(_options["suite"])
 	if (
-		not BenchSuites.REGISTRY.has(_options["candidate"])
-		or not BenchSuites.REGISTRY.has(_options["incumbent"])
+		not BenchSuites.is_candidate(str(_options["candidate"]), suite)
+		or not BenchSuites.is_candidate(str(_options["incumbent"]), suite)
 	):
 		printerr("bench: unknown registry name")
 		quit(2)
@@ -52,7 +53,6 @@ func _initialize() -> void:
 	BotProfile.enabled = _options["profile"] == "on"
 	_library = UnitLibrary.load_dir()
 	_open_files()
-	var suite: String = str(_options["suite"])
 	if not BenchSuites.is_known(suite):
 		printerr("bench: no suite %s" % suite)
 		quit(2)
