@@ -4,6 +4,19 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Two criteria decide checkpoint 1; the no-agency bar is withdrawn
+**The owner's words** (note 2026-11-09i): "Be careful not to stretch your evaluation criteria too thin. Get good at one or two things and then start fixing other issues. And if you have too many rules, you're going to have impossible evaluation criteria." On the no-agency bar: "that's something that I plan to work on once you guys get me a build that is in a state that I'm happy with iterating from myself. So I wouldn't prioritize that one super highly."
+
+**Picked (orchestrator):**
+- **Two criteria decide checkpoint 1:**
+  - testers feel progress, at a moment checked against the game log;
+  - the median grows ×1.3 or more a round from R8 to R14.
+- **Every other bar in the old guardrail band** (twelve groups) is reported, not deciding. Only three extreme misses are triaged before the owner plays: a tribe outside an order of magnitude, one line that wins whatever the player chooses, and runaway snowballs in most lobbies.
+- **Withdrawn the same day:** the "losses with no agency" bar, its harness measure and the playtest tally (entry below). Agency stays as context for why generous power is cut at the outlier.
+- **Working rule for this branch:** each step names at most two deciding criteria. A new bar replaces or demotes an old one.
+
+**Why:** the owner's direction. Twelve bar groups could not all pass at once, and they spread the checkpoint across goals the owner hasn't asked for yet.
+
 ### 9 Nov 2026 — Generous first: the presets move up, and cuts come from the top
 **The owner's words** (note 2026-11-09h): "giving out power overly generously and then dialing it back, rather than starting from too weak and dialing up … it's probably going to be more enjoyable to have overly powerful effects and an unbalanced game than weak effects and a boring game."
 
@@ -22,6 +35,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 - **A new bar, losses with no agency.** The harness measures them: decided fights the loser had no affordable card or placement to flip in their last two shops. B and C must be no worse than today's pool, and the dial that drives the rate up is cut first.
 - **Testers mark every loss** "I could have changed it" or "nothing I could have done". The bar is under a quarter of losses.
 - This replaces "fights decided before they start" as a cut trigger. A fight decided by a choice the player made isn't the problem; one they couldn't have answered is.
+- *Withdrawn the same day after note 09i (entry above): the agency bar, its measure and the tally are not used.*
 
 **Deviation:** none from the owner. This replaces plan v3's A-against-B checkpoint. The plan text is updated (`plan-scale-rework.md`, step 2 and step 6, and the band).
 

@@ -39,13 +39,11 @@ Keep it under 250 words, or put it in a file on your branch.
 - variant, placement and build;
 - the round you felt strongest, and the biggest jump you felt (what caused it, and its size);
 - the round the game felt decided, if it did;
-- any fight you won against a bigger board, and how;
-- each loss, marked "I could have changed it" (say how) or "nothing I could have done".
+- any fight you won against a bigger board, and how.
 
 **Per variant:**
 - does it feel like progress (yes, partly or no), with the moment that decided your answer;
 - did snowballs feel common;
-- did you lose to something overpowered that you had no way to answer? How often, and to what?
 - did the big numbers read on a phone-size screen?
 
 **Screen clutter** (owner, 9 Nov: the main screen is for a player who knows the rules, and teaching belongs in the tutorial):

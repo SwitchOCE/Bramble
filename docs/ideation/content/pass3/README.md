@@ -64,7 +64,7 @@ The models count differently:
 - Oozes count units inside Bellies.
 - Birds don't count the sky.
 
-None runs the real engine. The figures say where to start the dials, not whether a tribe is good. The harness and play decide that, with fun first: a tribe passes on reward moments and decisions, inside a wide guardrail band (`../../plan-scale-rework.md`, step 3).
+None runs the real engine. The figures say where to start the dials, not whether a tribe is good. The harness and play decide that, with fun first: a tribe passes on reward moments and decisions, judged by the two criteria that decide checkpoint 1 (`../../plan-scale-rework.md`).
 
 ## What happens next
 

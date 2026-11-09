@@ -64,36 +64,26 @@
    - The owner hears plainly whether the scale problem is fixed.
 7. **Step 4 as written:** opponents, build 8, playtest round 6 and the remaining Done means evidence. Done means 2 is rewritten onto the harness here, before build 8 sign-off.
 
-**The guardrail band before the owner plays** (each preset). The bands are wide and fun comes first, so a miss is triaged, not an automatic fail. The bars marked *guard* already pass on today's flat pool. Only the others can show the fix.
-- **Growth and size:**
-  - The median grows ×1.3 or more a round from R8 to R14.
-  - The R12 median is 700–1,800 for B and 1,400–3,600 for C (A, if used: 300–900).
-  - **Generous first:** a high total alone never fails a preset. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or losses with no agency (below).
-- **The tail:**
-  - 8–25% of R10–14 boards are at twice the median or more.
-  - The top 1% is *reported only* (09d).
-- **Concentration:**
-  - The biggest unit holds 30–45% of its board.
-  - **Designed bar, set before the run:** at R12, a carry with its holder (Shield, Damage Reduction or Cleave) beats an even board of the same total at least 50% of the time. Today's figure is 0–15%.
-- **Snowballs and comebacks** (*guard*):
-  - The R8 leader wins at most 35% of lobbies.
-  - A board below the median at R8 reaches the top 2 at least 12% of the time.
-  - The winner is 5× the runner-up in at most 10% of lobbies, with both boards compared at the same round.
-- **Losses with no agency** (owner, 9 Nov 09h: one goal of the game is to make "frustrating defeats to overpowered things we had no agency against" rarer). Generous power must not buy them.
-  - **The harness measure,** written down before any run. A lost fight from R8 on is *decided* if the loser still loses 95% or more of 20 reruns with new combat seeds. It counts as *no agency* if it is decided and, in their last two shops, the loser was offered no affordable card or placement that would have flipped it to 30% or better.
-  - **Bar:** for B and C, the no-agency rate per player per game is no higher than today's pool, and lower is better. A dial that drives the rate up is the first one cut.
-  - **Play:** testers tally losses where "nothing I could have done would have changed it". The bar is under a quarter of their losses.
-- **Game length:** the median winner finishes by R14–16.
-- **Tribes:**
-  - Each tribe's best line is within 3× of the others in field win rate, pooled over R10–16, and cross-checked with designed typical boards.
-  - No card is on more than half the winning boards.
-- **Fights** (*guard*): 15% or more of R10–14 field pairs are uncertain (20–80%).
-- **Tier-ups:** a new tier-up unit, at combat start, beats the player's median unit of the round before at least 60% of the time. The arrival-ratio bar is dropped, because it already passes today.
-- **Opponents:** strong-field rivals are 0.7–1.5× the target. Otherwise snowball reports don't count.
-- **Play:**
-  - Every tester names a logged moment they felt stronger.
-  - Fewer than a third of games feel decided by R9.
-  - Testers would turn off nothing on the main screen after their third game.
+**What decides checkpoint 1** (owner, 9 Nov 09i: "Get good at one or two things and then start fixing other issues … if you have too many rules, you're going to have impossible evaluation criteria"). Two criteria decide. Everything else is reported.
+
+1. **Play: it feels like progress.** Every reward-lens tester names a moment, checked against the game log, where they felt stronger. Most say the preset they prefer "feels like progress". This is the owner's bar: "Does it allow for a nice player progression, where the jumps in power level make the player actually feel stronger?"
+2. **The scale is no longer flat:** the lobby median grows ×1.3 or more a round from R8 to R14 (pre-start boards). This is the original problem (09a).
+
+**Generous first** (09h): a high total never fails a preset. The R12 median is about 900 for B and about 1,800 for C. These are targets for setting the dials, not bars.
+
+**Reported, not deciding.** These are triaged only on an extreme miss:
+- the tail: share of boards at 2× the median, and the top 1%;
+- concentration, and the designed carry-against-even bar (definition in `tools/sim/HARNESS.md`);
+- snowballs and comebacks: the R8 leader's win rate, below-median comebacks, the winner-to-runner-up ratio;
+- game length, the uncertain-fight share, tier-up strength, card and tribe spread;
+- the strong-field rivals' size, which only says whether the snowball numbers can be trusted.
+
+**Extreme misses that are triaged before the owner plays:**
+- a tribe's best line outside an order of magnitude of the others (09c);
+- one line winning whatever the player chooses;
+- runaway snowballs in most lobbies.
+
+A cut is made at the outlier dial, not the whole scale. "Losses with no agency" (09h) is not a bar. The owner will work on it once they have a build to iterate from (09i).
 
 **Cut from v2:**
 - the remaining protected sweep on today's pool;
