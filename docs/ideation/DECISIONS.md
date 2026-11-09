@@ -4,6 +4,31 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — The scale rework plan (v2), approved after review
+**Picked (orchestrator):** `plan-scale-rework.md` v2. Three tracks start at once:
+- a harness of line-policy lobbies and field fights (Sol, `ideation/harness`);
+- shared mechanics, levers and a phone check of big numbers (Sol, `ideation/mechanics`);
+- the reference table and six tribe design panels on paper (workflows).
+
+Then a lever sweep and scale build 8a, played by reward-lens playtesters and the owner (checkpoint 1). Then the tribes in two waves (Birds and Fairies first, played: checkpoint 2), then opponents and build 8.
+
+Owner questions 1–4 in `fundamentals.md` take my defaults unless the owner answers:
+1. The September 2025 era, picked finally from play.
+2. Back-row answers rare.
+3. No timer.
+4. No board calibration needed.
+
+**Why:**
+- the audit (`fundamentals.md`);
+- the owner's 9c and 9d direction: fun first, simulation over bot play, the shape of the curve;
+- the plan review.
+
+The review cut the hindsight search, the calibrated Health model and six hand-made levers on today's pool. It added outcome gates, a scale build played before the redesign, and parallel tracks.
+
+**Agreed by:** plan-interrogate plus fun, method and speed critics (`evidence/fundamentals-audit/plan-review.json`). Where they split (speed wanted all six tribes in one wave), I followed fun and plan-interrogate: play the weakest pair first.
+
+**Source:** owner notes 2026-11-09a–d.
+
 ### 9 Nov 2026 — Pass 2 follow-up review: calls before the merge
 **Picked (orchestrator):** the review (`evidence/review-pass2-followup.md`: 1 cut, 3 simplify, 6 ask) found the step honest and a sound base once the cut is fixed. Before `ideation/pass2` merges:
 - **Cut, taken:** the soak stops counting Bridge Toad triggers as gold, and the build doc notes that the old soak line was stale.
