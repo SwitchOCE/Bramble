@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run this entire job inside the shared flock/systemd wrapper. Never invokes Godot in parallel.
+# Run this entire job inside the Godot-slot/systemd wrapper. Never invokes Godot in parallel.
 set -euo pipefail
 BASELINE="$1"
 OUT="$2"

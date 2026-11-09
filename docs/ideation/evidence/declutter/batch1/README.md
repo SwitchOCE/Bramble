@@ -49,13 +49,16 @@ The full-board UI test retains all 28 unit stats and both hero Health labels, wi
 
 ## Reproduce the captures
 
-All Godot processes run sequentially under the shared lock and 3 GiB scope.
+Each job runs Godot processes sequentially in a 3 GiB scope. Recorded runs used
+its original single shared lock. Following the new orchestration rule, reruns below
+use `/tmp/bramble-godot-slot` to select either of the two Godot slots; the
+`systemd-run --user --scope -q -p MemoryMax=3G` command stays inside the wrapper.
 Launch long jobs detached and inspect `build/declutter/*.log` with short commands.
 
 ```sh
 source /opt/bramble/env.sh
 mkdir -p build/declutter
-nohup bash -c 'flock /tmp/bramble-godot.lock systemd-run --user --scope -q -p MemoryMax=3G bash tests/ui/shots/declutter_baselines.sh /tmp/bramble-declutter-baseline "$PWD/docs/ideation/evidence/declutter/batch1"' >build/declutter/baselines.log 2>&1 &
+nohup bash -c '/tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G bash tests/ui/shots/declutter_baselines.sh /tmp/bramble-declutter-baseline "$PWD/docs/ideation/evidence/declutter/batch1"' >build/declutter/baselines.log 2>&1 &
 ```
 
 The baseline runner archives `1ecbce6` to `/tmp`, injects only an evidence hook into the
@@ -68,7 +71,7 @@ It does not check out, merge, rebase or push any branch. Individual process logs
 After the baseline finishes:
 
 ```sh
-nohup bash -c 'export LP_NUM_THREADS=1; flock /tmp/bramble-godot.lock systemd-run --user --scope -q -p MemoryMax=3G xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_stills.gd -- res://docs/ideation/evidence/declutter/batch1/before res://docs/ideation/evidence/declutter/batch1/after' >build/declutter/after.log 2>&1 &
+nohup bash -c 'export LP_NUM_THREADS=1; /tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_stills.gd -- res://docs/ideation/evidence/declutter/batch1/before res://docs/ideation/evidence/declutter/batch1/after' >build/declutter/after.log 2>&1 &
 ```
 
 ## Cold-reader criterion for this batch
@@ -248,7 +251,7 @@ The prior repair produced 71 sheets/568 frames before these focus sheets were ad
 Run the strip capture and assembly after the stills (one Godot process at a time):
 
 ```sh
-nohup bash -c 'export LP_NUM_THREADS=1; flock /tmp/bramble-godot.lock systemd-run --user --scope -q -p MemoryMax=3G xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_frames.gd -- res://docs/ideation/evidence/declutter/batch1/before res://build/declutter/frames' >build/declutter/frames.log 2>&1 &
+nohup bash -c 'export LP_NUM_THREADS=1; /tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G xvfb-run -a -s "-screen 0 2560x1440x24" godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_frames.gd -- res://docs/ideation/evidence/declutter/batch1/before res://build/declutter/frames' >build/declutter/frames.log 2>&1 &
 ```
 
 Wait for `all deterministic frame captures complete` in `frames.log`, then assemble:
@@ -805,7 +808,7 @@ The following metrics describe the superseded `4f50d944` evidence only.
 
 ## Local commits since the independent review
 
-These precede the final checkpoint documentation commit named in the handback.
+These precede the final documentation commit named in the handback.
 
 - `23b427dc fix(ui): hold reduced-motion attackers and separate Pack hits`
 - `4373afe5 fix(ui): remove mud overlay from combat stat beads`
@@ -846,6 +849,7 @@ These precede the final checkpoint documentation commit named in the handback.
 - `edcb4542 fix(ui): preserve each quarry relay declaration at fast speed`
 - `c2abbbe2 fix(ui): land stat motes above their rolling numerals`
 - `f30bf12f test(ui): capture static reduced effects and readable final results`
+- `0974e43b docs(ui): record partial cold-reader result and passing full gate`
 
 ## Standing comparison sheet (local only)
 

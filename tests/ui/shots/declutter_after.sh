@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run inside the shared flock/systemd scope; each Godot process finishes before the next starts.
+# Run inside the Godot-slot/systemd scope; each Godot process finishes before the next starts.
 set -euo pipefail
 SOURCE="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 cd "$SOURCE"
