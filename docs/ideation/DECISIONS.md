@@ -4,6 +4,18 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Harness: the line-strength test and the flat-shape ruling
+**Picked (orchestrator):** two calls.
+1. **The tribal lines lost to Hard on today's pool,** so Hard joined the field as the tempo line, with a re-test on the lever build.
+   - **Corrected after review:** my redefined test (b) could not fail, and the original runs pitted blind lines against a scouting Hard. Test (b) is restored against `hard_field` (equal blind placement), and the sweep's engine and tribe reads wait for it on the lever build. Knob tuning is dropped as noise.
+2. **The baseline's 11 of 35,564 snapshots at 2x the median pass the flat-shape check (d).** They are a rare tail from 7 seats across five lines, the largest at 2.385x. The R² check is replaced by a curvature test, because it passed 15% compounding a round.
+
+**Why:** the owner's 9d direction (simulation over bot play) needs scripted lines that are at least as strong as the best bot, and a check that can tell flat from compounding.
+
+**Agreed by:** the harness scope review (`evidence/review-harness.md`), which found both problems.
+
+**Source:** plan-scale-rework.md, Step 1 Track A.
+
 ### 9 Nov 2026 — The scale rework plan (v2), approved after review
 **Picked (orchestrator):** `plan-scale-rework.md` v2. Three tracks start at once:
 - a harness of line-policy lobbies and field fights (Sol, `ideation/harness`);
