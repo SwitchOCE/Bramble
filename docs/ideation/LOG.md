@@ -128,3 +128,4 @@ Delivered /data/bramble-builds/1108-2016-ideation7; latest is updated only after
 ### 8 Nov 2026 — Playtest round 5 on build 7
 
 Five fresh cloud playtesters on b2c3f01, each pushing `evidence/pt5-{a..e}.md` to `ideation/c-pt5-{a..e}`: A depth trig_01QBxBhUx1VjJsLi4qDdP2j5, B newcomer trig_01HUK894tDNTtR8Ai8h7xrCo, C tribes trig_01Jqb2NAxZXo22r8MBJtN252, D reading trig_01HVw1cVhB6ajWhU6pmYSs1n, E economy trig_01LEUJXDkoaD1nE2SvWWkQDW. Meanwhile w18 merges main into content5 and words its four cards (Horseshoe, Barn Owl, Redwing, Market Stall).
+- 10 Nov: wave 1 fun probe (plan v3 step 4; brief `briefs/wave1-fun-probe.md`), cloud routines A trig_01GXxumcX3aARXz3SNUKquwh (session cse_013aVwzAJXEDFQfUjMmyApc8), B trig_01T498Kyc14Qvv5bVkTNE1kR (cse_013aVwz9VCQXzuWzsiwmxYzw), C trig_015Cq8RGqhzeEfDAPUHxWxhW (cse_013aVwz9NybmhM1tbVD1E6ri). Branches ideation/c-funprobe-{a,b,c}.

@@ -1,10 +1,14 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The game is still flat. Birds and Fairies are rebuilt, and the tool that measures growth is in. Now the other four tribes are being rebuilt, with power set generous on purpose, and the screen is being cleared of teaching text. Then you get a build to compare two power levels.
+- **In short:** Birds and Fairies now give big jumps: three playtesters each had a turn where their board doubled or tripled. The other four tribes are still flat, so they fall far behind. Bog is rebuilt and in review, Hunters is next, and the Fairies' slow start is being fixed.
 - **Status:** active
-- **Last step done:** The scale harness merged (10 Nov), after three reviews. Before it: wave 1 (Birds and Fairies) merged, and the declutter spec and the visual comparison were committed.
-- **Next step:** Wave 2a (Sol, `ideation/wave2a`): the pool rules are in review, then Bog and Hunters. Strong-field opponents are in follow-up review. The paper values for presets B and C are being worked out. UI declutter batch 1 starts when a worker frees up. Then wave 2b, the full-pool measurement and checkpoint 1 (B against C, played blind).
+- **Last step done:** The wave 1 fun probe passed 3 of 3 (10 Nov). The harness and strong-field opponents merged. A triage found the paper power targets assumed every card arrives on time, so the targets now mean real boards.
+- **Next step:**
+  - Wave 2a (Sol, `ideation/wave2a`): the Fairies' fixes, then the Bog review's two fixes, then merge, then Hunters.
+  - The harness measures real boards at the shipped settings, and checks whether skilled Birds play runs away.
+  - UI declutter batch 1 (the fight screen) is planning.
+  - Then wave 2b, the full-pool measurement and checkpoint 1 (B against C, played blind).
 - **Waiting on you:** Nothing. Your Quilboar replays are welcome in `/data/transfer/replays/` but not needed.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->

@@ -202,7 +202,19 @@ func _layout_scouting(left: float, right_x: float) -> void:
 	var x: float = left + offset
 	var room: float = right_x - 20.0 - x
 	_scout.position = Vector2(x, SCOUT_TOP)
+	var heading_top: float = SCOUT_TOP
+	for plaque: Control in _lobby.plaques:
+		if plaque.has_node("LastStand"):
+			var status: Control = plaque.get_node("LastStand")
+			heading_top = maxf(
+				heading_top,
+				_lobby.position.y + plaque.position.y + status.position.y + status.size.y + 8.0
+			)
+	_scout.heading_offset = heading_top - SCOUT_TOP
 	_scout.size = Vector2(room, _scout.tray_height())
+	_scout.call("_layout")
+	# The scroll container starts 16px above shop_top, so include that inset plus an 8px gap.
+	var shop_top: float = maxf(SCOUT_SHOP_TOP, heading_top + ScoutPanel.TITLE_H + 24.0)
 	var shop_x: float = x + _scout.tray_width() + 30.0
 	var room_x: float = right_x - shop_x - 12.0
 	var max_columns: int = maxi(floori((room_x + MINI_GAP_X) / (tap_size() + MINI_GAP_X)), 1)
@@ -215,17 +227,17 @@ func _layout_scouting(left: float, right_x: float) -> void:
 	var tile: float = minf(MINI_TILE, floorf((room_x - (columns - 1) * MINI_GAP_X) / columns))
 	if _shop_cards.get_parent() != _shop_scroll:
 		_shop_cards.reparent(_shop_scroll, false)
-	_shop_scroll.position = Vector2(shop_x - 16.0, SCOUT_SHOP_TOP - 16.0)
-	_shop_scroll.size = Vector2(right_x - shop_x + 16.0, HAND_TOP - SCOUT_SHOP_TOP + 16.0)
+	_shop_scroll.position = Vector2(shop_x - 16.0, shop_top - 16.0)
+	_shop_scroll.size = Vector2(right_x - shop_x + 16.0, HAND_TOP - shop_top + 16.0)
 	for child: Node in _shop_cards.get_children():
 		var card: CardView = child as CardView
 		if card != null:
 			card.set_card_width(tile)
-	_place_tag(_shop_tag, Vector2(shop_x - 48.0, SCOUT_SHOP_TOP + 60.0), 140.0)
+	_place_tag(_shop_tag, Vector2(shop_x - 48.0, shop_top + 60.0), 140.0)
 	_shop_cards.position = Vector2.ZERO
 	_shop_cards.size = Vector2.ZERO
-	_shop_zone.position = Vector2(shop_x - 20.0, SCOUT_SHOP_TOP - 10.0)
-	_shop_zone.size = Vector2(right_x - shop_x, HAND_TOP - SCOUT_SHOP_TOP)
+	_shop_zone.position = Vector2(shop_x - 20.0, shop_top - 10.0)
+	_shop_zone.size = Vector2(right_x - shop_x, HAND_TOP - shop_top)
 
 
 ## The smallest comfortable tap target at this window's shape, in canvas units.

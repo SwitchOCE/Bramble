@@ -18,6 +18,8 @@ const TITLE_H: float = 54.0
 
 ## Units on show, for tests.
 var unit_count: int = 0
+## The title clears public lobby statuses without moving the board's matching columns.
+var heading_offset: float = 0.0
 
 var _title: Label
 var _board: BoardView
@@ -113,7 +115,7 @@ func _layout() -> void:
 	var tray: Vector2 = _board.tray_size()
 	_board.position = Vector2.ZERO
 	var title_x: float = tray.x + 16.0
-	_title.position = Vector2(title_x, 0)
+	_title.position = Vector2(title_x, heading_offset)
 	_title.size = Vector2(maxf(size.x - title_x, 10.0), TITLE_H)
 	_empty.position = Vector2(50, tray.y / 2.0 - 70.0)
 	_empty.size = Vector2(tray.x - 100.0, 140)

@@ -21,6 +21,9 @@ const COMMANDS: Dictionary = {
 }
 
 var seed_value: int = 0
+var field_library_path: String = ""
+var field_library_sha256: String = ""
+var field_strength: String = "top4"
 ## Loading is refused cleanly when old actions cannot replay under the current rules.
 var load_error: String = ""
 var replay_note: String = ""
@@ -29,9 +32,14 @@ var session: GameSession
 var _library: UnitLibrary
 
 
-static func start(game_seed: int) -> PlayGame:
+static func start(game_seed: int, field_path: String = "", strength: String = "top4") -> PlayGame:
 	var game := PlayGame.new()
 	game.seed_value = game_seed
+	game.field_library_path = field_path
+	game.field_strength = strength
+	if strength not in ["top4", "all"]:
+		game.load_error = "Unknown field strength: %s" % strength
+		return game
 	game._begin()
 	return game
 
@@ -45,7 +53,12 @@ static func from_save(data: Dictionary) -> PlayGame:
 		game.load_error = "This save used retired bot rules. Start a new game."
 		return game
 	game.seed_value = CoreUtil.to_int(data["seed"])
+	game.load_error = game._load_field_reference(data)
+	if game.load_error != "":
+		return game
 	game._begin()
+	if game.load_error != "":
+		return game
 	if data.has("difficulty"):
 		game.replay_note = "Old bot settings ignored; replayed under the current lobby."
 	var saved: Array = data["actions"]
@@ -79,11 +92,38 @@ static func _save_problem(data: Dictionary) -> String:
 
 
 func to_save() -> Dictionary:
-	return {"seed": seed_value, "actions": actions}
+	var saved: Dictionary = {"seed": seed_value, "actions": actions}
+	if field_library_path != "":
+		saved["field_library"] = field_library_path
+		saved["field_library_sha256"] = field_library_sha256
+		saved["field_strength"] = field_strength
+	return saved
+
+
+func _load_field_reference(data: Dictionary) -> String:
+	field_strength = str(data.get("field_strength", "top4"))
+	if field_strength not in ["top4", "all"]:
+		return "Unknown field strength: %s" % field_strength
+	if not data.has("field_library") and not data.has("field_library_sha256"):
+		return ""
+	if not data.get("field_library") is String or not data.get("field_library_sha256") is String:
+		return "Field save needs a library path and SHA-256."
+	field_library_path = str(data["field_library"])
+	field_library_sha256 = str(data["field_library_sha256"])
+	if field_library_path == "" or not FileAccess.file_exists(field_library_path):
+		return "Field library is missing. Restore the original library to replay this save."
+	if (
+		field_library_sha256 == ""
+		or FileAccess.get_sha256(field_library_path) != field_library_sha256
+	):
+		return "Field library changed. Restore the original library to replay this save."
+	return ""
 
 
 ## Runs one command and records it; "" or why it was refused.
 func run(words: PackedStringArray) -> String:
+	if load_error != "":
+		return load_error
 	if words.is_empty() or not COMMANDS.has(words[0]):
 		return "Unknown command. One of: %s" % ", ".join(PackedStringArray(COMMANDS.keys()))
 	var args: PackedStringArray = words.slice(1)
@@ -98,8 +138,25 @@ func run(words: PackedStringArray) -> String:
 func _begin() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("bots", BotLobby.seats())
+	config.set_value("field_strength", field_strength)
 	_library = UnitLibrary.load_dir()
-	session = GameSession.create(seed_value, _library, config)
+	var prepared_field: FieldLibrary = null
+	if field_library_path != "":
+		if not field_library_path.is_absolute_path():
+			field_library_path = (
+				ProjectSettings
+				. globalize_path("res://")
+				. path_join(field_library_path)
+				. simplify_path()
+			)
+		prepared_field = FieldLibrary.prepare(config, _library, field_library_path)
+		load_error = prepared_field.error
+		if load_error != "":
+			return
+		field_library_sha256 = FileAccess.get_sha256(field_library_path)
+	session = GameSession.create(seed_value, _library, config, Bot.create, prepared_field)
+	if session == null:
+		load_error = "Cannot start this opponent configuration."
 
 
 func _apply(word: String, args: PackedStringArray) -> String:

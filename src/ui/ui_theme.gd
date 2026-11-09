@@ -259,6 +259,8 @@ static func player_name(standing: Dictionary) -> String:
 	if standing.get("is_human", false) == true:
 		return "You"
 	var hero: String = str(standing.get("hero", ""))
+	if str(standing.get("personality", "")).begins_with("field:"):
+		return str(standing.get("name", hero))
 	if not hero.is_empty():
 		return hero
 	var name: String = short_name(str(standing.get("name", "?")))
@@ -266,19 +268,22 @@ static func player_name(standing: Dictionary) -> String:
 
 
 ## `text` without its leading words until it fits `holder`'s width: "Dame Farthing" reads as
-## "Farthing", and that beats cutting it off. An unsized label takes it whole.
-static func fit_words(text: String, holder: Label) -> String:
+## "Farthing", and that beats cutting it off. Keep the first two words instead for a stable
+## identity such as "Rival 4". An unsized label takes it whole.
+static func fit_words(text: String, holder: Label, keep_start: bool = false) -> String:
 	var words: PackedStringArray = text.split(" ", false)
 	var font: Font = holder.get_theme_font("font")
 	var font_size: int = holder.get_theme_font_size("font_size")
-	while words.size() > 1 and holder.size.x > 1.0:
+	while words.size() > (2 if keep_start else 1) and holder.size.x > 1.0:
 		var joined: String = " ".join(words)
 		if (
 			font.get_string_size(joined, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 			<= holder.size.x
 		):
 			break
-		words = words.slice(1)
+		words = words.slice(0, words.size() - 1) if keep_start else words.slice(1)
+	if keep_start and words.size() > 2 and words[-1] == "·":
+		words = words.slice(0, words.size() - 1)
 	return " ".join(words)
 
 

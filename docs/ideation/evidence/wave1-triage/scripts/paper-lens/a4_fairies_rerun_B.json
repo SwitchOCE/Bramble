@@ -1,0 +1,94 @@
+{
+ "line_fairies_ring": {
+  "8": {
+   "paper": 102.0,
+   "real": 63.5,
+   "capS": 1.0,
+   "capRings": 4.0,
+   "realS": 1.0,
+   "realRings": 5.0,
+   "units": 89.0,
+   "shop": 65.0,
+   "captured": 64.0
+  },
+  "10": {
+   "paper": 455.0,
+   "real": 98.0,
+   "capS": 1.0,
+   "capRings": 7.0,
+   "realS": 1.0,
+   "realRings": 10.0,
+   "units": 128.0,
+   "shop": 80.5,
+   "captured": 78.0
+  },
+  "12": {
+   "paper": 872.0,
+   "real": 142.0,
+   "capS": 1.0,
+   "capRings": 10.0,
+   "realS": 2.0,
+   "realRings": 18.0,
+   "units": 159.0,
+   "shop": 101.5,
+   "captured": 102.0
+  },
+  "14": {
+   "paper": 2298.0,
+   "real": 249,
+   "capS": 2.0,
+   "capRings": 14,
+   "realS": 3.0,
+   "realRings": 30,
+   "units": 300.0,
+   "shop": 152.0,
+   "captured": 159.0
+  }
+ },
+ "line_fairies_court": {
+  "8": {
+   "paper": 241.0,
+   "real": 59.5,
+   "capS": 1.0,
+   "capRings": 0.0,
+   "realS": 1.0,
+   "realRings": 3.0,
+   "units": 68.0,
+   "shop": 55.0,
+   "captured": 54.0
+  },
+  "10": {
+   "paper": 697.0,
+   "real": 92,
+   "capS": 1.0,
+   "capRings": 2,
+   "realS": 1.0,
+   "realRings": 9,
+   "units": 73.0,
+   "shop": 63.0,
+   "captured": 58.0
+  },
+  "12": {
+   "paper": 1317.0,
+   "real": 160.0,
+   "capS": 1.0,
+   "capRings": 17.0,
+   "realS": 2.0,
+   "realRings": 31.0,
+   "units": 121.0,
+   "shop": 121.0,
+   "captured": 109.5
+  },
+  "14": {
+   "paper": 3565.0,
+   "real": 362.0,
+   "capS": 2.0,
+   "capRings": 34.0,
+   "realS": 4.0,
+   "realRings": 59.0,
+   "units": 290.0,
+   "shop": 242.5,
+   "captured": 266.0
+  }
+ }
+}

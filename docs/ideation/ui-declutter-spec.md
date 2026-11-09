@@ -385,6 +385,7 @@ Each batch logs its calls in `DECISIONS.md` and saves evidence in `docs/ideation
 - 2.1 on every zone, applying the per-unit name rule.
 - 2.2, the scout rows of 2.5, and 2.4.
 - Animations 14 and 38–45 in recruit, plus anim 36: the End of Turn sequence, Pass seed, relation sparks, reach pulse, drag lean, Rings, paint and frost.
+- Queued gains (pool rule, amendment 6) land at Start of Turn: the core logs `gain_landed` (`src/core/pending_gains.gd`), and the unit's stat bead pops and rolls to its new value. No "+X" text.
 - Doc edits, with reasons logged:
   - Rulebook 12.1.6: drop the sentence about the permanent Pass mark and the selection preview, and reword "last in F1-B1-…-F4" as "rightmost". The rule itself is unchanged.
   - Wording guide line 13 ("Always shown") and line 73 ("selecting a unit lights the slots": becomes "opening a unit's reader pulses the slots its text reaches").

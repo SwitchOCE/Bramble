@@ -5,6 +5,29 @@ weighted field fights, metrics, offline damage replay and planted-card checks ar
 implemented and verified. The fixed 500-lobby baseline is complete; see
 `docs/ideation/evidence/harness-baseline.md`.
 
+## Combat-version boundary: pre-wave-1 evidence
+
+**Provenance rule:** every result above **“Wave-1 line files on the current combat
+build”** below is pre-wave-1. Every measurement evidence file not named
+`wave1-*` is pre-wave-1 too, regardless of legacy words such as “current”. This
+includes line head-to-heads and fresh confirmations, `current-pool-strength-result`,
+the upset diagnostic, analogue/boundary fields, the (d) 1.188 reading, and the
+damage-replay smoke. Source code, plans and driver programs are not themselves
+measurement results. These old results are not comparisons with step 5.
+
+The **fixed baseline, caps screen, lever-build comparisons, first designed field,
+and planted engine/real-null results below were measured on pre-wave-1 combat**.
+They preserve their original source hashes and outcomes; rebuilding an offline
+reader does not make their fights current. **These measurements are not
+comparable with step 5's numbers.** This follows the orchestrator's
+**“Harness follow-up 3”** calls in `docs/ideation/DECISIONS.md`.
+
+Wave 1 replaced the pass 2 Birds and Fairies in the real game:
+`GameConfig.full_game()` sets `pass3_content`, and a pool containing pass 3 cards
+turns on `Pass3Combat` timing. Re-fighting an old board on the current library
+therefore measures different combat. The new wave-1 line and real-card smoke
+results carry their own current-build provenance, separate from these archives.
+
 ## What decides checkpoint 1
 
 Per the owner's note 09i, the local `ideation/main` plan's **“What decides
@@ -16,6 +39,9 @@ entry in `docs/ideation/DECISIONS.md`, only two criteria decide checkpoint 1:
    prefer feels like progress.
 2. **Pre-start median growth:** the lobby median grows **×1.3 or more per round
    from R8 to R14**, on the end-of-recruit board before Start of Combat effects.
+   The deciding point estimate is `(median_R14 / median_R8) ** (1/6)`; its
+   whole-seed bootstrap 95% interval is reported beside it, not used as an
+   additional criterion (orchestrator, **“Harness follow-up 3”**, `DECISIONS.md`).
 
 Growth and size for this decision read pre-start; post-start measurements are
 reported beside them. A high total never fails a preset by itself. Tail size,
@@ -33,9 +59,27 @@ curvature ratio's 1.25 diagnostic bound is distinct from the checkpoint's ×1.3
 per-round median-growth criterion.
 
 The **“losses with no agency” measure and playtest tally are withdrawn**, not
-deferred to a later turn. The remaining deferred work is the wave-1 line-table
-loader, real-card designed setups, and a general strength-plan format when step 5
-needs it. None of that work is started by this documentation change.
+deferred to a later turn. A general strength-plan format remains deferred until
+step 5 needs it. The wave-1 line loader and real-card designed inputs are tracked separately below.
+
+## Existing baseline: the deciding growth reader (pre-wave-1)
+
+On the original 500 seeds (81001–81500), the pre-start R8–R14 median is
+**61 → 135**, or **×1.1416 per round [1.1402, 1.1461]**. Post-start beside it is
+**64 → 157**, or **×1.1613 [1.1559, 1.1638]**. The pre-start point estimate is below
+the existing ×1.3 criterion. This historical measurement is **pre-wave-1** and
+is not comparable with step 5's measurements; it does not decide whether the
+current build passes checkpoint 1, which also needs testers' logged moments.
+
+`metrics.py` now writes `checkpoint_1_growth`, with both R8–R14 series and their
+counts. Its deterministic 2,000-draw percentile bootstrap resamples all 500 whole
+seeds (bootstrap seed 14531), retaining seats, legs and rounds together. Missing
+or nonpositive endpoint medians are unsupported; post-start fallbacks are not
+counted as post-start observations. Late medians contain surviving boards, so
+this is a population-median curve, not a within-player compounding estimate.
+`evidence/baseline-growth-pre-wave1.json` records the exact result and verified
+original capture hashes. The synthetic JSONL capture test gives a known ×2
+pre-start answer while its post-start series deliberately grows ×3.
 
 ## Strength gate and attribution correction
 
@@ -127,8 +171,9 @@ for the fields. The baseline spans clean checkpoints under the 50-minute turn li
 
 ## Committed profiles; knob tuning retired
 
-`line_profiles.committed.json` is the default table. Version 1 and the tuned table
-are archived in `evidence/line_profiles.v1.json` and `evidence/line_profiles.tuned.json`.
+`line_profiles.committed.json` was the pre-wave-1 default table; the current
+default replaces its Birds/Fairies entries with `lines/*.json` (workflow below).
+Version 1 and the tuned table are archived in `evidence/line_profiles.v1.json` and `evidence/line_profiles.tuned.json`.
 The tuner itself is archived as `evidence/tune_lines.retired.py`; it is not an active
 workflow. Its feasible-budget validation was noise (+1.077 training places,
 -0.154 held out, two validation games per arm), so it established no improvement.
@@ -399,7 +444,8 @@ After the orchestrator merged shared mechanics in `eb571ba`, capture and reserve
 session's private overlaid library. Standalone field fights and re-fights restore
 the same overlay from captured config once and reuse it. Replay also defensively
 normalizes an unconfigured library. Missing lever keys in older version-1 captures
-retain inert defaults, so the original capped baseline remains reproducible.
+retain inert defaults, preserving capped configuration on the original backend.
+Exact baseline fight reproduction still requires its pre-wave-1 combat/library.
 The regression checks a 21-Attack uncapped Bridge Toad (4 Attack through the raw
 capped library), exact event replay, field composition, selected lever presence
 and reuse of the configured library. Full gate: 1,677 tests, 28,859 assertions.
@@ -504,8 +550,8 @@ The real null is tested against the same three harness-sensitivity checks as the
 engine: 0/8 round-six tails, 1/8 lobby wins and 45.13% field points are below their
 thresholds; the engine exceeds all three. These are checks on the harness's
 ability to detect a planted fault, not checkpoint-1 criteria. They replace the historical empty-null pass;
-`evidence/real-null-dominance-result.json` is current. Weak engines and a
-do-something card falsely labelled null are explicit failing fixtures.
+`evidence/real-null-dominance-result.json` is the corrected pre-wave-1 null
+result. Weak engines and a do-something card falsely labelled null are explicit failing fixtures.
 
 The three exact historical run drivers are committed under `evidence/drivers/`,
 with original hashes and API/version notes. Full dose detail is now
@@ -599,3 +645,125 @@ archive differs in 35 winner-count rows under the merged backend, with unchanged
 seeds/identities; both implementations reproduce those merged-backend results.
 Historical outcomes remain untouched. No deferred line loader, real-card setups,
 general strength-plan format or agency measure was started in this follow-up.
+
+## Wave-1 line files on the current combat build
+
+Default `LinePolicies` loads the sorted `tools/sim/lines/*.json` files. Each
+entry declares its tribe and `base_strategy`; the base must exist and match that
+tribe. Entries replace the historical profiles only for tribes present in the
+files. Bog and Hunters files load through this same path without a code change.
+Current Birds and Fairies use
+`line_birds_homecoming`, `line_birds_tempo`, `line_fairies_ring` and
+`line_fairies_court`; file keys without `line_` also resolve. The former engine
+and tempo aliases resolve to their replacements. Explicit
+`lines=res://tools/sim/line_profiles.committed.json` opts into the frozen table
+for historical reproduction; old sweep plans still select their frozen table.
+Current source fingerprints also include the designer JSON files.
+
+Schema checks reject malformed card lists, duplicates, unknown base strategies,
+invalid engine flags, incomplete/non-increasing climb schedules and invalid
+switch/flight minima. Unknown root and nested keys fail loudly, including
+misspelt `max_away`. `from_round` must be a positive integer; `keep_home_min`
+must be an integer from 1 to 7. Duplicate priorities/canonical names and unknown
+bases have rejection tests. The optional `max_away` limit applies only when
+explicitly set by a policy; ordinary Hard has no added default away cap. The loader normalizes priorities, tier rounds, engine flags
+and keep lists into committed Hard profiles. Birds' structured flight limits and
+R7 tempo-to-homecoming switch execute; the Fairy Court arrangement is explicit.
+Next-climb savings use the shared affordability rule. The original source policy
+is retained verbatim. Detailed conditional-buy, copy, stayer-cap, spell, thank
+and placement prose remains advisory to the shared Hard pass-3 adapters; loading
+a file does not claim to interpret arbitrary prose or prove its play strength.
+
+Tests exercise schema rejection, explicit historical opt-out, switch/flight
+behavior, and a separate real eight-seat, three-round lobby for each of the four
+wave-1 lines with all tribes available. These are integration checks, not new
+gameplay bars or evidence of line superiority.
+
+## Current-library real-card designed setups: small smoke only
+
+`designed_setups.py real` writes eight explicit recipes: committed Homecoming
+Birds and Ring Fairies at R8/R10/R12, plus R12 Granny Pot Luck and the
+documented Whistlers Tern swap. Priorities and climb rounds come from the wave-1 line
+files. Composition and authored stats/Ring budgets follow the pass-3 model
+examples; these are constructed snapshots, not sampled player boards or evidence
+that shops attain those states by those rounds. Fairies use real line cards in
+place of the model's neutral placeholders. **Granny uses today's pass 2 Ooze
+text, with three printed 1/1 Mice inside.** Its smoke rows are pass 2 Oozes;
+regeneration and remeasurement wait for W2b, which supplies pass 3 Oozes.
+
+`export_real_designed.gd` resolves the current `full_game` overlaid library and
+serializes actual `PlayerState.combat_board()`, `combat_slots()` and
+`RecruitRules.fight_rules()`. Bird away/Nest state, Fairy Ring counts/size and
+Granny's three explicit held Mouse bodies are preserved. The R12 Homecoming
+board has an occupied Nest. The corrected R12 Whistlers setup keeps that Nest,
+all three away Birds, both Jays and the tribe bonus, replacing only the Tern.
+Whistlers has 10/12 pre-start stats (9/11 plus the +1/+1 tribe bonus). Six
+different Birds stand at home, so the omen is inactive. This is the doc
+42%→96% ablation, not an all-home omen. Add the R15 everyone-home omen only
+once an R15 board exists; none is authored here. Explicit budgets and
+substitutions are recorded per recipe.
+No card text or combat rule is copied into Python or changed by this generator.
+
+The recorded field at `109d404` used the earlier, incorrect all-home Whistlers
+setup. Its three rows marked † below are exploratory omen results, **withdrawn
+as evidence for the doc's Tern-swap test**. The corrected input has not had a
+new field run. The archived run is **eight boards, eight within-round pairs, eight
+independent paired-orientation seeds per pair: 128 fights**, in **1.061 s** of
+fight-loop time. Fixed blind layouts have no opponent-specific search. The table
+shows strict wins for its left board and conservative 95% Hoeffding intervals;
+the two orientations share one seed cluster. No draws occurred.
+
+| Round | Left board | Right board | Left wins / 16 | Rate [95% interval] |
+|---|---|---|---:|---|
+| 8 | Homecoming | Ring Fairies | 14 | 87.5% [39.5%, 100%] |
+| 10 | Homecoming | Ring Fairies | 4 | 25.0% [0%, 73.0%] |
+| 12 | Homecoming | Ring Fairies | 2 | 12.5% [0%, 60.5%] |
+| 12 | Homecoming | Granny (pass 2 Oozes) | 2 | 12.5% [0%, 60.5%] |
+| 12 | Homecoming | Exploratory Whistlers omen† | 2 | 12.5% [0%, 60.5%] |
+| 12 | Ring Fairies | Granny (pass 2 Oozes) | 3 | 18.8% [0%, 66.8%] |
+| 12 | Ring Fairies | Exploratory Whistlers omen† | 13 | 81.2% [33.2%, 100%] |
+| 12 | Granny (pass 2 Oozes) | Exploratory Whistlers omen† | 16 | 100% [52.0%, 100%] |
+
+This demonstrates that current real-card inputs, reserves and wave-1 timing
+fight through the harness; the wide conditional intervals and authored states
+support no typical-strength or balance conclusion. There are no new gameplay
+bars. No large field or new lobby baseline was run.
+
+`evidence/wave1-real-smoke.json` records all counts, intervals, source hashes and
+archive hashes. Exact input and paired-seed output bytes are in
+`evidence/wave1-real-input.json.gz` and `evidence/wave1-real-pairs.jsonl.gz`.
+`evidence/drivers/real_designed_smoke.py` validates complete pair/seed coverage
+and rebuilds the small report offline; its README records generation/run commands.
+Seven Python recipe tests and two core tests cover all eight current-card boards,
+real fights, full input state, line-priority drift, tiers and authored assumptions.
+
+At `109d404`, the full shared-lock, 3G `./scripts/check.sh` gate
+passes **1,854 tests / 30,682 assertions**, with no risky/pending tests. The
+standalone Python harness suite passes **134 tests**. Focused runs pass the six
+wave-1 line tests (167 assertions), five existing line tests (248 assertions)
+and two real-card tests (120 assertions).
+`evidence/wave1-followup-verification.json` and its compressed gate log record
+the command, counts and hashes. All Godot processes ran sequentially from this
+worker, with bounded timeouts and the requested locks.
+
+## Review 4: labels, corrected setup and the accounting run
+
+`evidence/wave1-review4-smoke-qualifications.json` attaches the Whistlers
+withdrawal and pass 2 Ooze labels to the immutable `109d404` archives. Counts and
+original source hashes are retained; they are not a new measurement of the
+corrected setup. No additional field is run for this fix-up.
+
+Capture now stores the immutable resolved `starting_line` beside `current_line`
+and the original roster's `assigned_line`. Field/metrics readers group scripted
+lines by their starting label, including after Tempo switches to Homecoming.
+Historical captures without these labels retain their old source-pinned names.
+The accounting driver already used `assigned_line` throughout, so no lobbies
+were rerun or moved from Tempo to Homecoming. Its result also records each
+seat's starting and final lobby line from the CSV's `bot` and `strategy` fields;
+final strategies never select the accounting groups.
+
+The fixed wave-1 accounting run and same-dial paper reconciliation are reported
+in `docs/ideation/evidence/wave1-accounting.md`, with seed intervals, phase
+conversions, starting/final seat labels and the sole R12 0.5–2× criterion. Growth
+is labelled preliminary and has no pass/fail role in this step. The plan and
+execution source are frozen at `fa95a41`, before this review fix-up.

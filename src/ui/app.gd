@@ -94,6 +94,13 @@ func start_game(chosen_seed: int = -1) -> void:
 	var reason: String = port.new_game(game_seed)
 	if reason.is_empty():
 		show_recruit()
+	else:
+		var error := AcceptDialog.new()
+		error.title = "Could not start game"
+		error.dialog_text = reason
+		error.confirmed.connect(error.queue_free)
+		add_child(error)
+		error.popup_centered(Vector2i(640, 240))
 
 
 func open_guide() -> HowToPlay:
@@ -264,7 +271,11 @@ static func side_names(
 	for side: int in mini(2, ids.size()):
 		var player_id: int = ids[side]
 		if player_id == -1:
-			names[side] = ghost_name if ghost_name.begins_with("Ghost") else "A ghost"
+			names[side] = (
+				ghost_name
+				if ghost_name.begins_with("Ghost") or ghost_name == "Field ghost"
+				else "A ghost"
+			)
 		for entry: Variant in standings:
 			var standing: Dictionary = entry
 			if Data.i(standing, "player_id", -2) == player_id:

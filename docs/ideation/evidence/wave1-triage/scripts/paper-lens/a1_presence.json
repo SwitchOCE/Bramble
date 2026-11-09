@@ -1,0 +1,1958 @@
+{
+ "line_birds_homecoming": {
+  "rows": {
+   "8": {
+    "n": 640,
+    "stats": 74.0,
+    "tier": 5.0,
+    "spent": 62.0,
+    "tier6": 0.0515625,
+    "tribe_board": 3.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.5328125,
+     "one_swallow": 0.5203125,
+     "mrs_dunnock": 0.5171875,
+     "mrs_jay": 0.2546875,
+     "mr_redbreast": 0.2828125,
+     "redwing": 0.2765625,
+     "jack_daw": 0.2703125,
+     "tom_tit": 0.2625,
+     "old_tern": 0.2484375,
+     "mrs_stork": 0.2390625,
+     "mag_pye": 0.2359375,
+     "cuckoo": 0.221875,
+     "great_lump": 0.0671875,
+     "mother_goose": 0.0625,
+     "gabble_ratchet": 0.0265625,
+     "seven_whistlers": 0.0140625
+    },
+    "hc": 0.5,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "9": {
+    "n": 640,
+    "stats": 98.5,
+    "tier": 5.0,
+    "spent": 74.0,
+    "tier6": 0.153125,
+    "tribe_board": 5.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.546875,
+     "one_swallow": 0.5265625,
+     "mrs_dunnock": 0.49375,
+     "mrs_jay": 0.2859375,
+     "mr_redbreast": 0.3140625,
+     "redwing": 0.2578125,
+     "jack_daw": 0.2953125,
+     "tom_tit": 0.2890625,
+     "old_tern": 0.275,
+     "mrs_stork": 0.303125,
+     "mag_pye": 0.2890625,
+     "cuckoo": 0.3109375,
+     "great_lump": 0.240625,
+     "mother_goose": 0.2015625,
+     "gabble_ratchet": 0.1125,
+     "seven_whistlers": 0.075
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "10": {
+    "n": 640,
+    "stats": 147.0,
+    "tier": 5.0,
+    "spent": 88.0,
+    "tier6": 0.190625,
+    "tribe_board": 6.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.546875,
+     "one_swallow": 0.521875,
+     "mrs_dunnock": 0.3828125,
+     "mrs_jay": 0.3109375,
+     "mr_redbreast": 0.3375,
+     "redwing": 0.1859375,
+     "jack_daw": 0.2625,
+     "tom_tit": 0.3328125,
+     "old_tern": 0.2921875,
+     "mrs_stork": 0.384375,
+     "mag_pye": 0.2296875,
+     "cuckoo": 0.3875,
+     "great_lump": 0.4828125,
+     "mother_goose": 0.4265625,
+     "gabble_ratchet": 0.271875,
+     "seven_whistlers": 0.2296875
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "11": {
+    "n": 621,
+    "stats": 201,
+    "tier": 5,
+    "spent": 101,
+    "tier6": 0.23349436392914655,
+    "tribe_board": 6,
+    "board_bodies": 7,
+    "golden": 0,
+    "presence": {
+     "chiffchaff": 0.5571658615136876,
+     "one_swallow": 0.5056360708534622,
+     "mrs_dunnock": 0.2785829307568438,
+     "mrs_jay": 0.31561996779388085,
+     "mr_redbreast": 0.357487922705314,
+     "redwing": 0.12721417069243157,
+     "jack_daw": 0.2318840579710145,
+     "tom_tit": 0.3607085346215781,
+     "old_tern": 0.28502415458937197,
+     "mrs_stork": 0.46859903381642515,
+     "mag_pye": 0.17552334943639292,
+     "cuckoo": 0.42028985507246375,
+     "great_lump": 0.642512077294686,
+     "mother_goose": 0.5813204508856683,
+     "gabble_ratchet": 0.42351046698872785,
+     "seven_whistlers": 0.31561996779388085
+    },
+    "hc": 1,
+    "away": 1,
+    "jays": 0
+   },
+   "12": {
+    "n": 593,
+    "stats": 270,
+    "tier": 6,
+    "spent": 112,
+    "tier6": 0.8229342327150084,
+    "tribe_board": 6,
+    "board_bodies": 7,
+    "golden": 0,
+    "presence": {
+     "chiffchaff": 0.5716694772344013,
+     "one_swallow": 0.5042158516020236,
+     "mrs_dunnock": 0.22259696458684655,
+     "mrs_jay": 0.31534569983136596,
+     "mr_redbreast": 0.3777403035413153,
+     "redwing": 0.07419898819561552,
+     "jack_daw": 0.21079258010118043,
+     "tom_tit": 0.36593591905564926,
+     "old_tern": 0.28161888701517707,
+     "mrs_stork": 0.4856661045531197,
+     "mag_pye": 0.13827993254637436,
+     "cuckoo": 0.433389544688027,
+     "great_lump": 0.688026981450253,
+     "mother_goose": 0.6256323777403036,
+     "gabble_ratchet": 0.4671163575042159,
+     "seven_whistlers": 0.33220910623946037
+    },
+    "hc": 1,
+    "away": 1,
+    "jays": 0
+   },
+   "13": {
+    "n": 558,
+    "stats": 358.5,
+    "tier": 6.0,
+    "spent": 124.0,
+    "tier6": 0.9139784946236559,
+    "tribe_board": 7.0,
+    "board_bodies": 7.0,
+    "golden": 1.0,
+    "presence": {
+     "chiffchaff": 0.578853046594982,
+     "one_swallow": 0.5089605734767025,
+     "mrs_dunnock": 0.15770609318996415,
+     "mrs_jay": 0.30286738351254483,
+     "mr_redbreast": 0.3835125448028674,
+     "redwing": 0.04659498207885305,
+     "jack_daw": 0.16845878136200718,
+     "tom_tit": 0.3888888888888889,
+     "old_tern": 0.24193548387096775,
+     "mrs_stork": 0.510752688172043,
+     "mag_pye": 0.0913978494623656,
+     "cuckoo": 0.4283154121863799,
+     "great_lump": 0.7580645161290323,
+     "mother_goose": 0.6702508960573477,
+     "gabble_ratchet": 0.6111111111111112,
+     "seven_whistlers": 0.3888888888888889
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "14": {
+    "n": 508,
+    "stats": 495.5,
+    "tier": 6.0,
+    "spent": 136.0,
+    "tier6": 0.9645669291338582,
+    "tribe_board": 7.0,
+    "board_bodies": 7.0,
+    "golden": 1.0,
+    "presence": {
+     "chiffchaff": 0.59251968503937,
+     "one_swallow": 0.5255905511811023,
+     "mrs_dunnock": 0.13188976377952755,
+     "mrs_jay": 0.29133858267716534,
+     "mr_redbreast": 0.38779527559055116,
+     "redwing": 0.03543307086614173,
+     "jack_daw": 0.14173228346456693,
+     "tom_tit": 0.4311023622047244,
+     "old_tern": 0.22440944881889763,
+     "mrs_stork": 0.5295275590551181,
+     "mag_pye": 0.07086614173228346,
+     "cuckoo": 0.4330708661417323,
+     "great_lump": 0.8011811023622047,
+     "mother_goose": 0.687007874015748,
+     "gabble_ratchet": 0.687007874015748,
+     "seven_whistlers": 0.40551181102362205
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   }
+  },
+  "first": {
+   "chiffchaff": {
+    "by8": 0.5328125,
+    "by10": 0.553125,
+    "by12": 0.565625,
+    "ever": 0.5671875
+   },
+   "one_swallow": {
+    "by8": 0.5203125,
+    "by10": 0.540625,
+    "by12": 0.5421875,
+    "ever": 0.546875
+   },
+   "mrs_dunnock": {
+    "by8": 0.5171875,
+    "by10": 0.5265625,
+    "by12": 0.53125,
+    "ever": 0.53125
+   },
+   "mrs_jay": {
+    "by8": 0.2546875,
+    "by10": 0.3171875,
+    "by12": 0.33125,
+    "ever": 0.3359375
+   },
+   "mr_redbreast": {
+    "by8": 0.2828125,
+    "by10": 0.3453125,
+    "by12": 0.384375,
+    "ever": 0.3953125
+   },
+   "redwing": {
+    "by8": 0.2765625,
+    "by10": 0.3140625,
+    "by12": 0.3203125,
+    "ever": 0.3234375
+   },
+   "jack_daw": {
+    "by8": 0.2703125,
+    "by10": 0.3171875,
+    "by12": 0.3421875,
+    "ever": 0.3515625
+   },
+   "tom_tit": {
+    "by8": 0.2625,
+    "by10": 0.34375,
+    "by12": 0.3921875,
+    "ever": 0.440625
+   },
+   "old_tern": {
+    "by8": 0.2484375,
+    "by10": 0.3046875,
+    "by12": 0.3203125,
+    "ever": 0.3234375
+   },
+   "mrs_stork": {
+    "by8": 0.2390625,
+    "by10": 0.3890625,
+    "by12": 0.4828125,
+    "ever": 0.528125
+   },
+   "mag_pye": {
+    "by8": 0.2359375,
+    "by10": 0.34375,
+    "by12": 0.375,
+    "ever": 0.3796875
+   },
+   "cuckoo": {
+    "by8": 0.221875,
+    "by10": 0.390625,
+    "by12": 0.4453125,
+    "ever": 0.4734375
+   },
+   "great_lump": {
+    "by8": 0.0671875,
+    "by10": 0.4828125,
+    "by12": 0.6703125,
+    "ever": 0.7625
+   },
+   "mother_goose": {
+    "by8": 0.0625,
+    "by10": 0.4265625,
+    "by12": 0.6109375,
+    "ever": 0.659375
+   },
+   "gabble_ratchet": {
+    "by8": 0.0265625,
+    "by10": 0.2734375,
+    "by12": 0.4890625,
+    "ever": 0.7296875
+   },
+   "seven_whistlers": {
+    "by8": 0.0140625,
+    "by10": 0.2359375,
+    "by12": 0.4171875,
+    "ever": 0.596875
+   }
+  },
+  "econ": {
+   "1": {
+    "n": 640,
+    "tier": 1.0,
+    "bank": 3.0,
+    "spent": 1.0,
+    "refresh": 0,
+    "left": 2,
+    "units": 0.0
+   },
+   "2": {
+    "n": 640,
+    "tier": 1.0,
+    "bank": 7.0,
+    "spent": 7.0,
+    "refresh": 0,
+    "left": 0.7625,
+    "units": 2.0
+   },
+   "3": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 7.0,
+    "spent": 7.0,
+    "refresh": 0,
+    "left": 0.2875,
+    "units": 3.0
+   },
+   "4": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 7.0,
+    "spent": 6.0,
+    "refresh": 0.375,
+    "left": 1.1765625,
+    "units": 4.0
+   },
+   "5": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 9.0,
+    "spent": 9.0,
+    "refresh": 0.4484375,
+    "left": 1.0046875,
+    "units": 5.0
+   },
+   "6": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 9.0,
+    "spent": 9.0,
+    "refresh": 0.6484375,
+    "left": 1.3828125,
+    "units": 6.0
+   },
+   "7": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 10.0,
+    "spent": 10.0,
+    "refresh": 0.6171875,
+    "left": 1.625,
+    "units": 7.0
+   },
+   "8": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 12.0,
+    "spent": 12.0,
+    "refresh": 0.90625,
+    "left": 1.6265625,
+    "units": 7.0
+   },
+   "9": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 0.9765625,
+    "left": 1.2203125,
+    "units": 7.0
+   },
+   "10": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 13.0,
+    "refresh": 1.4640625,
+    "left": 0.7734375,
+    "units": 7.0
+   },
+   "11": {
+    "n": 621,
+    "tier": 5,
+    "bank": 10,
+    "spent": 12,
+    "refresh": 1.3510466988727858,
+    "left": 0.8727858293075684,
+    "units": 7
+   },
+   "12": {
+    "n": 593,
+    "tier": 6,
+    "bank": 10,
+    "spent": 11,
+    "refresh": 0.6930860033726813,
+    "left": 0.554806070826307,
+    "units": 7
+   },
+   "13": {
+    "n": 558,
+    "tier": 6.0,
+    "bank": 10.0,
+    "spent": 11.0,
+    "refresh": 1.496415770609319,
+    "left": 0.34050179211469533,
+    "units": 7.0
+   },
+   "14": {
+    "n": 508,
+    "tier": 6.0,
+    "bank": 10.0,
+    "spent": 11.0,
+    "refresh": 1.6003937007874016,
+    "left": 0.32086614173228345,
+    "units": 7.0
+   }
+  },
+  "tierup": {
+   "2": 3.0,
+   "3": 5.0,
+   "4": 7.0,
+   "5": 8.0,
+   "6": 12.0
+  }
+ },
+ "line_birds_tempo": {
+  "rows": {
+   "8": {
+    "n": 640,
+    "stats": 75.0,
+    "tier": 5.0,
+    "spent": 61.0,
+    "tier6": 0.0484375,
+    "tribe_board": 4.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.58125,
+     "one_swallow": 0.5296875,
+     "mrs_dunnock": 0.5171875,
+     "mrs_jay": 0.2984375,
+     "mr_redbreast": 0.2640625,
+     "redwing": 0.265625,
+     "jack_daw": 0.234375,
+     "tom_tit": 0.2734375,
+     "old_tern": 0.2515625,
+     "mrs_stork": 0.2640625,
+     "mag_pye": 0.2109375,
+     "cuckoo": 0.228125,
+     "great_lump": 0.0765625,
+     "mother_goose": 0.0546875,
+     "gabble_ratchet": 0.0203125,
+     "seven_whistlers": 0.009375
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "9": {
+    "n": 640,
+    "stats": 96.0,
+    "tier": 5.0,
+    "spent": 75.0,
+    "tier6": 0.140625,
+    "tribe_board": 5.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.5984375,
+     "one_swallow": 0.5328125,
+     "mrs_dunnock": 0.5,
+     "mrs_jay": 0.30625,
+     "mr_redbreast": 0.29375,
+     "redwing": 0.2484375,
+     "jack_daw": 0.2453125,
+     "tom_tit": 0.3140625,
+     "old_tern": 0.284375,
+     "mrs_stork": 0.3640625,
+     "mag_pye": 0.2515625,
+     "cuckoo": 0.3296875,
+     "great_lump": 0.2234375,
+     "mother_goose": 0.228125,
+     "gabble_ratchet": 0.090625,
+     "seven_whistlers": 0.078125
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "10": {
+    "n": 639,
+    "stats": 145,
+    "tier": 5,
+    "spent": 88,
+    "tier6": 0.17996870109546165,
+    "tribe_board": 6,
+    "board_bodies": 7,
+    "golden": 0,
+    "presence": {
+     "chiffchaff": 0.6009389671361502,
+     "one_swallow": 0.5305164319248826,
+     "mrs_dunnock": 0.40688575899843504,
+     "mrs_jay": 0.3161189358372457,
+     "mr_redbreast": 0.3223787167449139,
+     "redwing": 0.19248826291079812,
+     "jack_daw": 0.26291079812206575,
+     "tom_tit": 0.3380281690140845,
+     "old_tern": 0.3145539906103286,
+     "mrs_stork": 0.4287949921752739,
+     "mag_pye": 0.20187793427230047,
+     "cuckoo": 0.38810641627543035,
+     "great_lump": 0.4350547730829421,
+     "mother_goose": 0.40219092331768386,
+     "gabble_ratchet": 0.2566510172143975,
+     "seven_whistlers": 0.20187793427230047
+    },
+    "hc": 1,
+    "away": 1,
+    "jays": 0
+   },
+   "11": {
+    "n": 622,
+    "stats": 193.5,
+    "tier": 5.0,
+    "spent": 99.0,
+    "tier6": 0.2508038585209003,
+    "tribe_board": 6.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.5964630225080386,
+     "one_swallow": 0.5257234726688103,
+     "mrs_dunnock": 0.3054662379421222,
+     "mrs_jay": 0.3279742765273312,
+     "mr_redbreast": 0.3440514469453376,
+     "redwing": 0.10932475884244373,
+     "jack_daw": 0.2508038585209003,
+     "tom_tit": 0.37138263665594856,
+     "old_tern": 0.31189710610932475,
+     "mrs_stork": 0.47266881028938906,
+     "mag_pye": 0.14308681672025725,
+     "cuckoo": 0.4180064308681672,
+     "great_lump": 0.6157556270096463,
+     "mother_goose": 0.5707395498392283,
+     "gabble_ratchet": 0.3890675241157556,
+     "seven_whistlers": 0.2909967845659164
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "12": {
+    "n": 588,
+    "stats": 260.5,
+    "tier": 6.0,
+    "spent": 111.0,
+    "tier6": 0.8469387755102041,
+    "tribe_board": 6.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "chiffchaff": 0.6037414965986394,
+     "one_swallow": 0.5221088435374149,
+     "mrs_dunnock": 0.23469387755102042,
+     "mrs_jay": 0.32653061224489793,
+     "mr_redbreast": 0.35034013605442177,
+     "redwing": 0.07653061224489796,
+     "jack_daw": 0.2108843537414966,
+     "tom_tit": 0.3826530612244898,
+     "old_tern": 0.30272108843537415,
+     "mrs_stork": 0.4812925170068027,
+     "mag_pye": 0.10034013605442177,
+     "cuckoo": 0.4217687074829932,
+     "great_lump": 0.6717687074829932,
+     "mother_goose": 0.6173469387755102,
+     "gabble_ratchet": 0.445578231292517,
+     "seven_whistlers": 0.2976190476190476
+    },
+    "hc": 1.0,
+    "away": 1.0,
+    "jays": 0.0
+   },
+   "13": {
+    "n": 557,
+    "stats": 346,
+    "tier": 6,
+    "spent": 123,
+    "tier6": 0.926391382405745,
+    "tribe_board": 7,
+    "board_bodies": 7,
+    "golden": 1,
+    "presence": {
+     "chiffchaff": 0.6068222621184919,
+     "one_swallow": 0.5242369838420108,
+     "mrs_dunnock": 0.1741472172351885,
+     "mrs_jay": 0.3339317773788151,
+     "mr_redbreast": 0.3518850987432675,
+     "redwing": 0.04488330341113106,
+     "jack_daw": 0.15798922800718132,
+     "tom_tit": 0.41831238779174146,
+     "old_tern": 0.2764811490125673,
+     "mrs_stork": 0.5080789946140036,
+     "mag_pye": 0.07899461400359066,
+     "cuckoo": 0.42908438061041293,
+     "great_lump": 0.7271095152603232,
+     "mother_goose": 0.6624775583482945,
+     "gabble_ratchet": 0.6068222621184919,
+     "seven_whistlers": 0.37163375224416517
+    },
+    "hc": 1,
+    "away": 1,
+    "jays": 0
+   },
+   "14": {
+    "n": 515,
+    "stats": 462,
+    "tier": 6,
+    "spent": 134,
+    "tier6": 0.9631067961165048,
+    "tribe_board": 7,
+    "board_bodies": 7,
+    "golden": 1,
+    "presence": {
+     "chiffchaff": 0.6233009708737864,
+     "one_swallow": 0.5398058252427185,
+     "mrs_dunnock": 0.14951456310679612,
+     "mrs_jay": 0.3300970873786408,
+     "mr_redbreast": 0.35145631067961164,
+     "redwing": 0.02330097087378641,
+     "jack_daw": 0.14757281553398058,
+     "tom_tit": 0.4330097087378641,
+     "old_tern": 0.24854368932038834,
+     "mrs_stork": 0.5359223300970873,
+     "mag_pye": 0.062135922330097085,
+     "cuckoo": 0.4155339805825243,
+     "great_lump": 0.7766990291262136,
+     "mother_goose": 0.6621359223300971,
+     "gabble_ratchet": 0.6757281553398058,
+     "seven_whistlers": 0.4097087378640777
+    },
+    "hc": 1,
+    "away": 1,
+    "jays": 0
+   }
+  },
+  "first": {
+   "chiffchaff": {
+    "by8": 0.58125,
+    "by10": 0.6046875,
+    "by12": 0.6078125,
+    "ever": 0.609375
+   },
+   "one_swallow": {
+    "by8": 0.5296875,
+    "by10": 0.54375,
+    "by12": 0.5484375,
+    "ever": 0.55
+   },
+   "mrs_dunnock": {
+    "by8": 0.5171875,
+    "by10": 0.534375,
+    "by12": 0.54375,
+    "ever": 0.54375
+   },
+   "mrs_jay": {
+    "by8": 0.2984375,
+    "by10": 0.3296875,
+    "by12": 0.3453125,
+    "ever": 0.3515625
+   },
+   "mr_redbreast": {
+    "by8": 0.2640625,
+    "by10": 0.3296875,
+    "by12": 0.353125,
+    "ever": 0.3640625
+   },
+   "redwing": {
+    "by8": 0.265625,
+    "by10": 0.303125,
+    "by12": 0.3109375,
+    "ever": 0.3125
+   },
+   "jack_daw": {
+    "by8": 0.234375,
+    "by10": 0.3015625,
+    "by12": 0.328125,
+    "ever": 0.3359375
+   },
+   "tom_tit": {
+    "by8": 0.2734375,
+    "by10": 0.3484375,
+    "by12": 0.40625,
+    "ever": 0.4578125
+   },
+   "old_tern": {
+    "by8": 0.2515625,
+    "by10": 0.3296875,
+    "by12": 0.346875,
+    "ever": 0.3515625
+   },
+   "mrs_stork": {
+    "by8": 0.2640625,
+    "by10": 0.4328125,
+    "by12": 0.4921875,
+    "ever": 0.528125
+   },
+   "mag_pye": {
+    "by8": 0.2109375,
+    "by10": 0.31875,
+    "by12": 0.3375,
+    "ever": 0.35
+   },
+   "cuckoo": {
+    "by8": 0.228125,
+    "by10": 0.3984375,
+    "by12": 0.46875,
+    "ever": 0.5
+   },
+   "great_lump": {
+    "by8": 0.0765625,
+    "by10": 0.434375,
+    "by12": 0.646875,
+    "ever": 0.725
+   },
+   "mother_goose": {
+    "by8": 0.0546875,
+    "by10": 0.4015625,
+    "by12": 0.5953125,
+    "ever": 0.640625
+   },
+   "gabble_ratchet": {
+    "by8": 0.0203125,
+    "by10": 0.2625,
+    "by12": 0.4640625,
+    "ever": 0.7125
+   },
+   "seven_whistlers": {
+    "by8": 0.009375,
+    "by10": 0.2078125,
+    "by12": 0.3859375,
+    "ever": 0.5984375
+   }
+  },
+  "econ": {
+   "1": {
+    "n": 640,
+    "tier": 1.0,
+    "bank": 3.0,
+    "spent": 3.0,
+    "refresh": 0,
+    "left": 0,
+    "units": 1.0
+   },
+   "2": {
+    "n": 640,
+    "tier": 1.0,
+    "bank": 5.0,
+    "spent": 4.0,
+    "refresh": 0,
+    "left": 0.846875,
+    "units": 2.0
+   },
+   "3": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 8.0,
+    "spent": 7.0,
+    "refresh": 0,
+    "left": 0.5984375,
+    "units": 3.0
+   },
+   "4": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 7.0,
+    "spent": 7.0,
+    "refresh": 0.346875,
+    "left": 1.1140625,
+    "units": 5.0
+   },
+   "5": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 9.0,
+    "spent": 9.0,
+    "refresh": 0.4015625,
+    "left": 1.0359375,
+    "units": 5.0
+   },
+   "6": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 9.0,
+    "spent": 9.0,
+    "refresh": 0.553125,
+    "left": 1.3640625,
+    "units": 6.0
+   },
+   "7": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 10.0,
+    "spent": 10.0,
+    "refresh": 0.7015625,
+    "left": 1.43125,
+    "units": 6.0
+   },
+   "8": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 0.95,
+    "left": 1.5,
+    "units": 7.0
+   },
+   "9": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 1.071875,
+    "left": 1.0984375,
+    "units": 7.0
+   },
+   "10": {
+    "n": 639,
+    "tier": 5,
+    "bank": 11,
+    "spent": 12,
+    "refresh": 1.3552425665101722,
+    "left": 0.8153364632237872,
+    "units": 7
+   },
+   "11": {
+    "n": 622,
+    "tier": 5.0,
+    "bank": 10.0,
+    "spent": 11.5,
+    "refresh": 1.2443729903536977,
+    "left": 0.932475884244373,
+    "units": 7.0
+   },
+   "12": {
+    "n": 588,
+    "tier": 6.0,
+    "bank": 10.0,
+    "spent": 11.0,
+    "refresh": 0.6717687074829932,
+    "left": 0.6207482993197279,
+    "units": 7.0
+   },
+   "13": {
+    "n": 557,
+    "tier": 6,
+    "bank": 10,
+    "spent": 11,
+    "refresh": 1.4578096947935368,
+    "left": 0.4129263913824057,
+    "units": 7
+   },
+   "14": {
+    "n": 515,
+    "tier": 6,
+    "bank": 10,
+    "spent": 11,
+    "refresh": 1.6194174757281554,
+    "left": 0.3533980582524272,
+    "units": 7
+   }
+  },
+  "tierup": {
+   "2": 3.0,
+   "3": 5.0,
+   "4": 6.0,
+   "5": 8.0,
+   "6": 12.0
+  }
+ },
+ "line_fairies_ring": {
+  "rows": {
+   "8": {
+    "n": 640,
+    "stats": 63.5,
+    "tier": 5.0,
+    "spent": 60.5,
+    "tier6": 0.0734375,
+    "tribe_board": 4.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.4203125,
+     "rainbow_chaser": 0.1984375,
+     "hedge_witch": 0.4828125,
+     "old_moth_annis": 0.315625,
+     "sally_spore": 0.284375,
+     "hob_in_the_hearth": 0.25625,
+     "cluricaun": 0.2875,
+     "lob_lie_by_the_fire": 0.2578125,
+     "silky": 0.175,
+     "changeling": 0.203125,
+     "will_o_the_wisp": 0.259375,
+     "cradle_fetch": 0.290625,
+     "belladonna": 0.1015625,
+     "reel_mistress": 0.0796875,
+     "fairy_monarch": 0.028125,
+     "queen_of_elfland": 0.0234375
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     1.0,
+     2.0
+    ],
+    "rings": 5.0,
+    "rings_q": [
+     2,
+     8
+    ],
+    "ringed_slots": 2.0,
+    "rings_x_S": 10.0
+   },
+   "9": {
+    "n": 640,
+    "stats": 77.0,
+    "tier": 5.0,
+    "spent": 73.0,
+    "tier6": 0.153125,
+    "tribe_board": 5.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.3734375,
+     "rainbow_chaser": 0.1375,
+     "hedge_witch": 0.4625,
+     "old_moth_annis": 0.3375,
+     "sally_spore": 0.26875,
+     "hob_in_the_hearth": 0.225,
+     "cluricaun": 0.325,
+     "lob_lie_by_the_fire": 0.2640625,
+     "silky": 0.184375,
+     "changeling": 0.2203125,
+     "will_o_the_wisp": 0.33125,
+     "cradle_fetch": 0.371875,
+     "belladonna": 0.3125,
+     "reel_mistress": 0.26875,
+     "fairy_monarch": 0.146875,
+     "queen_of_elfland": 0.0921875
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     1.0,
+     2.0
+    ],
+    "rings": 7.0,
+    "rings_q": [
+     3,
+     11
+    ],
+    "ringed_slots": 3.0,
+    "rings_x_S": 16.0
+   },
+   "10": {
+    "n": 626,
+    "stats": 98.0,
+    "tier": 5.0,
+    "spent": 85.0,
+    "tier6": 0.19968051118210864,
+    "tribe_board": 5.0,
+    "board_bodies": 6.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.24440894568690097,
+     "rainbow_chaser": 0.05910543130990415,
+     "hedge_witch": 0.4057507987220447,
+     "old_moth_annis": 0.36900958466453676,
+     "sally_spore": 0.2364217252396166,
+     "hob_in_the_hearth": 0.1597444089456869,
+     "cluricaun": 0.365814696485623,
+     "lob_lie_by_the_fire": 0.2476038338658147,
+     "silky": 0.1389776357827476,
+     "changeling": 0.1645367412140575,
+     "will_o_the_wisp": 0.33226837060702874,
+     "cradle_fetch": 0.4504792332268371,
+     "belladonna": 0.5111821086261981,
+     "reel_mistress": 0.43450479233226835,
+     "fairy_monarch": 0.34345047923322686,
+     "queen_of_elfland": 0.2539936102236422
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     2.0,
+     2.0
+    ],
+    "rings": 10.0,
+    "rings_q": [
+     5,
+     17
+    ],
+    "ringed_slots": 4.0,
+    "rings_x_S": 28.0
+   },
+   "11": {
+    "n": 563,
+    "stats": 114,
+    "tier": 6,
+    "spent": 97,
+    "tier6": 0.7353463587921847,
+    "tribe_board": 5,
+    "board_bodies": 6,
+    "golden": 0,
+    "presence": {
+     "nan_toadstool": 0.17761989342806395,
+     "rainbow_chaser": 0.028419182948490232,
+     "hedge_witch": 0.3623445825932504,
+     "old_moth_annis": 0.3996447602131439,
+     "sally_spore": 0.1936056838365897,
+     "hob_in_the_hearth": 0.12255772646536411,
+     "cluricaun": 0.3747779751332149,
+     "lob_lie_by_the_fire": 0.21314387211367672,
+     "silky": 0.10657193605683836,
+     "changeling": 0.11012433392539965,
+     "will_o_the_wisp": 0.3108348134991119,
+     "cradle_fetch": 0.48845470692717585,
+     "belladonna": 0.5968028419182948,
+     "reel_mistress": 0.5008880994671403,
+     "fairy_monarch": 0.42984014209591476,
+     "queen_of_elfland": 0.31793960923623443
+    },
+    "S": 2.0,
+    "S_q": [
+     1.0,
+     2.0,
+     3.0
+    ],
+    "rings": 13,
+    "rings_q": [
+     6,
+     23
+    ],
+    "ringed_slots": 4,
+    "rings_x_S": 40.0
+   },
+   "12": {
+    "n": 468,
+    "stats": 142.0,
+    "tier": 6.0,
+    "spent": 109.0,
+    "tier6": 0.8931623931623932,
+    "tribe_board": 5.0,
+    "board_bodies": 6.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.1047008547008547,
+     "rainbow_chaser": 0.014957264957264958,
+     "hedge_witch": 0.29273504273504275,
+     "old_moth_annis": 0.4358974358974359,
+     "sally_spore": 0.1111111111111111,
+     "hob_in_the_hearth": 0.0811965811965812,
+     "cluricaun": 0.38461538461538464,
+     "lob_lie_by_the_fire": 0.14102564102564102,
+     "silky": 0.07692307692307693,
+     "changeling": 0.07478632478632478,
+     "will_o_the_wisp": 0.24145299145299146,
+     "cradle_fetch": 0.5277777777777778,
+     "belladonna": 0.6666666666666666,
+     "reel_mistress": 0.5106837606837606,
+     "fairy_monarch": 0.6239316239316239,
+     "queen_of_elfland": 0.4337606837606838
+    },
+    "S": 2.0,
+    "S_q": [
+     1.0,
+     3.0,
+     4.0
+    ],
+    "rings": 18.0,
+    "rings_q": [
+     9,
+     30
+    ],
+    "ringed_slots": 6.0,
+    "rings_x_S": 68.0
+   },
+   "13": {
+    "n": 383,
+    "stats": 171,
+    "tier": 6,
+    "spent": 120,
+    "tier6": 0.95822454308094,
+    "tribe_board": 5,
+    "board_bodies": 5,
+    "golden": 0,
+    "presence": {
+     "nan_toadstool": 0.05483028720626632,
+     "rainbow_chaser": 0.007832898172323759,
+     "hedge_witch": 0.2402088772845953,
+     "old_moth_annis": 0.45430809399477806,
+     "sally_spore": 0.08093994778067885,
+     "hob_in_the_hearth": 0.05221932114882506,
+     "cluricaun": 0.3785900783289817,
+     "lob_lie_by_the_fire": 0.09399477806788512,
+     "silky": 0.04177545691906005,
+     "changeling": 0.04699738903394256,
+     "will_o_the_wisp": 0.18276762402088773,
+     "cradle_fetch": 0.556135770234987,
+     "belladonna": 0.6866840731070496,
+     "reel_mistress": 0.4751958224543081,
+     "fairy_monarch": 0.7754569190600522,
+     "queen_of_elfland": 0.48825065274151436
+    },
+    "S": 2.0,
+    "S_q": [
+     2.0,
+     4.0,
+     6.0
+    ],
+    "rings": 24,
+    "rings_q": [
+     11,
+     37
+    ],
+    "ringed_slots": 7,
+    "rings_x_S": 100.0
+   },
+   "14": {
+    "n": 285,
+    "stats": 249,
+    "tier": 6,
+    "spent": 132,
+    "tier6": 0.9929824561403509,
+    "tribe_board": 5,
+    "board_bodies": 5,
+    "golden": 1,
+    "presence": {
+     "nan_toadstool": 0.05263157894736842,
+     "rainbow_chaser": 0.0035087719298245615,
+     "hedge_witch": 0.21754385964912282,
+     "old_moth_annis": 0.47017543859649125,
+     "sally_spore": 0.0456140350877193,
+     "hob_in_the_hearth": 0.042105263157894736,
+     "cluricaun": 0.3649122807017544,
+     "lob_lie_by_the_fire": 0.09824561403508772,
+     "silky": 0.028070175438596492,
+     "changeling": 0.03508771929824561,
+     "will_o_the_wisp": 0.10175438596491228,
+     "cradle_fetch": 0.5719298245614035,
+     "belladonna": 0.6947368421052632,
+     "reel_mistress": 0.38596491228070173,
+     "fairy_monarch": 0.8526315789473684,
+     "queen_of_elfland": 0.5543859649122806
+    },
+    "S": 3.0,
+    "S_q": [
+     2.0,
+     6.0,
+     9.0
+    ],
+    "rings": 30,
+    "rings_q": [
+     15,
+     46
+    ],
+    "ringed_slots": 7,
+    "rings_x_S": 180.0
+   }
+  },
+  "first": {
+   "nan_toadstool": {
+    "by8": 0.4203125,
+    "by10": 0.4359375,
+    "by12": 0.4421875,
+    "ever": 0.44375
+   },
+   "rainbow_chaser": {
+    "by8": 0.1984375,
+    "by10": 0.20625,
+    "by12": 0.2078125,
+    "ever": 0.2078125
+   },
+   "hedge_witch": {
+    "by8": 0.4828125,
+    "by10": 0.4921875,
+    "by12": 0.49375,
+    "ever": 0.4953125
+   },
+   "old_moth_annis": {
+    "by8": 0.315625,
+    "by10": 0.3671875,
+    "by12": 0.396875,
+    "ever": 0.40625
+   },
+   "sally_spore": {
+    "by8": 0.284375,
+    "by10": 0.3140625,
+    "by12": 0.3171875,
+    "ever": 0.3171875
+   },
+   "hob_in_the_hearth": {
+    "by8": 0.25625,
+    "by10": 0.2859375,
+    "by12": 0.3,
+    "ever": 0.3078125
+   },
+   "cluricaun": {
+    "by8": 0.2875,
+    "by10": 0.3625,
+    "by12": 0.38125,
+    "ever": 0.3875
+   },
+   "lob_lie_by_the_fire": {
+    "by8": 0.2578125,
+    "by10": 0.353125,
+    "by12": 0.384375,
+    "ever": 0.409375
+   },
+   "silky": {
+    "by8": 0.175,
+    "by10": 0.2484375,
+    "by12": 0.26875,
+    "ever": 0.278125
+   },
+   "changeling": {
+    "by8": 0.203125,
+    "by10": 0.278125,
+    "by12": 0.2875,
+    "ever": 0.2921875
+   },
+   "will_o_the_wisp": {
+    "by8": 0.259375,
+    "by10": 0.3859375,
+    "by12": 0.4109375,
+    "ever": 0.41875
+   },
+   "cradle_fetch": {
+    "by8": 0.290625,
+    "by10": 0.4484375,
+    "by12": 0.5015625,
+    "ever": 0.528125
+   },
+   "belladonna": {
+    "by8": 0.1015625,
+    "by10": 0.5140625,
+    "by12": 0.634375,
+    "ever": 0.675
+   },
+   "reel_mistress": {
+    "by8": 0.0796875,
+    "by10": 0.4484375,
+    "by12": 0.559375,
+    "ever": 0.6046875
+   },
+   "fairy_monarch": {
+    "by8": 0.028125,
+    "by10": 0.3390625,
+    "by12": 0.584375,
+    "ever": 0.721875
+   },
+   "queen_of_elfland": {
+    "by8": 0.0234375,
+    "by10": 0.2515625,
+    "by12": 0.40625,
+    "ever": 0.5125
+   }
+  },
+  "econ": {
+   "1": {
+    "n": 640,
+    "tier": 1.0,
+    "bank": 3.0,
+    "spent": 1.0,
+    "refresh": 0,
+    "left": 2,
+    "units": 0.0
+   },
+   "2": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 7.0,
+    "spent": 7.0,
+    "refresh": 0,
+    "left": 0.8234375,
+    "units": 1.0
+   },
+   "3": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 7.0,
+    "spent": 6.0,
+    "refresh": 0,
+    "left": 0.5421875,
+    "units": 3.0
+   },
+   "4": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 7.0,
+    "spent": 7.0,
+    "refresh": 0.0234375,
+    "left": 0.690625,
+    "units": 3.0
+   },
+   "5": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 8.0,
+    "spent": 8.0,
+    "refresh": 0.5296875,
+    "left": 1.18125,
+    "units": 5.0
+   },
+   "6": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 9.0,
+    "spent": 9.0,
+    "refresh": 0.19375,
+    "left": 1.1453125,
+    "units": 5.0
+   },
+   "7": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 10.0,
+    "spent": 10.0,
+    "refresh": 0.975,
+    "left": 1.365625,
+    "units": 6.0
+   },
+   "8": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 0.8046875,
+    "left": 1.3140625,
+    "units": 7.0
+   },
+   "9": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 0.9671875,
+    "left": 1.046875,
+    "units": 7.0
+   },
+   "10": {
+    "n": 626,
+    "tier": 5.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 1.3977635782747604,
+    "left": 1.0287539936102237,
+    "units": 6.0
+   },
+   "11": {
+    "n": 563,
+    "tier": 6,
+    "bank": 11,
+    "spent": 11,
+    "refresh": 0.6305506216696269,
+    "left": 0.6927175843694494,
+    "units": 6
+   },
+   "12": {
+    "n": 468,
+    "tier": 6.0,
+    "bank": 10.0,
+    "spent": 11.0,
+    "refresh": 1.2158119658119657,
+    "left": 0.532051282051282,
+    "units": 6.0
+   },
+   "13": {
+    "n": 383,
+    "tier": 6,
+    "bank": 10,
+    "spent": 11,
+    "refresh": 1.3368146214099217,
+    "left": 0.42036553524804177,
+    "units": 5
+   },
+   "14": {
+    "n": 285,
+    "tier": 6,
+    "bank": 10,
+    "spent": 11,
+    "refresh": 1.4456140350877194,
+    "left": 0.36140350877192984,
+    "units": 5
+   }
+  },
+  "tierup": {
+   "2": 2.0,
+   "3": 4.0,
+   "4": 6.0,
+   "5": 8.0,
+   "6": 11.0
+  }
+ },
+ "line_fairies_court": {
+  "rows": {
+   "8": {
+    "n": 640,
+    "stats": 59.5,
+    "tier": 5.0,
+    "spent": 58.0,
+    "tier6": 0.13125,
+    "tribe_board": 4.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.4671875,
+     "rainbow_chaser": 0.496875,
+     "hedge_witch": 0.4171875,
+     "old_moth_annis": 0.21875,
+     "sally_spore": 0.23125,
+     "hob_in_the_hearth": 0.196875,
+     "cluricaun": 0.225,
+     "lob_lie_by_the_fire": 0.2140625,
+     "silky": 0.19375,
+     "changeling": 0.1765625,
+     "will_o_the_wisp": 0.196875,
+     "cradle_fetch": 0.159375,
+     "belladonna": 0.08125,
+     "reel_mistress": 0.06875,
+     "fairy_monarch": 0.0328125,
+     "queen_of_elfland": 0.0359375
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "rings": 3.0,
+    "rings_q": [
+     1,
+     8
+    ],
+    "ringed_slots": 2.0,
+    "rings_x_S": 8.0
+   },
+   "9": {
+    "n": 640,
+    "stats": 77.0,
+    "tier": 5.0,
+    "spent": 71.0,
+    "tier6": 0.265625,
+    "tribe_board": 5.0,
+    "board_bodies": 7.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.3875,
+     "rainbow_chaser": 0.46875,
+     "hedge_witch": 0.4078125,
+     "old_moth_annis": 0.2390625,
+     "sally_spore": 0.2578125,
+     "hob_in_the_hearth": 0.1421875,
+     "cluricaun": 0.2640625,
+     "lob_lie_by_the_fire": 0.24375,
+     "silky": 0.1984375,
+     "changeling": 0.2671875,
+     "will_o_the_wisp": 0.2703125,
+     "cradle_fetch": 0.2328125,
+     "belladonna": 0.2875,
+     "reel_mistress": 0.2328125,
+     "fairy_monarch": 0.1375,
+     "queen_of_elfland": 0.1578125
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     1.0,
+     2.0
+    ],
+    "rings": 6.0,
+    "rings_q": [
+     2,
+     12
+    ],
+    "ringed_slots": 3.0,
+    "rings_x_S": 14.0
+   },
+   "10": {
+    "n": 619,
+    "stats": 92,
+    "tier": 6,
+    "spent": 84,
+    "tier6": 0.7560581583198708,
+    "tribe_board": 5,
+    "board_bodies": 7,
+    "golden": 0,
+    "presence": {
+     "nan_toadstool": 0.30210016155088854,
+     "rainbow_chaser": 0.3715670436187399,
+     "hedge_witch": 0.35218093699515346,
+     "old_moth_annis": 0.26978998384491115,
+     "sally_spore": 0.2552504038772213,
+     "hob_in_the_hearth": 0.1147011308562197,
+     "cluricaun": 0.2924071082390953,
+     "lob_lie_by_the_fire": 0.21647819063004847,
+     "silky": 0.16478190630048464,
+     "changeling": 0.28109854604200324,
+     "will_o_the_wisp": 0.30048465266558966,
+     "cradle_fetch": 0.26978998384491115,
+     "belladonna": 0.42326332794830374,
+     "reel_mistress": 0.30048465266558966,
+     "fairy_monarch": 0.25040387722132473,
+     "queen_of_elfland": 0.2988691437802908
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     2.0,
+     2.0
+    ],
+    "rings": 9,
+    "rings_q": [
+     3,
+     20
+    ],
+    "ringed_slots": 4,
+    "rings_x_S": 24.0
+   },
+   "11": {
+    "n": 524,
+    "stats": 120.0,
+    "tier": 6.0,
+    "spent": 96.5,
+    "tier6": 0.8874045801526718,
+    "tribe_board": 5.0,
+    "board_bodies": 6.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.15648854961832062,
+     "rainbow_chaser": 0.28435114503816794,
+     "hedge_witch": 0.2786259541984733,
+     "old_moth_annis": 0.3148854961832061,
+     "sally_spore": 0.25763358778625955,
+     "hob_in_the_hearth": 0.05916030534351145,
+     "cluricaun": 0.3053435114503817,
+     "lob_lie_by_the_fire": 0.17938931297709923,
+     "silky": 0.1183206106870229,
+     "changeling": 0.26145038167938933,
+     "will_o_the_wisp": 0.29389312977099236,
+     "cradle_fetch": 0.2824427480916031,
+     "belladonna": 0.4770992366412214,
+     "reel_mistress": 0.2958015267175573,
+     "fairy_monarch": 0.44656488549618323,
+     "queen_of_elfland": 0.5381679389312977
+    },
+    "S": 1.0,
+    "S_q": [
+     1.0,
+     2.0,
+     3.0
+    ],
+    "rings": 17.0,
+    "rings_q": [
+     8,
+     32
+    ],
+    "ringed_slots": 7.0,
+    "rings_x_S": 54.0
+   },
+   "12": {
+    "n": 398,
+    "stats": 160.0,
+    "tier": 6.0,
+    "spent": 111.0,
+    "tier6": 0.9522613065326633,
+    "tribe_board": 5.0,
+    "board_bodies": 6.0,
+    "golden": 0.0,
+    "presence": {
+     "nan_toadstool": 0.08793969849246232,
+     "rainbow_chaser": 0.15326633165829145,
+     "hedge_witch": 0.18592964824120603,
+     "old_moth_annis": 0.38190954773869346,
+     "sally_spore": 0.20603015075376885,
+     "hob_in_the_hearth": 0.02763819095477387,
+     "cluricaun": 0.3015075376884422,
+     "lob_lie_by_the_fire": 0.1407035175879397,
+     "silky": 0.06532663316582915,
+     "changeling": 0.22613065326633167,
+     "will_o_the_wisp": 0.2185929648241206,
+     "cradle_fetch": 0.3065326633165829,
+     "belladonna": 0.5150753768844221,
+     "reel_mistress": 0.23366834170854273,
+     "fairy_monarch": 0.6030150753768844,
+     "queen_of_elfland": 0.7713567839195979
+    },
+    "S": 2.0,
+    "S_q": [
+     1.0,
+     3.0,
+     4.0
+    ],
+    "rings": 31.0,
+    "rings_q": [
+     18,
+     46
+    ],
+    "ringed_slots": 7.0,
+    "rings_x_S": 108.0
+   },
+   "13": {
+    "n": 309,
+    "stats": 233,
+    "tier": 6,
+    "spent": 123,
+    "tier6": 0.9805825242718447,
+    "tribe_board": 5,
+    "board_bodies": 5,
+    "golden": 1,
+    "presence": {
+     "nan_toadstool": 0.04854368932038835,
+     "rainbow_chaser": 0.05825242718446602,
+     "hedge_witch": 0.1423948220064725,
+     "old_moth_annis": 0.42394822006472493,
+     "sally_spore": 0.13915857605177995,
+     "hob_in_the_hearth": 0.009708737864077669,
+     "cluricaun": 0.2815533980582524,
+     "lob_lie_by_the_fire": 0.11974110032362459,
+     "silky": 0.038834951456310676,
+     "changeling": 0.20064724919093851,
+     "will_o_the_wisp": 0.18770226537216828,
+     "cradle_fetch": 0.3300970873786408,
+     "belladonna": 0.47896440129449835,
+     "reel_mistress": 0.18770226537216828,
+     "fairy_monarch": 0.7152103559870551,
+     "queen_of_elfland": 0.8737864077669902
+    },
+    "S": 3.0,
+    "S_q": [
+     2.0,
+     4.0,
+     6.0
+    ],
+    "rings": 43,
+    "rings_q": [
+     29,
+     59
+    ],
+    "ringed_slots": 7,
+    "rings_x_S": 208.0
+   },
+   "14": {
+    "n": 236,
+    "stats": 362.0,
+    "tier": 6.0,
+    "spent": 134.0,
+    "tier6": 0.9915254237288136,
+    "tribe_board": 5.0,
+    "board_bodies": 5.0,
+    "golden": 1.0,
+    "presence": {
+     "nan_toadstool": 0.046610169491525424,
+     "rainbow_chaser": 0.038135593220338986,
+     "hedge_witch": 0.11864406779661017,
+     "old_moth_annis": 0.4830508474576271,
+     "sally_spore": 0.11016949152542373,
+     "hob_in_the_hearth": 0.00847457627118644,
+     "cluricaun": 0.2711864406779661,
+     "lob_lie_by_the_fire": 0.0635593220338983,
+     "silky": 0.012711864406779662,
+     "changeling": 0.13983050847457626,
+     "will_o_the_wisp": 0.13559322033898305,
+     "cradle_fetch": 0.3601694915254237,
+     "belladonna": 0.4533898305084746,
+     "reel_mistress": 0.1652542372881356,
+     "fairy_monarch": 0.673728813559322,
+     "queen_of_elfland": 0.9279661016949152
+    },
+    "S": 4.0,
+    "S_q": [
+     2.0,
+     6.0,
+     12.0
+    ],
+    "rings": 59.0,
+    "rings_q": [
+     41,
+     76
+    ],
+    "ringed_slots": 7.0,
+    "rings_x_S": 404.0
+   }
+  },
+  "first": {
+   "nan_toadstool": {
+    "by8": 0.4671875,
+    "by10": 0.4765625,
+    "by12": 0.478125,
+    "ever": 0.4796875
+   },
+   "rainbow_chaser": {
+    "by8": 0.496875,
+    "by10": 0.5015625,
+    "by12": 0.5140625,
+    "ever": 0.51875
+   },
+   "hedge_witch": {
+    "by8": 0.4171875,
+    "by10": 0.4390625,
+    "by12": 0.4453125,
+    "ever": 0.446875
+   },
+   "old_moth_annis": {
+    "by8": 0.21875,
+    "by10": 0.2640625,
+    "by12": 0.2953125,
+    "ever": 0.30625
+   },
+   "sally_spore": {
+    "by8": 0.23125,
+    "by10": 0.26875,
+    "by12": 0.2875,
+    "ever": 0.290625
+   },
+   "hob_in_the_hearth": {
+    "by8": 0.196875,
+    "by10": 0.215625,
+    "by12": 0.221875,
+    "ever": 0.221875
+   },
+   "cluricaun": {
+    "by8": 0.225,
+    "by10": 0.290625,
+    "by12": 0.3203125,
+    "ever": 0.3390625
+   },
+   "lob_lie_by_the_fire": {
+    "by8": 0.2140625,
+    "by10": 0.3078125,
+    "by12": 0.3515625,
+    "ever": 0.3671875
+   },
+   "silky": {
+    "by8": 0.19375,
+    "by10": 0.2515625,
+    "by12": 0.2734375,
+    "ever": 0.2734375
+   },
+   "changeling": {
+    "by8": 0.1765625,
+    "by10": 0.29375,
+    "by12": 0.3265625,
+    "ever": 0.340625
+   },
+   "will_o_the_wisp": {
+    "by8": 0.196875,
+    "by10": 0.3203125,
+    "by12": 0.3703125,
+    "ever": 0.3828125
+   },
+   "cradle_fetch": {
+    "by8": 0.159375,
+    "by10": 0.2765625,
+    "by12": 0.35,
+    "ever": 0.3921875
+   },
+   "belladonna": {
+    "by8": 0.08125,
+    "by10": 0.425,
+    "by12": 0.5375,
+    "ever": 0.559375
+   },
+   "reel_mistress": {
+    "by8": 0.06875,
+    "by10": 0.3265625,
+    "by12": 0.3953125,
+    "ever": 0.4140625
+   },
+   "fairy_monarch": {
+    "by8": 0.0328125,
+    "by10": 0.2578125,
+    "by12": 0.5640625,
+    "ever": 0.6375
+   },
+   "queen_of_elfland": {
+    "by8": 0.0359375,
+    "by10": 0.296875,
+    "by12": 0.6375,
+    "ever": 0.696875
+   }
+  },
+  "econ": {
+   "1": {
+    "n": 640,
+    "tier": 1.0,
+    "bank": 3.0,
+    "spent": 3.0,
+    "refresh": 0,
+    "left": 0,
+    "units": 1.0
+   },
+   "2": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 5.0,
+    "spent": 5.0,
+    "refresh": 0,
+    "left": 0.215625,
+    "units": 1.0
+   },
+   "3": {
+    "n": 640,
+    "tier": 2.0,
+    "bank": 8.0,
+    "spent": 6.0,
+    "refresh": 0,
+    "left": 1.15625,
+    "units": 3.0
+   },
+   "4": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 8.0,
+    "spent": 8.0,
+    "refresh": 0.0484375,
+    "left": 0.753125,
+    "units": 3.0
+   },
+   "5": {
+    "n": 640,
+    "tier": 3.0,
+    "bank": 8.0,
+    "spent": 7.0,
+    "refresh": 0.628125,
+    "left": 1.2375,
+    "units": 5.0
+   },
+   "6": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 9.0,
+    "spent": 9.0,
+    "refresh": 0.1546875,
+    "left": 1.3828125,
+    "units": 5.0
+   },
+   "7": {
+    "n": 640,
+    "tier": 4.0,
+    "bank": 10.0,
+    "spent": 10.0,
+    "refresh": 0.8703125,
+    "left": 1.809375,
+    "units": 6.0
+   },
+   "8": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 12.0,
+    "spent": 12.0,
+    "refresh": 0.3484375,
+    "left": 1.653125,
+    "units": 7.0
+   },
+   "9": {
+    "n": 640,
+    "tier": 5.0,
+    "bank": 12.0,
+    "spent": 12.0,
+    "refresh": 1.2328125,
+    "left": 1.7796875,
+    "units": 7.0
+   },
+   "10": {
+    "n": 619,
+    "tier": 6,
+    "bank": 12,
+    "spent": 13,
+    "refresh": 1.0080775444264944,
+    "left": 0.7253634894991923,
+    "units": 7
+   },
+   "11": {
+    "n": 524,
+    "tier": 6.0,
+    "bank": 11.0,
+    "spent": 12.0,
+    "refresh": 1.2232824427480915,
+    "left": 0.566793893129771,
+    "units": 6.0
+   },
+   "12": {
+    "n": 398,
+    "tier": 6.0,
+    "bank": 10.0,
+    "spent": 11.0,
+    "refresh": 1.3417085427135678,
+    "left": 0.41959798994974873,
+    "units": 6.0
+   },
+   "13": {
+    "n": 309,
+    "tier": 6,
+    "bank": 10,
+    "spent": 11,
+    "refresh": 1.2103559870550162,
+    "left": 0.3851132686084142,
+    "units": 5
+   },
+   "14": {
+    "n": 236,
+    "tier": 6.0,
+    "bank": 10.0,
+    "spent": 10.0,
+    "refresh": 1.1779661016949152,
+    "left": 0.288135593220339,
+    "units": 5.0
+   }
+  },
+  "tierup": {
+   "2": 2.0,
+   "3": 4.0,
+   "4": 6.0,
+   "5": 8.0,
+   "6": 10.0
+  }
+ }
+}

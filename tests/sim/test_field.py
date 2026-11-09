@@ -365,3 +365,43 @@ class FieldTests(unittest.TestCase):
                 self.assertEqual(
                     board["after_start_effects"], original["after_start_effects"] if has_post_start else None
                 )
+
+    def test_starting_line_survives_a_tempo_switch_and_hard_keeps_its_anchor(self):
+        original = self.designed_document()["boards"][0]
+        record = {
+            "seed": 17,
+            "leg": 0,
+            "input": {
+                "player_ids": [0, 1],
+                "round": 8,
+                "boards": [original["board"], original["board"]],
+                "slots": [original["slots"], original["slots"]],
+                "fight_rules": [original["fight_rules"], original["fight_rules"]],
+                "hero_effects": [[], []],
+                "tiers": [4, 4],
+                "config": original["config"],
+            },
+            "combat_start": [
+                {
+                    **original["combat_start"],
+                    "layout": "blind",
+                    "policy": "line_birds_homecoming",
+                    "assigned_line": "line_birds_tempo",
+                },
+                {**original["combat_start"], "layout": "blind", "policy": "hard", "assigned_line": "hard_field"},
+            ],
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "capture.jsonl"
+            path.write_text(json.dumps(record) + "\n")
+            boards = list(boards_from_capture([path]))
+        self.assertEqual(boards[0]["line"], "line_birds_tempo")
+        self.assertEqual(boards[0]["current_line"], "line_birds_homecoming")
+        self.assertEqual(boards[1]["line"], "hard")
+        record["combat_start"][0]["starting_line"] = "line_birds_tempo"
+        record["combat_start"][0]["assigned_line"] = "line_tempo"
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "capture.jsonl"
+            path.write_text(json.dumps(record) + "\n")
+            board = next(boards_from_capture([path]))
+        self.assertEqual(board["line"], "line_birds_tempo", "resolved initial line beats a roster alias")

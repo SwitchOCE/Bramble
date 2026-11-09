@@ -267,7 +267,8 @@ func setup(
 	_tags[0].text = opponent
 	_tags[1].text = UiTheme.short_name(side_names[bottom_side])
 	_layout()
-	_fight_name.text = UiTheme.fit_words(opponent, _fight_name)
+	# A field seat is the stable identity; trim the hero at the right, never its Rival number.
+	_fight_name.text = UiTheme.fit_words(opponent, _fight_name, opponent.begins_with("Rival "))
 	restart()
 
 

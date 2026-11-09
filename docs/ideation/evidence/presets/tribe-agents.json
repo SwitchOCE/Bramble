@@ -1,0 +1,1499 @@
+[
+ {
+  "tribe": "Birds",
+  "counting_convention": "This follows the harness's pre-start, end-of-recruit board (HARNESS.md, Metrics). It is the Attack + Health of every home unit after auras, before Start of Combat. That includes the Harvest Supper bonus, the Great Lump's Nest stats and Redwing's half-stat Eggs, plus every plain 0/1 Egg. Birds that are away, in hand or on the doorstep are reserves. They are not counted, and they are printed separately: at R12 about 180 under B and 385 under C. Jack Daw's permanent steal lands at Start of Combat, so it counts from the next round. A Golden Egg eaten at End of Turn counts. \"Typical\" is the median of 1,000 shop-luck variants of line A (birds_homecoming, typical roll). Each variant shifts every arrival after R2 by -2/-1/0/+1/+2 rounds, with weights 5/20/50/20/5%. The jitter median sits within 1% of the scripted line A at R12. The Flock (D), tempo (U) and low-roll (C) lines are reported beside it.",
+  "dials": [
+   {
+    "key": "birds_homecoming_multiplier",
+    "card": "Fly South (One Swallow, Chiffchaff, Mrs Jay, Old Tern, Mother Goose)",
+    "meaning": "Stat multiplier on each homecoming (size per application)",
+    "current_or_design": "2.0",
+    "B": 2.25,
+    "C": 2.5,
+    "engine": true,
+    "reason": "The tribe's rate and its slope dial. Each Bird grows by at most h every 2 rounds, so h sets the board's growth per round. At 2.25 Birds grow x1.56 a round from R8 to R14, which tracks the B field. 2.5 provides most of C's growth. The cost is that the reminder reads '2.25x' instead of 'double'."
+   },
+   {
+    "key": "birds_golden_homecoming_multiplier",
+    "card": "Fly South (golden fliers)",
+    "meaning": "Homecoming multiplier for a golden Bird",
+    "current_or_design": "2.0",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "This is the synthesis's own tail lever ('golden Birds come home with triple stats'). It leaves the median alone (0 change on line A). The golden-Jay probe reaches 1.24x the field at R12 and 1.65x at R14 under B. Birds had the pool's shortest tail (2-3x). It must stay at or above h. Raised in B; C holds it."
+   },
+   {
+    "key": "birds_cuckoo_share",
+    "card": "The Cuckoo",
+    "meaning": "Share of each homecoming Bird's stats that every other Bird in play gains (copies stack)",
+    "current_or_design": "0.1",
+    "B": 0.125,
+    "C": 0.2,
+    "engine": true,
+    "reason": "The count axis: one homecoming feeds the whole board. B takes the synthesis's own Flock fix (1/8), which lifts the Flock to 873 at R12. 1/5 in C makes the Flock about as strong as Homecoming. The risk: two Cuckoos stack, and the C Flock with two reaches 30,481 at R15."
+   },
+   {
+    "key": "birds_golden_egg_multiplier",
+    "card": "Golden Egg (Mother Goose)",
+    "meaning": "Stat multiplier of the Golden Egg, once per Bird",
+    "current_or_design": "2.0",
+    "B": 2,
+    "C": 3,
+    "engine": true,
+    "reason": "A multiplier that fires once per Bird, and the face text stays clean ('Triple a Bird's stats'). In C it adds about 10% at R12 and 25% at R14. It is also the main concentration driver: the biggest unit holds 63% at R14 in C, 57% with the Egg at x2."
+   },
+   {
+    "key": "birds_stork_gold_step",
+    "card": "Mrs Stork",
+    "meaning": "Gold spent per early recall (lower is more generous)",
+    "current_or_design": "6",
+    "B": 6,
+    "C": 5,
+    "engine": true,
+    "reason": "The applications axis. It is capped by the missed-fight rule, so it moves little alone (9% at R12 in C). It still gives C a raise on all three axes."
+   },
+   {
+    "key": "birds_chiffchaff_gain",
+    "card": "Chiffchaff",
+    "meaning": "When-played +X/+X (fires again on every homecoming, before the next doubling); new key",
+    "current_or_design": "1 (card number)",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Growth per trigger that the doubling compounds. It lifts Birds' weak early game from 41 to 50 at R6, about 0.94x the field, and adds about 100 at R12. On turn 1 it plays as a 3/4. Raised in B; C holds it so the bodies stay put."
+   },
+   {
+    "key": "birds_redbreast_share",
+    "card": "Mr Redbreast",
+    "meaning": "Share of each homecoming Bird he gains",
+    "current_or_design": "0.125",
+    "B": 0.125,
+    "C": 0.125,
+    "engine": false,
+    "reason": "Raising it barely moves the median: 1/3 gives +17% at R12. It concentrates the board (54% in one unit) and takes the Golden Eggs, so it is left at the design value."
+   },
+   {
+    "key": "birds_jack_daw_share",
+    "card": "Jack Daw",
+    "meaning": "Share of the enemy across that your biggest Bird steals at Start of Combat",
+    "current_or_design": "0.25",
+    "B": 0.25,
+    "C": 0.25,
+    "engine": false,
+    "reason": "It already grows with the bigger B and C fields. Amendment 5 may make it fight-only after a harness check, so no power should depend on it."
+   },
+   {
+    "key": "birds_jack_daw_permanent",
+    "card": "Jack Daw",
+    "meaning": "The steal is permanent (true) or fight-only",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": false,
+    "reason": "Kept as built; the harness comparison decides."
+   },
+   {
+    "key": "birds_stork_recalls",
+    "card": "Mrs Stork",
+    "meaning": "Birds recalled per step",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "At 2 it changes nothing in the model, because too few Birds are eligible. Left as a spare dial."
+   },
+   {
+    "key": "birds_trip_turns",
+    "card": "Fly South",
+    "meaning": "Trip length",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "A 1-turn trip matches Stork's speed and would make her pointless. The cycle timing is the tribe's decision."
+   },
+   {
+    "key": "birds_swallow_trip_turns",
+    "card": "One Swallow",
+    "meaning": "Swallow trip length (amendment 10)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Amendment 10. It already cost line A 615 -> 551 at R12."
+   },
+   {
+    "key": "birds_golden_tern_trip_turns",
+    "card": "Old Tern (golden)",
+    "meaning": "Golden Tern trip length",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Unchanged."
+   },
+   {
+    "key": "birds_golden_egg_enabled",
+    "card": "Mother Goose",
+    "meaning": "Golden Eggs on or off",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": false,
+    "reason": "On."
+   },
+   {
+    "key": "birds_goose_eggs",
+    "card": "Mother Goose",
+    "meaning": "Golden Eggs per play (golden x2); new key",
+    "current_or_design": "1 (card number)",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "The Egg's multiplier carries the raise instead. Once per Bird stays the guard."
+   },
+   {
+    "key": "birds_lump_multiplier",
+    "card": "The Great Lump",
+    "meaning": "Multiple of its Nest Bird's stats the Lump adds",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "A holder, not an engine. Raising it counts a reserve Bird again on the measured board without compounding."
+   },
+   {
+    "key": "birds_ratchet_multiplier",
+    "card": "The Gabble Ratchet",
+    "meaning": "Stats multiplier of a dropped-in Bird",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Fight-only, so it never shows on the pre-start board."
+   },
+   {
+    "key": "birds_redwing_share",
+    "card": "Redwing",
+    "meaning": "Egg size as a share of its away Bird",
+    "current_or_design": "0.5",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "An aura that shows the sky in the fight, not growth."
+   },
+   {
+    "key": "birds_redwing_targets",
+    "card": "Redwing",
+    "meaning": "Number of away Birds that leave big Eggs",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Unchanged."
+   },
+   {
+    "key": "birds_tom_tit_reduction",
+    "card": "Tom Tit",
+    "meaning": "Damage Reduction % on the biggest other Bird",
+    "current_or_design": "50",
+    "B": 50,
+    "C": 50,
+    "engine": false,
+    "reason": "A holder (amendment 8)."
+   },
+   {
+    "key": "birds_tom_tit_targets",
+    "card": "Tom Tit",
+    "meaning": "Birds protected",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Unchanged."
+   },
+   {
+    "key": "birds_dunnock_turns",
+    "card": "Mrs Dunnock",
+    "meaning": "Turns a trip is shortened",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Tempo, capped by the missed-fight rule."
+   },
+   {
+    "key": "birds_dunnock_targets",
+    "card": "Mrs Dunnock",
+    "meaning": "Trips shortened per End of Turn",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Unchanged."
+   },
+   {
+    "key": "birds_whistlers_loss_share",
+    "card": "The Seven Whistlers",
+    "meaning": "Share the enemy loses",
+    "current_or_design": "0.5",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "An answer, not an engine. Cross-tribe may cut it to 1/3 on harness evidence."
+   },
+   {
+    "key": "birds_whistlers_flock_count",
+    "card": "The Seven Whistlers",
+    "meaning": "Different Birds needed for the omen",
+    "current_or_design": "7",
+    "B": 7,
+    "C": 7,
+    "engine": false,
+    "reason": "The identity of the card."
+   },
+   {
+    "key": "birds_swallow_gold",
+    "card": "One Swallow",
+    "meaning": "Gold when played; new key",
+    "current_or_design": "1 (card number)",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Economy. At 2 it moves R12 by -2%, so it isn't worth disturbing tier-up timing."
+   },
+   {
+    "key": "birds_jay_acorns",
+    "card": "Mrs Jay",
+    "meaning": "Acorns when sold; new key",
+    "current_or_design": "1 (card number)",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Not modelled."
+   }
+  ],
+  "r12_typical": {
+   "design": 551,
+   "B": 966,
+   "C": 1969
+  },
+  "r_curve_B": "Line A, jitter median of 1,000 runs, at R6 / R8 / R10 / R12 / R14: 50 / 131 / 375 / 966 / 1,870. The R12 p25\u2013p75 is 929\u20131,070. R14 is bimodal, p25\u2013p75 1,702\u20132,656, and R13 is 1,263. Growth from R8 to R14 is x1.56 a round. The Flock (D) runs 38 / 78 / 317 / 873 / 1,753. On the scripted lines at R12: tempo (U) 491, low roll 652. My B field curve is 53 / 127 / 338 / 900 / 2,223, so Birds sit at 0.94\u20131.11x the field to R12 and 0.84x at R14. Design dials on the same field give 41 / 101 / 238 / 586 / about 1,040.",
+  "r_curve_C": "Line A, jitter median of 1,000 runs, at R6 / R8 / R10 / R12 / R14: 52 / 140 / 635 / 1,969 / 6,773. The R12 p25\u2013p75 is 1,631\u20132,162 and R14 is 4,933\u20137,088. Growth from R8 to R14 is x1.91 a round. The Flock (D) runs 38 / 82 / 418 / 1,481 / 5,394. On the scripted lines at R12: tempo (U) 1,823 with one unit at 83%, low roll 903. My C field curve is 53 / 146 / 512 / 1,800 / 5,866. C is 2.04x B at R12 and 3.6x at R14.",
+  "scaling_axes": "Size: h, the homecoming multiplier, applied per homecoming. It compounds over time and is the dominant axis. The Golden Egg multiplier (once per Bird) and the golden homecoming multiplier (tail) also sit here. Redbreast and the Cuckoo pay a share of each landing Bird, so they grow with size too. Applications: homecomings per Bird. Trips, Mrs Stork's step and recalls, Old Tern and Mrs Dunnock drive them. The missed-fight rule caps them hard at one per 2 rounds, so this axis saturates, which is why the Stork dials move little. Count: how many Birds grow per homecoming. The Cuckoo share times the Birds in play drives it, plus the number of fliers cycling, which the roster and stayer slots fix rather than a dial. Additive feeders the size axis multiplies: Chiffchaff's gain, Supper and Jack Daw's steal. Time: each Bird compounds by h every 2\u20133 rounds. In trivariate terms Birds have about one and a half axes: size times time, count only through the Cuckoo, and applications capped. B raises size (h 2.25) and count (Cuckoo 1/8). C raises all three: h 2.5, Cuckoo 1/5 and Stork every 5 gold, plus the Golden Egg at x3.",
+  "first_cut_dials": "1) Cut birds_homecoming_multiplier from 2.5 to 2.25. It carries most of C's excess on every line and sets the slope. Alone it takes C's R12 from 1,969 to 1,466 (-26%) and R14 from 6,773 to 4,249 (-37%). 2) Then cut birds_cuckoo_share from 1/5 to 1/8 if the trouble is a runaway Flock. Copies stack, and the Flock with two Cuckoos is C's biggest modelled outlier: 12,737 at R14 and 30,481 at R15, 2.9x the C field. If the complaint is one carry deciding fights instead, cut the Golden Egg from x3 to x2: -10% at R12, -25% at R14, and concentration at R14 falls from 63% to 57%.",
+  "model_runs": "The model is a copy of birds-pass3-model.py at /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/presets/birds-presets-model.py, with outputs run-design.txt, run-B.txt and run-C.txt next to it. With the old 2-turn Swallow it reproduces the saved .out.txt board lines exactly. Changes to the copy:\n- every rates.json dial is a parameter;\n- amendment 10 (Swallow 1-turn trips) and the built Redwing rule (the largest target count, not a sum) are in;\n- B and C field curves: the Sep 2025 mean shape, ramped from R7 to 900 or 1,800 at R12. They feed Jack Daw's steal and the fights;\n- a shop-luck jitter ensemble, and a reserves printout.\n\nResults:\n- **Design dials, amended:** line A is 551 at R12 (615 before amendment 10) and 586 on the B field.\n- **Single dials, B field, paired 200 runs, at R12:**\n  - h 2.25 / 2.5 / 3 gives 857 / 1,123 / 1,697;\n  - Cuckoo 1/4 gives 716;\n  - Redbreast 1/3 gives 682 (54% in one unit);\n  - Egg x3 gives 669;\n  - Chiffchaff +3 gives 774;\n  - Jack Daw 1/2 gives 728;\n  - Stork 5 gives 638;\n  - recalls, Redwing and golden homecoming give about 0.\n- **B:** the jitter median is 966. In fights against the B field, line A wins 75% against the median board at R12 and 22% at R15.\n- **C:** the jitter median is 1,969 (C without the Stork step is 1,754). Line A wins 86% at R12 and 57% at R15 against the C field.\n- **Cut table and two-Cuckoo probe:** as given in first_cut_dials.\n- **Golden-Jay probe with golden homecoming x3:** B reaches 1.24x the field at R12, 1.65x at R14 and 2.17x at R16.",
+  "shaky": "1) Real play may run well below the paper. The one wave 1 agent game (evidence/wave1/birds-round-states.json) had 178 on the board at R12, plus 138 away, against the model's 551 at design. That is about 0.3x, below the plan's 0.5\u20132x accounting band. It is one game, with neutrals and many Birds away, but step 4's designed-setup accounting check should run before these dials land. If it holds, B's Birds would read near 300, not 966.\n2) Scripted arrivals stand in for the shop. Path noise is about 15%, and R10 and R14 are bimodal across jitters, which is why B's R14 moved from 2,434 to 1,870 between runs.\n3) The B and C field curves are my own construction. They affect only Jack Daw's steal and the fight win rates, which are reported, not targets.\n4) The convention leaves out the sky: 180 (B) and 385 (C) of reserves at R12 still fight through the Lump and the Ratchet. Fairies count their twin, so Birds' measured board understates their fighting power next to Fairies.\n5) No neutrals, spells other than Supper, pool depletion or second Bird player. The fights are against plain target-shape boards. Mag Pye and the Acorns are not modelled.\n6) h at 2.25 and 2.5 is exponential: a 0.25 step moves R14 by 1.3\u20131.6x. Copies of the Cuckoo, golden Cuckoos and golden fliers were probed, not swept.\n7) U's jump under C (1,823 at R12, with one unit at 83%) comes from the Stork step and the Egg landing together on one scripted path. Don't read it as tempo strength."
+ },
+ {
+  "tribe": "Fairies",
+  "counting_convention": "This follows the harness convention (HARNESS.md \"Metrics\"; fight_capture.gd combat_start). The figure is each Fairy seat's pre-start, end-of-recruit board for round 12: after that round's End of Turn effects and before any Start of Combat trigger. It is Attack + Health summed over every unit standing on the board, including its slot's Ring stats, rounded as built at ceil(count x Ring size) per stat per slot. Shy units (Hob, Lob, Silky) count their body only, because Shy ignores slot stats.\n\nExcluded:\n- Cradle Fetch's copy. Fetch counts only as its own 2/4 body plus its own slot's Ring, because the copy is made at Start of Combat (pass3_fairy_combat.gd runs after the combat_start snapshot).\n- Wisps, which are summoned at Start of Combat.\n- Rings on empty slots.\n- Witch, Changeling, Belladonna, Hob and Reel effects.\n\nFairies have no Eggs. Hand, away, doorstep and Belly reserves are empty in these scripts, so they add nothing.\n\n\"Typical\" is the median of 8 equally weighted scripted lines: ring full, ring slow, ring mid (slow, no Silky), ring low (no Lob or Silky), court full, court slow, court mid (no Silky) and court with no tier 6. The harness's committed table has both line_fairies_engine and line_fairies_tempo seats, which is why the ensemble takes both lines. The high roll (golden Cluricaun on R8) and the top 1% are reported separately as tails. A post-start figure (adding the Fetch twin at fetch_share, plus Wisps) is given beside each number, but it is not the checkpoint number.",
+  "dials": [
+   {
+    "key": "fairies_ring_growth",
+    "meaning": "Cluricaun: after you Tier up, if all 7 slots have a Ring, Ring size grows by this (golden x2). Amendment 7, as built.",
+    "current_or_design": "1 (built = design)",
+    "B": 2,
+    "C": 4,
+    "engine": true,
+    "reason": "Size axis. It is the most robust grower: every Fairy board gets it on 2 tier-ups (R8/R10 court, R9/R11 ring), so it lifts the low roll too, and it makes each tier-up feel like progress. It is the largest single lever: C at 3 gives 1,630 and at 2 gives 1,390."
+   },
+   {
+    "key": "fairies_lob_turns",
+    "meaning": "Lob: turns stayed per growth step when thanked",
+    "current_or_design": "3",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "Lower is more generous. 2 is Wild's original text. It lifts the ring line more than the court, because the ring line's Lob stays 5 turns (2 steps) and the court's stays 3 (1 step). That brings the two lines' fight-time boards level at B (ring post 1,354, court 1,268)."
+   },
+   {
+    "key": "fairies_nan_rings",
+    "meaning": "Nan Toadstool: Rings on this slot when played and again when sold (golden x2)",
+    "current_or_design": "1",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "Count axis, early. Rings placed on R1-R6 grow with every later size step, so Nan becomes a real investment. Typical R6 goes 48 to 52 and R12 rises about 84. Its value depends on how often Nan shows up."
+   },
+   {
+    "key": "fairies_lob_growth",
+    "meaning": "Lob: Ring size gained per step when thanked (golden x2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 3,
+    "engine": true,
+    "reason": "Size axis, tied to the thank-now-or-later decision. In C, Lob on the ring line is +6 size in one click (about +500 stats at R10). It is the second cut: 1 gives C 1,540."
+   },
+   {
+    "key": "fairies_silky_growth",
+    "meaning": "Silky: Ring size gained after each Shy unit is thanked, Silky included (golden x2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 2,
+    "engine": true,
+    "reason": "Size axis. It spreads C's raise over a third card, so C doesn't hang on Lob and Cluricaun alone. Cutting it to 1 gives C 1,790."
+   },
+   {
+    "key": "fairies_fetch_share",
+    "meaning": "Cradle Fetch copies this share of the Fairy behind, Ring included, at Start of Combat",
+    "current_or_design": "0.5 built (amendment 1); design 1.0",
+    "B": 1,
+    "C": 1,
+    "engine": true,
+    "reason": "Applications axis, fight only. Undoing amendment 1 per the preset brief changes nothing in the measured pre-start board. It adds about 0.75x of the ring line's measured board in fights. It is the fight-only cut lever."
+   },
+   {
+    "key": "fairies_monarch_period",
+    "meaning": "Fairy Monarch: Midsummer every Nth End of Turn from play; one shared clock",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": true,
+    "reason": "It doesn't touch R12, because the Monarch arrives R12-R14. Kept at design: the late curve already doubles. It is the dial for R13-R14 if more late growth is wanted (B at 2: R14 1,516 to 2,032). Not raised, because the top 1% already reaches 18-39k by R16."
+   },
+   {
+    "key": "fairies_monarch_multiplier",
+    "meaning": "Midsummer multiplies Ring size by this",
+    "current_or_design": "2.0",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "It doesn't affect R12. Raising it mostly inflates the R14-R16 tail."
+   },
+   {
+    "key": "fairies_golden_monarch_multiplier",
+    "meaning": "Golden Monarch's Midsummer multiplier",
+    "current_or_design": "3.0",
+    "B": 3,
+    "C": 3,
+    "engine": true,
+    "reason": "It drives the top-1% tail (B R16 18,808; C 38,968). Leave it alone."
+   },
+   {
+    "key": "fairies_annis_rings",
+    "meaning": "Old Moth Annis: Rings on the slots behind per trigger (End of Turn and after every sale; golden x2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": true,
+    "reason": "The main count engine and the strongest reserve lever: B with 2 gives 1,484. Not used, because it also lifts R6-R8 and doubles the payoff of buy-and-sell clicking. Raise it first if the harness shows Fairies low."
+   },
+   {
+    "key": "fairies_annis_sale",
+    "meaning": "Annis also fires after any sale (late gold sink)",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": true,
+    "reason": "Without it the late game collapses (design sweep: 0.77x at R15)."
+   },
+   {
+    "key": "fairies_queen_rings",
+    "meaning": "Queen of Elfland: Rings on every slot per unit destroyed behind her (golden x2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": true,
+    "reason": "Court only. Raising it widens the court's lead over the ring line on the measured board (B with 2 gives 1,022)."
+   },
+   {
+    "key": "fairies_queen_period",
+    "meaning": "Queen tithes every Nth End of Turn",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": true,
+    "reason": "Already every turn"
+   },
+   {
+    "key": "fairies_sally_rings",
+    "meaning": "Sally Spore: Rings on the nearest empty slot per End of Turn",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": true,
+    "reason": "Small (B with 2 gives 962). It feeds Wisps, which are fight only."
+   },
+   {
+    "key": "fairies_initial_ring_size",
+    "meaning": "Ring size at game start",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "A base value that inflates every early Ring. Not an engine rate, so it isn't used to reach C."
+   },
+   {
+    "key": "fairies_chaser_gold",
+    "meaning": "Rainbow Chaser: gold per slot with a Ring when sold",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Economy; it pays 5-7 gold on R6-R9 already"
+   },
+   {
+    "key": "fairies_reel_moves",
+    "meaning": "Reel-Mistress: moves per Ring per fight",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "Applications, fight only, invisible pre-start. Each move reuses the whole Ring, so 3 is a big fight-only jump. Left at design."
+   },
+   {
+    "key": "fairies_wisp_attack",
+    "meaning": "Wisp token Attack (golden Will x2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Wisps take their slot's Ring, so the body hardly matters. Fight only."
+   },
+   {
+    "key": "fairies_wisp_health",
+    "meaning": "Wisp token Health",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "As Attack"
+   },
+   {
+    "key": "fairies_witch_ring_share",
+    "meaning": "Hedge Witch: the enemy across loses Attack equal to this x her slot's Ring (golden 2x). No key yet.",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "An answer that already scales with the engine"
+   },
+   {
+    "key": "fairies_hob_shield_targets",
+    "meaning": "Hob: number of biggest Fairies given Shield (golden 2). No key yet.",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Holder, not engine"
+   },
+   {
+    "key": "fairies_belladonna_targets",
+    "meaning": "Belladonna: Nightshade on the enemy across (golden also the units beside it). Amendment 3. No key yet.",
+    "current_or_design": "1 (across)",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Answer; proportional, so it scales"
+   },
+   {
+    "key": "fairies_changeling_steals",
+    "meaning": "Changeling: steal the enemy across until it attacks (golden: twice). No key yet.",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Answer"
+   },
+   {
+    "key": "fairies_shy_thank_gold",
+    "meaning": "Gold paid when a Shy unit is thanked (golden 4). This is rule 12.1.7, not just Fairies. No key yet.",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Economy, shared rule"
+   },
+   {
+    "key": "pass3_loop_guards",
+    "meaning": "Copy guards: extra Cluricauns, Silkies and Monarchs share one count",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": false,
+    "reason": "Without guards the breaker's copy stack was +40%. Keep them on."
+   }
+  ],
+  "r12_typical": {
+   "design": 600,
+   "B": 950,
+   "C": 1880
+  },
+  "r_curve_B": "Typical pre-start at R6/R8/R10/R12/R14 is 52 / 108 / 524 / 950 / 1,516 (post-start: 52 / 108 / 624 / 1,312 / 1,764).\n\nRound-to-round growth from R8 to R14: x2.45, x1.98, x1.50, x1.21, x1.17, x1.36. That averages x1.55 a round. The flat stretch from R11 to R13 comes from Cluricaun's tier-ups and the thanks being done by R11 while Midsummer lands on R14-R16.\n\nBy line at R12:\n- Ring line median 772 pre-start (1,354 post-start, with the twin).\n- Court median 1,268.\n- Low roll 514.\n- High roll 1,292; top 1% 1,332, reaching 18,808 by R16.\n\nFor comparison: design is 48 / 100 / 342 / 600 / 1,050, and Battlegrounds' September 2025 mean is 53 / 123 / 305 / 759 / 1,751.",
+  "r_curve_C": "Typical pre-start at R6/R8/R10/R12/R14 is 52 / 108 / 1,025 / 1,880 / 2,958 (post-start: 52 / 108 / 1,194 / 2,604 / 3,518).\n\nRound-to-round growth from R8 to R14: x3.75, x2.53, x1.52, x1.21, x1.17, x1.34. That averages x1.74 a round, the same shape as B at about twice the size. C at R12 is 1.98x B.\n\nBy line at R12:\n- Ring line median 1,580 pre-start (2,810 post-start).\n- Court median 2,468.\n- Low roll 882.\n- High roll 2,608; top 1% 2,676, reaching 38,968 by R16.\n\nC is identical to B through R8, because the raised growers first fire at the R8-R9 tier-ups.",
+  "scaling_axes": "Board \u2248 bodies + 2 \u00d7 (sum over non-Shy occupied slots of Rings on that slot \u00d7 Ring size). All three axes apply, plus time.\n\n- **Count** (Rings on slots), roughly linear in turns and gold:\n  - Annis per End of Turn and per sale (fairies_annis_rings, fairies_annis_sale);\n  - Nan (fairies_nan_rings);\n  - Sally (fairies_sally_rings);\n  - Queen's Teind (fairies_queen_rings, fairies_queen_period);\n  - pool spells: Spore Cloud 2, Boundary Stone 3.\n\n  B and C raise only Nan.\n- **Size** (one Ring size per player, applied back to every Ring already placed). This is where B and C put their power:\n  - Cluricaun per tier-up with the rainbow (fairies_ring_growth);\n  - Lob when thanked (fairies_lob_growth, fairies_lob_turns);\n  - Silky per thank (fairies_silky_growth);\n  - Midsummer (fairies_monarch_multiplier, every fairies_monarch_period End of Turns).\n- **Applications** (how many bodies take a Ring's stats):\n  - Before the fight, each occupied non-Shy slot applies its own Rings once (7 at most). Shy units and gaps apply none.\n  - In the fight, the Fetch twin re-applies B1's whole Ring (fairies_fetch_share), Wisps light empty Rings, Reel-Mistress moves a Ring to later attackers (fairies_reel_moves), and the Changeling puts an enemy on your Ring.\n\n  None of these fight-time applications reach the measured board, and they are unchanged in B and C (Fetch at full).\n- **Time:**\n  - Old Rings grow, so count(t) \u00d7 size(t) compounds.\n  - Midsummer every 3rd End of Turn doubles it, so the curve steps on R14-R16.\n  - Lob pays for turns stayed.\n\nThe ring line concentrates about 75% of its measured board on B1. The court spreads it, with its biggest unit at about 37-42%.",
+  "first_cut_dials": "1. **fairies_ring_growth, 4 to 3 (then 2).** Cut this first if the trouble is size: one line winning whatever the player chooses, or runaway snowballs. It is C's largest single contributor (typical R12 goes 1,880 to 1,630 at 3, and to 1,390 at 2). It also fires for every Fairy board on every tier-up with only the rainbow as a condition, so cutting it leaves the thank decisions (Lob, Silky) and Midsummer intact.\n2. **fairies_lob_growth, 3 to 2 or 1** (1,710 or 1,540). Second, because it creates the single biggest spike moment.\n3. **fairies_fetch_share, 1.0 to 0.5.** Cut this instead if the trouble is fights decided at Start of Combat, or the ring line beating even boards. It cuts only fight-time power (typical post-start R12 goes 2,604 to 2,420, and much more on the ring line itself) and leaves the measured pre-start curve and the growth criterion untouched.\n\nLeave the golden Monarch multiplier alone unless tail snowballs show up in most lobbies. The R16 top-1% figure is a tail, reported and not used to decide.",
+  "model_runs": "Scripts are in /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/presets/fairies/, all run with python3 -I.\n\n1. orig.py, the untouched panel model, output in orig.out.txt. It reproduces the synthesis exactly: ring full R12 530 recruit / 932 combat, court 945 / 983.\n2. model.py, the copy I changed:\n   - Cluricaun moved to tier-ups (amendment 7, step = fairies_ring_growth). clur=eot reproduces orig.\n   - Every rate is a rates.json key.\n   - Rings round with ceil per slot, as built.\n   - It reports pre-start (harness) and post-start (twin + Wisps) separately.\n   - Three new lines: ring mid, court slow, court mid.\n   - The 8-line median is the \"typical\" board.\n   - Design output is in design.out.txt: typical R12 600 pre-start / 902 post-start.\n3. sweep.py, sweepB.py, sweepC.py, sweepC2.py, grid.py (320 combinations), pick.py and pick2.py searched the dials:\n   - cg2 alone gives 828;\n   - cg2 + lob2 gives 866;\n   - cg2 + sg2 gives 906;\n   - ar2 alone gives 954 but lifts R6 to 63.\n4. final.py, output in final.out.txt: B = {ring_growth 2, lob_turns 2, nan_rings 2} gives 950; C = {ring_growth 4, lob_turns 2, lob_growth 3, silky_growth 2, nan_rings 2} gives 1,880, which is 1.98x B. It also prints the single-dial cuts from C and raises from B quoted elsewhere here.\n\nBuilt (fetch 0.5) and design (fetch 1.0) measure the same 600 pre-start: amendment 1's halving never touched the harness number.",
+  "shaky": "1. **The twin.** The orchestrator's \"Fairies stay at design size (about 900)\" was a post-start count that included the Fetch twin, so design measures 902 post-start but only 600 pre-start. Undoing the half-share Fetch changes nothing the harness measures. B therefore raises size growth to reach 950 pre-start, and in fights the ring line then runs at about 1.75x its measured board (1,354 post-start). If fight parity with the other tribes is what B should mean, B = design (600 pre / 902 post) is the alternative. If the field crowns Fairies, cut fetch_share first.\n2. **The pooled median sits in a gap.** At B, ring lines run 514-872 and court lines 1,029-1,321, so the 950 median falls between them. It follows the harness's seat mix: an all-ring field gives about 770, an all-court field about 1,270.\n3. **Scripts are best-case:**\n   - every key card on time and ideal placement;\n   - every spare gold churned through Annis;\n   - Nan cycles through tier 4, one Ring spell a turn through tier 4.\n\n   Wave 1's Hard bots averaged Ring size 2.17 at R12 (80-Health control, step 1), against the model's 4-6 at design. The real harness median will probably land well below paper, which supports erring generous.\n4. **Unchecked weighting.** The 8 lines are equally weighted by assumption, and there is no shop randomness. The new lines (ring mid, court slow, court mid) are my scripts, checked only against the gold ledger.\n5. **Fights aren't played.** There is no Health loss, no forced pivot and no stranded Ring.\n6. **Timing details.** Lob's turns are counted as rounds since it was bought (5 for R5 to R10), which should match the built End of Turn count but wasn't checked against the engine. Cluricaun needs the rainbow at the moment of the tier-up: the ring line's R6 tier-up gets nothing.\n7. **Lumpy late curve.** R11-R13 grow only x1.17-1.21 a round, while Midsummer lands R14-R16 and the golden-Monarch tail is huge (B 18,808 and C 38,968 at R16). The checkpoint criterion reads the lobby median, so this is a shape fact, not a verdict."
+ },
+ {
+  "tribe": "Bog folk",
+  "counting_convention": "What the R12 figure counts: a Bog seat's PRE-START, end-of-recruit board. That is the printed plus permanent Attack + Health of every unit on its 7 slots. It is measured after this turn's Start of Turn gains have landed (pending Soak from the last fight, Tiddy's and Nan's Toll shares) and after any frog doubling in the last fight.\n\nNot counted:\n- Peatlings (summoned mid-fight).\n- Bitter's shrink on enemies.\n- The Toll itself (a number, not stats).\n- Anything in hand, such as a held His Highness.\n- Fight-only effects: Jenny's pull, the Lantern's lure, Sal's fire, Hopkin's borrowed Attack, Gideon's hit back.\n\nBog has no Eggs, Bellies, away or doorstep units, so active stats = board stats, and nothing is reported as reserve.\n\n\"Typical\" means the median of 9 timing variants of the synthesis's typical court line: the frog bought at R8, R9 or R10, times Tiddy at R7, R8 or R9. This smooths the frog's \u00d72 jumps the way a lobby median would. A single line's R12 point swings \u00b115%.\n\nBog is parasitic, so the enemy board is the preset's own field:\n- B: the Sep 2025 shape ramped to 900 at R12 (R6 53, R8 130, R10 342, R12 900, R14 2,076).\n- C: ramped to 1,800 (R6 53, R8 164, R10 542, R12 1,800, R14 4,153).\n\nThe field at fight time is assumed equal to its pre-start size.",
+  "dials": [
+   {
+    "key": "bog_soak_keep",
+    "meaning": "Soak: +k/+k per Attack this unit's Bitter took from its Mired enemies, landing at the next Start of Turn. Applies to Soak only, NOT to Tiddy's or Nan's Toll shares.",
+    "current_or_design": "1 (synthesis: +1/+1 per Attack)",
+    "B": 2,
+    "C": 3,
+    "engine": true,
+    "reason": "The main size dial. It pays every Soak toad on both lines, and the Diva's share stays at or below design (0.56 in B, 0.57 in C, against 0.59 at design). It prints cleanly: '+2/+2 per Attack', '+3/+3 per Attack'. At design it gives only 696 against a 900 field. It is C's only raise over B: alone, B to C moves the typical court 1,430 to 1,859 in the C field."
+   },
+   {
+    "key": "bog_golden_soak_keep",
+    "meaning": "Golden Soak's keep (golden Details doubles k)",
+    "current_or_design": "2",
+    "B": 4,
+    "C": 6,
+    "engine": true,
+    "reason": "Stays at 2k, as golden Details requires"
+   },
+   {
+    "key": "bog_nan_share",
+    "meaning": "Warty Nan, Start of Turn: your smallest Bog folk gains this share of the Toll",
+    "current_or_design": "0.25",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "An engine rate raised at B; C keeps B's value. It is a leveller, so it lifts the Swamp (959 to 1,060 at R12 in B) and the R9-R10 dip (R9 161 to 181) without adding concentration. At R12 the court gains only about 1%. It is also the main R6 lift (58 to 68 in B)."
+   },
+   {
+    "key": "bog_golden_nan_share",
+    "meaning": "Golden Nan's share of the Toll",
+    "current_or_design": "0.5",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "2x the normal share: 'the whole Toll'"
+   },
+   {
+    "key": "bog_ranocchio_share",
+    "meaning": "Signor Ranocchio: after attacking a Mired enemy, +1/+1 per (1/share) of its Attack. Not Bitter and not in the Toll.",
+    "current_or_design": "0.25 (+1/+1 per 4 Attack)",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "An engine rate raised at B ('+1/+1 per 2 of its Attack') so the Swamp's carry keeps pace with Soak at k=2. C holds 0.5: at 0.75 the Swamp ran to 2,087 against the court's 1,859, with Ranocchio at 0.39 of the board. At 0.5 the two lines are equal (1,858 and 1,859). He is decoupled from Bitter's share and from k."
+   },
+   {
+    "key": "bog_golden_ranocchio_share",
+    "meaning": "Golden Ranocchio's share",
+    "current_or_design": "0.5",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "2x the normal share"
+   },
+   {
+    "key": "bog_tiddy_share",
+    "meaning": "Tiddy Mun, Start of Turn: the Bog folk beside her split this share of the Toll",
+    "current_or_design": "0.5",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "Held at design. 'Whole Toll' reaches the same size as k but makes the Diva 0.67-0.70 of the board, the cross-tribe critic's top Bog risk in an answer-dense pool. Building it as k x share would push B to 1,211 and C to 2,527, so keep it a separate dial."
+   },
+   {
+    "key": "bog_golden_tiddy_share",
+    "meaning": "Golden Tiddy's share of the Toll",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Held with the normal share"
+   },
+   {
+    "key": "bog_bitter_share",
+    "meaning": "Bitter: the biter loses this share of its current Attack before the hit, for the fight. It feeds Soak and the Toll.",
+    "current_or_design": "0.25",
+    "B": 0.25,
+    "C": 0.25,
+    "engine": false,
+    "reason": "Held. It moves the answer and the engine together, so raising it piles onto the answer stack (fights decided before they start) as well as growth. Cross-tribe \u00a710.2 keeps it as the lever if answer upsets run high."
+   },
+   {
+    "key": "bog_bitter_round_up",
+    "meaning": "Bitter's take rounds up, never below 1 Attack",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": false,
+    "reason": "Held. Rounding down makes Bitter dead before R4. Note that this 1-Attack floor times k is why k lifts the early game more than the late game."
+   },
+   {
+    "key": "bog_soak_mired_only",
+    "meaning": "Soak counts only takes from enemies on this unit's own patches",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": false,
+    "reason": "Held. It is a rule that makes placement the decision. Off, it gives an early runaway Toad."
+   },
+   {
+    "key": "bog_kiss_period",
+    "meaning": "His Highness and the Prince: every Nth kiss (a fight with a Sink), double the Bog folk beside",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "Held. The frog is Bog's only self-compounding piece and drives the tail. Every 2nd kiss sends R14 to 4,400-8,600."
+   },
+   {
+    "key": "bog_frog_multiplier",
+    "meaning": "The frog's multiplier on the Bog folk beside him",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Held. x3 adds jumps and concentration (Diva 0.66) for less size than k gives."
+   },
+   {
+    "key": "bog_golden_frog_multiplier",
+    "meaning": "Golden frog's multiplier",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "Held"
+   },
+   {
+    "key": "bog_kisses_per_fight",
+    "meaning": "At most one kiss a fight, shared by all your frogs",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Loop guard: the counter"
+   },
+   {
+    "key": "bog_frog_doubles_per_turn",
+    "meaning": "A unit is doubled at most once a turn; the biggest multiplier wins",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Loop guard: copies. Amendment 11."
+   },
+   {
+    "key": "bog_hopkin_share",
+    "meaning": "Vaulting Hopkin, back row: attacks first using this share of the highest Attack in front (golden 0.5)",
+    "current_or_design": "0.25",
+    "B": 0.25,
+    "C": 0.25,
+    "engine": false,
+    "reason": "Combat-only answer. It already scales with the Diva, and two Hopkins at a half was the breaker's must-fix."
+   },
+   {
+    "key": "bog_bufo_halvings",
+    "meaning": "Madame Bufo: her killer's Attack is halved this many times (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Combat-only answer, already proportional. Cross-tribe \u00a710.2: it is the first answer to cut if upsets run high."
+   },
+   {
+    "key": "bog_gideon_hitbacks",
+    "meaning": "Gideon: hits his Mired biter back this many times per bite (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Combat-only; scales with his Attack"
+   },
+   {
+    "key": "bog_sal_toll_multiplier",
+    "meaning": "Spitfire Sal, Start of Combat: deal (multiplier x the Toll), split among Mired enemies (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Combat-only. It grows with the field through the Toll on its own."
+   },
+   {
+    "key": "bog_cutter_gold",
+    "meaning": "Peat Cutter: gold next turn on a Sink, once a fight (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Economy. 'Once a fight' guards a gold-patches-gold loop."
+   },
+   {
+    "key": "bog_pretender_gold",
+    "meaning": "Young Pretender: gold next turn after killing a Mired enemy (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Economy, early only"
+   },
+   {
+    "key": "bog_king_peatlings",
+    "meaning": "Peat King: sunk enemies rise as Peatlings this many times a fight (golden 4)",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Combat-only. Loop guard against a summon flood."
+   },
+   {
+    "key": "bog_peatling_stat_share",
+    "meaning": "A Peatling gets this share of the sunk enemy's starting stats",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Combat-only, already at the field's size"
+   },
+   {
+    "key": "bog_prima_donna_patches",
+    "meaning": "Prima Donna Mires the slot across and the slots beside it",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "A count. It is the higher-tier-drinks-more identity; held."
+   },
+   {
+    "key": "bog_chorus_lends",
+    "meaning": "Natterjack Chorus lends Mire and Soak to the Bog folk beside it (up to 2)",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Count; held"
+   },
+   {
+    "key": "bog_lantern_lures",
+    "meaning": "Lantern Man Mires the N biggest enemies in any row (golden 2), resolved last at Start of Combat (amendment 4)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "The pool's any-row answer budget (amendment 3)"
+   },
+   {
+    "key": "bog_jenny_pulls",
+    "meaning": "Jenny pulls the biggest enemy in the row across to face her",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "A one-row answer; held"
+   },
+   {
+    "key": "bog_capstone_gain_toll",
+    "meaning": "Synthesis lever: 'When played: gain the Toll' on the Prima Donna, Jenny, the Peat King and the Lantern Man",
+    "current_or_design": "off",
+    "B": false,
+    "C": false,
+    "engine": false,
+    "reason": "New text, not a rate, so it stays off in both presets. It is the first thing to switch on if the tier-up arrival measure reads low: the Peat King is 7/11 on a 988 board at R12 in B."
+   }
+  ],
+  "r12_typical": {
+   "design": 696,
+   "B": 988,
+   "C": 1859
+  },
+  "r_curve_B": "Typical court (median of 9 timing variants), pre-start: R6 68, R8 127, R10 278, R12 988, R14 2,748. The odd rounds are R7 90, R9 181, R11 551, R13 1,753. That is x1.67 a round from R8 to R14.\n\nAgainst the B field (53 / 130 / 342 / 900 / 2,076) that is 1.28x at R6, 0.98x at R8, 0.81x at R10 (the dip), 1.10x at R12 and 1.32x at R14.\n\nOther lines at R12: strong 1,005; spread 966; Swamp 1,060 (curve 69 / 137 / 332 / 1,060 / 2,750); lowroll 758; highroll (golden frog R8, golden Gideon R7) 1,399, and 3,799 at R13 (2.2x typical).\n\nTypical R12 board: Gideon 293/301 (share 0.56), Prima Donna 91/97, Bridge Toad 57/59, Nan 30/32, Prince 22/23, Tiddy 15/17, Peat King 7/11.",
+  "r_curve_C": "Typical court (median of 9), pre-start: R6 77, R8 162, R10 415, R12 1,859, R14 6,427. The odd rounds are R7 105, R9 253, R11 910, R13 3,799. That is x1.85 a round from R8 to R14.\n\nAgainst the C field (53 / 164 / 542 / 1,800 / 4,153) that is 1.45x at R6, 0.99x at R8, 0.77x at R10, 1.03x at R12 and 1.55x at R14.\n\nOther lines at R12: strong 1,889; spread 1,796; Swamp 1,858 (curve 78 / 190 / 488 / 1,858 / 6,183); lowroll 1,430; highroll 2,695, and 7,931 at R13 (2.1x typical).\n\nTypical R12 board: Gideon 553/561 (share 0.57), Prima Donna 206/212, Bridge Toad 117/119, Nan 41/43, Prince 27/28, Tiddy 19/21, Peat King 7/11.\n\nCross-checks:\n- B dials in the C field: 1,430.\n- C dials in the B field: 1,272, which is 1.41x that field. If the rest of the lobby falls short of C, Bog stands out more.",
+  "scaling_axes": "Bog scales on size and time. Count and applications are held at design.\n\n- **Count** (how many buffs and sources): the number of Soak drinkers and patches (Toad, Gideon, Jenny, Lantern and King 1 each, the Prima Donna 3, the Chorus lends 2). Bitter-only units (Nan, Bufo, Peatlings) feed the Toll; Tiddy has 1-2 neighbours and the frog 2. Cards and placement set this; no rate dial is raised (bog_prima_donna_patches and bog_chorus_lends are held).\n- **Applications** (how often each fires): every bite on a patch (about 1.4-1.5 a fight per patch, set by the enemy's attackers and Mire). Soak, Tiddy and Nan pay every turn. The frog fires every 3rd kiss (bog_kiss_period 3; one kiss a fight is a guard). All held.\n- **Size** (each application): bog_bitter_share (1/4, held) x the biter's Attack x bog_soak_keep.\n  - k is the dial both presets raise: 1, then 2 (B), then 3 (C).\n  - The Toll's size dials are bog_nan_share (1/2 in B and C) and bog_tiddy_share (1/2, held). Ranocchio's own size dial is bog_ranocchio_share (1/2).\n  - The frog's x2 is a multiplicative size step on two units, held.\n- **Time:** the biter's Attack is the lobby's size, not Bog's own, so Bog's size axis is borrowed. Each fight's drink is a share of a field that grows about x1.6 a round (B) or x1.8 (C). On top of that the frog doubles the Diva every three fights (about x1.26 a round). Bog has no turn clock.\n\nSo B and C move one axis, size per bite, through k. The lobby's own growth supplies the time axis.",
+  "first_cut_dials": "1. **bog_soak_keep 3 \u2192 2** (back to B). It is C's only raise over B, so this one cut returns the whole B-to-C gap: the typical R12 in the C field goes 1,859 \u2192 1,430, and R14 1.55x \u2192 1.16x the field. It also removes most of C's early lift (R6 77 \u2192 68).\n2. **Then, depending on where C is too strong:**\n   - **Early** (Bog wins R5-R7 fights): bog_nan_share 1/2 \u2192 1/4. It is the main R6 lift (77 \u2192 68 in C) and costs only 4% at R12 (1,789).\n   - **Late** (Bog outgrowing the lobby after R12, or highroll frog boards): bog_kiss_period 3 \u2192 4. The frog is the only self-compounding piece: R12 1,859 \u2192 1,599, and the highroll's R13 multiple of typical falls from 2.1x to 1.3x. This goes below design, so make it only on evidence.\n   - Bitter's share (1/4 \u2192 1/5) is the lever if the problem is answers rather than size. It cuts both together (R12 1,563).",
+  "model_runs": "Scratch files, all under /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/presets/bog/:\n- bog_presets.py, copied from bog-pass3-model.py and modified;\n- check.py, grid.py, presets.py, extra.py, cuts.py, final.py;\n- outputs final.out.txt, presets.out.txt and gridC.txt.\n\n**Changes to the model:**\n1. Preset fields, B and C ramped from the Sep 2025 shape.\n2. Every rate is a dial. Ranocchio is decoupled from Bitter's share and k.\n3. Doubling order fixed: the synthesis model doubled the Soak, Tiddy and Nan gains from the same fight, which aren't permanent yet at the kiss. Typical R12 on the brief's median falls 545 \u2192 506 (ensemble).\n4. A 9-variant timing ensemble for the typical board.\n\n**Checks:** with the old order on the median field, the copy reproduces the synthesis output exactly (typical 1.20x, R11-13 1.04x).\n\n**Design dials:** 506 typical on the brief's median, 629 on Sep 2025, 696 in the B field, 932 in the C field. Design undershoots both presets.\n\n**Grid:** k {1, 1.5, 2, 3} x Tiddy {1/2, 1} x Nan {1/4, 1/2} x frog {x2, x3} x period {3, 2}, in both fields.\n- B options near 900: k=2 alone 979; k=2 + Nan 1/2 988 (picked); Tiddy whole 919 (Diva 0.70); k=1.5 838 (doesn't print).\n- C options near 1,800: k=3 + Nan 1/2 1,859 (picked); k=2 + Tiddy whole + Nan 1/2 1,764 (Diva 0.67); k=2 + frog x3 1,720.\n\n**Field sensitivity in B:** field x0.75 gives 784, x1.25 gives 1,173.",
+  "shaky": "1. **The field is assumed.**\n   - Bog drinks the lobby, so its size depends on the other tribes reaching 900 / 1,800 (elasticity about 0.8 near B). If they fall short of C, Bog at C dials is 1.41x a B-sized field.\n   - Bog bites at fight time, after the field's Start of Combat and combat-only buffs (Fetch twin, Rings, auras), but I fed it pre-start sizes. Fairies' own design is 530 pre-start against 932 at combat. Bog therefore probably runs higher than shown: the generous direction.\n2. **Bites are guessed, not fought:** carry 1.5 a fight, supports 1.4, 85% of patches filled, the Diva across the carry 65% of the time. Bog grows the same in wins and losses, and ghosts or dead seats late will starve it. Bufo, Sal, Hopkin, Peatlings and the hit back are not counted.\n3. **The build must match two accounting choices:**\n   - The frog doubles before the pending gains land. If the build doubles after the queue, B is about 1,087 and C about 2,048.\n   - bog_soak_keep must not multiply Tiddy's or Nan's share. The synthesis prose says the Toll cards pay k too, and its model applied k to Tiddy only. If k is global, B is 1,211 and C 2,527.\n4. **Early lift.** Bitter's 1-Attack floor times k makes early bites pay k each, so R6 is 1.28x (B) and 1.45x (C) the assumed field. Bog may be the strongest R5-R7 tribe in C. The assumed R6 field of 53 may itself be low; Oozes and Hedgerow design R6 is 64-75.\n5. **Late tilt.** The typical line outgrows the field after R12 (B 1.32x, C 1.55x at R14), because the frog doubles a k-inflated Diva. Single-line R12 points swing with frog timing (B 810-1,098, C 1,538-2,017 across the 9 variants).\n6. **Not modelled:** Harvest Supper's lifted ceiling and the board-scaled hero powers and spells, both pool rules in B and C. Bodies are printed; there are no rolls and no triples beyond the scripted ones.\n7. **Tier 5-6 bodies arrive small.** The Peat King is 7/11 on a 988 board, so the tier-up arrival measure will read low for Bog in both presets. The off lever bog_capstone_gain_toll is the fix if that matters."
+ },
+ {
+  "tribe": "Hunters",
+  "counting_convention": "The harness convention. For each Hunter seat: Attack + Health summed over the up-to-7 units on the board at the end of the R12 recruit phase, before Start of Combat. Included: printed bodies; every Take, Glutton, Lodger, Grizel and Wick gain from fights R1\u2013R11 (amendment 6: each lands at the next Start of Turn); Pelts from fights through R11 (the line plays each Pelt the turn it arrives); Young Brock's inherited stats; Harvest Supper +1/+1 at R7, R9 and R11. Excluded: Sable's Start of Combat strike (fight-only), the pending badges from the R12 fight, and the Agnes, Isegrim and Brock fight effects. Hunters have no Eggs and no Bellies. Reserves: unplayed Pelts in hand or on the doorstep, and Russet's unbought shop copy. Both are 0 in the model, because it plays every Pelt and buys no copies. 'Typical' is the pooled median of 800 games, one fight a round: 400 of line A (the Pack) and 400 of line B (Open Season). Each game is played against plain field boards whose median follows the preset's lobby curve. B's lobby curve is R6 52, R8 135, R10 348, R12 900, R14 2,162, the mean of the design-size Fairies and Oozes lines. C's is B \u00d7 2^((r\u22126)/6): R6 52, R8 169, R10 552, R12 1,800, R14 5,449. Check: this wrapper reproduces the synthesis exactly (averaged run A 519 / B 600 at R12, line medians 488 / 586).",
+  "dials": [
+   {
+    "key": "hunters_nip_share",
+    "meaning": "Little Nip, 'Take: gain X of the quarry's stats permanently' (bell snapshot, floored)",
+    "current_or_design": "0.5 (half), paper design",
+    "B": 0.6667,
+    "C": 0.75,
+    "engine": true,
+    "reason": "The Takers are the tribe's pitch. B follows one family rule: 'half' becomes 'two thirds' and 'a quarter' becomes 'a third'. C at 3/4: Takers at the whole quarry overshoot and split the lines (line A 1,538, line B 2,075)."
+   },
+   {
+    "key": "hunters_sable_share",
+    "meaning": "Sable, Take share",
+    "current_or_design": "0.5",
+    "B": 0.6667,
+    "C": 0.75,
+    "engine": true,
+    "reason": "Same family as Nip. Taking all three Takers back from 3/4 to 2/3 costs C 7% at R12."
+   },
+   {
+    "key": "hunters_lutra_share",
+    "meaning": "Old Lutra, Take share",
+    "current_or_design": "0.5",
+    "B": 0.6667,
+    "C": 0.75,
+    "engine": true,
+    "reason": "Same family as Nip."
+   },
+   {
+    "key": "hunters_glutton_share",
+    "meaning": "The Mountain Glutton, 'After each Take: gain X of the quarry's stats permanently'",
+    "current_or_design": "0.5",
+    "B": 0.6667,
+    "C": 1,
+    "engine": true,
+    "reason": "This is the carry. C at the whole quarry is the biggest single C dial: back at 2/3, R12 falls 1,848 to 1,606. It lifts the biggest unit's share to about Battlegrounds' 34% (owner 09a wants concentration)."
+   },
+   {
+    "key": "hunters_lodger_share",
+    "meaning": "The Lodger, 'After a Take beside this: gain X of the quarry's stats'",
+    "current_or_design": "0.5",
+    "B": 0.6667,
+    "C": 1,
+    "engine": true,
+    "reason": "The pooled feeder on line B. Its C raise is worth +5% at R12 (1,753 to 1,848) and evens the lines (A 1,754, B 1,956)."
+   },
+   {
+    "key": "hunters_wick_share",
+    "meaning": "Wick, 'After this joins a kill: gain X of the target's stats'",
+    "current_or_design": "0.25",
+    "B": 0.3333,
+    "C": 0.5,
+    "engine": true,
+    "reason": "A quarter card, kept at s/2 in B. C at half, the design's golden value. Back at 1/3 costs 4% at R12."
+   },
+   {
+    "key": "hunters_grizel_share",
+    "meaning": "Grizel, 'After your pack kills: its attackers gain X of the target's stats'",
+    "current_or_design": "0.25",
+    "B": 0.3333,
+    "C": 0.5,
+    "engine": true,
+    "reason": "Line A's engine. The synthesis already named 'Grizel at half' as the Pack lever. Back at 1/3, line A falls 1,754 to 1,413 at R12."
+   },
+   {
+    "key": "hunters_pelt_share",
+    "meaning": "Pelt token: give a Hunter X of the biggest quarry's stats",
+    "current_or_design": "0.25",
+    "B": 0.3333,
+    "C": 0.5,
+    "engine": true,
+    "reason": "The growth that doesn't need a win. C raises the share, not the count, so the hand still gets one Pelt a fight. It is worth 2% at R12."
+   },
+   {
+    "key": "hunters_russet_buff_share",
+    "meaning": "Mistress Russet: the poached copy carries X of the quarry's permanent buffs",
+    "current_or_design": "0.5 (golden 1.0)",
+    "B": 0.6667,
+    "C": 0.75,
+    "engine": true,
+    "reason": "Follows the half family. Unmeasured: the model reports copies but never buys them. Golden stays at 'all its buffs'."
+   },
+   {
+    "key": "hunters_ermeline_pelts",
+    "meaning": "Madame Ermeline: Pelts a fight (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Raising the count adds a spell to play each turn. Raising the Pelt share does the same work. Two Pelts would add only +7% at design."
+   },
+   {
+    "key": "hunters_laird_multiplier",
+    "meaning": "The Laird: 'Take:' text triggers X times (golden X+1)",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "C reaches its target without it. At \u00d73 it would add 7% at R12 and 15% at R14. It is the design's named mirror lever and the pool's only 'triggers twice' card."
+   },
+   {
+    "key": "hunters_golden_take_multiplier",
+    "meaning": "Golden shares are X times the normal share (rule 7: golden doubles the numbers)",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Golden values follow the normal ones up, so golden Glutton in C takes 2\u00d7 the quarry. They appear only in the strong and top 1% rolls."
+   },
+   {
+    "key": "hunters_golden_laird_multiplier",
+    "meaning": "Golden Laird triggers",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "Unchanged with the Laird."
+   },
+   {
+    "key": "hunters_sable_strike",
+    "meaning": "Sable, Start of Combat: gain X \u00d7 her quarry's Attack, this fight (golden 2)",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Fight-only, so not in the pre-start board. \u00d72 adds only +1.6% at R12 through extra kills."
+   },
+   {
+    "key": "hunters_agnes_hit_back",
+    "meaning": "Grey Agnes: pack leaders take X of the hit back (golden 0.25; lower is stronger)",
+    "current_or_design": "0.5",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "Fight-only. 0.25 adds +1% at R12."
+   },
+   {
+    "key": "hunters_isegrim_health_cut",
+    "meaning": "Old Isegrim lever: cut the biggest enemy's Health by X",
+    "current_or_design": "0 (lever, not default)",
+    "B": 0,
+    "C": 0,
+    "engine": false,
+    "reason": "It wins fights rather than adding stats (line A beats the strong field 39% to 100% at R15). That is the 'fights decided before they start' risk. Kept off."
+   },
+   {
+    "key": "hunters_take_floor",
+    "meaning": "Shares round down, at least +X/+X",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "The early game is already ahead of the field (B R6 1.15\u00d7, R7 1.23\u00d7), and the synthesis flagged the R7 bump. A floor of 2 would add mostly early stats."
+   },
+   {
+    "key": "hunters_young_brock_share",
+    "meaning": "Young Brock inherits X of a sold Hunter beside him",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "It moves stats rather than making them. Above 1 would create stats from a sale."
+   },
+   {
+    "key": "hunters_russet_copies",
+    "meaning": "Copies per Russet Take (\u00d7Laird)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Pool depletion and triple denial matter more than size. Unmeasured."
+   },
+   {
+    "key": "hunters_lane_bard_gold",
+    "meaning": "Lane-Bard (ex Toll-Bard): gold next turn per quarry attack, twice a fight (golden 2)",
+    "current_or_design": "1 gold, 2 triggers",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "An economy card, not on either line, so unmeasured. Gold raises every tribe's buys, so I don't raise it blind."
+   },
+   {
+    "key": "hunters_trophies_after_fight",
+    "meaning": "Rule: Takes land at the next Start of Turn (pending badge), not mid-fight",
+    "current_or_design": "true",
+    "B": true,
+    "C": true,
+    "engine": false,
+    "reason": "Mid-fight landing multiplies fight power (break-even 1.3\u00d7 to 1.7\u00d7) rather than stats. It is the synthesis's main fix."
+   },
+   {
+    "key": "hunters_bodies",
+    "meaning": "Printed stats, T1 2/2 Nip and Wick up to T6 7/10 Isegrim",
+    "current_or_design": "as in hunters-pass3.md",
+    "B": "unchanged",
+    "C": "unchanged",
+    "engine": false,
+    "reason": "The brief says to raise engine rates, not base bodies."
+   }
+  ],
+  "r12_typical": {
+   "design": 527,
+   "B": 922,
+   "C": 1848
+  },
+  "r_curve_B": "Pooled median at R6 / R8 / R10 / R12 / R14: 60 / 135 / 326 / 922 / 2,783. The B lobby field is 52 / 135 / 348 / 900 / 2,162, so the ratio is 1.15 / 1.00 / 0.94 / 1.02 / 1.29. Line A (Pack): 61 / 136 / 320 / 839 / 2,480. Line B (Open Season): 60 / 134 / 333 / 1,004 / 3,107. Growth R8 to R14 is \u00d71.66 a round. At R12, p90/p50 is 1.37 and the biggest unit is 30% of the board (the Glutton); 0% of boards reach 2\u00d7 the median. A 1,200-games-a-line rerun gives 924 at R12. Rolls at R12: low 601\u2013708, strong 1,461\u20131,659, top 1% 2,102\u20132,443 (2.3\u20132.7\u00d7 the field).",
+  "r_curve_C": "Pooled median at R6 / R8 / R10 / R12 / R14: 64 / 154 / 466 / 1,848 / 7,226. The C lobby field is 52 / 169 / 552 / 1,800 / 5,449, so the ratio is 1.23 / 0.91 / 0.84 / 1.03 / 1.33. Line A: 66 / 152 / 439 / 1,754 / 6,907. Line B: 62 / 155 / 499 / 1,956 / 7,538. Growth R8 to R14 is \u00d71.90 a round. At R12 the biggest unit is 34% of the board; on line A the Glutton reaches 49% at R14, and 57\u201362% on strong or low rolls. A 1,200-games-a-line rerun gives 1,803 at R12. Rolls at R12: low 955\u20131,189, strong 3,230\u20133,504, top 1% 4,622\u20135,022 (2.6\u20132.8\u00d7 the field; 3.4\u20133.6\u00d7 at R14).",
+  "scaling_axes": "Hunters scale on size \u00d7 count \u00d7 applications. Time works against them. They don't compound on themselves; they compound only through the field and through winning more.\n- Size comes from the prey. Every gain is a fraction of an enemy unit's stats at the bell, so the field supplies this axis. The Hunter dials set only the fraction: Takers (Nip, Sable, Lutra), the Glutton, the Lodger, Wick, Grizel and the Pelt. B and C move only these.\n- Count is receivers per kill. The Taker gains, the Glutton gains on every Take, the Lodger on Takes beside him, and every pack attacker under Grizel (Wick on his joins). The board's makeup sets the count; the Glutton, Lodger and Grizel shares set what each extra receiver gets.\n- Applications are Takes per fight, about 2.6\u20133.0 and nearly flat with standing. They come from structure: Quarry, Isegrim's gang, Old Brock's and Lutra's reach, and Brother Wolf and Agnes keeping leaders alive. Two dials multiply them: the Laird \u00d72 on 'Take:' text and Ermeline's one Pelt a fight, which doesn't need a win. Neither is raised.\n- Time is the one-round lag (gains land next Start of Turn, reading last round's prey) plus how steep the field is. With design dials, Hunters reach 0.99\u00d7 a \u00d71.5 field, 0.69\u00d7 the B field and 0.40\u00d7 the C field. That is why B and C need raises even though the shares already scale with the field. The pieces come online at the Glutton (R9\u2013R10) and the Laird and Isegrim (R11), which is why the boards run 1.3\u00d7 the field by R14.",
+  "first_cut_dials": "1. **The Glutton's share** (C: the whole quarry, back to 3/4, then B's 2/3). It is the largest single C dial: R12 goes 1,848 to 1,661 at 3/4 and 1,606 at 2/3. It is also the concentration outlier: the line A Glutton is 49% of the board at R14 typical and 57\u201362% on rolls, and golden Glutton takes 2\u00d7 the quarry. Cut it if one unit decides fights or the Pack line wins whatever the player chooses.\n2. **The Takers' share** (3/4 back to 2/3), if the trouble is Hunter-on-Hunter runaway. It is the biggest mirror driver: a line B mirror at R12 drops from 10,822 to 7,699. The Laird at \u00d71.5 barely moves it (\u00d72.27 to \u00d72.15 a round). Cutting both gives 1,542 at R12.\n3. Grizel at 1/2 only if line A alone is the outlier: back at 1/3, line A falls 1,754 to 1,413.",
+  "model_runs": "Python only; no Godot. Files are in /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/presets/hunters/:\n- orig.py is an unchanged copy of the synthesis model.\n- presets.py wraps it: every card number becomes a named dial, the field follows the preset's lobby curve, and the typical board is the harness-convention pooled median.\n- step1.py to step7.py are the runs below. hunters-rates-B.json and hunters-rates-C.json hold the dial sets.\n\nResults:\n- **Check:** on the synthesis field the wrapper gives 527 at R12 (0.99\u00d7 of 532) and matches the saved output exactly.\n- **Design dials in a B or C lobby:** 624 (0.69\u00d7) and 713 (0.40\u00d7).\n- **One dial at \u00d72 in a B lobby (R12):** Nip 858, Sable 803, Glutton 816, Grizel 740, Lodger 674, Pelt 676, Wick 652, Laird \u00d73 654, floor 2 715, Sable strike 634, Agnes 631. All three Takers \u00d72: 1,098. All shares \u00d71.4: 957.\n- **B candidates:** all 2/3 with quarters 1/3 gives 922 (picked). Takers 3/4 alone gives 838; all 3/4 gives 1,038.\n- **C candidates in a C lobby:**\n  - Takers 3/4, Glutton and Lodger whole, quarters 1/2: 1,848 (picked; lines 1,754 / 1,956).\n  - Takers whole, Glutton and Lodger 3/4, quarters 1/2: 2,058.\n  - Takers 3/4, Glutton whole, Lodger 3/4: 1,761.\n  - Takers whole with quarters 1/3: 1,826, but lines 1,538 / 2,075.\n  - B dials with no raise: 1,156.\n- **Robustness:**\n  - B dials: field \u00d70.8 gives 815, \u00d71.2 gives 1,001 (elasticity about 0.5); Sep-2025 shape 956; late-steep shape 791.\n  - C dials: \u00d70.8 gives 1,586, \u00d71.2 gives 1,996; lead held flat after R12 gives 1,848; late-steep 1,400; C dials in a B lobby 1,391.\n- **Mirror (a line fights itself every round), growth a round R8 to R14:** design A \u00d71.58, B \u00d71.80; preset B \u00d71.78 / \u00d72.09; preset C \u00d71.88 / \u00d72.27.\n- **Win share against the plain field (averaged run), preset B lines:** 65\u201390%.",
+  "shaky": "1. **Hunters are parasitic, so their number is only as good as the field I fed them.** I assumed the B lobby follows the design-size Fairies and Oozes curve, and C is B \u00d7 2^((r\u22126)/6). If the harness's other tribes come in later or flatter, Hunters fall short: 791 in B and 1,400 in C on a field that stays level to R8 and climbs steeply after. Size is less sensitive (field \u00d70.8 gives 0.88\u00d7). Re-set these dials against the harness's measured field, not this one. Most of the C raise answers the C field's steepness, not Hunter weakness.\n2. **The field boards are plain stat sticks.** They have no Shields, Bellies, sky, Mire or Health walls. In real lobbies:\n   - units inside Oozes' Bellies can't be killed, yet Isegrim can mark them (amendment 4's see-through);\n   - away Birds aren't there to eat;\n   - Bog's Mire redirects Hunter attacks;\n   - Shields delay kills.\n\n   So expect fewer than the model's 2.6\u20133.0 Takes a fight, which also explains the 65\u201390% wins against textless boards.\n3. **Scripted lines.** No shop, gold, pool depletion or second Hunter player. Russet's copies are never bought. The Lane-Bard and Old Brock aren't on either line, so the Russet, Lane-Bard and Pelt-count dials are unmeasured.\n4. **Missing from the model:** hero powers and spells scaled by the board, Supper's lifted ceiling, and the neutrals. All would add a little.\n5. **The mirror is a stress case.** Fighting itself every round, line B reaches 5,600 (B) and 10,822 (C) at R12, 6\u00d7 the field. Per-kill gains add up to more than the prey: in C, Taker 3/4 \u00d7 Laird 2, plus Glutton 1, plus Lodger 1, is 3.5\u00d7 the quarry. A real lobby meets another Hunter only some rounds, so this overstates. It is still the runaway to watch.\n6. **The tail is narrow.** 0\u20131% of boards reach 2\u00d7 the median, against Battlegrounds' 23%. That is reported only, and comes from scripted paths."
+ },
+ {
+  "tribe": "Oozes",
+  "counting_convention": "The typical seat is the synthesis's line B: the carry route, with Aspic from R6, the second stomach from R8, Elder from R10 and Cut-and-Come-Again from R12. It is also the weighted median of the model's 12 lines at R6-R12. The weights are mine: no-Aspic 17%, B 25%, low roll 12%, floor 4%, Hasty 6%, each single golden and the doubler 4%, two goldens 2%, the 1% line 1%, Pot Luck 17%. From R13 the weighted median falls on Pot Luck instead.\n\nThe figure follows HARNESS.md: each seat's pre-start, end-of-recruit board, Attack plus Health of the 7 active board units.\n- **The 7 units:** the carry plus 6 supports, or 5 supports plus the second-stomach Little Dollop.\n- **Counted:** Stone Soup's share already on bought units, and Hasty's permanent gain from the last fight.\n- **Reported separately as 'belly':** what sits inside Bellies at end of recruit. That is the carry's waiting meal, the second stomach's waiting meal, and Pot Luck's front-Belly reserves.\n- **Not counted (Start of Combat or fight-only):** Granny's gather, Hasty's swallow, Moss's Shield, Posset's halving and Bubble's split.\n- **Not applicable:** Oozes have no Eggs, Rings or doorstep. The model holds no hand, because Slices are eaten or played the turn they arrive.\n\nUnder this convention the design size (r = 1/10, Elder 1/2) is 728 active at R12, plus 107 in Bellies. The synthesis's 835 counted insides, so it isn't comparable with the harness figure. Amendment 1 (r = 1/12, Elder 1/4) gives 524.",
+  "dials": [
+   {
+    "key": "oozes_soup_share",
+    "meaning": "Stone Soup: shop units gain this share of your biggest Ooze's stats. It is kept on purchase, only the best Soup counts, and it rounds down. This is the compounding rate: every meal and every support carries it.",
+    "current_or_design": "design 1/10 (amendment 1: 1/12)",
+    "B": 0.125,
+    "C": 0.1667,
+    "engine": true,
+    "reason": "B: design 1/10 gives 728 active at R12, short of 900. 1/8 is the top of the designer's own sweep and gives 954, with the carry share unchanged at 53%. C: 1/6, together with Elder at 3/4, gives 1,771. Raising Soup alone to 1/6 gives only 1,495."
+   },
+   {
+    "key": "oozes_elder_share",
+    "meaning": "Elder Ooze: after your biggest Ooze eats a non-Ooze, your other board Oozes gain this share of the meal's own stats (before Aspic).",
+    "current_or_design": "design 1/2 (amendment 1: 1/4)",
+    "B": 0.5,
+    "C": 0.75,
+    "engine": true,
+    "reason": "B keeps the design value. C raises it to 3/4: this spreads the pudding to the family, so the carry share falls to 44% at R12 and 28-32% at R13-R14 (Battlegrounds holds about 34% in one unit). The whole meal (Elder at 1) gives 2,085 but only 23% carry share at R14, too spread, so it isn't used."
+   },
+   {
+    "key": "oozes_golden_elder_multiplier",
+    "meaning": "Golden Elder multiplies its share (design: half becomes the whole meal).",
+    "current_or_design": "design 2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Kept, by the tribe's golden rule (Aspic and Elder may double on golden). Under C, golden Elder gives 1.5x the meal."
+   },
+   {
+    "key": "oozes_aspic_bonus",
+    "meaning": "Aunt Aspic: Oozes in front of her gain this much more from eating non-Oozes. One Aspic per eater.",
+    "current_or_design": "design +50%",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "This is an engine rate, but C doesn't raise it. Doubling it lifts only the Aspic carry line: Pot Luck falls to 0.64x and the no-Aspic line to 0.42x of B. That is one route winning whatever the player chooses, and it feeds the most common golden highroll."
+   },
+   {
+    "key": "oozes_golden_aspic_multiplier",
+    "meaning": "Golden Aspic multiplies her bonus (from +50% to +100%).",
+    "current_or_design": "design 2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Kept. The golden-Aspic line is already 1.36x (B) and 1.42x (C) the typical line at R12."
+   },
+   {
+    "key": "oozes_nell_meals",
+    "meaning": "Dishwater Nell: shop units eaten by the biggest Ooze next to her at Start of Turn, per eater. Golden adds a second eater.",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "This is an engine count, held. Two meals alone takes design to 1,783 (R14 6,431), but it widens the gap to lines without Nell (floor 0.12x of B). It also loads more on a tier 2 card the engine already depends on."
+   },
+   {
+    "key": "oozes_bubble_belly",
+    "meaning": "Bubble and Squeak's Belly: meals the usual carry digests each Start of Turn (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "This is an engine count, held. Belly 2 puts Pot Luck ahead of the carry line (P/B 1.42-1.50) and makes the curve steepest (R14 = 4.7-5x R12)."
+   },
+   {
+    "key": "oozes_dollop_belly",
+    "meaning": "Little Dollop's Belly (golden 2): the first carry and the second stomach.",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Gold already bounds it."
+   },
+   {
+    "key": "oozes_dollop_discount",
+    "meaning": "Gold off a buy straight into Little Dollop (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Economy, not an engine rate."
+   },
+   {
+    "key": "oozes_slice_share",
+    "meaning": "Cut-and-Come-Again: each Start of Turn, get a Slice (food token) with this share of your biggest Ooze's stats.",
+    "current_or_design": "design 1/5",
+    "B": 0.2,
+    "C": 0.2,
+    "engine": false,
+    "reason": "The Slice is a share of the carry, so it already doubles when C doubles the carry. It does nothing by R12, because the card lands at R12. Raising it would only steepen R13 and later."
+   },
+   {
+    "key": "oozes_slice_count",
+    "meaning": "Slices served per turn (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Held for the same reason as the Slice share."
+   },
+   {
+    "key": "oozes_hasty_share",
+    "meaning": "Hasty Pudding: your biggest Ooze permanently gains this share of the enemy it swallows.",
+    "current_or_design": "design 1/5",
+    "B": 0.2,
+    "C": 0.2,
+    "engine": false,
+    "reason": "It reads the real enemy, so it already scales with a C-sized field. The Hasty line sits at 0.94x (B) and 0.94x (C) of the typical line at R12."
+   },
+   {
+    "key": "oozes_hasty_swallows",
+    "meaning": "Enemies Hasty swallows at Start of Combat (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "An answer count. Not in the pre-start board."
+   },
+   {
+    "key": "oozes_hasty_release_deaths",
+    "meaning": "Friendly deaths after which Hasty releases its prisoner.",
+    "current_or_design": "design 3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "Fight-only. It is answer strength, not size."
+   },
+   {
+    "key": "oozes_golden_soup_reads",
+    "meaning": "Golden Stone Soup reads this many of your biggest Oozes (the normal card reads 1).",
+    "current_or_design": "design 2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "Kept, by the golden rule (compounding fractions widen, never double)."
+   },
+   {
+    "key": "oozes_granny_attack_multiplier",
+    "meaning": "Granny Stir-Up gains this many times the Attack of the gathered Oozes (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Fight-only, so not in the pre-start board. Already 97% at equal totals in the synthesis fights."
+   },
+   {
+    "key": "oozes_posset_loss_share",
+    "meaning": "Mrs Posset: her killer loses this share of its stats for the fight.",
+    "current_or_design": "design 1/2",
+    "B": 0.5,
+    "C": 0.5,
+    "engine": false,
+    "reason": "A proportional answer, so it scales by itself."
+   },
+   {
+    "key": "oozes_moss_golden_reduction",
+    "meaning": "Golden Moss Ooze: Damage Reduction % on units coming out of your Oozes (the normal card gives Shield only).",
+    "current_or_design": "design 25",
+    "B": 25,
+    "C": 25,
+    "engine": false,
+    "reason": "Fight-only hold."
+   },
+   {
+    "key": "oozes_bubble_splits",
+    "meaning": "Bubble and Squeak: splits a fight (golden 2). Each half gets half the stats.",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Fight-only hold."
+   },
+   {
+    "key": "oozes_pie_gold",
+    "meaning": "Sixpenny Pie: gold per unit inside when it dies (Belly 2, golden 4).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Economy."
+   },
+   {
+    "key": "oozes_wobbly_drip",
+    "meaning": "Wee Wobbly: the Drip's Attack and Health when nothing is inside (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Early-game body."
+   },
+   {
+    "key": "oozes_frumenty_meals",
+    "meaning": "Frumenty: number of last meals whose text it keeps (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Text, not size."
+   },
+   {
+    "key": "oozes_syllabub_fires",
+    "meaning": "Mr Syllabub: times a released unit's Start of Combat fires (golden 2).",
+    "current_or_design": "design 1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Fight-only."
+   }
+  ],
+  "r12_typical": {
+   "design": 728,
+   "B": 954,
+   "C": 1771
+  },
+  "r_curve_B": "Line B, active board, with Belly contents in brackets:\n- R6 47 (32)\n- R8 147 (38)\n- R10 331 (63)\n- R12 954 (76)\n- R14 2,938 (339)\n\nThe weighted median of the 12 lines is 47 / 146 / 331 / 954 / 2,336 (Pot Luck is the median from R13). The carry holds 23 / 52 / 50 / 53 / 38% of the active board. Every shop unit carries Soup's share: +10 at R8, +64 at R12, +140 at R14.\n\nFor reference, R14 is 1.7x Battlegrounds' Sep 2025 mean (1,751). Growth from R10 to R14 is about x1.55 a round. R6 is low because the carry fights inside Bubble that turn.",
+  "r_curve_C": "Line B, active board, with Belly contents in brackets:\n- R6 53 (33)\n- R8 177 (48)\n- R10 434 (93)\n- R12 1,771 (284)\n- R14 7,109 (684)\n\nThe weighted median is 53 / 175 / 434 / 1,771 / 5,711. The carry holds 23 / 50 / 49 / 44 / 28% of the active board. Pot Luck is 1.13x line B at R12 (2,003 active).\n\nFor reference, R14 is about Battlegrounds' Nov 2026 median (7,980). R12 sits below that median (2,598). Growth from R10 to R12 is x2.0 a round, mostly from Elder landing at R10.",
+  "scaling_axes": "- **Size** (stats per application): Stone Soup's share (oozes_soup_share) puts r x the carry on every shop unit, so every meal and every support is bigger. Aspic (oozes_aspic_bonus) multiplies each non-Ooze meal into a carry in front of her.\n- **Applications** (meals a turn into the carry): Digest (oozes_bubble_belly), Nell (oozes_nell_meals), the Slice from R13 (oozes_slice_count, oozes_slice_share) and the second stomach. Gold gates them: 3 gold a meal, 2 into a Dollop.\n- **Count** (how many units a growth reaches): Elder (oozes_elder_share) copies each meal onto every other board Ooze, 5-6 of them. Soup reaches every unit you buy. Golden Soup reads two Oozes.\n- **Time:** all growth is permanent and Start of Turn or on eating, and each gain raises Soup's next share. That gives about x1.55 a round in B and about x1.8 in C from R8 to R14. No End of Turn text, so the doubler doesn't apply.\n\nB raises size only (Soup 1/10 to 1/8). C raises size again (Soup 1/8 to 1/6) and count (Elder 1/2 to 3/4). Applications are held, because Nell x2 and Belly 2 widen the floor gap and put Pot Luck ahead.",
+  "first_cut_dials": "**First cut: Soup (oozes_soup_share).** Use it if C shows common snowballs, a high 2x-median share, or Oozes winning whatever line they take. It is the compounding rate inside every meal, shop unit and golden, and it widens both the tail and the floor most.\n- At 1/7: R12 1,369, R14 5,017.\n- Back to B's 1/8: R12 1,127, R14 3,924. The 1% line falls from 3.16x to 2.72x of the typical line.\n\n**Cut Elder (oozes_elder_share) first instead** if the problem is Pot Luck winning regardless of choice (it is 1.13x line B now), or spread boards that a common answer can't touch (the carry share is 28% by R14).\n- At 2/3: R12 1,669.\n- At 1/2: R12 1,494, carry share 50%.",
+  "model_runs": "I copied the synthesis model to the scratch folder, with no change to its growth logic.\n- **New dials:** Nell meals, Slices per turn, Dollop discount, and a field scale for Hasty (target x 900/759 for B, x 1,800/759 for C).\n- **New outputs:** active board, Belly contents, and the carry's share of the active board.\n- **Check:** at synthesis defaults it reproduces the saved .out.txt exactly (line B 835 total).\n\nResults:\n- **Design** (Soup 1/10, Elder 1/2): line B 728 active at R12 (107 in Bellies). Amendment 1: 524.\n- **One dial at a time,** line B at R12: Soup 1/8 954, 1/6 1,495; Elder 3/4 857, 1 989; Aspic +100% 1,030 (median unchanged at 803); Nell x2 1,783; Belly 2 1,149; Slice no change at R12.\n- **A grid of 576 combinations:**\n  - Soup 1/6 + Elder 3/4: 1,771, carry 44%, Pot Luck 1.13x line B. Picked for C.\n  - Soup 1/6 + Elder 1: 2,085, but the carry share drops to 23% at R14.\n  - Soup 1/8 + Aspic and Elder doubled: 1,899, but the median is only 1,738 and the no-Aspic line falls to 0.51x.\n  - Soup 1/5 alone: 2,132, the widest tail.\n- **Sensitivity checks:** when the second stomach is eaten (R12 swings 692-1,170 in B and 1,203-2,357 in C), and every card one round later (B 827, C 1,413).\n\nFiles are in /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/presets/:\n- the model: oozes_presets.py\n- the runner: oozes_presets_run.py\n- the final script and its output: oozes_final.py, oozes_final.out.txt\n- the sweeps: oozes_cands.py, oozes_combos.py",
+  "shaky": "- **The second stomach's timing moves R12 by \u00b125%.** The line brain feeds the second-stomach Dollop and the carry eats it every 3 turns, so the active R12 board depends on where that cycle sits. B ranges 692-1,170 and C 1,203-2,357, and with no second stomach B is 1,170. The 954 and 1,771 are one cycle phase (from R8, every 3 turns).\n- **The curve is steep, so \"R12\" is fragile.** It runs about x1.7-2.0 a round from R10 to R12. If every card arrives one round later, B is 827 and C 1,413.\n- **Fights aren't simulated.** The model loses no fights, never misses a shop piece, and has no heroes, spells, Discovers or triples beyond the named goldens. Supports are generic shop units of their tier. Soup's round-down isn't applied.\n- **The line weights are my assumption.** Line B lands on the weighted median at R6-R12 for the weights I chose, but they aren't measured.\n- **Pot Luck's Belly is understated.** Its reserves keep their size from when they were bought.\n- **Late gold piles up.** It is about 1 at R12, but 7-29 gold sits unspent from R13, so R14 and later understate real boards.\n- **The pre-start convention hides the Oozes' fight power.** Granny's gather (about 400+ Attack at R12 in B), Moss's Shields, Hasty's swallow and Bubble's split are all fight-only. Oozes may fight above their measured board compared with tribes whose power is pre-start.\n- **Design lands below 900.** At Soup 1/10 the design is 728 under the harness convention. I raised B's Soup to 1/8 to reach about 900. If the orchestrator counts Bellies, design (835) already passes and B could stay at 1/10.\n- **Hasty's gain is approximate.** It reads a scaled reference curve, not a real field."
+ },
+ {
+  "tribe": "hedgerow",
+  "counting_convention": "The pre-start, end-of-recruit board from HARNESS.md Metrics. It is Attack + Health of every unit in the 7 slots after recruit and after all End of Turn text (Mallow, Committee, Treasurer, Partner, then Dozey's wake last), before Start of Combat. Counted: Kits, triple fillers, Hayward's standing tribe bonus on each unit, and that turn's Start of Turn Lollop share and Mast Acorns. Not counted: Larder items in hand (gold, not bodies; at most 8 cards, so the hand limit never binds), Sorrel's fight Shrewlets, Urchin's Hunker (not stats) and the Sergeant's throw (it hits the enemy). Hedgerow has no Eggs, Rings, twins or Bellies and no Start of Combat effect on its own stats, so its pre-start and post-start boards are the same. 'Typical' is the median of six scripted boards: hedgerow_supper and hedgerow_parish, each played on time and with every buy and move landing 1 and 2 rounds late. Tier-ups stay on the line's schedule, as the harness lines climb on a fixed one. The R12 figure is the mean of the 3rd and 4th of the six. The optional Treasury line is reported but not pooled. This convention reads lower than the synthesis's own ('mean of on time and one round late, tiers delayed too'). Design reads 362 here, against 618 Supper and 453 Parish there.",
+  "dials": [
+   {
+    "key": "hedgerow_dozey_wake_multiplier",
+    "meaning": "Alderman Dozey: 'Every 3 turns in this slot: double its stats' (the multiplier at each wake)",
+    "current_or_design": "2.0 (design; paper only)",
+    "B": 2,
+    "C": 3,
+    "engine": true,
+    "reason": "B keeps the word 'double' (the synthesis's key moment), so B and C have the same rhythm and the test compares scale, not feel. C makes it 'triple'. The R12 median doesn't move, because the pooled median sits on the Parish and the Supper's trough; R13+ does (cutting it in C takes R14 down 38%)."
+   },
+   {
+    "key": "hedgerow_golden_dozey_wake_multiplier",
+    "meaning": "Golden Dozey's wake multiplier (the golden doubles his food, not the multiplier; rulebook 7.3.5)",
+    "current_or_design": "2.0",
+    "B": 2,
+    "C": 3,
+    "engine": true,
+    "reason": "Follows the base wake."
+   },
+   {
+    "key": "hedgerow_dozey_period",
+    "meaning": "Turns in his slot per wake (Hedgerow owns the turn timer, amendment 7)",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "Kept. Period 2 was tested: alone it takes the Supper median from 337 to 891 at R12 and smooths the curve, but it moves the first wake to R8 and changes the rhythm between presets. It is the alternative C lever if a smoother Supper is wanted."
+   },
+   {
+    "key": "hedgerow_dozey_food_per_gold",
+    "meaning": "Dozey: 'Larder items played on this: +1/+1 per 2 gold' (stats per gold fed)",
+    "current_or_design": "0.5",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "Raised in B: the text becomes '+2/+2 per gold' (golden +4/+4), which is also shorter. The feast is the Supper's reward moment, and this keeps feeding better than cashing once Hayward is down (the synthesis's own worry). It is B's largest Supper dial: cutting it costs 15% of R12."
+   },
+   {
+    "key": "hedgerow_partner_period",
+    "meaning": "Sleeping Partner: turns in slot per payout",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "Kept with Dozey's clock."
+   },
+   {
+    "key": "hedgerow_partner_acorns",
+    "meaning": "Sleeping Partner: Acorns per Hedgerow unit touching it, per payout (golden x2)",
+    "current_or_design": "1",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "Raised in B. This is the fuel count: each Acorn fires Beadle, builds Stashes for Pym and feeds Dozey. It is the only dial that lifts the Supper's pre-wake trough at R12 (cutting it costs 15%). Watch the R6 burst: the on-time Supper is 2.2x the field at R6."
+   },
+   {
+    "key": "hedgerow_crumb_pass",
+    "meaning": "Mr Crumb: 'When played: Pass +1/+1'",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Too small to matter at this scale; left."
+   },
+   {
+    "key": "hedgerow_crumb_sell_share",
+    "meaning": "Mr Crumb: 'When sold: Pass its stats' (share Passed; golden twice)",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "x2 tested: +4%. Left."
+   },
+   {
+    "key": "hedgerow_clover_share",
+    "meaning": "Mrs Clover: share of her stats given to each Hedgerow summon",
+    "current_or_design": "0.5",
+    "B": 1,
+    "C": 1,
+    "engine": true,
+    "reason": "Takes the Parish's own first lever from cross-tribe section 6 (full stats). It has no effect in the model, because the scripts summon no Kit after Clover arrives, so the harness has to show its value."
+   },
+   {
+    "key": "hedgerow_pym_pass",
+    "meaning": "Mr Pym: 'After you get a Stash: Pass +3/+3'",
+    "current_or_design": "3",
+    "B": 3,
+    "C": 3,
+    "engine": false,
+    "reason": "+6 tested: +2-4% at R12. Left."
+   },
+   {
+    "key": "hedgerow_sorrel_summons",
+    "meaning": "Mrs Sorrel: Shrewlets per attack (each Spills an Acorn in the back row)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Left: two is the golden's text. The model can't count its fight Shrewlets."
+   },
+   {
+    "key": "hedgerow_burdock_kits",
+    "meaning": "Mrs Burdock: 1/1 Kits when played (or Spill)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Left."
+   },
+   {
+    "key": "hedgerow_mallow_multiplier",
+    "meaning": "Mrs Mallow: 'End of Turn: double your smallest Hedgerow unit's stats' (the multiplier)",
+    "current_or_design": "2.0",
+    "B": 2,
+    "C": 3,
+    "engine": true,
+    "reason": "C's Parish engine: 'triple your two smallest' (golden: four smallest). It also feeds the Supper's supports, since Mallow stands in its F3 until R12. It is most of C's raise: cutting it alone takes R12 from 1,972 to 1,084."
+   },
+   {
+    "key": "hedgerow_mallow_targets",
+    "meaning": "Mrs Mallow: how many smallest units she affects (golden x2)",
+    "current_or_design": "1",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "B's main Parish dial: 'double your two smallest'. Cutting it costs 33% of R12. It also fixes the Parish's weak early game, a weak point the synthesis and cross-tribe sections 6-7 both name (on-time Parish R9 rises from 152 to 281). The golden becomes four smallest, which is a tail risk."
+   },
+   {
+    "key": "hedgerow_urchin_bristle",
+    "meaning": "Dr Urchin: Bristle value",
+    "current_or_design": "2",
+    "B": 2,
+    "C": 2,
+    "engine": false,
+    "reason": "A flat number that fades at scale; not an engine. Left."
+   },
+   {
+    "key": "hedgerow_urchin_hunker_targets",
+    "meaning": "Dr Urchin: 'your last Hedgerow unit has Hunker' (amendment 2's tribe word; Hunker is half damage when attacked, amendment 8)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "A holder, not growth. Left."
+   },
+   {
+    "key": "hedgerow_sergeant_share_per_gold",
+    "meaning": "Sergeant-at-Conkers: the enemy across loses this share of its stats per gold thrown",
+    "current_or_design": "0.1",
+    "B": 0.1,
+    "C": 0.1,
+    "engine": false,
+    "reason": "An answer that already scales with the target; raising it would cut other tribes, not grow Hedgerow."
+   },
+   {
+    "key": "hedgerow_sergeant_throws",
+    "meaning": "Sergeant: Larder items thrown at Start of Combat (golden 2)",
+    "current_or_design": "1",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Left."
+   },
+   {
+    "key": "hedgerow_beadle_pass",
+    "meaning": "Beadle Warrenby: 'After you get an Acorn: Pass +1/+1'",
+    "current_or_design": "1",
+    "B": 2,
+    "C": 2,
+    "engine": true,
+    "reason": "Restores the engine design's +2/+2. It pairs with the Partner's extra Acorns. Cutting it costs 5% of R12."
+   },
+   {
+    "key": "hedgerow_treasurer_per_gold",
+    "meaning": "Honorary Treasurer: 'End of Turn: gain +1/+1 per gold in your Larder'",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 2,
+    "engine": true,
+    "reason": "Only affects the optional Treasury line, which isn't in the pooled median. In C it keeps that line at 0.66x the median at R12 instead of 0.44x."
+   },
+   {
+    "key": "hedgerow_hayward_per_gold",
+    "meaning": "Goodman Hayward: Hedgerow folk get +1/+1 per gold played, this game",
+    "current_or_design": "1.0",
+    "B": 1,
+    "C": 1,
+    "engine": false,
+    "reason": "Not used. x2 adds 2-15%, but it steepens R13+: a C built on Hayward x3 put R14 at 1.7x the C curve. It is linear in gold, so it shrinks against the board at C's scale; raise it if the Treasury's cash-out feels flat."
+   },
+   {
+    "key": "hedgerow_committee_share",
+    "meaning": "Standing Committee: touching Hedgerow folk gain this share of the smallest one's stats each End of Turn (golden x2)",
+    "current_or_design": "0.2",
+    "B": 0.25,
+    "C": 0.25,
+    "engine": true,
+    "reason": "A small Parish raise to 'a quarter' (clean text). Cutting it costs 3%. 'Half' was tested for C: balanced, but a steeper late curve."
+   },
+   {
+    "key": "hedgerow_lollop_share",
+    "meaning": "Squire Lollop: touching Hedgerow folk except your biggest gain this share of it at Start of Turn (golden x2)",
+    "current_or_design": "0.1",
+    "B": 0.1,
+    "C": 0.1,
+    "engine": false,
+    "reason": "Already a share of the carry, so it grows with the board. He arrives at R12-R13 and doesn't move R12; a fifth only inflates R14+ (+15-30%)."
+   },
+   {
+    "key": "hedgerow_mast_gold_step",
+    "meaning": "Old Mother Mast: one Acorn per this much Larder gold, at Start of Turn",
+    "current_or_design": "5",
+    "B": 5,
+    "C": 5,
+    "engine": false,
+    "reason": "No effect at R12 in the model. Left."
+   },
+   {
+    "key": "hedgerow_mast_cap",
+    "meaning": "Old Mother Mast: 'Up to 5' Acorns a turn (golden 10), the tribe's one loop guard",
+    "current_or_design": "5",
+    "B": 5,
+    "C": 5,
+    "engine": false,
+    "reason": "Kept as the loop guard (breaker point 7)."
+   },
+   {
+    "key": "hedgerow_larder_gold",
+    "meaning": "Larder item values: Acorn / Stash / Great Hoard, in gold (three combine into the next)",
+    "current_or_design": "1/5/16",
+    "B": "1/5/16",
+    "C": "1/5/16",
+    "engine": false,
+    "reason": "Shared with Mrs Jay and the sample_hoarder hero; not a tribe dial."
+   }
+  ],
+  "r12_typical": {
+   "design": 362,
+   "B": 924,
+   "C": 1972
+  },
+  "r_curve_B": "Pooled median: R6 60, R7 85, R8 142, R9 236, R10 403, R11 732, R12 924, R13 1,604, R14 2,862. That is x1.65 a round from R8 to R14. The B target curve (Sep 2025 mean ramped to 900 at R12) is 53 / 127 / 338 / 900 / 2,223 at R6 / 8 / 10 / 12 / 14. By line at R6 / 8 / 10 / 12 / 14: Supper 97 / 178 / 710 / 979 / 3,484; Parish 47 / 83 / 287 / 870 / 2,194; Treasury (optional) 93 / 213 / 473 / 735 / 2,347. On-time lines run hot: the on-time Supper is 664 at R9 (3.2x the field) and 2,145 at R12 (its wake round), and the on-time Parish is 1,111 at R12 and 4,133 at R14. For comparison, design on the same convention is 43 / 90 / 198 / 362 / 1,099.",
+  "r_curve_C": "Pooled median: R6 82, R7 121, R8 240, R9 389, R10 883, R11 1,377, R12 1,972, R13 3,984, R14 6,898. That is x1.75 a round from R8 to R14. The C target curve is 53 / 146 / 512 / 1,800 / 5,866 at R6 / 8 / 10 / 12 / 14. By line: Supper 130 / 268 / 1,207 / 1,736 / 6,670; Parish 64 / 134 / 559 / 2,060 / 7,125; Treasury 120 / 366 / 828 / 1,304 / 3,035. C against B: 1.4x at R6, 1.7x at R8, 2.2x at R10, 2.1x at R12, 2.4x at R14. The C target sits flat at 53 through R6 and only ramps from R7, so C's extra early size (Mallow tripling from R4) stands out against it: 1.6x at R6 and R8, 1.4x at R9, 1.7x at R10, 1.1x at R12, 1.2x at R14. The on-time Supper is 1,116 at R9 (4.1x the field) and 4,095 at R12. The on-time Parish is 17,019 at R14 (2.5x the median).",
+  "scaling_axes": "The Supper uses all three axes plus time. Count is the fuel: Acorns per Partner payout = partner_acorns x the length of the touching Line, plus Sorrel's Spills and Mast. Size is food per gold, Beadle's and Pym's Pass, and the wake multiplier (x2 in B, x3 in C). Applications are one wake per dozey_period (3) turns, plus one Beadle trigger per Acorn and one Pym trigger per Stash. Time is the sleep: he must not move, and the Larder is held between feasts. So the Supper is roughly (Acorns x Beadle + gold x food) x wake_multiplier^(turns/3). The Parish uses count (mallow_targets, plus the Line length the Committee and Lollop pay), size (mallow_multiplier, committee_share, lollop_share) and applications (every End of Turn), and it compounds with time. The Treasury uses size (treasurer_per_gold, and hayward_per_gold at the cash-out), count (Larder gold: Partner, Sorrel, Mast) and time (the hold). Hayward is count of units x gold played. B raises count (Partner, Mallow targets) and size (food, Beadle, Committee, Clover). C raises the size of the two compounders (Dozey and Mallow to triple) and the Treasurer.",
+  "first_cut_dials": "1. hedgerow_mallow_multiplier from 3 back to 2. It is most of C's raise: cutting it alone takes R12 from 1,972 to 1,084, about 1.2x B, and R14 down 43%. It compounds every End of Turn on two runts (four on the golden), and it drives C's one runaway. The on-time Parish wins 100% of its model fights from R8 and reaches 2.5x the median at R14 and 4.1x at R16, or 7.6x with a golden Committee. It also inflates the early Supper, since Mallow stands in its F3 from R4. If that cut is too big, the harness can try x2.5 (a harness-only value; R12 1,485). 2. hedgerow_dozey_wake_multiplier from 3 back to 2, if the on-time Supper wins whatever it faces (4.1x the C field at R9, 2.1x the C median at R12). It doesn't change the R12 median, only R13+ (R14 down 38%). Dozey is also the most answerable carry: he holds one slot, the Sergeant can target him, and biggest-enemy answers find him. If B itself reads hot in the harness, the first B cuts are food (+2/+2 to +1/+1 per gold) or the Partner (2 to 1); each takes about 15% off.",
+  "model_runs": "Python only, no Godot. Scratch dir: /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/presets/hedgerow/. (1) The original model reproduces its saved output exactly (Supper R12 885 on time and 351 late). (2) hedgerow-presets-model.py (= presets.py) does four things: makes every card number a dial (preset=design|B|C, key=value overrides); runs shift variants (mode=buys keeps climbs on schedule, mode=all is the synthesis's 'late'); reports pooled and per-line medians, the Larder card count and gold shortfalls; and fights against a field on the Sep 2025 curve ramped to 900 or 1,800 at R12 (the same curve the Birds sibling uses), with a tail report. (3) It models the Parish's three-Mallow triple (rulebook 7.3.4: double base, keeps the buffs), with two textless 5/7 fillers in the vacated slots. The original kept three copies, which overstated the late Parish (design on-time R14 1,836 falls to 1,333 with the triple). (4) Sweeps: single dials, then a 6,912-combo B grid and a 10,368-combo C grid. Only dials at or above design were allowed for B, and at or above B for C. B combos were picked near 900 with Supper and Parish within 0.75-1.33x of each other and few changes. One-dial cut checks were run from B and from C. Results: design 362 (Supper 337, Parish 387); B 924 (979 / 870; Treasury 735); C 1,972 (1,736 / 2,060; Treasury 1,304). Growth from R8 to R14 is x1.52 at design, x1.65 in B and x1.75 in C. The rates files are hedgerow-rates-design.json, hedgerow-rates-B.json and hedgerow-rates-C.json; the runs are in run-design.txt, run-B.txt and run-C.txt.",
+  "shaky": "1. The convention moves the answer. Dozey pulses every 3 turns, so R12 lands on a different wake phase in each variant. The pooled R12 (924 in B) sits in the Supper's trough, and R13 jumps x1.7 in B and x2.0 in C. On the synthesis's own convention, B reads 1,579 for the Supper and 1,090 for the Parish; with tiers shifted too, the pooled median is 1,040 (B) and 2,396 (C). The on-time B Supper alone is 2,145. If harness bots mostly hit Dozey on R7, Hedgerow B will read hot; wave 1's 0.5-2x accounting check applies, and food or the Partner is the cut. 2. The pooled median is set by the Parish variants (in C it is the mean of Parish +1 and +2), so Supper dials barely move the headline number. 3. Arrivals are scripted, with no shop, no neutrals and no Click Beetle (amendment 11's loop guard is untested here). Spells are flat +1/+1 per gold, not the board-scaled spells both presets switch on, so late spare gold is undercounted. Fight Shrewlets aren't counted, so the Parish reads low. Clover's raise has no effect in the model. 4. The triple fillers are textless 5/7 bodies; a real player would buy real cards, so the late Parish is understated in that respect. The Partner and Mallow raises are also untested against the hand limit with units in hand (the Larder peaks at 8 cards). 5. Fights are near-certain stat contests against plain fields: the bigger board almost always wins. Read them as a guide, not a measurement. 6. The hold's tempo cost is only partly charged, so the Supper and Treasury may read high at R7-R9. 7. The early on-time Supper (2.2x the field at R6 in B, 3x in C) partly reopens the window that the synthesis closed by moving Dozey to T4. It comes from the Partner's R6 burst and Mallow's two targets, and it isn't a bar, but watch it in play."
+ }
+]

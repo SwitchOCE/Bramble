@@ -31,6 +31,7 @@ var _acorn_gold: Dictionary = {}
 var _current_seats: PackedStringArray = []
 var _leg: int = 0
 var _observed_players: Dictionary = {}
+var _starting_policies: Dictionary = {}
 var _capture: Dictionary = {}
 var _game_seed: int = 0
 var _active_session: GameSession
@@ -145,6 +146,7 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	)
 	_current_seats = seats
 	_observed_players.clear()
+	_starting_policies.clear()
 	var config: GameConfig = GameConfig.full_game()
 	for key: String in _overrides:
 		assert(config._values.has(key), "unknown GameConfig override: %s" % key)
@@ -161,6 +163,8 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		game_seed, _library, config, BenchSuites.create_bot
 	)
 	_active_session = session
+	for id: int in BenchSuites.SEATS:
+		_starting_policies[id] = session.build_of(id)
 	_plant_spawned = false
 	session.fight_observer = _on_fight
 	if _files.has("fight_trace"):
@@ -184,6 +188,8 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 		var id: int = CoreUtil.to_int(input["player_ids"][side])
 		var snapshot: Dictionary = _capture["combat_start"][side]
 		if id >= 0:
+			if not _starting_policies.has(id):
+				_starting_policies[id] = _active_session.build_of(id)
 			var player: PlayerState = _observed_players[id]
 			var units: Array = snapshot["units"]
 			units.append_array(FightCapture.reserves(player, _active_session._library))
@@ -198,6 +204,9 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 						"armor": player.armor,
 						"last_stand_used": player.last_stand_used,
 						"line": _active_session.build_of(id),
+						"assigned_line": _current_seats[id].get_slice(":", 0),
+						"starting_line": _starting_policies[id],
+						"current_line": _active_session.build_of(id),
 						"policy":
 						(
 							"hard"
@@ -207,7 +216,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 					}
 				)
 			)
-			if str(_options["suite"]) == "lines":
+			if str(_options["suite"]) in ["lines", "wave1_accounting"]:
 				snapshot["layout"] = "blind"
 			if not _test_card.is_empty() and id == 0 and _options["plant_pool"] != "on":
 				snapshot["policy"] = (

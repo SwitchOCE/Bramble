@@ -25,7 +25,12 @@ static func fairy_build(value: BotEval) -> bool:
 
 
 static func best_flight(player: PlayerState, value: BotEval, round_number: int) -> int:
-	if round_number < 3 or player.board_count() <= 3 or _omen(player):
+	var policy: Dictionary = value.strategy.get("line_fly_policy", {})
+	var from_round: int = CoreUtil.to_int(policy.get("from_round", 3))
+	var keep_home: int = CoreUtil.to_int(policy.get("keep_home_min", 3))
+	if round_number < from_round or player.board_count() <= keep_home or _omen(player):
+		return -1
+	if policy.has("max_away") and player.away.size() >= CoreUtil.to_int(policy["max_away"]):
 		return -1
 	var largest: RecruitUnit = _biggest_bird(player)
 	var danger: bool = player.health <= maxi(8, 2 * round_number)
@@ -34,6 +39,9 @@ static func best_flight(player: PlayerState, value: BotEval, round_number: int) 
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = player.board[slot]
 		if unit == null or not HeldUnits.flies(unit, player):
+			continue
+		var allowed: Array = policy.get("allowed", [])
+		if not allowed.is_empty() and not allowed.has(unit.def_id()):
 			continue
 		if unit.def_id() == "old_tern" and player.away.size() < 2:
 			continue
@@ -138,7 +146,10 @@ static func arrange(
 			_swap(layout, lump, target)
 	if not fairy_build(value):
 		return
-	var court: bool = str(value.strategy.get("id", "")) in ["fairies_rainbow", "fairies_help"]
+	var court: bool = (
+		str(value.strategy.get("id", "")) in ["fairies_rainbow", "fairies_help"]
+		or CoreUtil.to_bool(value.strategy.get("line_court", false))
+	)
 	var annis: int = _find(player, layout, "old_moth_annis")
 	var annis_slot: int = 1 if court else 0
 	if annis >= 0 and not pinned.has(annis) and not pinned.has(annis_slot):
@@ -505,7 +516,10 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 	if not fairy_build(value):
 		return -1
 	if unit.def_id() == "old_moth_annis":
-		var court: bool = str(value.strategy.get("id", "")) in ["fairies_rainbow", "fairies_help"]
+		var court: bool = (
+			str(value.strategy.get("id", "")) in ["fairies_rainbow", "fairies_help"]
+			or CoreUtil.to_bool(value.strategy.get("line_court", false))
+		)
 		var slot: int = 1 if court else 0
 		return slot if player.board[slot] == null else -1
 	if unit.def_id() == "cradle_fetch":

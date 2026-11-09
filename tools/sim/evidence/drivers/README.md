@@ -66,6 +66,18 @@ aggregate field output retains its original seed family; the optional per-seed
 mode retains the former designed driver's seed family and paired rows.
 The old `designed_fights.gd` implementation is preserved in Git history.
 
+`run_designed_first.py` changed after the first experiment ran (including the
+shared-driver and archive-reader updates). The exact bytes that ran are at
+**`1206ae0:tools/sim/evidence/drivers/run_designed_first.py`**; the current file is
+not claimed to reproduce those original driver bytes. Retrieve them with
+`git show 1206ae0:tools/sim/evidence/drivers/run_designed_first.py`.
+
+The baseline, caps screen, lever builds, first designed field and real-null
+results used pre-wave-1 combat and are not comparable with step 5's numbers.
+`full_game()` now enables `pass3_content`; a pool holding pass 3 cards enables
+`Pass3Combat` timing. Source-pinned old results are retained without re-fighting
+them on the changed backend.
+
 The first experiment remains historical and source-pinned. Its input checksum is
 of the original JSON bytes, resolved through the verified archive pointer by
 `evidence_io.json_sha`; compression does not change the frozen data checksum.
@@ -92,3 +104,53 @@ folded script takes `FIELD OUTPUT 64 per_seed`. Original/default aggregate scrip
 both take `FIELD OUTPUT 2`. Compare each pair of output files byte-for-byte.
 Do not compare cross-version fight winners as evidence of a driver-only change:
 the older archive predates the merged combat backend. No new v3 bar was run.
+
+## Current wave-1 real-card smoke (128 fights)
+
+This is separate from the pre-wave-1 first designed experiment above. Generate
+recipes from the committed line files, then let Godot serialize the current
+library's real recruit state. Commands run sequentially:
+
+```sh
+source /opt/bramble/env.sh
+mkdir -p build/sim/wave1-followup
+python3 tools/sim/designed_setups.py real --out build/sim/wave1-followup/real-recipes.json
+flock /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 90 godot --headless -s res://tools/sim/export_real_designed.gd -- build/sim/wave1-followup/real-recipes.json build/sim/wave1-followup/real-input.json
+python3 tools/sim/evidence/drivers/real_designed_smoke.py prepare build/sim/wave1-followup/real-input.json build/sim/wave1-followup/real-field.json
+flock /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax=3G timeout 90 godot --headless -s res://tools/sim/field_fights.gd -- build/sim/wave1-followup/real-field.json build/sim/wave1-followup/real-pairs.jsonl 8 per_seed
+python3 tools/sim/evidence/drivers/real_designed_smoke.py report build/sim/wave1-followup/real-field.json build/sim/wave1-followup/real-pairs.jsonl build/sim/wave1-followup/real-report.json
+```
+
+On a fresh checkout, run the normal Godot import before the exporter to register
+its new global class, also under the harness lock/3G scope/timeout. Only one
+Godot runs at a time. The frozen smoke has two boards at R8, two at R10 and four
+at R12, making eight pairs × eight seeds × two orientations = 128 fights.
+The fight loop took 1.061 s; export/import startup is separate. Intervals use
+whole orientation-pairs as independent seed observations and describe only the
+fixed authored boards. No pass/fail gameplay bar is added.
+
+To rebuild exactly the recorded report without any new fights, use the archived
+input/pairs instead of the fresh generator:
+
+```sh
+python3 tools/sim/evidence/drivers/real_designed_smoke.py prepare tools/sim/evidence/wave1-real-input.json.gz build/sim/wave1-followup/rebuilt-field.json
+python3 tools/sim/evidence/drivers/real_designed_smoke.py report build/sim/wave1-followup/rebuilt-field.json tools/sim/evidence/wave1-real-pairs.jsonl.gz build/sim/wave1-followup/rebuilt-report.json
+```
+
+This reproduces every pair count and interval. `wave1-real-smoke.json` adds
+recorded runtime, archive integrity hashes and the exact runtime source hashes;
+those provenance fields are not recomputed as if an offline rebuild were a run.
+
+
+## Review 4 correction to the real-card smoke
+
+The archived 128-fight real-card smoke ran the `109d404` inputs. Its all-home
+Whistlers board was an exploratory omen, not the doc's R12 Tern-swap ablation;
+its three Whistlers comparisons are withdrawn for that claim. The current
+recipe keeps the Nest, away Birds, both Jays and tribe bonus, swaps only the
+Tern, and sets Whistlers to 10/12 before Start of Combat. No field rerun is
+implied. The generation commands above now produce this corrected input; use
+the archived gzip input/pairs to reconstruct the original measurements.
+Granny's archived rows use current pass 2 Oozes and three printed 1/1 Mice;
+regeneration waits for W2b. Qualifications are recorded in
+`../wave1-review4-smoke-qualifications.json` and HARNESS.md.
