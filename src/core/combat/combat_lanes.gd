@@ -113,6 +113,7 @@ static func _mark(
 	if hunter.has_mechanic("no_quarry") or quarry == null or quarry.def_id() == HeldUnits.EGG:
 		return
 	hunter.quarry = quarry.uid
+	Pass3HunterCombat.marked(combat, hunter, quarry)
 	combat.emit_event(
 		"quarry_marked", {"hunter": hunter.uid, "quarry": quarry.uid, "source": source.uid}
 	)
@@ -262,6 +263,7 @@ static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Ar
 		if taker != null:
 			combat.takes[taker.side] += 1
 			combat.emit_event("take", {"hunter": taker.uid, "quarry": dead.uid, "side": taker.side})
+			Pass3HunterGains.take(combat, taker, dead, friends)
 			for unit: CombatUnit in friends:
 				for index: int in unit.scripts.size():
 					unit.scripts[index].on_take(combat, unit, unit.params[index], taker, dead)

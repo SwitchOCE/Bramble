@@ -49,6 +49,8 @@ var takes_last_fight: int = 0
 var hand: Array[RecruitUnit] = []
 ## Cards in hand that aren't units: spells and items. They share the hand limit (7.1.1).
 var items: Array[HandItem] = []
+## Created Pelts wait here when the shared hand is full.
+var item_doorstep: Array[HandItem] = []
 var board: Array[RecruitUnit] = []
 ## 8.5: per slot, the effects it holds for the rest of the game.
 var slot_effects: Array = [[], [], [], [], [], [], []]

@@ -1,0 +1,823 @@
+{
+  "units": [
+    {
+      "id": "fox_cub",
+      "name": "Fox Cub",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Mark 2.",
+      "golden_text": "Mark 4.",
+      "mechanics": [
+        {
+          "id": "mark",
+          "damage": 2
+        }
+      ],
+      "keywords": [
+        "Mark"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 15,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 40,
+        "mechanic": "Mark",
+        "library_stats": "2/1",
+        "stat_fix": "2/2 (budget review)",
+        "note": "Mark (X): Start of Combat: mark the enemy slot across from this. For the rest of combat, each enemy unit that enters that slot takes X damage. The unit already there is not hurt."
+      }
+    },
+    {
+      "id": "fox_notary",
+      "name": "Fox Notary",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Bystander.",
+      "golden_text": "Bystander (+2/+2).",
+      "mechanics": [
+        {
+          "id": "bystander",
+          "attack": 1,
+          "health": 1
+        }
+      ],
+      "keywords": [
+        "Bystander"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": 7,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 13,
+        "mechanic": "Bystander",
+        "library_stats": "1/3",
+        "stat_fix": null,
+        "note": "Bystander: whenever an enemy unit attacks one of your other units, this gains +1/+1 this combat."
+      }
+    },
+    {
+      "id": "little_nip",
+      "name": "Little Nip",
+      "set": "slice",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Quarry. Take: gain +1/+1 permanently.",
+      "golden_text": "Quarry. Take: gain +2/+2 permanently.",
+      "mechanics": [
+        {
+          "id": "quarry",
+          "reach": false
+        },
+        {
+          "id": "effect",
+          "trigger": "on_take",
+          "name": "take_growth",
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "health": 1,
+            "duration": "permanent",
+            "target": {
+              "select": "self"
+            }
+          }
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "wick",
+      "name": "Wick",
+      "set": "slice",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Pack. After this joins an attack: gain +1 Attack.",
+      "golden_text": "Pack. After this joins an attack: gain +2 Attack.",
+      "mechanics": [
+        {
+          "id": "pack",
+          "repeat": false
+        },
+        {
+          "id": "wick",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Pack"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "young_brock",
+      "name": "Young Brock",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+      "golden_text": "Start of Combat: units beside this gain +2 Attack. They mark the enemy across from this as quarry.",
+      "details": "A unit that already has a quarry keeps it, without the Attack.",
+      "mechanics": [
+        {
+          "id": "lend_quarry",
+          "select": "adjacent",
+          "reach": false,
+          "attack": 1,
+          "own_across": false,
+          "bell_buff": true
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "mistress_russet",
+      "name": "Mistress Russet",
+      "set": "slice",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Quarry. Take: if the quarry is your tier or lower, your next shop has a copy, 1 gold cheaper.",
+      "golden_text": "Quarry. Take: if the quarry is your tier or lower, your next shop has a copy, 2 gold cheaper.",
+      "details": "The copy comes from the pool.",
+      "mechanics": [
+        {
+          "id": "quarry",
+          "reach": false
+        },
+        {
+          "id": "poach",
+          "discount": 1
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "sable",
+      "name": "Sable",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
+      "golden_text": "Quarry. Start of Combat: if its quarry has more Attack, gain +6 Attack.",
+      "mechanics": [
+        {
+          "id": "quarry",
+          "reach": false
+        },
+        {
+          "id": "sable",
+          "attack": 3
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "toll_bard",
+      "name": "The Toll-Bard",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Quarry. After its quarry attacks, it loses 1 Attack (twice a fight). The first time, get 1 gold next turn.",
+      "golden_text": "Quarry. After its quarry attacks, it loses 2 Attack (twice a fight). The first time, get 2 gold next turn.",
+      "mechanics": [
+        {
+          "id": "quarry",
+          "reach": false
+        },
+        {
+          "id": "toll_bard",
+          "gold": 1,
+          "attack_loss": 1,
+          "attack_limit": 2,
+          "gold_limit": 1
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      },
+      "details": "Attack loss twice a fight; gold once a fight.",
+      "golden_details": "Attack loss twice a fight; gold once a fight."
+    },
+    {
+      "id": "brother_wolf",
+      "name": "Brother Wolf",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Pack. Units beside this attack first; this joins each once a cycle.",
+      "golden_text": "Pack. Units beside this attack first; this joins each once a cycle.",
+      "details": "This waits for units beside it to attack, unless they cannot attack or also have this text.",
+      "mechanics": [
+        {
+          "id": "pack",
+          "repeat": true
+        }
+      ],
+      "keywords": [
+        "Pack"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "lodger",
+      "name": "The Lodger",
+      "set": "slice",
+      "tier": 3,
+      "attack": 4,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Pounce. After this pounces: gain +2/+1.",
+      "golden_text": "Pounce. After this pounces: gain +4/+2.",
+      "mechanics": [
+        {
+          "id": "pounce"
+        },
+        {
+          "id": "lodger",
+          "attack": 2,
+          "health": 1
+        }
+      ],
+      "keywords": [
+        "Pounce"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "old_lutra",
+      "name": "Old Lutra",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Quarry, wherever it stands. Take: gain +1/+1 permanently; if this is in back, get 1 gold next turn.",
+      "golden_text": "Quarry, wherever it stands. Take: gain +2/+2 permanently; if this is in back, get 2 gold next turn.",
+      "mechanics": [
+        {
+          "id": "quarry",
+          "reach": true
+        },
+        {
+          "id": "effect",
+          "trigger": "on_take",
+          "name": "take_growth",
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "health": 1,
+            "duration": "permanent",
+            "target": {
+              "select": "self"
+            }
+          }
+        },
+        {
+          "id": "take_gold",
+          "gold": 1,
+          "back_only": true
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "sett_warden",
+      "name": "Sett Warden",
+      "tier": 3,
+      "attack": 1,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Hunker. After this survives an attack: the units behind this gain +1 Attack.",
+      "golden_text": "Hunker. After this survives an attack: the units behind this gain +2 Attack.",
+      "mechanics": [
+        {
+          "id": "hunker"
+        },
+        {
+          "id": "survive_buff_behind",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Hunker"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 4,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 1,
+        "mechanic": "Hunker",
+        "library_stats": "2/8",
+        "stat_fix": "1/4, and the payoff goes to 'the units behind this' instead of 'your back-row units' (budget review)",
+        "note": "Hunker: when an enemy attacks this, the damage this takes from that attack is halved, rounded up."
+      }
+    },
+    {
+      "id": "weasel_second",
+      "name": "Weasel Second",
+      "tier": 3,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Start of Combat: give the units in front of this First Bite.",
+      "golden_text": "Start of Combat: give the units in front of this First Bite.",
+      "mechanics": [
+        {
+          "id": "grant_first_bite_in_front"
+        }
+      ],
+      "keywords": [
+        "First Bite"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": 8,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 24,
+        "mechanic": "Quick",
+        "library_stats": "2/4",
+        "stat_fix": null,
+        "note": "First Bite: Quick in this unit's first exchange each combat. Quick: in an exchange this deals its damage first; if that kills, it takes no damage. The library text says 'the unit in front of this'; in the 4-3 brick a back slot has two slots in front, so the prototype gives it to both."
+      }
+    },
+    {
+      "id": "grey_agnes",
+      "name": "Grey Agnes",
+      "set": "slice",
+      "tier": 4,
+      "attack": 2,
+      "health": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Pack. The unit after this in the row has Pack and +1 Attack.",
+      "golden_text": "Pack. The unit after this in the row has Pack and +2 Attack.",
+      "details": "The next slot in the same row must be occupied; gaps do not move the grant farther. The grant lasts while Agnes is alive beside it.",
+      "mechanics": [
+        {
+          "id": "pack",
+          "repeat": false
+        },
+        {
+          "id": "grey_agnes",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Pack"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    },
+    {
+      "id": "madame_ermeline",
+      "name": "Madame Ermeline",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
+      "golden_text": "After each fight: your next Tier up costs 2 less per Take. At tier 6, get gold instead.",
+      "details": "Counts up to 3 Takes. At tier 6, up to 2 gold.",
+      "golden_details": "Counts up to 3 Takes. At tier 6, up to 3 gold.",
+      "mechanics": [
+        {
+          "id": "ermeline",
+          "discount": 1,
+          "takes_max": 3,
+          "gold_max": 2
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      },
+      "overlay_text": {
+        "size": {
+          "details": "Each Take counts. At tier 6: get 1 gold per Take.",
+          "golden_details": "Each Take counts. At tier 6: get 2 gold per Take."
+        }
+      }
+    },
+    {
+      "id": "old_brock",
+      "name": "Old Brock",
+      "set": "slice",
+      "tier": 4,
+      "attack": 2,
+      "health": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+      "golden_text": "Units next to this have +2 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+      "details": "A unit that already has a quarry keeps it.",
+      "mechanics": [
+        {
+          "id": "lend_quarry",
+          "select": "neighbours",
+          "reach": true,
+          "attack": 1,
+          "own_across": false,
+          "bell_buff": false
+        },
+        {
+          "id": "brock_aura",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Quarry",
+        "Pounce"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "stoat_captain",
+      "name": "Stoat Captain",
+      "tier": 4,
+      "attack": 5,
+      "health": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": true,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "ermine_duellist",
+      "name": "Ermine Duellist",
+      "tier": 5,
+      "attack": 6,
+      "health": 4,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Quick while this is undamaged.",
+      "golden_text": "Quick while this is undamaged.",
+      "mechanics": [
+        {
+          "id": "quick_while_undamaged"
+        }
+      ],
+      "keywords": [
+        "Quick"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 9,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 24,
+        "mechanic": "Quick",
+        "library_stats": "7/5",
+        "stat_fix": "6/4 (budget review)",
+        "note": "Quick: in an exchange this deals its damage first; if that kills, it takes no damage."
+      }
+    },
+    {
+      "id": "grizel",
+      "name": "Grizel",
+      "set": "slice",
+      "tier": 5,
+      "attack": 5,
+      "health": 6,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Pack. After your pack attack kills: its attackers gain +1 Attack permanently.",
+      "golden_text": "Pack. After your pack attack kills: its attackers gain +2 Attack permanently.",
+      "mechanics": [
+        {
+          "id": "pack",
+          "repeat": false
+        },
+        {
+          "id": "grizel",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Pack"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "mountain_glutton",
+      "name": "The Mountain Glutton",
+      "set": "slice",
+      "tier": 5,
+      "attack": 4,
+      "health": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "After one of your Hunters makes a Take: gain +2/+2.",
+      "golden_text": "After one of your Hunters makes a Take: gain +4/+4.",
+      "mechanics": [
+        {
+          "id": "glutton",
+          "stats": 2
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "old_badger",
+      "name": "Old Badger",
+      "tier": 5,
+      "attack": 7,
+      "health": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "laird_of_sett",
+      "name": "The Laird of the Sett",
+      "set": "slice",
+      "tier": 6,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "All your units have Quarry. After each Take: your Hunters gain +1/+1.",
+      "golden_text": "All your units have Quarry. After each Take: your Hunters gain +2/+2.",
+      "details": "A unit that already has a quarry keeps it.",
+      "mechanics": [
+        {
+          "id": "lend_quarry",
+          "select": "friendly",
+          "reach": false,
+          "attack": 1,
+          "own_across": true,
+          "bell_buff": false
+        },
+        {
+          "id": "laird",
+          "stats": 1
+        }
+      ],
+      "keywords": [
+        "Quarry"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/hunters.md",
+        "note": "Final design-review-3 and costing-3 calls."
+      }
+    },
+    {
+      "id": "old_isegrim",
+      "name": "Old Isegrim",
+      "set": "slice",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "tribes": [
+        "Hunters"
+      ],
+      "text": "Pack. Your units have +3 Attack while joining an attack.",
+      "golden_text": "Pack. Your units have +6 Attack while joining an attack.",
+      "details": "The bonus applies only to each joiner\u2019s damage in that attack.",
+      "mechanics": [
+        {
+          "id": "pack",
+          "repeat": false
+        },
+        {
+          "id": "old_isegrim",
+          "attack": 3
+        }
+      ],
+      "keywords": [
+        "Pack"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    }
+  ]
+}

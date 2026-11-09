@@ -15,6 +15,8 @@ var pool_copies: int = 0
 ## A transformed card returns the copies of the card it came from.
 var pool_origin: String = ""
 var poached_discount: int = 0
+## Full-price pass 3 copies remain special offers despite having no discount.
+var poached_offer: bool = false
 ## True for a golden made by a triple (4.3.4 sells for 1).
 var from_triple: bool = false
 ## True until a triple's golden is first played (7.3.6 Triple Reward).
@@ -118,7 +120,7 @@ func view() -> Dictionary:
 		"fly_south": flight_turns(),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
-		"poached": poached_discount > 0,
+		"poached": poached_offer or poached_discount > 0,
 		"egged": CoreUtil.to_bool(counters.get("egged", false)),
 		"pass3_content": has_mechanic_id("pass3_bird") or has_mechanic_id("pass3_fairy"),
 	}

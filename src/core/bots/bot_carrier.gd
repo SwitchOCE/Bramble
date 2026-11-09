@@ -26,14 +26,14 @@ static func clear_slot_for(brain: BotBrain, unit: RecruitUnit) -> int:
 	var slot: int = CoreUtil.to_int(plan["slot"])
 	# Keep the old body in a Belly if the ordinary legal route permits that instead of a sale.
 	var belly: int = BotHeld.best_belly(brain._player, brain.value, brain._player.board[slot])
-	if belly >= 0 and brain._rules.swallow(brain._player, HeldUnits.BOARD, slot, belly) == "":
+	if (
+		belly >= 0
+		and not BotHunt.can_inherit(brain._player, brain._player.board[slot])
+		and brain._rules.swallow(brain._player, HeldUnits.BOARD, slot, belly) == ""
+	):
 		brain._settle()
 		return slot if brain._player.board[slot] == null else -1
-	if brain._rules.sell(brain._player, slot) != "":
-		return -1
-	brain._replacements += 1
-	brain._settle()
-	return slot if brain._player.board[slot] == null else -1
+	return brain._sell_replacement(slot)
 
 
 static func upgrade_plan(brain: BotBrain, unit: RecruitUnit) -> Dictionary:

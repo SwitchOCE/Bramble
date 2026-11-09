@@ -1,40 +1,57 @@
 {
  "id": "hunters_sett",
  "name": "The Sett",
- "shape": "back-row quarry and Pounce",
+ "shape": "Brock lends positional hunts to Hunter neighbours",
  "needs_tribes": [
   "Hunters"
  ],
  "tribes": {
-  "Hunters": 3
+  "Hunters": 5
  },
  "units": {
-  "young_brock": 10,
-  "old_brock": 18,
-  "lodger": 14,
-  "wick": 8,
-  "mountain_glutton": 10,
-  "toll_bard": 8,
-  "laird_of_sett": 14,
-  "old_lutra": 2,
-  "little_nip": 1,
-  "sable": 1,
-  "mistress_russet": 1
+  "old_brock": 24.0,
+  "mountain_glutton": 22.75,
+  "lodger": 21.5,
+  "old_lutra": 20.25,
+  "laird_of_sett": 19.0,
+  "madame_ermeline": 17.75,
+  "old_isegrim": 16.5,
+  "sable": 15.25,
+  "little_nip": 14.0,
+  "brother_wolf": 12.75,
+  "grizel": 11.5,
+  "grey_agnes": 10.25,
+  "young_brock": 9.0,
+  "mistress_russet": 7.75,
+  "wick": 6.5,
+  "toll_bard": 5.25
  },
  "rows": {
-  "lodger": "front",
+  "sable": "front",
+  "little_nip": "front",
   "wick": "front",
-  "toll_bard": "front"
+  "brother_wolf": "front",
+  "lodger": "front",
+  "mistress_russet": "front",
+  "madame_ermeline": "front",
+  "old_lutra": "back",
+  "mountain_glutton": "back",
+  "old_isegrim": "back",
+  "laird_of_sett": "back",
+  "grizel": "back",
+  "old_brock": "back"
  },
  "curve": [
-  4,
-  6,
-  8,
-  11,
-  14
+  2,
+  5,
+  7,
+  9,
+  12
  ],
  "spells": {
-  "cold_frame": 3,
-  "stand_behind_me": 2
- }
+  "harvest_supper": 6,
+  "hiring_fair": 3,
+  "pinch_of_dust": 2
+ },
+ "power": 3
 }

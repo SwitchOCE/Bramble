@@ -139,7 +139,9 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	shown = view
 	visible = true
 	var spell: bool = CardView.is_spell(view)
-	_art.texture = UiTheme.portrait_for(Data.s(view, "def_id"), Data.a(view, "tribes"))
+	_art.texture = UiTheme.portrait_for(
+		Data.s(view, "portrait_id", Data.s(view, "def_id")), Data.a(view, "tribes")
+	)
 	# A note about a slot or a ghost is nobody's portrait.
 	_art.visible = not Data.s(view, "def_id").is_empty()
 	_name_label.text = Data.s(view, "name")
@@ -367,6 +369,24 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 		lines.append(
 			"[b]Kisses: %d/3[/b] toward The Prince Restored." % Data.i(view, "recruit_kisses")
 		)
+	if view.has("hunter_take_preview"):
+		var prey: Dictionary = Data.d(view, "hunter_take_preview")
+		var taker_slot: int = Data.i(prey, "owner_slot", -1)
+		var names: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
+		var first: String = (
+			names[taker_slot] if taker_slot >= 0 and taker_slot < names.size() else "none"
+		)
+		lines.append("[b]Recorded quarry: %s. First Take: %s.[/b]" % [Data.s(prey, "name"), first])
+		if Data.i(prey, "attack") > 0:
+			lines.append(
+				(
+					"Take: +%s/+%s, if this makes the Take."
+					% [
+						StatNumbers.exact(Data.i(prey, "attack")),
+						StatNumbers.exact(Data.i(prey, "health"))
+					]
+				)
+			)
 	for entry: Variant in Data.a(view, "soak_preview"):
 		if entry is Dictionary:
 			var preview: Dictionary = entry

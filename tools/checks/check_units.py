@@ -331,7 +331,7 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
     """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
     # Pass 3's factor preserves the originating text's golden strength when stolen. It
     # scales authored rates, rather than representing a number printed on the card.
-    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog"}:
+    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"}:
         return []
     out: list[tuple[str, int]] = []
     if mech.get("id") == "effect":

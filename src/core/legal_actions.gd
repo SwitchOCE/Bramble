@@ -71,6 +71,13 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 		for action: Dictionary in aims:
 			var args: Array = action["args"]
 			var slot: int = CoreUtil.to_int(args.back())
+			if str(item.get("target_tribe", "")) != "":
+				if slot < 0 or board[slot] == null:
+					continue
+				var target: Dictionary = board[slot]
+				var tribes: Array = target.get("tribes", [])
+				if not tribes.has(item["target_tribe"]):
+					continue
 			var slots: Array = state.get("slot_effects", [])
 			if item.has("ring_add") and slot >= 0 and slot < slots.size():
 				var rings: Array = slots[slot]

@@ -52,6 +52,7 @@ static func score(player: PlayerState, value: BotEval, layout: Array[int]) -> fl
 static func _profile_score(player: PlayerState, value: BotEval, layout: Array[int]) -> float:
 	var total: float = 0.0
 	var bog: bool = BotBog.active(player)
+	var hunters: bool = BotHunt.active(player)
 	var patches: Array[int] = _patches(player, layout)
 	var snap: bool = _has_mechanic(player, "snap")
 	for slot: int in BoardGeometry.SLOTS:
@@ -69,7 +70,7 @@ static func _profile_score(player: PlayerState, value: BotEval, layout: Array[in
 			if row == "back" and BoardGeometry.is_front(slot):
 				total -= WRONG_ROW
 		var quarry: int = _quarry_slot(player, layout, slot)
-		if quarry >= 0 and not player.scout.is_empty():
+		if quarry >= 0 and not player.scout.is_empty() and not hunters:
 			total += _hunt_score(player, value, layout, unit, slot, quarry)
 		if not bog:
 			for enemy: int in BoardGeometry.SLOTS:
@@ -89,6 +90,8 @@ static func _profile_score(player: PlayerState, value: BotEval, layout: Array[in
 		total += BotContent5.egg_support_score(player, layout)
 	if bog:
 		total += BotBog.score(player, value, layout)
+	if hunters:
+		total += BotHunt.score(player, value, layout)
 	return total
 
 
@@ -96,6 +99,7 @@ static func positional(unit: RecruitUnit) -> bool:
 	if HeldUnits.redwing_factor(unit) > 0:
 		return true
 	for id: String in [
+		"pass3_hunter",
 		"pass3_bog",
 		"mire",
 		"quarry",
@@ -169,6 +173,10 @@ static func _quarry_slot(player: PlayerState, layout: Array[int], slot: int) -> 
 	var unit: RecruitUnit = _at(player, layout, slot)
 	if unit == null or unit.has_mechanic_id("no_quarry"):
 		return -1
+	if BotHunt.active(player):
+		var predicted: Dictionary = BotHunt.forecast(player, layout)
+		var marks: Array[Dictionary] = predicted["marks"]
+		return CoreUtil.to_int(marks[slot].get("hunt_slot", -1))
 	if (
 		unit.has_mechanic_id("quarry")
 		and not _enemy(player, slot).is_empty()

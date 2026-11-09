@@ -319,8 +319,14 @@ func _best_offer() -> Dictionary:
 	if not _rules.has_hand_space(_player):
 		return best
 	var spare: int = _player.gold + _player.larder() - _held_back()
+	if level.reads_text:
+		var poached: Dictionary = BotHunt.poached_offer(self, spare)
+		if not poached.is_empty():
+			return poached
 	if _rules.buys_left(_player) != 0:
 		for index: int in _player.shop.size():
+			if level.reads_text and not BotHunt.wants_poached(_player, _player.shop[index]):
+				continue
 			var unit_cost: int = _unit_offer_cost(_player.shop[index])
 			if unit_cost > spare:
 				continue
@@ -617,14 +623,24 @@ func _ordinary_clear_slot_for(unit: RecruitUnit) -> int:
 	if _replacement_gain(unit, weakest) <= 0.0:
 		return -1
 	var belly: int = BotHeld.best_belly(_player, value, _player.board[weakest])
-	if belly >= 0 and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == "":
+	if (
+		belly >= 0
+		and not BotHunt.can_inherit(_player, _player.board[weakest])
+		and _rules.swallow(_player, HeldUnits.BOARD, weakest, belly) == ""
+	):
 		_settle()
 		return weakest if _player.board[weakest] == null else -1
-	if _rules.sell(_player, weakest) != "":
+	return _sell_replacement(weakest)
+
+
+## A Hunter's replacement may open a different slot after moving into its heir's reach.
+func _sell_replacement(slot: int) -> int:
+	var sale_slot: int = BotHunt.prepare_sale(self, slot) if level.reads_text else slot
+	if _rules.sell(_player, sale_slot) != "":
 		return -1
 	_replacements += 1
 	_settle()
-	return weakest if _player.board[weakest] == null else -1
+	return sale_slot if _player.board[sale_slot] == null else -1
 
 
 ## Casts spells and non-gold items in hand. Gold items wait for _pay. Cards that spend everything
@@ -718,6 +734,8 @@ func _best_shop_aim(legal: Array[int]) -> int:
 
 ## The target worth the most, including a deliberate Shy departure.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
+	if level.reads_text and str(card_def.get("id", "")) == "pelt":
+		return BotHunt.pelt_aim(_player, legal)
 	if BotPass3.active(_player) and level.reads_text:
 		var thank: int = BotPass3.thank_aim(
 			_player, HandItem.make(card_def, 0), legal, _rules.config

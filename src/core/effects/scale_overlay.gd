@@ -76,6 +76,7 @@ static func card_for(card: Dictionary, config: GameConfig) -> Dictionary:
 	ScaleText.rewrite(out, config)
 	ScaleLeverText.configure(out, config)
 	Pass3Text.configure(out, config)
+	Pass3RowSwap.configure(out, config)
 	var original: Dictionary = card
 	var text_defaults: Variant = config.get_value("pass3_text_defaults")
 	if text_defaults is Dictionary:

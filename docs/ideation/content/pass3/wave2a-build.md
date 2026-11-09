@@ -159,3 +159,56 @@ The generic Ring-size reminder no longer claims a universal starting size of 1; 
 Hunters follow-up notes: Jack Daw must resolve after all of both sides' stat-ranked enemy effects. Whirligig Beetle must not improve the opponent's placement on bigger Rings; its rebuilt swap rule needs a resulting-Ring check or an explicit design reason to allow the benefit. These are reserved for the Hunters commit.
 
 The historical pinned-strategy purchase-share regression now explicitly selects preset A; its original 60%/40% thresholds are unchanged. Full-game coverage elsewhere still runs the current B field. The detached verification checks this fixed-rate regression before running the complete gate; logs are `build/wave2a-pinned-profile.log` and `build/wave1-rebase-bog-fixup-gate.log`.
+
+
+Combined re-base/Bog fix-up verification passed: **2,001 GUT tests, 32,157 assertions**, strict hook clean, 57 Python checks and all full-gate steps. The pinned-strategy regression also passed separately (24 assertions). [Combined gate log](../../evidence/wave2a/rebase-bog-fixup-gate.log).
+
+
+## Hunters pass 3
+
+The sixteen slice IDs keep their portraits and the 3/3/3/3/2/2 tiers. Seven prototype Hunter bodies leave the pool; all 23 previous definitions remain archived for frozen rollback tests until checkpoint 2. Lane-Bard keeps the internal `toll_bard` ID. There is no Pounce or Cleave on a native Hunter.
+
+### Rates and readings
+
+The 27 Hunter dials use paper B from local `ideation/main`'s `presets.json`, provisionally. C changes the engine shares individually rather than multiplying the whole preset. A retains the synthesis shares as fallback. Other tribes' rates, including every held Birds value, are unchanged.
+
+| Dial family | B | C |
+| --- | --- | --- |
+| Nip / Sable / Lutra Take share | 2/3 | 3/4 |
+| Lodger / Glutton share | 2/3 | 1 |
+| Wick / Grizel / Pelt share | 1/3 | 1/2 |
+| Russet permanent-buff share | 2/3 | 3/4 |
+
+Unchanged between B/C: golden ordinary shares multiply by 2; golden Russet copies all permanent buffs; Ermeline 1/2 Pelts; Laird 2/3 repeats; Sable strike 1× / 2× frozen quarry Attack (normal/golden); Agnes keeps 1/2 or 1/4 of the pack leader's hit back; Isegrim Health cut 0; Russet copies 1; Lane-Bard gold 1/2, at most two completed quarry attacks; Take stat floor 1; Young Brock share 1; trophies after fight true. All are JSON dials.
+
+- **Bell versus late answers:** preserve existing across identities before movement and freeze prey stats before ordinary starts. Sable reads the immutable price, preventing mirror-side amplification. Isegrim selects the post-buff board after Bog's dependent opening and other late answers, but rewards still read the selected identity's bell price. Own Quarry beats loans; all Isegrim own marks precede Hunter-only lending in source reading order. Old Brock's across identity is the bell identity even if Jenny moves it. Old Brock lends to his current eligible neighbours at the late loan step. This reconciles positional play, Sable and amendment 4 without moving existing tribes' bell. Prey first created after the bell uses its first-entry snapshot for Pack rewards; later combat growth is never resampled.
+- **Jack Daw last:** every stat-ranked enemy effect on both sides finishes before any Jack. Final Jacks use stable physical side then slot order, including copied text. Birds' rates and positional target are unchanged.
+- **Take accounting:** one actual Take per enemy death, first eligible Hunter in reading order; same-batch dying witnesses count. Laird repeats only `Take:` payoffs, not Lodger/Glutton or event count. Multiple Lairds use the strongest multiplier; fractional experimental multipliers round down to at least one whole firing. Shares use frozen Attack and Health separately, rounded down with the configured floor. Pack rewards require lethal attack damage rather than a later Bristle kill.
+- **Ermeline:** a unit present on the initial board pays even if fainted. One first entering from a Belly or a summon during the fight does not gain a retroactive original-board payout. The marked quarry can survive the fight. Pelts carry fixed prey identity/portrait and reward stats, wait on a full hand, and target Hunters only. They bypass generic percentage spell scaling; they still count as spells.
+- **Young Brock:** current stats means the displayed sale-time body minus its tribe bonus, as the synthesis says; its other live stat layers remain included. Golden widens geometry without doubling. Duplicate printed/borrowed heir text pays once for the same actual sale.
+- **Russet:** only permanent buff layers are copied. A full-price poach is explicitly marked rather than inferred from a discount, survives refresh and expires at End of Turn. Its normal non-golden pool identity is retained.
+- **Whirligig:** skip a swap pair if either moved enemy would gain effective Ring Attack or Health, including Shy/Horseshoe effects. This intentionally favours a conservative hostile swap: unchanged total Ring stats cannot conceal moving the enemy carry onto the bigger Ring. Legacy swaps and face stay unchanged with pass 3 off.
+
+### Bot, line and condition audit
+
+Hard reuses legal buys, placement, replacement sales and aimed spells. Its Hunter helper values and retains live engine pieces, forecasts own marks before loans and first-reading-order Take ownership, reads Sable's full frozen strike, aims Pelts onto the Glutton below 35% of board stats or the smallest suitable Taker, values permanent-only Russet copies at their real cost, and places an actual retirement sale in the heir's reach before selling. A poach compares against the best *other ordinary offer*, so it does not compare against itself. This is a tribe helper, not a brain redesign.
+
+`tools/sim/lines/hunters.json` contains Pack and Open Season, using the supported wave 1 file schema with explicit tribe/base strategy. No bench or BenchSuites edits. The paper low-roll row removes **Isegrim from Pack** and **the Laird from Open Season for the entire game**; other arrivals remain real draws. These remove each line's first-priority keystone rather than merely delaying it, and are not bot JSON input. Existing synthesis low-roll figures do not measure these exact omissions.
+
+| Cards | Condition at trigger | Finding |
+| --- | --- | --- |
+| Nip, Sable, Lutra, Russet | Own quarry dies while witnessing its batch | Aligned; a simultaneous trade counts, no tier ceiling |
+| Wick, Grizel | A joined pack attack actually kills its target by attack damage | Aligned; no payout for Bristle or a nonlethal join |
+| Young Brock | An eligible Hunter is actually sold in reach | Aligned; moving alone never pays |
+| Lane-Bard | Its marked quarry completes an attack | Aligned; an early kill can prevent payment, an explicit conditional payoff |
+| Lodger, Glutton | An actual Take while witnessing, with adjacency for Lodger | Aligned; independent of their own attack and one reward per event |
+| Brother Wolf, Agnes | Eligible neighbour attack / pack leader's return hit | Rechecked live; their support requires a legal join |
+| Ermeline | Fight finishes with at least one marked prey | Aligned even on losses/death; an entirely unmarked board earns no Pelt |
+| Old Brock, Isegrim | Opening hunt with eligible enemy and eligible Hunter neighbours | Aligned; loans never override an own mark |
+| Laird | Your actual Take has `Take:` text | Aligned; no scaling of observers, persists at T6 |
+
+No structural condition/timing trap was found. Early Nip/Sable enable their own hunts and can be played before commitment; Lane-Bard enables its own gold. Wick is a flexible joining body but needs a leader/kill for growth. Young Brock's inheritance and Russet's copies explicitly need Hunter/eligible pool prey support; these early dependencies are retained and reported rather than redesigned (09f).
+
+The reader alone shows a recorded-scout quarry and expected Take reward/first recipient, sharing the non-random mark forecaster with Hard. No new main-screen reminder is added. Existing pending badges show trophies during the fight.
+
+UpsetCombat audits each of the sixteen `pass3_hunter` abilities by name. **Isegrim** selects the biggest enemy and is removed by that intervention; all other Hunter abilities are non-answer entries. Ermeline ranks marked prey for a post-fight reward, not a combat answer. Unknown future abilities still fail closed.

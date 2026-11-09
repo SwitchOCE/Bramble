@@ -350,7 +350,11 @@ func market_stall() -> void:
 
 
 func flat_gain_percent() -> int:
-	if source != null or not rules.config.get_bool("scale_hero_spell_stats"):
+	if (
+		source != null
+		or not rules.config.get_bool("scale_hero_spell_stats")
+		or CoreUtil.to_bool(card_def.get("fixed_stat_reward", false))
+	):
 		return 0
 	var spell: bool = trigger == "cast" and str(card_def.get("kind", "")) == "spell"
 	var hero: bool = trigger != "cast" and not player.hero.is_empty()

@@ -452,7 +452,7 @@ func _refresh() -> void:
 	var tribes: Array = Data.a(unit, "tribes")
 	var spell: bool = is_spell(unit)
 	var golden: bool = Data.b(unit, "golden", false)
-	_art.texture = UiTheme.portrait_for(Data.s(unit, "def_id"), tribes)
+	_art.texture = UiTheme.portrait_for(Data.s(unit, "portrait_id", Data.s(unit, "def_id")), tribes)
 	_art.gilded = golden
 	_star.visible = golden
 	_name_label.text = Data.s(unit, "name")

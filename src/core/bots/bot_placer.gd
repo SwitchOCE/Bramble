@@ -489,6 +489,10 @@ static func _search_pins(
 		for slot: int in BotBog.search_pins(player, layout):
 			if not out.has(slot):
 				out.append(slot)
+	if BotHunt.active(player):
+		for slot: int in BotHunt.search_pins(player, layout):
+			if not out.has(slot):
+				out.append(slot)
 	if BotPass3.active(player) and BotPass3.fairy_build(value):
 		for slot: int in BoardGeometry.SLOTS:
 			if layout[slot] >= 0:

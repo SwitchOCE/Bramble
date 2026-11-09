@@ -74,7 +74,34 @@
     "bog_chorus_lends": 2,
     "bog_lantern_lures": 1,
     "bog_jenny_pulls": 1,
-    "bog_capstone_gain_toll": false
+    "bog_capstone_gain_toll": false,
+    "hunters_nip_share": 0.6666666666666666,
+    "hunters_sable_share": 0.6666666666666666,
+    "hunters_lutra_share": 0.6666666666666666,
+    "hunters_glutton_share": 0.6666666666666666,
+    "hunters_lodger_share": 0.6666666666666666,
+    "hunters_wick_share": 0.3333333333333333,
+    "hunters_grizel_share": 0.3333333333333333,
+    "hunters_pelt_share": 0.3333333333333333,
+    "hunters_russet_buff_share": 0.6666666666666666,
+    "hunters_golden_russet_buff_share": 1.0,
+    "hunters_ermeline_pelts": 1,
+    "hunters_golden_ermeline_pelts": 2,
+    "hunters_laird_multiplier": 2,
+    "hunters_golden_laird_multiplier": 3,
+    "hunters_golden_take_multiplier": 2.0,
+    "hunters_sable_strike": 1.0,
+    "hunters_golden_sable_strike": 2.0,
+    "hunters_agnes_hit_back": 0.5,
+    "hunters_golden_agnes_hit_back": 0.25,
+    "hunters_isegrim_health_cut": 0,
+    "hunters_russet_copies": 1,
+    "hunters_lane_bard_gold": 1,
+    "hunters_golden_lane_bard_gold": 2,
+    "hunters_lane_bard_triggers": 2,
+    "hunters_take_floor": 1,
+    "hunters_young_brock_share": 1.0,
+    "hunters_trophies_after_fight": true
   },
   "presets": {
     "A": {
@@ -129,7 +156,16 @@
       "birds_redbreast_share": 0.25,
       "birds_cuckoo_share": 0.2,
       "birds_jack_daw_share": 0.5,
-      "birds_golden_egg_multiplier": 4.0
+      "birds_golden_egg_multiplier": 4.0,
+      "hunters_nip_share": 0.75,
+      "hunters_sable_share": 0.75,
+      "hunters_lutra_share": 0.75,
+      "hunters_glutton_share": 1.0,
+      "hunters_lodger_share": 1.0,
+      "hunters_wick_share": 0.5,
+      "hunters_grizel_share": 0.5,
+      "hunters_pelt_share": 0.5,
+      "hunters_russet_buff_share": 0.75
     }
   }
 }

@@ -303,6 +303,7 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 			for index: int in ally.ally_listeners:
 				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
 	Pass3BogStart.entered(self, unit)
+	Pass3HunterCombat.entered(self, unit)
 
 
 func named_slot(side: int, at: String, anchor: int) -> int:
@@ -394,7 +395,9 @@ func _first_side() -> int:
 ## 9.3.2, 9.3.5: one random player resolves all their Start of Combat units, then the other.
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
+	Pass3HunterCombat.prepare(self)
 	CombatHeld.first_of_all(self, first)
+	Pass3HunterCombat.bell(self)
 	CombatLanes.bell(self)
 	CombatHeld.goose_strikes(self, first)
 	reactions.drain(self)
@@ -882,6 +885,7 @@ func _both_boards_have_units() -> bool:
 ## 9.9 the result and 10.1 the damage.
 func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
 	Pass3BogCombat.finish(self)
+	Pass3HunterGains.finish(self)
 	var survivors: Array = [CombatMoves.uid_list(units_of(0)), CombatMoves.uid_list(units_of(1))]
 	var winner: int = -1
 	var last_blow: bool = false

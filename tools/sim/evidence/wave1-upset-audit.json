@@ -1,25 +1,25 @@
 {
   "version": 1,
   "merged_source": "06c918b",
-  "choice": "retain whole-library audit; approve only individually audited shared-mechanic Bird, Fairy and Bog abilities",
-  "why": "Copies, summons and text theft can reach definitions not present as an initial active board unit; whole-library masking plus recursive input masking preserves that closure. Unseen native IDs and unseen/missing pass3 abilities remain unsupported. Bog Jenny and Lantern are masked by ability; other Bog abilities remain intact, with Snap masked separately.",
+  "choice": "retain whole-library audit; approve only individually audited Bird, Fairy, Bog and Hunter abilities",
+  "why": "Copies, summons and text theft can reach definitions not present as an initial active board unit; whole-library masking plus recursive input masking preserves that closure. Unseen native IDs and unseen/missing pass3 abilities remain unsupported. Bog Jenny and Lantern are masked by ability; other Bog abilities remain intact, with Snap masked separately. Hunter Isegrim is a biggest-enemy combat selector; Ermeline ranks marked bell snapshots only for a post-fight reward. Other Hunter abilities do not select the biggest enemy.",
   "class_scope": "largest-enemy answer/target selection, not all positional debuffs, all-enemy effects or friendly-largest holder choices",
   "sources": {
     "src/core/mechanics/pass3_bird.gd": "abf9de60d2d308e90088a1ff9450c8b607605661eb5741afcf2c38c1703703b6",
     "src/core/mechanics/pass3_fairy.gd": "b27bd4ee642081abf2e2ac2943219c0ed2cb4437ba60e734d824cef72fe4f155",
     "src/core/combat/pass3_bird_combat.gd": "ca083777f13db82b7d2c288b4f043a03f8285db0b30fec084765af401a2374da",
     "src/core/combat/pass3_fairy_combat.gd": "26f974dcf91c6665567953f06992d60609e36490ffe7da33bc7f5a226dca83ef",
-    "src/core/combat/pass3_combat.gd": "32dfc73690bcefe9a8d4502203e72d1f3ff51700041571dc411ed5ecedfc50a9",
+    "src/core/combat/pass3_combat.gd": "03ebda6bf2141d0563098fc2e0ff2baa40707b9f54ad0a185c3a5b4d3e4ebc3a",
     "src/core/pass3_birds.gd": "2fcf491d44799d9011b51e1d7e9a2473c4dcd562d35b53cb71556186f8e6b354",
     "src/core/pass3_fairies.gd": "d9a7ff40f18e353dacc06570397c3982f42bbdb3ee2a9f7eaf4b2553b671bc39",
     "content/units/wisp.json": "cbb3ad0fd984537b054f2a1e9da240e49e4cf56f38869e6bbac4d89091df5718",
     "src/core/combat/combat_unit.gd": "7a88a121956ebf31da661ca747ce29876ee37c40639e2592f4c2c5c02400dce6",
-    "src/core/combat/combat.gd": "67874b60b5cf712c7eea9230080f2a0f73e299b7679eff431b87b84e9705e8f5",
-    "src/core/combat/combat_moves.gd": "3be465d4e3dec005015c21e34695dd65e6d58bd94882e6c153dafdcf49545b12",
+    "src/core/combat/combat.gd": "3e285bdaf0cad36b8180ddfcc54e65b0813ba3a7a12cd0b71fe9f7515b5b5c17",
+    "src/core/combat/combat_moves.gd": "82b9713f2ee902e70b4fd4634a4363332a0b197cddc1f12da69338d5cb2b7927",
     "src/core/effects/target_select.gd": "1bdd1b87e4863f69187141e1935f021770954e0755371876052d3991798964cd",
     "src/core/mechanics/whistle.gd": "6bde4a0b025bbe0b7afc6c3472a444438ea19db03293c0a7c7e1eabf967c35de",
     "src/core/mechanics/nightshade_mark.gd": "14f28043c1a1af217d268ad514bee81c00b308467d937d2c6452adc92afd8fe9",
-    "tools/sim/upset_combat.gd": "da530a03a1cf09d152a35a8710a8b2c662986f0638942c1485e76c58245cec93",
+    "tools/sim/upset_combat.gd": "48d53507c6ac77dfd6256548fc63d41af8e429640393730fc1cc7319898d95f5",
     "src/core/pass3_bog_text.gd": "ef5f902c79c98e615d09ee0a364467a8dd6f9278925b8d90a0664d1917facfdc",
     "src/core/mechanics/pass3_bog.gd": "cca788cc2266d43b07cc41f3cc0a92208b360e2e99c9e0ae9151aa045adb95a2",
     "src/core/combat/pass3_bog_growth.gd": "c88c40124f3c9bbe6ff3cbdbb6f1d071164b4b1f4799e87e1c86cdd5939b1313",
@@ -29,8 +29,22 @@
     "src/core/pass3_bog.gd": "a2a36a00706c24b34d04144452d0ccc50350869d0dc81e8a75cc30686757932a",
     "src/core/pass3_bog_preview.gd": "c334654523eff35396417560397c2e58235b3318dc34c5bcc4ad89b6436350b1",
     "src/core/combat/combat_auras.gd": "e8b394e91321e2b02470fde8fce217238413118e23e1f489f1db813fede2ece0",
-    "src/core/pass3_text.gd": "7c45d468dc34b40a1f32e333be4073ea93bba87dde67bfd4e831c41b2fc551a8",
-    "src/core/pass3_rates.gd": "37b35ee8914fc29db60bbac9f8d8f59a019663a5643528148837d7e188a40c09"
+    "src/core/pass3_text.gd": "205d21c7806bf3dd657cc7f4e8b90735449234f4050fd8de28003886da998be0",
+    "src/core/pass3_rates.gd": "37b35ee8914fc29db60bbac9f8d8f59a019663a5643528148837d7e188a40c09",
+    "src/core/combat/pass3_hunter_combat.gd": "f7cee55f5c6f530c893e2976dc0eebab952f971c89f33d047c24e665b693aec0",
+    "src/core/combat/pass3_hunter_start.gd": "9461ef9ffe3964b7cff60252adc3419112fd0b90f3a80797079b992d2f7778d3",
+    "src/core/combat/pass3_hunter_gains.gd": "9f3184b810ba3898a6f1b240e25444512726237d7b6a73bbe730951d282d1b91",
+    "src/core/mechanics/pass3_hunter.gd": "7cfe6f9896ff4780198e61ef19ab565c346720584dc4a5e39fd583b2b2549954",
+    "src/core/pass3_hunters.gd": "0f4a5ab1267e48be87d197358cc11c8977dc0aae51df8f6d578b71cf32e6bd69",
+    "src/core/pass3_hunter_preview.gd": "9c29d5c12f6501ffb18c9de44a61145db87799d62ec584c0a48da2052c535507",
+    "src/core/pass3_hunter_text.gd": "98ed1ab2ef6771df5e4edc4b34c27e042da14332e11d9b9fbf349b1c9b79423d",
+    "src/core/combat/pass3_row_swap.gd": "8b13dd2fd019b0bf1ef555208fea62aa0ad64a6fb6daed72af181816d3a927c5",
+    "src/core/mechanics/row_swap.gd": "f9c70f04bb9487a85d7886114b300829b458d1e36183db5e62b99556974f28e6",
+    "src/core/combat/combat_hunt.gd": "14b7cacd117d6687e6fc4b5d5b49277216c3845d9c1c161901a12d8dfebc63a6",
+    "src/core/combat/combat_lanes.gd": "ba254b706d99fcf3a3ec22b935a3d35d324706397c6519927e05aaedfe349411",
+    "src/core/combat/combat_damage.gd": "a127dc9843b5ae9dd34db92b62c2b57e0cb8d4d26874dc0d3824d4efb6a73d74",
+    "src/core/bots/bot_hunt.gd": "7543564f1dbe6ece03c2e576724dc0518292a5b96352f35d40f8618a323b167b",
+    "src/core/effects/recruit_context.gd": "587b7c19d4736e37264583ff2f7fbeb4b076267d3ea282f017bb63fbe8c67a61"
   },
   "entries": [
     {
@@ -572,6 +586,134 @@
       "mask": "preserve",
       "reason": "Killing its Mired enemy pays next-turn gold; Snap is a separate mechanic.",
       "golden": "Uses the same selector as normal; authored factors change magnitude or count, not selector class."
+    },
+    {
+      "card": "brother_wolf",
+      "mechanic": "pass3_hunter",
+      "ability": "brother_wolf",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "grey_agnes",
+      "mechanic": "pass3_hunter",
+      "ability": "agnes",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "grizel",
+      "mechanic": "pass3_hunter",
+      "ability": "grizel",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "laird_of_sett",
+      "mechanic": "pass3_hunter",
+      "ability": "laird",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "little_nip",
+      "mechanic": "pass3_hunter",
+      "ability": "nip",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "lodger",
+      "mechanic": "pass3_hunter",
+      "ability": "lodger",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "madame_ermeline",
+      "mechanic": "pass3_hunter",
+      "ability": "ermeline",
+      "classification": "post_fight_reward",
+      "in_class": false,
+      "reason": "Ranks marked bell snapshots for a post-fight Pelt; does not aim a combat answer."
+    },
+    {
+      "card": "mistress_russet",
+      "mechanic": "pass3_hunter",
+      "ability": "russet",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "mountain_glutton",
+      "mechanic": "pass3_hunter",
+      "ability": "glutton",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "old_brock",
+      "mechanic": "pass3_hunter",
+      "ability": "old_brock",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "old_isegrim",
+      "mechanic": "pass3_hunter",
+      "ability": "isegrim",
+      "classification": "biggest_enemy",
+      "in_class": true,
+      "reason": "Late original-first Attack-plus-Health enemy selector; masks this dispatch only."
+    },
+    {
+      "card": "old_lutra",
+      "mechanic": "pass3_hunter",
+      "ability": "lutra",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "sable",
+      "mechanic": "pass3_hunter",
+      "ability": "sable",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "toll_bard",
+      "mechanic": "pass3_hunter",
+      "ability": "lane_bard",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "wick",
+      "mechanic": "pass3_hunter",
+      "ability": "wick",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
+    },
+    {
+      "card": "young_brock",
+      "mechanic": "pass3_hunter",
+      "ability": "young_brock",
+      "classification": "not_biggest_enemy",
+      "in_class": false,
+      "reason": "Positional hunt, friendly support, economy or fixed prey reward; no biggest-enemy selection."
     }
   ],
   "regressions": [

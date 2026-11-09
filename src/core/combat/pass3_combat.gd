@@ -20,7 +20,11 @@ static func has_content(combat: Combat) -> bool:
 			var entries: Array = card.get("mechanics", [])
 			for entry: Dictionary in entries:
 				found = (
-					found or str(entry.get("id", "")) in ["pass3_bird", "pass3_fairy", "pass3_bog"]
+					found
+					or (
+						str(entry.get("id", ""))
+						in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"]
+					)
 				)
 		combat.notes["pass3_pool_content"] = found
 	if CoreUtil.to_bool(combat.notes["pass3_pool_content"]):
@@ -34,6 +38,7 @@ static func has_content(combat: Combat) -> bool:
 				unit.has_mechanic("pass3_bird")
 				or unit.has_mechanic("pass3_fairy")
 				or unit.has_mechanic("pass3_bog")
+				or unit.has_mechanic("pass3_hunter")
 			):
 				return true
 	return false
@@ -65,6 +70,7 @@ static func biggest_selector(value: Variant) -> bool:
 static func is_late_start(id: String, params: Dictionary) -> bool:
 	return (
 		is_biggest_enemy(id, params)
+		or Pass3HunterStart.late(id, params)
 		or (id == "pass3_bird" and str(params.get("ability", "")) == "jack_daw")
 	)
 
@@ -80,7 +86,10 @@ static func start(combat: Combat, first: int) -> void:
 				continue
 			for index: int in unit.scripts.size():
 				var invocation: Array = [unit, index]
-				if Pass3BogStart.dependent(unit.mechanic_ids[index], unit.params[index]):
+				if (
+					Pass3BogStart.dependent(unit.mechanic_ids[index], unit.params[index])
+					or Pass3HunterStart.late(unit.mechanic_ids[index], unit.params[index])
+				):
 					continue
 				elif is_late_start(unit.mechanic_ids[index], unit.params[index]):
 					late.append(invocation)
@@ -112,9 +121,27 @@ static func start(combat: Combat, first: int) -> void:
 	for priority: int in 3:
 		for invocation: Array in late:
 			var source: CombatUnit = invocation[0]
-			if _priority(source) == priority:
+			if _priority(source) == priority and not _jack(invocation):
 				_invoke(combat, invocation)
+	Pass3HunterStart.finish_marks(combat)
+	# Permanent steals run last, in stable physical side/slot order, including copied text.
+	for side: int in 2:
+		for slot: int in BoardGeometry.SLOTS:
+			for invocation: Array in late:
+				var source: CombatUnit = invocation[0]
+				if source.side == side and source.slot == slot and _jack(invocation):
+					_invoke(combat, invocation)
 	Pass3BogStart.snapshot(combat)
+
+
+static func _jack(invocation: Array) -> bool:
+	var unit: CombatUnit = invocation[0]
+	var index: int = invocation[1]
+	return (
+		index < unit.params.size()
+		and unit.mechanic_ids[index] == "pass3_bird"
+		and str(unit.params[index].get("ability", "")) == "jack_daw"
+	)
 
 
 static func heroes(combat: Combat, first: int) -> void:

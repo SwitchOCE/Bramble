@@ -1,35 +1,57 @@
 {
  "id": "hunters_open_season",
  "name": "Open Season",
- "shape": "front Quarry, Takes and poaching",
+ "shape": "separate Takes, Pelts and the Laird",
  "needs_tribes": [
   "Hunters"
  ],
  "tribes": {
-  "Hunters": 4
+  "Hunters": 5
  },
  "units": {
-  "little_nip": 9,
-  "sable": 9,
-  "mistress_russet": 12,
-  "madame_ermeline": 12,
-  "mountain_glutton": 12,
-  "old_lutra": 8,
-  "grizel": 8,
-  "toll_bard": 3,
-  "young_brock": 1,
-  "old_brock": 1,
-  "laird_of_sett": 14
+  "laird_of_sett": 24.0,
+  "mountain_glutton": 22.75,
+  "madame_ermeline": 21.5,
+  "sable": 20.25,
+  "little_nip": 19.0,
+  "old_lutra": 17.75,
+  "lodger": 16.5,
+  "mistress_russet": 15.25,
+  "young_brock": 14.0,
+  "old_isegrim": 12.75,
+  "old_brock": 11.5,
+  "grizel": 10.25,
+  "brother_wolf": 9.0,
+  "toll_bard": 7.75,
+  "wick": 6.5,
+  "grey_agnes": 5.25
  },
  "curve": [
-  4,
-  6,
-  8,
-  10,
-  13
+  2,
+  5,
+  7,
+  9,
+  11
  ],
  "spells": {
-  "pinch_of_dust": 3,
-  "harvest_supper": 2
+  "harvest_supper": 6,
+  "hiring_fair": 3,
+  "pinch_of_dust": 2
+ },
+ "power": 3,
+ "rows": {
+  "sable": "front",
+  "little_nip": "front",
+  "wick": "front",
+  "brother_wolf": "front",
+  "lodger": "front",
+  "mistress_russet": "front",
+  "madame_ermeline": "front",
+  "old_lutra": "back",
+  "mountain_glutton": "back",
+  "old_isegrim": "back",
+  "laird_of_sett": "back",
+  "grizel": "back",
+  "old_brock": "back"
  }
 }

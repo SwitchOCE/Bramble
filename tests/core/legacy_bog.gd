@@ -5,8 +5,8 @@ extends RefCounted
 const WAVE1 := preload("res://tests/core/legacy_wave1.gd")
 
 
-static func library(restore_wave1: bool = true) -> UnitLibrary:
-	var current: UnitLibrary = WAVE1.library() if restore_wave1 else UnitLibrary.load_dir()
+static func library(restore_wave1: bool = true, restore_hunters: bool = true) -> UnitLibrary:
+	var current: UnitLibrary = WAVE1.library(false) if restore_wave1 else UnitLibrary.load_dir()
 	var parsed: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/core/data/pass2_bog_units.json")
 	)
@@ -21,4 +21,4 @@ static func library(restore_wave1: bool = true) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return out
+	return WAVE1.with_hunters(out) if restore_hunters else out

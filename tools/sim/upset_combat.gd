@@ -185,6 +185,26 @@ const AUDITED_BOG: Dictionary = {
 	"tiddy": false,
 }
 
+# Hunter reward ranking is bookkeeping; only Isegrim aims a combat answer at biggest.
+const AUDITED_HUNTERS: Dictionary = {
+	"nip": false,
+	"wick": false,
+	"young_brock": false,
+	"sable": false,
+	"lane_bard": false,
+	"russet": false,
+	"brother_wolf": false,
+	"lodger": false,
+	"lutra": false,
+	"ermeline": false,
+	"old_brock": false,
+	"agnes": false,
+	"grizel": false,
+	"glutton": false,
+	"laird": false,
+	"isegrim": true,
+}
+
 var flip_first_attack: bool = false
 var first_side_original: int = -1
 var first_side_used: int = -1
@@ -361,6 +381,10 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 				id == "pass3_bog"
 				and CoreUtil.to_bool(AUDITED_BOG.get(str(original.get("ability", "")), false))
 			)
+			or (
+				id == "pass3_hunter"
+				and CoreUtil.to_bool(AUDITED_HUNTERS.get(str(original.get("ability", "")), false))
+			)
 		)
 	):
 		(
@@ -401,6 +425,8 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 
 static func _audited_native(entry: Dictionary) -> bool:
 	var id: String = str(entry.get("id", ""))
+	if id == "pass3_hunter":
+		return AUDITED_HUNTERS.has(str(entry.get("ability", "")))
 	if id == "pass3_bog":
 		return AUDITED_BOG.has(str(entry.get("ability", "")))
 	if AUDITED_WAVE1.has(id):

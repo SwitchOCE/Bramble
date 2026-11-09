@@ -461,6 +461,7 @@ func _full_view(zone: String, view: Dictionary) -> Dictionary:
 	var full: Dictionary = RecruitView.full_view(zone, view, state).duplicate(true)
 	if zone != "board" or not _scout.visible:
 		full.erase("soak_preview")
+		full.erase("hunter_take_preview")
 	return full
 
 

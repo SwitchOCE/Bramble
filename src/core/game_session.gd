@@ -86,7 +86,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		var view: Dictionary = unit.view()
 		view["cost"] = _rules.unit_cost(human, unit)
 		view["sell_value"] = _rules.sell_value(unit, human)
-		if unit.poached_discount > 0:
+		if unit.poached_offer or unit.poached_discount > 0:
 			poached.append(shop.size())
 		shop.append(view)
 	var hand: Array = []
@@ -120,6 +120,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 			board.append(view)
 	Pass3Views.board(human, board, _config)
 	Pass3Bog.views(human, board, _config)
+	Pass3HunterPreview.attach(human, board, _config)
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
 		var view: Dictionary = Pass3Views.item(item, human)
@@ -228,6 +229,8 @@ static func _doorstep_view(player: PlayerState) -> Array:
 	var out: Array = []
 	for unit: RecruitUnit in player.doorstep:
 		out.append(unit.view())
+	for item: HandItem in player.item_doorstep:
+		out.append(item.view())
 	return out
 
 

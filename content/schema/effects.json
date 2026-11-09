@@ -837,6 +837,10 @@
       "ability": "string",
       "factor": "number",
       "restore": "bool"
+    },
+    "pass3_hunter": {
+      "ability": "string",
+      "factor": "number"
     }
   },
   "queries": [

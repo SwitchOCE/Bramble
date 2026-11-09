@@ -58,6 +58,11 @@ static func aim_fits(aim: String, has_unit: bool, slot: int = -1) -> bool:
 static func item_lands(
 	item: Dictionary, target: Dictionary, slot: int, state: Dictionary = {}
 ) -> bool:
+	if (
+		Data.s(item, "target_tribe") != ""
+		and not Data.a(target, "tribes").has(Data.s(item, "target_tribe"))
+	):
+		return false
 	if Data.s(item, "def_id") == "golden_egg":
 		return Data.a(target, "tribes").has("Birds") and not Data.b(target, "egged")
 	if item.has("ring_add") and ring_preview(state, item, slot) == "Full":
@@ -87,6 +92,8 @@ static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 		var target: Dictionary = Data.entry(board, slot)
 		if item_lands(item, target, slot, view):
 			return ""
+	if Data.s(item, "target_tribe") != "":
+		return "Needs a " + Data.s(item, "target_tribe") + " unit."
 	if Data.s(item, "def_id") == "golden_egg":
 		return "Needs a Bird that has not used a Golden Egg."
 	if item.has("ring_add"):

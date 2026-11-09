@@ -18,7 +18,7 @@
     "First Bite"
   ],
   "row_hint": "back",
-  "pool": true,
+  "pool": false,
   "priority": 8,
   "skeleton": false,
   "source": {

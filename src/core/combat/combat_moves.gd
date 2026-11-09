@@ -121,7 +121,7 @@ static func send_home(combat: Combat, borrowed: CombatUnit) -> void:
 
 
 ## Whirligig Beetle: a side's rows swap, slot by slot; F4 stays. Returns the units that moved.
-static func swap_rows(combat: Combat, side: int) -> Array[CombatUnit]:
+static func swap_rows(combat: Combat, side: int, protect_rings: bool = false) -> Array[CombatUnit]:
 	var moved: Array[CombatUnit] = []
 	var row: Array = combat.sides[side]
 	for pair: Array in ROW_SWAPS:
@@ -129,6 +129,14 @@ static func swap_rows(combat: Combat, side: int) -> Array[CombatUnit]:
 		var back: int = pair[1]
 		var front_unit: CombatUnit = combat.unit_at(side, front)
 		var back_unit: CombatUnit = combat.unit_at(side, back)
+		if (
+			protect_rings
+			and (
+				Pass3RowSwap.improves_ring(combat, front_unit, back)
+				or Pass3RowSwap.improves_ring(combat, back_unit, front)
+			)
+		):
+			continue
 		row[front] = back_unit
 		row[back] = front_unit
 		if front_unit != null:

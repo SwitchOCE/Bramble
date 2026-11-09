@@ -4,20 +4,17 @@
   "set": "slice",
   "tier": 4,
   "attack": 3,
-  "health": 6,
+  "health": 7,
   "tribes": [
     "Hunters"
   ],
-  "text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
-  "golden_text": "After each fight: your next Tier up costs 2 less per Take. At tier 6, get gold instead.",
-  "details": "Counts up to 3 Takes. At tier 6, up to 2 gold.",
-  "golden_details": "Counts up to 3 Takes. At tier 6, up to 3 gold.",
+  "text": "After each fight: get a Pelt of your biggest quarry.",
+  "golden_text": "After each fight: get two Pelts of your biggest quarry.",
   "mechanics": [
     {
-      "id": "ermeline",
-      "discount": 1,
-      "takes_max": 3,
-      "gold_max": 2
+      "id": "pass3_hunter",
+      "ability": "ermeline",
+      "factor": 1
     }
   ],
   "keywords": [],
@@ -27,13 +24,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
-  },
-  "overlay_text": {
-    "size": {
-      "details": "Each Take counts. At tier 6: get 1 gold per Take.",
-      "golden_details": "Each Take counts. At tier 6: get 2 gold per Take."
-    }
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

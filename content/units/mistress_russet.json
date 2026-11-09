@@ -8,17 +8,17 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Take: if the quarry is your tier or lower, your next shop has a copy, 1 gold cheaper.",
-  "golden_text": "Quarry. Take: if the quarry is your tier or lower, your next shop has a copy, 2 gold cheaper.",
-  "details": "The copy comes from the pool.",
+  "text": "Quarry. Take: your next shop has a copy, with two thirds of its buffs.",
+  "golden_text": "Quarry. Take: your next shop has a copy, with its buffs.",
   "mechanics": [
     {
       "id": "quarry",
       "reach": false
     },
     {
-      "id": "poach",
-      "discount": 1
+      "id": "pass3_hunter",
+      "ability": "russet",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -30,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }
