@@ -11,7 +11,7 @@
     "src/core/combat/pass3_fairy_combat.gd": "26f974dcf91c6665567953f06992d60609e36490ffe7da33bc7f5a226dca83ef",
     "src/core/combat/pass3_combat.gd": "32dfc73690bcefe9a8d4502203e72d1f3ff51700041571dc411ed5ecedfc50a9",
     "src/core/pass3_birds.gd": "2fcf491d44799d9011b51e1d7e9a2473c4dcd562d35b53cb71556186f8e6b354",
-    "src/core/pass3_fairies.gd": "83e27272749152efe692978989e4b5a680dff95edad888078ced43a54ac0794f",
+    "src/core/pass3_fairies.gd": "d9a7ff40f18e353dacc06570397c3982f42bbdb3ee2a9f7eaf4b2553b671bc39",
     "content/units/wisp.json": "cbb3ad0fd984537b054f2a1e9da240e49e4cf56f38869e6bbac4d89091df5718",
     "src/core/combat/combat_unit.gd": "7a88a121956ebf31da661ca747ce29876ee37c40639e2592f4c2c5c02400dce6",
     "src/core/combat/combat.gd": "67874b60b5cf712c7eea9230080f2a0f73e299b7679eff431b87b84e9705e8f5",
@@ -28,7 +28,9 @@
     "src/core/mechanics/snap.gd": "6c34645e96f338166950868eea984191765fdfc15041d7773b1da3d2a43eaea9",
     "src/core/pass3_bog.gd": "59d586665ee19e1ae5e82fb2705d9155f7ae8c921c50d61ffde32f7040ae6c7a",
     "src/core/pass3_bog_preview.gd": "c334654523eff35396417560397c2e58235b3318dc34c5bcc4ad89b6436350b1",
-    "src/core/combat/combat_auras.gd": "e8b394e91321e2b02470fde8fce217238413118e23e1f489f1db813fede2ece0"
+    "src/core/combat/combat_auras.gd": "e8b394e91321e2b02470fde8fce217238413118e23e1f489f1db813fede2ece0",
+    "src/core/pass3_text.gd": "7c45d468dc34b40a1f32e333be4073ea93bba87dde67bfd4e831c41b2fc551a8",
+    "src/core/pass3_rates.gd": "37b35ee8914fc29db60bbac9f8d8f59a019663a5643528148837d7e188a40c09"
   },
   "entries": [
     {
@@ -68,7 +70,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "Tier-up grows own Rings.",
+      "reason": "End of Turn grows own Rings when every slot has a Ring, including at T6.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
     },
     {
@@ -268,7 +270,7 @@
       "classification": "friendly_recruit",
       "targets_biggest_enemy": false,
       "mask": "preserve",
-      "reason": "End of Turn destroys own units behind source and adds own Rings.",
+      "reason": "Start of Turn destroys own units behind source and adds own Rings; recruiting remains open.",
       "golden": "factor doubles count/magnitude or adds positional neighbours; it does not change selection into largest enemy"
     },
     {

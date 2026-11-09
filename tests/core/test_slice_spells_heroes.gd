@@ -133,11 +133,12 @@ func test_bread_from_the_back_aims_the_back_row_and_feeds_the_units_in_front() -
 	assert_eq(right.health, 5)
 
 
-func test_spore_cloud_rings_any_slot_plus_2_2() -> void:
+func test_spore_cloud_adds_two_rings_at_default_size_four() -> void:
 	assert_eq(_kit.cast("spore_cloud", F1), "", "an empty slot will do")
 	var unit: RecruitUnit = _kit.play("pill_bug", F1)
-	assert_eq(unit.attack, 3)
-	assert_eq(unit.health, 6)
+	assert_eq(Pass3Fairies.ring_count(_player.slot_effects[F1][0]), 2)
+	assert_eq(unit.attack, 9, "base 1 Attack plus two size-4 Rings")
+	assert_eq(unit.health, 12, "base 4 Health plus two size-4 Rings")
 
 
 func test_stand_behind_me_aims_the_front_row_and_feeds_the_units_behind() -> void:
@@ -150,11 +151,12 @@ func test_stand_behind_me_aims_the_front_row_and_feeds_the_units_behind() -> voi
 	assert_eq(left.health, 5)
 
 
-func test_boundary_stone_rings_a_slot_plus_3_3() -> void:
+func test_boundary_stone_adds_three_rings_at_default_size_four() -> void:
 	var unit: RecruitUnit = _kit.put("pill_bug", F1)
 	_kit.cast("boundary_stone", F1)
-	assert_eq(unit.attack, 4)
-	assert_eq(unit.health, 7)
+	assert_eq(Pass3Fairies.ring_count(_player.slot_effects[F1][0]), 3)
+	assert_eq(unit.attack, 13, "base 1 Attack plus three size-4 Rings")
+	assert_eq(unit.health, 16, "base 4 Health plus three size-4 Rings")
 
 
 func test_last_orders_spends_everything_for_1_1_per_2_spent() -> void:

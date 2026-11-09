@@ -14,6 +14,8 @@ func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 	config.set_value("scale_hero_spell_stats", false)
 	config.set_value("fairies_fetch_share", 0.5)
 	config.set_value("pass3_preset", "A")
+	# Freeze the historical reader comparison basis as well as the fight dials.
+	config.set_value("pass3_text_defaults", Pass3Rates.resolved(config))
 	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
 	for entry: Dictionary in cases:
 		var rng := RandomNumberGenerator.new()

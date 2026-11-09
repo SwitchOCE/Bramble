@@ -55,7 +55,9 @@ static func resolved(config: GameConfig) -> Dictionary:
 
 
 static func overridden(config: GameConfig) -> bool:
-	for key: String in defaults():
-		if value(config, key) != _defaults[key]:
+	var authored: Dictionary = defaults()
+	var selected: Dictionary = _presets.get(_default_preset, {})
+	for key: String in authored:
+		if value(config, key) != selected.get(key, authored[key]):
 			return true
 	return false

@@ -323,7 +323,7 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			)
 			var growth: String = _n(Pass3Rates.number(config, rate) * factor)
 			var prefix: String = (
-				"After you Tier up: if every slot has a Ring,"
+				"End of Turn: if every slot has a Ring,"
 				if id == "cluricaun"
 				else "Shy. After a Shy unit leaves:" if id == "silky" else "Shy. When this leaves:"
 			)
@@ -372,7 +372,7 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			return (
 				"%s: destroy the units behind this. Ring every slot%s for each."
 				% [
-					_period(Pass3Rates.integer(config, "fairies_queen_period")),
+					_period(Pass3Rates.integer(config, "fairies_queen_period"), "Start of Turn"),
 					_repeat(Pass3Rates.integer(config, "fairies_queen_rings") * factor)
 				]
 			)
@@ -412,9 +412,9 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 	return ""
 
 
-static func _period(turns: int) -> String:
+static func _period(turns: int, timing: String = "End of Turn") -> String:
 	if turns == 1:
-		return "End of Turn"
+		return timing
 	var suffix: String = "th"
 	if turns % 100 not in [11, 12, 13]:
 		match turns % 10:
@@ -424,7 +424,7 @@ static func _period(turns: int) -> String:
 				suffix = "nd"
 			3:
 				suffix = "rd"
-	return "Every %d%s End of Turn" % [turns, suffix]
+	return "Every %d%s %s" % [turns, suffix, timing]
 
 
 static func _set_text(card: Dictionary, golden: bool, words: String, config: GameConfig) -> void:
@@ -489,6 +489,11 @@ static func _trip(id: String, golden: bool, config: GameConfig) -> int:
 
 static func _details(card: Dictionary, config: GameConfig) -> void:
 	match str(card.get("id", "")):
+		"cluricaun":
+			card["details"] = (
+				"Empty slots count. Copies grow once at End of Turn, using the strongest copy;"
+				+ " a golden copy grows twice as much."
+			)
 		"jack_daw":
 			card["details"] = (
 				"Fractions round up. The enemy's loss ends with the fight; your Bird keeps its gain."

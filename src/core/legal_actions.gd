@@ -75,7 +75,11 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 			if item.has("ring_add") and slot >= 0 and slot < slots.size():
 				var rings: Array = slots[slot]
 				if BoardUpkeep.ring_full(
-					rings, CoreUtil.to_bool(state.get("card_size_caps", true))
+					rings,
+					(
+						CoreUtil.to_bool(state.get("card_size_caps", true))
+						and not CoreUtil.to_bool(state.get("pass3_content", false))
+					)
 				):
 					continue
 			out.append(action)

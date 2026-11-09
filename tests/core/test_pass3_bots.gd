@@ -12,7 +12,9 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pass3_preset", "A")
+	_kit.setup(config)
 	_player = _kit.player
 	_rules = _kit.rules
 	_player.round_number = 5
@@ -187,8 +189,8 @@ func test_hard_keeps_lob_hob_and_live_cluricaun_instead_of_selling_the_engine() 
 	assert_true(BotPass3.keep_engine(_player, cluricaun, brain.value))
 	assert_eq(brain._weakest_slot(), -1, "a replacement cannot sell the last live engine")
 	_player.tier = UnitLibrary.TIERS
-	assert_false(BotPass3.keep_engine(_player, cluricaun, brain.value))
-	assert_eq(brain._weakest_slot(), 2, "Cluricaun may retire after the final tier-up")
+	assert_true(BotPass3.keep_engine(_player, cluricaun, brain.value))
+	assert_eq(brain._weakest_slot(), -1, "Cluricaun still pays at the final tier")
 
 
 func test_hard_buys_a_thank_you_for_lobs_mature_bank_and_aims_past_a_large_carry() -> void:
@@ -226,7 +228,7 @@ func test_hob_only_leaves_when_silkys_growth_pays_for_the_lost_shield() -> void:
 	)
 
 
-func test_hard_completes_cluricauns_rainbow_before_paying_for_the_tier_up() -> void:
+func test_hard_completes_cluricauns_rainbow_and_cashes_it_at_end_of_turn() -> void:
 	_player.tier = 3
 	_player.round_number = 10
 	_rules.config.set_value("fairies_ring_growth", 1.0)
@@ -235,11 +237,93 @@ func test_hard_completes_cluricauns_rainbow_before_paying_for_the_tier_up() -> v
 		BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
 	_player.shop_spells.append(HandItem.make(_kit.library.get_card("spore_cloud"), 0))
 	var brain: BotBrain = _brain("fairies_rainbow")
+	var size: float = _player.ring_size
 	brain._climb(false)
 	assert_eq(BotPass3.ring_count(_player), 7)
 	assert_gt(_player.tier, 3)
-	assert_gt(_player.ring_size, 1.0, "the completed rainbow grows on this tier-up")
+	assert_eq(_player.ring_size, size, "tiering no longer pays Cluricaun")
 	assert_true(_player.shop_spells.is_empty())
+	_rules.end_phase(_player)
+	assert_eq(_player.ring_size, size + 1.0, "the completed rainbow pays at End of Turn")
+
+
+func test_tier_six_hard_keeps_cluricaun_and_buys_the_missing_ring_for_end_of_turn() -> void:
+	_player.tier = UnitLibrary.TIERS
+	_player.round_number = 15
+	var cluricaun: RecruitUnit = _kit.put("cluricaun", 0)
+	_kit.put("hedge_witch", 4)
+	for slot: int in range(6):
+		BoardUpkeep.add_ring(_player, slot, {"attack": 1, "health": 1})
+	_player.shop.clear()
+	_player.shop_spells.clear()
+	var spell: HandItem = HandItem.make(_kit.library.get_card("spore_cloud"), 0)
+	_player.shop_spells.append(spell)
+	_player.gold = _rules.spell_cost(_player, spell)
+	var brain: BotBrain = _brain("fairies_rainbow")
+	brain.value.strategy = brain.value.strategy.duplicate(true)
+	brain.value.strategy["max_refreshes"] = 0
+	var text: float = BotPass3.text_value(cluricaun, _player, brain.value)
+	assert_gt(text, 0.0)
+	_player.tier -= 1
+	assert_eq(BotPass3.text_value(cluricaun, _player, brain.value), text)
+	_player.tier = UnitLibrary.TIERS
+	assert_true(BotPass3.keep_engine(_player, cluricaun, brain.value))
+	var offer: Dictionary = brain._best_offer()
+	assert_false(offer.is_empty(), "the affordable missing Ring is still an offer at tier 6")
+	assert_true(CoreUtil.to_bool(offer.get("spell", false)))
+	assert_eq(CoreUtil.to_int(offer.get("cost", -1)), _player.gold)
+	var size: float = _player.ring_size
+	brain.play_turn(_player, _rules, _player.round_number)
+	assert_true(_player.board.has(cluricaun))
+	assert_eq(BotPass3.ring_count(_player), BoardGeometry.SLOTS)
+	assert_eq(_player.ring_size, size)
+	_rules.end_phase(_player)
+	var growth: float = Pass3Rates.number(_rules.config, "fairies_ring_growth")
+	assert_eq(_player.ring_size, size + growth)
+	assert_eq(_player.gold, 0)
+
+
+func test_queens_start_of_turn_food_can_be_refilled_by_hards_legal_shopping() -> void:
+	_player.tier = UnitLibrary.TIERS
+	var queen: RecruitUnit = _kit.put("queen_of_elfland", 3)
+	var carry: RecruitUnit = _kit.put("hedge_witch", 4)
+	var food: RecruitUnit = _kit.put("sexton_beetle", 6)
+	var rings: int = BotPass3.ring_total(_player)
+	_rules.start_phase(_player, 6)
+	assert_false(_player.board.has(food))
+	assert_null(_player.board[6])
+	assert_eq(BotPass3.ring_total(_player), rings + BoardGeometry.SLOTS)
+	_player.shop.clear()
+	_player.shop_spells.clear()
+	_player.gold = 3
+	var replacement: RecruitUnit = _kit.shop("pill_bug")
+	var brain: BotBrain = _brain("fairies_help")
+	brain.value.strategy = brain.value.strategy.duplicate(true)
+	brain.value.strategy["max_refreshes"] = 0
+	brain.value.strategy["no_spells"] = true
+	brain.play_turn(_player, _rules, _player.round_number)
+	assert_true(_player.board.has(queen))
+	assert_true(_player.board.has(carry))
+	assert_true(_player.board.has(replacement), "the consumed slot can fight again this turn")
+	assert_eq(_player.board_count(), 3)
+	_rules.end_phase(_player)
+	assert_true(_player.board.has(replacement), "End of Turn no longer destroys the food")
+	assert_eq(BotPass3.ring_total(_player), rings + BoardGeometry.SLOTS)
+
+
+func test_queen_only_rearranges_food_when_the_next_start_of_turn_is_due() -> void:
+	_rules.config.set_value("fairies_queen_period", 3)
+	var queen: RecruitUnit = _kit.put("queen_of_elfland", 0)
+	_kit.put("sexton_beetle", 1)
+	_kit.put("hedge_witch", 4)
+	var brain: BotBrain = _brain("fairies_help")
+	var layout: Array[int] = [0, 1, -1, -1, 4, -1, -1]
+	BotPass3._tithe(_player, brain.value, layout, [])
+	assert_eq(layout, [0, 1, -1, -1, 4, -1, -1], "an idle Queen does not reserve food")
+	queen.counters["pass3_teind"] = 2
+	BotPass3._tithe(_player, brain.value, layout, [])
+	assert_eq(layout[3], 0)
+	assert_eq(layout[6], 1, "the cheapest body is ready for next Start of Turn")
 
 
 func test_cluricaun_and_missing_ring_values_read_the_resolved_growth_dial() -> void:

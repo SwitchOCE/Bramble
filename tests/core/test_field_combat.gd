@@ -149,7 +149,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 			session._fight(0, 1, 0)
 			var case: Dictionary = JSON.parse_string(JSON.stringify(captured[0]))
 			var input: Dictionary = case["recorded"]["input"]
-			var share: float = 1.0 if preset == "B" else 2.0
+			var share: float = 1.0
 			assert_eq(input["config"]["fairies_fetch_share"], share)
 			assert_eq(input["config"]["fairies_ring_growth"], 0.75, "explicit override wins")
 			assert_eq(
@@ -167,6 +167,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 	# Simulate future rates.json edits, including an edited existing preset and default choice.
 	Pass3Rates._defaults["fairies_fetch_share"] = 0.25
 	Pass3Rates._defaults["scale_hero_spell_percent"] = 70
+	Pass3Rates._presets["B"]["fairies_fetch_share"] = 0.25
 	Pass3Rates._presets["C"]["fairies_fetch_share"] = 0.5
 	Pass3Rates._presets["C"]["scale_hero_spell_percent"] = 80
 	Pass3Rates._default_preset = "A"
@@ -191,9 +192,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 				)
 				break
 		var restored: UnitLibrary = FightCapture.library_for(input["config"], fresh)
-		var words: String = (
-			"full stats" if input["config"]["pass3_preset"] == "B" else "double stats"
-		)
+		var words: String = "full stats"
 		assert_string_contains(restored.get_unit("cradle_fetch")["text"], words)
 		var percent: int = CoreUtil.to_int(input["config"]["scale_hero_spell_percent"])
 		assert_string_contains(restored.get_card("harvest_supper")["details"], "%d%%" % percent)

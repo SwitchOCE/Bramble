@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "End of Turn: destroy the units behind this. Ring every slot for each.",
-  "golden_text": "End of Turn: destroy the units behind this. Ring every slot twice for each.",
+  "text": "Start of Turn: destroy the units behind this. Ring every slot for each.",
+  "golden_text": "Start of Turn: destroy the units behind this. Ring every slot twice for each.",
   "mechanics": [
     {
       "id": "pass3_fairy",

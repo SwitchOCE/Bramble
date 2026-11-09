@@ -75,7 +75,8 @@ func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings()
 		var rulings: String = CardRulings.for_view(unit.view())
 		assert_eq((face + rulings).count("Shy pays 4 gold"), 1, id)
 		if id == "lob_lie_by_the_fire":
-			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "each complete 3 turns")
+			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "each complete 2 turns")
+			assert_false(CardDetail.notes_bbcode(unit.view()).contains("starts at +1/+1"))
 		elif id == "silky":
 			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "once per departure")
 

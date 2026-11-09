@@ -11,7 +11,9 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pass3_preset", "A")
+	_kit.setup(config)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
@@ -139,30 +141,29 @@ func test_sally_does_nothing_with_no_empty_slot() -> void:
 		assert_eq(_count(slot), 0)
 
 
-func test_cluricaun_requires_every_slot_and_grows_on_each_tier_up_only() -> void:
+func test_cluricaun_requires_every_slot_and_grows_at_end_of_turn_even_at_tier_six() -> void:
 	_kit.put("cluricaun", 0)
 	for slot: int in 6:
 		_ring(slot, 4)
-	_tier_up()
+	_end_turn()
 	assert_eq(_player.ring_size, 1.0, "six Ringed slots do not qualify")
 	_ring(6, 4)
 	_tier_up()
+	assert_eq(_player.ring_size, 1.0, "tier-up no longer fires growth")
+	_end_turn()
 	assert_eq(_player.ring_size, 2.0)
 	assert_eq(BoardUpkeep.ring_value(_player.slot_effects[4]), Vector2i(8, 8))
-	_next_turn()
-	_next_turn()
-	_next_turn()
-	assert_eq(_player.ring_size, 2.0, "End of Turn never runs Cluricaun")
+	_player.tier = 6
 	_kit.config.set_value("fairies_ring_growth", 0.75)
-	_tier_up()
-	assert_eq(_player.ring_size, 2.75)
+	_end_turn()
+	assert_eq(_player.ring_size, 2.75, "T6 keeps the end-turn engine")
 
 
 func test_cluricaun_copies_share_one_grow_and_strongest_copy_wins() -> void:
 	_kit.put("cluricaun", 0)
 	_kit.put("cluricaun", 1, true)
 	_rainbow()
-	_tier_up()
+	_end_turn()
 	assert_eq(_player.ring_size, 3.0, "one golden grow, rather than normal plus golden")
 
 
@@ -171,7 +172,7 @@ func test_cluricaun_copy_guard_counterexample_without_fix() -> void:
 	_kit.put("cluricaun", 0)
 	_kit.put("cluricaun", 1, true)
 	_rainbow()
-	_tier_up()
+	_end_turn()
 	assert_eq(_player.ring_size, 4.0, "without the shared-copy guard both growers fire")
 
 
@@ -189,7 +190,7 @@ func test_golden_borrowed_growth_keeps_its_text_factor_on_a_normal_body() -> voi
 	)
 	_kit.put("cluricaun", 1)
 	_rainbow()
-	_tier_up()
+	_end_turn()
 	assert_eq(_player.ring_size, 3.0, "the text's golden factor wins over the normal body")
 
 
@@ -323,46 +324,57 @@ func test_monarch_doubling_guard_counterexample_without_fix() -> void:
 	assert_eq(_player.ring_size, 4.0, "without the guard the same turn doubles twice")
 
 
-func test_queen_tithes_units_behind_and_rings_every_slot_per_victim() -> void:
+func test_queen_tithes_at_start_of_turn_and_the_empty_slots_can_be_refilled() -> void:
 	_kit.put("queen_of_elfland", 1)
 	_kit.put("hob_in_the_hearth", 4)
 	_kit.put("nan_toadstool", 5)
 	_kit.put("silky", 0)
 	_end_turn()
+	assert_not_null(_player.board[4], "End of Turn leaves the fighters in place")
+	_rules.start_phase(_player, 2)
 	assert_null(_player.board[4])
 	assert_null(_player.board[5])
 	assert_eq(_player.gold_next_turn, 0, "destroyed Hob is never thanked")
 	assert_eq(_player.ring_size, 1.0, "Silky ignores destruction")
 	for slot: int in BoardGeometry.SLOTS:
 		assert_eq(_count(slot), 2)
+	var refill: RecruitUnit = _kit.play("field_vole", 4)
+	assert_eq(_player.board[4], refill, "recruiting stays open after the tithe")
 	_end_turn()
-	assert_not_null(_player.board[1], "the Queen never sacrifices herself without a tithe")
-	assert_eq(_count(0), 2)
+	assert_eq(_player.board[4], refill, "the replacement survives into combat")
 
 
-func test_golden_queen_uses_data_rings_and_period_and_extra_triggers_do_not_tick_it() -> void:
+func test_golden_queen_uses_start_turn_period_and_end_turn_repeats_cannot_tick_it() -> void:
 	_kit.config.set_value("fairies_queen_period", 2)
 	_kit.config.set_value("fairies_queen_rings", 3)
 	_kit.put("queen_of_elfland", 0, true)
 	_kit.put("nan_toadstool", 4)
 	_doubler()
-	_next_turn()
-	assert_not_null(_player.board[4], "the repeated effect cannot move the tithe countdown")
-	assert_eq(_count(4), 0)
+	_rules.start_phase(_player, 2)
+	assert_not_null(_player.board[4])
 	_end_turn()
+	assert_not_null(_player.board[4], "End of Turn repeats do not move the Start of Turn clock")
+	_rules.start_phase(_player, 3)
 	assert_null(_player.board[4])
 	for slot: int in BoardGeometry.SLOTS:
 		assert_eq(_count(slot), 6)
 
 
 func test_queen_countdown_guard_counterexample_without_fix() -> void:
-	_kit.config.set_value("pass3_loop_guards", false)
 	_kit.config.set_value("fairies_queen_period", 2)
-	_kit.put("queen_of_elfland", 0)
+	var queen: RecruitUnit = _kit.put("queen_of_elfland", 0)
 	_kit.put("nan_toadstool", 4)
-	_doubler()
-	_end_turn()
-	assert_null(_player.board[4], "without the guard two firings advance two turns at once")
+	_rules.events.fire(_player, "start_of_turn")
+	var ctx: RecruitContext = RecruitContext.make(_rules, _player, "start_of_turn", {})
+	ctx.source = queen
+	ctx.source_slot = 0
+	ctx.params = {"ability": "queen", "factor": 1}
+	ctx.repeat_index = 1
+	Pass3Fairies.recruit_hook(ctx)
+	assert_not_null(_player.board[4], "an extra trigger cannot advance the countdown")
+	_kit.config.set_value("pass3_loop_guards", false)
+	Pass3Fairies.recruit_hook(ctx)
+	assert_null(_player.board[4], "without the guard the repeated start ticks a second turn")
 	assert_eq(_count(4), 1)
 
 
@@ -399,14 +411,14 @@ func _printed_and_borrowed_grower(ability: String, held_card: String) -> Recruit
 	return borrower
 
 
-func test_printed_and_borrowed_cluricaun_grows_once_per_tier_up() -> void:
+func test_printed_and_borrowed_cluricaun_grows_once_per_end_of_turn() -> void:
 	_kit.config.set_value("fairies_ring_growth", 1.0)
 	_printed_and_borrowed_grower("cluricaun", "cluricaun")
 	_rainbow()
-	_tier_up()
+	_end_turn()
 	assert_eq(_player.ring_size, 2.0, "one +1 grow despite two matching entries on one source")
 	_kit.config.set_value("pass3_loop_guards", false)
-	_tier_up()
+	_end_turn()
 	assert_eq(_player.ring_size, 4.0, "without the event guard both matching entries grow")
 
 
