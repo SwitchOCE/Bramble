@@ -562,3 +562,25 @@ func test_mire_wait_marks_its_own_paused_action_without_pausing_the_fight() -> v
 	assert_eq(stamps, 1)
 	assert_true(screen.playing, "a unit waiting does not pause the whole fight")
 	assert_eq(Capture.budget_nodes(screen).size(), 0, "waiting has no text")
+
+
+func test_hero_transfer_cues_clear_before_the_final_health_frame() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false)
+		screen._play_event(
+			{
+				"type": "combat_end",
+				"winner": 0,
+				"damage": 6,
+				"damage_base": 5,
+				"survivors": [[1], []]
+			},
+			true
+		)
+		_advance(screen, 0.9)
+		assert_eq(screen._health_labels[1].text, "34")
+		for child: Node in screen._overlay.get_children():
+			if child.has_meta("hero_result_transfer"):
+				assert_false((child as Control).visible, "transfer marks cannot cover final Health")
+		assert_eq(Capture.text_nodes(screen._overlay).size(), 0, "the impact pop has settled too")

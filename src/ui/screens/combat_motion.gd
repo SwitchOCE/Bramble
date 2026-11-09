@@ -904,6 +904,8 @@ func result(animate: bool) -> void:
 		for plaque: Control in plaques:
 			_pulse(plaque)
 		return
+	var overlay: Control = _screen.get("_overlay")
+	var first_transfer: int = overlay.get_child_count()
 	var target: Vector2 = _plaque(1 - winner).get_global_rect().get_center()
 	for uid: int in _screen.get("_cards"):
 		var view: Dictionary = model.unit(uid)
@@ -917,6 +919,12 @@ func result(animate: bool) -> void:
 			base = board.slot_global_center(Data.i(source, "slot"))
 	if not model.result_rules.has("damage_base") or Data.i(model.result_rules, "damage_base") > 0:
 		_mote(base, target, "spark", UiTheme.ACORN)
+	var transfer_nodes: Array[Control] = []
+	for index: int in range(first_transfer, overlay.get_child_count()):
+		var item: Control = overlay.get_child(index) as Control
+		item.set_meta("hero_result_transfer", true)
+		transfer_nodes.append(item)
+	_tween().tween_callback(_clear_result_transfers.bind(transfer_nodes)).set_delay(0.7)
 	_tween().tween_callback(_burst.bind(target, model.damage)).set_delay(0.3)
 	_shake(_plaque(1 - winner))
 	var old_health: int = CoreUtil.to_int(health[1 - winner])
@@ -935,4 +943,13 @@ func result(animate: bool) -> void:
 			func(value: int) -> void: label.text = str(value), old_health, after, 0.25
 		)
 	if model.early_spoils.has(bottom_side):
-		_emit("acorn", _plaque(bottom_side).get_global_rect().get_center(), UiTheme.ACORN)
+		var hero: Control = _plaque(bottom_side)
+		var from: Vector2 = hero.get_global_rect().get_center()
+		_mote(from, from + Vector2(0, hero.size.y * 0.8), "acorn", UiTheme.ACORN)
+
+
+func _clear_result_transfers(items: Array[Control]) -> void:
+	# Leave the final Health readable before automatic return, after the impact pop settles.
+	for item: Control in items:
+		if is_instance_valid(item):
+			item.hide()
