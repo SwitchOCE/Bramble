@@ -45,7 +45,7 @@
   ],
   "planning_cost": "192,000 fights; historical ~5 ms/fight suggests ~16 minutes; plain designed boards may be faster",
   "owner_example": "Literal 2.1B Attack/Health exceeds the engine 1B per-stat clamp. Separate clamped boundary and 500/2100 ratio analogue record the limitation without changing combat rules.",
-  "source_commit": "6146fa1fe6743e77b9991f38e11d6e4dda354ce1",
+  "source_commit": "9e50689a5cdae25324eda2ec8d20310d1f85c231",
   "source_paths": [
     "src",
     "content",
@@ -55,7 +55,7 @@
     "tools/versions.env",
     "tools/sim/line_profiles.committed.json"
   ],
-  "source_fingerprint": "94481726fdb80434d388d7729cb51fd202eb8c9358dd8b145a6a253bc6a9d0d0",
+  "source_fingerprint": "d18d8c3a4dcf330767ec3cdf3680165acf1dbe0407e7cb2f21dcc590aea156f9",
   "profiles": "tools/sim/line_profiles.committed.json",
   "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112"
 }
