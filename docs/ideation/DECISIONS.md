@@ -4,6 +4,40 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Test-suite plan approved (owner note 10a)
+**Source:** `plan-test-suite.md`, built from the analysis in `evidence/test-suite/` 1–6 (run history, suite profile, scheduling design, pruning, first plan, critic), then reordered by plan-interrogate (`evidence/test-suite/7-plan-interrogate.md`).
+
+**Picked:** the reordered plan, **Approved order** in `plan-test-suite.md`.
+1. **Effective now:**
+   - ideation/main moves only on a full cloud pass for that exact commit, or on `--docs-only` against one.
+   - The orchestrator runs no local full gates.
+   - Workers run targeted files locally through the slot wrapper. They hand off without a full gate.
+   - The orchestrator pushes the worker's tip to the cloud gate at hand-off, in parallel with the scope review.
+2. **Gate plumbing (cloud session):** the in-repo slot with a wait log, locking only the Godot steps, junit output, `--docs-only --base`, an unsharded GitHub Actions gate on `ideation/gate/**`, and `cloud-gate.sh`.
+3. **Per-game slowdown profile (cloud session),** in parallel. Junit times come from the running profile routine.
+4. **Faster suite, ranked by junit times.**
+5. **Re-pin rewrites, after wave 2a merges.**
+6. **Sharding,** only if the verdict takes over 7.5 min.
+
+**Why this order:**
+- Codex workers can't push (CLOUD.md), so worker gates leave the lock only if the orchestrator relays them. Hand-off already waits on a scope review, so the relay adds no wait.
+- The local `--fast` tier would keep about 80% of the suite on the lock, so it's deferred.
+- The per-game cost rose about 10× in three days and hits sims too (58% of Godot time). It's the one lever bigger than a day's suite growth.
+
+**What this answers for the owner (10a):**
+- **Could fewer runs have done?** Yes: about 30 of 307 gates, about 2 of 15.5 gate-hours, re-ran unchanged or docs-only trees. The orchestrator's 41 merge gates caught nothing.
+- **Is the suite as fast as it can be?** No. Steps 3–4 work on that.
+- **Tests that never catch regressions:** every real catch (about 19 incidents) came from UI and contract tests. The slow whole-game tests caught none, but a golden hash can only ever show up as a re-pin. So tests are moved and re-scoped, with three small deletions, not removed wholesale.
+
+**Deviation, logged:** the cloud gate uses GitHub Actions, not the Claude cloud environment the owner set up.
+- Actions is free for this public repo, notifies when a run finishes, and runs in parallel.
+- The owner said on 7 Nov they were near their Claude budget.
+- The Claude routine gate (trig_01Bu2zM5LeTNEw9jLVYeUtB1) stays as the fallback, and Claude sessions still do the plumbing and profiling.
+
+**Not done without the owner:** letting Codex push to `ideation/gate/**` would change the owner's Codex approval rules. It isn't needed, because the orchestrator relays.
+
+**Agreed by:** the analysis workflow's critic (4 cuts fixed) and plan-interrogate (reordered, deferred items listed).
+
 ### 10 Nov 2026 — Hunters narrow check: clear to merge; the splash cause is open
 **Source:** narrow check of `ideation/wave2a` 5cd5cd71..e3711131 (`evidence/review-wave2a-hunters-narrow.md`): 12 keep, 0 cut, 0 simplify, 1 ask.
 - **The cut** (line seats selling their own engines) is fixed through one `_can_replace` check. Negative controls fail without it.
