@@ -2,6 +2,20 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access", "unsafe_property_access")
 
 const FieldTestData := preload("res://tests/core/field_test_data.gd")
+const FrozenContent := preload("res://tests/core/field_frozen_content.gd")
+
+
+func test_merged_frozen_content_isolates_and_restores_pass3_rates() -> void:
+	var previous: Dictionary = Pass3Rates._defaults
+	var sentinel: Dictionary = {"live_content_sentinel": 123}
+	Pass3Rates._defaults = sentinel
+	var frozen := FrozenContent.new()
+	frozen.setup("res://tests/fixtures/field/content-0946909.json")
+	assert_false(Pass3Rates.defaults().has("live_content_sentinel"))
+	assert_gt(Pass3Rates.defaults().size(), 0)
+	frozen.restore()
+	assert_same(Pass3Rates._defaults, sentinel)
+	Pass3Rates._defaults = previous
 
 
 func test_gzip_library_round_trip_and_invalid_header_are_loud() -> void:
@@ -146,6 +160,8 @@ func test_current_content_fixture_has_eight_distinct_winners_for_each_rotation()
 	assert_eq(field.error, "")
 	if field.error != "":
 		return
+	var hashes: Dictionary = field.data["content_hashes"]
+	assert_true(hashes.has("content/pass3/rates.json"), "pass 3 rates are gameplay content")
 	var rotations: Dictionary = {}
 	var lines: Dictionary = field.data["lines"]
 	for line: Dictionary in lines.values():

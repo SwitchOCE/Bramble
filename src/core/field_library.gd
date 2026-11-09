@@ -8,7 +8,7 @@ const VERSION: int = 2
 const CONFIG_VERSION: int = 1
 const BUNDLED_PATH: String = "res://content/fields/baseline.json.gz"
 const RUNTIME_KEYS: Array = ["bots", "human_bot", "opponents", "field_library", "field_strength"]
-const CONTENT_FOLDERS: Array = ["units", "heroes", "spells", "levers", "schema"]
+const CONTENT_FOLDERS: Array = ["units", "heroes", "spells", "levers", "schema", "pass3"]
 const DISPLAY_KEYS: Array = [
 	"text",
 	"golden_text",

@@ -133,6 +133,11 @@ are checked at game creation. A regression removes the file after preparation an
 checks that the session retains the same object; it also rejects a changed config.
 There is no process-wide cache that could silently reuse an old library.
 
+The merge introduced gameplay defaults in `content/pass3/rates.json`. The runtime
+manifest and generator now hash that folder, the merged frozen fixture saves and
+restores its defaults cache, and every export includes the rate file. Export smoke
+checks its presence. No authored rates or combat rules were changed.
+
 The generator and one-command recapture default to `.json.gz`. The loader reports
 missing/unreadable files, invalid gzip headers, decompression failure, JSON parse
 errors and validation failures explicitly. It frees the compressed and inflated

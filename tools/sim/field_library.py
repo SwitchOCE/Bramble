@@ -28,7 +28,7 @@ VERSION = 2
 CONFIG_VERSION = 1
 SEAT_KEYS = frozenset(("bots", "human_bot", "opponents", "field_library", "field_strength"))
 SIDE_KEYS = ("board", "slots", "hero_effects", "fight_rules", "tier")
-CONTENT_FOLDERS = ("units", "spells", "heroes", "levers", "schema")
+CONTENT_FOLDERS = ("units", "spells", "heroes", "levers", "schema", "pass3")
 DISPLAY_KEYS = frozenset(
     (
         "text",

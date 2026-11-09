@@ -7,6 +7,7 @@ var library: UnitLibrary
 var _schema: Dictionary
 var _knowledge: BotKnowledge
 var _mechanics: Dictionary
+var _rates: Dictionary
 
 
 func setup(fixture_path: String = "res://tests/fixtures/field/content-9af89c2.json") -> void:
@@ -15,6 +16,10 @@ func setup(fixture_path: String = "res://tests/fixtures/field/content-9af89c2.js
 	_schema = EffectSchema._data
 	_knowledge = BotKnowledge._shared
 	_mechanics = MechanicRegistry._instances
+	_rates = Pass3Rates._defaults
+	if files.has(Pass3Rates.PATH.trim_prefix("res://")):
+		var frozen_rates: Dictionary = files[Pass3Rates.PATH.trim_prefix("res://")]
+		Pass3Rates._defaults = frozen_rates.duplicate(true)
 	var frozen_schema: Dictionary = files["content/schema/effects.json"]
 	EffectSchema._data = frozen_schema.duplicate(true)
 	EffectSchema._resolve_acorn_reminder()
@@ -45,3 +50,4 @@ func restore() -> void:
 	EffectSchema._data = _schema
 	BotKnowledge._shared = _knowledge
 	MechanicRegistry._instances = _mechanics
+	Pass3Rates._defaults = _rates

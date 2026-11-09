@@ -264,7 +264,7 @@ class FieldLibraryTests(unittest.TestCase):
         hero = b'{"id":"frog","name":"Frog King"}'
         files = (
             b"content/heroes/frog.json\ncontent/units/frog.json\ncontent/other.json\n"
-            b"content/levers/engine.json\ncontent/schema/effects.json\n"
+            b"content/levers/engine.json\ncontent/schema/effects.json\ncontent/pass3/rates.json\n"
         )
 
         def git(*args, cwd=None):
@@ -287,5 +287,6 @@ class FieldLibraryTests(unittest.TestCase):
         self.assertNotIn("content/other.json", hashes)
         self.assertIn("content/levers/engine.json", hashes)
         self.assertIn("content/schema/effects.json", hashes)
+        self.assertIn("content/pass3/rates.json", hashes)
         self.assertEqual(names, {"frog": "Frog King"})
         self.assertEqual(profiles["line_frogs_tempo"]["tribe"], "Frogs")

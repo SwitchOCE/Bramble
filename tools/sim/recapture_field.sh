@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebuild the shipped strong-field library after each committed gameplay-content merge.
+# Recapture the strong-field library when the full pass 3 pool is ready (v3 step 5).
 #   tools/sim/recapture_field.sh [--games 120] [--first-seed 20262000]
 #     [--per-line 64] [--sample-seed 91407] [--config overrides.json]
 #     [--out content/fields/baseline.json.gz] [--capture-dir build/strong-field/recapture]
