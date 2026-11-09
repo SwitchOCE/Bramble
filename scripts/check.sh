@@ -22,8 +22,8 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
-# The expanded full-game and UI regression suite needs its own wall-time budget.
-GUT_TIMEOUT=900
+# Full-game, field replay and UI regressions need a separate wall-time budget.
+GUT_TIMEOUT=1200
 GD_DIRS=(src tools/checks tools/play tools/sim)
 KEEP_GOING=0
 case "${1:-}" in
