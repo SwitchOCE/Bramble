@@ -60,15 +60,28 @@ func test_golden_hasty_swallows_two_and_does_not_double_the_share() -> void:
 	assert_eq(combat.carry[1]["attack"], 6)
 
 
-func test_hasty_reads_body_stats_excluding_tribe_auras_and_combat_loans() -> void:
+func test_hasty_reads_current_stats_including_tribe_auras_combat_buffs_and_damage() -> void:
 	var combat: Combat = _fight({0: _hasty()}, {0: CK.plain(40, 50), 6: CK.plain(1, 1)}, 1, false)
 	var prey: CombatUnit = combat.unit_at(1, 0)
 	prey.tribe_attack = 30
 	prey.tribe_health = 30
 	prey.add_combat(200, 300)
 	prey.set_aura(20, 30)
+	prey.take_damage(5)
 	combat._start_of_combat()
-	assert_eq([combat.carry[0]["attack"], combat.carry[0]["health"]], [8, 10])
+	assert_eq([combat.carry[0]["attack"], combat.carry[0]["health"]], [58, 81])
+
+
+func test_hasty_keeps_a_share_of_real_ring_stats_read_before_the_enemy_leaves_its_slot() -> void:
+	var combat: Combat = _fight({0: _hasty()}, {0: CK.plain(40, 50), 6: CK.plain(1, 1)}, 1, false)
+	combat.slot_effects[1] = [
+		[{"name": "Ring", "attack": 20, "health": 30}], [], [], [], [], [], []
+	]
+	combat._slots_active = true
+	combat._recalc_auras(false)
+	assert_eq([combat.unit_at(1, 0).attack, combat.unit_at(1, 0).health], [60, 80])
+	combat._start_of_combat()
+	assert_eq([combat.carry[0]["attack"], combat.carry[0]["health"]], [12, 16])
 
 
 func test_hasty_with_anything_inside_does_nothing_even_when_golden_has_room() -> void:

@@ -104,3 +104,63 @@ flock /tmp/bramble-harness-godot.lock systemd-run --user --scope -q -p MemoryMax
 ```
 
 Open for the next session: scope review and cloud full gate; the Pot Luck ×1.3 growth failure and low realized accounting; the explicit rule readings above, especially shop bonuses on Shy offers. No push or merge was performed. No automatic approval review denied an action. Part 2 must wait for the orchestrator's next instruction.
+
+### Part 1 cloud gate assertion and documentation corrections
+
+Slice adds one loadable unit definition while remaining outside the shop pool. The
+UnitLibrary and FixturePort assertions therefore change from 157 to 158; the
+fixture's created-card subtotal changes from nine to ten. Pool expectations stay
+the same. These assertions still check exact counts rather than weakening the
+library completeness checks.
+
+The follow-up tribe chip test now expects `Comes out` for native Moss Ooze, matching
+its new friendly Belly-release trigger. `Spells inside` described its retired
+spell-copying text and no longer identifies the current card. Both normal and
+golden faces retain the explicit chip assertion.
+
+The card-designer engine guide now lists `on_eat`, with the eater in `subject` and
+the consumed meal in `meal`, so the existing schema-name documentation test covers
+the new shared meal event. The content checker was also run through the repository's
+Ruff formatter; its logic is unchanged by that formatting correction.
+
+The unit-view contract now explicitly includes `ooze_share_serial`, a zero-based
+landing-animation serial exposed on every recruit view. The existing conditional
+Ooze mark/preview fields remain conditional. The shop fixture test checks its zero
+initial value; no historical fixture JSON was altered for this addition.
+
+Soup is a shop aura, so Shy offers receive zero live bonus and buying them commits
+no Soup stats (rulebook 12.1.7). The known-answer recruit test covers both Soup
+qualities with Silky. Elder's reader now separates “No sale gold.” from “Only other
+Oozes”. Slice receives its own 512px JPEG portrait; the reproducible prompt is
+`tools/art/prompts/wave2b-slice.txt`, generated with Codex's built-in image tool via
+`tools/art/run-codex-image.sh` with stdin closed, and exported by `portraits.py`.
+The portrait completeness count increases by one for Slice, to 120.
+
+The reported Last Blow failures were old-rule assertions running the replacement
+Posset, which halves a living killer rather than dealing the legacy 3 damage.
+The equality assertion between logged and quiet results was already passing; the
+old winner/source/kind expectations were failing. Those old assertions now use
+explicit frozen Ooze definitions, with no changed expected values. New native
+normal/golden checks compare logged and quiet results for attack/effect kills and
+swapped fighting sides, including RNG state, credit and the death-event killer.
+No fast-path attribution mutation was found behind event logging. Posset now
+resolves `killed_by` through `CombatLanes.by_uid` and drops the duplicate reference
+map, as called in review. Hasty snapshots the enemy's current Attack/Health before
+swallowing changes aura membership; known answers include a real Ring and added
+tribe/aura/combat layers.
+
+The legacy Elder release tests likewise now select frozen Ooze definitions. The
+legacy Dozey bound remains +8/+8: native Frumenty's prior Digest adds the meal's
++2/+5, explaining the extra stats. Separate native and rollback tests check both
+steps. Neither legacy rule implementation was changed for those fixture fixes.
+
+Free-choice's knowledge-isolation assertion passed. Its value-difference assertion
+failed because the native Ooze fallback bypassed authored hints in both arms.
+Unmodeled native abilities now fall through to ordinary BotEval; directed checks
+assert the plain tier fallback, authored hinted value and unchanged shared data.
+
+First targeted validation: **179/179 tests across 17 files, 65.036 seconds**, strict
+hook clean, including all seven mandatory content-wide files plus both engine UI
+and core tests and all five Ooze suites. Per-file times and full output are in
+`docs/ideation/evidence/wave2b/part1-fixes/targeted-initial.json` and `.log`. Ruff,
+GDScript formatting/lint and the content checker's 19 Python tests also pass.

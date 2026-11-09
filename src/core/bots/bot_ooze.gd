@@ -150,7 +150,8 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 		return size * 0.5 * factor if committed else 4.0 * factor
 	if Pass3Oozes.is_digest(unit):
 		return (10.0 if committed else 3.0) * factor
-	return (6.0 if committed else 3.0) * factor
+	# Unmodeled text still uses BotEval's authored hint or the plain arm's tier fallback.
+	return -1.0
 
 
 ## Return -1 when the ordinary purchasing path should judge this card.

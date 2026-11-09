@@ -183,8 +183,13 @@ def check_overlay_text(card: dict) -> list[str]:
 def can_lend(entry: dict) -> bool:
     """The same exclusions as RecruitUnit._can_lend: display metadata never changes this choice."""
     if entry.get("id") == "pass3_ooze" and entry.get("ability") in {
-        "little_dollop", "bubble_and_squeak", "frumenty", "wee_wobbly",
-        "figgy_duff", "sixpenny_pie", "mr_syllabub",
+        "little_dollop",
+        "bubble_and_squeak",
+        "frumenty",
+        "wee_wobbly",
+        "figgy_duff",
+        "sixpenny_pie",
+        "mr_syllabub",
     }:
         return False
     return entry.get("id") not in {"belly", "belly_discount", "fly_south", "shy", "borrows_text"} and entry.get(

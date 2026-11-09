@@ -149,8 +149,9 @@ static func prepare(player: PlayerState) -> void:
 				eaters.append(player.board.find(target))
 			unit.set_meta("ooze_nell_eaters", eaters)
 	for unit: RecruitUnit in player.shop:
-		unit.set_meta("ooze_soup_bonus", bonus)
-		unit.set_aura(bonus.x, bonus.y)
+		var offer_bonus: Vector2i = Vector2i.ZERO if unit.has_mechanic_id("shy") else bonus
+		unit.set_meta("ooze_soup_bonus", offer_bonus)
+		unit.set_aura(offer_bonus.x, offer_bonus.y)
 
 
 ## Purchase/eating locks in exactly the currently displayed shop bonus, once.
@@ -160,11 +161,8 @@ static func commit_shop(unit: RecruitUnit) -> void:
 		return
 	unit.set_meta("ooze_soup_bonus", Vector2i.ZERO)
 	unit.set_aura(0, 0)
-	# Shop text applies to every offer, including Shy units before they are played.
-	var accepts: bool = unit.shy_accepts_stats
-	unit.shy_accepts_stats = true
-	unit.add_permanent(bonus.x, bonus.y)
-	unit.shy_accepts_stats = accepts
+	if not unit.has_mechanic_id("shy"):
+		unit.add_permanent(bonus.x, bonus.y)
 
 
 ## The shop is ready before this dependent sequence; frozen offers are not Nell's food.

@@ -62,8 +62,7 @@ static func _strength(params: Dictionary, ability_name: String) -> float:
 static func death(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 	if str(params.get("ability", "")) != "mrs_posset":
 		return
-	var killers: Dictionary = combat.notes.get("ooze_killers", {})
-	var killer: CombatUnit = killers.get(unit.uid)
+	var killer: CombatUnit = CombatLanes.by_uid(combat, unit.killed_by)
 	if killer == null or killer.side == unit.side or killer.is_dead():
 		return
 	var targets: Array[CombatUnit] = [killer]
@@ -81,15 +80,6 @@ static func death(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 			-maxi(0, mini(target.health - 1, floori(target.health * share))),
 			unit
 		)
-
-
-## Retain the damage source even when the same simultaneous exchange kills it too.
-static func lethal(combat: Combat, hit: Hit) -> void:
-	if hit.source == null or not has(hit.target, "mrs_posset"):
-		return
-	var killers: Dictionary = combat.notes.get("ooze_killers", {})
-	killers[hit.target.uid] = hit.source
-	combat.notes["ooze_killers"] = killers
 
 
 static func friendly_death(
@@ -148,10 +138,10 @@ static func _hasty(combat: Combat, unit: CombatUnit, params: Dictionary) -> void
 		var container: CombatUnit = _container(combat, target)
 		if container == null:
 			break
-		# Read the selected enemy's own body, not its container, a Ring or combat-only loans.
+		# Read the selected enemy's current stats before swallowing changes its aura membership.
 		var share: float = CoreUtil.to_float(params.get("share", 0.2))
-		var attack: int = floori(maxi(0, target.base_attack_now() + target.perm_attack) * share)
-		var health: int = floori(maxi(0, target.base_health_now() + target.perm_health) * share)
+		var attack: int = floori(target.attack * share)
+		var health: int = floori(target.health * share)
 		var biggest: Array[CombatUnit] = Pass3Combat.biggest(
 			Pass3Combat.tribe(combat, unit.side, "Oozes")
 		)

@@ -54,7 +54,6 @@ static func land(combat: Combat, hit: Hit, breaks_shell: bool) -> void:
 	target.take_damage(hit.amount)
 	if before > 0 and target.is_dead():
 		Pass3HunterCombat.lethal(combat, hit)
-		Pass3OozeCombat.lethal(combat, hit)
 		CombatMoves.credit_lethal(
 			combat,
 			target,

@@ -289,7 +289,7 @@ static func details(card: Dictionary, config: GameConfig, _golden: bool = false)
 				words += " Only the strongest Aspic serving an eater counts. Eating Oozes earns no bonus."
 			if str(card["id"]) == "elder_ooze":
 				words += (
-					"Only other Oozes on your board gain; not units in hand or Bellies. The "
+					" Only other Oozes on your board gain; not units in hand or Bellies. The "
 					+ "meal's stats are read before Aspic."
 				)
 		"mrs_posset":

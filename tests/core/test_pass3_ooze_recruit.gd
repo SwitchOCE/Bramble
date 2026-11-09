@@ -75,6 +75,22 @@ func test_soup_live_layer_tracks_carry_and_is_retained_once_on_purchase() -> voi
 	assert_eq(_body(offer), base + Vector2i(20, 22))
 
 
+func test_soup_never_buffs_or_commits_stats_to_shy_shop_offers() -> void:
+	for golden: bool in [false, true]:
+		before_each()
+		var carry: RecruitUnit = kit.put("little_dollop", 0)
+		carry.add_permanent(79, 94)
+		kit.put("stone_soup", 4, golden)
+		var offer: RecruitUnit = kit.shop("silky")
+		var base: Vector2i = _body(offer)
+		kit.rules.board_changed(kit.player)
+		assert_eq(Vector2i(offer.attack, offer.health), base)
+		assert_eq(offer.get_meta("ooze_soup_bonus"), Vector2i.ZERO)
+		assert_eq(kit.rules.buy(kit.player, 0), "")
+		assert_eq(_body(offer), base)
+		assert_eq(Vector2i(offer.perm_attack, offer.perm_health), Vector2i.ZERO)
+
+
 func test_golden_soup_reads_two_biggest_once_and_normal_soup_does_not_stack() -> void:
 	var carry: RecruitUnit = kit.put("little_dollop", 0)
 	carry.add_permanent(79, 94)
