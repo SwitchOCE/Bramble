@@ -1,8 +1,9 @@
 # H1 four-lobby smoke
 
 One distinct, excluded seed per arm; this is runtime and capture-integrity
-verification, with all usability verdicts withheld. Each capture includes the
-real fight boundary and outcome. `progress.json` records hashes and runtimes;
+verification, with all usability verdicts withheld. Full captures include the real fight boundary and outcome; their bytes now
+live in gitignored `build/quilboar-h1-captures/quilboar-h1-smoke/`. Compact data
+stays in git and both full-capture hashes remain recorded. `progress.json` records hashes and runtimes;
 `summary.json.gz` is the canonical metrics format. The Markdown rendering is
 `docs/ideation/reference/quilboar/h1-smoke.md`.
 

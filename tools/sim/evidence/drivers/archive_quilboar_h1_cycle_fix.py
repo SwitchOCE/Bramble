@@ -5,15 +5,13 @@ Run after progress reaches B150/uncut100. The canonical summary is compressed;
 its progress paths point to committed evidence so the report can be rebuilt.
 """
 import copy
-import gzip
-import hashlib
 import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / 'tools/sim'))
-from checkpoint_quilboar_h1 import archive  # noqa: E402
+from checkpoint_quilboar_h1 import CAPTURE_STORAGE, archive, verify_capture  # noqa: E402
 from evidence_io import read_json, write_json  # noqa: E402
 from quilboar_h1 import file_sha, load_lobbies  # noqa: E402
 from quilboar_h1_report import summarize, write_report  # noqa: E402
@@ -35,15 +33,8 @@ archived_progress['chunks'] = [
     for arm in ('B', 'uncut')
     for chunk in read_json(target / arm / 'receipt.json')['chunks']
 ]
-for chunk in archived_progress['chunks']:
-    if file_sha(ROOT / chunk['capture']) != chunk['capture_gzip_sha256']:
-        raise ValueError('changed compressed capture')
-    digest = hashlib.sha256()
-    with gzip.open(ROOT / chunk['capture'], 'rb') as source:
-        while block := source.read(1024 * 1024):
-            digest.update(block)
-    if digest.hexdigest() != chunk['capture_sha256']:
-        raise ValueError('changed decompressed capture')
+verified_captures = sum(verify_capture(chunk) for chunk in archived_progress['chunks'])
+missing_captures = len(archived_progress['chunks']) - verified_captures
 lobbies = load_lobbies(archived_progress)
 first = read_json(plan_path)['first_seed']
 for arm, count in archived_progress['completed'].items():
@@ -64,7 +55,10 @@ write_json(target / 'verification.json', {
     'godot_scope_seconds': sum(chunk['scope_seconds'] for chunk in progress['chunks']),
     'simulation_lock': '/tmp/bramble-harness-godot.lock',
     'godot_targeted_tests': 64, 'python_driver_report_tests': 22,
-    'capture_hashes_verified': True, 'compact_hashes_verified': True,
+    'capture_hashes_verified': True if missing_captures == 0 else None,
+    'capture_storage': CAPTURE_STORAGE,
+    'verified_local_captures': verified_captures, 'missing_local_captures': missing_captures,
+    'compact_hashes_verified': True,
     'seeds_verified': True,
     'first_chunk_wall_time': 'unavailable after recovered bookkeeping error; scope time recorded',
     'retained_pre_fix_arms': {'C': 150, 'uncut_frozen': 100},

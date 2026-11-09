@@ -6,7 +6,7 @@
   "chunks": [
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921001.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921001.fights.jsonl.gz",
       "capture_gzip_sha256": "c9c57d1472d813401b0dc8920fd8293ea3b6a93166dfc9e0cc53776cf0a7e731",
       "capture_sha256": "546bda3e172dfefbde5e9bca9de2686e8dab4b174294a26b54283ce23457bf71",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921001.lobbies.json.gz",
@@ -17,11 +17,12 @@
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921001.players.csv",
       "recovery_note": "Completed outputs recovered after relative-path bookkeeping failure; lock-wait wall time unavailable. No lobby rerun.",
       "scope_seconds": 18.7,
-      "wall_seconds_including_lock_wait": null
+      "wall_seconds_including_lock_wait": null,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921006.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921006.fights.jsonl.gz",
       "capture_gzip_sha256": "f6a20c8e4119badfc4d163a10bc5f965defe223e1dd94d60b59e94d6ec9af7bc",
       "capture_sha256": "bc85ffb46c482e5febb76e6960fc1f4f4be8ba118e9a4d39c91c5aa5b4741b0e",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921006.lobbies.json.gz",
@@ -31,11 +32,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921006.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921006.players.csv",
       "scope_seconds": 18.25,
-      "wall_seconds_including_lock_wait": 442.17010584892705
+      "wall_seconds_including_lock_wait": 442.17010584892705,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921011.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921011.fights.jsonl.gz",
       "capture_gzip_sha256": "343d810ee7e1f60c0cf5e73092e9998be56966b0af5118ff9114ae7658e77f15",
       "capture_sha256": "3bf64b5bcd84096a91f791c38db7624aa20f7ddb12e4714c2c6722df6be53822",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921011.lobbies.json.gz",
@@ -45,11 +47,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921011.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921011.players.csv",
       "scope_seconds": 16.47,
-      "wall_seconds_including_lock_wait": 16.501671651029028
+      "wall_seconds_including_lock_wait": 16.501671651029028,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921016.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921016.fights.jsonl.gz",
       "capture_gzip_sha256": "2917f9f625894806016a0feba79c9cbd7be99a011fe89ad372961c66d75a6e64",
       "capture_sha256": "86caa7b15a3c57812d05e328a2d7d460becd8165bf5930d00015590a1db4e5ad",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921016.lobbies.json.gz",
@@ -59,11 +62,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921016.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921016.players.csv",
       "scope_seconds": 18.42,
-      "wall_seconds_including_lock_wait": 18.455004127928987
+      "wall_seconds_including_lock_wait": 18.455004127928987,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921021.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921021.fights.jsonl.gz",
       "capture_gzip_sha256": "3bcb50644935ba9a707187a49bd130bfb7b112418f8c6e72c15d331d1bb00c57",
       "capture_sha256": "0d571537f7f376ec6d8c289837b43cdd5c485f2e46a6cb8a49cc253fd1c31d5d",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921021.lobbies.json.gz",
@@ -73,11 +77,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921021.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921021.players.csv",
       "scope_seconds": 17.03,
-      "wall_seconds_including_lock_wait": 17.051232316996902
+      "wall_seconds_including_lock_wait": 17.051232316996902,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921026.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921026.fights.jsonl.gz",
       "capture_gzip_sha256": "067ca409cd7774c85a23619559c8c3b0762204e23bafb183709455ea32413e4a",
       "capture_sha256": "6662b8c97d1ea981a390eb121df443507cb08d8d9ecb2418628b0a4395ae45f3",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921026.lobbies.json.gz",
@@ -87,11 +92,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921026.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921026.players.csv",
       "scope_seconds": 17.49,
-      "wall_seconds_including_lock_wait": 17.552134915953502
+      "wall_seconds_including_lock_wait": 17.552134915953502,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921031.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921031.fights.jsonl.gz",
       "capture_gzip_sha256": "8a0eda4023696aec394cfba6db0db11a5d9c2c565cb29b4dd72d93dfdb1004c7",
       "capture_sha256": "81989a3a20399df28b897700227cc8749a62338cc394ac8a460d20cad0046235",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921031.lobbies.json.gz",
@@ -101,11 +107,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921031.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921031.players.csv",
       "scope_seconds": 19.92,
-      "wall_seconds_including_lock_wait": 19.956666975049302
+      "wall_seconds_including_lock_wait": 19.956666975049302,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921036.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921036.fights.jsonl.gz",
       "capture_gzip_sha256": "1ab8f8607d9ba8208275335a4ffd447f97e40fb58d37c888a731a96c154ee289",
       "capture_sha256": "5ca32b841136dfa7e5c3b737d9545fb9f1c63b1e3866ec193de91ded28f29584",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921036.lobbies.json.gz",
@@ -115,11 +122,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921036.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921036.players.csv",
       "scope_seconds": 18.81,
-      "wall_seconds_including_lock_wait": 18.856533461017534
+      "wall_seconds_including_lock_wait": 18.856533461017534,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921041.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921041.fights.jsonl.gz",
       "capture_gzip_sha256": "46e99e08a1d48f16cb2649a5dc5457bba44080395fd4aa0014c0bbce0f4faef6",
       "capture_sha256": "7cdd36a36f18ca368e592e146fc41e94567fb54ea4b8039b3e95798c7d57126d",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921041.lobbies.json.gz",
@@ -129,11 +137,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921041.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921041.players.csv",
       "scope_seconds": 16.95,
-      "wall_seconds_including_lock_wait": 17.000493278028443
+      "wall_seconds_including_lock_wait": 17.000493278028443,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921046.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921046.fights.jsonl.gz",
       "capture_gzip_sha256": "f760e8df057bab18e491870bed09f683e9e7854ab53a73d2428168ee2b4f3744",
       "capture_sha256": "8a02e0ec575587e8806ec4ddc3820537716d32981aa528124ed1a7c57eb91e1a",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921046.lobbies.json.gz",
@@ -143,11 +152,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921046.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921046.players.csv",
       "scope_seconds": 17.49,
-      "wall_seconds_including_lock_wait": 17.555108736036345
+      "wall_seconds_including_lock_wait": 17.555108736036345,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921051.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921051.fights.jsonl.gz",
       "capture_gzip_sha256": "b47cf82060bf5e0d20aa48accf6df31ad57b4058b5c215f0a06e66b2e0f1edf8",
       "capture_sha256": "00c9987c6ff6d4d9e87f7c34a683f0a5641fceb718ba21d9bb5c8eb674a6ce56",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921051.lobbies.json.gz",
@@ -157,11 +167,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921051.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921051.players.csv",
       "scope_seconds": 17.78,
-      "wall_seconds_including_lock_wait": 17.803117731935345
+      "wall_seconds_including_lock_wait": 17.803117731935345,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921056.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921056.fights.jsonl.gz",
       "capture_gzip_sha256": "2abff90a7938b6280271982f8de3b11c0c44c4228ccdcd573fe1a98dc3a812b7",
       "capture_sha256": "c6385b92c4a5647d96a499daaa88dc00f7e5037450e705beecd1fdc2316f44cc",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921056.lobbies.json.gz",
@@ -171,11 +182,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921056.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921056.players.csv",
       "scope_seconds": 19.37,
-      "wall_seconds_including_lock_wait": 19.413951440015808
+      "wall_seconds_including_lock_wait": 19.413951440015808,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921061.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921061.fights.jsonl.gz",
       "capture_gzip_sha256": "c64a097953cce57cf5c1d6cae7d43d7317f088cbd8939ec56e5473ba78f87265",
       "capture_sha256": "70fd703c9ef7909dde4d6043e262fc7708c860047fea7a759b4893f02ebd46e2",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921061.lobbies.json.gz",
@@ -185,11 +197,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921061.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921061.players.csv",
       "scope_seconds": 17.25,
-      "wall_seconds_including_lock_wait": 17.301176641019993
+      "wall_seconds_including_lock_wait": 17.301176641019993,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921066.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921066.fights.jsonl.gz",
       "capture_gzip_sha256": "9c39569adb28ceab45b605e877aaab6e440a1f52099fe58d7f288f7cad44aeb7",
       "capture_sha256": "1dd8ce2e8be00e5b1152e07563cb55366f6513d1954ba21e79ea7210c3ca057b",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921066.lobbies.json.gz",
@@ -199,11 +212,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921066.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921066.players.csv",
       "scope_seconds": 18.05,
-      "wall_seconds_including_lock_wait": 18.1042066719383
+      "wall_seconds_including_lock_wait": 18.1042066719383,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921071.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921071.fights.jsonl.gz",
       "capture_gzip_sha256": "685f8a2353e18ab09315f47ebdbd38f1b62d19ffca5bd860d4b16a9ca0009f00",
       "capture_sha256": "07a9653a42d857813278e41cdb64ebd9ebb9576a0540e34e1edbf3b99e5e2eae",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921071.lobbies.json.gz",
@@ -213,11 +227,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921071.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921071.players.csv",
       "scope_seconds": 18.9,
-      "wall_seconds_including_lock_wait": 18.954804225009866
+      "wall_seconds_including_lock_wait": 18.954804225009866,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921076.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921076.fights.jsonl.gz",
       "capture_gzip_sha256": "616c75109479a059a1dbbf3dafa71a6a91b3dc4dfe556b56db947387aa4baf05",
       "capture_sha256": "bd3b2c87df9a64cd6461525da466b5272a57c2821ed21bebc8e15c8914091957",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921076.lobbies.json.gz",
@@ -227,11 +242,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921076.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921076.players.csv",
       "scope_seconds": 17.12,
-      "wall_seconds_including_lock_wait": 17.149724508053623
+      "wall_seconds_including_lock_wait": 17.149724508053623,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921081.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921081.fights.jsonl.gz",
       "capture_gzip_sha256": "8062798911540d18ef5e17bbdbfea967e015498b08f0e5001f90607b6276067b",
       "capture_sha256": "9e085d8fb0f2295a2d5c49c3550b64b94053bb3592501d3c9547dfdcafc9cdeb",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921081.lobbies.json.gz",
@@ -241,11 +257,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921081.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921081.players.csv",
       "scope_seconds": 17.97,
-      "wall_seconds_including_lock_wait": 18.002730863983743
+      "wall_seconds_including_lock_wait": 18.002730863983743,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921086.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921086.fights.jsonl.gz",
       "capture_gzip_sha256": "84d4dc694c29c98b1d5133bf05dff479693e3da8f9a4188c7c47191584e109f2",
       "capture_sha256": "ef8d54ae8ace816a557a88b2d4cd7ac9dc9ec0d1ac0d0b751aa5fba1454f3f88",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921086.lobbies.json.gz",
@@ -255,11 +272,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921086.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921086.players.csv",
       "scope_seconds": 17.22,
-      "wall_seconds_including_lock_wait": 17.25037884991616
+      "wall_seconds_including_lock_wait": 17.25037884991616,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921091.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921091.fights.jsonl.gz",
       "capture_gzip_sha256": "823c6f7e8feb27ed0ab7acb44686748eecff97bd78f32b87325130c9a7df063a",
       "capture_sha256": "ee1f5c9e18f545dfcdf0319d50d41d800cb6af9190664d384b6fc4d27e3c283b",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921091.lobbies.json.gz",
@@ -269,11 +287,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921091.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921091.players.csv",
       "scope_seconds": 16.02,
-      "wall_seconds_including_lock_wait": 16.051757902023382
+      "wall_seconds_including_lock_wait": 16.051757902023382,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921096.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921096.fights.jsonl.gz",
       "capture_gzip_sha256": "d4d453b512ed6cbfaed725b1aea907ec48cb4623a975c912fa31fd7333c05529",
       "capture_sha256": "2e6a3154431347a4c5582f4909999c95325499b5a68c3668a7cec7f26b2b71d0",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921096.lobbies.json.gz",
@@ -283,11 +302,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921096.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921096.players.csv",
       "scope_seconds": 18.15,
-      "wall_seconds_including_lock_wait": 18.20519936096389
+      "wall_seconds_including_lock_wait": 18.20519936096389,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921101.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921101.fights.jsonl.gz",
       "capture_gzip_sha256": "2b6bd3576bcb1efc0fe2bdcb8e29313df79b835166124b7746eb53cd88c1d138",
       "capture_sha256": "73dd869435bb9ac3868d837c16ff51a7827299f5363800388976af1c52ccde76",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921101.lobbies.json.gz",
@@ -297,11 +317,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921101.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921101.players.csv",
       "scope_seconds": 16.59,
-      "wall_seconds_including_lock_wait": 16.651672732899897
+      "wall_seconds_including_lock_wait": 16.651672732899897,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921106.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921106.fights.jsonl.gz",
       "capture_gzip_sha256": "9165a851e90973b1ec8d1932397283098ef587e82c6834a41ff38b91e03cbba0",
       "capture_sha256": "67944d76ce75c1cd4b2a59c962a279aa37dc531537d991c3e0ea1db3737abf8f",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921106.lobbies.json.gz",
@@ -311,11 +332,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921106.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921106.players.csv",
       "scope_seconds": 16.1,
-      "wall_seconds_including_lock_wait": 16.14774178189691
+      "wall_seconds_including_lock_wait": 16.14774178189691,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921111.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921111.fights.jsonl.gz",
       "capture_gzip_sha256": "51a0a1280044ccf8df6692fc62a244667a29842a01dee316774f9400b7f2c329",
       "capture_sha256": "4dc0671015db0c68f3da37d71121fca53ce7c5da960bcc182dc0c061b9cdd51e",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921111.lobbies.json.gz",
@@ -325,11 +347,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921111.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921111.players.csv",
       "scope_seconds": 16.1,
-      "wall_seconds_including_lock_wait": 457.5460062340135
+      "wall_seconds_including_lock_wait": 457.5460062340135,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921116.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921116.fights.jsonl.gz",
       "capture_gzip_sha256": "ba1c85cea0de2513bfa8d2c90dc9062ea71bf2a58ae73bbb6c118e84dccb2b29",
       "capture_sha256": "f917462b4a26211389b3392e84eb9436347a42aff988d718a27ffde8a6b85021",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921116.lobbies.json.gz",
@@ -339,11 +362,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921116.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921116.players.csv",
       "scope_seconds": 16.01,
-      "wall_seconds_including_lock_wait": 16.04910068307072
+      "wall_seconds_including_lock_wait": 16.04910068307072,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921121.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921121.fights.jsonl.gz",
       "capture_gzip_sha256": "b26b20439b5718458232ceeb1562a51d0a44c26ceff44290b7472c99a39ba8b1",
       "capture_sha256": "e0f33cb1c06622a49d90fdbc5c9c065b63f7f803552ca1eb4973eb9e76cd8901",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921121.lobbies.json.gz",
@@ -353,11 +377,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921121.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921121.players.csv",
       "scope_seconds": 18.33,
-      "wall_seconds_including_lock_wait": 18.40410911408253
+      "wall_seconds_including_lock_wait": 18.40410911408253,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921126.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921126.fights.jsonl.gz",
       "capture_gzip_sha256": "813ab5f7fa353b46150161ac1aefe6d6806bcea01f80c1e957420b18ab73cf1b",
       "capture_sha256": "4ea93ce450fa2e6802d133bdf71b56714cd4227a325be165a314d75777a48294",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921126.lobbies.json.gz",
@@ -367,11 +392,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921126.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921126.players.csv",
       "scope_seconds": 19.45,
-      "wall_seconds_including_lock_wait": 19.50704203802161
+      "wall_seconds_including_lock_wait": 19.50704203802161,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921131.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921131.fights.jsonl.gz",
       "capture_gzip_sha256": "37d40adcad0620efd2ee5cfb7b8caa09f2c6a8fb88e14d05bb5bc7a093bca462",
       "capture_sha256": "e444b3fbc780b5d9107ccf3f7f9f5b3ccf614b52488404faad0268509be130ef",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921131.lobbies.json.gz",
@@ -381,11 +407,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921131.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921131.players.csv",
       "scope_seconds": 19.27,
-      "wall_seconds_including_lock_wait": 19.309580577071756
+      "wall_seconds_including_lock_wait": 19.309580577071756,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921136.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921136.fights.jsonl.gz",
       "capture_gzip_sha256": "f63efcbbf9bcb59d89279ad8ac3eac0b231e458fc0b1f52e0d45fe08e60ec043",
       "capture_sha256": "3e45fbab5dc53fc785f940697d1d2bfbef7d5dbbbcf31828e8d02ba551eeb0cc",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921136.lobbies.json.gz",
@@ -395,11 +422,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921136.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921136.players.csv",
       "scope_seconds": 17.69,
-      "wall_seconds_including_lock_wait": 17.75097723910585
+      "wall_seconds_including_lock_wait": 17.75097723910585,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921141.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921141.fights.jsonl.gz",
       "capture_gzip_sha256": "bde9ea504448f48eb804fbe88bdb140cad62d951b7f5d7d88130f1abec534ee1",
       "capture_sha256": "c1bf344aca2e43f88ca6aaaf5ed4fbd0861d3d9c880162bfffabc675b986d198",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921141.lobbies.json.gz",
@@ -409,11 +437,12 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921141.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921141.players.csv",
       "scope_seconds": 17.69,
-      "wall_seconds_including_lock_wait": 17.755085797980428
+      "wall_seconds_including_lock_wait": 17.755085797980428,
+      "capture_storage": "not in git, hash recorded"
     },
     {
       "arm": "B",
-      "capture": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921146.fights.jsonl.gz",
+      "capture": "build/quilboar-h1-captures/quilboar-h1-cycle-fix/B/B-2921146.fights.jsonl.gz",
       "capture_gzip_sha256": "ef85a8076160d70ba5d40dfbfaa953af0f3e1b881606e87de302c6cad2242075",
       "capture_sha256": "4c835a209456db25df97f47631d149d65a68466707b0f24510b6a056495f47db",
       "compact": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921146.lobbies.json.gz",
@@ -423,7 +452,8 @@
       "log": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921146.log",
       "players": "tools/sim/evidence/quilboar-h1-cycle-fix/B/B-2921146.players.csv",
       "scope_seconds": 17.23,
-      "wall_seconds_including_lock_wait": 17.25286461703945
+      "wall_seconds_including_lock_wait": 17.25286461703945,
+      "capture_storage": "not in git, hash recorded"
     }
   ],
   "scope_seconds": 531.82

@@ -2,6 +2,8 @@
 """Archive complete H1 arms and their three-round accounting checkpoint, without Godot."""
 
 import argparse
+import gzip
+import hashlib
 import json
 import shutil
 import statistics
@@ -15,6 +17,43 @@ from lever_sweep import file_sha  # noqa: E402
 from quilboar_h1 import ARMS  # noqa: E402
 from quilboar_h1_report import QB, TRIBE_LINES, bootstrap, paper_reference, ratio_interval  # noqa: E402
 
+CAPTURE_STORAGE = "not in git, hash recorded"
+
+
+def verify_capture(chunk):
+    """Verify available local bytes; absent full captures retain their declared hashes."""
+    for key in ("capture_gzip_sha256", "capture_sha256"):
+        value = chunk.get(key, "")
+        if len(value) != 64 or any(character not in "0123456789abcdef" for character in value):
+            raise ValueError("missing or invalid capture hash: " + key)
+    path = ROOT / chunk["capture"]
+    if not path.exists():
+        return False
+    if file_sha(path) != chunk["capture_gzip_sha256"]:
+        raise ValueError("changed compressed capture: " + str(path))
+    digest = hashlib.sha256()
+    with gzip.open(path, "rb") as source:
+        while block := source.read(1024 * 1024):
+            digest.update(block)
+    if digest.hexdigest() != chunk["capture_sha256"]:
+        raise ValueError("changed decompressed capture: " + str(path))
+    return True
+
+
+def archive_capture(chunk, evidence_path):
+    """Keep full captures in gitignored build/, never alongside compact evidence."""
+    relative = evidence_path.relative_to(ROOT / "tools/sim/evidence")
+    local = ROOT / "build/quilboar-h1-captures" / relative
+    source = ROOT / chunk["capture"]
+    if verify_capture(chunk) and source != local and not local.exists():
+        local.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, local)
+    copied = dict(chunk)
+    copied["capture"] = str(local.relative_to(ROOT))
+    copied["capture_storage"] = CAPTURE_STORAGE
+    verify_capture(copied)
+    return copied
+
 
 def archive(arm, plan_path=None, run_folder=None, target_root=None):
     plan = read_json(plan_path or ROOT / "tools/sim/evidence/quilboar-h1-plan.json")
@@ -27,8 +66,8 @@ def archive(arm, plan_path=None, run_folder=None, target_root=None):
     for chunk in progress["chunks"]:
         if chunk["arm"] != arm:
             continue
-        copied = dict(chunk)
-        for field in ("compact", "capture", "players", "log"):
+        copied = archive_capture(chunk, target / Path(chunk["capture"]).name)
+        for field in ("compact", "players", "log"):
             source = ROOT / chunk[field]
             output = target / source.name
             if output.exists() and file_sha(output) != file_sha(source):

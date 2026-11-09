@@ -42,9 +42,13 @@ Archive and rebuild offline after both arms complete:
 python3 tools/sim/evidence/drivers/archive_quilboar_h1_cycle_fix.py
 ```
 
-Each arm has immutable compact captures, full fight captures, players, logs,
-receipts and accounting checkpoints. `progress.json` uses these archived paths;
-`verification.json` records hash/seed checks. `summary.json.gz` is the canonical
+Each arm keeps compact captures, players, logs, receipts and accounting
+checkpoints in git. Full fight captures live only under
+`build/quilboar-h1-captures/quilboar-h1-cycle-fix/` (gitignored). Both compressed
+and raw hashes remain in progress and receipts. A fresh checkout can rebuild
+metrics without these captures; available local bytes still undergo hash checks. `progress.json` uses these archived paths;
+`verification.json` records hash/seed checks, distinguishing verified local
+captures from absent captures whose hashes are recorded. `summary.json.gz` is the canonical
 combined metrics (new B/uncut plus retained C/frozen); the readable rendering is
 `docs/ideation/reference/quilboar/h1.md`. To reproduce that rendering on a fresh
 checkout from committed evidence alone:
