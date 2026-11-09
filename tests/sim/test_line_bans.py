@@ -83,6 +83,7 @@ class LineBansTest(unittest.TestCase):
             "banned_cards": ["mr_redbreast"],
             "owned_banned": [],
             "played_banned": [],
+            "acquired_banned": [],
             "failure": "",
         }
         names = [*w.LINES, *(["hard_field:varied"] * 4)]
@@ -147,6 +148,7 @@ class LineBansTest(unittest.TestCase):
             None,
             {"owned_banned": ["mr_redbreast"]},
             {"played_banned": ["mr_redbreast"]},
+            {"acquired_banned": ["mr_redbreast"]},
             {"failure": "forced choice has no unbanned option"},
             {"banned_cards": []},
         ):

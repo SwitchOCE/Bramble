@@ -127,3 +127,22 @@ func test_nonempty_ban_must_target_a_seated_line() -> void:
 	)
 	assert_eq(errors.size(), 1)
 	assert_string_contains(errors[0], "unseated starting line: line_future")
+
+
+func test_acquisition_audit_keeps_native_bypass_violation_after_card_has_left() -> void:
+	for event: String in ["buy", "swallow", "card", "chose", "summon", "triple"]:
+		var kit := Kit.new()
+		kit.setup(GameConfig.full_game())
+		var brain: LineBrain = BenchSuites.create_bot("birds_homecoming")
+		brain.configure_banned_cards(["mr_redbreast"], kit.player)
+		var fields: Dictionary = (
+			{"card": "mr_redbreast"} if event in ["card", "chose"] else {"unit": "mr_redbreast"}
+		)
+		kit.player.log_event(event, fields)
+		var audit: Dictionary = brain.ban_audit(kit.player)
+		assert_eq(audit["owned_banned"], [], event)
+		assert_eq(audit["played_banned"], [], event)
+		assert_eq(audit["acquired_banned"], ["mr_redbreast"], event)
+		assert_ne(
+			audit["failure"], "", "native acquisition cannot hide after the card leaves: " + event
+		)

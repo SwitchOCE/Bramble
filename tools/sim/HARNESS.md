@@ -880,8 +880,10 @@ Normal shop purchases and shop-to-Belly purchases reject banned cards regardless
 of value. Discover choices keep their original option indexes while excluding
 banned units. A hand containing a banned free grant is guarded before normal hand
 play. Ownership audits include the board, hand, recursively held cards, away
-birds, doorstep, and pending poached units. Persistent play observation also catches
-cards played and sold by native helper paths between audits.
+birds, doorstep, and pending poached units. Persistent acquisition and play
+observation also catches cards bought, swallowed, granted, discovered, summoned,
+or tripled and then sold
+by native helper paths between audits, including on-buy effects before play.
 
 There is no legal decline/discard API for a forced all-banned choice or an
 unavoidable grant. Those cases explicitly invalidate the entire trial. The runner
@@ -896,11 +898,13 @@ Frozen plans and chunk invocation plans retain `banned_cards`. Lobby records
 repeat the mapping, every banned seat's all-round diagnostic contains `ban_audit`,
 and R8–R14 combat-start captures and compact board analyses retain the same audit.
 An accepted audit records the immutable starting line and exact source-ID list,
-with empty `owned_banned` and `played_banned` arrays and an empty `failure` string.
+with empty `owned_banned`, `played_banned`, and `acquired_banned` arrays and an
+empty `failure` string.
 The Python reader verifies the policy and audit for every captured banned seat,
 requires complete all-round seat coverage during execution, and rejects any
-`ban_violation`, missing audit, policy mismatch, owned card, or played card. The
-report and its sufficient analysis archive preserve the frozen mapping. Historical
+`ban_violation`, missing audit, policy mismatch, owned card, acquired card, or
+played card. The report and its sufficient analysis archive preserve the frozen
+mapping. Historical
 source runs already overlay and hash both line brains and the policy loader in
 `measurement-compatibility.json`; archived native combat/content and BotBrain
 remain source-pinned.

@@ -11,6 +11,7 @@ var starting_line: String = ""
 var banned_cards: PackedStringArray = []
 var ban_failure: String = ""
 var banned_plays: PackedStringArray = []
+var banned_acquisitions: PackedStringArray = []
 var _previous_log_observer: Callable
 
 
@@ -104,6 +105,7 @@ func ban_audit(player: PlayerState) -> Dictionary:
 		"banned_cards": Array(banned_cards),
 		"owned_banned": Array(owned),
 		"played_banned": Array(banned_plays),
+		"acquired_banned": Array(banned_acquisitions),
 		"failure": ban_failure,
 	}
 
@@ -116,9 +118,14 @@ func _audit_unit(unit: RecruitUnit, owned: PackedStringArray) -> void:
 
 
 func _observe_banned_play(type: String, fields: Dictionary) -> void:
-	if type == "play" and is_banned(str(fields.get("unit", ""))):
-		banned_plays.append(str(fields["unit"]))
-		ban_failure = "banned card played: " + str(fields["unit"])
+	var card: String = str(fields.get("unit", fields.get("card", "")))
+	if type == "play" and is_banned(card):
+		banned_plays.append(card)
+		ban_failure = "banned card played: " + card
+	if type in ["buy", "swallow", "card", "chose", "summon", "triple"] and is_banned(card):
+		if not banned_acquisitions.has(card):
+			banned_acquisitions.append(card)
+		ban_failure = "banned card acquired via " + type + ": " + card
 	if _previous_log_observer.is_valid():
 		_previous_log_observer.call(type, fields)
 

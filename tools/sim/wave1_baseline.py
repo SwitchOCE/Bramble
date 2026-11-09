@@ -159,7 +159,12 @@ def validate_ban_audit(audit, line, banned):
         raise ValueError("missing banned-card audit")
     if audit.get("starting_line") != line or audit.get("banned_cards") != banned:
         raise ValueError("banned-card audit policy mismatch")
-    if audit.get("owned_banned") != [] or audit.get("played_banned") != [] or audit.get("failure") != "":
+    if (
+        audit.get("owned_banned") != []
+        or audit.get("played_banned") != []
+        or audit.get("acquired_banned", []) != []
+        or audit.get("failure") != ""
+    ):
         raise ValueError("banned-card policy violation: " + str(audit))
 
 
