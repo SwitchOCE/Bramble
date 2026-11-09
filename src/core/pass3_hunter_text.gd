@@ -146,7 +146,11 @@ static func details(card: Dictionary, config: GameConfig, _golden: bool = false)
 				+ " golden widens reach, not the share."
 			)
 		"sable":
-			words = "The opening Attack gain lasts only this fight and reads the quarry's bell Attack."
+			words = (
+				"The opening Attack gain lasts only this fight and reads the quarry's bell Attack."
+				+ " A late-lent quarry still enables the strike. Printed and borrowed copies use the"
+				+ " strongest strike once per dispatch; a separate Start of Combat replay can add it again."
+			)
 		"toll_bard":
 			words = "The quarry can attack anyone; each completed attack can pay."
 		"mistress_russet":

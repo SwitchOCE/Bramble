@@ -59,8 +59,7 @@ static func become_copy(combat: Combat, unit: CombatUnit, other: CombatUnit, bon
 		return
 	if bonus > 0:
 		combat.buff(copy, bonus, bonus, copy)
-	for index: int in copy.scripts.size():
-		copy.scripts[index].on_start_of_combat(combat, copy, copy.params[index])
+	CombatHeld.start_again(combat, copy)
 
 
 ## Changeling: the two trade places and sides. The enemy comes back after it has attacked once.

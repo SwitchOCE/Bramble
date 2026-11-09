@@ -410,6 +410,7 @@ func _start_of_combat() -> void:
 		for unit: CombatUnit in queue:
 			if not unit.on_board or _halted:
 				continue
+			Pass3HunterStart.begin_dispatch(unit)
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
 			_resolve_deaths(unit.side)

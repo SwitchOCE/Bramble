@@ -66,6 +66,57 @@ func test_golden_sable_adds_twice_the_quarrys_frozen_attack() -> void:
 	assert_eq(combat.unit_at(0, 0).attack, 22)
 
 
+func test_sable_with_empty_across_gets_the_strike_after_a_brock_or_isegrim_loan() -> void:
+	for lender: String in ["old_brock", "old_isegrim"]:
+		var slot: int = 4 if lender == "old_brock" else 1
+		var prey_slot: int = 4 if lender == "old_brock" else 6
+		var combat: Combat = _fight(
+			{0: CK.u("sable", 2, 100), slot: lender}, {prey_slot: CK.plain(9, 12)}
+		)
+		var sable: CombatUnit = combat.unit_at(0, 0)
+		assert_eq(sable.quarry, combat.unit_at(1, prey_slot).uid)
+		assert_eq(sable.attack, 11)
+
+
+func test_printed_and_borrowed_sable_use_strongest_strike_once_with_guard_off_counterexample(
+) -> void:
+	for guarded: bool in [true, false]:
+		kit.config.set_value("pass3_loop_guards", guarded)
+		var spec: Dictionary = CK.u("sable", 2, 100)
+		spec["grants"] = [
+			{"entry": {"id": "pass3_hunter", "ability": "sable", "factor": 1}, "golden": true}
+		]
+		var combat: Combat = _fight({0: spec}, {0: CK.plain(9, 12)})
+		assert_eq(combat.unit_at(0, 0).attack, 20 if guarded else 38)
+
+
+func test_syllabub_dispatches_repeat_sable_addition_without_repeating_borrowed_ability() -> void:
+	var spec: Dictionary = CK.u("sable", 2, 100)
+	spec["grants"] = [
+		{"entry": {"id": "pass3_hunter", "ability": "sable", "factor": 1}, "golden": true}
+	]
+	var combat: Combat = _fight(
+		{0: spec, 4: CK.u("mr_syllabub", -1, -1, true)}, {0: CK.plain(9, 12)}
+	)
+	var sable: CombatUnit = combat.unit_at(0, 0)
+	assert_eq(sable.attack, 20)
+	CombatHeld._syllabub(combat, sable)
+	assert_eq(sable.attack, 56, "two distinct replays each add the strongest frozen 18 once")
+
+
+func test_brock_loan_and_reach_persist_after_brock_faints() -> void:
+	var combat: Combat = _fight(
+		{0: "mountain_glutton", 4: "old_brock"}, {0: CK.plain(1, 100), 4: CK.plain(9, 12)}
+	)
+	var hunter: CombatUnit = combat.unit_at(0, 0)
+	var quarry: CombatUnit = combat.unit_at(1, 4)
+	combat.deal_effect_damage(null, combat.unit_at(0, 4), 10000)
+	combat._resolve_deaths(0)
+	assert_eq(hunter.quarry, quarry.uid)
+	assert_true(hunter.quarry_reach)
+	assert_eq(CombatLanes.choose_target(combat, hunter), quarry)
+
+
 func test_across_quarry_identity_is_fixed_before_jennys_movement() -> void:
 	var combat: Combat = _fight(
 		{0: "little_nip", 1: "jenny_greenteeth"}, {0: CK.plain(90, 100), 1: CK.plain(1, 3)}

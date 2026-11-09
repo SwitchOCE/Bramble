@@ -7,12 +7,19 @@ static func late(id: String, params: Dictionary) -> bool:
 	return id == "pass3_hunter" and str(params.get("ability", "")) in ["isegrim", "old_brock"]
 
 
+static func begin_dispatch(unit: CombatUnit) -> void:
+	unit.limits.erase("hunter_sable_applied")
+
+
 static func sable(combat: Combat, unit: CombatUnit) -> void:
 	if not Pass3HunterCombat.has(unit, "sable"):
+		return
+	if Pass3HunterCombat.guards(combat) and unit.limits.has("hunter_sable_applied"):
 		return
 	var quarry: CombatUnit = Pass3HunterCombat.target(combat, unit.quarry)
 	if quarry == null:
 		return
+	unit.limits["hunter_sable_applied"] = true
 	var snap: Dictionary = Pass3HunterCombat.prey(combat, quarry)
 	var strike: int = floori(
 		(
@@ -66,6 +73,11 @@ static func finish_marks(combat: Combat) -> void:
 					Pass3HunterCombat.target(combat, CoreUtil.to_int(across.get(source.uid, 0))),
 					true
 				)
+	# A Sable with an empty across slot may only now have received her quarry.
+	for side: int in 2:
+		for unit: CombatUnit in combat.units_of(side):
+			if not unit.is_dead() and not unit.limits.has("hunter_sable_applied"):
+				sable(combat, unit)
 
 
 static func _starting_source(combat: Combat, unit: CombatUnit) -> bool:

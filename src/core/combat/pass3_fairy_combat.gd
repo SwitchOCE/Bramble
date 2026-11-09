@@ -79,6 +79,7 @@ static func _fetch(combat: Combat, source: CombatUnit, power: int) -> void:
 	combat._apply_slot_grants(copy)
 	combat.enter_board(copy, source, {"copied": target.uid})
 	# A copy's Start of Combat text fires, but the deferred timing steps remain deferred.
+	Pass3HunterStart.begin_dispatch(copy)
 	for index: int in copy.scripts.size():
 		if not copy.on_board or combat._halted:
 			return

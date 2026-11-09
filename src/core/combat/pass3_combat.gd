@@ -84,6 +84,7 @@ static func start(combat: Combat, first: int) -> void:
 		for unit: CombatUnit in queue:
 			if not unit.on_board or combat._halted:
 				continue
+			Pass3HunterStart.begin_dispatch(unit)
 			for index: int in unit.scripts.size():
 				var invocation: Array = [unit, index]
 				if (

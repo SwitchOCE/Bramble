@@ -197,7 +197,8 @@ Hard reuses legal buys, placement, replacement sales and aimed spells. Its Hunte
 
 | Cards | Condition at trigger | Finding |
 | --- | --- | --- |
-| Nip, Sable, Lutra, Russet | Own quarry dies while witnessing its batch | Aligned; a simultaneous trade counts, no tier ceiling |
+| Nip, Lutra, Russet | Own quarry dies while witnessing its batch | Aligned; a simultaneous trade counts, no tier ceiling |
+| Sable | Own or late-lent quarry exists at its opening strike, then a witnessed Take | Late-loan strike deferred until the loan exists; frozen prices prevent mirror amplification |
 | Wick, Grizel | A joined pack attack actually kills its target by attack damage | Aligned; no payout for Bristle or a nonlethal join |
 | Young Brock | An eligible Hunter is actually sold in reach | Aligned; moving alone never pays |
 | Lane-Bard | Its marked quarry completes an attack | Aligned; an early kill can prevent payment, an explicit conditional payoff |
@@ -207,7 +208,7 @@ Hard reuses legal buys, placement, replacement sales and aimed spells. Its Hunte
 | Old Brock, Isegrim | Opening hunt with eligible enemy and eligible Hunter neighbours | Aligned; loans never override an own mark |
 | Laird | Your actual Take has `Take:` text | Aligned; no scaling of observers, persists at T6 |
 
-No structural condition/timing trap was found. Early Nip/Sable enable their own hunts and can be played before commitment; Lane-Bard enables its own gold. Wick is a flexible joining body but needs a leader/kill for growth. Young Brock's inheritance and Russet's copies explicitly need Hunter/eligible pool prey support; these early dependencies are retained and reported rather than redesigned (09f).
+Validation found and fixed a Sable condition/timing trap: an empty-across Sable could receive a quarry from late Brock/Isegrim lending after her ordinary callback, missing her strike even though Hard credited it. Missing strikes now resolve after all loans and before Jack, against the same frozen prey price. Duplicate printed/borrowed Sable uses the strongest strike once per Start of Combat dispatch, while a separate Syllabub replay remains a fresh dispatch. Isegrim does not resample its target after the dependent strike; this avoids a recursive biggest-choice/buff cycle. No remaining structural phase/tier trap was found. Early Nip/Sable enable their own hunts and can be played before commitment; Lane-Bard enables its own gold. Wick is a flexible joining body but needs a leader/kill for growth. Young Brock's inheritance and Russet's copies explicitly need Hunter/eligible pool prey support; these early dependencies are retained and reported rather than redesigned (09f).
 
 The reader alone shows a recorded-scout quarry and expected Take reward/first recipient, sharing the non-random mark forecaster with Hard. No new main-screen reminder is added. Existing pending badges show trophies during the fight.
 
