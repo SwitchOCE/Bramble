@@ -1,0 +1,58 @@
+{
+  "candidate": "tribal_mixture",
+  "chunks": {
+    "g50-mixture-0": {
+      "elapsed_seconds": 110.76027699606493,
+      "invocation_sha256": "5e8d8c6aa1e63cfbc4a4e6fa5665b82b6aca38c6d6bd3ba078e12cf87a5cda34",
+      "log_sha256": "fb3e36bcc6cfe55c6235ff8734a8e1034b40c9d0457314bc70fc637f5faffba1",
+      "players_sha256": "1e39d7840cd9cb00500b6bbc15a8e02191b13d25652ae3fdb91e8e0c4f0b573f"
+    },
+    "g50-mixture-20": {
+      "elapsed_seconds": 112.71536380494945,
+      "invocation_sha256": "156542fa10e750c30ed28acb262f7de91c25cb117e115f058de8278bb65824ef",
+      "log_sha256": "2ac63672a9d237c1ae2b6707d3e6ad1168c60c10c48629c98cb04cff244db5c8",
+      "players_sha256": "aad973191ecd05bb50456d3c804f33889ce036e359e23986a6cf6850887bc145"
+    },
+    "g50-mixture-40": {
+      "elapsed_seconds": 116.26814166200347,
+      "invocation_sha256": "e894c608ef380c4a284926001ed911351cabb21559aef85485f12d44b88ad03b",
+      "log_sha256": "25679d9e325a923a4d772e36e7041c7862900e7617fe17ac9c90f6b4cd2485b4",
+      "players_sha256": "b7cca00e15bee190ec11cf26e4fc3c6de6fafbddbab30e7a187cc1bcac00c392"
+    },
+    "g50-mixture-60": {
+      "elapsed_seconds": 113.77892630198039,
+      "invocation_sha256": "50fe0ab1e7733a9ce7ce3de1f9df30527711a85f05c0117e5902eedf0a00d626",
+      "log_sha256": "3f1a326071294a971705f573ada823a29ccf17dc696dcd69c5659f8ea79f8679",
+      "players_sha256": "3dc5c539e3eeeef90964b19cab15a703b6f497e8aa7275f98540aa620cdcac05"
+    }
+  },
+  "completed": true,
+  "config": {
+    "card_rate_limits": false,
+    "card_size_caps": false,
+    "scale_answer_percent": 50,
+    "scale_economy_cap": 10,
+    "scale_engine_flat": 0,
+    "scale_engine_percent": 50,
+    "scale_engine_self": false,
+    "scale_engine_tribe": "",
+    "scale_hero_spell_percent": 10,
+    "scale_hero_spell_stats": true,
+    "scale_levers": [
+      "scale_engine",
+      "scale_answer",
+      "scale_biggest_answer",
+      "scale_defender",
+      "scale_cleaver",
+      "scale_economy",
+      "scale_doubler"
+    ]
+  },
+  "config_sha256": "bb09965cccb0c0efa9a76c26f948f83d5e0d33ce7b796ec831573ba84fc6a48a",
+  "incumbent": "hard_field",
+  "plan_sha256": "2ff84f926d906f6a8ccc7fca888f1bcca5fd5a8ae44c8348bb519df05e2e1c34",
+  "players_sha256": "749ebfd0eee062d09826857f6c5c5372c8a2b1f69ad6f0a92fe72374c91bf0eb",
+  "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+  "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70"
+}
