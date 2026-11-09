@@ -4,6 +4,27 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Strong-field review: calls
+The review counted 19 keep, 2 cut, 1 simplify and 4 ask, plus six gaps (`evidence/review-strong-field.md`). It is not clear to merge until the cuts and gaps 1–3 are fixed.
+**Picked (orchestrator):**
+1. **Cuts, both fixed:**
+   - Scouting shows the rival's previous-round board, because the reveal stays off (8 Nov).
+   - The 9d quote is corrected.
+2. **Gaps:**
+   - The ghost gets its own trajectory.
+   - Trajectories are dealt without replacement.
+   - A real-UI choice of opponents works on Android, with the library shipped in exports and a loader that fails loudly.
+   - Tests cover normal mode staying unchanged and the UI path.
+3. **Strength:** rivals are dealt from seats that finished top 4 in their source lobby by default (a `field_strength` dial). Why: on the uniform sample, the field was no harder than the bot lobby (a Hard human seat placed 4.12 against 4.30). "Strong field" has to mean strong, so that "how far can I get" means something for a top-200 player (06a, 9d). Top-4 trajectories also live longer, which cuts the board jumps at a switch.
+4. **Asks:**
+   - Pool reservation stays.
+   - Rivals use only the lobby's tribes.
+   - The content manifest hashes gameplay fields only, so wording edits don't break the library. Each content merge recaptures it.
+   - `field_rounds` stays in the game log. The unread standings keys go.
+5. **Simplify:** the library is stored compressed, and the cap is raised so a full field fits.
+
+**Source:** `evidence/review-strong-field.md`; plan-scale-rework step 2.
+
 ### 9 Nov 2026 — Harness follow-up review: calls, and how the lever-build gate is read
 The review counted 19 keep, 2 cut, 3 simplify and 5 ask (`evidence/review-harness-followup.md`). The harness merges once the cuts are fixed. The fixes wait until the running caps screen and lever-build comparisons finish, because editing `tools/sim/*.py` in that worktree stops the sweep.
 **Picked (orchestrator), written before the lever-build results land:**
