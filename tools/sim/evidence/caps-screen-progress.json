@@ -1,0 +1,12 @@
+{
+  "completed": {
+    "caps-both/lobbies-000": {
+      "elapsed_seconds": 145.49203365901485,
+      "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-000/result.json",
+      "result_sha256": "2100c1b60948bca8c8a205d86e407ece4095e0cd50eb46c91ae98c643ff52e3c"
+    }
+  },
+  "manifest_sha256": "f727c6d228fd536a30750d0b855bc6fdb1e0d471993fbe52428b035e96a34e4a",
+  "started_at": "2026-11-09T09:11:59.589779+00:00",
+  "version": 1
+}
