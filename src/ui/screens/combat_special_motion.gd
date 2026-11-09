@@ -74,9 +74,13 @@ static func kept_gain(screen: Control, event: Dictionary) -> Control:
 ## Only the current landing on each side is visible, including simultaneous mass rewards.
 ## Retiring the old cue bounds ancillary labels without hiding any fighting stats.
 static func land_kept_gain(screen: Control, kept: Control) -> void:
+	var previous: Tween = kept.get_meta("landing_tween", null) as Tween
+	if previous != null and previous.is_valid():
+		previous.kill()
 	var generation: int = CoreUtil.to_int(kept.get_meta("landing_generation", 0)) + 1
 	kept.set_meta("landing_generation", generation)
 	var tween: Tween = _tween(screen, kept)
+	kept.set_meta("landing_tween", tween)
 	tween.tween_interval(0.35)
 	tween.tween_callback(
 		func() -> void:

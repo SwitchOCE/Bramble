@@ -89,6 +89,7 @@ func test_pending_gain_has_a_source_and_its_dead_recipient_landing_fades() -> vo
 		assert_eq(kept.get_node("Pending").get("text"), "+3/+5", "totals are retained, not doubled")
 		assert_false(screen._cards.has(1))
 		_advance(screen, 1.0)
+		await get_tree().process_frame
 		assert_false(
 			is_instance_valid(kept), "no reserve portrait or total stands beside the board"
 		)
@@ -125,6 +126,7 @@ func test_bog_toll_travels_to_hero_then_fades_and_keeps_exact_reader_total() -> 
 		assert_string_contains(screen._note_text.get_parsed_text(), "Bog Toll: 1,234,567")
 		screen.restart()
 		assert_false(screen._plaques[1].has_node("BogToll"))
+		await get_tree().process_frame
 
 
 func test_dropped_action_chips_retain_a_held_source_cue_in_both_motion_modes() -> void:
@@ -182,6 +184,7 @@ func test_many_kept_gains_fade_and_hold_the_ten_label_cap() -> void:
 			assert_lte(
 				Capture.budget_nodes(screen).size(), 10, "all transient and reserve labels count"
 			)
+		await get_tree().process_frame
 		for child: Node in screen._overlay.get_children():
 			assert_false(child.has_meta("kept_target_uid") and child is Panel, "no reserve remains")
 		for type: String in ["gain_pending", "permanent_reward"]:
@@ -192,3 +195,21 @@ func test_many_kept_gains_fade_and_hold_the_ten_label_cap() -> void:
 		assert_false(
 			screen._overlay.has_node("KeptGain_1"), "skip to end creates neither reserve path"
 		)
+
+
+func test_repeated_kept_gain_refreshes_hold_without_an_old_fade_hiding_it() -> void:
+	var screen: Screen = _screen()
+	screen._play_event({"type": "death", "uid": 1}, false)
+	for total: int in [1, 2]:
+		screen._play_event(
+			{"type": "gain_pending", "target": 1, "source": 8, "attack": total, "health": total},
+			true
+		)
+		_advance(screen, 0.3)
+	var kept: Control = screen._overlay.get_node("KeptGain_1")
+	_advance(screen, 0.48)
+	assert_true(kept.visible)
+	assert_gt(kept.modulate.a, 0.95, "the first event's fade cannot hide the refreshed landing")
+	_advance(screen, 0.5)
+	await get_tree().process_frame
+	assert_false(is_instance_valid(kept))
