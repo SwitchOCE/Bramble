@@ -166,33 +166,41 @@ func _brain(round_number: int = 12) -> BotBrain:
 	return brain
 
 
-func test_four_unit_cycle_budget_combines_created_and_bought_across_calls() -> void:
+func test_four_shop_cycles_leave_created_tunneler_cards_additional() -> void:
 	_kit.put("qb_turbo_hogrider", 0)
 	_kit.put("qb_gem_rat", 1)
 	var brain: BotBrain = _brain()
-	for index: int in 5:
-		var ids: Array[String] = [
-			"qb_fearless_foodie",
-			"qb_sly_infiltrator",
-			"qb_crater_miner",
-			"qb_snare_trapper",
-			"qb_veteran_brigand"
-		]
-		var unit: RecruitUnit = _kit.put(ids[index])
-		unit.origin = RecruitUnit.ORIGIN_CREATED if index % 2 == 0 else RecruitUnit.ORIGIN_BOUGHT
+	var ids: Array[String] = [
+		"qb_fearless_foodie",
+		"qb_sly_infiltrator",
+		"qb_crater_miner",
+		"qb_snare_trapper",
+		"qb_veteran_brigand"
+	]
+	for id: String in ids:
+		_kit.put(id)
+	BotQuilboar._play_hand(brain)
+	assert_eq(BotQuilboar._cycle_count(_player), 0, "Created cards do not consume shop cycles")
+	assert_true(_player.hand.is_empty(), "more than four Created cards can be played")
+	for id: String in ids:
+		var unit: RecruitUnit = _kit.put(id)
+		unit.origin = RecruitUnit.ORIGIN_BOUGHT
 	BotQuilboar._play_hand(brain)
 	assert_eq(BotQuilboar._cycle_count(_player), 4)
-	assert_eq(_player.hand.size(), 1, "Created and bought cards share one four-unit budget")
+	assert_eq(_player.hand.size(), 1, "the fifth shop-bought cycle waits")
+	var created: RecruitUnit = _kit.put("qb_fearless_foodie")
 	BotQuilboar._play_hand(brain)
 	assert_eq(
-		BotQuilboar._cycle_count(_player), 4, "a second helper call cannot bypass the turn budget"
+		BotQuilboar._cycle_count(_player), 4, "Created also plays after the shop budget is full"
 	)
+	assert_false(_player.hand.has(created))
+	assert_eq(_player.hand.size(), 1)
 	_player.shop.clear()
 	_kit.shop("qb_fearless_foodie")
-	assert_eq(BotQuilboar._offer(brain), -1, "a fifth bought cycle cannot bypass the same budget")
+	assert_eq(BotQuilboar._offer(brain), -1, "a fifth shop cycle cannot bypass the budget")
 	_rules.start_phase(_player, 13)
 	BotQuilboar._play_hand(brain)
-	assert_eq(BotQuilboar._cycle_count(_player), 1, "the shared budget resets on a new turn")
+	assert_eq(BotQuilboar._cycle_count(_player), 1, "the shop budget resets on a new turn")
 	assert_true(_player.hand.is_empty())
 
 

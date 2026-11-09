@@ -26,6 +26,7 @@ const COPY_LIMITS: Dictionary = {
 }
 const CYCLE_IID: String = "reference_cycle_iid"
 const GEM_INDEX: String = "reference_gem_index"
+## Only shop-bought cycles consume this budget; Created cards are additional.
 const CYCLE_COUNT: String = "qb_units_cycled"
 const MAX_CYCLES: int = 4
 const MAX_FLEX: int = 2
@@ -224,7 +225,7 @@ static func _play_hand(brain: BotBrain) -> void:
 					slot = replace
 		if slot < 0 or brain._rules.play(player, index, slot) != "":
 			return
-		if cycle:
+		if cycle and unit.origin == RecruitUnit.ORIGIN_BOUGHT:
 			player.owner_limits[CYCLE_COUNT] = _cycle_count(player) + 1
 		brain._settle()
 		_cast_items(brain, false)
@@ -259,7 +260,11 @@ static func _is_cycle(brain: BotBrain, unit: RecruitUnit) -> bool:
 
 
 static func _cycle_blocked(brain: BotBrain, unit: RecruitUnit) -> bool:
-	return _is_cycle(brain, unit) and _cycle_count(brain._player) >= MAX_CYCLES
+	return (
+		unit.origin == RecruitUnit.ORIGIN_BOUGHT
+		and _is_cycle(brain, unit)
+		and _cycle_count(brain._player) >= MAX_CYCLES
+	)
 
 
 static func _prefer_unit_for_both(brain: BotBrain) -> bool:
