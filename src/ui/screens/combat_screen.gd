@@ -333,13 +333,13 @@ func advance_playback(delta: float) -> void:
 func _event_hold(kind: String) -> float:
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
-	if kind in ["damage", "status"]:
+	if kind in ["damage", "status", "stats"]:
 		return 0.0
 	if kind == "death":
 		return maxf(0.15, 0.3 / speed)
 	if kind == "health_loss":
 		return maxf(0.15, 0.4 / speed)
-	if kind in ["trigger", "stats", "kiss", "transform", "summon", "relocate"]:
+	if kind in ["trigger", "kiss", "transform", "summon", "relocate"]:
 		return maxf(0.08, 0.22 / speed)
 	return maxf(0.05, 0.3 / speed)
 
@@ -378,7 +378,11 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_sync_unit(Data.i(event, "target", -1))
 			_motion.change(event, animate)
 			if animate:
-				_roll_changes(changed_uid, _event_before)
+				_roll_changes(
+					changed_uid,
+					_event_before,
+					_motion.stat_delay(changed_uid) if kind == "stats" else 0.0
+				)
 		"death":
 			_death(Data.i(event, "uid", -1), animate)
 		"swallowed":
@@ -455,7 +459,7 @@ func _make_card(uid: int, side: int, slot: int) -> CardView:
 	return card
 
 
-func _roll_changes(uid: int, before: Dictionary) -> void:
+func _roll_changes(uid: int, before: Dictionary, delay: float = 0.0) -> void:
 	var card: CardView = _cards.get(uid)
 	if card == null or before.is_empty():
 		return
@@ -464,7 +468,10 @@ func _roll_changes(uid: int, before: Dictionary) -> void:
 		var current: int = maxi(0, Data.i(model.unit(uid), stat))
 		if old != current:
 			var label: Label = card.get("_" + stat + "_label")
-			_tween().bind_node(label).tween_method(
+			label.text = Numbers.compact(old)
+			var tween: Tween = _tween().bind_node(label)
+			tween.tween_interval(delay)
+			tween.tween_method(
 				func(value: int) -> void: label.text = Numbers.compact(value), old, current, 0.15
 			)
 

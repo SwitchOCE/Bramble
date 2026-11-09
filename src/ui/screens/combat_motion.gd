@@ -231,14 +231,26 @@ func change(event: Dictionary, animate: bool) -> void:
 			_emit("berry", card.health_bead().get_global_rect().get_center(), UiTheme.NIGHTSHADE)
 			_pulse(card.health_bead(), UiTheme.NIGHTSHADE)
 		"stats":
-			var colour: Color = (
-				UiTheme.MOSS
-				if Data.i(event, "attack_delta") + Data.i(event, "health_delta") >= 0
-				else UiTheme.HEALTH
-			)
-			_pulse(card.attack_bead(), colour)
-			_pulse(card.health_bead(), colour)
+			if event.has("source"):
+				_source = Data.i(event, "source", -1)
+			var delay: float = stat_delay(uid)
+			for stat: String in ["attack", "health"]:
+				var amount: int = Data.i(event, stat + "_delta")
+				if amount != 0:
+					var bead: Control = (
+						card.attack_bead() if stat == "attack" else card.health_bead()
+					)
+					var colour: Color = UiTheme.MOSS if amount > 0 else UiTheme.HEALTH
+					_tween(bead).tween_callback(_pulse.bind(bead, colour)).set_delay(delay)
 			_mote_from_source(card)
+			if Data.b(event, "permanent"):
+				(
+					_tween(card)
+					. tween_callback(
+						_emit.bind("spark", card.get_global_rect().get_center(), UiTheme.GILT)
+					)
+					. set_delay(delay)
+				)
 		"status":
 			if Data.s(event, "status") == "shield" and not Data.b(event, "on", true):
 				for i: int in 5:
@@ -254,6 +266,20 @@ func change(event: Dictionary, animate: bool) -> void:
 			var point: Vector2 = _last_death()
 			_mote(point, card.get_global_rect().get_center(), "heart", UiTheme.HEALTH)
 			_pulse(card.trigger_glyph())
+
+
+func stat_delay(uid: int) -> float:
+	return 0.22 if _source >= 0 and _source != uid else 0.0
+
+
+func _hop(card: CardView) -> void:
+	if Settings.reduce_motion:
+		flash(card, UiTheme.ACORN)
+		return
+	var home: float = card.position.y
+	var tween: Tween = _tween(card)
+	tween.tween_property(card, "position:y", home - 10, 0.1)
+	tween.tween_property(card, "position:y", home, 0.15)
 
 
 func _damage(card: CardView, event: Dictionary) -> void:
@@ -425,7 +451,18 @@ func arrive(card: CardView, event: Dictionary, animate: bool) -> void:
 			- card.size / 2
 		)
 	else:
-		start.y -= 90
+		var from: Dictionary = _model().unit(Data.i(event, "source", -1))
+		if not from.is_empty():
+			var board: BoardView = _screen.call("board_for_side", Data.i(from, "side"))
+			start = (
+				(
+					parent.get_global_transform().affine_inverse()
+					* board.slot_global_center(Data.i(from, "slot"))
+				)
+				- card.size / 2
+			)
+		else:
+			start.y -= 90
 	var tween: Tween = _tween(card)
 	card.scale = Vector2.ONE * 0.3
 	tween.tween_property(card, "position", card.position, 0.3).from(start)
@@ -448,7 +485,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 			_source = uid
 			if card != null:
 				_pulse(card.trigger_glyph())
-				_pulse(card)
+				_hop(card)
 			elif uid >= 0:
 				var view: Dictionary = _model().unit(uid)
 				if not view.is_empty() and not Data.b(view, "alive", true):
