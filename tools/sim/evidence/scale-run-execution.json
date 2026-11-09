@@ -31,5 +31,13 @@
   "protected_sweep": "not started; requires a real positive gate file",
   "workspace_tmpdir": "build/sim/caps-screen-fixed/tmp",
   "temporary_storage_note": "The initial Python merge exhausted /tmp quota before any field inputs were admitted. The same immutable lobby results were merged successfully using project-disk temporary storage.",
-  "completion_marker": "Updated to complete with gate hash only after all four frozen lever comparisons and caps metrics finish"
+  "completion_marker": "Updated to complete with gate hash only after all four frozen lever comparisons and caps metrics finish",
+  "last_observed_checkpoint": {
+    "utc": "2026-11-09T09:53:02.145433+00:00",
+    "completed_lobbies": 450,
+    "completed_field_round_shards": 4,
+    "required_field_round_shards": 18,
+    "lever_build_strength": "queued after completed caps merge",
+    "background_pipeline": "running"
+  }
 }

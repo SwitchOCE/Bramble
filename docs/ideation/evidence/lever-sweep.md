@@ -264,3 +264,5 @@ including import, validation and output archiving. Its result matches the sealed
 manifest and field bundle and is admitted as the actual round-6 screening shard,
 not an extra sample. Checkpoint: `21a9b82`. Remaining fields and then the frozen
 strength comparisons continue sequentially in the bounded background pipeline.
+
+At the 9 November 09:52 UTC execution checkpoint, all 450 screening lobbies and 4/18 field-round shards are validated and committed. The bounded background pipeline continues with the remaining fields, metrics merge, and then all four frozen lever-build comparisons. Strength results remain pending; no protected sweep has started. The [execution ledger](../../../tools/sim/evidence/scale-run-execution.json) and [shard checkpoint](../../../tools/sim/evidence/caps-screen-progress.json) record progress.
