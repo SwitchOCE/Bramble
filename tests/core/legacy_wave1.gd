@@ -4,7 +4,13 @@ extends RefCounted
 ## Opt-in only: real sessions, benches and all pass 3 tests load the current library.
 
 
+## A deep copy of build(), built once a run (tests/core/library_cache.gd).
 static func library(restore_hunters: bool = true) -> UnitLibrary:
+	return TestLibraries.cached("wave1:%s" % restore_hunters, build.bind(restore_hunters))
+
+
+## Builds the library afresh; library() hands out copies of one build a run.
+static func build(restore_hunters: bool = true) -> UnitLibrary:
 	var current: UnitLibrary = UnitLibrary.load_dir()
 	var parsed: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/core/data/pass2_wave1_units.json")
@@ -27,6 +33,13 @@ static func library(restore_hunters: bool = true) -> UnitLibrary:
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
 	return with_hunters(out) if restore_hunters else out
+
+
+## A deep copy of with_hunters(UnitLibrary.load_dir()), built once a run.
+static func current_with_hunters() -> UnitLibrary:
+	return TestLibraries.cached(
+		"current+hunters", func() -> UnitLibrary: return with_hunters(UnitLibrary.load_dir())
+	)
 
 
 ## Replace only the archived Hunters; all other current definitions are retained.

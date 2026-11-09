@@ -4,7 +4,7 @@ extends GutTest
 const Preview := preload("res://src/core/recruit_preview.gd")
 const View := preload("res://src/ui/screens/recruit_view.gd")
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _rules() -> RecruitRules:

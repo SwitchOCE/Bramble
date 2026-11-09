@@ -127,7 +127,7 @@ func test_control_instrumentation_preserves_native_lobby_results_and_pool() -> v
 	config.set_value("human_bot", seats[0])
 	config.set_value("bots", Array(seats.slice(1)))
 	config.set_value("max_rounds", 4)
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var native := GameSession.create(1900301, library, config, BenchSuites.create_bot)
 	var observed := GameSession.create(1900301, library, config, _control_factory)
 	while not native.is_over():

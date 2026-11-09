@@ -9,7 +9,7 @@ func _combat() -> Combat:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 11
 	var combat := Combat.create(
-		ScaleOverlay.library_for(UnitLibrary.load_dir(), config), config, rng
+		ScaleOverlay.library_for(TestLibraries.current(), config), config, rng
 	)
 	combat.slot_effects = [[[], [], [], [], [], [], []], [[], [], [], [], [], [], []]]
 	combat.slot_effects[1][4] = [{"name": "Ring", "attack": 40, "health": 40}]
@@ -52,7 +52,7 @@ func test_equal_ring_pairs_still_swap_and_legacy_face_is_unchanged() -> void:
 	combat.slot_effects[1][0] = [{"name": "Ring", "attack": 40, "health": 40}]
 	combat._recalc_auras(false)
 	assert_eq(CombatMoves.swap_rows(combat, 1, true).size(), 2)
-	var old: Dictionary = UnitLibrary.load_dir().get_unit("whirligig_beetle")
+	var old: Dictionary = TestLibraries.current().get_unit("whirligig_beetle")
 	assert_eq(
 		old["text"], "Start of Combat: swap the enemy's rows. Each enemy moved takes 2 damage."
 	)

@@ -85,7 +85,7 @@ const STANDING_ADDED: Array = [
 	"armor", "hero", "last_stand_active", "last_stand_enabled", "last_stand_used"
 ]
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _fixture(path: String) -> Dictionary:
@@ -126,8 +126,12 @@ func test_unit_view_keys_match_fixture_6_2() -> void:
 
 
 func test_bots_never_share_a_hero() -> void:
+	# A configured copy per game: the overlay is built once a run (tests/core/library_cache.gd).
 	for game_seed: int in range(1, 41):
-		var session: GameSession = GameSession.create(game_seed, _library, GameConfig.full_game())
+		var config: GameConfig = GameConfig.full_game()
+		var session: GameSession = GameSession.create(
+			game_seed, TestLibraries.configured(config), config
+		)
 		session.choose(0)
 		var state: Dictionary = session.get_state()
 		var seen: Dictionary = {}

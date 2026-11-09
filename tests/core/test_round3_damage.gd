@@ -5,7 +5,7 @@ const Kit := preload("res://tests/core/recruit_kit.gd")
 
 
 func _fight(config: GameConfig, tier: int, cards: Array) -> Dictionary:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 41
 	var empty: Array = [null, null, null, null, null, null, null]

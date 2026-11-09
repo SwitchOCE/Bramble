@@ -126,7 +126,7 @@ func test_early_spoils_does_not_pay_either_player_for_a_live_tie() -> void:
 	for round_number: int in [1, 4]:
 		var config := GameConfig.full_game()
 		config.set_value("hero_choice", false)
-		var session := GameSession.create(99, UnitLibrary.load_dir(), config)
+		var session := GameSession.create(99, TestLibraries.current(), config)
 		session._round = round_number
 		for id: int in [0, 1]:
 			var player: PlayerState = session._players[id]

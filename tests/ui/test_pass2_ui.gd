@@ -54,7 +54,7 @@ func test_pass_mark_is_permanent_and_preview_returns_to_it() -> void:
 
 
 func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for golden: bool in [false, true]:
 		var urchin := RecruitUnit.make(library.get_unit("dr_urchin"), 1, golden)
 		var combat_note: String = RecruitView.geometry_note(urchin.view(), 0)
@@ -68,7 +68,7 @@ func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards(
 
 
 func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for id: String in ["hob_in_the_hearth", "lob_lie_by_the_fire", "silky"]:
 		var unit := RecruitUnit.make(library.get_unit(id), 1, true)
 		var face: String = unit.view()["text"]

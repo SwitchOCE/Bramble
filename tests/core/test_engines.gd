@@ -35,7 +35,7 @@ func test_ghost_and_one_health_never_spend_the_save() -> void:
 func test_four_left_lifts_cap_and_session_records_last_stand() -> void:
 	var config := GameConfig.full_game("legacy")
 	config.set_value("hero_choice", false)
-	var session := GameSession.create(41001, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(41001, TestLibraries.current(), config)
 	for player: PlayerState in session._players:
 		player.board.fill(null)
 		player.health = 5

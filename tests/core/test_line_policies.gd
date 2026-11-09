@@ -3,7 +3,7 @@ extends GutTest
 
 
 func test_every_tribe_has_two_registered_profiles_and_every_priority_is_a_real_card() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var counts: Dictionary = {}
 	for id: String in LinePolicies.profiles():
 		var entry: Dictionary = LinePolicies.profiles()[id]
@@ -54,7 +54,7 @@ func test_line_lobby_has_real_heroes_pool_damage_and_eliminations() -> void:
 	var config := GameConfig.full_game()
 	config.set_value("human_bot", names[0])
 	config.set_value("bots", Array(names.slice(1)))
-	var session := GameSession.create(81, UnitLibrary.load_dir(), config, BenchSuites.create_bot)
+	var session := GameSession.create(81, TestLibraries.current(), config, BenchSuites.create_bot)
 	while not session.is_over():
 		session.end_turn()
 	var rows: Array = session.get_game_log()["players"]
@@ -79,7 +79,7 @@ func test_short_all_line_lobby_with_both_caps_disabled() -> void:
 	config.set_value("card_rate_limits", false)
 	config.set_value("max_rounds", 8)
 	var session := GameSession.create(
-		140001, UnitLibrary.load_dir(), config, BenchSuites.create_bot
+		140001, TestLibraries.current(), config, BenchSuites.create_bot
 	)
 	for player: PlayerState in session._players:
 		for entry: Array in [[1, "charcoal_burner"], [4, "field_vole"], [5, "field_vole"]]:

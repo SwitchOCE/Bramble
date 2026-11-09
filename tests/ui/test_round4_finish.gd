@@ -13,7 +13,7 @@ func after_each() -> void:
 
 
 func test_long_shop_rules_keep_the_portrait_at_phone_and_desktop_sizes() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for window: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
 		CardView.window_override = window
 		for id: String in ["hedge_witch", "sexton_beetle", "natterjack_chorus"]:
@@ -73,7 +73,7 @@ func test_default_play_text_shows_stable_handles_before_legacy_numbers() -> void
 
 
 func test_mire_and_hex_slips_clear_slot_names_in_recruit_scout_and_guide() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for zone: String in ["board", "scout", "guide"]:
 		var board: BoardView = BoardView.new()
 		board.configure(zone, 130.0 if zone != "board" else 209.0, true, zone == "board")

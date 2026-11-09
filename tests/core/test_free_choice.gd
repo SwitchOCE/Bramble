@@ -2,7 +2,7 @@ extends GutTest
 ## No build route can influence free-choice purchases or the measured final-board label.
 @warning_ignore_start("unsafe_call_argument")
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func test_suite_seats_survive_the_lobby_without_pins() -> void:

@@ -142,7 +142,7 @@ func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var units: Array = raw["board"]
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var bird: Dictionary = UnitViews.from_def(library.get_unit("mrs_jay"))
 	bird["played_round"] = 1
 	units[0] = bird
@@ -213,7 +213,7 @@ func test_selected_phone_row_tags_and_posset_counters_do_not_overlap() -> void:
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var units: Array = raw["board"]
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var posset: Dictionary = UnitViews.from_def(library.get_unit("mrs_posset"))
 	posset["belly"] = 1
 	posset["held"] = [UnitViews.from_def(library.get_unit("mrs_sorrel"))]

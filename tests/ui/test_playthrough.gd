@@ -15,6 +15,8 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Records := preload("res://src/ui/records.gd")
+const SharedLobby := preload("res://tests/core/shared_lobby.gd")
+const Settings := preload("res://src/ui/settings.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -31,7 +33,12 @@ func test_scripted_player_reaches_game_over() -> void:
 	var app: App = App.new()
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
-	port.setup()
+	# The real game's config with Hard seats on a smaller board search: this test drives the UI
+	# journey, not Hard's choices (test_bot_brain, test_field_normal_regression pin those).
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("ask_for_kin", Settings.ask_for_kin)
+	config.set_value("bots", SharedLobby.quick_seats())
+	port.setup(config)
 	app.setup(port)
 	var all_counts: Dictionary = {}
 	for game_seed: int in SEEDS:

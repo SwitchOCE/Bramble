@@ -44,7 +44,7 @@ func _run() -> void:
 		for id: String in UNITS:
 			ids.append(id)
 			ids.append(id + "_golden")
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var port: FixturePort = FixturePort.new()
 	port.use_state_file("res://tests/ui/data/recruit_slice.json")
 	var state: Dictionary = port.get_state()

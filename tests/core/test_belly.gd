@@ -20,7 +20,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hunters(UnitLibrary.load_dir()))
+	_kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_hunters())
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)

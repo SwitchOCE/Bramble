@@ -16,7 +16,7 @@ func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 	config.set_value("pass3_preset", "A")
 	# Freeze the historical reader comparison basis as well as the fight dials.
 	config.set_value("pass3_text_defaults", Pass3Rates.resolved(config))
-	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(TestLibraries.current(), config)
 	for entry: Dictionary in cases:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = CoreUtil.to_int(entry["seed"])
