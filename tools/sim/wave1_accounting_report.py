@@ -3,8 +3,8 @@
 
 import argparse
 import csv
-import re
 import hashlib
+import re
 import statistics
 from collections import Counter
 from pathlib import Path
@@ -12,7 +12,8 @@ from pathlib import Path
 from evidence_io import read_json, write_json
 from lever_sweep import ROOT, atomic_json, file_sha
 from wave1_accounting import LINES, ROUNDS, measurements
-from wave1_paper import build_paper_reference
+
+PAPER_REFERENCE = ROOT / "tools/sim/evidence/wave1-accounting-paper.json"
 
 PIECES = (
     "old_moth_annis",
@@ -27,6 +28,11 @@ PIECES = (
     "mother_goose",
     "great_lump",
 )
+
+
+def load_paper_reference(path=PAPER_REFERENCE):
+    """Keep the published denominator paired with the archived accounting run."""
+    return read_json(path)
 
 
 def diagnostic(rows):
@@ -177,7 +183,7 @@ def markdown(report):
     text = [
         "# Wave 1 accounting check",
         "",
-        "Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, unchanged `content/pass3/rates.json` dials. No new gameplay bars.",
+        "Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, archived captured dials and the fixed published paper denominator. No new gameplay bars.",
         "",
         f"{report['lobbies']} independent fresh lobbies, seeds {report['first_seed']}–{report['last_seed']}. One seat per written line and four blind Hard seats; all tribes available, real heroes/fights/damage/elimination/shared pool. Four timing-pilot lobbies are excluded.",
         "",
@@ -343,7 +349,7 @@ def main():
                 "scope": "Sufficient analysis rows only, not refight inputs. Original full capture hashes and local paths are in progress.",
             },
         )
-    paper = build_paper_reference()
+    paper = load_paper_reference()
     result = summarize(rows, seeds, paper, plan["bootstrap_replicates"], plan["bootstrap_seed"])
     result.update(
         paper=paper,

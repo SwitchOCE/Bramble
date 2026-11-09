@@ -8,13 +8,12 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Bitter 2.",
-  "golden_text": "Bitter 4.",
+  "text": "Bitter.",
+  "golden_text": "Bitter.",
   "mechanics": [
     {
       "id": "bitter",
-      "n": 2,
-      "once_per_enemy": false
+      "pass3": true
     }
   ],
   "keywords": [
@@ -26,7 +25,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

@@ -11,6 +11,12 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const States := preload("res://tests/ui/review_bog_states.gd")
 
 
+func _legacy_projection() -> LaneProjection:
+	var projection: LaneProjection = LaneProjection.new()
+	projection.set("_library", LegacyBog.library())
+	return projection
+
+
 func after_each() -> void:
 	CardView.window_override = Vector2.ZERO
 
@@ -18,7 +24,7 @@ func after_each() -> void:
 func test_bitter_counts_native_and_both_adjacent_golden_auras_without_mutation() -> void:
 	var board: Array = States.board()
 	var before: Array = board.duplicate(true)
-	var projected: Dictionary = LaneProjection.new().recruit_unit(board, 1)
+	var projected: Dictionary = _legacy_projection().recruit_unit(board, 1)
 	assert_eq(Data.i(projected, "recruit_bitter"), 6, "Bufo 2 + golden Nan 2 + golden Chorus 2")
 	assert_eq(Data.i(projected, "recruit_bitter_printed"), 2)
 	assert_eq(Data.i(projected, "recruit_bitter_borrowed"), 4)
@@ -37,7 +43,7 @@ func test_golden_card_bitter_and_non_bog_borrowers_use_the_actual_live_row() -> 
 		States.unit("natterjack_chorus", 4, true),
 		null
 	]
-	var projection: LaneProjection = LaneProjection.new()
+	var projection: LaneProjection = _legacy_projection()
 	assert_eq(
 		Data.i(projection.recruit_unit(board, 0), "recruit_bitter"), 5, "golden Bufo 4 + Nan 1"
 	)
@@ -63,7 +69,7 @@ func test_golden_card_bitter_and_non_bog_borrowers_use_the_actual_live_row() -> 
 
 func test_kisses_read_persistent_counters_and_bitter_does_not_hide_them() -> void:
 	var board: Array = States.board()
-	var projection: LaneProjection = LaneProjection.new()
+	var projection: LaneProjection = _legacy_projection()
 	var frog: Dictionary = projection.recruit_unit(board, 4)
 	assert_eq(CardView.chip_text(frog), "Bitter 1\nKiss 2/3")
 	assert_string_contains(CardDetail.full_text_bbcode(frog), "Kisses: 2/3")
@@ -87,7 +93,7 @@ func test_moving_a_unit_recomputes_its_bitter_and_keeps_its_kisses() -> void:
 	var frog: Dictionary = board[4]
 	board[4] = board[1]
 	board[1] = frog
-	var projection: LaneProjection = LaneProjection.new()
+	var projection: LaneProjection = _legacy_projection()
 	assert_eq(Data.i(projection.recruit_unit(board, 1), "recruit_bitter"), 4)
 	assert_eq(Data.i(projection.recruit_unit(board, 1), "recruit_kisses"), 2)
 	assert_eq(Data.i(projection.recruit_unit(board, 4), "recruit_bitter"), 3)
@@ -102,6 +108,7 @@ func test_phone_tray_chip_and_selected_detail_fit_and_refresh_after_a_move() -> 
 	port.use_state_file("res://tests/ui/data/recruit_slice.json")
 	States.recruit(port.get_state())
 	var screen: RecruitScreen = RecruitScreen.new()
+	screen.set("_projection", _legacy_projection())
 	viewport.add_child(screen)
 	screen.setup(port)
 	screen.call("_on_tapped", "board", 4)

@@ -17,7 +17,8 @@ from wave1_paper import (
 class Wave1PaperTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.reference = build_paper_reference()
+        cls.rates = json.loads((ROOT / "tools/sim/evidence/wave1-accounting-paper.json").read_text())["rates"]
+        cls.reference = build_paper_reference(cls.rates)
 
     def test_original_bird_known_answers_match_the_archived_output(self):
         lines = self.reference["authored_paper_pre_start"]
@@ -104,12 +105,16 @@ class Wave1PaperTests(unittest.TestCase):
         game.end_of_turn()
         self.assertEqual(game.S, 3)
 
-    def test_models_and_live_rates_are_read_without_mutating_argv_or_source(self):
+    def test_current_wrapped_rates_reject_unmapped_preset_changes_loudly(self):
+        with self.assertRaisesRegex(ValueError, "no parameter"):
+            build_paper_reference()
+
+    def test_models_and_explicit_rates_are_read_without_mutating_argv_or_source(self):
         before = list(sys.argv)
         sources = {p: p.read_bytes() for p in MODEL_DIR.glob("*-pass3-model.py")}
-        actual = build_paper_reference()
+        actual = build_paper_reference(self.rates)
         self.assertEqual(sys.argv, before)
-        self.assertEqual(actual["rates"], json.loads((ROOT / "content/pass3/rates.json").read_text()))
+        self.assertEqual(actual["rates"], self.rates)
         self.assertTrue(all(path.read_bytes() == data for path, data in sources.items()))
         self.assertEqual(actual, self.reference)
 

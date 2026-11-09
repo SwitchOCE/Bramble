@@ -12,7 +12,7 @@
   "mechanics": [],
   "keywords": [],
   "row_hint": null,
-  "pool": true,
+  "pool": false,
   "priority": null,
   "skeleton": true,
   "source": {

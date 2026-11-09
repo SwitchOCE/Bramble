@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "When played or sold: Ring this slot.",
-  "golden_text": "When played or sold: Ring this slot twice.",
+  "text": "When played or sold: Ring this slot twice.",
+  "golden_text": "When played or sold: Ring this slot four times.",
   "mechanics": [
     {
       "id": "pass3_fairy",

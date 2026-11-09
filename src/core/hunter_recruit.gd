@@ -10,7 +10,11 @@ static func poach(rules: RecruitRules, player: PlayerState, change: Dictionary) 
 		return
 	var unit := RecruitUnit.make(card, rules.new_iid())
 	unit.pool_copies = 1
-	unit.poached_discount = CoreUtil.to_int(change["discount"])
+	unit.poached_discount = CoreUtil.to_int(change.get("discount", 0))
+	unit.poached_offer = true
+	unit.add_permanent(
+		CoreUtil.to_int(change.get("perm_attack", 0)), CoreUtil.to_int(change.get("perm_health", 0))
+	)
 	player.poached_pending.append(unit)
 	player.log_event("poached", {"name": str(card["name"]), "card": id})
 
@@ -25,7 +29,7 @@ static func start_turn(player: PlayerState) -> void:
 static func normal_shop_count(player: PlayerState) -> int:
 	var count: int = 0
 	for unit: RecruitUnit in player.shop:
-		if unit.poached_discount == 0:
+		if not unit.poached_offer and unit.poached_discount == 0:
 			count += 1
 	return count
 
@@ -33,7 +37,7 @@ static func normal_shop_count(player: PlayerState) -> int:
 static func pull_offers(player: PlayerState) -> Array[RecruitUnit]:
 	var kept: Array[RecruitUnit] = []
 	for unit: RecruitUnit in player.shop.duplicate():
-		if unit.poached_discount > 0:
+		if unit.poached_offer or unit.poached_discount > 0:
 			player.shop.erase(unit)
 			kept.append(unit)
 	return kept

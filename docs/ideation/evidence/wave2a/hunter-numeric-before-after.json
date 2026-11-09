@@ -1,0 +1,46 @@
+{
+	"glutton_brock": {
+		"after": 66.6666666666667,
+		"before": 66.6666666666667
+	},
+	"glutton_isegrim": {
+		"after": 66.6666666666667,
+		"before": 66.6666666666667
+	},
+	"glutton_nip": {
+		"after": 66.6666666666667,
+		"before": 66.6666666666667
+	},
+	"glutton_no_takers": {
+		"after": 0.0,
+		"before": 66.6666666666667
+	},
+	"golden_russet_permanent_9_15": {
+		"after": 30.0,
+		"before": 35.0
+	},
+	"russet_eligible_unbuffed": {
+		"after": 6.0,
+		"before": 9.33333333333333
+	},
+	"russet_no_scout": {
+		"after": 0.0,
+		"before": 30.0
+	},
+	"russet_non_pool": {
+		"after": 0.0,
+		"before": 1207.33333333333
+	},
+	"russet_over_tier": {
+		"after": 0.0,
+		"before": 25.3333333333333
+	},
+	"russet_permanent_9_15": {
+		"after": 22.0,
+		"before": 25.3333333333333
+	},
+	"russet_temporary_layers": {
+		"after": 6.0,
+		"before": 9.33333333333333
+	}
+}

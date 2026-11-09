@@ -9,7 +9,7 @@ var _kit: K
 
 func before_each() -> void:
 	_kit = K.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyBog.library())
 	_kit.rules.start_phase(_kit.player, 1)
 	_kit.player.gold = 99
 

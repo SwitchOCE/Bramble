@@ -2,20 +2,19 @@
   "id": "tiddy_mun",
   "name": "Tiddy Mun",
   "set": "slice",
-  "tier": 5,
+  "tier": 4,
   "attack": 3,
-  "health": 6,
+  "health": 5,
   "tribes": [
     "Bog folk"
   ],
-  "text": "After a Mired enemy attacks one of your units: that unit gains +1/+1 permanently. Twice a fight.",
-  "golden_text": "After a Mired enemy attacks one of your units: that unit gains +2/+2 permanently. Twice a fight.",
-  "details": "The attacked unit keeps the permanent gain even if the hit kills it.",
+  "text": "Start of Turn: the Bog folk beside this split half the Toll.",
+  "golden_text": "Start of Turn: the Bog folk beside this split the Toll.",
   "mechanics": [
     {
-      "id": "tiddy_mun",
-      "stats": 1,
-      "limit": 2
+      "id": "pass3_bog",
+      "ability": "tiddy",
+      "factor": 1
     }
   ],
   "keywords": [],
@@ -25,7 +24,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

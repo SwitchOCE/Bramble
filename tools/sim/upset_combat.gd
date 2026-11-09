@@ -4,8 +4,8 @@ extends Combat
 
 const CLASS_PICKS: Array[String] = ["biggest", "highest_attack", "highest_health"]
 const ENEMY_SELECTS: Array[String] = ["enemies", "mired", "enemy_front_row", "enemy_back_row"]
-const NATIVE_CLASS: Array[String] = ["scale_answer", "snap"]
-# Native audit: only scale_answer and snap choose largest enemies. Wave-1's shared
+const NATIVE_CLASS: Array[String] = ["scale_answer", "snap", "whistle", "nightshade_mark"]
+# Native audit: scale_answer, Snap, Whistle and prototype Nightshade rank enemies. Shared
 # scripts also require an audited ability below; new variants must not inherit approval.
 # Whole-library masking covers definitions later reached through copies/summons/text theft.
 const AUDITED_NATIVE: Array[String] = [
@@ -74,7 +74,6 @@ const AUDITED_NATIVE: Array[String] = [
 	"mrs_clover",
 	"mrs_mallow",
 	"nell",
-	"nightshade_mark",
 	"nightshade_on_hit",
 	"no_quarry",
 	"old_isegrim",
@@ -121,7 +120,6 @@ const AUDITED_NATIVE: Array[String] = [
 	"tom_tit",
 	"urchin",
 	"vault",
-	"whistle",
 	"whistlers",
 	"wick",
 	"wobbly"
@@ -165,6 +163,46 @@ const AUDITED_WAVE1: Dictionary = {
 		"will",
 		"witch"
 	],
+}
+
+# Each Bog ability is audited independently; true means a ranked enemy selector to mask.
+# Snap stays a separate native class entry rather than approving all pass3_bog dispatches.
+const AUDITED_BOG: Dictionary = {
+	"bufo": false,
+	"chorus": false,
+	"cutter": false,
+	"frog": false,
+	"gideon": false,
+	"hopkin": false,
+	"jenny": true,
+	"king": false,
+	"lantern": true,
+	"nan": false,
+	"pretender": false,
+	"ranocchio": false,
+	"sal": false,
+	"soak": false,
+	"tiddy": false,
+}
+
+# Hunter reward ranking is bookkeeping; only Isegrim aims a combat answer at biggest.
+const AUDITED_HUNTERS: Dictionary = {
+	"nip": false,
+	"wick": false,
+	"young_brock": false,
+	"sable": false,
+	"lane_bard": false,
+	"russet": false,
+	"brother_wolf": false,
+	"lodger": false,
+	"lutra": false,
+	"ermeline": false,
+	"old_brock": false,
+	"agnes": false,
+	"grizel": false,
+	"glutton": false,
+	"laird": false,
+	"isegrim": true,
 }
 
 var flip_first_attack: bool = false
@@ -263,7 +301,7 @@ static func prepare(input: Dictionary, source: UnitLibrary) -> Dictionary:
 		"unsupported": unsupported,
 		"supported": unsupported.is_empty(),
 		"scope":
-		"joint largest-enemy answer/targeting class; native scale_answer and snap; data steps",
+		"joint largest-enemy answer/targeting class; audited native stat-ranked picks; data steps",
 	}
 
 
@@ -335,9 +373,30 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 		and not original.has("mechanics")
 		and (path.contains("mechanics[") or path.ends_with(".entry") or path.ends_with(".mechanic"))
 	)
-	if is_entry and NATIVE_CLASS.has(id):
-		manifest.append(
-			{"path": path, "kind": "native", "mechanic": id, "removed": original.duplicate(true)}
+	if (
+		is_entry
+		and (
+			NATIVE_CLASS.has(id)
+			or (
+				id == "pass3_bog"
+				and CoreUtil.to_bool(AUDITED_BOG.get(str(original.get("ability", "")), false))
+			)
+			or (
+				id == "pass3_hunter"
+				and CoreUtil.to_bool(AUDITED_HUNTERS.get(str(original.get("ability", "")), false))
+			)
+		)
+	):
+		(
+			manifest
+			. append(
+				{
+					"path": path,
+					"kind": "native",
+					"mechanic": id,
+					"removed": original.duplicate(true),
+				}
+			)
 		)
 		return null
 	if is_entry and id != "effect" and not _audited_native(original):
@@ -366,6 +425,10 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 
 static func _audited_native(entry: Dictionary) -> bool:
 	var id: String = str(entry.get("id", ""))
+	if id == "pass3_hunter":
+		return AUDITED_HUNTERS.has(str(entry.get("ability", "")))
+	if id == "pass3_bog":
+		return AUDITED_BOG.has(str(entry.get("ability", "")))
 	if AUDITED_WAVE1.has(id):
 		var abilities: Array = AUDITED_WAVE1[id]
 		return abilities.has(str(entry.get("ability", "")))

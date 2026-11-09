@@ -1,0 +1,793 @@
+{
+  "units": [
+    {
+      "id": "bridge_toad",
+      "name": "Bridge Toad",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3.",
+      "golden_text": "Mire. After its Mired enemy attacks this: gain +2/+2 permanently, up to +6/+6.",
+      "details": "It gains even if the hit kills it. Its permanent buffs cap at +3/+3.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "bridge_toad",
+          "stats": 1
+        }
+      ],
+      "keywords": [
+        "Mire"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      },
+      "golden_details": "It gains even if the hit kills it. Its permanent buffs cap at +6/+6.",
+      "permanent_buff_cap": 3
+    },
+    {
+      "id": "marsh_frog",
+      "name": "Marsh Frog",
+      "tier": 1,
+      "attack": 1,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "peatling",
+      "name": "Peatling",
+      "set": "slice",
+      "tier": 1,
+      "attack": 4,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Bitter 2.",
+      "golden_text": "Bitter 4.",
+      "mechanics": [
+        {
+          "id": "bitter",
+          "n": 2,
+          "once_per_enemy": false
+        }
+      ],
+      "keywords": [
+        "Bitter"
+      ],
+      "row_hint": "front",
+      "pool": false,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "warty_nan",
+      "name": "Warty Nan",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Bitter 1. Your units beside this have Bitter 1.",
+      "golden_text": "Bitter 2. Your units beside this have Bitter 2.",
+      "mechanics": [
+        {
+          "id": "bitter",
+          "n": 1,
+          "once_per_enemy": false
+        },
+        {
+          "id": "bog_aura",
+          "mire": false,
+          "bitter": 1
+        }
+      ],
+      "keywords": [
+        "Bitter"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "young_pretender",
+      "name": "Young Pretender",
+      "set": "slice",
+      "tier": 1,
+      "attack": 3,
+      "health": 2,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Snap. After this kills a Mired enemy: get 1 gold next turn.",
+      "golden_text": "Snap. After this kills a Mired enemy: get 2 gold next turn.",
+      "mechanics": [
+        {
+          "id": "snap"
+        },
+        {
+          "id": "snap_kill",
+          "gold": 1
+        }
+      ],
+      "keywords": [
+        "Snap"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "madame_bufo",
+      "name": "Madame Bufo",
+      "set": "slice",
+      "tier": 2,
+      "attack": 1,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack.",
+      "golden_text": "Mire. Bitter 4. If the enemy this Mires kills this, it loses half its Attack.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "bitter",
+          "n": 2,
+          "once_per_enemy": false
+        },
+        {
+          "id": "bufo"
+        }
+      ],
+      "keywords": [
+        "Mire",
+        "Bitter"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "mudwallow_toad",
+      "name": "Mudwallow Toad",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Pin.",
+      "golden_text": "Pin.",
+      "mechanics": [
+        {
+          "id": "pin"
+        }
+      ],
+      "keywords": [
+        "Pin"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 6,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 11,
+        "mechanic": "Pin",
+        "library_stats": "2/4",
+        "stat_fix": null,
+        "note": "Pin: an enemy that takes damage from this (attacking or attacked) skips its next turn in the attack order. Doesn't stack."
+      }
+    },
+    {
+      "id": "peat_cutter",
+      "name": "The Peat Cutter",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight. Three times in all.",
+      "golden_text": "Mire. After a Mired enemy dies: get 2 gold next turn. Once a fight. Three times in all.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "effect",
+          "trigger": "on_enemy_death",
+          "do": {
+            "effect": "gold",
+            "amount": 1,
+            "when": "next_turn"
+          },
+          "name": "peat_cutting",
+          "limit": 1,
+          "if": [
+            {
+              "kind": "subject_mired"
+            }
+          ],
+          "lifetime": 3
+        }
+      ],
+      "keywords": [
+        "Mire"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "vaulting_hopkin",
+      "name": "Vaulting Hopkin",
+      "set": "slice",
+      "tier": 2,
+      "attack": 3,
+      "health": 1,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Snap. In your back row, this attacks first, with +2 Attack.",
+      "golden_text": "Snap. In your back row, this attacks first, with +4 Attack.",
+      "mechanics": [
+        {
+          "id": "snap"
+        },
+        {
+          "id": "vault",
+          "attack": 2
+        }
+      ],
+      "keywords": [
+        "Snap"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "common_toad",
+      "name": "Common Toad",
+      "tier": 3,
+      "attack": 5,
+      "health": 3,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "gideon",
+      "name": "Gideon, Basso Profundo",
+      "set": "slice",
+      "tier": 3,
+      "attack": 2,
+      "health": 6,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.",
+      "golden_text": "Mire. After the enemy this Mires attacks this: attack it back with +4 Attack.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "bog_answer",
+          "attack": 2
+        }
+      ],
+      "keywords": [
+        "Mire"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "natterjack_chorus",
+      "name": "The Natterjack Chorus",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Your units beside this have Mire and Bitter 1.",
+      "golden_text": "Your units beside this have Mire and Bitter 2.",
+      "mechanics": [
+        {
+          "id": "bog_aura",
+          "mire": true,
+          "bitter": 1
+        }
+      ],
+      "keywords": [
+        "Mire",
+        "Bitter"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "spitfire_sal",
+      "name": "Spitfire Sal",
+      "set": "slice",
+      "tier": 3,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Start of Combat: deal 2 damage to each Mired enemy.",
+      "golden_text": "Start of Combat: deal 4 damage to each Mired enemy.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "do": {
+            "effect": "damage",
+            "amount": 2
+          },
+          "target": {
+            "select": "mired"
+          }
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "crested_newt",
+      "name": "Crested Newt",
+      "tier": 4,
+      "attack": 6,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "his_highness",
+      "name": "His Highness, Allegedly",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become The Prince Restored.",
+      "golden_text": "Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become a golden Prince Restored.",
+      "mechanics": [
+        {
+          "id": "snap"
+        },
+        {
+          "id": "kiss"
+        }
+      ],
+      "keywords": [
+        "Snap"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "jenny_greenteeth",
+      "name": "Jenny Greenteeth",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
+      "golden_text": "Mire. Its Mired enemy has -4 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "jenny",
+          "attack": 2
+        }
+      ],
+      "keywords": [
+        "Mire"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "prince_restored",
+      "name": "The Prince Restored",
+      "set": "slice",
+      "tier": 4,
+      "attack": 6,
+      "health": 7,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. Your first spell each turn costs 1 less.",
+      "golden_text": "Mire. Your first spell each turn costs 2 less.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "spell_discount",
+          "gold": 1
+        }
+      ],
+      "keywords": [
+        "Mire"
+      ],
+      "row_hint": "front",
+      "pool": false,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    },
+    {
+      "id": "signor_ranocchio",
+      "name": "Signor Ranocchio, Tenor",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight.",
+      "golden_text": "Snap. After this attacks a Mired enemy: gain +2/+2 permanently. Once a fight.",
+      "mechanics": [
+        {
+          "id": "snap"
+        },
+        {
+          "id": "ranocchio",
+          "stats": 1,
+          "limit": 1
+        }
+      ],
+      "keywords": [
+        "Snap"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      },
+      "details": "Counts one attack, including a simultaneous trade."
+    },
+    {
+      "id": "bitter_toad",
+      "name": "Bitter Toad",
+      "tier": 5,
+      "attack": 3,
+      "health": 7,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Enemies this damages gain Nightshade.",
+      "golden_text": "Enemies this damages, or that damage this, gain Nightshade.",
+      "mechanics": [
+        {
+          "id": "nightshade_on_hit"
+        }
+      ],
+      "keywords": [
+        "Nightshade"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 2,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 75,
+        "mechanic": "Nightshade",
+        "library_stats": "4/9",
+        "stat_fix": "3/7, same text (budget review)",
+        "note": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
+      }
+    },
+    {
+      "id": "prima_donna",
+      "name": "The Prima Donna",
+      "set": "slice",
+      "tier": 5,
+      "attack": 2,
+      "health": 8,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire the slot across and the slots beside it. Bitter 2, once per enemy.",
+      "golden_text": "Mire the slot across and the slots beside it. Bitter 4, once per enemy.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": true
+        },
+        {
+          "id": "bitter",
+          "n": 2,
+          "once_per_enemy": true
+        }
+      ],
+      "keywords": [
+        "Mire",
+        "Bitter"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      },
+      "details": "Once per enemy is spent when the attack is declared, even if no damage lands."
+    },
+    {
+      "id": "tiddy_mun",
+      "name": "Tiddy Mun",
+      "set": "slice",
+      "tier": 5,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "After a Mired enemy attacks one of your units: that unit gains +1/+1 permanently. Twice a fight.",
+      "golden_text": "After a Mired enemy attacks one of your units: that unit gains +2/+2 permanently. Twice a fight.",
+      "details": "The attacked unit keeps the permanent gain even if the hit kills it.",
+      "mechanics": [
+        {
+          "id": "tiddy_mun",
+          "stats": 1,
+          "limit": 2
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      }
+    },
+    {
+      "id": "lantern_man",
+      "name": "The Lantern Man",
+      "set": "slice",
+      "tier": 6,
+      "attack": 4,
+      "health": 8,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Snap. Has +3 Attack for each Mired enemy.",
+      "golden_text": "Snap. Has +6 Attack for each Mired enemy.",
+      "mechanics": [
+        {
+          "id": "snap"
+        },
+        {
+          "id": "lantern_man",
+          "attack": 3
+        }
+      ],
+      "keywords": [
+        "Snap"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      },
+      "details": "The Attack bonus changes as enemies enter and leave Mire."
+    },
+    {
+      "id": "peat_king",
+      "name": "The Peat King",
+      "set": "slice",
+      "tier": 6,
+      "attack": 5,
+      "health": 9,
+      "tribes": [
+        "Bog folk"
+      ],
+      "text": "Mire. After a Mired enemy dies: summon a 4/4 Peatling with Bitter 2. Twice a fight.",
+      "golden_text": "Mire. After a Mired enemy dies: summon an 8/8 Peatling with Bitter 4. Twice a fight.",
+      "details": "The Peatling appears in your empty slot nearest this.",
+      "mechanics": [
+        {
+          "id": "mire",
+          "spread": false
+        },
+        {
+          "id": "peat_king",
+          "limit": 2
+        }
+      ],
+      "keywords": [
+        "Mire",
+        "Bitter"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/bog-folk.md",
+        "note": "Final review and costing-3 rulings."
+      }
+    }
+  ]
+}

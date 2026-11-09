@@ -118,7 +118,7 @@ static func ring_total(player: PlayerState) -> int:
 
 
 static func ring_aim(player: PlayerState, slot: int) -> float:
-	# Finish the rainbow before a tier-up; then feed the largest Ring instead of chasing bodies.
+	# Finish the rainbow for End of Turn growth; then feed the largest Ring.
 	var effects: Array = player.slot_effects[slot]
 	if ring_count(player) < 7 and not BoardUpkeep.has_ring(effects):
 		return 100000.0 - slot
@@ -220,6 +220,12 @@ static func _tithe(
 	var queen: int = _find(player, layout, "queen_of_elfland")
 	if queen < 0 or pinned.has(queen) or pinned.has(3):
 		return
+	var source: RecruitUnit = player.board[layout[queen]]
+	var period: int = maxi(1, int(_rate(value, "fairies_queen_period", 1.0)))
+	var count: int = CoreUtil.to_int(source.counters.get("pass3_teind", 0))
+	# This fight still uses the food. Only the next Start of Turn needs it behind the Queen.
+	if count + 1 < period:
+		return
 	_swap(layout, queen, 3)
 	var cheapest: int = -1
 	var lowest: float = INF
@@ -252,14 +258,22 @@ static func _swap(layout: Array[int], a: int, b: int) -> void:
 
 ## Scale only engine text whose value is visible on the current board. -1 keeps the normal hint.
 static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
+	var hunter_value: float = BotHunt.text_value(unit, player, value)
+	if hunter_value >= 0.0:
+		return hunter_value
+	var bog_value: float = BotBog.text_value(unit, player, value)
+	if bog_value >= 0.0:
+		return bog_value
 	if not active(player):
 		return -1.0
 	var factor: int = unit.golden_factor()
 	match unit.def_id():
 		"cluricaun":
-			var future: int = UnitLibrary.TIERS - player.tier
+			# Fairy routes plan rainbow completion; a splash must already meet the trigger.
+			if not fairy_build(value) and ring_count(player) < BoardGeometry.SLOTS:
+				return 0.0
 			var rings: int = maxi(ring_total(player), 7 if fairy_build(value) else 0)
-			return factor * rings * 2.0 * _rate(value, "fairies_ring_growth", 1.0) * future
+			return factor * rings * 2.0 * _rate(value, "fairies_ring_growth", 1.0)
 		"lob_lie_by_the_fire":
 			var turns: int = CoreUtil.to_int(unit.counters.get("pass3_turns_stayed", 0))
 			var periods: float = floorf(turns / maxf(1.0, _rate(value, "fairies_lob_turns", 3.0)))
@@ -299,11 +313,13 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 
 ## Preserve one copy of a live investment; extra copies may still make room for an upgrade.
 static func keep_engine(player: PlayerState, unit: RecruitUnit, value: BotEval) -> bool:
+	if value.level.reads_text and BotHunt.keep_engine(player, unit):
+		return true
+	if value.level.reads_text and BotBog.keep_engine(player, unit, value):
+		return true
 	if not active(player) or not fairy_build(value):
 		return false
 	if unit.def_id() not in ["lob_lie_by_the_fire", "hob_in_the_hearth", "cluricaun"]:
-		return false
-	if unit.def_id() == "cluricaun" and player.tier >= UnitLibrary.TIERS:
 		return false
 	for other: RecruitUnit in player.board:
 		if other != null and other != unit and other.def_id() == unit.def_id():
@@ -312,7 +328,7 @@ static func keep_engine(player: PlayerState, unit: RecruitUnit, value: BotEval) 
 	return true
 
 
-## Finish affordable missing Rings before spending this turn's gold on Cluricaun's tier-up.
+## Complete affordable missing Rings before a climb spends the gold needed for End of Turn growth.
 static func prepare_rainbow(brain: BotBrain) -> void:
 	var player: PlayerState = brain._player
 	if not active(player) or not fairy_build(brain.value) or not brain.level.reads_text:
@@ -352,7 +368,7 @@ static func thank_value(unit: RecruitUnit, player: PlayerState, config: GameConf
 	return BotContent5.shy_departure_value(unit, player, lost, config)
 
 
-## Buying an aimed spell can unlock a bank. A missing Ring also unlocks future tier-up growth.
+## Buying an aimed spell can unlock a bank. A missing Ring can also unlock End of Turn growth.
 static func spell_bonus(card: Dictionary, player: PlayerState, value: BotEval) -> float:
 	if not active(player) or not fairy_build(value) or value.recruit_rules == null:
 		return 0.0
@@ -369,12 +385,12 @@ static func spell_bonus(card: Dictionary, player: PlayerState, value: BotEval) -
 				bonus = maxf(bonus, thank_value(unit, player, value.recruit_rules.config))
 	if item.ring_add() != Vector2i.ZERO and ring_count(player) < BoardGeometry.SLOTS:
 		for unit: RecruitUnit in player.board:
-			if unit != null and unit.def_id() == "cluricaun" and player.tier < UnitLibrary.TIERS:
+			if unit != null and unit.def_id() == "cluricaun":
 				bonus += (
 					2.0
 					* ring_total(player)
 					* unit.golden_factor()
-					* (_rate(value, "fairies_ring_growth", 1.0) * (UnitLibrary.TIERS - player.tier))
+					* _rate(value, "fairies_ring_growth", 1.0)
 					/ maxi(1, BoardGeometry.SLOTS - ring_count(player))
 				)
 	return bonus

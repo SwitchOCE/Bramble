@@ -17,6 +17,7 @@ static func apply(combat: Combat, hits: Array[Hit]) -> void:
 				hit.target, hit.target.params[index], hit
 			)
 		Pass3BirdCombat.reduce_hit(combat, hit)
+		Pass3HunterCombat.reduce_hit(combat, hit)
 		if hit.amount <= 0:
 			continue
 		live.append(hit)
@@ -52,6 +53,7 @@ static func land(combat: Combat, hit: Hit, breaks_shell: bool) -> void:
 	var before: int = target.health
 	target.take_damage(hit.amount)
 	if before > 0 and target.is_dead():
+		Pass3HunterCombat.lethal(combat, hit)
 		CombatMoves.credit_lethal(
 			combat,
 			target,

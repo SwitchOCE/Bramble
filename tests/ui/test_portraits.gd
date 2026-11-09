@@ -32,12 +32,21 @@ func before_each() -> void:
 	_pending = manifest["units"]
 
 
-func _assert_own_art(owner_node: Node, def_id: String, where: String) -> void:
+func _assert_own_art(
+	owner_node: Node, def_id: String, where: String, portrait_id: String = ""
+) -> void:
 	var frame: ArtFrame = owner_node.get("_art")
 	var expected: String = UiTheme.UNIT_PORTRAIT_DIR % def_id
 	# Wave 1 explicitly reuses the existing Egg portrait for its created Golden Egg spell.
 	if def_id == "golden_egg":
 		expected = UiTheme.UNIT_PORTRAIT_DIR % "nest_egg"
+	# A Pelt has no independent portrait: the created item wears its recorded prey's art.
+	if def_id == "pelt":
+		expected = (
+			UiTheme.portrait([]).resource_path
+			if portrait_id.is_empty()
+			else UiTheme.UNIT_PORTRAIT_DIR % portrait_id
+		)
 	if _pending.has(def_id) and not ResourceLoader.exists(expected):
 		var tribes: Array = _library.get_unit(def_id).get("tribes", [])
 		expected = UiTheme.portrait(tribes).resource_path
@@ -49,12 +58,12 @@ func _assert_on_tile_and_detail(view: Dictionary) -> void:
 	var card: CardView = CardView.new()
 	_holder.add_child(card)
 	card.show_unit(view, CardView.Mode.SHOP)
-	_assert_own_art(card, def_id, "tile")
+	_assert_own_art(card, def_id, "tile", str(view.get("portrait_id", "")))
 	card.free()
 	var detail: CardDetail = CardDetail.new()
 	_holder.add_child(detail)
 	detail.show_unit(view)
-	_assert_own_art(detail, def_id, "detail")
+	_assert_own_art(detail, def_id, "detail", str(view.get("portrait_id", "")))
 	detail.free()
 
 
@@ -80,7 +89,13 @@ func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
 		if in_game or str(card["id"]) in RULES_ITEMS:
 			_assert_on_tile_and_detail(HandItem.make(card, 1).view())
 			seen += 1
-	assert_eq(seen, 24, "19 spells, 3 Acorn items, the triple reward and Golden Egg")
+	assert_eq(seen, 25, "19 spells, 3 Acorn items, the triple reward, Golden Egg and Pelt")
+
+
+func test_a_created_pelt_shows_its_recorded_prey_on_tile_and_reader() -> void:
+	var definition: Dictionary = _library.get_card("pelt").duplicate(true)
+	definition["portrait_id"] = "mrs_jay"
+	_assert_on_tile_and_detail(HandItem.make(definition, 1).view())
 
 
 func test_every_hero_has_its_own_portrait() -> void:

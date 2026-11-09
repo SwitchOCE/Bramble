@@ -70,6 +70,7 @@ static func swallow(
 		SHOP:
 			player.shop.remove_at(index)
 			unit.poached_discount = 0
+			unit.poached_offer = false
 		HAND:
 			player.hand.remove_at(index)
 		BOARD:
@@ -340,6 +341,7 @@ static func _to_hand(rules: RecruitRules, player: PlayerState, unit: RecruitUnit
 
 ## Whoever waited on a full hand comes in as room appears.
 static func drain_doorstep(rules: RecruitRules, player: PlayerState) -> void:
+	Pass3Hunters.drain_items(rules, player)
 	var moved: bool = false
 	while not player.doorstep.is_empty() and rules.has_hand_space(player):
 		player.hand.append(player.doorstep.pop_front())

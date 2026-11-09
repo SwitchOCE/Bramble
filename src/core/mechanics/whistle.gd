@@ -9,10 +9,12 @@ func acts_without_attack(_params: Dictionary) -> bool:
 
 
 func choose_turn_action(combat: Combat, unit: CombatUnit, _params: Dictionary) -> String:
-	var best: Array[CombatUnit] = []
+	var eligible: Array[CombatUnit] = []
 	for enemy: CombatUnit in combat.units_of(1 - unit.side):
-		if enemy.has_status("warned"):
-			continue
+		if not enemy.has_status("warned"):
+			eligible.append(enemy)
+	var best: Array[CombatUnit] = []
+	for enemy: CombatUnit in Pass3Combat.prefer_original_enemies(eligible, unit.side):
 		if best.is_empty() or enemy.attack > best[0].attack:
 			best = [enemy]
 		elif enemy.attack == best[0].attack:

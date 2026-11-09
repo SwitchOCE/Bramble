@@ -1,0 +1,138 @@
+{
+  "hunters_pack": {
+    "tribe": "hunters",
+    "base_strategy": "hunters_pact",
+    "kind": "tempo",
+    "engine_flag": false,
+    "priority": [
+      "old_isegrim",
+      "mountain_glutton",
+      "grizel",
+      "sable",
+      "brother_wolf",
+      "little_nip",
+      "wick",
+      "grey_agnes",
+      "old_lutra",
+      "young_brock",
+      "madame_ermeline",
+      "laird_of_sett",
+      "lodger",
+      "mistress_russet",
+      "toll_bard",
+      "old_brock"
+    ],
+    "keep": [
+      "mountain_glutton",
+      "old_isegrim",
+      "grizel",
+      "sable",
+      "brother_wolf",
+      "little_nip",
+      "wick"
+    ],
+    "sell_order": [
+      "young_brock",
+      "grey_agnes",
+      "old_lutra"
+    ],
+    "placement": [
+      "Sable, Brother Wolf, Nip and Wick in front; Wolf between two leaders.",
+      "Isegrim B1 beside the Glutton B2, Grizel B3; Lutra and Agnes fill the back row before those pieces arrive.",
+      "Place Takers ahead of Isegrim so their Take wins reading-order ties.",
+      "Before a real replacement sale, move the retiring Hunter into Young Brock's adjacent reach, or neighbours for golden.",
+      "Match Nip to prey his pack can kill; Sable adds the quarry's full configured Attack, and Lutra can reach the back row.",
+      "Buy a poached copy at its real price when it completes a triple or has at least 1.5 times the stats of the best other ordinary shop offer."
+    ],
+    "climb": {
+      "T2": 2,
+      "T3": 4,
+      "T4": 6,
+      "T5": 8,
+      "T6": 11
+    },
+    "save_threshold": 0,
+    "save_rounds": [],
+    "hold": {},
+    "harvest_supper_rounds": [
+      7,
+      9,
+      11
+    ],
+    "save": [
+      "Spend out after securing the next scheduled tier-up; arrivals remain real draws."
+    ],
+    "spells": {
+      "harvest_supper": "buy on rounds 7, 9 and 11 with spare gold after units and the scheduled tier-up",
+      "pelt": "cast immediately on an eligible Hunter; never hold it for sale gold"
+    }
+  },
+  "hunters_open_season": {
+    "tribe": "hunters",
+    "base_strategy": "hunters_open_season",
+    "kind": "engine_carry",
+    "engine_flag": true,
+    "priority": [
+      "laird_of_sett",
+      "mountain_glutton",
+      "madame_ermeline",
+      "sable",
+      "little_nip",
+      "old_lutra",
+      "lodger",
+      "mistress_russet",
+      "young_brock",
+      "old_isegrim",
+      "old_brock",
+      "grizel",
+      "brother_wolf",
+      "toll_bard",
+      "wick",
+      "grey_agnes"
+    ],
+    "keep": [
+      "mountain_glutton",
+      "laird_of_sett",
+      "madame_ermeline",
+      "sable",
+      "little_nip",
+      "old_lutra",
+      "lodger"
+    ],
+    "sell_order": [
+      "young_brock",
+      "mistress_russet"
+    ],
+    "placement": [
+      "Sable and Nip in front, Lodger beside Takers, Ermeline F4.",
+      "Lutra B1 beside the Glutton B2, Laird B3. Brock can take B2 to mark a protected carry.",
+      "Play every Pelt on arrival: Glutton below 35 percent of board stats, otherwise the smallest Nip, Sable or Lutra.",
+      "Place Takers ahead of Isegrim so their Take wins reading-order ties.",
+      "Before a real replacement sale, move the retiring Hunter into Young Brock's adjacent reach, or neighbours for golden.",
+      "Match Nip to prey his pack can kill; Sable adds the quarry's full configured Attack, and Lutra can reach the back row.",
+      "Buy a poached copy at its real price when it completes a triple or has at least 1.5 times the stats of the best other ordinary shop offer."
+    ],
+    "climb": {
+      "T2": 2,
+      "T3": 5,
+      "T4": 7,
+      "T5": 9,
+      "T6": 11
+    },
+    "save_threshold": 0,
+    "save_rounds": [],
+    "hold": {},
+    "harvest_supper_rounds": [
+      7,
+      9,
+      11
+    ],
+    "save": [
+      "Spend out after securing the next scheduled tier-up; arrivals remain real draws."
+    ],
+    "spells": {
+      "harvest_supper": "buy on rounds 7, 9 and 11 with spare gold after units and the scheduled tier-up",
+      "pelt": "cast immediately on an eligible Hunter; never hold it for sale gold"
+    }
+  }
+}

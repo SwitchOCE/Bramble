@@ -1,0 +1,330 @@
+# Pass 3 wave 2A build
+
+Branch: `ideation/wave2a`, based on `f574eaf`. Work is split into three reviewed commits: pool rules, Bog folk, then Hunters. This document records each checkpoint, its readings and remaining limits. Bog is implemented below; Hunters awaits its separate review step.
+
+## Item 1: pool rules
+
+- Hunters' permanent Take rewards and Bog's Soak rewards use `PendingGains`. Combat records the amounts without changing the fighting body's stats or healing it. Carry transfers the same identity-based queue to recruiting; the next Start of Turn drains it before arrivals, homecomings and ordinary turn listeners. Dead fighters retain their rewards. Combat-only tokens have no permanent body to reward. Combining copies retargets their queued rewards to the golden body without doubling them; rewards for bodies no longer owned are discarded.
+- A compact numeric `+Attack/+Health` badge shows the accumulated pending gain during combat, including on a departing card while it fades. Its existing one-tap reader explains the timing. The graphical and play-tool fight logs report each queued increment without implying an immediate buff or heal. Fading-card lookup and cleanup skip freed controls. No new main-screen reminder was added, following [owner note 09e](../../../design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md).
+- Pack joiners cannot Cleave in pass 3. The leading attack still Cleaves normally. The existing diagnostic `pass3_loop_guards` switch reproduces the old joiner splash in a counterexample test.
+- The existing source-independent extra-trigger guards also cover manually repeated When played contexts. Scripted scale-engine growth now uses the same guard: extra triggers cannot repeat a doubling (including a golden half-rate engine that doubles) or move a countdown. Fractional and flat growth can still repeat. Guard-off tests demonstrate the otherwise repeated doubling and countdown movement. Future tribe doublers must provide the existing repeat index; no new doubler is introduced in this commit.
+- `scale_hero_spell_stats` follows pass 3 content by default. Explicit on/off overrides remain available for comparisons. The existing scaling formula is retained: each positive printed stat point becomes 10% of the corresponding recipient stat, with the printed gain as a floor and fractions rounded down. Effects without a recipient use occupied-board averages. The percentage is now a JSON dial. Counted Ring spells keep their printed Ring count rather than scaling it into dozens of Rings.
+- Harvest Supper has no pass 3 size ceiling and retains its once-per-turn guard, including when ordinary rate limits are disabled. With scaling enabled, its shared +Attack/+Health step is the percentage of the lower board average, minimum +1/+1. Its bot valuation uses the same eligibility rules. Legacy capped Supper remains available when pass 3 is off.
+- Wave 1 already supplies biggest-enemy-last Start of Combat and Belly see-through. Those paths were checked and retained; their existing tests remain.
+
+### Presets and provisional rates
+
+The orchestrator relayed `docs/design/owner-notes/2026-11-09h-generous-power-first.md` from local `ideation/main`: start generous and cut back. The note is not present at this branch's base. `rates.json` now contains a shared numeric rate map plus A/B/C overrides; `Pass3Rates` resolves a selected preset before individual harness overrides. Metadata is kept outside the numeric rate map.
+
+B is the default. Synthesis rates provisionally serve as B until the paper workflow provides exact B/C values; these values are not evidence of reaching the plan's round-12 size targets. B changes the merged wave 1 Fetch share from one-half to full stats, as explicitly requested. All other merged wave 1 B dials stay unchanged. A retains the former half-Fetch fallback. C provisionally doubles the listed engine growth, copy and Ring-production rates and the spell/hero percentage. Timing, target counts, defensive answers, economy and loop-guard allowances stay unchanged. C's 2× Fetch text says double stats. There are no other proposed wave 1 B dial changes in this build; the paper values may later replace the provisional overrides.
+
+### Readings and limits
+
+- “Next Start of Turn” means the first step of the next Recruit Phase, ahead of homecomings and Start of Turn text. This prevents listeners from reading a stale body and makes the landing happen exactly once.
+- The pending badge belongs to a visible fighter. Once its tile has faded away, later queued rewards remain in the existing fight log and event stream; the UI does not keep an extra dead-unit tile or add a reminder panel.
+- Pool rules precede the tribe rewrites. Today's Bridge Toad is routed through the new queue, retaining its existing flat reward and authored cap until the Bog commit replaces it with the pass 3 Soak design. The queue reserves any existing cap against rewards already pending; it adds no new size cap.
+- The queue applies to permanent stat gains from Takes/Soak, rather than unrelated permanent changes such as Jack Daw's explicitly retained permanent steal. Other prototype Hunter/Bog abilities remain until their respective commits.
+- Existing guard-off controls remain diagnostic comparisons. The pool rules apply whenever pass 3 content is present; pass 3 off retains legacy resolution.
+- The early-card flexibility audit belongs to the Bog/Hunters commits. No early card has been redesigned in this pool-rule commit.
+
+### Verification
+
+Focused tests cover queue timing, death, identity, triples, token and missing-body cases, cap reservation, Pack leader/joiner Cleave, guard counterexamples, scripted doubling, scaling, Supper eligibility, Ring counts, presets and the phone-size pending badge. Fixed-dial replay fixtures are captured from untouched `f574eaf` for Birds, Fairies, Oozes and Hedgerow; the intentional B Fetch change and hero/spell default change are held fixed for those comparisons. The reader tests open the actual Details slip for scaled spells/heroes and normal/golden Take and bite cards before any reward; the legacy-path test checks immediate Take/bite gains with pass 3 off. The full gate passes: 1,836 GUT tests, 29,915 assertions, a clean strict hook, and 57 Python checks. All eight native-tribe fights replay byte for byte against `f574eaf`; the twelve existing frozen legacy replays also pass. [Gate log](../../evidence/wave2a/pool-rules-gate.log). The final run uses the detached `nohup timeout 5000 flock … systemd-run --user --scope -q -p MemoryMax=3G ./scripts/check.sh` command, with `/opt/bramble/env.sh` sourced first and output in `build/w3-gate.log`.
+
+## Pool-rule review fix-up after the harness merge
+
+Built on the user’s merge `0a31c5f`, before Bog:
+
+- The pre-lever capture test now expects a private pass 3 library, checks cache reuse and source immutability, and retains its caps-on checks.
+- `scale_hero_spell_percent` is an explicit nullable `GameConfig` default, so bench and shard overrides can find the key while its value still resolves from JSON. Removed the test-only `Pass3Rates.preset()` API; all preset resolution uses `resolved(config)`.
+- Mousewife’s tier-sized Mouse now uses the existing stat-scaling rule against living board averages: each stat is at least the tier, otherwise the corresponding average times the percentage times the tier. Attack and Health can differ. Empty/small boards retain the tier floor; Mouse deaths and failed summons retain their existing guards. Explicit scaling-off keeps the legacy path.
+- Used the authorized **short-face fallback**, rather than adding target-aware live-number previews. A single number would misstate Bracken’s different gains across recipients or Cordial’s target/row-dependent gains. Faces omit minimum clauses and Bracken’s cap clause; Supper simply names its tribe bonus. The existing Details reader keeps the percentage formula, floors, caps and original base effect. Phone-reader tests cover all four examples at default and swept percentages. Live per-target previews remain outside this fix-up.
+- Fight captures freeze resolved rate values and the effective scaling switch alongside the preset label. They also save the numeric defaults used to decide whether a reader ruling needs an override; otherwise a golden Fetch could gain an extra view field when the default changes. These saved defaults affect text comparison only, while saved effective rates control combat. Real serialized B/C captures with normal and golden Fetches replay exactly against fresh libraries after default/preset edits, with an unfrozen negative control.
+
+C remains provisional. `gain_landed` and the two prototype Hunter reward timings are retained for their scheduled later work. No Bog content is built in this fix-up.
+
+## Wave 1 rule follow-up
+
+The orchestrator's paper-value decisions were read from local `ideation/main:docs/ideation/DECISIONS.md`, “Paper values for presets B and C”. The paper presets have not been applied.
+
+- Enemy selections ranked by Attack plus Health, Attack or Health prefer eligible originals over bodies created by copying in this fight. Existing eligibility filters run first; if no eligible originals remain, copies become eligible. Counted picks do not fill spare places with copies while originals remain. A combat-only marker is set before entry callbacks, survives swallowing/release, and resets in the next fight. Friendly-largest, across-only, all-enemy effects, ordinary summons and copies made before combat retain their rules.
+- Covered selectors are the common data path, Snap, Whistle, prototype highest-Health Nightshade, and native/data scale answers. Today's prototype Hasty is across; Jenny picks a friendly adjacent attacker; Isegrim supplies a join bonus; Lantern uses Snap; pass 3 Seven Whistlers is across/all-enemy. Their future biggest-enemy rewrites will use the same selector policy rather than changing those prototype rules now.
+- Jack Daw's steal joins the late Start of Combat step, including when its text is copied or borrowed. The persistence switch still controls only whether the gain carries back. Tests exercise both player orders against full Fetch plus its own Ring, Granny's gathering, the Whistlers changing the recipient, and Changeling changing sides. Jack remains a positional effect in the UpsetCombat audit.
+- The native audit now also masks Whistle and prototype Nightshade, whose actual selections rank enemy Attack and Health. Their original-first policy belongs to the same answer class. All-enemy and friendly-largest effects remain outside it.
+
+The final detached gate below validates both follow-up commits together; the earlier gate was stopped when the second commit was requested.
+
+Combined validation passed under the detached shared-lock/3G command: **1,908 GUT tests, 31,084 assertions**, strict hook clean, and all quality-gate steps passed. [Combined gate log](../../evidence/wave2a/fixups-gate.log). Focused checks also passed: Mousewife 5, scaling 9, phone readers 6, capture/replay 4, copy targeting 11, Jack timing 5, plus the UpsetCombat and existing combat/replay suites. The working paper B/C values were not applied; Bog remains unbuilt pending confirmation.
+
+## Item 2: Bog folk pass 3
+
+Built after `1144ad6`, with the separately requested rollback Fetch correction in `feebc5a`. The sixteen live Bog bodies now use the pass 3 design, including tier-4 Tiddy (3/5), tier-5 Jenny (4/7), the restored Prince and combat-only Peatling. The five prototype bodies (`marsh_frog`, `mudwallow_toad`, `common_toad`, `crested_newt`, `bitter_toad`) leave the pool. Portraits are reused. Frozen pass 2 Bog definitions remain test-only rollback coverage.
+
+### Rules and readings
+
+- The orchestrator's three calls are implemented: **ordinary starts → Lantern → Jenny → Bog patches → Sal → remaining biggest-enemy effects**; hidden targets bind the exact identity and wait for its natural emergence; Hopkin borrows on every attack while in the back row. This is Bog's dependent sequence within amendment 4. Jack's additional after-all-ranked-effects ordering is reserved for the Hunters commit, as directed in review.
+- Bitter removes a quarter of the attacker's current effective attacking Attack, rounded up, with a floor of 1 remaining. Actual Attack removed contributes to the owner's new Toll. Soak banks its own patched enemies' losses through the existing next-Start-of-Turn queue, including when the drinker dies. Free bites contribute Toll but no Soak. Own and lent Soak use the strongest matching copy, never add; golden strength survives borrowing.
+- The previous fight's Toll pays Nan and Tiddy at Start of Turn and Sal at Start of Combat. The current fight earns a fresh Toll, including Bitter from combat-only Peatlings; zero earned resets it to zero. Nan chooses the smallest Bog by Attack plus Health; ties use reading order. Amendment 2 limits Tiddy and the frogs to **the Bog folk beside them**, as does the Chorus. The Bog review corrected the earlier broader reading to match the overriding amendment.
+- Shares are floored after splitting. Nan/Tiddy/Ranocchio's paper shares are their final shares: Soak's keep dial does not multiply those rewards again. Bitter alone rounds up. Sal divides its previous Toll among all currently Mired enemies, after patches and before the remaining late answers.
+- Kisses are owner-owned progress, shared by all frogs; holding all frogs pauses progress without erasing it. A whole death batch determines its witnesses before rewards. A frog dying with a Sink can witness it. The strongest overlapping curse break applies once to each recipient per turn, multiplying printed plus permanent stats, excluding tribe bonuses, Rings, auras, combat buffs and Bitter losses. The first break restores His Highness; the Prince repeats the same shared quest. An immediate permanent gain never revives a fighter already killed in that batch.
+- Cutter's once-per-fight gold, King's two/four **successful** summons, one kiss per fight, and one multiplication per recipient per turn are the four named loop guards. Ordinary Ranocchio attacks have no fight cap. Gideon's hit-back is one-way damage, not another attack or a chain of retaliations. Peatlings copy settled starting Attack and maximum Health (entry stats for later arrivals), retain Bitter, and create no permanent owner body. Golden King raises four exact-size bodies, not two doubled bodies.
+- Mire remains slot-bound. Lantern reserves its selected identity before Jenny chooses, but if that identity occupies Jenny's destination, Jenny's swap can move it incidentally; the Lantern patch stays on its slot. Deferred hidden lures/pulls do not force Belly release and expire if their source departs.
+
+### Provisional B dials
+
+The Bog paper B entries available on local `ideation/main` were compared with the synthesis, taking the more generous value. No paper values for another tribe were applied. All values below are provisional pending the accounting check.
+
+| Dial | B | Golden B |
+| --- | ---: | ---: |
+| Soak keep | 2 | 4 |
+| Nan's Toll share | 1/2 | 1 |
+| Tiddy's Toll share, split | 1/2 | 1 |
+| Ranocchio's target-Attack share | 1/2 | 1 |
+| Frog multiplier | 2 | 3 |
+| Hopkin's front-Attack share | 1/4 | 1/2 |
+| Bufo halvings | 1 | 2 |
+| Gideon hit-backs | 1 | 2 |
+| Sal's Toll multiplier | 1 | 2 |
+| Pretender / Cutter gold | 1 | 2 |
+| King's successful Peatlings | 2 | 4 |
+| Lantern lures | 1 | 2 |
+
+Other dials: Bitter share 1/4, round up true; Soak own-Mired-only true; kiss period 3, kisses per fight 1, frog multiplications per turn 1; Peatling stat share 1; Prima patches 3; Chorus recipients 2; Jenny pulls 1; capstone When played Toll lever false. These are JSON rates, exposed as nullable configuration overrides for harness sweeps. C uses the separate Soak keep override **3/6**, not a blanket multiplier; the remaining Bog rates inherit B. A provisionally inherits Bog B. Existing wave 1 rates are unchanged by this commit. Card faces and Details are generated from resolved rates, with independent authored-default matching tests.
+
+### Bot, lines, display and limits
+
+Hard's Bog helper values the engine as a board: Tiddy/frog adjacency, soak food versus Bufo threat, Chorus recipients, Hopkin behind Attack, matching Jenny after Lantern, and profitable King gaps. It keeps engine pieces, delays an unproductive frog only within the line's hold rule, and can cash shared progress. Existing strategy IDs remain usable: `bog_tongues` is Court and `bog_bitter` is Swamp.
+
+`tools/sim/lines/bog.json` contains Court and Swamp priorities, triple and tier-up policies, savings, holds and placement rules. It follows the wave 1 schema with explicit `tribe` and `base_strategy`; the generalized file loader is not on this tree, so the JSON awaits that harness merge. No edits were made to `bench.gd` or `BenchSuites`.
+
+The existing Bog icon shows numeric Toll; the frog's existing progress display uses shared kisses. The reader shows recorded-scout per-bite Soak estimates, using current placement and Lantern/Jenny/patch priority, without consuming RNG or predicting the opponent's next buffs. Missing scout data has no estimate. Pending gains use the existing badge. No new main-screen reminder or tutorial was added.
+
+Early flexibility: Nan's Bitter body, Hopkin's early attack, Cutter's economy and Pretender's Snap body can be played before commitment, but their engine text needs Bog/Mired support. Bridge Toad and Bufo enable their own matching; the Chorus and later funnel need tribe commitment. These dependencies are retained rather than redesigning the early cards (owner note 09f).
+
+UpsetCombat audits every new dispatch by ability. Lantern and Jenny select the biggest enemy; Snap remains its separate stat-ranked class. Other new Bog abilities do not choose a biggest enemy. Unknown native abilities continue to make the audit unsupported.
+
+### Bog verification and rollback coverage
+
+The focused native suites cover every body and token, normal/golden rates, printed plus borrowed growth, actual recruit purchases and placement, Toll cash-out, shared kisses, next-turn landing, hidden identity binding, and the full dependent opening. Guard-off cases reproduce repeated Cutter payments, multiple kisses in one fight, overlapping multiplication, and excess King summons. Hopkin is tested through the real attacker picker after Bitter reduces his own Attack to zero, and stops borrowing when the front unit loses its Attack. The native UI tests cover phone and PC state readability, selected-scout estimates, replayed Toll/kisses and human-readable action logs. Native Details are available before any reward, including lent Soak in the recipient's reader.
+
+Frozen Bog definitions join the test-only rollback library. This prevents a native Bog elsewhere in the library from enabling pass 3 inside an old Birds/Fairies test. Old cap, discount, aura, kiss-per-death, price-paid and log assertions retain their original bodies; the previous Bog shopping comparisons also retain their old comparison priors. The pool-rule tests retain current Birds/Fairies for Pack/Cleave, while archiving only the prototype Bog reward under test. Native Bog has separate current-rule coverage. The rollback is retained until step 5 of plan v3, as agreed for the wave 1 archives.
+
+### Trigger-condition and low-roll audit (triage rule, 034b098)
+
+The paper-model low-roll rows remove the line's first-priority keystone for the **entire game**: Court has no Tiddy; Swamp has no Prima Donna. They do not script a later arrival. These choices are explicit build readings for the two different engines, pending harness measurement; other arrivals remain real draws.
+
+| Cards | Condition checked when its trigger fires | Finding |
+| --- | --- | --- |
+| Bridge Toad, Prima Donna, Lantern | Their own patched attacker bites; actual Bitter loss banks next turn | Aligned; Lantern selects after ordinary buffs, Prima supplies its patches before attacks |
+| Nan, Tiddy | Previous Toll and eligible Bog recipients at Start of Turn, after gains land | Aligned; neither depends on tier-ups or stops at T6 |
+| Pretender | This kills a currently Mired enemy | Aligned with completed attack/death batch |
+| Bufo | Her own Mired enemy kills her | Aligned with death and retained killer/patch identity |
+| Hopkin | Back-row attack, live Attack in front | Rechecked on every declared attack; zero own Attack does not prevent borrowing |
+| Cutter, King | A Mired enemy dies while they witness the batch | Aligned with Sink; full-board King failures do not spend successful-summon allowance |
+| Gideon | Survives his own Mired enemy's completed bite | Aligned, but a fresh small Gideon cannot reply to a lethal giant; Soak still banks. This is an explicit conditional payoff, not evidence of reliable reply frequency |
+| Chorus | Adjacent Bog recipient at patch/Soak resolution | Aligned, recomputed from live adjacency |
+| Sal | Previous Toll and Mired targets at Start of Combat | Aligned by running after patches; zero Toll or no patches naturally produces no damage |
+| His Highness, Prince | A Sink while a frog is present, then each configured kiss milestone | Aligned with shared fight progress; hand time pauses it, repeated Prince milestones still fire |
+| Ranocchio | Completes an attack on a currently Mired enemy | Aligned; permanent reward survives a lethal trade |
+| Jenny | Eligible biggest enemy in the facing row at her dependent start step | Aligned after Lantern, before own patches; hidden target waits for emergence |
+
+No Bog card has the structural tier-up/full-Ring mismatch found in Cluricaun. Arrival rates and the frequency of conditional payoffs are not calibrated by these rule tests; the realized-board harness check remains necessary. Hunters will receive the same audit with its implementation.
+
+Final Bog validation passed under the detached shared-lock/3G command: **1,989 GUT tests, 32,039 assertions**, strict hook clean, all 57 Python checks and every full-gate step passed. The eight fixed-dial native untouched-tribe replays and twelve archived legacy replays pass. [Bog gate log](../../evidence/wave2a/bog-gate.log). Focused checks additionally passed 72 native Bog tests and the final 88-case rollback/reader check. The low-roll rows are paper-model notes in this build document; they are not bot line-file input.
+
+## Wave 1 re-base after Bog
+
+Requested after `9f03fe0`, using the orchestrator's `034b098` decisions and paper preset JSON from local `ideation/main`. The triage report and critic were read there. B/C now target realized committed-line medians; the paper schedules describe high rolls, not measured typical games. This implementation does not claim that either target has been reached; the shipped-config accounting run belongs to the harness follow-up.
+
+- **Birds hold:** every `birds_*` base value and B/C override remains exactly as in `9f03fe0`, the build the playtesters played. Two independent skilled playtests showed compounding homecomings running away (a 2,085 board at R14 and an 820/1082 unit at R18), while bot boards remained near 270 at R12. The bot-based argument for increasing Birds is withdrawn; Birds receive a separate triage. No Bird card data, growth rule, economy value or dial is changed by this re-base.
+- **Fairies B** uses paper B with initial Ring size **4**, **C** paper C with initial Ring size **6**. Growth is 2/4 for normal/golden Cluricaun in B, 4/8 in C. Nan makes 2/4 Rings; Lob's bank period and the Monarch's period are both 2. C has Lob growth 3, Silky growth 2, Monarch multiplication 3/4; B retains growth 1,1 and multiplication 2/3. Fetch is full in both. Annis and Sally stay at one Ring, as directed.
+- The base numeric map and preset A retain the historical wave 1 values; the new Fairy B/C values are explicit overlays. Authored Fairy defaults are regenerated for B. The unchanged paper constants for Witch share 1, Hob/Belladonna/Changeling target counts 1 and Shy payment 2 match the existing rules and are not added as unused rate keys. Bog, the other tribes and the hero/spell percentage presets are unchanged.
+- **Queen**, still T6 8/8, destroys the units behind her at **Start of Turn**. This hook already exists and runs while the Recruit Phase remains open. Tests refill an emptied slot legally and show that its replacement survives End of Turn. Her optional period dial uses Start of Turns; an extra trigger cannot advance its countdown. End of Turn doublers no longer fire her.
+- **Cluricaun**, still T3 3/5, checks the full Ring board at **End of Turn**, including at T6. The resolved growth dial determines both the effect and the face. Shared printed/borrowed growers still resolve once at the strongest strength. Tier-ups no longer grow Rings. Hard values this recurring payout and retains it at T6; Queen's food arrangement follows the next Start of Turn's due counter, while shopping can refill her slots.
+- The pass 2 archive remains unchanged. A remains available for fixed-rate mechanic comparisons. The existing exact replay fixture is retained: runtime rates and the historical reader comparison basis are both pinned. The fixture itself is unchanged; the explicit comparison basis prevents new authored Fairy defaults from changing historical reader metadata. No fight results were re-recorded.
+- The Bog low-roll policies and trigger-condition table above implement the two new triage rules. No Bog card has Cluricaun's phase/tier mismatch; Gideon's survival requirement and arrival-dependent payoff frequencies remain explicit measurement risks. The same check is required for Hunters.
+
+The larger starting Rings exposed an existing legality-list mismatch: the UI still treated four flat Ring stats as a full slot, although pass 3 counts uncapped Rings. The action list now follows the pass 3 pool rule. Tests show both four-Ring and three-Ring slots remain legal spell targets, an actual cast increases the latter to five Rings, and the copied pass 2 state still filters a capped slot. Other generic tests now assert B's actual +8/+8 and +12/+12 Ring-spell gains. Capture-drift tests keep both frozen exact replays and unfrozen negative controls with full Fetch in both Fairy presets.
+
+The generic Ring-size reminder no longer claims a universal starting size of 1; the live size display and resolved card rulings supply the selected value. Lob's reader regression now expects B's two-turn bank. The final gate below covers the Birds hold and these reader corrections together.
+
+
+## Bog review fix-up after the wave 1 re-base
+
+- Amendment 2 wins over the synthesis faces: Tiddy, His Highness and the Prince affect only adjacent Bog folk. Faces, Details, recruit/combat filters, bot frog valuation and exclusion tests use the same tribe restriction. Bog B/C rates stay unchanged.
+- `tools/sim/lines/bog.json` uses only card IDs in `keep`. Positional carry guidance stays in `placement`. The Court-without-Tiddy and Swamp-without-Prima low-roll rows remain paper-model notes above; `low_roll` is removed from the bot input.
+- The new Bog rulebook entries are tagged `[PROPOSED ideation]`; no owner decision is claimed. The schema's Soak reminder now correctly describes the Mired enemy biting the drinker.
+- The combined detached gate below validates this fix-up together with the separately committed Fairies-only re-base `f86f2d7c`. Birds remain held at the playtested `9f03fe0` rates.
+
+Hunters follow-up notes: Jack Daw must resolve after all of both sides' stat-ranked enemy effects. Whirligig Beetle must not improve the opponent's placement on bigger Rings; its rebuilt swap rule needs a resulting-Ring check or an explicit design reason to allow the benefit. These are reserved for the Hunters commit.
+
+The historical pinned-strategy purchase-share regression now explicitly selects preset A; its original 60%/40% thresholds are unchanged. Full-game coverage elsewhere still runs the current B field. The detached verification checks this fixed-rate regression before running the complete gate; logs are `build/wave2a-pinned-profile.log` and `build/wave1-rebase-bog-fixup-gate.log`.
+
+
+Combined re-base/Bog fix-up verification passed: **2,001 GUT tests, 32,157 assertions**, strict hook clean, 57 Python checks and all full-gate steps. The pinned-strategy regression also passed separately (24 assertions). [Combined gate log](../../evidence/wave2a/rebase-bog-fixup-gate.log).
+
+
+## Hunters pass 3
+
+The sixteen slice IDs keep their portraits and the 3/3/3/3/2/2 tiers. Seven prototype Hunter bodies leave the pool; all 23 previous definitions remain archived for frozen rollback tests until step 5 of plan v3. Lane-Bard keeps the internal `toll_bard` ID. There is no Pounce or Cleave on a native Hunter.
+
+### Rates and readings
+
+The 27 Hunter dials use paper B from local `ideation/main`'s `presets.json`, provisionally. C changes the engine shares individually rather than multiplying the whole preset. A is a fallback only; no separate Hunter A calibration is supplied. Other tribes' rates, including every held Birds value, are unchanged.
+
+| Dial family | B | C |
+| --- | --- | --- |
+| Nip / Sable / Lutra Take share | 2/3 | 3/4 |
+| Lodger / Glutton share | 2/3 | 1 |
+| Wick / Grizel / Pelt share | 1/3 | 1/2 |
+| Russet permanent-buff share | 2/3 | 3/4 |
+
+Unchanged between B/C: golden ordinary shares multiply by 2; golden Russet copies all permanent buffs; Ermeline 1/2 Pelts; Laird 2/3 repeats; Sable strike 1× / 2× frozen quarry Attack (normal/golden); Agnes keeps 1/2 or 1/4 of the pack leader's hit back; Isegrim Health cut 0; Russet copies 1; Lane-Bard gold 1/2, at most two completed quarry attacks; Take stat floor 1; Young Brock share 1; trophies after fight true. All are JSON dials.
+
+- **Bell versus late answers:** preserve existing across identities before movement and freeze prey stats before ordinary starts. Sable reads the immutable price, preventing mirror-side amplification. Isegrim selects the post-buff board after Bog's dependent opening and other late answers, but rewards still read the selected identity's bell price. Own Quarry beats loans; all Isegrim own marks precede Hunter-only lending in source reading order. Old Brock's across identity is the bell identity even if Jenny moves it. Old Brock lends to his current eligible neighbours at the late loan step. This reconciles positional play, Sable and amendment 4 without moving existing tribes' bell. Prey first created after the bell uses its first-entry snapshot for Pack rewards; later combat growth is never resampled.
+- **Jack Daw last:** every stat-ranked enemy effect on both sides finishes before any Jack. Final Jacks use stable physical side then slot order, including copied text. Birds' rates and positional target are unchanged.
+- **Take accounting:** one actual Take per enemy death, first eligible Hunter in reading order; same-batch dying witnesses count. Laird repeats only `Take:` payoffs, not Lodger/Glutton or event count. Multiple Lairds use the strongest multiplier; fractional experimental multipliers round down to at least one whole firing. Shares use frozen Attack and Health separately, rounded down with the configured floor. Pack rewards require lethal attack damage rather than a later Bristle kill.
+- **Ermeline:** a unit present on the initial board pays even if fainted. One first entering from a Belly or a summon during the fight does not gain a retroactive original-board payout. The marked quarry can survive the fight. Pelts carry fixed prey identity/portrait and reward stats, wait on a full hand, and target Hunters only. They bypass generic percentage spell scaling; they still count as spells.
+- **Young Brock:** current stats means the displayed sale-time body minus its tribe bonus, as the synthesis says; its other live stat layers remain included. Golden widens geometry without doubling. Duplicate printed/borrowed heir text pays once for the same actual sale.
+- **Russet:** only permanent buff layers are copied. A full-price poach is explicitly marked rather than inferred from a discount, survives refresh and expires at End of Turn. Its normal non-golden pool identity is retained.
+- **Whirligig:** skip a swap pair if either moved enemy would gain effective Ring Attack or Health, including Shy/Horseshoe effects. This intentionally favours a conservative hostile swap: unchanged total Ring stats cannot conceal moving the enemy carry onto the bigger Ring. Legacy swaps and face stay unchanged with pass 3 off.
+
+### Bot, line and condition audit
+
+Hard reuses legal buys, placement, replacement sales and aimed spells. Its Hunter helper values and retains live engine pieces, forecasts own marks before loans and first-reading-order Take ownership, reads Sable's full frozen strike, aims Pelts onto the Glutton below 35% of board stats or the smallest suitable Taker, values permanent-only Russet copies at their real cost, and places an actual retirement sale in the heir's reach before selling. A poach compares against the best *other ordinary offer*, so it does not compare against itself. This is a tribe helper, not a brain redesign.
+
+`tools/sim/lines/hunters.json` contains Pack and Open Season, using the supported wave 1 file schema with explicit tribe/base strategy. No bench or BenchSuites edits. The paper low-roll row removes **Isegrim from Pack** and **the Laird from Open Season for the entire game**; other arrivals remain real draws. These remove each line's first-priority keystone rather than merely delaying it, and are not bot JSON input. Existing synthesis low-roll figures do not measure these exact omissions.
+
+| Cards | Condition at trigger | Finding |
+| --- | --- | --- |
+| Nip, Lutra, Russet | Own quarry dies while witnessing its batch | Aligned; a simultaneous trade counts, no tier ceiling |
+| Sable | Own or late-lent quarry exists at its opening strike, then a witnessed Take | Late-loan strike deferred until the loan exists; frozen prices prevent mirror amplification |
+| Wick, Grizel | A joined pack attack actually kills its target by attack damage | Aligned; no payout for Bristle or a nonlethal join |
+| Young Brock | An eligible Hunter is actually sold in reach | Aligned; moving alone never pays |
+| Lane-Bard | Its marked quarry completes an attack | Aligned; an early kill can prevent payment, an explicit conditional payoff |
+| Lodger, Glutton | An actual Take while witnessing, with adjacency for Lodger | Aligned; independent of their own attack and one reward per event |
+| Brother Wolf, Agnes | Eligible neighbour attack / pack leader's return hit | Rechecked live; their support requires a legal join |
+| Ermeline | Fight finishes with at least one marked prey | Aligned even on losses/death; an entirely unmarked board earns no Pelt |
+| Old Brock, Isegrim | Opening hunt with eligible enemy and eligible Hunter neighbours | Aligned; loans never override an own mark |
+| Laird | Your actual Take has `Take:` text | Aligned; no scaling of observers, persists at T6 |
+
+Validation found and fixed a Sable condition/timing trap: an empty-across Sable could receive a quarry from late Brock/Isegrim lending after her ordinary callback, missing her strike even though Hard credited it. Missing strikes now resolve after all loans and before Jack, against the same frozen prey price. Duplicate printed/borrowed Sable uses the strongest strike once per Start of Combat dispatch, while a separate Syllabub replay remains a fresh dispatch. Isegrim does not resample its target after the dependent strike; this avoids a recursive biggest-choice/buff cycle. No remaining structural phase/tier trap was found. Early Nip/Sable enable their own hunts and can be played before commitment; Lane-Bard enables its own gold. Wick is a flexible joining body but needs a leader/kill for growth. Young Brock's inheritance and Russet's copies explicitly need Hunter/eligible pool prey support; these early dependencies are retained and reported rather than redesigned (09f).
+
+The reader alone shows a recorded-scout quarry and expected Take reward/first recipient, sharing the non-random mark forecaster with Hard. No new main-screen reminder is added. Existing pending badges show trophies during the fight.
+
+UpsetCombat audits each of the sixteen `pass3_hunter` abilities by name. **Isegrim** selects the biggest enemy and is removed by that intervention; all other Hunter abilities are non-answer entries. Ermeline ranks marked prey for a post-fight reward, not a combat answer. Unknown future abilities still fail closed.
+
+
+### Hunters validation fix-ups
+
+The 474-test focused suite passed (3,486 assertions, strict hook clean) after correcting fixtures: Granny's gathered body must actually exceed its hidden guest; the full Fetch twin uses a non-Shy Fairy so its Ring genuinely enlarges it; Whirligig fixtures allocate all seven slots; the frozen immediate-Pounce test restores only the archived Hunters. No rule assertion was relaxed.
+
+The first full run exposed capture precision: ordinary JSON serialization shortened one-third, so a frozen 12-stat prey could pay 3 rather than 4 on replay. Captures now retain the full-precision resolved rate map and text comparison basis as an opaque JSON string alongside their numeric values. Readers restore exact captured values only when the visible value still matches the original or its ordinary JSON rounding; intentional harness overrides win. A regression strips that sidecar and reproduces the 4-to-3 reward/event mismatch. This changes capture fidelity, not combat share arithmetic.
+
+Generic current-pool checks now count the seven retired Hunter prototypes. The triple-reward fixture explicitly supplies a third real tier-3 card so it continues testing three next-tier offers rather than accidentally invoking the documented lower-tier fallback in the depleted prototype pool.
+
+The expanded full suite reached its former 600-second watchdog during UI coverage. Only the GUT wall-time budget rises to 900 seconds; import/compile budgets, every assertion and the strict hook stay intact. All runs retain the shared lock and 3G scope. The first run is not reported as a passed gate.
+
+
+## Review follow-up: pinned B strategy and Bird recruit coverage
+
+The reviewer's B probe reported Parish seats buying too many Fairies while their declared build remained Parish. This was action valuation, not a changed `build_of` identity: off-route Cluricaun priced growth without a seven-slot rainbow, and replacement scoring credited an incumbent's slot Ring without transferring that Ring to the incoming unit. The fix checks Cluricaun's live condition and compares incoming/current bodies on the same destination Ring, respecting Shy and removing a moved body's previous slot Ring. Fairy-route rainbow planning and legitimate splashes remain available.
+
+The strategy regression now runs **B, seeds 31–34**, retaining the original >0.6 Fairy-pin and <0.4 Parish-pin Fairy-share bars and checking all eight declared builds. It prints raw group purchases and ratios for the validation log. Four directed tests cover the condition and real replacement purchase/play path. The whole-suite A override is removed from `test_pass3_birds_recruit.gd`; its twenty-two cases run under current B. The requested frozen `0946909` regression re-record is reserved for the orchestrator's subsequent merge, not changed here.
+
+
+The first strict B31–34 rerun passed three seeds but failed seed 32 (Parish Fairy share 23/42 = 0.548), with all build identities still pinned. The remaining slot-selection defect chose the weakest incumbent before pricing the incoming unit's inherited Ring. Buying, execution and the carrier's ordinary alternative now choose the best incoming-specific replacement across unprotected slots. Funding sales keep their previous policy. A real purchase/play regression keeps a strong bare-slot body and replaces the weak body on a large Ring. The original B share bars remain unchanged; no Fairy ban is introduced.
+
+
+Correct slot comparisons still left B seeds 31 and 32 drifting (Parish Fairy shares 0.462 and 0.548), so the remaining defect was the pin's meaning: it froze a profile name while all ordinary offers still competed on soft additive priors. Explicit tribal pins now admit ordinary purchases from their positive tribe weights, positive named helpers, or neutrals. Existing pair completion and intentionally poached offers remain eligible. Unpinned Hard and profiles without tribal affinity remain unrestricted. This changes fixed-profile behaviour rather than the share bar; three policy tests cover the boundary and a real preferred buy/play.
+
+The first complete final gate reached all 2,080 tests and found six failing cases. Strict tribal pins could leave the first board empty when a shop had no affordable planned body. The opening now admits an off-plan body only while the board is empty and no planned recruit is affordable at its actual cost; after that first body the strict plan resumes. A real discounted purchase/play regression and the unchanged round-two spending checks cover this boundary. The B share bars remain unchanged.
+
+The UI fixes retain the archived Quarry-lender forecast on archived Hunter definitions, label native Hunter growth/lending with existing compact tags, and check Pelt's actual prey portrait on the tile and reader. The uncreated Pelt template correctly uses neutral fallback art; it adds one created item to the library count. No new main-screen reminder is introduced.
+
+## Hunters review: replacement protection and flexible commitment
+
+A shared overridable `BotBrain._can_replace` check now covers ordinary replacement selection, funding sales and Carrier plans. Committed lines additionally protect their own `engine_pieces`. Two regressions clear a slot for a real incoming unit while retaining a custom engine that no tribe keeper recognizes, covering both ordinary and Carrier paths.
+
+The earlier pin filter was too broad during normal Hard openings: `hard:varied` resolves to fixed build profiles too. Final policy follows the approved commitment window: any legal tempo purchase before round 4 **or** while fewer than three bodies are fielded; afterward the declared tribes, named helpers and neutral fillers remain eligible, as do existing pair completion and intentional poached offers. The sparse-board window supersedes the narrower empty-board fallback. The original B Fairy-share bars and all eight `build_of` checks stay intact.
+
+The Hunter splash audit found two valuation bugs, without changing any Hunter dial. Glutton received one full growth payment with no Take source; it now requires an actual Taker or hunting lender. Russet priced total prey stats, including non-copyable temporary layers, instead of eligible pool prey's permanent buffs at the player's tier. Its paid-copy opportunity remains credited only for eligible prey. Directed tests cover no source, valid lenders, actual scout views, temporary/permanent layers, tier/pool rejection, golden copying and a Russet mirror without recursion. Strong standalone hunts and live mixed-tribe Pack support retain their value.
+
+
+## C Birds correction after harness review
+
+The later explicit C correction supersedes the earlier B/C Birds hold **for C only**. Every C `birds_*` value now comes from `docs/ideation/content/pass3/presets.json` on local `ideation/main` at `4eacc662`, not a blanket multiplier: homecoming 2.5, golden 3, Cuckoo 0.15, Golden Egg 3, Stork gold step 5, Chiffchaff 4, and the remaining paper values. The old provisional C homecoming 4 compounded into a reported R12 2,218 versus B 367; the paper C map replaces that overshoot. Every base and B Birds value remains byte-for-byte unchanged. A complete paper-C Bird fixture and the existing frozen-B map test cover the boundary. No other tribe's preset is changed.
+
+
+### Matched unfiltered Hunter splash measurement
+
+The diagnostic bypasses only `_unit_gain`'s pin gate, retaining fixed build identities and the rest of Hard. Four B/all-six-tribe lobbies use one seat each for Fairy Hag/Rings, Hedgerow Parish/Treasury, Birds Passage/Highway, Bog Bitter and Ooze Second Helpings. Every game finishes and all eight identities match. This is a controlled paired probe, not a claim to reproduce the reviewer's exact lobby mix.
+
+| Seed | Hunter buys / all unit buys before | After valuation fixes |
+| --- | --- | --- |
+| 41 | 21/156 (13.46%) | 28/152 (18.42%) |
+| 42 | 25/166 (15.06%) | 24/173 (13.87%) |
+| 43 | 16/164 (9.76%) | 17/169 (10.06%) |
+| 44 | 37/166 (22.29%) | 37/176 (21.02%) |
+
+Aggregate Hunter purchases are **99/652 (15.18%) before and 106/670 (15.82%) after**. The two confirmed valuation bugs do not account for most splashing: the baseline contains only two Glutton and eight Russet buys. Two real valuation bugs are fixed (Glutton, Russet), but fixing them didn't change the splash. Per card offered with no pin, bots pick Bog (0.38) and Hunters (0.31) about 3× as often as other off-build tribes (Fairies 0.14, Birds 0.11, Hedgerow 0.10, Oozes 0.04), against 0.51 for their own tribe. Whether that is bot overvaluation or real strength isn't separated: nothing measured whether splashing helps a seat. The narrowed pin leaves splash only in R1–3. Birds Highway buys 16 Hunters and 30 Birds before versus 16 Hunters and 33 Birds after across the four games. Changed purchases also change subsequent opponents and draws, so these four lobbies are diagnostic evidence, not a balance estimate.
+
+On identical fixed snapshots, no-source Glutton text value falls from 66.67 to 0; Nip, Isegrim and Brock enablers preserve 66.67. Russet with no scout falls from 30 to 0; over-tier prey 25.33 to 0; non-pool prey 1,207.33 to 0. An eligible unbuffed paid-copy opportunity is 6; +9/+15 permanent prey is 22 normally or 30 golden. These values reflect the real inherited layers, without recursive valuation.
+
+Evidence: [before](../../evidence/wave2a/hunter-splash-before.json), [after](../../evidence/wave2a/hunter-splash-after.json), [exact numeric comparisons](../../evidence/wave2a/hunter-numeric-before-after.json), and [probe source](../../evidence/wave2a/hunter-splash-probe.gd.txt). Reports include source hashes, per-build purchases by tribe/card, selected purchase values, completion and build identities. Copy the probe to `/tmp` and run it from this project under the shared Godot lock and 3G scope, passing an output JSON path after `--`.
+
+
+The C-map regression exposed four paper-only dials missing from resolution: Chiffchaff growth and Goose/Swallow/Jay rewards. Optional preset keys now resolve, accept explicit sweeps and enter full-precision captures. Chiffchaff, Swallow and Jay configure their actual named effects before generating faces; Goose reads the same resolved count in runtime and text. Absent keys retain authored B mechanics, so B's Bird map and values stay unchanged. Real normal/golden recruit tests cover B/C, with separate explicit-sweep and capture checks.
+
+
+## Final review validation
+
+Source `a9b5ff3e` passes the full detached gate under the shared lock and 3G scope: **2,092 tests, 33,408 assertions**, 195 scripts, 742.725 seconds of GUT, and a clean strict hook. Every gate step passes. The corrected reward-sweep test checks the actual Stash-plus-Acorn combination rather than four uncombined hand slots. All eleven preset tests pass.
+
+The unchanged B pin bars pass on seeds 31–34 with the approved flexible opening; all eight `build_of` identities match on every seed. Fairy share here means Fairy buys divided by Fairy plus Hedgerow buys, matching the existing test.
+
+| Seed | Fairy-pinned cohort | Parish-pinned cohort |
+| --- | --- | --- |
+| 31 | 98.11% | 0.00% |
+| 32 | 100.00% | 10.00% |
+| 33 | 97.96% | 2.04% |
+| 34 | 97.78% | 7.69% |
+
+Evidence: [gate summary](../../evidence/wave2a/hunters-gate-summary.log), [raw pin counts and identities](../../evidence/wave2a/pinned-b-shares.json), and [commits since 5cd5cd71](../../evidence/wave2a/commits-since-5cd5cd71.md). Full local output remains in `build/wave2a-review-gate.log` and `build/check/gut.log`. The merged-tree frozen normal fixture re-record remains the explicitly reserved next step after the orchestrator's merge.
+
+## Validation after the main merge `09d60646`
+
+The requested targeted Python runs initially found stale real-designed metadata and a paper loader assuming flat rates. Regenerating `real_designed_recipes.json` adds only Bog/Hunter line hashes; all eight board recipes remain identical. The frozen wave 1 accounting report now reads its already-published `wave1-accounting-paper.json` denominator alongside the archived run, rather than accidentally recomputing it from today's B values. Its statistics and bars are unchanged. The separate paper builder resolves structured preset data, then still rejects changes its historical models cannot parameterize; it does not silently substitute A for B. Historical known-answer model tests use the explicit archived rate map, retaining all numerical answers and timing checks. These historical diagnostics are not a new current-B accounting result.
+
+The initial seven-file Godot target run completed 49 tests, with 18 failing: the normal replay fixture and field-session tests cascading from rejected nullable rates. The field loader now accepts `null` only for declared nullable config keys, types every known rate including optional C dials, resolves expected/actual gameplay values before compatibility checks, and restores capture precision before applying a field header. Capture presentation/precision containers are not compared as opaque gameplay strings; their restored numeric rates are compared exactly. Directed cases cover C inheritance, wrong types, actual session creation and a third that ordinary JSON rounds. The frozen test helper separately saves/restores `_defaults`, `_presets` and `_default_preset`, with an injected live-C sentinel proving isolation. No normal-game hash assertion or unknown-key check is removed.
+
+With two concurrent Godot slots, the first recheck passed 49/51 cases but two fixed `user://` field fixtures were overwritten or removed while in use (a different manifest replaced the malformed-gzip probe). Repeating the two files with private `XDG_DATA_HOME` passed all 13 cases, including the complete normal-game hash check, without a gameplay change. `check.sh` now gives each GUT invocation its own temporary userdata directory and removes that generated directory afterward. The 3G cap and two-process slot rule remain unchanged.
+
+
+### Logged normal-game fixture re-record
+
+The active fixture is now `normal-067429a3.json`: runtime `067429a3`, frozen card/schema/bot/rate content still from `0946909`. Both original `normal-0946909.json` and `content-0946909.json` remain byte-for-byte unchanged and archived. The same four seeds and original config values are preserved. Each new config additionally pins 45 fields: the 42 archived Bird/Fairy rates, preset selection, text-comparison baseline and exact-rate sidecar. This makes the newly captured fields part of the complete hash instead of bypassing the unknown-key check.
+
+The archived card definitions cannot freeze executable behavior: current Cluricaun grows at End of Turn, Queen acts at Start of Turn, and the merged runtime includes the adopted pool/combat/bot rules. Those runtime changes alter games; the added config fields also change hashed capture inputs. The initial run reproduced four count/hash mismatches plus the two unpinned metadata-key failures. This is an explicit new checkpoint, not a claim that the original games were unchanged. No hash, result/event, standings, log, fight-count or unknown-key assertion was removed or relaxed; the new content-source assertion strengthens provenance.
+
+| Seed | Old fights | New fights | Old hash prefix | New hash prefix |
+| --- | --- | --- | --- | --- |
+| 3 | 60 | 59 | `6489ba263ae5` | `bd6085107261` |
+| 17 | 58 | 64 | `f5a00d43629c` | `e1d564be8924` |
+| 71 | 59 | 62 | `97c376249553` | `e785f8ee1878` |
+| 20261109 | 61 | 59 | `c5ca3cdd4171` | `1eac0efb94eb` |
+
+The four complete-game hashes replayed successfully both in the seven-file recheck and again with isolated userdata. Across those runs all seven requested Godot files pass; the two field-file races pass in the isolated rerun. Python targets pass: real-designed 7, accounting/report 9, field 16; the directly affected paper-model known-answer suite also passes 10 tests.
+
+Evidence: [full hashes and preserved-config audit](../../evidence/wave2a/field-normal-rerecord.json), [recording log](../../evidence/wave2a/field-normal-rerecord.log), [recorder source](../../evidence/wave2a/record-field-normal.gd.txt). The logged command was `godot --headless -s /tmp/wave2a-record-field-normal.gd -- res://tests/fixtures/field/normal-067429a3.json 067429a3`, with a 300-second timeout inside `/tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G`, after sourcing `/opt/bramble/env.sh`.
+
+The merged main adds field and UI suites to the previous 742.725-second GUT run. The seven-file target run takes 116.759 seconds (including the already-covered committed-line cases), leaving little headroom under the inherited 900-second budget. Only the full GUT wall-time allowance rises to 1,200 seconds for this expanded suite; the 600-second import/compile limits, assertions, strict hook, two-slot limit and 3G cap stay unchanged.
+
+
+### Merged-tree hand-off
+
+Validated code `e46027fc`: the requested main-only Godot files pass **51 cases**, and the targeted Python files pass **42 cases** (32 requested plus 10 directly affected historical paper tests). The private-userdata rerun covers both previously racing files and the complete normal-game hashes. The exact narrow-review splash wording is applied in `5a8b5c0a`, without code changes for that ask.
+
+The full local gate was already near completion when the targeted-only/cloud-gate policy became effective, so it finished under the explicit exception: **2,142 tests, 45,476 assertions**, 203 scripts, 882.474 seconds of GUT, all gate steps passing and strict hook clean. No further local full gate was started. This local result does not replace the orchestrator's required cloud pass on the hand-off commit.
+
+Evidence: [targeted files and counts](../../evidence/wave2a/merged-targeted-results.json), [gate summary](../../evidence/wave2a/merged-gate-summary.log), [commits after the merge](../../evidence/wave2a/commits-after-09d60646.md). Full local logs remain in `build/wave2a-merged-gate.log`, `build/check/gut.log` and the per-target paths listed in the JSON.

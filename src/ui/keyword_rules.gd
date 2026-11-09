@@ -69,6 +69,9 @@ static func named_on(card: Dictionary) -> PackedStringArray:
 		var entry: Dictionary = value
 		_note(out, str(entry.get("keyword", "")))
 	var rules: String = str(card.get("text", ""))
+	# Hunt is the existing Quarry instruction; lenders need the same reader ruling.
+	if names(rules, "Hunt"):
+		_note(out, "Quarry")
 	var words: Array = EffectSchema.section("keywords").keys()
 	words.append_array(LIBRARY_WORDS.keys())
 	words.append_array(HELP_WORDS.keys())

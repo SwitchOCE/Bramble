@@ -20,7 +20,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hunters(UnitLibrary.load_dir()))
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
@@ -172,10 +172,10 @@ func test_units_inside_have_their_text_off() -> void:
 
 func test_inside_a_ring_gives_nothing() -> void:
 	_kit.put("mrs_posset", F1)
-	_player.slot_effects[F2] = [{"name": "Ring", "attack": 3, "health": 3}]
+	_player.slot_effects[F2] = [{"name": "Ring", "count": 3, "attack": 12, "health": 12}]
 	var unit: RecruitUnit = _kit.put("pill_bug", F2)
 	_rules.board_changed(_player)
-	assert_eq(unit.aura_attack, 3)
+	assert_eq(unit.aura_attack, 12, "three Rings at default size 4")
 	assert_eq(_rules.swallow(_player, HeldUnits.BOARD, F2, F1), "")
 	assert_eq(unit.aura_attack, 0, "the Ring stays on the slot")
 

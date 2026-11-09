@@ -8,16 +8,16 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight.",
-  "golden_text": "Snap. After this attacks a Mired enemy: gain +2/+2 permanently. Once a fight.",
+  "text": "Snap. After this attacks a Mired enemy: gain half its Attack as +Attack/+Health permanently.",
+  "golden_text": "Snap. After this attacks a Mired enemy: gain its Attack as +Attack/+Health permanently.",
   "mechanics": [
     {
       "id": "snap"
     },
     {
-      "id": "ranocchio",
-      "stats": 1,
-      "limit": 1
+      "id": "pass3_bog",
+      "ability": "ranocchio",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -29,8 +29,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
-  },
-  "details": "Counts one attack, including a simultaneous trade."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
+  }
 }

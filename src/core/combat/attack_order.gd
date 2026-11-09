@@ -23,6 +23,14 @@ static func early_slots(units: Array[CombatUnit]) -> Array[int]:
 	for unit: CombatUnit in units:
 		if BoardGeometry.is_back(unit.slot) and unit.has_mechanic("vault"):
 			early.append(unit.slot)
+	for unit: CombatUnit in units:
+		if Pass3HunterCombat.has(unit, "brother_wolf") and not unit.is_dead():
+			for candidate: CombatUnit in units:
+				if (
+					BoardGeometry.adjacent(unit.slot).has(candidate.slot)
+					and not early.has(candidate.slot)
+				):
+					early.append(candidate.slot)
 	return early
 
 

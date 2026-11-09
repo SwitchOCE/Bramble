@@ -360,3 +360,13 @@ static func _whole_numbers(value: Variant) -> Variant:
 				copy[key] = _whole_numbers(map[key])
 			return copy
 	return value
+
+
+## Only configured rulings cross the view boundary; unchanged cards retain their snapshot shape.
+static func add_configured_rulings(
+	view: Dictionary, card: Dictionary, golden: bool = false
+) -> void:
+	var changed: Dictionary = card.get("configured_rulings", {})
+	var field: String = "golden_details" if golden else "details"
+	if changed.has(field):
+		view["configured_details"] = changed[field]

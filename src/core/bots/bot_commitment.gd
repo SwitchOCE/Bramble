@@ -20,14 +20,14 @@ static func can_cast(card: Dictionary, player: PlayerState) -> bool:
 		return player.market_stalls < MarketStalls.LIMIT
 	if str(card.get("id", "")) != "harvest_supper":
 		return true
-	return player.harvest_supper_round != player.round_number and spell_value(card, player) > 0.0
+	return not TribeBonus.used_this_turn(player) and spell_value(card, player) > 0.0
 
 
 ## Negative means use ordinary hints; zero means this spell cannot currently help.
 static func spell_value(card: Dictionary, player: PlayerState) -> float:
 	var id: String = str(card.get("id", ""))
 	if id in ["stand_behind_me", "bread_from_the_back", "harvest_supper"]:
-		if id == "harvest_supper" and player.harvest_supper_round == player.round_number:
+		if id == "harvest_supper" and TribeBonus.used_this_turn(player):
 			return 0.0
 		var best: float = 0.0
 		for slot: int in BoardGeometry.SLOTS:
@@ -77,7 +77,7 @@ static func aim_value(card: Dictionary, slot: int, player: PlayerState) -> float
 static func _supper_value(source: RecruitUnit, player: PlayerState) -> float:
 	var total: float = 0.0
 	for tribe: Variant in source.tribes():
-		if CoreUtil.to_int(player.tribe_bonuses.get(tribe, 0)) >= 3:
+		if CoreUtil.to_int(player.tribe_bonuses.get(tribe, 0)) >= TribeBonus.ceiling(player):
 			continue
 		# The next two replacements also receive it. Away birds and Belly units count now.
 		total += 4.0

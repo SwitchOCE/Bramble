@@ -118,7 +118,7 @@
     "place": {
       "old_moth_annis": "F2",
       "cluricaun": "F3",
-      "queen_of_elfland": "F4; a cheap unit in B3 every turn",
+      "queen_of_elfland": "F4; leave cheap tithe food in B3 for next Start of Turn, then refill B3 during recruiting before the fight",
       "will_o_the_wisp": "B2 once the Queen is down",
       "changeling": "B1, or across the scouted biggest enemy",
       "hedge_witch": "across their highest-Attack unit",

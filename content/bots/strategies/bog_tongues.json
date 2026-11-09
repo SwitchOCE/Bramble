@@ -1,27 +1,32 @@
 {
  "id": "bog_tongues",
- "name": "Tongues Across the Water",
- "shape": "back-row mire and early Snap",
+ "name": "The Bog Court",
+ "shape": "Toll-fed carry and shared frog kisses",
  "needs_tribes": [
   "Bog folk"
  ],
  "tribes": {
-  "Bog folk": 4
+  "Bog folk": 5
  },
  "units": {
-  "bridge_toad": 5,
-  "young_pretender": 7,
-  "vaulting_hopkin": 14,
-  "jenny_greenteeth": 15,
-  "his_highness": 11,
-  "natterjack_chorus": 6,
-  "peat_king": 10,
-  "madame_bufo": 8,
-  "warty_nan": 0,
-  "spitfire_sal": 2
+  "tiddy_mun": 24,
+  "his_highness": 18,
+  "gideon": 16,
+  "prima_donna": 20,
+  "jenny_greenteeth": 18,
+  "lantern_man": 19,
+  "peat_king": 12,
+  "bridge_toad": 10,
+  "madame_bufo": 7,
+  "warty_nan": 5,
+  "vaulting_hopkin": 4,
+  "signor_ranocchio": 5,
+  "natterjack_chorus": 4,
+  "spitfire_sal": 2,
+  "peat_cutter": 1,
+  "young_pretender": 0
  },
  "rows": {
-  "jenny_greenteeth": "back",
   "vaulting_hopkin": "back"
  },
  "spells": {
@@ -29,10 +34,11 @@
   "elderflower_cordial": 2
  },
  "curve": [
+  2,
   4,
   6,
-  8,
-  11,
-  14
- ]
+  9,
+  11
+ ],
+ "power": 3
 }

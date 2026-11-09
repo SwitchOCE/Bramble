@@ -3,38 +3,28 @@
   "name": "The Laird of the Sett",
   "set": "slice",
   "tier": 6,
-  "attack": 3,
-  "health": 5,
+  "attack": 6,
+  "health": 9,
   "tribes": [
     "Hunters"
   ],
-  "text": "All your units have Quarry. After each Take: your Hunters gain +1/+1.",
-  "golden_text": "All your units have Quarry. After each Take: your Hunters gain +2/+2.",
-  "details": "A unit that already has a quarry keeps it.",
+  "text": "Your 'Take:' text triggers twice.",
+  "golden_text": "Your 'Take:' text triggers 3 times.",
   "mechanics": [
     {
-      "id": "lend_quarry",
-      "select": "friendly",
-      "reach": false,
-      "attack": 1,
-      "own_across": true,
-      "bell_buff": false
-    },
-    {
-      "id": "laird",
-      "stats": 1
+      "id": "pass3_hunter",
+      "ability": "laird",
+      "factor": 1
     }
   ],
-  "keywords": [
-    "Quarry"
-  ],
+  "keywords": [],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

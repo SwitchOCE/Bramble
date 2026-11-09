@@ -138,7 +138,7 @@ static func _sally(ctx: RecruitContext) -> void:
 
 
 static func _cluricaun(ctx: RecruitContext) -> void:
-	if ctx.trigger != "on_tier_up" or not _is_grower(ctx, "cluricaun"):
+	if ctx.trigger != "end_of_turn" or not _is_grower(ctx, "cluricaun"):
 		return
 	for effects: Array in ctx.player.slot_effects:
 		if not BoardUpkeep.has_ring(effects):
@@ -188,7 +188,7 @@ static func _monarch(ctx: RecruitContext) -> void:
 
 static func _queen(ctx: RecruitContext) -> void:
 	if (
-		ctx.trigger != "end_of_turn"
+		ctx.trigger != "start_of_turn"
 		or ctx.source_slot < 0
 		or (_guards(ctx) and ctx.repeat_index > 0)
 	):

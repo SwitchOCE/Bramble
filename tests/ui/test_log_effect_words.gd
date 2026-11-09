@@ -96,7 +96,7 @@ func test_data_effects_log_the_sentence_of_their_trigger() -> void:
 
 
 func test_hasty_release_and_a_lent_pounce_say_what_really_happened() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = LegacyBog.library()
 	var pudding: Dictionary = library.get_unit("hasty_pudding")
 	var release: String = CombatLog.trigger_words(pudding, str(pudding["text"]), "hasty_release")
 	assert_eq(release, " lets its prisoners go.")

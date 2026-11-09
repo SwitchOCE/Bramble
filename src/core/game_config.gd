@@ -36,6 +36,7 @@ static func defaults() -> GameConfig:
 		"field_library": "",
 		"field_strength": "top4",
 		"pass3_content": false,
+		"pass3_preset": Pass3Rates.default_preset(),
 		"pass3_loop_guards": true,
 		"card_size_caps": true,
 		"card_rate_limits": true,
@@ -46,8 +47,8 @@ static func defaults() -> GameConfig:
 		"scale_engine_tribe": "Hedgerow folk",
 		"scale_answer_percent": 50,
 		"scale_economy_cap": 10,
-		"scale_hero_spell_stats": false,
-		"scale_hero_spell_percent": 10,
+		"scale_hero_spell_stats": null,
+		"scale_hero_spell_percent": null,
 		"players": 8,
 		"starting_health": 30,
 		"damage_mode": "legacy",
@@ -93,6 +94,10 @@ static func defaults() -> GameConfig:
 		"tribes_per_lobby": 0,
 		"lobby_tribe_min_units": 4,
 	}
+	# Every authored rate is a legal bench override; null follows the selected preset.
+	for key: String in Pass3Rates.keys():
+		if not config._values.has(key):
+			config._values[key] = null
 	return config
 
 
@@ -139,9 +144,22 @@ func set_value(key: String, value: Variant) -> void:
 	_values[key] = value
 
 
-## The value as an int (0 if missing).
+## Persist effective rates and switches so captures survive future preset edits.
+func resolved_values() -> Dictionary:
+	var out: Dictionary = _values.duplicate(true)
+	out.merge(Pass3Rates.resolved(self), true)
+	out["scale_hero_spell_stats"] = get_bool("scale_hero_spell_stats")
+	# Reader overrides compare against the source library's default-generated text.
+	if typeof(out.get("pass3_text_defaults")) != TYPE_DICTIONARY:
+		out["pass3_text_defaults"] = Pass3Rates.resolved(GameConfig.defaults())
+	return Pass3Rates.freeze_values(out)
+
+
+## The value as an int (0 if missing); scaling uses its authored JSON rate.
 func get_int(key: String) -> int:
-	var value: Variant = _values.get(key, 0)
+	var value: Variant = (
+		Pass3Rates.value(self, key) if key == "scale_hero_spell_percent" else _values.get(key, 0)
+	)
 	return CoreUtil.to_int(value)
 
 
@@ -160,8 +178,11 @@ func get_int_at(key: String, index: int) -> int:
 	return CoreUtil.to_int(value)
 
 
-## The value as a bool (false if missing).
+## A null scaling switch follows pass 3; explicit true/false remain comparison controls.
+## Other booleans are false if missing.
 func get_bool(key: String) -> bool:
+	if key == "scale_hero_spell_stats" and _values.get(key) == null:
+		return get_bool("pass3_content")
 	return CoreUtil.to_bool(_values.get(key, false))
 
 

@@ -28,7 +28,7 @@ static func bell(combat: Combat) -> void:
 			unit.counters["bell_attack"] = unit.attack
 			unit.counters["bell_top_attack"] = top_attack
 			var across: int = BoardGeometry.across(unit.slot)
-			if _has_mire(unit, friends):
+			if _has_mire(unit, friends) and not unit.has_mechanic("pass3_bog"):
 				_patch(combat, unit, across)
 				if CoreUtil.to_bool(parameters(unit, "mire").get("spread", false)):
 					for slot: int in BoardGeometry.adjacent(across):
@@ -113,6 +113,7 @@ static func _mark(
 	if hunter.has_mechanic("no_quarry") or quarry == null or quarry.def_id() == HeldUnits.EGG:
 		return
 	hunter.quarry = quarry.uid
+	Pass3HunterCombat.marked(combat, hunter, quarry)
 	combat.emit_event(
 		"quarry_marked", {"hunter": hunter.uid, "quarry": quarry.uid, "source": source.uid}
 	)
@@ -248,6 +249,7 @@ static func lose_unit(combat: Combat, unit: CombatUnit, changes_side: bool = fal
 ## Witnesses were captured before any death in the batch left the board. This credits a Hunter
 ## dying alongside its quarry, and prevents credit to a Hunter that fainted in an earlier batch.
 static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Array) -> void:
+	Pass3BogGrowth.deaths(combat, dying, witnesses)
 	for dead: CombatUnit in dying:
 		var friends: Array = witnesses[1 - dead.side]
 		var taker: CombatUnit = null
@@ -261,6 +263,7 @@ static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Ar
 		if taker != null:
 			combat.takes[taker.side] += 1
 			combat.emit_event("take", {"hunter": taker.uid, "quarry": dead.uid, "side": taker.side})
+			Pass3HunterGains.take(combat, taker, dead, friends)
 			for unit: CombatUnit in friends:
 				for index: int in unit.scripts.size():
 					unit.scripts[index].on_take(combat, unit, unit.params[index], taker, dead)
@@ -273,6 +276,8 @@ static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Ar
 ## Bitter shrinks only the leading attacker at declaration, after any queued attack bonus.
 static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -> void:
 	if not attacker.on_board or attacker.is_dead():
+		return
+	if Pass3BogCombat.bitter(combat, defender, attacker):
 		return
 	var amount: int = 0
 	for index: int in defender.scripts.size():

@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "After you Tier up: if every slot has a Ring, your Rings grow +1/+1.",
-  "golden_text": "After you Tier up: if every slot has a Ring, your Rings grow +2/+2.",
+  "text": "End of Turn: if every slot has a Ring, your Rings grow +2/+2.",
+  "golden_text": "End of Turn: if every slot has a Ring, your Rings grow +4/+4.",
   "mechanics": [
     {
       "id": "pass3_fairy",
@@ -30,5 +30,5 @@
     "doc": "docs/ideation/content/pass3/fairies-pass3.md",
     "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Empty slots count. Copies grow once per tier-up, using the strongest copy; a golden copy grows twice as much."
+  "details": "Empty slots count. Copies grow once at End of Turn, using the strongest copy; a golden copy grows twice as much."
 }

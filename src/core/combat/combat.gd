@@ -102,6 +102,7 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	CombatRings.prepare(self)
 	_slots_active = _has_slot_effects()
 	_setup(boards)
+	Pass3BogCombat.prepare(self)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
 	if log_events:
@@ -237,7 +238,13 @@ func summon(
 
 ## A summon into a chosen slot. `stats` above 0 sets its Attack and Health (Mousewife's Mouse).
 func summon_into(
-	def_id: String, golden: bool, side: int, slot_to: int, source: CombatUnit, stats: int = 0
+	def_id: String,
+	golden: bool,
+	side: int,
+	slot_to: int,
+	source: CombatUnit,
+	stats: int = 0,
+	fields: Dictionary = {}
 ) -> CombatUnit:
 	var unit_def: Dictionary = library.get_unit(def_id)
 	if slot_to < 0:
@@ -251,7 +258,7 @@ func summon_into(
 	if stats > 0:
 		spec["attack"] = stats
 		spec["health"] = stats
-	return enter_from_spec(spec, side, slot_to, source)
+	return enter_from_spec(spec, side, slot_to, source, fields)
 
 
 ## Enters an off-board unit as a summon (9.4.8, 9.8.1), `fields` on the event; null if no card.
@@ -271,6 +278,8 @@ func enter_from_spec(
 
 ## Puts a fighter into unit.slot and tells the side. A swallowed unit comes back through here.
 func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) -> void:
+	if fields.has("copied"):
+		unit.copied_this_fight = true
 	var side: int = unit.side
 	var slot_to: int = unit.slot
 	var row: Array = sides[side]
@@ -293,6 +302,8 @@ func enter_board(unit: CombatUnit, source: CombatUnit, fields: Dictionary = {}) 
 		for ally: CombatUnit in units_of(side):
 			for index: int in ally.ally_listeners:
 				ally.scripts[index].on_ally_summon(self, ally, ally.params[index], unit)
+	Pass3BogStart.entered(self, unit)
+	Pass3HunterCombat.entered(self, unit)
 
 
 func named_slot(side: int, at: String, anchor: int) -> int:
@@ -384,7 +395,9 @@ func _first_side() -> int:
 ## 9.3.2, 9.3.5: one random player resolves all their Start of Combat units, then the other.
 func _start_of_combat() -> void:
 	var first: int = rng.randi_range(0, 1)
+	Pass3HunterCombat.prepare(self)
 	CombatHeld.first_of_all(self, first)
+	Pass3HunterCombat.bell(self)
 	CombatLanes.bell(self)
 	CombatHeld.goose_strikes(self, first)
 	reactions.drain(self)
@@ -397,6 +410,7 @@ func _start_of_combat() -> void:
 		for unit: CombatUnit in queue:
 			if not unit.on_board or _halted:
 				continue
+			Pass3HunterStart.begin_dispatch(unit)
 			for index: int in unit.scripts.size():
 				unit.scripts[index].on_start_of_combat(self, unit, unit.params[index])
 			_resolve_deaths(unit.side)
@@ -482,6 +496,7 @@ func _use_skip(unit: CombatUnit) -> void:
 ## 9.4.5 steps 2, 3 and 5; null when no unit can be chosen. A unit that skipped this turn
 ## (Pin, Bide) can't be chosen again in the same turn, even after a cycle reset (prototype pick).
 func _choose_attacker(side: int, skipped: Array[CombatUnit]) -> CombatUnit:
+	Pass3BogCombat.sync_hopkin(self)
 	var ready: Array[CombatUnit] = []
 	for unit: CombatUnit in _attack_order(side):
 		if unit.can_act() and not skipped.has(unit) and CombatHunt.can_lead(self, unit):
@@ -623,7 +638,12 @@ func _strikes(
 						_attack_hit(joiner, defender, CombatHunt.join_attack(self, joiner), 1, true)
 					)
 			hits_back.append(_attack_hit(defender, attacker, defender.attack, strike + 1, false))
-		CombatDamage.cleave(self, hits_out)
+		if Pass3Combat.has_content(self) and config.get_bool("pass3_loop_guards"):
+			var leader_hits: Array[Hit] = [hits_out[0]]
+			CombatDamage.cleave(self, leader_hits)
+			hits_out.append_array(leader_hits.slice(1))
+		else:
+			CombatDamage.cleave(self, hits_out)
 		var attacker_quick: bool = _is_quick(attacker)
 		var defender_quick: bool = _is_quick(defender)
 		if strike == 0:
@@ -634,6 +654,14 @@ func _strikes(
 
 ## Wren reads the highest enemy Attack, then applies this declaration's Bitter loss.
 func _strike_attack(attacker: CombatUnit) -> int:
+	if attacker.counters.has("bog_hopkin_attack"):
+		return maxi(
+			attacker.attack,
+			(
+				CoreUtil.to_int(attacker.counters["bog_hopkin_attack"])
+				- CoreUtil.to_int(attacker.counters.get("bitter_borrowed", 0))
+			)
+		)
 	if not attacker.has_status("borrowed_attack"):
 		return attacker.attack
 	var highest: int = 0
@@ -837,6 +865,7 @@ func _enter_slot(unit: CombatUnit) -> void:
 
 
 func _side_can_attack(side: int) -> bool:
+	Pass3BogCombat.sync_hopkin(self)
 	for unit: CombatUnit in units_of(side):
 		if unit.can_attack():
 			return true
@@ -856,6 +885,8 @@ func _both_boards_have_units() -> bool:
 
 ## 9.9 the result and 10.1 the damage.
 func _finish(reason: String, tiers: Array[int], damage_cap: int) -> Dictionary:
+	Pass3BogCombat.finish(self)
+	Pass3HunterGains.finish(self)
 	var survivors: Array = [CombatMoves.uid_list(units_of(0)), CombatMoves.uid_list(units_of(1))]
 	var winner: int = -1
 	var last_blow: bool = false

@@ -8,16 +8,17 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
-  "golden_text": "Quarry. Start of Combat: if its quarry has more Attack, gain +6 Attack.",
+  "text": "Quarry. Start of Combat: gain its quarry's Attack. Take: gain two thirds of the quarry's stats permanently.",
+  "golden_text": "Quarry. Start of Combat: gain twice its quarry's Attack. Take: gain four thirds of the quarry's stats permanently.",
   "mechanics": [
     {
       "id": "quarry",
       "reach": false
     },
     {
-      "id": "sable",
-      "attack": 3
+      "id": "pass3_hunter",
+      "ability": "sable",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -29,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/hunters.md",
-    "note": "Final design-review-3 and costing-3 calls."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

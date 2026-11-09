@@ -8,14 +8,17 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become The Prince Restored.",
-  "golden_text": "Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become a golden Prince Restored.",
+  "text": "Snap. Every third kiss: double the Bog folk beside this. First time: become the Prince.",
+  "golden_text": "Snap. Every third kiss: triple the Bog folk beside this. First time: become a golden Prince.",
   "mechanics": [
     {
       "id": "snap"
     },
     {
-      "id": "kiss"
+      "id": "pass3_bog",
+      "ability": "frog",
+      "factor": 1,
+      "restore": true
     }
   ],
   "keywords": [
@@ -27,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

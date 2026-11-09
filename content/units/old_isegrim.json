@@ -3,34 +3,28 @@
   "name": "Old Isegrim",
   "set": "slice",
   "tier": 6,
-  "attack": 6,
-  "health": 8,
+  "attack": 7,
+  "health": 10,
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. Your units have +3 Attack while joining an attack.",
-  "golden_text": "Pack. Your units have +6 Attack while joining an attack.",
-  "details": "The bonus applies only to each joiner\u2019s damage in that attack.",
+  "text": "Start of Combat: this and Hunters beside it hunt the biggest enemy, wherever it stands.",
+  "golden_text": "Start of Combat: this and Hunters next to it hunt the biggest enemy, wherever it stands.",
   "mechanics": [
     {
-      "id": "pack",
-      "repeat": false
-    },
-    {
-      "id": "old_isegrim",
-      "attack": 3
+      "id": "pass3_hunter",
+      "ability": "isegrim",
+      "factor": 1
     }
   ],
-  "keywords": [
-    "Pack"
-  ],
+  "keywords": [],
   "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+    "doc": "docs/ideation/content/pass3/hunters-pass3.md",
+    "note": "Pass 3 with README amendments; generous B rates in content/pass3/rates.json."
   }
 }

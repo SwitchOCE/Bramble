@@ -8,29 +8,17 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight. Three times in all.",
-  "golden_text": "Mire. After a Mired enemy dies: get 2 gold next turn. Once a fight. Three times in all.",
+  "text": "Mire. Sink: get 1 gold next turn. Once a fight.",
+  "golden_text": "Mire. Sink: get 2 gold next turn. Once a fight.",
   "mechanics": [
     {
       "id": "mire",
       "spread": false
     },
     {
-      "id": "effect",
-      "trigger": "on_enemy_death",
-      "do": {
-        "effect": "gold",
-        "amount": 1,
-        "when": "next_turn"
-      },
-      "name": "peat_cutting",
-      "limit": 1,
-      "if": [
-        {
-          "kind": "subject_mired"
-        }
-      ],
-      "lifetime": 3
+      "id": "pass3_bog",
+      "ability": "cutter",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -42,7 +30,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

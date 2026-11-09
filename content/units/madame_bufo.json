@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack.",
-  "golden_text": "Mire. Bitter 4. If the enemy this Mires kills this, it loses half its Attack.",
+  "text": "Mire. Bitter. If its Mired enemy kills this, halve its Attack.",
+  "golden_text": "Mire. Bitter. If its Mired enemy kills this, halve its Attack twice.",
   "mechanics": [
     {
       "id": "mire",
@@ -17,11 +17,12 @@
     },
     {
       "id": "bitter",
-      "n": 2,
-      "once_per_enemy": false
+      "pass3": true
     },
     {
-      "id": "bufo"
+      "id": "pass3_bog",
+      "ability": "bufo",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -34,7 +35,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass3/bog-pass3.md",
+    "note": "Pass 3 with README amendments; provisional B rates in content/pass3/rates.json."
   }
 }

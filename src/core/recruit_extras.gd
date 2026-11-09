@@ -106,7 +106,7 @@ static func _remove_item(player: PlayerState, card: String) -> void:
 
 ## The player-owned state copied into each fight and ghost snapshot.
 static func fight_rules(rules: RecruitRules, player: PlayerState) -> Dictionary:
-	return {
+	var out: Dictionary = {
 		"pass3_content": player.pass3_content,
 		"ring_size": player.ring_size,
 		"larder": player.larder(),
@@ -119,3 +119,6 @@ static func fight_rules(rules: RecruitRules, player: PlayerState) -> Dictionary:
 		"away_specs": HeldUnits.away_specs(player),
 		"homecomings": player.homecomings_this_turn,
 	}
+	if player.pass3_bog or player.bog_toll > 0 or player.bog_kisses > 0:
+		out.merge({"bog_toll": player.bog_toll, "bog_kisses": player.bog_kisses})
+	return out
