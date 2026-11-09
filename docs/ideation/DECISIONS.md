@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 2 WIP: the scout focus view, the 40 cap as written, and portraits for every pool unit
+**Source:** w4's batch 2 progress report (`ideation/declutter-b2` at 344a5e75, `evidence/declutter/batch2/README.md`).
+- Recruit labels: overview 134 → 59, natural Birds 103 → 39, lobby 127 → 55, scout 136 → 64.
+- The 40-node gate fails the three dense states. 54 of 157 unit faces still print a fallback name, because those units have no portrait of their own.
+
+**Picked:**
+- **The scout focus view:** while scouting, both boards stay and the shop and lobby collapse. That's how Battlegrounds shows an opponent's board, and no state is lost.
+- **The 40 cap stays as the spec defines it** (§7: "Card names count until their unit has its own portrait"). No exclusions. Each budget report splits its count by kind: stats, hero health, fallback names, costs and controls, other.
+- **Portraits for every pool unit without its own art:** w5 on `ideation/portraits3`, built-in image tool, the existing flat style. This removes the fallback names, and it is also a Done means item ("`portraits_pending.json` empty"). It runs now rather than at build 9, because it is what's blocking the batch 2 gate.
+- The worker's DECISIONS edit on ideation/declutter is reverted there. DECISIONS is the orchestrator's file.
+
 ### 10 Nov 2026 — Pot Luck under ×1.3: real; fix the line's route first, then cards; part 1 merges
 **Source:** triage workflow wf_132aa8e4-7ac: five lenses, a synthesis and an adversarial critic (`evidence/potluck-triage/`).
 - **The miss is real.** Pot Luck (`line_oozes_tempo`) grows ×1.251 a round, R8–R14. Every other view is also under ×1.3: paired per seat 1.230, the R14 cohort 1.222, R8–R12 1.228, with Bellies 1.252, last observation carried forward 1.165. The survivor-robust intervals sit wholly under 1.3.
