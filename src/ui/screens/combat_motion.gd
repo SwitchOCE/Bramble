@@ -279,11 +279,23 @@ func change(event: Dictionary, animate: bool) -> void:
 					_tween(bead).tween_callback(_pulse.bind(bead, colour)).set_delay(delay)
 			for emitter: int in sources:
 				_source = emitter
-				var origin: CardView = _card(emitter)
-				if origin != null:
-					flash(origin, UiTheme.ACORN)
-					_pulse(origin.trigger_glyph())
-				_mote_from_source(card)
+				_source_pulse(emitter)
+				for stat: String in ["attack", "health"]:
+					if Data.i(event, stat + "_delta") == 0:
+						continue
+					var bead: Control = (
+						card.attack_bead() if stat == "attack" else card.health_bead()
+					)
+					var colour: Color = (
+						UiTheme.MOSS if Data.i(event, stat + "_delta") > 0 else UiTheme.HEALTH
+					)
+					var mote: Control = _mote(
+						_unit_point(emitter), bead.get_global_rect().get_center(), "spark", colour
+					)
+					mote.set_meta("effect_source_uid", emitter)
+					mote.set_meta("effect_target_uid", uid)
+					mote.set_meta("effect_stat", stat)
+
 			if not sources.is_empty():
 				_source = sources[0]
 			if Data.b(event, "permanent"):
@@ -311,8 +323,69 @@ func change(event: Dictionary, animate: bool) -> void:
 			_pulse(card.trigger_glyph())
 
 
-func stat_delay(uid: int) -> float:
-	return 0.22 if _source >= 0 and _source != uid else 0.0
+func stat_delay(_uid: int) -> float:
+	return 0.35 if _source >= 0 else 0.0
+
+
+func _unit_point(uid: int) -> Vector2:
+	var card: CardView = _card(uid)
+	if card != null:
+		return card.get_global_rect().get_center() - Vector2(0, card.size.y * 0.12)
+	var view: Dictionary = _model().unit(uid)
+	if not view.is_empty():
+		var board: BoardView = _screen.call("board_for_side", Data.i(view, "side"))
+		return board.slot_global_center(Data.i(view, "slot"))
+	return _screen.get_global_rect().get_center()
+
+
+func _effect_barrier(seconds: float) -> void:
+	_screen.set(
+		"_effect_remaining", maxf(CoreUtil.to_float(_screen.get("_effect_remaining")), seconds)
+	)
+
+
+func _source_pulse(uid: int) -> void:
+	var card: CardView = _card(uid)
+	if card != null:
+		var pulse: Tween = _tween(card)
+		pulse.tween_property(card, "modulate", Color(1.6, 1.4, 1.1), 0.04)
+		pulse.tween_interval(0.4)
+		pulse.tween_property(card, "modulate", Color.WHITE, 0.11)
+		_pulse(card.trigger_glyph())
+	var halo: TextureRect = _icon("ring", _unit_point(uid), 104, Color.WHITE)
+	halo.name = "TriggerSource_%d" % uid
+	halo.set_meta("effect_source_uid", uid)
+	var tween: Tween = _tween(halo)
+	tween.tween_interval(0.45)
+	tween.tween_property(halo, "modulate:a", 0.0, 0.15)
+	tween.tween_callback(halo.queue_free)
+
+
+func _take(event: Dictionary) -> void:
+	var hunter: int = Data.i(event, "hunter", -1)
+	var quarry: int = Data.i(event, "quarry", -1)
+	var view: Dictionary = _model().unit(hunter)
+	if view.is_empty():
+		return
+	_source_pulse(hunter)
+	var hunter_point: Vector2 = _unit_point(hunter)
+	var quarry_point: Vector2 = _unit_point(quarry)
+	var claim: Control = _mote(hunter_point, quarry_point, "paw", UiTheme.ACORN, 0.18)
+	claim.set_meta("effect_source_uid", hunter)
+	claim.set_meta("take_quarry_uid", quarry)
+	claim.set_meta("quarry_point", quarry_point)
+	(
+		_tween()
+		. tween_callback(_mote.bind(quarry_point, hunter_point, "acorn", Color.WHITE, 0.18))
+		. set_delay(0.18)
+	)
+	var hero_point: Vector2 = _plaque(Data.i(view, "side")).get_global_rect().get_center()
+	(
+		_tween()
+		. tween_callback(_mote.bind(hunter_point, hero_point, "acorn", Color.WHITE, 0.22))
+		. set_delay(0.36)
+	)
+	_effect_barrier(0.6)
 
 
 func _hop(card: CardView) -> void:
@@ -468,19 +541,32 @@ func _emit(key: String, point: Vector2, colour: Color) -> void:
 	tween.tween_callback(mark.queue_free)
 
 
-func _mote(from: Vector2, to: Vector2, key: String, colour: Color) -> void:
-	if Settings.reduce_motion:
-		_emit(key, from, colour)
-		_tween().tween_callback(_emit.bind(key, to, colour)).set_delay(0.15)
-		return
-	var mark: TextureRect = _icon(key, from, 44, colour)
-	var overlay: Control = _screen.get("_overlay")
-	var end: Vector2 = overlay.get_global_transform().affine_inverse() * to - mark.size / 2
+func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float = 0.35) -> Control:
+	var mark: TextureRect = _icon(key, from, 52, colour)
+	mark.set_meta("effect_from", from)
+	mark.set_meta("effect_to", to)
 	var tween: Tween = _tween(mark)
-	tween.tween_property(mark, "position", (mark.position + end) / 2 - Vector2(0, 25), 0.11)
-	tween.tween_property(mark, "position", end, 0.11)
-	tween.tween_property(mark, "modulate:a", 0.0, 0.1)
+	if Settings.reduce_motion:
+		var landing: TextureRect = _icon(key, to, 52, colour)
+		landing.hide()
+		var target: Tween = _tween(landing)
+		target.tween_interval(travel)
+		target.tween_callback(landing.show)
+		target.tween_interval(0.25)
+		target.tween_property(landing, "modulate:a", 0.0, 0.15)
+		target.tween_callback(landing.queue_free)
+		tween.tween_interval(travel)
+	else:
+		var overlay: Control = _screen.get("_overlay")
+		var end: Vector2 = overlay.get_global_transform().affine_inverse() * to - mark.size / 2
+		tween.tween_property(
+			mark, "position", (mark.position + end) / 2 - Vector2(0, 28), travel / 2
+		)
+		tween.tween_property(mark, "position", end, travel / 2)
+	tween.tween_interval(0.25)
+	tween.tween_property(mark, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(mark.queue_free)
+	return mark
 
 
 func die(card: CardView) -> void:
@@ -534,6 +620,16 @@ func gulp(event: Dictionary, animate: bool) -> void:
 
 
 func cue(event: Dictionary, animate: bool) -> void:
+	if animate and Data.s(event, "type") in ["mire_wait", "skip"]:
+		var waiting: int = Data.i(event, "uid", -1)
+		var unit: CardView = _card(waiting)
+		if unit != null:
+			_source_pulse(waiting)
+			var foot: Vector2 = (
+				unit.get_global_rect().get_center() + Vector2(0, unit.size.y / 2 - 10)
+			)
+			_mote(_unit_point(waiting), foot, "splash", UiTheme.MOSS)
+			_effect_barrier(0.55)
 	if Special.present(_screen, event, animate):
 		return
 	if not animate:
@@ -543,19 +639,26 @@ func cue(event: Dictionary, animate: bool) -> void:
 	match Data.s(event, "type"):
 		"trigger":
 			_source = uid
+			_source_pulse(uid)
 			if card != null:
-				_pulse(card.trigger_glyph())
 				_hop(card)
-			elif uid >= 0:
-				var view: Dictionary = _model().unit(uid)
-				if not view.is_empty() and not Data.b(view, "alive", true):
-					var board: BoardView = _screen.call("board_for_side", Data.i(view, "side"))
-					_emit("bones", board.slot_global_center(Data.i(view, "slot")), UiTheme.ACORN)
+			_effect_barrier(0.5)
 		"phase":
 			if Data.s(event, "name") in ["bell", "start_of_combat"]:
 				_emit("bell", _screen.get_global_rect().get_center(), UiTheme.ACORN)
 		"immediate_attack":
 			_snap = true
+			var source: int = Data.i(event, "attacker", -1)
+			_source_pulse(source)
+			var mote: Control = _mote(
+				_unit_point(source),
+				_unit_point(Data.i(event, "defender", -1)),
+				"spark",
+				UiTheme.ACORN
+			)
+			mote.set_meta("effect_source_uid", source)
+			mote.set_meta("effect_target_uid", Data.i(event, "defender", -1))
+			_effect_barrier(0.5)
 		"quarry_marked":
 			var hunter: CardView = _card(Data.i(event, "hunter", -1))
 			var prey: CardView = _card(Data.i(event, "quarry", -1))
@@ -608,15 +711,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 			var board: BoardView = _screen.call("board_for_side", Data.i(event, "side"))
 			flash(board, UiTheme.MUTE)
 		"take", "poach":
-			var hunter: CardView = _card(Data.i(event, "hunter", -1))
-			if hunter != null:
-				var side: int = Data.i(_model().unit(Data.i(event, "hunter")), "side")
-				_mote(
-					_last_death(),
-					_plaque(side).get_global_rect().get_center(),
-					"acorn",
-					UiTheme.ACORN
-				)
+			_take(event)
 		"transform":
 			if card != null:
 				var tween: Tween = _tween(card)

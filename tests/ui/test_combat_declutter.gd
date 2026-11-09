@@ -335,3 +335,50 @@ func test_reduce_motion_holds_all_attack_sources_until_the_next_attack() -> void
 	var marker: Control = sources[0]
 	var actor: int = marker.get("actor_uid")
 	assert_eq(actor, 8)
+
+
+func test_take_identifies_its_hunter_and_uses_its_own_quarry_after_simultaneous_deaths() -> void:
+	var screen: CombatScreen = _screen(false, true)
+	screen._play_event({"type": "death", "uid": 8}, false)
+	screen._play_event({"type": "death", "uid": 2}, false)
+	screen._play_event({"type": "take", "hunter": 1, "quarry": 8}, true)
+	_advance(screen, 0.3)
+	assert_gt(screen._cards[1].modulate.r, 1.05, "the hunter stays visibly active")
+	var found: bool = false
+	for child: Node in screen._overlay.get_children():
+		if child.has_meta("take_quarry_uid"):
+			var uid: int = child.get_meta("take_quarry_uid")
+			var point: Vector2 = child.get_meta("quarry_point")
+			assert_eq(uid, 8)
+			assert_eq(point, screen.board_for_side(1).slot_global_center(0))
+			found = true
+	assert_true(found, "the claim travels from its hunter to the specified quarry")
+
+
+func test_self_stat_effect_has_a_source_to_bead_route_before_the_number_roll() -> void:
+	var screen: CombatScreen = _screen(false)
+	var old_attack: int = Data.i(screen.model.unit(1), "attack")
+	screen._play_event(
+		{
+			"type": "stats",
+			"source": 1,
+			"target": 1,
+			"attack": old_attack + 2,
+			"attack_delta": 2,
+			"health_delta": 0
+		},
+		true
+	)
+	var label: Label = screen._cards[1].get("_attack_label")
+	assert_eq(label.text, str(old_attack), "the old value remains until the effect lands")
+	var found: bool = false
+	for child: Node in screen._overlay.get_children():
+		if child.has_meta("effect_stat"):
+			var source: int = child.get_meta("effect_source_uid")
+			var target: int = child.get_meta("effect_target_uid")
+			assert_eq(source, 1)
+			assert_eq(target, 1)
+			found = true
+	assert_true(found)
+	_advance(screen, 0.55)
+	assert_eq(label.text, str(old_attack + 2))

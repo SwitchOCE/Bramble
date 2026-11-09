@@ -229,7 +229,6 @@ static func _skip(screen: Control, event: Dictionary) -> void:
 	var card: CardView = _card(screen, Data.i(event, "uid", -1))
 	if card == null:
 		return
-	_flash(screen, card, UiTheme.MOSS)
 	if Data.s(event, "type") == "mire_wait" or Data.s(event, "reason") == "mired":
 		_bog_bubble(screen, card)
 	if Data.s(event, "reason") == "bide":
