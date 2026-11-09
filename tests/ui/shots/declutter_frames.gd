@@ -114,6 +114,70 @@ func _window(kind: String, index: int, start: int, end: int) -> Dictionary:
 	}
 
 
+func _opening_source(event: Dictionary) -> String:
+	var kind: String = str(event["type"])
+	if kind == "side_trigger":
+		return "side:%d" % CoreUtil.to_int(event["side"])
+	var source: Variant = event.get("source")
+	if source == null:
+		source = event.get("maker")
+	if source == null and kind == "trigger":
+		source = event.get("uid")
+	if source == null and kind == "quarry_marked":
+		source = event.get("hunter")
+	return "" if source == null else "unit:%d" % CoreUtil.to_int(source)
+
+
+## Preserve every opening cause, grouping recipients of one caster rather than splitting them.
+## Same-tick causes share a sheet: real playback gives them no separate interval to sample.
+func _opening_effects(
+	events: Array, discovery: Dictionary, first_attack: Dictionary
+) -> Array[Dictionary]:
+	var groups: Array[Dictionary] = [
+		{"event_index": 0, "start_tick": 0, "event_indices": [], "causes": []}
+	]
+	var active_source: String = ""
+	var timeline: Array = discovery["event_ticks"]
+	var attack_index: int = CoreUtil.to_int(first_attack["event_index"])
+	for record: Dictionary in timeline:
+		var index: int = CoreUtil.to_int(record["event_index"])
+		if index >= attack_index:
+			break
+		var event: Dictionary = events[index]
+		var kind: String = str(event["type"])
+		var source: String = _opening_source(event)
+		var boundary: bool = kind in ["trigger", "side_trigger", "quarry_marked"]
+		boundary = boundary or (not source.is_empty() and source != active_source)
+		var group: Dictionary = groups.back()
+		var tick: int = CoreUtil.to_int(record["tick"])
+		if boundary and tick - CoreUtil.to_int(group["start_tick"]) >= 8:
+			group = {"event_index": index, "start_tick": tick, "event_indices": [], "causes": []}
+			groups.append(group)
+		var indices: Array = group["event_indices"]
+		indices.append(index)
+		if not source.is_empty():
+			active_source = source
+			var causes: Array = group["causes"]
+			causes.append({"event_index": index, "type": kind, "source": source, "tick": tick})
+	var intervals: Array[Dictionary] = []
+	for index: int in groups.size():
+		var group: Dictionary = groups[index]
+		var end: int = CoreUtil.to_int(first_attack["start_tick"]) - 1
+		if index + 1 < groups.size():
+			var following: Dictionary = groups[index + 1]
+			end = CoreUtil.to_int(following["start_tick"]) - 1
+		var interval: Dictionary = _window(
+			"opening-event",
+			CoreUtil.to_int(group["event_index"]),
+			CoreUtil.to_int(group["start_tick"]),
+			end
+		)
+		interval["event_indices"] = group["event_indices"]
+		interval["causes"] = group["causes"]
+		intervals.append(interval)
+	return intervals
+
+
 func _fight(scenario: String, speed: float, reduced: bool) -> void:
 	Settings.reduce_motion = reduced
 	Settings.fight_speed = speed
@@ -138,9 +202,13 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		"opening", -1, 0, CoreUtil.to_int(first_attack["start_tick"]) - 1
 	)
 	windows.append(opening)
+	var opening_effects: Array[Dictionary] = _opening_effects(
+		source_events, discovery, first_attack
+	)
+	windows.append_array(opening_effects)
 	for index: int in starts.size():
 		var attack: Dictionary = starts[index]
-		var end: int = finish
+		var end: int = CoreUtil.to_int(discovery["result_tick"]) - 1
 		if index + 1 < starts.size():
 			var following: Dictionary = starts[index + 1]
 			end = CoreUtil.to_int(following["start_tick"]) - 1
@@ -193,6 +261,7 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		"ticks": finish + 1,
 		"attacks": attacks,
 		"opening": opening,
+		"opening_effects": opening_effects,
 		"result": result,
 		"event_ticks": _event_ticks,
 		"events": screen.events,
@@ -205,7 +274,8 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		"method":
 		(
 			"two deterministic 1/120 s passes; eight evenly spaced actual attack-to-next-attack "
-			+ "samples; last attack and result continue through settled Health and automatic return"
+			+ "samples; opening source-group focus sheets; last attack ends before result; "
+			+ "separate result continues through settled Health and automatic return"
 		),
 	}
 	var file := FileAccess.open(directory.path_join("manifest.json"), FileAccess.WRITE)
@@ -213,8 +283,15 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 	file.close()
 	print(
 		(
-			"declutter frames: %s attacks=%d result=%d..%d Health=%s"
-			% [directory, attacks.size(), _result_tick, finish, str(displayed)]
+			"declutter frames: %s attacks=%d opening_effects=%d result=%d..%d Health=%s"
+			% [
+				directory,
+				attacks.size(),
+				opening_effects.size(),
+				_result_tick,
+				finish,
+				str(displayed)
+			]
 		)
 	)
 	root.remove_child(screen)
@@ -230,7 +307,7 @@ func _capture(directory: String, intervals: Array[Dictionary]) -> void:
 	for interval: Dictionary in intervals:
 		var frames: Array = interval["frames"]
 		var prefix: String = str(interval["kind"])
-		if prefix == "attack":
+		if prefix in ["attack", "opening-event"]:
 			prefix += "-%03d" % CoreUtil.to_int(interval["event_index"])
 		var image_path: String = "%s-frame-%d.png" % [prefix, frames.size()]
 		assert(image.save_png(directory.path_join(image_path)) == OK)

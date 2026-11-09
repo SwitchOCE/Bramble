@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble native eight-frame attack, opening and complete-result strips."""
+"""Assemble native eight-frame attack, opening cause-group and complete-result strips."""
 
 import argparse
 import json
@@ -24,7 +24,7 @@ def write_sheet(source: Path, destination: Path, pixels: list, interval: dict, s
         relative = frame["seconds"] - interval["start_tick"] * step
         draw.text((x + 12, y + 10), f"{index + 1}/8  +{relative:.3f} s", fill="#2d271c")
     kind = interval["kind"]
-    filename = f"attack-{interval['event_index']:03}.jpg" if kind == "attack" else f"{kind}.jpg"
+    filename = f"{kind}-{interval['event_index']:03}.jpg" if kind in {"attack", "opening-event"} else f"{kind}.jpg"
     strip.save(destination / filename, quality=70, optimize=True, progressive=True)
     return filename
 
@@ -41,7 +41,8 @@ def main() -> None:
         assert manifest["timing_passes_equal"]
         destination = args.output / source.parent.name
         destination.mkdir(parents=True, exist_ok=True)
-        intervals = [manifest["opening"], *manifest["attacks"], manifest["result"]]
+        opening_effects = manifest.get("opening_effects", [])
+        intervals = [manifest["opening"], *opening_effects, *manifest["attacks"], manifest["result"]]
         expected = set()
         for interval in intervals:
             filename = write_sheet(source.parent, destination, manifest["pixels"], interval, manifest["fixed_step"])
@@ -49,7 +50,7 @@ def main() -> None:
             expected.add(filename)
         # Remove only obsolete outputs of this generator, never unrelated evidence.
         for old in destination.glob("*.jpg"):
-            generated = old.name.startswith("attack-") or old.name in {"opening.jpg", "result.jpg"}
+            generated = old.name.startswith(("attack-", "opening-event-")) or old.name in {"opening.jpg", "result.jpg"}
             if generated and old.name not in expected:
                 old.unlink()
         (destination / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -58,6 +59,8 @@ def main() -> None:
                 "run": source.parent.name,
                 "attacks": len(manifest["attacks"]),
                 "phase_sheets": 2,
+                "opening_effect_sheets": len(opening_effects),
+                "sheets": len(intervals),
                 "frames": len(intervals) * 8,
                 "speed": manifest["speed"],
                 "reduce_motion": manifest["reduce_motion"],
@@ -66,7 +69,8 @@ def main() -> None:
         )
         print(
             f"declutter strips: {source.parent.name} attacks={len(manifest['attacks'])} "
-            f"opening/result=2 Health={manifest['final_health_text']}"
+            f"opening/result=2 opening-effects={len(opening_effects)} sheets={len(intervals)} "
+            f"Health={manifest['final_health_text']}"
         )
     (args.output / "runs.json").write_text(json.dumps(summary, indent=2) + "\n")
 
