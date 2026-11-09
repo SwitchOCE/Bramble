@@ -26,6 +26,16 @@ Slots are `F1 F2 F3 F4` and `B1 B2 B3`. Numbers shift after each buy or play, so
 
 The screen shows what a player can see: gold, tier, health, hero, shop, board, hand, Bellies and Nests, keyword meanings and card details, the lobby, your next opponent's last board, the last fight and your legal moves.
 
-Every game uses the full-strength bot lobby. Old saves replay under today's rules; one with retired bot settings, or an action that no longer works, is refused (start a new game).
+Games use the full-strength bot lobby by default. Start a strong-field game with:
+
+```sh
+tools/play/play.sh new --seed 5 --field-library res://path/to/library.json
+```
+
+Field mode loads the library's source gameplay configuration, including any scale levers. It defaults to top-four source seats; add `--field-strength all` for all finishes. The save stores the library path, SHA-256 and strength; keep that file in place and unchanged for replay. Scouting shows the rival's previous-round board, with nothing shown in round one. See [strong-field mode](../../docs/ideation/strong-field.md) for library generation and limits.
+
+The source-tree UI accepts the same launch flag: `godot -- --field-library res://path/to/library.json`, then select Play. With the `strong_field` feature enabled, Settings also offers the touch-accessible Bots / Strong field choice. An invalid library produces a start-game error. Player exports currently disable the feature and contain no library, pending the full new pool.
+
+Old saves replay under today's rules; one with retired bot settings, or an action that no longer works, is refused (start a new game).
 
 Play hand cards by the `@handle` beside them, for example `play @123 B2`, or `play @456` to cash an Acorn. Handles don't shift when you buy; hand numbers do.

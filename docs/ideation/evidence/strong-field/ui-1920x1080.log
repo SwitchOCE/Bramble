@@ -1,0 +1,13 @@
+Running as unit: run-p4128447-i12508860.scope; invocation ID: 20ebfbe589d04892b43becb10bbf23b0
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 26.0.8-1ubuntu0.3 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+boot: main scene ready
+field-proof: saved=res://docs/ideation/evidence/strong-field/lobby_1920x1080.png round=8 opponent=4
+field-proof: saved=res://docs/ideation/evidence/strong-field/scout_1920x1080.png round=8 opponent=4
+field-proof: saved=res://docs/ideation/evidence/strong-field/rival-fight_1920x1080.png round=8 opponent=4
+field-proof: saved=res://docs/ideation/evidence/strong-field/ghost-scout_1920x1080.png round=14 opponent=-1
+field-proof: saved=res://docs/ideation/evidence/strong-field/ghost-fight_1920x1080.png round=14 opponent=-1
+field-proof: screenshots=5 seed=72 natural_ghost=true missed_clicks=0

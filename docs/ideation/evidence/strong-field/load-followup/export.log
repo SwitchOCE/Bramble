@@ -1,0 +1,18 @@
+Running as unit: run-p263810-i12842471.scope; invocation ID: 1cee277a31214abc8d80bf44a82f4a88
+presets ok (name 'Bramble', version 0.0.1)
+note: Android package name is 'com.switchoce.bramble', a placeholder until the owner picks the app ID
+exported 'Linux' -> build/strong-field/review-export/linux/bramble.x86_64
+size ok: build/strong-field/review-export/linux/bramble.x86_64 71976 KiB
+size ok: build/strong-field/review-export/linux/bramble.pck 34069 KiB
+contents ok: linux (1164 files)
+boot ok: linux reached the main scene and exited 0
+feature gate ok: packed UI hides Strong field and saved preference defaults to Bots
+exported 'Windows' -> build/strong-field/review-export/windows/bramble.exe
+size ok: build/strong-field/review-export/windows/bramble.exe 100644 KiB
+size ok: build/strong-field/review-export/windows/bramble.pck 34069 KiB
+contents ok: windows (1164 files)
+resources ok: build/strong-field/review-export/windows/bramble.exe has ProductName 'Bramble'
+exported 'Android APK' -> build/strong-field/review-export/android/bramble.apk
+size ok: build/strong-field/review-export/android/bramble.apk 90408 KiB
+contents ok: android-apk (1165 files)
+export_smoke: all checks passed

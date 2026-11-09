@@ -514,6 +514,9 @@ static func _ghost_owner(state: Dictionary) -> Variant:
 
 ## The scouting rule: the next opponent's board as it fought last round.
 static func _scouted(state: Dictionary, lines: PackedStringArray) -> void:
+	var field: bool = str(state.get("opponents", "")) == "field"
+	if field and RecruitView.is_ghost_next(state) and str(state["phase"]) != "game_over":
+		lines.append("Next fight: Field ghost.")
 	var ghost: bool = state["next_opponent_id"] == Matchmaking.GHOST and _ghost_owner(state) != null
 	if ghost and str(state["phase"]) != "game_over":
 		lines.append(

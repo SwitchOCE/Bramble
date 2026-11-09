@@ -14,7 +14,7 @@ func _initialize() -> void:
 
 func _main(args: PackedStringArray, as_json: bool) -> int:
 	if args.is_empty():
-		print("Usage: play.sh new --seed N [--save path]")
+		print("Usage: play.sh new --seed N [--save path] [--field-library path]")
 		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|swallow W S|")
 		print("                       refresh|freeze|tier|power [slot]|choose N|end] [--json]")
 		return 2
@@ -35,7 +35,15 @@ func _new(args: PackedStringArray, as_json: bool) -> int:
 	if path == "":
 		print("play.gd needs --save (play.sh picks one)")
 		return 2
-	var game := PlayGame.start(game_seed)
+	if args.has("--field-library") and _option(args, "--field-library", "") == "":
+		print("--field-library needs a path")
+		return 2
+	var game := PlayGame.start(
+		game_seed, _option(args, "--field-library", ""), _option(args, "--field-strength", "top4")
+	)
+	if game.load_error != "":
+		print("Cannot start game: %s" % game.load_error)
+		return 2
 	if not _write(path, game):
 		return 1
 	_show(game, "Save: %s" % path, as_json)

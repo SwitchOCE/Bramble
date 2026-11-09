@@ -15,6 +15,8 @@ var scenario_library: ScenarioLibrary
 ## choice taken at once, for callers that don't know them (tests of the bare rules).
 var manual_choices: bool = true
 var _uses_saved_settings: bool = true
+var _field_library_path: String = ""
+var _launch_error: String = ""
 
 
 ## Loads the unit library, for the full game unless a config says otherwise (tests use human_bot).
@@ -22,16 +24,52 @@ func setup(game_config: GameConfig = null) -> void:
 	library = UnitLibrary.load_dir()
 	config = game_config if game_config != null else GameConfig.full_game()
 	_uses_saved_settings = game_config == null
+	_field_library_path = ""
+	_launch_error = ""
+	if _uses_saved_settings:
+		var args: PackedStringArray = OS.get_cmdline_user_args()
+		var index: int = args.find("--field-library")
+		if index >= 0:
+			if not Settings.field_mode_enabled:
+				if OS.has_feature("editor"):
+					Settings.field_mode_enabled = true
+				else:
+					_launch_error = "Strong field is not enabled in this build"
+					return
+			if index + 1 >= args.size() or args[index + 1].begins_with("--"):
+				_launch_error = "--field-library needs a path"
+			else:
+				_field_library_path = args[index + 1]
 
 
 func new_game(game_seed: int) -> String:
 	if library == null:
 		setup()
+	if _launch_error != "":
+		return _launch_error
 	if library.all_units().is_empty():
 		return "No units found in content/units"
+	var field_path: String = _field_library_path
+	var prepared_field: FieldLibrary = null
 	if _uses_saved_settings:
+		# The previous field game's source config must not leak into a later Bots game.
+		config = GameConfig.full_game()
 		config.set_value("ask_for_kin", Settings.ask_for_kin)
-	session = GameSession.create(game_seed, library, config)
+		if field_path.is_empty() and Settings.field_mode_enabled and Settings.opponents == "field":
+			field_path = Settings.field_library_path
+	if not field_path.is_empty():
+		prepared_field = FieldLibrary.prepare(config, library, field_path)
+		if prepared_field.error != "":
+			return prepared_field.error
+	if (
+		config.get_string("opponents") == "field"
+		and not Settings.field_mode_enabled
+		and not OS.has_feature("editor")
+	):
+		return "Strong field is not enabled in this build"
+	session = GameSession.create(game_seed, library, config, Bot.create, prepared_field)
+	if session == null:
+		return "Cannot start this opponent configuration."
 	_settle()
 	return ""
 

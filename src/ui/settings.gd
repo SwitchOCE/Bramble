@@ -13,6 +13,10 @@ static var reduce_motion: bool = false
 static var seen_guide: bool = false
 ## Optional shop experiment, applied when starting a new game.
 static var ask_for_kin: bool = false
+## The experiment is unavailable in ordinary player exports until a new-pool field is ready.
+static var field_mode_enabled: bool = OS.has_feature("strong_field")
+static var field_library_path: String = FieldLibrary.BUNDLED_PATH
+static var opponents: String = "bots"
 ## A slider, 0..1 (Sfx hears it).
 static var master_volume: float = DEFAULT_MASTER
 
@@ -26,6 +30,7 @@ static func load_saved() -> void:
 	reduce_motion = file.get_value("fights", "reduce_motion", false) == true
 	seen_guide = file.get_value("guide", "seen", false) == true
 	ask_for_kin = file.get_value("testing", "ask_for_kin", false) == true
+	opponents = "field" if file.get_value("game", "opponents", "bots") == "field" else "bots"
 	master_volume = _volume(file.get_value("sound", "master", DEFAULT_MASTER), DEFAULT_MASTER)
 
 
@@ -36,6 +41,7 @@ static func save() -> void:
 	file.set_value("testing", "dev_panel", show_dev_panel)
 	file.set_value("guide", "seen", seen_guide)
 	file.set_value("testing", "ask_for_kin", ask_for_kin)
+	file.set_value("game", "opponents", opponents)
 	file.set_value("sound", "master", master_volume)
 	file.save(path)
 
@@ -47,6 +53,9 @@ static func reset() -> void:
 	reduce_motion = false
 	seen_guide = false
 	ask_for_kin = false
+	opponents = "bots"
+	field_mode_enabled = OS.has_feature("strong_field")
+	field_library_path = FieldLibrary.BUNDLED_PATH
 	master_volume = DEFAULT_MASTER
 
 

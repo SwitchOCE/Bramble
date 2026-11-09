@@ -1,0 +1,298 @@
+{
+  "runtime_commit": "04e87b3",
+  "validated_commit": "6278c4a",
+  "quality_gate": {
+    "command": "./scripts/check.sh",
+    "exit": 0,
+    "godot_tests_passed": 1726,
+    "python_tests_passed": 69
+  },
+  "godot_execution": "sequential; sourced /opt/bramble/env.sh; shared /tmp/bramble-godot.lock; systemd user scope MemoryMax=3G; timeouts",
+  "export_smoke": {
+    "exit": 0,
+    "targets": [
+      "Linux",
+      "Windows",
+      "Android APK"
+    ],
+    "levers_in_every_pack": true,
+    "field_library_excluded": true,
+    "strong_field_feature_off": true,
+    "packed_settings_probe": "editor with exported PCK; hidden choice, saved field preference starts Bots, manifest validation available"
+  },
+  "windows_runtime": {
+    "host": "Wine64 under Xvfb",
+    "exit": 0,
+    "boot_marker": "boot: main scene ready",
+    "quit_after_frames": 120
+  },
+  "tools_play_smoke": {
+    "seed": 71,
+    "field_strength": "top4",
+    "phase": "game_over",
+    "round": 10,
+    "place": 8,
+    "saved_actions": 34,
+    "switches": 0
+  },
+  "measurement_library": {
+    "committed": false,
+    "bytes": 47994294,
+    "sha256": "4792d247bce1220d61bb3fd2d76a06b2acbefebd8b8d10df5c62b4a23c565991",
+    "version": 2,
+    "config_version": 1,
+    "manifest": "gameplay-v1",
+    "config": {
+      "ask_for_kin": false,
+      "attack_limit": 200,
+      "base_damage_by_turn": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        3,
+        4,
+        5,
+        7,
+        9,
+        11,
+        13
+      ],
+      "bots": [
+        "line_engine:varied",
+        "line_engine:varied",
+        "line_tempo:varied",
+        "line_engine:varied",
+        "hard_field:varied",
+        "line_fast",
+        "line_tempo:varied"
+      ],
+      "card_rate_limits": true,
+      "card_size_caps": true,
+      "damage_cap_by_turn": [
+        4,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "damage_cap_off_at_alive": 4,
+      "damage_mode": "v05",
+      "discover_options": 3,
+      "early_spoils": true,
+      "freeze_toggles_per_turn": 5,
+      "hand_limit": 10,
+      "hero_choice": true,
+      "hero_damage_floor": 4,
+      "heroes_offered": 3,
+      "human_bot": "hard_field:varied",
+      "income_by_turn": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "last_blow": true,
+      "last_stand": true,
+      "lobby_tribe_min_units": 4,
+      "max_rounds": 50,
+      "opening_rounds": 2,
+      "opening_spells": [
+        "rainy_day",
+        "a_leg_up"
+      ],
+      "players": 8,
+      "pool_copies_by_tier": [
+        15,
+        15,
+        13,
+        13,
+        11,
+        9
+      ],
+      "pool_filter": "slice",
+      "refresh_base_cost": 1,
+      "refresh_first_step_after": 15,
+      "refresh_step_length": 5,
+      "round_toll": false,
+      "scale_answer_percent": 50,
+      "scale_economy_cap": 10,
+      "scale_engine_flat": 0,
+      "scale_engine_percent": 25,
+      "scale_engine_self": false,
+      "scale_engine_tribe": "Hedgerow folk",
+      "scale_hero_spell_percent": 10,
+      "scale_hero_spell_stats": false,
+      "scale_levers": [],
+      "sell_bought": 1,
+      "sell_created": 0,
+      "shop_spells_by_tier": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "shop_tier_odds": [
+        [
+          100
+        ],
+        [
+          50,
+          50
+        ],
+        [
+          20,
+          30,
+          50
+        ],
+        [
+          10,
+          15,
+          25,
+          50
+        ],
+        [
+          5,
+          10,
+          15,
+          25,
+          45
+        ],
+        [
+          5,
+          5,
+          10,
+          15,
+          25,
+          40
+        ]
+      ],
+      "shop_units_by_tier": [
+        4,
+        4,
+        4,
+        5,
+        5,
+        6
+      ],
+      "spell_copies_by_tier": [
+        5,
+        7,
+        9,
+        11,
+        9,
+        7
+      ],
+      "spells_in_shop": true,
+      "starting_health": 40,
+      "survivor_damage_divisor": 2,
+      "tribes_per_lobby": 5,
+      "trigger_limit_action": 1000,
+      "trigger_limit_combat": 10000,
+      "unit_cost": 3,
+      "upgrade_costs": [
+        5,
+        7,
+        8,
+        11,
+        13
+      ],
+      "upgrade_discount_per_turn": 1
+    },
+    "source": {
+      "captures": [
+        {
+          "path": "build/strong-field/top4-source.fights.jsonl",
+          "sha256": "03a602eeafa77f2d16e7b1168cfbc392ca98962dff72baf1b50dbfc686abbace"
+        }
+      ],
+      "commit": "9af89c263fa27d74bc2ed45f6e661bb57efb11f2",
+      "coverage": {
+        "Birds+Bog folk+Fairies+Hedgerow folk+Hunters": {
+          "all": 208,
+          "top4": 104
+        },
+        "Birds+Bog folk+Fairies+Hedgerow folk+Oozes": {
+          "all": 168,
+          "top4": 84
+        },
+        "Birds+Bog folk+Fairies+Hunters+Oozes": {
+          "all": 128,
+          "top4": 64
+        },
+        "Birds+Bog folk+Hedgerow folk+Hunters+Oozes": {
+          "all": 160,
+          "top4": 80
+        },
+        "Birds+Fairies+Hedgerow folk+Hunters+Oozes": {
+          "all": 152,
+          "top4": 76
+        },
+        "Bog folk+Fairies+Hedgerow folk+Hunters+Oozes": {
+          "all": 144,
+          "top4": 72
+        }
+      },
+      "per_line_per_rotation_stratum": 64,
+      "players": [
+        {
+          "path": "build/strong-field/top4-source.players.csv",
+          "sha256": "d1481d1779d0bfeb015083760aa0e2407c59853141a7fce416deab02a00ca5a6"
+        }
+      ],
+      "population_trajectories": {
+        "hard": 240,
+        "line_birds_engine": 54,
+        "line_birds_tempo": 26,
+        "line_bog_engine": 53,
+        "line_bog_tempo": 33,
+        "line_fairies_engine": 68,
+        "line_fairies_tempo": 46,
+        "line_fast": 219,
+        "line_hedgerow_engine": 24,
+        "line_hedgerow_tempo": 21,
+        "line_hunters_engine": 51,
+        "line_hunters_tempo": 37,
+        "line_oozes_engine": 52,
+        "line_oozes_tempo": 36
+      },
+      "sampling": "per line/lobby rotation/top4 stratum: one longest plus seeded uniform whole trajectories without replacement; retain at least eight winners where available",
+      "seed": 91407,
+      "strength_filter": "all",
+      "suite": "lines"
+    }
+  },
+  "unchanged_against_9af89c2": [
+    "content/",
+    "src/core/combat.gd",
+    "tools/sim/bench.gd"
+  ],
+  "files_sha256": {
+    "strength-report.json": "41540cc123f6a688c8e88188100a4ef986722ff3a0c8ef03d65eb5644906bbce",
+    "comparison-normal-40.jsonl": "e958283b429a76926f1483f6cc1642f0fc77dcadf835b8cd281adfa6c11d1925",
+    "comparison-all-40.jsonl": "510afced7a33c1d66b49a6e0378fc8bdd850128b1f3bf4bfab0f608508e95000",
+    "comparison-top4-40.jsonl": "831df347a67c53c9bed8349b4e435122d0ba743e68fc6ec6e71410df58c54b60",
+    "review-gate.log": "13de09f6780aca969698e9c6b84678878cf783bd7ad33c1fa03bf4ee06427cf6",
+    "review-export.log": "31b8cd00ffab737e905d2867703538abd2c890380aa289ed994539bcb029a3fe",
+    "review-packed-ui.log": "41e1bc5bd98cc909311610e359eefb2c883b1199807446059343d02a7202d392",
+    "review-windows-boot.log": "c9fbdda715c0d692893f76a347cca104405925d78b651cdbb1f2ab75dae04f48",
+    "review-smoke.game.json": "0b03f0b89a0f8351bd260a87fd65d6d471088ab18e4f71492eb13b9c0672f2c9",
+    "review-smoke.result.json": "eee61c7b829842e1909f4e75fccefe39664a3c6e1139d0744ca2d02aaeedc81e",
+    "review-smoke.log": "180bff7a7a489e0af68e59df75a5e97564d640ef16f134001363b04b6baa0fdf",
+    "review-smoke-board-sizes.csv": "1da64734a522acc6b0cb21e736036b52168410c27bdead46daccd75be7e9ca9c"
+  }
+}
