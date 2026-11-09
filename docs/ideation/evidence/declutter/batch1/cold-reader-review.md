@@ -1,11 +1,18 @@
 # Cold reader: source and effect attribution
 
-The owner confirmed that Batch 1 asks which card caused an effect and what it did. Knowing
+The orchestrator selected a criterion in which Batch 1 asks which card caused an effect and what it did. Knowing
 that card's printed rule or qualifying condition belongs in its reader and Batch 4's teaching.
 The reviewers received only `cold-reader-packet.md` and the JPEG sheets. They did not receive
 source code, event/checkpoint JSON, manifests, the evidence README or expected answers.
 They inspected native board crops, with each ×4 run preceding its ×1 match. One reviewer
 covered combat_mid and reduced motion; two independent readers covered homecoming and rival.
+
+## Independent score supersedes this initial internal result
+
+The [independent reader and scorer](independent-review-4f50d944.md) found ×1 and
+reduce-motion failures at `4f50d944`; ×4 passed and all hitter/death answers were right.
+The internal PASS recorded below is historical and is superseded by that independent
+FAIL. Repairs and a fresh reader/scorer run are pending.
 
 ## First pass
 
@@ -70,7 +77,7 @@ The reviewer reported no remaining source/effect uncertainty in the changed case
 | Pack 026, ×1/×4/reduced | Upper old man plus wolf cause a readable 5 total damage pop on lower front-right badger, which dies. |
 | Pack 036, ×1/×4/reduced | Upper badger plus wolf cause a readable 5 total damage pop on lower front-second fox, whose Health goes 6→1. |
 
-**Result:** the source/effect cold-reader check passes under the owner's clarified criterion.
+**Result:** the source/effect cold-reader check passes under the orchestrator's source/effect criterion.
 The original full-fight observations cover all 23 attacks at each speed and all 11 reduced-motion
 attacks; the addendum resolves the identified source and overlapping-pop findings. No printed
 rule condition or keyword name was supplied as an answer. Those teaching inputs remain below.

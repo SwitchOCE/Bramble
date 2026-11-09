@@ -54,12 +54,12 @@ nohup bash -c 'export LP_NUM_THREADS=1; flock /tmp/bramble-godot.lock systemd-ru
 
 ## Cold-reader criterion for this batch
 
-The owner confirmed a **source/effect** check for Batch 1. A cold reader should be
+The orchestrator selected a **source/effect** check for Batch 1. A cold reader should be
 able to identify who moved or flashed, who received the hit or change, and what
 visibly happened, including the visible cause of a death. It is not required to
 reconstruct an unstated unit ability or name an unfamiliar keyword from the strip.
 The same source/effect standard applies to ×4 and reduce motion. The refreshed-image
-check **passes** under this owner-approved criterion; no source/effect uncertainty
+initial internal check reported **PASS** under this orchestrator-selected criterion; no source/effect uncertainty
 remains in the reviewed attacks.
 
 The [cold-reader audit](cold-reader-review.md) records the original observations
@@ -76,6 +76,15 @@ Rules/tutorial input for Batch 4:
 
 These rule explanations belong in the tutorial, Rules pages and reader. The combat
 screen communicates their sources and effects through motion without adding text.
+
+## Independent result at `4f50d944`
+
+The [independent blind reader and event-based score](independent-review-4f50d944.md)
+**fails** Batch 1 at ×1 and under reduce motion; ×4 passes. Every hitter and death
+cause was right, but trigger attribution and reduced-motion direction failed. This
+supersedes the earlier internal PASS below. The independent report includes frame-level
+causes; the six requested repairs and a new independent-style retest are in progress.
+The criterion was the orchestrator's call, not a statement attributed to the owner.
 
 ## Frame strips
 
@@ -409,7 +418,7 @@ and build logs are excluded from git.
 - Final UI preflight: 374/374 tests pass across 50 scripts, 13,854 assertions; no
   script errors, failed tests or GUT warnings appear in the log.
 - Strips: seven complete runs, 57 attack sheets, 456 native frames. All eight samples per attack match the scheduled ticks exactly; adjacent gaps differ by at most one 1/120-second tick due to rounding. All frame dimensions verified at 1688×780.
-- Cold-reader source/effect check: **PASS** under the owner-approved criterion; the
+- Initial internal cold-reader check: **PASS claimed**, superseded by the independent **FAIL** at `4f50d944`; the
   refreshed-image check leaves no source/effect uncertainty. Reviewers received only
   the packet and image strips. The original review and refreshed observations are
   retained in [cold-reader-review.md](cold-reader-review.md); Batch 4 rule inputs remain above.
