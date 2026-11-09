@@ -208,3 +208,51 @@ func test_current_content_fixture_has_eight_distinct_winners_for_each_rotation()
 	assert_gt(rotations.size(), 0)
 	for tribes: PackedStringArray in rotations.values():
 		assert_eq(field.can_deal(tribes, "top4", 8), "")
+
+
+func test_nullable_rates_inherit_c_without_accepting_wrong_types() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FieldTestData.path()))
+	var source: Dictionary = data["config"]
+	source["pass3_preset"] = "C"
+	source["birds_chiffchaff_gain"] = null
+	var path: String = "user://field-nullable-c.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+	file.close()
+	var library := UnitLibrary.load_dir()
+	var config := GameConfig.full_game()
+	var field := FieldLibrary.prepare(config, library, path)
+	assert_eq(field.error, "")
+	assert_eq(Pass3Rates.integer(config, "birds_chiffchaff_gain"), 4)
+	assert_true(config.get_bool("scale_hero_spell_stats"))
+	assert_eq(field.config_problem(config), "")
+	assert_not_null(GameSession.create(71, library, config, Bot.create, field))
+	source["birds_chiffchaff_gain"] = "wrong type"
+	file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(data))
+	file.close()
+	assert_string_contains(FieldLibrary.read(path, library).error, "config key/type")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+func test_resolved_capture_config_restores_exact_rate_precision_for_field_play() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FieldTestData.path()))
+	var recorded := GameConfig.full_game()
+	recorded.set_value("pass3_preset", "C")
+	recorded.set_value("hunters_nip_share", 1.0 / 3.0)
+	data["config"] = recorded.resolved_values()
+	var path: String = "user://field-exact-rates.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	# Ordinary JSON rounds the visible third; the capture sidecar retains its exact value.
+	file.store_string(JSON.stringify(data))
+	file.close()
+	var library := UnitLibrary.load_dir()
+	var config := GameConfig.full_game()
+	var field := FieldLibrary.prepare(config, library, path)
+	assert_eq(field.error, "")
+	assert_eq(Pass3Rates.number(config, "hunters_nip_share"), 1.0 / 3.0)
+	assert_eq(field.config_problem(config), "")
+	assert_not_null(GameSession.create(71, library, config, Bot.create, field))
+	config.set_value("hunters_nip_share", 0.333333333333333)
+	assert_string_contains(field.config_problem(config), "hunters_nip_share")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

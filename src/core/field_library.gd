@@ -8,6 +8,7 @@ const VERSION: int = 2
 const CONFIG_VERSION: int = 1
 const BUNDLED_PATH: String = "res://content/fields/baseline.json.gz"
 const RUNTIME_KEYS: Array = ["bots", "human_bot", "opponents", "field_library", "field_strength"]
+const CAPTURE_KEYS: Array = ["pass3_text_defaults", Pass3Rates.EXACT_RATES]
 const CONTENT_FOLDERS: Array = ["units", "heroes", "spells", "levers", "schema", "pass3"]
 const DISPLAY_KEYS: Array = [
 	"text",
@@ -82,7 +83,7 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 	var field := read(path, library)
 	if field.error != "":
 		return field
-	var source: Dictionary = field.data["config"]
+	var source: Dictionary = Pass3Rates.restore_values(field.data["config"])
 	for key: String in source:
 		if not key in RUNTIME_KEYS:
 			config.set_value(key, source[key])
@@ -92,23 +93,28 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 
 
 func config_problem(config: GameConfig) -> String:
-	var source: Dictionary = data["config"]
-	var defaults: Dictionary = _config_defaults()._values
-	for key: String in defaults:
-		if key in RUNTIME_KEYS:
+	var recorded: GameConfig = FightCapture.config_for(data["config"])
+	var expected: Dictionary = recorded.resolved_values()
+	var actual: Dictionary = config.resolved_values()
+	for key: String in expected:
+		if key in RUNTIME_KEYS or key in CAPTURE_KEYS:
 			continue
-		var actual: Variant = config.get_value(key)
-		if actual == null:
-			actual = defaults[key]
-		if canonical(source.get(key, defaults[key])) != canonical(actual):
+		if _both_numbers(expected[key], actual.get(key)):
+			if expected[key] != actual[key]:
+				return "Field library config mismatch: %s" % key
+			continue
+		if canonical(expected[key]) != canonical(actual.get(key)):
 			return "Field library config mismatch: %s" % key
 	return ""
 
 
 static func _config_defaults() -> GameConfig:
 	var config := GameConfig.defaults()
-	for key: String in Pass3Rates.defaults():
+	for key: String in Pass3Rates.keys():
 		config.set_value(key, Pass3Rates.value(config, key))
+	config.set_value("scale_hero_spell_stats", config.get_bool("scale_hero_spell_stats"))
+	config.set_value("pass3_text_defaults", {})
+	config.set_value(Pass3Rates.EXACT_RATES, "")
 	return config
 
 
@@ -129,8 +135,12 @@ func _validate(library: UnitLibrary) -> String:
 		if hashes.get(path, "") != observed[path]:
 			return "Field library content version mismatch: %s" % path
 	var config := _config_defaults()
+	var nullable: Dictionary = GameConfig.defaults()._values
 	var source: Dictionary = data["config"]
 	for key: String in source:
+		if nullable.has(key) and nullable[key] == null and source[key] == null:
+			config.set_value(key, null)
+			continue
 		if not config._values.has(key) or typeof(source[key]) != typeof(config.get_value(key)):
 			# JSON integral numbers are floats. Validate them as numbers, not key type changes.
 			if not config._values.has(key) or not _both_numbers(source[key], config.get_value(key)):
