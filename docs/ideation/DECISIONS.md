@@ -4,6 +4,27 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1 scope review: calls
+**Source:** `evidence/declutter/batch1-independent/scope-review.md`. It found 22 keeps, 3 cuts, 2 simplify and 3 asks.
+- The combat screen is fixed: 88–91 labels became 24–28, all of them numbers, with no lines.
+- The recruit screen's grooves wait for batch 2.
+
+**Cuts, sent to w5:**
+1. The mud bar on Mired units hides their numbers. Remove it; the pocket mud strip already shows Mire.
+2. The Nest ring was drawn over cards, which is batch 2's row 2.2 done early. Revert it.
+3. The README credited the source-and-effect criterion to the owner.
+
+**Who made that call:** the orchestrator, not the owner. For batch 1, spec §6 item 7 is judged on whether a reader can see which card caused each effect and what it did. Knowing a card's rule text is batch 4's tutorial work.
+
+**Calls on the asks:**
+1. **Label budget.** Unit Attack and Health and hero Health are not counted. Every other visible text node in combat is capped at 10. A full board alone is 30 numbers, so the old cap of 30 left no room for any state mark.
+2. **Trigger glyphs** show in combat only on units whose trigger can fire in a fight. A spark that never pulses is a standing rule mark, which fails the three tests.
+3. **Merge order:** wave 2a lands first, then declutter. After that, w5 ports Bog's kiss count, the pending-gain tag and Bog's Toll into the wordless face, without words.
+
+**Simplify:** delete the dead code, and load heroes once.
+
+**Merge:** after the cuts are fixed, the independent cold reader passes, and wave 2a has landed and been ported.
+
 ### 10 Nov 2026 — Declutter batch 1: the independent cold reader fails it
 **Source:** `evidence/declutter/batch1-independent/cold-reader.md`. A fresh agent saw only the packet and the strips, and a second agent scored its answers against the recorded events.
 
