@@ -25,6 +25,18 @@ static func default_preset() -> String:
 	return _default_preset
 
 
+## Presets may introduce optional dials without changing the fallback or B rate maps.
+static func keys() -> PackedStringArray:
+	var out: PackedStringArray = []
+	for key: String in defaults():
+		out.append(key)
+	for preset_values: Dictionary in _presets.values():
+		for key: String in preset_values:
+			if not out.has(key):
+				out.append(key)
+	return out
+
+
 static func value(config: GameConfig, key: String) -> Variant:
 	if _defaults.is_empty():
 		defaults()
@@ -50,16 +62,20 @@ static func enabled(config: GameConfig, key: String) -> bool:
 
 static func resolved(config: GameConfig) -> Dictionary:
 	var out: Dictionary = defaults()
-	for key: String in out:
-		out[key] = value(config, key)
+	var name: String = config.get_string("pass3_preset")
+	var chosen: Dictionary = _presets.get(name if name != "" else _default_preset, {})
+	out.merge(chosen, true)
+	for key: String in keys():
+		if out.has(key) or config.get_value(key) != null:
+			out[key] = value(config, key)
 	return out
 
 
 static func overridden(config: GameConfig) -> bool:
 	var authored: Dictionary = defaults()
 	var selected: Dictionary = _presets.get(_default_preset, {})
-	for key: String in authored:
-		if value(config, key) != selected.get(key, authored[key]):
+	for key: String in keys():
+		if value(config, key) != selected.get(key, authored.get(key, 0)):
 			return true
 	return false
 
@@ -68,7 +84,7 @@ static func overridden(config: GameConfig) -> bool:
 static func freeze_values(values: Dictionary) -> Dictionary:
 	var out: Dictionary = values.duplicate(true)
 	var exact: Dictionary = {}
-	for key: String in defaults():
+	for key: String in keys():
 		if out.has(key):
 			exact[key] = out[key]
 	var baseline: Variant = out.get("pass3_text_defaults")

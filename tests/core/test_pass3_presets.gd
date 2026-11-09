@@ -2,6 +2,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const CK := preload("res://tests/core/combat_kit.gd")
+const KIT := preload("res://tests/core/recruit_kit.gd")
 
 
 func test_b_is_default_a_is_fallback_and_c_has_data_authored_engine_overrides() -> void:
@@ -156,3 +157,57 @@ func test_bird_c_rates_match_every_paper_c_bird_dial() -> void:
 		if key.begins_with("birds_"):
 			actual[key] = resolved[key]
 	assert_eq(actual, expected, "C uses the complete paper Birds map, without extra overrides")
+
+
+func test_optional_bird_dials_drive_real_recruits_without_changing_b() -> void:
+	for preset_id: String in ["B", "C"]:
+		for golden: bool in [false, true]:
+			var config := GameConfig.full_game()
+			config.set_value("pass3_preset", preset_id)
+			var kit: KIT = KIT.new()
+			kit.setup(config)
+			kit.rules.start_phase(kit.player, 1)
+			var factor: int = 2 if golden else 1
+			var gain: int = (4 if preset_id == "C" else 1) * factor
+			var chiff: RecruitUnit = kit.play("chiffchaff", 0, golden)
+			assert_eq(chiff.attack, factor + gain, preset_id + " Chiffchaff Attack")
+			assert_eq(chiff.health, 2 * factor + gain, preset_id + " Chiffchaff Health")
+			assert_string_contains(chiff.view()["text"], "+%d/+%d" % [gain, gain])
+			var gold: int = kit.player.gold
+			kit.play("one_swallow", 1, golden)
+			assert_eq(kit.player.gold, gold + factor, "Swallow's existing reward is preserved")
+			kit.play("mother_goose", 2, golden)
+			assert_eq(kit.player.items.size(), factor, "Goose gives the configured Golden Eggs")
+			var jay: RecruitUnit = kit.play("mrs_jay", 3, golden)
+			jay.played_round = 0
+			assert_eq(kit.rules.sell(kit.player, 3), "")
+			assert_eq(kit.player.items.size(), 2 * factor, "Jay gives the configured Acorns")
+
+
+func test_optional_bird_dials_can_be_swept_and_captured_from_b() -> void:
+	var config := GameConfig.full_game()
+	config.set_value("birds_chiffchaff_gain", 5)
+	config.set_value("birds_goose_eggs", 3)
+	config.set_value("birds_swallow_gold", 2)
+	config.set_value("birds_jay_acorns", 4)
+	var kit: KIT = KIT.new()
+	kit.setup(config)
+	kit.rules.start_phase(kit.player, 1)
+	var chiff: RecruitUnit = kit.play("chiffchaff", 0)
+	assert_eq(chiff.attack, 6)
+	var gold: int = kit.player.gold
+	kit.play("one_swallow", 1)
+	assert_eq(kit.player.gold, gold + 2)
+	kit.play("mother_goose", 2, true)
+	assert_eq(kit.player.items.size(), 6)
+	kit.player.items.clear()
+	var jay: RecruitUnit = kit.play("mrs_jay", 3)
+	jay.played_round = 0
+	assert_eq(kit.rules.sell(kit.player, 3), "")
+	assert_eq(kit.player.items.size(), 4)
+	var values: Dictionary = JSON.parse_string(JSON.stringify(config.resolved_values()))
+	var restored: GameConfig = FightCapture.config_for(values)
+	assert_eq(Pass3Rates.resolved(restored)["birds_chiffchaff_gain"], 5)
+	assert_eq(Pass3Rates.resolved(restored)["birds_goose_eggs"], 3)
+	assert_eq(Pass3Rates.resolved(restored)["birds_swallow_gold"], 2)
+	assert_eq(Pass3Rates.resolved(restored)["birds_jay_acorns"], 4)

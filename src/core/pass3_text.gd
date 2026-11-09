@@ -59,7 +59,9 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 		return
 	if not _is_pass3(card) and str(card.get("id", "")) != "golden_egg":
 		return
-	card["pass3_rates"] = Pass3Rates.resolved(config)
+	var rates: Dictionary = Pass3Rates.resolved(config)
+	card["pass3_rates"] = rates
+	_optional_bird_effects(card, rates)
 	for golden: bool in [false, true]:
 		if golden and not card.has("golden_text"):
 			continue
@@ -158,6 +160,33 @@ static func _multiply(value: float) -> String:
 	return "multiply"
 
 
+## Optional preset-only dials leave the authored B mechanic data untouched when absent.
+static func _optional_bird_effects(card: Dictionary, rates: Dictionary) -> void:
+	var rules: Dictionary = {
+		"chiffchaff": ["birds_chiffchaff_gain", "buff", ["attack", "health"]],
+		"swallow_gold": ["birds_swallow_gold", "gold", ["amount"]],
+		"jay": ["birds_jay_acorns", "add_card", ["count"]],
+	}
+	var changed: bool = false
+	for entry: Dictionary in card.get("mechanics", []):
+		var effect_name: String = str(entry.get("name", ""))
+		if not rules.has(effect_name):
+			continue
+		var rule: Array = rules[effect_name]
+		var rate_key: String = str(rule[0])
+		if not rates.has(rate_key):
+			continue
+		var fields: Array = rule[2]
+		for step: Dictionary in MechanicRegistry.steps_of(entry):
+			if str(step.get("effect", "")) != str(rule[1]):
+				continue
+			for field: String in fields:
+				step[field] = CoreUtil.to_int(rates[rate_key])
+				changed = true
+	if changed:
+		card.erase(MechanicRegistry.COMPILED_KEY)
+
+
 static func _effect_number(card: Dictionary, name: String, key: String) -> int:
 	for entry: Dictionary in card.get("mechanics", []):
 		if str(entry.get("name", "")) == name:
@@ -234,9 +263,11 @@ static func _bird(card: Dictionary, golden: bool, config: GameConfig) -> String:
 		"mother_goose":
 			if not Pass3Rates.enabled(config, "birds_golden_egg_enabled"):
 				return "Fly South."
+			var rates: Dictionary = Pass3Rates.resolved(config)
+			var count: int = CoreUtil.to_int(rates.get("birds_goose_eggs", 1)) * factor
 			return (
 				"Fly South. When played: get %s."
-				% ("a Golden Egg" if not golden else "two Golden Eggs")
+				% ("a Golden Egg" if count == 1 else _word(count) + " Golden Eggs")
 			)
 		"golden_egg":
 			var multiplier: float = Pass3Rates.number(config, "birds_golden_egg_multiplier")

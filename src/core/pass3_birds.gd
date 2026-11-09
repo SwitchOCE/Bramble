@@ -80,7 +80,9 @@ static func recruit_hook(ctx: RecruitContext) -> void:
 		"goose":
 			if ctx.trigger == "on_play" and ctx.source == ctx.subject:
 				if Pass3Rates.enabled(ctx.rules.config, "birds_golden_egg_enabled"):
-					ctx.add_card("golden_egg", _factor(ctx), false)
+					var rates: Dictionary = Pass3Rates.resolved(ctx.rules.config)
+					var count: int = CoreUtil.to_int(rates.get("birds_goose_eggs", 1))
+					ctx.add_card("golden_egg", count * _factor(ctx), false)
 
 
 static func _dunnock(ctx: RecruitContext) -> void:
