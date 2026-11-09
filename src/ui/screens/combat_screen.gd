@@ -241,10 +241,8 @@ func restart() -> void:
 		board.clear_highlights()
 		board.clear()
 	for plaque: Control in _plaques:
-		var toll: Node = plaque.get_node_or_null("BogToll")
-		if toll != null:
-			plaque.remove_child(toll)
-			toll.queue_free()
+		plaque.modulate = Color.WHITE
+		plaque.scale = Vector2.ONE
 	_cards.clear()
 	_log.clear()
 	_log.set_title(_title)

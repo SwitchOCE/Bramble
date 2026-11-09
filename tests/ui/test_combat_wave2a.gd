@@ -213,3 +213,14 @@ func test_repeated_kept_gain_refreshes_hold_without_an_old_fade_hiding_it() -> v
 	_advance(screen, 0.5)
 	await get_tree().process_frame
 	assert_false(is_instance_valid(kept))
+
+
+func test_replay_during_toll_pulse_resets_hero_pose_and_tint() -> void:
+	var screen: Screen = _screen()
+	screen._play_event({"type": "bog_toll", "side": 1, "source": 8, "amount": 1, "total": 1}, true)
+	_advance(screen, 0.4)
+	assert_gt(screen._plaques[1].scale.x, 1.0)
+	screen.restart()
+	assert_eq(screen._plaques[1].scale, Vector2.ONE)
+	assert_eq(screen._plaques[1].modulate, Color.WHITE)
+	await get_tree().process_frame
