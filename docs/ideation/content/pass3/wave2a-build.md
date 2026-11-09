@@ -107,7 +107,7 @@ UpsetCombat audits every new dispatch by ability. Lantern and Jenny select the b
 
 The focused native suites cover every body and token, normal/golden rates, printed plus borrowed growth, actual recruit purchases and placement, Toll cash-out, shared kisses, next-turn landing, hidden identity binding, and the full dependent opening. Guard-off cases reproduce repeated Cutter payments, multiple kisses in one fight, overlapping multiplication, and excess King summons. Hopkin is tested through the real attacker picker after Bitter reduces his own Attack to zero, and stops borrowing when the front unit loses its Attack. The native UI tests cover phone and PC state readability, selected-scout estimates, replayed Toll/kisses and human-readable action logs. Native Details are available before any reward, including lent Soak in the recipient's reader.
 
-Frozen Bog definitions join the test-only rollback library. This prevents a native Bog elsewhere in the library from enabling pass 3 inside an old Birds/Fairies test. Old cap, discount, aura, kiss-per-death, price-paid and log assertions retain their original bodies; the previous Bog shopping comparisons also retain their old comparison priors. The pool-rule tests retain current Birds/Fairies for Pack/Cleave, while archiving only the prototype Bog reward under test. Native Bog has separate current-rule coverage. The rollback is retained until checkpoint 2, as agreed for the wave 1 archives.
+Frozen Bog definitions join the test-only rollback library. This prevents a native Bog elsewhere in the library from enabling pass 3 inside an old Birds/Fairies test. Old cap, discount, aura, kiss-per-death, price-paid and log assertions retain their original bodies; the previous Bog shopping comparisons also retain their old comparison priors. The pool-rule tests retain current Birds/Fairies for Pack/Cleave, while archiving only the prototype Bog reward under test. Native Bog has separate current-rule coverage. The rollback is retained until step 5 of plan v3, as agreed for the wave 1 archives.
 
 ### Trigger-condition and low-roll audit (triage rule, 034b098)
 
@@ -166,11 +166,11 @@ Combined re-base/Bog fix-up verification passed: **2,001 GUT tests, 32,157 asser
 
 ## Hunters pass 3
 
-The sixteen slice IDs keep their portraits and the 3/3/3/3/2/2 tiers. Seven prototype Hunter bodies leave the pool; all 23 previous definitions remain archived for frozen rollback tests until checkpoint 2. Lane-Bard keeps the internal `toll_bard` ID. There is no Pounce or Cleave on a native Hunter.
+The sixteen slice IDs keep their portraits and the 3/3/3/3/2/2 tiers. Seven prototype Hunter bodies leave the pool; all 23 previous definitions remain archived for frozen rollback tests until step 5 of plan v3. Lane-Bard keeps the internal `toll_bard` ID. There is no Pounce or Cleave on a native Hunter.
 
 ### Rates and readings
 
-The 27 Hunter dials use paper B from local `ideation/main`'s `presets.json`, provisionally. C changes the engine shares individually rather than multiplying the whole preset. A retains the synthesis shares as fallback. Other tribes' rates, including every held Birds value, are unchanged.
+The 27 Hunter dials use paper B from local `ideation/main`'s `presets.json`, provisionally. C changes the engine shares individually rather than multiplying the whole preset. A is a fallback only; no separate Hunter A calibration is supplied. Other tribes' rates, including every held Birds value, are unchanged.
 
 | Dial family | B | C |
 | --- | --- | --- |
