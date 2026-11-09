@@ -4,6 +4,15 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Strong-field merged into ideation/main
+**Picked:** merge `ideation/strong-field` at 4bea1f8 (merge adacf49). The mode stays off in player builds.
+**Why:** the narrow follow-up (`evidence/review-strong-field-narrow.md`) found 11 keeps, 1 cut and 1 ask, and called it clear once the cut was fixed.
+- **The cut:** `strong-field.md:297` credited the wave 1 merge to the owner. Fixed in 4bea1f8: the orchestrator made that merge.
+- **The ask:** whether to delete the unused `tests/fixtures/field/normal-9af89c2.json`. **Kept.** It is small and archived beside the active fixture, and the worker's auto-reviewer refused the delete under the preservation instruction. Not worth a second round.
+- **Peak memory:** about 1.17 GB to load a field library. It doesn't block while the mode is off. Before the mode ships, shrink what is parsed (the top-4 recapture), not what is stored.
+- **Exports:** this merge also brings `content/pass3/*.json` into all four export presets, plus a smoke check. Main's presets lacked it although the game reads the pass 3 rates.
+**Agreed by:** the fresh scope reviewer. The gate runs on the merged tree before the push.
+
 ### 10 Nov 2026 — Paper values for presets B and C, and the rule questions they raised
 **Source:** the paper workflow: six tribe agents, a calibrator on the harness's counting, a breaker and a synthesis (`content/pass3/presets.md`, `presets.json`, `presets-model/`; reports in `evidence/presets/`).
 
