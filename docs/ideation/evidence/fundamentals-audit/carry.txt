@@ -1,0 +1,25 @@
+Even board 7 x 6/6 (84 stats). Carry boards have the same 84 stats.
+carry   smalls     carry@F1 win%  surv  | carry@B2 win%  surv
+ 6/6   6x6/6        51.1  0.00  |    49.0  0.00
+12/12  6x5/5         0.0  0.00  |     0.0  0.00
+18/18  6x4/4         0.0  0.00  |     0.0  0.00
+24/24  6x3/3        15.4  0.00  |     8.1  0.00
+30/30  6x2/2         8.6  0.00  |     0.4  0.00
+36/36  6x1/1         6.2  0.00  |     0.0  0.00
+
+Carry with fewer helpers (still 84 stats), carry at F1:
+12/12 + 5 x 6/6: win 0.0%  survivors when it wins 0.00
+18/18 + 4 x 6/6: win 0.0%  survivors when it wins 0.00
+24/24 + 3 x 6/6: win 0.0%  survivors when it wins 0.00
+30/30 + 2 x 6/6: win 0.0%  survivors when it wins 0.00
+26/26 + 2 x 8/8: win 100.0%  survivors when it wins 1.26
+36/36 + 1 x 6/6: win 0.0%  survivors when it wins 0.00
+42/42 + 0 x 0/0: win 0.0%  survivors when it wins 0.00
+
+What the even board needs: 7 x k/k vs carry 24/24 + 6x3/3 (84) at F1
+7x6/6 (84 stats): even board wins 84.3%
+7x7/7 (98 stats): even board wins 100.0%
+7x8/8 (112 stats): even board wins 100.0%
+7x9/9 (126 stats): even board wins 100.0%
+7x10/10 (140 stats): even board wins 100.0%
+7x11/11 (154 stats): even board wins 100.0%

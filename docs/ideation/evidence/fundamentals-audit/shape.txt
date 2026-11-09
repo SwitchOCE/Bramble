@@ -1,0 +1,24 @@
+BG (Nov 2026). Ordinary boards (opponents): share at >=2x, >=3x, >=10x the ordinary median; perfect-game winners median and p90 as multiples of the ordinary median
+T4   med      24  >=2x    6%  >=3x    0%  >=10x    0%  p90/p50  1.7  | winners med x 1.4  p90 x  2.1  n_opp 127
+T5   med      36  >=2x    2%  >=3x    0%  >=10x    0%  p90/p50  1.6  | winners med x 1.4  p90 x  2.2  n_opp 125
+T6   med      62  >=2x    1%  >=3x    1%  >=10x    0%  p90/p50  1.4  | winners med x 1.4  p90 x  2.3  n_opp 127
+T7   med     106  >=2x    3%  >=3x    0%  >=10x    0%  p90/p50  1.6  | winners med x 1.4  p90 x  2.7  n_opp 128
+T8   med     148  >=2x   13%  >=3x    3%  >=10x    0%  p90/p50  2.3  | winners med x 1.8  p90 x  3.6  n_opp 126
+T9   med     380  >=2x   14%  >=3x    5%  >=10x    0%  p90/p50  2.4  | winners med x 1.6  p90 x  3.8  n_opp 124
+T10  med     714  >=2x   14%  >=3x    4%  >=10x    0%  p90/p50  2.2  | winners med x 2.0  p90 x  6.6  n_opp 121
+T11  med    1212  >=2x   16%  >=3x    7%  >=10x    0%  p90/p50  2.7  | winners med x 2.8  p90 x 11.1  n_opp 119
+T12  med    2556  >=2x   23%  >=3x    9%  >=10x    0%  p90/p50  2.6  | winners med x 3.0  p90 x 11.7  n_opp 106
+T13  med    4934  >=2x   24%  >=3x   15%  >=10x    2%  p90/p50  3.7  | winners med x 2.5  p90 x 13.4  n_opp 100
+T14  med    7974  >=2x   23%  >=3x   18%  >=10x    3%  p90/p50  4.0  | winners med x 2.6  p90 x 17.7  n_opp 60
+T15  med   14058  >=2x   12%  >=3x    8%  >=10x    0%  p90/p50  2.4  | winners med x 2.3  p90 x 36.4  n_opp 25
+
+Bramble bots: same measures
+R4   med    30  >=2x  0.0%  >=3x  0.0%  p90/p50 1.20  max/med  1.7
+R6   med    52  >=2x  0.0%  >=3x  0.0%  p90/p50 1.21  max/med  1.7
+R8   med    80  >=2x  0.0%  >=3x  0.0%  p90/p50 1.23  max/med  1.6
+R10  med   107  >=2x  0.0%  >=3x  0.0%  p90/p50 1.23  max/med  1.7
+R12  med   133  >=2x  0.0%  >=3x  0.0%  p90/p50 1.23  max/med  1.7
+R14  med   155  >=2x  0.0%  >=3x  0.0%  p90/p50 1.25  max/med  1.7
+R16  med   174  >=2x  0.0%  >=3x  0.0%  p90/p50 1.29  max/med  1.8
+R18  med   200  >=2x  0.0%  >=3x  0.0%  p90/p50 1.31  max/med  2.0
+R20  med   220  >=2x  0.0%  >=3x  0.0%  p90/p50 1.32  max/med  1.9

@@ -1,0 +1,1007 @@
+[
+ {
+  "key": "budget-method",
+  "summary": "The costing method works as built, and that is the problem. It prices each card against a plain unit of its tier, charges scaling to break even by turn 12, and caps growth at 0.8-3.8 SP a turn per card. Bot lobbies run at exactly the printed-stats pace it aimed for: median board 133 SP at round 12 (target 118), growth flat at 10-15 SP a round, winners' final boards 242 SP (about 17/17 a unit). By the owner's yardstick (100/100 units late) that is about 6x too small. We have no measured Battlegrounds curve to argue back. The tier curve is too flat for the real game. Tiers open at rounds 3/6/9/12/14, not the assumed 2/4/6/8/9. A plain tier 4-6 body is only 0.60-0.74 of the median unit already on the board when it arrives. Ten Battlegrounds tier 4-6 payoffs deliver a median of about 32 SP a turn; ten of ours deliver about 3. Our method would price Kalecgos at +770%. Seven of the ten pass 2 cuts were for growth over the caps, and the method has no test for \"too small\". On concentration, a vanilla sim under our rules confirms the owner's example: fewer, bigger bodies win by 20-28 points. But a lone carry holding 30% or more of the board loses, so \"always\" needs sticky units or self-scaling text. Keep the formula, geometry, firing rates, golden rule and loop guards. Replace prices anchored to V(t), break-even against a plain unit, the growth caps, the tolerance basis and the gold table.",
+  "findings": [
+   {
+    "claim": "The method produced the pace it targeted: a flat, printed-stats game. Boards grow by a roughly constant 10-15 SP a round and never accelerate.",
+    "evidence": "B3 targets about 120 SP at turn 12 (power-budget.md:735); the model assumes the rest of the lobby grows 0 SP per unit per turn (power-budget-review.md:352). Measured: lobbies/free_choice_plain.rounds.csv, attack+health per seat per round, 400 complete lobbies (scripts/lobby.py, sink.py).",
+    "numbers": "Median board 52 / 92 / 133 / 174 / 220 SP at rounds 6 / 9 / 12 / 16 / 20. Mean gain per round 8-16 all game. Winners' final board median 242 SP (p90 312, max 486) on 7 units, about 35 SP or 17/17 a unit. The owner's late Battlegrounds norm of 100/100 is about 200 SP a unit, roughly 6x ours. Board growth from round 4 to round 20 is about 7x."
+   },
+   {
+    "claim": "The tier curve V(t) is too flat for this game. When a tier opens, its plain body is already below the board average.",
+    "evidence": "V(t) = 5/7/8/10/12/14, about 1.1x the Battlegrounds printed median (power-budget.md:90-104). Its assumed mean unit at each tier's turn is 5/5/6.3/7.2/9.4/10.4 (power-budget.md:120). Measured median SP per unit at the round each tier first opens (scripts/lobby.py, tierreach.py).",
+    "numbers": "T3: 8 against 7.6 on the board (1.05). T4: 10 against 13.5 (0.74). T5: 12 against 19.7 (0.61). T6: 14 against 23.4 (0.60). The method's assumed mean unit is about half the measured one at T4-T6."
+   },
+   {
+    "claim": "The tier clock behind every 'bought when its tier opens' price is 1-5 rounds early, and the turn-12 horizon is shorter than real games.",
+    "evidence": "Assumed opening turns 2/4/6/8/9 (power-budget.md:119); break-even by turn 12 (power-budget.md:195, B1 at 721); model horizon turn 15 (power-budget-review.md:353). Measured first round at each tier from rounds.csv (scripts/tierreach.py), and rounds by place from players.csv.",
+    "numbers": "T2-T6 open at median rounds 3/6/9/12/14, and only 49% of seats ever reach T6. Winners play 19.5 rounds; the median seat is out by round 14-16. A T5 bought at round 12 gets no fights before the turn-12 break-even point."
+   },
+   {
+    "claim": "Battlegrounds tier 4-6 payoffs deliver about 10x more permanent stats a turn than ours. Our method would rule nearly every one of them illegal.",
+    "evidence": "Table G in the detail file: 10 current-pool Battlegrounds cards from docs/research/battlegrounds/data/minions.json, and 10 pass 2 cards from Bramble-ideation-balance/content/units/*.json. Firing counts come from power-budget.md:311 (2 spells a turn at T4-6) and the costing-3 and pass2-costing rates. These are estimates, not measurements.",
+    "numbers": "Battlegrounds median about 32 SP a turn (range 4-140), about 3x the card's own printed body every turn. Bramble median about 3 SP a turn permanent (range 0-9), about 0.3x its body; Lollop and Laird are combat-only, at 14-28 SP a fight. Kalecgos at 40 SP a turn would be charged c(5) 2.6 x 40 = 104 SP against V(5) 12, which is +770% and 10x the T5 cap of 3.8 (power-budget.md:125, 743)."
+   },
+   {
+    "claim": "The costing passes cut in one direction. They remove permanent growth, compounding and quadratic synergy, and never flag a payoff as too small for the late game.",
+    "evidence": "pass2-costing.md:7-17 lists ten cut items: Lollop '+24 SP a turn ... six times the cap' (line 8), Mallow, Beadle, Stone Soup, Elder Ooze, Ranocchio and Stork's loop for growth, and Pie for recurring gold. Pass 1: Committee +408% 'quadratic' (costing-1.md:27), Queen of Elfland 'geometric' rebuilt to conserve stats (costing-1.md:49), Mast 'compounding' (costing-1.md:28). Pass 3: Tiddy Mun '20 SP of permanent growth a fight' (costing-3.md:77).",
+    "numbers": "7 of 10 pass 2 cuts are growth over the B4 caps. The standard fixes are 'once a turn', 'once a fight', a smaller number, or moving the effect to combat-only. The method has no 'too small' test."
+   },
+   {
+    "claim": "Concentration (owner's hypothesis): partly right. Under our combat rules, fewer and bigger bodies beat more and smaller ones at equal total. A single carry among small vanilla units does not, and an added buff is worth about the same spread or concentrated.",
+    "evidence": "Toy vanilla sim of rulebook 9.2, 9.4.2, 9.4.5, 9.5.1, 9.5.5 and 9.6 (scripts/conc_sim.py, conc_sim2.py, conc_sim3.py): 3,000-4,000 paired fights a cell on random boards, unit size 0.6-1.4x the mean. Table F in the detail file.",
+    "numbers": "Owner's example, 3x 10/11 against 5x 10/10: 100% wins. The same SP squeezed from 7 units onto 5: +0.20 to +0.28 win rate at boards of 42-420 SP. One carry with 20% of the board: +0.11 in F1. With 30%: -0.09 to -0.20. With 50%: -0.18 to -0.27. Adding +20% of the board's SP to one unit instead of spreading it gives 0.85x the gain, close to the method's 0.9 for a chosen target (power-budget.md:296)."
+   },
+   {
+    "claim": "Vanilla combat doesn't care how big the numbers are; only ratios matter. 'Too small' therefore means payoffs are too small relative to the board, flat effects are too big relative to units, and growth over the game is too slow, not that 10/10 is a worse number than 100/100.",
+    "evidence": "Win rate per added SP x board SP, from scripts/conc_sim2.py. It matches K = 1.9-2.1 in power-budget-review.md:139.",
+    "numbers": "1.98 / 2.04 / 2.04 / 2.10 at boards of 42 / 70 / 140 / 420 SP. A Dozey-size +8/+8 is +25% of a round-7 board and moves win rate by +0.40 (conc_sim3.py, mean unit 9)."
+   },
+   {
+    "claim": "Absolute prices for flat effects are anchored to Battlegrounds printed boards. Our real units are bigger, so Divine Shield and similar effects are underpriced, while flat damage and Attack loss lose value as the game goes on.",
+    "evidence": "Divine Shield is 0.9 x A(t), with A(t) = 2.0-6.1 taken from Battlegrounds printed means (power-budget.md:114, 181). E72 damage is 0.85 x the damage dealt (power-budget.md:277). Measured mean Attack per unit (scripts/atk.py).",
+    "numbers": "Mean Attack per unit is 5.9 / 8.7 / 10.7 at rounds 9 / 12 / 14, against A(4) 4.0 / A(5) 4.9 / A(6) 6.1, i.e. 1.5-1.8x. The attack share is 0.36-0.46, against the default of 45-50%."
+   },
+   {
+    "claim": "The gold table's own validity condition fails. Late gold buys about 1 SP a gold, not the 1.8-2.5 the gold prices assume.",
+    "evidence": "The gold table is read at a 2.0 sink and holds from 1.8 to 2.5 (power-budget.md:143, 358-389); costing-2.md:163 says 'Below that, re-read 4.1'. Shipped stat spells come from Bramble-ideation-balance/content/spells/*.json. Measured round-to-round board SP gain per gold spent (scripts/sink.py).",
+    "numbers": "Shipped spells give 1-3.3 SP a gold (Last Orders 1, Pinch of Dust 2, Beltane about 2, Boundary Stone 3), against S(t) = 5 (power-budget.md:477). Realised board gain is 1.0-1.2 SP a gold over rounds 6-11 and 0.7-0.9 from round 13 (this includes tier-ups). Banks sit at 10-12 gold from round 6 on."
+   },
+   {
+    "claim": "About half of every final board is printed stats. Winners lead on goldens and higher tiers about as much as on text.",
+    "evidence": "Final attack+health (players.csv) against the printed A+H of the cards on the final board (cards.csv, doubled for goldens) (scripts/printed.py).",
+    "numbers": "Final/printed is 1.92-2.19 at every place. 1st place: printed 113.5, final 242, 3.58 goldens. 8th place: printed 57, final 112, 1.05 goldens. Text delivers about 131 SP over 19.5 rounds, about 7 SP a round for the whole board."
+   },
+   {
+    "claim": "Rules-level ceilings block concentration and compounding directly, on top of the method's caps.",
+    "evidence": "Printed permanent-buff ceiling, with Dozey's at +12/+12 (rulebook.md:768). Ring cap +4/+4 (rulebook.md:500). Tribe bonus up to +3/+3 (rulebook.md:305). Bridge Toad permanent_buff_cap 3 and Treasurer 'up to +8/+8' (content/units). Mrs Mallow now buffs the smallest unit (pass2-costing.md:38).",
+    "numbers": "Even fed to the cap, Dozey ends at about 22/25. Most growth text is +1/+1, once a turn or twice a fight."
+   },
+   {
+    "claim": "Item 4, keep: the parts that are ratios or counts survive a big change of scale.",
+    "evidence": "The cost formula (power-budget.md:162); realisation and row geometry from the rows sim (power-budget.md:551-602); firing rates (power-budget.md:303-326; costing-3 Mired deaths 0.95 a patch and Takes 0.55); the golden rule (power-budget.md:522-534); engine shapes and refresh-loop bounds (power-budget.md:442-458, content-guardrails.md:11); the whole-game bot as the arbiter (power-budget.md:680-684).",
+    "numbers": "Each of these holds because K x board is constant (about 2.0) in vanilla fights. Magnitudes need restating as a share of the expected board at the buy round, not in absolute SP."
+   },
+   {
+    "claim": "Item 4, replace: everything anchored to the printed curve or to a plain-unit comparator.",
+    "evidence": "V(t)-based prices (A(t), Reborn 0.4V, Venomous 0.25V, the mean-unit table: power-budget.md:110-141); B1 break-even against a plain unit by turn 12 (power-budget.md:195-204); the B4 caps (power-budget.md:125, 743); 'linear growth only' and the E06/E08 once-a-turn rule (power-budget.md:206, 240-242); tolerance as a % of V(t) (power-budget.md:145-156); the gold table at 2.0 and flat S(t) with no board premium (power-budget.md:358-404, 466-477); B8's 4x engine limit (power-budget.md:775); the rule ceilings above.",
+    "numbers": "A \u00b125% band on V(6) = 14 is \u00b13.5 SP, about 2% of a 155-200 SP late board. The precision sits where outcomes don't move, and the caps sit where they do."
+   }
+  ],
+  "assumptions": [
+   {
+    "assumption": "Stat value is linear and additive: 1 SP is 1 Attack or Health anywhere, and a card's value is its body plus the sum of its text's SP. This prices +1/+1 to seven units the same as +7/+7 on one.",
+    "where": "power-budget.md:78, 81, 162; E01 0.9 per SP (line 235); T05 0.9 and T07 x units (lines 296-297)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Vanilla sim: an added buff on one unit is worth 0.85x the same buff spread, close to the 0.9 the method uses. K x board stays about 2.0 from 42 to 420 SP.",
+    "evidence_against": "The same SP on 5 bodies beats it on 7 by +0.20 to +0.28 win rate. The 'SP' is a local slope (about 2 / board SP), so absolute prices hold at only one board size. Text that scales with a unit's own stats (E06, E08, 'gain its Attack') compounds on big units. Flat answers fall off against them.",
+    "test": "Paired fights with real card text at the measured board sizes for each round (Table A), comparing spread and concentrated delivery of the same SP."
+   },
+   {
+    "assumption": "Attack against Health: front Attack 1.0, back Attack 0.75, Health 1.0 in either row; default split 45-50% Attack.",
+    "where": "power-budget.md:100, 551-561",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "The toy sim's row values (power-analysis.md:290-302).",
+    "evidence_against": "Real boards are Health-heavy: Attack share 0.36-0.46 (scripts/atk.py). On a carry, an Attack point's value depends on kill thresholds, which a linear rate ignores.",
+    "test": "Re-measure row values on the bot's actual boards at rounds 6, 12 and 18."
+   },
+   {
+    "assumption": "The vanilla curve V(t) = 5/7/8/10/12/14 is linear, about 1.1x Battlegrounds' printed median, and anchors every price.",
+    "where": "power-budget.md:90-104, 113",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "It fits Battlegrounds' printed stats (power-analysis.md:41-49).",
+    "evidence_against": "Battlegrounds' printed stats price only its early game (power-analysis.md:343). In our lobbies a plain T4-T6 body is 0.60-0.74 of the median unit it joins (Table C).",
+    "test": "Set the curve from board SP per unit at the round each tier actually opens, then check that buying a tier never feels like a downgrade."
+   },
+   {
+    "assumption": "Tiers open on turns 1/2/4/6/8/9, with the mean unit at 5/5/6.3/7.2/9.4/10.4 SP.",
+    "where": "power-budget.md:119-120 (tier_reach.csv, economy_timeline.csv: one-player model)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Reproduces Battlegrounds' standard clock under Battlegrounds rules (power-budget-review.md:69).",
+    "evidence_against": "Bots open tiers at rounds 3/6/9/12/14, and only 49% reach T6. The measured mean unit is about 2x the assumed one at T4-T6.",
+    "test": "Already measured (scripts/tierreach.py). Re-read with human-like leveling once the bots' level policy is checked."
+   },
+   {
+    "assumption": "A fairly priced scaling card breaks even with a plain unit by turn 12, bought when its tier opens; c(t) = 3.9/3.7/3.5/3.1/2.6/2.6.",
+    "where": "power-budget.md:123, 195-204, 721-724 (B1)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Derived from a committed model table (scaling_rate_caps.csv) and fairly insensitive to lobby pace (power-budget.md:203).",
+    "evidence_against": "Late payoffs don't compete with plain units; they compete with other payoffs and with the board's own units. Games run to round 14-20. The model has one player, no opponents, no triples and no tribes (power-budget-review.md:373).",
+    "test": "Rebuild the comparator on a target pace curve: a payoff is fair if, bought at its real opening round, it keeps its share of a target board."
+   },
+   {
+    "assumption": "Growth caps per tier: 0.8/1.3/1.7/2.5/3.8 SP a turn, or 1.0/1.7/2.2/3.6/6.2 per combat firing. Above them, text must move up a tier, become conditional or be capped.",
+    "where": "power-budget.md:125-126, 205, 743-747 (B4)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Above these rates even a 1/1 body beats a plain unit by turn 12 in the model.",
+    "evidence_against": "These caps are what holds the game at printed pace. Battlegrounds' T4-T6 payoffs run 4-140 SP a turn (median 32), 3-35x over the caps (Table G). Seven of ten pass 2 cuts rest on them.",
+    "test": "Run a bot lobby with the caps lifted on 2-3 payoffs per tribe and record board SP by round, round-to-round win-rate swing and placement spread."
+   },
+   {
+    "assumption": "Growth is linear only. Multiply and consume are once a turn and never retriggered, and multipliers never double them.",
+    "where": "power-budget.md:206, 240, 242, 279 (question 9, not agreed)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Without such a rule no price holds for geometric growth.",
+    "evidence_against": "This removes compounding and the main concentration tools Battlegrounds relies on (Flaming Enforcer, Ur'zul, Tyrael). The owner names compounding as the source of Battlegrounds' scale.",
+    "test": "Separate loop guards (within a turn) from scale caps (across turns); allow cross-turn compounding and measure pace."
+   },
+   {
+    "assumption": "Lobby pace target: printed-stats pace, about 118 SP at turn 12, with the rest of the lobby growing 0 SP per unit per turn. Its 'Battlegrounds-like' reference is 270 SP.",
+    "where": "power-budget.md:735-739 (B3); power-budget-review.md:293, 352",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "It was met: 133 SP measured at round 12.",
+    "evidence_against": "The owner reads it as far too low (100/100 units late). The 270 figure is itself a model input, not a measurement, and no replay data exists in the repo.",
+    "test": "Measure Battlegrounds and Galaxy board stats by turn from replays or video frames (the owner's research ask), and set a target curve from them."
+   },
+   {
+    "assumption": "Tolerance is \u00b115% for plain cards and \u00b125% for engines, as a share of V(t), with a \u00b11 SP floor; the golden version should come out at 2 x V(t) within that band.",
+    "where": "power-budget.md:145-156, 528",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "Owner-set on 2 Nov, and Battlegrounds tunes in \u00b11-2 SP steps.",
+    "evidence_against": "\u00b13.5 SP at T6 is about 2% of a late board, while late outcomes swing on payoffs 10x that size. All the precision goes where it matters least.",
+    "test": "Express the band as placement impact or as a share of the expected board at the buy round."
+   },
+   {
+    "assumption": "Timing classes: combat-only effects are priced per fight, one-off recruit buffs at 0.9 per SP, and per-turn or permanent scaling with c(t) as the main risk class.",
+    "where": "power-budget.md:189-216",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Battlegrounds' scaling share rose from 6% to 32% of the pool while printed stats stayed flat (power-analysis.md:21).",
+    "evidence_against": "Charging permanence heavily pushes fixes to combat-only text (Lollop, Laird, Elder Ooze), which never compounds and gives players no lasting reward.",
+    "test": "Track the share of the pool's payoff text that is permanent, against Battlegrounds'."
+   },
+   {
+    "assumption": "Condition discounts: tribe 0.6 or 0.3, state checks 0.7, random target 0.85, golden 0.1 or 0.25.",
+    "where": "power-budget.md:220-225, 328-338",
+    "risk": "low",
+    "explicit": true,
+    "evidence_for": "A simple, readable default.",
+    "evidence_against": "Battlegrounds charges about 0 for tribe dependency (power-analysis.md:110). The real live rates are measurable in bot lobbies.",
+    "test": "Measure each condition's live rate by tribe and round from the bot."
+   },
+   {
+    "assumption": "Synergy: free inputs are priced at a fixed reference, a card is priced alone, and combinations are checked only for loops. An enabler's value to other cards is not priced.",
+    "where": "power-budget.md:352, 456; pass2-costing.md:3 (priced on the board at purchase)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "New enablers don't re-price old cards, and loop checks catch infinites.",
+    "evidence_against": "The owner frames every card as condition, payoff and what it enables. There is no term for multiplicative synergy, and the caps forbid it.",
+    "test": "Cost tribes as packages: the board SP by round of a committed board against a mixed one."
+   },
+   {
+    "assumption": "Economy: gold is priced at a late sink of 2.0 SP a gold (valid 1.8-2.5) with S(t) = 5, no board premium, recurring gold capped at 0/0/1/1/2/2, and engines limited to about 4x the no-engine rate.",
+    "where": "power-budget.md:143, 358-404, 466-477, 775 (B5, B8)",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Battlegrounds' 2-4 gold-a-turn minions didn't last (power-budget.md:404).",
+    "evidence_against": "Shipped spells give 1-3.3 SP a gold, and realised growth is about 0.7-1.2 SP per gold spent, so the table is outside its own window. Battlegrounds' late board spells give 12-17 SP a gold (power-budget.md:479).",
+    "test": "Re-derive the gold value per round from the bot (SP per extra gold, by round), then pick a target late sink."
+   },
+   {
+    "assumption": "Rule-level caps: permanent-buff ceilings (Dozey +12/+12), Ring +4/+4, tribe bonus +3/+3, Bridge Toad +3/+3.",
+    "where": "rulebook.md:305, 500, 768; content/units permanent_buff_cap",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "They stopped runaway lines found in the costing passes.",
+    "evidence_against": "They block exactly the concentration and compounding the owner asks for.",
+    "test": "Lift them one at a time in bot lobbies and watch placement spread and fight length."
+   },
+   {
+    "assumption": "Payoffs should be about even with immediate power: a scaling card should not end up much stronger than a plain card.",
+    "where": "Implicit in B1 and B4 (power-budget.md:195, 205) and in every 'over, cut' verdict",
+    "risk": "high",
+    "explicit": false,
+    "evidence_for": "It makes cards fair in isolation.",
+    "evidence_against": "The owner's frame is that a payoff should outgrow the plain card, with the condition as the price (owner note 2026-11-09a, 'Condition and payoff'). In Battlegrounds, payoffs deliver about 3x their own body every turn.",
+    "test": "Owner call, then a pace target for the bot to measure."
+   },
+   {
+    "assumption": "Flat effects keep their value across the game, priced off printed A(t) and fixed SP.",
+    "where": "power-budget.md:114, 181, 277; flat numbers in pass 2 text (Spitfire Sal 2 damage, Posset 3, Bitter 1-2, Jack Daw steals 2, Whistlers -1/-1)",
+    "risk": "medium",
+    "explicit": false,
+    "evidence_for": "True on printed-pace boards.",
+    "evidence_against": "Measured Attack at rounds 9-14 is 1.5-1.8x A(t), and flat answers lose relevance as units grow, which is part of why a concentrated unit holds its stats.",
+    "test": "Price flat effects as a share of the measured unit size at the buy round."
+   },
+   {
+    "assumption": "The late game is a short tail: horizon turn 12, model run to 15.",
+    "where": "power-budget.md:195; power-budget-review.md:353",
+    "risk": "medium",
+    "explicit": false,
+    "evidence_for": "Most decisive fights fell by turn 12 in the model.",
+    "evidence_against": "Winners play 19.5 rounds, and T6 opens at round 14.",
+    "test": "Already measured (players.csv rounds by place)."
+   }
+  ],
+  "motivations": [
+   {
+    "system": "Growth caps (B4) and break-even pricing",
+    "player_wants": "To feel stronger every turn and to see a payoff pay off.",
+    "tension": "Each capped payoff adds about 2% of the board a turn (3 SP on a 133 SP board), which players barely feel. The board grows about 10 SP a round from round 6 to the end."
+   },
+   {
+    "system": "Tier curve V(t) and the tier clock",
+    "player_wants": "To tier up for better cards.",
+    "tension": "A plain T5-T6 body is 0.60x the median unit already on the board when it arrives, so a tier-up only pays through text. Only 49% of seats ever reach T6."
+   },
+   {
+    "system": "Rule ceilings (permanent-buff cap, Ring cap, tribe +3/+3) and spread text (Mallow's 'smallest unit')",
+    "player_wants": "A carry to build, protect and show off.",
+    "tension": "The rules cap the carry, and the text spreads stats out, so few tribes offer a carry worth committing to."
+   },
+   {
+    "system": "Gold pricing at a 2.0 sink, flat S(t), recurring-gold caps",
+    "player_wants": "Gold that turns into visible power, plus banking for a big turn.",
+    "tension": "Late gold realises about 1 SP a gold and banks sit at 10-12, so economy cards are early-game cards whatever they cost."
+   },
+   {
+    "system": "Combat-only fixes for over-budget text",
+    "player_wants": "Progress they keep between fights.",
+    "tension": "Combat-only payoffs reset every fight, so they never compound and leave no lasting reward."
+   }
+  ],
+  "owner_questions": [
+   {
+    "question": "What shape should late growth take: geometric (each payoff adds a share of the board every turn, as in Battlegrounds) or linear but much steeper?",
+    "why": "This one choice sets c(t), the growth caps and the gold table. It is a feel target, and no measurement in our data can pick it.",
+    "default_answer": "Geometric from about round 8. The top board should reach about 10x its round-6 size by round 14 (about 500 SP) and about 25x by round 18 (about 1,300 SP, roughly 90/90 a unit)."
+   },
+   {
+    "question": "Should the main payoff for every tribe be permanent growth that compounds and is kept, with combat-only text kept for answers and tempo?",
+    "why": "The costing's fixes have been moving payoffs to combat-only text (Lollop, Laird, Elder Ooze). That keeps numbers small but takes away lasting rewards.",
+    "default_answer": "Yes. Each tribe gets at least two permanent payoffs at T4-T6 that compound. Combat-only text goes to answers, tempo and tier 1-3."
+   },
+   {
+    "question": "Where should compounding come from: economy (late spells and engines rising to 10-15 SP a gold, as in Battlegrounds), stat engines with gold kept flat, or both?",
+    "why": "The owner names compounding economy as the source of Battlegrounds' scale. Our spells give 1-3 SP a gold, and the gold table is outside its valid window.",
+    "default_answer": "Both. Spell and engine SP per gold rises with tier, to about 3x today's late rate. The recurring-gold caps stay as the snowball guard until the bot shows turn length is fine."
+   },
+   {
+    "question": "Should a lone carry beat an even board of the same total stats only when it has a sticky trait (cleave, damage reduction, shield, self-growth)? Or should plain bigness be enough?",
+    "why": "In vanilla fights under our rules, fewer bigger bodies win by 20-28 points, but a carry holding 30%+ of a board loses. Where carries come from is a design choice.",
+    "default_answer": "Only with a sticky trait. Give each tribe one sticky-carry route and put answers (poison, destroy, proportional damage) in the neutral pool."
+   },
+   {
+    "question": "Should high-tier printed bodies stay modest (Battlegrounds-like 10-14), with the value in text, provided every T5-T6 card delivers its tier's payoff rate within two turns of purchase?",
+    "why": "Today a T5-T6 body is 0.6x the board average when it arrives, which makes tiering up feel like a downgrade unless the text pays at once.",
+    "default_answer": "Yes, keep bodies modest. Test each high-tier card by its share of the expected board two turns after its real opening round, not against V(t)."
+   },
+   {
+    "question": "Should flat numbers in answer text (2-3 damage, Bitter 1-2, -2 Attack, -1/-1) be rewritten as proportions or kills, so they still matter at 10x scale?",
+    "why": "Flat answers fall off as units grow, and at bigger numbers they would stop answering carries.",
+    "default_answer": "Yes for answers. Keep flat numbers only on tier 1-2 tempo cards."
+   }
+  ],
+  "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/power-budget-tables.md"
+ },
+ {
+  "key": "economy",
+  "summary": "The pace numbers check out (400 lobbies, 3,200 players, all rows complete). The run has finished: the files are now free_choice_plain.*.csv, without the \".0\" in the name. Bots first reach tiers 2-6 at rounds 3/6/9/12/14. 49% of players reach tier 6, and winners play 19.5 rounds. Battlegrounds' standard curve is 2/4/6/8/10.\n\nOur economy does not set that pace. The bots' hand-set climb curves do. In 99-100% of the rounds where a bot at tier 2-4 didn't climb, it had the gold to. Bramble's costs allow Battlegrounds' curve. Only the 13-gold last climb holds anyone back.\n\nGold is flat. Everyone spends about 10 a round, whatever their tribe. Carry-over is barely used: the median most anyone banks in a game is 3. Paid refreshes peak at 9 in a turn, so the price rise after 15 never happens. Late gold adds 0.75-0.9 board stats per gold, against the 2.0 the budget prices everything on.\n\nEvery growth loop in pass 2 is linear or capped, as power-budget B4 requires. No buff on a shop card is bigger than +3/+3 per trigger. Battlegrounds prints 15 minions with +5/+5 or more, plus 45 that scale \"this game\" or \"permanently\". Winners end near 35 stats per unit. The owner's ~100/100 Battlegrounds units would be about 6x that. Our research never measured Battlegrounds boards.\n\nOn concentration: the budget treats spread stats and stacked stats as equal. Brother Bracken, the five-unit hero, is the best hero (mean place 2.70) and wins 91% of early fights. The interest hero is the worst (5.53). Tables: /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/economy-motivations.md",
+  "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/economy-motivations.md",
+  "findings": [
+   {
+    "claim": "The pace figures in the brief are right.",
+    "evidence": "build/sim/pass2-followup/lobbies/free_choice_plain.{rounds,players}.csv (the run finished; progress.json says complete; the .0 files no longer exist). econ_pace.py: first round each player reaches each tier; tier6_turn in players.csv.",
+    "numbers": "First reach of tiers 2/3/4/5/6: median rounds 3/6/9/12/14 (tier 4: p25 = p75 = 9; tier 6: p25 14, p75 15, earliest 13). 1,570 of 3,200 (49.1%) reach tier 6: places 1-3 99-100%, 4th 77%, 5th 15%, 6th-8th 0-1.5%. Those who never reach it die at a median round 13. Winners play a median 19.5 rounds (p10 18, p90 21)."
+   },
+   {
+    "claim": "Bramble bots are 1-4 turns behind Battlegrounds' standard curve and 3-5 turns behind the timing our own power budget prices cards on.",
+    "evidence": "power-budget-review.md:69 gives the BG curve 2/4/6/8/10. power-budget.md:119 says tiers open on turns 1/2/4/6/8/9. economy-bounding.md:450 assumes 6-8 rounds after tier 6.",
+    "numbers": "Bramble 3/6/9/12/14 against BG 2/4/6/8/10: +1, +2, +3, +4, +4 turns. Tier-6 units play about 6 rounds, and only for the top half."
+   },
+   {
+    "claim": "The bots' hand-set climb curves set the pace, not gold.",
+    "evidence": "src/core/bots/bot_level.gd:20-21 sets HARD_CURVE [4,7,9,12,14] (\"tempo beats tiers in this slice\"). Strategy curves live in content/bots/strategies/*.json. DECISIONS.md:538 says they were slowed by hand. econ_pace2.py checks, for each round a bot didn't climb, whether turn-start gold plus Acorn gold covered the next climb at the normal discount.",
+    "numbers": "Could afford the climb in non-climb rounds: tier 1: 53%, tier 2: 100%, tier 3: 99%, tier 4: 100%, tier 5: 68%. Arithmetic: BG's 2/4/6/8/10 is affordable under Bramble's costs while buying 13 units by turn 10. With no buys, tier 6 on turn 7."
+   },
+   {
+    "claim": "The 13-gold last climb is the one place gold slows the climb.",
+    "evidence": "src/core/game_config.gd:21 (ideation-balance) sets SLICE_UPGRADE_COSTS [5,7,8,11,13]. DECISIONS.md:599 calls it provisional, tuned on one bot over 400 games.",
+    "numbers": "Rounds from tier 5 to tier 6: 1 round 104 players, 2 rounds 603, 3 rounds 599, 4+ 264."
+   },
+   {
+    "claim": "The \"tempo beats tiers\" reason for the slow curves may be out of date: earlier climbers place better now. This is confounded, because bots that are ahead climb a turn early.",
+    "evidence": "econ_pace2.py groups players by first round at each tier. Hero table from players.csv. bot_brain.gd:262-280 moves the climb round by health and scouting.",
+    "numbers": "Tier 3 by round 3 (all 147 are March Hare): mean place 3.24, against 4.69 at round 6. Tier 5 at round 11: 2.94, at 12: 3.53, at 13: 4.56. March Hare is the second-best hero (3.57)."
+   },
+   {
+    "claim": "Gold is flat and the same for everyone. No tribe has a working gold engine.",
+    "evidence": "players.csv: gold_spent divided by rounds, by final tribe. rounds.csv: bank, gold_left and in-turn gain by round.",
+    "numbers": "Gold spent per round by final tribe: 9.69-10.10 (Hedgerow, the Acorn tribe, 9.98). Extra start-of-turn gold 0.5-2.4 a round; in-turn gold 0.4-2.1. No card raises the 10-gold income ceiling."
+   },
+   {
+    "claim": "Carry-over gold is almost unused, and the interest hero is the worst hero.",
+    "evidence": "rounds.csv gold_left and larder. Hero table from players.csv. content/heroes/dame_farthing.json.",
+    "numbers": "Gold carried per turn: median 1, p90 3, max 11. Most carried in a game: median 3, p90 6. Acorn gold held: median 1, p90 5, max 22. Dame Farthing mean place 5.53 (last of 9). In balance-1.md, the Long Purse saving line wins 5.1%."
+   },
+   {
+    "claim": "The rising refresh price and the 'around 20 shops' long turn never happen in play.",
+    "evidence": "rulebook.md:140 (3.1.2) and :232 (4.4.3). rounds.csv paid_refreshes.",
+    "numbers": "Paid refreshes per turn over 48,773 turns: 0 in 47%, 1 in 24%, 2 in 17%, 3 in 8%, 4+ in 4%, at most 9. The price rise at the 16th refresh never fired."
+   },
+   {
+    "claim": "Late gold buys about half the stats the power budget prices every gold cost on.",
+    "evidence": "power-budget.md:360 prices gold on a 2.0 SP-per-gold late sink. Measured: board stats gained \u00f7 gold spent, summed over players (econ_pace2.py).",
+    "numbers": "Board stats per gold: rounds 3-6 1.32, 6-9 1.09, 9-12 1.11, 12-15 0.75, 15-20 0.91. Boards grow about 11.6 stats a round from round 9 to 20 (1.66 per unit)."
+   },
+   {
+    "claim": "Every compounding loop in pass 2 is linear or capped, by design. Battlegrounds and Galaxy compound far harder.",
+    "evidence": "content/units/*.json and content/spells/*.json (set slice, in the pool). Caps: tribe_bonus.gd:6 (+3/+3), board_upkeep.gd:8 (Ring +4/+4), Dozey permanent_buff_cap 12. power-budget.md:743-746 (growth caps; 'Linear growth only'). BG data/minions.json current solo pool. Galaxy design-notes \u00a73. Full list of loops in the detail file, \u00a76.",
+    "numbers": "Pass 2: 35 of 127 pooled cards have growth text. No buff is bigger than +3/+3 per trigger, and each grower adds about 1-8 stats a turn. Gold loops: the Acorn ladder (9 Acorns become 16 gold, +78%, capped by its sources), Farthing's interest (up to 5 a turn), Money Spider, One Swallow's homecomings. Mrs Stork is the only gold-spent counter. Tavern spells never grow. BG: 15 of 273 minions give +5/+5 or more per trigger (+10/+10 per refresh at tier 4; +8/+8 to the whole shop for 1 gold; tier 7 +20/+20 and double), and 45 texts scale 'this game', 'permanently' or 'wherever'."
+   },
+   {
+    "claim": "Board scale is about 6x below the owner's Battlegrounds claim. Our research never measured Battlegrounds boards.",
+    "evidence": "players.csv final_attack + final_health. The owner's note of 9 Nov. power-budget-review.md:293: its 270 SP is a model guess. Indirect support: strategy-eras.md:223 counts Tyrael 'set to 50/50' as a scam.",
+    "numbers": "Winners' final boards: median 242 (about 35 per unit), p90 312, max 486. Median board at round 12: 133, against the budget's 118 for printed stats only and its 270 guess for Battlegrounds. The owner's ~100/100 units come to about 1,400 a board."
+   },
+   {
+    "claim": "The evidence fits the owner's concentration claim, though it doesn't isolate it. Our budget assumes the opposite.",
+    "evidence": "power-budget.md:471 says 'no data that spread stats are worth less than stats on one unit'. Bracken numbers from players.csv and rounds.csv. DECISIONS.md:560 on Dozey.",
+    "numbers": "Brother Bracken (5 units or fewer: +1/+1 per tier, up to +5/+5): mean place 2.70, the best hero. He wins 91.4% of fights before round 9 with fewer recorded stats (73 against 81 at round 8; 14.6 against 11.6 per unit; about +30 from his bonus in combat). Only 13% firsts. Dozey at 96/94 was on 70-96% of final boards before his cap."
+   },
+   {
+    "claim": "Triples are the biggest multiplier players actually reach.",
+    "evidence": "cards.csv golden flag by place.",
+    "numbers": "Goldens per final board: 1st 3.58, 2nd 2.87, 4th 1.71, 8th 1.05. 29.7% of all final-board units are golden."
+   }
+  ],
+  "assumptions": [
+   {
+    "assumption": "Late gold buys about 2.0 SP per gold, and every gold price on a unit is read at that rate.",
+    "where": "docs/design/power-budget.md:360, 4.1 table, B5",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "The one-player model gets 1.97-2.04 for a no-engine tier-6 player buying spells at 5 SP per gold.",
+    "evidence_against": "Bot boards gain 0.75-0.91 stats per gold from round 12 on. In economy-bounding.md, BG-style engines make 7-10 SP per gold. The owner's claim implies far more.",
+    "test": "Read SP gained per gold by tier phase from the bench rounds table on each commit. Re-run power-budget 4.1 at the measured sink."
+   },
+   {
+    "assumption": "Stat growth must be linear and small: 0.8/1.3/1.7/2.5/3.8 SP a turn by tier. Multiply effects only once a turn and never retriggered.",
+    "where": "docs/design/power-budget.md:743-746 (B4), :206",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "It stops one card from beating a plain unit outright in the one-player model, and it prevents loops.",
+    "evidence_against": "It is the opposite of the owner's compounding direction. Battlegrounds prints +10/+10-per-trigger engines and Galaxy accepts thousands. Pass 2 boards end at about 35 per unit.",
+    "test": "An owner call (question below). Then a bench arm with 2-3 uncapped 'this game' counters per tribe, measuring board scale and how long a lead lasts."
+   },
+   {
+    "assumption": "A Tavern spell buys a flat 5 SP per gold, on purpose below Battlegrounds' 12-17 late board spells.",
+    "where": "docs/design/power-budget.md:484 onward (S(t))",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "It keeps the late sink near 2.0 so the gold prices hold.",
+    "evidence_against": "Pass-2 spells deliver 1-5 SP per gold. Last Orders, the tier-5 spell, gives 1 per gold. It caps how much late gold can change a board.",
+    "test": "Price the shop's spells per gold at a full board, then bench a +50% spell-rate arm."
+   },
+   {
+    "assumption": "Stats are interchangeable: one SP is worth the same anywhere, and spreading them carries no discount.",
+    "where": "docs/design/power-budget.md \u00a71 and :471",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Simple and additive, so cards can be costed by sums.",
+    "evidence_against": "The owner's 3\u00d710/11 against 5\u00d710/10 example. Bracken is the top hero at 2.70 with fewer units. Dozey dominated at 96/94.",
+    "test": "Run fixed-SP fight sweeps: the same total stats on 3, 5 and 7 units, with and without cleave or damage-reduction units, through the combat engine (headless fixtures, no lobby)."
+   },
+   {
+    "assumption": "The bot data's tier pace reflects the game's economy.",
+    "where": "implicit in every pace or tier-value reading from bench data; src/core/bots/bot_level.gd:21; content/bots/strategies/*.json",
+    "risk": "high",
+    "explicit": false,
+    "evidence_for": "Curves move \u00b11 with health and scouting.",
+    "evidence_against": "Climbs at tiers 2-4 were affordable in 99-100% of the rounds where bots didn't climb. The curves were slowed by hand (DECISIONS.md:538). The earliest tier-6 turn anywhere is 13.",
+    "test": "A bench arm with the BG curve 2/4/6/8/10 and one with 'climb when gold allows plus one buy', compared on place and tier-6 share."
+   },
+   {
+    "assumption": "With no timer, turns get long: most long turns see about 20 shops, so we need rising refresh prices and loop guards.",
+    "where": "rulebook.md:140 (3.1.2), :232 (4.4.3); economy-bounding.md",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "The owner decided it (N8). It keeps future engines bounded.",
+    "evidence_against": "No more than 9 paid refreshes in 48,773 turns. Most turns see 0-2. The rise never fires.",
+    "test": "Track paid plus free shops per turn by tier in the bench. Re-check once compounding engines exist."
+   },
+   {
+    "assumption": "Carry-over gold with no cap and no interest makes banking a strategy.",
+    "where": "rulebook 4.1.2-4.1.3; power-budget 4.1 'What carry-over gold changes'",
+    "risk": "medium",
+    "explicit": false,
+    "evidence_for": "It gives burst turns and wastes nothing. Lump buys exist (Hiring Fair, Market Stall, Last Orders).",
+    "evidence_against": "The median most a player banks in a game is 3. Dame Farthing (interest) is the worst hero at 5.53. The Long Purse wins 5.1%.",
+    "test": "A by-hand playtest, plus a bench strategy that saves toward Last Orders, Beltane Bonfire or Hiring Fair turns."
+   },
+   {
+    "assumption": "Recurring gold is capped at 0/0/1/1/2/2 a turn by tier, one-off gold at 2/2/1/1/1/1, and nothing raises the income ceiling of 10.",
+    "where": "docs/design/power-budget.md:397 (caps table)",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "Battlegrounds' 2-4-gold-a-turn minions didn't last. It guards against snowballs.",
+    "evidence_against": "It keeps gold flat and equal (about 10 a round for every tribe), so gold can't drive compounding. BG lets max gold rise (Grifter, Sightseer, Snare Trapper).",
+    "test": "An owner call on where compounding lives, then bench arms with +1 max gold sources."
+   },
+   {
+    "assumption": "The last climb costs 13 (two more than Battlegrounds).",
+    "where": "src/core/game_config.gd:21 (ideation-balance); DECISIONS.md:598-599",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "With one bot, Spend Late won 29.2% at 11 and 22.2% at 13.",
+    "evidence_against": "It was tuned on one bot. Tier 6 is now 3-4 turns later than Battlegrounds and half the lobby never sees it.",
+    "test": "Re-bench 11 against 13 under faster bot curves."
+   },
+   {
+    "assumption": "A board of about 120 SP at turn 12 (printed stats) is the pricing pace, and 270 is 'Battlegrounds-like'.",
+    "where": "docs/design/power-budget.md:735 (B3); power-budget-review.md:293",
+    "risk": "high",
+    "explicit": true,
+    "evidence_for": "Our model reproduces it, and the bot's 133 at round 12 is close.",
+    "evidence_against": "The 270 is a guess. The owner reports BG late units over 100/100, roughly 1,400 a board.",
+    "test": "Extract real board stats by turn from Battlegrounds or Galaxy replays or videos (owner's research ask)."
+   },
+   {
+    "assumption": "Early losses should be cheap (no base damage in rounds 1-3) and greedy openings safe.",
+    "where": "src/core/game_config.gd:25 (V05_BASE_DAMAGE); content/spells/rainy_day.json",
+    "risk": "low",
+    "explicit": false,
+    "evidence_for": "Slow starts survive to the late game (balance-1.md). The three openings are level for bots.",
+    "evidence_against": "Rainy Day pays 3 gold for a loss against 2 for a win (1 + Spoils), so a loss can be worth taking. Untested by hand.",
+    "test": "Count by-hand rounds where a player gave up a fight in rounds 1-3."
+   }
+  ],
+  "motivations": [
+   {
+    "system": "Income (3 to 10, flat from turn 8)",
+    "player_wants": "Spend it all each turn: about 3 buys and a roll.",
+    "tension": "Gold is the same for everyone late (9.7-10.1 a round by tribe), so it can't be what separates players."
+   },
+   {
+    "system": "Carry-over, no cap, no interest",
+    "player_wants": "Hold gold only for a lump: a discounted climb, Hiring Fair (6), Market Stall (4), Last Orders, Beltane Bonfire, Charcoal Burner.",
+    "tension": "Banking costs tempo and earns nothing, except the 1-gold climb discount for each turn you wait. In practice nobody banks: the median most carried in a game is 3."
+   },
+   {
+    "system": "Buying and selling, Bought or Created",
+    "player_wants": "Replace the weakest unit for 2 net gold. Keep generated units, because they sell for 0.",
+    "tension": "Board slots are the scarce thing. Created-for-0 stops churn loops but also makes generated units dead money."
+   },
+   {
+    "system": "Refresh price steps",
+    "player_wants": "Roll with the 1-2 gold left after buying, or to finish a triple.",
+    "tension": "Meant to bound very long turns. It never binds: at most 9 refreshes in a turn."
+   },
+   {
+    "system": "Freeze",
+    "player_wants": "Keep a third copy or a key unit for next turn.",
+    "tension": "Locks out fresh offers. With banked gold it sets up a big next turn."
+   },
+   {
+    "system": "Upgrade costs and the per-turn discount",
+    "player_wants": "Wait until the climb is cheap.",
+    "tension": "Tempo now against better shops later. The discount is the only built-in reward for waiting. The 13-gold last climb leaves players 2-3 rounds at tier 5."
+   },
+   {
+    "system": "Shop size and tier odds",
+    "player_wants": "Climb to see more cards of your own tier (a tier-6 shop is 40% tier 6).",
+    "tension": "Low-tier triples dry up at high tier."
+   },
+   {
+    "system": "Pool copies and five of six tribes",
+    "player_wants": "Take an uncontested tribe that is in the lobby.",
+    "tension": "Contested tribes starve triples. One tribe is missing from each lobby, so plans must adapt."
+   },
+   {
+    "system": "Triples and the Triple Reward",
+    "player_wants": "Hold pairs and hunt the third copy (Figgy Duff, Mistress Russet and Cut-and-Come-Again help).",
+    "tension": "Pairs in hand cost board tempo. The payoff is the game's biggest multiplier: winners hold 3.6 goldens, 8th place 1.05."
+   },
+   {
+    "system": "Discover (Hiring Fair, Triple Reward)",
+    "player_wants": "Pay a lump for a chosen high-tier unit.",
+    "tension": "It is Created, so it sells for 0. It competes with buying units."
+   },
+   {
+    "system": "Tavern spells",
+    "player_wants": "Spend leftover gold on stats (1-5 per gold) or on economy. Harvest Supper rewards committing to one tribe, up to +3/+3.",
+    "tension": "The flat, low rate makes late gold worth little and grow only linearly (under 1 stat per gold in practice)."
+   },
+   {
+    "system": "Heroes",
+    "player_wants": "Lean into the hero's system: few units (Bracken), skipping tiers (March Hare), interest (Farthing), borrowing (Hob), tier down (Jill), a bigger shop (Pipkin).",
+    "tension": "Concentration and climbing heroes win (2.70 and 3.57). Economy heroes lose (5.12-5.53)."
+   },
+   {
+    "system": "Opening spells and Early Spoils",
+    "player_wants": "Rounds 1-2: choose a unit, Rainy Day or A Leg Up.",
+    "tension": "Rainy Day pays 3 for a loss against 1 for a win (+1 Spoils), and losses cost almost nothing early. That is a mild reward for losing."
+   },
+   {
+    "system": "Hero damage, 40 Health",
+    "player_wants": "Play greedy early, because early losses are cheap.",
+    "tension": "The late game decides. The bottom half dies in rounds 11-14 before seeing tier 6."
+   }
+  ],
+  "owner_questions": [
+   {
+    "question": "How big should a winning board be at the end, and when tier 6 arrives? Today: about 35 stats per unit at the end (242 a board), 20 per unit at round 12.",
+    "why": "It sets every budget number: tier curve, spell rate, growth caps. Measuring real games takes a research project; you can name the target from experience.",
+    "default_answer": "Late carries at 100/100 or more and winning boards around 800-1,500 total, about 4-6\u00d7 today, reached through compounding engines rather than bigger printed bodies. Mid-game boards around 25-40 per unit."
+   },
+   {
+    "question": "Where should compounding live: in gold (interest, max-gold raises, income engines) or in stats and 'this game' counters, with gold kept near flat at 10?",
+    "why": "Both are legal under our rules, and they make very different games. Today gold is flat and nothing compounds.",
+    "default_answer": "Like Battlegrounds: gold near flat (a few cards that raise max gold by 1). Compounding goes into 'this game' counters, shop-side buffs and per-gold stat engines, with caps only where gold or refreshes could loop."
+   },
+   {
+    "question": "Can we drop the power budget's linear growth caps and small per-trigger sizes, and police only loops (gold back per gold, free refreshes, retriggers)?",
+    "why": "These caps are why every pass-2 card grows by 1-8 stats a turn. They are the rule your note pushes against.",
+    "default_answer": "Yes. Keep the loop guards (G1, G2, G5, G8, Created sells for 0). Remove the growth caps. Judge engines by the tier at which they take over a game, not by stats per turn."
+   },
+   {
+    "question": "What climb pace should the game have?",
+    "why": "Bots now reach tier 6 at round 14, four turns behind Battlegrounds' curve, and half the lobby never sees it. The pace is set by bot scripts, so it needs a target.",
+    "default_answer": "Battlegrounds' standard 2/4/6/8/10, with the last climb back at 11. Most surviving players at tier 6 by round 11, greedy players by round 9."
+   },
+   {
+    "question": "Should every tribe have a way to stack stats on one carry, or should wide, even boards stay the norm with one or two tall tribes?",
+    "why": "The budget treats stats as interchangeable. The data (Bracken, Dozey) suggest stacking wins. This decides how to rework the tribes.",
+    "default_answer": "Every tribe gets at least one carry payoff that grows from its own actions, and each tribe keeps one stat-holder (cleave, damage reduction or shields). One or two tribes stay wide by design and get a counter to big carries."
+   },
+   {
+    "question": "Is banking gold meant to be a real strategy, or is carry-over just 'nothing is wasted'?",
+    "why": "Nobody banks in the data, and the interest hero is last. That decides whether to build payoffs or leave it as a convenience.",
+    "default_answer": "Mostly 'nothing is wasted', plus a few lump buys (Last Orders, Hiring Fair, a big climb). No tribe or hero built around interest."
+   }
+  ]
+ },
+ {
+  "key": "pace-data",
+  "summary": "The data is clean: 400 complete lobbies, 3,200 players, and the run is finished. The orchestrator's figures check out with small drift (round 10 is 107, round 20 is 220, 0 early wins gives 21% top 4).\n\nHow many losses: Health runs on the round base. A loss costs about 1-2 Health in rounds 1-3, 3-4 in rounds 4-7, 5-7 in rounds 8-10, then 9, 11, 13 and about 15 from round 14. Nobody goes out before round 9. Losing every round from round 1 puts you out in round 11. Winning rounds 1-6 and then losing every round puts you out in round 12 after 6 losses. From round 13, 3 losses kill a hero at full Health. Last Stand gives the last four one more. Winners lose 5 fights; heroes who go out lose 6.7 to 8.6.\n\nWins: fights between living players are exactly 50/50. Ghosts lose 93.5%, which is the only reason the pooled rate is 51.3%. Ties happen only in round 1.\n\nStat curve: it is linear, about 12 to 14 per round. Stats per gold spent fall, from 1.41 at round 5 to 1.05 at round 22. The spread inside a lobby stays flat: the biggest board is about 1.2 times the median at every round. About half of every final board is printed bodies. Owner's view: right that numbers are small and don't compound. Concentration can't be measured from these files. The two most common cards on winning boards give buffs only during combat, and the logs record no combat stats at all.",
+  "findings": [
+   {
+    "claim": "The orchestrator's figures hold, with small drift because the file was still partial when they were read.",
+    "evidence": "a1_pace.py on rounds.csv and players.csv. Medians of attack+health over living players, by round. Lobby ratios are median over lobbies of max/median and min/median.",
+    "numbers": "Median board: R5 42, R8 80, R10 107, R12 133, R14 155, R16 174, R20 220. Per unit: R8 11.7, R12 19.7, R16 26.8, R20 34.4. Winners' final boards: median 242. Biggest board / lobby median: 1.18-1.25 from R4 to R19; smallest: 0.79-0.81. 1st place: 14.1 wins, 5.02 losses, 0.45 ties over 19.6 rounds. 8th: 2.17 wins, 8.58 losses over 11.2. Wins in R1-6: 0 wins gives mean place 6.00 and 21% top 4; 5 wins gives 83%; 6 wins gives 88%."
+   },
+   {
+    "claim": "How many losses you can take depends on when they come. Late losses are nearly all round base, so after round 12 three losses kill a hero at full Health.",
+    "evidence": "Damage-v05 arm B charges (200 lobbies, same rule) give survivors per loss by round. That rate is scaled by 1.23 to fit pass 2 places 5-8 (a2b_calib.py), then paths are run in a2_hp.py.",
+    "numbers": "Cost per loss: R1-3 1.2-1.7; R4-7 3.0-4.4; R8-10 5.2-7.4; R11 9.4; R12 11.3; R13 13.2; R14+ about 15. Lose every round: out in R11 after 11 losses. Win R1-6 then lose: out in R12 after 6. Win R1-9 then lose: out in R13 after 4. Win R1-12 then lose: out in R15 after 3. Alternate W/L: out in R14 after 7 (a 5th place). Win 2 of every 3: out in R18 after 6. Losing all of R1-6 leaves about 25 Health. Losses per game by place: 1st 5.0 (range 0-10); 2nd-4th 6.7-7.4; 5th-8th 7.2-8.6. First elimination: median R11, never before R9."
+   },
+   {
+    "claim": "Late in the game, how badly you lose barely matters: survivors are a small share of the damage.",
+    "evidence": "Arm B: survivor damage as a share of each loss, by round (a2_hp.py section 1). Pass 2: base taken by place (a2b_calib.py).",
+    "numbers": "Survivor share of a loss: 43-55% in R4-7, 25-33% in R8-10, 11-16% from R12. Survivors per loss stay about 1.6-1.9 (arm B) and about 2.0-2.35 (pass 2 places 5-8). Places 5-8 take 24.5-32.7 of base out of about 45-47 total."
+   },
+   {
+    "claim": "Last Stand is used by nearly every 2nd and 3rd place, so the last four effectively get one extra lethal loss.",
+    "evidence": "Arm B last_stand_sides by final place. Pass 2: places 2-3 took more base damage than 40, which only the save allows. 'Certain' means base alone reached 40 before the hero's last loss.",
+    "numbers": "Arm B used Last Stand: 2nd 95%, 3rd 88%, 4th 55%, 1st 26%. Pass 2 mean base taken: 2nd 49.8, 3rd 48.8, 4th 44.5. Certain users: at least 30% of 2nd places and 11% of winners."
+   },
+   {
+    "claim": "Fights between living players are exactly 50/50. The pooled surplus is all ghost fights. Per-player win rates spread 1.5 times wider than coin flips.",
+    "evidence": "a3_wins.py. Live-vs-live = all results minus ghost results (ghost results are inferred from wins minus losses in rounds with an odd number alive). The null case is coin flips with each player's own fight count.",
+    "numbers": "Live vs live: 22,925 wins and 22,925 losses. Pooled: 51.34%. Per-player rate: mean 47.6%, median 46.7%, sd 20.3 points against 13.4 for coin flips. By place: 74%, 65%, 60%, 50%, 45%, 37%, 30%, 20%."
+   },
+   {
+    "claim": "Ties are almost gone. Results run in streaks, mostly because board strength persists from round to round.",
+    "evidence": "a3_wins.py sections 4-5 and a8_cond.py. Runs test on each player's decided fights. Correlation of a player's stats / lobby median between rounds (a4_curve.py section 5).",
+    "numbers": "Ties: 45.7% of R1 fights (67% of players field no unit in R1), and 0 of 45,573 player-fights after R1. Win chance after a win: 60.3%; after a loss: 41.0%. Runs test z = -22.9. Correlation of relative size: R8 to R10 0.76, R10 to R12 0.80, R4 to R12 only 0.20. Longest loss streak: 1st 2.4, 8th 6.3."
+   },
+   {
+    "claim": "Total stats predict fights only in part. The biggest board loses about a quarter of its fights, and below-median boards hit a flat floor near 36%.",
+    "evidence": "a3_wins.py sections 2-3. Win rate by stat rank in rounds with 8 alive, and by stats / lobby median for R4+.",
+    "numbers": "Rank 1 wins 76-79% (if stats decided, 100%). Rank 8 wins 32-37% (if stats decided, 0%). Win rate by size: 1.2x median 74%, 1.3x 84%, 1.5x+ 94%, 0.65-0.95x 35-39% (flat), at or below 0.65x 27%."
+   },
+   {
+    "claim": "The owner is right about ghosts: they are near-byes. They lose far more often than a living board of the same size. The code gives them three handicaps, and the files cannot separate them.",
+    "evidence": "a3_wins.py section 6, with the ghost board taken from the eliminated player's last round. game_session.gd:765-767: the ghost has no hero effects. game_session.gd:684-695: the scout of the ghost is exact because its board never changes, while a living opponent's scout is its board from the previous fight. hero_rules.gd:53-58: Last Stand only covers losses to a hero. Early Spoils pays nothing for beating a ghost.",
+    "numbers": "1,461 ghost fights (3.65 per lobby). Living player wins 93.5%. Ghost size: median 0.82 of the lobby median, and smaller than every living board in 43% of its fights. Ghost win rate: 7.0% at 0.8-0.9x median (a living board that size wins about 36%), 18.7% at or above the median, 1.5% below 0.8x. 817 ghost fights come with 3 alive: one player in the final three gets a near-bye each round. Arm B ghosts won 8.2%."
+   },
+   {
+    "claim": "The stat curve is linear, not compounding, and later gold buys fewer stats than early gold.",
+    "evidence": "a4_curve.py: least-squares fits on median stats for R5-16, increments per round, same-player increments, and board stats / total gold spent so far.",
+    "numbers": "Everyone: -19.4 + 12.38*round, R\u00b2 0.99, max error 4.7. Exponential: R\u00b2 0.92, max error 29. Winners: -24.2 + 14.07*round. Winners R8-19: power law with exponent 1.07. Gain per round +10 to +16, highest in R7-11 (median same-player gain: +15 at R8, +14 at R10), falling to +6-10 from R14. Growth rate: 40% at R5, 16% at R10, 7% at R16. Stats per gold: 1.41 at R5, 1.23 at R8, 1.18 at R12, 1.08 at R16, 1.05 at R22."
+   },
+   {
+    "claim": "The gap between boards in a lobby doesn't grow in relative terms. Winners are only slightly bigger than their lobby until the end.",
+    "evidence": "a1_pace.py section 3 and a4_curve.py section 5.",
+    "numbers": "Coefficient of variation 0.14-0.17 every round R4-R19. Max/min 1.5-1.6. Absolute gap: 17 at R5, 34 at R8, 71 at R16 (only because everything grows). Winner / lobby median: R4 1.02, R8 1.10, R10 1.12, R16 1.08. Winner is the biggest board: R4 20%, R8 28%, R14 46%. At R8, a board 1.15x+ the median goes on to 29% 1st and 77% top 4."
+   },
+   {
+    "claim": "About half of every final board is printed bodies (golden doubled). Buffs add only about 20 per unit over a whole game, even for winners.",
+    "evidence": "a6_printed.py: printed attack+health of each final-board card (x2 if golden, board_unit.gd:55-65) against the actual final stats in players.csv.",
+    "numbers": "Winners: printed 113.5 + gained 131 (54% gained), 3.58 goldens, 50% of units are tier 6, 36 per unit. 8th place: printed 57 + gained 53 (48%), 16 per unit. The gained share is 48-54% at every place. The owner's Battlegrounds figure (100/100 late, about 200 per unit) would be 5-6x our winners; not measured here."
+   },
+   {
+    "claim": "The two most common cards on winning boards spread buffs that act only in combat, so they are invisible in the logged stats. Dozey is not driving wins in this build.",
+    "evidence": "a5_cards.py on cards.csv final boards and content/units/*.json text. Lift = share of winner boards with the card / share of all final boards.",
+    "numbers": "Squire Lollop (T6 Hedgerow, Start of Combat: touching units +1/+1, or +2/+2 if all 7 touch): on 52% of winner boards, lift 2.90. Old Isegrim (T6 Hunters, +3 Attack while attacking): 48%, lift 2.09. Little Nip 36% (1.48). Queen of Elfland 34%. Standing Committee 29%. Old Mother Mast 28%. Grizel 27%. Peat King 27%. Old Lutra 24% (1.87, the only tier-3 card with lift). Alderman Dozey: 6%, lift 0.63. Winners' tribe labels: Hunters 124, no tribe 109, Hedgerow 71, Bog 43, Oozes 26, Birds 18, Fairies 9."
+   },
+   {
+    "claim": "Early wins predict final place even at equal board size, and early losses cost little Health, so the effect must come from somewhere else.",
+    "evidence": "a8_cond.py: mean place by R1-6 wins, split by stats / lobby median at R6. Early Spoils pays 1 gold per win in R1-4 (game_session.gd:787-793).",
+    "numbers": "5-6 early wins with a below-median R6 board: mean place 3.09. 0-2 early wins with an above-median board: 4.19. Wins in R1-4: 0 wins gives 35% top 4; 4 wins gives 76%. Six early losses cost only about 15 Health in the model."
+   },
+   {
+    "claim": "Pass 2 made winners bigger than the earlier pool without changing pace.",
+    "evidence": "a7_compare.py: baseline-step2 players file against pass 2.",
+    "numbers": "Winners' final boards: 213.5 before, 242 now (+13%). Places 5-8: +6-9%. Game length 19.0 against 19.5. First elimination R12 against R11."
+   },
+   {
+    "claim": "The Health model predicts when mid and low places go out, but it puts too little damage on the weakest boards.",
+    "evidence": "a9_validate.py replays each player's real win/loss record through the calibrated model.",
+    "numbers": "Places 5-8: exact elimination round 83-89%, within one round 94-99%. Places 2-4: exact 75-77%. But 124 of 400 8th places would still be alive in the model: weak boards lose to more survivors than average."
+   },
+   {
+    "claim": "These files cannot show per-unit stats, the biggest unit, concentration, Health, opponents, damage per fight, or combat-only buffs. Most of the data already exists in the code and is dropped when the CSVs are written.",
+    "evidence": "game_log.gd:21-69 keeps health, armor and per-unit attack/health/golden/tribes every round. bench.gd:317-349 and 382-393 reduce the board to totals. bench.gd:138-160 receives both fighters' ids and the damage, base, survivors, Last Blow and Last Stand results, but writes them only with trace=on, to fights.jsonl without the seed, and strips the events (line 141).",
+    "numbers": "What to add to tools/sim/bench.gd: (1) a units.csv: seed, seat, round, slot, def_id, attack, health, golden. From it: biggest unit, top two share, HHI. (2) rounds.csv columns: health, armor, last_stand_used. (3) a fights.csv: seed, round, a, b (-1 = ghost), winner, damage, damage_base, damage_performance, last_blow, last_stand, and both boards' totals before the fight. (4) Per-unit combat summaries from result events: attacks, kills, damage dealt, survived. These show value trades and stats after combat buffs. (5) A ghost probe: replay each ghost fight with the ghost's hero power, and with the living player's layout from before the scout. That separates the three handicaps."
+   }
+  ],
+  "assumptions": [
+   {
+    "assumption": "Hard bots in free-choice lobbies stand in for human play, for pace, Health and win spread.",
+    "where": "All bench evidence. Players come from BenchSuites free_choice_plain, bot free_choice_plain (players.csv).",
+    "risk": "high",
+    "explicit": false,
+    "evidence_for": "Bots are the only data at scale. Hard beats a Normal lobby with average place 3.41 (bench-latest.md).",
+    "evidence_against": "67% of bots field no unit in round 1. Bots place against an exact scout of the ghost. No bot plans around Last Stand or ghost byes. There are no human results at this scale.",
+    "test": "Compare pace and win spread in search200 lobbies and in playtest logs against these tables."
+   },
+   {
+    "assumption": "The sum of attack+health over the board measures board strength, and our curves and costing rest on it.",
+    "where": "rounds.csv attack/health (bench.gd:382-393). Power-budget costing.",
+    "risk": "high",
+    "explicit": false,
+    "evidence_for": "Win chance rises with relative size: 0.8x median wins 36%, 1.2x wins 74%, 1.5x+ wins 94%.",
+    "evidence_against": "The biggest board wins only 76-79% against a random opponent. Boards at 0.65-0.95x all win 35-39%. The two most common winner cards (Lollop, Isegrim) act only in combat and are not counted. The owner's concentration argument.",
+    "test": "Log per-unit stats and stats after combat buffs. Regress fight results on total stats, top-unit share and HHI."
+   },
+   {
+    "assumption": "A linear stat curve is acceptable. Tier budgets are costed additively, and nothing is designed to make late gold buy more.",
+    "where": "Power budget, and the shape of content up to pass 2.",
+    "risk": "high",
+    "explicit": false,
+    "evidence_for": "The game paces and ends on time. Damage-v05 targets were met.",
+    "evidence_against": "Linear fit R\u00b2 0.99 against exponential 0.92. Stats per gold falls from 1.41 to 1.05. Half of final boards are printed bodies. The owner says Battlegrounds compounds through economy.",
+    "test": "Owner target, plus a Battlegrounds reference curve. A pass where stats per gold rises late."
+   },
+   {
+    "assumption": "Pass 2 boards leave 1.23 times arm B's survivors per loss at every round.",
+    "where": "a2b_calib.py, model.json. Used for every path in the Health model.",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "Predicts the elimination round exactly for 83-89% of places 5-8.",
+    "evidence_against": "Puts too little damage on weak boards: 124 of 400 8th places stay alive in the model. Arm B used an older card pool.",
+    "test": "Run with a fights.csv that records damage_base and damage_performance."
+   },
+   {
+    "assumption": "Late damage should be mostly the round base: survivors count +1 each and are 11-16% of a loss from round 12.",
+    "where": "rulebook 10.1.4a; combat.gd:947-951; damage-v05 B was picked for pacing.",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "A predictable clock. Game length and first-elimination targets were met.",
+    "evidence_against": "Margin barely matters late, so concentration and blowout wins don't pay in Health. Weak boards still lose by about the same as strong ones.",
+    "test": "An arm that weights survivors more from R10, measured for pace and win spread."
+   },
+   {
+    "assumption": "The Battlegrounds ghost rule is fine as is. The ghost gets no hero power, and the living player sees its exact board.",
+    "where": "rulebook 2.1.2 and 10.1.7; game_session.gd:684-695 and 765-767; Matchmaking.GHOST.",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "Battlegrounds has the same rule. The ghost is the weakest recent board, so losing to it is fair.",
+    "evidence_against": "Living players win 93.5%. A ghost at 0.8-0.9x median wins 7%, against about 36% for a living board that size. In the final three, one player gets a near-bye each round (817 such fights).",
+    "test": "A ghost probe that adds the hero power and blinds the scout."
+   },
+   {
+    "assumption": "Last Stand is a small safety net.",
+    "where": "rulebook 10.1.4b; hero_rules.gd:50-64.",
+    "risk": "medium",
+    "explicit": true,
+    "evidence_for": "It fires only in the last four, once per game.",
+    "evidence_against": "95% of 2nd places, 88% of 3rd and 26% of winners used it (arm B). Places 2-3 take about 49-50 base damage. It is in effect a 41st-plus Health pool for the top four.",
+    "test": "Log last_stand_used per round in rounds.csv."
+   },
+   {
+    "assumption": "The ghost is the best-placed hero from the latest elimination round.",
+    "where": "a3_wins.py ghost inference; game_session.gd:841-871.",
+    "risk": "low",
+    "explicit": false,
+    "evidence_for": "The code takes the last hero in the out list, sorted by ascending Health, which is the best-placed one.",
+    "evidence_against": "The ghost's board after its last fight may differ slightly from the copied combat board (Eggs).",
+    "test": "The fights.csv ghost column."
+   },
+   {
+    "assumption": "The settings in full_game() describe the live damage rule.",
+    "where": "game_config.gd:97-107 sets survivor_damage_divisor 2, hero_damage_floor 4 and damage caps.",
+    "risk": "low",
+    "explicit": true,
+    "evidence_for": "Rulebook 10.1.4a matches the code path: v05 damage is base plus starting survivors, with no cap (combat.gd:947-951).",
+    "evidence_against": "Those three settings are dead in v05 mode. A reader of the config could think survivors count half.",
+    "test": "Read combat.gd:947-951. Optionally drop the dead settings from full_game()."
+   }
+  ],
+  "motivations": [
+   {
+    "system": "Round base damage (13 per loss from round 14) with survivors adding about 2",
+    "player_wants": "To avoid any late loss. Winning big barely matters.",
+    "tension": "Concentrated or blowout boards earn no extra damage late, so the clock rewards consistency over margin."
+   },
+   {
+    "system": "Early Spoils (+1 gold per win in R1-4) and cheap early losses (about 15 Health for six)",
+    "player_wants": "Tempo early for gold. A greedy opening costs little Health.",
+    "tension": "Early wins predict place even at equal board size (3.09 against 4.19). The early economy, not Health, carries the advantage."
+   },
+   {
+    "system": "Last Stand in the last four",
+    "player_wants": "One free lethal loss for a risky late turn",
+    "tension": "Nearly all 2nd and 3rd places use it. This softens the top-four fight and makes the 4th-to-5th cliff sharper."
+   },
+   {
+    "system": "Ghost fights (no hero power, fixed board, exact scout, no Last Stand against it, no Spoils)",
+    "player_wants": "To draw the ghost, which is a near-bye at 93.5%.",
+    "tension": "In the final three, one player gets a near-bye each round, so pairing luck shapes the top places."
+   },
+   {
+    "system": "Scouting the next opponent's last fought board",
+    "player_wants": "To place units against what the next opponent showed last",
+    "tension": "Living opponents change after being seen and the ghost doesn't, so the information is uneven."
+   },
+   {
+    "system": "Linear stats per gold, with half of the board being printed bodies",
+    "player_wants": "To tier up and triple into fresh high-tier goldens rather than invest in scaling engines",
+    "tension": "Scaling tribes and engines can't outgrow simply buying bodies. This matches the owner's 'too low and not compounding' concern."
+   }
+  ],
+  "owner_questions": [
+   {
+    "question": "In a healthy Battlegrounds meta, roughly what is a board's total stats and its top unit's stats at turns 8, 11, 14 and the end? And what share of the board do the top two units hold?",
+    "why": "Our curve is 80, 121, 155 and 242 at R8, R11, R14 and the end, with per-unit 12, 18, 23 and 36. We have no target to aim at, and extracting one from videos takes days.",
+    "default_answer": "Late per-unit stats about 5 times ours, mid-game about 2 times, top two units holding 40% or more of board stats. Agents check this against 10 high-MMR games."
+   },
+   {
+    "question": "Should a unit of gold buy clearly more stats late than early, so stats compound? Or is a linear curve built on high-tier goldens fine?",
+    "why": "Stats per gold spent fall from 1.41 at R5 to 1.05 at R22. Almost all later design depends on which shape we aim for.",
+    "default_answer": "Compound: aim for a working engine's stats per gold to rise from about 1.3 at mid-game to 3 or more late."
+   },
+   {
+    "question": "Is a ghost that loses 93.5% of its fights acceptable, as in Battlegrounds? Or should it keep its owner's hero power and stop the living player from seeing it exactly?",
+    "why": "Ghost fights are near-byes, and 817 of them come in the final three.",
+    "default_answer": "Give the ghost its owner's hero power, keep the rest as in Battlegrounds, and measure again."
+   },
+   {
+    "question": "Should a crushing late win hurt more than a narrow one? Today survivors are 11-16% of a loss from round 12.",
+    "why": "If margin doesn't matter, the concentration and blowout boards the owner describes earn nothing extra in Health.",
+    "default_answer": "Keep the base clock, but from round 10 make each survivor deal 2 instead of 1, then re-check pace."
+   }
+  ],
+  "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/fundamentals-bot-lobby-tables.md"
+ },
+ {
+  "key": "combat",
+  "summary": "Under our rules the owner's example holds exactly: 3\u00d710/11 beats 5\u00d710/10 every time, with one survivor, whatever the placement or targeting. The reason is general. A fight is a count of exchanges, not a sum of damage. Each side makes one attack per turn, whatever its unit count. Every exchange costs both units a hit, and a dying unit still deals its damage. So a unit lasts ceil(Health \u00f7 enemy Attack) exchanges, and it kills in each one if its Attack is at least the enemy's Health. At equal total stats with even splits, the board with fewer units wins or ties every time (ties go to Last Blow, decided by parity).\n\nBut 'concentration' is not always better. A carry with small units below the enemy's breakpoints loses to an even board. On the 12 real pass 2 R9 boards (plain stat lines), +1/+1 on all seven units does about as well as +7/+7 on one unit. Moving a board's stats into one carry gains only about 2 to 3 points on average. What decides fights is breakpoints. Our small integers put a breakpoint under one third of unit pairs for every single point. For example, the same 65 stats as 5/6s win 96.5%, but as 6/5s in the back row they win 64.7%. Dozey's low-roll dominance is reproduced just as well by an even spread with 6 Health.\n\nThat breakpoint effect, plus near-deterministic combat (59 of 66 plain R9 pairs fall outside 10\u201390%), is why fixed-board tests swing 22\u201368 points. Scaling stats \u00d74 cuts a +1/+1 swing from about 30 to about 9 points. The pass 2 slice has almost no effects that let a unit hold its stats, and its answers to a carry mostly aim 'across'.",
+  "findings": [
+   {
+    "claim": "The owner's example is exact under our rules: three 10/11 always beat five 10/10 and end with exactly one survivor, whatever the placement, targeting or attack order.",
+    "evidence": "The five-unit board attacks first (rulebook 9.2.1; src/core/combat/combat.gd:378-383). Exchanges are simultaneous (9.6.1). A 10/10 dies to any hit. A 10/11 survives one hit on 1 Health and kills in both of its exchanges. Board A has 6 exchanges of life, board B has 5. Model run: all 35 three-slot placements \u00d7 4 five-unit layouts \u00d7 200 fights gave one outcome only, {(A wins, 1 survivor)}. Trace (trace_owner.py): B F1 trades into A F1 (A F1 left on 1 Health), A F1 kills B F4 and dies, and so on. B's 5th attacker dies and A's F3 is left at 10/1. Hero damage = round base + 1 (10.1.4a).",
+    "numbers": "5 600 fights, 1 distinct outcome; survivors = 1"
+   },
+   {
+    "claim": "For plain units, a fight is decided by counting exchanges. A uniform board lasts n\u00d7ceil(h \u00f7 enemy A) exchanges. Whichever side lasts longer wins, and an exact tie goes to Last Blow by parity. At equal total stats with even splits, fewer bigger units win or tie every time.",
+    "evidence": "Model bramble_combat.py (mirrors combat.gd _choose_attacker, combat_lanes.gd normal_targets, 9.9.2 Last Blow): 0 violations of the law in 3 000 random uniform matchups. Equal totals, S=840: the 2-unit board beats 3 to 7 units 100%, 3 beats 4 to 7 100%, and so on. A single unit ties in exchange count with n=2..7, so the parity of the final exchange decides: it wins vs 2, 4 and 6 and loses vs 3, 5 and 7. The same pattern holds at S=70 and S=160 (equal_totals.txt).",
+    "numbers": "n\u22652: fewer units win 100% at equal totals; 1 unit flips by parity"
+   },
+   {
+    "claim": "'One carry plus small units' is not concentration that works. Units whose Attack is below the enemy's Health and whose Health is at or below the enemy's Attack are worth one exchange each, whatever their stats. So a carry with chaff loses to an even board.",
+    "evidence": "carry.txt, all boards 84 stats vs 7\u00d76/6: 12/12+6\u00d75/5 wins 0%, 24/24+6\u00d73/3 wins 15.4% (F1) or 8.1% (B2), 36/36+6\u00d71/1 wins 6.2%. 42/42 alone wins 0% (a tie in exchange count, lost on parity). A 26/26+2\u00d78/8 board wins 100%. A carry c/c+6\u00d78/8 vs 7\u00d79/9 (126 stats) needs c=38 (172 stats) to reach 63%.",
+    "numbers": "carry+chaff 0-15% at equal stats; needs about 1.37\u00d7 the stats when the chaff sits one point below the enemy's breakpoints"
+   },
+   {
+    "claim": "On realistic boards (the 12 pass 2 R9 boards as plain stat lines), concentration gives small average gains with large per-board swings. A buff spread over all units does as well as the same buff on one unit, or slightly better.",
+    "evidence": "realloc.txt (each board keeps its total, slots and attack share), win % vs the 11 originals: even 50.7, 25% carry in front 52.5, 40% front 52.5, 40% back 47.5, 55% front 53.3. Per board it ranges from hunters_low same-roll 65.6\u219285.6 to hedgerow_low 97.2\u219268.8. r9_conc.txt: +1/+1 all 68.9 vs +7/+7 on the biggest 68.1 vs on the smallest 71.1; +2/+2 all 84.9 vs +14/+14 biggest 80.6.",
+    "numbers": "carry premium about +2 to +3 pp on average; spread \u2265 concentrated for 14 to 28 stats of buff"
+   },
+   {
+    "claim": "Breakpoints, not concentration as such, dominate. Win rate is a step function of stats relative to the opponent's. Dozey's low-roll dominance is reproduced by an even spread whose units all have 6 Health.",
+    "evidence": "breakpoints.txt, 7\u00d7A/H vs 7\u00d710/10: 0% when A\u22649 and H\u226410; about 50% when exactly one of A\u226510 or H\u226511 holds; 100% when both hold, or when H\u226521 even with A=7. Results are flat between the steps. dozey.txt vs the 5 other low boards (1 000 fights each): Dozey 10/16 board 95.7%; six 5/6s (65 stats) 96.5%; same totals as 5/6 front and 6/5 back 64.7%. bp_share.txt at R9 scale: +1 Attack cuts the hits needed against 32.7% of enemy units, and +1 Health adds a survived hit against 26.3%.",
+    "numbers": "one Health point (6 vs 5) swings about 32 pp; R9 unit median 4/6"
+   },
+   {
+    "claim": "Plain stat lines alone explain most of the real R9 matrix. The extremes and the +1/+1 sensitivity come mainly from the combat rules, not from card text.",
+    "evidence": "r9_plain_vs_real.txt: Pearson r 0.81 over 132 ordered pairs. Plain and real pick the same favourite in 114 of 132. Plain hedgerow_low same-roll 96.5% vs real 99.6%. Plain +1/+1 sensitivity +1.3 to +69.1 pp (mean 30) vs the real +0.4 to +68.1 (docs/ideation/evidence/pass2-followup/r9-results.md). The biggest gaps where text matters: hedgerow_high vs bog_high (plain 0%, real 88%) and oozes_high vs hunters_high (3% vs 76%).",
+    "numbers": "r=0.81; 114/132 same favourite"
+   },
+   {
+    "claim": "Fixed-board tests are this sensitive for five reasons. Combat is near-deterministic. Integers are small. +1/+1 on a whole board is a 16\u201327% buff applied in one direction to every unit. The opponent never varies. Exact ties are settled by parity.",
+    "evidence": "exp_lastblow.py: 59 of 66 plain R9 pairs fall outside 10\u201390%, and 5.0% of fights end in a Last Blow mutual wipe. The only randomness left is the front-row target pick, the first-attacker coin when unit counts are equal, and Start of Combat order. R9 boards hold 52\u2013114 stats, so +14 is 12\u201327%. In the lobby, +20% stats \u2248 +24 pp (1.0\u00d7 median 51.9% \u2192 1.2\u00d7 75.9%, lobby_stats.txt). scale.txt (stats \u00d7k with jitter): +1/+1 swing 30.3 \u2192 16.6 \u2192 9.1 \u2192 3.4 pp at k=1, 2, 4, 10, while +10% stays 15\u201319 pp.",
+    "numbers": "+1/+1 swing falls about 1/k with stat scale; +10% stays about 15 pp"
+   },
+   {
+    "claim": "Which rules strengthen concentration and which weaken it.",
+    "evidence": "Strengthen: one attack per side per turn (9.4.1), so a lone carry attacks every turn. Simultaneous return damage, with the dying unit still dealing its damage (9.6.1/9.6.3), so Health counts in whole multiples of enemy Attack. Random front-row targeting (9.5.5), so a carry is focused only by text (Mire, Snap, Quarry). Back-row protection (9.5.1): Dozey in B3 96.4% vs F4 90.0% vs F1 83.9% against low boards. Flat combat effects (Bitter, Hex, Jack Daw, -1/-1, 2\u20133 damage) take a bigger share of small units. Brother Bracken (+X/+X with 5 or fewer units) is the top hero, mean place 2.70 vs next best 3.57 (players.csv). Weaken: no trample, so overkill is lost and every body absorbs a whole exchange. Hero damage counts surviving starting units (10.1.4a): the owner's example leaves 1, and plain R9 wins leave 2.15 on average. More units attack first and win odd-length exact ties (9.2.1, 9.9.2). Permanent-buff ceilings (Dozey +12/+12, Bridge Toad +3/+3; 12.1.1a), the Ring cap +4/+4 (8.5.4) and the Supper cap +3/+3 (5.2.9). No cleave or windfury in the slice.",
+    "numbers": ""
+   },
+   {
+    "claim": "In pass 2 almost nothing lets a unit hold its stats while killing. There is no Divine Shield, Reborn, Cleave, Windfury, Venomous or damage reduction.",
+    "evidence": "Grep of content/units/*.json with set 'slice' (units.txt). What exists: Pack joiners deal damage but take no return hit (combat.gd _strikes: hits_back go only to the leader): Wick, Brother Wolf, Grey Agnes, Grizel, Old Isegrim (+3 Attack while joining). Barn Owl takes no damage while attacking the back row (mechanics/back_row_immunity.gd). Bitter shrinks the attacker before damage on pass 2: Warty Nan, Peatling, Madame Bufo, Natterjack Chorus, Prima Donna, Peat King's Peatlings. Attack shrinkers across: Hex, Jenny -2, Toll Bard, Jack Daw, Seven Whistlers. Turnip Scarecrow makes the enemy across skip an attack, but the turn passes to its next unit. Extra bodies: Bellies, Bubble and Squeak, Wee Wobbly, Earwig Mother, Mrs Sorrel, Peat King, Will-o'-the-Wisp, Mousewife, Gabble Ratchet. Model, giving Dozey one keyword (vs all 11 plain boards, base 46.7%): takes 2 less damage +24.5, immune while attacking +20.5, Hunker +15.1, Bitter 2 +13.8, shield +13.3, cleave +11.0, windfury +4.4.",
+    "numbers": "damage reduction or immunity is the strongest carry amplifier in our rules (+20 to +25 pp)"
+   },
+   {
+    "claim": "Answers to one big unit ('scam' units) do exist in pass 2, but nearly all are aimed at 'the enemy across'. They hit a carry only when the two layouts line up. There is no poison, no 'destroy the biggest' and no 'set Health'.",
+    "evidence": "Answers that ignore size or work in percentages: Belladonna's Nightshade (loses half its current Health each time it is attacked; combat_moves.gd nightshade), Hasty Pudding (swallows the enemy across), Changeling (borrows the enemy across for one attack), Ichneumon Wasp (an enemy it damages dies after its next attack; parasite.gd), Madame Bufo (her killer loses half its Attack). Focus fire: Snap (attacks the Mired enemy with the most Attack), Mire forcing, Gideon and Jenny counter-attacks, Lantern Man. Reach into the back row: Barn Owl, Ballooning Spider, Old Lutra and Old Brock quarry 'wherever it stands', Whirligig row swap, Belladonna from the back. Hero: Little King Wren borrows the highest enemy Attack. Model: Nightshade on Dozey \u221228.5 pp; one venom front unit on every opponent \u221212.2; Bitter 2 on every enemy front unit \u221228.2 (Bitter repeats on every attack).",
+    "numbers": "Nightshade \u221228.5 pp; venom \u221212.2 pp"
+   },
+   {
+    "claim": "Bot lobby stat scale is about 5\u20136\u00d7 below the owner's Battlegrounds picture, and lobby fights are strongly decided by relative stats. Bracken's 5-unit boards win about what their combat-time totals predict: a little more when ahead, a lot less when behind.",
+    "evidence": "free_choice_plain.rounds.csv (400 seeds, 3 200 players, complete; the .0. files named in the brief no longer exist). Median board total: round 9 92 (13.5 per unit), round 15 162 (25.0), round 20 220 (34.4). First place's final board 110/128 on 7 units. Win % by board total \u00f7 lobby-round median: 0.9\u20131.0\u00d7 41.0, 1.0\u20131.1\u00d7 53.3, 1.2\u20131.3\u00d7 75.4, 1.4\u20131.5\u00d7 91.0. Bracken 5-unit boards (rounds 7+, adding +min(tier,5)/+min(tier,5) per unit): 1.2\u00d7 83.5% vs 75.9% for 7-unit boards; 0.9\u00d7 25.6% vs 35.4%.",
+    "numbers": "late unit about 16/18 vs about 100/100 in BG; Bracken boards +3 to +8 pp when ahead, \u221210 pp when behind"
+   },
+   {
+    "claim": "Plain combat doesn't depend on scale except for granularity, so 'our numbers are too small' is half right. Bigger numbers would make tuning steps finer and flat effects smaller. They would not change a unit's power relative to its peers, which is where Dozey's strength comes from. His doubling is capped at +8/+8, so a bigger general scale would shrink him relative to his peers; an uncapped doubling would keep its power at any scale.",
+    "evidence": "Multiplying every stat by k leaves the exchange counts unchanged except for rounding (scale.txt: +10% stays about 15 pp at every k). Dozey's R9 line is 10/16 vs a board median of 4/6 (bp_share.txt), and that size ratio is what kills 3 to 4 units. Card text: content/units/alderman_dozey.json, 'double its stats, up to +8/+8', permanent_buff_cap 12.",
+    "numbers": ""
+   },
+   {
+    "claim": "The main checkout and pass 2 run different combat code for Bitter and Mire.",
+    "evidence": "ideation/main applies Bitter after the damage exchange (src/core/combat/combat_reactions.gd:113; the comment at 104-105 says it 'doesn't alter the same attack's damage'). The keyword text says 'first loses', and pass 2 applies it at declaration (Bramble-ideation-balance src/core/combat/combat_reactions.gd:55). Mire's 'waits for it, once' exists only on pass 2 (combat_lanes.gd:156 wait_once). My model follows pass 2.",
+    "numbers": ""
+   }
+  ],
+  "assumptions": [
+   {
+    "assumption": "One stat point (SP) is 1 Attack or 1 Health. Points add up across a card and a board and are priced linearly.",
+    "where": "docs/design/power-budget.md \u00a71 and \u00a72",
+    "explicit": true,
+    "risk": "high",
+    "evidence_for": "Removing one unit from a full board costs 21\u201323 pp (power-budget \u00a76.4): each body \u2248 one exchange. For marginal buffs on full R9 boards, +1/+1 on all \u2248 +7/+7 on one (68.9 vs 68.1%).",
+    "evidence_against": "A point's value is a step function of the opponent's breakpoints: at equal totals, 5/6s win 96.5% and 6/5s in the back win 64.7%. Fewer bigger units beat more units at equal totals 100% (n\u22652). Carry plus chaff loses at equal totals.",
+    "test": "Price cards by win-rate gain against a sample of real same-round lobby boards, not by SP sums, and report the size ratio to typical units."
+   },
+   {
+    "assumption": "The tier curve is linear (V(t) \u2248 1.8t+3, tier 6 = 14 SP) with \u00b115% tolerance.",
+    "where": "power-budget.md \u00a72.1 and \u00a72.3",
+    "explicit": true,
+    "risk": "high",
+    "evidence_for": "Fits printed Battlegrounds medians (R\u00b2 about 0.5).",
+    "evidence_against": "In exchange combat a unit 2\u00d7 its peers both one-shots them and survives their hits, so it kills 2\u20134 of them (Dozey 10/16 vs a median 4/6). The fight value of size is superlinear near breakpoints. At small stats, \u00b115% is under one point, and one point crosses a breakpoint against 26\u201333% of enemy units.",
+    "test": "Measure win % vs the size ratio (unit stats \u00f7 lobby median) per round from lobby snapshots. Check whether the tier steps produce the ratios we want."
+   },
+   {
+    "assumption": "Fixed-board round robins (R9) and their +1/+1 sensitivity measure board and card strength smoothly enough to tune with.",
+    "where": "docs/ideation/evidence/pass2-followup/r9-results.md; costing passes",
+    "explicit": false,
+    "risk": "high",
+    "evidence_for": "Plain stats reproduce the real matrix (r=0.81), so the tests are internally consistent.",
+    "evidence_against": "59 of 66 plain pairs fall outside 10\u201390%, and +1/+1 moves results 1\u201369 pp. The swing is set by where breakpoints fall, not by smooth strength.",
+    "test": "Report results against 50+ boards sampled from the same round of real lobbies, and curves over +k stats, instead of single fixed pairs."
+   },
+   {
+    "assumption": "Stats are big enough that +1 is a fine tuning step.",
+    "where": "implicit in costing and balance passes (\u00b11 SP steps)",
+    "explicit": false,
+    "risk": "medium",
+    "evidence_for": "Late units reach about 16/18, so +1 is about 6% there.",
+    "evidence_against": "At R9 (where most tests run) the unit median is 4/6, and one point is 15\u201325% of a stat. The +1/+1 swing falls from 30 to 9 pp when stats are \u00d74.",
+    "test": "Rerun the R9 sensitivity with all stats \u00d73\u20134. Check whether tier 1\u20133 can carry finer steps."
+   },
+   {
+    "assumption": "Caps (Dozey +12/+12, Bridge Toad +3/+3, Ring +4/+4, Supper +3/+3) are the right brake on outliers.",
+    "where": "rulebook 12.1.1a, 8.5.4, 5.2.9; unit permanent_buff_cap fields",
+    "explicit": true,
+    "risk": "medium",
+    "evidence_for": "Caps stop runaway loops, and Dozey's board dominated the low roll.",
+    "evidence_against": "The owner reads Hedgerow's overperformance as a sign that the other tribes are too small. An even spread with 6 Health does as well as Dozey, so the fault is breakpoints in a low-stat field, not size alone.",
+    "test": "Raise the scale of every tribe instead of capping one, then rerun the lobby benchmark and compare spread in tribe placements."
+   },
+   {
+    "assumption": "Answers aimed at 'the enemy across' are fair answers to a carry.",
+    "where": "pass 2 content: Pudding, Changeling, Belladonna, Mire, Hex, Jack Daw, Quarry and others",
+    "explicit": false,
+    "risk": "medium",
+    "evidence_for": "They create placement play on fixed slots.",
+    "evidence_against": "They hit the carry only when the two layouts line up, and the carry's owner controls where it stands. There are no size-based targeting answers in the slice besides Snap (which needs Mire).",
+    "test": "Log how often across-answers land on the opponent's highest-stat unit in bot lobbies."
+   },
+   {
+    "assumption": "Last Blow (mutual wipe goes to the final attacker) and 'more units attacks first' are harmless tie rules.",
+    "where": "rulebook 9.2.1, 9.9.2; game_config.gd full_game last_blow=true",
+    "explicit": true,
+    "risk": "low",
+    "evidence_for": "Only 5.0% of plain R9 fights end that way, and the rule removes ties after round 1 (0 ties in rounds 2+).",
+    "evidence_against": "It turns exact exchange ties into 0% or 100% by parity: a lone 42/42 loses to 7\u00d76/6 at equal stats because 7 is odd.",
+    "test": "Count Last Blow endings in the real engine's lobby logs per round."
+   },
+   {
+    "assumption": "The row values and placement rules in power-budget \u00a76 (back-row Attack 0.75 SP and so on) carry over.",
+    "where": "power-budget.md \u00a76.1\u20136.3",
+    "explicit": true,
+    "risk": "medium",
+    "evidence_for": "Measured in a toy simulation.",
+    "evidence_against": "They were measured on small vanilla Tier 2 and Tier 5 boards, so they bake in that scale's breakpoints. Carry placement depends on the board: B3 was best for Dozey, while a 40% carry in the back did worse than in front on average (47.5 vs 52.5%).",
+    "test": "Re-measure the row coefficients after any change of stat scale."
+   },
+   {
+    "assumption": "My plain Python model is a fair stand-in for the engine's rules without text.",
+    "where": "scratchpad fundamentals/bramble_combat.py",
+    "explicit": false,
+    "risk": "low",
+    "evidence_for": "It reproduces the lives law exactly, the attack order of the 9.4 example (F1, F3, B2 repeat), and r=0.81 against the real R9 matrix.",
+    "evidence_against": "It ignores text, Bellies and Start of Combat effects, and it uses pass 2 Bitter timing. Rings and Eggs were added by hand from the board notes.",
+    "test": "Run the same plain boards through Godot once the machine is free and compare."
+   },
+   {
+    "assumption": "rounds.csv attack and health are recruit-board stats taken before Start of Combat.",
+    "where": "my Bracken adjustment in lobby_stats.txt",
+    "explicit": false,
+    "risk": "low",
+    "evidence_for": "Bracken's 5-unit boards sit at 0.86\u00d7 the median before the adjustment, which fits a hero that trades bodies for a combat buff.",
+    "evidence_against": "Not checked against the writer code.",
+    "test": "Check the bench writer for when the stats are captured."
+   }
+  ],
+  "motivations": [
+   {
+    "system": "Exchange combat (9.4\u20139.6): one attack per side per turn, simultaneous return damage",
+    "player_wants": "Every unit above the lobby's breakpoints: Attack at least the typical enemy Health (one-shot), and Health above the typical enemy Attack (survive one hit). Health counts in multiples of enemy Attack; Attack counts in fractions of enemy Health.",
+    "tension": "Points between breakpoints are wasted, and the breakpoints move with the opponent, so the right build is a guess about the field."
+   },
+   {
+    "system": "Board size and who attacks first (9.2.1), each body \u2248 one exchange",
+    "player_wants": "Fill all 7 slots: each body absorbs at least one exchange, and the bigger board attacks first and wins odd-length exact ties.",
+    "tension": "At a fixed stat total, fewer bigger units win. Brother Bracken pays players to stop at 5, and he is the best hero (mean place 2.70)."
+   },
+   {
+    "system": "Back-row protection (9.5.1) and reading-order attacks (9.4.2)",
+    "player_wants": "Hitters in front. A carry or 'while alive' unit behind a front row that trades evenly, so the carry meets a thinned enemy board.",
+    "tension": "Back units attack later and fight fewer exchanges. A carry behind a weak front does worse than in front (47.5 vs 52.5% on average)."
+   },
+   {
+    "system": "Effects aimed 'across' (Mire, Quarry, Hex, Pudding, Changeling, Belladonna, Jack Daw, Scarecrow)",
+    "player_wants": "Their own answers across the opponent's carry, and their own carry across an empty or weak enemy slot.",
+    "tension": "Without the opponent's layout this is a guessing game, so answers land on carries by chance."
+   },
+   {
+    "system": "Hero damage = round base + surviving starting units (10.1.4a)",
+    "player_wants": "Win with many units alive, which favours wide boards.",
+    "tension": "Concentrated wins leave few survivors (1 in the owner's example, 2.15 on average in plain R9 wins), so a strategy that wins more fights deals less per win."
+   },
+   {
+    "system": "Flat combat effects and caps (Bitter, Hex, -2 Attack, 2\u20133 damage; +4/+4 Rings, +3/+3 Supper, +12/+12 Dozey)",
+    "player_wants": "Units big enough that flat effects stop mattering, and spreading buffs across slots and tribes where caps block piling.",
+    "tension": "Caps limit concentration while flat effects reward it, so the system pushes both ways at once."
+   }
+  ],
+  "owner_questions": [
+   {
+    "question": "When you say concentrating stats is always better, do you mean (a) at a fixed stat total, fewer bigger bodies win, or (b) a buff on one unit beats the same buff spread across the board?",
+    "why": "Our rules make (a) true every time (n\u22652). (b) is roughly a tie on real R9 boards (+1/+1 on all 68.9% vs +7/+7 on one 68.1%). The two readings lead to different design work.",
+    "default_answer": "(a). Build carry tools and answers on that reading, and keep spread buffs priced as they are."
+   },
+   {
+    "question": "In a healthy Battlegrounds late game, roughly what share of a board's stats sits in its top two units, and how big is the top unit compared with the board average?",
+    "why": "This gives the power budget a concentration target to aim at. You can answer it faster than video research can measure it.",
+    "default_answer": "The top two units hold about 40% of the board's stats, and the top unit is about 2\u00d7 the board average."
+   },
+   {
+    "question": "Should we raise the number scale about 3\u20135\u00d7 (bodies, buffs, growth), and make flat combat effects (Bitter, Hex, 2\u20133 damage, -1/-1) scale with tier or work as percentages?",
+    "why": "A +1/+1 swing on fixed boards falls from about 30 pp to about 9 pp at \u00d74, while +10% stays about 15 pp. Flat effects shrink with scale. Relative power, Dozey's included, does not change with scale.",
+    "default_answer": "Yes, about \u00d74 by the late game, keeping tier 1 small. Convert flat combat effects to tier-scaled amounts."
+   },
+   {
+    "question": "Do you want deliberate 'hold stats while killing' keywords (a shield, damage reduction, a cleave) in the vanilla game, paired with answers based on size (percentage Health loss, 'attacks the highest-Health enemy', poison-like)?",
+    "why": "The slice has almost none of the first. Its answers mostly aim 'across', so they land on a carry by chance. In the model, damage reduction adds +24.5 pp to a carry board and Nightshade takes away 28.5.",
+    "default_answer": "Yes. Add two holding keywords and two size-based answers, spread across tribes, and cost them against real lobby boards."
+   }
+  ],
+  "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/combat-concentration-tables.txt"
+ }
+]

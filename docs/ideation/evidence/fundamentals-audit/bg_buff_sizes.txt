@@ -1,0 +1,22 @@
+current BG pool (solo): 273 minions
+tier 1: n=25 cards with permanent/this-game/improve text=1 buff sizes in text (A+H or single stat) median=2 p75=3 max=6 count=9
+tier 2: n=37 cards with permanent/this-game/improve text=13 buff sizes in text (A+H or single stat) median=2.0 p75=3 max=6 count=20
+tier 3: n=45 cards with permanent/this-game/improve text=7 buff sizes in text (A+H or single stat) median=3 p75=4 max=8 count=17
+tier 4: n=62 cards with permanent/this-game/improve text=10 buff sizes in text (A+H or single stat) median=4 p75=12 max=60 count=19
+tier 5: n=56 cards with permanent/this-game/improve text=16 buff sizes in text (A+H or single stat) median=6 p75=12 max=16 count=23
+tier 6: n=35 cards with permanent/this-game/improve text=9 buff sizes in text (A+H or single stat) median=4.5 p75=8 max=9 count=12
+tier 7: n=13 cards with permanent/this-game/improve text=2 buff sizes in text (A+H or single stat) median=23.0 p75=40 max=40 count=4
+
+multiplicative / stat-copy text (12):
+  (1, 'Aureate Laureate', "Divine Shield This minion is always Golden, but doesn't give a Triple Reward.")
+  (4, 'Banana Slamma', 'After you summon a Beast in combat, double its Attack.')
+  (4, 'Imposing Percussionist', 'Battlecry: Discover a Demon. Deal damage to your hero equal to its Tier.')
+  (4, 'Living Prison', 'Activate (1): Gain the stats of the next minion you buy this turn.')
+  (5, 'De-volition-ist', "After this attacks, deal damage equal to this minion's Attack to the highest- Health enemy minion.")
+  (6, 'Choral Mrrrglr', 'Start of Combat: Gain the stats of all the minions in your hand.')
+  (6, 'Elemental of Surprise', 'Divine Shield This minion can triple with any Elemental.')
+  (6, 'Silent Deliverer', 'Battlecry: Get a random Golden minion from Tier 4. It doesn’t give a Triple Reward.')
+  (6, 'Snazzy Phantom', 'After a friendly minion is Reborn, give stats equal to its Attack to your right-most Undead.')
+  (6, 'Unbound Tempest', 'After you play 4 Elementals, gain the stats of the highest- Health minion in the Tavern. (4 left!)')
+  (7, 'Obsidian Ravager', "Rally: Deal damage equal to this minion's Attack to the target and an adjacent minion.")
+  (7, 'Stone Age Slab', 'After you buy a minion, give it +20/+20 and double its stats. (Once per turn.)')

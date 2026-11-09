@@ -1,0 +1,6 @@
+fights from turn 8 on (non-ghost): 796
+boards with one unit >= 60% of stats: winners 99 (12%)  opponents 58 (7%)
+winner wide vs loser tall 22
+  ...and winner had fewer stats  5
+winner tall vs loser wide 32
+  ...and winner had fewer stats 2

@@ -1,0 +1,116 @@
+lobbies 400 players 3200
+round rows 48773
+
+## Economy and shop behaviour per round (all living seats)
+round n mean_bank mean_spent mean_gold_left P(left>=3) P(left>=5) mean_paid_refresh P(refresh>=1) mean_larder mean_tier tier_sd
+1 3200 3 1.65 1.35 0.0 0.0 0 0.0 0 1 0.0
+2 3200 6.16 5.59 0.59 0.024 0.0 0 0.0 0 1.27 0.45
+3 3200 7.94 7.24 0.78 0.002 0.0 0 0.0 0.03 1.67 0.56
+4 3200 7.93 7.33 0.79 0.02 0.0 0.02 0.017 0.09 2.08 0.31
+5 3200 8.84 8.28 1.15 0.109 0.0 0.36 0.253 0.26 2.13 0.34
+6 3200 9.92 9.68 1.52 0.187 0.035 1.08 0.609 0.45 2.54 0.5
+7 3200 11.61 11.86 1.8 0.233 0.093 1.38 0.821 0.45 2.99 0.19
+8 3200 12.8 13.22 1.55 0.21 0.045 2.05 0.892 0.52 3.24 0.49
+9 3200 12.57 12.38 1.76 0.226 0.099 0.99 0.702 0.37 4.04 0.38
+10 3196 12.46 12.82 1.33 0.141 0.043 1.76 0.925 0.3 4.09 0.31
+11 3141 11.97 11.55 1.33 0.149 0.046 1.75 0.877 0.26 4.2 0.41
+12 2869 11.89 11.31 1.37 0.18 0.036 1.16 0.585 0.24 4.69 0.47
+13 2415 11.83 11.91 1.11 0.178 0.018 1.2 0.712 0.24 5.07 0.29
+14 1874 11.61 11.88 0.7 0.082 0.004 1.04 0.564 0.19 5.47 0.5
+15 1549 11.25 11.7 0.45 0.053 0.0 0.94 0.544 0.18 5.92 0.28
+16 1383 10.99 11.61 0.3 0.038 0.001 1.51 0.837 0.29 6.0 0.06
+17 1171 10.82 11.41 0.24 0.032 0.001 1.78 0.918 0.34 6.0 0.06
+18 951 10.74 11.22 0.22 0.023 0.0 1.79 0.914 0.4 6.0 0.06
+19 722 10.73 11.14 0.21 0.021 0.0 1.86 0.918 0.43 6.0 0.06
+20 428 10.7 11.15 0.17 0.021 0.0 1.97 0.939 0.48 6.0 0.05
+21 196 10.64 10.85 0.17 0.015 0.0 1.94 0.934 0.55 6 0.0
+22 70 10.66 11.3 0.16 0.014 0.0 2.14 0.929 0.56 6 0.0
+
+## Round first reaching tier T (seats that reached it)
+tier n p10 p50 p90 sd
+2 3200 2 3 4 0.81
+3 3200 5 6 7 1.06
+4 3190 8 9 9 0.52
+5 2456 9 12 13 1.25
+6 1570 13 14 15 0.77
+
+## Ghost fights (odd number alive -> one player fights the last-eliminated board)
+player-fights 48773 ghost player-fights 1461 share 0.03 mean ghost rounds per lobby 3.65
+
+## Losses in rounds 1-6 vs final place (seats alive through R6)
+losses n mean_place P(top4) P(first)
+0 306 2.89 0.882 0.141
+1 405 3.37 0.728 0.188
+2 624 4.08 0.554 0.159
+3 761 4.64 0.463 0.127
+4 662 5.4 0.323 0.068
+5 367 5.6 0.294 0.095
+6 75 5.99 0.2 0.067
+
+## Board stat total (Attack+Health on board) by round: shape across living seats
+round n p10 p50 p90 p99 max max/p50 p90/p50 mean_per_unit_p50 mean_per_unit_max
+1 3200 0 0 5 7 8 8.0 5.0 0.0 8.0
+2 3200 5 9 11 15 17 1.89 1.22 5.0 10.0
+3 3200 14 19 24 28 32 1.68 1.26 5.3 14.0
+4 3200 24 30 36 42 50 1.67 1.2 5.8 14.0
+5 3200 35 42 51 60 68 1.62 1.21 6.4 13.0
+6 3200 42 52 63 73 89 1.71 1.21 7.6 14.2
+7 3200 52 64 80 96 114 1.78 1.25 9.4 19.0
+8 3200 65 80 98 116 129 1.61 1.23 11.7 23.0
+9 3200 74 92 113 134 163 1.77 1.23 13.6 25.4
+10 3196 85 107 132 155 183 1.71 1.23 15.7 29.4
+11 3141 97 121 148 176 203 1.68 1.22 17.9 32.8
+12 2869 106 133 163 191 226 1.7 1.23 19.7 35.2
+13 2415 115 145 178 208 234 1.61 1.23 21.6 39.0
+14 1874 118 155 194 225 256 1.65 1.25 23.4 40.8
+15 1549 121 162 208 248 282 1.74 1.28 25.0 43.0
+16 1383 128 174 225 266 318 1.83 1.29 26.8 50.5
+17 1171 135 187 241 288 346 1.85 1.29 29.0 72.0
+18 951 144 200 262 328 396 1.98 1.31 31.0 66.4
+19 722 155 213 276 348 426 2.0 1.3 33.2 71.6
+20 428 159 220 290 364 422 1.92 1.32 34.4 105.5
+21 196 162 234 312 377 480 2.05 1.33 35.9 92.0
+
+## Final boards: count of scaling/engine cards vs final place
+scalers_on_final_board n mean_place P(first)
+0 290 5.17 0.069
+1 742 5.04 0.053
+2 984 4.6 0.099
+3 688 3.97 0.17
+4 496 3.83 0.256
+
+## Per scaling card: share of final boards, mean place of holders
+1 bridge_toad 84 0.026 6.45 Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up t
+1 chiffchaff 34 0.011 5.24 Fly South. When played: gain +1/+1.
+1 little_nip 779 0.243 3.73 Quarry. Take: gain +1/+1 permanently.
+1 mr_crumb 2 0.001 5.5 When played or sold: Pass +1/+1.
+1 mrs_dunnock 199 0.062 5.79 End of Turn: a Bird whose Nest is beside this comes home a turn sooner
+1 pennywort_snail 119 0.037 5.78 Each turn on your board: gain +1 Health and sell for 1 more gold, up t
+1 sleeping_partner 3 0.001 5.67 Every 3 turns in this slot: get 2 Acorns. Three times in all.
+2 dishwater_nell 12 0.004 6.25 Start of Turn: swap your shop's lowest-tier unit for one of your tier.
+2 hob_in_the_hearth 2 0.001 7.5 Shy. End of Turn: give the units in front +1 Health.
+2 mr_pym 207 0.065 5.75 After you get a Stash: Pass +2/+2.
+2 old_moth_annis 16 0.005 6.5 End of Turn: give the units behind this +1 Attack.
+2 sally_spore 19 0.006 6.53 End of Turn: Ring your empty slot nearest this +1/+1.
+2 stone_soup 217 0.068 4.77 Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. 
+3 alderman_dozey 291 0.091 4.9 Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slo
+3 aunt_aspic 9 0.003 5.56 End of Turn: what's inside the Oozes in front of this gains +1/+1.
+3 dr_urchin 116 0.036 5.86 Bristle 2. After this pricks: Pass +1 Attack.
+3 lob_lie_by_the_fire 1 0.0 6 Shy. End of Turn: give the units beside this +1 Attack.
+3 money_spider 2 0.001 7.5 Start of Turn: get 1 gold.
+3 old_lutra 420 0.131 3.94 Quarry, wherever it stands. Take: gain +1/+1 permanently; if this is i
+4 beadle_warrenby 25 0.008 5.96 After you get an Acorn: Pass +1/+1. Once a turn.
+4 charcoal_burner 88 0.028 7.09 End of Turn: burn up to 6 of your gold above 5. Units behind this gain
+4 cuckoo 409 0.128 5.79 Birds flying from beside this stay away a turn longer. End of Turn: Bi
+4 mrs_mallow 157 0.049 5.18 End of Turn: your smallest unit gains +1/+1.
+4 signor_ranocchio 140 0.044 5.24 Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a
+5 elder_ooze 172 0.054 3.85 Belly 1. Units coming out of your Oozes gain +1/+1.
+5 goodman_hayward 247 0.077 4.82 After you play a Stash or Great Hoard: Hedgerow folk touching this gai
+5 grizel 576 0.18 3.79 Pack. After your pack attack kills: its attackers gain +1 Attack perma
+5 mother_goose 268 0.084 4.68 Fly South. While away, Start of Combat: Nests strike across for 2. Whe
+5 mountain_glutton 199 0.062 4.25 After one of your Hunters makes a Take: gain +2/+2.
+5 tiddy_mun 111 0.035 4.21 After a Mired enemy attacks one of your units: that unit gains +1/+1 p
+6 cut_and_come_again 23 0.007 2.43 Belly 1. Every other Start of Turn: get a base copy of the last non-Oo
+6 laird_of_sett 102 0.032 2.65 All your units have Quarry. After each Take: your Hunters gain +1/+1.
+6 queen_of_elfland 653 0.204 2.96 Every 3rd End of Turn: destroy units behind this, or this if none. Oth
+6 squire_lollop 568 0.177 2.4 Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 tou

@@ -1,0 +1,36 @@
+Breakpoint scan: 7 x A/H against 7 x 10/10 (win % of the scanned board)
+  H\A     7     8     9    10    11    12    13
+    7     0     0     0    50    50    49    56
+    8     0     0     0    52    46    52    48
+    9     0     0     0    47    52    50    54
+   10     0     0     0    48    52    51    50
+   11    49    56    46   100   100   100   100
+   12    44    47    49   100   100   100   100
+   13    59    45    51   100   100   100   100
+   14    52    50    47   100   100   100   100
+   15    54    50    52   100   100   100   100
+   16    46    52    54   100   100   100   100
+   17    55    50    51   100   100   100   100
+   18    52    44    52   100   100   100   100
+   19    56    50    50   100   100   100   100
+   20    39    42    46   100   100   100   100
+   21   100   100   100   100   100   100   100
+   22   100   100   100   100   100   100   100
+
+Mean |change| in same-roll win % from a buff to every unit of one board, plain R9 stat lines scaled by k
+  k=1   +1/+1           mean change +30.4 pp   range  +1.8 to +71.6
+  k=1   +10%            mean change +15.2 pp   range  +1.8 to +29.0
+  k=1   +1 Attack only  mean change +17.1 pp   range  +1.6 to +38.2
+  k=1   +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+  k=2   +1/+1           mean change +20.4 pp   range  +1.8 to +37.4
+  k=2   +10%            mean change +17.4 pp   range  +1.8 to +37.4
+  k=2   +1 Attack only  mean change  +4.4 pp   range  -0.2 to  +9.6
+  k=2   +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+  k=4   +1/+1           mean change +14.5 pp   range  +1.6 to +30.8
+  k=4   +10%            mean change +17.4 pp   range  +1.8 to +37.4
+  k=4   +1 Attack only  mean change  +0.1 pp   range  +0.0 to  +1.0
+  k=4   +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+  k=10  +1/+1           mean change +13.9 pp   range  +1.6 to +30.4
+  k=10  +10%            mean change +15.3 pp   range  +1.6 to +31.0
+  k=10  +1 Attack only  mean change  -0.0 pp   range  -0.2 to  +0.0
+  k=10  +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4

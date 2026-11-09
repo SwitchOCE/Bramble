@@ -1,0 +1,35 @@
+tier5->tier6 (round reached t5, round reached t6): count, top 12
+12 14 429
+12 15 407
+11 14 140
+13 15 89
+11 13 85
+12 13 73
+9 14 57
+13 16 52
+9 15 42
+11 15 41
+8 14 35
+13 14 29
+gap t5->t6 rounds: [(1, 104), (2, 603), (3, 599), (4, 69), (5, 80), (6, 79), (7, 36)]
+
+rounds at tier t with no climb, and share where turn-start gold (bank+larder) >= plain next-tier cost
+tier 1: no-climb rounds 6750, could afford 3550 (0.53); climbs 3200
+tier 2: no-climb rounds 7036, could afford 7034 (1.00); climbs 2904
+tier 3: no-climb rounds 5167, could afford 5099 (0.99); climbs 3205
+tier 4: no-climb rounds 6764, could afford 6764 (1.00); climbs 2153
+tier 5: no-climb rounds 4176, could afford 2819 (0.68); climbs 1575
+
+estimated share of gold spent on climbs through round 14 (plain discount model, upper-ish bound): 0.174 n 1874
+
+max gold carried by a player in a game: median 3.0 p90 6 max 11
+max larder (gold value of Acorn items held) per player: median 1.0 p90 5 max 22
+paid refreshes per turn distribution: [(0, 22804), (1, 11864), (2, 8352), (3, 3991), (4, 1301), (5, 350), (6, 78), (7, 28), (8, 4), (9, 1)]
+
+median board stats by round: {1: 5.0, 2: 9.0, 3: 19.0, 4: 30.0, 5: 42.0, 6: 52.0, 7: 64.0, 8: 80.0, 9: 92.0, 10: 107.0, 11: 121, 12: 133, 13: 145, 14: 155.0, 15: 162, 16: 174, 17: 187, 18: 200, 19: 213.0, 20: 220.0, 21: 234.0}
+growth per round 9->20: 11.6 SP per board per round = 1.66 per unit
+largest boards seen: [(486, 7, 22, (315, 3)), (480, 7, 21, (315, 3)), (428, 7, 23, (344, 5)), (426, 7, 19, (92, 6)), (422, 7, 22, (81, 0))]
+winner final board stats: median 242.0 p90 312 max 486 -> per unit median 34.6
+
+losses taken in game, by place (median): {1: 5.0, 2: 7.0, 3: 7.0, 4: 8.0, 5: 7.0, 6: 8.0, 7: 8.0, 8: 9.0}
+results: Counter({'win': 24291, 'loss': 23020, 'tie': 1462})

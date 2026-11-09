@@ -1,0 +1,40 @@
+hunters_high   units 7  total  88   F1:5/7 F2:4/7 F3:6/8 F4:7/8 B1:6/7 B2:4/7 B3:6/6
+hunters_low    units 7  total  64   F1:5/6 F2:2/4 F3:3/4 F4:3/5 B1:3/4 B2:6/8 B3:5/6
+hedgerow_high  units 7  total  75   F1:4/5 F2:4/6 F3:4/7 F4:4/5 B1:4/4 B2:7/9 B3:5/7
+hedgerow_low   units 6  total  65   F1:4/5 F2:4/6 F3:5/5 B1:2/3 B2:2/3 B3:10/16
+oozes_high     units 7  total  79   F1:7/9 F2:5/9 F3:5/6 F4:3/6 B1:3/5 B2:5/7 B3:3/6
+oozes_low      units 7  total  55   F1:3/6 F2:6/8 F3:3/6 F4:0/4 B1:1/2 B2:4/7 B3:2/3
+bog_high       units 7  total  86   F1:4/7 F2:5/9 F3:4/10 F4:5/4 B1:8/9 B2:5/8 B3:5/3
+bog_low        units 7  total  63   F1:4/6 F2:4/6 F3:5/6 F4:2/5 B1:4/3 B2:2/4 B3:5/7
+fairies_high   units 7  total 114   F1:9/12 F2:10/13 F3:6/6 F4:6/10 B1:3/5 B2:13/11 B3:5/5
+fairies_low    units 6  total  52   F1:9/11 F2:2/3 F3:6/5 F4:2/2 B1:1/3 B2:4/4
+birds_high     units 7  total 102   F1:7/9 F2:9/10 F3:4/6 F4:9/9 B1:5/6 B2:5/8 B3:6/9
+birds_low      units 7  total  68   F1:6/8 F2:2/4 F3:4/4 F4:4/4 B1:4/5 B2:4/7 B3:5/7
+
+Plain-stats round robin (win % vs the other 11 / vs same roll):
+hunters_high   all  79.8  same-roll  55.7
+hunters_low    all  20.5  same-roll  45.2
+hedgerow_high  all  52.6  same-roll   2.5
+hedgerow_low   all  47.2  same-roll  96.5
+oozes_high     all  67.4  same-roll  28.2
+oozes_low      all   2.2  same-roll   4.8
+bog_high       all  69.7  same-roll  34.7
+bog_low        all  21.8  same-roll  47.8
+fairies_high   all  99.4  same-roll  98.7
+fairies_low    all  11.6  same-roll  25.5
+birds_high     all  91.4  same-roll  81.0
+birds_low      all  36.5  same-roll  79.9
+
+Plain +1/+1 sensitivity (same roll; +1/+1 on every unit of one board):
+hunters_high   base  55.7  +1/+1  64.7  change  +9.0
+hunters_low    base  45.2  +1/+1  95.7  change +50.5
+hedgerow_high  base   2.5  +1/+1  49.5  change +47.0
+hedgerow_low   base  96.5  +1/+1 100.0  change  +3.5
+oozes_high     base  28.2  +1/+1  58.8  change +30.6
+oozes_low      base   4.8  +1/+1  73.9  change +69.1
+bog_high       base  34.7  +1/+1  62.3  change +27.6
+bog_low        base  47.8  +1/+1  99.1  change +51.3
+fairies_high   base  98.7  +1/+1 100.0  change  +1.3
+fairies_low    base  25.5  +1/+1  69.3  change +43.8
+birds_high     base  81.0  +1/+1  95.4  change +14.4
+birds_low      base  79.9  +1/+1  97.9  change +18.0

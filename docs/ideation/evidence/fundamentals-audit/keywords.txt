@@ -1,0 +1,13 @@
+Plain hedgerow_low (Dozey 10/16 in B3) vs the other 11 plain R9 boards: 46.7%
+Give Dozey one keyword (none of these is in the pass 2 slice except where noted):
+  shield (first hit ignored)                                            60.0%  (+13.3)
+  cleave (also hits units beside the target)                            57.7%  (+11.0)
+  takes 2 less damage                                                   71.3%  (+24.5)
+  Hunker (half damage when attacked)                                    61.8%  (+15.1)
+  takes no damage while attacking (Barn Owl does this vs back row only)  67.2%  (+20.5)
+  windfury (two attacks a turn)                                         51.2%  ( +4.4)
+  Bitter 2 (slice keyword)                                              60.6%  (+13.8)
+  Nightshade on Dozey (slice Belladonna across from B3)                 18.2%  (-28.5)
+Answers on every opponent board:
+  first front unit has venom (any damage kills)                         34.6%  (-12.2)
+  every front unit has Bitter 2                                         18.5%  (-28.2)

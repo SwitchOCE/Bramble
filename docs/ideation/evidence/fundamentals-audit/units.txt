@@ -1,0 +1,119 @@
+1 0 2 Neutral nest_egg |  | [] {}
+1 1 1 Fairies wisp |  | [] {}
+1 1 1 Hedgerow folk kit |  | [] {}
+1 1 1 Hedgerow folk shrewlet |  | [] {}
+1 1 1 Neutral mouse |  | [] {}
+1 1 1 Neutral nymph |  | [] {}
+1 1 1 Oozes drip |  | [] {}
+1 1 2 Birds chiffchaff | Fly South. When played: gain +1/+1. | ['fly_south', 'effect'] {}
+1 1 2 Birds one_swallow | Fly South. When played: get 1 gold. | ['fly_south', 'effect'] {}
+1 1 2 Fairies hedge_witch | Hex 1. Each spell you cast adds 1, up to your tier. | ['hex'] {}
+1 1 2 Fairies rainbow_chaser | Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2 painted slots, +2 for all seven. | ['rainbow'] {}
+1 1 2 Hedgerow folk mr_crumb | When played or sold: Pass +1/+1. | ['effect', 'effect'] {}
+1 1 2 Hedgerow folk mrs_burdock | When played: summon a 1/1 Kit behind this. Spill. | ['effect'] {}
+1 1 2 Hedgerow folk sleeping_partner | Every 3 turns in this slot: get 2 Acorns. Three times in all. | ['effect'] {}
+1 1 2 Neutral lamp_moth | When played: your next Tier up costs 1 less. | ['effect'] {}
+1 1 2 Oozes little_dollop | Belly 1. Units you buy into this cost 1 gold less. | ['belly', 'belly_discount'] {}
+1 1 3 Bog folk bridge_toad | Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3. | ['mire', 'bridge_toad'] {'permanent_buff_cap': 3}
+1 1 3 Bog folk warty_nan | Bitter 1. Your units beside this have Bitter 1. | ['bitter', 'bog_aura'] {}
+1 1 3 Hunters young_brock | Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry. | ['lend_quarry'] {}
+1 1 3 Neutral pennywort_snail | Each turn on your board: gain +1 Health and sell for 1 more gold, up to 3 turns. | ['savings'] {}
+1 1 4 Neutral pill_bug | Whenever this is attacked: give the units behind it +1 Attack. | ['effect'] {}
+1 1 4 Oozes wee_wobbly | Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight. | ['belly', 'wobbly'] {}
+1 2 1 Fairies nan_toadstool | When played: Ring this slot +1/+1. | ['effect'] {}
+1 2 1 Oozes mrs_posset | Belly 1. When this dies: deal 3 damage to the enemy across. | ['belly', 'effect'] {}
+1 2 3 Birds mrs_dunnock | End of Turn: a Bird whose Nest is beside this comes home a turn sooner. | ['dunnock'] {}
+1 2 3 Hunters little_nip | Quarry. Take: gain +1/+1 permanently. | ['quarry', 'effect'] {}
+1 2 3 Hunters wick | Pack. After this joins an attack: gain +1 Attack. | ['pack', 'wick'] {}
+1 3 2 Bog folk young_pretender | Snap. After this kills a Mired enemy: get 1 gold next turn. | ['snap', 'snap_kill'] {}
+1 4 4 Bog folk peatling | Bitter 2. | ['bitter'] {}
+2 0 4 Neutral turnip_scarecrow | The enemy across from this skips its first attack. | ['skip_across'] {}
+2 1 2 Neutral earwig_mother | When this dies: summon two 1/1 Nymphs behind it. | ['effect'] {}
+2 1 2 Oozes dishwater_nell | Start of Turn: swap your shop's lowest-tier unit for one of your tier. If that's 2+ tiers up and this touches an Ooze, get 1 gold. | ['nell'] {}
+2 1 3 Fairies hob_in_the_hearth | Shy. End of Turn: give the units in front +1 Health. | ['shy', 'effect'] {}
+2 1 3 Fairies sally_spore | End of Turn: Ring your empty slot nearest this +1/+1. | ['effect'] {}
+2 1 3 Oozes stone_soup | Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn. | ['belly', 'stone_soup'] {}
+2 1 4 Bog folk madame_bufo | Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack. | ['mire', 'bitter', 'bufo'] {}
+2 2 2 Fairies old_moth_annis | End of Turn: give the units behind this +1 Attack. | ['effect'] {}
+2 2 3 Hedgerow folk mrs_sorrel | After this attacks: summon a 1/1 Shrewlet behind this. Spill. | ['effect'] {}
+2 2 3 Hunters sable | Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack. | ['quarry', 'sable'] {}
+2 2 3 Neutral cricket_busker | After you cast a spell: get 1 gold. Once a turn. | ['effect'] {}
+2 2 4 Birds mr_redbreast | Has +1/+1 for each Nest you have. | ['redbreast'] {}
+2 2 4 Birds redwing | Fly South. Eggs beside this have their Bird's full stats. | ['fly_south', 'redwing'] {}
+2 2 4 Bog folk peat_cutter | Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight. Three times in all. | ['mire', 'effect'] {}
+2 2 4 Hedgerow folk mr_pym | After you get a Stash: Pass +2/+2. | ['mr_pym'] {}
+2 2 4 Hedgerow folk mrs_clover | After you summon a unit: give it +1/+1. Twice a turn. | ['mrs_clover'] {}
+2 2 4 Hunters toll_bard | Quarry. After its quarry attacks, it loses 1 Attack (twice a fight). The first time, get 1 gold next turn. | ['quarry', 'toll_bard'] {}
+2 2 4 Oozes moss_ooze | When a spell gives your Ooze stats: what's inside gains them. | ['moss_ooze'] {}
+2 3 1 Bog folk vaulting_hopkin | Snap. In your back row, this attacks first, with +2 Attack. | ['snap', 'vault'] {}
+2 3 3 Birds mrs_jay | Fly South. When sold: get an Acorn. | ['fly_south', 'effect'] {}
+2 3 3 Hunters mistress_russet | Quarry. Take: if the quarry is your tier or lower, your next shop has a copy, 1 gold cheaper. | ['quarry', 'poach'] {}
+3 1 3 Bog folk spitfire_sal | Start of Combat: deal 2 damage to each Mired enemy. | ['effect'] {}
+3 1 3 Neutral money_spider | Start of Turn: get 1 gold. | ['effect', 'effect'] {}
+3 1 3 Oozes aunt_aspic | End of Turn: what's inside the Oozes in front of this gains +1/+1. | ['aspic'] {}
+3 1 4 Oozes sixpenny_pie | Belly 2. When this dies: if anything comes out, get 1 gold next turn. | ['belly', 'pie'] {}
+3 2 3 Fairies cluricaun | Rainbow. Your units on painted slots have +1 Attack. | ['rainbow_paint', 'band_attack'] {}
+3 2 3 Fairies cradle_fetch | Start of Combat: become a base copy of the unit behind. | ['cradle_fetch'] {}
+3 2 3 Fairies lob_lie_by_the_fire | Shy. End of Turn: give the units beside this +1 Attack. | ['shy', 'effect'] {}
+3 2 4 Neutral sexton_beetle | After a friendly unit dies: get 1 gold next turn. Twice a fight. | ['effect'] {}
+3 2 5 Hedgerow folk alderman_dozey | Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8. | ['eats_acorns', 'effect'] {'permanent_buff_cap': 12}
+3 2 5 Hedgerow folk dr_urchin | Bristle 2. After this pricks: Pass +1 Attack. | ['urchin'] {}
+3 2 6 Bog folk gideon | Mire. After the enemy this Mires attacks this: attack it back with +2 Attack. | ['mire', 'bog_answer'] {}
+3 3 3 Birds jack_daw | Fly South. Start of Combat: steal 2 Attack from the enemy across. | ['fly_south', 'jack_daw'] {}
+3 3 3 Hedgerow folk sergeant_at_conkers | Start of Combat: throw your smallest Acorn at the enemy across for 3 damage per gold. | ['sergeant'] {}
+3 3 4 Birds old_tern | Fly South. When this comes home: your other Birds away come home too. | ['fly_south', 'old_tern'] {}
+3 3 4 Birds tom_tit | Your Eggs have their Bird's full Health. | ['tom_tit'] {}
+3 3 4 Bog folk natterjack_chorus | Your units beside this have Mire and Bitter 1. | ['bog_aura'] {}
+3 3 4 Hunters brother_wolf | Pack. Units beside this attack first; this joins each once a cycle. | ['pack'] {}
+3 3 4 Hunters old_lutra | Quarry, wherever it stands. Take: gain +1/+1 permanently; if this is in back, get 1 gold next turn. | ['quarry', 'effect', 'take_gold'] {}
+3 3 4 Oozes bubble_and_squeak | Belly 1. After this survives a hit: split half its stats into a copy. Once a fight. | ['belly', 'bubble'] {}
+3 4 3 Neutral ballooning_spider | In your back row, this attacks the enemy back row. | ['back_strike'] {}
+3 4 4 Hunters lodger | Pounce. After this pounces: gain +2/+1. | ['pounce', 'lodger'] {}
+4 2 2 Fairies changeling | Start of Combat: swap sides with the enemy across. Swap back after that enemy attacks once. | ['changeling'] {}
+4 2 3 Neutral ichneumon_wasp | An enemy this damages dies after its next attack. | ['parasite'] {}
+4 2 3 Oozes frumenty | Belly 1. This has the text of what's inside it. | ['belly', 'borrows_text'] {}
+4 2 4 Hedgerow folk beadle_warrenby | After you get an Acorn: Pass +1/+1. Once a turn. | ['beadle'] {}
+4 2 5 Hunters grey_agnes | Pack. The unit after this in the row has Pack and +1 Attack. | ['pack', 'grey_agnes'] {}
+4 2 5 Hunters old_brock | Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands. | ['lend_quarry', 'brock_aura'] {}
+4 3 4 Birds barn_owl | Swoop. Takes no damage while attacking the back row. | ['swoop', 'no_quarry', 'back_row_immunity'] {}
+4 3 4 Bog folk signor_ranocchio | Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight. | ['snap', 'ranocchio'] {}
+4 3 5 Bog folk his_highness | Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become The Prince Restored. | ['snap', 'kiss'] {}
+4 3 5 Bog folk jenny_greenteeth | Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it. | ['mire', 'jenny'] {}
+4 3 5 Hedgerow folk honorary_treasurer | +1/+1 per 3 gold of held Acorns, up to +8/+8. | ['larder_stats'] {}
+4 3 5 Hedgerow folk mrs_mallow | End of Turn: your smallest unit gains +1/+1. | ['mrs_mallow'] {}
+4 3 5 Oozes figgy_duff | Belly 1. A bought unit inside this goes golden with one more bought copy. Once every other turn. | ['belly', 'figgy_duff'] {}
+4 3 6 Birds cuckoo | Birds flying from beside this stay away a turn longer. End of Turn: Birds away with Nests beside this gain +2/+2. | ['cuckoo'] {}
+4 3 6 Birds mag_pye | Start of Combat: steal the text of the enemy across. | ['mag_pye'] {}
+4 3 6 Birds mrs_stork | Every 6 gold you spend: the Bird away longest comes home, if it has missed a fight. | ['effect'] {}
+4 3 6 Fairies silky | Shy. After a Shy unit leaves: Ring its slot +2/+2. | ['shy', 'silky'] {}
+4 3 6 Fairies will_o_the_wisp | Start of Combat: summon a 1/1 Wisp into each empty Ring. | ['effect'] {}
+4 3 6 Hunters madame_ermeline | After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead. | ['ermeline'] {}
+4 3 6 Oozes mr_syllabub | When a unit comes out of your Oozes: its Start of Combat fires. | ['syllabub'] {}
+4 4 6 Neutral charcoal_burner | End of Turn: burn up to 6 of your gold above 5. Units behind this gain +1/+1 per 2 burned. | ['effect'] {}
+4 6 7 Bog folk prince_restored | Mire. Your first spell each turn costs 1 less. | ['mire', 'spell_discount'] {}
+5 2 8 Bog folk prima_donna | Mire the slot across and the slots beside it. Bitter 2, once per enemy. | ['mire', 'bitter'] {}
+5 2 8 Oozes hasty_pudding | Belly 1. Start of Combat: if this has room, swallow the enemy across. | ['belly', 'hasty'] {}
+5 3 5 Birds great_lump | On a Nest, this also has half its Bird's current stats. | ['lump'] {}
+5 3 6 Bog folk tiddy_mun | After a Mired enemy attacks one of your units: that unit gains +1/+1 permanently. Twice a fight. | ['tiddy_mun'] {}
+5 3 6 Neutral pipistrelle_echo | Spells you aim at this also hit the units beside it. | ['echo'] {}
+5 3 7 Oozes elder_ooze | Belly 1. Units coming out of your Oozes gain +1/+1. | ['belly', 'elder_ooze'] {}
+5 4 5 Hunters mountain_glutton | After one of your Hunters makes a Take: gain +2/+2. | ['glutton'] {}
+5 4 7 Birds mother_goose | Fly South. While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1. | ['fly_south', 'mother_goose'] {}
+5 4 7 Fairies reel_mistress | After a unit on a Ring attacks: its Ring moves to your next unit in attack order. Each Ring moves once a fight. | ['reel_mistress'] {}
+5 4 7 Hedgerow folk goodman_hayward | After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1. | ['goodman_hayward'] {}
+5 4 8 Fairies belladonna | Start of Combat: give the enemy across Nightshade. From the back row, the 2 across from the slots in front of this instead. | ['effect', 'effect', 'effect'] {}
+5 5 6 Hunters grizel | Pack. After your pack attack kills: its attackers gain +1 Attack permanently. | ['pack', 'grizel'] {}
+5 5 7 Hedgerow folk standing_committee | Start of Combat: give units touching this +1/+1, or +2/+1 if all 7 touch. | ['effect', 'effect'] {}
+6 3 5 Hunters laird_of_sett | All your units have Quarry. After each Take: your Hunters gain +1/+1. | ['lend_quarry', 'laird'] {}
+6 3 7 Birds gabble_ratchet | When a unit on a Nest dies: its Bird lands there. | ['gabble_ratchet'] {}
+6 4 4 Oozes cut_and_come_again | Belly 1. Every other Start of Turn: get a base copy of the last non-Ooze inside. | ['belly', 'cut_and_come'] {}
+6 4 6 Fairies fairy_monarch | Rings under your Fairies give +1/+1 more. | ['fairy_monarch'] {}
+6 4 8 Bog folk lantern_man | Snap. Has +3 Attack for each Mired enemy. | ['snap', 'lantern_man'] {}
+6 4 8 Oozes granny_stir_up | Start of Combat: touching Oozes go inside this. Gain their Attack. | ['granny'] {}
+6 5 7 Birds seven_whistlers | Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -1/-1. | ['whistlers'] {}
+6 5 9 Bog folk peat_king | Mire. After a Mired enemy dies: summon a 4/4 Peatling with Bitter 2. Twice a fight. | ['mire', 'peat_king'] {}
+6 6 8 Hedgerow folk old_mother_mast | After your first unit buy each turn: get an Acorn, or 2 if you have a Great Hoard. | ['effect', 'effect'] {}
+6 6 8 Hedgerow folk squire_lollop | Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch. | ['effect', 'effect'] {}
+6 6 8 Hunters old_isegrim | Pack. Your units have +3 Attack while joining an attack. | ['pack', 'old_isegrim'] {}
+6 6 8 Neutral whirligig_beetle | Start of Combat: swap the enemy's rows. Each enemy moved takes 2 damage. | ['row_swap'] {}
+6 8 8 Fairies queen_of_elfland | Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share the destroyed units' stats. | ['teind'] {}

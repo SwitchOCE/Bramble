@@ -1,0 +1,79 @@
+card rows 21348
+
+## Birds: card on final boards (all 3200 boards). n_boards=boards containing it; mean place; share golden; n on boards labelled Birds; mean copies per Birds board
+1 chiffchaff             boards=  34 place=5.24 firsts=  5 golden=15/34 on_Bird_boards=14/371 pool=True
+1 mrs_dunnock            boards= 199 place=5.79 firsts=  4 golden=98/201 on_Bird_boards=101/371 pool=True
+1 one_swallow            boards=   5 place=5.80 firsts=  1 golden=2/5 on_Bird_boards=4/371 pool=True
+2 mr_redbreast           boards= 164 place=5.54 firsts=  8 golden=81/167 on_Bird_boards=87/371 pool=True
+2 mrs_jay                boards= 165 place=5.31 firsts=  8 golden=71/171 on_Bird_boards=87/371 pool=True
+2 redwing                boards= 124 place=5.48 firsts=  3 golden=40/126 on_Bird_boards=64/371 pool=True
+3 jack_daw               boards= 121 place=5.34 firsts=  8 golden=39/128 on_Bird_boards=78/371 pool=True
+3 old_tern               boards= 255 place=5.70 firsts=  8 golden=86/273 on_Bird_boards=127/371 pool=True
+3 tom_tit                boards=  23 place=5.30 firsts=  0 golden=6/23 on_Bird_boards=15/371 pool=True
+4 barn_owl               boards=   0 place=nan firsts=  0 golden=0/0 on_Bird_boards=0/371 pool=False
+4 cuckoo                 boards= 409 place=5.79 firsts= 14 golden=119/465 on_Bird_boards=189/371 pool=True
+4 mag_pye                boards= 402 place=5.61 firsts= 21 golden=110/447 on_Bird_boards=183/371 pool=True
+4 mrs_stork              boards= 410 place=5.69 firsts= 20 golden=116/464 on_Bird_boards=189/371 pool=True
+5 great_lump             boards=  60 place=4.67 firsts=  4 golden=10/61 on_Bird_boards=51/371 pool=True
+5 mother_goose           boards= 268 place=4.68 firsts= 24 golden=32/293 on_Bird_boards=139/371 pool=True
+6 gabble_ratchet         boards=  86 place=3.36 firsts= 10 golden=26/96 on_Bird_boards=69/371 pool=True
+6 seven_whistlers        boards= 231 place=3.29 firsts= 35 golden=67/269 on_Bird_boards=131/371 pool=True
+
+## Bog folk: card on final boards (all 3200 boards). n_boards=boards containing it; mean place; share golden; n on boards labelled Bog folk; mean copies per Bog folk board
+1 bridge_toad            boards=  84 place=6.45 firsts=  1 golden=34/90 on_Bog _boards=40/336 pool=True
+1 peatling               boards=   0 place=nan firsts=  0 golden=0/0 on_Bog _boards=0/336 pool=False
+1 warty_nan              boards=  36 place=5.53 firsts=  1 golden=19/36 on_Bog _boards=13/336 pool=True
+1 young_pretender        boards= 180 place=5.29 firsts= 14 golden=77/186 on_Bog _boards=69/336 pool=True
+2 madame_bufo            boards=  74 place=5.70 firsts=  2 golden=28/77 on_Bog _boards=40/336 pool=True
+2 peat_cutter            boards= 174 place=5.25 firsts= 11 golden=66/180 on_Bog _boards=82/336 pool=True
+2 vaulting_hopkin        boards=  43 place=5.72 firsts=  1 golden=16/43 on_Bog _boards=19/336 pool=True
+3 gideon                 boards= 348 place=5.96 firsts= 10 golden=109/383 on_Bog _boards=135/336 pool=True
+3 natterjack_chorus      boards= 158 place=6.09 firsts=  2 golden=54/175 on_Bog _boards=68/336 pool=True
+3 spitfire_sal           boards=   9 place=5.56 firsts=  1 golden=6/9 on_Bog _boards=3/336 pool=True
+4 his_highness           boards= 114 place=6.45 firsts=  1 golden=23/123 on_Bog _boards=41/336 pool=True
+4 jenny_greenteeth       boards= 218 place=5.28 firsts= 15 golden=81/231 on_Bog _boards=116/336 pool=True
+4 prince_restored        boards= 115 place=3.70 firsts= 19 golden=32/123 on_Bog _boards=87/336 pool=False
+4 signor_ranocchio       boards= 140 place=5.24 firsts= 11 golden=35/144 on_Bog _boards=86/336 pool=True
+5 prima_donna            boards= 217 place=4.41 firsts= 23 golden=69/236 on_Bog _boards=128/336 pool=True
+5 tiddy_mun              boards= 111 place=4.21 firsts= 17 golden=46/119 on_Bog _boards=77/336 pool=True
+6 lantern_man            boards= 248 place=3.02 firsts= 52 golden=117/296 on_Bog _boards=152/336 pool=True
+6 peat_king              boards= 475 place=2.88 firsts=108 golden=204/607 on_Bog _boards=173/336 pool=True
+
+## Fairies: card on final boards (all 3200 boards). n_boards=boards containing it; mean place; share golden; n on boards labelled Fairies; mean copies per Fairies board
+1 hedge_witch            boards=   3 place=6.00 firsts=  0 golden=1/3 on_Fair_boards=0/29 pool=True
+1 nan_toadstool          boards=   8 place=7.25 firsts=  0 golden=4/8 on_Fair_boards=2/29 pool=True
+1 rainbow_chaser         boards=  17 place=5.06 firsts=  0 golden=8/18 on_Fair_boards=3/29 pool=True
+1 wisp                   boards=   0 place=nan firsts=  0 golden=0/0 on_Fair_boards=0/29 pool=False
+2 hob_in_the_hearth      boards=   2 place=7.50 firsts=  0 golden=2/2 on_Fair_boards=0/29 pool=True
+2 old_moth_annis         boards=  16 place=6.50 firsts=  1 golden=10/16 on_Fair_boards=2/29 pool=True
+2 sally_spore            boards=  19 place=6.53 firsts=  0 golden=5/19 on_Fair_boards=2/29 pool=True
+3 cluricaun              boards=  17 place=5.94 firsts=  0 golden=9/18 on_Fair_boards=5/29 pool=True
+3 cradle_fetch           boards=  12 place=5.92 firsts=  0 golden=5/13 on_Fair_boards=6/29 pool=True
+3 lob_lie_by_the_fire    boards=   1 place=6.00 firsts=  0 golden=1/1 on_Fair_boards=0/29 pool=True
+4 changeling             boards=   0 place=nan firsts=  0 golden=0/0 on_Fair_boards=0/29 pool=True
+4 silky                  boards= 165 place=6.22 firsts=  5 golden=78/174 on_Fair_boards=4/29 pool=True
+4 will_o_the_wisp        boards= 230 place=6.06 firsts=  5 golden=78/241 on_Fair_boards=13/29 pool=True
+5 belladonna             boards= 298 place=4.81 firsts= 29 golden=73/315 on_Fair_boards=14/29 pool=True
+5 reel_mistress          boards= 152 place=5.52 firsts=  9 golden=32/158 on_Fair_boards=10/29 pool=True
+6 fairy_monarch          boards=  15 place=1.67 firsts=  8 golden=6/17 on_Fair_boards=5/29 pool=True
+6 queen_of_elfland       boards= 653 place=2.96 firsts=138 golden=230/772 on_Fair_boards=19/29 pool=True
+
+## Hedgerow folk: card on final boards (all 3200 boards). n_boards=boards containing it; mean place; share golden; n on boards labelled Hedgerow folk; mean copies per Hedgerow folk board
+1 kit                    boards=   1 place=4.00 firsts=  0 golden=1/1 on_Hedg_boards=0/281 pool=False
+1 mr_crumb               boards=   2 place=5.50 firsts=  0 golden=1/2 on_Hedg_boards=1/281 pool=True
+1 mrs_burdock            boards=   6 place=5.00 firsts=  0 golden=3/6 on_Hedg_boards=3/281 pool=True
+1 shrewlet               boards=   0 place=nan firsts=  0 golden=0/0 on_Hedg_boards=0/281 pool=False
+1 sleeping_partner       boards=   3 place=5.67 firsts=  0 golden=1/3 on_Hedg_boards=0/281 pool=True
+2 mr_pym                 boards= 207 place=5.75 firsts= 10 golden=83/216 on_Hedg_boards=78/281 pool=True
+2 mrs_clover             boards= 173 place=5.94 firsts=  3 golden=60/181 on_Hedg_boards=56/281 pool=True
+2 mrs_sorrel             boards=  52 place=5.69 firsts=  1 golden=25/53 on_Hedg_boards=24/281 pool=True
+3 alderman_dozey         boards= 291 place=4.90 firsts= 23 golden=65/306 on_Hedg_boards=99/281 pool=True
+3 dr_urchin              boards= 116 place=5.86 firsts=  6 golden=35/124 on_Hedg_boards=70/281 pool=True
+3 sergeant_at_conkers    boards=  54 place=6.44 firsts=  0 golden=16/56 on_Hedg_boards=23/281 pool=True
+4 beadle_warrenby        boards=  25 place=5.96 firsts=  1 golden=13/27 on_Hedg_boards=19/281 pool=True
+4 honorary_treasurer     boards= 142 place=5.63 firsts= 10 golden=51/154 on_Hedg_boards=85/281 pool=True
+4 mrs_mallow             boards= 157 place=5.18 firsts= 15 golden=42/165 on_Hedg_boards=86/281 pool=True
+5 goodman_hayward        boards= 247 place=4.82 firsts= 28 golden=61/266 on_Hedg_boards=100/281 pool=True
+5 standing_committee     boards= 664 place=4.01 firsts=116 golden=194/744 on_Hedg_boards=141/281 pool=True
+6 old_mother_mast        boards= 447 place=2.98 firsts=111 golden=159/523 on_Hedg_boards=167/281 pool=True
+6 squire_lollop          boards= 568 place=2.40 firsts=206 golden=273/707 on_Hedg_boards=146/281 pool=True

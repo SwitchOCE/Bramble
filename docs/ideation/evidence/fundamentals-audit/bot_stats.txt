@@ -1,0 +1,112 @@
+
+== round 6 (alive players only; total = attack+health on board; per-unit = total/units)
+tribe            n   units  tot_p10 tot_p50 tot_p90 tot_p99 tot_max  perunit_p50 perunit_p90  p90/p50 max/p50 tier_mean
+Hedgerow folk    281   6.72      41     51     63     71     77        7.7      9.4    1.24  1.51  2.59
+Hunters          705   6.71      44     54     65     77     89        7.9     10.0    1.20  1.65  2.58
+Oozes            283   6.69      38     47     57     64     65        7.0      8.8    1.21  1.38  2.51
+Bog folk         336   6.71      42     52     63     73     80        7.7      9.8    1.21  1.54  2.59
+Birds            371   6.67      43     51     59     69     72        7.6      9.3    1.16  1.41  2.53
+no_tribe        1195   6.77      42     51     63     74     85        7.6      9.4    1.24  1.67  2.51
+Fairies           29   6.93      46     52     69     78     78        7.6     10.1    1.33  1.50  2.48
+ALL             3200   6.73      42     52     63     73     89        7.6      9.6    1.21  1.71  2.54
+
+== round 8 (alive players only; total = attack+health on board; per-unit = total/units)
+tribe            n   units  tot_p10 tot_p50 tot_p90 tot_p99 tot_max  perunit_p50 perunit_p90  p90/p50 max/p50 tier_mean
+Hedgerow folk    281   6.74      66     80     98    117    124       12.0     14.4    1.23  1.55  3.24
+Hunters          705   6.73      70     87    103    122    129       12.9     16.2    1.18  1.48  3.26
+Oozes            283   6.73      59     72     86     97    102       10.7     13.1    1.19  1.42  3.16
+Bog folk         336   6.73      66     81     98    111    120       12.0     15.0    1.21  1.48  3.27
+Birds            371   6.73      67     79     94    105    114       11.7     14.6    1.19  1.44  3.16
+no_tribe        1195   6.81      64     78     95    114    127       11.4     14.3    1.22  1.63  3.27
+Fairies           29   6.93      71     85     97    114    114       12.1     14.4    1.14  1.34  3.28
+ALL             3200   6.76      65     80     98    115    129       11.7     14.8    1.23  1.61  3.24
+
+== round 10 (alive players only; total = attack+health on board; per-unit = total/units)
+tribe            n   units  tot_p10 tot_p50 tot_p90 tot_p99 tot_max  perunit_p50 perunit_p90  p90/p50 max/p50 tier_mean
+Hedgerow folk    281   6.74      88    111    136    157    171       16.4     20.3    1.23  1.54  4.13
+Hunters          705   6.73      94    117    142    164    183       17.3     21.6    1.21  1.56  4.09
+Oozes            283   6.73      79     94    115    141    148       13.9     17.4    1.22  1.57  4.07
+Bog folk         335   6.73      89    108    130    150    153       16.0     20.0    1.20  1.42  4.07
+Birds            371   6.73      87    105    123    139    147       15.4     18.9    1.17  1.40  4.06
+no_tribe        1192   6.81      84    103    127    151    170       15.1     18.9    1.23  1.65  4.10
+Fairies           29   6.93      85    110    141    158    158       15.7     20.1    1.28  1.44  4.17
+ALL             3196   6.76      85    107    132    155    183       15.7     19.9    1.23  1.71  4.09
+
+== round 12 (alive players only; total = attack+health on board; per-unit = total/units)
+tribe            n   units  tot_p10 tot_p50 tot_p90 tot_p99 tot_max  perunit_p50 perunit_p90  p90/p50 max/p50 tier_mean
+Hedgerow folk    265   6.72     107    139    167    196    218       20.6     25.3    1.20  1.57  4.73
+Hunters          670   6.71     117    144    175    200    219       21.4     26.1    1.22  1.52  4.76
+Oozes            249   6.70      97    118    141    159    165       17.6     21.1    1.19  1.40  4.58
+Bog folk         302   6.70     111    135    164    181    190       20.0     24.6    1.21  1.41  4.72
+Birds            339   6.68     107    130    152    173    184       19.3     23.0    1.17  1.42  4.61
+no_tribe        1018   6.76     105    128    156    184    226       19.0     23.2    1.22  1.77  4.67
+Fairies           26   6.92     112    137    160    191    191       19.6     22.9    1.17  1.39  4.69
+ALL             2869   6.73     106    133    163    190    226       19.7     24.4    1.23  1.70  4.69
+
+== round 14 (alive players only; total = attack+health on board; per-unit = total/units)
+tribe            n   units  tot_p10 tot_p50 tot_p90 tot_p99 tot_max  perunit_p50 perunit_p90  p90/p50 max/p50 tier_mean
+Hedgerow folk    196   6.58     119    158    194    225    241       23.7     29.0    1.23  1.53  5.45
+Hunters          494   6.58     136    171    208    233    256       25.7     31.0    1.22  1.50  5.54
+Oozes            151   6.51     109    136    161    173    186       20.8     24.2    1.18  1.37  5.34
+Bog folk         207   6.56     123    158    190    214    226       23.6     28.6    1.20  1.43  5.46
+Birds            186   6.40     114    151    178    206    223       22.7     28.1    1.18  1.48  5.34
+no_tribe         619   6.55     116    149    182    213    243       22.6     27.8    1.22  1.63  5.48
+Fairies           21   6.81     140    158    202    215    215       23.1     29.4    1.28  1.36  5.57
+ALL             1874   6.55     118    155    194    224    256       23.4     29.3    1.25  1.65  5.47
+
+== round 16 (alive players only; total = attack+health on board; per-unit = total/units)
+tribe            n   units  tot_p10 tot_p50 tot_p90 tot_p99 tot_max  perunit_p50 perunit_p90  p90/p50 max/p50 tier_mean
+Hedgerow folk    158   6.54     131    175    220    259    264       26.3     32.4    1.26  1.51  5.99
+Hunters          383   6.42     144    195    245    289    318       30.0     36.6    1.26  1.63  6.00
+Oozes            108   6.32     116    146    175    190    215       22.6     26.8    1.20  1.47  5.99
+Bog folk         162   6.46     133    178    220    239    254       27.0     32.4    1.24  1.43  6.00
+Birds            114   6.16     119    164    208    239    264       25.6     32.7    1.27  1.61  5.99
+no_tribe         443   6.44     126    164    212    254    304       25.4     32.6    1.29  1.85  6.00
+Fairies           15   6.67     153    193    235    257    257       28.3     36.7    1.22  1.33  6.00
+ALL             1383   6.42     128    174    225    265    318       26.8     33.9    1.29  1.83  6.00
+
+== round 12 total stats by final place (all tribes)
+place 1: n=400 p50=149 p90=182
+place 2: n=400 p50=139 p90=168
+place 3: n=400 p50=131 p90=162
+place 4: n=400 p50=130 p90=157
+place 5: n=400 p50=134 p90=156
+place 6: n=397 p50=131 p90=151
+place 7: n=331 p50=127 p90=151
+place 8: n=141 p50=125 p90=145
+
+== winners (place 1) final board: total stats and per unit, by tribe
+Hedgerow folk   wins= 71 final_round_p50=20 tot_p50=220 tot_p90=292 tot_max=384 perunit_p50=32.8 perunit_max=54.9
+Hunters         wins=124 final_round_p50=19 tot_p50=263 tot_p90=312 tot_max=426 perunit_p50=38.7 perunit_max=60.9
+Oozes           wins= 26 final_round_p50=19 tot_p50=184 tot_p90=221 tot_max=262 perunit_p50=26.7 perunit_max=37.4
+Bog folk        wins= 43 final_round_p50=19 tot_p50=234 tot_p90=275 tot_max=428 perunit_p50=34.0 perunit_max=61.1
+Birds           wins= 18 final_round_p50=20 tot_p50=231 tot_p90=261 tot_max=383 perunit_p50=36.0 perunit_max=54.7
+no_tribe        wins=109 final_round_p50=19 tot_p50=228 tot_p90=325 tot_max=486 perunit_p50=34.4 perunit_max=71.6
+Fairies         wins=  9 final_round_p50=21 tot_p50=332 tot_p90=413 tot_max=422 perunit_p50=60.3 perunit_max=91.0
+
+== place distribution by final tribe
+Hedgerow folk   n= 281 1:0.25 2:0.14 3:0.10 4:0.11 5:0.13 6:0.10 7:0.08 8:0.08 mean=3.75
+Hunters         n= 705 1:0.18 2:0.16 3:0.15 4:0.12 5:0.12 6:0.11 7:0.09 8:0.06 mean=3.89
+Oozes           n= 283 1:0.09 2:0.12 3:0.13 4:0.12 5:0.13 6:0.14 7:0.12 8:0.16 mean=4.76
+Bog folk        n= 336 1:0.13 2:0.15 3:0.15 4:0.13 5:0.10 6:0.12 7:0.12 8:0.10 mean=4.30
+Birds           n= 371 1:0.05 2:0.09 3:0.12 4:0.12 5:0.15 6:0.17 7:0.16 8:0.14 mean=5.10
+no_tribe        n=1195 1:0.09 2:0.11 3:0.11 4:0.13 5:0.12 6:0.12 7:0.15 8:0.16 mean=4.86
+Fairies         n=  29 1:0.31 2:0.03 3:0.10 4:0.17 5:0.14 6:0.07 7:0.07 8:0.10 mean=3.79
+
+== fight win share (wins/(wins+losses)) by round band
+Hedgerow folk    R1-4: 0.48 (n=990)  R5-8: 0.53 (n=1124)  R9-12: 0.56 (n=1106)  R13-16: 0.60 (n=762)  R17-30: 0.70 (n=430)
+Hunters          R1-4: 0.52 (n=2495)  R5-8: 0.55 (n=2820)  R9-12: 0.59 (n=2783)  R13-16: 0.58 (n=1887)  R17-30: 0.56 (n=1036)
+Oozes            R1-4: 0.53 (n=1008)  R5-8: 0.45 (n=1132)  R9-12: 0.47 (n=1090)  R13-16: 0.55 (n=580)  R17-30: 0.51 (n=276)
+Bog folk         R1-4: 0.48 (n=1185)  R5-8: 0.53 (n=1344)  R9-12: 0.55 (n=1305)  R13-16: 0.55 (n=815)  R17-30: 0.55 (n=433)
+Birds            R1-4: 0.49 (n=1309)  R5-8: 0.48 (n=1484)  R9-12: 0.45 (n=1446)  R13-16: 0.42 (n=701)  R17-30: 0.49 (n=230)
+no_tribe         R1-4: 0.50 (n=4249)  R5-8: 0.47 (n=4780)  R9-12: 0.46 (n=4563)  R13-16: 0.51 (n=2399)  R17-30: 0.55 (n=1096)
+Fairies          R1-4: 0.46 (n=102)  R5-8: 0.53 (n=116)  R9-12: 0.57 (n=113)  R13-16: 0.58 (n=77)  R17-30: 0.82 (n=45)
+
+== bank and larder (held acorn gold) p50/p90 by tribe at rounds 8/12
+Hedgerow folk    R8 bank p50=12 p90=15 larder p50=0 p90=2 spent p50=12  R12 bank p50=11 p90=13 larder p50=0 p90=1 spent p50=11
+Hunters          R8 bank p50=12 p90=16 larder p50=0 p90=2 spent p50=13  R12 bank p50=12 p90=14 larder p50=0 p90=1 spent p50=11
+Oozes            R8 bank p50=12 p90=16 larder p50=0 p90=2 spent p50=12  R12 bank p50=12 p90=14 larder p50=0 p90=1 spent p50=11
+Bog folk         R8 bank p50=13 p90=17 larder p50=0 p90=2 spent p50=13  R12 bank p50=12 p90=15 larder p50=0 p90=1 spent p50=11
+Birds            R8 bank p50=12 p90=16 larder p50=0 p90=2 spent p50=13  R12 bank p50=11 p90=13 larder p50=0 p90=1 spent p50=11
+no_tribe         R8 bank p50=12 p90=16 larder p50=0 p90=2 spent p50=13  R12 bank p50=12 p90=15 larder p50=0 p90=1 spent p50=11
+Fairies          R8 bank p50=12 p90=14 larder p50=0 p90=2 spent p50=13  R12 bank p50=11 p90=14 larder p50=0 p90=1 spent p50=11

@@ -1,0 +1,39 @@
+Head to head. Spread = 7 x (b+k)/(b+k). Concentrated = 6 x b/b + one (b+7k)/(b+7k). Equal stats.
+Win % of the CONCENTRATED board (carry at F1 | carry at B2), ties shown as t
+
+-- k=1: +1/+1 on all seven vs +7/+7 on one
+ base   2/2  : conc@F1   0.0  conc@B2   0.0
+ base   3/3  : conc@F1   0.0  conc@B2   0.0
+ base   4/4  : conc@F1   0.0  conc@B2   0.0
+ base   5/5  : conc@F1   0.0  conc@B2   0.0
+ base   6/6  : conc@F1   0.0  conc@B2   0.0
+ base   8/8  : conc@F1   0.0  conc@B2   0.0
+ base  10/10 : conc@F1   0.0  conc@B2   0.0
+ base  12/12 : conc@F1   0.0  conc@B2   0.0
+ base  15/15 : conc@F1   0.0  conc@B2   0.0
+ base  20/20 : conc@F1   0.0  conc@B2   0.0
+ base  30/30 : conc@F1   0.0  conc@B2   0.0
+ base  50/50 : conc@F1   0.0  conc@B2   0.0
+ base 100/100: conc@F1   0.0  conc@B2   0.0
+
+-- k=2: +2/+2 on all seven vs +14/+14 on one
+ base   2/2  : conc@F1  16.4  conc@B2   7.8
+ base   3/3  : conc@F1  16.4  conc@B2   8.9
+ base   4/4  : conc@F1   0.0  conc@B2   0.0
+ base   5/5  : conc@F1   0.0  conc@B2   0.0
+ base   6/6  : conc@F1   0.0  conc@B2   0.0
+ base   8/8  : conc@F1   0.0  conc@B2   0.0
+ base  10/10 : conc@F1   0.0  conc@B2   0.0
+ base  12/12 : conc@F1   0.0  conc@B2   0.0
+ base  15/15 : conc@F1   0.0  conc@B2   0.0
+ base  20/20 : conc@F1   0.0  conc@B2   0.0
+ base  30/30 : conc@F1   0.0  conc@B2   0.0
+ base  50/50 : conc@F1   0.0  conc@B2   0.0
+ base 100/100: conc@F1   0.0  conc@B2   0.0
+
+Against 300 random heterogeneous reference boards with the same total stats as the spread board
+ base 3: spread +1/+1 wins 14.8%  |  +7/+7 on one wins 32.5%
+ base 5: spread +1/+1 wins 22.7%  |  +7/+7 on one wins 33.8%
+ base 8: spread +1/+1 wins 22.1%  |  +7/+7 on one wins 39.7%
+ base 12: spread +1/+1 wins 24.4%  |  +7/+7 on one wins 44.0%
+ base 20: spread +1/+1 wins 25.1%  |  +7/+7 on one wins 37.4%

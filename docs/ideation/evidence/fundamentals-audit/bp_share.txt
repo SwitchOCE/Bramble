@@ -1,0 +1,3 @@
+scale x1: of 6561 unit-vs-unit pairs, +1 Attack cuts the hits needed in 32.7%; +1 Health adds a hit survived in 26.3%
+scale x10: of 6724 unit-vs-unit pairs, +1 Attack cuts the hits needed in 7.6%; +1 Health adds a hit survived in 3.2%
+R9 board units: attack median 4.0 range 0 13 ; health median 6.0 range 2 16

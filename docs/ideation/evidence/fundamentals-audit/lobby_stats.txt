@@ -1,0 +1,75 @@
+Rounds 5+: win rate by total-stat quartile within the lobby round (Q1 = biggest boards)
+  Q1:  70.9% of 8418
+  Q2:  53.0% of 7819
+  Q3:  41.1% of 8127
+  Q4:  36.9% of 7466
+Win rate by board total / lobby-round median
+  0.6-0.7x:  37.7% of 668
+  0.7-0.8x:  37.3% of 2007
+  0.8-0.9x:  36.3% of 4607
+  0.9-1.0x:  41.0% of 7905
+  1.0-1.1x:  53.3% of 9117
+  1.1-1.2x:  65.8% of 4098
+  1.2-1.3x:  75.4% of 2002
+  1.3-1.4x:  82.9% of 894
+  1.4-1.5x:  91.0% of 532
+Win rate by attack share of board stats (rounds 5+)
+  0.3:  40.4% of 2555
+  0.4:  49.9% of 22447
+  0.5:  58.3% of 6710
+Unit counts, rounds 7+ (late=True):
+  3 units:   0.0% of 2
+  4 units:  40.9% of 22
+  5 units:  72.7% of 3565
+  6 units:  42.2% of 268
+  7 units:  47.7% of 21573
+Median attack share by round: {3: 0.353, 6: 0.385, 9: 0.423, 12: 0.435, 15: 0.447, 18: 0.452}
+Final boards by place: units, attack, health, rounds (medians)
+  place 1: units 7.0, atk 110.0, hp 128.0, per-unit 35.9, rounds 19.5
+  place 2: units 7.0, atk 90.5, hp 108.0, per-unit 32.6, rounds 19.5
+  place 3: units 7.0, atk 75.0, hp 93.5, per-unit 27.1, rounds 17.0
+  place 4: units 7.0, atk 67.0, hp 85.0, per-unit 23.1, rounds 16.0
+  place 5: units 7.0, atk 64.0, hp 83.0, per-unit 21.1, rounds 14.0
+  place 6: units 7.0, atk 60.0, hp 78.0, per-unit 19.8, rounds 13.0
+  place 7: units 7.0, atk 54.0, hp 73.0, per-unit 18.1, rounds 12.0
+  place 8: units 7.0, atk 47.0, hp 65.0, per-unit 16.0, rounds 11.0
+Rounds 7+: rows by units and hero (win %)
+  4 units, brother_bracken       :    87 rows, win  34.5%
+  5 units, brother_bracken       :  4473 rows, win  66.7%
+  5 units, march_hare            :    47 rows, win  27.7%
+  5 units, old_mother_mousewife  :    38 rows, win  50.0%
+  5 units, little_king_wren      :    30 rows, win  26.7%
+  6 units, march_hare            :   119 rows, win  44.5%
+  6 units, old_mother_mousewife  :    90 rows, win  48.9%
+  6 units, little_king_wren      :    67 rows, win  50.7%
+  6 units, pipkin                :    58 rows, win  44.8%
+  6 units, dame_hoolet           :    42 rows, win  38.1%
+  6 units, hob_mumblecrust       :    41 rows, win  39.0%
+  6 units, dame_farthing         :    31 rows, win  45.2%
+  6 units, jill_down_the_tree    :    31 rows, win  32.3%
+  7 units, old_mother_mousewife  :  3557 rows, win  53.9%
+  7 units, little_king_wren      :  3554 rows, win  49.8%
+  7 units, hob_mumblecrust       :  3286 rows, win  46.2%
+  7 units, march_hare            :  3054 rows, win  64.3%
+  7 units, dame_hoolet           :  3004 rows, win  43.9%
+  7 units, dame_farthing         :  2901 rows, win  41.5%
+  7 units, pipkin                :  2623 rows, win  53.8%
+  7 units, jill_down_the_tree    :  2343 rows, win  44.0%
+  4 units: median board total / lobby-round median = 0.75
+  5 units: median board total / lobby-round median = 0.86
+  6 units: median board total / lobby-round median = 1.00
+  7 units: median board total / lobby-round median = 1.01
+Mean place by hero: {'brother_bracken': 2.7, 'march_hare': 3.57, 'old_mother_mousewife': 3.99, 'pipkin': 4.36, 'little_king_wren': 4.49, 'hob_mumblecrust': 5.12, 'dame_hoolet': 5.31, 'jill_down_the_tree': 5.38, 'dame_farthing': 5.53}
+Rounds 7+, combat-time totals (Bracken +X/+X added). Win % by total / lobby-round median:
+  ratio   7-unit boards (not Bracken)   Bracken 5-unit boards
+  0.6x     9.6% of    83             33.3% of    3
+  0.7x    16.5% of   780             20.0% of   15
+  0.8x    25.7% of  2805              8.0% of   88
+  0.9x    35.4% of  5142             25.6% of  356
+  1.0x    51.9% of  8687             50.2% of 1302
+  1.1x    66.2% of  3837             68.1% of  865
+  1.2x    75.9% of  1766             83.5% of  662
+  1.3x    84.2% of   727             87.9% of  521
+  1.4x    90.8% of   304             93.3% of  341
+  1.5x    94.7% of   133             95.9% of  197
+  1.6x    94.4% of    36             98.8% of   86

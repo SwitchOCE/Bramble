@@ -1,0 +1,36 @@
+games 1000
+final turn dist [(14, 330), (13, 270), (15, 166), (12, 87), (16, 57), (11, 17), (10, 16), (7, 16), (17, 15), (8, 12), (9, 10), (18, 4)]
+turn 7-10 n=54 total p10/p50/p90 75/207/761  biggest unit p10/p50/p90 25/70/251  top1 share p10/p50/p90 0.21/0.34/0.57  units<7 24
+turn 11-12 n=104 total p10/p50/p90 1315/5287/25647  biggest unit p10/p50/p90 440/1686/9345  top1 share p10/p50/p90 0.21/0.31/0.61  units<7 15
+turn 13-13 n=270 total p10/p50/p90 2260/13446/60534  biggest unit p10/p50/p90 808/4838/20704  top1 share p10/p50/p90 0.20/0.32/0.62  units<7 38
+turn 14-14 n=330 total p10/p50/p90 4387/25343/86078  biggest unit p10/p50/p90 1344/8540/37139  top1 share p10/p50/p90 0.21/0.33/0.66  units<7 46
+turn 15-15 n=166 total p10/p50/p90 5510/30243/119568  biggest unit p10/p50/p90 1361/9126/56034  top1 share p10/p50/p90 0.20/0.36/0.69  units<7 19
+turn 16-20 n=76 total p10/p50/p90 8001/46103/162995  biggest unit p10/p50/p90 3512/12311/93108  top1 share p10/p50/p90 0.21/0.42/0.81  units<7 8
+top1 share overall: median 0.336  share>0.5: 0.224  share>0.3: 0.591  even (<=1/7*1.5): 0.128
+ranks p10/p50/p90 4787 6269 7496
+archetype: n, median total, median top1 share
+  None                          190      9084 0.31 13
+  beast_lobster                 171     30520 0.30 14
+  pirate_discover                69     35522 0.20 14
+  dragon_shield                  47      5871 0.36 14
+  mech_apm                       43     25203 0.48 14
+  mech_volumizer                 40     18289 0.48 14
+  elemental_azerite              40     33581 0.48 14
+  neutral_tea_set                38     26459 0.38 13
+  demon_boost_shop               36     36373 0.60 14
+  quilboar_choose_one            36     28831 0.26 14
+  aberration_discard             31      9707 0.22 14
+  undead_butcher                 29     19492 0.51 14
+  demon_self_damage              29     18693 0.42 14
+  dragon_spell_power             28      7182 0.29 14
+  quilboar_gem_spam              28     17005 0.43 14
+  undead_eternal_knight          21      7327 0.49 14
+  murloc_handbuff                18      2921 0.34 14
+  undead_apm                     16     10846 0.30 14
+  quilboar_felboar_spam          13     21559 0.57 14
+  pirate_bounty                  12      8482 0.28 13
+  beast_beetle                   12      1088 0.30 14
+  aberration_deathrattle         11      2259 0.34 13
+  murloc_scam                    10      4428 0.55 15
+  mech_glambot                    9     38464 0.51 14
+  elemental_tempest               8     11755 0.49 14

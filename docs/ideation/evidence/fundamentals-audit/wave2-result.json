@@ -1,0 +1,1325 @@
+{
+ "maps": [
+  {
+   "key": "content-a",
+   "summary": "I audited all 48 pool cards in Birds, Bog folk and Fairies (16 each) against the card JSON, the engine code and the ideation rules. The full per-card table is in the detail file.\n\nThe main result: none of the three tribes has a permanent pile of stats that the player picks, protects and grows from gold. Hedgerow has one.\n- **Birds** have one uncapped grower, the Cuckoo. But the Bird it grows is away, so it fights as an Egg at half stats unless Redwing stands beside it. Redwing and the Cuckoo compete for the same slot next to the Nest.\n- **Bog**'s permanent growth is small and rate-limited: Ranocchio +1/+1 a fight, Tiddy Mun +2/+2 a fight, Bridge Toad capped at +3/+3. Nine of its 13 stat payoffs last one fight only.\n- **Fairies** keep their power on slots, capped at +4/+4 a slot. Only the Queen concentrates, and only on a board with a single other Fairy.\n\nWhat sets Hedgerow apart: Acorns are gold that turns straight into stats, Pass lets the player choose the carry, and its late payoffs only need a full board.\n\nThe owner's claim checks out for Birds (worst in every measure), partly for Bog, and is not shown for Fairies: their high-roll test board wins 77% (best of the high rolls), and bots picked Fairies only 29 times in 3,200 seats.\n\nThe bot data shows almost no snowballing (best board under 2x the median). Average units at round 16 are about 13/14, and highroll piles reach 25-30 per stat: 4-8x below the owner's Battlegrounds reference. Bufo, Belladonna and Changeling shrink big units proportionally, so they gain value if stats rise. The flat debuffs (Bitter, Jenny's -2 Attack, Jack Daw, Hex) lose value.",
+   "findings": [
+    {
+     "claim": "Each tribe's biggest-unit route is blocked by structure, not by numbers. Birds: one uncapped grower (Cuckoo), but its Bird is away and shows at half stats. Bog: no permanent pile beyond Ranocchio's +1/+1 a fight. Fairies: Rings capped at +4/+4 a slot; only the Queen concentrates, and she needs a board with one other Fairy.",
+     "evidence": "Card files content/units/{cuckoo,redwing,signor_ranocchio,tiddy_mun,bridge_toad,queen_of_elfland}.json. Rule 12.1.4: Eggs fight at half stats (docs/design/rulebook.md:790). Rule 8.5.4: the Ring cap (rulebook.md:506). Engine: src/core/mechanics/teind.gd splits the Queen's pool evenly among every other Fairy; board_geometry.gd:15 makes 'adjacent' the same row only, so 'beside' reaches at most 2 units.",
+     "numbers": "Concentrating stat payoffs, yes / partly: Birds 4/3 of 11, Bog 1/3 of 13 (the 1 is Lantern Man, combat only), Fairies 1/3 of 16, Hedgerow 6 of 13. Biggest unit as a multiple of the average unit on a highroll: Birds about 1.5-2x, Bog about 1.2x permanent (1.8x for Lantern Man's combat Attack), Fairies about 1.1-1.3x unless the Queen is fed into one Fairy."
+    },
+    {
+     "claim": "Most payoffs in these tribes last one fight only, and Bog's almost entirely so. Permanent growth is slow and capped early: Bridge Toad stops at 4/6 by about round 5, Peat Cutter pays 3 gold in all, Rings stop at +4/+4 by rounds 8-10, Hex stops at your tier. Every Bog grower is limited to once or twice a fight.",
+     "evidence": "permanent_buff_cap 3 (bridge_toad.json:37). Limits: signor_ranocchio.json:20 (once), tiddy_mun.json:18 and peat_king.json:21 (twice). Peat Cutter's 'lifetime': 3. Hex 'most': 'tier'. Rule 12.1.1a (rulebook.md:780) caps feeding, Pinches and permanent combat gains.",
+     "numbers": "Combat-only stat payoffs: Bog 9 of 13, Birds 6 of 11 (plus Mother Goose's strikes), Fairies 6 of 16, Hedgerow 4 of 13. Bog's best permanent growth on a highroll is about +6 stats a fight (Ranocchio 2 + Tiddy 4). The Cuckoo gives about +6 a turn. Annis, Hob, Lob and Sally give +2 a turn each."
+    },
+    {
+     "claim": "Only Hedgerow can turn spare gold into stats inside the tribe and keep compounding. Birds' route is slow (Mrs Stork brings Mother Goose home, at most every 2 turns), Bog has no route at all, and Fairies' route is the Queen.",
+     "evidence": "Hedgerow: alderman_dozey.json ('Feeding rounds up', so 1 Acorn = +1/+1), mr_pym (Pass +2/+2 per Stash), beadle_warrenby, goodman_hayward, old_mother_mast. Birds: one_swallow and mrs_jay pay 1 gold or 1 Acorn a cycle, and flights pay no sale gold (12.1.4). Bog: young_pretender and peat_cutter pay gold that no Bog card spends.",
+     "numbers": "Stork + Goose: about 14 stats, spread, per 6 gold. Queen: about 30 stats per 3 turns for 6 gold of rebuys (golden: about 60). Hedgerow: 2 stats per gold onto Dozey, plus +1/+1 on every touching Hedgerow unit per Stash with Hayward."
+    },
+    {
+     "claim": "Hedgerow's edge is structural: its economy and stats share one currency (Acorns), the player chooses and protects the carry (Pass, Dozey), its late payoffs need only a full board, and its growth is permanent. The evidence splits on which of these matters. Bot wins track the board-wide Start of Combat buffs and the Acorn economy; the constructed test boards track concentration in Dozey.",
+     "evidence": "Bot final boards (free_choice_plain.cards.csv joined to players.csv, scratch scripts/bots4.py). Constructed round-9 boards: docs/ideation/evidence/pass2-followup/r9-results.md and pass2-followup-boards.md.",
+     "numbers": "Bot Hedgerow boards with Squire Lollop: mean place 2.18, 47.9% first (n=146). With Standing Committee: 2.89, 36.2%. With Old Mother Mast: 2.62. With Alderman Dozey: 4.07, worse than without him (3.58). Constructed low roll: hedgerow_low wins 99.6% with Dozey at 10/16, 40% of its 65 stats."
+    },
+    {
+     "claim": "The owner's hypothesis ('Hedgerow is fine; others are too weak') is right for Birds, partly right for Bog, and not shown for Fairies.",
+     "evidence": "build/sim/pass2-followup/lobbies/free_choice_plain.summary.csv (400 lobbies, 3,200 seats). Constructed round-9 same-roll results: r9-results.md.",
+     "numbers": "Birds: mean place 5.10 (CI 4.91-5.29), 4.9% first, high board 34.5%. Bog: 4.30, 12.8% first (fair share is 12.5%), high 28.3%, low 61.9%. Fairies: high board 77.0% (best of the highs), low 10.2%; only 29 bot seats. Hedgerow: 3.75, 25.3% first, high 44.9%, low 99.6%."
+    },
+    {
+     "claim": "Concentration helps once the big unit clears the enemy's Attack and Health thresholds. Below them, the total still matters. And stats parked in textless Eggs underperform.",
+     "evidence": "Scratch scripts/fixtures2.py over the constructed round-9 boards.",
+     "numbers": "hedgerow_low: 65 total, biggest 10/16, wins 99.6%. fairies_low: 50 total, biggest 8/10 (36% of its stats), wins 10.2%. birds_high: 102 total, the most of any board, with two 9/10-ish Eggs, wins 34.5%. Caveat: +1/+1 on every unit moves most boards by 30-68 percentage points, so these are threshold tests."
+    },
+    {
+     "claim": "Bot play shows almost no snowballing and a low stat scale. It cannot measure the curve shape the owner cares about.",
+     "evidence": "free_choice_plain.rounds.csv (all seats), scratch scripts/bots3.py.",
+     "numbers": "Board stat totals: round 8 median 80, top 1% 116, max 129. Round 12: 133 / 191 / 226. Round 16: 174 / 266 / 318 (top 1% is 1.53x the median). The biggest board in a lobby is 1.22x the lobby median at round 12 (1.38 at the 90th percentile). Gold at the start of round 12: median 12, top 1% 17. Average stats per unit at round 16: 26-30, about 13/14."
+    },
+    {
+     "claim": "Typical and highroll estimates, combat stats (stats per unit and biggest unit). Birds: 11 and 6/8 typical, 14 and 9/10 highroll at round 8; 18 and 11/12 typical, 21 and 18/19 highroll at round 12; 25 and 19/20 typical, 29 and 25/26 to 30/31 highroll at round 16. Bog: 11 and 4/6-3/7 typical, 12 and 8/9 highroll at round 8; 19 and 8/9 typical, 20 and 12/13 highroll at round 12 (Lantern Man 22/11 in combat); 26 and 13/14 typical, 27 and 16/17 to 21/25 highroll at round 16 (Lantern Man 25/11, golden 47/19). Fairies: 10 and 6/8 typical, 13 and 8/11 highroll at round 8; 17 and 9/12 typical, 23 and 12/20 highroll at round 12; 23 and 12/16 typical, 28 and 12/21 highroll at round 16. A Queen-fed lone Fairy reaches about 44/68 at round 16.",
+     "evidence": "Growth arithmetic in scratch scripts/growth.py. Highroll round-8 values match the constructed round-9 boards (pass2-followup-boards.md). Typical averages match bot recruit stats.",
+     "numbers": "Bot recruit stats per unit at rounds 8/12/16: Birds 12.0/19.6/26.5, Bog 12.3/20.4/27.4, Fairies 12.2/19.8/29.3 (n=29/26/15), Hedgerow 12.1/20.7/27.0."
+    },
+    {
+     "claim": "The two Bird routes work against each other, and the Cuckoo does not pay off in bot hands.",
+     "evidence": "Old Tern, Mrs Stork and Mrs Dunnock bring Birds home early, which cuts the trips the Cuckoo lengthens (held_units.gd land_flock and shorten_trip). Redwing and the Cuckoo both need the same-row slot next to the Nest (board_geometry.gd:15).",
+     "numbers": "Bot Bird boards: with the Cuckoo, mean place 5.61 vs 4.57 without; with Mrs Stork, 5.44 vs 4.75. Only 66 of 371 Bird boards had the Cuckoo together with Redwing, the Great Lump or the Gabble Ratchet."
+    },
+    {
+     "claim": "The answers to big units divide by type. The ones that shrink a unit by a share grow stronger as stats rise: Madame Bufo halves Attack, Belladonna's Nightshade halves current Health each time the unit is attacked, and the Changeling turns the enemy's carry on its own team. The flat ones weaken: Bitter, Jenny's -2 Attack, Jack Daw's 2-Attack steal, Hex capped at your tier.",
+     "evidence": "combat_moves.gd:248-257 (Nightshade); madame_bufo.json, changeling.json, jack_daw.json, hedge_witch.json, jenny_greenteeth.json.",
+     "numbers": "Against a 30/30 carry: Nightshade takes 15 Health before the first hit, Bufo leaves it at 14 Attack, and the Changeling deals 30 to its own side. Jack Daw takes 2 (7%). Bitter 2 takes about 7%."
+    },
+    {
+     "claim": "The bot lobby data has measurement gaps that bias it against Birds, Fairies and Bog, and the files have changed since the brief.",
+     "evidence": "tools/sim/bench.gd:383-393 sums combat_spec (base + permanent + tribe bonus; recruit_unit.gd:180-189), so auras, Rings, Eggs and combat-only effects are left out. The benchmark is complete: progress.json shows stage 'complete'. The files are free_choice_plain.*.csv; the hidden .0 files named in the brief don't exist.",
+     "numbers": "400 lobbies, 3,200 seats, no missing fields. Fairies were chosen in 29 of 2,576 seats where they were in the lobby. Queen of Elfland is on 653 final boards, 634 of them not Fairy boards, where Teind only destroys."
+    },
+    {
+     "claim": "The design docs and the shipped cards have drifted apart; the JSON is what the game plays.",
+     "evidence": "pass2-b.md gives Ranocchio 3/5, twice a fight; the JSON has 3/4, once a fight. pass2-bog.md gives Tiddy Mun 'first, +2 Health' and Bridge Toad 'once a fight'; the JSON has Tiddy +1/+1 after the hit, twice a fight, and the Toad capped 'up to +3/+3'. src/core/mechanics/bitter.gd still says Bitter applies after damage, while combat_reactions.gd:55 applies it at declaration, as rule 9.6.0 says.",
+     "numbers": ""
+    }
+   ],
+   "assumptions": [
+    {
+     "assumption": "Eggs fighting at half stats is a fair price for flying.",
+     "where": "docs/design/rulebook.md:790 (12.1.4); src/core/held_units.gd:344",
+     "explicit": true,
+     "risk": "high",
+     "evidence_for": "The designers wanted flying to cost tempo (docs/ideation/content/birds.md).",
+     "evidence_against": "Birds are last in lobbies (place 5.10, 4.9% first). birds_high has the biggest round-9 total (102) and wins 34.5%. Bot boards with the Cuckoo place worse.",
+     "test": "Constructed round-12 and round-16 Bird boards with Eggs at half vs full Health, against the other tribes' boards at the same rounds."
+    },
+    {
+     "assumption": "The Ring cap of +4/+4 a slot keeps Fairies fair without flattening them.",
+     "where": "rulebook.md:506 (8.5.4)",
+     "explicit": true,
+     "risk": "medium",
+     "evidence_for": "fairies_high wins 77% at round 9.",
+     "evidence_against": "The only Fairy concentrator is the Queen, and she works against Fairy Monarch and Harvest Supper. fairies_low wins 10.2%. The biggest standing Fairy at round 16 is about 12/21.",
+     "test": "Round-12 and round-16 Fairy test boards with the cap at 4, at 8, and scaled with tier."
+    },
+    {
+     "assumption": "Once- and twice-a-fight limits keep Bog's growth safe without making it irrelevant.",
+     "where": "signor_ranocchio.json:20, tiddy_mun.json:18, bridge_toad.json:37",
+     "explicit": false,
+     "risk": "high",
+     "evidence_for": "pass2-bog.md section 8 worried that late walls would grind fights out slowly.",
+     "evidence_against": "Bog's best permanent growth is about +6 stats a fight. The owner wants bigger numbers, and wants rewards to give power.",
+     "test": "Round-12 and round-16 Bog test boards with Ranocchio at twice a fight and Tiddy Mun at three times."
+    },
+    {
+     "assumption": "Flat answers (Bitter 1-2, Jenny's -2 Attack, Jack Daw's 2, Hex up to your tier) stay relevant at any stat scale.",
+     "where": "card texts",
+     "explicit": false,
+     "risk": "medium",
+     "evidence_for": "They are fine at round-9 scale, where enemy Attack is 5-8.",
+     "evidence_against": "Their value falls in proportion as stats rise. The proportional answers (Bufo, Belladonna, Changeling) gain.",
+     "test": "Re-run the round-9 test boards with every stat doubled."
+    },
+    {
+     "assumption": "Bot board totals compare tribes fairly.",
+     "where": "tools/sim/bench.gd:383-393",
+     "explicit": false,
+     "risk": "high",
+     "evidence_for": "The same measure is used for every tribe.",
+     "evidence_against": "The totals leave out auras, Rings, Eggs and combat-only power, so they understate Birds, Fairies and Bog.",
+     "test": "Log each unit's stats at the start of combat in the bench."
+    },
+    {
+     "assumption": "Bot lobbies can rate Fairies.",
+     "where": "free_choice_plain.summary.csv",
+     "explicit": false,
+     "risk": "high",
+     "evidence_for": "",
+     "evidence_against": "Only 29 Fairy seats. Bots play Queen of Elfland on 634 non-Fairy boards, where her Teind only destroys their own units.",
+     "test": "Use the constructed boards for Fairies; ignore the lobby rate."
+    },
+    {
+     "assumption": "Birds' two routes (Homecoming and Hatchery) can mix.",
+     "where": "docs/ideation/content/birds-pass1.md, 'Two routes that mix'",
+     "explicit": true,
+     "risk": "medium",
+     "evidence_for": "Mother Goose and the Cuckoo serve both routes.",
+     "evidence_against": "Old Tern, Mrs Stork and Mrs Dunnock end Cuckoo trips early, and Redwing competes with the Cuckoo for the slot beside the Nest.",
+     "test": "Round-12 test boards: Hatchery only vs a mixed board."
+    },
+    {
+     "assumption": "Bog walls survive long enough for its on-attacked payoffs to fire.",
+     "where": "rulebook 9.4.5a and 9.6.0",
+     "explicit": false,
+     "risk": "medium",
+     "evidence_for": "Making Bitter hit first moved Bog's high board from 12% to 51% (pass2-bog.md section 6).",
+     "evidence_against": "On a board one Supper short, Bog falls to 3.5%: a cliff.",
+     "test": "Sweep enemy Attack against the Bog test boards."
+    },
+    {
+     "assumption": "Hedgerow's lead comes from its structure, not from two cards.",
+     "where": "owner note 2026-11-09a",
+     "explicit": true,
+     "risk": "medium",
+     "evidence_for": "Its Acorn economy feeds its stats directly, and the Dozey low-roll board wins 99.6%.",
+     "evidence_against": "Its lobby wins track Squire Lollop and Standing Committee (47.9% and 36.2% first when on the final board); Dozey boards do worse.",
+     "test": "Replace Lollop and Committee with plain T5 and T6 bodies and re-run the test boards."
+    },
+    {
+     "assumption": "No tribe needs its own way to turn gold into stats.",
+     "where": "content/units, content/spells",
+     "explicit": false,
+     "risk": "high",
+     "evidence_for": "The neutral spells Pinch of Dust and Last Orders exist for everyone.",
+     "evidence_against": "Bog has no such route. Birds' route is rate-limited. Only Hedgerow's compounds.",
+     "test": "Round-12 and round-16 test boards that spend surplus gold through each tribe's route."
+    }
+   ],
+   "motivations": [
+    {
+     "system": "Fly South and Nests (Birds)",
+     "player_wants": "Replay When played text, and grow Birds while they are away, then cash them in.",
+     "tension": "An away Bird fights as a half-stat Egg with no text. Homecoming cards end the trips the Cuckoo is growing."
+    },
+    {
+     "system": "The Cuckoo, Redwing, the Great Lump and the Gabble Ratchet",
+     "player_wants": "One huge Bird expressed in full.",
+     "tension": "Redwing and the Cuckoo need the same same-row slot next to the Nest, and the pile shows at full size only for a moment in combat."
+    },
+    {
+     "system": "Mire and Bitter (Bog)",
+     "player_wants": "Pick the matchups, and grow walls that hold the enemy carry.",
+     "tension": "Every payoff needs the enemy to attack into you, and most gains vanish after the fight. Permanent growth is limited to once or twice a fight."
+    },
+    {
+     "system": "Rings (Fairies)",
+     "player_wants": "Turn slots into power, and fill empty slots with Wisps.",
+     "tension": "The +4/+4 cap stops a slot from holding a carry, and empty slots compete with having a full board."
+    },
+    {
+     "system": "Shy (Hob-in-the-Hearth, Lob-Lie-by-the-Fire, Silky)",
+     "player_wants": "Early support growth, then a cash-out for gold and Rings.",
+     "tension": "Shy units can't be buffed, so they become dead weight. The cash-out happens once."
+    },
+    {
+     "system": "Queen of Elfland",
+     "player_wants": "Concentrate the board's stats into one Fairy.",
+     "tension": "She splits evenly among every other Fairy, so concentrating means dropping Fairy Monarch and Supper's tribe-wide value. She destroys your own units."
+    },
+    {
+     "system": "Acorns (Hedgerow, as the benchmark)",
+     "player_wants": "An economy lead that becomes a stat lead.",
+     "tension": "No other tribe gives the same loop; their economy cards pay gold that no tribal card spends."
+    }
+   ],
+   "owner_questions": [
+    {
+     "question": "Should flying cost half a Bird's stats in combat?",
+     "why": "Every Hatchery payoff (Cuckoo, Lump, Redwing, Ratchet) is diluted by half-stat Eggs. Birds are last in the lobbies, and their biggest board at round 9 still loses. This is an identity call about whether a Bird is still defending its Nest while away.",
+     "default_answer": "Eggs fight at full Health and half Attack by default. Tom Tit gives full Attack instead. Golden Tom Tit adds +2/+2."
+    },
+    {
+     "question": "Is Bog the answer tribe, beating big boards by shrinking them rather than building its own big unit?",
+     "why": "Its design already points that way (Bufo's halving; Snap and Lantern Man aim at the biggest stuck enemy), but its flat debuffs weaken as stat scale rises, and its permanent growth is tiny.",
+     "default_answer": "Yes. Turn flat debuffs into proportional ones as numbers rise (Bitter takes a share of Attack, Jenny takes a quarter), and give Bog one real pile: Ranocchio twice a fight."
+    },
+    {
+     "question": "Should Fairy power stay spread across slots, or may a Ring slot hold a carry?",
+     "why": "The +4/+4 cap leaves the Queen as the only Fairy concentrator, and she fights the rest of the tribe.",
+     "default_answer": "Keep Rings as the identity, but raise the cap to +2/+2 per shop tier (+12/+12 at tier 6). Let the Queen give her whole share to one Fairy you choose."
+    },
+    {
+     "question": "Should every tribe have its own way to turn spare gold into stats, as Acorns do for Hedgerow?",
+     "why": "Only Hedgerow's economy lead becomes a stat lead. The owner's note says rewards give power, and Battlegrounds stats grow through economy.",
+     "default_answer": "Yes, one per tribe, each with its own condition. Example: each Mrs Stork return also gives that Bird +1/+1; Peat Cutter gold can be spent on a Bog grower."
+    }
+   ],
+   "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/card-audit-birds-bog-fairies.md"
+  },
+  {
+   "key": "content-b",
+   "summary": "I audited 48 tribe cards (16 each for Hedgerow, Hunters and Oozes) and 13 neutrals. Full per-card table: /tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/card-audit-hedgerow-hunters-oozes.md.\n\nHedgerow stands apart in four ways:\n- It has the most permanent payoffs (8 of 13; Hunters have 3 of 13).\n- Its growth fires in the Recruit Phase, so it grows without winning fights.\n- Pass piles stats onto one unit.\n- Committee and Lollop are full-board fight auras that any gapless board satisfies and any tribe can run.\n\nIn bot play, Hedgerow's lead is mostly one card. 70 of 71 Hedgerow wins had Squire Lollop. 206 of the 336 winners in lobbies that included Hedgerow had Lollop. Hedgerow does not have more stats than Hunters (round 12 per-unit 20.6 vs 21.4). The Hoard route and Alderman Dozey are barely played: larder p90 is 2 gold, and Dozey does not predict wins. So the owner's claim that Hedgerow's strength shows the other tribes are too weak is incomplete.\n\nHunters' payoffs nearly all reset after each fight (10 of 13). The few permanent ones need fight wins and give at most one Take a fight. Oozes' power sits mostly in enablers and in Belly reserves that the bench does not count.\n\nOwner claims checked:\n- Numbers are too small: right. Typical round-16 boards are about 13/14 a unit, and every fast single-unit grower is capped (Dozey +12/+12, Treasurer +8/+8, Supper +3/+3, Ring +4/+4).\n- Concentration beats spread: incomplete under our rules. Pack, Pounce and quarry focus let spread units hit one target together, and the pool has many answers to one big unit.\n- Shape of the curve: the bot curve is very narrow (round 12 p99/p50 = 1.43). Bots under-play greedy lines, so this is a floor, not a verdict.",
+   "findings": [
+    {
+     "claim": "Hedgerow's bot-lobby lead runs mainly through Squire Lollop, a card any tribe can run. It is not explained by Hedgerow having more stats, or by the Hoard and Dozey.",
+     "evidence": "cards.csv x players.csv (free_choice_plain, 400 lobbies). Count winners whose final board holds each card. Compare per-unit recruit stats in rounds.csv by final_tribe.",
+     "numbers": "70 of 71 Hedgerow wins had Lollop. 206 of 336 winners in lobbies with Hedgerow had Lollop. Hedgerow players with Lollop or Committee place 2.78 on average, without them 5.99. Hunters holding Lollop win 46%. Lollop is on 568 final boards, 422 of them not Hedgerow. Dozey: Hedgerow players place 4.07 with it vs 3.58 without; 16 of 71 wins. Per-unit recruit stats at R12, Hedgerow vs Hunters: 20.6 vs 21.4; at R16: 26.3 vs 30.0."
+    },
+    {
+     "claim": "Lollop and Committee are close to unconditional whole-board fight buffs. Any gapless full board has all 7 units touching.",
+     "evidence": "board_geometry.gd:107 (touching is the unbroken zigzag run); squire_lollop.json and standing_committee.json mechanics.",
+     "numbers": "Lollop gives 28 SP a fight (golden 56). Committee gives 21 SP a fight. On a typical R16 unit of about 13/14 (27 SP), Lollop alone adds about 15%."
+    },
+    {
+     "claim": "Hedgerow is the only tribe with growth that does not depend on fights, and the only one whose fight win share climbs in every round band.",
+     "evidence": "Mallow, Beadle, Mast, Partner, Pym and Hayward all fire in the Recruit Phase (mechanics/*.gd). Fight win share by band from rounds.csv.",
+     "numbers": "Hedgerow 0.48, 0.53, 0.56, 0.60, 0.70 (R1-4 through R17+). Hunters 0.52, 0.55, 0.59, 0.58, 0.56. Oozes 0.53, 0.45, 0.47, 0.55, 0.51."
+    },
+    {
+     "claim": "Hunters' payoffs nearly all last one fight only. Their permanent growth needs winning trades and gives at most one Take per Hunter per fight.",
+     "evidence": "glutton.gd and laird.gd buff without permanent; Wick and Lodger likewise (combat_hunt.gd:124-133). Grizel is permanent (combat_hunt.gd:160). Quarry is marked only at the bell (combat_lanes.gd:108-115). Only Hunters can Take (combat_lanes.gd:255).",
+     "numbers": "3 of 13 Hunter stat payoffs are permanent: Nip and Lutra (+1/+1 per Take) and Grizel (+1 Attack). 10 of 13 are combat-only. At a 0.55 Take rate, Nip grows about 1.1 SP a turn."
+    },
+    {
+     "claim": "The cards that pile stats on one unit sit almost all in Hedgerow, and the fastest of them is capped. Hunters and Oozes have no fast permanent single-unit grower.",
+     "evidence": "Per-card table in the detail file. Caps: alderman_dozey.json:54, honorary_treasurer.json:18, harvest_supper.json, rulebook 8.5.4.",
+     "numbers": "Concentrating payoffs: Hedgerow 5 (+1 partly), Hunters 3 (+3 partly, all small), Oozes 2 (+1 partly). Dozey is capped at 14/17 (golden 28/34), and the cap binds by R10-12: the R9 fixture already uses +8/+11 of +12/+12."
+    },
+    {
+     "claim": "On a full board, Pass lands on F4, a front unit. Keeping a Pass carry safe in B3 means leaving F4 empty, which breaks the all-7-touch bonus.",
+     "evidence": "rulebook 12.1.6; board_geometry.gd:122 pass_landing. The hedgerow_low fixture leaves F4 empty for this reason (pass2-followup-boards.md).",
+     "numbers": "Leaving F4 empty costs one body and Lollop's full bonus: +1/+1 on 6 units instead of +2/+2 on 7, so 12 SP instead of 28."
+    },
+    {
+     "claim": "Under our rules, 'concentration always beats spread' is incomplete. Spread units can combine their attack, and the pool has many answers to one big unit.",
+     "evidence": "Pack and Pounce keyword text (effects.json:831-832). Joiners take no counter-hit (pass2-a.md:35). Answers: Sergeant, Ichneumon Wasp, Hasty Pudding, Posset, Turnip Scarecrow, Whirligig, Toll-Bard, Bristle (Urchin), Bitter.",
+     "numbers": "Sergeant deals 3 damage per gold: a Stash 15, a Great Hoard 48. Isegrim adds +3 per joiner per join, about 12-18 damage a fight."
+    },
+    {
+     "claim": "Our stat scale is small and the distribution is narrow. Snowballs barely happen in bot play.",
+     "evidence": "rounds.csv: board attack+health by round. Final boards of players who placed 1st.",
+     "numbers": "Typical R16 unit about 27 SP (about 13/14). Winners' final boards 33-39 SP a unit at round 19-20. Total-stat p99/p50: 1.43 at R12, 1.52 at R16. Max/p50: 1.70 and 1.83. The owner accepts a top 1% at 10x the median."
+    },
+    {
+     "claim": "Bots barely play the Hoard, so bot lobbies cannot test the owner's Dozey and concentration claim.",
+     "evidence": "rounds.csv larder (gold value of held Acorn items); players.csv acorns (counts only Acorns won in combat, bench.gd:149-158).",
+     "numbers": "Hedgerow held-Acorn gold: p50 0 and p90 2 at R8, p90 1 at R12. 210 of 281 Hedgerow players won no Acorns in combat."
+    },
+    {
+     "claim": "Bot board stats undercount Oozes. Units inside Bellies are not counted, and neither are fight auras for any tribe.",
+     "evidence": "tools/sim/bench.gd:383 _board_stats sums board units only. The oozes_high fixture holds 4 bodies inside Bellies.",
+     "numbers": "Ooze per-unit stats at R12: 17.6, the lowest of all tribes. The fixture's held bodies add about 16/18, roughly 25% more."
+    }
+   ],
+   "assumptions": [
+    {
+     "assumption": "Each tier has a per-turn growth cap (T2 1.3, T3 1.7, T4 2.5, T5 3.8 SP a turn) that is the right ceiling for a card's permanent growth.",
+     "where": "docs/design/power-budget.md:125; applied in docs/ideation/evidence/pass2-costing.md (10 cut items, including Lollop, Mallow, Beadle, Stone Soup, Elder Ooze)",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "It kept pass 2 numbers close to the Battlegrounds-derived tier curve.",
+     "evidence_against": "Owner 2026-11-09a and 09d: numbers are too small, and reviewers should not fail work on rare power-budget concerns. Bot curve p99/p50 is only 1.43 at R12.",
+     "test": "Constructed R12/R16 sims with these caps doubled and removed. Compare how often the top 1% exceeds 2x and 10x the median."
+    },
+    {
+     "assumption": "Hard ceilings on fast single-unit growers (Dozey +12/+12, Treasurer +8/+8) are needed to stop an unlimited late bank.",
+     "where": "DECISIONS.md:707 (Cloud review 7); alderman_dozey.json:54; rulebook 12.1.1a",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "Prevents a runaway carry in a game that had no answers in the early slice.",
+     "evidence_against": "These are the only fast concentrators in the pool, and the pool now holds many answers to a big unit (Sergeant, Wasp, Pudding, Whirligig). The owner says a huge single unit is very beatable with scam units.",
+     "test": "Constructed fights: an uncapped Dozey carry at R12/R16 against boards with and without one answer card."
+    },
+    {
+     "assumption": "Fight-only payoffs are an acceptable main power source for a tribe (Hunters).",
+     "where": "Hunters cards in content/units; pass2-a.md (the Take route left untouched above T2)",
+     "risk": "medium",
+     "explicit": false,
+     "evidence_for": "Hunters place 3.89 on average and win 18% in bots. Their fight win share peaks at 0.59 in R9-12.",
+     "evidence_against": "Nothing carries across turns except +1/+1 per Take. Win share falls late (0.56 in R17+). The owner says rewards must make players feel stronger.",
+     "test": "Constructed R16 fights: the current Hunter T6 board vs the same board with Glutton made permanent once a fight."
+    },
+    {
+     "assumption": "'All 7 touch' is a real condition on the full-board bonus.",
+     "where": "standing_committee.json, squire_lollop.json; board_geometry.gd:107",
+     "risk": "medium",
+     "explicit": false,
+     "evidence_for": "Gaps are legal (8.3.1), and a Pass carry wants F4 empty.",
+     "evidence_against": "Any full gapless board meets it. Lollop is on 568 final boards across all tribes, and on 206 of the 336 winners in lobbies with Hedgerow.",
+     "test": "Count how many final bot boards are full and gapless (needs per-slot logging). Run constructed fights with a gapped board."
+    },
+    {
+     "assumption": "Tribe cards may carry payoffs that work for any tribe (Lollop, Committee, Mallow, Clover, Young Brock).",
+     "where": "pass2-a.md; card texts",
+     "risk": "medium",
+     "explicit": false,
+     "evidence_for": "They keep splash play and flexible boards possible.",
+     "evidence_against": "422 non-Hedgerow boards hold Lollop. This blurs tribe identity and makes measured tribe strength track one card.",
+     "test": "Bot lobby rerun with Lollop and Committee reading 'Hedgerow folk touching this'. Compare tribe first-place rates."
+    },
+    {
+     "assumption": "Take rate is 0.55 per quarry Hunter per fight, and the Stash rate is 0.3-0.4 a turn.",
+     "where": "pass2-costing.md (costing-3 Take rate; Stash guess)",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "Hand estimates from earlier benchmark boards.",
+     "evidence_against": "Never measured on pass 2. Bots hold almost no Acorns, so the Stash rate is untested.",
+     "test": "Count events on constructed R8/R12 boards: Takes per Hunter per fight, and Stashes per turn on a Hoard board."
+    },
+    {
+     "assumption": "Board attack plus health in rounds.csv is a fair measure of strength across tribes.",
+     "where": "tools/sim/bench.gd:383; used for the per-tribe curves",
+     "risk": "medium",
+     "explicit": false,
+     "evidence_for": "Simple, and the same for every tribe.",
+     "evidence_against": "It misses Belly-held bodies (Oozes), fight auras (Lollop, Committee, Isegrim, Laird) and how stats are spread across units.",
+     "test": "Log per-unit stats and held units in bench rows. Compare per-unit max and Gini by tribe."
+    },
+    {
+     "assumption": "Bots' final-board cards show which cards are strong.",
+     "where": "cards.csv analyses (this audit included)",
+     "risk": "high",
+     "explicit": false,
+     "evidence_for": "With 400 lobbies, the large gaps are not noise.",
+     "evidence_against": "Owner 2026-11-09d: bots are poor players. Survivor bias: every T6 card shows 80-90% top-4. Bots skip the Hoard.",
+     "test": "Treat it as a sanity check only. Confirm each card call with constructed fixed-board sims at R8, R12 and R16."
+    }
+   ],
+   "owner_questions": [
+    {
+     "question": "Should Squire Lollop and the Standing Committee buff only Hedgerow folk ('Hedgerow folk touching this'), or stay full-board buffs that any tribe can use?",
+     "why": "They decide most bot games in any tribe (206 of 336 winners where Hedgerow is in the lobby). They blur tribe identity and make Hedgerow's measured strength mostly one card's strength. This is a question of taste, not measurement.",
+     "default_answer": "Make both Hedgerow-only, as Goodman Hayward already is. Keep the full-board bonus. Give the neutral pool its own late card for any tribe."
+    },
+    {
+     "question": "Should we remove the hard ceilings on the units that grow fastest (Dozey +12/+12, Treasurer +8/+8) and rely on answers in the pool (Sergeant, Ichneumon Wasp, Hasty Pudding, Whirligig) to beat a big carry?",
+     "why": "They are the only fast single-unit growers, so the caps remove the rare-highroll tail the owner wants. Whether a capped carry is good design is a call for a designer.",
+     "default_answer": "Remove both ceilings. Keep Dozey's single double. If constructed sims show the carry is common rather than rare, limit how often it can grow (e.g. feeding once a turn) rather than how big it gets."
+    },
+    {
+     "question": "Is a tribe whose power is almost all fight-only (Hunters) a good identity, or should every tribe have at least one permanent growth line?",
+     "why": "Hunters grow almost nothing between turns, and their late win share falls. The owner wants rewards that make the player feel stronger.",
+     "default_answer": "Give Hunters one permanent line at T5: the Mountain Glutton keeps its first Take's +2/+2 each fight permanently. Keep the rest fight-only."
+    }
+   ],
+   "motivations": [
+    {
+     "system": "Acorn items (Acorn 1, Stash 5, Great Hoard 16) with Pym, Hayward, Treasurer, Dozey, Sergeant",
+     "player_wants": "Hold Acorns until they combine (+67% value), then choose: cash for gold, feed Dozey, play for Hayward, hold for the Treasurer, or throw with the Sergeant.",
+     "tension": "Every payoff wants the same items in a different state: held, combined, played or spent. Bots resolve this by cashing at once (larder p90 2 gold), so the decision goes unexercised in bot play."
+    },
+    {
+     "system": "Pass (last occupied zigzag slot)",
+     "player_wants": "One protected carry in B3 that every Pass card feeds.",
+     "tension": "Protecting B3 means leaving F4 empty. That costs a body and breaks Lollop's and Committee's all-7 bonus. On a full board, Pass feeds the exposed F4 unit instead."
+    },
+    {
+     "system": "Quarry and Take (Hunters)",
+     "player_wants": "Line up Hunters across enemies they can kill, using focus fire (Young and Old Brock) and Laird.",
+     "tension": "Takes come from winning trades, so a Hunter who is ahead grows and climbs faster (Ermeline): a positive feedback loop. But almost all of the gain resets after the fight, so it never builds into a lasting lead."
+    },
+    {
+     "system": "Bellies (Oozes)",
+     "player_wants": "Stuff reserve bodies inside, grow them (Aspic, Moss), and release them mid-fight (Wobbly, Elder, Syllabub).",
+     "tension": "Stats hidden in reserve don't fight until something dies. Granny piles all touching Oozes' Attack onto one 8-Health body, which an answer card can remove."
+    },
+    {
+     "system": "Carry-over gold with Charcoal Burner, Last Orders and Dame Farthing",
+     "player_wants": "Bank gold, then turn it into stats or interest.",
+     "tension": "Banking costs tempo and Health now. Bots bank little (p50 12 gold at R8 and R12), so the greedy line goes untested in bot play."
+    }
+   ],
+   "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/card-audit-hedgerow-hunters-oozes.md"
+  },
+  {
+   "key": "reference",
+   "summary": "Battlegrounds stats grow exponentially from turn 8. Bramble's grow in a straight line. I measured BG from a 2026 game data source no Bramble doc had used yet: Firestone's public per-turn board averages (288,790 games in the current patch, plus archived snapshots back to Sep 2025) and 150 replays I parsed (129 valid). In the current patch an ordinary BG board has a median of 24 stats at turn 4, 62 at turn 6, 149 at turn 8, 714 at turn 10, 2,598 at turn 12 and 7,980 at turn 14. That is about x1.9 per turn after turn 8. Bramble bots: 30, 52, 80, 107, 133, 155. The early game matches; the gap opens at turn 7-8. The curve depends on the patch: the turn-12 mean went from 759 (Sep 2025) to 3,505 (Nov 2026). Top-1% players have about 1.8x the mean board. BG's growth comes from compounding text: 25% of the pool says 'this game', 'improve' or 'extra'. Bramble's slice has one such card. The tail: from turn 8, 13-23% of ordinary BG boards are at least 2x the median. The top 0.4% of games run 2-3x the median, and their top tenth 7-18x. In 400 bot lobbies no Bramble board ever reached 2x the median. In BG the biggest unit holds about a third of the board's stats in every turn. Yet in 14-26% of fights the side that won had fewer stats. Concentration helps vanilla bodies, but summons, keywords and scam break it. The VOD route works (readable 720p frames) but costs about 3 minutes and 12-20 image reads a game, and the turn index is fragile. Replays are far better for BG; Galaxy needs VODs.",
+   "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/stat-scale-bg-galaxy.md",
+   "findings": [
+    {
+     "claim": "Per-turn BG board totals, current patch (Nov 2026), ordinary players: median (p10-p90) T4 24 (11-40), T6 62 (38-85), T8 149 (83-343), T10 714 (249-1,565), T12 2,598 (629-6,572), T14 7,980 (2,102-31,933). Confidence high to T12, medium at T14 (n=60, survivors only).",
+     "evidence": "Opponent boards (non-ghost) of 129 parsed Firestone perfect-game replays, snapshot at the first attack of each combat. Script scratchpad/fundamentals/scripts/analyse_combats.py; table perfect_combats_table.txt. Cross-check: the Firestone all-player mean at T10 is 1,008 against a replay-sample mean of 862.",
+     "numbers": "Biggest unit, median: T6 22, T8 54, T10 240, T12 897, T14 2,857. Median unit: T6 9, T8 17, T10 83, T12 234, T14 834."
+    },
+    {
+     "claim": "BG growth after turn 8 is exponential, about x1.6-1.9 per turn. The rate depends on the patch: late-game totals moved 3-4x within 14 months, while turns 4-6 hardly moved.",
+     "evidence": "Firestone hero-stats warbandStats (static.zerotoheroes.com/api/bgs/hero-stats/mmr-100/last-patch/overview-from-hourly.gz.json) plus Wayback snapshots; means weighted by each hero's game count.",
+     "numbers": "All-player mean at T4/T8/T10/T12/T14. Sep 2025: 24/123/305/759/1,751, x1.56 per turn. Mar 2026: 25/199/703/1,924/3,932, x1.64. Nov 2026: 27/230/1,008/3,505/6,850, x1.76. Replay medians, Nov 2026, T8 to T14: x1.94 per turn."
+    },
+    {
+     "claim": "Bramble bot boards grow in a straight line, about +12 per round. They match BG through turn 6 and fall far behind after it. Even the best Bramble board ever recorded is below BG's 10th percentile at turn 12.",
+     "evidence": "free_choice_plain.rounds.csv, 400 complete lobbies, 48,773 rows; scripts/bramble_rounds.py; bramble_rounds.txt",
+     "numbers": "Bramble median at R4 30, R6 52, R8 80, R10 107, R12 133, R14 155, R20 220. Max over all rows and rounds: 486. BG p10 at T12: 629. Ratio BG/Bramble: 6.7x at T10, 19x at T12, 51x at T14. Stats per cumulative gold: Bramble 1.5 at R8 falling to 1.4 at R14; BG 2.8 at T8, 9.9 at T10, 28 at T12, 71 at T14."
+    },
+    {
+     "claim": "The gap comes from compounding text, not from printed stats or tier budgets. BG's printed buffs are also small; its growth comes from second-order text that makes later buffs bigger. Bramble's slice has almost none of it, and most of its growth is capped.",
+     "evidence": "docs/research/battlegrounds/data/minions.csv, current solo pool, regex in scripts/bg_buff_sizes.py; Bramble content/units/*.json with set 'slice'.",
+     "numbers": "BG: 68 of 273 minions (25%) have 'this game', 'improve', 'extra', 'for each' or 'equal to' text. Median buff in text by tier: +2, +2, +3, +4, +6, +4.5 (Attack plus Health). Bramble: 1 of 119 slice cards is second-order (Fairy Monarch). Buffs are +1/+1 or +2/+2 at every tier. The two largest are +8/+8 caps (Alderman Dozey, Honorary Treasurer). About 7 cards grow permanently, in +1/+1 steps, mostly capped per fight or per turn."
+    },
+    {
+     "claim": "Shape of the curve. In BG the tail opens at turn 8 and widens every turn. The top 0.4% of games (no damage taken) reach 10x the ordinary median, as the owner expected. Bramble bots have no tail at all.",
+     "evidence": "scripts/shape.py; shape.txt. Perfect games are about 0.36% of uploaded games: 1,000 in 5.5 days against about 51,000 games a day.",
+     "numbers": "BG ordinary boards at least 2x the median: T6 1%, T8 13%, T10 14%, T12 23%, T14 23%. At least 3x: 3%, 4%, 9%, 18% (T8-T14). p90/p50: 1.4 (T6) up to 4.0 (T14). Top-0.4% winners, as a multiple of the ordinary median: median 2.0x at T10, 3.0x at T12; p90 6.6x at T10, 11.7x at T12, 17.7x at T14. Bramble: 0% of boards at 2x the median in any round; p90/p50 1.21-1.32; max/median 1.7-2.0."
+    },
+    {
+     "claim": "Concentration. BG boards keep about a third of their stats in the biggest unit at every turn, for ordinary players and winners alike. Winners are not more concentrated than losers, and fewer stats often still win.",
+     "evidence": "Replay combats (underdog.txt, tall_wide.txt) and the final boards of all 1,000 perfect games (perfect_final.txt).",
+     "numbers": "Biggest-unit share, median: 0.32-0.35 for ordinary boards and 0.33-0.36 for winners (T6-T15; an even board would be 0.14). The side that took no damage had fewer stats in 14-26% of fights and less than half in 1-8%. Beast Beetles won at T14 with 194 stats against 6,666. A unit holding at least 60% of its board: 7% of ordinary boards, 12% of winners' boards. Tall-against-wide fights are 7% of fights from T8. Final stats of winning comps span 35x: Demon shop 36,373 down to Beast Beetle 1,088."
+    },
+    {
+     "claim": "Skill moves the curve by about 1.8x, so bots will understate what skilled players produce.",
+     "evidence": "Firestone hero-stats at mmr-1 (top 1%) against mmr-100 (all players), current patch.",
+     "numbers": "Top 1% against all: T8 296 vs 230; T10 1,840 vs 1,008; T12 6,454 vs 3,505; T14 9,544 vs 6,850."
+    },
+    {
+     "claim": "Units at the integer cap are vanishingly rare in the current BG patch. The famous capped unit lost to venom.",
+     "evidence": "6,824 final units in the 1,000 perfect games. Blizzard forum thread 112283 (24 Aug 2023): a 2,147,483,647 unit lost to 'a poison mob'.",
+     "numbers": "0 units at 2.147 billion; 4 units over 1 million; 19 of 1,000 games (1.9%) had a unit over 100,000."
+    },
+    {
+     "claim": "Galaxy: rules that keep every buff permanent let carries reach hundreds of stats per side. There is no public per-turn data. Confidence low.",
+     "evidence": "docs/research/galaxy/rules.md:42 and design-notes.md:82. One VOD read: youtube yNxxsivKlTY, Sep 2025, Legendary rank, 1st place; edited video, so turns are unknown.",
+     "numbers": "Hovered units mid-run: 7/7, 14/14, then 56/48, 96/94, 138/129. Final 5-unit board: Apophis 912/893, Captain Hook 546/453, Hercules 329/314, Tsarmina 324/319, Innkeeper 197/184. Total 4,471; biggest unit 40%."
+    },
+    {
+     "claim": "VOD extraction works on this machine but is expensive and fragile. For BG, Firestone replays are better in every respect.",
+     "evidence": "yt-dlp 2026.10.26 and imageio-ffmpeg in a venv. Pilot on youtube 0vKxLg0IZDk (BG) and yNxxsivKlTY (Galaxy). The replay host returned 403 to Python's default user agent; curl's default worked, and I did not spoof headers.",
+     "numbers": "BG game: 188 MB at 720p, 45 s download, 21 s for contact sheets, 12-20 image reads (about 25-40k tokens). Fixed timestamps landed on the Combat banner in 3 of 4 frames. Replays: about 2 s a game, exact numbers for both boards at every turn."
+    }
+   ],
+   "assumptions": [
+    {
+     "assumption": "The power budget prices printed stats and first-order effects per tier. Compounding (buffs that make later buffs bigger) is neither priced nor designed for, so the content cannot produce BG's late-game curve.",
+     "where": "implicit in pass-2 slice content and docs/design/power-budget.md; every Bramble growth effect is +1/+1 and mostly capped",
+     "risk": "high",
+     "explicit": false,
+     "evidence_for": "Bramble median is 133 at R12 against BG's 2,598. 1 second-order card in Bramble against 25% of BG's pool. Early game equal; the gap opens at T7-8, when BG's compounding starts to pay.",
+     "evidence_against": "The owner does not want BG's exact number system. A tamer curve could be fine if it still gives reward spikes.",
+     "test": "Constructed setups at T8, T10 and T12: give each tribe one 'improve this game' engine and measure board totals and the p90/p50 spread against BG's Sep 2025 curve (305/759/1,751 at T10/12/14)."
+    },
+    {
+     "assumption": "The bot lobbies' narrow spread (p90/p50 about 1.2) is the game's real spread.",
+     "where": "implicit in balance reviews that read bot lobby averages",
+     "risk": "high",
+     "explicit": false,
+     "evidence_for": "The content caps growth ('up to', 'twice a fight'), so even a perfect pilot is bounded.",
+     "evidence_against": "In BG, top-1% players have 1.8x the mean board. Bots cannot execute high-APM greedy lines, so they hide the tail.",
+     "test": "Run scripted best-case lines per tribe at fixed turns and compare with the bots' p99 board."
+    },
+    {
+     "assumption": "Total board stats is the right measure of power.",
+     "where": "implicit in reviews and sims that compare stat totals",
+     "risk": "medium",
+     "explicit": false,
+     "evidence_for": "BG winners average 2-3x the stats of ordinary boards.",
+     "evidence_against": "In 14-26% of BG fights the side with fewer stats won. Deathrattle and keyword comps win with up to 35x fewer stats.",
+     "test": "Log fight results against total, biggest-unit share and token or keyword counts in constructed sims; fit win rate on each."
+    },
+    {
+     "assumption": "Many small capped buffs ('up to', once or twice a fight) keep the game balanced without hurting fun.",
+     "where": "slice card text, e.g. alderman_dozey, honorary_treasurer, tiddy_mun, bridge_toad",
+     "risk": "high",
+     "explicit": false,
+     "evidence_for": "No runaway boards; tribes stay close.",
+     "evidence_against": "There are no spikes: no board in 400 lobbies reached 2x the median. The owner says rewards must give power and that fun comes before balance.",
+     "test": "Remove the caps on one engine per tribe in constructed sims; measure how often boards reach 2x and 3x the median at T10-12 against BG's 14-23% and 4-9%."
+    },
+    {
+     "assumption": "Games run long because growth is linear.",
+     "where": "implicit: winners last a median 20 rounds in bot lobbies",
+     "risk": "medium",
+     "explicit": false,
+     "evidence_for": "BG lobbies end around T13-15 (perfect-game length: median 14). Exponential growth ends games through rising damage and swingy fights.",
+     "evidence_against": "Bramble's damage rules differ (round base plus survivors), and bots may be passive.",
+     "test": "Measure game length in sims after adding compounding engines."
+    },
+    {
+     "assumption": "Bramble's damage is independent of stat scale, so scaling numbers up needs no rule changes.",
+     "where": "src/core/game_config.gd:160 (v0.5 damage = round base + own starting survivors)",
+     "risk": "low",
+     "explicit": true,
+     "evidence_for": "Damage counts survivors, not stats.",
+     "evidence_against": "Readability and the UI at 4-5 digit numbers are untested.",
+     "test": "UI mock with 5-digit stats on the 4-3 board."
+    }
+   ],
+   "owner_questions": [
+    {
+     "question": "Which BG era's curve should Bramble aim for: Sep 2025 (median board about 300 at T10, 750 at T12, 1,750 at T14) or the current one (about 700, 2,600, 8,000)?",
+     "why": "Content density of 'improve this game' engines and the late-game numbers all follow from this target. A measurement can't pick the taste.",
+     "default_answer": "Sep 2025-like: about x1.5 per turn after T8, carries around 100/100 by T12, with 4-digit totals only in highroll games."
+    },
+    {
+     "question": "Is a BG-like tail the target? That means 15-25% of boards at least 2x the median at T10-12, and the top 1% at about 10x.",
+     "why": "This sets how much uncapped compounding each tribe gets and what reviewers should flag.",
+     "default_answer": "Yes: aim for p90/p50 of 2-2.5 at T10-12 and treat 10x outliers below 1% of games as fine."
+    },
+    {
+     "question": "Should every tribe get at least one uncapped compounding engine (a 'this game' or 'improve' effect) at tier 3-5, or only some tribes, with others winning through scam, width or keywords?",
+     "why": "In BG the winning comps span 35x in stats, so both routes work. Choosing one decides the pass-3 content brief.",
+     "default_answer": "Every tribe gets one compounding engine. Two tribes also get a strong non-stat win route (scam or width), as Murlocs and Beetles have in BG."
+    },
+    {
+     "question": "What game length should a winner target?",
+     "why": "Bramble winners last a median 20 rounds against BG's 13-15. Growth rate and the damage curve both depend on it.",
+     "default_answer": "Winners finish by round 14-16."
+    }
+   ],
+   "motivations": [
+    {
+     "system": "Compounding 'improve this game' engines",
+     "player_wants": "To feel stronger every turn and chase a highroll; numbers that jump are the reward.",
+     "tension": "Without caps the tail grows; the owner accepts a rare tail but not common snowballs."
+    },
+    {
+     "system": "Carry unit (about 1/3 of board stats)",
+     "player_wants": "One unit to invest in and protect, then show off.",
+     "tension": "Needs scam answers (venom or destroy) in the pool, or one carry decides fights. In BG, tall-against-wide fights are only about 7% of fights."
+    },
+    {
+     "system": "Width, deathrattle and keyword comps",
+     "player_wants": "A way to beat bigger numbers with clever play.",
+     "tension": "They break stat-total metrics: BG winners with 1/30 of the opponent's stats. Budgets that count stats will misjudge them."
+    }
+   ]
+  },
+  {
+   "key": "process-bots",
+   "summary": "Our process keeps fixing whole-game problems one card at a time. From 7 to 9 Nov, at least 19 decisions (DECISIONS.md) added a cap, a limiter or a dearer climb after something dominated. 22% of the 109 pool units now carry a cap or limiter; by our own taxonomy, Battlegrounds limiters sit at about 5%. The cause is built in. The power budget treats stats as additive and growth as linear, and it gives cut power to per-tier growth caps. Designers work without the budget, but a costing reviewer applies it with veto power, by hand, with no simulations. It made 10 cuts in pass 2, all taken, and every costing-versus-triage split went its way. The bot that serves as our per-tribe bar (the plain free-choice arm) has three blind spots. It values card text at 1.5 \u00d7 tier, so within a tier it ranks units by printed stats. Every seat climbs on one fixed curve. It almost never saves gold. In 400 lobbies, gold left was \u22655 in under 10% of turns, and tier 4 came at round 8\u20139 for 80% of seats. Changeling and Ichneumon Wasp were on 0 of 3,200 final boards, so answers to a big unit never get tested. Fairies, the tribe with the lowest early stats, were picked by 0.9% of seats but took first in 31% of those games. So bot lobbies can't measure how often snowballs happen, what engines are worth, or whether answers work. Bots plan placement against the next opponent's last-round board, never buy against it, and never predict changes. The ghost is a frozen, fully known board, but only 3% of fights are against it. Nobody owns the stat scale, the bot's valuation model, or whether the bars measure the game rather than the bot. Pass 2 is already merged into ideation/main (97f8d49).",
+   "findings": [
+    {
+     "claim": "Systemic problems got local fixes again and again: caps, limiters and a dearer climb after each dominance.",
+     "evidence": "DECISIONS.md lines: 564 (bot curves slowed by hand, 'tempo beats tiers'; HARD_CURVE comment at src/core/bots/bot_level.gd:20-21), 586 (Dozey +8/+8, Hex -8), 601/622 (Mast), 624-625 (5\u21926 climb costs 13 'provisional\u2026 hand play decides'; still 13 at src/core/game_config.gd:21), 631 (Partner), 527 (Pie), 499-501 (Hoard 16, Treasurer +8/+8), 496 (Money Spider), 475/708 (Dozey +12/+12), 322 (Whistlers 1/1), 298-306 (Burner cap and tier move), 295 (Bird bot priors cut), 159 (Ring +4/+4), 128/158 (Hex \u2264 tier), 130/151 (Chaser), 152-154 (Toll-Bard, Bracken, Spider), 76-121 (pass 2's 10 costing cuts), 10/44/47 (Toad, Peat Cutter). The orchestrator's own line 27: 'Caps added after each dominance\u2026 treated a system problem as card problems.'",
+     "numbers": "At least 19 entries over 7\u20139 Nov. 24 of 109 slice-pool units (22%) carry an explicit cap or limiter, 17 of them (16%) per-turn or per-fight limiters. Our taxonomy puts Battlegrounds limiters at 5% of the pool (power-budget.md:224)."
+    },
+    {
+     "claim": "The power budget forbids the compounding the owner asks for, and the costing reviewer enforces it as a veto, by hand.",
+     "evidence": "power-budget.md:205-206: 'Linear growth only\u2026 Stat multiply and consume grow geometrically\u2026 priced only when the text is once per turn and can't be retriggered'. power-budget.md:125 sets per-tier growth caps. pass2-costing.md:3 says 'Hand estimates, no sims', and most of its 10 cuts are 'growth above the per-tier caps'. DECISIONS:76 says all 10 were taken. All three costing-versus-triage splits went to costing (DECISIONS:45, 98, 112).",
+     "numbers": "Growth caps of 0.8/1.3/1.7/2.5/3.8 SP a turn for T1\u2013T5. V(t) = 5/7/8/10/12/14 SP, so a par T3 is 8 SP, a 4/4: below the owner's 'very low' 5/5 example. The scale target is '13/13 by turn 12' (DECISIONS:792), and the budget assumes 180-SP turn-12 boards (power-budget.md:203). Bot medians: 10/10 per unit at R12."
+    },
+    {
+     "claim": "Bots value stats as additive and have no time horizon, so engines and answers are hidden. The plain arm, which is the tribe bar, ranks units by printed stats.",
+     "evidence": "bot_eval.gd:36-91: keep = Attack + Health + a flat hint (or 1.5 \u00d7 tier); no round or turns-left input anywhere in BotEval. tools/sim/plain_eval.gd replaces every keep/buy hint with 1.5 \u00d7 tier. The only modelled horizon is Grizel's fixed 2.5 fights (bot_carrier.gd:159). Ranking within a tier is in scratchpad plain_rank.txt. The owner's example, a T3 2/2 that gains +1/+1 at End of Turn, values 8.5 against a 5/5's 14.5, and still loses after it reaches 5/5 because of the replace margin of 3.",
+     "numbers": "On final boards in 400 plain lobbies: Changeling 0/3,200, Ichneumon Wasp 0/3,200, Money Spider 0.1%, Old Moth Annis 0.5%, Hob 0.1%, Fairy Monarch 0.5% (holders' mean place 1.67, n=15), Laird 3.2% (2.65)."
+    },
+    {
+     "claim": "Bot planning failures shaped the caps both ways. Engines that pay off with no planning ran away and got capped; engines that need planning read as weak.",
+     "evidence": "Runaway automatic engines: Dozey on 70\u201396% of final boards (DECISIONS:579), Mast with Treasury winning 44.6% (601). Planned engines read as dead: Burner had 1 buyer in 240 seats and 0 gold burned (298); a Stash was held in 19 of 4,475 player-turns (833); the reactive-saving bot failed at +0.0475 \u00b10.086 and the Acorn Stash bot at +0.011 \u00b10.045 (BOTS.md). triage-audit \u00a74: the answers 'Changeling and Whirligig\u2026 bots never use them'.",
+     "numbers": "Bot improvements so far: carrier +0.048 \u00b10.042 places, the only promotion."
+    },
+    {
+     "claim": "In the plain arm every seat follows one scripted tier curve and spends nearly all its gold, so bot lobbies can't produce or measure greed-driven snowballs.",
+     "evidence": "free_choice.gd sets strategy {}, so _target_round falls back to HARD_CURVE [4,7,9,12,14]. Climbs are valued at 100 and always happen when due (bot_brain.gd:237-280). There are no save tables. Tables are in the scratchpad file bots_lobby_tables.txt.",
+     "numbers": "Mean gold left is 0.2\u20131.8 every round; gold left \u22655 in at most 9.9% of seat-turns (R9). First round at tier 4: p10 8, p50 9, p90 9 (sd 0.52). Tier 6: p50 14, reached by only 49% of seats. The lobby leader's board against the lobby median at R12: p50 1.22, p99 1.60, max 1.63."
+    },
+    {
+     "claim": "The free-choice tribe bar tracks the bot's valuation more than the tribe. Pick rates follow printed early stats, and the two arms disagree wildly.",
+     "evidence": "free_choice_plain.summary.csv against printed stats by tier from content/units. DECISIONS:67: Birds picked 21.1% in the plain arm, 1.3% in the hinted arm. DECISIONS:13: Birds first went from 13.5% to 4.9% between runs, so 'the Birds bar is met' no longer holds.",
+     "numbers": "Hunters (T1 mean 4.7 stats) picked by 22.0% of seats. Fairies (T1 3.0, T2 4.0) picked by 0.9%, first in 31% of their 29 seats. 37% of seats end with no tribe."
+    },
+    {
+     "claim": "The owner's 'early game decides' worry is half right on bot data: an early record decides top 4, not the winner.",
+     "evidence": "rounds.csv results for R1\u20136 joined to players.csv place. 3,200 seats, all alive through R6.",
+     "numbers": "Top 4 by early losses: 0 losses 88%, 1 loss 73%, 3 losses 46%, 5 losses 29%. First place stays at 13\u201319% for 0\u20133 losses. 45.5% of lobby winners lost 3 or more of their first 6 fights. Caveat: every seat is on one curve, so no bot trades early losses for greed."
+    },
+    {
+     "claim": "Scouting and ghosts: against live bots the information is symmetric; the ghost is fully known and frozen but rare. Bots don't adapt buys to the next opponent.",
+     "evidence": "game_session.gd:672-706: everyone gets the next opponent's last fought board, slots, hero and tier. The reveal rule is off (DECISIONS:418, 464). Bots use the scout for placement (a 20-fight search when the stat ratio is 0.6\u20131.7, bot_placer.gd:64-76, 418-450), a \u00b11 tier shift, flights, Peat King and Horseshoe; never for buys, and they never predict the opponent's re-placement. Generic carries are pinned as 'landmarks for the next opponent's scout' (bot_placer.gd:453-460), which makes bots easy for a human to read. Ghost: the last eliminated player's board, no hero, never changes, deals damage (game_session.gd:853-869).",
+     "numbers": "Ghost fights are 1,461 of 48,773 player-fights (3.0%), about 3.65 rounds per lobby. Placement value against the exact board: +23.8 points; against a decoy (the scout-like case): +6.4 (DECISIONS:230). By eye, readers gained +1.9 without one obvious screen (DECISIONS:464)."
+    },
+    {
+     "claim": "The constructed R9 bench is the closest thing we have to the owner's 'empirical simulation at turn thresholds', but it removes economy and compounding by construction.",
+     "evidence": "pass2-followup-boards.md:3-11: hand ledgers at 62 \u00b13 net gold, one growth layer each, no T6, heroes ignored. pass2-benchmark-results.md: cells mostly 0% or 100%. review-pass2-followup.md:9: one extra +1/+1 per unit moves boards 22\u201368 points.",
+     "numbers": "13,200 fights run in minutes. 12 boards (6 tribes \u00d7 high/low), all by one hand."
+    },
+    {
+     "claim": "Delegation leaves the whole game unowned, and the agents that judge designs can't run experiments.",
+     "evidence": "DECISIONS:25: no Godot in workflow agents. Sims run only through Sol builders, so costing is by hand. Builders change bot hints without a plan line (review-pass2-followup ask 3: Toad 4\u21926, Committee 14\u219212). Scope reviewers judge one commit range against the orchestrator's plan. Hints are tuned to make cards get bought (content/bots/README.md: 'These values let their text compete with early buffed bodies'). The placing bar and the bot-promotion floor were both rewritten after results (DECISIONS:243-247).",
+     "numbers": "One scope review per merge in most entries (damage-b, feedback5, pass 2 follow-up). Design passes get 2 paper reviews, no sims."
+    },
+    {
+     "claim": "The tally's must-fix rule turned a natural property of the genre into a defect list.",
+     "evidence": "triage-audit.md \u00a71: row 3, 'One huge unit or stat pile decides games' (11 reports), and row 5, Ring piles (7), became must-fixes under rule E and led to the caps. The owner's 9a/9d: concentrating stats is always better without scam, and the answer to a big unit is scam, not a cap.",
+     "numbers": "11 + 7 + 6 (Chaser) reports, all fixed with caps or bounds."
+    }
+   ],
+   "assumptions": [
+    {
+     "assumption": "Stats are additive: 1 Attack = 1 Health = 1 SP, and a 20/20 is worth two 10/10s.",
+     "where": "power-budget.md SP unit; bot_eval.gd:36-55; bot_brain.gd:270-279 (pressure by stat sum)",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "Simple and costable; the fight engine handles distribution in placement search.",
+     "evidence_against": "Owner 9a (3\u00d710/11 beats 5\u00d710/10) and 9d (one 2.1B unit is easier to beat than three 500M). The +1/+1 probe swings 22\u201368 points.",
+     "test": "Constructed fights: equal-SP boards with concentrated and spread stats at R6/R9/R12, with and without an answer unit."
+    },
+    {
+     "assumption": "Growth should be linear and capped per tier; compounding is allowed only once a turn without retriggers.",
+     "where": "power-budget.md:125, 205-206; pass2-costing.md:3",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "It stopped measured runaways (Dozey, Mast).",
+     "evidence_against": "Owner 9a: healthy Battlegrounds boards reach 100/100 or more. Bot medians are 10/10 at R12. The runaways were measured by bots that never buy answers.",
+     "test": "Scale experiments: lift the caps on 3\u20134 engines and fight constructed R9/R12 boards that include answer units."
+    },
+    {
+     "assumption": "The plain free-choice lobby is a valid per-tribe bar.",
+     "where": "DECISIONS:69; free_choice.gd; plain_eval.gd",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "It removes hand-set hints, so routing can't hide a weak tribe.",
+     "evidence_against": "Text at 1.5 \u00d7 tier, one curve, no saving; Changeling and Wasp 0/3,200; Fairies 0.9% picked but 31% first; Birds first 13.5% \u2192 4.9% between runs.",
+     "test": "Re-run with an engine-aware valuation and a greed curve; if tribe ranks reorder, the bar measures the bot."
+    },
+    {
+     "assumption": "Designers briefed without the budget produce novel designs that survive.",
+     "where": "CLAUDE.md working rules; DECISIONS:200",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "Pass 2 docs did contain new growth engines (Lollop, Mallow, Beadle).",
+     "evidence_against": "The costing reviewer cut 10 of them against linear caps, all taken, and won every split, so the budget comes back as a veto.",
+     "test": "Count how many designer-original texts reach the build unchanged in pass 2 against pass 1."
+    },
+    {
+     "assumption": "Buy-moment costing: each card must be a sensible pick on its own when bought.",
+     "where": "birds-case-study.md \u00a73A; triage skill \u00a73",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "It caught the Birds early-game trap.",
+     "evidence_against": "It penalises condition-and-payoff engines that are worse now and better in 3 turns (the owner's 2/2 +1/+1 example).",
+     "test": "Cost engines over their expected hold time (turns kept, from bot or constructed data), not at the moment of purchase."
+    },
+    {
+     "assumption": "Three or more playtest reports make a must-fix.",
+     "where": "birds-case-study \u00a73E; triage-audit \u00a71",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "Recurring problems (Birds, clarity) stopped being ignored.",
+     "evidence_against": "Concentration complaints (11 reports) became caps; agent playtesters are not elite players.",
+     "test": "Classify each tally row as a defect, a missing answer, or a taste call before it counts."
+    },
+    {
+     "assumption": "Card-count parity of 16 at 3/3/3/3/2/2 makes tribe competition fair.",
+     "where": "DECISIONS:184; check.sh parity",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "The owner asked for it (08f), and it removes supply skew.",
+     "evidence_against": "Tiers were moved to fit the count (Figgy, Burner, Money Spider); neutrals (13) and spells sit outside it.",
+     "test": "Measure per-window useful-card density per tribe in constructed shops."
+    },
+    {
+     "assumption": "Bots that are tuned after bench results are still a neutral instrument.",
+     "where": "DECISIONS:568, 576; content/bots/README.md",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "The tuning is logged honestly.",
+     "evidence_against": "Curves were slowed when 'tempo beat tiers'; Bird priors were cut to steer away from weak routes; hints were raised so cards get bought.",
+     "test": "Freeze the bots during a measurement pass; report results under two bot variants."
+    },
+    {
+     "assumption": "Fixed R9 boards at a common 62 \u00b13 gold spend are fair benchmarks.",
+     "where": "DECISIONS:62; pass2-followup-boards.md:3",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "It stopped the fixtures measuring spend.",
+     "evidence_against": "It also removes economy and compounding advantages, the owner's main concern; no T6; results are near 0% or 100%.",
+     "test": "Add boards with different spend at the same round (an economy line against a tempo line), and generated rather than hand-built boards."
+    },
+    {
+     "assumption": "One fresh scope reviewer per merge, judging against the orchestrator's plan, is enough independence.",
+     "where": "PLAN.md:91; CLOUD.md 'How a cloud reviewer reviews'",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "It caught real cuts (soak Toad gold, Wasp Last Blow).",
+     "evidence_against": "No reviewer saw the caps pile up across steps; the follow-up review said it 'moves the original problem: a little'.",
+     "test": "A periodic whole-game critic that reads all DECISIONS since the last one."
+    },
+    {
+     "assumption": "Bot head-to-head gains are evidence of bot strength.",
+     "where": "BOTS.md step 2; bots-yardstick.md",
+     "risk": "medium",
+     "explicit": true,
+     "evidence_for": "Paired seeds and an A/A check are sound statistics.",
+     "evidence_against": "It compares a bot only with bots that can't plan either; gains are about 0.05 places.",
+     "test": "Compare against scripted expert lines in constructed scenarios (bank-then-spike, triple hunts)."
+    },
+    {
+     "assumption": "Agents that judge designs don't need to run the engine.",
+     "where": "DECISIONS:25 (no Godot in workflow agents); CLOUD.md",
+     "risk": "high",
+     "explicit": true,
+     "evidence_for": "The machine is memory-limited.",
+     "evidence_against": "Costing becomes paper SP math; constructed sims are cheap (13,200 fights in minutes).",
+     "test": "Give critics a queued sim service (Sol runs, critic specifies the boards)."
+    },
+    {
+     "assumption": "Bot lobby data can say how often snowballs happen.",
+     "where": "implicit in DECISIONS:27 (the 'biggest board is 1.2\u00d7 median' argument)",
+     "risk": "high",
+     "explicit": false,
+     "evidence_for": "Large samples.",
+     "evidence_against": "One curve, gold left \u22655 in under 10% of turns, no greed line; the leader against the median is p99 1.60.",
+     "test": "A policy family (tempo, greed, fast tier, roll-down) in mixed lobbies; compare the tail shape."
+    }
+   ],
+   "owner_questions": [
+    {
+     "question": "For constructed sims, what should a strong player have at R6, R9 and R12 on an average, high and low roll: tier, gold spent and triples?",
+     "why": "Constructed setups need a reference curve. Our bots reach tier 4 at R9 and tier 6 at R14, so bot data can't supply one. You can give it from Battlegrounds experience faster than we can measure it.",
+     "default_answer": "Average: T3 by R4\u20135, T4 by R6\u20137, T5 by R8\u20139, T6 by R10\u201311, one triple by R7 and 2\u20133 by R11. High roll: one round earlier plus one triple. Low roll: one round later, no triple by R9."
+    },
+    {
+     "question": "What snowball frequency is acceptable?",
+     "why": "You said the shape matters, not the top 1%. We need a target to test against.",
+     "default_answer": "In at most 25% of lobbies the winner held the top board from R6 onward. At least 20% of winners were below the lobby median at R8. Top-1% boards may reach 5\u201310 times the median."
+    },
+    {
+     "question": "Should 'one huge unit decides games' stop counting as a must-fix?",
+     "why": "It drove most of our caps. Your view is that concentration is natural and answers are the counter.",
+     "default_answer": "Yes. Treat it as a test instead: at that round, a common board with an answer unit must beat the big carry at least 30% of the time. If none can, add or strengthen answers, not caps."
+    },
+    {
+     "question": "Should the costing reviewer advise rather than veto?",
+     "why": "It cut 10 of 10 in pass 2 by hand math against linear caps.",
+     "default_answer": "Advise only. It can cut when a constructed sim at the card's window shows a common-roll board with the card winning at least 80% against same-round peers, or when the card makes an unbounded loop. Everything else is a watch item."
+    },
+    {
+     "question": "Do we stop bot strength work at 'okay' and build a small family of fixed play styles as the sanity check?",
+     "why": "You say bots will never be elite. Our promotion campaigns have gained about 0.05 places each.",
+     "default_answer": "Yes. Player-facing Hard stays as it is, plus fixes so it values engines, answers and saving. The sanity check uses 4\u20135 parameterised styles (tempo, greed economy, fast tier, roll-down, answers) in mixed lobbies. No more head-to-head promotion runs."
+    }
+   ],
+   "motivations": [
+    {
+     "system": "Bot valuation: Attack + Health + a flat text hint, with no horizon",
+     "player_wants": "the biggest stats now",
+     "tension": "Engines and answers are never bought, so lobby bars favour tribes with high printed early stats and hide payoff tribes (Fairies picked 0.9%, first in 31% of those seats)."
+    },
+    {
+     "system": "Buy-moment costing and per-tier growth caps",
+     "player_wants": "a card that is a sensible pick on the turn it's bought",
+     "tension": "It conflicts with condition-and-payoff engines that are worse now and better later, which is the reward loop the owner wants."
+    },
+    {
+     "system": "Scout of the next opponent's last-round board, plus a bot placement search",
+     "player_wants": "to counter-place against what they saw",
+     "tension": "The bot assumes the opponent won't change and keeps its carry fixed as a landmark, so a human can read and exploit it. The bot never buys against the scout."
+    },
+    {
+     "system": "One tier curve and spending all gold for every free-choice seat",
+     "player_wants": "to keep up on tempo",
+     "tension": "Nobody greeds, so early losses only ever mean being behind. Bots can't show the economy-to-tempo snowball, so its frequency can't be measured from lobbies."
+    },
+    {
+     "system": "Playtest tally rule E (3+ reports is a must-fix)",
+     "player_wants": "no single unit deciding the game",
+     "tension": "It turns concentration, which the genre naturally has, into a cap list instead of a call for answers."
+    }
+   ],
+   "detail_file": "/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/fundamentals/process-and-bots.md"
+  }
+ ],
+ "missing": [],
+ "critics": [
+  {
+   "verdict": "The maps are right that Bramble is a straight-line game built on printed stats. Income matches Battlegrounds, but late gold buys about 1 stat, one card in 119 compounds, and 22% of units carry a cap. Under our rules \"too small\" is not a scale problem. Fights are counts of exchanges decided by breakpoints, so stat totals mislead every tool we have, and multiplying stats changes only granularity and the bite of flat effects. The rework needs four things. First, one target for growth per round and game length together: x1.5 a round over our 20-round games is about 90x. Second, compounding channels every tribe can use: the capped tribe bonus, spells, the shop. Third, answers that can reach a back-row carry. Fourth, a variance budget, because our near-deterministic fights would turn any compounding curve into common snowballs. To measure how often a board happens, not just how strong it is: goldfish rollouts of strong scripted lines through the real shop, then fights between populations of boards, then scripted-line lobbies with real damage. Bot-lobby findings are weak, and the R9 fixtures mostly measure breakpoints. The owner's claims hold for BG's scale and for fewer, bigger bodies. \"Always concentrate\" and \"a giant is easy to scam\" need keywords and answers we don't have.",
+   "wrong_assumptions": [
+    {
+     "assumption": "Total stats (Attack + Health) measure a board's strength, so costing, the bot's buy score and the bench can just add stats up.",
+     "why_wrong": "Our fights are counts of exchanges. Each side attacks once a turn, overkill is lost, and a unit lasts ceil(Health \u00f7 enemy Attack) hits. Crossing the enemy's breakpoints is what wins, so the same total wins anywhere from 0% to 100% depending on how it is split.",
+     "evidence": "3\u00d710/11 beat 5\u00d710/10 in 5,600 of 5,600 fights. 65 stats as six 5/6s win 96.5%; the same total as 5/6 front and 6/5 back wins 64.7%. A carry plus small units wins 0-15% at equal totals. +1/+1 on every unit moves R9 boards 22-68 points. Brother Bracken (5 units, up to +5/+5) is the best hero, mean place 2.70.",
+     "try_first": "In the real engine, fit a strength measure from the exchange model (hits each unit survives against the enemy's Attack, kills per hit) on constructed boards at R6, R9, R12 and R16. If it predicts fights better than totals, use it in costing, in the bot's valuation and in the bench logs."
+    },
+    {
+     "assumption": "With bot lobbies demoted, a few hand-built boards per tribe at one round can stand in for the game.",
+     "why_wrong": "A fixed board tells you how strong a board is once built, not how often it gets built, and the owner is asking how often. Ours are 12 boards by one hand, all at R9 with the same gold, no tier 6 and no economy. Their cells sit at 0% or 100% and move 22-68 points on +1/+1.",
+     "evidence": "r9-results.md; 59 of 66 plain pairs fall outside 10-90%; review-pass2-followup.md:9.",
+     "try_first": "Goldfish rollouts: for each tribe, script 2-3 lines a strong player would take (tempo, fast tier, economy, tribe engine) turn by turn. Run each through the real shop and pool with 500+ seeds, and snapshot start-of-combat boards, held bodies included, at R6/8/10/12/14/16. Then fight sampled boards against a sampled field, not one board against one."
+    },
+    {
+     "assumption": "'Numbers too small' is fixed with bigger numbers: bigger printed bodies, a steeper tier curve, a target like 50/50 by R12.",
+     "why_wrong": "Multiplying every stat by k leaves fights unchanged: +10% stats is worth about 15 points at any scale. BG's printed buffs are small too (median +2 to +6). Its curve comes from text that makes each later gold buy more stats, and we have almost none. A bigger scale only makes steps finer and flat effects smaller.",
+     "evidence": "scale.txt: +10% stays at 15-19 points for k = 1, 2 and 4, while the +1/+1 swing falls from 30 to 9 points at k = 4. Stats per gold spent so far: Bramble 1.5 at R8 and 1.4 at R14; BG 2.8, 9.9, 28 and 71 at T8/10/12/14. 68 of 273 BG minions have 'this game', 'improve' or 'extra' text; 1 of 119 Bramble cards is second-order.",
+     "try_first": "Write the scale spec as growth per round after R8, spread (p90/p50 at R10-12) and stats per gold by round, not as unit sizes. Test it by giving each tribe one uncapped 'this game' engine in the goldfish rollouts."
+    },
+    {
+     "assumption": "Compounding can be added while combat stays as deterministic as it is now.",
+     "why_wrong": "Our fights follow the stat ratio closely. On a x1.5-a-round curve, one round of tempo makes a 1.5x board, which wins 94%. Streaks then become runaways: the common snowball the owner doesn't want. BG keeps upsets alive with scam, shields, deathrattles and targets anywhere on the board. Our back-row protection and across-aimed answers remove most of that variance.",
+     "evidence": "Bramble: a board at 1.5x+ the median wins 94%, rank 1 wins 76-79%, and the chance of a win is 60.3% after a win and 41.0% after a loss. BG: the perfect-game winner had fewer stats than its opponent in 14-26% of its fights at every turn.",
+     "try_first": "After adding engines, measure in the population fights how win rate follows the stat ratio, and the share of R10-14 fights the smaller board wins. Add variance (answers that ignore rows, summons, shields) until that share reaches the owner's target."
+    },
+    {
+     "assumption": "Caps and per-tier growth limits are what keep runaways in check.",
+     "why_wrong": "The runaways that led to the caps were measured with bots that never field answers, and costed by hand. Caps cut off the rare highroll tail the owner wants. 22% of our units now carry one, against about 5% in BG.",
+     "evidence": "Dozey at 96/94 was on 70-96% of final boards before his cap, while Changeling and Ichneumon Wasp were on 0 of 3,200. All 10 pass-2 costing cuts were taken, and 19 cap decisions were made from 7 to 9 Nov.",
+     "try_first": "Uncap Dozey, the Treasurer, Rings, Supper and the Toad in the goldfish rollouts. Measure the tail (p99/p50) and whether a common board with one answer beats each uncapped carry at least 30% of the time at its round. Where it can't, add a rate limit or an answer, not a size cap."
+    },
+    {
+     "assumption": "The pool already has enough answers to make big carries fair.",
+     "why_wrong": "Most answers hit 'the enemy across', so they need the layouts to line up, and back-row protection keeps a B3 carry out of reach until the front row dies. The flat answers shrink as stats grow. There is no venom and no 'destroy the biggest'. None has been tested in play, because bots never take them.",
+     "evidence": "Dozey in B3 wins 96.4%, against 83.9% in F1. Sergeant deals 3 damage a gold, Jack Daw takes 2, Bitter 1-2, Hex up to your tier. Model: Nightshade on Dozey \u221228.5 points; venom on one front unit \u221212.2.",
+     "try_first": "An answer matrix: each answer card against carry boards at R12 and R16, with the carry in B3 and in the front row, and the answer's owner placed both against the scouted board and blind. Record each answer's swing."
+    },
+    {
+     "assumption": "The damage rule needs no change for the scale rework.",
+     "why_wrong": "Damage sets the price of greed and how fast a winner closes the game. Early losses cost 1-4 Health, and late damage is mostly the round base, so how hard you win barely matters. Once gold buys compounding stats, greed becomes cheap. Game length and growth rate are also linked: in 20-round games, x1.5 a round from R8 grows boards about 90x.",
+     "evidence": "Losing all of R1-6 leaves about 25 of 40 Health. From R12, survivors are 11-16% of a loss. Winners play 19.5 rounds; BG perfect games end at a median turn 14.",
+     "try_first": "A scripted-line lobby: 8 seats, each running a line from the goldfish set, with real fights and the real damage rule. Measure the greed line's Health at R10, game length, and how often the R8 leader wins. Then set base damage and Health for the target length."
+    },
+    {
+     "assumption": "Tiers open on the budget's clock (turns 2/4/6/8/9) or the bots' (rounds 3/6/9/12/14), and either one is what a strong player does.",
+     "why_wrong": "The bots' curve is set by hand. In tiers 2-4, bots could afford the next climb in 99-100% of the rounds where they didn't take it, and BG's 2/4/6/8/10 is affordable under our costs. Every break-even price and fixture depends on this clock.",
+     "evidence": "HARD_CURVE [4,7,9,12,14] (bot_level.gd:20-21, 'tempo beats tiers'); econ_pace2.py.",
+     "try_first": "Goldfish a fast-tier line (tier 6 by R10-11) and a tempo line, and fight them at R8, R10 and R12. The winner sets the clock for fixtures and costing. Retest the 13-gold last climb."
+    },
+    {
+     "assumption": "Hedgerow's lead is structural (Acorns, Dozey, concentration), so the other tribes should be raised to its level.",
+     "why_wrong": "Its lobby wins run through Squire Lollop, a tier-6 board-wide aura that other tribes splash. Its R9 fixture win is a Health breakpoint that an even spread of 5/6s reproduces. The R9 boards have no tier 6, so the lobby data and the fixtures are measuring different stages of the game.",
+     "evidence": "70 of 71 Hedgerow lobby wins had Lollop, and 422 of the 568 final boards holding him were other tribes'. Dozey's lift is 0.63. hedgerow_low wins 99.6%; even 5/6s win 96.5%.",
+     "try_first": "Constructed R9 and R14-16 boards with Lollop and the Committee swapped for plain bodies, and with them splashed onto other tribes' boards. Shift Hedgerow's Health by \u00b11 to find the cliff."
+    },
+    {
+     "assumption": "Bot lobby rates and the bench's board totals can rank tribes and cards.",
+     "why_wrong": "The plain bot values text at 1.5 \u00d7 tier, climbs on one curve and spends all its gold. The bench adds only base, permanent and tribe stats, so auras, Rings, Eggs, Bellies and fight buffs are missing. Constructed sims will inherit that blind spot if they reuse the same count.",
+     "evidence": "Fairies were picked in 29 of 3,200 seats and took first in 31% of those. Queen of Elfland sat on 634 non-Fairy boards. bench.gd:383-393 sums combat_spec only. Held Ooze bodies add about 25%.",
+     "try_first": "Log per-unit stats at the start of combat, held bodies included, in both the bench and the fixtures. Use lobby data only as the owner's occasional sanity check."
+    }
+   ],
+   "owner_hypothesis": [
+    {
+     "claim": "If a unit whose double is capped at +8/+8 can overwhelm games, our power budget is far too low (9a).",
+     "judgement": "incomplete",
+     "reason": "The budget is too low and too flat: a tier 4-6 body arrives at 0.60-0.74 of the median unit already on the board, and +8/+8 is a quarter of a round-7 board (+40 points of win rate). But Dozey's R9 fixture win is a Health breakpoint: six plain 5/6s win 96.5% too. In lobbies he doesn't predict wins (lift 0.63). Uncapped Dozey (96/94) dominated earlier only against bots that never take answers."
+    },
+    {
+     "claim": "In healthy BG metas nearly every unit ends the game above 100/100 (9a).",
+     "judgement": "right",
+     "reason": "Measured: the median BG unit is about 117/117 at turn 12 and 417/417 at turn 14 in the current patch. Even in Sep 2025, the mean unit was about 125/125 at turn 14. Our winners end near 17/17 a unit."
+    },
+    {
+     "claim": "Mid-game units reach 150/150 in many metas (9a).",
+     "judgement": "incomplete",
+     "reason": "That size belongs to the carry, not every unit, and only in recent patches. At turn 10 the biggest unit is about 120/120 and the median unit about 40/40 (Nov 2026). A whole turn-10 board was about 300 in Sep 2025, and launch-era BG carries were 30/30-60/60 late."
+    },
+    {
+     "claim": "BG's big numbers come from the compounding effects of economy (9a).",
+     "judgement": "incomplete",
+     "reason": "Our income is already BG's: 3 to 10 gold, 3-gold units, 1-gold refresh. The difference is what gold buys: BG turns gold into 2.8 stats at turn 8 and 71 at turn 14, while we stay at 1.4-1.5. That comes from second-order text (25% of BG's pool: 'this game', 'improve', doublers) more than from extra gold."
+    },
+    {
+     "claim": "Our tier power budget may not be steep enough (9a).",
+     "judgement": "incomplete",
+     "reason": "Right that new tiers arrive weaker than the board they join. But BG's printed bodies and buffs are small too. Steeper tiers alone give a steeper straight line, not BG's curve."
+    },
+    {
+     "claim": "Large amounts of the design need to be reworked (9a).",
+     "judgement": "right",
+     "reason": "22% of pool units carry a cap or limiter, the budget allows 'linear growth only', only Hedgerow turns gold into stats, and one card in 119 is second-order."
+    },
+    {
+     "claim": "Judge a card by condition and payoff: a T3 2/2 that gains +1/+1 at end of turn matches a 5/5 in three turns and beats it from then on (9a).",
+     "judgement": "right",
+     "reason": "On our clock (tier 3 opens around round 6, and winners play to round 19-20) it ends far above a 5/5. Our tools price it wrong: the budget wants it to break even against a plain unit by turn 12, and the bot scores it 8.5 against the 5/5's 14.5, and still won't swap it in after it reaches 5/5."
+    },
+    {
+     "claim": "Most of our effects spread small buffs over many units, and few let stats concentrate (9a).",
+     "judgement": "right",
+     "reason": "Concentrating stat payoffs: Birds 4 of 11 (plus 3 partly), Bog 1 of 13, Fairies 1 of 16, Hunters 3 small ones, Oozes 2; Hedgerow has 6 of 13. Ring, Supper and per-fight caps flatten the rest."
+    },
+    {
+     "claim": "Hedgerow's design is fine; its overperformance shows the other tribes are too weak (9a).",
+     "judgement": "incomplete",
+     "reason": "Right for Birds (mean place 5.10, 4.9% first), partly right for Bog, and not shown for Fairies (best high-roll board, 77%). Hedgerow's lobby lead runs through Squire Lollop, a board-wide aura that other tribes splash (70 of 71 Hedgerow wins). Its real structural edge, which the others lack, is growth in the Recruit Phase and gold that turns into stats."
+    },
+    {
+     "claim": "Three 10/11s are guaranteed to beat five 10/10s (9a).",
+     "judgement": "right",
+     "reason": "Exact under our rules: 5,600 fights over every layout gave one outcome, with one survivor."
+    },
+    {
+     "claim": "Without scam, concentrating stats is always better than spreading them (9a).",
+     "judgement": "incomplete",
+     "reason": "Fewer, evenly bigger bodies always win at equal totals. One carry plus small units does not: it wins 0-15% against an even board of the same total, and a carry holding 30% or more of the board loses 9-20 points, because overkill is wasted and every body soaks a whole exchange. Breakpoints decide fights. BG winners are no more concentrated than other boards (biggest unit 33-36% of the board vs 32-35%)."
+    },
+    {
+     "claim": "Concentration counts double with units that hold their stats, such as cleave or damage reduction (9a).",
+     "judgement": "right",
+     "reason": "Modelled on Dozey: taking 2 less damage adds 24.5 points, immunity while attacking 20.5, a shield 13.3, cleave 11.0. The slice has none of these keywords, which is part of why lone carries underperform here."
+    },
+    {
+     "claim": "A big unit like Dozey value-trades into 2-3 units, so the rest of the board only has to trade one for one (9a).",
+     "judgement": "right",
+     "reason": "It holds once the carry clears the enemy's breakpoints: Dozey's 10/16 against a median 4/6 kills 3-4 units. Back-row protection helps too: B3 wins 96.4% against 83.9% in F1."
+    },
+    {
+     "claim": "Our numbers may just be too small in general (9a).",
+     "judgement": "incomplete",
+     "reason": "Fights depend only on ratios (the same slope from 42 to 420 stats), so absolute size changes little. Small integers do hurt: one point of Health can swing about 32 points of win rate, and flat effects bite hard. What is too small is growth relative to the board."
+    },
+    {
+     "claim": "Carries at 50/50 by round 12 may still be too small (9c).",
+     "judgement": "untested",
+     "reason": "Against BG, yes: a turn-12 carry is about 450/450 now and about 125/125 in Sep 2025, and launch-era BG was lower. But fights don't care about absolute size. The real test is feel and the shape of the curve, and nobody has run it."
+    },
+    {
+     "claim": "Rewards must give power so players feel stronger (9c).",
+     "judgement": "right",
+     "reason": "Card text adds about 7 stats a round to the whole board, half of a final board is printed bodies, stats per gold fall from 1.41 to 1.05 over the game, and no board in 400 lobbies reached twice the median."
+    },
+    {
+     "claim": "Fun with higher entropy matters more than balance, with tribes in the same order of magnitude (9c).",
+     "judgement": "untested",
+     "reason": "Our fights are near-deterministic (59 of 66 test pairs fall outside 10-90%), so entropy is low today. A literal 10x bar is already met (first place ranges from 4.9% to 25.3%) while Birds are clearly failing, so the bar needs a metric."
+    },
+    {
+     "claim": "Bots will never be elite, so constructed simulations at turn thresholds are far more reliable (9d).",
+     "judgement": "incomplete",
+     "reason": "Right about the bots. But a fixed board measures how strong it is once built, not how often it gets built, and ours are brittle: +1/+1 swings them 22-68 points. Reliable results need rollouts of strong scripted lines through the real shop, then fights between populations of boards."
+    },
+    {
+     "claim": "Feedback loops will make rare runaway games; a top 1% at 10x the average is fine, as long as snowballs aren't common (9d).",
+     "judgement": "right",
+     "reason": "That is BG's shape: from turn 8, 13-23% of ordinary boards are at 2x the median, and by turn 14, 3% are at 10x. Bramble has no tail at all: not one board in 400 lobbies reached 2x. Under our damage rule a runaway can't even end games faster, since late damage is mostly the round base."
+    },
+    {
+     "claim": "Bots can't execute greedy, high-APM lines (9d).",
+     "judgement": "right",
+     "reason": "Bots had 5+ gold left in under 10% of turns, held a Stash in 19 of 4,475 player-turns, and bought Charcoal Burner in 1 of 240 seats. The saving bot gained +0.05 \u00b1 0.09 places."
+    },
+    {
+     "claim": "Reviewers shouldn't fail good work on power-budget concerns that rarely matter (9d).",
+     "judgement": "right",
+     "reason": "The costing reviewer cut 10 of 10 in pass 2 by hand math, won every split with the triage reviewer, and its method has no test for 'too small'."
+    },
+    {
+     "claim": "With scam, one 2.1-billion unit is easier to beat than three 500-million ones; distribution matters (9d).",
+     "judgement": "incomplete",
+     "reason": "Without scam the giant wins: it survives four hits and kills one unit per hit. The claim needs answers that can reach it, and ours mostly aim across, can't reach the back row while the front lives, and deal flat amounts. It becomes true once proportional answers that ignore rows exist. Today only Nightshade (\u221228.5 points on Dozey) and the Wasp come close."
+    },
+    {
+     "claim": "A player who scouts a ghost can adapt to it, but the ghost can't adapt back (9a question).",
+     "judgement": "right",
+     "reason": "Ghosts win 7% of fights at 0.8-0.9x the median, where a living board that size wins about 36%. They have no hero power, never change, and are scouted exactly. 817 ghost fights happen with three players alive, which gives someone in the final three a near-bye."
+    }
+   ],
+   "owner_questions": [
+    {
+     "question": "How big should late boards get, compared with Battlegrounds eras you know?",
+     "options": [
+      "Launch-era BG (2019-20): carries 30/30-60/60 late, boards in the low hundreds, compounding rare",
+      "Sep 2025 BG: about x1.5 a round from round 8, carries about 125/125 at round 12, 4-digit boards only in the end game",
+      "Current BG (Nov 2026): about x1.8 a round, 4-5 digit boards, carries about 450/450 at round 12"
+     ],
+     "default_answer": "Sep 2025 BG: carries in the low hundreds by round 12, with 4-digit totals only in the end game or in highrolls.",
+     "value": "Sets how many compounding engines each tribe gets (almost none, one or two, or several plus doublers), whether every flat effect (Bitter, Hex, 3 damage, Sergeant) turns into a proportional one, and how many digits a card face must fit."
+    },
+    {
+     "question": "How long should a winner's game be?",
+     "options": [
+      "18-20 rounds, as now",
+      "15-16 rounds",
+      "13-14 rounds, like BG"
+     ],
+     "default_answer": "15-16 rounds.",
+     "value": "Sets the damage table and Health (now 40 Health, with a round base of 0 to 13), which sets how cheap early losses are and so the price of greed. Together with question 1 it fixes the growth rate: x1.5 a round over the 11 rounds after round 8 we play now is about 90x; over 7 rounds it is about 17x."
+    },
+    {
+     "question": "How often may one player run away with a lobby?",
+     "options": [
+      "Rarely: the round-8 leader wins at most 20% of lobbies, and under 10% of boards reach 2x the round median at rounds 10-12",
+      "Like BG: the round-8 leader wins at most 30%, 15-25% of boards reach 2x the median at rounds 10-12, and 10x outliers stay under 1% of games",
+      "Swingy: 25-35% of boards at 2x, and the leader wins up to 40%"
+     ],
+     "default_answer": "Like BG.",
+     "value": "This becomes the pass/fail bar for every uncapped engine and for reviewers. Anything inside it ships; anything outside it gets a rate limit or a new answer, not a cap."
+    },
+    {
+     "question": "Should every tribe get a compounding 'this game' engine, or may some tribes win without big stats?",
+     "options": [
+      "Every tribe compounds stats",
+      "Every tribe compounds, and two also have a strong route that doesn't rely on stats (answers, width or reserve bodies), like BG's Beetles or Murloc handbuff",
+      "Three or four tribes compound; two win mainly through answers, summons or reserves"
+     ],
+     "default_answer": "Every tribe compounds, and two also get a strong route that doesn't rely on stats: Bog as the answer tribe, Oozes through their Belly reserves.",
+     "value": "This is the pass-3 content brief: which tribes get 'this game' engines and doublers, and which get scam and width instead."
+    },
+    {
+     "question": "Should answers be able to reach a carry hidden in the back row?",
+     "options": [
+      "Freely: several 'wherever it stands' answers, like BG's venom",
+      "Rarely: a few answers that ignore rows (one neutral, one or two tribes); most aim across or at the front",
+      "No: the front row guards the carry, and you have to break it first"
+     ],
+     "default_answer": "Rarely.",
+     "value": "Decides whether uncapped carries are safe and what the answer cards look like. The first option also changes what the back row means: today it is the place a carry hides."
+    },
+    {
+     "question": "How swingy should a single fight be in the mid and late game?",
+     "options": [
+      "As now: near-deterministic (a board at 1.5x the median wins 94%)",
+      "Like BG: the side with fewer stats wins about 15-25% of fights",
+      "Swingier: 25-35%"
+     ],
+     "default_answer": "Like BG.",
+     "value": "Sets how much variance we add: summons, shields, answers, random targets that ignore rows. Without it, a compounding curve lets a one-round lead decide every fight."
+    },
+    {
+     "question": "When you say tribes should be within the same order of magnitude, what should we measure?",
+     "options": [
+      "First-place rate per tribe between 8% and 20% in lobbies of scripted lines",
+      "Each tribe's best common line wins 35-65% against the field at rounds 8, 12 and 16, in fights between populations of constructed boards",
+      "Median stats within 2x of each other at each round"
+     ],
+     "default_answer": "The second, with the first as a sanity check.",
+     "value": "This is the pass/fail bar for each tribe pass. Today's first-place spread of 4.9-25.3% already passes a literal 10x, while Birds are clearly failing."
+    },
+    {
+     "question": "Should Squire Lollop and the Standing Committee buff only Hedgerow folk?",
+     "options": [
+      "Hedgerow folk only",
+      "Keep them board-wide in Hedgerow",
+      "Board-wide, moved to the neutral pool"
+     ],
+     "default_answer": "Hedgerow folk only, and the neutral pool gets its own late full-board card.",
+     "value": "Decides whether Hedgerow is the benchmark the other tribes are raised to. Its bot lead is mostly Lollop (70 of 71 wins), and 422 of the 568 final boards holding him were other tribes'."
+    }
+   ],
+   "missing": [
+    "Growth rate and game length are one decision, and no map joined them. At Sep 2025 BG's rate (x1.5 a round from round 8), our 20-round games end about 90x above round 8, which is current-BG numbers. BG's turns 8 to 14 give about 14x.",
+    "No map asked what compounding does inside our near-deterministic combat. +10% stats is worth about 15 points at any scale, and a board at 1.5x the median wins 94%. An exponential curve then makes a one-round lead decisive. The rework needs a variance budget measured as the share of fights the smaller board wins (BG: 14-26%).",
+    "No map proposed a way to measure how often a board happens without bots. Constructed sims the rework needs, and what each measures: (1) a distribution grid: boards with equal totals (seven even units, five big, three big, BG's carry with a third of the stats, an all-in carry) at R6/9/12/16 sizes, with and without one answer and each stat-holding keyword; it measures what actually wins fights. (2) An answer matrix: each answer against carry boards at R12 and R16, carry in B3 and in front, scouted and blind; it measures each answer's swing. (3) Goldfish rollouts: 2-3 strong scripted lines per tribe through the real shop and pool, 500+ seeds; they measure the spread of boards by round, stats per gold, the tail, and tier and triple timing. (4) Population round robins of rollout boards at R8, R12 and R16; they measure each line's win rate against the field, how win rate follows the stat ratio, and how often the smaller board wins. (5) Cap removal and one uncapped 'this game' engine per tribe, run inside (3) and (4); they measure tail growth and whether answers still win 30%+. (6) Scripted-line lobbies with the real damage rule; they measure how often the round-8 leader wins, the share of winners below the median at round 8, game length and the greed line's Health.",
+    "Harvest Supper's tribe bonus (rule 5.2.9) is the pool's only 'this game' layer: it reaches every unit of the tribe you will ever own, in hand, in Bellies and away. It is capped at +3/+3. Maps listed it as one cap among many, not as the cheapest system-level lever, BG's Undead/Beast 'this game' pattern, open to every tribe at once.",
+    "Tavern spells are in the shop but never grow. In current BG a large share of late growth runs through text that improves spells. That is a ready second-order channel nobody proposed.",
+    "The feedback loops in our own rules were never listed or modelled: Early Spoils (1 gold a win in rounds 1-4), the triple reward's discover from the tier above, golden text doubling a growth rate (a golden engine compounds twice as fast), and Last Stand as the only rubber band. Pace data found that early wins predict place even at equal board size, and nobody explained why.",
+    "The slice has no stat-holding keywords and no trample: no shield, Reborn, cleave, windfury, venom or damage reduction. The owner's 'doubly' point, and the trample idea he liked on 2 Nov, depend on them; modelled on a carry they add 11-25 points.",
+    "No constructed boards exist past R9, and none include tier 6. The late game, where the curve gap opens, is untested by fixtures.",
+    "The strong-player reference curve for fixtures (tier, gold and triples by turn) can be measured from the 129 parsed BG replays and adapted to our costs. So the process map's question to the owner about it can be dropped.",
+    "Whether 4-5 digit numbers stay readable on the 4-3 board at phone size is untested, and it limits how far the scale can go."
+   ]
+  },
+  {
+   "verdict": "The game is flat by construction, and every check we ran was relative (card against a plain unit, tribe against tribe, bot against bot), so nothing flagged it. Engines are priced to break even with a plain body and capped per turn, so investing never pays off. Gold is the same for everyone and saving earns nothing. Most payoffs last one fight, so they reset and don't show in the shop. Boards grow 40% a turn at R5 and 7% at R16, against Battlegrounds' 55-95% from turn 8: the late game gives the smallest rewards when the stakes are highest, and there are no highrolls to chase. Bot data can't see this. The owner's claims mostly hold, with two corrections under our rules: the economy-to-tempo loop has almost nothing to run on yet, so today's risk is no snowballs; and with no timer, many-action lines are open to any patient human, so the human tail may be fatter than Battlegrounds'. The rework needs sims scored against a sampled field of reachable boards: curve shape, invest against tempo, greed against tempo, carry against answers. Playtests against bots shouldn't count as snowball evidence.",
+   "wrong_assumptions": [
+    {
+     "assumption": "Bot lobbies measure tribe strength, card strength and how often snowballs happen.",
+     "why_wrong": "The bar measures the bot. Bots rate card text at 1.5 x tier, all follow one climb curve, spend all their gold, never buy against the scout and never buy answers. That hides engines, answers and greed lines, which are what the rework is about.",
+     "evidence": "Fairies picked by 0.9% of seats but first in 31% of them. Birds' first rate moved from 13.5% to 4.9% between runs. Changeling and Ichneumon Wasp were on 0 of 3,200 final boards. Gold left was 5 or more in under 10% of turns. No board ever reached 2x the lobby median in 400 lobbies.",
+     "try_first": "Stop tuning to lobby results. Build a constructed-field harness (S0). For R6, R9, R12 and R15, take 60-100 boards from seeded shop sequences: several lines per tribe, on average, high and low rolls. Score each candidate by its win rate against the whole field, sides swapped, with combat-start stats logged per unit. Run lobbies only as a sanity check every few passes."
+    },
+    {
+     "assumption": "Capping growth per tier and pricing engines to break even with a plain unit by turn 12 is fair.",
+     "why_wrong": "It makes investing pointless. An engine can never end up much better than a plain body. So the arc the owner describes (worse now, level in 3 turns, better every turn after) is ruled out by construction.",
+     "evidence": "The owner's own T3 2/2 that gains +1/+1 at End of Turn is over budget until Tier 4. The T3 cap is 1.7 SP a turn and the card makes 2 (power-budget.md:205). 7 of the 10 pass 2 cuts were for growth over the caps. Our T4-6 payoffs give about 3 SP a turn, against 32 in Battlegrounds. A capped payoff adds about 2% of the board a turn.",
+     "try_first": "Invest-against-tempo sim (S2). For each engine at its real opening round, on the same seed, buy either the engine or the best tempo buy. Fight both against the field 0 to 5 turns later. Lift the caps on 2-3 engines per tribe. Target: behind at once, level after 2-3 turns, clearly ahead after that."
+    },
+    {
+     "assumption": "Our numbers are too small, so scaling them up fixes the game.",
+     "why_wrong": "Plain combat only cares about ratios. Multiplying every stat by k changes nothing but rounding. What is missing is growth relative to the board, and a tail. Scaling up helps only on the side: finer tuning steps and smaller flat effects.",
+     "evidence": "+10% stats moves win rate by about 15 pp at every scale (scale.txt). Board growth per round falls from 40% at R5 to 16% at R10 and 7% at R16. Battlegrounds grows by x1.5-1.9 a turn from turn 8 to 14. 25% of Battlegrounds' pool is compounding text; Bramble has one such card (Fairy Monarch).",
+     "try_first": "Curve-shape sim (S1). Run 200 seeds per tribe on a scripted strong line, with one uncapped 'this game' engine per tribe. Record board power at p50, p90 and p99 for R8, R11 and R14, the share of boards at 2x the median or more, and the biggest unit's share. Compare these with the target curve. Do the x4 rescale in the same pass for finer steps, not as the fix."
+    },
+    {
+     "assumption": "Board stat totals measure strength.",
+     "why_wrong": "Breakpoints and how stats are spread decide fights. The totals we log also leave out the power that wins.",
+     "evidence": "The biggest board in a lobby wins only 76-79% of its fights, and every board between 0.65x and 0.95x the median wins 35-39%. The two most common cards on winning boards (Lollop, Isegrim) give combat-only buffs that aren't logged, and Eggs, Rings and Belly bodies are left out too. In Battlegrounds the side with fewer stats won 14-26% of fights.",
+     "try_first": "Score every board by its win rate against the field, never by SP. Log each unit's stats at the start of combat (after auras, held bodies included) and the biggest unit's share of the board."
+    },
+    {
+     "assumption": "Fixed R9 boards at equal spend are a fair benchmark.",
+     "why_wrong": "Equal spend, one growth layer, one author and one round strip out what the owner cares about: economy lines, compounding, roll luck and the late game. At small numbers combat is nearly deterministic, so each pair becomes a test of where breakpoints fall.",
+     "evidence": "59 of 66 plain pairs fall outside 10-90%. +1/+1 on every unit moves boards by 0-68 pp. There is no T6. All 12 boards were built by one hand from gold ledgers.",
+     "try_first": "Replace single pairs with the field (S0). Report win rate along stat curves (+5%, +10%, +20%), not after a single +1/+1. Add boards with different spend at the same round (greed against tempo). Run R12 and R15 as well as R9. Build boards from seeded shops so they are reachable, not from hand ledgers."
+    },
+    {
+     "assumption": "Economy is a real decision layer: banking, interest, gold engines, and the owner's economy-to-tempo loop.",
+     "why_wrong": "Gold is the same for everyone and saving pays nothing, so the choice to greed is hollow. The loop the owner describes has nothing to run on.",
+     "evidence": "Every tribe spends 9.7-10.1 gold a round, and nothing raises income above 10. The median most anyone banks in a game is 3. The interest hero places last (5.53). The rising refresh price never fired in 48,773 turns. Late gold buys 0.75-0.9 stats. Playtest tally row 12 says saving gold is a trap. From R12 a loss costs 11-13 Health, so a leader can't afford to greed just when the lead would allow it.",
+     "try_first": "Greed-against-tempo sim (S3). On the same seeds, run a tempo line against an economy line (bank for a big climb, hold Acorns, climb fast). Measure Health lost by R8 (from the calibrated Health model and win rates against the field), board power at R11 and R14, and how often the greed line ends ahead. This shows whether an economy lead can become a tempo lead at all."
+    },
+    {
+     "assumption": "Combat-only payoffs are a fair main reward for a tribe.",
+     "why_wrong": "The player can't see them while recruiting, they reset after every fight and they never build up. They don't feel like progress.",
+     "evidence": "10 of 13 Hunter stat payoffs and 9 of 13 Bog ones last one fight only. Costing moved Lollop, Laird and Elder Ooze to combat-only to fit under the caps. T5-6 bodies arrive at 0.6x the size of the units already on the board, so tier-ups look like downgrades in the shop.",
+     "try_first": "Count each tribe's share of permanent payoffs that show in the shop, and set a floor of about half. Show combat-start stats in the shop. Then run S2 on the converted payoffs."
+    },
+    {
+     "assumption": "Answers aimed at the unit 'across' are real answers to a carry.",
+     "why_wrong": "They land only when the two layouts line up, and the carry's owner chooses its slot after seeing the scout. They are also untested: bots never buy them, so no playtester has met one.",
+     "evidence": "Changeling and Wasp were on 0 of 3,200 final boards. The slice has no poison, no destroy and no 'attacks the biggest'. In the model, Nightshade on Dozey's board costs it 28.5 pp. The scout shows the opponent's board from the last round.",
+     "try_first": "Carry-against-answer sim (S4). Fight each tribe's best R11 and R14 carry board against field boards holding 0, 1 and 2 answers, with the carry's owner re-placing after the scout (sampled layouts). Then add one answer that targets the biggest enemy and compare. Target: a common board with one answer beats the carry about 30% of the time or more."
+    },
+    {
+     "assumption": "Human playtests against bots can judge fun and how often snowballs happen.",
+     "why_wrong": "The human has no timer, reads bots that pin their carries in place, never faces an answer and never faces a greedy opponent. After the rework a human will snowball against linear bots in most games. That will look like the common snowball the owner fears, but it is the mismatch. Under tally rule E it would bring the caps straight back.",
+     "evidence": "Tally row 3 ('one huge unit decides', 11 reports) became caps, in games where bots never bought an answer. Bots use the scout only for placement. Ghosts lose 93.5% of their fights.",
+     "try_first": "Before the rework lands, count snowball and dominance reports only when a constructed sim reproduces them. Give playtests a 'strong field' mode: each round's opponent comes from that round's constructed field, so the human meets strong boards and answers."
+    },
+    {
+     "assumption": "Scope reviews per step, a costing veto and the tally rule keep the whole game on course.",
+     "why_wrong": "Every check was relative: card against a plain unit, tribe against tribe, bot against bot. Nothing compared the game with a reference game or a feel target. So the process could balance a uniformly flat game and call that a success.",
+     "evidence": "At least 19 caps or limiters were added in 3 days; 22% of units now carry one, against about 5% in Battlegrounds. Costing won 10 of 10 cuts and every split, with no sims and no 'too small' test. The orchestrator set the 13/13-by-turn-12 scale target on 6 Nov, and nobody tested it for feel. Scope reviewers see one commit range at a time.",
+     "try_first": "Make the pass bar absolute: the S1 curve against the owner's target, plus bars from S2 to S4. Give the costing reviewer sims through Sol and make it advise only, with a 'too small' check. Run a whole-game critic every pass that reads all new caps and the curve."
+    }
+   ],
+   "owner_hypothesis": [
+    {
+     "claim": "If Dozey's capped growth is enough to overwhelm a game, the power budget is far too low across the board.",
+     "judgement": "incomplete",
+     "reason": "The other tribes' payoffs are far too small: about 3 SP a turn at T4-6, against 32 in Battlegrounds. But Dozey's edge is his size against a small field (10/16 against a median 4/6 at R9), and an even board with 6 Health on every unit wins as often (96.5% against 95.7%). In bot lobbies Dozey boards place worse. Squire Lollop drives Hedgerow's wins."
+    },
+    {
+     "claim": "In healthy Battlegrounds metas nearly every unit ends over 100/100, and carries reach 150/150 mid-game.",
+     "judgement": "right",
+     "reason": "Current patch: the median unit is about 117/117 at turn 12, and the median biggest unit is 240 stats at turn 10 and 897 at turn 12. Even in the tamest recent era (Sep 2025) units reach about 125/125 by turn 14. Ours are about 10/10 at R12 and 17/17 at the end."
+    },
+    {
+     "claim": "Our tier power budget isn't steep enough.",
+     "judgement": "incomplete",
+     "reason": "Battlegrounds' printed bodies and buffs are small too (+2 to +6 per buff). Its scale comes from compounding text: 25% of its pool against 1 Bramble card. What we lack is steep payoff growth, not steeper bodies. Still, T5-6 bodies arrive at 0.6x the units already on the board, which makes tier-ups feel like downgrades."
+    },
+    {
+     "claim": "A T3 2/2 that gains +1/+1 at End of Turn costs about the same as a 5/5 and is better after 3 turns.",
+     "judgement": "wrong under our rules",
+     "reason": "The principle is right, but our method rules that card over budget until Tier 4. The T3 growth cap is 1.7 SP a turn and the card makes 2 (power-budget.md:205). The bot values it at 8.5 against the 5/5's 14.5 and replaces it even after it reaches 5/5. Both the method and the bot must change."
+    },
+    {
+     "claim": "Judge every card by its condition, its payoff and what it enables.",
+     "judgement": "right",
+     "reason": "Our method prices each card alone, gives no value for enabling other cards, and has no test for a payoff that is too small."
+    },
+    {
+     "claim": "Hedgerow is fine; its overperformance shows the other tribes are too weak.",
+     "judgement": "incomplete",
+     "reason": "Right for Birds, which are last on every measure. Partly right for Bog. Not shown for Fairies, whose high-roll board is the best at 77%. Hedgerow's lobby lead is mostly Squire Lollop, a full-board aura any tribe can run: 70 of 71 Hedgerow wins had it, and Hedgerow players without Lollop or Committee place 5.99 on average. Bots barely play its Acorn engine, though Dozey wins the constructed low roll (99.6%)."
+    },
+    {
+     "claim": "Three 10/11s always beat five 10/10s.",
+     "judgement": "right",
+     "reason": "Exact under our rules: 5,600 fights across every placement gave one outcome, with one survivor."
+    },
+    {
+     "claim": "Without scam, concentrating stats is always better than spreading them.",
+     "judgement": "incomplete",
+     "reason": "At equal totals, fewer and bigger bodies win every time, for boards of two or more units. One carry with small units around it loses: it needs about 1.37x the stats, and a lone carry wins or loses on Last Blow parity. On real R9 boards, a buff spread across the board does as well as the same buff on one unit (68.9% against 68.1%). Our damage also counts survivors, so concentrated wins deal less damage."
+    },
+    {
+     "claim": "Units that hold their stats (hit an extra unit, take less damage) make concentration doubly strong.",
+     "judgement": "right",
+     "reason": "In the plain combat model, giving Dozey damage reduction adds 24.5 pp, immunity while attacking adds 20.5 and cleave adds 11. Not yet run in the engine, and the slice has almost no such effects."
+    },
+    {
+     "claim": "Most effects spread small buffs, so a big unit value-trades 2-3 enemies and the rest of the board only needs to trade 1-for-1.",
+     "judgement": "right",
+     "reason": "Few payoffs concentrate stats: 4 of 11 in Birds (some only partly), 1 of 13 in Bog, 1 of 16 in Fairies, 6 of 13 in Hedgerow. Dozey at 10/16 against 4/6 units kills 3-4 of them. The mechanism is breakpoints: he one-shots each enemy and survives its hit."
+    },
+    {
+     "claim": "Our numbers may just be too small in general.",
+     "judgement": "incomplete",
+     "reason": "Plain combat cares only about ratios, so multiplying every stat changes nothing but rounding. What is too small is growth relative to the board (40% a turn at R5, 7% at R16) and the tail (no board ever reached 2x the median). A bigger scale helps on the side: +1/+1 moves fixed fights 30 pp now and 9 pp at 4x, and flat effects shrink."
+    },
+    {
+     "claim": "The active player adapts to a ghost that can't adapt back.",
+     "judgement": "right",
+     "reason": "Ghosts lose 93.5% of their fights. A ghost at 0.8-0.9x the median wins 7%, where a live board that size wins about 36%. The scout of a ghost shows its exact board, and the ghost has no hero power. 817 ghost fights come with three players left. Ghost fights are only 3% of all fights, and async play (rulebook 2.1.4) would replace ghosts."
+    },
+    {
+     "claim": "Carries at 50/50 by R12 may still be too small.",
+     "judgement": "right",
+     "reason": "Even in the tamest recent Battlegrounds era the average board at turn 12 is 759 stats (about 54/54 a unit), with carries above that. Now the median biggest unit at turn 12 has 897 stats. Whether a given size makes a good game is untested."
+    },
+    {
+     "claim": "Rewards always give power; players must feel stronger.",
+     "judgement": "right",
+     "reason": "Our rules fail it. A capped payoff adds about 2% of the board a turn, and board growth per turn falls from 40% to 7%. Most payoffs last one fight and don't show in the shop. T5-6 bodies arrive smaller than the units they join."
+    },
+    {
+     "claim": "Bots will never be elite; constructed sims at turn thresholds should count for far more than bot play.",
+     "judgement": "right",
+     "reason": "Bots rate text at 1.5 x tier, follow one climb curve, never save and never buy answers. One caution: our only constructed bench (R9) was built by one agent at equal spend and gives results near 0% or 100%. The new sims need a sampled field and reachable boards."
+    },
+    {
+     "claim": "An economy lead becomes a tempo lead that lets the leader greed safely; such snowballs will happen, and that's fine if they're rare.",
+     "judgement": "wrong under our rules",
+     "reason": "Today the loop has almost nothing to run on. Every tribe spends about 10 gold a round, nothing raises income, and saving pays nothing (the median most anyone banks is 3). From R12 a loss costs 11-13 Health, so a leader can't afford to greed. Only Acorns, Early Spoils and triples compound. Today's risk is no snowballs at all. After the rework, measure it with the greed-against-tempo sim."
+    },
+    {
+     "claim": "A top 1% at 10x the average is fine; the shape of the curve is what matters.",
+     "judgement": "right",
+     "reason": "This matches Battlegrounds: from turn 8, 13-23% of ordinary boards are at least 2x the median, and the top tenth of the top 0.4% of games reach 7-18x. In 400 Bramble bot lobbies no board reached 2x. The curve-shape sim can test it."
+    },
+    {
+     "claim": "Bots can't execute many-action lines (Tethys, Proud Privateer, APM Undead).",
+     "judgement": "incomplete",
+     "reason": "True for bots. But Bramble has no recruit timer (rulebook 3.1.2), so speed doesn't limit people. Any patient player can run a many-action line, and only the rising refresh price bounds it; bots never reached it. The gap that remains is planning, so the human tail may be fatter than Battlegrounds' for the same content."
+    },
+    {
+     "claim": "Reviewers shouldn't fail good work on power-budget concerns that come up rarely.",
+     "judgement": "right",
+     "reason": "Costing cut 10 of 10 pass 2 items by hand math, 7 of them for growth over the caps, and won every split. At least 19 caps were added in 3 days. The method has no 'too small' test."
+    },
+    {
+     "claim": "Distribution beats total: one huge unit is easier to beat than three big ones.",
+     "judgement": "right",
+     "reason": "Under our rules, one answer that ignores size (Nightshade, Bufo's halving, Changeling, Wasp) handles one carry; three carries need three. But our answers mostly hit the unit across, so they land by layout luck. There is no poison or destroy. Bots never play Changeling or Wasp (0 of 3,200 boards), so nobody has tested them."
+    }
+   ],
+   "owner_questions": [
+    {
+     "question": "What curve should a strong (not elite) player's board follow, and when should the game end?",
+     "options": [
+      "Battlegrounds, Sep 2025: about x1.5 a turn from R8; median board about 300 at R10, 750 at R12, 1,750 at R14",
+      "Battlegrounds now: about x1.9 a turn; about 700, 2,600 and 8,000",
+      "A steeper straight line: about 3x today (around 400 at R12), no compounding"
+     ],
+     "default_answer": "The Sep 2025 shape, with Battlegrounds' tail: about 15-20% of boards at 2x the median from R10, the top 1% up to 10x, and winners done by R14-16.",
+     "value": "Sets the growth rates, gold value and payoff sizes in every tribe, the pass bar for the curve-shape sim, and the Health clock. Today winners play 19.5 rounds."
+    },
+    {
+     "question": "Where should compounding come from?",
+     "options": [
+      "Stats: 'this game' counters and payoffs that scale; income stays flat at 10",
+      "Gold: income raises, interest and gold engines that feed stat buys",
+      "Both: mostly stats, plus one or two cards per tribe that raise gold or pay per gold spent"
+     ],
+     "default_answer": "Both, mostly stats.",
+     "value": "Decides whether the economy layer (income cap, banking, interest hero, spell rates) is reworked or only the content. With flat gold, your economy-to-tempo loop has nothing to run on."
+    },
+    {
+     "question": "Should every tribe have a route to one big carry it grows and protects, or should some tribes win wide or with answers?",
+     "options": [
+      "Every tribe gets one carry route and one way to hold stats (shield, damage reduction)",
+      "Four tall tribes; two win wide or with answers, as Beetles and Murlocs do in Battlegrounds",
+      "Carries come only from neutral cards"
+     ],
+     "default_answer": "Every tribe gets a carry route. Bog and Oozes also get a strong non-carry route (answers for Bog, width for Oozes).",
+     "value": "Sets the pass-3 brief for all six tribes. Today only Hedgerow has a carry the player picks and grows."
+    },
+    {
+     "question": "Must every tribe's main payoffs be permanent growth you can see in the shop, or can a tribe live on fight-only power?",
+     "options": [
+      "Every tribe's main payoffs are permanent; fight-only text is for answers and tempo",
+      "Allow one fight-only tribe (Hunters) if its fight numbers are big and shown before the fight",
+      "Keep today's mix"
+     ],
+     "default_answer": "Every tribe's main payoffs are permanent.",
+     "value": "Decides how much of Hunters (10 of 13 payoffs fight-only) and Bog (9 of 13) is rewritten, and whether the shop shows combat-start stats."
+    },
+    {
+     "question": "Should answers to a big unit aim at it, or keep hitting the unit across, so that beating a carry is a placement guess?",
+     "options": [
+      "Aimed: poison-like, 'the biggest enemy', percentage damage",
+      "Across: a mind game read from the scout",
+      "A mix: a few aimed answers in the neutral pool; tribal answers stay across"
+     ],
+     "default_answer": "A mix.",
+     "value": "Decides whether placement is a real decision layer, how big carries may grow without caps, and which answer cards are rewritten."
+    },
+    {
+     "question": "Which lobby should the fundamentals serve, given there is no timer?",
+     "options": [
+      "The live 8-player lobby with bots (today's build); async later",
+      "Async recorded runs (rulebook 2.1.4): tune for that now",
+      "Live, plus a cap on shops or actions a turn (Galaxy stops at 30 shops)"
+     ],
+     "default_answer": "The live lobby for now, with the refresh price as the only brake until sims show many-action lines dominate. Spend nothing on fixing ghosts.",
+     "value": "Decides whether ghosts, Last Stand and scouting are fixed now, and how wide the human skill tail gets. With no timer, many-action lines are open to any patient player."
+    },
+    {
+     "question": "Should a crushing late win hurt more than a narrow one?",
+     "options": [
+      "Keep: from R12 the round base is most of the damage (survivors are 11-16% of a loss)",
+      "From R10 each survivor deals 2",
+      "Survivors deal damage by their tier, as in Battlegrounds"
+     ],
+     "default_answer": "From R10 each survivor deals 2; then re-check pace.",
+     "value": "Decides whether concentrated and blowout boards earn anything in Health, and moves the game-length target."
+    },
+    {
+     "question": "Will you check a dozen constructed boards (R6, R9, R12, R15; typical and high roll) as what a strong player would have at that point?",
+     "options": [
+      "Yes, about 10 minutes",
+      "Only give a strong player's tier and triple timeline under our costs",
+      "No: trust hindsight-search lines on seeded shops"
+     ],
+     "default_answer": "No. Use hindsight-search lines as the upper bound and scripted lines as typical play.",
+     "value": "Sets how much weight the sims carry. All 12 of today's benchmark boards were built by one agent."
+    }
+   ],
+   "missing": [
+    "The target game is async with no timer (rulebook 2.1.4 and 3.1.2), and the ideation build has no timer either. Every map analysed a live Battlegrounds lobby. Without a timer, nothing limits how many actions a turn takes, and that limit is what keeps Battlegrounds' many-action lines rare. So the human skill tail could be fatter than Battlegrounds' for the same content. Async play also needs new rules for scouting and the ghost (2.1.5 is open).",
+    "No map set out the arc by phase. Early (R1-4): a loss costs 0-1 Health and a win pays 1 gold, so the player wants tempo and has few real choices (tally row 9). Mid (R5-11): climbs follow hand-set bot curves, new-tier bodies arrive below the board average, and triples are the main reward. Late (R12+): any loss costs 11-13, the margin barely counts, payoffs add about 2% a turn and T6 bodies are 0.6x the board's units, so the player wants not to lose and to find goldens. No phase has a 'this is my spike turn' decision.",
+    "Felt reward per turn: board growth as a share of the board falls from 40% at R5 to 7% at R16, while Battlegrounds grows 55-95% a turn from turn 8. No map tied this to motivation. Our late game gives the smallest jumps when the stakes are highest.",
+    "Visibility: no map checked what the player sees while recruiting. Combat-only buffs, Eggs fighting at half stats and units held in Bellies don't show in the shop, so the player can neither feel nor plan that power. Breakpoints are hidden arithmetic: at R9, one point changes the result for 26-33% of unit pairs.",
+    "Nobody re-read the playtest tally for the bot mismatch. Row 3 ('one huge unit decides', 11 reports) came from games where bots never bought an answer. Row 12 ('saving gold is a trap') and row 9 ('rounds 1-4 scripted') are decision-quality signals that match the economy data, yet they were treated as card fixes.",
+    "No map said what constructed boards should fight, or how to make them a strong player's boards. Proposal: build boards on seeded shop sequences so they are reachable. Scripted lines give typical play, a hindsight search over buys on the same seed gives the elite upper bound, and bots give the floor. Score every board against the whole field for its round, sides swapped, along stat curves (+5%, +10%, +20%) rather than a single +1/+1.",
+    "Commit against pivot: 37% of seats end with no tribe, and Lollop is on 422 non-Hedgerow boards. No map measured whether committing to a tribe pays. Sim: a committed tribal board against an any-tribe board of the strongest cards, at the same gold, at R11 and R14. Flat auras (Lollop +2/+2, Supper +3/+3) shrink relative to the board once growth compounds, so a Lollop fix made before the rescale may be wasted.",
+    "Tier-up value: no sim tested whether climbing feels like progress. Sim: at R9, R12 and R14, compare climbing and buying a new-tier card against staying and rolling, scored against the field 1-3 turns later.",
+    "Comebacks: a player wins 60% of fights after a win and 41% after a loss, and board size relative to the lobby correlates 0.76-0.80 between rounds two apart. Nobody looked at the way back for a player who is behind at R8 (a pivot, answers, Last Stand), which is half the curve shape. The curve sims should report how often a board below the median at R8 finishes in the top 2.",
+    "Highrolls: triples are the only highroll players reach (winners hold 3.58 goldens, 8th place 1.05), and the buy is obvious, so the spike comes from shop luck rather than a decision. Goldens double effects too. Once engines compound, a golden engine doubles its rate and may drive snowballs. Untested.",
+    "Skill expression: no map measured how much a better decision gains (climb or buy, roll or save, placement against the scout). Combat is nearly deterministic and the scout shows the opponent's last board. So against bots that keep their carry in one slot, placement is close to solved; against people it is a guess. Without these numbers we can't say where skill shows."
+   ]
+  }
+ ]
+}

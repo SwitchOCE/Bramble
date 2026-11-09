@@ -1,0 +1,37 @@
+players reaching T6 1570 mean place 2.52
+tier6_turn values sample [('0', 1630), ('14', 690), ('15', 600), ('13', 189), ('16', 88), ('17', 3)]
+fairy_monarch        ['Fairies']          n=  15 place=1.67 firsts=8
+squire_lollop        ['Hedgerow folk']    n= 520 place=2.14 firsts=206
+laird_of_sett        ['Hunters']          n=  89 place=2.17 firsts=30
+old_isegrim          ['Hunters']          n= 632 place=2.28 firsts=192
+granny_stir_up       ['Oozes']            n= 141 place=2.31 firsts=40
+cut_and_come_again   ['Oozes']            n=  22 place=2.32 firsts=8
+old_mother_mast      ['Hedgerow folk']    n= 358 place=2.33 firsts=111
+queen_of_elfland     ['Fairies']          n= 526 place=2.38 firsts=138
+lantern_man          ['Bog folk']         n= 203 place=2.42 firsts=52
+peat_king            ['Bog folk']         n= 407 place=2.43 firsts=108
+gabble_ratchet       ['Birds']            n=  61 place=2.51 firsts=10
+whirligig_beetle     []                   n= 292 place=2.51 firsts=80
+seven_whistlers      ['Birds']            n= 176 place=2.59 firsts=35
+
+splash check: place on own-tribe-labelled boards vs other boards
+squire_lollop        own (146, 2.18) other (422, 2.47)
+standing_committee   own (141, 2.89) other (523, 4.31)
+queen_of_elfland     own (19, 2.37) other (634, 2.98)
+belladonna           own (14, 3.21) other (284, 4.88)
+peat_king            own (173, 2.67) other (302, 3.01)
+lantern_man          own (152, 2.72) other (96, 3.49)
+seven_whistlers      own (131, 3.52) other (100, 2.99)
+mother_goose         own (139, 4.58) other (129, 4.78)
+alderman_dozey       own (99, 4.07) other (192, 5.33)
+old_mother_mast      own (167, 2.62) other (280, 3.19)
+will_o_the_wisp      own (13, 4.92) other (217, 6.13)
+silky                own (4, 5) other (161, 6.25)
+reel_mistress        own (10, 4.5) other (142, 5.59)
+mag_pye              own (183, 5.56) other (219, 5.66)
+cuckoo               own (189, 5.61) other (220, 5.95)
+mrs_stork            own (189, 5.44) other (221, 5.9)
+gideon               own (135, 5.48) other (213, 6.27)
+jenny_greenteeth     own (116, 4.97) other (102, 5.64)
+prima_donna          own (128, 4.05) other (89, 4.92)
+prince_restored      own (87, 3.69) other (28, 3.75)

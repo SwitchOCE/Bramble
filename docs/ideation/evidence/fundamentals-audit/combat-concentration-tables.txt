@@ -1,0 +1,387 @@
+# Combat/concentration tables (worker 'combat, board, concentration'). Model: bramble_combat.py; checks: test_model.py
+
+=================== equal_totals.txt
+
+== total stats 840: row board win % vs column board (ties in brackets)
+n  units   n=1  n=2  n=3  n=4  n=5  n=6  n=7
+1 (420, 420)   --  100.0   0.0 100.0   0.0 100.0   0.0
+2 (210, 210)   0.0   --  100.0 100.0 100.0 100.0 100.0
+3 (140, 140) 100.0   0.0   --  100.0 100.0 100.0 100.0
+4 (105, 105)   0.0   0.0   0.0   --  100.0 100.0 100.0
+5 (84, 84) 100.0   0.0   0.0   0.0   --  100.0 100.0
+6 (70, 70)   0.0   0.0   0.0   0.0   0.0   --  100.0
+7 (60, 60) 100.0   0.0   0.0   0.0   0.0   0.0   -- 
+
+== total stats 70: row board win % vs column board (ties in brackets)
+n  units   n=1  n=2  n=3  n=4  n=5  n=6  n=7
+1 (35, 35)   --  100.0 100.0 100.0   0.0 100.0   0.0
+2 (17, 18)   0.0   --  100.0 100.0 100.0 100.0 100.0
+3 (12, 12)   0.0   0.0   --  100.0 100.0 100.0 100.0
+4 (9, 9)   0.0   0.0   0.0   --  100.0 100.0 100.0
+5 (7, 7) 100.0   0.0   0.0   0.0   --  100.0 100.0
+6 (6, 6)   0.0   0.0   0.0   0.0   0.0   --  100.0
+7 (5, 5) 100.0   0.0   0.0   0.0   0.0   0.0   -- 
+
+== total stats 160: row board win % vs column board (ties in brackets)
+n  units   n=1  n=2  n=3  n=4  n=5  n=6  n=7
+1 (80, 80)   --  100.0 100.0 100.0   0.0 100.0 100.0
+2 (40, 40)   0.0   --  100.0 100.0 100.0 100.0 100.0
+3 (27, 27)   0.0   0.0   --  100.0 100.0 100.0 100.0
+4 (20, 20)   0.0   0.0   0.0   --  100.0 100.0 100.0
+5 (16, 16) 100.0   0.0   0.0   0.0   --  100.0 100.0
+6 (13, 14)   0.0   0.0   0.0   0.0   0.0   --  100.0
+7 (11, 12)   0.0   0.0   0.0   0.0   0.0   0.0   -- 
+
+=================== carry.txt
+Even board 7 x 6/6 (84 stats). Carry boards have the same 84 stats.
+carry   smalls     carry@F1 win%  surv  | carry@B2 win%  surv
+ 6/6   6x6/6        51.1  0.00  |    49.0  0.00
+12/12  6x5/5         0.0  0.00  |     0.0  0.00
+18/18  6x4/4         0.0  0.00  |     0.0  0.00
+24/24  6x3/3        15.4  0.00  |     8.1  0.00
+30/30  6x2/2         8.6  0.00  |     0.4  0.00
+36/36  6x1/1         6.2  0.00  |     0.0  0.00
+
+Carry with fewer helpers (still 84 stats), carry at F1:
+12/12 + 5 x 6/6: win 0.0%  survivors when it wins 0.00
+18/18 + 4 x 6/6: win 0.0%  survivors when it wins 0.00
+24/24 + 3 x 6/6: win 0.0%  survivors when it wins 0.00
+30/30 + 2 x 6/6: win 0.0%  survivors when it wins 0.00
+26/26 + 2 x 8/8: win 100.0%  survivors when it wins 1.26
+36/36 + 1 x 6/6: win 0.0%  survivors when it wins 0.00
+42/42 + 0 x 0/0: win 0.0%  survivors when it wins 0.00
+
+What the even board needs: 7 x k/k vs carry 24/24 + 6x3/3 (84) at F1
+7x6/6 (84 stats): even board wins 84.3%
+7x7/7 (98 stats): even board wins 100.0%
+7x8/8 (112 stats): even board wins 100.0%
+7x9/9 (126 stats): even board wins 100.0%
+7x10/10 (140 stats): even board wins 100.0%
+7x11/11 (154 stats): even board wins 100.0%
+
+=================== spread_vs_conc.txt
+Head to head. Spread = 7 x (b+k)/(b+k). Concentrated = 6 x b/b + one (b+7k)/(b+7k). Equal stats.
+Win % of the CONCENTRATED board (carry at F1 | carry at B2), ties shown as t
+
+-- k=1: +1/+1 on all seven vs +7/+7 on one
+ base   2/2  : conc@F1   0.0  conc@B2   0.0
+ base   3/3  : conc@F1   0.0  conc@B2   0.0
+ base   4/4  : conc@F1   0.0  conc@B2   0.0
+ base   5/5  : conc@F1   0.0  conc@B2   0.0
+ base   6/6  : conc@F1   0.0  conc@B2   0.0
+ base   8/8  : conc@F1   0.0  conc@B2   0.0
+ base  10/10 : conc@F1   0.0  conc@B2   0.0
+ base  12/12 : conc@F1   0.0  conc@B2   0.0
+ base  15/15 : conc@F1   0.0  conc@B2   0.0
+ base  20/20 : conc@F1   0.0  conc@B2   0.0
+ base  30/30 : conc@F1   0.0  conc@B2   0.0
+ base  50/50 : conc@F1   0.0  conc@B2   0.0
+ base 100/100: conc@F1   0.0  conc@B2   0.0
+
+-- k=2: +2/+2 on all seven vs +14/+14 on one
+ base   2/2  : conc@F1  16.4  conc@B2   7.8
+ base   3/3  : conc@F1  16.4  conc@B2   8.9
+ base   4/4  : conc@F1   0.0  conc@B2   0.0
+ base   5/5  : conc@F1   0.0  conc@B2   0.0
+ base   6/6  : conc@F1   0.0  conc@B2   0.0
+ base   8/8  : conc@F1   0.0  conc@B2   0.0
+ base  10/10 : conc@F1   0.0  conc@B2   0.0
+ base  12/12 : conc@F1   0.0  conc@B2   0.0
+ base  15/15 : conc@F1   0.0  conc@B2   0.0
+ base  20/20 : conc@F1   0.0  conc@B2   0.0
+ base  30/30 : conc@F1   0.0  conc@B2   0.0
+ base  50/50 : conc@F1   0.0  conc@B2   0.0
+ base 100/100: conc@F1   0.0  conc@B2   0.0
+
+Against 300 random heterogeneous reference boards with the same total stats as the spread board
+ base 3: spread +1/+1 wins 14.8%  |  +7/+7 on one wins 32.5%
+ base 5: spread +1/+1 wins 22.7%  |  +7/+7 on one wins 33.8%
+ base 8: spread +1/+1 wins 22.1%  |  +7/+7 on one wins 39.7%
+ base 12: spread +1/+1 wins 24.4%  |  +7/+7 on one wins 44.0%
+ base 20: spread +1/+1 wins 25.1%  |  +7/+7 on one wins 37.4%
+
+=================== r9_plain.txt
+
+Plain-stats round robin (win % vs the other 11 / vs same roll):
+hunters_high   all  79.8  same-roll  55.7
+hunters_low    all  20.5  same-roll  45.2
+hedgerow_high  all  52.6  same-roll   2.5
+hedgerow_low   all  47.2  same-roll  96.5
+oozes_high     all  67.4  same-roll  28.2
+oozes_low      all   2.2  same-roll   4.8
+bog_high       all  69.7  same-roll  34.7
+bog_low        all  21.8  same-roll  47.8
+fairies_high   all  99.4  same-roll  98.7
+fairies_low    all  11.6  same-roll  25.5
+birds_high     all  91.4  same-roll  81.0
+birds_low      all  36.5  same-roll  79.9
+
+Plain +1/+1 sensitivity (same roll; +1/+1 on every unit of one board):
+hunters_high   base  55.7  +1/+1  64.7  change  +9.0
+hunters_low    base  45.2  +1/+1  95.7  change +50.5
+hedgerow_high  base   2.5  +1/+1  49.5  change +47.0
+hedgerow_low   base  96.5  +1/+1 100.0  change  +3.5
+oozes_high     base  28.2  +1/+1  58.8  change +30.6
+oozes_low      base   4.8  +1/+1  73.9  change +69.1
+bog_high       base  34.7  +1/+1  62.3  change +27.6
+bog_low        base  47.8  +1/+1  99.1  change +51.3
+fairies_high   base  98.7  +1/+1 100.0  change  +1.3
+fairies_low    base  25.5  +1/+1  69.3  change +43.8
+birds_high     base  81.0  +1/+1  95.4  change +14.4
+birds_low      base  79.9  +1/+1  97.9  change +18.0
+
+=================== r9_plain_vs_real.txt
+ordered pairs 132  Pearson r (plain stat lines, no text) vs real R9: 0.809
+same favourite in 114 of 132
+cells at <=5% or >=95%: plain 109  real 88  of 132
+largest disagreements (text matters most here):
+   ('hedgerow_high', 'bog_high') plain 0 real 88
+   ('fairies_low', 'oozes_low') plain 88 real 0
+   ('bog_high', 'hedgerow_high') plain 100 real 12
+   ('oozes_low', 'fairies_low') plain 17 real 100
+   ('hunters_high', 'birds_high') plain 0 real 76
+   ('birds_high', 'hunters_high') plain 100 real 24
+   ('oozes_high', 'hunters_high') plain 3 real 76
+   ('hunters_high', 'oozes_high') plain 95 real 24
+   ('oozes_high', 'fairies_high') plain 0 real 64
+   ('fairies_high', 'oozes_high') plain 100 real 36
+   ('oozes_high', 'birds_high') plain 0 real 63
+   ('birds_high', 'oozes_high') plain 100 real 37
+
+board           plain-all  real-all
+hunters_high     79.8     76.9
+hunters_low      20.5     12.0
+hedgerow_high    52.6     73.9
+hedgerow_low     47.2     47.0
+oozes_high       67.4     84.6
+oozes_low         2.2     18.0
+bog_high         69.7     67.4
+bog_low          21.8     28.1
+fairies_high     99.4     89.5
+fairies_low      11.6      4.6
+birds_high       91.4     69.5
+birds_low        36.5     28.2
+
+=================== r9_conc.txt
+
+Buff worth 14 stats on one plain R9 board; win % vs the other 11 boards (vs same-roll in brackets)
+board          base        +1/+1 all      +7/+7 biggest   +7/+7 smallest   
+hunters_high    80.5 ( 57.0)    83.9 ( 64.6)    86.7 ( 70.8)    87.3 ( 72.0)
+hunters_low     21.8 ( 48.0)    56.4 ( 96.4)    49.5 ( 94.6)    61.0 ( 98.6)
+hedgerow_high   53.4 (  3.2)    76.9 ( 49.2)    68.4 ( 30.4)    73.5 ( 41.8)
+hedgerow_low    46.7 ( 96.0)    67.5 (100.0)    64.2 (100.0)    70.5 (100.0)
+oozes_high      68.4 ( 30.4)    81.5 ( 59.4)    79.5 ( 54.8)    79.0 ( 53.8)
+oozes_low        2.3 (  5.0)    37.1 ( 77.0)    35.0 ( 72.8)    27.9 ( 61.2)
+bog_high        68.7 ( 32.8)    82.5 ( 61.6)    78.8 ( 53.4)    79.4 ( 54.6)
+bog_low         21.5 ( 47.2)    51.2 ( 99.0)    55.4 ( 98.0)    56.0 ( 96.0)
+fairies_high    99.6 ( 99.2)   100.0 (100.0)   100.0 (100.0)   100.0 (100.0)
+fairies_low     10.6 ( 23.4)    31.0 ( 64.4)    38.6 ( 73.8)    53.3 ( 88.4)
+birds_high      91.3 ( 80.8)    98.5 ( 96.8)    96.7 ( 92.8)    95.5 ( 90.2)
+birds_low       37.4 ( 81.8)    60.3 ( 96.4)    64.7 ( 99.2)    69.5 ( 99.8)
+MEAN            50.2 ( 50.4)    68.9 ( 80.4)    68.1 ( 78.4)    71.1 ( 79.7)
+
+Buff worth 28 stats on one plain R9 board; win % vs the other 11 boards (vs same-roll in brackets)
+board          base        +2/+2 all      +14/+14 biggest   +14/+14 smallest   
+hunters_high    80.5 ( 57.0)    94.0 ( 86.8)    92.4 ( 83.2)    95.9 ( 91.0)
+hunters_low     21.8 ( 48.0)    81.4 (100.0)    65.4 (100.0)    77.2 (100.0)
+hedgerow_high   53.4 (  3.2)    85.5 ( 68.2)    80.2 ( 56.4)    81.4 ( 59.0)
+hedgerow_low    46.7 ( 96.0)    79.2 (100.0)    79.4 (100.0)    82.9 (100.0)
+oozes_high      68.4 ( 30.4)    92.0 ( 82.4)    87.0 ( 71.4)    84.5 ( 65.8)
+oozes_low        2.3 (  5.0)    67.5 ( 99.6)    63.1 ( 97.4)    54.2 ( 95.4)
+bog_high        68.7 ( 32.8)    92.9 ( 84.4)    86.3 ( 69.8)    85.5 ( 68.0)
+bog_low         21.5 ( 47.2)    77.4 (100.0)    69.7 (100.0)    72.6 (100.0)
+fairies_high    99.6 ( 99.2)   100.0 (100.0)   100.0 (100.0)   100.0 (100.0)
+fairies_low     10.6 ( 23.4)    66.7 ( 98.0)    64.5 ( 99.4)    71.6 ( 97.8)
+birds_high      91.3 ( 80.8)    99.6 ( 99.2)    98.5 ( 96.8)    99.4 ( 98.6)
+birds_low       37.4 ( 81.8)    82.1 (100.0)    81.1 (100.0)    83.0 (100.0)
+MEAN            50.2 ( 50.4)    84.9 ( 93.2)    80.6 ( 89.5)    82.3 ( 89.6)
+
+=================== realloc.txt
+Each R9 board keeps its total stats, unit count, slots and attack share; only the split changes.
+Win % vs the 11 original boards (same-roll in brackets). carry% = share of all stats on one unit.
+board                 original             even      carry 25% F      carry 40% F   carry 40% back      carry 55% F
+hunters_high      79.6 ( 55.4)     81.8 ( 60.0)     82.5 ( 61.6)     80.5 ( 57.2)     72.0 ( 38.4)     76.5 ( 49.0)
+hunters_low       21.5 ( 47.2)     29.8 ( 65.6)     29.3 ( 62.2)     31.7 ( 69.4)     28.4 ( 61.8)     40.1 ( 85.6)
+hedgerow_high     53.9 (  3.8)     61.9 ( 21.0)     57.2 (  6.4)     57.9 ( 13.8)     51.2 (  3.4)     61.8 ( 18.0)
+hedgerow_low      46.2 ( 96.0)     47.5 ( 97.2)     44.4 ( 89.4)     36.6 ( 73.0)     37.9 ( 81.4)     31.7 ( 68.8)
+oozes_high        68.4 ( 30.4)     61.9 ( 17.0)     72.1 ( 38.6)     67.9 ( 31.2)     61.6 ( 19.4)     60.4 ( 13.0)
+oozes_low          2.4 (  5.2)      2.0 (  4.4)      1.5 (  3.2)     10.7 ( 23.6)      3.6 (  8.0)     12.0 ( 26.2)
+bog_high          68.9 ( 32.4)     73.5 ( 41.6)     76.8 ( 49.0)     77.4 ( 50.4)     68.9 ( 31.6)     73.7 ( 43.0)
+bog_low           21.9 ( 48.0)     24.2 ( 53.2)     22.2 ( 46.8)     29.1 ( 63.6)     21.2 ( 46.6)     40.5 ( 85.8)
+fairies_high      99.5 ( 99.0)     93.1 ( 84.8)     99.7 ( 99.4)     98.0 ( 95.6)     97.5 ( 94.6)     96.7 ( 92.8)
+fairies_low       10.3 ( 22.6)      6.3 ( 13.8)      9.7 ( 21.4)     10.5 ( 23.0)      3.2 (  7.0)      9.1 ( 20.0)
+birds_high        91.3 ( 80.8)     92.3 ( 83.0)     92.5 ( 83.6)     91.2 ( 80.6)     90.5 ( 79.2)     92.0 ( 82.4)
+birds_low         37.1 ( 81.2)     34.0 ( 74.8)     41.9 ( 86.2)     38.5 ( 82.0)     34.2 ( 74.6)     44.6 ( 93.6)
+MEAN              50.1 ( 50.2)     50.7 ( 51.4)     52.5 ( 54.0)     52.5 ( 55.3)     47.5 ( 45.5)     53.3 ( 56.5)
+
+=================== dozey.txt
+hedgerow_low plain: F1 4/5 F2 4/6 F3 5/5 F4 empty B1 2/3 B2 2/3 B3 Dozey 10/16 (65 stats, 6 units)
+  as built (Dozey B3)                              vs low boards  96.4%  (survivors when winning 1.01)   vs all 11  46.5%
+  Dozey moved to F4                                vs low boards  90.0%  (survivors when winning 2.11)   vs all 11  48.8%
+  Dozey swapped to F1                              vs low boards  83.9%  (survivors when winning 2.05)   vs all 11  42.3%
+  Dozey split into two 5/8s (B3, F4)               vs low boards  77.7%  (survivors when winning 1.23)   vs all 11  36.3%
+  same 65 stats spread evenly over 6 (5/6 or 6/5)  vs low boards  65.5%  (survivors when winning 1.20)   vs all 11  29.8%
+  Dozey 10/16 -> 10/12 (-4 Health)                 vs low boards  77.2%  (survivors when winning 0.63)   vs all 11  36.0%
+  Dozey 10/16 -> 7/16 (-3 Attack)                  vs low boards  85.8%  (survivors when winning 1.00)   vs all 11  39.3%
+  Dozey 10/16 -> 14/20 (+4/+4)                     vs low boards 100.0%  (survivors when winning 1.05)   vs all 11  59.2%
+six 5/6 (one 4/6), same slots as built     vs the 5 other low boards:  96.5%  per board [100, 100, 100, 99, 84]
+three 5/6 front, three 6/5 back            vs the 5 other low boards:  64.7%  per board [71, 91, 18, 100, 43]
+as built with Dozey 10/16                  vs the 5 other low boards:  95.7%  per board [100, 100, 96, 95, 88]
+
+=================== keywords.txt
+Plain hedgerow_low (Dozey 10/16 in B3) vs the other 11 plain R9 boards: 46.7%
+Give Dozey one keyword (none of these is in the pass 2 slice except where noted):
+  shield (first hit ignored)                                            60.0%  (+13.3)
+  cleave (also hits units beside the target)                            57.7%  (+11.0)
+  takes 2 less damage                                                   71.3%  (+24.5)
+  Hunker (half damage when attacked)                                    61.8%  (+15.1)
+  takes no damage while attacking (Barn Owl does this vs back row only)  67.2%  (+20.5)
+  windfury (two attacks a turn)                                         51.2%  ( +4.4)
+  Bitter 2 (slice keyword)                                              60.6%  (+13.8)
+  Nightshade on Dozey (slice Belladonna across from B3)                 18.2%  (-28.5)
+Answers on every opponent board:
+  first front unit has venom (any damage kills)                         34.6%  (-12.2)
+  every front unit has Bitter 2                                         18.5%  (-28.2)
+
+=================== breakpoints.txt
+Breakpoint scan: 7 x A/H against 7 x 10/10 (win % of the scanned board)
+  H\A     7     8     9    10    11    12    13
+    7     0     0     0    50    50    49    56
+    8     0     0     0    52    46    52    48
+    9     0     0     0    47    52    50    54
+   10     0     0     0    48    52    51    50
+   11    49    56    46   100   100   100   100
+   12    44    47    49   100   100   100   100
+   13    59    45    51   100   100   100   100
+   14    52    50    47   100   100   100   100
+   15    54    50    52   100   100   100   100
+   16    46    52    54   100   100   100   100
+   17    55    50    51   100   100   100   100
+   18    52    44    52   100   100   100   100
+   19    56    50    50   100   100   100   100
+   20    39    42    46   100   100   100   100
+   21   100   100   100   100   100   100   100
+   22   100   100   100   100   100   100   100
+
+Mean |change| in same-roll win % from a buff to every unit of one board, plain R9 stat lines scaled by k
+  k=1   +1/+1           mean change +30.4 pp   range  +1.8 to +71.6
+  k=1   +10%            mean change +15.2 pp   range  +1.8 to +29.0
+  k=1   +1 Attack only  mean change +17.1 pp   range  +1.6 to +38.2
+  k=1   +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+  k=2   +1/+1           mean change +20.4 pp   range  +1.8 to +37.4
+  k=2   +10%            mean change +17.4 pp   range  +1.8 to +37.4
+  k=2   +1 Attack only  mean change  +4.4 pp   range  -0.2 to  +9.6
+  k=2   +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+  k=4   +1/+1           mean change +14.5 pp   range  +1.6 to +30.8
+  k=4   +10%            mean change +17.4 pp   range  +1.8 to +37.4
+  k=4   +1 Attack only  mean change  +0.1 pp   range  +0.0 to  +1.0
+  k=4   +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+  k=10  +1/+1           mean change +13.9 pp   range  +1.6 to +30.4
+  k=10  +10%            mean change +15.3 pp   range  +1.6 to +31.0
+  k=10  +1 Attack only  mean change  -0.0 pp   range  -0.2 to  +0.0
+  k=10  +1 Health only  mean change +14.0 pp   range  +1.6 to +30.4
+
+=================== scale.txt
+Plain R9 stat lines scaled by k with jitter (each stat x k, then +/- up to k/2 at random; 4 jitter draws).
+Mean change in same-roll win % when one board gets the buff on every unit.
+  k=1   +1/+1      mean change +30.3 pp   range  +1.7 to +71.7
+  k=1   +10% both  mean change +15.4 pp   range  +1.7 to +33.0
+  k=1   +1 Attack  mean change +17.4 pp   range  +1.7 to +38.0
+  k=1   +1 Health  mean change +13.6 pp   range  +1.7 to +30.3
+  k=2   +1/+1      mean change +16.6 pp   range  +0.3 to +43.0
+  k=2   +10% both  mean change +19.0 pp   range  +1.3 to +43.7
+  k=2   +1 Attack  mean change  +9.8 pp   range  +0.0 to +24.7
+  k=2   +1 Health  mean change  +7.3 pp   range  +0.0 to +27.7
+  k=4   +1/+1      mean change  +9.1 pp   range  -2.0 to +23.3
+  k=4   +10% both  mean change +15.1 pp   range  +0.3 to +34.7
+  k=4   +1 Attack  mean change  +4.4 pp   range  -0.3 to +19.0
+  k=4   +1 Health  mean change  +3.4 pp   range  -0.3 to +11.3
+  k=10  +1/+1      mean change  +3.4 pp   range  -0.7 to +10.3
+  k=10  +10% both  mean change +15.2 pp   range  +0.0 to +50.3
+  k=10  +1 Attack  mean change  +1.7 pp   range  -0.7 to  +6.0
+  k=10  +1 Health  mean change  +1.1 pp   range  -2.3 to  +5.7
+
+=================== bp_share.txt
+scale x1: of 6561 unit-vs-unit pairs, +1 Attack cuts the hits needed in 32.7%; +1 Health adds a hit survived in 26.3%
+scale x10: of 6724 unit-vs-unit pairs, +1 Attack cuts the hits needed in 7.6%; +1 Health adds a hit survived in 3.2%
+R9 board units: attack median 4.0 range 0 13 ; health median 6.0 range 2 16
+
+=================== lobby_stats.txt
+Rounds 5+: win rate by total-stat quartile within the lobby round (Q1 = biggest boards)
+  Q1:  70.9% of 8418
+  Q2:  53.0% of 7819
+  Q3:  41.1% of 8127
+  Q4:  36.9% of 7466
+Win rate by board total / lobby-round median
+  0.6-0.7x:  37.7% of 668
+  0.7-0.8x:  37.3% of 2007
+  0.8-0.9x:  36.3% of 4607
+  0.9-1.0x:  41.0% of 7905
+  1.0-1.1x:  53.3% of 9117
+  1.1-1.2x:  65.8% of 4098
+  1.2-1.3x:  75.4% of 2002
+  1.3-1.4x:  82.9% of 894
+  1.4-1.5x:  91.0% of 532
+Win rate by attack share of board stats (rounds 5+)
+  0.3:  40.4% of 2555
+  0.4:  49.9% of 22447
+  0.5:  58.3% of 6710
+Unit counts, rounds 7+ (late=True):
+  3 units:   0.0% of 2
+  4 units:  40.9% of 22
+  5 units:  72.7% of 3565
+  6 units:  42.2% of 268
+  7 units:  47.7% of 21573
+Median attack share by round: {3: 0.353, 6: 0.385, 9: 0.423, 12: 0.435, 15: 0.447, 18: 0.452}
+Final boards by place: units, attack, health, rounds (medians)
+  place 1: units 7.0, atk 110.0, hp 128.0, per-unit 35.9, rounds 19.5
+  place 2: units 7.0, atk 90.5, hp 108.0, per-unit 32.6, rounds 19.5
+  place 3: units 7.0, atk 75.0, hp 93.5, per-unit 27.1, rounds 17.0
+  place 4: units 7.0, atk 67.0, hp 85.0, per-unit 23.1, rounds 16.0
+  place 5: units 7.0, atk 64.0, hp 83.0, per-unit 21.1, rounds 14.0
+  place 6: units 7.0, atk 60.0, hp 78.0, per-unit 19.8, rounds 13.0
+  place 7: units 7.0, atk 54.0, hp 73.0, per-unit 18.1, rounds 12.0
+  place 8: units 7.0, atk 47.0, hp 65.0, per-unit 16.0, rounds 11.0
+Rounds 7+: rows by units and hero (win %)
+  4 units, brother_bracken       :    87 rows, win  34.5%
+  5 units, brother_bracken       :  4473 rows, win  66.7%
+  5 units, march_hare            :    47 rows, win  27.7%
+  5 units, old_mother_mousewife  :    38 rows, win  50.0%
+  5 units, little_king_wren      :    30 rows, win  26.7%
+  6 units, march_hare            :   119 rows, win  44.5%
+  6 units, old_mother_mousewife  :    90 rows, win  48.9%
+  6 units, little_king_wren      :    67 rows, win  50.7%
+  6 units, pipkin                :    58 rows, win  44.8%
+  6 units, dame_hoolet           :    42 rows, win  38.1%
+  6 units, hob_mumblecrust       :    41 rows, win  39.0%
+  6 units, dame_farthing         :    31 rows, win  45.2%
+  6 units, jill_down_the_tree    :    31 rows, win  32.3%
+  7 units, old_mother_mousewife  :  3557 rows, win  53.9%
+  7 units, little_king_wren      :  3554 rows, win  49.8%
+  7 units, hob_mumblecrust       :  3286 rows, win  46.2%
+  7 units, march_hare            :  3054 rows, win  64.3%
+  7 units, dame_hoolet           :  3004 rows, win  43.9%
+  7 units, dame_farthing         :  2901 rows, win  41.5%
+  7 units, pipkin                :  2623 rows, win  53.8%
+  7 units, jill_down_the_tree    :  2343 rows, win  44.0%
+  4 units: median board total / lobby-round median = 0.75
+  5 units: median board total / lobby-round median = 0.86
+  6 units: median board total / lobby-round median = 1.00
+  7 units: median board total / lobby-round median = 1.01
+Mean place by hero: {'brother_bracken': 2.7, 'march_hare': 3.57, 'old_mother_mousewife': 3.99, 'pipkin': 4.36, 'little_king_wren': 4.49, 'hob_mumblecrust': 5.12, 'dame_hoolet': 5.31, 'jill_down_the_tree': 5.38, 'dame_farthing': 5.53}
+Rounds 7+, combat-time totals (Bracken +X/+X added). Win % by total / lobby-round median:
+  ratio   7-unit boards (not Bracken)   Bracken 5-unit boards
+  0.6x     9.6% of    83             33.3% of    3
+  0.7x    16.5% of   780             20.0% of   15
+  0.8x    25.7% of  2805              8.0% of   88
+  0.9x    35.4% of  5142             25.6% of  356
+  1.0x    51.9% of  8687             50.2% of 1302
+  1.1x    66.2% of  3837             68.1% of  865
+  1.2x    75.9% of  1766             83.5% of  662
+  1.3x    84.2% of   727             87.9% of  521
+  1.4x    90.8% of   304             93.3% of  341
+  1.5x    94.7% of   133             95.9% of  197
+  1.6x    94.4% of    36             98.8% of   86
+owner example outcomes over all 3-unit placements x 4 five-unit layouts x 200 fights: {(0, 1, 'board_empty')}
+lives law violations: 0 of 3000
+attack order F1,F3,B2: ['F1', 'F3', 'B2', 'F1', 'F3', 'B2', 'F1']

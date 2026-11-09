@@ -1,0 +1,87 @@
+T4 Abyssal Bruiser 2/1 [Naga] :: Divine Shield Has +2/+1 for each Tavern spell you've cast this game.
+T4 Air Baller 6/6 [Elemental] :: When you sell this, give your minions +2/+2. Improve your future Ballers.
+T4 Ashen Corruptor 6/6 [Demon] :: After your hero takes damage, rewind it and give minions in the Tavern +2/+2 this turn.
+T4 Banana Slamma 3/6 [Beast] :: After you summon a Beast in combat, double its Attack.
+T4 Bigwig Bandit 4/6 [Pirate] :: Rally: Get a random Bounty.
+T4 Bonker 2/7 [Quilboar] :: Windfury Rally: This plays a Blood Gem on all your other minions.
+T4 Bramble Tunneler 3/6 [Quilboar] :: Rally: Get a random Choose One card.
+T4 Bream Counter 6/6 [Murloc] :: While this is in your hand, after you play a Murloc, gain +6/+6.
+T4 Bronze Timewalker 4/5 [Dragon] :: Rally: Get a random Chromadrake.
+T4 Cage Gnawer 2/7 [Beast] :: Whenever a friendly Beast attacks, give your Beasts +2/+1.
+T4 Cutthroat K'Thir 4/4 [Aberration] :: Whenever you discard a card, give this and your Deity +4/+4.
+T4 Dead Bellringer 3/6 [Undead] :: Activate (1): Give a different friendly Undead Reborn. Then destroy it to gain +4/+4.
+T4 En-Djinn Blazer 5/5 [Elemental] :: Battlecry: After the Tavern is Refreshed this game, give a random minion in it +10/+10.
+T4 Enchanted Sentinel 3/5 [Mech] :: Magnetic Your Tavern spells give an extra +1/+1.
+T4 Flaming Enforcer 4/5 [Elemental,Demon] :: At the end of your turn, consume the highest-Health minion in the Tavern to gain its stats.
+T4 Friendly Geist 6/3 [Undead] :: Deathrattle: Your Tavern spells give an extra +1 Attack this game.
+T4 Gunpowder Courier 2/5 [Pirate] :: Whenever you spend 5 Gold, give your Pirates +3/+1. (6 Gold left!)
+T4 Headhunter Gryphon 3/5 [Beast] :: Rally: Get a random Beast.
+T4 Heroic Underdog 1/10 [] :: Stealth Rally: Gain the target's Attack.
+T4 Hoarding Hyena 4/6 [Beast] :: Rally: Summon a Tasty Lobster.
+T4 Holy Vanguard 10/10 [] :: Divine Shield Has +30/+30 if you have 15 or less Health.
+T4 Humon'gozz 5/5 [] :: Divine Shield Your Tavern spells give an extra +1/+2.
+T4 Living Prison 4/5 [Elemental] :: Activate (1): Gain the stats of the next minion you buy this turn.
+T4 Maritime Extortionist 7/7 [Pirate] :: Has +7/+7 for each Golden minion you've played this game (wherever this is).
+T4 Parasitic Fleshling 4/6 [Aberration] :: At the end of your turn, give your left-most minion +2/+2. (Improved by each card you've discarded this game!)
+T4 Persistent Poet 2/3 [Dragon] :: Divine Shield. Adjacent Dragons permanently keep Bonus Keywords and stats gained in combat.
+T4 Plaguerunner 4/2 [Undead] :: Deathrattle: Your Undead have +2 Attack this game, wherever they are. (+4 if triggered outside combat!)
+T4 Rimescale Priestess 3/3 [Naga] :: Spellcraft: Get a random Tavern spell that gives stats.
+T4 Sacrificial Wrathguard 5/3 [Demon] :: Deathrattle: Give minions in the Tavern +2/+2 this game. Activate (1): Improve this.
+T4 Seafloor Recruiter 3/5 [Naga] :: Rally: Cast Chef's Choice on the minion to the right.
+T4 Sin'dorei Straight Shot 3/4 [] :: Divine Shield, Windfury Rally: Remove Reborn and Taunt from the target.
+T4 Sky-hatch Runaway 4/7 [Dragon] :: Activate (1): Trigger a friendly minion's Rally.
+T4 Soulkeeping Jailer 3/5 [Demon] :: Activate (2): Your Demons each consume a random minion in the Tavern to gain its stats.
+T4 Twilight Tidehunter 4/6 [Murloc] :: Whenever you cast a spell on this, give the left-most minion in your hand +8/+8.
+T4 Zesty Shaker 6/7 [Naga] :: Once per turn, when a Spellcraft spell is played on this, get a new copy of it.
+T5 Barrier Banshee 8/8 [Undead] :: After a friendly minion is Reborn, gain Divine Shield and +8/+8.
+T5 Bile Spitter 1/10 [Murloc] :: Venomous Rally: Give another friendly Murloc Venomous.
+T5 Darkcrest Strategist 4/5 [Naga] :: Spellcraft: Get a random Tier 1 Naga. (Improves each turn!)
+T5 Deft Deserter 8/8 [Demon] :: Activate (1): Give all minions in the Tavern +8/+8 and Taunt, Divine Shield, or Windfury.
+T5 Devilish Distractor 4/7 [Demon] :: Whenever you cast a spell on this, give minions in the Tavern +1/+2 this game.
+T5 Drakkari Enchanter 1/5 [] :: Your end of turn effects trigger twice.
+T5 Drustfallen Butcher 2/7 [Undead] :: Avenge (4): Get a Butchering.
+T5 Eternal Tycoon 4/8 [Undead] :: Avenge (5): Summon an Eternal Knight. It attacks immediately.
+T5 Faceless Converter 5/5 [Aberration] :: Deathrattle: Give your Deity +2/+1. (Improved by each Tavern spell you've cast this game!)
+T5 Felboar 2/6 [Demon,Quilboar] :: After you cast 3 spells, consume a minion in the Tavern to gain its stats. (3 left!)
+T5 Felfire Conjurer 6/5 [Demon,Dragon] :: At the end of your turn, your Tavern spells give an extra +1/+1 this game.
+T5 Glowscale 4/6 [Naga] :: Taunt Spellcraft: Give a minion Divine Shield until next turn.
+T5 Goldrinn, the Great Wolf 7/7 [Beast] :: Deathrattle: Your Beasts have +7/+7 until next turn.
+T5 Hackerfin 5/3 [Murloc] :: Battlecry: Give your other minions +3/+2. (Improved by each different Bonus Keyword in your warband!)
+T5 Hopebringer 4/3 [Dragon] :: Start of Combat: Give your minions +4/+3. (Permanently improves after a friendly minion loses Divine Shield!)
+T5 Insatiable Ur'zul 4/6 [Demon] :: Taunt. After you play a Demon, consume a random minion in the Tavern to gain its stats.
+T5 Kalecgos, Arcane Aspect 4/12 [Dragon] :: After you trigger a Battlecry, give your Dragons +2/+2.
+T5 Lichling Hoarder 6/9 [Undead] :: Avenge (3): Get a plain copy of a minion that started in your warband this combat.
+T5 Living Azerite 8/6 [Elemental] :: Whenever you cast a Tavern spell, give Elementals in the Tavern +4/+3 this game.
+T5 Lurking Leviathan 3/9 [Beast] :: Whenever you summon a Beast, give it +3 Attack and improve this permanently.
+T5 Mindbender Ghur'sha 3/9 [Aberration] :: Whenever you discard a card, give your other minions +4/+4.
+T5 Mysterious K'Thir 7/7 [Aberration] :: At the end of your turn, discard your 3 left-most Tavern spells. Gain +7/+7 for each discarded.
+T5 N'raqi Frostcaller 6/3 [Aberration] :: Activate (0): Discard a card for your Tavern spells to give an extra +1/+1 this game.
+T5 Razorfen Vineweaver 4/4 [Quilboar] :: Rally: This plays 4 permanent Blood Gems on itself.
+T5 Sanguine Refiner 3/8 [Quilboar] :: Rally: Your Blood Gems give an extra +1/+2 this game.
+T5 Sewer Escapee 7/7 [Murloc] :: Activate (1): Give another Murloc +7/+7 and a random Bonus Keyword.
+T5 Shamanic Tidecaller 5/7 [Murloc] :: Whenever you cast a spell on a Murloc, give Murlocs in your hand and board +3/+3.
+T5 Ship Master Eudora 8/3 [Pirate] :: Deathrattle: Give your minions +6/+6. Golden ones keep it permanently.
+T5 Showy Cyclist 4/2 [Naga] :: Deathrattle: Give all your Naga +2/+1. (Improved by every 3 spells you've cast this game!)
+T5 Tichondrius 4/4 [Demon] :: After your hero takes damage, give your Demons +4/+4.
+T5 Tranquil Meditative 3/8 [Naga] :: Spellcraft: Your Tavern spells give an extra +1/+1 this game.
+T5 Turquoise Skitterer 5/5 [Beast] :: Deathrattle: Your Beetles have +5/+5 this game. Summon a 2/2 Beetle.
+T6 Choral Mrrrglr 6/6 [Murloc] :: Start of Combat: Gain the stats of all the minions in your hand.
+T6 Crimson Vindicator 8/9 [Dragon] :: Divine Shield Rally: Cast Mighty Dragonbreath.
+T6 Dark Puppeteer 8/4 [Aberration] :: Deathrattle: Your Tavern spells give an extra +4 Health this game.
+T6 Deathly Striker 8/8 [Undead] :: Avenge (4): Get a random Undead. Deathrattle: Summon it from your hand for this combat only.
+T6 Deathstrider 10/11 [Beast] :: After a friendly Rally minion attacks, trigger your left-most Deathrattle.
+T6 Falling Sky Golem 4/2 [Mech] :: Divine Shield. Has +4/+2 for each Deathrattle you've triggered this game (wherever this is).
+T6 Forsaken Weaver 3/8 [Undead] :: After you cast a Tavern spell, your Undead have +3 Attack this game (wherever they are).
+T6 Groundbreaker 6/4 [Naga] :: After you play a Naga, gain +1/+1. (Improved by every 3 spells you've cast this game!)
+T6 Harbinger Aph'lass 3/6 [Aberration] :: Whenever you discard a card, give your Deity +2/+1 and improve this.
+T6 Heroic Broodmother 7/7 [Dragon] :: Rally: Gain Divine Shield. Start of Combat: Attack immediately.
+T6 Hooktusk, Master Marauder 4/4 [Pirate] :: After you Discover a card, give your other Pirates +1/+1. (Improved by Golden minions you played this game!)
+T6 Ravaging Scorpid 6/7 [Beast] :: After a friendly minion attacks, your Beetles have +4/+4 this game. Deathrattle: Summon a 2/2 Beetle.
+T6 Sanguine Champion 9/4 [Quilboar] :: Battlecry and Deathrattle: Your Blood Gems give an extra +2/+1 this game.
+T6 Snazzy Phantom 6/8 [Undead] :: After a friendly minion is Reborn, give stats equal to its Attack to your right-most Undead.
+T6 The Shadow of Doubt 6/8 [Aberration] :: Whenever a card is added to your hand, give your Deity +4/+5.
+T6 Torrential Ruiner 6/3 [Naga] :: Whenever you cast a spell on a Naga, give your minions +2/+3.
+T6 Tyrael 10/10 [] :: Activate (1): Set another minion's stats to 50/50.
+T6 Ultraviolet Ascendant 6/6 [Elemental] :: Start of Combat: Give your other Elementals +3/+3. (Improves after you play an Elemental!)
+T6 Unbound Tempest 3/12 [Elemental] :: After you play 4 Elementals, gain the stats of the highest- Health minion in the Tavern. (4 left!)
+T6 Utility Drone 4/5 [Mech] :: At the end of your turn, give your minions +4/+5 for each Magnetization they have.

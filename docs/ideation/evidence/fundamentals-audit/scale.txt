@@ -1,0 +1,18 @@
+Plain R9 stat lines scaled by k with jitter (each stat x k, then +/- up to k/2 at random; 4 jitter draws).
+Mean change in same-roll win % when one board gets the buff on every unit.
+  k=1   +1/+1      mean change +30.3 pp   range  +1.7 to +71.7
+  k=1   +10% both  mean change +15.4 pp   range  +1.7 to +33.0
+  k=1   +1 Attack  mean change +17.4 pp   range  +1.7 to +38.0
+  k=1   +1 Health  mean change +13.6 pp   range  +1.7 to +30.3
+  k=2   +1/+1      mean change +16.6 pp   range  +0.3 to +43.0
+  k=2   +10% both  mean change +19.0 pp   range  +1.3 to +43.7
+  k=2   +1 Attack  mean change  +9.8 pp   range  +0.0 to +24.7
+  k=2   +1 Health  mean change  +7.3 pp   range  +0.0 to +27.7
+  k=4   +1/+1      mean change  +9.1 pp   range  -2.0 to +23.3
+  k=4   +10% both  mean change +15.1 pp   range  +0.3 to +34.7
+  k=4   +1 Attack  mean change  +4.4 pp   range  -0.3 to +19.0
+  k=4   +1 Health  mean change  +3.4 pp   range  -0.3 to +11.3
+  k=10  +1/+1      mean change  +3.4 pp   range  -0.7 to +10.3
+  k=10  +10% both  mean change +15.2 pp   range  +0.0 to +50.3
+  k=10  +1 Attack  mean change  +1.7 pp   range  -0.7 to  +6.0
+  k=10  +1 Health  mean change  +1.1 pp   range  -2.3 to  +5.7

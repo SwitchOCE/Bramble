@@ -1,0 +1,275 @@
+===== Birds 17
+--- chiffchaff T1 1/2 pool= True
+  text: Fly South. When played: gain +1/+1.
+  gold: Fly South. When played: gain +2/+2.
+  details: Keeps its growth while away.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "effect", "trigger": "on_play", "name": "chiffchaff", "target": {"select": "self"}, "do": {"effect": "buff", "attack": 1, "health": 1}}]
+--- mrs_dunnock T1 2/3 pool= True
+  text: End of Turn: a Bird whose Nest is beside this comes home a turn sooner.
+  gold: End of Turn: a Bird whose Nest is beside this comes home two turns sooner.
+  details: Never sooner than next turn. Chooses the first eligible Nest beside this, left to right.
+  mech: [{"id": "dunnock", "turns": 1}]
+--- one_swallow T1 1/2 pool= True
+  text: Fly South. When played: get 1 gold.
+  gold: Fly South. When played: get 2 gold.
+  details: Pays again when replayed after coming home.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "effect", "trigger": "on_play", "name": "swallow_gold", "do": {"effect": "gold", "amount": 1}}]
+--- mr_redbreast T2 2/4 pool= True
+  text: Has +1/+1 for each Nest you have.
+  gold: Has +2/+2 for each Nest you have.
+  details: None
+  mech: [{"id": "redbreast", "attack": 1, "health": 1}]
+--- mrs_jay T2 3/3 pool= True
+  text: Fly South. When sold: get an Acorn.
+  gold: Fly South. When sold: get two Acorns.
+  details: Flying counts as selling.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "effect", "trigger": "on_sell", "name": "jay", "do": {"effect": "add_card", "card": "acorn", "count": 1}}]
+--- redwing T2 2/4 pool= True
+  text: Fly South. Eggs beside this have their Bird's full stats.
+  gold: Fly South. Eggs beside this have their Bird's full stats, +2/+2.
+  details: Uses current stats, even for Mother Goose. Only the strongest Redwing applies.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "redwing", "factor": 1}]
+  extra: {"mechanic_text": {"1": {"id": "redwing", "text": "Eggs beside this have their Bird's full stats.", "golden_text": "Eggs beside this have their Bird's full stats, +2/+2."}}}
+--- jack_daw T3 3/3 pool= True
+  text: Fly South. Start of Combat: steal 2 Attack from the enemy across.
+  gold: Fly South. Start of Combat: steal 4 Attack from the enemy across.
+  details: The steal lasts the fight. With nothing across, nothing happens. An enemy cannot go below 0 Attack.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "jack_daw", "attack": 2}]
+  extra: {"mechanic_text": {"1": {"id": "jack_daw", "text": "Start of Combat: steal 2 Attack from the enemy across.", "golden_text": "Start of Combat: steal 4 Attack from the enemy across."}}}
+--- old_tern T3 3/4 pool= True
+  text: Fly South. When this comes home: your other Birds away come home too.
+  gold: Fly South, for 1 turn. When this comes home: your other Birds away come home too.
+  details: They land in your hand. Their When played text fires again when you play them. Landed Birds cannot fly that turn; a full hand leaves them on the doorstep.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "old_tern"}]
+  extra: {"mechanic_text": {"1": {"id": "old_tern", "text": "When this comes home: your other Birds away come home too.", "golden_text": "When this comes home: your other Birds away come home too."}}}
+--- tom_tit T3 3/4 pool= True
+  text: Your Eggs have their Bird's full Health.
+  gold: Your Eggs have their Bird's full stats.
+  details: Eggs keep half Attack. Redwing's full stats still apply where it reaches. Only the strongest Tom Tit counts.
+  mech: [{"id": "tom_tit", "full": 1}]
+--- barn_owl T4 3/4 pool= False
+  text: Swoop. Takes no damage while attacking the back row.
+  gold: Swoop. Takes no damage while attacking the back row.
+  details: Never takes quarry; immunity covers the whole attack.
+  mech: [{"id": "swoop"}, {"id": "no_quarry"}, {"id": "back_row_immunity"}]
+--- cuckoo T4 3/6 pool= True
+  text: Birds flying from beside this stay away a turn longer. End of Turn: Birds away with Nests beside this gain +2/+2.
+  gold: Birds flying from beside this stay away two turns longer. End of Turn: Birds away with Nests beside this gain +4/+4.
+  details: Each Cuckoo beside the departing Bird extends its trip once. Growth is permanent and comes home with the Bird.
+  mech: [{"id": "cuckoo", "turns": 1, "attack": 2, "health": 2}]
+--- mag_pye T4 3/6 pool= True
+  text: Start of Combat: steal the text of the enemy across.
+  gold: Start of Combat: steal the text of two enemies: the one across and the next along.
+  details: Happens before other Start of Combat effects. A Belly isn't text.
+  mech: [{"id": "mag_pye", "reach": 1}]
+--- mrs_stork T4 3/6 pool= True
+  text: Every 6 gold you spend: the Bird away longest comes home, if it has missed a fight.
+  gold: Every 6 gold you spend: the two Birds away longest come home, if they have missed a fight.
+  details: A tie goes to the leftmost Nest.
+  mech: [{"id": "effect", "trigger": "on_gold_spent", "name": "stork", "every": 6, "count_amount": true, "do": {"effect": "bring_home", "count": 1}}]
+--- great_lump T5 3/5 pool= True
+  text: On a Nest, this also has half its Bird's current stats.
+  gold: On a Nest, this also has its Bird's full current stats.
+  details: Rounds each stat up, before Egg auras. Loses the borrowed stats when its Bird comes home.
+  mech: [{"id": "lump", "factor": 1}]
+  extra: {"golden_details": "Borrows twice as much: its Bird's full stats, before Egg auras. Loses them when its Bird comes home."}
+--- mother_goose T5 4/7 pool= True
+  text: Fly South. While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.
+  gold: Fly South. While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2.
+  details: Its Egg follows the normal rule. The homecoming buff is permanent and reaches Birds away.
+  mech: [{"id": "fly_south", "turns": 2}, {"id": "mother_goose", "damage": 2, "attack": 1, "health": 1}]
+  extra: {"mechanic_text": {"1": {"id": "mother_goose", "text": "While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.", "golden_text": "While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2."}}}
+--- gabble_ratchet T6 3/7 pool= True
+  text: When a unit on a Nest dies: its Bird lands there.
+  gold: When a unit on a Nest dies: its Bird lands there with twice its Attack.
+  details: Eggs count; once per Nest each fight. The Bird lands with current stats, then returns away after the fight with its trip unchanged.
+  mech: [{"id": "gabble_ratchet", "factor": 1}]
+--- seven_whistlers T6 5/7 pool= True
+  text: Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -1/-1.
+  gold: Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -2/-2.
+  details: Up to -3/-3. Eggs are not Birds.
+  mech: [{"id": "whistlers", "stats": 1}]
+  extra: {"golden_details": "Up to -6/-6. Eggs are not Birds."}
+===== Bog folk 18
+--- bridge_toad T1 1/3 pool= True
+  text: Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3.
+  gold: Mire. After its Mired enemy attacks this: gain +2/+2 permanently, up to +6/+6.
+  details: It gains even if the hit kills it. Its permanent buffs cap at +3/+3.
+  mech: [{"id": "mire", "spread": false}, {"id": "bridge_toad", "stats": 1}]
+  extra: {"golden_details": "It gains even if the hit kills it. Its permanent buffs cap at +6/+6.", "permanent_buff_cap": 3}
+--- peatling T1 4/4 pool= False
+  text: Bitter 2.
+  gold: Bitter 4.
+  details: None
+  mech: [{"id": "bitter", "n": 2, "once_per_enemy": false}]
+--- warty_nan T1 1/3 pool= True
+  text: Bitter 1. Your units beside this have Bitter 1.
+  gold: Bitter 2. Your units beside this have Bitter 2.
+  details: None
+  mech: [{"id": "bitter", "n": 1, "once_per_enemy": false}, {"id": "bog_aura", "mire": false, "bitter": 1}]
+--- young_pretender T1 3/2 pool= True
+  text: Snap. After this kills a Mired enemy: get 1 gold next turn.
+  gold: Snap. After this kills a Mired enemy: get 2 gold next turn.
+  details: None
+  mech: [{"id": "snap"}, {"id": "snap_kill", "gold": 1}]
+--- madame_bufo T2 1/4 pool= True
+  text: Mire. Bitter 2. If the enemy this Mires kills this, it loses half its Attack.
+  gold: Mire. Bitter 4. If the enemy this Mires kills this, it loses half its Attack.
+  details: None
+  mech: [{"id": "mire", "spread": false}, {"id": "bitter", "n": 2, "once_per_enemy": false}, {"id": "bufo"}]
+--- peat_cutter T2 2/4 pool= True
+  text: Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight. Three times in all.
+  gold: Mire. After a Mired enemy dies: get 2 gold next turn. Once a fight. Three times in all.
+  details: None
+  mech: [{"id": "mire", "spread": false}, {"id": "effect", "trigger": "on_enemy_death", "do": {"effect": "gold", "amount": 1, "when": "next_turn"}, "name": "peat_cutting", "limit": 1, "if": [{"kind": "subject_mired"}], "lifetime": 3}]
+--- vaulting_hopkin T2 3/1 pool= True
+  text: Snap. In your back row, this attacks first, with +2 Attack.
+  gold: Snap. In your back row, this attacks first, with +4 Attack.
+  details: None
+  mech: [{"id": "snap"}, {"id": "vault", "attack": 2}]
+--- gideon T3 2/6 pool= True
+  text: Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.
+  gold: Mire. After the enemy this Mires attacks this: attack it back with +4 Attack.
+  details: None
+  mech: [{"id": "mire", "spread": false}, {"id": "bog_answer", "attack": 2}]
+--- natterjack_chorus T3 3/4 pool= True
+  text: Your units beside this have Mire and Bitter 1.
+  gold: Your units beside this have Mire and Bitter 2.
+  details: None
+  mech: [{"id": "bog_aura", "mire": true, "bitter": 1}]
+--- spitfire_sal T3 1/3 pool= True
+  text: Start of Combat: deal 2 damage to each Mired enemy.
+  gold: Start of Combat: deal 4 damage to each Mired enemy.
+  details: None
+  mech: [{"id": "effect", "trigger": "start_of_combat", "do": {"effect": "damage", "amount": 2}, "target": {"select": "mired"}}]
+--- his_highness T4 3/5 pool= True
+  text: Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become The Prince Restored.
+  gold: Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become a golden Prince Restored.
+  details: None
+  mech: [{"id": "snap"}, {"id": "kiss"}]
+--- jenny_greenteeth T4 3/5 pool= True
+  text: Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.
+  gold: Mire. Its Mired enemy has -4 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.
+  details: None
+  mech: [{"id": "mire", "spread": false}, {"id": "jenny", "attack": 2}]
+--- prince_restored T4 6/7 pool= False
+  text: Mire. Your first spell each turn costs 1 less.
+  gold: Mire. Your first spell each turn costs 2 less.
+  details: None
+  mech: [{"id": "mire", "spread": false}, {"id": "spell_discount", "gold": 1}]
+--- signor_ranocchio T4 3/4 pool= True
+  text: Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight.
+  gold: Snap. After this attacks a Mired enemy: gain +2/+2 permanently. Once a fight.
+  details: Counts one attack, including a simultaneous trade.
+  mech: [{"id": "snap"}, {"id": "ranocchio", "stats": 1, "limit": 1}]
+--- prima_donna T5 2/8 pool= True
+  text: Mire the slot across and the slots beside it. Bitter 2, once per enemy.
+  gold: Mire the slot across and the slots beside it. Bitter 4, once per enemy.
+  details: Once per enemy is spent when the attack is declared, even if no damage lands.
+  mech: [{"id": "mire", "spread": true}, {"id": "bitter", "n": 2, "once_per_enemy": true}]
+--- tiddy_mun T5 3/6 pool= True
+  text: After a Mired enemy attacks one of your units: that unit gains +1/+1 permanently. Twice a fight.
+  gold: After a Mired enemy attacks one of your units: that unit gains +2/+2 permanently. Twice a fight.
+  details: The attacked unit keeps the permanent gain even if the hit kills it.
+  mech: [{"id": "tiddy_mun", "stats": 1, "limit": 2}]
+--- lantern_man T6 4/8 pool= True
+  text: Snap. Has +3 Attack for each Mired enemy.
+  gold: Snap. Has +6 Attack for each Mired enemy.
+  details: The Attack bonus changes as enemies enter and leave Mire.
+  mech: [{"id": "snap"}, {"id": "lantern_man", "attack": 3}]
+--- peat_king T6 5/9 pool= True
+  text: Mire. After a Mired enemy dies: summon a 4/4 Peatling with Bitter 2. Twice a fight.
+  gold: Mire. After a Mired enemy dies: summon an 8/8 Peatling with Bitter 4. Twice a fight.
+  details: The Peatling appears in your empty slot nearest this.
+  mech: [{"id": "mire", "spread": false}, {"id": "peat_king", "limit": 2}]
+===== Fairies 17
+--- hedge_witch T1 1/2 pool= True
+  text: Hex 1. Each spell you cast adds 1, up to your tier.
+  gold: Hex 2. Each spell you cast adds 2, up to your tier + 2.
+  details: Hex is capped at your tier. Spells past the cap still count.
+  mech: [{"id": "hex", "n": 1, "most": "tier", "golden_most": "tier_plus_2"}]
+  extra: {"golden_details": "Hex is capped at your tier + 2. Spells past the cap still count."}
+--- nan_toadstool T1 2/1 pool= True
+  text: When played: Ring this slot +1/+1.
+  gold: When played: Ring this slot +2/+2.
+  details: None
+  mech: [{"id": "effect", "trigger": "on_play", "name": "ring", "do": {"effect": "slot_effect", "attack": 1, "health": 1, "target": {"select": "self"}, "name": "Ring", "text": "Whoever stands on this slot has these stats."}}]
+--- rainbow_chaser T1 1/2 pool= True
+  text: Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2 painted slots, +2 for all seven.
+  gold: Rainbow. +2/+2 per 2 painted slots. When sold: wipe paint for 2 gold per 2 painted slots, +4 for all seven.
+  details: Round down.
+  mech: [{"id": "rainbow", "gold": 1, "stats": 1, "finish": 2, "stats_every": 2, "gold_every": 2}]
+--- wisp T1 1/1 pool= False
+  text: 
+  gold: 
+  details: None
+  mech: []
+--- hob_in_the_hearth T2 1/3 pool= True
+  text: Shy. End of Turn: give the units in front +1 Health.
+  gold: Shy pays 4 gold. End of Turn: give the units in front +2 Health.
+  details: None
+  mech: [{"id": "shy", "gold": 2}, {"id": "effect", "trigger": "end_of_turn", "name": "hearth", "do": {"effect": "buff", "health": 1, "target": {"select": "in_front"}}}]
+  extra: {"mechanic_text": {"1": {"id": "effect", "trigger": "end_of_turn", "text": "End of Turn: give the units in front +1 Health.", "golden_text": "End of Turn: give the units in front +2 Health."}}}
+--- old_moth_annis T2 2/2 pool= True
+  text: End of Turn: give the units behind this +1 Attack.
+  gold: End of Turn: give the units behind this +2 Attack.
+  details: None
+  mech: [{"id": "effect", "trigger": "end_of_turn", "name": "lantern", "do": {"effect": "buff", "attack": 1, "target": {"select": "behind"}}}]
+--- sally_spore T2 1/3 pool= True
+  text: End of Turn: Ring your empty slot nearest this +1/+1.
+  gold: End of Turn: Ring your empty slot nearest this +2/+2.
+  details: None
+  mech: [{"id": "effect", "trigger": "end_of_turn", "name": "ring", "do": {"effect": "slot_effect", "attack": 1, "health": 1, "at": "nearest_empty", "name": "Ring", "text": "Whoever stands on this slot has these stats."}}]
+--- cluricaun T3 2/3 pool= True
+  text: Rainbow. Your units on painted slots have +1 Attack.
+  gold: Rainbow. Your units on painted slots have +2 Attack.
+  details: None
+  mech: [{"id": "rainbow_paint"}, {"id": "band_attack", "attack": 1}]
+--- cradle_fetch T3 2/3 pool= True
+  text: Start of Combat: become a base copy of the unit behind.
+  gold: Start of Combat: become a golden base copy of the unit behind, with +4/+4.
+  details: The copy's Start of Combat text fires.
+  mech: [{"id": "cradle_fetch", "golden_bonus": 4}]
+--- lob_lie_by_the_fire T3 2/3 pool= True
+  text: Shy. End of Turn: give the units beside this +1 Attack.
+  gold: Shy pays 4 gold. End of Turn: give the units beside this +2 Attack.
+  details: Beside means adjacent in the same row.
+  mech: [{"id": "shy", "gold": 2}, {"id": "effect", "trigger": "end_of_turn", "name": "lob", "do": {"effect": "buff", "attack": 1, "target": {"select": "adjacent"}}}]
+  extra: {"mechanic_text": {"1": {"id": "effect", "text": "End of Turn: give the units beside this +1 Attack.", "golden_text": "End of Turn: give the units beside this +2 Attack.", "trigger": "end_of_turn"}}}
+--- changeling T4 2/2 pool= True
+  text: Start of Combat: swap sides with the enemy across. Swap back after that enemy attacks once.
+  gold: Start of Combat: swap sides with the enemy across; that enemy gains +4/+4. Swap back after that enemy attacks once.
+  details: None
+  mech: [{"id": "changeling", "golden_bonus": 4}]
+--- silky T4 3/6 pool= True
+  text: Shy. After a Shy unit leaves: Ring its slot +2/+2.
+  gold: Shy pays 4 gold. After a Shy unit leaves: Ring its slot +4/+4.
+  details: This counts too. The Ring cap (+4/+4) applies. Destroying or selling a Shy unit does not count.
+  mech: [{"id": "shy", "gold": 2}, {"id": "silky", "stats": 2}]
+  extra: {"mechanic_text": {"1": {"id": "silky", "text": "After a Shy unit leaves: Ring its slot +2/+2.", "golden_text": "After a Shy unit leaves: Ring its slot +4/+4."}}}
+--- will_o_the_wisp T4 3/6 pool= True
+  text: Start of Combat: summon a 1/1 Wisp into each empty Ring.
+  gold: Start of Combat: summon a 2/2 Wisp into each empty Ring.
+  details: None
+  mech: [{"id": "effect", "trigger": "start_of_combat", "name": "wisps", "do": {"effect": "summon", "unit": "wisp", "at": "empty_rings"}}]
+--- belladonna T5 4/8 pool= True
+  text: Start of Combat: give the enemy across Nightshade. From the back row, the 2 across from the slots in front of this instead.
+  gold: Start of Combat: give the enemy across Nightshade. From the back row, also the 2 across from the slots in front of this.
+  details: None
+  mech: [{"id": "effect", "trigger": "start_of_combat", "name": "nightshade", "if": [{"kind": "in_row", "row": "back"}], "do": {"effect": "status", "status": "nightshade", "target": {"select": "facing"}}}, {"id": "effect", "trigger": "start_of_combat", "name": "nightshade_across", "if": [{"kind": "in_row", "row": "front"}], "do": {"effect": "status", "status": "nightshade", "target": {"select": "across"}}}, {"id": "effect", "trigger": "start_of_combat", "name": "nightshade_golden", "if": [{"kind": "golden"}, {"kind": "in_row", "row": "back"}], "do": {"effect": "status", "status": "nightshade", "target": {"select": "across"}}}]
+--- reel_mistress T5 4/7 pool= True
+  text: After a unit on a Ring attacks: its Ring moves to your next unit in attack order. Each Ring moves once a fight.
+  gold: After a unit on a Ring attacks: its Ring moves to your next unit in attack order and gains +1/+1. Each Ring moves once a fight.
+  details: Moved Rings can stack past the +4/+4 cap.
+  mech: [{"id": "reel_mistress"}]
+  extra: {"golden_details": "Moved Rings can stack past the +4/+4 cap."}
+--- fairy_monarch T6 4/6 pool= True
+  text: Rings under your Fairies give +1/+1 more.
+  gold: Rings under your Fairies give +2/+2 more.
+  details: None
+  mech: [{"id": "fairy_monarch", "stats": 1}]
+--- queen_of_elfland T6 8/8 pool= True
+  text: Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share the destroyed units' stats.
+  gold: Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share double the destroyed units' stats.
+  details: Teind counts End of Turns since this was played and resets after 3. Shares base stats and permanent buffs evenly; spare points go in board order.
+  mech: [{"id": "teind"}]

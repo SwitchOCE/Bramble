@@ -1,0 +1,30 @@
+ordered pairs 132  Pearson r (plain stat lines, no text) vs real R9: 0.809
+same favourite in 114 of 132
+cells at <=5% or >=95%: plain 109  real 88  of 132
+largest disagreements (text matters most here):
+   ('hedgerow_high', 'bog_high') plain 0 real 88
+   ('fairies_low', 'oozes_low') plain 88 real 0
+   ('bog_high', 'hedgerow_high') plain 100 real 12
+   ('oozes_low', 'fairies_low') plain 17 real 100
+   ('hunters_high', 'birds_high') plain 0 real 76
+   ('birds_high', 'hunters_high') plain 100 real 24
+   ('oozes_high', 'hunters_high') plain 3 real 76
+   ('hunters_high', 'oozes_high') plain 95 real 24
+   ('oozes_high', 'fairies_high') plain 0 real 64
+   ('fairies_high', 'oozes_high') plain 100 real 36
+   ('oozes_high', 'birds_high') plain 0 real 63
+   ('birds_high', 'oozes_high') plain 100 real 37
+
+board           plain-all  real-all
+hunters_high     79.8     76.9
+hunters_low      20.5     12.0
+hedgerow_high    52.6     73.9
+hedgerow_low     47.2     47.0
+oozes_high       67.4     84.6
+oozes_low         2.2     18.0
+bog_high         69.7     67.4
+bog_low          21.8     28.1
+fairies_high     99.4     89.5
+fairies_low      11.6      4.6
+birds_high       91.4     69.5
+birds_low        36.5     28.2
