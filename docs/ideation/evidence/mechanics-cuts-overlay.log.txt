@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[INFO]:  using [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+
+
+res://tests/core/test_overlay_text.gd
+* test_every_card_all_overlay_combinations_has_text_for_changed_rule_parameters
+* test_dozey_repeat_timing_and_numeric_caps_match_effective_rule_in_all_modes
+* test_pipkin_and_money_spider_words_match_their_effective_numbers_in_all_modes
+* test_empty_engine_tribe_names_every_friendly_unit_and_shows_the_dials
+4/4 passed.
+gut_strict: ok (no risky or pending tests)
+
+
+
+
+==============================================
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts               1
+Tests                 4
+Passing Tests         4
+Asserts            1624
+Time              6.161s
+
+
+Ran Scripts matching "test_overlay_text"
+---- All tests passed! ----
+

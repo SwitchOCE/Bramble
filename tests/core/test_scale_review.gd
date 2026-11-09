@@ -187,7 +187,37 @@ func test_percent_hex_recruit_view_reports_percent_and_flat_components_separatel
 	assert_eq(view["hex_percent_stored"], 150)
 
 
-func test_rank_ties_vary_with_fight_seed_and_repeat_for_the_same_seed() -> void:
+func test_default_flat_hex_keeps_the_original_event_fields_and_mixed_hex_keeps_percent() -> void:
+	var kit := KIT.new()
+	kit.setup()
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 9
+	var combat := Combat.create(kit.library, kit.config, rng)
+	combat._setup([KIT._board({0: "field_vole"}), KIT._board({0: "field_vole"})])
+	var source: CombatUnit = combat.unit_at(0, 0)
+	combat.add_hex(source, 1, 0, 2)
+	assert_eq(
+		combat.events[0],
+		{
+			"seq": 0,
+			"type": "slot_hex",
+			"side": 1,
+			"slot": 0,
+			"amount": 2,
+			"total": 2,
+			"source": source.uid
+		}
+	)
+	CombatScale.add_hex(combat, source, 1, 0, 25)
+	combat.add_hex(source, 1, 0, 3)
+	var hexes: Array[Dictionary] = combat.events.filter(
+		func(event: Dictionary) -> bool: return event["type"] == "slot_hex"
+	)
+	assert_eq(hexes[-1]["percent"], 25)
+	assert_eq(hexes[-1]["total"], 5)
+
+
+func test_rank_ties_vary_with_effect_seed_and_repeat_for_the_same_seed() -> void:
 	var kit := KIT.new()
 	kit.setup()
 	var seen: Dictionary = {}
@@ -199,12 +229,12 @@ func test_rank_ties_vary_with_fight_seed_and_repeat_for_the_same_seed() -> void:
 			[KIT._board({0: "field_vole"}), KIT._board({0: "field_vole", 4: "field_vole"})]
 		)
 		var world := CombatWorld.make(combat, combat.unit_at(0, 0), 0, {}, "start_of_combat")
-		var before: int = rng.state
+		var before: int = combat.effect_rng.state
 		var target: BoardUnit = (
 			TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world)[0]
 		)
 		seen[world.enemy.find(target)] = true
-		rng.state = before
+		combat.effect_rng.state = before
 		assert_eq(TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world)[0], target)
 	assert_eq(seen.size(), 2)
 

@@ -10,12 +10,13 @@ Set configuration **before** `GameSession.create(seed, library, config)`. Defaul
 retain both size caps and rate limits, select no synthetic units, and keep hero/spell
 scaling off. Configuration is immutable input for a game; create a new game to
 change any switch or dial.
-No existing card file or its flat numbers changed.
+Existing cards retain their default mechanics and flat numbers. Optional display-only
+`overlay_text` branches on individual cards supply wording for experimental modes.
 
 | Piece | Data / configuration | Behaviour |
 | --- | --- | --- |
-| Biggest answer target | `{"select":"enemies","pick":"biggest"}` | Highest current Attack + Health, any row; uniform ties use fight RNG in combat (rulebook 1.2.2). |
-| Most Attack / Health | `{"select":"enemies","pick":"highest_attack"}` / `highest_health` | Same all-row reach and uniform ties, after selector filters. Ordinary random effects retain their effect RNG stream. |
+| Biggest answer target | `{"select":"enemies","pick":"biggest"}` | Highest current Attack + Health, any row; ties use the existing effect RNG in combat (rulebook 1.2.2). |
+| Most Attack / Health | `{"select":"enemies","pick":"highest_attack"}` / `highest_health` | Same all-row reach and random ties, after selector filters. |
 | Proportional stat verb | `{"effect":"stat_fraction","stat":"both","operation":"reduce","numerator":25,"denominator":100}` | Removes a quarter of current Attack and Health; set/gain also supported. Floor fractional amounts; shrinking leaves 0 Attack / 1 Health. Standard duration rules apply. |
 | Proportional debuffs | Optional `percent` on `bitter`, `hex`, `jenny`, `jack_daw` | Replaces flat loss. Flat parameters may be omitted when percent is supplied; percentages do not double on golden. Hex's percentage grows per spell and carries into combat. |
 | Damage Reduction | `{"id":"damage_reduction","n":2}` or `{"id":"damage_reduction","percent":25}` | Each hit loses N or floor(percent of damage). Before Shield / Shell. |
@@ -143,8 +144,8 @@ those boundaries and the schema key-name classification above.
 
 All three custom enemy selectors were removed in favour of ordinary selectors and
 ranked picks: `{"select":"enemies","pick":"biggest"}`, `highest_attack` and
-`highest_health`. Ranking ties use uniform fight RNG in combat under rulebook
-1.2.2, while ordinary random effects retain their effect RNG stream.
+`highest_health`. The follow-up restores the original target ordering and effect RNG for every pick;
+only the `biggest` score is new.
 
 Percent Hex now reaches recruit slips, combat logs, replay state and slot badges.
 `hex_amount`/`hex_stored` and event `amount`/`total` remain flat-only;
@@ -183,3 +184,77 @@ empty board, without attack/trigger-limit stalls.
 All Godot runs sourced `/opt/bramble/env.sh` and ran sequentially under
 `systemd-run --user --scope -p MemoryMax=3G` and `timeout`. `combat.gd` is 931 lines.
 No `tools/sim` or bot files changed. No approval actions were denied.
+
+
+## Second review — default seed compatibility and overlay prose
+
+`TargetSelect` now differs from `04f5beb` only by the `biggest` score in `_value`.
+Its original random-key sort, per-candidate RNG consumption and effect RNG are
+restored for every pick. The fight-RNG override and the stream sentence in
+rulebook 1.2.2 were removed. Flat Hex also retains its original event fields when
+no percentage Hex is active; mixed Hex still records the active percentage.
+
+Semantic text changes live in card-data `overlay_text` branches (`size`, `rate`,
+`both`). Dozey explicitly doubles at every End of Turn after three turns in the
+slot when rates are disabled, Pipkin no longer prints a disabled buy limit, and
+golden Money Spider describes uncapped carried-gold income when sizes are disabled.
+Ermeline and Market Stall's previous formatter exceptions also moved into data.
+An empty engine tribe renders “give your units.” Default text remains unchanged.
+
+The new catalogue audit visits **203 definitions × four combinations = 812 cases**,
+with **38 independent parameter-to-prose contracts** covering normal and golden
+text, plus runtime-backed contracts for Market Stall, Harvest Supper, Figgy,
+Prince and free Refresh limits, and direct regressions for the named cases. It passed **4/4 tests,
+1,624 assertions**. The focused scale/UI suite passed **37/37 tests, 566 assertions**,
+including original RNG ordering/consumption and flat-versus-mixed Hex event fields.
+
+The same-seed check runs the ordinary three soak profiles on **93001–93012** with
+all scale experiment switches at defaults. The synthetic profile generates a pool
+unit for every schema effect, so adding `stat_fraction` changes that test input
+catalogue independently of game behavior. Both revisions use the archived
+[04f5beb trigger/effect catalogue](default-seeds-04f5beb-inputs.json) to hold those
+synthetic inputs fixed. Production card inputs are loaded from each revision.
+The trace records every ordered pairing and outcome, plus SHA-256 of the complete
+fight result including all events. The comparison fails even when winners and
+damage match but event hashes differ.
+
+Reproduce in an isolated archive; never switch the working branch to the baseline:
+
+```sh
+source /opt/bramble/env.sh
+before_dir=$(mktemp -d /tmp/bramble-default-before.XXXXXX)
+git archive 04f5beb | tar -x -C "$before_dir"
+cp tools/checks/soak_seed_trace.gd "$before_dir/tools/checks/soak_seed_trace.gd"
+export BRAMBLE_SOAK_INPUTS="$PWD/docs/ideation/evidence/default-seeds-04f5beb-inputs.json"
+systemd-run --user --scope -p MemoryMax=3G timeout 180 \
+  godot --headless --path "$before_dir" --import
+systemd-run --user --scope -p MemoryMax=3G timeout 300 \
+  godot --headless --path "$before_dir" -s res://tools/checks/soak_seed_trace.gd \
+  -- 12 93001 > /tmp/default-before.log 2>&1
+systemd-run --user --scope -p MemoryMax=3G timeout 300 \
+  godot --headless -s res://tools/checks/soak_seed_trace.gd \
+  -- 12 93001 > /tmp/default-after.log 2>&1
+python3 tools/checks/compare_seed_traces.py /tmp/default-before.log /tmp/default-after.log
+```
+
+**Same-seed comparison: PASS.** Both revisions ran **12 games, 203 rounds,
+637 fights**, zero violations. All **637 ordered pairings, outcomes and complete
+result/event hashes are identical**, with no ignored result fields or event
+normalization. [Before](mechanics-default-seeds-before.log.txt),
+[after](mechanics-default-seeds-after.log.txt),
+[comparison](mechanics-default-seeds-compare.log.txt).
+The comparison tool has three Python regressions covering exact matches, hidden
+event changes with identical winners/damage, and missing/empty fights.
+
+Focused logs: [catalogue audit](mechanics-cuts-overlay.log.txt),
+[scale/UI regressions](mechanics-cuts-scale.log.txt).
+**Final second-review gate: PASS**, `./scripts/check.sh`, all 11 steps:
+**1,655/1,655 GUT tests, 28,409 assertions**, plus **57 Python tests**,
+content validation, format/lint, import, compilation and unchanged default shop
+parity (109 units). [Gate log](mechanics-cuts-gate.log.txt).
+
+The five modified existing card definitions match `04f5beb` after excluding the new
+`overlay_text` display metadata. No simulation-harness or bot files changed.
+All Godot invocations were sequential, sourced `/opt/bramble/env.sh`, and used the
+required `MemoryMax=3G` scope and timeouts. No approval actions were denied; no
+requested work remains undone.

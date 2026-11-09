@@ -116,7 +116,7 @@ Each is `{"kind": ..., "at_least"?, "at_most"?, "not"?: true}`. All are threshol
 - Sides: `friendly`, `others` (friendly but not the source), `enemies`, `front_row`, `back_row`, `enemy_front_row`, `enemy_back_row`.
 - Geometry: `in_front`, `behind`, `adjacent`, `neighbours`, `row`, `row_ends`, `across`.
 - Elsewhere: `hand`, `shop`.
-- `pick`: `first`, `random`, `biggest`, `highest_attack`, `lowest_attack`, `highest_health`, `lowest_health`. `count`: how many. Ranking ties are uniform among tied candidates; in combat they use the fight RNG (rulebook 1.2.2). Ordinary random effects retain their effect RNG stream.
+- `pick`: `first`, `random`, `biggest`, `highest_attack`, `lowest_attack`, `highest_health`, `lowest_health`. `count`: how many. Ties keep the existing random-key ordering and effect RNG (rulebook 1.2.2).
 
 ## Effects
 
@@ -412,9 +412,8 @@ RecruitUnit combat snapshots carry `lifetime_payments` for named `paid_` counter
 Use `{"select":"enemies","pick":"biggest"}` to select the living enemy with
 highest current Attack + Health, in any row, bypassing row protection. Most Attack
 and most Health use the existing `highest_attack` and `highest_health` picks on
-`enemies`. Filters run before ranking. Ties are uniform among tied candidates,
-using the fight RNG in combat (rulebook 1.2.2); ordinary random effects keep the
-effect RNG stream. The three custom enemy selectors have been removed.
+`enemies`. Filters run before ranking. Ties keep the existing random-key ordering
+and effect RNG (rulebook 1.2.2). The three custom enemy selectors have been removed.
 
 `stat_fraction` takes `stat` (`attack`, `health`, `both`), `operation` (`set`, `reduce`,
 `gain`), integer `numerator` and positive `denominator`, plus optional `duration`.
@@ -462,6 +461,17 @@ limits, multipliers and loop guards. Both switches preserve attack/trigger safet
 guards, keyword charges, cycle and Nest recursion guards, resource availability,
 board/hand capacity, and timing/target conditions. The economy lever's explicit
 config cap remains its own dial.
+
+When disabling a limit changes a sentence's meaning, author `overlay_text` on the
+card instead of depending on clause removal. Optional `size`, `rate`, and `both`
+branches replace only `text`, `golden_text`, `details`, or `golden_details`. Generic
+removals run first, then authored size, rate, and both branches in that order.
+Defaults apply none of these branches. An authored combined branch must preserve
+all still-active rules. Dozey's recurring doubling, Pipkin's unrestricted buys and
+golden Money Spider's uncapped income use these data overrides. The catalogue
+audit checks all four switch combinations against effective numeric parameters;
+new changed printed parameters require a matching text contract.
+
 
 `scale_levers` is a list of selected IDs, default `[]`, never a boolean. Available
 IDs are `scale_engine`, `scale_answer`, `scale_doubler`, `scale_economy`,

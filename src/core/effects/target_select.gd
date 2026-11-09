@@ -12,7 +12,7 @@ static func pick(spec: Dictionary, world: EffectWorld) -> Array[BoardUnit]:
 	var how: String = str(spec.get("pick", ""))
 	if how == "":
 		return units
-	_order(units, how, world.selection_rng(how), CoreUtil.to_int(spec.get("count", 1)))
+	_order(units, how, world.rng)
 	var count: int = CoreUtil.to_int(spec.get("count", 1))
 	if units.size() > count:
 		units.resize(count)
@@ -170,45 +170,24 @@ static func _filtered(
 
 static func _in_row(unit: BoardUnit, row: String, world: EffectWorld) -> bool:
 	var slot: int = world.own.find(unit)
-	if slot < 0:
-		slot = world.enemy.find(unit)
 	return slot >= 0 and BoardGeometry.is_front(slot) == (row == "front")
 
 
 ## 1.2.2: random, and highest or lowest with ties broken at random.
-static func _order(
-	units: Array[BoardUnit], how: String, rng: RandomNumberGenerator, count: int
-) -> void:
+static func _order(units: Array[BoardUnit], how: String, rng: RandomNumberGenerator) -> void:
 	if how == "first":
 		return
-	if how == "random":
-		_shuffle(units, rng)
-		return
-	var groups: Dictionary = {}
+	var keys: Dictionary = {}
 	for unit: BoardUnit in units:
-		var score: int = _value(unit, how)
-		if not groups.has(score):
-			groups[score] = []
-		var group: Array = groups[score]
-		group.append(unit)
-	var scores: Array = groups.keys()
-	scores.sort()
-	scores.reverse()
-	units.clear()
-	for score: int in scores:
-		var group: Array = groups[score]
-		if units.size() < count:
-			_shuffle(group, rng)
-		for unit: BoardUnit in group:
-			units.append(unit)
-
-
-static func _shuffle(units: Array, rng: RandomNumberGenerator) -> void:
-	for index: int in range(units.size() - 1, 0, -1):
-		var chosen: int = rng.randi_range(0, index)
-		var swap: Variant = units[index]
-		units[index] = units[chosen]
-		units[chosen] = swap
+		keys[unit] = rng.randi()
+	units.sort_custom(
+		func(a: BoardUnit, b: BoardUnit) -> bool:
+			var value_a: int = _value(a, how)
+			var value_b: int = _value(b, how)
+			if value_a != value_b:
+				return value_a > value_b
+			return CoreUtil.to_int(keys[a]) < CoreUtil.to_int(keys[b])
+	)
 
 
 static func _value(unit: BoardUnit, how: String) -> int:

@@ -81,7 +81,7 @@ Owner notes win over this rulebook if they disagree.
 
 **1.2.1** [BG] When card text contradicts this rulebook, the card text wins (not in rules.md; standard Hearthstone convention).
 
-**1.2.2** [BG] Combat involves no player decisions. Where a rule says "random", the choice is uniform among the valid options unless the rule says otherwise (uncertain in HSBG — see rules.md §18). [BRAMBLE ideation] Ties among equally ranked candidates, including biggest and most Attack/Health, are also uniform among the tied candidates. In combat, ranking ties use the fight RNG; ordinary random effects keep their separate effect RNG stream.
+**1.2.2** [BG] Combat involves no player decisions. Where a rule says "random", the choice is uniform among the valid options unless the rule says otherwise (uncertain in HSBG — see rules.md §18). [BRAMBLE ideation] Ties among equally ranked candidates, including biggest and most Attack/Health, are also uniform among the tied candidates.
 
 **1.2.3** [PROPOSED] **Reading order.** The board's slots have one fixed order: F1, F2, F3, F4, B1, B2, B3 (chapter 8). Wherever HSBG resolves things "left to right" across a board (Start of Combat, deaths, End of Turn, triggers of the same kind), Bramble uses reading order. *Why:* it is the attack order the owner chose (9.4.2), so players learn one order for everything. *Galaxy:* numbers its slots 1–5 left to right, front to back, and uses that order for attacks.
 
@@ -895,7 +895,7 @@ These are general mechanisms for scale experiments; none changes the default poo
 - **Biggest enemy:** the living enemy with highest current Attack + current Health,
   in any row, ignoring back-row protection. **Most Attack** and **most Health** use
   the named current stat in any row. Ties are uniform among the tied candidates
-  using the fight RNG in combat (1.2.2). Dying units are ineligible. Effect selectors do not change normal attack targeting.
+  using the existing effect RNG (1.2.2). Dying units are ineligible. Effect selectors do not change normal attack targeting.
 - **Proportional stats:** set, reduce or gain Attack, Health or both by an integer
   ratio. Calculate each stat from its value immediately before that effect; round
   each fractional amount down. Reductions leave at least 0 Attack and 1 Health.

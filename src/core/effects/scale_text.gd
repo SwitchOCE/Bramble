@@ -7,27 +7,28 @@ static var _patterns: Dictionary = {}
 
 static func rewrite(card: Dictionary, config: GameConfig) -> void:
 	_patch_tree(card, config)
+	var authored: Dictionary = card.get("overlay_text", {})
+	var size_text: Dictionary = authored.get("size", {})
+	var rate_text: Dictionary = authored.get("rate", {})
+	var both_text: Dictionary = authored.get("both", {})
 	if not config.get_bool("card_size_caps"):
-		match str(card.get("id", "")):
-			"madame_ermeline":
-				card["details"] = "Each Take counts. At tier 6: get 1 gold per Take."
-				card["golden_details"] = "Each Take counts. At tier 6: get 2 gold per Take."
-	if str(card.get("id", "")) == "market_stall":
-		var rates: String = "At most 2 Stalls. " if config.get_bool("card_rate_limits") else ""
-		var size: String = (
-			"Adds unit offers up to 7; Pipkin gets spells instead."
-			if config.get_bool("card_size_caps")
-			else "Each Stall adds a unit offer."
-		)
-		if not config.get_bool("card_size_caps") or not config.get_bool("card_rate_limits"):
-			card["details"] = rates + size
+		_apply(card, size_text)
+	if not config.get_bool("card_rate_limits"):
+		_apply(card, rate_text)
+	if not config.get_bool("card_size_caps") and not config.get_bool("card_rate_limits"):
+		_apply(card, both_text)
+
+
+static func _apply(card: Dictionary, fragments: Dictionary) -> void:
+	for key: String in fragments:
+		card[key] = fragments[key]
 
 
 static func _patch_tree(value: Variant, config: GameConfig) -> void:
 	if value is Dictionary:
 		var entry: Dictionary = value
 		for key: String in entry.keys():
-			if key in ["keyword_text", "source"]:
+			if key in ["keyword_text", "source", "overlay_text"]:
 				continue
 			if key in ["text", "golden_text", "details", "golden_details"] and entry[key] is String:
 				entry[key] = _text(str(entry[key]), config)

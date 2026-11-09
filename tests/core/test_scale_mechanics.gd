@@ -26,7 +26,7 @@ func _fight(mine: Dictionary, theirs: Dictionary) -> Combat:
 	return combat
 
 
-func test_biggest_and_most_stat_picks_ignore_rows_and_use_fight_rng_ties() -> void:
+func test_biggest_and_most_stat_picks_ignore_rows_and_use_effect_rng_ties() -> void:
 	var combat: Combat = _fight(
 		{0: "field_vole"},
 		{
@@ -40,8 +40,8 @@ func test_biggest_and_most_stat_picks_ignore_rows_and_use_fight_rng_ties() -> vo
 	var effect_before: int = combat.effect_rng.state
 	var biggest: BoardUnit = TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world)[0]
 	assert_true([combat.unit_at(1, 4), combat.unit_at(1, 5)].has(biggest))
-	assert_ne(combat.rng.state, rng_before)
-	assert_eq(combat.effect_rng.state, effect_before)
+	assert_eq(combat.rng.state, rng_before)
+	assert_ne(combat.effect_rng.state, effect_before)
 	assert_true(
 		[combat.unit_at(1, 0), combat.unit_at(1, 5)].has(
 			TargetSelect.pick({"select": "enemies", "pick": "highest_attack"}, world)[0]
@@ -57,6 +57,33 @@ func test_biggest_and_most_stat_picks_ignore_rows_and_use_fight_rng_ties() -> vo
 	)
 	world.enemy = []
 	assert_eq(TargetSelect.pick({"select": "enemies", "pick": "biggest"}, world).size(), 0)
+
+
+func test_target_picks_preserve_original_random_keys_and_rng_consumption() -> void:
+	var combat: Combat = _fight(
+		{0: "field_vole"}, {0: "field_vole", 4: "field_vole", 5: "field_vole"}
+	)
+	var world := CombatWorld.make(combat, combat.unit_at(0, 0), 0, {}, "start_of_combat")
+	var reference := RandomNumberGenerator.new()
+	reference.state = combat.effect_rng.state
+	var expected_slot: int = -1
+	var minimum_key: int = 0x100000000
+	for slot: int in [0, 4, 5]:
+		var key: int = reference.randi()
+		if key < minimum_key:
+			minimum_key = key
+			expected_slot = slot
+	var initial: int = combat.effect_rng.state
+	for how: String in [
+		"random", "biggest", "highest_attack", "lowest_attack", "highest_health", "lowest_health"
+	]:
+		combat.effect_rng.state = initial
+		var picked: BoardUnit = TargetSelect.pick({"select": "enemies", "pick": how}, world)[0]
+		assert_eq(picked, combat.unit_at(1, expected_slot), how)
+		assert_eq(combat.effect_rng.state, reference.state, how + " consumes one key per candidate")
+	combat.effect_rng.state = initial
+	TargetSelect.pick({"select": "enemies", "pick": "first"}, world)
+	assert_eq(combat.effect_rng.state, initial, "first consumes no RNG")
 
 
 func test_fraction_set_reduce_gain_rounding_and_health_floor() -> void:

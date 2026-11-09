@@ -6,11 +6,10 @@ extends RefCounted
 static func configure(card: Dictionary, config: GameConfig) -> void:
 	match str(card.get("id", "")):
 		"scale_engine":
-			var target: String = (
-				"this"
-				if config.get_bool("scale_engine_self")
-				else "your %s" % config.get_string("scale_engine_tribe")
-			)
+			var tribe: String = config.get_string("scale_engine_tribe")
+			var target: String = "your units" if tribe == "" else "your %s" % tribe
+			if config.get_bool("scale_engine_self"):
+				target = "this"
 			var flat: int = maxi(0, config.get_int("scale_engine_flat"))
 			var percent: int = maxi(0, config.get_int("scale_engine_percent"))
 			for golden: bool in [false, true]:

@@ -316,17 +316,17 @@ func add_hex(source: CombatUnit, side: int, slot: int, amount: int) -> void:
 	var row: Dictionary = hexes[side]
 	row[slot] = CoreUtil.to_int(row.get(slot, 0)) + amount
 	_slots_active = true
-	_emit(
-		"slot_hex",
-		{
-			"side": side,
-			"slot": slot,
-			"amount": amount,
-			"total": row[slot],
-			"percent": CombatScale.hex_percent(self, side, slot),
-			"source": CombatMoves.uid_or_null(source),
-		}
-	)
+	var fields: Dictionary = {
+		"side": side,
+		"slot": slot,
+		"amount": amount,
+		"total": row[slot],
+		"source": CombatMoves.uid_or_null(source),
+	}
+	var percent: int = CombatScale.hex_percent(self, side, slot)
+	if percent > 0:
+		fields["percent"] = percent
+	_emit("slot_hex", fields)
 	_recalc_auras(true)
 
 

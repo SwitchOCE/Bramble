@@ -35,6 +35,21 @@ class PermanentCeilingTest(unittest.TestCase):
                 self.assertTrue(check_units.check_unit(path, unit))
 
 
+class OverlayTextTest(unittest.TestCase):
+    def test_authored_text_overlays_accept_only_display_fields_and_known_combinations(self) -> None:
+        self.assertEqual(check_units.check_overlay_text({"overlay_text": {"both": {"text": "Words."}}}), [])
+        for bad in [
+            None,
+            {},
+            {"other": {"text": "Words."}},
+            {"size": {}},
+            {"rate": {"attack": 3}},
+            {"both": {"text": ""}},
+        ]:
+            with self.subTest(value=bad):
+                self.assertTrue(check_units.check_overlay_text({"overlay_text": bad}))
+
+
 class MechanicTextTest(unittest.TestCase):
     def setUp(self) -> None:
         self.path = Path("content/units/mrs_posset.json")
