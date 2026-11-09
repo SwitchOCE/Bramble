@@ -243,19 +243,35 @@ def main():
     )
     args.out.write_text(json.dumps(result, indent=2) + "\n")
     if args.markdown:
+
+        def fmt(value):
+            return f"{value:.3f}" if value is not None else "n/a"
+
         lines = [
             "# Harness measurements\n",
             "Stats describe feel; field win rates rank boards. Round summaries include survivors only.\n",
-            "| Round | Boards | p50 | p90 | p99 | Share >=2x median |",
-            "|---|---:|---:|---:|---:|---:|",
+            "| Round | Boards | p50 | p90 | p99 | Share >=2x | Own growth | Growth ratio | Stats/gold "
+            "| Largest share |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
         for r, value in result["rounds"].items():
             d = value["stats"]
-            share = value["share_2x_round_median"]
+            cells = [r, str(d["n"]), fmt(d["p50"]), fmt(d["p90"]), fmt(d["p99"]), fmt(value["share_2x_round_median"])]
+            cells.extend(
+                fmt(value[key]["p50"]) for key in ["growth_delta", "growth_ratio", "stats_per_gold", "largest_share"]
+            )
+            lines.append("| " + " | ".join(cells) + " |")
+        lines.extend(
+            [
+                "\nTier arrivals relative to the owner's previous median unit:\n",
+                "| Tier | Arrivals | Post-aura ratio p50 | Printed ratio p50 |",
+                "|---|---:|---:|---:|",
+            ]
+        )
+        for tier, values in result["tier_arrivals"].items():
             lines.append(
-                f"| {r} | {d['n']} | {d['p50']:.1f} | {d['p90']:.1f} | {d['p99']:.1f} | {share:.3f} |"
-                if share is not None
-                else f"| {r} | {d['n']} | 0 | 0 | 0 | undefined |"
+                f"| {tier} | {values['arrival_ratio']['n']} | {fmt(values['arrival_ratio']['p50'])} "
+                f"| {fmt(values['printed_ratio']['p50'])} |"
             )
         lines.extend(
             [

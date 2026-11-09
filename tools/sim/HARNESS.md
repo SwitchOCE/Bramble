@@ -1,8 +1,8 @@
 # Scale measurement harness
 
 Track A of `docs/ideation/plan-scale-rework.md`. Capture, profiles, mixed lobbies and
-weighted field fights are implemented. Metrics, offline damage replay, planted-card
-checks and the baseline follow in that order.
+weighted field fights, metrics, offline damage replay and planted-card checks are
+implemented and verified. The fixed 500-lobby baseline is next.
 
 ## Current decision: include Hard, preserve the finding
 
@@ -85,7 +85,10 @@ planned baseline is 500 all-line lobbies and a 64-board field at each of rounds 
 10, 12, 14 and 16. At the prior measured costs of 12.5 seconds per Hard lobby and
 5 milliseconds per fight, 500 lobbies cost about 104 minutes; six round robins with
 two orientations cost 24,192 fights, about 121 seconds before any replication.
-The baseline therefore spans clean checkpoints under the 50-minute turn limit.
+Eight replicates per orientation raise the final design to 193,536 field fights.
+The eight-lobby mixed smoke measured 2.61 seconds/lobby and 6.69 milliseconds/fight;
+on this machine the updated estimate is 22 minutes for lobbies plus 22 minutes
+for the fields. The baseline spans clean checkpoints under the 50-minute turn limit.
 
 ## Line policies and tuning
 
@@ -102,8 +105,8 @@ influence the captured layout. A specifically requested tribe absent from a lobb
 falls back to `line_fast`; that fallback is visible in the logged resolved line.
 
 `BenchSuites.REGISTRY` contains every profile and two family aliases. `suite=lines`
-deals seven tempo/engine seats through the normal available-tribe build deal, plus
-one shared fast-tier seat, shuffling seat order by seed. Existing neutral builds can
+deals two Hard, two tempo, three engine and one shared fast-tier seat, shuffling
+seat order by seed. Tribal lines use the available-tribe build deal. Neutral builds can
 also resolve to the shared line. Real pool depletion, hero offers, combat, permanent
 carries, damage and eliminations all use `GameSession`.
 
@@ -333,3 +336,33 @@ surviving beyond its logged fights loses coverage; multiple survivors at log end
 remain unresolved rather than receiving invented wins or game lengths. Original
 rules are checked against the complete logged trajectory. Files are streamed one
 lobby at a time to keep the 500-lobby replay bounded in memory.
+
+
+## Planted engine and null checks
+
+`plant_growth=256` registers a test-only, pool-excluded 1/1 body and puts it on
+seat zero before recruitment. Its normal End-of-Turn effect permanently adds
+256/256 per turn. No card content or combat rules change. `plant_growth=0` is a
+literal no-op: it registers no definition and consumes no RNG. Captures archive
+the synthetic definition, and both exact re-fight and field fights restore it.
+
+The fixed plan in `evidence/planted-plan.json` used eight control lobbies, eight
+null lobbies with identical seeds, and eight broken-engine lobbies. Null outputs
+(players, rounds, cards and full fight inputs/results) matched control byte for
+byte. The broken seat won 8/8 lobbies; every planted round-six board was at least
+twice its own lobby median. A 32-board mixed control/broken round-six field,
+two replicates in each orientation (1,984 fights), gave the planted line a 97.0%
+weighted point rate. The predeclared gates were 75% lobby wins, all eight tails,
+and 80% field point rate. All passed (`evidence/planted-result.json`).
+
+The three lobby arms took 19.5s, 19.8s and 19.2s; field fights took 13.329s.
+All 469 captured broken-engine fights replayed exactly in 4.903s. Unit checks
+verify pool exclusion, zero intervention, and permanent growth through real
+End-of-Turn processing. These establish that the harness detects an engine
+when one exists; they do not establish current tribal-script strength on the
+future mechanics build.
+
+The independent eight-lobby current-pool smoke (71001–71008) also matched the
+historical shape check: R6–16 median linear R²=0.9957, zero boards at twice the
+round median (`evidence/flat-shape-smoke.json`). The fixed 500-lobby baseline
+will evaluate the same diagnostic at the planned sample size.

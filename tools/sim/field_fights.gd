@@ -13,6 +13,8 @@ func _initialize() -> void:
 	assert(reps > 0)
 	var output := FileAccess.open(args[1], FileAccess.WRITE)
 	var library := UnitLibrary.load_dir()
+	for card: Dictionary in data.get("test_cards", []):
+		assert(library.register_unit(card) == "")
 	var count: int = 0
 	var started: int = Time.get_ticks_msec()
 	var rounds: Dictionary = data["rounds"]

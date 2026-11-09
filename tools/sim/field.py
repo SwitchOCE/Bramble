@@ -46,6 +46,7 @@ def boards_from_capture(paths, require_blind=True):
                         "tier": fight["tiers"][side],
                         "config": fight["config"],
                         "combat_start": snapshot,
+                        "test_cards": record.get("test_cards", []),
                     }
 
 
@@ -67,7 +68,12 @@ def sample_field(boards, rounds=ROUNDS, size=64, seed=91407):
     counts = defaultdict(Counter)
     reservoirs = defaultdict(list)
     streams = {}
+    test_cards = {}
     for board in boards:
+        for card in board.get("test_cards", []):
+            if card["id"] in test_cards and test_cards[card["id"]] != card:
+                raise ValueError("conflicting test-only card definitions")
+            test_cards[card["id"]] = card
         number, line = board["round"], board["line"]
         if number not in rounds:
             continue
@@ -83,7 +89,7 @@ def sample_field(boards, rounds=ROUNDS, size=64, seed=91407):
             index = streams[key].randrange(count)
             if index < size:
                 reservoir[index] = board
-    result = {"version": 1, "sample_seed": seed, "size": size, "rounds": {}}
+    result = {"version": 1, "sample_seed": seed, "size": size, "rounds": {}, "test_cards": list(test_cards.values())}
     for number in rounds:
         allocation = quotas(counts[number], size)
         total = sum(counts[number].values())

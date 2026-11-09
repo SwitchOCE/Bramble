@@ -17,7 +17,8 @@ var _options: Dictionary = {
 	"trace": "off",
 	"profile": "off",
 	"capture": "off",
-	"lines": ""
+	"lines": "",
+	"plant_growth": "0"
 }
 var _library: UnitLibrary
 var _files: Dictionary = {}
@@ -30,6 +31,7 @@ var _observed_players: Dictionary = {}
 var _capture: Dictionary = {}
 var _game_seed: int = 0
 var _active_session: GameSession
+var _test_card: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -52,6 +54,7 @@ func _initialize() -> void:
 		return
 	BotProfile.enabled = _options["profile"] == "on"
 	_library = UnitLibrary.load_dir()
+	_test_card = PlantedEngine.install(_library, str(_options["plant_growth"]).to_int())
 	_open_files()
 	if not BenchSuites.is_known(suite):
 		printerr("bench: no suite %s" % suite)
@@ -136,6 +139,7 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		game_seed, _library, config, BenchSuites.create_bot
 	)
 	_active_session = session
+	PlantedEngine.spawn(session, _test_card)
 	session.fight_observer = _on_fight
 	if _files.has("fight_trace"):
 		session.fight_capture_observer = _on_capture
@@ -153,6 +157,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 	_capture = FightCapture.record(input, result, _library, combat)
 	_capture.merge({"seed": _game_seed, "leg": _leg, "suite": _options["suite"]})
 	_capture["alive_before"] = _active_session._living().size()
+	_capture["test_cards"] = [] if _test_card.is_empty() else [_test_card]
 	for side: int in 2:
 		var id: int = CoreUtil.to_int(input["player_ids"][side])
 		var snapshot: Dictionary = _capture["combat_start"][side]
@@ -181,6 +186,8 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 			)
 			if str(_options["suite"]) == "lines":
 				snapshot["layout"] = "blind"
+			if not _test_card.is_empty() and id == 0:
+				snapshot["policy"] = "plant_engine"
 
 
 func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:

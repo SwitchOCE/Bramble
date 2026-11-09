@@ -23,6 +23,9 @@ func _initialize() -> void:
 			if line.is_empty():
 				continue
 			var recorded: Dictionary = JSON.parse_string(line)
+			for card: Dictionary in recorded.get("test_cards", []):
+				if library.get_unit(str(card["id"])).is_empty():
+					assert(library.register_unit(card) == "")
 			var input: Dictionary = recorded["input"]
 			var result: Dictionary = FightCapture.replay(input, library)
 			if not FightCapture.matches(recorded, result):
