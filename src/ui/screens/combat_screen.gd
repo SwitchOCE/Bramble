@@ -354,13 +354,13 @@ func _event_hold(kind: String) -> float:
 		return 0.0
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
-	if kind in ["damage", "status", "stats"]:
-		return 0.0
+	if kind in ["stats", "status"]:
+		return 0.5
 	if kind in ["death", "health_loss"]:
 		return maxf(0.15, (0.3 if kind == "death" else 0.4) / speed)
 	if kind in ["trigger", "kiss", "transform", "summon", "relocate"]:
 		return maxf(0.08, 0.22 / speed)
-	return maxf(0.05, 0.3 / speed)
+	return 0.0 if kind == "damage" else maxf(0.05, 0.3 / speed)
 
 
 func _play_event(event: Dictionary, animate: bool) -> void:

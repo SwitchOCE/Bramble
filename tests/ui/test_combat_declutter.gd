@@ -478,3 +478,47 @@ func test_budget_excludes_primary_stats_but_counts_pocket_and_held_numbers() -> 
 	assert_lte(ancillary.size(), 10)
 	for entry: Dictionary in ancillary:
 		assert_false(CoreUtil.to_bool(entry["primary_stat"]))
+
+
+func test_normal_speed_holds_a_declaration_even_when_a_lethal_snap_falls_between_samples() -> void:
+	var screen: CombatScreen = _screen()
+	screen._play_event({"type": "immediate_attack", "attacker": 1, "defender": 8}, true)
+	screen._play_event({"type": "attack", "attacker": 1, "defender": 8, "joiners": []}, true)
+	screen._play_event({"type": "death", "uid": 1, "side": 0, "slot": 0}, true)
+	_advance(screen, 0.3)
+	var found: bool = false
+	for child: Node in screen._overlay.get_children():
+		if child.get_script() == preload("res://src/ui/widgets/combat_attack_cue.gd"):
+			assert_eq(CoreUtil.to_int(child.get("actor_uid")), 1)
+			found = true
+	assert_true(found, "the source declaration survives a lethal lunge")
+
+
+func test_null_unit_source_hero_buff_starts_at_its_hero_and_has_a_held_directional_route() -> void:
+	var screen: CombatScreen = _screen()
+	screen._play_event({"type": "side_trigger", "side": 1, "mechanic": "hermitage"}, true)
+	screen._play_event(
+		{
+			"type": "stats",
+			"source": null,
+			"target": 8,
+			"attack_delta": 4,
+			"health_delta": 4,
+			"attack": 5,
+			"health": 7,
+			"max_health": 7
+		},
+		true
+	)
+	var routes: int = 0
+	var hero_motes: int = 0
+	for child: Node in screen._overlay.get_children():
+		if child.get_script() == preload("res://src/ui/widgets/combat_effect_path.gd"):
+			routes += 1
+		if child.has_meta("effect_source_side"):
+			assert_eq(CoreUtil.to_int(child.get_meta("effect_source_side")), 1)
+			assert_eq(CoreUtil.to_int(child.get_meta("effect_target_uid")), 8)
+			hero_motes += 1
+	assert_eq(routes, 2)
+	assert_eq(hero_motes, 2, "null source is the preceding hero, not UID zero or another unit")
+	assert_eq(screen._event_hold("stats"), 0.5, "the next independent trigger waits for landing")

@@ -1,6 +1,7 @@
 extends RefCounted
 ## Deterministic fight cues. Durations are real seconds, with a travel/contact floor at ×4.
 
+const EffectPath := preload("res://src/ui/widgets/combat_effect_path.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
@@ -18,6 +19,7 @@ var precontact_delay: float = 0.0
 var _screen: Control
 var _snap: bool = false
 var _source: int = -1
+var _hero_source: int = -1
 var _active_snap: bool = false
 var _attacker: int = -1
 var _strike_count: int = 1
@@ -144,15 +146,13 @@ func attack(event: Dictionary, animate: bool) -> void:
 	if attacker == null or defender == null:
 		return
 	_source = Data.i(event, "attacker", -1)
-	if Settings.reduce_motion:
-		_hold_attack_source(attacker)
+	_hold_attack_source(attacker)
 	_lunge(attacker, defender, 0)
 	var n: int = 0
 	for uid: int in Data.a(event, "joiners"):
 		var joiner: CardView = _card(uid)
 		if joiner != null:
-			if Settings.reduce_motion:
-				_hold_attack_source(joiner)
+			_hold_attack_source(joiner)
 			n += 1
 			_lunge(joiner, defender, (_strike_count - 1) * 0.12 + 0.04 + (n - 1) * 0.03)
 	_snap = false
@@ -265,11 +265,11 @@ func change(event: Dictionary, animate: bool) -> void:
 		"stats":
 			var sources: Array[int] = []
 			var direct: int = Data.i(event, "source", -1)
-			if direct >= 0:
+			if _model().units.has(direct):
 				sources.append(direct)
 			for cause: Dictionary in Data.a(event, "causes"):
 				var emitter: int = Data.i(cause, "source", -1)
-				if emitter >= 0 and not sources.has(emitter):
+				if _model().units.has(emitter) and not sources.has(emitter):
 					sources.append(emitter)
 			_source = sources[0] if not sources.is_empty() else -1
 			var delay: float = stat_delay(uid)
@@ -300,6 +300,25 @@ func change(event: Dictionary, animate: bool) -> void:
 					mote.set_meta("effect_target_uid", uid)
 					mote.set_meta("effect_stat", stat)
 
+			if sources.is_empty() and _hero_source >= 0:
+				_hero_stat_effect(card, event)
+			elif sources.is_empty():
+				# A Ring belongs to this pocket; it is not the preceding hero or unit trigger.
+				for cause: Dictionary in Data.a(event, "causes"):
+					if Data.s(cause, "name") == "Ring":
+						var foot: Vector2 = _unit_point(uid) + Vector2(0, card.size.y * 0.45)
+						_mote(
+							foot,
+							card.attack_bead().get_global_rect().get_center(),
+							"ring",
+							UiTheme.ACORN
+						)
+						_mote(
+							foot,
+							card.health_bead().get_global_rect().get_center(),
+							"ring",
+							UiTheme.ACORN
+						)
 			if not sources.is_empty():
 				_source = sources[0]
 			if Data.b(event, "permanent"):
@@ -320,15 +339,39 @@ func change(event: Dictionary, animate: bool) -> void:
 					)
 			else:
 				flash(card, UiTheme.status_colour(Data.s(event, "status")))
-			_mote_from_source(card)
+			var source: int = Data.i(event, "source", _source)
+			if _model().units.has(source):
+				_source_pulse(source)
+				_mote(
+					_unit_point(source),
+					card.get_global_rect().get_center(),
+					"splash" if Data.s(event, "status") == "mired" else "spark",
+					UiTheme.ACORN
+				)
 		"kiss":
 			var point: Vector2 = _last_death()
 			_mote(point, card.get_global_rect().get_center(), "heart", UiTheme.HEALTH)
 			_pulse(card.trigger_glyph())
 
 
+func _hero_stat_effect(card: CardView, event: Dictionary) -> void:
+	var hero: Control = _plaque(_hero_source)
+	flash(hero, UiTheme.ACORN)
+	for stat: String in ["attack", "health"]:
+		if Data.i(event, stat + "_delta") != 0:
+			var bead: Control = card.attack_bead() if stat == "attack" else card.health_bead()
+			var mote: Control = _mote(
+				hero.get_global_rect().get_center(),
+				bead.get_global_rect().get_center(),
+				"spark",
+				UiTheme.MOSS
+			)
+			mote.set_meta("effect_source_side", _hero_source)
+			mote.set_meta("effect_target_uid", card.uid())
+
+
 func stat_delay(_uid: int) -> float:
-	return 0.35 if _source >= 0 else 0.0
+	return 0.35 if _source >= 0 or _hero_source >= 0 else 0.0
 
 
 func _unit_point(uid: int) -> Vector2:
@@ -355,14 +398,14 @@ func _source_pulse(uid: int) -> void:
 	if card != null:
 		var pulse: Tween = _tween(card)
 		pulse.tween_property(card, "modulate", Color(1.6, 1.4, 1.1), 0.04)
-		pulse.tween_interval(0.4)
+		pulse.tween_interval(0.7)
 		pulse.tween_property(card, "modulate", Color.WHITE, 0.11)
 		_pulse(card.trigger_glyph())
 	var halo: TextureRect = _icon("ring", _unit_point(uid), 104, Color.WHITE)
 	halo.name = "TriggerSource_%d" % uid
 	halo.set_meta("effect_source_uid", uid)
 	var tween: Tween = _tween(halo)
-	tween.tween_interval(0.45)
+	tween.tween_interval(0.75)
 	tween.tween_property(halo, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(halo.queue_free)
 
@@ -449,13 +492,14 @@ func _take(event: Dictionary) -> void:
 		. tween_callback(_mote.bind(quarry_point, hunter_point, "acorn", Color.WHITE, 0.18))
 		. set_delay(0.18)
 	)
-	var hero_point: Vector2 = _plaque(Data.i(view, "side")).get_global_rect().get_center()
+	var hero: Control = _plaque(Data.i(view, "side"))
+	var hero_point: Vector2 = hero.get_global_rect().get_center() + Vector2(0, hero.size.y * 0.8)
 	(
 		_tween()
 		. tween_callback(_mote.bind(hunter_point, hero_point, "acorn", Color.WHITE, 0.22))
 		. set_delay(0.36)
 	)
-	_effect_barrier(0.6)
+	_effect_barrier(1.2)
 
 
 func _hop(card: CardView) -> void:
@@ -545,34 +589,6 @@ func _thorns(source: CardView, target: CardView) -> void:
 	tween.tween_callback(mark.queue_free)
 
 
-func _mote_from_source(target: CardView) -> void:
-	var source: CardView = _card(_source)
-	if source == target and source != null:
-		_mote(
-			source.trigger_glyph().get_global_rect().get_center(),
-			target.attack_bead().get_global_rect().get_center(),
-			"spark",
-			UiTheme.ACORN
-		)
-	elif source != null:
-		_mote(
-			source.get_global_rect().get_center(),
-			target.get_global_rect().get_center(),
-			"spark",
-			UiTheme.ACORN
-		)
-	elif source == null and _source >= 0:
-		var view: Dictionary = _model().unit(_source)
-		if not view.is_empty() and not Data.b(view, "alive", true):
-			var board: BoardView = _screen.call("board_for_side", Data.i(view, "side"))
-			_mote(
-				board.slot_global_center(Data.i(view, "slot")),
-				target.get_global_rect().get_center(),
-				"bones",
-				UiTheme.ACORN
-			)
-
-
 func _burst(point: Vector2, amount: int) -> TextureRect:
 	var side: float = 96.0 + minf(24, floorf(log(maxi(1, amount)) / log(10.0)) * 8)
 	var mark: TextureRect = _icon("burst", point, side, Color.WHITE)
@@ -619,28 +635,44 @@ func _emit(key: String, point: Vector2, colour: Color) -> void:
 
 
 func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float = 0.35) -> Control:
-	var mark: TextureRect = _icon(key, from, 52, colour)
+	var mark: TextureRect = _icon(key, from, 88 if key == "acorn" else 52, colour)
+	var overlay: Control = _screen.get("_overlay")
+	var path := EffectPath.new()
+	path.name = "EffectRoute"
+	path.from_point = overlay.get_global_transform().affine_inverse() * from
+	path.to_point = overlay.get_global_transform().affine_inverse() * to
+	path.colour = colour
+	overlay.add_child(path)
+	overlay.move_child(path, maxi(0, overlay.get_child_count() - 2))
+	var route: Tween = _tween(path)
+	if Settings.reduce_motion:
+		path.progress = 1.0
+		route.tween_interval(travel)
+	else:
+		route.tween_property(path, "progress", 1.0, travel)
+	route.tween_interval(0.6)
+	route.tween_property(path, "modulate:a", 0.0, 0.15)
+	route.tween_callback(path.queue_free)
 	mark.set_meta("effect_from", from)
 	mark.set_meta("effect_to", to)
 	var tween: Tween = _tween(mark)
 	if Settings.reduce_motion:
-		var landing: TextureRect = _icon(key, to, 52, colour)
+		var landing: TextureRect = _icon(key, to, 88 if key == "acorn" else 52, colour)
 		landing.hide()
 		var target: Tween = _tween(landing)
 		target.tween_interval(travel)
 		target.tween_callback(landing.show)
-		target.tween_interval(0.25)
+		target.tween_interval(0.7 if key == "acorn" else 0.25)
 		target.tween_property(landing, "modulate:a", 0.0, 0.15)
 		target.tween_callback(landing.queue_free)
 		tween.tween_interval(travel)
 	else:
-		var overlay: Control = _screen.get("_overlay")
 		var end: Vector2 = overlay.get_global_transform().affine_inverse() * to - mark.size / 2
 		tween.tween_property(
 			mark, "position", (mark.position + end) / 2 - Vector2(0, 28), travel / 2
 		)
 		tween.tween_property(mark, "position", end, travel / 2)
-	tween.tween_interval(0.25)
+	tween.tween_interval(0.7 if key == "acorn" else 0.25)
 	tween.tween_property(mark, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(mark.queue_free)
 	return mark
@@ -713,8 +745,10 @@ func cue(event: Dictionary, animate: bool) -> void:
 			var foot: Vector2 = (
 				unit.get_global_rect().get_center() + Vector2(0, unit.size.y / 2 - 10)
 			)
-			_mote(_unit_point(waiting), foot, "splash", UiTheme.MOSS)
-			_effect_barrier(0.55)
+			_mote(_unit_point(waiting), foot, "pause", UiTheme.MOSS)
+			_effect_barrier(0.8)
+		if Data.s(event, "type") == "mire_wait":
+			return
 	if Special.present(_screen, event, animate):
 		return
 	if not animate:
@@ -724,7 +758,11 @@ func cue(event: Dictionary, animate: bool) -> void:
 	match Data.s(event, "type"):
 		"permanent_reward":
 			_permanent_reward(event)
+		"side_trigger":
+			_hero_source = Data.i(event, "side", -1)
+			_source = -1
 		"trigger":
+			_hero_source = -1
 			_source = uid
 			_source_pulse(uid)
 			if card != null:
@@ -747,16 +785,13 @@ func cue(event: Dictionary, animate: bool) -> void:
 			mote.set_meta("effect_target_uid", Data.i(event, "defender", -1))
 			_effect_barrier(0.5)
 		"quarry_marked":
-			var hunter: CardView = _card(Data.i(event, "hunter", -1))
-			var prey: CardView = _card(Data.i(event, "quarry", -1))
-			if hunter != null and prey != null:
-				_pulse(hunter)
-				_mote(
-					hunter.get_global_rect().get_center(),
-					prey.get_global_rect().get_center(),
-					"paw",
-					UiTheme.ACORN
-				)
+			var hunter: int = Data.i(event, "hunter", -1)
+			var maker: int = Data.i(event, "source", hunter)
+			_source_pulse(maker)
+			_mote(_unit_point(maker), _unit_point(hunter), "paw", UiTheme.ACORN, 0.2)
+			_mote(
+				_unit_point(hunter), _unit_point(Data.i(event, "quarry", -1)), "paw", UiTheme.ACORN
+			)
 		"bog_patch", "slot_hex", "slot_mark":
 			var board: BoardView = _screen.call("board_for_side", Data.i(event, "side"))
 			var point: Vector2 = board.slot_global_center(Data.i(event, "slot"))
