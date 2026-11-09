@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "independent_seeds_per_pair": 64,
+  "orientations_per_seed": 2,
+  "selection": "full factorial frozen before fights; no layout search or outcome selection",
+  "fields": [
+    {
+      "id": "screen",
+      "input": "tools/sim/evidence/designed-screen-input.json",
+      "input_sha256": "c8ebb03b11c44442f1e477362f1d2e1176993961c340296160a190d2139c7b31",
+      "field": "build/sim/designed-first/screen-field.json",
+      "field_sha256": "e37a51a84e1c7e9c81ed672899731433748ea5c114d706b8305c386813f5e0f3",
+      "rounds": [
+        9,
+        12,
+        15
+      ],
+      "boards_per_round": 32,
+      "fights": 190464
+    },
+    {
+      "id": "boundary",
+      "input": "tools/sim/evidence/designed-boundary-input.json",
+      "input_sha256": "97ba641ddef0b82a53afa1e7a4680da018c50593ada1ecaba2f1b7fc565d128c",
+      "field": "build/sim/designed-first/boundary-field.json",
+      "field_sha256": "475759d5e2d0fb329fd688c0faf081fad39c0f094d5ac3dc537ff9ff4e7d0cf5",
+      "rounds": [
+        15
+      ],
+      "boards_per_round": 4,
+      "fights": 768
+    },
+    {
+      "id": "analogue",
+      "input": "tools/sim/evidence/designed-analogue-input.json",
+      "input_sha256": "79accdb84273ac7057295f731c2bdd34088165d91871e8e9e8d1b2bcf515953d",
+      "field": "build/sim/designed-first/analogue-field.json",
+      "field_sha256": "e29158eaed2e72b5f9a802cd16fa5acc55e25fd752096985034f4811ebc4b53d",
+      "rounds": [
+        15
+      ],
+      "boards_per_round": 4,
+      "fights": 768
+    }
+  ],
+  "planning_cost": "192,000 fights; historical ~5 ms/fight suggests ~16 minutes; plain designed boards may be faster",
+  "owner_example": "Literal 2.1B Attack/Health exceeds the engine 1B per-stat clamp. Separate clamped boundary and 500/2100 ratio analogue record the limitation without changing combat rules."
+}
