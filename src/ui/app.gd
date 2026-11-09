@@ -24,6 +24,8 @@ const SettingsScreen := preload("res://src/ui/screens/settings_screen.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 const MAX_SEED: int = 999_999_999
 
+static var _heroes_by_name: Dictionary = {}
+
 var port: GamePort
 var current: Control
 ## Kept while the app runs so the sandbox boards survive a fight.
@@ -210,13 +212,19 @@ func show_game_combat() -> void:
 			var standing: Dictionary = entry
 			if Data.i(standing, "player_id", -2) == id:
 				var hero_name: String = Data.s(standing, "hero")
-				for hero: Dictionary in UnitLibrary.load_dir().all_heroes():
-					if Data.s(hero, "name") == hero_name:
-						screen.hero_views[side] = hero
+				screen.hero_views[side] = _hero_named(hero_name)
 				if side == me:
 					screen.hero_views[side] = Data.d(state, "hero")
 				screen.hero_health[side] = _health_before(state, combat, id, 1 - side)
 	screen.setup(combat, names, me, title, health)
+
+
+## The content library is immutable during a run; fights reuse its hero views.
+static func _hero_named(hero_name: String) -> Dictionary:
+	if _heroes_by_name.is_empty():
+		for hero: Dictionary in UnitLibrary.load_dir().all_heroes():
+			_heroes_by_name[Data.s(hero, "name")] = hero
+	return _heroes_by_name.get(hero_name, {})
 
 
 ## The opponent's Health going into this fight: the state is already past it, so a loss gets added
