@@ -461,7 +461,7 @@ func test_dying_attacker_fades_at_home_without_a_second_enemyward_motion() -> vo
 	assert_eq(attacker.position, home)
 	_advance(screen, 0.25)
 	assert_lt(attacker.position.distance_to(home), 0.01, "corpse fades in its own pocket")
-	assert_lt(attacker.modulate.a, 1.0)
+	assert_lt(attacker.self_modulate.a, 1.0)
 
 
 func test_budget_excludes_primary_stats_but_counts_pocket_and_held_numbers() -> void:

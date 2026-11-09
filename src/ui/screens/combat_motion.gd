@@ -708,7 +708,12 @@ func die(card: CardView) -> void:
 		tween.tween_callback(_pulse.bind(card.trigger_glyph()))
 	if not Settings.reduce_motion:
 		tween.tween_callback(_emit.bind("leaf", card.get_global_rect().get_center(), UiTheme.MOSS))
-	tween.tween_property(card, "modulate:a", 0.0, 0.3)
+	# Fade the body, leaving anchored damage numerals opaque for their own short lifetime.
+	tween.tween_property(card, "self_modulate:a", 0.0, 0.3)
+	for child: Node in card.get_children():
+		if child is CanvasItem and not child.has_meta("recipient_uid"):
+			tween.parallel().tween_property(child, "modulate:a", 0.0, 0.3)
+	tween.chain().tween_interval(0.15)
 	tween.tween_callback(card.queue_free)
 
 
