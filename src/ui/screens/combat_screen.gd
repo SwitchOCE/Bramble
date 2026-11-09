@@ -241,10 +241,8 @@ func restart() -> void:
 		board.clear_highlights()
 		board.clear()
 	for plaque: Control in _plaques:
-		var toll: Node = plaque.get_node_or_null("BogToll")
-		if toll != null:
-			plaque.remove_child(toll)
-			toll.queue_free()
+		plaque.modulate = Color.WHITE
+		plaque.scale = Vector2.ONE
 	_cards.clear()
 	_log.clear()
 	_log.set_title(_title)
@@ -434,8 +432,10 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 				if kind == "damage" and Data.i(event, "amount") > 0:
 					_hit_remaining = 0.7
 				if kind == "stats":
+					# The source-to-bead route holds 0.6 s after arrival, then fades 0.15 s.
+					# Finish that cue before the next attack, as well as the number roll.
 					_effect_remaining = maxf(
-						_effect_remaining, 0.15 + _motion.stat_delay(changed_uid)
+						_effect_remaining, 0.75 + _motion.stat_delay(changed_uid)
 					)
 				_roll_changes(
 					changed_uid,

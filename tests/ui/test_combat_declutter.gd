@@ -420,9 +420,9 @@ func test_dead_unit_reward_lands_in_a_retained_reserve_without_resurrecting_it()
 		var kept: Control = screen._overlay.get_node("KeptGain_1")
 		assert_false(screen.board_for_side(0).get_global_rect().intersects(kept.get_global_rect()))
 		_advance(screen, 1.5)
-		assert_true(is_instance_valid(kept))
-		assert_true(kept.visible, "the kept gain outlives the dead source and travelling spark")
-		assert_eq(Capture.budget_nodes(screen).size(), 1)
+		await get_tree().process_frame
+		assert_false(is_instance_valid(kept), "the landed gain portrait fades and is freed")
+		assert_eq(Capture.budget_nodes(screen).size(), 0)
 
 
 func test_counter_damage_pop_follows_its_recipient_through_the_return() -> void:
@@ -814,3 +814,84 @@ func test_counter_answer_follows_its_self_gain_and_points_to_the_previous_attack
 				assert_eq(CoreUtil.to_int(child.get_meta("counter_answer_target")), 1)
 				found = true
 		assert_true(found, "a sword transfer ties the answer to the unit it answers")
+
+
+func test_zero_gain_counter_clears_its_answer_target_on_its_next_attack() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false, true)
+		screen._play_event(
+			{"type": "immediate_attack", "kind": "counter", "attacker": 8, "defender": 1}, true
+		)
+		assert_eq(CoreUtil.to_int(screen._motion.get("_counter_target")), 1)
+		# A capped or zero gain emits no stat change before the answering attack.
+		screen._play_event({"type": "attack", "attacker": 8, "defender": 1, "joiners": []}, true)
+		assert_eq(CoreUtil.to_int(screen._motion.get("_counter_target")), -1)
+		_advance(screen, 1.2)
+		# A later unrelated gain by this same card must not answer the old attacker.
+		screen._play_event(
+			{
+				"type": "stats",
+				"target": 8,
+				"source": 8,
+				"attack": 5,
+				"health": 6,
+				"attack_delta": 1,
+				"health_delta": 1
+			},
+			true
+		)
+		_advance(screen, 0.8)
+		for child: Node in screen._overlay.get_children():
+			assert_false(
+				child.has_meta("counter_answer_target"), "no stale sword after a zero-gain Counter"
+			)
+
+
+func test_pounce_hands_the_gold_frame_to_its_source_then_snap_lunges() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false, true)
+		screen._play_event({"type": "attack", "attacker": 1, "defender": 8, "joiners": []}, true)
+		_advance(screen, 0.7)
+		screen._play_event(
+			{"type": "immediate_attack", "kind": "pounce", "attacker": 2, "defender": 8}, true
+		)
+		var framed: Array[int] = []
+		for child: Node in screen._overlay.get_children():
+			if (
+				child.get_script() == preload("res://src/ui/widgets/combat_attack_cue.gd")
+				and (child as Control).visible
+			):
+				framed.append(CoreUtil.to_int(child.get("actor_uid")))
+		assert_eq(framed, [2], "the former attacker's frame leaves at Pounce declaration")
+		var found: bool = false
+		for child: Node in screen._overlay.get_children():
+			if child.has_meta("answer_kind"):
+				found = str(child.get_meta("answer_kind")) == "pounce"
+				assert_eq(CoreUtil.to_int(child.get_meta("answer_target")), 8)
+		assert_true(found, "Pounce shares Counter's directed red sword cue")
+		screen._play_event({"type": "attack", "attacker": 2, "defender": 8, "joiners": []}, true)
+		assert_true(CoreUtil.to_bool(screen._motion.get("_active_snap")))
+		var home: Vector2 = screen._cards[2].position
+		_advance(screen, 0.08)
+		if not reduced:
+			assert_gt(screen._cards[2].position.distance_to(home), 10.0)
+		else:
+			assert_gt(screen._cards[2].modulate.r, 1.0, "reduce motion flashes the pouncing source")
+
+
+func test_mire_wait_briefly_links_the_waiting_unit_to_its_real_target() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false, true)
+		screen._play_event({"type": "mire_wait", "uid": 8, "target": 1, "side": 1}, true)
+		_advance(screen, 0.3)
+		var link: Line2D = screen._overlay.get_node("MireWaitLink_8") as Line2D
+		assert_true(link.visible)
+		assert_eq(CoreUtil.to_int(link.get_meta("waiting_uid")), 8)
+		assert_eq(CoreUtil.to_int(link.get_meta("waiting_for_uid")), 1)
+		assert_eq(link.points.size(), 2)
+		_advance(screen, 0.7)
+		await get_tree().process_frame
+		assert_false(is_instance_valid(link), "no Mire relation line remains at rest")

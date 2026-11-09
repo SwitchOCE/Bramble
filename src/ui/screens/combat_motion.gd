@@ -28,6 +28,7 @@ var _joiners_landed: Array[int] = []
 var _held_sources: Array[Control] = []
 var _lunges: Dictionary[int, Tween] = {}
 var _counter_target: int = -1
+var _counter_source: int = -1
 
 
 func _flight_time() -> float:
@@ -120,6 +121,9 @@ func _pulse(node: Control, colour: Color = UiTheme.ACORN) -> void:
 func prepare_attack(event: Dictionary) -> void:
 	_hero_source = -1
 	_attacker = Data.i(event, "attacker", -1)
+	if _attacker == _counter_source:
+		_counter_target = -1
+		_counter_source = -1
 	_strike_count = maxi(1, Data.i(event, "strikes", 1))
 	_strike_presented = 1
 	_joiners.clear()
@@ -220,9 +224,11 @@ func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
 		parent.get_global_transform().affine_inverse() * defender.get_global_rect().get_center()
 	)
 	var direction: float = signf(home.y - target.y)
-	# Reach into the recipient's pocket; a shallow edge overlap hid the leading Pack unit.
+	# Only joint attacks reach deeper; ordinary attacks keep their original edge overlap.
 	var end: Vector2 = (
-		target - attacker.card_size / 2.0 + Vector2(0, direction * attacker.card_size.y * 0.35)
+		target
+		- attacker.card_size / 2.0
+		+ Vector2(0, direction * attacker.card_size.y * (0.85 if _joiners.is_empty() else 0.35))
 	)
 	attacker.z_index = 10
 	parent.z_index = 8
@@ -297,7 +303,7 @@ func change(event: Dictionary, animate: bool) -> void:
 				var emitter: int = Data.i(cause, "source", -1)
 				if _model().units.has(emitter) and not sources.has(emitter):
 					sources.append(emitter)
-			_source = sources[0] if not sources.is_empty() else -1
+			_source = (uid if sources.has(uid) else sources[0]) if not sources.is_empty() else -1
 			var delay: float = stat_delay(uid)
 			for stat: String in ["attack", "health"]:
 				var amount: int = Data.i(event, stat + "_delta")
@@ -378,10 +384,11 @@ func change(event: Dictionary, animate: bool) -> void:
 							true
 						)
 			if not sources.is_empty():
-				_source = sources[0]
+				_source = uid if sources.has(uid) else sources[0]
 			if _counter_target >= 0 and sources.has(uid):
 				_tween().tween_callback(_counter_answer.bind(uid, _counter_target)).set_delay(0.7)
 				_counter_target = -1
+				_counter_source = -1
 				_effect_barrier(1.25)
 			if Data.b(event, "permanent"):
 				(
@@ -518,7 +525,9 @@ func _remember_unit(uid: int) -> Control:
 	return echo
 
 
-func _permanent_reward(event: Dictionary) -> void:
+func _permanent_reward(event: Dictionary, animate: bool = true) -> void:
+	if not animate:
+		return
 	var source: int = Data.i(event, "source", -1)
 	var target: int = Data.i(event, "target", source)
 	if _model().unit(target).is_empty():
@@ -530,18 +539,28 @@ func _permanent_reward(event: Dictionary) -> void:
 	)
 	mote.set_meta("effect_source_uid", source)
 	mote.set_meta("kept_target_uid", target)
-	_tween(kept).tween_callback(kept.show).set_delay(0.35)
+	Special.land_kept_gain(_screen, kept)
 	_effect_barrier(1.0)
 
 
 func _counter_answer(source: int, target: int) -> void:
+	_out_of_turn_answer(source, target, "counter")
+
+
+## Pounce and Counter hand the attack frame to the unit that answers out of turn.
+## The ordinary following attack event supplies its snap lunge and contact timing.
+func _out_of_turn_answer(source: int, target: int, kind: String) -> void:
 	_clear_attack_sources()
 	var actor: CardView = _card(source)
 	if actor != null:
 		_hold_attack_source(actor)
 	var answer: Control = _mote(_unit_point(source), _unit_point(target), "sword", UiTheme.HEALTH)
-	answer.set_meta("counter_answer_source", source)
-	answer.set_meta("counter_answer_target", target)
+	answer.set_meta("answer_kind", kind)
+	answer.set_meta("answer_source", source)
+	answer.set_meta("answer_target", target)
+	if kind == "counter":
+		answer.set_meta("counter_answer_source", source)
+		answer.set_meta("counter_answer_target", target)
 
 
 func _take(event: Dictionary) -> void:
@@ -800,7 +819,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 		if unit != null:
 			_clear_attack_sources()
 			_source_pulse(waiting)
-			Special.wait_action(_screen, unit)
+			Special.wait_action(_screen, unit, Data.i(event, "target", -1))
 			_effect_barrier(0.9)
 		return
 	if Special.present(_screen, event, animate):
@@ -831,15 +850,9 @@ func cue(event: Dictionary, animate: bool) -> void:
 			_source_pulse(source)
 			if Data.s(event, "kind") == "counter":
 				_counter_target = Data.i(event, "defender", -1)
+				_counter_source = source
 			else:
-				var mote: Control = _mote(
-					_unit_point(source),
-					_unit_point(Data.i(event, "defender", -1)),
-					"spark",
-					UiTheme.ACORN
-				)
-				mote.set_meta("effect_source_uid", source)
-				mote.set_meta("effect_target_uid", Data.i(event, "defender", -1))
+				_out_of_turn_answer(source, Data.i(event, "defender", -1), Data.s(event, "kind"))
 			_effect_barrier(0.5)
 		"quarry_marked":
 			var hunter: int = Data.i(event, "hunter", -1)

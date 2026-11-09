@@ -6,7 +6,6 @@ const Screen := preload("res://src/ui/screens/combat_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
-const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 
 func after_each() -> void:
@@ -50,7 +49,7 @@ func _advance(screen: Screen, seconds: float) -> void:
 		screen.advance_playback(1.0 / 120.0)
 
 
-func test_pending_gain_has_a_source_and_persists_in_reserve_after_death() -> void:
+func test_pending_gain_has_a_source_and_its_dead_recipient_landing_fades() -> void:
 	for reduced: bool in [false, true]:
 		Settings.reduce_motion = reduced
 		var screen: Screen = _screen()
@@ -84,45 +83,50 @@ func test_pending_gain_has_a_source_and_persists_in_reserve_after_death() -> voi
 			},
 			true
 		)
-		_advance(screen, 1.5)
+		_advance(screen, 0.5)
 		var kept: Control = screen._overlay.get_node("KeptGain_1")
 		assert_true(kept.visible)
 		assert_eq(kept.get_node("Pending").get("text"), "+3/+5", "totals are retained, not doubled")
 		assert_false(screen._cards.has(1))
+		_advance(screen, 1.0)
+		await get_tree().process_frame
+		assert_false(
+			is_instance_valid(kept), "no reserve portrait or total stands beside the board"
+		)
 
 
-func test_bog_toll_is_an_owned_counter_with_source_travel_and_exact_reader() -> void:
-	var screen: Screen = _screen()
-	screen._play_event(
-		{"type": "bog_toll", "side": 1, "source": 8, "amount": 7, "total": 1234567}, true
-	)
-	var badge: Control = screen._plaques[1].get_node("BogToll")
-	var number: Label = badge.get_node("Amount") as Label
-	assert_gte(number.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-	assert_lte(
-		(
-			number
-			. get_theme_font("font")
-			. get_string_size(number.text, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.MIN_FONT)
-			. x
-		),
-		number.size.x
-	)
-	assert_true(screen._overlay.has_node("TriggerSource_8"))
-	assert_eq(screen.model.bog_toll[1], 1234567)
-	assert_eq(Capture.budget_nodes(screen).size(), 1)
-	var found: bool = false
-	for child: Node in screen._overlay.get_children():
-		if child.has_meta("bog_toll_side"):
-			found = true
-			assert_eq(CoreUtil.to_int(child.get_meta("bog_toll_side")), 1)
-	assert_true(found)
-	screen._show_hero(1)
-	assert_string_contains(screen._note_text.get_parsed_text(), "Bog Toll: 1,234,567")
-	screen.restart()
-	assert_false(
-		screen._plaques[1].has_node("BogToll"), "replay rebuilds rather than retaining old Toll"
-	)
+func test_bog_toll_travels_to_hero_then_fades_and_keeps_exact_reader_total() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: Screen = _screen()
+		screen._play_event(
+			{"type": "bog_toll", "side": 1, "source": 8, "amount": 7, "total": 1234567}, true
+		)
+		assert_false(screen._plaques[1].has_node("BogToll"), "there is no standing plaque badge")
+		assert_true(screen._overlay.has_node("TriggerSource_8"))
+		assert_eq(screen.model.bog_toll[1], 1234567)
+		assert_eq(Capture.budget_nodes(screen).size(), 0)
+		var found: bool = false
+		for child: Node in screen._overlay.get_children():
+			if child.has_meta("bog_toll_side"):
+				found = true
+				assert_eq(CoreUtil.to_int(child.get_meta("bog_toll_side")), 1)
+				assert_eq(
+					child.get_meta("effect_to"), screen._plaques[1].get_global_rect().get_center()
+				)
+		assert_true(found, "the splash travels from its source to its own hero")
+		_advance(screen, 0.4)
+		assert_gt(screen._plaques[1].modulate.g, 1.0, "arrival pulses the hero")
+		_advance(screen, 1.0)
+		await get_tree().process_frame
+		for child: Node in screen._overlay.get_children():
+			assert_false(child.has_meta("bog_toll_side"), "the Toll cue fades and is freed")
+		assert_eq(screen._plaques[1].modulate, Color.WHITE)
+		screen._show_hero(1)
+		assert_string_contains(screen._note_text.get_parsed_text(), "Bog Toll: 1,234,567")
+		screen.restart()
+		assert_false(screen._plaques[1].has_node("BogToll"))
+		await get_tree().process_frame
 
 
 func test_dropped_action_chips_retain_a_held_source_cue_in_both_motion_modes() -> void:
@@ -157,3 +161,66 @@ func test_combat_kiss_reader_uses_replayed_count_and_configured_period() -> void
 	screen._play_event({"type": "kiss", "target": 1, "side": 0, "count": 9, "period": 5}, false)
 	screen._show_detail(1)
 	assert_string_contains(screen._note_text.get_parsed_text(), "Shared kisses: 9 (4/5)")
+
+
+func test_many_kept_gains_fade_and_hold_the_ten_label_cap() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: Screen = _screen()
+		for uid: int in range(1, 15):
+			screen._play_event({"type": "death", "uid": uid}, false)
+			var event: Dictionary = {
+				"type": "gain_pending",
+				"source": uid,
+				"target": uid,
+				"attack": 1,
+				"health": 2,
+				"attack_delta": 1,
+				"health_delta": 2
+			}
+			screen._play_event(event, true)
+		for tick: int in 180:
+			screen.advance_playback(1.0 / 120.0)
+			assert_lte(
+				Capture.budget_nodes(screen).size(), 10, "all transient and reserve labels count"
+			)
+		await get_tree().process_frame
+		for child: Node in screen._overlay.get_children():
+			assert_false(child.has_meta("kept_target_uid") and child is Panel, "no reserve remains")
+		for type: String in ["gain_pending", "permanent_reward"]:
+			screen._play_event(
+				{"type": type, "source": 1, "target": 1, "attack_delta": 1, "health_delta": 1},
+				false
+			)
+		assert_false(
+			screen._overlay.has_node("KeptGain_1"), "skip to end creates neither reserve path"
+		)
+
+
+func test_repeated_kept_gain_refreshes_hold_without_an_old_fade_hiding_it() -> void:
+	var screen: Screen = _screen()
+	screen._play_event({"type": "death", "uid": 1}, false)
+	for total: int in [1, 2]:
+		screen._play_event(
+			{"type": "gain_pending", "target": 1, "source": 8, "attack": total, "health": total},
+			true
+		)
+		_advance(screen, 0.3)
+	var kept: Control = screen._overlay.get_node("KeptGain_1")
+	_advance(screen, 0.48)
+	assert_true(kept.visible)
+	assert_gt(kept.modulate.a, 0.95, "the first event's fade cannot hide the refreshed landing")
+	_advance(screen, 0.5)
+	await get_tree().process_frame
+	assert_false(is_instance_valid(kept))
+
+
+func test_replay_during_toll_pulse_resets_hero_pose_and_tint() -> void:
+	var screen: Screen = _screen()
+	screen._play_event({"type": "bog_toll", "side": 1, "source": 8, "amount": 1, "total": 1}, true)
+	_advance(screen, 0.4)
+	assert_gt(screen._plaques[1].scale.x, 1.0)
+	screen.restart()
+	assert_eq(screen._plaques[1].scale, Vector2.ONE)
+	assert_eq(screen._plaques[1].modulate, Color.WHITE)
+	await get_tree().process_frame

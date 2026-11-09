@@ -39,14 +39,15 @@ in detached `bramble-declutter-merge-targeted2.service`. Logs are
 - Aura now waits for the summoned recipient's arrival to settle before choosing its
   destination. Its travelling source-to-stat route has an arrival arrowhead and a
   held ring on the recipient's changed bead, rather than only a ring on its source.
-- Both Pack partners make a deeper lunge. The joint attack has a 0.48-second minimum
+- Only joint (Pack) attacks use the deeper 0.35-height lunge. Every other attack
+  retains the original 0.85-height overlap. The joint attack has a 0.48-second minimum
   approach so both are visible before contact, including at ×4. Reduce motion uses
   an instantaneous, held 42-pixel attack pose for each partner instead of travel.
   Separate damage contributions and the real retaliation target are retained.
 - A dead unit's permanent reward travels to a retained recruit portrait outside the
-  fighting pockets. Its numeric pending pair persists after the dead source fades;
-  it is not a resurrected unit and has no current combat stats. This replaces the
-  vanished stat echo the reader found ambiguous.
+  fighting pockets. Its numeric pending pair lands briefly, then the portrait fades
+  and is freed. It has no current combat stats and creates no standing reserve.
+  The narrow follow-up below supersedes the earlier persistent version.
 - Counter's self-gain finishes before a red sword transfer goes from the answering
   unit to the attacker it answers. The attack then follows. The former simultaneous
   gold link stays removed, preserving the unambiguous self-source of the stat gain.
@@ -65,11 +66,12 @@ formatting/lint pass. No rule text was added to the resting board.
 Kiss pips read the configured period, initial nested counters and replayed shared
 count, with modulo progress. The reader keeps the exact cumulative count/period.
 Pending gains use a folded hourglass mark on a live combat card, with colored
-Attack/Health dots and a source-to-tag transfer. A dead recipient instead keeps its
-reserve portrait and queued numeric pair. Recruit's numeric tag is unchanged.
-Bog Toll collects from its source unit into a moss/splash numeric badge on that
-side's hero; the hero reader retains the exact total. This is retained Bog state,
-not additional hero damage. Replay clears Toll and recreates the motion state.
+Attack/Health dots and a source-to-tag transfer. A dead recipient gets a transient
+portrait landing; its exact queued pair remains in the reader. Recruit's numeric
+tag is unchanged in this batch.
+Bog Toll travels from its source to that side's hero and pulses on arrival, then
+fades. No badge or running total remains on the plaque. The hero reader retains
+the exact total, and end-of-fight damage still includes Toll. Replay rebuilds motion.
 
 The source-cue test covers Mire patch, Take, legacy Poach, native Russet's trigger,
 Pack's trigger, Pounce, Counter, Quarry marked, Kiss, Prince transform and Bog
@@ -172,3 +174,119 @@ Recorded detached service: `bramble-declutter-four-visual-capture.service`, exit
 Logs: `build/declutter/four-visual-{job,rival,combat,assembly}.log`; completion line:
 `four visual capture: complete`. The screenshots use Xvfb and the real OpenGL
 renderer because Godot's dummy headless renderer cannot supply viewport pixels.
+
+## Part 5: narrow scope follow-up — transient kept gains
+
+Orchestrator scope call (10 Nov): a dead recipient's retained recruit portrait is
+an arrival cue, not a standing reserve. The gain travels to its portrait, lands,
+holds briefly, then fades and is freed. There is one landing position per side;
+simultaneous landings retire the preceding visible cue instead of forming columns.
+The portrait reads `portrait_id`, falling back to `def_id`. Skip-to-end creates no
+portrait on either `gain_pending` or `permanent_reward` paths. Exact queued state
+remains in the model and reader. The two prior persistence assertions now require
+fade/free; a 14-recipient stress test counts every ancillary label throughout the
+sequence against the 10-label cap. Runtime results are recorded below once run.
+
+### Lunge scope correction
+
+The deeper overlap is restricted to joint attacks; ordinary lunges use factor
+0.85. The Part 2 description above now states that scope explicitly.
+
+### Bog Toll scope correction
+
+The splash is transient and wordless; its arrival pulses the hero, then both
+travel and landing cues fade. The total stays in the hero reader and final damage.
+The regression checks both motion modes and verifies no plaque badge exists.
+
+### Zero-gain Counter
+
+Counter records its answering unit along with the previous attacker. That unit
+starting its next attack clears the pending answer target, even when no stat gain
+was emitted. A later unrelated gain cannot launch a stale red sword. A new test
+checks this in normal and reduce motion; existing ordered self-gain tests remain.
+
+### Pounce attack handoff
+
+Pounce now uses the same directed red-sword answer cue as Counter and transfers
+the gold attacker frame immediately to the pouncing unit. Its following real
+attack event supplies the snap lunge (or source flash under reduce motion).
+The test checks that the former attacker loses its frame and the pouncer moves.
+
+### Mire wait target
+
+The wait stamp now has a short-lived line from the waiting unit toward the exact
+unit named by `mire_wait.target`. It appears with the stamp and fades within the
+existing wait beat, in normal and reduce motion. The regression checks both
+identities and that the line is freed. Mire's rule explanation stays for batch 4.
+
+### Earlier cues at the next attack
+
+The event queue was on time. In rival ×1, Sable's stat event 23 applies at tick
+991 and its mote lands near 1048, but the route's hold/fade lasts until about
+1138. The old barrier allowed attack 25 at 1075, so sample 1109 still showed
+Sable's loop. The stats barrier now includes the complete route lifetime:
+arrival delay plus 0.75 s of hold/fade. When multiple sources include the target,
+the longer self-loop delay wins, regardless of source order. A new targeted file
+requires the prior route, mote and landing to settle before the next attack at
+×1, ×4 and reduce motion. Final-death settlement keeps its existing bypass.
+This adds at most 0.6 s after the last stat cue; speed scaling remains batch 3.
+
+### Narrow follow-up validation
+
+Accepted validation runs use `GODOT_SLOT_CLASS=worker scripts/godot_slot.sh`, one process at a
+time, with the strict post-run hook and writable temporary XDG directories.
+Clean editor import and all five targeted files pass with no script/runtime errors:
+
+| File | Tests | Assertions | GUT time |
+| --- | ---: | ---: | ---: |
+| `test_combat_declutter.gd` | 34 | 316 | 6.109 s |
+| `test_combat_wave2a.gd` | 7 | 473 | 2.371 s |
+| `test_combat_face.gd` | 11 | 179 | 0.439 s |
+| `test_pending_gains_ui.gd` | 7 | 75 | 2.590 s |
+| `test_combat_cue_lifetime.gd` (new) | 3 | 45 | 1.371 s |
+
+Logs: `build/declutter/narrow4-*.log` and `narrow4cue-*.log`. GUT reports 1,173
+orphans in the existing recruit-replay and simultaneous-Take tests; the new tests
+report none. Formatting/lint and whitespace checks pass. No full gate or new cold
+reader was run here. The committed reshoot cold-reader files are the orchestrator's
+verbatim input on the earlier packet, not a claim about these new strips.
+
+### Bog moments and final reshoots
+
+`strips/bog-followup/` records one designed native-card fight generated once on
+**d400831e**, seed **23**, and replayed unchanged before and after. Bridge Toad
+(8/24) and The Prince Restored (3/20), recruit iids 41/42, face three Field Voles
+(8/10, 2/3, 1/3). The 35-event stream contains real core events:
+
+- **Bog Toll**, event 23 in attack window 017: the Prince sends 1 Toll to its hero,
+  cumulative total 3.
+- **Queued Soak gain**, `gain_pending` event 24 in window 017: the Prince queues
+  +2/+2 while its fighting stats stay unchanged.
+- **Kiss**, event 29 in attack window 025: the Prince gains its first of three pips
+  after the Mired Field Vole dies.
+
+Both heads have six sheets / 48 frames: those two windows at ×1, ×4 and reduce
+motion. Their complete event-stream SHA-256 is identical, and each discovery pass
+matches its own fixed-step render pass. Timing is allowed to change between heads.
+Hero Health settles to 30/28 in every run. Manifests and `capture-report.json`
+retain the moments, hashes, label counts, event ticks and source provenance.
+
+`strips/narrow-followup/` contains the final requested ×1 and reduce-motion
+reshoots: **rival 025** (Pounce handoff), **combat_mid 045** (Mire wait target), and
+**rival 033**, explicitly labelled adjacent context showing Pounce's actual lunge.
+Its six sheets / 48 frames replay the existing original saved fight streams.
+The earlier packets are preserved. Every new sheet is 6752×1640, assembled from
+eight native 1688×780 viewport samples spaced evenly at 1/120 s. Every saved frame
+passes the 10-ancillary-label cap; unit stats and hero Health remain counted in
+raw totals and excluded only from the established ancillary budget. No text is
+hidden for capture. A fresh cold reader of this final packet remains the
+orchestrator's next check.
+
+Reproduce with `tests/ui/shots/declutter_bog_capture.sh` and
+`declutter_bog_narrow_capture.sh`; both run Godot sequentially through the worker
+wrapper and use the same discovery/replay/assembly path as the preceding strips.
+
+An initial failed fixture probe survived an attempted cancellation until its timeout
+and briefly overlapped regeneration. The accepted render passes ran sequentially;
+`strips/bog-followup/process-history.md` records the exact overlap and timing.
+No Godot process remains.

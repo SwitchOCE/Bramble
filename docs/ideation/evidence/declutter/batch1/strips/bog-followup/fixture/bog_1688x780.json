@@ -1,0 +1,697 @@
+{
+	"bottom_side": 0,
+	"combat": {
+		"carry": [
+			{
+				"attack": 4,
+				"cause": "Soak",
+				"health": 4,
+				"iid": 41,
+				"op": "pending_gain",
+				"side": 0
+			},
+			{
+				"attack": 2,
+				"cause": "Soak",
+				"health": 2,
+				"iid": 42,
+				"op": "pending_gain",
+				"side": 0
+			},
+			{
+				"kisses": 1,
+				"op": "bog_state",
+				"side": 0,
+				"toll": 3
+			}
+		],
+		"damage": 2,
+		"damage_base": 0,
+		"damage_performance": 2,
+		"damage_uncapped": 2,
+		"events": [
+			{
+				"boards": [
+					[
+						{
+							"attack": 8,
+							"configured_details": "Soak keeps +2/+2 per Attack Bitter took from its own Mired enemies, at your next Start of Turn, even if this died. Each bite's gain rounds down. Bitter fractions round up; the biter keeps at least 1 Attack.",
+							"def_id": "bridge_toad",
+							"golden": false,
+							"health": 24,
+							"keyword_text": [
+								{
+									"keyword": "Mire",
+									"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+								},
+								{
+									"keyword": "Soak",
+									"text": "Bitter. Next Start of Turn: keep +2/+2 per Attack taken from its Mired enemies; golden +4/+4."
+								}
+							],
+							"keywords": [
+								"Mire",
+								"Soak"
+							],
+							"max_health": 24,
+							"name": "Bridge Toad",
+							"quarry": 0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Mire. Soak.",
+							"tier": 1,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 1
+						},
+						{
+							"attack": 3,
+							"bog_kiss_period": 3,
+							"configured_details": "Frogs share kisses; gain 1 per fight with a Sink while a frog is out. Only Bog folk beside this grow, using base plus permanent stats, never fight-only buffs. A unit grows at most 1 time(s) a turn; the strongest frog applies. Soak keeps +2/+2 per Attack Bitter took from its own Mired enemies, at your next Start of Turn, even if this died. Each bite's gain rounds down. Bitter fractions round up; the biter keeps at least 1 Attack.",
+							"counters": {
+								"kisses": 0
+							},
+							"def_id": "prince_restored",
+							"golden": false,
+							"health": 20,
+							"keyword_text": [
+								{
+									"keyword": "Mire",
+									"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+								},
+								{
+									"keyword": "Soak",
+									"text": "Bitter. Next Start of Turn: keep +2/+2 per Attack taken from its Mired enemies; golden +4/+4."
+								}
+							],
+							"keywords": [
+								"Mire",
+								"Soak"
+							],
+							"max_health": 20,
+							"name": "The Prince Restored",
+							"quarry": 0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Mire. Soak. Every third kiss: double the Bog folk beside this.",
+							"tier": 4,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 2
+						},
+						null,
+						null,
+						null,
+						null,
+						null
+					],
+					[
+						{
+							"attack": 8,
+							"def_id": "field_vole",
+							"golden": false,
+							"health": 10,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 10,
+							"name": "Field Vole",
+							"quarry": 0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "",
+							"tier": 1,
+							"tribes": [
+								"Hedgerow folk"
+							],
+							"uid": 3
+						},
+						{
+							"attack": 2,
+							"def_id": "field_vole",
+							"golden": false,
+							"health": 3,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 3,
+							"name": "Field Vole",
+							"quarry": 0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "",
+							"tier": 1,
+							"tribes": [
+								"Hedgerow folk"
+							],
+							"uid": 4
+						},
+						{
+							"attack": 1,
+							"def_id": "field_vole",
+							"golden": false,
+							"health": 3,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 3,
+							"name": "Field Vole",
+							"quarry": 0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "",
+							"tier": 1,
+							"tribes": [
+								"Hedgerow folk"
+							],
+							"uid": 5
+						},
+						null,
+						null,
+						null,
+						null
+					]
+				],
+				"first_side": 1,
+				"player_ids": [
+					0,
+					1
+				],
+				"seq": 0,
+				"type": "combat_start"
+			},
+			{
+				"name": "start_of_combat",
+				"seq": 1,
+				"type": "phase"
+			},
+			{
+				"name": "bell",
+				"seq": 2,
+				"type": "phase"
+			},
+			{
+				"mechanic": "mire",
+				"seq": 3,
+				"type": "trigger",
+				"uid": 1
+			},
+			{
+				"maker": 1,
+				"seq": 4,
+				"side": 1,
+				"slot": 0,
+				"type": "bog_patch"
+			},
+			{
+				"mechanic": "mire",
+				"seq": 5,
+				"type": "trigger",
+				"uid": 2
+			},
+			{
+				"maker": 2,
+				"seq": 6,
+				"side": 1,
+				"slot": 1,
+				"type": "bog_patch"
+			},
+			{
+				"data": {
+					"maker": 1
+				},
+				"on": true,
+				"seq": 7,
+				"source": 1,
+				"status": "mired",
+				"target": 3,
+				"type": "status"
+			},
+			{
+				"data": {
+					"maker": 2
+				},
+				"on": true,
+				"seq": 8,
+				"source": 2,
+				"status": "mired",
+				"target": 4,
+				"type": "status"
+			},
+			{
+				"name": "attacks",
+				"seq": 9,
+				"type": "phase"
+			},
+			{
+				"mechanic": "bitter",
+				"seq": 10,
+				"type": "trigger",
+				"uid": 1
+			},
+			{
+				"attack": 6,
+				"attack_delta": -2,
+				"cause": "Bitter",
+				"causes": [],
+				"health": 10,
+				"health_delta": 0,
+				"max_health": 10,
+				"permanent": false,
+				"seq": 11,
+				"source": 1,
+				"target": 3,
+				"type": "stats"
+			},
+			{
+				"amount": 2,
+				"seq": 12,
+				"side": 0,
+				"source": 1,
+				"total": 2,
+				"type": "bog_toll"
+			},
+			{
+				"attack": 4,
+				"attack_delta": 4,
+				"cause": "Soak",
+				"health": 4,
+				"health_delta": 4,
+				"seq": 13,
+				"source": 1,
+				"target": 1,
+				"type": "gain_pending"
+			},
+			{
+				"attacker": 3,
+				"defender": 1,
+				"joiners": [],
+				"quick": false,
+				"seq": 14,
+				"side": 1,
+				"strikes": 1,
+				"type": "attack"
+			},
+			{
+				"amount": 6,
+				"health_after": 18,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 6,
+				"seq": 15,
+				"source": 3,
+				"strike": 1,
+				"target": 1,
+				"type": "damage"
+			},
+			{
+				"amount": 8,
+				"health_after": 2,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 8,
+				"seq": 16,
+				"source": 1,
+				"strike": 1,
+				"target": 3,
+				"type": "damage"
+			},
+			{
+				"attacker": 1,
+				"defender": 5,
+				"joiners": [],
+				"quick": false,
+				"seq": 17,
+				"side": 0,
+				"strikes": 1,
+				"type": "attack"
+			},
+			{
+				"amount": 8,
+				"health_after": -5,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 8,
+				"seq": 18,
+				"source": 1,
+				"strike": 1,
+				"target": 5,
+				"type": "damage"
+			},
+			{
+				"amount": 1,
+				"health_after": 17,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1,
+				"seq": 19,
+				"source": 5,
+				"strike": 1,
+				"target": 1,
+				"type": "damage"
+			},
+			{
+				"seq": 20,
+				"side": 1,
+				"slot": 2,
+				"type": "death",
+				"uid": 5
+			},
+			{
+				"mechanic": "bitter",
+				"seq": 21,
+				"type": "trigger",
+				"uid": 2
+			},
+			{
+				"attack": 1,
+				"attack_delta": -1,
+				"cause": "Bitter",
+				"causes": [],
+				"health": 3,
+				"health_delta": 0,
+				"max_health": 3,
+				"permanent": false,
+				"seq": 22,
+				"source": 2,
+				"target": 4,
+				"type": "stats"
+			},
+			{
+				"amount": 1,
+				"seq": 23,
+				"side": 0,
+				"source": 2,
+				"total": 3,
+				"type": "bog_toll"
+			},
+			{
+				"attack": 2,
+				"attack_delta": 2,
+				"cause": "Soak",
+				"health": 2,
+				"health_delta": 2,
+				"seq": 24,
+				"source": 2,
+				"target": 2,
+				"type": "gain_pending"
+			},
+			{
+				"attacker": 4,
+				"defender": 2,
+				"joiners": [],
+				"quick": false,
+				"seq": 25,
+				"side": 1,
+				"strikes": 1,
+				"type": "attack"
+			},
+			{
+				"amount": 1,
+				"health_after": 19,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1,
+				"seq": 26,
+				"source": 4,
+				"strike": 1,
+				"target": 2,
+				"type": "damage"
+			},
+			{
+				"amount": 3,
+				"health_after": 0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3,
+				"seq": 27,
+				"source": 2,
+				"strike": 1,
+				"target": 4,
+				"type": "damage"
+			},
+			{
+				"seq": 28,
+				"side": 1,
+				"slot": 1,
+				"type": "death",
+				"uid": 4
+			},
+			{
+				"count": 1,
+				"period": 3,
+				"seq": 29,
+				"side": 0,
+				"target": 2,
+				"type": "kiss"
+			},
+			{
+				"attacker": 2,
+				"defender": 3,
+				"joiners": [],
+				"quick": false,
+				"seq": 30,
+				"side": 0,
+				"strikes": 1,
+				"type": "attack"
+			},
+			{
+				"amount": 3,
+				"health_after": -1,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3,
+				"seq": 31,
+				"source": 2,
+				"strike": 1,
+				"target": 3,
+				"type": "damage"
+			},
+			{
+				"amount": 6,
+				"health_after": 13,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 6,
+				"seq": 32,
+				"source": 3,
+				"strike": 1,
+				"target": 2,
+				"type": "damage"
+			},
+			{
+				"seq": 33,
+				"side": 1,
+				"slot": 0,
+				"type": "death",
+				"uid": 3
+			},
+			{
+				"damage": 2,
+				"damage_base": 0,
+				"damage_mode": "v05",
+				"damage_performance": 2,
+				"damage_uncapped": 2,
+				"last_blow": false,
+				"last_blow_kind": "",
+				"last_blow_side": -1,
+				"last_blow_source": -1,
+				"reason": "board_empty",
+				"seq": 34,
+				"survivors": [
+					[
+						1,
+						2
+					],
+					[]
+				],
+				"type": "combat_end",
+				"winner": 0
+			}
+		],
+		"last_blow": false,
+		"reason": "board_empty",
+		"takes": [
+			0,
+			0
+		],
+		"winner": 0
+	},
+	"fight_input": {
+		"boards": [
+			[
+				{
+					"attack": 8,
+					"def_id": "bridge_toad",
+					"golden": false,
+					"health": 24,
+					"iid": 41
+				},
+				{
+					"attack": 3,
+					"def_id": "prince_restored",
+					"golden": false,
+					"health": 20,
+					"iid": 42
+				},
+				null,
+				null,
+				null,
+				null,
+				null
+			],
+			[
+				{
+					"attack": 8,
+					"def_id": "field_vole",
+					"golden": false,
+					"health": 10
+				},
+				{
+					"attack": 2,
+					"def_id": "field_vole",
+					"golden": false,
+					"health": 3
+				},
+				{
+					"attack": 1,
+					"def_id": "field_vole",
+					"golden": false,
+					"health": 3
+				},
+				null,
+				null,
+				null,
+				null
+			]
+		],
+		"damage_cap": 0,
+		"player_ids": [
+			0,
+			1
+		],
+		"seed": 23,
+		"tiers": [
+			3,
+			3
+		]
+	},
+	"hero_health": [
+		30,
+		30
+	],
+	"hero_views": [
+		{
+			"id": "brother_bracken",
+			"keyword_text": [],
+			"name": "Brother Bracken",
+			"power": {
+				"effects": [
+					{
+						"do": {
+							"attack": 1,
+							"effect": "buff",
+							"health": 1,
+							"per": "tier",
+							"per_max": 5,
+							"target": {
+								"select": "friendly"
+							}
+						},
+						"if": [
+							{
+								"at_most": 5,
+								"kind": "count",
+								"target": {
+									"select": "friendly"
+								}
+							}
+						],
+						"name": "hermitage",
+						"trigger": "start_of_combat"
+					}
+				],
+				"kind": "passive"
+			},
+			"set": "slice",
+			"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5."
+		},
+		{
+			"details": "Up to 5 gold a turn.",
+			"id": "dame_farthing",
+			"keyword_text": [],
+			"name": "Dame Farthing",
+			"power": {
+				"effects": [
+					{
+						"do": {
+							"amount": 1,
+							"effect": "gold",
+							"per": "carried",
+							"per_div": 4,
+							"per_max": 5
+						},
+						"name": "interest",
+						"trigger": "start_of_turn"
+					}
+				],
+				"kind": "passive"
+			},
+			"set": "slice",
+			"text": "Start of Turn: get 1 gold for every 4 you carried over."
+		}
+	],
+	"moments": {
+		"bog_toll": {
+			"attack_event_index": 17,
+			"event": {
+				"amount": 1,
+				"seq": 23,
+				"side": 0,
+				"source": 2,
+				"total": 3,
+				"type": "bog_toll"
+			},
+			"event_index": 23
+		},
+		"gain_pending": {
+			"attack_event_index": 17,
+			"event": {
+				"attack": 2,
+				"attack_delta": 2,
+				"cause": "Soak",
+				"health": 2,
+				"health_delta": 2,
+				"seq": 24,
+				"source": 2,
+				"target": 2,
+				"type": "gain_pending"
+			},
+			"event_index": 24
+		},
+		"kiss": {
+			"attack_event_index": 25,
+			"event": {
+				"count": 1,
+				"period": 3,
+				"seq": 29,
+				"side": 0,
+				"target": 2,
+				"type": "kiss"
+			},
+			"event_index": 29
+		}
+	},
+	"names": [
+		"Bog band",
+		"Voles"
+	],
+	"opponent_health": 30,
+	"provenance": "Designed native-card fight, real Combat.run with seed23, Pass3 B and loop guards. Bridge Toad 8/24 and Prince Restored 3/20 against three Field Voles 8/10, 2/3, 1/3. Recruit iids41/42 ensure real queued gains. Full event stream generated once on d400831e and replayed unchanged before/after.",
+	"seed": 23,
+	"selected_attack_event_indices": [
+		17,
+		25
+	],
+	"source_revision": "d400831e",
+	"state": {}
+}
