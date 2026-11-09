@@ -4,6 +4,29 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, third cold reader: fix four visual gaps; rule-knowledge gaps go to the Rules page
+**Source:** an independent cold reader and a separate scorer on `ideation/declutter` 28c873e3/f6713034 (workflow wf_c3f5b3e2-611; the answers and score go into `evidence/declutter/batch1/`).
+- Every attacker (57/57), hit and death is read right at every speed, and x4 passes in all three fights. The first repair had 50/57 attackers.
+- x1 and reduce motion fail on 8 trigger moments: the reader sees the cue but not its source or effect.
+
+**Picked:**
+- **Fix four visual gaps,** which a player who knows the rules would also misread:
+  - the Aura line has no direction;
+  - a joint attacker doesn't lunge;
+  - a kept gain vanishes with the dead card;
+  - Counter's cue was removed by 28c873e3.
+- **Go to Batch 4 (Rules page and tutorial):**
+  - Pounce's out-of-turn timing;
+  - what Pack and Mire do.
+
+  Owner note 09e: "the main screen assumes a player who knows the rules; teaching goes in the tutorial."
+- **Overview undersampling** is a capture matter; the focus sheets show those moments right.
+- **Before merging:** a fresh reader checks only the reshot moments. The tip passes the cloud gate.
+
+**Why:**
+- This is the third repair round. Attackers, hits and deaths are now solid.
+- The remaining failures split into visual faults, which belong to this batch, and missing rule knowledge, which the owner placed in the tutorial.
+
 ### 10 Nov 2026 — Wave 2a merged into ideation/main
 **Source:** merge 2fa5247f. The narrow scope check on the commits since the last review found 10 keep, 0 cut (`evidence/review-wave2a-merged-tree.md`). The cloud gate on that exact commit passed: 205 scripts, 2,158 tests (routine trig_01Bu2zM5LeTNEw9jLVYeUtB1).
 
