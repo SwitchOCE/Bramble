@@ -303,7 +303,7 @@ func change(event: Dictionary, animate: bool) -> void:
 				var emitter: int = Data.i(cause, "source", -1)
 				if _model().units.has(emitter) and not sources.has(emitter):
 					sources.append(emitter)
-			_source = sources[0] if not sources.is_empty() else -1
+			_source = (uid if sources.has(uid) else sources[0]) if not sources.is_empty() else -1
 			var delay: float = stat_delay(uid)
 			for stat: String in ["attack", "health"]:
 				var amount: int = Data.i(event, stat + "_delta")
@@ -384,7 +384,7 @@ func change(event: Dictionary, animate: bool) -> void:
 							true
 						)
 			if not sources.is_empty():
-				_source = sources[0]
+				_source = uid if sources.has(uid) else sources[0]
 			if _counter_target >= 0 and sources.has(uid):
 				_tween().tween_callback(_counter_answer.bind(uid, _counter_target)).set_delay(0.7)
 				_counter_target = -1

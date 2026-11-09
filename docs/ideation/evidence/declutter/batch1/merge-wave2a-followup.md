@@ -217,3 +217,15 @@ The wait stamp now has a short-lived line from the waiting unit toward the exact
 unit named by `mire_wait.target`. It appears with the stamp and fades within the
 existing wait beat, in normal and reduce motion. The regression checks both
 identities and that the line is freed. Mire's rule explanation stays for batch 4.
+
+### Earlier cues at the next attack
+
+The event queue was on time. In rival ×1, Sable's stat event 23 applies at tick
+991 and its mote lands near 1048, but the route's hold/fade lasts until about
+1138. The old barrier allowed attack 25 at 1075, so sample 1109 still showed
+Sable's loop. The stats barrier now includes the complete route lifetime:
+arrival delay plus 0.75 s of hold/fade. When multiple sources include the target,
+the longer self-loop delay wins, regardless of source order. A new targeted file
+requires the prior route, mote and landing to settle before the next attack at
+×1, ×4 and reduce motion. Final-death settlement keeps its existing bypass.
+This adds at most 0.6 s after the last stat cue; speed scaling remains batch 3.
