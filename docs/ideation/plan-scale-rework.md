@@ -17,7 +17,7 @@
 
 **Steps from here** (approved 9 Nov after plan-interrogate, `evidence/plan-v3-interrogate.md`, with its changes taken):
 1. **Merge what is finished, in this order:**
-   - Wave 1 (Birds and Fairies), gated on the merged tree. It sits behind `pass3_content`, so players see nothing new until that is on.
+   - Wave 1 (Birds and Fairies), gated on the merged tree. It replaces the pass 2 Birds and Fairies in the real game (`full_game` turns `pass3_content` on), and the pass 2 tests stay as the rollback.
    - The harness, after a follow-up review of everything since `9af89c2`, including the designed-setup driver.
    - Strong-field mode, after its fixes pass a follow-up review. Its tests build their content manifest from current content, so content commits don't break them. The shipped library is recaptured once, at step 5. Until then the mode stays out of player builds.
 2. **Build wave 2 on Sol.**

@@ -4,6 +4,15 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Harness follow-up 3: merge, and calls on its asks
+**Review:** `evidence/review-harness-followup3.md`. Of 11 items, 8 are keep, with no cuts and 3 asks. The UpsetCombat cut is fixed: all 32 wave 1 abilities were audited by name, and the audit fails closed. The gzips and the field_fights fold keep their behaviour. HARNESS.md matches the plan's two deciding criteria and drops no correctness test. **Merged** into ideation/main.
+
+**Picked (orchestrator):**
+- **Ask A, the deciding number:** "×1.3 a round" means the per-round geometric mean of the pre-start lobby median from R8 to R14, (median R14 / median R8)^(1/6). The point estimate decides, and a seed interval is reported beside it. The harness worker adds a pre-start reader to `metrics.py` before step 5.
+- **Ask B, combat changed under the old evidence:** this is intended. Wave 1 replaced the pass 2 Birds and Fairies in the real game. `full_game` turns `pass3_content` on, and the wave 1 review recorded it at merge (`evidence/review-wave1.md`, item 1 of its switch list). Plan v3's line "players see nothing new until that is on" was stale and is corrected. HARNESS.md labels the baseline, caps screen, lever builds, first designed field and null as measured on combat from before wave 1. They are not compared with step 5's numbers.
+- **Ask C:** the wave 1 line files are loaded in the harness worker's first commit after this merge.
+- **For wave 2:** UpsetCombat audits the whole library, so every new tribe's abilities are added to its audit list in that tribe's commit. This is in the wave 2 brief.
+
 ### 9 Nov 2026 — Harness follow-up 2: calls
 **Review:** `evidence/review-harness-followup2.md`. Of 30 items, 23 are keep, 1 cut, 2 simplify and 4 ask. All eight earlier calls landed.
 
