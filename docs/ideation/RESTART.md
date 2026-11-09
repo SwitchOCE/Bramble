@@ -102,7 +102,7 @@ Some state here goes stale within hours: shas, gate runs and worker turns. Check
   - **Both criteria failed, and tuning stopped** as DECISIONS "Quilboar H1" said it would.
   - **Accounting:** budgeted Quilboar at B realizes 0.45×, 0.23× and 0.70× of paper at R9, R12 and R15 (R12 median 259). C kept its pre-fix result: 0.22× at R12 (median 422).
   - **Fidelity:** **uncut** Quilboar, the faithful Battlegrounds port, has an R12 median of **747**. It is 2.38× Birds (interval 1.50–3.28, below the 4× bar, so fidelity fails) and 5.5–7.7× the other lines.
-  - **Uncut realizes 0.121× of its paper at R12** (interval 0.077–0.162). That is below our tribes' 0.17–0.44×, so the data **don't** show a shared paper-to-real gap. An earlier draft of this guide said the gap "belongs to the method"; that was based on the first run, and the rerun doesn't support it.
+  - **Uncut realizes 0.121× of its paper at R12** (interval 0.077–0.162). That is below our tribes' 0.17–0.72× (corrected 10 Nov; Tempo is 0.72×), so the data **don't** show a shared paper-to-real gap. An earlier draft of this guide said the gap "belongs to the method"; that was based on the first run, and the rerun doesn't support it.
   - **What still holds:** a BG-faithful tribe reaches about 750 at R12 in our engine with our bots, near B's target of 900. So the engine and bots can produce BG-like scale.
 - **The fun probe** (wave 1, three cloud playtesters) passed 3 of 3. Birds and Fairies give real jumps, and every tester's control game with a flat tribe "felt hopeless".
 - **Oozes are rebuilt (pass 3) on `ideation/wave2b` but not merged; Hedgerow is still on pass 2 and flat.** That is wave 2b.
@@ -475,7 +475,7 @@ Older ones are in `docs/ideation/LOG.md`.
 
 **Design-process lessons**
 - **Triage before fixing** (the triage skill; owner method 08f). Use several hypotheses at different levels. Check each card's role at the moment it's bought, and the journey from R1 to R10+.
-- **Paper models overestimate** when they assume arrivals: real R12 boards reach 0.17–0.44× of paper for our tribes, and 0.12–0.23× for Quilboar. Set targets on realized boards.
+- **Paper models overestimate** when they assume arrivals: real R12 boards reach 0.17–0.72× of paper for our tribes, and 0.12–0.23× for Quilboar. Set targets on realized boards.
 - **When a sim shows a tribe is weak, fix the cards,** not the bots' routes.
 - **After parallel designers,** rebuild the competition list and put every tribe's boards on one sheet before costing.
 - **Pitch ideas to the owner concretely:** a unit with full text, its interactions, why a player would run it, and two or three variations.

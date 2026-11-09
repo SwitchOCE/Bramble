@@ -4,6 +4,22 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar fixes narrow check: clear to merge
+**Source:** narrow scope check of `ideation/quilboar` 92cbce1f..25fc1576 and squash 1511dc22 (`evidence/review-quilboar-fixes.md`): 15 keep, 0 cut, 0 simplify, 1 ask.
+- The extraction (`SessionViews`, `BotAim`) is byte-identical logic.
+- The Pelt test fails before the fix.
+- No capture is in the squash tree, and the captures were never pushed.
+- The squash equals the real merge (patch hashes match).
+- Isolation holds.
+
+**Picked:**
+- **Ask, the `capture_storage` label and counters:** keep them. They tell anyone opening a receipt after `build/` is gone where the capture went.
+- **Gap 1:** H1's reference lobbies ran with the broad Busker guard. Native seats there got one refund a turn for Created 0-cost spells (Triple Rewards). This is a caveat on H1's native comparison. It isn't measured and nothing reruns: the stop rule.
+- **Gap 2:** RESTART's two "0.17–0.44×" lines now say 0.17–0.72×.
+- **Gap 3:** the 154 captures are also copied to `/home/alex/backups/bramble-quilboar-h1-captures/` (90 MB, 154 files), outside git and the portal.
+- **Wave 2b's merge:** `_best_aim` will conflict. Put wave 2b's 3-line `BotHedgerow.aim` early return at the top of `BotAim.best_slot`, which leaves bot_brain at about 977 lines.
+- **Merge:** once the Actions gate on 1511dc22 passes, merge it into ideation/main. The only commits on ideation/main since its parent are docs, so `check.sh --docs-only --base 1511dc22` covers the merge commit.
+
 ### 10 Nov 2026 — Declutter batch 1, fourth cold reader (reshot moments): the fixes read; two small cues added
 **Source:** a fresh cold reader and a scorer (workflow wf_008a86a8-05f) on 15 reshot strips: rival 025, combat_mid 036/045/069/075, at ×1, ×4 and reduce motion. The files are `evidence/declutter/batch1/cold-reader-reshoot-score.md` and `-answers.md` on ideation/declutter. No answer was wrong: who hit and every death are right in all 15 strips. All four fixes read: the Aura's direction, the joint lunge, the kept gain and Counter's answer.
 - Two moments are still "can't tell": Pounce at rival 025, and Mire's wait at 045. The "third cold reader" entry sent the rules behind both to batch 4's Rules page. Read that way, all six runs pass.
