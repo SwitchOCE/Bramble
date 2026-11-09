@@ -674,7 +674,7 @@
     },
     "snap": {},
     "bridge_toad": {
-      "gold": "number"
+      "stats": "number"
     },
     "snap_kill": {
       "gold": "number"
@@ -826,7 +826,7 @@
     "Stalled": "Skips its next attack, then loses Stalled.",
     "Mire": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once.",
     "Quarry": "The enemy across becomes its quarry. This attacks it whenever it can.",
-    "Bitter": "After an enemy attacks this, it loses this much Attack, down to 1.",
+    "Bitter": "When an enemy attacks this, it first loses this much Attack, down to 1.",
     "Snap": "Attacks the Mired enemy with the most Attack.",
     "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
     "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",

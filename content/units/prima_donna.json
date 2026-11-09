@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire the slot across and the slots beside it. Bitter 3, once per enemy.",
-  "golden_text": "Mire the slot across and the slots beside it. Bitter 6, once per enemy.",
+  "text": "Mire the slot across and the slots beside it. Bitter 2, once per enemy.",
+  "golden_text": "Mire the slot across and the slots beside it. Bitter 4, once per enemy.",
   "mechanics": [
     {
       "id": "mire",
@@ -17,7 +17,7 @@
     },
     {
       "id": "bitter",
-      "n": 3,
+      "n": 2,
       "once_per_enemy": true
     }
   ],
@@ -33,5 +33,6 @@
     "kind": "slice",
     "doc": "docs/ideation/content/bog-folk.md",
     "note": "Final review and costing-3 rulings."
-  }
+  },
+  "details": "Once per enemy is spent when the attack is declared, even if no damage lands."
 }

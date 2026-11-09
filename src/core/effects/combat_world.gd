@@ -58,6 +58,13 @@ func counter_store() -> Dictionary:
 	return source.counters if source != null else _no_store
 
 
+func persist_counter(key: String, value: int) -> void:
+	if _combat_source != null and _combat_source.iid != 0:
+		combat.carry_back(
+			side, {"op": "counter", "iid": _combat_source.iid, "key": key, "value": value}
+		)
+
+
 func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void:
 	var fighter: CombatUnit = target
 	combat.buff(fighter, attack, health, _combat_source, duration == "permanent")

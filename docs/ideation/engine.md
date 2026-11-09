@@ -299,8 +299,7 @@ text cannot change who was marked. The bell phase is logged when there are lane 
   Death witnesses are captured before the whole simultaneous batch leaves. One Hunter, first
   in reading order, makes each Take. A Hunter already gone from an earlier batch makes none.
   The result includes `takes`, a count per side.
-- `bitter` (`n`, `once_per_enemy`) applies after the whole attack's damage and thorns, before
-  deaths, including when the defender faints. It stacks with neighbouring Bitter and floors at 1.
+- `bitter` (`n`, `once_per_enemy`) applies at attack declaration before damage and thorns, after queued attack bonuses. It stacks with neighbouring Bitter, affects only the leading attacker (not Pack joiners), and floors at 1. Once-per-enemy is spent on declaration even if the attack whiffs; counters and pounces count, Peck strikes do not spend it again.
   `snap` chooses the highest-Attack Mired enemy, ignoring rows, with random ties.
 - `Combat.queue_attack(attacker, defender, kind)` queues a named-target attack after the current
   attack and its deaths. It doesn't move the pointer or flag the attacker. `counter` cannot
@@ -402,3 +401,8 @@ Exact revised texts and interaction readings: [round 5 cards](content/content5.m
 - Rainbow’s `stats_every` and `gold_every` count painted-slot groups, rounded down; both thresholds stay unchanged on golden. Hex `most: "tier_plus_2"` reads the current owner’s tier in both phases. Unit views expose capped `hex_amount` and total `hex_stored` (printed base plus spell growth).
 - Toll-Bard has separate `attack_limit` and `gold_limit`; `take_gold.back_only` reads the hunter’s row. Self-targeted Take growth carries permanent rewards through a simultaneous trade. Savings adds its `health` only on the first three counted turns.
 - Hob’s `repay_turns` schedules `repay` gold each turn; `debt` stores total remaining and `debt_payment` the instalment. The `debt` condition blocks new loans while repaying. Mousewife uses persistent per-side hero limits, the `subject_card` exclusion and exact `subject_slot` placement.
+
+
+### Pass 2 follow-up persistence
+
+RecruitUnit combat snapshots carry `lifetime_payments` for named `paid_` counters and `mrs_clover_used` for the shared Recruit/combat limit. Data effects spend their lifetime payment only after the per-turn/fight limit permits a firing; CombatWorld persists it with a `counter` carry. Peat Cutter therefore pays once a fight, only three times in its life, even across reconstructed fights. Wobbly-created Drips carry an explicit emergence marker for Elder; they do not gain Syllabub’s Belly replay semantics.

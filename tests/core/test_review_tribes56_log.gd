@@ -141,12 +141,17 @@ func test_gideons_lethal_counter_keeps_damage_and_death_without_a_cleanup_buff_o
 			assert_ne(event["target"], gideon.uid, "the temporary bonus is not removed on a corpse")
 
 
-func test_bitter_does_not_report_an_attack_loss_on_an_already_lethal_attacker() -> void:
-	_setup({0: FIGHT.u("madame_bufo", 1, 4)}, {0: FIGHT.u("little_nip", 5, 1)})
+func test_bitter_reports_its_declaration_loss_before_a_simultaneous_trade() -> void:
+	_setup({0: FIGHT.u("madame_bufo", 1, 4)}, {0: FIGHT.u("little_nip", 6, 1)})
 	var attacker: CombatUnit = _combat.unit_at(1, 0)
 	_combat._attack(attacker, _combat.unit_at(0, 0))
 	assert_eq(_events("death").size(), 2)
-	assert_true(_stats_for(attacker.uid).is_empty())
+	var losses: Array[Dictionary] = _stats_for(attacker.uid)
+	assert_eq(losses.size(), 1, "Bitter reduces the living attacker before the lethal exchange")
+	assert_eq(losses[0]["attack_delta"], -2)
+	assert_eq(losses[0]["attack"], 4)
+	assert_lt(int(losses[0]["seq"]), int(_events("damage")[0]["seq"]))
+	assert_lt(int(losses[0]["seq"]), int(_events("death")[0]["seq"]))
 
 
 func test_grizel_rewards_the_leader_that_traded_without_a_fake_live_stat_line() -> void:

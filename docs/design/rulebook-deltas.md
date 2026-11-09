@@ -106,3 +106,6 @@ Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oc
 ### Ideation pass 2 (9 Nov 2026)
 
 The playable ideation branch adds a four-unit tier-1 shop (6.1.1a), Early Spoils on wins in rounds 1–4 (10.1.4c), and the off-by-default Ask for Kin setting (4.4.8). A turn is recruiting plus its following fight (3.1.1a). Mire skips one attack to wait for its bound target (9.4.5a). Pass selects the last other unit across gaps and has a permanent board mark (12.1.6); Touching keeps the unbroken-run rule. Shy ignores recruiting buffs except an aimed spell, which sends it away for gold (12.1.7). Nests show their Egg's final fight stats and homecoming countdown, including Tom Tit and Redwing coverage; Mrs Stork's missed-fight condition is printed (12.1.4).
+
+
+Pass 2 follow-up: Bitter now reduces the leading attacker before damage, after its attack bonuses; Pack joiners are excluded. The once-per-enemy use is spent at declaration, including a cancelled hit (rulebook 9.6.0). Bridge Toad grows within its +3/+3 permanent cap (golden +6/+6); Peat Cutter pays once a fight, three times in all. Committee is 5/7 and gives touching units +1/+1, or +2/+1 with all seven.

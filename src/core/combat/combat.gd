@@ -1,9 +1,7 @@
 # gdlint:disable=max-public-methods
 class_name Combat
 extends RefCounted
-## One fight by rulebook chapter 9, returned as the event log of SPEC section 5.
-## A board is 7 entries in reading order: null or {"def_id", "golden", "attack"?, "health"?}.
-## Mechanics act through the public methods below; their changes are logged.
+## Rulebook chapter 9: seven-slot boards, mechanics and the resulting combat event log.
 
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
@@ -94,8 +92,7 @@ static func create(
 	return combat
 
 
-## Runs the fight. `tiers` are the players' tiers (10.1.1); `damage_cap` 0 means no cap.
-## Returns {"events", "winner", "damage", "damage_uncapped", "reason"}.
+## Run a fight: tier damage per 10.1.1; damage_cap 0 means no cap.
 func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: int) -> Dictionary:
 	_attacks_started = false
 	_last_blow_side = -1
@@ -136,7 +133,6 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	return _finish(reason, tiers, damage_cap)
 
 
-## The units on a side's board in reading order.
 func units_of(side: int) -> Array[CombatUnit]:
 	var out: Array[CombatUnit] = []
 	var row: Array = sides[side]
@@ -625,14 +621,18 @@ func _strikes(
 		_exchange(hits_out, hits_back, attacker_quick, defender_quick, attacker.side)
 
 
-## What this attack hits with. Little King Wren: the highest enemy Attack, read as it swings.
+## Wren reads the highest enemy Attack, then applies this declaration's Bitter loss.
 func _strike_attack(attacker: CombatUnit) -> int:
 	if not attacker.has_status("borrowed_attack"):
 		return attacker.attack
 	var highest: int = 0
 	for enemy: CombatUnit in units_of(1 - attacker.side):
 		highest = maxi(highest, enemy.attack)
-	return highest
+	return (
+		maxi(1, highest - CoreUtil.to_int(attacker.counters.get("bitter_borrowed", 0)))
+		if highest > 0
+		else 0
+	)
 
 
 ## Before 9.6.1 step 1: every unit's on_attack_declared, the defender's side first, each side in

@@ -79,8 +79,10 @@ static func make(
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
 	if spec.has("kisses"):
 		unit.counters["kisses"] = CoreUtil.to_int(spec["kisses"])
-	if spec.has("paid_pie"):
-		unit.counters["paid_pie"] = CoreUtil.to_int(spec["paid_pie"])
+	if spec.has("mrs_clover_used"):
+		unit.limits["mrs_clover"] = CoreUtil.to_int(spec["mrs_clover_used"])
+	var payments: Dictionary = spec.get("lifetime_payments", {})
+	unit.counters.merge(payments)
 	for field: String in ["bird_attack", "bird_health", "turns_left"]:
 		if spec.has(field):
 			unit.egg_info[field] = CoreUtil.to_int(spec[field])

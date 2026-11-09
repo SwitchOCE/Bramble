@@ -595,6 +595,8 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 ### 9.6 Resolving one attack
 
+**9.6.0** [BRAMBLE ideation] **Bitter hits first.** At attack declaration, after the attack’s own bonuses (including a queued counter’s bonus), Bitter reduces the leading attacker’s Attack by its amount, down to 1. It applies before damage, Bristle, Shell and Hunker; the loss lasts this fight. Own and lent Bitter stack. Pack joiners keep their Attack. It also applies to counters and pounces, once per declared attack rather than once per Peck strike. A once-per-enemy use is spent at declaration even if the attack later deals no damage. Bitter cannot raise 0 Attack, deal damage or cause a wipe.
+
 **9.6.1** [BG] An attack resolves in this order (uncertain in HSBG — see rules.md §11.5, SIM):
 1. The defender's "when attacked" effects.
 2. The attacker's "whenever this attacks" effects.
@@ -778,6 +780,10 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 **12.1.1a** [BRAMBLE ideation] A printed permanent-buff ceiling caps Attack and Health bonuses in the permanent layer, including feeding, doubling, triples and permanent combat gains. The ceiling doubles on golden. Slot/aura and temporary combat buffs are separate. Feeding a fully capped unit is refused without consuming the item. Alderman Dozey's ceiling is +12/+12 (+24/+24 golden).
 
 **12.1.2** [BG] Buffs gained in combat are lost after combat unless they say "permanently". *Galaxy:* makes all buffs permanent; its design notes advise Bramble not to copy that (Galaxy design-notes §6).
+
+**12.1.2a** [BRAMBLE ideation] **Mrs Clover.** Her first two summons each turn gain the printed buff, counting the Recruit Phase and its following fight together. Recruiting buffs are permanent; combat buffs last that fight. The count resets at the start of the next Recruit Phase. Playing a unit from hand is not summoning it, and a summon that finds no room uses no buff.
+
+**12.1.2b** [BRAMBLE ideation] **Elder Ooze.** While this lives, friendly units coming out of your Oozes gain its printed combat buff, including Wee Wobbly's Drips. Units released from Elder Ooze's own Belly when it dies also gain the buff. Returned enemy prisoners never gain it. Drips are summons, so they do not fire Belly-only effects such as Mr Syllabub's Start of Combat replay.
 
 **12.1.3** [BG] Shop-wide buffs ("units in the shop have +1/+1 this game") apply to the units currently in the shop and to future shop units (rules.md §13).
 

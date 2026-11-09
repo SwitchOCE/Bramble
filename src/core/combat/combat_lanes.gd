@@ -270,7 +270,7 @@ static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Ar
 		dead.quarry = 0
 
 
-## Bitter answers only the leader, once per attack, after damage and before deaths.
+## Bitter shrinks only the leading attacker at declaration, after any queued attack bonus.
 static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -> void:
 	if not attacker.on_board or attacker.is_dead():
 		return
@@ -287,7 +287,9 @@ static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -
 	for friend: CombatUnit in combat.units_of(defender.side):
 		if BoardGeometry.adjacent(friend.slot).has(defender.slot):
 			amount += CoreUtil.to_int(parameters(friend, "bog_aura").get("bitter", 0))
-	var loss: int = mini(amount, maxi(0, attacker.attack - 1))
+	var loss: int = mini(amount, maxi(0, combat._strike_attack(attacker) - 1))
 	if loss > 0:
+		if attacker.has_status("borrowed_attack"):
+			attacker.counters["bitter_borrowed"] = loss
 		combat.trigger(defender, "bitter")
 		combat.buff(attacker, -loss, 0, defender, false, "Bitter")

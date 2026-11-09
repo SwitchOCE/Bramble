@@ -53,25 +53,31 @@ func test_roster_has_sixteen_pool_cards_and_two_created_cards_all_built() -> voi
 	assert_eq(_kit.library.unbuilt_units(), PackedStringArray())
 
 
-func test_bridge_pays_once_only_when_its_bell_top_attacker_attacks_it() -> void:
-	_setup({0: FIGHT.u("bridge_toad", 1, 40)}, {0: FIGHT.plain(5, 40), 1: FIGHT.plain(4, 40)})
-	var attacker: CombatUnit = _combat.unit_at(1, 0)
-	_combat.buff(attacker, -2, 0, null)
-	_combat._attack(attacker, _combat.unit_at(0, 0))
-	_combat._attack(attacker, _combat.unit_at(0, 0))
-	assert_eq(_gold(), 1, "starting Attack, actual crossing, once a fight")
+func test_bridge_grows_repeatedly_when_its_own_mired_enemy_attacks() -> void:
+	_setup({0: FIGHT.u("bridge_toad")}, {0: FIGHT.plain(0, 40), 1: FIGHT.plain(5, 40)})
+	var wall: CombatUnit = _combat.unit_at(0, 0)
+	for _hit: int in 4:
+		_combat._attack(_combat.unit_at(1, 0), wall)
+	assert_eq([wall.perm_attack, wall.perm_health], [3, 3])
+	assert_eq(_gold(), 0, "growth replaced the old toll")
 
 
-func test_bridge_wrong_lane_pays_nothing() -> void:
-	_setup({0: FIGHT.u("bridge_toad", 1, 40)}, {0: FIGHT.plain(2, 40), 1: FIGHT.plain(5, 40)})
-	_combat._attack(_combat.unit_at(1, 0), _combat.unit_at(0, 0))
-	assert_eq(_gold(), 0)
+func test_bridge_other_mirers_enemy_does_not_grow_it() -> void:
+	_setup(
+		{0: FIGHT.u("bridge_toad"), 1: FIGHT.u("peat_cutter")},
+		{0: FIGHT.plain(0, 40), 1: FIGHT.plain(0, 40)}
+	)
+	var wall: CombatUnit = _combat.unit_at(0, 0)
+	_combat._attack(_combat.unit_at(1, 1), wall)
+	assert_eq([wall.perm_attack, wall.perm_health], [0, 0])
 
 
-func test_golden_bridge_counts_top_attack_ties() -> void:
-	_setup({0: FIGHT.u("bridge_toad", 1, 40, true)}, {0: FIGHT.plain(5, 40), 1: FIGHT.plain(5, 40)})
-	_combat._attack(_combat.unit_at(1, 0), _combat.unit_at(0, 0))
-	assert_eq(_gold(), 2)
+func test_golden_bridge_grows_by_two_with_a_six_point_cap() -> void:
+	_setup({0: FIGHT.u("bridge_toad", -1, -1, true)}, {0: FIGHT.plain(0, 40)})
+	var wall: CombatUnit = _combat.unit_at(0, 0)
+	for _hit: int in 4:
+		_combat._attack(_combat.unit_at(1, 0), wall)
+	assert_eq([wall.perm_attack, wall.perm_health], [6, 6])
 
 
 func test_pretender_paid_for_a_mired_kill_even_in_a_simultaneous_trade() -> void:

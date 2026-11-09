@@ -25,7 +25,7 @@
    "larder_value": 1.0
   },
   "standing_committee": {
-   "keep": 14
+   "keep": 12
   },
   "old_mother_mast": {
    "keep": 6,
@@ -316,7 +316,7 @@
    "row": "back"
   },
   "bridge_toad": {
-   "keep": 4,
+   "keep": 6,
    "row": "front"
   },
   "young_pretender": {

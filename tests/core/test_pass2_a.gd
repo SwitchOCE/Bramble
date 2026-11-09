@@ -126,15 +126,16 @@ func test_hayward_golden_doubles_stats_and_ignores_small_acorns() -> void:
 	assert_eq(hayward.perm_attack, 2)
 
 
-func test_clover_buffs_recruit_summons_but_not_played_units_and_has_no_recruit_limit() -> void:
+func test_clover_buffs_two_recruit_summons_but_not_played_units() -> void:
 	_kit.put("mrs_clover", 6)
 	var burdock: RecruitUnit = _kit.play("mrs_burdock", 0)
 	assert_eq(burdock.perm_attack, 0)
 	assert_eq(_kit.player.board[4].attack, 2, "Kit was summoned")
 	for id: String in ["drip", "shrewlet", "mouse"]:
 		_kit.rules.summon_units(_kit.player, id, 1, false, 0)
-	for slot: int in [1, 2, 3]:
-		assert_eq(_kit.player.board[slot].perm_attack, 1)
+	assert_eq(_kit.player.board[1].perm_attack, 1)
+	for slot: int in [2, 3]:
+		assert_eq(_kit.player.board[slot].perm_attack, 0)
 
 
 func test_clover_buffs_only_two_combat_summons_and_golden_doubles() -> void:

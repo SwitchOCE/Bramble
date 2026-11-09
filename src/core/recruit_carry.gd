@@ -52,11 +52,12 @@ static func apply(rules: RecruitRules, player: PlayerState, change: Dictionary) 
 						}
 					)
 				)
-		"pie_payment":
-			var pie: RecruitUnit = RecruitRules._unit_by_iid(player, CoreUtil.to_int(change["iid"]))
-			if pie != null:
-				pie.counters["paid_pie"] = CoreUtil.to_int(pie.counters.get("paid_pie", 0)) + 1
-			player.gold_next_turn += CoreUtil.to_int(change["amount"])
+		"counter":
+			var unit: RecruitUnit = RecruitRules._unit_by_iid(
+				player, CoreUtil.to_int(change["iid"])
+			)
+			if unit != null:
+				unit.counters[str(change["key"])] = CoreUtil.to_int(change["value"])
 		"gold_next_turn":
 			player.gold_next_turn += CoreUtil.to_int(change["amount"])
 		"spend_item":

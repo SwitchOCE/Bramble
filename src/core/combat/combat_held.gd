@@ -227,11 +227,13 @@ static func land_bird(
 	combat.enter_from_spec(spec, source.side, slot, source, {"landed": true})
 
 
-## Count only friendly bodies released from our Oozes. Returned enemy prisoners do not count.
+## Friendly releases and Wobbly's Drips count. Returned enemy prisoners do not count.
 static func emerged(
 	combat: Combat, unit: CombatUnit, holder: CombatUnit, fields: Dictionary
 ) -> void:
-	if not fields.get("came_out", false) or holder == null:
+	if holder == null:
+		return
+	if not fields.get("came_out", false) and not fields.get("wobbly_drip", false):
 		return
 	if holder.side != unit.side or not holder.has_tribe("Oozes"):
 		return

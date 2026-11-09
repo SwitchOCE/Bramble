@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight.",
-  "golden_text": "Mire. After a Mired enemy dies: get 2 gold next turn. Once a fight.",
+  "text": "Mire. After a Mired enemy dies: get 1 gold next turn. Once a fight. Three times in all.",
+  "golden_text": "Mire. After a Mired enemy dies: get 2 gold next turn. Once a fight. Three times in all.",
   "mechanics": [
     {
       "id": "mire",
@@ -29,7 +29,8 @@
         {
           "kind": "subject_mired"
         }
-      ]
+      ],
+      "lifetime": 3
     }
   ],
   "keywords": [

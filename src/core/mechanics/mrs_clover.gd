@@ -1,10 +1,14 @@
 extends Mechanic
-## Recruiting summons grow permanently. Combat summons grow twice per fight.
+## Two summons per turn, shared across recruiting and the following fight.
 
 
 func on_summon(ctx: RecruitContext) -> void:
 	if ctx.subject == null:
 		return
+	var used: int = CoreUtil.to_int(ctx.source.limits.get("mrs_clover", 0))
+	if used >= CoreUtil.to_int(ctx.params["limit"]):
+		return
+	ctx.source.limits["mrs_clover"] = used + 1
 	ctx.announce("mrs_clover")
 	var stats: int = CoreUtil.to_int(ctx.params["stats"])
 	ctx.buff(ctx.subject, stats, stats, "permanent")

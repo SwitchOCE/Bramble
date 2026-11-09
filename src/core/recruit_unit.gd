@@ -191,8 +191,14 @@ func combat_spec() -> Dictionary:
 		spec["hex"] = counters["hex"]
 	if counters.has("kisses"):
 		spec["kisses"] = counters["kisses"]
-	if counters.has("paid_pie"):
-		spec["paid_pie"] = counters["paid_pie"]
+	if limits.has("mrs_clover"):
+		spec["mrs_clover_used"] = limits["mrs_clover"]
+	var payments: Dictionary = {}
+	for key: Variant in counters:
+		if str(key).begins_with("paid_"):
+			payments[key] = counters[key]
+	if not payments.is_empty():
+		spec["lifetime_payments"] = payments
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health
