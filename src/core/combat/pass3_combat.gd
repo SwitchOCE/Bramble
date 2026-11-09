@@ -1,10 +1,11 @@
 class_name Pass3Combat
 extends RefCounted
-## Pass 3's optional timing rule. The legacy path consumes exactly the same random values.
+## Pass 3 timing is enabled by content. Only isolated replay tests can opt into the old path.
 
 
 static func enabled(combat: Combat) -> bool:
-	var explicit: Variant = combat.config.get_value("pass3_start_order")
+	# Test-only per-fight diagnostic, deliberately absent from GameConfig and normal sessions.
+	var explicit: Variant = combat.notes.get("test_pass3_start_order")
 	if explicit != null:
 		return CoreUtil.to_bool(explicit)
 	return has_content(combat)

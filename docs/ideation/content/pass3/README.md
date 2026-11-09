@@ -28,7 +28,7 @@ These override the six syntheses wherever they disagree. Each wave's build spec 
 1. **One target table.** Every model and the harness use `reference-curves.md`.
    - Fairies and Oozes were sized to Battlegrounds' September 2025 mean, so they run 1.7–2.2× the others from R12 (§2).
    - They start resized:
-     - **Fairies:** the Fetch twin at half, then Ring growth g = ¼.
+     - **Fairies:** the Fetch twin at half. Cluricaun moving to tier-ups (amendment 7) does the rest: it grows twice on the Ring line instead of three times. *Corrected after the wave 1 review: "g = ¼" here was the old turn-timer period, and it no longer applies once Cluricaun grows on tier-ups.*
      - **Oozes:** Stone Soup r = 1/12, Elder at a quarter.
    - These are dials. The harness sets them after step 2 picks the era. If a steeper era wins, the other four go up instead.
 2. **Tribe words** on seven splashable payoffs (§5): His Highness and the Prince, Tiddy Mun, Cradle Fetch, Hob, Dr Urchin, Old Isegrim, Old Brock.
@@ -41,7 +41,7 @@ These override the six syntheses wherever they disagree. Each wave's build spec 
 6. **One permanent-gain queue:** Hunters' Takes and Bog's Soak land at the next Start of Turn, shown as a pending badge.
 7. **Clocks** (§3.2):
    - Hedgerow owns the turn timer.
-   - Cluricaun grows on tier-ups.
+   - Cluricaun grows on tier-ups: *"After you Tier up: if every slot has a Ring, your Rings grow +1/+1."* Golden is +2/+2. The step is a dial.
 8. **Half damage:** Tom Tit uses Damage Reduction 50%. Hunker stays "when attacked" (§3.3).
 9. **Names:** the Toll-Bard becomes the Lane-Bard (§3.5).
 10. **Early game:** One Swallow's trips last 1 turn (§6).

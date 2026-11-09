@@ -1,24 +1,81 @@
 class_name Pass3Text
 extends RefCounted
-## Rate overrides change display text alongside the engine. Authored defaults remain untouched.
+## Native pass 3 faces are generated from resolved rates. JSON text is a checked copy.
+
+const FIXED_FACES: Dictionary = {
+	"belladonna":
+	[
+		"Start of Combat: give the enemy across Nightshade.",
+		"Start of Combat: give the enemy across and the units beside it Nightshade.",
+	],
+	"changeling":
+	[
+		"Start of Combat: steal the enemy across until it attacks.",
+		"Start of Combat: steal the enemy across until it attacks twice.",
+	],
+	"hedge_witch":
+	[
+		"Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+		"Start of Combat: the enemy across loses Attack equal to twice this slot's Ring.",
+	],
+	"hob_in_the_hearth":
+	[
+		"Shy. Start of Combat: your biggest Fairy gains Shield.",
+		"Shy. Start of Combat: your two biggest Fairies gain Shield.",
+	],
+	"mag_pye":
+	[
+		"Start of Combat: your biggest Bird steals the text of the enemy across.",
+		"Start of Combat: your biggest Bird steals the text of the enemy across and one next to it.",
+	],
+	"old_tern":
+	[
+		"Fly South. When this comes home: so do your Birds that missed a fight.",
+		"Fly South. When this comes home: so do your Birds that missed a fight.",
+	],
+}
+const FRACTIONS: Dictionary = {
+	2: ["half", "halves"],
+	3: ["third", "thirds"],
+	4: ["quarter", "quarters"],
+	5: ["fifth", "fifths"],
+	6: ["sixth", "sixths"],
+	7: ["seventh", "sevenths"],
+	8: ["eighth", "eighths"],
+	9: ["ninth", "ninths"],
+	10: ["tenth", "tenths"],
+	12: ["twelfth", "twelfths"],
+	16: ["sixteenth", "sixteenths"],
+	20: ["twentieth", "twentieths"],
+}
 
 
 static func configure(card: Dictionary, config: GameConfig) -> void:
-	var id: String = str(card.get("id", ""))
-	if not _is_pass3(card) and id != "golden_egg":
+	if not _is_pass3(card) and str(card.get("id", "")) != "golden_egg":
 		return
-	if Pass3Rates.overridden(config):
-		card["pass3_rates"] = Pass3Rates.resolved(config)
+	card["pass3_rates"] = Pass3Rates.resolved(config)
 	for golden: bool in [false, true]:
-		var words: String = _bird(id, golden, config)
-		if words.is_empty():
-			words = _fairy(id, golden, config)
-		if words.is_empty():
-			words = _fairy_count(id, golden, config)
+		if golden and not card.has("golden_text"):
+			continue
+		var words: String = face(card, config, golden)
 		if not words.is_empty():
-			_set_text(card, golden, words)
+			_set_text(card, golden, words, config)
 	_details(card, config)
 	_flight(card, config)
+
+
+## Pure generation never consults text/golden_text, including at the default rates.
+static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> String:
+	var id: String = str(card.get("id", ""))
+	if FIXED_FACES.has(id):
+		var pair: Array = FIXED_FACES[id]
+		return str(pair[1 if golden else 0])
+	var words: String = _bird(card, golden, config)
+	if words.is_empty():
+		words = _bird_combat(id, golden, config)
+	if words.is_empty():
+		words = _fairy(id, golden, config)
+	return words
 
 
 static func _is_pass3(card: Dictionary) -> bool:
@@ -28,98 +85,156 @@ static func _is_pass3(card: Dictionary) -> bool:
 	return false
 
 
-static func _changed(config: GameConfig, keys: Array[String]) -> bool:
-	var defaults: Dictionary = Pass3Rates.defaults()
-	for key: String in keys:
-		if Pass3Rates.value(config, key) != defaults.get(key):
-			return true
-	return false
-
-
 static func _n(value: float) -> String:
-	return str(int(value)) if value == floorf(value) else str(value)
+	return str(int(value)) if is_equal_approx(value, roundf(value)) else str(value)
 
 
-static func _rate(config: GameConfig, key: String, factor: float = 1.0) -> String:
-	return _n(Pass3Rates.number(config, key) * factor)
+static func _word(value: int) -> String:
+	var words: Array[String] = [
+		"zero", "one", "two", "three", "four", "five", "six", "seven", "eight"
+	]
+	return words[value] if value >= 0 and value < words.size() else str(value)
 
 
-static func _share(config: GameConfig, key: String, factor: float = 1.0) -> String:
-	return _rate(config, key, 100.0 * factor) + "%"
+static func _fraction(value: float) -> String:
+	if is_equal_approx(value, 1.0):
+		return "all"
+	for denominator: int in FRACTIONS:
+		var numerator: int = roundi(value * denominator)
+		if numerator <= 0 or not is_equal_approx(value, float(numerator) / denominator):
+			continue
+		var names: Array = FRACTIONS[denominator]
+		if numerator > 1:
+			return "%s %s" % [_word(numerator), str(names[1])]
+		if denominator == 2:
+			return "half"
+		return ("an " if denominator == 8 else "a ") + str(names[0])
+	return _n(value * 100.0) + "%"
 
 
-static func _amount(count: int) -> String:
-	return "a" if count == 1 else str(count)
+static func _stats(value: float, whose: String) -> String:
+	var share: String = _fraction(value)
+	return (
+		"%s %s stats" % [share, whose]
+		if share in ["half", "all"]
+		else "%s of %s stats" % [share, whose]
+	)
 
 
-static func _biggest(count: int, noun: String) -> String:
-	return "your biggest " + noun if count == 1 else "your %d biggest %ss" % [count, noun]
+static func _biggest(count: int, noun: String, other: bool = false) -> String:
+	var extra: String = "other " if other else ""
+	if count == 1:
+		return "your biggest %s%s" % [extra, noun]
+	return "your %s biggest %s%ss" % [_word(count), extra, noun]
 
 
 static func _start(words: String) -> String:
 	return words.substr(0, 1).to_upper() + words.substr(1)
 
 
-static func _bird(id: String, golden: bool, config: GameConfig) -> String:
+static func _repeat(count: int) -> String:
+	if count == 1:
+		return ""
+	return " twice" if count == 2 else " %s times" % _word(count)
+
+
+static func _multiply(value: float) -> String:
+	if is_equal_approx(value, 2.0):
+		return "double"
+	if is_equal_approx(value, 3.0):
+		return "triple"
+	return "multiply"
+
+
+static func _effect_number(card: Dictionary, name: String, key: String) -> int:
+	for entry: Dictionary in card.get("mechanics", []):
+		if str(entry.get("name", "")) == name:
+			for step: Dictionary in MechanicRegistry.steps_of(entry):
+				if step.has(key):
+					return CoreUtil.to_int(step[key])
+	return 0
+
+
+static func _bird(card: Dictionary, golden: bool, config: GameConfig) -> String:
+	var id: String = str(card.get("id", ""))
 	var factor: int = 2 if golden else 1
 	match id:
-		"mr_redbreast":
-			if _changed(config, ["birds_redbreast_share"]):
-				return (
-					"After a Bird comes home: gain %s of its stats."
-					% _share(config, "birds_redbreast_share", factor)
-				)
-		"cuckoo":
-			if _changed(config, ["birds_cuckoo_share"]):
-				return (
-					"After a Bird comes home: other Birds gain %s of its stats."
-					% _share(config, "birds_cuckoo_share", factor)
-				)
+		"one_swallow":
+			return (
+				"Fly South. %s When played: get %d gold."
+				% [
+					_trip_sentence(id, golden, config),
+					_effect_number(card, "swallow_gold", "amount") * factor
+				]
+			)
+		"chiffchaff":
+			var gain: int = _effect_number(card, "chiffchaff", "attack") * factor
+			return "Fly South. When played: gain +%d/+%d." % [gain, gain]
+		"mrs_jay":
+			var count: int = _effect_number(card, "jay", "count") * factor
+			return (
+				"Fly South. When sold: get %s."
+				% ("an Acorn" if count == 1 else _word(count) + " Acorns")
+			)
+		"mr_redbreast", "cuckoo":
+			var name: String = "redbreast" if id == "mr_redbreast" else "cuckoo"
+			var who: String = "gain" if name == "redbreast" else "other Birds gain"
+			return (
+				"After a Bird comes home: %s %s."
+				% [
+					who,
+					_stats(Pass3Rates.number(config, "birds_" + name + "_share") * factor, "its")
+				]
+			)
 		"jack_daw":
-			if _changed(config, ["birds_jack_daw_share", "birds_jack_daw_permanent"]):
-				var permanent: String = (
-					"permanently " if Pass3Rates.enabled(config, "birds_jack_daw_permanent") else ""
-				)
-				return (
-					"Start of Combat: your biggest Bird %ssteals %s of the stats of the enemy across."
-					% [permanent, _share(config, "birds_jack_daw_share", factor)]
-				)
+			var permanent: String = (
+				"permanently " if Pass3Rates.enabled(config, "birds_jack_daw_permanent") else ""
+			)
+			return (
+				"Start of Combat: your biggest Bird %ssteals %s of the enemy across."
+				% [
+					permanent,
+					_stats(Pass3Rates.number(config, "birds_jack_daw_share") * factor, "the")
+				]
+			)
 		"mrs_stork":
-			if _changed(config, ["birds_stork_gold_step", "birds_stork_recalls"]):
-				var count: int = Pass3Rates.integer(config, "birds_stork_recalls") * factor
-				return (
-					"Every %s gold you spend: %s %s that missed a fight %s home."
-					% [
-						_rate(config, "birds_stork_gold_step"),
-						_amount(count),
-						"Bird" if count == 1 else "Birds",
-						"comes" if count == 1 else "come"
-					]
-				)
+			var count: int = Pass3Rates.integer(config, "birds_stork_recalls") * factor
+			return (
+				"Every %d gold you spend: %s %s that missed a fight %s home."
+				% [
+					Pass3Rates.integer(config, "birds_stork_gold_step"),
+					"a" if count == 1 else _word(count),
+					"Bird" if count == 1 else "Birds",
+					"comes" if count == 1 else "come"
+				]
+			)
 		"mrs_dunnock":
-			if _changed(config, ["birds_dunnock_turns", "birds_dunnock_targets"]):
-				var count: int = Pass3Rates.integer(config, "birds_dunnock_targets") * factor
-				var turns: int = Pass3Rates.integer(config, "birds_dunnock_turns")
-				return (
-					"End of Turn: %s away %s home %d %s sooner."
-					% [
-						_biggest(count, "Bird"),
-						"comes" if count == 1 else "come",
-						turns,
-						"turn" if turns == 1 else "turns"
-					]
-				)
+			var count: int = Pass3Rates.integer(config, "birds_dunnock_targets") * factor
+			var turns: int = Pass3Rates.integer(config, "birds_dunnock_turns")
+			return (
+				"End of Turn: %s away %s home %s sooner."
+				% [
+					_biggest(count, "Bird"),
+					"comes" if count == 1 else "come",
+					"a turn" if turns == 1 else "%d turns" % turns
+				]
+			)
 		"mother_goose":
 			if not Pass3Rates.enabled(config, "birds_golden_egg_enabled"):
 				return "Fly South."
+			return (
+				"Fly South. When played: get %s."
+				% ("a Golden Egg" if not golden else "two Golden Eggs")
+			)
 		"golden_egg":
-			if _changed(config, ["birds_golden_egg_multiplier"]):
-				return (
-					"Multiply a Bird's stats by %s. Once per Bird."
-					% _rate(config, "birds_golden_egg_multiplier")
-				)
-		"tom_tit", "redwing", "great_lump", "gabble_ratchet", "seven_whistlers":
-			return _bird_combat(id, golden, config)
+			var multiplier: float = Pass3Rates.number(config, "birds_golden_egg_multiplier")
+			return (
+				"%s a Bird's stats%s. Once per Bird."
+				% [
+					_start(_multiply(multiplier)),
+					" by " + _n(multiplier) if _multiply(multiplier) == "multiply" else ""
+				]
+			)
 	return ""
 
 
@@ -127,168 +242,162 @@ static func _bird_combat(id: String, golden: bool, config: GameConfig) -> String
 	var factor: int = 2 if golden else 1
 	match id:
 		"tom_tit":
-			if _changed(config, ["birds_tom_tit_reduction", "birds_tom_tit_targets"]):
-				var count: int = Pass3Rates.integer(config, "birds_tom_tit_targets") * factor
-				return (
-					"%s other %s Damage Reduction %s%%."
-					% [
-						_start(_biggest(count, "Bird")),
-						"has" if count == 1 else "have",
-						_rate(config, "birds_tom_tit_reduction")
-					]
-				)
+			var count: int = Pass3Rates.integer(config, "birds_tom_tit_targets") * factor
+			return (
+				"%s %s Damage Reduction %d%%."
+				% [
+					_start(_biggest(count, "Bird", true)),
+					"has" if count == 1 else "have",
+					Pass3Rates.integer(config, "birds_tom_tit_reduction")
+				]
+			)
 		"redwing":
-			if _changed(config, ["birds_redwing_share", "birds_redwing_targets"]):
-				return (
-					"%s away %s Eggs with %s of their stats."
-					% [
-						_start(
-							_biggest(
-								Pass3Rates.integer(config, "birds_redwing_targets") * factor, "Bird"
-							)
-						),
-						(
-							"leaves"
-							if Pass3Rates.integer(config, "birds_redwing_targets") * factor == 1
-							else "leave"
-						),
-						_share(config, "birds_redwing_share")
-					]
-				)
+			var count: int = Pass3Rates.integer(config, "birds_redwing_targets") * factor
+			return (
+				"%s away %s Eggs with %s."
+				% [
+					_start(_biggest(count, "Bird")),
+					"leaves" if count == 1 else "leave",
+					_stats(Pass3Rates.number(config, "birds_redwing_share"), "their")
+				]
+			)
 		"great_lump":
-			if _changed(config, ["birds_lump_multiplier"]):
-				return (
-					"Cleave. On a Nest, this gains %s times its Bird's stats."
-					% _rate(config, "birds_lump_multiplier", factor)
-				)
+			var amount: float = Pass3Rates.number(config, "birds_lump_multiplier") * factor
+			var times: String = (
+				""
+				if is_equal_approx(amount, 1.0)
+				else "twice " if is_equal_approx(amount, 2.0) else _n(amount) + " times "
+			)
+			return "Cleave. On a Nest, this has %sits Bird's stats too." % times
 		"gabble_ratchet":
-			if _changed(config, ["birds_ratchet_multiplier"]):
-				return (
-					"When a unit on a Nest dies: its Bird drops in at %s times its stats."
-					% _rate(config, "birds_ratchet_multiplier", factor)
+			var amount: float = Pass3Rates.number(config, "birds_ratchet_multiplier") * factor
+			var extra: String = ""
+			if not is_equal_approx(amount, 1.0):
+				extra = (
+					" with %s stats" % _multiply(amount)
+					if _multiply(amount) != "multiply"
+					else " with %s times its stats" % _n(amount)
 				)
+			return "When a unit on a Nest dies: its Bird drops in%s." % extra
 		"seven_whistlers":
-			if _changed(config, ["birds_whistlers_loss_share", "birds_whistlers_flock_count"]):
-				var repeat: String = " twice" if golden else ""
-				return (
-					(
-						"Start of Combat: the enemy across loses %s stats%s. "
-						+ "With %s different Birds, every enemy does."
-					)
-					% [
-						_share(config, "birds_whistlers_loss_share"),
-						repeat,
-						_rate(config, "birds_whistlers_flock_count")
-					]
-				)
+			var share: float = Pass3Rates.number(config, "birds_whistlers_loss_share")
+			var repeat: String = " twice" if golden else ""
+			var across: String = (
+				"halve the enemy across"
+				if is_equal_approx(share, 0.5)
+				else "the enemy across loses " + _stats(share, "its")
+			)
+			var every: String = (
+				"halve every enemy"
+				if is_equal_approx(share, 0.5)
+				else "every enemy loses " + _stats(share, "its")
+			)
+			return (
+				"Start of Combat: %s%s. With %s different Birds, %s%s."
+				% [
+					across,
+					repeat,
+					_word(Pass3Rates.integer(config, "birds_whistlers_flock_count")),
+					every,
+					repeat
+				]
+			)
 	return ""
 
 
 static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 	var factor: int = 2 if golden else 1
 	match id:
-		"cluricaun":
-			if _changed(config, ["fairies_ring_growth"]):
-				var growth: String = _rate(config, "fairies_ring_growth", factor)
-				return (
-					"After you Tier up: if every slot has a Ring, your Rings grow +%s/+%s."
-					% [growth, growth]
-				)
+		"cluricaun", "silky", "lob_lie_by_the_fire":
+			var rate: String = (
+				"fairies_ring_growth"
+				if id == "cluricaun"
+				else "fairies_silky_growth" if id == "silky" else "fairies_lob_growth"
+			)
+			var growth: String = _n(Pass3Rates.number(config, rate) * factor)
+			var prefix: String = (
+				"After you Tier up: if every slot has a Ring,"
+				if id == "cluricaun"
+				else "Shy. After a Shy unit leaves:" if id == "silky" else "Shy. When this leaves:"
+			)
+			var period: String = (
+				" per %d turns it stayed" % Pass3Rates.integer(config, "fairies_lob_turns")
+				if id == "lob_lie_by_the_fire"
+				else ""
+			)
+			return "%s your Rings grow +%s/+%s%s." % [prefix, growth, growth, period]
 		"cradle_fetch":
-			if _changed(config, ["fairies_fetch_share"]):
-				return (
-					"Start of Combat: become a %scopy of the Fairy behind, Ring and all, with %s stats."
-					% ["golden " if golden else "", _share(config, "fairies_fetch_share")]
-				)
-		"lob_lie_by_the_fire":
-			if _changed(config, ["fairies_lob_turns", "fairies_lob_growth"]):
-				var growth: String = _rate(config, "fairies_lob_growth", factor)
-				return (
-					"Shy. When this leaves: your Rings grow +%s/+%s per %s turns it stayed."
-					% [growth, growth, _rate(config, "fairies_lob_turns")]
-				)
-		"silky":
-			if _changed(config, ["fairies_silky_growth"]):
-				var growth: String = _rate(config, "fairies_silky_growth", factor)
-				return "Shy. After a Shy unit leaves: your Rings grow +%s/+%s." % [growth, growth]
+			var share: float = Pass3Rates.number(config, "fairies_fetch_share")
+			var stats: String = (
+				"half stats"
+				if is_equal_approx(share, 0.5)
+				else "full stats" if is_equal_approx(share, 1.0) else _stats(share, "its")
+			)
+			return (
+				"Start of Combat: become a %scopy of the Fairy behind, Ring and all, with %s."
+				% ["golden " if golden else "", stats]
+			)
 		"fairy_monarch":
-			if _changed(
+			var amount: float = Pass3Rates.number(
 				config,
-				[
-					"fairies_monarch_period",
-					"fairies_monarch_multiplier",
-					"fairies_golden_monarch_multiplier"
+				"fairies_golden_monarch_multiplier" if golden else "fairies_monarch_multiplier"
+			)
+			var verb: String = _multiply(amount)
+			return (
+				"%s: %s your Ring size%s."
+				% [
+					_period(Pass3Rates.integer(config, "fairies_monarch_period")),
+					verb,
+					" by " + _n(amount) if verb == "multiply" else ""
 				]
-			):
-				var key: String = (
-					"fairies_golden_monarch_multiplier" if golden else "fairies_monarch_multiplier"
-				)
-				return (
-					"%s: multiply your Ring size by %s."
-					% [
-						_period(Pass3Rates.integer(config, "fairies_monarch_period")),
-						_rate(config, key)
-					]
-				)
+			)
 		"reel_mistress":
-			if _changed(config, ["fairies_reel_moves"]):
-				return (
-					"After a unit on a Ring attacks: its Ring moves to your next unit. %s times per Ring."
-					% _rate(config, "fairies_reel_moves", factor)
-				)
+			var moves: int = Pass3Rates.integer(config, "fairies_reel_moves") * factor
+			return (
+				"After a unit on a Ring attacks: its Ring moves to your next unit. %s per Ring."
+				% ("Once" if moves == 1 else _start(_repeat(moves).strip_edges()))
+			)
 		"queen_of_elfland":
-			if _changed(config, ["fairies_queen_period", "fairies_queen_rings"]):
-				return (
-					"%s: destroy the units behind this. Ring every slot %s times for each."
-					% [
-						_period(Pass3Rates.integer(config, "fairies_queen_period")),
-						_rate(config, "fairies_queen_rings", factor)
-					]
-				)
-	return ""
-
-
-static func _fairy_count(id: String, golden: bool, config: GameConfig) -> String:
-	var factor: int = 2 if golden else 1
-	match id:
+			return (
+				"%s: destroy the units behind this. Ring every slot%s for each."
+				% [
+					_period(Pass3Rates.integer(config, "fairies_queen_period")),
+					_repeat(Pass3Rates.integer(config, "fairies_queen_rings") * factor)
+				]
+			)
 		"old_moth_annis":
-			if _changed(config, ["fairies_annis_sale", "fairies_annis_rings"]):
-				var timing: String = (
-					"End of Turn and after you sell"
-					if Pass3Rates.enabled(config, "fairies_annis_sale")
-					else "End of Turn"
-				)
-				return (
-					"%s: Ring the slots behind this %s times."
-					% [timing, _rate(config, "fairies_annis_rings", factor)]
-				)
+			var timing: String = (
+				"End of Turn and after you sell"
+				if Pass3Rates.enabled(config, "fairies_annis_sale")
+				else "End of Turn"
+			)
+			return (
+				"%s: Ring the slots behind this%s."
+				% [timing, _repeat(Pass3Rates.integer(config, "fairies_annis_rings") * factor)]
+			)
 		"nan_toadstool":
-			if _changed(config, ["fairies_nan_rings"]):
-				return (
-					"When played or sold: Ring this slot %s times."
-					% _rate(config, "fairies_nan_rings", factor)
-				)
+			return (
+				"When played or sold: Ring this slot%s."
+				% _repeat(Pass3Rates.integer(config, "fairies_nan_rings") * factor)
+			)
 		"sally_spore":
-			if _changed(config, ["fairies_sally_rings"]):
-				return (
-					"End of Turn: Ring your empty slot nearest this %s times."
-					% _rate(config, "fairies_sally_rings", factor)
-				)
+			return (
+				"End of Turn: Ring your empty slot nearest this%s."
+				% _repeat(Pass3Rates.integer(config, "fairies_sally_rings") * factor)
+			)
 		"rainbow_chaser":
-			if _changed(config, ["fairies_chaser_gold"]):
-				return (
-					"When sold: get %s gold per slot with a Ring."
-					% _rate(config, "fairies_chaser_gold", factor)
-				)
+			return (
+				"When sold: get %d gold per slot with a Ring."
+				% (Pass3Rates.integer(config, "fairies_chaser_gold") * factor)
+			)
 		"will_o_the_wisp":
-			if _changed(config, ["fairies_wisp_attack", "fairies_wisp_health"]):
-				return (
-					"Start of Combat: summon a %s/%s Wisp into each empty Ring."
-					% [
-						_rate(config, "fairies_wisp_attack", factor),
-						_rate(config, "fairies_wisp_health", factor)
-					]
-				)
+			return (
+				"Start of Combat: summon a %d/%d Wisp into each empty Ring."
+				% [
+					Pass3Rates.integer(config, "fairies_wisp_attack") * factor,
+					Pass3Rates.integer(config, "fairies_wisp_health") * factor
+				]
+			)
 	return ""
 
 
@@ -307,52 +416,42 @@ static func _period(turns: int) -> String:
 	return "Every %d%s End of Turn" % [turns, suffix]
 
 
-static func _set_text(card: Dictionary, golden: bool, words: String) -> void:
+static func _set_text(card: Dictionary, golden: bool, words: String, config: GameConfig) -> void:
 	var field: String = "golden_text" if golden else "text"
 	card[field] = words
 	var fragments: Dictionary = card.get("mechanic_text", {})
 	for key: String in fragments:
 		var fragment: Dictionary = fragments[key]
 		if str(fragment.get("id", "")) in ["pass3_bird", "pass3_fairy"]:
-			fragment[field] = words.trim_prefix("Shy. ").trim_prefix("Fly South. ")
+			var partial: String = words.trim_prefix("Shy. ").trim_prefix("Fly South. ")
+			if str(card.get("id", "")) == "one_swallow":
+				partial = partial.trim_prefix(_trip_sentence("one_swallow", golden, config) + " ")
+			fragment[field] = partial
 
 
 static func _flight(card: Dictionary, config: GameConfig) -> void:
 	var flies: bool = false
 	for entry: Dictionary in card.get("mechanics", []):
-		if str(entry.get("id", "")) == "fly_south":
-			flies = true
+		flies = flies or str(entry.get("id", "")) == "fly_south"
 	if not flies:
 		return
 	var id: String = str(card.get("id", ""))
-	var keys: Array[String] = [
-		"birds_homecoming_multiplier", "birds_golden_homecoming_multiplier", "birds_trip_turns"
-	]
-	if id == "one_swallow":
-		keys.append("birds_swallow_trip_turns")
-	if id == "old_tern":
-		keys.append("birds_golden_tern_trip_turns")
-	if not _changed(config, keys):
-		return
 	for golden: bool in [false, true]:
+		var turns: int = _trip(id, golden, config)
+		var multiplier: String = _n(
+			Pass3Rates.number(
+				config,
+				"birds_golden_homecoming_multiplier" if golden else "birds_homecoming_multiplier"
+			)
+		)
 		var reminder: String = (
-			"Sold, flies south for %d turns; returns to hand at %s× permanent stats."
-			% [
-				_trip(id, golden, config),
-				_rate(
-					config,
-					(
-						"birds_golden_homecoming_multiplier"
-						if golden
-						else "birds_homecoming_multiplier"
-					)
-				)
-			]
+			"Sold, flies south for %d %s; returns to hand at %s× permanent stats."
+			% [turns, "turn" if turns == 1 else "turns", multiplier]
 		)
 		card["golden_details" if golden else "details"] = (
 			reminder
-			+ " Flying pays no sale gold; played this turn, it sells normally. "
-			+ "Early recalls require a missed fight; each trip grows once."
+			+ " Flying pays no sale gold; played this turn, it sells normally."
+			+ " Early recalls require a missed fight; each trip grows once."
 		)
 		if not golden:
 			var overrides: Dictionary = card.get("keyword_text_overrides", {})
@@ -362,6 +461,11 @@ static func _flight(card: Dictionary, config: GameConfig) -> void:
 			for entry: Dictionary in reminders:
 				if str(entry.get("keyword", "")) == "Fly South":
 					entry["text"] = reminder
+
+
+static func _trip_sentence(id: String, golden: bool, config: GameConfig) -> String:
+	var turns: int = _trip(id, golden, config)
+	return "Its trips last %d %s." % [turns, "turn" if turns == 1 else "turns"]
 
 
 static func _trip(id: String, golden: bool, config: GameConfig) -> int:
@@ -375,52 +479,55 @@ static func _trip(id: String, golden: bool, config: GameConfig) -> int:
 static func _details(card: Dictionary, config: GameConfig) -> void:
 	match str(card.get("id", "")):
 		"jack_daw":
-			if _changed(config, ["birds_jack_daw_permanent"]):
-				card["details"] = "Fractions round up. The stolen stats return to their owners after the fight."
+			card["details"] = (
+				"Fractions round up. The enemy's loss ends with the fight; your Bird keeps its gain."
+				if Pass3Rates.enabled(config, "birds_jack_daw_permanent")
+				else "Fractions round up. The stolen stats return to their owners after the fight."
+			)
 		"cradle_fetch":
-			if _changed(config, ["fairies_fetch_share"]):
-				card["details"] = (
-					"Rounds copied stats up and adds this slot's Ring. "
-					+ "Copies the biggest Fairy behind; two Fetches never share a target."
-				)
-				card["golden_details"] = (
-					"Becomes golden, including its text. Copies %s of current stats, then adds this slot's Ring."
-					% _share(config, "fairies_fetch_share")
-				)
+			card["details"] = (
+				"Rounds copied stats up and adds this slot's Ring."
+				+ " Copies the biggest Fairy behind; two Fetches never share a target."
+			)
+			card["golden_details"] = (
+				"Becomes golden, including its text. Copies %s, then adds this slot's Ring."
+				% _stats(Pass3Rates.number(config, "fairies_fetch_share"), "the current")
+			)
 		"lob_lie_by_the_fire":
-			if _changed(config, ["fairies_lob_growth", "fairies_lob_turns"]):
-				var growth: String = _rate(config, "fairies_lob_growth", 2)
-				card["golden_details"] = (
-					"Shy pays 4 gold. Only thanking counts; each complete %s turns gives +%s/+%s Ring size."
-					% [_rate(config, "fairies_lob_turns"), growth, growth]
-				)
+			var gain: String = _n(Pass3Rates.number(config, "fairies_lob_growth") * 2)
+			card["golden_details"] = (
+				"Shy pays 4 gold. Only thanking counts; each complete %d turns gives +%s/+%s Ring size."
+				% [Pass3Rates.integer(config, "fairies_lob_turns"), gain, gain]
+			)
 		"fairy_monarch":
-			if _changed(
-				config, ["fairies_monarch_multiplier", "fairies_golden_monarch_multiplier"]
-			):
-				card["details"] = (
-					(
-						"Midsummer shares one countdown across copies. "
-						+ "Extra triggers never advance it or repeat its growth; "
-						+ "a golden copy multiplies by %s instead."
+			card["details"] = (
+				"Midsummer shares one countdown across copies."
+				+ (
+					" Extra triggers never advance it or repeat its growth; a golden copy %s instead."
+					% (
+						"triples"
+						if is_equal_approx(
+							Pass3Rates.number(config, "fairies_golden_monarch_multiplier"), 3.0
+						)
+						else (
+							"multiplies by "
+							+ _n(Pass3Rates.number(config, "fairies_golden_monarch_multiplier"))
+						)
 					)
-					% _rate(config, "fairies_golden_monarch_multiplier")
 				)
+			)
 		"seven_whistlers":
-			if _changed(config, ["birds_whistlers_loss_share"]):
-				card["details"] = (
-					"Counts different Bird card names on your board; Eggs do not count. "
-					+ "Each remaining stat rounds up after reduction."
-				)
+			card["details"] = (
+				"Counts different Bird card names on your board; Eggs do not count."
+				+ " Each remaining stat rounds up after reduction."
+			)
 		"old_moth_annis":
-			if not Pass3Rates.enabled(config, "fairies_annis_sale"):
-				card["details"] = "Rings the slots behind this at End of Turn."
-	if _changed(config, ["fairies_initial_ring_size"]):
-		var reminders: Array = card.get("keyword_text", [])
-		for entry: Dictionary in reminders:
-			if str(entry.get("keyword", "")) == "Ring size":
-				var size: String = _rate(config, "fairies_initial_ring_size")
-				entry["text"] = "What each Ring gives; starts at +%s/+%s." % [size, size]
-				var overrides: Dictionary = card.get("keyword_text_overrides", {})
-				overrides["Ring size"] = entry["text"]
-				card["keyword_text_overrides"] = overrides
+			card["details"] = (
+				"Any unit sale counts, including Nan, the Chaser and a Bird flying south."
+				if Pass3Rates.enabled(config, "fairies_annis_sale")
+				else "Rings the slots behind this at End of Turn."
+			)
+	var size: String = _n(Pass3Rates.number(config, "fairies_initial_ring_size"))
+	var overrides: Dictionary = card.get("keyword_text_overrides", {})
+	overrides["Ring size"] = "What each Ring gives; starts at +%s/+%s." % [size, size]
+	card["keyword_text_overrides"] = overrides

@@ -146,7 +146,8 @@ Owner notes win over this rulebook if they disagree.
 2. From turn 2 on, the current upgrade cost drops by 1 (4.6.3).
 3. The refresh counter resets to 0 (4.4.4).
 4. The shop refills, or keeps its frozen cards and fills its empty slots; the freeze then ends (4.5).
-5. Start-of-turn triggers resolve in reading order (1.2.3).
+5. Birds whose trips are due come home, with homecoming growth and listeners, before ordinary Start of Turn text (12.1.4).
+6. Start-of-turn triggers resolve in reading order (1.2.3).
 
 *Why:* HSBG's exact order isn't documented, and Bramble adds steps 1 and 3. This order lets start-of-turn effects see the new shop and the full gold total.
 
@@ -503,7 +504,7 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 **8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
 
-**8.5.4** [BRAMBLE ideation] **Ring cap.** During recruiting, a slot’s Ring holds at most +4/+4. A full Ring cannot be aimed at by a Ring spell; overflow is lost. Sally Spore skips empty slots with full Rings. Fairy Monarch adds its bonus above the cap. Reel-Mistress moves whole Rings during combat and can stack them past the cap; recruiting Rings stay unchanged. Horseshoe halves the Ring and Monarch bonus together, rounded down.
+**8.5.4** [PROPOSED ideation] **Counted Rings, without a cap.** In the pass 3 Fairy design, each slot holds a count of Rings, with no maximum count or size. Your shared Ring size starts at +1/+1. A slot adds its count times your Ring size to its unit; fractional dial values round up once per slot, not once per Ring. Ring spells add their printed count, including to a slot that already has Rings. Size growth applies to all your Rings, including empty slots. Shy units receive no Ring stats. Rings persist on their slots when units move or leave. Reel-Mistress moves the combat copy of whole Rings, each at most twice a fight (four if golden); cohorts retain their spent moves when combined, and recruiting Rings stay unchanged. Cluricaun grows shared Ring size by +1/+1 after a tier-up if every slot has at least one Ring (+2/+2 golden); the step remains a data dial. Source: [pass 3 amendments 1, 7 and 11](../ideation/content/pass3/README.md#amendments-adopted-from-the-cross-tribe-critique).
 
 ---
 
@@ -526,6 +527,8 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 **9.3.1** [BG] Start of Combat effects resolve in phases, in this order: game-wide modifiers; player-level modifiers (trinkets, quest rewards, secrets); hero powers; then units, first those that trigger from hand and then those on the board. Only phases for systems in the game apply (uncertain in HSBG — see rules.md §11.2, SIM).
 
 **9.3.2** [BG] In the unit phase, one player chosen at random resolves all their Start of Combat units, then the other player does. Each player's units go in reading order (1.2.3), which replaces HSBG's left to right (uncertain in HSBG — see rules.md §11.2, SIM).
+
+**9.3.2a** [PROPOSED ideation] With pass 3 content in the pool, biggest-enemy effects wait until both sides' other Start of Combat effects have resolved, and their target pool includes units inside Bellies. Hob waits for Fetch before choosing the biggest Fairy. This is a content rule, not a production setting. Source: [pass 3 amendment 4](../ideation/content/pass3/README.md#amendments-adopted-from-the-cross-tribe-critique).
 
 **9.3.3** [BG] Within a hero-power phase, player order is random (uncertain in HSBG — see rules.md §11.2, SIM).
 
@@ -787,14 +790,20 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **12.1.3** [BG] Shop-wide buffs ("units in the shop have +1/+1 this game") apply to the units currently in the shop and to future shop units (rules.md §13).
 
-**12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. When sold text still fires on flight, When played can fire when replayed, and explicit homecoming text fires on landing. An empty Nest holds an Egg in combat with half its away Bird's current Attack and Health, each rounded up after permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg follows the same rule. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds. Tom Tit gives your Eggs their Bird's full Health; golden Tom Tit gives full Attack too. Redwing's full-stat coverage still applies; only the strongest coverage counts, and the Egg's slot Rings apply afterward. Empty own Nests display the resulting Egg stats and homecoming countdown; occupied Nests show the Nest below their standing unit. Old Tern's homecoming returns the other away Birds too, including lengthened trips, to hand or doorstep. Mrs Stork returns the Bird away longest per 6 gold spent (two if golden), only if it has missed a fight; ties choose the leftmost Nest. A starting Egg that survives adds 1 hero damage (10.1.4a).
+**12.1.4** [PROPOSED ideation] **Fly South and homecoming.** In pass 3, Fly South pays no sale gold and fires When sold text. A Bird cannot fly during the turn it was played or came home. Its ordinary trip lasts two turns; One Swallow's trips last one, as do golden Old Tern's. Each slot holds one Nest; a new departure there replaces the Nest, but the older Bird still comes home. On homecoming, multiply the Bird's base plus permanent stats by two, normal or golden, before homecoming listeners. Exclude tribe bonuses, slot auras and next-combat buffs. The Bird enters hand, or waits on the doorstep if hand is full. When played fires only when it is replayed. These rates are data dials. Homecomings occur before ordinary Start of Turn text. Source: [Birds pass 3](../ideation/content/pass3/birds-pass3.md) and [amendments 10–11](../ideation/content/pass3/README.md#amendments-adopted-from-the-cross-tribe-critique).
+
+**12.1.4a** [PROPOSED ideation] **Early returns.** An early recall requires the Bird to have actually missed a fight, rather than only having left in an earlier numbered turn. Mrs Stork returns the longest-away Bird per 6 gold spent (two if golden); ties prefer greatest Attack plus Health, then reading order. Old Tern's homecoming calls the other eligible away Birds home. Mrs Dunnock's End of Turn shortens the biggest eligible trip by one turn (two Birds if golden), never earlier than next turn and only when at least two turns remain. Extra trigger firings never advance a trip or repeat homecoming multiplication. Source: [Birds pass 3](../ideation/content/pass3/birds-pass3.md) and amendment 11.
+
+**12.1.4b** [PROPOSED ideation] **Eggs and drop-ins.** An empty Nest starts combat with a 0/1 Egg, with none of its Bird's text. An occupied Nest adds no Egg. Eggs are not Birds. While Redwing lives, the two biggest away Birds' Eggs have half their Bird's current stats, rounded up (four Birds if golden); this replaces the Egg's 0/1 body, then slot buffs apply. Replaced Nests still count when selecting biggest away Birds, but cannot supply an Egg. Multiple Redwings use the strongest coverage. Gabble Ratchet drops a Nest's Bird into its vacated slot once per Nest per fight, at its current stats (twice those stats if golden). This is combat-only: it neither ends the trip nor fires homecoming or When played. A starting Egg that survives adds 1 hero damage (10.1.4a). Tom Tit instead protects your biggest other Bird with Damage Reduction 50% (the two biggest other Birds if golden); it does not change Eggs. Source: [Birds pass 3](../ideation/content/pass3/birds-pass3.md) and amendment 8.
+
+**12.1.4c** [PROPOSED ideation] **The Golden Egg.** Mother Goose gives a Golden Egg when played. Feeding it to a Bird doubles base plus permanent stats, excluding tribe bonuses, slot auras and next-combat buffs. Each Bird can receive this doubling once; its mark survives a triple. Extra triggers cannot repeat the doubling, including when the general caps overlays are disabled. Source: [Birds pass 3](../ideation/content/pass3/birds-pass3.md) and amendment 11.
 
 
-**12.1.5** [BRAMBLE ideation] **Queen of Elfland.** The Queen pools the destroyed units' printed Attack and Health (doubled if those units are golden), plus their permanent buffs. Tribe bonuses, Rings, other auras and buffs for the next combat are excluded. Her golden version doubles that pool before dividing it among your other Fairies. This keeps a standing tribe bonus separate from permanent unit buffs.
+**12.1.5** [PROPOSED ideation] **Queen of Elfland.** In pass 3, End of Turn destroys the units behind her and adds one Ring to every slot for each unit destroyed (two if golden). She no longer pools their stats. Destroyed Shy units are not thanked and pay no thank-you gold or departure growth. Extra triggers cannot advance her optional countdown dial again. Source: [Fairies pass 3](../ideation/content/pass3/fairies-pass3.md).
 
 **12.1.6** [BRAMBLE ideation] **Pass X:** your last unit, other than its source, gains X. Last means last occupied slot in **F1-B1-F2-B2-F3-B3-F4**; gaps do not stop it and it never lands on the source. With no other unit, nothing happens. Recruiting Passes wait until End of Turn and read the board then; a sold source is excluded. Combat Passes land immediately on the last living other unit. The permanent Pass mark names the end unit; selecting or moving a Pass source shows its actual recipient, or “no one to pass to”. Touching still requires an unbroken zigzag run.
 
-**12.1.7** [BRAMBLE ideation] **Shy.** Only a spell aimed at the Shy unit or its slot can buff it while recruiting. The aimed spell sends it away and pays **2 gold next turn**, or **4 if golden**. Its other effects still resolve: aiming Harvest Supper at Shy still raises the tribe bonus. Rings, auras, tribe bonuses, unit text, and spells aimed elsewhere give it no stats and do not send it away. Combat buffs work normally. A Shy unit that leaves returns its copies to the pool; it is not sold. Destruction, including the Queen's Teind, pays no Shy gold, and Shy cannot receive a Teind share. Silky Rings a thanked unit's vacated slot, including her own, with the existing Ring cap. Mrs Mallow skips Shy when choosing your smallest unit (Attack plus Health, ties in zigzag order).
+**12.1.7** [PROPOSED ideation] **Shy and thanking.** Only a spell aimed at a Shy unit or its slot can buff it while recruiting. The aimed spell thanks it: it leaves and pays **2 gold next turn**, or **4 if golden**. The spell's other effects still resolve, so aiming Harvest Supper at Shy still raises your tribe bonus. Rings, auras and tribe bonuses give Shy no stats in recruiting or combat; direct combat buffs work normally. The thanked unit returns its copies to the pool and is not sold. Selling or destroying a Shy unit never counts as thanking and pays no thank-you gold. In pass 3, Silky grows your shared Ring size by +1/+1 per thanked Shy Fairy (+2/+2 golden), including when she herself is thanked; she does not add a Ring to its vacated slot. Lob's accumulated End of Turns pay +1/+1 Ring size per three banked turns when thanked (+2/+2 golden); moving him preserves the bank. Shared growers use only the strongest matching text once per event, even when one unit carries the ability twice, printed and borrowed. Mrs Mallow still skips Shy when choosing your smallest unit (Attack plus Health, ties in zigzag order). Source: [Fairies pass 3](../ideation/content/pass3/fairies-pass3.md) and [cross-tribe shared growers](../ideation/content/pass3/cross-tribe.md).
 
 ## 13. Systems outside the v0 core
 
@@ -924,14 +933,16 @@ These are general mechanisms for scale experiments; none changes the default poo
   exactly the Attack actually removed. Fractions do not double on golden.
 - **End of Turn doubler:** adds one firing of each of your End of Turn effects.
   Golden adds two. Multiple doublers add extra firings; they never recurse.
+  Pass 3 extra firings never repeat a doubling or advance a countdown, regardless
+  of the general rate overlay.
   Effects retain their own rate limits when `card_rate_limits` is enabled. Each firing counts toward
   the ordinary action trigger guard.
 - **Size overlay:** `card_size_caps=false` removes printed size ceilings, including
-  permanent-buff ceilings, maximum stat gains, Whistlers' homecomings, Ring and
+  permanent-buff ceilings, maximum stat gains, legacy Whistlers' homecomings, legacy Ring and
   tribe-bonus size, and shop-size ceilings. It defaults true.
 - **Rate overlay:** `card_rate_limits=false` removes printed once/per-turn/per-fight
   and lifetime rate limits, including hero use/buy rates, Savings' counted turns,
-  Stone Soup/Nell/Kiss/Bubble/Reel-Mistress limits, Figgy's cooldown, first-spell
+  Stone Soup/Nell/Kiss/Bubble/legacy Reel-Mistress limits, Figgy's cooldown, first-spell
   discounts, first-free-refresh limits, Harvest's once-per-turn limit and Market
   Stall's lifetime two-upgrade limit. It defaults true, independently of size caps.
   Schema key names determine the category: `most` is SIZE; `limit`, `lifetime` and

@@ -34,7 +34,6 @@ static func defaults() -> GameConfig:
 	config._values = {
 		"pass3_content": false,
 		"pass3_loop_guards": true,
-		"pass3_start_order": null,
 		"card_size_caps": true,
 		"card_rate_limits": true,
 		"scale_levers": [],

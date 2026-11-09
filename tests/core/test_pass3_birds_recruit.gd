@@ -257,3 +257,21 @@ func test_guard_any_data_doubler_cannot_advance_counter_counterfactual_does() ->
 	_kit.rules.end_phase(_kit.player)
 	assert_eq(unit.counters.get("clock"), 0)
 	assert_eq(unit.attack, 2, "Without guard a second end-turn already reaches the third tick")
+
+
+func test_early_recall_distinguishes_an_older_departure_from_a_missed_fight() -> void:
+	var bird: RecruitUnit = _fly("mrs_jay")
+	# Recruit-only round advancement has no after_fights notification. The old
+	# left-before-this-round predicate is true, but this Bird has not missed a real fight.
+	_kit.player.round_number += 1
+	var entry: Dictionary = _kit.player.away[0]
+	assert_lt(CoreUtil.to_int(entry["left"]), _kit.player.round_number)
+	assert_false(CoreUtil.to_bool(entry["missed_fight"]))
+	HeldUnits.bring_home(_kit.rules, _kit.player, 1)
+	assert_true(_kit.player.away.has(entry), "an older departure alone cannot earn a recall")
+	assert_false(_kit.player.hand.has(bird))
+	assert_eq(bird.attack, 3, "no homecoming doubling before a missed fight")
+	Pass3Birds.missed_fight(_kit.player)
+	HeldUnits.bring_home(_kit.rules, _kit.player, 1)
+	assert_true(_kit.player.hand.has(bird), "the actual fight flag now permits that same recall")
+	assert_eq(bird.attack, 6)

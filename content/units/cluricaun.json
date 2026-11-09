@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "After you Tier up: if every slot has a Ring, your Rings grow +0.25/+0.25.",
-  "golden_text": "After you Tier up: if every slot has a Ring, your Rings grow +0.5/+0.5.",
+  "text": "After you Tier up: if every slot has a Ring, your Rings grow +1/+1.",
+  "golden_text": "After you Tier up: if every slot has a Ring, your Rings grow +2/+2.",
   "mechanics": [
     {
       "id": "pass3_fairy",

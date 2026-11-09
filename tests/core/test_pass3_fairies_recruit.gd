@@ -147,15 +147,15 @@ func test_cluricaun_requires_every_slot_and_grows_on_each_tier_up_only() -> void
 	assert_eq(_player.ring_size, 1.0, "six Ringed slots do not qualify")
 	_ring(6, 4)
 	_tier_up()
-	assert_eq(_player.ring_size, 1.25)
-	assert_eq(BoardUpkeep.ring_value(_player.slot_effects[4]), Vector2i(5, 5))
+	assert_eq(_player.ring_size, 2.0)
+	assert_eq(BoardUpkeep.ring_value(_player.slot_effects[4]), Vector2i(8, 8))
 	_next_turn()
 	_next_turn()
 	_next_turn()
-	assert_eq(_player.ring_size, 1.25, "End of Turn never runs Cluricaun")
+	assert_eq(_player.ring_size, 2.0, "End of Turn never runs Cluricaun")
 	_kit.config.set_value("fairies_ring_growth", 0.75)
 	_tier_up()
-	assert_eq(_player.ring_size, 2.0)
+	assert_eq(_player.ring_size, 2.75)
 
 
 func test_cluricaun_copies_share_one_grow_and_strongest_copy_wins() -> void:
@@ -163,7 +163,7 @@ func test_cluricaun_copies_share_one_grow_and_strongest_copy_wins() -> void:
 	_kit.put("cluricaun", 1, true)
 	_rainbow()
 	_tier_up()
-	assert_eq(_player.ring_size, 1.5, "one golden grow, rather than normal plus golden")
+	assert_eq(_player.ring_size, 3.0, "one golden grow, rather than normal plus golden")
 
 
 func test_cluricaun_copy_guard_counterexample_without_fix() -> void:
@@ -172,7 +172,7 @@ func test_cluricaun_copy_guard_counterexample_without_fix() -> void:
 	_kit.put("cluricaun", 1, true)
 	_rainbow()
 	_tier_up()
-	assert_eq(_player.ring_size, 1.75, "without the shared-copy guard both growers fire")
+	assert_eq(_player.ring_size, 4.0, "without the shared-copy guard both growers fire")
 
 
 func test_golden_borrowed_growth_keeps_its_text_factor_on_a_normal_body() -> void:
@@ -190,7 +190,7 @@ func test_golden_borrowed_growth_keeps_its_text_factor_on_a_normal_body() -> voi
 	_kit.put("cluricaun", 1)
 	_rainbow()
 	_tier_up()
-	assert_eq(_player.ring_size, 1.5, "the text's golden factor wins over the normal body")
+	assert_eq(_player.ring_size, 3.0, "the text's golden factor wins over the normal body")
 
 
 func test_lob_banks_real_turns_through_moves_and_only_thanking_cashes_them() -> void:
@@ -377,3 +377,44 @@ func test_ring_metadata_is_copied_into_fight_snapshots() -> void:
 	assert_eq(rings[0]["attack"], 27)
 	_ring(4)
 	assert_eq(rings[0]["count"], 12, "fights and ghosts keep independent Ring snapshots")
+
+
+func _printed_and_borrowed_grower(ability: String, held_card: String) -> RecruitUnit:
+	(
+		_kit
+		. card(
+			"double_grower",
+			[
+				{"id": "pass3_fairy", "ability": ability, "factor": 1},
+				{"id": "belly", "size": 1},
+				{"id": "borrows_text"},
+			],
+			["Fairies"]
+		)
+	)
+	var borrower: RecruitUnit = _kit.put("double_grower", 0)
+	var inner := RecruitUnit.make(_kit.library.get_unit(held_card), _rules.new_iid())
+	borrower.held.append(inner)
+	assert_eq(borrower.borrowed_text().size(), 1, "the same grower is printed and truly borrowed")
+	return borrower
+
+
+func test_printed_and_borrowed_cluricaun_grows_once_per_tier_up() -> void:
+	_kit.config.set_value("fairies_ring_growth", 1.0)
+	_printed_and_borrowed_grower("cluricaun", "cluricaun")
+	_rainbow()
+	_tier_up()
+	assert_eq(_player.ring_size, 2.0, "one +1 grow despite two matching entries on one source")
+	_kit.config.set_value("pass3_loop_guards", false)
+	_tier_up()
+	assert_eq(_player.ring_size, 4.0, "without the event guard both matching entries grow")
+
+
+func test_printed_and_borrowed_monarch_ticks_and_doubles_once() -> void:
+	_printed_and_borrowed_grower("monarch", "fairy_monarch")
+	_kit.config.set_value("fairies_monarch_period", 1)
+	_end_turn()
+	assert_eq(_player.ring_size, 2.0, "one Midsummer despite two matching entries on one source")
+	_kit.config.set_value("pass3_loop_guards", false)
+	_end_turn()
+	assert_eq(_player.ring_size, 8.0, "without the event guard both matching entries double")

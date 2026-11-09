@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. When played: get 1 gold.",
-  "golden_text": "Fly South. When played: get 2 gold.",
+  "text": "Fly South. Its trips last 1 turn. When played: get 1 gold.",
+  "golden_text": "Fly South. Its trips last 1 turn. When played: get 2 gold.",
   "mechanics": [
     {
       "id": "fly_south",

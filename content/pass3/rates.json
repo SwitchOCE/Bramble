@@ -22,7 +22,7 @@
   "birds_tom_tit_targets": 1,
   "birds_dunnock_turns": 1,
   "birds_dunnock_targets": 1,
-  "fairies_ring_growth": 0.25,
+  "fairies_ring_growth": 1.0,
   "fairies_fetch_share": 0.5,
   "fairies_initial_ring_size": 1.0,
   "fairies_lob_growth": 1.0,

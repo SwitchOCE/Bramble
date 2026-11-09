@@ -8,7 +8,7 @@ The recruit rules live in `Pass3Birds` and `Pass3Fairies`; combat rules in the t
 
 - Golden Mag Pye takes the first occupied unit next to the across target, using reading-order ties. “Next to” includes front/back neighbors as well as beside.
 - The adopted amendments win. In particular, One Swallow travels for one turn, Tom Tit grants Damage Reduction, Fetch and Hob require Fairies, and Belladonna aims across (golden also marks the enemies beside that target).
-- Under the orchestrator's adopted clock ruling ([amendment 7](README.md#amendments-adopted-from-the-cross-tribe-critique)), Cluricaun grows Ring size by **g on each tier-up**. Amendment 1 supplies the starting g of 0.25, golden 0.5. It has no turn timer. A full rainbow is still required.
+- Under [amendment 7](README.md#amendments-adopted-from-the-cross-tribe-critique) and the post-review ruling, Cluricaun grows shared Ring size by **+1/+1 on each tier-up**, golden +2/+2, if every slot has a Ring. `fairies_ring_growth` remains the step dial, default **1**. The earlier quarter-point default misread the old turn timer's period as the new step; the corrected README removes that reading. Cluricaun has no turn timer.
 - Fractional Ring size is retained; each slot receives `ceil(count × size)` in each stat. Rounding happens once per slot, including when Rings move in combat. Ring spells add their printed number of Rings at the caster's size. Their shop text and target previews show that meaning.
 - A homecoming multiplies only the Bird's base plus permanent buffs. Supper, slot auras and next-combat buffs are excluded. It happens before homecoming listeners, even if the Bird waits on the doorstep. Replaying it is the separate action that fires When played.
 - Cuckoo's “other Birds” excludes the arriving Bird (which is in hand), and includes Cuckoo itself. This follows the synthesis model's spread implementation. Copies each fire. Redbreast also reads the arriving Bird's permanent body, without Supper.
@@ -23,9 +23,13 @@ The recruit rules live in `Pass3Birds` and `Pass3Fairies`; combat rules in the t
 
 ## Combat compatibility
 
-`pass3_start_order` is a nullable fight-rule switch. Auto mode enables the new order whenever pass 3 content is in the pool or present in a fight; `GameConfig.full_game()` enables pass 3 content. Explicit `false` retains the old order and random stream. Biggest-enemy effects wait until both sides' other combat-start effects have resolved and can select units inside Bellies. Hob also waits for Fetch. This can change same-seed results for existing cards when enabled, so the legacy path is retained.
+The new order is mandatory whenever pass 3 content is in the pool or present in a fight; `GameConfig.full_game()` enables pass 3 content. Biggest-enemy effects wait until both sides' other combat-start effects have resolved and can select units inside Bellies. Hob also waits for Fetch. This can change same-seed results for existing cards when enabled. The production `pass3_start_order` setting has been removed. Only tests set the per-fight diagnostic `combat.notes["test_pass3_start_order"]` to exercise the old order; normal games and harness configurations cannot disable the rule.
 
-Twelve full combat-result fixtures were captured from the untouched c74c2b9 engine in an isolated archive, covering the other four tribes and neutrals, including gathering, control effects and Belly contents. The switch-off test compares exact serialized results. Old-design Bird/Fairy regression suites explicitly opt into frozen c74c2b9 card definitions; current-content tests and actual games use the new pool.
+Twelve full combat-result fixtures were captured from the untouched c74c2b9 engine in an isolated archive, covering the other four tribes and neutrals, including gathering, control effects and Belly contents. The test-only old-order path compares exact serialized results. Old-design Bird/Fairy regression suites explicitly opt into frozen c74c2b9 card definitions; current-content tests and actual games use the new pool. The frozen pass 2 Birds/Fairies tests are the rollback until checkpoint 2, then deleted.
+
+The missed-fight recall test uses a Bird that left in an earlier numbered turn but has not actually missed a fight: the old `left < round` predicate would recall it, while the new rule waits for the explicit missed-fight flag. Duplicate growing text is tested on a single unit carrying its printed ability plus borrowed text, including guard-disabled counterexamples.
+
+`Pass3Text.face()` generates every new face from resolved rates, using fraction words. The library uses that generator at defaults and the scale overlay uses it for sweeps. Authored JSON faces are checked copies: a test reads the files directly and compares them with generated defaults. Tom Tit's full normal line is tested exactly, and One Swallow's face includes “Its trips last 1 turn.” Jack Daw remains permanent by default with its comparison dial intact.
 
 `pass3_loop_guards=false` is a diagnostic test switch: the new suites use it to reproduce failures without copy, doubling, recall, countdown, Nest-drop and Dance guards. It is true by default and is independent of the general caps overlay. No new size caps were added.
 
@@ -39,10 +43,12 @@ Hard bot strategy IDs stay stable; the redesigned tribes use provisional route p
 
 Balance measurements and harness loading belong to the separate harness branch. The visual follow-up below identifies UI gaps in the implemented build.
 
+The harness branch will load `tools/sim/lines/*.json` after it merges; no loader was added here. The existing bot spell-aim legality filter applies to all tribes because the aimed-item pipeline is shared: it excludes candidates rejected by the real `item_aim_problem` rule, including invalid Golden Egg targets. The route priors remain provisional; the new Fairy counts below are behaviour checks, not a checkpoint 2 balance measurement.
+
 
 ## Real-game and screenshot evidence
 
-The [attribution audit](../../evidence/wave1/attribution-audit.md) found only the corrected Cluricaun credit; none of the three original wave 1 commit messages claimed owner confirmation. This follow-up adds new commits. Existing engine, UI and card data remain at 6a54286 so the fresh reviewer can assess that source against these observations.
+The [attribution audit](../../evidence/wave1/attribution-audit.md) found only the corrected Cluricaun credit; none of the three original wave 1 commit messages claimed owner confirmation. This follow-up adds new commits. The images and logs below record the engine, UI and card data at 6a54286; later review fixes are recorded separately and do not rewrite that evidence.
 
 All Godot runs used `/opt/bramble/env.sh`, `/tmp/bramble-godot.lock` and a user scope with `MemoryMax=3G`. [Replay proof](../../evidence/wave1/games-replay-proof.json) and the per-size [phone](../../evidence/wave1/screenshots-1688x780.json) / [PC](../../evidence/wave1/screenshots-1920x1080.json) provenance record the exact commands. [Independent artifact verification](../../evidence/wave1/verification.json) checks native PNG dimensions, accepted commands, save hashes and exact fresh-CLI game-log equality.
 
@@ -86,7 +92,7 @@ Homecoming occurs at Start of Turn, not inside combat. Both return/following-fig
 [Phone renderer log](../../evidence/wave1/screenshots-phone.log) and [PC renderer log](../../evidence/wave1/screenshots-pc.log) both exit cleanly with zero automated layout notes. Visual inspection found issues those checks missed:
 
 - **Away preview gap:** Nest countdowns and the current-Bird reader work, but no current→landing tray is displayed. `RecruitScreen._show_sky()` only calls `show_empty()`, leaving the implemented `RecruitHeld.sky_card()` forecast unused. This is an implementation gap in 6a54286, not a deferred design choice.
-- **Fractional Cluricaun chip:** the natural Fairy PC board shows “Ring +0” although the card's growth is +0.25. `CardView._keyword_number()` matches integer prefixes and truncates that decimal display. The engine rate and full reader text remain fractional.
+- **Fractional Cluricaun chip at 6a54286:** the natural Fairy PC board shows “Ring +0” although its then-default growth was +0.25. `CardView._keyword_number()` matches integer prefixes and truncates that decimal display. The review correction to default +1 resolves this default case; fractional sweeps still expose the display limitation.
 - **Ring badge crowding:** with the phone card reader open, B1's large Ring badge overlaps its slot name; on PC it can cover part of the trigger chip.
 - **Phone footer clipping:** the End Turn subtitle is partly cut at the bottom edge.
 - **PC shop-name wrapping:** long names such as His Highness and Jenny Greenteeth wrap into stat-badge space in the controlled Ring scene.

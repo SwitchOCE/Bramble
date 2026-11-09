@@ -190,6 +190,10 @@ func _finish() -> void:
 ## stay in each unit's source.note.
 static func _fill_keyword_text(units: Array[Dictionary]) -> void:
 	for unit: Dictionary in units:
+		var config: GameConfig = GameConfig.defaults()
+		for key: String in unit.get("pass3_rates", {}):
+			config.set_value(key, unit["pass3_rates"][key])
+		Pass3Text.configure(unit, config)
 		var entries: Array = []
 		var note: String = _note_of(unit)
 		var keywords: Array = unit.get("keywords", [])

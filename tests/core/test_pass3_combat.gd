@@ -414,14 +414,14 @@ func test_biggest_enemy_effects_wait_for_both_sides_other_start_effects() -> voi
 		)
 
 
-func test_order_switch_off_exposes_pre_gather_counterexample() -> void:
+func test_diagnostic_old_order_exposes_pre_gather_counterexample() -> void:
 	_answer()
-	kit.config.set_value("pass3_start_order", false)
 	var found: bool = false
 	for seed_value: int in 12:
 		var combat: Combat = _fight(
 			{0: "biggest_answer"}, {0: "granny_stir_up", 4: CK.u("moss_ooze", 100, 10)}, seed_value
 		)
+		combat.notes["test_pass3_start_order"] = false
 		combat._start_of_combat()
 		found = found or combat.unit_at(1, 0).attack != 52
 	assert_true(found, "old order has a same-seed early-answer counterexample")
@@ -451,7 +451,7 @@ func test_biggest_ties_use_reading_order_without_effect_random_draw() -> void:
 	assert_eq(combat.effect_rng.state, before)
 
 
-func test_legacy_switch_off_exactly_replays_c74c2b9_other_tribes_and_neutrals() -> void:
+func test_diagnostic_old_order_exactly_replays_c74c2b9_other_tribes_and_neutrals() -> void:
 	var fixture: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/core/data/pass3_legacy_replay.json")
 	)
@@ -459,10 +459,10 @@ func test_legacy_switch_off_exactly_replays_c74c2b9_other_tribes_and_neutrals() 
 	assert_eq(rows.size(), 12)
 	for entry: Dictionary in rows:
 		var config := GameConfig.defaults()
-		config.set_value("pass3_start_order", false)
 		var rng := RandomNumberGenerator.new()
 		rng.seed = CoreUtil.to_int(entry["seed"])
 		var combat := Combat.create(kit.library, config, rng)
+		combat.notes["test_pass3_start_order"] = false
 		combat.side_rules = entry["side_rules"]
 		var result: Dictionary = combat.run(entry["boards"], [5, 5], [0, 1], 0)
 		assert_true(
@@ -496,9 +496,9 @@ func test_fetch_no_reuse_guard_off_copies_the_same_carry_twice() -> void:
 	)
 
 
-func test_shy_ignores_rings_even_with_order_switch_explicitly_off() -> void:
-	kit.config.set_value("pass3_start_order", false)
+func test_shy_ignores_rings_even_with_test_order_override_off() -> void:
 	var combat: Combat = _fight({0: "hob_in_the_hearth"}, {0: CK.plain(100, 100)})
+	combat.notes["test_pass3_start_order"] = false
 	_ring(combat, 0, 0, 100)
 	combat._recalc_auras(false)
 	assert_eq([combat.unit_at(0, 0).attack, combat.unit_at(0, 0).health], [2, 5])
@@ -627,10 +627,11 @@ func test_selected_pass3_pool_enables_order_even_when_no_new_card_is_in_fight() 
 	kit.config.set_value("pool_filter", GameConfig.SLICE)
 	var combat: Combat = _fight({0: CK.plain(1, 10)}, {0: CK.plain(1, 10)})
 	assert_true(Pass3Combat.enabled(combat))
+	assert_null(kit.config.get_value("pass3_start_order"), "not a supported game setting")
 	kit.config.set_value("pass3_start_order", false)
-	assert_false(
-		Pass3Combat.enabled(combat), "explicit replay switch still overrides pool detection"
-	)
+	assert_true(Pass3Combat.enabled(combat), "game config cannot turn off the content rule")
+	combat.notes["test_pass3_start_order"] = false
+	assert_false(Pass3Combat.enabled(combat), "isolated replay tests can request the old path")
 
 
 func test_dead_hunter_still_gets_permanent_take_reward_with_pass3_enabled() -> void:
