@@ -91,10 +91,10 @@ func test_ranocchio_does_not_grow_from_a_non_mired_target() -> void:
 
 
 func test_tiddy_pays_the_attacked_unit_after_a_lethal_hit() -> void:
-	var toad: RecruitUnit = _kit.put("bridge_toad", 0)
+	var wall: RecruitUnit = _kit.put("madame_bufo", 0)
 	_kit.put("tiddy_mun", 4)
 	var fight := _combat(
-		{0: toad.combat_spec(), 4: _kit.player.board[4].combat_spec()}, {0: C.plain(99, 99)}
+		{0: wall.combat_spec(), 4: _kit.player.board[4].combat_spec()}, {0: C.plain(99, 99)}
 	)
 	var defender: CombatUnit = fight.unit_at(0, 0)
 	fight._attack(fight.unit_at(1, 0), defender)
@@ -102,12 +102,12 @@ func test_tiddy_pays_the_attacked_unit_after_a_lethal_hit() -> void:
 	for change: Dictionary in fight.carry:
 		if int(change["side"]) == 0:
 			_kit.rules.apply_carry(_kit.player, change)
-	assert_eq([toad.perm_attack, toad.perm_health], [1, 1])
+	assert_eq([wall.perm_attack, wall.perm_health], [1, 1])
 
 
 func test_tiddy_caps_two_attacks_and_ignores_non_mired_attackers() -> void:
 	var fight := _combat(
-		{0: C.u("bridge_toad", 0, 99), 4: C.u("tiddy_mun")}, {0: C.plain(1, 99), 1: C.plain(1, 99)}
+		{0: C.u("madame_bufo", 0, 99), 4: C.u("tiddy_mun")}, {0: C.plain(1, 99), 1: C.plain(1, 99)}
 	)
 	var wall: CombatUnit = fight.unit_at(0, 0)
 	fight._attack(fight.unit_at(1, 1), wall)
