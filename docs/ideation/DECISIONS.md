@@ -4,6 +4,31 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Birds: no nerf; the problem is the flat tribes
+**Source:** w1's skilled-Birds check at B (`ideation/harness` 2c16ee0a, `evidence/wave1-skilled-birds.md`): 32 lobbies per arm, comparing a forced carry-flight line with the native line. Post-fight boards, survivor medians.
+
+| Round | Native bots | Skilled script | Humans (A, C) | Battlegrounds Sep 2025 mean |
+|---|---|---|---|---|
+| 10 | 177 | 180 | 329, 272 | 305 |
+| 12 | 328 | 472 | 772, 459 | 759 |
+| 14 | 509 | 1,094 | 2,085, 883 | 1,751 |
+| 16 | 948 | 2,748 | 2,676, 1,617 | — |
+
+**Findings:**
+- The skilled script lands inside the human range, so it works as a ceiling model for Birds.
+- Skilled Birds grow about ×1.57 a round from R10 to R14, the same as Battlegrounds' ×1.56, from a lower level.
+- Their biggest unit is 37% of the board at R14–R16, against Battlegrounds' 34–35%.
+
+**Picked:** no Birds nerf. The playtesters' "runaway" is measured against tribes that are still flat: the old Hunters, Oozes and Hedgerow, about 25× behind.
+- The fix is wave 2: rebuilt Bog and Hunters (wave 2a), then Oozes and Hedgerow (W2b).
+- The dial-back options stay logged for when the whole pool compounds: a fixed gain per homecoming, doubling only base stats, or a cap on each trip's gain.
+- Generous first (09h). Measure the snowball's frequency, not its top games (09d).
+
+**The bot-to-human gap, across all three testers at R12 on the build they played:**
+- Birds: 329 / 459 / 772, median 459, against the bots' ~305.
+- Fairies: 123 / 126 / 171, against the bots' ~150.
+- The 2–3× said earlier came from two Birds games. Over three games it is about 1.5× for Birds and none for Fairies.
+
 ### 10 Nov 2026 — Wave 1 re-base measured in B and C
 **Source:** w1's run on wave2a's d5b5b4f8, which has the wave 1 re-base, pass 3 Bog and pass 2 Hunters: 320 lobbies per preset at the shipped config (`ideation/harness` 5c54cb5d, `evidence/wave1-rebase.md`).
 
