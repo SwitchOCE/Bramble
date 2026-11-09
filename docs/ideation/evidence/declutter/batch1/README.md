@@ -26,15 +26,22 @@ are explicitly tagged rather than excluded by whether their text looks numeric.
 numbers still count. The after runner prints raw before/after and ancillary counts
 for each pair and writes `after/pairs.json`.
 
-The table below records the original `4f50d944` raw counts. Refreshed raw and ancillary
-counts are pending the new captures; the original 30-node check is historical.
+All eight regenerated pairs pass the revised 10-node budget. The raw totals remain
+visible alongside the budgeted counts; both requested viewport sizes give the same counts.
+The baseline recount only added primary-stat metadata: all eight before PNG SHA-256
+hashes are unchanged from the committed baseline.
 
-| Scenario | Original scripted source / seed | Before / after labels |
-| --- | --- | --- |
-| `wording2/combat_mid` | `screenshot.gd`, `20261104` plus first surviving offset, six bot rounds | 88 → 28 (both sizes) |
-| `reminder/combat_reminder` | same driver and seed, first keyword reminder | 89 → 28 (both sizes) |
-| `wave1/homecoming-following-combat` | `wave1_evidence.gd`, seed `109` (first mixed shop from 101–140), controlled production actions | 82 → 24 (both sizes) |
-| strong-field `rival-fight` | committed seed `72`, round `8` boundary input replay | 91 → 26 (both sizes) |
+| Scenario | Original scripted source / seed | Raw before → after | Ancillary before → after (cap 10) |
+| --- | --- | --- | --- |
+| `wording2/combat_mid` | `screenshot.gd`, `20261104` plus first surviving offset, six bot rounds | 88 → 28 | 61 → 0 |
+| `reminder/combat_reminder` | same driver and seed, first keyword reminder | 89 → 28 | 62 → 0 |
+| `wave1/homecoming-following-combat` | `wave1_evidence.gd`, seed `109` (first mixed shop from 101–140), controlled production actions | 82 → 24 | 59 → 0 |
+| strong-field `rival-fight` | committed seed `72`, round `8` boundary input replay | 91 → 27 | 66 → 1 |
+
+The rival's extra raw label is its recovered player hero Health; the remaining
+ancillary label is the Ooze's held-unit count. Neither number is hidden to meet the budget.
+The full-board UI test retains all 28 unit stats and both hero Health labels, with
+0 ancillary labels on desktop and phone.
 
 ## Reproduce the captures
 
@@ -92,9 +99,34 @@ The [independent blind reader and event-based score](independent-review-4f50d944
 **fails** Batch 1 at ×1 and under reduce motion; ×4 passes. Every hitter and death
 cause was right, but trigger attribution and reduced-motion direction failed. This
 supersedes the earlier internal PASS. The independent report includes frame-level
-causes. The six requested repairs are implemented; a new independent-style retest
-using only the packet and regenerated strips is pending.
+causes. The six requested repairs were implemented and independently retested as
+the first repair attempt below; that attempt also failed. A further repair and new
+capture/retest are in progress.
 The criterion was the orchestrator's call, not a statement attributed to the owner.
+
+## First repair attempt: independent-style FAIL
+
+The frozen [first-repair event score](cold-reader-first-repair-score.md) assesses
+UI through `ec6d7575` with capture method `204c14cc`. Three fresh readers received
+only the packet and one fight's strips each; a separate scorer checked their frozen
+answers against the manifests. Raw answers remain in
+[cold-reader-first-repair-combat-mid.md](cold-reader-first-repair-combat-mid.md),
+[cold-reader-first-repair-homecoming.md](cold-reader-first-repair-homecoming.md) and
+[cold-reader-first-repair-rival.md](cold-reader-first-repair-rival.md).
+
+This attempt **fails** source/effect attribution: 50/57 attack initiators are right
+and seven cannot be established. All 57 damage pairs and all 62 attack-caused death
+pairs are right. Held reduced-motion attackers, separate Pack hits, attached damage
+pops, the attack-death fade and actual hero Health read correctly. Opening effects
+still have uncertain or wrong sources; Take's acorn landing is obscured by hero art;
+some overlapping source pulses confuse attribution; the dead-unit reward is visible
+without a settled landing account. Eight whole-opening frames undersample several
+successive effects. These are source/effect failures, not requests to infer rule text.
+
+That revision passed the full runtime gate (**1,913/1,913 tests**, 182 scripts,
+42,296 assertions; `build/declutter/gate-review.log`). Passing the gate did not repair
+its failed visual read. Both the gate and the frozen score are historical: the newer
+motion changes below require another detached gate and a fresh blind score.
 
 ## Repairs after the independent review
 
@@ -120,9 +152,20 @@ yarn, row tags, `show_note` and unused Pack overlay handling are removed. Hero v
 load once; replay retains the original ghost name; the phone reader clears the
 playback control row. None of these changes alters combat rules.
 
-The independent-style rerun and full gate for these repairs are **pending**. The
-historical passing gate below does not validate the repaired revision. Wave2a/Bog
-integration is deferred until the user's merge; no merge or Bog port is included here.
+A second repair, through `f09e453c`, `80dd61fb` and `532e298d`, addresses those
+remaining observations. Held attacker frames now also identify normal-motion
+initiators between samples. Temporary directional effect traces connect the pulsed
+source to its recipient, with arrow tips outside stat numerals. Stats/statuses hold
+for 0.5 seconds before the next independent effect; Take's larger acorn lands below
+the hero artwork. Null-source hero buffs originate at the most recent explicit
+`side_trigger`; Ring gains remain pocket effects, with no invented UID-zero caster.
+Mire wait has a pause route to its affected unit. Opening captures now add focused
+cause-group sheets rather than relying on one eight-frame overview.
+
+The independent-style rerun and full gate for this second repair are **pending**;
+logs are `build/declutter/compile-motion.log`, `ui-motion.log` and `gate-motion.log`.
+Neither earlier passing gate validates this revision. Wave2a/Bog integration is
+deferred until the user's merge; no merge or Bog port is included here.
 
 ## Frame strips
 
@@ -132,11 +175,20 @@ start tick of every attack, every applied event tick, the result tick and automa
 return tick. The second replays the identical serialized fight and captures eight
 viewport frames evenly across each actual attack-to-next-attack interval: sample
 `j=0..7` is `start + round(j * (end-start) / 7)`. `end` is the tick before the next
-attack; for the final attack it is the automatic-return tick, after hero Health settles.
-This includes trigger effects between attacks instead of stopping at a predicted
-lunge duration. Eight additional opening frames and eight result frames show the
-pre-attack effects and complete hero-damage outro. The result window overlaps the
-final attack window deliberately.
+attack; for the final attack it is `result_tick - 1`. This includes trigger effects
+between attacks instead of stopping at a predicted lunge duration, while preserving
+eight attack frames without stretching the final attack across the whole result.
+A separate eight-frame result sheet covers `result_tick` through automatic return,
+after hero Health settles.
+
+An eight-frame opening overview remains. Additional `opening-event-NNN.jpg` sheets
+capture eight frames for each opening cause group. The first pass starts a group at
+a new trigger, side trigger, quarry mark or changed source. Recipients of the same
+caster remain together; sources emitted on the same tick share a sheet because real
+playback has no separate interval to sample. Null-source hero recipients remain with
+their side trigger. Manifests record every group's `event_indices` and `causes`, so a
+scorer can audit coverage without supplying that truth to the reader. These focus
+sheets supplement the actual opening sequence; they do not add gameplay pauses.
 
 The capture asserts identical attack starts, applied event ticks, return tick and
 final Health across both passes. Every sample tick and source-event hash is recorded
@@ -146,8 +198,10 @@ driving animation. The viewport is always `1688×780`. Original frames remain in
 `build/declutter/frames/`; committed contact strips contain those native-size frames.
 There are 11 attacks in the wording fight, four in homecoming and eight in the rival
 fight, each at ×1 and ×4, plus 11 wording attacks under reduce motion: 57 attack
-sheets and 14 opening/result sheets, or 71 sheets and 568 viewport frames across
-seven runs. These are the refreshed runner's expected outputs, pending the rerun.
+sheets and 14 opening/result sheets across seven runs, plus cause-group focus sheets.
+The new capture is pending. The current timeline predicts 66 focus sheets, hence
+137 sheets and 1,096 frames; `strips/runs.json` supplies the actual regenerated totals.
+The prior repair produced 71 sheets/568 frames before these focus sheets were added.
 Run the strip capture and assembly after the stills (one Godot process at a time):
 
 ```sh
@@ -162,7 +216,8 @@ Wait for `all deterministic frame captures complete` in `frames.log`, then assem
 
 `declutter_after.sh` also runs compilation, stills, frames and assembly sequentially
 when launched under the same detached lock/scope wrapper.
-Each attack sheet contains four columns by two rows of native-size frames; the small
+Each attack, opening, focus or result sheet contains four columns by two rows of
+native-size frames; the small
 outer captions identify only frame number and elapsed time. Event manifests are kept
 separate from the blind cold-reader input. They contain the source events for checking
 the reader's answers after it has read the strips.
@@ -256,16 +311,25 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   ripple. Source-to-recipient travel and bead changes remain the causal cue. Aura changes
   use the actual UID sources supplied in `causes`; those sources flash and send
   motes. Self changes pulse the source glyph and body and send a mote to the exact
-  changed bead. Out-of-turn attacks receive a source-to-target spark. A dead source
-  uses a temporary portrait echo and its reward visibly lands. The first attack waits
-  for pending stat rolls so the visible Attack value agrees with the attack.
+  changed bead. Out-of-turn attacks receive a source-to-target spark. The second
+  repair adds temporary directional traces because pulses and moving motes alone
+  still left source/recipient attribution unclear between samples. A normal trace
+  reveals during travel (usually 0.35 seconds), holds for 0.6 seconds and fades for
+  0.15 seconds; reduce motion shows it statically. Traces disappear after their effect
+  and are absent at rest. Their arrow tips stop outside the stat numerals.
+  A dead source uses a temporary portrait echo and its reward visibly lands. The
+  first attack waits for pending stat rolls so the visible Attack value agrees with
+  the attack. Hero-origin bonuses use the most recent explicit side trigger; Ring
+  gains route from the pocket instead of inventing a unit source.
 - **Animation 16:** the custom-drawn status layer appears in its end state and the
   tile flashes in the status colour, rather than independently scaling every mark.
   The layer deliberately supports simultaneous statuses without extra slip nodes.
 - **Animations 17–19:** the existing bell/paw/splash icons supply compact event cues:
   bell glint rather than a twice-swinging bell, one travelling paw rather than three
   print stamps, and splash-to-mud rather than a separately animated mud mesh.
-  The resulting paw and mud remain state, with no links or words.
+  The resulting paw and mud remain state, with no standing links or words. Take's
+  acorn is enlarged to 88 canvas pixels and lands below the hero portrait, with a
+  longer brief hold, because the first repair's acorn disappeared into the artwork.
 - **Animation 21:** the stake appears when the slot is marked and the normal damage
   pop shows a trap hit. There is no separate stake-spring tween; the existing event
   stream supplies a marked slot followed by damage rather than a distinct trap-entry
@@ -303,9 +367,24 @@ floor marks and before/after hero Health. It refuses to repair a different fight
 - **2.1 trigger glyph:** only fight-capable trigger rules earn a spark in combat.
   End of Turn, Start of Turn and after-cast-only rules retain their recruit/reader
   presentation and have no combat spark. Mixed rules retain their fight cue.
+- **Animation 1 / attacker identity:** the held pocket frame and direction mark now
+  applies during normal motion as well as reduce motion. Seven first-repair attack
+  initiators fell between samples despite correct damage pairs. The frame remains
+  temporary, clears at the next attack/result and adds no words or standing links.
 - **Appendix reduce motion:** a held static attacker frame and direction mark supplements
-  flashes because a short tint fell between samples. Source/target icons mark effect
-  landings without a moving mote; no explanatory text is added.
+  flashes because a short tint fell between samples. Static directional traces and
+  source/target icons mark effect landings without a moving mote; no explanatory
+  text is added. Mire wait routes a pause mark to its affected unit.
+- **Section 6 / cue pacing:** stats and statuses hold for 0.5 seconds before the next
+  independent effect, rather than the proposed 0.4-second single-cue target. This
+  narrow timing adaptation separates adjacent trigger sources that readers confused.
+  The held trace also outlasts its moving mote as described under animation 14.
+  The separate last-death-to-return timing test remains required; timing is reported
+  here instead of stretching the criterion to call a 0.5-second hold 0.4 seconds.
+- **Section 6 / opening coverage:** the whole-phase opening overview undersampled
+  several effects in the first repair. Eight-frame cause-group focus sheets now
+  supplement it; the last attack stops before the separate eight-frame result sheet.
+  Same-tick sources stay coalesced to preserve actual playback and manifest provenance.
 - **Section 7 label budget:** the user's scope-review call replaces 30 total labels
   with 10 ancillary labels, excluding unit Attack/Health and hero Health. Raw totals
   remain reported so the comparison is not silently changed.
@@ -356,6 +435,10 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1688x780.png`
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1920x1080.json`
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1920x1080.png`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-combat-mid.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-homecoming.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-rival.md`
+- `docs/ideation/evidence/declutter/batch1/cold-reader-first-repair-score.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-packet.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-review.md`
 - `docs/ideation/evidence/declutter/batch1/independent-review-4f50d944.md`
@@ -371,6 +454,8 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-075.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-080.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-021.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-026.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-031.jpg`
@@ -383,6 +468,8 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-075.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/attack-080.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-021.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-026.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-031.jpg`
@@ -395,16 +482,22 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-075.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/attack-080.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x4/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-020.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-026.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-030.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/attack-033.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x1/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-020.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-026.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-030.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/attack-033.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/homecoming-following-combat-x4/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-025.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-033.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-039.jpg`
@@ -414,6 +507,8 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-058.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/attack-062.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x1/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-025.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-033.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-039.jpg`
@@ -423,6 +518,8 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-058.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/attack-062.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/manifest.json`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/opening.jpg`
+- `docs/ideation/evidence/declutter/batch1/strips/rival-fight-x4/result.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/runs.json`
 - `src/ui/adapter/core_port.gd`
 - `src/ui/app.gd`
@@ -445,6 +542,8 @@ and build logs are excluded from git.
 - `src/ui/widgets/board_view.gd`
 - `src/ui/widgets/card_view.gd`
 - `src/ui/widgets/combat_attack_cue.gd`
+- `src/ui/widgets/combat_attack_cue.gd.uid`
+- `src/ui/widgets/combat_effect_path.gd`
 - `src/ui/widgets/combat_face.gd`
 - `src/ui/widgets/combat_face.gd.uid`
 - `src/ui/widgets/hit_panel.gd`
@@ -483,6 +582,7 @@ and build logs are excluded from git.
 - `tests/ui/test_combat_pockets.gd.uid`
 - `tests/ui/test_combat_relocate.gd`
 - `tests/ui/test_declutter_capture.gd`
+- `tests/ui/test_declutter_capture.gd.uid`
 - `tests/ui/test_engines.gd`
 - `tests/ui/test_feedback5_log.gd`
 - `tests/ui/test_field_presentation.gd`
@@ -498,7 +598,13 @@ and build logs are excluded from git.
 
 ## Validation
 
-**Repaired revision:** capture, fresh independent-style score and full gate are pending.
+**Second repair:** capture, fresh independent-style score and detached full gate are
+pending. Resting label counts remain 0/0/0/1 ancillary, as reported above.
+
+**First repair:** the frozen blind event score fails; its full runtime gate passed
+1,913/1,913 tests across 182 scripts with 42,296 assertions
+(`build/declutter/gate-review.log`). That gate predates the second motion repair.
+
 The following metrics describe the superseded `4f50d944` evidence only.
 
 

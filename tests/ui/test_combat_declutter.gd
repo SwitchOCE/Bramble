@@ -1,6 +1,7 @@
 extends GutTest
 ## The fight carries state in tiles and motion; words live in a reader or the log.
 
+const EffectPath := preload("res://src/ui/widgets/combat_effect_path.gd")
 const App := preload("res://src/ui/app.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
@@ -513,7 +514,7 @@ func test_null_unit_source_hero_buff_starts_at_its_hero_and_has_a_held_direction
 	var routes: int = 0
 	var hero_motes: int = 0
 	for child: Node in screen._overlay.get_children():
-		if child.get_script() == preload("res://src/ui/widgets/combat_effect_path.gd"):
+		if child.get_script() == EffectPath:
 			routes += 1
 		if child.has_meta("effect_source_side"):
 			assert_eq(CoreUtil.to_int(child.get_meta("effect_source_side")), 1)
@@ -542,7 +543,7 @@ func test_reduced_effects_hold_matching_marks_without_connecting_yarn() -> void:
 	_advance(screen, 0.5)
 	var hidden_routes: int = 0
 	for child: Node in screen._overlay.get_children():
-		if child.get_script() == preload("res://src/ui/widgets/combat_effect_path.gd"):
+		if child.get_script() == EffectPath:
 			assert_false((child as Control).visible)
 			hidden_routes += 1
 	assert_eq(hidden_routes, 1)
