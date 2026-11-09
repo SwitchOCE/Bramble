@@ -4,6 +4,7 @@ The owner asked for this in notes 2026-11-09f and 09g: a Battlegrounds tribe por
 
 | File | What |
 |---|---|
+| `phase1.md` | Phase 1 implementation, isolation, scope limits and passing gate |
 | `quilboar-port.md` | The final paper spec: trivariate analysis, cards, dials by preset, engine support, line policies, paper curve, A/B plan |
 | `model/` | The paper model and its drivers (python, no Godot) |
 | `research/guides.md` | Battlegrounds tribes as top players play them (HSReplay/Tier 7 comps via a public copy, Firestone, patch notes) |
@@ -11,6 +12,6 @@ The owner asked for this in notes 2026-11-09f and 09g: a Battlegrounds tribe por
 | `research/structure.md` | A survey of which tribe to port, and how BG mechanics map to our board |
 | `research/port-v1.md`, `research/port-review.md` | The first port and the review that changed it |
 
-Phase 1 is being built only on `ideation/quilboar`, behind the flag. Phase 2 and
+Phase 1 is implemented only on `ideation/quilboar`, behind the flag; its gate passes. Phase 2 and
 Phase 3 remain paper-only. The Phase 1 scope and exclusions are recorded in
 `content/reference/quilboar/README.md`. Third-party images are not in the repo.
