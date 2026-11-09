@@ -227,7 +227,7 @@ func _layout() -> void:
 	_step_button.size = _speed_button.size
 	_lanes.boards = [board_for_side(0), board_for_side(1)]
 	_reader.position = Vector2(clampf(x + tray.x + 20, 12, size.x - 550), 28)
-	_reader.size = Vector2(530, 1000)
+	_reader.size = Vector2(530, CANVAS_H - tap - 18 - _reader.position.y - 16)
 
 
 func restart() -> void:

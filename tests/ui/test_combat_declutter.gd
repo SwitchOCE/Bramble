@@ -129,6 +129,11 @@ func test_phone_tap_reader_pauses_and_background_tap_restores_playback_state() -
 	card.tapped.emit("combat", 1)
 	assert_true(screen._reader.visible)
 	assert_false(screen.playing, "reading pauses the fight")
+	assert_lt(
+		screen._reader.get_global_rect().end.y,
+		screen._play_button.get_global_rect().position.y,
+		"phone reader clears the entire control row"
+	)
 	assert_eq(str(screen._reader.shown.get("name", "")), "Field Vole")
 	_tap_background(screen)
 	assert_false(screen._reader.visible)
