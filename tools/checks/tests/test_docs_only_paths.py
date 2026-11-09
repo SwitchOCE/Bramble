@@ -15,6 +15,8 @@ FILES = {
     "src/fixture_port.gd": 'const DIR := "res://docs/prototype/fixtures/"\n',
     "tests/core/test_engine_docs.gd": 'const DOC := "res://docs/ideation/engine.md"\n',
     "tests/ui/shots/shot.gd": 'const OUT := "res://docs/ideation/evidence/shots"\n',
+    "tools/sim/boards.gd": 'const PATH := "res://docs/ideation/evidence/boards.json"\n',
+    "docs/ideation/evidence/boards.json": "{}\n",
     "docs/.gdignore": "",
     "docs/STATUS.md": "status\n",
     "docs/ideation/engine.md": "engine\n",
@@ -108,6 +110,10 @@ class DocsOnlyPathsTest(unittest.TestCase):
             self.flagged(),
             ["docs/.gdignore", "docs/ideation/engine.md", "docs/prototype/fixtures/combat.json"],
         )
+
+    def test_docs_read_through_tools_scripts_are_refused(self) -> None:
+        self.edit("docs/ideation/evidence/boards.json")
+        self.assertEqual(self.flagged(), ["docs/ideation/evidence/boards.json"])
 
     def test_change_committed_then_reverted_passes(self) -> None:
         self.edit("src/game.gd")

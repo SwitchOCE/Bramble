@@ -7,8 +7,8 @@ prints each one that needs the Godot steps, with the reason. Exits 1 if any does
 
 A path needs the Godot steps when it is outside docs/, when it is a .gdignore under docs/
 (removing one makes Godot import that folder), or when the game code or the GUT tests read it
-through a res://docs/ path (fixtures, engine.md and the like). Renames count on both sides, so
-a file moved from src/ into docs/ still counts as a src/ change.
+through a res://docs/ path (fixtures, engine.md, benchmark boards and the like). Renames count
+on both sides, so a file moved from src/ into docs/ still counts as a src/ change.
 """
 
 from __future__ import annotations
@@ -18,7 +18,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-READ_BY = ("src/**/*.gd", "tests/**/test_*.gd", "tools/checks/**/*.gd")
+# GUT tests preload tools/ scripts (tools/sim/benchmark_boards.gd reads a docs/ JSON), so all of
+# tools/ counts. Screenshot scripts under tests/ui/shots/ only write to docs/ and aren't gated.
+READ_BY = ("src/**/*.gd", "tests/**/*.gd", "tools/**/*.gd")
+NOT_GATED = ("tests/ui/shots/",)
 RES_DOCS = re.compile(r"res://(docs/[^\"'\s]*)")
 
 
@@ -42,6 +45,8 @@ def docs_read_by_code(root: Path) -> set[str]:
     found: set[str] = set()
     for pattern in READ_BY:
         for script in root.glob(pattern):
+            if script.relative_to(root).as_posix().startswith(NOT_GATED):
+                continue
             text = script.read_text(encoding="utf-8", errors="replace")
             found.update(match.group(1) for match in RES_DOCS.finditer(text))
     return found
