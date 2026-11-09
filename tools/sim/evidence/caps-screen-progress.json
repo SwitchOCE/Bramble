@@ -67,6 +67,11 @@
       "result": "build/sim/caps-screen-fixed/results/caps-size--field-r06/result.json",
       "result_sha256": "981b472ae45d739b14cf4711172d54527a7d3bcf89120ee4e5b04fb763e32773"
     },
+    "caps-size/field-r08": {
+      "elapsed_seconds": 243.62200899096206,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r08/result.json",
+      "result_sha256": "555308a798719d6c31bff0a2ff062dd49e0deb7d36de175598ed7d4106f67e5e"
+    },
     "caps-size/lobbies-000": {
       "elapsed_seconds": 144.04854377603624,
       "result": "build/sim/caps-screen-fixed/results/caps-size--lobbies-000/result.json",
