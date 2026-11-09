@@ -168,8 +168,11 @@ class Pass3OozeSchemaTest(unittest.TestCase):
 class Pass3HedgerowSchemaTest(unittest.TestCase):
     def test_native_abilities_require_their_parameters_and_reject_other_cards_parameters(self) -> None:
         sergeant = {
-            "id": "pass3_hedgerow", "ability": "sergeant_at_conkers", "factor": 1,
-            "throws": 1, "share_per_gold": 0.1,
+            "id": "pass3_hedgerow",
+            "ability": "sergeant_at_conkers",
+            "factor": 1,
+            "throws": 1,
+            "share_per_gold": 0.1,
         }
         self.assertEqual(check_units.check_mechanic(sergeant), [])
         self.assertTrue(check_units.check_mechanic({k: v for k, v in sergeant.items() if k != "throws"}))
