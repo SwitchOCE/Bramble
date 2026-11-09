@@ -31,7 +31,7 @@
    - One reviewed commit per tribe, each with its line JSON and Hard-bot fixes. One integration gate on the merged tree.
    - Every engine rate is a dial. **Generous first** (owner, 9 Nov: `docs/design/owner-notes/2026-11-09h-generous-power-first.md`): dials start at the generous end and are cut back on evidence, never raised from weak. The presets:
      - **B, the default:** about 900 at R12. Fairies and Oozes stay at their design size (the Fetch twin is full), and the other four are raised to match.
-     - **C, overly generous:** B's engine rates doubled, about 1,800 at R12. This is the start the owner recommends, and it shows which dial to cut.
+     - **C, overly generous:** about twice B's board (1,800 at R12), reached by raising engine rates, not base bodies. This is the start the owner recommends, and it shows which dial to cut.
      - **A, the fallback only:** the September 2025 shape, about 500 at R12, the size the owner doubted ("50/50 may be too small"). It is played only if both B and C fail for reasons that a smaller scale would fix.
 
      A paper workflow writes B's and C's values during wave 2. Every new dial lands at B's value or above.

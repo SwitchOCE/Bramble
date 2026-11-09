@@ -36,7 +36,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
 
 **Picked (orchestrator):**
 - **B (about 900 at R12) becomes the default.** Fairies and Oozes stay at their design size. The Fetch twin goes back to full, which reverses amendment 1's halving in B, and the other four tribes are raised to match.
-- **A new preset C** doubles B's engine rates (about 1,800 at R12).
+- **A new preset C** is about twice B's board (1,800 at R12), reached by raising engine rates.
 - **Checkpoint 1 plays B against C blind.** A (about 500) is kept only as a fallback, if both fail for reasons a smaller scale would fix.
 - Every new dial in wave 2 lands at B's value or above. The paper workflow writes values for B and C.
 - **Cuts:** a high total never fails a preset on its own. A dial is cut only for a fun problem it causes: one line winning whatever the player chooses, runaway snowballs in most lobbies, or fights decided before they start. Cuts are made dial by dial, at the outlier.

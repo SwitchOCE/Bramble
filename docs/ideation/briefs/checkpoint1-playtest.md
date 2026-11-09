@@ -6,7 +6,7 @@ For three or more fresh players, each running in their own cloud session. Fill i
 
 Bramble is an auto-battler in the Battlegrounds family. Until now its numbers grew in a straight line: about +13 stats a round, with no big moments. This build turns on mechanics that let power compound: engines that grow, answers to big units, and units that hold their stats. It carries the full pass 3 pool and comes in two variants, both on the generous side (owner, 9 Nov: start too strong and dial back):
 - **B:** about 900 total stats on a typical round-12 board;
-- **C:** B's engine rates doubled, about 1,800.
+- **C:** about twice B's totals, about 1,800.
 
 The owner's bar, in their words:
 - "Does it feel like it has a nice flow?"
