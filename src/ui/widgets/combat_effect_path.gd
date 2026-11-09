@@ -23,15 +23,18 @@ func _point(t: float) -> Vector2:
 func _draw() -> void:
 	draw_circle(from_point, 11, UiTheme.INK)
 	draw_circle(from_point, 7, UiTheme.ACORN)
-	if progress <= 0.01 or from_point.distance_to(to_point) < 2:
+	var distance: float = from_point.distance_to(to_point)
+	if progress <= 0.01 or distance < 2:
+		return
+	# Reveal the route up to the badge rim, keeping the arrow off its numeral.
+	var reach: float = maxf(0, progress - 24.0 / distance)
+	if reach <= 0.01:
 		return
 	var points: PackedVector2Array = [from_point]
 	for index: int in range(1, 25):
-		points.append(_point(progress * index / 24.0))
-	# The arrow stops at the stat's rim so it never crosses its number.
+		points.append(_point(reach * index / 24.0))
 	var direction: Vector2 = (points[-1] - points[-2]).normalized()
-	var tip: Vector2 = points[-1] - direction * 24
-	points[-1] = tip
+	var tip: Vector2 = points[-1]
 	draw_polyline(points, UiTheme.INK, 11, true)
 	draw_polyline(points, colour, 5, true)
 	var cross: Vector2 = direction.orthogonal() * 11
