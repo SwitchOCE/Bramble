@@ -20,6 +20,7 @@ var _screen: Control
 var _snap: bool = false
 var _source: int = -1
 var _hero_source: int = -1
+var _pocket_source: bool = false
 var _active_snap: bool = false
 var _attacker: int = -1
 var _strike_count: int = 1
@@ -108,6 +109,7 @@ func _pulse(node: Control, colour: Color = UiTheme.ACORN) -> void:
 
 ## Called before the screen computes this attack's event and animation span.
 func prepare_attack(event: Dictionary) -> void:
+	_hero_source = -1
 	_attacker = Data.i(event, "attacker", -1)
 	_strike_count = maxi(1, Data.i(event, "strikes", 1))
 	_strike_presented = 1
@@ -263,11 +265,13 @@ func change(event: Dictionary, animate: bool) -> void:
 			_emit("berry", card.health_bead().get_global_rect().get_center(), UiTheme.NIGHTSHADE)
 			_pulse(card.health_bead(), UiTheme.NIGHTSHADE)
 		"stats":
+			_pocket_source = false
 			var sources: Array[int] = []
 			var direct: int = Data.i(event, "source", -1)
 			if _model().units.has(direct):
 				sources.append(direct)
 			for cause: Dictionary in Data.a(event, "causes"):
+				_pocket_source = _pocket_source or Data.s(cause, "name") == "Ring"
 				var emitter: int = Data.i(cause, "source", -1)
 				if _model().units.has(emitter) and not sources.has(emitter):
 					sources.append(emitter)
@@ -300,7 +304,7 @@ func change(event: Dictionary, animate: bool) -> void:
 					mote.set_meta("effect_target_uid", uid)
 					mote.set_meta("effect_stat", stat)
 
-			if sources.is_empty() and _hero_source >= 0:
+			if sources.is_empty() and _hero_source >= 0 and not _pocket_source:
 				_hero_stat_effect(card, event)
 			elif sources.is_empty():
 				# A Ring belongs to this pocket; it is not the preceding hero or unit trigger.
@@ -371,7 +375,7 @@ func _hero_stat_effect(card: CardView, event: Dictionary) -> void:
 
 
 func stat_delay(_uid: int) -> float:
-	return 0.35 if _source >= 0 or _hero_source >= 0 else 0.0
+	return 0.35 if _source >= 0 or _hero_source >= 0 or _pocket_source else 0.0
 
 
 func _unit_point(uid: int) -> Vector2:
