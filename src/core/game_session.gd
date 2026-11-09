@@ -15,6 +15,9 @@ const GAME_OVER: String = "The game is over"
 ## QA hook (tools/checks/soak.gd): called after every fight with
 ## (round, player_id_a, player_id_b, result), where result is Combat.run's dictionary.
 var fight_observer: Callable = Callable()
+## Tools-only capture at the combat boundary, before carry, Health and session event changes.
+## (input, raw_result, combat); RNG strings keep JSON from rounding 64-bit values.
+var fight_capture_observer: Callable = Callable()
 ## QA hook (tools/sim/bench.gd): called after every bot turn with (player, round, microseconds).
 var turn_observer: Callable = Callable()
 ## Optional tools factory; ordinary games use Bot.create. Called after the normal build deal.
@@ -775,7 +778,27 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 		_rules.fight_rules(a), _ghost_rules if b == null else _rules.fight_rules(b)
 	]
 	combat.round_number = _round
+	var captured: Dictionary = {}
+	if fight_capture_observer.is_valid():
+		captured = {
+			"version": 1,
+			"boards": boards.duplicate(true),
+			"slots": slots.duplicate(true),
+			"hero_effects": heroes.duplicate(true),
+			"fight_rules": combat.side_rules.duplicate(true),
+			"tiers": tiers.duplicate(),
+			"player_ids": player_ids.duplicate(),
+			"round": _round,
+			"damage_cap": cap,
+			"config": _config._values.duplicate(true),
+			"rng_seed": str(rng.seed),
+			"rng_state": str(rng.state),
+			"effect_rng_seed": str(combat.effect_rng.seed),
+			"effect_rng_state": str(combat.effect_rng.state),
+		}
 	var result: Dictionary = combat.run(boards, tiers, player_ids, cap)
+	if fight_capture_observer.is_valid():
+		fight_capture_observer.call(captured, result, combat)
 	_apply_round_toll(result, cap)
 	var carried: Array[Dictionary] = result["carry"]
 	for change: Dictionary in carried:

@@ -15,7 +15,8 @@ var _options: Dictionary = {
 	"candidate": "hard",
 	"incumbent": "hard",
 	"trace": "off",
-	"profile": "off"
+	"profile": "off",
+	"capture": "off"
 }
 var _library: UnitLibrary
 var _files: Dictionary = {}
@@ -25,6 +26,8 @@ var _acorn_gold: Dictionary = {}
 var _current_seats: PackedStringArray = []
 var _leg: int = 0
 var _observed_players: Dictionary = {}
+var _capture: Dictionary = {}
+var _game_seed: int = 0
 
 
 func _initialize() -> void:
@@ -101,6 +104,7 @@ func _open_files() -> void:
 
 	if _options["trace"] == "on":
 		_files["trace"] = FileAccess.open(prefix + ".trace.jsonl", FileAccess.WRITE)
+	if _options["trace"] == "on" or _options["capture"] == "on":
 		_files["fight_trace"] = FileAccess.open(prefix + ".fights.jsonl", FileAccess.WRITE)
 
 
@@ -110,6 +114,7 @@ func _play(suite: String, game_seed: int) -> void:
 
 func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	_leg = leg
+	_game_seed = game_seed
 	var seats: PackedStringArray = BenchSuites.seats(
 		suite, game_seed, str(_options["candidate"]), str(_options["incumbent"]), leg
 	)
@@ -127,6 +132,8 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		game_seed, _library, config, BenchSuites.create_bot
 	)
 	session.fight_observer = _on_fight
+	if _files.has("fight_trace"):
+		session.fight_capture_observer = _on_capture
 	session.turn_observer = _on_turn.bind(suite, game_seed)
 	var turns: int = 0
 	while not session.is_over() and turns < MAX_TURNS:
@@ -135,14 +142,38 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	_write_game(suite, game_seed, session, seats)
 
 
+func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
+	_capture = FightCapture.record(input, result, _library, combat)
+	_capture.merge({"seed": _game_seed, "leg": _leg, "suite": _options["suite"]})
+	for side: int in 2:
+		var id: int = CoreUtil.to_int(input["player_ids"][side])
+		var snapshot: Dictionary = _capture["combat_start"][side]
+		if id >= 0:
+			var player: PlayerState = _observed_players[id]
+			var units: Array = snapshot["units"]
+			units.append_array(FightCapture.reserves(player, _library))
+			(
+				snapshot
+				. merge(
+					{
+						"gold_spent_turn": player.gold_spent_turn,
+						"gold_spent_game": player.gold_spent_game,
+						"health": player.health,
+						"armor": player.armor,
+						"last_stand_used": player.last_stand_used,
+						"line": _current_seats[id],
+					}
+				)
+			)
+
+
 func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:
-	if _options["trace"] == "on":
+	if _files.has("fight_trace"):
 		var outcome: Dictionary = result.duplicate()
 		outcome.erase("events")
+		_capture.merge({"round": round_number, "players": [id_a, id_b], "outcome": outcome})
 		var trace: FileAccess = _files["fight_trace"]
-		trace.store_line(
-			JSON.stringify({"round": round_number, "players": [id_a, id_b], "outcome": outcome})
-		)
+		trace.store_line(JSON.stringify(_capture, "", true, true))
 	_fights[id_a] = CoreUtil.to_int(_fights.get(id_a, 0)) + 1
 	_fights[id_b] = CoreUtil.to_int(_fights.get(id_b, 0)) + 1
 	var carried: Array[Dictionary] = result["carry"]
