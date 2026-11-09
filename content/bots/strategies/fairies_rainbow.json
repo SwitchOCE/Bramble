@@ -1,32 +1,41 @@
 {
  "id": "fairies_rainbow",
  "name": "The Rainbow Pot",
- "shape": "economy, then a late board",
+ "shape": "spread Rings and the Court tithe",
  "needs_tribes": [
   "Fairies"
  ],
  "tribes": {
-  "Fairies": 2
+  "Fairies": 4
  },
  "units": {
   "rainbow_chaser": 14,
-  "cluricaun": 12,
-  "queen_of_elfland": 5,
+  "cluricaun": 8,
+  "queen_of_elfland": 14,
   "belladonna": 4,
-  "fairy_monarch": 8
+  "fairy_monarch": 14,
+  "old_moth_annis": 12,
+  "silky": 8,
+  "lob_lie_by_the_fire": 8,
+  "cradle_fetch": 10,
+  "will_o_the_wisp": 10,
+  "sally_spore": 8
  },
  "spells": {
-  "hungry_gap": 1
+  "hungry_gap": 1,
+  "spore_cloud": 6,
+  "boundary_stone": 6,
+  "pinch_of_dust": 1
  },
  "heroes": {
   "dame_farthing": 1
  },
  "curve": [
+  2,
   4,
   6,
   8,
-  10,
-  12
+  10
  ],
- "power": 8
+ "power": 3
 }

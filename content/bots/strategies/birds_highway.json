@@ -1,7 +1,7 @@
 {
  "id": "birds_highway",
  "name": "Highway Robbery",
- "shape": "thieves splashed into a growing hatchery",
+ "shape": "homecoming carry with aimed thieves",
  "needs_tribes": [
   "Birds"
  ],
@@ -9,28 +9,35 @@
   "Birds": 5
  },
  "units": {
-  "tom_tit": 5,
+  "tom_tit": 9,
   "jack_daw": 9,
   "mag_pye": 10,
   "seven_whistlers": 14,
   "redwing": 1,
   "cuckoo": 8,
-  "mr_redbreast": 4,
-  "great_lump": 6,
+  "mr_redbreast": 10,
+  "great_lump": 10,
   "mother_goose": 10,
-  "gabble_ratchet": 12
+  "gabble_ratchet": 12,
+  "mrs_stork": 12,
+  "chiffchaff": 6,
+  "one_swallow": 4,
+  "old_tern": 4,
+  "mrs_jay": 5
  },
  "fly": {
-  "jack_daw": -2
+  "mother_goose": 6,
+  "chiffchaff": 3,
+  "mrs_jay": 2
  },
  "curve": [
-  4,
+  3,
+  5,
   7,
-  9,
-  12,
-  14
+  10,
+  12
  ],
- "power": 8,
+ "power": 3,
  "spells": {
   "bread_from_the_back": 3,
   "stand_behind_me": 3,

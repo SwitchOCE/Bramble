@@ -194,8 +194,11 @@ static func _fill_keyword_text(units: Array[Dictionary]) -> void:
 		var note: String = _note_of(unit)
 		var keywords: Array = unit.get("keywords", [])
 		var reminders: Dictionary = EffectSchema.section("keywords")
+		var overrides: Dictionary = unit.get("keyword_text_overrides", {})
 		for keyword: Variant in keywords:
-			if unit.has("set") and reminders.has(keyword):
+			if overrides.has(keyword):
+				entries.append({"keyword": str(keyword), "text": str(overrides[keyword])})
+			elif unit.has("set") and reminders.has(keyword):
 				entries.append({"keyword": str(keyword), "text": str(reminders[keyword])})
 			elif note != "":
 				entries.append({"keyword": str(keyword), "text": note})

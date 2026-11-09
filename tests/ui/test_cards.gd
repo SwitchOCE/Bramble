@@ -36,6 +36,13 @@ func _port() -> CorePort:
 	return port
 
 
+func _legacy_port() -> CorePort:
+	var port: CorePort = _port()
+	port.library = LegacyWave1.library()
+	port.config.set_value("pass3_content", false)
+	return port
+
+
 func _holder() -> Control:
 	var holder: Control = Control.new()
 	holder.theme = UiTheme.get_theme()
@@ -254,7 +261,7 @@ func _fighters() -> Array:
 
 
 func test_a_real_fights_log_reads_in_plain_words() -> void:
-	var port: CorePort = _port()
+	var port: CorePort = _legacy_port()
 	var events: Array = Data.a(_sandbox_fight(port, _fighters()), "events")
 	assert_gt(events.size(), 5)
 	var words: CombatLog = CombatLog.new()
@@ -303,7 +310,7 @@ func test_a_real_fight_plays_through_with_motion_turned_down() -> void:
 
 
 func test_hex_shows_on_the_slot_it_lands_on_in_the_fight_and_not_on_a_recruit_unit() -> void:
-	var port: CorePort = _port()
+	var port: CorePort = _legacy_port()
 	var screen: CombatScreen = _combat(_sandbox_fight(port, _fighters()))
 	screen.skip_to_end()
 	var marks: Control = screen.board_for_side(1).get("_marks")

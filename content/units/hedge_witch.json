@@ -4,24 +4,21 @@
   "set": "slice",
   "tier": 1,
   "attack": 1,
-  "health": 2,
+  "health": 3,
   "tribes": [
     "Fairies"
   ],
-  "text": "Hex 1. Each spell you cast adds 1, up to your tier.",
-  "golden_text": "Hex 2. Each spell you cast adds 2, up to your tier + 2.",
-  "details": "Hex is capped at your tier. Spells past the cap still count.",
-  "golden_details": "Hex is capped at your tier + 2. Spells past the cap still count.",
+  "text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+  "golden_text": "Start of Combat: the enemy across loses Attack equal to twice this slot's Ring.",
   "mechanics": [
     {
-      "id": "hex",
-      "n": 1,
-      "most": "tier",
-      "golden_most": "tier_plus_2"
+      "id": "pass3_fairy",
+      "ability": "witch",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Hex"
+    "Ring"
   ],
   "row_hint": null,
   "pool": true,
@@ -29,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Uses this slot's total Ring Attack, down to 0 Attack. A Fetch copying this reads its own slot."
 }

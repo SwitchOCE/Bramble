@@ -3,24 +3,23 @@
   "name": "Cluricaun",
   "set": "slice",
   "tier": 3,
-  "attack": 2,
-  "health": 3,
+  "attack": 3,
+  "health": 5,
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. Your units on painted slots have +1 Attack.",
-  "golden_text": "Rainbow. Your units on painted slots have +2 Attack.",
+  "text": "After you Tier up: if every slot has a Ring, your Rings grow +0.25/+0.25.",
+  "golden_text": "After you Tier up: if every slot has a Ring, your Rings grow +0.5/+0.5.",
   "mechanics": [
     {
-      "id": "rainbow_paint"
-    },
-    {
-      "id": "band_attack",
-      "attack": 1
+      "id": "pass3_fairy",
+      "ability": "cluricaun",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Rainbow"
+    "Ring",
+    "Ring size"
   ],
   "row_hint": null,
   "pool": true,
@@ -28,6 +27,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Empty slots count. Copies grow once per tier-up, using the strongest copy; a golden copy grows twice as much."
 }

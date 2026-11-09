@@ -5,7 +5,7 @@ extends RefCounted
 
 ## Only an aimed spell thanks Shy. Price its gold and Silky's capped Ring against the lost body.
 static func shy_departure_value(
-	unit: RecruitUnit, player: PlayerState, keep: float = -1.0
+	unit: RecruitUnit, player: PlayerState, keep: float = -1.0, config: GameConfig = null
 ) -> float:
 	var slot: int = player.board.find(unit)
 	if slot < 0:
@@ -15,6 +15,8 @@ static func shy_departure_value(
 		keep = (
 			unit.attack + unit.health + CoreUtil.to_int(hint.get("keep", 0)) * unit.golden_factor()
 		)
+	if BotPass3.active(player):
+		return _pass3_departure_value(unit, player, keep, config)
 	var credit: float = unit.mechanic_number("shy", "gold") * BotEval.GOLD_POINTS
 	var rings: int = 0
 	for silky: RecruitUnit in player.board:
@@ -201,3 +203,28 @@ static func _recruits(player: PlayerState, layout: Array[int]) -> Array[RecruitU
 	for source: int in layout:
 		out.append(player.board[source] if source >= 0 else null)
 	return out
+
+
+static func _pass3_departure_value(
+	unit: RecruitUnit, player: PlayerState, keep: float, config: GameConfig
+) -> float:
+	if config == null:
+		config = GameConfig.defaults()
+	var growth: float = 0.0
+	if unit.def_id() == "lob_lie_by_the_fire":
+		var age: int = CoreUtil.to_int(unit.counters.get("pass3_turns_stayed", 0))
+		growth += (
+			floorf(age / maxf(1.0, Pass3Rates.number(config, "fairies_lob_turns")))
+			* Pass3Rates.number(config, "fairies_lob_growth")
+			* unit.golden_factor()
+		)
+	var silky_factor: int = 0
+	for source: RecruitUnit in player.board:
+		if source != null and source.def_id() == "silky":
+			silky_factor = maxi(silky_factor, source.golden_factor())
+	growth += silky_factor * Pass3Rates.number(config, "fairies_silky_growth")
+	return (
+		unit.mechanic_number("shy", "gold") * BotEval.GOLD_POINTS
+		+ 2.0 * BotPass3.ring_total(player) * growth
+		- keep
+	)

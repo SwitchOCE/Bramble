@@ -1,16 +1,24 @@
 extends GutTest
+## These 72 archived boards describe the pre-pass-3 pool and retain its card definitions.
 @warning_ignore_start("unsafe_call_argument")
 
 const Boards := preload("res://tools/sim/benchmark_boards.gd")
 const Tournament := preload("res://tools/sim/benchmark_tournament.gd")
+const LEGACY := preload("res://tests/core/legacy_wave1.gd")
 
 var _library: UnitLibrary
 var _loaded: Dictionary
 
 
 func before_all() -> void:
-	_library = UnitLibrary.load_dir()
+	_library = LEGACY.library()
 	_loaded = Boards.load_all(_library)
+
+
+func _legacy_config() -> GameConfig:
+	var config := GameConfig.full_game()
+	config.set_value("pass3_content", false)
+	return config
 
 
 func _find(tribe: String, round_number: int, roll: String) -> Dictionary:
@@ -55,7 +63,7 @@ func _u(id: String, attack: int, health: int, golden: bool = false) -> Dictionar
 func _combat_before_start(left: Dictionary, right: Dictionary) -> Combat:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 1
-	var combat := Combat.create(_library, GameConfig.full_game(), rng)
+	var combat := Combat.create(_library, _legacy_config(), rng)
 	combat.side_rules = [left["rules"], right["rules"]]
 	combat.slot_effects = [left["slot_effects"], right["slot_effects"]]
 	combat._slots_active = BoardUpkeep.any_slot_effects(combat.slot_effects)
@@ -88,9 +96,7 @@ func test_slot_labels_keep_holes_and_reading_order() -> void:
 func test_every_supplied_stat_is_exact_before_start_of_combat() -> void:
 	var empty: Dictionary = _translated({})
 	for board: Dictionary in _loaded["boards"]:
-		var result: Dictionary = Tournament.fight(
-			_library, GameConfig.full_game(), board, empty, 7, true
-		)
+		var result: Dictionary = Tournament.fight(_library, _legacy_config(), board, empty, 7, true)
 		var events: Array[Dictionary] = result["events"]
 		var start: Dictionary = events[0]
 		assert_eq(start["type"], "combat_start")
@@ -148,9 +154,7 @@ func test_hex_annotation_means_total_not_counter_growth() -> void:
 	var spec: Dictionary = board["specs"][3]
 	assert_eq(spec["hex"], 5, "printed Hex 1 plus growth 5 is annotated Hex 6")
 	var enemy: Dictionary = _translated({"F4": _u("field_vole", 20, 100)})
-	var result: Dictionary = Tournament.fight(
-		_library, GameConfig.full_game(), board, enemy, 1, true
-	)
+	var result: Dictionary = Tournament.fight(_library, _legacy_config(), board, enemy, 1, true)
 	var events: Array[Dictionary] = result["events"]
 	var found: bool = false
 	for event: Dictionary in events:
@@ -303,7 +307,7 @@ func test_real_combat_both_orientations_preserves_inputs_and_repeats_seed() -> v
 	var strong: Dictionary = _translated({"F1": _u("field_vole", 100, 100)})
 	var weak: Dictionary = _translated({"F1": _u("field_vole", 1, 1)})
 	var before: Dictionary = strong.duplicate(true)
-	var config: GameConfig = GameConfig.full_game()
+	var config: GameConfig = _legacy_config()
 	var left: Dictionary = Tournament.fight(_library, config, strong, weak, 31)
 	var right: Dictionary = Tournament.fight(_library, config, weak, strong, 31)
 	assert_eq(left["winner"], 0)

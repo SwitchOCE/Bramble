@@ -3,17 +3,18 @@
   "name": "The Seven Whistlers",
   "set": "slice",
   "tier": 6,
-  "attack": 5,
-  "health": 7,
+  "attack": 7,
+  "health": 9,
   "tribes": [
     "Birds"
   ],
-  "text": "Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -1/-1.",
-  "golden_text": "Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -2/-2.",
+  "text": "Start of Combat: halve the enemy across. With seven different Birds, halve every enemy.",
+  "golden_text": "Start of Combat: halve the enemy across twice. With seven different Birds, halve every enemy twice.",
   "mechanics": [
     {
-      "id": "whistlers",
-      "stats": 1
+      "id": "pass3_bird",
+      "ability": "whistlers",
+      "factor": 1
     }
   ],
   "keywords": [],
@@ -23,8 +24,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Up to -3/-3. Eggs are not Birds.",
-  "golden_details": "Up to -6/-6. Eggs are not Birds."
+  "details": "Counts different Bird card names on your board. Each stat rounds up after halving; Eggs do not count."
 }

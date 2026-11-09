@@ -37,7 +37,12 @@ func _profile_keep_value(unit: RecruitUnit) -> float:
 	var factor: float = 2.0 if unit.golden else 1.0
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
-		if unit.def_id() == "charcoal_burner" and board_owner != null:
+		var pass3_text: float = (
+			BotPass3.text_value(unit, board_owner, self) if board_owner != null else -1.0
+		)
+		if pass3_text >= 0.0:
+			total += pass3_text
+		elif unit.def_id() == "charcoal_burner" and board_owner != null:
 			total += BotBurner.owned_value(unit, board_owner)
 		elif unit.has_mechanic_id("back_row_immunity") and board_owner != null:
 			total += BotContent5.owl_value(unit, board_owner)
@@ -66,7 +71,10 @@ func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 func _profile_buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
-		if unit.def_id() == "lamp_moth":
+		var pass3_text: float = BotPass3.text_value(unit, player, self)
+		if pass3_text >= 0.0:
+			total += pass3_text
+		elif unit.def_id() == "lamp_moth":
 			total += BotContent5.lamp_value(unit, player)
 		elif unit.def_id() == "charcoal_burner":
 			total += BotBurner.purchase_value(unit, player, cost)

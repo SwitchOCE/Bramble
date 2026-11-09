@@ -3,25 +3,22 @@
   "name": "Rainbow Chaser",
   "set": "slice",
   "tier": 1,
-  "attack": 1,
+  "attack": 2,
   "health": 2,
   "tribes": [
     "Fairies"
   ],
-  "text": "Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2 painted slots, +2 for all seven.",
-  "golden_text": "Rainbow. +2/+2 per 2 painted slots. When sold: wipe paint for 2 gold per 2 painted slots, +4 for all seven.",
+  "text": "When sold: get 1 gold per slot with a Ring.",
+  "golden_text": "When sold: get 2 gold per slot with a Ring.",
   "mechanics": [
     {
-      "id": "rainbow",
-      "gold": 1,
-      "stats": 1,
-      "finish": 2,
-      "stats_every": 2,
-      "gold_every": 2
+      "id": "pass3_fairy",
+      "ability": "chaser",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Rainbow"
+    "Ring"
   ],
   "row_hint": null,
   "pool": true,
@@ -29,7 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Round down."
+  "details": "Counts all seven slots, empty or occupied."
 }

@@ -3,24 +3,22 @@
   "name": "The Cuckoo",
   "set": "slice",
   "tier": 4,
-  "attack": 3,
-  "health": 6,
+  "attack": 4,
+  "health": 7,
   "tribes": [
     "Birds"
   ],
-  "text": "Birds flying from beside this stay away a turn longer. End of Turn: Birds away with Nests beside this gain +2/+2.",
-  "golden_text": "Birds flying from beside this stay away two turns longer. End of Turn: Birds away with Nests beside this gain +4/+4.",
-  "details": "Each Cuckoo beside the departing Bird extends its trip once. Growth is permanent and comes home with the Bird.",
+  "text": "After a Bird comes home: other Birds gain a tenth of its stats.",
+  "golden_text": "After a Bird comes home: other Birds gain a fifth of its stats.",
   "mechanics": [
     {
-      "id": "cuckoo",
-      "turns": 1,
-      "attack": 2,
-      "health": 2
+      "id": "pass3_bird",
+      "ability": "cuckoo",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Nest"
+    "Fly South"
   ],
   "row_hint": null,
   "pool": true,
@@ -28,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
-  }
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Other Birds means Birds on your board, except the returning Bird. Fractions round up; copies trigger separately."
 }

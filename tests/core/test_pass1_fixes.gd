@@ -10,14 +10,14 @@ var _kit: K
 
 func before_each() -> void:
 	_kit = K.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_kit.rules.start_phase(_kit.player, 1)
 
 
 func test_chaser_seven_slots_caps_body_and_halves_sale_for_both_sizes() -> void:
 	for golden: bool in [false, true]:
 		var kit := K.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		var chaser: RecruitUnit = kit.play("rainbow_chaser", 0, golden)
 		for slot: int in range(1, 7):
 			kit.play("pill_bug", slot)
@@ -235,7 +235,7 @@ func test_take_growth_survives_a_simultaneous_trade_for_nip_and_lutra() -> void:
 	for id: String in ["little_nip", "old_lutra"]:
 		for golden: bool in [false, true]:
 			var kit := K.new()
-			kit.setup(GameConfig.full_game())
+			kit.setup(GameConfig.full_game(), true)
 			var own_slot: int = 4 if id == "old_lutra" else 0
 			var hunter: RecruitUnit = kit.put(id, own_slot, golden)
 			var result: Dictionary = kit.fight_board(
@@ -257,7 +257,7 @@ func test_take_growth_survives_a_simultaneous_trade_for_nip_and_lutra() -> void:
 func test_hex_view_tracks_real_tier_actions_without_an_extra_board_refresh() -> void:
 	for golden: bool in [false, true]:
 		var kit := K.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		kit.rules.start_phase(kit.player, 1)
 		var witch: RecruitUnit = kit.put("hedge_witch", 0, golden)
 		witch.counters["hex"] = 12

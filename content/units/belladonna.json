@@ -8,65 +8,13 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: give the enemy across Nightshade. From the back row, the 2 across from the slots in front of this instead.",
-  "golden_text": "Start of Combat: give the enemy across Nightshade. From the back row, also the 2 across from the slots in front of this.",
+  "text": "Start of Combat: give the enemy across Nightshade.",
+  "golden_text": "Start of Combat: give the enemy across and the units beside it Nightshade.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "nightshade",
-      "if": [
-        {
-          "kind": "in_row",
-          "row": "back"
-        }
-      ],
-      "do": {
-        "effect": "status",
-        "status": "nightshade",
-        "target": {
-          "select": "facing"
-        }
-      }
-    },
-    {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "nightshade_across",
-      "if": [
-        {
-          "kind": "in_row",
-          "row": "front"
-        }
-      ],
-      "do": {
-        "effect": "status",
-        "status": "nightshade",
-        "target": {
-          "select": "across"
-        }
-      }
-    },
-    {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "nightshade_golden",
-      "if": [
-        {
-          "kind": "golden"
-        },
-        {
-          "kind": "in_row",
-          "row": "back"
-        }
-      ],
-      "do": {
-        "effect": "status",
-        "status": "nightshade",
-        "target": {
-          "select": "across"
-        }
-      }
+      "id": "pass3_fairy",
+      "ability": "belladonna",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -78,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Beside means adjacent in the same row. Nightshade is Health loss, so Shield does not stop it."
 }

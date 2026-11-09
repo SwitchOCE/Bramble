@@ -119,8 +119,18 @@ func view() -> Dictionary:
 		"played_round": played_round,
 		"plain_copy": plain_copy,
 		"poached": poached_discount > 0,
+		"egged": CoreUtil.to_bool(counters.get("egged", false)),
+		"pass3_content": has_mechanic_id("pass3_bird") or has_mechanic_id("pass3_fairy"),
 	}
 
+	if Pass3Birds.ability(self, "lump"):
+		var rates: Dictionary = get_meta("pass3_rates", def.get("pass3_rates", {}))
+		out["nest_multiplier"] = (
+			CoreUtil.to_float(rates.get("birds_lump_multiplier", 1.0)) * golden_factor()
+		)
+	if Pass3Birds.ability(self, "stork"):
+		out["stork_count"] = CoreUtil.to_int(counters.get("stork", 0))
+		out["stork_goal"] = CoreUtil.to_int(counters.get("stork_goal", 6))
 	var percent: int = hex_percent_amount(false)
 	if percent > 0:
 		out["hex_percent_amount"] = mini(100, percent)
@@ -152,7 +162,14 @@ func mechanic_number(mechanic_id: String, key: String) -> int:
 
 ## Base trip length, before neighbouring Cuckoos extend a flight.
 func flight_turns() -> int:
-	if golden and has_mechanic_id("old_tern"):
+	if has_mechanic_id("pass3_bird") and has_mechanic_id("fly_south"):
+		var rates: Dictionary = get_meta("pass3_rates", def.get("pass3_rates", {}))
+		if def_id() == "one_swallow":
+			return CoreUtil.to_int(rates.get("birds_swallow_trip_turns", 1))
+		if golden and Pass3Birds.ability(self, "old_tern"):
+			return CoreUtil.to_int(rates.get("birds_golden_tern_trip_turns", 1))
+		return CoreUtil.to_int(rates.get("birds_trip_turns", 2))
+	if golden and (has_mechanic_id("old_tern") or Pass3Birds.ability(self, "old_tern")):
 		return 1
 	return mechanic_number("fly_south", "turns")
 
@@ -280,6 +297,16 @@ static func _fragment_matches(fragment: Dictionary, entry: Dictionary) -> bool:
 static func _can_lend(entry: Dictionary) -> bool:
 	const NEVER: PackedStringArray = ["belly", "belly_discount", "fly_south", "shy", "borrows_text"]
 	const NOT_TRIGGERS: PackedStringArray = ["on_play", "on_sell", "on_home"]
+	if (
+		str(entry.get("id", "")) == "pass3_bird"
+		and str(entry.get("ability", "")) in ["swallow", "chiffchaff", "jay", "goose", "old_tern"]
+	):
+		return false
+	if (
+		str(entry.get("id", "")) == "pass3_fairy"
+		and str(entry.get("ability", "")) in ["nan", "chaser"]
+	):
+		return false
 	return (
 		not NEVER.has(str(entry.get("id", "")))
 		and not NOT_TRIGGERS.has(str(entry.get("trigger", "")))

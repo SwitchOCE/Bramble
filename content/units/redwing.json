@@ -8,20 +8,16 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. Eggs beside this have their Bird's full stats.",
-  "golden_text": "Fly South. Eggs beside this have their Bird's full stats, +2/+2.",
+  "text": "Your two biggest Birds away leave Eggs with half their stats.",
+  "golden_text": "Your four biggest Birds away leave Eggs with half their stats.",
   "mechanics": [
     {
-      "id": "fly_south",
-      "turns": 2
-    },
-    {
-      "id": "redwing",
+      "id": "pass3_bird",
+      "ability": "redwing",
       "factor": 1
     }
   ],
   "keywords": [
-    "Fly South",
     "Egg"
   ],
   "row_hint": null,
@@ -30,15 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md",
-    "note": "Support factor 1 means the full Bird body; golden factor 2 also adds +2/+2."
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Uses current stats, even for Mother Goose. Only the strongest Redwing applies.",
-  "mechanic_text": {
-    "1": {
-      "id": "redwing",
-      "text": "Eggs beside this have their Bird's full stats.",
-      "golden_text": "Eggs beside this have their Bird's full stats, +2/+2."
-    }
-  }
+  "details": "Uses the Birds' permanent stats, rounded up. Only while Redwing lives; multiple copies use the strongest aura."
 }

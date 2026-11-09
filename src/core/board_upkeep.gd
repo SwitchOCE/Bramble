@@ -21,6 +21,9 @@ static func settle(_rules: RecruitRules, player: PlayerState) -> void:
 
 ## A slot holds one Ring; a new one adds to it. Rings stay for the rest of the game.
 static func add_ring(player: PlayerState, slot: int, step: Dictionary) -> void:
+	if player.pass3_fairies:
+		Pass3Fairies.add_ring(player, slot, step)
+		return
 	var effects: Array = player.slot_effects[slot]
 	var added: Vector2i = ring_room(
 		effects,

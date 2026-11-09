@@ -1,5 +1,6 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+## Frozen pass 2 design regression; current pool rules are tested in test_pass3_*.
 ## The slice's Fairies (docs/ideation/content/SLICE.md, fairies.md): each card's text.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -19,7 +20,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)

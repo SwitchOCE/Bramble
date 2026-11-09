@@ -10,7 +10,7 @@ var _kit: Kit
 
 func before_each() -> void:
 	_kit = Kit.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_kit.rules.start_phase(_kit.player, 1)
 
 

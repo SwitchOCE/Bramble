@@ -223,6 +223,7 @@ func render() -> void:
 		Data.i(RecruitView.ghost_owner(state), "player_id", -9)
 	)
 	_tribes.show_bonuses(Data.a(state, "lobby_tribes"), Data.d(state, "tribe_bonuses"))
+	_tribes.show_engine(state)
 	_layout()
 	_render_shop(frozen)
 	_render_board()

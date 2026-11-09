@@ -9,11 +9,15 @@ var _library: UnitLibrary = UnitLibrary.load_dir()
 func test_copies_by_tier_5_1_2() -> void:
 	var pool: UnitPool = UnitPool.create(_library, GameConfig.defaults())
 	assert_eq(pool.copies_left("dewdrop_ooze"), 15, "tier 1")
-	assert_eq(pool.copies_left("fieldfare"), 15, "tier 2")
+	assert_eq(pool.copies_left("hoglet_mother"), 15, "tier 2")
 	assert_eq(pool.copies_left("wood_mouse_guard"), 13, "tier 3")
 	assert_eq(pool.copies_left("stoat_captain"), 11, "tier 4")
-	assert_eq(pool.copies_left("fairy_knight"), 9, "tier 5")
-	assert_eq(pool.copies_left("old_crane"), 7, "tier 6")
+	assert_eq(pool.copies_left("great_ooze"), 9, "tier 5")
+	var slice_config := GameConfig.defaults()
+	slice_config.set_value("pool_filter", "slice")
+	var slice_pool := UnitPool.create(_library, slice_config)
+	assert_eq(slice_pool.copies_left("fairy_monarch"), 7, "tier 6")
+	assert_eq(pool.copies_left("old_crane"), 0, "retired prototype")
 	assert_false(pool.has_unit("hoglet"), "tokens are never in the pool (5.3.6)")
 
 
@@ -53,8 +57,8 @@ func test_skeleton_filter_10() -> void:
 	var pool: UnitPool = UnitPool.create(_library, config)
 	assert_eq(
 		pool.total_copies(),
-		15 + 15 + 13 + 11 + 9,
-		"legacy plain tiers 1-5; Elder Ooze moved to the live slice"
+		15 + 13 + 11,
+		"remaining prototype skeleton cards; the Bird and Fairy bodies retired"
 	)
 
 

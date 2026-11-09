@@ -8,17 +8,17 @@
   "tribes": [
     "Birds"
   ],
-  "text": "End of Turn: a Bird whose Nest is beside this comes home a turn sooner.",
-  "golden_text": "End of Turn: a Bird whose Nest is beside this comes home two turns sooner.",
-  "details": "Never sooner than next turn. Chooses the first eligible Nest beside this, left to right.",
+  "text": "End of Turn: your biggest Bird away comes home a turn sooner.",
+  "golden_text": "End of Turn: your two biggest Birds away come home a turn sooner.",
   "mechanics": [
     {
-      "id": "dunnock",
-      "turns": 1
+      "id": "pass3_bird",
+      "ability": "dunnock",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Nest"
+    "Fly South"
   ],
   "row_hint": null,
   "pool": true,
@@ -26,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
-  }
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Only Birds with at least 2 turns left qualify. Extra triggers never shorten a trip again that turn."
 }

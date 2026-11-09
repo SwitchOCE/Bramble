@@ -23,6 +23,7 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 		var sources: Dictionary = contributions.get(unit.uid, {})
 		var bonus: Vector2i = from_others.get(unit.uid, Vector2i.ZERO)
 		if unit.def_id() == HeldUnits.EGG:
+			bonus += Pass3BirdCombat.egg_bonus(combat, unit)
 			var egg: Vector2i = RedwingAura.egg_aura(combat, unit)
 			bonus += egg
 			if combat.log_events:
@@ -65,6 +66,7 @@ static func recalc(combat: Combat, log_changes: bool) -> void:
 				"",
 				changes
 			)
+	Pass3BirdCombat.sync_protection(combat)
 
 
 static func _record(

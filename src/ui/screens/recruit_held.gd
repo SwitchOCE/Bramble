@@ -3,6 +3,7 @@ extends RefCounted
 ## dict, so tests need no screen.
 
 const Data := preload("res://src/ui/view_data.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 
@@ -68,7 +69,8 @@ static func sell_note(unit: Dictionary, round_number: int) -> String:
 	match sell_word(unit, round_number):
 		"Fly south":
 			return (
-				"Flies for no sale gold. It comes home in %d turns." % Data.i(unit, "fly_south", 2)
+				"Flies for no sale gold. It comes home in %s."
+				% _turns(Data.i(unit, "fly_south", 2))
 			)
 		"Sell for good":
 			if Data.b(unit, "plain_copy", false):
@@ -87,11 +89,17 @@ static func with_nests(marks: Array, away: Array) -> Array:
 			mark["nest"] = true
 			mark["nest_left"] = Data.i(bird, "turns_left", 0)
 			mark["nest_name"] = Data.s(bird, "name")
+			mark["pass3_content"] = Data.b(bird, "pass3_content")
 			mark["bird_attack"] = Data.i(bird, "attack")
 			mark["bird_health"] = Data.i(bird, "health", 2)
-			var attack: int = Data.i(bird, "egg_attack", ceili(Data.i(bird, "attack") / 2.0))
-			var health: int = Data.i(bird, "egg_health", ceili(Data.i(bird, "health", 2) / 2.0))
-			# Rings belong to the Egg's slot, after the away Bird's stats have been halved.
+			var pass3: bool = Data.b(bird, "pass3_content")
+			var attack: int = Data.i(
+				bird, "egg_attack", 0 if pass3 else ceili(Data.i(bird, "attack") / 2.0)
+			)
+			var health: int = Data.i(
+				bird, "egg_health", 1 if pass3 else ceili(Data.i(bird, "health", 2) / 2.0)
+			)
+			# Rings belong to the Egg's slot, after its own body is determined.
 			mark["egg_attack"] = maxi(0, attack + Data.i(mark, "slot_attack"))
 			mark["egg_health"] = maxi(1, health + Data.i(mark, "slot_health"))
 	return marks
@@ -130,11 +138,13 @@ static func lump_preview(unit: Dictionary, mark: Dictionary) -> Dictionary:
 	var out: Dictionary = unit.duplicate(true)
 	var layers: Dictionary = Data.d(unit, "stat_layers")
 	var factor: int = 2 if Data.b(unit, "golden") else 1
+	var share: float = Data.f(
+		unit, "nest_multiplier", float(factor) if Data.b(unit, "pass3_content") else factor / 2.0
+	)
 	var bonus := Vector2i.ZERO
 	if Data.b(mark, "nest"):
 		bonus = Vector2i(
-			ceili(Data.i(mark, "bird_attack") * factor / 2.0),
-			ceili(Data.i(mark, "bird_health") * factor / 2.0)
+			ceili(Data.i(mark, "bird_attack") * share), ceili(Data.i(mark, "bird_health") * share)
 		)
 	out["attack"] = maxi(
 		0,
@@ -172,7 +182,11 @@ static func nest_note(mark: Dictionary) -> String:
 	if not Data.b(mark, "nest", false):
 		return ""
 	var left: int = Data.i(mark, "nest_left", -1)
-	var egg: String = "An empty Nest holds an Egg with half the Bird's stats."
+	var egg: String = (
+		"An empty Nest holds a 0/1 Egg."
+		if Data.b(mark, "pass3_content")
+		else "An empty Nest holds an Egg with half the Bird's stats."
+	)
 	if mark.has("egg_attack"):
 		egg = (
 			"Empty, a %d/%d Egg fights here."
@@ -192,10 +206,21 @@ static func sky_card(state: Dictionary) -> Dictionary:
 		var bird: Dictionary = value
 		var slot: int = Data.i(bird, "nest", -1)
 		var where: String = " (Nest on %s)" % SLOT_NAMES[slot] if slot >= 0 else ""
+		var landing: String = ""
+		if bird.has("home_attack") and bird.has("home_health"):
+			landing = (
+				" · %s/%s → %s/%s"
+				% [
+					StatNumbers.compact(Data.i(bird, "attack")),
+					StatNumbers.compact(Data.i(bird, "health")),
+					StatNumbers.compact(Data.i(bird, "home_attack")),
+					StatNumbers.compact(Data.i(bird, "home_health")),
+				]
+			)
 		lines.append(
 			(
-				"%s: home in %s%s."
-				% [Data.s(bird, "name"), _turns(Data.i(bird, "turns_left", 0)), where]
+				"%s: home in %s%s%s."
+				% [Data.s(bird, "name"), _turns(Data.i(bird, "turns_left", 0)), landing, where]
 			)
 		)
 	for value: Variant in Data.a(state, "doorstep"):

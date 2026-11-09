@@ -3,20 +3,25 @@
   "name": "The Great Lump",
   "set": "slice",
   "tier": 5,
-  "attack": 3,
-  "health": 5,
+  "attack": 5,
+  "health": 8,
   "tribes": [
     "Birds"
   ],
-  "text": "On a Nest, this also has half its Bird's current stats.",
-  "golden_text": "On a Nest, this also has its Bird's full current stats.",
+  "text": "Cleave. On a Nest, this has its Bird's stats too.",
+  "golden_text": "Cleave. On a Nest, this has twice its Bird's stats too.",
   "mechanics": [
     {
-      "id": "lump",
+      "id": "cleave"
+    },
+    {
+      "id": "pass3_bird",
+      "ability": "lump",
       "factor": 1
     }
   ],
   "keywords": [
+    "Cleave",
     "Nest"
   ],
   "row_hint": null,
@@ -25,8 +30,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Rounds each stat up, before Egg auras. Loses the borrowed stats when its Bird comes home.",
-  "golden_details": "Borrows twice as much: its Bird's full stats, before Egg auras. Loses them when its Bird comes home."
+  "details": "Borrows permanent stats while that Bird is away. The shop shows the borrowed stats; they disappear when the Bird comes home."
 }

@@ -153,7 +153,9 @@ func test_overlay_text_keeps_active_limits_and_drops_only_disabled_rules() -> vo
 			assert_string_contains(
 				library.get_unit("granny_stir_up")["golden_text"], "twice their Attack"
 			)
-			assert_string_contains(library.get_unit("gabble_ratchet")["details"], "once per Nest")
+			assert_string_contains(
+				str(library.get_unit("gabble_ratchet")["details"]).to_lower(), "once per nest"
+			)
 	assert_string_contains(source.get_unit("bridge_toad")["text"], "up to")
 
 

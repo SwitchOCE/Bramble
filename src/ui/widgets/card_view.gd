@@ -67,6 +67,11 @@ const RULE_TAGS: Dictionary[String, String] = {
 	"^spells you aim at this": "Spell echo",
 	"^when a spell gives": "Spells inside",
 	"^after a unit on a ring attacks": "Ring dance",
+	"^after a bird comes home": "Homecoming",
+	"^when this comes home": "Homecoming",
+	"^your (two|four) biggest birds away": "Eggs grow",
+	"^your (biggest|two biggest) other birds?": "Bird guard",
+	"^after you tier up": "On tier-up",
 	"^after one of your hunters makes a take": "Take growth",
 	"get (\\d+) acorns?": "$1 Acorns",
 	"^acorns played on this": "Acorns",
@@ -728,7 +733,7 @@ func _tile_box(fill: Color, line: Color, width: int) -> StyleBoxFlat:
 func _draw() -> void:
 	var rect: Rect2 = Rect2(Vector2.ZERO, card_size)
 	var golden: bool = Data.b(unit, "golden", false)
-	if golden:
+	if golden or Data.b(unit, "egged"):
 		draw_style_box(_tile_box(Color(UiTheme.GILT, 0.55), Color.TRANSPARENT, 0), rect.grow(12))
 	if frost:
 		draw_style_box(_tile_box(UiTheme.RIME, Color.TRANSPARENT, 0), rect.grow(17))

@@ -14,6 +14,17 @@ static func i(source: Dictionary, key: String, default: int = 0) -> int:
 	return default
 
 
+static func f(source: Dictionary, key: String, default: float = 0.0) -> float:
+	var value: Variant = source.get(key, default)
+	if value is float:
+		var number: float = value
+		return number
+	if value is int:
+		var integer: int = value
+		return float(integer)
+	return default
+
+
 static func s(source: Dictionary, key: String, default: String = "") -> String:
 	var value: Variant = source.get(key, default)
 	return default if value == null else str(value)

@@ -3,35 +3,31 @@
   "name": "Mrs Stork",
   "set": "slice",
   "tier": 4,
-  "attack": 3,
-  "health": 6,
+  "attack": 4,
+  "health": 7,
   "tribes": [
     "Birds"
   ],
-  "text": "Every 6 gold you spend: the Bird away longest comes home, if it has missed a fight.",
-  "golden_text": "Every 6 gold you spend: the two Birds away longest come home, if they have missed a fight.",
-  "details": "A tie goes to the leftmost Nest.",
+  "text": "Every 6 gold you spend: a Bird that missed a fight comes home.",
+  "golden_text": "Every 6 gold you spend: two Birds that missed a fight come home.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "on_gold_spent",
-      "name": "stork",
-      "every": 6,
-      "count_amount": true,
-      "do": {
-        "effect": "bring_home",
-        "count": 1
-      }
+      "id": "pass3_bird",
+      "ability": "stork",
+      "factor": 1
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Fly South"
+  ],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
-  }
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "The count carries between turns. Calls the eligible Bird away longest; ties choose the biggest, then reading order."
 }

@@ -4,40 +4,28 @@
   "set": "slice",
   "tier": 3,
   "attack": 3,
-  "health": 3,
+  "health": 4,
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. Start of Combat: steal 2 Attack from the enemy across.",
-  "golden_text": "Fly South. Start of Combat: steal 4 Attack from the enemy across.",
-  "details": "The steal lasts the fight. With nothing across, nothing happens. An enemy cannot go below 0 Attack.",
+  "text": "Start of Combat: your biggest Bird permanently steals a quarter of the stats of the enemy across.",
+  "golden_text": "Start of Combat: your biggest Bird permanently steals half the stats of the enemy across.",
   "mechanics": [
     {
-      "id": "fly_south",
-      "turns": 2
-    },
-    {
-      "id": "jack_daw",
-      "attack": 2
+      "id": "pass3_bird",
+      "ability": "jack_daw",
+      "factor": 1
     }
   ],
-  "keywords": [
-    "Fly South"
-  ],
+  "keywords": [],
   "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "mechanic_text": {
-    "1": {
-      "id": "jack_daw",
-      "text": "Start of Combat: steal 2 Attack from the enemy across.",
-      "golden_text": "Start of Combat: steal 4 Attack from the enemy across."
-    }
-  }
+  "details": "Fractions round up. The enemy's loss ends with the fight; your Bird keeps its gain."
 }

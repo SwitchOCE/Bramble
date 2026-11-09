@@ -823,7 +823,15 @@
     "scale_engine": {},
     "scale_answer": {},
     "end_turn_doubler": {},
-    "scale_economy": {}
+    "scale_economy": {},
+    "pass3_bird": {
+      "ability": "string",
+      "factor": "number"
+    },
+    "pass3_fairy": {
+      "ability": "string",
+      "factor": "number"
+    }
   },
   "queries": [
     "refresh_cost",
@@ -840,7 +848,7 @@
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
     "Pass": "Pass X: your last unit, other than this, gains X",
-    "Ring": "Ring a slot: whoever stands there gets the bonus, up to +4/+4.",
+    "Ring": "Whoever stands on this slot gains your Ring size for each Ring here.",
     "Rainbow": "A unit played into an empty slot paints it, until that unit moves or leaves.",
     "Shy": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn.",
     "Bristle": "An enemy that hits this in an attack takes this much back.",
@@ -848,8 +856,8 @@
     "Hex": "Start of Combat: whoever stands across has this much less Attack.",
     "Nightshade": "When attacked, this first loses half its Health.",
     "Belly": "Holds this many units, safe inside. When this dies, they come out.",
-    "Fly South": "Sells for no gold: it flies off and returns in 2 turns.",
-    "Nest": "While its Bird is away, an Egg with half its stats fights here, unless a unit stands on it.",
+    "Fly South": "Sold, it flies south, then comes home to hand with double stats.",
+    "Nest": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.",
     "Swoop": "Attacks the enemy back row while anyone is in it.",
     "Mired": "Must attack the unit that mired it.",
     "Borrowed": "Fights for the other side for one attack, then goes home.",
@@ -861,10 +869,11 @@
     "Snap": "Attacks the Mired enemy with the most Attack.",
     "Pack": "When a unit beside this attacks, this joins in, using up its own attack.",
     "Pounce": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle.",
-    "Egg": "Holds a Nest while its Bird is flying south: half its stats, no text.",
+    "Egg": "A 0/1 with no text that fights on an empty Nest.",
     "Damage Reduction": "Takes this much less damage from each hit.",
     "Shield": "Prevents the first damage this would take each fight.",
-    "Cleave": "Attacks also hit the units beside the target."
+    "Cleave": "Attacks also hit the units beside the target.",
+    "Ring size": "What each Ring gives; starts at +1/+1."
   },
   "optional_mechanic_params": {
     "bitter": [

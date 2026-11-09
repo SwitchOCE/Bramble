@@ -6,6 +6,12 @@ const LOG_CAP: int = 200
 
 var card_size_caps: bool = true
 var card_rate_limits: bool = true
+## Pass 3 uses personal Ring size and counted Rings, including on empty slots.
+var pass3_content: bool = false
+var pass3_loop_guards: bool = true
+var pass3_fairies: bool = false
+var ring_size: float = 1.0
+var pass3_rates: Dictionary = {}
 
 var id: int = 0
 var name: String = ""
@@ -281,6 +287,16 @@ func remember_fought_board() -> void:
 			continue
 		fought_nests.append(slot)
 		if board[slot] != null:
+			continue
+		if pass3_content:
+			var away_bird: RecruitUnit = entry["unit"]
+			var shown: Dictionary = HeldUnits.egg_forecast(self, away_bird, slot)
+			var slot_rings: Array = fought_slots[slot]
+			var contribution: Vector2i = BoardUpkeep.ring_stats(slot_rings)
+			shown["name"] = "Egg"
+			shown["attack"] = CoreUtil.to_int(shown["attack"]) + contribution.x
+			shown["health"] = CoreUtil.to_int(shown["health"]) + contribution.y
+			fought_view[slot] = shown
 			continue
 		var supported: bool = tit_support
 		for adjacent: int in BoardGeometry.adjacent(slot):

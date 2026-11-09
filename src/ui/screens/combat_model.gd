@@ -77,10 +77,18 @@ func apply(event: Dictionary) -> void:
 		"death":
 			_death(Data.i(event, "uid", -1))
 		"summon":
-			var view: Dictionary = Data.d(event, "unit")
-			_add(view.duplicate(true), Data.i(event, "side", 0), Data.i(event, "slot", 0))
+			var view: Dictionary = Data.d(event, "unit").duplicate(true)
+			var copied: Dictionary = unit(Data.i(event, "copied", -1))
+			if Data.b(copied, "text_changed") and not Data.b(view, "text_changed"):
+				for field: String in ["text", "keywords", "keyword_text", "borrowed_rules"]:
+					if copied.has(field):
+						view[field] = copied[field]
+				view["text_changed"] = true
+			_add(view, Data.i(event, "side", 0), Data.i(event, "slot", 0))
 			if event.has("came_out"):
 				_change_held(Data.i(event, "source", -1), -1)
+		"text_taken":
+			_text_taken(event)
 		"swallowed":
 			_death(Data.i(event, "uid", -1))
 			_change_held(Data.i(event, "by", -1), 1)
@@ -223,3 +231,27 @@ func _death(uid: int) -> void:
 	var slot: int = Data.i(view, "slot", -1)
 	if slot >= 0 and slot < SLOTS and boards[side][slot] == uid:
 		boards[side][slot] = -1
+
+
+## Text theft is visible before a Fetch reads its source; stats and identity stay on each body.
+func _text_taken(event: Dictionary) -> void:
+	var victim: Dictionary = unit(Data.i(event, "from", -1))
+	var thief: Dictionary = unit(Data.i(event, "uid", -1))
+	if victim.is_empty() or thief.is_empty():
+		return
+	var stolen: String = Data.s(victim, "text")
+	thief["text"] = Data.s(
+		event, "current_text", (Data.s(thief, "text") + "\n" + stolen).strip_edges()
+	)
+	var keywords: Array = Data.a(thief, "keywords").duplicate()
+	for keyword: Variant in Data.a(victim, "keywords"):
+		if str(keyword) != "Belly" and not keywords.has(keyword):
+			keywords.append(keyword)
+	thief["keywords"] = event.get("current_keywords", keywords)
+	thief["text_changed"] = true
+	var belly: int = Data.i(victim, "belly")
+	victim["text"] = Data.s(event, "remaining_text", "Belly %d." % belly if belly > 0 else "")
+	victim["keywords"] = event.get("remaining_keywords", ["Belly"] if belly > 0 else [])
+	victim["keyword_text"] = []
+	victim["borrowed_rules"] = []
+	victim["text_changed"] = true

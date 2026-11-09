@@ -8,24 +8,26 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "After a unit on a Ring attacks: its Ring moves to your next unit in attack order. Each Ring moves once a fight.",
-  "golden_text": "After a unit on a Ring attacks: its Ring moves to your next unit in attack order and gains +1/+1. Each Ring moves once a fight.",
+  "text": "After a unit on a Ring attacks: its Ring moves to your next unit. Twice per Ring.",
+  "golden_text": "After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.",
   "mechanics": [
     {
-      "id": "reel_mistress"
+      "id": "pass3_fairy",
+      "ability": "reel",
+      "factor": 1
     }
   ],
   "keywords": [
     "Ring"
   ],
-  "row_hint": "back",
+  "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Moved Rings can stack past the +4/+4 cap.",
-  "golden_details": "Moved Rings can stack past the +4/+4 cap."
+  "details": "Next means your next attacker. Each Ring keeps its move count when Rings meet; Rings return to their slots after combat."
 }

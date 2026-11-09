@@ -23,7 +23,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_player.gold = 10
@@ -262,8 +262,9 @@ func test_placing_ignores_eggs_as_movers() -> void:
 ## The scout must show the board, the Nests and no more: not who's away or when they land.
 func test_a_bot_cant_read_who_is_away() -> void:
 	var game_config: GameConfig = GameConfig.full_game()
+	game_config.set_value("pass3_content", false)
 	game_config.set_value("bots", BotLobby.seats(BotLevel.HARD))
-	var session: GameSession = GameSession.create(3, UnitLibrary.load_dir(), game_config)
+	var session: GameSession = GameSession.create(3, LegacyWave1.library(), game_config)
 	var other: PlayerState = session._players[0]
 	var bird: RecruitUnit = RecruitUnit.make(session._rules.library.get_unit("old_tern"), 900)
 	other.away.append({"unit": bird, "left": 1, "due": 5, "nest": F2})
@@ -286,8 +287,9 @@ func test_a_scouted_egg_doesnt_trip_up_facing_or_judging() -> void:
 
 func test_a_ghost_keeps_its_nests_and_its_birds_copies_go_home() -> void:
 	var game_config: GameConfig = GameConfig.full_game()
+	game_config.set_value("pass3_content", false)
 	game_config.set_value("bots", BotLobby.seats(BotLevel.HARD))
-	var session: GameSession = GameSession.create(3, UnitLibrary.load_dir(), game_config)
+	var session: GameSession = GameSession.create(3, LegacyWave1.library(), game_config)
 	var gone: PlayerState = session._players[2]
 	var bird: RecruitUnit = RecruitUnit.make(session._rules.library.get_unit("old_tern"), 900)
 	gone.away.append({"unit": bird, "left": 1, "due": 5, "nest": F2})
@@ -328,11 +330,12 @@ func test_a_lobby_deals_the_new_builds() -> void:
 func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 	var counts: Dictionary = {}
 	var game_config: GameConfig = GameConfig.full_game()
+	game_config.set_value("pass3_content", false)
 	# This integration fixture exercises both mechanics, so both tribes must be available.
 	game_config.set_value("tribes_per_lobby", 6)
 	game_config.set_value("bots", bots)
 	game_config.set_value("human_bot", str(bots[0]))
-	var session: GameSession = GameSession.create(game_seed, UnitLibrary.load_dir(), game_config)
+	var session: GameSession = GameSession.create(game_seed, LegacyWave1.library(), game_config)
 	var note: Callable = func(type: String, _fields: Dictionary) -> void:
 		counts[type] = CoreUtil.to_int(counts.get(type, 0)) + 1
 	for player: PlayerState in session._players:
