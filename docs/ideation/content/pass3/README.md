@@ -68,7 +68,8 @@ None runs the real engine. The figures say where to start the dials, not whether
 
 ## What happens next
 
-- **Step 2:** the lever sweep and scale build 8a (checkpoint 1) use today's pool, not these designs.
-- **Wave 1 (step 3):** Birds and Fairies are built from these files plus the amendments, then measured and played (checkpoint 2).
-- **Wave 2:** the other four.
+Plan v3 (`../../plan-scale-rework.md`):
+- Wave 1 (Birds and Fairies) is built and merges first.
+- Wave 2 (the pool rules, then Bog and Hunters, then Oozes, Hedgerow and the neutrals) follows, with dials in two presets.
+- The full pool is measured, then played at checkpoint 1.
 - **First harness tests:** `cross-tribe.md` §10 lists what the harness checks first on the new content.

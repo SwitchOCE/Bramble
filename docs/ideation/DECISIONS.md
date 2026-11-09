@@ -4,6 +4,35 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — Plan v3 approved: the first checkpoint moves to the full pass 3 pool
+**Picked (orchestrator), after four path critics and a plan-interrogate review** (`evidence/path-critics.json`, `evidence/plan-v3-interrogate.md`):
+- Stop the sweep and drop build 8a on today's pool.
+- Merge wave 1, the harness and strong-field.
+- Build wave 2 now.
+- Run a wave 1 fun probe and designed setups alongside.
+- Hold checkpoint 1 on the full pass 3 pool, with presets A and B played blind.
+
+The interrogation's changes are all taken:
+- the designed setups get bars set before they run, and they outrank lobbies;
+- a concentration bar that can fail;
+- the tier-up bar is replaced, since it already passed;
+- hero and spell scaling is switched on, and Supper's ceiling lifted;
+- strong-field tests use current content, and the library is recaptured once;
+- the line-strength gate runs on the new lines;
+- a control game in the probe;
+- B gets its own band;
+- the Done means 2 rewrite moves to step 7;
+- the top 1% is reported only.
+
+The UI declutter (owner, 9e) is added as step 3.
+**Why:**
+- On today's pool, caps off gives a tail but a flat median.
+- Synthetic levers give a lottery: the median final board is 141–148 against 137, and the winner is 5× the runner-up in 26–42% of lobbies. The runner-up's board is measured at its own elimination round, which overstates the gap.
+- The median has to come from content, and the pass 3 content exists.
+
+**Housekeeping:** the decisions that waited on "checkpoint 2" (the Jack Daw comparison, deleting the frozen pass 2 tests) now wait on step 5 of v3.
+**Branches:** the harness merges before W2b starts, so at most three code branches overlap briefly: harness, strong-field and W2a. This is logged as a short overlap.
+
 ### 9 Nov 2026 — The owner's declutter direction: review criteria changed now
 **The owner's words:** `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`. "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment." "Animations should, by player feel, capture how a game is and how it plays."
 **Picked (orchestrator):**

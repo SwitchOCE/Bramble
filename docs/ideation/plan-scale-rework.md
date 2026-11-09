@@ -15,67 +15,84 @@
   One synthetic card on a flat pool is a lottery, not an era. Bot lines also lose to Hard on both lever builds, so the sweep's engine reads would be lower bounds.
 - **Four adversarial critics** (fun, method, delivery, devil's advocate; `evidence/path-critics.json`) all chose the same path. The sweep and build 8a on today's pool would tune cards that never ship (amendment 12) and put playtesters on a pool that is about to be replaced. The median has to come from content, and wave 1 already exists and was built in about 2.5 hours.
 
-**Steps from here:**
-1. **Merge what is finished.**
-   - The harness, once its cuts are fixed.
-   - Wave 1 (Birds and Fairies), gated on the merged tree. Its only reason to wait was 8a.
-   - Strong-field mode, once its fixes pass a follow-up review.
+**Steps from here** (approved 9 Nov after plan-interrogate, `evidence/plan-v3-interrogate.md`, with its changes taken):
+1. **Merge what is finished, in this order:**
+   - Wave 1 (Birds and Fairies), gated on the merged tree. It sits behind `pass3_content`, so players see nothing new until that is on.
+   - The harness, after a follow-up review of everything since `9af89c2`, including the designed-setup driver.
+   - Strong-field mode, after its fixes pass a follow-up review. Its tests build their content manifest from current content, so content commits don't break them. The shipped library is recaptured once, at step 5. Until then the mode stays out of player builds.
 2. **Build wave 2 on Sol.**
-   - **Pool rules first, as one commit:** see-through, the one permanent-gain queue, and the general loop guards. The Start of Combat order is already in.
-   - **Then two branches:**
-     - W2a: Bog and Hunters.
-     - W2b: Oozes, the Hedgerow light pass and the neutrals. The neutrals: keep 9, change 4, add Shieldbug and Click Beetle, and retire the 38 prototype bodies last.
-   - One reviewed commit per tribe, each with its line JSON and Hard-bot fixes, so the bot doesn't sell its own engine.
+   - **Pool rules first, as one commit:**
+     - the one permanent-gain queue;
+     - any loop guards wave 1 lacks;
+     - hero powers and spells scaled by the board, switched on in both presets;
+     - Harvest Supper's late ceiling lifted.
+   - **Then W2a:** Bog and Hunters.
+   - **Then W2b,** rebased onto W2a: Oozes, the Hedgerow light pass and the neutrals. The neutrals: keep 9, change 4, add Shieldbug and Click Beetle, and retire the 38 prototype bodies last.
+   - One reviewed commit per tribe, each with its line JSON and Hard-bot fixes. One integration gate on the merged tree.
    - Every engine rate is a dial, with two presets:
-     - **A:** the September 2025 shape, typical about 500 at R12;
-     - **B:** steeper, typical about 900 at R12. Fairies and Oozes stay at their design size, and the other four are raised.
-3. **Meanwhile, three things in parallel:**
-   - **A wave 1 fun probe** on cloud machines: three reward-lens playtesters, Birds and Fairies games. Read moments, not win rates, because the four old tribes are flat. **Go/no-go:** if fewer than two of three name a moment they felt stronger (the card, the round, the size), hold the wave 2 merges and triage.
-   - **Designed setups** from the harness generator: carry against wide, distribution against totals, answers against carries, then wave 1 boards.
+     - **A:** the September 2025 shape, typical about 500 at R12. This is the size the owner doubted ("50/50 may be too small").
+     - **B:** about 900 at R12. This tests that doubt: Fairies and Oozes stay at their design size, and the other four are raised.
+
+     A paper workflow writes B's values during wave 2.
+3. **The UI declutter** (owner, 9 Nov: `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`):
+   - A workflow audit produces the spec: cut, move or animate every element, plus what the tutorial must teach.
+   - A UI branch builds it in batches, with before/after screenshots and a reviewer briefed with the note.
+   - It lands before checkpoint 1, with the tutorial and how-to-play updated.
+4. **Meanwhile, three things in parallel:**
+   - **A wave 1 fun probe** on cloud machines: three reward-lens playtesters, each playing two Birds or Fairies games and one old-tribe game as a control, against Hard.
+     - Each named moment is checked against the game log, board before and after. Read moments, not win rates.
+     - **Go/no-go before any wave 2 merge:** if fewer than two of three name a logged moment that beats their control game, hold and triage.
+   - **Designed setups** from the harness generator. Each runs against bars set before it runs, and they outrank line lobbies when the two disagree (09d).
+     - **First:** carry against wide, distribution against totals, answers against carries.
+     - **Then wave 1's typical boards, as an accounting check:** if Birds' or Fairies' real R12 board is outside 0.5–2× its paper figure, fix the accounting in the wave 2 briefs before their dial values land.
    - **Offline damage and Health replay:** a shortlist of 2–3 tables in which winners finish by R14–16.
-4. **Measure the full pass 3 pool:**
-   - 150 or more line lobbies per preset, sharded to cloud machines;
+5. **Measure the full pass 3 pool, locally** (cloud shards only if both slots are busy):
+   - first, the line-strength gate on the new lines against `hard_field`;
+   - 150 or more line lobbies per preset;
    - fields at R6–16;
-   - designed setups (Granny, the Whistlers, carries against answers);
-   - a splash audit;
+   - designed setups against predeclared bars: Granny, the Whistlers, and each tribe's carry against a common board with one answer;
+   - the splash audit, as a lobby output;
    - the damage table confirmed;
    - a 200-game soak;
-   - the strong-field library recaptured on the full pool, from top-4 trajectories.
+   - the strong-field library recaptured once, from top-4 trajectories.
 
-   Then Done means 2 is rewritten onto the harness, with lobby spread as the sanity line.
-5. **Checkpoint 1, now on the full pass 3 pool.**
-   - Three or more reward-lens playtesters play both presets against the strong field.
-   - The build goes on the portal for the owner, on Windows and Android.
-   - The era is picked from play first, sims second.
+   The checkpoint config: pass 3 on, caps off, loop guards on, hero and spell scaling on, the chosen damage table.
+6. **Checkpoint 1 on the full pass 3 pool.**
+   - Three or more reward-lens playtesters play A and B blind, in counterbalanced order, against the strong field, and say which they prefer and why.
+   - The portal build (Windows and Android) carries both presets as a setting, with the agents' pick as the default.
    - The owner hears plainly whether the scale problem is fixed.
-6. **Step 4 as written:** opponents, build 8, playtest round 6, and the remaining Done means evidence.
+7. **Step 4 as written:** opponents, build 8, playtest round 6 and the remaining Done means evidence. Done means 2 is rewritten onto the harness here, before build 8 sign-off.
 
-**The guardrail band before the owner plays** (each preset). The bands are wide and fun comes first, so a miss is triaged, not an automatic fail:
+**The guardrail band before the owner plays** (each preset). The bands are wide and fun comes first, so a miss is triaged, not an automatic fail. The bars marked *guard* already pass on today's flat pool. Only the others can show the fix.
 - **Growth and size:**
   - The median grows ×1.3 or more a round from R8 to R14.
-  - Preset A's R12 median is 300–900.
+  - The R12 median is 300–900 for A and 700–1,800 for B.
 - **The tail:**
   - 8–25% of R10–14 boards are at twice the median or more.
-  - The top 1% is at most 20× the median.
-- **Concentration:** the biggest unit holds 25–45% of its board.
-- **Snowballs and comebacks:**
+  - The top 1% is *reported only* (09d).
+- **Concentration:**
+  - The biggest unit holds 30–45% of its board.
+  - **Designed bar, set before the run:** at R12, a carry with its holder (Shield, Damage Reduction or Cleave) beats an even board of the same total at least 50% of the time. Today's figure is 0–15%.
+- **Snowballs and comebacks** (*guard*):
   - The R8 leader wins at most 35% of lobbies.
   - A board below the median at R8 reaches the top 2 at least 12% of the time.
-  - The winner is 5× the runner-up in at most 10% of lobbies.
+  - The winner is 5× the runner-up in at most 10% of lobbies, with both boards compared at the same round.
 - **Game length:** the median winner finishes by R14–16.
 - **Tribes:**
-  - Each tribe's best line is within 3× of the others in field win rate.
+  - Each tribe's best line is within 3× of the others in field win rate, pooled over R10–16, and cross-checked with designed typical boards.
   - No card is on more than half the winning boards.
-- **Fights and progress:**
-  - 15% or more of R10–14 field pairs are uncertain (20–80%).
-  - Tier-ups arrive at 1.0× the median unit or more.
+- **Fights** (*guard*): 15% or more of R10–14 field pairs are uncertain (20–80%).
+- **Tier-ups:** a new tier-up unit, at combat start, beats the player's median unit of the round before at least 60% of the time. The arrival-ratio bar is dropped, because it already passes today.
 - **Opponents:** strong-field rivals are 0.7–1.5× the target. Otherwise snowball reports don't count.
-- **Play:** every tester names a moment they felt stronger, and fewer than a third of games feel decided by R9.
+- **Play:**
+  - Every tester names a logged moment they felt stronger.
+  - Fewer than a third of games feel decided by R9.
+  - Testers would turn off nothing on the main screen after their third game.
 
 **Cut from v2:**
 - the remaining protected sweep on today's pool;
 - build 8a on today's pool (kept only as a diagnostic, if both presets miss for unclear reasons);
-- checkpoint 2 as a separate step (the wave 1 probe covers its purpose);
+- checkpoint 2 as a separate step: the wave 1 probe covers its purpose. Decisions that waited on "checkpoint 2" (the Jack Daw comparison, deleting the frozen pass 2 tests) now wait on step 5;
 - line-against-Hard placements as tribe evidence.
 
 The rules for the whole rework (below) are unchanged.
