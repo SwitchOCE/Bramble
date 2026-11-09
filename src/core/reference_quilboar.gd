@@ -186,6 +186,7 @@ static func effect_allowed(world: EffectWorld) -> bool:
 		or ctx.source.def_id() != "cricket_busker"
 		or ctx.trigger != "on_spell_cast"
 		or not ctx.created_free_spell
+		or not str(ctx.card_def.get("id", "")).begins_with("qb_")
 	):
 		return true
 	var key: String = "qb_created_free_refund"

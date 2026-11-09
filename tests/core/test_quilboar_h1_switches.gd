@@ -18,6 +18,7 @@ func _setup(reference_on: bool = true, frozen: bool = false, rate_limits: bool =
 	config.set_value("reference_quilboar_freeze_size", frozen)
 	config.set_value("quilboar_ref_preset", "uncut")
 	config.set_value("card_rate_limits", rate_limits)
+	config.set_value("card_size_caps", false)
 	_kit = KIT.new()
 	_kit.setup(config)
 	_kit.library = _kit.rules.library
@@ -25,7 +26,7 @@ func _setup(reference_on: bool = true, frozen: bool = false, rate_limits: bool =
 	_player = _kit.player
 	_rules.start_phase(_player, 1)
 	_kit.spell(
-		"h1_free_spell",
+		"qb_h1_free_spell",
 		{"effect": "buff", "attack": 1, "health": 1, "target": {"select": "chosen"}},
 		"unit",
 		{"cost": 0}
@@ -33,7 +34,7 @@ func _setup(reference_on: bool = true, frozen: bool = false, rate_limits: bool =
 
 
 func _cast(purchased: bool = false) -> void:
-	var item := HandItem.make(_rules.library.get_card("h1_free_spell"), _rules.new_iid())
+	var item := HandItem.make(_rules.library.get_card("qb_h1_free_spell"), _rules.new_iid())
 	if purchased:
 		item.paid_cost = 0
 		item.pool_copies = 1
@@ -98,6 +99,18 @@ func test_created_free_spell_refunds_once_per_turn_with_caps_off() -> void:
 	_cast()
 	_cast()
 	assert_eq(_player.gold, before + 1, "the loop guard resets at the next recruit phase")
+
+
+func test_native_busker_gets_both_pelt_refunds_in_caps_off_reference_lobby() -> void:
+	_kit.put("cricket_busker", 0)
+	_kit.put("fox_cub", 1)
+	assert_true(_player.reference_quilboar)
+	assert_false(_rules.config.get_bool("card_size_caps"))
+	assert_false(_rules.config.get_bool("card_rate_limits"))
+	var before: int = _player.gold
+	assert_eq(_kit.cast("pelt", 1), "")
+	assert_eq(_kit.cast("pelt", 1), "")
+	assert_eq(_player.gold, before + 2, "native Created spells keep both Busker refunds")
 
 
 func test_golden_busker_doubles_the_refund_without_repeating_the_created_spell_guard() -> void:
