@@ -42,5 +42,6 @@
   "temporary_storage_note": "The initial Python merge exhausted /tmp quota before any field inputs were admitted. The same immutable lobby results were merged successfully using project-disk temporary storage.",
   "timeout_seconds": 10000,
   "version": 1,
-  "workspace_tmpdir": "build/sim/caps-screen-fixed/tmp"
+  "workspace_tmpdir": "build/sim/caps-screen-fixed/tmp",
+  "committed_driver_archive": "tools/sim/evidence/drivers/manifest.json"
 }
