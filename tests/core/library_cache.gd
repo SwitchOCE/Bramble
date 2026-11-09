@@ -37,9 +37,11 @@ static func configured(config: GameConfig, legacy_base: bool = false) -> UnitLib
 	probe.library = base
 	probe.config = config
 	Pass3Birds.detect_pool(probe)
-	var key: String = "%s|%s" % [base_key, ScaleOverlay._key(config)]
+	# Keyed by this base build too: if the base is rebuilt, its overlays are as well.
+	var key: String = "%s|%d|%s" % [base_key, base.get_instance_id(), ScaleOverlay._key(config)]
 	var overlaid: UnitLibrary = _master(key, ScaleOverlay.library_for.bind(base, config))
-	if overlaid == base:
+	if not overlaid.has_meta("scale_overlay_key"):
+		# This config needs no overlay: library_for returns the base as it is.
 		return copy(base)
 	var out: UnitLibrary = copy(overlaid)
 	out.set_meta("scale_overlay_key", overlaid.get_meta("scale_overlay_key"))
