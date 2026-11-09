@@ -351,7 +351,7 @@ func _shop_width() -> float:
 
 
 func _shop_gap() -> float:
-	var offers: int = Data.a(state, "shop").size() + Data.a(state, "shop_spells").size()
+	var offers: int = Data.a(state, "shop").size()
 	if _split_detail() or (not CardView.is_phone() and offers >= 6):
 		return READING_TILE_GAP
 	return TILE_GAP
