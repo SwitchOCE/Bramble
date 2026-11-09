@@ -21,6 +21,7 @@ var _strike_count: int = 1
 var _strike_presented: int = 1
 var _joiners: Array[int] = []
 var _joiners_landed: Array[int] = []
+var _burst_groups: Dictionary[String, Dictionary] = {}
 
 
 func _init(screen: Control) -> void:
@@ -106,6 +107,7 @@ func prepare_attack(event: Dictionary) -> void:
 	_strike_presented = 1
 	_joiners.clear()
 	_joiners_landed.clear()
+	_burst_groups.clear()
 	for uid: int in Data.a(event, "joiners"):
 		_joiners.append(uid)
 	_active_snap = _snap
@@ -231,8 +233,15 @@ func change(event: Dictionary, animate: bool) -> void:
 			_emit("berry", card.health_bead().get_global_rect().get_center(), UiTheme.NIGHTSHADE)
 			_pulse(card.health_bead(), UiTheme.NIGHTSHADE)
 		"stats":
-			if event.has("source"):
-				_source = Data.i(event, "source", -1)
+			var sources: Array[int] = []
+			var direct: int = Data.i(event, "source", -1)
+			if direct >= 0:
+				sources.append(direct)
+			for cause: Dictionary in Data.a(event, "causes"):
+				var emitter: int = Data.i(cause, "source", -1)
+				if emitter >= 0 and not sources.has(emitter):
+					sources.append(emitter)
+			_source = sources[0] if not sources.is_empty() else -1
 			var delay: float = stat_delay(uid)
 			for stat: String in ["attack", "health"]:
 				var amount: int = Data.i(event, stat + "_delta")
@@ -242,7 +251,15 @@ func change(event: Dictionary, animate: bool) -> void:
 					)
 					var colour: Color = UiTheme.MOSS if amount > 0 else UiTheme.HEALTH
 					_tween(bead).tween_callback(_pulse.bind(bead, colour)).set_delay(delay)
-			_mote_from_source(card)
+			for emitter: int in sources:
+				_source = emitter
+				var origin: CardView = _card(emitter)
+				if origin != null:
+					flash(origin, UiTheme.ACORN)
+					_pulse(origin.trigger_glyph())
+				_mote_from_source(card)
+			if not sources.is_empty():
+				_source = sources[0]
 			if Data.b(event, "permanent"):
 				(
 					_tween(card)
@@ -314,16 +331,19 @@ func _damage(card: CardView, event: Dictionary) -> void:
 			sweep.tween_property(source, "rotation", -0.13, 0.05)
 			sweep.tween_property(source, "rotation", 0.0, 0.05)
 	if amount > 0:
+		var group: String = ""
+		if not _joiners.is_empty() and Data.s(event, "kind") == "attack":
+			group = "%d:%d" % [card.uid(), Data.i(event, "strike", 1)]
 		if before_pop > 0:
-			_tween(card).tween_callback(_damage_pop.bind(card, amount)).set_delay(before_pop)
+			_tween(card).tween_callback(_damage_pop.bind(card, amount, group)).set_delay(before_pop)
 		else:
-			_damage_pop(card, amount)
+			_damage_pop(card, amount, group)
 
 
-func _damage_pop(card: CardView, amount: int) -> void:
+func _damage_pop(card: CardView, amount: int, group: String = "") -> void:
 	if not is_instance_valid(card):
 		return
-	_burst(card.health_bead().get_global_rect().get_center(), amount)
+	_burst(card.health_bead().get_global_rect().get_center(), amount, group)
 	_pulse(card.health_bead(), UiTheme.HEALTH)
 	_shake(card)
 
@@ -346,7 +366,14 @@ func _thorns(source: CardView, target: CardView) -> void:
 
 func _mote_from_source(target: CardView) -> void:
 	var source: CardView = _card(_source)
-	if source != null and source != target:
+	if source == target and source != null:
+		_mote(
+			source.trigger_glyph().get_global_rect().get_center(),
+			target.attack_bead().get_global_rect().get_center(),
+			"spark",
+			UiTheme.ACORN
+		)
+	elif source != null:
 		_mote(
 			source.get_global_rect().get_center(),
 			target.get_global_rect().get_center(),
@@ -365,16 +392,28 @@ func _mote_from_source(target: CardView) -> void:
 			)
 
 
-func _burst(point: Vector2, amount: int) -> void:
+func _burst(point: Vector2, amount: int, group: String = "") -> void:
+	if not group.is_empty() and _burst_groups.has(group):
+		var active: Dictionary = _burst_groups[group]
+		var existing: Variant = active.get("node")
+		if is_instance_valid(existing):
+			var previous: TextureRect = existing
+			var label: Label = previous.get_node("Amount")
+			active["amount"] = Data.i(active, "amount") + amount
+			label.text = "−%d" % Data.i(active, "amount")
+			return
 	var side: float = 96.0 + minf(24, floorf(log(maxi(1, amount)) / log(10.0)) * 8)
 	var mark: TextureRect = _icon("burst", point, side, Color.WHITE)
 	var number := UiTheme.number("−%d" % amount, 52, UiTheme.CREAM)
+	number.name = "Amount"
 	number.add_theme_color_override("font_outline_color", UiTheme.INK)
 	number.add_theme_constant_override("outline_size", 6)
 	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	number.size = mark.size
 	mark.add_child(number)
+	if not group.is_empty():
+		_burst_groups[group] = {"node": mark, "amount": amount}
 	var tween: Tween = _tween(mark)
 	if not Settings.reduce_motion:
 		mark.scale = Vector2.ONE * 0.4
@@ -589,7 +628,7 @@ func result(animate: bool) -> void:
 	var target: Vector2 = _plaque(1 - winner).get_global_rect().get_center()
 	for uid: int in _screen.get("_cards"):
 		var view: Dictionary = model.unit(uid)
-		if Data.i(view, "side") == winner and Data.b(view, "starting", false):
+		if Data.i(view, "side") == winner and Data.i(view, "starting_side", -1) == winner:
 			_mote(_card(uid).get_global_rect().get_center(), target, "spark", UiTheme.ACORN)
 	var base: Vector2 = _plaque(winner).get_global_rect().get_center()
 	if Data.b(model.result_rules, "last_blow"):
@@ -597,9 +636,8 @@ func result(animate: bool) -> void:
 		if not source.is_empty():
 			var board: BoardView = _screen.call("board_for_side", Data.i(source, "side"))
 			base = board.slot_global_center(Data.i(source, "slot"))
-		else:
-			base = _last_death()
-	_mote(base, target, "spark", UiTheme.ACORN)
+	if not model.result_rules.has("damage_base") or Data.i(model.result_rules, "damage_base") > 0:
+		_mote(base, target, "spark", UiTheme.ACORN)
 	_tween().tween_callback(_burst.bind(target, model.damage)).set_delay(0.3)
 	_shake(_plaque(1 - winner))
 	var old_health: int = CoreUtil.to_int(health[1 - winner])

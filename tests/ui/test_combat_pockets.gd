@@ -38,7 +38,7 @@ func test_combat_pockets_have_no_empty_slot_codes_ring_or_nest_captions() -> voi
 	for slot: Control in board.slots:
 		var wordless: bool = slot.get("wordless")
 		assert_true(wordless)
-		assert_gte(slot.size.x, 90, "marked empty pocket remains a full tap target")
+		assert_gte(slot.size.x, 90.0, "marked empty pocket remains a full tap target")
 
 
 func test_combat_hex_and_trap_keep_amounts_and_reader_state_without_words() -> void:

@@ -185,7 +185,14 @@ func show_game_combat() -> void:
 		ghost = RecruitView.next_name((current as RecruitScreen).state)
 	var names: PackedStringArray = side_names(start, state, ghost)
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
-	note_round(combat, me)
+	if (
+		round_log.is_empty()
+		or (
+			Data.i(Data.entry(round_log, round_log.size() - 1), "round", -1)
+			!= Data.i(combat, "round")
+		)
+	):
+		note_round(combat, me)
 	var title: String = "Turn %d" % Data.i(combat, "round", 0)
 	var ids: Array = Data.a(start, "player_ids")
 	var health: int = -1

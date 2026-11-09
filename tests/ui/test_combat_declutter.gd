@@ -1,6 +1,10 @@
 extends GutTest
 ## The fight carries state in tiles and motion; words live in a reader or the log.
 
+const App := preload("res://src/ui/app.gd")
+const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
+const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const Data := preload("res://src/ui/view_data.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
@@ -156,3 +160,157 @@ func test_speed_token_cycles_and_saves_without_adding_a_label() -> void:
 		Settings.fight_speed = -1
 		Settings.load_saved()
 		assert_eq(Settings.fight_speed, expected)
+
+
+func test_pc_hover_reader_keeps_playing_and_allows_pointer_to_reach_rules() -> void:
+	var screen: CombatScreen = _screen(false)
+	var card: CardView = screen._cards[1]
+	card.hovered.emit("combat", 1, true)
+	assert_true(screen._reader.visible)
+	assert_true(screen.playing, "hover reading keeps PC playback running")
+	card.hovered.emit("combat", 1, false)
+	assert_false(screen._hover_close.is_stopped(), "crossing the gap allows a short grace period")
+	screen._reader.mouse_entered.emit()
+	assert_true(screen._hover_close.is_stopped(), "the reader remains usable under the pointer")
+	screen._reader.mouse_exited.emit()
+	screen._hover_close.timeout.emit()
+	assert_false(screen._reader.visible)
+
+
+func test_phone_tapping_empty_pocket_closes_an_open_reader() -> void:
+	var screen: CombatScreen = _screen()
+	screen._cards[1].tapped.emit("combat", 1)
+	screen.board_for_side(0).slots[3].tapped.emit("own", 3)
+	assert_false(screen._reader.visible)
+	assert_true(screen.playing)
+
+
+func test_aura_change_flashes_its_actual_source_without_an_explicit_trigger_event() -> void:
+	var screen: CombatScreen = _screen(false, true)
+	screen._play_event(
+		{
+			"type": "stats",
+			"source": null,
+			"target": 8,
+			"attack": 7,
+			"health": 3,
+			"max_health": 3,
+			"attack_delta": 5,
+			"health_delta": 0,
+			"causes": [{"name": "aura", "source": 2, "change": "gained"}]
+		},
+		true
+	)
+	_advance(screen, 0.075)
+	assert_gt(screen._cards[2].modulate.r, 1.05, "the aura giver visibly causes the gain")
+	assert_eq(screen._cards[3].modulate, Color.WHITE, "an unrelated card does not flash")
+	assert_eq(screen.model.unit(8)["attack"], 7)
+
+
+func test_pack_damage_uses_one_accumulating_pop_instead_of_overlapping_numbers() -> void:
+	var screen: CombatScreen = _screen(false, true)
+	screen._play_event(
+		{"type": "attack", "attacker": 1, "defender": 8, "joiners": [2], "strikes": 1}, true
+	)
+	screen._play_event(
+		{
+			"type": "damage",
+			"source": 1,
+			"target": 8,
+			"amount": 1,
+			"health_after": 2,
+			"kind": "attack",
+			"strike": 1
+		},
+		true
+	)
+	screen._play_event(
+		{
+			"type": "damage",
+			"source": 2,
+			"target": 8,
+			"amount": 2,
+			"health_after": 0,
+			"kind": "attack",
+			"strike": 1
+		},
+		true
+	)
+	var text: Array[Dictionary] = Capture.text_nodes(screen._overlay)
+	assert_eq(text.size(), 1, "Pack contributions share one Health-bead pop")
+	assert_eq(str(text[0]["text"]), "−3", "the complete hit is visible")
+
+
+func test_final_death_rewards_overlap_so_automatic_return_stays_inside_time_budget() -> void:
+	var screen: CombatScreen = _screen(false)
+	screen.auto_return = true
+	screen.events = [
+		{"type": "attack", "attacker": 1, "defender": 8, "joiners": []},
+		{
+			"type": "damage",
+			"source": 1,
+			"target": 8,
+			"amount": 3,
+			"health_after": 0,
+			"kind": "attack"
+		},
+		{
+			"type": "damage",
+			"source": 8,
+			"target": 1,
+			"amount": 1,
+			"health_after": 2,
+			"kind": "attack"
+		},
+		{"type": "death", "uid": 8, "side": 1, "slot": 0},
+		{"type": "take", "hunter": 1, "quarry": 8, "side": 0},
+		{"type": "trigger", "uid": 1, "mechanic": "take_growth"},
+		{
+			"type": "stats",
+			"source": 1,
+			"target": 1,
+			"attack": 3,
+			"health": 3,
+			"max_health": 4,
+			"attack_delta": 1,
+			"health_delta": 1
+		},
+		{"type": "quarry_lost", "hunter": 1, "quarry": 8},
+		{"type": "early_spoils", "side": 0, "amount": 1},
+		{"type": "combat_end", "winner": 0, "damage": 2},
+	]
+	var completed: Array[bool] = []
+	screen.finished.connect(func() -> void: completed.append(true))
+	var since_death: float = 0.0
+	var saw_death: bool = false
+	for tick: int in 3000:
+		screen.advance_playback(STEP)
+		if not Data.b(screen.model.unit(8), "alive", true):
+			saw_death = true
+		if saw_death:
+			since_death += STEP
+		if not completed.is_empty():
+			break
+	assert_true(saw_death)
+	assert_eq(completed.size(), 1)
+	assert_lte(
+		since_death,
+		1.6,
+		"Take, growth and Spoils share the result animation instead of delaying it"
+	)
+
+
+func test_replaying_from_recruit_does_not_add_a_second_round_record() -> void:
+	var port := FixturePort.new()
+	port.use_state("recruit_round7")
+	port.use_combat()
+	var app := App.new()
+	add_child_autofree(app)
+	app.setup(port)
+	app.show_game_combat()
+	assert_eq(app.round_log.size(), 1)
+	app.show_recruit()
+	var recruit: RecruitScreen = app.current as RecruitScreen
+	recruit.watch_fight_requested.emit()
+	assert_true(app.current is CombatScreen, "the recruit reader opens the last fight")
+	assert_eq(app.round_log.size(), 1, "watching it again does not duplicate its record")

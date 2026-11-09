@@ -58,8 +58,11 @@ var _attack_remaining: float = 0.0
 var _contact_remaining: float = 0.0
 var _pause_open: bool = false
 var _step_motion_remaining: float = 0.0
+var _effect_remaining: float = 0.0
+var _ending: bool = false
 var _motion: CombatMotion
 var _log: LogNote
+var _hover_close: Timer
 var _reader: CardDetail
 var _note_text: RichTextLabel
 var _play_button: TokenButton
@@ -113,6 +116,17 @@ func _init() -> void:
 	add_child(_reader)
 	_note_text = _reader.get("_notes")
 	_note_text.set_meta("reminder", _reader.reminder)
+	_hover_close = Timer.new()
+	_hover_close.one_shot = true
+	_hover_close.wait_time = 0.2
+	_hover_close.timeout.connect(_reader.show_empty)
+	add_child(_hover_close)
+	_reader.mouse_entered.connect(_hover_close.stop)
+	_reader.mouse_exited.connect(
+		func() -> void:
+			if not CardView.is_phone():
+				_hover_close.start()
+	)
 	for side: int in 2:
 		var plaque := TokenButton.new()
 		plaque.pressed.connect(_show_hero.bind(side))
@@ -144,6 +158,8 @@ func _init() -> void:
 	_step_button.pressed.connect(step_once)
 	_stage.add_child(_step_button)
 	_skip_button = TokenButton.new("", "skip")
+	var skip_glyph: TextureRect = _skip_button.get("_glyph")
+	skip_glyph.self_modulate = UiTheme.INK
 	_skip_button.pressed.connect(skip_to_end)
 	_stage.add_child(_skip_button)
 	_gear = TokenButton.new("", "gear")
@@ -227,8 +243,10 @@ func restart() -> void:
 	_reader.show_empty()
 	next_index = 0
 	_complete = false
+	_ending = false
 	_return_wait = -1
 	_attack_remaining = 0
+	_effect_remaining = 0
 	_wait = 0.1
 	_set_playing(true)
 
@@ -309,12 +327,13 @@ func advance_playback(delta: float) -> void:
 		return
 	_attack_remaining = maxf(0, _attack_remaining - delta)
 	_contact_remaining = maxf(0, _contact_remaining - delta)
+	_effect_remaining = maxf(0, _effect_remaining - delta)
 	_wait -= delta
 	while playing and next_index < events.size() and _wait <= 0:
 		var event: Dictionary = events[next_index]
 		var kind: String = Data.s(event, "type")
-		if kind == "attack" and _attack_remaining > 0:
-			_wait = _attack_remaining
+		if kind == "attack" and maxf(_attack_remaining, _effect_remaining) > 0:
+			_wait = maxf(_attack_remaining, _effect_remaining)
 			return
 		if kind == "damage" and Data.s(event, "kind") == "attack" and _contact_remaining > 0:
 			_wait = _contact_remaining
@@ -331,14 +350,14 @@ func advance_playback(delta: float) -> void:
 
 
 func _event_hold(kind: String) -> float:
+	if _ending and kind != "death":
+		return 0.0
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
 	if kind in ["damage", "status", "stats"]:
 		return 0.0
-	if kind == "death":
-		return maxf(0.15, 0.3 / speed)
-	if kind == "health_loss":
-		return maxf(0.15, 0.4 / speed)
+	if kind in ["death", "health_loss"]:
+		return maxf(0.15, (0.3 if kind == "death" else 0.4) / speed)
 	if kind in ["trigger", "kiss", "transform", "summon", "relocate"]:
 		return maxf(0.08, 0.22 / speed)
 	return maxf(0.05, 0.3 / speed)
@@ -378,6 +397,10 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_sync_unit(Data.i(event, "target", -1))
 			_motion.change(event, animate)
 			if animate:
+				if kind == "stats":
+					_effect_remaining = maxf(
+						_effect_remaining, 0.15 + _motion.stat_delay(changed_uid)
+					)
 				_roll_changes(
 					changed_uid,
 					_event_before,
@@ -385,6 +408,8 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 				)
 		"death":
 			_death(Data.i(event, "uid", -1), animate)
+			if animate:
+				_ending = _final_death_pending()
 		"swallowed":
 			_motion.gulp(event, animate)
 			_death(Data.i(event, "uid", -1), false)
@@ -408,6 +433,16 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 			_show_result(animate)
 		_:
 			_motion.cue(event, animate)
+
+
+func _final_death_pending() -> bool:
+	for index: int in range(next_index, events.size()):
+		var kind: String = Data.s(Data.entry(events, index), "type")
+		if kind in ["attack", "death", "summon"]:
+			return false
+		if kind == "combat_end":
+			return true
+	return false
 
 
 func _declaration_delay() -> float:
@@ -493,9 +528,10 @@ func _on_card_hovered(_zone: String, uid: int, inside: bool) -> void:
 	if CardView.is_phone():
 		return
 	if inside:
+		_hover_close.stop()
 		_show_detail(uid)
 	else:
-		_reader.show_empty()
+		_hover_close.start()
 
 
 func _show_detail(uid: int) -> void:
@@ -542,6 +578,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_slot_tapped(_zone: String, slot: int, visual_side: int) -> void:
+	if _reader.visible and CardView.is_phone():
+		_close_reader()
+		return
 	var side: int = bottom_side if visual_side == 1 else 1 - bottom_side
 	var words: PackedStringArray = _slot_notes(side, slot)
 	if not words.is_empty():
