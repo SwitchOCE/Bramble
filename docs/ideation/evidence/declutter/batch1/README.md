@@ -17,9 +17,17 @@ The `*.json` beside each before image records every visible nonempty `Label`,
 `RichTextLabel` and text-bearing `Button` in the combat subtree. Hidden ancestors exclude
 their descendants. Canvas text below 0.05 opacity is excluded. Buttons whose semantic
 text is hidden behind a `drawn_face` count only their rendered child labels, avoiding
-double-counting. Numbers count as labels. Custom drawn digits are not text nodes.
-The after runner prints `labels before=N after=M` for every pair and writes `after/pairs.json`.
-The combat budget is 30. All eight pairs pass; the largest after count is 28.
+double-counting. Raw counts include numbers; custom drawn digits are not text nodes.
+The revised budget is **at most 10 ancillary visible text nodes**: unit Attack/Health
+and hero Health are excluded, and every other visible text node counts, including
+held counts, Hex/trap numbers, names and transient damage numbers. Primary labels
+are explicitly tagged rather than excluded by whether their text looks numeric.
+`test_combat_declutter.gd` enforces this definition and checks that pocket and held
+numbers still count. The after runner prints raw before/after and ancillary counts
+for each pair and writes `after/pairs.json`.
+
+The table below records the original `4f50d944` raw counts. Refreshed raw and ancillary
+counts are pending the new captures; the original 30-node check is historical.
 
 | Scenario | Original scripted source / seed | Before / after labels |
 | --- | --- | --- |
@@ -58,16 +66,17 @@ The orchestrator selected a **source/effect** check for Batch 1. A cold reader s
 able to identify who moved or flashed, who received the hit or change, and what
 visibly happened, including the visible cause of a death. It is not required to
 reconstruct an unstated unit ability or name an unfamiliar keyword from the strip.
-The same source/effect standard applies to ×4 and reduce motion. The refreshed-image
-initial internal check reported **PASS** under this orchestrator-selected criterion; no source/effect uncertainty
-remains in the reviewed attacks.
+The same source/effect standard applies to ×4 and reduce motion. The initial internal
+check reported **PASS** under this orchestrator-selected criterion. That claim is
+superseded by the independent **FAIL** described below; it is retained as review history.
 
 The [cold-reader audit](cold-reader-review.md) records the original observations
-and four unresolved source attributions that prompted the final motion fixes. Its
-refreshed-image addendum confirms the source/effect fixes. The review also exposed
+and four unresolved source attributions that prompted the first motion fixes. Its
+refreshed-image addendum claimed those fixes passed; the independent review found
+remaining failures. The review also exposed
 Rules/tutorial input for Batch 4:
 
-- Snap, Quarry and Swoop targeting exceptions, including the surviving-front-row case.
+- Snap, Quarry, Swoop and Mire targeting exceptions, including back-row reach while a front unit survives.
 - Which units qualify to join a Pack attack and when their attack is spent.
 - Take rewards, growth and acorn cues.
 - Counter's temporary Attack changes.
@@ -82,23 +91,63 @@ screen communicates their sources and effects through motion without adding text
 The [independent blind reader and event-based score](independent-review-4f50d944.md)
 **fails** Batch 1 at ×1 and under reduce motion; ×4 passes. Every hitter and death
 cause was right, but trigger attribution and reduced-motion direction failed. This
-supersedes the earlier internal PASS below. The independent report includes frame-level
-causes; the six requested repairs and a new independent-style retest are in progress.
+supersedes the earlier internal PASS. The independent report includes frame-level
+causes. The six requested repairs are implemented; a new independent-style retest
+using only the packet and regenerated strips is pending.
 The criterion was the orchestrator's call, not a statement attributed to the owner.
+
+## Repairs after the independent review
+
+Each requested repair has its own local commit:
+
+1. Reduce motion holds an unmistakable attacker frame and direction mark through
+   the attack, including joiners. Pack damage pops remain separate.
+2. Trigger sources pulse and send source-to-effect motes. Take starts at the hunter,
+   claims its actual quarry and routes the acorn through the hunter to its hero.
+   Self-trigger effects reach the changed stat or immediate-attack target.
+3. Dead-unit rewards identify their source with a temporary portrait echo and show
+   both carried stat gains landing, without returning a live unit to the board.
+4. Damage pops are children of their recipient, so counter-damage follows the
+   attacking unit back to its own pocket.
+5. Death cancels any outstanding lunge return and fades the unit in its own pocket.
+6. Capture continues through the result and settled hero Health. Historical rival
+   Health comes from the recorded round history, with a replay-result check.
+
+The scope-review cuts are also separate commits: remove the tile mud bar that
+crossed stats; restore pre-Batch-1 occupied Nest drawing; correct review attribution.
+Combat sparks are now limited to rules that can fire during a fight. Dead panels,
+yarn, row tags, `show_note` and unused Pack overlay handling are removed. Hero views
+load once; replay retains the original ghost name; the phone reader clears the
+playback control row. None of these changes alters combat rules.
+
+The independent-style rerun and full gate for these repairs are **pending**. The
+historical passing gate below does not validate the repaired revision. Wave2a/Bog
+integration is deferred until the user's merge; no merge or Bog port is included here.
 
 ## Frame strips
 
 The animation runner uses `manual_playback=true` and calls `advance_playback(1/120)`
-with an explicit fixed timestep. It listens to `attack_started(index, duration)` and
-captures eight viewport frames at ticks nearest to `j * duration * 120 / 7`, for `j=0..7`.
-This includes the first and final attack frame; the exact ticks are recorded in the manifest.
-Each run starts from the same serialized fight stream at ×1 and ×4, with no wall-clock
-sleep driving the animation. The viewport is always `1688×780`. Original frames remain
-in `build/declutter/frames/`; committed contact strips contain those native-size frames.
+with an explicit fixed timestep in two passes. The first pass records the actual
+start tick of every attack, every applied event tick, the result tick and automatic
+return tick. The second replays the identical serialized fight and captures eight
+viewport frames evenly across each actual attack-to-next-attack interval: sample
+`j=0..7` is `start + round(j * (end-start) / 7)`. `end` is the tick before the next
+attack; for the final attack it is the automatic-return tick, after hero Health settles.
+This includes trigger effects between attacks instead of stopping at a predicted
+lunge duration. Eight additional opening frames and eight result frames show the
+pre-attack effects and complete hero-damage outro. The result window overlaps the
+final attack window deliberately.
+
+The capture asserts identical attack starts, applied event ticks, return tick and
+final Health across both passes. Every sample tick and source-event hash is recorded
+in the manifest; expected final hero Health must match the displayed values. Each
+run starts from the same saved fight stream at ×1 and ×4, with no wall-clock sleep
+driving animation. The viewport is always `1688×780`. Original frames remain in
+`build/declutter/frames/`; committed contact strips contain those native-size frames.
 There are 11 attacks in the wording fight, four in homecoming and eight in the rival
-fight, each at ×1 and ×4, plus 11 wording attacks under reduce motion: 57 sheets
-and 456 viewport frames across seven runs.
-The runner also captures a reduce-motion replay of one of the same three fights.
+fight, each at ×1 and ×4, plus 11 wording attacks under reduce motion: 57 attack
+sheets and 14 opening/result sheets, or 71 sheets and 568 viewport frames across
+seven runs. These are the refreshed runner's expected outputs, pending the rerun.
 Run the strip capture and assembly after the stills (one Godot process at a time):
 
 ```sh
@@ -160,8 +209,8 @@ floor marks and before/after hero Health. It refuses to repair a different fight
 
 - **Speed token:** one, two or four chevrons replace `×1`/`×2`/`×4` text. Tap still
   cycles 1/2/4 and saves `Settings.fight_speed`; the numeric value remains in Settings.
-  This keeps a full 14-unit board at 28 stat labels plus two hero Health labels = 30,
-  while retaining both hero Health values.
+  A full 14-unit board still carries all 28 unit stat labels and both hero Health
+  labels. Those primary labels are excluded from the revised ancillary budget.
 - **2.1 stored counter pips:** current combat snapshots expose held counts but not
   recruit's stored Hex/ammo/Bitter values. The face accepts those fields when supplied;
   it omits unknown counters. Authored rules remain in the reader and the actual effect
@@ -175,11 +224,10 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   The UI adapter now observes the exact existing fight boundary and attaches floor
   marks, without changing core events or rules. The baseline runner installs the same
   passive observation in its isolated copy, so no marks are guessed from stat totals.
-- **Historical rival Health:** the committed field boundary records hero identities
-  and fight inputs, but not both heroes' pre-round-8 Health. The opponent's `40` is
-  a fixed UI capture parameter used in both before and after, not a claim of observed
-  round-8 Health. The unknown own Health stays hidden. Ordinary production and the
-  other matched scenarios use exact before-fight Health observed at the combat boundary.
+- **Historical rival Health:** the field boundary omits hero Health, so the capture
+  repairs its metadata from the same committed game's round history and checks that
+  the replay damage agrees. No unknown Health is rendered as `−1`; production and
+  the ordinary pairs use exact fight-boundary observations.
 
 - **Animation 28 / no room:** the event can describe a held release, Bird, Nest or
   Peatling as well as a Mouse. The refused summon uses its actual `def_id` portrait
@@ -199,16 +247,18 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   in place rather than drifting 16 px, and Bristle uses the directional fang graphic
   rather than a new three-thorn particle. This keeps the smaller Health-bead cue and
   visible cause without introducing another effect asset system.
-- **Animations 2 and 7 / Pack damage:** Pack joiners keep their staggered motion,
-  but damage to the same recipient uses one accumulating burst. Separate starbursts
-  at the same bead obscured the total; the combined pop shows the received amount.
-  Core hits and joiner order remain unchanged. Peck strikes retain separate pops.
+- **Animations 2 and 7 / Pack damage:** the earlier accumulating burst failed the
+  independent review because it hid the joiner's contribution. It is replaced with
+  separate, staggered and vertically offset pops at the recipient's Health bead.
+  The recipient carries those pops while moving. Core hit order is unchanged.
 - **Animation 14:** source glyph pulses/hops and target motes use the existing acorn
   colour vocabulary rather than new per-tribe colours or a separate whole-board
   ripple. Source-to-recipient travel and bead changes remain the causal cue. Aura changes
   use the actual UID sources supplied in `causes`; those sources flash and send
-  motes. Self changes pulse the source glyph and body. The first attack waits for
-  pending stat rolls so the visible Attack value agrees with the attack.
+  motes. Self changes pulse the source glyph and body and send a mote to the exact
+  changed bead. Out-of-turn attacks receive a source-to-target spark. A dead source
+  uses a temporary portrait echo and its reward visibly lands. The first attack waits
+  for pending stat rolls so the visible Attack value agrees with the attack.
 - **Animation 16:** the custom-drawn status layer appears in its end state and the
   tile flashes in the status colour, rather than independently scaling every mark.
   The layer deliberately supports simultaneous statuses without extra slip nodes.
@@ -236,7 +286,34 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   Return remains automatic and tappable; no result text or Continue step is restored.
 - **2.6 Watch again:** replay from the recruit plaque's reader reuses the last fight
   without appending the round to `round_log` again. Watching cannot duplicate history
-  or the game-over record.
+  or the game-over record. Cached side names retain that fight's ghost identity instead
+  of labelling it with the next recruit pairing.
+
+- **Animation 15 / dead carried reward:** a dead unit has no live stat bead whose
+  absolute value can roll. Its temporary portrait echo shows the recorded Attack/Health
+  deltas landing on matching beads, without inventing absolute stats or resurrecting it.
+  These two brief, echo-anchored delta labels adapt the appendix's no-`+X` gain-pop
+  call, use `MIN_FONT` and count toward the 10-node ancillary budget. Live-unit gains
+  still pop and roll their existing beads.
+- **2.1 Mired status:** the tile's mud bar is removed because it crossed Attack/Health.
+  The existing pocket mud strip carries the Mired state; the Mire maker retains reeds.
+- **2.2 occupied Nest:** the twig ring drawn over an occupied card was early Batch 2
+  work and crossed stats. It is reverted to pre-Batch-1 behaviour. The proper inside-edge
+  pocket rim remains Batch 2 work; empty Nest presentation is unchanged.
+- **2.1 trigger glyph:** only fight-capable trigger rules earn a spark in combat.
+  End of Turn, Start of Turn and after-cast-only rules retain their recruit/reader
+  presentation and have no combat spark. Mixed rules retain their fight cue.
+- **Appendix reduce motion:** a held static attacker frame and direction mark supplements
+  flashes because a short tint fell between samples. Source/target icons mark effect
+  landings without a moving mote; no explanatory text is added.
+- **Section 7 label budget:** the user's scope-review call replaces 30 total labels
+  with 10 ancillary labels, excluding unit Attack/Health and hero Health. Raw totals
+  remain reported so the comparison is not silently changed.
+- **Section 6 cold reader:** the orchestrator selected source/effect attribution rather
+  than inferring printed rule text. Mire back-row reach belongs in the Rules/reader
+  and is a Batch 4 input, not a new failure criterion for this batch.
+- **Wave2a/Bog:** kiss count/period, the pending-gain tag and Bog's Toll are deferred
+  until the user's integration merge. No speculative port is included.
 
 The remaining fight rows use their proposed functional cue: 1 lunge; 2 staggered
 joiners; 3 immediate snap; 4 Cleave sweep; 5 per-strike Peck jabs; 6 real target;
@@ -248,7 +325,7 @@ that every row has been independently cold-read.
 
 ## Changed files
 
-Every changed or added file relative to `1ecbce6`, including generated UID sidecars
+Every changed, added or deleted file relative to `1ecbce6`, including generated UID sidecars
 and each evidence image/manifest, is listed below. Ignored local comparison images
 and build logs are excluded from git.
 
@@ -281,6 +358,7 @@ and build logs are excluded from git.
 - `docs/ideation/evidence/declutter/batch1/before/rival-fight_1920x1080.png`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-packet.md`
 - `docs/ideation/evidence/declutter/batch1/cold-reader-review.md`
+- `docs/ideation/evidence/declutter/batch1/independent-review-4f50d944.md`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-021.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-026.jpg`
 - `docs/ideation/evidence/declutter/batch1/strips/combat_mid-x1-reduce/attack-031.jpg`
@@ -362,13 +440,20 @@ and build logs are excluded from git.
 - `src/ui/screens/recruit_layout.gd`
 - `src/ui/screens/recruit_screen.gd`
 - `src/ui/screens/settings_screen.gd`
+- `src/ui/widgets/attack_yarn.gd`
+- `src/ui/widgets/attack_yarn.gd.uid`
 - `src/ui/widgets/board_view.gd`
 - `src/ui/widgets/card_view.gd`
+- `src/ui/widgets/combat_attack_cue.gd`
 - `src/ui/widgets/combat_face.gd`
 - `src/ui/widgets/combat_face.gd.uid`
+- `src/ui/widgets/hit_panel.gd`
+- `src/ui/widgets/hit_panel.gd.uid`
 - `src/ui/widgets/icons.gd`
 - `src/ui/widgets/lane_overlay.gd`
 - `src/ui/widgets/pause_menu.gd`
+- `src/ui/widgets/row_tag.gd`
+- `src/ui/widgets/row_tag.gd.uid`
 - `src/ui/widgets/slot_marks.gd`
 - `src/ui/widgets/slot_view.gd`
 - `tests/ui/shots/declutter_after.sh`
@@ -397,6 +482,7 @@ and build logs are excluded from git.
 - `tests/ui/test_combat_pockets.gd`
 - `tests/ui/test_combat_pockets.gd.uid`
 - `tests/ui/test_combat_relocate.gd`
+- `tests/ui/test_declutter_capture.gd`
 - `tests/ui/test_engines.gd`
 - `tests/ui/test_feedback5_log.gd`
 - `tests/ui/test_field_presentation.gd`
@@ -412,14 +498,18 @@ and build logs are excluded from git.
 
 ## Validation
 
+**Repaired revision:** capture, fresh independent-style score and full gate are pending.
+The following metrics describe the superseded `4f50d944` evidence only.
+
+
 - Baselines: all eight native viewport images and serialized checkpoints complete; isolated compile: 534 files, zero failures.
 - After pairs: all eight complete; counts 28/28/24/26 at both sizes, all within the 30-node budget.
 - Main compile preflight: 543 files, zero failures.
 - Final UI preflight: 374/374 tests pass across 50 scripts, 13,854 assertions; no
   script errors, failed tests or GUT warnings appear in the log.
 - Strips: seven complete runs, 57 attack sheets, 456 native frames. All eight samples per attack match the scheduled ticks exactly; adjacent gaps differ by at most one 1/120-second tick due to rounding. All frame dimensions verified at 1688×780.
-- Initial internal cold-reader check: **PASS claimed**, superseded by the independent **FAIL** at `4f50d944`; the
-  refreshed-image check leaves no source/effect uncertainty. Reviewers received only
+- Initial internal cold-reader check: **PASS claimed**, superseded by the independent
+  **FAIL** at ×1 and reduce motion (`4f50d944`); ×4 passed. Reviewers received only
   the packet and image strips. The original review and refreshed observations are
   retained in [cold-reader-review.md](cold-reader-review.md); Batch 4 rule inputs remain above.
 - Full gate `./scripts/check.sh`: **PASS**. All eleven steps pass: tools, versions,
@@ -469,7 +559,7 @@ and all third-party images stay in ignored `build/` or `/tmp`.
 | TFT board (secondary) | Eight visible champions with Health bars and item/star marks; no names on the board; mascot overlay obscures part of the HUD | [App Store screenshot](https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/8f/4a/c7/8f4ac724-1720-cac4-f295-6d529d760215/TFT_ST1826_ASO_ScreenshotUpdates_04_2208x1242_UPDATED_v002_SCha.png/1600x900bb.jpg) |
 
 The Bramble after sheet shows 13 unit faces, 26 stat beads, two hero portraits with
-Health, and four icon controls. The counter reports 28 visible numeric text nodes.
+Health, and four icon controls. The original counter reports 28 raw visible numeric text nodes (0 ancillary under the revised definition).
 There are no words, relation links, keyword glossary or hit/log prose panels on the
 resting combat board. This directly removes the standing explanation layer that
 occupied the earlier comparison's left side. The existing art and wood palette stay

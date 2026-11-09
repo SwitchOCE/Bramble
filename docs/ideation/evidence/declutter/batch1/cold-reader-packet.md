@@ -5,13 +5,25 @@ spec and text from the shipped How to play pages, including the linked term slip
 those pages let a player open. It contains no fight event streams, manifests,
 attacker identities or expected answers.
 
-The owner confirmed a source/effect criterion for Batch 1. For each attack,
+The orchestrator selected a source/effect criterion for Batch 1. For each attack,
 use visible positions or portraits to identify who moved or flashed, who received
 the hit or change, and what visibly happened, including the visible cause of a
 death. You do not need to reconstruct an unstated unit ability or name an unfamiliar
 keyword. If a source or effect is not visible, say so explicitly. This applies at
 ×1, ×4 and reduce motion. Read only this packet and the strip images until your
-answers are recorded.
+answers are recorded. Do not open manifests, event JSON, implementation code, previous
+reviews or this evidence folder's README while answering.
+
+Identify positions as `top` or `bottom`, then front `F1`–`F4` or back `B1`–`B3`,
+left to right as displayed. Front is the row nearer the opposing band. Slot labels
+are only an answer convention; they are not printed on the combat board. If a unit
+moves, identify it by its original pocket and portrait. Read frames in numbered
+order, left to right across the first row, then the second. Read opening and result
+sheets as well as every attack sheet; effects can occur between attacks or after
+the last death. For each, record attacker/recipient, other source/effect changes,
+and visible cause of each death. Mark an ambiguous source or landing explicitly;
+do not fill a gap from expected rules. Ability names and trigger conditions are
+not required, but which card caused the visible effect is required.
 
 ## Tutorial script and proposed Rules reference
 
