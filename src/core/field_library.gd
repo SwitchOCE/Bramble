@@ -83,7 +83,8 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 	var field := read(path, library)
 	if field.error != "":
 		return field
-	var source: Dictionary = Pass3Rates.restore_values(field.data["config"])
+	var header: Dictionary = field.data["config"]
+	var source: Dictionary = Pass3Rates.restore_values(header)
 	for key: String in source:
 		if not key in RUNTIME_KEYS:
 			config.set_value(key, source[key])
@@ -93,7 +94,8 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 
 
 func config_problem(config: GameConfig) -> String:
-	var recorded: GameConfig = FightCapture.config_for(data["config"])
+	var source: Dictionary = data["config"]
+	var recorded: GameConfig = FightCapture.config_for(source)
 	var expected: Dictionary = recorded.resolved_values()
 	var actual: Dictionary = config.resolved_values()
 	for key: String in expected:
