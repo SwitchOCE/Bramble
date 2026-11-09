@@ -169,7 +169,7 @@ func add_card(card: String, count: int, from_pool: bool) -> void:
 
 func ring_full_at(slot: int) -> bool:
 	var rings: Array = player.slot_effects[slot]
-	return BoardUpkeep.ring_full(rings)
+	return BoardUpkeep.ring_full(rings, player.card_size_caps)
 
 
 func add_slot_effect(slot: int, step: Dictionary) -> void:
@@ -338,6 +338,18 @@ func tribe_bonus(bonus: int) -> void:
 
 
 func market_stall() -> void:
-	player.market_stalls = mini(MarketStalls.LIMIT, player.market_stalls + 1)
+	player.market_stalls = (
+		mini(MarketStalls.LIMIT, player.market_stalls + 1)
+		if player.card_rate_limits
+		else player.market_stalls + 1
+	)
 	MarketStalls.remove_unavailable(rules, player)
 	player.log_event("rule", {"text": "market_stall", "value": player.market_stalls})
+
+
+func flat_gain_percent() -> int:
+	if source != null or not rules.config.get_bool("scale_hero_spell_stats"):
+		return 0
+	var spell: bool = trigger == "cast" and str(card_def.get("kind", "")) == "spell"
+	var hero: bool = trigger != "cast" and not player.hero.is_empty()
+	return maxi(0, rules.config.get_int("scale_hero_spell_percent")) if spell or hero else 0

@@ -204,10 +204,6 @@ static func tile_slip(unit: Dictionary) -> String:
 			. replace(" damage", "")
 			. replace("No Acorn to throw", "No ammo")
 		)
-	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
-	if hex > 0:
-		var stored: int = Data.i(unit, "hex_stored", hex)
-		return "Hex %d (%d stored)" % [hex, stored] if stored > hex else "Hex %d" % hex
 	var turns: String = turns_word(unit)
 	return turns if not turns.is_empty() else RecruitHeld.belly_slip(unit)
 
@@ -311,9 +307,25 @@ static func _ring_marks(view: Dictionary) -> Array:
 	return out
 
 
-## What the slip on a tile says about turns: "2/3" for a card that counts them, "2 left" for a Cold
-## Frame's timer, "" for neither.
+## The tile slip shows Hex strength first, then a turn count or a Cold Frame timer.
 static func turns_word(unit: Dictionary) -> String:
+	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
+	var percent: int = clampi(Data.i(unit, "hex_percent_amount", 0), 0, 100)
+	if hex > 0 or percent > 0:
+		var parts: PackedStringArray = []
+		var stored_parts: PackedStringArray = []
+		var stored: int = Data.i(unit, "hex_stored", hex)
+		var percent_stored: int = Data.i(unit, "hex_percent_stored", percent)
+		if hex > 0:
+			parts.append(str(hex))
+			stored_parts.append(str(stored))
+		if percent > 0:
+			parts.append("%d%%" % percent)
+			stored_parts.append("%d%%" % percent_stored)
+		var words: String = "Hex " + " + ".join(parts)
+		if stored > hex or percent_stored > percent:
+			words += " (%s stored)" % " + ".join(stored_parts)
+		return words
 	var goal: int = Data.i(unit, "turns_goal", 0)
 	if goal > 0:
 		return "%d/%d" % [mini(Data.i(unit, "turns_in_slot", 0), goal), goal]

@@ -66,6 +66,7 @@ static func create(
 	session._seed = game_seed
 	session._library = library
 	session._config = config if config != null else GameConfig.defaults()
+	session._library = ScaleOverlay.library_for(library, session._config)
 	session._setup()
 	if session._hero_offer.is_empty():
 		session._start_round()
@@ -133,7 +134,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 			"winner": _last_combat["winner"],
 			"damage": _last_combat["damage"],
 		}
-	return {
+	var state: Dictionary = {
 		"round": _round,
 		"phase": _phase_name(),
 		"player_id": HUMAN_ID,
@@ -204,6 +205,11 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
 	}
+	if not human.card_size_caps:
+		state["card_size_caps"] = false
+	if not human.card_rate_limits:
+		state["card_rate_limits"] = false
+	return state
 
 
 ## Per slot, whether it has a Rainbow band.

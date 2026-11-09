@@ -180,3 +180,11 @@ func add_card(card: String, count: int, from_pool: bool) -> void:
 	combat.carry_back(
 		side, {"op": "add_card", "card": card, "count": count, "from_pool": from_pool}
 	)
+
+
+func flat_gain_percent() -> int:
+	return (
+		maxi(0, combat.config.get_int("scale_hero_spell_percent"))
+		if source == null and combat.config.get_bool("scale_hero_spell_stats")
+		else 0
+	)

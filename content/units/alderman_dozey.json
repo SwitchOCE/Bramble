@@ -51,5 +51,15 @@
     "doc": "SLICE.md"
   },
   "turns_goal": 3,
-  "permanent_buff_cap": 12
+  "permanent_buff_cap": 12,
+  "overlay_text": {
+    "rate": {
+      "text": "Acorns played on this give +1/+1 per 2 gold. End of Turn: after 3 turns in this slot, double its stats, up to +8/+8.",
+      "golden_text": "Acorns played on this give +2/+2 per 2 gold. End of Turn: after 3 turns in this slot, double its stats, up to +16/+16."
+    },
+    "both": {
+      "text": "Acorns played on this give +1/+1 per 2 gold. End of Turn: after 3 turns in this slot, double its stats.",
+      "golden_text": "Acorns played on this give +2/+2 per 2 gold. End of Turn: after 3 turns in this slot, double its stats."
+    }
+  }
 }

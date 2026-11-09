@@ -1,0 +1,2 @@
+PASS: 637 identical fight results and event hashes across 12 seeds
+seeds: 93001-93012

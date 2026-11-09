@@ -116,7 +116,7 @@ Each is `{"kind": ..., "at_least"?, "at_most"?, "not"?: true}`. All are threshol
 - Sides: `friendly`, `others` (friendly but not the source), `enemies`, `front_row`, `back_row`, `enemy_front_row`, `enemy_back_row`.
 - Geometry: `in_front`, `behind`, `adjacent`, `neighbours`, `row`, `row_ends`, `across`.
 - Elsewhere: `hand`, `shop`.
-- `pick`: `first`, `random`, `highest_attack`, `lowest_attack`, `highest_health`, `lowest_health`. `count`: how many. Ties break at random.
+- `pick`: `first`, `random`, `biggest`, `highest_attack`, `lowest_attack`, `highest_health`, `lowest_health`. `count`: how many. Ties keep the existing random-key ordering and effect RNG (rulebook 1.2.2).
 
 ## Effects
 
@@ -406,3 +406,87 @@ Exact revised texts and interaction readings: [round 5 cards](content/content5.m
 ### Pass 2 follow-up persistence
 
 RecruitUnit combat snapshots carry `lifetime_payments` for named `paid_` counters and `mrs_clover_used` for the shared Recruit/combat limit. Data effects spend their lifetime payment only after the per-turn/fight limit permits a firing; CombatWorld persists it with a `counter` carry. Peat Cutter therefore pays once a fight, only three times in its life, even across reconstructed fights. Wobbly-created Drips carry an explicit emergence marker for Elder; they do not gain Syllabub’s Belly replay semantics.
+
+### Scale mechanisms — BRAMBLE ideation
+
+Use `{"select":"enemies","pick":"biggest"}` to select the living enemy with
+highest current Attack + Health, in any row, bypassing row protection. Most Attack
+and most Health use the existing `highest_attack` and `highest_health` picks on
+`enemies`. Filters run before ranking. Ties keep the existing random-key ordering
+and effect RNG (rulebook 1.2.2). The three custom enemy selectors have been removed.
+
+`stat_fraction` takes `stat` (`attack`, `health`, `both`), `operation` (`set`, `reduce`,
+`gain`), integer `numerator` and positive `denominator`, plus optional `duration`.
+For example `{ "effect": "stat_fraction", "operation": "reduce", "stat": "attack",
+"numerator": 25, "denominator": 100, "target": {"select": "enemies", "pick": "biggest"} }`.
+Ratios keep their value on golden. Positive fractions round down; shrinking leaves
+at least 0 Attack / 1 Health. Negative growth isn't damage and bypasses Shield.
+
+`bitter`, `hex`, `jenny`, `jack_daw` accept optional `percent` instead of their flat
+stat-loss parameter. Percentages stay the same on golden. Existing cards keep their
+flat values. Hex grows its percentage by that amount per spell; the total is clamped
+to 100% for application. Live Hex and Jenny use Attack before auras, avoiding
+self-compounding on aura recalculation. Hex remains on its slot after its source dies.
+
+`damage_reduction` takes flat `n` or optional `percent`; `shield` and `cleave` have no
+parameters. See the rulebook's scale mechanisms for hit ordering and collateral rules.
+`optional_mechanic_params` in the schema marks parameters the content checker allows
+but does not require. It leaves required parameters on today's cards unchanged.
+
+Experiment configuration, overlay coverage and synthetic lever IDs are in
+[evidence/mechanics-build.md](evidence/mechanics-build.md). Treat config as immutable
+input for a game: set dials and switches before `GameSession.create`; create a new
+game to change them. `GameSession.create` builds the private overlay library once,
+before constructing units, heroes and pools. `Combat.create` uses its supplied
+library without rebuilding the overlay. Standalone tools should configure their
+library once with `ScaleOverlay.library_for` before their combat loop; direct
+recruit fixtures should also build units from that configured library.
+
+Two independent switches default to true:
+
+- `card_size_caps` controls `permanent_buff_cap`, `most`, `golden_most`, `per_max`,
+  `max_steps`, `takes_max`, `gold_max`, Whistlers' homecoming ceiling, and Ring,
+  tribe-bonus and shop-size ceilings.
+- `card_rate_limits` controls `once`, `once_per_enemy`, `limit`, `lifetime`,
+  `attack_limit`, `gold_limit`, `uses_per_turn`, Savings' maximum counted turns,
+  Stone Soup/Nell/Kiss/Bubble/Reel-Mistress per-turn or per-fight limits, Figgy's
+  cooldown, first-spell discounts, first-free-refresh limits, Harvest's once-per-turn
+  limit, Market Stall's lifetime two-upgrade limit, and hero use and buy rates.
+
+**Designer warning:** overlay classification follows the **key name** declared in
+`size_cap_overlay` or `rate_limit_overlay` in the schema, not a clause's prose.
+`most` is SIZE; `limit`, `lifetime` and `once` are RATE. A card may contain both.
+Displayed overlay text strips only the disabled size/rate clauses, retaining active
+limits, multipliers and loop guards. Both switches preserve attack/trigger safety
+guards, keyword charges, cycle and Nest recursion guards, resource availability,
+board/hand capacity, and timing/target conditions. The economy lever's explicit
+config cap remains its own dial.
+
+When disabling a limit changes a sentence's meaning, author `overlay_text` on the
+card instead of depending on clause removal. Optional `size`, `rate`, and `both`
+branches replace only `text`, `golden_text`, `details`, or `golden_details`. Generic
+removals run first, then authored size, rate, and both branches in that order.
+Defaults apply none of these branches. An authored combined branch must preserve
+all still-active rules. Dozey's recurring doubling, Pipkin's unrestricted buys and
+golden Money Spider's uncapped income use these data overrides. The catalogue
+audit checks all four switch combinations against effective numeric parameters;
+new changed printed parameters require a matching text contract.
+
+
+`scale_levers` is a list of selected IDs, default `[]`, never a boolean. Available
+IDs are `scale_engine`, `scale_answer`, `scale_doubler`, `scale_economy`,
+`scale_biggest_answer`, `scale_defender` and `scale_cleaver`. Lever text is generated
+from numeric config. `scale_answer` remains the adjustable reduction (default 50%);
+`scale_biggest_answer` is a fixed Start of Combat 50% reduction of the biggest enemy's
+stats. `scale_defender` has Shield and Damage Reduction 2 (4 golden), while
+`scale_cleaver` is an 8/8 with Cleave. Second Helping's plain text is “Your End of
+Turn effects trigger an extra time.” Golden adds two extra firings; multiple copies
+add rather than multiply or recurse.
+
+Percent Hex views carry `hex_percent_amount` (effective, capped at 100) and
+`hex_percent_stored` (raw base plus growth); `hex_amount`/`hex_stored` remain flat.
+Combat `slot_hex` events retain flat `amount`/`total`, add `percent_amount` for a
+percentage application, and carry total active `percent` even on a flat application.
+The combat model, log, slot badges and recruit slips preserve the distinction and
+show both components for mixed Hex. Shield has an explicit status tag and linked
+reminder; playback removes the tag when the status is spent.

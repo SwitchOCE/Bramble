@@ -192,6 +192,8 @@ static func _order(units: Array[BoardUnit], how: String, rng: RandomNumberGenera
 
 static func _value(unit: BoardUnit, how: String) -> int:
 	match how:
+		"biggest":
+			return unit.attack + unit.health
 		"highest_attack":
 			return unit.attack
 		"lowest_attack":

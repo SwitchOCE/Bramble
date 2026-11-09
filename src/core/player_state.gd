@@ -4,6 +4,9 @@ extends RefCounted
 
 const LOG_CAP: int = 200
 
+var card_size_caps: bool = true
+var card_rate_limits: bool = true
+
 var id: int = 0
 var name: String = ""
 var personality: String = "human"

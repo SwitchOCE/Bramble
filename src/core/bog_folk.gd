@@ -4,7 +4,7 @@ extends RefCounted
 
 
 static func spell_cost(player: PlayerState, item: HandItem) -> int:
-	if player.spells_bought_turn > 0 or not item.is_spell():
+	if (player.card_rate_limits and player.spells_bought_turn > 0) or not item.is_spell():
 		return item.cost()
 	var discount: int = 0
 	for unit: RecruitUnit in player.board:

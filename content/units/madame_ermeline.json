@@ -29,5 +29,11 @@
     "kind": "slice",
     "doc": "docs/ideation/content/hunters.md",
     "note": "Final design-review-3 and costing-3 calls."
+  },
+  "overlay_text": {
+    "size": {
+      "details": "Each Take counts. At tier 6: get 1 gold per Take.",
+      "golden_details": "Each Take counts. At tier 6: get 2 gold per Take."
+    }
   }
 }

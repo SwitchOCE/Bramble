@@ -75,7 +75,12 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 				var kin: int = (
 					2 if effect == "kin_buff" and _shares_tribe(target, world.chosen) else 1
 				)
-				world.buff(target, attack * times * kin, health * times * kin, duration)
+				var bonus: Vector2i = FlatStatScaling.gains(
+					target, attack * times * kin, health * times * kin, world
+				)
+				world.buff(target, bonus.x, bonus.y, duration)
+		"stat_fraction":
+			StatFraction.apply(step, targets, world)
 		"damage":
 			if targets.is_empty():
 				var missing: Dictionary = step.get("target", params.get("target", {}))
@@ -104,12 +109,13 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 				world.buff(target, attack, health, "permanent")
 		"wait_in_slot":
 			for target: BoardUnit in targets:
-				world.add_timer(
+				var bonus: Vector2i = FlatStatScaling.gains(
 					target,
-					CoreUtil.to_int(step.get("turns", 1)),
 					CoreUtil.to_int(step.get("attack", 0)),
-					CoreUtil.to_int(step.get("health", 0))
+					CoreUtil.to_int(step.get("health", 0)),
+					world
 				)
+				world.add_timer(target, CoreUtil.to_int(step.get("turns", 1)), bonus.x, bonus.y)
 		"borrow_attack":
 			for target: BoardUnit in targets:
 				world.borrow_attack(target)
@@ -117,7 +123,7 @@ static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -
 			if not targets.is_empty():
 				world.swap_with(targets[0])
 		"slot_effect":
-			_slot_effect(step, targets, world)
+			_slot_effect(FlatStatScaling.slot_step(step, targets, world), targets, world)
 		_:
 			_untargeted(effect, step, factor, world)
 
@@ -143,7 +149,13 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 		"move":
 			world.move_source(str(step.get("to", "")))
 		"tribe_bonus":
-			world.tribe_bonus(CoreUtil.to_int(step.get("amount", 1)))
+			var flat: int = CoreUtil.to_int(step.get("amount", 1))
+			var baseline: Vector2i = FlatStatScaling.board_baseline(world)
+			world.tribe_bonus(
+				FlatStatScaling.scaled_amount(
+					flat, mini(baseline.x, baseline.y), world.flat_gain_percent()
+				)
+			)
 		"market_stall":
 			world.market_stall()
 		"discover":

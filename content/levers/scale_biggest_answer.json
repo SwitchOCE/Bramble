@@ -1,0 +1,38 @@
+{
+  "id": "scale_biggest_answer",
+  "name": "Carry Check",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [],
+  "text": "Start of Combat: shrink the biggest enemy by 50%.",
+  "golden_text": "Start of Combat: shrink the biggest enemy by 50%.",
+  "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
+  "mechanics": [
+    {
+      "id": "effect",
+      "trigger": "start_of_combat",
+      "do": {
+        "effect": "stat_fraction",
+        "target": {
+          "select": "enemies",
+          "pick": "biggest"
+        },
+        "operation": "reduce",
+        "numerator": 50,
+        "denominator": 100
+      }
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}

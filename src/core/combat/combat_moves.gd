@@ -163,7 +163,13 @@ static func dance_rings(combat: Combat, attacker: CombatUnit) -> void:
 	var ring: Dictionary = {}
 	for value: Variant in from:
 		var effect: Dictionary = value
-		if str(effect.get("name", "")) == BoardUpkeep.RING and not effect.get("danced", false):
+		if (
+			str(effect.get("name", "")) == BoardUpkeep.RING
+			and (
+				not effect.get("danced", false)
+				or CombatLanes.parameters(mistress, REEL).get("repeat", false)
+			)
+		):
 			ring = effect
 			break
 	if ring.is_empty():

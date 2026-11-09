@@ -496,7 +496,7 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 		"slot_mark":
 			_slot_mark(event, animate)
 		"slot_hex":
-			_slot_hex(event, animate)
+			CombatLanesView.show_hex(self, event, animate)
 		"combat_end":
 			_show_result()
 
@@ -518,7 +518,9 @@ func _sync_all() -> void:
 	for mark: Dictionary in model.slot_marks:
 		_mark_slot(mark)
 	for hex: Dictionary in model.slot_hexes.values():
-		board_for_side(Data.i(hex, "side", 0)).set_hex(Data.i(hex, "slot"), Data.i(hex, "total"))
+		board_for_side(Data.i(hex, "side", 0)).set_hex(
+			Data.i(hex, "slot"), Data.i(hex, "total"), Data.i(hex, "percent")
+		)
 
 
 func _make_card(uid: int, side: int, slot: int) -> CardView:
@@ -797,15 +799,6 @@ func _slot_mark(event: Dictionary, animate: bool) -> void:
 		var board: BoardView = board_for_side(Data.i(event, "side", 0))
 		var point: Vector2 = board.slot_global_center(Data.i(event, "slot", 0))
 		_float_at(point, "Marked: %d" % Data.i(event, "damage", 0), UiTheme.BIRCH)
-
-
-## Hex shows here, in the fight, on the slot it really lands on: the enemy's across from the Hexer.
-func _slot_hex(event: Dictionary, animate: bool) -> void:
-	var board: BoardView = board_for_side(Data.i(event, "side", 0))
-	var slot: int = Data.i(event, "slot", 0)
-	board.set_hex(slot, Data.i(event, "total", 0))
-	if animate:
-		_float_at(board.slot_global_center(slot), "Hex!", UiTheme.BIRCH)
 
 
 func _mark_slot(mark: Dictionary) -> void:

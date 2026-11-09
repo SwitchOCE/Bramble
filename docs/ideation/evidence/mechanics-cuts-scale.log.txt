@@ -1,0 +1,80 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[INFO]:  using [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+
+
+res://tests/core/test_scale_mechanics.gd
+* test_biggest_and_most_stat_picks_ignore_rows_and_use_effect_rng_ties
+* test_target_picks_preserve_original_random_keys_and_rng_consumption
+* test_fraction_set_reduce_gain_rounding_and_health_floor
+* test_damage_reduction_shield_batch_and_effect_damage
+* test_cleave_hits_only_occupied_beside_slots_and_each_strike
+* test_proportional_bitter_jenny_hex_and_jack_keep_biting
+* test_cap_overlay_isolated_removes_all_declared_ceilings_and_keeps_guards
+* test_uncapped_lifetime_and_per_turn_limits_really_stop_limiting_payments
+* test_lever_pool_default_absence_opt_in_presence_and_engine_dials
+* test_doubler_repeats_end_turn_with_limits_and_action_guard_intact
+* test_economy_income_ramps_caps_and_buys_stats
+* test_answer_dial_hits_hidden_carry_and_disabled_levers_are_inert
+* test_hero_spell_scaling_default_off_targeted_spell_and_unit_effect_separation
+* test_scaling_passive_activated_and_combat_hero_and_empty_slot_spell
+* test_proportional_hex_growth_survives_recruit_to_combat_snapshot
+* test_keyword_reminders_follow_the_wording_guide_and_golden_parameters
+* test_cleave_in_real_quick_exchange_kills_beside_without_retaliation
+* test_delayed_spell_scales_at_cast_and_large_board_mean_does_not_overflow
+* test_uncapped_ring_and_scripted_once_limits_are_part_of_the_overlay
+* test_caps_off_allows_repeated_harvest_supper_and_more_than_two_stalls
+* test_proportional_hex_and_economy_progress_survive_triples
+21/21 passed.
+
+
+res://tests/core/test_scale_review.gd
+* test_size_and_rate_switches_are_independent_in_all_four_combinations
+* test_each_lever_is_alone_opt_in_and_game_reuses_one_private_library
+* test_numeric_lever_text_tracks_the_game_dials_and_doubler_copies_add
+* test_new_lever_cards_play_the_shared_mechanics
+* test_overlay_text_keeps_active_limits_and_drops_only_disabled_rules
+* test_rate_overlay_does_not_disable_size_ceilings_or_trigger_guards
+* test_percent_hex_recruit_view_reports_percent_and_flat_components_separately
+* test_default_flat_hex_keeps_the_original_event_fields_and_mixed_hex_keeps_percent
+* test_rank_ties_vary_with_effect_seed_and_repeat_for_the_same_seed
+* test_rate_switch_controls_first_spell_and_free_refresh_without_changing_size_caps
+* test_figgy_cooldown_is_a_rate_limit_and_still_consumes_bought_copies
+* test_overlay_text_has_no_disabled_lifetime_or_spent_claims
+12/12 passed.
+
+
+res://tests/ui/test_scale_feedback.gd
+* test_log_uses_the_applied_percentage_and_keeps_flat_attack_wording
+* test_model_and_slot_badge_preserve_both_hex_scales
+* test_recruit_slip_shows_percentage_storage_and_mixed_hex
+* test_playback_rebuild_keeps_percent_and_spent_shield_removes_its_tag
+    20 Orphans
+        * [@Control@472:<Control#495414414314>(card_view.gd)] + 18
+        * [@Label@494:<Label#499457723472>]
+20 orphans
+4/4 passed.
+gut_strict: ok (no risky or pending tests)
+
+
+
+
+==============================================
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts               3
+Tests                37
+Passing Tests        37
+Asserts             566
+Time              3.291s
+
+
+Ran Scripts matching "test_scale_"
+---- All tests passed! ----
+

@@ -1,0 +1,34 @@
+{
+  "id": "scale_defender",
+  "name": "Steadfast Tester",
+  "set": "slice",
+  "tier": 3,
+  "attack": 6,
+  "health": 12,
+  "tribes": [],
+  "text": "Shield. Damage Reduction 2.",
+  "golden_text": "Shield. Damage Reduction 4.",
+  "details": "BRAMBLE ideation experiment. Enabled and tuned through GameConfig; see mechanics-build.md.",
+  "mechanics": [
+    {
+      "id": "shield"
+    },
+    {
+      "id": "damage_reduction",
+      "n": 2
+    }
+  ],
+  "keywords": [
+    "Shield",
+    "Damage Reduction"
+  ],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}

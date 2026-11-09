@@ -8,6 +8,8 @@ const UNIT_CAP: int = 7
 
 
 static func limit_reached(player: PlayerState) -> bool:
+	if not player.card_rate_limits:
+		return false
 	var count: int = player.market_stalls
 	for item: HandItem in player.items:
 		count += 1 if item.def_id() == CARD else 0
@@ -29,6 +31,8 @@ static func penalty(rules: RecruitRules, player: PlayerState) -> int:
 
 ## The ceiling limits only Stall additions. Existing hero and Poach offers keep their rules.
 static func unit_bonus(rules: RecruitRules, player: PlayerState, tier: int = -1) -> int:
+	if not player.card_size_caps:
+		return player.market_stalls
 	var shop_tier: int = player.tier if tier < 1 else tier
 	var base: int = rules.config.get_int_at("shop_units_by_tier", shop_tier - 1)
 	var ordinary: int = rules.ask("shop_size", player, base) - penalty(rules, player)

@@ -33,7 +33,7 @@ static func create(
 	unit_library: UnitLibrary, game_config: GameConfig, unit_pool: UnitPool
 ) -> RecruitRules:
 	var rules := RecruitRules.new()
-	rules.library = unit_library
+	rules.library = ScaleOverlay.library_for(unit_library, game_config)
 	rules.config = game_config
 	rules.pool = unit_pool
 	rules.events = RecruitEvents.create(rules)
@@ -54,6 +54,8 @@ func new_iid() -> int:
 
 
 func setup_player(player: PlayerState) -> void:
+	player.card_size_caps = config.get_bool("card_size_caps")
+	player.card_rate_limits = config.get_bool("card_rate_limits")
 	player.health = config.get_int("starting_health")
 	player.tier = 1
 	player.gold = 0
@@ -507,9 +509,15 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 			)
 		# A wait the player paid for stays: it starts over when the golden lands, as any move does.
 		golden.timers.append_array(copy.timers)
-		if copy.counters.has("hex"):
-			var grown: int = CoreUtil.to_int(golden.counters.get("hex", 0))
-			golden.counters["hex"] = grown + CoreUtil.to_int(copy.counters["hex"])
+		for counter: String in ["hex", "hex_percent"]:
+			if copy.counters.has(counter):
+				var grown: int = CoreUtil.to_int(golden.counters.get(counter, 0))
+				golden.counters[counter] = grown + CoreUtil.to_int(copy.counters[counter])
+		if copy.counters.has("scale_income"):
+			golden.counters["scale_income"] = maxi(
+				CoreUtil.to_int(golden.counters.get("scale_income", 0)),
+				CoreUtil.to_int(copy.counters["scale_income"])
+			)
 		any_bought = any_bought or copy.origin == RecruitUnit.ORIGIN_BOUGHT
 		var slot: int = player.board.find(copy)
 		if slot >= 0:
@@ -667,7 +675,11 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	if index < 0 or index >= player.items.size():
 		return "No card there"
 	var item: HandItem = player.items[index]
-	if item.def_id() == MarketStalls.CARD and player.market_stalls >= MarketStalls.LIMIT:
+	if (
+		item.def_id() == MarketStalls.CARD
+		and player.card_rate_limits
+		and player.market_stalls >= MarketStalls.LIMIT
+	):
 		return "At most 2 Stalls"
 	if slot >= 0 and item.gold_value() > 0:
 		return _feed(player, index, slot)
@@ -714,7 +726,7 @@ func item_aim_problem(player: PlayerState, item: HandItem, slot: int) -> String:
 	var problem: String = aim_problem(player, item.aim(), slot)
 	if problem == "" and BoardGeometry.is_valid(slot) and item.ring_add() != Vector2i.ZERO:
 		var rings: Array = player.slot_effects[slot]
-		if BoardUpkeep.ring_full(rings):
+		if BoardUpkeep.ring_full(rings, player.card_size_caps):
 			return "That Ring is full"
 	return problem
 
