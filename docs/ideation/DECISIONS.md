@@ -4,6 +4,19 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Per-game profile merged; a cheaper bot search only for tests that don't test the bot
+**Source:** cloud session `ideation/c-gameprofile` (`evidence/test-suite/game-profile/README.md`). The scope review found 7 keep, 0 cut, 0 ask (`evidence/review-gameprofile.md`).
+- Hard bots' board-search fights are 75–78% of a full Hard lobby: about 1,400 fights a lobby at about 10 ms each.
+- Four exact fast paths cut a lobby by 11.4%, with fight and log hashes identical on 12 seeds. The review argues they are exact for every input, not only the 12 seeds.
+
+**Picked:**
+- **Merge it.**
+- **Open question 1 (a cheaper search):**
+  - Tests that play Hard lobbies only to reach a state may use a cheaper search, set through the game config. That is in the faster-suite brief.
+  - Tests that pin Hard's choices keep the real budget.
+  - Sims keep it too, because they measure Hard's boards.
+- **Open question 2 (the 7 Nov baseline):** accept the explanation. The 381 ms came from the soak's random bots on the 53-card slice, and timing a 7 Nov lobby wouldn't change what step 4 does.
+
 ### 10 Nov 2026 — Gate plumbing merged; gates go through Actions; next, sharding and the faster suite
 **Source:** the scope review of `ideation/c-gate-plumbing` (`evidence/review-gate-plumbing.md`): 19 keep, 0 cut, 3 simplify, 3 ask. The first real `scripts/cloud-gate.sh` run, on merge 405bd57b, passed: 2,158 tests (run 42702428298).
 
