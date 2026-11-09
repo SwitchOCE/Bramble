@@ -4,6 +4,32 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 1 re-base and Bog fix-up review: calls
+**Source:** `evidence/review-wave2a-rebase.md` (9f03fe0b..d5b5b4f8). It found 14 keeps, 0 cuts, 1 simplify and 3 asks.
+- The Bog cuts were done as asked.
+- The Queen and Cluricaun pass rule (b).
+- The pass 2 rollback is untouched, and the Birds rates are identical in A, B and C.
+
+**Calls on the asks:**
+1. **B's other Fairy dials** come from the paper B values the re-base was told to start from: Ring growth 2, Nan 2 Rings, Lob every 2 turns, and the Monarch every 2nd End of Turn.
+   - **Kept.** The triage entry listed only the changes on top of paper B.
+   - So B's Cluricaun prints +2/+2.
+2. **C is now the paper C**, which replaces the provisional C that doubled every rate, as `presets.md` says.
+   - **Kept.** Some dials are lower than the provisional C: Fetch, the Monarch multipliers, and Annis, Queen and Sally at 1 Ring.
+   - The measurement of B against C shows whether C is still about twice B. If it isn't, C goes up from there (09h).
+3. **The bot test pinned to preset A** weakens the test. A Hedgerow-pinned bot drifts into strong Fairies under B. Sent back to w3:
+   - test under B, across several seeds;
+   - if the pinned seat really drifts, fix the bot, not the bar.
+
+   This matters for measurement too: line sims at B would inherit the drift.
+
+**Simplify:** drop the A pin on the whole Birds recruit suite. It passes under B.
+
+**Merge plan:** wave 2a merges as a whole after the Hunters review. The order:
+1. I merge ideation/main into wave2a.
+2. w3 re-records `test_field_normal_regression` as a logged step, not by loosening it.
+3. The full merged-tree gate runs.
+
 ### 10 Nov 2026 — Sims get their own Godot lock
 **Picked:**
 - Harness sims run one Godot process at a time under `/tmp/bramble-harness-godot.lock`.
