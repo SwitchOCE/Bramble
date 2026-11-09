@@ -660,19 +660,30 @@ and tempo aliases resolve to their replacements. Explicit
 for historical reproduction; old sweep plans still select their frozen table.
 Current source fingerprints also include the designer JSON files.
 
-Schema checks reject malformed card lists, duplicates, unknown base strategies,
-invalid engine flags, incomplete/non-increasing climb schedules and invalid
-switch/flight minima. Unknown root and nested keys fail loudly, including
-misspelt `max_away`. `from_round` must be a positive integer; `keep_home_min`
-must be an integer from 1 to 7. Duplicate priorities/canonical names and unknown
-bases have rejection tests. The optional `max_away` limit applies only when
-explicitly set by a policy; ordinary Hard has no added default away cap. The loader normalizes priorities, tier rounds, engine flags
-and keep lists into committed Hard profiles. Birds' structured flight limits and
-R7 tempo-to-homecoming switch execute; the Fairy Court arrangement is explicit.
-Next-climb savings use the shared affordability rule. The original source policy
-is retained verbatim. Detailed conditional-buy, copy, stayer-cap, spell, thank
-and placement prose remains advisory to the shared Hard pass-3 adapters; loading
-a file does not claim to interpret arbitrary prose or prove its play strength.
+The loader separates **rules the bot runs** from **advisory author notes**.
+Unknown root keys still fail loudly. Executed nested structures (`climb`,
+`switch_to` and flight limits) reject unknown sub-keys and invalid values;
+recognized advisory values are opaque JSON, retained verbatim without checking
+an invented instruction schema.
+
+| Category | Keys | What runs |
+|---|---|---|
+| Executed root rules (`BOT_RULE_KEYS`) | `tribe`, `base_strategy`, `engine_flag` / `engine`, `buy_priority` / `priority`, `keep`, `engine_pieces`, `stayer_keep_rank`, `climb` / `climb_schedule`, `switch_to`, `fly_policy`, `save_threshold`, `save_until`, `priority_weight`, `tribe_weight`, `commit_round` | Normalize into the committed Hard profile. The first three `stayer_keep_rank` cards are the fallback retained pieces; the whole rank is not a placement policy. |
+| Executed flight rules (`FLY_RULE_KEYS`) | `from_round`, `keep_home_min`, `max_away`, `allowed` | Flight start, home minimum, optional away limit and eligible card list. Ordinary Hard has no added default away cap. |
+| Advisory root data (`ADVISORY_KEYS`) | `kind`, `max_copies`, `stayer_cap`, `harvest_supper_rounds`, `save_rule`, `great_lump_seat`, `golden_egg`, `placement`, `buy_only_if`, `place`, `stander_on_carry_slot`, `spells`, `thank`, `save`, `knobs`, `policy_version`, `triples`, `save_rounds`, `hold`, `sell_order`, `sell_first`, `heir`, `pelt_target`, `poach` | Load and retain only. The loader itself selects implementation version 2 for directory profiles; a source `policy_version` is not an override. |
+| Advisory flight data (`FLY_ADVISORY_KEYS`) | `who`, `old_tern`, `omen_turn`, `elimination_guard` | Load and retain only; prose does not alter the shared adapters. |
+
+Malformed executed card lists, duplicate cards/canonical names, unknown bases,
+invalid flags, incomplete/non-increasing climb schedules and invalid numeric
+weights/reserves fail validation. `from_round` must be a positive integer and
+`keep_home_min` an integer from 1 to 7. A misspelt `max_away` fails.
+
+Birds' R7 tempo-to-homecoming switch executes. Fairy Court's Annis slot is a
+shared adapter selected by the line name `fairies_court`, not an interpreter of
+`place` or `placement`. Hard has its own thank logic; the line file's `thank`
+schedule is advisory. Shared adapters may make choices resembling other author
+notes, but loading those notes neither enforces them nor proves line strength.
+Next-climb savings use the shared affordability rule.
 
 Tests exercise schema rejection, explicit historical opt-out, switch/flight
 behavior, and a separate real eight-seat, three-round lobby for each of the four
