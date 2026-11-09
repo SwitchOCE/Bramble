@@ -325,5 +325,34 @@
       }
     }
   ],
-  "inference": "none until complete fixed sample"
+  "inference": "complete fixed sample",
+  "result": {
+    "candidate": "line_hedgerow_tempo",
+    "incumbent": "hard_field",
+    "independent_seeds": 80,
+    "lobbies": 160,
+    "seed_range": [
+      110001,
+      110080
+    ],
+    "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+    "mean_place_gain": 0.890625,
+    "seed_sd": 1.0760950780895746,
+    "ci95": [
+      0.6511517760428372,
+      1.1300982239571629
+    ],
+    "wins": {
+      "candidate": 141,
+      "incumbent": 19
+    },
+    "passes": true,
+    "plan_validated": true,
+    "profiles_validated": true,
+    "source_commit": "e98ce68636fc29c9c4fce73619c2f240c4b57e06",
+    "seconds": 367.33416881703306,
+    "players_sha256": "1d4728a4129c26ddccf2eecd654b6cc1d66ae8e54e9ae355c693a21f00d1420c",
+    "players_file": "build/sim/review-fixes/best-hedgerow/all.players.csv",
+    "equal_blind_placement": true
+  }
 }

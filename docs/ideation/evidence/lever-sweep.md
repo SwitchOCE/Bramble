@@ -33,3 +33,13 @@ strength samples; pass the separate lever-build comparison; implement controlled
 answer/targeting, placement and RNG counterfactual readers before answer screening.
 The resumable controller is implemented and unit-tested, but no full sweep plan
 has been prepared or executed while those conditions remain unmet.
+
+## Fresh blind comparison: Best line / independent hedgerow confirmation
+
+`line_hedgerow_tempo` against `hard_field`; exactly 80 fresh independent seeds, 160 seat-swapped lobbies, four candidate and four incumbent seats per lobby. Both use blind rule placement. The two legs control seat roles; shop RNG remains unpaired. There was no interim strength inference, sample extension or policy change.
+
+Mean placement gain **+0.8906**, two-sided 95% seed-cluster Student-t CI **[+0.6512, +1.1301]**. Candidate lobby wins 141/160; incumbent 19/160. The fixed superiority check **passes**. Runtime 367.3s (6.12 min), including job startup.
+
+Hedgerow tempo was selected as the best eligible line by the independent 500-lobby placement ranking. This one predeclared confirmation tests that selection and its prior exploratory claim; it is not two independent successes.
+
+[Full result and all 80 independent seed gains](../../../tools/sim/evidence/best-hedgerow-blind-result.json). The gameplay tree is unchanged from the passed 1,683-test gate; statistical plan and complete CSV validation passed.
