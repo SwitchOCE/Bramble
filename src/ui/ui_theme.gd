@@ -258,6 +258,8 @@ static func player_name(standing: Dictionary) -> String:
 	if standing.get("is_human", false) == true:
 		return "You"
 	var hero: String = str(standing.get("hero", ""))
+	if str(standing.get("personality", "")).begins_with("field:"):
+		return str(standing.get("name", hero))
 	if not hero.is_empty():
 		return hero
 	var name: String = short_name(str(standing.get("name", "?")))

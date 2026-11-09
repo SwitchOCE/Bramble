@@ -221,3 +221,58 @@ func test_extinct_line_borrows_same_tribe_before_wider_field_and_labels_terminal
 	field._advance(1, 3)
 	assert_eq(field.source_rounds[1], 2, "terminal field is labelled with its actual source round")
 	assert_eq(field.seats[1]["trajectory"]["id"], "same-tribe")
+
+
+func test_launcher_adopts_lever_config_and_loader_accepts_its_overlay_cards() -> void:
+	var field := FieldLibrary.read(BASELINE, _library)
+	field.data["config"]["scale_levers"] = ["scale_engine"]
+	field.data["config"]["card_size_caps"] = false
+	var lever_library := UnitLibrary.load_dir("res://content/levers")
+	var spec: Dictionary = (
+		RecruitUnit.make(lever_library.get_unit("scale_engine"), 2001).combat_spec()
+	)
+	var lines: Dictionary = field.data["lines"]
+	for line: Dictionary in lines.values():
+		for trajectory: Dictionary in line["trajectories"]:
+			var frame: Dictionary = trajectory["rounds"]["1"]
+			frame["board"][0] = spec.duplicate(true)
+			frame.erase("views")
+	var path: String = "res://build/strong-field-lever-test.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(field.data))
+	file.close()
+	var config := GameConfig.full_game()
+	assert_eq(FieldLibrary.configure(config, _library, path), "")
+	assert_false(config.get_bool("card_size_caps"))
+	assert_eq(config.get_strings("scale_levers"), PackedStringArray(["scale_engine"]))
+	config.set_value("human_bot", "hard")
+	var session := GameSession.create(71, _library, config)
+	assert_not_null(session)
+	if session != null:
+		assert_false(session._library.get_unit("scale_engine").is_empty())
+		assert_eq(session._field.frames[1]["board"][0]["def_id"], "scale_engine")
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+
+
+func test_field_ghost_identity_and_hero_are_shown_without_naming_an_eliminated_seat() -> void:
+	var session := _session()
+	session._pairings = [[0, -1], [1, 2], [3, 4], [5, 6]]
+	var state: Dictionary = session.get_state()
+	var View := preload("res://src/ui/screens/recruit_view.gd")
+	assert_eq(state["opponents"], "field")
+	var UiTheme := preload("res://src/ui/ui_theme.gd")
+	var standing: Dictionary = state["standings"][1]
+	assert_string_contains(UiTheme.player_name(standing), "Rival 1")
+	assert_string_contains(UiTheme.player_name(standing), str(standing["hero"]))
+	assert_true(View.is_ghost_next(state))
+	assert_eq(View.next_name(state), "Field ghost")
+	assert_true(View.ghost_owner(state).is_empty())
+	assert_not_null(state["next_opponent_hero"])
+	var card: Dictionary = View.ghost_card(state)
+	assert_string_contains(str(card["text"]), "no Health")
+	assert_string_contains(str(card["text"]), str(state["next_opponent_hero"]["text"]))
+	var lines: PackedStringArray = []
+	PlayView._scouted(state, lines)
+	assert_string_contains("\n".join(lines), "Field ghost")
+	assert_string_contains("\n".join(lines), "current board")
+	assert_false("\n".join(lines).contains("last player out"))

@@ -1,0 +1,300 @@
+$ tools/play/play.sh new --seed 71 --field-library res://tests/fixtures/field/baseline.json --save /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json --json
+R0 hero_choice tier=1 health=40 gold=0 board=
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json choose 0 --json
+R1 recruit tier=1 health=40 gold=3 board=
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R1 recruit tier=1 health=40 gold=0 board=
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F1 --json
+R1 recruit tier=1 health=40 gold=0 board=F1:Young Pretender 3/2
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R2 recruit tier=1 health=40 gold=5 board=F1:Young Pretender 3/2
+fight round=1 opponent=2 winner=0 damage=1
+Health: 0=40 (place None), 1=40 (place None), 2=39 (place None), 3=40 (place None), 4=40 (place None), 5=39 (place None), 6=40 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R2 recruit tier=1 health=40 gold=2 board=F1:Young Pretender 3/2
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F2 --json
+R2 recruit tier=1 health=40 gold=2 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R3 recruit tier=1 health=38 gold=7 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4
+fight round=2 opponent=6 winner=1 damage=2
+Health: 0=38 (place None), 1=40 (place None), 2=39 (place None), 3=37 (place None), 4=39 (place None), 5=39 (place None), 6=40 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json tier --json
+R3 recruit tier=2 health=38 gold=4 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 2 --json
+R3 recruit tier=2 health=38 gold=1 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F3 --json
+R3 recruit tier=2 health=38 gold=1 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R4 recruit tier=2 health=35 gold=7 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4
+fight round=3 opponent=7 winner=1 damage=3
+Health: 0=35 (place None), 1=37 (place None), 2=39 (place None), 3=35 (place None), 4=37 (place None), 5=39 (place None), 6=40 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json tier --json
+R4 recruit tier=3 health=35 gold=1 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R5 recruit tier=3 health=32 gold=8 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4
+fight round=4 opponent=3 winner=1 damage=3
+Health: 0=32 (place None), 1=34 (place None), 2=39 (place None), 3=35 (place None), 4=37 (place None), 5=37 (place None), 6=38 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R5 recruit tier=3 health=32 gold=5 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F4 --json
+R5 recruit tier=3 health=32 gold=5 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R5 recruit tier=3 health=32 gold=2 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 B1 --json
+R5 recruit tier=3 health=32 gold=2 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R6 recruit tier=3 health=26 gold=10 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5
+fight round=5 opponent=2 winner=1 damage=6
+Health: 0=26 (place None), 1=29 (place None), 2=39 (place None), 3=30 (place None), 4=32 (place None), 5=37 (place None), 6=38 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json tier --json
+R6 recruit tier=4 health=26 gold=4 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 2 --json
+R6 recruit tier=4 health=26 gold=1 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 B2 --json
+R6 recruit tier=4 health=26 gold=1 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R7 recruit tier=4 health=24 gold=10 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3
+fight round=6 opponent=4 winner=1 damage=2
+Health: 0=24 (place None), 1=22 (place None), 2=39 (place None), 3=23 (place None), 4=32 (place None), 5=33 (place None), 6=38 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R7 recruit tier=4 health=24 gold=7 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 B3 --json
+R7 recruit tier=4 health=24 gold=7 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json refresh --json
+R7 recruit tier=4 health=24 gold=6 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R8 recruit tier=4 health=17 gold=16 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+fight round=7 opponent=6 winner=1 damage=7
+Health: 0=17 (place None), 1=15 (place None), 2=39 (place None), 3=16 (place None), 4=27 (place None), 5=33 (place None), 6=38 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json tier --json
+R8 recruit tier=5 health=17 gold=7 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json refresh --json
+R8 recruit tier=5 health=17 gold=6 board=F1:Young Pretender 3/2, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json sell F1 --json
+R8 recruit tier=5 health=17 gold=7 board=F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R8 recruit tier=5 health=17 gold=4 board=F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F1 --json
+R8 recruit tier=5 health=17 gold=4 board=F1:Mother Goose 4/7, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R9 recruit tier=5 health=17 gold=14 board=F1:Mother Goose 4/7, F2:Pill Bug 1/4, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+fight round=8 opponent=1 winner=0 damage=7
+Health: 0=17 (place None), 1=8 (place None), 2=39 (place None), 3=10 (place None), 4=27 (place None), 5=28 (place None), 6=34 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json sell F2 --json
+R9 recruit tier=5 health=17 gold=15 board=F1:Mother Goose 4/7, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R9 recruit tier=5 health=17 gold=12 board=F1:Mother Goose 4/7, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F2 --json
+R9 recruit tier=5 health=17 gold=12 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Pill Bug 1/4, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json sell F3 --json
+R9 recruit tier=5 health=17 gold=13 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 3 --json
+R9 recruit tier=5 health=17 gold=10 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F3 --json
+R9 recruit tier=5 health=17 gold=10 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json refresh --json
+R9 recruit tier=5 health=17 gold=9 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:Tom Tit 3/4, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json sell F4 --json
+R9 recruit tier=5 health=17 gold=10 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 0 --json
+R9 recruit tier=5 health=17 gold=7 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 F4 --json
+R9 recruit tier=5 health=17 gold=7 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R10 recruit tier=5 health=10 gold=17 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+fight round=9 opponent=2 winner=1 damage=7
+Health: 0=10 (place None), 1=0 (place 8), 2=39 (place None), 3=3 (place None), 4=21 (place None), 5=28 (place None), 6=34 (place None), 7=40 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json tier --json
+R10 recruit tier=6 health=10 gold=6 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json refresh --json
+R10 recruit tier=6 health=10 gold=5 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B1:Dr Urchin 2/5, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json sell B1 --json
+R10 recruit tier=6 health=10 gold=6 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 3 --json
+R10 recruit tier=6 health=10 gold=3 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 B1 --json
+R10 recruit tier=6 health=10 gold=3 board=F1:Mother Goose 4/7, F2:Lady Belladonna 4/8, F3:Grizel 5/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R11 recruit tier=6 health=10 gold=13 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B2:Ballooning Spider 4/3, B3:Will-o'-the-Wisp 3/6
+fight round=10 opponent=3 winner=0 damage=10
+Health: 0=10 (place None), 1=0 (place 8), 2=39 (place None), 3=-7 (place 7), 4=14 (place None), 5=28 (place None), 6=34 (place None), 7=35 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json sell B2 --json
+R11 recruit tier=6 health=10 gold=14 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json buy 5 --json
+R11 recruit tier=6 health=10 gold=11 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json play 0 B2 --json
+R11 recruit tier=6 health=10 gold=11 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B2:Squire Lollop, Lord of the Manor 6/8, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json refresh --json
+R11 recruit tier=6 health=10 gold=10 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B2:Squire Lollop, Lord of the Manor 6/8, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R12 recruit tier=6 health=1 gold=20 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B2:Squire Lollop, Lord of the Manor 6/8, B3:Will-o'-the-Wisp 3/6
+fight round=11 opponent=7 winner=1 damage=9
+Health: 0=1 (place None), 1=0 (place 8), 2=39 (place None), 3=-7 (place 7), 4=6 (place None), 5=28 (place None), 6=26 (place None), 7=35 (place None)
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json refresh --json
+R12 recruit tier=6 health=1 gold=19 board=F1:Mother Goose 4/7, F2:Lady Belladonna 5/8, F3:Grizel 6/6, F4:The Standing Committee 5/7, B1:The Peat King 5/9, B2:Squire Lollop, Lord of the Manor 6/8, B3:Will-o'-the-Wisp 3/6
+
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field-smoke.game.json end --json
+R12 game_over tier=6 health=-12 gold=19 board=
+fight round=12 opponent=4 winner=1 damage=13
+Health: 0=-12 (place 6), 1=0 (place 8), 2=30 (place None), 3=-7 (place 7), 4=6 (place None), 5=28 (place None), 6=26 (place None), 7=24 (place None)
+
+
+--- tools/play log ---
+
+* marks a golden unit.
+Lobby tribes: Birds, Bog folk, Fairies, Hedgerow folk, Hunters
+You: place 6, health -12, tier 6, spent 80 gold, main tribe Hedgerow folk
+  R1 T1 win spent 3: F1 Young Pretender 3/2
+  R2 T1 loss spent 3: F1 Young Pretender 3/2, F2 Pill Bug 1/4
+  R3 T2 loss spent 6: F1 Young Pretender 3/2, F2 Pill Bug 1/4, F3 Pill Bug 1/4
+  R4 T3 loss spent 6: F1 Young Pretender 3/2, F2 Pill Bug 1/4, F3 Pill Bug 1/4
+  R5 T3 loss spent 6: F1 Young Pretender 3/2, F2 Pill Bug 1/4, F3 Pill Bug 1/4, F4 Tom Tit 3/4, B1 Dr Urchin 2/5
+  R6 T4 loss spent 9: F1 Young Pretender 3/2, F2 Pill Bug 1/4, F3 Pill Bug 1/4, F4 Tom Tit 3/4, B1 Dr Urchin 2/5, B2 Ballooning Spider 4/3
+  R7 T4 loss spent 4: F1 Young Pretender 3/2, F2 Pill Bug 1/4, F3 Pill Bug 1/4, F4 Tom Tit 3/4, B1 Dr Urchin 2/5, B2 Ballooning Spider 4/3, B3 Will-o'-the-Wisp 3/6
+  R8 T5 win spent 13: F1 Mother Goose 4/7, F2 Pill Bug 1/4, F3 Pill Bug 1/4, F4 Tom Tit 3/4, B1 Dr Urchin 2/5, B2 Ballooning Spider 4/3, B3 Will-o'-the-Wisp 3/6
+  R9 T5 loss spent 10: F1 Mother Goose 4/7, F2 Lady Belladonna 4/8, F3 Grizel 5/6, F4 The Standing Committee 5/7, B1 Dr Urchin 2/5, B2 Ballooning Spider 4/3, B3 Will-o'-the-Wisp 3/6
+  R10 T6 win spent 15: F1 Mother Goose 4/7, F2 Lady Belladonna 5/8, F3 Grizel 6/6, F4 The Standing Committee 5/7, B1 The Peat King 5/9, B2 Ballooning Spider 4/3, B3 Will-o'-the-Wisp 3/6
+  R11 T6 loss spent 4: F1 Mother Goose 4/7, F2 Lady Belladonna 5/8, F3 Grizel 6/6, F4 The Standing Committee 5/7, B1 The Peat King 5/9, B2 Squire Lollop, Lord of the Manor 6/8, B3 Will-o'-the-Wisp 3/6
+  R12 T6 loss spent 1: F1 Mother Goose 4/7, F2 Lady Belladonna 5/8, F3 Grizel 6/6, F4 The Standing Committee 5/7, B1 The Peat King 5/9, B2 Squire Lollop, Lord of the Manor 6/8, B3 Will-o'-the-Wisp 3/6
+Rival 1 · Jill Down-the-Tree: place 8, health 0, tier 6, spent 0 gold, main tribe Hedgerow folk
+  R1 T1 tie spent 0: (empty)
+  R2 T1 win spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 2/4
+  R3 T2 loss spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 4/6
+  R4 T3 loss spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 4/6
+  R5 T3 loss spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 4/6, B2 The Sleeping Partner 3/4
+  R6 T4 loss spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 4/6, B1 Sexton Beetle 2/4, B2 The Sleeping Partner 3/4
+  R7 T5 loss spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 4/6, B1 Sexton Beetle 2/4, B2 The Sleeping Partner 3/4
+  R8 T6 loss spent 0: F1 Mrs Dunnock 2/3, F2 Mr Crumb 1/2, F3 Bridge Toad 4/6, F4 Mr Crumb 1/2, B1 Sexton Beetle 2/4, B2 The Sleeping Partner 3/4
+  R9 T6 loss spent 0: F1 Mr Pym 3/5, F2 Old Mother Mast 8/10, F3 Bridge Toad 4/6, F4 Mr Crumb 4/5, B1 The Honorary Treasurer 4/6, B2 The Sleeping Partner 5/6, B3 Goodman Hayward 9/12
+Rival 2 · Brother Bracken: place <null>, health 30, tier 6, spent 0 gold, main tribe Oozes
+  R1 T1 loss spent 0: (empty)
+  R2 T2 loss spent 0: F2 Bridge Toad 1/3
+  R3 T2 win spent 0: F1 Little Dollop 1/2, F2 Bridge Toad 2/4, F3 The Toll-Bard 2/4
+  R4 T2 win spent 0: F1 Little Dollop 1/2, F2 Young Brock 1/3, F3 Pennywort Snail 1/4, F4 The Toll-Bard 2/4, B2 Bridge Toad 3/5
+  R5 T3 win spent 0: F1 Little Dollop 2/3, F2 Young Brock 1/3, F3 Pennywort Snail 1/5, F4 The Toll-Bard 2/4, B2 Bridge Toad 3/5
+  R6 T3 win spent 0: F1 Little Dollop 2/3, F2 *The Toll-Bard 4/8, F3 Bridge Toad 4/6, B1 Figgy Duff 3/5, B2 Old Lutra 3/4
+  R7 T3 win spent 0: F1 Little Dollop 4/5, F2 *The Toll-Bard 9/13, F3 Bridge Toad 4/6, B1 Figgy Duff 4/6, B2 Old Lutra 7/8
+  R8 T4 win spent 0: F1 Little Dollop 4/5, F2 *The Toll-Bard 10/14, F3 Bridge Toad 4/6, B1 Figgy Duff 5/7, B2 Old Lutra 11/12
+  R9 T4 win spent 0: F1 Little Dollop 4/5, F2 *The Toll-Bard 13/17, B1 Figgy Duff 5/7, B2 Old Lutra 12/13, B3 Mr Syllabub 3/6
+  R10 T4 win spent 0: F1 Little Dollop 5/6, F2 *The Toll-Bard 13/17, B1 Figgy Duff 6/8, B2 Old Lutra 13/14, B3 Mr Syllabub 4/7
+  R11 T5 win spent 0: F1 Mr Syllabub 4/7, F2 *The Toll-Bard 13/17, B1 Figgy Duff 7/9, B2 Old Lutra 16/17, B3 Mr Syllabub 4/7
+  R12 T6 loss spent 0: F1 Mr Syllabub 4/7, F2 *The Toll-Bard 13/17, B1 Figgy Duff 7/9, B2 Old Lutra 17/18, B3 Mr Syllabub 4/7
+Rival 3 · Pipkin: place 7, health -7, tier 6, spent 0 gold, main tribe Bog folk
+  R1 T1 tie spent 0: (empty)
+  R2 T1 loss spent 0: F2 Hedge Witch 1/2, B2 Young Pretender 3/2
+  R3 T2 loss spent 0: F2 Hedge Witch 1/2, F3 Pill Bug 1/4, B2 Young Pretender 3/2
+  R4 T3 win spent 0: F2 Hedge Witch 1/2, F3 Pill Bug 1/4, B1 Vaulting Hopkin 5/1, B2 Young Pretender 3/2
+  R5 T3 loss spent 0: F1 The Natterjack Chorus 3/4, F2 Hedge Witch 1/2, F3 Pill Bug 1/4, F4 Pill Bug 1/4, B1 Vaulting Hopkin 5/1, B2 Young Pretender 3/2
+  R6 T4 loss spent 0: F1 The Natterjack Chorus 3/4, F2 Hedge Witch 1/2, F3 Pill Bug 1/4, F4 Pill Bug 1/4, B1 Vaulting Hopkin 5/1, B2 Young Pretender 3/2, B3 Sexton Beetle 2/4
+  R7 T5 loss spent 0: F1 The Natterjack Chorus 3/4, F2 Hedge Witch 1/2, F3 Pill Bug 1/4, F4 Pill Bug 1/4, B1 Vaulting Hopkin 5/1, B2 Young Pretender 3/2, B3 Sexton Beetle 2/4
+  R8 T6 loss spent 0: F1 The Natterjack Chorus 3/4, F2 Hedge Witch 1/2, F3 Pill Bug 1/4, F4 Pill Bug 1/4, B1 Vaulting Hopkin 5/1, B2 Young Pretender 3/2, B3 Sexton Beetle 2/4
+  R9 T6 loss spent 0: F1 The Natterjack Chorus 4/5, F2 Jenny Greenteeth 4/6, F3 The Peat King 6/10, F4 Pill Bug 1/4, B1 Vaulting Hopkin 8/4, B2 Young Pretender 6/5, B3 Sexton Beetle 2/4
+  R10 T6 loss spent 0: F1 The Natterjack Chorus 4/5, F2 Jenny Greenteeth 4/6, F3 The Peat King 6/10, F4 The Natterjack Chorus 4/5, B1 Vaulting Hopkin 8/4, B2 Young Pretender 6/5, B3 Tiddy Mun 4/7
+Rival 4 · Old Mother Mousewife: place <null>, health 6, tier 6, spent 0 gold, main tribe Birds
+  R1 T1 tie spent 0: (empty)
+  R2 T1 loss spent 0: F2 Wick 2/3, F3 Nan Toadstool 3/2
+  R3 T2 loss spent 0: F1 Mrs Dunnock 2/3, F2 Wick 2/3, F3 Nan Toadstool 3/2
+  R4 T2 win spent 0: F1 Mrs Dunnock 2/3, F2 Wick 2/3, F3 Nan Toadstool 3/2, F4 Pennywort Snail 1/4
+  R5 T3 loss spent 0: F1 Turnip Scarecrow 0/4, F2 Wick 2/3, F3 Nan Toadstool 3/2, F4 Pennywort Snail 1/5, B1 Mrs Dunnock 2/3, B2 Cricket Busker 2/3
+  R6 T4 win spent 0: F1 Turnip Scarecrow 0/4, F2 Wick 2/3, F3 Nan Toadstool 3/2, F4 Pennywort Snail 1/6, B1 Mrs Dunnock 2/3, B2 Cricket Busker 2/3, B3 Ballooning Spider 4/3
+  R7 T4 loss spent 0: F1 Turnip Scarecrow 0/4, F2 Wick 2/3, F3 The Cuckoo 7/10, F4 Pennywort Snail 1/6, B1 Mrs Dunnock 3/4, B2 Cricket Busker 3/4, B3 Ballooning Spider 4/3
+  R8 T5 win spent 0: F1 Turnip Scarecrow 0/4, F2 Wick 2/3, F3 The Cuckoo 8/11, F4 Pennywort Snail 1/6, B1 Mrs Dunnock 4/5, B2 Cricket Busker 3/4, B3 Ballooning Spider 4/3
+  R9 T5 loss spent 0: F1 Redwing 7/9, F2 Mother Goose 6/9, F3 The Cuckoo 10/13, F4 Pennywort Snail 1/6, B1 Mrs Dunnock 5/6, B2 Cricket Busker 3/4, B3 Ballooning Spider 4/3
+  R10 T5 loss spent 0: F1 Redwing 7/9, F2 Squire Lollop, Lord of the Manor 6/8, F3 The Cuckoo 10/13, F4 Mrs Dunnock 5/6, B1 Pipistrelle Echo 6/9, B2 Cricket Busker 3/4, B3 Ballooning Spider 4/3
+  R11 T6 loss spent 0: F1 Redwing 7/9, F2 Squire Lollop, Lord of the Manor 9/11, F3 The Cuckoo 10/13, F4 Mrs Dunnock 5/6, B1 Pipistrelle Echo 6/9, B2 Cricket Busker 3/4, B3 Ballooning Spider 4/3
+  R12 T6 win spent 0: F1 Redwing 7/9, F2 Squire Lollop, Lord of the Manor 9/11, F3 The Cuckoo 10/13, F4 Mrs Dunnock 8/9, B1 Pipistrelle Echo 6/9, B2 Mother Goose 6/9, B3 Old Tern 5/6
+Rival 5 · Brother Bracken: place <null>, health 28, tier 6, spent 0 gold, main tribe Fairies
+  R1 T1 loss spent 0: F2 Hedge Witch 1/2
+  R2 T1 win spent 0: F3 Hedge Witch 2/3, B2 Nan Toadstool 2/1
+  R3 T2 win spent 0: F2 Wee Wobbly 1/4, F3 Hedge Witch 2/3, B2 Nan Toadstool 2/1
+  R4 T3 loss spent 0: F2 Wee Wobbly 1/4, F3 Sally Spore 2/4, B1 Hedge Witch 1/2, B2 Nan Toadstool 2/1
+  R5 T3 win spent 0: F2 Lamp Moth 1/2, F3 Wee Wobbly 2/5, F4 Sally Spore 2/4, B1 Hedge Witch 1/2, B2 Nan Toadstool 2/1
+  R6 T4 loss spent 0: F1 Sally Spore 2/4, F3 Wee Wobbly 2/5, F4 Lamp Moth 2/3, B1 Hedge Witch 2/3, B2 Nan Toadstool 2/1
+  R7 T4 win spent 0: F1 Sally Spore 2/4, F2 Hedge Witch 5/6, F3 Wee Wobbly 2/5, B1 Will-o'-the-Wisp 3/6, B2 Cluricaun 3/3
+  R8 T4 loss spent 0: F1 Hedge Witch 4/4, F2 Wee Wobbly 2/5, F4 Hedge Witch 7/8, B1 Will-o'-the-Wisp 4/7, B2 Cluricaun 4/4
+  R9 T5 win spent 0: F1 Hedge Witch 3/4, F2 Wee Wobbly 2/5, F4 Ichneumon Wasp 4/5, B1 Will-o'-the-Wisp 4/7, B2 Hedge Witch 5/6
+  R10 T5 win spent 0: F1 Hedge Witch 3/4, F2 Lady Belladonna 9/13, F4 Hedge Witch 7/8, B1 Will-o'-the-Wisp 4/7, B2 Will-o'-the-Wisp 7/10
+  R11 T5 win spent 0: F2 Lady Belladonna 10/15, F3 Squire Lollop, Lord of the Manor 7/9, F4 *Hedge Witch 9/11, B1 Will-o'-the-Wisp 6/9, B2 Will-o'-the-Wisp 9/12
+  R12 T6 win spent 0: F2 Lady Belladonna 10/15, F3 Squire Lollop, Lord of the Manor 7/9, F4 *Hedge Witch 9/11, B1 Will-o'-the-Wisp 6/9, B2 Will-o'-the-Wisp 9/12
+Rival 6 · Brother Bracken: place <null>, health 26, tier 6, spent 0 gold, main tribe Hunters
+  R1 T1 win spent 0: F2 Nan Toadstool 3/2
+  R2 T1 win spent 0: F2 Nan Toadstool 3/2, F3 Young Brock 1/3
+  R3 T2 win spent 0: F2 Nan Toadstool 3/2, F3 Young Brock 2/4, F4 Wick 2/3
+  R4 T2 loss spent 0: F1 Sable 2/3, F2 Nan Toadstool 3/2, F3 Young Brock 3/5, F4 Wick 2/3, B2 Lamp Moth 1/2
+  R5 T3 win spent 0: F1 Sable 2/3, F2 Nan Toadstool 3/2, F3 Young Brock 3/5, F4 Wick 2/3, B2 Lamp Moth 1/2
+  R6 T4 win spent 0: F1 Sable 2/3, F2 Wick 3/4, F3 Young Brock 3/5, F4 Mistress Russet 3/3, B2 Old Lutra 3/4
+  R7 T4 win spent 0: F1 Sable 3/4, F2 Madame Ermeline 5/8, F3 Young Brock 4/6, F4 Mistress Russet 4/4, B2 Old Lutra 4/5
+  R8 T5 loss spent 0: F1 Sable 4/5, F2 Madame Ermeline 9/12, F4 Mistress Russet 5/5, B1 The Mountain Glutton 6/7, B2 Old Lutra 6/7
+  R9 T5 win spent 0: F2 Old Lutra 8/9, F4 Mistress Russet 5/5, B1 The Mountain Glutton 6/7, B2 The Laird of the Sett 5/7, B3 Madame Ermeline 8/11
+  R10 T5 win spent 0: F3 Squire Lollop, Lord of the Manor 6/8, F4 Mistress Russet 5/5, B1 *The Mountain Glutton 11/13, B2 The Laird of the Sett 5/7, B3 Madame Ermeline 8/11
+  R11 T6 loss spent 0: F3 Squire Lollop, Lord of the Manor 6/8, F4 Mistress Russet 5/5, B1 *The Mountain Glutton 12/14, B2 The Laird of the Sett 8/10, B3 Madame Ermeline 8/11
+  R12 T6 win spent 0: F2 Madame Ermeline 9/12, F3 Mistress Russet 5/5, B1 *The Mountain Glutton 12/14, B2 The Laird of the Sett 8/10, B3 The Laird of the Sett 5/7
+Rival 7 · Brother Bracken: place <null>, health 24, tier 6, spent 0 gold, main tribe Oozes
+  R1 T1 tie spent 0: (empty)
+  R2 T2 win spent 0: F2 Bridge Toad 1/3
+  R3 T2 win spent 0: F1 Little Dollop 1/2, F2 Bridge Toad 2/4, F3 The Toll-Bard 2/4
+  R4 T2 win spent 0: F1 Little Dollop 1/2, F2 Young Brock 1/3, F3 Pennywort Snail 1/4, F4 The Toll-Bard 2/4, B2 Bridge Toad 3/5
+  R5 T3 win spent 0: F1 Little Dollop 2/3, F2 Young Brock 1/3, F3 Pennywort Snail 1/5, F4 The Toll-Bard 2/4, B2 Bridge Toad 3/5
+  R6 T3 win spent 0: F1 Little Dollop 2/3, F2 *The Toll-Bard 4/8, F3 Bridge Toad 4/6, B1 Figgy Duff 3/5, B2 Old Lutra 3/4
+  R7 T3 win spent 0: F1 Little Dollop 4/5, F2 *The Toll-Bard 9/13, F3 Bridge Toad 4/6, B1 Figgy Duff 4/6, B2 Old Lutra 7/8
+  R8 T4 win spent 0: F1 Little Dollop 4/5, F2 *The Toll-Bard 10/14, F3 Bridge Toad 4/6, B1 Figgy Duff 5/7, B2 Old Lutra 11/12
+  R9 T4 win spent 0: F1 Little Dollop 4/5, F2 *The Toll-Bard 13/17, B1 Figgy Duff 5/7, B2 Old Lutra 12/13, B3 Mr Syllabub 3/6
+  R10 T4 loss spent 0: F1 Little Dollop 5/6, F2 *The Toll-Bard 13/17, B1 Figgy Duff 6/8, B2 Old Lutra 13/14, B3 Mr Syllabub 4/7
+  R11 T5 win spent 0: F1 Mr Syllabub 4/7, F2 *The Toll-Bard 13/17, B1 Figgy Duff 7/9, B2 Old Lutra 16/17, B3 Mr Syllabub 4/7
+  R12 T6 loss spent 0: F1 Mr Syllabub 4/7, F2 *The Toll-Bard 13/17, B1 Figgy Duff 7/9, B2 Old Lutra 17/18, B3 Mr Syllabub 4/7
+Tribes: {"Birds":{"avg_placement":0.0,"bought":2,"main_players":0,"placement_sum":0,"unit_rounds":39,"wins":0},"Bog folk":{"avg_placement":7.0,"bought":2,"main_players":1,"placement_sum":7,"unit_rounds":60,"wins":0},"Fairies":{"avg_placement":0.0,"bought":2,"main_players":0,"placement_sum":0,"unit_rounds":65,"wins":0},"Hedgerow folk":{"avg_placement":7.0,"bought":3,"main_players":2,"placement_sum":14,"unit_rounds":36,"wins":0},"Hunters":{"avg_placement":0.0,"bought":1,"main_players":0,"placement_sum":0,"unit_rounds":91,"wins":0},"Oozes":{"avg_placement":0.0,"bought":0,"main_players":0,"placement_sum":0,"unit_rounds":49,"wins":0}}

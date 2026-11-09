@@ -44,7 +44,7 @@ func setup(session: GameSession) -> void:
 		seats[player.id] = {"line": line, "source_line": line, "trajectory": trajectory}
 		HeroRules.assign(player, session._library.get_hero(str(trajectory["hero"])))
 		player.personality = "field:%s" % line
-		player.name = "Rival %d · %s" % [player.id, trajectory["name"]]
+		player.name = "Rival %d · %s" % [player.id, player.hero["name"]]
 		session._bots.erase(player.id)
 	# A separate persistent trajectory supplies ghosts, advancing even before the first death.
 	var first_seat: Dictionary = seats[1]
@@ -76,7 +76,7 @@ func prepare(session: GameSession) -> void:
 		var trajectory: Dictionary = seats[id]["trajectory"]
 		# Switching never restores Health, Armor or Last Stand.
 		player.hero = session._library.get_hero(str(trajectory["hero"]))
-		player.name = "Rival %d · %s" % [id, trajectory["name"]]
+		player.name = "Rival %d · %s" % [id, player.hero["name"]]
 		player.tier = CoreUtil.to_int(frame["tier"])
 		player.round_number = session._round
 		var specs: Array = frame["board"]
@@ -217,6 +217,12 @@ func _reserve(spec: Dictionary, pool: UnitPool) -> void:
 			_reserved[def_id] = CoreUtil.to_int(_reserved.get(def_id, 0)) + 1
 	for held: Dictionary in spec.get("held", []):
 		_reserve(held, pool)
+
+
+func ghost_hero(unit_library: UnitLibrary) -> Dictionary:
+	var seat: Dictionary = seats[Matchmaking.GHOST]
+	var trajectory: Dictionary = seat["trajectory"]
+	return GameSession._hero_card(unit_library.get_hero(str(trajectory["hero"])))
 
 
 func scout(id: int, unit_library: UnitLibrary) -> Dictionary:

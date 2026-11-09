@@ -63,7 +63,7 @@ func _validate(library: UnitLibrary) -> String:
 		return "Field library needs config and content hashes"
 	var hashes: Dictionary = data["content_hashes"]
 	var paths: PackedStringArray = []
-	for folder: String in ["units", "heroes", "spells"]:
+	for folder: String in ["units", "heroes", "spells", "levers", "schema"]:
 		var dir := DirAccess.open("res://content/" + folder)
 		for filename: String in dir.get_files():
 			if filename.ends_with(".json"):

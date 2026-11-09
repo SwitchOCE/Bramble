@@ -48,6 +48,8 @@ def source_data(commit, *, cwd=None):
             "content/units",
             "content/spells",
             "content/heroes",
+            "content/levers",
+            "content/schema",
         ):
             continue
         raw = git_output("show", f"{revision}:{name}", cwd=cwd)

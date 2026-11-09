@@ -138,6 +138,8 @@ static func fight_note(view: Dictionary) -> String:
 
 ## A ghost needs someone out. Before the first pairing (the hero offer) the id reads the same.
 static func is_ghost_next(view: Dictionary) -> bool:
+	if Data.s(view, "opponents") == "field":
+		return Data.i(view, "next_opponent_id", -2) == GHOST_ID and Data.i(view, "round") > 0
 	return Data.i(view, "next_opponent_id", -2) == GHOST_ID and not ghost_owner(view).is_empty()
 
 
@@ -145,6 +147,8 @@ static func is_ghost_next(view: Dictionary) -> bool:
 static func next_name(view: Dictionary) -> String:
 	var next_id: int = Data.i(view, "next_opponent_id", -2)
 	if next_id == GHOST_ID:
+		if Data.s(view, "opponents") == "field":
+			return "Field ghost" if Data.i(view, "round") > 0 else ""
 		var owner: Dictionary = ghost_owner(view)
 		return "" if owner.is_empty() else "Ghost of %s" % UiTheme.player_name(owner)
 	for entry: Variant in Data.a(view, "standings"):
@@ -156,6 +160,8 @@ static func next_name(view: Dictionary) -> String:
 
 ## Whose board the ghost is: the last player knocked out, who holds the best place among the out.
 static func ghost_owner(view: Dictionary) -> Dictionary:
+	if Data.s(view, "opponents") == "field":
+		return {}
 	var owner: Dictionary = {}
 	var best: int = 99
 	for entry: Variant in Data.a(view, "standings"):
@@ -171,6 +177,16 @@ static func ghost_owner(view: Dictionary) -> Dictionary:
 
 ## The card that says what a ghost is.
 static func ghost_card(view: Dictionary) -> Dictionary:
+	if Data.s(view, "opponents") == "field":
+		var hero: Dictionary = Data.d(view, "next_opponent_hero")
+		var card: Dictionary = hero_card(hero) if not hero.is_empty() else {}
+		card["name"] = "Field ghost"
+		card["text"] = (
+			"An opponent from the field. It has no Health; "
+			+ "if it wins, you still lose Health.\n"
+			+ Data.s(card, "text")
+		)
+		return card
 	var owner: Dictionary = ghost_owner(view)
 	var whose: String = "the last player knocked out"
 	if not owner.is_empty():

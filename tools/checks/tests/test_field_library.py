@@ -148,7 +148,10 @@ class FieldLibraryTests(unittest.TestCase):
 
     def test_source_fingerprints_use_requested_git_commit(self):
         hero = b'{"id":"frog","name":"Frog King"}'
-        files = b"content/heroes/frog.json\ncontent/units/frog.json\ncontent/other.json\n"
+        files = (
+            b"content/heroes/frog.json\ncontent/units/frog.json\ncontent/other.json\n"
+            b"content/levers/engine.json\ncontent/schema/effects.json\n"
+        )
 
         def git(*args, cwd=None):
             self.assertIsNone(cwd)
@@ -168,5 +171,7 @@ class FieldLibraryTests(unittest.TestCase):
         self.assertEqual(revision, "c" * 40)
         self.assertEqual(hashes["content/heroes/frog.json"], hashlib.sha256(hero).hexdigest())
         self.assertNotIn("content/other.json", hashes)
+        self.assertIn("content/levers/engine.json", hashes)
+        self.assertIn("content/schema/effects.json", hashes)
         self.assertEqual(names, {"frog": "Frog King"})
         self.assertEqual(profiles["line_frogs_tempo"]["tribe"], "Frogs")

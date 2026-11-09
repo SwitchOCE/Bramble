@@ -217,6 +217,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		"standings": get_standings(),
 		"placement": CoreUtil.int_or_null(human.placement, 0),
 	}
+	if _field != null:
+		state["opponents"] = "field"
 	if not human.card_size_caps:
 		state["card_size_caps"] = false
 	if not human.card_rate_limits:
@@ -350,6 +352,8 @@ static func _scouted_slots(player: PlayerState) -> Array:
 ## they have chosen.
 func _next_hero_view(player_id: int) -> Variant:
 	var opponent: int = _opponent_of(player_id)
+	if opponent == Matchmaking.GHOST and _field != null and _round > 0:
+		return _field.ghost_hero(_library)
 	if opponent == Matchmaking.GHOST or opponent < 0:
 		return null
 	var seen: PlayerState = _players[opponent]

@@ -17,7 +17,7 @@ scouting, including aura-adjusted stats. No fight input is rebuilt from visible 
 
 The file records its complete source config, explicit source commit, capture/CSV
 SHA-256 hashes, population counts, sample seed and sampling method. Its content
-manifest hashes every unit, spell and hero JSON at the source commit. Format and
+manifest hashes every unit, spell, hero, lever and effect-schema JSON at the source commit. Format and
 config schema versions are checked, along with the current content manifest and
 runtime gameplay config. Seat-control keys are excluded from config comparisons.
 Launchers deliberately adopt the recorded config, including lever settings;
@@ -38,7 +38,8 @@ lobbies, seeds **20261109–20261120**, no levers or content changes, sample see
 91407, up to three trajectories per line. It contains **13 policies and 38
 trajectories**, approximately **1.96 MB**, with source rounds extending to 21.
 This is a functionality/smoke sample, not a strength or balance measurement.
-Its source commit is recorded in `source.commit`; the matching raw capture and
+Only observed policies are exported; this small sample omits `line_hedgerow_tempo`.
+Captured on implementation checkpoint **`1537175`**. Its full source commit is recorded in `source.commit`; the matching raw capture and
 companion CSV hashes are in the same object. `replay.json` is one original raw
 round-eight harness fight for the exact replay regression.
 
@@ -55,8 +56,8 @@ A rival keeps its seat, Health, Armor, Last Stand usage and opponent history.
 It follows its selected trajectory until that trajectory lacks the requested round.
 It then selects a same-line trajectory reaching that round with the closest total
 captured Attack + Health, including next-combat bonuses and held bodies. Ties use
-trajectory ID, so switching is deterministic. The displayed hero and source name
-follow the replacement trajectory; switching never reassigns starting Armor or
+trajectory ID, so switching is deterministic. The displayed hero follows the replacement trajectory while the visible
+Rival N seat label stays fixed; switching never reassigns starting Armor or
 restores Health. Heroes may repeat because independent source seats may share one.
 
 A finite capture cannot promise a survivor from every line in every possible
@@ -71,7 +72,8 @@ No units or growth are fabricated and the game's normal round limit is unchanged
 A separate persistent field trajectory supplies ghosts and advances each round.
 It carries all captured hero effects, slots, tier and fight rules. It is independent
 of which player most recently died; dead boards in the current game never supply
-field ghosts. Scouting shows this round's current field board, including round one,
+field ghosts. The UI and tools/play name these **Field ghost**, disclose their hero
+effects and do not mark an eliminated seat as their owner. Scouting shows this round's current field board, including round one,
 rather than the ordinary mode's previous-fight snapshot.
 
 Visible rival board units, held units and nesting birds reserve shared-pool copies
@@ -145,6 +147,27 @@ same-line closest-size switching without healing, coverage fallbacks, current-ro
 field ghosts/scouting, pool release, content/config/version rejection, and pinned
 tools/play save replay. Generator tests check preservation, seeded whole-seat
 sampling, provenance and invalid input rejection.
+
+The final locked `./scripts/check.sh` gate passed every step on 9 November 2026,
+including **1,710 Godot tests** and **65 Python tests**.
+[Recorded gate output](evidence/strong-field-gate.log).
+
+The saved tools/play smoke used seed **71** and the bundled baseline. It reached
+`game_over` after **56 legal actions**, at round **12**, with the human in **6th**
+place (tier 6). Two rivals had already been eliminated. All 91 recorded rival/ghost
+round selections used their requested round and original line; this smoke used no
+coverage fallback. This is a smoke check, not a playtest rating of strength or fun.
+
+- [Command transcript and tools/play log](evidence/strong-field-smoke.log)
+- [Replayable tools/play save](evidence/strong-field-smoke.game.json)
+- [Final state, fight and complete game log](evidence/strong-field-smoke.result.json)
+
+Replay the final view or log using the same Godot wrapper:
+
+```sh
+tools/play/play.sh docs/ideation/evidence/strong-field-smoke.game.json show --json
+tools/play/play.sh docs/ideation/evidence/strong-field-smoke.game.json log
+```
 
 Readings used:
 
