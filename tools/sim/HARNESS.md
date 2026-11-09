@@ -350,13 +350,13 @@ its strict no-2x clause at 500 lobbies. The report and tail audit retain those
 exceptions; neither the data nor the diagnostic was adjusted to force a pass.
 
 
-## Owner ruling and mechanics integration
+## Orchestrator ruling and mechanics integration
 
 The orchestrator accepts known answer (d): 11/35,564 R6-16 snapshots at twice the median
 (0.031%) is a flat shape. The measured strict zero-tail diagnostic remains false
 in the immutable baseline data; it is no longer the orchestrator's pass criterion.
 
-After the owner merged shared mechanics in `eb571ba`, capture and reserves read the
+After the orchestrator merged shared mechanics in `eb571ba`, capture and reserves read the
 session's private overlaid library. Standalone field fights and re-fights restore
 the same overlay from captured config once and reuse it. Replay also defensively
 normalizes an unconfigured library. Missing lever keys in older version-1 captures

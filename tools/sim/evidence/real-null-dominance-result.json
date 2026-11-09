@@ -1,0 +1,63 @@
+{
+  "null_exact": {
+    "players.csv": true,
+    "rounds.csv": true,
+    "cards.csv": true,
+    "fights.jsonl": true
+  },
+  "null_validation": {
+    "reference": {
+      "captured_fights": 505,
+      "inert_definition_in_every_record": true,
+      "present_in_fight_input": true,
+      "event_hash_in_every_record": true
+    },
+    "null": {
+      "captured_fights": 505,
+      "inert_definition_in_every_record": true,
+      "present_in_fight_input": true,
+      "event_hash_in_every_record": true
+    }
+  },
+  "broken_lobbies": 8,
+  "broken_win_rate": 1.0,
+  "round6_planted_boards": 8,
+  "round6_tail_boards": 8,
+  "field_point_rates": [
+    0.9700100806451613
+  ],
+  "broken": {
+    "lobbies": 8,
+    "win_rate": 1.0,
+    "round6_planted_boards": 8,
+    "round6_tail_boards": 8,
+    "field_point_rates": [
+      0.9700100806451613
+    ],
+    "sample_complete": true,
+    "bars": {
+      "round6_tail": true,
+      "lobby_win": true,
+      "field_point_rate": true
+    },
+    "dominates": true
+  },
+  "null": {
+    "lobbies": 8,
+    "win_rate": 0.125,
+    "round6_planted_boards": 8,
+    "round6_tail_boards": 0,
+    "field_point_rates": [
+      0.4512768817204301
+    ],
+    "sample_complete": true,
+    "bars": {
+      "round6_tail": false,
+      "lobby_win": false,
+      "field_point_rate": false
+    },
+    "dominates": false
+  },
+  "null_dominance_bars_all_fail": true,
+  "passes": true
+}
