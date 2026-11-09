@@ -98,3 +98,7 @@ func test_row_end_partner_8_2_5() -> void:
 func test_row_of_8_2_7() -> void:
 	assert_eq(BoardGeometry.row_of(2), [0, 1, 2, 3], "front row")
 	assert_eq(BoardGeometry.row_of(5), [4, 5, 6], "back row")
+
+
+func test_planted_failure_shard_3() -> void:
+	assert_true(false, "planted failing test for the sharded gate; never merge")
