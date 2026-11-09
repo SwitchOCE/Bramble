@@ -559,6 +559,9 @@ def run_command(argv, log, timeout_seconds, cwd=ROOT):
             raise
     if code:
         raise SweepError(f"stage command exited {code}; see {log}")
+    problem = re.search(r"SCRIPT ERROR:|Parse Error:|(?:^|\n)ERROR:", log.read_text(errors="replace"))
+    if problem:
+        raise SweepError(f"stage logged a Godot error despite exit zero; see {log}")
 
 
 def godot_command(script, arguments, timeout_seconds, root=ROOT):

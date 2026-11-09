@@ -21,11 +21,21 @@ from lever_sweep import (
     damage_report,
     fingerprints,
     godot_command,
+    run_command,
     stage_plan,
     validate_capture,
     validate_plan,
     validate_players,
 )
+
+
+class RuntimeLogTests(unittest.TestCase):
+    def test_script_errors_with_success_exit_reject_the_run(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = Path(directory) / "godot.log"
+            with self.assertRaisesRegex(SweepError, "despite exit zero"):
+                run_command([sys.executable, "-c", "print('SCRIPT ERROR: missing cap')"], log, 5)
+            run_command([sys.executable, "-c", "print('clean run')"], log, 5)
 
 
 def configuration(name="caps"):
