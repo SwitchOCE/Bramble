@@ -159,9 +159,8 @@ static func _untargeted(effect: String, step: Dictionary, factor: int, world: Ef
 				ReferenceQuilboar.steal_gems(world as RecruitContext)
 		"add_card":
 			if step.has("random"):
-				world.add_random_card(
-					step["random"], CoreUtil.to_int(step.get("count", 1)) * factor
-				)
+				var filter: Dictionary = step["random"]
+				world.add_random_card(filter, CoreUtil.to_int(step.get("count", 1)) * factor)
 				return
 			world.add_card(
 				str(step.get("card", "")),

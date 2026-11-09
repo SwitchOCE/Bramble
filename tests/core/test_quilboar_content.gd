@@ -1,4 +1,5 @@
 extends GutTest
+@warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 ## Independent checks of the reference's authored contract, without loading its pool.
 
 const ROOT: String = "res://content/reference/quilboar"
