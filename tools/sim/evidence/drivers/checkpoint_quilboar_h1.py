@@ -21,7 +21,7 @@ def archive(arm, plan_path=None, run_folder=None, target_root=None):
     progress = read_json((run_folder or ROOT / "build/quilboar-h1/run") / "progress.json")
     if progress["completed"][arm] != ARMS[arm]:
         raise ValueError("the arm's predeclared lobby budget is not complete")
-    target = (target_root or ROOT / "tools/sim/evidence/quilboar-h1") / arm
+    target = ((target_root or ROOT / "tools/sim/evidence/quilboar-h1") / arm).resolve()
     target.mkdir(parents=True, exist_ok=True)
     chunks, games = [], []
     for chunk in progress["chunks"]:
