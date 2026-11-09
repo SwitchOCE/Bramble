@@ -1,9 +1,13 @@
 # Pull requests: the quality gate (scripts/check.sh). PRs labelled "exports", and manual runs:
 # export builds too (Linux, Windows, Android APK, Android AAB through Gradle) via
 # scripts/export_smoke.sh. Every version and checksum comes from tools/versions.env.
+# Pushes to ideation/gate/** (scripts/cloud-gate.sh): the gate only, for that exact commit, with
+# gut.xml uploaded and the GUT totals in the job summary.
 name: CI
 
 on:
+  push:
+    branches: ["ideation/gate/**"]
   pull_request:
     types: [opened, synchronize, reopened, labeled]
     # Docs and the art/research tools don't touch the build.
@@ -72,7 +76,32 @@ jobs:
       - name: check.sh
         run: ./scripts/check.sh --keep-going
 
+      - name: GUT totals to the job summary
+        if: always() && github.event_name == 'push'
+        continue-on-error: true
+        run: |
+          {
+            echo '### GUT'
+            echo '```'
+            if [ -f build/check/gut.log ]; then
+              sed -n '/= Run Summary/,$p' build/check/gut.log | sed $'s/\e\\[[0-9;]*m//g'
+            else
+              echo 'no GUT log (the gate stopped before the tests step)'
+            fi
+            echo '```'
+          } >>"$GITHUB_STEP_SUMMARY"
+
       # Uploads never fail the job; check.sh is the verdict.
+      - name: Upload gut.xml
+        if: always() && github.event_name == 'push'
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: gut-junit
+          path: build/check/gut.xml
+          if-no-files-found: warn
+          retention-days: 14
+
       - name: Upload logs
         if: failure()
         continue-on-error: true

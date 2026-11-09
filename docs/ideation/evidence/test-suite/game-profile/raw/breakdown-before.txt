@@ -1,0 +1,14 @@
+  eval 802ms
+  fights 13962ms
+  held 173ms
+  lanes 1383ms
+  setup 17ms
+  counts { "setup": 69, "fights": 1380 } unmeasured 2212
+seed=1 rounds=19 load=24ms create=23ms play=18553ms bots=17579ms(120 turns) log=11ms hash=4b416941c6b1a5e453bd83479cec12a6
+  eval 594ms
+  fights 14332ms
+  held 153ms
+  lanes 1033ms
+  setup 20ms
+  counts { "setup": 73, "fights": 1404 } unmeasured 2150
+seed=2 rounds=19 load=26ms create=5ms play=18285ms bots=17327ms(119 turns) log=5ms hash=ef42fccd7faa05ec369090450a373ac1

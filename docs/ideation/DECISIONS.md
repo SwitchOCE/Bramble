@@ -4,6 +4,74 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Quilboar H1 rerun: both criteria failed again; tuning stopped; no shared gap shown
+**Source:** w6, `ideation/quilboar` at `6bb7c730` (cycle fix `4cf1a219`; `reference/quilboar/h1.md`). B 150 and uncut 100 rerun after the cycle-cap fix; C and frozen keep their first-run results.
+- **Accounting (B, real against the declared 11-cost paper):** 0.45x at R9, 0.23x at R12 (median 259), 0.70x at R15. The criterion is 0.5–2x, so it fails.
+- **Fidelity (uncut, R12):** median 747. That is 2.38x Birds [1.50, 3.28], below the 4x bar; against the other lines, 5.5–7.7x.
+- **Uncut real/paper at R12:** 0.121x [0.077, 0.162], below the native tribes' 0.17–0.44x. In w6's words: "A matching shared gap is not established."
+
+**Picked:**
+- **Stop tuning,** as the first entry said. No second rerun.
+- **Drop the claim that the paper gap "belongs to the method".** The first run suggested it; the rerun doesn't support it. Paper overestimates real boards for every tribe measured, by different amounts, so it isn't a usable target. Targets stay on realized medians (09h amendment).
+- **Keep the scale finding:** a BG-faithful tribe reaches about 750 at R12 in our engine with our bots, near B's 900, so B-scale is reachable.
+- **Next for the branch** (new session): merge ideation/main into it, a scope review, the Actions gate, and merge. The content stays test-only.
+
+**Why:** the stop rule was set before the rerun, so tuning on would be fitting the bar. The two arms disagree about the gap, so neither supports a shared one.
+
+### 10 Nov 2026 — Per-game profile merged; a cheaper bot search only for tests that don't test the bot
+**Source:** cloud session `ideation/c-gameprofile` (`evidence/test-suite/game-profile/README.md`). The scope review found 7 keep, 0 cut, 0 ask (`evidence/review-gameprofile.md`).
+- Hard bots' board-search fights are 75–78% of a full Hard lobby: about 1,400 fights a lobby at about 10 ms each.
+- Four exact fast paths cut a lobby by 11.4%, with fight and log hashes identical on 12 seeds. The review argues they are exact for every input, not only the 12 seeds.
+
+**Picked:**
+- **Merge it.**
+- **Open question 1 (a cheaper search):**
+  - Tests that play Hard lobbies only to reach a state may use a cheaper search, set through the game config. That is in the faster-suite brief.
+  - Tests that pin Hard's choices keep the real budget.
+  - Sims keep it too, because they measure Hard's boards.
+- **Open question 2 (the 7 Nov baseline):** accept the explanation. The 381 ms came from the soak's random bots on the 53-card slice, and timing a 7 Nov lobby wouldn't change what step 4 does.
+
+### 10 Nov 2026 — Gate plumbing merged; gates go through Actions; next, sharding and the faster suite
+**Source:** the scope review of `ideation/c-gate-plumbing` (`evidence/review-gate-plumbing.md`): 19 keep, 0 cut, 3 simplify, 3 ask. The first real `scripts/cloud-gate.sh` run, on merge 405bd57b, passed: 2,158 tests (run 42702428298).
+
+**Picked:**
+- **Ask 1 (deadlock):**
+  - `/tmp/bramble-godot-slot` now sets `BRAMBLE_SLOT_HELD=1` for its child.
+  - The docs and `tools/sim/HARNESS.md` now say not to wrap `check.sh` in an outer `flock`.
+  - This replaces the line in "Godot slots: take whichever frees first" saying gates run through the stopgap.
+- **Ask 2 (`--base` accepts any commit):** a written rule. Before `--docs-only --base <sha>`, run `scripts/cloud-gate.sh --check <sha>`. The orchestrator does every merge into ideation/main, so the rule sits with the one who applies it.
+- **Ask 3 (no memory cap):** `scripts/godot_slot.sh` runs its command under `MemoryMax=3G` where `systemd-run --user` works.
+- **Simplify 1 and 2 go into the sharding session:**
+  - No Godot cache saved on gate pushes. Gate branches can't read each other's caches, and each save would fill the 10 GB quota.
+  - The job-summary step is dropped.
+  - The local GitHub login has no `workflow` scope, so it can't push a commit that changes `ci.yml`. Cloud sessions can. The sharding session edits `ci.yml` anyway.
+- **Simplify 3:** keep `label` (2 lines).
+- **Flaky failures:** documented as `gh run rerun <id> --failed`.
+- **The merge rule now reads:** ideation/main moves only when `scripts/cloud-gate.sh --check <sha>` passes for that exact commit, or on `--docs-only --base` from such a commit.
+- **Step 6 (sharding) starts now, alongside step 4.** On the merged tree the Actions tests step takes 771 s, and push to verdict is 15 min. The plan shards above 7.5 min.
+
+**Why:**
+- The deadlock would only bite in the local fallback, but that fallback is still in the plan, so it is fixed rather than left as a known trap.
+- The other asks are each a few lines.
+
+### 10 Nov 2026 — Quilboar H1: both criteria failed; one fidelity fix, one rerun
+**Source:** w6, `ideation/quilboar` 4d23628e..08126480 (`reference/quilboar/h1-status.md`). 500 lobbies: B 150, C 150, uncut 100, frozen 100.
+- **Accounting, real against paper:**
+  - B: 0.46x at R9, 0.24x at R12, 0.57x at R15.
+  - C: 0.38x at R9, 0.22x at R12, 0.55x at R15.
+  - The criterion is 0.5–2x, so both fail.
+- **Fidelity:** uncut Quilboar's R12 median is 825.5, against Birds' 271. That is 3.05x [2.19, 3.97], below the 4x bar. Against the other tribes it is 6.4–8.6x.
+
+**Picked:**
+- **The cycle cap follows the paper.** The 4 shop cycles a turn don't include Created Tunneler cards. The frozen build counted them, from my ambiguous wording in "Quilboar Phase 1 review: calls".
+- **T6 stays at the game's cost of 13.** The declared 11-based denominators stay the criterion. A corrected column is labelled as found after the run.
+- **Rerun once, B and uncut only.** If accounting still fails, stop tuning. The report then says whether the gap for a tribe that copies Battlegrounds faithfully matches our tribes' gap (wave 1: 0.17–0.44x at R12).
+
+**Why:**
+- **Our engine can produce Battlegrounds-like scale.** Uncut Quilboar reaches about 825 at R12 in the same engine with the same bots. That is close to B's realized target of 900.
+- **The budgeted Quilboar arms land where our tribes do** (274 at B, 422 at C). So the paper-to-real shortfall looks like it comes from the method (paper assumes guaranteed arrivals) and the bot, not from one tribe's design.
+- **A fixed bug may move both numbers.** One rerun with the cycle fix settles whether the reference qualifies, and costs about 15 min of Godot time.
+
 ### 10 Nov 2026 — Declutter batch 1, third cold reader: fix four visual gaps; rule-knowledge gaps go to the Rules page
 **Source:** an independent cold reader and a separate scorer on `ideation/declutter` 28c873e3/f6713034 (workflow wf_c3f5b3e2-611; the answers and score go into `evidence/declutter/batch1/`).
 - Every attacker (57/57), hit and death is read right at every speed, and x4 passes in all three fights. The first repair had 50/57 attackers.

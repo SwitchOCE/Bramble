@@ -111,7 +111,8 @@ func def_id() -> String:
 
 
 func _raw_health() -> int:
-	return base_health * golden_factor() + perm_health + tribe_health + combat_health + aura_health
+	var factor: int = 2 if golden else 1
+	return base_health * factor + perm_health + tribe_health + combat_health + aura_health
 
 
 func _get_attack() -> int:
@@ -124,8 +125,11 @@ func _set_attack(value: int) -> void:
 	add_permanent(value - _get_attack(), 0)
 
 
+## Read in every death check of every fight, so it repeats _raw_health inline (one call fewer).
 func _get_health() -> int:
-	return mini(_raw_health() - damage_taken, STAT_CLAMP)
+	var factor: int = 2 if golden else 1
+	var raw: int = base_health * factor + perm_health + tribe_health + combat_health + aura_health
+	return mini(raw - damage_taken, STAT_CLAMP)
 
 
 func _set_health(value: int) -> void:

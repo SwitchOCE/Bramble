@@ -6,9 +6,16 @@
 #                                    refused unless every change since the upstream branch is under
 #                                    docs/ and not read by the game or tests
 #                                    (tools/checks/docs_only_paths.py). Run it without the Godot lock.
+#   ./scripts/check.sh --docs-only --base <sha>
+#                                    the same, but compares against <sha> instead of the upstream
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
 #   PARITY_STRICT=1                 Fail shop-pool parity mismatches (default: warn)
+#   GODOT_SLOT_CLASS=gate           Class for the slot log (scripts/godot_slot.sh; default other)
+# Import through tests hold one of the two local Godot slots (scripts/godot_slot.sh), unless
+# BRAMBLE_SLOT_HELD=1 says the caller holds one. The static steps run without a slot. Where
+# systemd-run --user works, each Godot step runs in a scope capped at MemoryMax=3G.
+# The tests step writes JUnit XML to build/check/gut.xml and prints the 20 slowest scripts.
 # Steps: tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
@@ -24,6 +31,7 @@ mkdir -p "$LOG_DIR"
 # shellcheck source=tools/versions.env
 . "$ROOT/tools/versions.env"
 
+CHECK_ARGS="$*"
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
 # Full-game, field replay and UI regressions need a separate wall-time budget.
@@ -31,9 +39,17 @@ GUT_TIMEOUT=1200
 GD_DIRS=(src tools/checks tools/play tools/sim)
 KEEP_GOING=0
 DOCS_ONLY=0
+DOCS_BASE=""
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;
-  --docs-only) DOCS_ONLY=1 ;;
+  --docs-only)
+    DOCS_ONLY=1
+    if [ "${2:-}" = "--base" ]; then
+      [ -n "${3:-}" ] || { echo "--base needs a commit"; exit 2; }
+      DOCS_BASE="$3"
+      shift 2
+    fi
+    ;;
   -h | --help)
     sed -n '2,/^set /{/^#/s/^# \{0,1\}//p}' "$ROOT/scripts/check.sh"
     exit 0
@@ -44,6 +60,10 @@ case "${1:-}" in
     exit 2
     ;;
 esac
+if [ "$#" -gt 1 ]; then
+  echo "unknown option: $2 (try --help)"
+  exit 2
+fi
 
 if [ -t 1 ]; then
   RED=$'\e[31m' GREEN=$'\e[32m' BOLD=$'\e[1m' RESET=$'\e[0m'
@@ -56,15 +76,23 @@ PASSED=()
 
 # --docs-only is allowed only when every change since the upstream branch, committed or not, is
 # under docs/ and not read by the game or tests (tools/checks/docs_only_paths.py decides).
+# --base <sha> compares against that commit instead.
 if [ "$DOCS_ONLY" -eq 1 ]; then
-  upstream="$(git rev-parse --verify -q '@{upstream}')" || {
-    echo "--docs-only needs an upstream branch to compare against"
-    exit 2
-  }
-  base="$(git merge-base "$upstream" HEAD)" || {
-    echo "--docs-only: no common ancestor with the upstream branch"
-    exit 2
-  }
+  if [ -n "$DOCS_BASE" ]; then
+    base="$(git rev-parse --verify -q "${DOCS_BASE}^{commit}")" || {
+      echo "--docs-only --base: '$DOCS_BASE' is not a commit"
+      exit 2
+    }
+  else
+    upstream="$(git rev-parse --verify -q '@{upstream}')" || {
+      echo "--docs-only needs an upstream branch to compare against (or --base <sha>)"
+      exit 2
+    }
+    base="$(git merge-base "$upstream" HEAD)" || {
+      echo "--docs-only: no common ancestor with the upstream branch"
+      exit 2
+    }
+  fi
   if ! needs="$(python3 "$ROOT/tools/checks/docs_only_paths.py" "$base" "$ROOT")"; then
     echo "--docs-only refused: these changes need the Godot steps:"
     echo "$needs"
@@ -109,6 +137,34 @@ summary() {
 . "$ROOT/scripts/godot_log.sh"
 godot_log_init "$LOG_DIR"
 problems() { godot_log_problems "$1"; }
+
+# fd 9 holds the slot's lock; Godot steps close it, so a stray child can't keep the slot.
+# Each Godot step runs under MEMCAP: a systemd scope capped at 3 GB where systemd-run --user
+# works (the local machine), nothing in cloud sessions and CI.
+MEMCAP=()
+SLOT_TAKEN=0
+# shellcheck source=scripts/godot_slot.sh
+. "$ROOT/scripts/godot_slot.sh"
+
+# Takes a Godot slot for import through tests, unless the caller already holds one.
+slot_take() {
+  if systemd-run --user --scope -q -p MemoryMax=3G true >/dev/null 2>&1; then
+    MEMCAP=(systemd-run --user --scope -q -p MemoryMax=3G)
+  fi
+  [ "${BRAMBLE_SLOT_HELD:-0}" = 1 ] && return 0
+  godot_slot_acquire
+  SLOT_TAKEN=1
+  export BRAMBLE_SLOT_HELD=1
+  trap 'slot_give $?' EXIT
+}
+
+# slot_give <exit-code>: frees the slot this script took, and logs it.
+slot_give() {
+  [ "$SLOT_TAKEN" -eq 1 ] || return 0
+  SLOT_TAKEN=0
+  unset BRAMBLE_SLOT_HELD
+  godot_slot_release "$1" "scripts/check.sh${CHECK_ARGS:+ $CHECK_ARGS}"
+}
 
 # Strips ANSI colour codes (GUT colours its log).
 strip_ansi() { sed $'s/\e\\[[0-9;]*m//g' "$@"; }
@@ -182,7 +238,7 @@ step_import() {
   local pass log status found
   for pass in 1 2; do
     log="$LOG_DIR/import-$pass.log"
-    timeout "$GODOT_TIMEOUT" "$GODOT" --headless --import >"$log" 2>&1
+    "${MEMCAP[@]}" timeout "$GODOT_TIMEOUT" "$GODOT" --headless --import >"$log" 2>&1 9>&-
     status=$?
     found="$(problems "$log")"
     if [ "$status" -eq 0 ] && [ -z "$found" ]; then
@@ -200,7 +256,7 @@ step_import() {
 # --import does not compile scripts; this loads every script, scene and resource.
 step_compile() {
   local log="$LOG_DIR/compile.log" status found
-  timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/compile_all.gd >"$log" 2>&1
+  "${MEMCAP[@]}" timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/compile_all.gd >"$log" 2>&1 9>&-
   status=$?
   grep -E "compile_all:" "$log"
   found="$(problems "$log")"
@@ -215,7 +271,7 @@ step_compile() {
 # Actual UnitLibrary pool for full_game, after imports/compilation establish the class cache.
 step_parity() {
   local log="$LOG_DIR/parity.log" status found
-  timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/check_parity.gd >"$log" 2>&1
+  "${MEMCAP[@]}" timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/check_parity.gd >"$log" 2>&1 9>&-
   status=$?
   grep -E "^parity:" "$log"
   found="$(problems "$log")"
@@ -227,7 +283,7 @@ step_parity() {
 }
 
 step_tests() {
-  local log="$LOG_DIR/gut.log" status hook found ran test_data
+  local log="$LOG_DIR/gut.log" xml="$LOG_DIR/gut.xml" status hook found ran test_data
   # GUT hangs when post_run_script is missing; fail fast instead.
   hook=$(python3 -c 'import json; print(json.load(open(".gutconfig.json")).get("post_run_script", ""))')
   if [ -z "$hook" ] || [ ! -f "${hook#res://}" ]; then
@@ -236,11 +292,14 @@ step_tests() {
   fi
   # Parallel worktrees share the app name; their user:// fixtures must remain private.
   test_data=$(mktemp -d "${TMPDIR:-/tmp}/bramble-gut.XXXXXX") || return 1
-  XDG_DATA_HOME="$test_data" timeout "$GUT_TIMEOUT" "$GODOT" --headless -s addons/gut/gut_cmdln.gd >"$log" 2>&1
+  rm -f "$xml"
+  XDG_DATA_HOME="$test_data" "${MEMCAP[@]}" timeout "$GUT_TIMEOUT" "$GODOT" --headless \
+    -s addons/gut/gut_cmdln.gd -gjunit_xml_file="$xml" >"$log" 2>&1 9>&-
   status=$?
   rm -rf -- "$test_data"
   sed -n '/= Run Summary/,$p' "$log" | strip_ansi
   strip_ansi "$log" | grep -E "^gut_strict: "
+  [ -s "$xml" ] && python3 tools/checks/junit_slowest.py "$xml" 20
   if [ "$status" -ne 0 ]; then
     echo "GUT exited with $status (full log: $log)"
     return 1
@@ -281,10 +340,12 @@ run_step "lint" step_lint
 if [ "$DOCS_ONLY" -eq 1 ]; then
   echo "docs-only: skipped import, compile, parity and tests (only docs/ changed, none read by code)"
 else
+  slot_take
   run_step "import" step_import
   run_step "compile" step_compile
   run_step "parity" step_parity
   run_step "tests" step_tests
+  slot_give "$([ "${#FAILED[@]}" -eq 0 ] && echo 0 || echo 1)"
 fi
 summary
 [ "${#FAILED[@]}" -eq 0 ]

@@ -115,6 +115,26 @@ class DocsOnlyPathsTest(unittest.TestCase):
         self.edit("docs/ideation/evidence/boards.json")
         self.assertEqual(self.flagged(), ["docs/ideation/evidence/boards.json"])
 
+    def test_base_commit_sets_where_changes_are_counted_from(self) -> None:
+        # check.sh --docs-only --base <sha>: a code change before <sha> isn't counted.
+        self.edit("src/game.gd")
+        self.commit()
+        code_commit = self.base
+        self.base = subprocess.run(
+            ["git", "rev-parse", "HEAD"], cwd=self.root, capture_output=True, text=True, check=True
+        ).stdout.strip()
+        self.edit("docs/STATUS.md")
+        self.commit()
+        self.assertEqual(self.flagged(), [])
+        self.base = code_commit
+        self.assertEqual(self.flagged(), ["src/game.gd"])
+
+    def test_check_sh_refuses_a_base_that_is_not_a_commit(self) -> None:
+        check = Path(__file__).resolve().parents[3] / "scripts" / "check.sh"
+        run = subprocess.run([str(check), "--docs-only", "--base", "no-such-commit"], capture_output=True, text=True)
+        self.assertEqual(run.returncode, 2)
+        self.assertIn("is not a commit", run.stdout)
+
     def test_change_committed_then_reverted_passes(self) -> None:
         self.edit("src/game.gd")
         self.commit()

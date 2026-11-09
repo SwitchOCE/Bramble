@@ -835,8 +835,9 @@ multiple-tribe and unknown assignments are separate from the tribal denominator.
 unchanged source/driver hashes, raw and compressed captures, sufficient analysis
 archives, the native counter check, and the passed full gate before writing the
 final provenance record. Simulations hold `/tmp/bramble-harness-godot.lock`;
-imports, scripted checks and gates hold `/tmp/bramble-godot.lock`. Our gate also
-holds the harness lock to keep this worker's Godot processes sequential.
+imports, scripted checks and gates hold `/tmp/bramble-godot.lock`. Since 10 Nov, gates
+go through `scripts/godot_slot.sh` or the Actions gate (`docs/CLOUD_SETUP.md`); don't wrap
+`check.sh` in an outer `flock`, because it takes its own slot and would wait for a second.
 
 Historical source copies also receive the current line loader, registry, brains
 and JSON profiles. Only the line-flight and court hooks are adapted in the
