@@ -1,236 +1,446 @@
 {
   "attacks": [
     {
-      "duration": 0.635,
+      "duration": 1.4333333333333333,
+      "end_tick": 648,
       "event_index": 20,
       "frames": [
         {
           "file": "attack-020-frame-0.png",
-          "seconds": 1.3916666666666666,
-          "tick": 167
+          "seconds": 3.966666666666667,
+          "tick": 476
         },
         {
           "file": "attack-020-frame-1.png",
-          "seconds": 1.4833333333333334,
-          "tick": 178
+          "seconds": 4.175,
+          "tick": 501
         },
         {
           "file": "attack-020-frame-2.png",
-          "seconds": 1.575,
-          "tick": 189
+          "seconds": 4.375,
+          "tick": 525
         },
         {
           "file": "attack-020-frame-3.png",
-          "seconds": 1.6666666666666667,
-          "tick": 200
+          "seconds": 4.583333333333333,
+          "tick": 550
         },
         {
           "file": "attack-020-frame-4.png",
-          "seconds": 1.7583333333333333,
-          "tick": 211
+          "seconds": 4.783333333333333,
+          "tick": 574
         },
         {
           "file": "attack-020-frame-5.png",
-          "seconds": 1.8416666666666666,
-          "tick": 221
+          "seconds": 4.991666666666666,
+          "tick": 599
         },
         {
           "file": "attack-020-frame-6.png",
-          "seconds": 1.9333333333333333,
-          "tick": 232
+          "seconds": 5.191666666666666,
+          "tick": 623
         },
         {
           "file": "attack-020-frame-7.png",
-          "seconds": 2.025,
-          "tick": 243
+          "seconds": 5.4,
+          "tick": 648
         }
       ],
+      "kind": "attack",
+      "predicted_duration": 1.4349999999999998,
       "sample_ticks": [
-        167,
-        178,
-        189,
-        200,
-        211,
-        221,
-        232,
-        243
+        476,
+        501,
+        525,
+        550,
+        574,
+        599,
+        623,
+        648
       ],
-      "start_tick": 167,
+      "start_tick": 476,
       "strip": "attack-020.jpg"
     },
     {
-      "duration": 0.535,
+      "duration": 0.5333333333333333,
+      "end_tick": 713,
       "event_index": 26,
       "frames": [
         {
           "file": "attack-026-frame-0.png",
-          "seconds": 2.033333333333333,
-          "tick": 244
+          "seconds": 5.408333333333333,
+          "tick": 649
         },
         {
           "file": "attack-026-frame-1.png",
-          "seconds": 2.1083333333333334,
-          "tick": 253
+          "seconds": 5.483333333333333,
+          "tick": 658
         },
         {
           "file": "attack-026-frame-2.png",
-          "seconds": 2.183333333333333,
-          "tick": 262
+          "seconds": 5.558333333333334,
+          "tick": 667
         },
         {
           "file": "attack-026-frame-3.png",
-          "seconds": 2.2666666666666666,
-          "tick": 272
+          "seconds": 5.633333333333333,
+          "tick": 676
         },
         {
           "file": "attack-026-frame-4.png",
-          "seconds": 2.341666666666667,
-          "tick": 281
+          "seconds": 5.716666666666667,
+          "tick": 686
         },
         {
           "file": "attack-026-frame-5.png",
-          "seconds": 2.4166666666666665,
-          "tick": 290
+          "seconds": 5.791666666666667,
+          "tick": 695
         },
         {
           "file": "attack-026-frame-6.png",
-          "seconds": 2.4916666666666667,
-          "tick": 299
+          "seconds": 5.866666666666666,
+          "tick": 704
         },
         {
           "file": "attack-026-frame-7.png",
-          "seconds": 2.5666666666666664,
-          "tick": 308
+          "seconds": 5.941666666666666,
+          "tick": 713
         }
       ],
+      "kind": "attack",
+      "predicted_duration": 0.535,
       "sample_ticks": [
-        244,
-        253,
-        262,
-        272,
-        281,
-        290,
-        299,
-        308
+        649,
+        658,
+        667,
+        676,
+        686,
+        695,
+        704,
+        713
       ],
-      "start_tick": 244,
+      "start_tick": 649,
       "strip": "attack-026.jpg"
     },
     {
-      "duration": 0.535,
+      "duration": 0.5333333333333333,
+      "end_tick": 778,
       "event_index": 30,
       "frames": [
         {
           "file": "attack-030-frame-0.png",
-          "seconds": 2.575,
-          "tick": 309
+          "seconds": 5.95,
+          "tick": 714
         },
         {
           "file": "attack-030-frame-1.png",
-          "seconds": 2.65,
-          "tick": 318
+          "seconds": 6.025,
+          "tick": 723
         },
         {
           "file": "attack-030-frame-2.png",
-          "seconds": 2.725,
-          "tick": 327
+          "seconds": 6.1,
+          "tick": 732
         },
         {
           "file": "attack-030-frame-3.png",
-          "seconds": 2.808333333333333,
-          "tick": 337
+          "seconds": 6.175,
+          "tick": 741
         },
         {
           "file": "attack-030-frame-4.png",
-          "seconds": 2.8833333333333333,
-          "tick": 346
+          "seconds": 6.258333333333333,
+          "tick": 751
         },
         {
           "file": "attack-030-frame-5.png",
-          "seconds": 2.9583333333333335,
-          "tick": 355
+          "seconds": 6.333333333333333,
+          "tick": 760
         },
         {
           "file": "attack-030-frame-6.png",
-          "seconds": 3.033333333333333,
-          "tick": 364
+          "seconds": 6.408333333333333,
+          "tick": 769
         },
         {
           "file": "attack-030-frame-7.png",
-          "seconds": 3.1083333333333334,
-          "tick": 373
+          "seconds": 6.483333333333333,
+          "tick": 778
         }
       ],
+      "kind": "attack",
+      "predicted_duration": 0.535,
       "sample_ticks": [
-        309,
-        318,
-        327,
-        337,
-        346,
-        355,
-        364,
-        373
+        714,
+        723,
+        732,
+        741,
+        751,
+        760,
+        769,
+        778
       ],
-      "start_tick": 309,
+      "start_tick": 714,
       "strip": "attack-030.jpg"
     },
     {
-      "duration": 0.55,
+      "duration": 0.275,
+      "end_tick": 812,
       "event_index": 33,
       "frames": [
         {
           "file": "attack-033-frame-0.png",
-          "seconds": 3.1166666666666667,
-          "tick": 374
+          "seconds": 6.491666666666666,
+          "tick": 779
         },
         {
           "file": "attack-033-frame-1.png",
-          "seconds": 3.1916666666666664,
-          "tick": 383
+          "seconds": 6.533333333333333,
+          "tick": 784
         },
         {
           "file": "attack-033-frame-2.png",
-          "seconds": 3.275,
-          "tick": 393
+          "seconds": 6.566666666666666,
+          "tick": 788
         },
         {
           "file": "attack-033-frame-3.png",
-          "seconds": 3.35,
-          "tick": 402
+          "seconds": 6.608333333333333,
+          "tick": 793
         },
         {
           "file": "attack-033-frame-4.png",
-          "seconds": 3.433333333333333,
-          "tick": 412
+          "seconds": 6.6499999999999995,
+          "tick": 798
         },
         {
           "file": "attack-033-frame-5.png",
-          "seconds": 3.5083333333333333,
-          "tick": 421
+          "seconds": 6.691666666666666,
+          "tick": 803
         },
         {
           "file": "attack-033-frame-6.png",
-          "seconds": 3.591666666666667,
-          "tick": 431
+          "seconds": 6.725,
+          "tick": 807
         },
         {
           "file": "attack-033-frame-7.png",
-          "seconds": 3.6666666666666665,
-          "tick": 440
+          "seconds": 6.766666666666667,
+          "tick": 812
         }
       ],
+      "kind": "attack",
+      "predicted_duration": 0.55,
       "sample_ticks": [
-        374,
-        383,
-        393,
-        402,
-        412,
-        421,
-        431,
-        440
+        779,
+        784,
+        788,
+        793,
+        798,
+        803,
+        807,
+        812
       ],
-      "start_tick": 374,
+      "start_tick": 779,
       "strip": "attack-033.jpg"
+    }
+  ],
+  "automatic_return_tick": 934,
+  "event_ticks": [
+    {
+      "event_index": 0,
+      "tick": 12,
+      "type": "combat_start"
+    },
+    {
+      "event_index": 1,
+      "tick": 21,
+      "type": "phase"
+    },
+    {
+      "event_index": 2,
+      "tick": 30,
+      "type": "phase"
+    },
+    {
+      "event_index": 3,
+      "tick": 39,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 4,
+      "tick": 48,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 5,
+      "tick": 57,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 6,
+      "tick": 66,
+      "type": "stats"
+    },
+    {
+      "event_index": 7,
+      "tick": 113,
+      "type": "stats"
+    },
+    {
+      "event_index": 8,
+      "tick": 161,
+      "type": "stats"
+    },
+    {
+      "event_index": 9,
+      "tick": 209,
+      "type": "trigger"
+    },
+    {
+      "event_index": 10,
+      "tick": 219,
+      "type": "death"
+    },
+    {
+      "event_index": 11,
+      "tick": 237,
+      "type": "summon"
+    },
+    {
+      "event_index": 12,
+      "tick": 247,
+      "type": "stats"
+    },
+    {
+      "event_index": 13,
+      "tick": 295,
+      "type": "trigger"
+    },
+    {
+      "event_index": 14,
+      "tick": 304,
+      "type": "stats"
+    },
+    {
+      "event_index": 15,
+      "tick": 352,
+      "type": "trigger"
+    },
+    {
+      "event_index": 16,
+      "tick": 362,
+      "type": "stats"
+    },
+    {
+      "event_index": 17,
+      "tick": 410,
+      "type": "trigger"
+    },
+    {
+      "event_index": 18,
+      "tick": 419,
+      "type": "status"
+    },
+    {
+      "event_index": 19,
+      "tick": 467,
+      "type": "phase"
+    },
+    {
+      "event_index": 20,
+      "tick": 476,
+      "type": "attack"
+    },
+    {
+      "event_index": 21,
+      "tick": 479,
+      "type": "trigger"
+    },
+    {
+      "event_index": 22,
+      "tick": 489,
+      "type": "stats"
+    },
+    {
+      "event_index": 23,
+      "tick": 549,
+      "type": "damage"
+    },
+    {
+      "event_index": 24,
+      "tick": 549,
+      "type": "damage"
+    },
+    {
+      "event_index": 25,
+      "tick": 549,
+      "type": "death"
+    },
+    {
+      "event_index": 26,
+      "tick": 649,
+      "type": "attack"
+    },
+    {
+      "event_index": 27,
+      "tick": 665,
+      "type": "damage"
+    },
+    {
+      "event_index": 28,
+      "tick": 665,
+      "type": "damage"
+    },
+    {
+      "event_index": 29,
+      "tick": 665,
+      "type": "death"
+    },
+    {
+      "event_index": 30,
+      "tick": 714,
+      "type": "attack"
+    },
+    {
+      "event_index": 31,
+      "tick": 730,
+      "type": "damage"
+    },
+    {
+      "event_index": 32,
+      "tick": 730,
+      "type": "death"
+    },
+    {
+      "event_index": 33,
+      "tick": 779,
+      "type": "attack"
+    },
+    {
+      "event_index": 34,
+      "tick": 795,
+      "type": "damage"
+    },
+    {
+      "event_index": 35,
+      "tick": 795,
+      "type": "damage"
+    },
+    {
+      "event_index": 36,
+      "tick": 795,
+      "type": "death"
+    },
+    {
+      "event_index": 37,
+      "tick": 813,
+      "type": "early_spoils"
+    },
+    {
+      "event_index": 38,
+      "tick": 813,
+      "type": "combat_end"
     }
   ],
   "events": [
@@ -1047,14 +1257,894 @@
       "winner": 0.0
     }
   ],
+  "final_health_text": [
+    "40",
+    "34"
+  ],
   "fixed_step": 0.008333333333333333,
-  "method": "manual_playback; advance_playback(1/120); nearest tick to j*duration/7",
+  "hero_health_after": [
+    40.0,
+    34.0
+  ],
+  "hero_health_before": [
+    40.0,
+    40.0
+  ],
+  "method": "two deterministic 1/120 s passes; eight evenly spaced actual attack-to-next-attack samples; opening source-group focus sheets; last attack ends before result; separate result continues through settled Health and automatic return",
+  "opening": {
+    "duration": 3.9583333333333335,
+    "end_tick": 475,
+    "event_index": -1,
+    "frames": [
+      {
+        "file": "opening-frame-0.png",
+        "seconds": 0.0,
+        "tick": 0
+      },
+      {
+        "file": "opening-frame-1.png",
+        "seconds": 0.5666666666666667,
+        "tick": 68
+      },
+      {
+        "file": "opening-frame-2.png",
+        "seconds": 1.1333333333333333,
+        "tick": 136
+      },
+      {
+        "file": "opening-frame-3.png",
+        "seconds": 1.7,
+        "tick": 204
+      },
+      {
+        "file": "opening-frame-4.png",
+        "seconds": 2.2583333333333333,
+        "tick": 271
+      },
+      {
+        "file": "opening-frame-5.png",
+        "seconds": 2.825,
+        "tick": 339
+      },
+      {
+        "file": "opening-frame-6.png",
+        "seconds": 3.3916666666666666,
+        "tick": 407
+      },
+      {
+        "file": "opening-frame-7.png",
+        "seconds": 3.9583333333333335,
+        "tick": 475
+      }
+    ],
+    "kind": "opening",
+    "sample_ticks": [
+      0,
+      68,
+      136,
+      204,
+      271,
+      339,
+      407,
+      475
+    ],
+    "start_tick": 0,
+    "strip": "opening.jpg"
+  },
+  "opening_effects": [
+    {
+      "causes": [],
+      "duration": 0.31666666666666665,
+      "end_tick": 38,
+      "event_index": 0,
+      "event_indices": [
+        0,
+        1,
+        2
+      ],
+      "frames": [
+        {
+          "file": "opening-event-000-frame-0.png",
+          "seconds": 0.0,
+          "tick": 0
+        },
+        {
+          "file": "opening-event-000-frame-1.png",
+          "seconds": 0.041666666666666664,
+          "tick": 5
+        },
+        {
+          "file": "opening-event-000-frame-2.png",
+          "seconds": 0.09166666666666666,
+          "tick": 11
+        },
+        {
+          "file": "opening-event-000-frame-3.png",
+          "seconds": 0.13333333333333333,
+          "tick": 16
+        },
+        {
+          "file": "opening-event-000-frame-4.png",
+          "seconds": 0.18333333333333332,
+          "tick": 22
+        },
+        {
+          "file": "opening-event-000-frame-5.png",
+          "seconds": 0.225,
+          "tick": 27
+        },
+        {
+          "file": "opening-event-000-frame-6.png",
+          "seconds": 0.275,
+          "tick": 33
+        },
+        {
+          "file": "opening-event-000-frame-7.png",
+          "seconds": 0.31666666666666665,
+          "tick": 38
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        0,
+        5,
+        11,
+        16,
+        22,
+        27,
+        33,
+        38
+      ],
+      "start_tick": 0,
+      "strip": "opening-event-000.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 3,
+          "source": "unit:9",
+          "tick": 39,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.06666666666666667,
+      "end_tick": 47,
+      "event_index": 3,
+      "event_indices": [
+        3
+      ],
+      "frames": [
+        {
+          "file": "opening-event-003-frame-0.png",
+          "seconds": 0.325,
+          "tick": 39
+        },
+        {
+          "file": "opening-event-003-frame-1.png",
+          "seconds": 0.3333333333333333,
+          "tick": 40
+        },
+        {
+          "file": "opening-event-003-frame-2.png",
+          "seconds": 0.3416666666666667,
+          "tick": 41
+        },
+        {
+          "file": "opening-event-003-frame-3.png",
+          "seconds": 0.35,
+          "tick": 42
+        },
+        {
+          "file": "opening-event-003-frame-4.png",
+          "seconds": 0.36666666666666664,
+          "tick": 44
+        },
+        {
+          "file": "opening-event-003-frame-5.png",
+          "seconds": 0.375,
+          "tick": 45
+        },
+        {
+          "file": "opening-event-003-frame-6.png",
+          "seconds": 0.3833333333333333,
+          "tick": 46
+        },
+        {
+          "file": "opening-event-003-frame-7.png",
+          "seconds": 0.39166666666666666,
+          "tick": 47
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        39,
+        40,
+        41,
+        42,
+        44,
+        45,
+        46,
+        47
+      ],
+      "start_tick": 39,
+      "strip": "opening-event-003.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 4,
+          "source": "unit:9",
+          "tick": 48,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.06666666666666667,
+      "end_tick": 56,
+      "event_index": 4,
+      "event_indices": [
+        4
+      ],
+      "frames": [
+        {
+          "file": "opening-event-004-frame-0.png",
+          "seconds": 0.4,
+          "tick": 48
+        },
+        {
+          "file": "opening-event-004-frame-1.png",
+          "seconds": 0.4083333333333333,
+          "tick": 49
+        },
+        {
+          "file": "opening-event-004-frame-2.png",
+          "seconds": 0.4166666666666667,
+          "tick": 50
+        },
+        {
+          "file": "opening-event-004-frame-3.png",
+          "seconds": 0.425,
+          "tick": 51
+        },
+        {
+          "file": "opening-event-004-frame-4.png",
+          "seconds": 0.44166666666666665,
+          "tick": 53
+        },
+        {
+          "file": "opening-event-004-frame-5.png",
+          "seconds": 0.45,
+          "tick": 54
+        },
+        {
+          "file": "opening-event-004-frame-6.png",
+          "seconds": 0.4583333333333333,
+          "tick": 55
+        },
+        {
+          "file": "opening-event-004-frame-7.png",
+          "seconds": 0.4666666666666667,
+          "tick": 56
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        48,
+        49,
+        50,
+        51,
+        53,
+        54,
+        55,
+        56
+      ],
+      "start_tick": 48,
+      "strip": "opening-event-004.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 5,
+          "source": "unit:10",
+          "tick": 57,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.06666666666666667,
+      "end_tick": 65,
+      "event_index": 5,
+      "event_indices": [
+        5
+      ],
+      "frames": [
+        {
+          "file": "opening-event-005-frame-0.png",
+          "seconds": 0.475,
+          "tick": 57
+        },
+        {
+          "file": "opening-event-005-frame-1.png",
+          "seconds": 0.48333333333333334,
+          "tick": 58
+        },
+        {
+          "file": "opening-event-005-frame-2.png",
+          "seconds": 0.49166666666666664,
+          "tick": 59
+        },
+        {
+          "file": "opening-event-005-frame-3.png",
+          "seconds": 0.5,
+          "tick": 60
+        },
+        {
+          "file": "opening-event-005-frame-4.png",
+          "seconds": 0.5166666666666666,
+          "tick": 62
+        },
+        {
+          "file": "opening-event-005-frame-5.png",
+          "seconds": 0.525,
+          "tick": 63
+        },
+        {
+          "file": "opening-event-005-frame-6.png",
+          "seconds": 0.5333333333333333,
+          "tick": 64
+        },
+        {
+          "file": "opening-event-005-frame-7.png",
+          "seconds": 0.5416666666666666,
+          "tick": 65
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        57,
+        58,
+        59,
+        60,
+        62,
+        63,
+        64,
+        65
+      ],
+      "start_tick": 57,
+      "strip": "opening-event-005.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 6,
+          "source": "unit:9",
+          "tick": 66,
+          "type": "stats"
+        },
+        {
+          "event_index": 7,
+          "source": "unit:9",
+          "tick": 113,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.7833333333333333,
+      "end_tick": 160,
+      "event_index": 6,
+      "event_indices": [
+        6,
+        7
+      ],
+      "frames": [
+        {
+          "file": "opening-event-006-frame-0.png",
+          "seconds": 0.55,
+          "tick": 66
+        },
+        {
+          "file": "opening-event-006-frame-1.png",
+          "seconds": 0.6583333333333333,
+          "tick": 79
+        },
+        {
+          "file": "opening-event-006-frame-2.png",
+          "seconds": 0.775,
+          "tick": 93
+        },
+        {
+          "file": "opening-event-006-frame-3.png",
+          "seconds": 0.8833333333333333,
+          "tick": 106
+        },
+        {
+          "file": "opening-event-006-frame-4.png",
+          "seconds": 1.0,
+          "tick": 120
+        },
+        {
+          "file": "opening-event-006-frame-5.png",
+          "seconds": 1.1083333333333334,
+          "tick": 133
+        },
+        {
+          "file": "opening-event-006-frame-6.png",
+          "seconds": 1.225,
+          "tick": 147
+        },
+        {
+          "file": "opening-event-006-frame-7.png",
+          "seconds": 1.3333333333333333,
+          "tick": 160
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        66,
+        79,
+        93,
+        106,
+        120,
+        133,
+        147,
+        160
+      ],
+      "start_tick": 66,
+      "strip": "opening-event-006.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 8,
+          "source": "unit:10",
+          "tick": 161,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 208,
+      "event_index": 8,
+      "event_indices": [
+        8
+      ],
+      "frames": [
+        {
+          "file": "opening-event-008-frame-0.png",
+          "seconds": 1.3416666666666666,
+          "tick": 161
+        },
+        {
+          "file": "opening-event-008-frame-1.png",
+          "seconds": 1.4,
+          "tick": 168
+        },
+        {
+          "file": "opening-event-008-frame-2.png",
+          "seconds": 1.45,
+          "tick": 174
+        },
+        {
+          "file": "opening-event-008-frame-3.png",
+          "seconds": 1.5083333333333333,
+          "tick": 181
+        },
+        {
+          "file": "opening-event-008-frame-4.png",
+          "seconds": 1.5666666666666667,
+          "tick": 188
+        },
+        {
+          "file": "opening-event-008-frame-5.png",
+          "seconds": 1.625,
+          "tick": 195
+        },
+        {
+          "file": "opening-event-008-frame-6.png",
+          "seconds": 1.675,
+          "tick": 201
+        },
+        {
+          "file": "opening-event-008-frame-7.png",
+          "seconds": 1.7333333333333334,
+          "tick": 208
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        161,
+        168,
+        174,
+        181,
+        188,
+        195,
+        201,
+        208
+      ],
+      "start_tick": 161,
+      "strip": "opening-event-008.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 9,
+          "source": "unit:2",
+          "tick": 209,
+          "type": "trigger"
+        },
+        {
+          "event_index": 11,
+          "source": "unit:2",
+          "tick": 237,
+          "type": "summon"
+        }
+      ],
+      "duration": 0.7083333333333334,
+      "end_tick": 294,
+      "event_index": 9,
+      "event_indices": [
+        9,
+        10,
+        11,
+        12
+      ],
+      "frames": [
+        {
+          "file": "opening-event-009-frame-0.png",
+          "seconds": 1.7416666666666667,
+          "tick": 209
+        },
+        {
+          "file": "opening-event-009-frame-1.png",
+          "seconds": 1.8416666666666666,
+          "tick": 221
+        },
+        {
+          "file": "opening-event-009-frame-2.png",
+          "seconds": 1.9416666666666667,
+          "tick": 233
+        },
+        {
+          "file": "opening-event-009-frame-3.png",
+          "seconds": 2.0416666666666665,
+          "tick": 245
+        },
+        {
+          "file": "opening-event-009-frame-4.png",
+          "seconds": 2.15,
+          "tick": 258
+        },
+        {
+          "file": "opening-event-009-frame-5.png",
+          "seconds": 2.25,
+          "tick": 270
+        },
+        {
+          "file": "opening-event-009-frame-6.png",
+          "seconds": 2.35,
+          "tick": 282
+        },
+        {
+          "file": "opening-event-009-frame-7.png",
+          "seconds": 2.45,
+          "tick": 294
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        209,
+        221,
+        233,
+        245,
+        258,
+        270,
+        282,
+        294
+      ],
+      "start_tick": 209,
+      "strip": "opening-event-009.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 13,
+          "source": "unit:12",
+          "tick": 295,
+          "type": "trigger"
+        },
+        {
+          "event_index": 14,
+          "source": "unit:12",
+          "tick": 304,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.4666666666666667,
+      "end_tick": 351,
+      "event_index": 13,
+      "event_indices": [
+        13,
+        14
+      ],
+      "frames": [
+        {
+          "file": "opening-event-013-frame-0.png",
+          "seconds": 2.4583333333333335,
+          "tick": 295
+        },
+        {
+          "file": "opening-event-013-frame-1.png",
+          "seconds": 2.525,
+          "tick": 303
+        },
+        {
+          "file": "opening-event-013-frame-2.png",
+          "seconds": 2.591666666666667,
+          "tick": 311
+        },
+        {
+          "file": "opening-event-013-frame-3.png",
+          "seconds": 2.658333333333333,
+          "tick": 319
+        },
+        {
+          "file": "opening-event-013-frame-4.png",
+          "seconds": 2.725,
+          "tick": 327
+        },
+        {
+          "file": "opening-event-013-frame-5.png",
+          "seconds": 2.7916666666666665,
+          "tick": 335
+        },
+        {
+          "file": "opening-event-013-frame-6.png",
+          "seconds": 2.8583333333333334,
+          "tick": 343
+        },
+        {
+          "file": "opening-event-013-frame-7.png",
+          "seconds": 2.925,
+          "tick": 351
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        295,
+        303,
+        311,
+        319,
+        327,
+        335,
+        343,
+        351
+      ],
+      "start_tick": 295,
+      "strip": "opening-event-013.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 15,
+          "source": "unit:5",
+          "tick": 352,
+          "type": "trigger"
+        },
+        {
+          "event_index": 16,
+          "source": "unit:5",
+          "tick": 362,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.475,
+      "end_tick": 409,
+      "event_index": 15,
+      "event_indices": [
+        15,
+        16
+      ],
+      "frames": [
+        {
+          "file": "opening-event-015-frame-0.png",
+          "seconds": 2.933333333333333,
+          "tick": 352
+        },
+        {
+          "file": "opening-event-015-frame-1.png",
+          "seconds": 3.0,
+          "tick": 360
+        },
+        {
+          "file": "opening-event-015-frame-2.png",
+          "seconds": 3.0666666666666664,
+          "tick": 368
+        },
+        {
+          "file": "opening-event-015-frame-3.png",
+          "seconds": 3.1333333333333333,
+          "tick": 376
+        },
+        {
+          "file": "opening-event-015-frame-4.png",
+          "seconds": 3.2083333333333335,
+          "tick": 385
+        },
+        {
+          "file": "opening-event-015-frame-5.png",
+          "seconds": 3.275,
+          "tick": 393
+        },
+        {
+          "file": "opening-event-015-frame-6.png",
+          "seconds": 3.341666666666667,
+          "tick": 401
+        },
+        {
+          "file": "opening-event-015-frame-7.png",
+          "seconds": 3.408333333333333,
+          "tick": 409
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        352,
+        360,
+        368,
+        376,
+        385,
+        393,
+        401,
+        409
+      ],
+      "start_tick": 352,
+      "strip": "opening-event-015.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 17,
+          "source": "unit:7",
+          "tick": 410,
+          "type": "trigger"
+        },
+        {
+          "event_index": 18,
+          "source": "unit:7",
+          "tick": 419,
+          "type": "status"
+        }
+      ],
+      "duration": 0.5416666666666666,
+      "end_tick": 475,
+      "event_index": 17,
+      "event_indices": [
+        17,
+        18,
+        19
+      ],
+      "frames": [
+        {
+          "file": "opening-event-017-frame-0.png",
+          "seconds": 3.4166666666666665,
+          "tick": 410
+        },
+        {
+          "file": "opening-event-017-frame-1.png",
+          "seconds": 3.4916666666666667,
+          "tick": 419
+        },
+        {
+          "file": "opening-event-017-frame-2.png",
+          "seconds": 3.5749999999999997,
+          "tick": 429
+        },
+        {
+          "file": "opening-event-017-frame-3.png",
+          "seconds": 3.65,
+          "tick": 438
+        },
+        {
+          "file": "opening-event-017-frame-4.png",
+          "seconds": 3.725,
+          "tick": 447
+        },
+        {
+          "file": "opening-event-017-frame-5.png",
+          "seconds": 3.8,
+          "tick": 456
+        },
+        {
+          "file": "opening-event-017-frame-6.png",
+          "seconds": 3.8833333333333333,
+          "tick": 466
+        },
+        {
+          "file": "opening-event-017-frame-7.png",
+          "seconds": 3.9583333333333335,
+          "tick": 475
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        410,
+        419,
+        429,
+        438,
+        447,
+        456,
+        466,
+        475
+      ],
+      "start_tick": 410,
+      "strip": "opening-event-017.jpg"
+    }
+  ],
   "pixels": [
     1688,
     780
   ],
   "reduce_motion": false,
+  "result": {
+    "duration": 1.0083333333333333,
+    "end_tick": 934,
+    "event_index": -1,
+    "frames": [
+      {
+        "file": "result-frame-0.png",
+        "seconds": 6.7749999999999995,
+        "tick": 813
+      },
+      {
+        "file": "result-frame-1.png",
+        "seconds": 6.916666666666667,
+        "tick": 830
+      },
+      {
+        "file": "result-frame-2.png",
+        "seconds": 7.066666666666666,
+        "tick": 848
+      },
+      {
+        "file": "result-frame-3.png",
+        "seconds": 7.208333333333333,
+        "tick": 865
+      },
+      {
+        "file": "result-frame-4.png",
+        "seconds": 7.35,
+        "tick": 882
+      },
+      {
+        "file": "result-frame-5.png",
+        "seconds": 7.491666666666666,
+        "tick": 899
+      },
+      {
+        "file": "result-frame-6.png",
+        "seconds": 7.641666666666667,
+        "tick": 917
+      },
+      {
+        "file": "result-frame-7.png",
+        "seconds": 7.783333333333333,
+        "tick": 934
+      }
+    ],
+    "kind": "result",
+    "sample_ticks": [
+      813,
+      830,
+      848,
+      865,
+      882,
+      899,
+      917,
+      934
+    ],
+    "start_tick": 813,
+    "strip": "result.jpg"
+  },
   "scenario": "homecoming-following-combat",
+  "seed": 109.0,
+  "source_events_sha256": "a45dfaea325b4c1e73387e7e777f35d9f4783fde422c9b477c079b2a09062d48",
   "speed": 4.0,
-  "ticks": 441
+  "ticks": 935,
+  "timing_passes_equal": true
 }
