@@ -6,13 +6,13 @@ No simulation is repeated. Resume the frozen run with an absolute --folder path.
 import gzip
 import hashlib
 import json
-from pathlib import Path
 import re
 import sys
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 sys.path.insert(0, str(ROOT / 'tools/sim'))
-from quilboar_h1 import atomic_json, file_sha, read_json
+from quilboar_h1 import atomic_json, file_sha, read_json  # noqa: E402
 
 folder = ROOT / 'build/quilboar-h1-cycle-fix/run'
 path = folder / 'progress.json'
@@ -36,7 +36,10 @@ elapsed = float(re.search(r'h1_scope_seconds=([0-9.]+)', log.read_text())[1])
 progress['chunks'].append({
     'arm': 'B', 'first_seed': 2921001, 'lobbies': 5,
     'scope_seconds': elapsed, 'wall_seconds_including_lock_wait': None,
-    'recovery_note': 'Completed outputs recovered after relative-path bookkeeping failure; lock-wait wall time unavailable. No lobby rerun.',
+    'recovery_note': (
+        'Completed outputs recovered after relative-path bookkeeping failure; '
+        'lock-wait wall time unavailable. No lobby rerun.'
+    ),
     'compact': str(compact.relative_to(ROOT)), 'compact_sha256': file_sha(compact),
     'capture': str(archive.relative_to(ROOT)), 'capture_sha256': digest.hexdigest(),
     'capture_gzip_sha256': file_sha(archive),
