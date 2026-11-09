@@ -16,12 +16,20 @@ if [[ "${1:-}" != "--locked" ]]; then
   echo "$status" > "build/quilboar/$mode.exit"
   exit "$status"
 fi
+rm -f "build/quilboar/$mode.exit"
 echo running > "build/quilboar/$mode.status"
 if [[ "$mode" == focused ]]; then
   timeout 180 godot --headless -s addons/gut/gut_cmdln.gd -gdir= \
     -gtest=res://tests/core/test_quilboar.gd,res://tests/core/test_quilboar_bot.gd,res://tests/core/test_quilboar_combat.gd,res://tests/core/test_quilboar_content.gd,res://tests/core/test_quilboar_isolation.gd \
     -gexit > build/quilboar/focused.log 2>&1
   status=$?
+  # A skipped test script can leave GUT at exit 0: judge its log exactly as the full gate does.
+  source scripts/godot_log.sh
+  godot_log_init build/quilboar
+  problems="$(godot_log_problems build/quilboar/focused.log)"
+  if [[ -n "$problems" ]] || ! grep -q 'gut_strict: ok' build/quilboar/focused.log; then
+    status=1
+  fi
 else
   ./scripts/check.sh > build/quilboar/gate.log 2>&1
   status=$?
