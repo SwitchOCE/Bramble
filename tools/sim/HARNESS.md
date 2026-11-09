@@ -306,3 +306,30 @@ Winner length is the winner's final round. Round 10–14 pair uncertainty is rep
 both unweighted and with field population weights. All-draw pairs do not count as
 uncertain winners. A stricter share requires the full pair Wilson interval to lie
 inside 20–80%, making finite-replicate uncertainty visible.
+
+## Offline damage replay
+
+`replay_damage.py <captures...> --variants <variants.json> --out <replay.json>` runs
+entirely in Python. The variant file maps names to config overrides. Examples include
+`{"health50":{"starting_health":50}}` or a new `base_damage_by_turn` table and
+`survivor_scale`. An original-rules scenario is always included. Starting Health
+shifts each seat by the change in base Health, preserving its logged hero offset.
+Legacy variants also support survivor tier weights (`tier_damage_by_tier`), the
+survivor divisor, damage floors/caps, toll and Last Stand.
+
+Each capture now logs live post-fight Health/Armor and the pre-fight alive count.
+Replay computes damage from actual survivors (own starting bodies in v0.5; surviving
+tiers excluding Eggs in legacy), verifies original damage and post-fight state,
+then re-scores Health and elimination rounds. Observed recruit-phase Health/Armor
+changes are carried forward. Two fresh smoke lobbies (72001–72002) reproduced all
+228 live post-state observations and both winners exactly. Python known answers
+exercise Armor, Last Stand, lower starting Health, slower tables, legacy tier damage,
+caps/toll, incomplete rounds and corrupted live state.
+
+This is a **fixed historical schedule replay**, not an unobserved new game. Once an
+elimination changes, different future pairings, buys and pool depletion are unknown.
+Output records the first divergence and labels later results conditional. A seat
+surviving beyond its logged fights loses coverage; multiple survivors at log end
+remain unresolved rather than receiving invented wins or game lengths. Original
+rules are checked against the complete logged trajectory. Files are streamed one
+lobby at a time to keep the 500-lobby replay bounded in memory.

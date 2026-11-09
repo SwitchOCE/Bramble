@@ -188,6 +188,11 @@ def field_report(field: dict, pairs):
     return report
 
 
+def file_sha(path):
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
@@ -206,7 +211,7 @@ def main():
         result = sample_field(
             boards_from_capture(args.captures), tuple(map(int, args.rounds.split(","))), args.size, args.seed
         )
-        result["sources"] = {str(path): hashlib.sha256(path.read_bytes()).hexdigest() for path in args.captures}
+        result["sources"] = {str(path): file_sha(path) for path in args.captures}
     else:
         with args.pairs.open() as stream:
             result = field_report(json.loads(args.field.read_text()), (json.loads(line) for line in stream))

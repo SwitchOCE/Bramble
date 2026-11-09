@@ -152,6 +152,7 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 	_capture = FightCapture.record(input, result, _library, combat)
 	_capture.merge({"seed": _game_seed, "leg": _leg, "suite": _options["suite"]})
+	_capture["alive_before"] = _active_session._living().size()
 	for side: int in 2:
 		var id: int = CoreUtil.to_int(input["player_ids"][side])
 		var snapshot: Dictionary = _capture["combat_start"][side]
@@ -187,6 +188,18 @@ func _on_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> v
 		var outcome: Dictionary = result.duplicate()
 		outcome.erase("events")
 		_capture.merge({"round": round_number, "players": [id_a, id_b], "outcome": outcome})
+		var health: Array = []
+		var armor: Array = []
+		for seat: int in [id_a, id_b]:
+			var player: PlayerState = _observed_players.get(seat)
+			if player != null:
+				health.append(player.health)
+				armor.append(player.armor)
+			else:
+				health.append(null)
+				armor.append(null)
+		_capture["health_after"] = health
+		_capture["armor_after"] = armor
 		var trace: FileAccess = _files["fight_trace"]
 		trace.store_line(JSON.stringify(_capture, "", true, true))
 	_fights[id_a] = CoreUtil.to_int(_fights.get(id_a, 0)) + 1

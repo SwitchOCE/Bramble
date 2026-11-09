@@ -1,0 +1,13 @@
+{
+  "seeds": [
+    72001,
+    72002
+  ],
+  "live_state_checks": 228,
+  "winners": {
+    "72001:0": 7,
+    "72002:0": 4
+  },
+  "all_winners_match": true,
+  "no_elimination_divergence": true
+}
