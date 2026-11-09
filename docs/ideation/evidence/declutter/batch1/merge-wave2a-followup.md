@@ -203,3 +203,10 @@ Counter records its answering unit along with the previous attacker. That unit
 starting its next attack clears the pending answer target, even when no stat gain
 was emitted. A later unrelated gain cannot launch a stale red sword. A new test
 checks this in normal and reduce motion; existing ordered self-gain tests remain.
+
+### Pounce attack handoff
+
+Pounce now uses the same directed red-sword answer cue as Counter and transfers
+the gold attacker frame immediately to the pouncing unit. Its following real
+attack event supplies the snap lunge (or source flash under reduce motion).
+The test checks that the former attacker loses its frame and the pouncer moves.

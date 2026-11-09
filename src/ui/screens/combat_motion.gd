@@ -544,13 +544,23 @@ func _permanent_reward(event: Dictionary, animate: bool = true) -> void:
 
 
 func _counter_answer(source: int, target: int) -> void:
+	_out_of_turn_answer(source, target, "counter")
+
+
+## Pounce and Counter hand the attack frame to the unit that answers out of turn.
+## The ordinary following attack event supplies its snap lunge and contact timing.
+func _out_of_turn_answer(source: int, target: int, kind: String) -> void:
 	_clear_attack_sources()
 	var actor: CardView = _card(source)
 	if actor != null:
 		_hold_attack_source(actor)
 	var answer: Control = _mote(_unit_point(source), _unit_point(target), "sword", UiTheme.HEALTH)
-	answer.set_meta("counter_answer_source", source)
-	answer.set_meta("counter_answer_target", target)
+	answer.set_meta("answer_kind", kind)
+	answer.set_meta("answer_source", source)
+	answer.set_meta("answer_target", target)
+	if kind == "counter":
+		answer.set_meta("counter_answer_source", source)
+		answer.set_meta("counter_answer_target", target)
 
 
 func _take(event: Dictionary) -> void:
@@ -842,14 +852,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 				_counter_target = Data.i(event, "defender", -1)
 				_counter_source = source
 			else:
-				var mote: Control = _mote(
-					_unit_point(source),
-					_unit_point(Data.i(event, "defender", -1)),
-					"spark",
-					UiTheme.ACORN
-				)
-				mote.set_meta("effect_source_uid", source)
-				mote.set_meta("effect_target_uid", Data.i(event, "defender", -1))
+				_out_of_turn_answer(source, Data.i(event, "defender", -1), Data.s(event, "kind"))
 			_effect_barrier(0.5)
 		"quarry_marked":
 			var hunter: int = Data.i(event, "hunter", -1)

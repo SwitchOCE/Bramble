@@ -846,3 +846,36 @@ func test_zero_gain_counter_clears_its_answer_target_on_its_next_attack() -> voi
 			assert_false(
 				child.has_meta("counter_answer_target"), "no stale sword after a zero-gain Counter"
 			)
+
+
+func test_pounce_hands_the_gold_frame_to_its_source_then_snap_lunges() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: CombatScreen = _screen(false, true)
+		screen._play_event({"type": "attack", "attacker": 1, "defender": 8, "joiners": []}, true)
+		_advance(screen, 0.7)
+		screen._play_event(
+			{"type": "immediate_attack", "kind": "pounce", "attacker": 2, "defender": 8}, true
+		)
+		var framed: Array[int] = []
+		for child: Node in screen._overlay.get_children():
+			if (
+				child.get_script() == preload("res://src/ui/widgets/combat_attack_cue.gd")
+				and (child as Control).visible
+			):
+				framed.append(CoreUtil.to_int(child.get("actor_uid")))
+		assert_eq(framed, [2], "the former attacker's frame leaves at Pounce declaration")
+		var found: bool = false
+		for child: Node in screen._overlay.get_children():
+			if child.has_meta("answer_kind"):
+				found = str(child.get_meta("answer_kind")) == "pounce"
+				assert_eq(CoreUtil.to_int(child.get_meta("answer_target")), 8)
+		assert_true(found, "Pounce shares Counter's directed red sword cue")
+		screen._play_event({"type": "attack", "attacker": 2, "defender": 8, "joiners": []}, true)
+		assert_true(CoreUtil.to_bool(screen._motion.get("_active_snap")))
+		var home: Vector2 = screen._cards[2].position
+		_advance(screen, 0.08)
+		if not reduced:
+			assert_gt(screen._cards[2].position.distance_to(home), 10.0)
+		else:
+			assert_gt(screen._cards[2].modulate.r, 1.0, "reduce motion flashes the pouncing source")
