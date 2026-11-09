@@ -2,6 +2,8 @@
 
 Before UI source: `95128ed`. Final after UI source: `695e156` (tray/layout in `82b4b21`, followed by the displayed-offer counting correction). The attribution clarification is `e597932`. All follow-ups are new commits.
 
+Later correction: the overview images here exposed a blank B2 Redbreast label after Ring space was reserved. [The follow-up fix, layout test and corrected overviews](../redbreast-label/README.md) preserve the complete name. These earlier comparison images are retained unchanged.
+
 The twelve full-window PNGs below use identical input states, production UI widgets and the same capture driver. `FixturePort` reads the saved controlled recruit snapshot from `screenshots-1920x1080.json`, capture `ring-carry-away-birds`. This preserves the two away Birds, large Ring count, long shop names and historical Ring size 1.25 across both phases. It does not run or modify gameplay. Both requested resolutions are native captures, with no cropping or image editing.
 
 | Scene | Phone before | Phone after | PC before | PC after |

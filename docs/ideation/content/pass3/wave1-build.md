@@ -35,6 +35,8 @@ The missed-fight recall test uses a Bird that left in an earlier numbered turn b
 
 ## Validation
 
+The final Redbreast-label locked 3G [full gate](../../evidence/wave1/redbreast-label/quality-gate.log) **passes** on `fd3d86b`: **1,798 tests, 29,563 assertions, 164 scripts**, strict hook clean. All other gate steps pass; the new case checks complete back-row names and badge clearance at both requested window sizes.
+
 The final UI follow-up locked 3G [full gate](../../evidence/wave1/ui-followup/quality-gate-final.log) **passes** on `695e156`: **1,797 tests, 29,513 assertions, 164 scripts**, strict hook clean. All other gate steps pass, with 496 source files compiled. The final screenshot captures were refreshed on that same source after the gate. The subsequent evidence commit changes documentation, recorded outputs and the three imported Godot UIDs only.
 
 The post-review locked 3G [full gate](../../evidence/wave1/bot-review/review-gate.log) **passes** on source checkpoint `76c259b`: **1,791 tests, 29,353 assertions, 163 scripts**, strict hook clean. All tools, versions, shell, Python, content, formatting, lint, import, compilation and pool-parity steps pass; 493 source files compile. Rules/text are checkpoint `4a052e4`, and Hard Fairy policy/probe are `76c259b`. The subsequent evidence commit changes documentation, recorded outputs and the imported probe UID only.
@@ -75,6 +77,8 @@ Counted Ring badges now show compact ×count in the name strip, reserving space 
 The [matching before/after evidence](../../evidence/wave1/ui-followup/README.md) contains **12 native screenshots**, three scenes at **1688×780 and 1920×1080** in each phase, plus renderer logs, exact shared input state, forecast/footer geometry and independent PNG/state verification. Before UI is `95128ed`; final after UI is `695e156`, with tray/layout in `82b4b21` followed by a correction to count already-merged shop offers once. The snapshot deliberately retains its historical Ring size 1.25 so the comparison changes only UI. Both away forecasts are visible at the phone minimum without hiding economy controls. Tests also cover larger flocks with a full hand, restored empty-sky layout, Ring badge clearance, whole-word PC names and the End Turn subtitle.
 
 The previous screenshots below remain historical evidence. The away-tray gap, Ring badge crowding, End Turn clipping and PC shop-name wrapping they identified are resolved by this follow-up. Fractional Cluricaun trigger-chip formatting under non-default sweeps remains separate.
+
+A final review found that reserving the Ring badge could erase B2's “Redbreast” name in the overview: 108 canvas pixels remained for a word needing 126. `fd3d86b` reclaims header padding while retaining the font minimum, complete names and separate Ring counters. The [regression evidence](../../evidence/wave1/redbreast-label/README.md) includes the failing initial test, expanded both-size layout coverage and corrected native overviews. B1 Witch, B2 Redbreast and B3 Hearth remain visible without overlap, including after returning from the reader.
 
 ## Real-game and screenshot evidence
 

@@ -1,0 +1,9 @@
+Running as unit: run-p4060170-i12452768.scope; invocation ID: 91af8bdeaf5440bbbae90c93806d84da
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 26.0.8-1ubuntu0.3 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+ui-after-overview-1920x1080.png
+ui-after-ring-reader-1920x1080.png
+ui-after-away-tray-1920x1080.png
