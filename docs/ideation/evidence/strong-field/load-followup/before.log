@@ -1,4 +1,4 @@
-Running as unit: run-p227937-i12814272.scope; invocation ID: 34fc53277e8443808a0d127963c663fe
+Running as unit: run-p259316-i12831717.scope; invocation ID: 95a77ab59c374914be5cfe001513ad75
 Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
 
-load-profile: before configure_ms=2609 session_ms=1942 total_ms=4551
+load-profile: {"library":"res://build/strong-field/load-review/measurement-current.json","load_ms":2634,"mode":"legacy","reused_snapshot":false,"session_ms":1991,"total_ms":4625}

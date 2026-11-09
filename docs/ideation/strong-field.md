@@ -149,11 +149,11 @@ Measured on the **same 960 trajectories** from the earlier 48 MB baseline librar
 
 | Load path | Library bytes | Load/adopt | Session creation | Total | Peak process RSS |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Before: JSON, two parses/validations | 50,349,022 | 2.609 s | 1.942 s | 4.551 s | 1,150.8 MiB |
-| After: gzip, one retained snapshot | 2,078,965 | 2.291 s | 0.008 s | 2.299 s | 1,147.8 MiB |
+| Before: JSON, two parses/validations | 50,349,116 | 2.634 s | 1.991 s | 4.625 s | 1,149.1 MiB |
+| After: gzip, one retained snapshot | 2,079,022 | 2.356 s | 0.010 s | 2.366 s | 1,146.7 MiB |
 
 Startup time is about halved and disk size falls about 96%. **Peak memory is
-essentially unchanged:** the expanded JSON/Variant graph still dominates. This
+essentially unchanged:** JSON decoding and the expanded Variant graph still dominate. This
 is a measurement, with no new performance bar. Each row is one fresh local process
 with a warm OS file cache, no fights, the shared lock and 3G cap. Timings begin
 after base content loading; `/usr/bin/time -v` measures the whole process peak.
@@ -178,6 +178,15 @@ combat plaques retain the Rival number while shortening the hero name; the scout
 heading and mini-shop clear the Last Stand strip; Settings reserves no area for
 the cut tray when the feature is off. Tests cover the phone and desktop shapes.
 No on-screen explanations were added.
+
+The final **detached full gate passed on `8987512`: 1,882 Godot tests and 70
+Python tests**, including the four re-pinned normal games, historical replay,
+gzip loading, retained-snapshot starts, authored-rate overrides and both UI sizes.
+[Full gate log](evidence/strong-field/load-followup/gate.log). The
+[export smoke](evidence/strong-field/load-followup/export.log), run after the rate
+include fix at `44c7329`, passed Linux, Windows and Android APK; every pack includes
+`content/pass3/rates.json` and field mode remains off. The last config validation
+change was checked by the full gate. No game rules or authored content changed.
 
 ## Strength and switch measurement
 

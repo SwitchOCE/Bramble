@@ -1,26 +1,58 @@
 {
   "source_tree": "0946909",
+  "prepared_measurement_commit": "8987512",
   "original_library_sha256": "4792d247bce1220d61bb3fd2d76a06b2acbefebd8b8d10df5c62b4a23c565991",
-  "measurement_json_bytes": 50349022,
-  "measurement_gzip_bytes": 2078965,
-  "measurement_json_sha256": "46ada2164bd175f1c28294c83dc1e5df859932ecc3806727f81aafa55b9465a1",
-  "measurement_gzip_sha256": "b1c184e624f67ea792400e6927ce65d549256c013e549e20a32ecb10de5a65a7",
+  "measurement_json_bytes": 50349116,
+  "measurement_gzip_bytes": 2079022,
+  "measurement_json_sha256": "8b1286b3cbfba603cd17094eb59e0a6fcf8f1d4d6a78aba68136ba848e6a56dd",
+  "measurement_gzip_sha256": "d887c343483d0f76a93d0d050ce1c5261bb9e78f6b9b62180a5dd9fbcdd87571",
   "unchanged_trajectories": 960,
   "benchmark_only": "Original measurement library with merged gameplay manifest and missing default config keys refreshed; original capture frames unchanged. Not recaptured, not for play, not committed.",
   "before": {
-    "path": "legacy configure plus create, two parses/validations",
-    "configure_ms": 2609,
-    "session_ms": 1942,
-    "total_ms": 4551,
-    "peak_rss_kib": 1178432
+    "library": "res://build/strong-field/load-review/measurement-current.json",
+    "load_ms": 2634,
+    "mode": "legacy",
+    "reused_snapshot": false,
+    "session_ms": 1991,
+    "total_ms": 4625,
+    "peak_rss_kib": 1176688
   },
   "after": {
-    "path": "gzip JSON, prepare plus create with retained snapshot, one parse/validation",
-    "load_ms": 2291,
-    "session_ms": 8,
-    "total_ms": 2299,
-    "peak_rss_kib": 1175332
+    "library": "res://build/strong-field/load-review/measurement-current.json.gz",
+    "load_ms": 2356,
+    "mode": "prepared",
+    "reused_snapshot": true,
+    "session_ms": 10,
+    "total_ms": 2366,
+    "peak_rss_kib": 1174244
   },
   "scope": "One fresh process per arm, same machine, seed 71, OS file cache warm; /usr/bin/time peak RSS covers complete process. Startup timings exclude engine/script compilation and base UnitLibrary load. No fights played.",
-  "execution": "Shared /tmp/bramble-godot.lock; user systemd scope MemoryMax=3G; timeout 120/90 seconds."
+  "execution": "Shared /tmp/bramble-godot.lock; user systemd scope MemoryMax=3G; timeout 120/90 seconds.",
+  "verification": {
+    "full_gate_commit": "8987512",
+    "godot_tests": 1882,
+    "python_tests": 70,
+    "gate_exit": 0,
+    "export_smoke_commit": "44c7329",
+    "export_smoke_exit": 0,
+    "export_targets": [
+      "Linux",
+      "Windows",
+      "Android APK"
+    ],
+    "rate_file_in_every_pack": true,
+    "field_feature_enabled_in_exports": false
+  },
+  "legacy_loader_commit": "44c7329",
+  "files_sha256": {
+    "before.log": "d0107a00e6331cd543af771c8e60841e112b0c13a4a127611e30f4fd9145537c",
+    "before.time": "d027d964024947ec3df0b90e6b15fafe1a029a4b6fc6aad686f6c7403c629c7f",
+    "after-final.log": "d800cfb5dce5319f8fbdd0e0e1f91103eb357ef802110da07236f67ef6882b0d",
+    "after-final.time": "288ec14d88c7bb8616e6a5320fcf8105bc8d7f2f992e8bbbb3da32418545a06c",
+    "gate.log": "4857d35bb40c19b9e7c836c5727439d9e2156ba523d6e685bbafd96486e4724f",
+    "export.log": "1a1ef2ae762ce4946874c8be9266369eac691999803fb75383bb1694b5db8bbc",
+    "capture-normal.log": "fed9fc360cb80ead3b9601c0ce89c8a4840824ab17bd0a46b8fcd0ac2108cb21",
+    "targeted-core-final.log": "b988201fc4612d0bca138b2a6b59da7ae107f6d40ed8970f97189267f21b6367",
+    "targeted-ui-final.log": "618a5068f72d55a6e39259862aa8fd352424ca9150d1aa06a50a00ee39586d7c"
+  }
 }
