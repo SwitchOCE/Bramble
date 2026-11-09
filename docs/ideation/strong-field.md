@@ -294,7 +294,7 @@ parity checks.
 [Gate log](evidence/strong-field/review-gate.log) and
 [verification/provenance manifest](evidence/strong-field/review-verification.json).
 At that pre-merge revision, gameplay content, `combat.gd` and the existing harness
-`bench.gd` were unchanged against `9af89c2`. The owner has since merged wave 1 and
+`bench.gd` were unchanged against `9af89c2`. The orchestrator has since merged wave 1 and
 the harness at `0946909`. No large library is tracked in Git.
 
 ## Current review smoke
