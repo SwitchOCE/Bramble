@@ -4,6 +4,36 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 1 fun probe: go, and what the testers raised
+**Source:** three cloud playtesters (`evidence/fun-probe/tester-{a,b,c}/`); each named moment was checked against its log (`evidence/fun-probe/verification.md`).
+
+**Result: go, 3 of 3.** Each tester named a moment their log confirms and that beats their control game:
+- A: Fairies 262 → 660;
+- B: Fairies 293 → 1,249;
+- C: Birds' golden Lump.
+
+Wave 2a may merge once its own cuts are fixed and its gate passes.
+
+**What they raised, and the calls:**
+1. **Flat tribes far behind (3 of 3).** No change. Wave 2 rebuilds them. Between the two rebuilt tribes the gap is about 1.4×.
+2. **Birds' homecoming keeps doubling (A and C agree; B saw one huge Swallow decide late fights).** We acted on it this way:
+   - The planned Birds raise from the triage is withdrawn. The Birds dials stay as played.
+   - The bots understate skilled Birds by 2–3× (skilled R12 boards 459–772, against the bots' median of 270). So the triage's bot-based case for raising Birds was wrong.
+   - **No nerf yet.** Generous first (09h), and the runaway is measured mostly against flat tribes. The harness checks skilled Birds play on the current values first.
+   - We revisit after the wave 2 tribes are rebuilt. The testers' proposals are the dial-back options:
+     - a fixed gain per homecoming;
+     - doubling only base stats;
+     - a cap on each trip's gain.
+3. **Slow early game:**
+   - Fairies (A, C) are covered by the re-base: Rings start at size 4, and Cluricaun now fires at End of Turn.
+   - Birds (B): the default half-stat Egg is noted as an option, not taken. One report, and it would make Redwing redundant.
+4. **One-offs:**
+   - Whirligig Beetle moving enemies onto their own bigger Rings goes to w3's Hunters rebuild.
+   - The Discover-triple rule stays the Battlegrounds rule.
+   - How to thank a Shy unit goes to the tutorial (09e: teaching goes in the tutorial).
+
+**A lesson for measurement:** sims with bots measure the floor of an engine, not what a competent player gets from it. Checks of an engine's ceiling use skilled-play policies or designed setups (09d), next to at least one human game.
+
 ### 10 Nov 2026 — Bog build review: calls
 **Source:** `evidence/review-wave2a-bog.md` (1144ad6..9f03fe0b). It found 23 keeps, 2 cuts, 1 simplify and 2 asks. The cut fix from the last review keeps the pass 2 rollback untouched.
 
