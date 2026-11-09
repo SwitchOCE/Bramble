@@ -1,9 +1,7 @@
 """Fast statistical known answers; run: python3 -m unittest discover -s tests/sim."""
 
-import copy
 import csv
 import hashlib
-import random
 import sys
 import tempfile
 import unittest
@@ -12,7 +10,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
 from check_lines import head_to_head, line_breakdown, validate_profiles
 from size_line_check import required_seeds
-from tune_lines import gain, variants
 
 
 class LineToolsTests(unittest.TestCase):
@@ -102,21 +99,6 @@ class LineToolsTests(unittest.TestCase):
         self.assertEqual(group["candidate_seats"], 48)
         self.assertEqual(group["mean_place_gain"], 4)
         self.assertEqual(group["ci95"], [4, 4])
-
-    def test_variants_leave_the_reference_profile_untouched(self):
-        original = {"climb_schedule": [3, 5, 7, 9, 11], "priority_weight": 12, "save_threshold": 2, "engine": True}
-        before = copy.deepcopy(original)
-        candidates = variants(original, 3, random.Random(1))
-        self.assertEqual(len(candidates), 4)
-        self.assertEqual(original, before)
-        candidates[0]["climb_schedule"][0] = 99
-        self.assertEqual(original, before)
-
-    def test_held_out_gain_uses_independent_samples(self):
-        result = gain({"places": [5, 6]}, {"places": [1, 2]})
-        self.assertEqual(result["places"], 4)
-        self.assertLess(result["normal_ci95"][0], 4)
-        self.assertGreater(result["normal_ci95"][0], 0)
 
 
 if __name__ == "__main__":

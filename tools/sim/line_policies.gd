@@ -2,7 +2,7 @@ class_name LinePolicies
 extends RefCounted
 ## Designer-editable policy data; overrides replace the whole table, without changing card files.
 
-const DEFAULT_PATH: String = "res://tools/sim/line_profiles.json"
+const DEFAULT_PATH: String = "res://tools/sim/line_profiles.committed.json"
 static var _profiles: Dictionary = {}
 
 

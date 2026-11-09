@@ -2,6 +2,23 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 
+func test_strength_comparison_excludes_hard_anchors_from_the_candidate() -> void:
+	var seen: PackedStringArray = []
+	for leg: int in 2:
+		var seats: PackedStringArray = BenchSuites.seats(
+			"head_to_head", 71, BenchSuites.TRIBAL_MIXTURE, "hard_field", leg
+		)
+		for seat: int in 8:
+			if BenchSuites.candidate_seats(71, leg).has(seat):
+				seen.append(seats[seat].get_slice(":", 0))
+			else:
+				assert_eq(seats[seat], "hard_field:varied")
+	assert_eq(seen.count("line_tempo"), 4)
+	assert_eq(seen.count("line_engine"), 3)
+	assert_eq(seen.count("line_fast"), 1)
+	assert_false(seen.has("hard_field"))
+
+
 func test_mixture_covers_the_exact_line_lobby_across_swapped_legs() -> void:
 	for game_seed: int in [1, 2, 17, 193]:
 		var lobby: PackedStringArray = BenchSuites.seats("lines", game_seed)

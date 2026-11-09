@@ -154,6 +154,28 @@ static func reserves(player: PlayerState, library: UnitLibrary) -> Array:
 	return out
 
 
+## Acquisition attribution is recruit metadata, separate from the exact combat input.
+static func recruit_inventory(player: PlayerState) -> Array:
+	var out: Array = []
+	for location: String in ["board", "hand", "doorstep", "poached_pending"]:
+		var units: Array = player.get(location)
+		for unit: RecruitUnit in units:
+			if unit != null:
+				_inventory_unit(out, unit, location)
+	for entry: Dictionary in player.away:
+		var unit: RecruitUnit = entry["unit"]
+		_inventory_unit(out, unit, "away")
+	return out
+
+
+static func _inventory_unit(out: Array, unit: RecruitUnit, location: String) -> void:
+	out.append(
+		{"iid": unit.iid, "def_id": unit.def_id(), "origin": unit.origin, "location": location}
+	)
+	for held: RecruitUnit in unit.held:
+		_inventory_unit(out, held, "belly")
+
+
 static func _held(out: Array, spec: Dictionary, slot: int, library: UnitLibrary) -> void:
 	for held: Dictionary in spec.get("held", []):
 		var unit: Dictionary = _reserve(held, "belly", library)

@@ -5,22 +5,22 @@ weighted field fights, metrics, offline damage replay and planted-card checks ar
 implemented and verified. The fixed 500-lobby baseline is complete; see
 `docs/ideation/evidence/harness-baseline.md`.
 
-## Current decision: include Hard, preserve the finding
+## Strength gate and attribution correction
 
-The owner superseded the old superiority gate after the fixed-sample checks below.
-Hard is now the tempo anchor alongside tribal and engine lines. Known answer (b) is
-**the field's strongest line is at least as strong as Hard**, secured by including
-Hard itself under the common blind field-placement rule. No more tuning or
-superiority runs on today's pool are required. Ordinary `hard` remains the original
-registered brain; `hard_field` changes only its final placement hook to be blind,
-retaining Hard's recruit, pressure, hero and purchasing decisions.
+The orchestrator previously relaxed (b) to including Hard in the field. That was
+not an owner decision, and taking a maximum that includes Hard proves no strength.
+Known answer (b) again requires a predeclared, fresh-seed head-to-head whose lower
+95% seed-cluster confidence bound on placement gain is positive against
+`hard_field`. Both sides use blind rule placement. Field rank is descriptive;
+`hard_floor_passes` is now null and cannot open a sweep gate.
 
-The tribal mixture lost 0.735 places to Hard (95% CI [-1.029, -0.441], 100 lobbies).
-On today's flat pool, commitment and engine investment losing to tempo is partly a
-finding about the pool, not grounds for indefinite script tuning. This does not prove
-that every script is optimal. Re-run the fixed-sample comparison on the caps-off,
-engine-dial lever build once mechanics has been merged externally. Continued losses
-there would implicate the scripts. Historical failed gates below are retained as evidence.
+The historical losses below compared blind lines with scouting/search Hard.
+They are confounded and support no claim about commitment or engines in today's
+pool. The earlier "finding about the pool" interpretation is withdrawn pending
+the frozen equal-placement rerun. A fresh confirmation of `line_hedgerow_tempo`
+and a placement-ranked best-line selection are planned before protected reads.
+The later lever-build comparison must also pass before engine, economy, doubler
+or tribe conclusions are read from the sweep.
 
 ## Combat capture
 
@@ -91,67 +91,21 @@ The eight-lobby mixed smoke measured 2.61 seconds/lobby and 6.69 milliseconds/fi
 on this machine the updated estimate is 22 minutes for lobbies plus 22 minutes
 for the fields. The baseline spans clean checkpoints under the 50-minute turn limit.
 
-## Line policies and tuning
+## Committed profiles; knob tuning retired
 
-`line_profiles.json` defines two committed profiles per tribe, plus `line_fast`. Each
-entry has an ordered card priority list, a five-step climb schedule, a save threshold
-and ending round, a committed tribe, an engine flag and priority/tribe weights. The
-base strategy supplies Hard's existing spell, hero and row preferences. These are
-initial scripted lines, not a claim to elite human play.
+`line_profiles.committed.json` is the default table. Version 1 and the tuned table
+are archived in `evidence/line_profiles.v1.json` and `evidence/line_profiles.tuned.json`.
+The tuner itself is archived as `evidence/tune_lines.retired.py`; it is not an active
+workflow. Its feasible-budget validation was noise (+1.077 training places,
+-0.154 held out, two validation games per arm), so it established no improvement.
+No more knob tuning or sample extensions based on observed wins are allowed.
 
-`LineBrain` inherits Hard's legal recruit actions and live text/economy logic. It fixes
-the build, follows the declared climb rounds and uses the engine flag for an economy
-opening and saving. Placements use Hard's blind rule placer. No field opponent can
-influence the captured layout. A specifically requested tribe absent from a lobby
-falls back to `line_fast`; that fallback is visible in the logged resolved line.
-
-`BenchSuites.REGISTRY` contains every profile and two family aliases. `suite=lines`
-deals two Hard, two tempo, three engine and one shared fast-tier seat, shuffling
-seat order by seed. Tribal lines use the available-tribe build deal. Neutral builds can
-also resolve to the shared line. Real pool depletion, hero offers, combat, permanent
-carries, damage and eliminations all use `GameSession`.
-
-An alternate JSON table can be supplied with `lines=/absolute/path/profiles.json`.
-Capture snapshots log the resolved profile id. `suite=line_tune candidate=<id>` tests
-one focus seat against seven line seats. The tuner uses a private candidate alias, so
-changing its knobs leaves all opponents' original profiles intact.
-
-```sh
-timeout 1200 python3 tools/sim/tune_lines.py \
-  --out build/sim/harness-lines/tuning --trials 2 --games-per-trial 2 \
-  --validation-games 2 --run
-```
-
-The command writes its plan before starting Godot. It sources `/opt/bramble/env.sh`
-for each invocation, runs sequentially in a 3 GB systemd scope and puts a timeout on
-each job. Without `--run` it only writes the plan. That example allocates 20 lobbies
-per tribe (two profiles each), ten for the shared profile, 130 total. Training and
-validation samples use disjoint, monotonically allocated seed ranges. The objective
-is focus-seat mean placement. Reports retain training gains, held-out gains, intervals,
-fallback counts, time and every candidate's exact knob table. At two games per arm,
-held-out intervals are explicitly exploratory, not a strength gate.
-`--resume` reuses complete profile reports only after checking the declared plan,
-original/selected profile data and seed ranges. Incomplete profiles are run again.
-
-The first complete sweep used those 130 lobbies, seeds 31001–31130, and 427.6 seconds
-of active job time. Mean training gain was +1.077 places across the 13 profiles;
-held-out gain was -0.154 places. By tribe (mean across its two profiles):
-
-| Tribe | Training gain | Held-out gain |
-|---|---:|---:|
-| Birds | +3.00 | +1.50 |
-| Bog folk | +0.25 | -2.25 |
-| Fairies | +2.25 | -3.25 |
-| Hedgerow folk | +1.00 | +1.50 |
-| Hunters | +0.50 | 0.00 |
-| Oozes | 0.00 | +1.75 |
-| Shared | 0.00 | -0.50 |
-
-The tiny validation samples do not establish improvement. Full per-profile samples,
-wide intervals and chosen knobs are in `evidence/line-tuning.json`; the selected
-table is retained as `line_profiles.tuned.json`. The default table remains separate.
-The shared profile selected its original revised settings, so its fresh head-to-head
-also evaluates the default revised shared line.
+Profiles remain editable per-tribe priorities, climb schedules, save thresholds,
+commitment and retained engine pieces over Hard's legal recruit actions. Field
+lobbies retain two Hard anchors, two tempo, three engine and one shared-fast seat.
+The historical tribal-only head composition is separately registered as
+`tribal_mixture`: four tempo, three engine and one shared fast, with no Hard anchor.
+Alternative tables require explicit `lines=<path>` and a frozen content hash.
 
 ## Head-to-head strength check
 
@@ -259,8 +213,7 @@ inputs are replayed without any field-adapted rearrangement.
 
 `field.py sample` streams captures, rejects duplicate/non-blind boards and ghosts,
 and keeps per-round/per-line reservoirs. It selects exactly 64 boards at rounds
-6, 8, 10, 12, 14 and 16. Proportional quotas include every represented line and require
-a Hard anchor. Each board's weight is its line's population fraction divided by that
+6, 8, 10, 12, 14 and 16. Equal, availability-capped quotas include every represented line. Each board's weight is its line's population fraction divided by that
 line's selected count, so rare lines forced into the sample do not distort the field.
 The source capture hashes, population counts, quotas and weights are saved.
 
@@ -270,7 +223,7 @@ replicates per orientation by default. Six 64-board fields cost 193,536 fights, 
 counters, side rules, tiers and hero effects are copied directly from captured sides.
 No random or opponent-adapted layout is introduced. `field.py report` requires complete
 round robins, reports each board's weighted field point rate, line-by-line matrix,
-population weights and the Hard floor. A draw earns half a point for field ranking;
+population weights and descriptive Hard comparisons; neither is a strength gate. A draw earns half a point for field ranking;
 winner probability is conditional on a decisive fight, so all-draw pairs are not
 labelled uncertain. Pair probabilities include Wilson intervals and raw counts.
 
@@ -339,7 +292,11 @@ rules are checked against the complete logged trajectory. Files are streamed one
 lobby at a time to keep the 500-lobby replay bounded in memory.
 
 
-## Planted engine and null checks
+## Historical planted engine check; original null arm invalid
+
+The original null arm planted nothing. Its byte identity is historical evidence
+only and does not establish a real-null-card check. The real 1/1 reference/null
+protocol and exact-arm replays replace that gate below.
 
 `plant_growth=256` registers a test-only, pool-excluded 1/1 body and puts it on
 seat zero before recruitment. Its normal End-of-Turn effect permanently adds
@@ -394,9 +351,9 @@ exceptions; neither the data nor the diagnostic was adjusted to force a pass.
 
 ## Owner ruling and mechanics integration
 
-The owner accepts known answer (d): 11/35,564 R6-16 snapshots at twice the median
+The orchestrator accepts known answer (d): 11/35,564 R6-16 snapshots at twice the median
 (0.031%) is a flat shape. The measured strict zero-tail diagnostic remains false
-in the immutable baseline data; it is no longer the owner's pass criterion.
+in the immutable baseline data; it is no longer the orchestrator's pass criterion.
 
 After the owner merged shared mechanics in `eb571ba`, capture and reserves read the
 session's private overlaid library. Standalone field fights and re-fights restore
@@ -406,3 +363,44 @@ retain inert defaults, so the original capped baseline remains reproducible.
 The regression checks a 21-Attack uncapped Bridge Toad (4 Attack through the raw
 capped library), exact event replay, field composition, selected lever presence
 and reuse of the configured library. Full gate: 1,677 tests, 28,859 assertions.
+
+
+## Review measurement contract
+
+New reports use post–Start of Combat stats for board size and the largest body's
+share. The initial aura snapshot remains captured; `pre_start_stats` and
+`start_effect_delta` show how Start of Combat changed it. Missing post snapshots
+are explicitly counted as fallback, never silently called post-start data.
+Curvature replaces the zero-tail check: R6–16 medians must have relative linear
+RMSE <= 0.05 and late/early growth increments within 25% to be labelled flat.
+A known 15%-per-round compounding curve fails. Tail shares remain descriptive.
+
+Fields sample equally by line (availability-capped); population weights restore
+real frequencies. Seeded two-way board bootstrap intervals resample each selected
+board jointly across every opponent result. Selected counts and low-N warnings
+are reported; extra combat trials cannot manufacture board-sample precision.
+Lines are ranked by lobby placement with whole-seed bootstrap intervals.
+Designed-only fields take complete board/slot/rule/hero/config inputs and explicit
+line weights, separately from lobby fields; no missing hidden state is guessed.
+
+JSON is the canonical metrics format. Redundant CSV metric/matrix/board exports
+were removed; Markdown remains the human report. Historical baseline values and
+field counts are unchanged. A real null now means an actual 1/1 with empty text
+and mechanics, compared against an identical reference body. Definition IDs are
+normalized only for cross-arm comparison; both arms must replay their own exact
+raw events. Adding a body to an empty board is not a null intervention.
+
+Before any engine-dial read, a fixed planted dose ladder (+1,+4,+16,+64 per turn)
+must run both forced-after-recruit and real-shop-pool versions. Adoption and
+retention are read from actual units, not presumed from a selected pool flag.
+Answer results remain blocked until controlled cause-specific upset readers
+(answer/targeting, placement, RNG) are implemented; event presence alone is not
+causal attribution. Current protected-sweep gate files remain absent.
+
+
+The earlier 32-board screening proposal is withdrawn after review. New screening
+uses 64 equally stratified boards; even four or five boards per line is low N,
+and the board-cluster intervals flag that limitation. More fight repetitions do
+not fix a small board sample. Cause-specific counterfactual upset readers remain
+pending, so the answer sweep is blocked. Protected lever reads remain blocked on
+a separate, successful lever-build comparison against `hard_field`.

@@ -43,6 +43,8 @@ const BASE_REGISTRY: Dictionary = {
 const SEATS: int = 8
 ## Ensemble candidate: over the swapped legs, exactly the all-line lobby's eight profiles.
 const LINE_MIXTURE: String = "line_mixture"
+## Historical tribal-only composition for a real, equal-placement strength comparison.
+const TRIBAL_MIXTURE: String = "tribal_mixture"
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
 const PLANTED: String = "plant_bad"
 static var REGISTRY: Dictionary = _registry()
@@ -70,7 +72,7 @@ static func is_known(suite: String) -> bool:
 
 
 static func is_candidate(bot: String, suite: String) -> bool:
-	return REGISTRY.has(bot) or (bot == LINE_MIXTURE and suite == "head_to_head")
+	return REGISTRY.has(bot) or (bot in [LINE_MIXTURE, TRIBAL_MIXTURE] and suite == "head_to_head")
 
 
 ## A test seat with far more search than a phone can afford; its turns aren't timed as Hard's.
@@ -109,10 +111,28 @@ static func seats(
 		var mixture: PackedStringArray = []
 		if candidate == LINE_MIXTURE or incumbent == LINE_MIXTURE:
 			mixture = seats("lines", game_seed)
+		var tribal: PackedStringArray = []
+		if candidate == TRIBAL_MIXTURE or incumbent == TRIBAL_MIXTURE:
+			var roles: Array = [
+				"line_tempo",
+				"line_engine",
+				"line_tempo",
+				"line_engine",
+				"line_tempo",
+				"line_engine",
+				"line_tempo",
+				"line_fast"
+			]
+			var tribal_rng := RandomNumberGenerator.new()
+			tribal_rng.seed = ("lines|%d" % game_seed).hash()
+			_shuffle(roles, tribal_rng)
+			tribal = PackedStringArray(roles)
 		for seat: int in SEATS:
 			var name: String = candidate if sides.has(seat) else incumbent
 			if name == LINE_MIXTURE:
 				name = mixture[seat].get_slice(":", 0)
+			elif name == TRIBAL_MIXTURE:
+				name = tribal[seat]
 			paired.append(name + ":varied")
 		return paired
 	var out: PackedStringArray = []

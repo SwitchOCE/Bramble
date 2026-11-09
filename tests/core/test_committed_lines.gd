@@ -110,7 +110,7 @@ func test_low_health_does_not_all_in_on_a_scheduled_climb() -> void:
 
 
 func test_version_one_profiles_still_create_the_frozen_brain() -> void:
-	BenchSuites.reload_lines(LinePolicies.DEFAULT_PATH)
+	BenchSuites.reload_lines("res://tools/sim/evidence/line_profiles.v1.json")
 	var frozen: Bot = BenchSuites.create_bot("line_fast")
 	assert_true(frozen is LineBrain)
 	assert_false(frozen is Candidate)
