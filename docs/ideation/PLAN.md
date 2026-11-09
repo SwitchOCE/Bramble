@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Stepping back to fundamentals. The owner judged the stat scale far too small and our data agrees: growth is linear, boards barely diverge, and the early game decides too much. Card-by-card tuning has stopped until a new scale is tested.
+- **In short:** The audit is done: the game is flat because our costing method capped growth, and bots couldn't see it. A new plan is under way: a harness that measures strong scripted play, shared mechanics, and six tribe redesigns on paper, all running at once. Then a scale build for you to play.
 - **Status:** active
-- **Last step done:** Pass 2 built on `ideation/pass2` (16 cards per tribe), and the follow-up fixed Bog. Owner direction of 9 Nov (notes 2026-11-09a, b, c): bigger, compounding, concentrating stats; fun before balance, with tribes within an order of magnitude; workflows for orchestrated work.
-- **Next step:** A fundamentals audit (8 readers, 2 critics) maps the systems, motivations and our assumptions. Then a scale spec, engine-level scale experiments judged on flow and reward, a rebuilt budget, the tribe redesign, and bots that scout and value delayed payoffs. Build 8 and playtest round 6 wait for that.
-- **Waiting on you:** Nothing. Your answers to the step-back questions are taken; the rest use the defaults.
-- **Scope:** Fun first, then balance. Large redesign is allowed (owner, 9 Nov).
+- **Last step done:** Pass 2 merged into ideation/main. Fundamentals audit (`fundamentals.md`) and the scale rework plan v2 (`plan-scale-rework.md`), approved after plan-interrogate and three critics.
+- **Next step:** Track A, the harness (Sol, `ideation/harness`). Track B, shared mechanics and the big-number phone check (Sol, `ideation/mechanics`). Track C, six tribe design panels (workflow). Then the lever sweep and scale build 8a (checkpoint 1).
+- **Waiting on you:** Nothing. Four optional questions in `fundamentals.md` §4; my defaults stand until you answer.
+- **Scope:** Fun first, then balance; simulations over bot play (owner, 9 Nov).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
