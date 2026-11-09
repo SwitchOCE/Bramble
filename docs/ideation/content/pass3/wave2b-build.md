@@ -295,3 +295,9 @@ stopped; its chained pilot did not start. The broader 35-file run, the two timed
 lobbies and the 32-lobby measurements therefore remain open. No fixture has been
 re-recorded or weakened. The native 70/70 checkpoint predates this final guard;
 the bot script now has one additional boundary test awaiting its run.
+
+The final native-content policy guard passes **14/14** targeted checks in
+**68.088s**: thirteen bot cases and all four original normal-game hashes. No
+fixture changed. Evidence: `evidence/wave2b/hedgerow/rollback.json` and `.log`.
+The remaining compatibility files, two-lobby timing and full32 measurements
+remain pending; part 2 is not an acceptance hand-off.
