@@ -1,5 +1,12 @@
 {
   "completed": {
+    "caps-both/field-r06": {
+      "elapsed_seconds": 211.07158760301536,
+      "fresh_cache_before_run": false,
+      "fresh_checkout": "/tmp/bramble-harness-fresh-shard",
+      "result": "build/sim/caps-screen-fixed/results/caps-both--field-r06/result.json",
+      "result_sha256": "489a0222cd06710d66b22bf525db9f29060083a80512891ee1f197e7343ff272"
+    },
     "caps-both/lobbies-000": {
       "elapsed_seconds": 145.49203365901485,
       "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-000/result.json",
