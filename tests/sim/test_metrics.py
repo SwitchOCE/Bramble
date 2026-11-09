@@ -1,11 +1,14 @@
+import json
 import random
 import statistics
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
-from metrics import clustered_rate, curvature_check, curvature_with_intervals, percentile, summarize
+from field import boards_from_capture
+from metrics import checkpoint_growth, clustered_rate, curvature_check, curvature_with_intervals, percentile, summarize
 
 
 def board(seed, seat, number, stats, line="hard", tier=1, iid=None):
@@ -39,6 +42,119 @@ def board(seed, seat, number, stats, line="hard", tier=1, iid=None):
 
 
 class MetricsTests(unittest.TestCase):
+    def test_checkpoint_growth_known_answer_reads_capture_transport(self):
+        records = []
+        for seed in (1, 2):
+            for leg in (0, 1):
+                for number in range(8, 15):
+                    sides = [board(seed, seat, number, 10 * 2 ** (number - 8)) for seat in (0, 1)]
+                    snapshots = [{**side["combat_start"], "layout": "blind"} for side in sides]
+                    after = [
+                        {
+                            **snapshot,
+                            "active_stats": 10 * 3 ** (number - 8),
+                            "units": [
+                                {
+                                    **snapshot["units"][0],
+                                    "attack": 5 * 3 ** (number - 8),
+                                    "health": 5 * 3 ** (number - 8),
+                                }
+                            ],
+                        }
+                        for snapshot in snapshots
+                    ]
+                    records.append(
+                        {
+                            "seed": seed,
+                            "leg": leg,
+                            "input": {
+                                "round": number,
+                                "player_ids": [0, 1],
+                                "boards": [side["board"] for side in sides],
+                                "slots": [[0], [0]],
+                                "fight_rules": [[], []],
+                                "hero_effects": [[], []],
+                                "tiers": [1, 1],
+                                "config": {},
+                            },
+                            "combat_start": snapshots,
+                            "after_start_effects": after,
+                        }
+                    )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "known-answer.fights.jsonl"
+            path.write_text("".join(json.dumps(record) + "\n" for record in records))
+            players = [
+                {"seed": seed, "leg": leg, "seat": seat, "place": seat + 1, "rounds": 14}
+                for seed in (1, 2)
+                for leg in (0, 1)
+                for seat in (0, 1)
+            ]
+            result = summarize(boards_from_capture([path]), players)["checkpoint_1_growth"]
+        for phase, expected in (("pre_start", 2), ("post_start", 3)):
+            self.assertAlmostEqual(result[phase]["per_round_factor"], expected)
+            self.assertEqual(result[phase]["boards_by_round"], dict.fromkeys(map(str, range(8, 15)), 8))
+            for bound in result[phase]["ci95"]:
+                self.assertAlmostEqual(bound, expected)
+        self.assertEqual(result["deciding_phase"], "pre_start")
+        self.assertEqual(result["uncertainty"]["seed_clusters"], 2)
+
+    def test_checkpoint_bootstrap_matches_whole_seed_reconstruction_with_survivors(self):
+        rows = [
+            {
+                "seed": seed,
+                "leg": leg,
+                "seat": seat,
+                "round": number,
+                "pre_start_stats": 100 + seed * (number - 7) ** 2 + seat,
+                "stats": 100 + seed * (number - 7) ** 3 + seat,
+                "stats_phase": "after_start_effects",
+            }
+            for seed in (1, 2, 3)
+            for leg in (0, 1)
+            for number in range(8, 15)
+            for seat in range(seed + 2 if number < 12 else seed)
+        ]
+        result = checkpoint_growth(rows, replicates=128, bootstrap_seed=71)
+        rng = random.Random(71)
+        draws = {phase: [] for phase in ("pre_start", "post_start")}
+        for _ in range(128):
+            sample = [row for seed in rng.choices([1, 2, 3], k=3) for row in rows if row["seed"] == seed]
+            for phase, key in (("pre_start", "pre_start_stats"), ("post_start", "stats")):
+                start, end = [statistics.median(row[key] for row in sample if row["round"] == n) for n in (8, 14)]
+                draws[phase].append((end / start) ** (1 / 6))
+        for phase, values in draws.items():
+            self.assertEqual(result[phase]["ci95"], [percentile(values, 0.025), percentile(values, 0.975)])
+        duplicated = checkpoint_growth(rows * 2, replicates=128, bootstrap_seed=71)
+        for phase in draws:
+            self.assertEqual(result[phase]["per_round_factor"], duplicated[phase]["per_round_factor"])
+            self.assertEqual(result[phase]["ci95"], duplicated[phase]["ci95"])
+        self.assertEqual(result["uncertainty"], duplicated["uncertainty"])
+
+    def test_checkpoint_unsupported_endpoints_and_intervals_are_explicit(self):
+        def row(seed, number, stats):
+            return {
+                "seed": seed,
+                "round": number,
+                "pre_start_stats": stats,
+                "stats": stats,
+                "stats_phase": "pre_start_fallback",
+            }
+
+        result = checkpoint_growth([row(1, 8, 10), row(1, 14, 100)])["pre_start"]
+        self.assertIsNotNone(result["per_round_factor"])
+        self.assertIsNone(result["ci95"])
+        self.assertEqual(result["interval_unsupported_reason"], "fewer_than_two_independent_seeds")
+        for rows, reason in (
+            ([row(1, 8, 10)], "missing_round_14"),
+            ([row(1, 8, 0), row(2, 14, 10)], "nonpositive_or_nonfinite_round_8_median"),
+        ):
+            result = checkpoint_growth(rows)
+            self.assertIsNone(result["pre_start"]["per_round_factor"])
+            self.assertEqual(result["pre_start"]["unsupported_reason"], reason)
+            self.assertIsNone(result["post_start"]["per_round_factor"])
+            self.assertEqual(result["post_start"]["unsupported_reason"], "missing_round_8")
+
     def test_linear_shape_and_percentiles_are_known(self):
         boards = [board(seed, seat, r, 10 * r) for seed in (1, 2) for r in range(1, 17) for seat in range(4)]
         players = [
