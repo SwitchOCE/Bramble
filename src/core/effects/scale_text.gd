@@ -88,6 +88,7 @@ static func _scaling_details(card: Dictionary, config: GameConfig) -> void:
 		return
 	if not _has_scaled_effect(card, config):
 		return
+	var base_face: String = str(card.get("text", ""))
 	for field: String in ["text", "golden_text"]:
 		if card.has(field):
 			card[field] = _scaled_pairs(str(card[field]), rate)
@@ -95,23 +96,25 @@ static func _scaling_details(card: Dictionary, config: GameConfig) -> void:
 		(
 			"Each positive printed stat point grants %d%% of the recipient's corresponding stat, "
 			+ "with the printed gain as a minimum. Effects without a recipient use "
-			+ "your board's average stats. Fractional gains round down."
+			+ "your board's average stats. Fractional gains round down. Base effect: %s"
 		)
-		% rate
+		% [rate, base_face]
 	)
-	if str(card.get("id", "")) == "harvest_supper":
-		var cap: String = (
-			", up to +3/+3"
-			if config.get_bool("card_size_caps") and not config.get_bool("pass3_content")
-			else ""
-		)
+	if str(card.get("id", "")) == "old_mother_mousewife":
 		card["text"] = (
-			(
-				"Pick a unit. Your units of its tribe, now and later, gain %d%% of your board's "
-				+ "lower average stat as +Attack/+Health (minimum +1/+1)%s. Once a turn."
-			)
-			% [rate, cap]
+			"After a front-row unit dies: summon a Mouse based on your board and tier."
+			+ " Twice a fight."
 		)
+		words = (
+			(
+				"Summons in the vacated slot. Each Mouse stat is %d%% of your living board's "
+				+ "corresponding average stat per tier, with your tier as its minimum. "
+				+ "Averages and fractional gains round down; an empty board gives tier/tier."
+			)
+			% rate
+		)
+	if str(card.get("id", "")) == "harvest_supper":
+		card["text"] = "Choose a unit. Increase its tribe bonus. Once a turn."
 		if not config.get_bool("pass3_content") and not config.get_bool("card_rate_limits"):
 			card["text"] = str(card["text"]).replace(" Once a turn.", "")
 		words = (
@@ -121,6 +124,8 @@ static func _scaling_details(card: Dictionary, config: GameConfig) -> void:
 			)
 			% rate
 		)
+		if config.get_bool("card_size_caps") and not config.get_bool("pass3_content"):
+			words += " Maximum tribe bonus: +3/+3."
 	if str(step.get("effect", "")) == "wait_in_slot":
 		words += " The gain is fixed when cast."
 	card["details"] = (str(card.get("details", "")) + " " + words).strip_edges()
@@ -135,6 +140,8 @@ static func _has_scaled_effect(value: Variant, config: GameConfig) -> bool:
 			and str(entry.get("name", "")) == BoardUpkeep.RING
 		):
 			return false
+		if str(entry.get("effect", "")) == "summon" and str(entry.get("stats", "")) == "tier":
+			return true
 		if (
 			str(entry.get("effect", ""))
 			in ["buff", "kin_buff", "slot_effect", "tribe_bonus", "wait_in_slot"]
@@ -157,9 +164,10 @@ static func _scaled_pairs(words: String, rate: int) -> String:
 	for found: RegExMatch in matches:
 		var attack: int = found.get_string(1).to_int() * rate
 		var health: int = found.get_string(2).to_int() * rate
-		var pair: String = "+%d%%/+%d%% (minimum %s)" % [attack, health, found.get_string()]
+		var pair: String = "+%d%%/+%d%%" % [attack, health]
 		words = words.substr(0, found.get_start()) + pair + words.substr(found.get_end())
-	return words
+	var ceiling := RegEx.create_from_string(", up to \\+\\d+%/\\+\\d+%")
+	return ceiling.sub(words, "", true).replace("Give a unit ", "Give ")
 
 
 static func _append_ruling(card: Dictionary, words: String) -> void:

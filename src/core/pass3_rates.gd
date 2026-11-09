@@ -19,13 +19,6 @@ static func defaults() -> Dictionary:
 	return _defaults.duplicate()
 
 
-static func preset(name: String) -> Dictionary:
-	var out: Dictionary = defaults()
-	var chosen: Dictionary = _presets.get(name if name != "" else _default_preset, {})
-	out.merge(chosen, true)
-	return out
-
-
 static func default_preset() -> String:
 	defaults()
 	return _default_preset

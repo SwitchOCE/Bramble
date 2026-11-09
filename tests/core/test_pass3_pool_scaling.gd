@@ -6,6 +6,8 @@ const KIT := preload("res://tests/core/recruit_kit.gd")
 
 func test_scaling_follows_content_without_overriding_explicit_comparisons() -> void:
 	var config := GameConfig.defaults()
+	assert_true(config._values.has("scale_hero_spell_percent"), "bench overrides require this key")
+	assert_null(config.get_value("scale_hero_spell_percent"), "null resolves the JSON preset rate")
 	assert_false(config.get_bool("scale_hero_spell_stats"))
 	config.set_value("pass3_content", true)
 	assert_true(config.get_bool("scale_hero_spell_stats"))
@@ -104,7 +106,10 @@ func test_generated_reader_words_follow_json_defaults_and_cache_comparisons() ->
 	var scaled: UnitLibrary = ScaleOverlay.library_for(library, config)
 	assert_eq(config.get_int("scale_hero_spell_percent"), 25)
 	assert_string_contains(scaled.get_card("harvest_supper")["details"], "25%")
-	assert_string_contains(scaled.get_card("harvest_supper")["text"], "25%")
+	assert_eq(
+		scaled.get_card("harvest_supper")["text"],
+		"Choose a unit. Increase its tribe bonus. Once a turn."
+	)
 	assert_string_contains(scaled.get_card("pinch_of_dust")["text"], "+25%/+25%")
 	assert_false(str(scaled.get_card("harvest_supper")["text"]).contains("+3/+3"))
 	assert_string_contains(scaled.get_card("harvest_supper")["text"], "Once a turn")
@@ -159,12 +164,12 @@ func test_percentage_faces_match_high_board_grants_at_default_and_override_rates
 		unit.attack = 100
 		unit.health = 200
 		var words: String = kit.library.get_card("pinch_of_dust")["text"]
-		assert_string_contains(words, "+%d%%/+%d%% (minimum +1/+1)" % [rate, rate])
+		assert_string_contains(words, "+%d%%/+%d%%" % [rate, rate])
 		assert_eq(kit.cast("pinch_of_dust", 0), "")
 		assert_eq([unit.attack, unit.health], [100 + rate, 200 + 2 * rate])
-		words = kit.library.get_card("harvest_supper")["text"]
-		assert_string_contains(words, "%d%% of your board's lower average stat" % rate)
-		assert_string_contains(words, "minimum +1/+1")
+		words = kit.library.get_card("harvest_supper")["details"]
+		assert_string_contains(words, "%d%% of the lower of your board's average" % rate)
+		assert_string_contains(words, "+1/+1 as a minimum")
 		var baseline: int = unit.attack
 		assert_eq(kit.cast("harvest_supper", 0), "")
 		assert_eq(kit.player.tribe_bonuses["Hedgerow folk"], StatFraction.part(baseline, rate))

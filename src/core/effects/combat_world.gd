@@ -105,7 +105,7 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 				}
 			)
 		for slot: int in slots:
-			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
+			_summon_with_stats(def_id, golden, slot, stats)
 		return
 	var anchor: int = subject_slot if str(step.get("of", "")) == "subject" else source_slot
 	for _index: int in count:
@@ -116,7 +116,7 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 					combat.hero_limits[side]["mice_notice"] = true
 					combat.emit_event("side_trigger", {"side": side, "mechanic": "mice"})
 				_mouse_notice = false
-			combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
+			_summon_with_stats(def_id, golden, slot, stats)
 		else:
 			if _mouse_notice:
 				# Only successful Mouse replacements spend the twice-a-fight limit.
@@ -191,6 +191,20 @@ func gain_gold(gold_amount: int, _when: String) -> void:
 func add_card(card: String, count: int, from_pool: bool) -> void:
 	combat.carry_back(
 		side, {"op": "add_card", "card": card, "count": count, "from_pool": from_pool}
+	)
+
+
+## A tier is a number of printed stat points; summons without a recipient use the living board.
+func _summon_with_stats(def_id: String, golden: bool, slot: int, stats: int) -> void:
+	if stats <= 0 or flat_gain_percent() <= 0:
+		combat.summon_into(def_id, golden, side, slot, _combat_source, stats)
+		return
+	var scaled: Vector2i = FlatStatScaling.gains(null, stats, stats, self)
+	combat.enter_from_spec(
+		{"def_id": def_id, "golden": golden, "attack": scaled.x, "health": scaled.y},
+		side,
+		slot,
+		_combat_source
 	)
 
 

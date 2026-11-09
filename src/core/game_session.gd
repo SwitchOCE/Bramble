@@ -808,7 +808,7 @@ func _fight(id_a: int, id_b: int, cap: int) -> void:
 			"player_ids": player_ids.duplicate(),
 			"round": _round,
 			"damage_cap": cap,
-			"config": _config._values.duplicate(true),
+			"config": _config.resolved_values(),
 			"rng_seed": str(rng.seed),
 			"rng_state": str(rng.state),
 			"effect_rng_seed": str(combat.effect_rng.seed),

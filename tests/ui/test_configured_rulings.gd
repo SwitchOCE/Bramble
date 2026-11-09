@@ -3,6 +3,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardRulings := preload("res://src/ui/card_rulings.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
@@ -107,3 +108,31 @@ func test_hero_session_and_recruit_view_keep_configured_reader_rules() -> void:
 	var unchanged: Dictionary = GameSession._hero_card(library.get_hero("dame_hoolet"))
 	assert_false(unchanged.has("configured_details"))
 	assert_false(RecruitView.hero_card(unchanged).has("configured_details"))
+
+
+func test_short_scaled_faces_leave_formula_minima_and_caps_in_phone_details() -> void:
+	CardView.window_override = Vector2(1688, 780)
+	for rate: int in [10, 25]:
+		var config := GameConfig.full_game()
+		config.set_value("scale_hero_spell_percent", rate)
+		var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+		var views: Array[Dictionary] = []
+		for id: String in ["brother_bracken", "old_mother_mousewife"]:
+			views.append(RecruitView.hero_card(GameSession._hero_card(library.get_hero(id))))
+		for id: String in ["harvest_supper", "elderflower_cordial"]:
+			views.append(HandItem.make(library.get_card(id), 1).view())
+		for view: Dictionary in views:
+			var face: String = view["text"]
+			assert_false(face.contains("minimum"), face)
+			assert_false(face.contains("up to"), face)
+			assert_lte(face.length(), 125, face)
+			assert_lte(face.split(" ", false).size(), 22, face)
+			var words: String = _open_details(view)
+			assert_string_contains(words, "%d%%" % rate)
+			assert_string_contains(words, "minimum")
+			if view["def_id"] == "brother_bracken":
+				assert_string_contains(words, "up to +5/+5")
+			if view["def_id"] == "elderflower_cordial":
+				assert_string_contains(words, "+1/+2 in the front row")
+				assert_string_contains(words, "+2/+1 in the back row")
+	CardView.window_override = Vector2.ZERO

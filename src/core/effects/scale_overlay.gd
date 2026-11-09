@@ -61,6 +61,7 @@ static func _key(config: GameConfig) -> String:
 	]:
 		values.append(config.get_value(key))
 	values.append(Pass3Rates.resolved(config))
+	values.append(config.get_value("pass3_text_defaults"))
 	return JSON.stringify(values)
 
 
@@ -75,9 +76,18 @@ static func card_for(card: Dictionary, config: GameConfig) -> Dictionary:
 	ScaleText.rewrite(out, config)
 	ScaleLeverText.configure(out, config)
 	Pass3Text.configure(out, config)
+	var original: Dictionary = card
+	var text_defaults: Variant = config.get_value("pass3_text_defaults")
+	if text_defaults is Dictionary:
+		# Captures preserve the original comparison basis as well as effective engine rates.
+		original = card.duplicate(true)
+		var baseline := GameConfig.defaults()
+		for key: String in text_defaults:
+			baseline.set_value(key, text_defaults[key])
+		Pass3Text.configure(original, baseline)
 	var changed: Dictionary = {}
 	for field: String in ["details", "golden_details"]:
-		var before: String = str(card.get(field, card.get("details", "")))
+		var before: String = str(original.get(field, original.get("details", "")))
 		var after: String = str(out.get(field, out.get("details", "")))
 		if before != after:
 			changed[field] = after

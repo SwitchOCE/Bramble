@@ -23,14 +23,14 @@ func test_b_is_default_a_is_fallback_and_c_has_data_authored_engine_overrides() 
 
 func test_preset_resolution_contains_rates_without_metadata_and_does_not_mutate_defaults() -> void:
 	var before: Dictionary = Pass3Rates.defaults()
-	var c: Dictionary = Pass3Rates.preset("C")
+	var config := GameConfig.full_game()
+	config.set_value("pass3_preset", "C")
+	var c: Dictionary = Pass3Rates.resolved(config)
 	assert_false(c.has("notes"))
 	assert_false(c.has("presets"))
 	assert_eq(c["fairies_ring_growth"], before["fairies_ring_growth"] * 2)
 	c["fairies_ring_growth"] = 99
 	assert_eq(Pass3Rates.defaults(), before)
-	var config := GameConfig.full_game()
-	config.set_value("pass3_preset", "C")
 	assert_true(Pass3Rates.overridden(config))
 	assert_eq(Pass3Rates.resolved(config)["fairies_ring_growth"], 2.0)
 

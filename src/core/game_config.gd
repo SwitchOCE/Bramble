@@ -45,6 +45,7 @@ static func defaults() -> GameConfig:
 		"scale_answer_percent": 50,
 		"scale_economy_cap": 10,
 		"scale_hero_spell_stats": null,
+		"scale_hero_spell_percent": null,
 		"players": 8,
 		"starting_health": 30,
 		"damage_mode": "legacy",
@@ -134,6 +135,16 @@ func get_value(key: String) -> Variant:
 
 func set_value(key: String, value: Variant) -> void:
 	_values[key] = value
+
+
+## Persist effective rates and switches so captures survive future preset edits.
+func resolved_values() -> Dictionary:
+	var out: Dictionary = _values.duplicate(true)
+	out.merge(Pass3Rates.resolved(self), true)
+	out["scale_hero_spell_stats"] = get_bool("scale_hero_spell_stats")
+	# Reader overrides compare against the source library's default-generated text.
+	out["pass3_text_defaults"] = Pass3Rates.resolved(GameConfig.defaults())
+	return out
 
 
 ## The value as an int (0 if missing); scaling uses its authored JSON rate.
