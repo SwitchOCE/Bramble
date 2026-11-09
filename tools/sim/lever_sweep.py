@@ -1,28 +1,20 @@
 #!/usr/bin/env python3
-"""Run a frozen, sequential local lever sweep, stopping at bounded checkpoints.
+"""Shared evidence validation, measurements and reports for portable lever shards.
 
-The plan is data, never a tuning loop. ``fingerprint`` supplies the input hashes;
-``prepare PLAN`` freezes a plan; ``run PLAN --max-seconds 2400`` resumes it. Run
-the latter in a terminal/tmux if background execution is wanted. No daemon or
-remote service is installed. Each invocation is limited to at most 45 minutes.
+Simulation execution and the command-line workflow live in sweep_shards.py.
+This module has no local scheduler or execution CLI.
 """
 
 from __future__ import annotations
 
-import argparse
 import csv
-import fcntl
 import hashlib
 import json
 import math
 import os
 import re
-import shlex
-import shutil
 import signal
 import subprocess
-import sys
-import time
 from collections import Counter, defaultdict
 from contextlib import suppress
 from datetime import datetime, timezone
@@ -30,15 +22,12 @@ from itertools import groupby
 from pathlib import Path
 
 from check_lines import head_to_head, line_breakdown
-from field import boards_from_capture, field_report, sample_field
+from field import boards_from_capture
 from metrics import distribution, summarize
 from replay_damage import replay_game
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_PATHS = ["src", "content", "tools/sim/*.gd", "tools/sim/line_profiles.sweep.json"]
 ROUNDS = [6, 8, 10, 12, 14, 16]
-MAX_SECONDS = 45 * 60
-GUARD_SECONDS = 15
 CAPTURE_SUFFIXES = ("players.csv", "rounds.csv", "cards.csv", "turns.csv", "profile.csv", "fights.jsonl")
 
 
@@ -109,21 +98,6 @@ def git(root, *args):
     if result.returncode:
         raise SweepError(result.stderr.strip() or f"git {' '.join(args)} failed")
     return result.stdout.strip()
-
-
-def fingerprints(root=ROOT, patterns=None, profiles="tools/sim/line_profiles.sweep.json"):
-    patterns = patterns or SOURCE_PATHS
-    return {
-        "source_commit": git(root, "rev-parse", "HEAD"),
-        "source_paths": patterns,
-        "source_fingerprint": digest(source_manifest(root, patterns)),
-        "profiles": profiles,
-        "profiles_sha256": file_sha(local_path(profiles, root)),
-    }
-
-
-def helper_manifest():
-    return {path.name: file_sha(path) for path in sorted(Path(__file__).parent.glob("*.py"))}
 
 
 def validate_plan(plan):
@@ -564,34 +538,9 @@ def run_command(argv, log, timeout_seconds, cwd=ROOT):
         raise SweepError(f"stage logged a Godot error despite exit zero; see {log}")
 
 
-def godot_command(script, arguments, timeout_seconds, root=ROOT):
-    command = [
-        "flock",
-        "-w",
-        str(timeout_seconds),
-        "/tmp/bramble-godot.lock",
-        "systemd-run",
-        "--user",
-        "--scope",
-        "-p",
-        "MemoryMax=3G",
-        "timeout",
-        "--signal=TERM",
-        "--kill-after=5s",
-        f"{timeout_seconds}s",
-        "godot",
-        "--headless",
-        "--path",
-        str(root),
-        "-s",
-        f"res://tools/sim/{script}",
-        "--",
-        *arguments,
-    ]
-    return ["bash", "-c", ". /opt/bramble/env.sh && exec " + shlex.join(command)]
+class SweepReport:
+    """Analyze validated complete shard artifacts and render the human report."""
 
-
-class Sweep:
     def __init__(self, plan_path, root=ROOT):
         self.root = Path(root).resolve()
         self.plan_path = Path(plan_path).resolve()
@@ -604,95 +553,9 @@ class Sweep:
         self.configs = {config["id"]: config for config in self.plan["configs"]}
         self.status = None
 
-    def verify_inputs(self):
-        plan = self.plan
-        if digest(json.loads(self.plan_path.read_text())) != digest(plan):
-            raise SweepError("plan changed during this invocation")
-        if file_sha(local_path(plan["profiles"], self.root)) != plan["profiles_sha256"]:
-            raise SweepError("profile table differs from the frozen plan")
-        manifest = source_manifest(self.root, plan["source_paths"])
-        if digest(manifest) != plan["source_fingerprint"]:
-            raise SweepError("source/content fingerprint differs from the frozen plan")
-        if self.lock_path.exists():
-            frozen = json.loads(self.lock_path.read_text())
-            if frozen.get("plan_sha256") != digest(plan):
-                raise SweepError("plan changed since prepare; use a new output_root")
-            if (
-                frozen.get("controller_sha256") != file_sha(Path(__file__))
-                or frozen.get("analysis_helpers") != helper_manifest()
-            ):
-                raise SweepError("controller/analysis helpers changed since prepare; use a new output_root")
-            profile = self.output / "inputs/profiles.json"
-            if profile.exists() and file_sha(profile) != plan["profiles_sha256"]:
-                raise SweepError("frozen override/profile copy changed")
-            for config in plan["configs"]:
-                override = self.output / "inputs" / f"{config['id']}.json"
-                if override.exists() and override.read_bytes() != canonical(config["overrides"]) + b"\n":
-                    raise SweepError("frozen override/profile copy changed")
-        # Evidence-only checkpoint commits may advance HEAD. Runtime bytes must still match.
-        git(self.root, "merge-base", "--is-ancestor", plan["source_commit"], "HEAD")
-        return manifest
-
-    def prepare(self):
-        manifest = self.verify_inputs()
-        frozen = {
-            "version": 1,
-            "plan_sha256": digest(self.plan),
-            "plan": self.plan,
-            "source_files": manifest,
-            "controller_sha256": file_sha(Path(__file__)),
-            "analysis_helpers": helper_manifest(),
-        }
-        self.output.mkdir(parents=True, exist_ok=True)
-        if self.lock_path.exists():
-            if json.loads(self.lock_path.read_text()) != frozen:
-                raise SweepError("plan, controller or analysis helpers changed since prepare; use a new output_root")
-            if not self.status_path.exists():
-                raise SweepError("frozen plan exists but status checkpoint is missing")
-            self.status = json.loads(self.status_path.read_text())
-            if self.status.get("plan_sha256") != frozen["plan_sha256"]:
-                raise SweepError("status belongs to a different plan")
-        else:
-            if self.status_path.exists():
-                raise SweepError("status exists without a frozen plan")
-            atomic_json(self.lock_path, frozen)
-            self.status = {
-                "version": 1,
-                "plan_sha256": frozen["plan_sha256"],
-                "created_at": utc_now(),
-                "stages": {},
-                "state": "prepared",
-            }
-            self.save()
-        inputs = self.output / "inputs"
-        inputs.mkdir(exist_ok=True)
-        profile = inputs / "profiles.json"
-        self.frozen_input(profile, local_path(self.plan["profiles"], self.root).read_bytes())
-        for config in self.plan["configs"]:
-            self.frozen_input(inputs / f"{config['id']}.json", canonical(config["overrides"]) + b"\n")
-        return self.status
-
-    @staticmethod
-    def frozen_input(path, content):
-        if path.exists():
-            if path.read_bytes() != content:
-                raise SweepError(f"frozen override/profile copy changed: {path}")
-        else:
-            path.write_bytes(content)
-
     def save(self):
         self.status["updated_at"] = utc_now()
         atomic_json(self.status_path, self.status)
-
-    def completed(self, stage):
-        checkpoint = self.status["stages"].get(stage["id"], {})
-        if checkpoint.get("state") != "complete":
-            return False
-        for relative, checksum in checkpoint["outputs"].items():
-            path = self.output / relative
-            if not path.is_file() or file_sha(path) != checksum:
-                raise SweepError(f"completed stage evidence changed: {path}")
-        return True
 
     def stage_dir(self, stage_id):
         checkpoint = self.status["stages"].get(stage_id, {})
@@ -705,101 +568,6 @@ class Sweep:
             self.stage_dir(f"{config['id']}/lobbies-{offset:03}") / f"bench.{suffix}"
             for offset in range(0, config["lobbies"], 50)
         ]
-
-    def execute(self, stage, folder, timeout_seconds):
-        config = self.configs[stage["config"]]
-        kind, name = stage["kind"], config["id"]
-        if kind in ("lobbies", "head"):
-            prefix = folder / "bench"
-            arguments = [
-                f"suite={'lines' if kind == 'lobbies' else 'head_to_head'}",
-                f"games={stage['count']}",
-                f"first_seed={stage['first_seed']}",
-                f"out={prefix}",
-                f"lines={self.output / 'inputs/profiles.json'}",
-                f"config={self.output / 'inputs' / (name + '.json')}",
-                f"capture={'on' if kind == 'lobbies' else 'off'}",
-            ]
-            comparison = config.get("head_to_head", {})
-            if kind == "head":
-                arguments += [f"candidate={comparison['candidate']}", f"incumbent={comparison['incumbent']}"]
-            run_command(
-                godot_command("bench.gd", arguments, timeout_seconds, self.root),
-                folder / "godot.log",
-                timeout_seconds + 2,
-                self.root,
-            )
-            validate_players(
-                folder / "bench.players.csv",
-                stage["first_seed"],
-                stage["count"],
-                kind == "head",
-                comparison.get("candidate"),
-                comparison.get("incumbent", "hard"),
-            )
-            for suffix in CAPTURE_SUFFIXES:
-                if (suffix != "fights.jsonl" or kind == "lobbies") and not (folder / f"bench.{suffix}").is_file():
-                    raise SweepError(f"missing bench output: {suffix}")
-            if kind == "lobbies":
-                validate_capture(
-                    folder / "bench.fights.jsonl",
-                    stage["first_seed"],
-                    stage["count"],
-                    folder / "bench.players.csv",
-                    config["overrides"],
-                )
-        elif kind == "sample":
-            captures = self.lobby_paths(config, "fights.jsonl")
-            field = sample_field(
-                boards_from_capture(captures),
-                tuple(config["rounds"]),
-                config["field_size"],
-                config.get("field_seed", 91407),
-            )
-            field["sources"] = {str(path.relative_to(self.root)): file_sha(path) for path in captures}
-            atomic_json(folder / "field.json", field)
-            for number in config["rounds"]:
-                one_round = {**field, "rounds": {str(number): field["rounds"][str(number)]}}
-                atomic_json(folder / f"field-r{number:02}.json", one_round)
-        elif kind == "field":
-            source = self.stage_dir(f"{name}/sample") / f"field-r{stage['round']:02}.json"
-            shutil.copyfile(source, folder / "field.json")
-            pairs = folder / "pairs.jsonl"
-            run_command(
-                godot_command(
-                    "field_fights.gd",
-                    [str(folder / "field.json"), str(pairs), str(config["reps"])],
-                    timeout_seconds,
-                    self.root,
-                ),
-                folder / "godot.log",
-                timeout_seconds + 2,
-                self.root,
-            )
-            field = json.loads(source.read_text())
-            records = list(jsonl(pairs))
-            if any(row["trials"] != 2 * config["reps"] for row in records):
-                raise SweepError("field replicate budget differs from frozen plan")
-            atomic_json(folder / "field-report.json", field_report(field, records))
-        elif kind == "analysis":
-            # A separate process bounds CPU/memory-heavy Python analysis by the same deadline.
-            run_command(
-                [
-                    sys.executable,
-                    str(Path(__file__).resolve()),
-                    "analyze",
-                    str(self.plan_path),
-                    "--config",
-                    name,
-                    "--out",
-                    str(folder),
-                ],
-                folder / "analysis.log",
-                timeout_seconds,
-                self.root,
-            )
-        else:
-            raise SweepError(f"unknown stage: {kind}")
 
     def analyze(self, name, folder):
         config = self.configs[name]
@@ -846,127 +614,6 @@ class Sweep:
                 "A false superiority test is a finding; no extra seeds or tuning are permitted."
             )
             atomic_json(folder / "head-to-head.json", check)
-
-    def check_gate(self, config):
-        gate = config.get("requires_gate")
-        if not gate:
-            return
-        spec = {"path": gate} if isinstance(gate, str) else gate
-        path = local_path(spec["path"], self.root)
-        if not path.is_file():
-            raise SweepError(f"{config['id']}: required positive build gate is missing: {path}")
-        value = json.loads(path.read_text())
-        for key in spec.get("key", "passes").split("."):
-            if not isinstance(value, dict) or key not in value:
-                raise SweepError(f"{config['id']}: gate has no {spec.get('key', 'passes')} condition")
-            value = value[key]
-        if value is not True:
-            raise SweepError(f"{config['id']}: required build gate has not passed")
-        provenance = {"path": spec["path"], "sha256": file_sha(path), "condition": spec.get("key", "passes")}
-        recorded = self.status.setdefault("gates", {}).get(config["id"])
-        if recorded and recorded != provenance:
-            raise SweepError(f"{config['id']}: build gate changed since the first stage")
-        self.status["gates"][config["id"]] = provenance
-
-    def run(self, max_seconds=2400, deadline=None, max_stages=None, scope="all"):
-        if not 1 <= max_seconds <= MAX_SECONDS:
-            raise SweepError("max-seconds must be between 1 and 2700 (45 minutes)")
-        end = time.monotonic() + max_seconds
-        if deadline:
-            stamp = datetime.fromisoformat(deadline.replace("Z", "+00:00"))
-            if stamp.tzinfo is None:
-                raise SweepError("deadline must include a timezone")
-            end = min(end, time.monotonic() + stamp.timestamp() - time.time())
-        self.output.mkdir(parents=True, exist_ok=True)
-        with (self.output / "run.lock").open("a") as lock:
-            try:
-                fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-            except BlockingIOError:
-                raise SweepError("another local sweep controller is running") from None
-            self.prepare()
-            completed_now = 0
-            self.status.update(state="running", invocation_started_at=utc_now(), invocation_max_seconds=max_seconds)
-            self.save()
-            for stage in self.stages:
-                config = self.configs[stage["config"]]
-                if scope == "caps-only" and not set(config["overrides"]).issubset(
-                    {"card_size_caps", "card_rate_limits"}
-                ):
-                    continue
-                if self.completed(stage):
-                    continue
-                remaining = end - time.monotonic() - GUARD_SECONDS
-                if remaining < stage["estimate_seconds"] or (max_stages is not None and completed_now >= max_stages):
-                    self.status.update(
-                        state="checkpoint",
-                        stop_reason="deadline/stage budget; next stage was not started",
-                        next_stage=stage["id"],
-                    )
-                    self.save()
-                    self.write_report()
-                    return self.status
-                self.verify_inputs()
-                try:
-                    self.check_gate(config)
-                except SweepError as error:
-                    self.status.update(state="checkpoint", stop_reason=str(error), next_stage=stage["id"])
-                    self.save()
-                    self.write_report()
-                    raise
-                previous = self.status["stages"].get(stage["id"], {})
-                attempt = previous.get("attempt", 0) + 1
-                folder = self.output / stage["id"] / f"attempt-{attempt:03}"
-                folder.mkdir(parents=True, exist_ok=False)
-                checkpoint = {
-                    "state": "running",
-                    "attempt": attempt,
-                    "directory": str(folder.relative_to(self.output)),
-                    "started_at": utc_now(),
-                    "stage": stage,
-                }
-                self.status["stages"][stage["id"]] = checkpoint
-                self.save()
-                started = time.monotonic()
-                timeout_seconds = max(1, min(stage["timeout_seconds"], int(remaining) - 7))
-                print(f"{utc_now()} starting {stage['id']} (timeout {timeout_seconds}s)", flush=True)
-                try:
-                    self.execute(stage, folder, timeout_seconds)
-                    self.verify_inputs()
-                    checkpoint.update(
-                        state="complete",
-                        finished_at=utc_now(),
-                        elapsed_seconds=time.monotonic() - started,
-                        outputs={
-                            str(path.relative_to(self.output)): file_sha(path)
-                            for path in sorted(folder.rglob("*"))
-                            if path.is_file()
-                        },
-                    )
-                    completed_now += 1
-                    self.save()
-                    self.write_report()
-                except BaseException as error:
-                    checkpoint.update(
-                        state="incomplete",
-                        finished_at=utc_now(),
-                        error=str(error),
-                        elapsed_seconds=time.monotonic() - started,
-                    )
-                    self.status.update(state="checkpoint", stop_reason=f"incomplete stage: {stage['id']}")
-                    self.save()
-                    self.write_report()
-                    raise
-            all_complete = all(
-                self.status["stages"].get(stage["id"], {}).get("state") == "complete" for stage in self.stages
-            )
-            self.status.update(state="complete" if all_complete else "checkpoint", completed_scope=scope)
-            if all_complete:
-                self.status["completed_at"] = utc_now()
-            self.status.pop("next_stage", None)
-            self.status.pop("stop_reason", None)
-            self.save()
-            self.write_report()
-            return self.status
 
     def link(self, path, label):
         return f"[{label}]({os.path.relpath(path, self.report.parent)})"
@@ -1138,44 +785,3 @@ class Sweep:
         temporary = self.report.with_name(self.report.name + f".tmp-{os.getpid()}")
         temporary.write_text("\n".join(lines) + "\n")
         temporary.replace(self.report)
-
-
-def main():
-    parser = argparse.ArgumentParser(description=__doc__)
-    commands = parser.add_subparsers(dest="command", required=True)
-    fingerprint = commands.add_parser("fingerprint")
-    fingerprint.add_argument("--paths", nargs="+", default=SOURCE_PATHS)
-    fingerprint.add_argument("--profiles", default="tools/sim/line_profiles.sweep.json")
-    for command in ("prepare", "run", "status", "analyze"):
-        subparser = commands.add_parser(command)
-        subparser.add_argument("plan", type=Path)
-        if command == "run":
-            subparser.add_argument("--max-seconds", type=int, default=2400)
-            subparser.add_argument("--deadline", help="absolute ISO-8601 UTC/offset deadline")
-            subparser.add_argument("--max-stages", type=int)
-            subparser.add_argument("--scope", choices=("all", "caps-only"), default="all")
-        elif command == "analyze":
-            subparser.add_argument("--config", required=True)
-            subparser.add_argument("--out", type=Path, required=True)
-    args = parser.parse_args()
-    try:
-        if args.command == "fingerprint":
-            print(json.dumps(fingerprints(patterns=args.paths, profiles=args.profiles), indent=2))
-            return
-        sweep = Sweep(args.plan)
-        if args.command == "run":
-            status = sweep.run(args.max_seconds, args.deadline, args.max_stages, args.scope)
-            print(json.dumps({key: value for key, value in status.items() if key != "stages"}, indent=2))
-        elif args.command == "analyze":
-            sweep.prepare()
-            sweep.analyze(args.config, args.out)
-        else:
-            status = sweep.prepare()
-            print(json.dumps({"status": status, "planned_stages": sweep.stages}, indent=2))
-    except (SweepError, OSError, KeyError, json.JSONDecodeError) as error:
-        print(f"lever_sweep: {error}", file=sys.stderr)
-        raise SystemExit(2) from None
-
-
-if __name__ == "__main__":
-    main()

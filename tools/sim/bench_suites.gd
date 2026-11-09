@@ -88,7 +88,7 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
-	if suite in ["lines", "line_tune"]:
+	if suite == "lines":
 		var line_order: Array = [
 			"hard_field:varied",
 			"line_engine:varied",
@@ -102,8 +102,6 @@ static func seats(
 		var line_rng := RandomNumberGenerator.new()
 		line_rng.seed = ("lines|%d" % game_seed).hash()
 		_shuffle(line_order, line_rng)
-		if suite == "line_tune":
-			line_order[focus_seat(suite, game_seed)] = candidate
 		return PackedStringArray(line_order)
 	if suite == "head_to_head":
 		var paired: PackedStringArray = []
@@ -173,7 +171,7 @@ static func focus_seat(suite: String, game_seed: int) -> int:
 
 
 static func _has_focus(suite: String) -> bool:
-	return LADDER.has(suite) or LOBBIES.has(suite) or suite == "line_tune"
+	return LADDER.has(suite) or LOBBIES.has(suite)
 
 
 static func _strategy_names() -> Array:
