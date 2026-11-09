@@ -15,6 +15,7 @@ extends "res://src/ui/widgets/interactive.gd"
 enum Mode { SHOP, BOARD, MINI }
 
 const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
@@ -526,7 +527,7 @@ func _rules_height(words: String, wide: float, font_size: int) -> float:
 	return lines * (line + RULES_LINE_GAP) - RULES_LINE_GAP + 2.0
 
 
-## The stat beads scale with the tile, but never below what the phone minimum needs.
+## Compact first; only the smallest beads need a bounded width increase at the font minimum.
 func _place_beads() -> void:
 	var bead: float = 84.0
 	if mode == Mode.BOARD:
@@ -534,12 +535,21 @@ func _place_beads() -> void:
 	elif mode == Mode.MINI:
 		bead = 62.0
 	var stat_font: int = maxi(UiTheme.MIN_FONT, roundi(bead * 0.54))
+	var attack: int = Data.i(unit, "attack", 0)
+	var health: int = maxi(Data.i(unit, "health", 0), 0)
+	var needed: float = maxf(
+		StatNumbers.preferred_width(attack, _attack_label.get_theme_font("font"), 84.0 * 0.74),
+		StatNumbers.preferred_width(health, _health_label.get_theme_font("font"), 84.0 * 0.74)
+	)
+	bead = maxf(bead, minf(84.0, ceilf(needed / 0.74)))
 	var w: float = card_size.x
 	var h: float = card_size.y
 	for number: Label in [_attack_label, _health_label]:
 		number.add_theme_font_size_override("font_size", stat_font)
-	_place_bead(_attack_badge, Vector2(-bead * 0.24, h - bead * 0.72), bead, _attack_label)
-	_place_bead(_health_badge, Vector2(w - bead * 0.76, h - bead * 0.72), bead, _health_label)
+	# Keep a clear center even on the narrowest supported card (96 canvas units).
+	var inset: float = minf(bead * 0.76, (w - 4.0) / 2.0)
+	_place_bead(_attack_badge, Vector2(inset - bead, h - bead * 0.72), bead, _attack_label, attack)
+	_place_bead(_health_badge, Vector2(w - inset, h - bead * 0.72), bead, _health_label, health)
 
 
 func _place(node: Control, rect: Rect2) -> void:
@@ -547,19 +557,13 @@ func _place(node: Control, rect: Rect2) -> void:
 	node.size = rect.size
 
 
-## A bead grows for numbers too wide for it, rather than the number shrinking below the minimum.
-func _place_bead(badge: ShapeBadge, top_left: Vector2, bead: float, number: Label) -> void:
-	var font: Font = number.get_theme_font("font")
-	var font_size: int = number.get_theme_font_size("font_size")
-	var wide: float = font.get_string_size(number.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	if wide > bead * 0.74:
-		font_size = maxi(UiTheme.MIN_FONT, roundi(font_size * bead * 0.74 / wide))
-		number.add_theme_font_size_override("font_size", font_size)
-		wide = font.get_string_size(number.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	var side: float = maxf(bead, ceilf(wide / 0.76))
-	badge.size = Vector2(side, side)
-	var nudge: float = (side - bead) * (0.5 if top_left.x < 0.0 else 0.0)
-	badge.position = top_left - Vector2(nudge, side - bead)
+## Stat numerals compact before fitting, and never fall below the shared font minimum.
+func _place_bead(
+	badge: ShapeBadge, top_left: Vector2, bead: float, number: Label, value: int
+) -> void:
+	badge.size = Vector2(bead, bead)
+	badge.position = top_left
+	StatNumbers.fit(number, badge.inner_width(), number.get_theme_font_size("font_size"), value)
 	# The rosehip's body sits low in its box, under the crown.
 	number.offset_top = 4.0 if badge.shape.begins_with("rosehip") else 0.0
 
@@ -627,8 +631,6 @@ func _refresh_chip(spell: bool) -> void:
 func _refresh_stats() -> void:
 	var health: int = Data.i(unit, "health", 0)
 	var max_health: int = unit.get("max_health", health)
-	_attack_label.text = str(Data.i(unit, "attack", 0))
-	_health_label.text = str(maxi(health, 0))
 	_health_badge.shape = "rosehip_hurt" if health < max_health else "rosehip"
 	_place_beads()
 
@@ -680,7 +682,7 @@ func _place_turns() -> void:
 		and turns_shown.contains(" stored)")
 		and _turns.get_minimum_size().x > card_size.x - 16.0
 	)
-	if Data.i(unit, "hex_stored") > 0:
+	if Data.i(unit, "hex_stored") > 0 or Data.i(unit, "hex_percent_stored") > 0:
 		_refresh_chip(false)
 		if wrapped_hex:
 			_turns.text = turns_shown.replace(" (", "\n").trim_suffix(")")

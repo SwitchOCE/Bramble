@@ -25,7 +25,8 @@ var early_spoils: Dictionary[int, int] = {}
 ## Enemy slots marked by Mark: [{"owner_side", "side", "slot", "damage"}].
 var slot_marks: Array[Dictionary] = []
 var bog_patches: Dictionary[String, Dictionary] = {}
-## Hexes standing on slots: "side:slot" -> {"side", "slot", "total"}. A hex stays on its slot.
+## Hexes standing on slots: "side:slot" -> {"side", "slot", "total", "percent"}.
+## A hex stays on its slot.
 var slot_hexes: Dictionary[String, Dictionary] = {}
 
 
@@ -109,7 +110,9 @@ func apply(event: Dictionary) -> void:
 			var side: int = Data.i(event, "side", 0)
 			var slot: int = Data.i(event, "slot", 0)
 			var total: int = Data.i(event, "total", 0)
-			slot_hexes["%d:%d" % [side, slot]] = {"side": side, "slot": slot, "total": total}
+			slot_hexes["%d:%d" % [side, slot]] = {
+				"side": side, "slot": slot, "total": total, "percent": Data.i(event, "percent", 0)
+			}
 		"early_spoils":
 			early_spoils[Data.i(event, "side")] = Data.i(event, "amount")
 		"combat_end":

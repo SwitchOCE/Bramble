@@ -81,7 +81,7 @@ Owner notes win over this rulebook if they disagree.
 
 **1.2.1** [BG] When card text contradicts this rulebook, the card text wins (not in rules.md; standard Hearthstone convention).
 
-**1.2.2** [BG] Combat involves no player decisions. Where a rule says "random", the choice is uniform among the valid options unless the rule says otherwise (uncertain in HSBG — see rules.md §18).
+**1.2.2** [BG] Combat involves no player decisions. Where a rule says "random", the choice is uniform among the valid options unless the rule says otherwise (uncertain in HSBG — see rules.md §18). [BRAMBLE ideation] Ties among equally ranked candidates, including biggest and most Attack/Health, are also uniform among the tied candidates.
 
 **1.2.3** [PROPOSED] **Reading order.** The board's slots have one fixed order: F1, F2, F3, F4, B1, B2, B3 (chapter 8). Wherever HSBG resolves things "left to right" across a board (Start of Combat, deaths, End of Turn, triggers of the same kind), Bramble uses reading order. *Why:* it is the attack order the owner chose (9.4.2), so players learn one order for everything. *Galaxy:* numbers its slots 1–5 left to right, front to back, and uses that order for attacks.
 
@@ -887,3 +887,69 @@ The values an engine should read from configuration rather than hard-code.
 **12.2.3** [PROPOSED] **Last-known positions.** A trigger about a dying unit's position ("when the unit in front of this dies", "when this dies, give the units behind it +2/+2") uses the slot the dying unit held, even though it has already left the slot (9.7.1). *Why:* without this rule, a dead unit would have no position for its own effects.
 
 ---
+
+## Shared scale mechanisms [BRAMBLE ideation]
+
+These are general mechanisms for scale experiments; none changes the default pool.
+
+- **Biggest enemy:** the living enemy with highest current Attack + current Health,
+  in any row, ignoring back-row protection. **Most Attack** and **most Health** use
+  the named current stat in any row. Ties are uniform among the tied candidates
+  using the existing effect RNG (1.2.2). Dying units are ineligible. Effect selectors do not change normal attack targeting.
+- **Proportional stats:** set, reduce or gain Attack, Health or both by an integer
+  ratio. Calculate each stat from its value immediately before that effect; round
+  each fractional amount down. Reductions leave at least 0 Attack and 1 Health.
+  These are stat changes, not damage; a later effect uses the resulting stats.
+  Combat duration is the usual default in combat; permanent gains persist normally.
+- **Damage Reduction N:** takes N less damage from each hit, to a minimum of zero.
+  With `percent`, prevents that percentage instead, rounding prevention down.
+  Reminder: *Takes this much less damage from each hit.* Fractional form is written
+  as Damage Reduction 25%; its reminder uses the same meaning.
+- **Shield:** prevents the first positive damage remaining after damage reduction.
+  Reminder: *Prevents the first damage this would take each fight.* Zero damage
+  does not consume it. Simultaneous hits use their event order; Shield prevents
+  one hit, then Shell may cap the largest remaining hit. It does not prevent stat
+  loss. Prevented hits cause no damage triggers, Nightshade or Take. A new fight
+  restores a printed Shield. Multiple grants do not stack extra shields.
+- **Cleave:** attacking strikes also hit occupied slots directly beside the target
+  in its row, for that strike's damage. Reminder: *Attacks also hit the units beside
+  the target.* Collateral hits use normal damage prevention and kill rules. Units
+  beside the target do not retaliate; in-front/behind units are not hit. Quick
+  applies to the entire attacking damage step, and each Peck strike can cleave.
+  Joiners with Cleave also splash their contribution. Cleave does not chain.
+- Optional `percent` on Bitter, Hex, Jenny and Jack Daw replaces flat Attack loss.
+  Bitter retains its 1 Attack floor. Hex adds its base percentage per spell and
+  persists on the slot. Jenny and Hex calculate their live loss from Attack before
+  auras; recalculating the same board does not repeatedly shrink it. Jack Daw gains
+  exactly the Attack actually removed. Fractions do not double on golden.
+- **End of Turn doubler:** adds one firing of each of your End of Turn effects.
+  Golden adds two. Multiple doublers add extra firings; they never recurse.
+  Effects retain their own rate limits when `card_rate_limits` is enabled. Each firing counts toward
+  the ordinary action trigger guard.
+- **Size overlay:** `card_size_caps=false` removes printed size ceilings, including
+  permanent-buff ceilings, maximum stat gains, Whistlers' homecomings, Ring and
+  tribe-bonus size, and shop-size ceilings. It defaults true.
+- **Rate overlay:** `card_rate_limits=false` removes printed once/per-turn/per-fight
+  and lifetime rate limits, including hero use/buy rates, Savings' counted turns,
+  Stone Soup/Nell/Kiss/Bubble/Reel-Mistress limits, Figgy's cooldown, first-spell
+  discounts, first-free-refresh limits, Harvest's once-per-turn limit and Market
+  Stall's lifetime two-upgrade limit. It defaults true, independently of size caps.
+  Schema key names determine the category: `most` is SIZE; `limit`, `lifetime` and
+  `once` are RATE, regardless of prose. A card can have both kinds of ceiling.
+- Both overlays preserve attack/trigger safety guards, numeric safety, keyword
+  charges, cycle and Nest recursion guards, resource availability, board/hand
+  capacity, and timing/target conditions. The economy lever's explicit config cap
+  remains an independent dial. Displayed card text removes only clauses disabled
+  by the selected switches and keeps active limits, multipliers and loop guards.
+  Set switches and dials before creating a game; changing them requires a new game.
+- **Experimental cards:** `scale_levers` selects individual IDs from an empty list
+  by default. The adjustable `scale_answer` reduces the biggest enemy's stats by
+  its configured percentage (default 50%). The fixed `scale_biggest_answer` halves
+  those stats at Start of Combat; `scale_defender` has Shield and Damage Reduction
+  2 (4 golden), and `scale_cleaver` is an 8/8 with Cleave. Engine, doubler and economy
+  levers can also be selected individually. Numeric dials determine displayed text.
+- **Hero/spell scaling:** opt-in positive flat gains become X% per printed point,
+  of the recipient's respective current stat, with the printed amount as a floor.
+  Delayed buffs lock in the scaled amount at cast time. Empty-slot effects use mean living board Attack/Health at cast time. Standing
+  tribe bonuses use the lesser of those means. Negative gains and unit effects
+  retain their original values. Scaling defaults off.

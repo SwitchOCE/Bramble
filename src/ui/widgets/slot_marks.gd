@@ -83,7 +83,7 @@ func _init(owner_board: Control) -> void:
 	add_child(_pass_label)
 
 
-func set_hex(slot: int, total: int) -> void:
+func set_hex(slot: int, total: int, percent: int = 0) -> void:
 	if not _hex_labels.has(slot):
 		var made: Label = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
 		made.add_theme_stylebox_override("normal", UiTheme.slip_box(HEX, 3, 8))
@@ -91,7 +91,12 @@ func set_hex(slot: int, total: int) -> void:
 		add_child(made)
 		_hex_labels[slot] = made
 	var label: Label = _hex_labels[slot]
-	label.text = "Hex %d" % -absi(total)
+	var parts: PackedStringArray = []
+	if total != 0:
+		parts.append(str(-absi(total)))
+	if percent > 0:
+		parts.append("%d%%" % -mini(percent, 100))
+	label.text = "Hex " + " / ".join(parts) if not parts.is_empty() else "Hex 0"
 	label.size = label.get_minimum_size()
 	var pocket: Vector2 = board.get("pocket")
 	var at: Vector2 = board.call("slot_position", slot)

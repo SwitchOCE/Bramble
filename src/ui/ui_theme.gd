@@ -95,6 +95,7 @@ const STATUS_INFO: Dictionary[String, Array] = {
 	"borrowed": ["Borrowed", BRASS, "Borrowed"],
 	"first_bite": ["First Bite", YARN, "First Bite"],
 	"shell": ["Shell", RIME, "Shell"],
+	"shield": ["Shield", RIME, "Shield"],
 	"warned": ["Warned", BRASS, "Whistle"],
 	"waiting": ["Waiting", Color("4f6280"), "Bide"],
 }

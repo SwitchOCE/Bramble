@@ -4,6 +4,7 @@ extends Control
 ## (PC) or tap (phone) shows what one means on a ReminderSlip docked under the rules.
 ## It lands on the right-hand column, so the shop, board and hand stay visible while you read it.
 
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
@@ -19,6 +20,7 @@ const ACTION_H: float = 128.0
 const SIDE_ACTION_H: float = 122.0
 ## Words that aren't game keywords but still have a reminder on the details panel.
 const STATE_WORDS: Dictionary[String, String] = {
+	"Shield": "Prevents the first damage this would take each fight.",
 	"Golden": "Double stats; numbers in its text double.",
 	"Created": "Made by a card, not bought.",
 	"Tribe bonus": KeywordRules.TRIBE_BONUS_TEXT,
@@ -150,8 +152,6 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	_tier.visible = Data.s(view, "type_word").is_empty()
 	_attack.visible = not spell
 	_health.visible = not spell
-	_attack_label.text = str(Data.i(view, "attack", 0))
-	_health_label.text = str(maxi(Data.i(view, "health", 0), 0))
 	_hint.text = hint
 	_hint.visible = not hint.is_empty()
 	# The rules read a size larger on a phone, so the reminder (at the phone minimum) stays smaller.
@@ -216,10 +216,21 @@ func _layout() -> void:
 	_type.size = Vector2(_banner.size.x, 92)
 	_tier.position = Vector2(4, 4)
 	_tier.size = Vector2(58, 58)
-	_attack.size = Vector2(76, 76)
-	_health.size = Vector2(76, 76)
-	_attack.position = Vector2(8, 152.0)
-	_health.position = Vector2(152.0, 152.0)
+	# A familiar whole-million label may need slightly more than the usual 76-unit badge.
+	# Preserve each badge's right edge while making room at the shared minimum font.
+	var needed: float = maxf(
+		StatNumbers.minimum_width(Data.i(shown, "attack"), _attack_label.get_theme_font("font")),
+		StatNumbers.minimum_width(
+			maxi(Data.i(shown, "health"), 0), _health_label.get_theme_font("font")
+		)
+	)
+	var stat_width: float = clampf(ceilf(needed / 0.8), 76.0, 84.0)
+	_attack.size = Vector2(stat_width, 76)
+	_health.size = Vector2(stat_width, 76)
+	_attack.position = Vector2(84.0 - stat_width, 152.0)
+	_health.position = Vector2(228.0 - stat_width, 152.0)
+	StatNumbers.fit(_attack_label, _attack.inner_width(), 40, Data.i(shown, "attack"))
+	StatNumbers.fit(_health_label, _health.inner_width(), 40, maxi(Data.i(shown, "health"), 0))
 	var hint_h: float = 0.0
 	if _hint.visible:
 		hint_h = maxf(84.0, _wrapped_height(_hint, w - 48.0))
@@ -270,6 +281,19 @@ func _fit_name() -> void:
 ## reminder text: a keyword's meaning is on the ReminderSlip, shown on hover or tap.
 static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 	var lines: PackedStringArray = []
+	if (
+		not CardView.is_spell(view)
+		and maxi(Data.i(view, "attack"), Data.i(view, "health")) >= StatNumbers.EXACT_DETAILS_FROM
+	):
+		lines.append(
+			(
+				"[b]Attack: %s\nHealth: %s[/b]"
+				% [
+					StatNumbers.exact(Data.i(view, "attack")),
+					StatNumbers.exact(maxi(0, Data.i(view, "health")))
+				]
+			)
+		)
 	var rules: String = Data.s(view, "text")
 	if own_card and Data.s(view, "def_id") == "nest_egg" and view.has("bird_attack"):
 		var left: int = Data.i(view, "turns_left")
@@ -440,6 +464,7 @@ static func watch_rules(rich: RichTextLabel, parent: Node, above: Control = null
 
 ## Shows a card's rules in a watched text; a different card closes the last one's reminder.
 static func show_rules(rich: RichTextLabel, view: Dictionary, own_card: bool = true) -> void:
+	rich.set_meta("card_detail_view", view)
 	rich.text = full_text_bbcode(view, own_card)
 	var slip: ReminderSlip = rich.get_meta("reminder", null)
 	if slip == null:

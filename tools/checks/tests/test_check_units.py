@@ -35,6 +35,21 @@ class PermanentCeilingTest(unittest.TestCase):
                 self.assertTrue(check_units.check_unit(path, unit))
 
 
+class OverlayTextTest(unittest.TestCase):
+    def test_authored_text_overlays_accept_only_display_fields_and_known_combinations(self) -> None:
+        self.assertEqual(check_units.check_overlay_text({"overlay_text": {"both": {"text": "Words."}}}), [])
+        for bad in [
+            None,
+            {},
+            {"other": {"text": "Words."}},
+            {"size": {}},
+            {"rate": {"attack": 3}},
+            {"both": {"text": ""}},
+        ]:
+            with self.subTest(value=bad):
+                self.assertTrue(check_units.check_overlay_text({"overlay_text": bad}))
+
+
 class MechanicTextTest(unittest.TestCase):
     def setUp(self) -> None:
         self.path = Path("content/units/mrs_posset.json")
@@ -74,3 +89,38 @@ class MechanicTextTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ScaleMechanicsTest(unittest.TestCase):
+    def test_proportional_variants_replace_flat_parameters(self) -> None:
+        variants = [
+            {"id": "bitter", "percent": 25, "once_per_enemy": True},
+            {"id": "hex", "percent": 25},
+            {"id": "jenny", "percent": 25},
+            {"id": "jack_daw", "percent": 25},
+            {"id": "damage_reduction", "percent": 0},
+            {"id": "damage_reduction", "n": 2},
+        ]
+        for variant in variants:
+            with self.subTest(variant=variant):
+                self.assertEqual(check_units.check_mechanic(variant), [])
+        self.assertTrue(check_units.check_mechanic({"id": "damage_reduction"}))
+        self.assertTrue(check_units.check_mechanic({"id": "jenny"}))
+        self.assertTrue(check_units.check_mechanic({"id": "jenny", "percent": -1}))
+
+    def test_fraction_data_rejects_invalid_ratios_and_modes(self) -> None:
+        step = {"effect": "stat_fraction", "numerator": 0, "denominator": 2}
+        self.assertEqual(check_units.check_step(step, "combat", "start_of_combat", False), [])
+        for key, value in [("numerator", -1), ("denominator", 0), ("stat", "gold"), ("operation", "halve")]:
+            with self.subTest(key=key):
+                bad = {**step, key: value}
+                self.assertTrue(check_units.check_step(bad, "combat", "start_of_combat", False))
+
+    def test_ranked_enemy_picks_are_available_to_combat_effects(self) -> None:
+        for pick in ["biggest", "highest_attack", "highest_health"]:
+            step = {"effect": "damage", "amount": 1, "target": {"select": "enemies", "pick": pick}}
+            self.assertEqual(check_units.check_step(step, "combat", "start_of_combat", False), [])
+            self.assertTrue(check_units.check_step(step, "recruit", "cast", False))
+        for removed in ["biggest_enemy", "highest_attack_enemy", "highest_health_enemy"]:
+            step = {"effect": "damage", "amount": 1, "target": {"select": removed}}
+            self.assertTrue(check_units.check_step(step, "combat", "start_of_combat", False))

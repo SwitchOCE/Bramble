@@ -1,0 +1,27 @@
+{
+  "id": "scale_economy",
+  "name": "Scale Purse",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [],
+  "text": "End of Turn: improve income by 1, then get it next turn.",
+  "golden_text": "End of Turn: improve income by 1, then get 2 times it next turn.",
+  "details": "Income starts at 0 and stops improving at 10.",
+  "mechanics": [
+    {
+      "id": "scale_economy"
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/evidence/mechanics-build.md",
+    "note": "Synthetic test lever; never in the default pool."
+  }
+}

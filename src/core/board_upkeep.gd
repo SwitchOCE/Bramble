@@ -24,7 +24,8 @@ static func add_ring(player: PlayerState, slot: int, step: Dictionary) -> void:
 	var effects: Array = player.slot_effects[slot]
 	var added: Vector2i = ring_room(
 		effects,
-		Vector2i(CoreUtil.to_int(step.get("attack", 0)), CoreUtil.to_int(step.get("health", 0)))
+		Vector2i(CoreUtil.to_int(step.get("attack", 0)), CoreUtil.to_int(step.get("health", 0))),
+		player.card_size_caps
 	)
 	var attack: int = added.x
 	var health: int = added.y
@@ -49,12 +50,16 @@ static func ring_value(effects: Array) -> Vector2i:
 	return total
 
 
-static func ring_full(effects: Array) -> bool:
+static func ring_full(effects: Array, capped: bool = true) -> bool:
+	if not capped:
+		return false
 	var total: Vector2i = ring_value(effects)
 	return total.x >= RING_CAP and total.y >= RING_CAP
 
 
-static func ring_room(effects: Array, addition: Vector2i) -> Vector2i:
+static func ring_room(effects: Array, addition: Vector2i, capped: bool = true) -> Vector2i:
+	if not capped:
+		return addition
 	var total: Vector2i = ring_value(effects)
 	return Vector2i(
 		mini(addition.x, maxi(0, RING_CAP - total.x)), mini(addition.y, maxi(0, RING_CAP - total.y))

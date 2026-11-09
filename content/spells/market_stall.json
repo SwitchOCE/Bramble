@@ -12,5 +12,16 @@
   "do": {
     "effect": "market_stall"
   },
-  "details": "At most 2 Stalls. Adds units up to 7; Pipkin gets spells instead."
+  "details": "At most 2 Stalls. Adds units up to 7; Pipkin gets spells instead.",
+  "overlay_text": {
+    "size": {
+      "details": "At most 2 Stalls. Each Stall adds a unit offer."
+    },
+    "rate": {
+      "details": "Adds unit offers up to 7; Pipkin gets spells instead."
+    },
+    "both": {
+      "details": "Each Stall adds a unit offer."
+    }
+  }
 }

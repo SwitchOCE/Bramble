@@ -283,7 +283,7 @@ static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -
 		if params.get("once_per_enemy", false) and defender.limits.has(key):
 			continue
 		defender.limits[key] = 1
-		amount += CoreUtil.to_int(params.get("n", 0))
+		amount += StatFraction.loss(combat._strike_attack(attacker), params, "n")
 	for friend: CombatUnit in combat.units_of(defender.side):
 		if BoardGeometry.adjacent(friend.slot).has(defender.slot):
 			amount += CoreUtil.to_int(parameters(friend, "bog_aura").get("bitter", 0))

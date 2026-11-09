@@ -34,7 +34,7 @@ PER_WORDS = {"gold", "tier", "hand", "amount", "carried", "empty_adjacent"}
 SUMMON_PLACES = {"behind", "behind_or_nearest", "empty_rings", "subject_slot"}
 CARD_SETS = {"slice"}
 KEYWORDS: dict[str, str] = SCHEMA["keywords"]
-PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health"}
+PICKS = {"first", "random", "highest_attack", "lowest_attack", "highest_health", "lowest_health", "biggest"}
 SUBJECTS = {"self", "other", "any"}
 # A number that appears in rules text may be written as a word.
 NUMBER_WORDS = {1: {"1", "a", "an", "one"}, 2: {"2", "two", "twice"}, 3: {"3", "three"}, 4: {"4", "four"}}
@@ -70,6 +70,7 @@ OPTIONAL_FIELDS = {
     "details",
     "golden_details",
     "mechanic_text",
+    "overlay_text",
 }
 
 
@@ -82,10 +83,13 @@ def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
 
 
 # Parameter kinds check_param can judge alone (the rest are checked where they're used).
-PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap"}
+PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap", "ratio"}
 
 
 def check_param(kind: str, value: object) -> str | None:
+    if kind == "ratio":
+        ok = isinstance(value, int) and not isinstance(value, bool) and value >= 0
+        return None if ok else "must be a non-negative integer"
     if kind == "tier_cap":
         return None if value in ("tier", "tier_plus_2") else check_param("threshold", value)
     if kind in {"number", "threshold"}:
@@ -142,8 +146,31 @@ def check_unit(path: Path, unit: object) -> list[str]:
         problems += [f"{path.name}: {p}" for p in check_mechanic(mech)]
     problems += [f"{path.name}: {p}" for p in check_mechanic_text(unit)]
     problems += check_set(path.name, unit)
+    problems += check_overlay_text(unit)
     if not problems:
         problems += check_golden_text(path.name, unit)
+    return problems
+
+
+def check_overlay_text(card: dict) -> list[str]:
+    """Authored display-only wording for semantic changes generic removal cannot express."""
+    if "overlay_text" not in card:
+        return []
+    branches = card["overlay_text"]
+    if not isinstance(branches, dict) or not branches:
+        return ["overlay_text must map size/rate/both to text fragments"]
+    problems = []
+    for key, fragments in branches.items():
+        if key not in {"size", "rate", "both"}:
+            problems.append(f"overlay_text has unknown combination {key!r}")
+        if not isinstance(fragments, dict) or not fragments:
+            problems.append(f"overlay_text {key} must contain text fragments")
+            continue
+        for field, words in fragments.items():
+            if field not in {"text", "golden_text", "details", "golden_details"}:
+                problems.append(f"overlay_text {key} cannot replace {field!r}")
+            if not isinstance(words, str) or not words:
+                problems.append(f"overlay_text {key} {field} must be non-empty text")
     return problems
 
 
@@ -247,6 +274,11 @@ def check_step(step: object, phase: str, trigger: str, default_target: bool) -> 
             problems.append(f"effect {name}: unknown parameter '{key}'")
     if "per" in step and not isinstance(step["per"], dict) and step["per"] not in PER_WORDS:
         problems.append(f"effect {name}: 'per' must be a selector or one of {sorted(PER_WORDS)}")
+    if name == "stat_fraction":
+        if step.get("stat", "both") not in {"attack", "health", "both"}:
+            problems.append("effect stat_fraction: unknown stat")
+        if step.get("operation", "set") not in {"set", "reduce", "gain"}:
+            problems.append("effect stat_fraction: unknown operation")
     if name == "summon" and "at" in step and step["at"] not in SUMMON_PLACES:
         problems.append(f"effect summon: 'at' must be one of {sorted(SUMMON_PLACES)}")
     for key, kind in entry["params"].items():
@@ -332,7 +364,13 @@ def check_mechanic(mech: object) -> list[str]:
         return [f"unknown mechanic id {mech['id']!r}"]
     problems: list[str] = []
     given = {k for k in mech if k != "id"}
-    problems += [f"mechanic {mech['id']}: missing parameter '{p}'" for p in sorted(set(params) - given)]
+    optional = set(SCHEMA.get("optional_mechanic_params", {}).get(mech["id"], []))
+    if "percent" in mech:
+        optional.update(SCHEMA.get("mechanic_percent_replaces", {}).get(mech["id"], []))
+    choices = set(SCHEMA.get("mechanic_one_of", {}).get(mech["id"], []))
+    if choices and not given.intersection(choices):
+        problems.append(f"mechanic {mech['id']}: needs one of {sorted(choices)}")
+    problems += [f"mechanic {mech['id']}: missing parameter '{p}'" for p in sorted(set(params) - given - optional)]
     problems += [f"mechanic {mech['id']}: unknown parameter '{p}'" for p in sorted(given - set(params))]
     for name, kind in params.items():
         if name in mech and (error := check_param(kind, mech[name])):
@@ -367,6 +405,7 @@ def check_card(path: Path, card: object) -> list[str]:
     entry = {key: card[key] for key in EFFECT_KEYS if key in card}
     out += check_effect({**entry, "trigger": "cast"}, allowed_triggers={"cast"})
     out += check_set(path.name, card)
+    out += check_overlay_text(card)
     if "gold_value" in card and (not isinstance(card["gold_value"], int) or card["gold_value"] < 1):
         out.append("gold_value must be a whole number, 1 or more")
     if "combines_into" in card and not (path.parent / f"{card['combines_into']}.json").exists():
@@ -398,6 +437,7 @@ def check_hero(path: Path, hero: object) -> list[str]:
     elif kind != "passive":
         out.append("power kind must be passive or activated")
     out += check_set(path.name, hero)
+    out += check_overlay_text(hero)
     allowed = {name for name, info in SCHEMA["triggers"].items() if info["phase"] != "combat"}
     allowed |= {"start_of_combat", "on_friendly_death"}
     for entry in power.get("effects", []):
@@ -428,6 +468,8 @@ def check_extra(directory: Path, check) -> list[str]:
 def main(argv: list[str]) -> int:
     units_dir = Path(argv[1]) if len(argv) > 1 else UNITS_DIR
     files = sorted(units_dir.glob("*.json"))
+    if units_dir == UNITS_DIR:
+        files += sorted((units_dir.parent / "levers").glob("*.json"))
     if not files:
         print(f"check_units: no unit files in {units_dir}")
         return 1

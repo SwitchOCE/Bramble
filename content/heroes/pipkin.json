@@ -17,5 +17,10 @@
         "value": 2
       }
     ]
+  },
+  "overlay_text": {
+    "rate": {
+      "text": "Your shop has 2 more cards."
+    }
   }
 }

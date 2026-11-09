@@ -6,7 +6,7 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: Dictionary) ->
 	var enemy: CombatUnit = combat.unit_at(1 - unit.side, BoardGeometry.across(unit.slot))
 	if enemy == null:
 		return
-	var attack: int = mini(enemy.attack, CoreUtil.to_int(params.get("attack", 2)))
+	var attack: int = mini(enemy.attack, StatFraction.loss(enemy.attack, params, "attack"))
 	if attack <= 0:
 		return
 	combat.trigger(unit, "jack_daw")

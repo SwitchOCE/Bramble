@@ -75,6 +75,8 @@ static func make(
 	for field: String in ["egg_full_attack", "egg_full_health"]:
 		if spec.has(field):
 			unit.counters[field] = CoreUtil.to_int(spec[field])
+	if spec.has("hex_percent"):
+		unit.counters["hex_percent"] = CoreUtil.to_int(spec["hex_percent"])
 	if spec.has("hex"):
 		unit.counters["hex"] = CoreUtil.to_int(spec["hex"])
 	if spec.has("kisses"):
