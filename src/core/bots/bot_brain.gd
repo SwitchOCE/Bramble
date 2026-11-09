@@ -421,7 +421,7 @@ func _weakest_slot() -> int:
 		var unit: RecruitUnit = _player.board[slot]
 		if unit == null:
 			continue
-		if BotPass3.keep_engine(_player, unit, value):
+		if not _can_replace(unit):
 			continue
 		var worth: float = value.keep_value(unit)
 		if weakest < 0 or worth < lowest:
@@ -430,13 +430,18 @@ func _weakest_slot() -> int:
 	return weakest
 
 
+## Policy subclasses can retain their line's engines on every replacement route.
+func _can_replace(unit: RecruitUnit) -> bool:
+	return not BotPass3.keep_engine(_player, unit, value)
+
+
 ## A replacement inherits its destination's Ring, so choose with the incoming body known.
 func _best_replacement_slot(incoming: RecruitUnit) -> int:
 	var best: int = -1
 	var most: float = 0.0
 	for slot: int in BoardGeometry.SLOTS:
 		var old: RecruitUnit = _player.board[slot]
-		if old == null or BotPass3.keep_engine(_player, old, value):
+		if old == null or not _can_replace(old):
 			continue
 		var gain: float = _replacement_gain(incoming, slot)
 		if best < 0 or gain > most:
