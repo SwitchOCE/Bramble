@@ -30,6 +30,15 @@ var pad: float = 27.0
 var front_toward_top: bool = true
 var with_labels: bool = false
 var with_notes: bool = false
+## Fights carry state in their marks and tiles; pocket geometry needs no captions or links.
+var combat_mode: bool = false:
+	set(value):
+		combat_mode = value
+		for slot: SlotView in slots:
+			slot.wordless = value
+		if _marks != null:
+			_marks.call("_place")
+		_layout()
 
 var slots: Array[SlotView] = []
 ## Card in each slot, or null.
@@ -108,11 +117,12 @@ func configure(
 	gap = roundf(pocket_width * 14.0 / 124.0)
 	pad = roundf(pocket_width * 16.0 / 124.0)
 	front_toward_top = front_on_top
-	with_labels = labels
-	with_notes = notes
+	with_labels = labels and not combat_mode
+	with_notes = notes and not combat_mode
 	for i: int in SLOTS:
 		slots[i].set_slot(zone, i)
-		slots[i].with_note = notes
+		slots[i].wordless = combat_mode
+		slots[i].with_note = notes and not combat_mode
 		_labels[i].visible = false
 		_chips[i].visible = false
 		if cards[i] != null:
@@ -203,6 +213,10 @@ func _layout() -> void:
 func _place_label(i: int) -> void:
 	var strip: Panel = _labels[i]
 	var card: CardView = cards[i]
+	if combat_mode:
+		strip.visible = false
+		_chips[i].visible = false
+		return
 	strip.visible = with_labels and card != null
 	var mark: Dictionary = _marks.marks[i] if i < _marks.marks.size() else {}
 	var nest: bool = mark.get("nest", false) == true
@@ -266,6 +280,11 @@ func set_hex(slot: int, total: int, percent: int = 0) -> void:
 	_marks.set_hex(slot, total, percent)
 
 
+## A trap is visible as a stake and its damage, without tinting the whole pocket.
+func set_trap(slot: int, damage: int) -> void:
+	_marks.set_trap(slot, damage)
+
+
 ## Rings and Rainbow bands, one entry per slot (RecruitView.slot_marks).
 func set_marks(slot_marks: Array) -> void:
 	_marks.set_marks(slot_marks)
@@ -310,7 +329,8 @@ func _draw() -> void:
 		var inset: float = 12.0
 		var grain: Rect2 = rect.grow_individual(-BORDER, -inset, -BORDER, -inset)
 		draw_texture_rect(Icons.tile("oak"), grain, true)
-	_draw_grooves()
+	if not combat_mode:
+		_draw_grooves()
 
 
 func _row_box(fill: Color, line: Color, width: float) -> StyleBoxFlat:
@@ -420,6 +440,7 @@ func clear() -> void:
 			card.queue_free()
 	_loose.clear()
 	_marks.clear_hexes()
+	_marks.clear_traps()
 
 
 func slot_of_card(card: CardView) -> int:

@@ -10,6 +10,8 @@ const PAW := Color("f6c963")
 var boards: Array = []
 var bindings: Dictionary = {"patches": [], "quarries": []}
 var pack: Array[Dictionary] = []
+## Fights keep only end-state marks: motion conveys their source and target.
+var combat_mode: bool = false
 
 
 func _init() -> void:
@@ -35,20 +37,11 @@ func _rect(side: int, slot: int) -> Rect2:
 func _draw() -> void:
 	if boards.size() != 2:
 		return
-	for kind: String in ["patches", "quarries"]:
-		for binding: Dictionary in bindings.get(kind, []):
-			if not Data.b(binding, "live", true):
-				continue
-			var start: Rect2 = _rect(Data.i(binding, "from_side"), Data.i(binding, "from_slot"))
-			var target: Rect2 = _rect(Data.i(binding, "side"), Data.i(binding, "slot"))
-			var offset: float = -0.36 if kind == "patches" else 0.36
-			var from: Vector2 = start.get_center() + Vector2(start.size.x * offset, 0)
-			var to: Vector2 = target.get_center() + Vector2(target.size.x * offset, 0)
-			var colour: Color = REED if kind == "patches" else PAW
-			# The line runs down one edge of each tile, leaving faces and stat beads clear.
-			draw_line(from, to, Color(UiTheme.INK, 0.9), 7.0, true)
-			draw_dashed_line(from, to, colour, 3.0, 10.0, true, true)
+	if not combat_mode:
+		_draw_links()
 	for patch: Dictionary in bindings.get("patches", []):
+		if combat_mode and not Data.b(patch, "live", true):
+			continue
 		_draw_patch(Data.i(patch, "side"), Data.i(patch, "slot"))
 	var drawn: Dictionary = {}
 	for mark: Dictionary in bindings.get("quarries", []):
@@ -56,8 +49,12 @@ func _draw() -> void:
 		if not drawn.has(key):
 			drawn[key] = true
 			var rect: Rect2 = _rect(Data.i(mark, "side"), Data.i(mark, "slot"))
-			paw(self, rect.position + Vector2(rect.size.x - 16.0, 26.0), 22.0)
-	if not pack.is_empty():
+			paw(
+				self,
+				rect.position + Vector2(rect.size.x - 18.0, 24.0),
+				15.0 if combat_mode else 22.0
+			)
+	if not pack.is_empty() and not combat_mode:
 		var bracket: Rect2 = _rect(Data.i(pack[0], "side"), Data.i(pack[0], "slot"))
 		for member: Dictionary in pack:
 			bracket = bracket.merge(_rect(Data.i(member, "side"), Data.i(member, "slot")))
@@ -77,11 +74,28 @@ func _draw() -> void:
 		)
 
 
+func _draw_links() -> void:
+	for kind: String in ["patches", "quarries"]:
+		for binding: Dictionary in bindings.get(kind, []):
+			if not Data.b(binding, "live", true):
+				continue
+			var start: Rect2 = _rect(Data.i(binding, "from_side"), Data.i(binding, "from_slot"))
+			var target: Rect2 = _rect(Data.i(binding, "side"), Data.i(binding, "slot"))
+			var offset: float = -0.36 if kind == "patches" else 0.36
+			var from: Vector2 = start.get_center() + Vector2(start.size.x * offset, 0)
+			var to: Vector2 = target.get_center() + Vector2(target.size.x * offset, 0)
+			var colour: Color = REED if kind == "patches" else PAW
+			draw_line(from, to, Color(UiTheme.INK, 0.9), 7.0, true)
+			draw_dashed_line(from, to, colour, 3.0, 10.0, true, true)
+
+
 ## A mark lives beyond the slot chip, and on a labelled back row above its pocket.
 ## That leaves both the name strip and the slot label readable.
 func patch_rect(side: int, slot: int) -> Rect2:
 	var rect: Rect2 = _rect(side, slot)
 	var board: Control = boards[side]
+	if combat_mode:
+		return Rect2(rect.position + Vector2(5, rect.size.y - 9.0), Vector2(rect.size.x - 10, 18))
 	if board.get("zone") == "scout":
 		# Scout already puts the slot caption below the pocket: merge mud into it.
 		return Rect2(
@@ -95,6 +109,8 @@ func patch_rect(side: int, slot: int) -> Rect2:
 func _draw_patch(side: int, slot: int) -> void:
 	var foot: Rect2 = patch_rect(side, slot)
 	draw_style_box(UiTheme.flat_box(MUD, UiTheme.INK, 3, 20), foot)
+	if combat_mode:
+		return
 	for fraction: float in [0.13, 0.85]:
 		var at: Vector2 = Vector2(foot.position.x + foot.size.x * fraction, foot.position.y + 4)
 		draw_line(at + Vector2(-3, 16), at + Vector2(-8, -7), REED, 3.0, true)
