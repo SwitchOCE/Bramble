@@ -1,5 +1,338 @@
 {
+	"ancillary_count": 66.0,
 	"bottom_side": 0.0,
+	"budgeted_text_nodes": [
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1689",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1690",
+			"primary_stat": false,
+			"text": "ATTACK 1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1691",
+			"primary_stat": false,
+			"text": "Little Dollop"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1692",
+			"primary_stat": false,
+			"text": "Bridge Toad"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Control@2237/@Label@2239",
+			"primary_stat": false,
+			"text": "20"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Control@2237/@Label@2240",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Control@2237/@Label@2241",
+			"primary_stat": false,
+			"text": "before"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@Label@1696",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@Label@1697",
+			"primary_stat": false,
+			"text": "ROUND 8"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@RichTextLabel@1700",
+			"primary_stat": false,
+			"text": "Combat: You vs Rival 4 · Brother Bracken. First to attack: You.\n— Start of Combat — Little Nip (F4) marks Hedge Witch (F4) as quarry.\nBridge Toad (F2): Mire. Bridge Toad (F2) applies Mire to your F2. Little Dollop (F1) marks Bridge Toad (F2) as quarry. Young Brock (F3) marks Bridge Toad (F2) as quarry. Young Brock (F2) marks Cradle Fetch (F3) as quarry. Sable (B2) marks Lady Belladonna (B1) as quarry. Young Brock (F2) is Mired. Little Dollop (F1) +1 Attack (Young Brock (F2)'s ability), now 6/5. Young Brock (F3) +1 Attack (Young Brock (F2)'s ability), now 3/4. Young Brock (F2) +1 Attack (Young Brock (F3)'s ability), now 6/6. Rival 4 · Brother Bracken's hero power goes off. Cricket Busker (F1) +4/+4 (hero power), now 9/11. Bridge Toad (F2) +4/+4 (hero power), now 16/20. Cradle Fetch (F3) +4/+4 (hero power), now 7/11. Hedge Witch (F4) +4/+4 (hero power), now 6/7. Lady Belladonna (B1) +4/+4 (hero power), now 12/16.\nLady Belladonna (B1)'s ability goes off. Old Brock (B1) gains Nightshade.\nSable (B2): if its quarry has more Attack, gain +3 Attack. Sable (B2) +3 Attack (Sable (B2)'s ability), now 7/4.\n— Attacks —\n"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@RichTextLabel@1703",
+			"primary_stat": false,
+			"text": "Little Dollop (F1) attacks Bridge Toad (F2)."
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1705/@Label@1707",
+			"primary_stat": false,
+			"text": "NIGHTSHADE"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1705/@RichTextLabel@1710",
+			"primary_stat": false,
+			"text": "When attacked, this first loses half its Health."
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1744/@Label@1740",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1744/@Label@1741",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1749/@Label@1745",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1749/@Label@1746",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2160/@Panel@2146/@Label@2147",
+			"primary_stat": false,
+			"text": "On spell"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2160/@Control@2149/@Label@2150",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2179/@Panel@2165/@Label@2166",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2179/@Control@2168/@Label@2169",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Panel@2184/@Label@2185",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Panel@2184/@Label@2186",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Control@2187/@Label@2188",
+			"primary_stat": false,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Panel@2203/@Label@2204",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Panel@2203/@Label@2205",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Control@2206/@Label@2207",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2236/@Panel@2222/@Label@2223",
+			"primary_stat": false,
+			"text": "Nightshade"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2236/@Control@2225/@Label@2226",
+			"primary_stat": false,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1771",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1772",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1773",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1774",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1775",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Panel@2012/@Label@2013",
+			"primary_stat": false,
+			"text": "Belly 1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Control@2015/@Label@2016",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Label@2027",
+			"primary_stat": false,
+			"text": "In 1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Panel@2032/@Label@2033",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Control@2035/@Label@2036",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Panel@2041/@Label@2043",
+			"primary_stat": false,
+			"text": "Mired"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2065/@Panel@2051/@Label@2052",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2065/@Control@2054/@Label@2055",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2084/@Panel@2070/@Label@2071",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2084/@Control@2073/@Label@2074",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Panel@2089/@Label@2090",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Control@2092/@Label@2093",
+			"primary_stat": false,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Panel@2098/@Label@2100",
+			"primary_stat": false,
+			"text": "Nightshade"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2122/@Panel@2108/@Label@2109",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2122/@Control@2111/@Label@2112",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2141/@Panel@2127/@Label@2128",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2141/@Control@2130/@Label@2131",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1887",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1888",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1889",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1890",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1891",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1892",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1893",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1952/@Label@1953",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1952/@Label@1954",
+			"primary_stat": false,
+			"text": "Rival 4 · Brother"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Label@1958",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Button@1961/@Label@1959",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Button@1964/@Label@1962",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Button@1967/@Label@1965",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Button@1983/@HBoxContainer@1974/@VBoxContainer@1976/@Label@1977",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@2007/@Control@1688/@Button@1983/@HBoxContainer@1974/@VBoxContainer@1976/@Label@1978",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	],
 	"capture_method": "old UI, saved exact event checkpoint, synchronous events",
 	"combat": {
 		"carry": [],
@@ -1183,12 +1516,12 @@
 			]
 		],
 		"hero_health_after": [
-			23,
-			40
+			23.0,
+			40.0
 		],
 		"hero_health_before": [
-			30,
-			40
+			30.0,
+			40.0
 		],
 		"last_blow": false,
 		"reason": "board_empty",
@@ -1631,20 +1964,20 @@
 		"version": 1.0
 	},
 	"hero_health": [
-		30,
-		40
+		30.0,
+		40.0
 	],
 	"hero_health_provenance": {
-		"after_round": 8,
+		"after_round": 8.0,
 		"armor_before": [
-			0,
-			0
+			0.0,
+			0.0
 		],
-		"before_round": 7,
+		"before_round": 7.0,
 		"field": "game_log.players[*].rounds[*].health",
 		"observed_history": true,
 		"source": "docs/ideation/evidence/strong-field/ui-1688x780.json",
-		"verified_replay_damage": 7
+		"verified_replay_damage": 7.0
 	},
 	"hero_views": [
 		{
@@ -1726,366 +2059,457 @@
 	"visible_text_nodes": [
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1689",
+			"primary_stat": false,
 			"text": "THIS HIT"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1690",
+			"primary_stat": false,
 			"text": "ATTACK 1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1691",
+			"primary_stat": false,
 			"text": "Little Dollop"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Label@1692",
+			"primary_stat": false,
 			"text": "Bridge Toad"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Control@2237/@Label@2239",
+			"primary_stat": false,
 			"text": "20"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Control@2237/@Label@2240",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1695/@Control@2237/@Label@2241",
+			"primary_stat": false,
 			"text": "before"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@Label@1696",
+			"primary_stat": false,
 			"text": "COMBAT LOG"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@Label@1697",
+			"primary_stat": false,
 			"text": "ROUND 8"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@RichTextLabel@1700",
+			"primary_stat": false,
 			"text": "Combat: You vs Rival 4 · Brother Bracken. First to attack: You.\n— Start of Combat — Little Nip (F4) marks Hedge Witch (F4) as quarry.\nBridge Toad (F2): Mire. Bridge Toad (F2) applies Mire to your F2. Little Dollop (F1) marks Bridge Toad (F2) as quarry. Young Brock (F3) marks Bridge Toad (F2) as quarry. Young Brock (F2) marks Cradle Fetch (F3) as quarry. Sable (B2) marks Lady Belladonna (B1) as quarry. Young Brock (F2) is Mired. Little Dollop (F1) +1 Attack (Young Brock (F2)'s ability), now 6/5. Young Brock (F3) +1 Attack (Young Brock (F2)'s ability), now 3/4. Young Brock (F2) +1 Attack (Young Brock (F3)'s ability), now 6/6. Rival 4 · Brother Bracken's hero power goes off. Cricket Busker (F1) +4/+4 (hero power), now 9/11. Bridge Toad (F2) +4/+4 (hero power), now 16/20. Cradle Fetch (F3) +4/+4 (hero power), now 7/11. Hedge Witch (F4) +4/+4 (hero power), now 6/7. Lady Belladonna (B1) +4/+4 (hero power), now 12/16.\nLady Belladonna (B1)'s ability goes off. Old Brock (B1) gains Nightshade.\nSable (B2): if its quarry has more Attack, gain +3 Attack. Sable (B2) +3 Attack (Sable (B2)'s ability), now 7/4.\n— Attacks —\n"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1704/@RichTextLabel@1703",
+			"primary_stat": false,
 			"text": "Little Dollop (F1) attacks Bridge Toad (F2)."
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1705/@Label@1707",
+			"primary_stat": false,
 			"text": "NIGHTSHADE"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1705/@RichTextLabel@1710",
+			"primary_stat": false,
 			"text": "When attacked, this first loses half its Health."
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1744/@Label@1740",
+			"primary_stat": false,
 			"text": "B2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1744/@Label@1741",
+			"primary_stat": false,
 			"text": "EMPTY"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1749/@Label@1745",
+			"primary_stat": false,
 			"text": "B3"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@1749/@Label@1746",
+			"primary_stat": false,
 			"text": "EMPTY"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2160/@Panel@2146/@Label@2147",
+			"primary_stat": false,
 			"text": "On spell"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2160/@Control@2149/@Label@2150",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2160/@Control@2151/@Label@2152",
+			"primary_stat": true,
 			"text": "9"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2160/@Control@2153/@Label@2154",
+			"primary_stat": true,
 			"text": "11"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2179/@Panel@2165/@Label@2166",
+			"primary_stat": false,
 			"text": "Mire"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2179/@Control@2168/@Label@2169",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2179/@Control@2170/@Label@2171",
+			"primary_stat": true,
 			"text": "16"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2179/@Control@2172/@Label@2173",
+			"primary_stat": true,
 			"text": "20"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Panel@2184/@Label@2185",
+			"primary_stat": false,
 			"text": "Start"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Panel@2184/@Label@2186",
+			"primary_stat": false,
 			"text": "of Combat"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Control@2187/@Label@2188",
+			"primary_stat": false,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Control@2189/@Label@2190",
+			"primary_stat": true,
 			"text": "7"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2198/@Control@2191/@Label@2192",
+			"primary_stat": true,
 			"text": "11"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Panel@2203/@Label@2204",
+			"primary_stat": false,
 			"text": "Start"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Panel@2203/@Label@2205",
+			"primary_stat": false,
 			"text": "of Combat"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Control@2206/@Label@2207",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Control@2208/@Label@2209",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2217/@Control@2210/@Label@2211",
+			"primary_stat": true,
 			"text": "7"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2236/@Panel@2222/@Label@2223",
+			"primary_stat": false,
 			"text": "Nightshade"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2236/@Control@2225/@Label@2226",
+			"primary_stat": false,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2236/@Control@2227/@Label@2228",
+			"primary_stat": true,
 			"text": "12"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Control@2236/@Control@2229/@Label@2230",
+			"primary_stat": true,
 			"text": "16"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1771",
+			"primary_stat": false,
 			"text": "F1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1772",
+			"primary_stat": false,
 			"text": "F2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1773",
+			"primary_stat": false,
 			"text": "F3"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1774",
+			"primary_stat": false,
 			"text": "F4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1829/@Label@1775",
+			"primary_stat": false,
 			"text": "B1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Panel@2012/@Label@2013",
+			"primary_stat": false,
 			"text": "Belly 1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Control@2015/@Label@2016",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Control@2017/@Label@2018",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Control@2019/@Label@2020",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2026/@Label@2027",
+			"primary_stat": false,
 			"text": "In 1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Panel@2032/@Label@2033",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Control@2035/@Label@2036",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Control@2037/@Label@2038",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Control@2039/@Label@2040",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2046/@Panel@2041/@Label@2043",
+			"primary_stat": false,
 			"text": "Mired"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2065/@Panel@2051/@Label@2052",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2065/@Control@2054/@Label@2055",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2065/@Control@2056/@Label@2057",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2065/@Control@2058/@Label@2059",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2084/@Panel@2070/@Label@2071",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2084/@Control@2073/@Label@2074",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2084/@Control@2075/@Label@2076",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2084/@Control@2077/@Label@2078",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Panel@2089/@Label@2090",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Control@2092/@Label@2093",
+			"primary_stat": false,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Control@2094/@Label@2095",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Control@2096/@Label@2097",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2103/@Panel@2098/@Label@2100",
+			"primary_stat": false,
 			"text": "Nightshade"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2122/@Panel@2108/@Label@2109",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2122/@Control@2111/@Label@2112",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2122/@Control@2113/@Label@2114",
+			"primary_stat": true,
 			"text": "7"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2122/@Control@2115/@Label@2116",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2141/@Panel@2127/@Label@2128",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2141/@Control@2130/@Label@2131",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2141/@Control@2132/@Label@2133",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Control@2141/@Control@2134/@Label@2135",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1887",
+			"primary_stat": false,
 			"text": "F1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1888",
+			"primary_stat": false,
 			"text": "F2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1889",
+			"primary_stat": false,
 			"text": "F3"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1890",
+			"primary_stat": false,
 			"text": "F4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1891",
+			"primary_stat": false,
 			"text": "B1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1892",
+			"primary_stat": false,
 			"text": "B2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1945/@Label@1893",
+			"primary_stat": false,
 			"text": "B3"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1952/@Label@1953",
+			"primary_stat": false,
 			"text": "FIGHTING"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1952/@Label@1954",
+			"primary_stat": false,
 			"text": "Rival 4 · Brother"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1952/@Control@1955/@Label@1956",
+			"primary_stat": true,
 			"text": "40"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Label@1958",
+			"primary_stat": false,
 			"text": "SPEED"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Button@1961/@Label@1959",
+			"primary_stat": false,
 			"text": "×1"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Button@1964/@Label@1962",
+			"primary_stat": false,
 			"text": "×2"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Control@1957/@Button@1967/@Label@1965",
+			"primary_stat": false,
 			"text": "×4"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Button@1983/@HBoxContainer@1974/@VBoxContainer@1976/@Label@1977",
+			"primary_stat": false,
 			"text": "Skip"
 		},
 		{
 			"path": "/root/@Control@2007/@Control@1688/@Button@1983/@HBoxContainer@1974/@VBoxContainer@1976/@Label@1978",
+			"primary_stat": false,
 			"text": "to the result"
 		}
 	]

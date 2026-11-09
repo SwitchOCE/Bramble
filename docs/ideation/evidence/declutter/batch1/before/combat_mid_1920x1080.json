@@ -1,5 +1,313 @@
 {
+	"ancillary_count": 61.0,
 	"bottom_side": 0.0,
+	"budgeted_text_nodes": [
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2250/@Label@2244",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2250/@Label@2249",
+			"primary_stat": false,
+			"text": "Start of Combat first.\nThe first attack\nwill appear here."
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@Label@2251",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@Label@2252",
+			"primary_stat": false,
+			"text": "ROUND 6"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@RichTextLabel@2255",
+			"primary_stat": false,
+			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Little Nip (F2) marks Brother Wolf (F2) as quarry. Little Nip (F3) marks Young Brock (F3) as quarry. Sable (B3) marks The Natterjack Chorus (B3) as quarry.\nGideon, Basso Profundo (B1): Mire. Gideon, Basso Profundo (B1) applies Mire to your B1.\n"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@RichTextLabel@2258",
+			"primary_stat": false,
+			"text": "Cluricaun (B2): Mire."
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2260/@Label@2262",
+			"primary_stat": false,
+			"text": "MIRE"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2260/@RichTextLabel@2265",
+			"primary_stat": false,
+			"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2289/@Label@2285",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2289/@Label@2286",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Panel@2700/@Label@2701",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Panel@2700/@Label@2702",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Control@2703/@Label@2704",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2733/@Panel@2719/@Label@2720",
+			"primary_stat": false,
+			"text": "Pack"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2733/@Control@2722/@Label@2723",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2752/@Panel@2738/@Label@2739",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2752/@Control@2741/@Label@2742",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2771/@Panel@2757/@Label@2758",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2771/@Control@2760/@Label@2761",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Panel@2776/@Label@2777",
+			"primary_stat": false,
+			"text": "Ring"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Panel@2776/@Label@2778",
+			"primary_stat": false,
+			"text": "+1/+1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Control@2779/@Label@2780",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2809/@Panel@2795/@Label@2796",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2809/@Control@2798/@Label@2799",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2326",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2327",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2328",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2330",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2331",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2332",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Panel@2567/@Label@2568",
+			"primary_stat": false,
+			"text": "Summons"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Panel@2567/@Label@2569",
+			"primary_stat": false,
+			"text": "grow"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Control@2570/@Label@2571",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2600/@Panel@2586/@Label@2587",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2600/@Control@2589/@Label@2590",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2619/@Panel@2605/@Label@2606",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2619/@Control@2608/@Label@2609",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2638/@Panel@2624/@Label@2625",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2638/@Control@2627/@Label@2628",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Panel@2643/@Label@2644",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Panel@2643/@Label@2645",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Control@2646/@Label@2647",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2676/@Panel@2662/@Label@2663",
+			"primary_stat": false,
+			"text": "Snap"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2676/@Control@2665/@Label@2666",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2695/@Panel@2681/@Label@2682",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2695/@Control@2684/@Label@2685",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2442",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2443",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2444",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2445",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2446",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2447",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2448",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2507/@Label@2508",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2507/@Label@2509",
+			"primary_stat": false,
+			"text": "Hare"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Label@2513",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Button@2516/@Label@2514",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Button@2519/@Label@2517",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Button@2522/@Label@2520",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Button@2538/@HBoxContainer@2529/@VBoxContainer@2531/@Label@2532",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@2562/@Control@2243/@Button@2538/@HBoxContainer@2529/@VBoxContainer@2531/@Label@2533",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	],
 	"capture_method": "old UI, saved exact event checkpoint, synchronous events",
 	"combat": {
 		"damage": 3.0,
@@ -3018,354 +3326,442 @@
 	"visible_text_nodes": [
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2250/@Label@2244",
+			"primary_stat": false,
 			"text": "THIS HIT"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2250/@Label@2249",
+			"primary_stat": false,
 			"text": "Start of Combat first.\nThe first attack\nwill appear here."
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@Label@2251",
+			"primary_stat": false,
 			"text": "COMBAT LOG"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@Label@2252",
+			"primary_stat": false,
 			"text": "ROUND 6"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@RichTextLabel@2255",
+			"primary_stat": false,
 			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Little Nip (F2) marks Brother Wolf (F2) as quarry. Little Nip (F3) marks Young Brock (F3) as quarry. Sable (B3) marks The Natterjack Chorus (B3) as quarry.\nGideon, Basso Profundo (B1): Mire. Gideon, Basso Profundo (B1) applies Mire to your B1.\n"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2259/@RichTextLabel@2258",
+			"primary_stat": false,
 			"text": "Cluricaun (B2): Mire."
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2260/@Label@2262",
+			"primary_stat": false,
 			"text": "MIRE"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2260/@RichTextLabel@2265",
+			"primary_stat": false,
 			"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2289/@Label@2285",
+			"primary_stat": false,
 			"text": "F4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2289/@Label@2286",
+			"primary_stat": false,
 			"text": "EMPTY"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Panel@2700/@Label@2701",
+			"primary_stat": false,
 			"text": "Start"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Panel@2700/@Label@2702",
+			"primary_stat": false,
 			"text": "of Combat"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Control@2703/@Label@2704",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Control@2705/@Label@2706",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2714/@Control@2707/@Label@2708",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2733/@Panel@2719/@Label@2720",
+			"primary_stat": false,
 			"text": "Pack"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2733/@Control@2722/@Label@2723",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2733/@Control@2724/@Label@2725",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2733/@Control@2726/@Label@2727",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2752/@Panel@2738/@Label@2739",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2752/@Control@2741/@Label@2742",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2752/@Control@2743/@Label@2744",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2752/@Control@2745/@Label@2746",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2771/@Panel@2757/@Label@2758",
+			"primary_stat": false,
 			"text": "Mire"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2771/@Control@2760/@Label@2761",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2771/@Control@2762/@Label@2763",
+			"primary_stat": true,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2771/@Control@2764/@Label@2765",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Panel@2776/@Label@2777",
+			"primary_stat": false,
 			"text": "Ring"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Panel@2776/@Label@2778",
+			"primary_stat": false,
 			"text": "+1/+1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Control@2779/@Label@2780",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Control@2781/@Label@2782",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2790/@Control@2783/@Label@2784",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2809/@Panel@2795/@Label@2796",
+			"primary_stat": false,
 			"text": "Mire"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2809/@Control@2798/@Label@2799",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2809/@Control@2800/@Label@2801",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Control@2809/@Control@2802/@Label@2803",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2326",
+			"primary_stat": false,
 			"text": "F1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2327",
+			"primary_stat": false,
 			"text": "F2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2328",
+			"primary_stat": false,
 			"text": "F3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2330",
+			"primary_stat": false,
 			"text": "B1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2331",
+			"primary_stat": false,
 			"text": "B2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2384/@Label@2332",
+			"primary_stat": false,
 			"text": "B3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Panel@2567/@Label@2568",
+			"primary_stat": false,
 			"text": "Summons"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Panel@2567/@Label@2569",
+			"primary_stat": false,
 			"text": "grow"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Control@2570/@Label@2571",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Control@2572/@Label@2573",
+			"primary_stat": true,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2581/@Control@2574/@Label@2575",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2600/@Panel@2586/@Label@2587",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2600/@Control@2589/@Label@2590",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2600/@Control@2591/@Label@2592",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2600/@Control@2593/@Label@2594",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2619/@Panel@2605/@Label@2606",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2619/@Control@2608/@Label@2609",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2619/@Control@2610/@Label@2611",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2619/@Control@2612/@Label@2613",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2638/@Panel@2624/@Label@2625",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2638/@Control@2627/@Label@2628",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2638/@Control@2629/@Label@2630",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2638/@Control@2631/@Label@2632",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Panel@2643/@Label@2644",
+			"primary_stat": false,
 			"text": "Start"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Panel@2643/@Label@2645",
+			"primary_stat": false,
 			"text": "of Combat"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Control@2646/@Label@2647",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Control@2648/@Label@2649",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2657/@Control@2650/@Label@2651",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2676/@Panel@2662/@Label@2663",
+			"primary_stat": false,
 			"text": "Snap"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2676/@Control@2665/@Label@2666",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2676/@Control@2667/@Label@2668",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2676/@Control@2669/@Label@2670",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2695/@Panel@2681/@Label@2682",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2695/@Control@2684/@Label@2685",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2695/@Control@2686/@Label@2687",
+			"primary_stat": true,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Control@2695/@Control@2688/@Label@2689",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2442",
+			"primary_stat": false,
 			"text": "F1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2443",
+			"primary_stat": false,
 			"text": "F2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2444",
+			"primary_stat": false,
 			"text": "F3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2445",
+			"primary_stat": false,
 			"text": "F4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2446",
+			"primary_stat": false,
 			"text": "B1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2447",
+			"primary_stat": false,
 			"text": "B2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2500/@Label@2448",
+			"primary_stat": false,
 			"text": "B3"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2507/@Label@2508",
+			"primary_stat": false,
 			"text": "FIGHTING"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2507/@Label@2509",
+			"primary_stat": false,
 			"text": "Hare"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2507/@Control@2510/@Label@2511",
+			"primary_stat": true,
 			"text": "34"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Label@2513",
+			"primary_stat": false,
 			"text": "SPEED"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Button@2516/@Label@2514",
+			"primary_stat": false,
 			"text": "×1"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Button@2519/@Label@2517",
+			"primary_stat": false,
 			"text": "×2"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Control@2512/@Button@2522/@Label@2520",
+			"primary_stat": false,
 			"text": "×4"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Button@2538/@HBoxContainer@2529/@VBoxContainer@2531/@Label@2532",
+			"primary_stat": false,
 			"text": "Skip"
 		},
 		{
 			"path": "/root/@Control@2562/@Control@2243/@Button@2538/@HBoxContainer@2529/@VBoxContainer@2531/@Label@2533",
+			"primary_stat": false,
 			"text": "to the result"
 		}
 	]

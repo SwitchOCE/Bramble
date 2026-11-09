@@ -1,5 +1,318 @@
 {
+	"ancillary_count": 62.0,
 	"bottom_side": 0.0,
+	"budgeted_text_nodes": [
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@578/@Label@572",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@578/@Label@577",
+			"primary_stat": false,
+			"text": "Start of Combat first.\nThe first attack\nwill appear here."
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@587/@Label@579",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@587/@Label@580",
+			"primary_stat": false,
+			"text": "ROUND 6"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@587/@RichTextLabel@583",
+			"primary_stat": false,
+			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Little Nip (F2) marks Brother Wolf (F2) as quarry. Little Nip (F3) marks Young Brock (F3) as quarry. Sable (B3) marks The Natterjack Chorus (B3) as quarry.\nGideon, Basso Profundo (B1): Mire. Gideon, Basso Profundo (B1) applies Mire to your B1.\n"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@587/@RichTextLabel@586",
+			"primary_stat": false,
+			"text": "Cluricaun (B2): Mire."
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@588/@Label@590",
+			"primary_stat": false,
+			"text": "MRS CLOVER, MIDWIFE"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@588/@RichTextLabel@593",
+			"primary_stat": false,
+			"text": "After you summon a unit: give it +1/+1. Twice a turn.\nDetails"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@617/@Label@613",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@617/@Label@614",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Panel@1028/@Label@1029",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Panel@1028/@Label@1030",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Control@1031/@Label@1032",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1061/@Panel@1047/@Label@1048",
+			"primary_stat": false,
+			"text": "Pack"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1061/@Control@1050/@Label@1051",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1080/@Panel@1066/@Label@1067",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1080/@Control@1069/@Label@1070",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1099/@Panel@1085/@Label@1086",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1099/@Control@1088/@Label@1089",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Panel@1104/@Label@1105",
+			"primary_stat": false,
+			"text": "Ring"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Panel@1104/@Label@1106",
+			"primary_stat": false,
+			"text": "+1/+1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Control@1107/@Label@1108",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1137/@Panel@1123/@Label@1124",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1137/@Control@1126/@Label@1127",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@654",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@655",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@656",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@658",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@659",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@660",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Panel@895/@Label@896",
+			"primary_stat": false,
+			"text": "Summons"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Panel@895/@Label@897",
+			"primary_stat": false,
+			"text": "grow"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Control@898/@Label@899",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@928/@Panel@914/@Label@915",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@928/@Control@917/@Label@918",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@947/@Panel@933/@Label@934",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@947/@Control@936/@Label@937",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@966/@Panel@952/@Label@953",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@966/@Control@955/@Label@956",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Panel@971/@Label@972",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Panel@971/@Label@973",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Control@974/@Label@975",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1004/@Panel@990/@Label@991",
+			"primary_stat": false,
+			"text": "Snap"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1004/@Control@993/@Label@994",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1023/@Panel@1009/@Label@1010",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1023/@Control@1012/@Label@1013",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@770",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@771",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@772",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@773",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@774",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@775",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@776",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@835/@Label@836",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@835/@Label@837",
+			"primary_stat": false,
+			"text": "The March Hare"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@840/@Label@841",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@840/@Button@844/@Label@842",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@840/@Button@847/@Label@845",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Control@840/@Button@850/@Label@848",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Button@866/@HBoxContainer@857/@VBoxContainer@859/@Label@860",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@890/@Control@571/@Button@866/@HBoxContainer@857/@VBoxContainer@859/@Label@861",
+			"primary_stat": false,
+			"text": "to the result"
+		},
+		{
+			"path": "/root/@Control@890/@Panel@597/@RichTextLabel@596",
+			"primary_stat": false,
+			"text": "Details: Any tribe’s summons count, in either phase."
+		}
+	],
 	"capture_method": "old UI, saved exact event checkpoint, synchronous events",
 	"combat": {
 		"damage": 3.0,
@@ -3018,358 +3331,447 @@
 	"visible_text_nodes": [
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@578/@Label@572",
+			"primary_stat": false,
 			"text": "THIS HIT"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@578/@Label@577",
+			"primary_stat": false,
 			"text": "Start of Combat first.\nThe first attack\nwill appear here."
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@587/@Label@579",
+			"primary_stat": false,
 			"text": "COMBAT LOG"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@587/@Label@580",
+			"primary_stat": false,
 			"text": "ROUND 6"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@587/@RichTextLabel@583",
+			"primary_stat": false,
 			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Little Nip (F2) marks Brother Wolf (F2) as quarry. Little Nip (F3) marks Young Brock (F3) as quarry. Sable (B3) marks The Natterjack Chorus (B3) as quarry.\nGideon, Basso Profundo (B1): Mire. Gideon, Basso Profundo (B1) applies Mire to your B1.\n"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@587/@RichTextLabel@586",
+			"primary_stat": false,
 			"text": "Cluricaun (B2): Mire."
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@588/@Label@590",
+			"primary_stat": false,
 			"text": "MRS CLOVER, MIDWIFE"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@588/@RichTextLabel@593",
+			"primary_stat": false,
 			"text": "After you summon a unit: give it +1/+1. Twice a turn.\nDetails"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@617/@Label@613",
+			"primary_stat": false,
 			"text": "F4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@617/@Label@614",
+			"primary_stat": false,
 			"text": "EMPTY"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Panel@1028/@Label@1029",
+			"primary_stat": false,
 			"text": "Start"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Panel@1028/@Label@1030",
+			"primary_stat": false,
 			"text": "of Combat"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Control@1031/@Label@1032",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Control@1033/@Label@1034",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1042/@Control@1035/@Label@1036",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1061/@Panel@1047/@Label@1048",
+			"primary_stat": false,
 			"text": "Pack"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1061/@Control@1050/@Label@1051",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1061/@Control@1052/@Label@1053",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1061/@Control@1054/@Label@1055",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1080/@Panel@1066/@Label@1067",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1080/@Control@1069/@Label@1070",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1080/@Control@1071/@Label@1072",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1080/@Control@1073/@Label@1074",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1099/@Panel@1085/@Label@1086",
+			"primary_stat": false,
 			"text": "Mire"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1099/@Control@1088/@Label@1089",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1099/@Control@1090/@Label@1091",
+			"primary_stat": true,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1099/@Control@1092/@Label@1093",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Panel@1104/@Label@1105",
+			"primary_stat": false,
 			"text": "Ring"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Panel@1104/@Label@1106",
+			"primary_stat": false,
 			"text": "+1/+1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Control@1107/@Label@1108",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Control@1109/@Label@1110",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1118/@Control@1111/@Label@1112",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1137/@Panel@1123/@Label@1124",
+			"primary_stat": false,
 			"text": "Mire"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1137/@Control@1126/@Label@1127",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1137/@Control@1128/@Label@1129",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Control@1137/@Control@1130/@Label@1131",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@654",
+			"primary_stat": false,
 			"text": "F1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@655",
+			"primary_stat": false,
 			"text": "F2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@656",
+			"primary_stat": false,
 			"text": "F3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@658",
+			"primary_stat": false,
 			"text": "B1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@659",
+			"primary_stat": false,
 			"text": "B2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@712/@Label@660",
+			"primary_stat": false,
 			"text": "B3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Panel@895/@Label@896",
+			"primary_stat": false,
 			"text": "Summons"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Panel@895/@Label@897",
+			"primary_stat": false,
 			"text": "grow"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Control@898/@Label@899",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Control@900/@Label@901",
+			"primary_stat": true,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@909/@Control@902/@Label@903",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@928/@Panel@914/@Label@915",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@928/@Control@917/@Label@918",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@928/@Control@919/@Label@920",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@928/@Control@921/@Label@922",
+			"primary_stat": true,
 			"text": "6"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@947/@Panel@933/@Label@934",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@947/@Control@936/@Label@937",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@947/@Control@938/@Label@939",
+			"primary_stat": true,
 			"text": "4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@947/@Control@940/@Label@941",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@966/@Panel@952/@Label@953",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@966/@Control@955/@Label@956",
+			"primary_stat": false,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@966/@Control@957/@Label@958",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@966/@Control@959/@Label@960",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Panel@971/@Label@972",
+			"primary_stat": false,
 			"text": "Start"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Panel@971/@Label@973",
+			"primary_stat": false,
 			"text": "of Combat"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Control@974/@Label@975",
+			"primary_stat": false,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Control@976/@Label@977",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@985/@Control@978/@Label@979",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1004/@Panel@990/@Label@991",
+			"primary_stat": false,
 			"text": "Snap"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1004/@Control@993/@Label@994",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1004/@Control@995/@Label@996",
+			"primary_stat": true,
 			"text": "5"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1004/@Control@997/@Label@998",
+			"primary_stat": true,
 			"text": "1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1023/@Panel@1009/@Label@1010",
+			"primary_stat": false,
 			"text": "Quarry"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1023/@Control@1012/@Label@1013",
+			"primary_stat": false,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1023/@Control@1014/@Label@1015",
+			"primary_stat": true,
 			"text": "2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Control@1023/@Control@1016/@Label@1017",
+			"primary_stat": true,
 			"text": "3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@770",
+			"primary_stat": false,
 			"text": "F1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@771",
+			"primary_stat": false,
 			"text": "F2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@772",
+			"primary_stat": false,
 			"text": "F3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@773",
+			"primary_stat": false,
 			"text": "F4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@774",
+			"primary_stat": false,
 			"text": "B1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@775",
+			"primary_stat": false,
 			"text": "B2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@828/@Label@776",
+			"primary_stat": false,
 			"text": "B3"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@835/@Label@836",
+			"primary_stat": false,
 			"text": "FIGHTING"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@835/@Label@837",
+			"primary_stat": false,
 			"text": "The March Hare"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@835/@Control@838/@Label@839",
+			"primary_stat": true,
 			"text": "34"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@840/@Label@841",
+			"primary_stat": false,
 			"text": "SPEED"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@840/@Button@844/@Label@842",
+			"primary_stat": false,
 			"text": "×1"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@840/@Button@847/@Label@845",
+			"primary_stat": false,
 			"text": "×2"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Control@840/@Button@850/@Label@848",
+			"primary_stat": false,
 			"text": "×4"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Button@866/@HBoxContainer@857/@VBoxContainer@859/@Label@860",
+			"primary_stat": false,
 			"text": "Skip"
 		},
 		{
 			"path": "/root/@Control@890/@Control@571/@Button@866/@HBoxContainer@857/@VBoxContainer@859/@Label@861",
+			"primary_stat": false,
 			"text": "to the result"
 		},
 		{
 			"path": "/root/@Control@890/@Panel@597/@RichTextLabel@596",
+			"primary_stat": false,
 			"text": "Details: Any tribe’s summons count, in either phase."
 		}
 	]
