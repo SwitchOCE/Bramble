@@ -635,3 +635,29 @@ archive differs in 35 winner-count rows under the merged backend, with unchanged
 seeds/identities; both implementations reproduce those merged-backend results.
 Historical outcomes remain untouched. No deferred line loader, real-card setups,
 general strength-plan format or agency measure was started in this follow-up.
+
+## Wave-1 line files on the current combat build
+
+Default `LinePolicies` loads the sorted `tools/sim/lines/*.json` files, retaining
+the committed profiles for the four unchanged tribes. Birds and Fairies use
+`line_birds_homecoming`, `line_birds_tempo`, `line_fairies_ring` and
+`line_fairies_court`; file keys without `line_` also resolve. The former engine
+and tempo aliases resolve to their replacements. Explicit
+`lines=res://tools/sim/line_profiles.committed.json` opts into the frozen table
+for historical reproduction; old sweep plans still select their frozen table.
+Current source fingerprints also include the designer JSON files.
+
+Schema checks reject malformed card lists, duplicates, unknown base strategies,
+invalid engine flags, incomplete/non-increasing climb schedules and invalid
+switch/flight minima. The loader normalizes priorities, tier rounds, engine flags
+and keep lists into committed Hard profiles. Birds' structured flight limits and
+R7 tempo-to-homecoming switch execute; the Fairy Court arrangement is explicit.
+Next-climb savings use the shared affordability rule. The original source policy
+is retained verbatim. Detailed conditional-buy, copy, stayer-cap, spell, thank
+and placement prose remains advisory to the shared Hard pass-3 adapters; loading
+a file does not claim to interpret arbitrary prose or prove its play strength.
+
+Tests exercise schema rejection, explicit historical opt-out, switch/flight
+behavior, and a separate real eight-seat, three-round lobby for each of the four
+wave-1 lines with all tribes available. These are integration checks, not new
+gameplay bars or evidence of line superiority.
