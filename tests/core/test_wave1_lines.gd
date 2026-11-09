@@ -106,3 +106,13 @@ func test_historical_table_opt_out_still_uses_frozen_profile_data() -> void:
 	var brain: LineBrain = BenchSuites.create_bot("line_birds_engine")
 	assert_eq(brain.build_name(), "line_birds_engine")
 	assert_eq(brain.profile["climb_schedule"], [4.0, 6.0, 8.0, 10.0, 12.0])
+
+
+func test_accounting_roster_keeps_all_four_written_lines_and_four_blind_hard_seats() -> void:
+	var names: PackedStringArray = BenchSuites.seats("wave1_accounting", 1900001)
+	assert_eq(names, BenchSuites.seats("wave1_accounting", 1900001))
+	assert_true(BenchSuites.is_known("wave1_accounting"))
+	assert_eq(names.size(), 8)
+	for line_name: String in NAMES:
+		assert_eq(names.count("line_" + line_name), 1)
+	assert_eq(names.count("hard_field:varied"), 4)

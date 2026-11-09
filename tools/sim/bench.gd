@@ -198,6 +198,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 						"armor": player.armor,
 						"last_stand_used": player.last_stand_used,
 						"line": _active_session.build_of(id),
+						"assigned_line": _current_seats[id].get_slice(":", 0),
 						"policy":
 						(
 							"hard"
@@ -207,7 +208,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 					}
 				)
 			)
-			if str(_options["suite"]) == "lines":
+			if str(_options["suite"]) in ["lines", "wave1_accounting"]:
 				snapshot["layout"] = "blind"
 			if not _test_card.is_empty() and id == 0 and _options["plant_pool"] != "on":
 				snapshot["policy"] = (
