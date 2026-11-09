@@ -1,0 +1,64 @@
+{
+  "plan": "tools/sim/evidence/review-confirmation-plan.json",
+  "pool_doses_complete": true,
+  "all_doses_observed_bought": true,
+  "cells": [
+    {
+      "dose": 1,
+      "lobbies": 8,
+      "bought_unique": 7,
+      "created_unique": 0,
+      "owned_lobbies": 5,
+      "owned_seats": 6,
+      "retention": {
+        "eligible": 29,
+        "retained": 24,
+        "censored": 2,
+        "rate": 0.8275862068965517
+      }
+    },
+    {
+      "dose": 4,
+      "lobbies": 8,
+      "bought_unique": 6,
+      "created_unique": 0,
+      "owned_lobbies": 4,
+      "owned_seats": 5,
+      "retention": {
+        "eligible": 81,
+        "retained": 81,
+        "censored": 6,
+        "rate": 1.0
+      }
+    },
+    {
+      "dose": 16,
+      "lobbies": 8,
+      "bought_unique": 3,
+      "created_unique": 0,
+      "owned_lobbies": 3,
+      "owned_seats": 3,
+      "retention": {
+        "eligible": 39,
+        "retained": 39,
+        "censored": 3,
+        "rate": 1.0
+      }
+    },
+    {
+      "dose": 64,
+      "lobbies": 8,
+      "bought_unique": 4,
+      "created_unique": 0,
+      "owned_lobbies": 3,
+      "owned_seats": 4,
+      "retention": {
+        "eligible": 59,
+        "retained": 59,
+        "censored": 4,
+        "rate": 1.0
+      }
+    }
+  ],
+  "limitations": "8 unpaired lobbies per cell; observed acquisitions at fight boundaries only, no shop-offer denominator, descriptive retention with final observations censored"
+}

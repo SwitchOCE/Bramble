@@ -291,13 +291,15 @@ def validate_players(path, first_seed, count, head=False, candidate=None, incumb
     return rows
 
 
-def validate_capture(path, first_seed, count, players_path=None, expected_overrides=None):
+def validate_capture(path, first_seed, count, players_path=None, expected_overrides=None, expected_test_cards=None):
     rounds, fights, lobbies = defaultdict(list), set(), set()
     end_health = defaultdict(dict)
     for row in jsonl(path):
         seed, leg, number = int(row["seed"]), int(row["leg"]), int(row["round"])
-        if not first_seed <= seed < first_seed + count or leg != 0 or row.get("test_cards"):
+        if not first_seed <= seed < first_seed + count or leg != 0:
             raise SweepError("unexpected seed/leg or synthetic card in capture")
+        if row.get("test_cards", []) != (expected_test_cards or []):
+            raise SweepError("synthetic cards differ from the explicit test-only definition allowlist")
         if expected_overrides is not None and any(
             row["input"]["config"].get(key) != value for key, value in expected_overrides.items()
         ):

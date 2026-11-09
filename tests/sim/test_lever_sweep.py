@@ -191,6 +191,19 @@ class LeverSweepTests(unittest.TestCase):
         with self.assertRaises(SweepError):
             validate_capture(self.capture(capture_rows()[:-1]), 1001, 1)
 
+    def test_planted_cards_require_exact_explicit_test_allowlist(self):
+        definition = {"id": "bench_engine_4", "attack": 1, "health": 1, "pool": True}
+        rows = [*capture_rows(), *capture_rows(1002)]
+        for row in rows:
+            row["test_cards"] = [copy.deepcopy(definition)]
+        path = self.capture(rows)
+        with self.assertRaises(SweepError):
+            validate_capture(path, 1001, 2)
+        validate_capture(path, 1001, 2, expected_test_cards=[definition])
+        rows[-1]["test_cards"][0]["attack"] = 2
+        with self.assertRaises(SweepError):
+            validate_capture(self.capture(rows), 1001, 2, expected_test_cards=[definition])
+
     def test_resume_rejects_profile_source_glob_additions_and_override_changes(self):
         self.sweep().prepare()
         profiles = self.root / "profiles.json"

@@ -119,3 +119,22 @@ Complete seed-cluster intervals are in the linked result JSON; these breakdowns 
 
 Complete seed-cluster intervals are in the linked result JSON; these breakdowns are descriptive.
 
+## Shop-pool dose ladder: complete
+
+Each dose used its frozen eight fresh lobbies and a real tier-1 pool card, never
+force-played. Lines bought and fielded the planted engine at every dose.
+
+| Permanent gain/turn | Bought IIDs | Lobbies with owned card | Seats with owned card | Next-round retention |
+|---|---:|---:|---:|---:|
+| +1/+1 | 7 | 5/8 | 6/64 | 24/29 (82.8%) |
+| +4/+4 | 6 | 4/8 | 5/64 | 81/81 (100.0%) |
+| +16/+16 | 3 | 3/8 | 3/64 | 39/39 (100.0%) |
+| +64/+64 | 4 | 3/8 | 4/64 | 59/59 (100.0%) |
+
+No created-body acquisition was counted as a purchase. Retention follows the same
+IID across owned locations; final observations are censored. These tiny unpaired
+cells establish exposure and retention, not dose-specific buy probabilities or
+tribe strength: full shop offers are not logged.
+
+[Compact dose summary](../../../tools/sim/evidence/shop-pool-dose-summary.json);
+[full forced and pool metrics/provenance](../../../tools/sim/evidence/review-run-progress.json).
