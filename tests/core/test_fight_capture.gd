@@ -118,9 +118,9 @@ func test_default_json_roundtrip_preserves_thirds_and_explicit_rate_overrides() 
 	b.board[0].add_permanent(10, 9)
 	var captures: Array[Dictionary] = []
 	session.fight_capture_observer = func(
-		input: Dictionary, result: Dictionary, combat: Combat
+		capture_input: Dictionary, capture_result: Dictionary, capture_combat: Combat
 	) -> void:
-		captures.append(FightCapture.record(input, result, library, combat))
+		captures.append(FightCapture.record(capture_input, capture_result, library, capture_combat))
 	session._fight(0, 1, 0)
 	var original: Dictionary = captures[0]
 	var decoded: Dictionary = JSON.parse_string(JSON.stringify(original))
