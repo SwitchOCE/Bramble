@@ -1,0 +1,108 @@
+{
+  "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
+  "source_paths": [
+    "src",
+    "content",
+    "tools/sim/*.gd",
+    "tools/sim/*.py",
+    "project.godot",
+    "tools/versions.env",
+    "tools/sim/line_profiles.committed.json"
+  ],
+  "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70",
+  "profiles": "tools/sim/line_profiles.committed.json",
+  "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+  "version": 1,
+  "builds": [
+    {
+      "id": "g25",
+      "overrides": {
+        "card_size_caps": false,
+        "card_rate_limits": false,
+        "scale_levers": [
+          "scale_engine",
+          "scale_answer",
+          "scale_biggest_answer",
+          "scale_defender",
+          "scale_cleaver",
+          "scale_economy"
+        ],
+        "scale_engine_percent": 25,
+        "scale_engine_flat": 0,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "",
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_hero_spell_stats": true,
+        "scale_hero_spell_percent": 10
+      },
+      "comparisons": [
+        {
+          "id": "best",
+          "candidate": "line_hedgerow_tempo",
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "first_seed": 150001
+        },
+        {
+          "id": "mixture",
+          "candidate": "tribal_mixture",
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "first_seed": 151001
+        }
+      ]
+    },
+    {
+      "id": "g50",
+      "overrides": {
+        "card_size_caps": false,
+        "card_rate_limits": false,
+        "scale_levers": [
+          "scale_engine",
+          "scale_answer",
+          "scale_biggest_answer",
+          "scale_defender",
+          "scale_cleaver",
+          "scale_economy",
+          "scale_doubler"
+        ],
+        "scale_engine_percent": 50,
+        "scale_engine_flat": 0,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "",
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_hero_spell_stats": true,
+        "scale_hero_spell_percent": 10
+      },
+      "comparisons": [
+        {
+          "id": "best",
+          "candidate": "line_hedgerow_tempo",
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "first_seed": 152001
+        },
+        {
+          "id": "mixture",
+          "candidate": "tribal_mixture",
+          "incumbent": "hard_field",
+          "independent_seeds": 80,
+          "first_seed": 153001
+        }
+      ]
+    }
+  ],
+  "sizing": {
+    "independent_seeds_per_comparison": 80,
+    "lobbies_per_comparison": 160,
+    "pilot_seed_sd": 1.2268693220279547,
+    "target_effect": 0.396,
+    "normal_approx_power": 0.8,
+    "alpha": 0.05,
+    "planned_ci_half_width": 0.273,
+    "stopping_rule": "Exactly 80 seeds each; no extension, profile tuning or candidate replacement",
+    "shop_rng": "Unpaired; swapped legs clustered by seed"
+  }
+}

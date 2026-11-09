@@ -1,75 +1,7 @@
 {
-  "input_plan_sha256": "d44a62ebaacdf920fdef000028a6f983f1b2a52200068dd5202a1588e629f55d",
-  "manifest_sha256": "3145ba8a589a572fdd06c53d52b85fc6c5d391b77dc66cf077b4c390f6dbf17f",
+  "version": 1,
   "plan": {
-    "configs": [
-      {
-        "field_seed": 91407,
-        "field_size": 64,
-        "first_seed": 140001,
-        "id": "caps-both",
-        "lobbies": 150,
-        "overrides": {
-          "card_rate_limits": false,
-          "card_size_caps": false
-        },
-        "reps": 8,
-        "rounds": [
-          6,
-          8,
-          10,
-          12,
-          14,
-          16
-        ]
-      },
-      {
-        "field_seed": 91407,
-        "field_size": 64,
-        "first_seed": 141001,
-        "id": "caps-size",
-        "lobbies": 150,
-        "overrides": {
-          "card_rate_limits": true,
-          "card_size_caps": false
-        },
-        "reps": 8,
-        "rounds": [
-          6,
-          8,
-          10,
-          12,
-          14,
-          16
-        ]
-      },
-      {
-        "field_seed": 91407,
-        "field_size": 64,
-        "first_seed": 142001,
-        "id": "caps-rate",
-        "lobbies": 150,
-        "overrides": {
-          "card_rate_limits": false,
-          "card_size_caps": true
-        },
-        "reps": 8,
-        "rounds": [
-          6,
-          8,
-          10,
-          12,
-          14,
-          16
-        ]
-      }
-    ],
-    "output_root": "build/sim/caps-screen",
-    "profiles": "tools/sim/line_profiles.committed.json",
-    "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
-    "report": "docs/ideation/evidence/caps-screen.md",
-    "source_commit": "c0e40b899a828c8d08fd7af6660d7a9220873897",
-    "source_fingerprint": "89e57bc45bc48728f348ca522ced65df9959f2c32f7ae023f273b24e6b11e252",
+    "source_commit": "b926e0b08a507e7f648c395074d85b2c03beb06d",
     "source_paths": [
       "src",
       "content",
@@ -79,263 +11,80 @@
       "tools/versions.env",
       "tools/sim/line_profiles.committed.json"
     ],
-    "version": 1
-  },
-  "profile_text": "{\n  \"line_birds_tempo\": {\n    \"tribe\": \"Birds\",\n    \"base_strategy\": \"birds_highway\",\n    \"priority\": [\n      \"seven_whistlers\",\n      \"gabble_ratchet\",\n      \"mag_pye\",\n      \"mother_goose\",\n      \"jack_daw\",\n      \"cuckoo\",\n      \"great_lump\",\n      \"tom_tit\",\n      \"mr_redbreast\",\n      \"redwing\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"seven_whistlers\",\n      \"mag_pye\",\n      \"tom_tit\"\n    ]\n  },\n  \"line_birds_engine\": {\n    \"tribe\": \"Birds\",\n    \"base_strategy\": \"birds_passage\",\n    \"priority\": [\n      \"mother_goose\",\n      \"gabble_ratchet\",\n      \"cuckoo\",\n      \"mr_redbreast\",\n      \"mrs_stork\",\n      \"tom_tit\",\n      \"great_lump\",\n      \"old_tern\",\n      \"redwing\",\n      \"jack_daw\",\n      \"seven_whistlers\",\n      \"mrs_dunnock\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"cuckoo\",\n      \"tom_tit\",\n      \"redwing\"\n    ]\n  },\n  \"line_bog_tempo\": {\n    \"tribe\": \"Bog folk\",\n    \"base_strategy\": \"bog_bitter\",\n    \"priority\": [\n      \"prima_donna\",\n      \"tiddy_mun\",\n      \"gideon\",\n      \"madame_bufo\",\n      \"warty_nan\",\n      \"spitfire_sal\",\n      \"peat_cutter\",\n      \"bridge_toad\",\n      \"natterjack_chorus\",\n      \"young_pretender\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"prima_donna\",\n      \"tiddy_mun\"\n    ]\n  },\n  \"line_bog_engine\": {\n    \"tribe\": \"Bog folk\",\n    \"base_strategy\": \"bog_tongues\",\n    \"priority\": [\n      \"jenny_greenteeth\",\n      \"vaulting_hopkin\",\n      \"his_highness\",\n      \"peat_king\",\n      \"madame_bufo\",\n      \"young_pretender\",\n      \"natterjack_chorus\",\n      \"bridge_toad\",\n      \"spitfire_sal\",\n      \"warty_nan\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      11,\n      14\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"jenny_greenteeth\",\n      \"vaulting_hopkin\",\n      \"peat_king\"\n    ]\n  },\n  \"line_fairies_tempo\": {\n    \"tribe\": \"Fairies\",\n    \"base_strategy\": \"fairies_hag\",\n    \"priority\": [\n      \"belladonna\",\n      \"hedge_witch\",\n      \"changeling\",\n      \"fairy_monarch\",\n      \"will_o_the_wisp\",\n      \"cricket_busker\",\n      \"ichneumon_wasp\",\n      \"turnip_scarecrow\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"belladonna\",\n      \"hedge_witch\"\n    ]\n  },\n  \"line_fairies_engine\": {\n    \"tribe\": \"Fairies\",\n    \"base_strategy\": \"fairies_rings\",\n    \"priority\": [\n      \"reel_mistress\",\n      \"fairy_monarch\",\n      \"will_o_the_wisp\",\n      \"nan_toadstool\",\n      \"sally_spore\",\n      \"old_moth_annis\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"reel_mistress\",\n      \"fairy_monarch\",\n      \"will_o_the_wisp\"\n    ]\n  },\n  \"line_hedgerow_tempo\": {\n    \"tribe\": \"Hedgerow folk\",\n    \"base_strategy\": \"hedgerow_parish\",\n    \"priority\": [\n      \"squire_lollop\",\n      \"standing_committee\",\n      \"beadle_warrenby\",\n      \"old_mother_mast\",\n      \"mrs_sorrel\",\n      \"mrs_burdock\",\n      \"mr_crumb\",\n      \"dr_urchin\",\n      \"earwig_mother\",\n      \"sexton_beetle\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"standing_committee\",\n      \"squire_lollop\"\n    ]\n  },\n  \"line_hedgerow_engine\": {\n    \"tribe\": \"Hedgerow folk\",\n    \"base_strategy\": \"hedgerow_treasury\",\n    \"priority\": [\n      \"squire_lollop\",\n      \"honorary_treasurer\",\n      \"old_mother_mast\",\n      \"sleeping_partner\",\n      \"alderman_dozey\",\n      \"sergeant_at_conkers\",\n      \"beadle_warrenby\",\n      \"mrs_burdock\",\n      \"pill_bug\",\n      \"turnip_scarecrow\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"alderman_dozey\",\n      \"honorary_treasurer\",\n      \"squire_lollop\"\n    ]\n  },\n  \"line_hunters_tempo\": {\n    \"tribe\": \"Hunters\",\n    \"base_strategy\": \"hunters_open_season\",\n    \"priority\": [\n      \"laird_of_sett\",\n      \"mistress_russet\",\n      \"madame_ermeline\",\n      \"mountain_glutton\",\n      \"little_nip\",\n      \"sable\",\n      \"old_lutra\",\n      \"grizel\",\n      \"toll_bard\",\n      \"young_brock\",\n      \"old_brock\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      13\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"laird_of_sett\",\n      \"mistress_russet\"\n    ]\n  },\n  \"line_hunters_engine\": {\n    \"tribe\": \"Hunters\",\n    \"base_strategy\": \"hunters_pact\",\n    \"priority\": [\n      \"grizel\",\n      \"brother_wolf\",\n      \"laird_of_sett\",\n      \"sable\",\n      \"wick\",\n      \"young_brock\",\n      \"old_lutra\",\n      \"little_nip\",\n      \"madame_ermeline\",\n      \"lodger\",\n      \"old_brock\",\n      \"toll_bard\"\n    ],\n    \"climb_schedule\": [\n      3,\n      6,\n      8,\n      11,\n      13\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"brother_wolf\",\n      \"grizel\"\n    ]\n  },\n  \"line_oozes_tempo\": {\n    \"tribe\": \"Oozes\",\n    \"base_strategy\": \"oozes_second_helpings\",\n    \"priority\": [\n      \"granny_stir_up\",\n      \"elder_ooze\",\n      \"bubble_and_squeak\",\n      \"aunt_aspic\",\n      \"moss_ooze\",\n      \"wee_wobbly\",\n      \"sixpenny_pie\",\n      \"little_dollop\",\n      \"mrs_posset\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"elder_ooze\",\n      \"granny_stir_up\"\n    ]\n  },\n  \"line_oozes_engine\": {\n    \"tribe\": \"Oozes\",\n    \"base_strategy\": \"oozes_rude_awakening\",\n    \"priority\": [\n      \"elder_ooze\",\n      \"mr_syllabub\",\n      \"hasty_pudding\",\n      \"frumenty\",\n      \"moss_ooze\",\n      \"mrs_posset\",\n      \"stone_soup\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      11,\n      13\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"mr_syllabub\",\n      \"elder_ooze\"\n    ]\n  },\n  \"line_fast\": {\n    \"tribe\": \"\",\n    \"base_strategy\": \"neutrals_economy\",\n    \"priority\": [\n      \"squire_lollop\"\n    ],\n    \"climb_schedule\": [\n      3,\n      5,\n      7,\n      9,\n      11\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 40,\n    \"tribe_weight\": 0,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"squire_lollop\"\n    ]\n  }\n}\n",
-  "shards": [
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 140001,
-      "id": "caps-both/lobbies-000",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 140051,
-      "id": "caps-both/lobbies-050",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 140101,
-      "id": "caps-both/lobbies-100",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "estimate_seconds": 256,
-      "id": "caps-both/field-r06",
-      "kind": "field",
-      "round": 6,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "estimate_seconds": 256,
-      "id": "caps-both/field-r08",
-      "kind": "field",
-      "round": 8,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "estimate_seconds": 256,
-      "id": "caps-both/field-r10",
-      "kind": "field",
-      "round": 10,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "estimate_seconds": 256,
-      "id": "caps-both/field-r12",
-      "kind": "field",
-      "round": 12,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "estimate_seconds": 256,
-      "id": "caps-both/field-r14",
-      "kind": "field",
-      "round": 14,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-both",
-      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87",
-      "estimate_seconds": 256,
-      "id": "caps-both/field-r16",
-      "kind": "field",
-      "round": 16,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 141001,
-      "id": "caps-size/lobbies-000",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 141051,
-      "id": "caps-size/lobbies-050",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 141101,
-      "id": "caps-size/lobbies-100",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "estimate_seconds": 256,
-      "id": "caps-size/field-r06",
-      "kind": "field",
-      "round": 6,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "estimate_seconds": 256,
-      "id": "caps-size/field-r08",
-      "kind": "field",
-      "round": 8,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "estimate_seconds": 256,
-      "id": "caps-size/field-r10",
-      "kind": "field",
-      "round": 10,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "estimate_seconds": 256,
-      "id": "caps-size/field-r12",
-      "kind": "field",
-      "round": 12,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "estimate_seconds": 256,
-      "id": "caps-size/field-r14",
-      "kind": "field",
-      "round": 14,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-size",
-      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3",
-      "estimate_seconds": 256,
-      "id": "caps-size/field-r16",
-      "kind": "field",
-      "round": 16,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 142001,
-      "id": "caps-rate/lobbies-000",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 142051,
-      "id": "caps-rate/lobbies-050",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "count": 50,
-      "estimate_seconds": 135,
-      "first_seed": 142101,
-      "id": "caps-rate/lobbies-100",
-      "kind": "lobbies",
-      "timeout_seconds": 420
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "estimate_seconds": 256,
-      "id": "caps-rate/field-r06",
-      "kind": "field",
-      "round": 6,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "estimate_seconds": 256,
-      "id": "caps-rate/field-r08",
-      "kind": "field",
-      "round": 8,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "estimate_seconds": 256,
-      "id": "caps-rate/field-r10",
-      "kind": "field",
-      "round": 10,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "estimate_seconds": 256,
-      "id": "caps-rate/field-r12",
-      "kind": "field",
-      "round": 12,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "estimate_seconds": 256,
-      "id": "caps-rate/field-r14",
-      "kind": "field",
-      "round": 14,
-      "timeout_seconds": 702
-    },
-    {
-      "config": "caps-rate",
-      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb",
-      "estimate_seconds": 256,
-      "id": "caps-rate/field-r16",
-      "kind": "field",
-      "round": 16,
-      "timeout_seconds": 702
+    "source_fingerprint": "45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70",
+    "profiles": "tools/sim/line_profiles.committed.json",
+    "profiles_sha256": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
+    "version": 1,
+    "output_root": "build/sim/caps-screen",
+    "report": "docs/ideation/evidence/caps-screen.md",
+    "configs": [
+      {
+        "id": "caps-both",
+        "first_seed": 140001,
+        "lobbies": 150,
+        "field_size": 64,
+        "rounds": [
+          6,
+          8,
+          10,
+          12,
+          14,
+          16
+        ],
+        "reps": 8,
+        "field_seed": 91407,
+        "overrides": {
+          "card_size_caps": false,
+          "card_rate_limits": false
+        }
+      },
+      {
+        "id": "caps-size",
+        "first_seed": 141001,
+        "lobbies": 150,
+        "field_size": 64,
+        "rounds": [
+          6,
+          8,
+          10,
+          12,
+          14,
+          16
+        ],
+        "reps": 8,
+        "field_seed": 91407,
+        "overrides": {
+          "card_size_caps": false,
+          "card_rate_limits": true
+        }
+      },
+      {
+        "id": "caps-rate",
+        "first_seed": 142001,
+        "lobbies": 150,
+        "field_size": 64,
+        "rounds": [
+          6,
+          8,
+          10,
+          12,
+          14,
+          16
+        ],
+        "reps": 8,
+        "field_seed": 91407,
+        "overrides": {
+          "card_size_caps": true,
+          "card_rate_limits": false
+        }
+      }
+    ],
+    "source_refreeze": {
+      "reason": "Runtime-only uncapped forecast fix and strict error-log rejection; same configurations, budgets and seeds",
+      "previous_source_fingerprint": "89e57bc45bc48728f348ca522ced65df9959f2c32f7ae023f273b24e6b11e252"
     }
-  ],
+  },
+  "input_plan_sha256": "de233d22a606458274de8206150799fa226bcb07aae7b9039096aca21cfc6e1d",
   "source_files": {
     "content/bots/README.md": "b22cf16b993f0a7c1ee9ae41c82e63d57eb7e9c249c97b14210c2b33b65d024b",
     "content/bots/cards.json": "46a7579628429a178f951cf34ad086a1439ecdf7f966b40cf70170ef5b911f99",
@@ -590,7 +339,7 @@
     "src/core/bots/board_search.gd": "2815092ed208b7d709e1c370733f6840e66edf809deee210c34c20b1a18ca004",
     "src/core/bots/bot.gd": "68cbc2afc6c6f88742b692092c2f9fd113ae1c4c420423296c8f9e8e5a42e3f6",
     "src/core/bots/bot_brain.gd": "96403e0a6e91e6f4cf4226c96ba039fe69e1802f0c23a93327dc29d1988dd0b6",
-    "src/core/bots/bot_burner.gd": "dcf6907d060ddccd86bbfb4c05f34f428b244e56b6102fd8a7fe39b8f367d401",
+    "src/core/bots/bot_burner.gd": "7d81ee92badba65d3aa17fc3ace304bbfb3d2935844d63ec8c0df2bd12c88010",
     "src/core/bots/bot_carrier.gd": "c686894c10b0e53a8e2ddd2e5900c2c20acc8c8b0dbbec29ab8fdc674ad1c91e",
     "src/core/bots/bot_commitment.gd": "9228d2dd9d241c01e82c5d6dccd8a537de772b0777c07c81281c8cfb97b8d9a8",
     "src/core/bots/bot_content5.gd": "7e209e039fc227f145fe8c5bf57b80f342d7077647969bb3cf747c4aa77d34f4",
@@ -871,7 +620,7 @@
     "tools/sim/fight_capture.gd": "9474f6afadff6545b6b1af3cee8e264c3bc03ef093b1b82ca412525864089744",
     "tools/sim/free_choice.gd": "f8829916f83a99f4029797d722b1cd25f72f0f19a1a2d868755455f248a39ff9",
     "tools/sim/hard_stream.gd": "9b6d13f1c2d3df66436f389ba2dbc3130b970000929aa8f9ee7c18ce39e0eda6",
-    "tools/sim/lever_sweep.py": "abcfe849e710a480540b2f8c3b7377dd067166fc2f3d04c31be939df032b19a2",
+    "tools/sim/lever_sweep.py": "5bed4dfd5f000a69285ca75418d5978840f93eeb037c098a9905851e231362fe",
     "tools/sim/line_brain.gd": "967fb15fae1ebb2e2ef1066d4a238bbab216d7f3fb0190bd024db31abcfe013e",
     "tools/sim/line_policies.gd": "44e4e159710401e54c18b2e2ac32022262c666198ecd80fe88fc4ee00939a6b1",
     "tools/sim/line_profiles.committed.json": "76b76addb2e9fe64e065a578ac14506b7b43b3b2884d5587f64cdb098bdf4112",
@@ -889,6 +638,7 @@
     "tools/sim/scout_retention.gd": "fbd3f740b5f3bf7cd7410ed4700e68d0ac8db380f516395e0c30839e1ff011f0",
     "tools/sim/scout_retention_probe.gd": "ead096df76f353e27cc229d4ebd84cd2c3e00739a0a965fdeca4e8ae3dd892cc",
     "tools/sim/size_line_check.py": "423b72cca600b7ef8752ca1d7738f2c86eb1ee5b091918c37c4ab9b52483c31a",
+    "tools/sim/strength_gate.py": "8d690991264c066f8cb11cd5c82b0c782c6f54f8eb4863bccbba65af30461ac1",
     "tools/sim/summarize_bench.py": "47cb48f672f791296e1da320ec2a610edc9afe67af8b5fbfb8c252651c0541a9",
     "tools/sim/summarize_commit.py": "466f9bfe5fb8905dba6c4fd9cd95fe8f72839d5a790f817373bb18ab839bb35e",
     "tools/sim/summarize_commit_review.py": "edf9fa6991bf916e674a4f68df71d18e67e05446bca90d1f3379186a2af22c75",
@@ -902,12 +652,267 @@
     "tools/sim/upset_report.py": "ff5dc2d6e9d59bb5937d1ebf89f34a0242435655bf832c7b85f4f0063b7b509e",
     "tools/versions.env": "a81a20193dc7a460e15909ea1143fc83ec0adc95f4aef240307f6582f56ec768"
   },
-  "timing_basis": "2.5 s/lobby; 0.0076 s/field fight, plus startup; estimates, not cloud measurements",
+  "profile_text": "{\n  \"line_birds_tempo\": {\n    \"tribe\": \"Birds\",\n    \"base_strategy\": \"birds_highway\",\n    \"priority\": [\n      \"seven_whistlers\",\n      \"gabble_ratchet\",\n      \"mag_pye\",\n      \"mother_goose\",\n      \"jack_daw\",\n      \"cuckoo\",\n      \"great_lump\",\n      \"tom_tit\",\n      \"mr_redbreast\",\n      \"redwing\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"seven_whistlers\",\n      \"mag_pye\",\n      \"tom_tit\"\n    ]\n  },\n  \"line_birds_engine\": {\n    \"tribe\": \"Birds\",\n    \"base_strategy\": \"birds_passage\",\n    \"priority\": [\n      \"mother_goose\",\n      \"gabble_ratchet\",\n      \"cuckoo\",\n      \"mr_redbreast\",\n      \"mrs_stork\",\n      \"tom_tit\",\n      \"great_lump\",\n      \"old_tern\",\n      \"redwing\",\n      \"jack_daw\",\n      \"seven_whistlers\",\n      \"mrs_dunnock\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"cuckoo\",\n      \"tom_tit\",\n      \"redwing\"\n    ]\n  },\n  \"line_bog_tempo\": {\n    \"tribe\": \"Bog folk\",\n    \"base_strategy\": \"bog_bitter\",\n    \"priority\": [\n      \"prima_donna\",\n      \"tiddy_mun\",\n      \"gideon\",\n      \"madame_bufo\",\n      \"warty_nan\",\n      \"spitfire_sal\",\n      \"peat_cutter\",\n      \"bridge_toad\",\n      \"natterjack_chorus\",\n      \"young_pretender\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"prima_donna\",\n      \"tiddy_mun\"\n    ]\n  },\n  \"line_bog_engine\": {\n    \"tribe\": \"Bog folk\",\n    \"base_strategy\": \"bog_tongues\",\n    \"priority\": [\n      \"jenny_greenteeth\",\n      \"vaulting_hopkin\",\n      \"his_highness\",\n      \"peat_king\",\n      \"madame_bufo\",\n      \"young_pretender\",\n      \"natterjack_chorus\",\n      \"bridge_toad\",\n      \"spitfire_sal\",\n      \"warty_nan\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      11,\n      14\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"jenny_greenteeth\",\n      \"vaulting_hopkin\",\n      \"peat_king\"\n    ]\n  },\n  \"line_fairies_tempo\": {\n    \"tribe\": \"Fairies\",\n    \"base_strategy\": \"fairies_hag\",\n    \"priority\": [\n      \"belladonna\",\n      \"hedge_witch\",\n      \"changeling\",\n      \"fairy_monarch\",\n      \"will_o_the_wisp\",\n      \"cricket_busker\",\n      \"ichneumon_wasp\",\n      \"turnip_scarecrow\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"belladonna\",\n      \"hedge_witch\"\n    ]\n  },\n  \"line_fairies_engine\": {\n    \"tribe\": \"Fairies\",\n    \"base_strategy\": \"fairies_rings\",\n    \"priority\": [\n      \"reel_mistress\",\n      \"fairy_monarch\",\n      \"will_o_the_wisp\",\n      \"nan_toadstool\",\n      \"sally_spore\",\n      \"old_moth_annis\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"reel_mistress\",\n      \"fairy_monarch\",\n      \"will_o_the_wisp\"\n    ]\n  },\n  \"line_hedgerow_tempo\": {\n    \"tribe\": \"Hedgerow folk\",\n    \"base_strategy\": \"hedgerow_parish\",\n    \"priority\": [\n      \"squire_lollop\",\n      \"standing_committee\",\n      \"beadle_warrenby\",\n      \"old_mother_mast\",\n      \"mrs_sorrel\",\n      \"mrs_burdock\",\n      \"mr_crumb\",\n      \"dr_urchin\",\n      \"earwig_mother\",\n      \"sexton_beetle\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"standing_committee\",\n      \"squire_lollop\"\n    ]\n  },\n  \"line_hedgerow_engine\": {\n    \"tribe\": \"Hedgerow folk\",\n    \"base_strategy\": \"hedgerow_treasury\",\n    \"priority\": [\n      \"squire_lollop\",\n      \"honorary_treasurer\",\n      \"old_mother_mast\",\n      \"sleeping_partner\",\n      \"alderman_dozey\",\n      \"sergeant_at_conkers\",\n      \"beadle_warrenby\",\n      \"mrs_burdock\",\n      \"pill_bug\",\n      \"turnip_scarecrow\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      12\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"alderman_dozey\",\n      \"honorary_treasurer\",\n      \"squire_lollop\"\n    ]\n  },\n  \"line_hunters_tempo\": {\n    \"tribe\": \"Hunters\",\n    \"base_strategy\": \"hunters_open_season\",\n    \"priority\": [\n      \"laird_of_sett\",\n      \"mistress_russet\",\n      \"madame_ermeline\",\n      \"mountain_glutton\",\n      \"little_nip\",\n      \"sable\",\n      \"old_lutra\",\n      \"grizel\",\n      \"toll_bard\",\n      \"young_brock\",\n      \"old_brock\"\n    ],\n    \"climb_schedule\": [\n      4,\n      6,\n      8,\n      10,\n      13\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"laird_of_sett\",\n      \"mistress_russet\"\n    ]\n  },\n  \"line_hunters_engine\": {\n    \"tribe\": \"Hunters\",\n    \"base_strategy\": \"hunters_pact\",\n    \"priority\": [\n      \"grizel\",\n      \"brother_wolf\",\n      \"laird_of_sett\",\n      \"sable\",\n      \"wick\",\n      \"young_brock\",\n      \"old_lutra\",\n      \"little_nip\",\n      \"madame_ermeline\",\n      \"lodger\",\n      \"old_brock\",\n      \"toll_bard\"\n    ],\n    \"climb_schedule\": [\n      3,\n      6,\n      8,\n      11,\n      13\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"brother_wolf\",\n      \"grizel\"\n    ]\n  },\n  \"line_oozes_tempo\": {\n    \"tribe\": \"Oozes\",\n    \"base_strategy\": \"oozes_second_helpings\",\n    \"priority\": [\n      \"granny_stir_up\",\n      \"elder_ooze\",\n      \"bubble_and_squeak\",\n      \"aunt_aspic\",\n      \"moss_ooze\",\n      \"wee_wobbly\",\n      \"sixpenny_pie\",\n      \"little_dollop\",\n      \"mrs_posset\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      12,\n      14\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": false,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"elder_ooze\",\n      \"granny_stir_up\"\n    ]\n  },\n  \"line_oozes_engine\": {\n    \"tribe\": \"Oozes\",\n    \"base_strategy\": \"oozes_rude_awakening\",\n    \"priority\": [\n      \"elder_ooze\",\n      \"mr_syllabub\",\n      \"hasty_pudding\",\n      \"frumenty\",\n      \"moss_ooze\",\n      \"mrs_posset\",\n      \"stone_soup\"\n    ],\n    \"climb_schedule\": [\n      4,\n      7,\n      9,\n      11,\n      13\n    ],\n    \"save_threshold\": 2,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 14,\n    \"tribe_weight\": 4,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"mr_syllabub\",\n      \"elder_ooze\"\n    ]\n  },\n  \"line_fast\": {\n    \"tribe\": \"\",\n    \"base_strategy\": \"neutrals_economy\",\n    \"priority\": [\n      \"squire_lollop\"\n    ],\n    \"climb_schedule\": [\n      3,\n      5,\n      7,\n      9,\n      11\n    ],\n    \"save_threshold\": 0,\n    \"save_until\": 8,\n    \"engine\": true,\n    \"priority_weight\": 40,\n    \"tribe_weight\": 0,\n    \"policy_version\": 2,\n    \"commit_round\": 4,\n    \"engine_pieces\": [\n      \"squire_lollop\"\n    ]\n  }\n}\n",
+  "shards": [
+    {
+      "id": "caps-both/lobbies-000",
+      "config": "caps-both",
+      "kind": "lobbies",
+      "first_seed": 140001,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/lobbies-050",
+      "config": "caps-both",
+      "kind": "lobbies",
+      "first_seed": 140051,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/lobbies-100",
+      "config": "caps-both",
+      "kind": "lobbies",
+      "first_seed": 140101,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/field-r06",
+      "config": "caps-both",
+      "kind": "field",
+      "round": 6,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/field-r08",
+      "config": "caps-both",
+      "kind": "field",
+      "round": 8,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/field-r10",
+      "config": "caps-both",
+      "kind": "field",
+      "round": 10,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/field-r12",
+      "config": "caps-both",
+      "kind": "field",
+      "round": 12,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/field-r14",
+      "config": "caps-both",
+      "kind": "field",
+      "round": 14,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-both/field-r16",
+      "config": "caps-both",
+      "kind": "field",
+      "round": 16,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "83adf68a1db09d2cdf9cd45fd152b18ceb256562e42e606fe635c39aaa331a87"
+    },
+    {
+      "id": "caps-size/lobbies-000",
+      "config": "caps-size",
+      "kind": "lobbies",
+      "first_seed": 141001,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/lobbies-050",
+      "config": "caps-size",
+      "kind": "lobbies",
+      "first_seed": 141051,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/lobbies-100",
+      "config": "caps-size",
+      "kind": "lobbies",
+      "first_seed": 141101,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/field-r06",
+      "config": "caps-size",
+      "kind": "field",
+      "round": 6,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/field-r08",
+      "config": "caps-size",
+      "kind": "field",
+      "round": 8,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/field-r10",
+      "config": "caps-size",
+      "kind": "field",
+      "round": 10,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/field-r12",
+      "config": "caps-size",
+      "kind": "field",
+      "round": 12,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/field-r14",
+      "config": "caps-size",
+      "kind": "field",
+      "round": 14,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-size/field-r16",
+      "config": "caps-size",
+      "kind": "field",
+      "round": 16,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "f05437ec0d4fbb4cdfa11d1d067d5a27f0a154acc1284ab82f473d75e3f9ede3"
+    },
+    {
+      "id": "caps-rate/lobbies-000",
+      "config": "caps-rate",
+      "kind": "lobbies",
+      "first_seed": 142001,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/lobbies-050",
+      "config": "caps-rate",
+      "kind": "lobbies",
+      "first_seed": 142051,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/lobbies-100",
+      "config": "caps-rate",
+      "kind": "lobbies",
+      "first_seed": 142101,
+      "count": 50,
+      "estimate_seconds": 135,
+      "timeout_seconds": 420,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/field-r06",
+      "config": "caps-rate",
+      "kind": "field",
+      "round": 6,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/field-r08",
+      "config": "caps-rate",
+      "kind": "field",
+      "round": 8,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/field-r10",
+      "config": "caps-rate",
+      "kind": "field",
+      "round": 10,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/field-r12",
+      "config": "caps-rate",
+      "kind": "field",
+      "round": 12,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/field-r14",
+      "config": "caps-rate",
+      "kind": "field",
+      "round": 14,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    },
+    {
+      "id": "caps-rate/field-r16",
+      "config": "caps-rate",
+      "kind": "field",
+      "round": 16,
+      "estimate_seconds": 256,
+      "timeout_seconds": 702,
+      "config_sha256": "eae3c6991dd0dc6d56214622911d8faee4d757c79ea3a7a0bf5aaf87c39623fb"
+    }
+  ],
   "toolchain": {
-    "environment": "/opt/bramble/env.sh",
     "godot": "4.7.2",
-    "lock": "/tmp/bramble-harness-godot.lock",
-    "memory_max": "3G"
+    "environment": "/opt/bramble/env.sh",
+    "memory_max": "3G",
+    "lock": "/tmp/bramble-harness-godot.lock"
   },
-  "version": 1
+  "timing_basis": "2.5 s/lobby; 0.0076 s/field fight, plus startup; estimates, not cloud measurements",
+  "manifest_sha256": "f727c6d228fd536a30750d0b855bc6fdb1e0d471993fbe52428b035e96a34e4a"
 }

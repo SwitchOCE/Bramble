@@ -227,3 +227,26 @@ systemd scope was terminated; no shard result was admitted. The
 keeps the log hash and frozen seeds. Screening is paused for a bot forecast fix
 and regression test, followed by the gate and a source-refrozen rerun of the same
 seeds. No caps-off conclusions or lever-build strength results exist yet.
+
+### Uncapped-reader fix and resumed protocol
+
+The Burner forecast now treats an absent/zero `most` as unbounded, exactly as the
+recruit effect does. The [cap-reader audit](../../../tools/sim/evidence/cap-reader-audit.json)
+found no other unsafe removed-field reader. Normal and golden forecasts agree
+with actual uncapped burning, and a short all-line lobby with both switches off
+passes. The full gate passes **1,697 tests / 29,037 assertions**. Sweep commands
+also reject zero-exit Godot script-error logs. Fix commit: `ad96d30`.
+
+The caps manifest is source-refrozen after this runtime fix; configurations,
+budgets and seed blocks are unchanged. The failed attempt remains excluded.
+
+The [lever-build strength plan](../../../tools/sim/evidence/lever-build-strength-plan.json)
+is frozen before its runs: both combination builds, each comparing
+`line_hedgerow_tempo` and the unchanged `tribal_mixture` against blind
+`hard_field`, with 80 independent seeds / 160 swapped-seat lobbies per comparison.
+Four disjoint fresh ranges start at 150001, 151001, 152001 and 153001. The original
+pilot SD 1.227 implies roughly 80% power for +0.396 places and a planned 95%
+half-width of 0.273; that does not guarantee a pass. No tuning or sample extension
+is permitted. Primary strength requires the preselected best line's lower 95%
+seed-cluster bound to be positive on both builds; mixture results remain explicit
+separate diagnostics. These gate comparisons run only after caps screening.
