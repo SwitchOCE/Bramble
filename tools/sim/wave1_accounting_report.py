@@ -184,7 +184,7 @@ def markdown(report):
     text = [
         "# Wave 1 accounting check",
         "",
-        "Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, unchanged `content/pass3/rates.json` dials. No new gameplay bars.",
+        "Current wave-1 combat, pass 3 on, size/rate caps off, loop guards on, archived captured dials and the fixed published paper denominator. No new gameplay bars.",
         "",
         f"{report['lobbies']} independent fresh lobbies, seeds {report['first_seed']}–{report['last_seed']}. One seat per written line and four blind Hard seats; all tribes available, real heroes/fights/damage/elimination/shared pool. Four timing-pilot lobbies are excluded.",
         "",

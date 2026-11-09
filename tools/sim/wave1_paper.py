@@ -2,7 +2,7 @@
 """Read authored wave-1 paper figures in the harness's pre-start convention.
 
 The authored denominator is kept intact. A separate timing-reconciliation
-diagnostic applies the two intentional built/paper trigger changes; it must not
+diagnostic applies the two historical built/paper trigger changes; it must not
 be described as the original paper model or a full reproduction of Godot.
 """
 
