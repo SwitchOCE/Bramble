@@ -216,8 +216,16 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 					}
 				)
 			)
+			if str(_options["suite"]) == "quilboar_h1":
+				snapshot["gem_attack_halves"] = player.gem_attack_halves
+				snapshot["gem_health_halves"] = player.gem_health_halves
+				snapshot["committed"] = (player.round_number >= 6 or _has_quilboar_engine(player))
 			if str(_options["suite"]) in ["lines", "wave1_accounting"]:
 				snapshot["layout"] = "blind"
+			elif str(_options["suite"]) == "quilboar_h1":
+				snapshot["layout"] = (
+					"search" if _current_seats[id].begins_with("hard:") else "blind"
+				)
 			if not _test_card.is_empty() and id == 0 and _options["plant_pool"] != "on":
 				snapshot["policy"] = (
 					"plant_null"
@@ -363,7 +371,7 @@ func _write_player(
 		place = session.get_standings().size()
 	var offered: String = "+".join(session.hero_offer_of(seat))
 	var lobby_tribes: Array = session.get_state()["lobby_tribes"]
-	var label: Dictionary = BenchTribes.classify(final_player.fought_specs, _library)
+	var label: Dictionary = BenchTribes.classify(final_player.fought_specs, session._library)
 	var file: FileAccess = _files["players"]
 	(
 		file
@@ -506,3 +514,10 @@ static func _level_of(bot: String) -> String:
 	if bot.contains("=") and BenchSuites.is_big_search(bot):
 		return "search200"
 	return bot.get_slice("@", 0).get_slice(":", 0)
+
+
+func _has_quilboar_engine(player: PlayerState) -> bool:
+	for unit: RecruitUnit in player.board:
+		if unit != null and unit.def_id() in ["qb_gem_rat", "qb_bramble_tunneler"]:
+			return true
+	return false

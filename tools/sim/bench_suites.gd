@@ -27,6 +27,7 @@ const FREE_CHOICE_BRAIN := preload("res://tools/sim/free_choice.gd")
 const LINE_BRAIN := preload("res://tools/sim/line_brain.gd")
 const BASE_REGISTRY: Dictionary = {
 	"hard": {"profile": "hard", "script": BEST_BRAIN},
+	"line_quilboar_engine": {"profile": "hard:quilboar_choose_one@blind", "script": BEST_BRAIN},
 	"hard_field": {"profile": "hard", "script": preload("res://tools/sim/field_hard.gd")},
 	"hard_stream":
 	{
@@ -81,7 +82,8 @@ static func is_known(suite: String) -> bool:
 				"free_choice",
 				"free_choice_plain",
 				"lines",
-				"wave1_accounting"
+				"wave1_accounting",
+				"quilboar_h1"
 			]
 		)
 	)
@@ -104,6 +106,21 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
+	if suite == "quilboar_h1":
+		var reference_seats: Array = [
+			"line_quilboar_engine",
+			"line_birds_homecoming",
+			"line_fairies_ring",
+			"line_bog_engine",
+			"line_hedgerow_engine",
+			"line_hunters_engine",
+			"line_oozes_engine",
+			"hard:varied"
+		]
+		var reference_rng := RandomNumberGenerator.new()
+		reference_rng.seed = ("quilboar_h1|%d" % game_seed).hash()
+		_shuffle(reference_seats, reference_rng)
+		return PackedStringArray(reference_seats)
 	if suite == "wave1_accounting":
 		var accounting: Array = [
 			"line_birds_homecoming",
