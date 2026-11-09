@@ -4,6 +4,16 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 2a merged into ideation/main
+**Source:** merge 2fa5247f. The narrow scope check on the commits since the last review found 10 keep, 0 cut (`evidence/review-wave2a-merged-tree.md`). The cloud gate on that exact commit passed: 205 scripts, 2,158 tests (routine trig_01Bu2zM5LeTNEw9jLVYeUtB1).
+
+**Picked:** push 2fa5247f to ideation/main, and start wave 2b on it (brief `briefs/wave2b-build.md`).
+
+**Noted for the test-suite pass:**
+- The cloud tests step took 966 s, against 353 s on a200e88: 2.7 times as long for 13% more tests. `GUT_TIMEOUT` is 1,200 s, so the next growth could time the gate out.
+- Step 4 (faster suite) is now the priority after the gate plumbing. It ranks scripts by the junit times on 2fa5247f, not on b5601aa.
+- The gate ran past the cloud agent's 600 s tool limit, moved to the background and still reported. It took 17 min from push to verdict.
+
 ### 10 Nov 2026 — Quilboar Phase 1 review: calls
 **Source:** scope review of `ideation/quilboar` cc6d26d5..4d23628e (`evidence/review-quilboar-phase1.md`): 22 keep, 0 cut, 1 simplify, 3 ask.
 - Isolation is real: the flag is off by default, the code is editor-only, exports exclude it, and the flag-off fixture passes without a re-pin.
