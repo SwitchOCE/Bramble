@@ -40,6 +40,13 @@ choices respect the strength, source-lobby and active-trajectory exclusions.
 The seat, Health, Armor and Last Stand usage persist; the captured hero follows
 the replacement. Nearest available size does not guarantee a small power change.
 
+Rivals cannot adapt their purchases, greed, answers or layout to this live game.
+They do not recruit against its actual economy or shared pool: their boards and
+combat resources follow the source seat instead. Captured line policies remain
+scripts over Hard, rather than elite human play. Selecting successful source seats
+improves this measured baseline, but does not establish strength against skilled
+people or the future pool. Switching can replace both the whole board and hero.
+
 Pool reservation is retained. Visible units, held units and nesting birds reserve
 copies before the human's next shop; golden units reserve three. Reservations are
 released between rounds, including eliminated seats. Hidden hands and shops are
@@ -200,7 +207,62 @@ Linux binary boots the main scene. An editor process loads the exported PCK and
 exercises its packed settings/CorePort code: the field option is absent and a saved
 field preference starts Bots. This probe is distinct from a player-template boot:
 the pinned stock templates disable `--script` overrides, so an external script
-cannot run inside them. The source tests exercise the enabled UI choice path.
+cannot run inside them ([Godot command-line reference](https://docs.godotengine.org/en/latest/tutorials/editor/command_line_tutorial.html)). The source tests exercise the enabled UI choice path.
+
+The final shared-lock, 3G-capped **full gate passed: 1,726 Godot tests and 69
+Python tests**, with all format, lint, content, import, compile and parity checks.
+[Gate log](evidence/strong-field/review-gate.log) and
+[verification/provenance manifest](evidence/strong-field/review-verification.json).
+Gameplay content, `combat.gd` and the existing harness `bench.gd` are unchanged
+against `9af89c2`. No large library is tracked in Git.
+
+## Current review smoke
+
+On `6278c4a`, seed **71**, `field_strength=top4`, using the measured baseline
+library: a fresh **tools/play game reached `game_over` in round 10, eighth place**.
+The driver took 34 legal choose/buy/play/tier/end actions after game creation. It
+filled the board, tiered and ended turns through `tools/play/play.sh`; it did not
+alter boards or recruit through a bot shortcut. This is a launch/save/replay smoke,
+not another Hard strength measurement.
+
+[Action log](evidence/strong-field/review-smoke.log),
+[pinned save](evidence/strong-field/review-smoke.game.json), and
+[complete result and game log](evidence/strong-field/review-smoke.result.json).
+The save refers to the uncommitted measurement library, whose hash is in the
+comparison report; retain or regenerate that exact library to replay it.
+
+A small progression table from that log (all rivals are also in the
+[CSV](evidence/strong-field/review-smoke-board-sizes.csv)):
+
+| Round | Rival 1 active Attack + Health | Switch |
+| --- | ---: | --- |
+| 1 | 3 | No |
+| 2 | 7 | No |
+| 3 | 15 | No |
+| 4 | 26 | No |
+| 5 | 34 | No |
+| 6 | 51 | No |
+| 7 | 59 | No |
+| 8 | 91 | No |
+| 9 | 103 | No |
+| 10 | 115 | No |
+
+There are **no trajectory switches for any rival or the ghost in this smoke**,
+so there is no switch-associated jump or shrink to assess here. The historical
+seed-72 example below records an actual switch and its size jump. Current forced
+switch tests cover selection, exclusions and persistent Health; the 40-game table
+above measures how often switches occur under the new strength filter.
+
+The corrected [export smoke](evidence/strong-field/review-export.log) passed Linux,
+Windows and Android APK exports. All packs include levers and exclude field
+libraries. The [packed UI probe](evidence/strong-field/review-packed-ui.log) passed
+manifest validation and feature-off preference fallback. The **actual Windows
+executable booted under Wine and exited 0** after reaching the main scene:
+[Windows boot log](evidence/strong-field/review-windows-boot.log). This is a headless
+runtime smoke, not a Windows screenshot or a field-game launch in a player build.
+The initial APK attempt hit a temporary-file disk quota; the successful run used
+worktree-local temporary/cache directories. The first unsupported template-script
+probe was replaced with the explicit packed-editor probe described above.
 
 ## Readings
 

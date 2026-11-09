@@ -1,0 +1,102 @@
+$ tools/play/play.sh new --seed 71 --field-library res://build/strong-field/measurement-library.json --field-strength top4 --save /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json --json
+R0 hero_choice tier=1 health=40 gold=0
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json choose 0 --json
+R1 recruit tier=1 health=40 gold=3
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R1 recruit tier=1 health=40 gold=0
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 F1 --json
+R1 recruit tier=1 health=40 gold=0
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R2 recruit tier=1 health=39 gold=4
+fight {"round": 1, "opponent_id": 2, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R2 recruit tier=1 health=39 gold=1
+fight {"round": 1, "opponent_id": 2, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 F2 --json
+R2 recruit tier=1 health=39 gold=1
+fight {"round": 1, "opponent_id": 2, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R3 recruit tier=1 health=39 gold=7
+fight {"round": 2, "opponent_id": 6, "winner": 0, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R3 recruit tier=1 health=39 gold=4
+fight {"round": 2, "opponent_id": 6, "winner": 0, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 F3 --json
+R3 recruit tier=1 health=39 gold=4
+fight {"round": 2, "opponent_id": 6, "winner": 0, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R3 recruit tier=1 health=39 gold=1
+fight {"round": 2, "opponent_id": 6, "winner": 0, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 F2 --json
+R3 recruit tier=1 health=39 gold=1
+fight {"round": 2, "opponent_id": 6, "winner": 0, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R4 recruit tier=1 health=38 gold=7
+fight {"round": 3, "opponent_id": 7, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R4 recruit tier=1 health=38 gold=4
+fight {"round": 3, "opponent_id": 7, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 F3 --json
+R4 recruit tier=1 health=38 gold=4
+fight {"round": 3, "opponent_id": 7, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R4 recruit tier=1 health=38 gold=1
+fight {"round": 3, "opponent_id": 7, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 F4 --json
+R4 recruit tier=1 health=38 gold=1
+fight {"round": 3, "opponent_id": 7, "winner": 1, "damage": 1}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R5 recruit tier=1 health=34 gold=8
+fight {"round": 4, "opponent_id": 3, "winner": 1, "damage": 4}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R5 recruit tier=1 health=34 gold=5
+fight {"round": 4, "opponent_id": 3, "winner": 1, "damage": 4}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 B1 --json
+R5 recruit tier=1 health=34 gold=5
+fight {"round": 4, "opponent_id": 3, "winner": 1, "damage": 4}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R5 recruit tier=1 health=34 gold=2
+fight {"round": 4, "opponent_id": 3, "winner": 1, "damage": 4}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 B2 --json
+R5 recruit tier=1 health=34 gold=2
+fight {"round": 4, "opponent_id": 3, "winner": 1, "damage": 4}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R6 recruit tier=1 health=31 gold=10
+fight {"round": 5, "opponent_id": 2, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json buy 0 --json
+R6 recruit tier=1 health=31 gold=7
+fight {"round": 5, "opponent_id": 2, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json play 0 B3 --json
+R6 recruit tier=1 health=31 gold=7
+fight {"round": 5, "opponent_id": 2, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json tier --json
+R6 recruit tier=2 health=31 gold=7
+fight {"round": 5, "opponent_id": 2, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json tier --json
+R6 recruit tier=3 health=31 gold=0
+fight {"round": 5, "opponent_id": 2, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R7 recruit tier=3 health=28 gold=9
+fight {"round": 6, "opponent_id": 4, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json tier --json
+R7 recruit tier=4 health=28 gold=2
+fight {"round": 6, "opponent_id": 4, "winner": 1, "damage": 3}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R8 recruit tier=4 health=21 gold=12
+fight {"round": 7, "opponent_id": 6, "winner": 1, "damage": 7}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json tier --json
+R8 recruit tier=5 health=21 gold=2
+fight {"round": 7, "opponent_id": 6, "winner": 1, "damage": 7}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R9 recruit tier=5 health=14 gold=12
+fight {"round": 8, "opponent_id": 1, "winner": 1, "damage": 7}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json tier --json
+R9 recruit tier=6 health=14 gold=0
+fight {"round": 8, "opponent_id": 1, "winner": 1, "damage": 7}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R10 recruit tier=6 health=5 gold=10
+fight {"round": 9, "opponent_id": 2, "winner": 1, "damage": 9}
+$ tools/play/play.sh /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/strong-field/review-smoke.game.json end --json
+R10 game_over tier=6 health=-3 gold=10
+fight {"round": 10, "opponent_id": 3, "winner": 1, "damage": 8}
+COMPLETE {"round": 10, "health": -3, "field_strength": "top4", "actions": 34}
