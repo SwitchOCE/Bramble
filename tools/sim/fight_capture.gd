@@ -66,24 +66,14 @@ static func record(
 			end = event
 	var snapshots: Array = []
 	for side: int in 2:
-		var units: Array = []
-		var active_stats: int = 0
-		var largest: int = 0
 		var views: Array = start["boards"][side]
+		var snapshot: Dictionary = _active_snapshot(views)
+		var units: Array = snapshot["units"]
 		var board: Array = input["boards"][side]
 		var rules: Dictionary = input["fight_rules"][side]
 		for slot: int in views.size():
 			if views[slot] == null:
 				continue
-			var view: Dictionary = views[slot]
-			var unit: Dictionary = view.duplicate(true)
-			unit["location"] = "egg" if unit["def_id"] == HeldUnits.EGG else "board"
-			unit["slot"] = slot
-			unit["active"] = true
-			units.append(unit)
-			var stats: int = CoreUtil.to_int(unit["attack"]) + CoreUtil.to_int(unit["health"])
-			active_stats += stats
-			largest = maxi(largest, stats)
 			var spec: Dictionary = board[slot]
 			_held(units, spec, slot, library)
 		for nest: Dictionary in rules.get("nests", []):
@@ -91,16 +81,12 @@ static func record(
 			var bird: Dictionary = _reserve(spec, "away", library)
 			bird["slot"] = nest["slot"]
 			units.append(bird)
-		(
-			snapshots
-			. append(
-				{
-					"units": units,
-					"active_stats": active_stats,
-					"largest_share": float(largest) / active_stats if active_stats > 0 else 0.0,
-				}
-			)
-		)
+		snapshots.append(snapshot)
+	var after_start: Array = []
+	if combat is CaptureCombat:
+		var observed: CaptureCombat = combat
+		for views: Array in observed.after_start:
+			after_start.append(_active_snapshot(views))
 	var outcome: Dictionary = result.duplicate(true)
 	outcome.erase("events")
 	var survivors: Array = end.get("survivors", [])
@@ -124,6 +110,7 @@ static func record(
 	return {
 		"input": input.duplicate(true),
 		"combat_start": snapshots,
+		"after_start_effects": after_start,
 		"result": outcome,
 		"events_sha256": canonical(result["events"]).sha256_text(),
 		"survivors": survivors.duplicate(true),
@@ -170,3 +157,26 @@ static func _reserve(spec: Dictionary, location: String, library: UnitLibrary) -
 	# Reserve bodies have no board aura or Ring. Their actual entry stats depend on release.
 	out["aura_scope"] = "off_board"
 	return out
+
+
+static func _active_snapshot(views: Array) -> Dictionary:
+	var units: Array = []
+	var total: int = 0
+	var largest: int = 0
+	for slot: int in views.size():
+		if views[slot] == null:
+			continue
+		var view: Dictionary = views[slot]
+		var unit: Dictionary = view.duplicate(true)
+		unit["location"] = "egg" if unit["def_id"] == HeldUnits.EGG else "board"
+		unit["slot"] = slot
+		unit["active"] = true
+		units.append(unit)
+		var stats: int = CoreUtil.to_int(unit["attack"]) + CoreUtil.to_int(unit["health"])
+		total += stats
+		largest = maxi(largest, stats)
+	return {
+		"units": units,
+		"active_stats": total,
+		"largest_share": float(largest) / total if total > 0 else 0.0,
+	}

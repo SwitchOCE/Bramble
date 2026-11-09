@@ -1,3 +1,5 @@
+# gdlint:disable=class-variable-name
+# REGISTRY is the existing public API; profile tables can now extend it at run time.
 class_name BenchSuites
 extends RefCounted
 ## Who sits where in each bench suite. Seats depend only on the suite and the game seed, so a run
@@ -22,7 +24,7 @@ const LOBBIES: Dictionary = {
 ## script unchanged while evaluating a candidate. Both receive the normal lobby build deal.
 const BEST_BRAIN: GDScript = preload("res://src/core/bots/bot_brain.gd")
 const FREE_CHOICE_BRAIN := preload("res://tools/sim/free_choice.gd")
-const REGISTRY: Dictionary = {
+const BASE_REGISTRY: Dictionary = {
 	"hard": {"profile": "hard", "script": BEST_BRAIN},
 	"hard_stream":
 	{
@@ -39,12 +41,28 @@ const REGISTRY: Dictionary = {
 const SEATS: int = 8
 ## Test bot: a strategy that plays badly on purpose, proving the report catches a weak line.
 const PLANTED: String = "plant_bad"
+static var REGISTRY: Dictionary = _registry()
+
+
+static func _registry() -> Dictionary:
+	var out: Dictionary = BASE_REGISTRY.duplicate()
+	var LineScript: GDScript = preload("res://tools/sim/line_brain.gd")
+	for id: String in LinePolicies.profiles():
+		out[id] = {"profile": "hard@blind", "script": LineScript}
+	for id: String in ["line_tempo", "line_engine"]:
+		out[id] = {"profile": "hard@blind", "script": LineScript}
+	return out
+
+
+static func reload_lines(path: String) -> void:
+	LinePolicies.load_profiles(path)
+	REGISTRY = _registry()
 
 
 static func is_known(suite: String) -> bool:
 	return (
 		_has_focus(suite)
-		or suite in ["spread", "plant", "head_to_head", "free_choice", "free_choice_plain"]
+		or suite in ["spread", "plant", "head_to_head", "free_choice", "free_choice_plain", "lines"]
 	)
 
 
@@ -61,6 +79,23 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
+	if suite in ["lines", "line_tune"]:
+		var line_order: Array = [
+			"line_tempo:varied",
+			"line_engine:varied",
+			"line_tempo:varied",
+			"line_engine:varied",
+			"line_tempo:varied",
+			"line_engine:varied",
+			"line_tempo:varied",
+			"line_fast",
+		]
+		var line_rng := RandomNumberGenerator.new()
+		line_rng.seed = ("lines|%d" % game_seed).hash()
+		_shuffle(line_order, line_rng)
+		if suite == "line_tune":
+			line_order[focus_seat(suite, game_seed)] = candidate
+		return PackedStringArray(line_order)
 	if suite == "head_to_head":
 		var paired: PackedStringArray = []
 		var sides: Array[int] = candidate_seats(game_seed, leg)
@@ -106,7 +141,7 @@ static func focus_seat(suite: String, game_seed: int) -> int:
 
 
 static func _has_focus(suite: String) -> bool:
-	return LADDER.has(suite) or LOBBIES.has(suite)
+	return LADDER.has(suite) or LOBBIES.has(suite) or suite == "line_tune"
 
 
 static func _strategy_names() -> Array:
@@ -156,6 +191,9 @@ static func create_bot(bot_name: String) -> Bot:
 		resolved += "@" + bot_name.get_slice("@", 1)
 	var brain_script: GDScript = entry["script"]
 	var brain: BotBrain = BotBrain.from_name(resolved, brain_script)
+	if brain is LineBrain:
+		var line_brain: LineBrain = brain
+		line_brain.configure_line(LinePolicies.resolve(alias, strategy))
 	if alias == "free_choice_plain":
 		brain.value = preload("res://tools/sim/plain_eval.gd").new()
 		brain.value.level = brain.level

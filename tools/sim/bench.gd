@@ -16,7 +16,8 @@ var _options: Dictionary = {
 	"incumbent": "hard",
 	"trace": "off",
 	"profile": "off",
-	"capture": "off"
+	"capture": "off",
+	"lines": ""
 }
 var _library: UnitLibrary
 var _files: Dictionary = {}
@@ -28,6 +29,7 @@ var _leg: int = 0
 var _observed_players: Dictionary = {}
 var _capture: Dictionary = {}
 var _game_seed: int = 0
+var _active_session: GameSession
 
 
 func _initialize() -> void:
@@ -38,6 +40,8 @@ func _initialize() -> void:
 			quit(2)
 			return
 		_options[parts[0]] = parts[1]
+	if str(_options["lines"]) != "":
+		BenchSuites.reload_lines(str(_options["lines"]))
 	if (
 		not BenchSuites.REGISTRY.has(_options["candidate"])
 		or not BenchSuites.REGISTRY.has(_options["incumbent"])
@@ -131,15 +135,18 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 	var session: GameSession = GameSession.create(
 		game_seed, _library, config, BenchSuites.create_bot
 	)
+	_active_session = session
 	session.fight_observer = _on_fight
 	if _files.has("fight_trace"):
 		session.fight_capture_observer = _on_capture
+		session.combat_factory = CaptureCombat.instrument
 	session.turn_observer = _on_turn.bind(suite, game_seed)
 	var turns: int = 0
 	while not session.is_over() and turns < MAX_TURNS:
 		session.end_turn()
 		turns += 1
 	_write_game(suite, game_seed, session, seats)
+	_active_session = null
 
 
 func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
@@ -161,7 +168,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 						"health": player.health,
 						"armor": player.armor,
 						"last_stand_used": player.last_stand_used,
-						"line": _current_seats[id],
+						"line": _active_session.build_of(id),
 					}
 				)
 			)

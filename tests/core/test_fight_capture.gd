@@ -19,6 +19,7 @@ func _session(mode: String) -> GameSession:
 	config.set_value("bots", ["balanced"])
 	var session := GameSession.create(891, _library, config)
 	session.fight_capture_observer = _capture
+	session.combat_factory = CaptureCombat.instrument
 	return session
 
 
@@ -55,6 +56,13 @@ func test_slots_auras_eggs_bellies_away_birds_and_hero_effects_survive_capture()
 	session._round = 8
 	session._fight(0, 1, 7)
 	assert_eq(_records.size(), 1)
+	var before: Dictionary = _records[0]["combat_start"][1]["units"][0]
+	var after: Dictionary = _records[0]["after_start_effects"][1]["units"][0]
+	assert_eq(
+		CoreUtil.to_int(after["attack"]),
+		CoreUtil.to_int(before["attack"]) + 1,
+		"Lollop start effect is captured"
+	)
 	var recorded: Dictionary = _records[0]
 	var input: Dictionary = recorded["input"]
 	assert_false(input["hero_effects"][0].is_empty())
