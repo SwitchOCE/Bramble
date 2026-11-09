@@ -257,3 +257,10 @@ runs. For large coordinator merges, use disk-backed temporary storage: this
 machine's `/tmp` quota was too small for decompressed captures. The successful
 merge used `TMPDIR=$PWD/build/sim/caps-screen-fixed/tmp` after creating that
 directory. This changes storage only; the frozen inputs and sample are unchanged.
+
+The first global caps-off field-round shard also passes on a detached fresh
+checkout with no prior Godot import cache: **32,256 fights in 211.1 seconds**
+including import, validation and output archiving. Its result matches the sealed
+manifest and field bundle and is admitted as the actual round-6 screening shard,
+not an extra sample. Checkpoint: `21a9b82`. Remaining fields and then the frozen
+strength comparisons continue sequentially in the bounded background pipeline.
