@@ -3,6 +3,7 @@ extends GutTest
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
@@ -149,3 +150,71 @@ func test_granted_quarry_and_mire_use_the_printed_keyword_frame_marks() -> void:
 	tile.show_unit(view, CardView.Mode.BOARD)
 	var marks: CombatFace = tile.get("_combat_marks")
 	assert_eq(marks.marked_keywords, PackedStringArray(["Quarry", "Mire"]))
+
+
+func test_configured_kiss_pips_read_initial_and_replayed_state_at_both_sizes() -> void:
+	for tile_size: Vector2 in [Vector2(96, 116), Vector2(200, 216)]:
+		var tile: CardView = _card()
+		var view: Dictionary = tile.unit.duplicate(true)
+		view["counters"] = {"kisses": 4}
+		view["bog_kiss_period"] = 5
+		tile.show_unit(view, CardView.Mode.BOARD)
+		tile.set_card_size(tile_size)
+		var marks: CombatFace = tile.get("_combat_marks")
+		assert_eq(marks.kiss_count, 4)
+		assert_eq(marks.kiss_period, 5)
+		assert_eq(marks.kiss_progress, 4)
+		assert_eq(marks.kiss_pips.size(), 5)
+		assert_eq(tile.chip_shown, "")
+		for pip: Vector2 in marks.kiss_pips:
+			assert_true(Rect2(Vector2.ZERO, tile_size).has_point(pip))
+		tile.set_kisses(5, 5)
+		assert_eq(marks.kiss_count, 5, "replay replaces initial nested counter")
+		assert_eq(marks.kiss_progress, 0, "a full period starts a fresh wordless row")
+		assert_string_contains(CardDetail.full_text_bbcode(tile.unit), "Shared kisses: 5 (0/5)")
+		tile.set_kisses(7, 3)
+		assert_eq(marks.kiss_pips.size(), 3)
+		assert_eq(marks.kiss_progress, 1)
+
+
+func test_kiss_pips_accept_both_top_level_fields_and_default_period() -> void:
+	var tile: CardView = _card()
+	for field: String in ["kisses", "recruit_kisses"]:
+		var view: Dictionary = tile.unit.duplicate(true)
+		view.erase("kisses")
+		view.erase("recruit_kisses")
+		view[field] = 4
+		tile.show_unit(view, CardView.Mode.BOARD)
+		var marks: CombatFace = tile.get("_combat_marks")
+		assert_eq(marks.kiss_count, 4, field)
+		assert_eq(marks.kiss_period, 3, field)
+		assert_eq(marks.kiss_progress, 1, field)
+
+
+func test_pending_hourglass_refreshes_without_labels_and_stays_clear_of_other_marks() -> void:
+	for tile_size: Vector2 in [Vector2(96, 116), Vector2(200, 216)]:
+		var tile: CardView = _card()
+		tile.set_card_size(tile_size)
+		tile.set_kisses(4, 5)
+		var marks: CombatFace = tile.get("_combat_marks")
+		assert_false(marks.pending_visible)
+		for gains: Vector2i in [Vector2i(0, 5), Vector2i(7, 0), Vector2i(123456, 1234567)]:
+			tile.set_pending_gains(gains.x, gains.y)
+			assert_true(marks.pending_visible)
+			assert_eq(marks.pending_attack, gains.x)
+			assert_eq(marks.pending_health, gains.y)
+			var numeric_tag: Control = tile.get("_pending_tag")
+			assert_false(numeric_tag.visible)
+			assert_eq(
+				tile.pending_gain_point(),
+				marks.get_global_transform() * marks.pending_rect.get_center()
+			)
+			assert_true(Rect2(Vector2.ZERO, tile_size).encloses(marks.pending_rect))
+			for key: String in ["_attack_badge", "_health_badge"]:
+				var badge: Control = tile.get(key)
+				assert_false(marks.pending_rect.intersects(badge.get_rect()), key)
+			assert_false(marks.pending_rect.intersects(marks.glyph.get_rect()))
+			for pip: Vector2 in marks.kiss_pips:
+				assert_false(marks.pending_rect.grow(7).has_point(pip))
+		tile.set_pending_gains(0, 0)
+		assert_false(marks.pending_visible)

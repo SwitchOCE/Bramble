@@ -363,7 +363,11 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 		)
 	if view.has("bog_kiss_period"):
 		var period: int = maxi(1, Data.i(view, "bog_kiss_period"))
-		var count: int = Data.i(view, "recruit_kisses", Data.i(Data.d(view, "counters"), "kisses"))
+		var count: int = Data.i(
+			view,
+			"kisses",
+			Data.i(view, "recruit_kisses", Data.i(Data.d(view, "counters"), "kisses"))
+		)
 		lines.append("[b]Shared kisses: %d (%d/%d).[/b]" % [count, count % period, period])
 	elif view.has("recruit_kisses"):
 		lines.append(

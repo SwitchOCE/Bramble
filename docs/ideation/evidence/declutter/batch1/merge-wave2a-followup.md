@@ -59,3 +59,47 @@ its recipient landing, and Counter's ordered self-gain/answer cue.
 Targeted `test_combat_declutter.gd`: **31/31, 273 assertions, 5.06 s**;
 strict hook passes (`build/declutter/motion4d-test_combat_declutter.log`). Source
 formatting/lint pass. No rule text was added to the resting board.
+
+## Part 3: wordless wave 2a state and source cues
+
+Kiss pips read the configured period, initial nested counters and replayed shared
+count, with modulo progress. The reader keeps the exact cumulative count/period.
+Pending gains use a folded hourglass mark on a live combat card, with colored
+Attack/Health dots and a source-to-tag transfer. A dead recipient instead keeps its
+reserve portrait and queued numeric pair. Recruit's numeric tag is unchanged.
+Bog Toll collects from its source unit into a moss/splash numeric badge on that
+side's hero; the hero reader retains the exact total. This is retained Bog state,
+not additional hero damage. Replay clears Toll and recreates the motion state.
+
+The source-cue test covers Mire patch, Take, legacy Poach, native Russet's trigger,
+Pack's trigger, Pounce, Counter, Quarry marked, Kiss, Prince transform and Bog
+hit-back in both motion modes. Mire makers, Kiss frogs and transforming Princes
+now also receive held source rings. Existing generic trigger pulses cover native
+Hunter/Bog observers. Pack leader/joiner poses are covered by Part 2. Pounce timing
+and the definitions of Pack/Mire remain Batch 4 Rules/tutorial inputs, following
+the orchestrator's DECISIONS call; the board adds no rule captions.
+
+Changed files: `src/ui/screens/combat_wave_motion.gd` (+UID), `combat_motion.gd`,
+`combat_screen.gd`, `src/ui/widgets/card_view.gd`, `combat_face.gd`, `card_detail.gd`,
+`tests/ui/test_combat_wave2a.gd` (+UID), `test_combat_face.gd`,
+`test_pending_gains_ui.gd`, and this note. Combat pending-gain tests previously
+asserted the numeric tag: they now require the visible hourglass, hidden numeric
+combat tag, exact queued state, clear stat badges and exact open-reader values.
+Dying-card checks likewise assert the mark and reader. Recruit chip/numeric-tag
+checks remain intact; no word-chip check was weakened to mere absence.
+
+All following targeted files pass, with the strict hook and no script errors or
+risky/pending tests. Logs: `build/declutter/wave3-<file>.log`; detached job log:
+`build/declutter/wave3-targeted-job.log` (`wave_targeted_complete`).
+
+| Targeted UI test file | Tests passed | GUT time |
+| --- | ---: | ---: |
+| `test_combat_wave2a.gd` | 4 | 1.771s |
+| `test_combat_face.gd` | 11 | 0.44s |
+| `test_pending_gains_ui.gd` | 7 | 2.506s |
+| `test_combat_declutter.gd` | 31 | 5.073s |
+| `test_pass3_bog_ui.gd` | 5 | 0.981s |
+| `test_review_bog_preview.gd` | 5 | 10.105s |
+| `test_pass3_ui.gd` | 10 | 2.768s |
+| `test_cards.gd` | 16 | 3.533s |
+| `test_review_tribes56_log.gd` | 9 | 4.072s |

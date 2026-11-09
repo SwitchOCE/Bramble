@@ -419,7 +419,7 @@ func change(event: Dictionary, animate: bool) -> void:
 		"kiss":
 			var point: Vector2 = _last_death()
 			_mote(point, card.get_global_rect().get_center(), "heart", UiTheme.HEALTH)
-			_pulse(card.trigger_glyph())
+			_source_pulse(uid)
 
 
 func _hero_stat_effect(card: CardView, event: Dictionary) -> void:
@@ -792,6 +792,8 @@ func gulp(event: Dictionary, animate: bool) -> void:
 
 
 func cue(event: Dictionary, animate: bool) -> void:
+	if animate and Data.s(event, "type") == "transform":
+		_source_pulse(Data.i(event, "target", -1))
 	if animate and Data.s(event, "type") == "mire_wait":
 		var waiting: int = Data.i(event, "uid", -1)
 		var unit: CardView = _card(waiting)
@@ -863,6 +865,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 			var source: CardView = _card(Data.i(event, "maker", _source))
 			var key: String = "hex" if Data.s(event, "type") == "slot_hex" else "splash"
 			if source != null:
+				_source_pulse(source.uid())
 				_mote(
 					source.get_global_rect().get_center(),
 					point,

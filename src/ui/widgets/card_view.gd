@@ -342,6 +342,7 @@ func set_pending_gains(attack: int, health: int) -> void:
 
 
 func set_kisses(count: int, period: int) -> void:
+	unit["kisses"] = count
 	unit["recruit_kisses"] = count
 	unit["bog_kiss_period"] = period
 	_refresh_chip(is_spell(unit))
@@ -726,11 +727,19 @@ func _refresh_stats() -> void:
 	_refresh_combat_marks()
 
 
-## Only the queued numbers occupy the portrait; the existing one-tap reader explains timing.
+## The transfer lands on the same queued-gain mark in recruit and combat.
+func pending_gain_point() -> Vector2:
+	if combat_face:
+		return _combat_marks.get_global_transform() * _combat_marks.pending_rect.get_center()
+	return _pending_tag.get_global_rect().get_center()
+
+
+## Recruit keeps numbers; fight faces show the wordless waiting tag.
 func _refresh_pending() -> void:
 	var attack: int = Data.i(unit, "pending_attack")
 	var health: int = Data.i(unit, "pending_health")
-	_pending_tag.visible = mode == Mode.BOARD and (attack != 0 or health != 0)
+	_refresh_combat_marks()
+	_pending_tag.visible = not combat_face and mode == Mode.BOARD and (attack != 0 or health != 0)
 	if not _pending_tag.visible:
 		return
 	var font: Font = _pending_label.get_theme_font("font")

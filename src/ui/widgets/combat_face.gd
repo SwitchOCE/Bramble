@@ -17,9 +17,17 @@ var counter_kind: String = ""
 var glyph_kind: String = ""
 var marked_keywords: PackedStringArray = []
 var marked_statuses: PackedStringArray = []
+var kiss_count: int = 0
+var kiss_period: int = 3
+var kiss_progress: int = 0
+var kiss_pips: Array[Vector2] = []
+var pending_visible: bool = false
+var pending_attack: int = 0
+var pending_health: int = 0
+var pending_rect: Rect2
 
-var _view: Dictionary = {}
-var _combat: bool = false
+var _kiss_radius: float = 5.0
+
 var _attack: Rect2
 var _health: Rect2
 var _counter_rect: Rect2
@@ -43,11 +51,34 @@ func _init() -> void:
 func setup(
 	view: Dictionary, tile_size: Vector2, in_combat: bool, attack: Rect2, health: Rect2
 ) -> void:
-	_view = view
 	size = tile_size
-	_combat = in_combat
 	_attack = attack
 	_health = health
+	kiss_period = maxi(1, Data.i(view, "bog_kiss_period", 3))
+	kiss_count = Data.i(
+		view, "kisses", Data.i(view, "recruit_kisses", Data.i(Data.d(view, "counters"), "kisses"))
+	)
+	kiss_progress = posmod(kiss_count, kiss_period)
+	kiss_pips.clear()
+	if (
+		in_combat
+		and (
+			view.has("kisses")
+			or view.has("recruit_kisses")
+			or Data.d(view, "counters").has("kisses")
+			or view.has("bog_kiss_period")
+		)
+	):
+		var spacing: float = minf(22.0, (size.x - 16.0) / kiss_period)
+		_kiss_radius = minf(5.0, spacing * 0.3)
+		for index: int in kiss_period:
+			kiss_pips.append(
+				Vector2(size.x / 2.0 + (index - (kiss_period - 1) / 2.0) * spacing, 15)
+			)
+	pending_attack = Data.i(view, "pending_attack")
+	pending_health = Data.i(view, "pending_health")
+	pending_visible = in_combat and (pending_attack != 0 or pending_health != 0)
+	pending_rect = Rect2(Vector2((size.x - 42.0) / 2.0, 33.0), Vector2(42, 38))
 	marked_keywords.clear()
 	marked_statuses.clear()
 	for entry: Variant in Data.a(view, "statuses"):
@@ -179,8 +210,10 @@ func _draw() -> void:
 		_draw_claw()
 	if "Swoop" in marked_keywords:
 		_draw_wing()
-	if _combat and _view.has("kisses"):
+	if not kiss_pips.is_empty():
 		_draw_kisses()
+	if pending_visible:
+		_draw_pending()
 	if counter.visible:
 		_draw_counter()
 
@@ -235,11 +268,46 @@ func _draw_fang(at: Vector2) -> void:
 
 
 func _draw_kisses() -> void:
-	var count: int = Data.i(_view, "kisses", Data.i(_view, "recruit_kisses"))
-	for index: int in 3:
-		var at: Vector2 = Vector2(size.x / 2.0 + (index - 1) * 22, 15)
-		draw_circle(at, 8, UiTheme.INK)
-		draw_circle(at, 5, UiTheme.HEALTH if index < count else UiTheme.CREAM)
+	for index: int in kiss_pips.size():
+		var at: Vector2 = kiss_pips[index]
+		draw_circle(at, _kiss_radius + 2.0, UiTheme.INK)
+		draw_circle(at, _kiss_radius, UiTheme.HEALTH if index < kiss_progress else UiTheme.CREAM)
+
+
+## Folded waiting tag: the hourglass signals later, dots identify the queued stats.
+func _draw_pending() -> void:
+	var at: Vector2 = pending_rect.position
+	var outline: PackedVector2Array = [
+		at, at + Vector2(32, 0), at + Vector2(42, 10), at + Vector2(42, 38), at + Vector2(0, 38), at
+	]
+	draw_colored_polygon(outline, UiTheme.CREAM)
+	draw_polyline(outline, UiTheme.INK, 2.0, true)
+	draw_polyline(
+		PackedVector2Array([at + Vector2(32, 0), at + Vector2(32, 10), at + Vector2(42, 10)]),
+		UiTheme.INK,
+		2.0,
+		true
+	)
+	var center: Vector2 = at + Vector2(21, 14)
+	draw_line(center + Vector2(-7, -7), center + Vector2(7, -7), UiTheme.INK, 2.0, true)
+	draw_line(center + Vector2(-7, 7), center + Vector2(7, 7), UiTheme.INK, 2.0, true)
+	draw_polyline(
+		PackedVector2Array(
+			[
+				center + Vector2(-6, -6),
+				center + Vector2(6, 6),
+				center + Vector2(-6, 6),
+				center + Vector2(6, -6)
+			]
+		),
+		UiTheme.INK,
+		2.0,
+		true
+	)
+	if pending_attack != 0:
+		draw_circle(at + Vector2(14, 30), 4, UiTheme.ACORN)
+	if pending_health != 0:
+		draw_circle(at + Vector2(28, 30), 4, UiTheme.HEALTH)
 
 
 func _draw_counter() -> void:

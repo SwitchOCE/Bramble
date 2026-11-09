@@ -29,6 +29,7 @@ const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
 const CombatLanesView := preload("res://src/ui/screens/combat_lanes_view.gd")
 const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
+const WaveMotion := preload("res://src/ui/screens/combat_wave_motion.gd")
 
 const CANVAS_H: float = 1080.0
 const POCKET: float = 189.0
@@ -234,10 +235,16 @@ func _layout() -> void:
 
 func restart() -> void:
 	_kill_tweens()
+	_motion = CombatMotion.new(self)
 	model = CombatModel.new()
 	for board: BoardView in _boards:
 		board.clear_highlights()
 		board.clear()
+	for plaque: Control in _plaques:
+		var toll: Node = plaque.get_node_or_null("BogToll")
+		if toll != null:
+			plaque.remove_child(toll)
+			toll.queue_free()
 	_cards.clear()
 	_log.clear()
 	_log.set_title(_title)
@@ -437,6 +444,9 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 				)
 		"gain_pending":
 			_sync_unit(Data.i(event, "target", -1))
+			WaveMotion.present(self, event, animate)
+		"bog_toll", "bog_pull", "bog_bind", "bog_hit_back":
+			WaveMotion.present(self, event, animate)
 		"death":
 			_death(Data.i(event, "uid", -1), animate)
 			if animate:
@@ -588,8 +598,9 @@ func _show_detail(uid: int) -> void:
 			notes.append("Quarry of: " + Data.s(hunter, "name"))
 	if Data.i(view, "held") > 0:
 		notes.append("Held: %d" % Data.i(view, "held"))
-	if Data.i(view, "kisses") > 0:
-		notes.append("Kisses: %d/3" % Data.i(view, "kisses"))
+	if view.has("kisses"):
+		var period: int = maxi(1, Data.i(view, "bog_kiss_period", 3))
+		notes.append("Kisses: %d/%d" % [Data.i(view, "kisses") % period, period])
 	_note_text.append_text("\n" + "\n".join(notes))
 
 
@@ -659,7 +670,7 @@ func _show_hero(side: int) -> void:
 		{
 			"name": _log_text.side_names[side],
 			"def_id": Data.s(hero, "id"),
-			"text": Data.s(hero, "text"),
+			"text": Data.s(hero, "text") + CombatLanesView.bog_summary(model, side),
 			"type_word": "Hero"
 		}
 	)
