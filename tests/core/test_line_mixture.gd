@@ -63,7 +63,14 @@ func test_mixture_preserves_the_available_tribe_deal_at_every_seat() -> void:
 
 func test_mixture_is_only_accepted_as_a_head_to_head_composition() -> void:
 	assert_true(BenchSuites.is_candidate(BenchSuites.LINE_MIXTURE, "head_to_head"))
+	assert_true(BenchSuites.is_candidate(BenchSuites.TRIBAL_MIXTURE, "head_to_head"))
 	assert_false(BenchSuites.is_candidate(BenchSuites.LINE_MIXTURE, "line_tune"))
+	assert_eq(BenchSuites.comparison_kind(BenchSuites.TRIBAL_MIXTURE, "hard_field"), "promotion")
+	assert_eq(BenchSuites.comparison_kind("hard_field", BenchSuites.TRIBAL_MIXTURE), "promotion")
+	assert_eq(
+		BenchSuites.comparison_kind(BenchSuites.TRIBAL_MIXTURE, BenchSuites.TRIBAL_MIXTURE),
+		"bookkeeping"
+	)
 	assert_eq(BenchSuites.comparison_kind(BenchSuites.LINE_MIXTURE, "hard"), "promotion")
 	assert_eq(
 		BenchSuites.comparison_kind(BenchSuites.LINE_MIXTURE, BenchSuites.LINE_MIXTURE),

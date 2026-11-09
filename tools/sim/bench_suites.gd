@@ -241,7 +241,7 @@ static func create_bot(bot_name: String) -> Bot:
 static func comparison_kind(candidate: String, incumbent: String) -> String:
 	if candidate == incumbent:
 		return "bookkeeping"
-	if candidate == LINE_MIXTURE or incumbent == LINE_MIXTURE:
+	if candidate in [LINE_MIXTURE, TRIBAL_MIXTURE] or incumbent in [LINE_MIXTURE, TRIBAL_MIXTURE]:
 		return "promotion"
 	var entry: Dictionary = REGISTRY[candidate]
 	var other: Dictionary = REGISTRY[incumbent]
