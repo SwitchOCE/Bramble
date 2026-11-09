@@ -165,3 +165,56 @@ bootstrap intervals are wide; these are reader checks, not population frequencie
 [per-trial outcomes](../../../tools/sim/evidence/upset-diagnostic-trials.jsonl.gz).
 The full repository gate passes 1,695 tests and 29,016 assertions; the Python
 reader and cloud-merge suites pass separately. The lever-build gate remains pending.
+
+## Portable cloud shards and caps screening plan
+
+The frozen [caps plan](../../../tools/sim/evidence/caps-screen-plan.json) and
+[sealed manifest](../../../tools/sim/evidence/caps-screen-manifest.json) declare
+150 fresh lobbies per configuration before execution: both caps disabled, size
+caps alone disabled, and rate limits alone disabled. Seed blocks are
+140001–140150, 141001–141150 and 142001–142150. Shop comparisons are unpaired.
+Each configuration has three 50-lobby shards followed by six global 64-board
+field rounds, with eight fights per orientation per pair. No protected lever
+configuration has been run; the lever-build strength gate is still pending.
+
+On a fresh checkout of `ideation/harness` containing this manifest, with the
+pinned toolchain installed at `/opt/bramble/env.sh`, run one shard with:
+
+```sh
+python3 tools/sim/sweep_shards.py run tools/sim/evidence/caps-screen-manifest.json caps-both/lobbies-000 --out results/caps-both-000
+```
+
+Other lobby IDs replace `caps-both` with `caps-size` or `caps-rate`, and replace
+`000` with `050` or `100`. Transfer each entire result directory into
+`collected-lobbies`. Build the common field inputs only after collecting all
+nine lobby shards:
+
+```sh
+python3 tools/sim/sweep_shards.py merge-lobbies tools/sim/evidence/caps-screen-manifest.json --results collected-lobbies --out field-inputs
+python3 tools/sim/sweep_shards.py run tools/sim/evidence/caps-screen-manifest.json caps-both/field-r06 --inputs field-inputs --out results/caps-both-field-r06
+python3 tools/sim/sweep_shards.py merge tools/sim/evidence/caps-screen-manifest.json --inputs field-inputs --results collected-results --out merged-caps
+```
+
+Run all six field IDs (`field-r06`, `08`, `10`, `12`, `14`, `16`) for each
+configuration, then collect their whole directories together with the lobby
+results in `collected-results`. Both merge commands use Python only. Fields are
+sampled once from the complete 150-lobby configuration, equally stratified by
+line with population weights; partial shard tournaments are not combined.
+The final merge rebuilds metrics, offline damage replay and the report, rejecting
+missing, duplicate or incompatible artifacts. Every result contains its own
+JSON metadata and portable compressed captures with hashes.
+
+Estimated time per 50-lobby shard is 2.2 minutes, plus fresh import (allow 30
+seconds) and lock wait. A 64-board field-round shard runs 32,256 fights and takes
+about 4.1 minutes plus startup. A complete configuration takes approximately 31
+minutes serially before any head comparisons. These estimates use measured local
+baseline costs of 2.5 seconds/lobby and 7.6 milliseconds/field fight; cloud timings
+must be recorded from results. Each command performs its fresh import and run
+under `/tmp/bramble-harness-godot.lock`, `MemoryMax=3G` and a hard timeout, with
+only one harness Godot running per machine.
+
+Protected configurations will use the same config × seed manifest protocol
+once their real positive lever-build gate exists. Their optional best-line and
+mixture comparisons have independent frozen seed chunks; optional upset shards
+archive all 1,024 controlled fights. Missing gates fail closed. Cloud submissions
+and pushes are left to the operator; this harness only runs the selected shard.
