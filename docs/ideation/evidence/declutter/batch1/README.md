@@ -3,9 +3,73 @@
 Baseline source: `1ecbce6` (`ideation/main`). Implementation branch: `ideation/declutter`.
 All Bramble captures are native viewport images; no third-party screenshots are committed.
 
-**Current checkpoint:** the full software gate passes **1,919/1,919 tests**, but Batch 1's
-cold-reader criterion remains unsatisfied. The third independent read is partial;
-its remaining source/effect gaps are recorded below without claiming PASS.
+**Current checkpoint:** `28c873e3` addresses the three remaining requested readings:
+relay transit, Mire wait and Counter's self-stat source. The detached targeted UI
+gate passes **396/396 tests**, 51 scripts and 14,006 assertions, with the strict hook
+passing (`build/declutter/attribution-ui.log`). No new cold reader or scoring was run;
+the orchestrator will read these strips independently. Batch 1 remains open. The
+1,919-test full gate and third independent read below are historical results for
+the preceding checkpoint, not validation of this follow-up. The full gate belongs
+on the orchestrator's merged tree.
+
+## Requested attribution follow-up
+
+The relay now has a faint complete source-to-destination route while its mote is
+in flight, with a stronger moving trail. Its arrowhead and recipient flash appear
+only on arrival; the recipient's gained-status drawing also waits until then.
+Crossing an intermediate pocket therefore produces no landing cue there. Reduce
+motion keeps a static route and likewise delays the landing cue.
+
+Mire wait clears the previous attack frame and waits for the preceding hit and
+reward to settle. It then has its own 0.9-second action beat: a self-pulse and a
+crossed-sword stamp, with a short windup/settle in normal motion and a held static
+stamp under reduce motion. Counter's self-stat change likewise waits for the hit
+to settle, starts with its own pulse, then takes an outside-card loop to its own
+changed bead (0.12-second source lead, 0.35-second transfer, then number roll).
+Counter's immediate-attack declaration no longer draws an inter-card gold link;
+its subsequent attack still has the ordinary attacker cue and lunge. Last-death
+settlement retains the existing automatic-return timing constraint.
+
+Only six matched after images were reshot: `combat_mid`, `combat_reminder` and
+`rival-fight`, each at 1688×780 and 1920×1080. Their resting pixels and label counts
+are unchanged. Five strip runs were reshot: `combat_mid-x1`, `combat_mid-x4`,
+`combat_mid-x1-reduce`, `rival-fight-x1` and `rival-fight-x4`: 124 sheets / 992 frames.
+Before captures and
+both homecoming runs are retained. The previous independent C/W findings remain
+below as history; this follow-up makes no new cold-reader PASS claim.
+
+Key affected sheets are `rival-fight-x1/opening-event-009.jpg` and its ×4 counterpart
+(relay), and `combat_mid-*/attack-045.jpg`, `attack-069.jpg` and `attack-075.jpg`
+(wait and self-stat changes). All paths are under `strips/`; the complete opening,
+attack and result sheets remain available for context.
+
+Files changed in this follow-up: `src/ui/widgets/combat_effect_path.gd`,
+`src/ui/screens/combat_motion.gd`, `src/ui/screens/combat_special_motion.gd`,
+`src/ui/screens/combat_screen.gd`, `tests/ui/test_combat_declutter.gd`,
+`tests/ui/shots/declutter_frames.gd`, `tests/ui/shots/declutter_stills.gd`, this README,
+`after/pairs.json`, and the five selected strip directories' JPEGs/manifests. The
+complete batch inventory remains below. Four UI tests cover intermediate transit,
+the separate wait beat, Counter's self-source, and status drawing/flash at arrival.
+
+The existing capture commands accept an optional final comma-separated scenario
+filter. For this follow-up append `combat_mid,combat_reminder,rival-fight` to the
+stills command and `combat_mid,rival-fight` to the frames command. The latter emits
+×1 and ×4 for both fights plus reduced-motion `combat_mid`. Selective stills merge
+only the selected entries into `after/pairs.json`; all checkpoints/seeds, fixed-step
+sampling and sheet assembly are as documented below. Logs are
+`build/declutter/attribution-{pairs,frames,assembly}.log`; the detached job log is
+`build/declutter/attribution-job3.log`.
+
+The targeted gate uses a UI-only GUT configuration (all UI subdirectories and the
+strict post-run hook). To rerun it detached after sourcing `/opt/bramble/env.sh`:
+
+```sh
+mkdir -p build/declutter
+cat >build/declutter/ui.gutconfig.json <<'JSON'
+{"dirs":["res://tests/ui"],"include_subdirs":true,"prefix":"test_","suffix":".gd","should_exit":true,"log_level":1,"hide_orphans":false,"post_run_script":"res://tools/checks/gut_strict_hook.gd"}
+JSON
+nohup /tmp/bramble-godot-slot systemd-run --user --scope -q -p MemoryMax=3G godot --headless -s addons/gut/gut_cmdln.gd -gconfig=res://build/declutter/ui.gutconfig.json >build/declutter/attribution-ui.log 2>&1 &
+```
 
 ## Matched stills and label counts
 
@@ -181,7 +245,7 @@ a partial cold read, not a Batch 1 PASS.
 The third repair is committed through `c2abbbe2`, with reshot evidence in `f30bf12f`.
 Its detached full gate **passes 1,919/1,919 tests**, 182 scripts and 42,330 assertions;
 all eleven checks and the strict hook pass (`build/declutter/gate-third.log`).
-Three new fresh readers received only the packet and current JPEGs. A separate scorer
+Three new fresh readers received only the packet and the `f30bf12f` JPEGs. A separate scorer
 checked their frozen answers against the manifests in the
 [third independent score](cold-reader-final-score.md).
 
@@ -197,7 +261,7 @@ pairs and all 62 attack-caused deaths are R. Actual final hero Health is R in al
 seven runs. Combat ×4 additionally omits the selected initiator in 045 while identifying
 both hitters correctly; that is a report coverage gap, not evidence of a missing cue.
 
-**Still open:** combat 045's waiting action remains unidentified in every mode;
+**Findings at `f30bf12f` (before the current follow-up):** combat 045's waiting action remains unidentified in every mode;
 combat 069/075's 2→4→2 Attack changes are read but their self-source is not settled.
 Rival opening 009's travelling route is read as an additional B2→bottom F2 landing,
 although its actual destination is top B1. Homecoming ×1 has one localized ambiguous
@@ -205,7 +269,7 @@ relay-source sentence in 005. Exact retained dead-fox gain values also remain un
 in ×1/reduce, while the dead-self reward and acorn route are correctly observed.
 These are retained findings; the batch is not marked complete.
 
-The next visual pass should isolate self-stat causation from the simultaneous Counter
+Those findings requested a visual pass to isolate self-stat causation from the simultaneous Counter
 attack trace, show a waiting action rather than relying on a pause stamp, and distinguish
 in-flight transit from an actual landing. A concrete relay improvement is to show an
 arrowhead only on arrival, so crossing an intermediate pocket does not look like a
@@ -420,7 +484,7 @@ floor marks and before/after hero Health. It refuses to repair a different fight
 - **Appendix reduce motion:** a held static attacker frame and direction mark supplements
   flashes because a short tint fell between samples. Static transfer directions and held
   source/target icons mark effect landings without travelling motion; no explanatory
-  text is added. Mire wait routes a pause mark to its affected unit.
+  text is added. Mire wait holds a crossed-sword mark on the waiting unit.
 - **Section 6 / cue pacing:** stats and statuses hold for 0.4 seconds before the next
   independent effect so its source does not overlap the preceding stat landing.
   Normal traces remain briefly after their moving mote as described under animation 14;
@@ -444,9 +508,17 @@ floor marks and before/after hero Health. It refuses to repair a different fight
   its composite reward sequence holds 0.9 seconds before the next independent source,
   so the quarry's returning acorn cannot be mistaken for the subsequent self-growth.
   The three travelling legs are 0.18, 0.18 and 0.22 seconds.
-- **Animations 19/26 / wait:** the waiting unit dips and receives an 88 px pause stamp
-  for 0.65 seconds plus a 0.15-second fade; reduce motion keeps the stamp static. The
-  state is its own paused action; the unit it waits for is a rule condition in the reader.
+- **Animations 19/26 / wait:** the current follow-up replaces the ambiguous pause stamp
+  with an 88 px crossed-sword stamp in its own 0.9-second action beat, after the prior
+  hit/reward settles. Normal motion adds a windup/settle; reduce motion holds the
+  stamp. The unit it waits for is a rule condition in the reader.
+- **Animations 14/18/32 / transit and self-source:** the current follow-up shows a
+  complete faint route during travel and reserves arrowheads, status drawing and
+  recipient flashes for arrival. Self-stat gains start with a self-pulse and an
+  outside-card loop to their own bead; Counter has no misleading inter-card buff
+  link. These temporary paths adapt the flash-only proposal to the retained C/W
+  findings, without standing links or new text. The three requested readings have
+  been addressed in code and strips; the orchestrator's next independent read is pending.
 - **Animation 31 / final Health:** converging transfer effects clear at 0.7 seconds;
   the impact pop settles by 0.82 seconds, leaving the final two result samples readable
   before return. Early Spoils uses a larger acorn below its hero artwork.
@@ -761,7 +833,15 @@ build logs are excluded from git.
 
 ## Validation
 
-**Latest scored revision (second repair):** source/effect read remains partial; all
+**Current follow-up (`28c873e3`):** targeted UI gate **PASS**, 396/396 tests,
+51 scripts, 14,006 assertions, no risky/pending tests or script errors. The five
+selected runs contain 124 sheets / 992 frames; both timing passes agree and source
+events remain identical to their saved baseline. Before and homecoming evidence is
+unchanged. The six selected stills were rerun at both sizes; their resting images
+are byte-identical and ancillary counts remain 0/0/1. No current cold read or full
+gate was run, by request; both are reserved for the orchestrator.
+
+**Historical second repair:** source/effect read remains partial; all
 57 attacker/contributor sets and 62 attack death causes are right. Full gate passes
 1,916/1,916 tests, 182 scripts, 42,307 assertions, with the strict hook clean.
 **Third repair:** reshoot verified (156 sheets/1,248 frames), full gate **PASS**:
