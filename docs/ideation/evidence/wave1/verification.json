@@ -1,0 +1,196 @@
+{
+  "engine_and_ui_checkpoint": "6a54286",
+  "existing_src_and_content_unchanged": true,
+  "games": [
+    {
+      "tribe": "Birds",
+      "seed": 1,
+      "round": 19,
+      "placement": 1,
+      "actions": 269,
+      "all_commands_accepted": true,
+      "fresh_cli_game_log_exact_match": true
+    },
+    {
+      "tribe": "Fairies",
+      "seed": 1,
+      "round": 11,
+      "placement": 8,
+      "actions": 90,
+      "all_commands_accepted": true,
+      "fresh_cli_game_log_exact_match": true
+    }
+  ],
+  "png_count": 30,
+  "native_pngs": [
+    {
+      "file": "shop-birds-fairies-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "ring-carry-away-birds-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "away-nest-reader-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "away-sky-preview-gap-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "homecoming-return-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "homecoming-following-combat-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "reader-mag_pye-golden-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "reader-reel_mistress-golden-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "reader-cradle_fetch-golden-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "reader-jack_daw-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "natural-birds-mixed-shop-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "natural-birds-ring-and-away-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "natural-birds-first-homecoming-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "natural-birds-homecoming-following-combat-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "natural-fairies-ring-carry-1688x780.png",
+      "width": 1688,
+      "height": 780
+    },
+    {
+      "file": "shop-birds-fairies-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "ring-carry-away-birds-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "away-nest-reader-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "away-sky-preview-gap-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "homecoming-return-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "homecoming-following-combat-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "reader-mag_pye-golden-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "reader-reel_mistress-golden-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "reader-cradle_fetch-golden-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "reader-jack_daw-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "natural-birds-mixed-shop-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "natural-birds-ring-and-away-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "natural-birds-first-homecoming-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "natural-birds-homecoming-following-combat-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "file": "natural-fairies-ring-carry-1920x1080.png",
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "automatic_layout_notes": 0,
+  "visual_findings_recorded": 5,
+  "homecoming_chronology": {
+    "return_turn": 5,
+    "prior_fight_turn": 4,
+    "following_fight_turn": 5,
+    "following_capture_turn": 6
+  },
+  "command_client_sha256": "84db1978e9d5ea817fd5dcef9388241c6b1d393c6ab71481a96d7e499e36efcb",
+  "screenshot_driver_sha256": "86c3168985997f05f76f3266c197c90429f97cf06b29cfea65d97880ba6ec88f",
+  "quality_gate": {
+    "command": "source /opt/bramble/env.sh; flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G timeout 1800 ./scripts/check.sh",
+    "all_steps_passed": true,
+    "test_scripts": 163,
+    "tests": 1779,
+    "assertions": 29298,
+    "new_evidence_drivers_compile": true,
+    "log": "quality-gate.txt"
+  }
+}

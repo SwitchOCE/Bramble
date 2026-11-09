@@ -1,0 +1,187 @@
+Running as unit: run-p4022491-i12409228.scope; invocation ID: d9211516364242098ae64c162f418d72
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/ui/test_cards.gd
+[0m* test_every_slice_card_keeps_its_portrait_and_readable_rules_or_chip_on_desktop
+* test_at_the_phone_minimum_long_rules_go_to_a_tap_and_short_ones_stay
+* test_name_and_card_word_stay_apart_on_a_short_tile_without_rules
+* test_long_shop_names_wrap_completely_above_stat_badges_at_both_sizes
+* test_two_cards_in_hand_at_desktop_show_their_rules
+* test_acorn_sizes_have_their_own_portrait_and_read_their_worth
+* test_font_licences_ship_with_every_export
+* test_fight_note_names_the_next_opponent_or_the_ghost
+* test_big_stats_fit_inside_their_badges
+* test_frozen_offers_keep_their_stats_visible
+* test_no_keyword_reminder_carries_a_designers_note
+* test_a_real_fights_log_reads_in_plain_words
+* test_a_real_fight_plays_through_with_motion_turned_down
+[33m    471 Orphans[0m
+[33m        * [@Control@5195:<Control#1392324380264>(card_view.gd)] + 18
+        * [@Control@5214:<Control#1393079356083>(card_view.gd)] + 18
+        * [@Control@5233:<Control#1393834330840>(card_view.gd)] + 18
+        * [@Control@4718:<Control#1371688406188>] + 3
+        * [@Control@4722:<Control#1371822623924>] + 4
+        * [@Control@4727:<Control#1372007173311>] + 3
+        * [@Control@4731:<Control#1372141391046>] + 4
+        * [@Control@4702:<Control#1371034094809>] + 3
+        * [@Control@4706:<Control#1371168312549>] + 4
+        * [@Control@4713:<Control#1371503856887>] + 4
+        * [@Control@4692:<Control#1370614664628>] + 4
+        * [@Control@4697:<Control#1370849545667>] + 4
+        * [@Control@4673:<Control#1368718839568>] + 4
+        * [@Control@4678:<Control#1368903388954>] + 3
+        * [@Control@4682:<Control#1369037606692>] + 4
+        * [@Control@5100:<Control#1387073114011>(card_view.gd)] + 18
+        * [@Control@5176:<Control#1391569408159>(card_view.gd)] + 18
+        * [@Control@5157:<Control#1390814433484>(card_view.gd)] + 18
+        * [@Control@5138:<Control#1390059458808>(card_view.gd)] + 18
+        * [@Control@5277:<Control#1398280294649>] + 4
+        * [@Control@5119:<Control#1389270929861>(card_view.gd)] + 18
+        * [@Control@5252:<Control#1394589308208>(card_view.gd)] + 18
+        * [@Control@5253:<Control#1397240108384>] + 4
+        * [@Control@5258:<Control#1397441434987>] + 4
+        * [@Control@5263:<Control#1397625984374>] + 3
+        * [@Control@5267:<Control#1397760202110>] + 4
+        * [@Control@5272:<Control#1398045414795>] + 4
+        * [@Control@5282:<Control#1398464845217>] + 3
+        * [@Control@5286:<Control#1398599062953>] + 4
+        * [@Control@5291:<Control#1398817166772>] + 4
+        * [@Control@5296:<Control#1399001716159>] + 3
+        * [@Control@5300:<Control#1399135933895>] + 4
+        * [@Control@5305:<Control#1399320483282>] + 3
+        * [@Control@5309:<Control#1399454701018>] + 4
+        * [@Control@5314:<Control#1399656027621>] + 4
+        * [@Control@5319:<Control#1399840577008>] + 3
+        * [@Control@5323:<Control#1399974794744>] + 4
+        * [@Control@5328:<Control#1400159344131>] + 3
+        * [@Control@5332:<Control#1400293561867>] + 2
+        * [@Control@5335:<Control#1400427779602>] + 4
+        * [@Control@5340:<Control#1400629106205>] + 4
+        * [@Control@5345:<Control#1400813655592>] + 3
+        * [@Control@5349:<Control#1400947873328>] + 4
+        * [@Control@5354:<Control#1401233086012>] + 4
+        * [@Control@5359:<Control#1401417635399>] + 3
+        * [@Control@5363:<Control#1401551853135>] + 4
+        * [@Control@5368:<Control#1401736402522>] + 3
+        * [@Control@5372:<Control#1401870620258>] + 4
+        * [@Control@5377:<Control#1402088724077>] + 4
+        * [@Control@5382:<Control#1402273273464>] + 3
+        * [@Control@5386:<Control#1402407491200>] + 4
+        * [@Control@5391:<Control#1402592040587>] + 3
+        * [@Control@5395:<Control#1402726258323>] + 2
+        * [@Control@5398:<Control#1402877253274>] + 4
+        * [@Control@5403:<Control#1403078579877>] + 4
+        * [@Control@5408:<Control#1403263129264>] + 3
+        * [@Control@5412:<Control#1403397347000>] + 4
+        * [@Control@5417:<Control#1403632228036>] + 4
+        * [@Control@5422:<Control#1403833554639>] + 4
+        * [@Control@5427:<Control#1404018104026>] + 3
+        * [@Control@5431:<Control#1404152321762>] + 4
+        * [@Control@5436:<Control#1404487866096>] + 4
+        * [@Control@5441:<Control#1404689192699>] + 4
+        * [@Control@5446:<Control#1404873742086>] + 3
+        * [@Control@5450:<Control#1405007959822>] + 4
+        * [@Control@5455:<Control#1405343504155>] + 4
+        * [@Control@5460:<Control#1405544830758>] + 4
+        * [@Control@5465:<Control#1405729380145>] + 3
+        * [@Control@5469:<Control#1405863597881>] + 4
+        * [@Control@5474:<Control#1406064924484>] + 4
+        * [@Control@5479:<Control#1406249473871>] + 3
+        * [@Control@5483:<Control#1406383691607>] + 4
+        * [@Control@5488:<Control#1406568240994>] + 3
+        * [@Control@5492:<Control#1406702458730>] + 4[0m
+* test_hex_shows_on_the_slot_it_lands_on_in_the_fight_and_not_on_a_recruit_unit
+[33m    416 Orphans[0m
+[33m        * [@Control@5971:<Control#1451933830313>(card_view.gd)] + 18
+        * [@Control@6092:<Control#1459533909195>] + 4
+        * [@Control@5990:<Control#1452688805306>(card_view.gd)] + 18
+        * [@Control@6068:<Control#1458476944892>] + 4
+        * [@Label@6067:<Label#1458074291723>]
+        * [@Control@6009:<Control#1453443780156>(card_view.gd)] + 18
+        * [@Control@6147:<Control#1461547175501>] + 2
+        * [@Control@6150:<Control#1461681393241>] + 4
+        * [@Control@6155:<Control#1461882719841>] + 4
+        * [@Control@6160:<Control#1462067269226>] + 3
+        * [@Control@6066:<Control#1455708704385>(card_view.gd)] + 18
+        * [@Control@6164:<Control#1462201486998>] + 4
+        * [@Control@6201:<Control#1463661104797>] + 4
+        * [@Control@6169:<Control#1462486699688>] + 4
+        * [@Control@6174:<Control#1462671249075>] + 3
+        * [@Control@6178:<Control#1462805466811>] + 4
+        * [@Control@6197:<Control#1463526887110>] + 3
+        * [@Control@6192:<Control#1463342337742>] + 4
+        * [@Control@6187:<Control#1463124233960>] + 4
+        * [@Control@6183:<Control#1462990016247>] + 3
+        * [@Control@6078:<Control#1458862821122>] + 3
+        * [@Control@5952:<Control#1451178856250>(card_view.gd)] + 18
+        * [@Control@6028:<Control#1454198755162>(card_view.gd)] + 18
+        * [@Control@6087:<Control#1459299028942>] + 4
+        * [@Control@6097:<Control#1459718459373>] + 3
+        * [@Control@6101:<Control#1459852677107>] + 4
+        * [@Control@6106:<Control#1460070780926>] + 4
+        * [@Control@6115:<Control#1460389548047>] + 4
+        * [@Control@6047:<Control#1454953730071>(card_view.gd)] + 18
+        * [@Control@6111:<Control#1460255330328>] + 3
+        * [@Control@6120:<Control#1460574097445>] + 3
+        * [@Control@6124:<Control#1460708315183>] + 4
+        * [@Control@6129:<Control#1460909641786>] + 4
+        * [@Control@6138:<Control#1461228408907>] + 4
+        * [@Control@6134:<Control#1461094191188>] + 3
+        * [@Control@6143:<Control#1461412958322>] + 3
+        * [@Control@6073:<Control#1458678272524>] + 4
+        * [@Control@6294:<Control#1467486311206>] + 3
+        * [@Control@6298:<Control#1467620528942>] + 4
+        * [@Control@6303:<Control#1467805078329>] + 3
+        * [@Control@6307:<Control#1467939296065>] + 4
+        * [@Control@6275:<Control#1466781668171>] + 4
+        * [@Control@6280:<Control#1466966217557>] + 3
+        * [@Control@6284:<Control#1467100435294>] + 4
+        * [@Control@6289:<Control#1467301761897>] + 4
+        * [@Control@6206:<Control#1463845655414>] + 3
+        * [@Control@6210:<Control#1463979873150>] + 2
+        * [@Control@6213:<Control#1464130868101>] + 4
+        * [@Control@6218:<Control#1464332194704>] + 4
+        * [@Control@5914:<Control#1449685685559>(card_view.gd)] + 18
+        * [@Control@6082:<Control#1458997040478>] + 4
+        * [@Control@5933:<Control#1450390328710>(card_view.gd)] + 18
+        * [@Control@6223:<Control#1464516745123>] + 3
+        * [@Control@6227:<Control#1464650962859>] + 4
+        * [@Control@6232:<Control#1464885843895>] + 4
+        * [@Control@6237:<Control#1465103947713>] + 4
+        * [@Control@6242:<Control#1465288497101>] + 3
+        * [@Control@6246:<Control#1465422714838>] + 4
+        * [@Control@6251:<Control#1465741481955>] + 4
+        * [@Control@6256:<Control#1465942808558>] + 4
+        * [@Control@6261:<Control#1466127357945>] + 3
+        * [@Control@6265:<Control#1466261575681>] + 4
+        * [@Control@6270:<Control#1466580342798>] + 4[0m
+* test_an_activated_heros_power_is_finger_sized_on_a_phone
+* test_a_long_hero_name_reads_whole
+[1m16/16 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                16
+Passing Tests        16
+Asserts            3347
+Time              2.605s
+
+
+Ran Scripts matching "test_cards.gd"
+[32m---- All tests passed! ----
+[0m

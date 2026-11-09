@@ -2,29 +2,33 @@
   "id": "cradle_fetch",
   "name": "Cradle Fetch",
   "set": "slice",
-  "tier": 3,
+  "tier": 4,
   "attack": 2,
-  "health": 3,
+  "health": 4,
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: become a base copy of the unit behind.",
-  "golden_text": "Start of Combat: become a golden base copy of the unit behind, with +4/+4.",
-  "details": "The copy's Start of Combat text fires.",
+  "text": "Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.",
+  "golden_text": "Start of Combat: become a golden copy of the Fairy behind, Ring and all, with half stats.",
   "mechanics": [
     {
-      "id": "cradle_fetch",
-      "golden_bonus": 4
+      "id": "pass3_fairy",
+      "ability": "fetch",
+      "factor": 1
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Ring"
+  ],
   "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Rounds copied stats up and adds this slot's Ring. Copies the biggest Fairy behind; two Fetches never share a target.",
+  "golden_details": "Becomes golden, including its text. Copies half the current stats, then adds this slot's Ring."
 }

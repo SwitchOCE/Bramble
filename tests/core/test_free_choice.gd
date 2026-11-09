@@ -52,7 +52,7 @@ func test_shop_purchase_follows_value_not_a_tribe_route() -> void:
 	var player := PlayerState.new()
 	player.gold = 3
 	player.shop = [
-		RecruitUnit.make(_library.get_unit("mrs_dunnock"), 1),
+		RecruitUnit.make(_library.get_unit("field_vole"), 1),
 		RecruitUnit.make(_library.get_unit("wee_wobbly"), 2),
 	]
 	brain._player = player

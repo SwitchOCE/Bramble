@@ -1,0 +1,1584 @@
+{
+  "source_commit": "c74c2b9",
+  "units": [
+    {
+      "id": "belladonna",
+      "name": "Lady Belladonna",
+      "set": "slice",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Start of Combat: give the enemy across Nightshade. From the back row, the 2 across from the slots in front of this instead.",
+      "golden_text": "Start of Combat: give the enemy across Nightshade. From the back row, also the 2 across from the slots in front of this.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "nightshade",
+          "if": [
+            {
+              "kind": "in_row",
+              "row": "back"
+            }
+          ],
+          "do": {
+            "effect": "status",
+            "status": "nightshade",
+            "target": {
+              "select": "facing"
+            }
+          }
+        },
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "nightshade_across",
+          "if": [
+            {
+              "kind": "in_row",
+              "row": "front"
+            }
+          ],
+          "do": {
+            "effect": "status",
+            "status": "nightshade",
+            "target": {
+              "select": "across"
+            }
+          }
+        },
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "nightshade_golden",
+          "if": [
+            {
+              "kind": "golden"
+            },
+            {
+              "kind": "in_row",
+              "row": "back"
+            }
+          ],
+          "do": {
+            "effect": "status",
+            "status": "nightshade",
+            "target": {
+              "select": "across"
+            }
+          }
+        }
+      ],
+      "keywords": [
+        "Nightshade"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "belladonna_sprite",
+      "name": "Belladonna Sprite",
+      "tier": 6,
+      "attack": 4,
+      "health": 5,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Start of Combat: give an enemy with the most Health Nightshade.",
+      "golden_text": "Start of Combat: give two enemies with the most Health Nightshade.",
+      "mechanics": [
+        {
+          "id": "nightshade_mark",
+          "count": 1
+        }
+      ],
+      "keywords": [
+        "Nightshade"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": 1,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 75,
+        "mechanic": "Nightshade",
+        "library_stats": "5/8",
+        "stat_fix": "4/5, same text (budget review)",
+        "note": "Nightshade: whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down. Health loss, not damage. Lasts this combat."
+      }
+    },
+    {
+      "id": "brownie_porter",
+      "name": "Brownie Porter",
+      "tier": 3,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "buzzard",
+      "name": "Buzzard",
+      "tier": 4,
+      "attack": 6,
+      "health": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "carrion_crow",
+      "name": "Carrion Crow",
+      "tier": 3,
+      "attack": 4,
+      "health": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "changeling",
+      "name": "Changeling",
+      "set": "slice",
+      "tier": 4,
+      "attack": 2,
+      "health": 2,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Start of Combat: swap sides with the enemy across. Swap back after that enemy attacks once.",
+      "golden_text": "Start of Combat: swap sides with the enemy across; that enemy gains +4/+4. Swap back after that enemy attacks once.",
+      "mechanics": [
+        {
+          "id": "changeling",
+          "golden_bonus": 4
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "chiffchaff",
+      "name": "Chiffchaff",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. When played: gain +1/+1.",
+      "golden_text": "Fly South. When played: gain +2/+2.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "effect",
+          "trigger": "on_play",
+          "name": "chiffchaff",
+          "target": {
+            "select": "self"
+          },
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "health": 1
+          }
+        }
+      ],
+      "keywords": [
+        "Fly South"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      },
+      "details": "Keeps its growth while away."
+    },
+    {
+      "id": "cluricaun",
+      "name": "Cluricaun",
+      "set": "slice",
+      "tier": 3,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Rainbow. Your units on painted slots have +1 Attack.",
+      "golden_text": "Rainbow. Your units on painted slots have +2 Attack.",
+      "mechanics": [
+        {
+          "id": "rainbow_paint"
+        },
+        {
+          "id": "band_attack",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Rainbow"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "cradle_fetch",
+      "name": "Cradle Fetch",
+      "set": "slice",
+      "tier": 3,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Start of Combat: become a base copy of the unit behind.",
+      "golden_text": "Start of Combat: become a golden base copy of the unit behind, with +4/+4.",
+      "details": "The copy's Start of Combat text fires.",
+      "mechanics": [
+        {
+          "id": "cradle_fetch",
+          "golden_bonus": 4
+        }
+      ],
+      "keywords": [],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      }
+    },
+    {
+      "id": "cuckoo",
+      "name": "The Cuckoo",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Birds flying from beside this stay away a turn longer. End of Turn: Birds away with Nests beside this gain +2/+2.",
+      "golden_text": "Birds flying from beside this stay away two turns longer. End of Turn: Birds away with Nests beside this gain +4/+4.",
+      "details": "Each Cuckoo beside the departing Bird extends its trip once. Growth is permanent and comes home with the Bird.",
+      "mechanics": [
+        {
+          "id": "cuckoo",
+          "turns": 1,
+          "attack": 2,
+          "health": 2
+        }
+      ],
+      "keywords": [
+        "Nest"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      }
+    },
+    {
+      "id": "drumming_woodpecker",
+      "name": "Drumming Woodpecker",
+      "tier": 3,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Peck 2. Whenever this attacks: give your other Birds +1 Attack.",
+      "golden_text": "Peck 2. Whenever this attacks: give your other Birds +2 Attack.",
+      "mechanics": [
+        {
+          "id": "peck",
+          "strikes": 2
+        },
+        {
+          "id": "on_attack_buff_tribe",
+          "tribe": "Birds",
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Peck"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 10,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 5,
+        "mechanic": "Peck (X)",
+        "library_stats": "4/4",
+        "stat_fix": "2/3, text unchanged (budget review)",
+        "note": "Peck (X): its attack strikes the target X times, Attack split as evenly as possible (larger parts first). Each strike fires this unit's 'whenever this attacks'. The target hits back once, with the last strike."
+      }
+    },
+    {
+      "id": "fairy_knight",
+      "name": "Fairy Knight",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": true,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "fairy_monarch",
+      "name": "Fairy Monarch",
+      "tier": 6,
+      "attack": 4,
+      "health": 6,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Rings under your Fairies give +1/+1 more.",
+      "golden_text": "Rings under your Fairies give +2/+2 more.",
+      "mechanics": [
+        {
+          "id": "fairy_monarch",
+          "stats": 1
+        }
+      ],
+      "keywords": [
+        "Ring"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/evidence/commit-review.md",
+        "note": "Commitment package, costed bounds."
+      },
+      "set": "slice"
+    },
+    {
+      "id": "fieldfare",
+      "name": "Fieldfare",
+      "tier": 2,
+      "attack": 4,
+      "health": 3,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": true,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "gabble_ratchet",
+      "name": "The Gabble Ratchet",
+      "set": "slice",
+      "tier": 6,
+      "attack": 3,
+      "health": 7,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "When a unit on a Nest dies: its Bird lands there.",
+      "golden_text": "When a unit on a Nest dies: its Bird lands there with twice its Attack.",
+      "details": "Eggs count; once per Nest each fight. The Bird lands with current stats, then returns away after the fight with its trip unchanged.",
+      "mechanics": [
+        {
+          "id": "gabble_ratchet",
+          "factor": 1
+        }
+      ],
+      "keywords": [
+        "Nest"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      }
+    },
+    {
+      "id": "great_lump",
+      "name": "The Great Lump",
+      "set": "slice",
+      "tier": 5,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "On a Nest, this also has half its Bird's current stats.",
+      "golden_text": "On a Nest, this also has its Bird's full current stats.",
+      "mechanics": [
+        {
+          "id": "lump",
+          "factor": 1
+        }
+      ],
+      "keywords": [
+        "Nest"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      },
+      "details": "Rounds each stat up, before Egg auras. Loses the borrowed stats when its Bird comes home.",
+      "golden_details": "Borrows twice as much: its Bird's full stats, before Egg auras. Loses them when its Bird comes home."
+    },
+    {
+      "id": "hedge_sprite",
+      "name": "Hedge Sprite",
+      "tier": 2,
+      "attack": 2,
+      "health": 5,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "hedge_witch",
+      "name": "Hedge Witch",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Hex 1. Each spell you cast adds 1, up to your tier.",
+      "golden_text": "Hex 2. Each spell you cast adds 2, up to your tier + 2.",
+      "details": "Hex is capped at your tier. Spells past the cap still count.",
+      "golden_details": "Hex is capped at your tier + 2. Spells past the cap still count.",
+      "mechanics": [
+        {
+          "id": "hex",
+          "n": 1,
+          "most": "tier",
+          "golden_most": "tier_plus_2"
+        }
+      ],
+      "keywords": [
+        "Hex"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "hob_in_the_hearth",
+      "name": "Hob-in-the-Hearth",
+      "set": "slice",
+      "tier": 2,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Shy. End of Turn: give the units in front +1 Health.",
+      "golden_text": "Shy pays 4 gold. End of Turn: give the units in front +2 Health.",
+      "mechanics": [
+        {
+          "id": "shy",
+          "gold": 2
+        },
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "hearth",
+          "do": {
+            "effect": "buff",
+            "health": 1,
+            "target": {
+              "select": "in_front"
+            }
+          }
+        }
+      ],
+      "keywords": [
+        "Shy"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "text": "End of Turn: give the units in front +1 Health.",
+          "golden_text": "End of Turn: give the units in front +2 Health."
+        }
+      }
+    },
+    {
+      "id": "jack_daw",
+      "name": "Jack Daw",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. Start of Combat: steal 2 Attack from the enemy across.",
+      "golden_text": "Fly South. Start of Combat: steal 4 Attack from the enemy across.",
+      "details": "The steal lasts the fight. With nothing across, nothing happens. An enemy cannot go below 0 Attack.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "jack_daw",
+          "attack": 2
+        }
+      ],
+      "keywords": [
+        "Fly South"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "jack_daw",
+          "text": "Start of Combat: steal 2 Attack from the enemy across.",
+          "golden_text": "Start of Combat: steal 4 Attack from the enemy across."
+        }
+      }
+    },
+    {
+      "id": "lob_lie_by_the_fire",
+      "name": "Lob-Lie-by-the-Fire",
+      "set": "slice",
+      "tier": 3,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Shy. End of Turn: give the units beside this +1 Attack.",
+      "golden_text": "Shy pays 4 gold. End of Turn: give the units beside this +2 Attack.",
+      "mechanics": [
+        {
+          "id": "shy",
+          "gold": 2
+        },
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "lob",
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "target": {
+              "select": "adjacent"
+            }
+          }
+        }
+      ],
+      "keywords": [
+        "Shy"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "details": "Beside means adjacent in the same row.",
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "effect",
+          "text": "End of Turn: give the units beside this +1 Attack.",
+          "golden_text": "End of Turn: give the units beside this +2 Attack.",
+          "trigger": "end_of_turn"
+        }
+      }
+    },
+    {
+      "id": "mag_pye",
+      "name": "Mag Pye",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Start of Combat: steal the text of the enemy across.",
+      "golden_text": "Start of Combat: steal the text of two enemies: the one across and the next along.",
+      "details": "Happens before other Start of Combat effects. A Belly isn't text.",
+      "mechanics": [
+        {
+          "id": "mag_pye",
+          "reach": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      }
+    },
+    {
+      "id": "moth_fairy",
+      "name": "Moth Fairy",
+      "tier": 4,
+      "attack": 4,
+      "health": 6,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "mother_goose",
+      "name": "Mother Goose",
+      "set": "slice",
+      "tier": 5,
+      "attack": 4,
+      "health": 7,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.",
+      "golden_text": "Fly South. While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "mother_goose",
+          "damage": 2,
+          "attack": 1,
+          "health": 1
+        }
+      ],
+      "keywords": [
+        "Fly South",
+        "Nest"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "mother_goose",
+          "text": "While away, Start of Combat: Nests strike across for 2. When this comes home: your Birds gain +1/+1.",
+          "golden_text": "While away, Start of Combat: Nests strike across for 4. When this comes home: your Birds gain +2/+2."
+        }
+      },
+      "details": "Its Egg follows the normal rule. The homecoming buff is permanent and reaches Birds away."
+    },
+    {
+      "id": "mr_redbreast",
+      "name": "Mr Redbreast",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Has +1/+1 for each Nest you have.",
+      "golden_text": "Has +2/+2 for each Nest you have.",
+      "mechanics": [
+        {
+          "id": "redbreast",
+          "attack": 1,
+          "health": 1
+        }
+      ],
+      "keywords": [
+        "Nest"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      }
+    },
+    {
+      "id": "mrs_dunnock",
+      "name": "Mrs Dunnock",
+      "set": "slice",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "End of Turn: a Bird whose Nest is beside this comes home a turn sooner.",
+      "golden_text": "End of Turn: a Bird whose Nest is beside this comes home two turns sooner.",
+      "details": "Never sooner than next turn. Chooses the first eligible Nest beside this, left to right.",
+      "mechanics": [
+        {
+          "id": "dunnock",
+          "turns": 1
+        }
+      ],
+      "keywords": [
+        "Nest"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      }
+    },
+    {
+      "id": "mrs_jay",
+      "name": "Mrs Jay",
+      "set": "slice",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. When sold: get an Acorn.",
+      "golden_text": "Fly South. When sold: get two Acorns.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "effect",
+          "trigger": "on_sell",
+          "name": "jay",
+          "do": {
+            "effect": "add_card",
+            "card": "acorn",
+            "count": 1
+          }
+        }
+      ],
+      "keywords": [
+        "Fly South",
+        "Acorn"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      },
+      "details": "Flying counts as selling."
+    },
+    {
+      "id": "mrs_stork",
+      "name": "Mrs Stork",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Every 6 gold you spend: the Bird away longest comes home, if it has missed a fight.",
+      "golden_text": "Every 6 gold you spend: the two Birds away longest come home, if they have missed a fight.",
+      "details": "A tie goes to the leftmost Nest.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "on_gold_spent",
+          "name": "stork",
+          "every": 6,
+          "count_amount": true,
+          "do": {
+            "effect": "bring_home",
+            "count": 1
+          }
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      }
+    },
+    {
+      "id": "nan_toadstool",
+      "name": "Nan Toadstool",
+      "set": "slice",
+      "tier": 1,
+      "attack": 2,
+      "health": 1,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "When played: Ring this slot +1/+1.",
+      "golden_text": "When played: Ring this slot +2/+2.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "on_play",
+          "name": "ring",
+          "do": {
+            "effect": "slot_effect",
+            "attack": 1,
+            "health": 1,
+            "target": {
+              "select": "self"
+            },
+            "name": "Ring",
+            "text": "Whoever stands on this slot has these stats."
+          }
+        }
+      ],
+      "keywords": [
+        "Ring"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "fairies.md"
+      }
+    },
+    {
+      "id": "nest_egg",
+      "name": "Egg",
+      "set": "slice",
+      "tier": 1,
+      "attack": 0,
+      "health": 2,
+      "tribes": [],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": false,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "token",
+        "doc": "docs/ideation/content/birds.md"
+      }
+    },
+    {
+      "id": "old_crane",
+      "name": "Old Crane",
+      "tier": 6,
+      "attack": 8,
+      "health": 6,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "old_moth_annis",
+      "name": "Old Moth Annis",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 2,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "End of Turn: give the units behind this +1 Attack.",
+      "golden_text": "End of Turn: give the units behind this +2 Attack.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "lantern",
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "target": {
+              "select": "behind"
+            }
+          }
+        }
+      ],
+      "keywords": [],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "fairies.md"
+      }
+    },
+    {
+      "id": "old_tern",
+      "name": "Old Tern",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. When this comes home: your other Birds away come home too.",
+      "golden_text": "Fly South, for 1 turn. When this comes home: your other Birds away come home too.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "old_tern"
+        }
+      ],
+      "keywords": [
+        "Fly South"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      },
+      "details": "They land in your hand. Their When played text fires again when you play them. Landed Birds cannot fly that turn; a full hand leaves them on the doorstep.",
+      "mechanic_text": {
+        "1": {
+          "id": "old_tern",
+          "text": "When this comes home: your other Birds away come home too.",
+          "golden_text": "When this comes home: your other Birds away come home too."
+        }
+      }
+    },
+    {
+      "id": "one_swallow",
+      "name": "One Swallow",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. When played: get 1 gold.",
+      "golden_text": "Fly South. When played: get 2 gold.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "effect",
+          "trigger": "on_play",
+          "name": "swallow_gold",
+          "do": {
+            "effect": "gold",
+            "amount": 1
+          }
+        }
+      ],
+      "keywords": [
+        "Fly South"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      },
+      "details": "Pays again when replayed after coming home."
+    },
+    {
+      "id": "pixie_scout",
+      "name": "Pixie Scout",
+      "tier": 1,
+      "attack": 3,
+      "health": 2,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "queen_of_elfland",
+      "name": "Queen of Elfland",
+      "set": "slice",
+      "tier": 6,
+      "attack": 8,
+      "health": 8,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share the destroyed units' stats.",
+      "golden_text": "Every 3rd End of Turn: destroy units behind this, or this if none. Other Fairies share double the destroyed units' stats.",
+      "mechanics": [
+        {
+          "id": "teind"
+        }
+      ],
+      "keywords": [],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      },
+      "details": "Teind counts End of Turns since this was played and resets after 3. Shares base stats and permanent buffs evenly; spare points go in board order."
+    },
+    {
+      "id": "rainbow_chaser",
+      "name": "Rainbow Chaser",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Rainbow. +1/+1 per 2 painted slots. When sold: wipe paint for 1 gold per 2 painted slots, +2 for all seven.",
+      "golden_text": "Rainbow. +2/+2 per 2 painted slots. When sold: wipe paint for 2 gold per 2 painted slots, +4 for all seven.",
+      "mechanics": [
+        {
+          "id": "rainbow",
+          "gold": 1,
+          "stats": 1,
+          "finish": 2,
+          "stats_every": 2,
+          "gold_every": 2
+        }
+      ],
+      "keywords": [
+        "Rainbow"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      },
+      "details": "Round down."
+    },
+    {
+      "id": "redwing",
+      "name": "Redwing",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Fly South. Eggs beside this have their Bird's full stats.",
+      "golden_text": "Fly South. Eggs beside this have their Bird's full stats, +2/+2.",
+      "mechanics": [
+        {
+          "id": "fly_south",
+          "turns": 2
+        },
+        {
+          "id": "redwing",
+          "factor": 1
+        }
+      ],
+      "keywords": [
+        "Fly South",
+        "Egg"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md",
+        "note": "Support factor 1 means the full Bird body; golden factor 2 also adds +2/+2."
+      },
+      "details": "Uses current stats, even for Mother Goose. Only the strongest Redwing applies.",
+      "mechanic_text": {
+        "1": {
+          "id": "redwing",
+          "text": "Eggs beside this have their Bird's full stats.",
+          "golden_text": "Eggs beside this have their Bird's full stats, +2/+2."
+        }
+      }
+    },
+    {
+      "id": "reel_mistress",
+      "name": "Reel-Mistress",
+      "set": "slice",
+      "tier": 5,
+      "attack": 4,
+      "health": 7,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "After a unit on a Ring attacks: its Ring moves to your next unit in attack order. Each Ring moves once a fight.",
+      "golden_text": "After a unit on a Ring attacks: its Ring moves to your next unit in attack order and gains +1/+1. Each Ring moves once a fight.",
+      "mechanics": [
+        {
+          "id": "reel_mistress"
+        }
+      ],
+      "keywords": [
+        "Ring"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      },
+      "details": "Moved Rings can stack past the +4/+4 cap.",
+      "golden_details": "Moved Rings can stack past the +4/+4 cap."
+    },
+    {
+      "id": "sally_spore",
+      "name": "Sally Spore",
+      "set": "slice",
+      "tier": 2,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "End of Turn: Ring your empty slot nearest this +1/+1.",
+      "golden_text": "End of Turn: Ring your empty slot nearest this +2/+2.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "ring",
+          "do": {
+            "effect": "slot_effect",
+            "attack": 1,
+            "health": 1,
+            "at": "nearest_empty",
+            "name": "Ring",
+            "text": "Whoever stands on this slot has these stats."
+          }
+        }
+      ],
+      "keywords": [
+        "Ring"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "fairies.md"
+      }
+    },
+    {
+      "id": "seven_whistlers",
+      "name": "The Seven Whistlers",
+      "set": "slice",
+      "tier": 6,
+      "attack": 5,
+      "health": 7,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -1/-1.",
+      "golden_text": "Start of Combat: for each Bird that came home this turn, give enemies across from your Birds -2/-2.",
+      "mechanics": [
+        {
+          "id": "whistlers",
+          "stats": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/birds-pass1.md"
+      },
+      "details": "Up to -3/-3. Eggs are not Birds.",
+      "golden_details": "Up to -6/-6. Eggs are not Birds."
+    },
+    {
+      "id": "silky",
+      "name": "Silky",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Shy. After a Shy unit leaves: Ring its slot +2/+2.",
+      "golden_text": "Shy pays 4 gold. After a Shy unit leaves: Ring its slot +4/+4.",
+      "mechanics": [
+        {
+          "id": "shy",
+          "gold": 2
+        },
+        {
+          "id": "silky",
+          "stats": 2
+        }
+      ],
+      "keywords": [
+        "Shy"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "details": "This counts too. The Ring cap (+4/+4) applies. Destroying or selling a Shy unit does not count.",
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "silky",
+          "text": "After a Shy unit leaves: Ring its slot +2/+2.",
+          "golden_text": "After a Shy unit leaves: Ring its slot +4/+4."
+        }
+      }
+    },
+    {
+      "id": "still_water_heron",
+      "name": "Still-Water Heron",
+      "tier": 2,
+      "attack": 2,
+      "health": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "After 2 turns in a row without a paid refresh: gain +2/+2 permanently.",
+      "golden_text": "After 2 turns in a row without a paid refresh: gain +4/+4 permanently.",
+      "mechanics": [
+        {
+          "id": "fast",
+          "action": "refresh",
+          "turns": 2,
+          "feast_attack": 2,
+          "feast_health": 2
+        }
+      ],
+      "keywords": [
+        "Fast"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": 16,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 56,
+        "mechanic": "Fast (action, N)",
+        "library_stats": "3/2, Feast +4/+4",
+        "stat_fix": "2/2, Feast +2/+2 (budget review)",
+        "note": "Fast: at End of Turn, if you made no paid refresh this turn, the count goes up by 1, else back to 0. At 2, the Feast happens and the count resets. Break Fast is left out of the prototype."
+      }
+    },
+    {
+      "id": "tom_tit",
+      "name": "Tom Tit",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Birds"
+      ],
+      "text": "Your Eggs have their Bird's full Health.",
+      "golden_text": "Your Eggs have their Bird's full stats.",
+      "mechanics": [
+        {
+          "id": "tom_tit",
+          "full": 1
+        }
+      ],
+      "keywords": [
+        "Egg"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-c.md",
+        "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+      },
+      "details": "Eggs keep half Attack. Redwing's full stats still apply where it reaches. Only the strongest Tom Tit counts."
+    },
+    {
+      "id": "will_o_the_wisp",
+      "name": "Will-o'-the-Wisp",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Fairies"
+      ],
+      "text": "Start of Combat: summon a 1/1 Wisp into each empty Ring.",
+      "golden_text": "Start of Combat: summon a 2/2 Wisp into each empty Ring.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "wisps",
+          "do": {
+            "effect": "summon",
+            "unit": "wisp",
+            "at": "empty_rings"
+          }
+        }
+      ],
+      "keywords": [
+        "Ring"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "fairies.md"
+      }
+    }
+  ]
+}

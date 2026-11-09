@@ -118,14 +118,15 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 					% [str(view["text"]), str(view["next_acorn"])]
 				)
 			board.append(view)
+	Pass3Views.board(human, board, _config)
 	var spells: Array = []
 	for item: HandItem in human.shop_spells:
-		var view: Dictionary = item.view()
+		var view: Dictionary = Pass3Views.item(item, human)
 		view["cost"] = _rules.spell_cost(human, item)
 		spells.append(view)
 	var items: Array = []
 	for item: HandItem in human.items:
-		items.append(item.view())
+		items.append(Pass3Views.item(item, human))
 	var summary: Variant = null
 	if not _last_combat.is_empty():
 		summary = {
@@ -181,6 +182,12 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		_config.get_int_at("income_by_turn", _round) - mini(human.debt, human.debt_payment),
 		"gold_spent_turn": human.gold_spent_turn,
 		"slot_effects": human.slot_effects.duplicate(true),
+		"pass3_content": human.pass3_content,
+		"ring_size": human.ring_size,
+		"midsummer_left": Pass3Views.midsummer_left(human, _config),
+		"birds_lump_multiplier": Pass3Rates.number(_config, "birds_lump_multiplier"),
+		"birds_homecoming_multiplier": Pass3Rates.number(_config, "birds_homecoming_multiplier"),
+		"fairies_fetch_share": Pass3Rates.number(_config, "fairies_fetch_share"),
 		"bands": _bands_view(human),
 		"band_count": human.band_count(),
 		"larder": human.larder(),

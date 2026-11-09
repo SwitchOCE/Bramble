@@ -1,0 +1,46 @@
+Bog total at the fight, x the brief's median, (biggest unit's share). Median: R6 50 R9 146 R12 494 R15 1666
+== Main lines, defaults (Bitter 1/4 rounded up, k=1, Soak from its Mired enemy, Tiddy 1/2, Nan 1/4, every 3rd kiss, shared kisses). R11-13 and R14-16 are geometric means, which smooth the frog's doubling
+  Diva, strong (pieces on time)      R6 1.18x (0.23) | R9 0.98x (0.44) | R12 1.09x (0.58) | R15 1.18x (0.57) | R11-13 1.30x | R14-16 1.37x
+  Diva, typical (a round or two late) R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.20x (0.65) | R15 1.47x (0.68) | R11-13 1.04x | R14-16 1.24x
+  Court, spread (Tiddy, frog split)  R6 0.98x (0.28) | R9 0.82x (0.27) | R12 1.03x (0.42) | R15 1.19x (0.46) | R11-13 0.95x | R14-16 1.07x
+  Diva, lowroll (Tiddy R10, no frog) R6 0.98x (0.28) | R9 0.68x (0.24) | R12 0.70x (0.43) | R15 0.79x (0.49) | R11-13 0.67x | R14-16 0.78x
+  Swamp (wide), typical              R6 1.03x (0.26) | R9 0.83x (0.20) | R12 0.92x (0.34) | R15 1.01x (0.35) | R11-13 0.93x | R14-16 0.99x
+== The same lines against the strong (Sept 2025) field: x strong board
+  Diva, typical                      R6    49 0.92x | R9   128 0.66x | R12   745 0.98x | R15  3534 1.36x | R11-13 0.85x
+  Swamp                              R6    51 0.97x | R9   127 0.66x | R12   572 0.75x | R15  2479 0.95x | R11-13 0.77x
+== Rate sweep on Diva, typical (k = keep, s = Bitter share)
+  k=0.5 s=0.20                       R6 0.87x (0.21) | R9 0.61x (0.23) | R12 0.67x (0.52) | R15 0.67x (0.64) | R11-13 0.60x | R14-16 0.58x
+  k=0.5 s=0.25                       R6 0.88x (0.21) | R9 0.66x (0.25) | R12 0.74x (0.56) | R15 0.80x (0.65) | R11-13 0.67x | R14-16 0.68x
+  k=0.5 s=0.33                       R6 0.91x (0.21) | R9 0.70x (0.26) | R12 0.88x (0.58) | R15 1.02x (0.66) | R11-13 0.79x | R14-16 0.86x
+  k=1.0 s=0.20                       R6 0.97x (0.28) | R9 0.74x (0.29) | R12 1.05x (0.61) | R15 1.22x (0.68) | R11-13 0.91x | R14-16 1.03x
+  k=1.0 s=0.25                       R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.20x (0.65) | R15 1.47x (0.68) | R11-13 1.04x | R14-16 1.24x
+  k=1.0 s=0.33                       R6 1.00x (0.27) | R9 0.88x (0.34) | R12 1.46x (0.67) | R15 1.89x (0.69) | R11-13 1.26x | R14-16 1.58x
+  k=1.5 s=0.20                       R6 1.06x (0.34) | R9 0.87x (0.33) | R12 1.44x (0.66) | R15 1.77x (0.69) | R11-13 1.22x | R14-16 1.48x
+  k=1.5 s=0.25                       R6 1.07x (0.34) | R9 0.98x (0.37) | R12 1.66x (0.69) | R15 2.14x (0.70) | R11-13 1.41x | R14-16 1.79x
+  k=1.5 s=0.33                       R6 1.10x (0.33) | R9 1.07x (0.39) | R12 2.04x (0.71) | R15 2.76x (0.70) | R11-13 1.72x | R14-16 2.30x
+== Breaker probes on Diva, typical
+  as shipped                         R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.20x (0.65) | R15 1.47x (0.68) | R11-13 1.04x | R14-16 1.24x
+  two frogs, shared kisses (the fix) R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.30x (0.59) | R15 1.69x (0.59) | R11-13 1.04x | R14-16 1.35x
+  two frogs, own kisses (no fix)     R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.15x (0.67) | R15 2.09x (0.76) | R11-13 1.17x | R14-16 2.13x
+  golden His Highness R10            R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.63x (0.71) | R15 2.35x (0.79) | R11-13 1.26x | R14-16 1.74x
+  golden Gideon (Diva) R7            R6 0.98x (0.28) | R9 0.93x (0.40) | R12 1.47x (0.71) | R15 1.77x (0.74) | R11-13 1.24x | R14-16 1.47x
+  golden Bridge Toad R4              R6 1.06x (0.33) | R9 0.91x (0.29) | R12 1.27x (0.61) | R15 1.53x (0.66) | R11-13 1.11x | R14-16 1.30x
+  golden Warty Nan R4                R6 1.16x (0.23) | R9 0.95x (0.28) | R12 1.27x (0.61) | R15 1.52x (0.66) | R11-13 1.14x | R14-16 1.29x
+  golden Tiddy Mun R11               R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.39x (0.70) | R15 1.99x (0.77) | R11-13 1.16x | R14-16 1.62x
+  King doubles Soak (carry design)   R6 0.98x (0.28) | R9 0.82x (0.32) | R12 1.20x (0.65) | R15 1.92x (0.60) | R11-13 1.09x | R14-16 1.64x
+  Nan at half                        R6 1.16x (0.23) | R9 0.95x (0.28) | R12 1.27x (0.61) | R15 1.49x (0.68) | R11-13 1.14x | R14-16 1.26x
+  Tiddy gives the whole Toll         R6 0.98x (0.28) | R9 0.94x (0.41) | R12 1.67x (0.75) | R15 2.15x (0.78) | R11-13 1.38x | R14-16 1.76x
+  Soak from every bite (not only Mired) R6 1.22x (0.42) | R9 1.07x (0.32) | R12 1.37x (0.64) | R15 1.57x (0.68) | R11-13 1.19x | R14-16 1.33x
+  Bitter rounds down                 R6 0.65x (0.25) | R9 0.56x (0.31) | R12 0.99x (0.64) | R15 1.30x (0.68) | R11-13 0.84x | R14-16 1.10x
+  Prince every 4th kiss              R6 0.98x (0.28) | R9 0.82x (0.32) | R12 0.80x (0.48) | R15 1.02x (0.55) | R11-13 0.94x | R14-16 1.02x
+  Prince off (one break only)        R6 0.98x (0.28) | R9 0.82x (0.32) | R12 0.80x (0.48) | R15 0.82x (0.47) | R11-13 0.82x | R14-16 0.82x
+  Diva drinks the carry 45%          R6 0.98x (0.28) | R9 0.81x (0.31) | R12 1.11x (0.62) | R15 1.38x (0.67) | R11-13 0.97x | R14-16 1.17x
+== Boards at the fight (Attack/Health), typical court and Swamp
+  Diva, typical R9 (120): gideon 17/21, bridge_toad 11/13, warty_nan 7/9, madame_bufo 4/7, vaulting_hopkin 6/4, tiddy_mun 4/6, his_highness 4/6
+  Diva, typical R12 (592): gideon 187/195, prima_donna 32/38, bridge_toad 24/26, prince_restored 16/17, tiddy_mun 10/12, warty_nan 8/10, peat_king 7/11
+  Diva, typical R15 (2449): gideon 831/847, prima_donna 138/144, lantern_man 66/70, bridge_toad 59/61, prince_restored 51/52, tiddy_mun 36/38, peat_king 26/30
+  Swamp R9 (122): bridge_toad 11/13, signor_ranocchio 10/11, madame_bufo 8/11, gideon 7/11, warty_nan 7/9, natterjack_chorus 6/7, tiddy_mun 4/6
+  Swamp R12 (453): signor_ranocchio 77/78, prima_donna 51/57, gideon 25/29, tiddy_mun 22/24, warty_nan 20/22, natterjack_chorus 14/15, peat_king 7/11
+  Swamp R15 (1677): signor_ranocchio 293/294, prima_donna 239/245, warty_nan 79/81, lantern_man 66/70, gideon 61/65, tiddy_mun 46/48, peat_king 42/46
+== Highroll: strong line, golden frog R8, golden Gideon R7
+  highroll                           R6 1.18x (0.23) | R9 1.07x (0.43) | R12 1.53x (0.66) | R15 1.87x (0.70) | R11-13 2.04x | R14-16 2.50x

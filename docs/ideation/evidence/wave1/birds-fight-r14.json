@@ -1,0 +1,1067 @@
+{
+  "round": 14,
+  "opponent_id": 5,
+  "winner": 0,
+  "damage": 19,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mrs_jay",
+            "name": "Mrs Jay",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 17,
+            "health": 17,
+            "max_health": 17,
+            "golden": false,
+            "text": "Fly South. When sold: get an Acorn.",
+            "keywords": [
+              "Fly South",
+              "Acorn"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              },
+              {
+                "keyword": "Acorn",
+                "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+              }
+            ]
+          },
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "cuckoo",
+            "name": "The Cuckoo",
+            "tier": 4,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 28,
+            "health": 36,
+            "max_health": 36,
+            "golden": false,
+            "text": "After a Bird comes home: other Birds gain a tenth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 3,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "great_lump",
+            "name": "The Great Lump",
+            "tier": 5,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 50,
+            "health": 73,
+            "max_health": 73,
+            "golden": false,
+            "text": "Cleave. On a Nest, this has its Bird's stats too.",
+            "keywords": [
+              "Cleave",
+              "Nest"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Cleave",
+                "text": "Attacks also hit the units beside the target."
+              },
+              {
+                "keyword": "Nest",
+                "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+              }
+            ]
+          },
+          {
+            "uid": 4,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "seven_whistlers",
+            "name": "The Seven Whistlers",
+            "tier": 6,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 8,
+            "health": 10,
+            "max_health": 10,
+            "golden": false,
+            "text": "Start of Combat: halve the enemy across. With seven different Birds, halve every enemy.",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": []
+          },
+          {
+            "uid": 5,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "gabble_ratchet",
+            "name": "The Gabble Ratchet",
+            "tier": 6,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 8,
+            "health": 12,
+            "max_health": 12,
+            "golden": false,
+            "text": "When a unit on a Nest dies: its Bird drops in.",
+            "keywords": [
+              "Nest"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Nest",
+                "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+              }
+            ]
+          },
+          {
+            "uid": 6,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mr_redbreast",
+            "name": "Mr Redbreast",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 92,
+            "health": 118,
+            "max_health": 118,
+            "golden": false,
+            "text": "After a Bird comes home: gain an eighth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 7,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "chiffchaff",
+            "name": "Chiffchaff",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 58,
+            "health": 74,
+            "max_health": 74,
+            "golden": false,
+            "text": "Fly South. When played: gain +1/+1.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          }
+        ],
+        [
+          {
+            "uid": 8,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "little_nip",
+            "name": "Little Nip",
+            "tier": 1,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 17,
+            "health": 18,
+            "max_health": 18,
+            "golden": false,
+            "text": "Quarry. Take: gain +1/+1 permanently.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          },
+          {
+            "uid": 9,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "grizel",
+            "name": "Grizel",
+            "tier": 5,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 18,
+            "health": 15,
+            "max_health": 15,
+            "golden": false,
+            "text": "Pack. After your pack attack kills: its attackers gain +1 Attack permanently.",
+            "keywords": [
+              "Pack"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Pack",
+                "text": "When a unit beside this attacks, this joins in, using up its own attack."
+              }
+            ]
+          },
+          {
+            "uid": 10,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mrs_stork",
+            "name": "Mrs Stork",
+            "tier": 4,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 12,
+            "health": 17,
+            "max_health": 17,
+            "golden": true,
+            "text": "Every 6 gold you spend: two Birds that missed a fight come home.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 11,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "toll_bard",
+            "name": "The Toll-Bard",
+            "tier": 2,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 10,
+            "health": 12,
+            "max_health": 12,
+            "golden": false,
+            "text": "Quarry. After its quarry attacks, it loses 1 Attack (twice a fight). The first time, get 1 gold next turn.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          },
+          {
+            "uid": 12,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mr_redbreast",
+            "name": "Mr Redbreast",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 8,
+            "health": 9,
+            "max_health": 9,
+            "golden": false,
+            "text": "After a Bird comes home: gain an eighth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 13,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "old_brock",
+            "name": "Old Brock",
+            "tier": 4,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 5,
+            "health": 8,
+            "max_health": 8,
+            "golden": false,
+            "text": "Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+            "keywords": [
+              "Quarry",
+              "Pounce"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              },
+              {
+                "keyword": "Pounce",
+                "text": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+              }
+            ]
+          },
+          {
+            "uid": 14,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "old_lutra",
+            "name": "Old Lutra",
+            "tier": 3,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 33,
+            "health": 29,
+            "max_health": 29,
+            "golden": true,
+            "text": "Quarry, wherever it stands. Take: gain +2/+2 permanently; if this is in back, get 2 gold next turn.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          }
+        ]
+      ],
+      "first_side": 0,
+      "player_ids": [
+        0,
+        5
+      ],
+      "slot_effects": [
+        [
+          [],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [],
+          [],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ]
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "phase",
+      "name": "bell"
+    },
+    {
+      "seq": 3,
+      "type": "quarry_marked",
+      "hunter": 8,
+      "quarry": 1,
+      "source": 8
+    },
+    {
+      "seq": 4,
+      "type": "quarry_marked",
+      "hunter": 11,
+      "quarry": 4,
+      "source": 11
+    },
+    {
+      "seq": 5,
+      "type": "quarry_marked",
+      "hunter": 14,
+      "quarry": 7,
+      "source": 14
+    },
+    {
+      "seq": 6,
+      "type": "quarry_marked",
+      "hunter": 9,
+      "quarry": 6,
+      "source": 13
+    },
+    {
+      "seq": 7,
+      "type": "quarry_marked",
+      "hunter": 10,
+      "quarry": 6,
+      "source": 13
+    },
+    {
+      "seq": 8,
+      "type": "quarry_marked",
+      "hunter": 12,
+      "quarry": 6,
+      "source": 13
+    },
+    {
+      "seq": 9,
+      "type": "trigger",
+      "uid": 4,
+      "mechanic": "whistlers"
+    },
+    {
+      "seq": 10,
+      "type": "stats",
+      "target": 8,
+      "attack_delta": -8,
+      "health_delta": -9,
+      "attack": 9,
+      "health": 9,
+      "max_health": 9,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 11,
+      "type": "stats",
+      "target": 9,
+      "attack_delta": -9,
+      "health_delta": -7,
+      "attack": 9,
+      "health": 8,
+      "max_health": 8,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 12,
+      "type": "stats",
+      "target": 10,
+      "attack_delta": -6,
+      "health_delta": -8,
+      "attack": 6,
+      "health": 9,
+      "max_health": 9,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 13,
+      "type": "stats",
+      "target": 11,
+      "attack_delta": -5,
+      "health_delta": -6,
+      "attack": 5,
+      "health": 6,
+      "max_health": 6,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 14,
+      "type": "stats",
+      "target": 12,
+      "attack_delta": -4,
+      "health_delta": -4,
+      "attack": 4,
+      "health": 5,
+      "max_health": 5,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 15,
+      "type": "stats",
+      "target": 13,
+      "attack_delta": -2,
+      "health_delta": -4,
+      "attack": 3,
+      "health": 4,
+      "max_health": 4,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 16,
+      "type": "stats",
+      "target": 14,
+      "attack_delta": -16,
+      "health_delta": -14,
+      "attack": 17,
+      "health": 15,
+      "max_health": 15,
+      "source": 4,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 17,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 18,
+      "type": "attack",
+      "side": 0,
+      "attacker": 1,
+      "defender": 9,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 19,
+      "type": "damage",
+      "source": 1,
+      "target": 9,
+      "amount": 17,
+      "raw": 17,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -9
+    },
+    {
+      "seq": 20,
+      "type": "damage",
+      "source": 9,
+      "target": 1,
+      "amount": 9,
+      "raw": 9,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 8
+    },
+    {
+      "seq": 21,
+      "type": "death",
+      "uid": 9,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 22,
+      "type": "trigger",
+      "uid": 12,
+      "mechanic": "pounce"
+    },
+    {
+      "seq": 23,
+      "type": "immediate_attack",
+      "attacker": 12,
+      "defender": 1,
+      "kind": "pounce"
+    },
+    {
+      "seq": 24,
+      "type": "attack",
+      "side": 1,
+      "attacker": 12,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 25,
+      "type": "damage",
+      "source": 12,
+      "target": 1,
+      "amount": 4,
+      "raw": 4,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 4
+    },
+    {
+      "seq": 26,
+      "type": "damage",
+      "source": 1,
+      "target": 12,
+      "amount": 17,
+      "raw": 17,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -12
+    },
+    {
+      "seq": 27,
+      "type": "death",
+      "uid": 12,
+      "side": 1,
+      "slot": 4
+    },
+    {
+      "seq": 28,
+      "type": "attack",
+      "side": 1,
+      "attacker": 13,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 29,
+      "type": "damage",
+      "source": 13,
+      "target": 1,
+      "amount": 3,
+      "raw": 3,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 1
+    },
+    {
+      "seq": 30,
+      "type": "damage",
+      "source": 1,
+      "target": 13,
+      "amount": 17,
+      "raw": 17,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -13
+    },
+    {
+      "seq": 31,
+      "type": "death",
+      "uid": 13,
+      "side": 1,
+      "slot": 5
+    },
+    {
+      "seq": 32,
+      "type": "stats",
+      "target": 10,
+      "attack_delta": -1,
+      "health_delta": 0,
+      "attack": 5,
+      "health": 9,
+      "max_health": 9,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": [
+        {
+          "source": 13,
+          "name": "aura",
+          "change": "lost"
+        }
+      ]
+    },
+    {
+      "seq": 33,
+      "type": "stats",
+      "target": 14,
+      "attack_delta": -1,
+      "health_delta": 0,
+      "attack": 16,
+      "health": 15,
+      "max_health": 15,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": [
+        {
+          "source": 13,
+          "name": "aura",
+          "change": "lost"
+        }
+      ]
+    },
+    {
+      "seq": 34,
+      "type": "attack",
+      "side": 0,
+      "attacker": 2,
+      "defender": 10,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 35,
+      "type": "damage",
+      "source": 2,
+      "target": 10,
+      "amount": 28,
+      "raw": 28,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -19
+    },
+    {
+      "seq": 36,
+      "type": "damage",
+      "source": 10,
+      "target": 2,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 31
+    },
+    {
+      "seq": 37,
+      "type": "death",
+      "uid": 10,
+      "side": 1,
+      "slot": 2
+    },
+    {
+      "seq": 38,
+      "type": "attack",
+      "side": 1,
+      "attacker": 14,
+      "defender": 7,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 39,
+      "type": "damage",
+      "source": 14,
+      "target": 7,
+      "amount": 16,
+      "raw": 16,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 58
+    },
+    {
+      "seq": 40,
+      "type": "damage",
+      "source": 7,
+      "target": 14,
+      "amount": 58,
+      "raw": 58,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -43
+    },
+    {
+      "seq": 41,
+      "type": "death",
+      "uid": 14,
+      "side": 1,
+      "slot": 6
+    },
+    {
+      "seq": 42,
+      "type": "attack",
+      "side": 0,
+      "attacker": 3,
+      "defender": 11,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 43,
+      "type": "damage",
+      "source": 3,
+      "target": 11,
+      "amount": 50,
+      "raw": 50,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -44
+    },
+    {
+      "seq": 44,
+      "type": "damage",
+      "source": 11,
+      "target": 3,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 68
+    },
+    {
+      "seq": 45,
+      "type": "death",
+      "uid": 11,
+      "side": 1,
+      "slot": 3
+    },
+    {
+      "seq": 46,
+      "type": "attack",
+      "side": 1,
+      "attacker": 8,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 47,
+      "type": "damage",
+      "source": 8,
+      "target": 1,
+      "amount": 9,
+      "raw": 9,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -8
+    },
+    {
+      "seq": 48,
+      "type": "damage",
+      "source": 1,
+      "target": 8,
+      "amount": 17,
+      "raw": 17,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -8
+    },
+    {
+      "seq": 49,
+      "type": "death",
+      "uid": 8,
+      "side": 1,
+      "slot": 0
+    },
+    {
+      "seq": 50,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 0
+    },
+    {
+      "seq": 51,
+      "type": "take",
+      "hunter": 8,
+      "quarry": 1,
+      "side": 1
+    },
+    {
+      "seq": 52,
+      "type": "trigger",
+      "uid": 8,
+      "mechanic": "take_growth"
+    },
+    {
+      "seq": 53,
+      "type": "permanent_reward",
+      "target": 8,
+      "source": 8,
+      "attack_delta": 1,
+      "health_delta": 1,
+      "cause": ""
+    },
+    {
+      "seq": 54,
+      "type": "trigger",
+      "uid": 5,
+      "mechanic": "gabble_ratchet"
+    },
+    {
+      "seq": 55,
+      "type": "summon",
+      "unit": {
+        "uid": 15,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mother_goose",
+        "name": "Mother Goose",
+        "tier": 5,
+        "tribes": [
+          "Birds"
+        ],
+        "attack": 15,
+        "health": 19,
+        "max_health": 19,
+        "golden": false,
+        "text": "Fly South. When played: get a Golden Egg.",
+        "keywords": [
+          "Fly South"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ]
+      },
+      "side": 0,
+      "slot": 0,
+      "source": 5,
+      "landed": true
+    },
+    {
+      "seq": 56,
+      "type": "combat_end",
+      "winner": 0,
+      "reason": "board_empty",
+      "survivors": [
+        [
+          15,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        []
+      ],
+      "damage": 19,
+      "damage_uncapped": 19,
+      "damage_base": 13,
+      "damage_performance": 6,
+      "damage_mode": "v05",
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": "",
+      "last_stand_sides": [
+        1
+      ],
+      "alive": 4,
+      "damage_cap": 0
+    }
+  ]
+}

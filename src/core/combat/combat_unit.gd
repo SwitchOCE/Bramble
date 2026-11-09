@@ -42,6 +42,10 @@ var aura_sources: Dictionary = {}
 var borrowed_rules: Array = []
 ## Sandbox scenarios: a name shown instead of the unit's own (e.g. "Boar" on a filler unit).
 var display_name: String = ""
+## Live text for pass 3 copies and stolen text. Empty is a meaningful silenced card.
+var has_text_override: bool = false
+var text_override: String = ""
+var keywords_override: Array = []
 ## Own Egg details; public scout snapshots strip these before a rehearsal fight.
 var egg_info: Dictionary = {}
 ## Belly: what's inside as specs, oldest first; they become fighters as they come out.
@@ -205,7 +209,7 @@ func has_status(status: String) -> bool:
 func view(status_text: Dictionary = {}) -> Dictionary:
 	var text_key: String = "golden_text" if golden else "text"
 	var tribe_list: Array = def["tribes"]
-	var keyword_list: Array = def["keywords"]
+	var keyword_list: Array = keywords_override if has_text_override else def["keywords"]
 	var status_list: Array = []
 	var keyword_text: Array = UnitLibrary.keyword_text_of(def)
 	for status: String in statuses:
@@ -227,12 +231,14 @@ func view(status_text: Dictionary = {}) -> Dictionary:
 		"health": health,
 		"max_health": max_health,
 		"golden": golden,
-		"text": str(def[text_key]),
+		"text": text_override if has_text_override else str(def[text_key]),
 		"keywords": keyword_list.duplicate(),
 		"statuses": status_list,
 		"keyword_text": keyword_text,
 	}
 	out.merge(egg_info)
+	if has_text_override:
+		out["text_changed"] = true
 	if not borrowed_rules.is_empty():
 		out["borrowed_rules"] = borrowed_rules.duplicate(true)
 	var held: int = held_specs.size() + inside.size()

@@ -1,0 +1,142 @@
+{
+  "birds_homecoming": {
+    "tribe": "birds",
+    "engine_flag": true,
+    "buy_priority": [
+      "mr_redbreast",
+      "chiffchaff",
+      "mrs_jay",
+      "one_swallow",
+      "mrs_dunnock",
+      "tom_tit",
+      "mrs_stork",
+      "jack_daw",
+      "old_tern",
+      "mother_goose",
+      "cuckoo",
+      "great_lump",
+      "gabble_ratchet",
+      "seven_whistlers",
+      "redwing",
+      "mag_pye"
+    ],
+    "max_copies": {
+      "mrs_jay": 2,
+      "default": 1,
+      "triple": "buy a third copy only when it makes a golden"
+    },
+    "stayer_keep_rank": [
+      "mrs_stork",
+      "mr_redbreast",
+      "great_lump",
+      "gabble_ratchet",
+      "tom_tit",
+      "seven_whistlers",
+      "cuckoo",
+      "jack_daw",
+      "mrs_dunnock",
+      "redwing",
+      "mag_pye"
+    ],
+    "stayer_cap": {
+      "R1": 7,
+      "R7": 5,
+      "R10": 4
+    },
+    "climb": {
+      "T2": 3,
+      "T3": 5,
+      "T4": 7,
+      "T5": 10,
+      "T6": 12
+    },
+    "harvest_supper_rounds": [
+      6,
+      8,
+      10
+    ],
+    "save_rule": "Spend out every turn. The one save: on the turn before a scheduled tier-up, keep what next turn's discounted tier cost needs beyond next turn's income. With Mrs Stork in play, spend any leftover on refreshes; her count carries over, so no 6-gold blocks are needed.",
+    "fly_policy": {
+      "from_round": 3,
+      "who": "every flier that has fought at home since it was played; Mother Goose first, then biggest first",
+      "keep_home_min": 3,
+      "old_tern": "fly only with 2 or more Birds away",
+      "omen_turn": "if seven different Birds including seven_whistlers can stand on the board this turn, fly nothing",
+      "elimination_guard": "don't fly the biggest Bird when Health is 2x the round's likely loss or less"
+    },
+    "great_lump_seat": "End of Turn: the Nest of the biggest Bird away",
+    "golden_egg": "the biggest Bird without an Egg; hold it while that Bird is away; play it at End of Turn if that Bird isn't due home next turn",
+    "placement": "seven_whistlers across the scouted biggest enemy, jack_daw across the second biggest, mag_pye across the enemy with the best text; back row: the biggest Bird, then tom_tit, gabble_ratchet, mr_redbreast, mrs_stork; Eggs and the rest in the front row"
+  },
+  "birds_tempo": {
+    "tribe": "birds",
+    "engine_flag": false,
+    "switch_to": {
+      "line": "birds_homecoming",
+      "round": 7
+    },
+    "buy_priority": [
+      "mrs_jay",
+      "mr_redbreast",
+      "mrs_dunnock",
+      "chiffchaff",
+      "one_swallow",
+      "tom_tit",
+      "jack_daw",
+      "mrs_stork",
+      "mag_pye",
+      "mother_goose",
+      "great_lump",
+      "old_tern",
+      "cuckoo",
+      "seven_whistlers",
+      "gabble_ratchet",
+      "redwing"
+    ],
+    "max_copies": {
+      "mrs_jay": 2,
+      "default": 1,
+      "triple": "buy a third copy only when it makes a golden"
+    },
+    "stayer_keep_rank": [
+      "mr_redbreast",
+      "mrs_stork",
+      "great_lump",
+      "tom_tit",
+      "jack_daw",
+      "seven_whistlers",
+      "gabble_ratchet",
+      "mag_pye",
+      "mrs_dunnock",
+      "cuckoo",
+      "redwing"
+    ],
+    "stayer_cap": {
+      "R1": 7,
+      "R7": 5,
+      "R10": 4
+    },
+    "climb": {
+      "T2": 3,
+      "T3": 5,
+      "T4": 7,
+      "T5": 10,
+      "T6": 12
+    },
+    "harvest_supper_rounds": [
+      4,
+      6,
+      8
+    ],
+    "save_rule": "Spend out every turn; the one save is the turn before a scheduled tier-up, as in birds_homecoming.",
+    "fly_policy": {
+      "from_round": 4,
+      "who": "Chiffchaff and One Swallow only, until the switch round; never mrs_jay before it",
+      "keep_home_min": 4,
+      "max_away": 3
+    },
+    "great_lump_seat": "as birds_homecoming",
+    "golden_egg": "as birds_homecoming",
+    "placement": "as birds_homecoming"
+  }
+}

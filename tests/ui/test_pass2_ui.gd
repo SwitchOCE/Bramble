@@ -75,14 +75,14 @@ func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings()
 		var rulings: String = CardRulings.for_view(unit.view())
 		assert_eq((face + rulings).count("Shy pays 4 gold"), 1, id)
 		if id == "lob_lie_by_the_fire":
-			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "adjacent in the same row")
+			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "each complete 3 turns")
 		elif id == "silky":
-			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "Destroying or selling")
+			assert_string_contains(CardDetail.notes_bbcode(unit.view()), "once per departure")
 
 
 func test_nest_display_uses_live_tom_tit_redwing_tribe_and_slot_stats() -> void:
 	var kit := KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	kit.player.round_number = 6
 	var bird := RecruitUnit.make(kit.library.get_unit("mrs_jay"), 99)
 	bird.add_permanent(4, 6)

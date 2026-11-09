@@ -8,7 +8,7 @@ var _kit: KIT
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 
 
 func test_kin_spells_reward_shared_tribes_and_leave_splashes_at_one() -> void:
@@ -139,7 +139,7 @@ func test_capped_unit_keeps_tribe_bonus_as_separate_combat_layer() -> void:
 
 func test_hiring_fair_four_units_uses_the_normal_discover_draw() -> void:
 	var control: KIT = KIT.new()
-	control.setup(GameConfig.full_game())
+	control.setup(GameConfig.full_game(), true)
 	for slot: int in 4:
 		_kit.put("field_vole", slot)
 	assert_eq(_kit.cast("hiring_fair"), "")
@@ -161,7 +161,7 @@ func test_hiring_fair_exhausted_kin_still_offers_three_and_preserves_pool_counts
 
 
 func test_legal_actions_hide_neutral_capped_and_already_used_harvest_targets() -> void:
-	var session: GameSession = GameSession.create(71, _kit.library, GameConfig.full_game())
+	var session: GameSession = GameSession.create(71, _kit.library, _kit.config)
 	while session.get_state()["pending_choice"] != null:
 		session.choose(0)
 	var player: PlayerState = session._players[GameSession.HUMAN_ID]

@@ -1,0 +1,46 @@
+{
+  "ui_source": "fd3d86b",
+  "images": [
+    {
+      "file": "ui-after-overview-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "e497d322713c89053614c7e80d607f8e67e5092fc631c20ef8965a70d40e325e",
+      "identical_input_to": "../ui-followup/after-1688x780.json",
+      "state_sha256": "d9d35c6bbd8fc025f7273ab4b427200647d4a9022d3b218b184b33738be2454c",
+      "layout_notes": []
+    },
+    {
+      "file": "ui-after-overview-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "f26c15e13c430b0a0ad937580552b89c5cffa81560b690688af33fd90f614e5b",
+      "identical_input_to": "../ui-followup/after-1920x1080.json",
+      "state_sha256": "d9d35c6bbd8fc025f7273ab4b427200647d4a9022d3b218b184b33738be2454c",
+      "layout_notes": []
+    }
+  ],
+  "initial_failure": {
+    "needed_name_width": 126,
+    "available_name_width": 108,
+    "actual_name": "",
+    "expected_name": "Redbreast"
+  },
+  "focused_tests": {
+    "passing": 2,
+    "assertions": 88
+  },
+  "full_gate": {
+    "source": "fd3d86b",
+    "tests": 1798,
+    "assertions": 29563,
+    "scripts": 164,
+    "strict_clean": true,
+    "all_steps_passed": true,
+    "sha256": "9e635a8d3a3c66fe733bce28cd92023ae26490690ec8450c2a21eac5010180bc"
+  }
+}

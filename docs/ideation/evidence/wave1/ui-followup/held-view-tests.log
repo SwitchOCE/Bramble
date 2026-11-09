@@ -1,0 +1,54 @@
+Running as unit: run-p4022350-i12409206.scope; invocation ID: 18a593fb44d340b59b2b6bf5c3a545dd
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/ui/test_held_view.gd
+[0m* test_an_ooze_with_room_takes_a_unit
+* test_a_full_belly_doesnt
+* test_no_belly_no_swallow
+* test_a_spell_cant_go_in
+* test_a_unit_holding_others_cant_go_in
+* test_a_unit_cant_swallow_itself
+* test_bellies_for_lists_only_the_slots_with_room
+* test_the_tile_slip_shows_inside_against_size
+* test_the_full_text_lists_who_is_inside_next_out_first
+* test_the_sell_button_says_what_selling_does
+* test_the_note_warns_about_a_full_ooze
+* test_a_nest_marks_its_slot_with_its_countdown
+* test_a_bird_whose_nest_ended_marks_nothing
+* test_their_nests_never_say_who_or_when
+* test_the_sky_card_lists_birds_away_and_on_the_doorstep
+* test_every_keyword_has_a_reminder_and_a_chip
+* test_copies_inside_a_belly_count_for_triples_and_plain_ones_dont
+* test_swallowed_takes_a_unit_off_the_board_and_fills_the_holder
+* test_the_same_unit_coming_back_stands_there_again
+* test_the_log_names_what_happened
+* test_a_plain_bird_copy_shows_a_final_sale
+* test_ui_run_accepts_tribes_in_the_lobby_and_rejects_absent_ones
+[1m22/22 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                22
+Passing Tests        22
+Asserts              61
+Time              0.368s
+
+
+Ran Scripts matching "test_held_view.gd"
+[32m---- All tests passed! ----
+[0m

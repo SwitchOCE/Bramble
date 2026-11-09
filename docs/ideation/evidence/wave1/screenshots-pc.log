@@ -1,0 +1,22 @@
+Running as unit: run-p3923105-i12310681.scope; invocation ID: 9ee3ea92b6c84ed39ea78f864ce42a42
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 26.0.8-1ubuntu0.3 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+wave1 screenshot: shop-birds-fairies-1920x1080.png
+wave1 screenshot: ring-carry-away-birds-1920x1080.png
+wave1 screenshot: away-nest-reader-1920x1080.png
+wave1 screenshot: away-sky-preview-gap-1920x1080.png
+wave1 screenshot: homecoming-return-1920x1080.png
+wave1 screenshot: homecoming-following-combat-1920x1080.png
+wave1 screenshot: reader-mag_pye-golden-1920x1080.png
+wave1 screenshot: reader-reel_mistress-golden-1920x1080.png
+wave1 screenshot: reader-cradle_fetch-golden-1920x1080.png
+wave1 screenshot: reader-jack_daw-1920x1080.png
+wave1 screenshot: natural-birds-mixed-shop-1920x1080.png
+wave1 screenshot: natural-birds-ring-and-away-1920x1080.png
+wave1 screenshot: natural-birds-first-homecoming-1920x1080.png
+wave1 screenshot: natural-birds-homecoming-following-combat-1920x1080.png
+wave1 screenshot: natural-fairies-ring-carry-1920x1080.png
+wave1 screenshots: 15 captures; 0 layout notes

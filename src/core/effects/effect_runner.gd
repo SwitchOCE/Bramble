@@ -1,11 +1,15 @@
 class_name EffectRunner
 extends RefCounted
+
+const TriggerGuards := preload("res://src/core/effects/pass3_trigger_guards.gd")
 ## Runs one data effect: conditions, then limits, then each step on its targets. All the verbs go
 ## through the EffectWorld of the phase. The format is docs/ideation/engine.md.
 
 
 ## Runs the effect if its conditions and limits allow.
 static func run(params: Dictionary, world: EffectWorld) -> void:
+	if params.has("every") and TriggerGuards.extra(world):
+		return
 	if not EffectConditions.all_hold(params, world):
 		return
 	var times: int = _times(params, world)
@@ -61,6 +65,8 @@ static func _times(params: Dictionary, world: EffectWorld) -> int:
 
 
 static func run_step(step: Dictionary, params: Dictionary, world: EffectWorld) -> void:
+	if TriggerGuards.extra(world) and TriggerGuards.doubling(step):
+		return
 	var effect: String = str(step.get("effect", ""))
 	var targets: Array[BoardUnit] = _targets(step, params, world)
 	var factor: int = _per(step, world)

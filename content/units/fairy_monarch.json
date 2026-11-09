@@ -1,22 +1,24 @@
 {
   "id": "fairy_monarch",
   "name": "Fairy Monarch",
+  "set": "slice",
   "tier": 6,
-  "attack": 4,
-  "health": 6,
+  "attack": 6,
+  "health": 8,
   "tribes": [
     "Fairies"
   ],
-  "text": "Rings under your Fairies give +1/+1 more.",
-  "golden_text": "Rings under your Fairies give +2/+2 more.",
+  "text": "Every 3rd End of Turn: double your Ring size.",
+  "golden_text": "Every 3rd End of Turn: triple your Ring size.",
   "mechanics": [
     {
-      "id": "fairy_monarch",
-      "stats": 1
+      "id": "pass3_fairy",
+      "ability": "monarch",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Ring"
+    "Ring size"
   ],
   "row_hint": null,
   "pool": true,
@@ -24,8 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/evidence/commit-review.md",
-    "note": "Commitment package, costed bounds."
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "set": "slice"
+  "details": "Midsummer shares one countdown across copies. Extra triggers never advance it or repeat its growth; a golden copy triples instead."
 }

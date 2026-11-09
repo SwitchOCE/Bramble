@@ -8,15 +8,17 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. When this comes home: your other Birds away come home too.",
-  "golden_text": "Fly South, for 1 turn. When this comes home: your other Birds away come home too.",
+  "text": "Fly South. When this comes home: so do your Birds that missed a fight.",
+  "golden_text": "Fly South. When this comes home: so do your Birds that missed a fight.",
   "mechanics": [
     {
       "id": "fly_south",
       "turns": 2
     },
     {
-      "id": "old_tern"
+      "id": "pass3_bird",
+      "ability": "old_tern",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -28,15 +30,16 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "They land in your hand. Their When played text fires again when you play them. Landed Birds cannot fly that turn; a full hand leaves them on the doorstep.",
+  "details": "Only Birds that have missed a fight can be recalled early. Each homecoming doubles once; it returns to hand.",
+  "golden_details": "Trips last 1 turn. Only Birds that have missed a fight can be recalled early; each doubles once.",
   "mechanic_text": {
     "1": {
-      "id": "old_tern",
-      "text": "When this comes home: your other Birds away come home too.",
-      "golden_text": "When this comes home: your other Birds away come home too."
+      "id": "pass3_bird",
+      "text": "When this comes home: so do your Birds that missed a fight.",
+      "golden_text": "When this comes home: so do your Birds that missed a fight."
     }
   }
 }

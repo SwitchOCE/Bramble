@@ -1,0 +1,944 @@
+{
+  "round": 10,
+  "opponent_id": 7,
+  "winner": 1,
+  "damage": 10,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nest_egg",
+            "name": "Egg",
+            "tier": 1,
+            "tribes": [],
+            "attack": 0,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": [],
+            "bird_attack": 5,
+            "bird_health": 9,
+            "turns_left": 1
+          },
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "cuckoo",
+            "name": "The Cuckoo",
+            "tier": 4,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 5,
+            "health": 8,
+            "max_health": 8,
+            "golden": false,
+            "text": "After a Bird comes home: other Birds gain a tenth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 3,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nest_egg",
+            "name": "Egg",
+            "tier": 1,
+            "tribes": [],
+            "attack": 1,
+            "health": 2,
+            "max_health": 2,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": [],
+            "bird_attack": 12,
+            "bird_health": 16,
+            "turns_left": 2
+          },
+          {
+            "uid": 4,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nest_egg",
+            "name": "Egg",
+            "tier": 1,
+            "tribes": [],
+            "attack": 0,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": [],
+            "bird_attack": 7,
+            "bird_health": 7,
+            "turns_left": 2
+          },
+          {
+            "uid": 5,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "tom_tit",
+            "name": "Tom Tit",
+            "tier": 3,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 5,
+            "health": 6,
+            "max_health": 6,
+            "golden": false,
+            "text": "Your biggest other Bird has Damage Reduction 50%.",
+            "keywords": [
+              "Damage Reduction"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Damage Reduction",
+                "text": "Takes this much less damage from each hit."
+              }
+            ]
+          },
+          {
+            "uid": 6,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mr_redbreast",
+            "name": "Mr Redbreast",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 7,
+            "health": 9,
+            "max_health": 9,
+            "golden": false,
+            "text": "After a Bird comes home: gain an eighth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 7,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nest_egg",
+            "name": "Egg",
+            "tier": 1,
+            "tribes": [],
+            "attack": 0,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": [],
+            "bird_attack": 2,
+            "bird_health": 3,
+            "turns_left": 1
+          }
+        ],
+        [
+          {
+            "uid": 8,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "wick",
+            "name": "Wick",
+            "tier": 1,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 10,
+            "health": 11,
+            "max_health": 11,
+            "golden": true,
+            "text": "Pack. After this joins an attack: gain +2 Attack.",
+            "keywords": [
+              "Pack"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Pack",
+                "text": "When a unit beside this attacks, this joins in, using up its own attack."
+              }
+            ]
+          },
+          {
+            "uid": 9,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "young_brock",
+            "name": "Young Brock",
+            "tier": 1,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 7,
+            "health": 8,
+            "max_health": 8,
+            "golden": false,
+            "text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          },
+          {
+            "uid": 10,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "lodger",
+            "name": "The Lodger",
+            "tier": 3,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 6,
+            "health": 6,
+            "max_health": 6,
+            "golden": false,
+            "text": "Pounce. After this pounces: gain +2/+1.",
+            "keywords": [
+              "Pounce"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Pounce",
+                "text": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+              }
+            ]
+          },
+          {
+            "uid": 11,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "toll_bard",
+            "name": "The Toll-Bard",
+            "tier": 2,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 5,
+            "health": 7,
+            "max_health": 7,
+            "golden": false,
+            "text": "Quarry. After its quarry attacks, it loses 1 Attack (twice a fight). The first time, get 1 gold next turn.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          },
+          {
+            "uid": 12,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "old_brock",
+            "name": "Old Brock",
+            "tier": 4,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 8,
+            "health": 11,
+            "max_health": 11,
+            "golden": false,
+            "text": "Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+            "keywords": [
+              "Quarry",
+              "Pounce"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              },
+              {
+                "keyword": "Pounce",
+                "text": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+              }
+            ]
+          },
+          {
+            "uid": 13,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "belladonna",
+            "name": "Lady Belladonna",
+            "tier": 5,
+            "tribes": [
+              "Fairies"
+            ],
+            "attack": 7,
+            "health": 10,
+            "max_health": 10,
+            "golden": false,
+            "text": "Start of Combat: give the enemy across Nightshade.",
+            "keywords": [
+              "Nightshade"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Nightshade",
+                "text": "When attacked, this first loses half its Health."
+              }
+            ]
+          },
+          {
+            "uid": 14,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "toll_bard",
+            "name": "The Toll-Bard",
+            "tier": 2,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 6,
+            "health": 8,
+            "max_health": 8,
+            "golden": false,
+            "text": "Quarry. After its quarry attacks, it loses 1 Attack (twice a fight). The first time, get 1 gold next turn.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          }
+        ]
+      ],
+      "first_side": 1,
+      "player_ids": [
+        0,
+        7
+      ],
+      "slot_effects": [
+        [
+          [],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 3,
+              "golden": false,
+              "attack": 3,
+              "health": 3,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 3,
+              "golden": false,
+              "attack": 3,
+              "health": 3,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ]
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "phase",
+      "name": "bell"
+    },
+    {
+      "seq": 3,
+      "type": "quarry_marked",
+      "hunter": 8,
+      "quarry": 2,
+      "source": 9
+    },
+    {
+      "seq": 4,
+      "type": "quarry_marked",
+      "hunter": 10,
+      "quarry": 2,
+      "source": 9
+    },
+    {
+      "seq": 5,
+      "type": "quarry_marked",
+      "hunter": 9,
+      "quarry": 5,
+      "source": 12
+    },
+    {
+      "seq": 6,
+      "type": "quarry_marked",
+      "hunter": 13,
+      "quarry": 5,
+      "source": 12
+    },
+    {
+      "seq": 7,
+      "type": "stats",
+      "target": 8,
+      "attack_delta": 1,
+      "health_delta": 0,
+      "attack": 11,
+      "health": 11,
+      "max_health": 11,
+      "source": 9,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 8,
+      "type": "stats",
+      "target": 10,
+      "attack_delta": 1,
+      "health_delta": 0,
+      "attack": 7,
+      "health": 6,
+      "max_health": 6,
+      "source": 9,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 9,
+      "type": "status",
+      "target": 6,
+      "status": "damage_reduction",
+      "on": true,
+      "source": null,
+      "data": {
+        "percent": 50
+      }
+    },
+    {
+      "seq": 10,
+      "type": "trigger",
+      "uid": 13,
+      "mechanic": "belladonna"
+    },
+    {
+      "seq": 11,
+      "type": "status",
+      "target": 6,
+      "status": "nightshade",
+      "on": true,
+      "source": 13,
+      "data": {}
+    },
+    {
+      "seq": 12,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 13,
+      "type": "attack",
+      "side": 1,
+      "attacker": 8,
+      "defender": 2,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 14,
+      "type": "damage",
+      "source": 8,
+      "target": 2,
+      "amount": 11,
+      "raw": 11,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -3
+    },
+    {
+      "seq": 15,
+      "type": "damage",
+      "source": 2,
+      "target": 8,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 6
+    },
+    {
+      "seq": 16,
+      "type": "death",
+      "uid": 2,
+      "side": 0,
+      "slot": 1
+    },
+    {
+      "seq": 17,
+      "type": "take",
+      "hunter": 8,
+      "quarry": 2,
+      "side": 1
+    },
+    {
+      "seq": 18,
+      "type": "quarry_lost",
+      "hunter": 8,
+      "quarry": 2
+    },
+    {
+      "seq": 19,
+      "type": "quarry_lost",
+      "hunter": 10,
+      "quarry": 2
+    },
+    {
+      "seq": 20,
+      "type": "attack",
+      "side": 0,
+      "attacker": 3,
+      "defender": 9,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 21,
+      "type": "damage",
+      "source": 3,
+      "target": 9,
+      "amount": 1,
+      "raw": 1,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 7
+    },
+    {
+      "seq": 22,
+      "type": "damage",
+      "source": 9,
+      "target": 3,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -5
+    },
+    {
+      "seq": 23,
+      "type": "death",
+      "uid": 3,
+      "side": 0,
+      "slot": 2
+    },
+    {
+      "seq": 24,
+      "type": "attack",
+      "side": 1,
+      "attacker": 9,
+      "defender": 5,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 25,
+      "type": "damage",
+      "source": 9,
+      "target": 5,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -1
+    },
+    {
+      "seq": 26,
+      "type": "damage",
+      "source": 5,
+      "target": 9,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 2
+    },
+    {
+      "seq": 27,
+      "type": "death",
+      "uid": 5,
+      "side": 0,
+      "slot": 4
+    },
+    {
+      "seq": 28,
+      "type": "status",
+      "target": 6,
+      "status": "damage_reduction",
+      "on": false,
+      "source": null,
+      "data": {}
+    },
+    {
+      "seq": 29,
+      "type": "take",
+      "hunter": 9,
+      "quarry": 5,
+      "side": 1
+    },
+    {
+      "seq": 30,
+      "type": "quarry_lost",
+      "hunter": 9,
+      "quarry": 5
+    },
+    {
+      "seq": 31,
+      "type": "quarry_lost",
+      "hunter": 13,
+      "quarry": 5
+    },
+    {
+      "seq": 32,
+      "type": "attack",
+      "side": 0,
+      "attacker": 6,
+      "defender": 10,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 33,
+      "type": "damage",
+      "source": 6,
+      "target": 10,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -1
+    },
+    {
+      "seq": 34,
+      "type": "damage",
+      "source": 10,
+      "target": 6,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 2
+    },
+    {
+      "seq": 35,
+      "type": "death",
+      "uid": 10,
+      "side": 1,
+      "slot": 2
+    },
+    {
+      "seq": 36,
+      "type": "attack",
+      "side": 1,
+      "attacker": 11,
+      "defender": 4,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 37,
+      "type": "damage",
+      "source": 11,
+      "target": 4,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -4
+    },
+    {
+      "seq": 38,
+      "type": "death",
+      "uid": 4,
+      "side": 0,
+      "slot": 3
+    },
+    {
+      "seq": 39,
+      "type": "attack",
+      "side": 0,
+      "attacker": 6,
+      "defender": 9,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 40,
+      "type": "damage",
+      "source": 6,
+      "target": 9,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -5
+    },
+    {
+      "seq": 41,
+      "type": "damage",
+      "source": 9,
+      "target": 6,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -5
+    },
+    {
+      "seq": 42,
+      "type": "death",
+      "uid": 6,
+      "side": 0,
+      "slot": 5
+    },
+    {
+      "seq": 43,
+      "type": "death",
+      "uid": 9,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 44,
+      "type": "attack",
+      "side": 1,
+      "attacker": 12,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 45,
+      "type": "damage",
+      "source": 12,
+      "target": 1,
+      "amount": 8,
+      "raw": 8,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -7
+    },
+    {
+      "seq": 46,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 0
+    },
+    {
+      "seq": 47,
+      "type": "pass",
+      "side": 0
+    },
+    {
+      "seq": 48,
+      "type": "attack",
+      "side": 1,
+      "attacker": 13,
+      "defender": 7,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 49,
+      "type": "damage",
+      "source": 13,
+      "target": 7,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -6
+    },
+    {
+      "seq": 50,
+      "type": "death",
+      "uid": 7,
+      "side": 0,
+      "slot": 6
+    },
+    {
+      "seq": 51,
+      "type": "combat_end",
+      "winner": 1,
+      "reason": "board_empty",
+      "survivors": [
+        [],
+        [
+          8,
+          11,
+          12,
+          13,
+          14
+        ]
+      ],
+      "damage": 10,
+      "damage_uncapped": 10,
+      "damage_base": 5,
+      "damage_performance": 5,
+      "damage_mode": "v05",
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": "",
+      "last_stand_sides": [],
+      "alive": 8,
+      "damage_cap": 0
+    }
+  ]
+}

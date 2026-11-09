@@ -3,26 +3,18 @@
   "name": "Sally Spore",
   "set": "slice",
   "tier": 2,
-  "attack": 1,
-  "health": 3,
+  "attack": 2,
+  "health": 4,
   "tribes": [
     "Fairies"
   ],
-  "text": "End of Turn: Ring your empty slot nearest this +1/+1.",
-  "golden_text": "End of Turn: Ring your empty slot nearest this +2/+2.",
+  "text": "End of Turn: Ring your empty slot nearest this.",
+  "golden_text": "End of Turn: Ring your empty slot nearest this twice.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "end_of_turn",
-      "name": "ring",
-      "do": {
-        "effect": "slot_effect",
-        "attack": 1,
-        "health": 1,
-        "at": "nearest_empty",
-        "name": "Ring",
-        "text": "Whoever stands on this slot has these stats."
-      }
+      "id": "pass3_fairy",
+      "ability": "sally",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -34,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "fairies.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Distance ties use reading order. With no empty slot, this does nothing."
 }

@@ -3,18 +3,18 @@
   "name": "Mag Pye",
   "set": "slice",
   "tier": 4,
-  "attack": 3,
-  "health": 6,
+  "attack": 4,
+  "health": 7,
   "tribes": [
     "Birds"
   ],
-  "text": "Start of Combat: steal the text of the enemy across.",
-  "golden_text": "Start of Combat: steal the text of two enemies: the one across and the next along.",
-  "details": "Happens before other Start of Combat effects. A Belly isn't text.",
+  "text": "Start of Combat: your biggest Bird steals the text of the enemy across.",
+  "golden_text": "Start of Combat: your biggest Bird steals the text of the enemy across and one next to it.",
   "mechanics": [
     {
-      "id": "mag_pye",
-      "reach": 1
+      "id": "pass3_bird",
+      "ability": "mag_pye",
+      "factor": 1
     }
   ],
   "keywords": [],
@@ -24,6 +24,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
-  }
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Resolves before other Start of Combat text. With no friendly Bird, this does nothing; next to includes in front and behind."
 }

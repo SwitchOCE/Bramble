@@ -1,4 +1,5 @@
 extends GutTest
+## Frozen pass 2 design regression; current pool rules are tested in test_pass3_*.
 @warning_ignore_start("unsafe_call_argument")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
@@ -26,7 +27,7 @@ var _kit: KIT
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_kit.rules.start_phase(_kit.player, 1)
 
 

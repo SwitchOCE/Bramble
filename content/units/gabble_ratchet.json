@@ -3,17 +3,17 @@
   "name": "The Gabble Ratchet",
   "set": "slice",
   "tier": 6,
-  "attack": 3,
-  "health": 7,
+  "attack": 6,
+  "health": 10,
   "tribes": [
     "Birds"
   ],
-  "text": "When a unit on a Nest dies: its Bird lands there.",
-  "golden_text": "When a unit on a Nest dies: its Bird lands there with twice its Attack.",
-  "details": "Eggs count; once per Nest each fight. The Bird lands with current stats, then returns away after the fight with its trip unchanged.",
+  "text": "When a unit on a Nest dies: its Bird drops in.",
+  "golden_text": "When a unit on a Nest dies: its Bird drops in with double stats.",
   "mechanics": [
     {
-      "id": "gabble_ratchet",
+      "id": "pass3_bird",
+      "ability": "ratchet",
       "factor": 1
     }
   ],
@@ -26,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
-  }
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Once per Nest a fight. The Bird stays away afterwards with its trip unchanged; this is not a homecoming."
 }

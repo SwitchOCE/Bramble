@@ -35,6 +35,9 @@ func before_each() -> void:
 func _assert_own_art(owner_node: Node, def_id: String, where: String) -> void:
 	var frame: ArtFrame = owner_node.get("_art")
 	var expected: String = UiTheme.UNIT_PORTRAIT_DIR % def_id
+	# Wave 1 explicitly reuses the existing Egg portrait for its created Golden Egg spell.
+	if def_id == "golden_egg":
+		expected = UiTheme.UNIT_PORTRAIT_DIR % "nest_egg"
 	if _pending.has(def_id) and not ResourceLoader.exists(expected):
 		var tribes: Array = _library.get_unit(def_id).get("tribes", [])
 		expected = UiTheme.portrait(tribes).resource_path
@@ -77,7 +80,7 @@ func test_every_spell_and_hand_item_has_its_own_portrait() -> void:
 		if in_game or str(card["id"]) in RULES_ITEMS:
 			_assert_on_tile_and_detail(HandItem.make(card, 1).view())
 			seen += 1
-	assert_eq(seen, 23, "19 spells, 3 Acorn items and the triple reward")
+	assert_eq(seen, 24, "19 spells, 3 Acorn items, the triple reward and Golden Egg")
 
 
 func test_every_hero_has_its_own_portrait() -> void:

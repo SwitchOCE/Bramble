@@ -217,13 +217,17 @@ func _place_label(i: int) -> void:
 		var y: float = at.y - LABEL_H - LABEL_GAP if front else at.y + pocket.y + LABEL_GAP
 		strip.position = Vector2(at.x - 4.0, y)
 		strip.size = Vector2(pocket.x + 8.0, LABEL_H)
+		var ring: bool = mark.get("has_ring", false) == true
 		var chip: Label = strip.get_child(0) as Label
-		chip.size = Vector2(54, LABEL_H)
+		var chip_face: StyleBoxFlat = chip.get_theme_stylebox("normal") as StyleBoxFlat
+		chip_face.content_margin_left = 2 if ring else 6
+		chip_face.content_margin_right = 2 if ring else 6
+		chip.size = Vector2(44 if ring else 54, LABEL_H)
 		var words: Label = _label_names[i]
-		words.position = Vector2(60, -1)
-		words.size = Vector2(strip.size.x - 66.0, LABEL_H)
-		if pocket.x < 200.0 and mark.get("has_ring", false) == true:
-			words.size.x = maxf(0.0, words.size.x - _marks.header_width(i) - 6.0)
+		words.position = Vector2(48 if ring else 60, -1)
+		words.size = Vector2(strip.size.x - words.position.x - (2.0 if ring else 6.0), LABEL_H)
+		if ring:
+			words.size.x = maxf(0.0, words.size.x - _marks.header_width(i) - 4.0)
 		words.text = fit_name(str(card.unit.get("name", "")), words)
 	if chip_on:
 		var chip: Label = _chips[i]

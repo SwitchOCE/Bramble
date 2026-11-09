@@ -2,6 +2,8 @@ extends RefCounted
 ## Helpers for the recruit trigger and effect tests: one player, its rules and test-only cards.
 @warning_ignore_start("unsafe_call_argument")
 
+const Legacy := preload("res://tests/core/legacy_wave1.gd")
+
 var library: UnitLibrary
 var config: GameConfig
 var pool: UnitPool
@@ -9,9 +11,11 @@ var rules: RecruitRules
 var player: PlayerState
 
 
-func setup(game_config: GameConfig = null) -> void:
-	library = UnitLibrary.load_dir()
+func setup(game_config: GameConfig = null, legacy_wave1: bool = false) -> void:
+	library = Legacy.library() if legacy_wave1 else UnitLibrary.load_dir()
 	config = game_config if game_config != null else GameConfig.defaults()
+	if legacy_wave1:
+		config.set_value("pass3_content", false)
 	pool = UnitPool.create(library, config)
 	rules = RecruitRules.create(library, config, pool)
 	player = PlayerState.new()

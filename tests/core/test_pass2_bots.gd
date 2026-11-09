@@ -9,7 +9,7 @@ var _brain: BotBrain
 
 func before_each() -> void:
 	_kit = K.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_kit.rules.start_phase(_kit.player, 4)
 	_kit.player.gold = 20
 	_brain = BotBrain.from_name("hard")

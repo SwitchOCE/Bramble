@@ -1,10 +1,10 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The audit is done: the game is flat because our costing method capped growth, and bots couldn't see it. A new plan is under way: a harness that measures strong scripted play, shared mechanics, and six tribe redesigns on paper, all running at once. Then a scale build for you to play.
+- **In short:** The game is flat because our costing method capped growth. The fix is under way: the shared mechanics are in, six tribe redesigns are written on paper, and the harness that measures strong scripted play is close to done. Birds and Fairies are being built. Next is a scale build for you to play.
 - **Status:** active
-- **Last step done:** Pass 2 merged into ideation/main. Fundamentals audit (`fundamentals.md`) and the scale rework plan v2 (`plan-scale-rework.md`), approved after plan-interrogate and three critics.
-- **Next step:** Track A, the harness (Sol, `ideation/harness`). Track B, shared mechanics and the big-number phone check (Sol, `ideation/mechanics`). Track C, six tribe design panels (workflow). Then the lever sweep and scale build 8a (checkpoint 1).
+- **Last step done:** Shared scale mechanics merged. Pass 3 tribe designs and the cross-tribe calls committed (`content/pass3/`), with one target table (`evidence/reference-curves.md`).
+- **Next step:** Finish the harness (Sol, `ideation/harness`): the fair line-strength test, then the lever sweep. Wave 1, Birds and Fairies, is being built alongside it (Sol, `ideation/wave1`). Then the lever pick and scale build 8a (checkpoint 1).
 - **Waiting on you:** Nothing. Four optional questions in `fundamentals.md` §4; my defaults stand until you answer.
 - **Scope:** Fun first, then balance; simulations over bot play (owner, 9 Nov).
 <!-- /status -->
@@ -58,7 +58,7 @@ Numbers are starting bars; tightening is free, loosening needs a line in `DECISI
    - Reviewers who played: a real decision on most turns, and they found at least 3 builds that felt different.
 3. **Interesting.** Every tribe has at least one signature mechanic Battlegrounds doesn't have. Every tribe has some economy (owner, 02h). Reviewers don't call it a re-skin.
 4. **Bots.** One strength: the best players we can make, in several flavours with different strategic quirks (owner, 8 Nov: "No easy, no medium bot."). "How far can I get" shows as a visible record: best placement and wins. The current implementation uses today's Hard policy; Naive is tools-only.
-5. **Release feel.** One look throughout, no switcher. Unique art on every unit, hero and spell. Text readable on phone (nothing under the phone minimum; full text one tap away). Fights read clearly: who hits, what triggered, why it died. Fight and UI sound. How-to-play, settings, game-over summary, no dev tools in the player's path. 20 scripted full UI games at phone and PC sizes without a crash or a layout failure.
+5. **Release feel.** One look throughout, no switcher. Unique art on every unit, hero and spell. Text readable on phone (nothing under the phone minimum; full text one tap away). Fights read clearly, through animation and feel rather than static labels, arrows or a running log: who hits, what triggered, why it died. The main game space assumes a player who knows the rules: no tutorial text, rule reminders or static pointers on the board. Teaching lives in a tutorial and how-to-play, and full rules text is one tap away (owner, 9 Nov: `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`). Fight and UI sound. A tutorial, how-to-play, settings, game-over summary, no dev tools in the player's path. 20 scripted full UI games at phone and PC sizes without a crash or a layout failure.
 6. **Delivered.** Windows and Android builds on the portal, each with a `README.txt`, and `PLAYTEST.md`.
 7. **Agreed.** Three fresh reviewers who each played full games say "very good for a playtest", with their agreed items fixed. Agents can't feel a phone: phone checks are layout measurements and screenshots at phone size, and the playtest guide says no real device was tested.
 

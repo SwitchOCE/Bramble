@@ -1,4 +1,101 @@
-# Plan: the scale rework (v2, 9 Nov 2026)
+# Plan: the scale rework (v3, 9 Nov 2026 evening; v2 below for the record)
+
+## v3: what changed and why
+
+**The evidence.** Taken from the harness on today's pool (`ideation/harness`, `evidence/lever-sweep.md`). The figures below were checked by the orchestrator from the lobby CSVs.
+- **Caps off (both):** gives a tail. 11% of boards are at twice the median by R16, and the top 1% reach 8,000.
+  - The median stays linear: 133 at R12, 209 at R16.
+  - Winners finish at R19.
+  - Turning off either cap alone does nothing.
+- **Lever builds** (the synthetic engine at 25% and 50%):
+  - The median final board barely moves: 141–148, against 137 today.
+  - The lobby winner is at least 5× the runner-up in 26–42% of lobbies (0% today).
+  - Winners still finish at R19.
+
+  One synthetic card on a flat pool is a lottery, not an era. Bot lines also lose to Hard on both lever builds, so the sweep's engine reads would be lower bounds.
+- **Four adversarial critics** (fun, method, delivery, devil's advocate; `evidence/path-critics.json`) all chose the same path. The sweep and build 8a on today's pool would tune cards that never ship (amendment 12) and put playtesters on a pool that is about to be replaced. The median has to come from content, and wave 1 already exists and was built in about 2.5 hours.
+
+**Steps from here** (approved 9 Nov after plan-interrogate, `evidence/plan-v3-interrogate.md`, with its changes taken):
+1. **Merge what is finished, in this order:**
+   - Wave 1 (Birds and Fairies), gated on the merged tree. It sits behind `pass3_content`, so players see nothing new until that is on.
+   - The harness, after a follow-up review of everything since `9af89c2`, including the designed-setup driver.
+   - Strong-field mode, after its fixes pass a follow-up review. Its tests build their content manifest from current content, so content commits don't break them. The shipped library is recaptured once, at step 5. Until then the mode stays out of player builds.
+2. **Build wave 2 on Sol.**
+   - **Pool rules first, as one commit:**
+     - the one permanent-gain queue;
+     - any loop guards wave 1 lacks;
+     - hero powers and spells scaled by the board, switched on in both presets;
+     - Harvest Supper's late ceiling lifted.
+   - **Then W2a:** Bog and Hunters.
+   - **Then W2b,** rebased onto W2a: Oozes, the Hedgerow light pass and the neutrals. The neutrals: keep 9, change 4, add Shieldbug and Click Beetle, and retire the 38 prototype bodies last.
+   - One reviewed commit per tribe, each with its line JSON and Hard-bot fixes. One integration gate on the merged tree.
+   - Every engine rate is a dial. **Generous first** (owner, 9 Nov: `docs/design/owner-notes/2026-11-09h-generous-power-first.md`): dials start at the generous end and are cut back on evidence, never raised from weak. The presets:
+     - **B, the default:** about 900 at R12. Fairies and Oozes stay at their design size (the Fetch twin is full), and the other four are raised to match.
+     - **C, overly generous:** B's engine rates doubled, about 1,800 at R12. This is the start the owner recommends, and it shows which dial to cut.
+     - **A, the fallback only:** the September 2025 shape, about 500 at R12, the size the owner doubted ("50/50 may be too small"). It is played only if both B and C fail for reasons that a smaller scale would fix.
+
+     A paper workflow writes B's and C's values during wave 2. Every new dial lands at B's value or above.
+3. **The UI declutter** (owner, 9 Nov: `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`):
+   - A workflow audit produces the spec: cut, move or animate every element, plus what the tutorial must teach.
+   - A UI branch builds it in batches, with before/after screenshots and a reviewer briefed with the note.
+   - It lands before checkpoint 1, with the tutorial and how-to-play updated.
+4. **Meanwhile, three things in parallel:**
+   - **A wave 1 fun probe** on cloud machines: three reward-lens playtesters, each playing two Birds or Fairies games and one old-tribe game as a control, against Hard.
+     - Each named moment is checked against the game log, board before and after. Read moments, not win rates.
+     - **Go/no-go before any wave 2 merge:** if fewer than two of three name a logged moment that beats their control game, hold and triage.
+   - **Designed setups** from the harness generator. Each runs against bars set before it runs, and they outrank line lobbies when the two disagree (09d).
+     - **First:** carry against wide, distribution against totals, answers against carries.
+     - **Then wave 1's typical boards, as an accounting check:** if Birds' or Fairies' real R12 board is outside 0.5–2× its paper figure, fix the accounting in the wave 2 briefs before their dial values land.
+   - **Offline damage and Health replay:** a shortlist of 2–3 tables in which winners finish by R14–16.
+5. **Measure the full pass 3 pool, locally** (cloud shards only if both slots are busy):
+   - first, the line-strength gate on the new lines against `hard_field`;
+   - 150 or more line lobbies per preset (B and C);
+   - fields at R6–16;
+   - designed setups against predeclared bars: Granny, the Whistlers, and each tribe's carry against a common board with one answer;
+   - the splash audit, as a lobby output;
+   - the damage table confirmed;
+   - a 200-game soak;
+   - the strong-field library recaptured once, from top-4 trajectories.
+
+   The checkpoint config: pass 3 on, caps off, loop guards on, hero and spell scaling on, the chosen damage table.
+6. **Checkpoint 1 on the full pass 3 pool.**
+   - Three or more reward-lens playtesters play B and C blind, in counterbalanced order, against the strong field, and say which they prefer and why. The cut back from C is made dial by dial, on what they and the measurements show.
+   - The portal build (Windows and Android) carries presets B and C as a setting (A only as a fallback), with the agents' pick as the default.
+   - The owner hears plainly whether the scale problem is fixed.
+7. **Step 4 as written:** opponents, build 8, playtest round 6 and the remaining Done means evidence. Done means 2 is rewritten onto the harness here, before build 8 sign-off.
+
+**What decides checkpoint 1** (owner, 9 Nov 09i: "Get good at one or two things and then start fixing other issues … if you have too many rules, you're going to have impossible evaluation criteria"). Two criteria decide. Everything else is reported.
+
+1. **Play: it feels like progress.** Every reward-lens tester names a moment, checked against the game log, where they felt stronger. Most say the preset they prefer "feels like progress". This is the owner's bar: "Does it allow for a nice player progression, where the jumps in power level make the player actually feel stronger?"
+2. **The scale is no longer flat:** the lobby median grows ×1.3 or more a round from R8 to R14 (pre-start boards). This is the original problem (09a).
+
+**Generous first** (09h): a high total never fails a preset. The R12 median is about 900 for B and about 1,800 for C. These are targets for setting the dials, not bars.
+
+**Reported, not deciding.** These are triaged only on an extreme miss:
+- the tail: share of boards at 2× the median, and the top 1%;
+- concentration, and the designed carry-against-even bar (definition in `tools/sim/HARNESS.md`);
+- snowballs and comebacks: the R8 leader's win rate, below-median comebacks, the winner-to-runner-up ratio;
+- game length, the uncertain-fight share, tier-up strength, card and tribe spread;
+- the strong-field rivals' size, which only says whether the snowball numbers can be trusted.
+
+**Extreme misses that are triaged before the owner plays:**
+- a tribe's best line outside an order of magnitude of the others (09c);
+- one line winning whatever the player chooses;
+- runaway snowballs in most lobbies.
+
+A cut is made at the outlier dial, not the whole scale. "Losses with no agency" (09h) is not a bar. The owner will work on it once they have a build to iterate from (09i).
+
+**Cut from v2:**
+- the remaining protected sweep on today's pool;
+- build 8a on today's pool (kept only as a diagnostic, if both presets miss for unclear reasons);
+- checkpoint 2 as a separate step: the wave 1 probe covers its purpose. Decisions that waited on "checkpoint 2" (the Jack Daw comparison, deleting the frozen pass 2 tests) now wait on step 5;
+- line-against-Hard placements as tribe evidence.
+
+The rules for the whole rework (below) are unchanged.
+
+---
+
+# v2 (9 Nov 2026), kept for the record
 
 Why: `fundamentals.md`. The owner's words are in notes 2026-11-09a–d:
 - "our power budgeting across the board is very, very much too low" (9a)

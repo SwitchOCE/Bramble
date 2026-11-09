@@ -9,7 +9,12 @@ static func library_for(library: UnitLibrary, config: GameConfig) -> UnitLibrary
 		return library
 	var source: UnitLibrary = library.get_meta("scale_overlay_source", library)
 	var ids: PackedStringArray = selected_levers(config)
-	if config.get_bool("card_size_caps") and config.get_bool("card_rate_limits") and ids.is_empty():
+	if (
+		config.get_bool("card_size_caps")
+		and config.get_bool("card_rate_limits")
+		and ids.is_empty()
+		and not Pass3Rates.overridden(config)
+	):
 		return source
 	var out := UnitLibrary.new()
 	out.set_meta("scale_overlay_source", source)
@@ -50,6 +55,7 @@ static func _key(config: GameConfig) -> String:
 		"scale_economy_cap"
 	]:
 		values.append(config.get_value(key))
+	values.append(Pass3Rates.resolved(config))
 	return JSON.stringify(values)
 
 
@@ -63,6 +69,7 @@ static func card_for(card: Dictionary, config: GameConfig) -> Dictionary:
 			_strip(out, EffectSchema.section(str(pair[1])), str(pair[0]) == "card_rate_limits")
 	ScaleText.rewrite(out, config)
 	ScaleLeverText.configure(out, config)
+	Pass3Text.configure(out, config)
 	return out
 
 

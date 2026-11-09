@@ -208,6 +208,7 @@ func _smart_turn() -> void:
 	_maybe_power()
 	_shop_loop()
 	_climb(true)
+	BotPass3.churn(self)
 	_feed_eaters()
 	_cash_for_burn()
 	_cast_spells(true)
@@ -247,6 +248,7 @@ func _climb(leftover: bool) -> void:
 			target -= 1
 		if _round_now < target:
 			return
+		BotPass3.prepare_rainbow(self)
 		var cost: int = _rules.tier_up_cost(_player)
 		if (
 			_round_now >= 2
@@ -393,6 +395,8 @@ func _weakest_slot() -> int:
 	for slot: int in BoardGeometry.SLOTS:
 		var unit: RecruitUnit = _player.board[slot]
 		if unit == null:
+			continue
+		if BotPass3.keep_engine(_player, unit, value):
 			continue
 		var worth: float = value.keep_value(unit)
 		if weakest < 0 or worth < lowest:
@@ -634,11 +638,13 @@ func _cast_spells(last_too: bool) -> void:
 
 
 func _ready_to_cast(item: HandItem) -> bool:
+	if BotPass3.active(_player) and item.def_id() == "golden_egg" and BotPass3.hold_egg(_player):
+		return false
 	if not BotCommitment.can_cast(item.def, _player):
 		return false
 	if not _can_aim(item.aim()):
 		return false
-	if item.ring_add() != Vector2i.ZERO:
+	if item.aim() != HandItem.AIM_NONE:
 		return _aim_for(item.aim(), item.def) >= 0
 	return not _discovers(item.def) or _rules.has_hand_space(_player)
 
@@ -673,9 +679,18 @@ func _aim_for(aim: String, card_def: Dictionary) -> int:
 		return -1
 	var legal: Array[int] = _legal_aims(aim)
 	var item := HandItem.make(card_def, 0)
-	if item.ring_add() != Vector2i.ZERO:
+	if not card_def.is_empty():
 		legal = legal.filter(
 			func(slot: int) -> bool: return _rules.item_aim_problem(_player, item, slot) == ""
+		)
+	if (
+		BotPass3.active(_player)
+		and level.reads_text
+		and item.is_spell()
+		and aim != HandItem.AIM_SHOP_UNIT
+	):
+		legal = legal.filter(
+			func(slot: int) -> bool: return BotPass3.thank_ready(_player, slot, _rules.config)
 		)
 	if legal.is_empty():
 		return -1
@@ -699,6 +714,12 @@ func _best_shop_aim(legal: Array[int]) -> int:
 
 ## The target worth the most, including a deliberate Shy departure.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
+	if BotPass3.active(_player) and level.reads_text:
+		var thank: int = BotPass3.thank_aim(
+			_player, HandItem.make(card_def, 0), legal, _rules.config
+		)
+		if thank >= 0:
+			return thank
 	var aim_at: String = str(knowledge.card(str(card_def.get("id", ""))).get("aim_at", "carry"))
 	if not level.plans_position and (aim_at == "in_front" or aim_at == "behind"):
 		aim_at = "carry"
@@ -711,7 +732,11 @@ func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
 		elif not BotCommitment.has_live_aim(card_def):
 			score = _aim_score(slot, aim_at)
 		var added: Vector2i = HandItem.make(card_def, 0).ring_add()
-		if added != Vector2i.ZERO:
+		if BotPass3.active(_player) and str(card_def.get("id", "")) == "golden_egg":
+			score = BotPass3.egg_aim(_player, slot)
+		elif BotPass3.active(_player) and added != Vector2i.ZERO:
+			score = BotPass3.ring_aim(_player, slot)
+		elif added != Vector2i.ZERO:
 			var rings: Array = _player.slot_effects[slot]
 			var actual: Vector2i = BoardUpkeep.ring_room(rings, added)
 			score = (score + 2.0) * float(actual.x + actual.y) / float(added.x + added.y)
@@ -731,7 +756,9 @@ func _aim_score(slot: int, aim_at: String) -> float:
 	if unit == null:
 		return -slot
 	if unit.has_mechanic_id("shy"):
-		return BotContent5.shy_departure_value(unit, _player, value.keep_value(unit))
+		return BotContent5.shy_departure_value(
+			unit, _player, value.keep_value(unit), _rules.config if _rules != null else null
+		)
 	return value.keep_value(unit)
 
 
@@ -756,7 +783,9 @@ func _sell_for_cash() -> void:
 		var hinted: Dictionary = knowledge.card(unit.def_id())
 		if not hinted.has("sell_at_bands"):
 			continue
-		var bands: int = _player.band_count()
+		var bands: int = (
+			BotPass3.ring_count(_player) if BotPass3.active(_player) else _player.band_count()
+		)
 		var ready: bool = bands >= CoreUtil.to_int(hinted["sell_at_bands"])
 		if (
 			_round_now >= CoreUtil.to_int(hinted.get("sell_late_round", 99))

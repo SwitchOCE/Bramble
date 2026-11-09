@@ -1,0 +1,34 @@
+Running as unit: run-p4058325-i12445197.scope; invocation ID: 651657ecae394e598eb124a1b301bdd9
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/ui/test_ring_badge_layout.gd
+[0m* test_counted_rings_clear_slot_names_unit_names_and_keyword_chips
+* test_redbreast_keeps_its_name_beside_the_ring_count_in_the_overview
+[1m2/2 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                 2
+Passing Tests         2
+Asserts              88
+Time              0.609s
+
+
+Ran Scripts matching "test_ring_badge_layout.gd"
+[32m---- All tests passed! ----
+[0m

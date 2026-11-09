@@ -1,0 +1,50 @@
+Running as unit: run-p3966458-i12352453.scope; invocation ID: 37f71d6ec3c04afb88693a50d62fa4aa
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_pass3_bots.gd
+[0m* test_hard_flies_a_mature_chiffchaff_and_keeps_three_bodies
+* test_played_this_turn_cannot_be_flown_even_when_its_growth_is_large
+* test_tern_waits_for_two_birds_in_the_sky
+* test_omen_turn_keeps_every_bird_home
+* test_elimination_guard_keeps_the_biggest_bird
+* test_the_lump_chooses_the_largest_empty_nest
+* test_ring_layout_feeds_the_carry_and_places_fetch_in_front
+* test_ring_spells_finish_the_rainbow_then_feed_the_big_ring
+* test_golden_egg_aims_at_the_biggest_eligible_bird
+* test_thanking_lob_values_ring_growth_and_rejects_an_early_cashout
+* test_hard_keeps_lob_hob_and_live_cluricaun_instead_of_selling_the_engine
+* test_hard_buys_a_thank_you_for_lobs_mature_bank_and_aims_past_a_large_carry
+* test_hob_only_leaves_when_silkys_growth_pays_for_the_lost_shield
+* test_hard_completes_cluricauns_rainbow_before_paying_for_the_tier_up
+* test_cluricaun_and_missing_ring_values_read_the_resolved_growth_dial
+* test_annis_surplus_gold_churn_uses_real_buys_and_grows_rings
+* test_chaser_sells_by_ringed_slots_without_rainbow_bands
+* test_a_real_hard_lobby_plays_both_replacement_engines
+* test_whistlers_face_total_stats_and_daw_takes_the_second_target
+* test_golden_egg_waits_for_the_larger_bird_due_next_turn
+[1m20/20 passed.
+[0m
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                20
+Passing Tests        20
+Asserts              61
+Time              9.602s
+
+
+[32m---- All tests passed! ----
+[0m

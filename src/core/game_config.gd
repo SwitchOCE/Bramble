@@ -32,6 +32,8 @@ var _values: Dictionary = {}
 static func defaults() -> GameConfig:
 	var config := GameConfig.new()
 	config._values = {
+		"pass3_content": false,
+		"pass3_loop_guards": true,
 		"card_size_caps": true,
 		"card_rate_limits": true,
 		"scale_levers": [],
@@ -96,6 +98,7 @@ static func defaults() -> GameConfig:
 ## tests and older callers see what they always saw. Tools can select full_game("legacy").
 static func full_game(damage_mode: String = "v05") -> GameConfig:
 	var config := defaults()
+	config.set_value("pass3_content", true)
 	config.set_value("spells_in_shop", true)
 	config.set_value("shop_units_by_tier", [4, 4, 4, 5, 5, 6])
 	config.set_value("early_spoils", true)

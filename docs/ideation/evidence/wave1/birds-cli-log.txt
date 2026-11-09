@@ -1,0 +1,131 @@
+
+* marks a golden unit.
+Lobby tribes: Birds, Bog folk, Fairies, Hunters, Oozes
+You: place 1, health 1, tier 6, spent 201 gold, main tribe Birds
+  R1 T1 win spent 3: F1 Little Nip 2/3
+  R2 T1 win spent 5: F1 Little Nip 2/3, F2 Chiffchaff 2/3
+  R3 T2 loss spent 7: F1 Little Nip 3/4, F3 Chiffchaff 2/3, F4 Wee Wobbly 1/4
+  R4 T2 win spent 6: F1 Little Nip 4/5, F2 Lamp Moth 1/2, F4 Wee Wobbly 1/4, B1 Nan Toadstool 3/2
+  R5 T3 win spent 9: F1 Little Nip 5/6, F2 Lamp Moth 1/2, F3 Chiffchaff 5/7, F4 Wee Wobbly 1/4, B1 Nan Toadstool 3/2, B2 One Swallow 1/2
+  R6 T3 win spent 8: F1 Little Nip 6/7, F2 Lamp Moth 1/2, F3 Mrs Jay 4/4, F4 Wee Wobbly 1/4, B1 Nan Toadstool 3/2, B3 Chiffchaff 6/8
+  R7 T4 loss spent 11: F1 Little Nip 7/8, F2 Lamp Moth 1/2, F3 Nan Toadstool 2/1, F4 Wee Wobbly 1/4, B1 Tom Tit 5/6, B2 One Swallow 3/5
+  R8 T4 win spent 11: F1 Little Nip 8/9, F2 Mag Pye 5/8, F3 Nan Toadstool 2/1, F4 Wee Wobbly 1/4, B1 Tom Tit 5/6, B2 Mr Redbreast 3/5, B3 Chiffchaff 12/16
+  R9 T4 win spent 16: F1 One Swallow 5/9, F2 The Cuckoo 5/8, F3 Chiffchaff 13/17, F4 Mrs Jay 7/7, B1 Tom Tit 5/6, B2 Mr Redbreast 7/9, B3 One Swallow 2/3
+  R10 T5 loss spent 11: F2 The Cuckoo 5/8, B1 Tom Tit 5/6, B2 Mr Redbreast 7/9
+  R11 T5 loss spent 11: F1 Chiffchaff 24/32, F2 The Cuckoo 10/14, F3 One Swallow 10/18, F4 One Swallow 3/5, B1 Tom Tit 10/12, B2 Mr Redbreast 17/22, B3 Mrs Jay 4/4
+  R12 T6 win spent 12: F1 Mrs Jay 13/13, F2 The Cuckoo 15/19, B1 Chiffchaff 25/33, B2 Mr Redbreast 27/33
+  R13 T6 win spent 14: F1 Mother Goose 7/9, F2 The Cuckoo 20/26, F3 One Swallow 28/44, F4 One Swallow 15/19, B1 The Great Lump 36/49, B2 Mr Redbreast 75/97
+  R14 T6 win spent 10: F1 Mrs Jay 17/17, F2 The Cuckoo 28/36, F3 The Great Lump 50/73, F4 The Seven Whistlers 8/10, B1 The Gabble Ratchet 8/12, B2 Mr Redbreast 92/118, B3 Chiffchaff 58/74
+  R15 T6 loss spent 15: F1 Mrs Jay 35/39, F2 The Cuckoo 50/65, F3 One Swallow 70/106, F4 Chiffchaff 58/78, B1 One Swallow 46/58, B2 Mr Redbreast 141/182, B3 The Great Lump 116/151
+  R16 T6 win spent 10: F2 The Cuckoo 53/69, F3 Mother Goose 30/38, F4 The Gabble Ratchet 7/11, B1 The Seven Whistlers 9/11, B2 Mr Redbreast 148/191, B3 The Great Lump 157/206
+  R17 T6 win spent 18: F1 Chiffchaff 319/411, F2 The Cuckoo 102/133, F3 The Great Lump 205/269, F4 One Swallow 143/217, B1 One Swallow 96/122, B2 Mr Redbreast 257/335, B3 Mother Goose 7/9
+  R18 T6 win spent 10: F1 The Great Lump 485/630, F2 The Cuckoo 122/159, F3 Mrs Jay 76/86, F4 Mother Goose 7/9, B1 Tom Tit 5/6, B2 Mr Redbreast 302/393, B3 Chiffchaff 243/327
+  R19 T6 win spent 14: F1 The Great Lump 557/729, F2 The Cuckoo 194/258, F3 One Swallow 230/294, F4 One Swallow 649/969, B1 Mother Goose 156/202, B2 Mr Redbreast 464/615, B3 The Gabble Ratchet 7/11
+Little King Wren: place 5, health -1, tier 5, spent 122 gold, main tribe Hunters
+  R1 T1 win spent 3: F2 Little Nip 2/3
+  R2 T1 win spent 4: F2 Little Nip 3/4, F3 Young Brock 1/3
+  R3 T1 win spent 7: F1 Little Nip 2/3, F2 Little Nip 5/7, F3 Young Brock 1/3, F4 Mrs Dunnock 2/3
+  R4 T2 win spent 8: F1 Little Nip 2/3, F2 Little Nip 6/8, F3 Young Brock 1/3, F4 Wee Wobbly 1/4, B1 Mrs Dunnock 2/3, B2 Bridge Toad 2/4
+  R5 T2 loss spent 7: F1 Little Nip 2/3, F2 Little Nip 7/9, F3 Young Brock 1/3, F4 Wee Wobbly 1/4, B1 Mrs Dunnock 2/3, B2 Bridge Toad 3/5, B3 Madame Bufo 1/4
+  R6 T3 win spent 10: F1 Wee Wobbly 1/4, F2 Little Nip 10/13, F3 Young Brock 2/4, F4 Little Nip 4/5, B1 Bridge Toad 4/6, B2 Madame Bufo 1/4, B3 Mrs Dunnock 2/3
+  R7 T4 win spent 11: F1 Wee Wobbly 1/4, F2 Little Nip 12/15, F3 Brother Wolf 4/5, F4 Little Nip 5/6, B1 Bridge Toad 4/6, B2 Young Brock 2/4, B3 Madame Bufo 1/4
+  R8 T4 loss spent 12: F1 Wee Wobbly 1/4, F2 Little Nip 13/16, F3 Brother Wolf 4/5, F4 Little Nip 6/7, B1 Bridge Toad 4/6, B2 Grey Agnes 3/6, B3 Jenny Greenteeth 3/5
+  R9 T5 win spent 11: F1 Wee Wobbly 1/4, F2 Little Nip 14/17, F3 Brother Wolf 4/5, F4 Little Nip 7/8, B1 Bridge Toad 4/6, B2 Grey Agnes 3/6, B3 Jenny Greenteeth 3/5
+  R10 T5 loss spent 13: F1 Grey Agnes 3/6, F2 Little Nip 15/18, F3 Brother Wolf 4/5, F4 Little Nip 8/9, B1 The Mountain Glutton 5/6, B2 The Prima Donna 2/8, B3 Mother Goose 12/16
+  R11 T5 win spent 14: F1 Mother Goose 12/16, F2 Little Nip 16/19, F3 Mistress Russet 4/4, F4 Little Nip 9/10, B1 The Mountain Glutton 5/6, B2 The Mountain Glutton 5/6, B3 The Great Lump 17/24
+  R12 T5 loss spent 11: F1 The Great Lump 21/27, F2 Grizel 7/7, F3 Little Nip 10/11, F4 Little Nip 17/20, B1 The Mountain Glutton 5/6, B2 The Mountain Glutton 5/6, B3 Mistress Russet 4/4
+  R13 T5 loss spent 11: F1 The Great Lump 27/35, F2 Grizel 7/7, F3 Little Nip 11/12, F4 Old Isegrim 7/9, B1 *The Mountain Glutton 9/11, B2 Little Nip 17/20, B3 Mother Goose 24/32
+Dame Farthing: place 7, health -1, tier 4, spent 105 gold, main tribe Oozes
+  R1 T1 loss spent 1: (empty)
+  R2 T1 win spent 9: F1 Little Nip 2/3, F2 Wee Wobbly 1/4, F3 Bridge Toad 2/4
+  R3 T2 win spent 6: F1 Little Nip 2/3, F2 Bridge Toad 3/5, F3 Wee Wobbly 1/4, F4 Mrs Posset 2/1
+  R4 T2 win spent 7: F1 Wee Wobbly 1/4, F2 Little Nip 3/4, F3 Bridge Toad 4/6, F4 Mrs Posset 2/1
+  R5 T2 win spent 8: F1 Wee Wobbly 1/4, F2 Little Nip 3/4, F3 Little Dollop 1/2, F4 Mrs Posset 2/1, B1 Redwing 2/4, B2 Bridge Toad 4/6
+  R6 T3 loss spent 9: F1 Little Nip 4/5, F2 Wee Wobbly 1/4, F3 Redwing 2/4, F4 Mrs Posset 2/1, B1 Little Dollop 1/2, B2 Bridge Toad 4/6, B3 Little Dollop 1/2
+  R7 T3 loss spent 3: F1 Mrs Posset 3/2, F2 Wee Wobbly 2/5, F3 Little Dollop 2/3, F4 Little Nip 5/6, B1 Little Dollop 2/3, B2 Redwing 2/4, B3 Bridge Toad 4/6
+  R8 T3 loss spent 15: F1 Mrs Posset 3/2, F2 Wee Wobbly 2/5, F3 Little Dollop 2/3, F4 Bubble and Squeak 4/5, B1 Bridge Toad 4/6, B2 Bubble and Squeak 6/7, B3 Little Dollop 4/5
+  R9 T4 loss spent 11: F1 Bubble and Squeak 8/9, F2 Bubble and Squeak 4/5, F3 Mrs Posset 3/2, F4 Little Dollop 2/3, B1 Wee Wobbly 2/5, B2 Little Dollop 6/7, B3 The Cuckoo 4/7
+  R10 T4 win spent 15: F1 Bubble and Squeak 12/14, F2 Wee Wobbly 3/6, F3 Little Dollop 3/4, F4 Little Dollop 7/8, B1 Bubble and Squeak 5/6, B2 The Cuckoo 4/7, B3 Mrs Posset 4/3
+  R11 T4 loss spent 11: F1 Bubble and Squeak 7/8, F2 Mrs Posset 7/6, F3 Little Dollop 3/4, F4 Little Dollop 7/8, B1 Wee Wobbly 3/6, B2 The Cuckoo 4/7, B3 Bubble and Squeak 11/14
+  R12 T4 loss spent 10: F1 Mrs Posset 6/5, F2 Bubble and Squeak 15/18, F3 Bubble and Squeak 7/8, F4 Little Dollop 3/4, B1 Wee Wobbly 3/6, B2 The Cuckoo 4/7, B3 Little Dollop 7/8
+Old Mother Mousewife: place 6, health -13, tier 5, spent 111 gold, main tribe Oozes
+  R1 T1 tie spent 1: (empty)
+  R2 T1 loss spent 6: F2 Little Dollop 1/2, F3 Warty Nan 1/3
+  R3 T2 win spent 4: F2 Little Dollop 1/2, F3 Warty Nan 1/3
+  R4 T2 loss spent 9: F1 Stone Soup 2/4, F2 Little Dollop 1/2, F3 Warty Nan 1/3, B3 Redwing 2/4
+  R5 T3 win spent 6: F1 Stone Soup 2/4, F2 Little Dollop 1/2, F3 Warty Nan 1/3, B3 Redwing 2/4
+  R6 T3 loss spent 9: F1 Stone Soup 3/5, F2 Little Dollop 2/3, F3 Warty Nan 1/3, B1 Young Pretender 3/2, B2 Mr Redbreast 2/4, B3 Redwing 2/4
+  R7 T3 loss spent 9: F1 Stone Soup 5/7, F2 Little Dollop 3/4, F3 Warty Nan 1/3, F4 Bubble and Squeak 5/6, B1 Young Pretender 3/2, B2 Mr Redbreast 2/4, B3 Redwing 2/4
+  R8 T4 loss spent 10: F1 Stone Soup 6/8, F2 Redwing 2/4, F3 Little Dollop 4/5, F4 Bubble and Squeak 5/6, B1 Young Pretender 3/2, B2 Mr Redbreast 2/4, B3 Lob-Lie-by-the-Fire 3/6
+  R9 T4 loss spent 11: F1 Stone Soup 9/11, F2 Wee Wobbly 3/6, F3 Little Dollop 4/5, F4 Bubble and Squeak 5/6, B1 Mr Syllabub 5/8, B2 Lob-Lie-by-the-Fire 3/6, B3 Mr Redbreast 2/4
+  R10 T4 loss spent 13: F1 Stone Soup 11/14, F2 Wee Wobbly 3/6, F3 Little Dollop 4/5, F4 Bubble and Squeak 5/6, B1 Mr Syllabub 5/8, B2 Lob-Lie-by-the-Fire 3/6, B3 Little Dollop 3/4
+  R11 T5 loss spent 10: F1 Stone Soup 11/14, F2 Wee Wobbly 3/6, F3 Little Dollop 4/5, F4 Bubble and Squeak 5/6, B1 Mr Syllabub 7/10, B2 Lob-Lie-by-the-Fire 3/6, B3 Little Dollop 3/4
+  R12 T5 win spent 10: F1 Stone Soup 14/17, F2 Wee Wobbly 6/9, F3 Little Dollop 5/6, F4 Bubble and Squeak 6/7, B1 Hasty Pudding 5/11, B2 Mr Syllabub 8/11, B3 Little Dollop 4/5
+  R13 T5 loss spent 13: F1 Stone Soup 15/18, F2 Wee Wobbly 6/9, F3 Little Dollop 5/6, F4 Bubble and Squeak 6/7, B1 Figgy Duff 8/10, B2 Hasty Pudding 5/11, B3 Little Dollop 4/5
+The March Hare: place 2, health -17, tier 6, spent 195 gold, main tribe Birds
+  R1 T1 tie spent 1: (empty)
+  R2 T1 loss spent 4: F2 Chiffchaff 2/3
+  R3 T1 loss spent 9: F2 Chiffchaff 2/3, F3 Chiffchaff 2/3, F4 Warty Nan 1/3, B3 Pennywort Snail 1/4
+  R4 T3 loss spent 7: F1 Pennywort Snail 1/5, F3 Chiffchaff 3/4, F4 Warty Nan 1/3
+  R5 T3 loss spent 6: F1 Pennywort Snail 1/6, F2 Pill Bug 1/4, F3 Chiffchaff 3/4, F4 Warty Nan 1/3, B2 One Swallow 1/2
+  R6 T3 loss spent 9: F1 The Toll-Bard 2/4, F2 Pill Bug 1/4, F4 Warty Nan 1/3, B1 Chiffchaff 6/8, B2 Pennywort Snail 1/6, B3 Bubble and Squeak 3/4
+  R7 T3 win spent 13: F1 Bubble and Squeak 5/6, F2 Pill Bug 1/4, F3 The Toll-Bard 2/4, F4 Pennywort Snail 1/6, B1 Old Lutra 4/5, B2 Tom Tit 4/5, B3 One Swallow 3/5
+  R8 T5 win spent 20: F1 Bubble and Squeak 5/6, F2 Tom Tit 4/5, F3 The Prima Donna 2/8, F4 Jack Daw 4/5, B1 The Great Lump 14/19, B2 Old Lutra 5/6, B3 Chiffchaff 8/10
+  R9 T5 win spent 15: F1 Chiffchaff 29/37, F2 Bubble and Squeak 3/4, F3 Jack Daw 5/6, F4 Tom Tit 5/6, B1 Mrs Stork 6/9, B2 Mother Goose 8/10, B3 The Great Lump 18/23
+  R10 T5 win spent 6: F1 The Great Lump 42/53, F2 Bubble and Squeak 3/4, F3 Chiffchaff 18/22, F4 Mrs Stork 7/10, B1 Jack Daw 6/7, B2 Tom Tit 6/7, B3 Old Tern 6/7
+  R11 T6 win spent 14: F1 Chiffchaff 59/76, F2 Jack Daw 6/7, F3 The Great Lump 30/37, F4 Tom Tit 6/7, B1 Mrs Stork 7/10, B2 Bubble and Squeak 3/4, B3 Mother Goose 27/35
+  R12 T6 win spent 11: F1 The Great Lump 76/95, F2 Jack Daw 8/9, F3 The Peat King 5/9, F4 Chiffchaff 34/42, B1 Mrs Stork 9/12, B2 The Gabble Ratchet 9/13, B3 Tom Tit 6/7
+  R13 T6 win spent 15: F1 Mother Goose 53/69, F2 Chiffchaff 115/149, F3 The Seven Whistlers 10/12, F4 The Great Lump 65/77, B1 Mrs Stork 9/12, B2 The Gabble Ratchet 9/13, B3 The Seven Whistlers 10/12
+  R14 T6 win spent 12: F1 *The Great Lump 141/180, F2 Chiffchaff 69/85, F3 Chiffchaff 117/151, F4 Queen of Elfland 9/9, B1 The Seven Whistlers 11/13, B2 The Gabble Ratchet 10/14
+  R15 T6 win spent 9: F1 The Seven Whistlers 14/16, F2 Mother Goose 13/15, F3 *The Great Lump 267/342, F4 Queen of Elfland 10/10, B1 The Gabble Ratchet 11/15, B2 The Seven Whistlers 19/23
+  R16 T6 win spent 11: F1 The Gabble Ratchet 13/17, F2 *The Great Lump 58/69, F3 Mag Pye 14/17, F4 Fairy Monarch 8/10, B1 Mother Goose 101/133, B2 The Seven Whistlers 19/23, B3 The Seven Whistlers 12/14
+  R17 T6 loss spent 14: F1 Chiffchaff 228/296, F2 *The Great Lump 58/69, F3 Chiffchaff 264/328, F4 Mother Goose 101/133, B1 The Gabble Ratchet 11/15, B2 The Seven Whistlers 19/23, B3 Silky 3/7
+  R18 T6 loss spent 10: F1 *The Great Lump 488/631, F2 The Seven Whistlers 21/25, F3 Chiffchaff 265/329, F4 Silky 3/7, B1 The Gabble Ratchet 11/15, B2 Mother Goose 29/37, B3 Silky 3/7
+  R19 T6 loss spent 9: F1 Silky 3/7, F2 Silky 3/7, F3 The Great Lump 273/340, F4 *The Great Lump 236/307, B1 The Seven Whistlers 19/23, B2 The Great Lump 37/48, B3 The Gabble Ratchet 11/15
+Dame Hoolet: place 4, health -19, tier 4, spent 162 gold, main tribe Hunters
+  R1 T1 loss spent 3: F2 Wick 2/3
+  R2 T1 win spent 4: F2 Wick 2/3, F3 Wick 2/3
+  R3 T1 win spent 7: F2 Wick 3/4, F3 Little Nip 3/4, F4 Wick 2/3, B2 Bridge Toad 2/4
+  R4 T2 win spent 6: F1 Bridge Toad 5/7, F2 Wick 3/4, F3 Little Nip 4/5, F4 Wick 2/3, B2 Nan Toadstool 2/1
+  R5 T2 win spent 7: F1 The Toll-Bard 3/5, F2 Wick 3/4, F3 Little Nip 5/6, F4 Wick 2/3, B1 Bridge Toad 2/4, B2 Bridge Toad 4/6, B3 Nan Toadstool 2/1
+  R6 T2 win spent 12: F1 The Toll-Bard 3/5, F2 Wick 3/4, F3 Little Nip 5/6, F4 The Toll-Bard 2/4, B1 Bridge Toad 3/5, B2 Bridge Toad 4/6, B3 Wee Wobbly 2/5
+  R7 T3 win spent 14: F1 The Toll-Bard 4/6, F2 The Toll-Bard 3/5, F3 Little Nip 7/8, F4 Wee Wobbly 3/5, B1 Bridge Toad 4/6, B2 Bridge Toad 4/6, B3 Mr Redbreast 3/5
+  R8 T3 loss spent 14: F1 The Toll-Bard 6/8, F2 The Toll-Bard 5/7, F3 Little Nip 9/10, F4 Wee Wobbly 3/5, B1 Bridge Toad 4/6, B2 Bridge Toad 4/6, B3 Mr Redbreast 5/7
+  R9 T3 win spent 13: F1 The Toll-Bard 7/9, F2 The Toll-Bard 8/10, F3 Little Nip 10/11, F4 Wee Wobbly 3/5, B1 Old Lutra 9/10, B2 Bridge Toad 4/6, B3 Mr Redbreast 5/7
+  R10 T3 win spent 14: F1 The Toll-Bard 7/9, F2 The Toll-Bard 8/10, F3 Little Nip 11/12, F4 Wee Wobbly 4/6, B1 Old Lutra 14/14, B2 Old Lutra 7/8, B3 Mr Redbreast 5/7
+  R11 T4 win spent 13: F1 The Toll-Bard 7/9, F2 Little Nip 14/15, F3 The Toll-Bard 6/8, F4 Wee Wobbly 4/6, B1 *Old Lutra 25/23, B2 Grizel 13/11, B3 Mr Redbreast 5/7
+  R12 T4 loss spent 20: F1 Mrs Stork 6/9, F2 Grizel 17/15, F3 Little Nip 14/15, F4 The Toll-Bard 8/10, B1 Old Brock 5/8, B2 Mr Redbreast 5/7, B3 *Old Lutra 30/28
+  R13 T4 loss spent 10: F1 Mrs Stork 7/10, F2 Grizel 17/15, F3 Little Nip 14/15, F4 The Toll-Bard 8/10, B1 Old Brock 5/8, B2 Mr Redbreast 6/8, B3 *Old Lutra 32/29
+  R14 T4 loss spent 14: F1 Little Nip 18/19, F2 Grizel 17/15, F3 *Mrs Stork 11/17, F4 The Toll-Bard 10/12, B1 Mr Redbreast 7/9, B2 Old Brock 5/8, B3 *Old Lutra 32/29
+  R15 T4 loss spent 11: F1 The Toll-Bard 11/13, F2 Grizel 17/15, F3 Little Nip 17/18, F4 *Mrs Stork 11/17, B1 Mr Redbreast 7/9, B2 The Cuckoo 7/10, B3 *Old Lutra 32/29
+Hob Mumblecrust: place 3, health -14, tier 6, spent 145 gold, main tribe Birds
+  R1 T1 tie spent 1: (empty)
+  R2 T1 loss spent 6: F3 Mrs Dunnock 3/4, B2 Nan Toadstool 2/1
+  R3 T2 loss spent 5: F2 Mrs Dunnock 2/3, F3 Chiffchaff 4/6, B2 Nan Toadstool 2/1
+  R4 T2 loss spent 6: F2 Mrs Dunnock 2/3, F3 Chiffchaff 4/6, B1 Mr Redbreast 2/4, B2 Nan Toadstool 2/1, B3 Redwing 2/4
+  R5 T3 loss spent 9: F1 The Peat Cutter 2/4, F4 Mrs Dunnock 2/3, B1 Mr Redbreast 2/4, B2 Nan Toadstool 2/1, B3 Redwing 2/4
+  R6 T3 win spent 8: F1 The Peat Cutter 4/6, F2 Redwing 2/4, F3 Chiffchaff 8/12, F4 Gideon, Basso Profundo 2/6, B1 Mrs Dunnock 2/3, B2 Mr Redbreast 4/7, B3 Redwing 2/4
+  R7 T4 loss spent 9: F1 The Peat Cutter 4/6, F2 Redwing 2/4, F3 Redwing 3/5, F4 Gideon, Basso Profundo 2/6, B1 Mrs Dunnock 2/3, B2 Mr Redbreast 4/7, B3 Mr Redbreast 2/4
+  R8 T4 win spent 14: F1 The Peat Cutter 4/6, F2 Redwing 6/8, F3 Redwing 4/6, F4 Old Tern 4/5, B1 Chiffchaff 16/24, B2 Mr Redbreast 7/11, B3 Mr Redbreast 5/8
+  R9 T4 loss spent 10: F1 Mr Redbreast 7/10, F2 Redwing 6/8, F3 Redwing 4/6, F4 Old Tern 4/5, B1 Mag Pye 5/8, B2 Mr Redbreast 7/11, B3 The Cuckoo 5/8
+  R10 T5 loss spent 11: F1 The Cuckoo 7/10, F2 Mag Pye 8/11, F3 Redwing 4/6, F4 Redwing 3/5, B1 Mr Redbreast 5/8, B2 Mr Redbreast 7/11, B3 The Cuckoo 5/8
+  R11 T5 win spent 9: F1 *The Cuckoo 23/37, F2 Chiffchaff 35/51, F3 Redwing 10/16, F4 The Gabble Ratchet 10/14, B1 Mr Redbreast 15/24, B2 Mag Pye 12/19, B3 Mr Redbreast 16/26
+  R12 T6 win spent 12: F1 Chiffchaff 36/52, F2 Mr Redbreast 21/30, F3 Redwing 12/18, F4 The Gabble Ratchet 12/16, B1 Mag Pye 13/20, B2 *The Cuckoo 24/38, B3 Mr Redbreast 19/29
+  R13 T6 win spent 13: F1 Redwing 14/20, F2 Mag Pye 17/24, F3 Mr Redbreast 21/31, F4 The Gabble Ratchet 13/17, B1 Mr Redbreast 19/28, B2 *The Cuckoo 25/39, B3 Chiffchaff 35/51
+  R14 T6 loss spent 10: F1 Chiffchaff 37/53, F2 Redwing 15/21, F3 Mag Pye 15/22, F4 The Gabble Ratchet 13/17, B1 *The Cuckoo 27/41, B2 Mr Redbreast 21/31, B3 Mr Redbreast 21/30
+  R15 T6 win spent 8: F1 Redwing 15/21, F2 Mag Pye 18/25, F3 Mr Redbreast 22/32, F4 The Gabble Ratchet 14/18, B1 *The Cuckoo 28/42, B2 Mr Redbreast 21/30, B3 Chiffchaff 38/54
+  R16 T6 loss spent 14: F1 Mr Redbreast 23/33, F2 Mag Pye 18/25, F3 Redwing 14/20, F4 Mr Redbreast 23/32, B1 *The Cuckoo 31/45, B2 Chiffchaff 37/53, B3 *The Gabble Ratchet 19/27
+Jill Down-the-Tree: place 8, health -3, tier 5, spent 104 gold, main tribe Hunters
+  R1 T1 tie spent 1: (empty)
+  R2 T1 loss spent 6: F2 Young Brock 1/3, F3 Wick 2/3
+  R3 T1 loss spent 6: F1 Wick 2/3, F2 Young Brock 1/3, F3 Wick 2/3, F4 Nan Toadstool 3/2
+  R4 T2 loss spent 6: F1 Wick 2/3, F2 Wee Wobbly 1/4, F3 Young Brock 1/3, F4 Wick 3/4, B2 Nan Toadstool 2/1
+  R5 T2 loss spent 10: F1 Old Moth Annis 2/4, F2 Young Brock 1/3, F3 Wee Wobbly 1/4, F4 Wick 3/4, B1 Young Brock 2/4, B2 Nan Toadstool 2/1, B3 Wick 2/3
+  R6 T3 loss spent 9: F1 The Toll-Bard 3/5, F2 Wick 2/3, F3 Wee Wobbly 1/4, F4 Old Moth Annis 3/5, B1 Young Brock 3/5, B2 Young Brock 2/4, B3 Wick 3/4
+  R7 T3 win spent 9: F1 Young Brock 2/4, F2 Wick 3/4, F3 The Toll-Bard 4/6, F4 The Toll-Bard 4/6, B1 Young Brock 4/6, B2 Wick 4/5, B3 Old Lutra 5/6
+  R8 T4 win spent 12: F1 Young Brock 3/5, F2 *Wick 6/8, F3 The Toll-Bard 5/7, F4 The Toll-Bard 5/7, B1 Young Brock 5/7, B2 Lady Belladonna 5/9, B3 Old Lutra 7/8
+  R9 T4 loss spent 12: F1 Young Brock 3/5, F2 *Wick 6/8, F3 The Toll-Bard 5/7, F4 The Toll-Bard 5/7, B1 Old Brock 6/9, B2 Lady Belladonna 5/9, B3 Old Lutra 7/8
+  R10 T4 win spent 11: F1 *Wick 9/11, F2 Young Brock 6/8, F3 The Lodger 6/6, F4 The Toll-Bard 5/7, B1 Old Brock 8/11, B2 Lady Belladonna 6/10, B3 The Toll-Bard 6/8
+  R11 T5 loss spent 12: F1 The Toll-Bard 8/10, F2 Young Brock 6/8, F3 The Lodger 6/6, F4 The Toll-Bard 5/7, B1 Old Brock 9/12, B2 Lady Belladonna 6/10, B3 *Wick 7/9
+  R12 T5 loss spent 10: F1 The Toll-Bard 8/10, F2 Old Brock 10/13, F3 Young Brock 3/5, F4 *Wick 7/9, B1 The Mountain Glutton 8/9, B2 The Lodger 7/7, B3 Lady Belladonna 6/10
+Tribes: {"Birds":{"avg_placement":2.0,"bought":69,"main_players":3,"placement_sum":6,"unit_rounds":278,"wins":1},"Bog folk":{"avg_placement":0.0,"bought":18,"main_players":0,"placement_sum":0,"unit_rounds":51,"wins":0},"Fairies":{"avg_placement":0.0,"bought":12,"main_players":0,"placement_sum":0,"unit_rounds":33,"wins":0},"Hunters":{"avg_placement":5.66666666666667,"bought":39,"main_players":3,"placement_sum":17,"unit_rounds":176,"wins":0},"Oozes":{"avg_placement":6.5,"bought":24,"main_players":2,"placement_sum":13,"unit_rounds":118,"wins":0}}

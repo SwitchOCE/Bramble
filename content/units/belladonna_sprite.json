@@ -19,7 +19,7 @@
     "Nightshade"
   ],
   "row_hint": "back",
-  "pool": true,
+  "pool": false,
   "priority": 1,
   "skeleton": false,
   "source": {

@@ -1,0 +1,541 @@
+{
+  "seed": 1,
+  "commitment": "Fairies",
+  "phase": "game_over",
+  "round": 11,
+  "placement": 8,
+  "health": -9,
+  "actions": 90,
+  "event_counts": {
+    "buy": 9,
+    "play": 9,
+    "slot_effect": 4,
+    "move": 28,
+    "sell": 2,
+    "buy_spell": 2,
+    "cast": 2,
+    "trigger": 2
+  },
+  "checkpoints": {
+    "mixed_shop": {
+      "action_count": 5,
+      "round": 2
+    },
+    "ring_carry": {
+      "action_count": 83,
+      "round": 10
+    }
+  },
+  "refused": [],
+  "final_board": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "final_away": [],
+  "ring_size": 1.0,
+  "selection": "First seed from 1 with both tribes in the ordinary rotated lobby; no outcome selection.",
+  "bought_by_tribe": {
+    "Fairies": 9
+  },
+  "tribe_unit_rounds": {
+    "Fairies": 48
+  },
+  "gold_spent": 86,
+  "player_game_over": true,
+  "lobby_fully_resolved": false,
+  "last_before_fight_board": [
+    {
+      "iid": 578,
+      "def_id": "reel_mistress",
+      "name": "Reel-Mistress",
+      "tier": 5,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 5,
+      "health": 8,
+      "golden": false,
+      "origin": "bought",
+      "text": "After a unit on a Ring attacks: its Ring moves to your next unit. Twice per Ring.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 4,
+        "base_health": 7,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 1,
+        "aura_health": 1
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 10,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 181,
+      "def_id": "nan_toadstool",
+      "name": "Nan Toadstool",
+      "tier": 1,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 3,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "When played or sold: Ring this slot.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 1,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 1,
+        "aura_health": 1
+      },
+      "turns_in_slot": 6,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 5,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 3,
+      "def_id": "nan_toadstool",
+      "name": "Nan Toadstool",
+      "tier": 1,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 5,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "When played or sold: Ring this slot.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 1,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 3,
+        "aura_health": 3
+      },
+      "turns_in_slot": 0,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 1,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 213,
+      "def_id": "sally_spore",
+      "name": "Sally Spore",
+      "tier": 2,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 4,
+      "health": 6,
+      "golden": false,
+      "origin": "bought",
+      "text": "End of Turn: Ring your empty slot nearest this.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 4,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 2,
+        "aura_health": 2
+      },
+      "turns_in_slot": 4,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 5,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 361,
+      "def_id": "cluricaun",
+      "name": "Cluricaun",
+      "tier": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 3,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "After you Tier up: if every slot has a Ring, your Rings grow +0.25/+0.25.",
+      "keywords": [
+        "Ring",
+        "Ring size"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        },
+        {
+          "keyword": "Ring size",
+          "text": "What each Ring gives; starts at +1/+1."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 3,
+        "base_health": 5,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 0,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 8,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 334,
+      "def_id": "hedge_witch",
+      "name": "Hedge Witch",
+      "tier": 1,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 3,
+      "health": 5,
+      "golden": false,
+      "origin": "bought",
+      "text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 3,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 2,
+        "aura_health": 2
+      },
+      "turns_in_slot": 4,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 7,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 362,
+      "def_id": "silky",
+      "name": "Silky",
+      "tier": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 3,
+      "health": 7,
+      "golden": false,
+      "origin": "bought",
+      "text": "Shy. After a Shy unit leaves: your Rings grow +1/+1.",
+      "keywords": [
+        "Shy",
+        "Ring size"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Shy",
+          "text": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn."
+        },
+        {
+          "keyword": "Ring size",
+          "text": "What each Ring gives; starts at +1/+1."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 3,
+        "base_health": 7,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 3,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": true,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 8,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    }
+  ],
+  "last_before_fight_rings": [
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 1,
+        "golden": false,
+        "attack": 1,
+        "health": 1,
+        "ring_size": 1.0
+      }
+    ],
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 1,
+        "golden": false,
+        "attack": 1,
+        "health": 1,
+        "ring_size": 1.0
+      }
+    ],
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 3,
+        "golden": false,
+        "attack": 3,
+        "health": 3,
+        "ring_size": 1.0
+      }
+    ],
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 2,
+        "golden": false,
+        "attack": 2,
+        "health": 2,
+        "ring_size": 1.0
+      }
+    ],
+    [],
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 2,
+        "golden": false,
+        "attack": 2,
+        "health": 2,
+        "ring_size": 1.0
+      }
+    ],
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 1,
+        "golden": false,
+        "attack": 1,
+        "health": 1,
+        "ring_size": 1.0
+      }
+    ]
+  ],
+  "observations": [
+    "The committed Fairies policy was eliminated eighth on round11. It bought only Fairies, reached tier6 and made10Rings, but did not complete the rainbow and never grew Ring size above1. Annis was not bought; this is a weak supply/policy outcome, not proof of a successful late Fairy engine."
+  ]
+}

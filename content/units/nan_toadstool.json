@@ -8,23 +8,13 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "When played: Ring this slot +1/+1.",
-  "golden_text": "When played: Ring this slot +2/+2.",
+  "text": "When played or sold: Ring this slot.",
+  "golden_text": "When played or sold: Ring this slot twice.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "on_play",
-      "name": "ring",
-      "do": {
-        "effect": "slot_effect",
-        "attack": 1,
-        "health": 1,
-        "target": {
-          "select": "self"
-        },
-        "name": "Ring",
-        "text": "Whoever stands on this slot has these stats."
-      }
+      "id": "pass3_fairy",
+      "ability": "nan",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -36,6 +26,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "fairies.md"
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   }
 }

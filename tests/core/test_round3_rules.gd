@@ -9,7 +9,7 @@ const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 func test_golden_changeling_fires_once_in_both_start_orders() -> void:
 	for fight_seed: int in range(1, 21):
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		kit.put("changeling", 0, true)
 		kit.put("pill_bug", 1)
 		var boards: Array = [
@@ -51,7 +51,7 @@ func test_stable_hand_handles_do_not_cash_an_item_after_a_buy() -> void:
 
 func test_shy_walkout_is_explicit_and_keeps_its_gold() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	kit.put("hob_in_the_hearth", 0)
 	kit.rules.board_changed(kit.player)
 	assert_eq(kit.cast("pinch_of_dust", 0), "")
@@ -75,7 +75,7 @@ func test_keywords_and_nest_loss_are_explained() -> void:
 
 func test_replacing_gooses_nest_changes_its_attack_but_keeps_her_away_power() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	kit.rules.start_phase(kit.player, 1)
 	kit.put("mother_goose", 0)
 	assert_eq(kit.rules.sell(kit.player, 0), "")

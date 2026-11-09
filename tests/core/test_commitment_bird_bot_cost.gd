@@ -1,6 +1,6 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument")
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = LegacyWave1.library()
 
 
 func _unit(id: String) -> RecruitUnit:

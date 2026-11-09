@@ -10,7 +10,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
@@ -272,6 +272,7 @@ func test_live_and_ghost_scouts_keep_only_supported_eggs_visible_stats() -> void
 	_player.remember_fought_board()
 	_player.fought_rules = _rules.fight_rules(_player)
 	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pass3_content", false)
 	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
 	var session: GameSession = GameSession.create(3, _kit.library, config)
 	session._players[2] = _player

@@ -1,0 +1,164 @@
+params: h=2.0 s=0.125 k=0.1 f=0.25 egg=1 n=600
+target median: {6: 55, 9: 145, 12: 490, 15: 1650}
+
+=== Line A: birds_homecoming, typical roll
+  board: R5 21 (0.50x); R6 41 (0.75x); R7 66 (0.94x); R8 96 (0.96x); R9 141 (0.97x); R10 240 (1.09x); R11 452 (1.37x); R12 615 (1.26x); R13 776 (1.06x); R14 1275 (1.16x); R15 1692 (1.03x); R16 1952 (0.79x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 1, 2, 2, 2, 1, 3, 2, 2, 3, 3, 1]
+  R6: board 41 vs target 55 (0.75x); biggest Jay 6/6 = 29%; sky 14; tier 3; gold left 2
+       Jay 6/6, Redbreast 3/5, TomTit 3/4, JackDaw 3/4, Dunnock 2/3, Egg 0/1, Egg 0/1
+       away: Chiffchaff 2/3, Swallow 1/2, Jay 3/3
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 141 vs target 145 (0.97x); biggest Chiffchaff 16/20 = 26%; sky 38; tier 4; gold left 0
+       Chiffchaff 16/20, Redbreast 15/17, Stork 7/10, Cuckoo 7/10, TomTit 6/7, JackDaw 6/7, Tern 6/7
+       away: Swallow 2/4, Jay 16/16
+       hand: Jay 12/12
+       wins vs field: median 78%; median_shield 56%; even 35%; strong 2%
+  R12: board 615 vs target 490 (1.26x); biggest Lump 85/104 = 31%; sky 207; tier 6; gold left 0
+       Lump 85/104, Jay 79/79, Redbreast 51/55, Jay 35/35, Stork 16/20, TomTit 15/17, Tern 11/13
+       away: Chiffchaff 78/94, Swallow 8/13, Goose 6/8
+       wins vs field: median 100%; median_shield 90%; even 100%; strong 42%
+  R15: board 1692 vs target 1650 (1.03x); biggest Chiffchaff 316/380 = 41%; sky 476; tier 6; gold left 0
+       Chiffchaff 316/380, Redbreast 225/256, Lump 163/166, Swallow 33/53, Tern 21/25, Stork 16/20, Ratchet 7/11
+       away: Jay 156/156, Jay 68/68, Goose 12/16
+       wins vs field: median 97%; median_shield 84%; even 100%; strong 40%
+
+=== Line B: birds_homecoming, strong roll (the typical line with Stork R6, Goose R9, Lump R10)
+  board: R5 18 (0.43x); R6 21 (0.38x); R7 58 (0.83x); R8 72 (0.72x); R9 118 (0.81x); R10 267 (1.21x); R11 325 (0.98x); R12 374 (0.76x); R13 590 (0.80x); R14 745 (0.68x); R15 1180 (0.72x); R16 1284 (0.52x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 0, 2, 3, 1, 3, 3, 2, 3, 3, 4, 2]
+  R6: board 21 vs target 55 (0.38x); biggest Redbreast 2/4 = 29%; sky 12; tier 4; gold left 1
+       Redbreast 2/4, Chiffchaff 2/3, Chiffchaff 2/3, Swallow 1/2, Egg 0/1, Egg 0/1
+       away: Jay 3/3, Jay 3/3
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 118 vs target 145 (0.81x); biggest Redbreast 15/17 = 27%; sky 43; tier 5; gold left 0
+       Redbreast 15/17, Jay 12/12, Stork 6/9, Cuckoo 6/9, TomTit 5/6, JackDaw 5/6, Swallow 4/6
+       away: Chiffchaff 5/7, Chiffchaff 5/7, Jay 6/6, Tern 3/4
+       hand: Goose 6/8
+       wins vs field: median 38%; median_shield 22%; even 0%; strong 0%
+  R12: board 374 vs target 490 (0.76x); biggest Redbreast 68/73 = 38%; sky 124; tier 6; gold left 0
+       Redbreast 68/73, Lump 35/38, Chiffchaff 24/32, Jay 25/25, Stork 9/12, TomTit 8/9, Tern 7/9
+       away: Chiffchaff 11/15, Jay 28/28, Swallow 12/16, Goose 6/8
+       wins vs field: median 3%; median_shield 0%; even 15%; strong 0%
+  R15: board 1180 vs target 1650 (0.72x); biggest Jay 225/225 = 38%; sky 260; tier 6; gold left 0
+       Jay 225/225, Redbreast 134/146, Swallow 97/129, Lump 54/73, Goose 25/33, Stork 9/12, Ratchet 7/11
+       away: Chiffchaff 47/63, Chiffchaff 23/31, Jay 48/48
+       hand: Tern 12/16
+       wins vs field: median 5%; median_shield 2%; even 0%; strong 0%
+
+=== Line C: birds_homecoming, low roll (no Stork until R12, no Goose, no Cuckoo)
+  board: R5 27 (0.64x); R6 43 (0.78x); R7 69 (0.99x); R8 86 (0.86x); R9 115 (0.79x); R10 151 (0.69x); R11 196 (0.59x); R12 374 (0.76x); R13 494 (0.67x); R14 621 (0.56x); R15 983 (0.60x); R16 1189 (0.48x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 1, 2, 1, 1, 2, 2, 2, 2, 1, 3, 1]
+  R6: board 43 vs target 55 (0.78x); biggest Jay 6/6 = 28%; sky 8; tier 3; gold left 5
+       Jay 6/6, Redbreast 3/5, TomTit 3/4, Redwing 2/4, Dunnock 2/3, Egg 1/2, Egg 1/1
+       away: Chiffchaff 2/3, Swallow 1/2
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 115 vs target 145 (0.79x); biggest Chiffchaff 15/19 = 30%; sky 41; tier 4; gold left 18
+       Chiffchaff 15/19, Redbreast 11/13, Egg 8/8, TomTit 5/6, JackDaw 5/6, Redwing 4/6, Dunnock 4/5
+       away: Swallow 2/4, Jay 14/14, Tern 3/4
+       wins vs field: median 34%; median_shield 18%; even 6%; strong 0%
+  R12: board 374 vs target 490 (0.76x); biggest Jay 67/67 = 36%; sky 102; tier 5; gold left 1
+       Jay 67/67, Lump 51/62, Redbreast 31/35, Swallow 11/19, Stork 7/10, TomTit 6/7, Egg 0/1
+       away: Chiffchaff 40/48, Tern 6/8
+       wins vs field: median 24%; median_shield 12%; even 2%; strong 0%
+  R15: board 983 vs target 1650 (0.60x); biggest Chiffchaff 166/198 = 37%; sky 256; tier 6; gold left 0
+       Chiffchaff 166/198, Lump 139/142, Redbreast 85/98, Tern 27/35, Swallow 19/35, Ratchet 9/13, Stork 7/10
+       away: Jay 128/128
+       wins vs field: median 17%; median_shield 5%; even 48%; strong 0%
+
+=== Line D: birds_homecoming, flock knob (Redwing, the Cuckoo, Ratchet, two Chiffchaffs)
+  board: R5 18 (0.43x); R6 36 (0.65x); R7 57 (0.81x); R8 59 (0.59x); R9 114 (0.79x); R10 204 (0.93x); R11 388 (1.18x); R12 472 (0.96x); R13 782 (1.06x); R14 940 (0.85x); R15 1551 (0.94x); R16 2065 (0.83x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 0, 2, 0, 3, 3, 3, 2, 3, 2, 2, 3]
+  R6: board 36 vs target 55 (0.65x); biggest Tern 3/4 = 19%; sky 12; tier 3; gold left 2
+       Tern 3/4, Redbreast 2/4, Redwing 2/4, Chiffchaff 2/3, Chiffchaff 2/3, Egg 2/2, Swallow 1/2
+       away: Jay 3/3, Jay 3/3
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 114 vs target 145 (0.79x); biggest Redbreast 11/13 = 21%; sky 31; tier 4; gold left 14
+       Redbreast 11/13, Cuckoo 8/11, Chiffchaff 8/10, Chiffchaff 7/9, TomTit 7/8, Redwing 6/8, Swallow 3/5
+       away: Jay 6/6, Jay 6/6, Tern 3/4
+       hand: Stork 4/7
+       wins vs field: median 6%; median_shield 0%; even 0%; strong 0%
+  R12: board 472 vs target 490 (0.96x); biggest Redbreast 70/77 = 31%; sky 108; tier 6; gold left 0
+       Redbreast 70/77, Chiffchaff 31/35, Cuckoo 28/31, TomTit 27/28, Redwing 26/28, Swallow 22/26, Stork 20/23
+       away: Chiffchaff 30/34, Tern 6/8, Goose 14/16
+       hand: Jay 24/24, Jay 24/24
+       wins vs field: median 53%; median_shield 30%; even 0%; strong 0%
+  R15: board 1551 vs target 1650 (0.94x); biggest Chiffchaff 253/286 = 35%; sky 482; tier 6; gold left 0
+       Chiffchaff 253/286, Redbreast 197/223, Cuckoo 85/97, Stork 77/89, Goose 58/66, Ratchet 54/65, Egg 0/1
+       away: Chiffchaff 88/101, Jay 24/24, Jay 24/24, Swallow 62/74, Tern 27/34
+       wins vs field: median 27%; median_shield 9%; even 28%; strong 0%
+
+=== Line T: birds_tempo, typical roll (fly only Swallow and Chiffchaff to R8, then the engine)
+  board: R5 28 (0.67x); R6 31 (0.56x); R7 40 (0.57x); R8 53 (0.53x); R9 100 (0.69x); R10 134 (0.61x); R11 138 (0.42x); R12 247 (0.50x); R13 365 (0.50x); R14 388 (0.35x); R15 546 (0.33x); R16 820 (0.33x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 2, 2, 1, 3]
+  R6: board 31 vs target 55 (0.56x); biggest Jay 3/3 = 19%; sky 0; tier 4; gold left 1
+       Jay 3/3, Jay 3/3, Redbreast 2/4, Dunnock 2/3, Chiffchaff 2/3, Swallow 1/2
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 100 vs target 145 (0.69x); biggest Lump 12/17 = 29%; sky 28; tier 5; gold left 0
+       Lump 12/17, Goose 12/16, Stork 4/7, Redbreast 4/6, TomTit 4/5, JackDaw 3/4, Swallow 2/4
+       away: Jay 3/3, Jay 3/3, Chiffchaff 7/9
+       hand: Tern 3/4
+       wins vs field: median 8%; median_shield 3%; even 6%; strong 2%
+  R12: board 247 vs target 490 (0.50x); biggest Redbreast 51/60 = 45%; sky 24; tier 6; gold left 0
+       Redbreast 51/60, Goose 32/40, Lump 11/14, Swallow 4/8, Stork 4/7, TomTit 4/5, JackDaw 3/4
+       away: Jay 6/6, Jay 6/6
+       hand: Chiffchaff 42/50, Tern 6/8
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R15: board 546 vs target 1650 (0.33x); biggest Redbreast 138/152 = 53%; sky 62; tier 6; gold left 0
+       Redbreast 138/152, Goose 64/80, Swallow 16/32, Lump 17/20, Stork 4/7, TomTit 4/5, JackDaw 3/4
+       away: Jay 12/12, Jay 12/12, Tern 6/8
+       hand: Chiffchaff 86/102
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+
+=== Line U: birds_tempo harness line (hold four home, small fliers only, fold into the engine at R7)
+  board: R5 24 (0.57x); R6 47 (0.85x); R7 40 (0.57x); R8 106 (1.06x); R9 89 (0.61x); R10 159 (0.72x); R11 275 (0.83x); R12 361 (0.74x); R13 418 (0.57x); R14 894 (0.81x); R15 1066 (0.65x); R16 1851 (0.75x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 1, 0, 3, 1, 2, 2, 2, 2, 2, 4, 2]
+  R6: board 47 vs target 55 (0.85x); biggest Chiffchaff 5/7 = 26%; sky 0; tier 3; gold left 2
+       Chiffchaff 5/7, Redbreast 3/5, TomTit 3/4, Jay 3/3, Jay 3/3, Dunnock 2/3, Swallow 1/2
+       hand: JackDaw 3/4
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 89 vs target 145 (0.61x); biggest Redbreast 9/11 = 22%; sky 42; tier 4; gold left 0
+       Redbreast 9/11, Stork 6/9, Jay 7/7, MagPye 5/8, TomTit 4/5, JackDaw 4/5, Tern 4/5
+       away: Chiffchaff 13/17, Jay 6/6
+       hand: Swallow 2/4
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R12: board 361 vs target 490 (0.74x); biggest Chiffchaff 68/84 = 42%; sky 62; tier 6; gold left 0
+       Chiffchaff 68/84, Redbreast 53/61, Lump 19/22, Tern 7/9, Stork 6/9, Swallow 5/9, TomTit 4/5
+       away: Jay 12/12, Jay 12/12, Goose 6/8
+       wins vs field: median 2%; median_shield 1%; even 0%; strong 0%
+  R15: board 1066 vs target 1650 (0.65x); biggest Lump 277/344 = 58%; sky 632; tier 6; gold left 0
+       Lump 277/344, Redbreast 93/106, Jay 49/49, Jay 49/49, Swallow 9/17, Stork 6/9, TomTit 4/5
+       away: Chiffchaff 270/334, Goose 12/16
+       hand: Tern 12/16
+       wins vs field: median 29%; median_shield 15%; even 7%; strong 0%
+
+=== Line X: breaker probe: every engine piece early, two Geese, golden Jay, golden Stork
+  board: R5 24 (0.57x); R6 25 (0.45x); R7 74 (1.06x); R8 52 (0.52x); R9 117 (0.81x); R10 135 (0.61x); R11 245 (0.74x); R12 430 (0.88x); R13 584 (0.79x); R14 908 (0.83x); R15 1135 (0.69x); R16 1293 (0.52x)
+  homecomings a turn R1-16: [0, 0, 0, 0, 0, 0, 3, 1, 4, 1, 2, 2, 2, 4, 4, 2]
+  R6: board 25 vs target 55 (0.45x); biggest Stork 4/7 = 44%; sky 18; tier 4; gold left 0
+       Stork 4/7, Redbreast 2/4, Chiffchaff 2/3, Egg 0/1, Egg 0/1, Egg 0/1
+       away: Jay 3/3, Jay 3/3, Jay 3/3
+       wins vs field: median 0%; median_shield 0%; even 0%; strong 0%
+  R9: board 117 vs target 145 (0.81x); biggest Redbreast 13/15 = 24%; sky 12; tier 5; gold left 0
+       Redbreast 13/15, Jay 12/12, Jay 12/12, Stork* 8/14, TomTit 3/4, JackDaw 3/4, Dunnock 2/3
+       away: Chiffchaff 5/7
+       hand: Jay 12/12, Swallow 2/4
+       wins vs field: median 72%; median_shield 53%; even 55%; strong 0%
+  R12: board 430 vs target 490 (0.88x); biggest Redbreast 89/94 = 43%; sky 62; tier 6; gold left 0
+       Redbreast 89/94, Chiffchaff 46/62, Jay 24/24, Jay 24/24, Stork* 8/14, Goose 6/8, Tern 3/4
+       away: Jay 24/24, Goose 6/8
+       hand: Swallow 2/4, Cuckoo 4/7, Lump 5/8
+       wins vs field: median 14%; median_shield 7%; even 0%; strong 0%
+  R15: board 1135 vs target 1650 (0.69x); biggest Jay 192/192 = 34%; sky 410; tier 6; gold left 0
+       Jay 192/192, Redbreast 152/162, Lump 98/133, Goose 48/64, Goose 24/32, Stork* 8/14, Ratchet 6/10
+       away: Chiffchaff 93/125, Jay 48/48, Jay 48/48
+       hand: Swallow 4/8, Tern 6/8
+       wins vs field: median 39%; median_shield 22%; even 25%; strong 0%
+
+=== Ablations on line A (median / median_shield / even / strong)
+  R12 board 615: as is 100% / 90% / 100% / 42%
+    without TomTit (a 0/1 Egg in its place): 96% / 75% / 100% / 43%
+    the Lump without its Nest's stats: 19% / 6% / 8% / 0%
+    Tern swapped for the Whistlers (6 different Birds, omen False): 100% / 100% / 100% / 96%
+  R15 board 1692: as is 97% / 84% / 100% / 40%
+    without Ratchet (a 0/1 Egg in its place): 71% / 48% / 100% / 7%
+    the Lump without its Nest's stats: 64% / 42% / 100% / 0%
+    Stork swapped for the Whistlers (7 different Birds, omen True): 100% / 100% / 100% / 100%

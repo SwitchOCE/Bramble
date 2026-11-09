@@ -10,7 +10,9 @@ var _combat: Combat
 
 
 func _start(ours: Dictionary, theirs: Dictionary, rules: Array = [{}, {}]) -> void:
-	_combat = Combat.create(KIT.library, GameConfig.full_game(), RandomNumberGenerator.new())
+	_combat = Combat.create(
+		LegacyWave1.library(), GameConfig.full_game(), RandomNumberGenerator.new()
+	)
 	_combat.side_rules = rules
 	_combat._setup([KIT.board(ours), KIT.board(theirs)])
 	_combat._recalc_auras(false)
@@ -268,7 +270,7 @@ func test_logging_keeps_aura_bitter_and_failed_summon_results_and_random_streams
 		for logging: bool in [false, true]:
 			var rng := RandomNumberGenerator.new()
 			rng.seed = seed_now
-			var combat := Combat.create(KIT.library, GameConfig.full_game(), rng)
+			var combat := Combat.create(LegacyWave1.library(), GameConfig.full_game(), rng)
 			combat.log_events = logging
 			combat.side_rules = [{"bands": [1, 1, 0, 0, 0, 0, 0]}, {}]
 			var result: Dictionary = combat.run(
