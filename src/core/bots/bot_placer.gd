@@ -8,8 +8,6 @@ const FRONT_COUNT: Array[int] = [0, 1, 1, 2, 2, 3, 4, 4]
 const FRONT_ORDER: Array[int] = [1, 2, 0, 3]
 const BACK_ORDER: Array[int] = [5, 4, 6]
 const ROW_WEIGHT: float = 1000.0
-## In fight-score units (a won fight is about 1): a Shy unit forced out costs this.
-const SHY_LOSS: float = 1.0
 const PASS_WEIGHT: float = 0.1
 const SEARCH_MIN_UNITS: int = 4
 const SEARCH_MIN_RATIO: float = 0.6
@@ -122,7 +120,6 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	_fill_row(player, value, layout, front, FRONT_ORDER)
 	_fill_row(player, value, layout, back, BACK_ORDER)
 	_face_the_best(player, value, layout, pinned)
-	_keep_shy_safe(player, value, layout, pinned)
 	if value.level.plans_position:
 		_land_passes_on_carry(player, value, layout, pinned)
 	_shelter_from_the_tithe(player, value, layout, pinned)
@@ -177,10 +174,7 @@ static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) ->
 	var second: Array[int] = FRONT_ORDER if wants_back else BACK_ORDER
 	for order: Array[int] in [first, second]:
 		for slot: int in order:
-			if (
-				BotEggs.playable(player, unit, value, slot)
-				and not (shy and _ring_at(player, slot) > 0)
-			):
+			if BotEggs.playable(player, unit, value, slot):
 				return slot
 	return -1
 
@@ -294,7 +288,7 @@ static func _ring_at(player: PlayerState, slot: int) -> int:
 static func _ring_score(player: PlayerState, value: BotEval, slot: int) -> float:
 	var unit: RecruitUnit = player.board[slot]
 	if unit.has_mechanic_id("shy"):
-		return -ROW_WEIGHT
+		return 0.0
 	return value.keep_value(unit)
 
 
@@ -334,42 +328,6 @@ static func _best_enemy_slot(player: PlayerState) -> int:
 				best = slot
 				most = attack
 	return best
-
-
-## A Shy unit behind a unit that feeds what's behind it would leave: swap it to a safe slot.
-static func _keep_shy_safe(
-	player: PlayerState, value: BotEval, layout: Array[int], pinned: Array[int]
-) -> void:
-	for slot: int in BoardGeometry.SLOTS:
-		if layout[slot] < 0 or pinned.has(slot) or not _shy_at(player, layout, slot):
-			continue
-		if _shy_cost(player, value, layout, slot) == 0.0:
-			continue
-		for other: int in BoardGeometry.SLOTS:
-			if other == slot or pinned.has(other):
-				continue
-			_swap(layout, slot, other)
-			if _shy_cost(player, value, layout, other) == 0.0 and not _shy_at(player, layout, slot):
-				break
-			_swap(layout, slot, other)
-
-
-static func _shy_at(player: PlayerState, layout: Array[int], slot: int) -> bool:
-	return layout[slot] >= 0 and player.board[layout[slot]].has_mechanic_id("shy")
-
-
-## What standing here costs a Shy unit: a Ring, a feeder in front of it, or the end of a Pass.
-static func _shy_cost(player: PlayerState, value: BotEval, layout: Array[int], slot: int) -> float:
-	if _ring_at(player, slot) > 0:
-		return SHY_LOSS
-	for front: int in BoardGeometry.in_front_of(slot):
-		if layout[front] >= 0:
-			if value.hint(player.board[layout[front]].def_id(), "feeds") == "behind":
-				return SHY_LOSS
-	for landing: int in _pass_landings(player, layout):
-		if landing == slot:
-			return SHY_LOSS
-	return 0.0
 
 
 ## Where each waiting Pass ends if the board stands like this.
@@ -515,7 +473,7 @@ static func _search_pins(
 	return out
 
 
-## What a fight can't show about a layout: Shy units forced out, and who keeps the Passes.
+## What a fight cannot show about a layout: who keeps the permanent Passes.
 static func _layout_bonus(
 	second: Array[int],
 	player: PlayerState,
@@ -529,11 +487,12 @@ static func _layout_bonus(
 	var bonus: float = 0.0
 	if second == BoardSearch.identity_layout():
 		bonus += STAY_BONUS
-	for slot: int in BoardGeometry.SLOTS:
-		if _shy_at(player, layout, slot):
-			bonus -= _shy_cost(player, value, layout, slot)
 	for landing: int in _pass_landings(player, layout):
-		if landing >= 0 and layout[landing] >= 0:
+		if (
+			landing >= 0
+			and layout[landing] >= 0
+			and not player.board[layout[landing]].has_mechanic_id("shy")
+		):
 			bonus += PASS_WEIGHT * value.keep_value(player.board[layout[landing]]) / 10.0
 	bonus += 0.01 * (BotLanes.score(player, value, layout) - base_lane_score)
 	return bonus

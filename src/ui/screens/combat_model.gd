@@ -21,6 +21,7 @@ var round_toll_added: int = 0
 var damage_uncapped: int = 0
 var end_reason: String = ""
 var result_rules: Dictionary = {}
+var early_spoils: Dictionary[int, int] = {}
 ## Enemy slots marked by Mark: [{"owner_side", "side", "slot", "damage"}].
 var slot_marks: Array[Dictionary] = []
 var bog_patches: Dictionary[String, Dictionary] = {}
@@ -43,6 +44,7 @@ func reset() -> void:
 	slot_hexes.clear()
 	finished = false
 	result_rules = {}
+	early_spoils.clear()
 	phase = ""
 
 
@@ -108,6 +110,8 @@ func apply(event: Dictionary) -> void:
 			var slot: int = Data.i(event, "slot", 0)
 			var total: int = Data.i(event, "total", 0)
 			slot_hexes["%d:%d" % [side, slot]] = {"side": side, "slot": slot, "total": total}
+		"early_spoils":
+			early_spoils[Data.i(event, "side")] = Data.i(event, "amount")
 		"combat_end":
 			result_rules = event.duplicate(true)
 			finished = true

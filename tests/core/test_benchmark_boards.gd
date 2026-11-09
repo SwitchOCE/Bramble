@@ -128,9 +128,19 @@ func test_bellies_keep_order_stats_and_borrowed_text() -> void:
 	assert_eq([inside[0]["def_id"], inside[0]["attack"], inside[0]["health"]], ["pill_bug", 4, 7])
 	assert_eq(inside[1]["def_id"], "mrs_posset")
 	var frumenty: Dictionary = _find("Oozes", 9, "average")["specs"][2]
+	assert_eq(frumenty.get("grants", []), [], "Lamp Moth's When played text cannot be borrowed")
+	var holder: Dictionary = _u("frumenty", 3, 4)
+	holder["belly"] = [_u("will_o_the_wisp", 3, 6)]
+	var borrowed: Dictionary = _translated({"F1": holder})
+	frumenty = borrowed["specs"][0]
 	var grants: Array = frumenty["grants"]
 	assert_eq(grants.size(), 1)
 	assert_eq(grants[0]["entry"]["trigger"], "start_of_combat")
+	borrowed["slot_effects"][1] = [{"name": "Ring", "attack": 1, "health": 1}]
+	var combat: Combat = _combat_before_start(borrowed, _translated({}))
+	combat._start_of_combat()
+	var summoned: CombatUnit = combat.unit_at(0, 1)
+	assert_true(summoned != null and summoned.def_id() == "wisp", "the borrowed text resolves")
 
 
 func test_hex_annotation_means_total_not_counter_growth() -> void:
@@ -154,16 +164,20 @@ func test_hex_annotation_means_total_not_counter_growth() -> void:
 func test_explicit_persistent_counters_reach_combat_unit() -> void:
 	var entry: Dictionary = _u("his_highness", 3, 4)
 	entry["kisses"] = 2
-	entry["paid_pie"] = 3
 	entry["egg_full_attack"] = 7
 	entry["egg_full_health"] = 9
-	var board: Dictionary = _translated({"F1": entry})
+	var cutter: Dictionary = _u("peat_cutter", 2, 4)
+	cutter["lifetime_payments"] = {"paid_peat_cutting": 2}
+	var board: Dictionary = _translated({"F1": entry, "F2": cutter})
 	var spec: Dictionary = board["specs"][0]
 	var unit: CombatUnit = CombatUnit.make(_library.get_unit("his_highness"), spec, 1, 0)
 	assert_eq(unit.counters["kisses"], 2)
-	assert_eq(unit.counters["paid_pie"], 3)
 	assert_eq(unit.counters["egg_full_attack"], 7)
 	assert_eq(unit.counters["egg_full_health"], 9)
+	var cutter_spec: Dictionary = board["specs"][1]
+	assert_eq(cutter_spec["lifetime_payments"], {"paid_peat_cutting": 2})
+	var fighter: CombatUnit = CombatUnit.make(_library.get_unit("peat_cutter"), cutter_spec, 2, 0)
+	assert_eq(fighter.counters["paid_peat_cutting"], 2)
 
 
 func test_unknown_unit_bad_stats_unknown_slot_and_total_mismatch_are_errors() -> void:

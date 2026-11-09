@@ -58,11 +58,14 @@ func test_every_printed_flier_now_loses_body_stats_when_it_flies() -> void:
 func test_half_egg_charges_body_for_old_tern() -> void:
 	var bird: RecruitUnit = _fly("old_tern")
 	var egg: Dictionary = _player.combat_board()[1]
-	assert_eq(egg["attack"], 1)
+	assert_eq(egg["attack"], 2)
 	assert_eq(egg["health"], 2)
 	assert_lt(egg["health"], bird.health)
+	_kit.pass_turn()
+	var newer: RecruitUnit = _fly("mrs_jay", 3)
 	_home(bird)
-	assert_eq(_player.pending.size(), 1)
+	assert_true(_player.pending.is_empty(), "Tern now returns the flock instead of Discovering")
+	assert_true(_player.hand.has(newer), "the newer Bird's trip ends with Tern's")
 
 
 func test_half_egg_keeps_repeat_reward_text_as_requested() -> void:

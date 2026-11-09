@@ -135,6 +135,8 @@ Owner notes win over this rulebook if they disagree.
 
 **3.1.1** [BRAMBLE] Each round (turn) is a Recruit Phase followed by a Combat Phase. Players do not share a clock: each takes their Recruit Phase independently (2.1.4).
 
+**3.1.1a** [BRAMBLE ideation] On cards, **a turn** means one Recruit Phase plus the fight after it. Once-a-turn limits reset before that Recruit Phase begins. A limit that names a fight resets for each fight.
+
 **3.1.2** [BRAMBLE] **No recruit timer.** The Recruit Phase lasts until the player ends it. HSBG gives 60 seconds in round 1, then 15 seconds more each round, up to 120 (rules.md §3). With no timer, the economy has to run out by itself: only the cost of refreshes rises within a turn (4.4), and free and triggered refreshes and gold-spent engines are bounded by content design (content-guardrails.md G1). How many shops a turn sees is tuned by playtesting, and the target will move. With the prices in 4.4, builds will differ, but most long turns should see around 20 shops (N8).
 
 ### 3.2 Start of the Recruit Phase
@@ -237,6 +239,8 @@ Owner notes win over this rulebook if they disagree.
 
 **4.4.7** [BG] There is no limit on the number of refreshes beyond their cost (rules.md §5.3). The owner chose not to cap free refreshes either. Repeatable free-refresh loops are prevented by content design instead (content-guardrails.md G1; N6).
 
+**4.4.8** [BRAMBLE ideation, optional] **Ask for Kin.** When enabled in Settings, pay 2 gold, once a turn, to refresh with at least two units sharing a tribe with your board. Nests count as Birds. The setting is **off by default** and applies to new games. It needs a tribe on your board or a Nest, draws eligible copies using usual tier odds, and fills the rest normally. If fewer than two eligible copies remain, it shows what it can. It counts as a paid refresh for escalating costs; its own price remains 2 and free refreshes are not spent.
+
 ### 4.5 Freeze
 
 **4.5.1** [BG] Freezing is free and toggles the shop between frozen and unfrozen, up to 5 times per Recruit Phase (rules.md §5.3).
@@ -336,6 +340,8 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 |---|---|---|---|---|---|---|
 | Cards | 4 | 5 | 5 | 6 | 6 | 7 |
 | of which units | 3 | 4 | 4 | 5 | 5 | 6 |
+
+**6.1.1a** [BRAMBLE ideation] Tier 1 offers **4 units and 1 spell**, replacing its column above. Other tiers are unchanged.
 
 **6.1.2** [BG] Shop units are drawn from units of the player's tier or lower, and units with fewer copies left appear less often (exact weighting uncertain in HSBG — see rules.md §5.2).
 
@@ -546,6 +552,8 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 *Why:* this is HSBG's rule that minions to the left of the attacker are marked as having attacked (uncertain in HSBG — see rules.md §11.3, SIM), stated for fixed slots and two rows. Flagging lower-numbered units is what makes the order "front row, then back row" even when units appear mid-cycle.
 
+**9.4.5a** [BRAMBLE ideation] **Mire waits once.** At Start of Combat, Mire binds the enemy slot across to its maker: the enemy there must attack that maker while it lives, even in the back row. When first chosen to attack, the maker waits if a living enemy on its patch has not attacked. Waiting skips its attack for the current cycle (9.4.5), and the next eligible friendly unit attacks. It waits at most once a fight. An empty patch does not cause a wait. Two opposing mirers each wait once, then attack normally; a target with 0 Attack or a skipped turn cannot cause repeated waits. Borrowed Mire follows the same rule.
+
 **9.4.6** [BG] Units with 0 Attack never attack and are skipped (rules.md §11.3).
 
 **9.4.7** [PROPOSED] Empty slots are skipped; they take no turn. *Why:* direction summary, question 3.
@@ -586,6 +594,8 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 **9.5.8** [BG] Heroes can't be attacked (rules.md §11.4).
 
 ### 9.6 Resolving one attack
+
+**9.6.0** [BRAMBLE ideation] **Bitter hits first.** At attack declaration, after the attack’s own bonuses (including a queued counter’s bonus), Bitter reduces the leading attacker’s Attack by its amount, down to 1. It applies before damage, Bristle, Shell and Hunker; the loss lasts this fight. Own and lent Bitter stack. Pack joiners keep their Attack. It also applies to counters and pounces, once per declared attack rather than once per Peck strike. A once-per-enemy use is spent at declaration even if the attack later deals no damage. Bitter cannot raise 0 Attack, deal damage or cause a wipe.
 
 **9.6.1** [BG] An attack resolves in this order (uncertain in HSBG — see rules.md §11.5, SIM):
 1. The defender's "when attacked" effects.
@@ -664,6 +674,8 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 A starting survivor is one of the winner's own units recorded before Start of Combat, alive on its own side when the fight ends. Golden counts once. The same unit can return and still count. Starting Eggs count once too. Combat summons, replacement copies and stolen enemies do not count. This replaces 10.1.1–10.1.4 for ideation games; tools can select `legacy` for the previous tier, floor, cap and toll rules.
 
 **10.1.4b** [BRAMBLE ideation] **Last Stand.** Only while four or fewer heroes are left, once per game, a loss to another hero that would knock your hero out from 2 Health or more leaves it on 1 instead, after Armor. A ghost never uses it. Ties and non-combat Health costs do not use it. A hero's panel records whether the save is used. It cannot fire while five or more heroes are left. The hero panel shows locked, ready or used; the lobby shows ready or used in the last four.
+
+**10.1.4c** [BRAMBLE ideation] **Early Spoils.** Rounds 1–4: win a fight against a living hero and get **1 gold next turn**. Ties and wins against ghosts pay nothing. The fight result and next-income display name Spoils.
 
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
@@ -769,12 +781,20 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **12.1.2** [BG] Buffs gained in combat are lost after combat unless they say "permanently". *Galaxy:* makes all buffs permanent; its design notes advise Bramble not to copy that (Galaxy design-notes §6).
 
+**12.1.2a** [BRAMBLE ideation] **Mrs Clover.** Her first two summons each turn gain the printed buff, counting the Recruit Phase and its following fight together. Recruiting buffs are permanent; combat buffs last that fight. The count resets at the start of the next Recruit Phase. Playing a unit from hand is not summoning it, and a summon that finds no room uses no buff.
+
+**12.1.2b** [BRAMBLE ideation] **Elder Ooze.** While this lives, friendly units coming out of your Oozes gain its printed combat buff, including Wee Wobbly's Drips. Units released from Elder Ooze's own Belly when it dies also gain the buff. Returned enemy prisoners never gain it. Drips are summons, so they do not fire Belly-only effects such as Mr Syllabub's Start of Combat replay.
+
 **12.1.3** [BG] Shop-wide buffs ("units in the shop have +1/+1 this game") apply to the units currently in the shop and to future shop units (rules.md §13).
 
-**12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. When sold text still fires on flight, When played can fire when replayed, and explicit homecoming text fires on landing. An empty Nest holds an Egg in combat with half its away Bird's current Attack and Health, each rounded up after permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg follows the same rule. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds. A starting Egg that survives adds 1 hero damage (10.1.4a).
+**12.1.4** [BRAMBLE ideation] **Flying and Eggs.** Fly South pays no sale gold. The Bird keeps its stats and returns to hand after its printed trip; it cannot fly on the turn it lands. When sold text still fires on flight, When played can fire when replayed, and explicit homecoming text fires on landing. An empty Nest holds an Egg in combat with half its away Bird's current Attack and Health, each rounded up after permanent and tribe bonuses, but none of the Bird's text. Mother Goose's own Egg follows the same rule. An occupied Nest does not add an Egg. Eggs count as Eggs, not Birds. Tom Tit gives your Eggs their Bird's full Health; golden Tom Tit gives full Attack too. Redwing's full-stat coverage still applies; only the strongest coverage counts, and the Egg's slot Rings apply afterward. Empty own Nests display the resulting Egg stats and homecoming countdown; occupied Nests show the Nest below their standing unit. Old Tern's homecoming returns the other away Birds too, including lengthened trips, to hand or doorstep. Mrs Stork returns the Bird away longest per 6 gold spent (two if golden), only if it has missed a fight; ties choose the leftmost Nest. A starting Egg that survives adds 1 hero damage (10.1.4a).
 
 
 **12.1.5** [BRAMBLE ideation] **Queen of Elfland.** The Queen pools the destroyed units' printed Attack and Health (doubled if those units are golden), plus their permanent buffs. Tribe bonuses, Rings, other auras and buffs for the next combat are excluded. Her golden version doubles that pool before dividing it among your other Fairies. This keeps a standing tribe bonus separate from permanent unit buffs.
+
+**12.1.6** [BRAMBLE ideation] **Pass X:** your last unit, other than its source, gains X. Last means last occupied slot in **F1-B1-F2-B2-F3-B3-F4**; gaps do not stop it and it never lands on the source. With no other unit, nothing happens. Recruiting Passes wait until End of Turn and read the board then; a sold source is excluded. Combat Passes land immediately on the last living other unit. The permanent Pass mark names the end unit; selecting or moving a Pass source shows its actual recipient, or “no one to pass to”. Touching still requires an unbroken zigzag run.
+
+**12.1.7** [BRAMBLE ideation] **Shy.** Only a spell aimed at the Shy unit or its slot can buff it while recruiting. The aimed spell sends it away and pays **2 gold next turn**, or **4 if golden**. Its other effects still resolve: aiming Harvest Supper at Shy still raises the tribe bonus. Rings, auras, tribe bonuses, unit text, and spells aimed elsewhere give it no stats and do not send it away. Combat buffs work normally. A Shy unit that leaves returns its copies to the pool; it is not sold. Destruction, including the Queen's Teind, pays no Shy gold, and Shy cannot receive a Teind share. Silky Rings a thanked unit's vacated slot, including her own, with the existing Ring cap. Mrs Mallow skips Shy when choosing your smallest unit (Attack plus Health, ties in zigzag order).
 
 ## 13. Systems outside the v0 core
 

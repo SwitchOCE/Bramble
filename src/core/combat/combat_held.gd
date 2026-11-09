@@ -57,8 +57,6 @@ static func pop_one(combat: Combat, holder: CombatUnit, own_slot: bool) -> Comba
 		combat.emit_event(
 			"no_room", {"uid": holder.uid, "def_id": str(spec["def_id"]), "outcome": "lost"}
 		)
-		if CombatMoves.spills_all(combat, side):
-			combat.spill(side, holder)
 		return null
 	var fields: Dictionary = {"came_out": true}
 	var fighter: CombatUnit = combat.enter_from_spec(spec, side, slot, holder, fields)
@@ -229,24 +227,26 @@ static func land_bird(
 	combat.enter_from_spec(spec, source.side, slot, source, {"landed": true})
 
 
-## Count only friendly bodies released from our Oozes. Returned enemy prisoners do not count.
+## Friendly releases and Wobbly's Drips count. Returned enemy prisoners do not count.
 static func emerged(
 	combat: Combat, unit: CombatUnit, holder: CombatUnit, fields: Dictionary
 ) -> void:
-	if not fields.get("came_out", false) or holder == null:
+	if holder == null:
+		return
+	if not fields.get("came_out", false) and not fields.get("wobbly_drip", false):
 		return
 	if holder.side != unit.side or not holder.has_tribe("Oozes"):
 		return
-	var key: String = "ooze_out_%d" % unit.side
-	var count: int = CoreUtil.to_int(combat.notes.get(key, 0)) + 1
-	combat.notes[key] = count
-	for elder: CombatUnit in combat.units_of(unit.side):
+	var elders: Array[CombatUnit] = combat.units_of(unit.side)
+	if not elders.has(holder):
+		elders.append(holder)
+	for elder: CombatUnit in elders:
+		if elder != holder and elder.is_dead():
+			continue
 		for index: int in elder.scripts.size():
 			if elder.mechanic_ids[index] != "elder_ooze":
 				continue
 			var params: Dictionary = elder.params[index]
-			var bonus: int = mini(
-				count * CoreUtil.to_int(params["stats"]), CoreUtil.to_int(params["most"])
-			)
+			var bonus: int = CoreUtil.to_int(params["stats"])
 			combat.trigger(elder, "elder_ooze")
 			combat.buff(unit, bonus, bonus, elder)

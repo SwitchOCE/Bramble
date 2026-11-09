@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Bristle 2. After this pricks: Pass right +1 Attack.",
-  "golden_text": "Bristle 4. After this pricks: Pass right +2 Attack.",
+  "text": "Bristle 2. After this pricks: Pass +1 Attack.",
+  "golden_text": "Bristle 4. After this pricks: Pass +2 Attack.",
   "mechanics": [
     {
       "id": "urchin",

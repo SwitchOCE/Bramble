@@ -95,6 +95,11 @@ func counter_store() -> Dictionary:
 	return source.counters if source != null else {}
 
 
+## Recruiting counters already belong to their owner; combat persists lifetime payments.
+func persist_counter(_key: String, _value: int) -> void:
+	pass
+
+
 func limit_store() -> Dictionary:
 	return source.limits if source != null else {}
 

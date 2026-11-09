@@ -1,2 +1,2 @@
 extends Mechanic
-## CombatHeld.emerged counts actual friendly releases and applies the bounded combat reward.
+## CombatHeld.emerged buffs actual friendly releases from our Oozes.

@@ -59,8 +59,6 @@ static func _profile_score(player: PlayerState, value: BotEval, layout: Array[in
 			continue
 		if layout[slot] != slot:
 			total -= MOVE_COST
-		if unit.has_mechanic_id("shy"):
-			total -= 100.0 * BotPlacer._shy_cost(player, value, layout, slot)
 		var row: String = value.row_of(unit)
 		# Mirers explicitly choose either row; the scout, rather than the printed default,
 		# decides whether they hold a front attacker or expose a carry to Snap.
@@ -278,12 +276,6 @@ static func _mire_score(player: PlayerState, unit: RecruitUnit, slot: int, snap:
 	match unit.def_id():
 		"madame_bufo":
 			total += 0.9 * attack + (8.0 if attack >= unit.health else 0.0)
-		"bridge_toad":
-			var biggest: int = 0
-			for other: int in BoardGeometry.SLOTS:
-				biggest = maxi(biggest, _stat(_enemy(player, other), "attack"))
-			if attack == biggest:
-				total += 15.0
 		"gideon":
 			total += 10.0 if attack < unit.health else -6.0
 	return total

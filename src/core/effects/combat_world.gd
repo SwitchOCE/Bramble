@@ -58,6 +58,13 @@ func counter_store() -> Dictionary:
 	return source.counters if source != null else _no_store
 
 
+func persist_counter(key: String, value: int) -> void:
+	if _combat_source != null and _combat_source.iid != 0:
+		combat.carry_back(
+			side, {"op": "counter", "iid": _combat_source.iid, "key": key, "value": value}
+		)
+
+
 func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void:
 	var fighter: CombatUnit = target
 	combat.buff(fighter, attack, health, _combat_source, duration == "permanent")
@@ -65,9 +72,7 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 
 func summon(def_id: String, count: int, golden: bool) -> void:
 	for _index: int in count:
-		var unit: CombatUnit = combat.summon(def_id, golden, side, source_slot, _combat_source)
-		if unit == null and CombatMoves.spills_all(combat, side):
-			combat.spill(side, _combat_source)
+		combat.summon(def_id, golden, side, source_slot, _combat_source)
 
 
 ## 8.4.6 and Spill in a fight: the Acorn waits until the fight is over.
@@ -112,7 +117,7 @@ func summon_placed(step: Dictionary, count: int, golden: bool) -> void:
 					"no_room",
 					{"uid": CombatMoves.uid_or_null(_combat_source), "side": side, "def_id": def_id}
 				)
-			if CoreUtil.to_bool(step.get("spill", false)) or CombatMoves.spills_all(combat, side):
+			if CoreUtil.to_bool(step.get("spill", false)):
 				combat.spill(side, _combat_source)
 
 

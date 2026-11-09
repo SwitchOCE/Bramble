@@ -66,12 +66,12 @@ func test_hungry_gap_gains_2_and_next_turn_only_shop_is_one_smaller() -> void:
 
 func test_shake_the_tree_refreshes_but_keeps_the_chosen_card() -> void:
 	var kept: RecruitUnit = _player.shop[1]
-	var others: Array = [_player.shop[0], _player.shop[2]]
+	var others: Array = [_player.shop[0], _player.shop[2], _player.shop[3]]
 	assert_eq(_kit.cast("shake_the_tree", 1), "")
 	assert_has(_player.shop, kept)
 	for gone: RecruitUnit in others:
 		assert_does_not_have(_player.shop, gone)
-	assert_eq(_player.shop.size(), 3)
+	assert_eq(_player.shop.size(), 4)
 
 
 func test_shake_the_tree_refuses_a_shop_index_that_isnt_there() -> void:
@@ -203,7 +203,7 @@ func test_brother_bracken_gives_small_board_one_stat_per_tier() -> void:
 func test_pipkin_shop_is_2_bigger_and_only_2_buys() -> void:
 	_hero("pipkin")
 	_rules.replace_shop(_player)
-	assert_eq(_player.shop.size(), 5, "3 + 2 on tier 1")
+	assert_eq(_player.shop.size(), 6, "4 + 2 on tier 1")
 	_player.gold = 20
 	assert_eq(_rules.buys_left(_player), 2)
 	assert_eq(_rules.buy(_player, 0), "")

@@ -1,9 +1,7 @@
 # gdlint:disable=max-public-methods
 class_name Combat
 extends RefCounted
-## One fight by rulebook chapter 9, returned as the event log of SPEC section 5.
-## A board is 7 entries in reading order: null or {"def_id", "golden", "attack"?, "health"?}.
-## Mechanics act through the public methods below; their changes are logged.
+## Rulebook chapter 9: seven-slot boards, mechanics and the resulting combat event log.
 
 const REASON_BOARD_EMPTY: String = "board_empty"
 const REASON_NO_ATTACKS: String = "no_attacks"
@@ -50,6 +48,8 @@ var cycles: Array[int] = [0, 0]
 var reactions: CombatReactions = CombatReactions.new()
 ## False for a fight nobody will watch (a bot trying a layout): no events, same result.
 var log_events: bool = true
+## Diagnostic switch; normal fights always retain the Mire wait.
+var mire_wait_enabled: bool = true
 ## Set by the session; layout simulations need only the fight outcome.
 var round_number: int = 1
 ## uid -> original side, captured before any Start of Combat effect.
@@ -92,8 +92,7 @@ static func create(
 	return combat
 
 
-## Runs the fight. `tiers` are the players' tiers (10.1.1); `damage_cap` 0 means no cap.
-## Returns {"events", "winner", "damage", "damage_uncapped", "reason"}.
+## Run a fight: tier damage per 10.1.1; damage_cap 0 means no cap.
 func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: int) -> Dictionary:
 	_attacks_started = false
 	_last_blow_side = -1
@@ -134,10 +133,6 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	return _finish(reason, tiers, damage_cap)
 
 
-# --- Methods for the mechanic scripts -----------------------------------------------------------
-
-
-## The units on a side's board in reading order.
 func units_of(side: int) -> Array[CombatUnit]:
 	var out: Array[CombatUnit] = []
 	var row: Array = sides[side]
@@ -305,7 +300,6 @@ func named_slot(side: int, at: String, anchor: int) -> int:
 func spill(side: int, source: CombatUnit) -> void:
 	carry_back(side, {"op": "add_card", "card": "acorn", "count": 1, "from_pool": false})
 	_emit("spill", {"side": side, "source": CombatMoves.uid_or_null(source)})
-	CombatMoves.beadle_passes(self, side)
 
 
 ## What the Acorn items in this side's hand are worth.
@@ -416,9 +410,6 @@ func _hero_start_of_combat(first: int) -> void:
 		reactions.drain(self)
 
 
-# --- Attacks ------------------------------------------------------------------------------------
-
-
 func _attack_loop(first_side: int) -> String:
 	var active: int = first_side
 	var limit: int = config.get_int("attack_limit")
@@ -448,6 +439,9 @@ func _take_turn(side: int) -> void:
 		if unit.is_stopped():
 			_use_skip(unit)
 			_emit("skip", {"side": side, "uid": unit.uid, "reason": "stalled"})
+			skipped.append(unit)
+			continue
+		if CombatLanes.wait_once(self, unit):
 			skipped.append(unit)
 			continue
 		var action: String = ""
@@ -615,7 +609,9 @@ func _strikes(
 		if strike == strike_count - 1:
 			for joiner: CombatUnit in joiners:
 				if joiner.on_board:
-					hits_out.append(_attack_hit(joiner, defender, joiner.attack, 1, true))
+					hits_out.append(
+						_attack_hit(joiner, defender, CombatHunt.join_attack(self, joiner), 1, true)
+					)
 			hits_back.append(_attack_hit(defender, attacker, defender.attack, strike + 1, false))
 		var attacker_quick: bool = _is_quick(attacker)
 		var defender_quick: bool = _is_quick(defender)
@@ -625,14 +621,18 @@ func _strikes(
 		_exchange(hits_out, hits_back, attacker_quick, defender_quick, attacker.side)
 
 
-## What this attack hits with. Little King Wren: the highest enemy Attack, read as it swings.
+## Wren reads the highest enemy Attack, then applies this declaration's Bitter loss.
 func _strike_attack(attacker: CombatUnit) -> int:
 	if not attacker.has_status("borrowed_attack"):
 		return attacker.attack
 	var highest: int = 0
 	for enemy: CombatUnit in units_of(1 - attacker.side):
 		highest = maxi(highest, enemy.attack)
-	return highest
+	return (
+		maxi(1, highest - CoreUtil.to_int(attacker.counters.get("bitter_borrowed", 0)))
+		if highest > 0
+		else 0
+	)
 
 
 ## Before 9.6.1 step 1: every unit's on_attack_declared, the defender's side first, each side in
@@ -850,8 +850,8 @@ func _has_ally_listener(side: int) -> bool:
 ## 12.2.1 auras are recalculated whenever the board changes. Losing a Health aura lowers maximum
 ## Health and keeps the damage taken, but never takes Health below 1 (prototype pick).
 func _recalc_auras(log_changes: bool) -> void:
-	CombatAuras.recalc(self, log_changes)
 	CombatLanes.sync_mire(self)
+	CombatAuras.recalc(self, log_changes)
 
 
 func _has_slot_effects() -> bool:

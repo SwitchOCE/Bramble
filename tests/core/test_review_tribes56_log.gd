@@ -141,18 +141,23 @@ func test_gideons_lethal_counter_keeps_damage_and_death_without_a_cleanup_buff_o
 			assert_ne(event["target"], gideon.uid, "the temporary bonus is not removed on a corpse")
 
 
-func test_bitter_does_not_report_an_attack_loss_on_an_already_lethal_attacker() -> void:
-	_setup({0: FIGHT.u("madame_bufo", 1, 4)}, {0: FIGHT.u("little_nip", 5, 1)})
+func test_bitter_reports_its_declaration_loss_before_a_simultaneous_trade() -> void:
+	_setup({0: FIGHT.u("madame_bufo", 1, 4)}, {0: FIGHT.u("little_nip", 6, 1)})
 	var attacker: CombatUnit = _combat.unit_at(1, 0)
 	_combat._attack(attacker, _combat.unit_at(0, 0))
 	assert_eq(_events("death").size(), 2)
-	assert_true(_stats_for(attacker.uid).is_empty())
+	var losses: Array[Dictionary] = _stats_for(attacker.uid)
+	assert_eq(losses.size(), 1, "Bitter reduces the living attacker before the lethal exchange")
+	assert_eq(losses[0]["attack_delta"], -2)
+	assert_eq(losses[0]["attack"], 4)
+	assert_lt(int(losses[0]["seq"]), int(_events("damage")[0]["seq"]))
+	assert_lt(int(losses[0]["seq"]), int(_events("death")[0]["seq"]))
 
 
 func test_grizel_rewards_the_leader_that_traded_without_a_fake_live_stat_line() -> void:
 	var nip: RecruitUnit = _kit.put("little_nip", 0)
 	_kit.put("grizel", 1)
-	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 2, 6)}))
+	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 3, 6)}))
 	var leader: CombatUnit = _combat.unit_at(0, 0)
 	_combat._attack(leader, _combat.unit_at(1, 0))
 	assert_false(leader.on_board)
@@ -172,14 +177,12 @@ func test_grizel_rewards_the_leader_that_traded_without_a_fake_live_stat_line() 
 	assert_eq(our_takes, 1, "the trading Hunter still witnesses its Take")
 
 
-func test_tiddys_death_witness_reward_reaches_recruit_without_healing_the_dead_fen_spirit() -> void:
-	_kit.put("bridge_toad", 0)
+func test_tiddys_lethal_attack_reward_reaches_recruit_without_reviving_it() -> void:
+	_kit.put("natterjack_chorus", 5)
 	var tiddy: RecruitUnit = _kit.put("tiddy_mun", 4)
-	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 1, 1)}))
+	_start(_kit.player.combat_board(), FIGHT.board({4: FIGHT.u("sable", 99, 99)}))
 	var spirit: CombatUnit = _combat.unit_at(0, 4)
-	for unit: CombatUnit in [_combat.unit_at(0, 0), spirit, _combat.unit_at(1, 0)]:
-		_combat.deal_effect_damage(null, unit, 99)
-	_combat._resolve_deaths(0)
+	_combat._attack(_combat.unit_at(1, 4), spirit)
 	assert_false(spirit.on_board)
 	assert_lte(spirit.health, 0)
 	assert_true(_stats_for(spirit.uid).is_empty())
@@ -187,7 +190,7 @@ func test_tiddys_death_witness_reward_reaches_recruit_without_healing_the_dead_f
 	_apply_carry()
 	assert_eq(tiddy.perm_attack, 1)
 	assert_eq(tiddy.perm_health, 1)
-	assert_eq(_events("death").size(), 3)
+	assert_eq(_events("death").size(), 1)
 
 
 func test_multiple_trade_rewards_keep_the_real_slice_permanent_ceiling() -> void:

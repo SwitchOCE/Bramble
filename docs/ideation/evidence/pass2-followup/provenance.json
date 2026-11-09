@@ -1,0 +1,22 @@
+{
+  "code_commit": "c50f6c81ded750a6f30f3f20062d8cec5ddd78fb",
+  "games": 400,
+  "first_seed": 1,
+  "last_seed": 400,
+  "suite": "free_choice_plain",
+  "cores": 1,
+  "memory_max": "3G",
+  "pilot": "seed 1 editor/release: players, rounds, cards, turns excluding usec, profile identical",
+  "r9_fixture_commit": "b86c11d",
+  "r9_fixture_sha256": "ec65196cc2e577883243cd27ed8ce4d0006f19bfc6f65c3a4735ead1d99bdbb1",
+  "r9_result_sha256": "41553f2602925616c67fba7623a76c63b39713a2948b1e4ec2fa2d8d74d82cc2",
+  "checkpoint_note": "Code remains c50f6c8; later commits contain fixture history and evidence only.",
+  "plain_seconds": 4904.2,
+  "completed_utc": "2026-11-09T02:18:10.772926+00:00",
+  "validated_lobbies": 400,
+  "validated_player_rows": 3200,
+  "hinted_arm": "omitted: expensive",
+  "bog_first_trigger": false,
+  "bog_mean_place_trigger": false,
+  "lobby_stamp": "66afe50 400"
+}

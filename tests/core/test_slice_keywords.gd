@@ -117,30 +117,30 @@ func test_spill_from_a_fight_becomes_an_acorn_in_the_real_flow() -> void:
 		pass_test("Sorrel didn't attack and live on this seed")
 
 
-func test_pass_travels_the_zigzag_to_the_last_touching_unit() -> void:
+func test_pass_reaches_the_last_unit_in_the_zigzag_across_gaps() -> void:
 	for slot: int in [F1, B1, F2, B2]:
 		_kit.put("pill_bug", slot)
 	_kit.put("pill_bug", B3)
 	var entry: Dictionary = {"iid": _player.board[F1].iid, "slot": F1, "attack": 1, "health": 1}
 	_player.pending_passes.append(entry)
 	_rules.end_phase(_player)
-	assert_eq(_player.board[B2].attack, 2, "F1-B1-F2-B2; the gap at F3 cuts it")
-	assert_eq(_player.board[B3].attack, 1)
+	assert_eq(_player.board[B2].attack, 1, "the Pass goes beyond this unit")
+	assert_eq(_player.board[B3].attack, 2, "the last occupied slot; gaps do not matter")
 	assert_eq(_player.board[F1].attack, 1, "only the last keeps it")
 
 
-func test_pass_with_nobody_touching_stays_on_its_source() -> void:
+func test_pass_with_nobody_else_never_buffs_its_source() -> void:
 	var crumb: RecruitUnit = _kit.play("mr_crumb", F1)
 	_rules.end_phase(_player)
-	assert_eq(crumb.attack, 2)
+	assert_eq(crumb.attack, 1, "there is no other unit to pass to")
 
 
-func test_pass_sold_with_nobody_next_fizzles() -> void:
+func test_pass_sold_reaches_a_distant_unit() -> void:
 	_kit.put("mr_crumb", F1)
 	var far: RecruitUnit = _kit.put("pill_bug", F3)
 	_rules.sell(_player, F1)
 	_rules.end_phase(_player)
-	assert_eq(far.attack, 1, "the gap cuts it")
+	assert_eq(far.attack, 2, "a sold source is absent, and gaps are ignored")
 
 
 func test_pass_the_layout_at_end_of_turn_is_what_counts_and_state_shows_it() -> void:
@@ -153,7 +153,7 @@ func test_pass_the_layout_at_end_of_turn_is_what_counts_and_state_shows_it() -> 
 	human.hand.append(RecruitUnit.make(rules.library.get_unit("mr_crumb"), rules.new_iid()))
 	assert_eq(session.play(0, F1), "")
 	var passes: Array = session.get_state()["pending_passes"]
-	assert_eq(passes[0]["landing_slot"], F1, "F2 isn't touching: B1 sits between")
+	assert_eq(passes[0]["landing_slot"], F2, "the last other unit, even across B1's gap")
 	assert_eq(session.move(F2, B1), "")
 	passes = session.get_state()["pending_passes"]
 	assert_eq(passes[0]["from_slot"], F1)
@@ -353,7 +353,7 @@ func test_full_game_pool_keeps_shops_varied_and_uses_only_the_slice() -> void:
 	var pool := UnitPool.create(library, GameConfig.full_game())
 	for id: String in pool.ids():
 		assert_eq(library.get_unit(id).get("set"), "slice", id)
-	assert_eq(pool.ids().size(), 98)
+	assert_eq(pool.ids().size(), 109)
 	var session: GameSession = _session()
 	assert_eq(session.get_state()["lobby_tribes"].size(), 5, "Five of the six built tribes")
 	assert_eq(session._library.heroes_of("slice").size(), 9)

@@ -38,8 +38,8 @@ func test_fight_returns_log_winner_and_damage() -> void:
 	sandbox.set_tier(0, 4)
 	var result: Dictionary = sandbox.fight(3)
 	assert_eq(result.keys().size(), 3, "events, winner, damage")
-	assert_eq(result["winner"], 0, "the 7/7 wins")
-	assert_eq(result["damage"], 4 + 6, "tier 4 plus the Elder Ooze's tier 6, no cap")
+	assert_eq(result["winner"], 0, "the Elder wins")
+	assert_eq(result["damage"], 4 + 5, "tier 4 plus the Elder Ooze's tier 5, no cap")
 
 
 func test_golden_and_stat_overrides_7_3_4() -> void:

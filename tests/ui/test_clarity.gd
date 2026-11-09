@@ -27,7 +27,7 @@ func test_terms_are_found_in_card_text_and_keyword_reminders() -> void:
 		assert_has(words, term)
 		assert_string_contains(PlayView.how_to_play(), Keywords.text(term))
 	assert_has(Keywords.named_on({"keywords": ["Pounce"]}), "Cycle")
-	assert_has(Keywords.named_on({"keywords": ["Pass"]}), "Touching")
+	assert_false(Keywords.named_on({"keywords": ["Pass"]}).has("Touching"))
 	assert_has(Keywords.named_on({"keywords": ["Pounce"]}), "Next to")
 	# "Take" is a word only as written: "takes 2 damage" and Hunker's "Takes half" aren't it.
 	assert_false(Keywords.named_on({"text": "Each enemy moved takes 2 damage."}).has("Take"))
@@ -54,7 +54,7 @@ func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> v
 	kit.rules.end_phase(kit.player)
 	assert_eq(right.perm_attack, 2, "the sale's Pass starts from F2 after its source has gone")
 	assert_false(Keywords.text("Pass").contains("Mr Crumb"))
-	assert_string_contains(Keywords.text("Pass"), "End of Turn")
+	assert_eq(Keywords.text("Pass"), "Pass X: your last unit, other than this, gains X")
 
 
 func test_triple_rewards_offer_three_across_all_shop_tiers() -> void:
@@ -242,7 +242,7 @@ func test_pass_hint_names_end_of_turn_and_leaves_other_cards_alone() -> void:
 	for slot: int in BoardGeometry.SLOTS:
 		assert_eq(
 			RecruitView.geometry_note(library.get_unit("mr_crumb"), slot),
-			"Pass lands at End of Turn."
+			"Pass order: F1-B1-F2-B2-F3-B3-F4. Lands at End of Turn."
 		)
 	assert_eq(RecruitView.geometry_note(library.get_unit("field_vole"), 0), "")
 	assert_eq(

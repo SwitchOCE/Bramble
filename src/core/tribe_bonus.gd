@@ -39,6 +39,8 @@ static func _sync_unit(player: PlayerState, unit: RecruitUnit) -> void:
 	unit.tribe_bonuses = {}
 	for tribe: Variant in unit.tribes():
 		var amount: int = CoreUtil.to_int(player.tribe_bonuses.get(tribe, 0))
+		if unit.has_mechanic_id("shy"):
+			amount = 0
 		unit.tribe_bonuses[tribe] = amount
 		bonus += amount
 	unit.tribe_attack = bonus

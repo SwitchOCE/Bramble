@@ -278,7 +278,7 @@ func set_marks(slot_marks: Array) -> void:
 		_place_label(i)
 
 
-## The slot a Pass would land on, or -1.
+## Preview slot, -1 for no recipient, or -2 to restore the permanent end mark.
 func set_pass_landing(slot: int) -> void:
 	_marks.pass_slot = slot
 

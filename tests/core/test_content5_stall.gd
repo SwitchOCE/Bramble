@@ -140,7 +140,7 @@ func test_pipkin_converts_capped_stalls_into_spell_slots_but_keeps_buy_limit() -
 	assert_eq(_player.shop_spells.size(), 3, "Gap changes units, not converted spell slots")
 
 
-func test_stone_soup_reaches_the_extra_units_and_frozen_shop_keeps_them() -> void:
+func test_stone_soup_leaves_extra_shop_units_unchanged_when_frozen() -> void:
 	_player.market_stalls = 2
 	_kit.put("stone_soup", 0)
 	_kit.put("mrs_posset", 1)
@@ -148,12 +148,12 @@ func test_stone_soup_reaches_the_extra_units_and_frozen_shop_keeps_them() -> voi
 	var extra: RecruitUnit = _player.shop[6]
 	var stats := Vector2i(extra.attack, extra.health)
 	assert_eq(_rules.swallow(_player, HeldUnits.SHOP, 0, 1), "")
-	assert_eq(Vector2i(extra.attack, extra.health), stats + Vector2i.ONE)
+	assert_eq(Vector2i(extra.attack, extra.health), stats)
 	assert_eq(_rules.toggle_freeze(_player), "")
 	_rules.end_phase(_player)
 	_rules.start_phase(_player, 8)
 	assert_true(_player.shop.has(extra))
-	assert_eq(Vector2i(extra.attack, extra.health), stats, "Soup washes out as usual")
+	assert_eq(Vector2i(extra.attack, extra.health), stats, "Soup no longer changes shop stats")
 	assert_eq(_player.shop.size(), 7)
 
 
@@ -218,7 +218,7 @@ func test_pipkin_without_stalls_keeps_eight_tier_six_units_and_existing_gap_subt
 
 
 func test_existing_heroes_keep_all_baseline_shop_sizes_without_stalls() -> void:
-	var baseline: Array[int] = [3, 4, 4, 5, 5, 6]
+	var baseline: Array[int] = [4, 4, 4, 5, 5, 6]
 	for hero: Dictionary in _kit.library.all_heroes():
 		var player := PlayerState.new()
 		_rules.setup_player(player)

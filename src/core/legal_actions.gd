@@ -168,6 +168,8 @@ static func _economy(state: Dictionary, out: Array[Dictionary]) -> void:
 	var gold: int = state["gold"]
 	if CoreUtil.to_int(state["refresh_cost"]) <= gold:
 		out.append(_entry("refresh", []))
+	if state.get("can_ask_for_kin", false):
+		out.append(_entry("ask_for_kin", []))
 	if CoreUtil.to_int(state["freezes_left"]) > 0:
 		out.append(_entry("toggle_freeze", []))
 	if CoreUtil.to_int(state["tier"]) < UnitLibrary.TIERS:

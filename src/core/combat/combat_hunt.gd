@@ -26,12 +26,7 @@ static func joiners(combat: Combat, leader: CombatUnit, defender: CombatUnit) ->
 		return out
 	for slot: int in BoardGeometry.adjacent(leader.slot):
 		var unit: CombatUnit = combat.unit_at(leader.side, slot)
-		if (
-			unit == null
-			or not unit.has_mechanic("pack")
-			or not unit.can_attack()
-			or unit.is_stopped()
-		):
+		if unit == null or not has_pack(combat, unit) or not unit.can_attack() or unit.is_stopped():
 			continue
 		var repeat: bool = CoreUtil.to_bool(
 			CombatLanes.parameters(unit, "pack").get("repeat", false)
@@ -54,6 +49,27 @@ static func joiners(combat: Combat, leader: CombatUnit, defender: CombatUnit) ->
 	for joiner: CombatUnit in out:
 		combat.trigger(joiner, "pack")
 	return out
+
+
+static func has_pack(combat: Combat, unit: CombatUnit) -> bool:
+	if unit.has_mechanic("pack"):
+		return true
+	if not BoardGeometry.is_valid(unit.slot - 1):
+		return false
+	var before: CombatUnit = combat.unit_at(unit.side, unit.slot - 1)
+	return (
+		before != null
+		and not before.is_dead()
+		and before.has_mechanic("grey_agnes")
+		and BoardGeometry.row_of(before.slot).has(unit.slot)
+	)
+
+
+static func join_attack(combat: Combat, unit: CombatUnit) -> int:
+	var attack: int = unit.attack
+	for friend: CombatUnit in combat.units_of(unit.side):
+		attack += CoreUtil.to_int(CombatLanes.parameters(friend, "old_isegrim").get("attack", 0))
+	return attack
 
 
 static func has_pounce(combat: Combat, unit: CombatUnit) -> bool:

@@ -93,6 +93,7 @@ var _round_label: Label
 var _tier_button: LeafButton
 var _refresh_button: LeafButton
 var _freeze_button: LeafButton
+var _kin_button: LeafButton
 var _end_button: LeafButton
 var _detail: CardDetail
 var _hero: HeroPlaque
@@ -284,10 +285,15 @@ func _layout_right(x: float, w: float) -> void:
 	_round_label.position = Vector2(w - 30.0 - 180.0 - 16.0, 294)
 	_round_label.size = Vector2(180, 54)
 	var y: float = 362.0
-	for leaf: LeafButton in [_tier_button, _refresh_button, _freeze_button]:
+	var tools: Array[LeafButton] = [_tier_button, _refresh_button, _freeze_button]
+	var kin: bool = Data.b(state, "ask_for_kin_enabled") and not _detail.visible
+	if kin:
+		tools.append(_kin_button)
+	var tool_h: float = CardDetail.SIDE_ACTION_H if kin else LEAF_H
+	for leaf: LeafButton in tools:
 		leaf.position = Vector2(leaf_x, y)
-		leaf.size = Vector2(leaf_w, LEAF_H)
-		y += LEAF_H + 22.0
+		leaf.size = Vector2(leaf_w, tool_h)
+		y += tool_h + (2.0 if kin else 22.0)
 	_end_button.position = Vector2(leaf_x, CANVAS_H - 24.0 - END_H)
 	_end_button.size = Vector2(leaf_w, END_H)
 	_detail.position = Vector2(x, 112)
@@ -302,10 +308,10 @@ func _layout_right(x: float, w: float) -> void:
 		_tier_label.position.y = 266.0
 		_round_label.position.y = 266.0
 		var tools_y: float = 322.0
-		for leaf: LeafButton in [_tier_button, _refresh_button, _freeze_button]:
+		for leaf: LeafButton in tools:
 			leaf.position.y = tools_y
 			leaf.size.y = CardDetail.SIDE_ACTION_H
-			tools_y += CardDetail.SIDE_ACTION_H
+			tools_y += leaf.size.y
 		_detail.set_action_column(Rect2(DETAIL_W + DETAIL_GAP, tools_y - 112.0, RIGHT_W, 244))
 		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
 		_end_button.size.y = CardDetail.SIDE_ACTION_H
@@ -315,6 +321,7 @@ func _layout_right(x: float, w: float) -> void:
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
 	]:
 		node.visible = clear
+	_kin_button.visible = clear and kin
 
 
 ## Wide phones keep a reader beside the economy column, with every board slot still tappable.

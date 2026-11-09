@@ -30,16 +30,19 @@ const PAGES: Array[Dictionary] = [
 	{
 		"title": "A little more gold each round",
 		"text":
-		"Round 1 gives 3 gold, then 4, 5 and so on, up to 10.\n\nUnspent gold carries over.",
+		(
+			"Round 1 gives 3 gold, then 4, 5 and so on, up to 10.\n\nUnspent gold carries over. "
+			+ "Rounds 1-4: win a fight for 1 gold next turn. Ties and ghost wins pay nothing."
+		),
 		"demo": "income",
+		"terms": ["Early Spoils"],
 	},
 	{
 		"title": "Shape your next shop",
 		"text":
 		(
-			"Tier up for better cards. It gets cheaper each round you wait.\n\nRefresh "
-			+ "for new offers. Freeze keeps them for next round. Sell a unit to free its "
-			+ "slot."
+			"Tier 1 offers four units and one spell.\n\nTier up for better cards; waiting makes it cheaper. "
+			+ "Refresh for new offers. Freeze keeps them. Sell a unit to free its slot."
 		),
 		"demo": "tools",
 	},
@@ -133,10 +136,12 @@ const PAGES: Array[Dictionary] = [
 	},
 	{
 		"title": "Follow the zigzag",
+		"terms": ["Pass", "Shy", "Mire"],
 		"text":
 		(
-			"Touching means an unbroken run along the zigzag "
-			+ "F1-B1-F2-B2-F3-B3-F4.\n\nAn empty slot breaks the run."
+			"Zigzag order: F1-B1-F2-B2-F3-B3-F4.\n\nTouching needs an unbroken run; a gap breaks it. "
+			+ "Pass skips gaps: your last unit other than its source gains the bonus. "
+			+ "Recruiting, it lands at End of Turn."
 		),
 		"demo": "brick",
 	},

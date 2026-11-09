@@ -472,6 +472,11 @@ func _check_golden_params() -> void:
 				var want: Variant = normal[key]
 				if str(kinds.get(key, "")) == "number":
 					want = CoreUtil.to_int(normal[key]) * 2
+				# Printed golden exceptions are modes/caps, not ordinary doubled numbers.
+				if mechanic_id == "hex" and key == "most" and normal.has("golden_most"):
+					want = normal["golden_most"]
+				if mechanic_id == "tom_tit" and key == "full":
+					want = 2
 				if golden[key] != want:
 					_violation(
 						0, "%s %s.%s golden %s" % [unit_def["id"], mechanic_id, key, golden[key]]

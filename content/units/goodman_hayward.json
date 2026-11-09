@@ -1,0 +1,30 @@
+{
+  "id": "goodman_hayward",
+  "name": "Goodman Hayward",
+  "set": "slice",
+  "tier": 5,
+  "attack": 4,
+  "health": 7,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.",
+  "golden_text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +2/+2.",
+  "details": "Cashing the item or feeding it to Alderman Dozey counts as playing it. Touching follows the unbroken zigzag through this unit, including itself.",
+  "mechanics": [
+    {
+      "id": "goodman_hayward",
+      "stats": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-a.md",
+    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+  }
+}

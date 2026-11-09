@@ -1,0 +1,30 @@
+{
+  "id": "mrs_mallow",
+  "name": "Mrs Mallow, Feeding Them Up",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 5,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "End of Turn: your smallest unit gains +1/+1.",
+  "golden_text": "End of Turn: your smallest unit gains +2/+2.",
+  "details": "Smallest means Attack plus Health. Skip Shy units. Ties go to the earlier slot in the zigzag F1-B1-F2-B2-F3-B3-F4. This can choose itself.",
+  "mechanics": [
+    {
+      "id": "mrs_mallow",
+      "stats": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-a.md",
+    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+  }
+}

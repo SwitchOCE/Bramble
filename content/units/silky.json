@@ -1,0 +1,43 @@
+{
+  "id": "silky",
+  "name": "Silky",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 6,
+  "tribes": [
+    "Fairies"
+  ],
+  "text": "Shy. After a Shy unit leaves: Ring its slot +2/+2.",
+  "golden_text": "Shy pays 4 gold. After a Shy unit leaves: Ring its slot +4/+4.",
+  "mechanics": [
+    {
+      "id": "shy",
+      "gold": 2
+    },
+    {
+      "id": "silky",
+      "stats": 2
+    }
+  ],
+  "keywords": [
+    "Shy"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "details": "This counts too. The Ring cap (+4/+4) applies. Destroying or selling a Shy unit does not count.",
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+  },
+  "mechanic_text": {
+    "1": {
+      "id": "silky",
+      "text": "After a Shy unit leaves: Ring its slot +2/+2.",
+      "golden_text": "After a Shy unit leaves: Ring its slot +4/+4."
+    }
+  }
+}

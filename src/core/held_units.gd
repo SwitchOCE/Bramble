@@ -12,7 +12,6 @@ const BELLY: String = "belly"
 const FLY: String = "fly_south"
 const GOOSE: String = "mother_goose"
 const BIRDS: String = "Birds"
-const SOUP_COUNTER: String = "soup"
 
 # --- Belly --------------------------------------------------------------------------------------
 
@@ -144,17 +143,20 @@ static func take_out(player: PlayerState, unit: RecruitUnit) -> void:
 			return
 
 
-## Figgy Duff: once a turn, two Bought copies make a golden if one is inside it. No Triple Reward.
+## Figgy Duff pairs two Bought copies with a Triple Reward, then skips the following turn.
 static func figgy_pair(rules: RecruitRules, player: PlayerState) -> bool:
 	for ooze: RecruitUnit in player.board:
-		if ooze == null or not ooze.has_mechanic_id("figgy_duff") or ooze.limits.has("figgy_duff"):
+		if ooze == null or not ooze.has_mechanic_id("figgy_duff"):
+			continue
+		var last_round: int = CoreUtil.to_int(ooze.counters.get("figgy_round", -2))
+		if player.round_number < last_round + 2:
 			continue
 		for inner: RecruitUnit in ooze.held:
 			var other: RecruitUnit = _bought_twin(player, inner)
 			if other != null:
-				ooze.limits["figgy_duff"] = 1
+				ooze.counters["figgy_round"] = player.round_number
 				player.log_event("trigger", {"mechanic": "figgy_duff", "source": ooze.def_id()})
-				rules.combine(player, [inner, other], false)
+				rules.combine(player, [inner, other], true)
 				return true
 	return false
 
@@ -168,21 +170,6 @@ static func _bought_twin(player: PlayerState, unit: RecruitUnit) -> RecruitUnit:
 		if other.def_id() == unit.def_id() and other.origin == RecruitUnit.ORIGIN_BOUGHT:
 			return other
 	return null
-
-
-## Stone Soup: what the shop gained lasts the turn. A unit bought keeps it; a frozen one doesn't.
-static func soak_shop(player: PlayerState, gain: int) -> void:
-	for unit: RecruitUnit in player.shop:
-		unit.add_permanent(gain, gain)
-		unit.counters[SOUP_COUNTER] = CoreUtil.to_int(unit.counters.get(SOUP_COUNTER, 0)) + gain
-
-
-static func wash_shop(player: PlayerState) -> void:
-	for unit: RecruitUnit in player.shop:
-		var gain: int = CoreUtil.to_int(unit.counters.get(SOUP_COUNTER, 0))
-		if gain > 0:
-			unit.add_permanent(-gain, -gain)
-			unit.counters.erase(SOUP_COUNTER)
 
 
 ## Cut-and-Come-Again: a plain Created copy that holds no pool copy and can't help a triple.
@@ -218,7 +205,7 @@ static func send_south(
 			var previous: RecruitUnit = entry["unit"]
 			player.log_event("nest_replaced", {"name": str(previous.def["name"]), "slot": slot})
 			entry["nest"] = -1
-	var due: int = player.round_number + unit.mechanic_number(FLY, "turns")
+	var due: int = player.round_number + unit.flight_turns()
 	for adjacent: int in BoardGeometry.adjacent(slot):
 		var cuckoo: RecruitUnit = player.board[adjacent]
 		if cuckoo != null:
@@ -245,9 +232,32 @@ static func land_due(rules: RecruitRules, player: PlayerState) -> void:
 static func bring_home(rules: RecruitRules, player: PlayerState, count: int) -> void:
 	var ready: Array[Dictionary] = []
 	for entry: Dictionary in player.away:
-		if CoreUtil.to_int(entry["left"]) < player.round_number and ready.size() < count:
+		if CoreUtil.to_int(entry["left"]) < player.round_number:
 			ready.append(entry)
+	ready.sort_custom(_longest_away)
+	if ready.size() > count:
+		ready.resize(count)
 	_land(rules, player, ready)
+
+
+static func _longest_away(first: Dictionary, second: Dictionary) -> bool:
+	var a: int = CoreUtil.to_int(first["left"])
+	var b: int = CoreUtil.to_int(second["left"])
+	if a != b:
+		return a < b
+	var first_slot: int = BoardGeometry.ZIGZAG.find(CoreUtil.to_int(first["nest"]))
+	var second_slot: int = BoardGeometry.ZIGZAG.find(CoreUtil.to_int(second["nest"]))
+	return (7 if first_slot < 0 else first_slot) < (7 if second_slot < 0 else second_slot)
+
+
+## Old Tern may end a trip before its due turn, including a Bird flown this turn.
+static func land_flock(rules: RecruitRules, player: PlayerState) -> void:
+	var flock: Array[Dictionary] = []
+	for entry: Dictionary in player.away:
+		var bird: RecruitUnit = entry["unit"]
+		if bird.has_tribe(BIRDS):
+			flock.append(entry)
+	_land(rules, player, flock)
 
 
 static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dictionary]) -> void:
@@ -355,13 +365,15 @@ static func egg_forecast(
 		var bonus: int = maxi(0, factor - 1) * 2
 		out["attack"] = CoreUtil.to_int(body["attack"]) + bonus
 		out["health"] = CoreUtil.to_int(body["health"]) + bonus
-	var tit := Vector2i.ZERO
+	var tit: int = 0
 	for source: RecruitUnit in row:
 		if source != null:
-			tit.x = maxi(tit.x, support_number(source, "tom_tit", "attack"))
-			tit.y = maxi(tit.y, support_number(source, "tom_tit", "health"))
-	out["attack"] = CoreUtil.to_int(out["attack"]) + tit.x
-	out["health"] = CoreUtil.to_int(out["health"]) + tit.y
+			tit = maxi(tit, support_number(source, "tom_tit", "full"))
+	var bird_body: Dictionary = bird.combat_spec()
+	if tit >= 1:
+		out["health"] = maxi(CoreUtil.to_int(out["health"]), CoreUtil.to_int(bird_body["health"]))
+	if tit >= 2:
+		out["attack"] = maxi(CoreUtil.to_int(out["attack"]), CoreUtil.to_int(bird_body["attack"]))
 	return out
 
 
@@ -457,5 +469,6 @@ static func feed(rules: RecruitRules, player: PlayerState, index: int, slot: int
 	unit.add_permanent(stats, stats)
 	player.log_event("eat", {"unit": unit.def_id(), "card": item.def_id(), "stats": stats})
 	player.log_event("trigger", {"mechanic": "eats_acorns", "source": unit.def_id()})
+	rules.events.fire(player, "on_item_played", {"card_def": item.def})
 	rules.board_changed(player)
 	return ""

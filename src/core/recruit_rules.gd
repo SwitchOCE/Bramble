@@ -8,7 +8,6 @@ extends RefCounted
 
 const CHOOSE_FIRST: String = "Make your choice first"
 const ACORN: String = "acorn"
-const BEADLE: String = "beadle"
 const ECHO: String = "echo"
 ## How many of an Acorn item combine into the next size.
 const COMBINE_COUNT: int = 3
@@ -133,6 +132,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	var income: int = config.get_int_at("income_by_turn", round_number - 1)
 	player.gold += maxi(0, ask("income", player, income)) + player.gold_next_turn
 	player.gold_next_turn = 0
+	player.early_spoils_income = player.early_spoils_next_turn
+	player.early_spoils_next_turn = 0
 	player.gold_spent_turn = 0
 	player.homecomings_this_turn = 0
 	RecruitExtras.rainy_day(player)
@@ -144,8 +145,14 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 		var discount: int = config.get_int("upgrade_discount_per_turn")
 		player.upgrade_cost = maxi(0, player.upgrade_cost - discount)
 	player.paid_refreshes = 0
+	player.asked_for_kin = false
 	player.freezes_left = config.get_int("freeze_toggles_per_turn")
 	_reset_limits(player)
+	var arrivals: Array[Dictionary] = player.cards_next_turn
+	player.cards_next_turn = []
+	for change: Dictionary in arrivals:
+		for _index: int in CoreUtil.to_int(change["count"]):
+			give_card(player, str(change["card"]), CoreUtil.to_bool(change["from_pool"]))
 	player.power_uses_left = HeroRules.uses_per_turn(player.hero)
 	_fill_shop(player)
 	HunterRecruit.start_turn(player)
@@ -165,8 +172,8 @@ func end_phase(player: PlayerState) -> void:
 	BoardUpkeep.tick_turns(self, player)
 	BoardUpkeep.resolve_passes(self, player)
 	events.fire(player, "end_of_turn")
+	BoardUpkeep.resolve_passes(self, player)
 	HunterRecruit.expire(self, player)
-	HeldUnits.wash_shop(player)
 	var kept: Array[Dictionary] = []
 	for handler: Dictionary in player.rule_handlers:
 		if handler.get("next_turn", false):
@@ -478,11 +485,12 @@ func _one_triple(player: PlayerState) -> bool:
 
 ## 7.3.4: double base stats plus every copy's buffs and debuffs, summed from their layers, each
 ## stat at least the golden base. 7.3.7: on a full hand the golden takes the first vacated slot.
-## 5.3.5: it holds the copies' pool copies. Figgy Duff's pairs make no Triple Reward. A copy inside
+## 5.3.5: it holds the copies' pool copies. Figgy Duff's pairs earn a Triple Reward. A copy inside
 ## a Belly counts and leaves it; a tripled Ooze's contents go to hand.
 func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	var first: RecruitUnit = copies[0]
 	var golden := RecruitUnit.make(first.def, new_iid(), true)
+	golden.shy_accepts_stats = true
 	var vacated: Array[int] = []
 	var any_bought: bool = false
 	for entry: Variant in copies:
@@ -510,6 +518,7 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 		else:
 			HeldUnits.take_out(player, copy)
 		HeldUnits.release(self, player, copy)
+	golden.shy_accepts_stats = false
 	golden.perm_attack = maxi(0, golden.perm_attack)
 	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
@@ -546,19 +555,14 @@ func summon_units(
 		return
 	var slots: Array[int] = []
 	var taken: Array[bool] = player.occupied()
-	var missed: int = 0
 	for _index: int in count:
 		var slot: int = BoardGeometry.summon_slot(taken, source_slot, false)
 		if slot < 0:
 			player.log_event("no_room", {"unit": def_id, "name": str(unit_def["name"])})
-			missed += 1
 			continue
 		taken[slot] = true
 		slots.append(slot)
 	place_summons(player, def_id, golden, slots)
-	if _board_has(player, BEADLE):
-		for _miss: int in missed:
-			spill(player)
 
 
 ## Summoned units arrive in these slots, all before a triple can form (7.3.2). Created.
@@ -581,20 +585,6 @@ func place_summons(player: PlayerState, def_id: String, golden: bool, slots: Arr
 func spill(player: PlayerState) -> void:
 	player.log_event("spill", {})
 	give_card(player, ACORN)
-	for slot: int in BoardGeometry.SLOTS:
-		var unit: RecruitUnit = player.board[slot]
-		if unit != null and unit.has_mechanic_id(BEADLE):
-			var stats: int = unit.mechanic_number(BEADLE, "stats")
-			player.pending_passes.append(
-				{"iid": unit.iid, "slot": slot, "attack": stats, "health": stats}
-			)
-
-
-static func _board_has(player: PlayerState, mechanic_id: String) -> bool:
-	for unit: RecruitUnit in player.board:
-		if unit != null and unit.has_mechanic_id(mechanic_id):
-			return true
-	return false
 
 
 ## Gives a player a card by id: a unit into hand, Created; with `from_pool` it takes a real copy
@@ -631,6 +621,7 @@ func _give_item(player: PlayerState, card: String, from_pool: bool) -> void:
 		item.pool_copies = 1
 	player.items.append(item)
 	player.log_event("card", {"card": card})
+	events.fire(player, "on_item_gained", {"card_def": card_def})
 	RecruitExtras.combine_items(self, player)
 	board_changed(player)
 
@@ -691,12 +682,23 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 	var fields: Dictionary = _aim_fields(player, item.aim(), slot)
 	fields["card_def"] = item.def
 	var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
+	var thanked: RecruitUnit = null
+	if (
+		item.is_spell()
+		and item.aim() not in [HandItem.AIM_NONE, HandItem.AIM_SHOP_UNIT]
+		and BoardGeometry.is_valid(slot)
+	):
+		thanked = player.board[slot]
 	ctx.params = item.def
 	player.log_event("cast", {"card": item.def_id(), "slot": slot})
 	EffectRunner.run(item.def, ctx)
 	RecruitExtras.echo(self, player, item, slot, ctx)
 	if item.is_spell():
 		events.fire(player, "on_spell_cast", fields)
+		if thanked != null:
+			ShyRule.thank(self, player, thanked)
+	else:
+		events.fire(player, "on_item_played", fields)
 	board_changed(player)
 	HeldUnits.drain_doorstep(self, player)
 	return ""
@@ -756,7 +758,7 @@ static func _unit_in_row(player: PlayerState, slot: int, front: bool) -> bool:
 ## A shop aim's "slot" is a shop index, so it names no unit on the board.
 func _aim_fields(player: PlayerState, aim: String, slot: int) -> Dictionary:
 	var fields: Dictionary = {"chosen_slot": slot}
-	if aim == HandItem.AIM_SHOP_UNIT:
+	if aim in [HandItem.AIM_NONE, HandItem.AIM_SHOP_UNIT]:
 		return fields
 	if BoardGeometry.is_valid(slot) and player.board[slot] != null:
 		fields["chosen"] = player.board[slot]

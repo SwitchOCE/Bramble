@@ -13,12 +13,12 @@ const TAGS: Dictionary = {
 	"pennywort_snail": "Sale grows",
 	"mr_redbreast": "Per Nest",
 	"peat_cutter": "Mire",
-	"beadle_warrenby": "Spill",
+	"beadle_warrenby": "Pass +1/+1",
 	"ichneumon_wasp": "Delayed kill",
 	"pipistrelle_echo": "Spell echo",
 	"reel_mistress": "Ring dance",
 	"mountain_glutton": "Take growth",
-	"tiddy_mun": "Maker grows",
+	"tiddy_mun": "Hit growth",
 	"moss_ooze": "Spells inside",
 }
 var _combat: Combat
@@ -41,6 +41,8 @@ func test_all_audited_fallbacks_have_explicit_plain_and_golden_tags() -> void:
 		for golden: bool in [false, true]:
 			# Golden Reel-Mistress already has the informative numeric Ring tag.
 			var wanted: String = "Ring +1/+1" if id == "reel_mistress" and golden else str(TAGS[id])
+			if id == "beadle_warrenby" and golden:
+				wanted = "Pass +2/+2"
 			assert_eq(Cards.chip_text(Views.from_def(FIGHT.library.get_unit(id), golden)), wanted)
 
 

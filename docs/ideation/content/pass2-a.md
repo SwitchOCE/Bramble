@@ -66,17 +66,17 @@ Text unchanged: "Quarry. Take: if the quarry is your tier or lower, your next sh
 
 ## New cards
 
-### Grey Agnes (T4, Hunters, 3/6, new)
+### Grey Agnes (T4, Hunters, 2/5, new; amended after review)
 
-*She-wolf, Mother of the Pack.* "Pack. Units beside this have Pack and +1 Attack." *G* 6/12: "…Pack and +2 Attack."
-- **Rules:** Pack's rules (`hunters.md`) are unchanged: joiners hit the leader's target, only the leader takes the counter, one join a cycle, no chains. A row of four becomes two double or triple hits a cycle.
-- **Role and window:** the Pack route's T4 payoff, R6–10. It turns a front row into gangs, which is the tribe's answer to one huge unit (tally 3): three units' Attack lands as one hit and only the leader takes the counter.
-- **Competitors:** Charcoal Burner 4/6, the Cuckoo, Will-o'-the-Wisp. Burner's growth costs gold; Agnes costs placement, and adds 6–9 damage a cycle to a quarry.
+*She-wolf, Mother of the Pack.* "Pack. The unit after this in the row has Pack and +1 Attack." *G* 4/10: "…Pack and +2 Attack."
+- **Rules:** Pack's rules (`hunters.md`) are unchanged: joiners hit the leader's target, only the leader takes the counter, one join a cycle, no chains. Only the next same-row unit receives Pack; a row does not automatically become two gangs.
+- **Role and window:** the Pack route's T4 payoff, R6–10. It adds one Pack joiner through placement. Existing Pack units may still join a leader; only the leader takes the counter.
+- **Competitors:** Charcoal Burner 4/6, the Cuckoo, Will-o'-the-Wisp. Burner's growth costs gold; Agnes trades a smaller body for Pack on the next unit and +1 Attack there.
 - **Journey:** fills the Pack route's T4, which had only Old Brock. Makes you want Grizel (more Attack per kill) and Isegrim.
 - **The decision it adds:** who leads and who joins; a joiner gives up its own quarry for the cycle. That answers "play themselves".
 - **Great buy:** R7 with Wick, Brother Wolf and a quarry leader in front. **Bad buy:** a back-row-heavy board, or against a wide Bristle wall, where every leader eats the pricks.
 - **Variations:** (1) "Pack. Units beside this have Pack." 4/6, no Attack. (2) "Pack. After a pack attack you join: the leader gains +1/+1 permanently." (riskier: one grows).
-- **New engine piece:** a granted keyword (`aura` that adds Pack) read at each attack.
+- **New engine piece:** a live granted keyword on the immediately next slot in the same row, read at each attack. An empty next slot grants nothing.
 
 ### Old Isegrim (T6, Hunters, 6/8, new)
 
@@ -105,10 +105,10 @@ Assumptions as in `benchmark-boards.md`.
 
 **High roll, Pack, tier 5, a golden Wick.**
 ```
-F1 Sable 5/6     F2 Grey Agnes 3/6     F3 golden Wick 4/6     F4 Grizel 6/7
+F1 Sable 5/6     F2 Grey Agnes 2/5     F3 golden Wick 4/6     F4 Grizel 6/7
      B1 Old Lutra 5/6      B2 Old Brock 2/5      B3 the Lodger 6/5
 ```
-About 72 stats at recruit. At Start of Combat Sable's quarry check adds +3 and Agnes gives Sable and Wick +1 each. F1 leads with F2 joining; F3 leads with F4 joining: two hits of 14–15 a cycle, each taking one counter-hit. Guess: **rank 1–2**, close to the benchmark's 110 high roll on fight strength though lower on raw stats.
+The amended Agnes grants Pack and +1 Attack only to Wick at F3. Agnes can join Sable, but Grizel at F4 does not join Wick without another Pack source. The old triple-hit and two-gang estimate is withdrawn; the rebuilt engine benchmarks are in `../evidence/pass2-boards.md`.
 
 **Low roll, Open Season, tier 4, no T4 Hunter found.**
 ```

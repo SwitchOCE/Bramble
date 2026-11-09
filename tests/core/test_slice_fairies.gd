@@ -173,11 +173,13 @@ func test_old_moth_annis_gives_the_units_behind_attack_at_end_of_turn() -> void:
 
 
 func test_old_moth_annis_and_hob_the_owners_puzzle() -> void:
-	_kit.put("old_moth_annis", F1)
-	_kit.put("hob_in_the_hearth", B1)
+	var moth: RecruitUnit = _kit.put("old_moth_annis", F1)
+	var hob: RecruitUnit = _kit.put("hob_in_the_hearth", B1)
 	_rules.end_phase(_player)
-	assert_null(_player.board[B1], "Moth's buff sends the Hob behind her away")
-	assert_eq(_player.gold_next_turn, 2)
+	assert_eq(_player.board[B1], hob, "Shy ignores Moth's incidental buff")
+	assert_eq(Vector2i(hob.attack, hob.health), Vector2i(1, 3))
+	assert_eq(moth.health, 3, "Hob still grows the unit in front")
+	assert_eq(_player.gold_next_turn, 0)
 
 
 func test_old_moth_annis_golden_gives_plus_two() -> void:

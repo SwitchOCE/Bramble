@@ -19,7 +19,7 @@ func _player(rules: RecruitRules) -> PlayerState:
 	player.board[1] = RecruitUnit.make(_library.get_unit("pill_bug"), 4)
 	player.board[4] = RecruitUnit.make(_library.get_unit("hob_in_the_hearth"), 1)
 	player.board[5] = RecruitUnit.make(_library.get_unit("pill_bug"), 2)
-	player.items.append(HandItem.make(_library.get_card("stand_behind_me"), 3))
+	player.items.append(HandItem.make(_library.get_card("pinch_of_dust"), 3))
 	rules.board_changed(player)
 	return player
 
@@ -45,7 +45,7 @@ func test_shy_preview_predicts_walkout_without_consuming_any_state() -> void:
 	var pool_before: String = JSON.stringify(rules.pool._copies)
 	var random_before: int = player.effect_rng.state
 	var iid_before: int = rules._next_iid
-	var warning: String = Preview.shy_warning(player, rules, "play_item", 0, 1)
+	var warning: String = Preview.shy_warning(player, rules, "play_item", 0, 4)
 	assert_true("Hob-in-the-Hearth" in warning)
 	assert_eq(JSON.stringify(player.board_specs()), before)
 	assert_eq(JSON.stringify(rules.pool._copies), pool_before)
@@ -53,16 +53,16 @@ func test_shy_preview_predicts_walkout_without_consuming_any_state() -> void:
 	assert_eq(rules._next_iid, iid_before)
 	assert_eq(player.items.size(), 1)
 	assert_eq(player.gold, 20)
-	assert_eq(rules.play_item(player, 0, 1), "")
+	assert_eq(rules.play_item(player, 0, 4), "")
 	assert_null(player.board[4], "the real action matches its preview")
 	assert_not_null(player.board[5], "ordinary units stay")
 
 
-func test_shy_move_onto_ring_is_warned_but_move_to_plain_slot_is_not() -> void:
+func test_shy_moves_never_warn_because_rings_are_ignored() -> void:
 	var rules: RecruitRules = _rules()
 	var player: PlayerState = _player(rules)
 	BoardUpkeep.add_ring(player, 6, {"attack": 1, "health": 1})
-	assert_ne(Preview.shy_warning(player, rules, "move", 4, 6), "")
+	assert_eq(Preview.shy_warning(player, rules, "move", 4, 6), "")
 	assert_eq(Preview.shy_warning(player, rules, "move", 4, 0), "")
 	assert_not_null(player.board[4])
 
@@ -98,10 +98,10 @@ func test_shy_action_warns_before_mutation_and_repeat_confirms() -> void:
 	actions.port = port
 	var notices: Array[String] = []
 	actions._shy_notice = func(words: String) -> void: notices.append(words)
-	assert_eq(actions._safe_item(0, 1), "Shy warning: repeat to confirm")
+	assert_eq(actions._safe_item(0, 4), "Shy warning: repeat to confirm")
 	assert_not_null(player.board[4], "first tap leaves the actual unit in place")
 	assert_eq(player.items.size(), 1, "and keeps the spell")
 	assert_eq(notices.size(), 1)
 	assert_true("Hob-in-the-Hearth" in notices[0])
-	assert_eq(actions._safe_item(0, 1), "")
+	assert_eq(actions._safe_item(0, 4), "")
 	assert_null(player.board[4], "repeat confirms")

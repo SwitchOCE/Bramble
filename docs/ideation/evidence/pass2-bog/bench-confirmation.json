@@ -1,0 +1,12 @@
+{
+  "command": "systemd-run --user --scope -p MemoryMax=3G -- godot --headless -s res://tools/sim/pass2_boards.gd -- repetitions=100 seed=92100 out=build/pass2-bog-confirm",
+  "fights": 13200,
+  "all_fields_equal_to_published_result": true,
+  "published_sha256": "254ce4bd5b9f575f59ab8762f34d5b544012e992b5a3b4396f00ac92237f711f",
+  "rerun_sha256": "254ce4bd5b9f575f59ab8762f34d5b544012e992b5a3b4396f00ac92237f711f",
+  "trigger_limit_fights": 0,
+  "attack_limit_fights": 0,
+  "termination_reasons": {
+    "board_empty": 13200
+  }
+}

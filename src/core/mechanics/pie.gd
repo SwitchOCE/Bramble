@@ -1,18 +1,11 @@
 extends Mechanic
-## The Sixpenny Pie: at most three payments in this unit's life; golden doubles the gold.
-
-const AT_LEAST: int = 2
-const PAYMENTS: int = 3
-const COUNTER: String = "paid_pie"
+## A death pays once if at least one held unit actually found room.
 
 
 func after_release(combat: Combat, unit: CombatUnit, params: Dictionary, count: int) -> void:
-	var paid: int = CoreUtil.to_int(unit.counters.get(COUNTER, 0))
-	if count < AT_LEAST or paid >= PAYMENTS:
+	if count <= 0:
 		return
-	unit.counters[COUNTER] = paid + 1
 	combat.trigger(unit, "pie")
 	combat.carry_back(
-		unit.side,
-		{"op": "pie_payment", "iid": unit.iid, "amount": CoreUtil.to_int(params.get("gold", 1))}
+		unit.side, {"op": "gold_next_turn", "amount": CoreUtil.to_int(params.get("gold", 1))}
 	)

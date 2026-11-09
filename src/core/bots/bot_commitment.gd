@@ -5,7 +5,7 @@ extends RefCounted
 
 static func future_bonus(unit: RecruitUnit, player: PlayerState) -> float:
 	# Owned units already carry this layer; shop and Discover units do not.
-	if player.all_units().has(unit):
+	if player.all_units().has(unit) or unit.has_mechanic_id("shy"):
 		return 0.0
 	var total: int = 0
 	for tribe: Variant in unit.tribes():
@@ -62,14 +62,14 @@ static func aim_value(card: Dictionary, slot: int, player: PlayerState) -> float
 	var targets: Array[int] = (
 		BoardGeometry.behind(slot) if id == "stand_behind_me" else BoardGeometry.in_front_of(slot)
 	)
-	var total: float = 0.0
+	var total: float = (
+		BotContent5.shy_departure_value(source, player) if source.has_mechanic_id("shy") else 0.0
+	)
 	for target: int in targets:
 		var unit: RecruitUnit = player.board[target]
 		if unit == null or not unit.can_gain_permanent():
 			continue
-		if unit.has_mechanic_id("shy"):
-			total -= 20.0
-		else:
+		if not unit.has_mechanic_id("shy"):
 			total += 4.0 if _shares(source, unit) else 2.0
 	return total
 
@@ -82,8 +82,10 @@ static func _supper_value(source: RecruitUnit, player: PlayerState) -> float:
 		# The next two replacements also receive it. Away birds and Belly units count now.
 		total += 4.0
 		for unit: RecruitUnit in player.all_units():
-			if unit.tribes().has(tribe):
-				total += -20.0 if unit.has_mechanic_id("shy") else 2.0
+			if unit.tribes().has(tribe) and not unit.has_mechanic_id("shy"):
+				total += 2.0
+	if source.has_mechanic_id("shy"):
+		total += BotContent5.shy_departure_value(source, player)
 	return total
 
 

@@ -269,6 +269,17 @@ func on_attacked_complete(
 	pass
 
 
+## One completed exchange, before deaths; same-step dying witnesses can hear it.
+func after_attacked(
+	_combat: Combat,
+	_unit: CombatUnit,
+	_params: Dictionary,
+	_attacker: CombatUnit,
+	_defender: CombatUnit
+) -> void:
+	pass
+
+
 ## An enemy has left the board in a death batch. Same-step dying witnesses count.
 func on_enemy_death(
 	_combat: Combat, _unit: CombatUnit, _params: Dictionary, _dead: CombatUnit

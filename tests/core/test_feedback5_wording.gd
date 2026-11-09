@@ -88,19 +88,15 @@ func test_young_brock_text_distinguishes_recipients_from_the_enemy_across_brock(
 	assert_string_contains(text, "They mark the enemy across from this as quarry")
 
 
-func test_pass_is_one_short_sentence_with_recruit_timing_and_a_touching_chain() -> void:
+func test_pass_reminder_names_the_last_other_unit_and_ignores_gaps() -> void:
 	var reminder: String = KeywordRules.text("Pass")
 	assert_lte(reminder.split(" ", false).size(), 16)
-	assert_eq(reminder.count("."), 1)
-	assert_string_contains(reminder, "last touching unit rightward")
-	assert_string_contains(reminder, "or this does")
-	assert_string_contains(reminder, "recruiting: at End of Turn")
-	assert_false("recruiting waits" in reminder)
-	assert_string_contains(reminder, "End of Turn")
+	assert_eq(reminder, "Pass X: your last unit, other than this, gains X")
 	var occupied: Array[bool] = [true, true, false, true, true, false, false]
-	assert_eq(BoardGeometry.pass_landing(occupied, 0), 1, "F1-B1-F2 ends before empty B2")
+	assert_eq(BoardGeometry.pass_landing(occupied, 0), 3, "F4 is last across the B2 gap")
 	occupied[4] = false
-	assert_eq(BoardGeometry.pass_landing(occupied, 0), 0, "the source keeps it at a gap")
+	assert_eq(BoardGeometry.pass_landing(occupied, 0), 3, "removing B1 does not stop a Pass")
+	assert_eq(BoardGeometry.pass_landing(occupied, 3), 1, "the last source passes to F2")
 
 
 func test_rewritten_cards_keep_both_faces_within_the_guide_limit() -> void:
@@ -111,14 +107,14 @@ func test_rewritten_cards_keep_both_faces_within_the_guide_limit() -> void:
 			assert_lte(text.split(" ", false).size(), 22, "%s %s" % [id, face])
 
 
-func test_pass_rightmost_unit_keeps_its_bonus_at_end_of_turn() -> void:
+func test_pass_alone_never_keeps_its_bonus_at_end_of_turn() -> void:
 	var crumb: RecruitUnit = _kit.put("mr_crumb")
 	assert_eq(_kit.rules.play(_kit.player, 0, 3), "")
 	assert_eq(crumb.perm_attack, 0, "the recruiting Pass waits until End of Turn")
 	assert_eq(crumb.perm_health, 0)
 	_kit.rules.end_phase(_kit.player)
-	assert_eq(crumb.perm_attack, 1, "no unit to the right: this keeps the bonus")
-	assert_eq(crumb.perm_health, 1)
+	assert_eq(crumb.perm_attack, 0, "a lone source has no other recipient")
+	assert_eq(crumb.perm_health, 0)
 
 
 func test_golden_changeling_explicitly_buffs_that_enemy() -> void:

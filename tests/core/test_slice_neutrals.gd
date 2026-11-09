@@ -30,29 +30,23 @@ func _events(result: Dictionary, type: String) -> Array:
 	return out
 
 
-func _raised_to(result: Dictionary, attack: int) -> int:
-	var count: int = 0
-	for event: Dictionary in _events(result, "stats"):
-		if event["attack"] == attack:
-			count += 1
-	return count
+func test_lamp_moth_reduces_only_the_next_tier_up_cost() -> void:
+	var before: int = _rules.tier_up_cost(_player)
+	_kit.play("lamp_moth", B2)
+	assert_eq(_rules.tier_up_cost(_player), before - 1)
+	_player.gold = 20
+	assert_eq(_rules.tier_up(_player), "")
+	assert_eq(_player.gold, 20 - (before - 1))
+	assert_eq(_rules.tier_up_cost(_player), _rules.base_upgrade_cost(2))
 
 
-func test_lamp_moth_units_in_front_gain_attack_this_combat() -> void:
-	_kit.put("lamp_moth", B2)
-	var left: RecruitUnit = _kit.put("field_vole", F2)
-	var right: RecruitUnit = _kit.put("field_vole", F3)
+func test_lamp_moth_golden_saves_two_and_no_longer_buffs_the_front() -> void:
+	var before: int = _rules.tier_up_cost(_player)
+	_kit.play("lamp_moth", B1, true)
+	assert_eq(_rules.tier_up_cost(_player), before - 2)
+	_kit.put("field_vole", F1)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
-	assert_eq(_raised_to(result, left.attack + 1), 2, "both units in front of B2")
-	assert_eq(_player.board[F2].attack, left.attack, "this combat only")
-	assert_eq(left.attack, right.attack)
-
-
-func test_lamp_moth_golden_gives_plus_two() -> void:
-	_kit.put("lamp_moth", B1, true)
-	var front: RecruitUnit = _kit.put("field_vole", F1)
-	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
-	assert_eq(_raised_to(result, front.attack + 2), 1)
+	assert_true(_events(result, "stats").is_empty(), "the old Start of Combat effect is gone")
 
 
 func test_pill_bug_attacked_gives_the_units_behind_attack() -> void:

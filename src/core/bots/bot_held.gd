@@ -149,7 +149,10 @@ static func _profile_buys_into_belly(
 	var ooze: RecruitUnit = player.board[slot]
 	if ooze.mechanic_number("belly_discount", "gold") > 0:
 		return player.board_count() >= DISCOUNT_BODIES
-	return (
-		CoreUtil.to_bool(value.strategy.get("depth_first", false))
-		and player.board_count() >= DEPTH_BODIES
-	)
+	if player.board_count() < DEPTH_BODIES:
+		return false
+	for source: RecruitUnit in player.board:
+		if source != null and source.has_mechanic_id("stone_soup"):
+			if not source.limits.has("stone_soup"):
+				return true
+	return CoreUtil.to_bool(value.strategy.get("depth_first", false))

@@ -54,6 +54,8 @@ static func defaults() -> GameConfig:
 		"damage_cap_off_at_alive": 4,
 		"hero_damage_floor": 0,
 		"round_toll": false,
+		"early_spoils": false,
+		"ask_for_kin": false,
 		"last_blow": false,
 		"last_stand": false,
 		"survivor_damage_divisor": 1,
@@ -84,6 +86,8 @@ static func defaults() -> GameConfig:
 static func full_game(damage_mode: String = "v05") -> GameConfig:
 	var config := defaults()
 	config.set_value("spells_in_shop", true)
+	config.set_value("shop_units_by_tier", [4, 4, 4, 5, 5, 6])
+	config.set_value("early_spoils", true)
 	config.set_value("hero_choice", true)
 	config.set_value("tribes_per_lobby", 5)
 	config.set_value("pool_filter", SLICE)

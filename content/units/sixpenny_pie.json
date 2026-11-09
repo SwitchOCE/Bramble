@@ -4,16 +4,16 @@
   "set": "slice",
   "tier": 3,
   "attack": 1,
-  "health": 2,
+  "health": 4,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 3. When this dies: if 2+ come out, get 1 gold next turn. Three times in all.",
-  "golden_text": "Belly 6. When this dies: if 2+ come out, get 2 gold next turn. Three times in all.",
+  "text": "Belly 2. When this dies: if anything comes out, get 1 gold next turn.",
+  "golden_text": "Belly 4. When this dies: if anything comes out, get 2 gold next turn.",
   "mechanics": [
     {
       "id": "belly",
-      "size": 3
+      "size": 2
     },
     {
       "id": "pie",
@@ -29,13 +29,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
   },
   "mechanic_text": {
     "1": {
       "id": "pie",
-      "text": "When this dies: if 2+ come out, get 1 gold next turn. Three times in all.",
-      "golden_text": "When this dies: if 2+ come out, get 2 gold next turn. Three times in all."
+      "text": "When this dies: if anything comes out, get 1 gold next turn.",
+      "golden_text": "When this dies: if anything comes out, get 2 gold next turn."
     }
-  }
+  },
+  "details": "Only units that find room count."
 }

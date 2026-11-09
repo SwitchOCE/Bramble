@@ -1,0 +1,31 @@
+{
+  "id": "mrs_clover",
+  "name": "Mrs Clover, Midwife",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "After you summon a unit: give it +1/+1. Twice a turn.",
+  "golden_text": "After you summon a unit: give it +2/+2. Twice a turn.",
+  "details": "Any tribe\u2019s summons count, in either phase.",
+  "mechanics": [
+    {
+      "id": "mrs_clover",
+      "stats": 1,
+      "limit": 2
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-a.md",
+    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+  }
+}

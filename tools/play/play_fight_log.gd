@@ -184,6 +184,13 @@ static func _rare_line(event: Dictionary, names: Dictionary, mine: int) -> Strin
 					event["damage"],
 				]
 			)
+		"mire_wait":
+			return "%s waits for %s." % [_who(event["uid"], names), _who(event["target"], names)]
+		"early_spoils":
+			return (
+				"+1 gold: Spoils (%s)."
+				% ("you" if CoreUtil.to_int(event["side"]) == mine else "opponent")
+			)
 		"skip":
 			return "%s can't attack (%s)" % [_who(event["uid"], names), _plain(event["reason"])]
 		"pass":

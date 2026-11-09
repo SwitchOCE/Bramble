@@ -1,0 +1,16 @@
+Running as unit: run-p3020419-i11409161.scope; invocation ID: 9e3bc23f90e14879a3d5db8ec71dda4a
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+pass2_boards: completed 1/12
+pass2_boards: completed 2/12
+pass2_boards: completed 3/12
+pass2_boards: completed 4/12
+pass2_boards: completed 5/12
+pass2_boards: completed 6/12
+pass2_boards: completed 7/12
+pass2_boards: completed 8/12
+pass2_boards: completed 9/12
+pass2_boards: completed 10/12
+pass2_boards: completed 11/12
+pass2_boards: completed 12/12
+pass2_boards: fights=13200 trigger_limits=0 attack_limits=0 out=build/pass2-bog-confirm.results.*

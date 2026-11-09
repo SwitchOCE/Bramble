@@ -142,7 +142,7 @@ func test_snap_is_an_attack_and_the_trade_payment_is_clearly_a_different_reward(
 func test_grizels_trade_reward_does_not_read_like_healing_a_dead_unit() -> void:
 	_kit.put("little_nip", 0)
 	_kit.put("grizel", 1)
-	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 2, 6)}))
+	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 3, 6)}))
 	_combat._attack(_combat.unit_at(0, 0), _combat.unit_at(1, 0))
 	var rewards: int = 0
 	var ui: Array[String] = _ui_lines()
@@ -160,15 +160,12 @@ func test_grizels_trade_reward_does_not_read_like_healing_a_dead_unit() -> void:
 	_assert_damage_and_deaths_are_visible()
 
 
-func test_tiddys_simultaneous_death_reward_is_visible_after_death_without_reviving_the_model(
-) -> void:
+func test_tiddys_lethal_attack_reward_keeps_the_dead_defender_dead_in_playback() -> void:
 	_kit.put("bridge_toad", 0)
 	_kit.put("tiddy_mun", 4)
-	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 1, 1)}))
-	var spirit: CombatUnit = _combat.unit_at(0, 4)
-	for unit: CombatUnit in [_combat.unit_at(0, 0), spirit, _combat.unit_at(1, 0)]:
-		_combat.deal_effect_damage(null, unit, 99)
-	_combat._resolve_deaths(0)
+	_start(_kit.player.combat_board(), FIGHT.board({0: FIGHT.u("sable", 99, 1)}))
+	var toad: CombatUnit = _combat.unit_at(0, 0)
+	_combat._attack(_combat.unit_at(1, 0), toad)
 	var ui: Array[String] = _ui_lines()
 	var tool: Array[String] = _tool_lines()
 	var reward: int = -1
@@ -176,14 +173,14 @@ func test_tiddys_simultaneous_death_reward_is_visible_after_death_without_revivi
 		if _combat.events[index]["type"] == "permanent_reward":
 			reward = index
 	assert_gt(reward, 0)
-	assert_string_contains(ui[reward], "Tiddy Mun (B1)")
-	assert_string_contains(tool[reward], "Tiddy Mun (B1)")
+	assert_string_contains(ui[reward], "Bridge Toad (F1)")
+	assert_string_contains(tool[reward], "Bridge Toad (F1)")
 	assert_string_contains(_play_text(), "permanently")
 	var model: CombatModel = CombatModel.new()
 	for event: Dictionary in _combat.events:
 		model.apply(event)
-	assert_false(bool(model.unit(spirit.uid)["alive"]))
-	assert_lte(int(model.unit(spirit.uid)["health"]), 0)
+	assert_false(bool(model.unit(toad.uid)["alive"]))
+	assert_lte(int(model.unit(toad.uid)["health"]), 0)
 	_assert_damage_and_deaths_are_visible()
 
 

@@ -11,6 +11,10 @@ const HELP_WORDS: Dictionary[String, String] = {
 	"Touching": "An unbroken run of units along F1-B1-F2-B2-F3-B3-F4.",
 	"Next to": "Beside, in front or behind.",
 	"Cycle": "One pass through a side's attack order.",
+	"Early Spoils":
+	"Rounds 1-4: win a fight and get 1 gold next turn. Ghost wins and ties pay nothing.",
+	"Ask for Kin":
+	"2 gold, once a turn: refresh with two units sharing your tribes. Nests count as Birds.",
 	"Take": "When a unit's quarry dies, that unit makes a Take.",
 	"Base": "A card's own stats, without any buffs.",
 	"Round base": "Rises each round, up to 13.",
@@ -75,7 +79,7 @@ static func named_on(card: Dictionary) -> PackedStringArray:
 				_note(out, word)
 		elif names(rules, word):
 			_note(out, word)
-	# A keyword's reminder can introduce another term, such as Pack's cycle or Pass's touching.
+	# A keyword's reminder can introduce another term, such as Pack's cycle.
 	for word: String in out.duplicate():
 		for help: String in terms_in(text(word)):
 			_note(out, help)

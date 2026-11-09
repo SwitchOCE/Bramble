@@ -8,9 +8,9 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Mire. If this Mires the enemy with the most Attack and it attacks this, get 1 gold next turn.",
-  "golden_text": "Mire. If this Mires the enemy with the most Attack and it attacks this, get 2 gold next turn.",
-  "details": "Once a fight. Most Attack is judged before Start of Combat buffs.",
+  "text": "Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3.",
+  "golden_text": "Mire. After its Mired enemy attacks this: gain +2/+2 permanently, up to +6/+6.",
+  "details": "It gains even if the hit kills it. Its permanent buffs cap at +3/+3.",
   "mechanics": [
     {
       "id": "mire",
@@ -18,7 +18,7 @@
     },
     {
       "id": "bridge_toad",
-      "gold": 1
+      "stats": 1
     }
   ],
   "keywords": [
@@ -32,5 +32,7 @@
     "kind": "slice",
     "doc": "docs/ideation/content/bog-folk.md",
     "note": "Final review and costing-3 rulings."
-  }
+  },
+  "golden_details": "It gains even if the hit kills it. Its permanent buffs cap at +6/+6.",
+  "permanent_buff_cap": 3
 }

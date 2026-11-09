@@ -693,7 +693,7 @@ func _best_shop_aim(legal: Array[int]) -> int:
 	return best
 
 
-## The target worth the most, by the card's `aim_at`. Never stats on a Shy unit by accident.
+## The target worth the most, including a deliberate Shy departure.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
 	var aim_at: String = str(knowledge.card(str(card_def.get("id", ""))).get("aim_at", "carry"))
 	if not level.plans_position and (aim_at == "in_front" or aim_at == "behind"):
@@ -727,17 +727,17 @@ func _aim_score(slot: int, aim_at: String) -> float:
 	if unit == null:
 		return -slot
 	if unit.has_mechanic_id("shy"):
-		return -1000.0
+		return BotContent5.shy_departure_value(unit, _player, value.keep_value(unit))
 	return value.keep_value(unit)
 
 
-## What a spell that feeds these slots would land on. Shy units count against it.
+## What an indirect gift reaches. Shy units ignore it.
 func _value_of_slots(slots: Array[int]) -> float:
 	var total: float = 0.0
 	for slot: int in slots:
 		var unit: RecruitUnit = _player.board[slot]
 		if unit != null:
-			total += -20.0 if unit.has_mechanic_id("shy") else value.keep_value(unit)
+			total += 0.0 if unit.has_mechanic_id("shy") else value.keep_value(unit)
 	return total
 
 

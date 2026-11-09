@@ -1,0 +1,35 @@
+{
+  "id": "lantern_man",
+  "name": "The Lantern Man",
+  "set": "slice",
+  "tier": 6,
+  "attack": 4,
+  "health": 8,
+  "tribes": [
+    "Bog folk"
+  ],
+  "text": "Snap. Has +3 Attack for each Mired enemy.",
+  "golden_text": "Snap. Has +6 Attack for each Mired enemy.",
+  "mechanics": [
+    {
+      "id": "snap"
+    },
+    {
+      "id": "lantern_man",
+      "attack": 3
+    }
+  ],
+  "keywords": [
+    "Snap"
+  ],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
+  },
+  "details": "The Attack bonus changes as enemies enter and leave Mire."
+}

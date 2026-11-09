@@ -273,15 +273,18 @@ func test_stats_are_never_aimed_at_a_shy_unit() -> void:
 	assert_eq(aim, 1, "the Pill Bug, though the Hob is worth more")
 
 
-func test_a_shy_unit_stays_out_from_behind_a_feeder() -> void:
+func test_a_shy_unit_can_take_the_only_empty_slot_even_on_a_ring() -> void:
 	var rules: RecruitRules = _slice_rules()
 	var player: PlayerState = _slice_player(rules)
-	_placed(rules, player, ["old_moth_annis", "pill_bug", "pill_bug", null, "hob_in_the_hearth"])
+	_placed(
+		rules,
+		player,
+		["old_moth_annis", "pill_bug", "pill_bug", "pill_bug", null, "pill_bug", "pill_bug"]
+	)
+	BoardUpkeep.add_ring(player, 4, {"attack": 2, "health": 2})
+	var shy: RecruitUnit = RecruitUnit.make(_library.get_unit("hob_in_the_hearth"), 900)
 	var value := BotEval.make(BotLevel.of(BotLevel.HARD), BotKnowledge.shared())
-	var layout: Array[int] = BotPlacer.rule_layout(player, value, [])
-	var hob_at: int = layout.find(4)
-	var moth_at: int = layout.find(0)
-	assert_false(BoardGeometry.in_front_of(hob_at).has(moth_at), "the Moth doesn't feed the Hob")
+	assert_eq(BotPlacer.play_slot(player, shy, value), 4)
 
 
 func test_hard_puts_its_carry_where_a_pass_lands() -> void:

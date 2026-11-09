@@ -1,14 +1,14 @@
 {
   "id": "elder_ooze",
   "name": "Elder Ooze",
-  "tier": 6,
+  "tier": 5,
   "attack": 3,
-  "health": 4,
+  "health": 7,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Units coming out of your Oozes gain +1/+1 for each that has come out this fight, up to +3/+3.",
-  "golden_text": "Belly 2. Units coming out of your Oozes gain +2/+2 for each that has come out this fight, up to +6/+6.",
+  "text": "Belly 1. Units coming out of your Oozes gain +1/+1.",
+  "golden_text": "Belly 2. Units coming out of your Oozes gain +2/+2.",
   "mechanics": [
     {
       "id": "belly",
@@ -16,8 +16,7 @@
     },
     {
       "id": "elder_ooze",
-      "stats": 1,
-      "most": 3
+      "stats": 1
     }
   ],
   "keywords": [
@@ -29,15 +28,16 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/evidence/commit-review.md",
-    "note": "Commitment package, costed bounds."
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
   },
   "set": "slice",
   "mechanic_text": {
     "1": {
       "id": "elder_ooze",
-      "text": "Units coming out of your Oozes gain +1/+1 for each that has come out this fight, up to +3/+3.",
-      "golden_text": "Units coming out of your Oozes gain +2/+2 for each that has come out this fight, up to +6/+6."
+      "text": "Units coming out of your Oozes gain +1/+1.",
+      "golden_text": "Units coming out of your Oozes gain +2/+2."
     }
-  }
+  },
+  "details": "The buff applies while this lives, and to its own Belly\u2019s units when this dies. Drips count. Only your own units gain it, never returned enemies."
 }

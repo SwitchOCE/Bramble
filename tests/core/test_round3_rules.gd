@@ -52,10 +52,9 @@ func test_stable_hand_handles_do_not_cash_an_item_after_a_buy() -> void:
 func test_shy_walkout_is_explicit_and_keeps_its_gold() -> void:
 	var kit := Kit.new()
 	kit.setup(GameConfig.full_game())
-	var unit: RecruitUnit = kit.put("hob_in_the_hearth", 0)
+	kit.put("hob_in_the_hearth", 0)
 	kit.rules.board_changed(kit.player)
-	unit.add_permanent(1, 0)
-	kit.rules.board_changed(kit.player)
+	assert_eq(kit.cast("pinch_of_dust", 0), "")
 	var found: bool = false
 	for entry: Dictionary in kit.player.recruit_log:
 		if entry["type"] == "walk_out":

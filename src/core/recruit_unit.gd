@@ -27,6 +27,8 @@ var home_slot: int = -1
 var timers: Array[Dictionary] = []
 ## Shy: the stats it last had, to see a rise. x < 0 until first seen on the board.
 var shy_seen: Vector2i = Vector2i(-1, -1)
+## Only an aimed spell or a reward earned during combat bypasses Shy's recruit immunity.
+var shy_accepts_stats: bool = false
 ## Belly: the units inside, oldest first, so the last in is the last entry. Only a board unit holds.
 var held: Array[RecruitUnit] = []
 ## The round this was last played. A bird played this turn hasn't fought, so it can't fly yet.
@@ -44,6 +46,20 @@ static func make(unit_def: Dictionary, instance_id: int, is_golden: bool = false
 	unit.iid = instance_id
 	unit.set_base(unit_def, is_golden)
 	return unit
+
+
+func add_permanent(attack_delta: int, health_delta: int) -> void:
+	if has_mechanic_id("shy") and not shy_accepts_stats:
+		attack_delta = mini(0, attack_delta)
+		health_delta = mini(0, health_delta)
+	super.add_permanent(attack_delta, health_delta)
+
+
+func add_combat(attack_delta: int, health_delta: int) -> void:
+	if has_mechanic_id("shy") and not shy_accepts_stats:
+		attack_delta = mini(0, attack_delta)
+		health_delta = mini(0, health_delta)
+	super.add_combat(attack_delta, health_delta)
 
 
 func pool_id() -> String:
@@ -99,7 +115,7 @@ func view() -> Dictionary:
 		"belly": mechanic_number("belly", "size"),
 		"belly_discount": mechanic_number("belly_discount", "gold"),
 		"held": _held_views(),
-		"fly_south": mechanic_number("fly_south", "turns"),
+		"fly_south": flight_turns(),
 		"played_round": played_round,
 		"plain_copy": plain_copy,
 		"poached": poached_discount > 0,
@@ -128,6 +144,13 @@ func mechanic_number(mechanic_id: String, key: String) -> int:
 			var params: Dictionary = compiled.params_for(golden)
 			return CoreUtil.to_int(params.get(key, 0))
 	return 0
+
+
+## Base trip length, before neighbouring Cuckoos extend a flight.
+func flight_turns() -> int:
+	if golden and has_mechanic_id("old_tern"):
+		return 1
+	return mechanic_number("fly_south", "turns")
 
 
 ## Stats per gold when an Acorn item is played on this; 0 if it can't take one.
@@ -168,8 +191,14 @@ func combat_spec() -> Dictionary:
 		spec["hex"] = counters["hex"]
 	if counters.has("kisses"):
 		spec["kisses"] = counters["kisses"]
-	if counters.has("paid_pie"):
-		spec["paid_pie"] = counters["paid_pie"]
+	if limits.has("mrs_clover"):
+		spec["mrs_clover_used"] = limits["mrs_clover"]
+	var payments: Dictionary = {}
+	for key: Variant in counters:
+		if str(key).begins_with("paid_"):
+			payments[key] = counters[key]
+	if not payments.is_empty():
+		spec["lifetime_payments"] = payments
 	if combat_attack != 0 or combat_health != 0:
 		spec["combat_attack"] = combat_attack
 		spec["combat_health"] = combat_health

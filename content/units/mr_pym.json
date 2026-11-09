@@ -1,0 +1,32 @@
+{
+  "id": "mr_pym",
+  "name": "Mr Pym",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 4,
+  "tribes": [
+    "Hedgerow folk"
+  ],
+  "text": "After you get a Stash: Pass +2/+2.",
+  "golden_text": "After you get a Stash: Pass +4/+4.",
+  "details": "Counts a Stash gained whole or formed by three Acorns. Does not count a Great Hoard.",
+  "mechanics": [
+    {
+      "id": "mr_pym",
+      "stats": 2
+    }
+  ],
+  "keywords": [
+    "Pass"
+  ],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass2-a.md",
+    "note": "Pass 2 review calls in DECISIONS.md take precedence."
+  }
+}

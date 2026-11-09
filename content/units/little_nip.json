@@ -4,12 +4,12 @@
   "set": "slice",
   "tier": 1,
   "attack": 2,
-  "health": 2,
+  "health": 3,
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Take: gain +1/+1 permanently and get 1 gold next turn.",
-  "golden_text": "Quarry. Take: gain +2/+2 permanently and get 2 gold next turn.",
+  "text": "Quarry. Take: gain +1/+1 permanently.",
+  "golden_text": "Quarry. Take: gain +2/+2 permanently.",
   "mechanics": [
     {
       "id": "quarry",
@@ -28,11 +28,6 @@
           "select": "self"
         }
       }
-    },
-    {
-      "id": "take_gold",
-      "gold": 1,
-      "back_only": false
     }
   ],
   "keywords": [

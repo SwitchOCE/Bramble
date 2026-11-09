@@ -128,14 +128,9 @@ static func engine_text(
 			modeled = true
 			if not _touching_conditions(params, touching.size()):
 				continue
-			for at: int in touching:
+			for _at: int in touching:
 				total += (
-					-20
-					if board[at].has_mechanic_id("shy")
-					else (
-						CoreUtil.to_int(step.get("attack", 0))
-						+ CoreUtil.to_int(step.get("health", 0))
-					)
+					CoreUtil.to_int(step.get("attack", 0)) + CoreUtil.to_int(step.get("health", 0))
 				)
 	return total if modeled else -1.0
 
@@ -185,7 +180,7 @@ static func _pack_growth(brain: BotBrain, unit: RecruitUnit, board: Array[Recrui
 		if group.size() <= 1:
 			continue
 		for at: int in group:
-			if not board[at].has_mechanic_id("shy") and board[at].can_gain_permanent():
+			if board[at].can_gain_permanent():
 				var growth: float = attack * future
 				var cap: int = CoreUtil.to_int(board[at].def.get("permanent_buff_cap", 0))
 				if cap > 0:

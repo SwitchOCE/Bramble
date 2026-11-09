@@ -2,15 +2,15 @@
   "id": "figgy_duff",
   "name": "Figgy Duff",
   "set": "slice",
-  "tier": 6,
+  "tier": 4,
   "attack": 3,
-  "health": 4,
+  "health": 5,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Once a turn: a bought unit inside goes golden with just one more bought copy.",
-  "golden_text": "Belly 2. Once a turn: a bought unit inside goes golden with just one more bought copy.",
-  "details": "This golden gives no Triple Reward.",
+  "text": "Belly 1. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+  "golden_text": "Belly 2. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+  "details": "The golden goes to your hand and gives a Triple Reward when played.",
   "mechanics": [
     {
       "id": "belly",
@@ -29,13 +29,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
   },
   "mechanic_text": {
     "1": {
       "id": "figgy_duff",
-      "text": "Once a turn: a bought unit inside goes golden with just one more bought copy.",
-      "golden_text": "Once a turn: a bought unit inside goes golden with just one more bought copy."
+      "text": "A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+      "golden_text": "A bought unit inside this goes golden with one more bought copy. Once every other turn."
     }
   }
 }

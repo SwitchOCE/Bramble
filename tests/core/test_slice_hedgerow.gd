@@ -52,16 +52,20 @@ func test_mrs_sorrel_summons_a_shrewlet_behind_after_she_attacks() -> void:
 	assert_has(summons, B1, "a Shrewlet behind F1")
 
 
-func test_mrs_sorrel_spills_after_the_fight_when_full_behind() -> void:
+func test_mrs_sorrel_spills_for_the_next_recruit_phase_when_full_behind() -> void:
 	_kit.put("mrs_sorrel", F1)
 	_kit.put("pill_bug", B1)
 	_kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
+	assert_true(_kit.item_ids().is_empty(), "combat Acorns wait for the next Recruit Phase")
+	_rules.start_phase(_player, 2)
 	assert_has(_kit.item_ids(), "acorn", "the Spill's Acorn comes home")
 
 
 func test_mrs_sorrel_golden_summons_two_but_f1_has_one_slot_so_one_spills() -> void:
 	_kit.put("mrs_sorrel", F1, true)
 	_kit.fight_board({F1: {"def_id": "pill_bug", "attack": 0, "health": 3}})
+	assert_true(_kit.item_ids().is_empty(), "combat Acorns wait for the next Recruit Phase")
+	_rules.start_phase(_player, 2)
 	assert_has(_kit.item_ids(), "acorn", "two summons, one slot behind")
 
 
@@ -189,16 +193,16 @@ func test_standing_committee_touching_units_get_attack() -> void:
 	assert_eq(after.size(), 2, "F1 and B1 touch; F3 is cut off by the gap at F2")
 
 
-func test_standing_committee_all_seven_touch_for_plus_three() -> void:
+func test_standing_committee_all_seven_touch_for_plus_two_one() -> void:
 	_kit.put("standing_committee", F1)
 	for slot: int in [F2, F3, F4, B1, B2, B3]:
 		_kit.put("pill_bug", slot)
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var raised: Array = []
 	for event: Dictionary in result["events"]:
-		if event["type"] == "stats" and event["attack"] == 4:
+		if event["type"] == "stats" and event["attack"] == 3:
 			raised.append(event["target"])
-	assert_eq(raised.size(), 6, "six Pill Bugs from 1 to 4")
+	assert_eq(raised.size(), 6, "six Pill Bugs from 1 to 3")
 
 
 func test_standing_committee_golden_doubles_both() -> void:
@@ -209,8 +213,8 @@ func test_standing_committee_golden_doubles_both() -> void:
 	var result: Dictionary = _kit.fight_board({F1: {"def_id": "pill_bug", "health": 50}})
 	var raised: bool = false
 	for event: Dictionary in result["events"]:
-		raised = raised or (event["type"] == "stats" and event["attack"] == 5)
-	assert_true(raised, "the Pill Bug goes from 1 to 5 at +4")
+		raised = raised or (event["type"] == "stats" and event["attack"] == 3)
+	assert_true(raised, "the Pill Bug goes from 1 to 3 at +2")
 
 
 func test_old_mother_mast_golden_doubles() -> void:

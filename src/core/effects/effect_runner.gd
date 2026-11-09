@@ -23,7 +23,6 @@ static func run(params: Dictionary, world: EffectWorld) -> void:
 		var paid_key: String = "paid_%s" % key
 		if CoreUtil.to_int(paid.get(paid_key, 0)) >= CoreUtil.to_int(params["lifetime"]):
 			return
-		paid[paid_key] = CoreUtil.to_int(paid.get(paid_key, 0)) + 1
 	if params.has("limit"):
 		var store: Dictionary = world.limit_store()
 		var left: int = CoreUtil.to_int(params["limit"]) - CoreUtil.to_int(store.get(key, 0))
@@ -31,6 +30,11 @@ static func run(params: Dictionary, world: EffectWorld) -> void:
 		if times <= 0:
 			return
 		store[key] = CoreUtil.to_int(store.get(key, 0)) + times
+	if params.has("lifetime"):
+		var paid: Dictionary = world.counter_store()
+		var paid_key: String = "paid_%s" % key
+		paid[paid_key] = CoreUtil.to_int(paid.get(paid_key, 0)) + 1
+		world.persist_counter(paid_key, CoreUtil.to_int(paid[paid_key]))
 	world.announce(key)
 	var steps: Array = MechanicRegistry.steps_of(params)
 	var event_amount: int = world.amount

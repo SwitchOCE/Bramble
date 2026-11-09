@@ -152,6 +152,22 @@ static func lock_target(combat: Combat, unit: CombatUnit) -> CombatUnit:
 	return maker if maker.side == CoreUtil.to_int(patch["maker_side"]) else null
 
 
+## A mirer gives up its first attack in this cycle to an enemy that has not attacked yet.
+static func wait_once(combat: Combat, unit: CombatUnit) -> bool:
+	if not combat.mire_wait_enabled:
+		return false
+	if unit.counters.get("mire_wait", 0) > 0 or unit.counters.get("attacks_started", 0) > 0:
+		return false
+	for enemy: CombatUnit in combat.units_of(1 - unit.side):
+		if lock_target(combat, enemy) == unit and enemy.counters.get("attacks_started", 0) == 0:
+			unit.counters["mire_wait"] = 1
+			combat.emit_event(
+				"mire_wait", {"uid": unit.uid, "target": enemy.uid, "side": unit.side}
+			)
+			return true
+	return false
+
+
 static func by_uid(combat: Combat, uid: int) -> CombatUnit:
 	if uid == 0:
 		return null
@@ -254,7 +270,7 @@ static func enemy_deaths(combat: Combat, dying: Array[CombatUnit], witnesses: Ar
 		dead.quarry = 0
 
 
-## Bitter answers only the leader, once per attack, after damage and before deaths.
+## Bitter shrinks only the leading attacker at declaration, after any queued attack bonus.
 static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -> void:
 	if not attacker.on_board or attacker.is_dead():
 		return
@@ -271,7 +287,9 @@ static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -
 	for friend: CombatUnit in combat.units_of(defender.side):
 		if BoardGeometry.adjacent(friend.slot).has(defender.slot):
 			amount += CoreUtil.to_int(parameters(friend, "bog_aura").get("bitter", 0))
-	var loss: int = mini(amount, maxi(0, attacker.attack - 1))
+	var loss: int = mini(amount, maxi(0, combat._strike_attack(attacker) - 1))
 	if loss > 0:
+		if attacker.has_status("borrowed_attack"):
+			attacker.counters["bitter_borrowed"] = loss
 		combat.trigger(defender, "bitter")
 		combat.buff(attacker, -loss, 0, defender, false, "Bitter")

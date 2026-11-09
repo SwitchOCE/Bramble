@@ -31,7 +31,8 @@ func after_hit(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 	unit.counters["wobbly"] = used + 1
 	combat.trigger(unit, "wobbly")
 	if unit.held_specs.is_empty():
-		combat.summon_into(str(params.get("unit", "")), unit.golden, unit.side, slot, unit)
+		var spec: Dictionary = {"def_id": str(params.get("unit", "")), "golden": unit.golden}
+		combat.enter_from_spec(spec, unit.side, slot, unit, {"wobbly_drip": true})
 	else:
 		CombatHeld.pop_one(combat, unit, false)
 	combat._resolve_deaths(unit.side)

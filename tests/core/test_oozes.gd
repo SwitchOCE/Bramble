@@ -176,48 +176,42 @@ func test_nell_leaves_a_shop_of_your_tier_alone() -> void:
 	assert_eq(_player.shop[0], unit)
 
 
-func test_stone_soup_grows_the_shop_after_a_unit_is_bought_into_a_belly() -> void:
-	_kit.put("stone_soup", F1)
+func test_stone_soup_grows_itself_after_a_unit_is_bought_into_any_belly() -> void:
+	var soup: RecruitUnit = _kit.put("stone_soup", F1)
 	_kit.put("mrs_posset", F2)
 	var bought: RecruitUnit = _kit.shop("pill_bug")
 	var other: RecruitUnit = _kit.shop("field_vole")
 	var attack: int = other.attack
 	assert_eq(_rules.swallow(_player, HeldUnits.SHOP, 0, F2), "")
-	assert_eq(other.attack, attack + 1, "from any Belly")
+	assert_eq([soup.attack, soup.health], [2, 4])
+	assert_eq(other.attack, attack, "shop units no longer grow")
 	assert_false(_player.shop.has(bought))
 
 
-func test_stone_soup_doesnt_hear_a_free_swallow() -> void:
-	_kit.put("stone_soup", F1)
-	var other: RecruitUnit = _kit.shop("field_vole")
-	var attack: int = other.attack
+func test_stone_soup_hears_a_free_swallow() -> void:
+	var soup: RecruitUnit = _kit.put("stone_soup", F1)
 	_into("pill_bug", F1)
-	assert_eq(other.attack, attack)
+	assert_eq([soup.attack, soup.health], [2, 4])
 
 
-func test_a_unit_bought_from_the_soup_keeps_it_but_the_frozen_rest_lose_it() -> void:
-	_kit.put("stone_soup", F1)
+func test_stone_soup_keeps_its_growth_when_the_shop_is_frozen() -> void:
+	var soup: RecruitUnit = _kit.put("stone_soup", F1)
 	_kit.put("mrs_posset", F2)
 	_kit.shop("pill_bug")
-	var kept: RecruitUnit = _kit.shop("field_vole")
 	var frozen: RecruitUnit = _kit.shop("marsh_frog")
 	var base: int = frozen.attack
 	_rules.swallow(_player, HeldUnits.SHOP, 0, F2)
-	var attack: int = kept.attack
-	assert_eq(_rules.buy(_player, 0), "")
 	_rules.toggle_freeze(_player)
 	_rules.end_phase(_player)
-	assert_eq(kept.attack, attack, "bought, so it stays")
-	assert_eq(frozen.attack, base, "a freeze doesn't keep it")
+	assert_eq([soup.attack, soup.health], [2, 4], "permanent on Soup")
+	assert_eq(frozen.attack, base, "shop unchanged")
 
 
-func test_golden_stone_soup_gives_2() -> void:
-	_kit.put("stone_soup", F1, true)
+func test_golden_stone_soup_grows_by_2() -> void:
+	var soup: RecruitUnit = _kit.put("stone_soup", F1, true)
 	_kit.shop("pill_bug")
-	var other: RecruitUnit = _kit.shop("field_vole")
-	var attack: int = other.attack
 	_rules.swallow(_player, HeldUnits.SHOP, 0, F1)
-	assert_eq(other.attack, attack + 2)
+	assert_eq([soup.attack, soup.health], [4, 8])
 
 
 func test_aspic_feeds_what_is_inside_the_oozes_in_front() -> void:
@@ -288,11 +282,11 @@ func test_pie_pays_1_next_turn_when_2_come_out() -> void:
 	assert_eq(_player.gold_next_turn, 1)
 
 
-func test_pie_pays_nothing_for_one() -> void:
+func test_pie_pays_for_one() -> void:
 	_kit.put("sixpenny_pie", F1)
 	_into("pill_bug", F1)
 	_kit.fight_board(_foe(9))
-	assert_eq(_player.gold_next_turn, 0)
+	assert_eq(_player.gold_next_turn, 1)
 
 
 func test_pie_pays_only_for_those_that_found_room() -> void:
@@ -302,7 +296,7 @@ func test_pie_pays_only_for_those_that_found_room() -> void:
 	for slot: int in [F2, F3, F4, B1, B2, B3]:
 		_kit.put("sett_warden", slot)
 	_kit.fight_board(_foe(9, 5000))
-	assert_eq(_player.gold_next_turn, 0, "one out, one lost")
+	assert_eq(_player.gold_next_turn, 1, "one out is enough, one lost adds nothing")
 
 
 func test_golden_pie_pays_2() -> void:
@@ -472,7 +466,7 @@ func test_a_swallowed_unit_doesnt_count_for_damage_if_you_win() -> void:
 	assert_eq(carry.size(), 0)
 
 
-func test_figgy_makes_a_golden_from_two_bought_copies_with_no_reward() -> void:
+func test_figgy_makes_a_golden_from_two_bought_copies_with_a_reward() -> void:
 	_kit.put("figgy_duff", B1)
 	var inner: RecruitUnit = _kit.put("field_vole")
 	inner.origin = RecruitUnit.ORIGIN_BOUGHT
@@ -484,7 +478,7 @@ func test_figgy_makes_a_golden_from_two_bought_copies_with_no_reward() -> void:
 	assert_null(_player.board[F1])
 	var golden: RecruitUnit = _player.hand[0]
 	assert_true(golden.golden)
-	assert_false(golden.reward_pending, "no Triple Reward")
+	assert_true(golden.reward_pending, "a Triple Reward")
 
 
 func test_figgy_needs_both_bought() -> void:
@@ -507,7 +501,7 @@ func test_figgy_needs_one_inside() -> void:
 	assert_eq(_player.board[F1], one)
 
 
-func test_figgy_fires_once_a_turn() -> void:
+func test_figgy_fires_once_every_other_turn() -> void:
 	_kit.put("figgy_duff", B1, true)
 	for id: String in ["field_vole", "marsh_frog"]:
 		var inner: RecruitUnit = _kit.put(id)
@@ -518,7 +512,9 @@ func test_figgy_fires_once_a_turn() -> void:
 	_rules.check_triples(_player)
 	assert_eq(_player.board[B1].held.size(), 1, "one pair this turn")
 	_kit.pass_turn()
-	assert_eq(_player.board[B1].held.size(), 0, "the next turn, the other")
+	assert_eq(_player.board[B1].held.size(), 1, "the next turn is skipped")
+	_kit.pass_turn()
+	assert_eq(_player.board[B1].held.size(), 0, "ready after one skipped turn")
 
 
 func test_cut_and_come_gives_a_plain_copy_every_other_turn() -> void:
@@ -616,39 +612,37 @@ func test_golden_granny_doubles_the_attack() -> void:
 	assert_eq(stats["attack_delta"], left.attack * 2)
 
 
-func test_pie_stops_after_three_payments_even_after_a_move() -> void:
-	var pie: RecruitUnit = _kit.put("sixpenny_pie", F1)
+func test_pie_keeps_paying_after_three_fights_and_a_move() -> void:
+	_kit.put("sixpenny_pie", F1)
 	_into("pill_bug", F1)
 	_into("field_vole", F1)
 	for payment: int in 5:
 		_player.gold_next_turn = 0
 		_kit.fight_board(_foe(99))
-		assert_eq(_player.gold_next_turn, 1 if payment < 3 else 0)
+		assert_eq(_player.gold_next_turn, 1)
 		if payment == 2:
 			assert_true(_rules.move_on_board(_player, F1, F2))
-	assert_eq(pie.counters.get("paid_pie", 0), 3)
 
 
-func test_golden_pie_has_three_double_payments() -> void:
+func test_golden_pie_keeps_its_double_payments() -> void:
 	_kit.put("sixpenny_pie", F1, true)
 	_into("pill_bug", F1)
 	_into("field_vole", F1)
-	for payment: int in 4:
+	for _payment: int in 4:
 		_player.gold_next_turn = 0
 		_kit.fight_board(_foe(99))
-		assert_eq(_player.gold_next_turn, 2 if payment < 3 else 0)
+		assert_eq(_player.gold_next_turn, 2)
 
 
 func test_a_new_pie_has_its_own_payments() -> void:
 	var old: RecruitUnit = _kit.put("sixpenny_pie", F1)
 	old.counters["paid_pie"] = 3
 	assert_eq(_rules.sell(_player, F1), "")
-	var fresh: RecruitUnit = _kit.put("sixpenny_pie", F1)
+	_kit.put("sixpenny_pie", F1)
 	_into("pill_bug", F1)
 	_into("field_vole", F1)
 	_kit.fight_board(_foe(99))
 	assert_eq(_player.gold_next_turn, 1)
-	assert_eq(fresh.counters.get("paid_pie", 0), 1)
 
 
 func test_cut_and_come_birds_sell_for_good_after_fighting() -> void:

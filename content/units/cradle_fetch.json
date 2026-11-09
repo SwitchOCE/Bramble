@@ -3,8 +3,8 @@
   "name": "Cradle Fetch",
   "set": "slice",
   "tier": 3,
-  "attack": 1,
-  "health": 1,
+  "attack": 2,
+  "health": 3,
   "tribes": [
     "Fairies"
   ],
@@ -24,6 +24,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
   }
 }

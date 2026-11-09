@@ -56,6 +56,10 @@ func refresh() -> String:
 	return NOT_AVAILABLE
 
 
+func ask_for_kin() -> String:
+	return NOT_AVAILABLE
+
+
 ## 4.2.5 buys a spell: an index into the state's shop_spells.
 func buy_spell(_index: int) -> String:
 	return NOT_AVAILABLE

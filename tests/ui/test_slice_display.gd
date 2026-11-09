@@ -67,16 +67,14 @@ func test_scouting_says_so_when_they_have_not_fought() -> void:
 	assert_true(empty.visible)
 
 
-func test_pass_lands_on_the_last_touching_unit_and_a_gap_stops_it() -> void:
-	var crumb: Dictionary = {"text": "When played and when sold: Pass right +1/+1."}
+func test_pass_lands_on_the_last_other_unit_across_gaps() -> void:
+	var crumb: Dictionary = {"text": "When played or sold: Pass +1/+1."}
 	var unit: Dictionary = {"text": ""}
 	var board: Array = [crumb, unit, null, null, unit, null, null]
-	assert_eq(RecruitView.pass_preview(board, crumb, 0, 0), 1, "F1, B1, F2, then the gap at B2")
-	assert_eq(
-		RecruitView.pass_preview(board, crumb, 0, -1), 1, "sold: starts from the slot it left"
-	)
+	assert_eq(RecruitView.pass_preview(board, crumb, 0, 0), 1, "F2 is last in this board's zigzag")
+	assert_eq(RecruitView.pass_preview(board, crumb, 0, -1), 1, "sold source is excluded")
 	var gap: Array = [crumb, null, null, null, null, null, null]
-	assert_eq(RecruitView.pass_preview(gap, crumb, 0, 0), -1, "nobody touching: nobody gets it")
+	assert_eq(RecruitView.pass_preview(gap, crumb, 0, 0), -1, "no other unit: nobody gets it")
 	assert_eq(RecruitView.pass_preview(board, unit, 1, 1), -1, "no Pass on the card")
 
 

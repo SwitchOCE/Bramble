@@ -37,6 +37,10 @@ func attack(
 	combat: Combat, attacker: CombatUnit, defender: CombatUnit, attack_kind: String = ""
 ) -> void:
 	current_attacker = attacker
+	attacker.counters.erase("bitter_borrowed")
+	attacker.counters["attacks_started"] = (
+		CoreUtil.to_int(attacker.counters.get("attacks_started", 0)) + 1
+	)
 	current_defender = defender
 	kind = attack_kind
 	completed = false
@@ -47,6 +51,8 @@ func attack(
 	# including declaration effects and Bristle, then ends before a queued reply.
 	if attacker.has_mechanic("back_row_immunity") and BoardGeometry.is_back(defender.slot):
 		attacker.counters["attacking_back_row"] = 1
+	if defender != null and attacker.on_board and defender.on_board:
+		CombatLanes.bitter(combat, defender, attacker)
 	combat._perform_attack(attacker, defender)
 	attacker.counters.erase("attacking_back_row")
 	CombatHunt.after_attack(combat, attacker, attack_kind)
@@ -101,8 +107,7 @@ func drain(combat: Combat) -> void:
 	draining = false
 
 
-## Quick may finish an exchange before the return hit. Otherwise wait until the last damage
-## step of the last strike, so Bitter doesn't alter the same attack's damage or fire per Peck.
+## After the final damage step, deliver post-attack rewards once, before deaths.
 func before_deaths(combat: Combat, final_step: bool) -> void:
 	if completed or current_attacker == null or current_defender == null:
 		return
@@ -110,9 +115,14 @@ func before_deaths(combat: Combat, final_step: bool) -> void:
 	if not terminal and not (last_strike and final_step):
 		return
 	completed = true
-	CombatLanes.bitter(combat, current_defender, current_attacker)
 	CombatHunt.quarry_attacked(combat, current_attacker)
 	for index: int in current_defender.scripts.size():
 		current_defender.scripts[index].on_attacked_complete(
 			combat, current_defender, current_defender.params[index], current_attacker
 		)
+	for side: int in 2:
+		for unit: CombatUnit in combat.units_of(side):
+			for index: int in unit.scripts.size():
+				unit.scripts[index].after_attacked(
+					combat, unit, unit.params[index], current_attacker, current_defender
+				)

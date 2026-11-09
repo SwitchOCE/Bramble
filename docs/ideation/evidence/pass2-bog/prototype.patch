@@ -1,0 +1,60 @@
+diff --git a/src/core/combat/combat_lanes.gd b/src/core/combat/combat_lanes.gd
+index d6d0d46..07f442c 100644
+--- a/src/core/combat/combat_lanes.gd
++++ b/src/core/combat/combat_lanes.gd
+@@ -156,6 +156,11 @@ static func lock_target(combat: Combat, unit: CombatUnit) -> CombatUnit:
+ static func wait_once(combat: Combat, unit: CombatUnit) -> bool:
+ 	if not combat.mire_wait_enabled:
+ 		return false
++	if OS.get_environment("MIRE_HOLD") == "1":
++		for e: CombatUnit in combat.units_of(1 - unit.side):
++			if lock_target(combat, e) == unit and e.attack > 0 and not e.is_dead():
++				return true
++		return false
+ 	if unit.counters.get("mire_wait", 0) > 0 or unit.counters.get("attacks_started", 0) > 0:
+ 		return false
+ 	for enemy: CombatUnit in combat.units_of(1 - unit.side):
+diff --git a/src/core/combat/combat_reactions.gd b/src/core/combat/combat_reactions.gd
+index 03a8e00..5899a08 100644
+--- a/src/core/combat/combat_reactions.gd
++++ b/src/core/combat/combat_reactions.gd
+@@ -50,6 +50,16 @@ func attack(
+ 	# including declaration effects and Bristle, then ends before a queued reply.
+ 	if attacker.has_mechanic("back_row_immunity") and BoardGeometry.is_back(defender.slot):
+ 		attacker.counters["attacking_back_row"] = 1
++	if OS.get_environment("BITTER_FIRST") == "1":
++		CombatLanes.bitter(combat, defender, attacker)
++	if OS.get_environment("TIDDY_FIRST") == "1" and attacker.has_status("mired") and defender.side != attacker.side:
++		for u: CombatUnit in combat.units_of(defender.side):
++			if u.has_mechanic("tiddy_mun"):
++				var used: int = CoreUtil.to_int(u.limits.get("tiddy_mun", 0))
++				var lim: int = int(OS.get_environment("TIDDY_LIMIT")) if OS.get_environment("TIDDY_LIMIT") != "" else 2
++				if used < lim:
++					u.limits["tiddy_mun"] = used + 1
++					combat.buff(defender, int(OS.get_environment("TIDDY_A")), int(OS.get_environment("TIDDY_H")), u, true)
+ 	combat._perform_attack(attacker, defender)
+ 	attacker.counters.erase("attacking_back_row")
+ 	CombatHunt.after_attack(combat, attacker, attack_kind)
+@@ -113,7 +123,8 @@ func before_deaths(combat: Combat, final_step: bool) -> void:
+ 	if not terminal and not (last_strike and final_step):
+ 		return
+ 	completed = true
+-	CombatLanes.bitter(combat, current_defender, current_attacker)
++	if OS.get_environment("BITTER_FIRST") != "1":
++		CombatLanes.bitter(combat, current_defender, current_attacker)
+ 	CombatHunt.quarry_attacked(combat, current_attacker)
+ 	for index: int in current_defender.scripts.size():
+ 		current_defender.scripts[index].on_attacked_complete(
+diff --git a/src/core/mechanics/tiddy_mun.gd b/src/core/mechanics/tiddy_mun.gd
+index 88a79b6..b09cf4a 100644
+--- a/src/core/mechanics/tiddy_mun.gd
++++ b/src/core/mechanics/tiddy_mun.gd
+@@ -5,6 +5,8 @@ extends Mechanic
+ func after_attacked(
+ 	combat: Combat, unit: CombatUnit, params: Dictionary, attacker: CombatUnit, defender: CombatUnit
+ ) -> void:
++	if OS.get_environment("TIDDY_FIRST") == "1":
++		return
+ 	var used: int = CoreUtil.to_int(unit.limits.get("tiddy_mun", 0))
+ 	if (
+ 		defender.side != unit.side

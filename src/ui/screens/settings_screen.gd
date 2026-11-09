@@ -32,6 +32,7 @@ const FACES: Array[Array] = [
 	["queen_of_elfland", "Fairies"],
 ]
 
+var kin_latch: LatchButton
 var motion_latch: LatchButton
 ## Tapped DEV_TAPS times running, it turns the testing tools on or off. No player is told of it.
 var version_tap: Interactive
@@ -145,6 +146,13 @@ func _build_more(panel: WoodPanel) -> void:
 	guide.set_face("How to play")
 	guide.pressed.connect(func() -> void: guide_requested.emit())
 	panel.add_child(guide)
+	kin_latch = LatchButton.new()
+	kin_latch.set_on(Settings.ask_for_kin)
+	kin_latch.toggled.connect(_on_kin)
+	panel.add_child(kin_latch)
+	_rows.append(
+		_row(panel, kin_latch, "Ask for Kin", "2 gold: two units share your tribes; new games")
+	)
 	var words: String = _version_words()
 	words += " (testing tools on)" if Settings.show_dev_panel else ""
 	_version = UiTheme.label(words, UiTheme.FONT_SMALL, UiTheme.INK)
@@ -197,14 +205,14 @@ func _layout() -> void:
 		speed_tokens[i].size = Vector2(token_w, token_w + 9.0)
 	var guide: Control = _panels[1].get_node("Guide")
 	var guide_w: float = minf(panel_w - 56.0, 520.0)
-	guide.position = Vector2((panel_w - guide_w) / 2.0, 100)
-	guide.size = Vector2(guide_w, 136)
-	version_tap.position = Vector2(28, 270)
+	guide.position = Vector2((panel_w - guide_w) / 2.0, 88)
+	guide.size = Vector2(guide_w, 122)
+	version_tap.position = Vector2(28, 344)
 	version_tap.size = Vector2(panel_w - 56.0, 122)
-	_version.position = Vector2(32, 270)
-	_version.size = Vector2(panel_w - 64.0, 122)
+	_version.position = Vector2(32, 400)
+	_version.size = Vector2(panel_w - 64.0, 60)
 	for row: Dictionary in _rows:
-		_layout_row(row, panel_w, 280.0)
+		_layout_row(row, panel_w, 218.0 if row["panel"] == _panels[1] else 280.0)
 
 
 func _layout_sound(width: float) -> void:
@@ -241,6 +249,11 @@ func _on_master(value: float) -> void:
 
 func _on_motion(on: bool) -> void:
 	Settings.reduce_motion = on
+	Settings.save()
+
+
+func _on_kin(on: bool) -> void:
+	Settings.ask_for_kin = on
 	Settings.save()
 
 

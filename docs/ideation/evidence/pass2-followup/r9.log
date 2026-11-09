@@ -1,0 +1,28 @@
+Running as unit: run-p3181608-i11562507.scope; invocation ID: bf3a7dbcd83745a2a215e6718cef134f
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+pass2_boards: completed 1/12
+pass2_boards: completed 2/12
+pass2_boards: completed 3/12
+pass2_boards: completed 4/12
+pass2_boards: completed 5/12
+pass2_boards: completed 6/12
+pass2_boards: completed 7/12
+pass2_boards: completed 8/12
+pass2_boards: completed 9/12
+pass2_boards: completed 10/12
+pass2_boards: completed 11/12
+pass2_boards: completed 12/12
+pass2_boards: sensitivity 1/12
+pass2_boards: sensitivity 2/12
+pass2_boards: sensitivity 3/12
+pass2_boards: sensitivity 4/12
+pass2_boards: sensitivity 5/12
+pass2_boards: sensitivity 6/12
+pass2_boards: sensitivity 7/12
+pass2_boards: sensitivity 8/12
+pass2_boards: sensitivity 9/12
+pass2_boards: sensitivity 10/12
+pass2_boards: sensitivity 11/12
+pass2_boards: sensitivity 12/12
+pass2_boards: fights=13200 trigger_limits=0 attack_limits=0 out=build/pass2-followup-boards.results.*

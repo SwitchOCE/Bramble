@@ -1,19 +1,9 @@
 extends "res://src/ui/screens/recruit_actions.gd"
-## The recruit phase in the woodcraft layout. Shows GamePort.get_state() (SPEC 6.1);
-## every action goes through the port before the screen re-reads the state.
-##
-## Every drag has a tap alternative:
-## - buy: drag a shop card to the hand or an empty slot, or tap it and press Buy;
-## - play: drag a hand card to an empty slot, or tap it, then tap an empty slot;
-## - move or swap: drag a board unit to another slot, or tap it, then tap the other slot;
-## - sell: drag a board unit onto the shop, or tap it and press Sell.
 
 signal combat_ready
 signal menu_requested
 signal game_over_reached
-## The dev panel asked for a new game from this seed.
 signal replay_requested(game_seed: int)
-## The pause menu asked for these; the app opens them over this screen.
 signal guide_requested
 signal settings_requested
 
@@ -23,7 +13,6 @@ var _leave_timer: Timer
 var _hover_view: Dictionary = {}
 var _discover: CardPicker
 var _pause: PauseMenu
-## {"zone": String, "index": int} of the tapped card, or {} for none.
 var _selected: Dictionary = {}
 
 var _projection: LaneProjection = LaneProjection.new()
@@ -62,6 +51,9 @@ func _init() -> void:
 	_build_board()
 	_build_hand()
 	_build_right(_on_tier_up, _on_refresh, _on_freeze, _on_end_turn)
+	_kin_button = _leaf(
+		LeafButton.Colour.BIRCH, func() -> void: _act(port.ask_for_kin(), "refresh")
+	)
 	_build_tools()
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
@@ -187,7 +179,6 @@ func _build_tools() -> void:
 	_dev_token.visible = Settings.show_dev_panel
 
 
-## Connects a card, slot or zone to this screen's tap, hover and drag-and-drop handlers.
 func _wire(node: Interactive) -> void:
 	node.tapped.connect(_on_tapped)
 	node.hovered.connect(_on_hovered)
@@ -217,6 +208,12 @@ func render() -> void:
 		_tier_button.set_face("Tier up", "tier", Data.as_int(tier_cost))
 		_tier_button.disabled = false
 	_refresh_button.set_face("Refresh", "refresh", Data.i(state, "refresh_cost", 1))
+	_kin_button.set_face("Ask for Kin", "refresh", 2)
+	_kin_button.tooltip_text = (
+		"2 gold, once a turn: refresh with at least two units sharing your tribes. "
+		+ "Nests count as Birds."
+	)
+	_kin_button.disabled = not Data.b(state, "can_ask_for_kin")
 	var frozen: bool = Data.b(state, "frozen", false)
 	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
 	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))
@@ -236,7 +233,6 @@ func render() -> void:
 	_refresh_scout()
 
 
-## The next opponent's last board: a tap on Scout or their plaque, and again to put it away.
 func toggle_scout() -> void:
 	_scout.visible = not _scout.visible
 	_scout_token.lit = _scout.visible
@@ -258,7 +254,6 @@ func _refresh_scout() -> void:
 		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
 
 
-## Who they are, in the card panel: their hero and power, or what a ghost is.
 func _show_opponent() -> void:
 	var card: Dictionary = RecruitView.opponent_card(state)
 	_selected = {}
@@ -335,7 +330,6 @@ func _render_hand() -> void:
 	_hand_cards.reset_size.call_deferred()
 
 
-## The rest of a crowded hand is one tap away.
 func _more_button(more: int, tile: Vector2) -> Button:
 	var button: Button = UiTheme.button("+%d more" % more, 0, UiTheme.FONT_SMALL)
 	button.custom_minimum_size = Vector2(tile.x, maxf(tile.y, tap_size()))
@@ -373,8 +367,6 @@ func _clear(container: Node) -> void:
 		child.queue_free()
 
 
-## A choice (state "pending_choice": a Discover, or the hero at the start) opens as soon as it
-## appears and can't be dismissed.
 func _render_discover() -> void:
 	var choice: Dictionary = Data.d(state, "pending_choice")
 	var options: Array = Data.a(choice, "options")
@@ -421,7 +413,7 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 
 func _show_selection() -> void:
 	_board.clear_highlights()
-	_board.set_pass_landing(-1)
+	_board.set_pass_landing(-2)
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
 		if card is CardView:
 			(card as CardView).selected = false
@@ -491,12 +483,13 @@ func _show_selection() -> void:
 					"%s %s"
 					% [
 						sell_note if not sell_note.is_empty() else "Tap a slot to move or swap.",
-						RecruitView.geometry_note(view, index)
+						RecruitView.geometry_note(view, index, Data.a(state, "board"))
 					]
 				)
 			)
 			var board: Array = Data.a(state, "board")
-			_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
+			if RecruitView.pass_direction(view) != 0:
+				_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
 			_detail.add_action(
 				RecruitHeld.sell_word(view, round_now),
 				_on_sell_selected,
@@ -528,12 +521,10 @@ func _card_at(zone: String, index: int) -> CardView:
 	return null
 
 
-## A Nest tap shows its bird and countdown; idle recruiting keeps the economy controls in view.
 func _show_sky() -> void:
 	_detail.show_empty()
 
 
-## Outlines the Oozes this unit could go into, and returns their slots.
 func _highlight_bellies(view: Dictionary) -> Array[int]:
 	var bellies: Array[int] = RecruitHeld.bellies_for(Data.a(state, "board"), view)
 	for slot: int in bellies:
@@ -541,7 +532,6 @@ func _highlight_bellies(view: Dictionary) -> Array[int]:
 	return bellies
 
 
-## A shop or hand unit dropped or tapped onto an Ooze, or a board unit sent in by the Belly button.
 func _try_swallow(from_zone: String, from_index: int, slot: int) -> bool:
 	var moved: Dictionary = _unit_at(from_zone, from_index)
 	if not RecruitHeld.can_swallow(_unit_at("board", slot), moved):
@@ -563,6 +553,13 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 		_hover_ring_aim(_selected, zone, index, inside)
 		return
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
+	if inside and zone == "board" and RecruitView.pass_direction(view) != 0:
+		var board: Array = Data.a(state, "board")
+		_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
+		view = view.duplicate()
+		view["text"] = Data.s(view, "text") + "\n" + RecruitView.geometry_note(view, index, board)
+	elif not inside:
+		_board.set_pass_landing(-2)
 	if inside and zone == "board" and _unit_at(zone, index).is_empty():
 		view = RecruitHeld.egg_card(Data.entry(RecruitView.slot_marks(state), index))
 	_hover_view = view
@@ -580,11 +577,11 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 
 func _end_hover() -> void:
 	_leave_timer.stop()
+	_board.set_pass_landing(-2)
 	_detail.show_empty()
 	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
-## A hovered card's panel stays while the pointer is on it, then closes once it leaves.
 func _on_leave_check() -> void:
 	if not _hover_view.is_empty() or not _selected.is_empty() or not _detail.visible:
 		return
@@ -655,7 +652,6 @@ func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
 	)
 
 
-## A tap on an empty slot says what lies there: Rings and bands stay with nobody on them.
 func _show_bare_slot(slot: int) -> void:
 	var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), slot)
 	var egg: Dictionary = RecruitHeld.egg_card(mark)
@@ -753,7 +749,6 @@ func _can_drop(data: Variant, zone: String, index: int) -> bool:
 	return false
 
 
-## While a card with a Pass is dragged: an arrow on the unit it would land on from here.
 func show_pass_preview(from_zone: String, from_index: int, zone: String, index: int) -> void:
 	var card: Dictionary = _unit_at(from_zone, from_index)
 	if is_instance_valid(_drag_card) and Data.s(card, "def_id") == "great_lump":
@@ -762,10 +757,10 @@ func show_pass_preview(from_zone: String, from_index: int, zone: String, index: 
 		)
 		_drag_card.show_unit(RecruitHeld.lump_preview(card, mark), CardView.Mode.BOARD)
 	var from_slot: int = from_index if from_zone == "board" else -1
-	var landing: int = -1
-	if zone == "board":
+	var landing: int = -2
+	if RecruitView.pass_direction(card) != 0 and zone == "board":
 		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, index)
-	elif zone == "shop" and from_slot >= 0:
+	elif RecruitView.pass_direction(card) != 0 and zone == "shop" and from_slot >= 0:
 		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, -1)
 	_board.set_pass_landing(landing)
 	if zone == "board":
@@ -856,7 +851,6 @@ func _open_pause() -> void:
 	add_child(_pause)
 
 
-## After the settings overlay closes: the dev button follows its setting straight away.
 func refresh_settings() -> void:
 	_dev_token.visible = Settings.show_dev_panel
 	if not Settings.show_dev_panel:
@@ -864,7 +858,6 @@ func refresh_settings() -> void:
 	_layout()
 
 
-## A skipped turn has no fight: re-read the new round, or end the game if the human is out.
 func _on_turn_skipped() -> void:
 	_selected = {}
 	if port.is_over() or port.get_state().get("placement") != null:
@@ -877,7 +870,6 @@ func _on_turn_skipped() -> void:
 # --- actions -------------------------------------------------------------------------------
 
 
-## Shows a refused action's reason, or clears the selection and re-reads the state on success.
 func _act(reason: String, sound: String = "") -> void:
 	if reason == "Shy warning: repeat to confirm":
 		return
@@ -891,7 +883,6 @@ func _act(reason: String, sound: String = "") -> void:
 	render()
 
 
-## A unit landed on the board: oozes and fairies say so.
 func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> void:
 	if reason.is_empty():
 		Sfx.play_voice(Data.a(view, "tribes"))
@@ -904,9 +895,6 @@ func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> v
 				_board.show_relations(RecruitView.related_slots(placed, slot))
 
 
-## Re-renders, and says what arrived in the hand that wasn't in the hand or shop before: a
-## triple's golden or a Triple Reward (SPEC 7.3). Both have new iids. A dev spawn is new too, so
-## the dev panel passes rewards = false.
 func _after_change(rewards: bool = true, sound: String = "") -> void:
 	var known: Dictionary = {}
 	for zone: String in ["hand", "shop", "board"]:
@@ -946,7 +934,6 @@ func _after_change(rewards: bool = true, sound: String = "") -> void:
 		show_toast(notice)
 
 
-## A triple on a full hand lands on the board, and the rules give no reward for that (7.1.2).
 func _note_golden_on_board(known: Dictionary, before: Dictionary, after: Dictionary) -> void:
 	for entry: Variant in Data.a(state, "board"):
 		if not entry is Dictionary:

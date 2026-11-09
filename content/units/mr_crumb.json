@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "When played or sold: Pass right +1/+1.",
-  "golden_text": "When played or sold: Pass right +2/+2.",
+  "text": "When played or sold: Pass +1/+1.",
+  "golden_text": "When played or sold: Pass +2/+2.",
   "mechanics": [
     {
       "id": "effect",

@@ -9,8 +9,7 @@
     "Fairies"
   ],
   "text": "Shy. End of Turn: give the units in front +1 Health.",
-  "golden_text": "Shy. End of Turn: give the units in front +2 Health.",
-  "golden_details": "Shy pays 4 gold.",
+  "golden_text": "Shy pays 4 gold. End of Turn: give the units in front +2 Health.",
   "mechanics": [
     {
       "id": "shy",
@@ -38,8 +37,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "fairies.md",
-    "note": "Shy pays 2 gold."
+    "doc": "docs/ideation/content/pass2-c.md",
+    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
   },
   "mechanic_text": {
     "1": {

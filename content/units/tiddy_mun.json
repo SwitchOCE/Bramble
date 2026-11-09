@@ -4,13 +4,13 @@
   "set": "slice",
   "tier": 5,
   "attack": 3,
-  "health": 5,
+  "health": 6,
   "tribes": [
     "Bog folk"
   ],
-  "text": "After a Mired enemy dies: the unit that Mired it gains +1/+1 permanently. Twice a fight.",
-  "golden_text": "After a Mired enemy dies: the unit that Mired it gains +2/+2 permanently. Twice a fight.",
-  "details": "If that unit is gone, this gains it instead.",
+  "text": "After a Mired enemy attacks one of your units: that unit gains +1/+1 permanently. Twice a fight.",
+  "golden_text": "After a Mired enemy attacks one of your units: that unit gains +2/+2 permanently. Twice a fight.",
+  "details": "The attacked unit keeps the permanent gain even if the hit kills it.",
   "mechanics": [
     {
       "id": "tiddy_mun",
@@ -25,7 +25,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/bog-folk.md",
-    "note": "Final review and costing-3 rulings."
+    "doc": "docs/ideation/content/pass2-b.md",
+    "note": "Pass 2 review amendments in DECISIONS.md."
   }
 }
