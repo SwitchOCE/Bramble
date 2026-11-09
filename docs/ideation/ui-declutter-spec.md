@@ -458,6 +458,29 @@ These replace every criterion that rewards explaining things on the main screen.
 
 ---
 
+## 7. From the visual comparison (owner, 9 Nov 09f)
+
+`evidence/declutter/visual-comparison.md` set our screenshots beside Battlegrounds, Hearthstone, Galaxy, TFT, Marvel Snap and Super Auto Pets. Only the written comparison and the source links are committed; the images stay outside the repo.
+
+**Its reading:**
+- Visual tier: we score 4 out of 10 (art 6, UI 3). Galaxy scores 7, Super Auto Pets 6, Battlegrounds, TFT and Snap 9, and Hearthstone 10.
+- Labels on screen: we show about 130 on recruit and about 105 in combat. Battlegrounds shows about 40 on recruit, nearly all numbers, Galaxy 35–55 and Hearthstone about 25.
+- **The art isn't the problem.** The labels on top of it are. Our units are not small, so the board needs less on it, not more space.
+
+Sections 1–6 already cover most of its ten changes. These are new, and join the batches named:
+
+| Change | Batch | Check |
+|---|---|---|
+| **A label budget the gate enforces.** A test counts visible text nodes on the scripted recruit, scout and combat screens and fails above the budget. The budget is 40 on recruit and 30 in combat. Card names count until their unit has its own portrait. | 1 (combat), 2 (recruit, scout) | The count is printed with every before/after pair |
+| **Depth and calm space.** The shop gets its own surface (a stall or a hedgerow counter). The board gets a darker, mossy playmat. Tiles get shadows and lift on hover or drag. Aim for about 35–40% calm space, against today's 20% of flat tan. | 2 | The same before/after pairs, plus the calm-space share measured on them |
+| **The card face.** Art fills 65–70% of the face, stats sit in fixed corners, and nothing overlaps a face. Galaxy's card is the closest model to our flat style. | 2 | Every unit's face at board size on one contact sheet |
+| **Fix the visible defects.** Clipped labels in combat ("Rainbo", "On attac", "Quarry F…"), chips over faces, B2's blank name strip at 1920×1080, and the End-turn subtitle "0 + starting survivors". Most go with the cuts. Any that survive are fixed. | 1–3 | `layout_check.gd` flags clipped text |
+| **A standing comparison sheet.** Each batch's evidence folder holds one side-by-side sheet: our after shot beside the same phase in Battlegrounds and Galaxy, kept locally and not committed. | 1–4 | The reviewer is given the sheet |
+
+The visual tier is scored again after Batch 2 and after Batch 4, by a fresh reviewer using the same games and scale.
+
+---
+
 ## Appendix: calls where reviewers disagreed (for `DECISIONS.md`)
 
 | Question | The options | Call | Why |
