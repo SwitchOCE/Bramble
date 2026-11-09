@@ -49,7 +49,8 @@ func test_native_hunter_tags_name_the_current_plain_and_golden_abilities() -> vo
 		for golden: bool in [false, true]:
 			var view: Dictionary = UnitViews.from_def(library.get_unit(id), golden)
 			var tag: String = CardView.chip_text(view)
-			assert_eq(tag, tags[1 if golden else 0], id)
+			var expected_tag: String = str(tags[1 if golden else 0])
+			assert_eq(tag, expected_tag, id)
 			assert_lte(tag.length(), 16, "the existing board tag stays compact")
 			var card: CardView = CardView.new()
 			add_child_autofree(card)
