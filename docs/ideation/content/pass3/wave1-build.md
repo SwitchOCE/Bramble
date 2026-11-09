@@ -31,7 +31,9 @@ Twelve full combat-result fixtures were captured from the untouched c74c2b9 engi
 
 ## Validation
 
-The new core suites cover 117 tests, including all twelve exact legacy replays. The latest combined core run passed 116 tests / 615 assertions; the final combat-only run then passed all 43 tests / 139 assertions, including the added bounded Fetch recursion counterexample. Phone UI checks cover all 32 cards and both golden states; the focused UI regression run passes 34 tests / 3,560 assertions. Hard-bot checks include a real eight-seat lobby using Birds and Fairies. The first full gate passed every step before tests; historical card expectations were then migrated explicitly, with 203 related historical tests and 174 bot/policy tests passing. Final review also verified that hidden Belly targets preserve permanent rewards and do not intercept dying Hunters' Take rewards. The final locked 3G `scripts/check.sh` gate is being rerun against the final source.
+The final locked 3G `./scripts/check.sh` gate **passes** on source checkpoint `d83b4ae`: all 1,779 tests and 29,298 assertions across 163 scripts, with the strict hook clean. Tools, versions, shell, Python, content, formatting, lint, import, compilation and pool parity also pass. Combat remains 937 lines, below its 1,000-line lint cap.
+
+The new core suites cover 117 tests, including all twelve exact legacy replays, configurable rates, bounded guard counterexamples and a real eight-seat Hard-bot lobby. Phone UI tests cover all 32 cards and both golden states. Final review and a regression test confirm that hidden Belly targeting preserves permanent rewards without intercepting dying Hunters' Take rewards. Golden Egg explicitly reuses the existing Nest Egg portrait.
 
 Hard bot strategy IDs stay stable; the redesigned tribes use provisional route priors pending fresh measurements. Its Annis churn has a bounded work budget of eight actions, not an engine limit. It keeps at least three home Birds, uses a simple low-Health flight guard, places Annis and Fetch around a Ring carry, and holds a Golden Egg for a larger Bird due home next turn.
 
