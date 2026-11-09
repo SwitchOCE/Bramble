@@ -2,6 +2,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/combat_kit.gd")
+const LEGACY := preload("res://tests/core/legacy_wave1.gd")
 
 
 func test_last_stand_saves_from_two_and_five_once_with_armor_first() -> void:
@@ -94,7 +95,9 @@ func test_last_blow_credits_exchange_attacker_and_uses_round_base() -> void:
 
 
 func test_last_blow_credits_possets_death_effect_instead_of_declared_attacker() -> void:
-	var combat := Combat.create(KIT.library, GameConfig.full_game(), RandomNumberGenerator.new())
+	var combat := Combat.create(
+		LEGACY.with_oozes(KIT.library), GameConfig.full_game(), RandomNumberGenerator.new()
+	)
 	combat._setup([KIT.board({0: KIT.plain(3, 3)}), KIT.board({0: KIT.u("mrs_posset", 0, 1)})])
 	combat._attacks_started = true
 	combat._perform_attack(combat.unit_at(0, 0), combat.unit_at(1, 0))
@@ -141,7 +144,9 @@ func test_nonlethal_effect_does_not_steal_last_blow_or_safety_limit_win() -> voi
 
 
 func test_last_blow_uses_a_swapped_effect_owners_fighting_side() -> void:
-	var combat := Combat.create(KIT.library, GameConfig.full_game(), RandomNumberGenerator.new())
+	var combat := Combat.create(
+		LEGACY.with_oozes(KIT.library), GameConfig.full_game(), RandomNumberGenerator.new()
+	)
 	combat._setup([KIT.board({0: KIT.u("mrs_posset", 0, 1)}), KIT.board({0: KIT.plain(3, 3)})])
 	CombatMoves.trade_sides(combat, combat.unit_at(0, 0), combat.unit_at(1, 0))
 	combat._attacks_started = true

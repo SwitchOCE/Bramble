@@ -11,6 +11,7 @@ Usage: python3 tools/checks/check_units.py [units dir]. Exit 0 = all valid, 1 = 
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from pathlib import Path
@@ -84,12 +85,15 @@ def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
 
 
 # Parameter kinds check_param can judge alone (the rest are checked where they're used).
-PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap", "ratio"}
+PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap", "ratio", "scalar"}
 
 
 def check_param(kind: str, value: object) -> str | None:
     if kind == "string":
         return None if isinstance(value, str) and value else "must be non-empty text"
+    if kind == "scalar":
+        ok = isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value >= 0
+        return None if ok else "must be a finite non-negative number"
     if kind == "ratio":
         ok = isinstance(value, int) and not isinstance(value, bool) and value >= 0
         return None if ok else "must be a non-negative integer"
@@ -185,6 +189,16 @@ def check_overlay_text(card: dict) -> list[str]:
 
 def can_lend(entry: dict) -> bool:
     """The same exclusions as RecruitUnit._can_lend: display metadata never changes this choice."""
+    if entry.get("id") == "pass3_ooze" and entry.get("ability") in {
+        "little_dollop",
+        "bubble_and_squeak",
+        "frumenty",
+        "wee_wobbly",
+        "figgy_duff",
+        "sixpenny_pie",
+        "mr_syllabub",
+    }:
+        return False
     return entry.get("id") not in {"belly", "belly_discount", "fly_south", "shy", "borrows_text"} and entry.get(
         "trigger"
     ) not in {"on_play", "on_sell", "on_home"}
@@ -342,7 +356,14 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
     """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
     # Pass 3's factor preserves the originating text's golden strength when stolen. It
     # scales authored rates, rather than representing a number printed on the card.
-    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter", "reference_quilboar"}:
+    if mech.get("id") in {
+        "pass3_bird",
+        "pass3_fairy",
+        "pass3_bog",
+        "pass3_hunter",
+        "pass3_ooze",
+        "reference_quilboar",
+    }:
         return []
     out: list[tuple[str, int]] = []
     if mech.get("id") == "effect":
@@ -382,6 +403,22 @@ def check_mechanic(mech: object) -> list[str]:
     problems: list[str] = []
     given = {k for k in mech if k != "id"}
     optional = set(SCHEMA.get("optional_mechanic_params", {}).get(mech["id"], []))
+    abilities = SCHEMA.get("mechanic_ability_params", {}).get(mech["id"], {})
+    if abilities:
+        ability = mech.get("ability")
+        if ability not in abilities:
+            problems.append(f"mechanic {mech['id']}: unknown ability {ability!r}")
+        else:
+            required = set(abilities[ability])
+            optional.difference_update(required)
+            unrelated = given - required - {"ability", "factor"}
+            problems += [f"mechanic {mech['id']}: '{key}' does not belong to {ability}" for key in sorted(unrelated)]
+    if mech.get("id") == "wobbly" and mech.get("pass3") is True:
+        optional.add("limit")
+        optional.discard("drip")
+    if mech.get("id") == "pie" and mech.get("pass3") is True:
+        optional.add("gold")
+        optional.discard("per_unit")
     if mech.get("id") == "bitter" and mech.get("pass3") is True:
         optional.update({"n", "once_per_enemy"})
     if "percent" in mech:

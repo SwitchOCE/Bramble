@@ -60,6 +60,7 @@ const STATE_ADDED: Array = [
 	"last_stand_active",
 ]
 const UNIT_ADDED: Array = [
+	"ooze_share_serial",
 	"egged",
 	"pass3_content",
 	"sell_value",
@@ -120,6 +121,7 @@ func test_unit_view_keys_match_fixture_6_2() -> void:
 	_assert_keys(shop[0], fixture_shop[0], UNIT_ADDED, "shop view (6.2)")
 	var view: Dictionary = shop[0]
 	assert_true(view.has("keyword_text"), "and keyword_text")
+	assert_eq(view["ooze_share_serial"], 0, "landing animation serial starts at zero")
 	var standings: Array = state["standings"]
 	var fixture_standings: Array = fixture["standings"]
 	_assert_keys(standings[0], fixture_standings[0], STANDING_ADDED, "6.4 standing")

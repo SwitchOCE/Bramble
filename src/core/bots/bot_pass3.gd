@@ -258,6 +258,9 @@ static func _swap(layout: Array[int], a: int, b: int) -> void:
 
 ## Scale only engine text whose value is visible on the current board. -1 keeps the normal hint.
 static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
+	var ooze_value: float = BotOoze.text_value(unit, player, value)
+	if ooze_value >= 0.0:
+		return ooze_value
 	var hunter_value: float = BotHunt.text_value(unit, player, value)
 	if hunter_value >= 0.0:
 		return hunter_value
@@ -313,6 +316,8 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 
 ## Preserve one copy of a live investment; extra copies may still make room for an upgrade.
 static func keep_engine(player: PlayerState, unit: RecruitUnit, value: BotEval) -> bool:
+	if value.level.reads_text and BotOoze.keep_engine(player, unit, value):
+		return true
 	if value.level.reads_text and BotHunt.keep_engine(player, unit):
 		return true
 	if value.level.reads_text and BotBog.keep_engine(player, unit, value):

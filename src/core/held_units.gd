@@ -68,6 +68,7 @@ static func swallow(
 	var cost: int = swallow_cost(rules, player, ooze, unit)
 	match source:
 		SHOP:
+			Pass3Oozes.commit_shop(unit)
 			player.shop.remove_at(index)
 			unit.poached_discount = 0
 			unit.poached_offer = false
@@ -144,13 +145,20 @@ static func take_out(player: PlayerState, unit: RecruitUnit) -> void:
 			return
 
 
-## Figgy Duff pairs two Bought copies with a Triple Reward, then skips the following turn.
+## Figgy pairs Bought copies; only the frozen pass 2 text has an alternating-turn cooldown.
 static func figgy_pair(rules: RecruitRules, player: PlayerState) -> bool:
 	for ooze: RecruitUnit in player.board:
-		if ooze == null or not ooze.has_mechanic_id("figgy_duff"):
+		if (
+			ooze == null
+			or (not ooze.has_mechanic_id("figgy_duff") and not Pass3Oozes.has(ooze, "figgy_duff"))
+		):
 			continue
 		var last_round: int = CoreUtil.to_int(ooze.counters.get("figgy_round", -2))
-		if player.card_rate_limits and player.round_number < last_round + 2:
+		if (
+			player.card_rate_limits
+			and not Pass3Oozes.has(ooze, "figgy_duff")
+			and player.round_number < last_round + 2
+		):
 			continue
 		for inner: RecruitUnit in ooze.held:
 			var other: RecruitUnit = _bought_twin(player, inner)

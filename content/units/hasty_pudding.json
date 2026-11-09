@@ -3,23 +3,24 @@
   "name": "Hasty Pudding",
   "set": "slice",
   "tier": 5,
-  "attack": 2,
-  "health": 8,
+  "attack": 3,
+  "health": 9,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Start of Combat: if this has room, swallow the enemy across.",
-  "golden_text": "Belly 2. Start of Combat: if this has room, swallow the enemy across and one beside it.",
-  "details": "It goes back when this dies, after 3 of your units die, or when its side has nobody else.",
-  "golden_details": "They go back when this dies, after 3 of your units die, or when their side has nobody else.",
+  "text": "Belly 1. Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains a fifth of it.",
+  "golden_text": "Belly 2. Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains a fifth of each.",
   "mechanics": [
     {
       "id": "belly",
       "size": 1
     },
     {
-      "id": "hasty",
-      "reach": 1,
+      "id": "pass3_ooze",
+      "ability": "hasty_pudding",
+      "factor": 1,
+      "share": 0.2,
+      "count": 1,
       "after": 3
     }
   ],
@@ -32,14 +33,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md",
-    "note": "Swallows one; golden 2."
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "mechanic_text": {
     "1": {
-      "id": "hasty",
-      "text": "Start of Combat: if this has room, swallow the enemy across.",
-      "golden_text": "Start of Combat: if this has room, swallow the enemy across and one beside it."
+      "id": "pass3_ooze",
+      "text": "Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains a fifth of it.",
+      "golden_text": "Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains a fifth of each."
     }
   }
 }

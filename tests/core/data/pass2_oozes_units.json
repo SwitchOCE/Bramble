@@ -1,0 +1,610 @@
+{
+  "units": [
+    {
+      "id": "little_dollop",
+      "name": "Little Dollop",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. Units you buy into this cost 1 gold less.",
+      "golden_text": "Belly 2. Units you buy into this cost 2 gold less.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "belly_discount",
+          "gold": 1
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      }
+    },
+    {
+      "id": "mrs_posset",
+      "name": "Mrs Posset",
+      "set": "slice",
+      "tier": 1,
+      "attack": 2,
+      "health": 1,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. When this dies: deal 3 damage to the enemy across.",
+      "golden_text": "Belly 2. When this dies: deal 6 damage to the enemy across.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "effect",
+          "trigger": "on_death",
+          "name": "posset",
+          "target": {
+            "select": "across"
+          },
+          "do": {
+            "effect": "damage",
+            "amount": 3
+          }
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "effect",
+          "trigger": "on_death",
+          "text": "When this dies: deal 3 damage to the enemy across.",
+          "golden_text": "When this dies: deal 6 damage to the enemy across."
+        }
+      }
+    },
+    {
+      "id": "wee_wobbly",
+      "name": "Wee Wobbly",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+      "golden_text": "Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "wobbly",
+          "limit": 2,
+          "unit": "drip"
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "wobbly",
+          "text": "After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+          "golden_text": "After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight."
+        }
+      }
+    },
+    {
+      "id": "stone_soup",
+      "name": "Stone Soup",
+      "set": "slice",
+      "tier": 2,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
+      "golden_text": "Belly 2. After you put a unit into any Belly: gain +2/+2 permanently. Once a turn.",
+      "details": "Recruit Phase only. Shop, hand and board units count, including its own Belly.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "stone_soup",
+          "stats": 1
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "stone_soup",
+          "text": "After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
+          "golden_text": "After you put a unit into any Belly: gain +2/+2 permanently. Once a turn."
+        }
+      }
+    },
+    {
+      "id": "dishwater_nell",
+      "name": "Dishwater Nell",
+      "set": "slice",
+      "tier": 2,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Start of Turn: swap your shop's lowest-tier unit for one of your tier. If that's 2+ tiers up and this touches an Ooze, get 1 gold.",
+      "golden_text": "Start of Turn: swap your shop's 2 lowest-tier units for ones of your tier. If one is 2+ tiers up and this touches an Ooze, get 2 gold.",
+      "details": "The new unit is random. Only your first Nell pays.",
+      "mechanics": [
+        {
+          "id": "nell",
+          "units": 1,
+          "gold": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      }
+    },
+    {
+      "id": "moss_ooze",
+      "name": "Moss Ooze",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "When a spell gives your Ooze stats: what's inside gains them.",
+      "golden_text": "When a spell gives your Ooze stats: what's inside gains twice that.",
+      "mechanics": [
+        {
+          "id": "moss_ooze",
+          "factor": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/evidence/commit-review.md",
+        "note": "Commitment package, costed bounds."
+      },
+      "set": "slice"
+    },
+    {
+      "id": "aunt_aspic",
+      "name": "Aunt Aspic",
+      "set": "slice",
+      "tier": 3,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "End of Turn: what's inside the Oozes in front of this gains +1/+1.",
+      "golden_text": "End of Turn: what's inside the Oozes in front of this gains +2/+2.",
+      "mechanics": [
+        {
+          "id": "aspic",
+          "attack": 1,
+          "health": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      }
+    },
+    {
+      "id": "bubble_and_squeak",
+      "name": "Bubble and Squeak",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.",
+      "golden_text": "Belly 2. After this survives a hit: split half its stats into a copy. Twice a fight.",
+      "details": "The copy appears in the nearest gap with an empty Belly.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "bubble",
+          "splits": 1
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "bubble",
+          "text": "After this survives a hit: split half its stats into a copy. Once a fight.",
+          "golden_text": "After this survives a hit: split half its stats into a copy. Twice a fight."
+        }
+      }
+    },
+    {
+      "id": "sixpenny_pie",
+      "name": "The Sixpenny Pie",
+      "set": "slice",
+      "tier": 3,
+      "attack": 1,
+      "health": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 2. When this dies: if anything comes out, get 1 gold next turn.",
+      "golden_text": "Belly 4. When this dies: if anything comes out, get 2 gold next turn.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 2
+        },
+        {
+          "id": "pie",
+          "gold": 1
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "pie",
+          "text": "When this dies: if anything comes out, get 1 gold next turn.",
+          "golden_text": "When this dies: if anything comes out, get 2 gold next turn."
+        }
+      },
+      "details": "Only units that find room count."
+    },
+    {
+      "id": "frumenty",
+      "name": "Frumenty",
+      "set": "slice",
+      "tier": 4,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. This has the text of what's inside it.",
+      "golden_text": "Belly 2. This has the text of what's inside it.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "borrows_text"
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      }
+    },
+    {
+      "id": "figgy_duff",
+      "name": "Figgy Duff",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+      "golden_text": "Belly 2. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+      "details": "The golden goes to your hand and gives a Triple Reward when played.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "figgy_duff"
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "figgy_duff",
+          "text": "A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+          "golden_text": "A bought unit inside this goes golden with one more bought copy. Once every other turn."
+        }
+      }
+    },
+    {
+      "id": "mr_syllabub",
+      "name": "Mr Syllabub",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "When a unit comes out of your Oozes: its Start of Combat fires.",
+      "golden_text": "When a unit comes out of your Oozes: its Start of Combat fires twice.",
+      "mechanics": [
+        {
+          "id": "syllabub",
+          "times": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      }
+    },
+    {
+      "id": "elder_ooze",
+      "name": "Elder Ooze",
+      "tier": 5,
+      "attack": 3,
+      "health": 7,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. Units coming out of your Oozes gain +1/+1.",
+      "golden_text": "Belly 2. Units coming out of your Oozes gain +2/+2.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-b.md",
+        "note": "Pass 2 review amendments in DECISIONS.md."
+      },
+      "set": "slice",
+      "mechanic_text": {
+        "1": {
+          "id": "elder_ooze",
+          "text": "Units coming out of your Oozes gain +1/+1.",
+          "golden_text": "Units coming out of your Oozes gain +2/+2."
+        }
+      },
+      "details": "The buff applies while this lives, and to its own Belly\u2019s units when this dies. Drips count. Only your own units gain it, never returned enemies."
+    },
+    {
+      "id": "hasty_pudding",
+      "name": "Hasty Pudding",
+      "set": "slice",
+      "tier": 5,
+      "attack": 2,
+      "health": 8,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. Start of Combat: if this has room, swallow the enemy across.",
+      "golden_text": "Belly 2. Start of Combat: if this has room, swallow the enemy across and one beside it.",
+      "details": "It goes back when this dies, after 3 of your units die, or when its side has nobody else.",
+      "golden_details": "They go back when this dies, after 3 of your units die, or when their side has nobody else.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "hasty",
+          "reach": 1,
+          "after": 3
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md",
+        "note": "Swallows one; golden 2."
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "hasty",
+          "text": "Start of Combat: if this has room, swallow the enemy across.",
+          "golden_text": "Start of Combat: if this has room, swallow the enemy across and one beside it."
+        }
+      }
+    },
+    {
+      "id": "granny_stir_up",
+      "name": "Granny Stir-Up",
+      "set": "slice",
+      "tier": 6,
+      "attack": 4,
+      "health": 8,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Start of Combat: touching Oozes go inside this. Gain their Attack.",
+      "golden_text": "Start of Combat: touching Oozes go inside this. Gain twice their Attack.",
+      "details": "When this dies, they return to their slots, still holding what they hold.",
+      "mechanics": [
+        {
+          "id": "granny",
+          "factor": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md",
+        "note": "Gains their Attack one time."
+      }
+    },
+    {
+      "id": "cut_and_come_again",
+      "name": "Cut-and-Come-Again",
+      "set": "slice",
+      "tier": 6,
+      "attack": 4,
+      "health": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "Belly 1. Every other Start of Turn: get a base copy of the last non-Ooze inside.",
+      "golden_text": "Belly 2. Every other Start of Turn: get 2 base copies of the last non-Ooze inside.",
+      "details": "Copies are Created: they can't triple or Fly South, and selling one is final.",
+      "mechanics": [
+        {
+          "id": "belly",
+          "size": 1
+        },
+        {
+          "id": "cut_and_come",
+          "copies": 1,
+          "every": 2
+        }
+      ],
+      "keywords": [
+        "Belly"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/oozes.md"
+      },
+      "mechanic_text": {
+        "1": {
+          "id": "cut_and_come",
+          "text": "Every other Start of Turn: get a base copy of the last non-Ooze inside.",
+          "golden_text": "Every other Start of Turn: get 2 base copies of the last non-Ooze inside."
+        }
+      }
+    }
+  ]
+}
