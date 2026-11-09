@@ -521,4 +521,28 @@ func test_null_unit_source_hero_buff_starts_at_its_hero_and_has_a_held_direction
 			hero_motes += 1
 	assert_eq(routes, 2)
 	assert_eq(hero_motes, 2, "null source is the preceding hero, not UID zero or another unit")
-	assert_eq(screen._event_hold("stats"), 0.5, "the next independent trigger waits for landing")
+	assert_eq(screen._event_hold("stats"), 0.4, "the next independent trigger waits for landing")
+
+
+func test_reduced_effects_hold_matching_marks_without_connecting_yarn() -> void:
+	Settings.reduce_motion = true
+	var screen: CombatScreen = _screen()
+	screen._play_event(
+		{
+			"type": "stats",
+			"source": 1,
+			"target": 8,
+			"attack_delta": 1,
+			"attack": 2,
+			"health": 3,
+			"health_delta": 0
+		},
+		true
+	)
+	_advance(screen, 0.5)
+	var hidden_routes: int = 0
+	for child: Node in screen._overlay.get_children():
+		if child.get_script() == preload("res://src/ui/widgets/combat_effect_path.gd"):
+			assert_false((child as Control).visible)
+			hidden_routes += 1
+	assert_eq(hidden_routes, 1)

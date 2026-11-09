@@ -355,7 +355,7 @@ func _event_hold(kind: String) -> float:
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
 	if kind in ["stats", "status"]:
-		return 0.5
+		return 0.4
 	if kind in ["death", "health_loss"]:
 		return maxf(0.15, (0.3 if kind == "death" else 0.4) / speed)
 	if kind in ["trigger", "kiss", "transform", "summon", "relocate"]:

@@ -650,6 +650,7 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 	overlay.move_child(path, maxi(0, overlay.get_child_count() - 2))
 	var route: Tween = _tween(path)
 	if Settings.reduce_motion:
+		path.hide()  # The appendix keeps reduced motion free of connecting yarn.
 		path.progress = 1.0
 		route.tween_interval(travel)
 	else:
@@ -666,7 +667,7 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 		var target: Tween = _tween(landing)
 		target.tween_interval(travel)
 		target.tween_callback(landing.show)
-		target.tween_interval(0.7 if key == "acorn" else 0.25)
+		target.tween_interval(0.7 if key == "acorn" else 0.6)
 		target.tween_property(landing, "modulate:a", 0.0, 0.15)
 		target.tween_callback(landing.queue_free)
 		tween.tween_interval(travel)
@@ -676,7 +677,7 @@ func _mote(from: Vector2, to: Vector2, key: String, colour: Color, travel: float
 			mark, "position", (mark.position + end) / 2 - Vector2(0, 28), travel / 2
 		)
 		tween.tween_property(mark, "position", end, travel / 2)
-	tween.tween_interval(0.7 if key == "acorn" else 0.25)
+	tween.tween_interval(0.7 if key == "acorn" else (0.6 if Settings.reduce_motion else 0.25))
 	tween.tween_property(mark, "modulate:a", 0.0, 0.15)
 	tween.tween_callback(mark.queue_free)
 	return mark
