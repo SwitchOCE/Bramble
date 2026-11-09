@@ -4,6 +4,22 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 2a pool rules review, and Bog's three questions
+**Review:** `evidence/review-wave2a-pool-rules.md`. 18 items are keep, with no cuts, 2 simplify and 3 asks. The loop guards are real: removing each one fails its test. The gain queue reads through a badge and the reader, with nothing new on the main screen. Hero and spell scaling is on.
+
+**Picked (orchestrator):**
+- **Ask 1:** C's doubled Birds and Fairies rates stay as a labelled placeholder until the paper workflow's B and C values land.
+- **Ask 2:** `gain_landed` is read by the declutter step's Start of Turn animation (the bead pops and rolls). It is added to the spec's batch 2.
+- **Ask 3, long faces:** faces show the resolved number for the current board. The percentage and the minimum move to the reader (09e). If that is a big change, the shortest wording is used instead.
+- **Both simplifications are taken:** a `null` default for `scale_hero_spell_percent`, and deleting `Pass3Rates.preset()`.
+- **Gaps:** Mousewife's Mouse is scaled like the other hero powers (09h). Captures record the resolved rate values. Hunters' two gain timings are unified in the Hunters commit.
+- **The merge:** I merged ideation/main into ideation/wave2a (`0a31c5f`). The one stale test, the identity check in `test_field_combat.gd:23`, is fixed in the fix-up commit before Bog.
+
+**Bog's three questions (the worker's recommended readings, all taken):**
+1. **Start of Combat:** a dependent Bog sequence: ordinary starts → Lantern → Jenny → Bog patches → Sal → the remaining biggest-enemy effects. Amendment 4's purpose holds, since biggest-enemy effects still see the board after other Start of Combat buffs.
+2. **A pull or lure aimed at a unit inside a Belly** binds to that unit and completes when it emerges. There is no forced release.
+3. **Hopkin** borrows Attack on every attack while he is in the back row (generous first, 09h).
+
 ### 10 Nov 2026 — Strong-field follow-up review: calls
 **Review:** `evidence/review-strong-field-followup.md`. 23 items are keep, with no cuts and 2 asks. Both earlier cuts are fixed: the board reveal is gone, and the 9d quote is corrected. As a measurement, with no bar (09i): Hard in the human seat places 5.10 against the top-4 field and 3.95 in normal lobbies (+1.15 [0.08, 2.22]). Games last 13.8 rounds against 15.9.
 
