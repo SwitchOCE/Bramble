@@ -11,6 +11,7 @@ func _combat() -> Combat:
 	var combat := Combat.create(
 		ScaleOverlay.library_for(UnitLibrary.load_dir(), config), config, rng
 	)
+	combat.slot_effects = [[[], [], [], [], [], [], []], [[], [], [], [], [], [], []]]
 	combat.slot_effects[1][4] = [{"name": "Ring", "attack": 40, "health": 40}]
 	combat._slots_active = true
 	combat._setup(

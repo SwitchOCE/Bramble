@@ -167,9 +167,22 @@ func test_lenders_hunt_only_hunters_and_golden_isegrim_reaches_neighbours() -> v
 func test_isegrim_sees_ordinary_gathered_stats_and_respects_across_own_quarry() -> void:
 	var combat: Combat = _fight(
 		{0: "old_isegrim", 1: "little_nip"},
-		{0: "granny_stir_up", 1: CK.plain(20, 20), 4: CK.u("moss_ooze", 90, 100)}
+		{0: "granny_stir_up", 1: CK.plain(20, 20), 4: CK.u("moss_ooze", 90, 1)}
 	)
-	assert_eq(combat.unit_at(0, 0).quarry, combat.unit_at(1, 0).uid)
+	var granny: CombatUnit = combat.unit_at(1, 0)
+	var gathered: CombatUnit = granny.inside[0]
+	var before: Dictionary = Pass3HunterCombat.prey(combat, granny)
+	assert_lt(
+		CoreUtil.to_int(before["attack"]) + CoreUtil.to_int(before["health"]),
+		gathered.attack + gathered.health,
+		"before gathering, the Ooze is bigger"
+	)
+	assert_gt(
+		granny.attack + granny.health,
+		gathered.attack + gathered.health,
+		"ordinary gathering makes Granny the biggest, even seeing through her Belly"
+	)
+	assert_eq(combat.unit_at(0, 0).quarry, granny.uid)
 	assert_eq(combat.unit_at(0, 1).quarry, combat.unit_at(1, 1).uid)
 
 
@@ -193,7 +206,10 @@ func test_full_fetch_twin_and_copied_isegrim_both_wait_and_pick_the_real_origina
 		{"entry": {"id": "pass3_hunter", "ability": "isegrim", "factor": 1}, "golden": false}
 	]
 	var combat: Combat = _fight(
-		{0: "cradle_fetch", 4: fairy}, {0: "cradle_fetch", 4: CK.u("silky", 90, 100)}, 1, false
+		{0: "cradle_fetch", 4: fairy},
+		{0: "cradle_fetch", 4: CK.u("old_moth_annis", 90, 100)},
+		1,
+		false
 	)
 	combat.slot_effects[1] = [
 		[{"name": "Ring", "count": 10, "ring_size": 1.0, "attack": 10, "health": 10}],
@@ -209,6 +225,7 @@ func test_full_fetch_twin_and_copied_isegrim_both_wait_and_pick_the_real_origina
 	var real: CombatUnit = combat.unit_at(1, 4)
 	var twin: CombatUnit = combat.unit_at(1, 0)
 	assert_true(twin.copied_this_fight)
+	assert_false(twin.has_mechanic("shy"), "the test twin can actually receive its Ring")
 	assert_gt(twin.attack + twin.health, real.attack + real.health)
 	assert_eq(combat.unit_at(0, 0).quarry, real.uid)
 	assert_eq(combat.unit_at(0, 4).quarry, real.uid)
