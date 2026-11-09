@@ -1,0 +1,84 @@
+Running as unit: run-p234359-i12803764.scope; invocation ID: 430079e055524b8ab799523a361cc2bf
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_field_combat.gd
+[0m* test_pre_lever_captures_keep_capped_defaults
+* test_composed_real_capture_preserves_hidden_state_and_raw_outcome
+* test_caps_off_session_library_survives_capture_field_and_exact_refight
+[1m3/3 passed.
+[0m[4m
+
+res://tests/core/test_field_fight_output.gd
+[0m* test_aggregate_and_per_seed_preserve_their_distinct_legacy_seed_families
+* test_aggregate_row_keeps_counts_and_omits_seed_only_fields
+* test_per_seed_row_keeps_paired_counts_and_lossless_seed_string
+[1m3/3 passed.
+[0m[4m
+
+res://tests/core/test_field_launch.gd
+[0m* test_field_save_rejects_missing_library_before_replay
+* test_field_save_rejects_changed_library_before_replay
+* test_field_save_requires_both_reference_fields
+* test_field_save_keeps_mode_and_replays_actions
+* test_field_strength_dial_survives_save_and_replay
+[1m5/5 passed.
+[0m[4m
+
+res://tests/core/test_field_library_v2.gd
+[0m* test_gzip_library_round_trip_and_invalid_header_are_loud
+* test_prepared_snapshot_starts_a_game_without_reading_or_validating_again
+* test_gameplay_hash_matches_python_and_ignores_presentation
+* test_schema_keyword_and_overlay_wording_are_not_gameplay
+* test_missing_export_content_directory_sets_explicit_validation_error
+* test_eligibility_filters_whole_source_lobby_and_top_four
+* test_metadata_rejects_invalid_places_or_tribe_lists
+* test_current_content_fixture_has_eight_distinct_winners_for_each_rotation
+[1m8/8 passed.
+[0m[4m
+
+res://tests/core/test_field_mode.gd
+[0m* test_field_game_reaches_a_winner_with_real_eliminations_and_repeats_exactly
+* test_captured_fight_matches_the_harness_at_the_field_game_boundary
+* test_switch_uses_same_line_closest_size_without_restoring_health
+* test_ghost_fights_current_field_but_scouts_previous_round_with_no_opening_reveal
+* test_loader_rejects_versions_content_config_and_malformed_rounds
+* test_pool_reserves_visible_units_and_returns_them_between_rounds
+* test_extinct_line_borrows_same_tribe_before_wider_field_and_labels_terminal_tail
+* test_launcher_adopts_lever_config_and_loader_accepts_its_overlay_cards
+* test_field_ghost_identity_and_hero_are_shown_without_naming_an_eliminated_seat
+* test_two_hundred_deals_use_eight_distinct_top_four_trajectories_in_lobby
+* test_switch_does_not_take_a_living_rival_or_ghost_trajectory
+* test_scout_strips_private_egg_fields_without_changing_fight_specs
+[1m12/12 passed.
+[0m[4m
+
+res://tests/core/test_field_normal_regression.gd
+[0m* test_normal_lobby_matches_complete_games_captured_at_0946909
+[1m1/1 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               6
+Tests                32
+Passing Tests        32
+Asserts           11648
+Time              55.837s
+
+
+Ran Scripts matching "test_field_"
+[32m---- All tests passed! ----
+[0m

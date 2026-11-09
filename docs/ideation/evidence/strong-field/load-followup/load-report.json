@@ -1,0 +1,26 @@
+{
+  "source_tree": "0946909",
+  "original_library_sha256": "4792d247bce1220d61bb3fd2d76a06b2acbefebd8b8d10df5c62b4a23c565991",
+  "measurement_json_bytes": 50349022,
+  "measurement_gzip_bytes": 2078965,
+  "measurement_json_sha256": "46ada2164bd175f1c28294c83dc1e5df859932ecc3806727f81aafa55b9465a1",
+  "measurement_gzip_sha256": "b1c184e624f67ea792400e6927ce65d549256c013e549e20a32ecb10de5a65a7",
+  "unchanged_trajectories": 960,
+  "benchmark_only": "Original measurement library with merged gameplay manifest and missing default config keys refreshed; original capture frames unchanged. Not recaptured, not for play, not committed.",
+  "before": {
+    "path": "legacy configure plus create, two parses/validations",
+    "configure_ms": 2609,
+    "session_ms": 1942,
+    "total_ms": 4551,
+    "peak_rss_kib": 1178432
+  },
+  "after": {
+    "path": "gzip JSON, prepare plus create with retained snapshot, one parse/validation",
+    "load_ms": 2291,
+    "session_ms": 8,
+    "total_ms": 2299,
+    "peak_rss_kib": 1175332
+  },
+  "scope": "One fresh process per arm, same machine, seed 71, OS file cache warm; /usr/bin/time peak RSS covers complete process. Startup timings exclude engine/script compilation and base UnitLibrary load. No fights played.",
+  "execution": "Shared /tmp/bramble-godot.lock; user systemd scope MemoryMax=3G; timeout 120/90 seconds."
+}

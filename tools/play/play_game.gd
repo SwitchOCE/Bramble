@@ -140,6 +140,7 @@ func _begin() -> void:
 	config.set_value("bots", BotLobby.seats())
 	config.set_value("field_strength", field_strength)
 	_library = UnitLibrary.load_dir()
+	var prepared_field: FieldLibrary = null
 	if field_library_path != "":
 		if not field_library_path.is_absolute_path():
 			field_library_path = (
@@ -148,11 +149,12 @@ func _begin() -> void:
 				. path_join(field_library_path)
 				. simplify_path()
 			)
-		load_error = FieldLibrary.configure(config, _library, field_library_path)
+		prepared_field = FieldLibrary.prepare(config, _library, field_library_path)
+		load_error = prepared_field.error
 		if load_error != "":
 			return
 		field_library_sha256 = FileAccess.get_sha256(field_library_path)
-	session = GameSession.create(seed_value, _library, config)
+	session = GameSession.create(seed_value, _library, config, Bot.create, prepared_field)
 	if session == null:
 		load_error = "Cannot start this opponent configuration."
 

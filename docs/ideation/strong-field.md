@@ -4,8 +4,9 @@
 feature flag is off in every current export preset. The plain **Bots / Strong field**
 setting is present only when that flag is enabled; saved field preferences fall back
 to Bots when it is off. A player export also rejects a command-line field launch.
-No shipped library is committed now. One final library will be captured from the
-full new pool, using top-four source trajectories, before field mode is enabled.
+No shipped library is committed now. **V3 step 5** recaptures it from the full
+pass 3 pool, using top-four source trajectories; the checkpoint 1 build then turns
+the feature on. This follow-up does not enable it or recapture that library.
 
 The normal bot lobby remains the default. Field mode keeps seven real rival seats,
 Health, Armor, Last Stand, normal matchmaking, rival-versus-rival fights, damage,
@@ -68,7 +69,8 @@ Configuration, source revision, input hashes and sampling provenance are recorde
 Sampling is stratified by line, source rotation and strength, retaining whole
 trajectories and enough winners to deal eight distinct seats where captures permit.
 `--strength top4` exports winners only; `--strength all` retains both groups for the
-strength dial and comparisons. The compact format has **no 10 MB cap**.
+strength dial and comparisons. Default output is deterministic standard gzip JSON
+(`.json.gz`), with no 10 MB cap. Plain JSON remains supported for diagnostics.
 
 The gameplay manifest excludes display names, text, details, overlay wording,
 provenance notes and portrait paths. Unit keywords, mechanics, numerical parameters
@@ -80,14 +82,16 @@ export missing `content/levers`. Every export includes the lever JSON files.
 **Tests do not depend on a shipped library or a frozen current-content manifest.**
 `tests/core/field_test_data.gd` builds a small synthetic fixture from current card
 and hero definitions, all current lobby rotations, and the current manifest once
-per test process. Its output is ignored under `build/`. Historical exact-fight and
-normal-mode regressions instead use a small frozen `9af89c2` content snapshot, so
-subsequent content edits cannot invalidate their old expected outcomes. These
-fixtures test plumbing and code parity; they make no strength claim.
+per test process. Its output is ignored under `build/`. Historical combat replay
+uses the frozen `9af89c2` content snapshot. The normal regression is now pinned to
+merged revision `0946909`, with a separate small frozen content snapshot, so
+subsequent content edits cannot invalidate its expected outcomes. Both sets of old
+`9af89c2` files remain intact. These fixtures test plumbing and code parity; they
+make no strength claim.
 
-About seven content commits precede the final pool. **Do not recapture after each
-intermediate merge.** After the full new pool and adopted levers are committed,
-the person landing the final pool runs the one-command recapture:
+**Do not recapture after intermediate content merges.** At v3 step 5, after the
+full pass 3 pool and adopted levers are committed, the person landing the final
+pool runs the one-command recapture:
 
 ```sh
 tools/sim/recapture_field.sh --strength top4 --config path/to/adopted-levers.json
@@ -95,7 +99,7 @@ tools/sim/recapture_field.sh --strength top4 --config path/to/adopted-levers.jso
 
 Omit `--config` for the committed defaults. The script sources `/opt/bramble/env.sh`,
 requires committed gameplay source, runs import and capture sequentially under the
-shared lock and 3G cap, and emits `content/fields/baseline.json`. Defaults are 120
+shared lock and 3G cap, and emits `content/fields/baseline.json.gz`. Defaults are 120
 lobbies, seeds 20262000–20262119, per-stratum limit 64, sample seed 91407. Before
 shipping, enable the `strong_field` custom feature, include the final library in the
 export presets, and change the export smoke from exclusion checks to positive
@@ -114,7 +118,64 @@ The save pins the path, SHA-256 and strength choice; changed/missing libraries a
 rejected before replay. Every Godot invocation must still use the shared lock,
 `systemd-run --user --scope -p MemoryMax=3G`, a timeout, and the sourced environment.
 
+## Merged-tree load follow-up
+
+Normal regression fingerprints now cover the normal mode at merged revision
+`0946909`, including the current `pass3_content` / `pass3_loop_guards` config keys.
+All four complete games (seeds 3, 17, 71, 20261109) were captured directly from
+that tree. A frozen merged-content snapshot keeps ordinary content edits from
+breaking this code regression; the historical replay still uses frozen `9af89c2`.
+
+UI and tools/play starts now call `FieldLibrary.prepare`, retain its validated
+snapshot and pass it into `GameSession.create`. Direct callers without a prepared
+snapshot still load normally. Configuration compatibility and deal eligibility
+are checked at game creation. A regression removes the file after preparation and
+checks that the session retains the same object; it also rejects a changed config.
+There is no process-wide cache that could silently reuse an old library.
+
+The generator and one-command recapture default to `.json.gz`. The loader reports
+missing/unreadable files, invalid gzip headers, decompression failure, JSON parse
+errors and validation failures explicitly. It frees the compressed and inflated
+byte buffers before parsing, but retains the expanded trajectory graph for play.
+
+Measured on the **same 960 trajectories** from the earlier 48 MB baseline library:
+
+| Load path | Library bytes | Load/adopt | Session creation | Total | Peak process RSS |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Before: JSON, two parses/validations | 50,349,022 | 2.609 s | 1.942 s | 4.551 s | 1,150.8 MiB |
+| After: gzip, one retained snapshot | 2,078,965 | 2.291 s | 0.008 s | 2.299 s | 1,147.8 MiB |
+
+Startup time is about halved and disk size falls about 96%. **Peak memory is
+essentially unchanged:** the expanded JSON/Variant graph still dominates. This
+is a measurement, with no new performance bar. Each row is one fresh local process
+with a warm OS file cache, no fights, the shared lock and 3G cap. Timings begin
+after base content loading; `/usr/bin/time -v` measures the whole process peak.
+
+The old library's manifest no longer matches merged content. The benchmark copy
+under `build/strong-field/load-review/` refreshes only that manifest and missing
+config defaults; all trajectory data compares equal to the original. Godot JSON
+serialization changes its byte count to 50.35 MB. **This is a profiling-only copy,
+not a recapture or a library for play.** Neither large file is committed.
+[Raw timings/RSS and provenance](evidence/strong-field/load-followup/load-report.json),
+[before log](evidence/strong-field/load-followup/before.log),
+[before RSS](evidence/strong-field/load-followup/before.time),
+[after log](evidence/strong-field/load-followup/after-final.log), and
+[after RSS](evidence/strong-field/load-followup/after-final.time).
+
+Use `tools/sim/profile_field_load.gd -- library=<path> mode=legacy|prepared` under
+the shared lock and `/usr/bin/time -v` to repeat a load-only measurement. The
+legacy option deliberately reproduces the former discarded-snapshot path.
+
+The small presentation fixes are implemented: Field ghost keeps its combat title;
+combat plaques retain the Rival number while shortening the hero name; the scout
+heading and mini-shop clear the Last Stand strip; Settings reserves no area for
+the cut tray when the feature is off. Tests cover the phone and desktop shapes.
+No on-screen explanations were added.
+
 ## Strength and switch measurement
+
+These are **pre-merge baseline measurements**, not a new strength sweep of the
+merged pass 3 pool. That library is deferred to v3 step 5.
 
 The predeclared comparison uses 40 games per arm, evaluation seeds **1000–1039**:
 normal lobby, field `all`, and field `top4`, with Hard in the human seat. The field
@@ -124,9 +185,10 @@ It contains 960 real trajectories, with 64–104 top-four candidates per lobby r
 The 48 MB compact library and raw capture remain only under `build/`; neither is
 committed or shipped. Its source seeds are disjoint from the evaluation seeds.
 
-The normal arm runs original `9af89c2` code in an isolated archive under this
-worktree's ignored build directory. A regression separately verifies current normal
-mode against complete game fingerprints from that revision. Every comparison game
+The normal arm ran original `9af89c2` code in an isolated archive under this
+worktree's ignored build directory. Its pre-merge regression verified normal mode
+against that revision. The current regression instead pins merged tree `0946909`,
+as described above. Every comparison game
 runs to all eight placements; switch counts include the independent ghost, with
 rivals and ghost also reported separately. `all` versus `top4` holds the new scouting,
 source-lobby filtering and uniqueness rules fixed, isolating the strength filter's
@@ -199,7 +261,8 @@ historical re-fight, 200 distinct eight-seat deals, independent ghosts and switc
 exclusion, previous-round scouting, private Egg data, source tribes/top-four filters,
 manifest failures, save pinning, the strength dial, and the real UI choice path.
 Normal-mode fingerprints include every fight input/result/event, standings and game
-log for seeds 3, 17, 71 and 20261109, captured directly at `9af89c2`.
+log for seeds 3, 17, 71 and 20261109, captured directly on merged revision `0946909`; the old `9af89c2`
+normal fixture remains as historical data and is no longer the regression target.
 
 The export smoke builds real Linux, Windows and available Android targets. It checks
 that every pack includes levers and excludes the deferred library. The exported
@@ -209,12 +272,14 @@ field preference starts Bots. This probe is distinct from a player-template boot
 the pinned stock templates disable `--script` overrides, so an external script
 cannot run inside them ([Godot command-line reference](https://docs.godotengine.org/en/latest/tutorials/editor/command_line_tutorial.html)). The source tests exercise the enabled UI choice path.
 
-The final shared-lock, 3G-capped **full gate passed: 1,726 Godot tests and 69
-Python tests**, with all format, lint, content, import, compile and parity checks.
+The pre-merge `6278c4a` shared-lock, 3G-capped **full gate passed: 1,726 Godot
+tests and 69 Python tests**, with all format, lint, content, import, compile and
+parity checks.
 [Gate log](evidence/strong-field/review-gate.log) and
 [verification/provenance manifest](evidence/strong-field/review-verification.json).
-Gameplay content, `combat.gd` and the existing harness `bench.gd` are unchanged
-against `9af89c2`. No large library is tracked in Git.
+At that pre-merge revision, gameplay content, `combat.gd` and the existing harness
+`bench.gd` were unchanged against `9af89c2`. The owner has since merged wave 1 and
+the harness at `0946909`. No large library is tracked in Git.
 
 ## Current review smoke
 
@@ -266,7 +331,7 @@ probe was replaced with the explicit packed-editor probe described above.
 
 ## Readings
 
-The owner asks us to “rely far more on empirical simulation data compared to
+The owner asks us to “rely far more on empirical simulation data than on
 observational bot play and self-play data” (9d); observational bot play and self-play
 are a common-sense check. This is not a statement that human play against bots is
 the main evaluation method. Owner note 9e puts teaching in the tutorial and assumes
@@ -384,7 +449,8 @@ the original smoke, and no
 behaviour was changed to smooth it. The source library and per-round provenance
 in the UI report make the comparison repeatable.
 
-Observed display issues, left unchanged for the reviewer:
+Historical display issues in the old images (the load follow-up above fixes the
+ghost title, rival prefix and scout overlap in current code):
 
 - The scouting heading still says **“last fight”** for both a rival and the Field
   ghost, although it is displaying the **current round's** field board. See the
@@ -402,19 +468,22 @@ Observed display issues, left unchanged for the reviewer:
   `Last Stand: ready` strip beneath Rival 4 at both sizes. The screenshot records
   the overlap even though the existing automated layout checker reports none.
 
-To reproduce the probe and screenshots, run one Godot process at a time:
+The old images require the original revision and v1 library. To use the driver
+on current code, supply a genuine current-content capture at the example path
+`build/strong-field/development.json.gz`; the profiling-only copy is unsuitable.
+Run one Godot process at a time:
 
 ```sh
 source /opt/bramble/env.sh
 flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
   timeout 180 godot --headless -s res://tests/ui/shots/strong_field.gd -- \
-  --probe --seed 71 --field-library res://tests/fixtures/field/baseline.json
+  --probe --seed 71 --field-library res://build/strong-field/development.json.gz
 export LP_NUM_THREADS=1
 flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
   timeout 240 xvfb-run -a -s '-screen 0 2560x1440x24' godot \
   --rendering-driver opengl3 --audio-driver Dummy \
   -s res://tests/ui/shots/strong_field.gd -- --size 1688x780 --seed 72 \
-  --field-library res://tests/fixtures/field/baseline.json \
+  --field-library res://build/strong-field/development.json.gz \
   --out res://docs/ideation/evidence/strong-field
 ```
 

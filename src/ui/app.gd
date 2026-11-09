@@ -271,7 +271,11 @@ static func side_names(
 	for side: int in mini(2, ids.size()):
 		var player_id: int = ids[side]
 		if player_id == -1:
-			names[side] = ghost_name if ghost_name.begins_with("Ghost") else "A ghost"
+			names[side] = (
+				ghost_name
+				if ghost_name.begins_with("Ghost") or ghost_name == "Field ghost"
+				else "A ghost"
+			)
 		for entry: Variant in standings:
 			var standing: Dictionary = entry
 			if Data.i(standing, "player_id", -2) == player_id:

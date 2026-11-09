@@ -61,7 +61,8 @@ static func create(
 	game_seed: int,
 	library: UnitLibrary,
 	config: GameConfig = null,
-	bot_factory: Callable = Bot.create
+	bot_factory: Callable = Bot.create,
+	prepared_field: FieldLibrary = null
 ) -> GameSession:
 	var session := GameSession.new()
 	session._bot_factory = bot_factory
@@ -70,21 +71,10 @@ static func create(
 	session._config = config if config != null else GameConfig.defaults()
 	session._library = ScaleOverlay.library_for(library, session._config)
 	if session._config.get_string("opponents") == "field":
-		session._field = FieldRivals.new()
-		session._field.library = FieldLibrary.read(
-			session._config.get_string("field_library"), library
+		session._field = FieldRivals.create(
+			session._config, library, session._draw_lobby_tribes(), prepared_field
 		)
-		if (
-			session._field.library.error != ""
-			or session._field.library.config_problem(session._config) != ""
-		):
-			return null
-		if (
-			session._field.library.can_deal(
-				session._draw_lobby_tribes(), session._config.get_string("field_strength")
-			)
-			!= ""
-		):
+		if session._field == null:
 			return null
 	session._setup()
 	if session._hero_offer.is_empty():

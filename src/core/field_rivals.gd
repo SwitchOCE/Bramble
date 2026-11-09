@@ -14,6 +14,25 @@ var _eligible: Array[Dictionary] = []
 var _active_ids: Array[int] = []
 
 
+static func create(
+	config: GameConfig,
+	units: UnitLibrary,
+	lobby_tribes: PackedStringArray,
+	prepared: FieldLibrary = null
+) -> FieldRivals:
+	var field := FieldRivals.new()
+	field.library = (
+		prepared
+		if prepared != null
+		else FieldLibrary.read(config.get_string("field_library"), units)
+	)
+	if field.library.error != "" or field.library.config_problem(config) != "":
+		return null
+	if field.library.can_deal(lobby_tribes, config.get_string("field_strength")) != "":
+		return null
+	return field
+
+
 func setup(session: GameSession) -> void:
 	var rng: RandomNumberGenerator = session._derive("field")
 	_eligible = library.eligible(

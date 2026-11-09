@@ -6,7 +6,7 @@ extends RefCounted
 
 const VERSION: int = 2
 const CONFIG_VERSION: int = 1
-const BUNDLED_PATH: String = "res://content/fields/baseline.json"
+const BUNDLED_PATH: String = "res://content/fields/baseline.json.gz"
 const RUNTIME_KEYS: Array = ["bots", "human_bot", "opponents", "field_library", "field_strength"]
 const CONTENT_FOLDERS: Array = ["units", "heroes", "spells", "levers", "schema"]
 const DISPLAY_KEYS: Array = [
@@ -34,7 +34,9 @@ static func read(path: String, library: UnitLibrary) -> FieldLibrary:
 	if file == null:
 		out.error = "Field library cannot be read: %s" % path
 		return out
-	var parsed: Variant = JSON.parse_string(file.get_as_text())
+	var parsed: Variant = out._document(file, path)
+	if not out.error.is_empty():
+		return out
 	if not parsed is Dictionary:
 		out.error = "Field library must be a JSON object"
 		return out
@@ -43,18 +45,50 @@ static func read(path: String, library: UnitLibrary) -> FieldLibrary:
 	return out
 
 
+func _document(file: FileAccess, path: String) -> Variant:
+	var text: String
+	if path.ends_with(".gz"):
+		var packed: PackedByteArray = file.get_buffer(file.get_length())
+		if packed.size() < 18 or packed[0] != 31 or packed[1] != 139 or packed[2] != 8:
+			error = "Field library has an invalid or truncated gzip header: %s" % path
+			return null
+		var unpacked: PackedByteArray = packed.decompress_dynamic(-1, FileAccess.COMPRESSION_GZIP)
+		if unpacked.is_empty():
+			error = "Field library gzip decompression failed or produced an empty file: %s" % path
+			return null
+		text = unpacked.get_string_from_utf8()
+		# Parsing owns its String; release both byte buffers before constructing the JSON graph.
+		packed.clear()
+		unpacked.clear()
+	else:
+		text = file.get_as_text()
+	var document := JSON.new()
+	if document.parse(text) != OK:
+		error = (
+			"Field library JSON error at line %d: %s"
+			% [document.get_error_line(), document.get_error_message()]
+		)
+		return null
+	return document.data
+
+
 ## Launchers adopt the recorded lever/economy rules; direct callers must already match them.
 static func configure(config: GameConfig, library: UnitLibrary, path: String) -> String:
+	return prepare(config, library, path).error
+
+
+## Keep this validated snapshot and pass it to GameSession.create; no second read or validation.
+static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> FieldLibrary:
 	var field := read(path, library)
 	if field.error != "":
-		return field.error
+		return field
 	var source: Dictionary = field.data["config"]
 	for key: String in source:
 		if not key in RUNTIME_KEYS:
 			config.set_value(key, source[key])
 	config.set_value("opponents", "field")
 	config.set_value("field_library", path)
-	return ""
+	return field
 
 
 func config_problem(config: GameConfig) -> String:

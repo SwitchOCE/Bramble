@@ -4,6 +4,44 @@ extends GutTest
 const FieldTestData := preload("res://tests/core/field_test_data.gd")
 
 
+func test_gzip_library_round_trip_and_invalid_header_are_loud() -> void:
+	var path: String = "user://field-compressed.json.gz"
+	var json: PackedByteArray = FileAccess.get_file_as_bytes(FieldTestData.path())
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_buffer(json.compress(FileAccess.COMPRESSION_GZIP))
+	file.close()
+	var field := FieldLibrary.read(path, UnitLibrary.load_dir())
+	assert_eq(field.error, "")
+	var lines: Dictionary = field.data.get("lines", {})
+	assert_gt(lines.size(), 0)
+	file = FileAccess.open(path, FileAccess.WRITE)
+	file.store_string("not a gzip field")
+	file.close()
+	field = FieldLibrary.read(path, UnitLibrary.load_dir())
+	assert_string_contains(field.error, "gzip header")
+	assert_eq(DirAccess.remove_absolute(ProjectSettings.globalize_path(path)), OK)
+
+
+func test_prepared_snapshot_starts_a_game_without_reading_or_validating_again() -> void:
+	var path: String = "user://field-once.json"
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	file.store_string(FileAccess.get_file_as_string(FieldTestData.path()))
+	file.close()
+	var units := UnitLibrary.load_dir()
+	var config := GameConfig.full_game()
+	var field := FieldLibrary.prepare(config, units, path)
+	assert_eq(field.error, "")
+	assert_eq(DirAccess.remove_absolute(ProjectSettings.globalize_path(path)), OK)
+	var session := GameSession.create(71, units, config, Bot.create, field)
+	assert_not_null(session, "uses the prepared snapshot even after its source file is gone")
+	if session != null:
+		assert_same(session._field.library, field, "session retains the validated object")
+		config.set_value("starting_health", config.get_int("starting_health") + 1)
+		assert_null(
+			GameSession.create(71, units, config, Bot.create, field), "config still checked"
+		)
+
+
 func test_gameplay_hash_matches_python_and_ignores_presentation() -> void:
 	var card: Dictionary = {
 		"id": "probe",

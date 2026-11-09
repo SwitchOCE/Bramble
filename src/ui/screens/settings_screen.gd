@@ -78,9 +78,10 @@ func _init() -> void:
 	_sound = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_sound)
 	_build_sound(_sound)
-	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
-	add_child(_tray)
-	_build_opponents()
+	if Settings.field_mode_enabled:
+		_tray = WoodPanel.new(WoodPanel.Kind.OAK)
+		add_child(_tray)
+		_build_opponents()
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -151,9 +152,6 @@ func _build_more(panel: WoodPanel) -> void:
 
 
 func _build_opponents() -> void:
-	_tray.visible = Settings.field_mode_enabled
-	if not Settings.field_mode_enabled:
-		return
 	_opponents_head = UiTheme.head("Opponents", UiTheme.FONT_BODY + 4)
 	_tray.add_child(_opponents_head)
 	var labels: Array[String] = ["Bots", "Strong field"]
@@ -192,7 +190,11 @@ func _row(panel: WoodPanel, latch: Control, words: String, note: String) -> Dict
 
 func _layout() -> void:
 	var w: float = size.x
-	var top: float = maxf(0.0, (size.y - 1080.0) / 2.0)
+	var sound_y: float = PANEL_TOP + PANEL_H + 16.0
+	var tray_y: float = sound_y + SOUND_H + 16.0
+	# The cut portrait tray reserves no space. Center only the settings that actually exist.
+	var content_h: float = tray_y + 162.0 + SIDE if _tray != null else sound_y + SOUND_H + SIDE
+	var top: float = maxf(0.0, (size.y - content_h) / 2.0)
 	_back.position = Vector2(SIDE + 12.0, top + 26.0)
 	_back.size = Vector2(350, 124)
 	_plaque.position = Vector2(412, top + 34.0)
@@ -201,13 +203,12 @@ func _layout() -> void:
 	_saved.size = Vector2(560, 50)
 	var panel_w: float = (w - SIDE * 2.0 - PANEL_GAP) / 2.0
 	var panel_h: float = PANEL_H
-	var sound_y: float = PANEL_TOP + PANEL_H + 16.0
 	_sound.position = Vector2(SIDE, top + sound_y)
 	_sound.size = Vector2(w - SIDE * 2.0, SOUND_H)
 	_layout_sound(_sound.size.x)
-	var tray_y: float = sound_y + SOUND_H + 16.0
-	_tray.position = Vector2(SIDE, top + tray_y)
-	_tray.size = Vector2(w - SIDE * 2.0, 1056.0 - tray_y)
+	if _tray != null:
+		_tray.position = Vector2(SIDE, top + tray_y)
+		_tray.size = Vector2(w - SIDE * 2.0, 162.0)
 	if _opponents_head != null:
 		_opponents_head.position = Vector2(32, 22)
 		_opponents_head.size = Vector2(310, 56)

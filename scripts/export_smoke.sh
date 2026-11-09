@@ -46,7 +46,7 @@ REQUIRED_RE='^src/main/main\.tscn(\.remap)?$'
 AUDIO_STUB_RE='^assets/audio/.*\.wav\.import$'
 AUDIO_DATA_RE='^\.godot/imported/.*\.wav-[0-9a-f]+\.sample$'
 # The field experiment stays off and its baseline must not ship before the full new pool.
-FIELD_RE='^content/fields/.*\.json$'
+FIELD_RE='^content/fields/.*\.json(\.gz)?$'
 LEVER_RE='^content/levers/[^/]+\.json$'
 # Development-only directories no pack may ship.
 FORBIDDEN_DIRS=(tests/ tools/ scripts/ docs/ addons/gut/ build/)

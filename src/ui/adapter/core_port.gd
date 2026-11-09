@@ -50,6 +50,7 @@ func new_game(game_seed: int) -> String:
 	if library.all_units().is_empty():
 		return "No units found in content/units"
 	var field_path: String = _field_library_path
+	var prepared_field: FieldLibrary = null
 	if _uses_saved_settings:
 		# The previous field game's source config must not leak into a later Bots game.
 		config = GameConfig.full_game()
@@ -57,16 +58,16 @@ func new_game(game_seed: int) -> String:
 		if field_path.is_empty() and Settings.field_mode_enabled and Settings.opponents == "field":
 			field_path = Settings.field_library_path
 	if not field_path.is_empty():
-		var problem: String = FieldLibrary.configure(config, library, field_path)
-		if problem != "":
-			return problem
+		prepared_field = FieldLibrary.prepare(config, library, field_path)
+		if prepared_field.error != "":
+			return prepared_field.error
 	if (
 		config.get_string("opponents") == "field"
 		and not Settings.field_mode_enabled
 		and not OS.has_feature("editor")
 	):
 		return "Strong field is not enabled in this build"
-	session = GameSession.create(game_seed, library, config)
+	session = GameSession.create(game_seed, library, config, Bot.create, prepared_field)
 	if session == null:
 		return "Cannot start this opponent configuration."
 	_settle()

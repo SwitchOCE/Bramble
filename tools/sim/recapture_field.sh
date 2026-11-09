@@ -2,7 +2,7 @@
 # Rebuild the shipped strong-field library after each committed gameplay-content merge.
 #   tools/sim/recapture_field.sh [--games 120] [--first-seed 20262000]
 #     [--per-line 64] [--sample-seed 91407] [--config overrides.json]
-#     [--out content/fields/baseline.json] [--capture-dir build/strong-field/recapture]
+#     [--out content/fields/baseline.json.gz] [--capture-dir build/strong-field/recapture]
 #     [--source-commit HEAD] [--strength top4] [--timeout 1500]
 # Future shipped libraries contain source top-four finishers by default.
 # Runs one Godot process at a time, under the shared lock and 3 GiB memory cap.
@@ -17,7 +17,7 @@ FIRST_SEED=20262000
 PER_LINE=64
 SAMPLE_SEED=91407
 STRENGTH=top4
-OUTPUT=content/fields/baseline.json
+OUTPUT=content/fields/baseline.json.gz
 CAPTURE_DIR=build/strong-field/recapture
 SOURCE_COMMIT=HEAD
 LIMIT=1500
@@ -62,7 +62,7 @@ if [ -n "$CONFIG" ]; then options+=("config=$CONFIG"); fi
 flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
   timeout "$LIMIT" "$GODOT_BIN" --headless --path "$ROOT" -s res://tools/sim/bench.gd \
   -- "${options[@]}" >"$CAPTURE_DIR/capture.log" 2>&1
-if rg 'SCRIPT ERROR|^ERROR:|Parse Error' "$CAPTURE_DIR/import.log" "$CAPTURE_DIR/capture.log"; then
+if grep -E 'SCRIPT ERROR|^ERROR:|Parse Error' "$CAPTURE_DIR/import.log" "$CAPTURE_DIR/capture.log"; then
   echo "capture logged errors; library was not replaced" >&2
   exit 1
 fi

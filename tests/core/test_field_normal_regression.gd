@@ -10,18 +10,18 @@ var _frozen: FrozenContent
 
 func before_each() -> void:
 	_frozen = FrozenContent.new()
-	_frozen.setup()
+	_frozen.setup("res://tests/fixtures/field/content-0946909.json")
 
 
 func after_each() -> void:
 	_frozen.restore()
 
 
-func test_normal_lobby_matches_complete_games_captured_at_9af89c2() -> void:
+func test_normal_lobby_matches_complete_games_captured_at_0946909() -> void:
 	var fixture: Dictionary = JSON.parse_string(
-		FileAccess.get_file_as_string("res://tests/fixtures/field/normal-9af89c2.json")
+		FileAccess.get_file_as_string("res://tests/fixtures/field/normal-0946909.json")
 	)
-	assert_eq(fixture["source_commit"], "9af89c2")
+	assert_eq(fixture["source_commit"], "0946909")
 	var library: UnitLibrary = _frozen.library
 	for recorded: Dictionary in fixture["games"]:
 		var source: Dictionary = recorded["config"]
@@ -47,10 +47,10 @@ func test_normal_lobby_matches_complete_games_captured_at_9af89c2() -> void:
 
 func _remember(input: Dictionary, result: Dictionary, _combat: Combat) -> void:
 	var normalized: Dictionary = input.duplicate(true)
-	# Compare the original complete config; the only excluded keys are the new mode controls.
+	# Compare the pinned complete config; newly introduced current config keys may use defaults.
 	var config: Dictionary = normalized["config"]
 	for key: String in config.keys():
 		if key not in _keys:
-			assert_true(key in ["opponents", "field_library", "field_strength"])
+			assert_true(GameConfig.defaults()._values.has(key), "unknown config key: %s" % key)
 			config.erase(key)
 	_fights.append({"input": normalized, "result": result.duplicate(true)})

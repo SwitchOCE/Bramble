@@ -1,5 +1,5 @@
 extends RefCounted
-## Test-only frozen content isolates 9af89c2 parity fixtures from subsequent content merges.
+## Test-only frozen content isolates historical parity fixtures from subsequent content merges.
 ## The production rules/AI still run; only their content inputs and shared data caches are saved
 ## and restored. No shipped field library or current-content manifest is involved.
 
@@ -9,10 +9,8 @@ var _knowledge: BotKnowledge
 var _mechanics: Dictionary
 
 
-func setup() -> void:
-	var fixture: Dictionary = JSON.parse_string(
-		FileAccess.get_file_as_string("res://tests/fixtures/field/content-9af89c2.json")
-	)
+func setup(fixture_path: String = "res://tests/fixtures/field/content-9af89c2.json") -> void:
+	var fixture: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(fixture_path))
 	var files: Dictionary = fixture["files"]
 	_schema = EffectSchema._data
 	_knowledge = BotKnowledge._shared

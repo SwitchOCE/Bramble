@@ -18,9 +18,10 @@ func after_each() -> void:
 
 func _session(seed_value: int = 71) -> GameSession:
 	var config := GameConfig.full_game()
-	assert_eq(FieldLibrary.configure(config, _library, FieldTestData.path()), "")
+	var field := FieldLibrary.prepare(config, _library, FieldTestData.path())
+	assert_eq(field.error, "")
 	config.set_value("human_bot", "hard")
-	return GameSession.create(seed_value, _library, config)
+	return GameSession.create(seed_value, _library, config, Bot.create, field)
 
 
 func _remember(input: Dictionary, result: Dictionary, _combat: Combat) -> void:

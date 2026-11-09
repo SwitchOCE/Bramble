@@ -28,15 +28,20 @@ func _initialize() -> void:
 		var started: int = Time.get_ticks_msec()
 		var config := GameConfig.full_game()
 		config.set_value("human_bot", "hard")
+		var prepared: RefCounted = null
 		if arm != "normal":
 			config.set_value("field_strength", arm)
 			# Dynamic load also allows the normal arm to run unchanged in a 9af89c2 archive.
 			var field_script: GDScript = load("res://src/core/field_library.gd")
-			var problem: String = field_script.call(
-				"configure", config, library, str(_options["library"])
-			)
+			prepared = field_script.call("prepare", config, library, str(_options["library"]))
+			var problem: String = prepared.get("error")
 			assert(problem == "", problem)
-		var session := GameSession.create(seed_value, library, config)
+		var factory: GDScript = GameSession
+		var session: GameSession = (
+			GameSession.create(seed_value, library, config)
+			if prepared == null
+			else factory.call("create", seed_value, library, config, Bot.create, prepared)
+		)
 		assert(session != null)
 		var field: RefCounted = session.get("_field") if arm != "normal" else null
 		var human_rounds: int = 0

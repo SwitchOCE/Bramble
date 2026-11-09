@@ -1,0 +1,729 @@
+{
+	"games": [
+		{
+			"config": {
+				"ask_for_kin": false,
+				"attack_limit": 200,
+				"base_damage_by_turn": [
+					0,
+					0,
+					0,
+					1,
+					1,
+					2,
+					2,
+					3,
+					4,
+					5,
+					7,
+					9,
+					11,
+					13
+				],
+				"bots": [
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied"
+				],
+				"card_rate_limits": true,
+				"card_size_caps": true,
+				"damage_cap_by_turn": [
+					4,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10,
+					11,
+					12
+				],
+				"damage_cap_off_at_alive": 4,
+				"damage_mode": "v05",
+				"discover_options": 3,
+				"early_spoils": true,
+				"field_library": "",
+				"field_strength": "top4",
+				"freeze_toggles_per_turn": 5,
+				"hand_limit": 10,
+				"hero_choice": true,
+				"hero_damage_floor": 4,
+				"heroes_offered": 3,
+				"human_bot": "hard",
+				"income_by_turn": [
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				],
+				"last_blow": true,
+				"last_stand": true,
+				"lobby_tribe_min_units": 4,
+				"max_rounds": 50,
+				"opening_rounds": 2,
+				"opening_spells": [
+					"rainy_day",
+					"a_leg_up"
+				],
+				"opponents": "bots",
+				"pass3_content": true,
+				"pass3_loop_guards": true,
+				"players": 8,
+				"pool_copies_by_tier": [
+					15,
+					15,
+					13,
+					13,
+					11,
+					9
+				],
+				"pool_filter": "slice",
+				"refresh_base_cost": 1,
+				"refresh_first_step_after": 15,
+				"refresh_step_length": 5,
+				"round_toll": false,
+				"scale_answer_percent": 50,
+				"scale_economy_cap": 10,
+				"scale_engine_flat": 0,
+				"scale_engine_percent": 25,
+				"scale_engine_self": false,
+				"scale_engine_tribe": "Hedgerow folk",
+				"scale_hero_spell_percent": 10,
+				"scale_hero_spell_stats": false,
+				"scale_levers": [],
+				"sell_bought": 1,
+				"sell_created": 0,
+				"shop_spells_by_tier": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1
+				],
+				"shop_tier_odds": [
+					[
+						100
+					],
+					[
+						50,
+						50
+					],
+					[
+						20,
+						30,
+						50
+					],
+					[
+						10,
+						15,
+						25,
+						50
+					],
+					[
+						5,
+						10,
+						15,
+						25,
+						45
+					],
+					[
+						5,
+						5,
+						10,
+						15,
+						25,
+						40
+					]
+				],
+				"shop_units_by_tier": [
+					4,
+					4,
+					4,
+					5,
+					5,
+					6
+				],
+				"spell_copies_by_tier": [
+					5,
+					7,
+					9,
+					11,
+					9,
+					7
+				],
+				"spells_in_shop": true,
+				"starting_health": 40,
+				"survivor_damage_divisor": 2,
+				"tribes_per_lobby": 5,
+				"trigger_limit_action": 1000,
+				"trigger_limit_combat": 10000,
+				"unit_cost": 3,
+				"upgrade_costs": [
+					5,
+					7,
+					8,
+					11,
+					13
+				],
+				"upgrade_discount_per_turn": 1
+			},
+			"fight_count": 60,
+			"seed": 3,
+			"sha256": "6489ba263ae58714b54abd8f2149c450823801b06ddb4129e4412609ff69debc"
+		},
+		{
+			"config": {
+				"ask_for_kin": false,
+				"attack_limit": 200,
+				"base_damage_by_turn": [
+					0,
+					0,
+					0,
+					1,
+					1,
+					2,
+					2,
+					3,
+					4,
+					5,
+					7,
+					9,
+					11,
+					13
+				],
+				"bots": [
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied"
+				],
+				"card_rate_limits": true,
+				"card_size_caps": true,
+				"damage_cap_by_turn": [
+					4,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10,
+					11,
+					12
+				],
+				"damage_cap_off_at_alive": 4,
+				"damage_mode": "v05",
+				"discover_options": 3,
+				"early_spoils": true,
+				"field_library": "",
+				"field_strength": "top4",
+				"freeze_toggles_per_turn": 5,
+				"hand_limit": 10,
+				"hero_choice": true,
+				"hero_damage_floor": 4,
+				"heroes_offered": 3,
+				"human_bot": "hard",
+				"income_by_turn": [
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				],
+				"last_blow": true,
+				"last_stand": true,
+				"lobby_tribe_min_units": 4,
+				"max_rounds": 50,
+				"opening_rounds": 2,
+				"opening_spells": [
+					"rainy_day",
+					"a_leg_up"
+				],
+				"opponents": "bots",
+				"pass3_content": true,
+				"pass3_loop_guards": true,
+				"players": 8,
+				"pool_copies_by_tier": [
+					15,
+					15,
+					13,
+					13,
+					11,
+					9
+				],
+				"pool_filter": "slice",
+				"refresh_base_cost": 1,
+				"refresh_first_step_after": 15,
+				"refresh_step_length": 5,
+				"round_toll": false,
+				"scale_answer_percent": 50,
+				"scale_economy_cap": 10,
+				"scale_engine_flat": 0,
+				"scale_engine_percent": 25,
+				"scale_engine_self": false,
+				"scale_engine_tribe": "Hedgerow folk",
+				"scale_hero_spell_percent": 10,
+				"scale_hero_spell_stats": false,
+				"scale_levers": [],
+				"sell_bought": 1,
+				"sell_created": 0,
+				"shop_spells_by_tier": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1
+				],
+				"shop_tier_odds": [
+					[
+						100
+					],
+					[
+						50,
+						50
+					],
+					[
+						20,
+						30,
+						50
+					],
+					[
+						10,
+						15,
+						25,
+						50
+					],
+					[
+						5,
+						10,
+						15,
+						25,
+						45
+					],
+					[
+						5,
+						5,
+						10,
+						15,
+						25,
+						40
+					]
+				],
+				"shop_units_by_tier": [
+					4,
+					4,
+					4,
+					5,
+					5,
+					6
+				],
+				"spell_copies_by_tier": [
+					5,
+					7,
+					9,
+					11,
+					9,
+					7
+				],
+				"spells_in_shop": true,
+				"starting_health": 40,
+				"survivor_damage_divisor": 2,
+				"tribes_per_lobby": 5,
+				"trigger_limit_action": 1000,
+				"trigger_limit_combat": 10000,
+				"unit_cost": 3,
+				"upgrade_costs": [
+					5,
+					7,
+					8,
+					11,
+					13
+				],
+				"upgrade_discount_per_turn": 1
+			},
+			"fight_count": 58,
+			"seed": 17,
+			"sha256": "f5a00d43629c0745af272922e95a54c57f994bd454d2d06c33e2f6959488b1c4"
+		},
+		{
+			"config": {
+				"ask_for_kin": false,
+				"attack_limit": 200,
+				"base_damage_by_turn": [
+					0,
+					0,
+					0,
+					1,
+					1,
+					2,
+					2,
+					3,
+					4,
+					5,
+					7,
+					9,
+					11,
+					13
+				],
+				"bots": [
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied"
+				],
+				"card_rate_limits": true,
+				"card_size_caps": true,
+				"damage_cap_by_turn": [
+					4,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10,
+					11,
+					12
+				],
+				"damage_cap_off_at_alive": 4,
+				"damage_mode": "v05",
+				"discover_options": 3,
+				"early_spoils": true,
+				"field_library": "",
+				"field_strength": "top4",
+				"freeze_toggles_per_turn": 5,
+				"hand_limit": 10,
+				"hero_choice": true,
+				"hero_damage_floor": 4,
+				"heroes_offered": 3,
+				"human_bot": "hard",
+				"income_by_turn": [
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				],
+				"last_blow": true,
+				"last_stand": true,
+				"lobby_tribe_min_units": 4,
+				"max_rounds": 50,
+				"opening_rounds": 2,
+				"opening_spells": [
+					"rainy_day",
+					"a_leg_up"
+				],
+				"opponents": "bots",
+				"pass3_content": true,
+				"pass3_loop_guards": true,
+				"players": 8,
+				"pool_copies_by_tier": [
+					15,
+					15,
+					13,
+					13,
+					11,
+					9
+				],
+				"pool_filter": "slice",
+				"refresh_base_cost": 1,
+				"refresh_first_step_after": 15,
+				"refresh_step_length": 5,
+				"round_toll": false,
+				"scale_answer_percent": 50,
+				"scale_economy_cap": 10,
+				"scale_engine_flat": 0,
+				"scale_engine_percent": 25,
+				"scale_engine_self": false,
+				"scale_engine_tribe": "Hedgerow folk",
+				"scale_hero_spell_percent": 10,
+				"scale_hero_spell_stats": false,
+				"scale_levers": [],
+				"sell_bought": 1,
+				"sell_created": 0,
+				"shop_spells_by_tier": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1
+				],
+				"shop_tier_odds": [
+					[
+						100
+					],
+					[
+						50,
+						50
+					],
+					[
+						20,
+						30,
+						50
+					],
+					[
+						10,
+						15,
+						25,
+						50
+					],
+					[
+						5,
+						10,
+						15,
+						25,
+						45
+					],
+					[
+						5,
+						5,
+						10,
+						15,
+						25,
+						40
+					]
+				],
+				"shop_units_by_tier": [
+					4,
+					4,
+					4,
+					5,
+					5,
+					6
+				],
+				"spell_copies_by_tier": [
+					5,
+					7,
+					9,
+					11,
+					9,
+					7
+				],
+				"spells_in_shop": true,
+				"starting_health": 40,
+				"survivor_damage_divisor": 2,
+				"tribes_per_lobby": 5,
+				"trigger_limit_action": 1000,
+				"trigger_limit_combat": 10000,
+				"unit_cost": 3,
+				"upgrade_costs": [
+					5,
+					7,
+					8,
+					11,
+					13
+				],
+				"upgrade_discount_per_turn": 1
+			},
+			"fight_count": 59,
+			"seed": 71,
+			"sha256": "97c376249553571e975ce3da47d67374d0f5987af6e1b8d228541741213bc4f5"
+		},
+		{
+			"config": {
+				"ask_for_kin": false,
+				"attack_limit": 200,
+				"base_damage_by_turn": [
+					0,
+					0,
+					0,
+					1,
+					1,
+					2,
+					2,
+					3,
+					4,
+					5,
+					7,
+					9,
+					11,
+					13
+				],
+				"bots": [
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied",
+					"hard:varied"
+				],
+				"card_rate_limits": true,
+				"card_size_caps": true,
+				"damage_cap_by_turn": [
+					4,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10,
+					11,
+					12
+				],
+				"damage_cap_off_at_alive": 4,
+				"damage_mode": "v05",
+				"discover_options": 3,
+				"early_spoils": true,
+				"field_library": "",
+				"field_strength": "top4",
+				"freeze_toggles_per_turn": 5,
+				"hand_limit": 10,
+				"hero_choice": true,
+				"hero_damage_floor": 4,
+				"heroes_offered": 3,
+				"human_bot": "hard",
+				"income_by_turn": [
+					3,
+					4,
+					5,
+					6,
+					7,
+					8,
+					9,
+					10
+				],
+				"last_blow": true,
+				"last_stand": true,
+				"lobby_tribe_min_units": 4,
+				"max_rounds": 50,
+				"opening_rounds": 2,
+				"opening_spells": [
+					"rainy_day",
+					"a_leg_up"
+				],
+				"opponents": "bots",
+				"pass3_content": true,
+				"pass3_loop_guards": true,
+				"players": 8,
+				"pool_copies_by_tier": [
+					15,
+					15,
+					13,
+					13,
+					11,
+					9
+				],
+				"pool_filter": "slice",
+				"refresh_base_cost": 1,
+				"refresh_first_step_after": 15,
+				"refresh_step_length": 5,
+				"round_toll": false,
+				"scale_answer_percent": 50,
+				"scale_economy_cap": 10,
+				"scale_engine_flat": 0,
+				"scale_engine_percent": 25,
+				"scale_engine_self": false,
+				"scale_engine_tribe": "Hedgerow folk",
+				"scale_hero_spell_percent": 10,
+				"scale_hero_spell_stats": false,
+				"scale_levers": [],
+				"sell_bought": 1,
+				"sell_created": 0,
+				"shop_spells_by_tier": [
+					1,
+					1,
+					1,
+					1,
+					1,
+					1
+				],
+				"shop_tier_odds": [
+					[
+						100
+					],
+					[
+						50,
+						50
+					],
+					[
+						20,
+						30,
+						50
+					],
+					[
+						10,
+						15,
+						25,
+						50
+					],
+					[
+						5,
+						10,
+						15,
+						25,
+						45
+					],
+					[
+						5,
+						5,
+						10,
+						15,
+						25,
+						40
+					]
+				],
+				"shop_units_by_tier": [
+					4,
+					4,
+					4,
+					5,
+					5,
+					6
+				],
+				"spell_copies_by_tier": [
+					5,
+					7,
+					9,
+					11,
+					9,
+					7
+				],
+				"spells_in_shop": true,
+				"starting_health": 40,
+				"survivor_damage_divisor": 2,
+				"tribes_per_lobby": 5,
+				"trigger_limit_action": 1000,
+				"trigger_limit_combat": 10000,
+				"unit_cost": 3,
+				"upgrade_costs": [
+					5,
+					7,
+					8,
+					11,
+					13
+				],
+				"upgrade_discount_per_turn": 1
+			},
+			"fight_count": 61,
+			"seed": 20261109,
+			"sha256": "c5ca3cdd417161948695d8fd1a98acb11d39bba4c37923bea5d9795a6bf002c7"
+		}
+	],
+	"source_commit": "0946909"
+}

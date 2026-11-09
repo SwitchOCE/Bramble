@@ -2,7 +2,7 @@
 """Build persistent strong-field trajectories from all-line lobby fight captures.
 
 python3 tools/sim/field_library.py build/sim/lines.fights.jsonl \\
-    --source-commit HEAD --per-line 64 --strength top4 --out content/fields/baseline.json
+    --source-commit HEAD --per-line 64 --strength top4 --out content/fields/baseline.json.gz
 
 Companion <prefix>.players.csv files supply the seat's hero identity.
 Use --strength top4 for a winners-only future shipped library; the default all
@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import hashlib
 import itertools
 import json
@@ -299,6 +300,15 @@ def build_library(captures, players, source, *, per_line=64, seed=91407, strengt
     }
 
 
+def write_library(path, data):
+    """Use deterministic standard gzip for .gz; retain JSON for diagnostic fixtures."""
+    raw = (canonical(data) + "\n").encode()
+    encoded = gzip.compress(raw, mtime=0) if path.suffix == ".gz" else raw
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(encoded)
+    return len(raw), len(encoded)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("captures", nargs="+", type=Path)
@@ -346,14 +356,13 @@ def main():
             count = result["source"]["coverage"].get(rotation, {}).get("top4", 0)
             if count < args.minimum_top4:
                 raise ValueError(f"source lobby {rotation!r} has only {count} top4 trajectories; capture more lobbies")
-        output = canonical(result) + "\n"
-        args.out.parent.mkdir(parents=True, exist_ok=True)
-        args.out.write_text(output)
+        raw_bytes, stored_bytes = write_library(args.out, result)
     except (ValueError, KeyError, OSError, subprocess.CalledProcessError) as error:
         parser.error(str(error))
     count = sum(len(entry["trajectories"]) for entry in result["lines"].values())
     print(
-        f"field_library: {len(result['lines'])} lines, {count} trajectories, {len(output.encode())} bytes -> {args.out}"
+        f"field_library: {len(result['lines'])} lines, {count} trajectories, "
+        f"{raw_bytes} JSON bytes, {stored_bytes} stored bytes -> {args.out}"
     )
 
 

@@ -109,10 +109,14 @@ func test_feature_off_hides_choice_and_ignores_a_saved_field_preference() -> voi
 	Settings.field_mode_enabled = false
 	Settings.opponents = "field"
 	var screen := SettingsScreen.new()
+	screen.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	screen.size = Vector2(1920, 1080)
 	add_child_autofree(screen)
+	screen.call("_layout")
 	assert_true(screen.opponent_buttons.is_empty())
-	var tray: Control = screen.get("_tray")
-	assert_false(tray.visible)
+	assert_null(screen.get("_tray"), "the cut tray has no hidden placeholder")
+	var sound: Control = screen.get("_sound")
+	assert_lte(screen.size.y - sound.get_rect().end.y, 150.0, "no reserved portrait-tray gap")
 	var port := CorePort.new()
 	port.setup()
 	assert_eq(port.new_game(5), "")

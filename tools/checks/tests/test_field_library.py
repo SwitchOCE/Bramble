@@ -2,6 +2,7 @@
 
 import copy
 import csv
+import gzip
 import json
 import tempfile
 import unittest
@@ -12,6 +13,21 @@ from tools.sim import field_library
 
 
 class FieldLibraryTests(unittest.TestCase):
+    def test_gzip_output_round_trips_and_is_deterministic(self):
+        data = {"lines": {"probe": [1, 2, 3]}, "text": "Héllo"}
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "library.json.gz"
+            raw_bytes, stored_bytes = field_library.write_library(path, data)
+            first = path.read_bytes()
+            self.assertEqual(json.loads(gzip.decompress(first)), data)
+            self.assertEqual(stored_bytes, len(first))
+            self.assertEqual(raw_bytes, len(gzip.decompress(first)))
+            field_library.write_library(path, data)
+            self.assertEqual(first, path.read_bytes())
+            plain = Path(directory) / "library.json"
+            field_library.write_library(plain, data)
+            self.assertEqual(plain.read_bytes(), gzip.decompress(first))
+
     def setUp(self):
         temporary = tempfile.TemporaryDirectory()
         self.addCleanup(temporary.cleanup)
