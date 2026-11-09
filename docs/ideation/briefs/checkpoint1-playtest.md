@@ -46,4 +46,8 @@ Keep it under 250 words, or put it in a file on your branch.
 - did snowballs feel common;
 - did the big numbers read on a phone-size screen?
 
+**Screen clutter** (owner, 9 Nov: the main screen is for a player who knows the rules, and teaching belongs in the tutorial):
+- what on screen would you turn off after your third game?
+- what did you need to see that wasn't there?
+
 **Verdict:** which variant flows better and why, and the single change that would most improve the one you prefer.

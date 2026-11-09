@@ -4,6 +4,21 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 9 Nov 2026 — The owner's declutter direction: review criteria changed now
+**The owner's words:** `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`. "The job of a tutorial is to tutorialize. Other than that, the player is assumed to know how to play the game when they're in the game environment." "Animations should, by player feel, capture how a game is and how it plays."
+**Picked (orchestrator):**
+1. **Done means 5 is rewritten.**
+   - Fights read through animation, not labels, arrows or a running log.
+   - The main game space carries no tutorial text, rule reminders or static pointers.
+   - A tutorial is added to the release list.
+2. **The checkpoint playtest brief** asks what a player would turn off after their third game.
+3. **Every UI reviewer and playtester brief** from now on carries the note, and judges each element by whether an experienced player needs it.
+4. **A declutter audit** runs as a workflow: five area auditors, an expert-player critic and a tutorial critic, then a synthesis. Its spec becomes a UI build step before checkpoint 1.
+5. **No new on-screen reminders.** The strong-field worker was told to add none. Wave 1's UI additions (away tray forecasts, Ring badges, slot labels) go through the same audit.
+
+**Why:** the owner judges that critics rewarded explanatory clutter. Their direction outranks earlier reviews, including mine, that asked for more on-screen explanation.
+**Source:** owner note 2026-11-09e.
+
 ### 9 Nov 2026 — Strong-field review: calls
 The review counted 19 keep, 2 cut, 1 simplify and 4 ask, plus six gaps (`evidence/review-strong-field.md`). It is not clear to merge until the cuts and gaps 1–3 are fixed.
 **Picked (orchestrator):**

@@ -1,4 +1,88 @@
-# Plan: the scale rework (v2, 9 Nov 2026)
+# Plan: the scale rework (v3, 9 Nov 2026 evening; v2 below for the record)
+
+## v3: what changed and why
+
+**The evidence.** Taken from the harness on today's pool (`ideation/harness`, `evidence/lever-sweep.md`). The figures below were checked by the orchestrator from the lobby CSVs.
+- **Caps off (both):** gives a tail. 11% of boards are at twice the median by R16, and the top 1% reach 8,000.
+  - The median stays linear: 133 at R12, 209 at R16.
+  - Winners finish at R19.
+  - Turning off either cap alone does nothing.
+- **Lever builds** (the synthetic engine at 25% and 50%):
+  - The median final board barely moves: 141–148, against 137 today.
+  - The lobby winner is at least 5× the runner-up in 26–42% of lobbies (0% today).
+  - Winners still finish at R19.
+
+  One synthetic card on a flat pool is a lottery, not an era. Bot lines also lose to Hard on both lever builds, so the sweep's engine reads would be lower bounds.
+- **Four adversarial critics** (fun, method, delivery, devil's advocate; `evidence/path-critics.json`) all chose the same path. The sweep and build 8a on today's pool would tune cards that never ship (amendment 12) and put playtesters on a pool that is about to be replaced. The median has to come from content, and wave 1 already exists and was built in about 2.5 hours.
+
+**Steps from here:**
+1. **Merge what is finished.**
+   - The harness, once its cuts are fixed.
+   - Wave 1 (Birds and Fairies), gated on the merged tree. Its only reason to wait was 8a.
+   - Strong-field mode, once its fixes pass a follow-up review.
+2. **Build wave 2 on Sol.**
+   - **Pool rules first, as one commit:** see-through, the one permanent-gain queue, and the general loop guards. The Start of Combat order is already in.
+   - **Then two branches:**
+     - W2a: Bog and Hunters.
+     - W2b: Oozes, the Hedgerow light pass and the neutrals. The neutrals: keep 9, change 4, add Shieldbug and Click Beetle, and retire the 38 prototype bodies last.
+   - One reviewed commit per tribe, each with its line JSON and Hard-bot fixes, so the bot doesn't sell its own engine.
+   - Every engine rate is a dial, with two presets:
+     - **A:** the September 2025 shape, typical about 500 at R12;
+     - **B:** steeper, typical about 900 at R12. Fairies and Oozes stay at their design size, and the other four are raised.
+3. **Meanwhile, three things in parallel:**
+   - **A wave 1 fun probe** on cloud machines: three reward-lens playtesters, Birds and Fairies games. Read moments, not win rates, because the four old tribes are flat. **Go/no-go:** if fewer than two of three name a moment they felt stronger (the card, the round, the size), hold the wave 2 merges and triage.
+   - **Designed setups** from the harness generator: carry against wide, distribution against totals, answers against carries, then wave 1 boards.
+   - **Offline damage and Health replay:** a shortlist of 2–3 tables in which winners finish by R14–16.
+4. **Measure the full pass 3 pool:**
+   - 150 or more line lobbies per preset, sharded to cloud machines;
+   - fields at R6–16;
+   - designed setups (Granny, the Whistlers, carries against answers);
+   - a splash audit;
+   - the damage table confirmed;
+   - a 200-game soak;
+   - the strong-field library recaptured on the full pool, from top-4 trajectories.
+
+   Then Done means 2 is rewritten onto the harness, with lobby spread as the sanity line.
+5. **Checkpoint 1, now on the full pass 3 pool.**
+   - Three or more reward-lens playtesters play both presets against the strong field.
+   - The build goes on the portal for the owner, on Windows and Android.
+   - The era is picked from play first, sims second.
+   - The owner hears plainly whether the scale problem is fixed.
+6. **Step 4 as written:** opponents, build 8, playtest round 6, and the remaining Done means evidence.
+
+**The guardrail band before the owner plays** (each preset). The bands are wide and fun comes first, so a miss is triaged, not an automatic fail:
+- **Growth and size:**
+  - The median grows ×1.3 or more a round from R8 to R14.
+  - Preset A's R12 median is 300–900.
+- **The tail:**
+  - 8–25% of R10–14 boards are at twice the median or more.
+  - The top 1% is at most 20× the median.
+- **Concentration:** the biggest unit holds 25–45% of its board.
+- **Snowballs and comebacks:**
+  - The R8 leader wins at most 35% of lobbies.
+  - A board below the median at R8 reaches the top 2 at least 12% of the time.
+  - The winner is 5× the runner-up in at most 10% of lobbies.
+- **Game length:** the median winner finishes by R14–16.
+- **Tribes:**
+  - Each tribe's best line is within 3× of the others in field win rate.
+  - No card is on more than half the winning boards.
+- **Fights and progress:**
+  - 15% or more of R10–14 field pairs are uncertain (20–80%).
+  - Tier-ups arrive at 1.0× the median unit or more.
+- **Opponents:** strong-field rivals are 0.7–1.5× the target. Otherwise snowball reports don't count.
+- **Play:** every tester names a moment they felt stronger, and fewer than a third of games feel decided by R9.
+
+**Cut from v2:**
+- the remaining protected sweep on today's pool;
+- build 8a on today's pool (kept only as a diagnostic, if both presets miss for unclear reasons);
+- checkpoint 2 as a separate step (the wave 1 probe covers its purpose);
+- line-against-Hard placements as tribe evidence.
+
+The rules for the whole rework (below) are unchanged.
+
+---
+
+# v2 (9 Nov 2026), kept for the record
 
 Why: `fundamentals.md`. The owner's words are in notes 2026-11-09a–d:
 - "our power budgeting across the board is very, very much too low" (9a)
