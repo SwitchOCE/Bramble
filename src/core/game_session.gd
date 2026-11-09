@@ -70,6 +70,8 @@ static func create(
 	session._library = library
 	session._config = config if config != null else GameConfig.defaults()
 	session._library = ScaleOverlay.library_for(library, session._config)
+	if session._library == null:
+		return null
 	if session._config.get_string("opponents") == "field":
 		session._field = FieldRivals.create(
 			session._config, library, session._draw_lobby_tribes(), prepared_field
@@ -232,6 +234,7 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		state["card_size_caps"] = false
 	if not human.card_rate_limits:
 		state["card_rate_limits"] = false
+	ReferenceQuilboar.add_view(human, state)
 	return state
 
 
@@ -254,26 +257,7 @@ static func _bands_view(player: PlayerState) -> Array:
 
 ## Each Pass waiting for End of Turn, and where it lands if nothing changes.
 static func _passes_view(player: PlayerState) -> Array:
-	var out: Array = []
-	for entry: Dictionary in player.pending_passes:
-		var start: int = BoardUpkeep.pass_start(player, entry)
-		var source: RecruitUnit = RecruitRules._unit_by_iid(player, CoreUtil.to_int(entry["iid"]))
-		(
-			out
-			. append(
-				{
-					"attack": entry["attack"],
-					"health": entry["health"],
-					"from_slot": start,
-					"landing_slot":
-					BoardGeometry.pass_landing(
-						player.occupied(),
-						start if source != null and source in player.board else -1
-					),
-				}
-			)
-		)
-	return out
+	return SessionViews.passes(player)
 
 
 func _phase_name() -> String:
@@ -315,6 +299,8 @@ func _pending_view(human: PlayerState) -> Variant:
 	if not human.is_choosing():
 		return null
 	var choice: Dictionary = human.pending[0]
+	if str(choice["kind"]) == "choose_one":
+		return QuilboarChoices.view(choice)
 	var options: Array = []
 	var ids: PackedStringArray = choice["options"]
 	for id: String in ids:
@@ -374,20 +360,7 @@ func _next_hero_view(player_id: int) -> Variant:
 
 
 static func _hero_card(hero: Dictionary) -> Dictionary:
-	var power: Dictionary = HeroRules.power_of(hero)
-	var view: Dictionary = {
-		"id": str(hero["id"]),
-		"name": str(hero["name"]),
-		"text": str(hero.get("text", "")),
-		"kind": str(power.get("kind", HeroRules.PASSIVE)),
-		"cost": CoreUtil.to_int(power.get("cost", 0)),
-		"uses_per_turn": HeroRules.uses_per_turn(hero),
-		"aim": str(power.get("aim", HandItem.AIM_NONE)),
-		"armor": CoreUtil.to_int(hero.get("armor", 0)),
-		"sample": CoreUtil.to_bool(hero.get("sample", false)),
-	}
-	UnitLibrary.add_configured_rulings(view, hero)
-	return view
+	return SessionViews.hero_card(hero)
 
 
 ## The build a bot seat is following now; "" for a seat with none. For the bench's report.
@@ -729,6 +702,8 @@ func _start_round() -> void:
 	for player: PlayerState in _living():
 		player.scout = _scout_of(_opponent_of(player.id))
 		if _field == null or player.id == HUMAN_ID:
+			if player.reference_quilboar:
+				player.owner_counters["reference_alive"] = _living().size()
 			_rules.start_phase(player, _round)
 
 
