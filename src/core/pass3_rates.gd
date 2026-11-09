@@ -82,7 +82,8 @@ static func restore_values(values: Dictionary) -> Dictionary:
 	var out: Dictionary = values.duplicate(true)
 	var exact: Variant = JSON.parse_string(str(values.get(EXACT_RATES, "null")))
 	if exact is Dictionary:
-		_restore_exact(out, exact)
+		var exact_map: Dictionary = exact
+		_restore_exact(out, exact_map)
 	return out
 
 
@@ -93,7 +94,9 @@ static func _restore_exact(current: Dictionary, exact: Dictionary) -> void:
 		var precise: Variant = exact[key]
 		var present: Variant = current[key]
 		if present is Dictionary and precise is Dictionary:
-			_restore_exact(present, precise)
+			var nested_current: Dictionary = present
+			var nested_exact: Dictionary = precise
+			_restore_exact(nested_current, nested_exact)
 		elif present == precise or present == JSON.parse_string(JSON.stringify(precise)):
 			# Explicit harness overrides differ from both captured and rounded captured values.
 			current[key] = precise
