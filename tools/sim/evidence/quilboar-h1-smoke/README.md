@@ -4,8 +4,8 @@ One distinct, excluded seed per arm; this is runtime and capture-integrity
 verification, with all usability verdicts withheld. Full captures include the real fight boundary and outcome; their bytes now
 live in gitignored `build/quilboar-h1-captures/quilboar-h1-smoke/`. Compact data
 stays in git and both full-capture hashes remain recorded. `progress.json` records hashes and runtimes;
-`summary.json.gz` is the canonical metrics format. The Markdown rendering is
-`docs/ideation/reference/quilboar/h1-smoke.md`.
+`summary.json.gz` preserves the original descriptive metrics.
+`docs/ideation/reference/quilboar/h1-smoke.md` now reports timing only.
 
 Scope runtime includes Godot startup, excludes lock waiting, and was 5.24 / 4.11 /
 3.56 / 4.85 seconds for B / C / uncut / frozen uncut. Mean: 4.44 seconds; weighting
