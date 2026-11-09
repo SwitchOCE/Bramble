@@ -98,11 +98,28 @@ Temporary bought/sold copies: pill_bug, garden_snail, young_brock, wee_wobbly.
 
 ## oozes_high
 
-Two Suppers. Eleven paid bodies: seven outer units and four held bodies. Soup grew from four recruit swallows on R3,R5,R6,R8. Aspic stood B1 for two EOTs with Soup F1 and Elder F2, feeding their inside Pill Bug and Posset +2/+2; final layout moves Aspic back toB1 unchanged. Dollop is empty inside Wobbly; no unsupported Dollop discount or Figgy copy is claimed. Pie is empty. Elder adds +1/+1 only on emergence, including Drips.
+Two Suppers. Eleven paid bodies: seven outer units and four held bodies. Soup grows from four recruit swallows: Pill Bug from the board on R3, Lodger into Bubble on R5, Dollop into Wobbly on R6, and Posset into Elder on R8. Gold carries between rounds. The constructed round ledger below banks 6 gold after R7, so R8 starts with 16: climb 9, refresh 1 to expose T5 stock, Elder 3, Posset 3. Aspic is bought R7 and kept in the front row that EOT, where it feeds nobody. On R8 and R9 it stands B1 with Soup F1 and Elder F2, feeding their inside Pill Bug and Posset +2/+2 total. Figgy and Pie are bought R9; the second paid refresh is also R9. Dollop is empty inside Wobbly; no unsupported Dollop discount, transfer or Figgy copy is claimed. Pie is empty. Elder adds +1/+1 only on emergence, including Drips.
 
 11 bought copies (33), upgrades (24), spells (6), 2 paid refreshes (2), less 0 bought-unit sale gold = 65 net gold spent. No discount, unspecified miss or discarded gold is charged as spend. Income receipts and the resulting bank are listed separately.
 
 Temporary bought/sold copies: none.
+
+Constructed purchase timing (assumed shop finds, not a captured action trace). Start-phase gold is the previous bank plus base income and the listed Early Spoils. No held-body transfer is used.
+
+| Round | Carry in | Base income | Spoils | Available | Paid actions | Spend | Bank |
+|---|---:|---:|---:|---:|---|---:|---:|
+| R1 | 0 | 3 | 0 | 3 | Buy Pill Bug (3). R1 win earns one Early Spoils for R2. | 3 | 0 |
+| R2 | 0 | 4 | 1 | 5 | Climb to T2 (4). R2 win earns one Early Spoils for R3. | 4 | 1 |
+| R3 | 1 | 5 | 1 | 7 | Buy Soup (3); swallow the existing Pill Bug into Soup from the board (free; gain 1). R3 win earns one Early Spoils for R4. | 3 | 4 |
+| R4 | 4 | 6 | 1 | 11 | Climb to T3 (5); carry the rest. Bubble waits for natural T3 stock on R5. | 5 | 6 |
+| R5 | 6 | 7 | 0 | 13 | Buy Bubble, Lodger and Wobbly (9); swallow Lodger into Bubble (free; Soup gain 2). | 9 | 4 |
+| R6 | 4 | 8 | 0 | 12 | Climb to T4 (6); buy Dollop (3) and swallow it into Wobbly (free; Soup gain 3). | 9 | 3 |
+| R7 | 3 | 9 | 0 | 12 | Buy Aspic (3) and first Supper (3); keep Aspic in the front row for EOT so it feeds nobody. | 6 | 6 |
+| R8 | 6 | 10 | 0 | 16 | Climb to T5 (9); refresh (1); buy Elder and Posset (6); swallow Posset into Elder (free; Soup gain 4). Move Aspic to B1, Soup F1, Elder F2; Aspic feeds both held bodies at EOT. | 16 | 0 |
+| R9 | 0 | 10 | 0 | 10 | Buy Figgy and Pie (6), second Supper (3), refresh (1). Aspic feeds the same held bodies at EOT. No new swallow. | 10 | 0 |
+
+The first paid refresh follows the R8 T5 climb, making Elder stock available. Both R8 purchases fit the refreshed shop; the remaining R9 units and Supper fit natural R9 stock. The second paid refresh is R9. Both refreshes cost 1. Aspic applies exactly two feeding EOTs, R8 and R9.
+
 
 | Location | Unit | Printed | Other stat receipts | Effective |
 |---|---|---:|---|---:|

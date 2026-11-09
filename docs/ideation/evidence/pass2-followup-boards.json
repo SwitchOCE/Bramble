@@ -1036,7 +1036,7 @@
           "health": 6
         }
       },
-      "assumptions": "Two Suppers. Eleven paid bodies: seven outer units and four held bodies. Soup grew from four recruit swallows on R3,R5,R6,R8. Aspic stood B1 for two EOTs with Soup F1 and Elder F2, feeding their inside Pill Bug and Posset +2/+2; final layout moves Aspic back toB1 unchanged. Dollop is empty inside Wobbly; no unsupported Dollop discount or Figgy copy is claimed. Pie is empty. Elder adds +1/+1 only on emergence, including Drips.",
+      "assumptions": "Two Suppers. Eleven paid bodies: seven outer units and four held bodies. Soup grows from four recruit swallows: Pill Bug from the board on R3, Lodger into Bubble on R5, Dollop into Wobbly on R6, and Posset into Elder on R8. Gold carries between rounds. The constructed round ledger below banks 6 gold after R7, so R8 starts with 16: climb 9, refresh 1 to expose T5 stock, Elder 3, Posset 3. Aspic is bought R7 and kept in the front row that EOT, where it feeds nobody. On R8 and R9 it stands B1 with Soup F1 and Elder F2, feeding their inside Pill Bug and Posset +2/+2 total. Figgy and Pie are bought R9; the second paid refresh is also R9. Dollop is empty inside Wobbly; no unsupported Dollop discount, transfer or Figgy copy is claimed. Pie is empty. Elder adds +1/+1 only on emergence, including Drips.",
       "economy": "11 bought copies (33), upgrades (24), spells (6), 2 paid refreshes (2), less 0 bought-unit sale gold = 65 net gold spent. No discount, unspecified miss or discarded gold is charged as spend. Income receipts and the resulting bank are listed separately.",
       "tribe_bonuses": {
         "Oozes": 2
@@ -1313,7 +1313,99 @@
           ]
         ]
       },
-      "pinch_targets": {}
+      "pinch_targets": {},
+      "constructed_recruit_history": [
+        {
+          "round": 1,
+          "carry_in": 0,
+          "base_income": 3,
+          "spoils_income": 0,
+          "gold_available": 3,
+          "paid_actions": "Buy Pill Bug (3). R1 win earns one Early Spoils for R2.",
+          "gold_spent": 3,
+          "bank_after_recruit": 0
+        },
+        {
+          "round": 2,
+          "carry_in": 0,
+          "base_income": 4,
+          "spoils_income": 1,
+          "gold_available": 5,
+          "paid_actions": "Climb to T2 (4). R2 win earns one Early Spoils for R3.",
+          "gold_spent": 4,
+          "bank_after_recruit": 1
+        },
+        {
+          "round": 3,
+          "carry_in": 1,
+          "base_income": 5,
+          "spoils_income": 1,
+          "gold_available": 7,
+          "paid_actions": "Buy Soup (3); swallow the existing Pill Bug into Soup from the board (free; gain 1). R3 win earns one Early Spoils for R4.",
+          "gold_spent": 3,
+          "bank_after_recruit": 4
+        },
+        {
+          "round": 4,
+          "carry_in": 4,
+          "base_income": 6,
+          "spoils_income": 1,
+          "gold_available": 11,
+          "paid_actions": "Climb to T3 (5); carry the rest. Bubble waits for natural T3 stock on R5.",
+          "gold_spent": 5,
+          "bank_after_recruit": 6
+        },
+        {
+          "round": 5,
+          "carry_in": 6,
+          "base_income": 7,
+          "spoils_income": 0,
+          "gold_available": 13,
+          "paid_actions": "Buy Bubble, Lodger and Wobbly (9); swallow Lodger into Bubble (free; Soup gain 2).",
+          "gold_spent": 9,
+          "bank_after_recruit": 4
+        },
+        {
+          "round": 6,
+          "carry_in": 4,
+          "base_income": 8,
+          "spoils_income": 0,
+          "gold_available": 12,
+          "paid_actions": "Climb to T4 (6); buy Dollop (3) and swallow it into Wobbly (free; Soup gain 3).",
+          "gold_spent": 9,
+          "bank_after_recruit": 3
+        },
+        {
+          "round": 7,
+          "carry_in": 3,
+          "base_income": 9,
+          "spoils_income": 0,
+          "gold_available": 12,
+          "paid_actions": "Buy Aspic (3) and first Supper (3); keep Aspic in the front row for EOT so it feeds nobody.",
+          "gold_spent": 6,
+          "bank_after_recruit": 6
+        },
+        {
+          "round": 8,
+          "carry_in": 6,
+          "base_income": 10,
+          "spoils_income": 0,
+          "gold_available": 16,
+          "paid_actions": "Climb to T5 (9); refresh (1); buy Elder and Posset (6); swallow Posset into Elder (free; Soup gain 4). Move Aspic to B1, Soup F1, Elder F2; Aspic feeds both held bodies at EOT.",
+          "gold_spent": 16,
+          "bank_after_recruit": 0
+        },
+        {
+          "round": 9,
+          "carry_in": 0,
+          "base_income": 10,
+          "spoils_income": 0,
+          "gold_available": 10,
+          "paid_actions": "Buy Figgy and Pie (6), second Supper (3), refresh (1). Aspic feeds the same held bodies at EOT. No new swallow.",
+          "gold_spent": 10,
+          "bank_after_recruit": 0
+        }
+      ]
     },
     {
       "id": "oozes_low",
