@@ -1,0 +1,338 @@
+{
+  "candidate": "tribal_mixture",
+  "ci95": [
+    -0.7981131173424488,
+    -0.35813688265755117
+  ],
+  "incumbent": "hard_field",
+  "independent_seeds": 80,
+  "lobbies": 160,
+  "mean_place_gain": -0.578125,
+  "outcome_rates": {
+    "boundary_note": "empirical bootstrap intervals can collapse at zero/one; not proof of a zero/one population rate",
+    "lines": {
+      "hard_field": {
+        "first_place": {
+          "ci95": [
+            0.121875,
+            0.1578125
+          ],
+          "n": 640,
+          "rate": 0.1390625,
+          "seed_clusters": 80
+        },
+        "seats": 640,
+        "side": "incumbent",
+        "top_four": {
+          "ci95": [
+            0.5140625,
+            0.5609375
+          ],
+          "n": 640,
+          "rate": 0.5375,
+          "seed_clusters": 80
+        }
+      },
+      "line_birds_engine": {
+        "first_place": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n": 36,
+          "rate": 0.0,
+          "seed_clusters": 32
+        },
+        "seats": 36,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.02857142857142857,
+            0.2647058823529412
+          ],
+          "n": 36,
+          "rate": 0.1388888888888889,
+          "seed_clusters": 32
+        }
+      },
+      "line_birds_tempo": {
+        "first_place": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n": 48,
+          "rate": 0.0,
+          "seed_clusters": 40
+        },
+        "seats": 48,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.17777777777777778,
+            0.41304347826086957
+          ],
+          "n": 48,
+          "rate": 0.2916666666666667,
+          "seed_clusters": 40
+        }
+      },
+      "line_bog_engine": {
+        "first_place": {
+          "ci95": [
+            0.027777777777777776,
+            0.2222222222222222
+          ],
+          "n": 35,
+          "rate": 0.11428571428571428,
+          "seed_clusters": 32
+        },
+        "seats": 35,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.2571428571428571,
+            0.59375
+          ],
+          "n": 35,
+          "rate": 0.42857142857142855,
+          "seed_clusters": 32
+        }
+      },
+      "line_bog_tempo": {
+        "first_place": {
+          "ci95": [
+            0.14634146341463414,
+            0.4
+          ],
+          "n": 41,
+          "rate": 0.2682926829268293,
+          "seed_clusters": 39
+        },
+        "seats": 41,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.38095238095238093,
+            0.6889285714285712
+          ],
+          "n": 41,
+          "rate": 0.5365853658536586,
+          "seed_clusters": 39
+        }
+      },
+      "line_fairies_engine": {
+        "first_place": {
+          "ci95": [
+            0.0,
+            0.15555555555555556
+          ],
+          "n": 41,
+          "rate": 0.07317073170731707,
+          "seed_clusters": 36
+        },
+        "seats": 41,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.2894590643274854,
+            0.594610682110682
+          ],
+          "n": 41,
+          "rate": 0.43902439024390244,
+          "seed_clusters": 36
+        }
+      },
+      "line_fairies_tempo": {
+        "first_place": {
+          "ci95": [
+            0.017543859649122806,
+            0.14550670640834545
+          ],
+          "n": 55,
+          "rate": 0.07272727272727272,
+          "seed_clusters": 47
+        },
+        "seats": 55,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.3269230769230769,
+            0.5818181818181818
+          ],
+          "n": 55,
+          "rate": 0.45454545454545453,
+          "seed_clusters": 47
+        }
+      },
+      "line_fast": {
+        "first_place": {
+          "ci95": [
+            0.057126715092816784,
+            0.15029685214847827
+          ],
+          "n": 178,
+          "rate": 0.10112359550561797,
+          "seed_clusters": 80
+        },
+        "seats": 178,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.49450396825396825,
+            0.6207049581718016
+          ],
+          "n": 178,
+          "rate": 0.5561797752808989,
+          "seed_clusters": 80
+        }
+      },
+      "line_hedgerow_engine": {
+        "first_place": {
+          "ci95": [
+            0.09090909090909091,
+            0.45
+          ],
+          "n": 20,
+          "rate": 0.25,
+          "seed_clusters": 17
+        },
+        "seats": 20,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.38095238095238093,
+            0.8333333333333334
+          ],
+          "n": 20,
+          "rate": 0.6,
+          "seed_clusters": 17
+        }
+      },
+      "line_hedgerow_tempo": {
+        "first_place": {
+          "ci95": [
+            0.2580414746543779,
+            0.6071428571428571
+          ],
+          "n": 30,
+          "rate": 0.43333333333333335,
+          "seed_clusters": 27
+        },
+        "seats": 30,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.5333333333333333,
+            0.8571428571428571
+          ],
+          "n": 30,
+          "rate": 0.7,
+          "seed_clusters": 27
+        }
+      },
+      "line_hunters_engine": {
+        "first_place": {
+          "ci95": [
+            0.02857142857142857,
+            0.2571428571428571
+          ],
+          "n": 36,
+          "rate": 0.1388888888888889,
+          "seed_clusters": 34
+        },
+        "seats": 36,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.2,
+            0.47368421052631576
+          ],
+          "n": 36,
+          "rate": 0.3333333333333333,
+          "seed_clusters": 34
+        }
+      },
+      "line_hunters_tempo": {
+        "first_place": {
+          "ci95": [
+            0.022222222222222223,
+            0.20408163265306123
+          ],
+          "n": 47,
+          "rate": 0.10638297872340426,
+          "seed_clusters": 42
+        },
+        "seats": 47,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.46808510638297873,
+            0.7608695652173914
+          ],
+          "n": 47,
+          "rate": 0.6170212765957447,
+          "seed_clusters": 42
+        }
+      },
+      "line_oozes_engine": {
+        "first_place": {
+          "ci95": [
+            0.0,
+            0.09090909090909091
+          ],
+          "n": 33,
+          "rate": 0.030303030303030304,
+          "seed_clusters": 29
+        },
+        "seats": 33,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.15625,
+            0.4446236559139775
+          ],
+          "n": 33,
+          "rate": 0.30303030303030304,
+          "seed_clusters": 29
+        }
+      },
+      "line_oozes_tempo": {
+        "first_place": {
+          "ci95": [
+            0.0,
+            0.1282051282051282
+          ],
+          "n": 40,
+          "rate": 0.05,
+          "seed_clusters": 36
+        },
+        "seats": 40,
+        "side": "candidate",
+        "top_four": {
+          "ci95": [
+            0.21621621621621623,
+            0.5
+          ],
+          "n": 40,
+          "rate": 0.35,
+          "seed_clusters": 36
+        }
+      }
+    },
+    "method": "observed seat rates; 2000 fixed bootstrap draws of whole independent seeds, both legs together",
+    "scope": "descriptive line breakdown, not additional superiority tests or matched shop comparisons"
+  },
+  "passes": false,
+  "plan_validated": true,
+  "seed_range": [
+    151001,
+    151080
+  ],
+  "seed_sd": 0.9885369495536883,
+  "shop_comparisons": "unpaired; two seat-swapped legs clustered by seed",
+  "wins": {
+    "candidate": 71,
+    "incumbent": 89
+  }
+}
