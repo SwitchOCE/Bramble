@@ -157,7 +157,7 @@ cannot be described as a simulated 2.1B/2.1B carry.
 - [Actual clamp-boundary cases](designed-boundary.md)
 - [Frozen plan and source/input hashes](../../../tools/sim/evidence/designed-first-plan.json)
 - [Run counts, runtimes and result/archive hashes](../../../tools/sim/evidence/designed-first-progress.json)
-- [Complete factorial pair results](../../../tools/sim/evidence/designed-screen-result.json)
+- [Complete factorial pair results](../../../tools/sim/evidence/designed-screen-result.json.gz)
 
 Trials are archived as deterministic gzip JSONL, preserving each paired seed and
 orientation counts. No observed outcome changed the declared setups or sample.

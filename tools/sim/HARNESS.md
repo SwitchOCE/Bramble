@@ -560,3 +560,32 @@ Per `docs/ideation/DECISIONS.md`, **“Harness follow-up 2: calls”** on local
 This is a descriptive concentration comparison, not a checkpoint-1 pass/fail bar.
 The first 192,000-fight field did not predeclare a gameplay bar and does not pass
 or fail one retrospectively. No v3 run is made by recording this definition.
+
+
+## Follow-up 2 integration and evidence maintenance
+
+The merged wave-1 library is audited per shared native ability: all 16 Bird and
+16 Fairy abilities are classified in `evidence/wave1-upset-audit.json`.
+UpsetCombat retains its whole-library audit because summons, copies and stolen
+text can reach definitions outside the starting board. Current friendly-largest,
+positional-enemy and all-enemy effects are preserved; none of the audited wave-1
+abilities selects the largest enemy. Unknown native IDs and unknown or missing
+wave-1 ability names remain unsupported. This is a masking-integrity check, not
+a checkpoint-1 gameplay criterion.
+
+`field_fights.gd` now also accepts `per_seed` as its fourth argument. The default
+aggregate mode keeps its original seed formula and output; per-seed mode keeps
+the former designed driver's exact seeds and paired-orientation rows.
+`designed_fights.gd` is removed. No new v3 concentration run is implied.
+
+Large historical data is stored in `evidence/caps-screen-results.json.gz`,
+`evidence/designed-screen-input.json.gz` and
+`evidence/designed-screen-result.json.gz`. The original `.json` paths are small
+archive pointers with compressed and original-data hashes. `evidence_io.read_json`
+and `json_sha` read plain JSON, gzip JSON or a verified pointer; the latter hashes
+the original uncompressed bytes. Frozen input/field checksums remain unchanged.
+
+The formerly one-off real-null, baseline-curvature and lever-qualification
+analyses are committed in `evidence/drivers/rebuild_followup_evidence.py`; exact
+commands and data requirements are in that directory's README. Rebuilding those
+artifacts is offline and preserves historical data and interpretation labels.
