@@ -41,7 +41,7 @@ def write_csv(path, header, rows):
         writer.writerows(rows)
 
 
-def render(metrics, field, plan, progress, replay, players, evidence):
+def render(metrics, field, plan, progress, replay, tails, players, evidence):
     assert progress["completed_lobbies"] == plan["lobbies"] == 500
     assert progress["completed_field_fights"] == plan["field_fights"] == 193536
     assert len(players) == 4000
@@ -73,13 +73,27 @@ def render(metrics, field, plan, progress, replay, players, evidence):
         "## Does today's pool show the flat shape?\n",
     ]
     fit = f"R6-16 median stats have linear R²={flat['linear_r2']:.4f}, slope {flat['slope']:.3f} stats/round"
-    tail = f"{flat['two_x_boards']} boards at or above twice their round's pooled median"
+    shape_n = sum(d["stats"]["n"] for r, d in rounds.items() if 6 <= int(r) <= 16)
+    assert tails["board_round_observations"] == shape_n and tails["tail_count"] == flat["two_x_boards"]
+    tail = (
+        f"{flat['two_x_boards']} of {shape_n:,} board-round snapshots "
+        f"({percent(flat['two_x_boards'] / shape_n)}) at or above twice their round's pooled median"
+    )
     if flat["matches_historical_flat_shape"]:
         lines.append(
             f"Yes, in this fixed scripted field. {fit}, with {tail}. The predeclared historical "
             "check (R² ≥ 0.95 and zero 2x boards) passes. Growth remains close to a straight "
             "line rather than producing a compounding upper tail. This describes these lines "
             "on today's pool; it does not establish the ceiling of expert human play.\n"
+        )
+    elif flat["linear_r2"] >= 0.95:
+        lines.append(
+            f"Today's pool still shows the flat median growth shape: {fit}. There are {tail}. "
+            "Thus the literal historical claim of zero 2x boards fails at this larger sample, "
+            "while typical growth remains close to a straight line. These exceptions do not "
+            "establish a common compounding engine, and their rarity is not a balance failure. "
+            "Board-round observations include repeated seats across rounds. This describes the "
+            "fixed scripts on today's pool, not the ceiling of expert human play.\n"
         )
     else:
         lines.append(
@@ -91,6 +105,12 @@ def render(metrics, field, plan, progress, replay, players, evidence):
         )
     lines.extend(
         [
+            f"The {tails['tail_count']} tail snapshots belong to {tails['unique_seats']} seats in "
+            f"{tails['unique_lobbies']} of 500 lobbies ({percent(tails['unique_lobbies'] / 500)}); "
+            f"the largest ratio is {max((r['ratio'] for r in tails['rows']), default=0):.3f}x. "
+            "Every tail reconciles to at most seven active bodies; reserves are excluded. "
+            "The [tail audit](harness-baseline/tails.json) retains their identities and unit stats. "
+            "The 64-board fields can miss such rare boards; tail counts use the full lobby sample.\n",
             "## Board size and spread\n",
             "Attack + Health after initial auras, before opponent-dependent Start of Combat effects. "
             "Eggs are active bodies; held, away, hand and doorstep bodies are reserves. "
@@ -223,6 +243,10 @@ def render(metrics, field, plan, progress, replay, players, evidence):
     )
     uncertainty = outcomes["field_uncertainty_r10_14"]
     lines.append(
+        "Compare the plan's 14-16 round target with this measured game length; "
+        "this is the baseline damage configuration, not a tuned replacement.\n"
+    )
+    lines.append(
         f"Rounds 10-14: {uncertainty['pairs']} unordered field pairs. Winner probability "
         "is conditional on a decisive fight; all-draw pairs are excluded from uncertain winners "
         "but remain in the denominator. Each pair has 16 trials.\n"
@@ -343,6 +367,7 @@ def render(metrics, field, plan, progress, replay, players, evidence):
     )
     evidence.mkdir(parents=True, exist_ok=True)
     (evidence / "metrics.json").write_text(json.dumps(metrics, indent=2) + "\n")
+    (evidence / "tails.json").write_text(json.dumps(tails, indent=2) + "\n")
     write_csv(evidence / "metrics.csv", ["metric", "value"], flatten(metrics))
     write_csv(
         evidence / "boards.csv",
@@ -373,7 +398,7 @@ def render(metrics, field, plan, progress, replay, players, evidence):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ("metrics", "field", "plan", "progress", "replay"):
+    for name in ("metrics", "field", "plan", "progress", "replay", "tails"):
         parser.add_argument("--" + name, type=Path, required=True)
     parser.add_argument("--players", type=Path, nargs="+", required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -384,7 +409,10 @@ def main():
             players.extend(csv.DictReader(stream))
     args.out.write_text(
         render(
-            *[json.loads(getattr(args, key).read_text()) for key in ("metrics", "field", "plan", "progress", "replay")],
+            *[
+                json.loads(getattr(args, key).read_text())
+                for key in ("metrics", "field", "plan", "progress", "replay", "tails")
+            ],
             players,
             args.out.with_suffix(""),
         )
