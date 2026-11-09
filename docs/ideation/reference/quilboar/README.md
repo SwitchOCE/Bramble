@@ -4,6 +4,7 @@ The owner asked for this in notes 2026-11-09f and 09g: a Battlegrounds tribe por
 
 | File | What |
 |---|---|
+| `h1.md` | H1 lobbies, the single cycle-fix rerun, paper accounting and fidelity |
 | `phase1.md` | Phase 1 implementation, isolation, scope limits and passing gate |
 | `quilboar-port.md` | The final paper spec: trivariate analysis, cards, dials by preset, engine support, line policies, paper curve, A/B plan |
 | `model/` | The paper model and its drivers (python, no Godot) |
