@@ -30,6 +30,9 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 		var counting: bool = goal > 0 and unit.turns_in_slot > 0 and unit.turns_in_slot < goal
 		if goal > 0 and unit.pays_again():
 			counting = true
+		# Native sleep clocks use their wake phase; the legacy fields only describe the UI pips.
+		if unit.has_mechanic_id("pass3_hedgerow"):
+			counting = false
 		if (
 			BotHedgerow.clock_pinned(player, unit)
 			or counting

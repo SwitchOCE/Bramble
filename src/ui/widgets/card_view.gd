@@ -123,6 +123,8 @@ var mode: Mode = Mode.SHOP
 var selected: bool = false:
 	set(value):
 		selected = value
+		if _hedge_marks != null:
+			_hedge_marks.show_state(unit, selected)
 		queue_redraw()
 ## A ring round the tile: the drop-target moss, an attacker's acorn or a target's red.
 var outline: Color = Color.TRANSPARENT:
@@ -493,7 +495,7 @@ func _refresh() -> void:
 	_refresh_pending()
 	_place_turns()
 	_hedge_marks.size = _art.size
-	_hedge_marks.show_state(unit)
+	_hedge_marks.show_state(unit, selected)
 	_ooze_marks.size = _art.size
 	_ooze_marks.show_state(unit)
 	if _frost_tag != null:

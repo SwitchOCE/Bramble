@@ -164,7 +164,11 @@ func test_all_hedgerow_rates_are_registered_and_match_exact_paper_b_and_c() -> v
 		for key: String in expected:
 			assert_true(config._values.has(key), key + " nullable sweep dial")
 			assert_null(config.get_value(key))
-			assert_eq(Pass3Rates.value(config, key), expected[key], preset + " " + key)
+			assert_eq(
+				FightCapture.canonical(Pass3Rates.value(config, key)),
+				FightCapture.canonical(expected[key]),
+				preset + " " + key
+			)
 
 
 func test_golden_dozey_wake_is_independent_from_food_and_normal_wake() -> void:
@@ -238,7 +242,8 @@ func test_c_wakes_and_mallow_targets_and_rate_overlay_remain_distinct() -> void:
 
 func test_legacy_definitions_are_not_configured_without_a_native_marker() -> void:
 	var old: Dictionary = _raw("mrs_burdock")
-	old["mechanics"].pop_back()
+	var old_mechanics: Array = old["mechanics"]
+	old_mechanics.pop_back()
 	old["text"] = "Legacy face."
 	config.set_value("hedgerow_burdock_kits", 3)
 	Pass3HedgerowText.configure(old, config)
@@ -270,3 +275,13 @@ func test_larder_value_override_changes_actual_items_gold_and_reminders() -> voi
 	Pass3Text.configure(legacy, config)
 	assert_eq(CoreUtil.to_int(legacy["gold_value"]), 16, "disabled pass 3 preserves legacy gold")
 	assert_eq(CoreUtil.to_int(legacy["do"]["amount"]), 16)
+
+
+func test_archived_rates_without_larder_dial_leave_the_old_items_untouched() -> void:
+	var frozen := preload("res://tests/core/field_frozen_content.gd").new()
+	frozen.setup("res://tests/fixtures/field/content-0946909.json")
+	var acorn: Dictionary = frozen.library.get_card("acorn").duplicate(true)
+	var original: Dictionary = acorn.duplicate(true)
+	assert_false(Pass3HedgerowText.configure_larder_item(acorn, GameConfig.full_game()))
+	assert_eq(acorn, original)
+	frozen.restore()

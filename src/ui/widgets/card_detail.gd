@@ -401,6 +401,24 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 					]
 				)
 			)
+	if view.has("hedgerow_preview"):
+		var preview: Vector2i = view["hedgerow_preview"]
+		var timing: String = (
+			"Start of Turn" if Data.s(view, "def_id") == "squire_lollop" else "End of Turn"
+		)
+		lines.append(
+			(
+				"[b]Next %s share: +%s/+%s per recipient.[/b]"
+				% [timing, StatNumbers.exact(preview.x), StatNumbers.exact(preview.y)]
+			)
+		)
+	if Data.b(view, "hedgerow_clock"):
+		lines.append(
+			(
+				"[b]Sleep: %d/%d turns in this slot.[/b] Moving this restarts the wait."
+				% [Data.i(view, "turns_in_slot"), Data.i(view, "turns_goal")]
+			)
+		)
 	var state: String = state_bbcode(view)
 	var digest: Vector2i = view.get("ooze_digest_preview", Vector2i.ZERO)
 	if digest != Vector2i.ZERO:

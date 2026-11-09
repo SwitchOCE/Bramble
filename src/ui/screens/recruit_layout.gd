@@ -264,6 +264,8 @@ func _layout_hero(right_edge: float) -> void:
 
 
 func _layout_hand(x: float) -> void:
+	var larder: int = Data.i(state, "larder")
+	_hand_title.text = "Hand ·%dg" % larder if larder > 0 else "Hand"
 	var count: int = Data.a(state, "hand").size()
 	var away: bool = not RecruitHeld.sky_card(state).is_empty()
 	var bottom: float = 905.0 if count <= 1 else 1000.0
@@ -274,9 +276,9 @@ func _layout_hand(x: float) -> void:
 	_hand_panel.position = Vector2.ZERO
 	_hand_panel.size = _hand_zone.size
 	_hand_title.position = Vector2(30, 8)
-	_hand_title.size = Vector2(150, 50)
-	_hand_count.position = Vector2(170, 12)
-	_hand_count.size = Vector2(HAND_W - 200.0, 44)
+	_hand_title.size = Vector2(HAND_W - 150.0, 50)
+	_hand_count.position = Vector2(HAND_W - 120.0, 12)
+	_hand_count.size = Vector2(90, 44)
 	_hand_hint.position = Vector2(24, 90)
 	_hand_hint.size = Vector2(HAND_W - 48.0, 200)
 	var card_w: float = _hand_card_size(count).x

@@ -189,3 +189,109 @@ in `part1-fixes/targeted-final.log` and `targeted-final.json`. Content validatio
 Hasty and Soup's reader text and rulebook now state the corrected current-stat
 and Shy rules; normal/golden Details tests also prevent Elder's missing space.
 No local full gate was run.
+
+## Part 2: Hedgerow implementation checkpoint
+
+The sixteen pass 3 Hedgerow cards replace their same-ID live definitions. The
+separate 38-body retirement remains part 4. Frozen Hedgerow definitions are kept
+in `tests/core/data/pass2_hedgerow_units.json`; old-rule fixtures select them
+explicitly, retaining current content for other tribes.
+
+`Pass3HedgerowText` generates faces and parameters from the selected preset.
+`Pass3Hedgerow` owns recruit clocks, late wakes, source snapshots and gains;
+`Pass3HedgeCombat` owns the Hunker aura, summon sharing and positional throws.
+All sixteen audit entries are explicit; none selects the biggest enemy.
+B/C values are the paper values; no other tribe's dials changed.
+
+| Dial | B | C |
+| --- | --- | --- |
+| `hedgerow_beadle_pass` | 2 | 2 |
+| `hedgerow_burdock_kits` | 1 | 1 |
+| `hedgerow_clover_share` | 1.0 | 1.0 |
+| `hedgerow_committee_share` | 0.25 | 0.25 |
+| `hedgerow_crumb_pass` | 1 | 1 |
+| `hedgerow_crumb_sell_share` | 1.0 | 1.0 |
+| `hedgerow_dozey_food_per_gold` | 2.0 | 2.0 |
+| `hedgerow_dozey_period` | 3 | 3 |
+| `hedgerow_dozey_wake_multiplier` | 2.0 | 3.0 |
+| `hedgerow_golden_dozey_wake_multiplier` | 2.0 | 3.0 |
+| `hedgerow_hayward_per_gold` | 1.0 | 1.0 |
+| `hedgerow_larder_gold` | [1, 5, 16] | [1, 5, 16] |
+| `hedgerow_lollop_share` | 0.1 | 0.1 |
+| `hedgerow_mallow_multiplier` | 2.0 | 3.0 |
+| `hedgerow_mallow_targets` | 2 | 2 |
+| `hedgerow_mast_cap` | 5 | 5 |
+| `hedgerow_mast_gold_step` | 5 | 5 |
+| `hedgerow_partner_acorns` | 2 | 2 |
+| `hedgerow_partner_period` | 3 | 3 |
+| `hedgerow_pym_pass` | 3 | 3 |
+| `hedgerow_sergeant_share_per_gold` | 0.1 | 0.1 |
+| `hedgerow_sergeant_throws` | 1 | 1 |
+| `hedgerow_sorrel_summons` | 1 | 1 |
+| `hedgerow_treasurer_per_gold` | 1.0 | 2.0 |
+| `hedgerow_urchin_bristle` | 2 | 2 |
+| `hedgerow_urchin_hunker_targets` | 1 | 1 |
+
+Readings and limits:
+
+- A wake includes standing tribe stats once, but not slot/fight auras; its new
+  permanent increment survives moves. Golden wake strength is its own dial,
+  not a second application of the ordinary multiplier.
+- Dozey wakes after ordinary End of Turn effects and queued Passes. Repeated
+  wake/Partner clocks and Mallow multiplications are guarded; other ordinary
+  End of Turn growth remains eligible for legitimate extra triggers.
+- Source sharing is a reusable native snapshot helper: Clover reads its current
+  source, Committee freezes its runt, and all Lollops freeze the global biggest
+  before any Lollop growth. Biggest ties use reading order; smallest ties zigzag.
+- Hayward's bonus starts with ownership, including later purchases and held
+  units, rather than appearing as an aura on unowned shop offers. It is separate
+  from Harvest Supper and has no cap.
+- Mast retains only its named rate guard; caps-off removes it. Its payout can
+  combine into larger Larder items immediately, counted as actual item events.
+- Larder item values are an actual three-element dial, rewriting gold paid and
+  reminders. Captures whose frozen rates predate it keep their original items.
+- UI reuses the hand header and reader; clock pips, selected-clock reset outline,
+  runt circle and live Hunker shield add no static explanatory labels.
+- The strict line JSON supplies Supper and Parish. Treasury remains an ordinary
+  strategy, cashing out on R13. Engine pieces are protected through the existing
+  replacement check, including the full-board purchase path. Supper holds food
+  until a wake; Parish cashes and grows its floor. Clock placement respects
+  real wake timing, with a deliberate move only in the free post-wake turn.
+- Paper low rolls remove the keystone: Dozey for Supper, Mallow for Parish. These
+  are paper policies, not unsupported keys in bot line JSON.
+- Trigger/condition audit: repeatable wake and Partner clocks continue at T6;
+  Mallow/Committee/Treasurer act every End of Turn, Lollop/Mast every Start of
+  Turn, and Hayward/Pym/Beadle require actual item events. No tier-up-only trap.
+- Early flexibility: Burdock/Sorrel provide bodies and summons without commitment;
+  Crumb's Pass can feed another tribe; Partner can make food counting itself;
+  Pym can use generic Larder acquisition. Clover's text needs Hedgerow summons
+  and is weak alone outside that package; no redesign was made.
+
+Validation and 32-lobby growth/accounting are still pending at this checkpoint.
+The first integrated run found strict helper typing, JSON-number comparisons,
+duplicate no-op markers, a native clock pinned by the old placer, and a frozen
+Larder-dial boundary; each is being checked with fixed-board cases.
+
+Native fixed-board checkpoint: **70/70 tests across six new scripts, 38.707s**,
+strict hook clean. Per-file counts and times are in `evidence/wave2b/hedgerow/new-tests.json`.
+- `tests/core/test_bot_hedgerow.gd`: 12 tests, 8.511643s.
+- `tests/core/test_pass3_hedge_recruit.gd`: 18 tests, 10.763168s.
+- `tests/core/test_pass3_hedge_shares.gd`: 3 tests, 4.76699s.
+- `tests/core/test_pass3_hedge_content.gd`: 9 tests, 0.102257s.
+- `tests/core/test_pass3_hedge_combat.gd`: 24 tests, 13.568589s.
+- `tests/ui/test_pass3_hedge_ui.gd`: 4 tests, 0.3941s.
+
+The broader changed-file/content-wide compatibility run and two-lobby timing
+probe are detached and sequential in `build/wave2b/hedgerow/run-final-pilot.sh`.
+No 32-lobby acceptance result is claimed yet.
+
+Part 2 compatibility follow-up (still WIP): the 35-file run exposed native
+Parish's unconditional cash policy reaching archived Hedgerow strategies. The
+central native-build check now also requires native Hedgerow content in BotEval's
+library. A directed old-content/no-cash case and the original complete-game hash
+check are running detached in `build/wave2b/hedgerow/run-rollback.sh`, with output
+`rollback.log` and completion code `rollback.exit`. The failed broad run was
+stopped; its chained pilot did not start. The broader 35-file run, the two timed
+lobbies and the 32-lobby measurements therefore remain open. No fixture has been
+re-recorded or weakened. The native 70/70 checkpoint predates this final guard;
+the bot script now has one additional boundary test awaiting its run.

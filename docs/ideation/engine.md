@@ -491,3 +491,12 @@ percentage application, and carry total active `percent` even on a flat applicat
 The combat model, log, slot badges and recruit slips preserve the distinction and
 show both components for mixed Hex. Shield has an explicit status tag and linked
 reminder; playback removes the tag when the status is spent.
+
+### Pass 3 Hedgerow dispatch
+
+`pass3_hedgerow` dispatches the sixteen native Hedgerow abilities, with resolved
+rate parameters. Printed and borrowed instances compete by strength per dispatch.
+Recruit support shares explicit source-stat snapshots, resolves Passes before a
+late Dozey wake, tracks repeatable slot clocks, and keeps Hayward's standing
+bonus separate from Harvest Supper. Combat support recalculates Urchin's Hunker
+aura and spends actual Larder ammunition across Sergeant's separate throws.

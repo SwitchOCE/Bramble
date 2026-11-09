@@ -327,11 +327,15 @@ func test_hedgerow_native_audit_preserves_all_sixteen_and_rejects_unknown_abilit
 		for entry: Dictionary in card.get("mechanics", []):
 			if str(entry.get("id", "")) != "pass3_hedgerow":
 				continue
-			var name: String = str(entry["ability"])
-			observed[name] = true
-			assert_true(UpsetCombat.AUDITED_HEDGEROW.has(name), name)
-			assert_false(UpsetCombat.AUDITED_HEDGEROW[name], name)
-			assert_eq(masked.get_unit(str(card["id"]))["mechanics"], card["mechanics"], name)
+			var ability_name: String = str(entry["ability"])
+			observed[ability_name] = true
+			assert_true(UpsetCombat.AUDITED_HEDGEROW.has(ability_name), ability_name)
+			assert_false(UpsetCombat.AUDITED_HEDGEROW[ability_name], ability_name)
+			var expected: Array = card["mechanics"].duplicate(true)
+			for effect: Dictionary in expected:
+				if str(effect.get("id", "")) == "effect":
+					effect["do"] = MechanicRegistry.steps_of(effect)
+			assert_eq(masked.get_unit(str(card["id"]))["mechanics"], expected, ability_name)
 	assert_eq(observed.size(), 16)
 	var changed: Dictionary = kit.library.get_unit("dr_urchin").duplicate(true)
 	changed["mechanics"].append({"id": "pass3_hedgerow", "ability": "future_hedge", "factor": 1})

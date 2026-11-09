@@ -176,7 +176,7 @@ func test_golden_pym_and_beadle_double_pass_values() -> void:
 	assert_eq(last.perm_attack, 18)
 
 
-func test_hayward_cash_and_feed_create_uncapped_bonus_on_future_shop_and_held_units() -> void:
+func test_hayward_cash_and_feed_create_uncapped_bonus_on_future_owned_and_held_units() -> void:
 	for golden: bool in [false, true]:
 		kit.player.board.fill(null)
 		kit.player.items.clear()
@@ -188,8 +188,14 @@ func test_hayward_cash_and_feed_create_uncapped_bonus_on_future_shop_and_held_un
 		kit.rules.give_card(kit.player, "great_hoard")
 		kit.rules.play_item(kit.player, 0, 6)
 		var fresh: RecruitUnit = kit.shop("mr_crumb")
-		kit.rules.observe_shop(kit.player)
+		assert_eq(fresh.tribe_attack, 0, "standing bonuses begin with ownership")
+		assert_eq(kit.rules.buy(kit.player, 0), "")
 		assert_eq(fresh.tribe_attack, 42 if golden else 21)
+		var holder: RecruitUnit = kit.put("little_dollop", 5)
+		kit.player.hand.erase(fresh)
+		holder.held.append(fresh)
+		kit.rules.board_changed(kit.player)
+		assert_eq(fresh.tribe_attack, 42 if golden else 21, "owned Belly contents keep the bonus")
 		assert_eq(kit.player.harvest_supper_round, -1)
 
 

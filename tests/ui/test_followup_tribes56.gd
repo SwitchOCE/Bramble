@@ -21,7 +21,7 @@ const TAGS: Dictionary = {
 	"tiddy_mun": "Hit growth",
 	"moss_ooze": "Comes out",
 }
-var _library: UnitLibrary = LegacyBog.library(false)
+var _library: UnitLibrary = LegacyWave1.with_hedgerow(LegacyBog.library(false))
 var _combat: Combat
 
 

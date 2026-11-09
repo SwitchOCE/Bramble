@@ -13,7 +13,12 @@ const PARISH_ENGINES: Array[String] = [
 
 static func build(value: BotEval) -> bool:
 	var tribes: Dictionary = value.strategy.get("tribes", {})
-	return value.level.reads_text and BotEval._number(tribes.get(TRIBE, 0)) > 0.0
+	return (
+		value.level.reads_text
+		and value.library != null
+		and Pass3HedgerowText.is_native(value.library.get_unit("mr_crumb"))
+		and BotEval._number(tribes.get(TRIBE, 0)) > 0.0
+	)
 
 
 static func active(player: PlayerState) -> bool:

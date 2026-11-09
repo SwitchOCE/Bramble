@@ -143,7 +143,8 @@ func _build_hand() -> void:
 	_stage.add_child(_hand_zone)
 	_hand_panel = WoodPanel.new(WoodPanel.Kind.OAK)
 	_hand_zone.add_child(_hand_panel)
-	_hand_title = UiTheme.head("Hand", UiTheme.FONT_BODY + 2)
+	_hand_title = UiTheme.head("Hand", UiTheme.FONT_SMALL)
+	_hand_title.tooltip_text = "Larder: the gold held in your Acorns, Stashes and Great Hoards."
 	_hand_zone.add_child(_hand_title)
 	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
 	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT

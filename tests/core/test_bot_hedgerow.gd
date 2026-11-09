@@ -3,7 +3,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
-var kit: RefCounted
+var kit: KIT
 
 
 func before_each() -> void:
@@ -95,9 +95,11 @@ func test_placement_preserves_sleep_then_moves_a_large_carry_after_a_wake() -> v
 	assert_null(kit.player.board[3], "F4 stays open for Pass and Hunker")
 	assert_eq(carry.turns_in_slot, 2)
 	assert_eq(partner.turns_in_slot, 5)
+	carry.turns_in_slot = 3
 	carry.counters["hedgerow_last_wake_round"] = kit.player.round_number - 1
 	BotPlacer.arrange(kit.player, kit.rules, brain.value, BotLevel.PLACE_BLIND, 0)
 	assert_same(kit.player.board[3], carry, "the free post-wake turn closes the Line")
+	assert_eq(carry.turns_in_slot, 0, "the actual move starts his next sleep in F4")
 	assert_same(kit.player.board[4], partner)
 	assert_eq(partner.turns_in_slot, 5, "Partner was never a swap destination")
 
@@ -162,9 +164,17 @@ func test_pinned_strategy_keeps_early_tempo_flexibility() -> void:
 
 func test_ordinary_native_routes_climb_for_their_actual_engines() -> void:
 	var knowledge: BotKnowledge = BotKnowledge.shared()
-	assert_eq(knowledge.strategy("hedgerow_parish")["curve"], [2, 4, 6, 8, 10])
-	assert_eq(knowledge.strategy("hedgerow_supper")["curve"], [2, 4, 7, 10, 12])
-	assert_eq(knowledge.strategy("hedgerow_treasury")["curve"], [2, 4, 7, 10, 12])
+	var expected: Dictionary = {
+		"hedgerow_parish": [2, 4, 6, 8, 10],
+		"hedgerow_supper": [2, 4, 7, 10, 12],
+		"hedgerow_treasury": [2, 4, 7, 10, 12],
+	}
+	for id: String in expected:
+		var curve: Array[int] = []
+		for round_number: Variant in knowledge.strategy(id)["curve"]:
+			curve.append(CoreUtil.to_int(round_number))
+		assert_eq(curve, expected[id], id)
+
 	assert_eq(LinePolicies.profiles()["line_hedgerow_supper"]["base_strategy"], "hedgerow_supper")
 
 
@@ -219,3 +229,16 @@ func test_parish_sparse_board_keeps_a_single_unbroken_line() -> void:
 	assert_eq(
 		BoardGeometry.touching(occupied, start).size(), 4, "the sparse Parish shares every payout"
 	)
+
+
+func test_native_cash_policy_does_not_run_on_frozen_hedgerow() -> void:
+	kit = KIT.new()
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
+	kit.player.round_number = 9
+	var brain: BotBrain = _brain("hedgerow_parish")
+	kit.rules.give_card(kit.player, "stash")
+	var gold: int = kit.player.gold
+	assert_false(BotHedgerow.build(brain.value))
+	brain._cast_spells(false)
+	assert_eq(kit.player.larder(), 5, "native Parish cashing must not reach the rollback")
+	assert_eq(kit.player.gold, gold)

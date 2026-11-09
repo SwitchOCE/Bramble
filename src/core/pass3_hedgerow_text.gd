@@ -76,7 +76,7 @@ const DETAILS: Dictionary = {
 	"goodman_hayward":
 	(
 		"Cashing or feeding a Larder item both count. Uncapped standing tribe bonus"
-		+ " applies to Hedgerow folk now and later, including shop units. Units "
+		+ " applies to Hedgerow folk now and later, including units bought later. Units "
 		+ "summoned in fights do not get it."
 	),
 	"standing_committee":
@@ -361,7 +361,13 @@ static func configure_larder_item(card: Dictionary, config: GameConfig) -> bool:
 	var index: int = ids.find(str(card.get("id", "")))
 	if index < 0 or not config.get_bool("pass3_content"):
 		return false
-	var values: Array = Pass3Rates.value(config, "hedgerow_larder_gold")
+	var resolved: Variant = Pass3Rates.value(config, "hedgerow_larder_gold")
+	# Archived captures can predate this dial; leave their item definitions untouched.
+	if not resolved is Array:
+		return false
+	var values: Array = resolved
+	if values.size() != 3:
+		return false
 	var amount: int = CoreUtil.to_int(values[index])
 	card["gold_value"] = amount
 	var effect: Dictionary = card.get("do", {})
