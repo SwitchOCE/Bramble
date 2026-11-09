@@ -20,5 +20,7 @@
     }
   },
   "passes": true,
-  "both_arms_exact_refight": true
+  "both_arms_exact_refight": true,
+  "scope": "Real 1/1 null/reference exact equality and re-fight control only; current dominance gate is real-null-dominance-result.json",
+  "current_dominance_result": "tools/sim/evidence/real-null-dominance-result.json"
 }

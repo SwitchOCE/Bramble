@@ -19,14 +19,19 @@
       "id": "effect",
       "trigger": "on_play",
       "name": "chiffchaff",
-      "target": {
-        "select": "self"
-      },
       "do": {
         "effect": "buff",
         "attack": 1,
         "health": 1
+      },
+      "target": {
+        "select": "self"
       }
+    },
+    {
+      "id": "pass3_bird",
+      "ability": "chiffchaff",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -38,7 +43,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Keeps its growth while away."
+  "details": "Played this turn, this sells normally. A homecoming doubles permanent stats, then returns this to hand.",
+  "mechanic_text": {
+    "2": {
+      "id": "pass3_bird",
+      "text": "When played: gain +1/+1.",
+      "golden_text": "When played: gain +2/+2."
+    }
+  }
 }

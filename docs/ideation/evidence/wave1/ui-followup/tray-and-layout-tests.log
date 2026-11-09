@@ -1,0 +1,42 @@
+Running as unit: run-p4016480-i12404694.scope; invocation ID: b39de2d1360e4b0f8ec8434b5d71c450
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/opt/godot-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/ui/test_pass3_ui.gd
+[0m* test_all_wave1_cards_keep_readable_phone_rules_or_a_tap_target
+* test_lump_drag_reads_the_full_away_bird_and_the_configured_share
+* test_ring_count_zero_one_egg_and_homecoming_preview_are_visible
+* test_ring_spell_preview_uses_owner_size_without_a_cap_and_eggs_filter_targets
+* test_ring_size_and_midsummer_fit_beside_supper_at_the_phone_minimum
+* test_fetch_copy_displays_the_current_silenced_text_and_keeps_its_body
+* test_away_tray_shows_now_and_landing_without_covering_recruit_actions
+* test_many_away_birds_scroll_with_a_full_hand_and_clear_when_they_land
+* test_crowded_pc_shop_keeps_long_names_on_whole_word_lines
+* test_end_turn_subtitle_clears_the_leaf_rim_with_and_without_phone_reader
+[1m10/10 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                10
+Passing Tests        10
+Asserts             244
+Time              2.152s
+
+
+Ran Scripts matching "test_pass3_ui.gd"
+[32m---- All tests passed! ----
+[0m

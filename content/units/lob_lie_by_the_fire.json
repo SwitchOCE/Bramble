@@ -3,50 +3,44 @@
   "name": "Lob-Lie-by-the-Fire",
   "set": "slice",
   "tier": 3,
-  "attack": 2,
-  "health": 3,
+  "attack": 3,
+  "health": 6,
   "tribes": [
     "Fairies"
   ],
-  "text": "Shy. End of Turn: give the units beside this +1 Attack.",
-  "golden_text": "Shy pays 4 gold. End of Turn: give the units beside this +2 Attack.",
+  "text": "Shy. When this leaves: your Rings grow +1/+1 per 3 turns it stayed.",
+  "golden_text": "Shy. When this leaves: your Rings grow +2/+2 per 3 turns it stayed.",
   "mechanics": [
     {
       "id": "shy",
       "gold": 2
     },
     {
-      "id": "effect",
-      "trigger": "end_of_turn",
-      "name": "lob",
-      "do": {
-        "effect": "buff",
-        "attack": 1,
-        "target": {
-          "select": "adjacent"
-        }
-      }
+      "id": "pass3_fairy",
+      "ability": "lob",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Shy"
+    "Shy",
+    "Ring size"
   ],
   "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
-  "details": "Beside means adjacent in the same row.",
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
+  "details": "Shy pays 2 gold; only thanking with an aimed spell counts. Counts End of Turns on your board; moving does not reset the count.",
+  "golden_details": "Shy pays 4 gold. Only thanking counts; each complete 3 turns gives +2/+2 Ring size.",
   "mechanic_text": {
     "1": {
-      "id": "effect",
-      "text": "End of Turn: give the units beside this +1 Attack.",
-      "golden_text": "End of Turn: give the units beside this +2 Attack.",
-      "trigger": "end_of_turn"
+      "id": "pass3_fairy",
+      "text": "When this leaves: your Rings grow +1/+1 per 3 turns it stayed.",
+      "golden_text": "When this leaves: your Rings grow +2/+2 per 3 turns it stayed."
     }
   }
 }

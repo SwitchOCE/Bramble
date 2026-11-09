@@ -54,7 +54,7 @@ func test_plain_mag_pye_takes_only_across_before_any_row_swap() -> void:
 		assert_lt(FIGHT.index_of(result, "text_taken"), FIGHT.index_of(result, "relocate"))
 
 
-func test_golden_mag_pye_takes_across_and_next_slot() -> void:
+func test_golden_mag_pye_takes_across_and_first_occupied_next_to() -> void:
 	var kit: KIT = KIT.new()
 	kit.setup(GameConfig.full_game())
 	kit.put("mag_pye", 1, true)
@@ -64,7 +64,7 @@ func test_golden_mag_pye_takes_across_and_next_slot() -> void:
 	var thefts: Array[Dictionary] = KIT.of_type(result, "text_taken")
 	var opposing: Array = result["events"][0]["boards"][1]
 	assert_eq(thefts.size(), 2, "two firings are the printed golden behavior")
-	assert_eq([thefts[0]["from"], thefts[1]["from"]], [opposing[1]["uid"], opposing[2]["uid"]])
+	assert_eq([thefts[0]["from"], thefts[1]["from"]], [opposing[1]["uid"], opposing[0]["uid"]])
 
 
 func test_row_swap_logs_a_slot_and_side_changes_keep_ownership() -> void:

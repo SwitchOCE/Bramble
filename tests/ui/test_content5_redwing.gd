@@ -7,7 +7,7 @@ const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 
 func test_supported_egg_preview_matches_combat_and_changes_when_redwing_flies() -> void:
 	var kit: KIT = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	kit.rules.start_phase(kit.player, 1)
 	var bird: RecruitUnit = kit.put("mrs_jay", 0)
 	bird.attack = 7

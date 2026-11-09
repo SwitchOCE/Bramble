@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "execution_ledger": "tools/sim/evidence/scale-run-execution.json",
+  "archive_policy": "Exact original bytes; historical programs, not migrated to current helper APIs.",
+  "drivers": [
+    {
+      "original_path": "/tmp/bramble-caps-checkpoint.py",
+      "archive_path": "tools/sim/evidence/drivers/bramble-caps-checkpoint.py",
+      "sha256": "df7743b92bc403b310b4b75317e62afd7eecfb8560e280c8a24c9b8258f25ace",
+      "bytes": 3144,
+      "matches_execution_ledger": true
+    },
+    {
+      "original_path": "/tmp/bramble-caps-gates-supervisor.py",
+      "archive_path": "tools/sim/evidence/drivers/bramble-caps-gates-supervisor.py",
+      "sha256": "34ac5622bda90a9b4c48d14e53363d7614362868f316b997973849443afd8872",
+      "bytes": 2681,
+      "matches_execution_ledger": true
+    },
+    {
+      "original_path": "/tmp/bramble-lever-head-checkpoint.py",
+      "archive_path": "tools/sim/evidence/drivers/bramble-lever-head-checkpoint.py",
+      "sha256": "718c708b1a1f0822047c5b8dfa0ba94c30f24e4e129e4a090c4f1c8075360c3d",
+      "bytes": 5587,
+      "matches_execution_ledger": true
+    }
+  ]
+}

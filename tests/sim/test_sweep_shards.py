@@ -331,7 +331,8 @@ class SweepShardTests(unittest.TestCase):
         self.assertFalse((self.root.parent / "stopped").exists())
 
     def test_command_has_bounded_serial_fresh_import_and_pinned_toolchain(self):
-        command = godot_command("bench.gd", ["games=50", "out=a path"], 420, self.root)
+        hostile = "/tmp/with spaces/$(touch SHOULD_NOT_EXIST);literal.json"
+        command = godot_command("bench.gd", ["games=50", "out=a path", "config=" + hostile], 420, self.root)
         self.assertIn("/tmp/bramble-harness-godot.lock", command)
         self.assertIn("MemoryMax=3G", command)
         self.assertIn("systemd-run", command)
@@ -341,6 +342,7 @@ class SweepShardTests(unittest.TestCase):
         self.assertIn("4.7.2.*", shell)
         self.assertLess(shell.index("--import"), shell.index("res://tools/sim/bench.gd"))
         self.assertIn("'out=a path'", shell)
+        self.assertIn("config=" + hostile, shlex.split(shell))
 
     def test_one_command_archives_validated_outputs_and_removes_temporary_csv(self):
         spec = self.manifest["shards"][0]

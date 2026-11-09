@@ -1,0 +1,192 @@
+{
+  "round": 1,
+  "opponent_id": 5,
+  "winner": 0,
+  "damage": 1,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "little_nip",
+            "name": "Little Nip",
+            "tier": 1,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 2,
+            "health": 3,
+            "max_health": 3,
+            "golden": false,
+            "text": "Quarry. Take: gain +1/+1 permanently.",
+            "keywords": [
+              "Quarry"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ]
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "wick",
+            "name": "Wick",
+            "tier": 1,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 2,
+            "health": 3,
+            "max_health": 3,
+            "golden": false,
+            "text": "Pack. After this joins an attack: gain +1 Attack.",
+            "keywords": [
+              "Pack"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Pack",
+                "text": "When a unit beside this attacks, this joins in, using up its own attack."
+              }
+            ]
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "first_side": 1,
+      "player_ids": [
+        0,
+        5
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "phase",
+      "name": "bell"
+    },
+    {
+      "seq": 3,
+      "type": "side_trigger",
+      "side": 0,
+      "mechanic": "hermitage"
+    },
+    {
+      "seq": 4,
+      "type": "stats",
+      "target": 1,
+      "attack_delta": 1,
+      "health_delta": 1,
+      "attack": 3,
+      "health": 4,
+      "max_health": 4,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 5,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 6,
+      "type": "attack",
+      "side": 1,
+      "attacker": 2,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 7,
+      "type": "damage",
+      "source": 2,
+      "target": 1,
+      "amount": 2,
+      "raw": 2,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 2
+    },
+    {
+      "seq": 8,
+      "type": "damage",
+      "source": 1,
+      "target": 2,
+      "amount": 3,
+      "raw": 3,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 0
+    },
+    {
+      "seq": 9,
+      "type": "death",
+      "uid": 2,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "type": "early_spoils",
+      "side": 0,
+      "amount": 1
+    },
+    {
+      "seq": 10,
+      "type": "combat_end",
+      "winner": 0,
+      "reason": "board_empty",
+      "survivors": [
+        [
+          1
+        ],
+        []
+      ],
+      "damage": 1,
+      "damage_uncapped": 1,
+      "damage_base": 0,
+      "damage_performance": 1,
+      "damage_mode": "v05",
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": "",
+      "last_stand_sides": [],
+      "alive": 8,
+      "damage_cap": 0
+    }
+  ]
+}

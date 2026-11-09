@@ -21,5 +21,8 @@
     "exact_refight": 4.903
   },
   "exact_refight_count": 469,
-  "field_fights": 1984
+  "field_fights": 1984,
+  "historical_only": true,
+  "superseded_by": "tools/sim/evidence/real-null-dominance-result.json",
+  "valid_current_known_answer": false
 }

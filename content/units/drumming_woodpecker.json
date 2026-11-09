@@ -24,7 +24,7 @@
     "Peck"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 10,
   "skeleton": false,
   "source": {

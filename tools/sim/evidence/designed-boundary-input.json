@@ -1,0 +1,1024 @@
+{
+  "version": 1,
+  "boards": [
+    {
+      "id": "r15:boundary-even-plain",
+      "round": 15,
+      "line": "boundary-even-plain",
+      "layout": "blind",
+      "board": [
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 500000000,
+          "health": 500000000,
+          "iid": 1,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 500000000,
+          "health": 500000000,
+          "iid": 2,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 500000000,
+          "health": 500000000,
+          "iid": 3,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        null,
+        null,
+        null,
+        null
+      ],
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "fight_rules": {
+        "larder": 0,
+        "goose": 0,
+        "homecomings": 0,
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ammo": [],
+        "nests": [],
+        "away_birds": []
+      },
+      "hero_effects": [],
+      "tier": 6,
+      "config": {
+        "ask_for_kin": false,
+        "attack_limit": 200,
+        "base_damage_by_turn": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          2,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13
+        ],
+        "bots": [],
+        "card_rate_limits": false,
+        "card_size_caps": false,
+        "damage_cap_by_turn": [
+          4,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "damage_cap_off_at_alive": 4,
+        "damage_mode": "v05",
+        "discover_options": 3,
+        "early_spoils": true,
+        "freeze_toggles_per_turn": 5,
+        "hand_limit": 10,
+        "hero_choice": true,
+        "hero_damage_floor": 4,
+        "heroes_offered": 3,
+        "human_bot": "",
+        "income_by_turn": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "last_blow": true,
+        "last_stand": true,
+        "lobby_tribe_min_units": 4,
+        "max_rounds": 50,
+        "opening_rounds": 2,
+        "opening_spells": [
+          "rainy_day",
+          "a_leg_up"
+        ],
+        "players": 8,
+        "pool_copies_by_tier": [
+          15,
+          15,
+          13,
+          13,
+          11,
+          9
+        ],
+        "pool_filter": "slice",
+        "refresh_base_cost": 1,
+        "refresh_first_step_after": 15,
+        "refresh_step_length": 5,
+        "round_toll": false,
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_engine_flat": 0,
+        "scale_engine_percent": 25,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "Hedgerow folk",
+        "scale_hero_spell_percent": 10,
+        "scale_hero_spell_stats": false,
+        "scale_levers": [
+          "scale_defender",
+          "scale_cleaver",
+          "scale_biggest_answer",
+          "scale_answer"
+        ],
+        "sell_bought": 1,
+        "sell_created": 0,
+        "shop_spells_by_tier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "shop_tier_odds": [
+          [
+            100
+          ],
+          [
+            50,
+            50
+          ],
+          [
+            20,
+            30,
+            50
+          ],
+          [
+            10,
+            15,
+            25,
+            50
+          ],
+          [
+            5,
+            10,
+            15,
+            25,
+            45
+          ],
+          [
+            5,
+            5,
+            10,
+            15,
+            25,
+            40
+          ]
+        ],
+        "shop_units_by_tier": [
+          4,
+          4,
+          4,
+          5,
+          5,
+          6
+        ],
+        "spell_copies_by_tier": [
+          5,
+          7,
+          9,
+          11,
+          9,
+          7
+        ],
+        "spells_in_shop": true,
+        "starting_health": 40,
+        "survivor_damage_divisor": 2,
+        "tribes_per_lobby": 5,
+        "trigger_limit_action": 1000,
+        "trigger_limit_combat": 10000,
+        "unit_cost": 3,
+        "upgrade_costs": [
+          5,
+          7,
+          8,
+          11,
+          13
+        ],
+        "upgrade_discount_per_turn": 1
+      },
+      "design": {
+        "scale": "boundary",
+        "distribution": "even",
+        "target_total": 3000000000,
+        "realized_total": 3000000000,
+        "bodies": 3,
+        "keywords": [],
+        "answer": "none",
+        "answer_percent": null,
+        "answer_stats_included": 0,
+        "keyword_bodies": 0,
+        "clamped": [],
+        "stat_definition": "sum of Attack + Health before Start of Combat",
+        "layout_rule": "stat holders first, 1/1 supports next, answer last; no scouting or search"
+      }
+    },
+    {
+      "id": "r15:boundary-even-answer",
+      "round": 15,
+      "line": "boundary-even-answer",
+      "layout": "blind",
+      "board": [
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 500000000,
+          "health": 500000000,
+          "iid": 1,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 500000000,
+          "health": 500000000,
+          "iid": 2,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 500000000,
+          "health": 500000000,
+          "iid": 3,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        {
+          "def_id": "scale_biggest_answer",
+          "golden": false,
+          "attack": 3,
+          "health": 3,
+          "iid": 4,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        null,
+        null,
+        null
+      ],
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "fight_rules": {
+        "larder": 0,
+        "goose": 0,
+        "homecomings": 0,
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ammo": [],
+        "nests": [],
+        "away_birds": []
+      },
+      "hero_effects": [],
+      "tier": 6,
+      "config": {
+        "ask_for_kin": false,
+        "attack_limit": 200,
+        "base_damage_by_turn": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          2,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13
+        ],
+        "bots": [],
+        "card_rate_limits": false,
+        "card_size_caps": false,
+        "damage_cap_by_turn": [
+          4,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "damage_cap_off_at_alive": 4,
+        "damage_mode": "v05",
+        "discover_options": 3,
+        "early_spoils": true,
+        "freeze_toggles_per_turn": 5,
+        "hand_limit": 10,
+        "hero_choice": true,
+        "hero_damage_floor": 4,
+        "heroes_offered": 3,
+        "human_bot": "",
+        "income_by_turn": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "last_blow": true,
+        "last_stand": true,
+        "lobby_tribe_min_units": 4,
+        "max_rounds": 50,
+        "opening_rounds": 2,
+        "opening_spells": [
+          "rainy_day",
+          "a_leg_up"
+        ],
+        "players": 8,
+        "pool_copies_by_tier": [
+          15,
+          15,
+          13,
+          13,
+          11,
+          9
+        ],
+        "pool_filter": "slice",
+        "refresh_base_cost": 1,
+        "refresh_first_step_after": 15,
+        "refresh_step_length": 5,
+        "round_toll": false,
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_engine_flat": 0,
+        "scale_engine_percent": 25,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "Hedgerow folk",
+        "scale_hero_spell_percent": 10,
+        "scale_hero_spell_stats": false,
+        "scale_levers": [
+          "scale_defender",
+          "scale_cleaver",
+          "scale_biggest_answer",
+          "scale_answer"
+        ],
+        "sell_bought": 1,
+        "sell_created": 0,
+        "shop_spells_by_tier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "shop_tier_odds": [
+          [
+            100
+          ],
+          [
+            50,
+            50
+          ],
+          [
+            20,
+            30,
+            50
+          ],
+          [
+            10,
+            15,
+            25,
+            50
+          ],
+          [
+            5,
+            10,
+            15,
+            25,
+            45
+          ],
+          [
+            5,
+            5,
+            10,
+            15,
+            25,
+            40
+          ]
+        ],
+        "shop_units_by_tier": [
+          4,
+          4,
+          4,
+          5,
+          5,
+          6
+        ],
+        "spell_copies_by_tier": [
+          5,
+          7,
+          9,
+          11,
+          9,
+          7
+        ],
+        "spells_in_shop": true,
+        "starting_health": 40,
+        "survivor_damage_divisor": 2,
+        "tribes_per_lobby": 5,
+        "trigger_limit_action": 1000,
+        "trigger_limit_combat": 10000,
+        "unit_cost": 3,
+        "upgrade_costs": [
+          5,
+          7,
+          8,
+          11,
+          13
+        ],
+        "upgrade_discount_per_turn": 1
+      },
+      "design": {
+        "scale": "boundary",
+        "distribution": "even",
+        "target_total": 3000000006,
+        "realized_total": 3000000006,
+        "bodies": 4,
+        "keywords": [],
+        "answer": "biggest",
+        "answer_percent": 50,
+        "answer_stats_included": 6,
+        "keyword_bodies": 0,
+        "clamped": [],
+        "stat_definition": "sum of Attack + Health before Start of Combat",
+        "layout_rule": "stat holders first, 1/1 supports next, answer last; no scouting or search"
+      }
+    },
+    {
+      "id": "r15:boundary-carry-plain",
+      "round": 15,
+      "line": "boundary-carry-plain",
+      "layout": "blind",
+      "board": [
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 1000000000,
+          "health": 1000000000,
+          "iid": 1,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "fight_rules": {
+        "larder": 0,
+        "goose": 0,
+        "homecomings": 0,
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ammo": [],
+        "nests": [],
+        "away_birds": []
+      },
+      "hero_effects": [],
+      "tier": 6,
+      "config": {
+        "ask_for_kin": false,
+        "attack_limit": 200,
+        "base_damage_by_turn": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          2,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13
+        ],
+        "bots": [],
+        "card_rate_limits": false,
+        "card_size_caps": false,
+        "damage_cap_by_turn": [
+          4,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "damage_cap_off_at_alive": 4,
+        "damage_mode": "v05",
+        "discover_options": 3,
+        "early_spoils": true,
+        "freeze_toggles_per_turn": 5,
+        "hand_limit": 10,
+        "hero_choice": true,
+        "hero_damage_floor": 4,
+        "heroes_offered": 3,
+        "human_bot": "",
+        "income_by_turn": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "last_blow": true,
+        "last_stand": true,
+        "lobby_tribe_min_units": 4,
+        "max_rounds": 50,
+        "opening_rounds": 2,
+        "opening_spells": [
+          "rainy_day",
+          "a_leg_up"
+        ],
+        "players": 8,
+        "pool_copies_by_tier": [
+          15,
+          15,
+          13,
+          13,
+          11,
+          9
+        ],
+        "pool_filter": "slice",
+        "refresh_base_cost": 1,
+        "refresh_first_step_after": 15,
+        "refresh_step_length": 5,
+        "round_toll": false,
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_engine_flat": 0,
+        "scale_engine_percent": 25,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "Hedgerow folk",
+        "scale_hero_spell_percent": 10,
+        "scale_hero_spell_stats": false,
+        "scale_levers": [
+          "scale_defender",
+          "scale_cleaver",
+          "scale_biggest_answer",
+          "scale_answer"
+        ],
+        "sell_bought": 1,
+        "sell_created": 0,
+        "shop_spells_by_tier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "shop_tier_odds": [
+          [
+            100
+          ],
+          [
+            50,
+            50
+          ],
+          [
+            20,
+            30,
+            50
+          ],
+          [
+            10,
+            15,
+            25,
+            50
+          ],
+          [
+            5,
+            10,
+            15,
+            25,
+            45
+          ],
+          [
+            5,
+            5,
+            10,
+            15,
+            25,
+            40
+          ]
+        ],
+        "shop_units_by_tier": [
+          4,
+          4,
+          4,
+          5,
+          5,
+          6
+        ],
+        "spell_copies_by_tier": [
+          5,
+          7,
+          9,
+          11,
+          9,
+          7
+        ],
+        "spells_in_shop": true,
+        "starting_health": 40,
+        "survivor_damage_divisor": 2,
+        "tribes_per_lobby": 5,
+        "trigger_limit_action": 1000,
+        "trigger_limit_combat": 10000,
+        "unit_cost": 3,
+        "upgrade_costs": [
+          5,
+          7,
+          8,
+          11,
+          13
+        ],
+        "upgrade_discount_per_turn": 1
+      },
+      "design": {
+        "scale": "boundary",
+        "distribution": "carry",
+        "target_total": 4200000000,
+        "realized_total": 2000000000,
+        "bodies": 1,
+        "keywords": [],
+        "answer": "none",
+        "answer_percent": null,
+        "answer_stats_included": 0,
+        "keyword_bodies": 0,
+        "clamped": [
+          {
+            "slot": 0,
+            "requested_attack": 2100000000,
+            "requested_health": 2100000000
+          }
+        ],
+        "stat_definition": "sum of Attack + Health before Start of Combat",
+        "layout_rule": "stat holders first, 1/1 supports next, answer last; no scouting or search"
+      }
+    },
+    {
+      "id": "r15:boundary-carry-answer",
+      "round": 15,
+      "line": "boundary-carry-answer",
+      "layout": "blind",
+      "board": [
+        {
+          "def_id": "mouse",
+          "golden": false,
+          "attack": 1000000000,
+          "health": 1000000000,
+          "iid": 1,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        {
+          "def_id": "scale_biggest_answer",
+          "golden": false,
+          "attack": 3,
+          "health": 3,
+          "iid": 2,
+          "tribe_attack": 0,
+          "tribe_health": 0,
+          "grants": []
+        },
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "slots": [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "fight_rules": {
+        "larder": 0,
+        "goose": 0,
+        "homecomings": 0,
+        "back_row_first": false,
+        "bands": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "ammo": [],
+        "nests": [],
+        "away_birds": []
+      },
+      "hero_effects": [],
+      "tier": 6,
+      "config": {
+        "ask_for_kin": false,
+        "attack_limit": 200,
+        "base_damage_by_turn": [
+          0,
+          0,
+          0,
+          1,
+          1,
+          2,
+          2,
+          3,
+          4,
+          5,
+          7,
+          9,
+          11,
+          13
+        ],
+        "bots": [],
+        "card_rate_limits": false,
+        "card_size_caps": false,
+        "damage_cap_by_turn": [
+          4,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12
+        ],
+        "damage_cap_off_at_alive": 4,
+        "damage_mode": "v05",
+        "discover_options": 3,
+        "early_spoils": true,
+        "freeze_toggles_per_turn": 5,
+        "hand_limit": 10,
+        "hero_choice": true,
+        "hero_damage_floor": 4,
+        "heroes_offered": 3,
+        "human_bot": "",
+        "income_by_turn": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "last_blow": true,
+        "last_stand": true,
+        "lobby_tribe_min_units": 4,
+        "max_rounds": 50,
+        "opening_rounds": 2,
+        "opening_spells": [
+          "rainy_day",
+          "a_leg_up"
+        ],
+        "players": 8,
+        "pool_copies_by_tier": [
+          15,
+          15,
+          13,
+          13,
+          11,
+          9
+        ],
+        "pool_filter": "slice",
+        "refresh_base_cost": 1,
+        "refresh_first_step_after": 15,
+        "refresh_step_length": 5,
+        "round_toll": false,
+        "scale_answer_percent": 50,
+        "scale_economy_cap": 10,
+        "scale_engine_flat": 0,
+        "scale_engine_percent": 25,
+        "scale_engine_self": false,
+        "scale_engine_tribe": "Hedgerow folk",
+        "scale_hero_spell_percent": 10,
+        "scale_hero_spell_stats": false,
+        "scale_levers": [
+          "scale_defender",
+          "scale_cleaver",
+          "scale_biggest_answer",
+          "scale_answer"
+        ],
+        "sell_bought": 1,
+        "sell_created": 0,
+        "shop_spells_by_tier": [
+          1,
+          1,
+          1,
+          1,
+          1,
+          1
+        ],
+        "shop_tier_odds": [
+          [
+            100
+          ],
+          [
+            50,
+            50
+          ],
+          [
+            20,
+            30,
+            50
+          ],
+          [
+            10,
+            15,
+            25,
+            50
+          ],
+          [
+            5,
+            10,
+            15,
+            25,
+            45
+          ],
+          [
+            5,
+            5,
+            10,
+            15,
+            25,
+            40
+          ]
+        ],
+        "shop_units_by_tier": [
+          4,
+          4,
+          4,
+          5,
+          5,
+          6
+        ],
+        "spell_copies_by_tier": [
+          5,
+          7,
+          9,
+          11,
+          9,
+          7
+        ],
+        "spells_in_shop": true,
+        "starting_health": 40,
+        "survivor_damage_divisor": 2,
+        "tribes_per_lobby": 5,
+        "trigger_limit_action": 1000,
+        "trigger_limit_combat": 10000,
+        "unit_cost": 3,
+        "upgrade_costs": [
+          5,
+          7,
+          8,
+          11,
+          13
+        ],
+        "upgrade_discount_per_turn": 1
+      },
+      "design": {
+        "scale": "boundary",
+        "distribution": "carry",
+        "target_total": 4200000006,
+        "realized_total": 2000000006,
+        "bodies": 2,
+        "keywords": [],
+        "answer": "biggest",
+        "answer_percent": 50,
+        "answer_stats_included": 6,
+        "keyword_bodies": 0,
+        "clamped": [
+          {
+            "slot": 0,
+            "requested_attack": 2100000000,
+            "requested_health": 2100000000
+          }
+        ],
+        "stat_definition": "sum of Attack + Health before Start of Combat",
+        "layout_rule": "stat holders first, 1/1 supports next, answer last; no scouting or search"
+      }
+    }
+  ],
+  "line_weights": {
+    "15": {
+      "boundary-carry-answer": 0.25,
+      "boundary-carry-plain": 0.25,
+      "boundary-even-answer": 0.25,
+      "boundary-even-plain": 0.25
+    }
+  },
+  "construction": "explicit fixed setups; weights are equal setup weights, not estimates of lobby frequencies"
+}

@@ -59,7 +59,13 @@ static func pop_one(combat: Combat, holder: CombatUnit, own_slot: bool) -> Comba
 		)
 		return null
 	var fields: Dictionary = {"came_out": true}
-	var fighter: CombatUnit = combat.enter_from_spec(spec, side, slot, holder, fields)
+	var fighter: CombatUnit = spec.get("_pass3_fighter")
+	if fighter != null:
+		fighter.slot = slot
+		combat._apply_slot_grants(fighter)
+		combat.enter_board(fighter, holder, fields)
+	else:
+		fighter = combat.enter_from_spec(spec, side, slot, holder, fields)
 	if fighter != null:
 		_syllabub(combat, fighter)
 	return fighter
@@ -152,6 +158,9 @@ static func first_of_all(combat: Combat, first: int) -> void:
 
 ## Mag Pye: the thief takes the victim's text and the statuses it gave.
 static func steal_text(combat: Combat, thief: CombatUnit, victim: CombatUnit) -> void:
+	var fields: Dictionary = {"uid": thief.uid, "from": victim.uid}
+	if Pass3Combat.has_content(combat):
+		fields.merge(Pass3Combat.take_words(thief, victim))
 	var statuses: Dictionary = victim.statuses.duplicate()
 	for status: Variant in statuses:
 		combat.set_status(victim, str(status), false, null)
@@ -161,7 +170,7 @@ static func steal_text(combat: Combat, thief: CombatUnit, victim: CombatUnit) ->
 	for status: Variant in statuses:
 		var data: Dictionary = statuses[status]
 		combat.set_status(thief, str(status), true, thief, data)
-	combat.emit_event("text_taken", {"uid": thief.uid, "from": victim.uid})
+	combat.emit_event("text_taken", fields)
 	combat._recalc_auras(true)
 
 

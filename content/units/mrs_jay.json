@@ -24,6 +24,11 @@
         "card": "acorn",
         "count": 1
       }
+    },
+    {
+      "id": "pass3_bird",
+      "ability": "jay",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -36,7 +41,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/birds-pass1.md"
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Flying counts as selling."
+  "details": "Flying counts as selling. Played this turn, this sells normally.",
+  "mechanic_text": {
+    "2": {
+      "id": "pass3_bird",
+      "text": "When sold: get an Acorn.",
+      "golden_text": "When sold: get two Acorns."
+    }
+  }
 }

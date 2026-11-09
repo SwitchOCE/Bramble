@@ -18,6 +18,8 @@ import random
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from evidence_io import json_sha, read_json, write_json
+
 ROUNDS = (6, 8, 10, 12, 14, 16)
 # Designed inputs must specify the complete current GameConfig, rather than
 # acquiring changing replay defaults. Captured inputs keep their original config.
@@ -141,7 +143,7 @@ def _unit_spec(spec, context):
 
 def load_designed(path):
     """Read explicit designed-only populations; retain every supplied state field."""
-    document = json.loads(path.read_text())
+    document = read_json(path)
     _required(document, ("boards", "line_weights"), "designed input")
     if not isinstance(document["boards"], list) or not document["boards"]:
         raise ValueError("designed boards must be a nonempty array")
@@ -151,7 +153,7 @@ def load_designed(path):
     if not isinstance(test_cards, list):
         raise ValueError("designed test_cards must be an array")
     boards, seen, configs = [], set(), {}
-    provenance = {"kind": "designed", "path": str(path), "sha256": file_sha(path)}
+    provenance = {"kind": "designed", "path": str(path), "sha256": json_sha(path)}
     for index, original in enumerate(document["boards"]):
         context = f"designed boards[{index}]"
         _required(
@@ -591,17 +593,18 @@ def main():
             boards, tuple(map(int, args.rounds.split(","))), args.size, args.seed, line_weights=weights
         )
         result["sources"] = {
-            str(path): file_sha(path) for path in ([args.designed] if args.designed else args.captures)
+            str(path): json_sha(path) if args.designed else file_sha(path)
+            for path in ([args.designed] if args.designed else args.captures)
         }
     else:
         with args.pairs.open() as stream:
             result = field_report(
-                json.loads(args.field.read_text()),
+                read_json(args.field),
                 (json.loads(line) for line in stream),
                 bootstrap_replicates=args.bootstrap_replicates,
                 bootstrap_seed=args.bootstrap_seed,
             )
-    args.out.write_text(json.dumps(result, indent=2) + "\n")
+    write_json(args.out, result)
 
 
 if __name__ == "__main__":

@@ -43,7 +43,7 @@ static func preserve(player: PlayerState, layout: Array[int], pinned: Array[int]
 		if layout[nest] < 0 or pinned.has(nest):
 			continue
 		var unit: RecruitUnit = player.board[layout[nest]]
-		if unit.has_mechanic_id("lump"):
+		if unit.has_mechanic_id("lump") or unit.def_id() == "great_lump":
 			continue
 		for other: int in BoardGeometry.SLOTS:
 			if layout[other] < 0 and not pinned.has(other) and player.nest_at(other).is_empty():

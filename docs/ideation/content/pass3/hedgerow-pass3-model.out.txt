@@ -1,0 +1,140 @@
+== supper : board / typical. on time | one round late | mean | 3-round mean
+  R 4 T    24:     19 (0.79) |     21 (0.88) |     20 (0.83) | 0.94   biggest 37%  larder 1  tribe +0
+  R 5 T    34:     36 (1.06) |     35 (1.03) |     36 (1.04) | 1.06   biggest 28%  larder 1  tribe +0
+  R 6 T    52:     67 (1.29) |     68 (1.31) |     68 (1.30) | 1.21   biggest 34%  larder 12  tribe +0
+  R 7 T    70:     90 (1.29) |     90 (1.29) |     90 (1.29) | 1.22   biggest 44%  larder 16  tribe +0
+  R 8 T   105:    105 (1.00) |    121 (1.15) |    113 (1.08) | 1.19   biggest 50%  larder 17  tribe +0
+  R 9 T   158:    249 (1.58) |    133 (0.84) |    191 (1.21) | 1.15   biggest 76%  larder 10  tribe +0
+  R10 T   236:    271 (1.15) |    281 (1.19) |    276 (1.17) | 1.08   biggest 70%  larder 11  tribe +0
+  R11 T   354:    299 (0.84) |    307 (0.87) |    303 (0.86) | 1.06   biggest 67%  larder 16  tribe +0
+  R12 T   532:    885 (1.66) |    351 (0.66) |    618 (1.16) | 1.12   biggest 61%  larder 11  tribe +16
+  R13 T   797:   1211 (1.52) |    940 (1.18) |   1076 (1.35) | 1.23   biggest 47%  larder 11  tribe +16
+  R14 T  1196:   1557 (1.30) |   1272 (1.06) |   1414 (1.18) | 1.28   biggest 38%  larder 16  tribe +16
+  R15 T  1794:   3203 (1.79) |   1526 (0.85) |   2364 (1.32) | 1.28   biggest 44%  larder 0  tribe +37
+  R16 T  2691:   4563 (1.70) |   2669 (0.99) |   3616 (1.34) | 1.33   biggest 33%  larder 0  tribe +37
+  gold short (on time): 0, cashed for costs 1, fed 55, spells 47
+  R6 (67): B3 mr_crumb 11/12, F1 mr_pym 4/8, B2 mrs_sorrel 4/6, F3 mrs_mallow 3/6, F2 dr_urchin 2/5, B1 sleeping_partner 2/4
+  R9 (249): B3 alderman_dozey 90/98, F1 beadle_warrenby 6/10, F2 dr_urchin 4/10, B1 sleeping_partner 4/8, B2 mrs_sorrel 4/6, F3 mrs_mallow 3/6
+  R12 (885): F4 alderman_dozey 262.0/282.0, B3 goodman_hayward 28.0/36.0, F1 beadle_warrenby 26.0/32.0, F2 dr_urchin 24.0/32.0, F3 squire_lollop 26.0/29.0, B1 sleeping_partner 24.0/30.0, B2 standing_committee 25.0/29.0
+  R15 (3203): F4 alderman_dozey 686.0/728.0, B3 goodman_hayward 159.0/174.0, F2 dr_urchin 155.0/170.0, F3 squire_lollop 157.0/167.0, B2 standing_committee 156.0/167.0, F1 old_mother_mast 127.0/134.0, B1 honorary_treasurer 109.0/114.0
+  late:
+  R6 (68): F3 mrs_mallow 8/11, F1 mr_pym 6/8, B1 sleeping_partner 6/8, F2 dr_urchin 4/10, B2 mrs_sorrel 3/4
+  R9 (133): B3 alderman_dozey 25/29, F3 mrs_mallow 9/12, F1 beadle_warrenby 6/10, B1 sleeping_partner 6/8, F2 dr_urchin 4/10, B2 mrs_sorrel 6/8
+  R12 (351): F4 alderman_dozey 102/112, B1 sleeping_partner 12/18, B2 standing_committee 10/16, B3 goodman_hayward 8/16, F3 mrs_mallow 9/14, F1 beadle_warrenby 6/12, F2 dr_urchin 4/12
+  R15 (1526): F4 alderman_dozey 286.0/309.0, B2 standing_committee 92.0/104.0, B3 goodman_hayward 90.0/104.0, F2 dr_urchin 86.0/100.0, F3 squire_lollop 88.0/96.0, F1 old_mother_mast 58.0/63.0, B1 honorary_treasurer 24.0/26.0
+== parish : board / typical. on time | one round late | mean | 3-round mean
+  R 4 T    24:     20 (0.83) |     23 (0.96) |     22 (0.90) | 0.94   biggest 35%  larder 0  tribe +0
+  R 5 T    34:     31 (0.91) |     36 (1.06) |     34 (0.99) | 0.92   biggest 23%  larder 0  tribe +0
+  R 6 T    52:     39 (0.75) |     51 (0.98) |     45 (0.87) | 0.90   biggest 18%  larder 0  tribe +0
+  R 7 T    70:     58 (0.83) |     63 (0.90) |     60 (0.86) | 0.84   biggest 21%  larder 0  tribe +0
+  R 8 T   105:     95 (0.90) |     68 (0.65) |     82 (0.78) | 0.83   biggest 21%  larder 0  tribe +0
+  R 9 T   158:    152 (0.97) |    111 (0.70) |    132 (0.83) | 0.82   biggest 18%  larder 0  tribe +1
+  R10 T   236:    236 (1.00) |    171 (0.72) |    204 (0.86) | 0.87   biggest 20%  larder 0  tribe +2
+  R11 T   354:    365 (1.03) |    286 (0.81) |    326 (0.92) | 0.91   biggest 20%  larder 0  tribe +4
+  R12 T   532:    582 (1.09) |    418 (0.79) |    500 (0.94) | 0.98   biggest 19%  larder 0  tribe +5
+  R13 T   797:   1056 (1.32) |    644 (0.81) |    850 (1.07) | 1.09   biggest 19%  larder 0  tribe +5
+  R14 T  1196:   1836 (1.54) |   1178 (0.98) |   1507 (1.26) | 1.27   biggest 18%  larder 0  tribe +5
+  R15 T  1794:   3250 (1.81) |   2046 (1.14) |   2648 (1.48) | 1.49   biggest 19%  larder 0  tribe +5
+  R16 T  2691:   5687 (2.11) |   3607 (1.34) |   4647 (1.73) | 1.60   biggest 18%  larder 0  tribe +5
+  gold short (on time): 3, cashed for costs 2, fed 0, spells 55
+  R6 (39): B2 mrs_mallow 2/5, F4 mrs_sorrel 3/4, F1 mr_crumb 2/4, F2 mrs_burdock 2/4, F3 mrs_clover 2/4, B1 kit 2/2, B3 mrs_burdock 1/2
+  R9 (152): F2 goodman_hayward 10.0/18.0, F3 mrs_clover 8.0/16.0, B3 dr_urchin 9.0/14.0, F4 mrs_sorrel 8.0/15.0, B1 mrs_mallow 5.0/14.0, B2 mrs_mallow 5.0/14.0, F1 standing_committee 6.0/10.0
+  R12 (582): F3 squire_lollop 48.0/62.0, F2 goodman_hayward 40.0/68.0, B3 dr_urchin 31.0/48.0, B2 mrs_mallow 25.0/52.0, F4 mrs_mallow 32.0/40.0, B1 mrs_mallow 22.0/47.0, F1 standing_committee 26.0/41.0
+  R15 (3250): B1 mrs_mallow 214.0/404.0, B2 mrs_mallow 214.0/398.0, F2 goodman_hayward 204.0/336.0, B3 dr_urchin 156.0/248.0, F3 squire_lollop 153.0/228.0, F1 standing_committee 146.0/234.0, F4 mrs_mallow 127.0/188.0
+  late:
+  R6 (51): B1 kit 6/6, F2 mrs_burdock 5/6, B3 mrs_burdock 4/6, B2 mrs_mallow 2/5, F3 mrs_clover 2/4, F4 mrs_sorrel 2/3
+  R9 (111): F2 mrs_burdock 10/14, F4 mrs_sorrel 7/11, B3 dr_urchin 4/12, B1 mrs_mallow 4/11, F1 standing_committee 5/8, F3 mrs_clover 4/9, B2 mrs_mallow 4/8
+  R12 (418): F3 squire_lollop 38.0/44.0, F4 mrs_sorrel 30.0/44.0, B3 dr_urchin 21.0/42.0, B1 mrs_mallow 21.0/40.0, F1 standing_committee 20.0/29.0, B2 mrs_mallow 18.0/29.0, F2 goodman_hayward 18.0/24.0
+  R15 (2046): B2 mrs_mallow 158.0/228.0, F4 mrs_mallow 156.0/194.0, F3 squire_lollop 150.0/188.0, B3 dr_urchin 101.0/165.0, B1 mrs_mallow 101.0/161.0, F1 standing_committee 106.0/143.0, F2 goodman_hayward 84.0/111.0
+== treasury : board / typical. on time | one round late | mean | 3-round mean
+  R 4 T    24:     19 (0.79) |     21 (0.88) |     20 (0.83) | 0.89   biggest 37%  larder 1  tribe +0
+  R 5 T    34:     30 (0.88) |     34 (1.00) |     32 (0.94) | 0.97   biggest 23%  larder 2  tribe +0
+  R 6 T    52:     58 (1.12) |     59 (1.13) |     58 (1.12) | 1.15   biggest 50%  larder 12  tribe +0
+  R 7 T    70:    110 (1.57) |     83 (1.19) |     96 (1.38) | 1.29   biggest 42%  larder 16  tribe +0
+  R 8 T   105:    158 (1.50) |    132 (1.26) |    145 (1.38) | 1.36   biggest 58%  larder 17  tribe +0
+  R 9 T   158:    226 (1.43) |    194 (1.23) |    210 (1.33) | 1.29   biggest 65%  larder 32  tribe +0
+  R10 T   236:    278 (1.18) |    268 (1.13) |    273 (1.16) | 1.14   biggest 78%  larder 32  tribe +0
+  R11 T   354:    358 (1.01) |    310 (0.87) |    334 (0.94) | 0.97   biggest 83%  larder 33  tribe +0
+  R12 T   532:    448 (0.84) |    400 (0.75) |    424 (0.80) | 0.81   biggest 86%  larder 48  tribe +0
+  R13 T   797:    586 (0.73) |    506 (0.63) |    546 (0.68) | 0.96   biggest 88%  larder 54  tribe +0
+  R14 T  1196:   1926 (1.61) |   1406 (1.18) |   1666 (1.39) | 1.09   biggest 41%  larder 0  tribe +64
+  R15 T  1794:   2410 (1.34) |   1818 (1.01) |   2114 (1.18) | 1.18   biggest 33%  larder 10  tribe +64
+  R16 T  2691:   2930 (1.09) |   2266 (0.84) |   2598 (0.97) | 1.07   biggest 29%  larder 11  tribe +64
+  gold short (on time): 0, cashed for costs 1, fed 0, spells 113
+  R6 (58): F3 mrs_mallow 13/16, B2 mrs_sorrel 4/6, F2 dr_urchin 2/5, F1 mr_pym 2/4, B1 sleeping_partner 2/4
+  R9 (226): F4 honorary_treasurer 73/75, F3 mrs_mallow 13/16, B1 sleeping_partner 4/8, B3 sergeant_at_conkers 6/6, B2 mrs_sorrel 4/6, F1 beadle_warrenby 3/5, F2 dr_urchin 2/5
+  R12 (448): F4 honorary_treasurer 191/193, B2 old_mother_mast 6/8, B1 sleeping_partner 4/8, B3 sergeant_at_conkers 6/6, F3 goodman_hayward 4/7, F1 beadle_warrenby 3/5, F2 dr_urchin 2/5
+  R15 (2410): F4 honorary_treasurer 401.0/403.0, F1 squire_lollop 134.0/136.0, B2 old_mother_mast 134.0/136.0, B1 sleeping_partner 132.0/136.0, B3 sergeant_at_conkers 134.0/134.0, F3 goodman_hayward 132.0/135.0, F2 dr_urchin 130.0/133.0
+  late:
+  R6 (59): F3 mrs_mallow 9/12, B1 sleeping_partner 7/8, F1 mr_pym 4/8, F2 mrs_burdock 2/4, B2 mrs_sorrel 2/3
+  R9 (194): F4 honorary_treasurer 49/51, F3 mrs_mallow 18/21, F1 beadle_warrenby 6/10, B1 sleeping_partner 7/8, F2 dr_urchin 4/10, B2 mrs_sorrel 4/6
+  R12 (400): F4 honorary_treasurer 160/162, F1 beadle_warrenby 6/10, B1 sleeping_partner 7/8, F2 dr_urchin 4/10, B3 sergeant_at_conkers 6/6, F3 goodman_hayward 4/7, B2 mrs_sorrel 4/6
+  R15 (1818): F4 honorary_treasurer 340.0/342.0, B1 sleeping_partner 95.0/96.0, F1 squire_lollop 94.0/96.0, F2 dr_urchin 92.0/98.0, B2 old_mother_mast 94.0/96.0, B3 sergeant_at_conkers 94.0/94.0, F3 goodman_hayward 92.0/95.0
+
+== Fights at every round, mean of the on-time and late lines (fights per cell: 500)
+   round:      R6    R7    R8    R9    R10   R11   R12   R13   R14   R15   R16  
+  supper   median     100%   99%   63%   54%   63%    8%   50%   86%   87%   60%   72% | R6-8 87% R9-11 42% R12-16 71%
+  supper   strong      60%   53%   13%   36%    4%    0%   40%   48%   29%   50%   50% | R6-8 42% R9-11 13% R12-16 43%
+  supper   strong+ans  51%   43%    9%   25%    3%    0%   27%   36%   25%   48%   50% | R6-8 34% R9-11 9% R12-16 37%
+  parish   median      21%   13%    5%   15%   24%   24%   45%   52%   76%   99%  100% | R6-8 13% R9-11 21% R12-16 75%
+  parish   strong       0%    0%    0%    0%    0%    0%    1%   23%   47%   55%   84% | R6-8 0% R9-11 0% R12-16 42%
+  parish   strong+ans   0%    0%    0%    0%    0%    0%    0%   19%   43%   53%   78% | R6-8 0% R9-11 0% R12-16 39%
+  treasury median      91%  100%  100%   94%   74%   23%    6%    2%   94%   80%   51% | R6-8 97% R9-11 64% R12-16 47%
+  treasury strong      26%   69%   53%   41%   14%    2%    0%    0%   52%   32%    2% | R6-8 49% R9-11 19% R12-16 17%
+  treasury strong+ans  17%   51%   39%   31%    8%    2%    0%    0%   46%   24%    1% | R6-8 36% R9-11 13% R12-16 14%
+
+== Concentration window: on-time Supper against even boards of lower or equal total
+  R6 total    67 biggest 34%: 0.6x 100%  0.8x 100%  1.0x 32%
+  R7 total    90 biggest 44%: 0.6x 100%  0.8x 100%  1.0x 17%
+  R8 total   105 biggest 50%: 0.6x 100%  0.8x 98%  1.0x 21%
+  R9 total   249 biggest 76%: 0.6x 100%  0.8x 100%  1.0x 3%
+  R10 total   271 biggest 70%: 0.6x 100%  0.8x 80%  1.0x 11%
+  R11 total   299 biggest 67%: 0.6x 100%  0.8x 76%  1.0x 10%
+  R12 total   885 biggest 61%: 0.6x 100%  0.8x 76%  1.0x 13%
+
+== Answers: a Stash from an enemy Sergeant (halve) across the Supper's carry
+  R9: as is 100%/70%, carry halved 17%/0%, carry 0/1 0%/0%   (median / strong)
+  R12: as is 100%/79%, carry halved 88%/6%, carry 0/1 0%/0%   (median / strong)
+  R15: as is 100%/100%, carry halved 100%/89%, carry 0/1 87%/7%   (median / strong)
+
+== Dial sweeps (mean of on time and late, board / typical)
+  supper   default                            R6 1.30 R9 1.21 R12 1.16 R15 1.32 | 3-avg R12 1.12 R15 1.28
+  supper   engine design's tiers (Dozey T3)   R6 1.61 R9 1.55 R12 1.36 R15 1.57 | 3-avg R12 1.33 R15 1.54
+  supper   wake +75%                          R6 1.30 R9 1.13 R12 1.03 R15 1.10 | 3-avg R12 1.00 R15 1.07
+  supper   wake +150%                         R6 1.30 R9 1.36 R12 1.44 R15 1.84 | 3-avg R12 1.39 R15 1.79
+  supper   wake x2 every 4                    R6 1.30 R9 0.86 R12 0.41 R15 1.17 | 3-avg R12 0.65 R15 1.19
+  supper   food per gold                      R6 1.30 R9 1.33 R12 1.31 R15 1.51 | 3-avg R12 1.28 R15 1.47
+  supper   Beadle +2/+2                       R6 1.30 R9 1.34 R12 1.30 R15 1.47 | 3-avg R12 1.25 R15 1.43
+  supper   no Lollop                          R6 1.30 R9 1.21 R12 1.16 R15 0.98 | 3-avg R12 1.07 R15 0.92
+  supper   two Lollops                        R6 1.30 R9 1.21 R12 1.16 R15 1.53 | 3-avg R12 1.12 R15 1.52
+  supper   share 1/20                         R6 1.30 R9 1.21 R12 1.16 R15 1.12 | 3-avg R12 1.09 R15 1.07
+  supper   share 1/8                          R6 1.30 R9 1.21 R12 1.16 R15 1.42 | 3-avg R12 1.14 R15 1.39
+  supper   two Lollops, share 1/20            R6 1.30 R9 1.21 R12 1.16 R15 1.19 | 3-avg R12 1.09 R15 1.16
+  supper   breaker's Committee (half)         R6 1.30 R9 1.21 R12 1.23 R15 1.34 | 3-avg R12 1.19 R15 1.30
+  supper   breaker's Committee (full)         R6 1.30 R9 1.21 R12 1.38 R15 1.58 | 3-avg R12 1.34 R15 1.54
+  supper   Committee a quarter                R6 1.30 R9 1.21 R12 1.20 R15 1.38 | 3-avg R12 1.15 R15 1.35
+  supper   Committee off                      R6 1.30 R9 1.21 R12 1.08 R15 1.10 | 3-avg R12 1.04 R15 1.06
+  supper   no Lollop, Committee off           R6 1.30 R9 1.21 R12 1.08 R15 0.80 | 3-avg R12 1.00 R15 0.74
+  supper   Hayward per 2 gold                 R6 1.30 R9 1.21 R12 1.01 R15 1.09 | 3-avg R12 1.00 R15 1.08
+  supper   Hunker all fight (Pass)            R6 1.30 R9 1.21 R12 1.16 R15 1.32 | 3-avg R12 1.12 R15 1.28
+  parish   default                            R6 0.87 R9 0.83 R12 0.94 R15 1.48 | 3-avg R12 0.98 R15 1.49
+  parish   two Lollops                        R6 0.87 R9 0.83 R12 0.94 R15 0.97 | 3-avg R12 0.98 R15 1.04
+  parish   two Committees                     R6 0.87 R9 0.83 R12 0.97 R15 1.90 | 3-avg R12 1.03 R15 1.92
+  parish   Committee a quarter                R6 0.87 R9 0.86 R12 1.08 R15 1.86 | 3-avg R12 1.13 R15 1.88
+  parish   Committee a tenth                  R6 0.87 R9 0.75 R12 0.75 R15 0.98 | 3-avg R12 0.76 R15 0.98
+  parish   breaker's Committee (half)         R6 0.87 R9 0.81 R12 0.77 R15 0.95 | 3-avg R12 0.79 R15 0.95
+  parish   breaker's Committee (full)         R6 0.87 R9 0.86 R12 0.91 R15 1.31 | 3-avg R12 0.94 R15 1.32
+  parish   share 1/20                         R6 0.87 R9 0.83 R12 0.92 R15 1.22 | 3-avg R12 0.94 R15 1.22
+  treasury default                            R6 1.12 R9 1.33 R12 0.80 R15 1.18 | 3-avg R12 0.81 R15 1.18 | larder R12/R14/R16 48/54->0/11
+  treasury Treasurer per 2 gold               R6 1.12 R9 1.05 R12 0.53 R15 0.97 | 3-avg R12 0.54 R15 0.98 | larder R12/R14/R16 48/54->0/11
+  treasury two Masts                          R6 1.12 R9 1.33 R12 0.80 R15 1.14 | 3-avg R12 0.81 R15 1.15 | larder R12/R14/R16 48/54->0/21
+  treasury Mast uncapped                      R6 1.12 R9 1.33 R12 0.80 R15 1.35 | 3-avg R12 0.81 R15 1.36 | larder R12/R14/R16 48/64->0/11
+  treasury two Masts uncapped                 R6 1.12 R9 1.33 R12 0.80 R15 1.32 | 3-avg R12 0.81 R15 1.33 | larder R12/R14/R16 48/64->0/21
+
+== Tail: goldens on the on-time Supper (board / typical)
+  golden Dozey R10                               R12 1.79 R13 1.65 R14 1.41 R15 1.94 R16 1.85
+  golden Lollop R14                              R12 1.66 R13 1.52 R14 1.33 R15 2.06 R16 2.32
+  golden Dozey R10 + Hayward R12 + Lollop R14    R12 2.41 R13 2.15 R14 1.82 R15 2.88 R16 3.20
+  Parish: golden Mallow R9 + golden Committee R12 R12 1.74 R13 2.62 R14 3.87 R15 5.79 R16 8.58
+  Treasury: golden Treasurer R10 + golden Mast R14 R12 1.25 R13 1.15 R14 2.07 R15 1.76 R16 1.46
+  two Lollops + all three goldens                R12 2.41 R13 2.15 R14 2.05 R15 2.89 R16 3.62

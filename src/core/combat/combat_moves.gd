@@ -143,6 +143,8 @@ static func swap_rows(combat: Combat, side: int) -> Array[CombatUnit]:
 ## Reel-Mistress: after a unit on a Ring attacks, the Ring moves to the side's next living unit in
 ## attack order, and adds to any Ring there. Each Ring dances once. It costs its old holder Health.
 static func dance_rings(combat: Combat, attacker: CombatUnit) -> void:
+	if Pass3FairyCombat.dance(combat, attacker):
+		return
 	var side: int = attacker.side
 	var mistress: CombatUnit = null
 	for unit: CombatUnit in combat.units_of(side):
@@ -238,6 +240,11 @@ static func after_attacked_once(combat: Combat, attacker: CombatUnit) -> void:
 		combat.set_status(attacker, "parasite", false, null)
 		combat._resolve_deaths(attacker.side)
 	if not combat.borrowed.is_empty() and combat.borrowed.has(attacker.uid):
+		var loan: Dictionary = attacker.statuses.get("borrowed", {})
+		if loan.has("attacks_left"):
+			loan["attacks_left"] = CoreUtil.to_int(loan["attacks_left"]) - 1
+			if CoreUtil.to_int(loan["attacks_left"]) > 0:
+				return
 		send_home(combat, attacker)
 
 

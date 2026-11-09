@@ -422,6 +422,10 @@ static func _keyword_marks(
 ## link; the meaning is one hover or tap away.
 static func state_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
+	if Data.b(view, "combat_start_overlay"):
+		lines.append("[b]Combat-start stats.[/b] Copies %s." % Data.s(view, "copied_name"))
+	if Data.b(view, "egged"):
+		lines.append("[b]Golden Egg used.[/b] This Bird cannot take another Golden Egg.")
 	var statuses: Array = Data.a(view, "statuses")
 	for entry: Variant in statuses:
 		var status: Dictionary = entry

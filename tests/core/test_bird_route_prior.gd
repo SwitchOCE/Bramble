@@ -1,5 +1,5 @@
 extends GutTest
-## Hard reads measured route strength, while real signature cards still support their own route.
+## Replacement routes start on equal priors; signature cards still support their own route.
 @warning_ignore_start("unsafe_call_argument")
 var _library: UnitLibrary = UnitLibrary.load_dir()
 
@@ -8,15 +8,15 @@ func _bird(player: PlayerState, id: String, slot: int) -> void:
 	player.board[slot] = RecruitUnit.make(_library.get_unit(id), slot + 1)
 
 
-func test_hard_prefers_the_demonstrated_stronger_route_on_a_small_shared_start() -> void:
+func test_replacement_routes_start_equal_without_reusing_old_strength_measurements() -> void:
 	var player := PlayerState.new()
 	_bird(player, "one_swallow", 0)
 	var brain: BotBrain = BotBrain.from_name("hard")
 	var highway: Dictionary = brain.knowledge.strategy("birds_highway")
 	var summer: Dictionary = brain.knowledge.strategy("birds_summer_winter")
 	var passage: Dictionary = brain.knowledge.strategy("birds_passage")
-	assert_gt(brain.value.strategy_fit(highway, player), brain.value.strategy_fit(summer, player))
-	assert_gt(brain.value.strategy_fit(highway, player), brain.value.strategy_fit(passage, player))
+	assert_eq(brain.value.strategy_fit(highway, player), brain.value.strategy_fit(summer, player))
+	assert_eq(brain.value.strategy_fit(highway, player), brain.value.strategy_fit(passage, player))
 
 
 func test_owned_rotation_cards_still_make_the_rotation_route_fit() -> void:

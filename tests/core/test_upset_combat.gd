@@ -146,6 +146,97 @@ func test_stateful_bundled_and_unknown_native_masks_are_unsupported() -> void:
 	assert_eq(prepared["unsupported"].size(), 2)
 
 
+func test_wave1_shared_native_audit_preserves_every_current_ability() -> void:
+	var source := UnitLibrary.load_dir()
+	var input: Dictionary = _fight_input(
+		CombatKit.board({0: CombatKit.plain(4, 4)}), CombatKit.board({0: CombatKit.plain(6, 6)})
+	)
+	var prepared: Dictionary = UpsetCombat.prepare(input, source)
+	assert_true(prepared["supported"])
+	var masked: UnitLibrary = prepared["library"]
+	var observed: Dictionary = {}
+	for card: Dictionary in source.all_units():
+		for entry: Dictionary in card.get("mechanics", []):
+			var id: String = str(entry.get("id", ""))
+			if not UpsetCombat.AUDITED_WAVE1.has(id):
+				continue
+			var ability: String = str(entry["ability"])
+			observed[id + ":" + ability] = true
+			assert_true(UpsetCombat.AUDITED_WAVE1[id].has(ability), str(card["id"]))
+			var masked_entries: Array = masked.get_unit(str(card["id"]))["mechanics"]
+			assert_eq(masked_entries.size(), card["mechanics"].size())
+			assert_eq(
+				masked_entries.filter(
+					func(candidate: Dictionary) -> bool: return str(candidate.get("id", "")) == id
+				),
+				[entry],
+				"the audited native ability stays intact; unrelated data steps may normalize"
+			)
+	assert_eq(observed.size(), 32, "audit covers each current Bird/Fairy variant")
+	for id: String in UpsetCombat.AUDITED_WAVE1:
+		for ability: String in UpsetCombat.AUDITED_WAVE1[id]:
+			assert_true(observed.has(id + ":" + ability), "stale ability audit: " + ability)
+
+
+func test_future_or_missing_wave1_ability_remains_unsupported() -> void:
+	for id: String in ["pass3_bird", "pass3_fairy"]:
+		for ability: String in ["future_biggest_enemy", ""]:
+			var body: Dictionary = CombatKit.plain(4, 4)
+			body["grants"] = [
+				{"entry": {"id": id, "ability": ability, "factor": 1}, "golden": false}
+			]
+			var input: Dictionary = _fight_input(
+				CombatKit.board({0: body}), CombatKit.board({0: CombatKit.plain(6, 6)})
+			)
+			var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+			assert_false(prepared["supported"])
+			assert_eq(prepared["unsupported"].size(), 1)
+			assert_eq(prepared["unsupported"][0]["ability"], ability)
+
+
+func test_wave1_fetch_keeps_copying_but_copied_answer_text_is_masked() -> void:
+	var target: Dictionary = CombatKit.u("hob_in_the_hearth", 12, 12)
+	target["grants"] = [{"entry": _entry(), "golden": false}]
+	var input: Dictionary = _fight_input(
+		CombatKit.board({0: CombatKit.u("cradle_fetch", 1, 1), 4: target}),
+		CombatKit.board({0: CombatKit.plain(30, 30)})
+	)
+	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	assert_true(prepared["supported"])
+	var library: UnitLibrary = prepared["library"]
+	assert_eq(library.get_unit("cradle_fetch")["mechanics"][0]["ability"], "fetch")
+	assert_eq(prepared["input"]["boards"][0][4]["grants"], [])
+	var intact: Dictionary = UpsetCombat.run_input(input, prepared["intact_library"], false, true)
+	var masked: Dictionary = UpsetCombat.run_input(prepared["input"], library, false, true)
+	for run: Dictionary in [intact, masked]:
+		var events: Array = run["result"]["events"]
+		assert_eq(
+			events.filter(func(event: Dictionary) -> bool: return event.has("copied")).size(),
+			1,
+			"the masked fight still performs the Fetch copy"
+		)
+	var intact_health: int = _enemy_health_before_first_attack(intact)
+	var masked_health: int = _enemy_health_before_first_attack(masked)
+	assert_lt(intact_health, 15, "both the original and copied answer fire")
+	assert_lt(intact_health, masked_health, "Fetch's copied answer is removed with its source")
+	assert_eq(masked_health, 30, "copying itself does not manufacture an unmasked answer")
+
+
+func _enemy_health_before_first_attack(run: Dictionary) -> int:
+	var events: Array = run["result"]["events"]
+	var enemy_uid: int = CoreUtil.to_int(events[0]["boards"][1][0]["uid"])
+	var health: int = 30
+	for event: Dictionary in events:
+		if str(event.get("type", "")) == "attack":
+			break
+		if (
+			str(event.get("type", "")) == "stats"
+			and CoreUtil.to_int(event.get("target", -1)) == enemy_uid
+		):
+			health = CoreUtil.to_int(event.get("health", health))
+	return health
+
+
 func test_layout_is_board_local_moves_complete_specs_and_pins_eggs_and_nests() -> void:
 	var egg: Dictionary = {"def_id": HeldUnits.EGG, "attack": 1, "health": 3}
 	var body: Dictionary = CombatKit.plain(8, 4)

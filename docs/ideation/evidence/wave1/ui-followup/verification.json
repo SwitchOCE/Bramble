@@ -1,0 +1,140 @@
+{
+  "before_ui_source": "95128ed",
+  "after_ui_source": "695e156",
+  "identical_before_after_states": true,
+  "after_preview_font_canvas_px": 31,
+  "after_preview_font_phone_px": 22.38888888888889,
+  "all_after_layout_notes_empty": true,
+  "final_capture_pngs_match_initial_captures": true,
+  "native_pngs": [
+    {
+      "file": "ui-before-away-tray-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "c6c3bae949a72883e863c4f288c14ba8338c509269097d3af4aaf18f4966e64c"
+    },
+    {
+      "file": "ui-before-overview-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "3780ca9520050c34cacace81837bf1f922624c47529bc33076ac169c1913e815"
+    },
+    {
+      "file": "ui-before-ring-reader-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "dce5cc17de3e46fa12e5643dd7d8404d971160aa860cbc7c2dea84934a34d736"
+    },
+    {
+      "file": "ui-after-away-tray-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "a5e2b405c4241edd67f337d6bfc5ceb60254474568f34bfdee3b4c92cac65b37"
+    },
+    {
+      "file": "ui-after-overview-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "ae537b7d99b288a35eedb48bceeb4366d51030066ac61f57e9291f8c3712bf35"
+    },
+    {
+      "file": "ui-after-ring-reader-1688x780.png",
+      "pixels": [
+        1688,
+        780
+      ],
+      "sha256": "c71530cbcfd98bbfca1fe8f80e4f89baaf980df9b480e0f25358f1e8fcbed915"
+    },
+    {
+      "file": "ui-before-away-tray-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "492b174ebcabad42adf106d883c308837f449ed1580113fc2d51810997bfde02"
+    },
+    {
+      "file": "ui-before-overview-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "492b174ebcabad42adf106d883c308837f449ed1580113fc2d51810997bfde02"
+    },
+    {
+      "file": "ui-before-ring-reader-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "84b17955287373e407c732c5a26cb339539b03decff7db999f093db29c003986"
+    },
+    {
+      "file": "ui-after-away-tray-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "4bf6d56c6f50af8f1f472b2a04f5b2ff98d07a0a5d53273d4b1c00cb20befb74"
+    },
+    {
+      "file": "ui-after-overview-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "4bf6d56c6f50af8f1f472b2a04f5b2ff98d07a0a5d53273d4b1c00cb20befb74"
+    },
+    {
+      "file": "ui-after-ring-reader-1920x1080.png",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "sha256": "4327cc8bbf58217361bfbcb3653bf7a75599c3306ba4ba81614190ca9d84af4e"
+    }
+  ],
+  "phase_metadata_sha256": {
+    "before-1688x780.json": "e664e065561ca041019582604983ee5ed841bf43cd28c97b50b3af9c82386153",
+    "after-1688x780.json": "423bb6d8a724b7fc61418f1feba1dc3764dd416741719f1570dc6fb90fd7eda3",
+    "before-1920x1080.json": "0a06994c9f9a48e2ec8de3ae60895183e39e1f2ebce035e78663d79e9b6b1546",
+    "after-1920x1080.json": "aa775fd88f9f11b4570ee0ba97e70947ddcf0fc81da0b1b8696bcb5056811c1a"
+  },
+  "logs": {
+    "before-1688x780.log": {
+      "sha256": "4efef175ba5e00299dd4d979573e61f80892c16ab06d14ac4a4b4e167bccd1d8",
+      "script_errors": 0
+    },
+    "after-1688x780.log": {
+      "sha256": "8505cd49c542e2cba8a06b1d6f62177514539898eb9d7da09d01b6640b289dbe",
+      "script_errors": 0
+    },
+    "before-1920x1080.log": {
+      "sha256": "307c1f8e8ce475253f6be4a2aeaa10bb7dd7770a7e0a4c6499b5e6cdb2e7508a",
+      "script_errors": 0
+    },
+    "after-1920x1080.log": {
+      "sha256": "c2a763a495076a7597bf29e86622905802c4f65b76b4e4b64501710c3f863fb5",
+      "script_errors": 0
+    }
+  },
+  "final_gate": {
+    "source": "695e156",
+    "tests": 1797,
+    "assertions": 29513,
+    "scripts": 164,
+    "compiled_files": 496,
+    "strict_clean": true,
+    "sha256": "814cc792d5a4586101e85a98a80b5be980bef4c53f81c79808f086961457bcc1"
+  }
+}

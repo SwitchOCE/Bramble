@@ -9,7 +9,7 @@ func test_acorn_reminder_uses_the_gold_each_item_actually_pays() -> void:
 	var reminder: String = KeywordRules.text("Acorn")
 	for card_id: String in ["acorn", "stash", "great_hoard"]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		var card: Dictionary = kit.library.get_card(card_id)
 		var before: int = kit.player.gold
 		assert_eq(kit.cast(card_id), "")
@@ -27,7 +27,7 @@ func test_shy_reminder_names_the_actual_normal_and_golden_gold() -> void:
 	assert_string_contains(reminder, "Only a spell aimed at this")
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		kit.rules.start_phase(kit.player, 1)
 		var hob: RecruitUnit = kit.put("hob_in_the_hearth", 0, golden)
 		kit.rules.board_changed(kit.player)

@@ -1,0 +1,1488 @@
+{
+  "round": 13,
+  "opponent_id": 3,
+  "winner": 0,
+  "damage": 16,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mother_goose",
+            "name": "Mother Goose",
+            "tier": 5,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 7,
+            "health": 9,
+            "max_health": 9,
+            "golden": false,
+            "text": "Fly South. When played: get a Golden Egg.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "cuckoo",
+            "name": "The Cuckoo",
+            "tier": 4,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 20,
+            "health": 26,
+            "max_health": 26,
+            "golden": false,
+            "text": "After a Bird comes home: other Birds gain a tenth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 3,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "one_swallow",
+            "name": "One Swallow",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 28,
+            "health": 44,
+            "max_health": 44,
+            "golden": false,
+            "text": "Fly South. When played: get 1 gold.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 4,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "one_swallow",
+            "name": "One Swallow",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 15,
+            "health": 19,
+            "max_health": 19,
+            "golden": false,
+            "text": "Fly South. When played: get 1 gold.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 5,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "great_lump",
+            "name": "The Great Lump",
+            "tier": 5,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 36,
+            "health": 49,
+            "max_health": 49,
+            "golden": false,
+            "text": "Cleave. On a Nest, this has its Bird's stats too.",
+            "keywords": [
+              "Cleave",
+              "Nest"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Cleave",
+                "text": "Attacks also hit the units beside the target."
+              },
+              {
+                "keyword": "Nest",
+                "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+              }
+            ]
+          },
+          {
+            "uid": 6,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mr_redbreast",
+            "name": "Mr Redbreast",
+            "tier": 2,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 75,
+            "health": 97,
+            "max_health": 97,
+            "golden": false,
+            "text": "After a Bird comes home: gain an eighth of its stats.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          {
+            "uid": 7,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nest_egg",
+            "name": "Egg",
+            "tier": 1,
+            "tribes": [],
+            "attack": 0,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "",
+            "keywords": [],
+            "statuses": [],
+            "keyword_text": [],
+            "bird_attack": 9,
+            "bird_health": 9,
+            "turns_left": 1
+          }
+        ],
+        [
+          {
+            "uid": 8,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "stone_soup",
+            "name": "Stone Soup",
+            "tier": 2,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 15,
+            "health": 18,
+            "max_health": 18,
+            "golden": false,
+            "text": "Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ],
+            "held": 1
+          },
+          {
+            "uid": 9,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "wee_wobbly",
+            "name": "Wee Wobbly",
+            "tier": 1,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 6,
+            "health": 9,
+            "max_health": 9,
+            "golden": false,
+            "text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ],
+            "held": 1
+          },
+          {
+            "uid": 10,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "little_dollop",
+            "name": "Little Dollop",
+            "tier": 1,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 5,
+            "health": 6,
+            "max_health": 6,
+            "golden": false,
+            "text": "Belly 1. Units you buy into this cost 1 gold less.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ],
+            "held": 1
+          },
+          {
+            "uid": 11,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "bubble_and_squeak",
+            "name": "Bubble and Squeak",
+            "tier": 3,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 6,
+            "health": 7,
+            "max_health": 7,
+            "golden": false,
+            "text": "Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ],
+            "held": 1
+          },
+          {
+            "uid": 12,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "figgy_duff",
+            "name": "Figgy Duff",
+            "tier": 4,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 8,
+            "health": 10,
+            "max_health": 10,
+            "golden": false,
+            "text": "Belly 1. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ],
+            "held": 1
+          },
+          {
+            "uid": 13,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "hasty_pudding",
+            "name": "Hasty Pudding",
+            "tier": 5,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 5,
+            "health": 11,
+            "max_health": 11,
+            "golden": false,
+            "text": "Belly 1. Start of Combat: if this has room, swallow the enemy across.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ]
+          },
+          {
+            "uid": 14,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "little_dollop",
+            "name": "Little Dollop",
+            "tier": 1,
+            "tribes": [
+              "Oozes"
+            ],
+            "attack": 4,
+            "health": 5,
+            "max_health": 5,
+            "golden": false,
+            "text": "Belly 1. Units you buy into this cost 1 gold less.",
+            "keywords": [
+              "Belly"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Belly",
+                "text": "Holds this many units, safe inside. When this dies, they come out."
+              }
+            ],
+            "held": 1
+          }
+        ]
+      ],
+      "first_side": 0,
+      "player_ids": [
+        0,
+        3
+      ],
+      "slot_effects": [
+        [
+          [],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          []
+        ],
+        [
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 2,
+              "golden": false,
+              "attack": 2,
+              "health": 2,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "trigger",
+      "uid": 13,
+      "mechanic": "hasty"
+    },
+    {
+      "seq": 3,
+      "type": "swallowed",
+      "uid": 6,
+      "side": 0,
+      "slot": 5,
+      "by": 13
+    },
+    {
+      "seq": 4,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 5,
+      "type": "attack",
+      "side": 0,
+      "attacker": 1,
+      "defender": 9,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 6,
+      "type": "damage",
+      "source": 1,
+      "target": 9,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 2
+    },
+    {
+      "seq": 7,
+      "type": "damage",
+      "source": 9,
+      "target": 1,
+      "amount": 6,
+      "raw": 6,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 3
+    },
+    {
+      "seq": 8,
+      "type": "no_room",
+      "uid": 9,
+      "side": 1,
+      "def_id": "mrs_posset",
+      "outcome": "stays_inside"
+    },
+    {
+      "seq": 9,
+      "type": "attack",
+      "side": 1,
+      "attacker": 8,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 10,
+      "type": "damage",
+      "source": 8,
+      "target": 1,
+      "amount": 15,
+      "raw": 15,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -12
+    },
+    {
+      "seq": 11,
+      "type": "damage",
+      "source": 1,
+      "target": 8,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 11
+    },
+    {
+      "seq": 12,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 0
+    },
+    {
+      "seq": 13,
+      "type": "attack",
+      "side": 0,
+      "attacker": 2,
+      "defender": 8,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 14,
+      "type": "damage",
+      "source": 2,
+      "target": 8,
+      "amount": 20,
+      "raw": 20,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -9
+    },
+    {
+      "seq": 15,
+      "type": "damage",
+      "source": 8,
+      "target": 2,
+      "amount": 15,
+      "raw": 15,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 11
+    },
+    {
+      "seq": 16,
+      "type": "death",
+      "uid": 8,
+      "side": 1,
+      "slot": 0
+    },
+    {
+      "seq": 17,
+      "type": "side_trigger",
+      "side": 1,
+      "mechanic": "mice"
+    },
+    {
+      "seq": 18,
+      "type": "summon",
+      "unit": {
+        "uid": 15,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mouse",
+        "name": "Mouse",
+        "tier": 1,
+        "tribes": [],
+        "attack": 5,
+        "health": 5,
+        "max_health": 5,
+        "golden": false,
+        "text": "",
+        "keywords": [],
+        "statuses": [],
+        "keyword_text": []
+      },
+      "side": 1,
+      "slot": 0,
+      "source": null
+    },
+    {
+      "seq": 19,
+      "type": "stats",
+      "target": 15,
+      "attack_delta": 2,
+      "health_delta": 2,
+      "attack": 7,
+      "health": 7,
+      "max_health": 7,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": [
+        {
+          "source": null,
+          "name": "Ring",
+          "change": "gained"
+        }
+      ]
+    },
+    {
+      "seq": 20,
+      "type": "no_room",
+      "uid": 8,
+      "def_id": "mrs_dunnock",
+      "outcome": "lost"
+    },
+    {
+      "seq": 21,
+      "type": "attack",
+      "side": 1,
+      "attacker": 15,
+      "defender": 3,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 22,
+      "type": "damage",
+      "source": 15,
+      "target": 3,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 37
+    },
+    {
+      "seq": 23,
+      "type": "damage",
+      "source": 3,
+      "target": 15,
+      "amount": 28,
+      "raw": 28,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -21
+    },
+    {
+      "seq": 24,
+      "type": "death",
+      "uid": 15,
+      "side": 1,
+      "slot": 0
+    },
+    {
+      "seq": 25,
+      "type": "attack",
+      "side": 0,
+      "attacker": 3,
+      "defender": 11,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 26,
+      "type": "damage",
+      "source": 3,
+      "target": 11,
+      "amount": 28,
+      "raw": 28,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -21
+    },
+    {
+      "seq": 27,
+      "type": "damage",
+      "source": 11,
+      "target": 3,
+      "amount": 6,
+      "raw": 6,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 31
+    },
+    {
+      "seq": 28,
+      "type": "death",
+      "uid": 11,
+      "side": 1,
+      "slot": 3
+    },
+    {
+      "seq": 29,
+      "type": "trigger",
+      "uid": 13,
+      "mechanic": "hasty_release"
+    },
+    {
+      "seq": 30,
+      "type": "summon",
+      "unit": {
+        "uid": 6,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mr_redbreast",
+        "name": "Mr Redbreast",
+        "tier": 2,
+        "tribes": [
+          "Birds"
+        ],
+        "attack": 75,
+        "health": 97,
+        "max_health": 97,
+        "golden": false,
+        "text": "After a Bird comes home: gain an eighth of its stats.",
+        "keywords": [
+          "Fly South"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ]
+      },
+      "side": 0,
+      "slot": 5,
+      "source": 13,
+      "came_out": true
+    },
+    {
+      "seq": 31,
+      "type": "summon",
+      "unit": {
+        "uid": 16,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mouse",
+        "name": "Mouse",
+        "tier": 1,
+        "tribes": [],
+        "attack": 5,
+        "health": 5,
+        "max_health": 5,
+        "golden": false,
+        "text": "",
+        "keywords": [],
+        "statuses": [],
+        "keyword_text": []
+      },
+      "side": 1,
+      "slot": 3,
+      "source": null
+    },
+    {
+      "seq": 32,
+      "type": "summon",
+      "unit": {
+        "uid": 17,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "hob_in_the_hearth",
+        "name": "Hob-in-the-Hearth",
+        "tier": 2,
+        "tribes": [
+          "Fairies"
+        ],
+        "attack": 2,
+        "health": 5,
+        "max_health": 5,
+        "golden": false,
+        "text": "Shy. Start of Combat: your biggest Fairy gains Shield.",
+        "keywords": [
+          "Shy",
+          "Shield"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Shy",
+            "text": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn."
+          },
+          {
+            "keyword": "Shield",
+            "text": "Prevents the first damage this would take each fight."
+          }
+        ]
+      },
+      "side": 1,
+      "slot": 0,
+      "source": 11,
+      "came_out": true
+    },
+    {
+      "seq": 33,
+      "type": "attack",
+      "side": 1,
+      "attacker": 17,
+      "defender": 2,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 34,
+      "type": "damage",
+      "source": 17,
+      "target": 2,
+      "amount": 2,
+      "raw": 2,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 9
+    },
+    {
+      "seq": 35,
+      "type": "damage",
+      "source": 2,
+      "target": 17,
+      "amount": 20,
+      "raw": 20,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -15
+    },
+    {
+      "seq": 36,
+      "type": "death",
+      "uid": 17,
+      "side": 1,
+      "slot": 0
+    },
+    {
+      "seq": 37,
+      "type": "attack",
+      "side": 0,
+      "attacker": 4,
+      "defender": 16,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 38,
+      "type": "damage",
+      "source": 4,
+      "target": 16,
+      "amount": 15,
+      "raw": 15,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -10
+    },
+    {
+      "seq": 39,
+      "type": "damage",
+      "source": 16,
+      "target": 4,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 14
+    },
+    {
+      "seq": 40,
+      "type": "death",
+      "uid": 16,
+      "side": 1,
+      "slot": 3
+    },
+    {
+      "seq": 41,
+      "type": "attack",
+      "side": 1,
+      "attacker": 9,
+      "defender": 4,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 42,
+      "type": "damage",
+      "source": 9,
+      "target": 4,
+      "amount": 6,
+      "raw": 6,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 8
+    },
+    {
+      "seq": 43,
+      "type": "damage",
+      "source": 4,
+      "target": 9,
+      "amount": 15,
+      "raw": 15,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -13
+    },
+    {
+      "seq": 44,
+      "type": "death",
+      "uid": 9,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 45,
+      "type": "summon",
+      "unit": {
+        "uid": 18,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mrs_posset",
+        "name": "Mrs Posset",
+        "tier": 1,
+        "tribes": [
+          "Oozes"
+        ],
+        "attack": 5,
+        "health": 4,
+        "max_health": 4,
+        "golden": false,
+        "text": "Belly 1. When this dies: deal 3 damage to the enemy across.",
+        "keywords": [
+          "Belly"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Belly",
+            "text": "Holds this many units, safe inside. When this dies, they come out."
+          }
+        ]
+      },
+      "side": 1,
+      "slot": 1,
+      "source": 9,
+      "came_out": true
+    },
+    {
+      "seq": 46,
+      "type": "attack",
+      "side": 0,
+      "attacker": 5,
+      "defender": 18,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 47,
+      "type": "damage",
+      "source": 5,
+      "target": 18,
+      "amount": 36,
+      "raw": 36,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -32
+    },
+    {
+      "seq": 48,
+      "type": "damage",
+      "source": 5,
+      "target": 10,
+      "amount": 36,
+      "raw": 36,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [
+        "cleave"
+      ],
+      "health_after": -30
+    },
+    {
+      "seq": 49,
+      "type": "damage",
+      "source": 18,
+      "target": 5,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 44
+    },
+    {
+      "seq": 50,
+      "type": "death",
+      "uid": 18,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 51,
+      "type": "death",
+      "uid": 10,
+      "side": 1,
+      "slot": 2
+    },
+    {
+      "seq": 52,
+      "type": "trigger",
+      "uid": 18,
+      "mechanic": "posset"
+    },
+    {
+      "seq": 53,
+      "type": "damage",
+      "source": 18,
+      "target": 2,
+      "amount": 3,
+      "raw": 3,
+      "kind": "effect",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 6
+    },
+    {
+      "seq": 54,
+      "type": "summon",
+      "unit": {
+        "uid": 19,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mrs_posset",
+        "name": "Mrs Posset",
+        "tier": 1,
+        "tribes": [
+          "Oozes"
+        ],
+        "attack": 5,
+        "health": 4,
+        "max_health": 4,
+        "golden": false,
+        "text": "Belly 1. When this dies: deal 3 damage to the enemy across.",
+        "keywords": [
+          "Belly"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Belly",
+            "text": "Holds this many units, safe inside. When this dies, they come out."
+          }
+        ]
+      },
+      "side": 1,
+      "slot": 2,
+      "source": 10,
+      "came_out": true
+    },
+    {
+      "seq": 55,
+      "type": "attack",
+      "side": 1,
+      "attacker": 19,
+      "defender": 2,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 56,
+      "type": "damage",
+      "source": 19,
+      "target": 2,
+      "amount": 5,
+      "raw": 5,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 1
+    },
+    {
+      "seq": 57,
+      "type": "damage",
+      "source": 2,
+      "target": 19,
+      "amount": 20,
+      "raw": 20,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -16
+    },
+    {
+      "seq": 58,
+      "type": "death",
+      "uid": 19,
+      "side": 1,
+      "slot": 2
+    },
+    {
+      "seq": 59,
+      "type": "trigger",
+      "uid": 19,
+      "mechanic": "posset"
+    },
+    {
+      "seq": 60,
+      "type": "damage",
+      "source": 19,
+      "target": 3,
+      "amount": 3,
+      "raw": 3,
+      "kind": "effect",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 28
+    },
+    {
+      "seq": 61,
+      "type": "attack",
+      "side": 0,
+      "attacker": 6,
+      "defender": 12,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 62,
+      "type": "damage",
+      "source": 6,
+      "target": 12,
+      "amount": 75,
+      "raw": 75,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -65
+    },
+    {
+      "seq": 63,
+      "type": "damage",
+      "source": 12,
+      "target": 6,
+      "amount": 8,
+      "raw": 8,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 89
+    },
+    {
+      "seq": 64,
+      "type": "death",
+      "uid": 12,
+      "side": 1,
+      "slot": 4
+    },
+    {
+      "seq": 65,
+      "type": "summon",
+      "unit": {
+        "uid": 20,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "mr_syllabub",
+        "name": "Mr Syllabub",
+        "tier": 4,
+        "tribes": [
+          "Oozes"
+        ],
+        "attack": 6,
+        "health": 9,
+        "max_health": 9,
+        "golden": false,
+        "text": "When a unit comes out of your Oozes: its Start of Combat fires.",
+        "keywords": [],
+        "statuses": [],
+        "keyword_text": []
+      },
+      "side": 1,
+      "slot": 4,
+      "source": 12,
+      "came_out": true
+    },
+    {
+      "seq": 66,
+      "type": "attack",
+      "side": 1,
+      "attacker": 20,
+      "defender": 3,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 67,
+      "type": "damage",
+      "source": 20,
+      "target": 3,
+      "amount": 6,
+      "raw": 6,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 22
+    },
+    {
+      "seq": 68,
+      "type": "damage",
+      "source": 3,
+      "target": 20,
+      "amount": 28,
+      "raw": 28,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -19
+    },
+    {
+      "seq": 69,
+      "type": "death",
+      "uid": 20,
+      "side": 1,
+      "slot": 4
+    },
+    {
+      "seq": 70,
+      "type": "attack",
+      "side": 0,
+      "attacker": 2,
+      "defender": 14,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 71,
+      "type": "damage",
+      "source": 2,
+      "target": 14,
+      "amount": 20,
+      "raw": 20,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -15
+    },
+    {
+      "seq": 72,
+      "type": "damage",
+      "source": 14,
+      "target": 2,
+      "amount": 4,
+      "raw": 4,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -3
+    },
+    {
+      "seq": 73,
+      "type": "death",
+      "uid": 2,
+      "side": 0,
+      "slot": 1
+    },
+    {
+      "seq": 74,
+      "type": "death",
+      "uid": 14,
+      "side": 1,
+      "slot": 6
+    },
+    {
+      "seq": 75,
+      "type": "summon",
+      "unit": {
+        "uid": 21,
+        "quarry": 0,
+        "quarry_reach": false,
+        "def_id": "old_brock",
+        "name": "Old Brock",
+        "tier": 4,
+        "tribes": [
+          "Hunters"
+        ],
+        "attack": 4,
+        "health": 10,
+        "max_health": 10,
+        "golden": true,
+        "text": "Units next to this have +2 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+        "keywords": [
+          "Quarry",
+          "Pounce"
+        ],
+        "statuses": [],
+        "keyword_text": [
+          {
+            "keyword": "Quarry",
+            "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+          },
+          {
+            "keyword": "Pounce",
+            "text": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+          }
+        ]
+      },
+      "side": 1,
+      "slot": 6,
+      "source": 14,
+      "came_out": true
+    },
+    {
+      "seq": 76,
+      "type": "stats",
+      "target": 13,
+      "attack_delta": 2,
+      "health_delta": 0,
+      "attack": 7,
+      "health": 11,
+      "max_health": 11,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": [
+        {
+          "source": 21,
+          "name": "aura",
+          "change": "gained"
+        }
+      ]
+    },
+    {
+      "seq": 77,
+      "type": "attack",
+      "side": 1,
+      "attacker": 13,
+      "defender": 4,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 78,
+      "type": "damage",
+      "source": 13,
+      "target": 4,
+      "amount": 7,
+      "raw": 7,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 1
+    },
+    {
+      "seq": 79,
+      "type": "damage",
+      "source": 4,
+      "target": 13,
+      "amount": 15,
+      "raw": 15,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -4
+    },
+    {
+      "seq": 80,
+      "type": "death",
+      "uid": 13,
+      "side": 1,
+      "slot": 5
+    },
+    {
+      "seq": 81,
+      "type": "attack",
+      "side": 0,
+      "attacker": 3,
+      "defender": 21,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 82,
+      "type": "damage",
+      "source": 3,
+      "target": 21,
+      "amount": 28,
+      "raw": 28,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": -18
+    },
+    {
+      "seq": 83,
+      "type": "damage",
+      "source": 21,
+      "target": 3,
+      "amount": 4,
+      "raw": 4,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 18
+    },
+    {
+      "seq": 84,
+      "type": "death",
+      "uid": 21,
+      "side": 1,
+      "slot": 6
+    },
+    {
+      "seq": 85,
+      "type": "combat_end",
+      "winner": 0,
+      "reason": "board_empty",
+      "survivors": [
+        [
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        []
+      ],
+      "damage": 16,
+      "damage_uncapped": 16,
+      "damage_base": 11,
+      "damage_performance": 5,
+      "damage_mode": "v05",
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": "",
+      "last_stand_sides": [],
+      "alive": 6,
+      "damage_cap": 0
+    }
+  ]
+}

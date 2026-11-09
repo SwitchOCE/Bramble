@@ -33,7 +33,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)

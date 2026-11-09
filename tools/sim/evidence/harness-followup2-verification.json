@@ -1,0 +1,98 @@
+{
+  "version": 1,
+  "base_merged_revision": "06c918b",
+  "verified_code_revision": "e36a897585eb6f9c4d502aae86301c1cdaa8a0a3",
+  "passes": true,
+  "upset_audit": {
+    "scope": "whole library; individual wave-1 ability allowlists",
+    "bird_abilities": 16,
+    "fairy_abilities": 16,
+    "unknown_abilities": "unsupported",
+    "focused_tests": 15,
+    "focused_assertions": 236,
+    "evidence": "tools/sim/evidence/wave1-upset-audit.json"
+  },
+  "compression": {
+    "caps-screen-results.json": {
+      "original_bytes": 1568947,
+      "gzip_bytes": 172768,
+      "original_sha256": "dd1b3721d55507b9ba08fe82713e5ba0c45df89de75504de0c06fabd152d0dae",
+      "archive_sha256": "20ce9a473eca01a27ca3fa1ea9dd4a23ee99985871d1bec2be6e7696a672220f",
+      "exact_bytes_preserved": true
+    },
+    "designed-screen-input.json": {
+      "original_bytes": 651736,
+      "gzip_bytes": 9214,
+      "original_sha256": "c8ebb03b11c44442f1e477362f1d2e1176993961c340296160a190d2139c7b31",
+      "archive_sha256": "6a3f5c75cc63ae736a374fee3637b93fcc8ec7248fae099125f3cd32e867c4a1",
+      "exact_bytes_preserved": true
+    },
+    "designed-screen-result.json": {
+      "original_bytes": 613256,
+      "gzip_bytes": 22801,
+      "original_sha256": "670634bcf8f84cd2026bf7866bfd67ef79f5a52569a390813f9646fad20cc03d",
+      "archive_sha256": "f44555a7a3571b9ec2e80568eb6f0f460ab5a4534c2d1458c5e169c3109aa84d",
+      "exact_bytes_preserved": true
+    }
+  },
+  "field_driver_fold": {
+    "per_seed": {
+      "fights": 768,
+      "rows": 384,
+      "sha256": "52c86f10ca07128e41ede1642d714821ef06db25c74c71e7be82188bbfb1696e",
+      "byte_identical_to_original_loop_on_merged_backend": true
+    },
+    "aggregate": {
+      "fights": 24,
+      "rows": 6,
+      "sha256": "5eb7557c7c25368a0b6b9a0e03c2de45ef9583898e622bd91236a4da948f437f",
+      "byte_identical_to_original_loop_on_merged_backend": true
+    },
+    "historical_cross_version": {
+      "winner_count_rows_differing": 35,
+      "identity_and_seed_metadata_unchanged": true,
+      "note": "Historical archive predates the merged backend. Original and folded loops agree on the merged backend; historical results were not rewritten."
+    }
+  },
+  "offline_rebuilds": {
+    "real-null": {
+      "verified_except_elapsed_seconds": true,
+      "expected_sha256": "5c986777664cbb178825ecfae7aeb8999570374d9cae950f074cb5eaf5cb125e",
+      "reconstruction_sha256": "5c986777664cbb178825ecfae7aeb8999570374d9cae950f074cb5eaf5cb125e"
+    },
+    "baseline-curvature": {
+      "verified_except_elapsed_seconds": true,
+      "expected_sha256": "7deff4a1c93c94c1087c1f21f363670e34868f2c870fc631f955e38e69842150",
+      "reconstruction_sha256": "782924100d5b776a6027529d06ca84a1a3cf5cdc29e683a9756bb5744b0e817c"
+    },
+    "lever-reads": {
+      "verified_except_elapsed_seconds": true,
+      "expected_sha256": "803d8ade4df738a821fe37df0c0810e5d1b817f58092c96aac81f8a44f7e0c55",
+      "reconstruction_sha256": "803d8ade4df738a821fe37df0c0810e5d1b817f58092c96aac81f8a44f7e0c55"
+    }
+  },
+  "gate": {
+    "command": "./scripts/check.sh",
+    "lock": "/tmp/bramble-godot.lock",
+    "systemd_scope": true,
+    "quiet": true,
+    "memory_max": "3G",
+    "timeout_seconds": 1200,
+    "tests": 1846,
+    "assertions": 30367,
+    "strict": true,
+    "log_sha256": "e5152e6e0f3924b586ba707d85c94163f42b1223d1f6d11a726430506b5564d2",
+    "log_archive": "tools/sim/evidence/harness-followup2-merged-gate.log.gz",
+    "log_archive_sha256": "e330137a2ae519eb1cec302c6360869a1714cb22e1377d1263ff225b57239357"
+  },
+  "python": {
+    "tests": 124,
+    "passes": true,
+    "temporary_storage": "project-disk TMPDIR",
+    "log_sha256": "cd3c28723f0e6654550e9a7532fd3c97b22cc5263cfd37760d5a7a9e84541075"
+  },
+  "deferred_work_started": false,
+  "merges_performed_by_this_turn": false,
+  "pushes": false,
+  "denied_actions": []
+}

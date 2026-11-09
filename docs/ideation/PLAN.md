@@ -1,12 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The audit is done: the game is flat because our costing method capped growth, and bots couldn't see it. A new plan is under way: a harness that measures strong scripted play, shared mechanics, and six tribe redesigns on paper, all running at once. Then a scale build for you to play.
+- **In short:** The game is still flat. Birds and Fairies are rebuilt, and the tool that measures growth is in. Now the other four tribes are being rebuilt, with power set generous on purpose, and the screen is being cleared of teaching text. Then you get a build to compare two power levels.
 - **Status:** active
-- **Last step done:** Pass 2 merged into ideation/main. Fundamentals audit (`fundamentals.md`) and the scale rework plan v2 (`plan-scale-rework.md`), approved after plan-interrogate and three critics.
-- **Next step:** Track A, the harness (Sol, `ideation/harness`). Track B, shared mechanics and the big-number phone check (Sol, `ideation/mechanics`). Track C, six tribe design panels (workflow). Then the lever sweep and scale build 8a (checkpoint 1).
-- **Waiting on you:** Nothing. Four optional questions in `fundamentals.md` §4; my defaults stand until you answer.
-- **Scope:** Fun first, then balance; simulations over bot play (owner, 9 Nov).
+- **Last step done:** The scale harness merged (10 Nov), after three reviews. Before it: wave 1 (Birds and Fairies) merged, and the declutter spec and the visual comparison were committed.
+- **Next step:** Wave 2a (Sol, `ideation/wave2a`): the pool rules are in review, then Bog and Hunters. Strong-field opponents are in follow-up review. The paper values for presets B and C are being worked out. UI declutter batch 1 starts when a worker frees up. Then wave 2b, the full-pool measurement and checkpoint 1 (B against C, played blind).
+- **Waiting on you:** Nothing. Your Quilboar replays are welcome in `/data/transfer/replays/` but not needed.
+- **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
@@ -58,7 +58,7 @@ Numbers are starting bars; tightening is free, loosening needs a line in `DECISI
    - Reviewers who played: a real decision on most turns, and they found at least 3 builds that felt different.
 3. **Interesting.** Every tribe has at least one signature mechanic Battlegrounds doesn't have. Every tribe has some economy (owner, 02h). Reviewers don't call it a re-skin.
 4. **Bots.** One strength: the best players we can make, in several flavours with different strategic quirks (owner, 8 Nov: "No easy, no medium bot."). "How far can I get" shows as a visible record: best placement and wins. The current implementation uses today's Hard policy; Naive is tools-only.
-5. **Release feel.** One look throughout, no switcher. Unique art on every unit, hero and spell. Text readable on phone (nothing under the phone minimum; full text one tap away). Fights read clearly: who hits, what triggered, why it died. Fight and UI sound. How-to-play, settings, game-over summary, no dev tools in the player's path. 20 scripted full UI games at phone and PC sizes without a crash or a layout failure.
+5. **Release feel.** One look throughout, no switcher. Unique art on every unit, hero and spell. Text readable on phone (nothing under the phone minimum; full text one tap away). Fights read clearly, through animation and feel rather than static labels, arrows or a running log: who hits, what triggered, why it died. The main game space assumes a player who knows the rules: no tutorial text, rule reminders or static pointers on the board. Teaching lives in a tutorial and how-to-play, and full rules text is one tap away (owner, 9 Nov: `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`). Fight and UI sound. A tutorial, how-to-play, settings, game-over summary, no dev tools in the player's path. 20 scripted full UI games at phone and PC sizes without a crash or a layout failure.
 6. **Delivered.** Windows and Android builds on the portal, each with a `README.txt`, and `PLAYTEST.md`.
 7. **Agreed.** Three fresh reviewers who each played full games say "very good for a playtest", with their agreed items fixed. Agents can't feel a phone: phone checks are layout measurements and screenshots at phone size, and the playtest guide says no real device was tested.
 

@@ -3,17 +3,18 @@
   "name": "Changeling",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 2,
+  "attack": 3,
+  "health": 3,
   "tribes": [
     "Fairies"
   ],
-  "text": "Start of Combat: swap sides with the enemy across. Swap back after that enemy attacks once.",
-  "golden_text": "Start of Combat: swap sides with the enemy across; that enemy gains +4/+4. Swap back after that enemy attacks once.",
+  "text": "Start of Combat: steal the enemy across until it attacks.",
+  "golden_text": "Start of Combat: steal the enemy across until it attacks twice.",
   "mechanics": [
     {
-      "id": "changeling",
-      "golden_bonus": 4
+      "id": "pass3_fairy",
+      "ability": "changeling",
+      "factor": 1
     }
   ],
   "keywords": [],
@@ -23,6 +24,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "This takes its place on their side; then both go home. Each unit uses its new slot's Ring."
 }

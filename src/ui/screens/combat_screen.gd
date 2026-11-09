@@ -476,6 +476,10 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 		"goose_strike":
 			_flash(Data.i(event, "target", -1), UiTheme.ACORN, animate)
 		"text_taken":
+			for text_uid: int in [Data.i(event, "uid", -1), Data.i(event, "from", -1)]:
+				var text_card: CardView = _cards.get(text_uid)
+				if text_card != null:
+					text_card.show_unit(model.unit(text_uid), text_card.mode)
 			_float_chip(Data.i(event, "uid", -1), "Pinched!", UiTheme.ACORN, animate)
 		"relocate":
 			_relocate(Data.i(event, "uid", -1), animate)

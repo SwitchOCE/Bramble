@@ -1,0 +1,6 @@
+Running as unit: run-p3908867-i12308657.scope; invocation ID: e786ddd0533e4af597a4c0969ff33582
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+wave1_games: first eligible seed 1
+wave1_games: Birds game_over round=19 placement=1 actions=269 counts={ "buy": 25, "play": 55, "trigger": 135, "buff": 175, "buy_spell": 3, "cast": 16, "rainy_day": 1, "rule": 2, "gold": 23, "fly_south": 35, "slot_effect": 2, "home": 30, "tribe_bonus": 1, "card": 13, "nest_replaced": 7, "move": 6, "sell": 13 }
+wave1_games: Fairies game_over round=11 placement=8 actions=90 counts={ "buy": 9, "play": 9, "slot_effect": 4, "move": 28, "sell": 2, "buy_spell": 2, "cast": 2, "trigger": 2 }

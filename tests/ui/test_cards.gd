@@ -36,6 +36,13 @@ func _port() -> CorePort:
 	return port
 
 
+func _legacy_port() -> CorePort:
+	var port: CorePort = _port()
+	port.library = LegacyWave1.library()
+	port.config.set_value("pass3_content", false)
+	return port
+
+
 func _holder() -> Control:
 	var holder: Control = Control.new()
 	holder.theme = UiTheme.get_theme()
@@ -108,6 +115,26 @@ func test_name_and_card_word_stay_apart_on_a_short_tile_without_rules() -> void:
 	var words: Label = card.get("_name_label")
 	var kind: Label = card.get("_type_label")
 	assert_lte(words.position.y + words.size.y, kind.position.y)
+
+
+func test_long_shop_names_wrap_completely_above_stat_badges_at_both_sizes() -> void:
+	var port: CorePort = _port()
+	var holder: Control = _holder()
+	for window: Vector2 in [DESKTOP, PHONE]:
+		CardView.window_override = window
+		for width: float in [122.0, 168.0, CardView.SHOP_WIDTH]:
+			for id: String in ["his_highness", "jenny_greenteeth"]:
+				var definition: Dictionary = port.library.get_unit(id)
+				assert_false(definition.is_empty(), id)
+				var card: CardView = _tile(holder, UnitViews.from_def(definition), width)
+				await get_tree().process_frame
+				var words: Label = card.get("_name_label")
+				assert_eq(words.get_visible_line_count(), words.get_line_count(), id)
+				assert_gte(words.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+				for key: String in ["_attack_badge", "_health_badge"]:
+					var badge: Control = card.get(key)
+					assert_lte(words.get_global_rect().end.y, badge.global_position.y, id + key)
+				card.queue_free()
 
 
 func test_two_cards_in_hand_at_desktop_show_their_rules() -> void:
@@ -254,7 +281,7 @@ func _fighters() -> Array:
 
 
 func test_a_real_fights_log_reads_in_plain_words() -> void:
-	var port: CorePort = _port()
+	var port: CorePort = _legacy_port()
 	var events: Array = Data.a(_sandbox_fight(port, _fighters()), "events")
 	assert_gt(events.size(), 5)
 	var words: CombatLog = CombatLog.new()
@@ -303,7 +330,7 @@ func test_a_real_fight_plays_through_with_motion_turned_down() -> void:
 
 
 func test_hex_shows_on_the_slot_it_lands_on_in_the_fight_and_not_on_a_recruit_unit() -> void:
-	var port: CorePort = _port()
+	var port: CorePort = _legacy_port()
 	var screen: CombatScreen = _combat(_sandbox_fight(port, _fighters()))
 	screen.skip_to_end()
 	var marks: Control = screen.board_for_side(1).get("_marks")

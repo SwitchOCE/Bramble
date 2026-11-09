@@ -3,6 +3,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const LEGACY := preload("res://tests/core/legacy_wave1.gd")
 
 const TEXT_FIELDS: Array[String] = ["text", "golden_text", "details", "golden_details"]
 const SIZE_KEYS: Array[String] = [
@@ -142,13 +143,14 @@ const PARAMETER_TEXT: Array = [
 
 func _config(sizes: bool, rates: bool) -> GameConfig:
 	var config := GameConfig.defaults()
+	config.set_value("pass3_content", false)
 	config.set_value("card_size_caps", sizes)
 	config.set_value("card_rate_limits", rates)
 	return config
 
 
 func _cards() -> Array[Dictionary]:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = LEGACY.library()
 	var cards: Array[Dictionary] = library.all_units()
 	cards.append_array(library.all_cards())
 	cards.append_array(library.all_heroes())
@@ -245,7 +247,9 @@ func test_every_card_all_overlay_combinations_has_text_for_changed_rule_paramete
 				_assert_no_disabled_claims(card, sizes, rates, label)
 				checked += 1
 	assert_eq(
-		checked, 812, "203 units, spells, heroes and opt-in levers each audited in four modes"
+		checked,
+		_cards().size() * 4,
+		"every unit, spell, hero and opt-in lever audited in four modes"
 	)
 
 
@@ -308,7 +312,7 @@ func _assert_runtime_text(card: Dictionary, config: GameConfig, label: String) -
 			_assert_prince_text(card, config, label)
 		"sample_thrifty":
 			var kit := KIT.new()
-			kit.setup(config)
+			kit.setup(config, true)
 			HeroRules.assign(kit.player, card)
 			kit.player.paid_refreshes = 0
 			assert_eq(kit.rules.refresh_cost(kit.player), 0, label)
@@ -322,7 +326,7 @@ func _assert_runtime_text(card: Dictionary, config: GameConfig, label: String) -
 
 func _assert_stall_text(card: Dictionary, config: GameConfig, label: String) -> void:
 	var kit := KIT.new()
-	kit.setup(config)
+	kit.setup(config, true)
 	kit.player.market_stalls = MarketStalls.LIMIT
 	var words: String = str(card["details"]).to_lower()
 	assert_eq(
@@ -341,7 +345,7 @@ func _assert_stall_text(card: Dictionary, config: GameConfig, label: String) -> 
 
 func _assert_harvest_text(card: Dictionary, config: GameConfig, label: String) -> void:
 	var kit := KIT.new()
-	kit.setup(config)
+	kit.setup(config, true)
 	kit.library = kit.rules.library
 	var chosen: RecruitUnit = kit.put("field_vole", 0)
 	var item := HandItem.make(card, 99)
@@ -369,7 +373,7 @@ func _assert_harvest_text(card: Dictionary, config: GameConfig, label: String) -
 
 func _figgy_can_pair(config: GameConfig, golden: bool, elapsed: int) -> bool:
 	var kit := KIT.new()
-	kit.setup(config)
+	kit.setup(config, true)
 	kit.library = kit.rules.library
 	var figgy: RecruitUnit = kit.put("figgy_duff", 0, golden)
 	figgy.counters["figgy_round"] = 5
@@ -386,7 +390,7 @@ func _figgy_can_pair(config: GameConfig, golden: bool, elapsed: int) -> bool:
 func _assert_prince_text(card: Dictionary, config: GameConfig, label: String) -> void:
 	for golden: bool in [false, true]:
 		var kit := KIT.new()
-		kit.setup(config)
+		kit.setup(config, true)
 		kit.library = kit.rules.library
 		var prince: RecruitUnit = kit.put("prince_restored", 0, golden)
 		var discount: int = prince.mechanic_number("spell_discount", "gold")
@@ -470,7 +474,7 @@ func _assert_no_disabled_claims(card: Dictionary, sizes: bool, rates: bool, labe
 
 
 func test_dozey_repeat_timing_and_numeric_caps_match_effective_rule_in_all_modes() -> void:
-	var raw: Dictionary = UnitLibrary.load_dir().get_unit("alderman_dozey")
+	var raw: Dictionary = LEGACY.library().get_unit("alderman_dozey")
 	for sizes: bool in [false, true]:
 		for rates: bool in [false, true]:
 			var card: Dictionary = ScaleOverlay.card_for(raw, _config(sizes, rates))
@@ -501,7 +505,7 @@ func test_dozey_repeat_timing_and_numeric_caps_match_effective_rule_in_all_modes
 
 
 func test_pipkin_and_money_spider_words_match_their_effective_numbers_in_all_modes() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = LEGACY.library()
 	for sizes: bool in [false, true]:
 		for rates: bool in [false, true]:
 			var config: GameConfig = _config(sizes, rates)

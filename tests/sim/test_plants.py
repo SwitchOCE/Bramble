@@ -194,25 +194,122 @@ class PlantChecksTests(unittest.TestCase):
         self.write_capture(self.null, [self.null_record, later_null])
         self.assertTrue(self.comparison()["passes"])
 
-    def test_known_answer_gate_requires_valid_real_null_even_when_engine_dominates(self):
-        broken = self.root / "broken"
-        self.write_csv(broken, "players", [["seed", "seat", "place"], *[[seed, 0, 1] for seed in range(8)]])
-        boards = [
+    def known_answer_fixture(self):
+        self.broken = self.root / "broken"
+        self.write_csv(self.broken, "players", [["seed", "seat", "place"], *[[seed, 0, 1] for seed in range(8)]])
+        for prefix, policy in ((self.reference, "plant_reference"), (self.null, "plant_null")):
+            self.write_csv(
+                prefix, "players", [["seed", "seat", "place", "strategy"], *[[seed, 0, 8, policy] for seed in range(8)]]
+            )
+        self.broken_boards = self.board_fixture("plant_engine", 100)
+        self.null_boards = self.board_fixture("plant_null", 2)
+        self.field = {"rounds": {"6": {"line_point_rates": {"plant_engine": 0.9}}}}
+        self.null_field = {"rounds": {"6": {"line_point_rates": {"plant_null": 0.2}}}}
+
+    @staticmethod
+    def board_fixture(policy, stats):
+        return [
             {
                 "seed": seed,
                 "round": 6,
-                "line": "plant_engine" if seat == 0 else "hard",
-                "combat_start": {"active_stats": 100 if seat == 0 else 10},
+                "line": policy if seat == 0 else "hard",
+                "combat_start": {"active_stats": stats if seat == 0 else 10},
             }
             for seed in range(8)
             for seat in range(8)
         ]
-        field = {"rounds": {"6": {"line_point_rates": {"plant_engine": 0.9}}}}
-        with patch("check_plants.boards_from_capture", return_value=boards):
-            self.assertTrue(check(self.reference, self.null, broken, field)["passes"])
-            self.null_record["input"]["boards"][0] = []
-            self.write_capture(self.null, [self.null_record])
-            self.assertFalse(check(self.reference, self.null, broken, field)["passes"])
+
+    def known_answer(self):
+        def boards(paths):
+            return self.broken_boards if str(paths[0]).startswith(str(self.broken)) else self.null_boards
+
+        with patch("check_plants.boards_from_capture", side_effect=boards):
+            return check(self.reference, self.null, self.broken, self.field, self.null_field)
+
+    def test_known_answer_requires_positive_engine_and_all_three_negative_null_bars(self):
+        self.known_answer_fixture()
+        result = self.known_answer()
+        self.assertTrue(result["passes"])
+        self.assertTrue(all(result["broken"]["bars"].values()))
+        self.assertFalse(any(result["null"]["bars"].values()))
+        self.assertTrue(result["null_dominance_bars_all_fail"])
+        self.null_record["input"]["boards"][0] = []
+        self.write_capture(self.null, [self.null_record])
+        self.assertFalse(self.known_answer()["passes"])
+
+    def test_weak_engine_fails_the_win_bar_independently(self):
+        self.known_answer_fixture()
+        self.write_csv(
+            self.broken, "players", [["seed", "seat", "place"], *[[seed, 0, 1 if seed < 5 else 2] for seed in range(8)]]
+        )
+        result = self.known_answer()
+        self.assertEqual(result["broken"]["bars"], {"round6_tail": True, "lobby_win": False, "field_point_rate": True})
+        self.assertFalse(result["passes"])
+
+    def test_weak_engine_fails_the_tail_bar_independently(self):
+        self.known_answer_fixture()
+        self.broken_boards[0]["combat_start"]["active_stats"] = 19
+        result = self.known_answer()
+        self.assertEqual(result["broken"]["bars"], {"round6_tail": False, "lobby_win": True, "field_point_rate": True})
+        self.assertFalse(result["passes"])
+
+    def test_weak_engine_fails_the_field_bar_independently(self):
+        self.known_answer_fixture()
+        self.field["rounds"]["6"]["line_point_rates"]["plant_engine"] = 0.79
+        result = self.known_answer()
+        self.assertEqual(result["broken"]["bars"], {"round6_tail": True, "lobby_win": True, "field_point_rate": False})
+        self.assertFalse(result["passes"])
+
+    def test_each_null_dominance_bar_must_fail_even_if_other_null_bars_fail(self):
+        for bar in ("round6_tail", "lobby_win", "field_point_rate"):
+            with self.subTest(bar=bar):
+                self.known_answer_fixture()
+                if bar == "round6_tail":
+                    self.null_boards = self.board_fixture("plant_null", 100)
+                elif bar == "lobby_win":
+                    for prefix, policy in ((self.reference, "plant_reference"), (self.null, "plant_null")):
+                        self.write_csv(
+                            prefix,
+                            "players",
+                            [["seed", "seat", "place", "strategy"], *[[seed, 0, 1, policy] for seed in range(8)]],
+                        )
+                else:
+                    self.null_field["rounds"]["6"]["line_point_rates"]["plant_null"] = 0.9
+                result = self.known_answer()
+                self.assertTrue(all(result["null_exact"].values()))
+                self.assertEqual(sum(result["null"]["bars"].values()), 1)
+                self.assertTrue(result["null"]["bars"][bar])
+                self.assertFalse(result["passes"])
+
+    def test_do_something_card_passed_off_as_matching_null_and_reference_fails(self):
+        self.known_answer_fixture()
+        for record, prefix in ((self.ref_record, self.reference), (self.null_record, self.null)):
+            record["test_cards"][0]["mechanics"] = [
+                {"id": "effect", "trigger": "end_of_turn", "do": {"effect": "buff", "attack": 64, "health": 64}}
+            ]
+            self.write_capture(prefix, [record])
+        self.null_boards = self.board_fixture("plant_null", 100)
+        self.null_field["rounds"]["6"]["line_point_rates"]["plant_null"] = 0.9
+        result = self.known_answer()
+        self.assertTrue(all(result["null_exact"].values()), "matching wrong controls alone would agree")
+        self.assertFalse(result["null_validation"]["null"]["inert_definition_in_every_record"])
+        self.assertTrue(result["null"]["bars"]["round6_tail"])
+        self.assertTrue(result["null"]["bars"]["field_point_rate"])
+        self.assertFalse(result["passes"])
+
+    def test_missing_null_field_rate_is_invalid_instead_of_a_negative_control(self):
+        self.known_answer_fixture()
+        self.null_field["rounds"]["6"]["line_point_rates"].clear()
+        with self.assertRaisesRegex(ValueError, "plant_null"):
+            self.known_answer()
+
+    def test_truncated_null_cannot_pass_by_failing_all_bars(self):
+        self.known_answer_fixture()
+        self.null_boards = []
+        result = self.known_answer()
+        self.assertFalse(any(result["null"]["bars"].values()))
+        self.assertFalse(result["null"]["sample_complete"])
+        self.assertFalse(result["passes"])
 
 
 if __name__ == "__main__":

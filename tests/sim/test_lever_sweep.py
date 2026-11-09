@@ -1,27 +1,23 @@
-"""Frozen-plan/resume known answers; these tests do not launch Godot."""
+"""Shared frozen-plan and evidence-analysis checks; these never launch Godot."""
 
 import copy
 import csv
 import json
-import shlex
 import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools/sim"))
 from lever_sweep import (
-    MAX_SECONDS,
     ROUNDS,
-    Sweep,
     SweepError,
     adoption_report,
-    atomic_json,
     damage_report,
-    fingerprints,
-    godot_command,
+    digest,
+    file_sha,
     run_command,
+    source_manifest,
     stage_plan,
     validate_capture,
     validate_plan,
@@ -116,24 +112,19 @@ class LeverSweepTests(unittest.TestCase):
         (self.root / "tools/sim/bench.gd").write_text("original bench\n")
         (self.root / "content/units/card.json").write_text('{"id":"card"}\n')
         (self.root / "profiles.json").write_text('{"line_hedgerow_tempo":{"tribe":"Hedgerow folk"}}\n')
-        self.git_patch = patch("lever_sweep.git", return_value="a" * 40)
-        self.git_patch.start()
-        self.addCleanup(self.git_patch.stop)
         self.plan = {
             "version": 1,
             "output_root": "build/sweep",
             "report": "docs/evidence.md",
             "configs": [configuration()],
-            **fingerprints(self.root, ["src", "content", "tools/sim/*.gd", "profiles.json"], "profiles.json"),
+            "source_commit": "a" * 40,
+            "source_paths": ["src", "content", "tools/sim/*.gd", "profiles.json"],
+            "source_fingerprint": digest(
+                source_manifest(self.root, ["src", "content", "tools/sim/*.gd", "profiles.json"])
+            ),
+            "profiles": "profiles.json",
+            "profiles_sha256": file_sha(self.root / "profiles.json"),
         }
-        self.plan_path = self.root / "plan.json"
-        self.write_plan()
-
-    def write_plan(self):
-        atomic_json(self.plan_path, self.plan)
-
-    def sweep(self):
-        return Sweep(self.plan_path, self.root)
 
     def capture(self, rows):
         path = self.root / "capture.jsonl"
@@ -213,119 +204,6 @@ class LeverSweepTests(unittest.TestCase):
         rows[-1]["test_cards"][0]["attack"] = 2
         with self.assertRaises(SweepError):
             validate_capture(self.capture(rows), 1001, 2, expected_test_cards=[definition])
-
-    def test_resume_rejects_profile_source_glob_additions_and_override_changes(self):
-        self.sweep().prepare()
-        profiles = self.root / "profiles.json"
-        original = profiles.read_bytes()
-        profiles.write_text("{}")
-        with self.assertRaisesRegex(SweepError, "profile"):
-            self.sweep().prepare()
-        profiles.write_bytes(original)
-        added = self.root / "tools/sim/new_mechanic.gd"
-        added.write_text("new source")
-        with self.assertRaisesRegex(SweepError, "fingerprint"):
-            self.sweep().prepare()
-        added.unlink()
-        self.plan["configs"][0]["overrides"]["card_rate_limits"] = False
-        self.write_plan()
-        with self.assertRaisesRegex(SweepError, "changed since prepare"):
-            self.sweep().prepare()
-
-    def test_resume_rejects_mutated_frozen_override_copy(self):
-        sweep = self.sweep()
-        sweep.prepare()
-        (sweep.output / "inputs/caps.json").write_text("{}")
-        with self.assertRaisesRegex(SweepError, "frozen override"):
-            self.sweep().prepare()
-
-    def test_incomplete_stage_retries_fresh_without_reusing_partial_output(self):
-        sweep = self.sweep()
-
-        def fail(stage, folder, timeout):
-            (folder / "partial.json").write_text('{"seed":1001}\n')
-            raise SweepError("interrupted shard")
-
-        with patch.object(sweep, "execute", side_effect=fail), self.assertRaisesRegex(SweepError, "interrupted"):
-            sweep.run(max_seconds=600, max_stages=1)
-        first = sweep.output / "caps/lobbies-000/attempt-001/partial.json"
-        self.assertTrue(first.exists())
-        resumed = self.sweep()
-        seen = []
-
-        def complete(stage, folder, timeout):
-            self.assertEqual(list(folder.iterdir()), [])
-            seen.append((stage["first_seed"], stage["count"]))
-            atomic_json(folder / "result.json", {"complete": True})
-
-        with patch.object(resumed, "execute", side_effect=complete):
-            status = resumed.run(max_seconds=600, max_stages=1)
-        checkpoint = status["stages"]["caps/lobbies-000"]
-        self.assertEqual(checkpoint["state"], "complete")
-        self.assertEqual(checkpoint["attempt"], 2)
-        self.assertEqual(seen, [(1001, 50)])
-        self.assertTrue(first.exists())
-        (resumed.output / checkpoint["directory"] / "result.json").write_text("corrupt")
-        with self.assertRaisesRegex(SweepError, "evidence changed"):
-            self.sweep().run(max_seconds=600)
-
-    def test_deadline_stops_before_start_and_maximum_turn_budget_is_enforced(self):
-        sweep = self.sweep()
-        with patch.object(sweep, "execute") as execute:
-            status = sweep.run(max_seconds=20)
-            execute.assert_not_called()
-        self.assertEqual(status["state"], "checkpoint")
-        self.assertEqual(status["stages"], {})
-        self.assertEqual(status["next_stage"], "caps/lobbies-000")
-        with self.assertRaisesRegex(SweepError, "2700"):
-            sweep.run(max_seconds=MAX_SECONDS + 1)
-
-    def test_protected_reads_refuse_missing_false_or_changed_build_gate(self):
-        config = self.plan["configs"][0]
-        config["overrides"] = {"scale_levers": ["scale_engine"]}
-        with self.assertRaisesRegex(SweepError, "build gate"):
-            validate_plan(self.plan)
-        config["requires_gate"] = {"path": "build/gate.json", "key": "passes", "equals": True}
-        self.write_plan()
-        sweep = self.sweep()
-        with patch.object(sweep, "execute") as execute:
-            with self.assertRaisesRegex(SweepError, "gate is missing"):
-                sweep.run(max_seconds=600)
-            execute.assert_not_called()
-        gate = self.root / "build/gate.json"
-        atomic_json(gate, {"passes": False})
-        with self.assertRaisesRegex(SweepError, "has not passed"):
-            self.sweep().run(max_seconds=600)
-        atomic_json(gate, {"passes": True})
-        sweep = self.sweep()
-        sweep.prepare()
-        sweep.check_gate(config)
-        sweep.save()
-        atomic_json(gate, {"passes": True, "modified": True})
-        with self.assertRaisesRegex(SweepError, "gate changed"):
-            self.sweep().run(max_seconds=600)
-
-    def test_caps_only_scope_does_not_read_protected_configuration(self):
-        protected = configuration("engine")
-        protected["overrides"] = {"scale_levers": ["scale_engine"]}
-        protected["requires_gate"] = "build/nonexistent-gate.json"
-        self.plan["configs"] = [protected]
-        self.write_plan()
-        sweep = self.sweep()
-        with patch.object(sweep, "execute") as execute:
-            status = sweep.run(max_seconds=600, scope="caps-only")
-            execute.assert_not_called()
-        self.assertEqual(status["state"], "checkpoint")
-        self.assertEqual(status["stages"], {})
-
-    def test_godot_shell_arguments_preserve_literal_paths(self):
-        hostile = "/tmp/with spaces/$(touch SHOULD_NOT_EXIST);literal.json"
-        command = godot_command("bench.gd", ["config=" + hostile], 90, self.root)
-        arguments = shlex.split(command[2].split(" && exec ", 1)[1])
-        self.assertIn("config=" + hostile, arguments)
-        self.assertIn("MemoryMax=3G", arguments)
-        self.assertIn("/tmp/bramble-godot.lock", arguments)
-        self.assertIn("90s", arguments)
 
     def test_offline_unresolved_games_do_not_receive_lengths(self):
         config = {"damage_mode": "v05", "starting_health": 10, "base_damage_by_turn": [0, 8], "last_stand": False}

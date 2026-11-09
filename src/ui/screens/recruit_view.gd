@@ -3,6 +3,7 @@ extends RefCounted
 ## aiming rules, hero cards, and the "then fight" note.
 
 const Data := preload("res://src/ui/view_data.gd")
+const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
@@ -57,6 +58,8 @@ static func aim_fits(aim: String, has_unit: bool, slot: int = -1) -> bool:
 static func item_lands(
 	item: Dictionary, target: Dictionary, slot: int, state: Dictionary = {}
 ) -> bool:
+	if Data.s(item, "def_id") == "golden_egg":
+		return Data.a(target, "tribes").has("Birds") and not Data.b(target, "egged")
 	if item.has("ring_add") and ring_preview(state, item, slot) == "Full":
 		return false
 	if Data.s(item, "aim") == "tribe_unit" and Data.a(target, "tribes").is_empty():
@@ -84,6 +87,8 @@ static func no_target_note(view: Dictionary, item: Dictionary) -> String:
 		var target: Dictionary = Data.entry(board, slot)
 		if item_lands(item, target, slot, view):
 			return ""
+	if Data.s(item, "def_id") == "golden_egg":
+		return "Needs a Bird that has not used a Golden Egg."
 	if item.has("ring_add"):
 		return "Every Ring is full."
 	match aim:
@@ -297,10 +302,13 @@ static func _ring_marks(view: Dictionary) -> Array:
 		var entries: Array = effects[slot] if slot < effects.size() else []
 		var attack: int = 0
 		var health: int = 0
+		var count: int = 0
 		var band: bool = slot < bands.size() and bands[slot] == true
 		var mark: Dictionary = {"ring": "", "has_ring": false, "band": band, "text": ""}
 		for entry: Variant in entries:
 			var effect: Dictionary = entry
+			if Data.s(effect, "name") == "Ring":
+				count += Data.i(effect, "count", 0)
 			if Data.s(effect, "name") == "Horseshoe":
 				mark["horseshoe"] = true
 			else:
@@ -312,14 +320,27 @@ static func _ring_marks(view: Dictionary) -> Array:
 				mark["text"] = (str(mark["text"]) + " " + line).strip_edges()
 		mark["slot_attack"] = attack
 		mark["slot_health"] = health
-		if attack != 0 or health != 0:
-			mark["ring"] = "%+d/%+d" % [attack, health]
+		if attack != 0 or health != 0 or count > 0:
+			mark["ring"] = "%s/%s" % [StatNumbers.signed(attack), StatNumbers.signed(health)]
+			if count > 0:
+				mark["ring"] += " · %s" % StatNumbers.compact(count)
+		mark["ring_count"] = count
 		out.append(mark)
 	return out
 
 
 ## The tile slip shows Hex strength first, then a turn count or a Cold Frame timer.
 static func turns_word(unit: Dictionary) -> String:
+	if Data.i(unit, "stork_goal") > 0:
+		return "%d/%d" % [Data.i(unit, "stork_count"), Data.i(unit, "stork_goal")]
+	var counters: Dictionary = Data.d(unit, "counters")
+	if counters.has("pass3_turns_stayed"):
+		return "%d turns" % Data.i(counters, "pass3_turns_stayed")
+	if counters.has("pass3_midsummer_period"):
+		return (
+			"%d/%d"
+			% [Data.i(counters, "pass3_midsummer"), Data.i(counters, "pass3_midsummer_period")]
+		)
 	var hex: int = Data.i(unit, "hex_amount", Data.i(Data.d(unit, "counters"), "hex", 0))
 	var percent: int = clampi(Data.i(unit, "hex_percent_amount", 0), 0, 100)
 	if hex > 0 or percent > 0:
@@ -628,13 +649,23 @@ static func ring_preview(view: Dictionary, item: Dictionary, slot: int) -> Strin
 		return ""
 	var slots: Array = Data.a(view, "slot_effects")
 	var ring := Vector2i.ZERO
+	var count: int = 0
 	var entries: Array = slots[slot] if slot < slots.size() else []
 	for effect: Dictionary in entries:
 		if Data.s(effect, "name") == "Ring":
 			ring += Vector2i(Data.i(effect, "attack"), Data.i(effect, "health"))
+			count += Data.i(effect, "count")
+	var amount := Vector2i(Data.i({"n": added[0]}, "n"), Data.i({"n": added[1]}, "n"))
+	if Data.b(view, "pass3_content") or view.has("ring_size"):
+		var ring_size: float = Data.f(view, "ring_size", 1.0)
+		var delta: int = (
+			ceili((count + maxi(amount.x, amount.y)) * ring_size) - ceili(count * ring_size)
+		)
+		return "%s/%s" % [StatNumbers.signed(delta), StatNumbers.signed(delta)]
+	if not Data.b(view, "card_size_caps", true):
+		return "%s/%s" % [StatNumbers.signed(amount.x), StatNumbers.signed(amount.y)]
 	if ring.x >= BoardUpkeep.RING_CAP and ring.y >= BoardUpkeep.RING_CAP:
 		return "Full"
-	var amount := Vector2i(Data.i({"n": added[0]}, "n"), Data.i({"n": added[1]}, "n"))
 	var applied := Vector2i(
 		mini(amount.x, maxi(0, BoardUpkeep.RING_CAP - ring.x)),
 		mini(amount.y, maxi(0, BoardUpkeep.RING_CAP - ring.y))

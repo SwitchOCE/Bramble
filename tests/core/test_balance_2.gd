@@ -1,6 +1,7 @@
 # gdlint: disable=max-public-methods
 extends GutTest
 ## The balance step's second round: the scope review's cuts and the opening of rounds 1-2.
+## Historical card assertions use the frozen pre-pass-3 library.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
@@ -19,7 +20,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
@@ -296,7 +297,7 @@ func test_the_opening_cards_cost_the_pool_nothing() -> void:
 
 func _session_bot(level: String, strategy: String = "") -> Array:
 	var kit: KIT = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), true)
 	var bot_name: String = level if strategy == "" else "%s:%s" % [level, strategy]
 	var brain: BotBrain = BotBrain.from_name(bot_name)
 	kit.rules.start_phase(kit.player, 1)

@@ -1,0 +1,55 @@
+{
+  "method": "in-memory source mutations in isolated child interpreters; repository source never changed",
+  "probes": [
+    {
+      "tests": 19,
+      "failures": 1,
+      "errors": 0,
+      "killed": true,
+      "mutant": "ignore_engine_lobby_win"
+    },
+    {
+      "tests": 19,
+      "failures": 1,
+      "errors": 0,
+      "killed": true,
+      "mutant": "ignore_engine_round6_tail"
+    },
+    {
+      "tests": 19,
+      "failures": 1,
+      "errors": 0,
+      "killed": true,
+      "mutant": "ignore_engine_field_point_rate"
+    },
+    {
+      "tests": 8,
+      "failures": 2,
+      "errors": 0,
+      "killed": true,
+      "mutant": "either_build_gate"
+    },
+    {
+      "tests": 12,
+      "failures": 1,
+      "errors": 0,
+      "killed": true,
+      "mutant": "drop_curvature_rmse"
+    },
+    {
+      "tests": 12,
+      "failures": 1,
+      "errors": 0,
+      "killed": true,
+      "mutant": "drop_curvature_growth_ratio"
+    },
+    {
+      "tests": 19,
+      "failures": 3,
+      "errors": 0,
+      "killed": true,
+      "mutant": "null_bars_always_pass"
+    }
+  ],
+  "passes": true
+}

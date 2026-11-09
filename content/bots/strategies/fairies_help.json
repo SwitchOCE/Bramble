@@ -1,29 +1,39 @@
 {
  "id": "fairies_help",
  "name": "Hired Help",
- "shape": "End of Turn feeders, one carry from any tribe",
+ "shape": "spread Rings and the Court tithe",
  "needs_tribes": [
   "Fairies"
  ],
  "tribes": {
-  "Fairies": 3
+  "Fairies": 4
  },
  "units": {
   "hob_in_the_hearth": 8,
-  "old_moth_annis": 8,
-  "queen_of_elfland": 8,
+  "old_moth_annis": 12,
+  "queen_of_elfland": 14,
   "ballooning_spider": 3,
   "pill_bug": 3,
-  "fairy_monarch": 8
+  "fairy_monarch": 14,
+  "cluricaun": 8,
+  "silky": 8,
+  "lob_lie_by_the_fire": 8,
+  "cradle_fetch": 10,
+  "will_o_the_wisp": 10,
+  "sally_spore": 8
  },
  "spells": {
-  "stand_behind_me": 2
+  "stand_behind_me": 2,
+  "spore_cloud": 6,
+  "boundary_stone": 6,
+  "pinch_of_dust": 1
  },
  "curve": [
+  2,
   4,
   6,
   8,
-  10,
-  12
- ]
+  10
+ ],
+ "power": 3
 }

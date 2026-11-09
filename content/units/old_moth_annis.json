@@ -4,33 +4,30 @@
   "set": "slice",
   "tier": 2,
   "attack": 2,
-  "health": 2,
+  "health": 4,
   "tribes": [
     "Fairies"
   ],
-  "text": "End of Turn: give the units behind this +1 Attack.",
-  "golden_text": "End of Turn: give the units behind this +2 Attack.",
+  "text": "End of Turn and after you sell: Ring the slots behind this.",
+  "golden_text": "End of Turn and after you sell: Ring the slots behind this twice.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "end_of_turn",
-      "name": "lantern",
-      "do": {
-        "effect": "buff",
-        "attack": 1,
-        "target": {
-          "select": "behind"
-        }
-      }
+      "id": "pass3_fairy",
+      "ability": "annis",
+      "factor": 1
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Ring"
+  ],
   "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "fairies.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Any unit sale counts, including Nan, the Chaser and a Bird flying south."
 }

@@ -11,7 +11,7 @@ const TAGS: Dictionary = {
 	"natterjack_chorus": "Mire",
 	"madame_ermeline": "Take reward",
 	"pennywort_snail": "Sale grows",
-	"mr_redbreast": "Per Nest",
+	"mr_redbreast": "Homecoming",
 	"peat_cutter": "Mire",
 	"beadle_warrenby": "Pass +1/+1",
 	"ichneumon_wasp": "Delayed kill",
@@ -39,8 +39,7 @@ func test_every_plain_and_golden_unit_has_a_meaningful_authored_chip() -> void:
 func test_all_audited_fallbacks_have_explicit_plain_and_golden_tags() -> void:
 	for id: String in TAGS:
 		for golden: bool in [false, true]:
-			# Golden Reel-Mistress already has the informative numeric Ring tag.
-			var wanted: String = "Ring +1/+1" if id == "reel_mistress" and golden else str(TAGS[id])
+			var wanted: String = str(TAGS[id])
 			if id == "beadle_warrenby" and golden:
 				wanted = "Pass +2/+2"
 			assert_eq(Cards.chip_text(Views.from_def(FIGHT.library.get_unit(id), golden)), wanted)

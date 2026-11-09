@@ -114,35 +114,71 @@ def compare_null(reference, null):
     return {"null_exact": exact, "null_validation": validation, "passes": all(exact.values()) and valid}
 
 
-def check(control, null, broken, field):
-    comparison = compare_null(control, null)
-    with Path(f"{broken}.players.csv").open(newline="") as stream:
+def dominance(prefix, policy, field):
+    """Apply the same fixed sensitivity bars to either the engine or the null."""
+    with Path(f"{prefix}.players.csv").open(newline="") as stream:
         planted = [row for row in csv.DictReader(stream) if row["seat"] == "0"]
+    seeds = [str(row["seed"]) for row in planted]
     by_game = {}
-    for board in boards_from_capture([Path(f"{broken}.fights.jsonl")]):
+    for board in boards_from_capture([Path(f"{prefix}.fights.jsonl")]):
         if board["round"] == 6:
-            by_game.setdefault(board["seed"], []).append(board)
+            by_game.setdefault(str(board["seed"]), []).append(board)
     tails = []
-    for boards in by_game.values():
+    observed_seeds = []
+    for seed, boards in by_game.items():
         median = statistics.median(b["combat_start"]["active_stats"] for b in boards)
-        tails.extend(b["combat_start"]["active_stats"] >= 2 * median for b in boards if b["line"] == "plant_engine")
-    rates = [row["line_point_rates"]["plant_engine"] for row in field["rounds"].values()]
+        for board in boards:
+            if board["line"] == policy:
+                observed_seeds.append(seed)
+                tails.append(board["combat_start"]["active_stats"] >= 2 * median)
+    rates = []
+    for row in field["rounds"].values():
+        rate = row["line_point_rates"].get(policy)
+        if type(rate) not in (int, float) or not 0 <= rate <= 1:
+            raise ValueError(f"field must contain an observed finite point rate for {policy}")
+        rates.append(rate)
+    sample_complete = (
+        len(planted) >= 8
+        and len(set(seeds)) == len(seeds)
+        and len(observed_seeds) == len(seeds)
+        and sorted(observed_seeds) == sorted(seeds)
+        and bool(rates)
+    )
     win_rate = sum(int(row["place"]) == 1 for row in planted) / len(planted) if planted else 0
+    bars = {
+        "round6_tail": bool(tails) and all(tails),
+        "lobby_win": win_rate >= 0.75,
+        "field_point_rate": bool(rates) and min(rates) >= 0.8,
+    }
     return {
-        "null_exact": comparison["null_exact"],
-        "null_validation": comparison["null_validation"],
-        "broken_lobbies": len(planted),
-        "broken_win_rate": win_rate,
+        "lobbies": len(planted),
+        "win_rate": win_rate,
         "round6_planted_boards": len(tails),
         "round6_tail_boards": sum(tails),
         "field_point_rates": rates,
-        "passes": comparison["passes"]
-        and len(planted) >= 8
-        and len(tails) == len(planted)
-        and all(tails)
-        and win_rate >= 0.75
-        and bool(rates)
-        and min(rates) >= 0.8,
+        "sample_complete": sample_complete,
+        "bars": bars,
+        "dominates": sample_complete and all(bars.values()),
+    }
+
+
+def check(control, null, broken, field, null_field):
+    comparison = compare_null(control, null)
+    positive = dominance(broken, "plant_engine", field)
+    negative = dominance(null, "plant_null", null_field)
+    null_bars_fail = negative["sample_complete"] and not any(negative["bars"].values())
+    return {
+        "null_exact": comparison["null_exact"],
+        "null_validation": comparison["null_validation"],
+        "broken_lobbies": positive["lobbies"],
+        "broken_win_rate": positive["win_rate"],
+        "round6_planted_boards": positive["round6_planted_boards"],
+        "round6_tail_boards": positive["round6_tail_boards"],
+        "field_point_rates": positive["field_point_rates"],
+        "broken": positive,
+        "null": negative,
+        "null_dominance_bars_all_fail": null_bars_fail,
+        "passes": comparison["passes"] and positive["dominates"] and null_bars_fail,
     }
 
 
@@ -151,9 +187,16 @@ def main():
     for name in ["control", "null", "broken"]:
         parser.add_argument(name, type=Path)
     parser.add_argument("--field", type=Path, required=True)
+    parser.add_argument("--null-field", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
-    report = check(args.control, args.null, args.broken, json.loads(args.field.read_text()))
+    report = check(
+        args.control,
+        args.null,
+        args.broken,
+        json.loads(args.field.read_text()),
+        json.loads(args.null_field.read_text()),
+    )
     args.out.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))
     raise SystemExit(0 if report["passes"] else 1)

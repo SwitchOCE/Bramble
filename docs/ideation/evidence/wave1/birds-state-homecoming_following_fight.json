@@ -1,0 +1,1246 @@
+{
+  "round": 6,
+  "phase": "recruit",
+  "player_id": 0,
+  "gold": 8,
+  "round_toll": 0,
+  "damage_mode": "v05",
+  "base_damage": 2,
+  "damage_cap": 0,
+  "last_stand_used": false,
+  "last_stand_enabled": true,
+  "last_stand_active": false,
+  "tier": 3,
+  "tier_up_cost": 7,
+  "refresh_cost": 1,
+  "ask_for_kin_enabled": false,
+  "can_ask_for_kin": false,
+  "paid_refreshes": 0,
+  "frozen": false,
+  "freezes_left": 5,
+  "shop": [
+    {
+      "iid": 201,
+      "def_id": "lob_lie_by_the_fire",
+      "name": "Lob-Lie-by-the-Fire",
+      "tier": 3,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {},
+      "attack": 3,
+      "health": 6,
+      "golden": false,
+      "origin": "bought",
+      "text": "Shy. When this leaves: your Rings grow +1/+1 per 3 turns it stayed.",
+      "keywords": [
+        "Shy",
+        "Ring size"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Shy",
+          "text": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn."
+        },
+        {
+          "keyword": "Ring size",
+          "text": "What each Ring gives; starts at +1/+1."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 3,
+        "base_health": 6,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 0,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": true,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 0,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "cost": 3,
+      "sell_value": 1
+    },
+    {
+      "iid": 202,
+      "def_id": "hedge_witch",
+      "name": "Hedge Witch",
+      "tier": 1,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {},
+      "attack": 1,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 3,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 0,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 0,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "cost": 3,
+      "sell_value": 1
+    },
+    {
+      "iid": 203,
+      "def_id": "spitfire_sal",
+      "name": "Spitfire Sal",
+      "tier": 3,
+      "tribes": [
+        "Bog folk"
+      ],
+      "tribe_bonuses": {},
+      "attack": 1,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Start of Combat: deal 2 damage to each Mired enemy.",
+      "keywords": [],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 3,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 0,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 0,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false,
+      "cost": 3,
+      "sell_value": 1
+    },
+    {
+      "iid": 204,
+      "def_id": "earwig_mother",
+      "name": "Earwig Mother",
+      "tier": 2,
+      "tribes": [],
+      "tribe_bonuses": {},
+      "attack": 1,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "When this dies: summon two 1/1 Nymphs behind it.",
+      "keywords": [],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 0,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 0,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false,
+      "cost": 3,
+      "sell_value": 1
+    }
+  ],
+  "shop_size": 4,
+  "shop_spells": [
+    {
+      "iid": 205,
+      "def_id": "harvest_supper",
+      "name": "Harvest Supper",
+      "kind": "spell",
+      "tier": 3,
+      "cost": 3,
+      "aim": "tribe_unit",
+      "text": "Pick a unit. Your units of its tribe, now and later, gain +1/+1, up to +3/+3. Once a turn.",
+      "sample": false,
+      "gold_value": 0,
+      "combines_into": "",
+      "keywords": [],
+      "keyword_text": []
+    }
+  ],
+  "tribe_bonuses": {},
+  "harvest_supper_used": false,
+  "takes_last_fight": 1,
+  "poached": [],
+  "hand_items": [],
+  "pending_choice": null,
+  "hero": {
+    "id": "brother_bracken",
+    "name": "Brother Bracken",
+    "text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
+    "kind": "passive",
+    "cost": 0,
+    "uses_per_turn": 0,
+    "aim": "none",
+    "armor": 0,
+    "sample": false,
+    "last_stand_used": false,
+    "uses_left": 0,
+    "usable": true
+  },
+  "armor": 0,
+  "free_refreshes": 0,
+  "gold_next_turn": 0,
+  "early_spoils_next_turn": 0,
+  "early_spoils_income": 0,
+  "next_turn_income": 9,
+  "gold_spent_turn": 0,
+  "slot_effects": [
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "name": "Ring",
+        "text": "Whoever stands here gains your Ring size for each Ring.",
+        "count": 1,
+        "golden": false,
+        "attack": 1,
+        "health": 1,
+        "ring_size": 1.0
+      }
+    ],
+    [],
+    []
+  ],
+  "pass3_content": true,
+  "ring_size": 1.0,
+  "midsummer_left": 0,
+  "birds_lump_multiplier": 1.0,
+  "birds_homecoming_multiplier": 2.0,
+  "fairies_fetch_share": 0.5,
+  "bands": [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ],
+  "band_count": 0,
+  "larder": 0,
+  "debt": 0,
+  "debt_payment": 0,
+  "buys_left": -1,
+  "pending_passes": [],
+  "lobby_tribes": [
+    "Birds",
+    "Bog folk",
+    "Fairies",
+    "Hunters",
+    "Oozes"
+  ],
+  "away": [],
+  "doorstep": [],
+  "next_opponent_last_nests": [],
+  "recruit_log": [
+    {
+      "unit": "chiffchaff",
+      "type": "home"
+    }
+  ],
+  "hand": [
+    {
+      "iid": 82,
+      "def_id": "chiffchaff",
+      "name": "Chiffchaff",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 0
+      },
+      "attack": 4,
+      "health": 6,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: gain +1/+1.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 6
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 3,
+        "perm_health": 4,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 6,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1
+    }
+  ],
+  "hand_limit": 10,
+  "board": [
+    {
+      "iid": 4,
+      "def_id": "little_nip",
+      "name": "Little Nip",
+      "tier": 1,
+      "tribes": [
+        "Hunters"
+      ],
+      "tribe_bonuses": {
+        "Hunters": 0
+      },
+      "attack": 5,
+      "health": 6,
+      "golden": false,
+      "origin": "bought",
+      "text": "Quarry. Take: gain +1/+1 permanently.",
+      "keywords": [
+        "Quarry"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Quarry",
+          "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 3,
+        "perm_attack": 3,
+        "perm_health": 3,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 5,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 1,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 115,
+      "def_id": "lamp_moth",
+      "name": "Lamp Moth",
+      "tier": 1,
+      "tribes": [],
+      "tribe_bonuses": {},
+      "attack": 1,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "When played: your next Tier up costs 1 less.",
+      "keywords": [],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 2,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 4,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 51,
+      "def_id": "chiffchaff",
+      "name": "Chiffchaff",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 0
+      },
+      "attack": 5,
+      "health": 7,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: gain +1/+1.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {
+        "pass3_home_round": 5
+      },
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 4,
+        "perm_health": 5,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 2,
+      "played_round": 5,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 79,
+      "def_id": "wee_wobbly",
+      "name": "Wee Wobbly",
+      "tier": 1,
+      "tribes": [
+        "Oozes"
+      ],
+      "tribe_bonuses": {
+        "Oozes": 0
+      },
+      "attack": 1,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+      "keywords": [
+        "Belly"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Belly",
+          "text": "Holds this many units, safe inside. When this dies, they come out."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 4,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 3,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 1,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 3,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 116,
+      "def_id": "nan_toadstool",
+      "name": "Nan Toadstool",
+      "tier": 1,
+      "tribes": [
+        "Fairies"
+      ],
+      "tribe_bonuses": {
+        "Fairies": 0
+      },
+      "attack": 3,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "When played or sold: Ring this slot.",
+      "keywords": [
+        "Ring"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Ring",
+          "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 1,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 1,
+        "aura_health": 1
+      },
+      "turns_in_slot": 2,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 4,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    {
+      "iid": 189,
+      "def_id": "one_swallow",
+      "name": "One Swallow",
+      "tier": 1,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 0
+      },
+      "attack": 1,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "Fly South. When played: get 1 gold.",
+      "keywords": [
+        "Fly South"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Fly South",
+          "text": "Sold, it flies south, then comes home to hand with double stats."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 1,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 1,
+      "played_round": 5,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true,
+      "sell_value": 1,
+      "sell_payout": 1
+    },
+    null
+  ],
+  "health": 39,
+  "next_opponent_id": 3,
+  "next_opponent_last_board": [
+    {
+      "iid": 129,
+      "def_id": "stone_soup",
+      "name": "Stone Soup",
+      "tier": 2,
+      "tribes": [
+        "Oozes"
+      ],
+      "tribe_bonuses": {
+        "Oozes": 0
+      },
+      "attack": 2,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
+      "keywords": [
+        "Belly"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Belly",
+          "text": "Holds this many units, safe inside. When this dies, they come out."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 3,
+        "perm_attack": 1,
+        "perm_health": 1,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 2,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 1,
+      "belly_discount": 0,
+      "held": [
+        {
+          "iid": 128,
+          "def_id": "mrs_dunnock",
+          "name": "Mrs Dunnock",
+          "tier": 1,
+          "tribes": [
+            "Birds"
+          ],
+          "tribe_bonuses": {
+            "Birds": 0
+          },
+          "attack": 2,
+          "health": 3,
+          "golden": false,
+          "origin": "bought",
+          "text": "End of Turn: your biggest Bird away comes home a turn sooner.",
+          "keywords": [
+            "Fly South"
+          ],
+          "counters": {},
+          "hex_amount": 0,
+          "hex_stored": 0,
+          "keyword_text": [
+            {
+              "keyword": "Fly South",
+              "text": "Sold, it flies south, then comes home to hand with double stats."
+            }
+          ],
+          "stat_layers": {
+            "base_attack": 2,
+            "base_health": 3,
+            "perm_attack": 0,
+            "perm_health": 0,
+            "tribe_attack": 0,
+            "tribe_health": 0,
+            "combat_attack": 0,
+            "combat_health": 0,
+            "aura_attack": 0,
+            "aura_health": 0
+          },
+          "turns_in_slot": 0,
+          "turns_goal": 0,
+          "timers": [],
+          "reward_pending": false,
+          "shy": false,
+          "eats_items": false,
+          "belly": 0,
+          "belly_discount": 0,
+          "held": [],
+          "fly_south": 0,
+          "played_round": 0,
+          "plain_copy": false,
+          "poached": false,
+          "egged": false,
+          "pass3_content": true
+        }
+      ],
+      "fly_south": 0,
+      "played_round": 4,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false
+    },
+    {
+      "iid": 22,
+      "def_id": "little_dollop",
+      "name": "Little Dollop",
+      "tier": 1,
+      "tribes": [
+        "Oozes"
+      ],
+      "tribe_bonuses": {
+        "Oozes": 0
+      },
+      "attack": 1,
+      "health": 2,
+      "golden": false,
+      "origin": "bought",
+      "text": "Belly 1. Units you buy into this cost 1 gold less.",
+      "keywords": [
+        "Belly"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Belly",
+          "text": "Holds this many units, safe inside. When this dies, they come out."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 2,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 4,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 1,
+      "belly_discount": 1,
+      "held": [
+        {
+          "iid": 96,
+          "def_id": "mrs_posset",
+          "name": "Mrs Posset",
+          "tier": 1,
+          "tribes": [
+            "Oozes"
+          ],
+          "tribe_bonuses": {
+            "Oozes": 0
+          },
+          "attack": 2,
+          "health": 1,
+          "golden": false,
+          "origin": "bought",
+          "text": "Belly 1. When this dies: deal 3 damage to the enemy across.",
+          "keywords": [
+            "Belly"
+          ],
+          "counters": {},
+          "hex_amount": 0,
+          "hex_stored": 0,
+          "keyword_text": [
+            {
+              "keyword": "Belly",
+              "text": "Holds this many units, safe inside. When this dies, they come out."
+            }
+          ],
+          "stat_layers": {
+            "base_attack": 2,
+            "base_health": 1,
+            "perm_attack": 0,
+            "perm_health": 0,
+            "tribe_attack": 0,
+            "tribe_health": 0,
+            "combat_attack": 0,
+            "combat_health": 0,
+            "aura_attack": 0,
+            "aura_health": 0
+          },
+          "turns_in_slot": 0,
+          "turns_goal": 0,
+          "timers": [],
+          "reward_pending": false,
+          "shy": false,
+          "eats_items": false,
+          "belly": 1,
+          "belly_discount": 0,
+          "held": [],
+          "fly_south": 0,
+          "played_round": 0,
+          "plain_copy": false,
+          "poached": false,
+          "egged": false,
+          "pass3_content": false
+        }
+      ],
+      "fly_south": 0,
+      "played_round": 2,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false
+    },
+    {
+      "iid": 20,
+      "def_id": "warty_nan",
+      "name": "Warty Nan",
+      "tier": 1,
+      "tribes": [
+        "Bog folk"
+      ],
+      "tribe_bonuses": {
+        "Bog folk": 0
+      },
+      "attack": 1,
+      "health": 3,
+      "golden": false,
+      "origin": "bought",
+      "text": "Bitter 1. Your units beside this have Bitter 1.",
+      "keywords": [
+        "Bitter"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Bitter",
+          "text": "When an enemy attacks this, it first loses this much Attack, down to 1."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 1,
+        "base_health": 3,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 4,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 2,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": false
+    },
+    null,
+    null,
+    null,
+    {
+      "iid": 127,
+      "def_id": "redwing",
+      "name": "Redwing",
+      "tier": 2,
+      "tribes": [
+        "Birds"
+      ],
+      "tribe_bonuses": {
+        "Birds": 0
+      },
+      "attack": 2,
+      "health": 4,
+      "golden": false,
+      "origin": "bought",
+      "text": "Your two biggest Birds away leave Eggs with half their stats.",
+      "keywords": [
+        "Egg"
+      ],
+      "counters": {},
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "keyword_text": [
+        {
+          "keyword": "Egg",
+          "text": "A 0/1 with no text that fights on an empty Nest."
+        }
+      ],
+      "stat_layers": {
+        "base_attack": 2,
+        "base_health": 4,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "aura_attack": 0,
+        "aura_health": 0
+      },
+      "turns_in_slot": 2,
+      "turns_goal": 0,
+      "timers": [],
+      "reward_pending": false,
+      "shy": false,
+      "eats_items": false,
+      "belly": 0,
+      "belly_discount": 0,
+      "held": [],
+      "fly_south": 0,
+      "played_round": 4,
+      "plain_copy": false,
+      "poached": false,
+      "egged": false,
+      "pass3_content": true
+    }
+  ],
+  "next_opponent_last_slot_effects": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "next_opponent_hero": {
+    "id": "old_mother_mousewife",
+    "name": "Old Mother Mousewife",
+    "text": "After a front-row unit dies: summon a Mouse in its place, with stats equal to your tier. Twice a fight.\nLast Stand: unused.",
+    "kind": "passive",
+    "cost": 0,
+    "uses_per_turn": 0,
+    "aim": "none",
+    "armor": 0,
+    "sample": false,
+    "last_stand_used": false,
+    "uses_left": 0,
+    "usable": true
+  },
+  "last_combat": {
+    "round": 5,
+    "opponent_id": 7,
+    "winner": 0,
+    "damage": 2
+  },
+  "standings": [
+    {
+      "hero": "Brother Bracken",
+      "armor": 0,
+      "player_id": 0,
+      "name": "You",
+      "is_human": true,
+      "personality": "human",
+      "health": 39,
+      "tier": 3,
+      "alive": true,
+      "placement": null,
+      "last_result": "win",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "Little King Wren",
+      "armor": 0,
+      "player_id": 1,
+      "name": "Bot 1 (hard)",
+      "is_human": false,
+      "personality": "hard:hunters_open_season",
+      "health": 38,
+      "tier": 2,
+      "alive": true,
+      "placement": null,
+      "last_result": "loss",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "Dame Farthing",
+      "armor": 0,
+      "player_id": 2,
+      "name": "Bot 2 (hard)",
+      "is_human": false,
+      "personality": "hard:oozes_second_helpings",
+      "health": 39,
+      "tier": 2,
+      "alive": true,
+      "placement": null,
+      "last_result": "win",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "Old Mother Mousewife",
+      "armor": 0,
+      "player_id": 3,
+      "name": "Bot 3 (hard)",
+      "is_human": false,
+      "personality": "hard:oozes_waste_not",
+      "health": 37,
+      "tier": 3,
+      "alive": true,
+      "placement": null,
+      "last_result": "win",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "The March Hare",
+      "armor": 0,
+      "player_id": 4,
+      "name": "Bot 4 (hard)",
+      "is_human": false,
+      "personality": "hard:birds_highway",
+      "health": 30,
+      "tier": 3,
+      "alive": true,
+      "placement": null,
+      "last_result": "loss",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "Dame Hoolet",
+      "armor": 0,
+      "player_id": 5,
+      "name": "Bot 5 (hard)",
+      "is_human": false,
+      "personality": "hard:neutrals_low_roll",
+      "health": 39,
+      "tier": 2,
+      "alive": true,
+      "placement": null,
+      "last_result": "win",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "Hob Mumblecrust",
+      "armor": 0,
+      "player_id": 6,
+      "name": "Bot 6 (hard)",
+      "is_human": false,
+      "personality": "hard:birds_passage",
+      "health": 31,
+      "tier": 3,
+      "alive": true,
+      "placement": null,
+      "last_result": "loss",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    },
+    {
+      "hero": "Jill Down-the-Tree",
+      "armor": 0,
+      "player_id": 7,
+      "name": "Bot 7 (hard)",
+      "is_human": false,
+      "personality": "hard:hunters_sett",
+      "health": 33,
+      "tier": 2,
+      "alive": true,
+      "placement": null,
+      "last_result": "loss",
+      "last_stand_enabled": true,
+      "last_stand_active": false,
+      "last_stand_used": false
+    }
+  ],
+  "placement": null
+}

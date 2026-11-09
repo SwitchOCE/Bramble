@@ -9,7 +9,7 @@ var _brain: BotBrain
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_player.tier = 4
 	_player.round_number = 8
@@ -203,13 +203,13 @@ func test_redwing_replaces_a_small_recruit_when_the_only_gaps_are_strong_eggs() 
 	assert_null(_player.board[2], "the other large Egg stays uncovered")
 
 
-func test_bird_strategies_include_the_new_cards_without_changing_their_measured_priors() -> void:
+func test_bird_strategies_include_the_replacement_cards_with_provisional_priors() -> void:
 	for id: String in ["birds_highway", "birds_passage", "birds_summer_winter"]:
 		var strategy: Dictionary = BotKnowledge.shared().strategy(id)
 		var units: Dictionary = strategy["units"]
 		assert_true(units.has("cuckoo"))
 		assert_false(units.has("barn_owl"))
 		assert_true(units.has("redwing"))
-	assert_eq(BotKnowledge.shared().strategy("birds_highway")["power"], 8.0)
+	assert_eq(BotKnowledge.shared().strategy("birds_highway")["power"], 3.0)
 	assert_eq(BotKnowledge.shared().strategy("birds_passage")["power"], 3.0)
-	assert_eq(BotKnowledge.shared().strategy("birds_summer_winter")["power"], 1.0)
+	assert_eq(BotKnowledge.shared().strategy("birds_summer_winter")["power"], 3.0)

@@ -8,7 +8,7 @@ var _kit: K
 
 func before_each() -> void:
 	_kit = K.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_kit.put("field_vole", 0)
 
 
@@ -116,6 +116,7 @@ func test_horseshoe_does_not_reduce_hex_or_non_ring_slot_effects() -> void:
 
 func test_eliminated_casters_ghost_does_not_keep_a_spent_horseshoe() -> void:
 	var config: GameConfig = GameConfig.full_game()
+	config.set_value("pass3_content", false)
 	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
 	var session: GameSession = GameSession.create(421, _kit.library, config)
 	var gone: PlayerState = session._players[2]

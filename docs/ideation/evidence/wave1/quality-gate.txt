@@ -1,0 +1,74 @@
+Running as unit: run-p3931206-i12325484.scope; invocation ID: c2f3edabbd434f55a243d46516eb072d
+==> tools
+godot 4.7.2, gdtoolkit 4.5.0, ruff 0.16.8, version: 0.11.0
+PASS tools (0s)
+
+==> versions
+versions: ok (no drift from tools/versions.env)
+PASS versions (0s)
+
+==> shell
+PASS shell (1s)
+
+==> python
+All checks passed!
+15 files already formatted
+Ran 57 tests in 0.020s
+
+OK
+PASS python (0s)
+
+==> content
+check_units: 164 files, 134 pool units by tier [29, 25, 26, 24, 17, 13], 0 problem(s)
+PASS content (0s)
+
+==> format
+492 files would be left unchanged
+PASS format (18s)
+
+==> lint
+Success: no problems found
+Success: no problems found
+PASS lint (18s)
+
+==> import
+PASS import (5s)
+
+==> compile
+compile_all: 492 files, 0 failed
+PASS compile (5s)
+
+==> parity
+parity: full_game set=slice, 109 shop units (before lobby rotation)
+parity: tribe | total | T1 T2 T3 T4 T5 T6; target 16 at 3/3/3/3/2/2
+parity: Birds | 16 | [3, 3, 3, 3, 2, 2]
+parity: Bog folk | 16 | [3, 3, 3, 3, 2, 2]
+parity: Fairies | 16 | [3, 3, 3, 3, 2, 2]
+parity: Hedgerow folk | 16 | [3, 3, 3, 3, 2, 2]
+parity: Hunters | 16 | [3, 3, 3, 3, 2, 2]
+parity: Neutrals | 13 | [3, 3, 3, 2, 1, 1]
+parity: Oozes | 16 | [3, 3, 3, 3, 2, 2]
+parity: all tribes meet the target; neutrals are reported without a target
+PASS parity (0s)
+
+==> tests
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts             163
+Tests              1779
+Passing Tests      1779
+Asserts           29298
+Time              254.48s
+
+
+---- All tests passed! ----
+
+gut_strict: ok (no risky or pending tests)
+PASS tests (261s)
+
+==> Summary
+passed: tools versions shell python content format lint import compile parity tests
+check.sh: all steps passed

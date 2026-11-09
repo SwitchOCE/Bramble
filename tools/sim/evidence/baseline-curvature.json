@@ -1,0 +1,185 @@
+{
+  "version": 1,
+  "source": "fixed 500-lobby capped baseline, seeds 81001\u201381500",
+  "source_progress_sha256": "3d12f5c107569eac5a98a00d0bec60e63e89ad3fa24aa10d5df3265be6aafe06",
+  "capture_hashes_verified_against_progress": true,
+  "capture_sha256": {
+    "build/sim/harness-baseline/part01.fights.jsonl": "f849465d50bdbd13bdee82850b3f770b92bacec90cc820da490d2c7dec8ff9e7",
+    "build/sim/harness-baseline/part02.fights.jsonl": "593810013e2b8cbf5ba29ceb7a224f5c806eb6f9ba4abf00f5769af6eadcf4d0",
+    "build/sim/harness-baseline/part03.fights.jsonl": "fdc8c05af30e50a4bfdd68bf9217bea3dadd513277ff6b6a6c57c5a4b4517426",
+    "build/sim/harness-baseline/part04.fights.jsonl": "11975b0616e6db503044cb2ccd66cf17c58a4a85773df6c47f7d536ec955a0f9",
+    "build/sim/harness-baseline/part05.fights.jsonl": "b0a00aa8d9dc9f6b8d92ec909c4194b00f6cf7eb8633335289c01be453a6f864"
+  },
+  "board_round_observations": 35564,
+  "stats_phase_counts": {
+    "after_start_effects": 35564
+  },
+  "rounds": {
+    "6": {
+      "boards": 4000,
+      "median_stats": 44.0
+    },
+    "7": {
+      "boards": 4000,
+      "median_stats": 54.0
+    },
+    "8": {
+      "boards": 4000,
+      "median_stats": 64.0
+    },
+    "9": {
+      "boards": 3999,
+      "median_stats": 78
+    },
+    "10": {
+      "boards": 3956,
+      "median_stats": 93.0
+    },
+    "11": {
+      "boards": 3741,
+      "median_stats": 108
+    },
+    "12": {
+      "boards": 3348,
+      "median_stats": 122.5
+    },
+    "13": {
+      "boards": 2815,
+      "median_stats": 140
+    },
+    "14": {
+      "boards": 2204,
+      "median_stats": 157.0
+    },
+    "15": {
+      "boards": 1856,
+      "median_stats": 172.0
+    },
+    "16": {
+      "boards": 1645,
+      "median_stats": 189
+    }
+  },
+  "curvature_check": {
+    "round_range": [
+      6,
+      16
+    ],
+    "rounds": 11,
+    "linear_r2": 0.9948726186840917,
+    "slope": 14.813636363636364,
+    "linear_relative_rmse": 0.030284817621854768,
+    "late_early_growth_ratio": 1.441176470588235,
+    "relative_rmse_limit": 0.05,
+    "growth_ratio_tolerance": 0.25,
+    "flat": false,
+    "linear_relative_rmse_ci95": [
+      0.02636552623188981,
+      0.03481961359520331
+    ],
+    "late_early_growth_ratio_ci95": [
+      1.3714285714285714,
+      1.5588235294117647
+    ],
+    "uncertainty": {
+      "method": "percentile bootstrap of whole independent seeds, all seats/legs/rounds together",
+      "seed_clusters": 500,
+      "replicates": 2000,
+      "bootstrap_seed": 14519,
+      "supported_round_grid_draws": 2000,
+      "valid_draws": {
+        "linear_relative_rmse": 2000,
+        "late_early_growth_ratio": 2000
+      },
+      "scope": "uncertainty in the pooled observed survivor-median curve, not within-player compounding",
+      "limitations": "late medians contain survivors only; bootstrap does not remove elimination selection"
+    }
+  },
+  "elapsed_seconds": 16.27106788905803,
+  "pre_start_comparison": {
+    "purpose": "Phase comparison with the historical baseline/report-review medians only; the active measurement contract uses after_start_effects.",
+    "stats_phase": "combat_start after initial auras before Start of Combat effects",
+    "rounds": {
+      "6": {
+        "boards": 4000,
+        "median_stats": 41.0
+      },
+      "7": {
+        "boards": 4000,
+        "median_stats": 51.0
+      },
+      "8": {
+        "boards": 4000,
+        "median_stats": 61.0
+      },
+      "9": {
+        "boards": 3999,
+        "median_stats": 73
+      },
+      "10": {
+        "boards": 3956,
+        "median_stats": 86.0
+      },
+      "11": {
+        "boards": 3741,
+        "median_stats": 98
+      },
+      "12": {
+        "boards": 3348,
+        "median_stats": 110.0
+      },
+      "13": {
+        "boards": 2815,
+        "median_stats": 123
+      },
+      "14": {
+        "boards": 2204,
+        "median_stats": 135.0
+      },
+      "15": {
+        "boards": 1856,
+        "median_stats": 148.0
+      },
+      "16": {
+        "boards": 1645,
+        "median_stats": 161
+      }
+    },
+    "curvature_check": {
+      "round_range": [
+        6,
+        16
+      ],
+      "rounds": 11,
+      "linear_r2": 0.9988975706138579,
+      "slope": 12.127272727272727,
+      "linear_relative_rmse": 0.012892620453619023,
+      "late_early_growth_ratio": 1.1875,
+      "relative_rmse_limit": 0.05,
+      "growth_ratio_tolerance": 0.25,
+      "flat": true,
+      "linear_relative_rmse_ci95": [
+        0.011187796850663005,
+        0.01677670378078894
+      ],
+      "late_early_growth_ratio_ci95": [
+        1.125,
+        1.2580645161290323
+      ],
+      "uncertainty": {
+        "method": "percentile bootstrap of whole independent seeds, all seats/legs/rounds together",
+        "seed_clusters": 500,
+        "replicates": 2000,
+        "bootstrap_seed": 14519,
+        "supported_round_grid_draws": 2000,
+        "valid_draws": {
+          "linear_relative_rmse": 2000,
+          "late_early_growth_ratio": 2000
+        },
+        "scope": "uncertainty in the pooled observed survivor-median curve, not within-player compounding",
+        "limitations": "late medians contain survivors only; bootstrap does not remove elimination selection"
+      }
+    },
+    "elapsed_seconds": 13.315477008931339
+  }
+}

@@ -266,3 +266,245 @@ not an extra sample. Checkpoint: `21a9b82`. Remaining fields and then the frozen
 strength comparisons continue sequentially in the bounded background pipeline.
 
 At the 9 November 09:52 UTC execution checkpoint, all 450 screening lobbies and 4/18 field-round shards are validated and committed. The bounded background pipeline continues with the remaining fields, metrics merge, and then all four frozen lever-build comparisons. Strength results remain pending; no protected sweep has started. The [execution ledger](../../../tools/sim/evidence/scale-run-execution.json) and [shard checkpoint](../../../tools/sim/evidence/caps-screen-progress.json) record progress.
+
+
+## Completed caps-off screening
+
+# Lever sweep
+
+Predeclared real-shop, real-pool mixed lobbies; no forced synthetic units. Stats measure feel; placements and repeated blind field fights measure outcomes. Late rounds contain survivors only. No results change budgets, policies or overrides.
+
+Source `b926e0b08a507e7f648c395074d85b2c03beb06d`; fingerprint `45e78b48ac6dac91b9210528d34a6c0d9cb00e816cdeccd2d440f038b38e9b70`.
+
+[Frozen plan](../../../build/sim/caps-screen-fixed/merged/plan.json) · [Input provenance](../../../build/sim/caps-screen-fixed/merged/plan.lock.json) · [Atomic execution checkpoint](../../../build/sim/caps-screen-fixed/merged/status.json)
+
+Controller state: **complete**. Updated 2026-11-09T10:59:47.387964+00:00.
+
+| Configuration | Completed stages | State | Measurements |
+|---|---:|---|---|
+| caps-both | 11/11 | complete | [Full metrics JSON](../../../build/sim/caps-screen-fixed/merged/stages/caps-both/analysis/metrics.json) |
+| caps-size | 11/11 | complete | [Full metrics JSON](../../../build/sim/caps-screen-fixed/merged/stages/caps-size/analysis/metrics.json) |
+| caps-rate | 11/11 | complete | [Full metrics JSON](../../../build/sim/caps-screen-fixed/merged/stages/caps-rate/analysis/metrics.json) |
+
+## caps-both
+
+150 independent lobbies, seeds 140001-140150; 64 weighted boards at each of R6/8/10/12/14/16, eight replicates per orientation.
+
+[Complete pooled/within-line metrics and tier arrivals](../../../build/sim/caps-screen-fixed/merged/stages/caps-both/analysis/metrics.json) · [Board point rates, line weights and win matrices](../../../build/sim/caps-screen-fixed/merged/stages/caps-both/analysis/field-report.json) · [Content exposure/adoption](../../../build/sim/caps-screen-fixed/merged/stages/caps-both/analysis/adoption.json)
+
+| Round | Boards | S1 p50 | p90 | p99 | Share >=2x median | Largest-share p50 | Stats/gold p50 | Growth/gold p50 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 1200 | 0.000 | 5.000 | 7.000 | n/a | 0.000 | 0.000 | n/a |
+| 10 | 1184 | 99.000 | 146.000 | 238.530 | 0.018 | 0.250 | 1.122 | 1.267 |
+| 11 | 1098 | 115.000 | 173.000 | 374.240 | 0.029 | 0.250 | 1.158 | 1.077 |
+| 12 | 975 | 133.000 | 200.600 | 609.700 | 0.038 | 0.256 | 1.197 | 1.185 |
+| 13 | 816 | 152.000 | 235.000 | 1154.800 | 0.054 | 0.262 | 1.233 | 1.200 |
+| 14 | 649 | 172.000 | 299.800 | 2209.840 | 0.077 | 0.265 | 1.244 | 1.091 |
+| 15 | 549 | 188.000 | 407.400 | 4083.440 | 0.104 | 0.268 | 1.294 | 1.200 |
+| 16 | 483 | 209.000 | 526.400 | 8133.100 | 0.114 | 0.266 | 1.312 | 1.273 |
+| 17 | 380 | 229.500 | 1403.400 | 17546.140 | 0.137 | 0.271 | 1.343 | 1.400 |
+| 18 | 293 | 255.000 | 3192.400 | 35200.080 | 0.147 | 0.271 | 1.358 | 1.333 |
+| 19 | 176 | 264.500 | 5550.000 | 34232.500 | 0.153 | 0.281 | 1.365 | 1.317 |
+| 2 | 1200 | 10.000 | 14.000 | 19.000 | 0.007 | 0.538 | 1.250 | 1.286 |
+| 20 | 82 | 272.000 | 421.900 | 49328.430 | 0.085 | 0.272 | 1.295 | 1.000 |
+| 21 | 19 | 292.000 | 3471.600 | 28901.140 | 0.105 | 0.274 | 1.265 | 0.900 |
+| 22 | 4 | 344.500 | 44485.600 | 61511.260 | 0.250 | 0.328 | 1.499 | 0.954 |
+| 3 | 1200 | 17.000 | 25.000 | 35.000 | 0.015 | 0.409 | 1.143 | 1.111 |
+| 4 | 1200 | 26.000 | 37.000 | 53.000 | 0.013 | 0.321 | 1.250 | 1.500 |
+| 5 | 1200 | 35.000 | 51.100 | 70.010 | 0.012 | 0.286 | 1.190 | 1.091 |
+| 6 | 1200 | 44.000 | 67.000 | 89.000 | 0.014 | 0.276 | 1.139 | 1.000 |
+| 7 | 1200 | 55.000 | 81.000 | 106.000 | 0.006 | 0.268 | 1.111 | 0.923 |
+| 8 | 1200 | 67.000 | 99.000 | 139.000 | 0.013 | 0.263 | 1.067 | 0.833 |
+| 9 | 1200 | 81.000 | 122.000 | 184.090 | 0.015 | 0.253 | 1.074 | 1.000 |
+
+| Tier | Arrivals | Arrival ratio p50/p90/p99 | Printed ratio p50/p90/p99 |
+|---|---:|---|---|
+| 2 | 967 | 1.250 / 2.000 / 3.200 | 1.111 / 1.500 / 2.000 |
+| 3 | 924 | 1.444 / 2.333 / 3.667 | 1.333 / 1.750 / 2.333 |
+| 4 | 931 | 1.571 / 2.571 / 4.000 | 1.286 / 1.800 / 3.000 |
+| 5 | 1014 | 1.667 / 2.850 / 4.774 | 1.375 / 2.200 / 3.333 |
+| 6 | 770 | 1.463 / 2.950 / 4.621 | 1.077 / 2.333 / 3.200 |
+
+| Outcome | Rate / p50 | 95% interval / p90,p99 |
+|---|---:|---|
+| field_uncertainty_r10_14: all_draw_pair_share | 0.000 | — |
+| field_uncertainty_r10_14: pairs | 6048.000 | — |
+| field_uncertainty_r10_14: share_20_80 | 0.164 | — |
+| field_uncertainty_r10_14: share_ci_wholly_20_80 | 0.046 | — |
+| field_uncertainty_r10_14: weighted_share_20_80 | 0.170 | — |
+| r8_below_lobby_median_top2 | 0.110 | 0.089 / 0.132 |
+| r8_below_pooled_median_top2 | 0.108 | 0.089 / 0.128 |
+| r8_health_leader_wins | 0.177 | 0.123 / 0.240 |
+| r8_stat_leader_wins | 0.270 | 0.200 / 0.340 |
+| Winner final round | 19.000 | 20.000, 21.510 |
+
+R8 tied leaders split credit. Outcome intervals bootstrap whole independent seeds. Comeback rows use below-pooled and below-lobby R8 medians. Pair uncertainty excludes all-draw pairs.
+
+| Lever ID | Active board-rounds | Owned seats/lobbies | Unique IIDs all/bought/created/unknown | Next-round retained/eligible | Final card rows | Unused observed |
+|---|---:|---:|---:|---:|---:|---|
+
+Prefer recruit inventory for owned bodies and distinct observed IIDs; IIDs are namespaced by seed and leg. Origin=bought separates bought from created bodies. Legacy combat views have unknown origin and unavailable acquisition counts. Only captured acquisitions are observable; full roll offers are not logged, so no conditional buy rate is estimated.
+
+Same IID in the next consecutive own round's inventory, across any owned location; last observations, gaps and missing inventory are censored. This is body retention, including transformations.
+
+## caps-size
+
+150 independent lobbies, seeds 141001-141150; 64 weighted boards at each of R6/8/10/12/14/16, eight replicates per orientation.
+
+[Complete pooled/within-line metrics and tier arrivals](../../../build/sim/caps-screen-fixed/merged/stages/caps-size/analysis/metrics.json) · [Board point rates, line weights and win matrices](../../../build/sim/caps-screen-fixed/merged/stages/caps-size/analysis/field-report.json) · [Content exposure/adoption](../../../build/sim/caps-screen-fixed/merged/stages/caps-size/analysis/adoption.json)
+
+| Round | Boards | S1 p50 | p90 | p99 | Share >=2x median | Largest-share p50 | Stats/gold p50 | Growth/gold p50 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 1200 | 0.000 | 5.000 | 7.000 | n/a | 0.000 | 0.000 | n/a |
+| 10 | 1181 | 96.000 | 133.000 | 172.000 | 0.005 | 0.246 | 1.118 | 1.083 |
+| 11 | 1108 | 111.000 | 154.300 | 205.510 | 0.004 | 0.247 | 1.121 | 0.923 |
+| 12 | 993 | 127.000 | 175.000 | 235.320 | 0.002 | 0.248 | 1.153 | 1.000 |
+| 13 | 831 | 143.000 | 204.000 | 263.700 | 0.002 | 0.247 | 1.178 | 1.000 |
+| 14 | 641 | 162.000 | 232.000 | 303.800 | 0.003 | 0.253 | 1.217 | 1.000 |
+| 15 | 548 | 179.000 | 254.600 | 330.000 | 0.000 | 0.254 | 1.237 | 1.000 |
+| 16 | 486 | 192.000 | 280.500 | 352.450 | 0.002 | 0.252 | 1.229 | 0.873 |
+| 17 | 403 | 215.000 | 305.800 | 375.820 | 0.000 | 0.249 | 1.297 | 1.200 |
+| 18 | 315 | 229.000 | 330.600 | 404.440 | 0.000 | 0.244 | 1.286 | 0.800 |
+| 19 | 219 | 238.000 | 350.200 | 439.920 | 0.000 | 0.249 | 1.258 | 0.875 |
+| 2 | 1200 | 10.000 | 14.000 | 19.000 | 0.009 | 0.556 | 1.250 | 1.310 |
+| 20 | 116 | 246.000 | 349.500 | 436.900 | 0.000 | 0.253 | 1.268 | 1.000 |
+| 21 | 46 | 271.000 | 384.500 | 421.300 | 0.000 | 0.253 | 1.292 | 0.899 |
+| 22 | 4 | 328.000 | 416.700 | 425.070 | 0.000 | 0.245 | 1.397 | 0.733 |
+| 3 | 1200 | 17.000 | 25.100 | 34.000 | 0.016 | 0.400 | 1.148 | 1.111 |
+| 4 | 1200 | 26.000 | 37.000 | 53.010 | 0.016 | 0.333 | 1.229 | 1.500 |
+| 5 | 1200 | 35.000 | 51.000 | 67.020 | 0.008 | 0.289 | 1.185 | 1.100 |
+| 6 | 1200 | 44.000 | 65.100 | 83.010 | 0.002 | 0.275 | 1.132 | 0.920 |
+| 7 | 1200 | 55.000 | 79.100 | 101.000 | 0.002 | 0.269 | 1.137 | 1.000 |
+| 8 | 1200 | 65.000 | 96.000 | 124.010 | 0.005 | 0.259 | 1.073 | 0.778 |
+| 9 | 1200 | 80.000 | 115.000 | 144.010 | 0.003 | 0.253 | 1.081 | 1.000 |
+
+| Tier | Arrivals | Arrival ratio p50/p90/p99 | Printed ratio p50/p90/p99 |
+|---|---:|---|---|
+| 2 | 947 | 1.250 / 2.000 / 3.090 | 1.111 / 1.500 / 2.000 |
+| 3 | 915 | 1.500 / 2.333 / 3.667 | 1.333 / 1.750 / 2.333 |
+| 4 | 932 | 1.536 / 2.500 / 4.000 | 1.286 / 1.800 / 2.972 |
+| 5 | 1028 | 1.667 / 3.000 / 4.744 | 1.333 / 2.200 / 3.627 |
+| 6 | 797 | 1.400 / 2.909 / 5.401 | 1.000 / 2.305 / 4.000 |
+
+| Outcome | Rate / p50 | 95% interval / p90,p99 |
+|---|---:|---|
+| field_uncertainty_r10_14: all_draw_pair_share | 0.000 | — |
+| field_uncertainty_r10_14: pairs | 6048.000 | — |
+| field_uncertainty_r10_14: share_20_80 | 0.183 | — |
+| field_uncertainty_r10_14: share_ci_wholly_20_80 | 0.053 | — |
+| field_uncertainty_r10_14: weighted_share_20_80 | 0.192 | — |
+| r8_below_lobby_median_top2 | 0.121 | 0.097 / 0.144 |
+| r8_below_pooled_median_top2 | 0.116 | 0.094 / 0.139 |
+| r8_health_leader_wins | 0.253 | 0.190 / 0.320 |
+| r8_stat_leader_wins | 0.247 | 0.180 / 0.313 |
+| Winner final round | 19.000 | 21.000, 21.510 |
+
+R8 tied leaders split credit. Outcome intervals bootstrap whole independent seeds. Comeback rows use below-pooled and below-lobby R8 medians. Pair uncertainty excludes all-draw pairs.
+
+| Lever ID | Active board-rounds | Owned seats/lobbies | Unique IIDs all/bought/created/unknown | Next-round retained/eligible | Final card rows | Unused observed |
+|---|---:|---:|---:|---:|---:|---|
+
+Prefer recruit inventory for owned bodies and distinct observed IIDs; IIDs are namespaced by seed and leg. Origin=bought separates bought from created bodies. Legacy combat views have unknown origin and unavailable acquisition counts. Only captured acquisitions are observable; full roll offers are not logged, so no conditional buy rate is estimated.
+
+Same IID in the next consecutive own round's inventory, across any owned location; last observations, gaps and missing inventory are censored. This is body retention, including transformations.
+
+## caps-rate
+
+150 independent lobbies, seeds 142001-142150; 64 weighted boards at each of R6/8/10/12/14/16, eight replicates per orientation.
+
+[Complete pooled/within-line metrics and tier arrivals](../../../build/sim/caps-screen-fixed/merged/stages/caps-rate/analysis/metrics.json) · [Board point rates, line weights and win matrices](../../../build/sim/caps-screen-fixed/merged/stages/caps-rate/analysis/field-report.json) · [Content exposure/adoption](../../../build/sim/caps-screen-fixed/merged/stages/caps-rate/analysis/adoption.json)
+
+| Round | Boards | S1 p50 | p90 | p99 | Share >=2x median | Largest-share p50 | Stats/gold p50 | Growth/gold p50 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 1200 | 0.000 | 5.000 | 7.000 | n/a | 0.000 | 0.000 | n/a |
+| 10 | 1179 | 97.000 | 139.200 | 180.880 | 0.006 | 0.244 | 1.095 | 1.143 |
+| 11 | 1105 | 111.000 | 162.000 | 216.000 | 0.009 | 0.244 | 1.117 | 1.000 |
+| 12 | 987 | 129.000 | 182.000 | 261.140 | 0.012 | 0.246 | 1.129 | 0.926 |
+| 13 | 821 | 144.000 | 210.000 | 305.200 | 0.015 | 0.248 | 1.152 | 1.077 |
+| 14 | 650 | 163.000 | 249.000 | 350.120 | 0.017 | 0.250 | 1.198 | 1.200 |
+| 15 | 557 | 181.000 | 271.400 | 356.960 | 0.011 | 0.251 | 1.209 | 1.000 |
+| 16 | 495 | 198.000 | 299.600 | 438.600 | 0.012 | 0.249 | 1.248 | 1.091 |
+| 17 | 405 | 218.000 | 327.200 | 457.360 | 0.017 | 0.246 | 1.274 | 1.091 |
+| 18 | 326 | 232.500 | 348.500 | 483.250 | 0.015 | 0.243 | 1.283 | 0.800 |
+| 19 | 203 | 250.000 | 355.800 | 457.600 | 0.005 | 0.250 | 1.295 | 0.947 |
+| 2 | 1200 | 10.000 | 14.000 | 20.000 | 0.015 | 0.538 | 1.250 | 1.333 |
+| 20 | 101 | 252.000 | 353.000 | 484.000 | 0.010 | 0.258 | 1.241 | 0.818 |
+| 21 | 31 | 249.000 | 348.000 | 447.900 | 0.000 | 0.256 | 1.218 | 0.400 |
+| 22 | 4 | 311.500 | 336.800 | 340.580 | 0.000 | 0.206 | 1.372 | 1.383 |
+| 3 | 1200 | 17.000 | 25.000 | 34.000 | 0.014 | 0.400 | 1.160 | 1.143 |
+| 4 | 1200 | 26.000 | 37.000 | 53.000 | 0.013 | 0.320 | 1.250 | 1.500 |
+| 5 | 1200 | 35.000 | 51.000 | 69.000 | 0.007 | 0.282 | 1.188 | 1.000 |
+| 6 | 1200 | 44.000 | 65.000 | 87.010 | 0.010 | 0.268 | 1.128 | 0.900 |
+| 7 | 1200 | 55.000 | 80.000 | 103.010 | 0.002 | 0.259 | 1.117 | 0.917 |
+| 8 | 1200 | 66.000 | 97.000 | 121.010 | 0.003 | 0.254 | 1.059 | 0.800 |
+| 9 | 1199 | 80.000 | 117.000 | 150.020 | 0.003 | 0.247 | 1.061 | 1.000 |
+
+| Tier | Arrivals | Arrival ratio p50/p90/p99 | Printed ratio p50/p90/p99 |
+|---|---:|---|---|
+| 2 | 974 | 1.250 / 2.000 / 3.000 | 1.111 / 1.600 / 2.000 |
+| 3 | 898 | 1.429 / 2.333 / 4.000 | 1.273 / 1.750 / 2.343 |
+| 4 | 929 | 1.571 / 2.500 / 4.536 | 1.286 / 1.800 / 2.975 |
+| 5 | 1029 | 1.667 / 2.878 / 4.953 | 1.333 / 2.200 / 3.667 |
+| 6 | 796 | 1.434 / 3.000 / 5.000 | 1.000 / 2.182 / 3.500 |
+
+| Outcome | Rate / p50 | 95% interval / p90,p99 |
+|---|---:|---|
+| field_uncertainty_r10_14: all_draw_pair_share | 0.000 | — |
+| field_uncertainty_r10_14: pairs | 6048.000 | — |
+| field_uncertainty_r10_14: share_20_80 | 0.169 | — |
+| field_uncertainty_r10_14: share_ci_wholly_20_80 | 0.045 | — |
+| field_uncertainty_r10_14: weighted_share_20_80 | 0.164 | — |
+| r8_below_lobby_median_top2 | 0.138 | 0.114 / 0.163 |
+| r8_below_pooled_median_top2 | 0.129 | 0.105 / 0.152 |
+| r8_health_leader_wins | 0.150 | 0.100 / 0.203 |
+| r8_stat_leader_wins | 0.177 | 0.120 / 0.240 |
+| Winner final round | 19.000 | 20.100, 21.510 |
+
+R8 tied leaders split credit. Outcome intervals bootstrap whole independent seeds. Comeback rows use below-pooled and below-lobby R8 medians. Pair uncertainty excludes all-draw pairs.
+
+| Lever ID | Active board-rounds | Owned seats/lobbies | Unique IIDs all/bought/created/unknown | Next-round retained/eligible | Final card rows | Unused observed |
+|---|---:|---:|---:|---:|---:|---|
+
+Prefer recruit inventory for owned bodies and distinct observed IIDs; IIDs are namespaced by seed and leg. Origin=bought separates bought from created bodies. Legacy combat views have unknown origin and unavailable acquisition counts. Only captured acquisitions are observable; full roll offers are not logged, so no conditional buy rate is estimated.
+
+Same IID in the next consecutive own round's inventory, across any owned location; last observations, gaps and missing inventory are censored. This is body retention, including transformations.
+
+## Portable cloud shards
+
+Run these commands from a checkout with the frozen simulation/helper bytes. The documented cloud toolchain setup must already have installed Godot 4.7.2, Python and /opt/bramble/env.sh. The runner sources that environment, verifies the Godot version and imports the fresh checkout before its simulation. CLOUD_HARNESS_ROOT may name another checkout; no home-directory variable is reassigned.
+
+```bash
+python3 tools/sim/sweep_shards.py plan PLAN.json --out manifest.json
+python3 tools/sim/sweep_shards.py run manifest.json caps-both/lobbies-000 --out lobby-shard
+python3 tools/sim/sweep_shards.py merge-lobbies manifest.json --results collected-lobbies --out field-inputs
+python3 tools/sim/sweep_shards.py run manifest.json caps-both/field-r06 --inputs field-inputs --out field-shard
+python3 tools/sim/sweep_shards.py merge manifest.json --inputs field-inputs --results collected-results --out merged
+```
+
+Run each frozen lobby ID once, then transfer its whole result directory. merge-lobbies requires every configuration's three 50-seed shards before sampling one global equal-line field per round from all 150 lobbies. Transfer manifest.json and the whole field-inputs directory to each fresh field worker. Run every frozen field/head ID once and collect all result directories, including the original lobby results, for the final merge. Both merge commands are pure Python. Individual seed-shard fields cannot be combined into the required global round robin.
+
+Measured baseline timing basis: 2.5 seconds/lobby and 0.0076 seconds/field fight. A 50-lobby shard is about 2.2 minutes plus any fresh import/lock wait; one 64-board round has 32,256 fights and is about 4.1 minutes plus startup (32 boards: 7,936 fights, about 1 minute). A complete 64-board configuration is about 31 minutes before separate head comparisons; a fresh import may add up to 30 seconds. These are planning estimates, not cloud measurements. Each manifest shard records its estimate and hard timeout; import, lock wait and simulation share that bound. Head estimates are listed per frozen chunk. One Godot process runs at a time per worker under /tmp/bramble-harness-godot.lock, systemd MemoryMax=3G and timeout.
+
+The manifest freezes all lobby seeds, field sampling seed, pair seed derivation in the hashed field driver, and eight replicates per orientation. Result JSON and deterministic gzip captures are portable across absolute checkout paths. Hash/completeness/configuration/profile/gate checks reject missing, duplicate, changed or incompatible artifacts; they do not attest remote execution. Protected runs require the real positive gate file in each checkout, and the final report retains its exact content/hash. Missing gates never count as passes.
+
+
+
+## Lever-build strength gate: complete
+
+| Build | Candidate | Mean placement gain | 95% seed-cluster interval | Lobby wins |
+|---|---|---:|---|---|
+| g25 | line_hedgerow_tempo | +0.594 | [+0.366, +0.821] | 114/160 |
+| g25 | tribal_mixture | -0.578 | [-0.798, -0.358] | 71/160 |
+| g50 | line_hedgerow_tempo | +0.688 | [+0.427, +0.948] | 107/160 |
+| g50 | tribal_mixture | -0.522 | [-0.703, -0.341] | 77/160 |
+
+Primary best-line gate passes. Both mixtures lose on placement and lobby wins. Under the orchestrator’s pre-result decision, losing engine/tribe line observations are lower bounds from weak play, never adverse content results. No samples were extended or profiles tuned. [Full gate and provenance](../../../tools/sim/evidence/lever-build-strength-gate.json).
+
+## Follow-up review and constructed evidence
+
+The follow-up fixes, all four completed lever-build comparisons, current
+real-null dominance check, phase-correct baseline curvature intervals and first
+192,000 designed fights are collected in [harness-followup.md](harness-followup.md).
+The orchestrator's pre-result call opens general reads on the best-policy pass.
+Losing engine/tribe-line observations are lower bounds from weak play, never
+adverse content findings; constructed setups are the second source.

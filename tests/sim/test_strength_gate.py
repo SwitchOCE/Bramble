@@ -121,6 +121,25 @@ class StrengthGateTests(unittest.TestCase):
         self.assertFalse(self.run_fixture("null")["passes"])
         self.assertFalse(self.run_fixture("negative")["passes"])
 
+    def test_only_one_positive_build_cannot_open_gate_in_either_orientation(self):
+        for failing in ["g25", "g50"]:
+            with self.subTest(failing=failing), tempfile.TemporaryDirectory() as directory:
+                frozen = plan()
+                folder = Path(directory)
+                fixture(folder, frozen, best="positive")
+                negative = folder / "negative"
+                negative.mkdir()
+                fixture(negative, frozen, best="negative")
+                for suffix in ["players.csv", "run.json"]:
+                    name = f"{failing}-best.{suffix}"
+                    (folder / name).write_bytes((negative / name).read_bytes())
+                with patch("strength_gate.line_outcome_rates", return_value={}):
+                    report = summarize(frozen, folder)
+                self.assertFalse(report["passes"])
+                self.assertFalse(report["builds"][failing]["passes"])
+                other = "g50" if failing == "g25" else "g25"
+                self.assertTrue(report["builds"][other]["passes"])
+
     def test_incomplete_positive_sample_is_rejected_even_with_updated_csv_hash(self):
         with tempfile.TemporaryDirectory() as directory:
             folder = Path(directory)

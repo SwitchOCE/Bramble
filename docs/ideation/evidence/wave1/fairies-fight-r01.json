@@ -1,0 +1,222 @@
+{
+  "round": 1,
+  "opponent_id": 5,
+  "winner": 1,
+  "damage": 0,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          null,
+          null,
+          null,
+          null,
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nan_toadstool",
+            "name": "Nan Toadstool",
+            "tier": 1,
+            "tribes": [
+              "Fairies"
+            ],
+            "attack": 2,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "When played or sold: Ring this slot.",
+            "keywords": [
+              "Ring"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Ring",
+                "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+              }
+            ]
+          },
+          null,
+          null
+        ],
+        [
+          null,
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "wick",
+            "name": "Wick",
+            "tier": 1,
+            "tribes": [
+              "Hunters"
+            ],
+            "attack": 2,
+            "health": 3,
+            "max_health": 3,
+            "golden": false,
+            "text": "Pack. After this joins an attack: gain +1 Attack.",
+            "keywords": [
+              "Pack"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Pack",
+                "text": "When a unit beside this attacks, this joins in, using up its own attack."
+              }
+            ]
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "first_side": 1,
+      "player_ids": [
+        0,
+        5
+      ],
+      "slot_effects": [
+        [
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        [
+          [],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "side_trigger",
+      "side": 0,
+      "mechanic": "hermitage"
+    },
+    {
+      "seq": 3,
+      "type": "stats",
+      "target": 1,
+      "attack_delta": 1,
+      "health_delta": 1,
+      "attack": 3,
+      "health": 2,
+      "max_health": 2,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 4,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 5,
+      "type": "attack",
+      "side": 1,
+      "attacker": 2,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 6,
+      "type": "damage",
+      "source": 2,
+      "target": 1,
+      "amount": 2,
+      "raw": 2,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 0
+    },
+    {
+      "seq": 7,
+      "type": "damage",
+      "source": 1,
+      "target": 2,
+      "amount": 3,
+      "raw": 3,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 0
+    },
+    {
+      "seq": 8,
+      "type": "death",
+      "uid": 2,
+      "side": 1,
+      "slot": 1
+    },
+    {
+      "seq": 9,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 4
+    },
+    {
+      "type": "early_spoils",
+      "side": 1,
+      "amount": 1
+    },
+    {
+      "seq": 10,
+      "type": "combat_end",
+      "winner": 1,
+      "reason": "board_empty",
+      "survivors": [
+        [],
+        []
+      ],
+      "damage": 0,
+      "damage_uncapped": 0,
+      "damage_base": 0,
+      "damage_performance": 0,
+      "damage_mode": "v05",
+      "last_blow": true,
+      "last_blow_side": 1,
+      "last_blow_source": 1,
+      "last_blow_kind": "attack",
+      "last_stand_sides": [],
+      "alive": 8,
+      "damage_cap": 0
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+## Frozen pass 2 design regression; current pool rules are tested in test_pass3_*.
 ## The slice's Fairies (docs/ideation/content/SLICE.md, fairies.md): each card's text.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -19,7 +20,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), true)
 	_player = _kit.player
 	_rules = _kit.rules
 	_rules.start_phase(_player, 1)
@@ -283,7 +284,7 @@ func test_queen_of_elfland_golden_splits_double() -> void:
 func test_queen_pools_only_printed_stats_and_permanent_buffs() -> void:
 	for golden: bool in [false, true]:
 		var kit: KIT = KIT.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), true)
 		var queen: RecruitUnit = kit.put("queen_of_elfland", F1, golden)
 		var victim: RecruitUnit = kit.put("wisp", B1)
 		var first: RecruitUnit = kit.put("wisp", F2)

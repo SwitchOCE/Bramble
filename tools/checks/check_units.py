@@ -87,6 +87,8 @@ PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "select
 
 
 def check_param(kind: str, value: object) -> str | None:
+    if kind == "string":
+        return None if isinstance(value, str) and value else "must be non-empty text"
     if kind == "ratio":
         ok = isinstance(value, int) and not isinstance(value, bool) and value >= 0
         return None if ok else "must be a non-negative integer"
@@ -327,6 +329,10 @@ def word_in(number: int, text: str) -> bool:
 
 def numbers_of(mech: dict) -> list[tuple[str, int]]:
     """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
+    # Pass 3's factor preserves the originating text's golden strength when stolen. It
+    # scales authored rates, rather than representing a number printed on the card.
+    if mech.get("id") in {"pass3_bird", "pass3_fairy"}:
+        return []
     out: list[tuple[str, int]] = []
     if mech.get("id") == "effect":
         for step in steps_of(mech):

@@ -22,6 +22,16 @@
       "result": "build/sim/caps-screen-fixed/results/caps-both--field-r12/result.json",
       "result_sha256": "a5f34fe0d9ea02efaa66b408165c69764defcbbffa8fbd71e56a85a66482e93e"
     },
+    "caps-both/field-r14": {
+      "elapsed_seconds": 327.7934154840186,
+      "result": "build/sim/caps-screen-fixed/results/caps-both--field-r14/result.json",
+      "result_sha256": "87061a06991532e921af2b71f947641abd0b88f7ef8d8b022e83f2fea381bde5"
+    },
+    "caps-both/field-r16": {
+      "elapsed_seconds": 326.44876794097945,
+      "result": "build/sim/caps-screen-fixed/results/caps-both--field-r16/result.json",
+      "result_sha256": "1cfc2634165a22f8039f8fff00da38cde736cbe2cddfef95e3f1307466eb5671"
+    },
     "caps-both/lobbies-000": {
       "elapsed_seconds": 145.49203365901485,
       "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-000/result.json",
@@ -37,6 +47,36 @@
       "result": "build/sim/caps-screen-fixed/results/caps-both--lobbies-100/result.json",
       "result_sha256": "531644666ae95918287d7ec4ffd3184a9195dee188e95c415e8ef10ecbece69b"
     },
+    "caps-rate/field-r06": {
+      "elapsed_seconds": 220.7931818580255,
+      "result": "build/sim/caps-screen-fixed/results/caps-rate--field-r06/result.json",
+      "result_sha256": "da8f173621f54c57c0ad152733091cb882f4bad45c698d3e7b62483e3dc93080"
+    },
+    "caps-rate/field-r08": {
+      "elapsed_seconds": 242.46355572598986,
+      "result": "build/sim/caps-screen-fixed/results/caps-rate--field-r08/result.json",
+      "result_sha256": "e7723e85ad72e242f01295b109c3041aa199ac73f49eda64b32afc1e1a0fcf6c"
+    },
+    "caps-rate/field-r10": {
+      "elapsed_seconds": 293.4863763079047,
+      "result": "build/sim/caps-screen-fixed/results/caps-rate--field-r10/result.json",
+      "result_sha256": "b945b47f043c421be22343b79c5e9574913a55e09554facb38abd2b70b596111"
+    },
+    "caps-rate/field-r12": {
+      "elapsed_seconds": 309.0548258519266,
+      "result": "build/sim/caps-screen-fixed/results/caps-rate--field-r12/result.json",
+      "result_sha256": "ee481982753a445b46bfd30f5afd5872e26bd732c22fdf9882362d7d7a82d1bf"
+    },
+    "caps-rate/field-r14": {
+      "elapsed_seconds": 308.9410592680797,
+      "result": "build/sim/caps-screen-fixed/results/caps-rate--field-r14/result.json",
+      "result_sha256": "e80c0c327dc421907de702c596c420d2912c4f987e9a55b1721cb9e5333a057c"
+    },
+    "caps-rate/field-r16": {
+      "elapsed_seconds": 314.9589925069595,
+      "result": "build/sim/caps-screen-fixed/results/caps-rate--field-r16/result.json",
+      "result_sha256": "fb7f84b0254f57a8d0e3a01b60c233b877c009250c9bc7887b82dbaa61bc42f0"
+    },
     "caps-rate/lobbies-000": {
       "elapsed_seconds": 138.36301174602704,
       "result": "build/sim/caps-screen-fixed/results/caps-rate--lobbies-000/result.json",
@@ -51,6 +91,36 @@
       "elapsed_seconds": 143.59890246298164,
       "result": "build/sim/caps-screen-fixed/results/caps-rate--lobbies-100/result.json",
       "result_sha256": "50e2f33cf4502e050a2fb39eb8189f5e1c46eebe4fa34fda2bebfc4ef0e9098a"
+    },
+    "caps-size/field-r06": {
+      "elapsed_seconds": 217.06287664500996,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r06/result.json",
+      "result_sha256": "981b472ae45d739b14cf4711172d54527a7d3bcf89120ee4e5b04fb763e32773"
+    },
+    "caps-size/field-r08": {
+      "elapsed_seconds": 243.62200899096206,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r08/result.json",
+      "result_sha256": "555308a798719d6c31bff0a2ff062dd49e0deb7d36de175598ed7d4106f67e5e"
+    },
+    "caps-size/field-r10": {
+      "elapsed_seconds": 279.7473978510825,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r10/result.json",
+      "result_sha256": "72af567d077ac882ad9caf94d02aa1d9b409333e90b367164d40960929945dfa"
+    },
+    "caps-size/field-r12": {
+      "elapsed_seconds": 307.3329478149535,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r12/result.json",
+      "result_sha256": "d1c43940de16d4b48f5e5831bd81bae68ae04a7ffce05ee9ac6a407b43743459"
+    },
+    "caps-size/field-r14": {
+      "elapsed_seconds": 282.26419333403464,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r14/result.json",
+      "result_sha256": "cfda6ceb41a4637d8a3d296510504eb9d9d818dc06e38ddba747508fa471d9a1"
+    },
+    "caps-size/field-r16": {
+      "elapsed_seconds": 273.23212948604487,
+      "result": "build/sim/caps-screen-fixed/results/caps-size--field-r16/result.json",
+      "result_sha256": "1e2aa40a530ce2b3a4cc0bcefdb3608534dddf05b33364c3680bfc012a9ade66"
     },
     "caps-size/lobbies-000": {
       "elapsed_seconds": 144.04854377603624,
@@ -68,7 +138,9 @@
       "result_sha256": "642709e5a8e37d34c64946b69549ebe67ca737bda316be10d7752f77409c7cb3"
     }
   },
+  "completed_at": "2026-11-09T10:59:47.536743+00:00",
   "manifest_sha256": "f727c6d228fd536a30750d0b855bc6fdb1e0d471993fbe52428b035e96a34e4a",
   "started_at": "2026-11-09T09:11:59.589779+00:00",
+  "state": "complete",
   "version": 1
 }

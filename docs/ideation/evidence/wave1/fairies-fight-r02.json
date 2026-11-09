@@ -1,0 +1,259 @@
+{
+  "round": 2,
+  "opponent_id": 6,
+  "winner": 1,
+  "damage": 1,
+  "events": [
+    {
+      "seq": 0,
+      "type": "combat_start",
+      "boards": [
+        [
+          null,
+          null,
+          null,
+          null,
+          {
+            "uid": 1,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nan_toadstool",
+            "name": "Nan Toadstool",
+            "tier": 1,
+            "tribes": [
+              "Fairies"
+            ],
+            "attack": 2,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "When played or sold: Ring this slot.",
+            "keywords": [
+              "Ring"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Ring",
+                "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+              }
+            ]
+          },
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          {
+            "uid": 2,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "mrs_dunnock",
+            "name": "Mrs Dunnock",
+            "tier": 1,
+            "tribes": [
+              "Birds"
+            ],
+            "attack": 3,
+            "health": 4,
+            "max_health": 4,
+            "golden": false,
+            "text": "End of Turn: your biggest Bird away comes home a turn sooner.",
+            "keywords": [
+              "Fly South"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Fly South",
+                "text": "Sold, it flies south, then comes home to hand with double stats."
+              }
+            ]
+          },
+          null,
+          null,
+          {
+            "uid": 3,
+            "quarry": 0,
+            "quarry_reach": false,
+            "def_id": "nan_toadstool",
+            "name": "Nan Toadstool",
+            "tier": 1,
+            "tribes": [
+              "Fairies"
+            ],
+            "attack": 2,
+            "health": 1,
+            "max_health": 1,
+            "golden": false,
+            "text": "When played or sold: Ring this slot.",
+            "keywords": [
+              "Ring"
+            ],
+            "statuses": [],
+            "keyword_text": [
+              {
+                "keyword": "Ring",
+                "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+              }
+            ]
+          },
+          null
+        ]
+      ],
+      "first_side": 1,
+      "player_ids": [
+        0,
+        6
+      ],
+      "slot_effects": [
+        [
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [],
+          [],
+          [],
+          [],
+          []
+        ],
+        [
+          [],
+          [],
+          [
+            {
+              "name": "Ring",
+              "text": "Whoever stands here gains your Ring size for each Ring.",
+              "count": 1,
+              "golden": false,
+              "attack": 1,
+              "health": 1,
+              "ring_size": 1.0
+            }
+          ],
+          [],
+          [],
+          [],
+          []
+        ]
+      ]
+    },
+    {
+      "seq": 1,
+      "type": "phase",
+      "name": "start_of_combat"
+    },
+    {
+      "seq": 2,
+      "type": "side_trigger",
+      "side": 0,
+      "mechanic": "hermitage"
+    },
+    {
+      "seq": 3,
+      "type": "stats",
+      "target": 1,
+      "attack_delta": 2,
+      "health_delta": 2,
+      "attack": 4,
+      "health": 3,
+      "max_health": 3,
+      "source": null,
+      "permanent": false,
+      "cause": "",
+      "causes": []
+    },
+    {
+      "seq": 4,
+      "type": "phase",
+      "name": "attacks"
+    },
+    {
+      "seq": 5,
+      "type": "attack",
+      "side": 1,
+      "attacker": 2,
+      "defender": 1,
+      "joiners": [],
+      "strikes": 1,
+      "quick": false
+    },
+    {
+      "seq": 6,
+      "type": "damage",
+      "source": 2,
+      "target": 1,
+      "amount": 3,
+      "raw": 3,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 0
+    },
+    {
+      "seq": 7,
+      "type": "damage",
+      "source": 1,
+      "target": 2,
+      "amount": 4,
+      "raw": 4,
+      "kind": "attack",
+      "strike": 1,
+      "modifiers": [],
+      "health_after": 0
+    },
+    {
+      "seq": 8,
+      "type": "death",
+      "uid": 2,
+      "side": 1,
+      "slot": 2
+    },
+    {
+      "seq": 9,
+      "type": "death",
+      "uid": 1,
+      "side": 0,
+      "slot": 4
+    },
+    {
+      "type": "early_spoils",
+      "side": 1,
+      "amount": 1
+    },
+    {
+      "seq": 10,
+      "type": "combat_end",
+      "winner": 1,
+      "reason": "board_empty",
+      "survivors": [
+        [],
+        [
+          3
+        ]
+      ],
+      "damage": 1,
+      "damage_uncapped": 1,
+      "damage_base": 0,
+      "damage_performance": 1,
+      "damage_mode": "v05",
+      "last_blow": false,
+      "last_blow_side": -1,
+      "last_blow_source": -1,
+      "last_blow_kind": "",
+      "last_stand_sides": [],
+      "alive": 8,
+      "damage_cap": 0
+    }
+  ]
+}

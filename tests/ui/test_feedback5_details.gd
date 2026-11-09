@@ -31,7 +31,7 @@ func test_rings_print_slot_words_instead_of_dictionary_syntax() -> void:
 
 
 func test_frumenty_details_show_borrowed_golden_rules_in_both_phases() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	var frumenty := RecruitUnit.make(library.get_unit("frumenty"), 100)
 	frumenty.held.append(RecruitUnit.make(library.get_unit("hoglet_mother"), 101, true))
 	var view: Dictionary = frumenty.view()
@@ -46,7 +46,7 @@ func test_frumenty_details_show_borrowed_golden_rules_in_both_phases() -> void:
 
 
 func test_frumenty_borrowed_rules_exclude_unborrowed_text_and_keep_limits() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	var frumenty := RecruitUnit.make(library.get_unit("frumenty"), 100, true)
 	frumenty.held.append(RecruitUnit.make(library.get_unit("wee_wobbly"), 101))
 	frumenty.held.append(RecruitUnit.make(library.get_unit("mrs_jay"), 102))
@@ -67,7 +67,7 @@ func test_last_fight_enemy_and_summon_keywords_join_the_same_glossary() -> void:
 		"shop", "board", "hand", "hand_items", "shop_spells", "next_opponent_last_board"
 	]:
 		state[key] = []
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	var enemy: Dictionary = UnitViews.from_def(library.get_unit("hoglet_mother"), false, 2)
 	var arrival: Dictionary = UnitViews.from_def(library.get_unit("hedge_witch"), false, 3)
 	var fight: Dictionary = {
@@ -87,7 +87,7 @@ func test_last_fight_enemy_and_summon_keywords_join_the_same_glossary() -> void:
 
 
 func test_enemy_only_keyword_opens_the_same_slip_on_pc_and_phone() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	for window: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
 		CardView.window_override = window
 		var viewport := SubViewport.new()
@@ -140,7 +140,7 @@ func test_recruit_no_room_notice_reaches_the_screen_and_cli() -> void:
 
 
 func test_banked_hex_wraps_and_hides_the_chip_for_native_borrowed_and_granted_hex() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	var witch := RecruitUnit.make(library.get_unit("hedge_witch"), 100)
 	var borrowed := RecruitUnit.make(library.get_unit("frumenty"), 101)
 	borrowed.held.append(RecruitUnit.make(library.get_unit("hedge_witch"), 102, true))
@@ -161,7 +161,7 @@ func test_banked_hex_wraps_and_hides_the_chip_for_native_borrowed_and_granted_he
 
 
 func test_frumenty_mixed_rules_ignore_card_rewording_and_punctuation() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	for golden: bool in [false, true]:
 		var def: Dictionary = library.get_unit("wee_wobbly").duplicate(true)
 		def["text"] = "NEW BELLY WORDS; hidden sale reward! Not split into sentences"
@@ -180,7 +180,7 @@ func test_frumenty_mixed_rules_ignore_card_rewording_and_punctuation() -> void:
 
 
 func test_frumenty_selects_each_mixed_mechanic_and_excludes_all_unborrowed_triggers() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	var def: Dictionary = library.get_unit("wee_wobbly").duplicate(true)
 	def.erase(MechanicRegistry.COMPILED_KEY)
 	var mechanics: Array = def["mechanics"]
@@ -224,7 +224,7 @@ func test_frumenty_selects_each_mixed_mechanic_and_excludes_all_unborrowed_trigg
 
 
 func test_frumenty_never_falls_back_to_full_mixed_card_text_for_stale_fragments() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	for stale: String in ["missing", "id", "golden_text", "trigger"]:
 		var def: Dictionary = library.get_unit("mrs_posset").duplicate(true)
 		def["text"] = "EXCLUDED Belly and death ability in one inseparable sentence"
@@ -247,7 +247,7 @@ func test_frumenty_never_falls_back_to_full_mixed_card_text_for_stale_fragments(
 
 
 func test_every_mixed_card_has_fragments_for_exactly_its_lendable_mechanics() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := LegacyWave1.library()
 	var mixed: int = 0
 	for def: Dictionary in library.all_units():
 		var entries: Array = def["mechanics"]

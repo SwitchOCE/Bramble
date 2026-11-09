@@ -32,8 +32,8 @@ from field import boards_from_capture, field_report, sample_field
 from lever_sweep import (
     CAPTURE_SUFFIXES,
     ROOT,
-    Sweep,
     SweepError,
+    SweepReport,
     atomic_json,
     canonical,
     combine_csv,
@@ -67,7 +67,7 @@ def portable_sources(root, patterns):
     }
 
 
-def fingerprints(root=ROOT, profiles="tools/sim/line_profiles.sweep.json"):
+def fingerprints(root=ROOT, profiles="tools/sim/line_profiles.committed.json"):
     patterns = list(dict.fromkeys([*SOURCE_PATHS, profiles]))
     return {
         "source_commit": git(root, "rev-parse", "HEAD"),
@@ -648,7 +648,7 @@ def run_shard(manifest, name, output, root=ROOT, inputs=None):
 
 
 def build_fields(manifest, results, workspace):
-    """Global sampling order matches Sweep: config, ascending 50-seed chunk."""
+    """Sample each config from its complete ascending sequence of lobby chunks."""
     fields, gates = {}, {}
     for config in manifest["plan"]["configs"]:
         captures = []
@@ -707,7 +707,7 @@ def merge_lobbies(manifest, inputs, output):
 
 
 def finish_report(sweep, manifest, extra_reports, upset_reports):
-    """Keep reproduction instructions when Sweep regenerates the base report."""
+    """Keep reproduction instructions when SweepReport regenerates the report."""
     first = next(spec for spec in manifest["shards"] if spec["kind"] == "lobbies")
     field = next(spec for spec in manifest["shards"] if spec["kind"] == "field")
     lines = [
@@ -826,7 +826,7 @@ def finish_report(sweep, manifest, extra_reports, upset_reports):
 
 
 def merge(manifest, inputs, field_inputs, output, root=ROOT):
-    """Validate complete evidence, then use the local sweep's analysis/report APIs."""
+    """Validate complete shard evidence, then rebuild its measurements and report."""
     verify_checkout(manifest, root)
     results = load_results(manifest, inputs)
     bundle = load_field_bundle(manifest, field_inputs)
@@ -846,7 +846,7 @@ def merge(manifest, inputs, field_inputs, output, root=ROOT):
             raise SweepError("global field sample differs from the complete frozen lobby population")
     plan_path = output / "plan.json"
     atomic_json(plan_path, manifest["plan"])
-    sweep = Sweep(plan_path, root)
+    sweep = SweepReport(plan_path, root)
     sweep.output, sweep.report = output, output / "report.md"
     sweep.lock_path, sweep.status_path = output / "plan.lock.json", output / "status.json"
     sweep.status = {
@@ -981,7 +981,7 @@ def main():
     parser.add_argument("--root", type=Path, default=Path(os.environ.get("CLOUD_HARNESS_ROOT", ROOT)))
     commands = parser.add_subparsers(dest="command", required=True)
     fingerprint = commands.add_parser("fingerprint")
-    fingerprint.add_argument("--profiles", default="tools/sim/line_profiles.sweep.json")
+    fingerprint.add_argument("--profiles", default="tools/sim/line_profiles.committed.json")
     freeze = commands.add_parser("plan")
     freeze.add_argument("plan", type=Path)
     freeze.add_argument("--out", type=Path, required=True)

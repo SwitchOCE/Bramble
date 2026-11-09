@@ -5,6 +5,38 @@ weighted field fights, metrics, offline damage replay and planted-card checks ar
 implemented and verified. The fixed 500-lobby baseline is complete; see
 `docs/ideation/evidence/harness-baseline.md`.
 
+## What decides checkpoint 1
+
+Per the owner's note 09i, the local `ideation/main` plan's **“What decides
+checkpoint 1”** section and the orchestrator's **“Harness follow-up 2: calls”**
+entry in `docs/ideation/DECISIONS.md`, only two criteria decide checkpoint 1:
+
+1. **Logged progress moments:** every reward-lens tester names a moment where
+   they felt stronger, checked against the game log. Most say the preset they
+   prefer feels like progress.
+2. **Pre-start median growth:** the lobby median grows **×1.3 or more per round
+   from R8 to R14**, on the end-of-recruit board before Start of Combat effects.
+
+Growth and size for this decision read pre-start; post-start measurements are
+reported beside them. A high total never fails a preset by itself. Tail size,
+concentration, the designed carry/even comparison, snowballs, comebacks,
+winner-to-runner-up ratios, game length, uncertain-fight share, tier-up strength,
+card/tribe spread and strong-field rival size are reported, not pass/fail criteria.
+An extreme tribe outlier, a line that wins whatever the player chooses, or runaway
+snowballs in most lobbies prompts triage of the outlier dial; it does not add a
+third checkpoint criterion.
+
+Software correctness and harness known-answer tests still check measurement
+integrity. Their pass/fail labels, and historical diagnostic flags below, do not
+decide whether a gameplay preset passes checkpoint 1. In particular, the legacy
+curvature ratio's 1.25 diagnostic bound is distinct from the checkpoint's ×1.3
+per-round median-growth criterion.
+
+The **“losses with no agency” measure and playtest tally are withdrawn**, not
+deferred to a later turn. The remaining deferred work is the wave-1 line-table
+loader, real-card designed setups, and a general strength-plan format when step 5
+needs it. None of that work is started by this documentation change.
+
 ## Strength gate and attribution correction
 
 The orchestrator previously relaxed (b) to including Hard in the field. That was
@@ -20,8 +52,9 @@ pool. The earlier "finding about the pool" interpretation is withdrawn. The fres
 preselected hedgerow confirmation passes, while the frozen equal-placement
 mixture rerun fails; the completed results are below. Neither result identifies
 card content as the causal explanation.
-The later lever-build comparison must also pass before engine, economy, doubler
-or tribe conclusions are read from the sweep.
+The completed best-policy lever-build comparisons support general reads.
+Losing engine/tribe-line observations remain lower bounds from weak play, not
+adverse content findings. Script strength is not a checkpoint-1 gameplay criterion.
 
 ## Combat capture
 
@@ -237,9 +270,12 @@ and 64-board/six-round/eight-replicate field design.
 
 `metrics.py <captures...> --players <players.csv...> --field <field-report.json>
 --out <metrics.json> --markdown <report.md>` writes the complete machine-readable
-metrics plus a shareable Markdown report. Own-board growth uses each seat's preceding
-post–Start of Combat snapshot after all start effects, including opponent-dependent
-changes. The pre-start stats and the start-effect delta remain separate measurements. Active stats include Eggs; Belly/away/hand/doorstep reserves are reported
+metrics plus a shareable Markdown report. The checkpoint-1 growth and size series
+must use each seat's pre-start, end-of-recruit board; the post-start series and
+start-effect delta are reported beside it. Historical `metrics.py` outputs used
+post–Start of Combat snapshots, including opponent-dependent changes: those
+post-start numbers must not be relabelled as pre-start checkpoint evidence.
+Active stats include Eggs; Belly/away/hand/doorstep reserves are reported
 separately. Ratios exclude a zero denominator. Gold efficiency includes purchases,
 refreshes, spells and climbs, with both cumulative stats/gold and incremental
 growth/gold. Concentration is the largest active body's share.
@@ -252,9 +288,10 @@ that round. Unobserved arrivals do not become zeroes.
 
 Round p50/p90/p99, 2x-median shares and growth distributions are reported pooled and
 within each named line. Late-round populations are survivors only. p99 is descriptive,
-not a balance veto. The new curvature diagnostic uses relative linear-fit error and late/early growth
-increments on round 6–16 medians. The 15%-per-round compounding control fails it;
-rare highrolls remain descriptive, rather than a zero-tail requirement.
+not a balance veto. The curvature diagnostic reports relative linear-fit error
+and late/early growth increments on round 6–16 medians. Its known-answer control
+distinguishes a 15%-per-round compounding curve; neither curvature flag nor rare
+highrolls adds a checkpoint-1 pass/fail requirement.
 
 Outcome reports distinguish the round-eight **stat** leader from the public Health
 leader; tied leaders split credit. Comebacks are top-two finishes among boards below
@@ -311,8 +348,9 @@ null lobbies with identical seeds, and eight broken-engine lobbies. Null outputs
 byte. The broken seat won 8/8 lobbies; every planted round-six board was at least
 twice its own lobby median. A 32-board mixed control/broken round-six field,
 two replicates in each orientation (1,984 fights), gave the planted line a 97.0%
-weighted point rate. The predeclared gates were 75% lobby wins, all eight tails,
-and 80% field point rate. All passed (`evidence/planted-result.json`).
+weighted point rate. The historical harness-sensitivity checks required 75% lobby
+wins, all eight tails, and 80% field point rate. All passed under that historical
+protocol (`evidence/planted-result.json`); these are not gameplay preset criteria.
 
 The three lobby arms took 19.5s, 19.8s and 19.2s; field fights took 13.329s.
 All 469 captured broken-engine fights replayed exactly in 4.903s. Unit checks
@@ -345,18 +383,19 @@ after all 500 lobbies and all six fields complete.
 
 The full baseline keeps the median linear finding (R²=0.9989) but disproves the literal
 zero-tail prediction: 11/35,564 R6-16 board-rounds (0.031%), from seven seats in
-seven lobbies, reached twice their round median. Known answer (d) therefore fails
-its strict no-2x clause at 500 lobbies. The report and tail audit retain those
-exceptions; neither the data nor the diagnostic was adjusted to force a pass.
+seven lobbies, reached twice their round median. The historical strict no-2x
+diagnostic was therefore false at 500 lobbies. The report and tail audit retain
+those exceptions. Tail frequency is reported and does not pass or fail a preset.
 
 
-## Owner ruling and mechanics integration
+## Orchestrator ruling and mechanics integration
 
 The orchestrator accepts known answer (d): 11/35,564 R6-16 snapshots at twice the median
 (0.031%) is a flat shape. The measured strict zero-tail diagnostic remains false
-in the immutable baseline data; it is no longer the orchestrator's pass criterion.
+in the immutable baseline data; it is not a checkpoint-1 criterion. The current
+pre-start (d) interpretation and interval are recorded below.
 
-After the owner merged shared mechanics in `eb571ba`, capture and reserves read the
+After the orchestrator merged shared mechanics in `eb571ba`, capture and reserves read the
 session's private overlaid library. Standalone field fights and re-fights restore
 the same overlay from captured config once and reuse it. Replay also defensively
 normalizes an unconfigured library. Missing lever keys in older version-1 captures
@@ -368,13 +407,14 @@ and reuse of the configured library. Full gate: 1,677 tests, 28,859 assertions.
 
 ## Review measurement contract
 
-New reports use post–Start of Combat stats for board size and the largest body's
-share. The initial aura snapshot remains captured; `pre_start_stats` and
-`start_effect_delta` show how Start of Combat changed it. Missing post snapshots
-are explicitly counted as fallback, never silently called post-start data.
-Curvature replaces the zero-tail check: R6–16 medians must have relative linear
-RMSE <= 0.05 and late/early growth increments within 25% to be labelled flat.
-A known 15%-per-round compounding curve fails. Tail shares remain descriptive.
+The current decision contract reads growth and size on the pre-start board and
+reports post-start beside it. Historical reports that used post-start board size
+and concentration retain their phase labels; `pre_start_stats` and
+`start_effect_delta` expose the distinction. Missing post snapshots are explicitly
+counted as fallback, never silently called post-start data. The legacy curvature
+diagnostic uses relative linear RMSE <=0.05 and late/early growth increments within
+25% for its flat flag. It is a measurement diagnostic, not a gameplay preset bar.
+Tail shares and concentration remain descriptive.
 
 Fields sample equally by line (availability-capped); population weights restore
 real frequencies. Seeded two-way board bootstrap intervals resample each selected
@@ -391,20 +431,19 @@ and mechanics, compared against an identical reference body. Definition IDs are
 normalized only for cross-arm comparison; both arms must replay their own exact
 raw events. Adding a body to an empty board is not a null intervention.
 
-Before any engine-dial read, a fixed planted dose ladder (+1,+4,+16,+64 per turn)
-must run both forced-after-recruit and real-shop-pool versions. Adoption and
-retention are read from actual units, not presumed from a selected pool flag.
-Answer results remain blocked until controlled cause-specific upset readers
-(answer/targeting, placement, RNG) are implemented; event presence alone is not
-causal attribution. Current protected-sweep gate files remain absent.
+The fixed planted dose ladder (+1,+4,+16,+64 per turn) ran both forced-after-recruit
+and real-shop-pool versions. Adoption and retention read actual units, not a
+selected pool flag. Controlled cause-specific upset readers distinguish
+answer/targeting, placement and RNG; event presence alone is not causal attribution.
+These validate the evidence readers and add no checkpoint-1 gameplay criteria.
 
 
 The earlier 32-board screening proposal is withdrawn after review. New screening
 uses 64 equally stratified boards; even four or five boards per line is low N,
 and the board-cluster intervals flag that limitation. More fight repetitions do
-not fix a small board sample. Cause-specific counterfactual upset readers remain
-pending, so the answer sweep is blocked. Protected lever reads remain blocked on
-a separate, successful lever-build comparison against `hard_field`.
+not fix a small board sample. Cause-specific counterfactual readers and the
+separate lever-build comparisons have since completed. Their historical execution
+conditions do not add checkpoint-1 gameplay criteria.
 
 
 ## Fresh blind confirmation results
@@ -439,3 +478,124 @@ the mixture's 94/160 first-place finishes plus worse mean placement describe hig
 variance, not plain weakness. Per-line first-place/top-four rates and seed-cluster
 intervals were added from existing CSVs without any new simulation. The mixture
 does not block the shop doses or screening; the separate lever-build gate remains.
+
+
+## Follow-up: curvature phase, uncertainty and constructed setups
+
+The orchestrator's current known-answer (d) call reads **pre-start**: **1.188
+[1.125, 1.258] against 1.25**, a **borderline pass** recorded with its interval.
+The interval crosses the diagnostic limit, so it is not a confident separation.
+Post-start is reported beside it: **1.44 [1.37, 1.56]**. Using all 500 original seeds and 35,564 R6–16
+board-rounds, 2,000 deterministic whole-seed bootstrap draws (seed 14519) give:
+
+| Phase | Relative linear RMSE (95% interval) | Late/early growth ratio (95% interval) | Historical diagnostic flag |
+|---|---|---|---|
+| Pre-start, decision phase | 0.01289 [0.01119, 0.01678] | 1.1875 [1.1250, 1.2581] | true; borderline (d) pass |
+| Post-start, reported alongside | 0.03028 [0.02637, 0.03482] | 1.4412 [1.3714, 1.5588] | false; descriptive only |
+
+The pre-start interval crosses the unchanged 1.25 ratio limit. The post-start
+point is outside that diagnostic ratio range while relative RMSE is <=0.05. These are
+conditional surviving-board median curves; survival and opponent Start of Combat
+effects can bend them. Neither reading proves within-player compounding.
+`evidence/baseline-curvature.json` records medians, bootstrap details and original
+capture hashes. Tests now fail independently when either curvature bar is dropped.
+
+The real null is tested against the same three harness-sensitivity checks as the
+engine: 0/8 round-six tails, 1/8 lobby wins and 45.13% field points are below their
+thresholds; the engine exceeds all three. These are checks on the harness's
+ability to detect a planted fault, not checkpoint-1 criteria. They replace the historical empty-null pass;
+`evidence/real-null-dominance-result.json` is current. Weak engines and a
+do-something card falsely labelled null are explicit failing fixtures.
+
+The three exact historical run drivers are committed under `evidence/drivers/`,
+with original hashes and API/version notes. Full dose detail is now
+`evidence/review-run-progress.json.gz`; its compact JSON summary retains hashes
+and calibration. Forced +1/+4/+16/+64 plants gave R6 medians 56/94.5/228.5/803.5
+against population medians 46/48/48.5/45. The engine-dial step reads this as
+dose-to-size calibration, not a dose-effect ranking from eight-lobby cells.
+
+`line_tune` and the unused local sweep executor/CLI are deleted.
+`sweep_shards.py` is the sole active sweep runner; `lever_sweep.py` retains shared
+validation, analysis and report helpers only. Archived driver bytes reproduce
+their recorded revisions and are not current execution entrypoints.
+
+The orchestrator's follow-up decision opens general reads when the best line
+passes both builds. Mixture losses do not block engine or tribe reads: losing
+line observations are labelled lower bounds from weak play, never adverse
+content results. See `evidence/lever-read-qualifications.json`. Designed neutral
+boards with native keyword/answer mechanics are the second evidence source.
+
+## Designed setup workflow and first field
+
+`designed_setups.py` writes complete `field.py` designed inputs from round,
+Attack+Health total, body count, carry/even distribution, native keyword grants
+and an existing biggest-enemy or configurable percent answer. The first frozen
+field covers R9/R12/R15 at typical and 1.4x totals; the API also supports R6.
+All supports and the printed 3/3 answer consume the declared stat budget.
+
+The first 192,000 fights completed in 975.7 seconds. Pair rates have conservative
+95% Hoeffding intervals over 64 independent seeds; the two orientations share one
+seed cluster. These intervals describe exact fixed setups and combat RNG, not a
+population of player boards. Layouts are fixed and blind; keyword copies/gold
+costs are not matched. All setups and per-seed trials are committed with hashes.
+
+The owner-ratio analogue (three 500/500s versus one 2,100/2,100) has carry wins
+100% [83%,100%] without an answer and 25% [8%,42%] when wide adds one 3/3
+biggest-enemy answer. The actual 2.1B/2.1B request exceeds the engine's unchanged
+1B-per-stat clamp; separate boundary inputs record requested and realized values.
+See `docs/ideation/evidence/harness-followup.md` and `designed-screen.md` there
+for all equal-total cells, qualifications, commands and field provenance.
+
+## V3 concentration comparison: reported, not deciding
+
+Per `docs/ideation/DECISIONS.md`, **“Harness follow-up 2: calls”** on local
+`ideation/main`, the v3 definition is pinned before a run:
+
+- Both boards have equal pre-start total stats.
+- The carry has exactly one holder-keyword copy: Shield, Damage Reduction or Cleave.
+- The even board holds exactly one biggest-enemy answer: the strongest a player
+  could hold at R12 in the pool being measured, at that preset's values.
+- Report the no-answer arm alongside it for context.
+
+This is a descriptive concentration comparison, not a checkpoint-1 pass/fail bar.
+The first 192,000-fight field did not predeclare a gameplay bar and does not pass
+or fail one retrospectively. No v3 run is made by recording this definition.
+
+
+## Follow-up 2 integration and evidence maintenance
+
+The merged wave-1 library is audited per shared native ability: all 16 Bird and
+16 Fairy abilities are classified in `evidence/wave1-upset-audit.json`.
+UpsetCombat retains its whole-library audit because summons, copies and stolen
+text can reach definitions outside the starting board. Current friendly-largest,
+positional-enemy and all-enemy effects are preserved; none of the audited wave-1
+abilities selects the largest enemy. Unknown native IDs and unknown or missing
+wave-1 ability names remain unsupported. This is a masking-integrity check, not
+a checkpoint-1 gameplay criterion.
+
+`field_fights.gd` now also accepts `per_seed` as its fourth argument. The default
+aggregate mode keeps its original seed formula and output; per-seed mode keeps
+the former designed driver's exact seeds and paired-orientation rows.
+`designed_fights.gd` is removed. No new v3 concentration run is implied.
+
+Large historical data is stored in `evidence/caps-screen-results.json.gz`,
+`evidence/designed-screen-input.json.gz` and
+`evidence/designed-screen-result.json.gz`. The original `.json` paths are small
+archive pointers with compressed and original-data hashes. `evidence_io.read_json`
+and `json_sha` read plain JSON, gzip JSON or a verified pointer; the latter hashes
+the original uncompressed bytes. Frozen input/field checksums remain unchanged.
+
+The formerly one-off real-null, baseline-curvature and lever-qualification
+analyses are committed in `evidence/drivers/rebuild_followup_evidence.py`; exact
+commands and data requirements are in that directory's README. Rebuilding those
+artifacts is offline and preserves historical data and interpretation labels.
+
+Merged-tree verification is recorded in `evidence/harness-followup2-verification.json`:
+**1,846 tests / 30,367 assertions**, strict full gate under the shared lock and 3G
+scope, plus **124 Python harness tests**. The 15 focused UpsetCombat tests pass.
+The former and folded loops produce identical bytes on the merged backend for
+both per-seed (768 fights) and aggregate (24 fights) fixtures. The pre-wave-1
+archive differs in 35 winner-count rows under the merged backend, with unchanged
+seeds/identities; both implementations reproduce those merged-backend results.
+Historical outcomes remain untouched. No deferred line loader, real-card setups,
+general strength-plan format or agency measure was started in this follow-up.

@@ -1,0 +1,48 @@
+{
+  "source_commit": "dd0458f724a001404c0ea245956879c33d65cdd3",
+  "command_client": "tools/play/wave1_games.gd",
+  "command_client_sha256": "84db1978e9d5ea817fd5dcef9388241c6b1d393c6ab71481a96d7e499e36efcb",
+  "godot_runner": "source /opt/bramble/env.sh; flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G timeout <seconds> <command>",
+  "seed_selection": "First seed from 1 with both tribes in the ordinary full_game lobby. No seed/outcome search.",
+  "games": [
+    {
+      "tribe": "Birds",
+      "seed": 1,
+      "actions": 269,
+      "round": 19,
+      "placement": 1,
+      "main_tribe": "Birds",
+      "bought_by_tribe": {
+        "Hunters": 1,
+        "Birds": 21,
+        "Oozes": 1,
+        "Fairies": 1
+      },
+      "game_over": true,
+      "replay_game_log_matches_generated": true,
+      "cli_log_exit_code": 0,
+      "cli_json_exit_code": 0,
+      "cli_log_command": "tools/play/play.sh docs/ideation/evidence/wave1/birds-save.json log",
+      "cli_json_command": "tools/play/play.sh docs/ideation/evidence/wave1/birds-save.json --json",
+      "save_sha256": "0ae20075cf65e45901247712e71219a343275a55edd831fa6dd987d9d2c36e72"
+    },
+    {
+      "tribe": "Fairies",
+      "seed": 1,
+      "actions": 90,
+      "round": 11,
+      "placement": 8,
+      "main_tribe": "Fairies",
+      "bought_by_tribe": {
+        "Fairies": 9
+      },
+      "game_over": true,
+      "replay_game_log_matches_generated": true,
+      "cli_log_exit_code": 0,
+      "cli_json_exit_code": 0,
+      "cli_log_command": "tools/play/play.sh docs/ideation/evidence/wave1/fairies-save.json log",
+      "cli_json_command": "tools/play/play.sh docs/ideation/evidence/wave1/fairies-save.json --json",
+      "save_sha256": "983ead08af26e782636b3348398b2c0d613693e19fa45cf92cfc8396020af705"
+    }
+  ]
+}

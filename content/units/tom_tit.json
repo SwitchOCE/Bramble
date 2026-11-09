@@ -8,25 +8,26 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Your Eggs have their Bird's full Health.",
-  "golden_text": "Your Eggs have their Bird's full stats.",
+  "text": "Your biggest other Bird has Damage Reduction 50%.",
+  "golden_text": "Your two biggest other Birds have Damage Reduction 50%.",
   "mechanics": [
     {
-      "id": "tom_tit",
-      "full": 1
+      "id": "pass3_bird",
+      "ability": "tom_tit",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Egg"
+    "Damage Reduction"
   ],
-  "row_hint": null,
+  "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-c.md",
-    "note": "As amended by Pass 2 design: review calls in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/birds-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Eggs keep half Attack. Redwing's full stats still apply where it reaches. Only the strongest Tom Tit counts."
+  "details": "Chosen at Start of Combat. The protection ends when Tom Tit dies."
 }

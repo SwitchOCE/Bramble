@@ -1,0 +1,106 @@
+{
+  "before_source": "13eac5f",
+  "after_source": "76c259b",
+  "seeds_are_replacements": true,
+  "reports": {
+    "after-g025-health80.json": {
+      "sha256": "8c59e8c3199c2fadf70837834534e5e3381f0b2386647f708b2ade542b3a5f61",
+      "log_sha256": "87b7a01e001d1c50ae6b4b6153341f0bec7689c8f1c682c5f76e95cfd8f3352d",
+      "event_and_seat_counts_recomputed": true,
+      "fairy_counts": {
+        "buy:cluricaun": 3,
+        "buy:hob_in_the_hearth": 7,
+        "buy:lob_lie_by_the_fire": 9,
+        "ring_size_growths": 17,
+        "sell:cluricaun": 2,
+        "sell:lob_lie_by_the_fire": 1,
+        "thanks": 9
+      },
+      "r12_fairy_seats": 12,
+      "r12_ring_size_mean": 1.6666666666666667,
+      "r12_ring_size_median": 1.0,
+      "fairy_cluricaun_sale_tiers": [
+        6,
+        6
+      ]
+    },
+    "after-g1-health40.json": {
+      "sha256": "1361b4b922289809213c0d90d23169244f50e370529c443540eb09698ffd3231",
+      "log_sha256": "efc7cce4781d8364e9914df7f60556f2fd44bb93322873fcd99c95df56ee946a",
+      "event_and_seat_counts_recomputed": true,
+      "fairy_counts": {
+        "buy:cluricaun": 4,
+        "buy:hob_in_the_hearth": 7,
+        "buy:lob_lie_by_the_fire": 3,
+        "ring_size_growths": 15,
+        "sell:cluricaun": 1,
+        "thanks": 11
+      },
+      "r12_fairy_seats": 9,
+      "r12_ring_size_mean": 2.0,
+      "r12_ring_size_median": 2.0,
+      "fairy_cluricaun_sale_tiers": [
+        6
+      ]
+    },
+    "after-g1-health80.json": {
+      "sha256": "f411e6e0af94b6fd38ec1649ae640aa9e27fa2d64f735b485cd87ff088df17da",
+      "log_sha256": "6e03a5a319134b22943375fb39b4da99382d3b0315d8b769bf5c25cad6ef34af",
+      "event_and_seat_counts_recomputed": true,
+      "fairy_counts": {
+        "buy:cluricaun": 3,
+        "buy:hob_in_the_hearth": 8,
+        "buy:lob_lie_by_the_fire": 4,
+        "ring_size_growths": 27,
+        "sell:cluricaun": 1,
+        "sell:hob_in_the_hearth": 1,
+        "thanks": 17
+      },
+      "r12_fairy_seats": 12,
+      "r12_ring_size_mean": 2.1666666666666665,
+      "r12_ring_size_median": 2.0,
+      "fairy_cluricaun_sale_tiers": [
+        6
+      ]
+    },
+    "before-g025-health40.json": {
+      "sha256": "24ad068747e622ddf9eb5c7c2bfb8cee619b8bafe1a3904f8cf38abf93b37c66",
+      "log_sha256": "ca8c4c6248edc01d1c33531b0ea40ac85a6d37ec6cf13cfe031fd8893ea54272",
+      "event_and_seat_counts_recomputed": true,
+      "fairy_counts": {
+        "buy:cluricaun": 1,
+        "buy:hob_in_the_hearth": 6,
+        "buy:lob_lie_by_the_fire": 3,
+        "ring_size_growths": 8,
+        "sell:hob_in_the_hearth": 3,
+        "sell:lob_lie_by_the_fire": 2,
+        "thanks": 5
+      },
+      "r12_fairy_seats": 10,
+      "r12_ring_size_mean": 1.6,
+      "r12_ring_size_median": 1.5,
+      "fairy_cluricaun_sale_tiers": []
+    },
+    "before-g025-health80.json": {
+      "sha256": "b9a8849e635ec6d5c9449b3f75723c59f572c05ad6ae77f3f14c274c06ea8f0c",
+      "log_sha256": "03d0790fed95dbc669712f268860870b7b27b9c87c450dfef923e8eaeb29acb6",
+      "event_and_seat_counts_recomputed": true,
+      "fairy_counts": {
+        "buy:cluricaun": 1,
+        "buy:hob_in_the_hearth": 6,
+        "buy:lob_lie_by_the_fire": 2,
+        "ring_size_growths": 10,
+        "sell:cluricaun": 1,
+        "sell:hob_in_the_hearth": 3,
+        "sell:lob_lie_by_the_fire": 2,
+        "thanks": 3
+      },
+      "r12_fairy_seats": 12,
+      "r12_ring_size_mean": 1.25,
+      "r12_ring_size_median": 1.0,
+      "fairy_cluricaun_sale_tiers": [
+        6
+      ]
+    }
+  }
+}

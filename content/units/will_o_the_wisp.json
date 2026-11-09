@@ -12,14 +12,9 @@
   "golden_text": "Start of Combat: summon a 2/2 Wisp into each empty Ring.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "wisps",
-      "do": {
-        "effect": "summon",
-        "unit": "wisp",
-        "at": "empty_rings"
-      }
+      "id": "pass3_fairy",
+      "ability": "will",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -31,6 +26,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "fairies.md"
-  }
+    "doc": "docs/ideation/content/pass3/fairies-pass3.md",
+    "note": "Pass 3, with README amendments adopted."
+  },
+  "details": "Wisps gain their slots' Rings. They exist only for the fight."
 }
