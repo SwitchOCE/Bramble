@@ -536,31 +536,63 @@ static func transfer_mote(
 	return mark
 
 
+## A kiss arrives at the just-filled crown pip. Its pulse belongs to that pip alone.
+static func kiss(screen: Control, event: Dictionary, card: CardView) -> void:
+	var marks: Control = card.get("_combat_marks")
+	var pips: Array[Vector2] = marks.get("kiss_pips")
+	if pips.is_empty():
+		return
+	var count: int = Data.i(event, "count", 1)
+	var index: int = posmod(count - 1, pips.size())
+	var point: Vector2 = marks.get_global_transform() * pips[index]
+	var from: Vector2 = screen.get("_last_death")
+	var travel: float = maxf(0.04, 0.12 / CoreUtil.to_float(screen.get("speed")))
+	var heart: Control = transfer_mote(screen, from, point, "heart", UiTheme.HEALTH, travel)
+	heart.set_meta("kiss_target_uid", card.uid())
+	heart.set_meta("kiss_pip_index", index)
+	var ring: TextureRect = _icon(screen, "ring", point, 32)
+	ring.name = "KissPip_%d_%d" % [card.uid(), index]
+	ring.self_modulate = UiTheme.HEALTH
+	ring.set_meta("kiss_target_uid", card.uid())
+	ring.set_meta("kiss_pip_index", index)
+	ring.set_meta("kiss_pip_point", point)
+	ring.set_meta("kiss_count", count)
+	ring.hide()
+	var arrival: Tween = _tween(screen, ring)
+	arrival.tween_interval(travel)
+	arrival.tween_callback(ring.show)
+	arrival.tween_callback(_pulse.bind(screen, ring, UiTheme.HEALTH))
+	arrival.tween_interval(0.35)
+	arrival.tween_property(ring, "modulate:a", 0.0, 0.15)
+	arrival.tween_callback(ring.queue_free)
+
+
 static func wait_action(screen: Control, unit: CardView, target_uid: int = -1) -> void:
 	var target: CardView = _card(screen, target_uid)
 	if target != null:
-		var link := Line2D.new()
+		var link := EffectPath.new()
 		link.name = "MireWaitLink_%d" % unit.uid()
 		link.set_meta("waiting_uid", unit.uid())
 		link.set_meta("waiting_for_uid", target_uid)
-		link.width = 5
-		link.default_color = UiTheme.MOSS
-		link.antialiased = true
+		link.colour = UiTheme.ACORN
 		var source_point: Vector2 = unit.get_global_rect().get_center()
 		var target_point: Vector2 = target.get_global_rect().get_center()
 		var direction: Vector2 = (target_point - source_point).normalized()
-		link.points = PackedVector2Array(
-			[
-				_local(screen, source_point + direction * unit.size.y * 0.4),
-				_local(screen, target_point - direction * target.size.y * 0.4)
-			]
-		)
+		link.from_point = _local(screen, source_point + direction * unit.size.y * 0.4)
+		link.to_point = _local(screen, target_point - direction * target.size.y * 0.4)
 		_overlay(screen).add_child(link)
 		link.hide()
 		var relation: Tween = _tween(screen, link)
 		relation.tween_interval(0.12)
 		relation.tween_callback(link.show)
-		relation.tween_interval(0.43)
+		if Settings.reduce_motion:
+			link.progress = 1.0
+			link.arrived = true
+			relation.tween_interval(0.12)
+		else:
+			relation.tween_property(link, "progress", 1.0, 0.12)
+			relation.tween_callback(func() -> void: link.arrived = true)
+		relation.tween_interval(0.31)
 		relation.tween_property(link, "modulate:a", 0.0, 0.15)
 		relation.tween_callback(link.queue_free)
 	var stamp := Panel.new()

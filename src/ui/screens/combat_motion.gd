@@ -1,5 +1,5 @@
 extends RefCounted
-## Deterministic fight cues. Durations are real seconds, with a travel/contact floor at ×4.
+## Fight cues use real seconds, with a travel/contact floor at ×4.
 
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
@@ -186,12 +186,17 @@ func _hold_attack_source(card: CardView) -> void:
 
 
 func _clear_attack_sources() -> void:
-	for value: Variant in _held_sources:
-		if is_instance_valid(value):
-			var mark: Control = value
+	clear_actor_attack_source(-1)
+
+
+func clear_actor_attack_source(uid: int) -> void:
+	for mark: Control in _held_sources.duplicate():
+		if not is_instance_valid(mark):
+			_held_sources.erase(mark)
+		elif uid < 0 or CoreUtil.to_int(mark.get("actor_uid")) == uid:
 			mark.hide()
 			mark.queue_free()
-	_held_sources.clear()
+			_held_sources.erase(mark)
 
 
 func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
@@ -424,9 +429,7 @@ func change(event: Dictionary, animate: bool) -> void:
 					UiTheme.ACORN
 				)
 		"kiss":
-			var point: Vector2 = _last_death()
-			_mote(point, card.get_global_rect().get_center(), "heart", UiTheme.HEALTH)
-			_source_pulse(uid)
+			Special.kiss(_screen, event, card)
 
 
 func _hero_stat_effect(card: CardView, event: Dictionary) -> void:
@@ -818,7 +821,7 @@ func cue(event: Dictionary, animate: bool) -> void:
 		var unit: CardView = _card(waiting)
 		if unit != null:
 			_clear_attack_sources()
-			_source_pulse(waiting)
+			_hold_attack_source(unit)
 			Special.wait_action(_screen, unit, Data.i(event, "target", -1))
 			_effect_barrier(0.9)
 		return

@@ -58,8 +58,8 @@ The existing dead-reward test now requires a persistent reserve landing instead 
 an expiring echo. New tests check both Pack poses at ×1/×4/reduce, directed Aura and
 its recipient landing, and Counter's ordered self-gain/answer cue.
 Targeted `test_combat_declutter.gd`: **31/31, 273 assertions, 5.06 s**;
-strict hook passes (`build/declutter/motion4d-test_combat_declutter.log`). Source
-formatting/lint pass. No rule text was added to the resting board.
+strict hook passes (`build/declutter/motion4d-test_combat_declutter.log`). Production source
+formatting/lint passed; the full test-directory lint was not run at that checkpoint. No rule text was added to the resting board.
 
 ## Part 3: wordless wave 2a state and source cues
 
@@ -247,7 +247,8 @@ Clean editor import and all five targeted files pass with no script/runtime erro
 
 Logs: `build/declutter/narrow4-*.log` and `narrow4cue-*.log`. GUT reports 1,173
 orphans in the existing recruit-replay and simultaneous-Take tests; the new tests
-report none. Formatting/lint and whitespace checks pass. No full gate or new cold
+report none. Scoped formatting/lint and whitespace checks passed. Full test-directory lint later found
+the duplicate preload described below. No full gate or new cold
 reader was run here. The committed reshoot cold-reader files are the orchestrator's
 verbatim input on the earlier packet, not a claim about these new strips.
 
@@ -290,3 +291,113 @@ An initial failed fixture probe survived an attempted cancellation until its tim
 and briefly overlapped regeneration. The accepted render passes ran sequentially;
 `strips/bog-followup/process-history.md` records the exact overlap and timing.
 No Godot process remains.
+
+
+## Gate correction: complete test-directory lint
+
+The earlier 'lint passes' wording referred to scoped source/file checks. Running
+`(cd tests && gdlint .)` found a duplicate inline preload of `combat_attack_cue.gd`
+in the Pounce regression (line 863), already used at line 497. Both now use one
+`AttackCue` constant at the top of the file. No behavior or evidence changes.
+The full requested static-check results are recorded with this follow-up below.
+
+## Cue retirement replaces the added stats wait
+
+The stats tail barrier is restored from arrival + 0.75 s to arrival + 0.15 s.
+At the next animated attack or Mire wait, every older animation callback is
+cancelled. Existing transient pictures are frozen in a separate retirement layer
+and fade in **0.08 s**, without holding up the new action. This covers all old
+routes and motes, including Toll and pending gains, source rings, dead-source
+portraits and old damage pops. Canonical model state is synced into surviving
+cards before the new action; queued rewards never become fighting stats.
+Restart/skip clear the retiring layer too. No long-tail speed scaling change.
+
+`test_combat_cue_lifetime.gd`: **8/8, 1162 assertions, 6.457 s**, strict hook clean,
+no script errors or orphan warnings. The original three assertions remain, with
+30 real cause/boundary/motion cases checking frozen routes/motes, the visible
+half fade, deletion inside 0.1 s, no late Toll/pending callbacks and exact state;
+18 cadence cases ensure the long tail adds no wait. Logs are in
+`build/declutter/retire-test_combat_cue_lifetime.log` (or the focused lifetime log).
+Before/cleanup-only/final-reader timing measurements are recorded separately so
+new reader cues do not get attributed to this pacing correction.
+
+
+### Whole-fight timing, before and after cue retirement
+
+Two deterministic 120 Hz passes per case, measured at `62c6cc76` (old barrier)
+and `bda3f1d2` (cleanup only), including automatic return:
+
+| Fight | Speed | Before | Cleanup only | Saved |
+| --- | --- | ---: | ---: | ---: |
+| Bog | ×1 | 9.833333 s | 9.725000 s | 0.108333 s |
+| Bog | ×4 | 6.558333 s | 5.641667 s | 0.916666 s |
+| combat_mid | ×1 | 27.333333 s | 25.766667 s | 1.566666 s |
+| combat_mid | ×4 | 22.000000 s | 20.200000 s | 1.800000 s |
+
+Source events, their order, final model hashes and final hero Health match in
+every pair. `strips/cue-retirement/before-timings.json` and
+`after-cleanup-timings.json` preserve these measurements independently of the
+subsequent reader-cue changes. The accepted d400831e before images are unchanged.
+
+
+### Reader 5 follow-up: amounts, destinations and waiting actor
+
+The orchestrator supplied the independent `reader5/score.md` and `answers.md`
+from `ideation/main`. Its Toll, queued gain, kiss and Mire answers failed at ×1
+and reduce motion. The moving cues now address those specific ambiguities:
+
+- Toll carries its event amount, then briefly pops it at the hero. This distinguishes
+  the current `+1` from the cumulative Toll retained in the hero reader.
+- Pending gain launches one short beat after Toll and briefly shows the pending
+  total on the live tag (`+2/+2` in Bog 017). Fighting stats remain unchanged.
+  The rulebook already says “A fight shows the amounts pending”; no second wording
+  change was needed. These labels disappear with the event and add no standing mark.
+- A kiss begins at the dead unit's canonical board pocket, including when death
+  interrupts a lunge. Its heart lands on the newly filled crown pip, which pulses.
+  Travel fits the existing kiss beat at ×1/×4; the full portrait no longer pulses.
+- Mire wait puts the gold frame on the waiting actor and uses the standard directed
+  route with a destination arrowhead. The short line and stamp fade within the beat.
+- Death clears that actor's gold frame, including direct/skip playback, while
+  preserving any surviving joint actor's frame.
+- Toll routes, pending sparks/amounts and Prince pip rings all use the screen's
+  deterministic overlay clock. The next attack or Mire wait retires them in 0.08 s.
+  No additional scheduler barrier or wait was introduced for these reader fixes.
+
+Focused coverage is in `test_combat_wave2a.gd`, `test_combat_reader5_motion.gd`
+and `test_combat_cue_lifetime.gd`; final results and reshot manifests follow below.
+
+
+### Final targeted validation for reader cues
+
+At production commit `d577853d`, the worker slot wrapper ran these six files
+in one Godot process: `test_combat_declutter` **36/36**, `test_combat_wave2a`
+**9/9**, `test_combat_face` **11/11**, `test_pending_gains_ui` **7/7**,
+`test_combat_cue_lifetime` **11/11**, and `test_combat_reader5_motion` **4/4**.
+Total: **78/78 tests, 2961 assertions, 24.258 s**; strict hook passed, no script
+or runtime errors. `build/declutter/reader5-tests.log` is the local full log.
+The new reader-motion file also ran alone: **4/4, 71 assertions, 1.803 s**.
+
+Two pre-existing declutter test paths still emit GUT orphan warnings: replay from
+recruit (1126 nodes) and simultaneous Take/death setup (48 nodes). The new motion
+and lifetime files emit none. These warnings are reported separately from the
+passing strict gate; this batch did not broaden into replay cleanup.
+
+Pinned expectations changed with their visible behavior: the Mire relation test
+now requires the standard `EffectPath` destination arrow; the shared source-cue
+table expects `KissPip_1_4` for a kiss instead of the removed whole-frog source
+ring. Both retain explicit visible-cue assertions. The existing duplicate load
+uses the shared `AttackCue` preload. Ordinary/joint lunge tests inspect actual
+contact positions (0.85/0.35), and kept portraits compare the loaded override art.
+
+
+The final lifetime file also ran alone: **11/11, 1768 assertions, 10.759 s**,
+strict hook clean. Native inspection found the pending spark covered the slash
+in `+2/+2`; `22c5e9f3` places numeric landing slips above motes. Its focused
+wave2a rerun passed **9/9, 535 assertions, 3.023 s**. The Bog sheets are reshot
+with that fix; combat_mid has no Toll/pending events and its three sheets are
+unchanged. The packet records each source revision.
+
+All requested static commands passed: `ruff check tools`,
+`ruff format --check tools`, `gdlint src tools`, `(cd tests && gdlint .)`, and
+`gdformat --check src tools tests`. The capture Python files also passed explicit
+Ruff checks. No DECISIONS edits were added; it matches the accepted base.
