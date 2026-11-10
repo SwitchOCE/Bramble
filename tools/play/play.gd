@@ -17,7 +17,6 @@ func _main(args: PackedStringArray, as_json: bool) -> int:
 		print("Usage: play.sh new --seed N [--save path] [--field-library path] [--variant X|Y]")
 		print("       play.sh <save> [show|log|buy N|play N [slot]|move A B|sell S|swallow W S|")
 		print("                       refresh|freeze|tier|power [slot]|choose N|end] [--json]")
-		print("       play.sh <save> reveal          (orchestrator: a blind save's preset)")
 		print("       play.sh replay-log <game log> [--save path] [--field-library path]")
 		return 2
 	if args[0] == "help":
@@ -60,6 +59,10 @@ func _start(args: PackedStringArray) -> PlayGame:
 	var strength: String = _option(args, "--field-strength", "top4")
 	if not args.has("--variant"):
 		return PlayGame.start(game_seed, field_path, strength)
+	if args.has("--field-library"):
+		var conflict := PlayGame.new()
+		conflict.load_error = "--variant cannot be combined with --field-library; use the map"
+		return conflict
 	var variant: String = _option(args, "--variant", "").to_upper()
 	var entry: Dictionary = PlayVariant.lookup(variant)
 	var refused := PlayGame.new()
@@ -67,9 +70,6 @@ func _start(args: PackedStringArray) -> PlayGame:
 		refused.load_error = entry["error"]
 		return refused
 	if str(entry["field_library"]) != "":
-		if field_path != "":
-			refused.load_error = "the variant map names the field library; drop --field-library"
-			return refused
 		field_path = entry["field_library"]
 		strength = entry["field_strength"]
 	return PlayGame.start(game_seed, field_path, strength, str(entry["preset"]), variant)
@@ -156,9 +156,21 @@ static func _from_log(record: Dictionary, field_override: String) -> PlayGame:
 	var game := PlayGame.from_save(saved)
 	if game.load_error != "":
 		return game
-	var hero_id: String = GameRecordLog.hero_id(game.session.get_state())
+	var state: Dictionary = game.session.get_state()
+	var hero_id: String = GameRecordLog.hero_id(state)
 	if str(record.get("hero", "")) != hero_id:
 		game.load_error = "it names hero %s, the replay has %s" % [record.get("hero"), hero_id]
+		return game
+	if str(record.get("final_state_hash", "")) != game.state_hash():
+		game.load_error = (
+			"Final state hash mismatch: recorded %s, replay has %s"
+			% [record.get("final_state_hash", "<missing>"), game.state_hash()]
+		)
+	elif record.get("placement") != state.get("placement"):
+		game.load_error = (
+			"Placement mismatch: recorded %s, replay has %s"
+			% [record.get("placement"), state.get("placement")]
+		)
 	return game
 
 
