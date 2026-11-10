@@ -1,0 +1,52 @@
+{
+  "baseline": "e286d539",
+  "cuts": {
+    "legacy_capture": "health_after defaults to [None, None]; old synthetic_capture fixture and present-health cases both covered",
+    "granny": "Removed early clamp; temporary Attack stays in a 64-bit layer and produces no carry. Regression checks 1.2B and 3.6B gathers plus Posset; restoring old clamp fails with 500000004 instead of 700000004."
+  },
+  "ooze_c": {
+    "source": "tools/sim/evidence/ooze-probe/ooze-c-20261110-r4.json",
+    "clamps": {
+      "oozes_elder_share": 1,
+      "oozes_hasty_share": 1
+    },
+    "path_dials": 23,
+    "B_unchanged": true,
+    "non_ooze_rates_unchanged": true,
+    "all_24_C_values_verified": true
+  },
+  "checks": {
+    "targeted_gut": {
+      "scripts": 5,
+      "tests": 72,
+      "passed": 72,
+      "log": "build/ooze-cuts/gut-final.log"
+    },
+    "gate_pytest": {
+      "command": "python -m pytest tools/checks/tests",
+      "passed": 173,
+      "log": "build/ooze-cuts/python-gate-pytest.log"
+    },
+    "gate_unittest": {
+      "command": "python -m unittest discover -s tools/checks/tests -t .",
+      "passed": 173,
+      "log": "build/ooze-cuts/python-gate-unittest.log"
+    },
+    "broader_python": {
+      "command": "python -m pytest tools/checks/tests tests/sim",
+      "passed": 376,
+      "failed": 2,
+      "preexisting_failures": [
+        "tests/sim/test_real_designed.py::RealDesignedTests::test_known_recipes_cover_committed_rounds_and_two_documented_payoffs",
+        "tests/sim/test_skilled_birds.py::SkilledBirdsTest::test_only_flight_call_changes_in_native_turn_flow"
+      ],
+      "baseline_reproduced_at": "e286d539",
+      "baseline_log": "build/ooze-cuts/python-baseline.log"
+    },
+    "ruff": "pass",
+    "gdlint": "pass",
+    "gdformat_check": "pass",
+    "full_godot_suite": false
+  },
+  "pushes": []
+}

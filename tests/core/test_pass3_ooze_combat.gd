@@ -545,3 +545,29 @@ func test_overbuff_hasty_carries_a_capped_gain_without_vector_wrap() -> void:
 	assert_eq(buffs.size(), 1)
 	assert_eq(buffs[0]["attack"], BoardUnit.STAT_CLAMP)
 	assert_eq(buffs[0]["health"], BoardUnit.STAT_CLAMP)
+
+
+func test_granny_keeps_uncapped_temporary_attack_for_later_posset_loss() -> void:
+	for multiplier: int in [1, 3]:
+		var spec: Dictionary = CK.u("granny_stir_up")
+		spec["iid"] = 101
+		var combat: Combat = _fight(
+			{
+				0: spec,
+				1: CK.u("little_dollop", 600000000, 20),
+				4: CK.u("little_dollop", 600000000, 20),
+			},
+			{0: "mrs_posset"}
+		)
+		var granny: CombatUnit = combat.unit_at(0, 0)
+		Pass3OozeCombat._granny(
+			combat, granny, {"attack_multiplier": float(multiplier), "factor": 1}
+		)
+		assert_eq(granny.combat_attack, 1200000000 * multiplier, "64-bit temporary layer")
+		assert_eq(granny.attack, BoardUnit.STAT_CLAMP, "only displayed stats hit the cap")
+		var posset: CombatUnit = combat.unit_at(1, 0)
+		combat.deal_effect_damage(granny, posset, 2)
+		combat._resolve_deaths(1)
+		assert_eq(granny.attack, 700000004 if multiplier == 1 else BoardUnit.STAT_CLAMP)
+		assert_eq(granny.perm_attack, 0, "Granny's gathered Attack is temporary")
+		assert_true(combat.carry.is_empty(), "even a 3.6B gather creates no permanent carry")

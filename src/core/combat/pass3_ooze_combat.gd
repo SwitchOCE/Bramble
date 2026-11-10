@@ -164,12 +164,9 @@ static func _granny(combat: Combat, unit: CombatUnit, params: Dictionary) -> voi
 		combat.trigger(unit, "granny_stir_up")
 		combat.buff(
 			unit,
-			mini(
-				BoardUnit.STAT_CLAMP,
-				(
-					floori(gain * CoreUtil.to_float(params.get("attack_multiplier", 1.0)))
-					* CoreUtil.to_int(params.get("factor", 1))
-				)
+			(
+				floori(gain * CoreUtil.to_float(params.get("attack_multiplier", 1.0)))
+				* CoreUtil.to_int(params.get("factor", 1))
 			),
 			0,
 			unit

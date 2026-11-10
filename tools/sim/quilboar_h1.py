@@ -194,7 +194,7 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
                         "belly_stats": sum(
                             u["attack"] + u["health"] for u in before["units"] if u.get("location") == "belly"
                         ),
-                        "health_after": record["health_after"][side],
+                        "health_after": record.get("health_after", [None, None])[side],
                         "tier": int(fight["tiers"][side]),
                         "gem_size": [before.get("gem_attack_halves", 0), before.get("gem_health_halves", 0)],
                         "commit_round": commits.get(key),

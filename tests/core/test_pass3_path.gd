@@ -111,7 +111,7 @@ const FACES: Array = [
 		"Oozes gain ?(.*?) ?(?:of )?its stats",
 		"oozes_golden_elder_multiplier"
 	],
-	["oozes_hasty_share", "hasty_pudding", "text", "gains (.*?) of it\\.", 1],
+	["oozes_hasty_share", "hasty_pudding", "text", "gains (.*?) of (?:it|each)\\.", 1],
 	["oozes_hasty_share", "hasty_pudding", "golden_text", "gains (.*?) of each\\.", 1],
 	["oozes_aspic_bonus", "aunt_aspic", "text", "gain ([\\d.]+%) more", 1],
 	[
@@ -277,14 +277,33 @@ func test_limits_snaps_and_golden_relations_hold_along_every_path() -> void:
 			"oozes_soup_share",
 			"oozes_elder_share",
 			"oozes_hasty_share",
+			"oozes_slice_share",
+			"oozes_posset_loss_share",
 			"bog_tiddy_share",
 		]:
 			assert_lte(CoreUtil.to_float(path[key]), 1.0, key + at)
 		assert_lt(CoreUtil.to_float(path["birds_redbreast_share"]) * 2.0, 1.0, "golden Robin" + at)
 		assert_lt(CoreUtil.to_float(path["birds_cuckoo_share"]) * 2.0, 1.0, "golden Cuckoo" + at)
 		assert_gte(path["birds_stork_gold_step"], 1)
-		assert_gte(path["oozes_eat_printed_multiplier"], 1)
-		assert_true(path["oozes_eat_printed_multiplier"] is int, "whole" + at)
+		assert_lte(path["oozes_moss_golden_reduction"], 100)
+		for key: String in [
+			"oozes_eat_printed_multiplier",
+			"oozes_nell_meals",
+			"oozes_bubble_belly",
+			"oozes_dollop_belly",
+			"oozes_dollop_discount",
+			"oozes_slice_count",
+			"oozes_hasty_swallows",
+			"oozes_hasty_release_deaths",
+			"oozes_golden_soup_reads",
+			"oozes_bubble_splits",
+			"oozes_pie_gold",
+			"oozes_wobbly_drip",
+			"oozes_frumenty_meals",
+			"oozes_syllabub_fires",
+		]:
+			assert_gte(path[key], 1, key + at)
+			assert_true(path[key] is int, "whole: " + key + at)
 		assert_true(path["bog_soak_keep"] is int, "whole" + at)
 		assert_eq(path["bog_golden_soak_keep"], 2 * path["bog_soak_keep"], at)
 		assert_almost_eq(
@@ -341,24 +360,65 @@ func test_snaps_round_up_toward_generous_and_non_ooze_paths_keep_moving() -> voi
 	assert_eq([t2["bog_tiddy_share"], t2["bog_golden_tiddy_share"]], [1.0, 2.0])
 
 
-func test_promoted_ooze_path_stays_flat_at_every_step() -> void:
-	var expected: Dictionary = {
-		"oozes_soup_share": 0.3,
-		"oozes_elder_share": 1.0,
-		"oozes_hasty_share": 1.0,
-		"oozes_aspic_bonus": 1.8,
-		"oozes_golden_aspic_multiplier": 4.6,
-		"oozes_eat_printed_multiplier": 7,
+func test_promoted_ooze_path_preserves_b_and_uses_clamped_arm_c() -> void:
+	# Explicit authored endpoints catch missing dials as well as accidental preset changes.
+	var endpoints: Dictionary = {
+		"oozes_soup_share": [0.3, 0.9],
+		"oozes_elder_share": [1.0, 1.0],
+		"oozes_hasty_share": [1.0, 1.0],
+		"oozes_aspic_bonus": [1.8, 5.4],
+		"oozes_golden_aspic_multiplier": [4.6, 11.8],
+		"oozes_eat_printed_multiplier": [7, 21],
+		"oozes_nell_meals": [1, 3],
+		"oozes_bubble_belly": [1, 3],
+		"oozes_dollop_belly": [1, 3],
+		"oozes_dollop_discount": [1, 3],
+		"oozes_slice_share": [0.2, 0.6],
+		"oozes_slice_count": [1, 3],
+		"oozes_hasty_swallows": [1, 3],
+		"oozes_hasty_release_deaths": [3, 1],
+		"oozes_golden_soup_reads": [2, 6],
+		"oozes_granny_attack_multiplier": [1.0, 3.0],
+		"oozes_posset_loss_share": [0.5, 1.0],
+		"oozes_moss_golden_reduction": [25, 75],
+		"oozes_bubble_splits": [1, 3],
+		"oozes_pie_gold": [1, 3],
+		"oozes_wobbly_drip": [1, 3],
+		"oozes_frumenty_meals": [1, 3],
+		"oozes_syllabub_fires": [1, 3],
 	}
-	for t: float in STEPS:
+	for t: float in [0.0, 1.0]:
 		var path: Dictionary = Pass3Path.override(t)
-		for key: String in expected:
+		for key: String in endpoints:
+			assert_true(path.has(key), key + " must be on the Ooze path")
 			assert_almost_eq(
-				CoreUtil.to_float(path[key]),
-				CoreUtil.to_float(expected[key]),
+				CoreUtil.to_float(path.get(key, NAN)),
+				CoreUtil.to_float(endpoints[key][int(t)]),
 				1e-9,
 				"%s at t=%s" % [key, t]
 			)
+		assert_eq(Pass3Rates.number(_config(t), "oozes_golden_elder_multiplier"), 2.0)
+	for t: float in STEPS:
+		var path: Dictionary = Pass3Path.override(t)
+		for key: String in endpoints:
+			var value: float = CoreUtil.to_float(path.get(key, NAN))
+			var b: float = CoreUtil.to_float(endpoints[key][0])
+			var c: float = CoreUtil.to_float(endpoints[key][1])
+			var at: String = "%s at t=%s" % [key, t]
+			if b == c:
+				assert_eq(value, b, at)
+			elif c > b:
+				assert_gte(value, b, at)
+				if t >= 1.0:
+					assert_gte(value, c, at)
+			else:
+				assert_lte(value, b, at)
+				assert_gte(value, c, at)
+	var cap: Dictionary = Pass3Path.override(3.0)
+	for key: String in ["oozes_soup_share", "oozes_slice_share", "oozes_posset_loss_share"]:
+		assert_eq(CoreUtil.to_float(cap[key]), 1.0, key + " respects its share limit")
+	assert_eq(cap["oozes_moss_golden_reduction"], 100)
+	assert_eq(cap["oozes_hasty_release_deaths"], 1)
 
 
 func test_per_tribe_t_moves_only_that_tribe() -> void:
@@ -367,6 +427,10 @@ func test_per_tribe_t_moves_only_that_tribe() -> void:
 	assert_eq(mixed["hunters_ermeline_pelts"], 8)
 	assert_eq(mixed["oozes_eat_printed_multiplier"], base["oozes_eat_printed_multiplier"])
 	assert_eq(mixed["birds_homecoming_multiplier"], base["birds_homecoming_multiplier"])
+	var ooze_only: Dictionary = Pass3Path.override({"oozes": 1.0})
+	var c: Dictionary = Pass3Path.override(1.0)
+	for key: String in base:
+		assert_eq(ooze_only[key], c[key] if key.begins_with("oozes_") else base[key], key)
 
 
 func test_every_path_face_prints_its_rules_number_at_t_0_1_2_and_3() -> void:
@@ -430,6 +494,14 @@ func test_path_faces_stay_readable_with_no_raw_decimals_or_percent_fallbacks() -
 					assert_false(words.contains("%"), where)
 
 
+func test_amount_reads_word_and_numeric_fraction_numerators() -> void:
+	assert_almost_eq(amount("nine tenths"), 0.9, 1e-9)
+	assert_almost_eq(amount("9 tenths"), 0.9, 1e-9)
+	assert_almost_eq(amount("11 twelfths"), 11.0 / 12.0, 1e-9)
+	assert_almost_eq(amount("two thirds"), 2.0 / 3.0, 1e-9)
+	assert_true(is_nan(amount("unknown tenths")))
+
+
 ## Phrases the printers use, read back into numbers.
 static func amount(phrase: String) -> float:
 	var words: String = phrase.strip_edges().to_lower()
@@ -455,8 +527,11 @@ static func amount(phrase: String) -> float:
 		return float(NUMBERS[parts[0]]) if NUMBERS.has(parts[0]) else parts[0].to_float()
 	if parts.size() == 1 and NUMBERS.has(parts[0]):
 		return float(NUMBERS[parts[0]])
-	if parts.size() == 2 and NUMBERS.has(parts[0]) and DENOMINATORS.has(parts[1]):
-		return float(NUMBERS[parts[0]]) / float(DENOMINATORS[parts[1]])
+	if parts.size() == 2 and DENOMINATORS.has(parts[1]):
+		if NUMBERS.has(parts[0]):
+			return float(NUMBERS[parts[0]]) / float(DENOMINATORS[parts[1]])
+		if parts[0].is_valid_int():
+			return parts[0].to_float() / float(DENOMINATORS[parts[1]])
 	return NAN
 
 
@@ -477,7 +552,7 @@ func _field(card: Dictionary, field: String) -> String:
 	return str(card.get(field, ""))
 
 
-# --- Known answers for the five new dials, at t = 0 and at the cap (t = 3). ---
+# --- Behavioral checks at the authored endpoints and the end of the path (t = 3). ---
 
 
 func test_tiddy_splits_its_dialled_share_at_t0_and_cap() -> void:
@@ -545,13 +620,14 @@ func test_glutton_and_lodger_take_past_one_at_the_cap() -> void:
 	)
 
 
-func test_hasty_gives_its_dialled_share_at_t0_and_cap() -> void:
-	for row: Array in [[0.0, [100, 130]], [3.0, [100, 130]]]:
+func test_hasty_gives_its_dialled_share_and_swallow_count_at_endpoints_and_cap() -> void:
+	for row: Array in [[0.0, [100, 130]], [1.0, [102, 132]], [3.0, [102, 132]]]:
 		_kit(row[0])
 		var hasty: Dictionary = CK.u("hasty_pudding", -1, -1)
 		hasty["iid"] = 11
 		var carry: Dictionary = CK.u("little_dollop", 60, 80)
 		carry["iid"] = 12
+		# At C and beyond, the second swallow also contributes the smaller enemy's stats.
 		var combat: Combat = _fight({0: hasty, 4: carry}, {0: CK.plain(2, 2), 6: CK.plain(40, 50)})
 		var grown: CombatUnit = combat.unit_at(0, 4)
 		assert_eq([grown.attack, grown.health], row[1], str(row))
@@ -584,8 +660,9 @@ func test_hasty_bot_value_reads_the_dial() -> void:
 
 
 func test_eat_multiplier_scales_only_a_non_oozes_printed_stats() -> void:
-	for row: Array in [[0.0, 7], [3.0, 7]]:
-		_kit(row[0])
+	for t: float in [0.0, 1.0, 3.0]:
+		_kit(t)
+		var multiplier: int = Pass3Rates.integer(kit.config, "oozes_eat_printed_multiplier")
 		var carry: RecruitUnit = kit.put("bubble_and_squeak", 1)
 		carry.add_permanent(30, 30)
 		var meal: RecruitUnit = kit.put("field_vole")
@@ -594,8 +671,8 @@ func test_eat_multiplier_scales_only_a_non_oozes_printed_stats() -> void:
 		meal.add_permanent(5, 6)
 		var before := Vector2i(carry.perm_attack, carry.perm_health)
 		Pass3Oozes.eat(kit.rules, kit.player, carry, meal)
-		var want: Vector2i = printed * row[1] + Vector2i(5, 6)
-		assert_eq(Vector2i(carry.perm_attack, carry.perm_health) - before, want, str(row))
+		var want: Vector2i = printed * multiplier + Vector2i(5, 6)
+		assert_eq(Vector2i(carry.perm_attack, carry.perm_health) - before, want, "t=%s" % t)
 		var ooze: RecruitUnit = kit.put("little_dollop")
 		kit.player.hand.erase(ooze)
 		ooze.add_permanent(3, 4)
@@ -610,26 +687,37 @@ func test_eat_multiplier_scales_only_a_non_oozes_printed_stats() -> void:
 
 
 func test_aspic_and_golden_aspic_use_their_dials_with_the_eat_multiplier() -> void:
-	for row: Array in [
-		[0.0, false, 7, 2.8], [0.0, true, 7, 4.6], [3.0, false, 7, 2.8], [3.0, true, 7, 4.6]
-	]:
-		_kit(row[0])
-		var carry: RecruitUnit = kit.put("bubble_and_squeak", 1)
-		carry.add_permanent(30, 30)
-		kit.put("aunt_aspic", 4, row[1])
-		var meal: RecruitUnit = kit.put("field_vole")
-		kit.player.hand.erase(meal)
-		var printed := Vector2i(meal.base_attack_now(), meal.base_health_now())
-		var before := Vector2i(carry.perm_attack, carry.perm_health)
-		Pass3Oozes.eat(kit.rules, kit.player, carry, meal)
-		var stats: Vector2i = printed * row[2]
-		var want := Vector2i(floori(stats.x * row[3] + 1e-9), floori(stats.y * row[3] + 1e-9))
-		assert_eq(Vector2i(carry.perm_attack, carry.perm_health) - before, want, str(row))
+	for t: float in [0.0, 1.0, 3.0]:
+		for golden: bool in [false, true]:
+			_kit(t)
+			var carry: RecruitUnit = kit.put("bubble_and_squeak", 1)
+			carry.add_permanent(30, 30)
+			kit.put("aunt_aspic", 4, golden)
+			var meal: RecruitUnit = kit.put("field_vole")
+			kit.player.hand.erase(meal)
+			var printed := Vector2i(meal.base_attack_now(), meal.base_health_now())
+			var before := Vector2i(carry.perm_attack, carry.perm_health)
+			var stats: Vector2i = (
+				printed * Pass3Rates.integer(kit.config, "oozes_eat_printed_multiplier")
+			)
+			var factor: float = (
+				Pass3Rates.number(kit.config, "oozes_golden_aspic_multiplier")
+				if golden
+				else 1.0 + Pass3Rates.number(kit.config, "oozes_aspic_bonus")
+			)
+			var want := Vector2i(floori(stats.x * factor + 1e-9), floori(stats.y * factor + 1e-9))
+			Pass3Oozes.eat(kit.rules, kit.player, carry, meal)
+			assert_eq(
+				Vector2i(carry.perm_attack, carry.perm_health) - before,
+				want,
+				"t=%s golden=%s" % [t, golden]
+			)
 
 
 func test_meal_bot_value_counts_the_eat_multiplier() -> void:
-	for row: Array in [[0.0, 7], [3.0, 7]]:
-		_kit(row[0])
+	for t: float in [0.0, 1.0, 3.0]:
+		_kit(t)
+		var multiplier: int = Pass3Rates.integer(kit.config, "oozes_eat_printed_multiplier")
 		kit.put("bubble_and_squeak", 1)
 		kit.put("elder_ooze", 4)
 		kit.put("aunt_aspic", 6)
@@ -647,13 +735,14 @@ func test_meal_bot_value_counts_the_eat_multiplier() -> void:
 		var soup: Vector2i = meal.get_meta("ooze_soup_bonus", Vector2i.ZERO)
 		var printed: int = meal.base_attack_now() + meal.base_health_now()
 		assert_eq(
-			BotOoze.meal_gain(brain, meal), float(own + soup.x + soup.y + printed * (row[1] - 1))
+			BotOoze.meal_gain(brain, meal),
+			float(own + soup.x + soup.y + printed * (multiplier - 1))
 		)
 		assert_eq(
 			Pass3Oozes.meal_stats(kit.player, meal),
 			Vector2i(
-				meal.base_attack_now() * row[1] + meal.perm_attack,
-				meal.base_health_now() * row[1] + meal.perm_health
+				meal.base_attack_now() * multiplier + meal.perm_attack,
+				meal.base_health_now() * multiplier + meal.perm_health
 			)
 		)
 

@@ -20,15 +20,6 @@ const BODIES: Dictionary = {
 	"granny_stir_up": [6, 4, 8],
 	"cut_and_come_again": [6, 4, 6],
 }
-## The accepted t=3 probe becomes B; C is raised to B wherever its old value was lower.
-const PROMOTED_DIALS: Dictionary = {
-	"oozes_soup_share": 0.3,
-	"oozes_elder_share": 1.0,
-	"oozes_hasty_share": 1.0,
-	"oozes_aspic_bonus": 1.8,
-	"oozes_golden_aspic_multiplier": 4.6,
-	"oozes_eat_printed_multiplier": 7.0,
-}
 
 var library: UnitLibrary
 var config: GameConfig
@@ -80,32 +71,30 @@ func test_authored_normal_and_golden_faces_equal_resolved_b_generation() -> void
 			assert_eq(library.get_unit(id)[key], authored, id + " runtime")
 
 
-func test_all_ooze_dials_match_promoted_b_and_c_with_other_paper_values_held() -> void:
-	var paper: Dictionary = JSON.parse_string(
-		FileAccess.get_file_as_string("res://docs/ideation/content/pass3/presets.json")
-	)
-	for preset: String in ["B", "C"]:
+func test_ooze_presets_match_probe_endpoints_with_c_share_limits() -> void:
+	for row: Array in [
+		["B", "res://tools/sim/evidence/ooze-probe/ooze-b-20261110-r4.json"],
+		["C", "res://tools/sim/evidence/ooze-probe/ooze-c-20261110-r4.json"],
+	]:
+		var preset: String = str(row[0])
+		var fixture: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(str(row[1])))
+		var expected: Dictionary = fixture["rates"]
 		config.set_value("pass3_preset", preset)
-		var count: int = 0
-		var expected: Dictionary = paper[preset]
 		var resolved: Dictionary = Pass3Rates.resolved(config)
-		var moved: Dictionary = PROMOTED_DIALS
+		assert_eq(expected.size(), 24)
 		for key: String in expected:
-			if key.begins_with("oozes_"):
-				var want: Variant = moved.get(key, expected[key])
-				assert_eq(resolved[key], want, preset + " " + key)
-				count += 1
-		assert_eq(count, 23)
-		var eat: Variant = moved["oozes_eat_printed_multiplier"]
-		assert_eq(resolved["oozes_eat_printed_multiplier"], eat)
+			var want: float = CoreUtil.to_float(expected[key])
+			if preset == "C" and key in ["oozes_elder_share", "oozes_hasty_share"]:
+				want = 1.0
+			assert_almost_eq(CoreUtil.to_float(resolved[key]), want, 1e-9, preset + " " + key)
 
 
 func test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_doubling() -> void:
 	config.set_value("pass3_preset", "C")
 	var soup: Dictionary = library.get_unit("stone_soup").duplicate(true)
 	Pass3OozeText.configure(soup, config)
-	assert_eq(soup["text"], "Shop units gain three tenths of your biggest Ooze's stats.")
-	assert_eq(soup["golden_text"], "Shop units gain three tenths of your two biggest Oozes' stats.")
+	assert_eq(soup["text"], "Shop units gain 9 tenths of your biggest Ooze's stats.")
+	assert_eq(soup["golden_text"], "Shop units gain 9 tenths of your six biggest Oozes' stats.")
 	var elder: Dictionary = library.get_unit("elder_ooze").duplicate(true)
 	Pass3OozeText.configure(elder, config)
 	assert_eq(
