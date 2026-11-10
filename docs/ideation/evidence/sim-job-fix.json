@@ -1,0 +1,119 @@
+{
+  "historical_source": "origin/ideation/sim/soak-200-b:sim/soak-200-b/summary.json",
+  "total": 198,
+  "checker_false_positives": 102,
+  "real_violations": 96,
+  "categories": [
+    {
+      "kind": "Peat King cap",
+      "count": 96,
+      "verdict": "checker bug fixed",
+      "example_lobby": "none; directed mirror before lobbies, repeated once per shard",
+      "seed": 53,
+      "reported_seed": 0,
+      "example": "golden King can raise four, not two",
+      "rule": "Peat King configured per-fight cap, doubled golden; rule 7.3.5",
+      "producer": "tools/checks/soak_bog_check.gd",
+      "evidence": "SoakBogCheck hardcoded count > 2 for both normal and golden. Current Pass3BogText and Pass3BogCombat rate use bog_king_peatlings * factor; cap check now does likewise. Focused current-library mirror test passes."
+    },
+    {
+      "kind": "untripled Slice",
+      "count": 48,
+      "verdict": "real game rule violation, untouched",
+      "example_lobby": "seed 15, player 1, round 18",
+      "seed": 15,
+      "rule": "7.3.1/7.3.2: three nongolden owned copies combine immediately; Slice is not marked plain_copy",
+      "producer": "src/core/pass3_oozes.gd:203",
+      "evidence": "start_turn appends generated Slice directly to player.hand, logs card, omits rules.check_triples. Generic RecruitRules.give_card/place_summons/receive_discovered call check_triples. RecruitRules._one_triple uses same player.owned_units and golden/plain_copy exclusion as checker. Original reports include 48; current seed25 reproduces at rounds19/21."
+    },
+    {
+      "kind": "Golden Egg non-Bird listed as legal",
+      "count": 45,
+      "verdict": "real game rules/API violation, untouched",
+      "example_lobby": "seed 1, random SoakBot action play_item [3,5]",
+      "seed": 1,
+      "rule": "LegalActions.of promises every listed entry succeeds; Golden Egg targets Birds only",
+      "producer": "src/core/legal_actions.gd:78",
+      "evidence": "LegalActions._hand filters generic aims, optional target_tribe and full Rings, but never Pass3Birds.egg_problem. RecruitRules.item_aim_problem invokes egg_problem which rejects non-Birds with Choose a Bird."
+    },
+    {
+      "kind": "Golden Egg reused Bird listed as legal",
+      "count": 1,
+      "verdict": "real game rules/API violation, untouched",
+      "example_lobby": "seed 53, random SoakBot action play_item [1,4]",
+      "seed": 53,
+      "rule": "Golden Egg loop guard: each Bird once; LegalActions entries must succeed",
+      "producer": "src/core/legal_actions.gd:78",
+      "evidence": "Same missing egg_problem filter; Pass3Birds.egg_problem rejects unit.counters.egged with This Bird already had a Golden Egg."
+    },
+    {
+      "kind": "Belly release overwrites occupied slot",
+      "count": 2,
+      "verdict": "real game rule violation, untouched",
+      "example_lobby": "seed 25, round 11, fight 1 v 3, side 0 slot 5",
+      "seed": 25,
+      "rule": "8.4.5: a released body lands in a free slot; one fighter per slot",
+      "producer": "src/core/combat/combat_held.gd:67",
+      "evidence": "Current seed25 exact trace reproduced: event76 dead holder uid5 has side1 slot5 after Changeling trade; pop_one searches holder.side=1 for gap, but retained _pass3_fighter uid17 retains side0. event77 summons little_dollop side0 slot5 over uid12 Changeling. pop_one does not set fighter.side to holder.side. Other historical case seed63 round8 fight1v7 side1 slot5."
+    },
+    {
+      "kind": "golden copied total stats below printed double",
+      "count": 6,
+      "verdict": "checker bug fixed",
+      "example_lobby": "seed 126 round11 fight3v7 (golden Changeling 4/4); seed147 round10 fight5v6 (golden Will 5/8)",
+      "seed": 126,
+      "rule": "Fetch explicitly copies a fraction of displayed stats; 7.3.4/7.3.5 apply base layer/parameters, not every combat total",
+      "producer": "tools/checks/soak.gd:_enter",
+      "evidence": "All six replayed current summon events carry copied=<uid>: Changeling 4/4 once; Will 5/8 twice; Fairy Monarch 6/8 three times. src/core/combat/pass3_fairy_combat.gd:_fetch supplies explicit attack/health and golden flag. Removed unsound total minimum; recruit base-layer and golden parameter checks stay."
+    }
+  ],
+  "timing_refresh": {
+    "run_id": 42746520925,
+    "gate_commit": "8b64da69308505c8aba344c75db11feb4b2cad79",
+    "workflow": "ci.yml",
+    "branch": "ideation/gate/8b64da693085",
+    "merged_into": "origin/ideation/main",
+    "method": "python3 tools/checks/test_shards.py times build/simfix/gate-times/gut-junit-*/gut.xml",
+    "scripts": 227,
+    "junit_sha256": {
+      "build/simfix/gate-times/gut-junit-1/gut.xml": "0607f701fb5030159e9153d78948f92c0f8e1b51f49f8b0e9f995319c99d563e",
+      "build/simfix/gate-times/gut-junit-2/gut.xml": "899045886dcecd531e30cd61ecd1c36e9377756db1a27c90a4a81d4caf57b96e",
+      "build/simfix/gate-times/gut-junit-3/gut.xml": "0a6afb4e210815631ca05bc1aa0e012019298e51706fec01de8f902d10dab408",
+      "build/simfix/gate-times/gut-junit-4/gut.xml": "c56c6212c97aa13a299a4a76045a4344cc432689ff17b9b77293aa5f773df53a"
+    }
+  },
+  "findings": {
+    "1": {
+      "status": "fixed"
+    },
+    "2": {
+      "status": "fixed"
+    },
+    "3": {
+      "status": "fixed"
+    },
+    "4": {
+      "status": "fixed"
+    },
+    "5": {
+      "status": "fixed"
+    },
+    "6": {
+      "status": "fixed"
+    },
+    "7": {
+      "status": "fixed"
+    },
+    "8": {
+      "status": "incomplete",
+      "why": "Zero-violation soak cannot pass while real game defects remain. Game code is off limits; current acceptance rerun and same-commit parity pending."
+    },
+    "9": {
+      "status": "fixed"
+    },
+    "10": {
+      "status": "fixed"
+    }
+  },
+  "workflow_files_changed": []
+}

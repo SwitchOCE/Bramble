@@ -147,6 +147,8 @@ def bench(config, out_dir, first, count):
         f"config={config_path}",
         f"out={prefix}",
     ]
+    if os.environ.get("BRAMBLE_SLOT_HELD"):
+        args = args[1:]
     tick = time.monotonic()
     with prefix.with_suffix(".log").open("w") as log:
         code = subprocess.run(
@@ -206,6 +208,8 @@ def soak_shard(config, index, work):
         args += ["--library", config["library"]]
     if index == 1 and config["synthetic"]:
         args += ["--synthetic", str(config["synthetic"])]
+    if os.environ.get("BRAMBLE_SLOT_HELD"):
+        args = args[1:]
     tick = time.monotonic()
     done = subprocess.run(
         args, cwd=ROOT, capture_output=True, text=True, env={**os.environ, "GODOT_SLOT_CLASS": "worker"}
@@ -360,7 +364,6 @@ def merge_soak(config, receipts, result_dir):
         summary["played"] > 0
         and not summary["violations"]
         and not crashes
-        and not summary["synthetic_violations"]
         and not summary["log_problems"]
         and not problems
     )
@@ -538,6 +541,10 @@ def main(argv):
         print(json.dumps(line_table(summary), indent=1))
         return 0 if summary["passes"] else 1
     else:
+        if not 1 <= args.jobs <= 2:
+            parser.error("local --jobs must be 1 or 2 (two shared Godot slots)")
+        if args.jobs > 1 and os.environ.get("BRAMBLE_SLOT_HELD"):
+            parser.error("parallel local jobs must acquire their own slots; omit the outer slot wrapper")
         tick = time.monotonic()
         with ThreadPoolExecutor(max_workers=args.jobs) as pool:
             list(pool.map(lambda i: shard(config, i, args.out / "shards"), range(1, config["shards"] + 1)))

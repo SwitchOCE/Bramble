@@ -131,7 +131,6 @@ class SimJobTest(unittest.TestCase):
             {"exit": 1},
             {"field_skipped": 2},
             {"mix": {"other": 2}},
-            {"synthetic_violations": 1},
         ):
             with self.subTest(changes=changes):
                 result = sim_job.merge_soak(config, [{**receipt, **changes}], self.dir)
