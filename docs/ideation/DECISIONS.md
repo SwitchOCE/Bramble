@@ -71,6 +71,18 @@ In the same turn, w16 fixes the soak's untripled-Slice bug and retires the 38 pr
 
 **Agreed by:** the measurement.
 
+### 10 Nov 2026 — How the growth bar is read (owner, 10f)
+**Source:** owner note `2026-11-10f-growth-shape.md`.
+
+**Picked:** "×1.3 a round, R8–R14" (checkpoint criterion 2, A1b, A3.5, A4) is read as an expectation on aggregate, not a rule each round or each run must meet.
+- **Uneven rounds are expected.** Tier-up and economy turns grow less, sometimes not at all, and other turns grow more.
+- **Reports show the shape.** Every growth report gives the per-round distribution of active-board totals across seats, R6–R15: the quartiles and the 10th and 90th percentiles, alongside the median. It also gives the spread of per-seat growth R8–R14.
+- **The call rests on the shape.** The distribution should be predictable, end-game growth should be healthy, the tail shouldn't be a snowball, and low rolls shouldn't collapse. The single median ratio counts as one input among those.
+- A miss on the median alone, with a healthy distribution, isn't a fail. Neither is one odd round.
+- Scale (the R12 targets) is read the same way: where the distribution sits, not only its median.
+
+**Agreed by:** the owner.
+
 ### 10 Nov 2026 — The orchestrator is local admin on the Optiplex (owner, 10e)
 **Source:** owner note `2026-11-10e-local-admin-and-oozes.md`.
 
