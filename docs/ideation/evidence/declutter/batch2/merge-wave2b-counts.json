@@ -1,0 +1,237 @@
+{
+  "main": "80dcc35a",
+  "merge": "ae516c0c",
+  "integration": "1217f9df",
+  "source_stage": "integration plus tested Hedgerow re-face",
+  "ui": {
+    "name": "GutTests",
+    "failures": "0",
+    "tests": "522"
+  },
+  "roster": {
+    "unit_count": 120,
+    "variant_count": 2,
+    "word_count": 0,
+    "words": [],
+    "zone_count": 4
+  },
+  "captures": [
+    {
+      "scenario": "overview",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 40,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "overview",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 40,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 39,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 39,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 51,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 51,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "fan10",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 61,
+      "state_sha256": "1ad524a02538a06ee31786e2079c5183f4fff219ebd9362d657bc0b95ce3ec53",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "fan10",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 61,
+      "state_sha256": "1ad524a02538a06ee31786e2079c5183f4fff219ebd9362d657bc0b95ce3ec53",
+      "legacy_fixture": false
+    },
+    {
+      "scenario": "legacy-slice-recruit",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 6,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "legacy_fixture": true
+    },
+    {
+      "scenario": "legacy-slice-scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 8,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 28,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "legacy_fixture": true
+    },
+    {
+      "scenario": "legacy-slice-recruit",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 6,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "legacy_fixture": true
+    },
+    {
+      "scenario": "legacy-slice-scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 8,
+      "unexpected_word_count": 0,
+      "raw_visible_text_count": 28,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "legacy_fixture": true
+    }
+  ],
+  "reface_files": {
+    "src/ui/widgets/hedgerow_marks.gd": "3a422d0268a858d34587e0e748999abfd6e6b16c852339e7b7d9ec989bb473e4",
+    "src/ui/widgets/card_detail.gd": "86fd68b0f360ec454d49edb986dfccba58041e556ecda68d1dcef2f3aee1b27b",
+    "tests/ui/test_pass3_hedge_ui.gd": "72abff9e13671782c2d3349c23264cd0a5489cdbc6778b7ef79d5cc8d73ff54c"
+  },
+  "validation": {
+    "ui_tests": 522,
+    "ui_passing": 522,
+    "ui_assertions": 24313,
+    "ui_seconds": 177.311,
+    "ui_scripts": 70,
+    "strict_hook": "ok",
+    "no_tests_gate": "pass; docs-size through parity",
+    "python_tests": 159,
+    "compiled_files": 685,
+    "ruff": "pass",
+    "gdlint_src_tools_and_tests": "pass",
+    "gdformat_files": 685,
+    "tile_word_publisher": "16 rows; per-zone/category sums verified",
+    "log_hashes": {
+      "build/declutter-b2-merge/ui-verified.log": "9725ce8eba1738bd29ed8d631d081a2e515178dead99287e588e9b2bcf1ab1be",
+      "build/declutter-b2-merge/ui-verified.xml": "1b59598762157c34aad7fdc01dfc988858c20aa2477ef062b0f7566082934ef7",
+      "build/declutter-b2-merge/check-verified.log": "0f56e7b30dcdc0bec3238027bf78c470cf1cab5513a4a662423b509913594859"
+    }
+  }
+}

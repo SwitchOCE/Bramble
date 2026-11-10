@@ -411,6 +411,8 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 				% [timing, StatNumbers.exact(preview.x), StatNumbers.exact(preview.y)]
 			)
 		)
+	if Data.b(view, "hedgerow_runt"):
+		lines.append("The Standing Committee's current smallest unit.")
 	if Data.b(view, "hedgerow_clock"):
 		lines.append(
 			(
