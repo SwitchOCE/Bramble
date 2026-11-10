@@ -1,6 +1,6 @@
 # A3 neutrals — unfinished checkpoint
 
-Started from `a0878668`, then rebased onto the reviewed wave2b repair `f7955f86`.
+Started from `a0878668`, then rebased onto the reviewed wave2b strict-warning repair `125db4df`.
 The intervening main documentation commits were preserved. Wave2b is unchanged
 after that repair. This A3 branch is **not ready for review or a full gate**.
 
@@ -39,9 +39,11 @@ Current checks:
 - Static formatting/lint and content validation have passed; no local full gate.
 
 Still required before A3 hand-off:
-1. Stage nested landing completion through the FIFO queue, preserving replay-
-   before-growth and deferring triple merging until the returning unit finishes.
-   Do not introduce an immediate event delivery that interrupts the queue.
+1. FIFO landing completion is implemented and its 12 recruit tests pass, including
+   nested recalls/triples, exhausted budgets and repeated-trigger guards. The 39-file
+   compatibility run had 395/398 pass: two portrait counts are now updated for
+   Shieldbug/Click, and an uncapped Burner registration reset is fixed and awaiting
+   its final targeted rerun. No exact replay was loosened or re-recorded.
 2. Build and log the constructed role checks for each neutral, including scaled
    Echo and two When played units for Click; report Click's homecoming numbers.
 3. Complete compatibility/phone coverage and final targeted checks after the fix.

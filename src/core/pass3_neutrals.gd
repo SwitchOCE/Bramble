@@ -25,6 +25,7 @@ static func replay_homecoming(rules: RecruitRules, player: PlayerState, unit: Re
 	if repeats <= 1 or not unit.has_tribe("Birds"):
 		return
 	player.log_event("click_homecoming", {"unit": unit.def_id(), "repeats": repeats})
+	# HeldUnits queues growth behind this event; fire never interrupts an active event drain.
 	rules.events.fire(player, "on_play", {"subject": unit})
 
 

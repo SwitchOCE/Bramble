@@ -21,6 +21,18 @@ static func create(rules: RecruitRules) -> RecruitEvents:
 
 func fire(player: PlayerState, trigger: String, fields: Dictionary = {}) -> void:
 	_queue.append({"player": player, "trigger": trigger, "fields": fields})
+	_drain()
+
+
+## Structural completion joins the same FIFO as triggers. It must finish even at the trigger
+## limit (for example, returning a Bird to hand), but does not deliver another trigger itself.
+## Callers enqueue a finite completion for each operation, never a polling/retry callback.
+func continue_with(completion: Callable) -> void:
+	_queue.append({"completion": completion})
+	_drain()
+
+
+func _drain() -> void:
 	if _draining:
 		return
 	_draining = true
@@ -28,6 +40,10 @@ func fire(player: PlayerState, trigger: String, fields: Dictionary = {}) -> void
 	var limit: int = _rules().config.get_int("trigger_limit_action")
 	while not _queue.is_empty():
 		var event: Dictionary = _queue.pop_front()
+		if event.has("completion"):
+			var completion: Callable = event["completion"]
+			completion.call()
+			continue
 		if _delivered > limit:
 			var who: PlayerState = event["player"]
 			who.log_event("trigger_limit", {"dropped": str(event["trigger"])})

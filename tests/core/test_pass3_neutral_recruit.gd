@@ -78,12 +78,17 @@ func test_click_each_landing_and_returned_play_repeat_without_repeating_home_gro
 
 
 func test_without_click_bird_homecoming_keeps_existing_behavior() -> void:
-	kit.config.set_value("birds_homecoming_multiplier", 2.0)
-	var bird: RecruitUnit = kit.put("chiffchaff")
-	kit.player.hand.erase(bird)
-	kit.player.away.append({"unit": bird, "left": 1, "due": 3, "nest": 0, "missed_fight": true})
-	HeldUnits.land_due(kit.rules, kit.player)
-	assert_eq(Vector2i(bird.attack, bird.health), Vector2i(2, 4))
+	for nested: bool in [false, true]:
+		before_each()
+		kit.config.set_value("birds_homecoming_multiplier", 2.0)
+		var bird: RecruitUnit = _away_bird("chiffchaff")
+		if nested:
+			var tern: RecruitUnit = kit.put("old_tern")
+			kit.rules.events.fire(kit.player, "on_home", {"subject": tern})
+		else:
+			HeldUnits.land_due(kit.rules, kit.player)
+		assert_eq(Vector2i(bird.attack, bird.health), Vector2i(2, 4))
+		assert_eq(kit.player.homecomings_this_turn, 1)
 
 
 func test_click_extra_triggers_do_not_repeat_multiplication_or_advance_every_counter() -> void:
@@ -108,8 +113,6 @@ func test_click_extra_triggers_do_not_repeat_multiplication_or_advance_every_cou
 	assert_eq(kit.player.gold, 0, "extra triggers never tick an every countdown")
 
 
-## OPEN: queued recalls currently multiply before Click's queued When played effects.
-## Keep this known-answer counterexample until landing completion is staged after those effects.
 func test_click_nested_old_tern_recall_finishes_when_played_before_homecoming_growth() -> void:
 	kit.config.set_value("birds_homecoming_multiplier", 2.0)
 	kit.put("click_beetle", 6)
@@ -124,3 +127,116 @@ func test_click_nested_old_tern_recall_finishes_when_played_before_homecoming_gr
 		Vector2i(6, 8),
 		"two When played gains must land before one homecoming doubling"
 	)
+
+
+func test_click_three_returning_copies_all_finish_before_their_triple() -> void:
+	for nested: bool in [false, true]:
+		before_each()
+		kit.config.set_value("birds_homecoming_multiplier", 2.0)
+		kit.put("click_beetle", 6)
+		for _index: int in 3:
+			_away_bird("chiffchaff")
+		if nested:
+			var tern: RecruitUnit = kit.put("old_tern")
+			kit.rules.events.fire(kit.player, "on_home", {"subject": tern})
+			kit.player.hand.erase(tern)
+		else:
+			HeldUnits.land_due(kit.rules, kit.player)
+		assert_eq(kit.player.hand.size(), 1)
+		var golden: RecruitUnit = kit.player.hand[0]
+		assert_true(golden.golden)
+		assert_eq(Vector2i(golden.attack, golden.health), Vector2i(17, 22))
+		assert_eq(kit.player.homecomings_this_turn, 3)
+
+
+func test_click_replay_recall_keeps_nested_copy_out_of_triples_until_finished() -> void:
+	kit.config.set_value("birds_homecoming_multiplier", 2.0)
+	kit.put("click_beetle", 6)
+	kit.put("chiffchaff", 0)
+	kit.put("chiffchaff", 1)
+	kit.card(
+		"recall_bird",
+		[
+			{"id": "pass3_bird", "ability": "test_recall"},
+			KIT.effect("on_play", {"effect": "bring_home", "count": 1}),
+			KIT.effect(
+				"on_play",
+				{"effect": "buff", "attack": 1, "health": 1, "target": {"select": "self"}}
+			)
+		],
+		["Birds"],
+		1,
+		2
+	)
+	var caller: RecruitUnit = _away_bird("recall_bird")
+	_away_bird("chiffchaff", 20)
+	HeldUnits.land_due(kit.rules, kit.player)
+	assert_eq(Vector2i(caller.attack, caller.health), Vector2i(6, 8))
+	assert_eq(kit.player.homecomings_this_turn, 2)
+	assert_eq(kit.player.hand.size(), 2)
+	for unit: RecruitUnit in kit.player.hand:
+		if unit.def_id() == "chiffchaff":
+			assert_true(unit.golden)
+			assert_eq(Vector2i(unit.attack, unit.health), Vector2i(7, 10))
+
+
+func test_click_recall_preserves_queued_work_and_duplicate_recalls_finish_once() -> void:
+	kit.config.set_value("birds_homecoming_multiplier", 2.0)
+	kit.put("click_beetle", 6, true)
+	var tern: RecruitUnit = kit.put("old_tern")
+	var bird: RecruitUnit = _away_bird("chiffchaff", 20)
+	var seen: Array[Vector2i] = []
+	kit.rules.events.continue_with(
+		func() -> void:
+			kit.rules.events.fire(kit.player, "on_home", {"subject": tern})
+			kit.rules.events.fire(kit.player, "on_home", {"subject": tern})
+			kit.rules.events.continue_with(
+				func() -> void: seen.append(Vector2i(bird.attack, bird.health))
+			)
+	)
+	assert_eq(seen, [Vector2i(1, 2)], "work already queued runs before the recalled Bird")
+	assert_eq(Vector2i(bird.attack, bird.health), Vector2i(8, 10))
+	assert_eq(kit.player.hand.count(bird), 1)
+	assert_eq(kit.player.homecomings_this_turn, 1)
+
+
+func test_click_landing_completes_even_when_trigger_budget_drops_replay() -> void:
+	kit.config.set_value("trigger_limit_action", 0)
+	kit.config.set_value("birds_homecoming_multiplier", 2.0)
+	kit.put("click_beetle", 6)
+	var bird: RecruitUnit = _away_bird("chiffchaff")
+	HeldUnits.land_due(kit.rules, kit.player)
+	assert_true(kit.player.hand.has(bird), "budget exhaustion cannot strand a returning Bird")
+	assert_true(kit.player.away.is_empty())
+	assert_eq(Vector2i(bird.attack, bird.health), Vector2i(2, 4))
+	assert_eq(kit.player.homecomings_this_turn, 1)
+
+
+func test_click_landing_replay_uses_shared_multiplier_and_countdown_guards() -> void:
+	kit.config.set_value("birds_homecoming_multiplier", 2.0)
+	kit.put("click_beetle", 6, true)
+	kit.card(
+		"guard_bird",
+		[
+			{"id": "pass3_bird", "ability": "test_guards"},
+			KIT.effect("on_play", {"effect": "multiply", "factor": 2}),
+			KIT.effect("on_play", {"effect": "gold", "amount": 7}, {"every": 2, "counter": "clock"})
+		],
+		["Birds"],
+		3,
+		5
+	)
+	var bird: RecruitUnit = _away_bird("guard_bird")
+	kit.player.gold = 0
+	HeldUnits.land_due(kit.rules, kit.player)
+	assert_eq(Vector2i(bird.attack, bird.health), Vector2i(12, 20))
+	assert_eq(bird.counters.get("clock"), 1)
+	assert_eq(kit.player.gold, 0)
+	assert_eq(kit.player.homecomings_this_turn, 1)
+
+
+func _away_bird(id: String, due: int = 3) -> RecruitUnit:
+	var bird: RecruitUnit = kit.put(id)
+	kit.player.hand.erase(bird)
+	kit.player.away.append({"unit": bird, "left": 1, "due": due, "nest": 0, "missed_fight": true})
+	return bird

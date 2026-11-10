@@ -49,6 +49,7 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 	if not is_native(card):
 		return
 	card["pass3_rates"] = Pass3Rates.resolved(config)
+	card["pass3_neutral_size_caps"] = config.get_bool("card_size_caps")
 	card.erase(MechanicRegistry.COMPILED_KEY)
 	var id: String = str(card["id"])
 	for entry: Dictionary in card["mechanics"]:

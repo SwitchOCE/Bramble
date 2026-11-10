@@ -157,7 +157,7 @@ func test_native_burner_forecast_matches_real_normal_and_golden_own_body_growth(
 
 func test_legacy_burner_still_forecasts_its_old_flat_text() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_neutrals(UnitLibrary.load_dir()))
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_neutrals())
 	_body("legacy_neutral_burn_left", 4, 20, 40)
 	_body("legacy_neutral_burn_right", 5, 10, 30)
 	var burner: RecruitUnit = kit.put("charcoal_burner", 1)
