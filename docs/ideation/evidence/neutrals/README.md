@@ -19,3 +19,11 @@ Reproduce with `tools/sim/neutral_roles.gd`; fixed recipes are in
 `checkpoint-tests.json` records the earlier failing nested recall counterexample,
 before FIFO landing completion was implemented. It is historical, not the final
 validation result. No frozen replay fixture was changed for A3.
+
+Review follow-up: `review-validation.json` records the affected 35-script checks
+(387 passing tests), the frozen replay preserved by the native-Ooze guard, and
+four report tests. `stone-soup-confirm.json` is the compact original-32-seed B
+confirmation on `a2504fee`: early arrival fails at 17/32; survival and R12 presence
+pass. Full per-seat shopping telemetry and captures remain under
+`build/neutrals/soup-confirm.*`; the job log is
+`build/neutrals/review-fixes/confirm.log`. No raw captures are tracked.

@@ -176,3 +176,36 @@ The confirmation measurement uses B and exactly the original 32 seeds from
 Its results will be appended after the committed implementation is measured.
 Prototype retirement is deferred to its own turn; all 38 no-set definitions are
 still present, with 13 remaining in their legacy pool.
+
+### Stone Soup confirmation: one bar remains unmet
+
+All 32 original seeds completed at B on `a2504fee`, with no runtime errors, in
+462.5 seconds (14.45 seconds/lobby). [Compact results](../../evidence/neutrals/stone-soup-confirm.json)
+retain the exact cohort, source hashes and per-card engine totals; raw captures,
+CSVs, metrics and the full per-seat report stay in `build/neutrals/soup-confirm.*`.
+
+| Confirmation bar | Observed | Result |
+|---|---|---|
+| Soup fielded by R6 on at least 20/32 engine seats | 17/32 | **FAIL** |
+| Soup seats out before R12 no more often than the rest | 2/17 (11.8%) versus 4/15 (26.7%) | **PASS** |
+| Soup on at least half the R12 engine boards | 15/26 (57.7%) | **PASS** |
+
+The survival cohort is ever fielded before R12. Using fielded by R6, R10 or R11
+produces the same 17 versus 15 seats and the same result. These are descriptive
+exposure cohorts, not a causal survival estimate. The engine seats saw 30 unique
+Soup offers across 20 seats and bought 19 copies; Nell ate one Soup on engine
+seats. No extra card or route change was made to force the failed arrival bar.
+That bar remains open for the orchestrator's next call.
+
+| Round | Observed engine boards / 32 | Eliminated before round | Median active stats | Median including Bellies |
+|---|---:|---:|---:|---:|
+| R6 | 32 | 0 | 52.5 | 58 |
+| R8 | 32 | 0 | 94 | 116.5 |
+| R10 | 31 | 1 | 174 | 206 |
+| R12 | 26 | 6 | 398 | 402.5 |
+| R14 | 13 | 19 | 962 | 1,059 |
+
+The R12 active median is 44.2% of 900; the payout gap is not claimed fixed.
+The new seven-test bot script takes 0.68 seconds, and the four Python report tests
+0.006 seconds. Checks, fixture hashes and source remain unchanged after measuring.
+Prototype retirement was not started within this turn's 45-minute budget.
