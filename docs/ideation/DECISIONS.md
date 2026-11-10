@@ -4,6 +4,23 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Play tools (S5): review calls
+**Source:** the scope review of `ideation/c-play-tools` `eaea0e05..06ba4bbe` (`evidence/review-play-tools.md`): 20 keep, 0 cut, 7 simplify, 4 ask. All 2,326 tests passed over four shards.
+
+**Picked:** merge now, after the gate on a fresh merge, since there are no cuts. Follow-up step S5b goes to a Codex worker (10b). It takes all seven simplifies and these calls:
+- **A1:** keep `hash`. `test_render.sh` compares the last moment's hash with `play.sh <save> hash`.
+- **A2:** game logs record the final state hash and the build id, and `replay-log` compares them and the placement. Reason: W-g replays the owner's games and has to know when one drifts (§1.11).
+- **A3:** accept blinding by name. W-c's brief forbids `reveal`, opening saves, and reading `rates.json` or the map, and drops the B and C sizes. S1–S3 remove the easy leaks. Reason: the testers are briefed agents playing in good faith; the blind keeps bias out, it isn't security.
+- **A4:** `test_render.sh` runs on the build 8 commit with a strong-field save before A7. That's added to A7's prerequisites.
+- **The gaps:**
+  - the game-over and field-library scrub test reaches game over;
+  - the map test that can't fail is removed;
+  - the word round trip runs through `PlayGame.run` for every action kind;
+  - `_start`, `_from_log` and the mismatch refusal each get a test.
+- **For W-d (A7's brief):** testers pass `--field-library res://content/fields/baseline.json.gz` to match build 8's default.
+
+**Agreed by:** the scope review (no cuts).
+
 ### 10 Nov 2026 — Codex Cloud: calls
 **Source:** `evidence/codex-cloud.md`, a Sol research agent's report with OpenAI doc links and the CLI's own help output.
 
