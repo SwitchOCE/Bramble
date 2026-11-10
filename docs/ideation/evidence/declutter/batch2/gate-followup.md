@@ -42,3 +42,24 @@ Only affected files were tested. No local full suite was run:
 After the orchestrator's numeral decision, the six affected UI files passed a further **46/46 tests, 2,087 assertions, 23.23s**, strict clean. The final tile-word/label tools count every restored numeral. Both sizes retain zero current-production tile words: overview47/47, lobby46/46, scout30/40, natural-Birds37/40 (count/cap). The open reader is reported separately at58; the ten-unit hand is68 with every stat bead retained. No other cap or label exclusion changed. Legacy non-shipped fixture names remain counted unchanged (34 recruit/28 scout raw nodes).
 
 The repaired history scan correctly rejects this unsquashed branch's old oversized artifacts. No exemption or history rewrite was used. The intended squash-tree check is recorded below; raw captures, native logs and JUnit stay under `build/replay-proof/` and `build/declutter-b2-review/`.
+
+
+## Squash-size validation
+
+For the complete code-fix range `bc9ee571..1ab6929c`, the repaired history guard
+correctly exits 1: original oversized PNG versions remain reachable, with
+159,740,262 unallowlisted introduced bytes. Slimming endpoint files cannot erase
+those earlier blobs.
+
+An unreferenced one-commit squash with that exact tree and parent `bc9ee571`
+(`f1ea3ad22dc561ce559ab9e1106583bcb70273f6`) passed the same guard (exit 0):
+
+```text
+docs-size: passed (2 MB per introduced blob; 30 MB total distinct introduced blobs)
+```
+
+Only an object was created to validate the planned landing shape; no branch was
+moved, no existing history was rewritten, and no allowlist entry was added.
+The orchestrator should land via its planned squash; gating this unsquashed
+historical branch is expected to fail the new guard. Raw checks are in
+`build/declutter-b2-review/size-history.log` and `size-squash.log`.

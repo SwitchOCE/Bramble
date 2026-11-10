@@ -186,5 +186,15 @@
     "assertions": 2087,
     "seconds": 23.23,
     "strict": "clean"
+  },
+  "size_guard": {
+    "base": "bc9ee571",
+    "code_fix_head": "1ab6929c7771734932f92943757f59331c471332",
+    "unsquashed_exit": 1,
+    "unsquashed_introduced_bytes": 159740262,
+    "projected_squash": "f1ea3ad22dc561ce559ab9e1106583bcb70273f6",
+    "projected_squash_exit": 0,
+    "history_rewritten": false,
+    "allowlist_changed": false
   }
 }

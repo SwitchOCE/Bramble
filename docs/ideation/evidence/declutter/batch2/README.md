@@ -11,6 +11,10 @@ numerals over their previous counts of 40/39. This is the only cap amendment: ot
 is our clutter proxy; one numeral per opponent is less to read than up to six
 pips across seven portraits. No restored tier node is excluded from counting.
 
+[Cloud-gate and review follow-up](gate-followup.md) records the final fixes,
+replay proof and restored-numeral counts. The earlier cold reader passed 16/16;
+these changes have targeted regression coverage, without claiming a new cold read.
+
 **Click preview baseline:** at merged main `bc9ee571`, the away reader prints the
 `home_attack`/`home_health` supplied by `HeldUnits.away_views` for native pass-3
 Birds: configured homecoming multiplier plus the current tribe bonus. It does
