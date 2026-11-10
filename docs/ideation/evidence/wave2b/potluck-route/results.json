@@ -496,5 +496,6 @@
     "A": "7fc270043f3368dd38391558148ce2ec4be3c63f7903fc3417d25fc08fdace93",
     "B": "1fbaa005a20135885dd73c0cb69cf88374a6568c2d57ee94390adb21fe8748ac",
     "AB": "6f98a3b1fbda8f8605f116d94297314265a0d1ba03137672e753222daf9f2d57"
-  }
+  },
+  "acceptance": "A1b criterion1 met on the point estimate; criterion2 not met, accepted by DECISIONS: Wave2b follow-ups (A1b,A2), ask2. Paper is not a target; A3.5/A4 measure the actual line."
 }

@@ -21,14 +21,33 @@ func test_every_tribe_has_two_registered_profiles_and_every_priority_is_a_real_c
 
 
 func test_profile_changes_do_not_mutate_hard_knowledge() -> void:
-	var known: Dictionary = BotKnowledge.shared().strategy("hedgerow_treasury")
+	var id: String = "line_hedgerow_supper"
+	var known: Dictionary = BotKnowledge.shared().strategy("hedgerow_supper")
 	var before: String = JSON.stringify(known)
-	var brain: LineBrain = BenchSuites.create_bot("line_hedgerow_engine")
+	var profile_before: String = JSON.stringify(LinePolicies.profiles()[id])
+	var brain: LineBrain = BenchSuites.create_bot(id) as LineBrain
+	assert_not_null(brain, "the current Supper profile is a registered line bot")
+	assert_eq(brain.line_id, id)
+	assert_eq(brain._target_round(4), 10, "Supper reaches tier five on its written R10 schedule")
+	assert_eq(brain._target_round(5), 12, "Supper reaches tier six on its written R12 schedule")
+	assert_eq(
+		CoreUtil.to_int(brain.profile["save_threshold"]),
+		0,
+		"Supper computes the next climb's shortfall instead of using a flat reserve"
+	)
 	brain.value.strategy["units"]["squire_lollop"] = 999
 	brain.profile["save_threshold"] = 999
-	assert_eq(JSON.stringify(known), before)
-	assert_eq(LinePolicies.profiles()["line_hedgerow_engine"]["save_threshold"], 2.0)
-	assert_eq(brain._target_round(4), 10, "fixed declared climb schedule")
+	brain.profile["climb_schedule"][0] = 999
+	assert_eq(
+		JSON.stringify(known),
+		before,
+		"the base strategy and nested unit hints stay shared-read-only"
+	)
+	assert_eq(
+		JSON.stringify(LinePolicies.profiles()[id]),
+		profile_before,
+		"the source line and nested schedule stay unchanged"
+	)
 
 
 func test_lobby_deal_resolves_lines_to_available_tribes() -> void:

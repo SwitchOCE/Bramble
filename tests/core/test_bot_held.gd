@@ -309,10 +309,15 @@ func test_a_lobby_deals_the_new_builds() -> void:
 	for _seat: int in 8:
 		seats.append("hard:varied")
 	var tribes: PackedStringArray = ["Hedgerow folk", "Fairies", "Oozes", "Birds"]
-	var dealt: Dictionary = {}
-	for _game: int in 6:
-		for bot_name: String in BotLobby.resolve(seats, tribes, rng):
-			dealt[bot_name.split(":")[1]] = true
+	var eligible: Dictionary = {}
+	for entry: Dictionary in BotKnowledge.shared().open_strategies(Array(tribes)):
+		var id: String = str(entry["id"])
+		eligible[id] = true
+		var brain: BotBrain = _brain("hard:" + id)
+		assert_not_null(brain, id + " has a usable bot factory")
+		assert_eq(brain.build_name(), id)
+		assert_true(BotKnowledge.tribes_available(entry, Array(tribes)))
+	assert_gte(eligible.size(), seats.size(), "this pool can deal eight distinct builds")
 	for build: String in [
 		"oozes_second_helpings",
 		"oozes_waste_not",
@@ -321,9 +326,20 @@ func test_a_lobby_deals_the_new_builds() -> void:
 		"birds_passage",
 		"birds_highway",
 	]:
-		assert_true(dealt.has(build), build)
-	var names: Array = BenchSuites._strategy_names()
-	assert_true(names.has("birds_passage"), "and the bench's spread has them")
+		assert_true(eligible.has(build), build + " remains available to the deal")
+	var names: PackedStringArray = BotLobby.resolve(seats, tribes, rng)
+	assert_eq(names.size(), 8)
+	var dealt: Dictionary = {}
+	for bot_name: String in names:
+		var build: String = bot_name.get_slice(":", 1)
+		assert_true(eligible.has(build), "the deal uses only lobby-legal builds")
+		assert_false(dealt.has(build), "the deck does not repeat before exhausting the pool")
+		dealt[build] = true
+	var repeated_rng := RandomNumberGenerator.new()
+	repeated_rng.seed = 5
+	assert_eq(BotLobby.resolve(seats, tribes, repeated_rng), names, "the seeded deal is repeatable")
+	var bench_names: Array = BenchSuites._strategy_names()
+	assert_true(bench_names.has("birds_passage"), "and the bench's spread has them")
 
 
 ## Whole games at each level. A strategy the bot never carries out wouldn't be a strategy.

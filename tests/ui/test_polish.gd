@@ -161,6 +161,24 @@ func test_buying_a_third_copy_says_what_it_does_before_it_happens() -> void:
 
 
 func test_tile_tags_say_something_for_every_unit_in_the_game() -> void:
+	var source: UnitLibrary = UnitLibrary.load_dir()
+	var expected: Dictionary = {
+		"sleeping_partner": "Acorns every 3",
+		"mrs_clover": "Summons grow",
+		"alderman_dozey": "Food + wake",
+		"goodman_hayward": "Tribe grows",
+	}
+	for preset: String in ["B", "C"]:
+		var config: GameConfig = GameConfig.full_game()
+		config.set_value("pass3_preset", preset)
+		var configured: UnitLibrary = ScaleOverlay.library_for(source, config)
+		for id: String in expected:
+			for golden: bool in [false, true]:
+				var view: Dictionary = UnitViews.from_def(configured.get_unit(id), golden)
+				var tag: String = CardView.chip_text(view)
+				assert_eq(tag, str(expected[id]), "%s/%s/golden=%s" % [id, preset, golden])
+				assert_lte(tag.length(), 16)
+
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	for def: Dictionary in library.pool_units("slice"):
 		var view: Dictionary = UnitViews.from_def(def)

@@ -564,3 +564,72 @@ func test_frozen_hedgerow_keeps_its_existing_automatic_rainy_day_opener() -> voi
 	assert_eq(kit.player.gold, 2, "the non-native line still buys its one-gold economy opener")
 	assert_eq(brain._opening_plan, "economy")
 	assert_true(kit.player.shop_spells.is_empty())
+
+
+func _normal_hard(strategy: String) -> BotBrain:
+	var brain: BotBrain = BotBrain.from_name("hard:" + strategy)
+	assert_false(
+		brain is LineBrain, "exercise ordinary Hard rather than the committed-line override"
+	)
+	brain._player = kit.player
+	brain._rules = kit.rules
+	brain._round_now = kit.player.round_number
+	brain.value.library = kit.library
+	brain.value.recruit_rules = kit.rules
+	brain.value.board_owner = kit.player
+	return brain
+
+
+func test_normal_hard_supper_and_treasury_hold_before_an_active_hedgerow_body() -> void:
+	_put("wee_wobbly", 0)
+	kit.player.gold = 0
+	kit.rules.give_card(kit.player, "stash")
+	kit.shop("mr_crumb")
+	for strategy: String in ["hedgerow_supper", "hedgerow_treasury"]:
+		var brain: BotBrain = _normal_hard(strategy)
+		assert_false(BotHedgerow.active(kit.player))
+		assert_true(BotHedgerow.holds(kit.player, brain.value), strategy)
+		assert_true(brain._best_offer().is_empty(), strategy + " preserves food for its route")
+		assert_eq(kit.player.larder(), 5)
+
+
+func test_normal_hard_partner_frees_b1_by_selling_the_weakest_eligible_body() -> void:
+	var holder: RecruitUnit = _put("mrs_posset", 0, 2)
+	for slot: int in [1, 2, 4, 5, 6]:
+		var id: String = kit.card("normal_hedge_early_%d" % slot, [], ["Hedgerow folk"], 1, 1)
+		_put(id, slot)
+	var weakest: RecruitUnit = kit.player.board[1]
+	var previous_b1: RecruitUnit = kit.player.board[4]
+	kit.player.round_number = 3
+	kit.player.tier = 2
+	var brain: BotBrain = _normal_hard("hedgerow_supper")
+	assert_lt(
+		brain.value.keep_value(weakest),
+		brain.value.keep_value(holder),
+		"the intended retiring filler is worth less than the surviving Belly holder"
+	)
+	var partner: RecruitUnit = kit.put("sleeping_partner")
+	brain._play_hand()
+	assert_false(kit.player.board.has(weakest), "the real sale retires the weakest filler")
+	assert_same(kit.player.board[1], previous_b1, "the surviving B1 body moves into the freed slot")
+	assert_same(kit.player.board[4], partner, "ordinary Hard plays the first Partner into B1")
+	assert_false(holder.held.has(partner))
+	assert_eq(kit.player.board_count(), 6)
+
+
+func test_normal_hard_postwake_move_uses_the_average_of_an_even_boards_middle_pair() -> void:
+	var carry: RecruitUnit = _put("alderman_dozey", 6, 9)
+	var urchin: RecruitUnit = _put("dr_urchin", 5)
+	urchin.perm_attack = 1
+	_put("sleeping_partner", 4)
+	var mallow: RecruitUnit = _put("mrs_mallow", 0)
+	mallow.perm_attack = 3
+	kit.rules.board_changed(kit.player)
+	carry.turns_in_slot = 3
+	carry.counters["hedgerow_last_wake_round"] = kit.player.round_number - 1
+	var brain: BotBrain = _normal_hard("hedgerow_supper")
+	assert_eq(carry.attack + carry.health, 27)
+	assert_true(BotHedgerow.move_ready(kit.player, carry), "bodies 3,8,10,27 have median9, not10")
+	brain._arrange()
+	assert_same(kit.player.board[3], carry, "27 meets three times the actual median")
+	assert_eq(carry.turns_in_slot, 0)

@@ -1249,6 +1249,7 @@
         "wins": 0
       }
     ],
-    "source": "docs/ideation/content/pass3/hedgerow-pass3-model.py: run('supper')[8]; hedgerow-pass3.md:381-409; A2 DECISIONS eaea0e05:18-46"
+    "source": "docs/ideation/content/pass3/hedgerow-pass3-model.py: run('supper')[8]; hedgerow-pass3.md:381-409; A2 DECISIONS eaea0e05:18-46",
+    "review_status": "One matchup against a paper-shaped board; opponent size undercounted by Wisps. Outcome is not read as a signal (DECISIONS Wave2b follow-ups ask4); numeric records retained only for provenance."
   }
 }

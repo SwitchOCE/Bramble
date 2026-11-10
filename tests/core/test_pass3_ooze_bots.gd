@@ -396,3 +396,20 @@ func test_actual_tempo_honors_an_explicit_preclimb_reserve_without_becoming_an_e
 	assert_eq(brain._held_back(), 0, "the default zero-save tempo behavior is unchanged")
 	brain = _line_with_metadata({"save_threshold": 3, "save_until": 10}, true)
 	assert_eq(brain._held_back(), 3, "the engine's existing preclimb reserve is unchanged")
+
+
+func test_normal_hard_tempo_plays_its_seventh_body_without_a_split_gap() -> void:
+	_kit.put("bubble_and_squeak", 5)
+	_kit.put("stone_soup", 4)
+	_kit.put("dishwater_nell", 6)
+	_kit.put("elder_ooze", 0)
+	_kit.put("moss_ooze", 1)
+	var holder: RecruitUnit = _kit.put("mrs_posset", 2)
+	var brain: BotBrain = _brain(true)
+	assert_false(brain is LineBrain, "ordinary Hard follows its tempo strategy directly")
+	assert_eq(BotOoze.max_bodies(_player, brain.value, brain._can_replace), 7)
+	var incoming: RecruitUnit = _kit.put("wee_wobbly")
+	brain._play_hand()
+	assert_eq(_player.board_count(), 7, "tempo fills F4 before Granny arrives")
+	assert_true(_player.board.has(incoming))
+	assert_false(holder.held.has(incoming), "the seventh body is active rather than a reserve")

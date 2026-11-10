@@ -497,8 +497,7 @@ estimate a cross-arm causal difference. Compact endpoint rows allow recomputatio
 
 Constructed R8 and R10 stand-ins each won **32/32 fights** (16 paired seeds, both
 orientations) against actual median Hard boards of 99/189 active stats. They used
-134/363 active stats, gold 0/0, tier 4/5 and Belly stats 44/72. This is **not proof
-of criterion 2 (the costed route)**: the matching paper P calculation leaves gold
+134/363 active stats, gold 0/0, tier 4/5 and Belly stats 44/72. A1b is recorded as **criterion 1 met on the point estimate; criterion 2 not met, accepted (DECISIONS, "Wave 2b follow-ups (A1b, A2): review calls")**. The costed-route mismatch remains: the matching paper P calculation leaves gold
 4/5, one meal of 17.906/29.118 stats, and reserves [17.906] /
 [17.906, 6.625, 30.118]. The identities/positions in the native recipe are declared
 phase-guide choices; paper supplies no exact named board. Actual control rows
@@ -548,7 +547,7 @@ of native turns 1–8.
 Keep live T6 cost **13** (paper uses 11). Native committed Hedgerow lines reserve
 the actual next discounted cost minus next income and promised income, including
 at low health; spend-all spell casts and paid powers cannot consume that reserve.
-Ordinary Hard and frozen content keep their existing defaults. Baseline compact
+Frozen content keeps its existing defaults. Four deliberate changes also reach normal Hard: Supper/Treasury hold Larder before their first Hedgerow body, Partner preparation can sell the weakest unit to free B1, post-wake moves use the averaged median on even boards, and tempo Oozes keep no split gap. Baseline compact
 rows recompute to 11/13 late Parish seats with zero R9 gold, not the review's
 12/13; the audit lists the two nonzero rows. Missing action-level history prevents
 attributing individual old seats to one bypass.
@@ -608,12 +607,11 @@ Parish R9 bank median is 3 (n=32). Four observed seats remain below T6 at R10; t
 R9 banks are 3, 2, 3, 0. The zero case is Jill Down-the-Tree, whose legal tier-down
 power explains the recorded T5→T4. Savings alone do not force every climb.
 
-The planted R8 Supper board has 105 active stats, gold 0, tier 4 and actual
-Hoard+Acorn 17 / Hoard 16. Each had 0 wins and 32 losses (16 paired seeds, two orientations) against
-one actual median-size Hard board with 100 active stats. This diagnoses one
-matchup, not a field win rate. Unspent fuel is inert in that fight; the separate
-native wake test verifies feeding and Partner/Beadle-before-double timing. This
-plant is a paper-state proof, not an attainable native recruit history claim.
+The planted R8 Supper check was one matchup against a paper-shaped board, not
+native route execution or a field-strength sample. Its opponent's size was also
+undercounted by its Wisps. Per DECISIONS (Wave 2b follow-ups, ask 4), the numerical
+matchup claim is dropped and is not read as a signal. The native wake test still
+verifies real food consumption and Partner/Beadle-before-double timing.
 
 Reported-only: pooled R12 median **923** (n=51) against 900. Supper 788/979 paper
 =0.805 and 788/900=0.876; Parish 1028/870=1.182 and 1028/900=1.142. Native Hard
@@ -623,6 +621,37 @@ own-build (54.755%); this measures adoption, not splash benefit.
 Evidence: `evidence/wave2b/hedgerow/a2-followup/`. Compact line rows and results
 are committed; raw fights/CSVs remain in `build/wave2b/hedgerow/a2-followup/`.
 All requested non-lobby fixes, the rerun, live golden Burdock tests and main merge
-are complete. Remaining limits are paper fuel/availability and the constructed
-matchup loss, plus Pot Luck's previously recorded costed-route mismatch. No
+are complete. Remaining limits are paper fuel/availability and Pot Luck's accepted costed-route mismatch. No
 card redesign was made in response to those diagnostics. No push was performed.
+
+### Wave 2b gate and scope-review repair
+
+The three cloud-only failures were gaps in targeted coverage. Hedgerow's changed
+wording now produces real tile tags, including normal/golden B/C cases. The
+varied-deal test assumed six separately shuffled eight-seat games must expose
+all expanded builds; it now checks eligible builds, valid factories, legal
+nonrepeating eight-seat deals and deterministic repeatability. Production deal
+RNG is unchanged. The knowledge-isolation test uses the current registered
+Supper profile and retains source-profile/base-knowledge deep-copy assertions.
+
+Four fixed-state tests explicitly pin normal Hard's deliberate Larder, Partner,
+even-board median and tempo-Ooze changes. Bootstrap now lives in
+`tools/sim/wave2b_growth_report.py` (`--bootstrap-only`, repeated `--dataset`),
+replacing `tools/checks/growth_intervals.py`. The original and migrated bootstrap
+produce identical JSON bytes for all five original full datasets at 20,000 draws;
+no estimates, intervals, cohorts or random-seed policy changed.
+
+Review disposition (DECISIONS, "Wave 2b follow-ups (A1b, A2): review calls"):
+A1b criterion 1 is met on the point estimate; criterion 2 is not met and is
+accepted as a deviation. Paper is not a target. The Dozey fuel gap carries to
+A4; triage starts if Supper's field win rate is below 40%, or checkpoint 1
+testers never see Dozey wake. The planted Supper matchup is not a signal.
+
+Final repair validation: **1,145/1,145 GUT tests across 109 targeted scripts**,
+723.107s, after the last code/test edit. This includes every core bot/line/pass3
+script, every UI script, `test_bot_brain` and the unchanged field normal replay.
+All four normal-Hard cases pass. The initially misordered Partner fixture was
+corrected by an explicit keep-value precondition, not a production valuation
+change. All four lint/format commands and 27 CPU tests pass. Bootstrap outputs
+are byte-identical for the five original datasets and the revised Hedgerow run.
+Compact proof: `evidence/wave2b/gate-followup/`; detailed logs remain in build.
