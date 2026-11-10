@@ -3,14 +3,51 @@
 
 import argparse
 import json
+import math
 from pathlib import Path
 
 from PIL import Image, ImageDraw
 
 
+def validate_interval_sampling(interval: dict, event: dict | None = None) -> None:
+    """Old manifests remain uniform; explicit new manifests pin observed actor peaks."""
+    ticks = interval["sample_ticks"]
+    frames = interval["frames"]
+    assert len(ticks) == len(frames) == 8
+    assert ticks == sorted(set(ticks))
+    assert [frame["tick"] for frame in frames] == ticks
+    sampling = interval.get("sampling")
+    if sampling is None:
+        return
+    assert sampling["mode"] == "uniform-with-observed-lunge-peaks"
+    expected = [
+        interval["start_tick"] + round(i * (interval["end_tick"] - interval["start_tick"]) / 7) for i in range(8)
+    ]
+    assert sampling["uniform_sample_ticks"] == expected
+    peaks = sampling["lunge_peaks"]
+    assert peaks
+    uids = {peak["uid"] for peak in peaks}
+    assert len(uids) == len(peaks)
+    if event is not None:
+        assert uids == {event["attacker"], *event.get("joiners", [])}
+    reconstructed = list(expected)
+    for replacement in sampling["replacements"]:
+        reconstructed.remove(replacement["uniform_tick"])
+        reconstructed.append(replacement["peak_tick"])
+    assert sorted(reconstructed) == ticks
+    for peak in peaks:
+        assert peak["tick"] in ticks
+        frame = next(frame for frame in frames if frame["tick"] == peak["tick"])
+        actual = next(value for value in frame["attack_actor_positions"] if value["uid"] == peak["uid"])
+        assert math.dist(actual["position"], peak["position"]) < 0.001
+        if peak["kind"] in {"lunge", "held-pose"}:
+            assert peak["distance_squared"] > 0
+
+
 def write_sheet(source: Path, destination: Path, pixels: list, interval: dict, step: float) -> str:
     width, height = pixels
     frames = interval["frames"]
+    validate_interval_sampling(interval)
     assert len(frames) == 8
     assert [frame["tick"] for frame in frames] == interval["sample_ticks"]
     strip = Image.new("RGB", (width * 4, (height + 40) * 2), "#eee4c6")
@@ -55,6 +92,8 @@ def main() -> None:
             intervals = [phases[0], *opening_effects, *manifest["attacks"], phases[1]]
         expected = set()
         for interval in intervals:
+            event = manifest["events"][interval["event_index"]] if interval["kind"] == "attack" else None
+            validate_interval_sampling(interval, event)
             filename = write_sheet(source.parent, destination, manifest["pixels"], interval, manifest["fixed_step"])
             interval["strip"] = filename
             expected.add(filename)

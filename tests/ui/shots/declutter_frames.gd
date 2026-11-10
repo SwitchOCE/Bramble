@@ -1,6 +1,8 @@
 extends SceneTree
 ## Fixed 1/120 s discovery and replay: eight samples per actual attack interval and phase.
 
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
 const Settings := preload("res://src/ui/settings.gd")
@@ -19,6 +21,7 @@ var _attacks: Array[Dictionary] = []
 var _event_ticks: Array[Dictionary] = []
 var _result_tick: int = -1
 var _finished_tick: int = -1
+var _observing_screen: CombatScreen
 
 
 func _initialize() -> void:
@@ -82,6 +85,7 @@ func _screen(fixture: Dictionary, speed: float) -> CombatScreen:
 	_event_ticks = []
 	_result_tick = -1
 	_finished_tick = -1
+	_observing_screen = screen
 	screen.attack_started.connect(_attack_started)
 	screen.finished.connect(_finished)
 	screen.playing = true
@@ -93,6 +97,7 @@ func _advance(screen: CombatScreen, tick: int) -> void:
 	var first: int = screen.next_index
 	var was_finished: bool = screen.model.finished
 	screen.advance_playback(STEP)
+	_observe_lunge_peaks(screen, tick)
 	for index: int in range(first, screen.next_index):
 		var event: Dictionary = screen.events[index]
 		_event_ticks.append({"event_index": index, "type": str(event["type"]), "tick": tick})
@@ -244,6 +249,7 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 			end
 		)
 		interval["predicted_duration"] = attack["predicted_duration"]
+		_pin_lunge_peaks(interval, attack)
 		attacks.append(interval)
 		windows.append(interval)
 	if selected_mode:
@@ -358,7 +364,8 @@ func _capture(directory: String, intervals: Array[Dictionary], screen: CombatScr
 				"tick": _tick,
 				"seconds": _tick * STEP,
 				"ancillary_text_nodes": ancillary,
-				"raw_text_nodes": raw_labels
+				"raw_text_nodes": raw_labels,
+				"attack_actor_positions": _actor_positions(screen, interval)
 			}
 		)
 
@@ -372,8 +379,145 @@ func _health_text(screen: CombatScreen) -> PackedStringArray:
 
 
 func _attack_started(index: int, duration: float) -> void:
-	_attacks.append({"event_index": index, "start_tick": _tick, "predicted_duration": duration})
+	var event: Dictionary = _observing_screen.events[index]
+	var actors: Array[int] = [CoreUtil.to_int(event["attacker"])]
+	for uid: Variant in event.get("joiners", []):
+		actors.append(CoreUtil.to_int(uid))
+	var cards: Dictionary = _observing_screen.get("_cards")
+	var peaks: Array[Dictionary] = []
+	for uid: int in actors:
+		var card: CardView = cards.get(uid)
+		assert(card != null, "every attack actor has a visible card")
+		var board: BoardView = card.get_parent() as BoardView
+		assert(board != null, "attack actor belongs to its board")
+		var home: Vector2 = board.card_position(CoreUtil.to_int(card.unit.get("slot", -1)))
+		peaks.append(
+			{
+				"uid": uid,
+				"tick": _tick,
+				"home": [home.x, home.y],
+				"position": [card.position.x, card.position.y],
+				"distance_squared": 0.0,
+				"flash_strength": 0.0,
+				"kind": "flash" if Settings.reduce_motion else "lunge"
+			}
+		)
+	var contact: float = _observing_screen.get("_contact_remaining")
+	_attacks.append(
+		{
+			"event_index": index,
+			"start_tick": _tick,
+			"predicted_duration": duration,
+			"lunge_peaks": peaks,
+			"flash_deadline_tick": _tick + ceili((contact + 0.4) / STEP)
+		}
+	)
 
 
 func _finished() -> void:
 	_finished_tick = _tick
+
+
+## Measure the actual displayed pose at every fixed tick, separately for every Pack partner.
+func _observe_lunge_peaks(screen: CombatScreen, tick: int) -> void:
+	if _attacks.is_empty():
+		return
+	var attack: Dictionary = _attacks.back()
+	var peaks: Array = attack["lunge_peaks"]
+	var cards: Dictionary = screen.get("_cards")
+	var motion: RefCounted = screen.get("_motion")
+	var lunges: Dictionary = motion.get("_lunges")
+	for peak: Dictionary in peaks:
+		var uid: int = CoreUtil.to_int(peak["uid"])
+		var card: CardView = cards.get(uid)
+		if card == null or not is_instance_valid(card):
+			continue
+		var lunge: Tween = lunges.get(uid)
+		if not Settings.reduce_motion and (lunge == null or not lunge.is_valid()):
+			continue
+		if Settings.reduce_motion and tick > CoreUtil.to_int(attack["flash_deadline_tick"]):
+			continue
+		var home_values: Array = peak["home"]
+		var home: Vector2 = Vector2(float(home_values[0]), float(home_values[1]))
+		var distance: float = card.position.distance_squared_to(home)
+		var flash: float = card.modulate.r + card.modulate.g + card.modulate.b
+		var farther: bool = distance > CoreUtil.to_float(peak["distance_squared"]) + 0.000001
+		var brighter: bool = (
+			Settings.reduce_motion
+			and distance <= 0.000001
+			and CoreUtil.to_float(peak["distance_squared"]) <= 0.000001
+			and flash > CoreUtil.to_float(peak["flash_strength"]) + 0.000001
+		)
+		if farther or brighter:
+			peak["tick"] = tick
+			peak["position"] = [card.position.x, card.position.y]
+			peak["distance_squared"] = distance
+			peak["flash_strength"] = flash
+			peak["kind"] = (
+				"held-pose"
+				if Settings.reduce_motion and distance > 0
+				else ("flash" if Settings.reduce_motion else "lunge")
+			)
+
+
+func _pin_lunge_peaks(interval: Dictionary, attack: Dictionary) -> void:
+	var uniform: Array = interval["sample_ticks"].duplicate()
+	var samples: Array = uniform.duplicate()
+	var peaks: Array = attack["lunge_peaks"]
+	var required: Array[int] = []
+	var replacements: Array[Dictionary] = []
+	for peak: Dictionary in peaks:
+		var tick: int = CoreUtil.to_int(peak["tick"])
+		assert(tick >= interval["start_tick"] and tick <= interval["end_tick"])
+		if not required.has(tick):
+			required.append(tick)
+	for tick: int in required:
+		if samples.has(tick):
+			continue
+		var victim: int = -1
+		var gap: int = 2147483647
+		for candidate: Variant in samples:
+			var value: int = CoreUtil.to_int(candidate)
+			if required.has(value) or value in [interval["start_tick"], interval["end_tick"]]:
+				continue
+			if absi(value - tick) < gap:
+				victim = value
+				gap = absi(value - tick)
+		if victim < 0:
+			# Seven distinct Pack peaks can require an endpoint's slot in an eight-frame sheet.
+			for candidate: Variant in samples:
+				var value: int = CoreUtil.to_int(candidate)
+				if not required.has(value):
+					victim = value
+					break
+		assert(victim >= 0, "all actor peaks fit in eight distinct frames")
+		samples.erase(victim)
+		samples.append(tick)
+		replacements.append({"uniform_tick": victim, "peak_tick": tick})
+	samples.sort()
+	assert(samples.size() == 8)
+	interval["sample_ticks"] = samples
+	interval["sampling"] = {
+		"mode": "uniform-with-observed-lunge-peaks",
+		"uniform_sample_ticks": uniform,
+		"replacements": replacements,
+		"lunge_peaks": peaks,
+		"method":
+		(
+			"Pin each actor's maximum observed lunge displacement at 120Hz; under reduce "
+			+ "motion pin held-pose or strongest source flash. Replace nearest unprotected "
+			+ "interior uniform sample; endpoints yield only if peak count requires it."
+		)
+	}
+
+
+func _actor_positions(screen: CombatScreen, interval: Dictionary) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	var sampling: Dictionary = interval.get("sampling", {})
+	var cards: Dictionary = screen.get("_cards")
+	for peak: Dictionary in sampling.get("lunge_peaks", []):
+		var uid: int = CoreUtil.to_int(peak["uid"])
+		var card: CardView = cards.get(uid)
+		if card != null and is_instance_valid(card):
+			found.append({"uid": uid, "position": [card.position.x, card.position.y]})
+	return found
