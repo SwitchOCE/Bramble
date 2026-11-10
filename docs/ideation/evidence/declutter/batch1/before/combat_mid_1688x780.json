@@ -1,0 +1,3768 @@
+{
+	"ancillary_count": 61.0,
+	"bottom_side": 0.0,
+	"budgeted_text_nodes": [
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@10/@Label@4",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@10/@Label@9",
+			"primary_stat": false,
+			"text": "Start of Combat first.\nThe first attack\nwill appear here."
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@Label@11",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@Label@12",
+			"primary_stat": false,
+			"text": "ROUND 6"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@RichTextLabel@15",
+			"primary_stat": false,
+			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Little Nip (F2) marks Brother Wolf (F2) as quarry. Little Nip (F3) marks Young Brock (F3) as quarry. Sable (B3) marks The Natterjack Chorus (B3) as quarry.\nGideon, Basso Profundo (B1): Mire. Gideon, Basso Profundo (B1) applies Mire to your B1.\n"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@RichTextLabel@18",
+			"primary_stat": false,
+			"text": "Cluricaun (B2): Mire."
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@20/@Label@22",
+			"primary_stat": false,
+			"text": "MIRE"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@20/@RichTextLabel@25",
+			"primary_stat": false,
+			"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@49/@Label@45",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@49/@Label@46",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Panel@460/@Label@461",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Panel@460/@Label@462",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Control@463/@Label@464",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@493/@Panel@479/@Label@480",
+			"primary_stat": false,
+			"text": "Pack"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@493/@Control@482/@Label@483",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@512/@Panel@498/@Label@499",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@512/@Control@501/@Label@502",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@531/@Panel@517/@Label@518",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@531/@Control@520/@Label@521",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Panel@536/@Label@537",
+			"primary_stat": false,
+			"text": "Ring"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Panel@536/@Label@538",
+			"primary_stat": false,
+			"text": "+1/+1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Control@539/@Label@540",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@569/@Panel@555/@Label@556",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@569/@Control@558/@Label@559",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@86",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@87",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@88",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@90",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@91",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@92",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Panel@327/@Label@328",
+			"primary_stat": false,
+			"text": "Summons"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Panel@327/@Label@329",
+			"primary_stat": false,
+			"text": "grow"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Control@330/@Label@331",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@360/@Panel@346/@Label@347",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@360/@Control@349/@Label@350",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@379/@Panel@365/@Label@366",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@379/@Control@368/@Label@369",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@398/@Panel@384/@Label@385",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@398/@Control@387/@Label@388",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Panel@403/@Label@404",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Panel@403/@Label@405",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Control@406/@Label@407",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@436/@Panel@422/@Label@423",
+			"primary_stat": false,
+			"text": "Snap"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@436/@Control@425/@Label@426",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@455/@Panel@441/@Label@442",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@455/@Control@444/@Label@445",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@202",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@203",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@204",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@205",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@206",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@207",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@208",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@267/@Label@268",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@267/@Label@269",
+			"primary_stat": false,
+			"text": "The March Hare"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Label@273",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Button@276/@Label@274",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Button@279/@Label@277",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Button@282/@Label@280",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Button@298/@HBoxContainer@289/@VBoxContainer@291/@Label@292",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Button@298/@HBoxContainer@289/@VBoxContainer@291/@Label@293",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	],
+	"capture_method": "old UI, saved exact event checkpoint, synchronous events",
+	"combat": {
+		"damage": 3.0,
+		"events": [
+			{
+				"boards": [
+					[
+						{
+							"attack": 2.0,
+							"def_id": "mrs_clover",
+							"golden": false,
+							"health": 4.0,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 4.0,
+							"name": "Mrs Clover, Midwife",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "After you summon a unit: give it +1/+1. Twice a turn.",
+							"tier": 2.0,
+							"tribes": [
+								"Hedgerow folk"
+							],
+							"uid": 1.0
+						},
+						{
+							"attack": 5.0,
+							"def_id": "little_nip",
+							"golden": false,
+							"health": 6.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 6.0,
+							"name": "Little Nip",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Quarry. Take: gain +1/+1 permanently.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 2.0
+						},
+						{
+							"attack": 4.0,
+							"def_id": "little_nip",
+							"golden": false,
+							"health": 5.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 5.0,
+							"name": "Little Nip",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Quarry. Take: gain +1/+1 permanently.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 3.0
+						},
+						{
+							"attack": 1.0,
+							"def_id": "young_brock",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 3.0,
+							"name": "Young Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 4.0
+						},
+						{
+							"attack": 1.0,
+							"def_id": "spitfire_sal",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 3.0,
+							"name": "Spitfire Sal",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: deal 2 damage to each Mired enemy.",
+							"tier": 3.0,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 5.0
+						},
+						{
+							"attack": 5.0,
+							"def_id": "vaulting_hopkin",
+							"golden": false,
+							"health": 1.0,
+							"keyword_text": [
+								{
+									"keyword": "Snap",
+									"text": "Attacks the Mired enemy with the most Attack."
+								}
+							],
+							"keywords": [
+								"Snap"
+							],
+							"max_health": 1.0,
+							"name": "Vaulting Hopkin",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Snap. In your back row, this attacks first, with +2 Attack.",
+							"tier": 2.0,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 6.0
+						},
+						{
+							"attack": 2.0,
+							"def_id": "sable",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 3.0,
+							"name": "Sable",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
+							"tier": 2.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 7.0
+						}
+					],
+					[
+						{
+							"attack": 1.0,
+							"def_id": "hedge_witch",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 3.0,
+							"name": "Hedge Witch",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+							"tier": 1.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 8.0
+						},
+						{
+							"attack": 3.0,
+							"def_id": "brother_wolf",
+							"golden": false,
+							"health": 4.0,
+							"keyword_text": [
+								{
+									"keyword": "Pack",
+									"text": "When a unit beside this attacks, this joins in, using up its own attack."
+								}
+							],
+							"keywords": [
+								"Pack"
+							],
+							"max_health": 4.0,
+							"name": "Brother Wolf",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Pack. Units beside this attack first; this joins each once a cycle.",
+							"tier": 3.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 9.0
+						},
+						{
+							"attack": 1.0,
+							"def_id": "young_brock",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 3.0,
+							"name": "Young Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 10.0
+						},
+						null,
+						{
+							"attack": 2.0,
+							"def_id": "gideon",
+							"golden": false,
+							"health": 6.0,
+							"keyword_text": [
+								{
+									"keyword": "Mire",
+									"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+								}
+							],
+							"keywords": [
+								"Mire"
+							],
+							"max_health": 6.0,
+							"name": "Gideon, Basso Profundo",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.",
+							"tier": 3.0,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 11.0
+						},
+						{
+							"attack": 3.0,
+							"def_id": "cluricaun",
+							"golden": false,
+							"health": 5.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								},
+								{
+									"keyword": "Ring size",
+									"text": "What each Ring gives; starts at +1/+1."
+								}
+							],
+							"keywords": [
+								"Ring",
+								"Ring size"
+							],
+							"max_health": 5.0,
+							"name": "Cluricaun",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "After you Tier up: if every slot has a Ring, your Rings grow +1/+1.",
+							"tier": 3.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 12.0
+						},
+						{
+							"attack": 3.0,
+							"def_id": "natterjack_chorus",
+							"golden": false,
+							"health": 4.0,
+							"keyword_text": [
+								{
+									"keyword": "Mire",
+									"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+								},
+								{
+									"keyword": "Bitter",
+									"text": "When an enemy attacks this, it first loses this much Attack, down to 1."
+								}
+							],
+							"keywords": [
+								"Mire",
+								"Bitter"
+							],
+							"max_health": 4.0,
+							"name": "The Natterjack Chorus",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Your units beside this have Mire and Bitter 1.",
+							"tier": 3.0,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 13.0
+						}
+					]
+				],
+				"first_side": 0.0,
+				"player_ids": [
+					0.0,
+					7.0
+				],
+				"seq": 0.0,
+				"type": "combat_start"
+			},
+			{
+				"name": "start_of_combat",
+				"seq": 1.0,
+				"type": "phase"
+			},
+			{
+				"name": "bell",
+				"seq": 2.0,
+				"type": "phase"
+			},
+			{
+				"hunter": 2.0,
+				"quarry": 9.0,
+				"seq": 3.0,
+				"source": 2.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 3.0,
+				"quarry": 10.0,
+				"seq": 4.0,
+				"source": 3.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 7.0,
+				"quarry": 13.0,
+				"seq": 5.0,
+				"source": 7.0,
+				"type": "quarry_marked"
+			},
+			{
+				"mechanic": "mire",
+				"seq": 6.0,
+				"type": "trigger",
+				"uid": 11.0
+			},
+			{
+				"maker": 11.0,
+				"seq": 7.0,
+				"side": 0.0,
+				"slot": 4.0,
+				"type": "bog_patch"
+			},
+			{
+				"mechanic": "mire",
+				"seq": 8.0,
+				"type": "trigger",
+				"uid": 12.0
+			},
+			{
+				"maker": 12.0,
+				"seq": 9.0,
+				"side": 0.0,
+				"slot": 5.0,
+				"type": "bog_patch"
+			},
+			{
+				"hunter": 9.0,
+				"quarry": 3.0,
+				"seq": 10.0,
+				"source": 10.0,
+				"type": "quarry_marked"
+			},
+			{
+				"data": {
+					"maker": 11.0
+				},
+				"on": true,
+				"seq": 11.0,
+				"source": 11.0,
+				"status": "mired",
+				"target": 5.0,
+				"type": "status"
+			},
+			{
+				"data": {
+					"maker": 12.0
+				},
+				"on": true,
+				"seq": 12.0,
+				"source": 12.0,
+				"status": "mired",
+				"target": 6.0,
+				"type": "status"
+			},
+			{
+				"attack": 4.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 4.0,
+				"health_delta": 0.0,
+				"max_health": 4.0,
+				"permanent": false,
+				"seq": 13.0,
+				"source": 10.0,
+				"target": 9.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "start_of_combat",
+				"seq": 14.0,
+				"type": "trigger",
+				"uid": 5.0
+			},
+			{
+				"reason": "no target",
+				"seq": 15.0,
+				"side": 0.0,
+				"type": "no_target",
+				"uid": 5.0
+			},
+			{
+				"mechanic": "sable",
+				"seq": 16.0,
+				"type": "trigger",
+				"uid": 7.0
+			},
+			{
+				"attack": 5.0,
+				"attack_delta": 3.0,
+				"cause": "",
+				"causes": [],
+				"health": 3.0,
+				"health_delta": 0.0,
+				"max_health": 3.0,
+				"permanent": false,
+				"seq": 17.0,
+				"source": 7.0,
+				"target": 7.0,
+				"type": "stats"
+			},
+			{
+				"name": "attacks",
+				"seq": 18.0,
+				"type": "phase"
+			},
+			{
+				"mechanic": "bitter",
+				"seq": 19.0,
+				"type": "trigger",
+				"uid": 12.0
+			},
+			{
+				"attack": 4.0,
+				"attack_delta": -1.0,
+				"cause": "Bitter",
+				"causes": [],
+				"health": 1.0,
+				"health_delta": 0.0,
+				"max_health": 1.0,
+				"permanent": false,
+				"seq": 20.0,
+				"source": 12.0,
+				"target": 6.0,
+				"type": "stats"
+			},
+			{
+				"attacker": 6.0,
+				"defender": 12.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 21.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 4.0,
+				"health_after": 1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 22.0,
+				"source": 6.0,
+				"strike": 1.0,
+				"target": 12.0,
+				"type": "damage"
+			},
+			{
+				"amount": 3.0,
+				"health_after": -2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3.0,
+				"seq": 23.0,
+				"source": 12.0,
+				"strike": 1.0,
+				"target": 6.0,
+				"type": "damage"
+			},
+			{
+				"seq": 24.0,
+				"side": 0.0,
+				"slot": 5.0,
+				"type": "death",
+				"uid": 6.0
+			},
+			{
+				"mechanic": "pack",
+				"seq": 25.0,
+				"type": "trigger",
+				"uid": 9.0
+			},
+			{
+				"attacker": 8.0,
+				"defender": 4.0,
+				"joiners": [
+					9.0
+				],
+				"pack": true,
+				"quick": false,
+				"seq": 26.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 27.0,
+				"source": 8.0,
+				"strike": 1.0,
+				"target": 4.0,
+				"type": "damage"
+			},
+			{
+				"amount": 4.0,
+				"health_after": -2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 28.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 4.0,
+				"type": "damage"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 29.0,
+				"source": 4.0,
+				"strike": 1.0,
+				"target": 8.0,
+				"type": "damage"
+			},
+			{
+				"seq": 30.0,
+				"side": 0.0,
+				"slot": 3.0,
+				"type": "death",
+				"uid": 4.0
+			},
+			{
+				"attacker": 1.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 31.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 2.0,
+				"health_after": 2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 2.0,
+				"seq": 32.0,
+				"source": 1.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"amount": 4.0,
+				"health_after": 0.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 33.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 1.0,
+				"type": "damage"
+			},
+			{
+				"seq": 34.0,
+				"side": 0.0,
+				"slot": 0.0,
+				"type": "death",
+				"uid": 1.0
+			},
+			{
+				"mechanic": "pack",
+				"seq": 35.0,
+				"type": "trigger",
+				"uid": 9.0
+			},
+			{
+				"attacker": 10.0,
+				"defender": 2.0,
+				"joiners": [
+					9.0
+				],
+				"pack": true,
+				"quick": false,
+				"seq": 36.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 5.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 37.0,
+				"source": 10.0,
+				"strike": 1.0,
+				"target": 2.0,
+				"type": "damage"
+			},
+			{
+				"amount": 4.0,
+				"health_after": 1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 38.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 2.0,
+				"type": "damage"
+			},
+			{
+				"amount": 5.0,
+				"health_after": -2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 39.0,
+				"source": 2.0,
+				"strike": 1.0,
+				"target": 10.0,
+				"type": "damage"
+			},
+			{
+				"seq": 40.0,
+				"side": 1.0,
+				"slot": 2.0,
+				"type": "death",
+				"uid": 10.0
+			},
+			{
+				"hunter": 3.0,
+				"quarry": 10.0,
+				"seq": 41.0,
+				"side": 0.0,
+				"type": "take"
+			},
+			{
+				"mechanic": "take_growth",
+				"seq": 42.0,
+				"type": "trigger",
+				"uid": 3.0
+			},
+			{
+				"attack": 5.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 6.0,
+				"health_delta": 1.0,
+				"max_health": 6.0,
+				"permanent": true,
+				"seq": 43.0,
+				"source": 3.0,
+				"target": 3.0,
+				"type": "stats"
+			},
+			{
+				"hunter": 3.0,
+				"quarry": 10.0,
+				"seq": 44.0,
+				"type": "quarry_lost"
+			},
+			{
+				"attacker": 2.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 45.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 5.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 46.0,
+				"source": 2.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"amount": 4.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 47.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 2.0,
+				"type": "damage"
+			},
+			{
+				"seq": 48.0,
+				"side": 0.0,
+				"slot": 1.0,
+				"type": "death",
+				"uid": 2.0
+			},
+			{
+				"seq": 49.0,
+				"side": 1.0,
+				"slot": 1.0,
+				"type": "death",
+				"uid": 9.0
+			},
+			{
+				"hunter": 2.0,
+				"quarry": 9.0,
+				"seq": 50.0,
+				"side": 0.0,
+				"type": "take"
+			},
+			{
+				"mechanic": "take_growth",
+				"seq": 51.0,
+				"type": "trigger",
+				"uid": 2.0
+			},
+			{
+				"attack_delta": 1.0,
+				"cause": "",
+				"health_delta": 1.0,
+				"seq": 52.0,
+				"source": 2.0,
+				"target": 2.0,
+				"type": "permanent_reward"
+			},
+			{
+				"seq": 53.0,
+				"side": 1.0,
+				"target": 5.0,
+				"type": "mire_wait",
+				"uid": 11.0
+			},
+			{
+				"attacker": 12.0,
+				"defender": 3.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 54.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 3.0,
+				"health_after": 3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3.0,
+				"seq": 55.0,
+				"source": 12.0,
+				"strike": 1.0,
+				"target": 3.0,
+				"type": "damage"
+			},
+			{
+				"amount": 5.0,
+				"health_after": -4.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 56.0,
+				"source": 3.0,
+				"strike": 1.0,
+				"target": 12.0,
+				"type": "damage"
+			},
+			{
+				"seq": 57.0,
+				"side": 1.0,
+				"slot": 5.0,
+				"type": "death",
+				"uid": 12.0
+			},
+			{
+				"attacker": 3.0,
+				"defender": 8.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 58.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 5.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 59.0,
+				"source": 3.0,
+				"strike": 1.0,
+				"target": 8.0,
+				"type": "damage"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 60.0,
+				"source": 8.0,
+				"strike": 1.0,
+				"target": 3.0,
+				"type": "damage"
+			},
+			{
+				"seq": 61.0,
+				"side": 1.0,
+				"slot": 0.0,
+				"type": "death",
+				"uid": 8.0
+			},
+			{
+				"attacker": 13.0,
+				"defender": 3.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 62.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 3.0,
+				"health_after": -1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3.0,
+				"seq": 63.0,
+				"source": 13.0,
+				"strike": 1.0,
+				"target": 3.0,
+				"type": "damage"
+			},
+			{
+				"amount": 5.0,
+				"health_after": -1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 64.0,
+				"source": 3.0,
+				"strike": 1.0,
+				"target": 13.0,
+				"type": "damage"
+			},
+			{
+				"seq": 65.0,
+				"side": 1.0,
+				"slot": 6.0,
+				"type": "death",
+				"uid": 13.0
+			},
+			{
+				"seq": 66.0,
+				"side": 0.0,
+				"slot": 2.0,
+				"type": "death",
+				"uid": 3.0
+			},
+			{
+				"hunter": 7.0,
+				"quarry": 13.0,
+				"seq": 67.0,
+				"side": 0.0,
+				"type": "take"
+			},
+			{
+				"hunter": 7.0,
+				"quarry": 13.0,
+				"seq": 68.0,
+				"type": "quarry_lost"
+			},
+			{
+				"attacker": 5.0,
+				"defender": 11.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 69.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 5.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 70.0,
+				"source": 5.0,
+				"strike": 1.0,
+				"target": 11.0,
+				"type": "damage"
+			},
+			{
+				"amount": 2.0,
+				"health_after": 1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 2.0,
+				"seq": 71.0,
+				"source": 11.0,
+				"strike": 1.0,
+				"target": 5.0,
+				"type": "damage"
+			},
+			{
+				"mechanic": "bog_answer",
+				"seq": 72.0,
+				"type": "trigger",
+				"uid": 11.0
+			},
+			{
+				"attacker": 11.0,
+				"defender": 5.0,
+				"kind": "counter",
+				"seq": 73.0,
+				"type": "immediate_attack"
+			},
+			{
+				"attack": 4.0,
+				"attack_delta": 2.0,
+				"cause": "",
+				"causes": [],
+				"health": 5.0,
+				"health_delta": 0.0,
+				"max_health": 6.0,
+				"permanent": false,
+				"seq": 74.0,
+				"source": 11.0,
+				"target": 11.0,
+				"type": "stats"
+			},
+			{
+				"attacker": 11.0,
+				"defender": 5.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 75.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 4.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 76.0,
+				"source": 11.0,
+				"strike": 1.0,
+				"target": 5.0,
+				"type": "damage"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 4.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 77.0,
+				"source": 5.0,
+				"strike": 1.0,
+				"target": 11.0,
+				"type": "damage"
+			},
+			{
+				"seq": 78.0,
+				"side": 0.0,
+				"slot": 4.0,
+				"type": "death",
+				"uid": 5.0
+			},
+			{
+				"attack": 2.0,
+				"attack_delta": -2.0,
+				"cause": "",
+				"causes": [],
+				"health": 4.0,
+				"health_delta": 0.0,
+				"max_health": 6.0,
+				"permanent": false,
+				"seq": 79.0,
+				"source": 11.0,
+				"target": 11.0,
+				"type": "stats"
+			},
+			{
+				"attacker": 11.0,
+				"defender": 7.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 80.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 2.0,
+				"health_after": 1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 2.0,
+				"seq": 81.0,
+				"source": 11.0,
+				"strike": 1.0,
+				"target": 7.0,
+				"type": "damage"
+			},
+			{
+				"amount": 5.0,
+				"health_after": -1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 82.0,
+				"source": 7.0,
+				"strike": 1.0,
+				"target": 11.0,
+				"type": "damage"
+			},
+			{
+				"seq": 83.0,
+				"side": 1.0,
+				"slot": 4.0,
+				"type": "death",
+				"uid": 11.0
+			},
+			{
+				"alive": 8.0,
+				"damage": 3.0,
+				"damage_base": 2.0,
+				"damage_cap": 0.0,
+				"damage_mode": "v05",
+				"damage_performance": 1.0,
+				"damage_uncapped": 3.0,
+				"last_blow": false,
+				"last_blow_kind": "",
+				"last_blow_side": -1.0,
+				"last_blow_source": -1.0,
+				"last_stand_sides": [],
+				"reason": "board_empty",
+				"seq": 84.0,
+				"survivors": [
+					[
+						7.0
+					],
+					[]
+				],
+				"type": "combat_end",
+				"winner": 0.0
+			}
+		],
+		"floor_marks": [
+			[
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				}
+			],
+			[
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				}
+			]
+		],
+		"hero_health_after": [
+			38.0,
+			31.0
+		],
+		"hero_health_before": [
+			38.0,
+			34.0
+		],
+		"opponent_id": 7.0,
+		"round": 6.0,
+		"winner": 0.0
+	},
+	"fight_input": {
+		"boards": [
+			[
+				{
+					"attack": 2.0,
+					"def_id": "mrs_clover",
+					"golden": false,
+					"health": 4.0,
+					"iid": 96.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 5.0,
+					"def_id": "little_nip",
+					"golden": false,
+					"health": 6.0,
+					"iid": 3.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 4.0,
+					"def_id": "little_nip",
+					"golden": false,
+					"health": 5.0,
+					"iid": 71.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 1.0,
+					"def_id": "young_brock",
+					"golden": false,
+					"health": 3.0,
+					"iid": 52.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 1.0,
+					"def_id": "spitfire_sal",
+					"golden": false,
+					"health": 3.0,
+					"iid": 176.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "vaulting_hopkin",
+					"golden": false,
+					"health": 1.0,
+					"iid": 95.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 2.0,
+					"def_id": "sable",
+					"golden": false,
+					"health": 3.0,
+					"iid": 175.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				}
+			],
+			[
+				{
+					"attack": 1.0,
+					"def_id": "hedge_witch",
+					"golden": false,
+					"health": 3.0,
+					"iid": 46.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "brother_wolf",
+					"golden": false,
+					"health": 4.0,
+					"iid": 131.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 1.0,
+					"def_id": "young_brock",
+					"golden": false,
+					"health": 3.0,
+					"iid": 45.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				null,
+				{
+					"attack": 2.0,
+					"def_id": "gideon",
+					"golden": false,
+					"health": 6.0,
+					"iid": 129.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "cluricaun",
+					"golden": false,
+					"health": 5.0,
+					"iid": 132.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "natterjack_chorus",
+					"golden": false,
+					"health": 4.0,
+					"iid": 130.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				}
+			]
+		],
+		"config": {
+			"ask_for_kin": false,
+			"attack_limit": 200.0,
+			"base_damage_by_turn": [
+				0.0,
+				0.0,
+				0.0,
+				1.0,
+				1.0,
+				2.0,
+				2.0,
+				3.0,
+				4.0,
+				5.0,
+				7.0,
+				9.0,
+				11.0,
+				13.0
+			],
+			"bots": [
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied"
+			],
+			"card_rate_limits": true,
+			"card_size_caps": true,
+			"damage_cap_by_turn": [
+				4.0,
+				4.0,
+				5.0,
+				6.0,
+				7.0,
+				8.0,
+				9.0,
+				10.0,
+				11.0,
+				12.0
+			],
+			"damage_cap_off_at_alive": 4.0,
+			"damage_mode": "v05",
+			"discover_options": 3.0,
+			"early_spoils": true,
+			"field_library": "",
+			"field_strength": "top4",
+			"freeze_toggles_per_turn": 5.0,
+			"hand_limit": 10.0,
+			"hero_choice": true,
+			"hero_damage_floor": 4.0,
+			"heroes_offered": 3.0,
+			"human_bot": "tribe",
+			"income_by_turn": [
+				3.0,
+				4.0,
+				5.0,
+				6.0,
+				7.0,
+				8.0,
+				9.0,
+				10.0
+			],
+			"last_blow": true,
+			"last_stand": true,
+			"lobby_tribe_min_units": 4.0,
+			"max_rounds": 50.0,
+			"opening_rounds": 2.0,
+			"opening_spells": [
+				"rainy_day",
+				"a_leg_up"
+			],
+			"opponents": "bots",
+			"pass3_content": true,
+			"pass3_loop_guards": true,
+			"players": 8.0,
+			"pool_copies_by_tier": [
+				15.0,
+				15.0,
+				13.0,
+				13.0,
+				11.0,
+				9.0
+			],
+			"pool_filter": "slice",
+			"refresh_base_cost": 1.0,
+			"refresh_first_step_after": 15.0,
+			"refresh_step_length": 5.0,
+			"round_toll": false,
+			"scale_answer_percent": 50.0,
+			"scale_economy_cap": 10.0,
+			"scale_engine_flat": 0.0,
+			"scale_engine_percent": 25.0,
+			"scale_engine_self": false,
+			"scale_engine_tribe": "Hedgerow folk",
+			"scale_hero_spell_percent": 10.0,
+			"scale_hero_spell_stats": false,
+			"scale_levers": [],
+			"sell_bought": 1.0,
+			"sell_created": 0.0,
+			"shop_spells_by_tier": [
+				1.0,
+				1.0,
+				1.0,
+				1.0,
+				1.0,
+				1.0
+			],
+			"shop_tier_odds": [
+				[
+					100.0
+				],
+				[
+					50.0,
+					50.0
+				],
+				[
+					20.0,
+					30.0,
+					50.0
+				],
+				[
+					10.0,
+					15.0,
+					25.0,
+					50.0
+				],
+				[
+					5.0,
+					10.0,
+					15.0,
+					25.0,
+					45.0
+				],
+				[
+					5.0,
+					5.0,
+					10.0,
+					15.0,
+					25.0,
+					40.0
+				]
+			],
+			"shop_units_by_tier": [
+				4.0,
+				4.0,
+				4.0,
+				5.0,
+				5.0,
+				6.0
+			],
+			"spell_copies_by_tier": [
+				5.0,
+				7.0,
+				9.0,
+				11.0,
+				9.0,
+				7.0
+			],
+			"spells_in_shop": true,
+			"starting_health": 40.0,
+			"survivor_damage_divisor": 2.0,
+			"tribes_per_lobby": 5.0,
+			"trigger_limit_action": 1000.0,
+			"trigger_limit_combat": 10000.0,
+			"unit_cost": 3.0,
+			"upgrade_costs": [
+				5.0,
+				7.0,
+				8.0,
+				11.0,
+				13.0
+			],
+			"upgrade_discount_per_turn": 1.0
+		},
+		"damage_cap": 0.0,
+		"effect_rng_seed": "3245875203",
+		"effect_rng_state": "8059175450503051033",
+		"fight_rules": [
+			{
+				"ammo": [],
+				"away_birds": [],
+				"away_specs": [],
+				"back_row_first": false,
+				"bands": [
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				"goose": 0.0,
+				"homecomings": 0.0,
+				"larder": 0.0,
+				"nests": [],
+				"pass3_content": true,
+				"ring_size": 1.0
+			},
+			{
+				"ammo": [],
+				"away_birds": [],
+				"away_specs": [],
+				"back_row_first": false,
+				"bands": [
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				"goose": 0.0,
+				"homecomings": 0.0,
+				"larder": 0.0,
+				"nests": [],
+				"pass3_content": true,
+				"ring_size": 1.0
+			}
+		],
+		"hero_effects": [
+			[
+				{
+					"do": {
+						"amount": 1.0,
+						"effect": "gold",
+						"per": "carried",
+						"per_div": 4.0,
+						"per_max": 5.0
+					},
+					"name": "interest",
+					"trigger": "start_of_turn"
+				}
+			],
+			[]
+		],
+		"hero_health_before": [
+			38.0,
+			34.0
+		],
+		"player_ids": [
+			0.0,
+			7.0
+		],
+		"rng_seed": "3245899502",
+		"rng_state": "-7297035277154469016",
+		"round": 6.0,
+		"slots": [
+			[
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[]
+			],
+			[
+				[],
+				[],
+				[],
+				[],
+				[],
+				[],
+				[]
+			]
+		],
+		"tiers": [
+			3.0,
+			5.0
+		],
+		"version": 1.0
+	},
+	"image": "combat_mid_1688x780.png",
+	"names": [
+		"You",
+		"The March Hare"
+	],
+	"next_index": 9.0,
+	"opponent_health": 34.0,
+	"pixels": [
+		1688.0,
+		780.0
+	],
+	"reader_uid": -1.0,
+	"seed": 20261104.0,
+	"source_revision": "1ecbce6",
+	"state": {
+		"armor": 0.0,
+		"ask_for_kin_enabled": false,
+		"away": [],
+		"band_count": 0.0,
+		"bands": [
+			false,
+			false,
+			false,
+			false,
+			false,
+			false,
+			false
+		],
+		"base_damage": 2.0,
+		"birds_homecoming_multiplier": 2.0,
+		"birds_lump_multiplier": 1.0,
+		"board": [
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "mrs_clover",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 96.0,
+				"keyword_text": [],
+				"keywords": [],
+				"name": "Mrs Clover, Midwife",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 4.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After you summon a unit: give it +1/+1. Twice a turn.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hedgerow folk": 0.0
+				},
+				"tribes": [
+					"Hedgerow folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 6.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "little_nip",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 7.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 3.0,
+				"keyword_text": [
+					{
+						"keyword": "Quarry",
+						"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+					}
+				],
+				"keywords": [
+					"Quarry"
+				],
+				"name": "Little Nip",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 1.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 4.0,
+					"perm_health": 4.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Quarry. Take: gain +1/+1 permanently.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hunters": 0.0
+				},
+				"tribes": [
+					"Hunters"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 2.0
+			},
+			{
+				"attack": 5.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "little_nip",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 6.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 71.0,
+				"keyword_text": [
+					{
+						"keyword": "Quarry",
+						"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+					}
+				],
+				"keywords": [
+					"Quarry"
+				],
+				"name": "Little Nip",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 3.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 3.0,
+					"perm_health": 3.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Quarry. Take: gain +1/+1 permanently.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hunters": 0.0
+				},
+				"tribes": [
+					"Hunters"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 1.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "young_brock",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 52.0,
+				"keyword_text": [
+					{
+						"keyword": "Quarry",
+						"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+					}
+				],
+				"keywords": [
+					"Quarry"
+				],
+				"name": "Young Brock",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hunters": 0.0
+				},
+				"tribes": [
+					"Hunters"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 1.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "spitfire_sal",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 176.0,
+				"keyword_text": [],
+				"keywords": [],
+				"name": "Spitfire Sal",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 6.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Start of Combat: deal 2 damage to each Mired enemy.",
+				"tier": 3.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Bog folk": 0.0
+				},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 3.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "vaulting_hopkin",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 1.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 95.0,
+				"keyword_text": [
+					{
+						"keyword": "Snap",
+						"text": "Attacks the Mired enemy with the most Attack."
+					}
+				],
+				"keywords": [
+					"Snap"
+				],
+				"name": "Vaulting Hopkin",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 4.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 1.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Snap. In your back row, this attacks first, with +2 Attack.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Bog folk": 0.0
+				},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "sable",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 175.0,
+				"keyword_text": [
+					{
+						"keyword": "Quarry",
+						"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+					}
+				],
+				"keywords": [
+					"Quarry"
+				],
+				"name": "Sable",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 6.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 1.0,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hunters": 0.0
+				},
+				"tribes": [
+					"Hunters"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			}
+		],
+		"buys_left": -1.0,
+		"can_ask_for_kin": false,
+		"damage_cap": 0.0,
+		"damage_mode": "v05",
+		"debt": 0.0,
+		"debt_payment": 0.0,
+		"doorstep": [],
+		"early_spoils_income": 0.0,
+		"early_spoils_next_turn": 0.0,
+		"fairies_fetch_share": 0.5,
+		"free_refreshes": 0.0,
+		"freezes_left": 5.0,
+		"frozen": false,
+		"gold": 14.0,
+		"gold_next_turn": 0.0,
+		"gold_spent_turn": 0.0,
+		"hand": [],
+		"hand_items": [],
+		"hand_limit": 10.0,
+		"harvest_supper_used": false,
+		"health": 38.0,
+		"hero": {
+			"aim": "none",
+			"armor": 0.0,
+			"cost": 0.0,
+			"id": "dame_farthing",
+			"kind": "passive",
+			"last_stand_used": false,
+			"name": "Dame Farthing",
+			"sample": false,
+			"text": "Start of Turn: get 1 gold for every 4 you carried over.\nLast Stand: unused.",
+			"usable": true,
+			"uses_left": 0.0,
+			"uses_per_turn": 0.0
+		},
+		"larder": 0.0,
+		"last_combat": {
+			"damage": 3.0,
+			"opponent_id": 7.0,
+			"round": 6.0,
+			"winner": 0.0
+		},
+		"last_stand_active": false,
+		"last_stand_enabled": true,
+		"last_stand_used": false,
+		"lobby_tribes": [
+			"Bog folk",
+			"Fairies",
+			"Hedgerow folk",
+			"Hunters",
+			"Oozes"
+		],
+		"midsummer_left": 0.0,
+		"next_opponent_hero": {
+			"aim": "none",
+			"armor": 0.0,
+			"cost": 0.0,
+			"id": "brother_bracken",
+			"kind": "passive",
+			"last_stand_used": false,
+			"name": "Brother Bracken",
+			"sample": false,
+			"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
+			"usable": true,
+			"uses_left": 0.0,
+			"uses_per_turn": 0.0
+		},
+		"next_opponent_id": 6.0,
+		"next_opponent_last_board": [
+			{
+				"attack": 6.0,
+				"belly": 1.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "wee_wobbly",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 9.0,
+				"held": [
+					{
+						"attack": 2.0,
+						"belly": 0.0,
+						"belly_discount": 0.0,
+						"counters": {},
+						"def_id": "mrs_clover",
+						"eats_items": false,
+						"egged": false,
+						"fly_south": 0.0,
+						"golden": false,
+						"health": 4.0,
+						"held": [],
+						"hex_amount": 0.0,
+						"hex_stored": 0.0,
+						"iid": 164.0,
+						"keyword_text": [],
+						"keywords": [],
+						"name": "Mrs Clover, Midwife",
+						"origin": "bought",
+						"pass3_content": false,
+						"plain_copy": false,
+						"played_round": 0.0,
+						"poached": false,
+						"reward_pending": false,
+						"shy": false,
+						"stat_layers": {
+							"aura_attack": 0.0,
+							"aura_health": 0.0,
+							"base_attack": 2.0,
+							"base_health": 4.0,
+							"combat_attack": 0.0,
+							"combat_health": 0.0,
+							"perm_attack": 0.0,
+							"perm_health": 0.0,
+							"tribe_attack": 0.0,
+							"tribe_health": 0.0
+						},
+						"text": "After you summon a unit: give it +1/+1. Twice a turn.",
+						"tier": 2.0,
+						"timers": [],
+						"tribe_bonuses": {
+							"Hedgerow folk": 0.0
+						},
+						"tribes": [
+							"Hedgerow folk"
+						],
+						"turns_goal": 0.0,
+						"turns_in_slot": 0.0
+					}
+				],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 65.0,
+				"keyword_text": [
+					{
+						"keyword": "Belly",
+						"text": "Holds this many units, safe inside. When this dies, they come out."
+					}
+				],
+				"keywords": [
+					"Belly"
+				],
+				"name": "Wee Wobbly",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 1.0,
+					"aura_health": 1.0,
+					"base_attack": 1.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 4.0,
+					"perm_health": 4.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Oozes": 0.0
+				},
+				"tribes": [
+					"Oozes"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 3.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "mr_crumb",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 64.0,
+				"keyword_text": [
+					{
+						"keyword": "Pass",
+						"text": "Pass X: your last unit, other than this, gains X"
+					}
+				],
+				"keywords": [
+					"Pass"
+				],
+				"name": "Mr Crumb",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 2.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 1.0,
+					"perm_health": 1.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "When played or sold: Pass +1/+1.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hedgerow folk": 0.0
+				},
+				"tribes": [
+					"Hedgerow folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 1.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "wee_wobbly",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 5.0,
+				"held": [
+					{
+						"attack": 1.0,
+						"belly": 0.0,
+						"belly_discount": 0.0,
+						"counters": {},
+						"def_id": "mrs_burdock",
+						"eats_items": false,
+						"egged": false,
+						"fly_south": 0.0,
+						"golden": false,
+						"health": 2.0,
+						"held": [],
+						"hex_amount": 0.0,
+						"hex_stored": 0.0,
+						"iid": 162.0,
+						"keyword_text": [
+							{
+								"keyword": "Spill",
+								"text": "If a summon from this has no room, get an Acorn instead."
+							}
+						],
+						"keywords": [
+							"Spill"
+						],
+						"name": "Mrs Burdock, Expecting Again",
+						"origin": "bought",
+						"pass3_content": false,
+						"plain_copy": false,
+						"played_round": 0.0,
+						"poached": false,
+						"reward_pending": false,
+						"shy": false,
+						"stat_layers": {
+							"aura_attack": 0.0,
+							"aura_health": 0.0,
+							"base_attack": 1.0,
+							"base_health": 2.0,
+							"combat_attack": 0.0,
+							"combat_health": 0.0,
+							"perm_attack": 0.0,
+							"perm_health": 0.0,
+							"tribe_attack": 0.0,
+							"tribe_health": 0.0
+						},
+						"text": "When played: summon a 1/1 Kit behind this. Spill.",
+						"tier": 1.0,
+						"timers": [],
+						"tribe_bonuses": {
+							"Hedgerow folk": 0.0
+						},
+						"tribes": [
+							"Hedgerow folk"
+						],
+						"turns_goal": 0.0,
+						"turns_in_slot": 0.0
+					}
+				],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 67.0,
+				"keyword_text": [
+					{
+						"keyword": "Belly",
+						"text": "Holds this many units, safe inside. When this dies, they come out."
+					}
+				],
+				"keywords": [
+					"Belly"
+				],
+				"name": "Wee Wobbly",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 3.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 1.0,
+					"aura_health": 1.0,
+					"base_attack": 1.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Oozes": 0.0
+				},
+				"tribes": [
+					"Oozes"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			null,
+			{
+				"attack": 5.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "mrs_clover",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 6.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 124.0,
+				"keyword_text": [],
+				"keywords": [],
+				"name": "Mrs Clover, Midwife",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 4.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 3.0,
+					"perm_health": 2.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After you summon a unit: give it +1/+1. Twice a turn.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hedgerow folk": 0.0
+				},
+				"tribes": [
+					"Hedgerow folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 3.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "mr_pym",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 165.0,
+				"keyword_text": [
+					{
+						"keyword": "Pass",
+						"text": "Pass X: your last unit, other than this, gains X"
+					}
+				],
+				"keywords": [
+					"Pass"
+				],
+				"name": "Mr Pym",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 6.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After you get a Stash: Pass +2/+2.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Hedgerow folk": 0.0
+				},
+				"tribes": [
+					"Hedgerow folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			null
+		],
+		"next_opponent_last_nests": [],
+		"next_opponent_last_slot_effects": [
+			[
+				{
+					"attack": 1.0,
+					"count": 1.0,
+					"golden": false,
+					"health": 1.0,
+					"name": "Ring",
+					"ring_size": 1.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[],
+			[
+				{
+					"attack": 1.0,
+					"count": 1.0,
+					"golden": false,
+					"health": 1.0,
+					"name": "Ring",
+					"ring_size": 1.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[],
+			[],
+			[],
+			[]
+		],
+		"next_turn_income": 10.0,
+		"paid_refreshes": 0.0,
+		"pass3_content": true,
+		"pending_choice": null,
+		"pending_passes": [],
+		"phase": "recruit",
+		"placement": null,
+		"player_id": 0.0,
+		"poached": [],
+		"recruit_log": [
+			{
+				"mechanic": "interest",
+				"source": "",
+				"type": "trigger"
+			},
+			{
+				"amount": 1.0,
+				"type": "gold",
+				"when": "now"
+			}
+		],
+		"refresh_cost": 1.0,
+		"ring_size": 1.0,
+		"round": 7.0,
+		"round_toll": 0.0,
+		"shop": [
+			{
+				"attack": 3.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "cluricaun",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 5.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 238.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					},
+					{
+						"keyword": "Ring size",
+						"text": "What each Ring gives; starts at +1/+1."
+					}
+				],
+				"keywords": [
+					"Ring",
+					"Ring size"
+				],
+				"name": "Cluricaun",
+				"origin": "bought",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 5.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After you Tier up: if every slot has a Ring, your Rings grow +1/+1.",
+				"tier": 3.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 4.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "lodger",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 239.0,
+				"keyword_text": [
+					{
+						"keyword": "Pounce",
+						"text": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+					}
+				],
+				"keywords": [
+					"Pounce"
+				],
+				"name": "The Lodger",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 4.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Pounce. After this pounces: gain +2/+1.",
+				"tier": 3.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Hunters"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "mrs_sorrel",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 240.0,
+				"keyword_text": [
+					{
+						"keyword": "Spill",
+						"text": "If a summon from this has no room, get an Acorn instead."
+					}
+				],
+				"keywords": [
+					"Spill"
+				],
+				"name": "Mrs Sorrel, Harassed",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After this attacks: summon a 1/1 Shrewlet behind this. Spill.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Hedgerow folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "sexton_beetle",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 241.0,
+				"keyword_text": [],
+				"keywords": [],
+				"name": "Sexton Beetle",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After a friendly unit dies: get 1 gold next turn. Twice a fight.",
+				"tier": 3.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			}
+		],
+		"shop_size": 4.0,
+		"shop_spells": [
+			{
+				"aim": "unit",
+				"combines_into": "",
+				"cost": 1.0,
+				"def_id": "elderflower_cordial",
+				"gold_value": 0.0,
+				"iid": 242.0,
+				"keyword_text": [],
+				"keywords": [],
+				"kind": "spell",
+				"name": "Elderflower Cordial",
+				"sample": false,
+				"text": "Give a unit +1/+2 in the front row, or +2/+1 in the back row.",
+				"tier": 1.0
+			}
+		],
+		"slot_effects": [
+			[],
+			[],
+			[],
+			[],
+			[],
+			[],
+			[]
+		],
+		"standings": [
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 38.0,
+				"hero": "Dame Farthing",
+				"is_human": true,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "You",
+				"personality": "human",
+				"placement": null,
+				"player_id": 0.0,
+				"tier": 3.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 37.0,
+				"hero": "Hob Mumblecrust",
+				"is_human": false,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 1 (hard)",
+				"personality": "hard:oozes_rude_awakening",
+				"placement": null,
+				"player_id": 1.0,
+				"tier": 3.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 33.0,
+				"hero": "Dame Hoolet",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 2 (hard)",
+				"personality": "hard:hedgerow_treasury",
+				"placement": null,
+				"player_id": 2.0,
+				"tier": 3.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 26.0,
+				"hero": "Pipkin",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 3 (hard)",
+				"personality": "hard:hunters_sett",
+				"placement": null,
+				"player_id": 3.0,
+				"tier": 3.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 20.0,
+				"hero": "Little King Wren",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 4 (hard)",
+				"personality": "hard:fairies_rainbow",
+				"placement": null,
+				"player_id": 4.0,
+				"tier": 4.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 34.0,
+				"hero": "Old Mother Mousewife",
+				"is_human": false,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 5 (hard)",
+				"personality": "hard:neutrals_economy",
+				"placement": null,
+				"player_id": 5.0,
+				"tier": 3.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 40.0,
+				"hero": "Brother Bracken",
+				"is_human": false,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 6 (hard)",
+				"personality": "hard:hedgerow_parish",
+				"placement": null,
+				"player_id": 6.0,
+				"tier": 3.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 31.0,
+				"hero": "The March Hare",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 7 (hard)",
+				"personality": "hard:fairies_help",
+				"placement": null,
+				"player_id": 7.0,
+				"tier": 5.0
+			}
+		],
+		"takes_last_fight": 3.0,
+		"tier": 3.0,
+		"tier_up_cost": 6.0,
+		"tribe_bonuses": {}
+	},
+	"visible_text_count": 88.0,
+	"visible_text_nodes": [
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@10/@Label@4",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@10/@Label@9",
+			"primary_stat": false,
+			"text": "Start of Combat first.\nThe first attack\nwill appear here."
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@Label@11",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@Label@12",
+			"primary_stat": false,
+			"text": "ROUND 6"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@RichTextLabel@15",
+			"primary_stat": false,
+			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Little Nip (F2) marks Brother Wolf (F2) as quarry. Little Nip (F3) marks Young Brock (F3) as quarry. Sable (B3) marks The Natterjack Chorus (B3) as quarry.\nGideon, Basso Profundo (B1): Mire. Gideon, Basso Profundo (B1) applies Mire to your B1.\n"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@19/@RichTextLabel@18",
+			"primary_stat": false,
+			"text": "Cluricaun (B2): Mire."
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@20/@Label@22",
+			"primary_stat": false,
+			"text": "MIRE"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@20/@RichTextLabel@25",
+			"primary_stat": false,
+			"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@49/@Label@45",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@49/@Label@46",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Panel@460/@Label@461",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Panel@460/@Label@462",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Control@463/@Label@464",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Control@465/@Label@466",
+			"primary_stat": true,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@474/@Control@467/@Label@468",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@493/@Panel@479/@Label@480",
+			"primary_stat": false,
+			"text": "Pack"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@493/@Control@482/@Label@483",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@493/@Control@484/@Label@485",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@493/@Control@486/@Label@487",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@512/@Panel@498/@Label@499",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@512/@Control@501/@Label@502",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@512/@Control@503/@Label@504",
+			"primary_stat": true,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@512/@Control@505/@Label@506",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@531/@Panel@517/@Label@518",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@531/@Control@520/@Label@521",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@531/@Control@522/@Label@523",
+			"primary_stat": true,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@531/@Control@524/@Label@525",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Panel@536/@Label@537",
+			"primary_stat": false,
+			"text": "Ring"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Panel@536/@Label@538",
+			"primary_stat": false,
+			"text": "+1/+1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Control@539/@Label@540",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Control@541/@Label@542",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@550/@Control@543/@Label@544",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@569/@Panel@555/@Label@556",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@569/@Control@558/@Label@559",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@569/@Control@560/@Label@561",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Control@569/@Control@562/@Label@563",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@86",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@87",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@88",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@90",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@91",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@144/@Label@92",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Panel@327/@Label@328",
+			"primary_stat": false,
+			"text": "Summons"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Panel@327/@Label@329",
+			"primary_stat": false,
+			"text": "grow"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Control@330/@Label@331",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Control@332/@Label@333",
+			"primary_stat": true,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@341/@Control@334/@Label@335",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@360/@Panel@346/@Label@347",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@360/@Control@349/@Label@350",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@360/@Control@351/@Label@352",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@360/@Control@353/@Label@354",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@379/@Panel@365/@Label@366",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@379/@Control@368/@Label@369",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@379/@Control@370/@Label@371",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@379/@Control@372/@Label@373",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@398/@Panel@384/@Label@385",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@398/@Control@387/@Label@388",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@398/@Control@389/@Label@390",
+			"primary_stat": true,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@398/@Control@391/@Label@392",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Panel@403/@Label@404",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Panel@403/@Label@405",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Control@406/@Label@407",
+			"primary_stat": false,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Control@408/@Label@409",
+			"primary_stat": true,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@417/@Control@410/@Label@411",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@436/@Panel@422/@Label@423",
+			"primary_stat": false,
+			"text": "Snap"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@436/@Control@425/@Label@426",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@436/@Control@427/@Label@428",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@436/@Control@429/@Label@430",
+			"primary_stat": true,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@455/@Panel@441/@Label@442",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@455/@Control@444/@Label@445",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@455/@Control@446/@Label@447",
+			"primary_stat": true,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Control@455/@Control@448/@Label@449",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@202",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@203",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@204",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@205",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@206",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@207",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@260/@Label@208",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@267/@Label@268",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@267/@Label@269",
+			"primary_stat": false,
+			"text": "The March Hare"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@267/@Control@270/@Label@271",
+			"primary_stat": true,
+			"text": "34"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Label@273",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Button@276/@Label@274",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Button@279/@Label@277",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Control@272/@Button@282/@Label@280",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Button@298/@HBoxContainer@289/@VBoxContainer@291/@Label@292",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@322/@Control@3/@Button@298/@HBoxContainer@289/@VBoxContainer@291/@Label@293",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	]
+}

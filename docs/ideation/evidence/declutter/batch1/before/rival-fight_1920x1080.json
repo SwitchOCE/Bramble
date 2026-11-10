@@ -1,0 +1,2516 @@
+{
+	"ancillary_count": 66.0,
+	"bottom_side": 0.0,
+	"budgeted_text_nodes": [
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3929",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3930",
+			"primary_stat": false,
+			"text": "ATTACK 1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3931",
+			"primary_stat": false,
+			"text": "Little Dollop"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3932",
+			"primary_stat": false,
+			"text": "Bridge Toad"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Control@4477/@Label@4479",
+			"primary_stat": false,
+			"text": "20"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Control@4477/@Label@4480",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Control@4477/@Label@4481",
+			"primary_stat": false,
+			"text": "before"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@Label@3936",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@Label@3937",
+			"primary_stat": false,
+			"text": "ROUND 8"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@RichTextLabel@3940",
+			"primary_stat": false,
+			"text": "Combat: You vs Rival 4 · Brother Bracken. First to attack: You.\n— Start of Combat — Little Nip (F4) marks Hedge Witch (F4) as quarry.\nBridge Toad (F2): Mire. Bridge Toad (F2) applies Mire to your F2. Little Dollop (F1) marks Bridge Toad (F2) as quarry. Young Brock (F3) marks Bridge Toad (F2) as quarry. Young Brock (F2) marks Cradle Fetch (F3) as quarry. Sable (B2) marks Lady Belladonna (B1) as quarry. Young Brock (F2) is Mired. Little Dollop (F1) +1 Attack (Young Brock (F2)'s ability), now 6/5. Young Brock (F3) +1 Attack (Young Brock (F2)'s ability), now 3/4. Young Brock (F2) +1 Attack (Young Brock (F3)'s ability), now 6/6. Rival 4 · Brother Bracken's hero power goes off. Cricket Busker (F1) +4/+4 (hero power), now 9/11. Bridge Toad (F2) +4/+4 (hero power), now 16/20. Cradle Fetch (F3) +4/+4 (hero power), now 7/11. Hedge Witch (F4) +4/+4 (hero power), now 6/7. Lady Belladonna (B1) +4/+4 (hero power), now 12/16.\nLady Belladonna (B1)'s ability goes off. Old Brock (B1) gains Nightshade.\nSable (B2): if its quarry has more Attack, gain +3 Attack. Sable (B2) +3 Attack (Sable (B2)'s ability), now 7/4.\n— Attacks —\n"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@RichTextLabel@3943",
+			"primary_stat": false,
+			"text": "Little Dollop (F1) attacks Bridge Toad (F2)."
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3945/@Label@3947",
+			"primary_stat": false,
+			"text": "NIGHTSHADE"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3945/@RichTextLabel@3950",
+			"primary_stat": false,
+			"text": "When attacked, this first loses half its Health."
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3984/@Label@3980",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3984/@Label@3981",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3989/@Label@3985",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3989/@Label@3986",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4400/@Panel@4386/@Label@4387",
+			"primary_stat": false,
+			"text": "On spell"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4400/@Control@4389/@Label@4390",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4419/@Panel@4405/@Label@4406",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4419/@Control@4408/@Label@4409",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Panel@4424/@Label@4425",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Panel@4424/@Label@4426",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Control@4427/@Label@4428",
+			"primary_stat": false,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Panel@4443/@Label@4444",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Panel@4443/@Label@4445",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Control@4446/@Label@4447",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4476/@Panel@4462/@Label@4463",
+			"primary_stat": false,
+			"text": "Nightshade"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4476/@Control@4465/@Label@4466",
+			"primary_stat": false,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4011",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4012",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4013",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4014",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4015",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Panel@4252/@Label@4253",
+			"primary_stat": false,
+			"text": "Belly 1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Control@4255/@Label@4256",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Label@4267",
+			"primary_stat": false,
+			"text": "In 1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Panel@4272/@Label@4273",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Control@4275/@Label@4276",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Panel@4281/@Label@4283",
+			"primary_stat": false,
+			"text": "Mired"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4305/@Panel@4291/@Label@4292",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4305/@Control@4294/@Label@4295",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4324/@Panel@4310/@Label@4311",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4324/@Control@4313/@Label@4314",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Panel@4329/@Label@4330",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Control@4332/@Label@4333",
+			"primary_stat": false,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Panel@4338/@Label@4340",
+			"primary_stat": false,
+			"text": "Nightshade"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4362/@Panel@4348/@Label@4349",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4362/@Control@4351/@Label@4352",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4381/@Panel@4367/@Label@4368",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4381/@Control@4370/@Label@4371",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4127",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4128",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4129",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4130",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4131",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4132",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4133",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4192/@Label@4193",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4192/@Label@4194",
+			"primary_stat": false,
+			"text": "Rival 4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Label@4198",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Button@4201/@Label@4199",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Button@4204/@Label@4202",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Button@4207/@Label@4205",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Button@4223/@HBoxContainer@4214/@VBoxContainer@4216/@Label@4217",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Button@4223/@HBoxContainer@4214/@VBoxContainer@4216/@Label@4218",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	],
+	"capture_method": "old UI, saved exact event checkpoint, synchronous events",
+	"combat": {
+		"carry": [],
+		"damage": 7.0,
+		"damage_base": 3.0,
+		"damage_performance": 4.0,
+		"damage_uncapped": 7.0,
+		"events": [
+			{
+				"boards": [
+					[
+						{
+							"attack": 5.0,
+							"def_id": "little_dollop",
+							"golden": false,
+							"health": 5.0,
+							"held": 1.0,
+							"keyword_text": [
+								{
+									"keyword": "Belly",
+									"text": "Holds this many units, safe inside. When this dies, they come out."
+								}
+							],
+							"keywords": [
+								"Belly"
+							],
+							"max_health": 5.0,
+							"name": "Little Dollop",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Belly 1. Units you buy into this cost 1 gold less.",
+							"tier": 1.0,
+							"tribes": [
+								"Oozes"
+							],
+							"uid": 1.0
+						},
+						{
+							"attack": 5.0,
+							"def_id": "young_brock",
+							"golden": false,
+							"health": 6.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 6.0,
+							"name": "Young Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 2.0
+						},
+						{
+							"attack": 2.0,
+							"def_id": "young_brock",
+							"golden": false,
+							"health": 4.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 4.0,
+							"name": "Young Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 3.0
+						},
+						{
+							"attack": 5.0,
+							"def_id": "little_nip",
+							"golden": false,
+							"health": 6.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 6.0,
+							"name": "Little Nip",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Quarry. Take: gain +1/+1 permanently.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 4.0
+						},
+						{
+							"attack": 3.0,
+							"def_id": "old_brock",
+							"golden": false,
+							"health": 6.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								},
+								{
+									"keyword": "Pounce",
+									"text": "After a unit next to this has its quarry hit, this attacks it too. Once a cycle."
+								}
+							],
+							"keywords": [
+								"Quarry",
+								"Pounce"
+							],
+							"max_health": 6.0,
+							"name": "Old Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Units next to this have +1 Attack, Pounce, and the enemy across from this as quarry, wherever it stands.",
+							"tier": 4.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 5.0
+						},
+						{
+							"attack": 4.0,
+							"def_id": "sable",
+							"golden": false,
+							"health": 4.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 4.0,
+							"name": "Sable",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
+							"tier": 2.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 6.0
+						},
+						{
+							"attack": 4.0,
+							"def_id": "mistress_russet",
+							"golden": false,
+							"health": 4.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 4.0,
+							"name": "Mistress Russet",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Quarry. Take: if the quarry is your tier or lower, your next shop has a copy, 1 gold cheaper.",
+							"tier": 2.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 7.0
+						}
+					],
+					[
+						{
+							"attack": 5.0,
+							"def_id": "cricket_busker",
+							"golden": true,
+							"health": 7.0,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 7.0,
+							"name": "Cricket Busker",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "After you cast a spell: get 2 gold. Once a turn.",
+							"tier": 2.0,
+							"tribes": [],
+							"uid": 8.0
+						},
+						{
+							"attack": 12.0,
+							"def_id": "bridge_toad",
+							"golden": true,
+							"health": 16.0,
+							"keyword_text": [
+								{
+									"keyword": "Mire",
+									"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+								}
+							],
+							"keywords": [
+								"Mire"
+							],
+							"max_health": 16.0,
+							"name": "Bridge Toad",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Mire. After its Mired enemy attacks this: gain +2/+2 permanently, up to +6/+6.",
+							"tier": 1.0,
+							"tribes": [
+								"Bog folk"
+							],
+							"uid": 9.0
+						},
+						{
+							"attack": 3.0,
+							"def_id": "cradle_fetch",
+							"golden": false,
+							"health": 7.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 7.0,
+							"name": "Cradle Fetch",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.",
+							"tier": 4.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 10.0
+						},
+						{
+							"attack": 2.0,
+							"def_id": "hedge_witch",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 3.0,
+							"name": "Hedge Witch",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+							"tier": 1.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 11.0
+						},
+						{
+							"attack": 8.0,
+							"def_id": "belladonna",
+							"golden": false,
+							"health": 12.0,
+							"keyword_text": [
+								{
+									"keyword": "Nightshade",
+									"text": "When attacked, this first loses half its Health."
+								}
+							],
+							"keywords": [
+								"Nightshade"
+							],
+							"max_health": 12.0,
+							"name": "Lady Belladonna",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: give the enemy across Nightshade.",
+							"tier": 5.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 12.0
+						},
+						null,
+						null
+					]
+				],
+				"first_side": 0.0,
+				"player_ids": [
+					0.0,
+					4.0
+				],
+				"seq": 0.0,
+				"slot_effects": [
+					[
+						[],
+						[
+							{
+								"attack": 2.0,
+								"golden": false,
+								"health": 2.0,
+								"name": "Ring",
+								"text": "The unit on this slot gets this bonus."
+							}
+						],
+						[],
+						[],
+						[],
+						[],
+						[]
+					],
+					[
+						[],
+						[
+							{
+								"attack": 4.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"text": "The unit on this slot gets this bonus."
+							}
+						],
+						[],
+						[],
+						[],
+						[],
+						[]
+					]
+				],
+				"type": "combat_start"
+			},
+			{
+				"name": "start_of_combat",
+				"seq": 1.0,
+				"type": "phase"
+			},
+			{
+				"name": "bell",
+				"seq": 2.0,
+				"type": "phase"
+			},
+			{
+				"hunter": 4.0,
+				"quarry": 11.0,
+				"seq": 3.0,
+				"source": 4.0,
+				"type": "quarry_marked"
+			},
+			{
+				"mechanic": "mire",
+				"seq": 4.0,
+				"type": "trigger",
+				"uid": 9.0
+			},
+			{
+				"maker": 9.0,
+				"seq": 5.0,
+				"side": 0.0,
+				"slot": 1.0,
+				"type": "bog_patch"
+			},
+			{
+				"hunter": 1.0,
+				"quarry": 9.0,
+				"seq": 6.0,
+				"source": 2.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 3.0,
+				"quarry": 9.0,
+				"seq": 7.0,
+				"source": 2.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 2.0,
+				"quarry": 10.0,
+				"seq": 8.0,
+				"source": 3.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 6.0,
+				"quarry": 12.0,
+				"seq": 9.0,
+				"source": 5.0,
+				"type": "quarry_marked"
+			},
+			{
+				"data": {
+					"maker": 9.0
+				},
+				"on": true,
+				"seq": 10.0,
+				"source": 9.0,
+				"status": "mired",
+				"target": 2.0,
+				"type": "status"
+			},
+			{
+				"attack": 6.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 5.0,
+				"health_delta": 0.0,
+				"max_health": 5.0,
+				"permanent": false,
+				"seq": 11.0,
+				"source": 2.0,
+				"target": 1.0,
+				"type": "stats"
+			},
+			{
+				"attack": 3.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 4.0,
+				"health_delta": 0.0,
+				"max_health": 4.0,
+				"permanent": false,
+				"seq": 12.0,
+				"source": 2.0,
+				"target": 3.0,
+				"type": "stats"
+			},
+			{
+				"attack": 6.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 6.0,
+				"health_delta": 0.0,
+				"max_health": 6.0,
+				"permanent": false,
+				"seq": 13.0,
+				"source": 3.0,
+				"target": 2.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "hermitage",
+				"seq": 14.0,
+				"side": 1.0,
+				"type": "side_trigger"
+			},
+			{
+				"attack": 9.0,
+				"attack_delta": 4.0,
+				"cause": "",
+				"causes": [],
+				"health": 11.0,
+				"health_delta": 4.0,
+				"max_health": 11.0,
+				"permanent": false,
+				"seq": 15.0,
+				"source": null,
+				"target": 8.0,
+				"type": "stats"
+			},
+			{
+				"attack": 16.0,
+				"attack_delta": 4.0,
+				"cause": "",
+				"causes": [],
+				"health": 20.0,
+				"health_delta": 4.0,
+				"max_health": 20.0,
+				"permanent": false,
+				"seq": 16.0,
+				"source": null,
+				"target": 9.0,
+				"type": "stats"
+			},
+			{
+				"attack": 7.0,
+				"attack_delta": 4.0,
+				"cause": "",
+				"causes": [],
+				"health": 11.0,
+				"health_delta": 4.0,
+				"max_health": 11.0,
+				"permanent": false,
+				"seq": 17.0,
+				"source": null,
+				"target": 10.0,
+				"type": "stats"
+			},
+			{
+				"attack": 6.0,
+				"attack_delta": 4.0,
+				"cause": "",
+				"causes": [],
+				"health": 7.0,
+				"health_delta": 4.0,
+				"max_health": 7.0,
+				"permanent": false,
+				"seq": 18.0,
+				"source": null,
+				"target": 11.0,
+				"type": "stats"
+			},
+			{
+				"attack": 12.0,
+				"attack_delta": 4.0,
+				"cause": "",
+				"causes": [],
+				"health": 16.0,
+				"health_delta": 4.0,
+				"max_health": 16.0,
+				"permanent": false,
+				"seq": 19.0,
+				"source": null,
+				"target": 12.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "belladonna",
+				"seq": 20.0,
+				"type": "trigger",
+				"uid": 12.0
+			},
+			{
+				"data": {},
+				"on": true,
+				"seq": 21.0,
+				"source": 12.0,
+				"status": "nightshade",
+				"target": 5.0,
+				"type": "status"
+			},
+			{
+				"mechanic": "sable",
+				"seq": 22.0,
+				"type": "trigger",
+				"uid": 6.0
+			},
+			{
+				"attack": 7.0,
+				"attack_delta": 3.0,
+				"cause": "",
+				"causes": [],
+				"health": 4.0,
+				"health_delta": 0.0,
+				"max_health": 4.0,
+				"permanent": false,
+				"seq": 23.0,
+				"source": 6.0,
+				"target": 6.0,
+				"type": "stats"
+			},
+			{
+				"name": "attacks",
+				"seq": 24.0,
+				"type": "phase"
+			},
+			{
+				"attacker": 1.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 25.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 6.0,
+				"health_after": 14.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 6.0,
+				"seq": 26.0,
+				"source": 1.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"amount": 16.0,
+				"health_after": -11.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 16.0,
+				"seq": 27.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 1.0,
+				"type": "damage"
+			},
+			{
+				"seq": 28.0,
+				"side": 0.0,
+				"slot": 0.0,
+				"type": "death",
+				"uid": 1.0
+			},
+			{
+				"came_out": true,
+				"seq": 29.0,
+				"side": 0.0,
+				"slot": 0.0,
+				"source": 1.0,
+				"type": "summon",
+				"unit": {
+					"attack": 1.0,
+					"def_id": "sleeping_partner",
+					"golden": false,
+					"health": 2.0,
+					"keyword_text": [
+						{
+							"keyword": "Acorn",
+							"text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+						}
+					],
+					"keywords": [
+						"Acorn"
+					],
+					"max_health": 2.0,
+					"name": "The Sleeping Partner",
+					"quarry": 0.0,
+					"quarry_reach": false,
+					"statuses": [],
+					"text": "Every 3 turns in this slot: get 2 Acorns. Three times in all.",
+					"tier": 1.0,
+					"tribes": [
+						"Hedgerow folk"
+					],
+					"uid": 13.0
+				}
+			},
+			{
+				"attack": 2.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [
+					{
+						"change": "gained",
+						"name": "aura",
+						"source": 5.0
+					}
+				],
+				"health": 2.0,
+				"health_delta": 0.0,
+				"max_health": 2.0,
+				"permanent": false,
+				"seq": 30.0,
+				"source": null,
+				"target": 13.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "pounce",
+				"seq": 31.0,
+				"type": "trigger",
+				"uid": 2.0
+			},
+			{
+				"attacker": 2.0,
+				"defender": 9.0,
+				"kind": "pounce",
+				"seq": 32.0,
+				"type": "immediate_attack"
+			},
+			{
+				"attacker": 2.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 33.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 6.0,
+				"health_after": 8.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 6.0,
+				"seq": 34.0,
+				"source": 2.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"amount": 16.0,
+				"health_after": -10.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 16.0,
+				"seq": 35.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 2.0,
+				"type": "damage"
+			},
+			{
+				"seq": 36.0,
+				"side": 0.0,
+				"slot": 1.0,
+				"type": "death",
+				"uid": 2.0
+			},
+			{
+				"mechanic": "pounce",
+				"seq": 37.0,
+				"type": "trigger",
+				"uid": 6.0
+			},
+			{
+				"attacker": 6.0,
+				"defender": 9.0,
+				"kind": "pounce",
+				"seq": 38.0,
+				"type": "immediate_attack"
+			},
+			{
+				"attacker": 6.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 39.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 7.0,
+				"health_after": 1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 7.0,
+				"seq": 40.0,
+				"source": 6.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"amount": 16.0,
+				"health_after": -12.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 16.0,
+				"seq": 41.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 6.0,
+				"type": "damage"
+			},
+			{
+				"seq": 42.0,
+				"side": 0.0,
+				"slot": 5.0,
+				"type": "death",
+				"uid": 6.0
+			},
+			{
+				"attacker": 8.0,
+				"defender": 4.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 43.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 9.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 9.0,
+				"seq": 44.0,
+				"source": 8.0,
+				"strike": 1.0,
+				"target": 4.0,
+				"type": "damage"
+			},
+			{
+				"amount": 5.0,
+				"health_after": 6.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 5.0,
+				"seq": 45.0,
+				"source": 4.0,
+				"strike": 1.0,
+				"target": 8.0,
+				"type": "damage"
+			},
+			{
+				"seq": 46.0,
+				"side": 0.0,
+				"slot": 3.0,
+				"type": "death",
+				"uid": 4.0
+			},
+			{
+				"attacker": 13.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 47.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 2.0,
+				"health_after": -1.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 2.0,
+				"seq": 48.0,
+				"source": 13.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"amount": 16.0,
+				"health_after": -14.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 16.0,
+				"seq": 49.0,
+				"source": 9.0,
+				"strike": 1.0,
+				"target": 13.0,
+				"type": "damage"
+			},
+			{
+				"seq": 50.0,
+				"side": 0.0,
+				"slot": 0.0,
+				"type": "death",
+				"uid": 13.0
+			},
+			{
+				"seq": 51.0,
+				"side": 1.0,
+				"slot": 1.0,
+				"type": "death",
+				"uid": 9.0
+			},
+			{
+				"hunter": 3.0,
+				"quarry": 9.0,
+				"seq": 52.0,
+				"side": 0.0,
+				"type": "take"
+			},
+			{
+				"hunter": 3.0,
+				"quarry": 9.0,
+				"seq": 53.0,
+				"type": "quarry_lost"
+			},
+			{
+				"attacker": 10.0,
+				"defender": 3.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 54.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 7.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 7.0,
+				"seq": 55.0,
+				"source": 10.0,
+				"strike": 1.0,
+				"target": 3.0,
+				"type": "damage"
+			},
+			{
+				"amount": 3.0,
+				"health_after": 8.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3.0,
+				"seq": 56.0,
+				"source": 3.0,
+				"strike": 1.0,
+				"target": 10.0,
+				"type": "damage"
+			},
+			{
+				"seq": 57.0,
+				"side": 0.0,
+				"slot": 2.0,
+				"type": "death",
+				"uid": 3.0
+			},
+			{
+				"attacker": 5.0,
+				"defender": 8.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 58.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 3.0,
+				"health_after": 3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3.0,
+				"seq": 59.0,
+				"source": 5.0,
+				"strike": 1.0,
+				"target": 8.0,
+				"type": "damage"
+			},
+			{
+				"amount": 9.0,
+				"health_after": -3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 9.0,
+				"seq": 60.0,
+				"source": 8.0,
+				"strike": 1.0,
+				"target": 5.0,
+				"type": "damage"
+			},
+			{
+				"seq": 61.0,
+				"side": 0.0,
+				"slot": 4.0,
+				"type": "death",
+				"uid": 5.0
+			},
+			{
+				"attacker": 11.0,
+				"defender": 7.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 62.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 6.0,
+				"health_after": -2.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 6.0,
+				"seq": 63.0,
+				"source": 11.0,
+				"strike": 1.0,
+				"target": 7.0,
+				"type": "damage"
+			},
+			{
+				"amount": 4.0,
+				"health_after": 3.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 4.0,
+				"seq": 64.0,
+				"source": 7.0,
+				"strike": 1.0,
+				"target": 11.0,
+				"type": "damage"
+			},
+			{
+				"seq": 65.0,
+				"side": 0.0,
+				"slot": 6.0,
+				"type": "death",
+				"uid": 7.0
+			},
+			{
+				"damage": 7.0,
+				"damage_base": 3.0,
+				"damage_mode": "v05",
+				"damage_performance": 4.0,
+				"damage_uncapped": 7.0,
+				"last_blow": false,
+				"last_blow_kind": "",
+				"last_blow_side": -1.0,
+				"last_blow_source": -1.0,
+				"reason": "board_empty",
+				"seq": 66.0,
+				"survivors": [
+					[],
+					[
+						8.0,
+						10.0,
+						11.0,
+						12.0
+					]
+				],
+				"type": "combat_end",
+				"winner": 1.0
+			}
+		],
+		"floor_marks": [
+			[
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+2/+2",
+					"ring_count": 0.0,
+					"slot_attack": 2.0,
+					"slot_health": 2.0,
+					"text": "The unit on this slot gets this bonus."
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				}
+			],
+			[
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+4/+4",
+					"ring_count": 0.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "The unit on this slot gets this bonus."
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				}
+			]
+		],
+		"hero_health_after": [
+			23.0,
+			40.0
+		],
+		"hero_health_before": [
+			30.0,
+			40.0
+		],
+		"last_blow": false,
+		"reason": "board_empty",
+		"takes": [
+			1.0,
+			0.0
+		],
+		"winner": 1.0
+	},
+	"fight_input": {
+		"boards": [
+			[
+				{
+					"attack": 4.0,
+					"def_id": "little_dollop",
+					"golden": false,
+					"health": 5.0,
+					"held": [
+						{
+							"attack": 1.0,
+							"def_id": "sleeping_partner",
+							"golden": false,
+							"health": 2.0,
+							"iid": 8.0,
+							"tribe_attack": 0.0,
+							"tribe_health": 0.0
+						}
+					],
+					"iid": 3.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 2.0,
+					"def_id": "young_brock",
+					"golden": false,
+					"health": 4.0,
+					"iid": 17.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 2.0,
+					"def_id": "young_brock",
+					"golden": false,
+					"health": 4.0,
+					"iid": 2.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 5.0,
+					"def_id": "little_nip",
+					"golden": false,
+					"health": 6.0,
+					"iid": 12.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "old_brock",
+					"golden": false,
+					"health": 6.0,
+					"iid": 34.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "sable",
+					"golden": false,
+					"health": 4.0,
+					"iid": 36.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 4.0,
+					"def_id": "mistress_russet",
+					"golden": false,
+					"health": 4.0,
+					"iid": 29.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				}
+			],
+			[
+				{
+					"attack": 5.0,
+					"def_id": "cricket_busker",
+					"golden": true,
+					"health": 7.0,
+					"iid": 362.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 8.0,
+					"def_id": "bridge_toad",
+					"golden": true,
+					"health": 12.0,
+					"iid": 128.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 3.0,
+					"def_id": "cradle_fetch",
+					"golden": false,
+					"health": 7.0,
+					"iid": 130.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 2.0,
+					"def_id": "hedge_witch",
+					"golden": false,
+					"health": 3.0,
+					"hex": 9.0,
+					"iid": 174.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				{
+					"attack": 8.0,
+					"def_id": "belladonna",
+					"golden": false,
+					"health": 12.0,
+					"iid": 364.0,
+					"tribe_attack": 1.0,
+					"tribe_health": 1.0
+				},
+				null,
+				null
+			]
+		],
+		"config": {
+			"ask_for_kin": false,
+			"attack_limit": 200.0,
+			"base_damage_by_turn": [
+				0.0,
+				0.0,
+				0.0,
+				1.0,
+				1.0,
+				2.0,
+				2.0,
+				3.0,
+				4.0,
+				5.0,
+				7.0,
+				9.0,
+				11.0,
+				13.0
+			],
+			"bots": [
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied"
+			],
+			"card_rate_limits": true,
+			"card_size_caps": true,
+			"damage_cap_by_turn": [
+				4.0,
+				4.0,
+				5.0,
+				6.0,
+				7.0,
+				8.0,
+				9.0,
+				10.0,
+				11.0,
+				12.0
+			],
+			"damage_cap_off_at_alive": 4.0,
+			"damage_mode": "v05",
+			"discover_options": 3.0,
+			"early_spoils": true,
+			"field_library": "res://tests/fixtures/field/baseline.json",
+			"freeze_toggles_per_turn": 5.0,
+			"hand_limit": 10.0,
+			"hero_choice": true,
+			"hero_damage_floor": 4.0,
+			"heroes_offered": 3.0,
+			"human_bot": "",
+			"income_by_turn": [
+				3.0,
+				4.0,
+				5.0,
+				6.0,
+				7.0,
+				8.0,
+				9.0,
+				10.0
+			],
+			"last_blow": true,
+			"last_stand": true,
+			"lobby_tribe_min_units": 4.0,
+			"max_rounds": 50.0,
+			"opening_rounds": 2.0,
+			"opening_spells": [
+				"rainy_day",
+				"a_leg_up"
+			],
+			"opponents": "field",
+			"players": 8.0,
+			"pool_copies_by_tier": [
+				15.0,
+				15.0,
+				13.0,
+				13.0,
+				11.0,
+				9.0
+			],
+			"pool_filter": "slice",
+			"refresh_base_cost": 1.0,
+			"refresh_first_step_after": 15.0,
+			"refresh_step_length": 5.0,
+			"round_toll": false,
+			"scale_answer_percent": 50.0,
+			"scale_economy_cap": 10.0,
+			"scale_engine_flat": 0.0,
+			"scale_engine_percent": 25.0,
+			"scale_engine_self": false,
+			"scale_engine_tribe": "Hedgerow folk",
+			"scale_hero_spell_percent": 10.0,
+			"scale_hero_spell_stats": false,
+			"scale_levers": [],
+			"sell_bought": 1.0,
+			"sell_created": 0.0,
+			"shop_spells_by_tier": [
+				1.0,
+				1.0,
+				1.0,
+				1.0,
+				1.0,
+				1.0
+			],
+			"shop_tier_odds": [
+				[
+					100.0
+				],
+				[
+					50.0,
+					50.0
+				],
+				[
+					20.0,
+					30.0,
+					50.0
+				],
+				[
+					10.0,
+					15.0,
+					25.0,
+					50.0
+				],
+				[
+					5.0,
+					10.0,
+					15.0,
+					25.0,
+					45.0
+				],
+				[
+					5.0,
+					5.0,
+					10.0,
+					15.0,
+					25.0,
+					40.0
+				]
+			],
+			"shop_units_by_tier": [
+				4.0,
+				4.0,
+				4.0,
+				5.0,
+				5.0,
+				6.0
+			],
+			"spell_copies_by_tier": [
+				5.0,
+				7.0,
+				9.0,
+				11.0,
+				9.0,
+				7.0
+			],
+			"spells_in_shop": true,
+			"starting_health": 40.0,
+			"survivor_damage_divisor": 2.0,
+			"tribes_per_lobby": 5.0,
+			"trigger_limit_action": 1000.0,
+			"trigger_limit_combat": 10000.0,
+			"unit_cost": 3.0,
+			"upgrade_costs": [
+				5.0,
+				7.0,
+				8.0,
+				11.0,
+				13.0
+			],
+			"upgrade_discount_per_turn": 1.0
+		},
+		"damage_cap": 0.0,
+		"effect_rng_seed": "243106347",
+		"effect_rng_state": "-5443331584005205983",
+		"fight_rules": [
+			{
+				"ammo": [],
+				"away_birds": [],
+				"back_row_first": false,
+				"bands": [
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				"goose": 0.0,
+				"homecomings": 0.0,
+				"larder": 0.0,
+				"nests": []
+			},
+			{
+				"ammo": [],
+				"away_birds": [],
+				"back_row_first": false,
+				"bands": [
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				"goose": 0.0,
+				"homecomings": 0.0,
+				"larder": 0.0,
+				"nests": []
+			}
+		],
+		"hero_effects": [
+			[
+				{
+					"do": {
+						"amount": 1.0,
+						"effect": "gold",
+						"per": "carried",
+						"per_div": 4.0,
+						"per_max": 5.0
+					},
+					"name": "interest",
+					"trigger": "start_of_turn"
+				}
+			],
+			[
+				{
+					"do": {
+						"attack": 1.0,
+						"effect": "buff",
+						"health": 1.0,
+						"per": "tier",
+						"per_max": 5.0,
+						"target": {
+							"select": "friendly"
+						}
+					},
+					"if": [
+						{
+							"at_most": 5.0,
+							"kind": "count",
+							"target": {
+								"select": "friendly"
+							}
+						}
+					],
+					"name": "hermitage",
+					"trigger": "start_of_combat"
+				}
+			]
+		],
+		"player_ids": [
+			0.0,
+			4.0
+		],
+		"rng_seed": "243129542",
+		"rng_state": "-149697281473486240",
+		"round": 8.0,
+		"slots": [
+			[
+				[],
+				[
+					{
+						"attack": 2.0,
+						"golden": false,
+						"health": 2.0,
+						"name": "Ring",
+						"text": "The unit on this slot gets this bonus."
+					}
+				],
+				[],
+				[],
+				[],
+				[],
+				[]
+			],
+			[
+				[],
+				[
+					{
+						"attack": 4.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"text": "The unit on this slot gets this bonus."
+					}
+				],
+				[],
+				[],
+				[],
+				[],
+				[]
+			]
+		],
+		"tiers": [
+			4.0,
+			4.0
+		],
+		"version": 1.0
+	},
+	"hero_health": [
+		30.0,
+		40.0
+	],
+	"hero_health_provenance": {
+		"after_round": 8.0,
+		"armor_before": [
+			0.0,
+			0.0
+		],
+		"before_round": 7.0,
+		"field": "game_log.players[*].rounds[*].health",
+		"observed_history": true,
+		"source": "docs/ideation/evidence/strong-field/ui-1688x780.json",
+		"verified_replay_damage": 7.0
+	},
+	"hero_views": [
+		{
+			"details": "Up to 5 gold a turn.",
+			"id": "dame_farthing",
+			"keyword_text": [],
+			"name": "Dame Farthing",
+			"power": {
+				"effects": [
+					{
+						"do": {
+							"amount": 1.0,
+							"effect": "gold",
+							"per": "carried",
+							"per_div": 4.0,
+							"per_max": 5.0
+						},
+						"name": "interest",
+						"trigger": "start_of_turn"
+					}
+				],
+				"kind": "passive"
+			},
+			"set": "slice",
+			"text": "Start of Turn: get 1 gold for every 4 you carried over."
+		},
+		{
+			"id": "brother_bracken",
+			"keyword_text": [],
+			"name": "Brother Bracken",
+			"power": {
+				"effects": [
+					{
+						"do": {
+							"attack": 1.0,
+							"effect": "buff",
+							"health": 1.0,
+							"per": "tier",
+							"per_max": 5.0,
+							"target": {
+								"select": "friendly"
+							}
+						},
+						"if": [
+							{
+								"at_most": 5.0,
+								"kind": "count",
+								"target": {
+									"select": "friendly"
+								}
+							}
+						],
+						"name": "hermitage",
+						"trigger": "start_of_combat"
+					}
+				],
+				"kind": "passive"
+			},
+			"set": "slice",
+			"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5."
+		}
+	],
+	"image": "rival-fight_1920x1080.png",
+	"names": [
+		"You",
+		"Rival 4 · Brother Bracken"
+	],
+	"next_index": 26.0,
+	"opponent_health": 40.0,
+	"pixels": [
+		1920.0,
+		1080.0
+	],
+	"reader_uid": -1.0,
+	"seed": 72.0,
+	"source_revision": "1ecbce6",
+	"state": {},
+	"visible_text_count": 91.0,
+	"visible_text_nodes": [
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3929",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3930",
+			"primary_stat": false,
+			"text": "ATTACK 1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3931",
+			"primary_stat": false,
+			"text": "Little Dollop"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Label@3932",
+			"primary_stat": false,
+			"text": "Bridge Toad"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Control@4477/@Label@4479",
+			"primary_stat": false,
+			"text": "20"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Control@4477/@Label@4480",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3935/@Control@4477/@Label@4481",
+			"primary_stat": false,
+			"text": "before"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@Label@3936",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@Label@3937",
+			"primary_stat": false,
+			"text": "ROUND 8"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@RichTextLabel@3940",
+			"primary_stat": false,
+			"text": "Combat: You vs Rival 4 · Brother Bracken. First to attack: You.\n— Start of Combat — Little Nip (F4) marks Hedge Witch (F4) as quarry.\nBridge Toad (F2): Mire. Bridge Toad (F2) applies Mire to your F2. Little Dollop (F1) marks Bridge Toad (F2) as quarry. Young Brock (F3) marks Bridge Toad (F2) as quarry. Young Brock (F2) marks Cradle Fetch (F3) as quarry. Sable (B2) marks Lady Belladonna (B1) as quarry. Young Brock (F2) is Mired. Little Dollop (F1) +1 Attack (Young Brock (F2)'s ability), now 6/5. Young Brock (F3) +1 Attack (Young Brock (F2)'s ability), now 3/4. Young Brock (F2) +1 Attack (Young Brock (F3)'s ability), now 6/6. Rival 4 · Brother Bracken's hero power goes off. Cricket Busker (F1) +4/+4 (hero power), now 9/11. Bridge Toad (F2) +4/+4 (hero power), now 16/20. Cradle Fetch (F3) +4/+4 (hero power), now 7/11. Hedge Witch (F4) +4/+4 (hero power), now 6/7. Lady Belladonna (B1) +4/+4 (hero power), now 12/16.\nLady Belladonna (B1)'s ability goes off. Old Brock (B1) gains Nightshade.\nSable (B2): if its quarry has more Attack, gain +3 Attack. Sable (B2) +3 Attack (Sable (B2)'s ability), now 7/4.\n— Attacks —\n"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3944/@RichTextLabel@3943",
+			"primary_stat": false,
+			"text": "Little Dollop (F1) attacks Bridge Toad (F2)."
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3945/@Label@3947",
+			"primary_stat": false,
+			"text": "NIGHTSHADE"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@3945/@RichTextLabel@3950",
+			"primary_stat": false,
+			"text": "When attacked, this first loses half its Health."
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3984/@Label@3980",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3984/@Label@3981",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3989/@Label@3985",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@3989/@Label@3986",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4400/@Panel@4386/@Label@4387",
+			"primary_stat": false,
+			"text": "On spell"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4400/@Control@4389/@Label@4390",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4400/@Control@4391/@Label@4392",
+			"primary_stat": true,
+			"text": "9"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4400/@Control@4393/@Label@4394",
+			"primary_stat": true,
+			"text": "11"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4419/@Panel@4405/@Label@4406",
+			"primary_stat": false,
+			"text": "Mire"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4419/@Control@4408/@Label@4409",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4419/@Control@4410/@Label@4411",
+			"primary_stat": true,
+			"text": "16"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4419/@Control@4412/@Label@4413",
+			"primary_stat": true,
+			"text": "20"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Panel@4424/@Label@4425",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Panel@4424/@Label@4426",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Control@4427/@Label@4428",
+			"primary_stat": false,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Control@4429/@Label@4430",
+			"primary_stat": true,
+			"text": "7"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4438/@Control@4431/@Label@4432",
+			"primary_stat": true,
+			"text": "11"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Panel@4443/@Label@4444",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Panel@4443/@Label@4445",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Control@4446/@Label@4447",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Control@4448/@Label@4449",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4457/@Control@4450/@Label@4451",
+			"primary_stat": true,
+			"text": "7"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4476/@Panel@4462/@Label@4463",
+			"primary_stat": false,
+			"text": "Nightshade"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4476/@Control@4465/@Label@4466",
+			"primary_stat": false,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4476/@Control@4467/@Label@4468",
+			"primary_stat": true,
+			"text": "12"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Control@4476/@Control@4469/@Label@4470",
+			"primary_stat": true,
+			"text": "16"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4011",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4012",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4013",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4014",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4069/@Label@4015",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Panel@4252/@Label@4253",
+			"primary_stat": false,
+			"text": "Belly 1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Control@4255/@Label@4256",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Control@4257/@Label@4258",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Control@4259/@Label@4260",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4266/@Label@4267",
+			"primary_stat": false,
+			"text": "In 1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Panel@4272/@Label@4273",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Control@4275/@Label@4276",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Control@4277/@Label@4278",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Control@4279/@Label@4280",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4286/@Panel@4281/@Label@4283",
+			"primary_stat": false,
+			"text": "Mired"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4305/@Panel@4291/@Label@4292",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4305/@Control@4294/@Label@4295",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4305/@Control@4296/@Label@4297",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4305/@Control@4298/@Label@4299",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4324/@Panel@4310/@Label@4311",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4324/@Control@4313/@Label@4314",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4324/@Control@4315/@Label@4316",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4324/@Control@4317/@Label@4318",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Panel@4329/@Label@4330",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Control@4332/@Label@4333",
+			"primary_stat": false,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Control@4334/@Label@4335",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Control@4336/@Label@4337",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4343/@Panel@4338/@Label@4340",
+			"primary_stat": false,
+			"text": "Nightshade"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4362/@Panel@4348/@Label@4349",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4362/@Control@4351/@Label@4352",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4362/@Control@4353/@Label@4354",
+			"primary_stat": true,
+			"text": "7"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4362/@Control@4355/@Label@4356",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4381/@Panel@4367/@Label@4368",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4381/@Control@4370/@Label@4371",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4381/@Control@4372/@Label@4373",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Control@4381/@Control@4374/@Label@4375",
+			"primary_stat": true,
+			"text": "4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4127",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4128",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4129",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4130",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4131",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4132",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4185/@Label@4133",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4192/@Label@4193",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4192/@Label@4194",
+			"primary_stat": false,
+			"text": "Rival 4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4192/@Control@4195/@Label@4196",
+			"primary_stat": true,
+			"text": "40"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Label@4198",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Button@4201/@Label@4199",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Button@4204/@Label@4202",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Control@4197/@Button@4207/@Label@4205",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Button@4223/@HBoxContainer@4214/@VBoxContainer@4216/@Label@4217",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@4247/@Control@3928/@Button@4223/@HBoxContainer@4214/@VBoxContainer@4216/@Label@4218",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	]
+}

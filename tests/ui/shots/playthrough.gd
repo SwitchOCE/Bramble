@@ -17,7 +17,7 @@ extends SceneTree
 ## why not): New game, Buy, Sell, Play, hero power, playing a unit by tapping it
 ## and a slot, Refresh, Freeze, tier up, Scout, Who?, Close, the pause menu, Settings and Back, the
 ## guide's
-## pages, speed, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops (the
+## pages, speed, Watch again from pause, Skip and Main menu. Not clicked: drags and drops (the
 ## screen's own drop handlers), the dev panel, Leave game, Quit. The New game signal is
 ## caught so a game can use this run's seed and lobby, so the first-game guide and the random seed
 ## aren't run.
@@ -263,37 +263,39 @@ static func _overlay(app: App, kind: String) -> Control:
 	return null
 
 
-## Speed by its token, then the fight watched to its result. Stuck is a problem. Once a game it's
-## replayed and skipped. Continue is a real click, and must leave this screen.
+## Cycle the speed token, watch playback and wait for the real automatic return.
+## Once a game, replay from the pause menu and skip using its glyph token.
 func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -> void:
-	var speeds: Array = combat.get("_speed_buttons")
-	var fastest: Button = speeds[speeds.size() - 1]
-	_driver.press(fastest, "speed")
+	var speed_token: Button = combat.get("_speed_button")
+	for tap: int in 3:
+		if is_equal_approx(combat.speed, 4.0):
+			break
+		_driver.press(speed_token, "speed")
 	_driver.expect(is_equal_approx(combat.speed, 4.0), "speed token: speed is %s" % combat.speed)
-	var frames: int = 0
-	while not combat.is_showing_result() and frames < 4000:
-		await process_frame
-		frames += 1
-		if frames == 40:
-			_check(combat, where + " combat mid-fight", false)
-	if not combat.is_showing_result():
-		_problem("%s: fight still not over after %d frames" % [where, frames])
-		combat.skip_to_end()
-	await _frames(2)
-	_check(combat, where + " combat result")
 	if replay:
+		var gear: Button = combat.get("_gear")
+		_driver.press(gear, "pause fight")
+		await _frames(2)
 		_press_named(combat, "Watch again")
 		await _frames(2)
-		_driver.expect(not combat.is_showing_result(), "Watch again: result stayed up")
+		_driver.expect(not combat.model.finished, "Watch again: fight did not restart")
 		var skip: Button = combat.get("_skip_button")
 		_driver.press(skip, "Skip")
-		await _frames(2)
-		_driver.expect(combat.is_showing_result(), "Skip: no result")
-	_press_named(combat, "Continue")
-	await _frames(2)
-	_driver.expect(app.current != combat, "Continue: stayed on the fight")
-	if app.current == combat:
-		combat.finished.emit()
+		_driver.expect(combat.model.finished, "Skip: fight did not finish")
+	var frames: int = 0
+	var checked_end: bool = false
+	while is_instance_valid(combat) and app.current == combat and frames < 4000:
+		if combat.model.finished and not checked_end:
+			_check(combat, where + " combat end")
+			checked_end = true
+		if frames == 40 and not combat.model.finished:
+			_check(combat, where + " combat mid-fight", false)
+		await process_frame
+		frames += 1
+	_driver.expect(
+		not is_instance_valid(combat) or app.current != combat,
+		"fight did not automatically return after %d frames" % frames
+	)
 	_drain_misses(where)
 
 

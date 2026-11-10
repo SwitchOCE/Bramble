@@ -337,7 +337,7 @@ func test_hex_shows_on_the_slot_it_lands_on_in_the_fight_and_not_on_a_recruit_un
 	var hexes: Dictionary = marks.get("_hex_labels")
 	assert_true(hexes.has(0), "F1 across from the Witch in F1")
 	var slip: Label = hexes[0]
-	assert_eq(slip.text, "Hex -1")
+	assert_eq(slip.text, "−1", "the slot sigil carries only its changing amount")
 	assert_false(UiTheme.STATUS_INFO.has("hex"), "Hex is never a status on your own unit")
 
 

@@ -86,7 +86,7 @@ func test_same_named_slice_units_are_distinguished_by_their_slots_in_both_logs()
 		var text: String = "\n".join(lines)
 		assert_string_contains(text, "Little Nip (F1)")
 		assert_string_contains(text, "Little Nip (F2)")
-		assert_string_contains(text, "Sable (F1)")
+		assert_string_contains(text, "Sable")
 	assert_string_contains(_play_text(), "Little Nip (F2) attacks")
 	_assert_damage_and_deaths_are_visible()
 
@@ -157,7 +157,8 @@ func test_grizels_trade_reward_does_not_read_like_healing_a_dead_unit() -> void:
 				assert_string_contains(tool[index], "next Start of Turn")
 			else:
 				rewards += 1
-			assert_string_contains(ui[index], "Little Nip (F1)")
+			assert_string_contains(ui[index], "Little Nip")
+			assert_false(ui[index].contains("Little Nip (F1)"), "unique names need no slot")
 			assert_string_contains(tool[index], "Little Nip (F1)")
 			assert_string_contains(ui[index], "permanently")
 			assert_string_contains(tool[index], "permanently")
@@ -181,7 +182,8 @@ func test_tiddys_lethal_attack_reward_keeps_the_dead_defender_dead_in_playback()
 		if _combat.events[index]["type"] == "permanent_reward":
 			reward = index
 	assert_gt(reward, 0)
-	assert_string_contains(ui[reward], "Bridge Toad (F1)")
+	assert_string_contains(ui[reward], "Bridge Toad")
+	assert_false(ui[reward].contains("Bridge Toad (F1)"), "unique names need no slot")
 	assert_string_contains(tool[reward], "Bridge Toad (F1)")
 	assert_string_contains(_play_text(), "permanently")
 	var model: CombatModel = CombatModel.new()
@@ -243,5 +245,6 @@ func test_an_enemy_prince_keeps_its_side_and_slot_after_transforming() -> void:
 	_combat._resolve_deaths(1)
 	_combat.buff(highness, 1, 0, highness)
 	assert_string_contains(_play_text(), "enemy The Prince Restored (B1) +1 Attack")
-	assert_string_contains("\n".join(_ui_lines()), "The Prince Restored (B1)")
+	assert_string_contains("\n".join(_ui_lines()), "The Prince Restored")
+	assert_false("\n".join(_ui_lines()).contains("The Prince Restored (B1)"))
 	_assert_damage_and_deaths_are_visible()

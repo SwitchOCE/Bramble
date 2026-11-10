@@ -136,6 +136,7 @@ const RIME_STRIPES: String = (
 
 ## A heap of three: what three Acorns combine into.
 ## A full basket, heaped and shining: the biggest size.
+# gdlint:disable=max-line-length
 const ICONS: Dictionary[String, String] = {
 	"acorn": ACORN,
 	"tier": TIER,
@@ -159,6 +160,27 @@ const ICONS: Dictionary[String, String] = {
 	"burst": BURST,
 	"bones": BONES,
 	"leaf": LEAF_PUFF,
+	"bell":
+	'<path d="M10 27h20l-4-7v-7a6 6 0 0 0-12 0v7z" fill="#d9a441" stroke="#2b1a0f" stroke-width="2"/><circle cx="20" cy="31" r="3" fill="#2b1a0f"/>',
+	"paw":
+	'<g fill="#d9a441" stroke="#2b1a0f"><ellipse cx="20" cy="25" rx="9" ry="7"/><circle cx="10" cy="15" r="4"/><circle cx="20" cy="10" r="4"/><circle cx="30" cy="15" r="4"/></g>',
+	"heart":
+	'<path d="M20 32C-3 17 10 2 20 12 30 2 43 17 20 32" fill="#a52a21" stroke="#2b1a0f" stroke-width="2"/>',
+	"hex":
+	'<path d="M20 4 34 12v16L20 36 6 28V12zM6 12l28 16M34 12 6 28M20 4v32" fill="none" stroke="#5e3a86" stroke-width="3"/>',
+	"splash": '<path d="m4 28 6-10 4 7 6-15 4 14 7-8 5 12z" fill="#8c5a2e"/>',
+	"ring": '<circle cx="20" cy="20" r="16" fill="none" stroke="#d9a441" stroke-width="3"/>',
+	"note":
+	'<path d="M24 29V7l10 4v6l-10-4" fill="none" stroke="#d9a441" stroke-width="4"/><ellipse cx="18" cy="29" rx="7" ry="4" fill="#d9a441"/>',
+	"fang":
+	'<path d="m7 8 8 24 4-21 4 21 10-24" fill="#fbf3e2" stroke="#41662c" stroke-width="3"/>',
+	"puff": '<path d="M6 28C-2 18 10 9 15 14 15 0 32 4 29 15 42 12 43 30 31 31z" fill="#8c7a62"/>',
+	"speed_1": '<path d="m15 9 12 11-12 11" fill="none" stroke="#2b1a0f" stroke-width="4"/>',
+	"speed_2":
+	'<path d="m8 9 12 11L8 31m13-22 12 11-12 11" fill="none" stroke="#2b1a0f" stroke-width="3"/>',
+	"speed_4":
+	'<path d="m3 9 8 11-8 11m8-22 8 11-8 11m8-22 8 11-8 11m8-22 8 11-8 11" fill="none" stroke="#2b1a0f" stroke-width="2"/>',
+	"close": '<path d="m11 11 18 18m0-18L11 29" stroke="#2b1a0f" stroke-width="4"/>',
 }
 ## Mock pixels on the 640 stage to our canvas.
 const MOCK_SCALE: float = 1.6875

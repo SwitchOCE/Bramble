@@ -1,0 +1,44 @@
+[
+  {
+    "run": "combat_mid-x1",
+    "production_revision": "c4c0b174bec6c9fb0517114934c4af398c7e1ed4",
+    "requested_attack": 45,
+    "included_attacks": [
+      45
+    ],
+    "same_original_event_stream": true,
+    "timing_passes_equal": true
+  },
+  {
+    "run": "combat_mid-x1-reduce",
+    "production_revision": "c4c0b174bec6c9fb0517114934c4af398c7e1ed4",
+    "requested_attack": 45,
+    "included_attacks": [
+      45
+    ],
+    "same_original_event_stream": true,
+    "timing_passes_equal": true
+  },
+  {
+    "run": "rival-fight-x1",
+    "production_revision": "c4c0b174bec6c9fb0517114934c4af398c7e1ed4",
+    "requested_attack": 25,
+    "included_attacks": [
+      25,
+      33
+    ],
+    "same_original_event_stream": true,
+    "timing_passes_equal": true
+  },
+  {
+    "run": "rival-fight-x1-reduce",
+    "production_revision": "c4c0b174bec6c9fb0517114934c4af398c7e1ed4",
+    "requested_attack": 25,
+    "included_attacks": [
+      25,
+      33
+    ],
+    "same_original_event_stream": true,
+    "timing_passes_equal": true
+  }
+]
