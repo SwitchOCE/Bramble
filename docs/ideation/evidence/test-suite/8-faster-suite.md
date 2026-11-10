@@ -1,14 +1,23 @@
 # A faster suite with the same guards (test-suite plan step 4)
 
-**Branch:** `ideation/c-faster-suite`, from ideation/main 814793b9, merged with ideation/main 001460b9 (docs-only changes since 814793b9). **Measured:** 814793b9 against 4c572c86, both with a full `./scripts/check.sh` in the same cloud session (4 cores, Godot 4.7.2), one Godot process at a time. This machine is about 1.7× slower than Actions (931 s here against Actions' 559 s for the same tree).
+**Branch:** `ideation/c-faster-suite`, from ideation/main 814793b9, merged with 001460b9 and then 3d96ce3f (wave 2b); final branch tip 3deb96f2, integrated with play tools at da20e53e. **Original local measurement:** 814793b9 against 4c572c86, both with a full `./scripts/check.sh` in the same cloud session (4 cores, Godot 4.7.2), one Godot process at a time. This machine is about 1.7× slower than Actions (931 s here against Actions' 559 s for the same tree).
 
 ## Criterion 1: the tests step's junit total
 
-**931.0 s → 508.7 s, −45.4%** (the bar was −25%). Tests step wall time 953 s → 527 s. 2,158 tests → 2,160, all passing.
+**Actions: 773.404768 s → 363.772793 s, −53.0%**, exceeding the 25% bar. Both gates succeeded. Retrieved with `gh run list --branch ideation/gate/6888ee1ce861`, `gh run view` and `gh run download` on 10 Nov 2026. Each total sums the `<testsuite time>` attributes in all four `gut-junit-{1,2,3,4}/gut.xml` artifacts (equivalently the testcase times), rather than adding parallel job wall times.
+
+| Gate | Commit tested | JUnit shard totals (s) | Total (s) | JUnit cases |
+|---|---|---|---|---|
+| [Last ideation/main gate before the faster suite](https://github.com/SwitchOCE/Bramble/actions/runs/42732753045), push `ideation/gate/6888ee1ce861` | `6888ee1ce8617f72a5b821f6d1f195d47ef48a0c` | 251.798005 + 140.206283 + 151.983107 + 229.417373 | **773.404768** | 2,393 |
+| [Merged play tools and faster suite](https://github.com/SwitchOCE/Bramble/actions/runs/42741514510) | `da20e53ea017e7350119fce099539990ebbf6911` | 113.269508 + 79.634960 + 75.025165 + 95.843160 | **363.772793** | 2,404 |
+
+These are one run per tree, with intervening content/tests and play tools changes; they measure the integrated gate improvement, not an isolated estimate for each optimization. JUnit cases include parameterized cases, so exceed the number of `func test_` declarations.
+
+Earlier local evidence, retained for context: **931.0 s → 508.7 s, −45.4%** on 814793b9 → 4c572c86. Tests step wall time 953 s → 527 s. 2,158 tests → 2,160, all passing. Those numbers were pre-wave-2b and are not the Actions criterion.
 
 ## Criterion 2: three planted bugs
 
-Each was planted on a throwaway local branch (never pushed, deleted after) and the whole GUT suite run.
+The recorded plants used the measured faster-suite tree `4c572c86f9382f69074e3b9f35d807ce3cf9488e`, the parent of evidence commit `cafdc88018c91df57cfc8b17ece9603701465229`. Each was planted on a throwaway local branch (never pushed, deleted after) and the whole GUT suite run. The surviving evidence identifies the measured tree and the results, but contains no individual throwaway branch SHAs; the base attribution follows that commit history. They were not rerun on da20e53e for this follow-up.
 
 | Planted bug | Where | Failing tests | Caught by (among others) |
 |---|---|---|---|
@@ -54,3 +63,10 @@ Unchanged scripts gained from the cache alone, e.g. test_big_numbers 17.4 → 2.
 ## Not cut (cost under 1 s each after the cache)
 
 Rows 11 (field_mode 200 deals, 0.6 s), 12 (combat_logging 32 seeds, 0.4 s), 14 (legal_actions game over, 0.25 s), 18 (aimed hero seeds, 0.4 s). Cutting them saves under 2 s and thins guards; the plant above shows row 12's test is the one that names a quiet/logged split. Not changed: `tools/sim/line_policies.gd` parses the library inside `normalize_wave1` per line, which is most of what remains in wave1_lines, line_bans and committed_lines; that is tools code, outside this brief.
+
+
+## S10b review follow-ups
+
+- `test_a_seed_replays_exactly` now runs two whole current-content games with eight `SharedLobby.QUICK_HARD` seats, asserts that both finish, and compares their full logs. The comments above describing the original eight-round cut are historical.
+- `test_library_cache.gd` mutates nested unit, spell-stat and hero data plus errors, then compares a new cached copy with a fresh parse. It also checks every script variable against the copied value, asserts the complete field inventory so a new field requires an explicit decision, and checks the copied unit index points into the copied units.
+- Combat playback still steps frames by hand and now asserts `combat.is_processing()` first.
