@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "End of Turn: triple your two smallest Hedgerow units' stats.",
-  "golden_text": "End of Turn: triple your four smallest Hedgerow units' stats.",
+  "text": "End of Turn: triple your two smallest other Hedgerow units' stats.",
+  "golden_text": "End of Turn: triple your four smallest other Hedgerow units' stats.",
   "mechanics": [
     {
       "id": "pass3_hedgerow",
@@ -29,6 +29,6 @@
     "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
     "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
   },
-  "details": "Smallest means Attack plus Health; ties use zigzag order. Can pick this. Shy units are skipped. Targets are selected before any gain; extra triggers cannot repeat multiplication.",
-  "golden_details": "Smallest means Attack plus Health; ties use zigzag order. Can pick this. Shy units are skipped. Targets are selected before any gain; extra triggers cannot repeat multiplication."
+  "details": "Smallest means Attack plus Health; ties use zigzag order. Excludes this unit. Shy units are skipped. Targets are selected before any gain; extra triggers cannot repeat multiplication.",
+  "golden_details": "Smallest means Attack plus Health; ties use zigzag order. Excludes this unit. Shy units are skipped. Targets are selected before any gain; extra triggers cannot repeat multiplication."
 }

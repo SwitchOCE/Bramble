@@ -31,8 +31,8 @@ const FACES: Dictionary = {
 	],
 	"mrs_mallow":
 	[
-		"End of Turn: triple your two smallest Hedgerow units' stats.",
-		"End of Turn: triple your four smallest Hedgerow units' stats."
+		"End of Turn: triple your two smallest other Hedgerow units' stats.",
+		"End of Turn: triple your four smallest other Hedgerow units' stats."
 	],
 	"dr_urchin":
 	[
@@ -191,7 +191,13 @@ func test_golden_dozey_wake_is_independent_from_food_and_normal_wake() -> void:
 func test_rate_overrides_rewrite_faces_and_native_parameters() -> void:
 	for sample: Array in [
 		["hedgerow_clover_share", 0.5, "mrs_clover", "half this unit's stats", "share"],
-		["hedgerow_mallow_targets", 1, "mrs_mallow", "your smallest Hedgerow unit's", "targets"],
+		[
+			"hedgerow_mallow_targets",
+			1,
+			"mrs_mallow",
+			"your smallest other Hedgerow unit's",
+			"targets"
+		],
 		["hedgerow_committee_share", 0.2, "standing_committee", "a fifth", "share"],
 		["hedgerow_beadle_pass", 3, "beadle_warrenby", "+3/+3", "pass"],
 		[

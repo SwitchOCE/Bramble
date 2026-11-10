@@ -193,6 +193,7 @@ static func recruit_hook(ctx: RecruitContext) -> void:
 				and not (ctx.player.pass3_loop_guards and ctx.repeat_index > 0)
 			):
 				var targets: Array[RecruitUnit] = ranked(ctx.player)
+				targets.erase(unit)
 				var count: int = CoreUtil.to_int(ctx.params.get("targets", 2)) * scale
 				for target: RecruitUnit in targets.slice(0, count):
 					_multiply(ctx, target, CoreUtil.to_float(ctx.params.get("multiplier", 2.0)))
