@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Portraits batch C and Golden Egg: review calls
+**Source:** the scope review of `ideation/portraits4` `0c3fd133..ba4bebe1` (`evidence/review-portraits5.md`): 9 keep, 0 cut, 1 simplify, 1 ask.
+
+**Picked:**
+- **Ask (Golden Egg's art never appears):** fixed on the branch (`fd07bec3`). `portrait_for` no longer swaps `golden_egg` for `nest_egg`, and `test_portraits` drops its exception, so it now expects `golden_egg.jpg`. The swap dated from wave 1, when the spell had no art of its own.
+- **Simplify (Shieldbug's uid used `z`):** replaced with a fresh uid in Godot's alphabet (a–y, 0–8). The generator that made it used the wrong split, and the other two hand-written uids happen to be valid. From now on, let a Godot import write `.import` files where a worker has Godot.
+- **Grizel's new orange against Mistress Russet:** accepted. Pose, night sky and the lack of a coat keep them apart at 96 px, as the reviewer found.
+- **Merge** `ideation/portraits4` (`fd07bec3`) as merge commit `8f57d64d`, once its gate passes. With this merge, all 15 S7 images are in.
+
+**Agreed by:** the scope review (no cuts).
+
 ### 10 Nov 2026 — Hedgerow light pass (A2): review calls
 **Source:**
 - the scope review of `ideation/wave2b` `ba80977e..424b3c2a` (`evidence/review-hedgerow-a2.md`): 24 keep, 0 cut, 1 simplify, 3 ask;
