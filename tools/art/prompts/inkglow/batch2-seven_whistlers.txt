@@ -11,4 +11,4 @@ BACKGROUND HUE FAMILIES (muted mid-light washes; hue guides, not exact flat-fill
 Square edge-to-edge illustration, generous subject scale. No border, UI, lettering, logo or watermark. No named-artist imitation.
 
 JOB: seven_whistlers; asset type: unit; visual background family: Birds.
-IDENTITY: Large grey-brown curlew with long curved dark bill, cream throat and a few broad brown breast markings, wings spread. Six small pale bird silhouettes arc across sky above, making seven birds including foreground curlew. Preserve curved bill and six distant birds; pale duck-egg sky, one cream cloud band.
+IDENTITY: Large grey-brown curlew with long curved dark bill, cream throat and a few broad brown breast markings, wings spread. Seven small pale bird silhouettes arc across sky above the foreground curlew, preserving their original count and arrangement from image 1. Preserve curved bill and the distant birds; pale duck-egg sky, one cream cloud band.
