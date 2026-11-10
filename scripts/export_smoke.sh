@@ -25,7 +25,7 @@ fi
 cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 2
 ROOT="$(pwd)"
 OUT_DIR="${OUT_DIR:-$ROOT/build/export-smoke}"
-LOG_DIR="$ROOT/build/check"
+LOG_DIR="${EXPORT_LOG_DIR:-$ROOT/build/check}"
 GODOT="${GODOT:-godot}"
 EXPORT_TIMEOUT=600
 GRADLE_TIMEOUT=1500
@@ -45,12 +45,17 @@ REQUIRED_RE='^src/main/main\.tscn(\.remap)?$'
 # And the sounds: an import stub for each, and its data under .godot/imported.
 AUDIO_STUB_RE='^assets/audio/.*\.wav\.import$'
 AUDIO_DATA_RE='^\.godot/imported/.*\.wav-[0-9a-f]+\.sample$'
-# The field experiment stays off and its baseline must not ship before the full new pool.
-FIELD_RE='^content/fields/.*\.json(\.gz)?$'
+# The field bundle ships independently of whether players can enable field opponents.
+FIELD_PATH=content/fields/baseline.json.gz
 LEVER_RE='^content/levers/[^/]+\.json$'
 RATES_RE='^content/pass3/rates\.json$'
 # Development-only directories no pack may ship.
 FORBIDDEN_DIRS=(tests/ tools/ scripts/ docs/ addons/gut/ build/)
+
+# Every Godot process, including exported boots, uses the worker slot wrapper.
+run_godot() {
+  GODOT_SLOT_CLASS=worker "$ROOT/scripts/godot_slot.sh" "$@"
+}
 
 failed=0
 fail() {
@@ -85,7 +90,13 @@ export_build() {
   # A fresh directory, so a stale build from an earlier run can never pass the checks.
   rm -rf "$(dirname "$path")"
   mkdir -p "$(dirname "$path")"
-  timeout "$limit" "$GODOT" --headless "--export-${mode}" "$preset" "$path" >"$log" 2>&1
+  local temp_namespace=()
+  if [ -n "${GODOT_EXPORT_TEMP_DIR:-}" ]; then
+    # Godot uses /tmp even with TMPDIR set. Keep temporary APKs under this export,
+    # outside the shared tmpfs quota; acquire the shared slot before entering it.
+    temp_namespace=(bwrap --bind / / --dev-bind /dev /dev --bind "$GODOT_EXPORT_TEMP_DIR" /tmp)
+  fi
+  run_godot timeout "$limit" "${temp_namespace[@]}" "$GODOT" --headless "--export-${mode}" "$preset" "$path" >"$log" 2>&1
   status=$?
   found="$(godot_log_problems "$log")"
   if [ "$status" -ne 0 ] || [ -n "$found" ] || [ ! -f "$path" ]; then
@@ -117,13 +128,15 @@ check_size() {
 check_listing() {
   local label="$1" listing="$2" dir card ok=1
   grep -qE "$REQUIRED_RE" "$listing" || { fail "$label: pack lacks the main scene"; ok=0; }
-  if grep -qE "$FIELD_RE" "$listing"; then
-    fail "$label: player pack ships an experimental field library"
+  grep -qxF "$FIELD_PATH" "$listing" || { fail "$label: missing strong-field library"; ok=0; }
+  if grep -qE '^content/(reference/quilboar/|units/(quilboar|quillboar))' "$listing"; then
+    fail "$label: reference Quilboar content shipped"
     ok=0
   fi
   grep -qE "$LEVER_RE" "$listing" || { fail "$label: pack lacks gameplay levers"; ok=0; }
   grep -qE "$RATES_RE" "$listing" || { fail "$label: pack lacks pass 3 gameplay rates"; ok=0; }
-  for card in content/levers/*.json; do
+  for card in content/levers/*.json content/tutorial/* content/rules/*; do
+    [ -f "$card" ] || continue
     grep -qxF "$card" "$listing" || { fail "$label: pack lacks $card"; ok=0; }
   done
   local stubs samples
@@ -147,7 +160,7 @@ list_pck() {
   local pck="$1" listing="$2" project status
   project="$(mktemp -d)"
   touch "$project/project.godot"
-  timeout "$BOOT_TIMEOUT" "$GODOT" --headless --path "$project" \
+  run_godot timeout "$BOOT_TIMEOUT" "$GODOT" --headless --path "$project" \
     -s "$ROOT/tools/checks/pck_files.gd" -- "$pck" 2>"$listing.err" \
     | sed -n 's|^res://||p' >"$listing"
   status=${PIPESTATUS[0]}
@@ -192,7 +205,7 @@ check_presets() {
 # boot_linux <binary>: runs headless to the main scene and exits 0 with a clean log.
 boot_linux() {
   local bin="$1" log="$LOG_DIR/export_boot_linux.log" status found
-  timeout "$BOOT_TIMEOUT" "$bin" --headless --audio-driver Dummy --quit-after "$BOOT_FRAMES" >"$log" 2>&1
+  run_godot timeout "$BOOT_TIMEOUT" "$bin" --headless --audio-driver Dummy --quit-after "$BOOT_FRAMES" >"$log" 2>&1
   status=$?
   if [ "$status" -ne 0 ]; then
     tail -n 20 "$log"
@@ -212,7 +225,7 @@ boot_linux() {
   echo "boot ok: linux reached the main scene and exited 0"
 }
 
-# Use the real PCK to verify feature-off UI/defaults and reject the CLI escape route.
+# Use the real PCK to verify feature-off UI/defaults with the required bundle present.
 # The probe is external and is not shipped in player builds.
 boot_linux_field() {
   local bin="$1" log status found expected
@@ -220,7 +233,7 @@ boot_linux_field() {
   expected="export-field-smoke: feature off; Strong field choice absent; saved preference uses Bots"
   # Stock templates disable --script. Run the external probe with the editor against the
   # exported PCK; all res:// classes and content then come from that pack, not the checkout.
-  timeout "$BOOT_TIMEOUT" "$GODOT" --headless --audio-driver Dummy \
+  run_godot timeout "$BOOT_TIMEOUT" "$GODOT" --headless --audio-driver Dummy \
     --main-pack "${bin%.*}.pck" -s "$ROOT/tools/checks/field_export_smoke.gd" >"$log" 2>&1
   status=$?
   found="$(godot_log_problems "$log")"
@@ -259,10 +272,16 @@ android_ready() {
     && [ -n "${ANDROID_HOME:-}" ] && [ -d "$ANDROID_HOME/platform-tools" ]
 }
 
+# The one smoke contract: every exported pack must carry the library.
+if [ ! -s "$FIELD_PATH" ]; then
+  echo "FAIL missing required field bundle: $FIELD_PATH; recapture before exporting"
+  exit 1
+fi
+
 # The pack and the class cache come from the import cache; build it on a fresh clone.
 if [ ! -f .godot/global_script_class_cache.cfg ] && [ ! -d .godot/imported ]; then
   echo "no import cache yet; running godot --headless --import"
-  timeout 600 "$GODOT" --headless --import >"$LOG_DIR/export_import.log" 2>&1 \
+  run_godot timeout 600 "$GODOT" --headless --import >"$LOG_DIR/export_import.log" 2>&1 \
     || { echo "FAIL import (log: $LOG_DIR/export_import.log)"; exit 1; }
 fi
 
@@ -276,6 +295,9 @@ if export_build debug "Linux" "$linux" "$LOG_DIR/export_linux.log"; then
   list_pck "${linux%.*}.pck" "$OUT_DIR/linux.files" && check_listing linux "$OUT_DIR/linux.files"
   boot_linux "$linux"
   boot_linux_field "$linux"
+  run_godot timeout "$BOOT_TIMEOUT" "$GODOT" --headless --main-pack "${linux%.*}.pck" \
+    -s "$ROOT/tools/sim/export_field_probe.gd" >"$LOG_DIR/export_field_linux.log" 2>&1 \
+    || fail "Linux pack field load failed"
 fi
 
 windows="$OUT_DIR/windows/bramble.exe"
@@ -300,7 +322,7 @@ if android_ready; then
     # the template alone; the export after it is judged strictly.
     if [ ! -d android/build ]; then
       mkdir -p "$OUT_DIR/android-template"
-      timeout "$GRADLE_TIMEOUT" "$GODOT" --headless --install-android-build-template \
+      run_godot timeout "$GRADLE_TIMEOUT" "$GODOT" --headless --install-android-build-template \
         --export-debug "Android AAB" "$OUT_DIR/android-template/bramble.aab" \
         >"$LOG_DIR/android_template.log" 2>&1
       status=$?

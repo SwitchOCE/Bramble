@@ -1,20 +1,19 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Hedgerow is near its round-12 target and passed review. Pot Luck now grows fast enough, but its boards are still far too small. The fight screen's first clean-up and every unit's portrait are in the game. The next step sets each tribe's numbers from real boards.
+- **In short:** Hedgerow is near its round-12 target and passed review. Pot Luck now grows fast enough, but its boards are still far too small. The export script now loads only the rivals a game needs, so a game with strong rivals fits the memory budget. The next step sets each tribe's numbers from real boards.
 - **Status:** active
 - **Last step done:** 10 Nov:
-  - Hedgerow (A2) passed both checks: a signature that isn't Blood Gems, and ×1.54 and ×1.74 growth a round.
-  - Pot Luck's same-commit control grows ×1.335 (A1b criterion 1).
-  - Declutter batch 1 merged after its sixth cold reader.
-  - All 15 planned images are in, including Golden Egg, Shieldbug and Click Beetle.
-  - The Actions gate is sharded.
+  - S3 merged: one export script, and field rivals load lazily, using +166 MB of memory against a 300 MB budget.
+  - Play tools (S5) and the faster suite (S10) merged; the suite takes 364 s on Actions, down from 773 s.
+  - The game-design skill and Bramble's design guidance are in the repo (owner, 10 Nov).
+  - Codex Cloud: the handoff doc is merged, but this machine can't see the environment yet.
 - **Next step:**
-  - Pot Luck's constructed boards (A1b criterion 2). Hedgerow's route fixes, which must land before A3.5 run 1. Then the neutrals (A3).
-  - Set B and C from realized boards (A3.5): the step 0 dial check is finishing. Hunters need new dials, and the other tribes can reach their targets on today's dials, with conditions.
-  - Fight screen batch 2: the 40-node cap, names off tiles, the Mire stamp and capture fixes.
-  - The Actions sim job (S4), the play tools (S5), the faster suite (S10) and the export script and memory budget (S3) are in progress.
-- **Waiting on you:** Nothing.
+  - Wave 2b: one test warning to clear, then merge; the neutrals and Soup fixes (A3) follow.
+  - A3.5's dials: gated, and under review. Then A3.5 run 1 sets B and C from realized boards.
+  - Fight screen batch 2: fixes in, with a second cold reader being scored.
+  - S5b: exported game logs need their build id. Sim job (S4): nine review fixes in progress.
+- **Waiting on you:** The GitHub login on this machine needs the workflow scope before the sim job can merge (`gh auth refresh -h github.com -s workflow`). Codex Cloud: the Bramble environment doesn't show in your Personal workspace.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
 

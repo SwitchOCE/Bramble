@@ -13,7 +13,7 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 | `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables (pinned tools first on PATH), warns when the pasted setup script differs from the repo or a tool is missing, installs the Gradle Maven mirror, imports the project once. |
 | `scripts/gradle/maven-mirror.init.gradle` | Cloud only: sends Gradle's Maven Central downloads to a mirror, because Maven Central answers the cloud's proxy with HTTP 429 ([build.md](build.md), item 6). |
 | `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests. |
-| `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle, checks each, and boots the Linux build. |
+| `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle; requires the field library in every pack, boots Linux, and checks feature-off Bots defaults. |
 | `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the known engine noise that doesn't (none so far). |
 | `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, and their tests. |
 | `.github/workflows/ci.yml` | `check.sh` on pull requests; exports on PRs labelled `exports` and on manual runs. |
