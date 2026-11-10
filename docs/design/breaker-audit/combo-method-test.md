@@ -27,3 +27,23 @@ Findings:
 5. **Stone Age Slab with a re-buy** (Jandice's swap, Anomalous Bribe) came up in three Fable runs. Unverified; may be a real exploit rather than a false alarm.
 
 One run per cell, so treat single cells as noisy.
+
+## Guide round: method B plus a field guide to combo shapes (11 Nov)
+
+Same clean snapshots and cards. The brief added `combo-shapes-guide.md`: eight shapes (self-reference, cross-feed, phase shift, trigger stack, copy supply, reset, duplication, free fuel), the roles a piece can play, and "a loop that grows by a share of itself each turn with no cap is BROKEN, however modest it looks". One run each, plus Opus on plain B as a baseline.
+
+| | Behemoth | Slamma | Athissa | Chronormu | Construct | Nathanos | Controls flagged |
+|---|---|---|---|---|---|---|---|
+| Opus B (no guide) | - | B | - | ~ | ~ (Kel'Thuzad) | B | Slab |
+| Fable + guide | - | - | - | B | **B** (Kel'Thuzad) | B | Slab |
+| Sonnet + guide | - | B | - | B (Varden) | - | B | Slab, Brann |
+| **Opus + guide** | **B** (Mutanus sells a Behemoth onto a copy) | ~ (in-combat only) | - | B (Mutanus) | **B** (Kel'Thuzad) | B | Slab, Brann, Enforcer |
+
+Findings:
+1. **The guide fixes the verdict step.** Found loops are now called BROKEN instead of "power fantasy", on every model. Sonnet goes from 1–2 to 3; Opus from 2 to 4.
+2. **Opus + guide is the first run to find Behemoth's loop**, and the only one to find both Construct and Behemoth. But the guide's copy-supply shape was written knowing Behemoth's answer, so this needs a held-out card set before it counts.
+3. **Slamma's break is in-combat** (×2 per summon, reset after the fight). Runs that call it power fantasy are following the hard rule, which covers growth across turns only; the in-combat burst is the rule's known gap (see `bg-test.md`).
+4. **The controls aren't clean.** Checked against the snapshot texts, all three flagged lines work as written: Jandice swaps the carrier into the Tavern and the Slab doubles it on re-buy (×2/turn); Kelp Keeper (1 gold) triggers Shell Collector twice under Brann for 2 coins, a net +1 gold per use with no limit; Jandice plus Flaming Portrait makes the Enforcer's meal feed its neighbours, one of which is eaten next turn. Whether these happened in live play is unverified. Pool A's hero powers and trinkets make the controls breakable; a fair control set needs cards whose pool has no swap or re-buy effects, or the flags must be checked case by case.
+5. **Blame is still loose.** Sonnet blamed Brann for the Kelp loop; the rule says to pin a loop on the card that closes it (Kelp Keeper here).
+
+One run per cell. Next fair check: a held-out set of known-broken and known-healthy cards the guide wasn't written around.
