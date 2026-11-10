@@ -269,6 +269,7 @@ func test_toll_then_live_pending_gain_has_a_separate_numeric_landing_without_sta
 				screen._effect_remaining, 0.0, "queued feedback adds no wait for the next action"
 			)
 			var popup: Label = screen._overlay.get_node("PendingLanding_1") as Label
+			assert_gt(popup.z_index, 0, "the arriving spark cannot cover the pending amounts")
 			assert_eq(popup.text, "+2/+2", "the current pending total lands on the live tag")
 			assert_false(popup.visible)
 			_advance(screen, maxf(0.04, 0.15 / fight_speed) + 0.01)

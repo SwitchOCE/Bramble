@@ -147,6 +147,7 @@ static func _toll(screen: Control, event: Dictionary, animate: bool) -> void:
 ## Numeric event feedback lives only for its landing; exact queued state stays in the reader.
 static func _number_popup(screen: Control, words: String, point: Vector2, delay: float) -> Label:
 	var number: Label = UiTheme.number(words, UiTheme.MIN_FONT, UiTheme.CREAM)
+	number.z_index = 1
 	number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	number.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	number.mouse_filter = Control.MOUSE_FILTER_IGNORE
