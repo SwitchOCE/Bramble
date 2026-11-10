@@ -300,3 +300,23 @@ The earlier 'lint passes' wording referred to scoped source/file checks. Running
 in the Pounce regression (line 863), already used at line 497. Both now use one
 `AttackCue` constant at the top of the file. No behavior or evidence changes.
 The full requested static-check results are recorded with this follow-up below.
+
+## Cue retirement replaces the added stats wait
+
+The stats tail barrier is restored from arrival + 0.75 s to arrival + 0.15 s.
+At the next animated attack or Mire wait, every older animation callback is
+cancelled. Existing transient pictures are frozen in a separate retirement layer
+and fade in **0.08 s**, without holding up the new action. This covers all old
+routes and motes, including Toll and pending gains, source rings, dead-source
+portraits and old damage pops. Canonical model state is synced into surviving
+cards before the new action; queued rewards never become fighting stats.
+Restart/skip clear the retiring layer too. No long-tail speed scaling change.
+
+`test_combat_cue_lifetime.gd`: **8/8, 1162 assertions, 6.457 s**, strict hook clean,
+no script errors or orphan warnings. The original three assertions remain, with
+30 real cause/boundary/motion cases checking frozen routes/motes, the visible
+half fade, deletion inside 0.1 s, no late Toll/pending callbacks and exact state;
+18 cadence cases ensure the long tail adds no wait. Logs are in
+`build/declutter/retire-test_combat_cue_lifetime.log` (or the focused lifetime log).
+Before/cleanup-only/final-reader timing measurements are recorded separately so
+new reader cues do not get attributed to this pacing correction.

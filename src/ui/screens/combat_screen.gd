@@ -75,6 +75,7 @@ var _skip_button: TokenButton
 var _gear: TokenButton
 var _lanes: LaneOverlay
 var _overlay: Control
+var _retiring_cues: Control
 var _plaques: Array[TokenButton] = []
 var _health_labels: Array[Label] = []
 var _tweens: Array[Tween] = []
@@ -106,6 +107,11 @@ func _init() -> void:
 	_lanes = LaneOverlay.new()
 	_lanes.combat_mode = true
 	_stage.add_child(_lanes)
+	_retiring_cues = Control.new()
+	_retiring_cues.name = "RetiringCues"
+	_retiring_cues.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_retiring_cues.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(_retiring_cues)
 	_overlay = Control.new()
 	_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_overlay.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -391,6 +397,8 @@ func _event_hold(kind: String) -> float:
 
 func _play_event(event: Dictionary, animate: bool) -> void:
 	var kind: String = Data.s(event, "type")
+	if animate and kind in ["attack", "mire_wait"]:
+		_retire_older_cues()
 	var line: String = _log_text.describe(event, model, false)
 	if not line.is_empty():
 		_log.push(line, CombatLog.LOUD_EVENTS.has(kind))
@@ -432,10 +440,9 @@ func _play_event(event: Dictionary, animate: bool) -> void:
 				if kind == "damage" and Data.i(event, "amount") > 0:
 					_hit_remaining = 0.7
 				if kind == "stats":
-					# The source-to-bead route holds 0.6 s after arrival, then fades 0.15 s.
-					# Finish that cue before the next attack, as well as the number roll.
+					# Wait only for arrival and the number roll. The next action retires old tails.
 					_effect_remaining = maxf(
-						_effect_remaining, 0.75 + _motion.stat_delay(changed_uid)
+						_effect_remaining, 0.15 + _motion.stat_delay(changed_uid)
 					)
 				_roll_changes(
 					changed_uid,
@@ -761,7 +768,73 @@ func _tween() -> Tween:
 	return tween
 
 
+## Action boundaries cancel old callbacks and freeze their transient pictures while they fade.
+## A separate layer keeps retiring pictures distinct from the new action's active cues.
+func _retire_older_cues() -> void:
+	for tween: Tween in _tweens:
+		if tween.is_valid():
+			tween.kill()
+	_tweens.clear()
+	_clear_retiring_cues()
+	for child: Node in _overlay.get_children():
+		if child is CanvasItem and not child.is_queued_for_deletion():
+			child.set_meta("cue_retired", true)
+			child.reparent(_retiring_cues)
+	for dead: CardView in _dying:
+		if is_instance_valid(dead) and not dead.is_queued_for_deletion():
+			dead.set_meta("cue_retired", true)
+			dead.reparent(_retiring_cues)
+	_dying.clear()
+	for uid: int in _cards:
+		var card: CardView = _cards[uid]
+		if not is_instance_valid(card):
+			continue
+		for child: Node in card.get_children():
+			if child.has_meta("recipient_uid") and not child.is_queued_for_deletion():
+				child.set_meta("cue_retired", true)
+				child.reparent(_retiring_cues)
+		# Cancelled rolls/status arrivals leave the exact already-applied model state visible.
+		_sync_unit(uid)
+		card.modulate = Color.WHITE
+		card.self_modulate = Color.WHITE
+		card.scale = Vector2.ONE
+		card.rotation = 0.0
+		card.z_index = 0
+		var host: BoardView = card.get_parent() as BoardView
+		if host != null:
+			var slot: int = host.slot_of_card(card)
+			if slot >= 0:
+				card.position = host.card_position(slot)
+		for mark: Control in [card.trigger_glyph(), card.attack_bead(), card.health_bead()]:
+			mark.modulate = Color.WHITE
+			mark.scale = Vector2.ONE
+	for board: BoardView in _boards:
+		board.z_index = 0
+		board.modulate = Color.WHITE
+		board.scale = Vector2.ONE
+	for plaque: Control in _plaques:
+		plaque.modulate = Color.WHITE
+		plaque.scale = Vector2.ONE
+	_layout()
+	if _retiring_cues.get_child_count() > 0:
+		_retiring_cues.modulate = Color.WHITE
+		var fade: Tween = _tween()
+		fade.tween_property(_retiring_cues, "modulate:a", 0.0, 0.08)
+		fade.tween_callback(_clear_retiring_cues)
+
+
+func _clear_retiring_cues() -> void:
+	if _retiring_cues == null:
+		return
+	for child: Node in _retiring_cues.get_children():
+		if child is CanvasItem:
+			(child as CanvasItem).hide()
+		child.queue_free()
+	_retiring_cues.modulate = Color.WHITE
+
+
 func _kill_tweens() -> void:
+	_clear_retiring_cues()
 	for tween: Tween in _tweens:
 		if tween.is_valid():
 			tween.kill()
