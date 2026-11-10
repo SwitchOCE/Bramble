@@ -506,8 +506,12 @@ func _unit_offer_cost(unit: RecruitUnit) -> int:
 	return _rules.unit_cost(_player, unit)
 
 
+func _belly_for(unit: RecruitUnit) -> int:
+	return BotHeld.best_belly(_player, value, unit)
+
+
 func _buy_belly(unit: RecruitUnit) -> int:
-	var slot: int = BotHeld.best_belly(_player, value, unit)
+	var slot: int = _belly_for(unit)
 	var no_room: bool = _room_left() <= _player.hand.size()
 	return slot if BotHeld.buys_into_belly(_player, value, unit, slot, no_room) else -1
 
@@ -652,7 +656,7 @@ func _play_hand() -> void:
 		BotHedgerow.prepare_play(self, unit)
 		var slot: int = BotPlacer.play_slot(_player, unit, value)
 		if slot < 0 or _room_left() <= 0:
-			var belly: int = BotHeld.best_belly(_player, value, unit)
+			var belly: int = _belly_for(unit)
 			if belly >= 0 and _rules.swallow(_player, HeldUnits.HAND, index, belly) == "":
 				_settle()
 				continue
@@ -724,7 +728,13 @@ func _cast_spells(last_too: bool) -> void:
 		index -= 1
 
 
+func _spending_allowed(_cost: int, _card_def: Dictionary = {}) -> bool:
+	return true
+
+
 func _ready_to_cast(item: HandItem) -> bool:
+	if not _spending_allowed(0, item.def):
+		return false
 	if BotPass3.active(_player) and item.def_id() == "golden_egg" and BotPass3.hold_egg(_player):
 		return false
 	if not BotCommitment.can_cast(item.def, _player):
@@ -882,6 +892,8 @@ func _maybe_power() -> void:
 	if plan == "triple_hunt" and not _hunting_below():
 		return
 	var cost: int = CoreUtil.to_int(power.get("cost", 0))
+	if not _spending_allowed(cost, power):
+		return
 	if plan == "spare" and _player.gold - cost < _held_back():
 		return
 	_use_power_now()

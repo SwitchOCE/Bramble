@@ -38,13 +38,20 @@
     "save_threshold": 0,
     "save_until": 0,
     "commit_round": 4,
-    "save_rule": "Reserve only the next scheduled tier-up shortfall. Hold Larder; cash only for a scheduled tier-up or Dozey, Urchin, Lollop or Hayward. Feed all food before Dozey wakes. Buy every Lollop. Buy a third Dozey only just after a wake.",
+    "save_rule": "Reserve the actual next scheduled tier-up shortfall, including at low health. Hold Larder from the start of the route; cash only for a scheduled tier-up, Dozey, Urchin, Lollop or Hayward, or to prepare Sergeant ammunition. Feed all food before Dozey wakes. Buy Partner only in R1\u2013R3 and Pym only through R6, except a completing triple. Buy every Lollop. Buy a third Dozey only just after a wake. From R12 refresh freely with spare gold.",
     "placement": [
       "Partner B1, kept still. Sorrel in back for Spills. Crumb B3 until Dozey is played, then sell Crumb so its real Pass lands on him.",
       "Dozey B3 and F4 empty. Move him to F4 only just after a wake, with Urchin and at least three times the median body; then close the Line.",
       "Dozey and the Partner retain their clocks through placement. Early feeders retire for the late outlets."
     ],
-    "spells": "Stat spells on Dozey; before arrival, the last Hedgerow unit."
+    "spells": "Stat spells on Dozey; before arrival, the last Hedgerow unit.",
+    "hold": {
+      "default": "Hold even before the first Hedgerow body is played.",
+      "sergeant": "After blind placement, use the legitimate pre-turn scout only for ammunition: if the enemy across is over three times your median body, cash smaller items to leave a Stash smallest, or an available Great Hoard if that enemy holds over a third of its board. No Sergeant repositioning."
+    },
+    "knobs": {
+      "refresh_policy": "Ordinary Hard limit before R12; from R12 the recruit action budget is the limit. Refreshes still cost gold and preserve climb savings and held Larder."
+    }
   },
   "hedgerow_parish": {
     "tribe": "Hedgerow folk",
@@ -85,7 +92,7 @@
     "save_threshold": 0,
     "save_until": 0,
     "commit_round": 4,
-    "save_rule": "Cash every Larder item immediately; spend after reserving the next scheduled tier-up shortfall. Buy Mallow, Committee and Lollop copies toward real triples.",
+    "save_rule": "Cash every Larder item immediately; reserve the actual next scheduled tier-up shortfall even at low health. Stat spells remain free to cast, but spend-all spells and paid powers cannot use the reserve. Buy Mallow, Committee and Lollop copies toward real triples. Refresh at most twice, with extra refreshes only to find a missing Committee at tier 5 or a missing Lollop at tier 6.",
     "placement": [
       "Keep the zigzag Line gapless; biggest Hedgerow body F4 for Pass and Hunker, Urchin in back.",
       "Sorrel and Burdock in front until the board fills. Sell a Committee runt Kit unless this turn Mallow will double it.",

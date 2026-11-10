@@ -3,12 +3,166 @@
     "priority_matches": true,
     "climb_matches": true,
     "paper_save_rule": "Spend out every turn, except keep what next turn's scheduled Tier up needs beyond next turn's income (rounds 3, 6, 9 and 11). Hold every Larder item: cash one only to pay a scheduled Tier up, or to buy alderman_dozey, dr_urchin, squire_lollop or goodman_hayward. From round 12, refresh freely with spare gold.",
-    "implemented_save": "BotBrain._climb_savings via LineBrain._held_back; exact next-turn discounted cost minus income and promised income; no flat reserve"
+    "implemented_save": "Actual next discounted tier-up cost minus next income and promised income, including low-health seats. Native committed lines prevent spend-all spells and paid powers from consuming this reserve; ordinary Hard retains its existing policy.",
+    "status": "Implemented; follow-up Godot and same-cohort measurement pending.",
+    "refresh_policy": "Ordinary Hard limit before R12; from R12 refresh freely subject to available gold, climb savings and the shared 60-action recruit budget. The refresh price is unchanged.",
+    "sergeant_policy": "Cash below an available Stash, or below an available Great Hoard for a target holding over one third of enemy stats, only when the enemy across the Sergeant exceeds three times our median body. A private snapshot of the legitimate pre-turn scout supplies this named decision; placement and search remain blind. The snapshot is cleared after placement. Wake-turn feeding remains first, so ammunition is prepared from items still held afterwards.",
+    "fuel_policy": "First Partner remains an R1\u2013R3 purchase and is played into B1 without moving another clock. Pym remains a buy through R6; completing triples retain their exception. Declared engines, Partner, Pym and Dozey are excluded from generic Belly routing on both purchase and hand-play paths. Held Larder policy starts before the first Hedgerow body. No offer forcing, new draw weights or rate changes."
   },
   "hedgerow_parish": {
     "priority_matches": true,
     "climb_matches": true,
     "paper_save_rule": "Spend out every turn; keep only what next turn's scheduled Tier up needs beyond next turn's income. Refresh up to twice a turn, more only to find standing_committee at tier 5 or squire_lollop at tier 6.",
-    "implemented_save": "BotBrain._climb_savings via LineBrain._held_back; exact next-turn discounted cost minus income and promised income; no flat reserve"
+    "implemented_save": "Actual next discounted tier-up cost minus next income and promised income, including low-health seats. Native committed lines prevent spend-all spells and paid powers from consuming this reserve; ordinary Hard retains its existing policy.",
+    "status": "Implemented; follow-up Godot and same-cohort measurement pending.",
+    "refresh_policy": "At most two per turn; additional refreshes only while Committee is missing at tier 5, or Lollop is missing at tier 6. Re-evaluated after every purchase."
+  },
+  "followup_audit": {
+    "decision": "ideation/main eaea0e05, DECISIONS: Hedgerow light pass (A2), asks 2\u20133; C10 keeps live T6 price 13.",
+    "baseline": "Archived hedgerow-lines.jsonl, source revision 313501fa271be0c0e9ac50ded81e780ad51347bc.",
+    "r10_late_parish": [
+      {
+        "seed": 282004,
+        "seat": 6,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282005,
+        "seat": 3,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282007,
+        "seat": 5,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282008,
+        "seat": 7,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282012,
+        "seat": 0,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282017,
+        "seat": 7,
+        "r9_tier": 4,
+        "r9_gold": 1,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282021,
+        "seat": 2,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282022,
+        "seat": 5,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282024,
+        "seat": 7,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282025,
+        "seat": 1,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282027,
+        "seat": 0,
+        "r9_tier": 5,
+        "r9_gold": 3,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282030,
+        "seat": 0,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      },
+      {
+        "seed": 282031,
+        "seat": 4,
+        "r9_tier": 5,
+        "r9_gold": 0,
+        "r10_tier": 5
+      }
+    ],
+    "r9_zero_gold_count": 11,
+    "late_count": 13,
+    "review_discrepancy": "The archived compact rows recompute to 11 of 13 late seats with zero R9 gold, versus 12 of 13 in the review. Seed 282017 seat 7 has 1 gold at tier 4; seed 282027 seat 0 has 3 gold at tier 5. This audit preserves those rows rather than rewriting the reviewed claim.",
+    "diagnosis": "The low-health waiver applies to only one archived late seat, so it cannot explain the cohort alone. Source inspection and directed states identify reserve bypasses in spend-all spell casting and non-spare power plans. The old compact rows lack recruit action logs and per-turn upgrade costs, so individual zero-bank seats cannot be attributed to those paths conclusively. A late tier-5 arrival can need two gold where an on-time arrival needs one; no flat reserve is added.",
+    "partner_evidence": "28 of 128 Supper R3\u2013R6 rows contain Partner, representing 7 seats throughout those four rounds. No Partner/Pym/Dozey/Urchin appears inside a Belly in archived Supper R3\u2013R8 rows, so the Belly change is prevention, not an asserted cause of the baseline fuel shortage. Per-card offered counts were not archived, so lack of availability is not distinguished from declined offers.",
+    "limits": [
+      "T6 remains 13, not paper 11; no rates or content prices changed.",
+      "The optional Treasury route is outside the two measured lines.",
+      "The neutral filler preference remains generic valuation; no new Parish neutral ranking rule is claimed.",
+      "Constructed R8 fuel board and follow-up matched-median growth are reported separately by the coordinated runner."
+    ],
+    "baseline_growth_matched_medians": {
+      "hedgerow_supper": {
+        "estimate": 1.541953146089986,
+        "ci90": [
+          1.3799244618471034,
+          1.6962543551083171
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 19,
+        "r14_n": 19,
+        "cohort_n": 19,
+        "source_artifact": "docs/ideation/evidence/wave2b/potluck-route/growth-intervals.json",
+        "source_revision": "56c44abc",
+        "source_json_path": "hedgerow.lines.line_hedgerow_supper.metrics.active_stats.matched_medians_primary"
+      },
+      "hedgerow_parish": {
+        "estimate": 1.737828412544734,
+        "ci90": [
+          1.537846949160116,
+          1.828698547925629
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 20,
+        "r14_n": 20,
+        "cohort_n": 20,
+        "source_artifact": "docs/ideation/evidence/wave2b/potluck-route/growth-intervals.json",
+        "source_revision": "56c44abc",
+        "source_json_path": "hedgerow.lines.line_hedgerow_parish.metrics.active_stats.matched_medians_primary"
+      }
+    },
+    "followup_growth": "Pending coordinated measurement; baseline figures are not reused as follow-up results.",
+    "confirmed_opener_gap": "The committed engine opener buys Rainy Day for one gold before considering units. At R1 with three gold this makes an offered three-gold Partner unaffordable. Native Supper now prioritizes an actually offered, affordable first Partner within its existing R1\u2013R3 window; other and frozen-line openers remain unchanged. The directed actual-pipeline case fails before this guard. Per-card baseline offers are absent, so the number of historical seats affected is not claimed.",
+    "median_convention": "Sergeant and post-wake carry placement use the statistical median of all active friendly bodies, averaging the two central bodies on even boards, matching BotBog. The Sergeant fixed case has bodies 3,6,7,9 and a 20-stat target, so the threshold is 19.5 rather than upper-middle 21.",
+    "baseline_interval_method": {
+      "source_artifact": "docs/ideation/evidence/wave2b/potluck-route/growth-intervals.json",
+      "source_json_path": "hedgerow.method",
+      "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+      "bootstrap_draws": 20000,
+      "bootstrap_seed": 20261110
+    }
   }
 }

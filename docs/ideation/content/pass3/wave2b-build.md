@@ -542,3 +542,36 @@ the planted R8 board's combat shape; its unspent fuel does not change that fight
 The native one-wake test proves the growth step separately. The stronger native
 B Partner means this is a declared paper-state diagnostic, not a claimed replay
 of native turns 1–8.
+
+### A2 route-fidelity repairs before rerun
+
+Keep live T6 cost **13** (paper uses 11). Native committed Hedgerow lines reserve
+the actual next discounted cost minus next income and promised income, including
+at low health; spend-all spell casts and paid powers cannot consume that reserve.
+Ordinary Hard and frozen content keep their existing defaults. Baseline compact
+rows recompute to 11/13 late Parish seats with zero R9 gold, not the review's
+12/13; the audit lists the two nonzero rows. Missing action-level history prevents
+attributing individual old seats to one bypass.
+
+Parish refreshes at most twice, with extra searches only for a missing Committee
+at T5 or Lollop at T6. Supper refreshes freely from R12 within the existing shared
+action budget, while preserving savings and food. Its Sergeant cash rule reads a
+private copy of the legitimate pre-turn scout solely for ammunition; placement
+remains blind. Statistical body medians average the central pair on even boards.
+
+A concrete Partner purchase bug was found: the economy opener spent one gold on
+Rainy Day before the offered three-gold Partner, making it unaffordable at R1.
+Native Supper now takes an offered affordable first Partner before that automatic
+purchase within its existing R1–R3 window. It holds Larder even before its first
+Hedgerow body and puts Partner at B1. Declared engine/fuel bodies cannot enter a
+Belly on purchase or subsequent hand play. The archived rows showed no buried
+Partner/Pym/Dozey/Urchin; that guard is prevention, not a demonstrated old cause.
+No offers, draw weights, rates, prices or early buying windows were changed.
+
+Validation: **431/431 across 43 targeted GUT files** (443.874s), then the final
+**30/30 bot-file rerun** (17.812s) after opener/median corrections. The broad run
+includes all changed merge UI tests, seven content-wide files, shared bots, line
+compatibility, Hedgerow rules and unchanged frozen normal replay. New tests are
+fixed states only. All four repository lint/format commands and 26 CPU tests pass.
+Final cap counts: recruit 995, brain 993, session 974, recruit screen 982.
+The rerun and constructed diagnostic outcomes are pending below.

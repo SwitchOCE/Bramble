@@ -3,6 +3,7 @@ extends RefCounted
 ## The Supper holds food for the wake; the Parish compounds its smallest bodies.
 
 const TRIBE: String = "Hedgerow folk"
+const SCOUT_META: String = "hedgerow_sergeant_scout"
 const SUPPER_BUYS: Array[String] = [
 	"alderman_dozey", "dr_urchin", "squire_lollop", "goodman_hayward"
 ]
@@ -40,8 +41,8 @@ static func treasury(value: BotEval) -> bool:
 	return str(value.strategy.get("id", "")).contains("treasury")
 
 
-static func holds(player: PlayerState, value: BotEval) -> bool:
-	return build(value) and active(player) and not parish(value)
+static func holds(_player: PlayerState, value: BotEval) -> bool:
+	return build(value) and not parish(value)
 
 
 static func _rate(player: PlayerState, key: String, fallback: float) -> float:
@@ -50,6 +51,20 @@ static func _rate(player: PlayerState, key: String, fallback: float) -> float:
 
 static func body(unit: RecruitUnit) -> int:
 	return unit.attack + unit.health if unit != null else 0
+
+
+static func median_body(player: PlayerState) -> float:
+	var sizes: Array[int] = []
+	for unit: RecruitUnit in player.board:
+		if unit != null:
+			sizes.append(body(unit))
+	if sizes.is_empty():
+		return 0.0
+	sizes.sort()
+	var middle: int = int(sizes.size() / 2.0)
+	return (
+		(sizes[middle - 1] + sizes[middle]) * 0.5 if sizes.size() % 2 == 0 else float(sizes[middle])
+	)
 
 
 static func find(player: PlayerState, ability: String) -> RecruitUnit:
@@ -72,8 +87,7 @@ static func move_ready(player: PlayerState, unit: RecruitUnit) -> bool:
 		!= player.round_number - 1
 	):
 		return false
-	var units: Array[RecruitUnit] = ranked(player)
-	return not units.is_empty() and body(unit) >= 3 * body(units[int(units.size() / 2.0)])
+	return player.board_count() > 0 and body(unit) >= 3.0 * median_body(player)
 
 
 static func clock_pinned(player: PlayerState, unit: RecruitUnit) -> bool:
@@ -323,6 +337,8 @@ static func hold_hand(brain: BotBrain, unit: RecruitUnit) -> bool:
 ## Put the new carry down before selling Crumb, so the real sold Pass reaches him.
 static func prepare_play(brain: BotBrain, unit: RecruitUnit) -> void:
 	var player: PlayerState = brain._player
+	if build(brain.value) and not parish(brain.value) and has(unit, "sleeping_partner"):
+		_prepare_partner(brain)
 	if not build(brain.value) or parish(brain.value) or not has(unit, "alderman_dozey"):
 		return
 	if find(player, "alderman_dozey") != null or not has(player.board[6], "mr_crumb"):
@@ -546,3 +562,162 @@ static func refresh_budget(brain: BotBrain, cost: int) -> int:
 	var player: PlayerState = brain._player
 	var cash: int = player.gold + (0 if holds(player, brain.value) else player.larder())
 	return cash - cost - brain._held_back()
+
+
+## Fixed line schedules reserve their actual shortfall even when Hard's health waiver applies.
+static func climb_reserve(brain: BotBrain) -> int:
+	var player: PlayerState = brain._player
+	if player.tier >= UnitLibrary.TIERS or brain._round_now + 1 < brain._target_round(player.tier):
+		return 0
+	var income: int = brain._rules.config.get_int_at("income_by_turn", brain._round_now)
+	var discount: int = brain._rules.config.get_int("upgrade_discount_per_turn")
+	return maxi(0, brain._rules.tier_up_cost(player) - discount - income - player.gold_next_turn)
+
+
+static func spending_allowed(brain: BotBrain, cost: int, card_def: Dictionary) -> bool:
+	if not build(brain.value):
+		return true
+	var reserve: int = brain._held_back()
+	return (
+		(cost == 0 or brain._player.gold - cost >= reserve)
+		and (reserve == 0 or not _spends_all(card_def.get("do", {})))
+	)
+
+
+static func _spends_all(step: Variant) -> bool:
+	if step is Array:
+		for entry: Variant in step:
+			if _spends_all(entry):
+				return true
+	elif step is Dictionary:
+		var entry: Dictionary = step
+		return str(entry.get("effect", "")) == "spend_all"
+	return false
+
+
+static func needs_board(brain: BotBrain, unit: RecruitUnit) -> bool:
+	if not build(brain.value):
+		return false
+	var declared: Array = brain.value.strategy.get("line_engine_pieces", [])
+	if declared.has(unit.def_id()) or has(unit, "alderman_dozey"):
+		return true
+	return has(unit, "sleeping_partner") or has(unit, "mr_pym")
+
+
+static func can_refresh(brain: BotBrain) -> bool:
+	if not build(brain.value):
+		return true
+	if not parish(brain.value):
+		return brain._round_now >= 12 or brain._refreshes < BotLevel.of(BotLevel.HARD).max_refreshes
+	if brain._refreshes < 2:
+		return true
+	var player: PlayerState = brain._player
+	return (
+		(player.tier == 5 and find(player, "standing_committee") == null)
+		or (player.tier == 6 and find(player, "squire_lollop") == null)
+	)
+
+
+## Blind line placement remains blind. Only the named ammunition rule reads this snapshot.
+static func remember_scout(player: PlayerState, rules: RecruitRules, value: BotEval) -> void:
+	var tribes: Dictionary = value.strategy.get("tribes", {})
+	if (
+		value.level.reads_text
+		and BotEval._number(tribes.get(TRIBE, 0)) > 0
+		and Pass3HedgerowText.is_native(rules.library.get_unit("mr_crumb"))
+	):
+		player.set_meta(SCOUT_META, player.scout.duplicate(true))
+	elif player.has_meta(SCOUT_META):
+		player.remove_meta(SCOUT_META)
+
+
+static func sergeant_cash(brain: BotBrain) -> void:
+	if not holds(brain._player, brain.value) or treasury(brain.value):
+		return
+	var player: PlayerState = brain._player
+	var scout: Dictionary = player.get_meta(SCOUT_META, player.scout)
+	var enemy: Array = scout.get("specs", [])
+	if enemy.is_empty() or player.board_count() == 0:
+		return
+	var median: float = median_body(player)
+	var total: int = 0
+	for spec: Variant in enemy:
+		if spec != null:
+			var entry: Dictionary = spec
+			total += (
+				CoreUtil.to_int(entry.get("attack", 0)) + CoreUtil.to_int(entry.get("health", 0))
+			)
+	for slot: int in BoardGeometry.SLOTS:
+		if (
+			not has(player.board[slot], "sergeant_at_conkers")
+			or slot >= enemy.size()
+			or enemy[slot] == null
+		):
+			continue
+		var target: Dictionary = enemy[slot]
+		var size: int = (
+			CoreUtil.to_int(target.get("attack", 0)) + CoreUtil.to_int(target.get("health", 0))
+		)
+		if size <= median * 3:
+			continue
+		var wanted: String = "great_hoard" if size * 3 > total else "stash"
+		var gold: int = 0
+		for item: HandItem in player.items:
+			if item.def_id() == wanted:
+				gold = item.gold_value()
+		if gold == 0 and wanted == "great_hoard":
+			for item: HandItem in player.items:
+				if item.def_id() == "stash":
+					gold = item.gold_value()
+		if gold > 0:
+			_cash_below(brain, gold)
+
+
+static func _cash_below(brain: BotBrain, gold: int) -> void:
+	for _step: int in brain._player.items.size():
+		var indexes: Array[int] = brain._items_by_gold()
+		if indexes.is_empty() or brain._player.items[indexes[0]].gold_value() >= gold:
+			return
+		if brain._rules.play_item(brain._player, indexes[0], -1) != "":
+			return
+		brain._settle()
+
+
+static func _prepare_partner(brain: BotBrain) -> void:
+	var player: PlayerState = brain._player
+	if find(player, "sleeping_partner") != null or player.board[4] == null:
+		return
+	if clock_pinned(player, player.board[4]):
+		return
+	var destination: int = -1
+	for slot: int in [0, 1, 5, 2, 6]:
+		if player.board[slot] == null:
+			destination = slot
+			break
+	if destination < 0:
+		var weakest: int = brain._weakest_slot()
+		if weakest >= 0:
+			destination = brain._sell_replacement(weakest)
+	if destination >= 0 and destination != 4:
+		brain._rules.move(player, 4, destination)
+		brain._settle()
+
+
+static func first_partner_offer(brain: BotBrain) -> bool:
+	if (
+		not build(brain.value)
+		or parish(brain.value)
+		or treasury(brain.value)
+		or brain._round_now > 3
+	):
+		return false
+	for owned: RecruitUnit in brain._player.owned_units():
+		if has(owned, "sleeping_partner"):
+			return false
+	for unit: RecruitUnit in brain._player.shop:
+		if (
+			has(unit, "sleeping_partner")
+			and brain._rules.unit_cost(brain._player, unit) <= brain._player.gold
+		):
+			return true
+	return false
