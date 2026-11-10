@@ -4,6 +4,42 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Build 8 ships; the run ends (10g)
+**Source:** owner notes 10g and 10h, and the owner's "Put it in. Get it working. If it has recommendations, do it." `ideation/build8` 3432eeea, merged as 6cb1c68c, exported as `ideation-build-8`.
+
+**In it:**
+- The measured preset B for every tribe.
+- Soup's share at one fifth.
+- The neutrals (A3), A3.5's dials and declutter batch 2, already on main.
+- The bug fixes below.
+
+**Bugs fixed** (causes are in `evidence/builds/bug-fixes-8.md`):
+- Fight readers took the first event as the fight's start (7e6846a9).
+- Animation and drag code assigned freed cards to typed variables (eb52a95f, f9f66121, 86e4393f).
+- A missing player identity left a stale screen up (d6594d53).
+- Rolling numerals overflowed their beads (c731bff5).
+- The real game never wrote its game log (26c50eae).
+- The automatic return after a fight cut off its last second (91a376c8, 48fbedd0, 9abcef79).
+- The desktop hand reader covered board slots (4cdc395b, 5c050a4c).
+
+**Picked:** the desktop hand reader now opens across the shop area. That keeps it off the whole board and left of the fan, with its buttons in the right column. It covers the shop while you read a hand card, and that cost is accepted. One test that printed a deliberate engine error was dropped (4fe19ea6), so the gate's error-log allowlist stays empty.
+
+**Checks:** the cloud gate passed (run 42784817236). The 200-game soak, with its 40 field games, had 0 violations, crashes or skips. The 4-game UI run plus 2 late checks was clean on the final code. Memory was +153.8 MB against the 300 MB bar. The export's own checks: three pack listings, the field library's load and SHA on Windows and the APK, APK verification, the certificate matching build 7, and the Linux and Wine boots, all passed (`evidence/builds/build-8.md`).
+
+**Agreed by:** one Codex review of ad9dd8ce..419d3402 ("Ship after the cuts"; both cuts and the ask are fixed), plus the orchestrator's read of each later fix. The test gate.
+
+### 10 Nov 2026 — Build 8 takes the Ooze tail cut: Soup share 0.2 (owner)
+**Source:** the owner, after 10h: "You should commit all the existing balance changes you've made… they're not problems", then "Put it in… If it has recommendations, do it… as fast as you're able to." The two measured arms are on `ideation/ooze-cut` (sims `ooze-cut-soup-quarter-20261110` and `ooze-cut-soup-fifth-20261110`, same 32 seeds as the confirming run).
+
+**Found (R12 p10 / median / p90, then R15 ÷ R12):**
+- Measured B (Soup 0.3): engine 678 / 1,535 / 116,519, ×22.0; tempo 590 / 1,105 / 9,360, ×3.2.
+- Soup 0.25: engine 797 / 1,518 / 74,519, ×3.9; tempo 453 / 950 / 6,981, ×4.3.
+- Soup 0.2: engine 789 / 1,554 / 59,334, ×5.5; tempo 685 / 993 / 5,474, ×3.7.
+
+**Picked:** Soup share 0.2 at preset B; C unchanged. It has the smaller top tail and the higher tempo floor and median, and both lines stay over 900. Neither arm gets the engine's p90 under 10× its median. The rest of the tail comes from other tribes' cards on Ooze boards (Mrs Mallow's tripling, Soak banking a big enemy's Attack), and both rules do what their text says. It goes in as build 8's first commit (`ideation/build8`), before the field library is recaptured.
+
+**Agreed by:** the owner's direction; the arms' measurements.
+
 ### 10 Nov 2026 — No more balance changes; only bug fixes (owner, 10h)
 **Source:** owner note `2026-11-10h-bugs-only.md`.
 

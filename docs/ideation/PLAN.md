@@ -1,19 +1,15 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** You ended this run at build 8 (note 10g). The A3.5 dials, the neutrals, the soak fixes and the fight-screen declutter are merged. What's left is the Oozes' new values, one smaller run that sets every other tribe's numbers, and the export.
-- **Status:** active, ending at build 8
+- **In short:** Build 8 is out and the run has stopped, as you asked in note 10g. Read `END-OF-RUN.md`, play build 8, and say yes or no to `PROCESS-PROPOSAL.md`.
+- **Status:** done (the run ended at build 8)
 - **Last step done:** 10 Nov:
-  - Merged: A3.5's dials (c5e65925), the neutrals with the soak's Egg and release fixes (4df1c876), and declutter batch 2 (54d7fb78).
-  - The 200-game soak on the merged pool: 0 violations in 160 games played. The 40 field-rival games need the rebuilt field library.
-  - The Ooze probe: their problem is the numbers. Arm b takes the engine line's R12 median from 352 to 1,205 on the same seeds.
-- **Next step:**
-  - The Ooze values: merging main, then the gate.
-  - The measurement run: four dial settings on 32 seeds, a fit per tribe to 900 at R12, and one confirming run.
-  - Build 8: rebuild the field library, export with the usual checks, point `latest` at it.
-  - Then the end-of-run report and the process proposal (note 10g), and the run stops.
-- **Waiting on you:** Nothing until build 8 is out.
-- **Scope:** Only what build 8 needs (note 10g). Parked work: `PARKED.md`. One review per step, plus the test gate.
+  - Build 8 was exported from 6cb1c68c (tag `ideation-build-8`) to `/data/bramble-builds/1110-1947-ideation8`, and `latest` points to it.
+  - It holds the measured preset B for every tribe, Soup at a fifth, and the bug fixes found while preparing it.
+  - Its checks: the cloud gate, the 200-game soak, the 4-game UI run, memory, and the export checks.
+- **Next step:** nothing until you've played build 8. Then the next loop's goals come from what you find.
+- **Waiting on you:** play build 8. Read the end-of-run report (`END-OF-RUN.md`). Say yes or no to the process proposal (`PROCESS-PROPOSAL.md`).
+- **Scope:** the run is stopped. Parked work: `PARKED.md`.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
