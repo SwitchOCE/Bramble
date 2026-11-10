@@ -304,6 +304,7 @@ static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dicti
 		player.away.erase(entry)
 		var unit: RecruitUnit = entry["unit"]
 		unit.played_round = player.round_number
+		Pass3Neutrals.replay_homecoming(rules, player, unit)
 		Pass3Birds.homecoming(rules, player, unit)
 		if _completes_triple(player, unit):
 			player.hand.append(unit)

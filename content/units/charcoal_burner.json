@@ -6,31 +6,16 @@
   "attack": 4,
   "health": 6,
   "tribes": [],
-  "text": "End of Turn: burn up to 6 of your gold above 5. Units behind this gain +1/+1 per 2 burned.",
-  "golden_text": "End of Turn: burn up to 12 of your gold above 5. Units behind this gain +1/+1 per 2 burned.",
+  "text": "End of Turn: burn up to 6 of your gold above 5. The units behind this gain a twentieth of their stats per gold.",
+  "golden_text": "End of Turn: burn up to 12 of your gold above 5. The units behind this gain a twentieth of their stats per gold.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "end_of_turn",
-      "name": "burn",
-      "do": [
-        {
-          "effect": "burn_gold",
-          "above": 5,
-          "most": 6
-        },
-        {
-          "effect": "buff",
-          "attack": 1,
-          "health": 1,
-          "per": "amount",
-          "per_div": 2,
-          "target": {
-            "select": "behind"
-          },
-          "golden_static": true
-        }
-      ]
+      "id": "pass3_neutral",
+      "ability": "charcoal_burner",
+      "factor": 1,
+      "cap": 6,
+      "above": 5,
+      "share": 0.05
     }
   ],
   "keywords": [],
@@ -40,6 +25,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "neutrals-spells-heroes.md"
-  }
+    "doc": "docs/ideation/content/pass3/cross-tribe.md",
+    "note": "Pass 3 neutrals, section 8; owner-approved Click homecomings and Charcoal body-only readings in DECISIONS."
+  },
+  "details": "Reads each recipient's own base plus permanent body stats; excludes Rings, auras and standing tribe bonuses. Shares round down. Golden increases only the gold burned.",
+  "golden_details": "Reads each recipient's own base plus permanent body stats; excludes Rings, auras and standing tribe bonuses. Shares round down. Golden increases only the gold burned."
 }

@@ -572,6 +572,8 @@ static func reminder_for(word: String, view: Dictionary = {}) -> String:
 		var text: String = STATE_WORDS[word]
 		if word == "Golden" and Data.s(view, "def_id") == "charcoal_burner":
 			text = BURNER_GOLDEN
+			if Data.s(view, "text").contains("their stats per gold"):
+				text = "Double printed Attack and Health and burn limit. The share per gold stays unchanged."
 		return "[b]%s:[/b] %s" % [word, text]
 	return ReminderSlip.reminder_bbcode(word)
 
@@ -604,6 +606,29 @@ static func _burner_plan(rules: String) -> String:
 	var bank: RegExMatch = (
 		RegEx.create_from_string("up to (\\d+) of your gold above (\\d+)").search(rules)
 	)
+	if bank != null and rules.contains("their stats per gold"):
+		var native_rate: RegExMatch = (
+			RegEx.create_from_string("gain (.+) of their stats per gold").search(rules)
+		)
+		if native_rate != null:
+			var phrase: String = native_rate.get_string(1)
+			var share: float = -1.0
+			for denominator: int in Pass3Text.FRACTIONS:
+				for numerator: int in range(1, denominator * 2 + 1):
+					if phrase == Pass3Text._fraction(float(numerator) / denominator):
+						share = float(numerator) / denominator
+			var percentage: RegExMatch = RegEx.create_from_string("^([0-9.]+)%$").search(phrase)
+			if percentage != null:
+				share = percentage.get_string(1).to_float() / 100.0
+			var burn: int = bank.get_string(1).to_int()
+			var remains: int = bank.get_string(2).to_int()
+			var gain: String = (
+				Pass3Text._n(share * burn * 100.0) + "%" if share >= 0.0 else phrase + " per gold"
+			)
+			return (
+				"Keep %d gold to burn %d: each unit behind gains %s of its own body stats; %d remains."
+				% [remains + burn, burn, gain, remains]
+			)
 	var rate: RegExMatch = (
 		RegEx.create_from_string("gain \\+(\\d+)/\\+(\\d+) per (\\d+) burned").search(rules)
 	)

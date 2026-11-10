@@ -154,7 +154,14 @@
       1,
       5,
       16
-    ]
+    ],
+    "neutrals_burner_cap": 6,
+    "neutrals_burner_above": 5,
+    "neutrals_burner_share": 0.05,
+    "neutrals_click_repeats": 2,
+    "neutrals_golden_click_repeats": 3,
+    "neutrals_whirligig_health_share": 0.1,
+    "neutrals_golden_whirligig_health_share": 0.2
   },
   "presets": {
     "A": {
@@ -232,7 +239,14 @@
         1,
         5,
         16
-      ]
+      ],
+      "neutrals_burner_cap": 6,
+      "neutrals_burner_above": 5,
+      "neutrals_burner_share": 0.05,
+      "neutrals_click_repeats": 2,
+      "neutrals_golden_click_repeats": 3,
+      "neutrals_whirligig_health_share": 0.1,
+      "neutrals_golden_whirligig_health_share": 0.2
     },
     "C": {
       "scale_hero_spell_percent": 20,
@@ -345,7 +359,14 @@
         1,
         5,
         16
-      ]
+      ],
+      "neutrals_burner_cap": 6,
+      "neutrals_burner_above": 5,
+      "neutrals_burner_share": 0.05,
+      "neutrals_click_repeats": 2,
+      "neutrals_golden_click_repeats": 3,
+      "neutrals_whirligig_health_share": 0.1,
+      "neutrals_golden_whirligig_health_share": 0.2
     }
   }
 }

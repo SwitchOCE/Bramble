@@ -115,6 +115,8 @@ func _deliver_to_unit(ctx: RecruitContext, unit: RecruitUnit, slot: int) -> void
 func _deliver_one(ctx: RecruitContext, mechanic: Mechanic, params: Dictionary) -> void:
 	ctx.params = params
 	var repeats: int = EndTurnRepeats.count(ctx)
+	if ctx.trigger == "on_play":
+		repeats = maxi(repeats, Pass3Neutrals.play_repeats(ctx.player))
 	for _repeat: int in repeats:
 		ctx.repeat_index = _repeat
 		if _delivered > _rules().config.get_int("trigger_limit_action"):
