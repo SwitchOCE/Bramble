@@ -8,6 +8,7 @@ const Over := preload("res://src/ui/screens/game_over_screen.gd")
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const Screen := preload("res://src/ui/screens/combat_screen.gd")
+const Recruit := preload("res://src/ui/screens/recruit_screen.gd")
 const CK := preload("res://tests/core/combat_kit.gd")
 
 
@@ -71,6 +72,28 @@ func test_app_shows_actual_human_side_after_prefixed_event() -> void:
 	var screen: Screen = app.current as Screen
 	assert_not_null(screen)
 	assert_eq(screen.bottom_side, 1)
+
+
+func test_app_refreshes_recruit_when_combat_is_missing_the_player() -> void:
+	var port := FixturePort.new()
+	port.use_state_file("res://tests/ui/data/recruit_slice.json")
+	port._last_combat = _fight()
+	var events: Array = port._last_combat["events"]
+	Events.start(events)["player_ids"] = [7, 8]
+	var app := App.new()
+	add_child_autofree(app)
+	app.setup(port)
+	app.show_recruit()
+	var stale: Control = app.current
+	port._state["gold"] = 9
+	app.show_game_combat()
+	assert_push_error("Cannot show a fight without the player")
+	assert_true(stale.is_queued_for_deletion(), "the previous recruit screen is replaced")
+	var recruit: Recruit = app.current as Recruit
+	assert_not_null(recruit)
+	assert_eq(CoreUtil.to_int(recruit.state["gold"]), 9, "recruit shows the latest core state")
+	assert_engine_error_count(0)
+	await wait_process_frames(1)
 
 
 func test_core_port_exposes_ids_from_real_start_after_a_prefixed_event() -> void:

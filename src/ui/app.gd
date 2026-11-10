@@ -192,6 +192,7 @@ func show_game_combat() -> void:
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
 	if me < 0:
 		push_error("Cannot show a fight without the player in combat_start.player_ids")
+		show_recruit()
 		return
 	if (
 		round_log.is_empty()
