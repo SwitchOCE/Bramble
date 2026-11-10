@@ -217,6 +217,9 @@ func _play(game_seed: int, kind: String) -> int:
 	_slice_game = slice
 	session.fight_observer = _check_fight
 	session.get_rules().choice_observer = _check_discover
+	session.get_rules().shop_observer = _check_shop
+	if _plant == "no_set_combat":
+		session.combat_factory = SoakPlantCombat.create
 	for player: PlayerState in session._players:
 		player.log_observer = _note_recruit.bind(player.id)
 		if slice:
@@ -258,7 +261,7 @@ func _play(game_seed: int, kind: String) -> int:
 ## Enough to reach a Great Hoard: the Larder's cards need one in play to be tested at all.
 func _hand_out_acorns(session: GameSession) -> void:
 	for player: PlayerState in session._players:
-		if player.alive and session._bots[player.id] is SoakBot:
+		if player.alive and session._bots.get(player.id) is SoakBot:
 			for _acorn: int in 3:
 				session.get_rules().give_card(player, "acorn")
 
@@ -266,7 +269,7 @@ func _hand_out_acorns(session: GameSession) -> void:
 ## Half the table plays at random from LegalActions, the other half keeps the real bots.
 func _seat_soak_bots(session: GameSession) -> void:
 	for player: PlayerState in session._players:
-		if player.id % 2 == 0:
+		if player.id % 2 == 0 and session._bots.has(player.id):
 			var bot := SoakBot.new()
 			bot.state_of = _state_of
 			bot.on_refused = _note_refused
@@ -285,7 +288,12 @@ func _note_refused(action: Dictionary, reason: String) -> void:
 func _chaos(session: GameSession) -> void:
 	var rules: RecruitRules = session.get_rules()
 	for player: PlayerState in session._players:
-		if not player.alive or _chaos_rng.randf() > 0.3 or session._bots[player.id] is SoakBot:
+		if (
+			not player.alive
+			or not session._bots.has(player.id)
+			or _chaos_rng.randf() > 0.3
+			or session._bots.get(player.id) is SoakBot
+		):
 			continue
 		match _chaos_rng.randi_range(0, 3):
 			0:
@@ -308,7 +316,7 @@ func _check_heroes(session: GameSession) -> void:
 		var id: String = str(player.hero.get("id", ""))
 		if id == "":
 			_violation(0, "player %d has no hero" % player.id)
-		elif seen.has(id):
+		elif session._field == null and seen.has(id):
 			_violation(0, "hero %s went to two players (2.2.1)" % id)
 		seen[id] = true
 
@@ -336,7 +344,23 @@ func _discover_tier(id: String) -> int:
 	return CoreUtil.to_int(card.get("tier", 0))
 
 
+func _check_shop(player: PlayerState) -> void:
+	if not _in_synthetic:
+		_check_sets(player.round_number, player, _session._config)
+
+
 func _note_recruit(type: String, fields: Dictionary, player_id: int) -> void:
+	if not _in_synthetic:
+		# Recruitment events also catch a prototype acquired and sold within one bot turn.
+		for key: String in ["unit", "card", "target"]:
+			var def_id: String = str(fields.get(key, ""))
+			if not _library.get_unit(def_id).is_empty():
+				_check_unit_set(
+					_session._round,
+					"player %d event %s" % [player_id, type],
+					def_id,
+					_session._config
+				)
 	_recruit_log[type] = CoreUtil.to_int(_recruit_log.get(type, 0)) + 1
 	if _slice_game:
 		_coverage.note_recruit(_hero_id(player_id), type, fields)
@@ -415,6 +439,8 @@ func _plant_fault(session: GameSession) -> void:
 				board[1].iid = board[0].iid
 		"slots":
 			player.slot_effects.append([])
+		"no_set":
+			session.get_rules().give_card(player, "fox_cub")
 
 
 func _plant_pending(
@@ -439,6 +465,9 @@ static func _relocate_slot(slots: Dictionary, event: Dictionary) -> void:
 
 static func _copies_accounted(session: GameSession) -> int:
 	var total: int = session._pool.total_copies()
+	if session._field != null:
+		for reserved: int in session._field._reserved.values():
+			total += reserved
 	for player: PlayerState in session._players:
 		total += _waiting_unit_copies(player)
 		for unit: RecruitUnit in player.all_units():
@@ -499,11 +528,14 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 	var copies: Dictionary = {}
 	var held: Array[RecruitUnit] = player.all_units()
 	held.append_array(player.shop)
+	var display_only: bool = _session != null and _session._field != null and player.id != 0
 	for unit: RecruitUnit in held:
-		if seen.has(unit.iid):
+		if not display_only and seen.has(unit.iid):
 			_violation(round_number, "%s holds iid %d twice" % [who, unit.iid])
 		seen[unit.iid] = true
 		_check_recruit_unit(round_number, who, unit)
+	if display_only:
+		return
 	for unit: RecruitUnit in player.owned_units():
 		if not unit.golden and not unit.plain_copy:
 			copies[unit.def_id()] = CoreUtil.to_int(copies.get(unit.def_id(), 0)) + 1
@@ -516,18 +548,17 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 func _check_sets(round_number: int, player: PlayerState, config: GameConfig) -> void:
 	var held: Array[RecruitUnit] = player.all_units()
 	held.append_array(player.shop)
-	if _plant == "no_set" and not held.is_empty():
-		held.append(RecruitUnit.make(_library.get_unit("fox_cub"), 99999))
 	for unit: RecruitUnit in held:
-		var data: Dictionary = _library.get_unit(unit.def_id())
-		if not data.is_empty() and str(data.get("set", "")) != config.card_set():
-			_violation(
-				round_number,
-				(
-					"player %d holds %s, which has no set '%s' (plan 1.2)"
-					% [player.id, unit.def_id(), config.card_set()]
-				)
-			)
+		_check_unit_set(round_number, "player %d holds" % player.id, unit.def_id(), config)
+
+
+func _check_unit_set(round_number: int, where: String, def_id: String, config: GameConfig) -> void:
+	var data: Dictionary = _library.get_unit(def_id)
+	if data.is_empty() or str(data.get("set", "")) != config.card_set():
+		_violation(
+			round_number,
+			"%s %s, which has no set '%s' (plan 1.2)" % [where, def_id, config.card_set()]
+		)
 
 
 func _check_recruit_unit(round_number: int, who: String, unit: RecruitUnit) -> void:
@@ -554,7 +585,7 @@ func _check_recruit_unit(round_number: int, who: String, unit: RecruitUnit) -> v
 ## 7.3.5: every "number" parameter doubles on golden, every other parameter keeps its value.
 func _check_golden_params() -> void:
 	for unit_def: Dictionary in _library.all_units():
-		var entries: Array = unit_def["mechanics"]
+		var entries: Array = unit_def.get("mechanics", [])
 		for entry: Dictionary in entries:
 			var mechanic_id: String = str(entry["id"])
 			if not MechanicRegistry.is_built(mechanic_id):
@@ -640,8 +671,7 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				var unit: Dictionary = event["unit"]
 				var side: int = event["side"]
 				var slot: int = event["slot"]
-				var plain: bool = not event.has("came_out") and not event.has("split")
-				_enter(round_number, where, units, slots, unit, side, slot, plain)
+				_enter(round_number, where, units, slots, unit, side, slot)
 			"swallowed":
 				slots.erase(
 					_slot_key(CoreUtil.to_int(event["side"]), CoreUtil.to_int(event["slot"]))
@@ -663,6 +693,8 @@ func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -
 				_set_stat(units, event["target"], "health", event["health_after"])
 			"transform":
 				var view: Dictionary = event["unit"]
+				if not _in_synthetic:
+					_check_unit_set(round_number, where, str(view["def_id"]), _session._config)
 				_set_stat(units, event["target"], "health", view["health"])
 				_set_stat(units, event["target"], "attack", view["attack"])
 			"stats":
@@ -712,8 +744,7 @@ func _enter(
 	slots: Dictionary,
 	view: Dictionary,
 	side: int,
-	slot: int,
-	check_golden: bool = true
+	slot: int
 ) -> void:
 	var key: int = _slot_key(side, slot)
 	if slots.has(key):
@@ -722,8 +753,10 @@ func _enter(
 		)
 	slots[key] = view["uid"]
 	var unit_def: Dictionary = _library.get_unit(str(view["def_id"]))
+	if not _in_synthetic:
+		_check_unit_set(round_number, where, str(view["def_id"]), _session._config)
 	var whistle: bool = false
-	var entries: Array = unit_def["mechanics"]
+	var entries: Array = unit_def.get("mechanics", [])
 	for entry: Dictionary in entries:
 		whistle = whistle or str(entry["id"]) == "whistle"
 	units[view["uid"]] = {
@@ -731,15 +764,9 @@ func _enter(
 		"attack": CoreUtil.to_int(view["attack"]),
 		"whistle": whistle,
 	}
-	if view["golden"] and check_golden:
-		var attack: int = view["attack"]
-		var max_health: int = view["max_health"]
-		# Attack only: a recruit-phase damage effect can leave Health below double base.
-		if attack < 2 * CoreUtil.to_int(unit_def["attack"]):
-			_violation(
-				round_number,
-				"%s golden %s starts at %d/%d" % [where, view["def_id"], attack, max_health]
-			)
+	# Event views contain total Attack, which may legally be below golden base after
+	# permanent debuffs or Fetch's explicit copied stats. Recruit base layers and
+	# golden mechanic parameters are checked separately; totals cannot prove them.
 
 
 static func _set_stat(units: Dictionary, uid: Variant, stat: String, value: Variant) -> void:

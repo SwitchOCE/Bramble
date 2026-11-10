@@ -19,7 +19,8 @@ PLANTS=(
   "discover_repeat|offered .* twice"
   "discover_tier|at tier"
   "log|log places player"
-  "no_set|which has no set"
+  "no_set|player .* holds fox_cub, which has no set"
+  "no_set_combat|fight .* fox_cub, which has no set"
 )
 failed=0
 for entry in "${PLANTS[@]}"; do
