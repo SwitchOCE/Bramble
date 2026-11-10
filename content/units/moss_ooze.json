@@ -7,12 +7,14 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "When a spell gives your Ooze stats: what's inside gains them.",
-  "golden_text": "When a spell gives your Ooze stats: what's inside gains twice that.",
+  "text": "When a unit comes out of your Oozes: it gains Shield.",
+  "golden_text": "When a unit comes out of your Oozes: it gains Shield and Damage Reduction 25%.",
   "mechanics": [
     {
-      "id": "moss_ooze",
-      "factor": 1
+      "id": "pass3_ooze",
+      "ability": "moss_ooze",
+      "factor": 1,
+      "reduction": 25
     }
   ],
   "keywords": [],
@@ -22,8 +24,8 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/evidence/commit-review.md",
-    "note": "Commitment package, costed bounds."
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "set": "slice"
 }

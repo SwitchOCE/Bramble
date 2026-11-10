@@ -1,0 +1,56 @@
+{
+  "id": "qb_sly_infiltrator",
+  "name": "Sly Infiltrator",
+  "set": "slice",
+  "tier": 3,
+  "attack": 4,
+  "health": 5,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "Choose one: get 2 free refreshes; or get 3 Blood Gems.",
+  "golden_text": "Choose one: get 4 free refreshes; or get 6 Blood Gems.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "sly_infiltrator",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  },
+  "tags": [
+    "choose_one"
+  ],
+  "modes": [
+    {
+      "name": "Free refreshes",
+      "text": "Get 2 free refreshes.",
+      "effects": [
+        {
+          "effect": "free_refresh",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Blood Gems",
+      "text": "Get 3 Blood Gems.",
+      "effects": [
+        {
+          "effect": "add_card",
+          "card": "qb_blood_gem",
+          "count": 3
+        }
+      ]
+    }
+  ]
+}

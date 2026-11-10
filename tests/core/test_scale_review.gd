@@ -35,6 +35,7 @@ func test_size_and_rate_switches_are_independent_in_all_four_combinations() -> v
 
 func test_each_lever_is_alone_opt_in_and_game_reuses_one_private_library() -> void:
 	var source: UnitLibrary = LegacyBog.library()
+	var source_count: int = source.all_units().size()
 	var known: Array = EffectSchema.data()["lever_cards"]
 	assert_eq(known.size(), 7)
 	for id: String in known:
@@ -56,7 +57,7 @@ func test_each_lever_is_alone_opt_in_and_game_reuses_one_private_library() -> vo
 				library,
 				"combat construction never overlays"
 			)
-		assert_eq(source.all_units().size(), 157)
+		assert_eq(source.all_units().size(), source_count, "overlay never adds cards to its source")
 
 
 func test_numeric_lever_text_tracks_the_game_dials_and_doubler_copies_add() -> void:
@@ -263,7 +264,7 @@ func test_rate_switch_controls_first_spell_and_free_refresh_without_changing_siz
 func test_figgy_cooldown_is_a_rate_limit_and_still_consumes_bought_copies() -> void:
 	for rates: bool in [false, true]:
 		var kit := KIT.new()
-		kit.setup(_config(true, rates))
+		kit.setup(_config(true, rates), false, LegacyWave1.current_with_oozes())
 		kit.library = kit.rules.library
 		kit.player.round_number = 5
 		var figgy: RecruitUnit = kit.put("figgy_duff", 0)

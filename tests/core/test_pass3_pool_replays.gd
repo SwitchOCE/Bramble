@@ -16,7 +16,7 @@ func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 	config.set_value("pass3_preset", "A")
 	# Freeze the historical reader comparison basis as well as the fight dials.
 	config.set_value("pass3_text_defaults", Pass3Rates.resolved(config))
-	var library: UnitLibrary = ScaleOverlay.library_for(TestLibraries.current(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(_historical_oozes(), config)
 	for entry: Dictionary in cases:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = CoreUtil.to_int(entry["seed"])
@@ -35,3 +35,9 @@ func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 			JSON.stringify(result) == str(entry["result"]),
 			"byte-identical combat result, events and carry, seed %d" % entry["seed"]
 		)
+
+
+## Oozes stopped being untouched in W2B: keep the fixture's original Ooze definitions.
+## Fixture bytes and current Birds/Fairies/Hedgerow definitions remain unchanged.
+func _historical_oozes() -> UnitLibrary:
+	return LegacyWave1.current_with_oozes()

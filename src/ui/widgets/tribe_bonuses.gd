@@ -74,6 +74,14 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 ## Permanent Ring size and the shared Midsummer clock sit beside the earned tribe chips.
 func show_engine(state: Dictionary) -> void:
 	_show_bog_toll(state)
+	if Data.b(state, "reference_quilboar"):
+		var gem: Dictionary = state.get("gem_size", {})
+		var size_text: String = "+%d/+%d" % [Data.i(gem, "attack", 1), Data.i(gem, "health", 1)]
+		_engine = true
+		_engine_chip(
+			"GemSize", "Blood Gems " + size_text, "Each future Gem gives " + size_text + "."
+		)
+		_place()
 	if not state.has("ring_size"):
 		return
 	var size_value: float = Data.f(state, "ring_size", 1.0)

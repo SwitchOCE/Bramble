@@ -4,6 +4,159 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, fifth cold reader (follow-up reshoots): not yet; four cues to fix
+**Source:** a fresh cold reader and a scorer on the `cea9d0e2` reshoots (workflow wf_1c7d0562-094; `evidence/declutter/batch1-independent/reader5/`).
+- **What reads:** every who-hit, hit and death answer is right in all seven strips. ×4 passes. The Pounce cue reads. The kept-gain portrait lands and fades, so that cut holds.
+- **What fails at ×1 and under reduce motion:**
+  - the Bog ports: the Toll, the queued gain and the kiss;
+  - the Mire wait;
+  - two marks that stay after their moment.
+
+**Picked (all to w4, then one more fresh reader on the same moments):**
+- **Toll:** the splash carries its amount ("+1") and pops it briefly at the hero.
+- **Queued gain:** one beat after the Toll, "+2/+2" lands briefly on the tag, as the dead-unit portrait already does. Rulebook: "A fight shows the amounts pending."
+- **Kiss:**
+  - The heart starts at the dead unit's slot, not from a point stored mid-lunge (`combat_screen.gd:734`).
+  - It lands on the crown pip, and the pip pulses.
+- **Mire wait:** the gold attacker frame sits on the waiting unit for the beat, and the line gets the arrowhead the other routes use.
+- **Marks that stay after their moment** (the Toll line, the queued-gain spark and the Prince's ring all carry into the next attack): these end at the next action, following the follow-ups call ("end the old cues when the next attack starts"). That call covers `gain_pending` and `bog_toll` as well as stat routes. The scorer suggested giving both a wait barrier. That isn't taken, because we chose no added wait.
+- **The attacker frame on an empty slot:** clear it when the attacker dies.
+- **Lunges between samples:** the strip tool takes one frame at each lunge's peak, so a reader can see it. This is a capture fix, not a game change.
+
+**Why:** 09e asks that "Animations should, by player feel, capture how a game is and how it plays". Each fix is a short moving cue that ends with its moment. None adds a standing mark.
+
+**Agreed by:** the reader and the scorer.
+
+### 10 Nov 2026 — Plan to Done v3 approved, with its twelve calls
+**Source:** `plan-to-done.md`, built by the plan-to-done-v2 workflow:
+- plan v2;
+- a fresh plan-interrogate pass (`evidence/plan-to-done/interrogate-v2.md`), whose must-fixes v3 applies (§9);
+- the critique (`critic.md`);
+- three skeptic checks of the Quilboar lessons.
+
+The plan's §1 changes (A3.5, Done means loosenings with reasons, the pass rule, Actions sims) are logged by this entry, as written there.
+
+**Picked (the §11 calls, all as recommended):**
+- **C1:** A3.5 run 1 goes right after A1 and A1b, on the five pass 3 tribes. Run 2 after A3 is the confirmation. The owner gets a per-tribe scale answer days sooner.
+- **C2:** the fit uses R12. In run 2, a tribe whose same-cohort R15 median is over 3× the median of the other tribes' R15 medians steps its t back halfway.
+- **C3:** the Actions sim job comes before the soak rework, because A1b and A3.5 need it first.
+- **C4:** an agreed item counts as a problem if at least one reviewer who raised it says it should change before this playtest. Other agreed items go in PLAYTEST as known issues.
+- **C5:** the Quilboar answer goes to the owner now that `reference/quilboar/lessons.md` has landed.
+- **C6:** one small early-rounds triage (W-i) runs after A3.5 run 1, on existing reports and logs. Its fix waits for round 6.
+- **C7:** the Claude cost of workflows is counted in §7, and small tooling merges share scope reviews.
+- **C8:** the A4 report states A3.5's method and assumptions (09a).
+- **C9:** the Quilboar D1, D4 and D5 setups don't run now. They reopen if round 6 agrees on early flex or wide against tall.
+- **C10:** the rulebook follows the code, so T6 costs 13. Every realized target was measured at 13. Rulebook 4.6.2 changes, and the paper models note the 7%.
+- **C11:** the faster suite (`4c572c86`) merges now that A1 has. Its cloud session resolves the two Ooze test conflicts first.
+- **C12:** the gate shards (`e6b9783f`) get a scope review and merge now.
+
+**Why:**
+- The plan was interrogated by a fresh agent that didn't write it. All its must-fixes are applied.
+- Each step keeps at most two deciding criteria (09i).
+- Each loosening of Done means sits beside the 6 Nov text with its reason (§4).
+
+**Agreed by:** the plan-interrogate pass and the critique. Two of the interrogation's proposals are declined, with reasons (§10).
+
+### 10 Nov 2026 — Portraits for the last 12 pool units: review calls
+**Source:** the scope review of `ideation/portraits3` at 99374707 (`evidence/review-portraits3.md`): 7 keep, 2 cut, 0 simplify, 0 ask.
+
+**Picked:**
+- **Both cuts applied in the squash `91a5e443`:**
+  - `test_portraits.gd` stays as it is on ideation/main, with its pending fallback.
+  - The Slice copy and prompt item 13 are dropped; wave 2b already brought in the identical file.
+  - The 12 portraits and the empty pending list stay. It merges once its gate passes.
+- **Open question 1 (the gate still fails; the names left are look-alikes):** re-roll the look-alikes in the art stream (w5). Every shipped unit now has its own art, so a name that stays is only there because two portraits look alike. Brock and Old Brock, Sable and Russet, and the four grey wolves (Brother Wolf, Grizel, Grey Agnes, Old Isegrim) each get a silhouette or palette of their own at 96 px. While we're at it, Lollop's seven medallions go, since the new text no longer counts to seven. The re-roll removes at most about five names per dense state. The rest of the batch 2 cap still comes from w4's opponent tier numbers and the Birds' away text, plus the scout focus view.
+- **Open question 2 (Agnes and Isegrim as look-alikes):** a cold reader decides at real tile size, after the re-roll. Until then, they keep no name.
+- **Gaps:**
+  - `hedgerow-pass3.md:791` is fixed in the squash.
+  - `ui-declutter-spec.md:45` and the dead `SHORT_NAMES` entries on declutter-b2 go to w4.
+
+**Agreed by:** the scope review. Its cuts are applied.
+
+### 10 Nov 2026 — Wave 2b part 1 merged: narrow check calls
+**Source:** the narrow scope check of `a2f4295f..ba80977e` and the merge `53ff356a` (`evidence/review-wave2b-part1-fixes.md`): 22 keep, 0 cut, 0 simplify, 1 ask. Gate: 53ff356a passed (run 42724276794).
+
+**Picked:**
+- **Merged** `53ff356a` into ideation/main. Outside `docs/`, the merge result is byte-identical to the gated commit.
+- **The ask (the bot's keep hints changed, and nobody re-measured the lines afterwards):** yes, re-baseline. The Pot Luck route arms (a: save 3 gold before a climb; b: Dollop's priority; a+b) are each compared against a control arm run on the same commit, with the same seeds and the same lobby count. ×1.251 and ×1.37 stay as the historical record only.
+- **Row 8** (the worker changed the test, not the code, for the frozen Elders and Wobbly): accepted on the merits. The test asserted pass 2 Elder text that the native card no longer has. Workers say in their report when they decline an instruction.
+- **Gap:** `docs/ideation/content/pass3/wave2b-build.md:20` still gives Hasty an "own-body permanent gain". w2 fixes it on its next commit.
+- **Reference-only interactions** (`_can_lend` doesn't exclude Quilboar; the H1 suite's `line_oozes_engine` now resolves to the pass 3 line): noted. They matter only before any H1 rerun, and Quilboar tuning is stopped.
+
+**Agreed by:** the narrow scope check (no cut).
+
+### 10 Nov 2026 — Declutter batch 1 follow-ups narrow check: calls
+**Source:** the narrow scope check of `d400831e..cea9d0e2` on ideation/declutter (`evidence/declutter/batch1-independent/scope-review-followups.md`): 23 keep, 1 cut, 0 simplify, 2 ask. The check found it moves 09e: the reserve column and the Toll badge are gone, and every new mark fades within about 1.1 s.
+
+**Picked:**
+- **Cut (the branch's DECISIONS hunk):** already reverted on the branch (76ad2049). On merge, ideation/main's DECISIONS wins.
+- **Ask 1 (`c4c0b174` makes the next attack wait for the last stat cue):** end the old cues when the next attack starts, and drop the wait. The owner asked for animation that shows play (09e), not a slower fight. The wait added up to 0.6 s per window at every speed, and +16% to the Bog fight at ×4. Ending a cue early loses at most the tail of its fade. The route-overlap point (F11 gates only on `stats` events) goes away with the wait.
+- **Ask 2 (the Bog "before" was shot on `d400831e`, already decluttered):** accepted as it is. Batch 1's own before and after already covers the wave 2a word chips (`evidence/declutter/batch1/`). This pair has to show only the badge going.
+- **Gate blocker:** gdlint's duplicated-load at `tests/ui/test_combat_declutter.gd:863`. Fix it with one preload at the top of the file.
+- **Test gaps:** add tests for the lunge depth (0.85 for an ordinary attack, 0.35 for a joint one) and for the kept portrait reading `portrait_id`.
+- All of this went to w4 on 10 Nov. Then a fresh cold reader, the gate, and the merge after wave 2b part 1 (now merged).
+
+**Agreed by:** the narrow scope check. Its cut is already met.
+
+### 10 Nov 2026 — Declutter batch 2 WIP: the scout focus view, the 40 cap as written, and portraits for every pool unit
+**Source:** w4's batch 2 progress report (`ideation/declutter-b2` at 344a5e75, `evidence/declutter/batch2/README.md`).
+- Recruit labels: overview 134 → 59, natural Birds 103 → 39, lobby 127 → 55, scout 136 → 64.
+- The 40-node gate fails the three dense states. 54 of 157 unit faces still print a fallback name, because those units have no portrait of their own.
+
+**Picked:**
+- **The scout focus view:** while scouting, both boards stay and the shop and lobby collapse. That's how Battlegrounds shows an opponent's board, and no state is lost.
+- **The 40 cap stays as the spec defines it** (§7: "Card names count until their unit has its own portrait"). No exclusions. Each budget report splits its count by kind: stats, hero health, fallback names, costs and controls, other.
+- **Portraits for every pool unit without its own art:** w5 on `ideation/portraits3`, built-in image tool, the existing flat style. This removes the fallback names, and it is also a Done means item ("`portraits_pending.json` empty"). It runs now rather than at build 9, because it is what's blocking the batch 2 gate.
+- The worker's DECISIONS edit on ideation/declutter is reverted there. DECISIONS is the orchestrator's file.
+
+### 10 Nov 2026 — Pot Luck under ×1.3: real; fix the line's route first, then cards; part 1 merges
+**Source:** triage workflow wf_132aa8e4-7ac: five lenses, a synthesis and an adversarial critic (`evidence/potluck-triage/`).
+- **The miss is real.** Pot Luck (`line_oozes_tempo`) grows ×1.251 a round, R8–R14. Every other view is also under ×1.3: paired per seat 1.230, the R14 cohort 1.222, R8–R12 1.228, with Bellies 1.252, last observation carried forward 1.165. The survivor-robust intervals sit wholly under 1.3.
+- **Ruled out:** survivor bias, leaving out Bellies (counting them changes the level, not the growth), the design's own paper model (P predicts about ×1.50), and the two bot fixes (×1.254 → ×1.251 on the same seeds).
+- **The critic's main point:** Pot Luck isn't the outlier. It grows at the rate of Hard bots playing Oozes in the same lobbies (×0.98–1.00 relative). The engine line runs about 5% a round above both.
+  - Half the gap between the two lines falls on the scheduled climb rounds. The engine line and the paper P route both hold 3 gold back before a climb; the committed Pot Luck line never saves.
+  - Pot Luck's written priority puts Little Dollop 13th of 16, while its route's R1–4 step lists Dollop. 28% of its seats have no Digest pot at R8, and those seats grow ×1.189.
+- **Refuted by the critic:**
+  - the weight blend as a fault (documented in HARNESS.md:258 and tested);
+  - a missing fallback pot (any Digest unit already counts);
+  - the T3–T4 "skip" (Bubble and Frumenty both grow boards);
+  - fix 1 as written: it grows units inside Bellies, which the measure excludes.
+
+**Picked:**
+1. **Route fidelity first,** because it's a measurement fault (the line doesn't play the route the paper costed). Two arms on the same 32 seeds at B:
+   - (a) save 3 gold before scheduled climbs, as paper P and the engine line do;
+   - (b) Little Dollop raised to match the route's R1–4 step.
+
+   Alongside them, a constructed R8 Pot Luck board (09d), with gold, shop tier and Belly contents logged.
+2. **If the arms reach ×1.3,** the line file takes them. **If not,** change a card so that it grows active board units, concentrating the stats (09a), generous first (09h). Elder to T4 stays an option. Nothing that grows Belly insides.
+3. **Bot fixes that stand:**
+   - add the line's `engine_pieces` to `best_belly`'s protected list, so Moss, Granny and the Pie aren't buried;
+   - drop the split-gap cap for tempo, since Pot Luck's text doesn't ask for it.
+
+   Keep the weight blend.
+4. **Watch, not cut:** the Sixpenny Pie (its boards are smaller, but n=5) and Dishwater Nell (no realized growth effect: ×0.994 [0.966, 1.019], observational). They go to the tribe's role check.
+5. **Part 1 merges** once its gate on ba80977e passes, with Pot Luck open. The pass 3 Oozes are a step up from the live pass 2 Oozes: legacy Oozes grew about ×1.17 in the H1 lobbies, and the engine line passes. Pot Luck's fix lands on wave2b before part 3 (neutrals). Reading of the brief: every committed line has to pass before the Oozes count as done. The merge is a step toward that, not the tribe's sign-off.
+6. **The shared miss:** both Ooze lines sit at 0.22–0.32× of 900 at R12. That goes to the plan's scale step, not to this triage.
+7. **For the bot work:** saving before a climb is worth about 5% a round to the engine line over Hard bots. Check whether Hard and the strong field save before climbs.
+
+**Process cause** (critic's restatement, adopted): when a committed line is built, check its gold and save rules and its written priority against the paper route it was costed on, and log gold and shop tier in line lobbies. Now in LEARNINGS. It applies to Hedgerow's line now and to every later line. The keystone-removed paper row didn't predict this one (P without Soup and Nell is ×1.327 on paper), so it isn't the check.
+
+### 10 Nov 2026 — Quilboar fixes narrow check: clear to merge
+**Source:** narrow scope check of `ideation/quilboar` 92cbce1f..25fc1576 and squash 1511dc22 (`evidence/review-quilboar-fixes.md`): 15 keep, 0 cut, 0 simplify, 1 ask.
+- The extraction (`SessionViews`, `BotAim`) is byte-identical logic.
+- The Pelt test fails before the fix.
+- No capture is in the squash tree, and the captures were never pushed.
+- The squash equals the real merge (patch hashes match).
+- Isolation holds.
+
+**Picked:**
+- **Ask, the `capture_storage` label and counters:** keep them. They tell anyone opening a receipt after `build/` is gone where the capture went.
+- **Gap 1:** H1's reference lobbies ran with the broad Busker guard. Native seats there got one refund a turn for Created 0-cost spells (Triple Rewards). This is a caveat on H1's native comparison. It isn't measured and nothing reruns: the stop rule.
+- **Gap 2:** RESTART's two "0.17–0.44×" lines now say 0.17–0.72×.
+- **Gap 3:** the 154 captures are also copied to `/home/alex/backups/bramble-quilboar-h1-captures/` (90 MB, 154 files), outside git and the portal.
+- **Wave 2b's merge:** `_best_aim` will conflict. Put wave 2b's 3-line `BotHedgerow.aim` early return at the top of `BotAim.best_slot`, which leaves bot_brain at about 977 lines.
+- **Merge:** once the Actions gate on 1511dc22 passes, merge it into ideation/main. The only commits on ideation/main since its parent are docs, so `check.sh --docs-only --base 1511dc22` covers the merge commit.
+
 ### 10 Nov 2026 — Declutter batch 1, fourth cold reader (reshot moments): the fixes read; two small cues added
 **Source:** a fresh cold reader and a scorer (workflow wf_008a86a8-05f) on 15 reshot strips: rival 025, combat_mid 036/045/069/075, at ×1, ×4 and reduce motion. The files are `evidence/declutter/batch1/cold-reader-reshoot-score.md` and `-answers.md` on ideation/declutter. No answer was wrong: who hit and every death are right in all 15 strips. All four fixes read: the Aura's direction, the joint lunge, the kept gain and Counter's answer.
 - Two moments are still "can't tell": Pounce at rival 025, and Mire's wait at 045. The "third cold reader" entry sent the rules behind both to batch 4's Rules page. Read that way, all six runs pass.

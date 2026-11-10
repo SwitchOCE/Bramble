@@ -1,3 +1,5 @@
+# gdlint:disable=max-public-methods
+# One method per effect verb and per question an effect can ask.
 class_name CombatWorld
 extends EffectWorld
 ## A data effect firing in a fight. Rules for who, when and what's logged stay in Combat.
@@ -211,6 +213,64 @@ func _summon_with_stats(def_id: String, golden: bool, slot: int, stats: int) -> 
 func flat_gain_percent() -> int:
 	return (
 		maxi(0, combat.config.get_int("scale_hero_spell_percent"))
-		if source == null and combat.config.get_bool("scale_hero_spell_stats")
+		if (
+			source == null
+			and combat.config.get_bool("scale_hero_spell_stats")
+			and not CoreUtil.to_bool(params.get("scaling_exempt", false))
+		)
 		else 0
 	)
+
+
+func gem_size_add(attack: int, health: int) -> void:
+	if (
+		ReferenceQuilboar.allowed(combat.config)
+		and combat.config.get_bool("reference_quilboar_freeze_size")
+	):
+		return
+	var state: Dictionary = QuilboarCombat.rules(combat, side)
+	state["gem_attack_halves"] = CoreUtil.to_int(state.get("gem_attack_halves", 2)) + attack
+	state["gem_health_halves"] = CoreUtil.to_int(state.get("gem_health_halves", 2)) + health
+	combat.carry_back(side, {"op": "gem_size_add", "attack": attack, "health": health})
+	combat.emit_event(
+		"gem_size",
+		{"side": side, "attack": state["gem_attack_halves"], "health": state["gem_health_halves"]}
+	)
+
+
+func add_random_card(spec: Dictionary, count: int) -> void:
+	for _index: int in count:
+		var card_id: String = ReferenceQuilboar.random_card(
+			combat.library, spec, tier_now(), combat.effect_rng
+		)
+		if card_id != "":
+			add_card(card_id, 1, false)
+
+
+func gem(target: BoardUnit, count: int, permanent: bool = false) -> void:
+	var state: Dictionary = QuilboarCombat.rules(combat, side)
+	var fighter: CombatUnit = target
+	var attack: int = count * ceili(CoreUtil.to_int(state.get("gem_attack_halves", 2)) / 2.0)
+	var health: int = count * ceili(CoreUtil.to_int(state.get("gem_health_halves", 2)) / 2.0)
+	# CombatMoves stores uncapped permanent rewards in the combat layer and carries them
+	# back separately. Measure both layers, while the ledger remembers the reward's duration.
+	var before := Vector2i(
+		fighter.perm_attack + fighter.combat_attack, fighter.perm_health + fighter.combat_health
+	)
+	buff(fighter, attack, health, "permanent" if permanent else "combat")
+	var gain := (
+		Vector2i(
+			fighter.perm_attack + fighter.combat_attack, fighter.perm_health + fighter.combat_health
+		)
+		- before
+	)
+	if permanent:
+		fighter.gem_attack += gain.x
+		fighter.gem_health += gain.y
+		if fighter.iid != 0:
+			combat.carry_back(
+				side, {"op": "gem_ledger", "iid": fighter.iid, "attack": gain.x, "health": gain.y}
+			)
+	else:
+		fighter.combat_gem_attack += gain.x
+		fighter.combat_gem_health += gain.y

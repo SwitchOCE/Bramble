@@ -72,14 +72,35 @@ static func pop_one(combat: Combat, holder: CombatUnit, own_slot: bool) -> Comba
 
 
 ## Mr Syllabub: a unit coming out of a Belly fires its Start of Combat text.
-static func _syllabub(combat: Combat, fighter: CombatUnit) -> void:
+static func _syllabub(combat: Combat, fighter: CombatUnit, native_only: bool = false) -> void:
 	for ally: CombatUnit in combat.units_of(fighter.side):
 		var at: int = ally.mechanic_ids.find(SYLLABUB)
-		if at < 0 or ally == fighter:
+		if at < 0:
 			continue
-		for _time: int in CoreUtil.to_int(ally.params[at].get("times", 1)):
-			combat.trigger(ally, SYLLABUB)
-			start_again(combat, fighter)
+		var first: Dictionary = ally.params[at]
+		if not CoreUtil.to_bool(first.get("pass3", false)):
+			if not native_only:
+				if ally != fighter:
+					_syllabub_times(combat, ally, fighter, CoreUtil.to_int(first.get("times", 1)))
+				continue
+		var times: int = 0
+		var guarded: bool = combat.config.get_value("pass3_loop_guards") != false
+		for index: int in ally.scripts.size():
+			if ally.mechanic_ids[index] != SYLLABUB:
+				continue
+			if native_only and not CoreUtil.to_bool(ally.params[index].get("pass3", false)):
+				continue
+			var count: int = CoreUtil.to_int(ally.params[index].get("times", 1))
+			times = maxi(times, count) if guarded else times + count
+		_syllabub_times(combat, ally, fighter, times)
+
+
+static func _syllabub_times(
+	combat: Combat, source: CombatUnit, fighter: CombatUnit, times: int
+) -> void:
+	for _time: int in times:
+		combat.trigger(source, SYLLABUB)
+		start_again(combat, fighter)
 
 
 ## Each replay is a new dispatch; duplicate copies of one growth ability still compete.
@@ -112,6 +133,9 @@ static func swallow(combat: Combat, holder: CombatUnit, target: CombatUnit) -> v
 static func return_inside(combat: Combat, holder: CombatUnit) -> void:
 	var units: Array[CombatUnit] = holder.inside
 	holder.inside = []
+	if Pass3OozeCombat.has(holder, "granny_stir_up"):
+		_return_family(combat, holder, units)
+		return
 	for unit: CombatUnit in units:
 		var occupied: Array[bool] = combat._occupied(unit.side)
 		var slot: int = BoardGeometry.summon_slot(occupied, unit.slot, true)
@@ -122,6 +146,32 @@ static func return_inside(combat: Combat, holder: CombatUnit) -> void:
 			continue
 		unit.slot = slot
 		combat.enter_board(unit, holder, {"came_out": true})
+		if unit.side == holder.side:
+			_syllabub(combat, unit, true)
+
+
+## Granny returns the family together, so a gathered Moss is present for every sibling's
+## emergence. Reserve all slots before release effects can gather or summon another body.
+static func _return_family(combat: Combat, holder: CombatUnit, units: Array[CombatUnit]) -> void:
+	var returning: Array[CombatUnit] = []
+	for unit: CombatUnit in units:
+		var slot: int = BoardGeometry.summon_slot(combat._occupied(unit.side), unit.slot, true)
+		if slot < 0:
+			combat.emit_event(
+				"no_room", {"uid": holder.uid, "def_id": unit.def_id(), "outcome": "lost"}
+			)
+			continue
+		unit.slot = slot
+		unit.on_board = true
+		var row: Array = combat.sides[unit.side]
+		row[slot] = unit
+		returning.append(unit)
+	for unit: CombatUnit in returning:
+		if not unit.on_board or unit.is_dead():
+			continue
+		combat.enter_board(unit, holder, {"came_out": true})
+		if unit.on_board and not unit.is_dead() and unit.side == holder.side:
+			_syllabub(combat, unit, true)
 
 
 ## A side with nobody left on the board gets its swallowed units back, or the fight would end with
@@ -246,6 +296,7 @@ static func land_bird(
 static func emerged(
 	combat: Combat, unit: CombatUnit, holder: CombatUnit, fields: Dictionary
 ) -> void:
+	Pass3OozeCombat.emerged(combat, unit, holder, fields)
 	if holder == null:
 		return
 	if not fields.get("came_out", false) and not fields.get("wobbly_drip", false):

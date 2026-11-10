@@ -87,7 +87,7 @@ func test_triples_and_combat_permanence_obey_the_same_ceiling() -> void:
 
 func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_oozes())
 	kit.rules.start_phase(kit.player, 1)
 	var ooze: RecruitUnit = kit.put("frumenty", 0)
 	ooze.add_permanent(30, 30)
@@ -99,3 +99,26 @@ func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
 		kit.pass_turn()
 	assert_eq(ooze.attack, attack + 8, "borrowed doubling retains its former bound")
 	assert_eq(ooze.health, health + 8)
+
+
+func test_native_frumenty_digests_before_its_borrowed_bounded_wake() -> void:
+	var kit := Kit.new()
+	kit.setup(GameConfig.full_game())
+	kit.rules.start_phase(kit.player, 1)
+	var ooze: RecruitUnit = kit.put("frumenty", 0)
+	ooze.add_permanent(30, 30)
+	var meal: RecruitUnit = kit.put("alderman_dozey")
+	var attack: int = ooze.attack
+	var health: int = ooze.health
+	var meal_attack: int = meal.attack
+	var meal_health: int = meal.health
+	assert_eq(kit.rules.swallow(kit.player, HeldUnits.HAND, 0, 0), "")
+	kit.pass_turn()
+	assert_true(ooze.held.is_empty(), "native Frumenty digests the meal next morning")
+	assert_eq(ooze.last_meals.size(), 1, "the digested meal's text remains available")
+	assert_eq(ooze.attack, attack + meal_attack, "Digest adds the meal's own Attack")
+	assert_eq(ooze.health, health + meal_health, "Digest adds the meal's own Health")
+	for _turn: int in 2:
+		kit.pass_turn()
+	assert_eq(ooze.attack, attack + meal_attack + 8, "the borrowed wake adds only its bound")
+	assert_eq(ooze.health, health + meal_health + 8)

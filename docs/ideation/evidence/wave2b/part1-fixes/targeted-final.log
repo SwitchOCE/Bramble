@@ -1,0 +1,282 @@
+godot_slot: both Godot slots are busy; waiting
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-part1-final/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_combat_logging.gd
+[0m* test_last_blow_credit_and_results_are_identical_without_event_logging
+* test_native_posset_halving_preserves_actual_damage_credit_with_or_without_logging
+* test_last_stand_and_ghost_damage_use_identical_quiet_results
+[1m3/3 passed.
+[0m[4m
+
+res://tests/ui/test_engines.gd
+[0m* test_engine_result_lines_fit_desktop_and_phone_without_smaller_type
+* test_guide_teaches_hero_damage_and_leaves_engine_rulings_to_the_result
+* test_combat_log_names_saved_heroes_in_wins_and_ties
+* test_result_arithmetic_mentions_cap_only_when_it_exists
+* test_wasp_health_loss_and_death_use_card_words_and_are_not_named_nightshade
+* test_lobby_last_stand_states_fit_without_shortening_names
+* test_disabled_out_and_ghost_plaques_do_not_offer_last_stand
+* test_hero_damage_guide_fits_above_page_number_at_both_sizes
+* test_late_status_band_clears_tools_and_all_tribe_bonuses
+[1m9/9 passed.
+[0m[4m
+
+res://tests/core/test_engines.gd
+[0m* test_last_stand_saves_from_two_and_five_once_with_armor_first
+* test_ghost_and_one_health_never_spend_the_save
+* test_four_left_lifts_cap_and_session_records_last_stand
+* test_engine_coverage_reports_unfired_rules_then_records_actual_events
+* test_last_blow_credits_exchange_attacker_and_uses_round_base
+* test_last_blow_credits_possets_death_effect_instead_of_declared_attacker
+* test_bitter_is_attack_loss_and_cannot_steal_last_blow
+* test_start_of_combat_wipe_stays_a_tie_even_after_lethal_effect_damage
+* test_nonlethal_effect_does_not_steal_last_blow_or_safety_limit_win
+* test_last_blow_uses_a_swapped_effect_owners_fighting_side
+* test_review_wasp_parasite_finishes_mutual_wipe_through_health_loss
+* test_session_ghost_fight_never_spends_last_stand_even_in_last_three
+* test_last_stand_does_not_fire_with_five_alive_or_when_disabled
+* test_battlegrounds_baseline_keeps_both_engines_off
+[1m14/14 passed.
+[0m[4m
+
+res://tests/core/test_engine_docs.gd
+[0m* test_every_schema_name_is_in_the_doc
+[1m1/1 passed.
+[0m[4m
+
+res://tests/core/test_pass2_followup_review.gd
+[0m* test_clover_shares_two_buffs_between_recruiting_and_combat_normal_and_golden
+* test_clover_recruit_limit_resets_at_the_next_recruit_phase
+* test_clover_does_not_spend_a_buff_on_a_failed_summon
+* test_elders_buff_their_own_wobbly_drips_only_without_belly_replays
+* test_elder_does_not_buff_returned_enemy_prisoners
+* test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_native_birds
+* test_early_spoils_does_not_pay_either_player_for_a_live_tie
+[1m7/7 passed.
+[0m[4m
+
+res://tests/core/test_review3_dozey.gd
+[0m* test_doubling_is_preserved_and_permanent_growth_stops_at_printed_ceiling
+* test_a_capped_feed_is_refused_without_consuming_the_acorn
+* test_triples_and_combat_permanence_obey_the_same_ceiling
+* test_borrowing_dozey_keeps_the_original_doubling_increment_bound
+* test_native_frumenty_digests_before_its_borrowed_bounded_wake
+[1m5/5 passed.
+[0m[4m
+
+res://tests/core/test_free_choice.gd
+[0m* test_suite_seats_survive_the_lobby_without_pins
+* test_equal_bodies_have_equal_value_for_every_tribe
+* test_shop_purchase_follows_value_not_a_tribe_route
+* test_final_board_majority_and_mixed_labels
+* test_real_lobby_turns_keep_every_seat_free_to_choose
+* test_tokens_do_not_dilute_tribes_and_pluralities_explain_mixed_boards
+* test_plain_arm_ignores_buy_keep_hints_without_mutating_shared_knowledge
+* test_plain_arm_real_lobby_keeps_routes_empty
+[1m8/8 passed.
+[0m[4m
+
+res://tests/core/test_game_session.gd
+[0m* test_state_keys_match_fixture_6_1
+* test_unit_view_keys_match_fixture_6_2
+* test_bots_never_share_a_hero
+* test_round_one_state_3_2_1
+* test_human_actions
+* test_end_turn_starts_next_round_4_1_2_4_6_3
+* test_empty_board_loses_and_takes_damage_10_1_1
+* test_actions_after_game_over
+* test_same_round_eliminations_placed_by_health_10_2_2
+* test_ghost_for_an_odd_player_out_2_1_2
+* test_eliminated_units_return_to_pool_5_3_8
+* test_damage_cap_by_turn_and_alive_10_1_4
+* test_matchmaking_avoids_recent_opponents_2_3_2
+* test_matchmaking_everyone_once
+* test_dev_add_gold
+* test_dev_spawn_to_hand_is_created_and_not_from_the_pool
+* test_dev_spawn_completes_a_triple
+* test_dev_set_tier
+* test_dev_skip_turn_skips_only_the_humans_fight
+* test_fight_observer_sees_every_fight
+[1m20/20 passed.
+[0m[4m
+
+res://tests/core/test_unit_library.gd
+[0m* test_loads_every_unit_file_without_errors
+* test_sorted_by_tier_then_name
+* test_numbers_are_ints
+* test_unknown_unit_is_empty
+* test_unbuilt_units_lists_units_with_unbuilt_mechanics
+* test_keyword_text_from_source_notes
+* test_keyword_text_for_quick
+* test_bad_files_are_skipped_and_reported
+* test_missing_directory_is_reported
+[1m9/9 passed.
+[0m[4m
+
+res://tests/ui/test_fixture_port.gd
+[0m* test_fixture_numbers_are_ints
+* test_every_fixture_unit_view_has_keyword_text
+* test_new_game_then_end_turn_steps_states_and_sets_combat
+* test_recruit_actions_are_refused_with_a_reason
+* test_library_has_every_unit_sorted_by_tier
+* test_sandbox_fight_returns_the_nightshade_events
+[1m6/6 passed.
+[0m[4m
+
+res://tests/ui/test_followup_tribes56.gd
+[0m* test_every_plain_and_golden_unit_has_a_meaningful_authored_chip
+* test_all_audited_fallbacks_have_explicit_plain_and_golden_tags
+* test_mousewife_replaces_two_units_in_place_then_stops
+* test_mousewife_notice_is_independent_for_each_side_and_each_fight
+* test_mouse_replacements_do_not_spill_with_beadle
+* test_a_mired_pack_joiner_names_its_maker_and_keeps_its_turn
+* test_an_already_spent_joiner_does_not_claim_mire_stopped_it
+[1m7/7 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_recruit.gd
+[0m* test_digest_keeps_only_own_stats_returns_real_copies_and_never_pays_sale_gold
+* test_golden_digest_eats_both_meals_and_discount_is_two
+* test_soup_live_layer_tracks_carry_and_is_retained_once_on_purchase
+* test_soup_never_buffs_or_commits_stats_to_shy_shop_offers
+* test_golden_soup_reads_two_biggest_once_and_normal_soup_does_not_stack
+* test_soup_bonus_disappears_when_last_soup_leaves
+* test_aspic_uses_only_strongest_in_front_and_elder_shares_original_meal
+* test_normal_aspic_and_golden_elder_have_known_meal_gains
+* test_ooze_transfer_guard_prevents_aspic_amplification_and_elder_redistribution
+* test_elder_ignores_smaller_eater_and_units_inside_or_in_hand
+* test_nell_eats_lowest_tier_into_biggest_neighbour_without_buy_or_swallow
+* test_golden_nell_feeds_two_distinct_neighbours_bigger_first_and_skips_frozen_shop
+* test_dependent_start_sequence_digest_then_nell_then_slice_with_live_soup
+* test_cut_and_come_again_golden_widens_to_two_and_full_hand_loses_slice
+* test_frumenty_remembers_last_meal_after_it_is_gone_and_replaces_it
+* test_golden_frumenty_keeps_two_meals_excludes_digest_and_borrows_split
+* test_figgy_pairs_bought_copies_keeps_buffs_and_has_no_alternating_turn_cooldown
+* test_normal_figgy_also_pairs_two_bought_copies_and_refuses_created_copies
+* test_printed_plus_borrowed_elder_growth_fires_once_per_meal
+* test_frumenty_really_uses_figgys_last_meal_text_without_a_cooldown
+[1m20/20 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_combat.gd
+[0m* test_posset_halves_her_actual_effect_killer_and_records_its_reference
+* test_golden_posset_halves_killer_and_beside_units_only
+* test_posset_does_not_halve_a_friendly_killer_or_revive_a_dead_killer
+* test_posset_never_takes_a_living_killer_below_one_health
+* test_moss_shields_each_own_release_and_golden_reduces_damage_by_a_quarter
+* test_moss_does_not_shield_an_enemy_returned_by_hasty
+* test_moss_reduction_survives_a_stronger_tom_protection_ending
+* test_gathered_moss_returns_with_family_and_shields_earlier_siblings_too
+* test_wobbly_releases_then_keeps_making_drips_beyond_the_old_two_hit_limit
+* test_bubble_ignores_a_hit_fully_stopped_by_shield_then_splits_a_damaging_hit
+* test_golden_wobbly_releases_both_reserves_lifo_with_no_drip_on_that_hit
+* test_golden_wobbly_keeps_the_reserve_that_cannot_find_a_gap
+* test_bubble_split_limit_and_empty_halves_normal_and_golden
+* test_bubble_halves_cannot_split_with_guard_off_counterexample
+* test_a_frumenty_half_keeps_borrowed_bubble_and_other_meal_text_but_never_splits
+* test_bubble_has_no_split_without_a_gap_or_if_the_hit_kills_it
+* test_pie_pays_for_every_actual_release_and_golden_does_not_double_the_rate
+* test_pie_does_not_pay_for_a_reserve_without_room
+* test_syllabub_replays_a_returned_grannys_family_soc_normal_and_golden
+* test_starting_held_survivor_variant_is_off_by_default_and_counts_once_after_release
+* test_starting_held_survivor_variant_does_not_count_a_new_split_as_another_starter
+* test_borrowed_hasties_use_strongest_once_per_start_and_syllabub_dispatch_guard_off
+* test_borrowed_hasty_deaths_count_actual_friendly_deaths_once_guard_off
+* test_borrowed_grannies_choose_golden_gather_before_the_weak_instance_guard_off
+* test_frumentys_own_borrowed_syllabub_replays_its_other_hasty_meal_on_release
+* test_self_syllabub_fires_normal_and_golden_counts_without_recursive_replay
+* test_duplicate_syllabubs_on_one_body_use_strongest_times_with_guard_off_counterexample
+[1m27/27 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_content.gd
+[0m* test_sixteen_native_oozes_have_the_designed_tiers_and_bodies
+* test_authored_normal_and_golden_faces_equal_resolved_b_generation
+* test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values
+* test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_doubling
+* test_overrides_drive_belly_discount_split_drips_pie_and_replay_parameters_and_faces
+* test_native_count_rates_widen_golden_targets_but_keep_compounding_fractions
+* test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_part_four
+* test_reviewed_reader_details_match_current_stats_shy_and_elder_spacing
+[1m8/8 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_bots.gd
+[0m* test_engine_keeps_soup_nell_aspic_and_elder_over_large_new_bodies
+* test_only_the_best_engine_copy_is_protected
+* test_meal_route_bypasses_the_pin_only_to_feed_a_real_digest_belly
+* test_a_real_engine_offer_is_not_bought_into_an_empty_stomach
+* test_first_empty_dollop_moves_whole_to_the_new_bubble
+* test_golden_dollop_is_not_migrated
+* test_second_stomach_waits_three_turns_and_a_scouted_answer_preserves_it
+* test_aspic_feeds_front_carry_and_nell_touches_it
+* test_pot_luck_reserves_stay_out_of_hasty_when_the_scout_shows_a_carry
+* test_a_large_slice_is_food_only_in_the_engine_line
+* test_freeze_does_not_take_nells_meal_for_generic_shop_quality
+* test_line_source_is_strictly_valid_and_food_uses_the_same_legal_path
+* test_meal_valuation_includes_the_live_soup_layer_exactly_once
+* test_six_protected_investments_allow_a_seventh_engine_but_a_spare_keeps_the_gap
+* test_first_digest_purchase_replaces_a_weak_body_instead_of_becoming_a_reserve
+* test_bubble_upgrade_is_played_then_receives_the_old_dollop_whole
+* test_tempo_replaces_dead_aspic_while_the_front_carry_engine_keeps_her
+[1m17/17 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_start.gd
+[0m* test_hasty_swallows_biggest_anywhere_and_gives_own_biggest_ooze_a_permanent_fifth
+* test_golden_hasty_swallows_two_and_does_not_double_the_share
+* test_hasty_reads_current_stats_including_tribe_auras_combat_buffs_and_damage
+* test_hasty_keeps_a_share_of_real_ring_stats_read_before_the_enemy_leaves_its_slot
+* test_hasty_with_anything_inside_does_nothing_even_when_golden_has_room
+* test_hasty_sees_hidden_biggest_swallows_its_holder_and_reads_the_hidden_meal
+* test_hasty_skips_a_full_fetch_twin_for_each_normal_and_golden_pick
+* test_golden_hasty_falls_back_to_copy_when_it_is_the_only_remaining_enemy
+* test_hasty_releases_on_three_friendly_deaths_and_on_its_own_death
+* test_granny_gathers_only_touching_oozes_and_golden_doubles_attack_only
+* test_granny_gathers_after_own_hasty_and_both_mirror_hasties_see_pre_gather_boards
+* test_granny_gathers_after_other_starts_and_stat_ranked_answers
+* test_granny_has_cleave_on_normal_and_golden
+* test_upset_audits_every_ooze_ability_and_masks_only_hasty
+[1m14/14 passed.
+[0m[4m
+
+res://tests/ui/test_portraits.gd
+[0m* test_the_slice_is_all_there
+* test_every_unit_and_token_has_its_own_portrait
+* test_every_spell_and_hand_item_has_its_own_portrait
+* test_a_created_pelt_shows_its_recorded_prey_on_tile_and_reader
+* test_every_hero_has_its_own_portrait
+* test_pending_portraits_name_only_real_cards
+[1m6/6 passed.
+[0m[4m
+
+res://tests/core/test_field_normal_regression.gd
+[0m* test_normal_lobby_matches_complete_games_captured_after_wave2a_merge
+[1m1/1 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts              18
+Tests               182
+Passing Tests       182
+Asserts            5738
+Time              121.603s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/part1-fixes/verified.xml

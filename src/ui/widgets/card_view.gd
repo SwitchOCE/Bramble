@@ -15,6 +15,7 @@ extends "res://src/ui/widgets/interactive.gd"
 enum Mode { SHOP, BOARD, MINI }
 
 const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
+const OozeMarks := preload("res://src/ui/widgets/ooze_marks.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -49,6 +50,9 @@ const TAG_KEYWORDS: PackedStringArray = [
 ]
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
+	"^shop units gain": "Shop grows",
+	"^oozes in front of this gain": "Eat bonus",
+	"^after your biggest ooze eats": "Meal share",
 	"^when a hunter (beside|next to) this is sold:": "Sale growth",
 	"^after a take beside this:": "Take growth",
 	"^after each fight: get .*pelts?\\b": "Pelt",
@@ -144,6 +148,7 @@ var chip_shown: String = ""
 var rules_shown: bool = false
 
 var _poached_badge: PoachedBadge
+var _ooze_marks: OozeMarks
 var _art: ArtFrame
 var _chip: Panel
 var _chip_lines: Array[Label] = []
@@ -326,6 +331,10 @@ func set_kisses(count: int, period: int) -> void:
 	_refresh_pending()
 
 
+func show_ooze_share() -> void:
+	_ooze_marks.share_landed()
+
+
 func uid() -> int:
 	return Data.i(unit, "uid", -1)
 
@@ -342,6 +351,8 @@ func show_frost_tag(on: bool) -> void:
 func _build() -> void:
 	_art = ArtFrame.new()
 	add_child(_art)
+	_ooze_marks = OozeMarks.new()
+	_art.add_child(_ooze_marks)
 	_name_label = UiTheme.head("", UiTheme.FONT_BODY)
 	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -477,6 +488,8 @@ func _refresh() -> void:
 	_refresh_status()
 	_refresh_pending()
 	_place_turns()
+	_ooze_marks.size = _art.size
+	_ooze_marks.show_state(unit)
 	if _frost_tag != null:
 		_frost_tag.position.x = (card_size.x - _frost_tag.size.x) / 2.0 + 14.0
 	queue_redraw()

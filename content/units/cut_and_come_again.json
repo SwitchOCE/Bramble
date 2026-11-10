@@ -4,40 +4,29 @@
   "set": "slice",
   "tier": 6,
   "attack": 4,
-  "health": 4,
+  "health": 6,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Every other Start of Turn: get a base copy of the last non-Ooze inside.",
-  "golden_text": "Belly 2. Every other Start of Turn: get 2 base copies of the last non-Ooze inside.",
-  "details": "Copies are Created: they can't triple or Fly South, and selling one is final.",
+  "text": "Start of Turn: get a Slice with a fifth of your biggest Ooze's stats.",
+  "golden_text": "Start of Turn: get two Slices with a fifth of your biggest Ooze's stats.",
   "mechanics": [
     {
-      "id": "belly",
-      "size": 1
-    },
-    {
-      "id": "cut_and_come",
-      "copies": 1,
-      "every": 2
+      "id": "pass3_ooze",
+      "ability": "cut_and_come_again",
+      "factor": 1,
+      "share": 0.2,
+      "count": 1
     }
   ],
-  "keywords": [
-    "Belly"
-  ],
+  "keywords": [],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
-  },
-  "mechanic_text": {
-    "1": {
-      "id": "cut_and_come",
-      "text": "Every other Start of Turn: get a base copy of the last non-Ooze inside.",
-      "golden_text": "Every other Start of Turn: get 2 base copies of the last non-Ooze inside."
-    }
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   }
 }

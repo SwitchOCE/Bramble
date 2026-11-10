@@ -1,0 +1,135 @@
+{
+  "tests": 182,
+  "failures": 0,
+  "seconds": 121.603,
+  "files": [
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.537706"
+    },
+    {
+      "name": "tests/ui/test_engines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.927469"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.011712"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.019638"
+    },
+    {
+      "name": "tests/core/test_pass2_followup_review.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.813194"
+    },
+    {
+      "name": "tests/core/test_review3_dozey.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.525755"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.149718"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.038843"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.007919"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.018616"
+    },
+    {
+      "name": "tests/ui/test_followup_tribes56.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.045441"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_recruit.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.198768"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_combat.gd",
+      "tests": "27",
+      "failures": "0",
+      "skipped": "0",
+      "time": "11.329023"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_content.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.779656"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "17",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.309245"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_start.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.835704"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.891886"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "54.953767"
+    }
+  ],
+  "normal_fixture": "tests/fixtures/field/normal-067429a3.json",
+  "normal_fixture_changed": false
+}

@@ -12,8 +12,8 @@ func test_loads_every_unit_file_without_errors() -> void:
 	assert_eq(_library.load_errors(), PackedStringArray(), "no load errors")
 	assert_eq(
 		_library.all_units().size(),
-		157,
-		"157 loadable definitions, including retired prototypes and created cards"
+		158,
+		"158 loadable definitions, including retired prototypes and created cards such as Slice"
 	)
 	assert_eq(
 		_library.pool_units().size(),

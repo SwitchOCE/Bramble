@@ -4,6 +4,7 @@ extends GutTest
 
 const Kit := preload("res://tests/core/recruit_kit.gd")
 const Fight := preload("res://tests/core/combat_kit.gd")
+const Legacy := preload("res://tests/core/legacy_wave1.gd")
 
 
 func _combat(kit: Kit, ours: Dictionary, theirs: Dictionary) -> Combat:
@@ -75,7 +76,7 @@ func test_elders_buff_their_own_wobbly_drips_only_without_belly_replays() -> voi
 	for golden_drip: bool in [false, true]:
 		for golden_elder: bool in [false, true]:
 			var kit := Kit.new()
-			kit.setup()
+			kit.setup(null, false, Legacy.current_with_oozes())
 			var combat := _combat(
 				kit,
 				{
@@ -106,7 +107,7 @@ func test_elders_buff_their_own_wobbly_drips_only_without_belly_replays() -> voi
 
 func test_elder_does_not_buff_returned_enemy_prisoners() -> void:
 	var kit := Kit.new()
-	kit.setup()
+	kit.setup(null, false, Legacy.current_with_oozes())
 	var combat := _combat(
 		kit,
 		{0: Fight.u("hasty_pudding"), 6: Fight.u("elder_ooze")},
@@ -120,6 +121,47 @@ func test_elder_does_not_buff_returned_enemy_prisoners() -> void:
 	assert_eq(prisoner.side, 1)
 	assert_eq(prisoner.combat_attack, 0)
 	assert_eq(prisoner.combat_health, 0)
+
+
+func test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_native_birds(
+) -> void:
+	for golden: bool in [false, true]:
+		var kit := Kit.new()
+		kit.setup(null, false, Legacy.current_with_oozes())
+		kit.card(
+			"legacy_return_start",
+			[
+				Kit.effect(
+					"start_of_combat",
+					{"effect": "buff", "attack": 3, "health": 0, "target": {"select": "self"}}
+				)
+			],
+			["Oozes"],
+			1,
+			10
+		)
+		var combat := _combat(
+			kit,
+			{
+				0: Fight.u("little_dollop"),
+				1: Fight.u("legacy_return_start"),
+				5: Fight.u("mr_syllabub", -1, -1, golden),
+				6: Fight.u("chiffchaff")
+			},
+			{0: Fight.plain(1, 10)}
+		)
+		assert_true(
+			Pass3Combat.has_content(combat), "native Birds must not opt old Syllabub into new rules"
+		)
+		var holder: CombatUnit = combat.unit_at(0, 0)
+		var returned: CombatUnit = combat.unit_at(0, 1)
+		CombatHeld.swallow(combat, holder, returned)
+		CombatHeld.return_inside(combat, holder)
+		assert_eq(returned.attack, 1, "legacy Syllabub never replayed friendly returns")
+		assert_eq(Fight.of_type({"events": combat.events}, "trigger").size(), 0)
+		holder.held_specs.append({"def_id": "legacy_return_start", "golden": false})
+		var released: CombatUnit = CombatHeld.pop_one(combat, holder, false)
+		assert_eq(released.attack, 7 if golden else 4, "legacy Belly pop replay remains unchanged")
 
 
 func test_early_spoils_does_not_pay_either_player_for_a_live_tie() -> void:

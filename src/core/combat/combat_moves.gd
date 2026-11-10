@@ -450,4 +450,14 @@ static func starting_survivors(combat: Combat, winner: int) -> int:
 			and CoreUtil.to_int(combat.starting_sides.get(unit.uid, -1)) == winner
 		):
 			count += 1
+	if combat.config.get_bool("replay_starting_belly_survivors"):
+		for unit: CombatUnit in combat.units_of(winner):
+			if (
+				not unit.is_dead()
+				and not unit.copied_this_fight
+				and not combat.starting_sides.has(unit.uid)
+				and CoreUtil.to_bool(unit.counters.get("replay_starting_belly_survivor", false))
+			):
+				count += 1
+		count += Pass3OozeCombat.held_survivors(combat, winner)
 	return count

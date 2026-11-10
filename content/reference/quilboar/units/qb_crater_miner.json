@@ -1,0 +1,57 @@
+{
+  "id": "qb_crater_miner",
+  "name": "Crater Miner",
+  "set": "slice",
+  "tier": 2,
+  "attack": 2,
+  "health": 2,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "Choose one: get 2 Blood Gems; or get a Gem Day.",
+  "golden_text": "Choose one: get 4 Blood Gems; or get 2 Gem Days.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "crater_miner",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  },
+  "tags": [
+    "choose_one"
+  ],
+  "modes": [
+    {
+      "name": "Blood Gems",
+      "text": "Get 2 Blood Gems.",
+      "effects": [
+        {
+          "effect": "add_card",
+          "card": "qb_blood_gem",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "Gem Day",
+      "text": "Get a Gem Day.",
+      "effects": [
+        {
+          "effect": "add_card",
+          "card": "qb_gem_day",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

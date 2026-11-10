@@ -34,8 +34,9 @@ var _replacements: int = 0
 var _refreshes: int = 0
 
 
-## A brain from its name, or null if the name isn't a level.
 static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBrain:
+	if bot_name == "quilboar_choose_one":
+		bot_name = "hard:quilboar_choose_one@blind"
 	var place_split: PackedStringArray = bot_name.split("@")
 	var level_split: PackedStringArray = place_split[0].split(":")
 	if not BotLevel.ALL.has(level_split[0]):
@@ -47,7 +48,11 @@ static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBra
 	brain.value = BotEval.make(brain.level, brain.knowledge)
 	if level_split.size() > 1:
 		brain.pinned_strategy = level_split[1]
-		brain.value.strategy = brain.knowledge.strategy(level_split[1])
+		brain.value.strategy = (
+			BotQuilboar.strategy()
+			if level_split[1] == BotQuilboar.STRATEGY
+			else brain.knowledge.strategy(level_split[1])
+		)
 		if brain.value.strategy.is_empty():
 			push_error("No such strategy: %s" % level_split[1])
 	if place_split.size() > 1:
@@ -193,9 +198,13 @@ func _buy_and_cast(card_id: String) -> void:
 
 
 func _smart_turn() -> void:
+	if BotQuilboar.active(self):
+		BotQuilboar.play_turn(self)
+		return
 	_settle()
 	_choose_build()
 	_open_with_a_plan()
+	BotOoze.prepare(self)
 	_cast_spells(false)
 	BotHeld.fly_turn(_player, _rules, value, _round_now)
 	_settle()
@@ -210,6 +219,7 @@ func _smart_turn() -> void:
 	_climb(true)
 	BotPass3.churn(self)
 	_feed_eaters()
+	BotOoze.feed(self)
 	_cash_for_burn()
 	_cast_spells(true)
 	_freeze()
@@ -309,8 +319,7 @@ func _shop_loop() -> void:
 		_refreshes += 1
 
 
-## The best thing on offer by gain per gold: {"spell", "index", "cost", "gain"}; {} if nothing is
-## worth it.
+## The best positive gain per gold: {spell, index, cost, gain}.
 func _best_offer() -> Dictionary:
 	var best: Dictionary = {}
 	var best_rate: float = 0.0
@@ -360,6 +369,9 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	var meal: float = BotOoze.meal_gain(self, unit)
+	if meal >= 0.0:
+		return meal
 	if (
 		pinned_strategy != ""
 		and not unit.poached_offer
@@ -411,6 +423,7 @@ func _room_left() -> int:
 	var most: int = CoreUtil.to_int(value.strategy.get("max_units", BoardGeometry.SLOTS))
 	var hero_hint: Dictionary = knowledge.hero(str(_player.hero.get("id", "")))
 	most = mini(most, CoreUtil.to_int(hero_hint.get("max_units", BoardGeometry.SLOTS)))
+	most = mini(most, BotOoze.max_bodies(_player, value, _can_replace))
 	return mini(most, BoardGeometry.SLOTS) - _player.board_count()
 
 
@@ -621,6 +634,10 @@ func _play_hand() -> void:
 		if index >= _player.hand.size():
 			return
 		var unit: RecruitUnit = _player.hand[index]
+		var meal_belly: int = BotOoze.hand_belly(self, unit)
+		if meal_belly >= 0 and _rules.swallow(_player, HeldUnits.HAND, index, meal_belly) == "":
+			_settle()
+			continue
 		if level.reads_text and BotBog.hold_frog(_player, unit, value):
 			index += 1
 			continue
@@ -772,38 +789,7 @@ func _best_shop_aim(legal: Array[int]) -> int:
 
 ## The target worth the most, including a deliberate Shy departure.
 func _best_aim(legal: Array[int], card_def: Dictionary) -> int:
-	if level.reads_text and str(card_def.get("id", "")) == "pelt":
-		return BotHunt.pelt_aim(_player, legal)
-	if BotPass3.active(_player) and level.reads_text:
-		var thank: int = BotPass3.thank_aim(
-			_player, HandItem.make(card_def, 0), legal, _rules.config
-		)
-		if thank >= 0:
-			return thank
-	var aim_at: String = str(knowledge.card(str(card_def.get("id", ""))).get("aim_at", "carry"))
-	if not level.plans_position and (aim_at == "in_front" or aim_at == "behind"):
-		aim_at = "carry"
-	var best: int = legal[0]
-	var best_score: float = -100000.0
-	for slot: int in legal:
-		var score: float = BotCommitment.aim_value(card_def, slot, _player)
-		if str(card_def.get("id", "")) == "horseshoe":
-			score = BotContent5.horseshoe_value(_player, slot)
-		elif not BotCommitment.has_live_aim(card_def):
-			score = _aim_score(slot, aim_at)
-		var added: Vector2i = HandItem.make(card_def, 0).ring_add()
-		if BotPass3.active(_player) and str(card_def.get("id", "")) == "golden_egg":
-			score = BotPass3.egg_aim(_player, slot)
-		elif BotPass3.active(_player) and added != Vector2i.ZERO:
-			score = BotPass3.ring_aim(_player, slot)
-		elif added != Vector2i.ZERO:
-			var rings: Array = _player.slot_effects[slot]
-			var actual: Vector2i = BoardUpkeep.ring_room(rings, added)
-			score = (score + 2.0) * float(actual.x + actual.y) / float(added.x + added.y)
-		if score > best_score:
-			best = slot
-			best_score = score
-	return best
+	return BotAim.best_slot(self, legal, card_def)
 
 
 func _aim_score(slot: int, aim_at: String) -> float:
@@ -934,6 +920,8 @@ func _use_power_now() -> void:
 func _freeze() -> void:
 	if not level.uses_freeze or _player.frozen or _player.freezes_left <= 0:
 		return
+	if BotOoze.freeze(self):
+		return
 	for unit: RecruitUnit in _player.shop:
 		if (
 			BotEval.copies_of(_player, unit.def_id()) >= 2
@@ -957,7 +945,16 @@ func _settle() -> void:
 			return
 		var choice: Dictionary = _player.pending[0]
 		var options: PackedStringArray = choice["options"]
-		_rules.choose(_player, _best_option(options, CoreUtil.to_bool(choice["spells"])))
+		var pick: int = 0
+		if str(choice.get("kind", "")) == "choose_one":
+			pick = (
+				_player.bot_rng.randi_range(0, maxi(0, options.size() - 1))
+				if level.name == BotLevel.NAIVE
+				else BotQuilboar.mode(self, choice)
+			)
+		else:
+			pick = _best_option(options, CoreUtil.to_bool(choice.get("spells", false)))
+		_rules.choose(_player, pick)
 
 
 func _best_option(options: PackedStringArray, spells: bool) -> int:

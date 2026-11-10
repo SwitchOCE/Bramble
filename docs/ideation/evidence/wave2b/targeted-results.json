@@ -1,0 +1,71 @@
+{
+  "new_scripts": {
+    "tests/core/test_pass3_ooze_content.gd": {
+      "tests": 7,
+      "failures": 0,
+      "seconds": 0.677355
+    },
+    "tests/core/test_pass3_ooze_recruit.gd": {
+      "tests": 19,
+      "failures": 0,
+      "seconds": 7.991224
+    },
+    "tests/core/test_pass3_ooze_combat.gd": {
+      "tests": 27,
+      "failures": 0,
+      "seconds": 11.137819
+    },
+    "tests/core/test_pass3_ooze_start.gd": {
+      "tests": 13,
+      "failures": 0,
+      "seconds": 5.400691
+    },
+    "tests/core/test_pass3_ooze_bots.gd": {
+      "tests": 17,
+      "failures": 0,
+      "seconds": 12.141308
+    },
+    "tests/ui/test_pass3_ooze_ui.gd": {
+      "tests": 5,
+      "failures": 0,
+      "seconds": 0.806
+    }
+  },
+  "new_total": 88,
+  "all_targeted_gut_unique_tests": 496,
+  "all_passed": true,
+  "content_checker_problems": 0,
+  "python_checker_tests": 19,
+  "format_lint": "all changed GDScript files pass; changed Python checker passes ruff",
+  "local_full_gate": "not run; cloud at hand-off",
+  "replay": "8 historical native cases byte-identical; fixture bytes unchanged",
+  "existing_targeted_files": [
+    "test_pass3_combat",
+    "test_pass3_hunters_start",
+    "test_upset_combat",
+    "test_damage_v05",
+    "test_round3_damage",
+    "test_pass3_pool_replays",
+    "test_oozes",
+    "test_belly",
+    "test_overlay_text",
+    "test_scale_review",
+    "test_scale_mechanics",
+    "test_bot_held",
+    "test_pass3_rates",
+    "test_pass3_presets",
+    "test_field_library_v2",
+    "test_field_combat",
+    "test_wave1_lines",
+    "test_committed_lines",
+    "test_pass3_pool_rules",
+    "test_polish",
+    "test_held_view",
+    "test_cards",
+    "test_review_lender_tags",
+    "test_pass3_bog_ui",
+    "test_pass3_ui"
+  ],
+  "results_scope": "Union of successful recorded targeted runs, not a full-suite or single-run claim.",
+  "final_capture_refights": 1930
+}

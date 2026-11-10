@@ -33,6 +33,9 @@ static func configured(config: GameConfig, legacy_base: bool = false) -> UnitLib
 	var base: UnitLibrary = _master(
 		base_key, LegacyWave1.build.bind(true) if legacy_base else UnitLibrary.load_dir
 	)
+	if ReferenceQuilboar.request_error(config) != "":
+		# A refused reference request: hand over the plain base and let the real calls refuse it.
+		return copy(base)
 	var probe := RecruitRules.new()
 	probe.library = base
 	probe.config = config
@@ -44,7 +47,9 @@ static func configured(config: GameConfig, legacy_base: bool = false) -> UnitLib
 		# This config needs no overlay: library_for returns the base as it is.
 		return copy(base)
 	var out: UnitLibrary = copy(overlaid)
-	out.set_meta("scale_overlay_key", overlaid.get_meta("scale_overlay_key"))
+	# Every overlay mark (its key, reference_quilboar), with the source as a copy of its own.
+	for meta: StringName in overlaid.get_meta_list():
+		out.set_meta(meta, overlaid.get_meta(meta))
 	out.set_meta("scale_overlay_source", copy(base))
 	return out
 

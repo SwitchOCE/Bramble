@@ -45,7 +45,7 @@
      - **Go/no-go before any wave 2 merge:** if fewer than two of three name a logged moment that beats their control game, hold and triage.
    - **Designed setups** from the harness generator. Each runs against bars set before it runs, and they outrank line lobbies when the two disagree (09d).
      - **First:** carry against wide, distribution against totals, answers against carries.
-     - **Then wave 1's typical boards, as an accounting check:** if Birds' or Fairies' real R12 board is outside 0.5–2× its paper figure, fix the accounting in the wave 2 briefs before their dial values land.
+     - **Then wave 1's typical boards, as an accounting check:** report each typical board's real-to-paper ratio and rounds behind (paper is not a target, and the 0.5–2× band failed 3 of 4 wave 1 lines, so it decides nothing: Quilboar lessons P1).
    - **Offline damage and Health replay:** a shortlist of 2–3 tables in which winners finish by R14–16.
 5. **Measure the full pass 3 pool, locally** (cloud shards only if both slots are busy):
    - first, the line-strength gate on the new lines against `hard_field`;
