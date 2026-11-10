@@ -1,5 +1,5 @@
 extends GutTest
-## Every card has its own portrait, or an explicitly tracked pending portrait with a tribe fallback.
+## Every shipped unit has its own portrait, with no pending tribe fallbacks.
 ## Reached the way the screens reach it:
 ## the shop and board tile, the card detail, the hero plaque and the hero picker.
 
@@ -47,9 +47,6 @@ func _assert_own_art(
 			if portrait_id.is_empty()
 			else UiTheme.UNIT_PORTRAIT_DIR % portrait_id
 		)
-	if _pending.has(def_id) and not ResourceLoader.exists(expected):
-		var tribes: Array = _library.get_unit(def_id).get("tribes", [])
-		expected = UiTheme.portrait(tribes).resource_path
 	assert_eq(frame.texture.resource_path, expected, "%s on the %s" % [def_id, where])
 
 
@@ -108,11 +105,12 @@ func test_every_hero_has_its_own_portrait() -> void:
 		_assert_on_tile_and_detail(RecruitView.hero_card(hero))
 
 
-func test_pending_portraits_name_only_real_cards() -> void:
-	var seen: Dictionary = {}
-	for value: Variant in _pending:
-		var id: String = str(value)
-		assert_false(seen.has(id), "pending art listed once")
-		seen[id] = true
-		assert_false(_library.get_unit(id).is_empty(), id)
-	assert_eq(seen.size(), _pending.size(), "each pending portrait names one unique real card")
+func test_no_shipped_unit_portraits_are_pending() -> void:
+	assert_eq(_pending, [], "every shipped unit has its own portrait")
+
+
+func test_wave2b_slice_token_has_its_own_portrait() -> void:
+	# Wave 2b's created neutral unit is not in this branch's content library yet.
+	_assert_on_tile_and_detail(
+		UnitViews.from_def({"id": "slice", "name": "Slice", "attack": 1, "health": 1, "tribes": []})
+	)
