@@ -75,4 +75,4 @@ Same brief and clean snapshots, three Opus runs of about ten cards each. 19 card
 - The removed cards whose problem was a loop (Slamma, Chronormu, Behemoth) are all flagged. The CLEAR ones were removed for other reasons, such as pace (Athissa) or tuning, or for rotation.
 - About a third of long-lived cards get WATCH, and 5 of those 7 run through one enabler (Jandice's swap, Mutanus's sell, Kelp Keeper). Listing a flag under the enabler, with the cards beneath it, would cut what the owner reads.
 - Runs also flagged loops outside their list without being asked (Private Investigator gold, Titanic Guardian pairs, Mutanus with Windfall Tornado).
-- Cost: about 134k tokens and 5.5 minutes per batch of ten.
+- Cost: 134k to 187k tokens and 5 to 9 minutes per batch of ten (the batch with four older pools was the dearest).
