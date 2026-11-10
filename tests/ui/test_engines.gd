@@ -17,45 +17,44 @@ func after_each() -> void:
 	CardView.window_override = Vector2.ZERO
 
 
-func test_engine_result_lines_fit_desktop_and_phone_without_smaller_type() -> void:
+func test_finished_fight_keeps_details_in_log_and_returns_at_both_sizes() -> void:
 	for phone: bool in [false, true]:
 		CardView.window_override = Vector2(1688, 780) if phone else Vector2(1920, 1080)
+		var viewport := SubViewport.new()
+		viewport.size = Vector2i(2337, 1080) if phone else Vector2i(1920, 1080)
+		add_child_autofree(viewport)
 		var screen := CombatScreen.new()
-		add_child_autofree(screen)
-		screen.set_anchors_preset(Control.PRESET_TOP_LEFT)
-		screen.size = Vector2(2337, 1080) if phone else Vector2(1920, 1080)
-		screen._layout()
-		screen.model.winner = 1
-		screen.model.damage = 13
-		screen.model.damage_uncapped = 13
-		screen._log_text.side_names = PackedStringArray(["You", "Hob Mumblecrust"])
-		screen.model.result_rules = {
-			"winner": 1,
-			"last_blow": true,
-			"last_blow_kind": "effect",
-			"damage_mode": "v05",
-			"damage_base": 13,
-			"damage_performance": 0,
-			"damage_uncapped": 13,
-			"alive": 4,
-			"damage_cap": 0,
-			"last_stand_sides": [0]
-		}
-		screen._show_result()
+		viewport.add_child(screen)
+		screen.manual_playback = true
+		var completed: Array[bool] = []
+		screen.finished.connect(func() -> void: completed.append(true))
+		screen.setup(
+			{
+				"events":
+				[{"type": "combat_end", "winner": 1, "damage": 13, "last_stand_sides": [0]}]
+			},
+			PackedStringArray(["You", "Hob Mumblecrust"]),
+			0,
+			"Round 8"
+		)
+		screen.skip_to_end()
+		assert_true(screen.model.finished)
+		assert_false(screen._log.visible, "the log is off the fight screen")
+		assert_string_contains(screen._log.all_text(), "Last Stand: You left on 1 Health.")
+		screen.open_log()
 		await get_tree().process_frame
-		var text: Label = screen._result_text
-		for words: String in [
-			"Last Blow", "13 base + 0 starting survivors = 13", "Last Stand", "1 Health"
-		]:
-			assert_string_contains(text.text, words)
-		assert_false(text.text.contains("cap"))
-		assert_false(text.text.contains("toll"))
-		assert_lte(text.get_minimum_size().y, text.size.y, "all result lines fit")
-		assert_gte(text.get_theme_font_size("font_size"), 36)
+		var page: Control = screen.get_children().back()
+		assert_true(page.visible, "Log opens a separate page")
+		assert_eq(page.size, screen.size, "the log uses the full page")
+		assert_eq(LayoutCheck.problems(page, "fight log", false), PackedStringArray())
+		screen.advance_playback(0.11)
+		assert_eq(completed.size(), 1, "the fight returns without a Continue button")
+		screen.advance_playback(1.0)
+		assert_eq(completed.size(), 1, "return emits once")
 
 
-## The guide teaches the charge; ending exceptions stay in linked reminders and fight results.
-func test_guide_teaches_hero_damage_and_leaves_engine_rulings_to_the_result() -> void:
+## The guide teaches the charge; ending exceptions stay in linked reminders and the log.
+func test_guide_teaches_hero_damage_and_leaves_engine_rulings_to_the_log() -> void:
 	var words: String = ""
 	for page: Dictionary in Guide.PAGES:
 		words += str(page["text"])

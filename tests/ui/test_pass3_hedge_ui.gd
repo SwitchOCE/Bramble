@@ -121,17 +121,15 @@ func test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header() -> voi
 	screen.setup(port)
 	var zone: Control = screen.get("_hand_zone")
 	var nodes: int = zone.get_child_count()
-	var title: Label = screen.get("_hand_title")
 	var count: Label = screen.get("_hand_count")
-	assert_eq(title.text, "Hand")
+	assert_false(count.text.contains("g"))
 	state["larder"] = 160
 	screen.render()
 	await get_tree().process_frame
-	assert_eq(title.text, "Hand ·160g")
-	assert_eq(count.text, "4/10")
-	assert_string_contains(title.tooltip_text, "Acorns, Stashes and Great Hoards")
+	assert_eq(count.text, "160g · 4/10")
+	assert_string_contains(count.tooltip_text, "Acorns, Stashes and Great Hoards")
 	assert_eq(zone.get_child_count(), nodes, "Larder adds no static labels")
-	for label: Label in [title, count]:
+	for label: Label in [count]:
 		var font_size: int = label.get_theme_font_size("font_size")
 		var width: float = (
 			label
@@ -141,7 +139,6 @@ func test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header() -> voi
 		)
 		assert_gte(font_size, UiTheme.MIN_FONT)
 		assert_lte(width, label.size.x, label.text + " fits at phone minimum")
-	assert_lte(title.position.x + title.size.x, count.position.x)
 
 
 func test_hunker_uses_a_wordless_shield_and_clears_with_the_aura_status() -> void:

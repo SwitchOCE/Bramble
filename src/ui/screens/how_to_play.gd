@@ -21,9 +21,9 @@ const PAGES: Array[Dictionary] = [
 		"title": "Build a band, then watch them fight",
 		"text":
 		(
-			"Buy a unit for 3 gold and drag it to an empty slot.\n\nEnd turn starts the "
-			+ "fight. It plays itself, and your band comes back whole. Outlast seven "
-			+ "rivals to win."
+			"Buy a unit for 3 gold and drag it into a slot. End turn starts an automatic "
+			+ "fight; your band returns whole. Outlast seven rivals.\n\n"
+			+ "Tap any card, or tap in a fight, to read it."
 		),
 		"demo": "shop",
 	},

@@ -21,7 +21,6 @@ const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
-const RowTag := preload("res://src/ui/widgets/row_tag.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const ShelfPlank := preload("res://src/ui/widgets/shelf_plank.gd")
 const GoldPlaque := preload("res://src/ui/widgets/gold_plaque.gd")
@@ -72,9 +71,6 @@ var _tribes: TribeBonuses
 var _lobby: LobbyStrip
 var _menu_token: TokenButton
 var _dev_token: TokenButton
-var _shop_tag: RowTag
-var _front_tag: RowTag
-var _back_tag: RowTag
 var _shop_zone: Interactive
 var _shelf: ShelfPlank
 var _shop_scroll: ScrollContainer
@@ -82,12 +78,9 @@ var _shop_cards: GridContainer
 var _board: BoardView
 var _hand_zone: Interactive
 var _hand_panel: WoodPanel
-var _hand_title: Label
 var _hand_count: Label
 var _hand_cards: GridContainer
-var _hand_hint: Label
 var _away_tray: AwayTray
-var _board_chip: Label
 var _gold: GoldPlaque
 var _tier_icon: TextureRect
 var _tier_label: Label
@@ -152,19 +145,10 @@ func _layout() -> void:
 	_shop_zone.size = Vector2(shop_w, SHELF_Y + SHELF_H - SHOP_TOP + 40.0)
 	_shop_cards.position = Vector2(left + 30.0, SHOP_TOP)
 	_shop_cards.size = Vector2(shop_w - 60.0, CardView.SHOP_HEIGHT)
-	# 16:9: the tag stands lower, under the tools in the same narrow margin.
 	var narrow: bool = left < token + 60.0
-	var shop_tag_y: float = 352.0 if narrow else SHOP_TOP + 60.0
-	if reading or late_status:
-		shop_tag_y = maxf(shop_tag_y, _scout_token.position.y + _scout_token.size.y + 12.0)
-	_place_tag(_shop_tag, Vector2(left - 56.0, shop_tag_y), 100.0 if narrow else 180.0)
 	_board.position = Vector2(left, HAND_TOP)
 	_board.size = _board.tray_size()
-	var row_h: float = _board.row_rect(true).size.y
-	_place_tag(_front_tag, Vector2(left - 50.0, HAND_TOP + 60.0), row_h - 90.0)
 	var back: Rect2 = _board.row_rect(false)
-	var back_at: Vector2 = Vector2(left + back.position.x - 46.0, HAND_TOP + back.position.y + 60.0)
-	_place_tag(_back_tag, back_at, 150.0)
 	_layout_hero(left + back.position.x - 52.0)
 	_layout_hand(left + board_w + 51.0)
 	_layout_right(economy_x, w)
@@ -233,7 +217,6 @@ func _layout_scouting(left: float, right_x: float) -> void:
 		var card: CardView = child as CardView
 		if card != null:
 			card.set_card_width(tile)
-	_place_tag(_shop_tag, Vector2(shop_x - 48.0, shop_top + 60.0), 140.0)
 	_shop_cards.position = Vector2.ZERO
 	_shop_cards.size = Vector2.ZERO
 	_shop_zone.position = Vector2(shop_x - 20.0, shop_top - 10.0)
@@ -246,26 +229,15 @@ func tap_size() -> float:
 	return 122.0 if view.x / maxf(view.y, 1.0) > 2.0 else 104.0
 
 
-func _place_tag(tag: RowTag, top_left: Vector2, height: float) -> void:
-	tag.position = top_left
-	tag.size = Vector2(RowTag.WIDTH, height)
-
-
 func _layout_hero(right_edge: float) -> void:
 	var width: float = clampf(right_edge - 12.0, 150.0, 200.0)
 	if _split_detail():
 		width = 170.0
 	_hero.position = Vector2(maxf(12.0, right_edge - width), 770)
 	_hero.size = Vector2(width, 300)
-	# The compact gutter touches the tray, which is drawn later than this row tag.
-	_back_tag.z_index = _board.z_index + 1 if _split_detail() else 0
-	if _split_detail():
-		_back_tag.position.x = maxf(_back_tag.position.x, _hero.position.x + width + 20.0)
 
 
 func _layout_hand(x: float) -> void:
-	var larder: int = Data.i(state, "larder")
-	_hand_title.text = "Hand ·%dg" % larder if larder > 0 else "Hand"
 	var count: int = Data.a(state, "hand").size()
 	var away: bool = not RecruitHeld.sky_card(state).is_empty()
 	var bottom: float = 905.0 if count <= 1 else 1000.0
@@ -275,23 +247,14 @@ func _layout_hand(x: float) -> void:
 	_hand_zone.size = Vector2(HAND_W, bottom - HAND_TOP)
 	_hand_panel.position = Vector2.ZERO
 	_hand_panel.size = _hand_zone.size
-	_hand_title.position = Vector2(30, 8)
-	_hand_title.size = Vector2(HAND_W - 150.0, 50)
-	_hand_count.position = Vector2(HAND_W - 120.0, 12)
-	_hand_count.size = Vector2(90, 44)
-	_hand_hint.position = Vector2(24, 90)
-	_hand_hint.size = Vector2(HAND_W - 48.0, 200)
+	_hand_count.position = Vector2(30, 12)
+	_hand_count.size = Vector2(HAND_W - 60.0, 44)
 	var card_w: float = _hand_card_size(count).x
 	var columns: int = 2 if count >= (2 if away else 3) else 1
 	var gap: float = 43.0 if columns == 2 else 0.0
 	var grid_w: float = card_w * columns + gap * (columns - 1)
 	_hand_cards.position = Vector2((HAND_W - grid_w) / 2.0, 66)
 	_hand_cards.size = Vector2(grid_w, 0)
-	_board_chip.position = Vector2(x + (HAND_W - 200.0) / 2.0, bottom + 28.0)
-	_board_chip.size = Vector2(200, 50)
-	_board_chip.visible = bottom + 78.0 < CANVAS_H
-	if away:
-		_board_chip.hide()
 	_away_tray.position = Vector2(x, bottom + 12.0)
 	var away_w: float = minf(HAND_W, size.x - 30.0 - RIGHT_W - x - 12.0)
 	_away_tray.size = Vector2(away_w, CANVAS_H - 24.0 - bottom - 12.0)

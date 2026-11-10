@@ -4,6 +4,90 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, sixth cold reader: merge, with two fixes for batch 2
+**Source:** the sixth fresh cold reader and its scorer on the cue-retirement reshoots, Bog 017/025 and combat_mid 045 at ×1, ×4 and reduce motion (`evidence/declutter/batch1-independent/reader6/`).
+
+**Picked:**
+- **Batch 1 passes. Merge `6888ee1c`** (the re-merge onto ideation/main after the portraits merge) once its gate passes.
+  - Every "who hit", every hit and every death is right in all nine strips.
+  - All three Bog cues read: Toll, the queued gain and the kiss.
+  - Old cues end at the next action, and the attacker frame clears when the attacker dies.
+  - combat_mid at ×1 and under reduce motion passes only under the standing call ("third cold reader" entry), which sends the rule behind Mire's wait to batch 4's Rules page.
+- **Mire wait's skip stamp** moves off the portrait to sit over the attacker triangle, as a glyph that can't pass for card art (pause bars). The reader took the stamp for "a singing toad with a banjo". Goes to batch 2 (w4).
+- **Strip capture:** the lunge-peak frame is added as a ninth frame instead of replacing a sample, so the frame after the hit stays. The 045 strips lost every hit number this way. Goes to batch 2 (w4).
+- **Minor, in batch 2 if cheap:**
+  - Take's acorn reads as gold with no amount, but a Take pays stats (rulebook 9.6.6). Show the amount, or a stat mark instead of the acorn.
+  - At ×4, the Toll line's head crosses the toad's Attack chip, so the wrong unit looks like the one gaining.
+- **×4 isn't four times faster for trigger beats.** Take to reward is 108 ticks and Mire wait to next attack is 109 ticks, the same at ×1 and ×4. Batch 2 checks whether beat timers scale with speed.
+
+**Agreed by:** the sixth cold reader and its scorer.
+
+### 10 Nov 2026 — Portraits batch C and Golden Egg: review calls
+**Source:** the scope review of `ideation/portraits4` `0c3fd133..ba4bebe1` (`evidence/review-portraits5.md`): 9 keep, 0 cut, 1 simplify, 1 ask.
+
+**Picked:**
+- **Ask (Golden Egg's art never appears):** fixed on the branch (`fd07bec3`). `portrait_for` no longer swaps `golden_egg` for `nest_egg`, and `test_portraits` drops its exception, so it now expects `golden_egg.jpg`. The swap dated from wave 1, when the spell had no art of its own.
+- **Simplify (Shieldbug's uid used `z`):** replaced with a fresh uid in Godot's alphabet (a–y, 0–8). The generator that made it used the wrong split, and the other two hand-written uids happen to be valid. From now on, let a Godot import write `.import` files where a worker has Godot.
+- **Grizel's new orange against Mistress Russet:** accepted. Pose, night sky and the lack of a coat keep them apart at 96 px, as the reviewer found.
+- **Merge** `ideation/portraits4` (`fd07bec3`) as merge commit `8f57d64d`, once its gate passes. With this merge, all 15 S7 images are in.
+
+**Agreed by:** the scope review (no cuts).
+
+### 10 Nov 2026 — Hedgerow light pass (A2): review calls
+**Source:**
+- the scope review of `ideation/wave2b` `ba80977e..424b3c2a` (`evidence/review-hedgerow-a2.md`): 24 keep, 0 cut, 1 simplify, 3 ask;
+- the fresh signature check against `docs/research/battlegrounds/` (`evidence/review-hedgerow-signature.md`): "Signature: yes. Re-skin: no."
+
+**Picked:**
+- **A2 meets both deciding criteria.**
+  1. A fresh reviewer found a signature that isn't Blood Gems: the Long Sleep ("every 3 turns in this slot") and the Standing Committee. Neither has a Battlegrounds counterpart.
+  2. Same cohort, R8–R14: Supper grows ×1.542 and Parish ×1.738 a round. Pooled R12 is 874 against the 900 target.
+
+  Hedgerow merges with wave 2b once that merge onto ideation/main passes its gate.
+- **Ask 1 (the 5.9 MB fight capture and the CSVs, which nothing reads):** take them out of git.
+  - The compact `hedgerow-lines.jsonl` stays: the growth figures and the reviewer's recompute come from it.
+  - Raw captures go to the sim job's workflow artifacts from now on (S4 brief), or to `build/` locally.
+- **Ask 2 (route fidelity):** fix it before A3.5 run 1, since A3.5 sets B and C from these lines' realized boards.
+  - Find why 12 of the 13 late Parish seats banked 0 gold at R9. The save rule should have banked the shortfall.
+  - Build the paper's refresh rules for both lines.
+  - Build the Supper's Sergeant cash rule.
+  - Report the new same-cohort growth beside the old.
+
+  This doesn't block the merge: the bar already passes, and a line that plays its route better should grow more, not less.
+- **Ask 3 (Dozey doesn't carry the Supper on real boards):** the criterion passes on the rules, since the signature reviewer judged the shipped cards. But a signature the line rarely fields won't reach reviewers. Treat it first as the same fidelity gap as ask 2.
+  - The Partner is on 7 of 32 boards at R3–R6.
+  - The Larder median at R8 is 2 gold, against the paper's 16–17, so Dozey starves.
+
+  With ask 2's fixes, add a constructed R8 Supper board with the paper's fuel, as A1b does for Pot Luck. If seats with Dozey still grow slower than seats without him, triage Dozey (generous first, 09h) before A4.
+- **Simplify:** the growth summary leads with the same-cohort read (×1.542 and ×1.738). The survivor and per-seat reads follow.
+- **The signature reviewer's caution:** timed doubling also appears in Fairy Monarch ("Every 2nd End of Turn") and Bog's Prince ("Every third kiss"). "In this slot" stays Hedgerow's alone, and A5's cross-tribe check confirms that no other tribe takes a slot clock.
+- **Golden Mrs Burdock** gets a live pass 3 behaviour test along with the fixes.
+
+**Agreed by:** the scope review (no cuts) and the signature check.
+
+### 10 Nov 2026 — Look-alike portraits and gate shards: review calls
+**Source:**
+- the scope review of `ideation/portraits4` `0c3fd133` (`evidence/review-portraits4.md`): 7 keep, 0 cut, 1 simplify, 2 ask;
+- the scope review of `ideation/c-gate-shards` `814793b9..e6b9783f` (`evidence/review-gate-shards.md`): 16 keep, 0 cut, 1 simplify, 2 ask.
+
+**Picked (portraits):**
+- **Merge `0c3fd133`** once its gate passes. Young Brock, Sable and Isegrim now read apart at 96 px, and Lollop has lost his counting motif. Lollop's art doesn't contradict either version of his text, so it doesn't wait for wave 2b.
+- **Brother Wolf and Grizel (ask 1):** re-roll Grizel. The plan said all four wolves get a look of their own. The new Grizel is a tawny, red-backed wolf howling in profile against a night sky.
+- **Grey Agnes reads as a bear (ask 2):** re-roll her now, as a pale she-wolf with a long pointed muzzle and tall pointed ears. A re-roll is cheaper than a cold-reader round trip.
+- Both run in batch C (`tools/art/prompts/portraits-10nov-c.txt`), alongside the two new neutrals, Shieldbug and Click Beetle (stream S7). Their ids will be `shieldbug` and `click_beetle`, and the content worker uses those ids when A3 adds the cards.
+- **Simplify:** future exports use `tools/art/portraits.py export` (quality 82). No size floor.
+
+**Picked (gate shards):**
+- **Merge.** The merge commit `41085959` is gating on the sharded gate itself. Its totals must equal the unsharded count on ideation/main's tree: 218 scripts and 2,317 tests (portraits gate, run 42727014750). That makes it the third commit for the plan's criterion 1, alongside e6b9783f and the planted failure.
+- **`gate-static` as its own job** instead of on shard 1: kept. It finishes in 76 s while shards take 155–211 s, so it stays off the critical path. This logs the deviation from draft step 3.
+- **Ask 1 (the 25% times-coverage test fails correct trees):** make it a printed warning. A stale times file only skews shard sizes; it never drops a test.
+- **Ask 2 (`cloud-gate.sh` prints 40 lines of cleanup on a shard failure):** fix it now, in the sharding session's follow-up. Print the failing shard's check.sh lines (FAIL, failed:, Failing Tests and the test names), not `tail -n 40`.
+- **Simplify (the Godot cache restore never hits on gate jobs):** drop the restore steps, and fix the `CLOUD_SETUP.md` wording, including "fewer" against "not equal".
+- **Who refreshes `test_times.json`:** the sharding session, once, after the faster suite merges. After that, whoever merges a change that adds 10 or more test scripts.
+- All four go to the sharding session as one follow-up before it starts the Actions sim job (S4).
+
+**Agreed by:** the two scope reviews (no cuts).
+
 ### 10 Nov 2026 — Declutter batch 1, fifth cold reader (follow-up reshoots): not yet; four cues to fix
 **Source:** a fresh cold reader and a scorer on the `cea9d0e2` reshoots (workflow wf_1c7d0562-094; `evidence/declutter/batch1-independent/reader5/`).
 - **What reads:** every who-hit, hit and death answer is right in all seven strips. ×4 passes. The Pounce cue reads. The kept-gain portrait lands and fades, so that cut holds.

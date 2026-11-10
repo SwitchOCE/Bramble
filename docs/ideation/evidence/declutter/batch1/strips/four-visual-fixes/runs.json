@@ -1,0 +1,86 @@
+[
+  {
+    "run": "combat_mid-x1",
+    "attacks": 4,
+    "phase_sheets": 0,
+    "opening_effect_sheets": 0,
+    "sheets": 4,
+    "frames": 32,
+    "speed": 1.0,
+    "reduce_motion": false,
+    "final_health_text": [
+      "38",
+      "31"
+    ]
+  },
+  {
+    "run": "combat_mid-x1-reduce",
+    "attacks": 4,
+    "phase_sheets": 0,
+    "opening_effect_sheets": 0,
+    "sheets": 4,
+    "frames": 32,
+    "speed": 1.0,
+    "reduce_motion": true,
+    "final_health_text": [
+      "38",
+      "31"
+    ]
+  },
+  {
+    "run": "combat_mid-x4",
+    "attacks": 4,
+    "phase_sheets": 0,
+    "opening_effect_sheets": 0,
+    "sheets": 4,
+    "frames": 32,
+    "speed": 4.0,
+    "reduce_motion": false,
+    "final_health_text": [
+      "38",
+      "31"
+    ]
+  },
+  {
+    "run": "rival-fight-x1",
+    "attacks": 1,
+    "phase_sheets": 0,
+    "opening_effect_sheets": 0,
+    "sheets": 1,
+    "frames": 8,
+    "speed": 1.0,
+    "reduce_motion": false,
+    "final_health_text": [
+      "23",
+      "40"
+    ]
+  },
+  {
+    "run": "rival-fight-x1-reduce",
+    "attacks": 1,
+    "phase_sheets": 0,
+    "opening_effect_sheets": 0,
+    "sheets": 1,
+    "frames": 8,
+    "speed": 1.0,
+    "reduce_motion": true,
+    "final_health_text": [
+      "23",
+      "40"
+    ]
+  },
+  {
+    "run": "rival-fight-x4",
+    "attacks": 1,
+    "phase_sheets": 0,
+    "opening_effect_sheets": 0,
+    "sheets": 1,
+    "frames": 8,
+    "speed": 4.0,
+    "reduce_motion": false,
+    "final_health_text": [
+      "23",
+      "40"
+    ]
+  }
+]

@@ -1,0 +1,3647 @@
+{
+	"ancillary_count": 59.0,
+	"bottom_side": 0.0,
+	"budgeted_text_nodes": [
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1146/@Label@1140",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1146/@Label@1145",
+			"primary_stat": false,
+			"text": "Start of Combat first.\nThe first attack\nwill appear here."
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@Label@1147",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@Label@1148",
+			"primary_stat": false,
+			"text": "ROUND 3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@RichTextLabel@1151",
+			"primary_stat": false,
+			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Pill Bug (F1) marks Cradle Fetch (F2) as quarry. Young Brock (F3) marks Cradle Fetch (F2) as quarry. Young Brock (F2) marks The Great Lump (F3) as quarry. Pill Bug (F1) +1 Attack (Young Brock (F2)'s ability), now 3/6. Young Brock (F3) +1 Attack (Young Brock (F2)'s ability), now 2/3. Young Brock (F2) +1 Attack (Young Brock (F3)'s ability), now 2/3.\nCradle Fetch (F2)'s ability goes off. Cradle Fetch (F2) dies. Cradle Fetch (F2) summons Hedge Witch into F2. Hedge Witch (F2) +4/+4 (Ring gained), now 43/44.\nHedge Witch (F2)'s ability goes off. Young Brock (F2) -2 Attack (Hedge Witch (F2)'s ability), now 0/3.\nHedge Witch (B1)'s ability goes off. Nan Toadstool (B1) -2 Attack (Hedge Witch (B1)'s ability), now 0/1.\nHob-in-the-Hearth (B3)'s ability goes off. Hedge Witch (B1) gains Shield.\n"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@RichTextLabel@1154",
+			"primary_stat": false,
+			"text": "— Attacks —"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1156/@Label@1158",
+			"primary_stat": false,
+			"text": "SHIELD"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1156/@RichTextLabel@1161",
+			"primary_stat": false,
+			"text": "Prevents the first damage this would take each fight."
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1185/@Label@1181",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1185/@Label@1182",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1195/@Label@1191",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1195/@Label@1192",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1200/@Label@1196",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1200/@Label@1197",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1610/@Panel@1596/@Label@1597",
+			"primary_stat": false,
+			"text": "When hit"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1610/@Control@1599/@Label@1600",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1629/@Panel@1615/@Label@1616",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1629/@Control@1618/@Label@1619",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1648/@Panel@1634/@Label@1635",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1648/@Control@1637/@Label@1638",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1667/@Panel@1653/@Label@1654",
+			"primary_stat": false,
+			"text": "On play"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1667/@Control@1656/@Label@1657",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1222",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1223",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1224",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1226",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Panel@1463/@Label@1464",
+			"primary_stat": false,
+			"text": "End"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Panel@1463/@Label@1465",
+			"primary_stat": false,
+			"text": "of Turn"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Control@1466/@Label@1467",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1515/@Panel@1501/@Label@1502",
+			"primary_stat": false,
+			"text": "Cleave"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1515/@Control@1504/@Label@1505",
+			"primary_stat": false,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1534/@Panel@1520/@Label@1521",
+			"primary_stat": false,
+			"text": "Fly South"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1534/@Control@1523/@Label@1524",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Panel@1539/@Label@1540",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Panel@1539/@Label@1541",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Control@1542/@Label@1543",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Panel@1548/@Label@1550",
+			"primary_stat": false,
+			"text": "Shield"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1572/@Panel@1558/@Label@1559",
+			"primary_stat": false,
+			"text": "Homecoming"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1572/@Control@1561/@Label@1562",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1591/@Panel@1577/@Label@1578",
+			"primary_stat": false,
+			"text": "Shy"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1591/@Control@1580/@Label@1581",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Panel@1672/@Label@1673",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Panel@1672/@Label@1674",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Control@1675/@Label@1676",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1338",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1339",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1340",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1341",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1342",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1343",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1344",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1403/@Label@1404",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1403/@Label@1405",
+			"primary_stat": false,
+			"text": "The March Hare"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Label@1409",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Button@1412/@Label@1410",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Button@1415/@Label@1413",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Button@1418/@Label@1416",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Button@1434/@HBoxContainer@1425/@VBoxContainer@1427/@Label@1428",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Button@1434/@HBoxContainer@1425/@VBoxContainer@1427/@Label@1429",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	],
+	"capture_method": "old UI, saved exact event checkpoint, synchronous events",
+	"combat": {
+		"damage": 6.0,
+		"events": [
+			{
+				"boards": [
+					[
+						{
+							"attack": 6.0,
+							"def_id": "old_moth_annis",
+							"golden": false,
+							"health": 8.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 8.0,
+							"name": "Old Moth Annis",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "End of Turn and after you sell: Ring the slots behind this.",
+							"tier": 2.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 1.0
+						},
+						{
+							"attack": 6.0,
+							"def_id": "cradle_fetch",
+							"golden": false,
+							"health": 8.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 8.0,
+							"name": "Cradle Fetch",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.",
+							"tier": 4.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 2.0
+						},
+						{
+							"attack": 9.0,
+							"def_id": "great_lump",
+							"golden": false,
+							"health": 12.0,
+							"keyword_text": [
+								{
+									"keyword": "Cleave",
+									"text": "Attacks also hit the units beside the target."
+								},
+								{
+									"keyword": "Nest",
+									"text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+								}
+							],
+							"keywords": [
+								"Cleave",
+								"Nest"
+							],
+							"max_health": 12.0,
+							"name": "The Great Lump",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Cleave. On a Nest, this has its Bird's stats too.",
+							"tier": 5.0,
+							"tribes": [
+								"Birds"
+							],
+							"uid": 3.0
+						},
+						{
+							"attack": 18.0,
+							"def_id": "one_swallow",
+							"golden": false,
+							"health": 20.0,
+							"keyword_text": [
+								{
+									"keyword": "Fly South",
+									"text": "Sold, flies south for 1 turn; returns to hand at 2× permanent stats."
+								}
+							],
+							"keywords": [
+								"Fly South"
+							],
+							"max_health": 20.0,
+							"name": "One Swallow",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Fly South. Its trips last 1 turn. When played: get 1 gold.",
+							"tier": 1.0,
+							"tribes": [
+								"Birds"
+							],
+							"uid": 4.0
+						},
+						{
+							"attack": 77.0,
+							"def_id": "hedge_witch",
+							"golden": false,
+							"health": 79.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 79.0,
+							"name": "Hedge Witch",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+							"tier": 1.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 5.0
+						},
+						{
+							"attack": 8.0,
+							"def_id": "mr_redbreast",
+							"golden": false,
+							"health": 10.0,
+							"keyword_text": [
+								{
+									"keyword": "Fly South",
+									"text": "Sold, it flies south, then comes home to hand with double stats."
+								}
+							],
+							"keywords": [
+								"Fly South"
+							],
+							"max_health": 10.0,
+							"name": "Mr Redbreast",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "After a Bird comes home: gain an eighth of its stats.",
+							"tier": 2.0,
+							"tribes": [
+								"Birds"
+							],
+							"uid": 6.0
+						},
+						{
+							"attack": 2.0,
+							"def_id": "hob_in_the_hearth",
+							"golden": false,
+							"health": 5.0,
+							"keyword_text": [
+								{
+									"keyword": "Shy",
+									"text": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn."
+								},
+								{
+									"keyword": "Shield",
+									"text": "Prevents the first damage this would take each fight."
+								}
+							],
+							"keywords": [
+								"Shy",
+								"Shield"
+							],
+							"max_health": 5.0,
+							"name": "Hob-in-the-Hearth",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Shy. Start of Combat: your biggest Fairy gains Shield.",
+							"tier": 2.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 7.0
+						}
+					],
+					[
+						{
+							"attack": 2.0,
+							"def_id": "pill_bug",
+							"golden": false,
+							"health": 6.0,
+							"keyword_text": [],
+							"keywords": [],
+							"max_health": 6.0,
+							"name": "Pill Bug",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Whenever this is attacked: give the units behind it +1 Attack.",
+							"tier": 1.0,
+							"tribes": [],
+							"uid": 8.0
+						},
+						{
+							"attack": 1.0,
+							"def_id": "young_brock",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 3.0,
+							"name": "Young Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 9.0
+						},
+						{
+							"attack": 1.0,
+							"def_id": "young_brock",
+							"golden": false,
+							"health": 3.0,
+							"keyword_text": [
+								{
+									"keyword": "Quarry",
+									"text": "The enemy across becomes its quarry. This attacks it whenever it can."
+								}
+							],
+							"keywords": [
+								"Quarry"
+							],
+							"max_health": 3.0,
+							"name": "Young Brock",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+							"tier": 1.0,
+							"tribes": [
+								"Hunters"
+							],
+							"uid": 10.0
+						},
+						null,
+						{
+							"attack": 2.0,
+							"def_id": "nan_toadstool",
+							"golden": false,
+							"health": 1.0,
+							"keyword_text": [
+								{
+									"keyword": "Ring",
+									"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+								}
+							],
+							"keywords": [
+								"Ring"
+							],
+							"max_health": 1.0,
+							"name": "Nan Toadstool",
+							"quarry": 0.0,
+							"quarry_reach": false,
+							"statuses": [],
+							"text": "When played or sold: Ring this slot.",
+							"tier": 1.0,
+							"tribes": [
+								"Fairies"
+							],
+							"uid": 11.0
+						},
+						null,
+						null
+					]
+				],
+				"first_side": 0.0,
+				"player_ids": [
+					0.0,
+					3.0
+				],
+				"seq": 0.0,
+				"slot_effects": [
+					[
+						[
+							{
+								"attack": 4.0,
+								"count": 2.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[
+							{
+								"attack": 4.0,
+								"count": 2.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[
+							{
+								"attack": 4.0,
+								"count": 2.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[
+							{
+								"attack": 4.0,
+								"count": 2.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[
+							{
+								"attack": 76.0,
+								"count": 38.0,
+								"golden": false,
+								"health": 76.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[
+							{
+								"attack": 4.0,
+								"count": 2.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[
+							{
+								"attack": 4.0,
+								"count": 2.0,
+								"golden": false,
+								"health": 4.0,
+								"name": "Ring",
+								"ring_size": 2.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						]
+					],
+					[
+						[],
+						[],
+						[],
+						[
+							{
+								"attack": 1.0,
+								"count": 1.0,
+								"golden": false,
+								"health": 1.0,
+								"name": "Ring",
+								"ring_size": 1.0,
+								"text": "Whoever stands here gains your Ring size for each Ring."
+							}
+						],
+						[],
+						[],
+						[]
+					]
+				],
+				"type": "combat_start"
+			},
+			{
+				"name": "start_of_combat",
+				"seq": 1.0,
+				"type": "phase"
+			},
+			{
+				"name": "bell",
+				"seq": 2.0,
+				"type": "phase"
+			},
+			{
+				"hunter": 8.0,
+				"quarry": 2.0,
+				"seq": 3.0,
+				"source": 9.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 10.0,
+				"quarry": 2.0,
+				"seq": 4.0,
+				"source": 9.0,
+				"type": "quarry_marked"
+			},
+			{
+				"hunter": 9.0,
+				"quarry": 3.0,
+				"seq": 5.0,
+				"source": 10.0,
+				"type": "quarry_marked"
+			},
+			{
+				"attack": 3.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 6.0,
+				"health_delta": 0.0,
+				"max_health": 6.0,
+				"permanent": false,
+				"seq": 6.0,
+				"source": 9.0,
+				"target": 8.0,
+				"type": "stats"
+			},
+			{
+				"attack": 2.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 3.0,
+				"health_delta": 0.0,
+				"max_health": 3.0,
+				"permanent": false,
+				"seq": 7.0,
+				"source": 9.0,
+				"target": 10.0,
+				"type": "stats"
+			},
+			{
+				"attack": 2.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 3.0,
+				"health_delta": 0.0,
+				"max_health": 3.0,
+				"permanent": false,
+				"seq": 8.0,
+				"source": 10.0,
+				"target": 9.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "cradle_fetch",
+				"seq": 9.0,
+				"type": "trigger",
+				"uid": 2.0
+			},
+			{
+				"seq": 10.0,
+				"side": 0.0,
+				"slot": 1.0,
+				"type": "death",
+				"uid": 2.0
+			},
+			{
+				"copied": 5.0,
+				"seq": 11.0,
+				"side": 0.0,
+				"slot": 1.0,
+				"source": 2.0,
+				"type": "summon",
+				"unit": {
+					"attack": 39.0,
+					"def_id": "hedge_witch",
+					"golden": false,
+					"health": 40.0,
+					"keyword_text": [
+						{
+							"keyword": "Ring",
+							"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+						}
+					],
+					"keywords": [
+						"Ring"
+					],
+					"max_health": 40.0,
+					"name": "Hedge Witch",
+					"quarry": 0.0,
+					"quarry_reach": false,
+					"statuses": [],
+					"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+					"tier": 1.0,
+					"tribes": [
+						"Fairies"
+					],
+					"uid": 12.0
+				}
+			},
+			{
+				"attack": 43.0,
+				"attack_delta": 4.0,
+				"cause": "",
+				"causes": [
+					{
+						"change": "gained",
+						"name": "Ring",
+						"source": null
+					}
+				],
+				"health": 44.0,
+				"health_delta": 4.0,
+				"max_health": 44.0,
+				"permanent": false,
+				"seq": 12.0,
+				"source": null,
+				"target": 12.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "hedge_witch",
+				"seq": 13.0,
+				"type": "trigger",
+				"uid": 12.0
+			},
+			{
+				"attack": 0.0,
+				"attack_delta": -2.0,
+				"cause": "",
+				"causes": [],
+				"health": 3.0,
+				"health_delta": 0.0,
+				"max_health": 3.0,
+				"permanent": false,
+				"seq": 14.0,
+				"source": 12.0,
+				"target": 9.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "hedge_witch",
+				"seq": 15.0,
+				"type": "trigger",
+				"uid": 5.0
+			},
+			{
+				"attack": 0.0,
+				"attack_delta": -2.0,
+				"cause": "",
+				"causes": [],
+				"health": 1.0,
+				"health_delta": 0.0,
+				"max_health": 1.0,
+				"permanent": false,
+				"seq": 16.0,
+				"source": 5.0,
+				"target": 11.0,
+				"type": "stats"
+			},
+			{
+				"mechanic": "hob",
+				"seq": 17.0,
+				"type": "trigger",
+				"uid": 7.0
+			},
+			{
+				"data": {},
+				"on": true,
+				"seq": 18.0,
+				"source": 7.0,
+				"status": "shield",
+				"target": 5.0,
+				"type": "status"
+			},
+			{
+				"name": "attacks",
+				"seq": 19.0,
+				"type": "phase"
+			},
+			{
+				"attacker": 1.0,
+				"defender": 8.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 20.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"mechanic": "rolled_up",
+				"seq": 21.0,
+				"type": "trigger",
+				"uid": 8.0
+			},
+			{
+				"attack": 1.0,
+				"attack_delta": 1.0,
+				"cause": "",
+				"causes": [],
+				"health": 1.0,
+				"health_delta": 0.0,
+				"max_health": 1.0,
+				"permanent": false,
+				"seq": 22.0,
+				"source": 8.0,
+				"target": 11.0,
+				"type": "stats"
+			},
+			{
+				"amount": 6.0,
+				"health_after": 0.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 6.0,
+				"seq": 23.0,
+				"source": 1.0,
+				"strike": 1.0,
+				"target": 8.0,
+				"type": "damage"
+			},
+			{
+				"amount": 3.0,
+				"health_after": 5.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 3.0,
+				"seq": 24.0,
+				"source": 8.0,
+				"strike": 1.0,
+				"target": 1.0,
+				"type": "damage"
+			},
+			{
+				"seq": 25.0,
+				"side": 1.0,
+				"slot": 0.0,
+				"type": "death",
+				"uid": 8.0
+			},
+			{
+				"attacker": 10.0,
+				"defender": 4.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 26.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 2.0,
+				"health_after": 18.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 2.0,
+				"seq": 27.0,
+				"source": 10.0,
+				"strike": 1.0,
+				"target": 4.0,
+				"type": "damage"
+			},
+			{
+				"amount": 18.0,
+				"health_after": -15.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 18.0,
+				"seq": 28.0,
+				"source": 4.0,
+				"strike": 1.0,
+				"target": 10.0,
+				"type": "damage"
+			},
+			{
+				"seq": 29.0,
+				"side": 1.0,
+				"slot": 2.0,
+				"type": "death",
+				"uid": 10.0
+			},
+			{
+				"attacker": 12.0,
+				"defender": 9.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 30.0,
+				"side": 0.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 43.0,
+				"health_after": -40.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 43.0,
+				"seq": 31.0,
+				"source": 12.0,
+				"strike": 1.0,
+				"target": 9.0,
+				"type": "damage"
+			},
+			{
+				"seq": 32.0,
+				"side": 1.0,
+				"slot": 1.0,
+				"type": "death",
+				"uid": 9.0
+			},
+			{
+				"attacker": 11.0,
+				"defender": 12.0,
+				"joiners": [],
+				"quick": false,
+				"seq": 33.0,
+				"side": 1.0,
+				"strikes": 1.0,
+				"type": "attack"
+			},
+			{
+				"amount": 1.0,
+				"health_after": 43.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 1.0,
+				"seq": 34.0,
+				"source": 11.0,
+				"strike": 1.0,
+				"target": 12.0,
+				"type": "damage"
+			},
+			{
+				"amount": 43.0,
+				"health_after": -42.0,
+				"kind": "attack",
+				"modifiers": [],
+				"raw": 43.0,
+				"seq": 35.0,
+				"source": 12.0,
+				"strike": 1.0,
+				"target": 11.0,
+				"type": "damage"
+			},
+			{
+				"seq": 36.0,
+				"side": 1.0,
+				"slot": 4.0,
+				"type": "death",
+				"uid": 11.0
+			},
+			{
+				"amount": 1.0,
+				"side": 0.0,
+				"type": "early_spoils"
+			},
+			{
+				"alive": 8.0,
+				"damage": 6.0,
+				"damage_base": 0.0,
+				"damage_cap": 0.0,
+				"damage_mode": "v05",
+				"damage_performance": 6.0,
+				"damage_uncapped": 6.0,
+				"last_blow": false,
+				"last_blow_kind": "",
+				"last_blow_side": -1.0,
+				"last_blow_source": -1.0,
+				"last_stand_sides": [],
+				"reason": "board_empty",
+				"seq": 37.0,
+				"survivors": [
+					[
+						1.0,
+						12.0,
+						3.0,
+						4.0,
+						5.0,
+						6.0,
+						7.0
+					],
+					[]
+				],
+				"type": "combat_end",
+				"winner": 0.0
+			}
+		],
+		"floor_marks": [
+			[
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+4/+4 · 2",
+					"ring_count": 2.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+4/+4 · 2",
+					"ring_count": 2.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+4/+4 · 2",
+					"ring_count": 2.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"nest": true,
+					"ring": "+4/+4 · 2",
+					"ring_count": 2.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+76/+76 · 38",
+					"ring_count": 38.0,
+					"slot_attack": 76.0,
+					"slot_health": 76.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+4/+4 · 2",
+					"ring_count": 2.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+4/+4 · 2",
+					"ring_count": 2.0,
+					"slot_attack": 4.0,
+					"slot_health": 4.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": true,
+					"ring": "+1/+1 · 1",
+					"ring_count": 1.0,
+					"slot_attack": 1.0,
+					"slot_health": 1.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				},
+				{
+					"band": false,
+					"has_ring": false,
+					"ring": "",
+					"ring_count": 0.0,
+					"slot_attack": 0.0,
+					"slot_health": 0.0,
+					"text": ""
+				}
+			]
+		],
+		"hero_health_after": [
+			40.0,
+			34.0
+		],
+		"hero_health_before": [
+			40.0,
+			40.0
+		],
+		"opponent_id": 3.0,
+		"round": 3.0,
+		"winner": 0.0
+	},
+	"fight_input": {
+		"boards": [
+			[
+				{
+					"attack": 2.0,
+					"def_id": "old_moth_annis",
+					"golden": false,
+					"health": 4.0,
+					"iid": 51.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 2.0,
+					"def_id": "cradle_fetch",
+					"golden": false,
+					"health": 4.0,
+					"iid": 52.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 5.0,
+					"def_id": "great_lump",
+					"golden": false,
+					"health": 8.0,
+					"iid": 125.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 14.0,
+					"def_id": "one_swallow",
+					"golden": false,
+					"health": 16.0,
+					"iid": 53.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 1.0,
+					"def_id": "hedge_witch",
+					"golden": false,
+					"health": 3.0,
+					"iid": 55.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 4.0,
+					"def_id": "mr_redbreast",
+					"golden": false,
+					"health": 6.0,
+					"iid": 56.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 2.0,
+					"def_id": "hob_in_the_hearth",
+					"golden": false,
+					"health": 5.0,
+					"iid": 126.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				}
+			],
+			[
+				{
+					"attack": 2.0,
+					"def_id": "pill_bug",
+					"golden": false,
+					"health": 6.0,
+					"iid": 21.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 1.0,
+					"def_id": "young_brock",
+					"golden": false,
+					"health": 3.0,
+					"iid": 143.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				{
+					"attack": 1.0,
+					"def_id": "young_brock",
+					"golden": false,
+					"health": 3.0,
+					"iid": 107.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				null,
+				{
+					"attack": 2.0,
+					"def_id": "nan_toadstool",
+					"golden": false,
+					"health": 1.0,
+					"iid": 144.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				null,
+				null
+			]
+		],
+		"config": {
+			"ask_for_kin": false,
+			"attack_limit": 200.0,
+			"base_damage_by_turn": [
+				0.0,
+				0.0,
+				0.0,
+				1.0,
+				1.0,
+				2.0,
+				2.0,
+				3.0,
+				4.0,
+				5.0,
+				7.0,
+				9.0,
+				11.0,
+				13.0
+			],
+			"bots": [
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied",
+				"hard:varied"
+			],
+			"card_rate_limits": true,
+			"card_size_caps": true,
+			"damage_cap_by_turn": [
+				4.0,
+				4.0,
+				5.0,
+				6.0,
+				7.0,
+				8.0,
+				9.0,
+				10.0,
+				11.0,
+				12.0
+			],
+			"damage_cap_off_at_alive": 4.0,
+			"damage_mode": "v05",
+			"discover_options": 3.0,
+			"early_spoils": true,
+			"field_library": "",
+			"field_strength": "top4",
+			"freeze_toggles_per_turn": 5.0,
+			"hand_limit": 10.0,
+			"hero_choice": true,
+			"hero_damage_floor": 4.0,
+			"heroes_offered": 3.0,
+			"human_bot": "",
+			"income_by_turn": [
+				3.0,
+				4.0,
+				5.0,
+				6.0,
+				7.0,
+				8.0,
+				9.0,
+				10.0
+			],
+			"last_blow": true,
+			"last_stand": true,
+			"lobby_tribe_min_units": 4.0,
+			"max_rounds": 50.0,
+			"opening_rounds": 2.0,
+			"opening_spells": [
+				"rainy_day",
+				"a_leg_up"
+			],
+			"opponents": "bots",
+			"pass3_content": true,
+			"pass3_loop_guards": true,
+			"players": 8.0,
+			"pool_copies_by_tier": [
+				15.0,
+				15.0,
+				13.0,
+				13.0,
+				11.0,
+				9.0
+			],
+			"pool_filter": "slice",
+			"refresh_base_cost": 1.0,
+			"refresh_first_step_after": 15.0,
+			"refresh_step_length": 5.0,
+			"round_toll": false,
+			"scale_answer_percent": 50.0,
+			"scale_economy_cap": 10.0,
+			"scale_engine_flat": 0.0,
+			"scale_engine_percent": 25.0,
+			"scale_engine_self": false,
+			"scale_engine_tribe": "Hedgerow folk",
+			"scale_hero_spell_percent": 10.0,
+			"scale_hero_spell_stats": false,
+			"scale_levers": [],
+			"sell_bought": 1.0,
+			"sell_created": 0.0,
+			"shop_spells_by_tier": [
+				1.0,
+				1.0,
+				1.0,
+				1.0,
+				1.0,
+				1.0
+			],
+			"shop_tier_odds": [
+				[
+					100.0
+				],
+				[
+					50.0,
+					50.0
+				],
+				[
+					20.0,
+					30.0,
+					50.0
+				],
+				[
+					10.0,
+					15.0,
+					25.0,
+					50.0
+				],
+				[
+					5.0,
+					10.0,
+					15.0,
+					25.0,
+					45.0
+				],
+				[
+					5.0,
+					5.0,
+					10.0,
+					15.0,
+					25.0,
+					40.0
+				]
+			],
+			"shop_units_by_tier": [
+				4.0,
+				4.0,
+				4.0,
+				5.0,
+				5.0,
+				6.0
+			],
+			"spell_copies_by_tier": [
+				5.0,
+				7.0,
+				9.0,
+				11.0,
+				9.0,
+				7.0
+			],
+			"spells_in_shop": true,
+			"starting_health": 40.0,
+			"survivor_damage_divisor": 2.0,
+			"tribes_per_lobby": 5.0,
+			"trigger_limit_action": 1000.0,
+			"trigger_limit_combat": 10000.0,
+			"unit_cost": 3.0,
+			"upgrade_costs": [
+				5.0,
+				7.0,
+				8.0,
+				11.0,
+				13.0
+			],
+			"upgrade_discount_per_turn": 1.0
+		},
+		"damage_cap": 0.0,
+		"effect_rng_seed": "1751520540",
+		"effect_rng_state": "-6950325501298674818",
+		"fight_rules": [
+			{
+				"ammo": [
+					1.0
+				],
+				"away_birds": [
+					"mrs_jay"
+				],
+				"away_specs": [
+					{
+						"attack": 7.0,
+						"def_id": "mrs_jay",
+						"golden": false,
+						"health": 7.0,
+						"iid": 54.0,
+						"slot": 3.0,
+						"tribe_attack": 0.0,
+						"tribe_health": 0.0
+					}
+				],
+				"back_row_first": false,
+				"bands": [
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				"goose": 0.0,
+				"homecomings": 1.0,
+				"larder": 1.0,
+				"nests": [
+					{
+						"attack": 7.0,
+						"def_id": "mrs_jay",
+						"health": 7.0,
+						"slot": 3.0,
+						"spec": {
+							"attack": 7.0,
+							"def_id": "mrs_jay",
+							"golden": false,
+							"health": 7.0,
+							"iid": 54.0,
+							"tribe_attack": 0.0,
+							"tribe_health": 0.0
+						}
+					}
+				],
+				"pass3_content": true,
+				"ring_size": 2.0
+			},
+			{
+				"ammo": [],
+				"away_birds": [],
+				"away_specs": [],
+				"back_row_first": false,
+				"bands": [
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0,
+					0.0
+				],
+				"goose": 0.0,
+				"homecomings": 0.0,
+				"larder": 0.0,
+				"nests": [],
+				"pass3_content": true,
+				"ring_size": 1.0
+			}
+		],
+		"hero_effects": [
+			[
+				{
+					"do": {
+						"attack": 1.0,
+						"effect": "buff",
+						"health": 1.0,
+						"per": "tier",
+						"per_max": 5.0,
+						"target": {
+							"select": "friendly"
+						}
+					},
+					"if": [
+						{
+							"at_most": 5.0,
+							"kind": "count",
+							"target": {
+								"select": "friendly"
+							}
+						}
+					],
+					"name": "hermitage",
+					"trigger": "start_of_combat"
+				}
+			],
+			[]
+		],
+		"hero_health_before": [
+			40.0,
+			40.0
+		],
+		"player_ids": [
+			0.0,
+			3.0
+		],
+		"rng_seed": "1751534577",
+		"rng_state": "7295043734485811695",
+		"round": 3.0,
+		"slots": [
+			[
+				[
+					{
+						"attack": 4.0,
+						"count": 2.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[
+					{
+						"attack": 4.0,
+						"count": 2.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[
+					{
+						"attack": 4.0,
+						"count": 2.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[
+					{
+						"attack": 4.0,
+						"count": 2.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[
+					{
+						"attack": 76.0,
+						"count": 38.0,
+						"golden": false,
+						"health": 76.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[
+					{
+						"attack": 4.0,
+						"count": 2.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[
+					{
+						"attack": 4.0,
+						"count": 2.0,
+						"golden": false,
+						"health": 4.0,
+						"name": "Ring",
+						"ring_size": 2.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				]
+			],
+			[
+				[],
+				[],
+				[],
+				[
+					{
+						"attack": 1.0,
+						"count": 1.0,
+						"golden": false,
+						"health": 1.0,
+						"name": "Ring",
+						"ring_size": 1.0,
+						"text": "Whoever stands here gains your Ring size for each Ring."
+					}
+				],
+				[],
+				[],
+				[]
+			]
+		],
+		"tiers": [
+			4.0,
+			1.0
+		],
+		"version": 1.0
+	},
+	"image": "homecoming-following-combat_1688x780.png",
+	"names": [
+		"You",
+		"The March Hare"
+	],
+	"next_index": 20.0,
+	"opponent_health": 40.0,
+	"pixels": [
+		1688.0,
+		780.0
+	],
+	"reader_uid": -1.0,
+	"seed": 109.0,
+	"source_revision": "1ecbce6",
+	"state": {
+		"armor": 0.0,
+		"ask_for_kin_enabled": false,
+		"away": [],
+		"band_count": 0.0,
+		"bands": [
+			false,
+			false,
+			false,
+			false,
+			false,
+			false,
+			false
+		],
+		"base_damage": 1.0,
+		"birds_homecoming_multiplier": 2.0,
+		"birds_lump_multiplier": 1.0,
+		"board": [
+			{
+				"attack": 6.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "old_moth_annis",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 8.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 51.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"name": "Old Moth Annis",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 1.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 4.0,
+					"aura_health": 4.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "End of Turn and after you sell: Ring the slots behind this.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Fairies": 0.0
+				},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 3.0
+			},
+			{
+				"attack": 43.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"combat_start_overlay": true,
+				"copied_name": "Hedge Witch",
+				"counters": {},
+				"def_id": "cradle_fetch",
+				"details": "Starts as a copy of Hedge Witch at 50.0% stats, plus this slot's Ring.",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 44.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 52.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"name": "Cradle Fetch",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 1.0,
+				"poached": false,
+				"recruit_attack": 6.0,
+				"recruit_health": 8.0,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 4.0,
+					"aura_health": 4.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.",
+				"tier": 4.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Fairies": 0.0
+				},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 3.0
+			},
+			{
+				"attack": 9.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "great_lump",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 12.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 125.0,
+				"keyword_text": [
+					{
+						"keyword": "Cleave",
+						"text": "Attacks also hit the units beside the target."
+					},
+					{
+						"keyword": "Nest",
+						"text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+					}
+				],
+				"keywords": [
+					"Cleave",
+					"Nest"
+				],
+				"name": "The Great Lump",
+				"nest_multiplier": 1.0,
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 4.0,
+					"aura_health": 4.0,
+					"base_attack": 5.0,
+					"base_health": 8.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Cleave. On a Nest, this has its Bird's stats too.",
+				"tier": 5.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Birds": 0.0
+				},
+				"tribes": [
+					"Birds"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 2.0
+			},
+			{
+				"attack": 18.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {
+					"pass3_home_round": 3.0
+				},
+				"def_id": "one_swallow",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 1.0,
+				"golden": false,
+				"health": 20.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 53.0,
+				"keyword_text": [
+					{
+						"keyword": "Fly South",
+						"text": "Sold, flies south for 1 turn; returns to hand at 2× permanent stats."
+					}
+				],
+				"keywords": [
+					"Fly South"
+				],
+				"name": "One Swallow",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 3.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 4.0,
+					"aura_health": 4.0,
+					"base_attack": 1.0,
+					"base_health": 2.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 13.0,
+					"perm_health": 14.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Fly South. Its trips last 1 turn. When played: get 1 gold.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Birds": 0.0
+				},
+				"tribes": [
+					"Birds"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 77.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "hedge_witch",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 79.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 55.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"name": "Hedge Witch",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 1.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 76.0,
+					"aura_health": 76.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Fairies": 0.0
+				},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 3.0
+			},
+			{
+				"attack": 10.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "mr_redbreast",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 12.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 56.0,
+				"keyword_text": [
+					{
+						"keyword": "Fly South",
+						"text": "Sold, it flies south, then comes home to hand with double stats."
+					}
+				],
+				"keywords": [
+					"Fly South"
+				],
+				"name": "Mr Redbreast",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 1.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 4.0,
+					"aura_health": 4.0,
+					"base_attack": 2.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 4.0,
+					"perm_health": 4.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After a Bird comes home: gain an eighth of its stats.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Birds": 0.0
+				},
+				"tribes": [
+					"Birds"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 3.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "hob_in_the_hearth",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 5.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 126.0,
+				"keyword_text": [
+					{
+						"keyword": "Shy",
+						"text": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn."
+					},
+					{
+						"keyword": "Shield",
+						"text": "Prevents the first damage this would take each fight."
+					}
+				],
+				"keywords": [
+					"Shy",
+					"Shield"
+				],
+				"name": "Hob-in-the-Hearth",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_payout": 0.0,
+				"sell_value": 0.0,
+				"shy": true,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 5.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Shy. Start of Combat: your biggest Fairy gains Shield.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Fairies": 0.0
+				},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 2.0
+			}
+		],
+		"buys_left": -1.0,
+		"can_ask_for_kin": false,
+		"damage_cap": 0.0,
+		"damage_mode": "v05",
+		"debt": 0.0,
+		"debt_payment": 0.0,
+		"doorstep": [],
+		"early_spoils_income": 1.0,
+		"early_spoils_next_turn": 0.0,
+		"fairies_fetch_share": 0.5,
+		"free_refreshes": 0.0,
+		"freezes_left": 5.0,
+		"frozen": false,
+		"gold": 24.0,
+		"gold_next_turn": 0.0,
+		"gold_spent_turn": 0.0,
+		"hand": [
+			{
+				"attack": 14.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {
+					"pass3_home_round": 4.0
+				},
+				"def_id": "mrs_jay",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 2.0,
+				"golden": false,
+				"health": 14.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 54.0,
+				"keyword_text": [
+					{
+						"keyword": "Fly South",
+						"text": "Sold, flies south for 2 turns; returns to hand at 2× permanent stats."
+					},
+					{
+						"keyword": "Acorn",
+						"text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+					}
+				],
+				"keywords": [
+					"Fly South",
+					"Acorn"
+				],
+				"name": "Mrs Jay",
+				"origin": "created",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 4.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 0.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 11.0,
+					"perm_health": 11.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Fly South. When sold: get an Acorn.",
+				"tier": 2.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Birds": 0.0
+				},
+				"tribes": [
+					"Birds"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			}
+		],
+		"hand_items": [
+			{
+				"aim": "none",
+				"combines_into": "stash",
+				"cost": 0.0,
+				"def_id": "acorn",
+				"gold_value": 1.0,
+				"iid": 124.0,
+				"keyword_text": [
+					{
+						"keyword": "Acorn",
+						"text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+					}
+				],
+				"keywords": [
+					"Acorn"
+				],
+				"kind": "item",
+				"name": "Acorn",
+				"sample": false,
+				"text": "Play for 1 gold. Three combine into a Stash.",
+				"tier": 1.0
+			}
+		],
+		"hand_limit": 10.0,
+		"harvest_supper_used": false,
+		"health": 40.0,
+		"hero": {
+			"aim": "none",
+			"armor": 0.0,
+			"cost": 0.0,
+			"id": "brother_bracken",
+			"kind": "passive",
+			"last_stand_used": false,
+			"name": "Brother Bracken",
+			"sample": false,
+			"text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
+			"usable": true,
+			"uses_left": 0.0,
+			"uses_per_turn": 0.0
+		},
+		"larder": 1.0,
+		"last_combat": {
+			"damage": 6.0,
+			"opponent_id": 3.0,
+			"round": 3.0,
+			"winner": 0.0
+		},
+		"last_stand_active": false,
+		"last_stand_enabled": true,
+		"last_stand_used": false,
+		"lobby_tribes": [
+			"Birds",
+			"Bog folk",
+			"Fairies",
+			"Hunters",
+			"Oozes"
+		],
+		"midsummer_left": 0.0,
+		"next_opponent_hero": {
+			"aim": "none",
+			"armor": 0.0,
+			"cost": 0.0,
+			"id": "little_king_wren",
+			"kind": "passive",
+			"last_stand_used": false,
+			"name": "Little King Wren",
+			"sample": false,
+			"text": "Start of Combat: your lowest-Attack unit uses the highest enemy Attack for its first attack.\nLast Stand: unused.",
+			"usable": true,
+			"uses_left": 0.0,
+			"uses_per_turn": 0.0
+		},
+		"next_opponent_id": 2.0,
+		"next_opponent_last_board": [
+			{
+				"attack": 1.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "hedge_witch",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 98.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"name": "Hedge Witch",
+				"origin": "bought",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Fairies": 0.0
+				},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 2.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "bridge_toad",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 100.0,
+				"keyword_text": [
+					{
+						"keyword": "Mire",
+						"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+					}
+				],
+				"keywords": [
+					"Mire"
+				],
+				"name": "Bridge Toad",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 1.0,
+					"perm_health": 1.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Bog folk": 0.0
+				},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 2.0
+			},
+			{
+				"attack": 1.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "bridge_toad",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 138.0,
+				"keyword_text": [
+					{
+						"keyword": "Mire",
+						"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+					}
+				],
+				"keywords": [
+					"Mire"
+				],
+				"name": "Bridge Toad",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 3.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Mire. After its Mired enemy attacks this: gain +1/+1 permanently, up to +3/+3.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Bog folk": 0.0
+				},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			null,
+			{
+				"attack": 1.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "hedge_witch",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 101.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"name": "Hedge Witch",
+				"origin": "bought",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 2.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 1.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Fairies": 0.0
+				},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			{
+				"attack": 3.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"counters": {},
+				"def_id": "young_pretender",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 2.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 139.0,
+				"keyword_text": [
+					{
+						"keyword": "Snap",
+						"text": "Attacks the Mired enemy with the most Attack."
+					}
+				],
+				"keywords": [
+					"Snap"
+				],
+				"name": "Young Pretender",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 3.0,
+				"poached": false,
+				"reward_pending": false,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 2.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Snap. After this kills a Mired enemy: get 1 gold next turn.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {
+					"Bog folk": 0.0
+				},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 1.0
+			},
+			null
+		],
+		"next_opponent_last_nests": [],
+		"next_opponent_last_slot_effects": [
+			[],
+			[],
+			[],
+			[],
+			[],
+			[],
+			[]
+		],
+		"next_turn_income": 7.0,
+		"paid_refreshes": 0.0,
+		"pass3_content": true,
+		"pending_choice": null,
+		"pending_passes": [],
+		"phase": "recruit",
+		"placement": null,
+		"player_id": 0.0,
+		"poached": [],
+		"recruit_log": [
+			{
+				"type": "home",
+				"unit": "mrs_jay"
+			},
+			{
+				"mechanic": "pass3_redbreast",
+				"source": "mr_redbreast",
+				"type": "trigger"
+			},
+			{
+				"attack": 2.0,
+				"duration": "",
+				"health": 2.0,
+				"target": "mr_redbreast",
+				"type": "buff"
+			}
+		],
+		"refresh_cost": 1.0,
+		"ring_size": 2.0,
+		"round": 4.0,
+		"round_toll": 0.0,
+		"shop": [
+			{
+				"attack": 3.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "signor_ranocchio",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 167.0,
+				"keyword_text": [
+					{
+						"keyword": "Snap",
+						"text": "Attacks the Mired enemy with the most Attack."
+					}
+				],
+				"keywords": [
+					"Snap"
+				],
+				"name": "Signor Ranocchio, Tenor",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Snap. After this attacks a Mired enemy: gain +1/+1 permanently. Once a fight.",
+				"tier": 4.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 3.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "madame_ermeline",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 6.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 168.0,
+				"keyword_text": [],
+				"keywords": [],
+				"name": "Madame Ermeline",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 6.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
+				"tier": 4.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Hunters"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "nan_toadstool",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 1.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 169.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"name": "Nan Toadstool",
+				"origin": "bought",
+				"pass3_content": true,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 1.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "When played or sold: Ring this slot.",
+				"tier": 1.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Fairies"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 2.0,
+				"belly": 1.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "frumenty",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 3.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 170.0,
+				"keyword_text": [
+					{
+						"keyword": "Belly",
+						"text": "Holds this many units, safe inside. When this dies, they come out."
+					}
+				],
+				"keywords": [
+					"Belly"
+				],
+				"name": "Frumenty",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 2.0,
+					"base_health": 3.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Belly 1. This has the text of what's inside it.",
+				"tier": 4.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Oozes"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			},
+			{
+				"attack": 3.0,
+				"belly": 0.0,
+				"belly_discount": 0.0,
+				"cost": 3.0,
+				"counters": {},
+				"def_id": "natterjack_chorus",
+				"eats_items": false,
+				"egged": false,
+				"fly_south": 0.0,
+				"golden": false,
+				"health": 4.0,
+				"held": [],
+				"hex_amount": 0.0,
+				"hex_stored": 0.0,
+				"iid": 171.0,
+				"keyword_text": [
+					{
+						"keyword": "Mire",
+						"text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+					},
+					{
+						"keyword": "Bitter",
+						"text": "When an enemy attacks this, it first loses this much Attack, down to 1."
+					}
+				],
+				"keywords": [
+					"Mire",
+					"Bitter"
+				],
+				"name": "The Natterjack Chorus",
+				"origin": "bought",
+				"pass3_content": false,
+				"plain_copy": false,
+				"played_round": 0.0,
+				"poached": false,
+				"reward_pending": false,
+				"sell_value": 1.0,
+				"shy": false,
+				"stat_layers": {
+					"aura_attack": 0.0,
+					"aura_health": 0.0,
+					"base_attack": 3.0,
+					"base_health": 4.0,
+					"combat_attack": 0.0,
+					"combat_health": 0.0,
+					"perm_attack": 0.0,
+					"perm_health": 0.0,
+					"tribe_attack": 0.0,
+					"tribe_health": 0.0
+				},
+				"text": "Your units beside this have Mire and Bitter 1.",
+				"tier": 3.0,
+				"timers": [],
+				"tribe_bonuses": {},
+				"tribes": [
+					"Bog folk"
+				],
+				"turns_goal": 0.0,
+				"turns_in_slot": 0.0
+			}
+		],
+		"shop_size": 5.0,
+		"shop_spells": [
+			{
+				"aim": "any_slot",
+				"combines_into": "",
+				"cost": 2.0,
+				"def_id": "boundary_stone",
+				"gold_value": 0.0,
+				"iid": 172.0,
+				"keyword_text": [
+					{
+						"keyword": "Ring",
+						"text": "Whoever stands on this slot gains your Ring size for each Ring here."
+					}
+				],
+				"keywords": [
+					"Ring"
+				],
+				"kind": "spell",
+				"name": "Boundary Stone",
+				"ring_add": [
+					3.0,
+					3.0
+				],
+				"ring_count": 3.0,
+				"ring_size": 2.0,
+				"sample": false,
+				"text": "Ring a slot 3 times.",
+				"tier": 4.0
+			}
+		],
+		"slot_effects": [
+			[
+				{
+					"attack": 4.0,
+					"count": 2.0,
+					"golden": false,
+					"health": 4.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"attack": 4.0,
+					"count": 2.0,
+					"golden": false,
+					"health": 4.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"attack": 4.0,
+					"count": 2.0,
+					"golden": false,
+					"health": 4.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"attack": 4.0,
+					"count": 2.0,
+					"golden": false,
+					"health": 4.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"attack": 76.0,
+					"count": 38.0,
+					"golden": false,
+					"health": 76.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"attack": 4.0,
+					"count": 2.0,
+					"golden": false,
+					"health": 4.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			],
+			[
+				{
+					"attack": 4.0,
+					"count": 2.0,
+					"golden": false,
+					"health": 4.0,
+					"name": "Ring",
+					"ring_size": 2.0,
+					"text": "Whoever stands here gains your Ring size for each Ring."
+				}
+			]
+		],
+		"standings": [
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 40.0,
+				"hero": "Brother Bracken",
+				"is_human": true,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "You",
+				"personality": "human",
+				"placement": null,
+				"player_id": 0.0,
+				"tier": 4.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 39.0,
+				"hero": "Hob Mumblecrust",
+				"is_human": false,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 1 (hard)",
+				"personality": "hard:bog_bitter",
+				"placement": null,
+				"player_id": 1.0,
+				"tier": 2.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 39.0,
+				"hero": "Little King Wren",
+				"is_human": false,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 2 (hard)",
+				"personality": "hard:neutrals_low_roll",
+				"placement": null,
+				"player_id": 2.0,
+				"tier": 1.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 34.0,
+				"hero": "The March Hare",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 3 (hard)",
+				"personality": "hard:bog_borrowed",
+				"placement": null,
+				"player_id": 3.0,
+				"tier": 1.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 33.0,
+				"hero": "Dame Hoolet",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 4 (hard)",
+				"personality": "hard:bog_tongues",
+				"placement": null,
+				"player_id": 4.0,
+				"tier": 2.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 33.0,
+				"hero": "Dame Farthing",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 5 (hard)",
+				"personality": "hard:birds_summer_winter",
+				"placement": null,
+				"player_id": 5.0,
+				"tier": 2.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 38.0,
+				"hero": "Pipkin",
+				"is_human": false,
+				"last_result": "win",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 6 (hard)",
+				"personality": "hard:fairies_rings",
+				"placement": null,
+				"player_id": 6.0,
+				"tier": 2.0
+			},
+			{
+				"alive": true,
+				"armor": 0.0,
+				"health": 36.0,
+				"hero": "Old Mother Mousewife",
+				"is_human": false,
+				"last_result": "loss",
+				"last_stand_active": false,
+				"last_stand_enabled": true,
+				"last_stand_used": false,
+				"name": "Bot 7 (hard)",
+				"personality": "hard:oozes_rude_awakening",
+				"placement": null,
+				"player_id": 7.0,
+				"tier": 2.0
+			}
+		],
+		"takes_last_fight": 0.0,
+		"tier": 4.0,
+		"tier_up_cost": 8.0,
+		"tribe_bonuses": {}
+	},
+	"visible_text_count": 82.0,
+	"visible_text_nodes": [
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1146/@Label@1140",
+			"primary_stat": false,
+			"text": "THIS HIT"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1146/@Label@1145",
+			"primary_stat": false,
+			"text": "Start of Combat first.\nThe first attack\nwill appear here."
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@Label@1147",
+			"primary_stat": false,
+			"text": "COMBAT LOG"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@Label@1148",
+			"primary_stat": false,
+			"text": "ROUND 3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@RichTextLabel@1151",
+			"primary_stat": false,
+			"text": "Combat: You vs The March Hare. First to attack: You.\n— Start of Combat — Pill Bug (F1) marks Cradle Fetch (F2) as quarry. Young Brock (F3) marks Cradle Fetch (F2) as quarry. Young Brock (F2) marks The Great Lump (F3) as quarry. Pill Bug (F1) +1 Attack (Young Brock (F2)'s ability), now 3/6. Young Brock (F3) +1 Attack (Young Brock (F2)'s ability), now 2/3. Young Brock (F2) +1 Attack (Young Brock (F3)'s ability), now 2/3.\nCradle Fetch (F2)'s ability goes off. Cradle Fetch (F2) dies. Cradle Fetch (F2) summons Hedge Witch into F2. Hedge Witch (F2) +4/+4 (Ring gained), now 43/44.\nHedge Witch (F2)'s ability goes off. Young Brock (F2) -2 Attack (Hedge Witch (F2)'s ability), now 0/3.\nHedge Witch (B1)'s ability goes off. Nan Toadstool (B1) -2 Attack (Hedge Witch (B1)'s ability), now 0/1.\nHob-in-the-Hearth (B3)'s ability goes off. Hedge Witch (B1) gains Shield.\n"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1155/@RichTextLabel@1154",
+			"primary_stat": false,
+			"text": "— Attacks —"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1156/@Label@1158",
+			"primary_stat": false,
+			"text": "SHIELD"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1156/@RichTextLabel@1161",
+			"primary_stat": false,
+			"text": "Prevents the first damage this would take each fight."
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1185/@Label@1181",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1185/@Label@1182",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1195/@Label@1191",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1195/@Label@1192",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1200/@Label@1196",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1200/@Label@1197",
+			"primary_stat": false,
+			"text": "EMPTY"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1610/@Panel@1596/@Label@1597",
+			"primary_stat": false,
+			"text": "When hit"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1610/@Control@1599/@Label@1600",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1610/@Control@1601/@Label@1602",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1610/@Control@1603/@Label@1604",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1629/@Panel@1615/@Label@1616",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1629/@Control@1618/@Label@1619",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1629/@Control@1620/@Label@1621",
+			"primary_stat": true,
+			"text": "0"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1629/@Control@1622/@Label@1623",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1648/@Panel@1634/@Label@1635",
+			"primary_stat": false,
+			"text": "Quarry"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1648/@Control@1637/@Label@1638",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1648/@Control@1639/@Label@1640",
+			"primary_stat": true,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1648/@Control@1641/@Label@1642",
+			"primary_stat": true,
+			"text": "3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1667/@Panel@1653/@Label@1654",
+			"primary_stat": false,
+			"text": "On play"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1667/@Control@1656/@Label@1657",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1667/@Control@1658/@Label@1659",
+			"primary_stat": true,
+			"text": "0"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Control@1667/@Control@1660/@Label@1661",
+			"primary_stat": true,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1222",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1223",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1224",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1280/@Label@1226",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Panel@1463/@Label@1464",
+			"primary_stat": false,
+			"text": "End"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Panel@1463/@Label@1465",
+			"primary_stat": false,
+			"text": "of Turn"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Control@1466/@Label@1467",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Control@1468/@Label@1469",
+			"primary_stat": true,
+			"text": "6"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1477/@Control@1470/@Label@1471",
+			"primary_stat": true,
+			"text": "8"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1515/@Panel@1501/@Label@1502",
+			"primary_stat": false,
+			"text": "Cleave"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1515/@Control@1504/@Label@1505",
+			"primary_stat": false,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1515/@Control@1506/@Label@1507",
+			"primary_stat": true,
+			"text": "9"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1515/@Control@1508/@Label@1509",
+			"primary_stat": true,
+			"text": "12"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1534/@Panel@1520/@Label@1521",
+			"primary_stat": false,
+			"text": "Fly South"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1534/@Control@1523/@Label@1524",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1534/@Control@1525/@Label@1526",
+			"primary_stat": true,
+			"text": "18"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1534/@Control@1527/@Label@1528",
+			"primary_stat": true,
+			"text": "20"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Panel@1539/@Label@1540",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Panel@1539/@Label@1541",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Control@1542/@Label@1543",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Control@1544/@Label@1545",
+			"primary_stat": true,
+			"text": "77"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Control@1546/@Label@1547",
+			"primary_stat": true,
+			"text": "79"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1553/@Panel@1548/@Label@1550",
+			"primary_stat": false,
+			"text": "Shield"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1572/@Panel@1558/@Label@1559",
+			"primary_stat": false,
+			"text": "Homecoming"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1572/@Control@1561/@Label@1562",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1572/@Control@1563/@Label@1564",
+			"primary_stat": true,
+			"text": "8"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1572/@Control@1565/@Label@1566",
+			"primary_stat": true,
+			"text": "10"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1591/@Panel@1577/@Label@1578",
+			"primary_stat": false,
+			"text": "Shy"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1591/@Control@1580/@Label@1581",
+			"primary_stat": false,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1591/@Control@1582/@Label@1583",
+			"primary_stat": true,
+			"text": "2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1591/@Control@1584/@Label@1585",
+			"primary_stat": true,
+			"text": "5"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Panel@1672/@Label@1673",
+			"primary_stat": false,
+			"text": "Start"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Panel@1672/@Label@1674",
+			"primary_stat": false,
+			"text": "of Combat"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Control@1675/@Label@1676",
+			"primary_stat": false,
+			"text": "1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Control@1677/@Label@1678",
+			"primary_stat": true,
+			"text": "43"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Control@1686/@Control@1679/@Label@1680",
+			"primary_stat": true,
+			"text": "44"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1338",
+			"primary_stat": false,
+			"text": "F1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1339",
+			"primary_stat": false,
+			"text": "F2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1340",
+			"primary_stat": false,
+			"text": "F3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1341",
+			"primary_stat": false,
+			"text": "F4"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1342",
+			"primary_stat": false,
+			"text": "B1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1343",
+			"primary_stat": false,
+			"text": "B2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1396/@Label@1344",
+			"primary_stat": false,
+			"text": "B3"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1403/@Label@1404",
+			"primary_stat": false,
+			"text": "FIGHTING"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1403/@Label@1405",
+			"primary_stat": false,
+			"text": "The March Hare"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1403/@Control@1406/@Label@1407",
+			"primary_stat": true,
+			"text": "40"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Label@1409",
+			"primary_stat": false,
+			"text": "SPEED"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Button@1412/@Label@1410",
+			"primary_stat": false,
+			"text": "×1"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Button@1415/@Label@1413",
+			"primary_stat": false,
+			"text": "×2"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Control@1408/@Button@1418/@Label@1416",
+			"primary_stat": false,
+			"text": "×4"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Button@1434/@HBoxContainer@1425/@VBoxContainer@1427/@Label@1428",
+			"primary_stat": false,
+			"text": "Skip"
+		},
+		{
+			"path": "/root/@Control@1458/@Control@1139/@Button@1434/@HBoxContainer@1425/@VBoxContainer@1427/@Label@1429",
+			"primary_stat": false,
+			"text": "to the result"
+		}
+	]
+}

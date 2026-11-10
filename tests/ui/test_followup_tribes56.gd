@@ -162,10 +162,10 @@ func test_a_mired_pack_joiner_names_its_maker_and_keeps_its_turn() -> void:
 	assert_true(_events("attack")[0]["joiners"].is_empty())
 	assert_false(joiner.flagged)
 	for text: String in _visible_lines():
-		assert_string_contains(text, "Wick (F2)")
+		assert_string_contains(text, "Wick")
 		assert_string_contains(text, "stays out of")
-		assert_string_contains(text, "Little Nip (F1)")
-		assert_string_contains(text, "Bridge Toad (F2)")
+		assert_string_contains(text, "Little Nip")
+		assert_string_contains(text, "Bridge Toad")
 		assert_string_contains(text, "Mired by")
 	_combat._attack(leader, _combat.unit_at(1, 1))
 	assert_eq(_events("pack_blocked").size(), 1, "joining against its maker is legal")
