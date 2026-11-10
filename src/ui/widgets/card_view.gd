@@ -14,6 +14,7 @@ extends "res://src/ui/widgets/interactive.gd"
 
 enum Mode { SHOP, BOARD, MINI }
 
+const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
 const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
 const OozeMarks := preload("res://src/ui/widgets/ooze_marks.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
@@ -119,6 +120,11 @@ var unit: Dictionary = {}
 ## The size this card is laid out for (see LEARNINGS, 4 Nov: size lags behind the minimum size).
 var card_size: Vector2 = Vector2(SHOP_WIDTH, SHOP_HEIGHT)
 var mode: Mode = Mode.SHOP
+## A fight uses a wordless face. Recruit and scout switch in the next declutter batch.
+var combat_face: bool = false:
+	set(value):
+		combat_face = value
+		_refresh()
 var selected: bool = false:
 	set(value):
 		selected = value
@@ -147,6 +153,7 @@ var chip_shown: String = ""
 ## The rules text is on the tile (read by tests); when false it is a tap away.
 var rules_shown: bool = false
 
+var _combat_marks: CombatFace
 var _poached_badge: PoachedBadge
 var _ooze_marks: OozeMarks
 var _art: ArtFrame
@@ -317,6 +324,21 @@ func set_statuses(statuses: Array) -> void:
 	_refresh_status()
 
 
+## Animation anchors stay on the tile, so pulses follow lunges and borrowed units.
+func trigger_glyph() -> Control:
+	if _combat_marks.counter.visible:
+		return _combat_marks.counter
+	return _combat_marks.glyph
+
+
+func attack_bead() -> Control:
+	return _attack_badge
+
+
+func health_bead() -> Control:
+	return _health_badge
+
+
 ## Queued permanent gains are separate from the unit's current combat stats.
 func set_pending_gains(attack: int, health: int) -> void:
 	unit["pending_attack"] = attack
@@ -325,6 +347,7 @@ func set_pending_gains(attack: int, health: int) -> void:
 
 
 func set_kisses(count: int, period: int) -> void:
+	unit["kisses"] = count
 	unit["recruit_kisses"] = count
 	unit["bog_kiss_period"] = period
 	_refresh_chip(is_spell(unit))
@@ -420,6 +443,8 @@ func _build() -> void:
 	add_child(_star)
 	_poached_badge = PoachedBadge.new()
 	add_child(_poached_badge)
+	_combat_marks = CombatFace.new()
+	add_child(_combat_marks)
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	size_flags_vertical = Control.SIZE_SHRINK_CENTER
 
@@ -470,12 +495,12 @@ func _refresh() -> void:
 	var golden: bool = Data.b(unit, "golden", false)
 	_art.texture = UiTheme.portrait_for(Data.s(unit, "portrait_id", Data.s(unit, "def_id")), tribes)
 	_art.gilded = golden
-	_star.visible = golden
+	_star.visible = golden and not combat_face
 	_name_label.text = Data.s(unit, "name")
 	_type_label.text = card_word(unit) if spell else UiTheme.short_tribe(tribes)
 	_tier_label.text = str(Data.i(unit, "cost", 1) if spell else Data.i(unit, "tier", 1))
 	_tier_badge.shape = "knot_gold" if spell or golden else "knot"
-	_tier_badge.visible = Data.s(unit, "type_word").is_empty()
+	_tier_badge.visible = not combat_face and Data.s(unit, "type_word").is_empty()
 	var worth: int = Data.i(unit, "gold_value", 0)
 	if worth > 0:
 		# An Acorn item: its gold value where a spell's cost goes.
@@ -500,9 +525,9 @@ func _place_parts(spell: bool) -> void:
 	var w: float = card_size.x
 	var h: float = card_size.y
 	var knot: float = 57.0
-	_name_label.visible = mode == Mode.SHOP
+	_name_label.visible = mode == Mode.SHOP and not combat_face
 	_art.visible = true
-	_type_label.visible = mode == Mode.SHOP
+	_type_label.visible = mode == Mode.SHOP and not combat_face
 	_rules.visible = false
 	rules_shown = false
 	match mode:
@@ -531,7 +556,7 @@ func _place_parts(spell: bool) -> void:
 	_place_beads()
 	_star.position = Vector2(w - 40, 10)
 	_star.size = Vector2(30, 30)
-	_poached_badge.visible = Data.b(unit, "poached")
+	_poached_badge.visible = Data.b(unit, "poached") and not combat_face
 	_poached_badge.cost = Data.i(unit, "cost")
 	_poached_badge.position = Vector2(card_size.x - 120, 2)
 	_poached_badge.size = Vector2(120, 40)
@@ -647,7 +672,8 @@ func _place_bead(
 
 
 func _refresh_chip(spell: bool) -> void:
-	var words: String = "" if spell or mode == Mode.MINI or chip_hidden else chip_text(unit)
+	var suppress_chip: bool = spell or mode == Mode.MINI or chip_hidden or combat_face
+	var words: String = "" if suppress_chip else chip_text(unit)
 	chip_shown = words
 	_chip.visible = not words.is_empty() and not rules_shown
 	if not _chip.visible:
@@ -711,13 +737,22 @@ func _refresh_stats() -> void:
 	var max_health: int = unit.get("max_health", health)
 	_health_badge.shape = "rosehip_hurt" if health < max_health else "rosehip"
 	_place_beads()
+	_refresh_combat_marks()
 
 
-## Only the queued numbers occupy the portrait; the existing one-tap reader explains timing.
+## The transfer lands on the same queued-gain mark in recruit and combat.
+func pending_gain_point() -> Vector2:
+	if combat_face:
+		return _combat_marks.get_global_transform() * _combat_marks.pending_rect.get_center()
+	return _pending_tag.get_global_rect().get_center()
+
+
+## Recruit keeps numbers; fight faces show the wordless waiting tag.
 func _refresh_pending() -> void:
 	var attack: int = Data.i(unit, "pending_attack")
 	var health: int = Data.i(unit, "pending_health")
-	_pending_tag.visible = mode == Mode.BOARD and (attack != 0 or health != 0)
+	_refresh_combat_marks()
+	_pending_tag.visible = not combat_face and mode == Mode.BOARD and (attack != 0 or health != 0)
 	if not _pending_tag.visible:
 		return
 	var font: Font = _pending_label.get_theme_font("font")
@@ -750,7 +785,8 @@ func _refresh_pending() -> void:
 ## A status hangs from the tile's top edge, like the Frozen tag; more than one reads "+1".
 func _refresh_status() -> void:
 	var statuses: Array = Data.a(unit, "statuses")
-	_status_tag.visible = not statuses.is_empty() and mode != Mode.SHOP
+	_refresh_combat_marks()
+	_status_tag.visible = not combat_face and not statuses.is_empty() and mode != Mode.SHOP
 	if not _status_tag.visible:
 		return
 	var first: Dictionary = Data.entry(statuses, 0)
@@ -774,8 +810,16 @@ func _refresh_status() -> void:
 	_status_tag.position = Vector2((card_size.x - _status_tag.size.x) / 2.0, -24)
 
 
+func _refresh_combat_marks() -> void:
+	if _combat_marks == null:
+		return
+	_combat_marks.setup(
+		unit, card_size, combat_face, _attack_badge.get_rect(), _health_badge.get_rect()
+	)
+
+
 func _place_turns() -> void:
-	if turns_shown.is_empty():
+	if turns_shown.is_empty() or combat_face:
 		if _turns != null:
 			_turns.visible = false
 		return
@@ -823,7 +867,7 @@ func _face() -> Color:
 		return UiTheme.FROST_FACE
 	if Data.b(unit, "golden", false):
 		return UiTheme.GILT
-	if Data.s(unit, "origin") == "created" or Data.b(unit, "token", false):
+	if not combat_face and (Data.s(unit, "origin") == "created" or Data.b(unit, "token", false)):
 		return UiTheme.PINE
 	return UiTheme.BIRCH
 
@@ -840,7 +884,7 @@ func _tile_box(fill: Color, line: Color, width: int) -> StyleBoxFlat:
 func _draw() -> void:
 	var rect: Rect2 = Rect2(Vector2.ZERO, card_size)
 	var golden: bool = Data.b(unit, "golden", false)
-	if golden or Data.b(unit, "egged"):
+	if golden or (Data.b(unit, "egged") and not combat_face):
 		draw_style_box(_tile_box(Color(UiTheme.GILT, 0.55), Color.TRANSPARENT, 0), rect.grow(12))
 	if frost:
 		draw_style_box(_tile_box(UiTheme.RIME, Color.TRANSPARENT, 0), rect.grow(17))
@@ -857,7 +901,7 @@ func _draw() -> void:
 	var drop: Rect2 = Rect2(Vector2(0, EDGE), card_size)
 	draw_style_box(_tile_box(under, UiTheme.INK, LINE), drop)
 	draw_style_box(_tile_box(_face(), UiTheme.INK, LINE), rect)
-	if Data.s(unit, "origin") == "created" or Data.b(unit, "token", false):
+	if not combat_face and (Data.s(unit, "origin") == "created" or Data.b(unit, "token", false)):
 		_draw_token_edge(rect.grow(-8))
 
 

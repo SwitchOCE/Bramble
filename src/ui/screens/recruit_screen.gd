@@ -1,5 +1,7 @@
 extends "res://src/ui/screens/recruit_actions.gd"
 
+signal last_fight_requested
+signal watch_fight_requested
 signal combat_ready
 signal menu_requested
 signal game_over_reached
@@ -28,8 +30,6 @@ func setup(game_port: GamePort) -> void:
 	render()
 	if Data.i(state, "round", 1) > 1 and Data.d(state, "pending_choice").is_empty():
 		Sfx.play("gold")
-	if RecruitView.is_ghost_next(state):
-		show_toast("Next fight: a ghost. Scout it to see.")
 
 
 func _init() -> void:
@@ -100,8 +100,6 @@ func _init() -> void:
 
 
 func _build_shop() -> void:
-	_shop_tag = RowTag.new("Shop")
-	_stage.add_child(_shop_tag)
 	_shelf = ShelfPlank.new()
 	_stage.add_child(_shelf)
 	_shop_zone = Interactive.new()
@@ -119,10 +117,6 @@ func _build_shop() -> void:
 
 
 func _build_board() -> void:
-	_front_tag = RowTag.new("Front")
-	_stage.add_child(_front_tag)
-	_back_tag = RowTag.new("Back")
-	_stage.add_child(_back_tag)
 	_board = BoardView.new()
 	_board.configure("board", BOARD_POCKET, true, true, true)
 	for slot: Interactive in _board.slots:
@@ -143,28 +137,14 @@ func _build_hand() -> void:
 	_stage.add_child(_hand_zone)
 	_hand_panel = WoodPanel.new(WoodPanel.Kind.OAK)
 	_hand_zone.add_child(_hand_panel)
-	_hand_title = UiTheme.head("Hand", UiTheme.FONT_BODY + 2)
-	_hand_zone.add_child(_hand_title)
 	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
 	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_hand_zone.add_child(_hand_count)
 	_hand_cards = GridContainer.new()
 	_hand_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_hand_zone.add_child(_hand_cards)
-	_hand_hint = UiTheme.label(
-		"Bought units wait here. Drag one to an empty slot.", UiTheme.FONT_SMALL, UiTheme.INK
-	)
-	_hand_hint.add_theme_font_override("font", UiTheme.bold_font())
-	_hand_hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_hand_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_hand_zone.add_child(_hand_hint)
 	_away_tray = AwayTray.new()
 	_stage.add_child(_away_tray)
-	_board_chip = UiTheme.number("", UiTheme.FONT_SMALL)
-	_board_chip.add_theme_stylebox_override("normal", UiTheme.slip_box(UiTheme.BIRCH, 4, 12))
-	_board_chip.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_board_chip.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_stage.add_child(_board_chip)
 
 
 func _build_tools() -> void:
@@ -298,13 +278,10 @@ func _render_shop(frozen: bool) -> void:
 func _render_board() -> void:
 	_board.clear()
 	var board: Array = Data.a(state, "board")
-	var units: int = 0
 	for slot: int in mini(board.size(), BoardView.SLOTS):
 		if board[slot] is Dictionary:
-			units += 1
 			var view: Dictionary = _projection.recruit_unit(board, slot)
 			_board.place_card(_make_card(view, "board", slot, 189.0, CardView.Mode.BOARD), slot)
-	_board_chip.text = "Board %d/%d" % [units, BoardView.SLOTS]
 	var marks: Array = RecruitView.slot_marks(state)
 	_board.set_marks(marks)
 	for slot: int in BoardView.SLOTS:
@@ -319,7 +296,6 @@ func _render_hand() -> void:
 	var hand: Array = Data.a(state, "hand")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
 	var away: bool = not RecruitHeld.sky_card(state).is_empty()
-	_hand_hint.visible = hand.is_empty() and not away
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
 	_hand_cards.columns = 2 if count >= (2 if away else 3) else 1
@@ -715,6 +691,9 @@ func _on_hero_tapped() -> void:
 	if armor > 0:
 		card["text"] = "%s\nArmor %d: lost before Health." % [Data.s(card, "text"), armor]
 	_detail.show_unit(card)
+	if not Data.a(port.get_last_combat(), "events").is_empty():
+		_detail.add_action("Last fight", func() -> void: last_fight_requested.emit())
+		_detail.add_action("Watch again", func() -> void: watch_fight_requested.emit())
 
 
 # --- drag and drop -------------------------------------------------------------------------

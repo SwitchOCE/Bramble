@@ -59,12 +59,12 @@ func test_aura_losses_name_cluricaun_on_every_affected_unit_and_gains_name_the_s
 	_combat._resolve_deaths(0)
 	assert_eq(_events("stats").size(), 4)
 	for text: String in _lines():
-		assert_string_contains(text, "Cluricaun (F1)")
+		assert_string_contains(text, "Cluricaun")
 		assert_eq(text.count("-1 Attack"), 4)
 		assert_eq(text.count("aura lost"), 4)
 	_combat.summon_into("cluricaun", false, 0, 0, null)
 	for text: String in _lines():
-		assert_string_contains(text, "Cluricaun (F1)")
+		assert_string_contains(text, "Cluricaun")
 		assert_string_contains(text, "aura gained")
 
 
@@ -77,7 +77,7 @@ func test_rainbow_chaser_attack_recovery_names_jennys_lost_aura_and_hex_names_he
 	_combat.add_hex(witch, 0, 0, 2)
 	for text: String in _lines():
 		assert_string_contains(text, "+2 Attack")
-		assert_string_contains(text, "Jenny Greenteeth (F1)")
+		assert_string_contains(text, "Jenny Greenteeth")
 		assert_string_contains(text, "aura lost")
 		assert_string_contains(text, "Hex gained")
 
@@ -93,7 +93,7 @@ func test_bitter_shows_stacked_amount_and_regular_stat_changes_name_their_source
 	_combat.buff(attacker, 1, 1, nan)
 	for text: String in _lines():
 		assert_string_contains(text, "-3 Attack (Bitter)")
-		assert_string_contains(text, "Warty Nan (F2)")
+		assert_string_contains(text, "Warty Nan")
 		assert_string_contains(text, "ability")
 
 
@@ -128,7 +128,7 @@ func test_posset_death_reports_no_enemy_across_without_dealing_damage() -> void:
 	assert_eq(_events("no_target").size(), 1)
 	assert_eq(_combat.unit_at(1, 1).health, 100)
 	for text: String in _lines():
-		assert_string_contains(text, "Mrs Posset (F1)")
+		assert_string_contains(text, "Mrs Posset")
 		assert_string_contains(text, "no enemy across")
 
 
@@ -166,7 +166,7 @@ func test_mousewife_replaces_front_unit_even_with_a_blocked_back_slot() -> void:
 	assert_true(KIT.of_type({"events": _combat.events}, "no_room").is_empty())
 
 
-func test_mousewife_no_room_after_a_death_summon_reaches_logs_and_hero_toast() -> void:
+func test_mousewife_no_room_after_a_death_summon_reaches_log_and_motion() -> void:
 	_start(_full_board("earwig_mother"), {0: KIT.plain(1, 100)})
 	_combat.hero_effects[0] = HeroRules.effects_of(KIT.library.get_hero("old_mother_mousewife"))
 	_combat.deal_effect_damage(null, _combat.unit_at(0, 0), 999)
@@ -186,8 +186,8 @@ func test_mousewife_no_room_after_a_death_summon_reaches_logs_and_hero_toast() -
 	screen.playing = false
 	for event: Dictionary in _combat.events:
 		screen._play_event(event, true)
-	var caption: Label = screen.get("_caption")
-	assert_eq(caption.text, "Mousewife: no room for a Mouse")
+	var overlay: Control = screen.get("_overlay")
+	assert_gt(overlay.get_child_count(), 0, "failed summon gets a wordless cue")
 	var log_note: Control = screen.get("_log")
 	assert_string_contains(str(log_note.call("all_text")), "no room for a Mouse")
 
@@ -222,7 +222,7 @@ func test_pack_names_the_joiner_and_keeps_same_named_units_distinct() -> void:
 	for text: String in _lines():
 		assert_string_contains(text, "Field Vole (F1)")
 		assert_string_contains(text, "Field Vole (F3)")
-		assert_string_contains(text, "Wick (F2)")
+		assert_string_contains(text, "Wick")
 		assert_string_contains(text, "joins the attack")
 		assert_false("in a Pack with" in text)
 
@@ -307,33 +307,30 @@ func test_logging_keeps_aura_bitter_and_failed_summon_results_and_random_streams
 		assert_eq_deep(outcomes[0], outcomes[1])
 
 
-func test_mousewife_logs_every_failure_but_toasts_once_per_fight_and_resets_on_restart() -> void:
+func test_mousewife_logs_every_failure_and_uses_motion_without_a_toast_budget() -> void:
 	_start({0: KIT.plain(1, 2), 4: KIT.plain(1, 2)}, {0: KIT.plain(1, 100)})
 	var start: Dictionary = _combat.events[0]
 	var failure: Dictionary = {"type": "no_room", "side": 0, "mechanic": "mice", "def_id": "mouse"}
 	var screen := Screen.new()
 	add_child_autofree(screen)
+	screen.manual_playback = true
 	screen.setup({"events": [start]}, PackedStringArray(["You", "Opponent"]), 0, "Round 5")
 	screen.playing = false
 	screen._play_event(start, false)
-	# Fast-forwarded events must not consume the one visible toast.
+	var overlay: Control = screen.get("_overlay")
+	var before: int = overlay.get_child_count()
 	screen._play_event(failure, false)
-	assert_false(screen.get("_mouse_no_room_shown"))
-	screen._play_event(failure, true)
-	var caption: Label = screen.get("_caption")
-	assert_eq(caption.text, "Mousewife: no room for a Mouse")
-	caption.text = "Another notice"
-	screen._play_event(failure, true)
-	assert_eq(caption.text, "Another notice", "repeat failures cannot replace other toasts")
-	failure["side"] = 1
-	screen._play_event(failure, true)
-	assert_eq(caption.text, "Another notice", "the toast budget covers both sides")
+	assert_eq(overlay.get_child_count(), before, "fast-forward does not play a cue")
+	for side: int in [0, 0, 1]:
+		failure["side"] = side
+		screen._play_event(failure, true)
+		assert_gt(overlay.get_child_count(), before, "each failed summon has a visual cue")
+		before = overlay.get_child_count()
 	var log_note: Control = screen.get("_log")
 	assert_eq(str(log_note.call("all_text")).count("no room for a Mouse"), 4)
+	assert_false(log_note.visible, "no failure text remains on the fight")
 	screen.restart()
 	screen.playing = false
 	screen._play_event(start, false)
 	screen._play_event(failure, true)
-	assert_eq(caption.text, "Mousewife: no room for a Mouse", "new playback resets the budget")
-	screen._play_event(start, false)
-	assert_false(screen.get("_mouse_no_room_shown"), "a new fight also resets the budget")
+	assert_eq(str(log_note.call("all_text")).count("no room for a Mouse"), 1)

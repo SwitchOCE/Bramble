@@ -17,6 +17,11 @@ var with_note: bool = false:
 	set(value):
 		with_note = value
 		_refresh_labels()
+## A combat pocket is a carved shape, including when empty or marked.
+var wordless: bool = false:
+	set(value):
+		wordless = value
+		_refresh_labels()
 ## A unit stands in this pocket: draw a solid line and no words.
 var filled: bool = false:
 	set(value):
@@ -70,7 +75,7 @@ static func note(slot: int) -> String:
 func _refresh_labels() -> void:
 	if _name_label == null:
 		return
-	var empty: bool = not filled
+	var empty: bool = not filled and not wordless
 	_name_label.visible = empty
 	_empty_label.visible = empty and not with_note
 	_note_box.visible = empty and with_note

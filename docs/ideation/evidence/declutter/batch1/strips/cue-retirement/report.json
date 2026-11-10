@@ -1,0 +1,182 @@
+{
+  "before_revision": "62c6cc76",
+  "cleanup_after_revision": "bda3f1d2",
+  "final_after_revision": "22c5e9f3",
+  "render_sources": {
+    "bog": "22c5e9f3",
+    "combat_mid": "d577853d"
+  },
+  "before_images_captured": 0,
+  "new_after_sheets": 9,
+  "new_after_frames": 72,
+  "method": "Whole-fight durations count fixed120Hz advances through automatic return, with two identical timing passes. Cleanup-only comparison is isolated at its own source revision. Final sheets sample Bog017/025 and combat_mid045 at x1/x4/reduce: eight native1688x780 frames, initially uniform then adjusted to include each actor's observed lunge peak or reduced-motion held-pose/source-flash peak. Full events/order/model/Health match all heads. Within-head discovery and render replay match event ticks and return. Historical packets and accepted d400831e Bog before images are unchanged.",
+  "duration_pairs": [
+    {
+      "scenario": "bog",
+      "speed": 1.0,
+      "before_seconds": 9.833333333333334,
+      "cleanup_after_seconds": 9.725,
+      "cleanup_saved_seconds": 0.10833333333333428,
+      "final_source_seconds": 9.725,
+      "same_events_and_event_order": true,
+      "same_final_model_state_and_hero_health": true,
+      "events_sha256": "bdcf40232c4a76c5f6b16501501bcaa5ccb9404c68eec46f0e885901c35dd740",
+      "final_state_sha256": "7e9983a79855b33f254ca419285feef2fd3665008cd827fafca011620287c2cd"
+    },
+    {
+      "scenario": "bog",
+      "speed": 4.0,
+      "before_seconds": 6.558333333333334,
+      "cleanup_after_seconds": 5.641666666666667,
+      "cleanup_saved_seconds": 0.916666666666667,
+      "final_source_seconds": 5.641666666666667,
+      "same_events_and_event_order": true,
+      "same_final_model_state_and_hero_health": true,
+      "events_sha256": "bdcf40232c4a76c5f6b16501501bcaa5ccb9404c68eec46f0e885901c35dd740",
+      "final_state_sha256": "7e9983a79855b33f254ca419285feef2fd3665008cd827fafca011620287c2cd"
+    },
+    {
+      "scenario": "combat_mid",
+      "speed": 1.0,
+      "before_seconds": 27.333333333333332,
+      "cleanup_after_seconds": 25.766666666666666,
+      "cleanup_saved_seconds": 1.5666666666666664,
+      "final_source_seconds": 25.766666666666666,
+      "same_events_and_event_order": true,
+      "same_final_model_state_and_hero_health": true,
+      "events_sha256": "ee80730bd80f0ef3b9d00c5299a5df19b5b31f95d1bd3cfbf0bd91a122e86d1f",
+      "final_state_sha256": "d4d638ca22142f944d0966e24305ced522cd21e64489cedfee3ab06a0070ac7d"
+    },
+    {
+      "scenario": "combat_mid",
+      "speed": 4.0,
+      "before_seconds": 22.0,
+      "cleanup_after_seconds": 20.2,
+      "cleanup_saved_seconds": 1.8000000000000007,
+      "final_source_seconds": 20.2,
+      "same_events_and_event_order": true,
+      "same_final_model_state_and_hero_health": true,
+      "events_sha256": "ee80730bd80f0ef3b9d00c5299a5df19b5b31f95d1bd3cfbf0bd91a122e86d1f",
+      "final_state_sha256": "d4d638ca22142f944d0966e24305ced522cd21e64489cedfee3ab06a0070ac7d"
+    }
+  ],
+  "sheets": [
+    {
+      "run": "bog-x1",
+      "strip": "after/bog-x1/attack-017.jpg",
+      "attack_event_index": 17,
+      "frames": 8,
+      "peak_actor_uids": [
+        1
+      ],
+      "ancillary_labels": [
+        0,
+        2
+      ]
+    },
+    {
+      "run": "bog-x1",
+      "strip": "after/bog-x1/attack-025.jpg",
+      "attack_event_index": 25,
+      "frames": 8,
+      "peak_actor_uids": [
+        4
+      ],
+      "ancillary_labels": [
+        0,
+        2
+      ]
+    },
+    {
+      "run": "bog-x1-reduce",
+      "strip": "after/bog-x1-reduce/attack-017.jpg",
+      "attack_event_index": 17,
+      "frames": 8,
+      "peak_actor_uids": [
+        1
+      ],
+      "ancillary_labels": [
+        0,
+        2
+      ]
+    },
+    {
+      "run": "bog-x1-reduce",
+      "strip": "after/bog-x1-reduce/attack-025.jpg",
+      "attack_event_index": 25,
+      "frames": 8,
+      "peak_actor_uids": [
+        4
+      ],
+      "ancillary_labels": [
+        0,
+        2
+      ]
+    },
+    {
+      "run": "bog-x4",
+      "strip": "after/bog-x4/attack-017.jpg",
+      "attack_event_index": 17,
+      "frames": 8,
+      "peak_actor_uids": [
+        1
+      ],
+      "ancillary_labels": [
+        0,
+        2
+      ]
+    },
+    {
+      "run": "bog-x4",
+      "strip": "after/bog-x4/attack-025.jpg",
+      "attack_event_index": 25,
+      "frames": 8,
+      "peak_actor_uids": [
+        4
+      ],
+      "ancillary_labels": [
+        0,
+        2
+      ]
+    },
+    {
+      "run": "combat_mid-x1",
+      "strip": "after/combat_mid-x1/attack-045.jpg",
+      "attack_event_index": 45,
+      "frames": 8,
+      "peak_actor_uids": [
+        2
+      ],
+      "ancillary_labels": [
+        0,
+        1
+      ]
+    },
+    {
+      "run": "combat_mid-x1-reduce",
+      "strip": "after/combat_mid-x1-reduce/attack-045.jpg",
+      "attack_event_index": 45,
+      "frames": 8,
+      "peak_actor_uids": [
+        2
+      ],
+      "ancillary_labels": [
+        0,
+        1
+      ]
+    },
+    {
+      "run": "combat_mid-x4",
+      "strip": "after/combat_mid-x4/attack-045.jpg",
+      "attack_event_index": 45,
+      "frames": 8,
+      "peak_actor_uids": [
+        2
+      ],
+      "ancillary_labels": [
+        0,
+        1
+      ]
+    }
+  ]
+}

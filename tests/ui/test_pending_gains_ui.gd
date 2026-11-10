@@ -7,6 +7,7 @@ const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 const FightLog := preload("res://tools/play/play_fight_log.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
+const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const States := preload("res://tests/ui/big_number_states.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
@@ -76,7 +77,7 @@ func test_reader_explains_exact_queued_amount_and_arrival() -> void:
 	assert_string_contains(words, "next Start of Turn")
 
 
-func test_phone_combat_pending_event_updates_badge_and_open_one_tap_reader() -> void:
+func test_phone_combat_pending_event_updates_wordless_mark_and_open_one_tap_reader() -> void:
 	CardView.window_override = Vector2(1688, 780)
 	var viewport: SubViewport = SubViewport.new()
 	viewport.size = Vector2i(2337, 1080)
@@ -97,12 +98,16 @@ func test_phone_combat_pending_event_updates_badge_and_open_one_tap_reader() -> 
 	await get_tree().process_frame
 	var cards: Dictionary = screen.get("_cards")
 	var card: CardView = cards[2]
-	var gain_badge: Panel = card.get("_pending_tag")
-	assert_true(gain_badge.visible)
-	assert_lte(gain_badge.position.x + gain_badge.size.x, card.size.x)
-	for key: String in ["_chip", "_attack_badge", "_health_badge", "_tier_badge"]:
+	var marks: CombatFace = card.get("_combat_marks")
+	var numeric_tag: Control = card.get("_pending_tag")
+	assert_false(numeric_tag.visible)
+	assert_true(marks.pending_visible)
+	assert_eq(marks.pending_attack, 123456)
+	assert_eq(marks.pending_health, 1234567)
+	assert_true(Rect2(Vector2.ZERO, card.size).encloses(marks.pending_rect))
+	for key: String in ["_attack_badge", "_health_badge"]:
 		var existing: Control = card.get(key)
-		assert_false(gain_badge.get_rect().intersects(existing.get_rect()), key)
+		assert_false(marks.pending_rect.intersects(existing.get_rect()), key)
 	var notes: RichTextLabel = screen.get("_note_text")
 	assert_string_contains(notes.get_parsed_text(), "+123,456/+1,234,567")
 	assert_string_contains(notes.get_parsed_text(), "next Start of Turn")
@@ -119,10 +124,14 @@ func test_pending_event_updates_a_dying_card_until_it_leaves_the_screen() -> voi
 	var dying: CardView = cards[2]
 	screen._play_event({"type": "death", "uid": 2}, true)
 	screen._play_event({"type": "gain_pending", "target": 2, "attack": 0, "health": 5}, false)
-	var gain_badge: Panel = dying.get("_pending_tag")
-	var label: Label = dying.get("_pending_label")
-	assert_true(gain_badge.visible)
-	assert_eq(label.text, "+0/+5")
+	var marks: CombatFace = dying.get("_combat_marks")
+	var numeric_tag: Control = dying.get("_pending_tag")
+	assert_false(numeric_tag.visible)
+	assert_true(marks.pending_visible)
+	assert_eq(marks.pending_attack, 0)
+	assert_eq(marks.pending_health, 5)
+	assert_string_contains(CardDetail.state_bbcode(dying.unit), "+0/+5")
+	assert_string_contains(CardDetail.state_bbcode(dying.unit), "next Start of Turn")
 
 
 func test_dying_lookup_skips_freed_cards_before_a_live_card() -> void:
