@@ -1,0 +1,9 @@
+# Painted storybook — eight-unit study
+
+Reusable style header: [header.txt](../../../../tools/art/prompts/storybook/header.txt); the eight adjacent prompts use that exact header, each with its current portrait as identity reference and the canopy as light/palette reference. Core direction: warm woodland gouache, restrained watercolour transitions, big painted shapes, crisp subject edges, little texture, one focal subject, quieter suggestions of each unit's own place; cream upper-right light, cool teal/olive lower-left shadows, preserved identity colours. No black outline or named-artist imitation. Append species, costume, pose, props and scene invariants for each unit.
+
+All eight were accepted from one image generation each: **zero image retries**. One wrapper startup failed under the sandbox before generation and succeeded with escalation. Broad colour, light direction and modelling stayed consistent across indoor, outdoor, spirit and armoured subjects. Agnes's angular fur and Pill Bug's brushed plates are more detailed; a 155-unit rollout still needs batch review. This sample cannot establish full-set consistency.
+
+At 150 px, faces, pink jelly silhouette, book/bell, blue wing bars, lightning and lantern enemy remain legible. Warm scene light fits the canopy and paper card. The wider phone-card crop hides much of Mallow's tiny recipient and some lower props. Painted surface detail exceeds the intended minimum in places; upper-right rays recur rather literally.
+
+Evidence: `build/loop1/storybook/` contains native 270×297 cards, a four-card strip with 150 px portrait windows, all-eight 150 px squares, PNG masters, and 1920×1080 recruit captures. `recruit-all-eight_1920x1080.png` stages seven real units on board plus Pill Bug in hand; `recruit-natural_1920x1080.png` preserves the existing real state. JPEG candidates are in `assets/portraits_storybook/`; production lookup and card code are unchanged.

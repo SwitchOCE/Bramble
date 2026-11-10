@@ -1,7 +1,9 @@
 extends "res://tests/ui/shots/screenshot.gd"
 ## Review-only replacement of visible sample portraits on an otherwise real recruit screen.
-## UNIT_ART_STYLE=v2|v2b BACKDROP=<painting> scripts/godot_slot.sh xvfb-run -a godot
+## UNIT_ART_STYLE=v2|v2b|storybook BACKDROP=<painting> scripts/godot_slot.sh xvfb-run -a godot
 ## --rendering-driver opengl3 -s tools/render_unit_art_recruit.gd -- recruit 1920x1080 out.png
+## Optional UNIT_ART_ALL_SAMPLES=1 stages seven real sample units on the board and one in hand.
+## This review fixture preserves their definitions and base stats; production state is untouched.
 
 const ReviewCard := preload("res://src/ui/widgets/card_view.gd")
 const PortraitReview := preload("res://tools/render_unit_art.gd")
@@ -9,10 +11,29 @@ const PortraitReview := preload("res://tools/render_unit_art.gd")
 var _replaced: Dictionary[String, int] = {}
 
 
+func _bot_game(app: App, rounds: int) -> void:
+	super._bot_game(app, rounds)
+	if OS.get_environment("UNIT_ART_ALL_SAMPLES") != "1":
+		return
+	var port: CorePort = app.port as CorePort
+	var player: PlayerState = port.session._players[0]
+	player.board.fill(null)
+	player.hand.clear()
+	for index: int in PortraitReview.IDS.size():
+		var unit: RecruitUnit = RecruitUnit.make(
+			port.library.get_unit(PortraitReview.IDS[index]), port.session._rules.new_iid()
+		)
+		unit.origin = RecruitUnit.ORIGIN_BOUGHT
+		if index < player.board.size():
+			player.board[index] = unit
+		else:
+			player.hand.append(unit)
+
+
 func _shoot(window_size: Vector2i, out_path: String) -> void:
 	var style: String = OS.get_environment("UNIT_ART_STYLE")
-	if style not in ["v2", "v2b"]:
-		printerr("UNIT_ART_STYLE must be v2 or v2b")
+	if style not in ["v2", "v2b", "storybook"]:
+		printerr("UNIT_ART_STYLE must be v2, v2b or storybook")
 		quit(2)
 		return
 	# Let initial layout settle before replacing art; model data and rules stay untouched.
