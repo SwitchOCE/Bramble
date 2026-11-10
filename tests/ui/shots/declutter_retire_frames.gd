@@ -103,7 +103,12 @@ func _run() -> void:
 		for scenario: String in ["bog", "combat_mid"]:
 			_before = str(FIXTURES[scenario]).get_base_dir()
 			_out = "res://build/declutter-retire/after-frames"
-			_selected_attacks = [17, 25] if scenario == "bog" else [45]
+			_selected_attacks.clear()
+			if scenario == "bog":
+				_selected_attacks.append(17)
+				_selected_attacks.append(25)
+			else:
+				_selected_attacks.append(45)
 			for speed: float in [1.0, 4.0]:
 				Settings.fight_speed = speed
 				await _fight(scenario, speed, false)
