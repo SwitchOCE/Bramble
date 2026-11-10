@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 func advance(delta: float) -> void:
 	elapsed += delta
 	for track: Dictionary in tracks:
-		var node: Control = track["node"]
+		var node: Control = Data.control(track["node"])
 		if not is_instance_valid(node):
 			continue
 		var phase: float = clampf(elapsed / track.seconds, 0.0, 1.0)
@@ -100,7 +100,7 @@ func advance(delta: float) -> void:
 		var base_scale: Vector2 = track.scale
 		var colour: Color = track.colour
 		var kind: String = track.kind
-		var target: Control = track.get("target")
+		var target: Control = Data.control(track.get("target"))
 		if kind == "poached" and is_instance_valid(target):
 			track["to"] = _rect(target).position
 		if track.overlay:
@@ -155,7 +155,7 @@ func advance(delta: float) -> void:
 
 func finish() -> void:
 	for track: Dictionary in tracks:
-		var node: Control = track["node"]
+		var node: Control = Data.control(track["node"])
 		if is_instance_valid(node):
 			if track.overlay:
 				node.hide()
@@ -166,7 +166,7 @@ func finish() -> void:
 				node.rotation = track.rotation
 				node.modulate = track.colour
 				node.pivot_offset = track.pivot
-		var target: Control = track.get("target")
+		var target: Control = Data.control(track.get("target"))
 		if is_instance_valid(target):
 			target.modulate.a = 1.0
 	tracks.clear()

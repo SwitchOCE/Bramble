@@ -153,8 +153,8 @@ func _make_track(event: Dictionary, pass_seed: bool) -> Dictionary:
 		pass  # No recipient: the seed fizzles at its source.
 	elif touching:
 		var occupied: Array[bool] = []
-		for unit: CardView in _board.cards:
-			occupied.append(unit != null)
+		for unit: Variant in _board.cards:
+			occupied.append(is_instance_valid(unit))
 		route = BoardGeometry.touching(occupied, source)
 		if not route.has(target):
 			return {}
@@ -191,7 +191,7 @@ func _schedule(track: Dictionary) -> void:
 
 func _slot_for_iid(iid: int) -> int:
 	for slot: int in _board.cards.size():
-		var card: CardView = _board.cards[slot]
+		var card: CardView = _card(slot)
 		if card != null and Data.i(card.unit, "iid", -1) == iid:
 			return slot
 	return -1
@@ -200,7 +200,7 @@ func _slot_for_iid(iid: int) -> int:
 func _card(slot: int) -> CardView:
 	if not is_instance_valid(_board) or not BoardGeometry.is_valid(slot):
 		return null
-	return _board.cards[slot]
+	return Data.control(_board.cards[slot]) as CardView
 
 
 func _process(delta: float) -> void:
@@ -211,7 +211,7 @@ func _process(delta: float) -> void:
 func advance(delta: float) -> void:
 	elapsed += delta
 	for source: Dictionary in _sources.values():
-		var glyph: Control = source.glyph
+		var glyph: Control = Data.control(source.glyph)
 		if not is_instance_valid(glyph):
 			continue
 		var age: float = elapsed - source.start
@@ -261,7 +261,7 @@ func finish() -> void:
 		if card != null:
 			_set_numbers(card, track.after_attack, track.after_health)
 	for source: Dictionary in _sources.values():
-		var glyph: Control = source.glyph
+		var glyph: Control = Data.control(source.glyph)
 		if is_instance_valid(glyph):
 			glyph.scale = source.scale
 			glyph.modulate = source.colour

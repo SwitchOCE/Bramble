@@ -81,3 +81,10 @@ static func entry(items: Array, index: int) -> Dictionary:
 	if value is Dictionary:
 		return value
 	return {}
+
+
+## Animation snapshots can outlive their nodes; validate before assigning an object type.
+static func control(value: Variant) -> Control:
+	if is_instance_valid(value) and value is Control:
+		return value
+	return null

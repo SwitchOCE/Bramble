@@ -84,14 +84,12 @@ func _last_death() -> Vector2:
 
 func _plaque(side: int) -> Control:
 	var plaques: Array = _screen.get("_plaques")
-	var plaque: Control = plaques[side]
-	return plaque
+	return Data.control(plaques[side])
 
 
 func _card(uid: int) -> CardView:
 	var cards: Dictionary = _screen.get("_cards")
-	var card: CardView = cards.get(uid)
-	return card
+	return Data.control(cards.get(uid)) as CardView
 
 
 func _tween(node: Node = null) -> Tween:
@@ -190,13 +188,14 @@ func _clear_attack_sources() -> void:
 
 
 func clear_actor_attack_source(uid: int) -> void:
-	for mark: Control in _held_sources.duplicate():
+	for value: Variant in _held_sources.duplicate():
+		var mark: Control = Data.control(value)
 		if not is_instance_valid(mark):
-			_held_sources.erase(mark)
+			_held_sources.erase(value)
 		elif uid < 0 or CoreUtil.to_int(mark.get("actor_uid")) == uid:
 			mark.hide()
 			mark.queue_free()
-			_held_sources.erase(mark)
+			_held_sources.erase(value)
 
 
 func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
