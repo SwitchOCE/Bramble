@@ -365,3 +365,39 @@ and reduce motion. The moving cues now address those specific ambiguities:
 
 Focused coverage is in `test_combat_wave2a.gd`, `test_combat_reader5_motion.gd`
 and `test_combat_cue_lifetime.gd`; final results and reshot manifests follow below.
+
+
+### Final targeted validation for reader cues
+
+At production commit `d577853d`, the worker slot wrapper ran these six files
+in one Godot process: `test_combat_declutter` **36/36**, `test_combat_wave2a`
+**9/9**, `test_combat_face` **11/11**, `test_pending_gains_ui` **7/7**,
+`test_combat_cue_lifetime` **11/11**, and `test_combat_reader5_motion` **4/4**.
+Total: **78/78 tests, 2961 assertions, 24.258 s**; strict hook passed, no script
+or runtime errors. `build/declutter/reader5-tests.log` is the local full log.
+The new reader-motion file also ran alone: **4/4, 71 assertions, 1.803 s**.
+
+Two pre-existing declutter test paths still emit GUT orphan warnings: replay from
+recruit (1126 nodes) and simultaneous Take/death setup (48 nodes). The new motion
+and lifetime files emit none. These warnings are reported separately from the
+passing strict gate; this batch did not broaden into replay cleanup.
+
+Pinned expectations changed with their visible behavior: the Mire relation test
+now requires the standard `EffectPath` destination arrow; the shared source-cue
+table expects `KissPip_1_4` for a kiss instead of the removed whole-frog source
+ring. Both retain explicit visible-cue assertions. The existing duplicate load
+uses the shared `AttackCue` preload. Ordinary/joint lunge tests inspect actual
+contact positions (0.85/0.35), and kept portraits compare the loaded override art.
+
+
+The final lifetime file also ran alone: **11/11, 1768 assertions, 10.759 s**,
+strict hook clean. Native inspection found the pending spark covered the slash
+in `+2/+2`; `22c5e9f3` places numeric landing slips above motes. Its focused
+wave2a rerun passed **9/9, 535 assertions, 3.023 s**. The Bog sheets are reshot
+with that fix; combat_mid has no Toll/pending events and its three sheets are
+unchanged. The packet records each source revision.
+
+All requested static commands passed: `ruff check tools`,
+`ruff format --check tools`, `gdlint src tools`, `(cd tests && gdlint .)`, and
+`gdformat --check src tools tests`. The capture Python files also passed explicit
+Ruff checks. No DECISIONS edits were added; it matches the accepted base.

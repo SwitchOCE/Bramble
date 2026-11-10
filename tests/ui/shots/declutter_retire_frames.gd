@@ -26,6 +26,7 @@ const STATE_FIELDS: PackedStringArray = [
 	"bog_patches",
 	"slot_hexes",
 ]
+var _capture_selection: PackedStringArray = []
 var _timing_name: String = ""
 var _capture_after: bool = false
 var _phase: String
@@ -35,7 +36,12 @@ var _revision: String
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	assert(args.size() == 3, "usage: -- <before|timing-after|after> <packet> <revision>")
+	assert(
+		args.size() in [3, 4],
+		"usage: -- <before|timing-after|after> <packet> <revision> [scenarios]"
+	)
+	if args.size() == 4:
+		_capture_selection = args[3].split(",", false)
 	assert(args[0] in ["before", "timing-after", "after"])
 	_capture_after = args[0] == "after"
 	_phase = "before" if args[0] == "before" else "after"
@@ -101,6 +107,8 @@ func _run() -> void:
 	)
 	if _capture_after:
 		for scenario: String in ["bog", "combat_mid"]:
+			if not _capture_selection.is_empty() and not _capture_selection.has(scenario):
+				continue
 			_before = str(FIXTURES[scenario]).get_base_dir()
 			_out = "res://build/declutter-retire/after-frames"
 			_selected_attacks.clear()

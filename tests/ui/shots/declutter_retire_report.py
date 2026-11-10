@@ -86,7 +86,13 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
                     ],
                 }
             )
-        manifest["production_revision"] = revision
+        manifest["production_revision"] = revision if scenario == "bog" else "d577853d"
+        manifest["render_provenance"] = (
+            "Bog numeric popup layering repair; complete timing and state unchanged."
+            if scenario == "bog"
+            else "Retained d577853d render: this fixture has no gain_pending or bog_toll events, "
+            "so the later Wave numeric-label layering patch cannot affect its pixels."
+        )
         manifest["whole_fight_seconds"] = manifest["ticks"] * manifest["fixed_step"]
         manifest["final_model_state_sha256"] = timing["final_state_sha256"]
         (destination / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -95,6 +101,7 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
         "before_revision": before["production_revision"],
         "cleanup_after_revision": cleanup["production_revision"],
         "final_after_revision": revision,
+        "render_sources": {"bog": revision, "combat_mid": "d577853d"},
         "before_images_captured": 0,
         "new_after_sheets": 9,
         "new_after_frames": 72,
