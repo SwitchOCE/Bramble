@@ -35,5 +35,10 @@ func test_copy_keeps_every_unit_library_field() -> void:
 		var matches: bool = actual == expected
 		assert_true(matches, "copied %s" % field)
 	var indexed: Dictionary = copied._by_id["aunt_aspic"]
-	assert_same(indexed, copied.get_unit("aunt_aspic"))
+	var matching: Array = copied._units.filter(
+		func(unit: Dictionary) -> bool: return unit["id"] == "aunt_aspic"
+	)
+	assert_eq(matching.size(), 1)
+	var matching_unit: Dictionary = matching[0]
+	assert_same(indexed, matching_unit)
 	assert_false(is_same(copied._by_id["aunt_aspic"], source._by_id["aunt_aspic"]))

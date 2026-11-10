@@ -100,12 +100,10 @@ static func make(
 	}
 
 
-## Source-tree games use this checkout's commit. Exports supply the same SHA in the project
-## setting application/config/build_commit (or BRAMBLE_BUILD_COMMIT at launch).
+## Source-tree games use this checkout's commit. build/export.sh stamps that same SHA into
+## application/config/build_commit in its archived project before exporting any platform.
 static func build_id() -> String:
 	var supplied: String = str(ProjectSettings.get_setting("application/config/build_commit", ""))
-	if supplied == "":
-		supplied = OS.get_environment("BRAMBLE_BUILD_COMMIT")
 	if supplied != "":
 		return supplied
 	if OS.has_feature("editor"):
@@ -117,7 +115,7 @@ static func build_id() -> String:
 			== 0
 		):
 			return str(output[0]).strip_edges()
-	return ""
+	return "dev"
 
 
 ## The chosen hero's id; "" before the pick.
@@ -140,6 +138,8 @@ static func to_save(record: Dictionary, field_override: String = "") -> Dictiona
 		return {"error": "Game log needs its settings."}
 	var current_build: String = build_id()
 	var recorded_build: String = str(record.get("build", ""))
+	if current_build == "dev" or recorded_build == "dev":
+		return {"error": "Build cannot be matched: dev has no source commit."}
 	if current_build == "" or recorded_build == "" or recorded_build != current_build:
 		return {
 			"error": "Build mismatch: recorded %s, current %s" % [recorded_build, current_build]

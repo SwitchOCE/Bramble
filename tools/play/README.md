@@ -91,7 +91,7 @@ When a game ends, the UI writes `user://games/<timestamp>-<seed>.json`: the seed
 tools/play/play.sh replay-log <file> [--save path] [--field-library path]
 ```
 
-It prints the final screen and state hash and keeps a save (`build/play/replay-<stem>.json` unless `--save` says), which `render.sh` can draw. `--field-library` points at the library when it isn't at the recorded path; its SHA-256 must still match. Replay refuses a different build commit, final state hash, placement or hero, with a message naming the mismatch. Source-tree games read the commit from Git; exports supply `application/config/build_commit` or `BRAMBLE_BUILD_COMMIT`. A missing build id is refused on replay.
+It prints the final screen and state hash and keeps a save (`build/play/replay-<stem>.json` unless `--save` says), which `render.sh` can draw. `--field-library` points at the library when it isn't at the recorded path; its SHA-256 must still match. Replay refuses a different build commit, final state hash, placement or hero, with a message naming the mismatch. Source-tree games read the commit from Git; `build/export.sh` stamps `application/config/build_commit` into its archived project for all exports. Without a source commit, development games record `dev`; replay explicitly refuses this unverifiable id, as well as a missing build id.
 
 **The UI hook** (`src/ui/game_record_log.gd`, `GameRecordLog`):
 

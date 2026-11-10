@@ -12,17 +12,20 @@ const SHORT_GAME: Array = [
 
 var _old_map: String = ""
 var _old_log_dir: String = ""
+var _old_build: Variant
 
 
 func before_each() -> void:
 	_old_map = OS.get_environment(PlayVariant.MAP_ENV)
 	_old_log_dir = GameRecordLog.dir
 	GameRecordLog.dir = LOG_DIR
+	_old_build = ProjectSettings.get_setting("application/config/build_commit")
 
 
 func after_each() -> void:
 	OS.set_environment(PlayVariant.MAP_ENV, _old_map)
 	GameRecordLog.dir = _old_log_dir
+	ProjectSettings.set_setting("application/config/build_commit", _old_build)
 
 
 func _use_map(text: String) -> void:
@@ -282,6 +285,21 @@ func test_library_on_another_preset_is_refused_without_naming_the_presets() -> v
 	var game := PlayGame.start(11, _field_on_c(), "top4", "B", "X")
 	assert_eq(game.load_error, "The field library was captured on a different preset.")
 	assert_null(game.session)
+
+
+func test_export_build_setting_overrides_checkout_and_dev_cannot_be_matched() -> void:
+	var commit: String = "0123456789abcdef0123456789abcdef01234567"
+	ProjectSettings.set_setting("application/config/build_commit", commit)
+	var record: Dictionary = GameRecordLog.make(11, GameConfig.full_game(), {}, [])
+	assert_eq(str(record["build"]), commit, "the baked revision wins over the editor's checkout")
+	assert_false(GameRecordLog.to_save(record).has("error"))
+	ProjectSettings.set_setting("application/config/build_commit", "dev")
+	assert_string_contains(str(GameRecordLog.to_save(record).get("error")), "cannot be matched")
+	var dev_record: Dictionary = GameRecordLog.make(11, GameConfig.full_game(), {}, [])
+	assert_eq(str(dev_record["build"]), "dev")
+	assert_string_contains(str(GameRecordLog.to_save(dev_record).get("error")), "cannot be matched")
+	ProjectSettings.set_setting("application/config/build_commit", commit)
+	assert_string_contains(str(GameRecordLog.to_save(dev_record).get("error")), "cannot be matched")
 
 
 func test_from_log_checks_build_hash_placement_and_hero() -> void:
