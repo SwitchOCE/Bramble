@@ -3,6 +3,8 @@ extends Control
 ## and menu -> sandbox -> combat -> sandbox. Settings and How to play open over whatever is showing,
 ## so a game goes on underneath. Screens only emit signals; this decides what's next.
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
@@ -184,10 +186,13 @@ func show_game_combat() -> void:
 	if events.is_empty():
 		show_recruit()
 		return
-	var start: Dictionary = Data.entry(events, 0)
+	var start: Dictionary = Events.start(events)
 	var state: Dictionary = port.get_state()
 	var names: PackedStringArray = _game_combat_names(combat, state)
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
+	if me < 0:
+		push_error("Cannot show a fight without the player in combat_start.player_ids")
+		return
 	if (
 		round_log.is_empty()
 		or (
@@ -229,7 +234,7 @@ func _game_combat_names(combat: Dictionary, state: Dictionary) -> PackedStringAr
 	if current is RecruitScreen:
 		ghost = RecruitView.next_name((current as RecruitScreen).state)
 	_combat_round = round_number
-	_combat_side_names = side_names(Data.entry(Data.a(combat, "events"), 0), state, ghost)
+	_combat_side_names = side_names(Events.start(Data.a(combat, "events")), state, ghost)
 	return _combat_side_names
 
 
@@ -316,11 +321,9 @@ func _record_result() -> void:
 	_new_best = Records.add_game(Data.as_int(placement))
 
 
-## Which side of a fight is the given player: player_ids in combat_start; side 0 if absent.
+## Which side of a fight is the given player; -1 if the start identity is missing.
 static func player_side(start_event: Dictionary, player_id: int) -> int:
-	var ids: Array = Data.a(start_event, "player_ids")
-	var side: int = ids.find(player_id)
-	return side if side >= 0 else 0
+	return Events.side(start_event, player_id)
 
 
 ## Display names for both sides from the lobby standings ("You", "Pipkin"). `ghost_name`: what to
@@ -328,7 +331,7 @@ static func player_side(start_event: Dictionary, player_id: int) -> int:
 static func side_names(
 	start_event: Dictionary, state: Dictionary, ghost_name: String = ""
 ) -> PackedStringArray:
-	var ids: Array = start_event.get("player_ids", [-1, -1])
+	var ids: Array = Data.a(start_event, "player_ids")
 	var names: PackedStringArray = ["Side A", "Side B"]
 	var standings: Array = Data.a(state, "standings")
 	for side: int in mini(2, ids.size()):

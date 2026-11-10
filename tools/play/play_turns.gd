@@ -4,6 +4,8 @@ extends RefCounted
 ## a turn's start, its end (just before "end"), the fight that "end" ran, and the game's end.
 ## render.gd draws each moment on the real UI; tests read the same moments without drawing.
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const START: String = "start"
 const END: String = "end"
 const FIGHT: String = "fight"
@@ -91,11 +93,10 @@ func _queue(kind: String, fight: Dictionary = {}) -> void:
 ## The human's side of a fight, in the words `play.sh <save> log` uses (win, loss, tie).
 static func fight_summary(played: PlayGame, fight: Dictionary) -> Dictionary:
 	var events: Array = fight.get("events", [])
-	var mine: int = 0
-	if not events.is_empty():
-		var start: Dictionary = events[0]
-		var ids: Array = start.get("player_ids", [])
-		mine = maxi(0, ids.find(GameSession.HUMAN_ID))
+	var mine: int = Events.side(Events.start(events), GameSession.HUMAN_ID)
+	if mine < 0:
+		push_error("Cannot summarize a fight without the human in combat_start.player_ids")
+		return {}
 	var winner: int = CoreUtil.to_int(fight.get("winner", -1))
 	var result: String = "tie"
 	if winner >= 0:

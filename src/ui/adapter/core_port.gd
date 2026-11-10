@@ -4,6 +4,8 @@ extends "res://src/ui/adapter/game_port.gd"
 ## The GamePort backed by the rules core (src/core, SPEC section 7): every call forwards to
 ## GameSession, CombatSandbox, UnitLibrary or ScenarioLibrary unchanged. The UI's default port.
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const Data := preload("res://src/ui/view_data.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const Settings := preload("res://src/ui/settings.gd")
@@ -104,6 +106,8 @@ func get_last_combat() -> Dictionary:
 	if session == null:
 		return {}
 	var combat: Dictionary = session.get_last_combat().duplicate(true)
+	var start: Dictionary = Events.start(Data.a(combat, "events"))
+	combat["player_ids"] = Data.a(start, "player_ids").duplicate()
 	combat["floor_marks"] = _fight_floor.duplicate(true)
 	combat["hero_health_before"] = _fight_health.duplicate()
 	combat["hero_health_after"] = _health_for_ids(_fight_ids)
