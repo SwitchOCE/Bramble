@@ -1,6 +1,7 @@
 extends GutTest
 ## The fight carries state in tiles and motion; words live in a reader or the log.
 
+const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
 const EffectPath := preload("res://src/ui/widgets/combat_effect_path.gd")
 const App := preload("res://src/ui/app.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
@@ -494,7 +495,7 @@ func test_normal_speed_holds_a_declaration_even_when_a_lethal_snap_falls_between
 	_advance(screen, 0.3)
 	var found: bool = false
 	for child: Node in screen._overlay.get_children():
-		if child.get_script() == preload("res://src/ui/widgets/combat_attack_cue.gd"):
+		if child.get_script() == AttackCue:
 			assert_eq(CoreUtil.to_int(child.get("actor_uid")), 1)
 			found = true
 	assert_true(found, "the source declaration survives a lethal lunge")
@@ -859,10 +860,7 @@ func test_pounce_hands_the_gold_frame_to_its_source_then_snap_lunges() -> void:
 		)
 		var framed: Array[int] = []
 		for child: Node in screen._overlay.get_children():
-			if (
-				child.get_script() == preload("res://src/ui/widgets/combat_attack_cue.gd")
-				and (child as Control).visible
-			):
+			if child.get_script() == AttackCue and (child as Control).visible:
 				framed.append(CoreUtil.to_int(child.get("actor_uid")))
 		assert_eq(framed, [2], "the former attacker's frame leaves at Pounce declaration")
 		var found: bool = false
