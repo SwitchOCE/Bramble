@@ -1,0 +1,48 @@
+{
+  "kind": "soak",
+  "preset": "B",
+  "games": 200,
+  "played": 160,
+  "mix": {
+    "other": 40,
+    "preset": 120
+  },
+  "field_skipped": 40,
+  "synthetic": 0,
+  "violations": 0,
+  "distinct_violations": {},
+  "violation_lines_capped": false,
+  "synthetic_violations": 0,
+  "synthetic_violation_lines": {},
+  "crashes": [],
+  "log_problems": [],
+  "report_problems": [],
+  "sim_job": {
+    "config": {
+      "kind": "soak",
+      "preset": "B",
+      "first_seed": 1,
+      "lobbies": 200,
+      "shards": 8,
+      "rates": {},
+      "library": "",
+      "synthetic": 0
+    },
+    "seeds": [
+      1,
+      200
+    ],
+    "shard_seconds": {
+      "1": 147.3,
+      "2": 126.3,
+      "3": 98.6,
+      "4": 102.8,
+      "5": 133.5,
+      "6": 98.9,
+      "7": 148.7,
+      "8": 147.3
+    },
+    "dropped": {}
+  },
+  "passes": true
+}
