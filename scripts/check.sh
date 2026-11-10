@@ -24,7 +24,7 @@
 # BRAMBLE_SLOT_HELD=1 says the caller holds one. The static steps run without a slot. Where
 # systemd-run --user works, each Godot step runs in a scope capped at MemoryMax=3G.
 # The tests step writes JUnit XML to build/check/gut.xml and prints the 20 slowest scripts.
-# Steps: docs-size, tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
+# Steps: docs-size, scope-fence, tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -214,7 +214,7 @@ step_versions() {
 }
 
 step_shell() {
-  shellcheck -x scripts/*.sh tools/play/*.sh
+  shellcheck -x scripts/*.sh tools/play/*.sh tools/checks/*.sh tools/look/*.sh tools/look/look
 }
 
 # Python under tools/checks (config: ruff.toml): lint, formatting, unit tests.
@@ -368,7 +368,10 @@ step_docs_size() {
   python3 tools/checks/docs_size.py --base "$base"
 }
 
+step_scope_fence() { bash tools/checks/scope_fence.sh; }
+
 run_step "docs-size" step_docs_size
+run_step "scope-fence" step_scope_fence
 if [ -n "$SHARD" ]; then
   out="$(python3 "$ROOT/tools/checks/test_shards.py" list "$SHARD")" || { echo "$out"; exit 2; }
 fi
