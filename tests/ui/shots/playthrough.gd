@@ -188,6 +188,18 @@ func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String)
 	await _frames(2)
 	driver.expect(scout.visible, "Scout: their board didn't open")
 	await _check(recruit, where + " scouting")
+	if RecruitView.is_ghost_next(recruit.state):
+		var ghost: Dictionary = detail.get("shown")
+		driver.expect(
+			(
+				detail.visible
+				and (Data.s(ghost, "name") + " " + Data.s(ghost, "text")).to_lower().contains(
+					"ghost"
+				)
+			),
+			"Ghost: opening Scout shows who the ghost is"
+		)
+		await _check(recruit, where + " scouting, ghost identity")
 	var theirs: Array = Data.a(recruit.state, "next_opponent_last_board")
 	for slot: int in theirs.size():
 		if theirs[slot] != null:
@@ -195,17 +207,21 @@ func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String)
 			await _frames(2)
 			await _check(recruit, where + " scouting, their unit open")
 			break
-	var before: Dictionary = detail.get("shown")
-	driver.expect(hero.is_visible_in_tree(), "Who?: scouting portrait is present")
-	driver.expect(
-		CoreUtil.to_bool(driver.call("_click_control", hero, "tapped", "Who portrait")),
-		"Who?: the scouting portrait receives the click"
-	)
-	await _frames(2)
-	var after: Dictionary = detail.get("shown")
-	driver.expect(after != before or before.is_empty(), "Who?: the panel didn't change")
-	driver.expect(detail.visible, "Who?: nothing shown")
-	await _check(recruit, where + " scouting, who they are")
+	if hero.is_visible_in_tree():
+		var before: Dictionary = detail.get("shown")
+		driver.expect(
+			CoreUtil.to_bool(driver.call("_click_control", hero, "tapped", "Who portrait")),
+			"Who?: the scouting portrait receives the click"
+		)
+		await _frames(2)
+		var after: Dictionary = detail.get("shown")
+		driver.expect(after != before or before.is_empty(), "Who?: the panel didn't change")
+		driver.expect(detail.visible, "Who?: nothing shown")
+		await _check(recruit, where + " scouting, who they are")
+	else:
+		driver.expect(
+			RecruitView.is_ghost_next(recruit.state), "Who?: living opponent has no portrait"
+		)
 	driver.press(token, "Close")
 	await _frames(2)
 	driver.expect(not scout.visible, "Close: their board stayed open")
