@@ -216,8 +216,10 @@ func _frame(screen: Control, directory: String, frames: Array[Dictionary], tick:
 func _visible_overlays(motion: Control) -> int:
 	var count: int = 0
 	for child: Node in motion.get_children():
-		if child is Control and child.is_visible_in_tree() and child.modulate.a > 0.001:
-			count += 1
+		if child is Control:
+			var overlay: Control = child
+			if overlay.is_visible_in_tree() and overlay.modulate.a > 0.001:
+				count += 1
 	return count
 
 
