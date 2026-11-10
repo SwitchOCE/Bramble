@@ -111,7 +111,8 @@ func test_all_six_keep_expected_tiers_bodies_and_golden_double_bodies() -> void:
 			assert_eq(unit.base_attack_now(), CoreUtil.to_int(expected[1]) * factor, id)
 			assert_eq(unit.base_health_now(), CoreUtil.to_int(expected[2]) * factor, id)
 		if id != "pipistrelle_echo":
-			assert_eq(card["mechanics"].size(), 1, id + " has one native ability")
+			var mechanics: Array = card["mechanics"]
+			assert_eq(mechanics.size(), 1, id + " has one native ability")
 			assert_eq(_native(card)["ability"], id)
 
 

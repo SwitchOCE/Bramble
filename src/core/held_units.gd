@@ -556,11 +556,14 @@ static func away_views(player: PlayerState) -> Array:
 				else "birds_homecoming_multiplier"
 			)
 			var multiplier: float = CoreUtil.to_float(player.pass3_rates.get(key, 2.0))
+			var replay: Vector2i = Pass3Neutrals.homecoming_play_gain(player, unit)
 			view["home_attack"] = (
-				ceili((unit.base_attack_now() + unit.perm_attack) * multiplier) + unit.tribe_attack
+				ceili((unit.base_attack_now() + unit.perm_attack + replay.x) * multiplier)
+				+ unit.tribe_attack
 			)
 			view["home_health"] = (
-				ceili((unit.base_health_now() + unit.perm_health) * multiplier) + unit.tribe_health
+				ceili((unit.base_health_now() + unit.perm_health + replay.y) * multiplier)
+				+ unit.tribe_health
 			)
 		view["nest"] = entry["nest"]
 		view["due"] = entry["due"]

@@ -77,15 +77,15 @@
     "content/units/old_mother_mast.json": "e3276f34113f67e2bc194f6633bbde1683c67c3c966be2ecd3b9feaa0fe38c27",
     "src/core/mechanics/pass3_neutral.gd": "1f64a30e1a7f2ceaca62e71c32840d38a0edef32d623290f2177eb9ec49f57f3",
     "src/core/combat/pass3_neutral_combat.gd": "597430801e497d5136ef52e0327e43f8c5917c4d44731e23c155fed0ddf42cac",
-    "src/core/pass3_neutrals.gd": "fdf270943b03c60a9cee7c66cc7e2037ec5717da3210bacb093ee979e4684130",
+    "src/core/pass3_neutrals.gd": "1d344745261c899405d4187938216053d23fbd0639ac780bf13aa7f9135618b0",
     "src/core/pass3_neutral_text.gd": "fadb195b30614828b25aca5f418b06ab2c69e465611a9c378313523245c2505f",
-    "src/core/held_units.gd": "bc67cceb38da720c579317143e98ad14203ecfae88d0a150e246fa3291496939",
+    "src/core/held_units.gd": "d007df73c0d5bf898fde6fa7d951208c8f39a64996b7fc7feef20e0f652e681a",
     "src/core/recruit_events.gd": "bffd9ef6cddf0ab3b0ac8db943dc6f0213f963e0220405e2bb61e140083f107a",
     "content/units/ballooning_spider.json": "8f928e0830a40bbe12e5f50b71c633c49cc61f04ee12710965a2d0966b633a11",
     "content/units/whirligig_beetle.json": "69a76d6d3b4b4389721a933edeeef4262a934f91ec128205c229ac9a3efc2032",
     "content/units/shieldbug.json": "f3093327ac4804f5ab4f7a9fb92d50ed8d3999c0b323a346c397c8fdb128fb04",
-    "content/units/charcoal_burner.json": "9a4d201bf67620b5a7772b0fea7411b230c14636c18158dd1c2f01af3f3d96ad",
-    "content/units/click_beetle.json": "df4bb61ab76c390bb69cea0bf0f2c76be3c1f56cb43eda7f0cac4360ebe59b8a"
+    "content/units/charcoal_burner.json": "1ce23ed0ed1dc19c074eadc9f4b0739c7f91fc3b27fb755e68b5af5f5717e6d6",
+    "content/units/click_beetle.json": "4997a383f11d19611ce61a7c18b21145b0b27c5770584e7696ec93235d49b16b"
   },
   "entries": [
     {

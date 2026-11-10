@@ -52,6 +52,7 @@ static func _snapshot(state: Dictionary) -> Dictionary:
 	return {
 		"gold": player.gold,
 		"shop_tier": player.tier,
+		"bellies": [],
 		"larder": player.larder(),
 		"board": player.combat_board(),
 		"events": player.recruit_log.duplicate(true)

@@ -29,6 +29,35 @@ static func replay_homecoming(rules: RecruitRules, player: PlayerState, unit: Re
 	rules.events.fire(player, "on_play", {"subject": unit})
 
 
+## Pure forecast of unconditional printed self buffs. Dynamic conditions, grants and borrowed
+## text need event resolution and are deliberately outside this away-tray estimate.
+static func homecoming_play_gain(player: PlayerState, unit: RecruitUnit) -> Vector2i:
+	var repeats: int = play_repeats(player)
+	if repeats <= 1 or not unit.has_tribe("Birds"):
+		return Vector2i.ZERO
+	var gain := Vector2i.ZERO
+	for entry: Dictionary in unit.def.get("mechanics", []):
+		if str(entry.get("id", "")) != "effect" or str(entry.get("trigger", "")) != "on_play":
+			continue
+		var params: Dictionary = MechanicRegistry.params_for(entry, unit.golden)
+		if params.has("if") or params.has("every") or params.has("once"):
+			continue
+		if params.has("limit") or params.has("lifetime"):
+			continue
+		if str(params.get("subject", "self")) == "other":
+			continue
+		for step: Dictionary in MechanicRegistry.steps_of(params):
+			var target: Dictionary = step.get("target", params.get("target", {}))
+			if str(step.get("effect", "")) != "buff" or str(target.get("select", "self")) != "self":
+				continue
+			if step.has("per") or str(step.get("duration", "permanent")) == "combat":
+				continue
+			gain += Vector2i(
+				CoreUtil.to_int(step.get("attack", 0)), CoreUtil.to_int(step.get("health", 0))
+			)
+	return gain * repeats
+
+
 static func recruit_hook(ctx: RecruitContext) -> void:
 	if str(ctx.params.get("ability", "")) != "charcoal_burner" or ctx.trigger != "end_of_turn":
 		return

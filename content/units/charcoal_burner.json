@@ -26,7 +26,7 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/pass3/cross-tribe.md",
-    "note": "Pass 3 neutrals, section 8; owner-approved Click homecomings and Charcoal body-only readings in DECISIONS."
+    "note": "Pass 3 neutrals, section 8; orchestrator-adopted Click homecomings and Charcoal body-only readings in DECISIONS."
   },
   "details": "Reads each recipient's own base plus permanent body stats; excludes Rings, auras and standing tribe bonuses. Shares round down. Golden increases only the gold burned.",
   "golden_details": "Reads each recipient's own base plus permanent body stats; excludes Rings, auras and standing tribe bonuses. Shares round down. Golden increases only the gold burned."
