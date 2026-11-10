@@ -4,6 +4,17 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Faster suite (S10): review calls
+**Source:** the scope review of `ideation/c-faster-suite` `3d96ce3f..3deb96f2` (`evidence/review-faster-suite.md`): 16 keep, 0 cut, 0 simplify, 3 ask. Confirmed: the diff is tests only, with nothing under `src/`; no leak path was found in the cache; and the three planted bugs still fail the suite.
+
+**Picked:** merge, in one merge commit with play tools (`da20e53e`, gated on Actions). Follow-up step S10b goes to a Codex worker (10b):
+- **Ask 1:** replay a whole current-content game with the cheaper Hard seats (`SharedLobby.QUICK_HARD`) and fix the comment. Reason: nothing else replays a whole current-content game, and determinism is what the owner's replays and the fixed-seed sims rest on.
+- **Ask 2:** criterion 1 is read on Actions. Compare `da20e53e`'s tests junit total with the last ideation/main gate's, and write both, plus the commit the planted bugs ran on, into `8-faster-suite.md`.
+- **Ask 3:** add a cache self-test: mutate a copy, then check that `TestLibraries.current()` still equals a fresh `UnitLibrary.load_dir()` in units, cards, heroes and errors.
+- **The one-line guard:** `assert_true(combat.is_processing())` in `test_screens_smoke`.
+
+**Agreed by:** the scope review (no cuts).
+
 ### 10 Nov 2026 — Play tools (S5): review calls
 **Source:** the scope review of `ideation/c-play-tools` `eaea0e05..06ba4bbe` (`evidence/review-play-tools.md`): 20 keep, 0 cut, 7 simplify, 4 ask. All 2,326 tests passed over four shards.
 
