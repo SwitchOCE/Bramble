@@ -8,19 +8,28 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. This has the text of what's inside it.",
-  "golden_text": "Belly 2. This has the text of what's inside it.",
+  "text": "Belly 1. Digest. This has the text of its last meal.",
+  "golden_text": "Belly 2. Digest. This has the text of its last two meals.",
   "mechanics": [
     {
       "id": "belly",
       "size": 1
     },
     {
-      "id": "borrows_text"
+      "id": "borrows_text",
+      "pass3": true
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "frumenty",
+      "factor": 1,
+      "meals": 1
     }
   ],
   "keywords": [
-    "Belly"
+    "Belly",
+    "Digest",
+    "Eat"
   ],
   "row_hint": null,
   "pool": true,
@@ -28,6 +37,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   }
 }

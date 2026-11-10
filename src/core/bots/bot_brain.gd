@@ -34,7 +34,6 @@ var _replacements: int = 0
 var _refreshes: int = 0
 
 
-## A brain from its name, or null if the name isn't a level.
 static func from_name(bot_name: String, brain_script: GDScript = null) -> BotBrain:
 	if bot_name == "quilboar_choose_one":
 		bot_name = "hard:quilboar_choose_one@blind"
@@ -205,6 +204,7 @@ func _smart_turn() -> void:
 	_settle()
 	_choose_build()
 	_open_with_a_plan()
+	BotOoze.prepare(self)
 	_cast_spells(false)
 	BotHeld.fly_turn(_player, _rules, value, _round_now)
 	_settle()
@@ -219,6 +219,7 @@ func _smart_turn() -> void:
 	_climb(true)
 	BotPass3.churn(self)
 	_feed_eaters()
+	BotOoze.feed(self)
 	_cash_for_burn()
 	_cast_spells(true)
 	_freeze()
@@ -318,8 +319,7 @@ func _shop_loop() -> void:
 		_refreshes += 1
 
 
-## The best thing on offer by gain per gold: {"spell", "index", "cost", "gain"}; {} if nothing is
-## worth it.
+## The best positive gain per gold: {spell, index, cost, gain}.
 func _best_offer() -> Dictionary:
 	var best: Dictionary = {}
 	var best_rate: float = 0.0
@@ -369,6 +369,9 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	var meal: float = BotOoze.meal_gain(self, unit)
+	if meal >= 0.0:
+		return meal
 	if (
 		pinned_strategy != ""
 		and not unit.poached_offer
@@ -420,6 +423,7 @@ func _room_left() -> int:
 	var most: int = CoreUtil.to_int(value.strategy.get("max_units", BoardGeometry.SLOTS))
 	var hero_hint: Dictionary = knowledge.hero(str(_player.hero.get("id", "")))
 	most = mini(most, CoreUtil.to_int(hero_hint.get("max_units", BoardGeometry.SLOTS)))
+	most = mini(most, BotOoze.max_bodies(_player, value, _can_replace))
 	return mini(most, BoardGeometry.SLOTS) - _player.board_count()
 
 
@@ -630,6 +634,10 @@ func _play_hand() -> void:
 		if index >= _player.hand.size():
 			return
 		var unit: RecruitUnit = _player.hand[index]
+		var meal_belly: int = BotOoze.hand_belly(self, unit)
+		if meal_belly >= 0 and _rules.swallow(_player, HeldUnits.HAND, index, meal_belly) == "":
+			_settle()
+			continue
 		if level.reads_text and BotBog.hold_frog(_player, unit, value):
 			index += 1
 			continue
@@ -911,6 +919,8 @@ func _use_power_now() -> void:
 ## Keeps a shop worth coming back to: a triple, or a big gain it can't pay for.
 func _freeze() -> void:
 	if not level.uses_freeze or _player.frozen or _player.freezes_left <= 0:
+		return
+	if BotOoze.freeze(self):
 		return
 	for unit: RecruitUnit in _player.shop:
 		if (

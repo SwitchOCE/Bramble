@@ -19,7 +19,7 @@ const TAGS: Dictionary = {
 	"reel_mistress": "Ring dance",
 	"mountain_glutton": "Take growth",
 	"tiddy_mun": "Hit growth",
-	"moss_ooze": "Spells inside",
+	"moss_ooze": "Comes out",
 }
 var _library: UnitLibrary = LegacyBog.library(false)
 var _combat: Combat

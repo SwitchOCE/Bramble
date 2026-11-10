@@ -1,0 +1,21 @@
+{
+  "id": "slice",
+  "name": "Slice",
+  "set": "slice",
+  "tier": 1,
+  "attack": 1,
+  "health": 1,
+  "tribes": [],
+  "text": "",
+  "golden_text": "",
+  "mechanics": [],
+  "keywords": [],
+  "row_hint": null,
+  "pool": false,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "token",
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md"
+  }
+}

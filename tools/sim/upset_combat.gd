@@ -205,6 +205,27 @@ const AUDITED_HUNTERS: Dictionary = {
 	"isegrim": true,
 }
 
+# Eat/Digest, Soup, Aspic and Elder read own bodies. Posset follows the actual killer,
+# Granny gathers friendlies, and release hooks select no enemy by size. Only Hasty ranks enemies.
+const AUDITED_OOZES: Dictionary = {
+	"little_dollop": false,
+	"mrs_posset": false,
+	"wee_wobbly": false,
+	"stone_soup": false,
+	"dishwater_nell": false,
+	"moss_ooze": false,
+	"aunt_aspic": false,
+	"bubble_and_squeak": false,
+	"sixpenny_pie": false,
+	"frumenty": false,
+	"figgy_duff": false,
+	"mr_syllabub": false,
+	"elder_ooze": false,
+	"hasty_pudding": true,
+	"granny_stir_up": false,
+	"cut_and_come_again": false,
+}
+
 var flip_first_attack: bool = false
 var first_side_original: int = -1
 var first_side_used: int = -1
@@ -385,6 +406,10 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 				id == "pass3_hunter"
 				and CoreUtil.to_bool(AUDITED_HUNTERS.get(str(original.get("ability", "")), false))
 			)
+			or (
+				id == "pass3_ooze"
+				and CoreUtil.to_bool(AUDITED_OOZES.get(str(original.get("ability", "")), false))
+			)
 		)
 	):
 		(
@@ -425,6 +450,8 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 
 static func _audited_native(entry: Dictionary) -> bool:
 	var id: String = str(entry.get("id", ""))
+	if id == "pass3_ooze":
+		return AUDITED_OOZES.has(str(entry.get("ability", "")))
 	if id == "pass3_hunter":
 		return AUDITED_HUNTERS.has(str(entry.get("ability", "")))
 	if id == "pass3_bog":

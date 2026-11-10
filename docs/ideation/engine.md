@@ -60,6 +60,7 @@ Recruit Phase. All fire through one queue in `src/core/recruit_events.gd`; anyth
 | `on_move` | A unit changes slot | it, `self` |
 | `on_home` | A bird lands back in hand after Fly South | it, `self` |
 | `on_swallow` | A unit goes into a Belly | the Ooze, `other` is the unit |
+| `on_eat` | An Ooze eats a meal through the shared meal pipeline | `subject` is the eater; `meal` contains the consumed unit and its stats |
 | `on_refresh` | The shop refreshes | `paid` tells if it cost gold |
 | `on_spell_cast` | A spell is cast (items don't count) | `card_def` for scripts |
 | `on_tier_up` | Tavern tier goes up | |

@@ -600,6 +600,13 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 	if not BoardGeometry.is_valid(slot):
 		return []
+	if card.has("ooze_nell_eaters"):
+		var eaters: Array[int] = []
+		for value: Variant in Data.a(card, "ooze_nell_eaters"):
+			var eater: int = Data.as_int(value)
+			if BoardGeometry.is_valid(eater):
+				eaters.append(eater)
+		return eaters
 	var words: String = Data.s(card, "text").to_lower()
 	if "behind" in words:
 		return BoardGeometry.behind(slot)
@@ -614,6 +621,15 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 
 static func geometry_note(card: Dictionary, slot: int, board: Array = []) -> String:
 	var slots: Array[int] = related_slots(card, slot)
+	if card.has("ooze_nell_eaters"):
+		var eaters: PackedStringArray = []
+		for eater: int in slots:
+			eaters.append(SLOT_NAMES[eater])
+		return (
+			"No Ooze next to this."
+			if eaters.is_empty()
+			else "Current eater: %s." % " and ".join(eaters)
+		)
 	if slots.is_empty():
 		if pass_direction(card) == 0:
 			return ""

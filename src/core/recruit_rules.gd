@@ -163,8 +163,10 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	_fill_shop(player)
 	HunterRecruit.start_turn(player)
 	observe_shop(player)
+	var frozen_offers: bool = player.frozen
 	player.frozen = false
 	HeldUnits.land_due(self, player)
+	Pass3Oozes.start_turn(self, player, frozen_offers)
 	events.fire(player, "start_of_turn")
 
 
@@ -203,6 +205,7 @@ func board_changed(player: PlayerState) -> void:
 	Pass3Bog.prepare(self, player)
 	Pass3Fairies.sync_rings(player)
 	BoardUpkeep.settle(self, player)
+	Pass3Oozes.prepare(player)
 	_settling = false
 
 
@@ -254,6 +257,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	if buys_left(player) == 0:
 		return "Pipkin can buy only two units each turn; no unit buys left."
 	var unit: RecruitUnit = player.shop[shop_index]
+	Pass3Oozes.commit_shop(unit)
 	player.shop.remove_at(shop_index)
 	unit.poached_discount = 0
 	unit.poached_offer = false
@@ -516,6 +520,7 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 			)
 		# A wait the player paid for stays: it starts over when the golden lands, as any move does.
 		golden.timers.append_array(copy.timers)
+		golden.last_meals.append_array(copy.last_meals)
 		if CoreUtil.to_bool(copy.counters.get("egged", false)):
 			golden.counters["egged"] = true
 		for counter: String in ["hex", "hex_percent"]:
@@ -536,6 +541,10 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 			HeldUnits.take_out(player, copy)
 		HeldUnits.release(self, player, copy)
 	golden.shy_accepts_stats = false
+	if Pass3Oozes.has(golden, "frumenty"):
+		var meals: int = Pass3Rates.integer(config, "oozes_frumenty_meals") * 2
+		while golden.last_meals.size() > maxi(0, meals):
+			golden.last_meals.pop_front()
 	golden.perm_attack = maxi(0, golden.perm_attack)
 	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
@@ -977,5 +986,6 @@ func _return_shop(player: PlayerState) -> void:
 
 
 func observe_shop(player: PlayerState) -> void:
+	Pass3Oozes.prepare(player)
 	if shop_observer.is_valid():
 		shop_observer.call(player)
