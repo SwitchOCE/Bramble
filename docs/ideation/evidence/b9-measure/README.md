@@ -25,7 +25,7 @@ GODOT_SLOT_CLASS=worker scripts/godot_slot.sh godot --headless -s res://tools/si
 
 ## Local run and deciding criteria
 
-The one confirmation uses `confirm.json`: preset C, `a35_run1`, seeds 2911001–2911032, 32 lobbies, all twelve committed lines seated 21–22 times, and checkpoint caps off. Shared hero/spell scaling is C’s 20; the initial Fairy Ring is C’s 6. Run locally with `python3 tools/sim/sim_job.py local docs/ideation/evidence/b9-measure/confirm.json build/b9-measure/confirm --jobs 3`; the runner acquires its own slots. No pushes or Actions sims.
+The separate 32-seed C confirmation is superseded by A4: 64 matched line lobbies each at B and C, seeds 2911001–2911064. [A4 pipeline and smoke evidence](a4/README.md) describe the bounded field fights and reused checkpoint libraries. The full run waits for the orchestrator's merged content commit. No pushes or Actions sims.
 
 Decides: every engine R12 median is within [1,350, 3,600]; every committed line’s median per-seat R8–R14 growth is at least ×1.3 per round. R12 is active pre-start A+H on all surviving seats. Growth uses R14 survivors and `(R14/R8)^(1/6)` per seat; R15÷R12 divides medians on the same R15-surviving cohort. Percentiles interpolate at `(n−1)q`. Low-tail and >10× upper-tail flags are reported, along with R6–R15 distributions and stat ceilings.
 

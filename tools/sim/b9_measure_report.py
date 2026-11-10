@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report the single build 9 preset C confirmation, without fitting or changing rates."""
+"""Report a build 9 line-lobby preset sample, without fitting or changing rates."""
 
 import argparse
 import gzip
@@ -30,12 +30,13 @@ def quantiles(values, probabilities=(0.1, 0.5, 0.9)):
     return out
 
 
-def summarize(folder):
+def summarize(folder, preset="C", expected_seeds=None):
     summary = json.loads((folder / "summary.json").read_text())
     assert summary["passes"] and not summary["sim_job"]["dropped"]
-    with gzip.open(folder / "C.lobbies.json.gz", "rt") as stream:
+    with gzip.open(folder / f"{preset}.lobbies.json.gz", "rt") as stream:
         games = json.load(stream)
-    assert sorted(game["seed"] for game in games) == list(range(2911001, 2911033))
+    expected_seeds = list(range(2911001, 2911033)) if expected_seeds is None else expected_seeds
+    assert sorted(game["seed"] for game in games) == expected_seeds
     by_line, assigned, caps = {}, {}, []
     for game in games:
         for player in game["players"]:
@@ -55,7 +56,8 @@ def summarize(folder):
                             "unit": unit,
                         }
                     )
-    assert len(assigned) == 12 and all(21 <= len(seats) <= 22 for seats in assigned.values())
+    low, remainder = divmod(len(games) * 8, 12)
+    assert len(assigned) == 12 and all(low <= len(seats) <= low + bool(remainder) for seats in assigned.values())
     lines = {}
     for line, seats in sorted(by_line.items()):
         r12 = [rs[12] for rs in seats.values() if 12 in rs]
@@ -70,15 +72,16 @@ def summarize(folder):
             "alive_r12": len(r12),
             "alive_r12_share": len(r12) / len(assigned[line]),
             "r15_div_r12": statistics.median(rs[15] for rs in late) / statistics.median(rs[12] for rs in late)
-            if late
+            if late and statistics.median(rs[12] for rs in late) > 0
             else None,
             "r15_div_r12_seat_median": statistics.median(rs[15] / rs[12] for rs in late) if late else None,
             "late_n": len(late),
-            "tail_flag": spread[2] > 10 * spread[1],
-            "p10_low_flag": spread[0] < 0.25 * spread[1],
+            "tail_flag": spread[2] > 10 * spread[1] if spread else None,
+            "p10_low_flag": spread[0] < 0.25 * spread[1] if spread else None,
             "rounds": {
                 str(r): {
                     "alive_n": sum(r in rs for rs in seats.values()),
+                    "alive_share": sum(r in rs for rs in seats.values()) / len(assigned[line]),
                     "alive_p10_p25_p50_p75_p90": quantiles(
                         [rs[r] for rs in seats.values() if r in rs], (0.1, 0.25, 0.5, 0.75, 0.9)
                     ),
@@ -89,14 +92,18 @@ def summarize(folder):
                 for r in range(6, 16)
             },
         }
-    scale = {tribe: 1350 <= lines[line]["r12"][1] <= 3600 for tribe, line in ENGINES.items()}
+    target = 1800 if preset == "C" else 900
+    scale = {
+        tribe: lines[line]["r12"] is not None and 0.75 * target <= lines[line]["r12"][1] <= 2 * target
+        for tribe, line in ENGINES.items()
+    }
     growth = {line: row["growth_r8_r14"] is not None and row["growth_r8_r14"][1] >= 1.3 for line, row in lines.items()}
     return {
-        "preset": "C",
+        "preset": preset,
         "provisional_fit": True,
         "confirmation": lines,
         "decides": {
-            "engine_scale_in_1350_3600": scale,
+            "engine_r12_in_target_band": scale,
             "growth_at_least_1_3": growth,
             "scale_passes": all(scale.values()),
             "growth_passes": all(growth.values()),
@@ -128,8 +135,13 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("result_dir", type=Path)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--preset", choices=["B", "C"], default="C")
+    parser.add_argument("--first-seed", type=int, default=2911001)
+    parser.add_argument("--lobbies", type=int, default=64)
     args = parser.parse_args()
-    result = summarize(args.result_dir)
+    result = summarize(
+        args.result_dir, preset=args.preset, expected_seeds=list(range(args.first_seed, args.first_seed + args.lobbies))
+    )
     args.out.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n")
     print(table(result))
 

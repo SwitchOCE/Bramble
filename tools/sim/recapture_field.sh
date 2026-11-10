@@ -3,7 +3,7 @@
 #   tools/sim/recapture_field.sh [--games 120] [--first-seed 20262000]
 #     [--per-line 64] [--sample-seed 91407] [--config overrides.json]
 #     [--out content/fields/baseline.json.gz] [--capture-dir build/strong-field/recapture]
-#     [--source-commit HEAD] [--strength top4] [--timeout 1500]
+#     [--source-commit HEAD] [--strength top4] [--timeout 1500] [--reuse-captures]
 # Future shipped libraries contain source top-four finishers by default.
 # Runs one Godot process at a time, under the shared lock and 3 GiB memory cap.
 set -euo pipefail
@@ -22,6 +22,7 @@ CAPTURE_DIR=build/strong-field/recapture
 SOURCE_COMMIT=HEAD
 LIMIT=1500
 CONFIG=""
+REUSE=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --games) GAMES="$2"; shift 2 ;;
@@ -34,6 +35,7 @@ while [ $# -gt 0 ]; do
     --source-commit) SOURCE_COMMIT="$2"; shift 2 ;;
     --timeout) LIMIT="$2"; shift 2 ;;
     --config) CONFIG="$2"; shift 2 ;;
+    --reuse-captures) REUSE=1; shift ;;
     -h|--help) sed -n '2,9s/^# \{0,1\}//p' "$0"; exit 0 ;;
     *) echo "unknown argument: $1" >&2; exit 2 ;;
   esac
@@ -49,22 +51,39 @@ if [ "$REVISION" != "$(git rev-parse HEAD)" ]; then
 fi
 # Existing generated fields do not affect all-line captures, so they may be replaced in place.
 if ! git diff --quiet HEAD -- src tools/sim content/units content/spells content/heroes \
-  content/levers content/schema content/bots; then
+  content/levers content/schema content/bots content/pass3; then
   echo "commit source/gameplay changes before recapturing; refusing misleading source provenance" >&2
   exit 2
 fi
 mkdir -p "$CAPTURE_DIR" "$(dirname "$OUTPUT")"
-flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
-  timeout 180 "$GODOT_BIN" --headless --path "$ROOT" --import \
-  >"$CAPTURE_DIR/import.log" 2>&1
-options=(suite=lines "games=$GAMES" "first_seed=$FIRST_SEED" capture=on "out=$CAPTURE_DIR/lines")
-if [ -n "$CONFIG" ]; then options+=("config=$CONFIG"); fi
-flock /tmp/bramble-godot.lock systemd-run --user --scope -p MemoryMax=3G \
-  timeout "$LIMIT" "$GODOT_BIN" --headless --path "$ROOT" -s res://tools/sim/bench.gd \
-  -- "${options[@]}" >"$CAPTURE_DIR/capture.log" 2>&1
-if grep -E 'SCRIPT ERROR|^ERROR:|Parse Error' "$CAPTURE_DIR/import.log" "$CAPTURE_DIR/capture.log"; then
-  echo "capture logged errors; library was not replaced" >&2
-  exit 1
+if [ "$REUSE" -eq 1 ]; then
+  # The A4 runner seals reused captures after the source commit has been checked.
+  python3 - "$CAPTURE_DIR" "$REVISION" <<'PY_VERIFY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+folder = Path(sys.argv[1])
+receipt = json.loads((folder / "source.json").read_text())
+if receipt["source_commit"] != sys.argv[2]:
+    raise SystemExit("capture source commit differs from the requested source")
+if set(receipt["sha256"]) != {"lines.fights.jsonl", "lines.players.csv"}:
+    raise SystemExit("capture seal must name both native capture files")
+for name, expected in receipt["sha256"].items():
+    if hashlib.sha256((folder / name).read_bytes()).hexdigest() != expected:
+        raise SystemExit("capture seal differs: " + name)
+PY_VERIFY
+else
+  GODOT_SLOT_CLASS=worker scripts/godot_slot.sh timeout 180 "$GODOT_BIN" --headless --path "$ROOT" --import \
+    >"$CAPTURE_DIR/import.log" 2>&1
+  options=(suite=lines "games=$GAMES" "first_seed=$FIRST_SEED" capture=on "out=$CAPTURE_DIR/lines")
+  if [ -n "$CONFIG" ]; then options+=("config=$CONFIG"); fi
+  GODOT_SLOT_CLASS=worker scripts/godot_slot.sh timeout "$LIMIT" "$GODOT_BIN" --headless --path "$ROOT" -s res://tools/sim/bench.gd \
+    -- "${options[@]}" >"$CAPTURE_DIR/capture.log" 2>&1
+  if grep -E 'SCRIPT ERROR|^ERROR:|Parse Error' "$CAPTURE_DIR/import.log" "$CAPTURE_DIR/capture.log"; then
+    echo "capture logged errors; library was not replaced" >&2
+    exit 1
+  fi
 fi
 python3 tools/sim/field_library.py "$CAPTURE_DIR/lines.fights.jsonl" \
   --source-commit "$REVISION" --per-line "$PER_LINE" --seed "$SAMPLE_SEED" \

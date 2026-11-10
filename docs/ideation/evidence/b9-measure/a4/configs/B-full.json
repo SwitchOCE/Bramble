@@ -1,0 +1,8 @@
+{
+  "kind": "lines",
+  "suite": "a35_run1",
+  "preset": "B",
+  "first_seed": 2911001,
+  "lobbies": 64,
+  "shards": 8
+}

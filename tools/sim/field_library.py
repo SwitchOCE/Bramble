@@ -28,6 +28,7 @@ VERSION = 2
 CONFIG_VERSION = 1
 SEAT_KEYS = frozenset(("bots", "human_bot", "opponents", "field_library", "field_strength"))
 SIDE_KEYS = ("board", "slots", "hero_effects", "fight_rules", "tier")
+CAPTURE_SUITES = ("lines", "a35_run1")
 CONTENT_FOLDERS = ("units", "spells", "heroes", "levers", "schema", "pass3")
 DISPLAY_KEYS = frozenset(
     (
@@ -138,8 +139,8 @@ def load_seats(paths):
     for path in paths:
         with path.open(newline="") as stream:
             for row in csv.DictReader(stream):
-                if row["suite"] != "lines":
-                    raise ValueError(f"{path}: only suite=lines seats are supported")
+                if row["suite"] not in CAPTURE_SUITES:
+                    raise ValueError(f"{path}: only all-line lobby seats are supported")
                 key = (int(row["seed"]), int(row.get("leg", "0") or "0"), int(row["seat"]))
                 if key in result:
                     raise ValueError(f"duplicate seat hero: {key}")
@@ -177,8 +178,8 @@ def read_trajectories(captures, source_seats, hero_names):
         with path.open() as stream:
             for raw in stream:
                 record = json.loads(raw)
-                if record.get("suite") != "lines":
-                    raise ValueError("only all-line lobby captures (suite=lines) are supported")
+                if record.get("suite") not in CAPTURE_SUITES:
+                    raise ValueError("only all-line lobby captures (lines/a35_run1) are supported")
                 if record.get("test_cards"):
                     raise ValueError("synthetic test cards cannot enter a playable field library")
                 fight = record["input"]

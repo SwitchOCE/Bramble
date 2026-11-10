@@ -3,6 +3,6 @@
   "suite": "a35_run1",
   "preset": "C",
   "first_seed": 2911001,
-  "lobbies": 32,
-  "shards": 8
+  "lobbies": 2,
+  "shards": 2
 }
