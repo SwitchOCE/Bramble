@@ -52,7 +52,7 @@ static func json(game: PlayGame, message: String) -> String:
 		"legal": LegalActions.of(state),
 	}
 	if game.session.is_over():
-		payload["game_log"] = game.session.get_game_log()
+		payload["game_log"] = PlayVariant.scrub_game_log(game, game.session.get_game_log())
 	return JSON.stringify(payload, "", false)
 
 
@@ -598,6 +598,11 @@ static func fight_lines(fight: Dictionary, state: Dictionary, lines: PackedStrin
 		var line: String = FightLog.event_line(event, names, mine)
 		if not line.is_empty():
 			lines.append("  " + line)
+
+
+## A player's name as the screen prints it; "a ghost" for one who isn't in the lobby.
+static func player_name(state: Dictionary, player_id: Variant) -> String:
+	return _player_name(state, player_id)
 
 
 static func _player_name(state: Dictionary, player_id: Variant) -> String:

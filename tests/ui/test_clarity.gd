@@ -73,7 +73,7 @@ func test_triple_rewards_offer_three_across_all_shop_tiers() -> void:
 
 
 func test_exhausted_discover_explains_two_options_and_an_empty_pool() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var session := GameSession.create(12, library)
 	var player: PlayerState = session._players[0]
 	var cards: Array[Dictionary] = [library.get_unit("mr_crumb"), library.get_unit("field_vole")]
@@ -99,7 +99,7 @@ func test_exhausted_discover_explains_two_options_and_an_empty_pool() -> void:
 
 
 func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var config := GameConfig.defaults()
 	config.set_value("income_by_turn", [3, 8])
 	var session := GameSession.create(4, library, config)
@@ -202,7 +202,7 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 		add_child_autofree(viewport)
 		var picker := CardPicker.new()
 		viewport.add_child(picker)
-		var library := UnitLibrary.load_dir()
+		var library := TestLibraries.current()
 		var view: Dictionary = preload("res://src/ui/unit_views.gd").from_def(
 			library.get_unit("brother_wolf")
 		)
@@ -238,7 +238,7 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 
 
 func test_pass_hint_names_end_of_turn_and_leaves_other_cards_alone() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for slot: int in BoardGeometry.SLOTS:
 		assert_eq(
 			RecruitView.geometry_note(library.get_unit("mr_crumb"), slot),

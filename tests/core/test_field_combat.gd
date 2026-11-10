@@ -36,7 +36,7 @@ func test_pre_lever_captures_keep_capped_defaults() -> void:
 
 
 func test_composed_real_capture_preserves_hidden_state_and_raw_outcome() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var session := GameSession.create(71, library)
 	var a: PlayerState = session._players[0]
 	var b: PlayerState = session._players[1]
@@ -120,7 +120,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 	var cases: Array[Dictionary] = []
 	for preset: String in ["B", "C"]:
 		for golden: bool in [false, true]:
-			var source := UnitLibrary.load_dir()
+			var source := TestLibraries.current()
 			var config := GameConfig.full_game()
 			config.set_value("pass3_preset", preset)
 			config.set_value("fairies_ring_growth", 0.75)
@@ -159,7 +159,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 			assert_eq(input["config"]["scale_hero_spell_stats"], true, "freeze nullable auto")
 			assert_true(
 				FightCapture.matches(
-					case["recorded"], FightCapture.replay(input, UnitLibrary.load_dir())
+					case["recorded"], FightCapture.replay(input, TestLibraries.current())
 				)
 			)
 			case["label"] = "%s golden=%s" % [preset, golden]
@@ -175,7 +175,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 		var recorded: Dictionary = case["recorded"]
 		var input: Dictionary = recorded["input"]
 		var label: String = case["label"]
-		var fresh: UnitLibrary = UnitLibrary.load_dir()
+		var fresh: UnitLibrary = TestLibraries.current()
 		var replayed: Dictionary = FightCapture.replay(input, fresh)
 		assert_true(FightCapture.matches(recorded, replayed), label + " exact events after drift")
 		var expected_events: Array = case["events"]
@@ -202,7 +202,7 @@ func test_real_capture_freezes_rates_against_defaults_and_preset_drift() -> void
 			unfrozen_values.erase(key)
 		unfrozen_values["scale_hero_spell_stats"] = null
 		assert_false(
-			FightCapture.matches(recorded, FightCapture.replay(unfrozen, UnitLibrary.load_dir())),
+			FightCapture.matches(recorded, FightCapture.replay(unfrozen, TestLibraries.current())),
 			label + " negative control: a preset name alone drifts"
 		)
 	Pass3Rates._defaults = defaults

@@ -87,7 +87,7 @@ func test_triples_and_combat_permanence_obey_the_same_ceiling() -> void:
 
 func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_oozes(UnitLibrary.load_dir()))
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_oozes())
 	kit.rules.start_phase(kit.player, 1)
 	var ooze: RecruitUnit = kit.put("frumenty", 0)
 	ooze.add_permanent(30, 30)

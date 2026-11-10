@@ -65,7 +65,7 @@ func test_golden_gives_plus_2() -> void:
 func _run_frozen(a: Array, b: Array, fight_seed: int = 1) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = fight_seed
-	var library: UnitLibrary = LegacyWave1.with_hunters(UnitLibrary.load_dir())
+	var library: UnitLibrary = LegacyWave1.current_with_hunters()
 	var combat := Combat.create(library, GameConfig.defaults(), rng)
 	var tiers: Array[int] = [1, 1]
 	var ids: Array[int] = [0, 1]

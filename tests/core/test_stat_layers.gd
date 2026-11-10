@@ -7,7 +7,7 @@ var _library: UnitLibrary
 
 
 func before_all() -> void:
-	_library = UnitLibrary.load_dir()
+	_library = TestLibraries.current()
 
 
 func _combat_unit(spec: Dictionary) -> CombatUnit:

@@ -96,12 +96,18 @@ func test_combat_plays_back_over_time() -> void:
 	(app.current as RecruitScreen).call("_on_end_turn")
 	var combat: CombatScreen = app.current as CombatScreen
 	combat.set_speed(4.0)
-	await wait_seconds(1.5)
+	# The screen's own frame step, driven by hand: 1.5 s, then 0.5 s paused (was real waiting).
+	_frames(combat, 1.5)
 	assert_gt(combat.next_index, 3, "events advance while playing")
 	combat.toggle_play()
 	var paused_at: int = combat.next_index
-	await wait_seconds(0.5)
+	_frames(combat, 0.5)
 	assert_eq(combat.next_index, paused_at, "paused playback holds")
+
+
+func _frames(combat: CombatScreen, seconds: float) -> void:
+	for _frame: int in roundi(seconds * 60.0):
+		combat._process(1.0 / 60.0)
 
 
 func test_combat_handles_every_event_type() -> void:

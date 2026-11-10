@@ -32,12 +32,12 @@ func _detail(window: Vector2, def_id: String) -> CardDetail:
 	viewport.add_child(detail)
 	detail.position = Vector2(40, 40)
 	detail.size = Vector2(620, 1000)
-	detail.show_unit(UnitViews.from_def(UnitLibrary.load_dir().get_unit(def_id)))
+	detail.show_unit(UnitViews.from_def(TestLibraries.current().get_unit(def_id)))
 	return detail
 
 
 func test_no_card_text_carries_a_keyword_reminder() -> void:
-	for def: Dictionary in UnitLibrary.load_dir().all_units():
+	for def: Dictionary in TestLibraries.current().all_units():
 		for golden: bool in [false, true]:
 			var view: Dictionary = UnitViews.from_def(def, golden)
 			var full: String = _plain(CardDetail.full_text_bbcode(view))
@@ -47,7 +47,7 @@ func test_no_card_text_carries_a_keyword_reminder() -> void:
 
 
 func test_each_keyword_in_the_rules_is_a_link() -> void:
-	var view: Dictionary = UnitViews.from_def(UnitLibrary.load_dir().get_unit("belladonna"))
+	var view: Dictionary = UnitViews.from_def(TestLibraries.current().get_unit("belladonna"))
 	var full: String = CardDetail.full_text_bbcode(view)
 	assert_string_contains(full, "[url=kw:Nightshade]")
 	assert_eq(full.count("[url=kw:Nightshade]"), 1, "the first mention only")
@@ -108,7 +108,7 @@ func test_a_new_card_closes_the_last_ones_reminder() -> void:
 	var notes: RichTextLabel = detail.get("_notes")
 	notes.meta_clicked.emit("kw:Nightshade")
 	assert_true(detail.reminder.visible)
-	detail.show_unit(UnitViews.from_def(UnitLibrary.load_dir().get_unit("mr_crumb")))
+	detail.show_unit(UnitViews.from_def(TestLibraries.current().get_unit("mr_crumb")))
 	assert_false(detail.reminder.visible)
 
 

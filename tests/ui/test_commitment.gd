@@ -18,7 +18,7 @@ func after_each() -> void:
 
 
 func test_harvest_explains_where_its_bonus_applies_and_its_bounds() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var spell: Dictionary = HandItem.make(library.get_card("harvest_supper"), 1).view()
 	var full: String = CardDetail.full_text_bbcode(spell)
 	for expected: String in ["Offered from tier 3", "+3/+3", "Once a turn"]:

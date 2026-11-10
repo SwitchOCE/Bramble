@@ -35,7 +35,7 @@ func test_a_card_without_a_keyword_keeps_its_existing_action_tag() -> void:
 
 func test_native_hunter_tags_name_the_current_plain_and_golden_abilities() -> void:
 	var library: UnitLibrary = ScaleOverlay.library_for(
-		UnitLibrary.load_dir(), GameConfig.full_game()
+		TestLibraries.current(), GameConfig.full_game()
 	)
 	var expected: Dictionary = {
 		"young_brock": ["Sale growth", "Sale growth"],
@@ -64,7 +64,7 @@ func test_native_hunter_tags_name_the_current_plain_and_golden_abilities() -> vo
 
 
 func test_native_lent_hunts_use_the_existing_quarry_reader_reminder() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for id: String in ["old_brock", "old_isegrim"]:
 		for golden: bool in [false, true]:
 			var view: Dictionary = UnitViews.from_def(library.get_unit(id), golden)

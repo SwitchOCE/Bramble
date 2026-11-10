@@ -1,7 +1,7 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 var _records: Array[Dictionary] = []
 
 
@@ -132,7 +132,7 @@ func test_default_json_roundtrip_preserves_thirds_and_explicit_rate_overrides() 
 	assert_eq(
 		restored.get_value("pass3_text_defaults"), config.resolved_values()["pass3_text_defaults"]
 	)
-	assert_true(FightCapture.matches(decoded, FightCapture.replay(input, UnitLibrary.load_dir())))
+	assert_true(FightCapture.matches(decoded, FightCapture.replay(input, TestLibraries.current())))
 	var combat := Combat.create(library, restored, RandomNumberGenerator.new())
 	assert_eq(
 		Pass3HunterCombat.shares(
@@ -153,7 +153,7 @@ func test_default_json_roundtrip_preserves_thirds_and_explicit_rate_overrides() 
 		"negative control exposes default JSON rounding"
 	)
 	assert_false(
-		FightCapture.matches(decoded, FightCapture.replay(unfrozen, UnitLibrary.load_dir()))
+		FightCapture.matches(decoded, FightCapture.replay(unfrozen, TestLibraries.current()))
 	)
 	values["hunters_wick_share"] = 0.25
 	var overridden: GameConfig = FightCapture.config_for(values)

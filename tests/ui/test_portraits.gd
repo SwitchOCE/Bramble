@@ -24,7 +24,7 @@ func before_each() -> void:
 	_holder = Control.new()
 	_holder.theme = UiTheme.get_theme()
 	add_child_autofree(_holder)
-	_library = UnitLibrary.load_dir()
+	_library = TestLibraries.current()
 	_card_set = GameConfig.full_game().card_set()
 	var manifest: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://content/portraits_pending.json")
