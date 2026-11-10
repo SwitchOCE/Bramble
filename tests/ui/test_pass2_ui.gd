@@ -54,7 +54,7 @@ func test_pass_mark_is_permanent_and_preview_returns_to_it() -> void:
 
 
 func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards() -> void:
-	var library := TestLibraries.current()
+	var library: UnitLibrary = LegacyWave1.with_hedgerow(TestLibraries.current())
 	for golden: bool in [false, true]:
 		var urchin := RecruitUnit.make(library.get_unit("dr_urchin"), 1, golden)
 		var combat_note: String = RecruitView.geometry_note(urchin.view(), 0)

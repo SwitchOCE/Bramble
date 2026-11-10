@@ -3,18 +3,19 @@
   "name": "Beadle Warrenby",
   "set": "slice",
   "tier": 4,
-  "attack": 2,
-  "health": 4,
+  "attack": 3,
+  "health": 5,
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "After you get an Acorn: Pass +1/+1. Once a turn.",
-  "golden_text": "After you get an Acorn: Pass +2/+2. Once a turn.",
+  "text": "After you get an Acorn: Pass +2/+2.",
+  "golden_text": "After you get an Acorn: Pass +4/+4.",
   "mechanics": [
     {
-      "id": "beadle",
-      "stats": 1,
-      "limit": 1
+      "id": "pass3_hedgerow",
+      "ability": "beadle_warrenby",
+      "factor": 1,
+      "pass": 2
     }
   ],
   "keywords": [
@@ -26,7 +27,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
   },
-  "details": "Acorns won in combat arrive next Recruit Phase. Combining Acorns is not gaining another Acorn."
+  "details": "Only real Acorns count; combining makes a Stash, not an Acorn. No trigger limit.",
+  "golden_details": "Only real Acorns count; combining makes a Stash, not an Acorn. No trigger limit."
 }

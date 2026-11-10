@@ -1,0 +1,1255 @@
+{
+  "lead": "R14 same-cohort matched-median growth is primary. All growth objects include bootstrap90 intervals and cohort/end counts.",
+  "source_commit": "dec5f2c934a97f0a05e6a03c2d059f88374f643c",
+  "preset": "B",
+  "seeds": [
+    282001,
+    282002,
+    282003,
+    282004,
+    282005,
+    282006,
+    282007,
+    282008,
+    282009,
+    282010,
+    282011,
+    282012,
+    282013,
+    282014,
+    282015,
+    282016,
+    282017,
+    282019,
+    282020,
+    282021,
+    282022,
+    282023,
+    282024,
+    282025,
+    282026,
+    282027,
+    282028,
+    282029,
+    282030,
+    282031,
+    282032,
+    282033
+  ],
+  "lobbies": 32,
+  "seconds": 362.464,
+  "source_sha256": "b8d034e7f34fbed068607223fd687f163da3aa776ce08d64f39015f1b67d3316",
+  "raw_directory": "/home/alex/code/Bramble-ideation-balance/build/wave2b/hedgerow/a2-followup",
+  "bootstrap_method": {
+    "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+    "draws": 20000,
+    "seed": 20261110
+  },
+  "lines": {
+    "line_hedgerow_parish": {
+      "growth": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 24,
+          "r14": 19
+        },
+        "paired_cohort_n": 19,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.6633822236790736,
+              "ci90": [
+                1.544360359804494,
+                1.8840084352778457
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.7286082601619746,
+              "ci90": [
+                1.5308623262089343,
+                1.8952242253000449
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.7745234497910747,
+              "ci90": [
+                1.6527750274813056,
+                2.0040996600373564
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.6633822236790736,
+              "ci90": [
+                1.544360359804494,
+                1.8840084352778457
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.7286082601619746,
+              "ci90": [
+                1.5308623262089343,
+                1.8952242253000449
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.7745234497910747,
+              "ci90": [
+                1.6527750274813056,
+                2.001666372473327
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      },
+      "old_growth": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 24,
+          "r14": 20
+        },
+        "paired_cohort_n": 20,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.737828412544734,
+              "ci90": [
+                1.537846949160116,
+                1.828698547925629
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.7229897070691016,
+              "ci90": [
+                1.5405952974523867,
+                1.8176904912527332
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 20,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.8479745018410119,
+              "ci90": [
+                1.6061636002337145,
+                1.9409323421030507
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 20,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.737828412544734,
+              "ci90": [
+                1.537846949160116,
+                1.8265496964630048
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.7229897070691016,
+              "ci90": [
+                1.5163162422783856,
+                1.8176904912527332
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 20,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.8479745018410119,
+              "ci90": [
+                1.604477115274745,
+                1.936880099139463
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 20,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      },
+      "rounds": {
+        "8": {
+          "survivors": 32,
+          "active_stats": 116.0,
+          "including_bellies": 116.0
+        },
+        "9": {
+          "survivors": 32,
+          "active_stats": 177.0,
+          "including_bellies": 177.0
+        },
+        "10": {
+          "survivors": 30,
+          "active_stats": 279.5,
+          "including_bellies": 279.5
+        },
+        "11": {
+          "survivors": 27,
+          "active_stats": 548,
+          "including_bellies": 548
+        },
+        "12": {
+          "survivors": 24,
+          "active_stats": 1028.0,
+          "including_bellies": 1028.0
+        },
+        "13": {
+          "survivors": 21,
+          "active_stats": 1860,
+          "including_bellies": 1860
+        },
+        "14": {
+          "survivors": 19,
+          "active_stats": 3622,
+          "including_bellies": 3622
+        }
+      },
+      "r12_accounting": {
+        "active_stats": {
+          "median_divided_by_900": 1.1422222222222222,
+          "paper_reference": 870,
+          "median_divided_by_paper": 1.181609195402299
+        },
+        "including_bellies": {
+          "median_divided_by_900": 1.1422222222222222,
+          "paper_reference": 870,
+          "median_divided_by_paper": 1.181609195402299
+        }
+      }
+    },
+    "line_hedgerow_supper": {
+      "growth": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 27,
+          "r14": 19
+        },
+        "paired_cohort_n": 19,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.575619961073419,
+              "ci90": [
+                1.4963869574537878,
+                1.6975094902393972
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.557077637809809,
+              "ci90": [
+                1.5069059266188969,
+                1.6639644108723002
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.6199547879475116,
+              "ci90": [
+                1.5386973768597618,
+                1.7389385579299188
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.575619961073419,
+              "ci90": [
+                1.4963869574537878,
+                1.6975094902393972
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.557077637809809,
+              "ci90": [
+                1.5069059266188969,
+                1.6639644108723002
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.6199547879475116,
+              "ci90": [
+                1.5386973768597618,
+                1.7376606279963591
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      },
+      "old_growth": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 25,
+          "r14": 19
+        },
+        "paired_cohort_n": 19,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.541953146089986,
+              "ci90": [
+                1.3799244618471034,
+                1.6962543551083171
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.4804353665485668,
+              "ci90": [
+                1.4157371527433922,
+                1.6963359774672109
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.614805237477251,
+              "ci90": [
+                1.4388549600689262,
+                1.7910420274453493
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.541953146089986,
+              "ci90": [
+                1.3799244618471034,
+                1.6962543551083171
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.4804353665485668,
+              "ci90": [
+                1.3926453902198586,
+                1.6963359774672109
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.6110189979442635,
+              "ci90": [
+                1.4337737708643787,
+                1.7884092385745856
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      },
+      "rounds": {
+        "8": {
+          "survivors": 32,
+          "active_stats": 138.0,
+          "including_bellies": 138.0
+        },
+        "9": {
+          "survivors": 32,
+          "active_stats": 193.0,
+          "including_bellies": 193.0
+        },
+        "10": {
+          "survivors": 32,
+          "active_stats": 304.0,
+          "including_bellies": 304.0
+        },
+        "11": {
+          "survivors": 29,
+          "active_stats": 429,
+          "including_bellies": 429
+        },
+        "12": {
+          "survivors": 27,
+          "active_stats": 788,
+          "including_bellies": 788
+        },
+        "13": {
+          "survivors": 22,
+          "active_stats": 1408.0,
+          "including_bellies": 1408.0
+        },
+        "14": {
+          "survivors": 19,
+          "active_stats": 2494,
+          "including_bellies": 2494
+        }
+      },
+      "r12_accounting": {
+        "active_stats": {
+          "median_divided_by_900": 0.8755555555555555,
+          "paper_reference": 979,
+          "median_divided_by_paper": 0.804902962206333
+        },
+        "including_bellies": {
+          "median_divided_by_900": 0.8755555555555555,
+          "paper_reference": 979,
+          "median_divided_by_paper": 0.804902962206333
+        }
+      }
+    }
+  },
+  "dozey_groups": {
+    "definition": "Active literal Alderman Dozey at R14; both endpoints use those same R14 survivors.",
+    "old": {
+      "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+      "draws": 20000,
+      "seed": 20261110,
+      "lobby_seed_n": 32,
+      "lobbies_ending_before_r14": 0,
+      "missing_lobby_round_counts": 0,
+      "lines": {
+        "line_hedgerow_supper_dozey": {
+          "endpoint_counts": {
+            "r8": 11,
+            "r12": 0,
+            "r14": 11
+          },
+          "paired_cohort_n": 11,
+          "lobby_seed_n": 32,
+          "metrics": {
+            "active_stats": {
+              "matched_medians_primary": {
+                "estimate": 1.4290470678014462,
+                "ci90": [
+                  1.3799244618471034,
+                  1.6036285479048613
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 11,
+                "r14_n": 11,
+                "cohort_n": 11
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.4689169377193714,
+                "ci90": [
+                  1.3799244618471034,
+                  1.6036285479048613
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 11,
+                "r8_n": 11,
+                "r14_n": 11,
+                "cohort_n": 11
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.4290470678014462,
+                "ci90": [
+                  1.3799244618471034,
+                  1.6659254847061193
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 11,
+                "r14_n": 11,
+                "lobby_seed_n": 32
+              }
+            },
+            "including_bellies": {
+              "matched_medians_primary": {
+                "estimate": 1.4290470678014462,
+                "ci90": [
+                  1.3799244618471034,
+                  1.6036285479048613
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 11,
+                "r14_n": 11,
+                "cohort_n": 11
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.4689169377193714,
+                "ci90": [
+                  1.3799244618471034,
+                  1.6036285479048613
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 11,
+                "r8_n": 11,
+                "r14_n": 11,
+                "cohort_n": 11
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.4290470678014462,
+                "ci90": [
+                  1.3799244618471034,
+                  1.6659254847061193
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 11,
+                "r14_n": 11,
+                "lobby_seed_n": 32
+              }
+            }
+          }
+        },
+        "line_hedgerow_supper_without_dozey": {
+          "endpoint_counts": {
+            "r8": 8,
+            "r12": 0,
+            "r14": 8
+          },
+          "paired_cohort_n": 8,
+          "lobby_seed_n": 32,
+          "metrics": {
+            "active_stats": {
+              "matched_medians_primary": {
+                "estimate": 1.624797629089773,
+                "ci90": [
+                  1.3471472774063287,
+                  1.8562095099095532
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 8,
+                "r14_n": 8,
+                "cohort_n": 8
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.6615726083508138,
+                "ci90": [
+                  1.3878613172610885,
+                  1.8396956949509937
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 8,
+                "r8_n": 8,
+                "r14_n": 8,
+                "cohort_n": 8
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.624797629089773,
+                "ci90": [
+                  1.3320725932445798,
+                  1.8681478942274268
+                ],
+                "valid_bootstrap_draws": 19998,
+                "r8_n": 8,
+                "r14_n": 8,
+                "lobby_seed_n": 32
+              }
+            },
+            "including_bellies": {
+              "matched_medians_primary": {
+                "estimate": 1.624797629089773,
+                "ci90": [
+                  1.3471472774063287,
+                  1.8562095099095532
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 8,
+                "r14_n": 8,
+                "cohort_n": 8
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.6615726083508138,
+                "ci90": [
+                  1.3878613172610885,
+                  1.8396956949509937
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 8,
+                "r8_n": 8,
+                "r14_n": 8,
+                "cohort_n": 8
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.624797629089773,
+                "ci90": [
+                  1.3320725932445798,
+                  1.8681478942274268
+                ],
+                "valid_bootstrap_draws": 19998,
+                "r8_n": 8,
+                "r14_n": 8,
+                "lobby_seed_n": 32
+              }
+            }
+          }
+        }
+      }
+    },
+    "new": {
+      "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+      "draws": 20000,
+      "seed": 20261110,
+      "lobby_seed_n": 32,
+      "lobbies_ending_before_r14": 0,
+      "missing_lobby_round_counts": 0,
+      "lines": {
+        "line_hedgerow_supper_dozey": {
+          "endpoint_counts": {
+            "r8": 9,
+            "r12": 0,
+            "r14": 9
+          },
+          "paired_cohort_n": 9,
+          "lobby_seed_n": 32,
+          "metrics": {
+            "active_stats": {
+              "matched_medians_primary": {
+                "estimate": 1.7001418962282764,
+                "ci90": [
+                  1.399188938001464,
+                  1.7779157961216272
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 9,
+                "r14_n": 9,
+                "cohort_n": 9
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.6639644108723002,
+                "ci90": [
+                  1.4375101391580987,
+                  1.826463833710915
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 9,
+                "r8_n": 9,
+                "r14_n": 9,
+                "cohort_n": 9
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.7001418962282764,
+                "ci90": [
+                  1.399188938001464,
+                  1.8026952081923167
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 9,
+                "r14_n": 9,
+                "lobby_seed_n": 32
+              }
+            },
+            "including_bellies": {
+              "matched_medians_primary": {
+                "estimate": 1.7001418962282764,
+                "ci90": [
+                  1.399188938001464,
+                  1.7779157961216272
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 9,
+                "r14_n": 9,
+                "cohort_n": 9
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.6639644108723002,
+                "ci90": [
+                  1.4375101391580987,
+                  1.826463833710915
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 9,
+                "r8_n": 9,
+                "r14_n": 9,
+                "cohort_n": 9
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.7001418962282764,
+                "ci90": [
+                  1.399188938001464,
+                  1.8026952081923167
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 9,
+                "r14_n": 9,
+                "lobby_seed_n": 32
+              }
+            }
+          }
+        },
+        "line_hedgerow_supper_without_dozey": {
+          "endpoint_counts": {
+            "r8": 10,
+            "r12": 0,
+            "r14": 10
+          },
+          "paired_cohort_n": 10,
+          "lobby_seed_n": 32,
+          "metrics": {
+            "active_stats": {
+              "matched_medians_primary": {
+                "estimate": 1.5334062370163875,
+                "ci90": [
+                  1.4563217980495364,
+                  1.6124533753593697
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 10,
+                "r14_n": 10,
+                "cohort_n": 10
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.5282869733733255,
+                "ci90": [
+                  1.482430215975622,
+                  1.6573790614903843
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 10,
+                "r8_n": 10,
+                "r14_n": 10,
+                "cohort_n": 10
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.5334062370163875,
+                "ci90": [
+                  1.455470450468816,
+                  1.6124533753593697
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 10,
+                "r14_n": 10,
+                "lobby_seed_n": 32
+              }
+            },
+            "including_bellies": {
+              "matched_medians_primary": {
+                "estimate": 1.5334062370163875,
+                "ci90": [
+                  1.4563217980495364,
+                  1.6124533753593697
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 10,
+                "r14_n": 10,
+                "cohort_n": 10
+              },
+              "individual_median_diagnostic": {
+                "estimate": 1.5282869733733255,
+                "ci90": [
+                  1.482430215975622,
+                  1.6573790614903843
+                ],
+                "valid_bootstrap_draws": 20000,
+                "eligible_positive_start_n": 10,
+                "r8_n": 10,
+                "r14_n": 10,
+                "cohort_n": 10
+              },
+              "changing_survivor_medians": {
+                "estimate": 1.5334062370163875,
+                "ci90": [
+                  1.455470450468816,
+                  1.6124533753593697
+                ],
+                "valid_bootstrap_draws": 20000,
+                "r8_n": 10,
+                "r14_n": 10,
+                "lobby_seed_n": 32
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "route_telemetry": {
+    "line_hedgerow_supper": {
+      "3": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "2": 31,
+          "3": 1
+        },
+        "larder_median": 0.0,
+        "partner_seats": 8,
+        "dozey_seats": 0
+      },
+      "4": {
+        "n": 32,
+        "gold_median": 0.0,
+        "tier_counts": {
+          "3": 32
+        },
+        "larder_median": 0.0,
+        "partner_seats": 8,
+        "dozey_seats": 0
+      },
+      "5": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "3": 32
+        },
+        "larder_median": 0.5,
+        "partner_seats": 8,
+        "dozey_seats": 0
+      },
+      "6": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "3": 32
+        },
+        "larder_median": 2.0,
+        "partner_seats": 8,
+        "dozey_seats": 0
+      },
+      "8": {
+        "n": 32,
+        "gold_median": 2.0,
+        "tier_counts": {
+          "4": 31,
+          "5": 1
+        },
+        "larder_median": 2.0,
+        "partner_seats": 8,
+        "dozey_seats": 5
+      },
+      "9": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "4": 31,
+          "5": 1
+        },
+        "larder_median": 1.5,
+        "partner_seats": 8,
+        "dozey_seats": 9
+      },
+      "10": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "5": 29,
+          "4": 3
+        },
+        "larder_median": 1.0,
+        "partner_seats": 8,
+        "dozey_seats": 12
+      },
+      "12": {
+        "n": 27,
+        "gold_median": 0,
+        "tier_counts": {
+          "6": 23,
+          "5": 3,
+          "4": 1
+        },
+        "larder_median": 1,
+        "partner_seats": 7,
+        "dozey_seats": 14
+      },
+      "14": {
+        "n": 19,
+        "gold_median": 0,
+        "tier_counts": {
+          "6": 18,
+          "5": 1
+        },
+        "larder_median": 6,
+        "partner_seats": 1,
+        "dozey_seats": 9
+      }
+    },
+    "line_hedgerow_parish": {
+      "3": {
+        "n": 32,
+        "gold_median": 2.0,
+        "tier_counts": {
+          "3": 4,
+          "2": 28
+        },
+        "larder_median": 0.0,
+        "partner_seats": 8,
+        "dozey_seats": 0
+      },
+      "4": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "3": 32
+        },
+        "larder_median": 0.0,
+        "partner_seats": 9,
+        "dozey_seats": 0
+      },
+      "5": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "3": 31,
+          "2": 1
+        },
+        "larder_median": 0.0,
+        "partner_seats": 10,
+        "dozey_seats": 0
+      },
+      "6": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "5": 4,
+          "4": 28
+        },
+        "larder_median": 0.0,
+        "partner_seats": 10,
+        "dozey_seats": 0
+      },
+      "8": {
+        "n": 32,
+        "gold_median": 1.0,
+        "tier_counts": {
+          "5": 32
+        },
+        "larder_median": 0.0,
+        "partner_seats": 11,
+        "dozey_seats": 4
+      },
+      "9": {
+        "n": 32,
+        "gold_median": 3.0,
+        "tier_counts": {
+          "5": 32
+        },
+        "larder_median": 0.0,
+        "partner_seats": 12,
+        "dozey_seats": 6
+      },
+      "10": {
+        "n": 30,
+        "gold_median": 0.0,
+        "tier_counts": {
+          "6": 26,
+          "5": 3,
+          "4": 1
+        },
+        "larder_median": 0.0,
+        "partner_seats": 10,
+        "dozey_seats": 5
+      },
+      "12": {
+        "n": 24,
+        "gold_median": 0.0,
+        "tier_counts": {
+          "6": 24
+        },
+        "larder_median": 0.0,
+        "partner_seats": 5,
+        "dozey_seats": 2
+      },
+      "14": {
+        "n": 19,
+        "gold_median": 0,
+        "tier_counts": {
+          "6": 19
+        },
+        "larder_median": 0,
+        "partner_seats": 3,
+        "dozey_seats": 0
+      },
+      "late_r10": [
+        {
+          "seed": 282014,
+          "seat": 4,
+          "r9_gold": 3,
+          "r9_tier": 5,
+          "r10_tier": 5
+        },
+        {
+          "seed": 282021,
+          "seat": 2,
+          "r9_gold": 2,
+          "r9_tier": 5,
+          "r10_tier": 5
+        },
+        {
+          "seed": 282027,
+          "seat": 0,
+          "r9_gold": 3,
+          "r9_tier": 5,
+          "r10_tier": 5
+        },
+        {
+          "seed": 282028,
+          "seat": 7,
+          "r9_gold": 0,
+          "r9_tier": 5,
+          "r10_tier": 4
+        }
+      ]
+    }
+  },
+  "pooled_r12": {
+    "n": 51,
+    "median": 923
+  },
+  "splash": {
+    "tribe": "Hedgerow folk",
+    "scope": "All rounds; hard:varied only; committed-line seats and their food purchases excluded. Unique offers are counted by the harness per seat and unit iid. Grouping uses the final build's highest declared tribe weights; ties retain every primary tribe. Known neutral builds count as off-build; missing strategy definitions are separate.",
+    "groups": {
+      "own_build": {
+        "seats": 31,
+        "buys": 357,
+        "unique_offers": 652,
+        "buys_per_unique_offer": 0.5475460122699386
+      },
+      "off_build": {
+        "seats": 161,
+        "buys": 120,
+        "unique_offers": 2898,
+        "buys_per_unique_offer": 0.041407867494824016
+      },
+      "unknown_build": {
+        "seats": 0,
+        "buys": 0,
+        "unique_offers": 0,
+        "buys_per_unique_offer": null
+      }
+    },
+    "off_vs_own_buy_rate_ratio": 0.07562445267962258
+  },
+  "constructed_supper": {
+    "assumptions": [
+      "The deterministic original paper run was checked directly: R8 active 105, gold 0, Larder 17, no tribe bonus. R7 holds 16; R9 feeds 18 after the next Sorrel Acorn arrives.",
+      "The six normal bodies and positions reproduce the original on-time R8 paper snapshot. F4 stays empty so B3 Dozey receives Pass and Urchin's Hunker.",
+      "Partner stayed in B1 from R1: eight settled End of Turns. Dozey stayed in B3 from R7: two settled End of Turns, first wake due at R9. These clocks are planted explicitly.",
+      "Current native B parameters remain authoritative. In particular Partner pays two Acorns per touching Hedgerow, Beadle Passes +2/+2, Mallow doubles two targets and Dozey food gives +2/+2 per gold. They exceed the original paper dials; no claim is made that their previous native turns produce this 105-stat allocation.",
+      "Larder items are given through normal RecruitRules before planting the settled bodies, avoiding replaying historical Beadle gains onto already-costed stats. Normal combination values make 17 gold one Great Hoard plus one Acorn; 16 is one Great Hoard.",
+      "The 16-fuel recipe is a one-gold sensitivity beside the exact 17-fuel paper state. No goldens, hero, Rings, Belly reserves, borrowed text, recruiting continuation or invented combat mechanics are supplied. Fixed R8 fights do not spend or double the held fuel."
+    ],
+    "capture_sha256": "03ec4c3d0583e86b84baae6cbc1524da174bfb837c9882f6196a673e75d9446e",
+    "capture_source": "build/wave2b/hedgerow/a2-followup/lines.fights.jsonl",
+    "construction": "Original on-time paper R8 Supper body allocation, evaluated with current native B abilities and explicit normal recruit Larder items. This plants a settled state; it does not claim a native B shop history reproduces the paper's earlier turns.",
+    "median_opponent": {
+      "population": 192,
+      "selection": "lower central actual board by combat-start active stats; ties use source id; no outcome selection",
+      "size": 100,
+      "source": "282013.0:1:8"
+    },
+    "paper_reference": {
+      "active_stats": 105.0,
+      "gold": 0.0,
+      "larder_gold": 17.0,
+      "next_paper_feast_gold": 18.0,
+      "round": 8.0,
+      "tier": 4.0
+    },
+    "recipe_sha256": "821e277953a61cc72eb4225e1f7c9e7380ba2ce41028cb91ea9ed56211995bd6",
+    "reports": [
+      {
+        "draws": 0,
+        "losses": 32,
+        "recipe": "supper-native-r8-fuel17",
+        "telemetry": {
+          "active_stats": 105,
+          "belly_contents_by_slot": {},
+          "belly_stats": 0,
+          "clocks": [
+            {
+              "def_id": "beadle_warrenby",
+              "home_slot": 0,
+              "slot": 0,
+              "turns_in_slot": 1
+            },
+            {
+              "def_id": "dr_urchin",
+              "home_slot": 1,
+              "slot": 1,
+              "turns_in_slot": 4
+            },
+            {
+              "def_id": "mrs_mallow",
+              "home_slot": 2,
+              "slot": 2,
+              "turns_in_slot": 5
+            },
+            {
+              "def_id": "sleeping_partner",
+              "home_slot": 4,
+              "slot": 4,
+              "turns_in_slot": 8
+            },
+            {
+              "def_id": "mrs_sorrel",
+              "home_slot": 5,
+              "slot": 5,
+              "turns_in_slot": 4
+            },
+            {
+              "def_id": "alderman_dozey",
+              "home_slot": 6,
+              "slot": 6,
+              "turns_in_slot": 2
+            }
+          ],
+          "gold": 0,
+          "larder_gold": 17,
+          "larder_items": [
+            {
+              "def_id": "great_hoard",
+              "gold_value": 16,
+              "iid": 1
+            },
+            {
+              "def_id": "acorn",
+              "gold_value": 1,
+              "iid": 2
+            }
+          ],
+          "round": 8,
+          "shop_tier": 4
+        },
+        "trials": 32,
+        "wins": 0
+      },
+      {
+        "draws": 0,
+        "losses": 32,
+        "recipe": "supper-native-r8-fuel16",
+        "telemetry": {
+          "active_stats": 105,
+          "belly_contents_by_slot": {},
+          "belly_stats": 0,
+          "clocks": [
+            {
+              "def_id": "beadle_warrenby",
+              "home_slot": 0,
+              "slot": 0,
+              "turns_in_slot": 1
+            },
+            {
+              "def_id": "dr_urchin",
+              "home_slot": 1,
+              "slot": 1,
+              "turns_in_slot": 4
+            },
+            {
+              "def_id": "mrs_mallow",
+              "home_slot": 2,
+              "slot": 2,
+              "turns_in_slot": 5
+            },
+            {
+              "def_id": "sleeping_partner",
+              "home_slot": 4,
+              "slot": 4,
+              "turns_in_slot": 8
+            },
+            {
+              "def_id": "mrs_sorrel",
+              "home_slot": 5,
+              "slot": 5,
+              "turns_in_slot": 4
+            },
+            {
+              "def_id": "alderman_dozey",
+              "home_slot": 6,
+              "slot": 6,
+              "turns_in_slot": 2
+            }
+          ],
+          "gold": 0,
+          "larder_gold": 16,
+          "larder_items": [
+            {
+              "def_id": "great_hoard",
+              "gold_value": 16,
+              "iid": 1
+            }
+          ],
+          "round": 8,
+          "shop_tier": 4
+        },
+        "trials": 32,
+        "wins": 0
+      }
+    ],
+    "source": "docs/ideation/content/pass3/hedgerow-pass3-model.py: run('supper')[8]; hedgerow-pass3.md:381-409; A2 DECISIONS eaea0e05:18-46",
+    "review_status": "One matchup against a paper-shaped board; opponent size undercounted by Wisps. Outcome is not read as a signal (DECISIONS Wave2b follow-ups ask4); numeric records retained only for provenance."
+  }
+}

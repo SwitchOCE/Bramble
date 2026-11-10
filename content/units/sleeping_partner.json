@@ -8,26 +8,15 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Every 3 turns in this slot: get 2 Acorns. Three times in all.",
-  "golden_text": "Every 3 turns in this slot: get 4 Acorns. Three times in all.",
-  "details": "Moving it restarts the wait, not the count.",
+  "text": "Every 3 turns in this slot: get two Acorns per Hedgerow unit touching this.",
+  "golden_text": "Every 3 turns in this slot: get four Acorns per Hedgerow unit touching this.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "end_of_turn",
-      "name": "wakes",
-      "if": [
-        {
-          "kind": "turns_in_slot",
-          "every": 3
-        }
-      ],
-      "do": {
-        "effect": "add_card",
-        "card": "acorn",
-        "count": 2
-      },
-      "lifetime": 3
+      "id": "pass3_hedgerow",
+      "ability": "sleeping_partner",
+      "factor": 1,
+      "period": 3,
+      "acorns": 2
     }
   ],
   "keywords": [
@@ -39,8 +28,11 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
   },
   "turns_goal": 3,
-  "turns_repeat": 3
+  "turns_repeat": 3,
+  "details": "Touching means the unbroken zigzag run through this, including this. Only Hedgerow folk count. Moving or tripling restarts the wait. Extra triggers do not advance it.",
+  "golden_details": "Touching means the unbroken zigzag run through this, including this. Only Hedgerow folk count. Moving or tripling restarts the wait. Extra triggers do not advance it."
 }

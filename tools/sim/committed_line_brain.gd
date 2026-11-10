@@ -21,13 +21,15 @@ func configure_line(id: String) -> void:
 
 
 func _unit_gain(unit: RecruitUnit) -> float:
+	if not BotHedgerow.wants_purchase(_player, value, unit):
+		return 0.0
 	if not is_banned(unit.def_id()) and ban_failure.is_empty():
 		var meal: float = BotOoze.meal_gain(self, unit)
 		if meal >= 0.0:
 			return meal
 	if not _permits(unit):
 		return 0.0
-	var ordinary: float = _ordinary_unit_gain(unit)
+	var ordinary: float = BotHedgerow.purchase_gain(self, unit, _ordinary_unit_gain(unit))
 	if _replacements >= MAX_STEPS:
 		return ordinary
 	var plan: Dictionary = BotCarrier.upgrade_plan(self, unit)
@@ -93,7 +95,10 @@ func _clear_slot_for(unit: RecruitUnit) -> int:
 
 func _climb(leftover: bool) -> void:
 	for _step: int in UnitLibrary.TIERS:
-		if _player.tier >= UnitLibrary.TIERS:
+		if (
+			_player.tier >= UnitLibrary.TIERS
+			or (BotHedgerow.build(value) and _round_now < _target_round(_player.tier))
+		):
 			return
 		var cost: int = _rules.tier_up_cost(_player)
 		var cash: int = _player.gold + _player.larder()
@@ -112,6 +117,9 @@ func _climb(leftover: bool) -> void:
 			return
 		if _player.board_count() == 0 and cash - cost < _rules.unit_cost(_player):
 			return
-		if not _pay(cost, 100.0) or _rules.tier_up(_player) != "":
+		if (
+			not _pay(cost, 100.0, not BotHedgerow.holds(_player, value) or scheduled)
+			or _rules.tier_up(_player) != ""
+		):
 			return
 		_settle()

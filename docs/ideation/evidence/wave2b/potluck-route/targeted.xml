@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="GutTests" failures="1" tests="110" >
+  <testsuite name="tests/core/test_pass3_ooze_bots.gd" tests="20" failures="0" skipped="0" time="22.502901" >
+      <testcase name="test_engine_keeps_soup_nell_aspic_and_elder_over_large_new_bodies" assertions="5" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.581465" >
+      </testcase>
+      <testcase name="test_only_the_best_engine_copy_is_protected" assertions="2" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.572834" >
+      </testcase>
+      <testcase name="test_meal_route_bypasses_the_pin_only_to_feed_a_real_digest_belly" assertions="6" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.600864" >
+      </testcase>
+      <testcase name="test_a_real_engine_offer_is_not_bought_into_an_empty_stomach" assertions="3" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.599398" >
+      </testcase>
+      <testcase name="test_first_empty_dollop_moves_whole_to_the_new_bubble" assertions="2" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.591264" >
+      </testcase>
+      <testcase name="test_golden_dollop_is_not_migrated" assertions="1" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.60237" >
+      </testcase>
+      <testcase name="test_second_stomach_waits_three_turns_and_a_scouted_answer_preserves_it" assertions="3" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.58639" >
+      </testcase>
+      <testcase name="test_aspic_feeds_front_carry_and_nell_touches_it" assertions="6" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.596985" >
+      </testcase>
+      <testcase name="test_pot_luck_reserves_stay_out_of_hasty_when_the_scout_shows_a_carry" assertions="2" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.595904" >
+      </testcase>
+      <testcase name="test_a_large_slice_is_food_only_in_the_engine_line" assertions="3" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.59207" >
+      </testcase>
+      <testcase name="test_freeze_does_not_take_nells_meal_for_generic_shop_quality" assertions="2" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.580641" >
+      </testcase>
+      <testcase name="test_line_source_is_strictly_valid_and_food_uses_the_same_legal_path" assertions="4" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.706853" >
+      </testcase>
+      <testcase name="test_meal_valuation_includes_the_live_soup_layer_exactly_once" assertions="2" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.60785" >
+      </testcase>
+      <testcase name="test_six_protected_investments_allow_a_seventh_engine_but_a_spare_keeps_the_gap" assertions="4" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.568276" >
+      </testcase>
+      <testcase name="test_first_digest_purchase_replaces_a_weak_body_instead_of_becoming_a_reserve" assertions="42" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="4.131975" >
+      </testcase>
+      <testcase name="test_bubble_upgrade_is_played_then_receives_the_old_dollop_whole" assertions="14" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="1.78085" >
+      </testcase>
+      <testcase name="test_tempo_replaces_dead_aspic_while_the_front_carry_engine_keeps_her" assertions="20" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="2.960975" >
+      </testcase>
+      <testcase name="test_actual_tempo_line_plays_all_six_declared_engines_instead_of_burying_them" assertions="42" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="4.178728" >
+      </testcase>
+      <testcase name="test_actual_tempo_can_fill_seven_slots_while_the_engine_keeps_its_split_gap" assertions="4" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.52363" >
+      </testcase>
+      <testcase name="test_actual_tempo_honors_an_explicit_preclimb_reserve_without_becoming_an_engine" assertions="8" status="pass" classname="tests/core/test_pass3_ooze_bots.gd" time="0.543579" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_potluck_constructed_recipe.gd" tests="1" failures="1" skipped="0" time="0.125826" >
+      <testcase name="test_declared_native_recipes_match_their_phase_budgets_and_real_belly_capacities" assertions="3" status="fail" classname="tests/core/test_potluck_constructed_recipe.gd" time="0.125826" >
+      <failure message="failed"><![CDATA[Unexpected Errors:
+      [1] <engine-2>Invalid call. Nonexistent function 'recipe_errors' in base 'GDScript'.
+            at line -1]]></failure></testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_wave1_lines.gd" tests="12" failures="0" skipped="0" time="62.28889" >
+      <testcase name="test_wave1_files_validate_and_normalize_every_operational_field" assertions="50" status="pass" classname="tests/core/test_wave1_lines.gd" time="4.635668" >
+      </testcase>
+      <testcase name="test_schema_rejects_bad_cards_rounds_types_and_switch_targets" assertions="2" status="pass" classname="tests/core/test_wave1_lines.gd" time="4.672551" >
+      </testcase>
+      <testcase name="test_each_wave1_line_plays_a_short_real_lobby_without_falling_back" assertions="104" status="pass" classname="tests/core/test_wave1_lines.gd" time="7.062518" >
+      </testcase>
+      <testcase name="test_tempo_switch_uses_homecoming_profile_at_declared_round" assertions="3" status="pass" classname="tests/core/test_wave1_lines.gd" time="5.028211" >
+      </testcase>
+      <testcase name="test_written_flight_limits_apply_and_do_not_change_ordinary_hard" assertions="4" status="pass" classname="tests/core/test_wave1_lines.gd" time="5.042184" >
+      </testcase>
+      <testcase name="test_historical_table_opt_out_still_uses_frozen_profile_data" assertions="4" status="pass" classname="tests/core/test_wave1_lines.gd" time="4.572788" >
+      </testcase>
+      <testcase name="test_accounting_roster_keeps_all_four_written_lines_and_four_blind_hard_seats" assertions="8" status="pass" classname="tests/core/test_wave1_lines.gd" time="4.460044" >
+      </testcase>
+      <testcase name="test_schema_rejects_duplicate_priorities_unknown_base_and_keep_home_min" assertions="9" status="pass" classname="tests/core/test_wave1_lines.gd" time="5.578395" >
+      </testcase>
+      <testcase name="test_schema_rejects_unknown_root_and_nested_keys_and_invalid_from_round" assertions="8" status="pass" classname="tests/core/test_wave1_lines.gd" time="5.752722" >
+      </testcase>
+      <testcase name="test_bog_and_hunters_files_load_from_declared_tribe_and_base_without_named_code" assertions="10" status="pass" classname="tests/core/test_wave1_lines.gd" time="5.377974" >
+      </testcase>
+      <testcase name="test_advisory_fields_are_opaque_retained_data_not_enforced_rules" assertions="5" status="pass" classname="tests/core/test_wave1_lines.gd" time="4.853114" >
+      </testcase>
+      <testcase name="test_executed_weights_reserves_and_commit_round_still_reject_bad_types" assertions="5" status="pass" classname="tests/core/test_wave1_lines.gd" time="5.252721" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_committed_lines.gd" tests="9" failures="0" skipped="0" time="25.35424" >
+      <testcase name="test_priorities_add_to_hard_knowledge_without_mutating_it" assertions="3" status="pass" classname="tests/core/test_committed_lines.gd" time="2.810532" >
+      </testcase>
+      <testcase name="test_committed_buy_rejects_an_unlisted_off_tribe_body" assertions="3" status="pass" classname="tests/core/test_committed_lines.gd" time="2.882081" >
+      </testcase>
+      <testcase name="test_one_engine_copy_survives_carrier_retirement_but_duplicates_can_upgrade" assertions="6" status="pass" classname="tests/core/test_committed_lines.gd" time="2.910003" >
+      </testcase>
+      <testcase name="test_ordinary_clear_slot_respects_line_only_engine_protection" assertions="5" status="pass" classname="tests/core/test_committed_lines.gd" time="2.868333" >
+      </testcase>
+      <testcase name="test_carrier_clear_slot_respects_line_only_engine_protection" assertions="5" status="pass" classname="tests/core/test_committed_lines.gd" time="2.83008" >
+      </testcase>
+      <testcase name="test_affordable_climb_can_precede_the_written_schedule" assertions="2" status="pass" classname="tests/core/test_committed_lines.gd" time="2.796186" >
+      </testcase>
+      <testcase name="test_climb_does_not_spend_money_that_is_not_available" assertions="2" status="pass" classname="tests/core/test_committed_lines.gd" time="2.765688" >
+      </testcase>
+      <testcase name="test_low_health_does_not_all_in_on_a_scheduled_climb" assertions="2" status="pass" classname="tests/core/test_committed_lines.gd" time="2.815632" >
+      </testcase>
+      <testcase name="test_version_one_profiles_still_create_the_frozen_brain" assertions="2" status="pass" classname="tests/core/test_committed_lines.gd" time="2.675705" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_free_choice.gd" tests="8" failures="0" skipped="0" time="1.404933" >
+      <testcase name="test_suite_seats_survive_the_lobby_without_pins" assertions="27" status="pass" classname="tests/core/test_free_choice.gd" time="0.000725" >
+      </testcase>
+      <testcase name="test_equal_bodies_have_equal_value_for_every_tribe" assertions="18" status="pass" classname="tests/core/test_free_choice.gd" time="0.001343" >
+      </testcase>
+      <testcase name="test_shop_purchase_follows_value_not_a_tribe_route" assertions="2" status="pass" classname="tests/core/test_free_choice.gd" time="0.402168" >
+      </testcase>
+      <testcase name="test_final_board_majority_and_mixed_labels" assertions="4" status="pass" classname="tests/core/test_free_choice.gd" time="0.000321" >
+      </testcase>
+      <testcase name="test_real_lobby_turns_keep_every_seat_free_to_choose" assertions="27" status="pass" classname="tests/core/test_free_choice.gd" time="0.72646" >
+      </testcase>
+      <testcase name="test_tokens_do_not_dilute_tribes_and_pluralities_explain_mixed_boards" assertions="11" status="pass" classname="tests/core/test_free_choice.gd" time="0.000596" >
+      </testcase>
+      <testcase name="test_plain_arm_ignores_buy_keep_hints_without_mutating_shared_knowledge" assertions="12" status="pass" classname="tests/core/test_free_choice.gd" time="0.013006" >
+      </testcase>
+      <testcase name="test_plain_arm_real_lobby_keeps_routes_empty" assertions="9" status="pass" classname="tests/core/test_free_choice.gd" time="0.260314" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_unit_library.gd" tests="9" failures="0" skipped="0" time="0.008021" >
+      <testcase name="test_loads_every_unit_file_without_errors" assertions="5" status="pass" classname="tests/core/test_unit_library.gd" time="0.000631" >
+      </testcase>
+      <testcase name="test_sorted_by_tier_then_name" assertions="157" status="pass" classname="tests/core/test_unit_library.gd" time="0.000929" >
+      </testcase>
+      <testcase name="test_numbers_are_ints" assertions="3" status="pass" classname="tests/core/test_unit_library.gd" time="0.000178" >
+      </testcase>
+      <testcase name="test_unknown_unit_is_empty" assertions="1" status="pass" classname="tests/core/test_unit_library.gd" time="0.00018" >
+      </testcase>
+      <testcase name="test_unbuilt_units_lists_units_with_unbuilt_mechanics" assertions="160" status="pass" classname="tests/core/test_unit_library.gd" time="0.004238" >
+      </testcase>
+      <testcase name="test_keyword_text_from_source_notes" assertions="6" status="pass" classname="tests/core/test_unit_library.gd" time="0.000289" >
+      </testcase>
+      <testcase name="test_keyword_text_for_quick" assertions="3" status="pass" classname="tests/core/test_unit_library.gd" time="0.000105" >
+      </testcase>
+      <testcase name="test_bad_files_are_skipped_and_reported" assertions="2" status="pass" classname="tests/core/test_unit_library.gd" time="0.001308" >
+      </testcase>
+      <testcase name="test_missing_directory_is_reported" assertions="2" status="pass" classname="tests/core/test_unit_library.gd" time="0.000163" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_game_session.gd" tests="20" failures="0" skipped="0" time="9.327105" >
+      <testcase name="test_state_keys_match_fixture_6_1" assertions="1" status="pass" classname="tests/core/test_game_session.gd" time="0.012042" >
+      </testcase>
+      <testcase name="test_unit_view_keys_match_fixture_6_2" assertions="4" status="pass" classname="tests/core/test_game_session.gd" time="0.011523" >
+      </testcase>
+      <testcase name="test_bots_never_share_a_hero" assertions="560" status="pass" classname="tests/core/test_game_session.gd" time="8.819964" >
+      </testcase>
+      <testcase name="test_round_one_state_3_2_1" assertions="12" status="pass" classname="tests/core/test_game_session.gd" time="0.009873" >
+      </testcase>
+      <testcase name="test_human_actions" assertions="13" status="pass" classname="tests/core/test_game_session.gd" time="0.015002" >
+      </testcase>
+      <testcase name="test_end_turn_starts_next_round_4_1_2_4_6_3" assertions="8" status="pass" classname="tests/core/test_game_session.gd" time="0.034594" >
+      </testcase>
+      <testcase name="test_empty_board_loses_and_takes_damage_10_1_1" assertions="3" status="pass" classname="tests/core/test_game_session.gd" time="0.03783" >
+      </testcase>
+      <testcase name="test_actions_after_game_over" assertions="5" status="pass" classname="tests/core/test_game_session.gd" time="0.030509" >
+      </testcase>
+      <testcase name="test_same_round_eliminations_placed_by_health_10_2_2" assertions="3" status="pass" classname="tests/core/test_game_session.gd" time="0.009488" >
+      </testcase>
+      <testcase name="test_ghost_for_an_odd_player_out_2_1_2" assertions="2" status="pass" classname="tests/core/test_game_session.gd" time="0.034812" >
+      </testcase>
+      <testcase name="test_eliminated_units_return_to_pool_5_3_8" assertions="4" status="pass" classname="tests/core/test_game_session.gd" time="0.161464" >
+      </testcase>
+      <testcase name="test_damage_cap_by_turn_and_alive_10_1_4" assertions="2" status="pass" classname="tests/core/test_game_session.gd" time="0.009439" >
+      </testcase>
+      <testcase name="test_matchmaking_avoids_recent_opponents_2_3_2" assertions="20" status="pass" classname="tests/core/test_game_session.gd" time="0.000936" >
+      </testcase>
+      <testcase name="test_matchmaking_everyone_once" assertions="1" status="pass" classname="tests/core/test_game_session.gd" time="0.000541" >
+      </testcase>
+      <testcase name="test_dev_add_gold" assertions="3" status="pass" classname="tests/core/test_game_session.gd" time="0.010179" >
+      </testcase>
+      <testcase name="test_dev_spawn_to_hand_is_created_and_not_from_the_pool" assertions="5" status="pass" classname="tests/core/test_game_session.gd" time="0.010239" >
+      </testcase>
+      <testcase name="test_dev_spawn_completes_a_triple" assertions="2" status="pass" classname="tests/core/test_game_session.gd" time="0.010177" >
+      </testcase>
+      <testcase name="test_dev_set_tier" assertions="4" status="pass" classname="tests/core/test_game_session.gd" time="0.009429" >
+      </testcase>
+      <testcase name="test_dev_skip_turn_skips_only_the_humans_fight" assertions="5" status="pass" classname="tests/core/test_game_session.gd" time="0.067785" >
+      </testcase>
+      <testcase name="test_fight_observer_sees_every_fight" assertions="3" status="pass" classname="tests/core/test_game_session.gd" time="0.031279" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_engine_docs.gd" tests="1" failures="0" skipped="0" time="0.022602" >
+      <testcase name="test_every_schema_name_is_in_the_doc" assertions="124" status="pass" classname="tests/core/test_engine_docs.gd" time="0.022602" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_combat_logging.gd" tests="3" failures="0" skipped="0" time="7.634039" >
+      <testcase name="test_last_blow_credit_and_results_are_identical_without_event_logging" assertions="608" status="pass" classname="tests/core/test_combat_logging.gd" time="7.453082" >
+      </testcase>
+      <testcase name="test_native_posset_halving_preserves_actual_damage_credit_with_or_without_logging" assertions="264" status="pass" classname="tests/core/test_combat_logging.gd" time="0.054108" >
+      </testcase>
+      <testcase name="test_last_stand_and_ghost_damage_use_identical_quiet_results" assertions="512" status="pass" classname="tests/core/test_combat_logging.gd" time="0.126849" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_engines.gd" tests="14" failures="0" skipped="0" time="1.20452" >
+      <testcase name="test_last_stand_saves_from_two_and_five_once_with_armor_first" assertions="24" status="pass" classname="tests/core/test_engines.gd" time="0.000467" >
+      </testcase>
+      <testcase name="test_ghost_and_one_health_never_spend_the_save" assertions="6" status="pass" classname="tests/core/test_engines.gd" time="0.000163" >
+      </testcase>
+      <testcase name="test_four_left_lifts_cap_and_session_records_last_stand" assertions="8" status="pass" classname="tests/core/test_engines.gd" time="0.318916" >
+      </testcase>
+      <testcase name="test_engine_coverage_reports_unfired_rules_then_records_actual_events" assertions="3" status="pass" classname="tests/core/test_engines.gd" time="0.000352" >
+      </testcase>
+      <testcase name="test_last_blow_credits_exchange_attacker_and_uses_round_base" assertions="24" status="pass" classname="tests/core/test_engines.gd" time="0.007405" >
+      </testcase>
+      <testcase name="test_last_blow_credits_possets_death_effect_instead_of_declared_attacker" assertions="4" status="pass" classname="tests/core/test_engines.gd" time="0.119621" >
+      </testcase>
+      <testcase name="test_bitter_is_attack_loss_and_cannot_steal_last_blow" assertions="3" status="pass" classname="tests/core/test_engines.gd" time="0.001512" >
+      </testcase>
+      <testcase name="test_start_of_combat_wipe_stays_a_tie_even_after_lethal_effect_damage" assertions="2" status="pass" classname="tests/core/test_engines.gd" time="0.000655" >
+      </testcase>
+      <testcase name="test_nonlethal_effect_does_not_steal_last_blow_or_safety_limit_win" assertions="2" status="pass" classname="tests/core/test_engines.gd" time="0.000679" >
+      </testcase>
+      <testcase name="test_last_blow_uses_a_swapped_effect_owners_fighting_side" assertions="2" status="pass" classname="tests/core/test_engines.gd" time="0.115159" >
+      </testcase>
+      <testcase name="test_review_wasp_parasite_finishes_mutual_wipe_through_health_loss" assertions="6" status="pass" classname="tests/core/test_engines.gd" time="0.001046" >
+      </testcase>
+      <testcase name="test_session_ghost_fight_never_spends_last_stand_even_in_last_three" assertions="4" status="pass" classname="tests/core/test_engines.gd" time="0.212355" >
+      </testcase>
+      <testcase name="test_last_stand_does_not_fire_with_five_alive_or_when_disabled" assertions="6" status="pass" classname="tests/core/test_engines.gd" time="0.42434" >
+      </testcase>
+      <testcase name="test_battlegrounds_baseline_keeps_both_engines_off" assertions="7" status="pass" classname="tests/core/test_engines.gd" time="0.00185" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/core/test_field_normal_regression.gd" tests="1" failures="0" skipped="0" time="59.540738" >
+      <testcase name="test_normal_lobby_matches_complete_games_captured_after_wave2a_merge" assertions="986" status="pass" classname="tests/core/test_field_normal_regression.gd" time="59.540738" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_fixture_port.gd" tests="6" failures="0" skipped="0" time="0.019554" >
+      <testcase name="test_fixture_numbers_are_ints" assertions="2" status="pass" classname="tests/ui/test_fixture_port.gd" time="0.000819" >
+      </testcase>
+      <testcase name="test_every_fixture_unit_view_has_keyword_text" assertions="2" status="pass" classname="tests/ui/test_fixture_port.gd" time="0.00075" >
+      </testcase>
+      <testcase name="test_new_game_then_end_turn_steps_states_and_sets_combat" assertions="9" status="pass" classname="tests/ui/test_fixture_port.gd" time="0.002524" >
+      </testcase>
+      <testcase name="test_recruit_actions_are_refused_with_a_reason" assertions="7" status="pass" classname="tests/ui/test_fixture_port.gd" time="0.000406" >
+      </testcase>
+      <testcase name="test_library_has_every_unit_sorted_by_tier" assertions="159" status="pass" classname="tests/ui/test_fixture_port.gd" time="0.014334" >
+      </testcase>
+      <testcase name="test_sandbox_fight_returns_the_nightshade_events" assertions="3" status="pass" classname="tests/ui/test_fixture_port.gd" time="0.000721" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_portraits.gd" tests="6" failures="0" skipped="0" time="2.395283" >
+      <testcase name="test_the_slice_is_all_there" assertions="3" status="pass" classname="tests/ui/test_portraits.gd" time="0.138825" >
+      </testcase>
+      <testcase name="test_every_unit_and_token_has_its_own_portrait" assertions="241" status="pass" classname="tests/ui/test_portraits.gd" time="1.343511" >
+      </testcase>
+      <testcase name="test_every_spell_and_hand_item_has_its_own_portrait" assertions="51" status="pass" classname="tests/ui/test_portraits.gd" time="0.394412" >
+      </testcase>
+      <testcase name="test_a_created_pelt_shows_its_recorded_prey_on_tile_and_reader" assertions="2" status="pass" classname="tests/ui/test_portraits.gd" time="0.14979" >
+      </testcase>
+      <testcase name="test_every_hero_has_its_own_portrait" assertions="27" status="pass" classname="tests/ui/test_portraits.gd" time="0.237624" >
+      </testcase>
+      <testcase name="test_pending_portraits_name_only_real_cards" assertions="25" status="pass" classname="tests/ui/test_portraits.gd" time="0.131121" >
+      </testcase>
+  </testsuite>
+</testsuites>

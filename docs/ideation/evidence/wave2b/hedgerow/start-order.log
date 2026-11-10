@@ -1,0 +1,84 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-hedge-start-order/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_pass3_hedge_shares.gd
+[0m* test_committee_normal_and_golden_share_runt_with_the_whole_hedgerow_run
+* test_lollop_normal_and_golden_reads_biggest_other_tribe_once_at_start
+* test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns
+* test_lollop_normal_and_golden_can_read_a_shy_biggest_without_buffing_it
+* test_recruit_growth_uses_strongest_printed_or_borrowed_text_with_guard_off_proof
+* test_lollop_snapshots_after_digest_and_before_ordinary_start_text
+[1m6/6 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_recruit.gd
+[0m* test_digest_keeps_only_own_stats_returns_real_copies_and_never_pays_sale_gold
+* test_golden_digest_eats_both_meals_and_discount_is_two
+* test_soup_live_layer_tracks_carry_and_is_retained_once_on_purchase
+* test_soup_never_buffs_or_commits_stats_to_shy_shop_offers
+* test_golden_soup_reads_two_biggest_once_and_normal_soup_does_not_stack
+* test_soup_bonus_disappears_when_last_soup_leaves
+* test_aspic_uses_only_strongest_in_front_and_elder_shares_original_meal
+* test_normal_aspic_and_golden_elder_have_known_meal_gains
+* test_ooze_transfer_guard_prevents_aspic_amplification_and_elder_redistribution
+* test_elder_ignores_smaller_eater_and_units_inside_or_in_hand
+* test_nell_eats_lowest_tier_into_biggest_neighbour_without_buy_or_swallow
+* test_golden_nell_feeds_two_distinct_neighbours_bigger_first_and_skips_frozen_shop
+* test_dependent_start_sequence_digest_then_nell_then_slice_with_live_soup
+* test_cut_and_come_again_golden_widens_to_two_and_full_hand_loses_slice
+* test_frumenty_remembers_last_meal_after_it_is_gone_and_replaces_it
+* test_golden_frumenty_keeps_two_meals_excludes_digest_and_borrows_split
+* test_figgy_pairs_bought_copies_keeps_buffs_and_has_no_alternating_turn_cooldown
+* test_normal_figgy_also_pairs_two_bought_copies_and_refuses_created_copies
+* test_printed_plus_borrowed_elder_growth_fires_once_per_meal
+* test_frumenty_really_uses_figgys_last_meal_text_without_a_cooldown
+[1m20/20 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_start.gd
+[0m* test_hasty_swallows_biggest_anywhere_and_gives_own_biggest_ooze_a_permanent_fifth
+* test_golden_hasty_swallows_two_and_does_not_double_the_share
+* test_hasty_reads_current_stats_including_tribe_auras_combat_buffs_and_damage
+* test_hasty_keeps_a_share_of_real_ring_stats_read_before_the_enemy_leaves_its_slot
+* test_hasty_with_anything_inside_does_nothing_even_when_golden_has_room
+* test_hasty_sees_hidden_biggest_swallows_its_holder_and_reads_the_hidden_meal
+* test_hasty_skips_a_full_fetch_twin_for_each_normal_and_golden_pick
+* test_golden_hasty_falls_back_to_copy_when_it_is_the_only_remaining_enemy
+* test_hasty_releases_on_three_friendly_deaths_and_on_its_own_death
+* test_granny_gathers_only_touching_oozes_and_golden_doubles_attack_only
+* test_granny_gathers_after_own_hasty_and_both_mirror_hasties_see_pre_gather_boards
+* test_granny_gathers_after_other_starts_and_stat_ranked_answers
+* test_granny_has_cleave_on_normal_and_golden
+* test_upset_audits_every_ooze_ability_and_masks_only_hasty
+[1m14/14 passed.
+[0m[4m
+
+res://tests/core/test_field_normal_regression.gd
+[0m* test_normal_lobby_matches_complete_games_captured_after_wave2a_merge
+[1m1/1 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               4
+Tests                41
+Passing Tests        41
+Asserts             595
+Time              86.27s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/hedgerow/start-order.xml

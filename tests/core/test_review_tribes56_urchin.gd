@@ -8,7 +8,9 @@ func test_slice_urchin_redirects_each_pack_prick_and_still_passes_right() -> voi
 	for golden: bool in [false, true]:
 		var rng := RandomNumberGenerator.new()
 		rng.seed = 53
-		var combat := Combat.create(FIGHT.library, GameConfig.full_game(), rng)
+		var combat := Combat.create(
+			LegacyWave1.with_hedgerow(FIGHT.library), GameConfig.full_game(), rng
+		)
 		combat._setup(
 			[
 				FIGHT.board({0: FIGHT.u("little_nip", 2, 20), 1: FIGHT.u("wick", 2, 20)}),
@@ -31,7 +33,9 @@ func test_slice_urchin_redirects_each_pack_prick_and_still_passes_right() -> voi
 
 func test_slice_urchin_still_pricks_a_lone_attacker() -> void:
 	var rng := RandomNumberGenerator.new()
-	var combat := Combat.create(FIGHT.library, GameConfig.full_game(), rng)
+	var combat := Combat.create(
+		LegacyWave1.with_hedgerow(FIGHT.library), GameConfig.full_game(), rng
+	)
 	combat._setup(
 		[
 			FIGHT.board({0: FIGHT.u("little_nip", 2, 20)}),
