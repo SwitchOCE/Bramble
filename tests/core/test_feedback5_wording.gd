@@ -88,10 +88,10 @@ func test_young_brock_text_distinguishes_recipients_from_the_enemy_across_brock(
 	assert_string_contains(text, "They mark the enemy across from this as quarry")
 
 
-func test_pass_reminder_names_the_last_other_unit_and_ignores_gaps() -> void:
+func test_pass_reminder_names_the_rightmost_other_unit_and_ignores_gaps() -> void:
 	var reminder: String = KeywordRules.text("Pass")
 	assert_lte(reminder.split(" ", false).size(), 16)
-	assert_eq(reminder, "Pass X: your last unit, other than this, gains X")
+	assert_eq(reminder, "Pass X: your rightmost unit, other than this, gains X.")
 	var occupied: Array[bool] = [true, true, false, true, true, false, false]
 	assert_eq(BoardGeometry.pass_landing(occupied, 0), 3, "F4 is last across the B2 gap")
 	occupied[4] = false

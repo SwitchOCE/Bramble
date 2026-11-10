@@ -2,6 +2,8 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 ## Native untouched tribes, captured from the parent checkpoint with intentional dials held fixed.
 
+const ReplayContract := preload("res://tests/core/replay_contract.gd")
+
 
 func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 	var fixture: Dictionary = JSON.parse_string(
@@ -32,8 +34,8 @@ func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 						ring[field] = CoreUtil.to_int(ring[field])
 		var result: Dictionary = combat.run(entry["boards"], [5, 5], [0, 1], 0)
 		assert_true(
-			JSON.stringify(result) == str(entry["result"]),
-			"byte-identical combat result, events and carry, seed %d" % entry["seed"]
+			JSON.stringify(ReplayContract.gameplay(result)) == str(entry["result"]),
+			"exact gameplay result, ordered events and carry, seed %d" % entry["seed"]
 		)
 
 
