@@ -264,7 +264,7 @@ func test_rate_switch_controls_first_spell_and_free_refresh_without_changing_siz
 func test_figgy_cooldown_is_a_rate_limit_and_still_consumes_bought_copies() -> void:
 	for rates: bool in [false, true]:
 		var kit := KIT.new()
-		kit.setup(_config(true, rates), false, LegacyWave1.with_oozes(UnitLibrary.load_dir()))
+		kit.setup(_config(true, rates), false, LegacyWave1.current_with_oozes())
 		kit.library = kit.rules.library
 		kit.player.round_number = 5
 		var figgy: RecruitUnit = kit.put("figgy_duff", 0)

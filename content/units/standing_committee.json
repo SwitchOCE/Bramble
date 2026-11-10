@@ -8,52 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of Combat: give units touching this +1/+1, or +2/+1 if all 7 touch.",
-  "golden_text": "Start of Combat: give units touching this +2/+2, or +4/+2 if all 7 touch.",
+  "text": "End of Turn: Hedgerow folk touching this gain a quarter of the smallest one's stats.",
+  "golden_text": "End of Turn: Hedgerow folk touching this gain half the smallest one's stats.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "committee",
-      "if": [
-        {
-          "kind": "count",
-          "target": {
-            "select": "touching"
-          },
-          "at_most": 6
-        }
-      ],
-      "do": {
-        "effect": "buff",
-        "attack": 1,
-        "target": {
-          "select": "touching"
-        },
-        "health": 1
-      }
-    },
-    {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "full_committee",
-      "if": [
-        {
-          "kind": "count",
-          "target": {
-            "select": "touching"
-          },
-          "at_least": 7
-        }
-      ],
-      "do": {
-        "effect": "buff",
-        "attack": 2,
-        "target": {
-          "select": "touching"
-        },
-        "health": 1
-      }
+      "id": "pass3_hedgerow",
+      "ability": "standing_committee",
+      "factor": 1,
+      "share": 0.25
     }
   ],
   "keywords": [],
@@ -63,6 +25,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Touching means the unbroken zigzag run through this, including this. Read its smallest Hedgerow unit once before gains. Shares round down and are permanent.",
+  "golden_details": "Touching means the unbroken zigzag run through this, including this. Read its smallest Hedgerow unit once before gains. Shares round down and are permanent."
 }

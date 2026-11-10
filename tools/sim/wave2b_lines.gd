@@ -163,6 +163,16 @@ func _capture_line(input: Dictionary, result: Dictionary, combat: Combat) -> voi
 		if seat < 0:
 			continue
 		var snapshot: Dictionary = _capture["combat_start"][side]
+		var player: PlayerState = _active_session._players[seat]
+		var specs: Array = input["boards"][side]
+		var bellies: Dictionary = {}
+		for slot: int in BoardGeometry.SLOTS:
+			if specs[slot] == null:
+				continue
+			var spec: Dictionary = specs[slot]
+			var contents: Array = spec.get("held", [])
+			if not contents.is_empty():
+				bellies[str(slot)] = contents.duplicate(true)
 		var total_inside: int = 0
 		var cards: Array = []
 		for unit: Dictionary in snapshot["units"]:
@@ -178,6 +188,10 @@ func _capture_line(input: Dictionary, result: Dictionary, combat: Combat) -> voi
 					"round": input["round"],
 					"seat": seat,
 					"assigned_line": _current_seats[seat],
+					"gold": player.gold,
+					"shop_tier": player.tier,
+					"larder_gold": player.larder(),
+					"belly_contents_by_slot": bellies,
 					"active_stats": active,
 					"belly_stats": total_inside,
 					"including_bellies": active + total_inside,

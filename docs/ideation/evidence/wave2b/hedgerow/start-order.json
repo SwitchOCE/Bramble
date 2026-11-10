@@ -1,0 +1,35 @@
+{
+  "tests": 41,
+  "failures": 0,
+  "seconds": 86.27,
+  "files": [
+    {
+      "name": "tests/core/test_pass3_hedge_shares.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.557186"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_recruit.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "11.768467"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_start.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.409158"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "57.09815"
+    }
+  ]
+}

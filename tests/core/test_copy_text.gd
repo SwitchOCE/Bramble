@@ -48,7 +48,7 @@ func test_copy_exclusion_checks_the_printed_mechanic_not_the_card_id() -> void:
 
 
 func test_soak_always_exercises_copy_text_transfer_cases() -> void:
-	assert_eq(SoakCopyCheck.problems(UnitLibrary.load_dir()), PackedStringArray())
+	assert_eq(SoakCopyCheck.problems(TestLibraries.current()), PackedStringArray())
 
 
 func test_soak_still_exercises_frozen_legacy_text_transfer() -> void:

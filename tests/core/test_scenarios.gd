@@ -6,7 +6,7 @@ extends GutTest
 
 const REASONS: Array = ["board_empty", "no_attacks", "attack_limit", "trigger_limit"]
 
-var _units: UnitLibrary = LegacyWave1.with_hunters(UnitLibrary.load_dir())
+var _units: UnitLibrary = LegacyWave1.current_with_hunters()
 var _scenarios: ScenarioLibrary = ScenarioLibrary.load_dir(_units)
 
 

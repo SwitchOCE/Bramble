@@ -1,7 +1,7 @@
 extends GutTest
 ## Replacement routes start on equal priors; signature cards still support their own route.
 @warning_ignore_start("unsafe_call_argument")
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _bird(player: PlayerState, id: String, slot: int) -> void:

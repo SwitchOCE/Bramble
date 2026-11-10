@@ -5,7 +5,7 @@ const FieldTestData := preload("res://tests/core/field_test_data.gd")
 const FrozenContent := preload("res://tests/core/field_frozen_content.gd")
 const REPLAY: String = "res://tests/fixtures/field/replay.json"
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 var _observed: Array = []
 var _frozen: FrozenContent
 

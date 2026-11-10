@@ -8,13 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.",
-  "golden_text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +2/+2.",
-  "details": "Cashing the item or feeding it to Alderman Dozey counts as playing it. Touching follows the unbroken zigzag through this unit, including itself.",
+  "text": "After you play a Larder item: your Hedgerow folk have +1/+1 per gold this game.",
+  "golden_text": "After you play a Larder item: your Hedgerow folk have +2/+2 per gold this game.",
   "mechanics": [
     {
-      "id": "goodman_hayward",
-      "stats": 1
+      "id": "pass3_hedgerow",
+      "ability": "goodman_hayward",
+      "factor": 1,
+      "per_gold": 1.0
     }
   ],
   "keywords": [],
@@ -24,7 +25,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Cashing or feeding a Larder item both count. Uncapped standing tribe bonus applies to Hedgerow folk now and later, including shop units. Units summoned in fights do not get it.",
+  "golden_details": "Cashing or feeding a Larder item both count. Uncapped standing tribe bonus applies to Hedgerow folk now and later, including shop units. Units summoned in fights do not get it."
 }

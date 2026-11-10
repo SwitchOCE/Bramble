@@ -1,0 +1,135 @@
+{
+  "tests": 185,
+  "failures": 0,
+  "seconds": 227.4,
+  "files": [
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "18",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.282875"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_recruit.gd",
+      "tests": "19",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.234022"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_shares.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.999167"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_content.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.102974"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_combat.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "13.599727"
+    },
+    {
+      "name": "tests/ui/test_pass3_hedge_ui.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.390927"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.008565"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.94262"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.018679"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.02911"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.020558"
+    },
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.673982"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.288188"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "59.495118"
+    },
+    {
+      "name": "tests/core/test_committed_lines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "24.681735"
+    },
+    {
+      "name": "tests/core/test_wave1_lines.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "59.193408"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "17",
+      "failures": "0",
+      "skipped": "0",
+      "time": "16.725697"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.662687"
+    }
+  ],
+  "checker_python_tests": 21,
+  "reporter_python_tests": 8
+}

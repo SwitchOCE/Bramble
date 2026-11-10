@@ -256,7 +256,10 @@ func _render_hand() -> void:
 	_hand_cards.clear_cards()
 	var hand: Array = Data.a(state, "hand")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
-	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
+	var larder: int = Data.i(state, "larder")
+	if larder > 0:
+		_hand_count.text = "%dg · %s" % [larder, _hand_count.text]
+	_hand_count.visible = larder > 0 or hand.size() >= Data.i(state, "hand_limit", 10)
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
 	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP

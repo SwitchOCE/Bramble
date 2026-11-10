@@ -146,6 +146,16 @@ func view() -> Dictionary:
 		if has_meta(key):
 			out[key] = get_meta(key)
 	out["ooze_share_serial"] = CoreUtil.to_int(counters.get("ooze_share_serial", 0))
+	var clock: Dictionary = Pass3Hedgerow.params(self, "alderman_dozey")
+	if clock.is_empty():
+		clock = Pass3Hedgerow.params(self, "sleeping_partner")
+	if not clock.is_empty():
+		out["hedgerow_clock"] = true
+		out["turns_goal"] = maxi(1, CoreUtil.to_int(clock.get("period", 3)))
+		out["turns_in_slot"] = turns_in_slot % CoreUtil.to_int(out["turns_goal"])
+	for key: String in ["hedgerow_preview", "hedgerow_runt"]:
+		if has_meta(key):
+			out[key] = get_meta(key)
 	UnitLibrary.add_configured_rulings(out, def, golden)
 	return out
 
@@ -185,6 +195,15 @@ func flight_turns() -> int:
 
 ## Stats per gold when an Acorn item is played on this; 0 if it can't take one.
 func eat_rate() -> int:
+	if Pass3Hedgerow.has(self, "alderman_dozey"):
+		return maxi(
+			1,
+			ceili(
+				CoreUtil.to_float(
+					Pass3Hedgerow.params(self, "alderman_dozey").get("food_per_gold", 2)
+				)
+			)
+		)
 	return mechanic_number("eats_acorns", "per_gold")
 
 
@@ -323,6 +342,11 @@ static func _can_lend(entry: Dictionary) -> bool:
 	const NEVER: PackedStringArray = ["belly", "belly_discount", "fly_south", "shy", "borrows_text"]
 	const NOT_TRIGGERS: PackedStringArray = ["on_play", "on_sell", "on_home"]
 	if (
+		str(entry.get("id", "")) == "pass3_hedgerow"
+		and str(entry.get("ability", "")) in ["mrs_burdock", "mrs_sorrel", "mr_crumb"]
+	):
+		return false
+	if (
 		str(entry.get("id", "")) == "pass3_ooze"
 		and (
 			str(entry.get("ability", ""))
@@ -405,6 +429,15 @@ func pays_again() -> bool:
 
 ## Conversion rounds a small Acorn up; the divisor does not double on golden.
 func acorn_stats(gold: int) -> int:
+	var native: Dictionary = Pass3Hedgerow.params(self, "alderman_dozey")
+	if not native.is_empty():
+		return ceili(
+			(
+				gold
+				* CoreUtil.to_float(native.get("food_per_gold", 2))
+				* CoreUtil.to_int(native.get("factor", 1))
+			)
+		)
 	var step: int = maxi(1, mechanic_number("eats_acorns", "gold_step"))
 	return eat_rate() * ceili(float(gold) / step)
 

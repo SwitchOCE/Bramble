@@ -39,3 +39,62 @@ The source-tree UI accepts the same launch flag: `godot -- --field-library res:/
 Old saves replay under today's rules; one with retired bot settings, or an action that no longer works, is refused (start a new game).
 
 Play hand cards by the `@handle` beside them, for example `play @123 B2`, or `play @456` to cash an Acorn. Handles don't shift when you buy; hand numbers do.
+
+## Blind variants (checkpoint testers)
+
+```sh
+BRAMBLE_VARIANT_MAP=/path/to/map.json tools/play/play.sh new --seed 5 --variant X
+```
+
+The map is JSON the tester never sees. Each of `X` and `Y` names a preset in `content/pass3/rates.json`, or a preset with its field library:
+
+```json
+{"X": "C", "Y": "B"}
+{"X": {"preset": "C", "field_library": "res://build/fields/c.json", "field_strength": "top4"}, "Y": "B"}
+```
+
+With no map, `--variant` is refused. A library captured on another preset is refused too, without naming either preset.
+
+The save keeps the variant letter and the preset in a base64 seal, so it replays without the map and doesn't change if the map does. Nothing a tester is shown names the preset: not the screen, `log`, `--json`, nor the save's path. The seal hides the preset from a glance, not from a tester who decodes their own save, so testers play through the commands and don't open saves.
+
+The orchestrator reads it with:
+
+```sh
+tools/play/play.sh <save> reveal     # "Variant X plays preset C", plus the field library if any
+tools/play/play.sh <save> hash       # the state hash (SHA-256 of the player's state)
+```
+
+## Rendering a played game on the real UI
+
+```sh
+tools/play/render.sh <save> [--turn N | --all]     # default --all
+```
+
+Replays the save through the real `CorePort` on the current commit and draws the real screens under xvfb and Mesa, at 1688×780 and 1920×1080 (`RENDER_SIZES="1688x780"` for one). For each turn:
+
+- `rNN-start`: the recruit screen as the turn starts;
+- `rNN-end`: the recruit screen just before End turn;
+- `rNN-fight-1` to `-6`: a frame strip of that turn's fight, the last at the result;
+- `over`: the game-over screen, if the game ended (`--all` only).
+
+Files go to `build/render/<save stem>/` with an `index.md` that names the commit (marked if the tree has uncommitted changes), each moment's state hash and its files, and a `manifest_<size>.json` per size with the full hashes and what each fight screen was given. A save can't be drawn if one of its actions no longer replays.
+
+A turn takes about 30 seconds per size on one Mesa thread; `LP_NUM_THREADS=4` is quicker where the cores are free. `tools/play/test_render.sh` is its test: it renders a short game twice and checks the hashes, the file lists, and each strip against `log`.
+
+## Game logs from the UI
+
+When a game ends, the UI writes `user://games/<timestamp>-<seed>.json`: the seed, the settings (preset, field library path and SHA-256, strength, Ask for kin), the hero, the placement, and every action in the words above. Replay one with:
+
+```sh
+tools/play/play.sh replay-log <file> [--save path] [--field-library path]
+```
+
+It prints the final screen and state hash and keeps a save (`build/play/replay-<stem>.json` unless `--save` says), which `render.sh` can draw. `--field-library` points at the library when it isn't at the recorded path; its SHA-256 must still match. A log that names a different hero from the one its actions pick is refused.
+
+**The UI hook** (`src/ui/game_record_log.gd`, `GameRecordLog`):
+
+1. Keep an `actions` array per game, emptied when a game starts.
+2. Before each GamePort call that changes the game (`buy`, `buy_spell`, `sell`, `move`, `play`, `play_item`, `swallow`, `refresh`, `ask_for_kin`, `toggle_freeze`, `tier_up`, `use_power`, `choose`, `end_turn`), take `var before := port.get_state()`. If the call returns `""`, append `GameRecordLog.words(method, args, before)`. The screens call the port from several places, so `CorePort`, which every call passes through, is the natural place for this.
+3. When the game ends (the game-over screen), call `GameRecordLog.write(port, actions)` once. It returns the path, or `""` if the file couldn't be written.
+
+Dev-panel calls are recorded under their own names, and replay refuses them by name: a game that used the dev panel can't be replayed.

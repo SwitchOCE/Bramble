@@ -2,7 +2,7 @@ extends GutTest
 ## Commitment choices depend on kin and future recruits, rather than the tallest target.
 @warning_ignore_start("unsafe_call_argument")
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _unit(id: String) -> RecruitUnit:

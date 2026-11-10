@@ -5,7 +5,7 @@ const Kit := preload("res://tests/core/recruit_kit.gd")
 
 
 func test_default_zero_remains_a_literal_noop_and_default_engine_is_not_in_pool() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var count: int = library.all_units().size()
 	var pool_count: int = library.pool_units("slice").size()
 	assert_true(PlantedEngine.install(library, 0).is_empty())
@@ -17,7 +17,7 @@ func test_default_zero_remains_a_literal_noop_and_default_engine_is_not_in_pool(
 
 
 func test_explicit_null_and_reference_register_identical_real_inert_bodies() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var count: int = library.all_units().size()
 	var null_card: Dictionary = PlantedEngine.install(library, 0, "null")
 	var reference: Dictionary = PlantedEngine.install(library, 0, "reference")
@@ -40,7 +40,7 @@ func test_explicit_null_and_reference_register_identical_real_inert_bodies() -> 
 func test_only_explicit_pool_opt_in_adds_test_cards_to_the_real_shop_pool() -> void:
 	for mode: String in ["engine", "null", "reference"]:
 		for in_pool: bool in [false, true]:
-			var library := UnitLibrary.load_dir()
+			var library := TestLibraries.current()
 			var card: Dictionary = PlantedEngine.install(library, 4, mode, in_pool)
 			var pool := UnitPool.create(library, GameConfig.full_game())
 			assert_eq(pool.has_unit(str(card["id"])), in_pool, mode)
@@ -50,7 +50,7 @@ func test_only_explicit_pool_opt_in_adds_test_cards_to_the_real_shop_pool() -> v
 
 func test_forced_null_is_played_and_pool_cards_are_not_force_played() -> void:
 	for in_pool: bool in [false, true]:
-		var library := UnitLibrary.load_dir()
+		var library := TestLibraries.current()
 		var card: Dictionary = PlantedEngine.install(library, 0, "null", in_pool)
 		var session := GameSession.create(891, library, GameConfig.full_game())
 		var player: PlayerState = session._players[0]
@@ -112,7 +112,7 @@ func _control_fight(library: UnitLibrary, id: String, fight_seed: int) -> Dictio
 
 
 func test_real_combat_null_and_reference_have_identical_outcomes_and_normalized_events() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	PlantedEngine.install(library, 0, "null")
 	PlantedEngine.install(library, 0, "reference")
 	for fight_seed: int in [1, 17, 891]:

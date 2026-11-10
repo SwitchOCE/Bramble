@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "construction": "Original on-time paper R8 Supper body allocation, evaluated with current native B abilities and explicit normal recruit Larder items. This plants a settled state; it does not claim a native B shop history reproduces the paper's earlier turns.",
+  "source": "docs/ideation/content/pass3/hedgerow-pass3-model.py: run('supper')[8]; hedgerow-pass3.md:381-409; A2 DECISIONS eaea0e05:18-46",
+  "paper_reference": {
+    "round": 8,
+    "active_stats": 105,
+    "gold": 0,
+    "larder_gold": 17,
+    "tier": 4,
+    "next_paper_feast_gold": 18
+  },
+  "assumptions": [
+    "The deterministic original paper run was checked directly: R8 active 105, gold 0, Larder 17, no tribe bonus. R7 holds 16; R9 feeds 18 after the next Sorrel Acorn arrives.",
+    "The six normal bodies and positions reproduce the original on-time R8 paper snapshot. F4 stays empty so B3 Dozey receives Pass and Urchin's Hunker.",
+    "Partner stayed in B1 from R1: eight settled End of Turns. Dozey stayed in B3 from R7: two settled End of Turns, first wake due at R9. These clocks are planted explicitly.",
+    "Current native B parameters remain authoritative. In particular Partner pays two Acorns per touching Hedgerow, Beadle Passes +2/+2, Mallow doubles two targets and Dozey food gives +2/+2 per gold. They exceed the original paper dials; no claim is made that their previous native turns produce this 105-stat allocation.",
+    "Larder items are given through normal RecruitRules before planting the settled bodies, avoiding replaying historical Beadle gains onto already-costed stats. Normal combination values make 17 gold one Great Hoard plus one Acorn; 16 is one Great Hoard.",
+    "The 16-fuel recipe is a one-gold sensitivity beside the exact 17-fuel paper state. No goldens, hero, Rings, Belly reserves, borrowed text, recruiting continuation or invented combat mechanics are supplied. Fixed R8 fights do not spend or double the held fuel."
+  ],
+  "boards": [
+    {
+      "id": "supper-native-r8-fuel17",
+      "round": 8,
+      "tier": 4,
+      "gold": 0,
+      "expected_active_stats": 105,
+      "expected_larder_gold": 17,
+      "items": ["great_hoard", "acorn"],
+      "units": [
+        {"def_id":"beadle_warrenby","stats":[3,5],"turns_in_slot":1},
+        {"def_id":"dr_urchin","stats":[4,10],"turns_in_slot":4},
+        {"def_id":"mrs_mallow","stats":[3,6],"turns_in_slot":5},
+        null,
+        {"def_id":"sleeping_partner","stats":[4,8],"turns_in_slot":8},
+        {"def_id":"mrs_sorrel","stats":[4,6],"turns_in_slot":4},
+        {"def_id":"alderman_dozey","stats":[24,28],"turns_in_slot":2}
+      ]
+    },
+    {
+      "id": "supper-native-r8-fuel16",
+      "round": 8,
+      "tier": 4,
+      "gold": 0,
+      "expected_active_stats": 105,
+      "expected_larder_gold": 16,
+      "items": ["great_hoard"],
+      "units": [
+        {"def_id":"beadle_warrenby","stats":[3,5],"turns_in_slot":1},
+        {"def_id":"dr_urchin","stats":[4,10],"turns_in_slot":4},
+        {"def_id":"mrs_mallow","stats":[3,6],"turns_in_slot":5},
+        null,
+        {"def_id":"sleeping_partner","stats":[4,8],"turns_in_slot":8},
+        {"def_id":"mrs_sorrel","stats":[4,6],"turns_in_slot":4},
+        {"def_id":"alderman_dozey","stats":[24,28],"turns_in_slot":2}
+      ]
+    }
+  ]
+}

@@ -2,7 +2,7 @@ extends RefCounted
 ## Helpers for the recruit trigger and effect tests: one player, its rules and test-only cards.
 @warning_ignore_start("unsafe_call_argument")
 
-const Legacy := preload("res://tests/core/legacy_wave1.gd")
+const Cache := preload("res://tests/core/library_cache.gd")
 
 var library: UnitLibrary
 var config: GameConfig
@@ -14,14 +14,11 @@ var player: PlayerState
 func setup(
 	game_config: GameConfig = null, legacy_wave1: bool = false, unit_library: UnitLibrary = null
 ) -> void:
-	library = (
-		unit_library
-		if unit_library != null
-		else (Legacy.library() if legacy_wave1 else UnitLibrary.load_dir())
-	)
 	config = game_config if game_config != null else GameConfig.defaults()
 	if legacy_wave1:
 		config.set_value("pass3_content", false)
+	# A deep copy of a library built once a run, already configured for this config.
+	library = unit_library if unit_library != null else Cache.configured(config, legacy_wave1)
 	pool = UnitPool.create(library, config)
 	rules = RecruitRules.create(library, config, pool)
 	library = rules.library

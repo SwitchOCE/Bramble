@@ -8,53 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.",
-  "golden_text": "Start of Combat: units touching this gain +2/+2, or +4/+4 if all 7 touch.",
-  "details": "Touching is the unbroken zigzag F1-B1-F2-B2-F3-B3-F4 through this unit, including itself.",
+  "text": "Start of Turn: Hedgerow folk touching this, except your biggest, gain a tenth of its stats.",
+  "golden_text": "Start of Turn: Hedgerow folk touching this, except your biggest, gain a fifth of its stats.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "lollop",
-      "if": [
-        {
-          "kind": "count",
-          "target": {
-            "select": "touching"
-          },
-          "at_most": 6
-        }
-      ],
-      "do": {
-        "effect": "buff",
-        "attack": 1,
-        "health": 1,
-        "target": {
-          "select": "touching"
-        }
-      }
-    },
-    {
-      "id": "effect",
-      "trigger": "start_of_combat",
-      "name": "full_lollop",
-      "if": [
-        {
-          "kind": "count",
-          "target": {
-            "select": "touching"
-          },
-          "at_least": 7
-        }
-      ],
-      "do": {
-        "effect": "buff",
-        "attack": 2,
-        "health": 2,
-        "target": {
-          "select": "touching"
-        }
-      }
+      "id": "pass3_hedgerow",
+      "ability": "squire_lollop",
+      "factor": 1,
+      "share": 0.1
     }
   ],
   "keywords": [],
@@ -64,7 +25,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Biggest means Attack plus Health; ties use reading order. Read once before gains. Shares round down and are permanent. Only touching Hedgerow folk gain; your biggest never gains.",
+  "golden_details": "Biggest means Attack plus Health; ties use reading order. Read once before gains. Shares round down and are permanent. Only touching Hedgerow folk gain; your biggest never gains."
 }

@@ -1,0 +1,51 @@
+{
+ "id": "hedgerow_supper",
+ "name": "The Supper",
+ "shape": "sleeping carry, hold and feast",
+ "needs_tribes": [
+  "Hedgerow folk"
+ ],
+ "tribes": {
+  "Hedgerow folk": 4
+ },
+ "units": {
+  "alderman_dozey": 14.0,
+  "dr_urchin": 13.12,
+  "squire_lollop": 12.25,
+  "goodman_hayward": 11.38,
+  "sleeping_partner": 10.5,
+  "mr_pym": 9.62,
+  "mrs_sorrel": 8.75,
+  "mrs_mallow": 7.88,
+  "beadle_warrenby": 7.0,
+  "mr_crumb": 6.12,
+  "standing_committee": 5.25,
+  "old_mother_mast": 4.38,
+  "honorary_treasurer": 3.5,
+  "sergeant_at_conkers": 2.62,
+  "mrs_burdock": 1.75,
+  "mrs_clover": 0.88
+ },
+ "spells": {
+  "squirrel_away": 8,
+  "last_orders": 2
+ },
+ "heroes": {
+  "dame_hoolet": 2,
+  "little_king_wren": -2
+ },
+ "rows": {
+  "dr_urchin": "back",
+  "mrs_sorrel": "back",
+  "mrs_burdock": "front"
+ },
+ "larder_value": 2.5,
+ "curve": [
+  2,
+  4,
+  7,
+  10,
+  12
+ ],
+ "power": 8
+}

@@ -2,41 +2,28 @@
   "id": "alderman_dozey",
   "name": "Alderman Dozey",
   "set": "slice",
-  "tier": 3,
-  "attack": 2,
-  "health": 5,
+  "tier": 4,
+  "attack": 3,
+  "health": 6,
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8.",
-  "golden_text": "Acorns played on this give +2/+2 per 2 gold. After 3 turns in this slot: double its stats, up to +16/+16.",
-  "details": "Feeding rounds up. Its permanent buffs cap at +12/+12.",
-  "golden_details": "Feeding rounds up. Its permanent buffs cap at +24/+24.",
+  "text": "Larder items played on this: +2/+2 per gold. Every 3 turns in this slot: double its stats.",
+  "golden_text": "Larder items played on this: +4/+4 per gold. Every 3 turns in this slot: double its stats.",
   "mechanics": [
     {
       "id": "eats_acorns",
-      "per_gold": 1,
-      "gold_step": 2
+      "per_gold": 2,
+      "gold_step": 1
     },
     {
-      "id": "effect",
-      "trigger": "end_of_turn",
-      "name": "wakes",
-      "once": true,
-      "if": [
-        {
-          "kind": "turns_in_slot",
-          "at_least": 3
-        }
-      ],
-      "do": {
-        "effect": "multiply",
-        "factor": 2,
-        "target": {
-          "select": "self"
-        },
-        "most": 8
-      }
+      "id": "pass3_hedgerow",
+      "ability": "alderman_dozey",
+      "factor": 1,
+      "period": 3,
+      "multiplier": 2.0,
+      "golden_multiplier": 2.0,
+      "food_per_gold": 2.0
     }
   ],
   "keywords": [
@@ -48,18 +35,11 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
   },
   "turns_goal": 3,
-  "permanent_buff_cap": 12,
-  "overlay_text": {
-    "rate": {
-      "text": "Acorns played on this give +1/+1 per 2 gold. End of Turn: after 3 turns in this slot, double its stats, up to +8/+8.",
-      "golden_text": "Acorns played on this give +2/+2 per 2 gold. End of Turn: after 3 turns in this slot, double its stats, up to +16/+16."
-    },
-    "both": {
-      "text": "Acorns played on this give +1/+1 per 2 gold. End of Turn: after 3 turns in this slot, double its stats.",
-      "golden_text": "Acorns played on this give +2/+2 per 2 gold. End of Turn: after 3 turns in this slot, double its stats."
-    }
-  }
+  "turns_repeat": 3,
+  "details": "Feeding rounds up. Wakes after all other End of Turn effects; includes standing tribe bonuses, excludes auras and fight buffs. Moving or tripling restarts the wait. Extra triggers do not advance or repeat a wake.",
+  "golden_details": "Feeding rounds up. Wakes after all other End of Turn effects; includes standing tribe bonuses, excludes auras and fight buffs. Moving or tripling restarts the wait. Extra triggers do not advance or repeat a wake."
 }

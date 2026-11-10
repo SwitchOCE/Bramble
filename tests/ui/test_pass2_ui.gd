@@ -51,7 +51,7 @@ func test_pass_recipient_is_state_without_a_permanent_mark_or_selection_preview(
 
 
 func test_pass_rules_remain_in_the_reader_without_geometry_instructions() -> void:
-	var library := UnitLibrary.load_dir()
+	var library: UnitLibrary = LegacyWave1.with_hedgerow(TestLibraries.current())
 	for golden: bool in [false, true]:
 		for id: String in ["dr_urchin", "mr_crumb", "mr_pym", "beadle_warrenby"]:
 			var source := RecruitUnit.make(library.get_unit(id), 2, golden)
@@ -60,7 +60,7 @@ func test_pass_rules_remain_in_the_reader_without_geometry_instructions() -> voi
 
 
 func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for id: String in ["hob_in_the_hearth", "lob_lie_by_the_fire", "silky"]:
 		var unit := RecruitUnit.make(library.get_unit(id), 1, true)
 		var face: String = unit.view()["text"]

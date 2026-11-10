@@ -27,7 +27,7 @@ func _open_details(view: Dictionary) -> String:
 func test_spell_details_tap_uses_configured_percentage_without_stale_or_duplicate_rules() -> void:
 	var config := GameConfig.full_game()
 	config.set_value("scale_hero_spell_percent", 25)
-	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(TestLibraries.current(), config)
 	var item := HandItem.make(library.get_card("harvest_supper"), 1)
 	var view: Dictionary = item.view()
 	var words: String = _open_details(view)
@@ -40,7 +40,7 @@ func test_spell_details_tap_uses_configured_percentage_without_stale_or_duplicat
 
 func test_take_and_bite_timing_reach_recruit_and_combat_readers_before_a_reward() -> void:
 	var library: UnitLibrary = ScaleOverlay.library_for(
-		UnitLibrary.load_dir(), GameConfig.full_game()
+		TestLibraries.current(), GameConfig.full_game()
 	)
 	for id: String in ["little_nip", "bridge_toad"]:
 		for golden: bool in [false, true]:
@@ -64,7 +64,7 @@ func test_take_and_bite_timing_reach_recruit_and_combat_readers_before_a_reward(
 
 
 func test_unchanged_cards_keep_their_exact_view_shape_and_raw_ruling_fallback() -> void:
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var configured: UnitLibrary = ScaleOverlay.library_for(source, GameConfig.full_game())
 	var raw: Dictionary = source.get_unit("field_vole")
 	var changed: Dictionary = configured.get_unit("field_vole")
@@ -98,7 +98,7 @@ func test_configured_golden_details_override_raw_with_dynamic_details_retained_o
 func test_hero_session_and_recruit_view_keep_configured_reader_rules() -> void:
 	var config := GameConfig.full_game()
 	config.set_value("scale_hero_spell_percent", 25)
-	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(TestLibraries.current(), config)
 	var hero: Dictionary = GameSession._hero_card(library.get_hero("brother_bracken"))
 	var view: Dictionary = RecruitView.hero_card(hero)
 	var words: String = _open_details(view)
@@ -115,7 +115,7 @@ func test_short_scaled_faces_leave_formula_minima_and_caps_in_phone_details() ->
 	for rate: int in [10, 25]:
 		var config := GameConfig.full_game()
 		config.set_value("scale_hero_spell_percent", rate)
-		var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+		var library: UnitLibrary = ScaleOverlay.library_for(TestLibraries.current(), config)
 		var views: Array[Dictionary] = []
 		for id: String in ["brother_bracken", "old_mother_mousewife"]:
 			views.append(RecruitView.hero_card(GameSession._hero_card(library.get_hero(id))))

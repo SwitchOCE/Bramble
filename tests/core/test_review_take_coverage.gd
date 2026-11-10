@@ -7,9 +7,7 @@ const FIGHT := preload("res://tests/core/combat_kit.gd")
 func test_a_real_slice_take_counts_as_on_take_coverage() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 1
-	var combat := Combat.create(
-		LegacyWave1.with_hunters(UnitLibrary.load_dir()), GameConfig.defaults(), rng
-	)
+	var combat := Combat.create(LegacyWave1.current_with_hunters(), GameConfig.defaults(), rng)
 	var tiers: Array[int] = [1, 1]
 	var ids: Array[int] = [0, 1]
 	var result: Dictionary = combat.run(

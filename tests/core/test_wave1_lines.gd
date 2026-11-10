@@ -5,7 +5,9 @@ const Kit := preload("res://tests/core/recruit_kit.gd")
 const NAMES: Array[String] = ["birds_homecoming", "birds_tempo", "fairies_ring", "fairies_court"]
 
 
-func before_each() -> void:
+# Loaded once before the script and again after each test (was also before each test, which
+# reloaded what after_each had just loaded).
+func before_all() -> void:
 	BenchSuites.reload_lines(LinePolicies.DEFAULT_PATH)
 
 
@@ -59,7 +61,7 @@ func test_each_wave1_line_plays_a_short_real_lobby_without_falling_back() -> voi
 		)
 		config.set_value("max_rounds", 3)
 		var session := GameSession.create(
-			180001 + index, UnitLibrary.load_dir(), config, BenchSuites.create_bot
+			180001 + index, TestLibraries.current(), config, BenchSuites.create_bot
 		)
 		assert_true(session._config.get_bool("pass3_content"))
 		while not session.is_over():

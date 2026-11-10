@@ -201,7 +201,7 @@ func test_end_phase_settles_a_waiting_choice_6_2() -> void:
 
 
 func test_session_blocks_end_turn_while_choosing_6_2() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var session := GameSession.create(4, library, GameConfig.defaults())
 	assert_null(session.get_state()["pending_choice"], "null when nothing waits")
 	session._human().pending.append(

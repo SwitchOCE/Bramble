@@ -22,7 +22,7 @@ func test_legacy_plain_and_golden_lenders_keep_quarry_in_the_reader() -> void:
 
 func test_native_hunter_faces_use_the_reader_for_current_and_golden_abilities() -> void:
 	var library: UnitLibrary = ScaleOverlay.library_for(
-		UnitLibrary.load_dir(), GameConfig.full_game()
+		TestLibraries.current(), GameConfig.full_game()
 	)
 	for id: String in ["young_brock", "lodger", "madame_ermeline", "old_brock", "laird_of_sett"]:
 		for golden: bool in [false, true]:
@@ -37,7 +37,7 @@ func test_native_hunter_faces_use_the_reader_for_current_and_golden_abilities() 
 
 
 func test_native_lent_hunts_use_the_existing_quarry_reader_reminder() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for id: String in ["old_brock", "old_isegrim"]:
 		for golden: bool in [false, true]:
 			var view: Dictionary = UnitViews.from_def(library.get_unit(id), golden)

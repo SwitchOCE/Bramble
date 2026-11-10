@@ -23,6 +23,11 @@
         "spill": true,
         "golden": false
       }
+    },
+    {
+      "id": "pass3_hedgerow",
+      "ability": "mrs_burdock",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -34,6 +39,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "hedgerow.md"
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
   }
 }

@@ -154,18 +154,14 @@ func _advance(id: int, round_number: int) -> void:
 			# Beyond the entire source horizon there is no round-matched field to borrow.
 			target = _last_round(id)
 			eligible = _choices(str(seat["line"]), target, id)
-		var previous: Dictionary = frames.get(id, rounds["1"])
+		var previous: Dictionary = frames.get(id, library.frame_for(trajectory, 1))
 		var size: int = board_size(previous)
 		eligible.sort_custom(
 			func(a: Dictionary, b: Dictionary) -> bool:
 				var a_trajectory: Dictionary = a["trajectory"]
-				var a_rounds: Dictionary = a_trajectory["rounds"]
-				var a_frame: Dictionary = a_rounds[str(target)]
-				var da: int = absi(board_size(a_frame) - size)
+				var da: int = absi(library.frame_size(a_trajectory, target) - size)
 				var b_trajectory: Dictionary = b["trajectory"]
-				var b_rounds: Dictionary = b_trajectory["rounds"]
-				var b_frame: Dictionary = b_rounds[str(target)]
-				var db: int = absi(board_size(b_frame) - size)
+				var db: int = absi(library.frame_size(b_trajectory, target) - size)
 				return da < db if da != db else str(a_trajectory["id"]) < str(b_trajectory["id"])
 		)
 		var choice: Dictionary = eligible[0]
@@ -189,7 +185,9 @@ func _advance(id: int, round_number: int) -> void:
 		source_rounds[id] = target
 	else:
 		source_rounds[id] = round_number
-	var selected_frame: Dictionary = rounds[str(source_rounds[id])]
+	var selected_frame: Dictionary = library.frame_for(
+		trajectory, CoreUtil.to_int(source_rounds[id])
+	)
 	frames[id] = selected_frame.duplicate(true)
 
 

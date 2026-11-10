@@ -31,8 +31,27 @@ if [ "${1:-}" = "new" ]; then
     done
     args+=(--save "$path")
   fi
+elif [ "${1:-}" = replay-log ]; then
+  # The log file, and a save path unless one was given: build/play/replay-<log stem>.json
+  [ $# -ge 2 ] && args[1]="$(realpath -m "$2")"
+  given=""
+  for ((i = 1; i < $#; i++)); do
+    case "${args[$i]}" in
+      --save) given="${args[$((i + 1))]:-}" ;;
+    esac
+  done
+  if [ -z "$given" ] && [ $# -ge 2 ]; then
+    mkdir -p "$ROOT/build/play"
+    stem="$(basename "$2" .json)"
+    args+=(--save "$ROOT/build/play/replay-$stem.json")
+  fi
 elif [ $# -gt 0 ] && [ "$1" != help ]; then
   args[0]="$(realpath -m "$1")"
+fi
+# The variant map is read after the cd below.
+if [ -n "${BRAMBLE_VARIANT_MAP:-}" ]; then
+  BRAMBLE_VARIANT_MAP="$(realpath -m "$BRAMBLE_VARIANT_MAP")"
+  export BRAMBLE_VARIANT_MAP
 fi
 cd "$ROOT" || exit 1
 # A fresh checkout has no class cache, and the scripts can't find each other without one.

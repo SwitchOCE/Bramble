@@ -1,0 +1,49 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-hedge-rollback/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_bot_hedgerow.gd
+[0m* test_supper_holds_food_until_native_wake_then_feeds_the_carry
+* test_supper_cash_is_reserved_for_scheduled_climbs_and_priority_engines
+* test_third_dozey_waits_until_after_a_wake
+* test_placement_preserves_sleep_then_moves_a_large_carry_after_a_wake
+* test_crumb_is_played_into_dozey_before_his_real_sold_pass_lands
+* test_parish_cash_and_floor_growth_value_are_live
+* test_parish_sells_a_kit_only_when_mallow_will_not_double_it
+* test_pinned_strategy_keeps_early_tempo_flexibility
+* test_ordinary_native_routes_climb_for_their_actual_engines
+* test_optional_treasury_cashes_once_with_hayward_then_holds_again
+* test_parish_keeps_buying_engine_copies_for_real_triples_on_a_full_board
+* test_parish_sparse_board_keeps_a_single_unbroken_line
+* test_native_cash_policy_does_not_run_on_frozen_hedgerow
+[1m13/13 passed.
+[0m[4m
+
+res://tests/core/test_field_normal_regression.gd
+[0m* test_normal_lobby_matches_complete_games_captured_after_wave2a_merge
+[1m1/1 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               2
+Tests                14
+Passing Tests        14
+Asserts             302
+Time              68.088s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/hedgerow/rollback.xml

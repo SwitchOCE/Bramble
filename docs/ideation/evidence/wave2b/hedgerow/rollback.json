@@ -1,0 +1,22 @@
+{
+  "tests": 14,
+  "failures": 0,
+  "seconds": 68.088,
+  "files": [
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "13",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.01679"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "57.683442"
+    }
+  ],
+  "original_normal_hashes_unchanged": true
+}

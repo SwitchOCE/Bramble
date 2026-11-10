@@ -104,6 +104,16 @@ Three of five triage agents were stopped by Anthropic's safety filter (`reasonin
 - **Untracked files outside `docs/` fail the docs-only check.** Keep prompt drafts and art outputs under `build/` until they go on a branch.
 - **Art workers write only to their output folder.** A Codex image worker exported straight into the main checkout's `assets/portraits/`. The prompt header now says "Do not write into assets/".
 
+## Copies are not reach; survivors hide deaths (10 Nov)
+Stone Soup's design assumed it would be on the board by R3–R4 ("never misses a shop"; "T2 cards with many copies"). Only 25% of engine seats saw it by R6, and when it landed it gave +0, because each stat rounds down. The medians counted survivors only, so the seats it killed never showed.
+- **For each named piece, state its chance of being seen by its round** (shop odds times the real climb) **and its rounded yield** on the board it lands on.
+- **Report eliminations next to every survivor median.**
+
+## A targeted run missed three failures a merge would have shipped (10 Nov)
+Wave 2b's worker ran 431 targeted tests, then changed bot code and reran only the 30 bot tests. The Actions gate on the merge failed three tests outside both sets: a UI tile-tag test, a lobby deal test and a line-brain type error.
+- **After the last code edit, rerun every test script the diff can reach,** or gate the branch itself on Actions before reporting.
+- **A worker's "N/N targeted" says nothing about files it didn't pick.** The orchestrator gates before any merge, never on a targeted count.
+
 ## What the Quilboar reference taught our methods (10 Nov)
 
 From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterion (09i); they change how a bar is checked before it decides, and what is reported beside the two criteria.
@@ -118,3 +128,9 @@ From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterio
 - **Give an extreme-miss check a round, a ratio and a population.**
 - **Beside any "tribe X is N× tribe Y", give the head-to-head win rate at equal totals.** At equal totals, Quilboar's wide gem board wins 18–25%, and our tribes range from 43% to 62%.
 - **Raw captures stay under `build/`,** their hashes go in committed receipts, and a commit that adds more than a few MB of evidence gets flagged.
+
+## Orchestrator (10 Nov, repository size and pushes)
+
+- **Evidence images bloat the clone.** By 10 Nov, ideation/main's history was about 490 MB on disk, 317 MB of it declutter evidence PNGs. Batch 2 would have added 195 MB more. Every cloud session clones all of it, and deleting the files later doesn't shrink history. Evidence goes in as JPEG, with one copy of each image; raw masters go in `build/` (gitignored); a branch heavy with evidence is squash-merged after slimming. A `check.sh` size guard enforces this from batch 2's slim step on.
+- **This machine's GitHub token has no `workflow` scope.** A push whose net change touches `.github/workflows/` is refused, gate branches included. Restoring the file in the merge commit makes the push go through, as the S3 merge showed. A branch that adds a workflow needs the scope (`gh auth refresh -h github.com -s workflow`).
+- **`check.sh --docs-only` sees untracked files.** A stray `error.log` written by `codex cloud` made it refuse. Chain the check and the push with `&&`, never `;`.

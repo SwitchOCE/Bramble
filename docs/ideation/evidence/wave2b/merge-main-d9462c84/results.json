@@ -1,0 +1,207 @@
+{
+  "merged_main": "d9462c84",
+  "tests": 326,
+  "failures": 0,
+  "seconds": 219.499,
+  "files": [
+    {
+      "name": "tests/core/test_quilboar.gd",
+      "tests": "17",
+      "failures": "0",
+      "skipped": "0",
+      "time": "17.603178"
+    },
+    {
+      "name": "tests/core/test_quilboar_bot.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.598442"
+    },
+    {
+      "name": "tests/core/test_quilboar_combat.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.172962"
+    },
+    {
+      "name": "tests/core/test_quilboar_content.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.004409"
+    },
+    {
+      "name": "tests/core/test_quilboar_h1_suite.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.001812"
+    },
+    {
+      "name": "tests/core/test_quilboar_h1_switches.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "15.10721"
+    },
+    {
+      "name": "tests/core/test_quilboar_isolation.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.013311"
+    },
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "18",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.53517"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_content.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.104383"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_recruit.gd",
+      "tests": "19",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.170723"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_shares.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.851129"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_combat.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.048216"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.008181"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.255358"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.022488"
+    },
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.697223"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.265581"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "60.240619"
+    },
+    {
+      "name": "tests/core/test_fight_capture.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "25.241042"
+    },
+    {
+      "name": "tests/core/test_recruit_rules.gd",
+      "tests": "23",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.1146"
+    },
+    {
+      "name": "tests/core/test_recruit_triggers.gd",
+      "tests": "53",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.14846"
+    },
+    {
+      "name": "tests/core/test_scale_mechanics.gd",
+      "tests": "21",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.966057"
+    },
+    {
+      "name": "tests/core/test_scale_review.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.528745"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.45759"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.020111"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.310276"
+    },
+    {
+      "name": "tests/ui/test_pass3_hedge_ui.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.323374"
+    }
+  ],
+  "line_counts": {
+    "src/core/recruit_rules.gd": 995,
+    "src/core/bots/bot_brain.gd": 981,
+    "src/core/game_session.gd": 974,
+    "src/ui/screens/combat_screen.gd": 999,
+    "src/ui/screens/recruit_screen.gd": 1000
+  },
+  "python_checker_tests": 28,
+  "main_decisions_exact": true,
+  "checker_resolution": "main reference/Ooze union plus retained Hedgerow namespace and validation"
+}

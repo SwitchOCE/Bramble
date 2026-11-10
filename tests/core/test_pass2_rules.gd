@@ -7,7 +7,7 @@ const Fight := preload("res://tests/core/combat_kit.gd")
 
 func test_pass_ignores_gaps_and_source_and_sold_slot_replacement() -> void:
 	var kit := Kit.new()
-	kit.setup()
+	kit.setup(null, false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	var carry: RecruitUnit = kit.put("field_vole", 3)
 	var crumb: RecruitUnit = kit.put("mr_crumb")
 	assert_eq(kit.rules.play(kit.player, 0, 0), "")
@@ -129,7 +129,7 @@ func test_early_spoils_queues_one_gold_only_for_early_live_wins() -> void:
 	for round_number: int in [1, 4, 5]:
 		var config := GameConfig.full_game()
 		config.set_value("hero_choice", false)
-		var session := GameSession.create(99, UnitLibrary.load_dir(), config)
+		var session := GameSession.create(99, TestLibraries.current(), config)
 		session._round = round_number
 		var a: PlayerState = session._players[0]
 		var b: PlayerState = session._players[1]

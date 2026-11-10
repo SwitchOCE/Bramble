@@ -4,7 +4,7 @@ extends GutTest
 const Preview := preload("res://src/core/recruit_preview.gd")
 const View := preload("res://src/ui/screens/recruit_view.gd")
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _rules() -> RecruitRules:
@@ -70,11 +70,12 @@ func test_shy_moves_never_warn_because_rings_are_ignored() -> void:
 func test_sergeant_next_acorn_uses_actual_smallest_item_and_golden_multiplier() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("hero_choice", false)
-	var session: GameSession = GameSession.create(202, _library, config)
+	var library: UnitLibrary = LegacyWave1.with_hedgerow(_library)
+	var session: GameSession = GameSession.create(202, library, config)
 	var player: PlayerState = session._players[0]
-	player.board[1] = RecruitUnit.make(_library.get_unit("sergeant_at_conkers"), 600, true)
-	player.items.append(HandItem.make(_library.get_card("stash"), 601))
-	player.items.append(HandItem.make(_library.get_card("acorn"), 602))
+	player.board[1] = RecruitUnit.make(library.get_unit("sergeant_at_conkers"), 600, true)
+	player.items.append(HandItem.make(library.get_card("stash"), 601))
+	player.items.append(HandItem.make(library.get_card("acorn"), 602))
 	var view: Dictionary = session.get_state()["board"][1]
 	assert_eq(view["next_acorn"], "Next Acorn: 1 gold → 6 damage")
 	assert_eq(View.tile_slip(view), "1g → 6", "compact ammunition label fits the tile")

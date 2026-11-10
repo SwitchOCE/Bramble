@@ -8,18 +8,23 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Bristle 2. After this pricks: Pass +1 Attack.",
-  "golden_text": "Bristle 4. After this pricks: Pass +2 Attack.",
+  "text": "Bristle 2. Your last other Hedgerow unit has Hunker.",
+  "golden_text": "Bristle 4. Your last two other Hedgerow units have Hunker.",
   "mechanics": [
     {
-      "id": "urchin",
-      "n": 2,
-      "attack": 1
+      "id": "bristle",
+      "n": 2
+    },
+    {
+      "id": "pass3_hedgerow",
+      "ability": "dr_urchin",
+      "factor": 1,
+      "hunker_targets": 1
     }
   ],
   "keywords": [
     "Bristle",
-    "Pass"
+    "Hunker"
   ],
   "row_hint": "front",
   "pool": true,
@@ -27,6 +32,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Protects your last other Hedgerow unit in zigzag order while this lives. Recalculates as units die; excludes this unit.",
+  "golden_details": "Protects your last other Hedgerow unit in zigzag order while this lives. Recalculates as units die; excludes this unit."
 }

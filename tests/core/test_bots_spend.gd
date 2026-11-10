@@ -7,7 +7,7 @@ func _first_rounds_boards(game_seed: int, bots: Array) -> Array:
 	var config := GameConfig.full_game()
 	config.set_value("bots", bots)
 	config.set_value("human_bot", "balanced")
-	var session := GameSession.create(game_seed, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(game_seed, TestLibraries.current(), config)
 	session.end_turn()
 	session.end_turn()
 	var rows: Array = session.get_game_log()["players"]
@@ -30,9 +30,9 @@ func test_every_bot_fields_a_unit_by_round_two() -> void:
 
 func test_a_spell_is_bought_only_with_gold_left_after_units() -> void:
 	var kit := RecruitRules.create(
-		UnitLibrary.load_dir(),
+		TestLibraries.current(),
 		_spell_config(),
-		UnitPool.create(UnitLibrary.load_dir(), _spell_config())
+		UnitPool.create(TestLibraries.current(), _spell_config())
 	)
 	var player := PlayerState.new()
 	player.shop_rng.seed = 7

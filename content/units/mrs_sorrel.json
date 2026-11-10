@@ -23,6 +23,11 @@
         "spill": true,
         "golden": false
       }
+    },
+    {
+      "id": "pass3_hedgerow",
+      "ability": "mrs_sorrel",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -34,6 +39,15 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "hedgerow.md"
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "mechanic_text": {
+    "0": {
+      "id": "effect",
+      "trigger": "after_attack",
+      "text": "After this attacks: summon a 1/1 Shrewlet behind this. Spill.",
+      "golden_text": "After this attacks: summon two 1/1 Shrewlets behind this. Spill."
+    }
   }
 }

@@ -179,7 +179,7 @@ func test_heroes_offered_never_repeat_across_players_2_2_1() -> void:
 
 
 func test_small_roster_still_offers_distinct_heroes_to_each_player_2_2_1() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var rng := RandomNumberGenerator.new()
 	var offers: Array = HeroRules.deal(library.all_heroes(), PackedStringArray(), 8, 3, rng)
 	for offer: PackedStringArray in offers:
@@ -196,7 +196,7 @@ func test_hero_needing_an_absent_tribe_isnt_offered_2_2_4() -> void:
 func test_session_waits_for_the_hero_choice_2_2_1() -> void:
 	var config := GameConfig.defaults()
 	config.set_value("hero_choice", true)
-	var session := GameSession.create(4, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(4, TestLibraries.current(), config)
 	var state: Dictionary = session.get_state()
 	assert_eq(state["phase"], "hero_choice", "first thing")
 	assert_eq(state["pending_choice"]["kind"], "hero", "offered")
@@ -211,6 +211,6 @@ func test_session_waits_for_the_hero_choice_2_2_1() -> void:
 
 
 func test_defaults_have_no_hero_step_2_2() -> void:
-	var session := GameSession.create(4, UnitLibrary.load_dir(), GameConfig.defaults())
+	var session := GameSession.create(4, TestLibraries.current(), GameConfig.defaults())
 	assert_eq(session.get_state()["phase"], "recruit", "tests and old callers see no change")
 	assert_null(session.get_state()["hero"], "no hero")

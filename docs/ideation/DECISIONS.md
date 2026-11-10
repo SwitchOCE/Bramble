@@ -4,6 +4,256 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 2: second cold reader passes; evidence slimmed before merge
+**Source:** `evidence/declutter/batch2-cold/reader2/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` b97d4644, and a separate Sol scorer marked it against `technical/`.
+
+**Score:** 16 of 16 sequence-speed runs pass. B's swallow, D's lent-target relationship and F's departure now read at both speeds. No board teaching text or static pointers were found (09e).
+
+**Left for later, not blocking:**
+- the Belly badge's meaning;
+- the away portrait's crescent;
+- D's gold target frame, which first reads as an upgrade;
+- overlapping copies in A and E.
+These are the scorer's ranked glyph fixes, kept for the next declutter pass.
+
+**Picked:** merge, but not as it stands.
+- **The evidence is too big.** Batch 2 tracks 338 evidence files (194.6 MB, mostly PNG). ideation/main's history is already about 490 MB, 317 MB of it declutter evidence, and every cloud session clones it. A Sol worker on `ideation/declutter-b2-slim` converts to JPEG, deduplicates, and moves raw masters to `build/`, aiming under 25 MB. It also adds a `check.sh` guard: a new file over 2 MB under `docs/`, or over 30 MB in total, fails unless allowlisted.
+- **Batch 2 lands as one squashed commit**, so the PNG blobs never enter ideation/main's history. Its 26 commits stay on the local branch.
+- **Then** a fresh code review and the gate.
+- **The Hedgerow re-face** follows once wave 2b has merged.
+
+**Agreed by:** the scorer's marks. The size figures are from `git ls-tree` and `git cat-file`.
+
+### 10 Nov 2026 — A3.5 dials: review calls
+**Source:** a fresh Sol review of `ideation/c-a35-dials` `839f9de7..6ebb7c7c` (gated: PASS): 6 cut, 4 keep.
+
+**Picked:**
+- Five cuts go to a Sol worker on `ideation/a35-dials-fix`, which has ideation/main merged in:
+  - Monarch is 3/4 in both presets;
+  - the Birds bot hints read their dials (Chiffchaff, Stork, Golden Egg, Monarch);
+  - the Ooze food choice uses the multiplier's real return;
+  - the golden flight reminder text matches the 3× homecoming;
+  - known-answer behaviour tests run each dialled rule at t=0 and t=3, normal and golden.
+- **The Hedgerow cut is deferred, not dropped.** The brief kept Hedgerow's files with wave 2b. Its four dials (Mallow, both Dozey dials, Treasurer) land after wave 2b merges, and the inventory test lists them as pending, so they can't be forgotten.
+- A3.5 run 1 waits for both.
+
+**Agreed by:** the review.
+
+### 10 Nov 2026 — Sim job (S4): review calls
+**Source:** a fresh Sol review of `ideation/c-sim-job` `ce50d9d7..41428960`: 9 cut, 1 simplify, 2 keep.
+
+**Cuts:**
+- `sim-run.sh --wait` reports a failed run as done.
+- An entirely failed line run passes.
+- The soak merge doesn't reconcile seeds or require complete shard reports.
+- Uneven shard splits crash.
+- Field soaks read bots that `FieldRivals.setup()` removed.
+- The no-set check misses units that appear only in combat.
+- Field fights and designed setups are missing as run kinds.
+- The acceptance runs aren't met: the committed 200-game soak shows 198 violations.
+- Part 0's timing warning is hidden, and `test_times.json` is stale.
+
+**Simplify:** move job orchestration out of `tools/sim/`.
+
+**Picked:** all ten go to a Sol worker on `ideation/sim-job-fix`, which has ideation/main merged in, not back to the Claude routine (10b). Each violation kind in the 198 is classed as a checker bug, fixed there, or a real rule break, reported to the orchestrator with an example. The worker may push only `ideation/sim/<id>` branches, through `sim-run.sh`, for the acceptance runs.
+
+**Blocked on the owner for the merge:** the sim job adds `sim.yml`, and this machine's token can't push workflow changes.
+
+**Agreed by:** the review. The routine's own report claimed done.
+
+### 10 Nov 2026 — S5b/S10b: review calls
+**Source:** a fresh Sol review of `bcb30012..d0b918ec` (gated: PASS): 1 cut, 1 simplify, 2 ask, 3 keep.
+
+**Picked:**
+- **Cut:** exported builds record an empty build id, so `replay-log` rejects the owner's exported games. The export script (S3, now merged) supplies the commit, proved by one export whose log replays.
+- **Simplify:** the cache test compares `_by_id` with itself; compare against `copied._units`.
+- **Asks:** A4's strong-field render check becomes an A7 prerequisite, and W-d's handoff gets the `--field-library` argument, both in `plan-to-done.md`. The planted-bug base stays labelled as inferred: the deleted branch can't be recovered, and the timing evidence is confirmed from Actions artifacts.
+
+All of this goes back to the same Sol author on `ideation/s5b-s10b`, with ideation/main merged in.
+
+**Agreed by:** the review.
+
+### 10 Nov 2026 — S3 merged
+**Source:** the narrow Sol review of `fb659fc3`, `d9b228c6` (w8: 5 keep, 0 cut, 1 simplify, 2 ask), then the Actions gate.
+
+**Picked:**
+- Merged as `8b64da69`, gated PASS.
+- **Simplify taken:** `ci.yml` stays as ideation/main had it. The duplicate preflight is gone, and this machine can't push workflow changes anyway.
+- **Both asks kept:** the S1 ownership exception (`field_rivals.gd` and its test) and the smoke probe with its docs. Both support lazy loading and the new smoke contract.
+- **The first gate failed** on `test_source_fingerprints_use_requested_git_commit`. Its git mock answered the new `tools/sim/lines` lookup with the content list. That was fixed in the merge, and the second gate passed. The worker's targeted run (32 Python tests) had missed it; the gate's full Python run caught it.
+
+**Agreed by:** w8's review and the gate.
+
+### 10 Nov 2026 — Codex Cloud handoff merged; this machine can't see the environment yet
+**Source:** `ideation/codex-cloud-handoff` be5f8e84, from the owner's Codex Cloud setup worker. It is docs-only: a new `CODEX_CLOUD.md`, and the placeholder in `ORCHESTRATION.md` filled in.
+
+**Picked:** merged after the docs-only check (4f76716e). Its question was whether `codex cloud` on this machine can select the published Bramble environment, and with what `--env` id. **Not yet:**
+- Here the CLI is signed in to the owner's Personal workspace (Pro).
+- `codex cloud list` works and shows 0 tasks.
+- Any `codex cloud exec --env <id>` answers "no cloud environments are available for this workspace". The lookup by repo (SwitchOCE/Bramble) finds none either.
+
+So the Bramble environment sits in another workspace, or it isn't one the CLI lists. **Owner's check:** the Codex environments page, in the Personal workspace. Until then, cloud work stays on Actions and local workers. If steering a running cloud task turns out to matter, the Tailscale link the owner is setting up (10 Nov) is the route.
+
+**Also found:**
+- The GitHub token on this machine has no `workflow` scope. So any push whose net change touches `.github/workflows/` is refused, gate branches included.
+- S3's CI preflight was dropped (see S3's entry), which keeps `ci.yml` unchanged.
+- `codex cloud` writes an `error.log` into the current directory.
+
+**Agreed by:** the CLI's own output on this machine.
+
+### 10 Nov 2026 — Declutter batch 2, first cold reader: fail, three fixes
+**Source:** `evidence/declutter/batch2-cold/reader1/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` 7a9f69d0, and a separate Sol scorer marked it against `technical/`.
+
+**Score:** 10 of 16 sequence-speed runs pass, and nothing on the board breaks 09e. Three actions fail at both speeds:
+- **B:** a swallow into a Belly reads as stacking, and the Belly badge reads as equipment.
+- **D:** the lent-target preview's paired gold highlights don't show a target relationship.
+- **F:** Fly South's departure has no convincing arrival in the away tray.
+
+**Picked:** back to w4's thread on `ideation/declutter-b2`, taking the scorer's smallest fixes, motion or glyph only (09e):
+- **B:** shrink the purchase into the Belly glyph, retire its overlay, then pulse the count once.
+- **D:** keep a distinct selection treatment, and stamp a brief quarry glyph on the previewed target.
+- **F:** dissolve the departing card into the away portrait, then pulse its countdown.
+- **If cheap**, the reduce-motion overlays left in B, E and F's last frames, and items 4–7: E's overlapping copies, C's route over occupied portraits, G's acorns over the digits, and H's new price shown before the payment settles.
+- **Then the Hedgerow re-face** once wave 2b merges.
+- **A fresh reader and scorer** follow. Batch 2 merges only when every run passes.
+
+**Agreed by:** the scorer's marks, checked against frames and JSON. It also caught one reader misreading (G's gold flicker, which doesn't happen).
+
+### 10 Nov 2026 — Worker cap 5, Astra allowed, Codex Cloud wanted (owner, 10c)
+**Source:** owner note `2026-11-10c-cap-astra-and-codex-cloud.md`.
+
+**Picked:**
+- **Bridge cap 3 → 5** (`CODEX_BRIDGE_MAX` for this project). RAM is the limit: 14 GB, about 300 MB per worker, and 2 Godot slots capped at 3 GB each. It loads at the next bridge restart, taken when no worker is mid-turn. More parallelism than that goes to Codex Cloud, not this machine.
+- **Astra at medium or high effort** runs alongside Sol for parallel work with spare usage, and replaces Sol if Sol's limit is reached. Sol keeps the hardest work. This is written into the bridge's served instructions and README. Whether Astra has its own pool gets checked on its first run.
+- **Codex Cloud** uses the same GitHub repo and the same `scripts/cloud-setup.sh` as the Claude environment. The owner creates the environment, and the orchestrator then submits bounded jobs with `codex cloud exec` and applies the diffs onto `ideation/*` (calls in "Codex Cloud: calls").
+
+### 10 Nov 2026 — Faster suite (S10): review calls
+**Source:** the scope review of `ideation/c-faster-suite` `3d96ce3f..3deb96f2` (`evidence/review-faster-suite.md`): 16 keep, 0 cut, 0 simplify, 3 ask. Confirmed: the diff is tests only, with nothing under `src/`; no leak path was found in the cache; and the three planted bugs still fail the suite.
+
+**Picked:** merge, in one merge commit with play tools (`da20e53e`, gated on Actions). Follow-up step S10b goes to a Codex worker (10b):
+- **Ask 1:** replay a whole current-content game with the cheaper Hard seats (`SharedLobby.QUICK_HARD`) and fix the comment. Reason: nothing else replays a whole current-content game, and determinism is what the owner's replays and the fixed-seed sims rest on.
+- **Ask 2:** criterion 1 is read on Actions. Compare `da20e53e`'s tests junit total with the last ideation/main gate's, and write both, plus the commit the planted bugs ran on, into `8-faster-suite.md`.
+- **Ask 3:** add a cache self-test: mutate a copy, then check that `TestLibraries.current()` still equals a fresh `UnitLibrary.load_dir()` in units, cards, heroes and errors.
+- **The one-line guard:** `assert_true(combat.is_processing())` in `test_screens_smoke`.
+
+**Agreed by:** the scope review (no cuts).
+
+### 10 Nov 2026 — Play tools (S5): review calls
+**Source:** the scope review of `ideation/c-play-tools` `eaea0e05..06ba4bbe` (`evidence/review-play-tools.md`): 20 keep, 0 cut, 7 simplify, 4 ask. All 2,326 tests passed over four shards.
+
+**Picked:** merge now, after the gate on a fresh merge, since there are no cuts. Follow-up step S5b goes to a Codex worker (10b). It takes all seven simplifies and these calls:
+- **A1:** keep `hash`. `test_render.sh` compares the last moment's hash with `play.sh <save> hash`.
+- **A2:** game logs record the final state hash and the build id, and `replay-log` compares them and the placement. Reason: W-g replays the owner's games and has to know when one drifts (§1.11).
+- **A3:** accept blinding by name. W-c's brief forbids `reveal`, opening saves, and reading `rates.json` or the map, and drops the B and C sizes. S1–S3 remove the easy leaks. Reason: the testers are briefed agents playing in good faith; the blind keeps bias out, it isn't security.
+- **A4:** `test_render.sh` runs on the build 8 commit with a strong-field save before A7. That's added to A7's prerequisites.
+- **The gaps:**
+  - the game-over and field-library scrub test reaches game over;
+  - the map test that can't fail is removed;
+  - the word round trip runs through `PlayGame.run` for every action kind;
+  - `_start`, `_from_log` and the mismatch refusal each get a test.
+- **For W-d (A7's brief):** testers pass `--field-library res://content/fields/baseline.json.gz` to match build 8's default.
+
+**Agreed by:** the scope review (no cuts).
+
+### 10 Nov 2026 — Codex Cloud: calls
+**Source:** `evidence/codex-cloud.md`, a Sol research agent's report with OpenAI doc links and the CLI's own help output.
+
+**Found:**
+- Pro includes Codex Cloud. Cloud and local share one weekly pool, and cloud can cost more.
+- `codex cloud exec --env --branch --attempts` can submit tasks from this machine, and `status`, `list`, `diff` and `apply` can collect them.
+- There are no follow-up messages, no push and no PR from the CLI. Results come back as diffs.
+- No environment exists yet. The owner creates one in the web UI.
+- Credits pay for use past the weekly limit.
+
+**Picked:**
+- **Local Codex first.** Cloud adds no Codex capacity, only more machines, and Actions already runs the gates. So the saving comes from routing Claude work to Sol (10b call), not from where Sol runs.
+- **Codex Cloud for bounded jobs once the owner creates the environment.** That means reviews, critics and design reports that come back as a Markdown diff, and builds that come back as a diff.
+  - Diffs are applied only in a clean `ideation/*` worktree, then gated and pushed by the orchestrator, so nothing in the cloud can reach `main`.
+  - Long sims stay local or on Actions until the maximum task time is known.
+- **Claude routines** stay only for work that needs follow-up messages, and new ones need a logged reason (10b).
+- **The weekly pool:** 64% used with about 52 h to the reset. The owner decides on spending credits. Without them, the pace must drop to about 0.7% an hour, roughly one worker.
+
+**Agreed by:** the owner's direction; the research report.
+
+### 10 Nov 2026 — Stone Soup triage: calls
+**Source:** `evidence/triage-stone-soup.md`. A triage workflow ran five hypothesis investigators, five refuters and a synthesis on the engine line's 32 B lobbies.
+
+**Found:**
+- Stone Soup is a trap in its window: +0 per shop unit in 17 of 24 R4–R6 board-rounds.
+- Soup seats die early: 5 of 11 were out before R12, against 1 of 21 for other seats.
+- Card and journey hypotheses kept; measurement kept in part (the bot overvalues Soup); competition and system ruled out; the payout gap is still open.
+
+**Picked:** take all six fixes. They land in A3 (w2) with the neutrals, before the pool settles.
+1. **Soup moves to tier 1, 2/3.** This is a deviation from the Ooze design doc's tier.
+2. **The line's route:** Little Dollop goes ahead of Stone Soup until a Digest Ooze is down, and Soup's +12 bot bonus applies only with a carry. This ships with item 1.
+3. **Soup rounds up.** Its text becomes "rounded up", and rulebook 12.1.9 gets a Soup-only exception. Reason: generous power first (09h).
+4. **Purchase pin:** off-tribe bodies are allowed after R4 for a seat with no Digest Ooze.
+5. **A second plain Soup** counts only its body value plus the pair bonus.
+6. **Harness:** log offers, buys and Nell's meals per card, and report eliminations next to the survivor medians.
+
+**Confirm:** the triage's own rerun bars, on the same 32 seeds at B:
+- Soup by R6 on 20+ of 32 engine seats;
+- Soup seats out before R12 no more often than the rest;
+- Soup on at least half the R12 engine boards.
+
+**Process fix:**
+- A journey check states each named piece's chance of being seen by its round, from shop odds and the real climb, and its rounded yield on the board it lands on. The same cause applies to every tribe's tier-2 and tier-3 engine pieces, so A3.5 run 1's checks add that column.
+- The triage skill gets the line in the next gated merge, since `.claude/` isn't docs-only.
+
+**Next:** Ooze payout. Surviving engine boards reach only 262–331 at R12 against 900, so this fix alone doesn't fix scale. That triage goes to a Codex worker (10b).
+
+**Agreed by:** the workflow's refuters corrected three of the five verdicts before the synthesis; no cut is left open.
+
+### 10 Nov 2026 — Compute: Codex over Opus (owner, 10b)
+**Source:**
+- The owner's note `2026-11-10b-codex-over-opus.md`: "We need way, way, way more Codex usage and less Opus usage."
+- Codex's own logs on this machine: Pro plan; weekly limit 63% used, resetting 12 Nov 17:42; no 5-hour window; 62,500 credits untouched all week.
+
+**Picked:**
+- **Reviews of Codex-written work go to Codex.** A fresh Codex review thread gets the owner's words, the plan text and the scope-review method (`CLOUD.md`, "How a cloud reviewer reviews"), with the author's notes labelled as claims.
+  - This replaces the local Claude `scope-reviewer` named in `~/.claude/CLAUDE.md`. The owner's direction outranks that default, and the reviewer is still fresh and independent of the author.
+  - The two Claude reviews already running (play tools, faster suite) finish rather than being redone.
+- **Triage, critics and syntheses go to Codex workers, not Workflow fan-outs.** Ultracode's default of a workflow per task is set aside for budget. A Workflow runs only where a call needs several independent Claude reads, and the orchestrator logs why.
+- **No new Claude cloud routines** until the Codex Cloud investigation reports. Those running now (A3.5 dials, sim job) finish.
+- **The orchestrator keeps its own turns short:** it reads summaries and tails, not full logs.
+- **Codex's weekly pool is the next limit.** At the recent burn of 1.5–2.5% an hour with 3 workers, it runs out around 16–25 h from now, before the reset. The investigation covers what the credits buy. The owner decides on spending them and on raising the bridge's 3-worker cap.
+
+**Agreed by:** the owner's direction; no review needed.
+
+### 10 Nov 2026 — Wave 2b follow-ups (A1b, A2): review calls
+**Source:**
+- the scope review of `ideation/wave2b` `424b3c2a..8f94f607` (`evidence/review-wave2b-followups.md`): 13 keep, 0 cut, 1 simplify, 4 ask;
+- the Actions gate of its merge `a0878668` (run 42738005066), which failed three tests that the worker's targeted run had missed: Hedgerow tile tags, the `birds_passage` deal, and a line-brain type error.
+
+**Picked:**
+- **Ask 1 (four bot changes reach normal Hard, untested):** keep them as a deliberate change to Hard.
+  - The changes: holding Larder before the first Hedgerow unit, freeing B1 for the Partner, an averaged median on even boards, and no split gap for tempo Oozes.
+  - Why keep: the owner wants one bot strength, the best we can make (08a, 08b), and each change plays the tribe's route better.
+  - Each one gets a test that pins its Hard behaviour.
+  - The field regression test and `test_bot_brain` run on the final code through the gate.
+- **Ask 2 (Pot Luck criterion 2 not met):** accept A1b on criterion 1 alone, and log the deviation.
+  - The mismatch is that the line spends what paper banks: gold 1/0 at R8/R10 against paper's 4/5.
+  - The arm that forced paper's saving grew slower (save 3: ×1.261 against control's ×1.335). So paper's costed route, not the line, is what's off. Paper is not a target (LEARNINGS).
+  - A3.5 and A4 measure Pot Luck as it plays. Its interval [1.243, 1.413] dips under 1.3, and A3.5's same-cohort read on the new dials decides from here.
+- **Ask 3 (Dozey's fuel still missing):** carry it to A4 with a trigger. The triage trigger set at A2 (Dozey seats growing slower) isn't met. Dozey triage starts if A4's field fights show the Supper below 40%, or if checkpoint 1 testers never see Dozey wake.
+- **Ask 4 (planted Supper 0/32):** drop the claim from the build notes. The reviewer showed it is mostly an artefact: one opponent, a paper board unlike native ones, and an opponent undercounted by its Wisps.
+- **Simplify:** the bootstrap moves into `wave2b_growth_report.py`, replacing `growth_intervals.py`.
+- **Merge** once w2's fixes for the three failures, the ask 1 tests, the simplify and the build-notes edit pass the gate on a fresh merge. A narrow check of that range comes first.
+
+**Agreed by:** the scope review (no cuts) and the gate.
+
+### 10 Nov 2026 — S3 measurement and delivery: review calls
+**Source:** the scope review of `ideation/measure` `ce50d9d7..00ed62b9` (`evidence/review-s3-measure.md`): 13 keep, 0 cut, 2 simplify, 1 ask.
+
+**Picked:**
+- **Ask (ship the library while the field is off):** ship it. Plan §5 makes the library required in build 8's packs, and criterion 4's checklist wants it in the pack listing. The memory work (entry below) decides whether a player can turn the field on.
+- **Simplify 1:** `export_smoke.sh` gets one mode that requires the library and still boots a feature-off Linux export to check that the default opponents are Bots. As it stands, CI's export smoke would break the moment A6 commits the library.
+- **Simplify 2:** delete the nine old per-build scripts in `build/`. Git keeps them, and the plan says "the one export script".
+- **The reviewer's open question** (cut the 640 MB parse before settling the default) was already taken: w7 is loading only the dealt rivals.
+- **Merge** after w7's memory commit and these two simplifications pass a narrow review and the gate. A3.5 run 1 doesn't need S3 before then, since it also waits on the dials routine and Hedgerow's route fixes.
+
+**Agreed by:** the scope review (no cuts).
+
 ### 10 Nov 2026 — Done means: re-check calls
 **Source:** a fresh re-check of the fidelity fixes at `34d8397e` (`evidence/plan-to-done/done-means-recheck.md`).
 - Closed: cuts 2 and 3, and asks 1, 3 and 5.

@@ -189,6 +189,8 @@ def check_overlay_text(card: dict) -> list[str]:
 
 def can_lend(entry: dict) -> bool:
     """The same exclusions as RecruitUnit._can_lend: display metadata never changes this choice."""
+    if entry.get("id") == "pass3_hedgerow" and entry.get("ability") in {"mrs_burdock", "mrs_sorrel", "mr_crumb"}:
+        return False
     if entry.get("id") == "pass3_ooze" and entry.get("ability") in {
         "little_dollop",
         "bubble_and_squeak",
@@ -362,6 +364,7 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
         "pass3_bog",
         "pass3_hunter",
         "pass3_ooze",
+        "pass3_hedgerow",
         "reference_quilboar",
     }:
         return []

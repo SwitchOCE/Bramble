@@ -2,34 +2,35 @@
  "cards": {
   "mrs_burdock": {
    "keep": 1,
-   "buy": 5
+   "buy": 5,
+   "row": "front"
   },
   "mr_crumb": {
    "keep": 0,
    "buy": 6
   },
   "sleeping_partner": {
-   "keep": 5,
+   "keep": 7,
    "row": "back"
   },
   "mrs_sorrel": {
    "keep": 6
   },
   "alderman_dozey": {
-   "keep": 6,
+   "keep": 18,
    "row": "back"
   },
   "honorary_treasurer": {
-   "keep": 8,
-   "row": "back",
-   "larder_value": 1.0
+   "keep": 12,
+   "row": "front",
+   "larder_value": 2
   },
   "standing_committee": {
-   "keep": 12
+   "keep": 16
   },
   "old_mother_mast": {
-   "keep": 6,
-   "larder_value": 0.5
+   "keep": 12,
+   "larder_value": 1
   },
   "nan_toadstool": {
    "keep": 0,
@@ -148,15 +149,14 @@
    "keep": 8
   },
   "beadle_warrenby": {
-   "keep": 5,
-   "row": "back"
+   "keep": 10
   },
   "dr_urchin": {
-   "keep": 6,
-   "row": "front"
+   "keep": 12,
+   "row": "back"
   },
   "sergeant_at_conkers": {
-   "keep": 5,
+   "keep": 8,
    "faces": "across"
   },
   "whirligig_beetle": {
@@ -468,25 +468,19 @@
    "row": "front"
   },
   "mr_pym": {
-   "keep": 5,
-   "row": "back",
-   "larder_value": 0.3
+   "keep": 7
   },
   "mrs_clover": {
-   "keep": 6,
-   "row": "back"
+   "keep": 8
   },
   "mrs_mallow": {
-   "keep": 7,
-   "row": "back"
+   "keep": 14
   },
   "goodman_hayward": {
-   "keep": 9,
-   "row": "back",
-   "larder_value": 0.3
+   "keep": 16
   },
   "squire_lollop": {
-   "keep": 13
+   "keep": 18
   },
   "signor_ranocchio": {
    "keep": 9,

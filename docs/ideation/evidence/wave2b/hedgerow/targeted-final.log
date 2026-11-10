@@ -1,0 +1,284 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-hedge-measured/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_bot_hedgerow.gd
+[0m* test_supper_holds_food_until_native_wake_then_feeds_the_carry
+* test_supper_cash_is_reserved_for_scheduled_climbs_and_priority_engines
+* test_third_dozey_waits_until_after_a_wake
+* test_placement_preserves_sleep_then_moves_a_large_carry_after_a_wake
+* test_crumb_is_played_into_dozey_before_his_real_sold_pass_lands
+* test_parish_cash_and_floor_growth_value_are_live
+* test_parish_sells_a_kit_only_when_mallow_will_not_double_it
+* test_pinned_strategy_keeps_early_tempo_flexibility
+* test_ordinary_native_routes_climb_for_their_actual_engines
+* test_optional_treasury_cashes_once_with_hayward_then_holds_again
+* test_parish_keeps_buying_engine_copies_for_real_triples_on_a_full_board
+* test_parish_sparse_board_keeps_a_single_unbroken_line
+* test_native_cash_policy_does_not_run_on_frozen_hedgerow
+* test_actual_supper_line_reserves_only_the_next_scheduled_climb_shortfall
+* test_actual_parish_line_uses_its_earlier_climb_and_next_turn_income
+* test_actual_supper_declines_late_partner_and_pym_offers
+* test_actual_supper_waits_for_written_climb_even_with_plenty_of_gold
+* test_actual_supper_protects_reserved_gold_from_ordinary_offers_and_refreshes
+[1m18/18 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_recruit.gd
+[0m* test_crumb_play_and_sale_pass_normal_and_golden_exclude_tribe_and_keep_permanent
+* test_dozey_food_uses_all_three_real_larder_values_normal_and_golden
+* test_wake_repeats_every_three_turns_after_all_acorn_and_pass_listeners
+* test_wake_includes_standing_bonus_but_not_slot_or_next_combat_stats
+* test_move_and_triple_restart_wake_without_losing_food
+* test_golden_wake_is_not_fourfold_and_c_uses_threefold
+* test_mallow_b_doubles_two_and_golden_four_smallest_hedgerow_only
+* test_doubling_and_timed_payout_ignore_extra_end_turn_firings_with_guard_off_proof
+* test_partner_counts_only_touching_hedgerow_and_golden_doubles_payout
+* test_clover_recruit_shares_source_stats_no_limit_normal_and_golden
+* test_pym_counts_combining_and_beadle_counts_only_actual_acorns_uncapped
+* test_golden_pym_and_beadle_double_pass_values
+* test_hayward_cash_and_feed_create_uncapped_bonus_on_future_owned_and_held_units
+* test_treasurer_keeps_larder_growth_after_cashing_normal_and_golden
+* test_committee_reads_runt_once_and_only_touches_hedgerow
+* test_lollop_copies_freeze_biggest_and_never_feed_it_guard_off_counterexample
+* test_mast_caps_each_source_and_caps_off_counterexample
+* test_wake_view_pips_cycle_and_reset_on_move
+* test_hayward_frozen_shop_preview_precedes_observer_and_excludes_shy_and_other_tribes
+[1m19/19 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_shares.gd
+[0m* test_committee_normal_and_golden_share_runt_with_the_whole_hedgerow_run
+* test_lollop_normal_and_golden_reads_biggest_other_tribe_once_at_start
+* test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns
+* test_lollop_normal_and_golden_can_read_a_shy_biggest_without_buffing_it
+* test_recruit_growth_uses_strongest_printed_or_borrowed_text_with_guard_off_proof
+[1m5/5 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_content.gd
+[0m* test_fixed_authored_normal_and_golden_faces_and_native_factors
+* test_all_hedgerow_rates_are_registered_and_match_exact_paper_b_and_c
+* test_golden_dozey_wake_is_independent_from_food_and_normal_wake
+* test_rate_overrides_rewrite_faces_and_native_parameters
+* test_reused_summon_effects_keep_tokens_normal_and_follow_count_dials
+* test_c_wakes_and_mallow_targets_and_rate_overlay_remain_distinct
+* test_legacy_definitions_are_not_configured_without_a_native_marker
+* test_larder_value_override_changes_actual_items_gold_and_reminders
+* test_archived_rates_without_larder_dial_leave_the_old_items_untouched
+[1m9/9 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_combat.gd
+[0m* test_urchin_has_native_body_and_normal_golden_bristle_without_the_old_pass
+* test_urchin_protects_last_other_hedgerow_across_gaps_and_ignores_other_tribes
+* test_urchin_alone_has_no_hunker_target
+* test_hunker_halves_only_incoming_defending_attack_damage_rounded_up
+* test_hunker_does_not_stack_with_intrinsic_hunker
+* test_hunker_retargets_when_the_last_unit_dies_and_ends_when_urchin_dies
+* test_hunker_follows_relocation_and_new_last_summon_and_cleans_departed_targets
+* test_overlapping_urchins_keep_protection_until_the_last_source_leaves
+* test_hunker_stops_while_urchin_is_inside_and_returns_when_he_comes_out
+* test_hunker_text_theft_moves_protection_to_the_thiefs_current_side
+* test_stealing_a_protected_units_text_does_not_steal_its_borrowed_aura
+* test_clover_uses_current_source_stats_and_golden_share_without_a_limit
+* test_clover_fraction_dial_floors_each_current_stat_and_reads_ring_aura
+* test_clover_ignores_offtribe_and_enemy_summons_and_dead_sources
+* test_sorrel_normal_golden_summon_plain_tokens_and_denied_space_spills
+* test_backrow_sorrel_spills_each_attempt_and_clover_cannot_buff_a_denied_body
+* test_sergeant_throws_the_smallest_item_across_and_only_spends_one
+* test_golden_sergeant_takes_two_sequential_current_stat_shares_without_doubling_share
+* test_sergeant_no_enemy_or_ammo_spends_nothing_and_golden_one_item_only_throws_once
+* test_sergeant_hoard_clamps_at_zero_attack_one_health_and_shares_ammo_between_sources
+* test_sergeant_carry_consumes_actual_items_after_the_fight
+* test_borrowed_clover_uses_strongest_once_on_every_summon_with_guard_off_counterexample
+* test_borrowed_sergeant_uses_strongest_once_and_can_replay_with_guard_off_counterexample
+* test_hedgerow_native_audit_preserves_all_sixteen_and_rejects_unknown_abilities
+[1m24/24 passed.
+[0m[4m
+
+res://tests/ui/test_pass3_hedge_ui.gd
+[0m* test_normal_and_golden_shares_use_the_existing_reader_on_phone_and_desktop
+* test_wake_pips_and_runt_circle_are_wordless_and_clear_when_state_changes
+* test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header
+* test_hunker_uses_a_wordless_shield_and_clears_with_the_aura_status
+[1m4/4 passed.
+[0m[4m
+
+res://tests/core/test_unit_library.gd
+[0m* test_loads_every_unit_file_without_errors
+* test_sorted_by_tier_then_name
+* test_numbers_are_ints
+* test_unknown_unit_is_empty
+* test_unbuilt_units_lists_units_with_unbuilt_mechanics
+* test_keyword_text_from_source_notes
+* test_keyword_text_for_quick
+* test_bad_files_are_skipped_and_reported
+* test_missing_directory_is_reported
+[1m9/9 passed.
+[0m[4m
+
+res://tests/ui/test_portraits.gd
+[0m* test_the_slice_is_all_there
+* test_every_unit_and_token_has_its_own_portrait
+* test_every_spell_and_hand_item_has_its_own_portrait
+* test_a_created_pelt_shows_its_recorded_prey_on_tile_and_reader
+* test_every_hero_has_its_own_portrait
+* test_pending_portraits_name_only_real_cards
+[1m6/6 passed.
+[0m[4m
+
+res://tests/ui/test_fixture_port.gd
+[0m* test_fixture_numbers_are_ints
+* test_every_fixture_unit_view_has_keyword_text
+* test_new_game_then_end_turn_steps_states_and_sets_combat
+* test_recruit_actions_are_refused_with_a_reason
+* test_library_has_every_unit_sorted_by_tier
+* test_sandbox_fight_returns_the_nightshade_events
+[1m6/6 passed.
+[0m[4m
+
+res://tests/core/test_game_session.gd
+[0m* test_state_keys_match_fixture_6_1
+* test_unit_view_keys_match_fixture_6_2
+* test_bots_never_share_a_hero
+* test_round_one_state_3_2_1
+* test_human_actions
+* test_end_turn_starts_next_round_4_1_2_4_6_3
+* test_empty_board_loses_and_takes_damage_10_1_1
+* test_actions_after_game_over
+* test_same_round_eliminations_placed_by_health_10_2_2
+* test_ghost_for_an_odd_player_out_2_1_2
+* test_eliminated_units_return_to_pool_5_3_8
+* test_damage_cap_by_turn_and_alive_10_1_4
+* test_matchmaking_avoids_recent_opponents_2_3_2
+* test_matchmaking_everyone_once
+* test_dev_add_gold
+* test_dev_spawn_to_hand_is_created_and_not_from_the_pool
+* test_dev_spawn_completes_a_triple
+* test_dev_set_tier
+* test_dev_skip_turn_skips_only_the_humans_fight
+* test_fight_observer_sees_every_fight
+[1m20/20 passed.
+[0m[4m
+
+res://tests/core/test_engine_docs.gd
+[0m* test_every_schema_name_is_in_the_doc
+[1m1/1 passed.
+[0m[4m
+
+res://tests/core/test_combat_logging.gd
+[0m* test_last_blow_credit_and_results_are_identical_without_event_logging
+* test_native_posset_halving_preserves_actual_damage_credit_with_or_without_logging
+* test_last_stand_and_ghost_damage_use_identical_quiet_results
+[1m3/3 passed.
+[0m[4m
+
+res://tests/core/test_engines.gd
+[0m* test_last_stand_saves_from_two_and_five_once_with_armor_first
+* test_ghost_and_one_health_never_spend_the_save
+* test_four_left_lifts_cap_and_session_records_last_stand
+* test_engine_coverage_reports_unfired_rules_then_records_actual_events
+* test_last_blow_credits_exchange_attacker_and_uses_round_base
+* test_last_blow_credits_possets_death_effect_instead_of_declared_attacker
+* test_bitter_is_attack_loss_and_cannot_steal_last_blow
+* test_start_of_combat_wipe_stays_a_tie_even_after_lethal_effect_damage
+* test_nonlethal_effect_does_not_steal_last_blow_or_safety_limit_win
+* test_last_blow_uses_a_swapped_effect_owners_fighting_side
+* test_review_wasp_parasite_finishes_mutual_wipe_through_health_loss
+* test_session_ghost_fight_never_spends_last_stand_even_in_last_three
+* test_last_stand_does_not_fire_with_five_alive_or_when_disabled
+* test_battlegrounds_baseline_keeps_both_engines_off
+[1m14/14 passed.
+[0m[4m
+
+res://tests/core/test_field_normal_regression.gd
+[0m* test_normal_lobby_matches_complete_games_captured_after_wave2a_merge
+[1m1/1 passed.
+[0m[4m
+
+res://tests/core/test_committed_lines.gd
+[0m* test_priorities_add_to_hard_knowledge_without_mutating_it
+* test_committed_buy_rejects_an_unlisted_off_tribe_body
+* test_one_engine_copy_survives_carrier_retirement_but_duplicates_can_upgrade
+* test_ordinary_clear_slot_respects_line_only_engine_protection
+* test_carrier_clear_slot_respects_line_only_engine_protection
+* test_affordable_climb_can_precede_the_written_schedule
+* test_climb_does_not_spend_money_that_is_not_available
+* test_low_health_does_not_all_in_on_a_scheduled_climb
+* test_version_one_profiles_still_create_the_frozen_brain
+[1m9/9 passed.
+[0m[4m
+
+res://tests/core/test_wave1_lines.gd
+[0m* test_wave1_files_validate_and_normalize_every_operational_field
+* test_schema_rejects_bad_cards_rounds_types_and_switch_targets
+* test_each_wave1_line_plays_a_short_real_lobby_without_falling_back
+* test_tempo_switch_uses_homecoming_profile_at_declared_round
+* test_written_flight_limits_apply_and_do_not_change_ordinary_hard
+* test_historical_table_opt_out_still_uses_frozen_profile_data
+* test_accounting_roster_keeps_all_four_written_lines_and_four_blind_hard_seats
+* test_schema_rejects_duplicate_priorities_unknown_base_and_keep_home_min
+* test_schema_rejects_unknown_root_and_nested_keys_and_invalid_from_round
+* test_bog_and_hunters_files_load_from_declared_tribe_and_base_without_named_code
+* test_advisory_fields_are_opaque_retained_data_not_enforced_rules
+* test_executed_weights_reserves_and_commit_round_still_reject_bad_types
+[1m12/12 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_bots.gd
+[0m* test_engine_keeps_soup_nell_aspic_and_elder_over_large_new_bodies
+* test_only_the_best_engine_copy_is_protected
+* test_meal_route_bypasses_the_pin_only_to_feed_a_real_digest_belly
+* test_a_real_engine_offer_is_not_bought_into_an_empty_stomach
+* test_first_empty_dollop_moves_whole_to_the_new_bubble
+* test_golden_dollop_is_not_migrated
+* test_second_stomach_waits_three_turns_and_a_scouted_answer_preserves_it
+* test_aspic_feeds_front_carry_and_nell_touches_it
+* test_pot_luck_reserves_stay_out_of_hasty_when_the_scout_shows_a_carry
+* test_a_large_slice_is_food_only_in_the_engine_line
+* test_freeze_does_not_take_nells_meal_for_generic_shop_quality
+* test_line_source_is_strictly_valid_and_food_uses_the_same_legal_path
+* test_meal_valuation_includes_the_live_soup_layer_exactly_once
+* test_six_protected_investments_allow_a_seventh_engine_but_a_spare_keeps_the_gap
+* test_first_digest_purchase_replaces_a_weak_body_instead_of_becoming_a_reserve
+* test_bubble_upgrade_is_played_then_receives_the_old_dollop_whole
+* test_tempo_replaces_dead_aspic_while_the_front_carry_engine_keeps_her
+[1m17/17 passed.
+[0m[4m
+
+res://tests/core/test_free_choice.gd
+[0m* test_suite_seats_survive_the_lobby_without_pins
+* test_equal_bodies_have_equal_value_for_every_tribe
+* test_shop_purchase_follows_value_not_a_tribe_route
+* test_final_board_majority_and_mixed_labels
+* test_real_lobby_turns_keep_every_seat_free_to_choose
+* test_tokens_do_not_dilute_tribes_and_pluralities_explain_mixed_boards
+* test_plain_arm_ignores_buy_keep_hints_without_mutating_shared_knowledge
+* test_plain_arm_real_lobby_keeps_routes_empty
+[1m8/8 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts              18
+Tests               185
+Passing Tests       185
+Asserts            4649
+Time              227.4s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/hedgerow/hand-off.xml

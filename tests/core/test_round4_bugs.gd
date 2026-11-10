@@ -10,9 +10,12 @@ const FightLog := preload("res://tools/play/play_fight_log.gd")
 
 
 func test_bots_leave_every_human_hero_choice_available() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	# A configured copy per game: the overlay is built once a run (tests/core/library_cache.gd).
 	for game_seed: int in range(1, 41):
-		var session: GameSession = GameSession.create(game_seed, library, GameConfig.full_game())
+		var config: GameConfig = GameConfig.full_game()
+		var session: GameSession = GameSession.create(
+			game_seed, TestLibraries.configured(config), config
+		)
 		var offer: PackedStringArray = session.hero_offer_of(GameSession.HUMAN_ID)
 		assert_eq(session.choose(game_seed % offer.size()), "")
 		var heroes: Dictionary = {}
@@ -89,7 +92,7 @@ func test_row_swap_logs_a_slot_and_side_changes_keep_ownership() -> void:
 
 
 func test_echo_card_explains_last_orders_zero_repeat() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var card: Dictionary = library.get_unit("pipistrelle_echo")
 	# The wording pass moved this ruling off the card face to its details (second layer).
 	assert_string_contains(str(card.get("details", "")), "Last Orders repeats give no stats")

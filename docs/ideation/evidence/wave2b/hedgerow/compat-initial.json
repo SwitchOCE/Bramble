@@ -1,0 +1,266 @@
+{
+  "tests": 360,
+  "failures": 0,
+  "seconds": 342.621,
+  "files": [
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.815394"
+    },
+    {
+      "name": "tests/ui/test_engines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.996077"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.193522"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.020579"
+    },
+    {
+      "name": "tests/core/test_pass2_followup_review.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.880292"
+    },
+    {
+      "name": "tests/core/test_review3_dozey.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.688434"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.410022"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.147845"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.007941"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.018612"
+    },
+    {
+      "name": "tests/ui/test_followup_tribes56.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.037687"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_recruit.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "11.614955"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_combat.gd",
+      "tests": "27",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.440019"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_content.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.965215"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "17",
+      "failures": "0",
+      "skipped": "0",
+      "time": "16.034962"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_start.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.618636"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.940393"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "58.432512"
+    },
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "13",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.793113"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_recruit.gd",
+      "tests": "18",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.826524"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_shares.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.928785"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_content.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.104299"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_combat.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.077187"
+    },
+    {
+      "name": "tests/core/test_review3_mast.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.941872"
+    },
+    {
+      "name": "tests/core/test_round3_acorns.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.082937"
+    },
+    {
+      "name": "tests/core/test_round4_geometry.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.553483"
+    },
+    {
+      "name": "tests/core/test_pass2_a.gd",
+      "tests": "18",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.463197"
+    },
+    {
+      "name": "tests/core/test_pass2_rules.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.080441"
+    },
+    {
+      "name": "tests/core/test_fight_capture.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "25.080938"
+    },
+    {
+      "name": "tests/core/test_slice_hedgerow.gd",
+      "tests": "22",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.210143"
+    },
+    {
+      "name": "tests/core/test_review_tribes56_urchin.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.383438"
+    },
+    {
+      "name": "tests/core/test_pass3_pool_replays.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.772283"
+    },
+    {
+      "name": "tests/ui/test_pass2_ui.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.088225"
+    },
+    {
+      "name": "tests/ui/test_clarity.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.647561"
+    },
+    {
+      "name": "tests/ui/test_pass3_hedge_ui.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.353475"
+    },
+    {
+      "name": "tests/core/test_committed_lines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "25.815889"
+    },
+    {
+      "name": "tests/core/test_wave1_lines.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "63.038697"
+    }
+  ]
+}

@@ -1,0 +1,690 @@
+{
+  "units": [
+    {
+      "id": "mrs_burdock",
+      "name": "Mrs Burdock, Expecting Again",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "When played: summon a 1/1 Kit behind this. Spill.",
+      "golden_text": "When played: summon two 1/1 Kits behind this. Spill.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "on_play",
+          "name": "spill_kit",
+          "do": {
+            "effect": "summon",
+            "unit": "kit",
+            "copies": 1,
+            "at": "behind",
+            "spill": true,
+            "golden": false
+          }
+        }
+      ],
+      "keywords": [
+        "Spill"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "hedgerow.md"
+      }
+    },
+    {
+      "id": "mr_crumb",
+      "name": "Mr Crumb",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "When played or sold: Pass +1/+1.",
+      "golden_text": "When played or sold: Pass +2/+2.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "on_play",
+          "name": "pass",
+          "do": {
+            "effect": "pass",
+            "attack": 1,
+            "health": 1
+          }
+        },
+        {
+          "id": "effect",
+          "trigger": "on_sell",
+          "name": "pass_sold",
+          "do": {
+            "effect": "pass",
+            "attack": 1,
+            "health": 1
+          }
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "sleeping_partner",
+      "name": "The Sleeping Partner",
+      "set": "slice",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Every 3 turns in this slot: get 2 Acorns. Three times in all.",
+      "golden_text": "Every 3 turns in this slot: get 4 Acorns. Three times in all.",
+      "details": "Moving it restarts the wait, not the count.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "wakes",
+          "if": [
+            {
+              "kind": "turns_in_slot",
+              "every": 3
+            }
+          ],
+          "do": {
+            "effect": "add_card",
+            "card": "acorn",
+            "count": 2
+          },
+          "lifetime": 3
+        }
+      ],
+      "keywords": [
+        "Acorn"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      },
+      "turns_goal": 3,
+      "turns_repeat": 3
+    },
+    {
+      "id": "mrs_clover",
+      "name": "Mrs Clover, Midwife",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "After you summon a unit: give it +1/+1. Twice a turn.",
+      "golden_text": "After you summon a unit: give it +2/+2. Twice a turn.",
+      "details": "Any tribe\u2019s summons count, in either phase.",
+      "mechanics": [
+        {
+          "id": "mrs_clover",
+          "stats": 1,
+          "limit": 2
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    },
+    {
+      "id": "mr_pym",
+      "name": "Mr Pym",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "After you get a Stash: Pass +2/+2.",
+      "golden_text": "After you get a Stash: Pass +4/+4.",
+      "details": "Counts a Stash gained whole or formed by three Acorns. Does not count a Great Hoard.",
+      "mechanics": [
+        {
+          "id": "mr_pym",
+          "stats": 2
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    },
+    {
+      "id": "mrs_sorrel",
+      "name": "Mrs Sorrel, Harassed",
+      "set": "slice",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "After this attacks: summon a 1/1 Shrewlet behind this. Spill.",
+      "golden_text": "After this attacks: summon two 1/1 Shrewlets behind this. Spill.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "after_attack",
+          "name": "spill_shrewlet",
+          "do": {
+            "effect": "summon",
+            "unit": "shrewlet",
+            "copies": 1,
+            "at": "behind",
+            "spill": true,
+            "golden": false
+          }
+        }
+      ],
+      "keywords": [
+        "Spill"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "hedgerow.md"
+      }
+    },
+    {
+      "id": "mrs_mallow",
+      "name": "Mrs Mallow, Feeding Them Up",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "End of Turn: your smallest unit gains +1/+1.",
+      "golden_text": "End of Turn: your smallest unit gains +2/+2.",
+      "details": "Smallest means Attack plus Health. Skip Shy units. Ties go to the earlier slot in the zigzag F1-B1-F2-B2-F3-B3-F4. This can choose itself.",
+      "mechanics": [
+        {
+          "id": "mrs_mallow",
+          "stats": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    },
+    {
+      "id": "dr_urchin",
+      "name": "Dr Urchin",
+      "set": "slice",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Bristle 2. After this pricks: Pass +1 Attack.",
+      "golden_text": "Bristle 4. After this pricks: Pass +2 Attack.",
+      "mechanics": [
+        {
+          "id": "urchin",
+          "n": 2,
+          "attack": 1
+        }
+      ],
+      "keywords": [
+        "Bristle",
+        "Pass"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "sergeant_at_conkers",
+      "name": "Sergeant-at-Conkers",
+      "set": "slice",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Start of Combat: throw your smallest Acorn at the enemy across for 3 damage per gold.",
+      "golden_text": "Start of Combat: throw your smallest Acorn at the enemy across for 6 damage per gold.",
+      "details": "The Acorn is spent. With no enemy across, it stays in hand.",
+      "mechanics": [
+        {
+          "id": "sergeant",
+          "damage": 3
+        }
+      ],
+      "keywords": [
+        "Acorn"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "alderman_dozey",
+      "name": "Alderman Dozey",
+      "set": "slice",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Acorns played on this give +1/+1 per 2 gold. After 3 turns in this slot: double its stats, up to +8/+8.",
+      "golden_text": "Acorns played on this give +2/+2 per 2 gold. After 3 turns in this slot: double its stats, up to +16/+16.",
+      "details": "Feeding rounds up. Its permanent buffs cap at +12/+12.",
+      "golden_details": "Feeding rounds up. Its permanent buffs cap at +24/+24.",
+      "mechanics": [
+        {
+          "id": "eats_acorns",
+          "per_gold": 1,
+          "gold_step": 2
+        },
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "wakes",
+          "once": true,
+          "if": [
+            {
+              "kind": "turns_in_slot",
+              "at_least": 3
+            }
+          ],
+          "do": {
+            "effect": "multiply",
+            "factor": 2,
+            "target": {
+              "select": "self"
+            },
+            "most": 8
+          }
+        }
+      ],
+      "keywords": [
+        "Acorn"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      },
+      "turns_goal": 3,
+      "permanent_buff_cap": 12,
+      "overlay_text": {
+        "rate": {
+          "text": "Acorns played on this give +1/+1 per 2 gold. End of Turn: after 3 turns in this slot, double its stats, up to +8/+8.",
+          "golden_text": "Acorns played on this give +2/+2 per 2 gold. End of Turn: after 3 turns in this slot, double its stats, up to +16/+16."
+        },
+        "both": {
+          "text": "Acorns played on this give +1/+1 per 2 gold. End of Turn: after 3 turns in this slot, double its stats.",
+          "golden_text": "Acorns played on this give +2/+2 per 2 gold. End of Turn: after 3 turns in this slot, double its stats."
+        }
+      }
+    },
+    {
+      "id": "beadle_warrenby",
+      "name": "Beadle Warrenby",
+      "set": "slice",
+      "tier": 4,
+      "attack": 2,
+      "health": 4,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "After you get an Acorn: Pass +1/+1. Once a turn.",
+      "golden_text": "After you get an Acorn: Pass +2/+2. Once a turn.",
+      "mechanics": [
+        {
+          "id": "beadle",
+          "stats": 1,
+          "limit": 1
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      },
+      "details": "Acorns won in combat arrive next Recruit Phase. Combining Acorns is not gaining another Acorn."
+    },
+    {
+      "id": "honorary_treasurer",
+      "name": "The Honorary Treasurer",
+      "set": "slice",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "+1/+1 per 3 gold of held Acorns, up to +8/+8.",
+      "golden_text": "+2/+2 per 3 gold of held Acorns, up to +16/+16.",
+      "mechanics": [
+        {
+          "id": "larder_stats",
+          "per": 1,
+          "gold_step": 3,
+          "max_steps": 8
+        }
+      ],
+      "keywords": [
+        "Acorn"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "goodman_hayward",
+      "name": "Goodman Hayward",
+      "set": "slice",
+      "tier": 5,
+      "attack": 4,
+      "health": 7,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +1/+1.",
+      "golden_text": "After you play a Stash or Great Hoard: Hedgerow folk touching this gain +2/+2.",
+      "details": "Cashing the item or feeding it to Alderman Dozey counts as playing it. Touching follows the unbroken zigzag through this unit, including itself.",
+      "mechanics": [
+        {
+          "id": "goodman_hayward",
+          "stats": 1
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    },
+    {
+      "id": "standing_committee",
+      "name": "The Standing Committee",
+      "set": "slice",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Start of Combat: give units touching this +1/+1, or +2/+1 if all 7 touch.",
+      "golden_text": "Start of Combat: give units touching this +2/+2, or +4/+2 if all 7 touch.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "committee",
+          "if": [
+            {
+              "kind": "count",
+              "target": {
+                "select": "touching"
+              },
+              "at_most": 6
+            }
+          ],
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "target": {
+              "select": "touching"
+            },
+            "health": 1
+          }
+        },
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "full_committee",
+          "if": [
+            {
+              "kind": "count",
+              "target": {
+                "select": "touching"
+              },
+              "at_least": 7
+            }
+          ],
+          "do": {
+            "effect": "buff",
+            "attack": 2,
+            "target": {
+              "select": "touching"
+            },
+            "health": 1
+          }
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    },
+    {
+      "id": "squire_lollop",
+      "name": "Squire Lollop, Lord of the Manor",
+      "set": "slice",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Start of Combat: units touching this gain +1/+1, or +2/+2 if all 7 touch.",
+      "golden_text": "Start of Combat: units touching this gain +2/+2, or +4/+4 if all 7 touch.",
+      "details": "Touching is the unbroken zigzag F1-B1-F2-B2-F3-B3-F4 through this unit, including itself.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "lollop",
+          "if": [
+            {
+              "kind": "count",
+              "target": {
+                "select": "touching"
+              },
+              "at_most": 6
+            }
+          ],
+          "do": {
+            "effect": "buff",
+            "attack": 1,
+            "health": 1,
+            "target": {
+              "select": "touching"
+            }
+          }
+        },
+        {
+          "id": "effect",
+          "trigger": "start_of_combat",
+          "name": "full_lollop",
+          "if": [
+            {
+              "kind": "count",
+              "target": {
+                "select": "touching"
+              },
+              "at_least": 7
+            }
+          ],
+          "do": {
+            "effect": "buff",
+            "attack": 2,
+            "health": 2,
+            "target": {
+              "select": "touching"
+            }
+          }
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "docs/ideation/content/pass2-a.md",
+        "note": "Pass 2 review calls in DECISIONS.md take precedence."
+      }
+    },
+    {
+      "id": "old_mother_mast",
+      "name": "Old Mother Mast",
+      "set": "slice",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "After your first unit buy each turn: get an Acorn, or 2 if you have a Great Hoard.",
+      "golden_text": "After your first unit buy each turn: get 2 Acorns, or 4 if you have a Great Hoard.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "on_unit_bought",
+          "name": "interest",
+          "limit": 1,
+          "if": [
+            {
+              "kind": "holds_item",
+              "card": "great_hoard",
+              "not": true
+            }
+          ],
+          "do": {
+            "effect": "add_card",
+            "card": "acorn",
+            "count": 1
+          },
+          "subject": "other"
+        },
+        {
+          "id": "effect",
+          "trigger": "on_unit_bought",
+          "name": "interest",
+          "limit": 1,
+          "if": [
+            {
+              "kind": "holds_item",
+              "card": "great_hoard"
+            }
+          ],
+          "do": {
+            "effect": "add_card",
+            "card": "acorn",
+            "count": 2
+          },
+          "subject": "other"
+        }
+      ],
+      "keywords": [
+        "Acorn"
+      ],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    }
+  ]
+}

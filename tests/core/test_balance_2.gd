@@ -5,6 +5,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const SharedLobby := preload("res://tests/core/shared_lobby.gd")
 const F1: int = 0
 const F2: int = 1
 const F3: int = 2
@@ -41,13 +42,12 @@ func test_full_game_has_40_health_and_arm_b() -> void:
 
 
 func test_a_real_game_starts_on_40_and_damage_is_bounded_by_base_plus_seven() -> void:
-	var config: GameConfig = GameConfig.full_game()
-	config.set_value("bots", BotLobby.seats(BotLevel.HARD))
-	config.set_value("human_bot", "hard:varied")
-	var session := GameSession.create(5, UnitLibrary.load_dir(), config)
-	while not session.is_over():
-		session.end_turn()
-	var rows: Array = session.get_game_log()["players"]
+	# The run's shared Hard lobby (tests/core/shared_lobby.gd): the same seed-5 game this test
+	# used to play on its own.
+	var config: GameConfig = SharedLobby.config()
+	var lobby: Dictionary = SharedLobby.hard()
+	assert_true(lobby["over"], "the shared lobby finishes")
+	var rows: Array = lobby["game_log"]["players"]
 	var checked: int = 0
 	for value: Variant in rows:
 		var row: Dictionary = value

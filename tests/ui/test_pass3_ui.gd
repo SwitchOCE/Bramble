@@ -25,7 +25,7 @@ func test_all_wave1_cards_keep_readable_phone_rules_or_a_tap_target() -> void:
 	holder.size = Vector2(1920, 1080)
 	holder.theme = UiTheme.get_theme()
 	add_child_autofree(holder)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var count: int = 0
 	for definition: Dictionary in library.pool_units("slice"):
 		var tribes: Array = definition["tribes"]
@@ -221,7 +221,7 @@ func _away_screen(window: Vector2, hand_count: int = 1) -> RecruitScreen:
 		},
 	]
 	var hand: Array = []
-	var card: Dictionary = UnitViews.from_def(UnitLibrary.load_dir().get_unit("chiffchaff"))
+	var card: Dictionary = UnitViews.from_def(TestLibraries.current().get_unit("chiffchaff"))
 	for index: int in hand_count:
 		var copy: Dictionary = card.duplicate(true)
 		copy["iid"] = 1000 + index
@@ -313,7 +313,7 @@ func test_many_away_birds_scroll_with_a_full_hand_and_clear_when_they_land() -> 
 func test_crowded_pc_shop_uses_distinct_art_and_keeps_full_identity_in_the_view() -> void:
 	var screen: RecruitScreen = _away_screen(Vector2(1920, 1080))
 	var state: Dictionary = screen.port.get_state()
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var shop: Array = []
 	for id: String in [
 		"madame_ermeline", "his_highness", "grey_agnes", "madame_ermeline", "jenny_greenteeth"

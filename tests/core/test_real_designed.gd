@@ -7,7 +7,7 @@ const RECIPES: String = "res://tests/core/data/real_designed_recipes.json"
 
 func _document() -> Dictionary:
 	var recipes: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(RECIPES))
-	return RealDesignedBoards.document(recipes, UnitLibrary.load_dir())
+	return RealDesignedBoards.document(recipes, TestLibraries.current())
 
 
 func test_all_eight_setups_use_current_cards_complete_fight_inputs_and_pass3_timing() -> void:
@@ -22,7 +22,7 @@ func test_all_eight_setups_use_current_cards_complete_fight_inputs_and_pass3_tim
 		assert_eq(board["layout"], "blind")
 		assert_eq(board["board"].size(), 7)
 		assert_eq(board["slots"].size(), 7)
-		var library: UnitLibrary = FightCapture.library_for(config, UnitLibrary.load_dir())
+		var library: UnitLibrary = FightCapture.library_for(config, TestLibraries.current())
 		for spec: Dictionary in board["board"]:
 			assert_false(library.get_unit(str(spec["def_id"])).is_empty())
 		var result: Dictionary = FieldCombat.fight(board, board, 149051, library)

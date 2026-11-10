@@ -205,6 +205,7 @@ func _smart_turn() -> void:
 	_choose_build()
 	_open_with_a_plan()
 	BotOoze.prepare(self)
+	BotHedgerow.prepare(self)
 	_cast_spells(false)
 	BotHeld.fly_turn(_player, _rules, value, _round_now)
 	_settle()
@@ -267,7 +268,11 @@ func _climb(leftover: bool) -> void:
 			and _player.gold - cost < _rules.unit_cost(_player)
 		):
 			return
-		if not _pay(cost, 100.0 if not leftover else 0.0):
+		if not _pay(
+			cost,
+			100.0 if not leftover else 0.0,
+			not leftover or not BotHedgerow.holds(_player, value)
+		):
 			return
 		if _rules.tier_up(_player) != "":
 			return
@@ -304,7 +309,7 @@ func _shop_loop() -> void:
 		if not offer.is_empty():
 			var cost: int = offer["cost"]
 			var gain: float = offer["gain"]
-			if _pay(cost, gain) and _buy_offer(offer):
+			if _pay(cost, gain, BotHedgerow.offer_cash(self, offer)) and _buy_offer(offer):
 				continue
 		var most: int = mini(
 			level.max_refreshes,
@@ -337,6 +342,11 @@ func _best_offer() -> Dictionary:
 			if level.reads_text and not BotHunt.wants_poached(_player, _player.shop[index]):
 				continue
 			var unit_cost: int = _unit_offer_cost(_player.shop[index])
+			if (
+				unit_cost > _player.gold - _held_back()
+				and not BotHedgerow.cash_purchase(_player, value, _player.shop[index])
+			):
+				continue
 			if unit_cost > spare:
 				continue
 			var gain: float = _unit_gain(_player.shop[index])
@@ -350,6 +360,8 @@ func _best_offer() -> Dictionary:
 		var item: HandItem = _player.shop_spells[index]
 		var cost: int = maxi(1, _rules.spell_cost(_player, item))
 		if _rules.spell_cost(_player, item) > spare or value.has_flag(item.def_id(), "avoid"):
+			continue
+		if cost > _player.gold - _held_back() and BotHedgerow.holds(_player, value):
 			continue
 		if not _can_aim(item.aim()):
 			continue
@@ -369,6 +381,8 @@ func _best_offer() -> Dictionary:
 
 ## A unit's gain over what it would replace; not positive when the bot shouldn't buy it.
 func _unit_gain(unit: RecruitUnit) -> float:
+	if not BotHedgerow.wants_purchase(_player, value, unit):
+		return 0.0
 	var meal: float = BotOoze.meal_gain(self, unit)
 	if meal >= 0.0:
 		return meal
@@ -380,7 +394,7 @@ func _unit_gain(unit: RecruitUnit) -> float:
 		and not value.flexible_purchases(_player, _round_now)
 	):
 		return 0.0
-	return BotCarrier.unit_gain(self, unit)
+	return BotHedgerow.purchase_gain(self, unit, BotCarrier.unit_gain(self, unit))
 
 
 func _ordinary_unit_gain(unit: RecruitUnit) -> float:
@@ -423,6 +437,7 @@ func _room_left() -> int:
 	var most: int = CoreUtil.to_int(value.strategy.get("max_units", BoardGeometry.SLOTS))
 	var hero_hint: Dictionary = knowledge.hero(str(_player.hero.get("id", "")))
 	most = mini(most, CoreUtil.to_int(hero_hint.get("max_units", BoardGeometry.SLOTS)))
+	most = mini(most, BotHedgerow.max_bodies(_player, value))
 	most = mini(most, BotOoze.max_bodies(_player, value, _can_replace))
 	return mini(most, BoardGeometry.SLOTS) - _player.board_count()
 
@@ -491,8 +506,12 @@ func _unit_offer_cost(unit: RecruitUnit) -> int:
 	return _rules.unit_cost(_player, unit)
 
 
+func _belly_for(unit: RecruitUnit) -> int:
+	return BotHeld.best_belly(_player, value, unit)
+
+
 func _buy_belly(unit: RecruitUnit) -> int:
-	var slot: int = BotHeld.best_belly(_player, value, unit)
+	var slot: int = _belly_for(unit)
 	var no_room: bool = _room_left() <= _player.hand.size()
 	return slot if BotHeld.buys_into_belly(_player, value, unit, slot, no_room) else -1
 
@@ -502,7 +521,7 @@ func _refresh_worth_it() -> bool:
 	var cost: int = _rules.refresh_cost(_player)
 	if _burn_loss(cost) >= BotEval.GOLD_POINTS:
 		return false
-	var after: int = _player.gold - cost + _player.larder() - _held_back()
+	var after: int = BotHedgerow.refresh_budget(self, cost)
 	if after < _rules.unit_cost(_player):
 		return false
 	return _player.gold >= cost
@@ -579,13 +598,13 @@ func _climb_savings() -> int:
 
 
 ## Makes `cost` gold available, cashing hand items if the purchase is worth more than holding them.
-func _pay(cost: int, gain: float) -> bool:
+func _pay(cost: int, gain: float, cash_allowed: bool = true) -> bool:
 	var burn_loss: float = _burn_loss(cost)
 	if burn_loss > 0.0 and gain <= burn_loss:
 		return false
 	if _player.gold >= cost:
 		return true
-	if _player.gold + _player.larder() < cost:
+	if not cash_allowed or _player.gold + _player.larder() < cost:
 		return false
 	if level.reads_text and gain <= _hold_value(cost - _player.gold):
 		return false
@@ -595,33 +614,23 @@ func _pay(cost: int, gain: float) -> bool:
 			break
 		_rules.play_item(_player, index, -1)
 		_settle()
-		return _pay(cost, gain)
+		return _pay(cost, gain, cash_allowed)
 	return _player.gold >= cost
 
 
 ## What holding this much gold in hand is worth: cards that read a Larder, say, give it a price.
 func _hold_value(gold: int) -> float:
-	var per_gold: float = BotEval._number(value.strategy.get("larder_value", 0.0))
-	for unit: RecruitUnit in _player.board:
-		if unit != null:
-			per_gold += BotEval._number(knowledge.card(unit.def_id()).get("larder_value", 0.0))
-	return gold * per_gold
+	return BotHedgerow.hold_value(self, gold)
 
 
 ## Item indexes that pay gold, cheapest first.
 func _items_by_gold() -> Array[int]:
-	var out: Array[int] = []
-	for index: int in _player.items.size():
-		if BotEval.item_gold(_player.items[index].def) > 0:
-			out.append(index)
-	out.sort_custom(
-		func(a: int, b: int) -> bool:
-			return BotEval.item_gold(_player.items[a].def) < BotEval.item_gold(_player.items[b].def)
-	)
-	return out
+	return BotHedgerow.item_indexes(_player)
 
 
 func _cash_one() -> void:
+	if BotHedgerow.holds(_player, value):
+		return
 	var indexes: Array[int] = _items_by_gold()
 	if not indexes.is_empty():
 		_rules.play_item(_player, indexes[0], -1)
@@ -641,9 +650,13 @@ func _play_hand() -> void:
 		if level.reads_text and BotBog.hold_frog(_player, unit, value):
 			index += 1
 			continue
+		if BotHedgerow.hold_hand(self, unit):
+			index += 1
+			continue
+		BotHedgerow.prepare_play(self, unit)
 		var slot: int = BotPlacer.play_slot(_player, unit, value)
 		if slot < 0 or _room_left() <= 0:
-			var belly: int = BotHeld.best_belly(_player, value, unit)
+			var belly: int = _belly_for(unit)
 			if belly >= 0 and _rules.swallow(_player, HeldUnits.HAND, index, belly) == "":
 				_settle()
 				continue
@@ -652,6 +665,7 @@ func _play_hand() -> void:
 			index += 1
 		_settle()
 		_place_burner_now(unit)
+		BotHedgerow.after_play(self)
 
 
 ## This is a real free move before shopping continues, so later keep/spend values see its fuel.
@@ -701,6 +715,8 @@ func _sell_replacement(slot: int) -> int:
 ## Casts spells and non-gold items in hand. Gold items wait for _pay. Cards that spend everything
 ## go last, once the shopping is done.
 func _cast_spells(last_too: bool) -> void:
+	if BotHedgerow.build(value) and BotHedgerow.parish(value):
+		BotHedgerow.cash_all(self)
 	var index: int = _player.items.size() - 1
 	while index >= 0:
 		if index < _player.items.size():
@@ -712,7 +728,13 @@ func _cast_spells(last_too: bool) -> void:
 		index -= 1
 
 
+func _spending_allowed(_cost: int, _card_def: Dictionary = {}) -> bool:
+	return true
+
+
 func _ready_to_cast(item: HandItem) -> bool:
+	if not _spending_allowed(0, item.def):
+		return false
 	if BotPass3.active(_player) and item.def_id() == "golden_egg" and BotPass3.hold_egg(_player):
 		return false
 	if not BotCommitment.can_cast(item.def, _player):
@@ -856,25 +878,7 @@ func _borrow_if_short() -> void:
 
 ## Units that eat Acorns: feed everything on the turn before they double, or once they have.
 func _feed_eaters() -> void:
-	if not level.reads_text:
-		return
-	for slot: int in BoardGeometry.SLOTS:
-		var unit: RecruitUnit = _player.board[slot]
-		if unit == null or unit.eat_rate() <= 0 or not unit.can_gain_permanent():
-			continue
-		var goal: int = CoreUtil.to_int(unit.def.get("turns_goal", 0))
-		if goal > 0 and unit.turns_in_slot < goal - 1:
-			continue
-		if goal > 0 and unit.turns_in_slot >= goal and _hold_value(1) > 0.0:
-			continue
-		for _step: int in _player.items.size():
-			if not unit.can_gain_permanent():
-				break
-			var indexes: Array[int] = _items_by_gold()
-			if indexes.is_empty():
-				return
-			if _rules.play_item(_player, indexes[indexes.size() - 1], slot) != "":
-				return
+	BotHedgerow.feed_eaters(self)
 
 
 ## The hero's activated power, when there's gold to spare or it's free.
@@ -888,6 +892,8 @@ func _maybe_power() -> void:
 	if plan == "triple_hunt" and not _hunting_below():
 		return
 	var cost: int = CoreUtil.to_int(power.get("cost", 0))
+	if not _spending_allowed(cost, power):
+		return
 	if plan == "spare" and _player.gold - cost < _held_back():
 		return
 	_use_power_now()

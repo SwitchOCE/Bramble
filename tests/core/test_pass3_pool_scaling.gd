@@ -98,7 +98,7 @@ func test_default_pass3_supper_exceeds_the_old_ceiling_with_size_caps_enabled() 
 
 
 func test_generated_reader_words_follow_json_defaults_and_cache_comparisons() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var config := GameConfig.full_game()
 	config.set_value("card_rate_limits", false)
 	var original: Dictionary = Pass3Rates.defaults()

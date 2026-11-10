@@ -1,0 +1,36 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-potluck-validation/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_potluck_constructed_recipe.gd
+[0m* test_declared_native_recipes_match_their_phase_budgets_and_real_belly_capacities
+[33m    [GUT WARNING]:  [0mWarn:  Float/Int comparison.  Got INT but expected FLOAT
+[33m    [GUT WARNING]:  [0mWarn:  Float/Int comparison.  Got INT but expected FLOAT
+[1m1/1 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Warnings              2
+
+Scripts               1
+Tests                 1
+Passing Tests         1
+Asserts              17
+Time              0.94s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/potluck-validation/recipe.xml

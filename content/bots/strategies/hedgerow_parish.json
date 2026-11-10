@@ -1,23 +1,30 @@
 {
  "id": "hedgerow_parish",
  "name": "The Full Parish",
- "shape": "wide, hoard",
+ "shape": "wide, raise the smallest",
  "needs_tribes": [
   "Hedgerow folk"
  ],
  "tribes": {
-  "Hedgerow folk": 5
+  "Hedgerow folk": 4
  },
  "units": {
-  "mrs_burdock": 4,
-  "mr_crumb": 4,
-  "mrs_sorrel": 5,
-  "standing_committee": 14,
-  "old_mother_mast": 6,
-  "earwig_mother": 3,
-  "beadle_warrenby": 8,
-  "dr_urchin": 4,
-  "sexton_beetle": 3
+  "mrs_mallow": 14.0,
+  "standing_committee": 13.12,
+  "squire_lollop": 12.25,
+  "goodman_hayward": 11.38,
+  "mrs_clover": 10.5,
+  "mrs_sorrel": 9.62,
+  "mrs_burdock": 8.75,
+  "dr_urchin": 7.88,
+  "mr_crumb": 7.0,
+  "beadle_warrenby": 6.12,
+  "sergeant_at_conkers": 5.25,
+  "honorary_treasurer": 4.38,
+  "mr_pym": 3.5,
+  "old_mother_mast": 2.62,
+  "sleeping_partner": 1.75,
+  "alderman_dozey": 0.88
  },
  "spells": {
   "bread_from_the_back": 3,
@@ -29,14 +36,17 @@
   "dame_farthing": 1
  },
  "rows": {
-  "mrs_sorrel": "front"
+  "dr_urchin": "back",
+  "mrs_sorrel": "front",
+  "mrs_burdock": "front"
  },
  "curve": [
+  2,
   4,
-  7,
-  9,
-  12,
-  14
+  6,
+  8,
+  10
  ],
- "power": 8
+ "power": 8,
+ "larder_value": 0
 }

@@ -1,6 +1,6 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument")
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func test_burner_is_available_at_tier_four_with_tier_four_supply() -> void:

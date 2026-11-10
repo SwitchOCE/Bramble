@@ -1,0 +1,20 @@
+{
+  "result": "5/5 pass",
+  "total_seconds": 4.074,
+  "scripts": [
+    {
+      "name": "tests/core/test_pass3_hedge_burdock.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.001245"
+    },
+    {
+      "name": "tests/core/test_supper_constructed_recipe.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.668977"
+    }
+  ]
+}

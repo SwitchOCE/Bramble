@@ -19,7 +19,7 @@ func test_clover_shares_two_buffs_between_recruiting_and_combat_normal_and_golde
 	for golden: bool in [false, true]:
 		for recruit_uses: int in [0, 1, 2]:
 			var kit := Kit.new()
-			kit.setup(GameConfig.full_game())
+			kit.setup(GameConfig.full_game(), false, Legacy.with_hedgerow(UnitLibrary.load_dir()))
 			kit.rules.start_phase(kit.player, 1)
 			var clover: RecruitUnit = kit.put("mrs_clover", 6, golden)
 			for index: int in recruit_uses:
@@ -40,7 +40,7 @@ func test_clover_shares_two_buffs_between_recruiting_and_combat_normal_and_golde
 
 func test_clover_recruit_limit_resets_at_the_next_recruit_phase() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, Legacy.with_hedgerow(UnitLibrary.load_dir()))
 	kit.rules.start_phase(kit.player, 1)
 	var clover: RecruitUnit = kit.put("mrs_clover", 6)
 	for slot: int in [0, 1, 2]:
@@ -59,7 +59,7 @@ func test_clover_recruit_limit_resets_at_the_next_recruit_phase() -> void:
 
 func test_clover_does_not_spend_a_buff_on_a_failed_summon() -> void:
 	var kit := Kit.new()
-	kit.setup()
+	kit.setup(null, false, Legacy.with_hedgerow(UnitLibrary.load_dir()))
 	var clover: RecruitUnit = kit.put("mrs_clover", 6)
 	var fillers: Array[String] = ["field_vole", "pill_bug", "mouse", "shrewlet", "drip", "kit"]
 	for slot: int in range(6):
@@ -76,7 +76,7 @@ func test_elders_buff_their_own_wobbly_drips_only_without_belly_replays() -> voi
 	for golden_drip: bool in [false, true]:
 		for golden_elder: bool in [false, true]:
 			var kit := Kit.new()
-			kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
+			kit.setup(null, false, Legacy.current_with_oozes())
 			var combat := _combat(
 				kit,
 				{
@@ -107,7 +107,7 @@ func test_elders_buff_their_own_wobbly_drips_only_without_belly_replays() -> voi
 
 func test_elder_does_not_buff_returned_enemy_prisoners() -> void:
 	var kit := Kit.new()
-	kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
+	kit.setup(null, false, Legacy.current_with_oozes())
 	var combat := _combat(
 		kit,
 		{0: Fight.u("hasty_pudding"), 6: Fight.u("elder_ooze")},
@@ -127,7 +127,7 @@ func test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_n
 ) -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
+		kit.setup(null, false, Legacy.current_with_oozes())
 		kit.card(
 			"legacy_return_start",
 			[
@@ -168,7 +168,7 @@ func test_early_spoils_does_not_pay_either_player_for_a_live_tie() -> void:
 	for round_number: int in [1, 4]:
 		var config := GameConfig.full_game()
 		config.set_value("hero_choice", false)
-		var session := GameSession.create(99, UnitLibrary.load_dir(), config)
+		var session := GameSession.create(99, TestLibraries.current(), config)
 		session._round = round_number
 		for id: int in [0, 1]:
 			var player: PlayerState = session._players[id]

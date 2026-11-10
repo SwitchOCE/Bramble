@@ -1,0 +1,775 @@
+{
+  "tests": 1145,
+  "passed": 1145,
+  "scripts": 109,
+  "seconds": 723.107,
+  "selection": "All core test_bot*, test_line*, test_pass3*; all UI scripts; mandatory core and frozen normal replay. All after final test/code edit.",
+  "script_results": [
+    {
+      "name": "tests/core/test_bot_brain.gd",
+      "tests": "36",
+      "failures": "0",
+      "skipped": "0",
+      "time": "91.708466"
+    },
+    {
+      "name": "tests/core/test_bot_burner.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.351037"
+    },
+    {
+      "name": "tests/core/test_bot_commitment.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.003799"
+    },
+    {
+      "name": "tests/core/test_bot_eggs.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.116713"
+    },
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "33",
+      "failures": "0",
+      "skipped": "0",
+      "time": "18.852462"
+    },
+    {
+      "name": "tests/core/test_bot_held.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "24.653723"
+    },
+    {
+      "name": "tests/core/test_bot_lanes.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.883422"
+    },
+    {
+      "name": "tests/core/test_bots.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.091994"
+    },
+    {
+      "name": "tests/core/test_bots_spend.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.621738"
+    },
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.889805"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.026729"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.333619"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "60.554397"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.326616"
+    },
+    {
+      "name": "tests/core/test_line_bans.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "24.62729"
+    },
+    {
+      "name": "tests/core/test_line_mixture.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.005281"
+    },
+    {
+      "name": "tests/core/test_line_policies.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.03988"
+    },
+    {
+      "name": "tests/core/test_pass3_birds_recruit.gd",
+      "tests": "22",
+      "failures": "0",
+      "skipped": "0",
+      "time": "13.518641"
+    },
+    {
+      "name": "tests/core/test_pass3_bog_bots.gd",
+      "tests": "19",
+      "failures": "0",
+      "skipped": "0",
+      "time": "13.473461"
+    },
+    {
+      "name": "tests/core/test_pass3_bog_combat.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.981294"
+    },
+    {
+      "name": "tests/core/test_pass3_bog_content.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.077923"
+    },
+    {
+      "name": "tests/core/test_pass3_bog_growth.gd",
+      "tests": "13",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.709318"
+    },
+    {
+      "name": "tests/core/test_pass3_bog_recruit.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.223613"
+    },
+    {
+      "name": "tests/core/test_pass3_bog_start.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.278211"
+    },
+    {
+      "name": "tests/core/test_pass3_bots.gd",
+      "tests": "23",
+      "failures": "0",
+      "skipped": "0",
+      "time": "24.014925"
+    },
+    {
+      "name": "tests/core/test_pass3_combat.gd",
+      "tests": "43",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.101615"
+    },
+    {
+      "name": "tests/core/test_pass3_fairies_recruit.gd",
+      "tests": "30",
+      "failures": "0",
+      "skipped": "0",
+      "time": "16.99564"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_burdock.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.688814"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_combat.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.060867"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_content.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.109881"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_recruit.gd",
+      "tests": "19",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.376682"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_shares.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.301054"
+    },
+    {
+      "name": "tests/core/test_pass3_hunter_content.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.658177"
+    },
+    {
+      "name": "tests/core/test_pass3_hunters_bots.gd",
+      "tests": "16",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.019162"
+    },
+    {
+      "name": "tests/core/test_pass3_hunters_combat.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.138259"
+    },
+    {
+      "name": "tests/core/test_pass3_hunters_pack.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.208927"
+    },
+    {
+      "name": "tests/core/test_pass3_hunters_recruit.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.285579"
+    },
+    {
+      "name": "tests/core/test_pass3_hunters_start.gd",
+      "tests": "16",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.688968"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "21",
+      "failures": "0",
+      "skipped": "0",
+      "time": "20.899793"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_combat.gd",
+      "tests": "27",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.254075"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_content.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.978157"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_recruit.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "11.66726"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_start.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.395438"
+    },
+    {
+      "name": "tests/core/test_pass3_pool_replays.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.669632"
+    },
+    {
+      "name": "tests/core/test_pass3_pool_rules.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.256288"
+    },
+    {
+      "name": "tests/core/test_pass3_pool_scaling.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.447592"
+    },
+    {
+      "name": "tests/core/test_pass3_presets.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.04941"
+    },
+    {
+      "name": "tests/core/test_pass3_rates.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.394101"
+    },
+    {
+      "name": "tests/core/test_pass3_whirligig.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.434446"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.008542"
+    },
+    {
+      "name": "tests/ui/test_big_numbers.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "27.667783"
+    },
+    {
+      "name": "tests/ui/test_birds_pass1_ui.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.683165"
+    },
+    {
+      "name": "tests/ui/test_burner_hint.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.125314"
+    },
+    {
+      "name": "tests/ui/test_cards.gd",
+      "tests": "16",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.889742"
+    },
+    {
+      "name": "tests/ui/test_clarity.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.764276"
+    },
+    {
+      "name": "tests/ui/test_combat_cue_lifetime.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "13.802335"
+    },
+    {
+      "name": "tests/ui/test_combat_declutter.gd",
+      "tests": "36",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.891768"
+    },
+    {
+      "name": "tests/ui/test_combat_face.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.033149"
+    },
+    {
+      "name": "tests/ui/test_combat_model.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.377679"
+    },
+    {
+      "name": "tests/ui/test_combat_pockets.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.015402"
+    },
+    {
+      "name": "tests/ui/test_combat_reader5_motion.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.870536"
+    },
+    {
+      "name": "tests/ui/test_combat_relocate.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.466261"
+    },
+    {
+      "name": "tests/ui/test_combat_wave2a.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.066027"
+    },
+    {
+      "name": "tests/ui/test_commitment.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.391046"
+    },
+    {
+      "name": "tests/ui/test_configured_rulings.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.091568"
+    },
+    {
+      "name": "tests/ui/test_content5_horseshoe.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.007523"
+    },
+    {
+      "name": "tests/ui/test_content5_redwing.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.29167"
+    },
+    {
+      "name": "tests/ui/test_core_port.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.893207"
+    },
+    {
+      "name": "tests/ui/test_declutter_capture.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.032615"
+    },
+    {
+      "name": "tests/ui/test_engines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.930093"
+    },
+    {
+      "name": "tests/ui/test_feedback5_details.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.721435"
+    },
+    {
+      "name": "tests/ui/test_feedback5_log.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.292436"
+    },
+    {
+      "name": "tests/ui/test_feedback5_sales.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.763797"
+    },
+    {
+      "name": "tests/ui/test_field_presentation.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.012761"
+    },
+    {
+      "name": "tests/ui/test_field_settings.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.910273"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.036621"
+    },
+    {
+      "name": "tests/ui/test_followup_tribes56.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.044414"
+    },
+    {
+      "name": "tests/ui/test_full_game.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.350439"
+    },
+    {
+      "name": "tests/ui/test_held_view.gd",
+      "tests": "22",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.007048"
+    },
+    {
+      "name": "tests/ui/test_lane_display.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.276013"
+    },
+    {
+      "name": "tests/ui/test_log_effect_words.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.63287"
+    },
+    {
+      "name": "tests/ui/test_log_note.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.268502"
+    },
+    {
+      "name": "tests/ui/test_look.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.577137"
+    },
+    {
+      "name": "tests/ui/test_milestone_b.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.504748"
+    },
+    {
+      "name": "tests/ui/test_nest_tile.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.059919"
+    },
+    {
+      "name": "tests/ui/test_pass2_ui.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.966379"
+    },
+    {
+      "name": "tests/ui/test_pass3_bog_ui.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.578281"
+    },
+    {
+      "name": "tests/ui/test_pass3_hedge_ui.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.301638"
+    },
+    {
+      "name": "tests/ui/test_pass3_ooze_ui.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.273001"
+    },
+    {
+      "name": "tests/ui/test_pass3_ui.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.78809"
+    },
+    {
+      "name": "tests/ui/test_pending_gains_ui.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.880249"
+    },
+    {
+      "name": "tests/ui/test_phone_layout.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.703467"
+    },
+    {
+      "name": "tests/ui/test_playthrough.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "31.897587"
+    },
+    {
+      "name": "tests/ui/test_polish.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.407461"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.441318"
+    },
+    {
+      "name": "tests/ui/test_records.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.006563"
+    },
+    {
+      "name": "tests/ui/test_reminder_slip.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.40007"
+    },
+    {
+      "name": "tests/ui/test_review_bog_preview.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.895933"
+    },
+    {
+      "name": "tests/ui/test_review_fixes.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.343833"
+    },
+    {
+      "name": "tests/ui/test_review_lender_tags.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.403452"
+    },
+    {
+      "name": "tests/ui/test_review_tribes56_log.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.896483"
+    },
+    {
+      "name": "tests/ui/test_ring_badge_layout.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.116475"
+    },
+    {
+      "name": "tests/ui/test_round4_finish.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.420979"
+    },
+    {
+      "name": "tests/ui/test_round4_guide.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.698855"
+    },
+    {
+      "name": "tests/ui/test_scale_feedback.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.038555"
+    },
+    {
+      "name": "tests/ui/test_scenarios.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.112527"
+    },
+    {
+      "name": "tests/ui/test_screens_smoke.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.274736"
+    },
+    {
+      "name": "tests/ui/test_slice_display.gd",
+      "tests": "11",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.090895"
+    },
+    {
+      "name": "tests/ui/test_sound.gd",
+      "tests": "25",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.048216"
+    }
+  ],
+  "static": "All four required commands pass",
+  "cpu": "27/27 pass",
+  "initial_fixture_correction": "The new Partner test initially undervalued its intended holder; added+2/+2 and explicit valuation-order precondition, retaining actual weakest-sale and B1-movement assertions. No production valuation changed."
+}

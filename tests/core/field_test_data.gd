@@ -13,7 +13,7 @@ static var _path: String = ""
 static func path() -> String:
 	if not _path.is_empty():
 		return _path
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var config := GameConfig.full_game()
 	var current := FieldLibrary.new()
 	var hashes: Dictionary = current._content_manifest()

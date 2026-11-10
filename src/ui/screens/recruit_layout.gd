@@ -231,8 +231,9 @@ func _layout_hand(x: float) -> void:
 	_hand_zone.size = Vector2(HAND_W, height)
 	_hand_panel.position = Vector2.ZERO
 	_hand_panel.size = _hand_zone.size
-	_hand_count.position = Vector2(170, 8)
-	_hand_count.size = Vector2(HAND_W - 200.0, 44)
+	var has_larder: bool = Data.i(state, "larder") > 0
+	_hand_count.position = Vector2(30 if has_larder else 170, 8)
+	_hand_count.size = Vector2(HAND_W - (60.0 if has_larder else 200.0), 44)
 	_hand_cards.position = Vector2(0, 66)
 	_hand_cards.size = Vector2(HAND_W, maxf(0.0, height - 66.0 - 12.0))
 	_hand_cards.arrange()
@@ -507,6 +508,7 @@ func _build_hand(wire: Callable) -> void:
 	_hand_zone.add_child(_hand_panel)
 	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
 	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_hand_count.tooltip_text = "Larder: the gold held in your Acorns, Stashes and Great Hoards."
 	_hand_zone.add_child(_hand_count)
 	_hand_cards = HandFan.new()
 	_hand_zone.add_child(_hand_cards)

@@ -23,10 +23,13 @@ func configure_line(id: String) -> void:
 	profile = entry.duplicate(true)
 	pinned_strategy = id
 	value.strategy = LinePolicies.strategy(id)
+	var engine_pieces: Array = profile.get("engine_pieces", [])
+	value.strategy["line_engine_pieces"] = engine_pieces.duplicate()
 	level.set_place(BotLevel.PLACE_BLIND)
 
 
 func play_turn(player: PlayerState, rules: RecruitRules, round_number: int) -> void:
+	BotHedgerow.remember_scout(player, rules, value)
 	var switch: Dictionary = profile.get("switch_to", {})
 	if not switch.is_empty() and round_number >= CoreUtil.to_int(switch["round"]):
 		configure_line("line_" + str(switch["line"]))
@@ -55,6 +58,9 @@ func _choose_build() -> void:
 
 
 func _open_with_a_plan() -> void:
+	if BotHedgerow.first_partner_offer(self):
+		_opening_plan = "tempo"
+		return
 	_opening_plan = "economy" if CoreUtil.to_bool(profile["engine"]) else "tempo"
 	super._open_with_a_plan()
 
@@ -71,11 +77,12 @@ func _climb(leftover: bool) -> void:
 
 
 func _held_back() -> int:
+	if BotHedgerow.build(value):
+		return BotHedgerow.climb_reserve(self)
 	var reserve: int = super._held_back()
 	if str(profile["tribe"]) == "Oozes":
 		if (
-			CoreUtil.to_bool(profile["engine"])
-			and _player.tier < UnitLibrary.TIERS
+			_player.tier < UnitLibrary.TIERS
 			and _round_now <= CoreUtil.to_int(profile["save_until"])
 			and _round_now + 1 == _target_round(_player.tier)
 		):
@@ -194,4 +201,29 @@ func _best_offer() -> Dictionary:
 
 
 func _refresh_worth_it() -> bool:
-	return ban_failure.is_empty() and super._refresh_worth_it()
+	return ban_failure.is_empty() and BotHedgerow.can_refresh(self) and super._refresh_worth_it()
+
+
+func _spending_allowed(cost: int, card_def: Dictionary = {}) -> bool:
+	return BotHedgerow.spending_allowed(self, cost, card_def)
+
+
+func _belly_for(unit: RecruitUnit) -> int:
+	if BotHedgerow.needs_board(self, unit):
+		return -1
+	return super._belly_for(unit)
+
+
+func _shop_loop() -> void:
+	var normal: int = level.max_refreshes
+	if BotHedgerow.build(value):
+		level.max_refreshes = MAX_STEPS
+	super._shop_loop()
+	level.max_refreshes = normal
+
+
+func _arrange() -> void:
+	super._arrange()
+	BotHedgerow.sergeant_cash(self)
+	if _player.has_meta(BotHedgerow.SCOUT_META):
+		_player.remove_meta(BotHedgerow.SCOUT_META)

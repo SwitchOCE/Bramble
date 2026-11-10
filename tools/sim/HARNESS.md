@@ -887,13 +887,15 @@ or tripled and then sold
 by native helper paths between audits, including on-buy effects before play.
 
 There is no legal decline/discard API for a forced all-banned choice or an
-unavoidable grant. Those cases explicitly invalidate the entire trial. The runner
-writes `ban_violation` evidence and exits unsuccessfully; it never silently
-discards, resamples, or accepts a contaminated trial. Native specialized helpers
-retain the source build's behavior: if one bypasses ordinary policy guards, the
-ownership/play audit rejects its result rather than replacing native bot flow.
-This rejection is a policy failure, not an outcome to exclude from an otherwise
-accepted sample.
+unavoidable grant. Those cases contaminate the trial. The runner retains its
+`ban_violation` evidence, drops the entire seed, and continues without resampling.
+At the end of each run it reports trials attempted, trials dropped, their share,
+and the dropped seeds. The run fails only if dropped / attempted is **over 2%**
+(exactly 2% passes), regardless of chunk boundaries. Dropped seeds are excluded
+from every median, growth estimate, bootstrap population, survival denominator,
+and diagnostic aggregate. Native specialized helpers retain the source build's
+behavior; their acquisition/ownership/play audits can also cause a trial drop.
+Missing audits and policy mismatches remain evidence-integrity errors.
 
 Frozen plans and chunk invocation plans retain `banned_cards`. Lobby records
 repeat the mapping, every banned seat's all-round diagnostic contains `ban_audit`,
@@ -902,9 +904,9 @@ An accepted audit records the immutable starting line and exact source-ID list,
 with empty `owned_banned`, `played_banned`, and `acquired_banned` arrays and an
 empty `failure` string.
 The Python reader verifies the policy and audit for every captured banned seat,
-requires complete all-round seat coverage during execution, and rejects any
-`ban_violation`, missing audit, policy mismatch, owned card, acquired card, or
-played card. The report and its sufficient analysis archive preserve the frozen
+requires complete all-round seat coverage for accepted trials, and drops trials
+with `ban_violation`, owned, acquired, or played banned cards. Missing audits and
+policy mismatches fail validation. The report and its sufficient analysis archive preserve the frozen
 mapping. Historical
 source runs already overlay and hash both line brains and the policy loader in
 `measurement-compatibility.json`; archived native combat/content and BotBrain

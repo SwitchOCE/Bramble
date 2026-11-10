@@ -24,6 +24,10 @@ const DISPLAY_KEYS: Array = [
 
 var data: Dictionary = {}
 var error: String = ""
+# The unchanged bundle remains a String; only selected trajectory trees are retained.
+var _json_text: String = ""
+var _spans: Dictionary = {}
+var _loaded: Dictionary = {}
 
 
 static func read(path: String, library: UnitLibrary) -> FieldLibrary:
@@ -63,6 +67,12 @@ func _document(file: FileAccess, path: String) -> Variant:
 		unpacked.clear()
 	else:
 		text = file.get_as_text()
+	if path.ends_with(".gz"):
+		return _indexed_document(text)
+	return _parse_document(text)
+
+
+func _parse_document(text: String) -> Variant:
 	var document := JSON.new()
 	if document.parse(text) != OK:
 		error = (
@@ -71,6 +81,112 @@ func _document(file: FileAccess, path: String) -> Variant:
 		)
 		return null
 	return document.data
+
+
+## PCRE's recursive object matcher scans natively and skips braces inside JSON strings.
+## Replace trajectory bodies with small headers before parsing the enclosing document.
+func _indexed_document(text: String) -> Variant:
+	_json_text = text
+	var arrays := RegEx.new()
+	var objects := RegEx.new()
+	arrays.compile(r'"trajectories"\s*:\s*\[|"(?:[^"\\]++|\\.)*"(*SKIP)(*F)')
+	objects.compile(r'(?<object>\{(?:[^{}"]++|"(?:[^"\\]++|\\.)*"|(?&object))*+\})')
+	var lines_key := RegEx.new()
+	lines_key.compile(r'"lines"\s*:\s*\{|"(?:[^"\\]++|\\.)*"(*SKIP)(*F)')
+	var key_match: RegExMatch = lines_key.search(text)
+	if key_match == null:
+		return _parse_document(text)
+	var braces := RegEx.new()
+	braces.compile(r'"(?:[^"\\]++|\\.)*"(*SKIP)(*F)|[{}]')
+	var depth: int = 1
+	var parts: PackedStringArray = []
+	var copied: int = 0
+	var cursor: int = key_match.get_end()
+	var array_match: RegExMatch = arrays.search(text, cursor)
+	while array_match != null:
+		# Only scan the small envelope between trajectory arrays, never the full tree.
+		var brace: RegExMatch = braces.search(text, cursor, array_match.get_start())
+		while brace != null:
+			depth += 1 if brace.get_string() == "{" else -1
+			if depth == 0:
+				break
+			brace = braces.search(text, brace.get_end(), array_match.get_start())
+		if depth == 0:
+			break
+		cursor = array_match.get_end()
+		while cursor < text.length():
+			while cursor < text.length() and text[cursor] in [" ", "\t", "\r", "\n"]:
+				cursor += 1
+			if cursor >= text.length() or text[cursor] == "]":
+				break
+			var object_match: RegExMatch = objects.search(text, cursor)
+			if object_match == null or object_match.get_start() != cursor:
+				error = "Field library has invalid trajectory JSON"
+				return null
+			var finish: int = object_match.get_end()
+			var original: Variant = _parse_document(text.substr(cursor, finish - cursor))
+			if not original is Dictionary:
+				error = "Invalid field trajectory"
+				return null
+			var trajectory: Dictionary = original
+			var identity: String = str(trajectory.get("id", ""))
+			if _spans.has(identity):
+				error = "Duplicate or empty field trajectory id: " + identity
+				return null
+			_spans[identity] = Vector2i(cursor, finish - cursor)
+			var header: Dictionary = {}
+			for key: String in ["id", "name", "hero", "finish_place", "lobby_tribes"]:
+				header[key] = trajectory.get(key)
+			var rounds: Variant = trajectory.get("rounds")
+			if not rounds is Dictionary:
+				error = "Field trajectory needs a known hero and rounds"
+				return null
+			var round_headers: Dictionary = {}
+			for number: String in rounds:
+				round_headers[number] = {}
+			header["rounds"] = round_headers
+			parts.append(text.substr(copied, cursor - copied))
+			parts.append(JSON.stringify(header))
+			copied = finish
+			cursor = finish
+			while cursor < text.length() and text[cursor] in [" ", "\t", "\r", "\n"]:
+				cursor += 1
+			if cursor < text.length() and text[cursor] == ",":
+				cursor += 1
+			else:
+				break
+		cursor += 1
+		array_match = arrays.search(text, cursor)
+	parts.append(text.substr(copied))
+	return _parse_document("".join(parts))
+
+
+func _decode(trajectory: Dictionary) -> Dictionary:
+	var span: Vector2i = _spans[str(trajectory["id"])]
+	var value: Variant = _parse_document(_json_text.substr(span.x, span.y))
+	return value if value is Dictionary else {}
+
+
+## Eager fixtures still expose complete rounds. Indexed bundles decode only selected bodies.
+func frame_for(trajectory: Dictionary, number: int) -> Dictionary:
+	var identity: String = str(trajectory["id"])
+	if not _spans.has(identity):
+		return trajectory["rounds"][str(number)]
+	if not _loaded.has(identity):
+		if _loaded.size() >= 8:
+			_loaded.erase(_loaded.keys()[0])
+		_loaded[identity] = _decode(trajectory)
+	var decoded: Dictionary = _loaded[identity]
+	return decoded["rounds"][str(number)]
+
+
+func frame_size(trajectory: Dictionary, number: int) -> int:
+	var value: Dictionary = trajectory["rounds"][str(number)]
+	return (
+		CoreUtil.to_int(value["_field_size"])
+		if _spans.has(str(trajectory["id"]))
+		else FieldRivals.board_size(value)
+	)
 
 
 ## Launchers adopt the recorded lever/economy rules; direct callers must already match them.
@@ -95,7 +211,10 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 
 func config_problem(config: GameConfig) -> String:
 	var source: Dictionary = data["config"]
-	var recorded: GameConfig = FightCapture.config_for(source)
+	var recorded := GameConfig.defaults()
+	var restored: Dictionary = Pass3Rates.restore_values(source)
+	for key: String in restored:
+		recorded.set_value(key, restored[key])
 	var expected: Dictionary = recorded.resolved_values()
 	var actual: Dictionary = config.resolved_values()
 	for key: String in expected:
@@ -298,12 +417,18 @@ func _validate_lines(library: UnitLibrary) -> String:
 			seen[identity] = true
 			if not _valid_metadata(trajectory):
 				return "Field trajectory needs source placement and lobby tribes"
-			var rounds: Dictionary = trajectory["rounds"]
+			var full: Dictionary = _decode(trajectory) if _spans.has(identity) else trajectory
+			var rounds: Dictionary = full["rounds"]
 			if rounds.is_empty():
 				return "Empty field trajectory"
 			for number: int in range(1, rounds.size() + 1):
 				if not rounds.has(str(number)) or not _valid_frame(rounds[str(number)], library):
 					return "Invalid or noncontiguous field round: %s/%d" % [id, number]
+				if _spans.has(identity):
+					var full_frame: Dictionary = rounds[str(number)]
+					trajectory["rounds"][str(number)] = {
+						"_field_size": FieldRivals.board_size(full_frame)
+					}
 	return ""
 
 

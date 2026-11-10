@@ -8,24 +8,27 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Start of Combat: throw your smallest Acorn at the enemy across for 3 damage per gold.",
-  "golden_text": "Start of Combat: throw your smallest Acorn at the enemy across for 6 damage per gold.",
-  "details": "The Acorn is spent. With no enemy across, it stays in hand.",
+  "text": "Start of Combat: throw your smallest Larder item across. That enemy loses a tenth of its stats per gold.",
+  "golden_text": "Start of Combat: throw your two smallest Larder items across. That enemy loses a tenth of its stats per gold.",
   "mechanics": [
     {
-      "id": "sergeant",
-      "damage": 3
+      "id": "pass3_hedgerow",
+      "ability": "sergeant_at_conkers",
+      "factor": 1,
+      "throws": 1,
+      "share_per_gold": 0.1
     }
   ],
-  "keywords": [
-    "Acorn"
-  ],
+  "keywords": [],
   "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Spends the smallest Larder item for each throw. Losses round down, to at least 0 Attack and 1 Health. With no enemy across, keep the item. Golden throws resolve separately.",
+  "golden_details": "Spends the smallest Larder item for each throw. Losses round down, to at least 0 Attack and 1 Health. With no enemy across, keep the item. Golden throws resolve separately."
 }

@@ -7,7 +7,7 @@ const Kit := preload("res://tests/core/recruit_kit.gd")
 func test_buying_mast_does_not_pay_but_playing_it_then_buying_does() -> void:
 	for hoard: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 		kit.player.gold = 30
 		if hoard:
 			kit.rules.give_card(kit.player, "great_hoard")
@@ -27,7 +27,7 @@ func test_buying_mast_does_not_pay_but_playing_it_then_buying_does() -> void:
 
 func test_an_existing_mast_can_pay_when_another_mast_is_bought() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	kit.put("old_mother_mast", 0)
 	kit.player.gold = 10
 	var bought: RecruitUnit = kit.shop("old_mother_mast")

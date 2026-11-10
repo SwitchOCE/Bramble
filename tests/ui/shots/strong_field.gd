@@ -49,7 +49,7 @@ func _option(key: String, fallback: String) -> String:
 
 
 func _probe() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for offset: int in 30:
 		var config := GameConfig.full_game()
 		var problem: String = FieldLibrary.configure(

@@ -3,8 +3,10 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const SharedLobby := preload("res://tests/core/shared_lobby.gd")
+const REPLAY_ROUNDS: int = 8
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _full_game(seats: Array, game_seed: int, all_tribes: bool = false) -> GameSession:
@@ -70,21 +72,37 @@ func test_scouting_does_not_show_this_rounds_changes() -> void:
 	assert_eq(JSON.stringify(session.get_state()["next_opponent_last_board"]), before, "fixed")
 
 
-func test_best_and_naive_profiles_play_full_games() -> void:
-	for level: String in BotLevel.ALL:
-		var seats: Array = [level, level, level, level, level, level, level, level]
-		var session: GameSession = _full_game(seats, 11)
-		_play_out(session)
-		assert_eq(session.get_game_log()["players"].size(), 8, level)
+func test_naive_profiles_play_a_full_game() -> void:
+	# The Hard half moved to the run's shared Hard lobby (the next test, tests/core/shared_lobby.gd);
+	# test_field_normal_regression also plays Hard lobbies to the end against pinned hashes.
+	var seats: Array = []
+	for _seat: int in 8:
+		seats.append(BotLevel.NAIVE)
+	var session: GameSession = _full_game(seats, 11)
+	_play_out(session)
+	assert_eq(session.get_game_log()["players"].size(), 8, BotLevel.NAIVE)
+
+
+func test_hard_profiles_play_a_full_game() -> void:
+	var lobby: Dictionary = SharedLobby.hard()
+	assert_true(lobby["over"], "the game finishes")
+	assert_eq(lobby["end_turn_errors"], [], "every turn ends cleanly")
+	assert_eq(lobby["game_log"]["players"].size(), 8, BotLevel.HARD)
+	for seat: int in 8:
+		assert_ne(str(lobby["builds"][seat]), "", "seat %d plays a Hard build" % seat)
 
 
 func test_a_seed_replays_exactly() -> void:
+	# 8 rounds (was the whole game). Determinism of whole Hard games is also pinned by
+	# test_field_normal_regression's hashes, and test_full_games replays a whole game.
 	var seats: Array = ["hard", "hard", "hard", "naive", "hard", "hard", "hard", "naive"]
-	var one: GameSession = _full_game(seats, 21)
-	_play_out(one)
-	var two: GameSession = _full_game(seats, 21)
-	_play_out(two)
-	assert_eq(JSON.stringify(one.get_game_log()), JSON.stringify(two.get_game_log()), "same game")
+	var logs: Array = []
+	for _copy: int in 2:
+		var session: GameSession = _full_game(seats, 21)
+		for turn: int in REPLAY_ROUNDS:
+			assert_eq(session.end_turn(), "", "turn %d" % turn)
+		logs.append(JSON.stringify(session.get_game_log()))
+	assert_eq(logs[0], logs[1], "same game")
 
 
 func test_names_build_the_right_bot() -> void:

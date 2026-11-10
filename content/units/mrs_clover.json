@@ -8,14 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "After you summon a unit: give it +1/+1. Twice a turn.",
-  "golden_text": "After you summon a unit: give it +2/+2. Twice a turn.",
-  "details": "Any tribe\u2019s summons count, in either phase.",
+  "text": "After you summon a Hedgerow unit: give it all this unit's stats.",
+  "golden_text": "After you summon a Hedgerow unit: give it twice this unit's stats.",
   "mechanics": [
     {
-      "id": "mrs_clover",
-      "stats": 1,
-      "limit": 2
+      "id": "pass3_hedgerow",
+      "ability": "mrs_clover",
+      "factor": 1,
+      "share": 1.0
     }
   ],
   "keywords": [],
@@ -25,7 +25,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Only Hedgerow summons count. Shares round down. Recruit summons keep the gain; combat summons keep it for the fight.",
+  "golden_details": "Only Hedgerow summons count. Shares round down. Recruit summons keep the gain; combat summons keep it for the fight."
 }

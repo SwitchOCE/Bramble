@@ -7,7 +7,7 @@ extends GutTest
 const FIXTURE: String = "res://docs/prototype/fixtures/combat_nightshade.json"
 const BIG: int = 1000000
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 ## A plain unit with chosen stats (Field Vole is tier 1, Elder Ooze tier 6).

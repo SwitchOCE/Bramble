@@ -123,7 +123,7 @@ func test_opening_scout_on_a_ghost_says_what_a_ghost_is() -> void:
 
 
 func test_a_triple_keeps_a_cold_frame_paid_for() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var config: GameConfig = GameConfig.full_game()
 	var session: GameSession = GameSession.create(5, library, config)
 	session.choose(0)
@@ -162,7 +162,28 @@ func test_buying_a_third_copy_says_what_it_does_before_it_happens() -> void:
 
 
 func test_every_unit_keeps_its_rules_in_the_reader_without_a_word_chip() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var source: UnitLibrary = TestLibraries.current()
+	for preset: String in ["B", "C"]:
+		var config: GameConfig = GameConfig.full_game()
+		config.set_value("pass3_preset", preset)
+		var configured: UnitLibrary = ScaleOverlay.library_for(source, config)
+		for id: String in ["sleeping_partner", "mrs_clover", "alderman_dozey", "goodman_hayward"]:
+			for golden: bool in [false, true]:
+				var view: Dictionary = UnitViews.from_def(configured.get_unit(id), golden)
+				var tile := CardView.new()
+				add_child_autofree(tile)
+				tile.show_unit(view, CardView.Mode.BOARD)
+				var context: String = "%s/%s/golden=%s" % [id, preset, golden]
+				assert_eq(tile.chip_shown, "", context)
+				assert_false(tile.rules_shown, context)
+				var reader := RichTextLabel.new()
+				add_child_autofree(reader)
+				reader.bbcode_enabled = true
+				reader.text = CardDetail.full_text_bbcode(view)
+				assert_false(str(view["text"]).is_empty(), context)
+				assert_string_contains(reader.get_parsed_text(), str(view["text"]), context)
+
+	var library: UnitLibrary = TestLibraries.current()
 	for def: Dictionary in library.pool_units("slice"):
 		var view: Dictionary = UnitViews.from_def(def)
 		var tile := CardView.new()
@@ -177,7 +198,7 @@ func test_every_unit_keeps_its_rules_in_the_reader_without_a_word_chip() -> void
 func test_every_keyword_in_a_discover_is_one_hover_or_tap_from_its_reminder() -> void:
 	var picker: CardPicker = CardPicker.new()
 	add_child_autofree(picker)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var views: Array = [
 		UnitViews.from_def(library.get_unit("belladonna")),
 		UnitViews.from_def(library.get_unit("nan_toadstool")),
@@ -287,7 +308,7 @@ func test_the_guide_says_gold_and_shows_only_whats_in_the_game() -> void:
 	for entry: Dictionary in HowToPlay.PAGES:
 		var words: String = str(entry["text"]) + str(entry["title"])
 		assert_false(words.contains("acorns on"), words)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var allowed: Array[String] = ["Hedgerow folk", "Fairies", "Oozes", "Birds"]
 	var in_game: Dictionary = {}
 	for unit: Dictionary in library.pool_units("slice"):

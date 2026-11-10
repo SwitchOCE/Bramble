@@ -1,0 +1,14 @@
+{
+  "seconds": [
+    12.617,
+    15.529
+  ],
+  "mean_seconds": 14.073,
+  "projected_32_minutes": 7.5056,
+  "telemetry_verified": [
+    "gold",
+    "shop_tier",
+    "larder_gold",
+    "belly_contents_by_slot"
+  ]
+}

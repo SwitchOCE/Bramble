@@ -8,28 +8,15 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "When played or sold: Pass +1/+1.",
-  "golden_text": "When played or sold: Pass +2/+2.",
+  "text": "When played: Pass +1/+1. When sold: Pass its stats.",
+  "golden_text": "When played: Pass +2/+2. When sold: Pass twice its stats.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "on_play",
-      "name": "pass",
-      "do": {
-        "effect": "pass",
-        "attack": 1,
-        "health": 1
-      }
-    },
-    {
-      "id": "effect",
-      "trigger": "on_sell",
-      "name": "pass_sold",
-      "do": {
-        "effect": "pass",
-        "attack": 1,
-        "health": 1
-      }
+      "id": "pass3_hedgerow",
+      "ability": "mr_crumb",
+      "factor": 1,
+      "pass": 1,
+      "sell_share": 1.0
     }
   ],
   "keywords": [
@@ -41,6 +28,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Sold stats include its own permanent gains, excluding standing tribe bonuses. Pass targets your last other unit.",
+  "golden_details": "Sold stats include its own permanent gains, excluding standing tribe bonuses. Pass targets your last other unit."
 }

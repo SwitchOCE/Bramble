@@ -98,20 +98,20 @@ func test_slot_effects_on_a_targeted_step_8_5() -> void:
 
 
 func test_session_fights_with_the_players_slots_8_5_2() -> void:
-	var session := GameSession.create(5, UnitLibrary.load_dir(), GameConfig.defaults())
+	var session := GameSession.create(5, TestLibraries.current(), GameConfig.defaults())
 	var human: PlayerState = session._human()
 	var slots: Array = session.get_state()["slot_effects"]
 	assert_eq(slots.size(), BoardGeometry.SLOTS, "the state shows one list per slot")
 	var paint: Array = human.slot_effects[0]
 	paint.append({"name": "Paint", "attack": 50, "health": 50})
-	human.board[0] = RecruitUnit.make(UnitLibrary.load_dir().get_unit("hoglet_mother"), 900)
+	human.board[0] = RecruitUnit.make(TestLibraries.current().get_unit("hoglet_mother"), 900)
 	assert_eq(session.end_turn(), "", "fought")
 	assert_eq(session.get_last_combat()["winner"], 0, "the slot's +50/+50 won it")
 	assert_eq(human.slot_effects[0].size(), 1, "and it stays afterwards")
 
 
 func test_ghost_fights_with_its_slots_8_5_2() -> void:
-	var session := GameSession.create(5, UnitLibrary.load_dir(), GameConfig.defaults())
+	var session := GameSession.create(5, TestLibraries.current(), GameConfig.defaults())
 	var dying: PlayerState = session._players[3]
 	var paint: Array = dying.slot_effects[1]
 	paint.append({"name": "Paint", "attack": 1})

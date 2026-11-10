@@ -5,7 +5,7 @@ extends RefCounted
 
 const BIG: int = 1000000
 
-static var library: UnitLibrary = UnitLibrary.load_dir()
+static var library: UnitLibrary = TestLibraries.current()
 
 
 ## A board entry; attack/health below 0 keep the unit's own stats.

@@ -1,3 +1,4 @@
+# gdlint:disable=max-public-methods
 extends GutTest
 ## Short recruit states exercise the same actions used by Hard and committed line seats.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -319,3 +320,96 @@ func test_tempo_replaces_dead_aspic_while_the_front_carry_engine_keeps_her() -> 
 			assert_false(
 				brain._can_replace(aspic), "the front-carry line keeps its real meal bonus"
 			)
+
+
+func _line_with_metadata(overrides: Dictionary, engine: bool = false) -> LineBrain:
+	var original: Dictionary = LinePolicies.profiles()
+	LinePolicies._profiles = original.duplicate(true)
+	var id: String = "line_oozes_engine" if engine else "line_oozes_tempo"
+	var profile: Dictionary = LinePolicies._profiles[id]
+	profile.merge(overrides, true)
+	var brain: LineBrain = BenchSuites.create_bot(id) as LineBrain
+	LinePolicies._profiles = original
+	brain._player = _player
+	brain._rules = _rules
+	brain._round_now = _player.round_number
+	brain.value.board_owner = _player
+	brain.value.recruit_rules = _rules
+	brain.value.library = _kit.library
+	_rules.board_changed(_player)
+	return brain
+
+
+func test_actual_tempo_line_plays_all_six_declared_engines_instead_of_burying_them() -> void:
+	var engines: Array[String] = [
+		"stone_soup", "dishwater_nell", "elder_ooze", "moss_ooze", "granny_stir_up", "sixpenny_pie"
+	]
+	for id: String in engines:
+		before_each()
+		var reserve: RecruitUnit = _full_reserve_board()
+		var brain: LineBrain = _line_with_metadata({"engine_pieces": engines})
+		assert_eq(
+			brain.profile["engine_pieces"].size(), 6, "the actual source profile declares six"
+		)
+		assert_eq(brain.value.strategy["line_engine_pieces"], engines)
+		var incoming: RecruitUnit = _kit.shop(id)
+		assert_eq(BotHeld.best_belly(_player, brain.value, incoming), -1, id)
+		assert_eq(brain._buy_belly(incoming), -1, id + " must be bought for the board")
+		assert_true(brain._buy_offer({"spell": false, "index": 0, "cost": 3, "gain": 50.0}))
+		assert_true(_player.board.has(incoming), id + " reaches the active board")
+		assert_false(reserve.held.has(incoming), id + " is never a reserve")
+
+
+func test_actual_tempo_can_fill_seven_slots_while_the_engine_keeps_its_split_gap() -> void:
+	_kit.put("bubble_and_squeak", 5)
+	_kit.put("stone_soup", 4)
+	_kit.put("mrs_posset", 0)
+	var brain: LineBrain = _line_with_metadata({})
+	assert_eq(BotOoze.max_bodies(_player, brain.value, brain._can_replace), 7)
+	assert_eq(brain._room_left(), 4, "tempo may fill the whole board before Granny arrives")
+	brain.configure_line("line_oozes_engine")
+	assert_eq(BotOoze.max_bodies(_player, brain.value, brain._can_replace), 6)
+	assert_eq(brain._room_left(), 3, "the engine still reserves a split landing")
+
+
+func test_actual_tempo_honors_an_explicit_preclimb_reserve_without_becoming_an_engine() -> void:
+	_kit.put("bubble_and_squeak", 5)
+	_kit.put("stone_soup", 4)
+	_kit.put("mrs_posset", 0)
+	_player.round_number = 10
+	_player.tier = 5
+	_player.upgrade_cost = 5
+	var brain: LineBrain = _line_with_metadata({"save_threshold": 3, "save_until": 10})
+	assert_false(CoreUtil.to_bool(brain.profile["engine"]), "this remains the tempo route")
+	assert_eq(brain._target_round(5), 11)
+	assert_eq(brain._climb_savings(), 0, "next turn's income already covers the climb")
+	assert_eq(brain._held_back(), 3, "the declared preclimb reserve works for tempo")
+	_player.round_number = 9
+	brain._round_now = 9
+	assert_eq(brain._held_back(), 0, "the explicit reserve applies only just before a climb")
+	_player.round_number = 10
+	brain._round_now = 10
+	_player.tier = UnitLibrary.TIERS
+	assert_eq(brain._held_back(), 0, "the explicit reserve ends at the top tier")
+	_player.tier = 5
+	brain = _line_with_metadata({"save_threshold": 0, "save_until": 0})
+	assert_eq(brain._held_back(), 0, "the default zero-save tempo behavior is unchanged")
+	brain = _line_with_metadata({"save_threshold": 3, "save_until": 10}, true)
+	assert_eq(brain._held_back(), 3, "the engine's existing preclimb reserve is unchanged")
+
+
+func test_normal_hard_tempo_plays_its_seventh_body_without_a_split_gap() -> void:
+	_kit.put("bubble_and_squeak", 5)
+	_kit.put("stone_soup", 4)
+	_kit.put("dishwater_nell", 6)
+	_kit.put("elder_ooze", 0)
+	_kit.put("moss_ooze", 1)
+	var holder: RecruitUnit = _kit.put("mrs_posset", 2)
+	var brain: BotBrain = _brain(true)
+	assert_false(brain is LineBrain, "ordinary Hard follows its tempo strategy directly")
+	assert_eq(BotOoze.max_bodies(_player, brain.value, brain._can_replace), 7)
+	var incoming: RecruitUnit = _kit.put("wee_wobbly")
+	brain._play_hand()
+	assert_eq(_player.board_count(), 7, "tempo fills F4 before Granny arrives")
+	assert_true(_player.board.has(incoming))
+	assert_false(holder.held.has(incoming), "the seventh body is active rather than a reserve")

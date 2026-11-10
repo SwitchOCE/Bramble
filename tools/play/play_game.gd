@@ -24,6 +24,13 @@ var seed_value: int = 0
 var field_library_path: String = ""
 var field_library_sha256: String = ""
 var field_strength: String = "top4"
+## The rates preset ("" = rates.json's default). A blind variant hides it: see variant.
+var preset: String = ""
+## "X" or "Y" for a blind game (play.sh new --variant). The save seals the preset;
+## nothing prints it.
+var variant: String = ""
+## The Settings toggle the UI passes into its config; game logs carry it, saves only when on.
+var ask_for_kin: bool = false
 ## Loading is refused cleanly when old actions cannot replay under the current rules.
 var load_error: String = ""
 var replay_note: String = ""
@@ -32,13 +39,24 @@ var session: GameSession
 var _library: UnitLibrary
 
 
-static func start(game_seed: int, field_path: String = "", strength: String = "top4") -> PlayGame:
+static func start(
+	game_seed: int,
+	field_path: String = "",
+	strength: String = "top4",
+	rates_preset: String = "",
+	blind_variant: String = ""
+) -> PlayGame:
 	var game := PlayGame.new()
 	game.seed_value = game_seed
 	game.field_library_path = field_path
 	game.field_strength = strength
+	game.preset = rates_preset
+	game.variant = blind_variant
 	if strength not in ["top4", "all"]:
 		game.load_error = "Unknown field strength: %s" % strength
+		return game
+	if not PlayVariant.known_preset(rates_preset):
+		game.load_error = PlayVariant.unknown_preset_message(rates_preset, blind_variant)
 		return game
 	game._begin()
 	return game
@@ -53,6 +71,10 @@ static func from_save(data: Dictionary) -> PlayGame:
 		game.load_error = "This save used retired bot rules. Start a new game."
 		return game
 	game.seed_value = CoreUtil.to_int(data["seed"])
+	game.load_error = PlayVariant.load_preset(game, data)
+	if game.load_error != "":
+		return game
+	game.ask_for_kin = data.get("ask_for_kin", false) == true
 	game.load_error = game._load_field_reference(data)
 	if game.load_error != "":
 		return game
@@ -97,6 +119,9 @@ func to_save() -> Dictionary:
 		saved["field_library"] = field_library_path
 		saved["field_library_sha256"] = field_library_sha256
 		saved["field_strength"] = field_strength
+	PlayVariant.store_preset(self, saved)
+	if ask_for_kin:
+		saved["ask_for_kin"] = true
 	return saved
 
 
@@ -120,6 +145,14 @@ func _load_field_reference(data: Dictionary) -> String:
 	return ""
 
 
+## A fingerprint of everything the player's state shows, for "this replays the same".
+func state_hash() -> String:
+	if session == null:
+		return ""
+	var text: String = JSON.stringify(session.get_state(), "", true)
+	return text.sha256_text()
+
+
 ## Runs one command and records it; "" or why it was refused.
 func run(words: PackedStringArray) -> String:
 	if load_error != "":
@@ -139,6 +172,9 @@ func _begin() -> void:
 	var config: GameConfig = GameConfig.full_game()
 	config.set_value("bots", BotLobby.seats())
 	config.set_value("field_strength", field_strength)
+	config.set_value("ask_for_kin", ask_for_kin)
+	if preset != "":
+		config.set_value("pass3_preset", preset)
 	_library = UnitLibrary.load_dir()
 	var prepared_field: FieldLibrary = null
 	if field_library_path != "":
@@ -152,6 +188,10 @@ func _begin() -> void:
 		prepared_field = FieldLibrary.prepare(config, _library, field_library_path)
 		load_error = prepared_field.error
 		if load_error != "":
+			return
+		# A field library carries its own preset; a blind game must not quietly play another.
+		if preset != "" and config.get_string("pass3_preset") != preset:
+			load_error = "The field library was captured on a different preset."
 			return
 		field_library_sha256 = FileAccess.get_sha256(field_library_path)
 	session = GameSession.create(seed_value, _library, config, Bot.create, prepared_field)

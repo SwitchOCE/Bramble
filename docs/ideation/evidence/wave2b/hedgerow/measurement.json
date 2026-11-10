@@ -1,0 +1,10 @@
+{
+  "source_revision": "313501fa271be0c0e9ac50ded81e780ad51347bc",
+  "base": "a2f4295f",
+  "branch": "ideation/wave2b",
+  "rates_sha256": "7238492148d3a4200567a2c6e63b348009ea4efea17133fd6ad522044af5875d",
+  "profiles_sha256": "e98076615b03fdda25a3573ce87f087af0f300e5f71c39d1bf37c98df906fb21",
+  "raw_metrics_sha256": "1ed897ab177d1903556f9f3b4ae8e655e87bd301b0678080807929a474ec9738",
+  "test_policy": "targeted only; no local full gate",
+  "prototype_retirement": "part 4, untouched"
+}

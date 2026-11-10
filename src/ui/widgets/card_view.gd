@@ -7,6 +7,7 @@ enum Mode { SHOP, BOARD, MINI }
 
 const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
 const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
+const HedgeMarks := preload("res://src/ui/widgets/hedgerow_marks.gd")
 const OozeMarks := preload("res://src/ui/widgets/ooze_marks.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -43,6 +44,8 @@ var combat_face: bool = false:
 var selected: bool = false:
 	set(value):
 		selected = value
+		if _hedge_marks != null:
+			_hedge_marks.show_state(unit, selected)
 		queue_redraw()
 ## Scout selection differs from a target pulse and from a golden unit's rim.
 var selection_color: Color = UiTheme.SELECT
@@ -72,6 +75,7 @@ var rules_shown: bool = false
 
 var _combat_marks: CombatFace
 var _poached_badge: PoachedBadge
+var _hedge_marks: HedgeMarks
 var _ooze_marks: OozeMarks
 var _art: ArtFrame
 var _chip: Panel
@@ -239,6 +243,8 @@ func show_frost_tag(_on: bool) -> void:
 func _build() -> void:
 	_art = ArtFrame.new()
 	add_child(_art)
+	_hedge_marks = HedgeMarks.new()
+	_art.add_child(_hedge_marks)
 	_ooze_marks = OozeMarks.new()
 	_art.add_child(_ooze_marks)
 	_name_label = UiTheme.head("", UiTheme.FONT_BODY)
@@ -335,6 +341,8 @@ func _refresh() -> void:
 	_refresh_status()
 	_refresh_pending()
 	_place_turns()
+	_hedge_marks.size = _art.size
+	_hedge_marks.show_state(unit, selected)
 	_ooze_marks.size = _art.size
 	_ooze_marks.show_state(unit)
 

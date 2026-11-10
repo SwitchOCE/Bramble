@@ -8,25 +8,26 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "+1/+1 per 3 gold of held Acorns, up to +8/+8.",
-  "golden_text": "+2/+2 per 3 gold of held Acorns, up to +16/+16.",
+  "text": "End of Turn: gain +1/+1 per gold in your Larder.",
+  "golden_text": "End of Turn: gain +2/+2 per gold in your Larder.",
   "mechanics": [
     {
-      "id": "larder_stats",
-      "per": 1,
-      "gold_step": 3,
-      "max_steps": 8
+      "id": "pass3_hedgerow",
+      "ability": "honorary_treasurer",
+      "factor": 1,
+      "per_gold": 1.0
     }
   ],
-  "keywords": [
-    "Acorn"
-  ],
+  "keywords": [],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Larder means your held Acorns, Stashes and Great Hoards and the gold they are worth. Gains are permanent.",
+  "golden_details": "Larder means your held Acorns, Stashes and Great Hoards and the gold they are worth. Gains are permanent."
 }

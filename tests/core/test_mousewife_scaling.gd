@@ -6,7 +6,7 @@ const KIT := preload("res://tests/core/combat_kit.gd")
 
 
 func _fight(config: GameConfig, allies: Dictionary, tier: int = 3) -> Combat:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	var combat := Combat.create(library, config, RandomNumberGenerator.new())
 	combat._tiers = [tier, 1]
 	combat.hero_effects[0] = HeroRules.effects_of(library.get_hero("old_mother_mousewife"))

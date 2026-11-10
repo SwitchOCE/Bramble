@@ -37,7 +37,7 @@ func test_preset_resolution_contains_rates_without_metadata_and_does_not_mutate_
 
 
 func test_fetch_real_combat_and_generated_words_follow_each_preset() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for preset_id: String in ["A", "B", "C"]:
 		var config := GameConfig.full_game()
 		config.set_value("pass3_preset", preset_id)
@@ -67,7 +67,7 @@ func test_authored_default_fetch_golden_reader_matches_b_rates() -> void:
 	var authored: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://content/units/cradle_fetch.json")
 	)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	assert_eq(authored["golden_details"], library.get_unit("cradle_fetch")["golden_details"])
 	assert_string_contains(authored["golden_details"], "Copies all the current stats")
 
@@ -98,7 +98,7 @@ func test_fairy_rebase_uses_paper_rates_with_authorized_initial_ring_sizes() -> 
 func test_queen_period_keeps_start_of_turn_and_cluricaun_uses_end_of_turn() -> void:
 	var config := GameConfig.full_game()
 	config.set_value("fairies_queen_period", 2)
-	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
+	var library: UnitLibrary = ScaleOverlay.library_for(TestLibraries.current(), config)
 	assert_string_contains(library.get_unit("queen_of_elfland")["text"], "Every 2nd Start of Turn:")
 	assert_string_contains(library.get_unit("cluricaun")["text"], "End of Turn:")
 	assert_false(str(library.get_unit("cluricaun")["details"]).contains("tier-up"))
