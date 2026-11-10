@@ -147,9 +147,7 @@ LABEL_CATEGORIES = (
 LABEL_DEFINITIONS = {
     "unit_stats": "Attack/Health labels owned by a CardView, CardDetail, or Nest Egg stat field.",
     "hero_health": "Health labels inside the LobbyPlaque Health badge; opponent tier is Other.",
-    "fallback_names": (
-        "Tile name labels whose unit lacks its own portrait, plus the unresolved Brother Wolf/Grizel portrait pair."
-    ),
+    "fallback_names": "Tile name labels whose unit lacks its own portrait; no shipped exceptions remain.",
     "costs_and_controls": (
         "Known card/item price fields, hero-power prices, gold and queued-income amounts, and "
         "rendered action-button text/cost descendants."
@@ -159,7 +157,7 @@ LABEL_DEFINITIONS = {
         "Midsummer, away text, turn labels, and reader identity/rules text."
     ),
 }
-CONFUSABLE_PORTRAITS = {"brother_wolf": "Brother Wolf", "grizel": "Grizel"}
+CONFUSABLE_PORTRAITS = {}
 
 
 def budget_breakdown(packet, classified_run, revision, output_stem="budget-breakdown", stage="current"):
@@ -245,10 +243,15 @@ def budget_breakdown(packet, classified_run, revision, output_stem="budget-break
         ),
         "",
         (
-            "Every shipped unit now has its own portrait. Only Brother Wolf (`brother_wolf`) and "
-            "Grizel (`grizel`) retain a short name while Grizel's portrait reroll is pending. "
-            "The former Brock/Old Brock/Sable/Russet exceptions are no longer used. Synthetic "
+            "Every shipped unit now has its own portrait, including the approved Grizel reroll. "
+            "No shipped tile name exceptions remain. The former Brock/Old Brock/Sable/Russet and "
+            "Brother Wolf/Grizel exceptions are no longer used. Synthetic "
             "missing-art test cards still count as fallback names; no name is excluded from the cap."
+        ),
+        "",
+        (
+            "The unchanged legacy slice fixture also contains legacy unit IDs without individual "
+            "portraits: its recruit/scout fallback names remain visible and count toward the same cap."
         ),
         "",
         (

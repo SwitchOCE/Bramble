@@ -30,10 +30,11 @@ func test_ring_piles_keep_their_frame_and_exact_reader_without_standing_digits()
 		var label: Label = labels[0]
 		assert_false(label.visible, "one Ring already reads through its dots")
 		for count: int in [2, 36, 12345]:
-			marks[0]["ring_count"] = count
+			var pile: Dictionary = marks[0]
+			pile["ring_count"] = count
 			board.set_marks(marks)
 			assert_false(label.visible, "the pile count is read on demand")
-			assert_string_contains(RecruitView.slot_note(marks[0], 0), "%d Rings" % count)
+			assert_string_contains(RecruitView.slot_note(pile, 0), "%d Rings" % count)
 			assert_true(board.slots[0].filled, "the Ring frame remains on its pocket")
 			assert_eq(CoreUtil.to_int(marks[0]["ring_count"]), count)
 		for strip: Control in board.get("_labels"):

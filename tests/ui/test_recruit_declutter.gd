@@ -324,6 +324,7 @@ func test_ring_stacks_leave_the_floor_but_both_occupied_and_empty_slot_readers_k
 		assert_true(reader.visible)
 		assert_string_contains(str(reader.shown["text"]), "2 Rings (+3/+5)")
 		assert_eq(port.get_state(), before, "reading either Ring stack is a read-only action")
+		await wait_process_frames(1)
 
 
 func test_standard_spell_and_item_prices_leave_the_face_while_changed_prices_remain() -> void:
@@ -398,11 +399,15 @@ func test_away_tokens_keep_the_complete_forecast_in_one_tap_readers_at_both_size
 			tray.tokens[index].tapped.emit("away", index)
 			var reader: CardDetail = screen.get("_detail")
 			assert_true(reader.visible, "one tap opens the Bird's own complete reader")
+			var retained: Dictionary = {}
 			for key: String in source:
 				if key != "text":
-					assert_eq(
-						reader.shown[key], source[key], "the original Bird field survives: " + key
-					)
+					retained[key] = reader.shown.get(key)
+			var original: Dictionary = source.duplicate(true)
+			original.erase("text")
+			assert_eq(
+				retained, original, "every original Bird field survives the reader enrichment"
+			)
 			var text: String = str(reader.shown["text"])
 			assert_string_contains(text, str(source["text"]))
 			assert_string_contains(

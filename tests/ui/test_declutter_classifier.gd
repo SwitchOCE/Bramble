@@ -54,8 +54,8 @@ func test_hero_health_and_egg_stats_keep_their_distinct_roles() -> void:
 	assert_eq(_category(egg_attack), "unit_stats")
 
 
-func test_missing_art_and_the_unresolved_portrait_pair_count_as_fallback_names() -> void:
-	for id: String in ["no_individual_portrait", "brother_wolf", "grizel"]:
+func test_missing_art_names_still_count_toward_the_budget() -> void:
+	for id: String in ["no_individual_portrait"]:
 		var card := CardView.new()
 		add_child_autofree(card)
 		card.show_unit(
@@ -71,7 +71,7 @@ func test_missing_art_and_the_unresolved_portrait_pair_count_as_fallback_names()
 		assert_eq(sum, Capture.text_nodes(card).size(), "classification never filters raw nodes")
 
 
-func test_every_shipped_unit_has_own_art_and_only_the_unresolved_pair_needs_a_name() -> void:
+func test_every_shipped_unit_has_own_art_and_no_shipped_tile_needs_a_name() -> void:
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	var card_set: String = GameConfig.full_game().card_set()
 	var checked: int = 0
@@ -87,13 +87,15 @@ func test_every_shipped_unit_has_own_art_and_only_the_unresolved_pair_needs_a_na
 			CardView.Mode.BOARD
 		)
 		var identity: Label = card.get("_name_label")
-		assert_eq(identity.visible, id in ["brother_wolf", "grizel"], id)
+		assert_false(identity.visible, id)
 		checked += 1
 	assert_gt(checked, 100, "the check covers the shipped roster and its created units")
 
 
 func test_former_portrait_exceptions_no_longer_add_a_name_label() -> void:
-	for id: String in ["young_brock", "old_brock", "sable", "mistress_russet"]:
+	for id: String in [
+		"young_brock", "old_brock", "sable", "mistress_russet", "brother_wolf", "grizel"
+	]:
 		var card := CardView.new()
 		add_child_autofree(card)
 		card.show_unit(

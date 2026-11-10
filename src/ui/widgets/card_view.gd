@@ -22,11 +22,8 @@ const LINE: int = 5
 const EDGE: float = 12.0
 ## Public portrait floor used by layout checks.
 const ART_MIN: float = 40.0
-## Only this still-confusable pair keeps a short identity until Grizel's re-roll lands.
-const NAME_EXCEPTIONS: Dictionary[String, String] = {
-	"brother_wolf": "Brother Wolf",
-	"grizel": "Grizel",
-}
+## Every shipped portrait is now distinct; future look-alike exceptions would live here.
+const NAME_EXCEPTIONS: Dictionary[String, String] = {}
 
 ## def_id -> true for units whose mechanics are not built; the reader names them.
 static var unbuilt: Dictionary = {}
@@ -323,6 +320,8 @@ func _refresh() -> void:
 		_tier_badge.visible = worth != 1
 	_attack_badge.visible = not spell
 	_health_badge.visible = not spell
+	_attack_badge.z_index = int(combat_face)
+	_health_badge.z_index = int(combat_face)
 	_place_parts(spell)
 	_refresh_chip()
 	_refresh_stats()

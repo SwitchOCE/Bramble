@@ -7,6 +7,7 @@ const Face := preload("res://src/ui/widgets/combat_face.gd")
 const EffectPath := preload("res://src/ui/widgets/combat_effect_path.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Views := preload("res://src/ui/unit_views.gd")
+const Icons := preload("res://src/ui/widgets/icons.gd")
 const STEP: float = 1.0 / 120.0
 
 
@@ -14,7 +15,7 @@ func after_each() -> void:
 	Settings.reset()
 
 
-func _screen() -> Screen:
+func _screen(back_rows: bool = false) -> Screen:
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(1920, 1080)
 	add_child_autofree(viewport)
@@ -29,17 +30,13 @@ func _screen() -> Screen:
 	frog["kisses"] = 0
 	var friend: Dictionary = Views.from_def(library.get_unit("field_vole"), false, 2)
 	var enemy: Dictionary = Views.from_def(library.get_unit("field_vole"), false, 8)
+	var mine: Array = [frog, friend, null, null, null, null, null]
+	var theirs: Array = [enemy, null, null, null, null, null, null]
+	if back_rows:
+		mine = [null, null, null, null, frog, friend, null]
+		theirs = [null, null, null, null, enemy, null, null]
 	screen._play_event(
-		{
-			"type": "combat_start",
-			"boards":
-			[
-				[frog, friend, null, null, null, null, null],
-				[enemy, null, null, null, null, null, null]
-			],
-			"first_side": 0,
-			"player_ids": [0, 1]
-		},
+		{"type": "combat_start", "boards": [mine, theirs], "first_side": 0, "player_ids": [0, 1]},
 		false
 	)
 	return screen
@@ -142,3 +139,75 @@ func test_actual_death_clears_only_its_actor_frame_and_anchors_the_original_pock
 	assert_eq(
 		screen._last_death, pocket, "death effects start at the dead unit's slot despite its lunge"
 	)
+
+
+func test_mire_pause_bars_stay_above_the_actor_triangle_and_outside_art() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		for back_rows: bool in [false, true]:
+			for waiting: int in [1, 8]:
+				var screen: Screen = _screen(back_rows)
+				var target: int = 8 if waiting == 1 else 1
+				var card: Card = screen._cards[waiting]
+				var art: Control = card.get("_art")
+				screen._play_event({"type": "mire_wait", "uid": waiting, "target": target}, true)
+				var pause: Control = screen._overlay.get_node("Waiting_%d" % waiting)
+				assert_true(CoreUtil.to_bool(pause.get_meta("pause_bars")))
+				assert_false(pause is Panel, "the pause has no white disc backing")
+				assert_eq(pause.get_child_count(), 2, "only two unambiguous pause bars")
+				assert_false(pause.visible, "the original source lead remains intact")
+				_advance(screen, 0.3)
+				assert_true(pause.visible)
+				assert_true(
+					screen.get_viewport_rect().encloses(pause.get_global_rect()),
+					"even an enemy back-row pause stays in the viewport"
+				)
+				assert_false(
+					pause.get_global_rect().intersects(art.get_global_rect()),
+					"the paused actor's art remains unobscured"
+				)
+				var held: Array = screen._motion.get("_held_sources")
+				var frame: Control = held[0]
+				var triangle_top: float = frame.get_global_rect().position.y
+				if not CoreUtil.to_bool(frame.get("toward_top")):
+					triangle_top += maxf(48, frame.size.y - 74) - 26
+				assert_lte(
+					pause.get_global_rect().end.y,
+					triangle_top - 2,
+					"bars sit above the actor triangle"
+				)
+				var left: Control = pause.get_node("LeftBar")
+				var right: Control = pause.get_node("RightBar")
+				assert_eq(left.size, right.size)
+				assert_gt(left.size.y, left.size.x, "each bar is a vertical stroke")
+				assert_gt(
+					right.position.x, left.get_rect().end.x, "the bars remain visibly separate"
+				)
+				_advance(screen, 0.6)
+				await get_tree().process_frame
+				assert_false(is_instance_valid(pause), "the original short wait beat still retires")
+
+
+func test_take_rewards_use_stat_sparks_rather_than_gold_acorns() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: Screen = _screen()
+		screen._play_event({"type": "take", "hunter": 1, "quarry": 8, "side": 0}, true)
+		_advance(screen, 0.6)
+		var rewards: int = 0
+		for child: Node in screen._overlay.get_children():
+			if (
+				not child is TextureRect
+				or not child.has_meta("effect_from")
+				or child.has_meta("take_quarry_uid")
+			):
+				continue
+			var mark: TextureRect = child
+			assert_ne(
+				mark.texture, Icons.icon("acorn", 88), "Take pays queued stats, not spendable gold"
+			)
+			assert_eq(
+				mark.texture, Icons.icon("spark", 52), "the reward uses the shared stat-gain spark"
+			)
+			rewards += 1
+		assert_eq(rewards, 2, "both return and retained-gain legs preserve the Take cue")

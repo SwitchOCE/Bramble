@@ -5,7 +5,6 @@ extends RefCounted
 const LABEL_CATEGORIES: PackedStringArray = [
 	"unit_stats", "hero_health", "fallback_names", "costs_and_controls", "other"
 ]
-const CONFUSABLE_PORTRAITS: PackedStringArray = ["brother_wolf", "grizel"]
 
 
 static func text_nodes(node: Node, exclude_primary_stats: bool = false) -> Array[Dictionary]:
@@ -185,8 +184,6 @@ static func _fallback_reason(view: Dictionary) -> String:
 	if str(view.get("kind", "")) in ["spell", "item"]:
 		return ""
 	var id: String = str(view.get("portrait_id", view.get("def_id", "")))
-	if CONFUSABLE_PORTRAITS.has(id):
-		return "confusable portrait exception: " + id
 	if not ResourceLoader.exists("res://assets/portraits/%s.jpg" % id):
 		return "no individual portrait: " + id
 	return ""

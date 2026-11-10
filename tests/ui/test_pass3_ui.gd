@@ -144,8 +144,10 @@ func test_ring_size_and_midsummer_fit_beside_supper_at_the_phone_minimum() -> vo
 	var chips: Control = screen.get("_tribes")
 	var size_label: Label = chips.get_node("RingSize/Engine")
 	var summer_label: Label = chips.get_node("Midsummer/Engine")
-	assert_eq(size_label.text, "Ring size 1.25")
-	assert_eq(summer_label.text, "Midsummer 2")
+	assert_eq(size_label.text, "×1.25")
+	assert_eq(summer_label.text, "2")
+	assert_string_contains((size_label.get_parent() as Control).tooltip_text, "+1.25/+1.25")
+	assert_string_contains((summer_label.get_parent() as Control).tooltip_text, "Midsummer in 2")
 	assert_gte(size_label.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
 	assert_eq(LayoutCheck.problems(screen, "Fairy engine phone"), PackedStringArray())
 
@@ -307,7 +309,7 @@ func test_many_away_birds_scroll_with_a_full_hand_and_clear_when_they_land() -> 
 	assert_eq(hand.get_child_count(), 6)
 
 
-func test_crowded_pc_shop_keeps_long_names_on_whole_word_lines() -> void:
+func test_crowded_pc_shop_uses_distinct_art_and_keeps_full_identity_in_the_view() -> void:
 	var screen: RecruitScreen = _away_screen(Vector2(1920, 1080))
 	var state: Dictionary = screen.port.get_state()
 	var library: UnitLibrary = UnitLibrary.load_dir()
@@ -327,15 +329,13 @@ func test_crowded_pc_shop_keeps_long_names_on_whole_word_lines() -> void:
 	for index: int in [1, 4]:
 		var card: CardView = offers.get_child(index)
 		var label: Label = card.get("_name_label")
-		assert_eq(label.text, shop[index]["name"])
-		assert_lte(
-			label.get_line_count(), 3 if index == 1 else 2, "no split word or comma-only line"
-		)
-		assert_gte(label.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+		assert_false(label.is_visible_in_tree(), "its own portrait supplies the identity")
+		assert_false(CardView.needs_name(card.unit))
+		assert_eq(card.unit["name"], shop[index]["name"], "the reader keeps the full identity")
 	assert_eq(LayoutCheck.problems(screen, "crowded PC shop"), PackedStringArray())
 
 
-func test_end_turn_subtitle_clears_the_leaf_rim_with_and_without_phone_reader() -> void:
+func test_end_turn_has_no_subtitle_with_or_without_the_phone_reader() -> void:
 	var screen: RecruitScreen = _away_screen(Vector2(1688, 780))
 	for reader: bool in [false, true]:
 		if reader:
@@ -344,11 +344,8 @@ func test_end_turn_subtitle_clears_the_leaf_rim_with_and_without_phone_reader() 
 		var button: Control = screen.get("_end_button")
 		var subtitle: Label = button.get("_sub")
 		var title: Label = button.get("_label")
-		assert_true(subtitle.is_visible_in_tree())
-		assert_gte(subtitle.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+		assert_false(subtitle.is_visible_in_tree())
+		assert_eq(subtitle.text, "")
+		assert_eq(title.text, "End turn")
 		assert_gte(title.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-		assert_lte(
-			subtitle.get_global_rect().end.y,
-			button.get_global_rect().end.y - button.size.y * 0.04,
-			"the second line stays clear of the lower leaf rim"
-		)
+		assert_true(button.get_global_rect().encloses(title.get_global_rect()))

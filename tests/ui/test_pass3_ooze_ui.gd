@@ -187,7 +187,8 @@ func test_elder_share_uses_short_bead_motion_once_per_new_serial_without_an_over
 		var first: CardView = board.cards[0]
 		motion.advance(0.075)
 		assert_ne(first.attack_bead().modulate, Color.WHITE, "new sharing pops the actual beads")
-		assert_false((first.get("_ooze_marks") as Control).visible)
+		var first_marks: Control = first.get("_ooze_marks")
+		assert_false(first_marks.visible)
 		motion.advance(0.4)
 		assert_eq(first.attack_bead().modulate, Color.WHITE)
 		assert_eq(first.attack_bead().scale, Vector2.ONE)
