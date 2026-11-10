@@ -12,15 +12,19 @@ func test_loads_every_unit_file_without_errors() -> void:
 	assert_eq(_library.load_errors(), PackedStringArray(), "no load errors")
 	assert_eq(
 		_library.all_units().size(),
-		158,
-		"158 loadable definitions, including retired prototypes and created cards such as Slice"
+		160,
+		"160 loadable definitions: two A3 neutrals, retired prototypes and created Slice"
 	)
 	assert_eq(
 		_library.pool_units().size(),
 		13,
 		"twelve Bird/Fairy, five Bog and seven Hunter prototypes retired"
 	)
-	assert_eq(_library.pool_units("slice").size(), 109, "the slice's shop units")
+	assert_eq(
+		_library.pool_units("slice").size(),
+		111,
+		"the slice's shop units include Shieldbug and Click Beetle"
+	)
 	assert_eq(_library.pool_units().size(), 13, "tokens stay out of the pool")
 
 

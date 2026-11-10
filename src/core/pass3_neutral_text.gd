@@ -15,12 +15,14 @@ const DETAILS: Dictionary = {
 	"charcoal_burner":
 	(
 		"Reads each recipient's own base plus permanent body stats; excludes Rings, auras and standing "
-		+ "tribe bonuses. Each share rounds down once after multiplying by the total gold burned. Golden increases only the gold burned."
+		+ "tribe bonuses. Each share rounds down once after multiplying by the total gold burned. "
+		+ "Golden increases only the gold burned."
 	),
 	"click_beetle":
 	(
 		"Only the strongest Click Beetle counts. Every Bird landing replays its When played effects "
-		+ "before its once-only homecoming growth. Playing the returned Bird from hand repeats them again. "
+		+ "before its once-only homecoming growth. Playing the returned Bird from hand "
+		+ "repeats them again. "
 		+ "Extra triggers cannot repeat multiplication or advance a countdown."
 	),
 	"ballooning_spider":
@@ -84,7 +86,10 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 			return "The units behind this have Swoop."
 		"whirligig_beetle":
 			return (
-				"Start of Combat: swap enemy rows without improving Rings. Each enemy moved loses %s of its Health."
+				(
+					"Start of Combat: swap enemy rows without improving Rings. "
+					+ "Each enemy moved loses %s of its Health."
+				)
 				% Pass3Text._fraction(
 					Pass3Rates.number(
 						config,

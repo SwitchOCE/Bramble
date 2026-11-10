@@ -620,14 +620,16 @@ static func _burner_plan(rules: String) -> String:
 			var percentage: RegExMatch = RegEx.create_from_string("^([0-9.]+)%$").search(phrase)
 			if percentage != null:
 				share = percentage.get_string(1).to_float() / 100.0
-			var burn: int = bank.get_string(1).to_int()
-			var remains: int = bank.get_string(2).to_int()
+			var native_burn: int = bank.get_string(1).to_int()
+			var native_remains: int = bank.get_string(2).to_int()
 			var gain: String = (
-				Pass3Text._n(share * burn * 100.0) + "%" if share >= 0.0 else phrase + " per gold"
+				Pass3Text._n(share * native_burn * 100.0) + "%"
+				if share >= 0.0
+				else phrase + " per gold"
 			)
 			return (
 				"Keep %d gold to burn %d: each unit behind gains %s of its own body stats; %d remains."
-				% [remains + burn, burn, gain, remains]
+				% [native_remains + native_burn, native_burn, gain, native_remains]
 			)
 	var rate: RegExMatch = (
 		RegEx.create_from_string("gain \\+(\\d+)/\\+(\\d+) per (\\d+) burned").search(rules)

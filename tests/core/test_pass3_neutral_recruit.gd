@@ -54,8 +54,7 @@ func test_click_normal_and_golden_repeat_when_played_and_copies_use_strongest() 
 		assert_eq(kit.player.gold, 3 if golden else 2)
 
 
-func test_click_each_homecoming_replays_before_single_growth_and_playing_returned_hand_repeats_again(
-) -> void:
+func test_click_each_landing_and_returned_play_repeat_without_repeating_home_growth() -> void:
 	for golden: bool in [false, true]:
 		before_each()
 		kit.config.set_value("birds_homecoming_multiplier", 2.0)
@@ -107,3 +106,21 @@ func test_click_extra_triggers_do_not_repeat_multiplication_or_advance_every_cou
 	kit.player.gold = 0
 	assert_eq(kit.rules.play(kit.player, kit.player.hand.find(counter), 1), "")
 	assert_eq(kit.player.gold, 0, "extra triggers never tick an every countdown")
+
+
+## OPEN: queued recalls currently multiply before Click's queued When played effects.
+## Keep this known-answer counterexample until landing completion is staged after those effects.
+func test_click_nested_old_tern_recall_finishes_when_played_before_homecoming_growth() -> void:
+	kit.config.set_value("birds_homecoming_multiplier", 2.0)
+	kit.put("click_beetle", 6)
+	var tern: RecruitUnit = kit.put("old_tern")
+	var bird: RecruitUnit = kit.put("chiffchaff")
+	kit.player.hand.erase(bird)
+	kit.player.away.append({"unit": bird, "left": 1, "due": 20, "nest": 0, "missed_fight": true})
+	kit.rules.events.fire(kit.player, "on_home", {"subject": tern})
+	assert_true(kit.player.hand.has(bird), "Old Tern recalled the Bird during an event drain")
+	assert_eq(
+		Vector2i(bird.attack, bird.health),
+		Vector2i(6, 8),
+		"two When played gains must land before one homecoming doubling"
+	)
