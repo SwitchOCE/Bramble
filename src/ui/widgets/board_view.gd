@@ -60,7 +60,7 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	for i: int in SLOTS:
-		var slot: SlotView = preload("res://src/ui/widgets/slot_view.gd").new()
+		var slot: SlotView = SlotView.new()
 		slot.set_slot(zone, i)
 		add_child(slot)
 		slots.append(slot)

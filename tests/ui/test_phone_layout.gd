@@ -346,24 +346,55 @@ func test_phone_attack_order_guide_is_decorative_like_other_guide_boards() -> vo
 
 
 func test_empty_world_slots_receive_real_viewport_taps() -> void:
-	var viewport: SubViewport = _phone()
-	viewport.gui_disable_input = false
-	var board := BoardView.new()
-	board.compact = true
-	board.configure("board", 222, true)
-	board.position = Vector2(100, 100)
-	viewport.add_child(board)
-	await wait_process_frames(2)
-	var received: Array[int] = []
-	for slot: Control in board.slots:
-		slot.connect("tapped", func(_zone: String, index: int) -> void: received.append(index))
-	for index: int in BoardView.SLOTS:
-		var at: Vector2 = board.slot_global_center(index)
-		for pressed: bool in [true, false]:
-			var event := InputEventMouseButton.new()
-			event.button_index = MOUSE_BUTTON_LEFT
-			event.pressed = pressed
-			event.position = at
-			event.global_position = at
-			viewport.push_input(event, true)
-	assert_eq(received, [0, 1, 2, 3, 4, 5, 6], "every quiet cell remains a real input target")
+	for pixels: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
+		CardView.window_override = pixels
+		var viewport := SubViewport.new()
+		viewport.size = Vector2i(roundi(1080 * pixels.x / pixels.y), 1080)
+		viewport.gui_disable_input = false
+		add_child_autofree(viewport)
+		var screen: RecruitScreen = _screen(viewport)
+		var board_state: Array = screen.port.get_state()["board"]
+		board_state.fill(null)
+		screen.render()
+		await wait_process_frames(2)
+		var board: BoardView = screen.get("_board")
+		var received: Array[int] = []
+		for slot: Control in board.slots:
+			slot.connect("tapped", func(_zone: String, index: int) -> void: received.append(index))
+		for index: int in BoardView.SLOTS:
+			screen.call("_on_tapped", "shop", 0)
+			var detail: CardDetail = screen.get("_detail")
+			assert_true(detail.visible)
+			assert_eq(
+				detail._notes.mouse_filter, Control.MOUSE_FILTER_PASS, "selected rules retain links"
+			)
+			var target: Control = board.slots[index]
+			var rect: Rect2 = target.get_global_rect()
+			var at: Vector2 = rect.get_center()
+			for fraction: Vector2 in [
+				Vector2(0.5, 0.5),
+				Vector2(0.2, 0.8),
+				Vector2(0.8, 0.8),
+				Vector2(0.5, 0.95),
+				Vector2(0.1, 0.2),
+				Vector2(0.9, 0.2)
+			]:
+				at = rect.position + rect.size * fraction
+				var motion := InputEventMouseMotion.new()
+				motion.position = at
+				motion.global_position = at
+				viewport.push_input(motion, true)
+				if viewport.gui_get_hovered_control() == target:
+					break
+			for pressed: bool in [true, false]:
+				var event := InputEventMouseButton.new()
+				event.button_index = MOUSE_BUTTON_LEFT
+				event.pressed = pressed
+				event.position = at
+				event.global_position = at
+				viewport.push_input(event, true)
+		assert_eq(
+			received,
+			[0, 1, 2, 3, 4, 5, 6],
+			"every quiet cell receives an exposed tap with a reader open"
+		)

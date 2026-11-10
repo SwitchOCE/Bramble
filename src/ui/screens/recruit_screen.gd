@@ -76,6 +76,7 @@ func _init() -> void:
 	_build_tools(_open_pause, toggle_scout, _show_opponent, toggle_dev_panel)
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
+	_detail.add_child(preload("res://src/ui/widgets/reader_scroll.gd").new(_detail._notes))
 	_detail.visibility_changed.connect(_on_detail_shown)
 	var rules_links: RichTextLabel = _detail.get("_notes")
 	rules_links.meta_clicked.connect(
@@ -348,8 +349,8 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 
 func _show_selection() -> void:
 	_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_detail._notes.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_detail._type.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_detail._notes.mouse_filter = Control.MOUSE_FILTER_PASS
+	_detail._type.mouse_filter = Control.MOUSE_FILTER_PASS
 	_board.clear_highlights()
 	_board.set_pass_landing(-2)
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
