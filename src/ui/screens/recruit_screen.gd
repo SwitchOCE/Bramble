@@ -167,7 +167,8 @@ func _build_tools() -> void:
 	_menu_token = TokenButton.new("", "gear")
 	_menu_token.pressed.connect(_open_pause)
 	_stage.add_child(_menu_token)
-	_scout_token = TokenButton.new("Scout", "", UiTheme.FONT_SMALL)
+	_scout_token = TokenButton.new("", "close", UiTheme.FONT_SMALL)
+	_scout_token.tooltip_text = "Close scouting"
 	_scout_token.pressed.connect(toggle_scout)
 	_stage.add_child(_scout_token)
 	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
@@ -211,7 +212,8 @@ func render() -> void:
 	else:
 		_tier_button.set_face("", "tier", Data.as_int(tier_cost))
 		_tier_button.disabled = false
-	_refresh_button.set_face("", "refresh", Data.i(state, "refresh_cost", 1))
+	var refresh_cost: int = Data.i(state, "refresh_cost", 1)
+	_refresh_button.set_face("", "refresh", refresh_cost if refresh_cost != 1 else -1)
 	_kin_button.set_face("", "refresh", 2)
 	_kin_button.tooltip_text = (
 		"2 gold, once a turn: refresh with at least two units sharing your tribes. "
@@ -222,7 +224,7 @@ func render() -> void:
 	_freeze_button.set_face("", "freeze")
 	_freeze_button.tooltip_text = "Unfreeze" if frozen else "Freeze"
 	_tier_button.tooltip_text = "Tier up"
-	_refresh_button.tooltip_text = "Refresh"
+	_refresh_button.tooltip_text = "Refresh · %d gold" % refresh_cost
 	_end_button.set_face("End turn")
 	_lobby.show_standings(
 		Data.a(state, "standings"),
@@ -243,12 +245,14 @@ func render() -> void:
 
 
 func toggle_scout() -> void:
+	_hover_timer.stop()
+	_leave_timer.stop()
+	_hover_view = {}
+	_selected = {}
+	_detail.show_empty()
 	_scout.visible = not _scout.visible
 	_scout_token.lit = _scout.visible
-	_who_token.visible = _scout.visible
-	_scout_token.set_word("Close" if _scout.visible else "Scout")
-	if _selected.get("zone", "") == "scout":
-		_selected = {}
+	_who_token.visible = false
 	render()
 	if _scout.visible and RecruitView.is_ghost_next(state):
 		_show_opponent()
@@ -843,7 +847,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		toggle_dev_panel()
 		accept_event()
 	elif key.keycode == KEY_ESCAPE:
-		_open_pause()
+		if _scout.visible:
+			toggle_scout()
+		else:
+			_open_pause()
 		accept_event()
 
 

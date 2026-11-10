@@ -112,9 +112,28 @@ func setup(
 	glyph.position = Vector2((size.x - GLYPH) / 2.0, size.y - GLYPH + 6.0)
 	counter.visible = not count.is_empty()
 	counter.text = count
-	_counter_rect = Rect2((size.x - COUNTER_WIDTH) / 2.0, size.y - 48.0, COUNTER_WIDTH, 52.0)
+	# Keep the occupied glyph spot inside the face and between the two stat beads.
+	# A phone reader narrows board cards, so a fixed 64px box can cover both beads.
+	var gap_left: float = maxf(2.0, _attack.end.x + 4.0)
+	var gap_right: float = minf(size.x - 2.0, _health.position.x - 4.0)
+	var needed: float = 40.0
+	if counter.visible:
+		needed = clampf(
+			StatNumbers.minimum_width(int(count), counter.get_theme_font("font")) + 8.0,
+			40.0,
+			COUNTER_WIDTH
+		)
+	var width: float = minf(COUNTER_WIDTH, maxf(needed, gap_right - gap_left))
+	var number_height: float = maxf(37.0, counter.get_minimum_size().y)
+	var pip_height: float = 15.0 + number_height + 2.0
+	var top: float = size.y - pip_height - 2.0
+	if gap_right - gap_left < needed:
+		# Very small scout/hand faces have no room between their beads.
+		width = needed
+		top = minf(_attack.position.y, _health.position.y) - pip_height - 2.0
+	_counter_rect = Rect2((size.x - width) / 2.0, maxf(2.0, top), width, pip_height)
 	counter.position = _counter_rect.position + Vector2(0, 15)
-	counter.size = Vector2(COUNTER_WIDTH, 37)
+	counter.size = Vector2(width, number_height)
 	counter.pivot_offset = counter.size / 2.0
 	if counter.visible:
 		StatNumbers.fit(counter, counter.size.x, UiTheme.MIN_FONT, int(count))
@@ -321,7 +340,9 @@ func _draw_pending() -> void:
 
 func _draw_counter() -> void:
 	draw_style_box(UiTheme.flat_box(UiTheme.INK, UiTheme.CREAM, 2, 15), _counter_rect)
-	var icon_rect: Rect2 = Rect2(_counter_rect.position + Vector2(21, -1), Vector2(22, 22))
+	var icon_rect: Rect2 = Rect2(
+		_counter_rect.position + Vector2((_counter_rect.size.x - 22.0) / 2.0, -1), Vector2(22, 22)
+	)
 	match counter_kind:
 		"belly":
 			draw_arc(icon_rect.get_center(), 9, 0.0, TAU, 20, UiTheme.CREAM, 3, true)

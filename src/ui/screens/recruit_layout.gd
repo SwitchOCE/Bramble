@@ -116,6 +116,7 @@ func _layout() -> void:
 	var left: float = WRAP_MIN + maxf(0.0, (right_x - WRAP_MIN - content) / 2.0)
 	_lobby.position = Vector2(20, 17)
 	_lobby.size = Vector2(w - 54.0, LobbyStrip.HEIGHT)
+	_lobby.visible = not _scout.visible
 	var token: float = tap_size()
 	var late_status: bool = false
 	for plaque: Control in _lobby.plaques:
@@ -125,7 +126,7 @@ func _layout() -> void:
 	_menu_token.size = Vector2(token, token + 9.0)
 	_scout_token.position = Vector2(8, tools_top + token + 16.0)
 	_scout_token.size = Vector2(token, token + 9.0)
-	_scout_token.visible = false
+	_scout_token.visible = _scout.visible
 	_who_token.visible = false
 	_who_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
 	_who_token.size = Vector2(token, token + 9.0)
@@ -167,7 +168,9 @@ func _layout() -> void:
 		_layout_scouting(left, right_x)
 	_lanes.visible = false
 	_shelf.visible = not _scout.visible
-	_shop_scroll.visible = _scout.visible
+	_shop_cards.visible = not _scout.visible
+	_shop_zone.visible = not _scout.visible
+	_shop_scroll.visible = false
 	if not _scout.visible:
 		if _shop_cards.get_parent() != _stage:
 			_shop_cards.reparent(_stage, false)
@@ -178,51 +181,17 @@ func _layout() -> void:
 				card.set_card_width(_tile_width(offers))
 
 
-## Their board takes the shop's place; the shop's small tiles stand beside it, so your board, your
-## hand and every button stay where they were.
+## Scouting focuses the two boards. The shop and lobby return on the close token.
 func _layout_scouting(left: float, right_x: float) -> void:
 	_scout.set_column_pitch(_board.pocket.x + _board.gap)
 	var offset: float = (
 		_board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
 	)
 	var x: float = left + offset
-	var room: float = right_x - 20.0 - x
 	_scout.position = Vector2(x, SCOUT_TOP)
-	var heading_top: float = SCOUT_TOP
-	for plaque: Control in _lobby.plaques:
-		if plaque.has_node("LastStand"):
-			var status: Control = plaque.get_node("LastStand")
-			heading_top = maxf(
-				heading_top,
-				_lobby.position.y + plaque.position.y + status.position.y + status.size.y + 8.0
-			)
-	_scout.heading_offset = heading_top - SCOUT_TOP
-	_scout.size = Vector2(room, _scout.tray_height())
+	_scout.heading_offset = 0.0
+	_scout.size = Vector2(right_x - 20.0 - x, _scout.tray_height())
 	_scout.call("_layout")
-	# The scroll container starts 16px above shop_top, so include that inset plus an 8px gap.
-	var shop_top: float = maxf(SCOUT_SHOP_TOP, heading_top + ScoutPanel.TITLE_H + 24.0)
-	var shop_x: float = x + _scout.tray_width() + 30.0
-	var room_x: float = right_x - shop_x - 12.0
-	var max_columns: int = maxi(floori((room_x + MINI_GAP_X) / (tap_size() + MINI_GAP_X)), 1)
-	var columns: int = mini(maxi(ceili(_shop_cards.get_child_count() / 2.0), 1), max_columns)
-	_shop_cards.columns = columns
-	var rows: int = maxi(ceili(float(_shop_cards.get_child_count()) / columns), 1)
-	# Late shops wrap rather than squeezing their targets; keep the last row above the hand.
-	var gap_y: int = MINI_GAP_Y if rows <= 2 else 8
-	_shop_cards.add_theme_constant_override("v_separation", gap_y)
-	var tile: float = minf(MINI_TILE, floorf((room_x - (columns - 1) * MINI_GAP_X) / columns))
-	if _shop_cards.get_parent() != _shop_scroll:
-		_shop_cards.reparent(_shop_scroll, false)
-	_shop_scroll.position = Vector2(shop_x - 16.0, shop_top - 16.0)
-	_shop_scroll.size = Vector2(right_x - shop_x + 16.0, HAND_TOP - shop_top + 16.0)
-	for child: Node in _shop_cards.get_children():
-		var card: CardView = child as CardView
-		if card != null:
-			card.set_card_width(tile)
-	_shop_cards.position = Vector2.ZERO
-	_shop_cards.size = Vector2.ZERO
-	_shop_zone.position = Vector2(shop_x - 20.0, shop_top - 10.0)
-	_shop_zone.size = Vector2(right_x - shop_x, HAND_TOP - shop_top)
 
 
 ## The smallest comfortable tap target at this window's shape, in canvas units.

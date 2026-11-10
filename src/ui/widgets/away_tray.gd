@@ -20,6 +20,7 @@ func _init() -> void:
 	add_child(_panel)
 	_heading = UiTheme.head("Birds away", UiTheme.FONT_BODY)
 	add_child(_heading)
+	_heading.visible = false
 	_notes = RichTextLabel.new()
 	_notes.scroll_active = true
 	_notes.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -33,7 +34,7 @@ func _init() -> void:
 func show_state(state: Dictionary) -> void:
 	shown = RecruitHeld.sky_card(state)
 	visible = not shown.is_empty()
-	_notes.text = "Now → landing\n" + Data.s(shown, "text")
+	_notes.text = Data.s(shown, "text")
 	_layout()
 
 
@@ -41,5 +42,5 @@ func _layout() -> void:
 	_panel.size = size
 	_heading.position = Vector2(16, 10)
 	_heading.size = Vector2(maxf(0, size.x - 32), 46)
-	_notes.position = Vector2(16, 60)
-	_notes.size = Vector2(maxf(0, size.x - 32), maxf(0, size.y - 76))
+	_notes.position = Vector2(16, 16)
+	_notes.size = Vector2(maxf(0, size.x - 32), maxf(0, size.y - 32))

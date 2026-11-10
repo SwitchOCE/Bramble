@@ -1,5 +1,13 @@
 extends RefCounted
 ## Shared evidence counter. Counts nonempty, visible text controls rather than drawn digits.
+## Categories explain every counted node; they never exempt a node from the raw budget.
+
+const LABEL_CATEGORIES: PackedStringArray = [
+	"unit_stats", "hero_health", "fallback_names", "costs_and_controls", "other"
+]
+const CONFUSABLE_PORTRAITS: PackedStringArray = [
+	"young_brock", "old_brock", "sable", "mistress_russet"
+]
 
 
 static func text_nodes(node: Node, exclude_primary_stats: bool = false) -> Array[Dictionary]:
@@ -23,10 +31,196 @@ static func text_nodes(node: Node, exclude_primary_stats: bool = false) -> Array
 		and not words.strip_edges().is_empty()
 		and not (exclude_primary_stats and primary)
 	):
-		found.append({"path": str(node.get_path()), "text": words, "primary_stat": primary})
+		var record: Dictionary = {
+			"path": str(node.get_path()), "text": words, "primary_stat": primary
+		}
+		record.merge(classify_text_node(node))
+		found.append(record)
 	for child: Node in node.get_children():
 		found.append_array(text_nodes(child, exclude_primary_stats))
 	return found
+
+
+## Ownership, field identity and unit identity supply categories; displayed digits never do.
+static func classify_text_node(node: Node) -> Dictionary:
+	var owner_node: Node = node
+	var button: BaseButton = null
+	while owner_node != null:
+		if button == null and owner_node is BaseButton:
+			button = owner_node
+		var script: Script = owner_node.get_script()
+		var script_path: String = script.resource_path if script != null else ""
+		if (
+			script_path
+			in [
+				"res://src/ui/widgets/tribe_bonuses.gd",
+				"res://src/ui/widgets/combat_face.gd",
+				"res://src/ui/widgets/away_tray.gd"
+			]
+		):
+			var state_field: String = _owned_field(
+				owner_node, node, ["counter", "_heading", "_notes"]
+			)
+			return _category_record(
+				"other",
+				owner_node,
+				script_path,
+				state_field if not state_field.is_empty() else str(node.name)
+			)
+		var field: String = ""
+		var category: String = "other"
+		var reason: String = ""
+		match script_path:
+			"res://src/ui/widgets/card_view.gd", "res://src/ui/widgets/card_detail.gd":
+				field = _owned_field(
+					owner_node,
+					node,
+					[
+						"_attack_label",
+						"_health_label",
+						"_name_label",
+						"_tier_label",
+						"_type_label",
+						"_rules",
+						"_pending_label",
+						"_status_label",
+						"_turns",
+						"_type",
+						"_notes",
+						"_hint"
+					]
+				)
+				if field in ["_attack_label", "_health_label"]:
+					category = "unit_stats"
+				elif field == "_name_label" and script_path.ends_with("card_view.gd"):
+					var view: Dictionary = owner_node.get("unit")
+					reason = _fallback_reason(view)
+					if not reason.is_empty():
+						category = "fallback_names"
+				elif field == "_tier_label":
+					var view: Dictionary = owner_node.get(
+						"unit" if script_path.ends_with("card_view.gd") else "shown"
+					)
+					if (
+						str(view.get("kind", "")) in ["spell", "item"]
+						or CoreUtil.to_bool(view.get("poached", false))
+					):
+						category = "costs_and_controls"
+				if not field.is_empty():
+					return _category_record(category, owner_node, script_path, field, reason)
+			"res://src/ui/screens/recruit_screen.gd":
+				field = _owned_field(
+					owner_node, node, ["_tier_label", "_round_label", "_hand_count", "_toast"]
+				)
+				if not field.is_empty():
+					return _category_record("other", owner_node, script_path, field)
+			"res://src/ui/widgets/slot_marks.gd":
+				field = _owned_field(
+					owner_node,
+					node,
+					[
+						"_egg_attack",
+						"_egg_health",
+						"_ring_labels",
+						"_hex_labels",
+						"_trap_labels",
+						"_nest_labels",
+						"_pass_label"
+					]
+				)
+				if field in ["_egg_attack", "_egg_health"]:
+					category = "unit_stats"
+				return _category_record(category, owner_node, script_path, field)
+			"res://src/ui/widgets/lobby_plaque.gd":
+				field = _owned_field(owner_node, node.get_parent(), ["_hip", "_knot"])
+				if field == "_hip":
+					category = "hero_health"
+				return _category_record(category, owner_node, script_path, field)
+			"res://src/ui/widgets/gold_plaque.gd":
+				field = _owned_field(owner_node, node, ["_value", "_income", "_word"])
+				if field in ["_value", "_income"]:
+					category = "costs_and_controls"
+				return _category_record(category, owner_node, script_path, field)
+			"res://src/ui/widgets/hero_plaque.gd":
+				field = _owned_field(owner_node, node, ["_cost_label", "_name"])
+				if field == "_cost_label":
+					category = "costs_and_controls"
+				if not field.is_empty():
+					return _category_record(category, owner_node, script_path, field)
+		owner_node = owner_node.get_parent()
+	if button != null:
+		var script: Script = button.get_script()
+		return _category_record(
+			"costs_and_controls",
+			button,
+			script.resource_path if script != null else "",
+			"button text or rendered button descendant"
+		)
+	return _category_record("other", node, "", "unclassified text control")
+
+
+static func _owned_field(owner_node: Node, node: Node, fields: Array[String]) -> String:
+	# Archived widgets can predate fields; inspect the property list before reading them.
+	var available: Dictionary = {}
+	for property: Dictionary in owner_node.get_property_list():
+		available[str(property["name"])] = true
+	for field: String in fields:
+		if not available.has(field):
+			continue
+		var value: Variant = owner_node.get(field)
+		if value is Node and value == node:
+			return field
+		if value is Array:
+			var entries: Array = value
+			if entries.has(node):
+				return field
+		if value is Dictionary:
+			var entries: Dictionary = value
+			if entries.values().has(node):
+				return field
+	return ""
+
+
+static func _fallback_reason(view: Dictionary) -> String:
+	if str(view.get("kind", "")) in ["spell", "item"]:
+		return ""
+	var id: String = str(view.get("portrait_id", view.get("def_id", "")))
+	if CONFUSABLE_PORTRAITS.has(id):
+		return "confusable portrait exception: " + id
+	if not ResourceLoader.exists("res://assets/portraits/%s.jpg" % id):
+		return "no individual portrait: " + id
+	return ""
+
+
+static func _category_record(
+	category: String, owner_node: Node, script_path: String, field: String, reason: String = ""
+) -> Dictionary:
+	return {
+		"category": category,
+		"classification_owner": str(owner_node.get_path()),
+		"classification_script": script_path,
+		"classification_field": field,
+		"fallback_reason": reason,
+	}
+
+
+static func label_breakdown(node: Node) -> Dictionary:
+	return summarize_text_nodes(text_nodes(node))
+
+
+static func summarize_text_nodes(nodes: Array[Dictionary]) -> Dictionary:
+	var counts: Dictionary = {}
+	for category: String in LABEL_CATEGORIES:
+		counts[category] = 0
+	for record: Dictionary in nodes:
+		var category: String = str(record.get("category", "other"))
+		assert(LABEL_CATEGORIES.has(category), "unknown label category")
+		counts[category] = CoreUtil.to_int(counts[category]) + 1
+	var total: int = 0
+	for category: String in LABEL_CATEGORIES:
+		total += CoreUtil.to_int(counts[category])
+	assert(total == nodes.size(), "every visible text node must count exactly once")
+	return {"raw_count": nodes.size(), "counts": counts, "visible_text_nodes": nodes}
 
 
 ## Budget only ancillary text; the unit Attack/Health and hero Health labels carry explicit tags.
