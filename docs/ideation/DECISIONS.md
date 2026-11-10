@@ -9,6 +9,10 @@ One line per call that still holds. Newest calls go at the bottom of their group
 - At most two or three focus items per loop, picked by the owner from the day-1 gallery.
 - Each step: the gate plus one scope review. No numeric scores for looks; reviewers answer plain questions beside reference shots. No new bars or measurement plans unless the owner asks.
 - Defaults until the owner says otherwise: sound out; tutorial and Rules reference in; PC landscape first, portrait later; the Everdell and Ori look for the world, units kept in their style.
+- Reference frames live outside git in `/data/bramble-reference/<game>/`, shared by every worktree and the gallery; the manifest and re-fetch README are in `docs/ideation/ui/reference/`. (orchestrator, 10 Nov: an in-repo folder isn't shared across worktrees)
+- Step 0b's capture, backdrops and layout options are one step: one scope review over their branches together. (orchestrator, 10 Nov)
+- The scope fence also covers `tests/sim/` and, once step 0 has merged, `scripts/check.sh`, so one edit can't switch the fence off. (orchestrator, 10 Nov, step 0 review ask)
+- Look clips keep the GIF and contact sheet and delete their raw frames unless `--keep-frames` is given; look sessions older than 7 days are pruned. (orchestrator, 10 Nov, step 0 review ask)
 
 ## Look
 

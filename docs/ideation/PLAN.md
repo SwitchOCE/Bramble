@@ -1,10 +1,10 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** A new phase on look and feel only: UI, UX and how the game looks on screen. It starts with a headless play tool and a reference library led by The Bazaar, then a day-1 gallery for the owner.
+- **In short:** Agents can now see and play the game headless (step 0 merged). The reference frames, painted backdrops and layout options for the day-1 gallery are being made.
 - **Status:** active
-- **Last step done:** 10 Nov: run 1 archived (`archive/run1/`); this plan written with the owner and checked by two fresh interrogations (`ui/`).
-- **Next step:** step 0 (the headless look tool and the scope-fence check) and step 0b (the reference library, backdrops and layout options), in parallel.
+- **Last step done:** 10 Nov: step 0 merged: the headless look tool (`tools/look/`) and the scope-fence check in the gate; gate passed, one scope review, proven by a fresh agent playing by clicks alone.
+- **Next step:** finish step 0b (Battlegrounds, TFT and Everdell frames; layout options and their critic), then the day-1 gallery.
 - **Waiting on you:** nothing yet. The day-1 gallery will ask you to pick two or three focus items and a layout.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
 <!-- /status -->
