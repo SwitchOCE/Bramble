@@ -262,9 +262,6 @@ class Gallery:
             if critic:
                 result.append(markdown(critic))
             else:
-                match = re.search(r"\*\*Fresh critic:\*\*\s*(.*?)(?=\n\n|\Z)", notes, re.S)
-                if match:
-                    result.append(markdown("**Fresh critic:** " + match[1]))
                 self.missing.add(f"layouts/critic.md: {name}")
             result.append("</article>")
         if not self.options:
@@ -279,7 +276,10 @@ class Gallery:
                         for p in images) + '</div></details>')
 
     def detail(self):
-        body = '<div class="detail"><p>' + link("breakdown/bazaar.html", "The Bazaar breakdown") + '</p>'
+        body = '<div class="detail">'
+        for path in sorted((self.root / "breakdown").glob("*.md")):
+            name = GAMES.get(path.stem, path.stem.title())
+            body += '<p>' + link(f"breakdown/{path.stem}.html", f"{name} breakdown") + '</p>'
         body += '<div class="grid">'
         for game, name in GAMES.items():
             if (self.root / "ref" / game / "sheet.jpg").exists():
@@ -290,7 +290,7 @@ class Gallery:
         body += self.library("layouts", "Layouts · every still · PC and phone")
         body += self.library("clips", "Clips · recruit and fight")
         body += self.library("backdrops", "Backdrops · PC and phone")
-        body += self.library("breakdown", "The Bazaar · comparisons and zone maps")
+        body += self.library("breakdown", "Breakdowns · comparisons and zone maps")
         body += '<p>' + link("options-contact.jpg", "Layout options · contact sheet") + '</p></div>'
         return body
 
@@ -384,10 +384,10 @@ class Gallery:
         if not (self.root / "text.md").is_file():
             raise ValueError(f"Missing page text: {self.root / 'text.md'}")
         self.copy_references()
-        breakdown = self.read("breakdown/bazaar.md")
-        if breakdown:
-            write(self.root / "breakdown/bazaar.html", document("The Bazaar breakdown",
-                  link("../index.html#detail", "Detail") + markdown(breakdown)))
+        for path in sorted((self.root / "breakdown").glob("*.md")):
+            name = GAMES.get(path.stem, path.stem.title())
+            write(path.with_suffix(".html"), document(f"{name} breakdown",
+                  link("../index.html#detail", "Detail") + markdown(path.read_text(encoding="utf-8"))))
         self.contact()
         page = self.page()
         if len(page.encode("utf-8")) >= 1_000_000:

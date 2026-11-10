@@ -1,6 +1,6 @@
 # Layout options
 
-Four static choices for Step 0b. [Gallery](http://100.92.26.47:8790/loop1/layouts/) · [Bazaar comparison sheet](http://100.92.26.47:8790/loop1/layouts/sheet.jpg). Each has recruit and mid-fight at 1920×1080 and 1688×780, plus a phone reader study. All say **concept**: the forest, stump material and foreground foliage are generated paintings. Depth is visible in stills; no GIFs.
+Four static choices for Step 0b. [Bazaar comparison sheet](http://100.92.26.47:8790/loop1/layouts/sheet.jpg). Each has recruit and mid-fight at 1920×1080 and 1688×780, plus a phone reader study. All say **concept**: the forest, stump material and foreground foliage are generated paintings. Depth is visible in stills; no GIFs.
 
 ## Woodland Table
 

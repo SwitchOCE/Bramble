@@ -10,11 +10,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import html
 import json
 import math
 import random
-import re
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFont, ImageOps
@@ -419,24 +417,6 @@ def sheet(out, references):
     result.save(out / "sheet.jpg", quality=94, subsampling=0)
 
 
-def gallery(out):
-    sections = []
-    notes = (ROOT / "docs/ideation/ui/layouts.md").read_text()
-    for key, (name, idea, _) in OPTIONS.items():
-        images = "".join(f'<a href="{key}/{state}_{w}x{h}.jpg"><figure><img loading="lazy" src="{key}/{state}_{w}x{h}.jpg"><figcaption>{state.capitalize()} · {w} × {h}</figcaption></figure></a>'
-                         for w, h in SIZES for state in ("recruit", "fight"))
-        images += f'<a href="{key}/reader_1688x780.jpg"><figure><img loading="lazy" src="{key}/reader_1688x780.jpg"><figcaption>Phone · tap reader open</figcaption></figure></a>'
-        option_notes = notes.split(f"## {name}\n", 1)[1].split("\n## ", 1)[0]
-        critique = re.search(r"\*\*Tradeoffs:\*\* (.+)", option_notes)
-        critic_text = f'<p><strong>Tradeoffs:</strong> {html.escape(critique.group(1))}</p>' if critique else ""
-        sections.append(f'<section><h2>{name}</h2><p>{html.escape(idea)}</p>{critic_text}<div class="grid">{images}</div></section>')
-    (out / "index.html").write_text('''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Bramble · Layout options</title><style>body{margin:0;background:#14221d;color:#f0e7ce;font:18px/1.5 system-ui}main{max-width:1500px;margin:auto;padding:24px}h1,h2{line-height:1.1}h2{font-size:36px}section{margin:55px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}a{color:#d9ca94}figure{margin:0}img{width:100%;display:block}figcaption{padding:8px 0;color:#c7c9b3}p{max-width:70ch}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style><main>
-<h1>Bramble · Layout options</h1><p>Static layout concepts using real Godot tiles, portraits and controls. Painted worlds are concepts. Tap a still to open it at native size. No motion-dependent depth.</p>
-<p><a href="sheet.jpg">Open the Bazaar comparison sheet</a> · <a href="notes.md">Option details and tradeoffs</a></p>'''
-        + "".join(sections) + '</main></html>')
-
-
 def readers(out, assets):
     source = Image.open(assets / "recruit/reader.png").convert("RGBA")
     source = source.crop(source.getchannel("A").getbbox())
@@ -478,7 +458,6 @@ def main():
             "fight": args.references / "fight--steam-trailer-0034.jpg"}
     readers(args.out, args.assets)
     sheet(args.out, refs)
-    gallery(args.out)
     for entry in manifest:
         entry["renderer"] = "rearranged real Godot nodes" if entry["option"] == "woodland-table" and entry["state"] == "recruit" else "transparent real Godot widget captures recomposed in Pillow"
         entry["sha256"] = hashlib.sha256((args.out / entry["file"]).read_bytes()).hexdigest()
@@ -487,7 +466,7 @@ def main():
                     "fight": {"file": str(refs["fight"]), "source": "https://store.steampowered.com/app/1617400/", "timestamp": "00:01:44.500"}},
         "method": "Real Godot widgets; generated woodland material and foliage; projective plane, shadows and a native tile-size floor",
         "motion": "None: all depth is visible in stills", "combat_event_index": json.loads((args.assets / "fight/parts.json").read_text())["event_index"]}, indent=2))
-    print(f"Wrote {len(manifest)} native-size stills, comparison sheet and gallery to {args.out}")
+    print(f"Wrote {len(manifest)} native-size stills, comparison sheet to {args.out}")
 
 
 if __name__ == "__main__":
