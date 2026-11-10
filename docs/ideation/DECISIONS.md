@@ -4,6 +4,24 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, sixth cold reader: merge, with two fixes for batch 2
+**Source:** the sixth fresh cold reader and its scorer on the cue-retirement reshoots, Bog 017/025 and combat_mid 045 at ×1, ×4 and reduce motion (`evidence/declutter/batch1-independent/reader6/`).
+
+**Picked:**
+- **Batch 1 passes. Merge `6888ee1c`** (the re-merge onto ideation/main after the portraits merge) once its gate passes.
+  - Every "who hit", every hit and every death is right in all nine strips.
+  - All three Bog cues read: Toll, the queued gain and the kiss.
+  - Old cues end at the next action, and the attacker frame clears when the attacker dies.
+  - combat_mid at ×1 and under reduce motion passes only under the standing call ("third cold reader" entry), which sends the rule behind Mire's wait to batch 4's Rules page.
+- **Mire wait's skip stamp** moves off the portrait to sit over the attacker triangle, as a glyph that can't pass for card art (pause bars). The reader took the stamp for "a singing toad with a banjo". Goes to batch 2 (w4).
+- **Strip capture:** the lunge-peak frame is added as a ninth frame instead of replacing a sample, so the frame after the hit stays. The 045 strips lost every hit number this way. Goes to batch 2 (w4).
+- **Minor, in batch 2 if cheap:**
+  - Take's acorn reads as gold with no amount, but a Take pays stats (rulebook 9.6.6). Show the amount, or a stat mark instead of the acorn.
+  - At ×4, the Toll line's head crosses the toad's Attack chip, so the wrong unit looks like the one gaining.
+- **×4 isn't four times faster for trigger beats.** Take to reward is 108 ticks and Mire wait to next attack is 109 ticks, the same at ×1 and ×4. Batch 2 checks whether beat timers scale with speed.
+
+**Agreed by:** the sixth cold reader and its scorer.
+
 ### 10 Nov 2026 — Portraits batch C and Golden Egg: review calls
 **Source:** the scope review of `ideation/portraits4` `0c3fd133..ba4bebe1` (`evidence/review-portraits5.md`): 9 keep, 0 cut, 1 simplify, 1 ask.
 
