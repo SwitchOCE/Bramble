@@ -51,3 +51,7 @@ See [the owner note](owner-notes/2026-10-27f-power-budget-decisions.md).
 
 16. The other ~45 proposed defaults in [rulebook-deltas.md](rulebook-deltas.md) are mostly edge cases with sensible defaults: start and end-of-turn order, pool returns, triples with a full hand, and so on. Skim them and flag any you disagree with. Unflagged ones count as accepted.
 17. **The hand.** The rulebook keeps Battlegrounds' hand: bought units go to the hand, not straight onto the board. (rulebook 7.2)
+
+## 5. Design philosophy
+
+18. **Bridge pieces vs tribe-locked payoffs** (from `bramble-design-guidance.md`, 10 Nov). The game-design skill's Players check asks what a piece does outside its home tribe. The docs partly answer it: "Early units should be somewhat flexible as well as enabling" (09f), and "Tribe-only payoffs carry the tribe word, so others can't splash them" (`fundamentals.md`). Read together, early units are flexible bridges and payoffs stay tribe-locked. Is that right? *Ideation works to that reading until the owner answers (DECISIONS, 10 Nov).*
