@@ -1,4 +1,9 @@
-# Declutter batch 2 — work in progress
+# Declutter batch 2 — implementation and evidence checkpoints
+
+**Current checkpoint:** the recruit label gate now passes at both sizes: overview
+40, lobby 39, scout 30, natural Birds 30. See [main integration and verified cuts](followup-main.md)
+and [refreshed native evidence](focus-followup/README.md). The remainder below
+preserves the original checkpoint and its historical limitations.
 
 Started at d400831e on ideation/declutter-b2. Batch 1's requested follow-ups were
 committed through cea9d0e2 and merged back at 593e0740. Nothing was pushed.

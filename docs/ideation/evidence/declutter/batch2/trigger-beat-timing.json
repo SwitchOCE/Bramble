@@ -1,0 +1,78 @@
+{
+  "source": "docs/ideation/evidence/declutter/batch1/strips/cue-retirement/after-final-timings.json",
+  "source_production_revision": "22c5e9f3",
+  "checked_source_revision": "4c5c2900",
+  "fixed_step": 0.008333333333333333,
+  "observations": [
+    {
+      "speed": 1.0,
+      "event_index": 41,
+      "kind": "take",
+      "next_event": "trigger",
+      "ticks": 108,
+      "seconds": 0.9
+    },
+    {
+      "speed": 1.0,
+      "event_index": 50,
+      "kind": "take",
+      "next_event": "trigger",
+      "ticks": 108,
+      "seconds": 0.9
+    },
+    {
+      "speed": 1.0,
+      "event_index": 53,
+      "kind": "mire_wait",
+      "next_event": "attack",
+      "ticks": 109,
+      "seconds": 0.9083333333333333
+    },
+    {
+      "speed": 1.0,
+      "event_index": 67,
+      "kind": "take",
+      "next_event": "quarry_lost",
+      "ticks": 108,
+      "seconds": 0.9
+    },
+    {
+      "speed": 4.0,
+      "event_index": 41,
+      "kind": "take",
+      "next_event": "trigger",
+      "ticks": 108,
+      "seconds": 0.9
+    },
+    {
+      "speed": 4.0,
+      "event_index": 50,
+      "kind": "take",
+      "next_event": "trigger",
+      "ticks": 108,
+      "seconds": 0.9
+    },
+    {
+      "speed": 4.0,
+      "event_index": 53,
+      "kind": "mire_wait",
+      "next_event": "attack",
+      "ticks": 109,
+      "seconds": 0.9083333333333333
+    },
+    {
+      "speed": 4.0,
+      "event_index": 67,
+      "kind": "take",
+      "next_event": "quarry_lost",
+      "ticks": 108,
+      "seconds": 0.9
+    }
+  ],
+  "source_findings": {
+    "CombatScreen._event_hold": "take and mire_wait return 0.9 seconds; stats/status/quarry return 0.4 seconds, with no speed division",
+    "CombatMotion._effect_barrier": "stores seconds unchanged; Take requests 1.2, Mire wait 0.9",
+    "Mire_pause": "0.12 source lead + 0.58 hold + 0.15 fade remain fixed seconds"
+  },
+  "scope": "Checked only; the prior orchestrator call leaves effect-wait speed changes for batch 3."
+}

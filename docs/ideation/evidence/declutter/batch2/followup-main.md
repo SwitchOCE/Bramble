@@ -55,3 +55,49 @@ At this checkpoint: `ruff check tools`, `ruff format --check tools`,
 `gdlint src tools`, `(cd tests && gdlint .)`, and
 `gdformat --check src tools tests` pass (643 GDScript files unchanged by format).
 Runtime and refreshed evidence results will be appended after the slot is free.
+
+
+## Verified continuation (production 4c5c2900)
+
+The gated portrait rerolls and main's gated batch 1 merge are now integrated,
+through main `c6e554af`, at batch-2 merge `bb5b9e45`. Grizel's re-roll is present,
+so both remaining name exceptions are removed. No shipped tile keeps a name.
+DECISIONS exactly matches that main tree; the batch 1 branch stays `330ed2cd`.
+
+The 40-node gate passes at **both 1688×780 and 1920×1080**:
+
+| State | Unit stats | Hero Health | Names | Costs/controls | Other | Total |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Overview | 24 | 8 | 0 | 3 | 5 | **40** |
+| Lobby | 24 | 8 | 0 | 3 | 4 | **39** |
+| Scout | 24 | 0 | 0 | 3 | 3 | **30** |
+| Natural Birds | 14 | 8 | 0 | 4 | 4 | **30** |
+| Reader open | 32 | 8 | 0 | 4 | 7 | 51 (reported separately) |
+
+`budget-breakdown.md` and JSON retain all 16 rows and every node. All 14 resting
+rows pass. The legacy slice includes 3/4 genuinely missing-art fixture names and
+still counts them; no production portrait exception or text-node exemption was
+added. Recruit tests pass 12/12 (255 assertions, 7.550 s); classifier 5/5
+(263 assertions, 1.192 s). Refreshed native evidence is in `focus-followup/`.
+
+### Sixth-reader additions on batch 2
+
+- Mire's crossed-sword disc is replaced with two ink-rimmed pause bars above
+  the attacker triangle, outside the portrait. Tests cover both sides and rows,
+  normal and reduce motion, viewport bounds and cue lifetime.
+- Take's two acorn reward legs now use the shared stat spark: rulebook 9.6.6
+  pays queued stats, not gold. Motion timing is unchanged.
+- Combat stat beads draw above transfer paths/motes, so a passing Toll head
+  cannot cover another unit's Attack/Health chip. Damage pops draw above those
+  beads and remain readable; a regression checks both ordering requirements.
+- Strip capture preserves all eight original uniform frames and adds unique
+  observed lunge peaks, instead of replacing a post-hit frame. The new packet
+  is `../batch1/strips/uniform-plus-peaks/`; the accepted cue-retirement packet
+  is unchanged. Each sample records visible text and actual damage-pop state.
+
+`trigger-beat-timing.json` confirms the speed finding against recorded event
+ticks and current source: Take→next event is **108 ticks / 0.9 s**, and Mire
+wait→next attack **109 ticks / 0.9083 s**, at both ×1 and ×4. `_event_hold`
+returns fixed 0.9 s for both; `_effect_barrier` also stores unscaled seconds
+(Take 1.2, Mire 0.9). The new call requests a check; the earlier explicit call
+leaves the speed-scheduling change for batch 3, so these waits were not changed.
