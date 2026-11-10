@@ -19,7 +19,7 @@
   - Android APK: REQUIRE_ANDROID=1.
   - Pack listing: levers and pass3 rates must be in it; content/fields must NOT be in it.
 - export_presets.cfg: 4 presets. Android version/code=1 and name 0.0.1 on every build.
-- build/export-ideation7.sh and build/finish-ideation7.sh are hand-copied for each build, with the build number hard-coded:
+- At the reviewed baseline, delivery wrappers were hand-copied for each build with the number hard-coded. They have since been deleted; `build/export.sh` is the single entry point, and Git retains the historical wrappers:
   - apksigner cert compare against builds 5 and 6;
   - wine boot;
   - zip and APK integrity;
