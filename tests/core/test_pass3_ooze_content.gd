@@ -27,14 +27,14 @@ const A35_DIALS: Dictionary = {
 		"oozes_hasty_share": 1.0 / 3.0,
 		"oozes_aspic_bonus": 0.75,
 		"oozes_golden_aspic_multiplier": 2.5,
-		"oozes_eat_printed_multiplier": 2,
+		"oozes_eat_printed_multiplier": 2.0,
 	},
 	"C":
 	{
 		"oozes_hasty_share": 0.5,
 		"oozes_aspic_bonus": 1.0,
 		"oozes_golden_aspic_multiplier": 3.0,
-		"oozes_eat_printed_multiplier": 3,
+		"oozes_eat_printed_multiplier": 3.0,
 	},
 }
 var library: UnitLibrary
