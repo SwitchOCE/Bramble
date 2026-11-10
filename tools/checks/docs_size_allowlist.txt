@@ -1,0 +1,9 @@
+# Explicit exceptions to the docs size guard: one exact docs/ path per line.
+# Add a comment explaining why each exception is necessary. No globs.
+# Existing batch 2 contact sheets: native-size JPEG quality 85, preserving readable faces.
+# Other evidence is below the per-file cap; any future large file needs its own rationale.
+docs/ideation/evidence/declutter/batch2/all-unit-board-faces.jpg
+docs/ideation/evidence/declutter/batch2/focus-followup/all-unit-board-faces.jpg
+docs/ideation/evidence/declutter/batch2/focus-followup/shipped-unit-board-faces.jpg
+docs/ideation/evidence/declutter/batch2/cold-recruit/technical/all-unit-board-faces.jpg
+docs/ideation/evidence/declutter/batch2/cold-recruit/technical/shipped-unit-board-faces.jpg
