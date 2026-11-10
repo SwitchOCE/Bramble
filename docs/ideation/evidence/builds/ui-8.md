@@ -1,59 +1,67 @@
-# Build 8 UI blocker — 10 Nov 2026
+# Build 8 UI run and reruns — 10 Nov 2026
 
-**Blocked; the run stopped on a real runtime bug, as the brief requires.**
+**Accepted coverage: 4 full games and 2 late checks; zero remaining problems or errors.**
 
-Command: `tests/ui/full_ui_run.sh 2 1000`, through `scripts/godot_slot.sh`,
-with the sourced `/opt/bramble/env.sh`, a 3 GB systemd scope, Xvfb and a 40-minute
-outer timeout. Source: `ff1da4e8879575dde4df61f8c777ae4edec0c889`.
-The Soup preset change does not change any UI code.
+The requested `tests/ui/full_ui_run.sh 2 1000` completed all four games and both
+late checks on game-code source `48fbedd0dd3f674fc00aa1141771424915b87ecf`, with a
+normal engine clock, six LP threads, the shared Godot slot/3 GB cap, per-game
+900-second timeout and 40-minute outer limit. No layout/font threshold changed.
 
-The first desktop game, 1920×1080, seed 1000, recorded 6 script errors and
-22 problem lines before being terminated during round 6. No game finished;
-the other three games and the two late checks did not run. This is an aborted
-failure, not a completed four-game result. The existing `evidence/ui-run.md`
-was not overwritten and describes an older run.
+Its original shell exit was 1: both phone games reached a ghost and the harness
+tried to click the absent hero portrait. Those eight assertions were harness
+failures, not game runtime errors. The corrected harness checks the ghost
+identity shown when Scout opens; living opponents still require a real portrait
+click. Both affected phone games were rerun in full with the same seed, size and
+player style. Unchanged desktop cases were retained instead of replayed.
 
-The exact runtime error is `Trying to assign invalid previously freed instance.`
-It occurs in `src/ui/screens/recruit_action_motion.gd`:
+| Size | Seed | Player | Place | Turns | Ghosts | Top tier | Problems | Errors | Exit |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|
+| 1920×1080 | 1000 | skilled | 8 | 11 | 0 | 6 | 0 | 0 | 0 |
+| 1920×1080 | 1001 | skilled, cap 3 | 8 | 12 | 0 | 6 | 0 | 0 | 0 |
+| 1688×780 | 1100 | skilled, rerun | 6 | 13 | 1 | 6 | 0 | 0 | 0 |
+| 1688×780 | 1101 | skilled, cap 3, rerun | 4 | 14 | 1 | 6 | 0 | 0 | 0 |
 
-- `finish()`, line 221: assigning `pulse["target"]` to a typed `Control` fails
-  before the following `is_instance_valid()` check can run.
-- `advance()`, line 184: the same failure on `track.get("target")`.
+Both forced late checks used seed 1000 and completed five rounds, at tier 6 with
+a full seven-unit board and ten-card hand: **0 problems, 0 errors, exit 0** at
+both sizes. The phone floor and smallest desktop text were **31 canvas units**.
+The 20-game depth bar was not judged: this is the requested short run. Three
+full games reached round 12, none reached 15, no game was won, and two ghost
+fights occurred. The old `naive` table label is a legacy harness flag; the port
+uses the current single shipping bot strength. This is not a bot-strength verdict.
 
-The stack traces show normal hand play through `_tap_without_swallow`,
-`_act_placed`, `_act`, `_after_change`, `present`, and the motion process;
-`_on_end_turn` also reaches the failing `finish()`.
-The log additionally reports Scout, Who?, shop and board click misses and a
-Lamp Moth label outside the window at x = −20.16. Their causes were not diagnosed.
-No UI or gameplay bug was fixed in this task.
+The reruns use the same scoped command as the batch's `play()` function, through
+`scripts/godot_slot.sh`, Xvfb and the same normal renderer/audio setup:
 
-The complete retained first-game log is [ui-8-blocker.log](ui-8-blocker.log).
-SHA-256: `d2aaa8df314c7e6a5a56482c6f98f6a1f08b043fdab10cf48ea6695bd6d8ed86`.
+```sh
+godot --rendering-driver opengl3 --audio-driver Dummy   -s res://tests/ui/shots/playthrough.gd -- 1688x780 --level naive --skilled 1100
+godot --rendering-driver opengl3 --audio-driver Dummy   -s res://tests/ui/shots/playthrough.gd -- 1688x780 --level naive --skilled --cap 3 1101
+```
 
-## Work stopped and retained
+Raw original logs: `build/ui-run/`. Accepted phone logs:
+`build/ui-1100-fixed.log`, `build/ui-1101-fixed.log`. The original generated
+[batch receipt](../ui-run.md) is retained with a follow-up note; it is not
+mislabelled as an all-green fresh invocation. The harness-only ghost correction
+is `f25a6dc5`. Gameplay source, content, rates and line policies are unchanged.
 
-- The old recapture was terminated after the blocker; its partial raw capture is
-  under `build/strong-field/recapture/`. No final library was generated, so there
-  is no library size or SHA to report. Never use that partial capture: it also
-  predates the newly requested Soup change.
-- Step 0 is committed separately as `3336f79e202579c21528050513cb298fc509f845`: B Soup share 0.3 → 0.2,
-  normal/golden generated faces and their authored mechanic value updated;
-  C and every other rate are unchanged. The requested arm is
-  `ooze-cut-soup-fifth-20261110` (orchestrator-supplied measurements: engine R12
-  789 / 1,554 / 59,334; R15 ÷ R12 5.5; tempo R12 685 / 993 / 5,474).
-- Step 0 validation: 48/48 tests and 6,126 assertions across
-  `test_pass3_path`, `test_pass3_dial_behaviour`, `test_pass3_ooze_content`;
-  strict GUT hook passes. Raw log: `build/soup-targeted.log`.
-- Ruff check and format, gdlint and gdformat --check passed; the full Godot
-  suite did not run. The orchestrator retains the cloud gate.
-- Memory measurement: not run. Dry-run export: not run, no folder.
-  Soak: not submitted, no sim id or result. An unsubmitted config remains at
-  `build/soak200-build8-20261110.json` with 200 seeds, 8 shards, preset B and
-  `library: res://content/fields/baseline.json.gz`.
-- The PLAYTEST build 8 addition is retained above build 7's older notes; older
-  sections are unchanged. Its Ooze gap uses the orchestrator's latest wording.
+## Fixes and targeted checks
 
-Resume only after the UI blocker is resolved or the orchestrator explicitly
-changes the stop condition. Recapture from the resulting final source commit,
-commit library provenance, then run the memory/export checks and library-based
-soak; repeat the requested UI run on that source. No real export or push occurred.
+See [the commit/cause map](bug-fixes-8.md). The final timing compatibility fix
+`9abcef79` retains the original 0.1-second Skip return and 1.6-second last-death
+budget. Final rewards start during the death fade; individual motion durations
+are unchanged. It polls unfinished motion on the next frame and paints one
+settled frame. **63/63 targeted UI tests and 3,015 assertions pass**, including
+the existing Skip and timing tests and the new freed-node, reader and numeral
+regressions (`build/return-final-passed.log`). No full Godot suite ran.
+
+## Actual finished-game log
+
+The real desktop seed-1000 game wrote [this record](game-log-8-1000.json):
+57 accepted actions, placement 8, build `48fbedd0dd3f674fc00aa1141771424915b87ecf`.
+`tools/play/play.sh replay-log` exited 0 and reproduced its final state hash:
+`55f8da2ca1c19244f9fcdd08afd44f56106f8a32ce305599c701e57fb0da1f31`.
+Raw replay output: `build/ui-record-1000-replay.log`.
+Replay was checked while HEAD matched the record's build; replaying the retained
+sample later requires that recorded source commit, as the verifier intends.
+
+The original source-ff1da4e8 failure was fixed, and its exact log is retained at
+[ui-8-blocker.log](ui-8-blocker.log). No real phone or physical touch was tested.
