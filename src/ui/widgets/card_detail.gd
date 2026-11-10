@@ -213,6 +213,9 @@ func _layout() -> void:
 	if w < 10.0:
 		return
 	var side_actions: bool = _action_column.has_area()
+	# A desktop hand reader fits above the board: portrait left, scrollable rules right.
+	var across: bool = w >= 800.0 and size.y < 500.0
+	var heading_w: float = 500.0 if across else w
 	var gap: int = 0 if side_actions else 6
 	var button_h: float = SIDE_ACTION_H if side_actions else ACTION_H
 	actions.add_theme_constant_override("separation", gap)
@@ -232,7 +235,7 @@ func _layout() -> void:
 	_art.position = Vector2(24, 24)
 	_art.size = Vector2(art, art)
 	_banner.position = Vector2(art + 36.0 if _art.visible else 24.0, 28)
-	_banner.size = Vector2(w - _banner.position.x - 18.0, 104)
+	_banner.size = Vector2(heading_w - _banner.position.x - 18.0, 104)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
 	_fit_name()
@@ -257,19 +260,21 @@ func _layout() -> void:
 	StatNumbers.fit(_health_label, _health.inner_width(), 40, maxi(Data.i(shown, "health"), 0))
 	var hint_h: float = 0.0
 	if _hint.visible:
-		hint_h = maxf(84.0, _wrapped_height(_hint, w - 48.0))
+		hint_h = maxf(84.0, _wrapped_height(_hint, heading_w - 48.0))
 		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
-		_hint.size = Vector2(w - 48.0, hint_h)
-	var notes_top: float = 248.0 if _art.visible else 186.0
-	var text_bottom: float = bottom - 14.0 - 16.0 - hint_h
+		_hint.size = Vector2(heading_w - 48.0, hint_h)
+	var notes_left: float = heading_w + 24.0 if across else 26.0
+	var notes_top: float = 24.0 if across else (248.0 if _art.visible else 186.0)
+	var notes_w: float = w - notes_left - 26.0
+	var text_bottom: float = bottom - 30.0 - (0.0 if across else hint_h)
 	var slip_h: float = 0.0
 	if reminder.visible:
 		# Set apart under the rules, never over them; long rules scroll above it.
-		slip_h = minf(reminder.height_for(w - 40.0), (text_bottom - notes_top) * 0.6)
-		reminder.place(Rect2(20, text_bottom - slip_h, w - 40.0, slip_h))
+		slip_h = minf(reminder.height_for(notes_w + 12.0), (text_bottom - notes_top) * 0.6)
+		reminder.place(Rect2(notes_left - 6.0, text_bottom - slip_h, notes_w + 12.0, slip_h))
 		slip_h += 10.0
-	_notes.position = Vector2(26, notes_top)
-	_notes.size = Vector2(w - 52.0, maxf(text_bottom - notes_top - slip_h, 40.0))
+	_notes.position = Vector2(notes_left, notes_top)
+	_notes.size = Vector2(notes_w, maxf(text_bottom - notes_top - slip_h, 40.0))
 	actions.position = Vector2(0, bottom)
 	actions.size = Vector2(w, action_h)
 	if side_actions:

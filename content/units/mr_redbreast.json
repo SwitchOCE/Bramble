@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "After a Bird comes home: gain an eighth of its stats.",
-  "golden_text": "After a Bird comes home: gain a quarter of its stats.",
+  "text": "After a Bird comes home: gain a sixth of its stats.",
+  "golden_text": "After a Bird comes home: gain a third of its stats.",
   "mechanics": [
     {
       "id": "pass3_bird",

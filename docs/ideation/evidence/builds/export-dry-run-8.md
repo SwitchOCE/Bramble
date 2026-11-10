@@ -1,62 +1,27 @@
-# S3 unified export dry run — 10 Nov 2026
+# Build 8 dry-run export — 10 Nov 2026
 
-The complete dry run passed on source commit
-`7b550a2c674275ee0a51ba83c0d5c78de15e4206`, using:
+**PASS. No real export, tag or latest update was made.**
 
-```sh
-FIELD_LIBRARY="$PWD/build/fields/throwaway-512dc07e8ad0.json.gz" \
-  build/export.sh --dry-run 8 'Throwaway current-content field and delivery verification'
-```
+Command: `build/export.sh --dry-run 8 "Bigger tribe stats with new neutrals and clearer screens"`.
+Source: `5c050a4ccaee3631330acfe80735e198b37ba01d`. Folder: `/home/alex/code/Bramble-ideation-build8/build/export-dry-run-8-1110-1922.YrRzfp`.
 
-Folder: `/home/alex/code/Bramble-ideation-sol/build/export-dry-run-8-1110-1214.0202BX/`
+This source includes review merge `2ef29af4` and reader repair `5c050a4c`.
+The script exited 0 after all its own checks:
 
-README: `build/export-dry-run-8-1110-1214.0202BX/README.txt`. Its first line is:
+- Linux, Windows and Android pack listings include the strong-field library.
+- Windows PCK and APK asset-pack probes load the library and report its exact
+  SHA-256: `3653057c0127bd55ab32bdbb09bf7f95b8831ad8764b7d6c5f63f8fb7ca711fa`.
+- APK integrity and certificate verification pass. Certificate SHA-256:
+  `e72ece9566a57b9cd8e3d6c65627c680f86eff909c6cf75c1fe6fac44509dbe4`;
+  it matches the debug keystore and published build 7.
+- Linux and Wine boots reach `boot: main scene ready` and exit 0.
 
-> Ideation build 8: Throwaway current-content field and delivery verification
+The dry-run snapshot enables `strong_field` to exercise field starts. Its library
+is the committed baseline, byte-for-byte; the README's generic “throwaway” label
+does not mean a different library was substituted. This does not select the
+shipping opponent default. The archived PLAYTEST includes the Soup one-fifth
+clarification. Source checkout gameplay and export presets were not altered.
 
-The README records the source commit, intended `ideation-build-8` tag, throwaway
-library SHA-256, signing certificate and testing limitations. The artifact folder
-also contains `build-8.md`, the dry-run delivery record. A real delivery writes
-`docs/ideation/evidence/builds/build-8.md`; this dry run leaves that name available
-for the actual build 8 delivery.
-
-Checks passed:
-
-- Dirty-tree refusal was exercised before committing the implementation.
-- Linux and Windows PCKs and APK exported; all three listings contain exactly one
-  `content/fields/baseline.json.gz`. Development directories and reference content
-  are excluded. Tutorial and rules filters are included for every preset.
-- Linux boot and Wine boot reached `boot: main scene ready` with exit 0.
-- Field startup probes loaded the library from Linux/Windows PCKs and a ZIP made
-  solely from APK `assets/` entries. The latter exercises the APK's resource bytes
-  with the editor; it is not an Android device execution. Each probe verified SHA
-  `6ca0dc2b191c53007dd2b8f2415305077b1e19fbd16b7310fe246030e0cda396`.
-- APK signature verified; certificate SHA-256
-  `e72ece9566a57b9cd8e3d6c65627c680f86eff909c6cf75c1fe6fac44509dbe4`
-  matches `/opt/godot-data/godot/keystores/debug.keystore` and build 7's APK record.
-  Signing output, exported DER certificate and SHA record accompany the build.
-- `PLAYTEST.md` is copied from the source snapshot. No real device was tested.
-- `latest` before and after was `/data/bramble-builds/1108-2016-ideation7`;
-  `ideation-build-8` was absent before and after. The comparison records are
-  `build/measure-{latest,tag}-{before,after}.txt`.
-
-The initial export change retained old per-build wrappers. The scope review then
-required their deletion; Git retains their history, and `build/export.sh` is the
-only delivery entry point. A real run refuses
-an existing tag or evidence record, creates only a local tag and atomically
-updates `latest` after every check. This path was inspected, not executed: this
-assignment requested a dry run, not publication.
-
-Integration fixes necessary for current-content fields: load named line profiles
-from their source commit, retain immutable starting lines through policy pivots,
-match Godot's 15-digit fractional gameplay hashes, and remove the runtime
-`FightCapture` dependency on excluded tools. Three Python regressions and the
-17-test field-library/launch GUT run cover these paths. `tests/sim/test_field_profiles.py`
-is outside S3's ownership and was added to test these necessary builder fixes.
-
-Godot hardcodes `/tmp` for temporary APKs and ignored `TMPDIR`. The first full
-attempt hit the shared tmpfs quota and produced a truncated temporary APK. The
-script now acquires the shared slot outside a private bubblewrap `/tmp` mount
-backed by the build folder, preserving `/dev` for signing. The final run used that
-path and passed. Earlier scratch attempts were not delivered and do not supply
-memory results. No shared temporary files were deleted.
+Artifacts, frozen PLAYTEST, README, certificate and all pack/boot logs remain
+in the folder above. Memory, soak and UI results have separate receipts here.
+The orchestrator retains the cloud gate and performs the real export afterward.

@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Shy. When this leaves: your Rings grow +1/+1 per 2 turns it stayed.",
-  "golden_text": "Shy. When this leaves: your Rings grow +2/+2 per 2 turns it stayed.",
+  "text": "Shy. When this leaves: your Rings grow +6/+6 per 2 turns it stayed.",
+  "golden_text": "Shy. When this leaves: your Rings grow +12/+12 per 2 turns it stayed.",
   "mechanics": [
     {
       "id": "shy",
@@ -35,12 +35,12 @@
     "note": "Pass 3, with README amendments adopted."
   },
   "details": "Shy pays 2 gold; only thanking with an aimed spell counts. Counts End of Turns on your board; moving does not reset the count.",
-  "golden_details": "Shy pays 4 gold. Only thanking counts; each complete 2 turns gives +2/+2 Ring size.",
+  "golden_details": "Shy pays 4 gold. Only thanking counts; each complete 2 turns gives +12/+12 Ring size.",
   "mechanic_text": {
     "1": {
+      "golden_text": "When this leaves: your Rings grow +12/+12 per 2 turns it stayed.",
       "id": "pass3_fairy",
-      "text": "When this leaves: your Rings grow +1/+1 per 2 turns it stayed.",
-      "golden_text": "When this leaves: your Rings grow +2/+2 per 2 turns it stayed."
+      "text": "When this leaves: your Rings grow +6/+6 per 2 turns it stayed."
     }
   }
 }

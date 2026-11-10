@@ -1,5 +1,7 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Endpoint answers are deliberately literal, independent of the rate reads in each rule.
 ## Each example checks the configured face and runs the recruit/combat effect it describes.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -24,7 +26,7 @@ var kit: KIT
 
 func _setup(t: float) -> void:
 	var config := GameConfig.full_game()
-	var rates: Dictionary = Pass3Path.override(t)
+	var rates: Dictionary = ORIGINAL_B.path(t)
 	for key: String in rates:
 		config.set_value(key, rates[key])
 	kit = KIT.new()
@@ -405,7 +407,7 @@ func test_soup_printed_share_matches_live_shop_stats_normal_and_golden() -> void
 	for t: float in OOZE_ENDPOINTS:
 		for golden: bool in [false, true]:
 			_setup(t)
-			var share: float = 0.9 if t == 1.0 else 0.3
+			var share: float = 0.9 if t == 1.0 else 0.2
 			_face("stone_soup", golden, "gain ?(.*?) ?(?:of )?your (?:\\w+ )?biggest", share)
 			var card: Dictionary = kit.library.get_unit("stone_soup")
 			assert_true(str(card["golden_text" if golden else "text"]).ends_with(", rounded up."))
@@ -421,7 +423,7 @@ func test_soup_printed_share_matches_live_shop_stats_normal_and_golden() -> void
 			if t == 1.0:
 				expected = Vector2i(160, 324) if golden else Vector2i(91, 181)
 			else:
-				expected = Vector2i(46, 91) if golden else Vector2i(31, 61)
+				expected = Vector2i(31, 61) if golden else Vector2i(21, 41)
 			assert_eq(Vector2i(offer.attack, offer.health) - Pass3Oozes.own_stats(offer), expected)
 			assert_eq(kit.rules.buy(kit.player, 0), "")
 			assert_eq(Vector2i(offer.perm_attack, offer.perm_health), expected)

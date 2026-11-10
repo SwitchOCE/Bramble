@@ -165,3 +165,29 @@ func test_last_stand_and_ghost_damage_use_identical_quiet_results() -> void:
 					assert_false(HeroRules.take_combat_loss(loser, 99, true, true))
 					assert_lt(loser.health, 1)
 			assert_eq_deep(states[0], states[1])
+
+
+func test_initial_spider_aura_is_in_start_snapshot_without_pre_start_status_events() -> void:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 11
+	var combat := Combat.create(KIT.library, GameConfig.full_game(), rng)
+	var result: Dictionary = combat.run(
+		[
+			KIT.board({1: KIT.u("ballooning_spider"), 4: KIT.plain(30, 30)}),
+			KIT.board({0: KIT.plain(1, 1)})
+		],
+		[3, 1],
+		[7, 0],
+		0
+	)
+	var events: Array = result["events"]
+	var start: Dictionary = events[0]
+	assert_eq(start["type"], "combat_start")
+	assert_eq(start["seq"], 0)
+	assert_eq(start["player_ids"], [7, 0])
+	var boards: Array = start["boards"]
+	var recipient: Dictionary = boards[0][4]
+	var statuses: Array = recipient["statuses"]
+	assert_true(
+		statuses.any(func(status: Dictionary) -> bool: return status["status"] == "lent_swoop")
+	)

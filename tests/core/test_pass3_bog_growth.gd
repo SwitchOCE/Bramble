@@ -1,5 +1,7 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Shared kisses, exact permanent growth and explicit guard-off counterexamples.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -10,7 +12,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup()
+	kit.setup(ORIGINAL_B.apply(GameConfig.defaults()))
 	kit.config.set_value("pass3_content", true)
 	kit.config.set_value("pass3_loop_guards", true)
 

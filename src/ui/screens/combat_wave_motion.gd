@@ -41,8 +41,8 @@ static func _pending(screen: Control, event: Dictionary, animate: bool) -> void:
 	for child: Node in Special._overlay(screen).get_children():
 		delay = maxf(delay, CoreUtil.to_float(child.get_meta("pending_after_toll_delay", 0.0)))
 	var travel: float = maxf(0.04, 0.15 / CoreUtil.to_float(screen.get("speed")))
-	if cards.has(uid):
-		var card: CardView = cards[uid]
+	var card: CardView = Data.control(cards.get(uid)) as CardView
+	if card != null:
 		point = card.pending_gain_point()
 		var popup: Label = _number_popup(
 			screen,
@@ -96,7 +96,9 @@ static func _toll(screen: Control, event: Dictionary, animate: bool) -> void:
 		return
 	var side: int = Data.i(event, "side")
 	var plaques: Array = screen.get("_plaques")
-	var hero: Control = plaques[side]
+	var hero: Control = Data.control(plaques[side])
+	if hero == null:
+		return
 	var speed: float = CoreUtil.to_float(screen.get("speed"))
 	var travel: float = maxf(0.04, 0.18 / speed)
 	var mark: Control = Special.transfer_mote(

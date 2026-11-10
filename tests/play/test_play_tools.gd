@@ -1,6 +1,8 @@
 extends GutTest
 ## tools/play's blind variants, its turn walker (what render.sh draws) and the UI's game log writer.
 
+const App := preload("res://src/ui/app.gd")
+
 const Play := preload("res://tools/play/play.gd")
 const FieldTestData := preload("res://tests/core/field_test_data.gd")
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
@@ -199,6 +201,7 @@ func test_game_log_replays_to_the_same_final_state() -> void:
 		if result == "":
 			actions.append(words)
 			taken[str(words[0])] = true
+	assert_eq(port.recorded_actions, actions, "the real port records every accepted action")
 	var path: String = GameRecordLog.write(port, actions)
 	assert_true(path.ends_with("-29.json"), "named by time and seed: %s" % path)
 	var record: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(path))
@@ -425,3 +428,44 @@ func _action_state(method: String, args: Array) -> PlayGame:
 			}
 		HeroRules.assign(player, hero)
 	return game
+
+
+func test_finished_ui_game_automatically_writes_a_replayable_record_once() -> void:
+	var port := CorePort.new()
+	port.setup(GameConfig.full_game())
+	assert_eq(port.new_game(37), "")
+	assert_ne(port.sell(0), "", "refused actions are not recorded")
+	assert_true(port.recorded_actions.is_empty())
+	assert_eq(port.choose(0), "")
+	for turn: int in 60:
+		if port.is_over():
+			break
+		assert_eq(port.end_turn(), "")
+	assert_true(port.is_over(), "the game reaches a real final placement")
+	var app: App = App.new()
+	add_child_autofree(app)
+	app.setup(port)
+	app.show_game_over()
+	var paths: PackedStringArray = []
+	for filename: String in DirAccess.get_files_at(LOG_DIR):
+		if filename.ends_with("-37.json"):
+			paths.append(LOG_DIR.path_join(filename))
+	assert_eq(paths.size(), 1, "the UI wrote one finished-game record")
+	if paths.size() != 1:
+		return
+	var record: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(paths[0]))
+	var written_actions: Array = record["actions"]
+	assert_eq(written_actions, port.recorded_actions)
+	var replay: PlayGame = Play._from_log(record, "")
+	assert_eq(replay.load_error, "")
+	assert_eq(replay.state_hash(), JSON.stringify(port.get_state(), "", true).sha256_text())
+	var original_text: String = FileAccess.get_file_as_string(paths[0])
+	app.show_game_over()
+	assert_eq(
+		FileAccess.get_file_as_string(paths[0]),
+		original_text,
+		"reopening game over keeps the same record"
+	)
+	DirAccess.remove_absolute(paths[0])
+	assert_eq(port.new_game(38), "")
+	assert_true(port.recorded_actions.is_empty(), "new games start a fresh action list")

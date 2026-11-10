@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "After a Take beside this: gain two thirds of the quarry's stats permanently.",
-  "golden_text": "After a Take beside this: gain four thirds of the quarry's stats permanently.",
+  "text": "After a Take beside this: gain nine eighths of the quarry's stats permanently.",
+  "golden_text": "After a Take beside this: gain nine quarters of the quarry's stats permanently.",
   "mechanics": [
     {
       "id": "pass3_hunter",

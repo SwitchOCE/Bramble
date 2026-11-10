@@ -1,0 +1,20 @@
+{
+  "normal": {
+    "peak_rss_kib": [
+      383480,
+      386936,
+      387388
+    ],
+    "median_kib": 386936
+  },
+  "field": {
+    "peak_rss_kib": [
+      540620,
+      537108,
+      537168
+    ],
+    "median_kib": 537168
+  },
+  "median_delta_bytes": 153837568,
+  "within_300_mb": true
+}

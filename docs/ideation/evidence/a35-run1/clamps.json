@@ -1,0 +1,678 @@
+{
+  "selected": [
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_elder_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_nell_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_dollop_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_slice_count",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_swallows",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_splits",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_wobbly_drip",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_frumenty_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_syllabub_fires",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 3.0,
+      "key": "hedgerow_golden_dozey_wake_multiplier",
+      "limits": [
+        "at_least_key"
+      ],
+      "snapped_or_derived": 3.0
+    }
+  ],
+  "t0": [
+    {
+      "clipped": false,
+      "final": 2.0,
+      "key": "birds_golden_homecoming_multiplier",
+      "limits": [
+        "at_least_key"
+      ],
+      "snapped_or_derived": 2.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "hunters_ermeline_pelts",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_elder_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_nell_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_dollop_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_slice_count",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_swallows",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_splits",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_wobbly_drip",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_frumenty_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_syllabub_fires",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 2.0,
+      "key": "hedgerow_golden_dozey_wake_multiplier",
+      "limits": [
+        "at_least_key"
+      ],
+      "snapped_or_derived": 2.0
+    }
+  ],
+  "t1": [
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_elder_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_nell_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_dollop_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_slice_count",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_swallows",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_splits",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_wobbly_drip",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_frumenty_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_syllabub_fires",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 3.0,
+      "key": "hedgerow_golden_dozey_wake_multiplier",
+      "limits": [
+        "at_least_key"
+      ],
+      "snapped_or_derived": 3.0
+    }
+  ],
+  "t2": [
+    {
+      "clipped": true,
+      "final": 1.0,
+      "key": "bog_tiddy_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.25
+    },
+    {
+      "clipped": false,
+      "final": 2.0,
+      "key": "bog_golden_tiddy_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 2.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_elder_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_nell_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_dollop_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_slice_count",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_swallows",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_splits",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_wobbly_drip",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_frumenty_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_syllabub_fires",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 4.5,
+      "key": "hedgerow_golden_dozey_wake_multiplier",
+      "limits": [
+        "at_least_key"
+      ],
+      "snapped_or_derived": 4.5
+    }
+  ],
+  "t3": [
+    {
+      "clipped": true,
+      "final": 1.0,
+      "key": "bog_tiddy_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.75
+    },
+    {
+      "clipped": false,
+      "final": 2.0,
+      "key": "bog_golden_tiddy_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 2.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "hunters_nip_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "hunters_sable_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "hunters_lutra_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": true,
+      "final": 1.0,
+      "key": "hunters_wick_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.125
+    },
+    {
+      "clipped": true,
+      "final": 1.0,
+      "key": "hunters_grizel_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.125
+    },
+    {
+      "clipped": true,
+      "final": 1.0,
+      "key": "hunters_pelt_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.125
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "hunters_russet_buff_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": true,
+      "final": 10.0,
+      "key": "hunters_golden_ermeline_pelts",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 16.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_elder_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_share",
+      "limits": [
+        "max"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_nell_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_dollop_belly",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_slice_count",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_hasty_swallows",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_bubble_splits",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_wobbly_drip",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_frumenty_meals",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 1.0,
+      "key": "oozes_syllabub_fires",
+      "limits": [
+        "min"
+      ],
+      "snapped_or_derived": 1.0
+    },
+    {
+      "clipped": false,
+      "final": 7.0,
+      "key": "hedgerow_golden_dozey_wake_multiplier",
+      "limits": [
+        "at_least_key"
+      ],
+      "snapped_or_derived": 7.0
+    }
+  ]
+}

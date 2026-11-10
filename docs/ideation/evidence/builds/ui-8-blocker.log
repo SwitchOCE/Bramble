@@ -1,0 +1,105 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:372)
+OpenGL API 4.5 (Core Profile) Mesa 26.0.8-1ubuntu0.3 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 21.1.8, 256 bits)
+
+PROBLEM 1920x1080 seed 1000 round 0: Scout: the click at (60.0, 284.5) hit /root/@Control@11/@Control@492/@Control@59
+PROBLEM 1920x1080 seed 1000 round 0: Who?: the click at (60.0, 404.5) hit /root/@Control@11/@Control@492/@Control@59
+PROBLEM 1920x1080 seed 1000 round 0: shop 0: the click at (196.0, 217.0) hit /root/@Control@11/@Control@492/@Control@60/@Control@452/@Control@447
+SCRIPT ERROR: Trying to assign invalid previously freed instance.
+          at: finish (res://src/ui/screens/recruit_action_motion.gd:221)
+          GDScript backtrace (most recent call first):
+              [0] finish (res://src/ui/screens/recruit_action_motion.gd:221)
+              [1] _after_change (res://src/ui/screens/recruit_screen.gd:832)
+              [2] _act (res://src/ui/screens/recruit_screen.gd:818)
+              [3] _act_placed (res://src/ui/screens/recruit_screen.gd:827)
+              [4] _tap_without_swallow (res://src/ui/screens/recruit_screen.gd:560)
+              [5] _on_tapped (res://src/ui/screens/recruit_screen.gd:542)
+              [6] _gui_input (res://src/ui/widgets/interactive.gd:46)
+              [7] _click_control (res://tests/ui/player_driver.gd:573)
+              [8] tap (res://tests/ui/player_driver.gd:512)
+              [9] _play_hand (res://tests/ui/player_driver.gd:406)
+              [10] _act_skilled (res://tests/ui/player_driver.gd:108)
+              [11] act (res://tests/ui/player_driver.gd:64)
+              [12] _run (res://tests/ui/shots/playthrough.gd:405)
+              [13] _tour_scouting (res://tests/ui/shots/playthrough.gd:208)
+              [14] _frames (res://tests/ui/shots/playthrough.gd:87)
+SCRIPT ERROR: Trying to assign invalid previously freed instance.
+          at: finish (res://src/ui/screens/recruit_action_motion.gd:221)
+          GDScript backtrace (most recent call first):
+              [0] finish (res://src/ui/screens/recruit_action_motion.gd:221)
+              [1] present (res://src/ui/screens/recruit_action_motion.gd:66)
+              [2] _after_change (res://src/ui/screens/recruit_screen.gd:836)
+              [3] _act (res://src/ui/screens/recruit_screen.gd:818)
+              [4] _act_placed (res://src/ui/screens/recruit_screen.gd:827)
+              [5] _tap_without_swallow (res://src/ui/screens/recruit_screen.gd:560)
+              [6] _on_tapped (res://src/ui/screens/recruit_screen.gd:542)
+              [7] _gui_input (res://src/ui/widgets/interactive.gd:46)
+              [8] _click_control (res://tests/ui/player_driver.gd:573)
+              [9] tap (res://tests/ui/player_driver.gd:512)
+              [10] _play_hand (res://tests/ui/player_driver.gd:406)
+              [11] _act_skilled (res://tests/ui/player_driver.gd:108)
+              [12] act (res://tests/ui/player_driver.gd:64)
+              [13] _run (res://tests/ui/shots/playthrough.gd:405)
+              [14] _tour_scouting (res://tests/ui/shots/playthrough.gd:208)
+              [15] _frames (res://tests/ui/shots/playthrough.gd:87)
+SCRIPT ERROR: Trying to assign invalid previously freed instance.
+          at: advance (res://src/ui/screens/recruit_action_motion.gd:184)
+          GDScript backtrace (most recent call first):
+              [0] advance (res://src/ui/screens/recruit_action_motion.gd:184)
+              [1] present (res://src/ui/screens/recruit_action_motion.gd:156)
+              [2] _after_change (res://src/ui/screens/recruit_screen.gd:836)
+              [3] _act (res://src/ui/screens/recruit_screen.gd:818)
+              [4] _act_placed (res://src/ui/screens/recruit_screen.gd:827)
+              [5] _tap_without_swallow (res://src/ui/screens/recruit_screen.gd:560)
+              [6] _on_tapped (res://src/ui/screens/recruit_screen.gd:542)
+              [7] _gui_input (res://src/ui/widgets/interactive.gd:46)
+              [8] _click_control (res://tests/ui/player_driver.gd:573)
+              [9] tap (res://tests/ui/player_driver.gd:512)
+              [10] _play_hand (res://tests/ui/player_driver.gd:406)
+              [11] _act_skilled (res://tests/ui/player_driver.gd:108)
+              [12] act (res://tests/ui/player_driver.gd:64)
+              [13] _run (res://tests/ui/shots/playthrough.gd:405)
+              [14] _tour_scouting (res://tests/ui/shots/playthrough.gd:208)
+              [15] _frames (res://tests/ui/shots/playthrough.gd:87)
+SCRIPT ERROR: Trying to assign invalid previously freed instance.
+          at: advance (res://src/ui/screens/recruit_action_motion.gd:184)
+          GDScript backtrace (most recent call first):
+              [0] advance (res://src/ui/screens/recruit_action_motion.gd:184)
+              [1] _process (res://src/ui/screens/recruit_action_motion.gd:160)
+SCRIPT ERROR: Trying to assign invalid previously freed instance.
+          at: advance (res://src/ui/screens/recruit_action_motion.gd:184)
+          GDScript backtrace (most recent call first):
+              [0] advance (res://src/ui/screens/recruit_action_motion.gd:184)
+              [1] _process (res://src/ui/screens/recruit_action_motion.gd:160)
+PROBLEM 1920x1080 seed 1000 round 0 recruit, after the turn's actions: Control '1' (on card Lamp Moth ( -1), 270 px wide) leaves the window [P: (-20.16, 236.52), S: (84.0, 84.00002)]
+PROBLEM 1920x1080 seed 1000 round 0 recruit, after the turn's actions: label '1' leaves the window [P: (-20.16, 236.52), S: (84.0, 84.00002)]
+SCRIPT ERROR: Trying to assign invalid previously freed instance.
+          at: finish (res://src/ui/screens/recruit_action_motion.gd:221)
+          GDScript backtrace (most recent call first):
+              [0] finish (res://src/ui/screens/recruit_action_motion.gd:221)
+              [1] _on_end_turn (res://src/ui/screens/recruit_screen.gd:889)
+              [2] _click_control (res://tests/ui/player_driver.gd:573)
+              [3] _click_button (res://tests/ui/player_driver.gd:551)
+              [4] _press (res://tests/ui/player_driver.gd:287)
+              [5] end_turn (res://tests/ui/player_driver.gd:54)
+              [6] _run (res://tests/ui/shots/playthrough.gd:415)
+              [7] _frames (res://tests/ui/shots/playthrough.gd:87)
+PROBLEM 1920x1080 seed 1000 round 2: Scout: the click at (60.0, 284.5) hit /root/@Control@11/@Control@2543/@Control@2110
+PROBLEM 1920x1080 seed 1000 round 2: Who?: the click at (60.0, 404.5) hit /root/@Control@11/@Control@2543/@Control@2110
+PROBLEM 1920x1080 seed 1000 round 2: shop 0: the click at (196.0, 217.0) hit /root/@Control@11/@Control@2543/@Control@2111/@Control@2503/@Control@2498
+PROBLEM 1920x1080 seed 1000 round 3: Scout: the click at (60.0, 284.5) hit /root/@Control@11/@Control@6889/@Control@6456
+PROBLEM 1920x1080 seed 1000 round 3: Who?: the click at (60.0, 404.5) hit /root/@Control@11/@Control@6889/@Control@6456
+PROBLEM 1920x1080 seed 1000 round 3: shop 0: the click at (196.0, 217.0) hit /root/@Control@11/@Control@6889/@Control@6457/@Control@6849/@Control@6844
+PROBLEM 1920x1080 seed 1000 round 3: board 2: the click at (705.5, 628.5) hit /root/@Control@11/@Control@6889/@Control@6457/@Control@6715/@RichTextLabel@6702
+PROBLEM 1920x1080 seed 1000 round 4: Scout: the click at (60.0, 284.5) hit /root/@Control@11/@Control@9956/@Control@9523
+PROBLEM 1920x1080 seed 1000 round 4: Who?: the click at (60.0, 404.5) hit /root/@Control@11/@Control@9956/@Control@9523
+PROBLEM 1920x1080 seed 1000 round 4: shop 0: the click at (196.0, 217.0) hit /root/@Control@11/@Control@9956/@Control@9524/@Control@9916/@Control@9911
+PROBLEM 1920x1080 seed 1000 round 4: board 3: the click at (938.5, 628.5) hit /root/@Control@11/@Control@9956/@Control@9524/@Control@9782/@RichTextLabel@9769
+PROBLEM 1920x1080 seed 1000 round 5: Scout: the click at (60.0, 284.5) hit /root/@Control@11/@Control@13358/@Control@12925
+PROBLEM 1920x1080 seed 1000 round 5: Who?: the click at (60.0, 404.5) hit /root/@Control@11/@Control@13358/@Control@12925
+PROBLEM 1920x1080 seed 1000 round 5: shop 0: the click at (196.0, 217.0) hit /root/@Control@11/@Control@13358/@Control@12926/@Control@13318/@Control@13313
+PROBLEM 1920x1080 seed 1000 round 6: Scout: the click at (60.0, 284.5) hit /root/@Control@11/@Control@16390/@Control@15957
+PROBLEM 1920x1080 seed 1000 round 6: Who?: the click at (60.0, 404.5) hit /root/@Control@11/@Control@16390/@Control@15957
+PROBLEM 1920x1080 seed 1000 round 6: shop 0: the click at (196.0, 217.0) hit /root/@Control@11/@Control@16390/@Control@15958/@Control@16350/@Control@16345
+Terminated

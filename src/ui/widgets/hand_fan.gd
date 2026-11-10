@@ -1,6 +1,8 @@
 extends Control
 ## Every hand card has a real tile and its normal input handlers. Crowded rows overlap deliberately.
 
+const Data := preload("res://src/ui/view_data.gd")
+
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 
 const FOCUS_LIFT: float = 12.0
@@ -20,7 +22,8 @@ func _init() -> void:
 func clear_cards() -> void:
 	focused_index = -1
 	_homes.clear()
-	for card: CardView in cards:
+	for value: Variant in cards:
+		var card: CardView = Data.control(value) as CardView
 		if is_instance_valid(card):
 			remove_child(card)
 			card.queue_free()
@@ -39,13 +42,17 @@ func add_card(card: CardView) -> void:
 
 
 func card_at(index: int) -> CardView:
-	for card: CardView in cards:
+	for value: Variant in cards:
+		var card: CardView = Data.control(value) as CardView
 		if is_instance_valid(card) and card.index == index:
 			return card
 	return null
 
 
 func arrange() -> void:
+	for value: Variant in cards.duplicate():
+		if not is_instance_valid(value):
+			cards.erase(value)
 	if cards.is_empty() or size.x <= 0.0 or size.y <= 0.0:
 		return
 	var columns: int = 1 if cards.size() <= 2 else 2
@@ -71,19 +78,22 @@ func arrange() -> void:
 
 
 func focus(index: int) -> void:
-	for card: CardView in cards:
+	for value: Variant in cards:
+		var card: CardView = Data.control(value) as CardView
+		if card == null:
+			continue
 		if _homes.has(card):
 			card.position = _homes[card]
 		card.z_index = 0
 	_stack_rest()
-	var card: CardView = card_at(index)
-	if card == null:
+	var focused: CardView = card_at(index)
+	if focused == null:
 		return
 	focused_index = index
 	# CardView supplies the hover lift/shadow; keep its hit rectangle stable within the fan.
-	card.z_index = 1
+	focused.z_index = 1
 	# Node order controls input precedence as well as drawing; canonical indices stay in cards.
-	move_child(card, -1)
+	move_child(focused, -1)
 
 
 ## Upper rows paint last, exposing the lower rows' numeric foot rather than covering it.

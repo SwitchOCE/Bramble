@@ -85,6 +85,7 @@ var _defender_uid: int = -1
 var _last_death: Vector2 = Vector2.ZERO
 var _resume_reader: bool = false
 var _complete: bool = false
+var _return_ready: bool = false
 var _title: String = ""
 var _event_before: Dictionary = {}
 
@@ -338,8 +339,17 @@ func advance_playback(delta: float) -> void:
 	if _return_wait >= 0:
 		_return_wait -= delta
 		if _return_wait <= 0 and auto_return and not _complete:
-			_complete = true
-			finished.emit()
+			if _has_active_tweens():
+				# The final death/return lunge can outlast the result's nominal hold.
+				_return_ready = false
+				_return_wait = 0.001
+			elif not _return_ready:
+				# Paint the settled result for a frame before replacing the screen.
+				_return_ready = true
+				_return_wait = 1.0 / 60.0
+			else:
+				_complete = true
+				finished.emit()
 		return
 	_attack_remaining = maxf(0, _attack_remaining - delta)
 	_contact_remaining = maxf(0, _contact_remaining - delta)
@@ -383,8 +393,9 @@ func advance_playback(delta: float) -> void:
 
 
 func _event_hold(kind: String) -> float:
-	if _ending and kind != "death":
-		return 0.0
+	if _ending:
+		# Overlap the final rewards with the death fade, keeping the 1.6-second tail budget.
+		return maxf(0.15, 0.24 / speed) if kind == "death" else 0.0
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
 	if kind in ["stats", "status", "quarry_marked", "take", "mire_wait"]:
@@ -558,11 +569,11 @@ func _roll_changes(uid: int, before: Dictionary, delay: float = 0.0) -> void:
 		var current: int = maxi(0, Data.i(model.unit(uid), stat))
 		if old != current:
 			var label: Label = card.get("_" + stat + "_label")
-			label.text = Numbers.compact(old)
+			card.show_stat(stat, old)
 			var tween: Tween = _tween().bind_node(label)
 			tween.tween_interval(delay)
 			tween.tween_method(
-				func(value: int) -> void: label.text = Numbers.compact(value), old, current, 0.15
+				func(value: int) -> void: card.show_stat(stat, value), old, current, 0.15
 			)
 
 
@@ -758,6 +769,7 @@ func _death(uid: int, animate: bool) -> void:
 
 
 func _show_result(animate: bool = true) -> void:
+	_return_ready = not animate
 	_set_playing(false)
 	_motion.result(animate)
 	_return_wait = 1.0 if animate else 0.1
@@ -786,8 +798,9 @@ func _retire_older_cues() -> void:
 		if child is CanvasItem and not child.is_queued_for_deletion():
 			child.set_meta("cue_retired", true)
 			child.reparent(_retiring_cues)
-	for dead: CardView in _dying:
-		if is_instance_valid(dead) and not dead.is_queued_for_deletion():
+	for value: Variant in _dying:
+		var dead: CardView = Data.control(value) as CardView
+		if dead != null and not dead.is_queued_for_deletion():
 			dead.set_meta("cue_retired", true)
 			dead.reparent(_retiring_cues)
 	_dying.clear()
@@ -854,3 +867,10 @@ func _flash(uid: int, colour: Color, animate: bool) -> void:
 	var card: CardView = _cards.get(uid)
 	if card != null and animate:
 		_motion.flash(card, colour)
+
+
+func _has_active_tweens() -> bool:
+	for tween: Tween in _tweens:
+		if tween.is_valid() and tween.get_loops_left() != 0:
+			return true
+	return false

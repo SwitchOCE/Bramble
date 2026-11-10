@@ -84,14 +84,12 @@ func _last_death() -> Vector2:
 
 func _plaque(side: int) -> Control:
 	var plaques: Array = _screen.get("_plaques")
-	var plaque: Control = plaques[side]
-	return plaque
+	return Data.control(plaques[side])
 
 
 func _card(uid: int) -> CardView:
 	var cards: Dictionary = _screen.get("_cards")
-	var card: CardView = cards.get(uid)
-	return card
+	return Data.control(cards.get(uid)) as CardView
 
 
 func _tween(node: Node = null) -> Tween:
@@ -190,13 +188,14 @@ func _clear_attack_sources() -> void:
 
 
 func clear_actor_attack_source(uid: int) -> void:
-	for mark: Control in _held_sources.duplicate():
+	for value: Variant in _held_sources.duplicate():
+		var mark: Control = Data.control(value)
 		if not is_instance_valid(mark):
-			_held_sources.erase(mark)
+			_held_sources.erase(value)
 		elif uid < 0 or CoreUtil.to_int(mark.get("actor_uid")) == uid:
 			mark.hide()
 			mark.queue_free()
-			_held_sources.erase(mark)
+			_held_sources.erase(value)
 
 
 func _lunge(attacker: CardView, defender: CardView, delay: float) -> void:
@@ -757,9 +756,7 @@ func die(card: CardView) -> void:
 	tween.tween_interval(0.15)
 	if Data.i(card.unit, "health") > 0:
 		# A self-removal has no lethal damage pop: show death before its replacement arrives.
-		var bones: TextureRect = _icon(
-			"bones", card.get_global_rect().get_center(), 84, UiTheme.CREAM
-		)
+		var bones := _icon("bones", card.get_global_rect().get_center(), 84, UiTheme.CREAM)
 		var death_mark: Tween = _tween(bones)
 		death_mark.tween_interval(0.35)
 		death_mark.tween_property(bones, "modulate:a", 0.0, 0.15)
@@ -995,6 +992,8 @@ func result(animate: bool) -> void:
 
 func _clear_result_transfers(items: Array[Control]) -> void:
 	# Leave the final Health readable before automatic return, after the impact pop settles.
-	for item: Control in items:
-		if is_instance_valid(item):
+	for value: Variant in items:
+		var item: Control = Data.control(value)
+		if item != null:
 			item.hide()
+	items.clear()

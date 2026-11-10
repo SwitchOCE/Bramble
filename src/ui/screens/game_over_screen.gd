@@ -6,6 +6,8 @@ extends Control
 
 signal menu_requested
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
@@ -100,7 +102,7 @@ func setup(port: GamePort, rounds: Array = [], new_best: bool = false) -> void:
 static func final_board(state: Dictionary, last_combat: Dictionary) -> Array:
 	var events: Array = Data.a(last_combat, "events")
 	if not events.is_empty():
-		var start: Dictionary = Data.entry(events, 0)
+		var start: Dictionary = Events.start(events)
 		var ids: Array = Data.a(start, "player_ids")
 		var side: int = ids.find(Data.i(state, "player_id", 0))
 		var boards: Array = Data.a(start, "boards")

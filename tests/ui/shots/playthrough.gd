@@ -88,6 +88,10 @@ func _frames(n: int) -> void:
 
 
 func _check(screen: Control, where: String, overlap: bool = true) -> void:
+	# Layout checks describe the resting screen, after the pointer's decorative lift retires.
+	if screen is RecruitScreen:
+		root.warp_mouse(Vector2(5, 1070))
+		await _frames(12)
 	for line: String in LayoutCheck.problems(screen, where, overlap):
 		_problem(line)
 	# The menu guide teaches the whole game, including tribes absent from this lobby.
@@ -166,30 +170,65 @@ func _start_by_clicks(app: App, game_seed: int, where: String) -> void:
 func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
 	var scout: Control = recruit.get("_scout")
 	var token: Button = recruit.get("_scout_token")
-	var who: Button = recruit.get("_who_token")
+	var hero: Control = scout.get("_hero")
 	var detail: Control = recruit.get("_detail")
-	driver.press(token, "Scout")
+	var lobby: Control = recruit.get("_lobby")
+	var next_tap: Control
+	for plaque: Control in lobby.get("plaques"):
+		if CoreUtil.to_bool(plaque.get("is_next")):
+			next_tap = plaque.get("tap")
+			break
+	driver.expect(next_tap != null, "Scout: next opponent portrait is present")
+	if next_tap == null:
+		return
+	driver.expect(
+		CoreUtil.to_bool(driver.call("_click_control", next_tap, "tapped", "Scout portrait")),
+		"Scout: the next opponent portrait receives the click"
+	)
 	await _frames(2)
 	driver.expect(scout.visible, "Scout: their board didn't open")
-	_check(recruit, where + " scouting")
+	await _check(recruit, where + " scouting")
+	if RecruitView.is_ghost_next(recruit.state):
+		var ghost: Dictionary = detail.get("shown")
+		driver.expect(
+			(
+				detail.visible
+				and (Data.s(ghost, "name") + " " + Data.s(ghost, "text")).to_lower().contains(
+					"ghost"
+				)
+			),
+			"Ghost: opening Scout shows who the ghost is"
+		)
+		await _check(recruit, where + " scouting, ghost identity")
 	var theirs: Array = Data.a(recruit.state, "next_opponent_last_board")
 	for slot: int in theirs.size():
 		if theirs[slot] != null:
 			driver.tap(recruit, "scout", slot)
 			await _frames(2)
-			_check(recruit, where + " scouting, their unit open")
+			await _check(recruit, where + " scouting, their unit open")
 			break
-	var before: Dictionary = detail.get("shown")
-	driver.press(who, "Who?")
+	if hero.is_visible_in_tree():
+		var before: Dictionary = detail.get("shown")
+		driver.expect(
+			CoreUtil.to_bool(driver.call("_click_control", hero, "tapped", "Who portrait")),
+			"Who?: the scouting portrait receives the click"
+		)
+		await _frames(2)
+		var after: Dictionary = detail.get("shown")
+		driver.expect(after != before or before.is_empty(), "Who?: the panel didn't change")
+		driver.expect(detail.visible, "Who?: nothing shown")
+		await _check(recruit, where + " scouting, who they are")
+	else:
+		driver.expect(
+			RecruitView.is_ghost_next(recruit.state), "Who?: living opponent has no portrait"
+		)
+	driver.press(token, "Close")
 	await _frames(2)
-	var after: Dictionary = detail.get("shown")
-	driver.expect(after != before or before.is_empty(), "Who?: the panel didn't change")
-	driver.expect(detail.visible, "Who?: nothing shown")
-	_check(recruit, where + " scouting, who they are")
+	driver.expect(not scout.visible, "Close: their board stayed open")
 	if not Data.a(recruit.state, "shop").is_empty():
 		driver.tap(recruit, "shop", 0)
 		await _frames(2)
-		_check(recruit, where + " scouting, a shop tile open")
+		await _check(recruit, where + " after scouting, a shop tile open")
 		var card: Dictionary = Data.entry(Data.a(recruit.state, "shop"), 0)
 		var hand: int = Data.a(recruit.state, "hand").size()
 		var affordable: bool = Data.i(card, "cost", 3) <= Data.i(recruit.state, "gold")
@@ -197,14 +236,11 @@ func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String)
 			driver.call("_press_detail_action", recruit, "Buy")
 			await _frames(2)
 			driver.expect(
-				Data.a(recruit.state, "hand").size() > hand, "buying while scouting failed"
+				Data.a(recruit.state, "hand").size() > hand, "buying after scouting failed"
 			)
-			_check(recruit, where + " scouting, bought from a small tile")
+			await _check(recruit, where + " after scouting, bought from a shop tile")
 		else:
 			driver.tap(recruit, "shop", 0)
-	driver.press(token, "Close")
-	await _frames(1)
-	driver.expect(not scout.visible, "Close: their board stayed open")
 	_drain_misses(where)
 
 
@@ -218,13 +254,13 @@ func _tour_overlays(app: App, recruit: RecruitScreen, driver: PlayerDriver, wher
 	if pause == null:
 		_drain_misses(where)
 		return
-	_check(recruit, where + " pause", false)
+	await _check(recruit, where + " pause", false)
 	_press_named(pause, "Settings")
 	await _frames(2)
 	var settings: SettingsScreen = _overlay(app, "settings") as SettingsScreen
 	driver.expect(settings != null, "Settings: didn't open")
 	if settings != null:
-		_check(settings, where + " settings", false)
+		await _check(settings, where + " settings", false)
 		var back: Button = settings.get("_back")
 		driver.press(back, "Settings Back")
 		await _frames(2)
@@ -238,7 +274,7 @@ func _tour_overlays(app: App, recruit: RecruitScreen, driver: PlayerDriver, wher
 	if guide != null:
 		for page: int in HowToPlay.PAGES.size():
 			driver.expect(guide.page == page, "guide: on page %d, wanted %d" % [guide.page, page])
-			_check(guide, where + " guide page %d" % (page + 1), false)
+			await _check(guide, where + " guide page %d" % (page + 1), false)
 			var next_leaf: Button = guide.get("_next")
 			driver.press(next_leaf, "guide Next")
 			await _frames(2)
@@ -272,6 +308,7 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 			break
 		_driver.press(speed_token, "speed")
 	_driver.expect(is_equal_approx(combat.speed, 4.0), "speed token: speed is %s" % combat.speed)
+	var checked_end: bool = false
 	if replay:
 		var gear: Button = combat.get("_gear")
 		_driver.press(gear, "pause fight")
@@ -282,20 +319,26 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 		var skip: Button = combat.get("_skip_button")
 		_driver.press(skip, "Skip")
 		_driver.expect(combat.model.finished, "Skip: fight did not finish")
+		await _check(combat, where + " skipped combat end")
+		checked_end = true
 	var frames: int = 0
-	var checked_end: bool = false
 	while is_instance_valid(combat) and app.current == combat and frames < 4000:
-		if combat.model.finished and not checked_end:
-			_check(combat, where + " combat end")
+		var pending: Array = combat.get("_tweens")
+		var moving: bool = false
+		for tween: Tween in pending:
+			moving = moving or (tween.is_valid() and tween.get_loops_left() != 0)
+		if combat.model.finished and not checked_end and not moving:
+			await _check(combat, where + " combat end")
 			checked_end = true
 		if frames == 40 and not combat.model.finished:
-			_check(combat, where + " combat mid-fight", false)
+			await _check(combat, where + " combat mid-fight", false)
 		await process_frame
 		frames += 1
 	_driver.expect(
 		not is_instance_valid(combat) or app.current != combat,
 		"fight did not automatically return after %d frames" % frames
 	)
+	_driver.expect(checked_end, "combat end: no settled layout was checked")
 	_drain_misses(where)
 
 
@@ -305,7 +348,7 @@ func _answer_choices(recruit: RecruitScreen, where: String) -> void:
 	var picks: int = 0
 	while recruit.get("_discover") != null and picks < 5:
 		var picker: Control = recruit.get("_discover")
-		_check(recruit, where + " recruit, choice open", false)
+		await _check(recruit, where + " recruit, choice open", false)
 		var driver_pick: PlayerDriver = _driver
 		var cards: Array = picker.get("cards")
 		var first: Control = cards[0]
@@ -325,7 +368,7 @@ func _boost(recruit: RecruitScreen, rng: RandomNumberGenerator, where: String) -
 	_fill_hand(recruit, rng)
 	recruit.toggle_dev_panel()
 	await _frames(2)
-	_check(recruit, where + " recruit, dev panel open")
+	await _check(recruit, where + " recruit, dev panel open")
 	recruit.toggle_dev_panel()
 
 
@@ -371,7 +414,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 		driver.skilled = skilled
 		driver.board_cap = board_cap
 		_driver = driver
-		_check(app.current, "%s seed %d menu" % [size_name, game_seed])
+		await _check(app.current, "%s seed %d menu" % [size_name, game_seed])
 		await _start_by_clicks(app, game_seed, "%s seed %d" % [size_name, game_seed])
 		var turns: int = 0
 		var ghosts: int = 0
@@ -392,21 +435,21 @@ func _run(seeds: Array[int], size_name: String) -> void:
 					await _tour_overlays(app, recruit, driver, where)
 				if late:
 					await _boost(recruit, driver.rng, where)
-				_check(recruit, where + " recruit")
+				await _check(recruit, where + " recruit")
 				await _tour_scouting(recruit, driver, where)
 				var board: Array = Data.a(recruit.state, "board")
 				for slot: int in board.size():
 					if board[slot] != null:
 						driver.tap(recruit, "board", slot)
 						await _frames(2)
-						_check(recruit, where + " recruit, board card selected")
+						await _check(recruit, where + " recruit, board card selected")
 						driver.tap(recruit, "board", slot)
 						break
 				driver.act(recruit)
 				await _frames(2)
 				await _answer_choices(recruit, where)
 				await _settle(recruit)
-				_check(recruit, where + " recruit, after the turn's actions")
+				await _check(recruit, where + " recruit, after the turn's actions")
 				if late:
 					await _check_full(recruit, driver, where)
 				_drain_misses(where)
@@ -419,7 +462,7 @@ func _run(seeds: Array[int], size_name: String) -> void:
 				await _watch_fight(app, combat, where, fights == 1)
 				fights += 1
 			elif app.current is GameOverScreen:
-				_check(app.current, where + " game over")
+				await _check(app.current, where + " game over")
 				var state: Dictionary = port.get_state()
 				print(
 					(
@@ -463,7 +506,9 @@ func _run(seeds: Array[int], size_name: String) -> void:
 func _settle(recruit: RecruitScreen) -> void:
 	var grid: Node = recruit.get("_hand_cards")
 	for frame: int in 120:
-		var swollen: bool = false
+		var action: Control = recruit.get("_action_motion")
+		var feedback: Control = recruit.get("_feedback")
+		var swollen: bool = CoreUtil.to_bool(action.get("active")) or feedback.is_processing()
 		for child: Node in grid.get_children():
 			swollen = swollen or (child as Control).scale.x > 1.001
 		if not swollen:
@@ -494,10 +539,10 @@ func _check_full(recruit: RecruitScreen, driver: PlayerDriver, where: String) ->
 	if not _is_full(recruit.state):
 		var limit: int = Data.i(recruit.state, "hand_limit", 10)
 		_problem("%s: late check not full (board %d/7, hand %d/%d)" % [where, placed, hand, limit])
-	_check(recruit, where + " recruit, full board and hand")
+	await _check(recruit, where + " recruit, full board and hand")
 	driver.tap(recruit, "hand", 0)
 	await _frames(2)
-	_check(recruit, where + " recruit, hand card selected")
+	await _check(recruit, where + " recruit, hand card selected")
 	driver.tap(recruit, "hand", 0)
 	var grid: Node = recruit.get("_hand_cards")
 	var more: Button = grid.get_child(grid.get_child_count() - 1) as Button
@@ -505,6 +550,6 @@ func _check_full(recruit: RecruitScreen, driver: PlayerDriver, where: String) ->
 		grid.notification(Container.NOTIFICATION_SORT_CHILDREN)
 		driver.press(more, "more of the hand")
 		await _frames(2)
-		_check(recruit, where + " recruit, whole hand open", false)
+		await _check(recruit, where + " recruit, whole hand open", false)
 		_press_named(recruit, "Back")
 		await _frames(2)

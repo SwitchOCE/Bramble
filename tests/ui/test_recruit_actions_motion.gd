@@ -165,3 +165,97 @@ func test_real_actions_normal_motion_finish_at_canonical_state() -> void:
 
 func test_real_actions_reduced_motion_finish_at_canonical_state() -> void:
 	await _check_actions(true)
+
+
+func test_freed_animation_targets_and_overlays_can_advance_and_finish() -> void:
+	var ActionScript := preload("res://src/ui/screens/recruit_action_motion.gd")
+	for freed: String in ["target", "node", "pulse"]:
+		var motion: Control = ActionScript.new()
+		add_child_autofree(motion)
+		var ghost := Control.new()
+		var target := Control.new()
+		var pulse := Control.new()
+		motion.add_child(ghost)
+		motion.add_child(target)
+		motion.add_child(pulse)
+		motion.set("active", true)
+		motion.set("duration", 1.0)
+		var tracks: Array = motion.get("tracks")
+		(
+			tracks
+			. append(
+				{
+					"node": ghost,
+					"target": target,
+					"from": Rect2(0, 0, 20, 20),
+					"to": Rect2(20, 20, 20, 20),
+					"start": 0.0,
+					"seconds": 0.5,
+				}
+			)
+		)
+		var targets: Array = motion.get("_targets")
+		targets.append(target)
+		motion.call("_pulse", pulse, 0.0)
+		if freed == "target":
+			target.free()
+		elif freed == "node":
+			ghost.free()
+		else:
+			pulse.free()
+		motion.call("advance", 0.1)
+		assert_almost_eq(CoreUtil.to_float(motion.get("elapsed")), 0.1, 0.001)
+		motion.call("finish")
+		assert_false(CoreUtil.to_bool(motion.get("active")), freed + " finishes without errors")
+		assert_true(tracks.is_empty(), freed + " clears tracks after a target disappears")
+
+
+func test_feedback_and_end_of_turn_motion_survive_freed_nodes() -> void:
+	var FeedbackScript := preload("res://src/ui/screens/recruit_feedback.gd")
+	var MotionScript := preload("res://src/ui/screens/recruit_motion.gd")
+	var feedback: Control = FeedbackScript.new()
+	add_child_autofree(feedback)
+	var node := Control.new()
+	var target := Control.new()
+	feedback.add_child(node)
+	feedback.add_child(target)
+	var track: Dictionary = feedback.call("_cue", "poached", node, 0.4)
+	track["target"] = target
+	track["to"] = Vector2(20, 20)
+	target.free()
+	feedback.call("advance", 0.1)
+	node.free()
+	feedback.call("advance", 0.1)
+	feedback.call("finish")
+	var tracks: Array = feedback.get("tracks")
+	assert_true(tracks.is_empty(), "freed feedback nodes are retired")
+	var motion: Control = MotionScript.new()
+	add_child_autofree(motion)
+	var glyph := Control.new()
+	motion.add_child(glyph)
+	var sources: Dictionary = motion.get("_sources")
+	sources[0] = {"glyph": glyph, "start": 0.0}
+	glyph.free()
+	motion.call("advance", 0.1)
+	motion.call("finish")
+	assert_true(sources.is_empty(), "freed end-of-turn glyphs are retired")
+
+
+func test_desktop_hand_reader_leaves_every_board_destination_uncovered() -> void:
+	Card.window_override = Vector2(1920, 1080)
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(1920, 1080)
+	add_child_autofree(viewport)
+	var screen := Screen.new()
+	viewport.add_child(screen)
+	screen.setup(Fixture.make("play"))
+	await wait_process_frames(2)
+	screen.call("_on_tapped", "hand", 0)
+	await wait_process_frames(2)
+	var reader: Control = screen.get("_detail")
+	var board: Control = screen.get("_board")
+	assert_true(reader.visible)
+	assert_false(
+		reader.get_global_rect().intersects(board.get_global_rect()),
+		"reading a hand card must leave all seven play destinations tappable"
+	)

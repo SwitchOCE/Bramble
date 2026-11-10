@@ -165,7 +165,7 @@ func advance(delta: float) -> void:
 		return
 	elapsed += delta
 	for track: Dictionary in tracks:
-		var node: Control = track["node"]
+		var node: Control = Data.control(track["node"])
 		if not is_instance_valid(node):
 			continue
 		var phase: float = clampf((elapsed - track.start) / track.seconds, 0.0, 1.0)
@@ -181,7 +181,7 @@ func advance(delta: float) -> void:
 			node.position.y -= sin(phase * PI) * 42.0
 		if track.get("dissolve", false):
 			node.modulate.a = 1.0 - phase
-		var target: Control = track.get("target")
+		var target: Control = Data.control(track.get("target"))
 		if is_instance_valid(target):
 			if track.get("hide_target", true):
 				target.modulate.a = (
@@ -191,7 +191,7 @@ func advance(delta: float) -> void:
 				var pop: float = sin((phase - 0.65) / 0.35 * PI)
 				target.scale = Vector2.ONE * (1.0 if _reduced else 1.0 + pop * 0.1)
 	for pulse: Dictionary in _pulses:
-		var target: Control = pulse["target"]
+		var target: Control = Data.control(pulse["target"])
 		if not is_instance_valid(target):
 			continue
 		var beat: float = clampf((elapsed - pulse.start) / (0.18 / _rate), 0.0, 1.0)
@@ -218,20 +218,21 @@ func advance(delta: float) -> void:
 
 func finish() -> void:
 	for pulse: Dictionary in _pulses:
-		var target: Control = pulse["target"]
+		var target: Control = Data.control(pulse["target"])
 		if is_instance_valid(target):
 			target.scale = Vector2.ONE
 			target.modulate.a = 1.0
 	_pulses.clear()
 	if is_instance_valid(_price):
 		_price.text = _final_price
-	for target: Control in _targets:
-		if is_instance_valid(target):
+	for value: Variant in _targets:
+		var target: Control = Data.control(value)
+		if target != null:
 			target.modulate.a = 1.0
 			target.scale = Vector2.ONE
 	_targets.clear()
 	for track: Dictionary in tracks:
-		var node: Control = track["node"]
+		var node: Control = Data.control(track["node"])
 		if is_instance_valid(node):
 			node.hide()
 			node.queue_free()
@@ -261,7 +262,7 @@ func _fly(
 	ghost.pivot_offset = Vector2.ZERO
 	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ghost)
-	var landing: Control = target.get("card")
+	var landing: Control = Data.control(target.get("card"))
 	if is_instance_valid(landing):
 		landing.modulate.a = 0.0 if hide_target else 1.0
 		_targets.append(landing)

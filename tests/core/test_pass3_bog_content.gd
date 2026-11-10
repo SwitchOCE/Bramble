@@ -112,7 +112,7 @@ func test_tier_swap_and_removed_prototype_abilities_and_caps() -> void:
 	)
 
 
-func test_presets_keep_b_generous_and_raise_only_soak_and_tiddy_in_c() -> void:
+func test_measured_b_matches_c_soak_and_tiddy_while_a_keeps_original_values() -> void:
 	var expected: Dictionary = {
 		"bog_soak_keep": 2,
 		"bog_golden_soak_keep": 4,
@@ -125,6 +125,16 @@ func test_presets_keep_b_generous_and_raise_only_soak_and_tiddy_in_c() -> void:
 		"bog_bitter_share": 0.25,
 	}
 	for preset: String in ["A", "B"]:
+		if preset == "B":
+			expected.merge(
+				{
+					"bog_soak_keep": 3,
+					"bog_golden_soak_keep": 6,
+					"bog_tiddy_share": 0.75,
+					"bog_golden_tiddy_share": 1.5
+				},
+				true
+			)
 		config.set_value("pass3_preset", preset)
 		for key: String in expected:
 			assert_eq(Pass3Rates.number(config, key), float(expected[key]), preset + " " + key)
@@ -178,11 +188,15 @@ func test_changed_rates_rewrite_faces_details_and_keyword_reminders() -> void:
 
 func test_changed_json_defaults_are_visible_without_per_game_overrides() -> void:
 	var original: Dictionary = Pass3Rates.defaults()
+	var original_presets: Dictionary = Pass3Rates._presets.duplicate(true)
+	Pass3Rates._presets["B"]["bog_soak_keep"] = 5
+	Pass3Rates._presets["B"]["bog_golden_soak_keep"] = 10
 	Pass3Rates._defaults["bog_nan_share"] = 0.25
 	Pass3Rates._defaults["bog_soak_keep"] = 5
 	Pass3Rates._defaults["bog_golden_soak_keep"] = 10
 	var changed := UnitLibrary.load_dir()
 	Pass3Rates._defaults = original
+	Pass3Rates._presets = original_presets
 	assert_string_contains(changed.get_unit("warty_nan")["text"], "a quarter of the Toll")
 	assert_string_contains(changed.get_unit("bridge_toad")["details"], "+5/+5")
 	assert_string_contains(changed.get_unit("bridge_toad")["golden_details"], "+10/+10")
@@ -265,7 +279,7 @@ func test_frog_and_tiddy_faces_match_the_amendment_bog_only_scope() -> void:
 		"his_highness":
 		"Snap. Every third kiss: double the Bog folk beside this. First time: become the Prince.",
 		"prince_restored": "Mire. Soak. Every third kiss: double the Bog folk beside this.",
-		"tiddy_mun": "Start of Turn: the Bog folk beside this split half the Toll.",
+		"tiddy_mun": "Start of Turn: the Bog folk beside this split three quarters of the Toll.",
 	}
 	for id: String in expected:
 		assert_eq(_raw(id)["text"], expected[id])
@@ -285,8 +299,8 @@ func test_generated_default_rulings_are_delivered_to_normal_and_golden_views() -
 	var golden: Dictionary = {}
 	UnitLibrary.add_configured_rulings(normal, card)
 	UnitLibrary.add_configured_rulings(golden, card, true)
-	assert_string_contains(normal["configured_details"], "+2/+2")
-	assert_string_contains(golden["configured_details"], "+4/+4")
+	assert_string_contains(normal["configured_details"], "+3/+3")
+	assert_string_contains(golden["configured_details"], "+6/+6")
 	assert_string_contains(normal["configured_details"], "next Start of Turn")
 	assert_eq(normal["configured_details"], card["details"])
 	assert_eq(golden["configured_details"], card["golden_details"])

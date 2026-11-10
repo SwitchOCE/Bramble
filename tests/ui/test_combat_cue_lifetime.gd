@@ -130,6 +130,47 @@ func _advance(screen: CombatScreen, seconds: float) -> void:
 		screen.advance_playback(STEP)
 
 
+func test_freed_death_cards_allow_next_attack_skip_and_replay() -> void:
+	for early_free: bool in [false, true]:
+		for action: String in ["attack", "skip", "replay"]:
+			var screen: CombatScreen = _screen()
+			var board: Control = screen.board_for_side(0)
+			var dead: CardView = screen._cards[1]
+			screen._play_event({"type": "death", "uid": 1}, true)
+			_advance(screen, 0.1 if early_free else 0.7)
+			if early_free:
+				dead.free()
+			await wait_process_frames(1)
+			assert_false(is_instance_valid(dead), "death card is freed before the next step")
+			if action == "attack":
+				screen._play_event(_boundary("attack"), true)
+			elif action == "skip":
+				screen.skip_to_end()
+			else:
+				screen.restart()
+			assert_true(screen._dying.is_empty(), action + " clears stale death references")
+			board.call("clear")
+			var loose: Array = board.get("_loose")
+			assert_true(loose.is_empty(), action + " clears detached card references")
+	assert_engine_error_count(0, "freed cards never reach a typed assignment")
+
+
+func test_result_cleanup_survives_transfers_freed_mid_animation() -> void:
+	var screen: CombatScreen = _screen()
+	screen._play_event({"type": "combat_end", "winner": 0, "damage": 3}, true)
+	var transfers: Array[Control] = []
+	for child: Node in screen._overlay.get_children():
+		if child.has_meta("hero_result_transfer"):
+			transfers.append(child as Control)
+	assert_gt(transfers.size(), 0, "the result creates actual transfer pictures")
+	_advance(screen, 0.1)
+	for transfer: Control in transfers:
+		transfer.free()
+	# The production callback retains its own array of the now-freed transfers.
+	_advance(screen, 0.7)
+	assert_engine_error_count(0, "delayed result cleanup validates freed pictures")
+
+
 func _routes(screen: CombatScreen) -> Array[EffectPath]:
 	var result: Array[EffectPath] = []
 	for child: Node in screen._overlay.get_children():
@@ -521,3 +562,43 @@ func test_preempted_toll_and_queued_gain_numbers_never_land_during_the_next_acti
 			assert_eq(screen.model.units, units)
 			assert_eq(screen.model.bog_toll, toll)
 			_assert_card_numbers_match_model(screen, "preempted Toll and queued gain")
+
+
+func test_animated_stat_roll_refits_old_and_intermediate_numbers_to_the_bead() -> void:
+	var screen: CombatScreen = _screen()
+	var card: CardView = screen._cards[1]
+	card.set_card_width(171)
+	screen.model.units[1]["health"] = 1
+	screen._sync_unit(1)
+	screen._roll_changes(1, {"attack": screen.model.units[1]["attack"], "health": 229})
+	var label: Label = card.get("_health_label")
+	var badge: Control = card.health_bead()
+	for delta: float in [0.0, 0.075, 0.075]:
+		screen.advance_playback(delta)
+		var font: Font = label.get_theme_font("font")
+		var font_size: int = label.get_theme_font_size("font_size")
+		var width: float = (
+			font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+		)
+		var room: float = badge.call("inner_width")
+		assert_lte(width, room, "each animated numeral fits the actual bead")
+		assert_gte(font_size, 31, "fitting preserves the shared minimum font")
+
+
+func test_automatic_return_waits_for_the_final_motion_to_finish() -> void:
+	var screen: CombatScreen = _screen()
+	screen.auto_return = true
+	screen.model.finished = true
+	screen.set("_return_wait", 0.01)
+	var marker := Control.new()
+	screen.add_child(marker)
+	var tween: Tween = screen.call("_tween")
+	tween.bind_node(marker).tween_property(marker, "position", Vector2(40, 0), 0.4)
+	var returns: Array[bool] = []
+	screen.finished.connect(func() -> void: returns.append(true))
+	screen.advance_playback(0.02)
+	assert_true(returns.is_empty(), "the result does not cut off a live motion")
+	for frame: int in 40:
+		screen.advance_playback(0.02)
+	assert_eq(returns.size(), 1, "automatic return still completes exactly once")
+	assert_eq(marker.position, Vector2(40, 0), "the final motion reached its destination")

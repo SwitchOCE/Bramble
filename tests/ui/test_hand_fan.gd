@@ -182,6 +182,7 @@ func test_pc_hand_reader_stays_beside_the_entire_fan_for_selection_and_hover() -
 	await wait_process_frames(3)
 	var hand: Control = screen.get("_hand_zone")
 	var reader: Control = screen.get("_detail")
+	var board: Control = screen.get("_board")
 	for index: int in [0, 9]:
 		screen._on_tapped("hand", index)
 		await wait_process_frames(2)
@@ -195,6 +196,21 @@ func test_pc_hand_reader_stays_beside_the_entire_fan_for_selection_and_hover() -
 			hand.get_global_rect().position.x - 4,
 			"when the right side is full, the reader uses the hand's left side"
 		)
+		assert_false(
+			reader.get_global_rect().intersects(board.get_global_rect()),
+			"selection leaves every board destination uncovered"
+		)
+		var notes: RichTextLabel = reader.get("_notes")
+		var banner: Control = reader.get("_banner")
+		assert_true(reader.get_global_rect().encloses(notes.get_global_rect()))
+		assert_false(notes.get_global_rect().intersects(banner.get_global_rect()))
+		var reminder: Control = reader.get("reminder")
+		reminder.call("show_keyword", "Shield")
+		await wait_process_frames(2)
+		assert_true(reminder.visible)
+		assert_true(reader.get_global_rect().encloses(reminder.get_global_rect()))
+		assert_false(notes.get_global_rect().intersects(reminder.get_global_rect()))
+		assert_eq(LayoutCheck.problems(screen, "desktop hand reader"), PackedStringArray())
 		screen._on_tapped("table", -1)
 		screen._on_hovered("hand", index, true)
 		screen._show_hover()
@@ -203,6 +219,11 @@ func test_pc_hand_reader_stays_beside_the_entire_fan_for_selection_and_hover() -
 		assert_false(
 			reader.get_global_rect().intersects(hand.get_global_rect()),
 			"hover keeps the same unobscured hand"
+		)
+		assert_lte(reader.get_global_rect().end.x, hand.get_global_rect().position.x - 4)
+		assert_false(
+			reader.get_global_rect().intersects(board.get_global_rect()),
+			"hover leaves every board destination uncovered"
 		)
 		screen._on_hovered("hand", index, false)
 		screen._end_hover()

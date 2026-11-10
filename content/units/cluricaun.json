@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "End of Turn: if every slot has a Ring, your Rings grow +2/+2.",
-  "golden_text": "End of Turn: if every slot has a Ring, your Rings grow +4/+4.",
+  "text": "End of Turn: if every slot has a Ring, your Rings grow +6/+6.",
+  "golden_text": "End of Turn: if every slot has a Ring, your Rings grow +12/+12.",
   "mechanics": [
     {
       "id": "pass3_fairy",

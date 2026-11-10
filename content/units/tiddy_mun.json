@@ -8,8 +8,8 @@
   "tribes": [
     "Bog folk"
   ],
-  "text": "Start of Turn: the Bog folk beside this split half the Toll.",
-  "golden_text": "Start of Turn: the Bog folk beside this split the Toll.",
+  "text": "Start of Turn: the Bog folk beside this split three quarters of the Toll.",
+  "golden_text": "Start of Turn: the Bog folk beside this split one and a half times the Toll.",
   "mechanics": [
     {
       "id": "pass3_bog",

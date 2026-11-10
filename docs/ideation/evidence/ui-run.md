@@ -1,19 +1,19 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 2 1000` on 2ac67e8 (ideation/main), 2026-11-08.
+Made by `tests/ui/full_ui_run.sh 2 1000` on 5c050a4c (ideation/build8), 2026-11-10.
 
 **0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
-| Games reaching turn 12 | 10 | 0 |
+| Games reaching turn 12 | 10 | 3 |
 | Games reaching turn 15 | 3 | 0 |
 | Games won | 1 | 0 |
-| Ghost fights | 3 | 0 |
-| Games reaching tier 5 in play | 2 | 3 |
-| Games reaching tier 6 in play | 2 | 1 |
+| Ghost fights | 3 | 2 |
+| Games reaching tier 5 in play | 2 | 4 |
+| Games reaching tier 6 in play | 2 | 4 |
 
-Smallest text on screen: phone size 31 canvas units (the minimum is 31); desktop size 22, where tile rules and lobby names may go down to 22.
+Smallest text on screen: phone size 31 canvas units (the minimum is 31); desktop size 31, where tile rules and lobby names may go down to 22.
 
 Clicked for real, with each press checked to change the game or tell the player why not: New game, Buy, Sell, Play, hero power, playing a unit by tapping it and a slot, Refresh, Freeze, tier up, End turn (a turn that doesn't end never reaches game over), Scout, Who?, Close, the pause menu, Settings and its Back, the guide's pages, the speed token, Watch again, Skip, Continue and Main menu. Not clicked: drags and drops, which go through the screen's own drop handlers; the dev panel, used only by the late checks; Leave game and Quit. The New game signal is caught so a game uses this run's seed and lobby, so the first-game guide and random seeds aren't run. Naive remains a tool-only yardstick; no bot strength is offered in the menu. To test the test, Scout, Who?, Continue, Main menu, hero power, Sell and Play were unhooked by hand: the run reported each. Three no-effect presses of one thing in a turn is reported as a loop.
 
@@ -25,10 +25,10 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 6 | 11 | 0 | 6 | 0 | 0 | 0 | 138 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 8 | 8 | 0 | 5 | 0 | 0 | 0 | 70 | ok |
-| 1688x780 | 1100 | naive | skilled | 8 | 7 | 0 | 4 | 0 | 0 | 0 | 67 | ok |
-| 1688x780 | 1101 | naive | cap3 | 7 | 9 | 0 | 5 | 0 | 0 | 0 | 68 | ok |
+| 1920x1080 | 1000 | naive | skilled | 8 | 11 | 0 | 6 | 0 | 0 | 0 | 202 | ok |
+| 1920x1080 | 1001 | naive | cap3 | 8 | 12 | 0 | 6 | 0 | 0 | 0 | 259 | ok |
+| 1688x780 | 1100 | naive | skilled | 6 | 13 | 1 | 6 | 0 | 0 | 0 | 297 | ok |
+| 1688x780 | 1101 | naive | cap3 | 4 | 14 | 1 | 6 | 0 | 0 | 0 | 208 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 
@@ -36,5 +36,3 @@ Late-game layout, forced to tier 6 with a full board and hand:
 |---|---|---|---|---|---|
 | 1920x1080 | 1000 | 0 | 0 | 0 | ok |
 | 1688x780 | 1000 | 0 | 0 | 0 | ok |
-
-Build 7 delivery: 2ac67e8, all six cores available, LP_NUM_THREADS=6, normal engine clock; hard `timeout -k 5 2400 tests/ui/full_ui_run.sh 2 1000`. All four games and both forced late checks passed with original UI minimums retained. No layout fix was needed. Headless import and the single full gate invocation passed: 1,321/1,321 tests, 18,687 assertions, strict hook clean, including hover/tap, italic reminder-slip size and layout regressions at both resolutions. The report's legacy Naive slot labels are not the actual lobby configuration: playthrough.gd uses the game's sole bot strength. No depth-bar UI run, full bench, real device or listening test. Burner remains provisional and bot-tuned.

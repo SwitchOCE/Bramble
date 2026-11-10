@@ -16,6 +16,18 @@ Start with 40 Health. Lose a fight: take the round base plus 1 per enemy startin
 
 Last Blow decides mutual wipes by the final attack or effect and deals only the base. Start of Combat wipes stay ties. Last Stand still saves one lethal loss to a living hero from 2+ Health in the last four, leaving 1 Health after Armor.
 
+## Returning after build 7
+
+Every tribe has bigger stats. New neutrals replace 38 prototypes; tier 1 Stone Soup now shares a fifth. Shop and board tiles are wordless: tap for rules. The hand fans out; Rings animate travel.
+
+Try engines, scouting, repositioning and early Soup. The Fairy Ring line is short of the scale: about 480 Attack plus Health at round 12. The Ooze engine can still run far ahead late in some games. Growth after round 12 is generous. Balance was not tuned further for this build.
+
+Finished games save build and replay in `user://games/`. Send zipped JSON logs:
+
+- Windows: `%APPDATA%\Godot\app_userdata\Bramble\games`.
+- Linux: `~/.local/share/godot/app_userdata/Bramble/games`. [Desktop paths](https://docs.godotengine.org/en/stable/tutorials/io/data_paths.html#accessing-persistent-user-data-user).
+- Android: enable USB debugging; connect with adb. Run `adb exec-out run-as com.switchoce.bramble tar -cf - files/games > bramble-games.tar`; send the archive.
+
 ## Returning after build 6
 
 Build 7 makes card text and keyword explanations much shorter, about Battlegrounds' length, with the same effects. Hover over a keyword on PC, or tap it, to open its explanation on a smaller italic slip. Tap again to close it. The wording now uses one word for each idea throughout the cards, guide and fight log: for example, **Tier up**, **across**, **base** stats and **painted slots**. The Bog folk card formerly called Belladonna is now **Lady Belladonna**, so it is easier to tell apart from the Fairy Belladonna Sprite.

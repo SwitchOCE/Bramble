@@ -7,7 +7,7 @@
   "cost": 0,
   "pool": false,
   "aim": "unit",
-  "text": "Double a Bird's stats. Once per Bird.",
+  "text": "Triple a Bird's stats. Once per Bird.",
   "keywords": [],
   "details": "Only a Bird that has not had a Golden Egg can be aimed at. Triples keep the mark if any copy had it.",
   "do": {

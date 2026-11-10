@@ -33,8 +33,8 @@
     "doc": "docs/ideation/content/pass3/birds-pass3.md",
     "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Only Birds that have missed a fight can be recalled early. Each homecoming doubles once; it returns to hand.",
-  "golden_details": "Trips last 1 turn. Only Birds that have missed a fight can be recalled early; each doubles once.",
+  "details": "Sold, flies south for 2 turns; returns to hand at 2.5× permanent stats. Flying pays no sale gold; played this turn, it sells normally. Early recalls require a missed fight; each trip grows once.",
+  "golden_details": "Sold, flies south for 1 turn; returns to hand at 3× permanent stats. Flying pays no sale gold; played this turn, it sells normally. Early recalls require a missed fight; each trip grows once.",
   "mechanic_text": {
     "1": {
       "id": "pass3_bird",

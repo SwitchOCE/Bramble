@@ -139,7 +139,7 @@ static func present(screen: Control, event: Dictionary, animate: bool) -> bool:
 
 static func _card(screen: Control, uid: int) -> CardView:
 	var cards: Dictionary = screen.get("_cards")
-	var card: CardView = cards.get(uid)
+	var card: CardView = Data.control(cards.get(uid)) as CardView
 	return card
 
 

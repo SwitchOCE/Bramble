@@ -38,6 +38,35 @@ func _motion() -> Motion:
 	return motion
 
 
+func test_drag_preview_survives_a_neighbour_freed_mid_lean() -> void:
+	var board: Board = _board([0, 1])
+	board.show_relations([0], 1)
+	var origins: Dictionary = board.get("_lean_origins")
+	assert_eq(origins.size(), 1, "drag preview retains its leaning neighbour")
+	board.remove_card(0)
+	await wait_process_frames(1)
+	board.show_relations([1], 0)
+	assert_eq(origins.size(), 1, "next drag replaces the freed key with a live neighbour")
+	assert_true(origins.has(board.cards[1]))
+	assert_engine_error_count(0, "freed lean keys are validated before casting")
+
+
+func test_clear_cancels_drag_lean_before_board_cards_are_rendered_again() -> void:
+	var board: Board = _board([0, 1])
+	board.show_relations([0], 1)
+	var tween: Tween = board.get("_lean_tween")
+	assert_true(tween.is_valid(), "a real drag lean is running")
+	board.clear()
+	var origins: Dictionary = board.get("_lean_origins")
+	assert_true(origins.is_empty(), "rendering drops all previous drag keys")
+	assert_false(tween.is_valid(), "rendering kills the previous drag tween")
+	await wait_process_frames(1)
+	board.place_card(Card.new(), 0)
+	board.show_relations([0], 1)
+	assert_eq(origins.size(), 1, "the rebuilt board can preview the next drag")
+	assert_engine_error_count(0, "rendering during a drag leaves no invalid instances")
+
+
 func _buff(source: int, target: int, old_a: int = 2) -> Dictionary:
 	return {
 		"type": "buff",

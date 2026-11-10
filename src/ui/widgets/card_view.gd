@@ -548,3 +548,11 @@ func animate_frost(on: bool, delay: float, speed: float, reduced: bool) -> void:
 			. tween_property(_art, "frost_progress", 1.0 if on else 0.0, 0.25 / maxf(1.0, speed))
 			. set_delay(delay)
 		)
+
+
+## Animation values can be wider than either endpoint; refit each displayed frame.
+func show_stat(stat: String, value: int) -> void:
+	var number: Label = _attack_label if stat == "attack" else _health_label
+	var badge: ShapeBadge = _attack_badge if stat == "attack" else _health_badge
+	var preferred: int = maxi(UiTheme.MIN_FONT, roundi(badge.size.y * 0.54))
+	StatNumbers.fit(number, badge.inner_width(), preferred, maxi(0, value))

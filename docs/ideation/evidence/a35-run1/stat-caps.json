@@ -1,0 +1,772 @@
+{
+  "t0": {
+    "peak_board": 2495443,
+    "hits": [],
+    "line_counts": {},
+    "seats": 0,
+    "first_round": null
+  },
+  "t1": {
+    "peak_board": 522229661,
+    "hits": [],
+    "line_counts": {},
+    "seats": 0,
+    "first_round": null
+  },
+  "t2": {
+    "peak_board": 1758826136,
+    "hits": [
+      {
+        "seed": 2911016,
+        "seat": 6,
+        "line": "line_oozes_engine",
+        "round": 18,
+        "slot": 1,
+        "unit": "mrs_mallow",
+        "attack": 735470049,
+        "health": 1000000000
+      }
+    ],
+    "line_counts": {
+      "line_oozes_engine": 1
+    },
+    "seats": 1,
+    "first_round": 18
+  },
+  "t3": {
+    "peak_board": 10669619589,
+    "hits": [
+      {
+        "seed": 2911001,
+        "seat": 1,
+        "line": "line_oozes_tempo",
+        "round": 17,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 674858674,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 7,
+        "line": "line_oozes_engine",
+        "round": 18,
+        "slot": 4,
+        "unit": "jenny_greenteeth",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 1,
+        "line": "line_oozes_tempo",
+        "round": 18,
+        "slot": 4,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 1,
+        "line": "line_oozes_tempo",
+        "round": 18,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 1,
+        "line": "line_oozes_tempo",
+        "round": 19,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 1,
+        "line": "line_oozes_tempo",
+        "round": 19,
+        "slot": 2,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": -4426476524
+      },
+      {
+        "seed": 2911001,
+        "seat": 7,
+        "line": "line_oozes_engine",
+        "round": 19,
+        "slot": 4,
+        "unit": "jenny_greenteeth",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 1,
+        "line": "line_oozes_tempo",
+        "round": 20,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 7,
+        "line": "line_oozes_engine",
+        "round": 20,
+        "slot": 4,
+        "unit": "jenny_greenteeth",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911001,
+        "seat": 7,
+        "line": "line_oozes_engine",
+        "round": 20,
+        "slot": 6,
+        "unit": "prima_donna",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911009,
+        "seat": 1,
+        "line": "line_oozes_engine",
+        "round": 20,
+        "slot": 3,
+        "unit": "squire_lollop",
+        "attack": 792234177,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911009,
+        "seat": 1,
+        "line": "line_oozes_engine",
+        "round": 20,
+        "slot": 6,
+        "unit": "squire_lollop",
+        "attack": 624280961,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 16,
+        "slot": 2,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 16,
+        "slot": 4,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 16,
+        "slot": 5,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 16,
+        "slot": 6,
+        "unit": "standing_committee",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 17,
+        "slot": 1,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": -8313776698
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 17,
+        "slot": 3,
+        "unit": "standing_committee",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 17,
+        "slot": 5,
+        "unit": "mrs_clover",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911014,
+        "seat": 2,
+        "line": "line_hedgerow_parish",
+        "round": 17,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 6,
+        "line": "line_oozes_engine",
+        "round": 15,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 977919846,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 16,
+        "slot": 0,
+        "unit": "wick",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 16,
+        "slot": 5,
+        "unit": "mountain_glutton",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 6,
+        "line": "line_oozes_engine",
+        "round": 16,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": -7105938086
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 17,
+        "slot": 0,
+        "unit": "wick",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 17,
+        "slot": 5,
+        "unit": "mountain_glutton",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 18,
+        "slot": 0,
+        "unit": "wick",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 18,
+        "slot": 5,
+        "unit": "mountain_glutton",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 19,
+        "slot": 0,
+        "unit": "wick",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911016,
+        "seat": 7,
+        "line": "line_hunters_open_season",
+        "round": 19,
+        "slot": 5,
+        "unit": "mountain_glutton",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 18,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 19,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": -10734626332
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 19,
+        "slot": 0,
+        "unit": "standing_committee",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 19,
+        "slot": 1,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 19,
+        "slot": 4,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 19,
+        "slot": 5,
+        "unit": "dr_urchin",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 20,
+        "slot": 1,
+        "unit": "prince_restored",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 20,
+        "slot": 5,
+        "unit": "jenny_greenteeth",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 0,
+        "unit": "standing_committee",
+        "attack": 0,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 1,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 2,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 4,
+        "unit": "mrs_mallow",
+        "attack": 0,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 5,
+        "unit": "dr_urchin",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911022,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 6,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 17,
+        "slot": 0,
+        "unit": "squire_lollop",
+        "attack": 965775949,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 17,
+        "slot": 4,
+        "unit": "dr_urchin",
+        "attack": 731405540,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 17,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 964444089,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 0,
+        "line": "line_hunters_pack",
+        "round": 18,
+        "slot": 0,
+        "unit": "bridge_toad",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 0,
+        "line": "line_hunters_pack",
+        "round": 18,
+        "slot": 1,
+        "unit": "little_nip",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 18,
+        "slot": 4,
+        "unit": "dr_urchin",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 18,
+        "slot": 5,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911024,
+        "seat": 3,
+        "line": "line_oozes_engine",
+        "round": 18,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911027,
+        "seat": 5,
+        "line": "line_oozes_tempo",
+        "round": 18,
+        "slot": 2,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911027,
+        "seat": 3,
+        "line": "line_birds_tempo",
+        "round": 19,
+        "slot": 3,
+        "unit": "lantern_man",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911027,
+        "seat": 5,
+        "line": "line_oozes_tempo",
+        "round": 19,
+        "slot": 2,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": -4715235493
+      },
+      {
+        "seed": 2911027,
+        "seat": 3,
+        "line": "line_birds_tempo",
+        "round": 20,
+        "slot": 3,
+        "unit": "lantern_man",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911028,
+        "seat": 5,
+        "line": "line_hunters_open_season",
+        "round": 20,
+        "slot": 1,
+        "unit": "mountain_glutton",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911028,
+        "seat": 5,
+        "line": "line_hunters_open_season",
+        "round": 20,
+        "slot": 2,
+        "unit": "little_nip",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911028,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 0,
+        "unit": "squire_lollop",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911028,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 2,
+        "unit": "alderman_dozey",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911028,
+        "seat": 6,
+        "line": "line_hedgerow_supper",
+        "round": 20,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911030,
+        "seat": 2,
+        "line": "line_oozes_tempo",
+        "round": 17,
+        "slot": 2,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911030,
+        "seat": 2,
+        "line": "line_oozes_tempo",
+        "round": 19,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 0,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911030,
+        "seat": 2,
+        "line": "line_oozes_tempo",
+        "round": 20,
+        "slot": 6,
+        "unit": "mrs_mallow",
+        "attack": 0,
+        "health": 1000000000
+      }
+    ],
+    "line_counts": {
+      "line_oozes_tempo": 11,
+      "line_oozes_engine": 18,
+      "line_hedgerow_parish": 8,
+      "line_hunters_open_season": 10,
+      "line_hedgerow_supper": 13,
+      "line_hunters_pack": 2,
+      "line_birds_tempo": 2
+    },
+    "seats": 15,
+    "first_round": 15
+  },
+  "confirm": {
+    "peak_board": 4343141011,
+    "hits": [
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 14,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 14,
+        "slot": 1,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 15,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 15,
+        "slot": 1,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 16,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      },
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 16,
+        "slot": 1,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": -1454361825
+      },
+      {
+        "seed": 2911018,
+        "seat": 6,
+        "line": "line_oozes_tempo",
+        "round": 17,
+        "slot": 0,
+        "unit": "mrs_mallow",
+        "attack": 1000000000,
+        "health": 1000000000
+      }
+    ],
+    "line_counts": {
+      "line_oozes_tempo": 7
+    },
+    "seats": 1,
+    "first_round": 14
+  }
+}
