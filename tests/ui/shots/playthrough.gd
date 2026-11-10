@@ -89,8 +89,9 @@ func _frames(n: int) -> void:
 
 func _check(screen: Control, where: String, overlap: bool = true) -> void:
 	# Layout checks describe the resting screen, after the pointer's decorative lift retires.
-	root.warp_mouse(Vector2(5, 1070))
-	await _frames(12)
+	if screen is RecruitScreen:
+		root.warp_mouse(Vector2(5, 1070))
+		await _frames(12)
 	for line: String in LayoutCheck.problems(screen, where, overlap):
 		_problem(line)
 	# The menu guide teaches the whole game, including tribes absent from this lobby.

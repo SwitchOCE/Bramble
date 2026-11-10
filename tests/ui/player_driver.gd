@@ -584,6 +584,8 @@ func _click_control(target: Control, signal_name: String, label: String) -> bool
 		if over == target or (over != null and target.is_ancestor_of(over)):
 			break
 	viewport.warp_mouse(at)
+	DisplayServer.process_events()
+	Input.flush_buffered_events()
 	for pressed: bool in [true, false]:
 		var click: InputEventMouseButton = InputEventMouseButton.new()
 		click.button_index = MOUSE_BUTTON_LEFT
