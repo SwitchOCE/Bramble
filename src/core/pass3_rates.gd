@@ -37,7 +37,7 @@ static func keys() -> PackedStringArray:
 	return out
 
 
-static func value(config: GameConfig, key: String) -> Variant:
+static func value(config: GameConfig, key: String, fallback: Variant = 0) -> Variant:
 	if _defaults.is_empty():
 		defaults()
 	var override: Variant = config.get_value(key)
@@ -45,11 +45,11 @@ static func value(config: GameConfig, key: String) -> Variant:
 		return override
 	var name: String = config.get_string("pass3_preset")
 	var chosen: Dictionary = _presets.get(name if name != "" else _default_preset, {})
-	return chosen.get(key, _defaults.get(key, 0))
+	return chosen.get(key, _defaults.get(key, fallback))
 
 
-static func number(config: GameConfig, key: String) -> float:
-	return CoreUtil.to_float(value(config, key))
+static func number(config: GameConfig, key: String, fallback: float = 0.0) -> float:
+	return CoreUtil.to_float(value(config, key, fallback))
 
 
 static func integer(config: GameConfig, key: String) -> int:

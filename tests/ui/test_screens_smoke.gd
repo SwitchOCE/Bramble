@@ -95,6 +95,7 @@ func test_combat_plays_back_over_time() -> void:
 	app.start_game()
 	(app.current as RecruitScreen).call("_on_end_turn")
 	var combat: CombatScreen = app.current as CombatScreen
+	assert_true(combat.is_processing())
 	combat.set_speed(4.0)
 	# The screen's own frame step, driven by hand: 1.5 s, then 0.5 s paused (was real waiting).
 	_frames(combat, 1.5)

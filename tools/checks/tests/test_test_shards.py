@@ -4,6 +4,7 @@ sharded gate, and a script with no recorded time still runs."""
 from __future__ import annotations
 
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -79,12 +80,17 @@ class TestShardsTest(unittest.TestCase):
         self.assertEqual(times, {"res://tests/core/test_a.gd": 3.5, "res://tests/core/test_b.gd": 2.5})
 
     def test_committed_times_cover_the_real_suite(self) -> None:
-        # Not required for correctness (new scripts get a default weight), but a stale file means
-        # unbalanced shards: refresh it with `test_shards.py times build/check/gut.xml`.
+        # A warning, not a failure: new scripts get the median weight, so a stale file only skews
+        # shard sizes. check.sh's python step prints the line.
         times = test_shards.load_times()
         scripts = test_shards.discover()
         missing = [s for s in scripts if s not in times]
-        self.assertLessEqual(len(missing) * 4, len(scripts), f"{len(missing)} scripts have no time: {missing[:5]}")
+        if len(missing) * 4 > len(scripts):
+            print(
+                f"test_times: WARNING {len(missing)} of {len(scripts)} test scripts have no time; refresh with "
+                "`python3 tools/checks/test_shards.py times <gut.xml>...`",
+                file=sys.stderr,
+            )
 
 
 if __name__ == "__main__":

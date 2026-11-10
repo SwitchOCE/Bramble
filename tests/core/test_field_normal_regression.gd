@@ -17,14 +17,30 @@ func after_each() -> void:
 	_frozen.restore()
 
 
-func test_normal_lobby_matches_complete_games_captured_after_wave2a_merge() -> void:
+func test_normal_lobby_matches_complete_games_after_a35_dial_aware_bot_valuations() -> void:
 	var fixture: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/fixtures/field/normal-a35-dial-bots.json")
+	)
+	var baseline: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/fixtures/field/normal-067429a3.json")
 	)
-	assert_eq(fixture["source_commit"], "067429a3")
+	assert_eq(fixture["baseline_source_commit"], "067429a3")
 	assert_eq(fixture["content_source_commit"], "0946909")
+	assert_eq(fixture["source_parent_commit"], "273bdb5b")
+	assert_eq(fixture["previous_fixture"], "res://tests/fixtures/field/normal-067429a3.json")
+	assert_eq(
+		fixture["source_patch"],
+		(
+			"A3.5 working tree patch on source_parent_commit: dial-aware bot valuations and shared "
+			+ "normal/golden flight reminders; frozen content and original baseline configs retained."
+		)
+	)
+	assert_eq(fixture["games"].size(), 4)
 	var library: UnitLibrary = _frozen.library
-	for recorded: Dictionary in fixture["games"]:
+	for index: int in 4:
+		var recorded: Dictionary = fixture["games"][index]
+		assert_eq(recorded["seed"], baseline["games"][index]["seed"])
+		assert_eq(recorded["config"], baseline["games"][index]["config"])
 		var source: Dictionary = recorded["config"]
 		var config := FightCapture.config_for(source)
 		_keys = source.keys()

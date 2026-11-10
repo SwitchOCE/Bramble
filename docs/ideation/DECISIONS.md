@@ -4,6 +4,167 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — A3.5 dials merged
+**Source:** `ideation/a35-dials-fix` 4c8bb077, merged as `c5e65925` (gate PASS on 0778d693, run 42757367671).
+
+**Picked:** merged. It adds Hedgerow's four dials (Mallow's multiplier, both Dozey wake multipliers and Treasurer's gold rate) on top of the five fixed earlier. Each is read by its rule, its printed text and its bot. The inventory test now requires every dial.
+
+**Agreed by:** a fresh Sol review of `80dcc35a..4c8bb077`: MERGE, no cut or ask items. Its checks of preset B against main, preset C against the printed text, and the bot reads were each traced end to end.
+
+### 10 Nov 2026 — Neutrals (A3): the Soup arrival bar is dropped as a merge condition
+**Source:** w16's turn on `ideation/neutrals` (a7ddebfc, cb004ab7, 3e7fd23c) and `content/pass3/neutrals-build.md`.
+
+**Found:**
+- **The shop can't meet the bar.** The chance of a first Soup offer by R6 is 53.2% (90% interval 46.9–59.3%), below the 62.5% bar. On the 32 seeds, 18 saw Soup and 17 bought it. The one miss came while the bot was saving gold.
+- **The other two Soup bars pass.**
+- **The Slice triple bug is fixed:** generated Slices now check for a triple after each one arrives fully buffed, including copies inside a Belly. Three regressions fail before the fix and pass after.
+- **All 38 prototypes are out of the live pool:** 13 newly retired, 25 already were. They stay available to the legacy test archives.
+
+**Picked:**
+- The arrival bar no longer blocks the merge. The worker's proposed bot change (freeze the first Soup while saving) stays out.
+- A3 merges after a fresh review of `a2206273..3e7fd23c` and the gate.
+
+**Why:** the Ooze probe ("Oozes: the problem is the numbers") reaches the target with Soup on only 8 of 28 surviving engine boards, so Soup's arrival no longer decides whether the tribe works. Changing the bot just to clear a bar would shape the test rather than the game.
+
+**Agreed by:** the orchestrator's call, on the worker's odds audit.
+
+### 10 Nov 2026 — Oozes: the problem is the numbers
+**Source:** the owner's request in `2026-11-10e`; the overbuff probe (`ideation/ooze-probe` 02d4a1bf, three arms on the same 32 B seeds); three blind redesigns from the design skill's surgical, bottom-up mechanical and top-down mechanical routes. All in `evidence/ooze-level/`.
+
+**Found:**
+- **Measured, the problem is at the parameter level.** Arm b (meals give 7× their stats, Aspic 1.8, Soup 0.3, Slice 0.2, the rest at the A3.5 dials' t=3) takes the engine line's R12 median from 352 to 1,235. Pot Luck goes from 271 to 786.
+- **Arm b's shape reads well by note 10f.** At R12 the engine's p10 is 625 and its p90 4,367. Seat growth R8–R14 runs ×1.32 at p10, ×1.45 at the median and ×1.85 at p90. Low rolls don't collapse, and the top tail is about 3.5× the median, not a snowball in most games.
+- **Arm c (about 3× arm b) runs away.** Its R12 p90 is 125 million, and some seats hit the 12-billion cap.
+- **The designers split from the probe.** Two of the three blind designers called it a mechanic problem (eating is additive, so it can't compound). The third called it content (no early source of growing food). Their numbers are paper estimates; the probe's are the engine's, with the bots following the route only partly (8 of 28 surviving engine boards had Soup).
+
+**Picked:**
+- Arm b becomes the Oozes' starting values, generous first.
+- Pot Luck at 786 is within reach of 900 and gets no special push yet. A3.5 run 1 compares it with the other tribes on the same seeds.
+- The three redesigns stay as an idea library. Both multiplicative Digests (⅔ culture, ×2 double) are the first thing to try if playtests say eating feels flat, even at the right size.
+- The probe's two overflow guards (apply the existing stat maximum before Ooze vector arithmetic, and before combat gains are converted into carry) merge after A3.5, with a review and the gate. They matter at any dial setting where stats get large.
+
+**Why:** a measured parameter fix that meets the bar with a healthy shape beats paper redesigns that would need their own sims. Past paper models of this tribe ran 3.6× too high (realization 0.275). The redesigns also change what the tribe is, which the owner hasn't asked for.
+
+**Agreed by:** the probe's report and its seat-round audit (3,279 seat-rounds reconcile). The distribution table is the orchestrator's own reading of `seat-rounds.csv`.
+
+### 10 Nov 2026 — Neutrals (A3): review calls; wave 2b merged
+**Source:**
+- A fresh Sol review of `ideation/neutrals` `125db4df..2b2e00d7`: 6 cut, 4 keep.
+- Wave 2b merged as `5e38e8c1` (gated PASS), after its Float/Int test fix `125db4df`. Its review calls are in "Wave 2b follow-ups (A1b, A2)".
+
+**Kept:** Spider, Burner, Whirligig, Shieldbug and Click implement their designs. Echo stays under the spell-scaling rule. The role controls isolate each mechanic. The shared-file changes support Click's landing order and the reader.
+
+**Cuts:**
+- **The six Soup fixes from the Stone Soup triage aren't in,** nor is the confirm rerun. They were routed to A3, so they land here before the pool settles.
+- **Click's bot valuation is wrong in three ways:** golden is doubled twice; homecoming divides by the departure round instead of the time to arrival; Nan Toadstool is missing from its payoff reader.
+
+**Picked:** all six go back to the author's thread (w2 → w16), with ideation/main merged in first, plus the 38-unit prototype retirement if time allows. A3 merges after the triage's three confirm bars are reported on the same 32 B seeds, followed by a narrow re-review and the gate.
+
+**Agreed by:** the review.
+
+### 10 Nov 2026 — Codex Cloud: why the CLI can't see Bramble
+**Source:** the admin session (fork of the orchestrator) and the owner's Codex agent, from the CLI source and OpenAI's docs.
+
+**Found:**
+- The owner's Bramble environment is a current, published one (`cecfg_`).
+- `codex cloud exec` 0.166 and 0.167 only find legacy (WHAM) environments, so they can't submit to it.
+- There's no documented way to steer a running cloud task.
+
+**Picked:** cloud work stays on Actions and local workers. The admin session has proposed to the owner a legacy environment for CLI submission, with Tailscale mailbox steering on top. The orchestrator uses Codex Cloud once that environment's id is in `CODEX_CLOUD.md`.
+
+**Agreed by:** the admin session's check.
+
+**Update, same day:** the owner granted the `workflow` scope. `gh auth status` now lists it. The sim job can merge once its fixes pass review and the gate. S3's preflight stays out, since the review found it duplicated `export_smoke.sh`.
+
+### 10 Nov 2026 — Sim job fixed; the soak finds four real game bugs
+**Source:** `ideation/sim-job-fix` bc800797 and `evidence/sim-job-fix.json`. The sim job's line run matches local exactly on 32 games, all eight R12 medians and growth included. Results took 119 s on Actions against 574 s locally.
+
+**Of the soak's 198 violations,** 102 were checker bugs, now fixed: the golden Peat cap (96) and Fetch golden totals (6). 96 are real:
+- untripled Slice (48), in `pass3_oozes.gd`;
+- an Egg action offered on a non-Bird (45), in `legal_actions.gd`;
+- an Egg action reused (1), in `legal_actions.gd`;
+- a held unit released into an occupied slot (2), in `combat_held.gd`.
+
+**Picked:**
+- The sim job merges after a fresh review and the gate, with the soak red on these. The soak's job is to catch exactly these.
+- **Slice:** goes to w16 (A3), which already has the Ooze files open.
+- **The Egg actions and the held release:** go to a separate Sol worker, in its own worktree from ideation/main.
+- The 200-game soak at 0 violations stays A4's prerequisite.
+
+**Agreed by:** the worker's classification. The review checks that the two checker fixes don't hide real violations.
+
+### 10 Nov 2026 — Neutrals (A3) fixes: two Soup bars pass, arrival misses
+**Source:** w16 on `ideation/neutrals` 0665f7b7, with ideation/main merged in as a2206273. The three Click fixes and all six Soup fixes are in. All three frozen replay hashes are unchanged.
+
+**Soup's confirm bars,** on the same 32 B seeds:
+
+| Bar | Result | Status |
+|---|---|---|
+| Soup by R6 on 20+ of 32 engine seats | 17/32 | fail |
+| Soup seats out before R12 no more often than the rest | 2/17 vs 4/15 | pass |
+| Soup on half the R12 engine boards | 15/26 | pass |
+
+The engine line's R12 active median is now 398, up from 262–331 before.
+
+**Picked:** before any further card change, w16 computes from shop odds and the real climb the chance a seat sees Soup by R6 at tier 1, and compares offers seen with buys.
+- If the odds cap it below the bar, the bar is fixed, not the card.
+- If seats see Soup and don't buy it, the cause and the smallest fix come back as a proposal.
+
+In the same turn, w16 fixes the soak's untripled-Slice bug and retires the 38 prototype units. A3 is then reviewed once, gated and merged.
+
+**Agreed by:** the measurement.
+
+### 10 Nov 2026 — How the growth bar is read (owner, 10f)
+**Source:** owner note `2026-11-10f-growth-shape.md`.
+
+**Picked:** "×1.3 a round, R8–R14" (checkpoint criterion 2, A1b, A3.5, A4) is read as an expectation on aggregate, not a rule each round or each run must meet.
+- **Uneven rounds are expected.** Tier-up and economy turns grow less, sometimes not at all, and other turns grow more.
+- **Reports show the shape.** Every growth report gives the per-round distribution of active-board totals across seats, R6–R15: the quartiles and the 10th and 90th percentiles, alongside the median. It also gives the spread of per-seat growth R8–R14.
+- **The call rests on the shape.** The distribution should be predictable, end-game growth should be healthy, the tail shouldn't be a snowball, and low rolls shouldn't collapse. The single median ratio counts as one input among those.
+- A miss on the median alone, with a healthy distribution, isn't a fail. Neither is one odd round.
+- Scale (the R12 targets) is read the same way: where the distribution sits, not only its median.
+
+**Agreed by:** the owner.
+
+### 10 Nov 2026 — The orchestrator is local admin on the Optiplex (owner, 10e)
+**Source:** owner note `2026-11-10e-local-admin-and-oozes.md`.
+
+**Picked:**
+- The orchestrator clears temp files on this machine as needed, and decides deletions without asking.
+- It skips anything a running process holds open or that was touched in the last few hours, and logs each cleanup to `build/orchestrator/logs/`.
+- Orchestrator logs live on `/home`, and workers write their logs under `build/`.
+- **Why:** `/tmp` is a 7.5 GB RAM-backed tmpfs with a per-user quota. On 10 Nov, old worker scratch filled it: commands lost their output and swap filled.
+- **The first cleanup:** 840 items deleted. `/tmp` went from 81% to 34%, and free memory from 5 GB to 7 GB.
+
+**Agreed by:** the owner.
+
+### 10 Nov 2026 — Oozes: find the level first, then three routes (owner, 10 Nov)
+**Source:** the owner, 10 Nov: "Maybe try a buff that's... overestimating a buff for the Oozes... something that you think is going to push them way past 900, or try designing new content or reworking the tribe entirely. Use the new design skill... See if you can identify what the problem is."
+
+**Found so far:** Oozes realize 0.275 of their paper model, the lowest of any tribe (A3.5 step 0). The engine line's R12 median is 398, and the target is 900.
+
+**Picked (the skill's ladder: when unsure, sketch one fix per level):**
+1. **An overbuff probe on the Actions sim job** (Sol, `ideation/ooze-probe`, never merges). Both Ooze lines run on 32 B seeds under three arms: today's B, every dial at t=3, and an absurd arm about 3× past t=3. Each reports where eaten stats go: board, Belly, sold or dead. If the absurd arm stays under 900, the cause isn't the numbers.
+2. **Three parallel Sol designers,** one route each, briefed without the power budget:
+   - bottom-up mechanical, at the mechanic level;
+   - surgical, at the content level;
+   - top-down mechanical, reworking the whole tribe.
+3. **A separate critic** compares them with the probe's numbers. Two deciding criteria: the engine line's R12 median and its ×1.3 growth.
+
+**Agreed by:** the plan; the results are to come.
+
+### 10 Nov 2026 — Sim job (S4) and S5b merged
+**Source:** the gated merges `0b330f2e` (sim job, after the narrow re-review of b9a342c1) and `bdd51202` (S5b/S10b, after a narrow review). The S5b review's one ask, evidence for the export proof, was checked by the orchestrator in `-follow/build/follow-check/`. The exported log records build `eb0cbf34`, and its replay reaches the logged final hash, `472d53a8…`.
+
+**Picked:**
+- Both are merged.
+- The sim job is live for workers. `scripts/sim-run.sh` pushes only `ideation/sim/<id>`.
+- The soak stays red on the four game bugs until they're fixed:
+  - Slice: w16.
+  - Egg actions and the held release: a worker, once a slot frees.
+
+**Agreed by:** the reviews and the gates.
+
 ### 10 Nov 2026 — Declutter batch 2: second cold reader passes; evidence slimmed before merge
 **Source:** `evidence/declutter/batch2-cold/reader2/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` b97d4644, and a separate Sol scorer marked it against `technical/`.
 

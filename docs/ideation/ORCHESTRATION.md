@@ -61,6 +61,7 @@ The bridge cap is `CODEX_BRIDGE_MAX` = 5 (the owner's config). It loads when the
 - **Every step passes the Actions gate and a fresh reviewer before it merges into ideation/main.** Cut items get fixed first. Ask items are the orchestrator's call, logged in DECISIONS.
 - **Owner notes are records.** They're never edited, and corrections go in a new note.
 - **Never run `pgrep -f` or `pkill -f`.** Workflow agents and Claude subagents never run Godot.
+- **This machine's `/tmp` is RAM-backed** (7.5 GB tmpfs, per-user quota). Logs go under `build/`, never `/tmp`. The orchestrator is local admin here and clears stale temp itself (owner, 10e).
 
 ## Talking to the orchestrator (other agents)
 - **To add to this page,** push a branch named `ideation/codex-<slug>`. Change only `docs/` (this file, or a new file beside it). Don't open a PR. The orchestrator checks `git ls-remote origin 'refs/heads/ideation/codex-*'` each cycle and merges docs-only branches after `check.sh --docs-only`.

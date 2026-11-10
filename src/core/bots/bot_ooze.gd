@@ -38,9 +38,11 @@ static func _body(unit: RecruitUnit) -> int:
 	return unit.base_attack_now() + unit.perm_attack + unit.base_health_now() + unit.perm_health
 
 
-static func _meal_size(unit: RecruitUnit) -> int:
+## Price printed stats at the live dial; permanent buffs and the shop's Soup count once.
+static func _meal_return(player: PlayerState, unit: RecruitUnit) -> int:
+	var stats: Vector2i = Pass3Oozes.meal_stats(player, unit)
 	var soup: Vector2i = unit.get_meta("ooze_soup_bonus", Vector2i.ZERO)
-	return _body(unit) + soup.x + soup.y
+	return stats.x + stats.y + soup.x + soup.y
 
 
 static func carry(player: PlayerState, room: bool = false) -> RecruitUnit:
@@ -179,7 +181,7 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 		if tempo(value):
 			return 0.0
 		return (
-			(maxf(6.0, size * _rate(player, "oozes_aspic_bonus", 0.5) * 0.3) * factor)
+			(maxf(6.0, size * _rate(player, "oozes_aspic_bonus", 0.75) * 0.3) * factor)
 			if carry(player) != null
 			else 0.0
 		)
@@ -192,7 +194,11 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	if has(unit, "cut_and_come_again"):
 		return size * _rate(player, "oozes_slice_share", 0.2) * 2.0 * factor
 	if has(unit, "hasty_pudding"):
-		return (size * 0.2 + 16.0) * factor if wants_hasty(player) else 4.0 * factor
+		return (
+			(size * _rate(player, "oozes_hasty_share", 1.0 / 3.0) + 16.0) * factor
+			if wants_hasty(player)
+			else 4.0 * factor
+		)
 	if has(unit, "granny_stir_up"):
 		return size * 0.5 * factor if committed else 4.0 * factor
 	if Pass3Oozes.is_digest(unit):
@@ -212,7 +218,7 @@ static func meal_gain(brain: BotBrain, meal: RecruitUnit) -> float:
 	if belly < 0:
 		return -1.0
 	# The same stats become permanent next turn, before the next Soup and Nell meal.
-	return float(_meal_size(meal))
+	return float(_meal_return(player, meal))
 
 
 static func food_belly(player: PlayerState, value: BotEval, meal: RecruitUnit) -> int:
@@ -247,7 +253,10 @@ static func best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -
 		if tempo(value):
 			return -1
 		for offer: RecruitUnit in player.shop:
-			if not offer.has_tribe("Oozes") and _meal_size(offer) >= _meal_size(unit):
+			if (
+				not offer.has_tribe("Oozes")
+				and _meal_return(player, offer) >= _meal_return(player, unit)
+			):
 				return -1
 	var food: int = food_belly(player, value, unit)
 	if food >= 0:
@@ -276,8 +285,12 @@ static func hand_belly(brain: BotBrain, meal: RecruitUnit) -> int:
 	var largest: int = 0
 	for unit: RecruitUnit in brain._player.shop:
 		if not unit.has_tribe("Oozes"):
-			largest = maxi(largest, _meal_size(unit))
-	return food_belly(brain._player, brain.value, meal) if _meal_size(meal) > largest else -1
+			largest = maxi(largest, _meal_return(brain._player, unit))
+	return (
+		food_belly(brain._player, brain.value, meal)
+		if _meal_return(brain._player, meal) > largest
+		else -1
+	)
 
 
 ## An empty first Dollop transfers whole into the newly found carry. A second stomach waits
@@ -336,8 +349,8 @@ static func feed(brain: BotBrain) -> void:
 			if slot < 0 or unit.poached_offer or not unit.held.is_empty():
 				continue
 			var cost: int = HeldUnits.swallow_cost(brain._rules, player, player.board[slot], unit)
-			if player.gold - brain._held_back() >= cost and _meal_size(unit) > largest:
-				largest = _meal_size(unit)
+			if player.gold - brain._held_back() >= cost and _meal_return(player, unit) > largest:
+				largest = _meal_return(player, unit)
 				best = index
 		if best < 0:
 			return
