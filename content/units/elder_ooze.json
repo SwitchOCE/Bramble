@@ -7,15 +7,15 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain half its stats.",
-  "golden_text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain all its stats.",
+  "text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain all its stats.",
+  "golden_text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain twice its stats.",
   "mechanics": [
     {
-      "id": "pass3_ooze",
       "ability": "elder_ooze",
       "factor": 1,
-      "share": 0.5,
-      "golden_multiplier": 2.0
+      "golden_multiplier": 2.0,
+      "id": "pass3_ooze",
+      "share": 1.0
     }
   ],
   "keywords": [

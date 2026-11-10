@@ -20,23 +20,16 @@ const BODIES: Dictionary = {
 	"granny_stir_up": [6, 4, 8],
 	"cut_and_come_again": [6, 4, 6],
 }
-## A3.5 step 0 (DECISIONS 10 Nov) moves these off paper; the eat multiplier is new.
-const A35_DIALS: Dictionary = {
-	"B":
-	{
-		"oozes_hasty_share": 1.0 / 3.0,
-		"oozes_aspic_bonus": 0.75,
-		"oozes_golden_aspic_multiplier": 2.5,
-		"oozes_eat_printed_multiplier": 2.0,
-	},
-	"C":
-	{
-		"oozes_hasty_share": 0.5,
-		"oozes_aspic_bonus": 1.0,
-		"oozes_golden_aspic_multiplier": 3.0,
-		"oozes_eat_printed_multiplier": 3.0,
-	},
+## The accepted t=3 probe becomes B; C is raised to B wherever its old value was lower.
+const PROMOTED_DIALS: Dictionary = {
+	"oozes_soup_share": 0.3,
+	"oozes_elder_share": 1.0,
+	"oozes_hasty_share": 1.0,
+	"oozes_aspic_bonus": 1.8,
+	"oozes_golden_aspic_multiplier": 4.6,
+	"oozes_eat_printed_multiplier": 7.0,
 }
+
 var library: UnitLibrary
 var config: GameConfig
 
@@ -87,7 +80,7 @@ func test_authored_normal_and_golden_faces_equal_resolved_b_generation() -> void
 			assert_eq(library.get_unit(id)[key], authored, id + " runtime")
 
 
-func test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values_but_a35s() -> void:
+func test_all_ooze_dials_match_promoted_b_and_c_with_other_paper_values_held() -> void:
 	var paper: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://docs/ideation/content/pass3/presets.json")
 	)
@@ -96,7 +89,7 @@ func test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values_but_a35s() 
 		var count: int = 0
 		var expected: Dictionary = paper[preset]
 		var resolved: Dictionary = Pass3Rates.resolved(config)
-		var moved: Dictionary = A35_DIALS[preset]
+		var moved: Dictionary = PROMOTED_DIALS
 		for key: String in expected:
 			if key.begins_with("oozes_"):
 				var want: Variant = moved.get(key, expected[key])
@@ -111,17 +104,17 @@ func test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_d
 	config.set_value("pass3_preset", "C")
 	var soup: Dictionary = library.get_unit("stone_soup").duplicate(true)
 	Pass3OozeText.configure(soup, config)
-	assert_eq(soup["text"], "Shop units gain a sixth of your biggest Ooze's stats.")
-	assert_eq(soup["golden_text"], "Shop units gain a sixth of your two biggest Oozes' stats.")
+	assert_eq(soup["text"], "Shop units gain three tenths of your biggest Ooze's stats.")
+	assert_eq(soup["golden_text"], "Shop units gain three tenths of your two biggest Oozes' stats.")
 	var elder: Dictionary = library.get_unit("elder_ooze").duplicate(true)
 	Pass3OozeText.configure(elder, config)
 	assert_eq(
 		elder["text"],
-		"After your biggest Ooze eats a non-Ooze: your other Oozes gain three quarters of its stats."
+		"After your biggest Ooze eats a non-Ooze: your other Oozes gain all its stats."
 	)
 	assert_eq(
 		elder["golden_text"],
-		"After your biggest Ooze eats a non-Ooze: your other Oozes gain three halves of its stats."
+		"After your biggest Ooze eats a non-Ooze: your other Oozes gain twice its stats."
 	)
 
 
@@ -174,7 +167,7 @@ func test_native_count_rates_widen_golden_targets_but_keep_compounding_fractions
 		if str(pair[0]) == "hasty_pudding":
 			assert_eq(_params(card, "belly", true)["size"], 6, "swallow dial also widens capacity")
 	var hasty: Dictionary = library.get_unit("hasty_pudding")
-	assert_eq(_params(hasty, "pass3_ooze", true)["share"], 1.0 / 3.0)
+	assert_eq(_params(hasty, "pass3_ooze", true)["share"], 1.0)
 	assert_eq(_params(hasty, "pass3_ooze", true)["after"], 3)
 	assert_eq(_params(library.get_unit("mrs_posset"), "pass3_ooze", true)["loss_share"], 0.5)
 

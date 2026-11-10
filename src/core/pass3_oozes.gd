@@ -236,14 +236,7 @@ static func eat(
 	var receives_bonuses: bool = not meal.has_tribe("Oozes") or not player.pass3_loop_guards
 	var multiplier: float = 1.0 + (aspic_bonus(player, eater) if receives_bonuses else 0.0)
 	var gained: Vector2i = _portion(meal_stats(player, meal), multiplier)
-	var before_attack: int = eater.perm_attack
-	var before_health: int = eater.perm_health
 	eater.add_permanent(gained.x, gained.y)
-	var accepted: int = eater.perm_attack - before_attack + eater.perm_health - before_health
-	if player.has_meta("ooze_probe"):
-		eater.set_meta(
-			"probe_eat_credit", CoreUtil.to_int(eater.get_meta("probe_eat_credit", 0)) + accepted
-		)
 	if has(eater, "frumenty"):
 		eater.last_meals.append({"def": meal.def, "golden": meal.golden})
 		var keep: int = CoreUtil.to_int(player.pass3_rates.get("oozes_frumenty_meals", 1))
@@ -255,10 +248,6 @@ static func eat(
 		"eat",
 		{
 			"source": eater.def_id(),
-			"source_iid": eater.iid,
-			"meal_iid": meal.iid,
-			"recycled_credit": CoreUtil.to_int(meal.get_meta("probe_eat_credit", 0)),
-			"accepted": accepted,
 			"target": meal.def_id(),
 			"attack": gained.x,
 			"health": gained.y,
@@ -335,15 +324,7 @@ static func _share(
 		for target: RecruitUnit in player.board:
 			if target == null or target == eater or not target.has_tribe("Oozes"):
 				continue
-			var old_attack: int = target.perm_attack
-			var old_health: int = target.perm_health
 			target.add_permanent(bonus.x, bonus.y)
-			var accepted: int = target.perm_attack - old_attack + target.perm_health - old_health
-			if player.has_meta("ooze_probe"):
-				target.set_meta(
-					"probe_eat_credit",
-					CoreUtil.to_int(target.get_meta("probe_eat_credit", 0)) + accepted
-				)
 			target.counters["ooze_share_serial"] = (
 				CoreUtil.to_int(target.counters.get("ooze_share_serial", 0)) + 1
 			)
@@ -351,7 +332,6 @@ static func _share(
 				"ooze_share",
 				{
 					"source": elder.def_id(),
-					"accepted": accepted,
 					"target": target.def_id(),
 					"attack": bonus.x,
 					"health": bonus.y
@@ -371,21 +351,3 @@ static func _portion(stats: Vector2i, fraction: float) -> Vector2i:
 		mini(BoardUnit.STAT_CLAMP, floori(stats.x * fraction)),
 		mini(BoardUnit.STAT_CLAMP, floori(stats.y * fraction))
 	)
-
-
-## Probe-only attribution metadata; it never enters combat rules or bot evaluation.
-static func probe_merge(golden: RecruitUnit, copy: RecruitUnit) -> void:
-	var credit: int = CoreUtil.to_int(copy.get_meta("probe_eat_credit", 0))
-	if credit > 0:
-		golden.set_meta(
-			"probe_eat_credit", CoreUtil.to_int(golden.get_meta("probe_eat_credit", 0)) + credit
-		)
-
-
-static func probe_sale(unit: RecruitUnit) -> Dictionary:
-	return {
-		"unit": unit.def_id(),
-		"eat_credit": CoreUtil.to_int(unit.get_meta("probe_eat_credit", 0)),
-		"attack": unit.attack,
-		"health": unit.health,
-	}

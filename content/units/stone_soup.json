@@ -8,15 +8,15 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Shop units gain an eighth of your biggest Ooze's stats.",
-  "golden_text": "Shop units gain an eighth of your two biggest Oozes' stats.",
+  "text": "Shop units gain three tenths of your biggest Ooze's stats.",
+  "golden_text": "Shop units gain three tenths of your two biggest Oozes' stats.",
   "mechanics": [
     {
-      "id": "pass3_ooze",
       "ability": "stone_soup",
       "factor": 1,
-      "share": 0.125,
-      "golden_reads": 2
+      "golden_reads": 2,
+      "id": "pass3_ooze",
+      "share": 0.3
     }
   ],
   "keywords": [],

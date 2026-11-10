@@ -1,0 +1,9 @@
+{
+  "kind": "lines",
+  "suite": "ooze_probe",
+  "preset": "B",
+  "first_seed": 2911001,
+  "lobbies": 32,
+  "rates": {},
+  "shards": 8
+}

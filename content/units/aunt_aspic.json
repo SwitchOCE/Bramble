@@ -8,15 +8,15 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Oozes in front of this gain 75% more from eating non-Oozes.",
-  "golden_text": "Oozes in front of this gain 2.5 times as many stats from eating non-Oozes.",
+  "text": "Oozes in front of this gain 180% more from eating non-Oozes.",
+  "golden_text": "Oozes in front of this gain 4.6 times as many stats from eating non-Oozes.",
   "mechanics": [
     {
-      "id": "pass3_ooze",
       "ability": "aunt_aspic",
+      "bonus": 1.8,
       "factor": 1,
-      "bonus": 0.75,
-      "golden_multiplier": 2.5
+      "golden_multiplier": 4.6,
+      "id": "pass3_ooze"
     }
   ],
   "keywords": [

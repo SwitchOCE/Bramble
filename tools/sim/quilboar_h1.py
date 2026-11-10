@@ -191,7 +191,6 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
                             }
                             for u in active
                         ],
-                        "ooze_probe": before.get("ooze_probe", {}),
                         "belly_stats": sum(
                             u["attack"] + u["health"] for u in before["units"] if u.get("location") == "belly"
                         ),

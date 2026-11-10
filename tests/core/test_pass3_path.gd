@@ -260,7 +260,7 @@ func test_every_dial_that_differs_between_b_and_c_is_on_a_path_or_named_off_it()
 func test_new_preset_keys_are_only_the_a35_dials_and_chiffchaff() -> void:
 	var b: Dictionary = Pass3Rates._presets["B"]
 	assert_eq(b["birds_chiffchaff_gain"], 1.0)
-	assert_eq(b["oozes_eat_printed_multiplier"], 2.0)
+	assert_eq(b["oozes_eat_printed_multiplier"], 7.0)
 	assert_eq(Pass3Rates.defaults()["oozes_eat_printed_multiplier"], 1.0, "A keeps old eating")
 
 
@@ -325,7 +325,7 @@ func test_limits_snaps_and_golden_relations_hold_along_every_path() -> void:
 		assert_gt(CoreUtil.to_float(path["oozes_golden_aspic_multiplier"]) - 1.0, aspic, at)
 
 
-func test_snaps_round_up_toward_generous_and_match_the_dial_check() -> void:
+func test_snaps_round_up_toward_generous_and_non_ooze_paths_keep_moving() -> void:
 	assert_eq(Pass3Path.snap(27.0 / 32.0, "frac_hunt"), 0.875, "Nip 7/8")
 	assert_eq(Pass3Path.snap(2.0 / 9.0, "frac_text"), 2.0 / 9.0, "Soup 2/9")
 	assert_eq(Pass3Path.snap(0.2963, "frac_text"), 0.3, "Soup 3/10")
@@ -334,8 +334,6 @@ func test_snaps_round_up_toward_generous_and_match_the_dial_check() -> void:
 	assert_almost_eq(Pass3Path.snap(4.0 / 3.0, "pct5"), 1.35, 1e-9)
 	var t2: Dictionary = Pass3Path.override(2.0)
 	var t3: Dictionary = Pass3Path.override(3.0)
-	assert_eq([t2["oozes_eat_printed_multiplier"], t3["oozes_eat_printed_multiplier"]], [5, 7])
-	assert_almost_eq(CoreUtil.to_float(t3["oozes_aspic_bonus"]), 1.8, 1e-9)
 	assert_eq([t2["hunters_ermeline_pelts"], t3["hunters_ermeline_pelts"]], [4, 8])
 	assert_eq(t3["hunters_golden_ermeline_pelts"], 10)
 	assert_eq([t2["hunters_glutton_share"], t3["hunters_glutton_share"]], [1.5, 2.25])
@@ -343,11 +341,31 @@ func test_snaps_round_up_toward_generous_and_match_the_dial_check() -> void:
 	assert_eq([t2["bog_tiddy_share"], t2["bog_golden_tiddy_share"]], [1.0, 2.0])
 
 
+func test_promoted_ooze_path_stays_flat_at_every_step() -> void:
+	var expected: Dictionary = {
+		"oozes_soup_share": 0.3,
+		"oozes_elder_share": 1.0,
+		"oozes_hasty_share": 1.0,
+		"oozes_aspic_bonus": 1.8,
+		"oozes_golden_aspic_multiplier": 4.6,
+		"oozes_eat_printed_multiplier": 7,
+	}
+	for t: float in STEPS:
+		var path: Dictionary = Pass3Path.override(t)
+		for key: String in expected:
+			assert_almost_eq(
+				CoreUtil.to_float(path[key]),
+				CoreUtil.to_float(expected[key]),
+				1e-9,
+				"%s at t=%s" % [key, t]
+			)
+
+
 func test_per_tribe_t_moves_only_that_tribe() -> void:
-	var mixed: Dictionary = Pass3Path.override({"oozes": 3.0})
+	var mixed: Dictionary = Pass3Path.override({"hunters": 3.0})
 	var base: Dictionary = Pass3Path.override(0.0)
-	assert_eq(mixed["oozes_eat_printed_multiplier"], 7)
-	assert_eq(mixed["hunters_ermeline_pelts"], base["hunters_ermeline_pelts"])
+	assert_eq(mixed["hunters_ermeline_pelts"], 8)
+	assert_eq(mixed["oozes_eat_printed_multiplier"], base["oozes_eat_printed_multiplier"])
 	assert_eq(mixed["birds_homecoming_multiplier"], base["birds_homecoming_multiplier"])
 
 
@@ -528,7 +546,7 @@ func test_glutton_and_lodger_take_past_one_at_the_cap() -> void:
 
 
 func test_hasty_gives_its_dialled_share_at_t0_and_cap() -> void:
-	for row: Array in [[0.0, [73, 96]], [3.0, [100, 130]]]:
+	for row: Array in [[0.0, [100, 130]], [3.0, [100, 130]]]:
 		_kit(row[0])
 		var hasty: Dictionary = CK.u("hasty_pudding", -1, -1)
 		hasty["iid"] = 11
@@ -558,15 +576,15 @@ func test_hasty_bot_value_reads_the_dial() -> void:
 			+ carry.base_health_now()
 			+ carry.perm_health
 		)
-		var share: float = 1.0 / 3.0 if t == 0.0 else 1.0
+		var share: float = 1.0
 		var value: float = BotOoze.text_value(hasty, kit.player, brain.value)
 		assert_almost_eq(value, size * share + 16.0, 1e-6, "t=%s" % t)
 		values.append(value)
-	assert_gt(values[1], values[0])
+	assert_eq(values[1], values[0], "the promoted Hasty share stays flat")
 
 
 func test_eat_multiplier_scales_only_a_non_oozes_printed_stats() -> void:
-	for row: Array in [[0.0, 2], [3.0, 7]]:
+	for row: Array in [[0.0, 7], [3.0, 7]]:
 		_kit(row[0])
 		var carry: RecruitUnit = kit.put("bubble_and_squeak", 1)
 		carry.add_permanent(30, 30)
@@ -593,7 +611,7 @@ func test_eat_multiplier_scales_only_a_non_oozes_printed_stats() -> void:
 
 func test_aspic_and_golden_aspic_use_their_dials_with_the_eat_multiplier() -> void:
 	for row: Array in [
-		[0.0, false, 2, 1.75], [0.0, true, 2, 2.5], [3.0, false, 7, 2.8], [3.0, true, 7, 4.6]
+		[0.0, false, 7, 2.8], [0.0, true, 7, 4.6], [3.0, false, 7, 2.8], [3.0, true, 7, 4.6]
 	]:
 		_kit(row[0])
 		var carry: RecruitUnit = kit.put("bubble_and_squeak", 1)
@@ -610,7 +628,7 @@ func test_aspic_and_golden_aspic_use_their_dials_with_the_eat_multiplier() -> vo
 
 
 func test_meal_bot_value_counts_the_eat_multiplier() -> void:
-	for row: Array in [[0.0, 2], [3.0, 7]]:
+	for row: Array in [[0.0, 7], [3.0, 7]]:
 		_kit(row[0])
 		kit.put("bubble_and_squeak", 1)
 		kit.put("elder_ooze", 4)
