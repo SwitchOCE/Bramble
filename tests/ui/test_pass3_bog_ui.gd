@@ -100,12 +100,15 @@ func test_selected_scout_reader_uses_supplied_per_bite_gain_without_own_power_ma
 		var detail: CardDetail = screen.get("_detail")
 		assert_false(CardDetail.full_text_bbcode(detail.shown).contains("per bite"))
 		screen.toggle_scout()
+		assert_false(detail.visible, "changing scout mode closes the previous reader")
+		screen.call("_on_tapped", "board", 0)
 		await wait_process_frames(2)
 		var text: String = CardDetail.full_text_bbcode(detail.shown)
 		assert_string_contains(text, "Across Boar: +2/+2 per bite")
 		assert_string_contains(text, "Across Empty-Handed Vole: +0/+0 per bite")
 		assert_eq(LayoutCheck.problems(detail, "Bog scout reader"), PackedStringArray())
 		screen.toggle_scout()
+		screen.call("_on_tapped", "board", 0)
 		assert_false(CardDetail.full_text_bbcode(detail.shown).contains("per bite"))
 
 

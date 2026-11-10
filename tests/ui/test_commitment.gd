@@ -21,10 +21,12 @@ func test_harvest_explains_where_its_bonus_applies_and_its_bounds() -> void:
 	var library: UnitLibrary = TestLibraries.current()
 	var spell: Dictionary = HandItem.make(library.get_card("harvest_supper"), 1).view()
 	var full: String = CardDetail.full_text_bbcode(spell)
-	for expected: String in ["Offered from tier 3", "+3/+3", "Once a turn"]:
+	for expected: String in ["+3/+3", "Once a turn"]:
 		assert_string_contains(full, expected)
 	# Who misses out is a ruling, one hover or tap on "Details" away, not on the card.
 	assert_string_contains(full, "[url=kw:Details]")
+	assert_false(full.contains("Offered from tier 3"), "offer exceptions live in Details")
+	assert_string_contains(CardDetail.reminder_for("Details", spell), "Offered from tier 3")
 	assert_false(full.contains("summoned"), "not on the card")
 	assert_string_contains(CardDetail.reminder_for("Details", spell), "summoned")
 	var bonus: String = CardDetail.full_text_bbcode({"tribe_bonuses": {"Oozes": 2}})
@@ -73,7 +75,7 @@ func test_tribe_portraits_show_bonus_on_phone() -> void:
 	assert_eq(icons.tribes, ["Fairies", "Birds"])
 	var caption: Label = icons.get_node("Caption") as Label
 	assert_eq(caption.text, "Tribe bonus")
-	assert_true(caption.is_visible_in_tree())
+	assert_false(caption.is_visible_in_tree(), "earned portraits need no resting caption")
 	var fairy: Control = icons.chips[0]
 	assert_eq((fairy.get_node("Bonus") as Label).text, "+3/+3")
 	assert_string_contains(fairy.tooltip_text, "Fairies")

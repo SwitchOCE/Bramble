@@ -427,23 +427,23 @@ static func slot_note(mark: Dictionary, _slot: int) -> String:
 	return note if nest.is_empty() else "%s %s" % [note, nest]
 
 
-## Non-golden copies owned (hand and board) per def_id.
-static func copies(from_state: Dictionary) -> Dictionary:
+## Owned copies per def_id, including Bellies; normal by default, golden on request.
+static func copies(from_state: Dictionary, golden: bool = false) -> Dictionary:
 	var out: Dictionary = {}
 	for zone: String in ["hand", "board"]:
 		for entry: Variant in Data.a(from_state, zone):
 			if entry is Dictionary:
 				var view: Dictionary = entry
-				_count_copy(view, out)
+				_count_copy(view, out, golden)
 				for inside: Variant in Data.a(view, "held"):
 					var held: Dictionary = inside
-					_count_copy(held, out)
+					_count_copy(held, out, golden)
 	return out
 
 
 ## Copies inside a Belly count for triples too.
-static func _count_copy(entry: Dictionary, into: Dictionary) -> void:
-	if not Data.b(entry, "golden", false) and not Data.b(entry, "plain_copy", false):
+static func _count_copy(entry: Dictionary, into: Dictionary, golden: bool) -> void:
+	if Data.b(entry, "golden", false) == golden and not Data.b(entry, "plain_copy", false):
 		var def_id: String = Data.s(entry, "def_id")
 		into[def_id] = Data.i(into, def_id, 0) + 1
 
@@ -685,3 +685,12 @@ static func ring_aim_note(view: Dictionary, item: Dictionary) -> String:
 		var names: PackedStringArray = groups[preview]
 		lines.append("%s: %s." % [", ".join(names), preview])
 	return "\n".join(lines)
+
+
+## Exact hidden-hand economy stays one tap away without spending another resting label.
+static func larder_card(from_state: Dictionary) -> Dictionary:
+	return {
+		"name": "Larder",
+		"text":
+		"Gold held in your Acorns, Stashes and Great Hoards: %d." % Data.i(from_state, "larder"),
+	}

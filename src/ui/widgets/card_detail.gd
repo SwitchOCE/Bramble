@@ -528,6 +528,17 @@ static func _details_for(view: Dictionary) -> String:
 ## link; the meaning is one hover or tap away.
 static func state_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
+	var hex_parts: PackedStringArray = []
+	for field: String in ["hex_amount", "hex_percent_amount"]:
+		var amount: int = Data.i(view, field)
+		if amount <= 0:
+			continue
+		var stored_field: String = "hex_stored" if field == "hex_amount" else "hex_percent_stored"
+		var suffix: String = "" if field == "hex_amount" else "%"
+		var stored: int = Data.i(view, stored_field, amount)
+		hex_parts.append("%d%s (%d%s stored)" % [amount, suffix, stored, suffix])
+	if not hex_parts.is_empty():
+		lines.append("[b]Hex: %s.[/b]" % " + ".join(hex_parts))
 	var pending_attack: int = Data.i(view, "pending_attack")
 	var pending_health: int = Data.i(view, "pending_health")
 	if pending_attack != 0 or pending_health != 0:

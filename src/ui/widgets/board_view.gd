@@ -475,12 +475,14 @@ func _lean_reach(related: Array[int], candidate: int) -> void:
 		return
 	if candidate < 0 or candidate >= SLOTS or not is_inside_tree():
 		return
-	_lean_tween = create_tween().set_parallel(true)
+	_lean_tween = null
 	var duration: float = 0.15 / maxf(1.0, Settings.fight_speed)
 	var toward: Vector2 = slot_position(candidate) + pocket / 2.0
 	for slot: int in related:
 		if slot < 0 or slot >= SLOTS or cards[slot] == null:
 			continue
+		if _lean_tween == null:
+			_lean_tween = create_tween().set_parallel(true)
 		var card: CardView = cards[slot]
 		var origin: Vector2 = card.position
 		_lean_origins[card] = origin

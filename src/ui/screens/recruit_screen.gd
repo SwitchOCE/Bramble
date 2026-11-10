@@ -255,11 +255,12 @@ func _render_board() -> void:
 func _render_hand() -> void:
 	_hand_cards.clear_cards()
 	var hand: Array = Data.a(state, "hand")
+	_hand_zone.tooltip_text = Data.s(RecruitView.larder_card(state), "text")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
 	var larder: int = Data.i(state, "larder")
 	if larder > 0:
 		_hand_count.text = "%dg · %s" % [larder, _hand_count.text]
-	_hand_count.visible = larder > 0 or hand.size() >= Data.i(state, "hand_limit", 10)
+	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
 	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP
@@ -526,6 +527,9 @@ func _on_tapped(zone: String, index: int) -> void:
 	_hover_timer.stop()
 	if zone != "table":
 		Sfx.tap()
+	if zone == "hand" and index < 0 and Data.i(state, "larder") > 0:
+		_read_external(RecruitView.larder_card(state))
+		return
 	var from_index: int = Data.i(_selected, "index", -1)
 	if zone == "board" and _try_swallow(str(_selected.get("zone", "")), from_index, index):
 		return

@@ -3,12 +3,19 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const RainbowValue := preload("res://src/core/rainbow_value.gd")
-const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
+const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
+const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 
 
 func test_chaser_sale_tag_matches_actual_partial_and_full_payouts() -> void:
 	var library := LegacyWave1.library()
+	var port := FixturePort.new()
+	port.use_state_file("res://tests/ui/data/recruit_slice.json")
+	var screen := RecruitScreen.new()
+	add_child_autofree(screen)
+	screen.setup(port)
 	for golden: bool in [false, true]:
 		for painted: int in [0, 3, 7]:
 			for origin: String in [RecruitUnit.ORIGIN_BOUGHT, RecruitUnit.ORIGIN_CREATED]:
@@ -23,14 +30,21 @@ func test_chaser_sale_tag_matches_actual_partial_and_full_payouts() -> void:
 				var state: Dictionary = session.get_state()
 				var view: Dictionary = state["board"][0]
 				var tag_gold: int = RecruitHeld.sell_gold(view, player.round_number)
+				port.set("_state", state)
+				screen.set("_selected", {})
+				screen.render()
+				screen._on_tapped("board", 0)
+				var reader: CardDetail = screen.get("_detail")
+				var sell: Button = reader.actions.get_child(0)
+				assert_eq(sell.text, "Sell")
+				var amount: Label = sell.get("_cost_label")
+				var pill: Control = sell.get("_cost_pill")
+				assert_true(pill.visible, "the action shows its payout, including zero")
+				assert_eq(amount.text, str(tag_gold))
 				var before: int = player.gold
 				assert_eq(session._rules.sell(player, 0), "")
 				assert_eq(
 					tag_gold, player.gold - before, "%s, %d painted, %s" % [golden, painted, origin]
-				)
-				assert_string_contains(
-					RecruitView.full_view("board", view, state)["text"],
-					"Sell value: %d gold." % tag_gold
 				)
 				var lines: PackedStringArray = []
 				PlayView._board(state, lines)

@@ -8,9 +8,8 @@ import math
 import shutil
 from pathlib import Path
 
-from PIL import Image, ImageDraw
-
 from declutter_evidence import original_image, read_json
+from PIL import Image, ImageDraw
 
 
 def merge_baseline(packet, temporary):

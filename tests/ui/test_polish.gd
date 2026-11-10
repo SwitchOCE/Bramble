@@ -232,7 +232,7 @@ func test_keywords_named_only_in_a_rules_line_are_found() -> void:
 	assert_false(words.has("Hex"))
 
 
-func test_scout_shows_a_units_hex_and_leaves_shop_board_and_hand_in_view() -> void:
+func test_scout_shows_hex_and_both_boards_while_hiding_shop_and_lobby() -> void:
 	var screen: RecruitScreen = _slice_screen()
 	var raw: Dictionary = screen.port.get_state()
 	var theirs: Array = raw["next_opponent_last_board"]
@@ -249,7 +249,12 @@ func test_scout_shows_a_units_hex_and_leaves_shop_board_and_hand_in_view() -> vo
 	var theirs_tray: Control = scout.get("_board")
 	var tray: Rect2 = theirs_tray.get_global_rect()
 	assert_gt(shop.get_child_count(), 0)
-	assert_false(tray.intersects(shop.get_global_rect()), "the shop stays beside it")
+	var shelf: Control = screen.get("_shelf")
+	var lobby: Control = screen.get("_lobby")
+	assert_false(shelf.visible, "the scout uses the shop's space")
+	assert_false(lobby.visible, "the two boards have focus while scouting")
+	assert_true(board.visible)
+	assert_true(hand.visible)
 	assert_false(tray.intersects(board.get_global_rect()), "your board stays under it")
 	assert_false(tray.intersects(hand.get_global_rect()), "your hand stays clear")
 	assert_true((shop.get_child(0) as CardView).mode == CardView.Mode.MINI)
@@ -257,6 +262,8 @@ func test_scout_shows_a_units_hex_and_leaves_shop_board_and_hand_in_view() -> vo
 	var selected: Dictionary = screen.get("_selected")
 	assert_eq(str(selected["zone"]), "shop", "the small tiles still buy")
 	screen.toggle_scout()
+	assert_true(shelf.visible, "closing scouting restores the shop")
+	assert_true(lobby.visible, "closing scouting restores the lobby")
 	assert_true((shop.get_child(0) as CardView).mode == CardView.Mode.SHOP, "closing restores it")
 
 
