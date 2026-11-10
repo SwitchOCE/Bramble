@@ -54,7 +54,7 @@ func _cards_with(library: UnitLibrary, id: String) -> Array[Dictionary]:
 
 
 func test_every_trigger_id_logs_its_own_card_words() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var ids: PackedStringArray = _trigger_ids()
 	assert_gt(ids.size(), 40, "found the core's trigger ids")
 	for id: String in ids:
@@ -83,7 +83,7 @@ func test_every_trigger_id_logs_its_own_card_words() -> void:
 
 
 func test_data_effects_log_the_sentence_of_their_trigger() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for card: Dictionary in library.all_units():
 		for entry: Variant in card["mechanics"]:
 			var mech: Dictionary = entry

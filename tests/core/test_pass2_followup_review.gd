@@ -76,7 +76,7 @@ func test_elders_buff_their_own_wobbly_drips_only_without_belly_replays() -> voi
 	for golden_drip: bool in [false, true]:
 		for golden_elder: bool in [false, true]:
 			var kit := Kit.new()
-			kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
+			kit.setup(null, false, Legacy.current_with_oozes())
 			var combat := _combat(
 				kit,
 				{
@@ -107,7 +107,7 @@ func test_elders_buff_their_own_wobbly_drips_only_without_belly_replays() -> voi
 
 func test_elder_does_not_buff_returned_enemy_prisoners() -> void:
 	var kit := Kit.new()
-	kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
+	kit.setup(null, false, Legacy.current_with_oozes())
 	var combat := _combat(
 		kit,
 		{0: Fight.u("hasty_pudding"), 6: Fight.u("elder_ooze")},
@@ -127,7 +127,7 @@ func test_legacy_syllabub_replays_belly_contents_but_not_friendly_returns_with_n
 ) -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(null, false, Legacy.with_oozes(UnitLibrary.load_dir()))
+		kit.setup(null, false, Legacy.current_with_oozes())
 		kit.card(
 			"legacy_return_start",
 			[
@@ -168,7 +168,7 @@ func test_early_spoils_does_not_pay_either_player_for_a_live_tie() -> void:
 	for round_number: int in [1, 4]:
 		var config := GameConfig.full_game()
 		config.set_value("hero_choice", false)
-		var session := GameSession.create(99, UnitLibrary.load_dir(), config)
+		var session := GameSession.create(99, TestLibraries.current(), config)
 		session._round = round_number
 		for id: int in [0, 1]:
 			var player: PlayerState = session._players[id]

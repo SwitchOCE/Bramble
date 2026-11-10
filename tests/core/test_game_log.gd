@@ -3,11 +3,20 @@ extends GutTest
 ## per-tribe stats.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
+## Seed 7 played once for this script (was once per test). Tests only read its game log.
+var _played: GameSession
+
 
 func _played_game() -> GameSession:
+	if _played == null:
+		_played = _play_game()
+	return _played
+
+
+func _play_game() -> GameSession:
 	var config := GameConfig.defaults()
 	config.set_value("human_bot", "balanced")
-	var session := GameSession.create(7, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(7, TestLibraries.current(), config)
 	var turns: int = 0
 	while not session.is_over() and turns < 80:
 		session.end_turn()
@@ -64,7 +73,7 @@ func test_log_tribe_stats_cover_main_tribes() -> void:
 
 func test_log_is_available_mid_game() -> void:
 	var config := GameConfig.defaults()
-	var session := GameSession.create(7, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(7, TestLibraries.current(), config)
 	assert_eq(session.get_game_log()["rounds"], 0, "nothing played")
 	session.end_turn()
 	assert_eq(session.get_game_log()["rounds"], 1, "one round")

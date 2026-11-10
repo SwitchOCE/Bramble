@@ -5,7 +5,7 @@ const UnitViews := preload("res://src/ui/unit_views.gd")
 
 
 static func unit(id: String, uid: int) -> Dictionary:
-	return UnitViews.from_def(UnitLibrary.load_dir().get_unit(id), false, uid)
+	return UnitViews.from_def(TestLibraries.current().get_unit(id), false, uid)
 
 
 static func boards() -> Array:
