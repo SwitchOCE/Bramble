@@ -304,9 +304,14 @@
       "original": "build/loop1/batch0/current/portraits/alderman_dozey.jpg",
       "target": "assets/portraits/alderman_dozey.jpg",
       "original_sha256": "d4b8e7ca98345cc09039b744fb6248bd196ca751558ac774742757c41689a586",
-      "state": "pending",
-      "note": "Plump golden dormouse dignitary, closed sleepy eyes, cream cravat, red robe with ivory trim, heavy gold chain/medallion, empty white dinner plate in front. Keep chain and plate, not food.",
-      "family": "Hedgerow folk"
+      "state": "accepted",
+      "note": "Plump golden dormouse dignitary, closed sleepy eyes, ivory cravat, scarlet alderman robe with ivory trim, heavy gold chain/round medallion. ESSENTIAL: one big BROWN ACORN with dark cap sits on the table beneath his reaching left paw, beside the EMPTY IVORY DINNER PLATE. Keep both ACORN and PLATE clearly visible. Quiet oat/hedge background.",
+      "family": "Hedgerow folk",
+      "retry_count": 1,
+      "retry_reason": "Missing table acorn in first candidate.",
+      "source": "frozen-header-retry",
+      "accepted_sha256": "9e65f3b84638b5859fc3b3ee338824a6fdd7eb8cba73ff17bbea565d5953088e",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "beadle_warrenby",
@@ -318,9 +323,12 @@
       "original": "build/loop1/batch0/current/portraits/beadle_warrenby.jpg",
       "target": "assets/portraits/beadle_warrenby.jpg",
       "original_sha256": "92520c96d5ca531ea3fcee2d4ffb07c7d08bf6224fb52007e8a11552c9b722fb",
-      "state": "pending",
+      "state": "accepted",
       "note": "Stern upright RABBIT with long ears, dark gold-trimmed tricorn, navy beadle coat and ivory cravat, wooden staff left and open stop-sign palm right. Keep staff and raised palm.",
-      "family": "Hedgerow folk"
+      "family": "Hedgerow folk",
+      "source": "frozen-header",
+      "accepted_sha256": "96b4db67f7c4244566b00823da675a3689c77fa8e4cedd69de7f47eb156c1415",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "changeling",
@@ -332,9 +340,14 @@
       "original": "build/loop1/batch0/current/portraits/changeling.jpg",
       "target": "assets/portraits/changeling.jpg",
       "original_sha256": "c36a440d97d15fbd36063eaa47b549a598c745c5af751304331d120552fed511",
-      "state": "pending",
-      "note": "Mischievous pale pointed-ear baby with red hair tuft and broad toothy grin in a golden wooden cradle, holding a long wooden spoon across its body. Keep cradle and spoon; simplify face wrinkles.",
-      "family": "Fairies"
+      "state": "accepted",
+      "note": "Mischievous pale pointed-ear swaddled baby with red hair tuft and old-eyed toothy grin, sitting upright in golden wooden cradle. ESSENTIAL: holds a SHORT GOLDEN SWORD diagonally across its body: rounded pommel and horizontal crossguard at lower left, long flat blade pointing upper right. Keep sword silhouette exactly as reference; NOT a spoon or spatula. Ivory swaddling has deep teal bands.",
+      "family": "Fairies",
+      "retry_count": 1,
+      "retry_reason": "Sword became a spoon in first candidate.",
+      "source": "frozen-header-retry",
+      "accepted_sha256": "6fa0c0078e6787c36318950c45656eb787848634a713e78b0acc059b37d62664",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "charcoal_burner",
@@ -346,9 +359,12 @@
       "original": "build/loop1/batch0/current/portraits/charcoal_burner.jpg",
       "target": "assets/portraits/charcoal_burner.jpg",
       "original_sha256": "fb45983c2b60b49868f98796380b90b949d451d9733d8d0e438f91229c9256c4",
-      "state": "pending",
-      "note": "BADGER worker with bold striped face, brown cap and ivory rolled-sleeve shirt, putting a small glowing ember into a charcoal mound; smoke rises right. Keep ember, hand and mound; local orange glow only.",
-      "family": "Neutral"
+      "state": "accepted",
+      "note": "BADGER worker with striped face, leather cap and ivory rolled-sleeve smock, tossing one small GOLD COIN from raised black fingers into a small fire on a domed charcoal mound, grey smoke at right. Keep gold coin as a clear round disc and flame below; local warm glow only.",
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "06dd765382caa824247849a50aad5d7ca6adf16eb26ca487f7ea6879569aefbd",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "cradle_fetch",
@@ -360,9 +376,12 @@
       "original": "build/loop1/batch0/current/portraits/cradle_fetch.jpg",
       "target": "assets/portraits/cradle_fetch.jpg",
       "original_sha256": "b50b0faf25c66b1e63aa38df6e1b8aab7327f6c3371454ad8f3731180f9656f7",
-      "state": "pending",
+      "state": "accepted",
       "note": "Pale little black-haired pointed-ear child in dark teal gown with red collar, both hands on wooden cradle rail. Essential: LARGE DARK ADULT SHADOW with broad brimmed hat behind the child. Preserve child/shadow story, not just child alone.",
-      "family": "Fairies"
+      "family": "Fairies",
+      "source": "frozen-header",
+      "accepted_sha256": "63cdc6c369ec1db9313e4517f245cef84bc28079ca722a45d4903c89b6df034b",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "cuckoo",
@@ -374,9 +393,12 @@
       "original": "build/loop1/batch0/current/portraits/cuckoo.jpg",
       "target": "assets/portraits/cuckoo.jpg",
       "original_sha256": "34daad86707d74284a4322a2371d7650158f415375e364f0b397499d093376bd",
-      "state": "pending",
+      "state": "accepted",
       "note": "Grey CUCKOO with barred ivory/grey chest, red scarf, open beak, one wing extended as a stop/gesture; small golden angular spark beside wing and small distant bird silhouette. Keep barred chest, scarf and gesture; few broad bars only.",
-      "family": "Birds"
+      "family": "Birds",
+      "source": "frozen-header",
+      "accepted_sha256": "24de05ed0f4cb8eee0a0d912143eebccec0d827882318beb35bdb70518feea90",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "figgy_duff",
@@ -389,8 +411,10 @@
       "target": "assets/portraits/figgy_duff.jpg",
       "original_sha256": "6ff211449bc2d8932a00bda6cb881787de293e1b85d0a18d172bb6063eed2f40",
       "state": "pending",
-      "note": "Round burgundy fig pudding ooze tied inside ivory cloth with red ribbon knot at top, large worried open mouth, dark embedded fruit spots and small pale steam curl. Keep cloth ears, red knot and fruit spots.",
-      "family": "Oozes"
+      "note": "Round burgundy fig pudding ooze with large dark fruit spots, worried open mouth and cross-eyed gaze; ivory cloth tied at top with red ribbon. ESSENTIAL: a FAINT OFFSET TWIN OUTLINE of the SAME pudding appears behind it to the RIGHT, extending from above the cloth knot down around the right side of its round body, as in image 1. This is an echo/double outline, NOT a steam curl. Preserve the main single pudding and clear second outline, no fully painted second character. Quiet seafoam planes.",
+      "family": "Oozes",
+      "retry_count": 1,
+      "retry_reason": "First candidate replaced the faint full pudding echo outline with a steam curl."
     },
     {
       "id": "frumenty",
@@ -402,9 +426,12 @@
       "original": "build/loop1/batch0/current/portraits/frumenty.jpg",
       "target": "assets/portraits/frumenty.jpg",
       "original_sha256": "0aca11233c5e11ef3f11897862c6380ba880ad579bf9bc3f1b548a213a4bb9df",
-      "state": "pending",
+      "state": "accepted",
       "note": "Yellow porridge ooze in shallow ivory bowl, burgundy berries embedded in body, ivory neck kerchief, worried face and long dark burgundy spoon held upright right. Keep spoon and bowl.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "773f18e6deeda4a7f803bd451e0f848a9699a86b8f4ff9c0f837acd4bf3c383e",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "grey_agnes",
@@ -433,9 +460,12 @@
       "original": "build/loop1/batch0/current/portraits/his_highness.jpg",
       "target": "assets/portraits/his_highness.jpg",
       "original_sha256": "526775b47688cd4ce451e6c3e99a9ccb4d0b8e3a7e8be9687bf106925a33afec",
-      "state": "pending",
+      "state": "accepted",
       "note": "Plump GREEN FROG prince with gold crown, half-lidded smug eyes and puckered red lips, purple cloak and ivory collar, seated on lily pad among broad reeds. Keep crown, lips and lily pad.",
-      "family": "Bog folk"
+      "family": "Bog folk",
+      "source": "frozen-header",
+      "accepted_sha256": "393d029bf3e31e8cdbec849694f49503b39a3cfa697b75ff643ed5b5371ff0c8",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "belladonna",
@@ -447,9 +477,12 @@
       "original": "build/loop1/batch0/current/portraits/belladonna.jpg",
       "target": "assets/portraits/belladonna.jpg",
       "original_sha256": "c5dd375736343bbe0c0debe2ee2b9b2314dee90406c296d2d124f092d56f51f7",
-      "state": "pending",
+      "state": "accepted",
       "note": "Young pale pointed-ear fairy witch, short black hair, floppy deep-purple hat, dark purple cloak and green leaf collar, holding ONE round dark-purple berry with green star calyx in raised hand. Keep berry, not glowing orb.",
-      "family": "Fairies"
+      "family": "Fairies",
+      "source": "frozen-header",
+      "accepted_sha256": "1a9e6faf69fe9a677ec3c8039bb65c1f89c2f2c2625142cf0670050e911d55ad",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "click_beetle",
@@ -461,9 +494,12 @@
       "original": "build/loop1/batch0/current/portraits/click_beetle.jpg",
       "target": "assets/portraits/click_beetle.jpg",
       "original_sha256": "f479ecce2111d7a5221228776a29ff12d80d9b337f490dddbaf05504fae74558",
-      "state": "pending",
+      "state": "accepted",
       "note": "Long slim brown CLICK BEETLE springing vertically, a bright ivory impact/star at its body joint and TWO pale-gold outlined motion afterimages to its left, low leaves beneath. Preserve the click action and afterimages; no captions.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "57559ef2a6d134cf8ac6e4048fe0eae9351af448f5f9ee8a6517825980c8267e",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "elder_ooze",
@@ -475,9 +511,12 @@
       "original": "build/loop1/batch0/current/portraits/elder_ooze.jpg",
       "target": "assets/portraits/elder_ooze.jpg",
       "original_sha256": "9b13d8bded65af0d87f7df2ece68870dc34a9a7981ae5e8c04bd4bc122306c16",
-      "state": "pending",
+      "state": "accepted",
       "note": "Round burgundy ooze with many little faces tucked within it, pale yellow drippy cap, green scarf tied at neck and large laughing upper face. Keep the smaller faces and green scarf, no extra fine texture.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "19ce3eaa5733aa414a4434ef847b042a24f08acd04a051402958a4facf5e1681",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "goodman_hayward",
@@ -504,7 +543,7 @@
       "target": "assets/portraits/great_lump.jpg",
       "original_sha256": "1832e0f01fd7b39264bfa3db8f4e5f22cea3ae170df42df8dd6db6e686d1ba76",
       "state": "pending",
-      "note": "Huge grey owl chick with a short tuft, enormous open yellow-edged beak, barred ivory/grey chest, small folded wing, seated in twig nest. Keep open beak and nest, simplify feather divisions.",
+      "note": "Huge grey CUCKOO CHICK, much too large for its small twig nest, enormous open yellow-edged beak, smug half-lidded eyes, barred cream/grey chest, small folded wing. Preserve the reference chick silhouette, HUGE open beak and small nest. Not an adult owl; do not add owl face discs or spectacles. Few broad feather divisions.",
       "family": "Birds"
     },
     {
@@ -518,7 +557,7 @@
       "target": "assets/portraits/grizel.jpg",
       "original_sha256": "c4218af013d01ab5cada7674f7f092b2a232a84a6dbbb13d831c1049e7b61465",
       "state": "pending",
-      "note": "Russet FOX howling upward with ivory muzzle, red scarf, closed eyes, paws planted on grey rock, large pale MOON behind head. Keep fox, scarf, upward howl and moon.",
+      "note": "Lean TAWNY-OCHRE SHE-WOLF, red-brown back and notched ear, SIDE PROFILE howling upward facing right, long pointed wolf muzzle and red-brown neck hood/scarf. Essential: large pale MOON behind her head; TWO SMALL GREY PACK WOLVES below each catching a large golden wisp rising from a DARK FELLED BOAR SILHOUETTE along the lower edge. Keep both wolves, wisps and boar as broad subordinate shapes, and the main wolf dominant. Silver-blue/misted background family; do not turn her into a fox or erase the pack story.",
       "family": "Hunters"
     },
     {
@@ -532,7 +571,7 @@
       "target": "assets/portraits/hasty_pudding.jpg",
       "original_sha256": "e213cb2ba5eb9180289152fd127095a111ea77108ebe299396e05c0a7335c3ae",
       "state": "pending",
-      "note": "Round brown pudding ooze with pale drippy custard cap and ivory cloth knot, huge open mouth biting a small dark-plum MOUSE silhouette with visible limbs and tail. Preserve small mouse being swallowed, not a spoon or berry.",
+      "note": "Heavy round brown steamed-pudding ooze with pale drippy custard cap and ivory cloth tied on top, HUGE open mouth swallowing a small struggling SOLDIER SILHOUETTE. The soldier has dark torso, pale crossed chest straps, boots/legs and reaching arm sticking out; head already inside mouth. Preserve soldier exactly, not a mouse, spoon or berry. One pudding, subordinate tiny soldier, no extra characters. Seafoam planes.",
       "family": "Oozes"
     },
     {
@@ -703,7 +742,7 @@
       "target": "assets/portraits/bread_from_the_back.jpg",
       "original_sha256": "df8f9f14d8aa30d8d8e7db6690ef5f94e82be4e222a94b1f8fc476ca6e838a83",
       "state": "pending",
-      "note": "SPELL: large round golden loaf being sliced from upper right by a badger striped hand holding curved bread knife, separate pale hand receiving a slice from below. Keep loaf, knife, distinct hands and slice; no faces/new characters.",
+      "note": "SPELL: one BIG WHOLE ROUND GOLDEN-BROWN LOAF passed from paw to paw: upper-right BADGER paw with black fur and ivory wrist stripe, middle-right russet FOX paw holding loaf underneath, small pale receiving paw reaching up from bottom. Keep ALL THREE distinct hands and uncut round loaf with two broad pale scores. NO knife, NO cut slices, no faces/new characters. Quiet clay-rose planes.",
       "family": "Neutral"
     },
     {
