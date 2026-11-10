@@ -71,7 +71,7 @@ func test_authored_normal_and_golden_faces_equal_resolved_b_generation() -> void
 			assert_eq(library.get_unit(id)[key], authored, id + " runtime")
 
 
-func test_ooze_presets_match_probe_endpoints_with_c_share_limits() -> void:
+func test_ooze_presets_match_probe_endpoints_with_soup_cut_and_c_share_limits() -> void:
 	for row: Array in [
 		["B", "res://tools/sim/evidence/ooze-probe/ooze-b-20261110-r4.json"],
 		["C", "res://tools/sim/evidence/ooze-probe/ooze-c-20261110-r4.json"],
@@ -84,6 +84,8 @@ func test_ooze_presets_match_probe_endpoints_with_c_share_limits() -> void:
 		assert_eq(expected.size(), 24)
 		for key: String in expected:
 			var want: float = CoreUtil.to_float(expected[key])
+			if preset == "B" and key == "oozes_soup_share":
+				want = 0.2
 			if preset == "C" and key in ["oozes_elder_share", "oozes_hasty_share"]:
 				want = 1.0
 			assert_almost_eq(CoreUtil.to_float(resolved[key]), want, 1e-9, preset + " " + key)

@@ -398,7 +398,7 @@ func test_snaps_round_up_toward_generous_on_the_rebased_paths() -> void:
 func test_promoted_ooze_path_preserves_b_and_uses_clamped_arm_c() -> void:
 	# Explicit authored endpoints catch missing dials as well as accidental preset changes.
 	var endpoints: Dictionary = {
-		"oozes_soup_share": [0.3, 0.9],
+		"oozes_soup_share": [0.2, 0.9],
 		"oozes_elder_share": [1.0, 1.0],
 		"oozes_hasty_share": [1.0, 1.0],
 		"oozes_aspic_bonus": [1.8, 5.4],
