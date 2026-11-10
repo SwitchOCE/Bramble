@@ -4,6 +4,41 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 2: second cold reader passes; evidence slimmed before merge
+**Source:** `evidence/declutter/batch2-cold/reader2/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` b97d4644, and a separate Sol scorer marked it against `technical/`.
+
+**Score:** 16 of 16 sequence-speed runs pass. B's swallow, D's lent-target relationship and F's departure now read at both speeds. No board teaching text or static pointers were found (09e).
+
+**Left for later, not blocking:**
+- the Belly badge's meaning;
+- the away portrait's crescent;
+- D's gold target frame, which first reads as an upgrade;
+- overlapping copies in A and E.
+These are the scorer's ranked glyph fixes, kept for the next declutter pass.
+
+**Picked:** merge, but not as it stands.
+- **The evidence is too big.** Batch 2 tracks 338 evidence files (194.6 MB, mostly PNG). ideation/main's history is already about 490 MB, 317 MB of it declutter evidence, and every cloud session clones it. A Sol worker on `ideation/declutter-b2-slim` converts to JPEG, deduplicates, and moves raw masters to `build/`, aiming under 25 MB. It also adds a `check.sh` guard: a new file over 2 MB under `docs/`, or over 30 MB in total, fails unless allowlisted.
+- **Batch 2 lands as one squashed commit**, so the PNG blobs never enter ideation/main's history. Its 26 commits stay on the local branch.
+- **Then** a fresh code review and the gate.
+- **The Hedgerow re-face** follows once wave 2b has merged.
+
+**Agreed by:** the scorer's marks. The size figures are from `git ls-tree` and `git cat-file`.
+
+### 10 Nov 2026 — A3.5 dials: review calls
+**Source:** a fresh Sol review of `ideation/c-a35-dials` `839f9de7..6ebb7c7c` (gated: PASS): 6 cut, 4 keep.
+
+**Picked:**
+- Five cuts go to a Sol worker on `ideation/a35-dials-fix`, which has ideation/main merged in:
+  - Monarch is 3/4 in both presets;
+  - the Birds bot hints read their dials (Chiffchaff, Stork, Golden Egg, Monarch);
+  - the Ooze food choice uses the multiplier's real return;
+  - the golden flight reminder text matches the 3× homecoming;
+  - known-answer behaviour tests run each dialled rule at t=0 and t=3, normal and golden.
+- **The Hedgerow cut is deferred, not dropped.** The brief kept Hedgerow's files with wave 2b. Its four dials (Mallow, both Dozey dials, Treasurer) land after wave 2b merges, and the inventory test lists them as pending, so they can't be forgotten.
+- A3.5 run 1 waits for both.
+
+**Agreed by:** the review.
+
 ### 10 Nov 2026 — Sim job (S4): review calls
 **Source:** a fresh Sol review of `ideation/c-sim-job` `ce50d9d7..41428960`: 9 cut, 1 simplify, 2 keep.
 
