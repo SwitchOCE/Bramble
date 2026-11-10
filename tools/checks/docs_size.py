@@ -1,15 +1,17 @@
-"""Limit documentation blobs introduced by a commit range or the current worktree.
+"""Limit documentation blobs introduced by an explicit commit range.
 
-Usage: python3 tools/checks/docs_size.py [--base COMMIT] [--head COMMIT] [--root DIR]
-The default base is the upstream merge-base, or the previous commit without an upstream. Without --head,
-include staged, unstaged and untracked files. Limits use decimal MB. Exact paths in
- tools/checks/docs_size_allowlist.txt are exempt from both limits (one path per line).
+Usage: python3 tools/checks/docs_size.py --base COMMIT [--head COMMIT] [--root DIR]
+Every version introduced in base..head is checked, including files later shrunk or
+deleted. Without --head, also check staged, unstaged and untracked files. Limits
+use decimal MB; the aggregate counts each introduced blob once. Exact paths in
+tools/checks/docs_size_allowlist.txt are exempt from both limits.
 """
 
 from __future__ import annotations
 
 import argparse
 import subprocess
+from dataclasses import dataclass
 from pathlib import Path
 
 FILE_LIMIT = 2_000_000
@@ -17,98 +19,106 @@ TOTAL_LIMIT = 30_000_000
 ALLOWLIST = "tools/checks/docs_size_allowlist.txt"
 
 
+@dataclass(frozen=True)
+class Blob:
+    path: str
+    oid: str
+    size: int
+
+
 def git(root: Path, *args: str) -> bytes:
     return subprocess.run(["git", *args], cwd=root, capture_output=True, check=True).stdout
 
 
-def default_base(root: Path) -> str:
-    try:
-        return git(root, "merge-base", "HEAD", "@{upstream}").decode().strip()
-    except subprocess.CalledProcessError:
-        try:
-            git(root, "rev-parse", "--verify", "HEAD^")
-        except subprocess.CalledProcessError:
-            return "HEAD"
-        return "HEAD^"
-
-
-def tree(root: Path, revision: str) -> dict[str, int]:
-    result = {}
-    for record in git(root, "ls-tree", "-rlz", revision, "--", "docs/").split(b"\0"):
-        if record:
-            metadata, path = record.split(b"\t", 1)
-            mode, kind, _oid, size = metadata.split()
-            if kind == b"blob" and mode != b"120000":
-                result[path.decode()] = int(size)
+def changed_blobs(raw: bytes) -> set[tuple[str, str]]:
+    """Read Git's NUL-delimited raw diff; renames must be disabled by the caller."""
+    result = set()
+    records = iter(raw.split(b"\0"))
+    for metadata in records:
+        if not metadata.strip():
+            continue
+        _old_mode, mode, _old_oid, oid, _status = metadata.split()
+        path = next(records).decode()
+        if mode in (b"100644", b"100755"):
+            result.add((path, oid.decode()))
     return result
 
 
-def candidates(root: Path, base: str, head: str | None) -> tuple[dict[str, int], set[str]]:
-    """Return changed files' maximum sizes, and paths absent from the base tree."""
-    baseline = tree(root, base)
-    tip = head or "HEAD"
-    sizes = tree(root, tip)
-    changed = {
-        path.decode()
-        for path in git(root, "diff", "--name-only", "--no-renames", "-z", base, tip, "--", "docs/").split(b"\0")
-        if path
-    }
+def candidates(root: Path, base: str, head: str | None) -> list[Blob]:
+    """Return every new docs blob, preserving paths for exact allowlist checks."""
+    base = git(root, "rev-parse", "--verify", f"{base}^{{commit}}").decode().strip()
+    tip = git(root, "rev-parse", "--verify", f"{head or 'HEAD'}^{{commit}}").decode().strip()
+    # Exclude all objects reachable from the base, rather than only its endpoint
+    # tree: reusing an existing blob does not add bytes to repository history.
+    baseline = set(git(root, "rev-list", "--objects", "--no-object-names", base).decode().splitlines())
+    versions = changed_blobs(
+        git(
+            root,
+            "log",
+            "--full-history",
+            "-m",
+            "--format=",
+            "--raw",
+            "-z",
+            "--no-abbrev",
+            "--no-renames",
+            f"{base}..{tip}",
+            "--",
+            "docs/",
+        )
+    )
+    sizes = {}
     if head is None:
-        staged = {
-            p.decode()
-            for p in git(root, "diff", "--cached", "--name-only", "--no-renames", "-z", "HEAD", "--", "docs/").split(
-                b"\0"
+        # Keep index versions independently of the worktree, including staged
+        # additions whose worktree copy has since been shrunk or removed.
+        versions.update(
+            changed_blobs(
+                git(root, "diff", "--cached", "--raw", "-z", "--no-abbrev", "--no-renames", tip, "--", "docs/")
             )
-            if p
-        }
+        )
         working = {
-            p.decode()
+            path.decode()
             for command in (
-                ("diff", "--name-only", "--no-renames", "-z", "HEAD", "--", "docs/"),
+                ("diff", "--name-only", "--no-renames", "-z", tip, "--", "docs/"),
                 ("ls-files", "--others", "--exclude-standard", "-z", "--", "docs/"),
             )
-            for p in git(root, *command).split(b"\0")
-            if p
+            for path in git(root, *command).split(b"\0")
+            if path
         }
-        changed.update(staged | working)
-        for path in staged | working:
-            sizes.pop(path, None)
+        for path in working:
             local = root / path
             if local.is_file() and not local.is_symlink():
-                sizes[path] = local.stat().st_size
-        # An oversized staged blob must not hide behind a smaller worktree copy.
-        for record in git(root, "ls-files", "-s", "-z", "--", "docs/").split(b"\0"):
-            if not record:
-                continue
-            metadata, encoded_path = record.split(b"\t", 1)
-            path = encoded_path.decode()
-            if path not in staged:
-                continue
-            mode, oid, stage = metadata.split()
-            if stage == b"0" and mode != b"120000":
-                size = int(git(root, "cat-file", "-s", oid.decode()))
-                sizes[path] = max(sizes.get(path, 0), size)
-    selected = {p: sizes[p] for p in changed if p in sizes}
-    return selected, selected.keys() - baseline.keys()
+                oid = git(root, "hash-object", "--no-filters", "--", path).decode().strip()
+                versions.add((path, oid))
+                sizes[oid] = local.stat().st_size
+    selected = sorted((path, oid) for path, oid in versions if oid not in baseline)
+    for _path, oid in selected:
+        if oid not in sizes:
+            sizes[oid] = int(git(root, "cat-file", "-s", oid))
+    return [Blob(path, oid, sizes[oid]) for path, oid in selected]
 
 
-def violations(sizes: dict[str, int], added: set[str], allowlist: set[str]) -> list[str]:
-    counted = {p: size for p, size in sizes.items() if p not in allowlist}
-    errors = [f"{p}: {size:,} bytes exceeds {FILE_LIMIT:,}" for p, size in sorted(counted.items()) if size > FILE_LIMIT]
-    total = sum(size for p, size in counted.items() if p in added)
+def violations(blobs: list[Blob], allowlist: set[str]) -> list[str]:
+    counted = [blob for blob in blobs if blob.path not in allowlist]
+    errors = [
+        f"{blob.path} ({blob.oid[:12]}): {blob.size:,} bytes exceeds {FILE_LIMIT:,}"
+        for blob in counted
+        if blob.size > FILE_LIMIT
+    ]
+    total = sum({blob.oid: blob.size for blob in counted}.values())
     if total > TOTAL_LIMIT:
-        errors.append(f"new docs files total {total:,} bytes exceeds {TOTAL_LIMIT:,}")
+        errors.append(f"introduced docs blobs total {total:,} bytes exceeds {TOTAL_LIMIT:,}")
     return errors
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--base")
+    parser.add_argument("--base", required=True, help="explicit start of the inspected range; never inferred")
     parser.add_argument("--head")
     parser.add_argument("--root", type=Path, default=Path.cwd())
     args = parser.parse_args()
     try:
-        sizes, added = candidates(args.root, args.base or default_base(args.root), args.head)
+        blobs = candidates(args.root, args.base, args.head)
         allowfile = args.root / ALLOWLIST
         allowlist = (
             {
@@ -121,7 +131,7 @@ def main() -> int:
         )
         if any(not p.startswith("docs/") or "*" in p or ".." in p.split("/") for p in allowlist):
             raise ValueError(f"{ALLOWLIST}: overrides must be exact docs/ paths")
-        errors = violations(sizes, added, allowlist)
+        errors = violations(blobs, allowlist)
     except (subprocess.CalledProcessError, ValueError, OSError) as error:
         print(f"docs-size: {error}")
         return 2
@@ -130,7 +140,7 @@ def main() -> int:
     if errors:
         print(f"Compress evidence or explicitly allow its exact path in {ALLOWLIST}.")
     else:
-        print("docs-size: passed (2 MB per changed file; 30 MB total new files)")
+        print("docs-size: passed (2 MB per introduced blob; 30 MB total distinct introduced blobs)")
     return 1 if errors else 0
 
 

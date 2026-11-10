@@ -34,7 +34,19 @@ lossless `.json.gz`, retaining all fields. `gzip -dc report.json.gz` displays
 them; report tools accept fresh plain JSON and compressed copies. Input
 manifests remain plain JSON for tools that enumerate or rewrite them.
 
-The repository gate limits changed documentation files to 2,000,000 bytes and
-new documentation files to 30,000,000 bytes per comparison range, including
-docs-only mode. The explicit batch 2 allowlist retains passing native images, including the
-two contact sheets above the per-file cap, with a one-line fidelity rationale.
+The repository gate checks every documentation blob introduced after an explicit
+`--base <commit>`, including earlier versions later shrunk or deleted. Each blob
+is limited to 2,000,000 bytes; all distinct introduced blobs together are limited
+to 30,000,000 bytes. Versions of existing paths count too. Repeated identical
+content counts once, and content already reachable from the base is excluded.
+Local runs also inspect staged, unstaged and untracked versions independently.
+Every `check.sh` mode requires `--base`; it never guesses from an upstream or
+detached HEAD's parent. The explicit batch 2 allowlist retains passing native
+images, including the two contact sheets above the per-blob cap, with a one-line
+fidelity rationale. An exemption applies only at its exact path.
+
+CI checks out full history and passes the PR's base SHA. A manual CI run requires
+the `docs_base` input. Gate pushes explicitly fetch `origin/ideation/main` and
+compare from its merge-base with HEAD, so the range retains every unmerged
+commit. Missing bases and a base equal to HEAD fail the CI setup instead of
+falling back to a one-commit comparison. Docs-only PR trigger rules are unchanged.

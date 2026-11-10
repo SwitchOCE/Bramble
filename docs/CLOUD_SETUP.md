@@ -101,8 +101,8 @@ Session B should show no warning and a full `setup.log`. Session C should show `
 
 A push to `ideation/gate/**` runs the gate on that exact commit, with no exports and no paths-ignore, as five parallel jobs. The run's conclusion is the verdict. The workflow comes from the pushed commit, so only commits that carry this trigger can be gated.
 
-- `gate-static` runs `./scripts/check.sh --keep-going --no-tests`: every step but tests, once.
-- `gate-tests` is a matrix of 4 shards. Each runs `./scripts/check.sh --shard i/4`: the tools step (Godot and Python only), import, then the tests step on shard i's scripts. Each shard uploads its `build/check/gut.xml` (GUT's JUnit output) as `gut-junit-<i>`. The Run Summary is in each shard's step log.
+- `gate-static` runs `./scripts/check.sh --keep-going --no-tests --base "$DOCS_BASE_SHA"`: every step but tests, once.
+- `gate-tests` is a matrix of 4 shards. Each runs `./scripts/check.sh --shard i/4 --base "$DOCS_BASE_SHA"`: the tools step (Godot and Python only), import, then the tests step on shard i's scripts. Each shard uploads its `build/check/gut.xml` (GUT's JUnit output) as `gut-junit-<i>`. The Run Summary is in each shard's step log.
 - In the tests step, the strict hook, the parse-error check and the zero-tests backstop apply to each shard. A shard also fails if the number of scripts GUT ran isn't the number the shard lists.
 - `tools/checks/test_shards.py` makes the shards. It balances by the per-script seconds in `tools/checks/test_times.json`, slowest first onto the lightest shard. A script with no time (a new test) goes on the lightest shard at the median time, after the known ones, so it never moves them. `test_shards.py show 4` prints the split. To refresh the times, run `python3 tools/checks/test_shards.py times <gut.xml>...` on an unsharded `build/check/gut.xml` or on all four `gut-junit-<i>` files of one gate run. The python step prints a `test_times: WARNING` line when more than a quarter of the scripts have no time; it never fails the gate, since a stale file only skews shard sizes.
 - Gate jobs don't use the Godot cache: a gate branch can't read a cache saved on another ref, and the download takes seconds. PR runs restore and save it.
@@ -110,7 +110,9 @@ A push to `ideation/gate/**` runs the gate on that exact commit, with no exports
 
 - `scripts/cloud-gate.sh <commit> [label]` pushes the commit to `ideation/gate/<12-char sha>`, waits with `gh run watch`, and prints `GATE <sha> PASS|FAIL <url>`, plus, on a failure, the failed jobs' `check.sh` lines: `FAIL` and `failed:` lines, each failing script and test with its message, and the GUT totals (`scripts/gate_failures.sh`, which also reads a plain job log on stdin). If none match, because a setup step failed before `check.sh`, it prints the log's last 40 lines. It needs an authenticated `gh`, and logs each gate to `~/.local/state/bramble/cloud-gates.csv`.
 - `scripts/cloud-gate.sh --check <commit>` says whether the commit has a successful gate run: the merge rule's test.
-- `./scripts/check.sh --docs-only --base <sha>` is the docs-only path against a gated commit instead of the upstream. It doesn't check that `<sha>` was gated: run `scripts/cloud-gate.sh --check <sha>` first.
+- Every `check.sh` mode requires an explicit `--base <sha>`. The docs size guard checks every introduced blob in the full range, including versions later shrunk or deleted, plus staged and local changes. It permits 2 MB per blob and 30 MB of distinct introduced content, excluding exact allowlisted paths and blobs already reachable from the base. It never infers a base from the upstream or `HEAD^`.
+- CI checks out full history. PR runs pass the PR base SHA; manual runs require the `docs_base` input. Gate pushes explicitly fetch `origin/ideation/main` and use its merge-base with HEAD. Missing bases and a base equal to HEAD fail setup instead of checking an empty or shortened range.
+- `./scripts/check.sh --docs-only --base <sha>` is the docs-only path against a gated commit. It doesn't check that `<sha>` was gated: run `scripts/cloud-gate.sh --check <sha>` first.
 - A failure that looks flaky: `gh run rerun <run id> --failed`, then `scripts/cloud-gate.sh --check <commit>`. Pushing the same commit again starts no new run.
 
 ### The sim job on Actions
@@ -150,7 +152,7 @@ The local machine has two Godot slots, flocks on `/tmp/bramble-godot.lock` and `
 In Autobattler, Godot running in WSL windows stole focus, and two parallel check runs froze the PC on 11 October (2.16). Headless runs in WSL avoid the windows:
 
 ```bash
-GODOT=~/godot472/godot ./scripts/check.sh
+GODOT=~/godot472/godot ./scripts/check.sh --base <base-sha>
 ```
 
 - A Linux-side copy of the repo, rather than `/mnt/c`, matches CI on line endings, exec bits and speed.
