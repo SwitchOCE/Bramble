@@ -311,13 +311,16 @@ func _refresh() -> void:
 	_type_label.text = card_word(unit) if spell else UiTheme.short_tribe(tribes)
 	_tier_label.text = str(Data.i(unit, "cost", 1) if spell else Data.i(unit, "tier", 1))
 	_tier_badge.shape = "knot_gold" if spell or golden else "knot"
-	_tier_badge.visible = is_spell(unit) or (not combat_face and Data.b(unit, "poached"))
+	_tier_badge.visible = (
+		(spell and Data.i(unit, "cost", 1) != 1) or (not combat_face and Data.b(unit, "poached"))
+	)
 	if Data.b(unit, "poached"):
 		_tier_label.text = str(Data.i(unit, "cost", 2))
 	var worth: int = Data.i(unit, "gold_value", 0)
 	if worth > 0:
 		# An Acorn item: its gold value where a spell's cost goes.
 		_tier_label.text = str(worth)
+		_tier_badge.visible = worth != 1
 	_attack_badge.visible = not spell
 	_health_badge.visible = not spell
 	_place_parts(spell)

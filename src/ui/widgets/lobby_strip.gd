@@ -5,6 +5,7 @@ extends Control
 
 ## The next opponent's plaque was tapped.
 signal next_tapped
+signal hero_requested(standing: Dictionary)
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -41,8 +42,10 @@ func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int
 		var plaque: Plaque = Plaque.new(standing, is_next, ghost)
 		add_child(plaque)
 		plaques.append(plaque)
-		if is_next:
-			plaque.tap.tapped.connect(func(_zone: String, _index: int) -> void: next_tapped.emit())
+		plaque.next_requested.connect(func() -> void: next_tapped.emit())
+		plaque.hero_requested.connect(
+			func(details: Dictionary) -> void: hero_requested.emit(details)
+		)
 	_place()
 
 

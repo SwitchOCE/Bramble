@@ -75,7 +75,6 @@ func show_engine(state: Dictionary) -> void:
 	if Data.b(state, "reference_quilboar"):
 		var gem: Dictionary = state.get("gem_size", {})
 		var size_text: String = "+%d/+%d" % [Data.i(gem, "attack", 1), Data.i(gem, "health", 1)]
-		_engine = true
 		_engine_chip(
 			"GemSize", "Blood Gems " + size_text, "Each future Gem gives " + size_text + "."
 		)

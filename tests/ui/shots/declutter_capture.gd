@@ -5,9 +5,7 @@ extends RefCounted
 const LABEL_CATEGORIES: PackedStringArray = [
 	"unit_stats", "hero_health", "fallback_names", "costs_and_controls", "other"
 ]
-const CONFUSABLE_PORTRAITS: PackedStringArray = [
-	"young_brock", "old_brock", "sable", "mistress_russet"
-]
+const CONFUSABLE_PORTRAITS: PackedStringArray = ["brother_wolf", "grizel"]
 
 
 static func text_nodes(node: Node, exclude_primary_stats: bool = false) -> Array[Dictionary]:
@@ -61,6 +59,8 @@ static func classify_text_node(node: Node) -> Dictionary:
 			var state_field: String = _owned_field(
 				owner_node, node, ["counter", "_heading", "_notes"]
 			)
+			if node.has_meta("away_countdown"):
+				state_field = "away_countdown"
 			return _category_record(
 				"other",
 				owner_node,

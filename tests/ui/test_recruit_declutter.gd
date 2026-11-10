@@ -294,7 +294,83 @@ func test_modified_refresh_prices_remain_visible_while_the_standard_price_uses_i
 			assert_eq(port.get_state(), before, "rendering the price never changes recruit state")
 
 
-func test_away_heading_cut_retains_the_complete_reader_forecast_at_both_sizes() -> void:
+func test_ring_stacks_leave_the_floor_but_both_occupied_and_empty_slot_readers_keep_exact_values(
+) -> void:
+	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
+		var port := FixturePort.new()
+		port.use_state_file("res://tests/ui/data/recruit_slice.json")
+		port.get_state()["slot_effects"] = [
+			[{"name": "Ring", "count": 36, "attack": 45, "health": 47}],
+			[],
+			[{"name": "Ring", "count": 2, "attack": 3, "health": 5}],
+			[],
+			[],
+			[],
+			[]
+		]
+		var before: Dictionary = port.get_state().duplicate(true)
+		var screen: RecruitScreen = _screen(pixels, port)
+		await wait_process_frames(2)
+		var board: BoardView = screen.get("_board")
+		var marks: Control = board.get("_marks")
+		for label: Label in marks.get("_ring_labels"):
+			assert_false(label.is_visible_in_tree(), "stack digits do not remain on the floor")
+		var reader: CardDetail = screen.get("_detail")
+		screen._on_tapped("board", 0)
+		assert_true(reader.visible)
+		assert_string_contains(str(reader.shown["text"]), "36 Rings (+45/+47)")
+		screen._on_tapped("board", 0)
+		screen._on_tapped("board", 2)
+		assert_true(reader.visible)
+		assert_string_contains(str(reader.shown["text"]), "2 Rings (+3/+5)")
+		assert_eq(port.get_state(), before, "reading either Ring stack is a read-only action")
+
+
+func test_standard_spell_and_item_prices_leave_the_face_while_changed_prices_remain() -> void:
+	for mode: CardView.Mode in [CardView.Mode.SHOP, CardView.Mode.BOARD, CardView.Mode.MINI]:
+		for sample: Dictionary in [
+			{"kind": "spell", "cost": 1, "visible": false, "number": "1"},
+			{"kind": "spell", "cost": 0, "visible": true, "number": "0"},
+			{"kind": "spell", "cost": 2, "visible": true, "number": "2"},
+			{"kind": "spell", "cost": 5, "visible": true, "number": "5"},
+			{"kind": "item", "gold_value": 1, "visible": false, "number": "1"},
+			{"kind": "item", "gold_value": 20, "visible": true, "number": "20"},
+			{"def_id": "field_vole", "poached": true, "cost": 2, "visible": true, "number": "2"}
+		]:
+			var tile := CardView.new()
+			add_child_autofree(tile)
+			tile.show_unit(sample, mode)
+			var badge: Control = tile.get("_tier_badge")
+			var number: Label = tile.get("_tier_label")
+			assert_eq(badge.is_visible_in_tree(), CoreUtil.to_bool(sample["visible"]))
+			assert_eq(number.text, str(sample["number"]))
+			assert_eq(tile.unit, sample, "hiding a standard-price reminder preserves its value")
+
+
+func test_one_gold_spell_reader_and_buy_action_retain_the_exact_price() -> void:
+	var port := FixturePort.new()
+	port.use_state_file("res://tests/ui/data/recruit_slice.json")
+	port.get_state()["shop"] = [
+		{"def_id": "ring", "name": "Ring", "kind": "spell", "cost": 1, "text": "A Ring."}
+	]
+	var before: Dictionary = port.get_state().duplicate(true)
+	var screen: RecruitScreen = _screen(Vector2i(1688, 780), port)
+	await wait_process_frames(2)
+	screen._on_tapped("shop", 0)
+	var reader: CardDetail = screen.get("_detail")
+	assert_true(reader.visible)
+	assert_eq(CoreUtil.to_int(reader.shown["cost"]), 1)
+	var reader_price: Label = reader.get("_tier_label")
+	assert_true(reader_price.is_visible_in_tree())
+	assert_eq(reader_price.text, "1")
+	var buy: Button = reader.actions.get_child(0)
+	var action_price: Label = buy.get("_cost_label")
+	assert_true(action_price.is_visible_in_tree())
+	assert_eq(action_price.text, "1")
+	assert_eq(port.get_state(), before)
+
+
+func test_away_tokens_keep_the_complete_forecast_in_one_tap_readers_at_both_sizes() -> void:
 	var evidence: Dictionary = FixturePort.load_json(
 		"res://docs/ideation/evidence/declutter/batch2/states.json"
 	)
@@ -307,15 +383,38 @@ func test_away_heading_cut_retains_the_complete_reader_forecast_at_both_sizes() 
 		var screen: RecruitScreen = _screen(pixels, port)
 		await wait_process_frames(2)
 		var tray: AwayTray = screen.get("_away_tray")
-		var heading: Label = tray.get("_heading")
-		var forecast: RichTextLabel = tray.get("_notes")
-		var reader: Dictionary = RecruitHeld.sky_card(port.get_state())
 		assert_true(tray.is_visible_in_tree())
-		assert_false(heading.is_visible_in_tree())
-		assert_false(forecast.get_parsed_text().is_empty())
-		assert_eq(
-			forecast.get_parsed_text(),
-			str(reader["text"]),
-			"the complete changing Bird state survives the heading cut"
-		)
+		var away: Array = state["away"]
+		assert_eq(tray.tokens.size(), away.size(), "each away Bird retains a reachable token")
+		assert_eq(tray.shown, RecruitHeld.sky_card(port.get_state()))
+		var rest: Array[Dictionary] = Capture.text_nodes(tray)
+		assert_eq(rest.size(), away.size(), "only each Bird's changing countdown stays at rest")
+		for index: int in away.size():
+			var source: Dictionary = away[index]
+			var token_text: Array[Dictionary] = Capture.text_nodes(tray.tokens[index])
+			assert_eq(token_text.size(), 1)
+			assert_eq(str(token_text[0]["text"]), str(source["turns_left"]))
+			assert_eq(str(token_text[0]["category"]), "other")
+			tray.tokens[index].tapped.emit("away", index)
+			var reader: CardDetail = screen.get("_detail")
+			assert_true(reader.visible, "one tap opens the Bird's own complete reader")
+			for key: String in source:
+				if key != "text":
+					assert_eq(
+						reader.shown[key], source[key], "the original Bird field survives: " + key
+					)
+			var text: String = str(reader.shown["text"])
+			assert_string_contains(text, str(source["text"]))
+			assert_string_contains(
+				text, "Now: %d Attack / %d Health." % [source["attack"], source["health"]]
+			)
+			assert_string_contains(
+				text,
+				(
+					"Homecoming: %d Attack / %d Health."
+					% [source["home_attack"], source["home_health"]]
+				)
+			)
+			assert_string_contains(text, "Home in %d " % source["turns_left"])
+			assert_string_contains(text, "Its Nest: front row, %d from the left." % (index + 3))
 		assert_eq(port.get_state(), before)

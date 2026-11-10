@@ -1,6 +1,9 @@
 extends Control
-## A portrait with the current tier and Health. Names are available through the hero reader.
+## A portrait with current Health. Tier and full hero state live in its one-tap reader.
 ## The next opponent has a red rim; a ghost is grey and has no Health.
+
+signal next_requested
+signal hero_requested(standing: Dictionary)
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -10,6 +13,7 @@ const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 static var _hero_portraits: Dictionary = {}
+static var _hero_definitions: Dictionary = {}
 
 ## On the next opponent's plaque: opens the scouting panel. Taller than the plaque, to hit easily.
 var tap: Interactive
@@ -31,10 +35,13 @@ var _stand_ready: bool = false
 var _stand_used: bool = false
 var _ghost_time: float = 0.0
 var _stand_mark: Control
+var _standing: Dictionary = {}
 
 
 func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_standing = standing.duplicate(true)
+	_standing["is_ghost"] = ghost
 	is_me = Data.b(standing, "is_human", false)
 	is_next = next_up
 	is_ghost = ghost
@@ -83,7 +90,7 @@ func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	health.offset_top = 5.0
 	_hip.add_child(health)
 	_hip.visible = not is_out and not is_ghost
-	_knot.visible = not is_me and not is_out
+	_knot.visible = false
 	if (
 		Data.b(standing, "last_stand_enabled")
 		and Data.b(standing, "last_stand_active")
@@ -117,9 +124,12 @@ func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	_stand_mark.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stand_mark.draw.connect(_draw_stand_mark)
 	add_child(_stand_mark)
-	if is_next:
-		tap = Interactive.new()
-		add_child(tap)
+	tap = Interactive.new()
+	tap.zone = "lobby"
+	tap.index = Data.i(standing, "player_id", -1)
+	tap.tapped.connect(_on_tapped)
+	tap.hovered.connect(_on_hovered)
+	add_child(tap)
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -207,4 +217,59 @@ static func _portrait_id(standing: Dictionary) -> String:
 			if parsed is Dictionary:
 				var hero: Dictionary = parsed
 				_hero_portraits[Data.s(hero, "name")] = Data.s(hero, "id")
+				_hero_definitions[Data.s(hero, "id")] = hero
 	return str(_hero_portraits.get(Data.s(standing, "hero", Data.s(standing, "name")), ""))
+
+
+func _on_tapped(_zone: String, _index: int) -> void:
+	if is_next:
+		next_requested.emit()
+	hero_requested.emit(_standing.duplicate(true))
+
+
+func _on_hovered(_zone: String, _index: int, inside: bool) -> void:
+	if inside and not _phone():
+		hero_requested.emit(_standing.duplicate(true))
+
+
+static func _phone() -> bool:
+	return preload("res://src/ui/widgets/card_view.gd").is_phone()
+
+
+## Accept a live hero override when its resolved power text is available in the recruit state.
+static func reader_card(standing: Dictionary, hero_override: Dictionary = {}) -> Dictionary:
+	var id: String = _portrait_id(standing)
+	var hero: Dictionary = hero_override
+	if hero.is_empty():
+		hero = Data.d(_hero_definitions, id)
+	var card: Dictionary = standing.duplicate(true)
+	card["def_id"] = Data.s(hero, "id", id)
+	card["name"] = Data.s(hero, "name", UiTheme.player_name(standing))
+	card["kind"] = "spell"
+	card["type_word"] = "Hero"
+	card["tribes"] = []
+	var notes: PackedStringArray = []
+	if not Data.s(hero, "text").is_empty():
+		notes.append(Data.s(hero, "text"))
+	notes.append("Tier %d." % Data.i(standing, "tier", 1))
+	if Data.b(standing, "is_ghost"):
+		notes.append("A ghost: no Health.")
+	else:
+		notes.append("Health %d." % maxi(0, Data.i(standing, "health")))
+	if not Data.b(standing, "alive", true):
+		notes.append("Eliminated.")
+	if Data.b(standing, "last_stand_enabled"):
+		notes.append(
+			(
+				"Last Stand: %s."
+				% (
+					"used"
+					if Data.b(standing, "last_stand_used")
+					else "ready" if Data.b(standing, "last_stand_active") else "not active"
+				)
+			)
+		)
+	card["text"] = "\n".join(notes)
+	if hero.has("configured_details"):
+		card["configured_details"] = hero["configured_details"]
+	return card

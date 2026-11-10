@@ -219,10 +219,9 @@ func header_width(_slot: int) -> float:
 	return 0.0
 
 
-## A single Ring is its dots. Only a stack needs a count, on your own board.
-func _ring_words(mark: Dictionary) -> String:
-	var count: int = Data.i(mark, "ring_count")
-	return StatNumbers.compact(count) if count >= 2 else ""
+## The Ring frame shows its presence; exact pile counts are in the one-tap slot reader.
+func _ring_words(_mark: Dictionary) -> String:
+	return ""
 
 
 func _place() -> void:

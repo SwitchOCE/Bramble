@@ -4,14 +4,14 @@ extends GutTest
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
-const StatNumbers := preload("res://src/ui/stat_numbers.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 
 
 func after_each() -> void:
 	CardView.window_override = Vector2.ZERO
 
 
-func test_only_multiple_own_rings_have_a_number_and_it_clears_the_stat_beads() -> void:
+func test_ring_piles_keep_their_frame_and_exact_reader_without_standing_digits() -> void:
 	for width: float in [122.0, 160.0, 209.0]:
 		var board := BoardView.new()
 		board.theme = UiTheme.get_theme()
@@ -32,12 +32,10 @@ func test_only_multiple_own_rings_have_a_number_and_it_clears_the_stat_beads() -
 		for count: int in [2, 36, 12345]:
 			marks[0]["ring_count"] = count
 			board.set_marks(marks)
-			assert_true(label.visible)
-			assert_eq(label.text, StatNumbers.compact(count))
-			assert_gte(label.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-			for key: String in ["_attack_badge", "_health_badge"]:
-				var bead: Control = card.get(key)
-				assert_false(label.get_global_rect().intersects(bead.get_global_rect()))
+			assert_false(label.visible, "the pile count is read on demand")
+			assert_string_contains(RecruitView.slot_note(marks[0], 0), "%d Rings" % count)
+			assert_true(board.slots[0].filled, "the Ring frame remains on its pocket")
+			assert_eq(CoreUtil.to_int(marks[0]["ring_count"]), count)
 		for strip: Control in board.get("_labels"):
 			assert_false(strip.visible)
 

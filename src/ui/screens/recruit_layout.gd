@@ -8,6 +8,7 @@ const Settings := preload("res://src/ui/settings.gd")
 const Sfx := preload("res://src/ui/sfx.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
+const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -413,6 +414,8 @@ func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
 func _full_view(zone: String, view: Dictionary) -> Dictionary:
 	var full: Dictionary = RecruitView.full_view(zone, view, state).duplicate(true)
+	if zone == "board":
+		full = RecruitOozes.reader_view(_board, full)
 	if zone != "board" or not _scout.visible:
 		full.erase("soak_preview")
 		full.erase("hunter_take_preview")
@@ -452,3 +455,70 @@ func _hover_ring_aim(selection: Dictionary, zone: String, slot: int, inside: boo
 			"%s: %s" % [RecruitView.SLOT_NAMES[slot], RecruitView.ring_preview(state, item, slot)]
 		)
 	_detail.show_unit(_ring_aim_card(item), note)
+
+
+## Build the trays here; the screen supplies their interaction callbacks.
+func _build_shop(wire: Callable) -> void:
+	_shelf = ShelfPlank.new()
+	_stage.add_child(_shelf)
+	_shop_zone = Interactive.new()
+	_shop_zone.zone = "shop"
+	_shop_zone.index = -1
+	wire.call(_shop_zone)
+	_stage.add_child(_shop_zone)
+	_shop_scroll = ScrollContainer.new()
+	_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_shop_scroll.add_theme_stylebox_override("panel", UiTheme.slip_box(Color.TRANSPARENT, 0, 16))
+	_stage.add_child(_shop_scroll)
+	_shop_cards = GridContainer.new()
+	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.add_child(_shop_cards)
+
+
+func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
+	_board = BoardView.new()
+	_board.configure("board", BOARD_POCKET, true, true, true)
+	for slot: Interactive in _board.slots:
+		wire.call(slot)
+	_stage.add_child(_board)
+	_hero = HeroPlaque.new()
+	_hero.visible = false
+	_hero.power_pressed.connect(power)
+	_hero.portrait_pressed.connect(portrait)
+	_stage.add_child(_hero)
+
+
+func _build_hand(wire: Callable) -> void:
+	_hand_zone = Interactive.new()
+	_hand_zone.zone = "hand"
+	_hand_zone.index = -1
+	wire.call(_hand_zone)
+	_stage.add_child(_hand_zone)
+	_hand_panel = WoodPanel.new(WoodPanel.Kind.OAK)
+	_hand_zone.add_child(_hand_panel)
+	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
+	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_hand_zone.add_child(_hand_count)
+	_hand_cards = GridContainer.new()
+	_hand_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hand_zone.add_child(_hand_cards)
+	_away_tray = AwayTray.new()
+	_stage.add_child(_away_tray)
+
+
+func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable) -> void:
+	_menu_token = TokenButton.new("", "gear")
+	_menu_token.pressed.connect(menu)
+	_stage.add_child(_menu_token)
+	_scout_token = TokenButton.new("", "close", UiTheme.FONT_SMALL)
+	_scout_token.tooltip_text = "Close scouting"
+	_scout_token.pressed.connect(scout)
+	_stage.add_child(_scout_token)
+	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
+	_who_token.pressed.connect(who)
+	_who_token.visible = false
+	_stage.add_child(_who_token)
+	_dev_token = TokenButton.new("Dev")
+	_dev_token.pressed.connect(dev)
+	_stage.add_child(_dev_token)
+	_dev_token.visible = Settings.show_dev_panel

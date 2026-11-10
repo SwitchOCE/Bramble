@@ -148,7 +148,7 @@ LABEL_DEFINITIONS = {
     "unit_stats": "Attack/Health labels owned by a CardView, CardDetail, or Nest Egg stat field.",
     "hero_health": "Health labels inside the LobbyPlaque Health badge; opponent tier is Other.",
     "fallback_names": (
-        "Tile name labels whose unit lacks its own portrait, plus the four confusable-portrait exceptions."
+        "Tile name labels whose unit lacks its own portrait, plus the unresolved Brother Wolf/Grizel portrait pair."
     ),
     "costs_and_controls": (
         "Known card/item price fields, hero-power prices, gold and queued-income amounts, and "
@@ -159,15 +159,10 @@ LABEL_DEFINITIONS = {
         "Midsummer, away text, turn labels, and reader identity/rules text."
     ),
 }
-CONFUSABLE_PORTRAITS = {
-    "young_brock": "Brock",
-    "old_brock": "Old Brock",
-    "sable": "Sable",
-    "mistress_russet": "Russet",
-}
+CONFUSABLE_PORTRAITS = {"brother_wolf": "Brother Wolf", "grizel": "Grizel"}
 
 
-def budget_breakdown(packet, classified_run, revision):
+def budget_breakdown(packet, classified_run, revision, output_stem="budget-breakdown", stage="current"):
     """Publish live ownership classifications; never infer roles from printed digits."""
     raw = json.loads(classified_run.read_text())
     captures = raw["captures"]
@@ -192,6 +187,7 @@ def budget_breakdown(packet, classified_run, revision):
     report = {
         "schema": 1,
         "source_revision": revision,
+        "capture_stage": stage,
         "classification_input": str(classified_run),
         "method": (
             "Live Node ownership and known widget-field identity. No numeric-text heuristics, no "
@@ -213,9 +209,13 @@ def budget_breakdown(packet, classified_run, revision):
         "captures": captures,
     }
     packet.mkdir(parents=True, exist_ok=True)
-    (packet / "budget-breakdown.json").write_text(json.dumps(report, indent=2) + "\n")
+    if Path(output_stem).name != output_stem:
+        raise ValueError("budget output stem must be a basename")
+    (packet / (output_stem + ".json")).write_text(json.dumps(report, indent=2) + "\n")
     lines = [
         "# Visible-label budget breakdown",
+        "",
+        f"Capture stage: {stage}.",
         "",
         (
             f"Current live replay: `{revision}`. "
@@ -245,10 +245,10 @@ def budget_breakdown(packet, classified_run, revision):
         ),
         "",
         (
-            "Fallback names include units without individual art and the four portrait exceptions "
-            "specified in §2.1: Brock (`young_brock`), Old Brock (`old_brock`), Sable (`sable`) and "
-            "Russet (`mistress_russet`). These names continue to spend the budget until their "
-            "portraits are distinguishable at board size."
+            "Every shipped unit now has its own portrait. Only Brother Wolf (`brother_wolf`) and "
+            "Grizel (`grizel`) retain a short name while Grizel's portrait reroll is pending. "
+            "The former Brock/Old Brock/Sable/Russet exceptions are no longer used. Synthetic "
+            "missing-art test cards still count as fallback names; no name is excluded from the cap."
         ),
         "",
         (
@@ -285,7 +285,7 @@ def budget_breakdown(packet, classified_run, revision):
             ]
             text = "; ".join(f"`{label}`" for label in labels) if labels else "none"
             lines.append(f"- {title} ({capture['counts'][category]}): {text}.")
-    (packet / "budget-breakdown.md").write_text("\n".join(lines) + "\n")
+    (packet / (output_stem + ".md")).write_text("\n".join(lines) + "\n")
     print("Classified", len(captures), "scenario/size rows; all raw/category sums verified")
 
 
@@ -296,6 +296,8 @@ if __name__ == "__main__":
     p.add_argument("--measure", action="store_true")
     p.add_argument("--budget-breakdown-run", type=Path)
     p.add_argument("--revision", default="working tree; revision not supplied")
+    p.add_argument("--budget-output-stem", default="budget-breakdown")
+    p.add_argument("--budget-stage", default="current")
     a = p.parse_args()
     if a.merge_baseline:
         merge_baseline(a.packet, a.merge_baseline)
@@ -303,4 +305,4 @@ if __name__ == "__main__":
         measure(a.packet)
 
     if a.budget_breakdown_run:
-        budget_breakdown(a.packet, a.budget_breakdown_run, a.revision)
+        budget_breakdown(a.packet, a.budget_breakdown_run, a.revision, a.budget_output_stem, a.budget_stage)
