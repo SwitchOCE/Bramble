@@ -4,6 +4,22 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Compute: Codex over Opus (owner, 10b)
+**Source:**
+- The owner's note `2026-11-10b-codex-over-opus.md`: "We need way, way, way more Codex usage and less Opus usage."
+- Codex's own logs on this machine: Pro plan; weekly limit 63% used, resetting 12 Nov 17:42; no 5-hour window; 62,500 credits untouched all week.
+
+**Picked:**
+- **Reviews of Codex-written work go to Codex.** A fresh Codex review thread gets the owner's words, the plan text and the scope-review method (`CLOUD.md`, "How a cloud reviewer reviews"), with the author's notes labelled as claims.
+  - This replaces the local Claude `scope-reviewer` named in `~/.claude/CLAUDE.md`. The owner's direction outranks that default, and the reviewer is still fresh and independent of the author.
+  - The two Claude reviews already running (play tools, faster suite) finish rather than being redone.
+- **Triage, critics and syntheses go to Codex workers, not Workflow fan-outs.** Ultracode's default of a workflow per task is set aside for budget. A Workflow runs only where a call needs several independent Claude reads, and the orchestrator logs why.
+- **No new Claude cloud routines** until the Codex Cloud investigation reports. Those running now (A3.5 dials, sim job) finish.
+- **The orchestrator keeps its own turns short:** it reads summaries and tails, not full logs.
+- **Codex's weekly pool is the next limit.** At the recent burn of 1.5–2.5% an hour with 3 workers, it runs out around 16–25 h from now, before the reset. The investigation covers what the credits buy. The owner decides on spending them and on raising the bridge's 3-worker cap.
+
+**Agreed by:** the owner's direction; no review needed.
+
 ### 10 Nov 2026 — Wave 2b follow-ups (A1b, A2): review calls
 **Source:**
 - the scope review of `ideation/wave2b` `424b3c2a..8f94f607` (`evidence/review-wave2b-followups.md`): 13 keep, 0 cut, 1 simplify, 4 ask;
