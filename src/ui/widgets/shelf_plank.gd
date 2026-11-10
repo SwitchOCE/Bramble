@@ -3,9 +3,7 @@ extends Control
 ## board unit is being dragged it turns red and says where to drop it.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
-const Icons := preload("res://src/ui/widgets/icons.gd")
-
-const EDGE: float = 12.0
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 
 var selling: bool = false:
 	set(value):
@@ -29,14 +27,9 @@ func _init() -> void:
 
 
 func _draw() -> void:
-	draw_style_box(
-		UiTheme.flat_box(Color("92886b"), UiTheme.CARVE, 3, 20), Rect2(0, -245, size.x, 280)
-	)
-	var face: Rect2 = Rect2(Vector2.ZERO, size - Vector2(0, EDGE))
-	var under: Rect2 = Rect2(Vector2(0, EDGE), face.size)
-	var colour: Color = UiTheme.HEALTH if selling else UiTheme.OAK
-	var low: Color = UiTheme.HEALTH_HURT if selling else UiTheme.CARVE
-	draw_style_box(UiTheme.flat_box(low, UiTheme.INK, 6, 12), under)
-	draw_style_box(UiTheme.flat_box(colour, UiTheme.INK, 6, 12), face)
-	if not selling:
-		draw_texture_rect(Icons.tile("chip"), face.grow(-6.0), true, Color(1, 1, 1, 0.7))
+	Surface.paint(self, Rect2(0, -20, size.x, 64), 18.0)
+	if selling:
+		draw_style_box(
+			UiTheme.flat_box(Color(UiTheme.HEALTH, 0.8), Color.TRANSPARENT, 0, 18),
+			Rect2(Vector2.ZERO, size)
+		)

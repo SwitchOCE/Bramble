@@ -8,8 +8,6 @@ const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 
 const HEIGHT: float = 40.0
 const WIDTH: float = 152.0
-const GAP: float = 16.0
-const CAPTION_WIDTH: float = 184.0
 const ENGINE_WIDTH: float = 240.0
 
 var bonuses: Dictionary = {}
@@ -145,20 +143,30 @@ func _engine_chip(chip_name: String, words: String, note: String) -> void:
 
 
 func _place() -> void:
-	var chips_width: float = 0.0
-	for chip: Control in chips:
-		var width: float = chip.get_meta("chip_width", WIDTH)
-		chips_width += width
-	_caption.visible = false
-	var start: float = 0.0
-	var gap: float = minf(
-		GAP, maxf(0.0, (size.x - start - chips_width) / maxf(chips.size() - 1, 1))
-	)
-	_caption.position = Vector2.ZERO
-	_caption.size = Vector2(CAPTION_WIDTH, HEIGHT)
-	var cursor: float = start
-	for chip: Control in chips:
-		var width: float = chip.get_meta("chip_width", WIDTH)
-		chip.position = Vector2(cursor, 0)
-		chip.size = Vector2(width, HEIGHT)
-		cursor += width + gap
+	_caption.hide()
+	var cursor: float = 0.0
+	for column: int in ceili(chips.size() / 2.0):
+		var column_width: float = 0.0
+		for row: int in 2:
+			var index: int = column * 2 + row
+			if index >= chips.size():
+				continue
+			var chip: Control = chips[index]
+			var engine: Label = chip.get_node_or_null("Engine") as Label
+			var width: float = 76.0
+			if engine != null:
+				width = 64.0 if chip.name == "Midsummer" else 112.0
+				engine.size.x = width - 16.0
+			else:
+				var bonus: Label = chip.get_node("Bonus") as Label
+				bonus.text = bonus.text.get_slice("/", 0).trim_prefix("+")
+				var font: Font = bonus.get_theme_font("font")
+				width = maxf(
+					width,
+					font.get_string_size(bonus.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 31).x + 48.0
+				)
+				bonus.size.x = width - 46.0
+			chip.position = Vector2(cursor, row * 44)
+			chip.size = Vector2(width, 40)
+			column_width = maxf(column_width, width)
+		cursor += column_width + 6.0

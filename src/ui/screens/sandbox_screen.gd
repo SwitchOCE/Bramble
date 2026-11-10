@@ -13,6 +13,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
@@ -60,7 +61,7 @@ func _init() -> void:
 		var empty: Array = []
 		empty.resize(BoardView.SLOTS)
 		boards[side] = empty
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "recruit")
 	var margin: MarginContainer = MarginContainer.new()
 	margin.set_anchors_preset(Control.PRESET_FULL_RECT)
 	for side_name: String in ["left", "right", "top", "bottom"]:
@@ -69,18 +70,32 @@ func _init() -> void:
 	var columns: HBoxContainer = HBoxContainer.new()
 	columns.add_theme_constant_override("separation", 16)
 	margin.add_child(columns)
-	columns.add_child(_build_library())
+	columns.add_child(_on_surface(_build_library()))
 	columns.add_child(_build_centre())
 	var side_box: VBoxContainer = VBoxContainer.new()
 	side_box.custom_minimum_size = Vector2(474, 0)
 	_detail = CardDetail.new()
 	_detail.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	side_box.add_child(_detail)
-	_toast = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.INK)
+	_toast = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
 	_toast.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_toast.custom_minimum_size = Vector2(0, 90)
 	side_box.add_child(_toast)
 	columns.add_child(side_box)
+
+
+## Container sizing keeps the painted backing aligned with its controls and scrolling content.
+func _on_surface(content: Control) -> PanelContainer:
+	var panel := PanelContainer.new()
+	panel.size_flags_horizontal = content.size_flags_horizontal
+	panel.size_flags_vertical = content.size_flags_vertical
+	var inset := StyleBoxEmpty.new()
+	inset.set_content_margin_all(14)
+	panel.add_theme_stylebox_override("panel", inset)
+	var surface := WoodPanel.new(WoodPanel.Kind.PAINTED)
+	panel.add_child(surface)
+	panel.add_child(content)
+	return panel
 
 
 func setup(game_port: GamePort) -> void:
@@ -96,7 +111,7 @@ func setup(game_port: GamePort) -> void:
 
 func _build_library() -> VBoxContainer:
 	var column: VBoxContainer = VBoxContainer.new()
-	column.custom_minimum_size = Vector2(468, 0)
+	column.custom_minimum_size = Vector2(440, 0)
 	column.add_theme_constant_override("separation", 8)
 	var tabs: HBoxContainer = HBoxContainer.new()
 	tabs.add_theme_constant_override("separation", 6)
@@ -133,6 +148,7 @@ func _build_library() -> VBoxContainer:
 	filters.add_child(filter)
 	_golden = CheckBox.new()
 	_golden.text = "Golden"
+	_golden.add_theme_color_override("font_color", UiTheme.CREAM)
 	_golden.focus_mode = Control.FOCUS_NONE
 	_golden.custom_minimum_size = Vector2(0, TAP)
 	filters.add_child(_golden)
@@ -277,7 +293,7 @@ func _build_centre() -> VBoxContainer:
 	var back: Button = UiTheme.button("Menu", 140)
 	back.pressed.connect(func() -> void: menu_requested.emit())
 	bar.add_child(back)
-	var title: Label = UiTheme.head("Sandbox", UiTheme.FONT_TITLE)
+	var title: Label = UiTheme.head("Sandbox", UiTheme.FONT_TITLE, UiTheme.CREAM)
 	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	bar.add_child(title)
 	var clear: Button = UiTheme.button("Clear boards", 200)
@@ -287,8 +303,8 @@ func _build_centre() -> VBoxContainer:
 	UiTheme.make_primary(fight)
 	fight.pressed.connect(_on_fight)
 	bar.add_child(fight)
-	centre.add_child(bar)
-	_banner = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.INK)
+	centre.add_child(_on_surface(bar))
+	_banner = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.CREAM)
 	_banner.clip_text = true
 	_banner.custom_minimum_size = Vector2(0, 80)
 	_banner.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART

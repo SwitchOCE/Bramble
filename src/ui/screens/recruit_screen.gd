@@ -59,11 +59,11 @@ func _init() -> void:
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
-	_lobby = preload("res://src/ui/widgets/stack_lobby.gd").new()
+	_lobby = preload("res://src/ui/widgets/lobby_strip.gd").new()
 	_lobby.next_tapped.connect(toggle_scout)
 	_lobby.hero_requested.connect(_show_lobby_hero)
 	_stage.add_child(_lobby)
-	_tribes = preload("res://src/ui/widgets/stack_counters.gd").new()
+	_tribes = preload("res://src/ui/widgets/tribe_bonuses.gd").new()
 	_stage.add_child(_tribes)
 	_build_shop(_wire)
 	_build_board(_wire, _on_hero_power, _on_hero_tapped)
@@ -293,7 +293,6 @@ func _make_card(
 	var caption: Label = card.get("_name_label")
 	caption.clip_text = true
 	caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	caption.set_meta("ellipsis_ok", true)
 	return card
 
 
@@ -348,6 +347,9 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 
 
 func _show_selection() -> void:
+	_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_detail._notes.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_detail._type.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_board.clear_highlights()
 	_board.set_pass_landing(-2)
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
@@ -514,7 +516,7 @@ func _end_hover() -> void:
 	_board.set_pass_landing(-2)
 	_board.show_relations([])
 	_detail.show_empty()
-	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
+	_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _on_leave_check() -> void:
@@ -534,6 +536,8 @@ func _show_hover() -> void:
 		elif _hover_zone == "board":
 			_board.show_relations(RecruitView.related_slots(_hover_view, _hover_index))
 		_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_detail._notes.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_detail._type.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _on_tapped(zone: String, index: int) -> void:

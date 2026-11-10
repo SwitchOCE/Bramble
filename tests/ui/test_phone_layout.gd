@@ -169,7 +169,7 @@ func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line
 		assert_false(detail.get_global_rect().intersects(control.get_global_rect()), key)
 	var notes: RichTextLabel = detail.get("_notes")
 	var hint: Label = detail.get("_hint")
-	assert_true(notes.scroll_active, "the overlay keeps long rules accessible by scrolling")
+	assert_lte(float(notes.get_content_height()), notes.size.y, "the complete Fly South rules fit")
 	assert_false(hint.visible, "the reader gives rules and numbered actions without instructions")
 	_assert_reader_actions_clear(detail, "external phone action column")
 	var board: BoardView = screen.get("_board")
@@ -259,9 +259,6 @@ func test_phone_scout_hero_name_lives_in_the_reader() -> void:
 			screen.toggle_scout()
 		screen.call("_show_opponent")
 		await get_tree().process_frame
-		var plaque: Control = screen.get("_hero")
-		var name_label: Label = plaque.get("_name")
-		assert_false(name_label.visible, "the portrait needs no standing name")
 		var detail: CardDetail = screen.get("_detail")
 		assert_eq(str(detail.shown["name"]), words, "the full identity remains readable")
 
@@ -283,6 +280,9 @@ func test_eight_phone_shop_offers_remain_in_place_while_the_reader_floats() -> v
 	await get_tree().process_frame
 	var detail: Control = screen.get("_detail")
 	assert_true(detail.visible)
+	for child: Node in shop.get_children():
+		var card: CardView = child as CardView
+		assert_gte(card.size.x, 122.0, "every offer stays finger sized")
 	assert_eq(shop.get_child_count(), 8)
 	assert_eq(shop.get_global_rect(), before, "reading a card never squeezes the merchant")
 

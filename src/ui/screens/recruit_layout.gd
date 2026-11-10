@@ -37,18 +37,9 @@ const LaneProjection := preload("res://src/ui/lane_projection.gd")
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
 const DETAIL_W: float = 500.0
-const DETAIL_GAP: float = 24.0
-const READING_POCKET: float = 180.0
 const BOARD_POCKET: float = 209.0
-const HAND_W: float = 331.0
-const HAND_TOP: float = 489.0
-const SHOP_TOP: float = 152.0
-const SHELF_Y: float = 384.0
 const SHELF_H: float = 57.0
 const TILE_GAP: float = 44.0
-const READING_TILE_GAP: float = 20.0
-const WRAP_MIN: float = 101.0
-const END_H: float = 189.0
 const LEAF_H: float = 128.0
 const TOAST_SECONDS: float = 3.5
 ## The full hand is always represented by real tiles.
@@ -60,10 +51,7 @@ const LEAVE_SECONDS: float = 0.3
 const MINI_TILE: float = 130.0
 const MINI_GAP_X: int = 30
 const MINI_GAP_Y: int = 30
-const SCOUT_TOP: float = 98.0
-const SCOUT_SHOP_TOP: float = 160.0
 ## Two cards in hand stay tall enough for their rules.
-const HAND_TWO_H: float = 215.0
 
 var port: GamePort
 var state: Dictionary = {}
@@ -231,10 +219,12 @@ func _layout_right(x: float, w: float) -> void:
 	_round_label.add_theme_color_override("font_color", UiTheme.CREAM)
 	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_round_label.add_theme_constant_override("outline_size", 5)
+	_tier_button.compact_cost()
 	_tier_button.position = Vector2(x + 160, 944)
 	_tier_button.size = Vector2(200, 122)
 	_tier_icon.hide()
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_refresh_button.compact_cost()
 	_refresh_button.position = Vector2(x + 370, 944)
 	_refresh_button.size = Vector2(122, 122)
 	_freeze_button.position = Vector2(x + 502, 944)
@@ -251,18 +241,13 @@ func _layout_right(x: float, w: float) -> void:
 	_tribes.size = Vector2(344, 88)
 	_tribes.visible = not _tribes.tribes.is_empty()
 	# The reader floats. These coordinates never change any card, board or action position.
-	_detail.position = Vector2(w - RIGHT_W - 30, 112)
-	_detail.size = Vector2(RIGHT_W, 740)
+	_detail.position = Vector2(w - RIGHT_W - 30, 0 if CardView.is_phone() else 112)
+	_detail.size = Vector2(RIGHT_W, CANVAS_H - 112.0 - 24.0 if CardView.is_phone() else 740.0)
 	_detail.set_action_column()
 	if not CardView.is_phone() and _detail.visible:
-		_detail.position.x = clampf(get_local_mouse_position().x + 30, 20, w - DETAIL_W - 20)
+		_detail.position.x = clampf(get_local_mouse_position().x + 30, 150, w - DETAIL_W - 20)
 		_detail.size.x = DETAIL_W
 	_gold.show()
-
-
-## Reader selection never reserves screen space.
-func _split_detail() -> bool:
-	return false
 
 
 func _on_detail_shown() -> void:
@@ -346,7 +331,7 @@ func _highlight_other_slots(from_slot: int) -> void:
 func _build_right(
 	on_tier: Callable, on_refresh: Callable, on_freeze: Callable, on_end: Callable
 ) -> void:
-	_gold = preload("res://src/ui/widgets/stack_gold.gd").new()
+	_gold = GoldPlaque.new()
 	_stage.add_child(_gold)
 	_tier_icon = TextureRect.new()
 	_tier_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -431,7 +416,7 @@ func _hover_ring_aim(selection: Dictionary, zone: String, slot: int, inside: boo
 
 ## Build the trays here; the screen supplies their interaction callbacks.
 func _build_shop(wire: Callable) -> void:
-	_shelf = preload("res://src/ui/widgets/painted_counter.gd").new()
+	_shelf = ShelfPlank.new()
 	_stage.add_child(_shelf)
 	_shop_zone = Interactive.new()
 	_shop_zone.zone = "shop"
@@ -461,7 +446,7 @@ func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
 	for slot: Interactive in _board.slots:
 		wire.call(slot)
 	_stage.add_child(_board)
-	_hero = preload("res://src/ui/widgets/stack_hero.gd").new()
+	_hero = HeroPlaque.new()
 	_hero.visible = false
 	_hero.power_pressed.connect(power)
 	_hero.portrait_pressed.connect(portrait)
@@ -480,7 +465,7 @@ func _build_hand(wire: Callable) -> void:
 	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_hand_count.tooltip_text = "Larder: the gold held in your Acorns, Stashes and Great Hoards."
 	_hand_zone.add_child(_hand_count)
-	_hand_cards = preload("res://src/ui/widgets/stack_hand.gd").new()
+	_hand_cards = HandFan.new()
 	_hand_zone.add_child(_hand_cards)
 	_away_tray = AwayTray.new()
 	_stage.add_child(_away_tray)
@@ -503,16 +488,4 @@ func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable)
 	_stage.add_child(_dev_token)
 	_dev_token.visible = Settings.show_dev_panel
 
-
 ## Identify the hand reader before the fan focus signal arrives.
-func _reader_is_hand() -> bool:
-	var shown: Dictionary = _detail.shown
-	for card: CardView in _hand_cards.cards:
-		if Data.i(shown, "iid", -1) > 0 and Data.i(card.unit, "iid", -2) == Data.i(shown, "iid"):
-			return true
-		if (
-			Data.i(shown, "card_index", -1) >= 0
-			and Data.i(card.unit, "card_index", -2) == Data.i(shown, "card_index")
-		):
-			return true
-	return false

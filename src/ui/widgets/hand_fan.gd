@@ -1,13 +1,11 @@
 extends Control
-## Every hand card has a real tile and its normal input handlers. Crowded rows overlap deliberately.
+## Every reserve card has a real tile and its normal input handlers in one exposed row.
 
 const Data := preload("res://src/ui/view_data.gd")
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 
 const FOCUS_LIFT: float = 12.0
-const COLUMN_GAP: float = 43.0
-const ROW_GAP: float = 22.0
 
 var cards: Array[CardView] = []
 var focused_index: int = -1
@@ -53,26 +51,18 @@ func arrange() -> void:
 	for value: Variant in cards.duplicate():
 		if not is_instance_valid(value):
 			cards.erase(value)
-	if cards.is_empty() or size.x <= 0.0 or size.y <= 0.0:
+	if cards.is_empty() or size.x <= 0.0:
 		return
-	var columns: int = 1 if cards.size() <= 2 else 2
-	var rows: int = ceili(cards.size() / float(columns))
 	var tile: Vector2 = cards[0].card_size
-	var width: float = tile.x * columns + COLUMN_GAP * (columns - 1)
-	var left: float = maxf(0, (size.x - width) / 2.0)
-	var pitch: float = tile.y + ROW_GAP
-	if rows > 1:
-		pitch = minf(pitch, maxf(0.0, (size.y - FOCUS_LIFT - tile.y) / (rows - 1)))
+	var pitch: float = tile.x + 12.0
+	var left: float = maxf(0.0, (size.x - (cards.size() * pitch - 12.0)) / 2.0)
 	for index: int in cards.size():
 		var card: CardView = cards[index]
-		var column: int = index % columns
-		var row: int = floori(index / float(columns))
-		var at := Vector2(left + column * (tile.x + COLUMN_GAP), FOCUS_LIFT + row * pitch)
+		var at := Vector2(left + index * pitch, FOCUS_LIFT)
 		_homes[card] = at
 		card.position = at
 		card.rotation = 0.0
 		card.z_index = 0
-	_stack_rest()
 	if focused_index >= 0:
 		focus(focused_index)
 
@@ -85,7 +75,6 @@ func focus(index: int) -> void:
 		if _homes.has(card):
 			card.position = _homes[card]
 		card.z_index = 0
-	_stack_rest()
 	var focused: CardView = card_at(index)
 	if focused == null:
 		return
@@ -94,12 +83,6 @@ func focus(index: int) -> void:
 	focused.z_index = 1
 	# Node order controls input precedence as well as drawing; canonical indices stay in cards.
 	move_child(focused, -1)
-
-
-## Upper rows paint last, exposing the lower rows' numeric foot rather than covering it.
-func _stack_rest() -> void:
-	for index: int in cards.size():
-		move_child(cards[cards.size() - index - 1], index)
 
 
 func rest_cards() -> void:

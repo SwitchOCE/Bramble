@@ -6,8 +6,11 @@ var _backdrop: Texture2D
 var _foliage: Texture2D = preload("res://assets/ui/world/foreground.png")
 
 
-func _ready() -> void:
+func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func _ready() -> void:
 	_backdrop = load(backdrop_path)
 	resized.connect(queue_redraw)
 	queue_redraw()

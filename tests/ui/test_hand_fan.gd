@@ -50,7 +50,7 @@ func _fan(viewport: SubViewport) -> Fan:
 	var fan := Fan.new()
 	viewport.add_child(fan)
 	fan.position = Vector2(100, 100)
-	fan.size = Vector2(331, 337)
+	fan.size = Vector2(1600, 174)
 	var hand: Array = hand_views()
 	for index: int in hand.size():
 		var card := Card.new()
@@ -113,7 +113,7 @@ func test_each_visible_card_can_be_tapped_and_dragged_without_a_picker() -> void
 	for index: int in 10:
 		fan.rest_cards()
 		var card: Card = fan.card_at(index)
-		# Reverse stacking exposes each lower tier's own numeric foot.
+		# Every reserve card has its own exposed rectangle.
 		var at: Vector2 = card.get_global_rect().end - Vector2(card.size.x / 2, 10)
 		for pressed: bool in [true, false]:
 			var click := InputEventMouseButton.new()

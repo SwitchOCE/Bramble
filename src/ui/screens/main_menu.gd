@@ -11,7 +11,6 @@ signal quit_requested
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Records := preload("res://src/ui/records.gd")
-const PaintedPanel := preload("res://src/ui/widgets/painted_panel.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
@@ -39,7 +38,7 @@ func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	UiTheme.add_world(self, "recruit")
-	_plaque = PaintedPanel.new()
+	_plaque = WoodPanel.new(WoodPanel.Kind.PAINTED)
 	add_child(_plaque)
 	_title = UiTheme.label("Bramble", TITLE_SIZE)
 	_title.name = "Title"
@@ -48,7 +47,7 @@ func _init() -> void:
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_plaque.add_child(_title)
-	_tray = PaintedPanel.new()
+	_tray = WoodPanel.new(WoodPanel.Kind.PAINTED)
 	add_child(_tray)
 	for entry: Array in FACES:
 		var face: ArtFrame = ArtFrame.new()
