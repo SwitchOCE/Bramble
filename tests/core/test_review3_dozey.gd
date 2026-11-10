@@ -7,7 +7,7 @@ const Kit := preload("res://tests/core/recruit_kit.gd")
 func test_doubling_is_preserved_and_permanent_growth_stops_at_printed_ceiling() -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 		kit.rules.start_phase(kit.player, 1)
 		var unit: RecruitUnit = kit.put("alderman_dozey", 0, golden)
 		var factor: int = 2 if golden else 1
@@ -31,7 +31,7 @@ func test_doubling_is_preserved_and_permanent_growth_stops_at_printed_ceiling() 
 
 func test_a_capped_feed_is_refused_without_consuming_the_acorn() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	var unit: RecruitUnit = kit.put("alderman_dozey", 0)
 	unit.add_permanent(20, 20)
 	kit.rules.give_card(kit.player, "great_hoard")
@@ -45,7 +45,7 @@ func test_a_capped_feed_is_refused_without_consuming_the_acorn() -> void:
 
 func test_triples_and_combat_permanence_obey_the_same_ceiling() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	for _copy: int in 3:
 		var unit: RecruitUnit = kit.put("alderman_dozey")
 		unit.add_permanent(100, 100)
@@ -87,7 +87,9 @@ func test_triples_and_combat_permanence_obey_the_same_ceiling() -> void:
 
 func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_oozes())
+	kit.setup(
+		GameConfig.full_game(), false, LegacyWave1.with_hedgerow(LegacyWave1.current_with_oozes())
+	)
 	kit.rules.start_phase(kit.player, 1)
 	var ooze: RecruitUnit = kit.put("frumenty", 0)
 	ooze.add_permanent(30, 30)
@@ -104,9 +106,9 @@ func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
 func test_native_frumenty_digests_before_its_borrowed_bounded_wake() -> void:
 	var kit := Kit.new()
 	var config := GameConfig.full_game()
-	# The meal is a non-Ooze; hold A3.5's printed-stat eat multiplier off to check the wake order.
+	# The meal is a non-Ooze; isolate historical wake order from the printed-stat multiplier.
 	config.set_value("oozes_eat_printed_multiplier", 1)
-	kit.setup(config)
+	kit.setup(config, false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	kit.rules.start_phase(kit.player, 1)
 	var ooze: RecruitUnit = kit.put("frumenty", 0)
 	ooze.add_permanent(30, 30)

@@ -8,13 +8,14 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "After you get a Stash: Pass +2/+2.",
-  "golden_text": "After you get a Stash: Pass +4/+4.",
-  "details": "Counts a Stash gained whole or formed by three Acorns. Does not count a Great Hoard.",
+  "text": "After you get a Stash: Pass +3/+3.",
+  "golden_text": "After you get a Stash: Pass +6/+6.",
   "mechanics": [
     {
-      "id": "mr_pym",
-      "stats": 2
+      "id": "pass3_hedgerow",
+      "ability": "mr_pym",
+      "factor": 1,
+      "pass": 3
     }
   ],
   "keywords": [
@@ -26,7 +27,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Combining three Acorns counts as getting a Stash.",
+  "golden_details": "Combining three Acorns counts as getting a Stash."
 }

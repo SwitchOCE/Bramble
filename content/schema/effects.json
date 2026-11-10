@@ -898,6 +898,25 @@
       "golden_multiplier": "scalar",
       "golden_reads": "threshold",
       "meals": "number"
+    },
+    "pass3_hedgerow": {
+      "ability": "string",
+      "factor": "number",
+      "acorns": "scalar",
+      "food_per_gold": "scalar",
+      "gold_step": "threshold",
+      "golden_multiplier": "scalar",
+      "hunker_targets": "scalar",
+      "limit": "threshold",
+      "multiplier": "scalar",
+      "pass": "scalar",
+      "per_gold": "scalar",
+      "period": "threshold",
+      "sell_share": "scalar",
+      "share": "scalar",
+      "targets": "scalar",
+      "throws": "scalar",
+      "share_per_gold": "scalar"
     }
   },
   "queries": [
@@ -1016,6 +1035,23 @@
     ],
     "borrows_text": [
       "pass3"
+    ],
+    "pass3_hedgerow": [
+      "acorns",
+      "food_per_gold",
+      "gold_step",
+      "golden_multiplier",
+      "hunker_targets",
+      "limit",
+      "multiplier",
+      "pass",
+      "per_gold",
+      "period",
+      "sell_share",
+      "share",
+      "targets",
+      "throws",
+      "share_per_gold"
     ]
   },
   "size_cap_overlay": {
@@ -1235,6 +1271,60 @@
         "share",
         "count"
       ]
+    },
+    "pass3_hedgerow": {
+      "mr_crumb": [
+        "pass",
+        "sell_share"
+      ],
+      "sleeping_partner": [
+        "period",
+        "acorns"
+      ],
+      "mrs_clover": [
+        "share"
+      ],
+      "mr_pym": [
+        "pass"
+      ],
+      "mrs_mallow": [
+        "multiplier",
+        "targets"
+      ],
+      "dr_urchin": [
+        "hunker_targets"
+      ],
+      "sergeant_at_conkers": [
+        "throws",
+        "share_per_gold"
+      ],
+      "alderman_dozey": [
+        "period",
+        "multiplier",
+        "golden_multiplier",
+        "food_per_gold"
+      ],
+      "beadle_warrenby": [
+        "pass"
+      ],
+      "honorary_treasurer": [
+        "per_gold"
+      ],
+      "goodman_hayward": [
+        "per_gold"
+      ],
+      "standing_committee": [
+        "share"
+      ],
+      "squire_lollop": [
+        "share"
+      ],
+      "old_mother_mast": [
+        "gold_step",
+        "limit"
+      ],
+      "mrs_burdock": [],
+      "mrs_sorrel": []
     }
   }
 }

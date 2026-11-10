@@ -46,6 +46,10 @@ var shop_spells: Array[HandItem] = []
 var market_stalls: int = 0
 ## Harvest Supper: a standing +N/+N for each tribe; pass 3 removes the legacy ceiling.
 var tribe_bonuses: Dictionary = {}
+## Hayward is a separate uncapped standing bonus, never Supper's cast counter.
+var hedgerow_bonus: int = 0
+## Passes fired while resolving the End of Turn queue land immediately.
+var hedgerow_end_phase: bool = false
 var harvest_supper_round: int = -1
 var spells_bought_turn: int = 0
 var poached_pending: Array[RecruitUnit] = []

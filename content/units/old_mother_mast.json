@@ -8,45 +8,15 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "After your first unit buy each turn: get an Acorn, or 2 if you have a Great Hoard.",
-  "golden_text": "After your first unit buy each turn: get 2 Acorns, or 4 if you have a Great Hoard.",
+  "text": "Start of Turn: get an Acorn per 5 gold in your Larder. Up to 5.",
+  "golden_text": "Start of Turn: get two Acorns per 5 gold in your Larder. Up to 10.",
   "mechanics": [
     {
-      "id": "effect",
-      "trigger": "on_unit_bought",
-      "name": "interest",
-      "limit": 1,
-      "if": [
-        {
-          "kind": "holds_item",
-          "card": "great_hoard",
-          "not": true
-        }
-      ],
-      "do": {
-        "effect": "add_card",
-        "card": "acorn",
-        "count": 1
-      },
-      "subject": "other"
-    },
-    {
-      "id": "effect",
-      "trigger": "on_unit_bought",
-      "name": "interest",
-      "limit": 1,
-      "if": [
-        {
-          "kind": "holds_item",
-          "card": "great_hoard"
-        }
-      ],
-      "do": {
-        "effect": "add_card",
-        "card": "acorn",
-        "count": 2
-      },
-      "subject": "other"
+      "id": "pass3_hedgerow",
+      "ability": "old_mother_mast",
+      "factor": 1,
+      "gold_step": 5,
+      "limit": 5
     }
   ],
   "keywords": [
@@ -58,6 +28,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Larder gold is read before this payout. Each copy pays separately. Up to the displayed number per turn; the rate overlay can remove this loop limit.",
+  "golden_details": "Larder gold is read before this payout. Each copy pays separately. Up to the displayed number per turn; the rate overlay can remove this loop limit."
 }
