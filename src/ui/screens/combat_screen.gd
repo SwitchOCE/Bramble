@@ -342,11 +342,11 @@ func advance_playback(delta: float) -> void:
 			if _has_active_tweens():
 				# The final death/return lunge can outlast the result's nominal hold.
 				_return_ready = false
-				_return_wait = 0.1
+				_return_wait = 0.001
 			elif not _return_ready:
 				# Paint the settled result for a frame before replacing the screen.
 				_return_ready = true
-				_return_wait = 0.1
+				_return_wait = 1.0 / 60.0
 			else:
 				_complete = true
 				finished.emit()
@@ -393,8 +393,9 @@ func advance_playback(delta: float) -> void:
 
 
 func _event_hold(kind: String) -> float:
-	if _ending and kind != "death":
-		return 0.0
+	if _ending:
+		# Overlap the final rewards with the death fade, keeping the 1.6-second tail budget.
+		return maxf(0.15, 0.24 / speed) if kind == "death" else 0.0
 	if kind == "attack":
 		return maxf(0.025, 0.1 / speed)
 	if kind in ["stats", "status", "quarry_marked", "take", "mire_wait"]:
@@ -768,7 +769,7 @@ func _death(uid: int, animate: bool) -> void:
 
 
 func _show_result(animate: bool = true) -> void:
-	_return_ready = false
+	_return_ready = not animate
 	_set_playing(false)
 	_motion.result(animate)
 	_return_wait = 1.0 if animate else 0.1
