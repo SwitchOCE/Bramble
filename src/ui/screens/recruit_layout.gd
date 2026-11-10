@@ -113,20 +113,22 @@ func _layout() -> void:
 	var main_w: float = minf(w - 300.0, 1900.0)
 	var left: float = (w + 130.0 - main_w) / 2.0
 	var center: float = left + main_w / 2.0
-	_board.configure("board", 206.0, true)
+	_board.configure("board", 222.0, true)
 	_board.position = Vector2(center - _board.tray_size().x / 2.0, 302)
 	_board.size = _board.tray_size()
 	_player_surface.position = Vector2(left, 300)
 	_player_surface.size = Vector2(main_w, 642)
-	_bar_surface.position = Vector2(left - 16, 962)
-	_bar_surface.size = Vector2(main_w + 32, 100)
-	_lobby.position = Vector2(8, 42)
-	_lobby.size = Vector2(122, 920)
+	_player_surface.set("formation_size", _board.tray_size())
+	_player_surface.queue_redraw()
+	_bar_surface.position = Vector2(left - 16, 944)
+	_bar_surface.size = Vector2(main_w + 32, 120)
+	_lobby.position = Vector2(8, 8)
+	_lobby.size = Vector2(122, 1040)
 	_lobby.visible = not _scout.visible
-	_menu_token.position = Vector2(w - 118, 12)
-	_menu_token.size = Vector2(100, 109)
+	_menu_token.position = Vector2(w - 142, 12)
+	_menu_token.size = Vector2(122, 131)
 	_scout_token.position = Vector2(20, 24)
-	_scout_token.size = Vector2(104, 113)
+	_scout_token.size = Vector2(122, 131)
 	_scout_token.visible = _scout.visible
 	_who_token.visible = false
 	_shelf.position = Vector2(left, 252)
@@ -152,7 +154,7 @@ func _layout() -> void:
 	_layout_hero(center)
 	_layout_right(left, w)
 	_dev_token.position = Vector2(w - 118, 138)
-	_dev_token.size = Vector2(100, 109)
+	_dev_token.size = Vector2(122, 131)
 	_dev.position = Vector2(left, 112)
 	_toast.position = Vector2(center - 250, 8)
 	_size_toast()
@@ -175,6 +177,8 @@ func _layout_scouting(left: float, right_x: float) -> void:
 	_board.position = Vector2(center - _board.tray_size().x / 2.0, 485)
 	_player_surface.position.y = 475
 	_player_surface.size.y = 467
+	_player_surface.set("formation_size", _board.tray_size())
+	_player_surface.queue_redraw()
 	_hand_zone.hide()
 	_away_tray.hide()
 
@@ -186,8 +190,8 @@ func tap_size() -> float:
 
 
 func _layout_hero(center: float) -> void:
-	_hero.position = Vector2(center - 64.0, 964)
-	_hero.size = Vector2(260, 100)
+	_hero.position = Vector2(center - 64.0, 958)
+	_hero.size = Vector2(260, 122)
 	var health: int = 0
 	var armor: int = 0
 	for entry: Dictionary in Data.a(state, "standings"):
@@ -200,7 +204,7 @@ func _layout_hero(center: float) -> void:
 func _layout_hand(x: float) -> void:
 	var width: float = _player_surface.size.x
 	_hand_zone.show()
-	_hand_zone.position = Vector2(x + 18, 768)
+	_hand_zone.position = Vector2(x + 18, 760)
 	_hand_zone.size = Vector2(width - 36, 174)
 	_hand_panel.hide()
 	_hand_count.position = Vector2(width - 148, -32)
@@ -212,40 +216,40 @@ func _layout_hand(x: float) -> void:
 	_hand_cards.size = _hand_zone.size
 	_hand_cards.arrange()
 	_away_tray.position = Vector2(x + 26, 618)
-	_away_tray.size = Vector2(310, _away_tray.row_height())
+	var away_width: float = minf(340, maxf(122, _board.position.x - x - 52))
+	_away_tray.size = Vector2(away_width, _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
 func _layout_right(x: float, w: float) -> void:
 	var center: float = x + _player_surface.size.x / 2.0
-	_gold.position = Vector2(x + 10, 972)
+	_gold.position = Vector2(x + 10, 984)
 	_gold.size = Vector2(205, 80)
-	_round_label.position = Vector2(x + 26, 935)
+	_round_label.position = Vector2(x + 26, 944)
 	_round_label.size = Vector2(160, 42)
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_round_label.add_theme_color_override("font_color", UiTheme.CREAM)
 	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_round_label.add_theme_constant_override("outline_size", 5)
-	_tier_button.position = Vector2(x + 210, 968)
-	_tier_button.size = Vector2(200, 96)
+	_tier_button.position = Vector2(x + 160, 944)
+	_tier_button.size = Vector2(200, 122)
 	_tier_icon.hide()
-	_tier_label.position = Vector2(x + 242, 961)
-	_tier_label.size = Vector2(48, 48)
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_refresh_button.position = Vector2(x + 420, 968)
-	_refresh_button.size = Vector2(122, 96)
-	_freeze_button.position = Vector2(x + 552, 968)
-	_freeze_button.size = Vector2(122, 96)
+	_refresh_button.position = Vector2(x + 370, 944)
+	_refresh_button.size = Vector2(122, 122)
+	_freeze_button.position = Vector2(x + 502, 944)
+	_freeze_button.size = Vector2(122, 122)
 	_freeze_button.set_pressed_no_signal(Data.b(state, "frozen"))
 	_kin_button.visible = Data.b(state, "ask_for_kin_enabled")
-	_kin_button.position = Vector2(center + 198, 968)
-	_kin_button.size = Vector2(170, 96)
-	_end_button.position = Vector2(w - x - 280, 968)
-	_end_button.size = Vector2(280, 96)
+	_kin_button.position = Vector2(x + 630, 944)
+	_kin_button.size = Vector2(122, 122)
+	_kin_button.compact_cost()
+	_end_button.position = Vector2(x + _player_surface.size.x - 280, 944)
+	_end_button.size = Vector2(280, 122)
 	_end_button.set_label_size(UiTheme.FONT_LEAF)
 	_tribes.position = Vector2(center + 208, 967)
-	_tribes.size = Vector2(240, 88)
-	_tribes.visible = not _tribes.tribes.is_empty() and not _kin_button.visible
+	_tribes.size = Vector2(344, 88)
+	_tribes.visible = not _tribes.tribes.is_empty()
 	# The reader floats. These coordinates never change any card, board or action position.
 	_detail.position = Vector2(w - RIGHT_W - 30, 112)
 	_detail.size = Vector2(RIGHT_W, 740)
@@ -355,6 +359,16 @@ func _build_right(
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_stage.add_child(_round_label)
 	_tier_button = _leaf(LeafButton.Colour.ACORN, on_tier)
+	var stack_icon: Control = _tier_button.get("_icon")
+	_tier_label.reparent(stack_icon, false)
+	_tier_label.position = Vector2.ZERO
+	_tier_label.size = Vector2(50, 50)
+	_tier_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_tier_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_tier_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
+	_tier_label.add_theme_color_override("font_color", UiTheme.CREAM)
+	_tier_label.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_tier_label.add_theme_constant_override("outline_size", 4)
 	_refresh_button = _leaf(LeafButton.Colour.BIRCH, on_refresh)
 	_freeze_button = _leaf(LeafButton.Colour.FROST, on_freeze)
 	_end_button = _leaf(LeafButton.Colour.MOSS, on_end)
@@ -436,8 +450,10 @@ func _build_shop(wire: Callable) -> void:
 func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
 	_player_surface = StackSurface.new()
 	_stage.add_child(_player_surface)
+	_stage.move_child(_player_surface, 0)
 	_bar_surface = StackSurface.new()
 	_stage.add_child(_bar_surface)
+	_stage.move_child(_bar_surface, 1)
 	_board = BoardView.new()
 	_board.compact = true
 	_board.surface_visible = false

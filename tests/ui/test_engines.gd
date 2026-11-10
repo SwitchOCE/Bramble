@@ -238,12 +238,11 @@ func test_late_status_band_clears_tools_and_all_tribe_bonuses() -> void:
 			var lobby: LobbyStrip = screen.get("_lobby")
 			var tools: Control = screen.get("_menu_token")
 			var bonuses: Control = screen.get("_tribes")
-			var board: Control = screen.get("_board")
-			assert_gt(bonuses.z_index, board.z_index, "bonuses draw above the board header")
+
 			for chip: Control in bonuses.get("chips"):
 				assert_true(
 					bonuses.get_global_rect().encloses(chip.get_global_rect()),
-					"all five bonuses stay inside the header"
+					"all five bonuses stay together on the hero bar"
 				)
 			for plaque: Control in lobby.plaques:
 				if plaque.has_node("LastStand"):

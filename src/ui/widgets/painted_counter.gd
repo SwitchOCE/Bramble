@@ -5,7 +5,7 @@ const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 
 
 func _draw() -> void:
-	Surface.paint(self, Rect2(0, -245, size.x, 280), 18.0)
+	Surface.paint(self, Rect2(0, -20, size.x, 64), 18.0)
 	if selling:
 		draw_style_box(
 			UiTheme.flat_box(Color(UiTheme.HEALTH, 0.8), Color.TRANSPARENT, 0, 18),

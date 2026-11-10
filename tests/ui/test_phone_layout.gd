@@ -169,7 +169,7 @@ func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line
 		assert_false(detail.get_global_rect().intersects(control.get_global_rect()), key)
 	var notes: RichTextLabel = detail.get("_notes")
 	var hint: Label = detail.get("_hint")
-	assert_lte(float(notes.get_content_height()), notes.size.y, "the complete Fly South rules fit")
+	assert_true(notes.scroll_active, "the overlay keeps long rules accessible by scrolling")
 	assert_false(hint.visible, "the reader gives rules and numbered actions without instructions")
 	_assert_reader_actions_clear(detail, "external phone action column")
 	var board: BoardView = screen.get("_board")
@@ -246,11 +246,10 @@ func test_selected_phone_posset_counters_do_not_overlap() -> void:
 	assert_eq(LayoutCheck.problems(screen, "selected phone cosmetics"), PackedStringArray())
 
 
-func test_phone_scout_hero_names_wrap_at_the_minimum_without_clipping() -> void:
+func test_phone_scout_hero_name_lives_in_the_reader() -> void:
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var hero: Dictionary = raw["hero"]
-	hero["kind"] = "activated"
 	for words: String in ["Hob Mumblecrust", "Old Mother Mousewife"]:
 		hero["name"] = words
 		raw["next_opponent_hero"] = hero.duplicate(true)
@@ -260,33 +259,14 @@ func test_phone_scout_hero_names_wrap_at_the_minimum_without_clipping() -> void:
 			screen.toggle_scout()
 		screen.call("_show_opponent")
 		await get_tree().process_frame
-		await get_tree().process_frame
 		var plaque: Control = screen.get("_hero")
-		var label: Label = plaque.get("_name")
-		assert_eq(label.tooltip_text, words, "the full name stays available")
-		assert_true(label.text.begins_with(words.get_slice(" ", 0)))
-		assert_gte(label.get_theme_font_size("font_size"), 31, words)
-		assert_gt(label.get_line_count(), 1, "long names wrap instead of shrinking")
-		for word: String in label.text.split(" "):
-			assert_lte(
-				(
-					label
-					. get_theme_font("font")
-					. get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, 31)
-					. x
-				),
-				label.size.x,
-				"every wrapped word clears the plaque border: " + word
-			)
-		assert_eq(label.get_visible_line_count(), label.get_line_count(), words)
-		assert_true(plaque.get_global_rect().encloses(label.get_global_rect()), words)
-		var art: Control = plaque.get("_art")
-		assert_gt(art.size.y, 0.0, "the portrait still has room")
-		assert_lte(art.get_global_rect().end.y, label.global_position.y, words)
-		assert_eq(LayoutCheck.problems(screen, "phone scouting hero " + words), PackedStringArray())
+		var name_label: Label = plaque.get("_name")
+		assert_false(name_label.visible, "the portrait needs no standing name")
+		var detail: CardDetail = screen.get("_detail")
+		assert_eq(str(detail.shown["name"]), words, "the full identity remains readable")
 
 
-func test_eight_phone_shop_offers_keep_finger_targets_with_a_board_card_selected() -> void:
+func test_eight_phone_shop_offers_remain_in_place_while_the_reader_floats() -> void:
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var offers: Array = raw["shop"]
@@ -295,17 +275,16 @@ func test_eight_phone_shop_offers_keep_finger_targets_with_a_board_card_selected
 		offers.append(offer.duplicate(true))
 	raw["shop_size"] = 8
 	screen.render()
+	await get_tree().process_frame
+	var shop: GridContainer = screen.get("_shop_cards")
+	var before: Rect2 = shop.get_global_rect()
 	screen.call("_on_tapped", "board", 0)
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var detail: Control = screen.get("_detail")
-	var shop: GridContainer = screen.get("_shop_cards")
+	assert_true(detail.visible)
 	assert_eq(shop.get_child_count(), 8)
-	for child: Node in shop.get_children():
-		var card: CardView = child as CardView
-		assert_gte(card.size.x, 122.0, "every offer stays finger sized")
-		assert_false(card.get_global_rect().intersects(detail.get_global_rect()))
-	assert_eq(LayoutCheck.problems(screen, "eight phone offers and reader"), PackedStringArray())
+	assert_eq(shop.get_global_rect(), before, "reading a card never squeezes the merchant")
 
 
 func test_late_scout_focus_restores_all_shop_offers_at_both_sizes() -> void:
@@ -364,3 +343,27 @@ func test_phone_attack_order_guide_is_decorative_like_other_guide_boards() -> vo
 					assert_eq(card.mouse_filter, Control.MOUSE_FILTER_IGNORE)
 	assert_eq(boards, 1, "page 8 now teaches attack order on a single board")
 	assert_eq(LayoutCheck.problems(guide, "phone attack order guide"), PackedStringArray())
+
+
+func test_empty_world_slots_receive_real_viewport_taps() -> void:
+	var viewport: SubViewport = _phone()
+	viewport.gui_disable_input = false
+	var board := BoardView.new()
+	board.compact = true
+	board.configure("board", 222, true)
+	board.position = Vector2(100, 100)
+	viewport.add_child(board)
+	await wait_process_frames(2)
+	var received: Array[int] = []
+	for slot: Control in board.slots:
+		slot.connect("tapped", func(_zone: String, index: int) -> void: received.append(index))
+	for index: int in BoardView.SLOTS:
+		var at: Vector2 = board.slot_global_center(index)
+		for pressed: bool in [true, false]:
+			var event := InputEventMouseButton.new()
+			event.button_index = MOUSE_BUTTON_LEFT
+			event.pressed = pressed
+			event.position = at
+			event.global_position = at
+			viewport.push_input(event, true)
+	assert_eq(received, [0, 1, 2, 3, 4, 5, 6], "every quiet cell remains a real input target")

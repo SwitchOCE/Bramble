@@ -48,7 +48,7 @@ var _menu: LeafButton
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "fight")
 	_plaque = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_plaque)
 	_placement = UiTheme.label("", UiTheme.FONT_HUGE + 34)

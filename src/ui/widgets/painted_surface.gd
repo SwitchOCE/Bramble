@@ -13,8 +13,8 @@ static func paint(canvas: CanvasItem, rect: Rect2, depth: float = 12.0) -> void:
 	shadow.shadow_offset = Vector2(0, 12)
 	canvas.draw_style_box(shadow, Rect2(rect.position + Vector2(0, depth), rect.size))
 	var edge := StyleBoxFlat.new()
-	edge.bg_color = Color("57452e")
-	edge.border_color = Color("80704a")
+	edge.bg_color = Color("384638")
+	edge.border_color = Color("65715a")
 	edge.set_border_width_all(2)
 	edge.set_corner_radius_all(22)
 	canvas.draw_style_box(edge, Rect2(rect.position + Vector2(0, depth), rect.size))
@@ -35,5 +35,14 @@ static func paint(canvas: CanvasItem, rect: Rect2, depth: float = 12.0) -> void:
 			corners.append(point)
 			uv.append((point - rect.position) / rect.size)
 	canvas.draw_polygon(corners, PackedColorArray([Color.WHITE]), uv, WOOD)
+	# Grain is subordinate to the clearing: cool muted wood, warmed by the upper-right canopy.
+	var light: PackedColorArray = []
+	for point: Vector2 in corners:
+		var at: Vector2 = (point - rect.position) / rect.size
+		var warmth: float = at.x * (1.0 - at.y)
+		light.append(Color("344b3e").lerp(Color("9c9a72"), warmth * 0.6))
+	for index: int in light.size():
+		light[index].a = 0.88
+	canvas.draw_polygon(corners, light)
 	corners.append(corners[0])
-	canvas.draw_polyline(corners, Color(0.85, 0.75, 0.48, 0.45), 2.0, true)
+	canvas.draw_polyline(corners, Color(0.85, 0.82, 0.65, 0.24), 2.0, true)

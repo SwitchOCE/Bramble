@@ -42,7 +42,7 @@ func _layout() -> void:
 	_tap.position = _art.position
 	_tap.size = _art.size
 	power.position = Vector2(132, 0)
-	power.size = Vector2(122, 100)
+	power.size = Vector2(122, 122)
 	_cost.position = Vector2(210, -8)
 	_cost.size = Vector2(48, 48)
 	if _health != null:

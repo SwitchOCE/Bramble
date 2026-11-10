@@ -22,8 +22,6 @@ func _draw() -> void:
 	draw_texture_rect_region(
 		_backdrop, Rect2(Vector2.ZERO, size), Rect2((source - crop) / 2.0, crop)
 	)
-	# Cooler near shadow lets the warm counter light have a visible source.
-	draw_rect(Rect2(Vector2.ZERO, size), Color(0.025, 0.09, 0.075, 0.16))
 	var corner: Vector2 = Vector2(minf(size.x * 0.23, 450.0), size.y * 0.45)
 	draw_texture_rect(_foliage, Rect2(Vector2(0, size.y - corner.y), corner), false)
 	draw_texture_rect(

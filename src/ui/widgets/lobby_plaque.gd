@@ -171,8 +171,8 @@ func _layout() -> void:
 	if _last_stand != null:
 		_last_stand.size = Vector2(size.x, 44)
 	if tap != null:
-		tap.position = Vector2.ZERO
-		tap.size = size
+		tap.position = Vector2(0, -17) if size.y < 100.0 else Vector2.ZERO
+		tap.size = Vector2(size.x, maxf(size.y + 66.0, 122.0)) if size.y < 100.0 else size
 	queue_redraw()
 
 

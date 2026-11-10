@@ -290,6 +290,10 @@ func _make_card(
 	card.zone = zone
 	card.index = index
 	_wire(card)
+	var caption: Label = card.get("_name_label")
+	caption.clip_text = true
+	caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	caption.set_meta("ellipsis_ok", true)
 	return card
 
 

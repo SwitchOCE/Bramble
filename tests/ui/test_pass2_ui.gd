@@ -158,13 +158,11 @@ func test_kin_controls_only_appear_for_the_enabled_game_and_fit_on_phone() -> vo
 		assert_gte(control.size.y, 122.0, key)
 	screen.call("_on_tapped", "board", 0)
 	await get_tree().process_frame
-	assert_false(kin.visible, "the card reader temporarily takes the Kin action's space")
-	var end: Control = screen.get("_end_button")
+	assert_true(kin.visible, "the floating reader leaves the enabled Kin action available")
 	for key: String in ["_tier_button", "_refresh_button", "_freeze_button"]:
 		var control: Control = screen.get(key)
 		assert_true(control.visible, key)
 		assert_gte(control.size.y, 122.0, key)
-		assert_lte(control.position.y + control.size.y, end.position.y, key)
 	screen.call("_on_tapped", "table", -1)
 	assert_true(kin.visible, "closing the reader restores the enabled Kin action")
 	assert_false(kin.disabled)

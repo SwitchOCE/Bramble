@@ -60,7 +60,7 @@ func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_PASS
 	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	for i: int in SLOTS:
-		var slot: SlotView = SlotView.new()
+		var slot: SlotView = preload("res://src/ui/widgets/world_slot.gd").new()
 		slot.set_slot(zone, i)
 		add_child(slot)
 		slots.append(slot)
@@ -153,13 +153,13 @@ func tray_size() -> Vector2:
 
 func _row_height(front: bool) -> float:
 	var strip: float = LABEL_H + LABEL_GAP if with_labels else 0.0
-	var inner: float = 12.0 if compact else 38.0 if not front else 20.0
+	var inner: float = 6.0 if compact else 38.0 if not front else 20.0
 	return BORDER + _outer() + strip + pocket.y + inner
 
 
 ## Wood between the tray's outer edge and the pockets (or name strips).
 func _outer() -> float:
-	return 8.0 if with_labels else 18.0
+	return 6.0 if compact else 8.0 if with_labels else 18.0
 
 
 ## Top-left of a slot's pocket in this board's local coordinates.
@@ -173,10 +173,10 @@ func slot_position(slot: int) -> Vector2:
 		if front:
 			y = BORDER + _outer() + strip
 		else:
-			y = _row_height(true) + (12.0 if compact else 38.0)
+			y = _row_height(true) + (6.0 if compact else 38.0)
 	else:
 		if front:
-			y = _row_height(false) + (12.0 if compact else 20.0)
+			y = _row_height(false) + (6.0 if compact else 20.0)
 		else:
 			y = BORDER + _outer()
 	return Vector2(x, y)
@@ -211,6 +211,7 @@ func row_rect(front: bool) -> Rect2:
 
 func _layout() -> void:
 	for i: int in SLOTS:
+		slots[i].set("quiet", compact or combat_mode)
 		slots[i].position = slot_position(i)
 		slots[i].size = pocket
 		var card: CardView = cards[i]

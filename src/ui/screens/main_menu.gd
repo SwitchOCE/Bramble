@@ -11,6 +11,7 @@ signal quit_requested
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Records := preload("res://src/ui/records.gd")
+const PaintedPanel := preload("res://src/ui/widgets/painted_panel.gd")
 const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
@@ -37,16 +38,17 @@ var _leaves: Array[LeafButton] = []
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
-	_plaque = WoodPanel.new(WoodPanel.Kind.OAK)
+	UiTheme.add_world(self, "recruit")
+	_plaque = PaintedPanel.new()
 	add_child(_plaque)
 	_title = UiTheme.label("Bramble", TITLE_SIZE)
 	_title.name = "Title"
+	_title.add_theme_color_override("font_color", UiTheme.CREAM)
 	_title.add_theme_font_override("font", UiTheme.title_font())
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_plaque.add_child(_title)
-	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
+	_tray = PaintedPanel.new()
 	add_child(_tray)
 	for entry: Array in FACES:
 		var face: ArtFrame = ArtFrame.new()

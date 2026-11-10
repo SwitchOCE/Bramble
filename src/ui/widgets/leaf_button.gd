@@ -123,6 +123,17 @@ func set_face(words: String, icon_name: String = "", cost: int = -1, note: Strin
 	_place_face()
 
 
+## A compact secondary action keeps its cost numeral beside the icon.
+func compact_cost() -> void:
+	_icon.custom_minimum_size = Vector2(40, 40)
+	_face.add_theme_constant_override("separation", 6)
+	var pill: StyleBoxFlat = UiTheme.flat_box(UiTheme.INK, Color.TRANSPARENT, 0, 30)
+	pill.set_content_margin_all(5)
+	_cost_pill.add_theme_stylebox_override("panel", pill)
+	_cost_pill.get_child(0).get_child(0).set("visible", false)
+	_cost_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
+
+
 ## The size of the big label (End turn is larger).
 func set_label_size(font_size: int) -> void:
 	_label.add_theme_font_size_override("font_size", font_size)

@@ -38,9 +38,8 @@ func _place() -> void:
 	ordered.sort_custom(_ahead)
 	var y: float = 0.0
 	for plaque: Control in ordered:
-		var out: bool = CoreUtil.to_bool(plaque.get("is_out"))
-		var ghost: bool = CoreUtil.to_bool(plaque.get("is_ghost"))
-		var height: float = 60.0 if out and not ghost else 108.0
+		# Eliminated faces shrink inside the same easy-to-tap, non-overlapping seat.
+		var height: float = 122.0
 		plaque.position = Vector2(0, y)
 		plaque.size = Vector2(122, height)
 		y += height + 8.0

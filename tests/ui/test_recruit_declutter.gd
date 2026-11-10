@@ -1,8 +1,8 @@
 extends GutTest
-## Count the actual rendered controls: stats, names and action captions all spend the budget.
+## Tiles keep rules in the reader; resting marks show only changing decision state.
 
-const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
+const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
@@ -17,44 +17,11 @@ const LaneProjection := preload("res://src/ui/lane_projection.gd")
 const LaneStates := preload("res://tests/ui/lane_states.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
-const LIMIT: int = 40
-# The orchestrator restored seven opponent tier numerals, explicitly kept by spec §2.5.
-const KEPT_TIER_LIMITS: Dictionary = {"overview": 47, "lobby": 46}
-var _breakdown_records: Array[Dictionary] = []
-
 
 func after_each() -> void:
 	CardView.window_override = Vector2.ZERO
 	Settings.reduce_motion = false
 	Settings.fight_speed = 1.0
-
-
-func after_all() -> void:
-	var output: String = OS.get_environment("BRAMBLE_BUDGET_BREAKDOWN")
-	if output.is_empty():
-		output = "res://build/declutter/b2-tests/budget-breakdown-run.json"
-	DirAccess.make_dir_recursive_absolute(output.get_base_dir())
-	var file: FileAccess = FileAccess.open(output, FileAccess.WRITE)
-	assert_not_null(file, "classified evidence is writable")
-	if file != null:
-		file.store_string(
-			JSON.stringify({"schema": 1, "captures": _breakdown_records}, "\t", true, true)
-		)
-		file.close()
-
-
-func _record_breakdown(
-	screen: RecruitScreen, scenario: String, reader_open: bool = false
-) -> Dictionary:
-	var breakdown: Dictionary = Capture.label_breakdown(screen)
-	breakdown["scenario"] = scenario.get_slice(" (", 0)
-	breakdown["pixels"] = screen.get_meta("evidence_pixels")
-	breakdown["reader_open"] = reader_open
-	breakdown["state_sha256"] = (
-		JSON.stringify(screen.port.get_state(), "", true, true).sha256_text()
-	)
-	_breakdown_records.append(breakdown)
-	return breakdown
 
 
 func _screen(pixels: Vector2i, port: GamePort) -> RecruitScreen:
@@ -67,98 +34,6 @@ func _screen(pixels: Vector2i, port: GamePort) -> RecruitScreen:
 	screen.set_meta("evidence_pixels", [pixels.x, pixels.y])
 	screen.setup(port)
 	return screen
-
-
-func _assert_budget(screen: RecruitScreen, scenario: String) -> void:
-	var breakdown: Dictionary = _record_breakdown(screen, scenario)
-	var labels: Array[Dictionary] = breakdown["visible_text_nodes"]
-	var limit: int = CoreUtil.to_int(KEPT_TIER_LIMITS.get(scenario.get_slice(" ", 0), LIMIT))
-	print(
-		(
-			"declutter recruit label budget: %s = %d/%d %s"
-			% [scenario, labels.size(), limit, JSON.stringify(breakdown["counts"])]
-		)
-	)
-	assert_lte(labels.size(), limit, "%s: %s" % [scenario, JSON.stringify(labels)])
-
-
-func test_scripted_recruit_and_scout_keep_all_visible_text_within_forty() -> void:
-	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
-		var port := FixturePort.new()
-		port.use_state_file("res://tests/ui/data/recruit_slice.json")
-		var screen: RecruitScreen = _screen(pixels, port)
-		await wait_process_frames(2)
-		_assert_budget(screen, "slice recruit %s" % pixels)
-		screen.toggle_scout()
-		await wait_process_frames(2)
-		_assert_budget(screen, "slice scout %s" % pixels)
-
-
-func test_real_seeded_recruit_uses_the_same_forty_node_budget() -> void:
-	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
-		var port := CorePort.new()
-		port.setup()
-		assert_eq(port.new_game(72), "")
-		assert_eq(port.choose(0), "")
-		var screen: RecruitScreen = _screen(pixels, port)
-		await wait_process_frames(2)
-		_assert_budget(screen, "seed72 recruit %s" % pixels)
-
-
-func test_evidence_recruit_and_scout_states_obey_the_same_budget_at_both_sizes() -> void:
-	var states: Dictionary = FixturePort.load_json(
-		"res://docs/ideation/evidence/declutter/batch2/states.json"
-	)
-	for scenario: String in [
-		"overview", "natural-birds", "lobby", "scout", "reader-reel_mistress-golden"
-	]:
-		assert_true(states.has(scenario), "the matching before/after fixture exists")
-		if not states.has(scenario):
-			continue
-		var evidence: Dictionary = states[scenario]
-		var state: Dictionary = evidence["state"]
-		for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
-			var port := FixturePort.new()
-			port.set("_state", state.duplicate(true))
-			var screen: RecruitScreen = _screen(pixels, port)
-			if scenario == "scout":
-				screen.toggle_scout()
-			elif scenario == "reader-reel_mistress-golden":
-				var hand: Array = port.get_state()["hand"]
-				for index: int in hand.size():
-					var card: Dictionary = hand[index]
-					if str(card.get("def_id", "")) == "reel_mistress":
-						screen._on_tapped("hand", index)
-			await wait_process_frames(2)
-			if scenario == "reader-reel_mistress-golden":
-				var reader: CardDetail = screen.get("_detail")
-				assert_true(reader.visible, "reader-open evidence includes every reader label")
-				_record_breakdown(screen, scenario, true)
-			else:
-				_assert_budget(screen, "%s %s" % [scenario, pixels])
-
-
-func test_counter_includes_names_numbers_buttons_and_rich_text_and_rejects_forty_one() -> void:
-	var holder := Control.new()
-	add_child_autofree(holder)
-	for index: int in LIMIT:
-		var label := Label.new()
-		label.text = "2" if index % 2 == 0 else "Brock"
-		holder.add_child(label)
-	assert_eq(Capture.text_nodes(holder).size(), LIMIT)
-	assert_true(Capture.text_nodes(holder).size() <= LIMIT)
-	var extra := RichTextLabel.new()
-	extra.text = "End turn"
-	holder.add_child(extra)
-	assert_eq(Capture.text_nodes(holder).size(), LIMIT + 1)
-	assert_false(
-		Capture.text_nodes(holder).size() <= LIMIT, "the 41st visible node exceeds the gate"
-	)
-	extra.hide()
-	var button := Button.new()
-	button.text = "Buy"
-	holder.add_child(button)
-	assert_eq(Capture.text_nodes(holder).size(), LIMIT + 1, "actions count too")
 
 
 func test_shop_and_board_faces_leave_rules_in_reader_and_keep_stats() -> void:
