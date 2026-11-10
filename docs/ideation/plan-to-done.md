@@ -66,7 +66,7 @@ These go into one DECISIONS entry (W-a). Changed or new since v2: items 8, 11, 1
     - **"Bots buy an answer when the scout shows a carry": dropped,** with a logged reason. The default rivals replay captured trajectories and can't react, and 09d says bots will be "okay at best". Revisit if round 6 agrees the opponents never answer.
 12. **Loosenings logged with reasons** (W-a). Each one appears in §4 beside the 6 Nov text it changes:
     - DM1's "no filler" becomes a count (0 units without rules text), plus a reviewer line;
-    - **DM2's 6–25% lobby band no longer decides, and field fights decide instead.** Reason: the band "flags whichever line leads this field, whatever the scale" (`bars.md` §5). It flags Birds at 36% (B) and 50% (frozen), against the logged "Birds: no nerf". 09d prefers constructed sims ("rely far more on empirical simulation data than on observational bot play"). The band is still reported;
+    - **DM2's 6–25% lobby band no longer decides, and field fights decide instead.** Reason: the band "flags whichever line leads this field, whatever the scale" (`bars.md` §5). *[Struck 10 Nov as circular, per the fidelity check: "It flags Birds at 36% (B) and 50% (frozen), against the logged 'Birds: no nerf'." A bar isn't dropped for disagreeing with an earlier call.]* 09d prefers constructed sims ("rely far more on empirical simulation data than on observational bot play"). The band is still reported;
     - DM2's head-to-head promotion bar is dropped (09d; it gains about 0.05 of a place, and its floor was already dropped on 8 Nov);
     - **placing (a) and (b) become reported, and so does (c), which v2 dropped without a line.** Placing (c) becomes a question in the verdict brief. Reason: placing was met on build 6 (real minus decoy +17.7), and DM2 already has its two deciding criteria (09i);
     - **DM3's "Reviewers don't call it a re-skin" becomes "no tribe is called a re-skin by 2+ final reviewers".** Reason: one reviewer's call is a single report, and 06a acts on independent agreement. A single report goes on the owner's list;
@@ -211,6 +211,8 @@ The orchestrator resolves each merge into a worker branch, since the workers ref
 **Godot:** workers run Godot only through the two-slot wrapper. Gates run on Actions, and sims and soaks run on the Actions sim job. The test-suite sessions own `check.sh` and `ci.yml`. S1 and S4 merge ideation/main in before gating.
 
 ## 4. Done means: what to rewrite
+
+*[10 Nov, after the fidelity check (`evidence/plan-to-done/done-means-fidelity.md`): the governing text is PLAN.md "Done means, revised 10 Nov", which restores the filler, "worth beating" and declutter lines, fixes the field's make-up, defines layout failure and relabels rows 2 and 7. Where this section differs, PLAN.md wins.]*
 Each criterion has at most two deciding criteria (09i). The rest is a checklist (facts or tests that must hold) or is reported, and a reported item is triaged only on an extreme miss. W-a writes all of this before A4's numbers exist, and keeps the 6 Nov text beside each change, so that meeting "every Done means criterion" can't be confused with redefining them.
 
 ### The 6 Nov text beside each change

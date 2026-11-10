@@ -4,6 +4,62 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — A3.5 step 0: dials for run 1
+**Source:** `content/pass3/a35-dial-check.md` (the synthesis), with each tribe's analyst draft and critic in `evidence/a35-step0/`. The critics' sourced corrections win over the drafts.
+
+**Picked:** the synthesis's per-tribe tables and its pre-run checklist stand, with these calls. Extra dials join a path now or never (plan, A3.5 step 4).
+- **Birds:** no extra dial; the homecoming multiplier and Chiffchaff share the raise.
+  - `trip_turns` stays off the path, because it would kill Mrs Dunnock's text.
+  - Fallback, logged now: if A4 shows R4–R8 spikes, Chiffchaff caps at +4.
+  - Preset B gets an explicit `birds_chiffchaff_gain: 1`, and the glossary line `effects.json:916` ("double stats") is fixed.
+- **Fairies:** no extra dial.
+  - `fairies_initial_ring_size` stays off the path at each preset's value. Every player starts with it, and Spore Cloud and Boundary Stone use it, so moving it would leak to other tribes.
+  - Monarch stays off the path at 3 / 4 in both presets (generous first, 09h). A4 watches R14, where the path would have made it ×9.
+  - Ring, Lob and Silky growth snap up to whole numbers.
+- **Bog:** add Tiddy Mun's share (B ½, C ¾, limit 1; golden B 1, C 1.5, limit 2). This overrules the logged hold, which was kept because a whole Toll concentrates the board (Diva 0.67–0.70). The owner wants concentration (09a: "concentration over spread"), so the reason for the hold now points the other way.
+  - The frog multiplier stays held.
+  - Ranocchio is dropped: he moves the Swamp, not the court.
+  - Hopkin is dropped: fight-only.
+  - Bog bots read the new value (`bot_bog.gd:88–132`).
+- **Hunters:** add Ermeline's Pelts (B 1, C 2; path 1, 2, 4, 8; golden double, capped at 10 by choice).
+  - Lift the share cap of 1 on Glutton and Lodger only, as the carry's size axis. Golden copies get a "three times" wording.
+  - Nip, Sable and Lutra snap to 7/8, then 1. The other shares clamp at 1.
+  - The Laird's multiplier stays off: it lifts R13+, not R12.
+  - Hunters still need the lobby to grow, so run 1 fits them, like Bog, on R12 ÷ the lobby median.
+- **Oozes:** add three dials.
+  - Hasty's share (B 1/3, C 1/2, limit 1). `bot_ooze.gd:148` must read the dial instead of a fixed 0.2.
+  - Aspic's bonus (B 0.75, C 1). Golden is 1 + 2 × bonus, and values snap to 1.35 and 1.8.
+  - A new eat multiplier on a non-Ooze's printed stats (B 2, C 3; whole numbers; at least 1). Its reminder says "a non-Ooze's printed stats", since Ooze meals pass whole.
+  - Slice is dropped: it is on no R12 board.
+  - Elder stays at or under 1: past 1 it spreads stats, against 09a.
+  - **Expect C to miss** (about 0.65×). Why Soup seats are rare and die early (5 of the 11 out before R12) goes to a triage now. A card fix it finds lands with A3, before the pool is settled.
+- **Hedgerow:** no extra dial. C is tight (t 2.1–2.7 against a cap of 3). Both offered margins, `committee_share` and `mallow_targets`, lift the Parish further, and it already rides Mallow to about 2.1× B's target. A4 watches the Parish. Hedgerow's route fixes (A2 calls) land before run 1.
+- **`scale_hero_spell_percent`** stays at B 10, C 20, on no path.
+- **Who builds it:** a cloud routine on `ideation/c-a35-dials` from ideation/main, briefed by `briefs/a35-dials.md`. It covers the checklist, the five new dials' code, text and bot reads, and a known-answer test for each. Wave 2b (Hedgerow) merges first, and the routine merges ideation/main before it finishes.
+
+**Agreed by:** six analyst-and-critic pairs and the synthesis. The critics' corrections are taken over the drafts everywhere they differ.
+
+### 10 Nov 2026 — Done means: fidelity check calls
+**Source:** the fresh fidelity check of the revised Done means (`evidence/plan-to-done/done-means-fidelity.md`): 7 keep, 3 cut, 5 ask.
+
+**Picked:** all three cuts fixed in PLAN.md's governing section, and all five asks taken.
+- **Cut 1 (the 9 Nov declutter line was dropped):** restored. Criterion 5's cold reader also checks build 9's recruit and fight screens at both sizes against the 09e line, and any tutorial text, rule reminder or static pointer on the board fails it.
+- **Cut 2 (filler loosened with no reason):** the 6 Nov line is restored as a checklist item.
+- **Cut 3 ("worth beating" decided nothing):** it now decides. Done fails if most final reviewers call the rivals pushovers. The export's default-opponent fact moves to the checklist, so the criterion still has two deciding items (09i).
+- **Asks:**
+  - Rows 2 and 7 are relabelled as loosenings, with reasons.
+  - The field is fixed before A4: equal weight per line, each line scored against the field without its own boards, a draw counts as half, and a committed line is one in `tools/sim/lines/`.
+  - Every 6 Nov line the table doesn't change still binds, and criterion 1 restates the pool target (six tribes of 12+ units across tiers 1–6, neutrals and 10+ tavern spells; today's tree has 16 per tribe, 13 neutrals, all across tiers 1–6, and 18 tavern spells).
+  - "Phone text 31" is defined as `UiTheme.MIN_FONT` in canvas units, and a layout failure as any fault `tests/ui/layout_check.gd` reports.
+- **Also taken:**
+  - Placing (a) and (b) are rerun once on the build 9 tree.
+  - "Most turns" is decided by each reviewer's overall answer.
+  - Criterion 3 says what fails it.
+  - The circular Birds reason in `plan-to-done.md` §1.12 is struck.
+  - `plan-to-done.md` §4 points at PLAN.md, which wins where they differ.
+
+**Agreed by:** the fidelity check, with no cut left open.
+
 ### 10 Nov 2026 — Declutter batch 1, sixth cold reader: merge, with two fixes for batch 2
 **Source:** the sixth fresh cold reader and its scorer on the cue-retirement reshoots, Bog 017/025 and combat_mid 045 at ×1, ×4 and reduce motion (`evidence/declutter/batch1-independent/reader6/`).
 
