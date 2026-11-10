@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "Larder items played on this: +2/+2 per gold. Every 3 turns in this slot: double its stats.",
-  "golden_text": "Larder items played on this: +4/+4 per gold. Every 3 turns in this slot: double its stats.",
+  "text": "Larder items played on this: +2/+2 per gold. Every 3 turns in this slot: triple its stats.",
+  "golden_text": "Larder items played on this: +4/+4 per gold. Every 3 turns in this slot: triple its stats.",
   "mechanics": [
     {
       "id": "eats_acorns",

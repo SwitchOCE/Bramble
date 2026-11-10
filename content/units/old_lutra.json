@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry, wherever it stands. Take: gain two thirds of the quarry's stats permanently.",
-  "golden_text": "Quarry, wherever it stands. Take: gain four thirds of the quarry's stats permanently.",
+  "text": "Quarry, wherever it stands. Take: gain five sixths of the quarry's stats permanently.",
+  "golden_text": "Quarry, wherever it stands. Take: gain five thirds of the quarry's stats permanently.",
   "mechanics": [
     {
       "id": "quarry",

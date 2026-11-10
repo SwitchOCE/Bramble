@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Quarry. Start of Combat: gain its quarry's Attack. Take: gain two thirds of the quarry's stats permanently.",
-  "golden_text": "Quarry. Start of Combat: gain twice its quarry's Attack. Take: gain four thirds of the quarry's stats permanently.",
+  "text": "Quarry. Start of Combat: gain its quarry's Attack. Take: gain five sixths of the quarry's stats permanently.",
+  "golden_text": "Quarry. Start of Combat: gain twice its quarry's Attack. Take: gain five thirds of the quarry's stats permanently.",
   "mechanics": [
     {
       "id": "quarry",

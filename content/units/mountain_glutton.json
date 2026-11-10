@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. After each Take: gain two thirds of the quarry's stats permanently.",
-  "golden_text": "Pack. After each Take: gain four thirds of the quarry's stats permanently.",
+  "text": "Pack. After each Take: gain nine eighths of the quarry's stats permanently.",
+  "golden_text": "Pack. After each Take: gain nine quarters of the quarry's stats permanently.",
   "mechanics": [
     {
       "id": "pack",

@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "End of Turn: gain +1/+1 per gold in your Larder.",
-  "golden_text": "End of Turn: gain +2/+2 per gold in your Larder.",
+  "text": "End of Turn: gain +2/+2 per gold in your Larder.",
+  "golden_text": "End of Turn: gain +4/+4 per gold in your Larder.",
   "mechanics": [
     {
       "id": "pass3_hedgerow",

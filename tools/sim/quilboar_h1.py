@@ -112,10 +112,35 @@ def run_git(*arguments):
     return subprocess.check_output(["git", "-C", str(ROOT), *arguments], text=True).strip()
 
 
-def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
+A35_LINES = (
+    "line_birds_homecoming",
+    "line_birds_tempo",
+    "line_bog_court",
+    "line_bog_swamp",
+    "line_fairies_ring",
+    "line_fairies_court",
+    "line_hedgerow_supper",
+    "line_hedgerow_parish",
+    "line_hunters_open_season",
+    "line_hunters_pack",
+    "line_oozes_engine",
+    "line_oozes_tempo",
+)
+
+
+def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False, a35_run1=False):
     lines = (
         tuple("line_oozes_tempo" if name == "line_quilboar_engine" else name for name in LINES) if ooze_probe else LINES
     )
+    if a35_run1:
+        lines = A35_LINES
+    expected_config = config_for(arm)
+    if a35_run1:
+        expected_config["reference_quilboar"] = False
+
+    def roster_for(seed):
+        return tuple(A35_LINES[(seed * 8 + i) % len(A35_LINES)] for i in range(8)) if a35_run1 else lines
+
     with prefix.with_suffix(".players.csv").open() as stream:
         players = list(csv.DictReader(stream))
     grouped_players = defaultdict(list)
@@ -126,7 +151,9 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
                 "seat": int(player["seat"]),
                 "line": line,
                 "final_line": player["strategy"],
-                "assigned_tribe": ("Oozes" if line == "line_oozes_tempo" else TRIBES[line]),
+                "assigned_tribe": (
+                    line.split("_")[1] if a35_run1 else "Oozes" if line == "line_oozes_tempo" else TRIBES[line]
+                ),
                 "final_tribe": player["final_tribe"],
                 "place": int(player["place"]),
                 "rounds": int(player["rounds"]),
@@ -137,14 +164,14 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
     if sorted(grouped_players) != seeds:
         raise ValueError("incomplete seed coverage")
     for seed in seeds:
-        if Counter(p["line"] for p in grouped_players[seed]) != Counter(lines):
+        if Counter(p["line"] for p in grouped_players[seed]) != Counter(roster_for(seed)):
             raise ValueError("wrong H1 roster")
     rows, seen, commits, keystones = defaultdict(list), set(), {}, {}
     with prefix.with_suffix(".fights.jsonl").open() as stream:
         for raw in stream:
             record = json.loads(raw)
             seed, fight = int(record["seed"]), record["input"]
-            for key, expected in config_for(arm).items():
+            for key, expected in expected_config.items():
                 if fight["config"][key] != expected:
                     raise ValueError("wrong runtime configuration: " + key)
             for side, seat in enumerate(fight["player_ids"]):
@@ -203,7 +230,7 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
                 )
     output = []
     for seed in seeds:
-        if Counter(r["line"] for r in rows[seed] if r["round"] == 1) != Counter(lines):
+        if Counter(r["line"] for r in rows[seed] if r["round"] == 1) != Counter(roster_for(seed)):
             raise ValueError("missing starting board capture")
         roster = [
             {"seat": p["seat"], "line": p["line"], "assigned_tribe": p["assigned_tribe"]} for p in grouped_players[seed]
@@ -213,7 +240,7 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
                 "arm": arm,
                 "seed": seed,
                 "elapsed_seconds": elapsed / count,
-                "config": config_for(arm),
+                "config": expected_config,
                 "roster": roster,
                 "rounds": rows[seed],
                 "players": grouped_players[seed],

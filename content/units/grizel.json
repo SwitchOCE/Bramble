@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "Pack. After your pack kills: its attackers gain a third of the target's stats permanently.",
-  "golden_text": "Pack. After your pack kills: its attackers gain two thirds of the target's stats permanently.",
+  "text": "Pack. After your pack kills: its attackers gain seven twelfths of the target's stats permanently.",
+  "golden_text": "Pack. After your pack kills: its attackers gain seven sixths of the target's stats permanently.",
   "mechanics": [
     {
       "id": "pack",

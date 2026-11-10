@@ -89,7 +89,7 @@ def load_config(path):
         from quilboar_h1 import ARMS
 
         config.setdefault("suite", "quilboar_h1")
-        if config["suite"] not in ("quilboar_h1", "ooze_probe"):
+        if config["suite"] not in ("quilboar_h1", "ooze_probe", "a35_run1"):
             raise ValueError("kind lines supports suite quilboar_h1 (the harness with a compact reader)")
         if config.get("preset") not in ARMS:
             raise ValueError(f"preset must be one of {list(ARMS)}")
@@ -123,6 +123,8 @@ def game_config(config):
     from quilboar_h1 import config_for
 
     values = dict(config_for(config["preset"]))
+    if config["suite"] == "a35_run1":
+        values["reference_quilboar"] = False
     if config["preset"] in ("B", "C"):
         values["pass3_preset"] = config["preset"]
     values.update(config["rates"])
@@ -191,7 +193,15 @@ def bench(config, out_dir, first, count):
 def compact(config, prefix, first, count, elapsed):
     from quilboar_h1 import compact_chunk
 
-    lobbies = compact_chunk(prefix, config["preset"], first, count, elapsed, ooze_probe=config["suite"] == "ooze_probe")
+    lobbies = compact_chunk(
+        prefix,
+        config["preset"],
+        first,
+        count,
+        elapsed,
+        ooze_probe=config["suite"] == "ooze_probe",
+        a35_run1=config["suite"] == "a35_run1",
+    )
     for lobby in lobbies:
         lobby["rates_overrides"] = config["rates"]
     return lobbies

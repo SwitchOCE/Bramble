@@ -8,8 +8,8 @@
   "tribes": [
     "Hunters"
   ],
-  "text": "After each fight: get a Pelt of your biggest quarry.",
-  "golden_text": "After each fight: get two Pelts of your biggest quarry.",
+  "text": "After each fight: get three Pelts of your biggest quarry.",
+  "golden_text": "After each fight: get six Pelts of your biggest quarry.",
   "mechanics": [
     {
       "id": "pass3_hunter",
