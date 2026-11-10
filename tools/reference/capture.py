@@ -6,6 +6,7 @@ No images belong in git. See docs/ideation/ui/reference/README.md.
 """
 import argparse
 import hashlib
+import io
 import json
 import shutil
 import subprocess
@@ -94,8 +95,11 @@ def sheet(frames, base, output, title, columns=4):
             thumb.thumbnail((352, 198))
             canvas.paste(thumb, (x + 4, y + (198 - thumb.height) // 2))
         label = frame.get('state', frame.get('id', ''))
+        if frame.get('platform'):
+            label = f"{frame['platform']} / {label}"
         draw.text((x + 5, y + 200), label[:45], font=font, fill='white')
-        draw.text((x + 5, y + 220), f"{frame.get('id', '')}  {timecode(frame['timestamp_seconds'])}", font=font, fill='#c3cdd7')
+        stamp = timecode(frame['timestamp_seconds']) if frame.get('timestamp_seconds') is not None else 'still image'
+        draw.text((x + 5, y + 220), f"{frame.get('id', '')}  {stamp}", font=font, fill='#c3cdd7')
     canvas.save(output, quality=92)
 
 
@@ -183,8 +187,15 @@ def capture(args):
         if args.start >= end:
             raise ValueError('start must precede end of video')
         metadata['analysis'] = dict(fps=args.fps, window=args.window,
-                                    scene_threshold=args.scene_threshold, start=args.start, end=end)
-        frames = scan(video, args.fps, args.window, args.scene_threshold, args.start, end - args.start)
+                                    scene_threshold=args.scene_threshold, start=args.start, end=end,
+                                    interval=args.interval)
+        if args.interval:
+            frames = []
+            for start in np.arange(args.start, end, args.interval):
+                frames.extend(scan(video, args.fps, args.window, args.scene_threshold,
+                                   float(start), min(args.window, end-float(start))))
+        else:
+            frames = scan(video, args.fps, args.window, args.scene_threshold, args.start, end - args.start)
         for i, frame in enumerate(frames):
             frame['id'] = f'{args.source}-{i:04d}'
             frame['file_name'] = frame['id'] + '.jpg'
@@ -208,6 +219,18 @@ def capture(args):
         raise SystemExit(metadata['error'])
 
 
+def write_index(frames, game_dir, usage, notes=''):
+    lines = [f'# {frames[0]["game"]} reference index', '', usage, '',
+             'All picks visually reviewed at native resolution. Files are beside this index.', '']
+    if notes:
+        lines += [notes, '']
+    lines += ['| Platform | State | Frame | Source | Time | Resolution | Notes |',
+              '|---|---|---|---|---|---|---|']
+    for f in frames:
+        lines.append(f"| {f['platform']} | {f['state']} | [{f['file_name']}]({f['file_name']}) | [source]({f['source_url']}) | {f['timestamp'] or 'still image'} | {f['resolution'][0]}×{f['resolution'][1]} | {f['notes']} |")
+    (game_dir / 'index.md').write_text('\n'.join(lines) + '\n')
+
+
 def pick(args):
     choices = json.loads(args.selections.read_text())
     manifest = json.loads(MANIFEST.read_text()) if MANIFEST.exists() else dict(schema_version=1, frames=[])
@@ -222,13 +245,14 @@ def pick(args):
             sources[source] = json.loads((game_dir / 'candidates' / source / 'candidates.json').read_text())
         meta = sources[source]
         candidate = next(f for f in meta['candidates'] if f['id'] == choice['id'])
-        name = f"{choice['state']}--{candidate['id']}.jpg"
+        name = f"{choice['state']}--{candidate['id']}{Path(candidate['file_name']).suffix}"
         shutil.copyfile(game_dir / 'candidates' / source / candidate['file_name'], game_dir / name)
         frame = dict(game=meta['game'], game_slug=args.game, platform=meta['platform'],
-                     state=choice['state'], file_name=name, source_url=meta['source_url'],
-                     media_url=meta['media_url'], source_id=source,
-                     timestamp=timecode(candidate['timestamp_seconds']),
-                     timestamp_seconds=candidate['timestamp_seconds'], resolution=meta['resolution'],
+                     state=choice['state'], file_name=name, source_url=candidate.get('source_url', meta['source_url']),
+                     media_url=candidate.get('media_url', meta.get('media_url')), source_id=source,
+                     media_type=meta.get('media_type', 'video'),
+                     timestamp=timecode(candidate['timestamp_seconds']) if candidate.get('timestamp_seconds') is not None else None,
+                     timestamp_seconds=candidate.get('timestamp_seconds'), resolution=candidate.get('resolution', meta.get('resolution')),
                      sharpness=candidate['sharpness'], notes=choice.get('notes', ''),
                      max_height=meta.get('max_height'),
                      sha256=hashlib.sha256((game_dir / name).read_bytes()).hexdigest(),
@@ -239,7 +263,9 @@ def pick(args):
     manifest['usage'] = 'Other studios’ images. Internal study only; never ship or trace.'
     manifest.setdefault('coverage', {}).setdefault(args.game, {}).update(
         platforms=sorted({f['platform'] for f in new}),
-        states=dict(Counter(f['state'] for f in new)))
+        states=dict(Counter(f['state'] for f in new)),
+        by_platform={platform:dict(Counter(f['state'] for f in new if f['platform']==platform))
+                     for platform in sorted({f['platform'] for f in new})})
     source_records = []
     for directory in sorted((game_dir / 'candidates').iterdir()):
         path = directory / 'failure.json'
@@ -248,7 +274,7 @@ def pick(args):
         if not path.exists():
             continue
         meta = json.loads(path.read_text())
-        record = {k: meta[k] for k in ('source_id', 'source_url', 'media_url', 'platform', 'resolution', 'notes') if k in meta}
+        record = {k: meta[k] for k in ('source_id', 'source_url', 'media_url', 'media_type', 'platform', 'resolution', 'notes', 'failures') if k in meta}
         record['game_slug'] = args.game
         record['status'] = meta.get('status', 'blocked' if 'error' in meta else 'captured')
         if 'error' in meta:
@@ -257,12 +283,7 @@ def pick(args):
     manifest['sources'] = [s for s in manifest.get('sources', []) if s['game_slug'] != args.game] + source_records
     write_json(MANIFEST, manifest)
     sheet(new, game_dir, game_dir / 'sheet.jpg', f'{new[0]["game"]} / reviewed picks')
-    lines = [f'# {new[0]["game"]} reference index', '', manifest['usage'], '',
-             'All picks visually reviewed at native resolution. Files are beside this index.', '',
-             '| State | Frame | Source | Time | Resolution | Notes |', '|---|---|---|---|---|---|']
-    for f in new:
-        lines.append(f"| {f['state']} | [{f['file_name']}]({f['file_name']}) | [video]({f['source_url']}) | {f['timestamp']} | {f['resolution'][0]}×{f['resolution'][1]} | {f['notes']} |")
-    (game_dir / 'index.md').write_text('\n'.join(lines) + '\n')
+    write_index(new, game_dir, manifest['usage'], manifest['coverage'][args.game].get('notes', ''))
     print(f'Picked {len(new)} frames; manifest, sheet.jpg and index.md written.')
 
 
@@ -275,6 +296,12 @@ def refetch(args):
         if frame['media_url'] in failed:
             continue
         try:
+            if frame.get('media_type') == 'image':
+                target = args.root / frame['game_slug'] / frame['file_name']
+                target.parent.mkdir(parents=True, exist_ok=True)
+                with urllib.request.urlopen(frame['media_url'], timeout=40) as response:
+                    target.write_bytes(response.read())
+                continue
             video = download(frame['media_url'], args.root, frame.get('max_height'))
         except Exception as error:
             failed.add(frame['media_url'])
@@ -288,8 +315,56 @@ def refetch(args):
                   and (args.root / game / f['file_name']).exists()]
         if frames:
             sheet(frames, args.root / game, args.root / game / 'sheet.jpg', frames[0]['game'])
+            write_index(frames, args.root / game, manifest['usage'],
+                        manifest.get('coverage', {}).get(game, {}).get('notes', ''))
     if failed:
         raise SystemExit(f'{len(failed)} source(s) failed; other sources were still attempted.')
+
+
+def stills(args):
+    """Fetch original Steam/publisher stills; retain bytes and source dimensions."""
+    dest = args.root / args.game / 'candidates' / args.source
+    dest.mkdir(parents=True, exist_ok=True)
+    source_url = f'https://store.steampowered.com/app/{args.steam}/' if args.steam else None
+    if args.steam:
+        data = json_url(f'https://store.steampowered.com/api/appdetails?appids={args.steam}&l=english')
+        urls = [dict(media_url=s['path_full'], source_url=source_url)
+                for s in data[str(args.steam)]['data']['screenshots']]
+    else:
+        urls = json.loads(args.urls.read_text())
+        source_url = urls[0]['source_url']
+    frames, failures, hashes = [], [], set()
+    for i, entry in enumerate(urls):
+        try:
+            with urllib.request.urlopen(entry['media_url'], timeout=40) as response:
+                raw = response.read()
+            digest = hashlib.sha256(raw).hexdigest()
+            if digest in hashes:
+                continue
+            with Image.open(io.BytesIO(raw)) as im:
+                resolution = list(im.size)
+                extension = {'JPEG':'.jpg','PNG':'.png','WEBP':'.webp'}[im.format]
+                a = np.asarray(im.convert('L').resize((512, 288)), dtype=float)
+                lap = a[1:-1, :-2] + a[1:-1, 2:] + a[:-2, 1:-1] + a[2:, 1:-1] - 4*a[1:-1, 1:-1]
+                tiny = np.asarray(im.convert('L').resize((9, 8)))
+                dhash = np.packbits(tiny[:, 1:] > tiny[:, :-1]).tobytes().hex()
+            if any((int(dhash, 16)^int(f['dhash'], 16)).bit_count() <= 2 for f in frames):
+                continue
+            name = f'{args.source}-{i:04d}{extension}'
+            (dest / name).write_bytes(raw)
+            hashes.add(digest)
+            frames.append(dict(id=f'{args.source}-{i:04d}',file_name=name, timestamp_seconds=None,
+                               resolution=resolution, sharpness=round(float(lap.var()),3),
+                               dhash=dhash, **entry))
+        except Exception as error:
+            failures.append(dict(**entry, error=str(error)))
+            print(f"Failed {entry['media_url']}: {error}")
+    meta = dict(game=args.title,game_slug=args.game,platform=args.platform,source_id=args.source,
+                source_url=source_url,media_type='image',candidates=frames,failures=failures)
+    write_json(dest / 'candidates.json',meta)
+    for page, offset in enumerate(range(0,len(frames),64),1):
+        sheet(frames[offset:offset+64],dest,dest/f'contact-{page:02d}.jpg',args.title+' / still candidates')
+    print(f'{len(frames)} original still candidates; {len(failures)} failures; {dest}')
 
 
 def clean_cache(args):
@@ -329,6 +404,7 @@ def main():
     cap.add_argument('--max-height', type=int, help='optional YouTube height cap; omit for Steam highest resolution')
     cap.add_argument('--start', type=float, default=0, help='analysis range in source seconds')
     cap.add_argument('--end', type=float, help='analysis range in source seconds')
+    cap.add_argument('--interval', type=float, help='sample a scene/window every N source seconds for a long-VOD overview')
     cap.set_defaults(func=capture)
     choose = sub.add_parser('pick', help='only after human visual review')
     choose.add_argument('--game', required=True)
@@ -337,11 +413,21 @@ def main():
     fetch = sub.add_parser('refetch')
     fetch.add_argument('--game')
     fetch.set_defaults(func=refetch)
+    art = sub.add_parser('stills', help='Steam screenshots or publisher image URLs')
+    art.add_argument('--game', required=True)
+    art.add_argument('--title', required=True)
+    art.add_argument('--platform', default='PC')
+    art.add_argument('--source', required=True)
+    origin = art.add_mutually_exclusive_group(required=True)
+    origin.add_argument('--steam', type=int)
+    origin.add_argument('--urls', type=Path, help='JSON array of media_url/source_url objects')
+    art.set_defaults(func=stills)
     clean = sub.add_parser('clean-cache', help='delete downloads after picks are complete')
     clean.add_argument('--game', required=True)
     clean.set_defaults(func=clean_cache)
     args = parser.parse_args()
-    if args.command == 'capture' and (args.fps <= 0 or args.window <= 0 or args.start < 0):
+    if args.command == 'capture' and (args.fps <= 0 or args.window <= 0 or args.start < 0
+                                      or (args.interval is not None and args.interval <= 0)):
         parser.error('fps/window must be positive and start nonnegative')
     args.func(args)
 
