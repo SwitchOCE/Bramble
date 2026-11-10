@@ -3,8 +3,9 @@
 **PASS. No real export, tag or latest update was made.**
 
 Command: `build/export.sh --dry-run 8 "Bigger tribe stats with new neutrals and clearer screens"`.
-Source: `3070b6d09278f342a916beb7e5849bf76f72a566`. Folder: `/home/alex/code/Bramble-ideation-build8/build/export-dry-run-8-1110-1906.dOf72B`.
+Source: `5c050a4ccaee3631330acfe80735e198b37ba01d`. Folder: `/home/alex/code/Bramble-ideation-build8/build/export-dry-run-8-1110-1922.YrRzfp`.
 
+This source includes review merge `2ef29af4` and reader repair `5c050a4c`.
 The script exited 0 after all its own checks:
 
 - Linux, Windows and Android pack listings include the strong-field library.

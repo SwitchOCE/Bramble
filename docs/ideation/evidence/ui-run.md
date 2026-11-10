@@ -1,15 +1,8 @@
-> Build 8 follow-up: the two phone failures below were assertions about a hero
-> portrait that ghosts do not have. Both affected seeds were rerun with the ghost
-> reader checked at Scout opening and passed with zero problems/errors. Both
-> desktop games and both late checks passed in the original command. The accepted
-> result is **4/4 full games and 2/2 late checks passed**; see
-> [the full build 8 receipt](builds/ui-8.md). Original command output follows.
-
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 2 1000` on 48fbedd0 (ideation/build8, with uncommitted changes), 2026-11-10.
+Made by `tests/ui/full_ui_run.sh 2 1000` on 5c050a4c (ideation/build8), 2026-11-10.
 
-**2 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
+**0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
@@ -32,10 +25,10 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 8 | 11 | 0 | 6 | 0 | 0 | 0 | 192 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 8 | 12 | 0 | 6 | 0 | 0 | 0 | 230 | ok |
-| 1688x780 | 1100 | naive | skilled | 6 | 13 | 1 | 6 | 4 | 0 | 0 | 318 | FAILED |
-| 1688x780 | 1101 | naive | cap3 | 4 | 14 | 1 | 6 | 4 | 0 | 0 | 223 | FAILED |
+| 1920x1080 | 1000 | naive | skilled | 8 | 11 | 0 | 6 | 0 | 0 | 0 | 202 | ok |
+| 1920x1080 | 1001 | naive | cap3 | 8 | 12 | 0 | 6 | 0 | 0 | 0 | 259 | ok |
+| 1688x780 | 1100 | naive | skilled | 6 | 13 | 1 | 6 | 0 | 0 | 0 | 297 | ok |
+| 1688x780 | 1101 | naive | cap3 | 4 | 14 | 1 | 6 | 0 | 0 | 0 | 208 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 
@@ -43,14 +36,3 @@ Late-game layout, forced to tier 6 with a full board and hand:
 |---|---|---|---|---|---|
 | 1920x1080 | 1000 | 0 | 0 | 0 | ok |
 | 1688x780 | 1000 | 0 | 0 | 0 | ok |
-
-## Problems seen (first 40)
-
-- 1688x780 seed 1100 round 11: Who?: scouting portrait is present
-- 1688x780 seed 1100 round 11: Who portrait: the click at (947.4, 110.2) hit /root/@Control@11/@Control@42031/@Control@41598 rect=[P: (0.0, 0.0), S: (2337.0, 1080.0)] mouse=(946.9835, 109.3846)
-- 1688x780 seed 1100 round 11: Who?: the scouting portrait receives the click
-- 1688x780 seed 1100 round 11: Who?: nothing shown
-- 1688x780 seed 1101 round 12: Who?: scouting portrait is present
-- 1688x780 seed 1101 round 12: Who portrait: the click at (947.4, 110.2) hit /root/@Control@11/@Control@38809/@Control@38376 rect=[P: (0.0, 0.0), S: (2337.0, 1080.0)] mouse=(946.9835, 109.3846)
-- 1688x780 seed 1101 round 12: Who?: the scouting portrait receives the click
-- 1688x780 seed 1101 round 12: Who?: nothing shown
