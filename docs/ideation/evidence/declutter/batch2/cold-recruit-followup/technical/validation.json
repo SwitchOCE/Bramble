@@ -1,0 +1,25 @@
+{
+  "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c",
+  "targeted_tests": {
+    "tests": 57,
+    "assertions": 2527,
+    "seconds": 27.648,
+    "all_pass": true,
+    "junit": "targeted-tests.xml",
+    "runtime_source": "f85a45ca4d50f3a9474abf0f8af5e4f381ec1418",
+    "runtime_identical_to_capture_source": true
+  },
+  "capture_preflight": [
+    {
+      "start_utc": "2026-11-10T02:50:12Z",
+      "class": "worker",
+      "slot": "bramble-harness-godot",
+      "wait_s": "0.0",
+      "hold_s": "2.1",
+      "exit": "0",
+      "command": "timeout 20 godot --headless --check-only -s res://tests/ui/shots/declutter_cold_frames.gd"
+    }
+  ],
+  "all_paired_still_paths_resolve": true,
+  "all16_last_frames_action_inactive_and_no_visible_overlays": true
+}

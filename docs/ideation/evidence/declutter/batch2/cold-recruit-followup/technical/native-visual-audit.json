@@ -1,0 +1,9 @@
+{
+  "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c",
+  "shipped_faces_pixels_identical_to_prior_audit": true,
+  "prior_audit": "../../cold-recruit/technical/native-visual-audit.md",
+  "prior_contact_sheet_sha256": "1d822f3cf01219fa6207d617b06584e2eec89eac69a5b742eea2fe025d0f063b",
+  "fresh_contact_sheet_sha256": "1d822f3cf01219fa6207d617b06584e2eec89eac69a5b742eea2fe025d0f063b",
+  "new_runtime_glyphs_contain_no_letters": true,
+  "full_pixel_exhaustive_audit_of44_resting_stills": false
+}
