@@ -1,0 +1,257 @@
+{
+  "version": 1,
+  "kind": "fixed_native_neutral_roles",
+  "construction": "Paired text-on/off controlled combat roles with identical bodies and inputs; outcomes are secondary to direct Shield, targeting, movement and Health-loss evidence. Not a population-strength estimate.",
+  "seeds": [
+    283101,
+    283102,
+    283103,
+    283104,
+    283105,
+    283106,
+    283107,
+    283108,
+    283109,
+    283110,
+    283111,
+    283112,
+    283113,
+    283114,
+    283115,
+    283116,
+    283117,
+    283118,
+    283119,
+    283120,
+    283121,
+    283122,
+    283123,
+    283124,
+    283125,
+    283126,
+    283127,
+    283128,
+    283129,
+    283130,
+    283131,
+    283132
+  ],
+  "orientation_rule": "Alternate our side by seed index, giving 16 pairs in each orientation per normal/golden case.",
+  "roles": [
+    {
+      "id": "shieldbug-protects-carry-from-damage-answer",
+      "card": "shieldbug",
+      "source_slot": 1,
+      "carry_slot": 4,
+      "enemy_carry_slot": 0,
+      "role": "Shield protects the behind carry from a lethal native Ichneumon Wasp attack.",
+      "ours": {
+        "line": "neutral_role",
+        "round": 8,
+        "tier": 6,
+        "gold": 0,
+        "source": "docs/ideation/content/pass3/cross-tribe.md section 8",
+        "assumptions": [
+          "Controlled fixed-placement role test, not a field-strength or attainable-shop claim. No hero effects, Rings, borrowed text or held bodies.",
+          "The control removes only this neutral native mechanic from a temporary library; every combat body, other card and paired input remains identical."
+        ],
+        "id": "shieldbug-ours",
+        "units": [
+          null,
+          {
+            "def_id": "shieldbug"
+          },
+          null,
+          null,
+          {
+            "def_id": "field_vole",
+            "stats": [
+              12,
+              100
+            ]
+          },
+          null,
+          null
+        ]
+      },
+      "theirs": {
+        "line": "neutral_role",
+        "round": 8,
+        "tier": 6,
+        "gold": 0,
+        "source": "docs/ideation/content/pass3/cross-tribe.md section 8",
+        "assumptions": [
+          "Controlled fixed-placement role test, not a field-strength or attainable-shop claim. No hero effects, Rings, borrowed text or held bodies.",
+          "The control removes only this neutral native mechanic from a temporary library; every combat body, other card and paired input remains identical."
+        ],
+        "id": "shieldbug-answer",
+        "units": [
+          {
+            "def_id": "ichneumon_wasp",
+            "stats": [
+              120,
+              20
+            ]
+          },
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    },
+    {
+      "id": "spider-reaches-protected-back-carry",
+      "card": "ballooning_spider",
+      "source_slot": 1,
+      "carry_slot": 4,
+      "enemy_carry_slot": 4,
+      "role": "The behind carry first attacks the protected enemy back-row carry, rather than its front guard.",
+      "ours": {
+        "line": "neutral_role",
+        "round": 8,
+        "tier": 6,
+        "gold": 0,
+        "source": "docs/ideation/content/pass3/cross-tribe.md section 8",
+        "assumptions": [
+          "Controlled fixed-placement role test, not a field-strength or attainable-shop claim. No hero effects, Rings, borrowed text or held bodies.",
+          "The control removes only this neutral native mechanic from a temporary library; every combat body, other card and paired input remains identical."
+        ],
+        "id": "spider-ours",
+        "units": [
+          null,
+          {
+            "def_id": "ballooning_spider",
+            "stats": [
+              4,
+              60
+            ],
+            "golden_stats": [
+              8,
+              60
+            ]
+          },
+          null,
+          null,
+          {
+            "def_id": "field_vole",
+            "stats": [
+              20,
+              40
+            ]
+          },
+          null,
+          null
+        ]
+      },
+      "theirs": {
+        "line": "neutral_role",
+        "round": 8,
+        "tier": 6,
+        "gold": 0,
+        "source": "docs/ideation/content/pass3/cross-tribe.md section 8",
+        "assumptions": [
+          "Controlled fixed-placement role test, not a field-strength or attainable-shop claim. No hero effects, Rings, borrowed text or held bodies.",
+          "The control removes only this neutral native mechanic from a temporary library; every combat body, other card and paired input remains identical."
+        ],
+        "id": "spider-opponent",
+        "units": [
+          {
+            "def_id": "field_vole",
+            "stats": [
+              1,
+              200
+            ]
+          },
+          null,
+          null,
+          null,
+          {
+            "def_id": "field_vole",
+            "stats": [
+              30,
+              35
+            ]
+          },
+          null,
+          null
+        ]
+      },
+      "extra_assumptions": [
+        "Spider receives an explicit permanent Health budget of 60 in both variants so the loan survives until the carry first attacks; golden Attack remains 8. This isolates targeting rather than source survivability."
+      ]
+    },
+    {
+      "id": "whirligig-exposes-back-carry-and-charges-health",
+      "card": "whirligig_beetle",
+      "source_slot": 1,
+      "carry_slot": 4,
+      "enemy_carry_slot": 4,
+      "role": "The guarded row swap exposes the back-row carry to normal attacks and records tenth/fifth Health loss.",
+      "ours": {
+        "line": "neutral_role",
+        "round": 8,
+        "tier": 6,
+        "gold": 0,
+        "source": "docs/ideation/content/pass3/cross-tribe.md section 8",
+        "assumptions": [
+          "Controlled fixed-placement role test, not a field-strength or attainable-shop claim. No hero effects, Rings, borrowed text or held bodies.",
+          "The control removes only this neutral native mechanic from a temporary library; every combat body, other card and paired input remains identical."
+        ],
+        "id": "whirligig-ours",
+        "units": [
+          null,
+          {
+            "def_id": "whirligig_beetle"
+          },
+          null,
+          null,
+          {
+            "def_id": "field_vole",
+            "stats": [
+              25,
+              70
+            ]
+          },
+          null,
+          null
+        ]
+      },
+      "theirs": {
+        "line": "neutral_role",
+        "round": 8,
+        "tier": 6,
+        "gold": 0,
+        "source": "docs/ideation/content/pass3/cross-tribe.md section 8",
+        "assumptions": [
+          "Controlled fixed-placement role test, not a field-strength or attainable-shop claim. No hero effects, Rings, borrowed text or held bodies.",
+          "The control removes only this neutral native mechanic from a temporary library; every combat body, other card and paired input remains identical."
+        ],
+        "id": "whirligig-opponent",
+        "units": [
+          {
+            "def_id": "field_vole",
+            "stats": [
+              1,
+              120
+            ]
+          },
+          null,
+          null,
+          null,
+          {
+            "def_id": "field_vole",
+            "stats": [
+              20,
+              60
+            ]
+          },
+          null,
+          null
+        ]
+      }
+    }
+  ]
+}

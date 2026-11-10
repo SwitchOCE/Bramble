@@ -1,0 +1,390 @@
+{
+  "description": "Exact thirteen remaining prototype pool definitions before the final pass 3 retirement. Other twenty-five prototypes were retired by earlier tribe waves and retain their own archives.",
+  "units": [
+    {
+      "id": "bog_ooze",
+      "name": "Bog Ooze",
+      "tier": 4,
+      "attack": 5,
+      "health": 5,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "bramble_ooze",
+      "name": "Bramble Ooze",
+      "tier": 3,
+      "attack": 4,
+      "health": 4,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "dewdrop_ooze",
+      "name": "Dewdrop Ooze",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": true,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "field_vole",
+      "name": "Field Vole",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "garden_snail",
+      "name": "Garden Snail",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "tribes": [],
+      "text": "Shell 4.",
+      "golden_text": "Shell 4.",
+      "mechanics": [
+        {
+          "id": "shell",
+          "n": 4
+        }
+      ],
+      "keywords": [
+        "Shell"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 5,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 4,
+        "mechanic": "Shell",
+        "library_stats": "1/3",
+        "stat_fix": null,
+        "note": "Shell (N): the first time this takes damage in a combat, that damage is capped at N; then the shell breaks. N stays the same on golden."
+      }
+    },
+    {
+      "id": "great_ooze",
+      "name": "Great Ooze",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "tribes": [
+        "Oozes"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "hazel_dormouse",
+      "name": "Hazel Dormouse",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Skips its attacks, gaining +1/+1 each time, until it's hurt.",
+      "golden_text": "Skips its attacks, gaining +2/+2 each time, until it's hurt.",
+      "details": "It also wakes when no other unit of yours can attack.",
+      "mechanics": [
+        {
+          "id": "bide_slumber",
+          "attack": 1,
+          "health": 1
+        }
+      ],
+      "keywords": [
+        "Bide"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": 13,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 9,
+        "mechanic": "Bide",
+        "library_stats": "1/3",
+        "stat_fix": null,
+        "note": "Bide (Slumber): skips its attacks and gains +1/+1 this combat each time its side's order passes it, until it takes damage or no friendly unit that isn't waiting can attack."
+      }
+    },
+    {
+      "id": "hedgehog_twin",
+      "name": "Hedgehog Twin",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Both Ends (+1/+2, pricks for 2).",
+      "golden_text": "Both Ends (+2/+4, pricks for 4).",
+      "mechanics": [
+        {
+          "id": "both_ends",
+          "attack": 1,
+          "health": 2,
+          "prick": 2
+        }
+      ],
+      "keywords": [
+        "Both Ends"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 12,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 45,
+        "mechanic": "Both Ends",
+        "library_stats": "2/3",
+        "stat_fix": null,
+        "note": "Both Ends: while you have a Both Ends unit in F1 and another in F4 (or B1 and B3), each has +1/+2. Whenever an enemy attacks one of the pair, the other first deals 2 damage to the attacker; if that kills it, the attack doesn't happen."
+      }
+    },
+    {
+      "id": "hedgerow_elder",
+      "name": "Hedgerow Elder",
+      "tier": 4,
+      "attack": 4,
+      "health": 6,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "hoglet_mother",
+      "name": "Hoglet Mother",
+      "tier": 2,
+      "attack": 1,
+      "health": 3,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Bristle 1. When this dies: summon a 1/1 Hoglet with Bristle 1.",
+      "golden_text": "Bristle 2. When this dies: summon a golden 2/2 Hoglet with Bristle 2.",
+      "mechanics": [
+        {
+          "id": "bristle",
+          "n": 1
+        },
+        {
+          "id": "death_summon",
+          "unit": "hoglet",
+          "count": 1
+        }
+      ],
+      "keywords": [
+        "Bristle"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 3,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 7,
+        "mechanic": "Bristle",
+        "library_stats": "1/3",
+        "stat_fix": null,
+        "note": "Bristle (N): whenever an enemy deals damage to this during an attack, deal N damage to that enemy after the exchange, before deaths are checked. Thorn damage never triggers thorns."
+      }
+    },
+    {
+      "id": "marmot_lookout",
+      "name": "Marmot Lookout",
+      "tier": 2,
+      "attack": 0,
+      "health": 4,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "Whistle.",
+      "golden_text": "Whistle.",
+      "mechanics": [
+        {
+          "id": "whistle"
+        }
+      ],
+      "keywords": [
+        "Whistle"
+      ],
+      "row_hint": "back",
+      "pool": true,
+      "priority": 14,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 10,
+        "mechanic": "Whistle",
+        "library_stats": "0/4",
+        "stat_fix": null,
+        "note": "Whistle: never attacks. On its turn it whistles instead: the highest-Attack enemy not already warned deals half damage (rounded up) with its next attack."
+      }
+    },
+    {
+      "id": "wood_mouse_guard",
+      "name": "Wood Mouse Guard",
+      "tier": 3,
+      "attack": 4,
+      "health": 4,
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "text": "",
+      "golden_text": "",
+      "mechanics": [],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": true,
+      "source": {
+        "kind": "filler",
+        "entry": null,
+        "mechanic": null,
+        "library_stats": null,
+        "stat_fix": null,
+        "note": "Prototype filler: a plain stat line whose Attack + Health equals the tier value V(t) in power-budget.md (5, 7, 8, 10, 12, 14). Placeholder name, not a design."
+      }
+    },
+    {
+      "id": "worker_bee",
+      "name": "Worker Bee",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "tribes": [
+        "Hive"
+      ],
+      "text": "Swarm.",
+      "golden_text": "Swarm.",
+      "mechanics": [
+        {
+          "id": "swarm"
+        }
+      ],
+      "keywords": [
+        "Swarm"
+      ],
+      "row_hint": "front",
+      "pool": true,
+      "priority": 11,
+      "skeleton": false,
+      "source": {
+        "kind": "library",
+        "entry": 25,
+        "mechanic": "Swarm",
+        "library_stats": "1/1",
+        "stat_fix": "2/2 (budget review)",
+        "note": "Swarm: when a Swarm unit attacks, every other Swarm unit in its row that can attack and hasn't attacked this cycle joins in on the same target. The target hits back only the leader."
+      }
+    }
+  ]
+}

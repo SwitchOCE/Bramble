@@ -1,9 +1,10 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## Triples and golden units (rulebook 7.3) and the simplified Triple Reward (SPEC 9, 7.3.6).
 # Assertions take Variants; GUT's untyped parameters count as unsafe arguments in 4.7.
 @warning_ignore_start("unsafe_call_argument")
 
-var _library: UnitLibrary = TestLibraries.current()
+var _library: UnitLibrary = LegacyPrototypes.library()
 var _config: GameConfig
 var _pool: UnitPool
 var _rules: RecruitRules

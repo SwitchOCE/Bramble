@@ -19,6 +19,8 @@ const ROUNDS: int = 6
 func _port(config: GameConfig = null) -> CorePort:
 	var port: CorePort = CorePort.new()
 	port.setup(config if config != null else GameConfig.defaults())
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.manual_choices = false
 	return port
 
@@ -66,6 +68,8 @@ func test_refused_actions_come_back_as_reasons() -> void:
 func test_new_game_without_units_gives_a_reason() -> void:
 	var port: CorePort = CorePort.new()
 	port.setup(GameConfig.defaults())
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.manual_choices = false
 	port.library = UnitLibrary.new()
 	assert_eq(port.new_game(1), "No units found in content/units")

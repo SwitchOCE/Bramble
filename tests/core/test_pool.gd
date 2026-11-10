@@ -1,9 +1,10 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## The shared pool (rulebook 5.1, 5.3) and shop draws (6.1.3-6.1.4).
 # Assertions take Variants; GUT's untyped parameters count as unsafe arguments in 4.7.
 @warning_ignore_start("unsafe_call_argument")
 
-var _library: UnitLibrary = TestLibraries.current()
+var _library: UnitLibrary = LegacyPrototypes.library()
 
 
 func test_copies_by_tier_5_1_2() -> void:

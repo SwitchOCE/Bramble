@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## Recruit-phase triggers and the data effects on them (rulebook 3.2.1, 3.4.1, 4.2, 4.3.7, 4.4,
 ## 4.6, 7.2.3, 7.3, 8.3.3, 8.4; docs/ideation/engine.md). One test per trigger, one per effect.
 @warning_ignore_start("unsafe_call_argument")
@@ -13,7 +14,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup()
+	_kit.setup(null, false, LegacyPrototypes.library())
 	_player = _kit.player
 	_rules = _kit.rules
 

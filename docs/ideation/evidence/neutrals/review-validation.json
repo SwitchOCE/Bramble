@@ -1,0 +1,291 @@
+{
+  "tests": 387,
+  "failures": 0,
+  "scripts": 35,
+  "results": [
+    {
+      "name": "tests/core/test_bot_brain.gd",
+      "tests": "37",
+      "failures": "0",
+      "skipped": "0",
+      "time": "70.288284",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_burner.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.013289",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_commitment.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.003409",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_eggs.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.399824",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "33",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.116971",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_held.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.572679",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_lanes.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.900358",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_neutral.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.922814",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bots.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.088419",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bots_spend.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.81521",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.294773",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.027892",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.168999",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "61.882206",
+      "run": "build/neutrals/review-fixes/soup-fix.log"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.515369",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.540618",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_line_bans.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "20.177678",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_line_mixture.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.009212",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_line_policies.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.93273",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass2_followup_review.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.684928",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_combat.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.590263",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_content.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.01919",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_recruit.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.464222",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "21",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.141729",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_combat.gd",
+      "tests": "27",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.557169",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_content.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.071793",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_recruit.gd",
+      "tests": "21",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.880008",
+      "run": "build/neutrals/review-fixes/frum.log"
+    },
+    {
+      "name": "tests/core/test_review3_dozey.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.73787",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.008245",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/ui/test_engines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.090202",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.02492",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_neutral_ui.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.563908",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_ooze_ui.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.308849",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.602163",
+      "run": "build/neutrals/review-fixes/soup.log"
+    },
+    {
+      "name": "tests/core/test_bot_stone_soup.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.683514",
+      "run": "build/neutrals/review-fixes/soup-fix.log"
+    }
+  ],
+  "no_tests_check": "PASS build/neutrals/review-fixes/soup-static.log",
+  "python_report_tests": "4/4",
+  "frozen_fixture": "unchanged, all three seed hashes match",
+  "history": "Initial native-pool guard regression and stale Spider assertion fixed; ignored bot-script naming and recruit-script syntax errors corrected in affected-file reruns. Final reruns have strict-hook ok and no logged warnings."
+}

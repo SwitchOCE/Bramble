@@ -40,6 +40,8 @@ func test_scripted_player_reaches_game_over() -> void:
 	config.set_value("ask_for_kin", Settings.ask_for_kin)
 	config.set_value("bots", SharedLobby.quick_seats())
 	port.setup(config)
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	app.setup(port)
 	var all_counts: Dictionary = {}
 	for game_seed: int in SEEDS:
@@ -68,6 +70,8 @@ func test_scripted_player_reaches_game_over() -> void:
 func test_every_unit_fits_its_tiles_and_keeps_its_full_text() -> void:
 	var port: CorePort = CorePort.new()
 	port.setup(GameConfig.defaults())
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.manual_choices = false
 	var themed: Control = Control.new()
 	themed.theme = UiTheme.get_theme()
@@ -113,6 +117,8 @@ func test_game_over_screen_lays_out_cleanly() -> void:
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
 	port.setup(config)
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	app.setup(port)
 	app.start_game(20261104)
 	var turns: int = 0
