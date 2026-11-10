@@ -211,6 +211,8 @@ func test_current_content_fixture_has_eight_distinct_winners_for_each_rotation()
 
 
 func test_nullable_rates_inherit_c_without_accepting_wrong_types() -> void:
+	var expected := GameConfig.full_game()
+	expected.set_value("pass3_preset", "C")
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(FieldTestData.path()))
 	var source: Dictionary = data["config"]
 	source["pass3_preset"] = "C"
@@ -223,7 +225,11 @@ func test_nullable_rates_inherit_c_without_accepting_wrong_types() -> void:
 	var config := GameConfig.full_game()
 	var field := FieldLibrary.prepare(config, library, path)
 	assert_eq(field.error, "")
-	assert_eq(Pass3Rates.integer(config, "birds_chiffchaff_gain"), 4)
+	assert_eq(
+		Pass3Rates.integer(config, "birds_chiffchaff_gain"),
+		Pass3Rates.integer(expected, "birds_chiffchaff_gain"),
+		"nullable override inherits the selected C preset"
+	)
 	assert_true(config.get_bool("scale_hero_spell_stats"))
 	assert_eq(field.config_problem(config), "")
 	assert_not_null(GameSession.create(71, library, config, Bot.create, field))
