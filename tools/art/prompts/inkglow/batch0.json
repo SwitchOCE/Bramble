@@ -115,11 +115,14 @@
       "original": "build/loop1/batch0/current/portraits/cricket_busker.jpg",
       "target": "assets/portraits/cricket_busker.jpg",
       "original_sha256": "bb332fe380586573306dd0d11b969fa73a984a5fa53dff0d3edf3ab703c176b2",
-      "state": "pending",
+      "state": "accepted",
       "note": "Bright green CRICKET with long antennae and folded long legs, playing a wooden violin with bow while seated on a brown-capped mushroom with ivory stalk/gills, not a wooden stump; small upturned metal thimble before him. Keep violin, bow and thimble, not guitar.",
       "family": "Neutral",
       "retry_count": 1,
-      "retry_reason": "First candidate replaced the mushroom seat with a wooden stump; per-item note corrected."
+      "retry_reason": "First candidate replaced the mushroom seat with a wooden stump; per-item note corrected.",
+      "source": "frozen-header-retry",
+      "accepted_sha256": "0dd58dde7be0093db6ab1f4244309856da72b6fcdfc30b54959c65b560c91b12",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "dishwater_nell",
@@ -131,9 +134,12 @@
       "original": "build/loop1/batch0/current/portraits/dishwater_nell.jpg",
       "target": "assets/portraits/dishwater_nell.jpg",
       "original_sha256": "33c8a7718a5718e95297f06dd8bf4d6204125763bcce9532d3b7eab6b2c0d40b",
-      "state": "pending",
+      "state": "accepted",
       "note": "Drooping grey-green ooze washing herself in an ivory oval basin, ivory neck kerchief, scrubbing brush held right and three soap bubbles. Worried face. Keep basin, brush and bubbles distinct.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "9ebd9e8f11dbbeaca85c1e56fdde610a5361f102558d8abcfdfba25417c2b91d",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "earwig_mother",
@@ -145,9 +151,12 @@
       "original": "build/loop1/batch0/current/portraits/earwig_mother.jpg",
       "target": "assets/portraits/earwig_mother.jpg",
       "original_sha256": "d037e846c3bc30c8bda8e0f5bbc79c4d833bd6626636e5edd2ebee4c58ee8bcc",
-      "state": "pending",
+      "state": "accepted",
       "note": "Brown EARWIG mother, white bonnet, long antennae, long segmented body with rear pincers, sheltering a small group of pale eggs and young earwigs. Preserve insect anatomy and maternal protective pose; do not make ant/spider.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "616010fbb3ac22ada327cdfe63ece56b4bc5f1a1dcff084b9226abb50fb89a6a",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "hob_in_the_hearth",
@@ -159,9 +168,12 @@
       "original": "build/loop1/batch0/current/portraits/hob_in_the_hearth.jpg",
       "target": "assets/portraits/hob_in_the_hearth.jpg",
       "original_sha256": "8cdd8a2025cfd994ce8666c23c7d28f4b25e627f7808344750c96ed9215fd1a1",
-      "state": "pending",
+      "state": "accepted",
       "note": "Small shaggy pointed-ear brown brownie with russet hair/beard, cream sleeves and purple tunic, brushing a wooden surface beside bowl and small burning candle; stone hearth arch behind. Keep brush, bowl and candle.",
-      "family": "Fairies"
+      "family": "Fairies",
+      "source": "frozen-header",
+      "accepted_sha256": "3a6545ea3bab41b5900ea8806dfaafbfc2df6d99630e19991c945990d2c96fca",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "aunt_aspic",
@@ -173,9 +185,12 @@
       "original": "build/loop1/batch0/current/portraits/aunt_aspic.jpg",
       "target": "assets/portraits/aunt_aspic.jpg",
       "original_sha256": "165a4f67d486c365a8e7c0441b60c2382a568da532f3e7f9cd46968e5ded95e9",
-      "state": "pending",
+      "state": "accepted",
       "note": "Orange fluted jelly with stern round spectacles, open scolding mouth, embedded ivory boiled egg half with yellow yolk and a green pea. Keep egg and pea visible INSIDE jelly, not external props.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "e5f6f73096f3614e19575576093fbc761b066ff51a1e73c9ec725d353b7dbb41",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "ballooning_spider",
@@ -187,9 +202,12 @@
       "original": "build/loop1/batch0/current/portraits/ballooning_spider.jpg",
       "target": "assets/portraits/ballooning_spider.jpg",
       "original_sha256": "d42ecec8a86e3400ccccec6c6f129a2731ad3bb14384741798c15526bad6559f",
-      "state": "pending",
+      "state": "accepted",
       "note": "Small friendly orange-brown SPIDER with eight legs, big ivory/black eyes and two-tone rounded abdomen, dangling on a SINGLE silk thread from upper edge against quiet sky; distant low cloud/hedge. Do not add balloon prop.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "a01884c249efb19607289379686d5de584a09971af716e86c02f88fe880e6134",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "brother_wolf",
@@ -201,9 +219,12 @@
       "original": "build/loop1/batch0/current/portraits/brother_wolf.jpg",
       "target": "assets/portraits/brother_wolf.jpg",
       "original_sha256": "67b2d73b076583ca4f35675798221c035ecca99a926c426104b9dfb7427b82b1",
-      "state": "pending",
+      "state": "accepted",
       "note": "Grey wolf monk with dark brown hooded robe, ivory muzzle/chest, paws drawn to chest and gentle sideways expression. Preserve long wolf muzzle, pointed ears, habit and quiet woodland story.",
-      "family": "Hunters"
+      "family": "Hunters",
+      "source": "frozen-header",
+      "accepted_sha256": "d5861233fbddc585d0b8dbe9c12d519197cbcf01ba0b191fd20e9364ed18bdac",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "bubble_and_squeak",
@@ -215,9 +236,12 @@
       "original": "build/loop1/batch0/current/portraits/bubble_and_squeak.jpg",
       "target": "assets/portraits/bubble_and_squeak.jpg",
       "original_sha256": "e2766d1b7357f45baf4fbc4b4b6dc58c2023d7c4a5ce4693613f06abe3c41b85",
-      "state": "pending",
+      "state": "accepted",
       "note": "Two joined yellow ooze faces squabbling at each other, one beneath a pale green cabbage-leaf cap, with square golden butter/potato chunks embedded. Keep BOTH distinct open mouths/faces and cabbage cap; not one generic blob.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "b13ee8aeaaf9afe1a29127377255f43247880339361d5d73cac3eecb04ad42fc",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "cluricaun",
@@ -229,9 +253,12 @@
       "original": "build/loop1/batch0/current/portraits/cluricaun.jpg",
       "target": "assets/portraits/cluricaun.jpg",
       "original_sha256": "9cbab755677bb044f602410f0c8a64966fafd4f3b05109c5f04ee33a0ce4bcc7",
-      "state": "pending",
+      "state": "accepted",
       "note": "Grinning pointed-ear red-nosed white-bearded little brewer in green cap and green suit, raised gold tankard, seated by barrel; few coloured bottles on back shelf. Tankard and green clothing essential, simplify bottles.",
-      "family": "Fairies"
+      "family": "Fairies",
+      "source": "frozen-header",
+      "accepted_sha256": "6f909ffcdbc667a945390f42d5e2d5c8b513756c3d08dc2edf21c2fac0a81661",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "dr_urchin",
@@ -243,9 +270,12 @@
       "original": "build/loop1/batch0/current/portraits/dr_urchin.jpg",
       "target": "assets/portraits/dr_urchin.jpg",
       "original_sha256": "b79837440cb353eb09c28e9d821009f7f19894f0243e1f7db56e9b3bf88c521e",
-      "state": "pending",
+      "state": "accepted",
       "note": "Hedgehog doctor with spiky brown silhouette, tiny spectacles, green coat, yellow necktie, backpack bearing medicine bottles and large amber bottle in hand. Keep medicine bottles and doctor expression, no fine spine rendering.",
-      "family": "Hedgerow folk"
+      "family": "Hedgerow folk",
+      "source": "frozen-header",
+      "accepted_sha256": "c213136012b19d279d32a4136623a1dfc5ac4dde26f285ef3e7cfea2e7979553",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "gideon",
@@ -257,9 +287,12 @@
       "original": "build/loop1/batch0/current/portraits/gideon.jpg",
       "target": "assets/portraits/gideon.jpg",
       "original_sha256": "d737a0e413a9597a8fa5207f9486409f0fe6fba751c2f04c91391dd72d6fc5b4",
-      "state": "pending",
+      "state": "accepted",
       "note": "Large brown TOAD singer, puffed ivory throat, eyes closed and open singing mouth, burgundy coat and white bow tie, one hand raised; broad marsh reeds. Preserve swollen throat and singing pose.",
-      "family": "Bog folk"
+      "family": "Bog folk",
+      "source": "frozen-header",
+      "accepted_sha256": "d427bdd5cefb19dcb67493e17249e85d5f569a4bea5514071cd055fed82d809c",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "alderman_dozey",
