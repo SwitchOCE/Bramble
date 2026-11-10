@@ -6,6 +6,14 @@ extends GutTest
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
 const CK := preload("res://tests/core/combat_kit.gd")
+## Wave 2b owns these four dials. Keep the complete dependency visible even while rates
+## omit them; arrival must fail this pending assertion and trigger behaviour/face coverage.
+const EXPECTED_PENDING: PackedStringArray = [
+	"hedgerow_mallow_multiplier",
+	"hedgerow_dozey_wake_multiplier",
+	"hedgerow_golden_dozey_wake_multiplier",
+	"hedgerow_treasurer_per_gold",
+]
 const STEPS: Array[float] = [0.0, 0.25, 0.5, 1.0, 1.5, 1.71, 2.0, 2.5, 3.0]
 ## [rate key, card, field, regex, golden factor key or number]. The regex's last non-empty
 ## group is the printed amount; the face must equal the rate (times the factor).
@@ -183,24 +191,36 @@ func _kit(t: Variant) -> KIT:
 	return kit
 
 
-func test_t0_is_preset_b_and_t1_is_preset_c_apart_from_the_monarch_pin() -> void:
+func test_t0_is_preset_b_and_t1_is_preset_c() -> void:
 	for pair: Array in [[0.0, "B"], [1.0, "C"]]:
 		var preset: Dictionary = Pass3Path.preset_rates(str(pair[1]))
 		var path: Dictionary = Pass3Path.override(pair[0])
 		for key: String in path:
-			if Pass3Path.PINNED.has(key):
-				continue
 			assert_almost_eq(
 				CoreUtil.to_float(path[key]), CoreUtil.to_float(preset[key]), 1e-9, key
 			)
-	assert_eq(Pass3Path.override(0.0)["fairies_monarch_multiplier"], 3.0)
-	assert_eq(Pass3Path.override(0.0)["fairies_golden_monarch_multiplier"], 4.0)
+	for preset_name: String in ["B", "C"]:
+		var preset: Dictionary = Pass3Path.preset_rates(preset_name)
+		assert_eq(preset["fairies_monarch_multiplier"], 3.0, preset_name)
+		assert_eq(preset["fairies_golden_monarch_multiplier"], 4.0, preset_name)
 
 
 func test_every_dial_that_differs_between_b_and_c_is_on_a_path_or_named_off_it() -> void:
 	var b: Dictionary = Pass3Path.preset_rates("B")
 	var c: Dictionary = Pass3Path.preset_rates("C")
 	var on_path: PackedStringArray = Pass3Path.keys()
+	var described: PackedStringArray = []
+	var pending_keys: PackedStringArray = []
+	for dial: Dictionary in Pass3Path.DIALS:
+		var key: String = str(dial["key"])
+		described.append(key)
+		if not Pass3Rates.keys().has(key):
+			pending_keys.append(key)
+		else:
+			assert_true(on_path.has(key), key + " must be emitted")
+	assert_eq(pending_keys, EXPECTED_PENDING, "only wave 2b's explicit dependency may be absent")
+	for key: String in EXPECTED_PENDING:
+		assert_true(described.has(key), key + " is expected and pending wave 2b")
 	for key: String in c:
 		if b.get(key) == c[key]:
 			continue
@@ -325,6 +345,25 @@ func test_every_path_face_prints_its_rules_number_at_t_0_1_2_and_3() -> void:
 			)
 			var want: float = Pass3Rates.number(config, str(entry[0])) * factor
 			assert_almost_eq(amount(phrase), want, 1e-6, label)
+
+
+func test_flight_keyword_reminders_name_both_real_outcomes_in_recruit_and_combat() -> void:
+	for t: float in [0.0, 1.0, 2.0, 3.0]:
+		_kit(t)
+		for id: String in BotPass3.FLIERS:
+			var card: Dictionary = kit.library.get_unit(id)
+			var normal: String = str(card["details"]).get_slice(" Flying", 0)
+			var golden_words: String = str(card["golden_details"]).get_slice(" Flying", 0)
+			for golden: bool in [false, true]:
+				var recruit := RecruitUnit.make(card, 1, golden)
+				var fighter := CombatUnit.make(card, {"golden": golden}, 1, 0)
+				for view: Dictionary in [recruit.view(), fighter.view()]:
+					var reminder: String = ""
+					for entry: Dictionary in view["keyword_text"]:
+						if str(entry["keyword"]) == "Fly South":
+							reminder = str(entry["text"])
+					assert_string_contains(reminder, normal, "%s at t=%s" % [id, t])
+					assert_string_contains(reminder, golden_words, "%s at t=%s" % [id, t])
 
 
 func test_path_faces_stay_readable_with_no_raw_decimals_or_percent_fallbacks() -> void:
