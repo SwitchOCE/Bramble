@@ -1,14 +1,14 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Bog and Hunters are rebuilt and merged, and the Oozes rebuild is done and waiting for review. Boards still end up too small: a typical round 12 board is about 300–400 against a target of 900. A test copy of a Battlegrounds tribe reaches about 750 in our engine, so the target is reachable.
+- **In short:** The Oozes rebuild and portraits for every unit are merged. Hedgerow's rebuild is done: its boards reach about 874 at round 12, near the 900 target, and it's in review. The other tribes still end up too small at round 12, and the next step sets each tribe's numbers from real boards.
 - **Status:** active
-- **Last step done:** Wave 2a (Bog folk, pass 3 Hunters, the wave 1 re-base) merged and passed the full tests on 10 Nov. Full test runs now go to GitHub Actions instead of the shared local Godot slots.
+- **Last step done:** 10 Nov: the plan to Done (`plan-to-done.md`) was approved, wave 2b part 1 (the pass 3 Oozes) merged, the last 12 pool portraits merged, and the Quilboar lessons were written up (`reference/quilboar/lessons.md`).
 - **Next step:**
-  - Wave 2b on Sol: Oozes are built (the engine line grows ×1.37 a round; Pot Luck ×1.25 is below the ×1.3 bar and needs triage), and wait for the full tests and a review, then the Hedgerow light pass, the neutrals, and retiring the 38 prototype bodies.
-  - A faster test suite and a test gate split across parallel machines (owner note 10a).
-  - Four fixes to the decluttered fight screen, then a fresh reader checks those moments.
-  - The Quilboar reference rerun is done and waits for review; then the full-pool measurement and checkpoint 1 (presets B and C, played blind).
+  - Hedgerow (A2): a scope review and a fresh signature check are running. Then Pot Luck's route arms against a same-commit control (A1b), then the neutrals (A3).
+  - Set B and C from realized boards (A3.5). Run 1 comes right after A1b, on Actions.
+  - Fight screen (batch 1): four cues to fix (Toll, queued gain, kiss, Mire wait), then one more fresh reader. Batch 2 follows.
+  - Test suite: merge the gate shards, then the faster suite. Look-alike portraits are being redrawn.
 - **Waiting on you:** Nothing.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
