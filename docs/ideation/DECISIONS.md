@@ -4,6 +4,13 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — The Oozes' new presets merged
+**Source:** `ideation/ooze-probe` cc307b67, merged as `cca9242f` (gate PASS, run 42763229125).
+
+**Picked:** merged. Preset B is arm b, and C is arm c, clamped to each dial's limit. The two overflow guards stay, and Granny's extra clamp is gone. A3's Soup rules (tier 1, a 2/3 body, round up after summing) and Slice triples are kept, with the faces matching the rule at B and C, normal and golden. On the same 32 seeds with no overrides, the engine line's R12 median is 1,205.5 (p10 592, p90 4,272), and Pot Luck's is 736.
+
+**Agreed by:** fresh Sol reviews of e286d539 (two cuts, fixed) and of the fix (MERGE).
+
 ### 10 Nov 2026 — The run ends at build 8 (owner, 10g)
 **Source:** owner note `2026-11-10g-run-ends-at-build-8.md`. It replaces the run's end condition: no checkpoint-1 tester round and no three-reviewer bar before the owner plays.
 
