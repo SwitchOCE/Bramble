@@ -4,6 +4,29 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Look-alike portraits and gate shards: review calls
+**Source:**
+- the scope review of `ideation/portraits4` `0c3fd133` (`evidence/review-portraits4.md`): 7 keep, 0 cut, 1 simplify, 2 ask;
+- the scope review of `ideation/c-gate-shards` `814793b9..e6b9783f` (`evidence/review-gate-shards.md`): 16 keep, 0 cut, 1 simplify, 2 ask.
+
+**Picked (portraits):**
+- **Merge `0c3fd133`** once its gate passes. Young Brock, Sable and Isegrim now read apart at 96 px, and Lollop has lost his counting motif. Lollop's art doesn't contradict either version of his text, so it doesn't wait for wave 2b.
+- **Brother Wolf and Grizel (ask 1):** re-roll Grizel. The plan said all four wolves get a look of their own. The new Grizel is a tawny, red-backed wolf howling in profile against a night sky.
+- **Grey Agnes reads as a bear (ask 2):** re-roll her now, as a pale she-wolf with a long pointed muzzle and tall pointed ears. A re-roll is cheaper than a cold-reader round trip.
+- Both run in batch C (`tools/art/prompts/portraits-10nov-c.txt`), alongside the two new neutrals, Shieldbug and Click Beetle (stream S7). Their ids will be `shieldbug` and `click_beetle`, and the content worker uses those ids when A3 adds the cards.
+- **Simplify:** future exports use `tools/art/portraits.py export` (quality 82). No size floor.
+
+**Picked (gate shards):**
+- **Merge.** The merge commit `41085959` is gating on the sharded gate itself. Its totals must equal the unsharded count on ideation/main's tree: 218 scripts and 2,317 tests (portraits gate, run 42727014750). That makes it the third commit for the plan's criterion 1, alongside e6b9783f and the planted failure.
+- **`gate-static` as its own job** instead of on shard 1: kept. It finishes in 76 s while shards take 155–211 s, so it stays off the critical path. This logs the deviation from draft step 3.
+- **Ask 1 (the 25% times-coverage test fails correct trees):** make it a printed warning. A stale times file only skews shard sizes; it never drops a test.
+- **Ask 2 (`cloud-gate.sh` prints 40 lines of cleanup on a shard failure):** fix it now, in the sharding session's follow-up. Print the failing shard's check.sh lines (FAIL, failed:, Failing Tests and the test names), not `tail -n 40`.
+- **Simplify (the Godot cache restore never hits on gate jobs):** drop the restore steps, and fix the `CLOUD_SETUP.md` wording, including "fewer" against "not equal".
+- **Who refreshes `test_times.json`:** the sharding session, once, after the faster suite merges. After that, whoever merges a change that adds 10 or more test scripts.
+- All four go to the sharding session as one follow-up before it starts the Actions sim job (S4).
+
+**Agreed by:** the two scope reviews (no cuts).
+
 ### 10 Nov 2026 — Declutter batch 1, fifth cold reader (follow-up reshoots): not yet; four cues to fix
 **Source:** a fresh cold reader and a scorer on the `cea9d0e2` reshoots (workflow wf_1c7d0562-094; `evidence/declutter/batch1-independent/reader5/`).
 - **What reads:** every who-hit, hit and death answer is right in all seven strips. ×4 passes. The Pounce cue reads. The kept-gain portrait lands and fades, so that cut holds.
