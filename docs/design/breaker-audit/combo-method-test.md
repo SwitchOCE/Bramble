@@ -61,3 +61,18 @@ The owner asked for the smallest version that flags cards with the potential to 
 - Cost per run: about 128k tokens and 5.7 minutes, against 166k and 9.5 minutes for Opus with the full guide.
 - BROKEN went only to the Kelp Keeper gold loop (unlimited within a turn). Slab was held at WATCH because its pieces are rare.
 - Not yet known: how often it flags healthy cards. Only Athissa came back CLEAR, and the controls turned out to have real lines in their pools. The 24-card set in `bg-test.md` is the check for that.
+
+### False-flag check: 31 tier 4+ cards (11 Nov)
+
+Same brief and clean snapshots, three Opus runs of about ten cards each. 19 cards that lasted a long time in the pool (a stand-in for healthy, not proof) and 12 that Blizzard removed or nerfed.
+
+| | WATCH | BROKEN | CLEAR |
+|---|---|---|---|
+| Long-lived (19) | 7: Slab, Enforcer, Living Prison (Jandice swap); Futurefin (Mutanus); Brann (Kelp Keeper gold); Poet (Myrmidon Sticker); Stalwart Kodo (in-fight copies) | 0 | 12: Drakkari, Utility Drone, Choral, Kalecgos, Ur'zul, Courier, Champion of Sargeras, Tichondrius, Felfire Conjurer, Showy Cyclist, Groundbreaker, Felboar |
+| Removed or nerfed (12) | 5: Slamma, Chronormu, Behemoth, Ball of Minions, Famished Felbat | 0 | 7: Myrmidon, Garr, Upbeat Duo, Kel'Thuzad, Athissa, Rascal, Extortionist |
+
+- BROKEN was never given in 31 cards, so the tier is as strict as asked. (Brann's gold loop was BROKEN in the two earlier runs and WATCH here, because the pool doesn't say whether Activate can be used again.)
+- The removed cards whose problem was a loop (Slamma, Chronormu, Behemoth) are all flagged. The CLEAR ones were removed for other reasons, such as pace (Athissa) or tuning, or for rotation.
+- About a third of long-lived cards get WATCH, and 5 of those 7 run through one enabler (Jandice's swap, Mutanus's sell, Kelp Keeper). Listing a flag under the enabler, with the cards beneath it, would cut what the owner reads.
+- Runs also flagged loops outside their list without being asked (Private Investigator gold, Titanic Guardian pairs, Mutanus with Windfall Tornado).
+- Cost: about 134k tokens and 5.5 minutes per batch of ten.
