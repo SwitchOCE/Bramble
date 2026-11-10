@@ -17,8 +17,8 @@ const P3: Vector2 = Vector2(292, 46)
 const P4: Vector2 = Vector2(200, 96)
 const P5: Vector2 = Vector2(70, 96)
 const SEGMENTS: int = 20
-const LINE: float = 6.5
-const SHADOW_DROP: float = 13.0
+const LINE: float = 4.0
+const SHADOW_DROP: float = 7.0
 
 var colour: Colour = Colour.BIRCH:
 	set(value):

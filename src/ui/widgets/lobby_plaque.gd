@@ -151,7 +151,7 @@ func wanted_width() -> float:
 
 
 func _layout() -> void:
-	var diameter: float = minf(74.0, size.y)
+	var diameter: float = minf(86.0, size.y)
 	if is_out and not is_ghost:
 		diameter *= 0.5
 	_portrait.size = Vector2.ONE * diameter
@@ -171,8 +171,8 @@ func _layout() -> void:
 	if _last_stand != null:
 		_last_stand.size = Vector2(size.x, 44)
 	if tap != null:
-		tap.position = Vector2(0, -17)
-		tap.size = Vector2(size.x, maxf(size.y + 66.0, 122.0))
+		tap.position = Vector2.ZERO
+		tap.size = size
 	queue_redraw()
 
 

@@ -59,11 +59,11 @@ func _init() -> void:
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
-	_lobby = LobbyStrip.new()
+	_lobby = preload("res://src/ui/widgets/stack_lobby.gd").new()
 	_lobby.next_tapped.connect(toggle_scout)
 	_lobby.hero_requested.connect(_show_lobby_hero)
 	_stage.add_child(_lobby)
-	_tribes = TribeBonuses.new()
+	_tribes = preload("res://src/ui/widgets/stack_counters.gd").new()
 	_stage.add_child(_tribes)
 	_build_shop(_wire)
 	_build_board(_wire, _on_hero_power, _on_hero_tapped)
@@ -151,6 +151,7 @@ func render() -> void:
 	_render_shop(frozen)
 	_render_board()
 	_render_hand()
+	_layout()
 	_hero.show_hero(Data.d(state, "hero"), Data.i(state, "gold", 0))
 	_show_selection()
 	_render_discover()
@@ -231,6 +232,8 @@ func _render_shop(frozen: bool) -> void:
 	for i: int in shop.size():
 		var view: Dictionary = shop[i]
 		var card: CardView = _make_card(view, "shop", i, width, mode)
+		if not small:
+			card.set_card_size(Vector2(width, 245))
 		card.frost = frozen
 		if frozen and i == 0 and not small:
 			card.show_frost_tag(true)
