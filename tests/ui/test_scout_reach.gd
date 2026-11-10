@@ -88,3 +88,23 @@ func test_reach_flashes_the_resolved_lent_pocket_then_returns_to_rest() -> void:
 	assert_eq(board.slots[5].highlight.a, 0.0, "reach never becomes a held legal-target tint")
 	await wait_seconds(0.45)
 	assert_eq(board.slots[5].reach_flash, 0.0, "no forecast remains after the demand-only cue")
+
+
+func test_reach_flash_paints_above_an_occupied_card_and_leaves_no_mark() -> void:
+	var board := BoardView.new()
+	add_child_autofree(board)
+	board.configure("board", 209, true)
+	var card := preload("res://src/ui/widgets/card_view.gd").new()
+	card.show_unit(_unit("mr_crumb"), card.Mode.BOARD)
+	board.place_card(card, 5)
+	board.show_relations([5])
+	var pulse: Tween = board.get("_reach_tween")
+	pulse.pause()
+	pulse.custom_step(0.1)
+	var foreground: Panel = board.slots[5].get("_reach_face")
+	assert_true(foreground.visible, "the occupied target has an actual foreground cue")
+	assert_gt(foreground.z_index, card.z_index, "the portrait cannot cover the reach pulse")
+	assert_gt(foreground.modulate.a, 0.5)
+	assert_eq(foreground.mouse_filter, Control.MOUSE_FILTER_IGNORE)
+	pulse.custom_step(0.4)
+	assert_false(foreground.visible, "no permanent outline survives the reader beat")

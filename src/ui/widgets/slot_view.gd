@@ -32,6 +32,9 @@ var filled: bool = false:
 var reach_flash: float = 0.0:
 	set(value):
 		reach_flash = value
+		if _reach_face != null:
+			_reach_face.visible = value > 0.001
+			_reach_face.modulate.a = value
 		queue_redraw()
 
 var _target_age: float = 0.0
@@ -40,6 +43,7 @@ var _name_label: Label
 var _empty_label: Label
 var _note: Label
 var _note_box: Panel
+var _reach_face: Panel
 
 
 func _init() -> void:
@@ -59,6 +63,17 @@ func _init() -> void:
 	_note_box.add_child(_note)
 	resized.connect(_refresh_labels)
 	ready.connect(_refresh_labels)
+	# Occupied cards are later board siblings; the demand-only cue must paint above them.
+	_reach_face = Panel.new()
+	_reach_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_reach_face.z_index = 20
+	var flash: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.GILT, 0.15), UiTheme.GILT, 8, 24)
+	flash.shadow_color = Color(UiTheme.GILT, 0.4)
+	flash.shadow_size = 10
+	_reach_face.add_theme_stylebox_override("panel", flash)
+	add_child(_reach_face)
+	_reach_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_reach_face.hide()
 
 
 func set_slot(slot_zone: String, slot: int) -> void:
@@ -118,10 +133,6 @@ func _draw() -> void:
 		fill = highlight
 		fill.a *= 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
 	draw_style_box(UiTheme.flat_box(fill, Color.TRANSPARENT, 0, 24), rect)
-	if reach_flash > 0.0:
-		draw_style_box(
-			UiTheme.flat_box(Color(UiTheme.GILT, reach_flash * 0.65), UiTheme.GILT, 4, 24), rect
-		)
 	# The pocket's shadowed top edge.
 	var shade: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.INK, 0.45), Color.TRANSPARENT, 0, 24)
 	shade.corner_radius_bottom_left = 0
