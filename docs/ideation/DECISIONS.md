@@ -8,11 +8,13 @@ One line per call that still holds. Newest calls go at the bottom of their group
 - A loop ends when the owner has played its build, or 3 days after its day-1 gallery went out, whichever comes first. (`PLAN.md`, "Done for a loop")
 - At most two or three focus items per loop, picked by the owner from the day-1 gallery.
 - Each step: the gate plus one scope review. No numeric scores for looks; reviewers answer plain questions beside reference shots. No new bars or measurement plans unless the owner asks.
-- Defaults until the owner says otherwise: sound out; tutorial and Rules reference in; PC landscape first, portrait later; the Everdell and Ori look for the world, units kept in their style.
+- Defaults until the owner says otherwise: sound out; tutorial and Rules reference in; PC landscape first, portrait later.
 - Reference frames live outside git in `/data/bramble-reference/<game>/`, shared by every worktree and the gallery; the manifest and re-fetch README are in `docs/ideation/ui/reference/`. (orchestrator, 10 Nov: an in-repo folder isn't shared across worktrees)
 - Step 0b's capture, backdrops and layout options are one step: one scope review over their branches together. (orchestrator, 10 Nov)
 - The scope fence also covers `tests/sim/` and, once step 0 has merged, `scripts/check.sh`, so one edit can't switch the fence off. (orchestrator, 10 Nov, step 0 review ask)
-- Loop 1's day-1 gallery went out 10 Nov 23:22 AEDT. With no picks by 11 Nov 11:22, start on A (the layout, with its painted world) and B (recruit feel) with Bazaar Stack, the layout the critic found closest to The Bazaar. Loop 1 ends when the owner plays its build, or 13 Nov 23:22. (orchestrator, 10 Nov)
+- Loop 1's day-1 gallery went out 10 Nov 23:22 AEDT; loop 1 ends when the owner plays its build, or 13 Nov 23:22. (orchestrator, 10 Nov)
+- Loop 1's layout is Bazaar Stack, and the focus items are the orchestrator's: "I'm happy to just kind of let you cook for a bit and see where we end up. The Bazaar stack seems like a reasonable approach." Focus items: A (Bazaar Stack in its painted world), B (recruit feel), and the units brought toward the world (below). C, D and E wait for loop 2. (owner and orchestrator, 11 Nov)
+- The Everdell and Ori look is for the world, and the units move toward it while keeping their simpler style: "we've got to find a way of bringing the assets towards what works and still keeping the kind of, like, simpler art style". This replaces the "units kept in their style" default. (owner, 11 Nov, answering the plan's open question)
 - The layout mockups' tile-size pass/fail (150 px phone, 270 px PC shop) is dropped: it was a one-off brief direction, and the owner said no new bars. (orchestrator, 10 Nov, step 0b review ask)
 - Look clips keep the GIF and contact sheet and delete their raw frames unless `--keep-frames` is given; look sessions older than 7 days are pruned. (orchestrator, 10 Nov, step 0 review ask)
 

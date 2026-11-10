@@ -1,11 +1,11 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** The day-1 gallery is out: our screens beside The Bazaar, Battlegrounds and TFT, four painted woodland backdrops, and four layout options. It waits on the owner's picks.
+- **In short:** You picked Bazaar Stack. Three workers are building loop 1: the layout in its painted world, recruit feel, and units brought toward the world.
 - **Status:** active
-- **Last step done:** 10 Nov: day-1 gallery sent 23:22 AEDT (`http://100.92.26.47:8790/loop1/`); step 0b merged (reference library, backdrops, layout studies, gallery generator), gate passed, one scope review.
-- **Next step:** start the focus items the owner picks (by 11 Nov 11:22 AEDT, else A and B with Bazaar Stack).
-- **Waiting on you:** pick two or three focus items and one layout from the day-1 gallery, by chat.
+- **Last step done:** 11 Nov: the owner picked Bazaar Stack and left the focus items to the orchestrator (A, B, and units toward the world; DECISIONS).
+- **Next step:** build the three focus items; mid-loop gallery when the first ones land.
+- **Waiting on you:** nothing. Loop 1 ends when you play its build, or 13 Nov 23:22.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
 <!-- /status -->
 
