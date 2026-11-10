@@ -16,9 +16,8 @@ func before_each() -> void:
 
 
 func _brain(line: String = "hedgerow_supper") -> BotBrain:
-	var brain: BotBrain = BotBrain.from_name("hard:hedgerow_treasury")
-	brain.value.strategy = LinePolicies.strategy("line_" + line)
-	brain.pinned_strategy = "line_" + line
+	var brain: BotBrain = BenchSuites.create_bot("line_" + line) as BotBrain
+	assert_true(brain is LineBrain, "exercise the registered measurement policy")
 	brain._player = kit.player
 	brain._rules = kit.rules
 	brain._round_now = kit.player.round_number
@@ -77,8 +76,10 @@ func test_third_dozey_waits_until_after_a_wake() -> void:
 	var offer: RecruitUnit = kit.shop("alderman_dozey")
 	var brain: BotBrain = _brain()
 	assert_false(BotHedgerow.wants_purchase(kit.player, brain.value, offer))
+	assert_eq(brain._unit_gain(offer), 0.0, "the actual line declines a third sleeping copy")
 	carry.counters["hedgerow_last_wake_round"] = kit.player.round_number - 1
 	assert_true(BotHedgerow.wants_purchase(kit.player, brain.value, offer))
+	assert_gt(brain._unit_gain(offer), 0.0, "the actual line permits its triple after a wake")
 
 
 func test_placement_preserves_sleep_then_moves_a_large_carry_after_a_wake() -> void:
@@ -242,3 +243,118 @@ func test_native_cash_policy_does_not_run_on_frozen_hedgerow() -> void:
 	brain._cast_spells(false)
 	assert_eq(kit.player.larder(), 5, "native Parish cashing must not reach the rollback")
 	assert_eq(kit.player.gold, gold)
+
+
+func _actual_line(id: String, round_number: int) -> LineBrain:
+	var brain: LineBrain = BenchSuites.create_bot(id) as LineBrain
+	assert_not_null(brain, "the registered measurement policy must be a real LineBrain")
+	assert_eq(brain.line_id, id)
+	kit.player.round_number = round_number
+	kit.player.health = 30
+	kit.player.gold_next_turn = 0
+	brain._player = kit.player
+	brain._rules = kit.rules
+	brain._round_now = round_number
+	brain.value.library = kit.library
+	brain.value.recruit_rules = kit.rules
+	brain.value.board_owner = kit.player
+	return brain
+
+
+func test_actual_supper_line_reserves_only_the_next_scheduled_climb_shortfall() -> void:
+	_put("sleeping_partner", 4)
+	_put("mr_crumb", 6)
+	_put("mr_pym", 0)
+	kit.player.tier = 3
+	kit.player.upgrade_cost = 13
+	var brain: LineBrain = _actual_line("line_hedgerow_supper", 6)
+	assert_eq(brain._target_round(3), 7, "the actual Supper profile schedules tier 4 for R7")
+	assert_eq(kit.rules.tier_up_cost(kit.player), 13)
+	assert_eq(kit.config.get_int_at("income_by_turn", 6), 9, "R7 pays nine gold")
+	assert_eq(kit.config.get_int("upgrade_discount_per_turn"), 1)
+	assert_eq(brain._held_back(), 3, "13 cost minus one discount and nine income needs three")
+	kit.player.gold_next_turn = 2
+	assert_eq(brain._held_back(), 1, "promised income reduces the reserve instead of keeping three")
+	kit.player.gold_next_turn = 0
+	kit.player.round_number = 5
+	brain._round_now = 5
+	assert_eq(kit.rules.tier_up_cost(kit.player), 13, "the R5 comparison keeps the same cost")
+	assert_eq(brain._held_back(), 0, "two turns before the scheduled climb the reserve is zero")
+	kit.player.tier = UnitLibrary.TIERS
+	kit.player.round_number = 12
+	brain._round_now = 12
+	assert_eq(brain._held_back(), 0, "the top tier has no next climb to reserve for")
+
+
+func test_actual_parish_line_uses_its_earlier_climb_and_next_turn_income() -> void:
+	_put("mrs_mallow", 0)
+	_put("mrs_clover", 4)
+	_put("mr_crumb", 1)
+	kit.player.tier = 3
+	kit.player.upgrade_cost = 13
+	var brain: LineBrain = _actual_line("line_hedgerow_parish", 5)
+	assert_eq(brain._target_round(3), 6, "Parish reaches tier 4 one round before Supper")
+	assert_eq(kit.config.get_int_at("income_by_turn", 5), 8, "R6 pays eight gold")
+	assert_eq(brain._held_back(), 4, "13 cost minus one discount and eight income needs four")
+	kit.player.upgrade_cost = 9
+	assert_eq(brain._held_back(), 0, "next turn's income covers the discounted climb in full")
+	kit.player.tier = UnitLibrary.TIERS
+	kit.player.round_number = 10
+	brain._round_now = 10
+	assert_eq(brain._held_back(), 0, "Parish also stops saving at the top tier")
+
+
+func test_actual_supper_declines_late_partner_and_pym_offers() -> void:
+	_put("sleeping_partner", 4)
+	_put("mr_crumb", 6)
+	_put("mrs_sorrel", 5)
+	var brain: LineBrain = _actual_line("line_hedgerow_supper", 7)
+	kit.player.gold = 10
+	var partner: RecruitUnit = kit.shop("sleeping_partner")
+	var pym: RecruitUnit = kit.shop("mr_pym")
+	assert_eq(brain._unit_gain(partner), 0.0, "a new Partner stops being a buy after R3")
+	assert_eq(brain._unit_gain(pym), 0.0, "a new Pym stops being a buy after R6")
+	assert_true(brain._best_offer().is_empty(), "the actual offer pipeline respects both windows")
+
+
+func test_actual_supper_waits_for_written_climb_even_with_plenty_of_gold() -> void:
+	_put("sleeping_partner", 4)
+	_put("mr_pym", 0)
+	_put("mr_crumb", 6)
+	_put("mrs_sorrel", 5)
+	kit.player.tier = 3
+	kit.player.upgrade_cost = 13
+	var brain: LineBrain = _actual_line("line_hedgerow_supper", 6)
+	kit.player.gold = 40
+	kit.rules.give_card(kit.player, "great_hoard")
+	brain._climb(false)
+	brain._climb(true)
+	assert_eq(kit.player.tier, 3, "wealth cannot advance the written R7 climb")
+	assert_eq(kit.player.gold, 40)
+	assert_eq(kit.player.larder(), 16, "unscheduled climbing leaves the held Larder alone")
+	kit.player.gold = 0
+	kit.player.round_number = 7
+	brain._round_now = 7
+	brain._climb(false)
+	assert_eq(kit.player.tier, 4, "the scheduled climb may use the held Larder")
+	assert_eq(kit.player.larder(), 0)
+	assert_eq(kit.player.gold, 3, "the real climb spends thirteen of the cashed sixteen")
+
+
+func test_actual_supper_protects_reserved_gold_from_ordinary_offers_and_refreshes() -> void:
+	_put("sleeping_partner", 4)
+	_put("mr_pym", 0)
+	_put("mr_crumb", 6)
+	kit.player.tier = 3
+	kit.player.upgrade_cost = 13
+	var brain: LineBrain = _actual_line("line_hedgerow_supper", 6)
+	kit.player.gold = 3
+	kit.rules.give_card(kit.player, "stash")
+	kit.shop("mrs_sorrel")
+	assert_eq(brain._held_back(), 3)
+	assert_true(brain._best_offer().is_empty(), "Sorrel cannot spend the next climb's bank")
+	assert_false(brain._refresh_worth_it(), "held food cannot fund a speculative refresh")
+	kit.shop("alderman_dozey")
+	var offer: Dictionary = brain._best_offer()
+	assert_false(offer.is_empty(), "a priority engine retains its Larder exception")
+	assert_eq(offer.get("index", -1), 1)

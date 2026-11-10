@@ -45,6 +45,15 @@ static func sync(player: PlayerState) -> void:
 		_sync_unit(player, unit)
 
 
+## Hayward displays the same standing layer on Hedgerow offers that ownership will keep.
+static func preview_shop(player: PlayerState) -> void:
+	if player.hedgerow_bonus <= 0:
+		return
+	for unit: RecruitUnit in player.shop:
+		if unit.has_tribe("Hedgerow folk"):
+			_sync_unit(player, unit)
+
+
 static func _sync_unit(player: PlayerState, unit: RecruitUnit) -> void:
 	var bonus: int = 0
 	unit.tribe_bonuses = {}

@@ -539,3 +539,10 @@ static func purchase_gain(brain: BotBrain, unit: RecruitUnit, ordinary: float) -
 			ordinary, brain.value.buy_value(unit, brain._player, brain._unit_offer_cost(unit))
 		)
 	return ordinary
+
+
+## Food held for a wake cannot back an ordinary refresh or consume the next climb's gold.
+static func refresh_budget(brain: BotBrain, cost: int) -> int:
+	var player: PlayerState = brain._player
+	var cash: int = player.gold + (0 if holds(player, brain.value) else player.larder())
+	return cash - cost - brain._held_back()

@@ -1,0 +1,14 @@
+{
+  "hedgerow_supper": {
+    "priority_matches": true,
+    "climb_matches": true,
+    "paper_save_rule": "Spend out every turn, except keep what next turn's scheduled Tier up needs beyond next turn's income (rounds 3, 6, 9 and 11). Hold every Larder item: cash one only to pay a scheduled Tier up, or to buy alderman_dozey, dr_urchin, squire_lollop or goodman_hayward. From round 12, refresh freely with spare gold.",
+    "implemented_save": "BotBrain._climb_savings via LineBrain._held_back; exact next-turn discounted cost minus income and promised income; no flat reserve"
+  },
+  "hedgerow_parish": {
+    "priority_matches": true,
+    "climb_matches": true,
+    "paper_save_rule": "Spend out every turn; keep only what next turn's scheduled Tier up needs beyond next turn's income. Refresh up to twice a turn, more only to find standing_committee at tier 5 or squire_lollop at tier 6.",
+    "implemented_save": "BotBrain._climb_savings via LineBrain._held_back; exact next-turn discounted cost minus income and promised income; no flat reserve"
+  }
+}

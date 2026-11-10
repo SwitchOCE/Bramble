@@ -2,9 +2,8 @@
 # One public method per rule or action of chapters 3-8; splitting them would hide the list.
 class_name RecruitRules
 extends RefCounted
-## The Recruit Phase actions of rulebook chapters 3-7 on one PlayerState, shared by the human
-## and the bots. Actions return "" on success, else a short reason the UI can show. Every trigger
-## goes through `events`, every change of gold through spend() or give_gold().
+## Recruit actions (chapters 3-7), shared by humans and bots. Return "" or a short UI reason.
+## Triggers use events; gold changes use spend() or give_gold().
 
 const CHOOSE_FIRST: String = "Make your choice first"
 const ACORN: String = "acorn"
@@ -20,8 +19,7 @@ var spell_pool: UnitPool
 var events: RecruitEvents
 ## 5.2.4 this lobby's tribes; empty means all. Bots read it to know which builds are possible.
 var lobby_tribes: PackedStringArray = []
-## QA hooks (tools/checks/soak.gd): choice_observer(player, pick, options) after each Discover
-## offer.
+## QA: choice_observer(player, pick, options) after each Discover offer.
 var choice_observer: Callable = Callable()
 ## Read-only measurement hook, after a shop is ready for its player.
 var shop_observer: Callable = Callable()
@@ -996,8 +994,7 @@ func _return_shop(player: PlayerState) -> void:
 
 
 func observe_shop(player: PlayerState) -> void:
-	if player.hedgerow_bonus != 0:
-		TribeBonus.sync(player)
+	TribeBonus.preview_shop(player)
 	Pass3Oozes.prepare(player)
 	if shop_observer.is_valid():
 		shop_observer.call(player)

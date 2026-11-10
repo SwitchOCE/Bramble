@@ -334,7 +334,7 @@ func _best_offer() -> Dictionary:
 				continue
 			var unit_cost: int = _unit_offer_cost(_player.shop[index])
 			if (
-				unit_cost > _player.gold
+				unit_cost > _player.gold - _held_back()
 				and not BotHedgerow.cash_purchase(_player, value, _player.shop[index])
 			):
 				continue
@@ -352,7 +352,7 @@ func _best_offer() -> Dictionary:
 		var cost: int = maxi(1, _rules.spell_cost(_player, item))
 		if _rules.spell_cost(_player, item) > spare or value.has_flag(item.def_id(), "avoid"):
 			continue
-		if cost > _player.gold and BotHedgerow.holds(_player, value):
+		if cost > _player.gold - _held_back() and BotHedgerow.holds(_player, value):
 			continue
 		if not _can_aim(item.aim()):
 			continue
@@ -508,7 +508,7 @@ func _refresh_worth_it() -> bool:
 	var cost: int = _rules.refresh_cost(_player)
 	if _burn_loss(cost) >= BotEval.GOLD_POINTS:
 		return false
-	var after: int = _player.gold - cost + _player.larder() - _held_back()
+	var after: int = BotHedgerow.refresh_budget(self, cost)
 	if after < _rules.unit_cost(_player):
 		return false
 	return _player.gold >= cost

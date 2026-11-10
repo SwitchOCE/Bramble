@@ -76,7 +76,7 @@ const DETAILS: Dictionary = {
 	"goodman_hayward":
 	(
 		"Cashing or feeding a Larder item both count. Uncapped standing tribe bonus"
-		+ " applies to Hedgerow folk now and later, including units bought later. Units "
+		+ " applies to Hedgerow folk now and later, shown on shop offers and kept when bought. Units "
 		+ "summoned in fights do not get it."
 	),
 	"standing_committee":

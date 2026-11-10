@@ -81,7 +81,7 @@ static func ranked(
 		if (
 			unit != null
 			and (not tribe_only or unit.has_tribe(TRIBE))
-			and not unit.has_mechanic_id("shy")
+			and (not tribe_only or not unit.has_mechanic_id("shy"))
 		):
 			out.append(unit)
 	out.sort_custom(
@@ -321,6 +321,8 @@ static func _share(
 
 
 static func prepare(player: PlayerState) -> void:
+	if player.hedgerow_bonus > 0:
+		TribeBonus.preview_shop(player)
 	for unit: RecruitUnit in player.owned_units():
 		for key: String in ["hedgerow_preview", "hedgerow_runt"]:
 			if unit.has_meta(key):

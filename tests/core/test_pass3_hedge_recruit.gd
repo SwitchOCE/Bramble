@@ -178,6 +178,7 @@ func test_golden_pym_and_beadle_double_pass_values() -> void:
 
 func test_hayward_cash_and_feed_create_uncapped_bonus_on_future_owned_and_held_units() -> void:
 	for golden: bool in [false, true]:
+		before_each()
 		kit.player.board.fill(null)
 		kit.player.items.clear()
 		kit.player.hedgerow_bonus = 0
@@ -188,9 +189,15 @@ func test_hayward_cash_and_feed_create_uncapped_bonus_on_future_owned_and_held_u
 		kit.rules.give_card(kit.player, "great_hoard")
 		kit.rules.play_item(kit.player, 0, 6)
 		var fresh: RecruitUnit = kit.shop("mr_crumb")
-		assert_eq(fresh.tribe_attack, 0, "standing bonuses begin with ownership")
+		kit.rules.observe_shop(kit.player)
+		assert_eq(
+			fresh.tribe_attack, 42 if golden else 21, "Hayward previews its standing shop bonus"
+		)
+		var displayed: Vector2i = Vector2i(fresh.attack, fresh.health)
+		assert_eq(Vector2i(fresh.perm_attack, fresh.perm_health), Vector2i.ZERO)
 		assert_eq(kit.rules.buy(kit.player, 0), "")
 		assert_eq(fresh.tribe_attack, 42 if golden else 21)
+		assert_eq(Vector2i(fresh.attack, fresh.health), displayed, "buying keeps the preview once")
 		var holder: RecruitUnit = kit.put("little_dollop", 5)
 		kit.player.hand.erase(fresh)
 		holder.held.append(fresh)
@@ -265,3 +272,24 @@ func test_wake_view_pips_cycle_and_reset_on_move() -> void:
 	_end()
 	assert_eq(dozey.view()["turns_in_slot"], 0)
 	assert_eq(dozey.view()["turns_goal"], 3)
+
+
+func test_hayward_frozen_shop_preview_precedes_observer_and_excludes_shy_and_other_tribes() -> void:
+	kit.card("hedge_shy_offer", [{"id": "shy", "gold": 2}], ["Hedgerow folk"], 5, 7)
+	var offer: RecruitUnit = kit.shop("mr_crumb")
+	var shy: RecruitUnit = kit.shop("hedge_shy_offer")
+	var other: RecruitUnit = kit.shop("pill_bug")
+	kit.player.tribe_bonuses["Hedgerow folk"] = 3
+	kit.player.hedgerow_bonus = 21
+	kit.player.frozen = true
+	kit.rules.board_changed(kit.player)
+	assert_eq(Vector2i(offer.tribe_attack, offer.tribe_health), Vector2i(24, 24))
+	assert_eq(Vector2i(shy.tribe_attack, shy.tribe_health), Vector2i.ZERO)
+	assert_eq(Vector2i(other.tribe_attack, other.tribe_health), Vector2i.ZERO)
+	assert_eq(Vector2i(offer.perm_attack, offer.perm_health), Vector2i.ZERO)
+	var observed: Array[Vector2i] = []
+	kit.rules.shop_observer = func(_player: PlayerState) -> void:
+		observed.append(Vector2i(offer.tribe_attack, offer.tribe_health))
+	kit.player.hedgerow_bonus = 42
+	kit.rules.observe_shop(kit.player)
+	assert_eq(observed, [Vector2i(45, 45)], "observer sees current frozen-offer standing stats")

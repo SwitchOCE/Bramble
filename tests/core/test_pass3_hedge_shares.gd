@@ -62,3 +62,39 @@ func test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns() -> void:
 			81 if golden else 71,
 			"combining ten acorns yields a Hoard and Acorn"
 		)
+
+
+func test_lollop_normal_and_golden_can_read_a_shy_biggest_without_buffing_it() -> void:
+	for golden: bool in [false, true]:
+		before_each()
+		kit.card("big_shy_source", [{"id": "shy", "gold": 2}], ["Fairies"], 205, 307)
+		var source: RecruitUnit = kit.put("big_shy_source", 1)
+		var recipient: RecruitUnit = kit.put("field_vole", 0)
+		var lollop: RecruitUnit = kit.put("squire_lollop", 4, golden)
+		kit.rules.board_changed(kit.player)
+		var expected: Vector2i = Vector2i(41, 61) if golden else Vector2i(20, 30)
+		assert_eq(lollop.get_meta("hedgerow_preview"), expected)
+		Pass3Hedgerow.start_turn(kit.rules, kit.player)
+		assert_eq(Vector2i(recipient.perm_attack, recipient.perm_health), expected)
+		assert_eq(Vector2i(lollop.perm_attack, lollop.perm_health), expected)
+		assert_eq(Vector2i(source.attack, source.health), Vector2i(205, 307))
+		assert_eq(Vector2i(source.perm_attack, source.perm_health), Vector2i.ZERO)
+
+
+func test_recruit_growth_uses_strongest_printed_or_borrowed_text_with_guard_off_proof() -> void:
+	for guarded: bool in [true, false]:
+		before_each()
+		kit.config.set_value("pass3_loop_guards", guarded)
+		kit.player.pass3_loop_guards = guarded
+		var entry: Dictionary = {
+			"id": "pass3_hedgerow", "ability": "mrs_clover", "factor": 1, "share": 1.0
+		}
+		var id: String = kit.card("shared_clover", [entry], ["Hedgerow folk"], 10, 20)
+		var clover: RecruitUnit = kit.put(id, 6)
+		clover.grants.append({"entry": entry.duplicate(true), "golden": true})
+		kit.play("mrs_burdock", 0)
+		var summoned: RecruitUnit = kit.player.board[4]
+		assert_not_null(summoned)
+		assert_eq(summoned.def_id(), "kit")
+		assert_eq(summoned.attack, 21 if guarded else 31)
+		assert_eq(summoned.health, 41 if guarded else 61)

@@ -243,8 +243,9 @@ Readings and limits:
 - Source sharing is a reusable native snapshot helper: Clover reads its current
   source, Committee freezes its runt, and all Lollops freeze the global biggest
   before any Lollop growth. Biggest ties use reading order; smallest ties zigzag.
-- Hayward's bonus starts with ownership, including later purchases and held
-  units, rather than appearing as an aura on unowned shop offers. It is separate
+- Hayward's bonus is a standing ownership layer, including later purchases and
+  held units. Shop offers preview that layer, as the synthesis specifies; buying
+  keeps the same layer and does not turn it into a permanent buff. It is separate
   from Harvest Supper and has no cap.
 - Mast retains only its named rate guard; caps-off removes it. Its payout can
   combine into larger Larder items immediately, counted as actual item events.
@@ -301,3 +302,43 @@ The final native-content policy guard passes **14/14** targeted checks in
 fixture changed. Evidence: `evidence/wave2b/hedgerow/rollback.json` and `.log`.
 The remaining compatibility files, two-lobby timing and full32 measurements
 remain pending; part 2 is not an acceptance hand-off.
+
+### Part 2 route fidelity and final source checks
+
+Both line files' complete priorities and climb schedules match the synthesis
+exactly (`hedgerow/route-fidelity.json`). Their saving rule is the exact next-turn
+discounted climb shortfall after income and promised income, not a flat reserve:
+Supper keeps 3 at R6 in the directed case, Parish 4 at R5. Tests use actual
+BenchSuites-created CommittedLineBrain instances. That exposed and fixed omitted
+purchase-timing/copy hooks, unscheduled early climbs, and held food incorrectly
+backing purchases/refreshes that should preserve banked climb gold. These fixes
+are conditional on native Hedgerow; the generic other-tribe early-climb checks
+and original complete-game replay still pass.
+
+Hayward now previews its standing bonus on shop offers, without making it a
+permanent shop buff; buy and Belly storage retain it exactly once. This corrects
+the earlier ownership-only reading against the synthesis's explicit shop line.
+Lollop may read a big Shy unit as a source; immunity still excludes Shy recipients.
+A recruit printed-plus-borrowed Clover case shows strongest-once growth, and the
+extra growth when that shared guard is disabled.
+
+Every seat-round now logs gold, shop tier, Larder gold and full nested Belly
+contents by top-level holder slot, alongside pre-start stats. The report includes
+both active-only and including-Belly growth, survivor counts, matched R14 cohorts
+and raw per-seat ratios. Known neutral builds count as off-build in splash;
+missing strategies remain separate. Its eight synthetic tests pass and its
+Ooze cross-check reproduces the previous 1.368714/1.250810 growth and 49/3582
+off-build purchases exactly. Paper per-line B R12 references are 979 (Supper) and
+870 (Parish), from `presets-model/six.json`; `six.py:31` identifies their order.
+
+Final source validation: **185/185 across 18 targeted files, 227.400s**, including
+all seven mandatory content-wide files and original replay hashes; checker and
+report Python checks **29/29**. `gdlint src tools`, `(cd tests && gdlint .)`,
+`ruff check tools/`, and `ruff format --check tools/` all pass. The requested
+FixturePort line wrap is isolated in `157c65e4`. Per-file counts/times are recorded
+in `hedgerow/targeted-final.json`; the full 37-file baseline was 360/360.
+
+The final two pilots took **12.617s and 15.529s**, mean **14.073s**, projecting
+**7.506 minutes** for 32. Telemetry keys and tiers were verified. The 32-lobby
+run is detached in `build/wave2b/hedgerow/final-lines.*`; acceptance/accounting
+values remain pending until it finishes. No local full gate ran.
