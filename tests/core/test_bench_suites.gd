@@ -4,6 +4,25 @@ const STREAM := preload("res://tools/sim/hard_stream.gd")
 ## Active tools keep one player-facing bot strength and a tools-only Naive yardstick.
 
 
+func test_a35_run1_seats_all_committed_lines_evenly_on_matched_seeds() -> void:
+	assert_true(BenchSuites.is_known("a35_run1"))
+	var counts: Dictionary = {}
+	var profiles: Dictionary = LinePolicies.profiles()
+	for game_seed: int in range(2911001, 2911033):
+		var roster: PackedStringArray = BenchSuites.seats("a35_run1", game_seed)
+		assert_eq(roster.size(), 8)
+		assert_eq(roster, BenchSuites.seats("a35_run1", game_seed))
+		var seen: Dictionary = {}
+		for line: String in roster:
+			assert_true(profiles.has(line), line)
+			assert_false(seen.has(line), line)
+			seen[line] = true
+			counts[line] = CoreUtil.to_int(counts.get(line, 0)) + 1
+	assert_eq(counts.size(), 12)
+	for line: String in counts:
+		assert_between(CoreUtil.to_int(counts[line]), 21, 22, line)
+
+
 func test_retired_difficulty_suites_are_rejected() -> void:
 	for suite: String in [
 		"hard_easy",
