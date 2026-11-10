@@ -18,7 +18,7 @@
       "family": "Hunters",
       "source": "round2-reuse",
       "accepted_sha256": "4cefad80e15f21de02163c264e5d4195319431b1f54dd4b651a4030bcbf24fe7",
-      "review": "150px paired comparison passed; identity retained"
+      "review": "150px paired identity comparison and 70px circular hero contrast check passed"
     },
     {
       "id": "dame_farthing",
@@ -35,7 +35,7 @@
       "family": "Hunters",
       "source": "frozen-header",
       "accepted_sha256": "dc986269a0c39dfa9c4abffd247847d51f41ebaf5e8c537fbb2ba35b2bfaa940",
-      "review": "150px paired comparison passed; identity retained"
+      "review": "150px paired identity comparison and 70px circular hero contrast check passed"
     },
     {
       "id": "dame_hoolet",
@@ -52,7 +52,7 @@
       "family": "Birds",
       "source": "frozen-header",
       "accepted_sha256": "87f5a7d9153cce037de8ab2f2c0925d8a146396425293e1256a4ab94cd6a4b8e",
-      "review": "150px paired comparison passed; identity retained"
+      "review": "150px paired identity comparison and 70px circular hero contrast check passed"
     },
     {
       "id": "bridge_toad",
@@ -667,9 +667,12 @@
       "original": "build/loop1/batch0/current/portraits/drip.jpg",
       "target": "assets/portraits/drip.jpg",
       "original_sha256": "dd2ebf24c73153ce7cb86cc93a129d75852eb1e4d13722c552b1cf882118286b",
-      "state": "pending",
+      "state": "accepted",
       "note": "Single teardrop-shaped RED ooze with curled pointed tip, tiny worried eyebrows/eyes and small open mouth. Preserve red, not pink/green. No props, just a ground/contact shadow and quiet seafoam planes.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "522e6b39550a8322c5fd78d3ec49825ec3679f22c5cd29d0ffc5cd19e0ae9d3a",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "barn_owl",
@@ -681,9 +684,12 @@
       "original": "build/loop1/batch0/current/portraits/barn_owl.jpg",
       "target": "assets/portraits/barn_owl.jpg",
       "original_sha256": "ea417173095f9c67e4b2527f9906af2e624c08e54910877ff23ea7ac2273e655",
-      "state": "pending",
+      "state": "accepted",
       "note": "Cream and golden BARN OWL with heart-shaped pale face, wings spread, blue shoulder cape, perched/moving within timber barn doorway, small pale moon at right. Keep heart face, spread wings, blue cape, barn beams and moon.",
-      "family": "Birds"
+      "family": "Birds",
+      "source": "frozen-header",
+      "accepted_sha256": "beb284d0e92aa97d091168254d5ae9a50437f718d01f348a8ce3e0d1d170a7dd",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "a_leg_up",
@@ -695,9 +701,12 @@
       "original": "build/loop1/batch0/current/portraits/a_leg_up.jpg",
       "target": "assets/portraits/a_leg_up.jpg",
       "original_sha256": "1e61e940f25180967a07f4a659e66e79d607dbe79044e5535ba61c3af3149861",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL scene: small hedgehog below giving a golden squirrel a leg-up toward a tree branch. Squirrel reaching up, big curled tail; hedgehog bracing/lifting underneath. Preserve BOTH animals and helping gesture, tree trunk at right.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "178e16c21ecb2821defb31b9e6ec6e90ea5117a74401cf588ff637321ab4ea05",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "acorn",
@@ -709,9 +718,12 @@
       "original": "build/loop1/batch0/current/portraits/acorn.jpg",
       "target": "assets/portraits/acorn.jpg",
       "original_sha256": "c86886c0ef9acc5cd3578204f275db3a5a9497277aefdf1492de45dd956007c6",
-      "state": "pending",
+      "state": "accepted",
       "note": "ITEM: one single large tan acorn, plain dark brown cap and short curved stem, clear round nut silhouette. No cap crosshatching, no face, no extra nuts; clay-rose broad planes and upper-right cream glint.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "69a2048652cdbf6cdbc976b68fcb5bae99984f9249ccd799b1fd8400674050e0",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "elderflower_cordial",
@@ -740,9 +752,12 @@
       "original": "build/loop1/batch0/current/portraits/golden_egg.jpg",
       "target": "assets/portraits/golden_egg.jpg",
       "original_sha256": "26a8966abc61b290a87b014fd6459a1403a38576345eae773f68f9449f2d5fcc",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL: one large luminous golden egg resting on simple straw nest; black bird silhouette and pale ivory outlined bird silhouette above it with a few simple sparkle stars. Preserve both bird silhouettes and egg.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "f52b20604f51f17c9631b46ed3038ca0daed2161e656e6bab0486f4f949eecae",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "great_hoard",
@@ -754,9 +769,12 @@
       "original": "build/loop1/batch0/current/portraits/great_hoard.jpg",
       "target": "assets/portraits/great_hoard.jpg",
       "original_sha256": "f21a174c86c0686361027caca364e19cf821995c986dc29b16a4e3ea4b7c4e12",
-      "state": "pending",
+      "state": "accepted",
       "note": "ITEM: open iron-bound brown wooden treasure chest overflowing with golden-brown acorns, several spilling toward foreground. Keep open lid, iron straps and acorns; no coins or gems, simple broad nut shapes.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "3786ff17433880ee7130ab4858be02b358dc0367b668cfc3e0a9708cd20f8fcd",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "bread_from_the_back",
@@ -768,9 +786,12 @@
       "original": "build/loop1/batch0/current/portraits/bread_from_the_back.jpg",
       "target": "assets/portraits/bread_from_the_back.jpg",
       "original_sha256": "df8f9f14d8aa30d8d8e7db6690ef5f94e82be4e222a94b1f8fc476ca6e838a83",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL: one BIG WHOLE ROUND GOLDEN-BROWN LOAF passed from paw to paw: upper-right BADGER paw with black fur and ivory wrist stripe, middle-right russet FOX paw holding loaf underneath, small pale receiving paw reaching up from bottom. Keep ALL THREE distinct hands and uncut round loaf with two broad pale scores. NO knife, NO cut slices, no faces/new characters. Quiet clay-rose planes.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "3999ef321bd49d2648db00e4e3699438ac17105803d6288536716bc11155e414",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "cold_frame",
@@ -782,9 +803,12 @@
       "original": "build/loop1/batch0/current/portraits/cold_frame.jpg",
       "target": "assets/portraits/cold_frame.jpg",
       "original_sha256": "2fe365a3203107b66214d03fc4aebf7df3bde0707614d4451ba485a6e1edf160",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL: wooden cold-frame garden box with tilted clear glass hinged lid, single large green seedling inside, SNOW bank outside and pale sky. Keep lid, wood box, seedling and snow; no invented greenhouse building.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "359c6efde21515ac9f52f673e0aa9457ccee226af09cb9e271126ef539409ece",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "harvest_supper",
@@ -796,9 +820,12 @@
       "original": "build/loop1/batch0/current/portraits/harvest_supper.jpg",
       "target": "assets/portraits/harvest_supper.jpg",
       "original_sha256": "56d4b7d943dfd62664314675822868d9b6dd58603ae917a3804a335ac3c58c53",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL: long table with big golden pie in foreground, bread/cups along table, several dark woodland guest silhouettes seated on both sides, overhead lantern hanging from timber barn beam, evening beyond. One focal table/pie, simplified guests. Preserve banquet story and lantern.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "92a905525579db8ff92bd126394fdf202c0cb1b89f7eb4faa10b46821d3fa8f8",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "boundary_stone",
@@ -810,9 +837,12 @@
       "original": "build/loop1/batch0/current/portraits/boundary_stone.jpg",
       "target": "assets/portraits/boundary_stone.jpg",
       "original_sha256": "b5dfb92376d8bb63f07f0a803a8dab9e611e504047e6f6c8b4bbe0f92d9ab012",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL: single tall irregular grey standing stone with mossy green cap and large pale circular rune, surrounded by simple pale dashed ring on ground. Preserve stone, circular rune and ground ring, not lettering.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "84764a0f8f388cca6a89a28fd6c2ad1b634bf8d3d9b911f5fe585cffaa49f7e7",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "hiring_fair",
@@ -824,9 +854,12 @@
       "original": "build/loop1/batch0/current/portraits/hiring_fair.jpg",
       "target": "assets/portraits/hiring_fair.jpg",
       "original_sha256": "6a24f773fd0573f143665a72c33ccc7deeec915154ed5fcb04108cd96c628f2e",
-      "state": "pending",
+      "state": "accepted",
       "note": "SPELL: three woodland applicants, BADGER left, long-eared RABBIT centre, SQUIRREL right, on low wooden platform holding BLANK ivory placards; small hedgehog recruiter seen from behind below holding big russet sack of acorns. Keep species, blank signs and recruitment scene. Simplify faces, no text.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "a84b18a9444e50238e8610e9da6d3f6b5ae604a8690f4af6fea2ad5b65bbcc19",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "beltane_bonfire",
