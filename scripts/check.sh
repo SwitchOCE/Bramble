@@ -8,6 +8,11 @@
 #                                    (tools/checks/docs_only_paths.py). Run it without the Godot lock.
 #   ./scripts/check.sh --docs-only --base <sha>
 #                                    the same, but compares against <sha> instead of the upstream
+#   ./scripts/check.sh --no-tests    every step but tests (the sharded Actions gate's static job);
+#                                    may follow --keep-going
+#   ./scripts/check.sh --shard <i>/<n>
+#                                    tools, import and tests, with only shard i of n's test scripts
+#                                    (tools/checks/test_shards.py; the Actions gate's shard jobs)
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
 #   PARITY_STRICT=1                 Fail shop-pool parity mismatches (default: warn)
@@ -40,8 +45,20 @@ GD_DIRS=(src tools/checks tools/play tools/sim)
 KEEP_GOING=0
 DOCS_ONLY=0
 DOCS_BASE=""
+NO_TESTS=0
+SHARD=""
 case "${1:-}" in
-  --keep-going) KEEP_GOING=1 ;;
+  --keep-going)
+    KEEP_GOING=1
+    [ "${2:-}" = "--no-tests" ] && { NO_TESTS=1; shift; }
+    ;;
+  --no-tests) NO_TESTS=1 ;;
+  --shard)
+    [ -n "${2:-}" ] || { echo "--shard needs i/n, such as 2/4"; exit 2; }
+    SHARD="$2"
+    out="$(python3 "$ROOT/tools/checks/test_shards.py" list "$SHARD")" || { echo "$out"; exit 2; }
+    shift
+    ;;
   --docs-only)
     DOCS_ONLY=1
     if [ "${2:-}" = "--base" ]; then
@@ -127,6 +144,10 @@ summary() {
   else
     if [ "$DOCS_ONLY" -eq 1 ]; then
       echo "${GREEN}check.sh: docs-only steps passed (Godot steps skipped)${RESET}"
+    elif [ -n "$SHARD" ]; then
+      echo "${GREEN}check.sh: shard $SHARD passed (tools, import, tests)${RESET}"
+    elif [ "$NO_TESTS" -eq 1 ]; then
+      echo "${GREEN}check.sh: all steps but tests passed${RESET}"
     else
       echo "${GREEN}check.sh: all steps passed${RESET}"
     fi
@@ -173,6 +194,8 @@ strip_ansi() { sed $'s/\e\\[[0-9;]*m//g' "$@"; }
 step_tools() {
   local ok=0 tool got
   local tools=(gdformat gdlint python3 ruff shellcheck)
+  # A shard runs no static steps, so it needs only Godot and Python.
+  [ -z "$SHARD" ] || tools=(python3)
   # --docs-only never starts Godot, so it can run without the Godot lock.
   [ "$DOCS_ONLY" -eq 1 ] || tools=("$GODOT" "${tools[@]}")
   for tool in "${tools[@]}"; do
@@ -185,6 +208,10 @@ step_tools() {
   if [ "$DOCS_ONLY" -eq 0 ]; then
     got="$("$GODOT" --headless --version 2>/dev/null | head -n1)"
     case "$got" in "${GODOT_VERSION}.stable"*) ;; *) echo "godot is '$got', pinned ${GODOT_VERSION}"; ok=1 ;; esac
+  fi
+  if [ -n "$SHARD" ]; then
+    [ "$ok" -eq 0 ] && echo "godot ${GODOT_VERSION}, $(python3 --version)"
+    return "$ok"
   fi
   got="$(gdlint --version 2>&1 | head -n1 | tr -s ' ')"
   [ "$got" = "gdlint ${GDTOOLKIT_VERSION}" ] || { echo "'$got', pinned gdtoolkit ${GDTOOLKIT_VERSION}"; ok=1; }
@@ -284,6 +311,7 @@ step_parity() {
 
 step_tests() {
   local log="$LOG_DIR/gut.log" xml="$LOG_DIR/gut.xml" status hook found ran test_data
+  local config=() scripts=0 ran_scripts
   # GUT hangs when post_run_script is missing; fail fast instead.
   hook=$(python3 -c 'import json; print(json.load(open(".gutconfig.json")).get("post_run_script", ""))')
   if [ -z "$hook" ] || [ ! -f "${hook#res://}" ]; then
@@ -293,8 +321,14 @@ step_tests() {
   # Parallel worktrees share the app name; their user:// fixtures must remain private.
   test_data=$(mktemp -d "${TMPDIR:-/tmp}/bramble-gut.XXXXXX") || return 1
   rm -f "$xml"
+  # A shard runs from a copy of .gutconfig.json that lists only its scripts.
+  if [ -n "$SHARD" ]; then
+    python3 tools/checks/test_shards.py gutconfig "$SHARD" "$LOG_DIR/gutconfig-shard.json" || return 1
+    config=(-gconfig="$LOG_DIR/gutconfig-shard.json")
+    scripts="$(python3 tools/checks/test_shards.py list "$SHARD" | grep -c .)"
+  fi
   XDG_DATA_HOME="$test_data" "${MEMCAP[@]}" timeout "$GUT_TIMEOUT" "$GODOT" --headless \
-    -s addons/gut/gut_cmdln.gd -gjunit_xml_file="$xml" >"$log" 2>&1 9>&-
+    -s addons/gut/gut_cmdln.gd "${config[@]}" -gjunit_xml_file="$xml" >"$log" 2>&1 9>&-
   status=$?
   rm -rf -- "$test_data"
   sed -n '/= Run Summary/,$p' "$log" | strip_ansi
@@ -318,6 +352,14 @@ step_tests() {
     echo "no tests ran (full log: $log)"
     return 1
   fi
+  # A shard must run every script it lists (GUT skips a path it can't load).
+  if [ -n "$SHARD" ]; then
+    ran_scripts="$(strip_ansi "$log" | sed -n 's/^Scripts  *\([0-9][0-9]*\).*/\1/p' | head -n 1)"
+    if [ "${ran_scripts:-0}" -ne "$scripts" ]; then
+      echo "shard $SHARD ran ${ran_scripts:-0} of its $scripts test scripts (full log: $log)"
+      return 1
+    fi
+  fi
   # The strict hook (risky, pending, no-assert tests) must have run.
   if ! strip_ansi "$log" | grep -E "^gut_strict: ok" >/dev/null; then
     echo "risky/pending hook did not run (tools/checks/gut_strict_hook.gd, full log: $log)"
@@ -331,6 +373,15 @@ step_tests() {
 }
 
 run_step "tools" step_tools
+if [ -n "$SHARD" ]; then
+  slot_take
+  run_step "import" step_import
+  run_step "tests" step_tests
+  slot_give "$([ "${#FAILED[@]}" -eq 0 ] && echo 0 || echo 1)"
+  summary
+  [ "${#FAILED[@]}" -eq 0 ]
+  exit
+fi
 run_step "versions" step_versions
 run_step "shell" step_shell
 run_step "python" step_python
@@ -344,7 +395,11 @@ else
   run_step "import" step_import
   run_step "compile" step_compile
   run_step "parity" step_parity
-  run_step "tests" step_tests
+  if [ "$NO_TESTS" -eq 1 ]; then
+    echo "no-tests: skipped the tests step (the shard jobs run it)"
+  else
+    run_step "tests" step_tests
+  fi
   slot_give "$([ "${#FAILED[@]}" -eq 0 ] && echo 0 || echo 1)"
 fi
 summary
