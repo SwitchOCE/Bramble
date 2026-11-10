@@ -104,6 +104,11 @@ Three of five triage agents were stopped by Anthropic's safety filter (`reasonin
 - **Untracked files outside `docs/` fail the docs-only check.** Keep prompt drafts and art outputs under `build/` until they go on a branch.
 - **Art workers write only to their output folder.** A Codex image worker exported straight into the main checkout's `assets/portraits/`. The prompt header now says "Do not write into assets/".
 
+## Copies are not reach; survivors hide deaths (10 Nov)
+Stone Soup's design assumed it would be on the board by R3–R4 ("never misses a shop"; "T2 cards with many copies"). Only 25% of engine seats saw it by R6, and when it landed it gave +0, because each stat rounds down. The medians counted survivors only, so the seats it killed never showed.
+- **For each named piece, state its chance of being seen by its round** (shop odds times the real climb) **and its rounded yield** on the board it lands on.
+- **Report eliminations next to every survivor median.**
+
 ## A targeted run missed three failures a merge would have shipped (10 Nov)
 Wave 2b's worker ran 431 targeted tests, then changed bot code and reran only the 30 bot tests. The Actions gate on the merge failed three tests outside both sets: a UI tile-tag test, a lobby deal test and a line-brain type error.
 - **After the last code edit, rerun every test script the diff can reach,** or gate the branch itself on Actions before reporting.

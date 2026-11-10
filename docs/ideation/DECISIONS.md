@@ -4,6 +4,35 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Stone Soup triage: calls
+**Source:** `evidence/triage-stone-soup.md`. A triage workflow ran five hypothesis investigators, five refuters and a synthesis on the engine line's 32 B lobbies.
+
+**Found:**
+- Stone Soup is a trap in its window: +0 per shop unit in 17 of 24 R4–R6 board-rounds.
+- Soup seats die early: 5 of 11 were out before R12, against 1 of 21 for other seats.
+- Card and journey hypotheses kept; measurement kept in part (the bot overvalues Soup); competition and system ruled out; the payout gap is still open.
+
+**Picked:** take all six fixes. They land in A3 (w2) with the neutrals, before the pool settles.
+1. **Soup moves to tier 1, 2/3.** This is a deviation from the Ooze design doc's tier.
+2. **The line's route:** Little Dollop goes ahead of Stone Soup until a Digest Ooze is down, and Soup's +12 bot bonus applies only with a carry. This ships with item 1.
+3. **Soup rounds up.** Its text becomes "rounded up", and rulebook 12.1.9 gets a Soup-only exception. Reason: generous power first (09h).
+4. **Purchase pin:** off-tribe bodies are allowed after R4 for a seat with no Digest Ooze.
+5. **A second plain Soup** counts only its body value plus the pair bonus.
+6. **Harness:** log offers, buys and Nell's meals per card, and report eliminations next to the survivor medians.
+
+**Confirm:** the triage's own rerun bars, on the same 32 seeds at B:
+- Soup by R6 on 20+ of 32 engine seats;
+- Soup seats out before R12 no more often than the rest;
+- Soup on at least half the R12 engine boards.
+
+**Process fix:**
+- A journey check states each named piece's chance of being seen by its round, from shop odds and the real climb, and its rounded yield on the board it lands on. The same cause applies to every tribe's tier-2 and tier-3 engine pieces, so A3.5 run 1's checks add that column.
+- The triage skill gets the line in the next gated merge, since `.claude/` isn't docs-only.
+
+**Next:** Ooze payout. Surviving engine boards reach only 262–331 at R12 against 900, so this fix alone doesn't fix scale. That triage goes to a Codex worker (10b).
+
+**Agreed by:** the workflow's refuters corrected three of the five verdicts before the synthesis; no cut is left open.
+
 ### 10 Nov 2026 — Compute: Codex over Opus (owner, 10b)
 **Source:**
 - The owner's note `2026-11-10b-codex-over-opus.md`: "We need way, way, way more Codex usage and less Opus usage."
