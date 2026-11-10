@@ -13,7 +13,7 @@ const REQUIRED_HEDGEROW: PackedStringArray = [
 	"hedgerow_golden_dozey_wake_multiplier",
 	"hedgerow_treasurer_per_gold",
 ]
-## Build 8 B, measured on the original cca9242f paths; C remains authored.
+## Build 8 B, measured on the original cca9242f paths; C is separately measured for build 9.
 const MEASURED_B: Dictionary = {
 	"birds_chiffchaff_gain": 3,
 	"birds_cuckoo_share": 0.14285714285714285,
@@ -46,6 +46,38 @@ const MEASURED_B: Dictionary = {
 	"hunters_russet_buff_share": 0.8333333333333334,
 	"hunters_sable_share": 0.8333333333333334,
 	"hunters_wick_share": 0.5833333333333334
+}
+## Provisional build 9 C, solved to 1,800 on the frozen run-1 engine cohorts.
+const PROVISIONAL_C: Dictionary = {
+	"birds_chiffchaff_gain": 6,
+	"birds_cuckoo_share": 0.16666666666666666,
+	"birds_golden_egg_multiplier": 3.5,
+	"birds_golden_homecoming_multiplier": 3.5,
+	"birds_homecoming_multiplier": 3.0,
+	"birds_redbreast_share": 0.1875,
+	"birds_stork_gold_step": 5,
+	"bog_golden_soak_keep": 8,
+	"bog_golden_tiddy_share": 2.0,
+	"bog_soak_keep": 4,
+	"bog_tiddy_share": 1.0,
+	"fairies_lob_growth": 16,
+	"fairies_ring_growth": 12,
+	"fairies_silky_growth": 6,
+	"hedgerow_dozey_wake_multiplier": 4.0,
+	"hedgerow_golden_dozey_wake_multiplier": 4.0,
+	"hedgerow_mallow_multiplier": 4.0,
+	"hedgerow_treasurer_per_gold": 3.0,
+	"hunters_ermeline_pelts": 5,
+	"hunters_glutton_share": 1.6666666666666667,
+	"hunters_golden_ermeline_pelts": 10,
+	"hunters_grizel_share": 0.8333333333333334,
+	"hunters_lodger_share": 1.6666666666666667,
+	"hunters_lutra_share": 0.875,
+	"hunters_nip_share": 0.875,
+	"hunters_pelt_share": 0.8333333333333334,
+	"hunters_russet_buff_share": 0.875,
+	"hunters_sable_share": 0.875,
+	"hunters_wick_share": 0.8333333333333334
 }
 const STEPS: Array[float] = [0.0, 0.25, 0.5, 1.0, 1.5, 1.71, 2.0, 2.5, 3.0]
 ## [rate key, card, field, regex, golden factor key or number]. The regex's last non-empty
@@ -299,6 +331,17 @@ func test_measured_b_values_are_pinned_and_oozes_keep_their_promoted_b() -> void
 	assert_eq(Pass3Rates.defaults()["oozes_eat_printed_multiplier"], 1.0, "A keeps old eating")
 
 
+func test_provisional_c_pins_every_fitted_dial_without_moving_the_ooze_probe() -> void:
+	var c: Dictionary = Pass3Path.preset_rates("C")
+	for key: String in PROVISIONAL_C:
+		assert_almost_eq(
+			CoreUtil.to_float(c[key]), CoreUtil.to_float(PROVISIONAL_C[key]), 1e-9, key
+		)
+	assert_eq(c["oozes_eat_printed_multiplier"], 21.0)
+	assert_eq(c["oozes_aspic_bonus"], 5.4)
+	assert_eq(c["oozes_soup_share"], 0.9)
+
+
 func test_limits_snaps_and_golden_relations_hold_along_every_path() -> void:
 	for t: float in STEPS:
 		var path: Dictionary = Pass3Path.override(t)
@@ -364,7 +407,6 @@ func test_limits_snaps_and_golden_relations_hold_along_every_path() -> void:
 			["birds_homecoming_multiplier", "birds_golden_homecoming_multiplier"],
 			["bog_soak_keep", "bog_golden_soak_keep"],
 			["bog_tiddy_share", "bog_golden_tiddy_share"],
-			["hunters_ermeline_pelts", "hunters_golden_ermeline_pelts"],
 			["hunters_russet_buff_share", "hunters_golden_russet_buff_share"],
 			["fairies_monarch_multiplier", "fairies_golden_monarch_multiplier"],
 			["hedgerow_dozey_wake_multiplier", "hedgerow_golden_dozey_wake_multiplier"],
@@ -388,11 +430,11 @@ func test_snaps_round_up_toward_generous_on_the_rebased_paths() -> void:
 	assert_almost_eq(Pass3Path.snap(4.0 / 3.0, "pct5"), 1.35, 1e-9)
 	var t2: Dictionary = Pass3Path.override(2.0)
 	var t3: Dictionary = Pass3Path.override(3.0)
-	assert_eq([t2["hunters_ermeline_pelts"], t3["hunters_ermeline_pelts"]], [2, 1])
-	assert_eq(t3["hunters_golden_ermeline_pelts"], 2)
-	assert_eq([t2["hunters_glutton_share"], t3["hunters_glutton_share"]], [11.0 / 12.0, 5.0 / 6.0])
-	assert_eq([t2["hunters_nip_share"], t3["hunters_nip_share"]], [0.75, 0.625])
-	assert_eq([t2["bog_tiddy_share"], t2["bog_golden_tiddy_share"]], [0.75, 1.5])
+	assert_eq([t2["hunters_ermeline_pelts"], t3["hunters_ermeline_pelts"]], [9, 14])
+	assert_eq(t3["hunters_golden_ermeline_pelts"], 10)
+	assert_eq([t2["hunters_glutton_share"], t3["hunters_glutton_share"]], [2.5, 11.0 / 3.0])
+	assert_eq([t2["hunters_nip_share"], t3["hunters_nip_share"]], [1.0, 1.0])
+	assert_eq([t2["bog_tiddy_share"], t2["bog_golden_tiddy_share"]], [1.0, 2.0])
 
 
 func test_promoted_ooze_path_preserves_b_and_uses_clamped_arm_c() -> void:
@@ -459,7 +501,7 @@ func test_promoted_ooze_path_preserves_b_and_uses_clamped_arm_c() -> void:
 func test_per_tribe_t_moves_only_that_tribe() -> void:
 	var mixed: Dictionary = Pass3Path.override({"hunters": 3.0})
 	var base: Dictionary = Pass3Path.override(0.0)
-	assert_eq(mixed["hunters_ermeline_pelts"], 1)
+	assert_eq(mixed["hunters_ermeline_pelts"], 14)
 	assert_eq(mixed["oozes_eat_printed_multiplier"], base["oozes_eat_printed_multiplier"])
 	assert_eq(mixed["birds_homecoming_multiplier"], base["birds_homecoming_multiplier"])
 	var ooze_only: Dictionary = Pass3Path.override({"oozes": 1.0})
@@ -591,7 +633,7 @@ func _field(card: Dictionary, field: String) -> String:
 
 
 func test_tiddy_splits_its_dialled_share_at_t0_and_cap() -> void:
-	for row: Array in [[0.0, false, 15], [0.0, true, 30], [3.0, false, 15], [3.0, true, 30]]:
+	for row: Array in [[0.0, false, 15], [0.0, true, 30], [3.0, false, 20], [3.0, true, 40]]:
 		_kit(row[0])
 		var toad: RecruitUnit = kit.put("bridge_toad", 4)
 		kit.put("tiddy_mun", 5, row[1])
@@ -601,7 +643,7 @@ func test_tiddy_splits_its_dialled_share_at_t0_and_cap() -> void:
 
 
 func test_ermeline_pays_its_dialled_pelts_at_t0_and_cap() -> void:
-	for row: Array in [[0.0, false, 3], [0.0, true, 6], [3.0, false, 1], [3.0, true, 2]]:
+	for row: Array in [[0.0, false, 3], [0.0, true, 6], [3.0, false, 14], [3.0, true, 10]]:
 		_kit(row[0])
 		var combat: Combat = _fight(
 			{0: CK.u("madame_ermeline", 1, 100, row[1]), 1: "little_nip", 4: "old_isegrim"},
@@ -615,7 +657,7 @@ func test_ermeline_pays_its_dialled_pelts_at_t0_and_cap() -> void:
 		)
 		assert_eq(pelts.size(), 1, str(row))
 		assert_eq(pelts[0]["count"], row[2], str(row))
-		var share: float = 7.0 / 12.0 if row[0] == 0.0 else 3.0 / 8.0
+		var share: float = 7.0 / 12.0 if row[0] == 0.0 else 1.0
 		assert_eq(
 			[pelts[0]["attack"], pelts[0]["health"]], [floori(90 * share), floori(120 * share)]
 		)
@@ -623,7 +665,7 @@ func test_ermeline_pays_its_dialled_pelts_at_t0_and_cap() -> void:
 
 func test_glutton_and_lodger_take_past_one_at_measured_b() -> void:
 	for row: Array in [
-		[0.0, false, [10, 13]], [3.0, false, [7, 10]], [0.0, true, [20, 27]], [3.0, true, [15, 20]]
+		[0.0, false, [10, 13]], [3.0, false, [33, 44]], [0.0, true, [20, 27]], [3.0, true, [66, 88]]
 	]:
 		_kit(row[0])
 		var mine: Dictionary = {
@@ -651,7 +693,7 @@ func test_glutton_and_lodger_take_past_one_at_measured_b() -> void:
 	)
 	library = ScaleOverlay.library_for(UnitLibrary.load_dir(), _config(2.0))
 	assert_string_contains(
-		library.get_unit("lodger")["golden_text"], "11 sixths of the quarry's stats"
+		library.get_unit("lodger")["golden_text"], "five times the quarry's stats"
 	)
 
 

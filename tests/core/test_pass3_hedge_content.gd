@@ -112,10 +112,10 @@ const B_RATES: Dictionary = {
 	"hedgerow_larder_gold": [1, 5, 16]
 }
 const C_CHANGES: Dictionary = {
-	"hedgerow_dozey_wake_multiplier": 3.0,
-	"hedgerow_golden_dozey_wake_multiplier": 3.0,
-	"hedgerow_mallow_multiplier": 3.0,
-	"hedgerow_treasurer_per_gold": 2.0
+	"hedgerow_dozey_wake_multiplier": 4.0,
+	"hedgerow_golden_dozey_wake_multiplier": 4.0,
+	"hedgerow_mallow_multiplier": 4.0,
+	"hedgerow_treasurer_per_gold": 3.0
 }
 var config: GameConfig
 
@@ -230,11 +230,11 @@ func test_reused_summon_effects_keep_tokens_normal_and_follow_count_dials() -> v
 func test_c_wakes_and_mallow_targets_and_rate_overlay_remain_distinct() -> void:
 	config.set_value("pass3_preset", "C")
 	var dozey: Dictionary = _configured("alderman_dozey")
-	assert_string_contains(dozey["text"], "triple its stats")
-	assert_string_contains(dozey["golden_text"], "triple its stats")
+	assert_string_contains(dozey["text"], "multiply its stats by 4")
+	assert_string_contains(dozey["golden_text"], "multiply its stats by 4")
 	var mallow: Dictionary = _configured("mrs_mallow")
-	assert_string_contains(mallow["text"], "triple your two smallest")
-	assert_string_contains(mallow["golden_text"], "triple your four smallest")
+	assert_string_contains(mallow["text"], "multiply your two smallest")
+	assert_string_contains(mallow["golden_text"], "multiply your four smallest")
 	config.set_value("card_rate_limits", false)
 	var mast: Dictionary = _configured("old_mother_mast")
 	assert_false(str(mast["text"]).contains("Up to"))
