@@ -134,6 +134,7 @@ func test_overflow_scrolls_without_dropping_any_birds_and_clears_when_empty() ->
 	tray.show_state({"away": [], "doorstep": []})
 	assert_false(tray.visible)
 	assert_true(tray.tokens.is_empty())
+	await wait_process_frames(1)
 
 
 func test_opponent_tiers_leave_resting_plaques_and_remain_exact_in_hero_readers() -> void:

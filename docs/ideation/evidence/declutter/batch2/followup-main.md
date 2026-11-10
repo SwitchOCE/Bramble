@@ -101,3 +101,43 @@ wait→next attack **109 ticks / 0.9083 s**, at both ×1 and ×4. `_event_hold`
 returns fixed 0.9 s for both; `_effect_barrier` also stores unscaled seconds
 (Take 1.2, Mire 0.9). The new call requests a check; the earlier explicit call
 leaves the speed-scheduling change for batch 3, so these waits were not changed.
+
+
+## Final hand-off validation
+
+Production and all new native captures are `4c5c2900`. The clean targeted pass
+runs **14 files, 139/139 tests, 7837 assertions, 45.830 s**, strict hook clean,
+with no script/runtime errors. Initial strict test typing and three old pinned
+expectations were corrected before that final pass; their failed logs are not
+claimed as clean checks. The newly created Away overflow test then gained one
+cleanup frame to drain removed tokens; its standalone final run passes without
+orphans. Older Card/Take/replay tests still emit GUT orphan warnings.
+
+Current standalone timings for the new batch-2 test files:
+
+| File | Passing | GUT seconds |
+| --- | ---: | ---: |
+| `test_recruit_declutter.gd` | 12/12 | 7.603 |
+| `test_declutter_classifier.gd` | 5/5 | 1.228 |
+| `test_recruit_motion.gd` | 5/5 | 0.486 |
+| `test_scout_reach.gd` | 4/4 | 3.244 |
+| `test_counter_layout.gd` | 1/1 | 0.460 |
+| `test_away_tokens.gd` | 5/5 | 0.600 |
+
+All required final static commands pass, including both full GDScript lint
+commands and full gdformat. Ruff also checks the four changed Python capture
+files explicitly. The latest main documentation merge is `ba464745` (main
+`34d8397e`); DECISIONS matches it exactly. No core/production code changed after
+the captures. No pushes or denied actions.
+
+Final evidence: ten same-input before/after pairs at both requested sizes, six
+recruit strips / 48 frames, the shipped 120-unit face sheet, and nine combat
+sheets / 81 frames. All original eight combat samples survive plus each peak;
+045 retains a live post-hit −5/−4 at ×1 and reduce. Source events, final states,
+hero Health and fight timings match. Parent before/input hashes are unchanged.
+
+This is a progress hand-off at the 45-minute limit. Fresh cold-reader scoring and
+a new visual comparison/tier judgment remain external. The original batch's
+full-hand fan, Ring travel between slots and uniform 65–70% art-share target
+remain incomplete; current shipped art rectangles are about 77.4%. These were
+reported rather than presented as passes.

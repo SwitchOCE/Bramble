@@ -1,0 +1,3994 @@
+{
+  "captures": [
+    {
+      "scenario": "overview",
+      "pixels": [
+        1688,
+        780
+      ],
+      "reader_open": false,
+      "raw_count": 40,
+      "counts": {
+        "unit_stats": 24,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 3,
+        "other": 5
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@415",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@415/@Control@411/@Label@412",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@424",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@424/@Control@420/@Label@421",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@433",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@433/@Control@429/@Label@430",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@442",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@442/@Control@438/@Label@439",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@451",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@451/@Control@447/@Label@448",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@460",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@460/@Control@456/@Label@457",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@469",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@469/@Control@465/@Label@466",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@478",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@478/@Control@474/@Label@475",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@6",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@6/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.25"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502/@Control@491/@Label@492",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502/@Control@493/@Label@494",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522/@Control@511/@Label@512",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522/@Control@513/@Label@514",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542/@Control@531/@Label@532",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542/@Control@533/@Label@534",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562/@Control@551/@Label@552",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562/@Control@553/@Label@554",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582/@Control@571/@Label@572",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582/@Control@573/@Label@574",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@642",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@642/@Control@631/@Label@632",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@642",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@642/@Control@633/@Label@634",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@662",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@662/@Control@651/@Label@652",
+          "primary_stat": false,
+          "text": "26"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@662",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@662/@Control@653/@Label@654",
+          "primary_stat": false,
+          "text": "27"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@682",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@682/@Control@671/@Label@672",
+          "primary_stat": false,
+          "text": "15"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@682",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@682/@Control@673/@Label@674",
+          "primary_stat": false,
+          "text": "19"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@702",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@702/@Control@691/@Label@692",
+          "primary_stat": false,
+          "text": "46"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@702",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@702/@Control@693/@Label@694",
+          "primary_stat": false,
+          "text": "48"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@722",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@722/@Control@711/@Label@712",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@722",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@722/@Control@713/@Label@714",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@742",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@742/@Control@731/@Label@732",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@742",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@742/@Control@733/@Label@734",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_egg_attack",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@127",
+          "classification_script": "res://src/ui/widgets/slot_marks.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@127/@Control@100/@Control@101/@Label@102",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_egg_health",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@127",
+          "classification_script": "res://src/ui/widgets/slot_marks.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@127/@Control@100/@Control@103/@Label@104",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "away_countdown",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@154",
+          "classification_script": "res://src/ui/widgets/away_tray.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@154/@ScrollContainer@152/@HBoxContainer@153/@Control@479/Countdown",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "other",
+          "classification_field": "away_countdown",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@154",
+          "classification_script": "res://src/ui/widgets/away_tray.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@154/@ScrollContainer@152/@HBoxContainer@153/@Control@481/Countdown",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@160",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@160/@Label@156",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@406",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Label@162",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@406",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Label@163",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@406/@Control@4/@Button@173",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Button@173/@HBoxContainer@164/@PanelContainer@172/@HBoxContainer@169/@Label@171",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@406/@Control@4/@Button@203",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Button@203/@HBoxContainer@194/@VBoxContainer@196/@Label@197",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ],
+      "image": "after/overview-1688x780.png"
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1688,
+        780
+      ],
+      "reader_open": true,
+      "raw_count": 51,
+      "counts": {
+        "unit_stats": 32,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 4,
+        "other": 7
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1176",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1176/@Control@1172/@Label@1173",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1185",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1185/@Control@1181/@Label@1182",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1194",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1194/@Control@1190/@Label@1191",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1203",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1203/@Control@1199/@Label@1200",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1212",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1212/@Control@1208/@Label@1209",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1221",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1221/@Control@1217/@Label@1218",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1230",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1230/@Control@1226/@Label@1227",
+          "primary_stat": false,
+          "text": "38"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1239",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1239/@Control@1235/@Label@1236",
+          "primary_stat": false,
+          "text": "36"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@767",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@767/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.25"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259/@Control@1248/@Label@1249",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259/@Control@1250/@Label@1251",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279/@Control@1268/@Label@1269",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279/@Control@1270/@Label@1271",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299/@Control@1288/@Label@1289",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299/@Control@1290/@Label@1291",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319/@Control@1308/@Label@1309",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319/@Control@1310/@Label@1311",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339/@Control@1328/@Label@1329",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339/@Control@1330/@Label@1331",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1359",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1359/@Control@1346/@Label@1347",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379/@Control@1368/@Label@1369",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379/@Control@1370/@Label@1371",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399/@Control@1388/@Label@1389",
+          "primary_stat": false,
+          "text": "28"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399/@Control@1390/@Label@1391",
+          "primary_stat": false,
+          "text": "29"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419/@Control@1408/@Label@1409",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419/@Control@1410/@Label@1411",
+          "primary_stat": false,
+          "text": "11"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439/@Control@1428/@Label@1429",
+          "primary_stat": false,
+          "text": "17"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439/@Control@1430/@Label@1431",
+          "primary_stat": false,
+          "text": "19"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459/@Control@1448/@Label@1449",
+          "primary_stat": false,
+          "text": "49"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459/@Control@1450/@Label@1451",
+          "primary_stat": false,
+          "text": "51"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479/@Control@1468/@Label@1469",
+          "primary_stat": false,
+          "text": "9"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479/@Control@1470/@Label@1471",
+          "primary_stat": false,
+          "text": "11"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499/@Control@1488/@Label@1489",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499/@Control@1490/@Label@1491",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519/@Control@1508/@Label@1509",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519/@Control@1510/@Label@1511",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539/@Control@1528/@Label@1529",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539/@Control@1530/@Label@1531",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559/@Control@1548/@Label@1549",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559/@Control@1550/@Label@1551",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@921",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@921/@Label@917",
+          "primary_stat": false,
+          "text": "24"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1167",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Label@923",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@1167",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Label@924",
+          "primary_stat": false,
+          "text": "Turn 4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Button@934",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Button@934/@HBoxContainer@925/@PanelContainer@933/@HBoxContainer@930/@Label@932",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Button@964",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Button@964/@HBoxContainer@955/@VBoxContainer@957/@Label@958",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "category": "other",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Panel@989/@Label@990",
+          "primary_stat": false,
+          "text": "Reel-Mistress"
+        },
+        {
+          "category": "other",
+          "classification_field": "_type",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@RichTextLabel@993",
+          "primary_stat": false,
+          "text": "GOLDEN \u00b7 CREATED \u00b7 FAIRIES"
+        },
+        {
+          "category": "other",
+          "classification_field": "_notes",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@RichTextLabel@996",
+          "primary_stat": false,
+          "text": "After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\nDetails"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Control@1002/@Label@1003",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Control@1004/@Label@1005",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Control@1006/@Label@1007",
+          "primary_stat": false,
+          "text": "14"
+        }
+      ],
+      "image": "after/reader-reel_mistress-golden-1688x780.png"
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1688,
+        780
+      ],
+      "reader_open": false,
+      "raw_count": 30,
+      "counts": {
+        "unit_stats": 14,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 4,
+        "other": 4
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@1993",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@1993/@Control@1989/@Label@1990",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2002",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2002/@Control@1998/@Label@1999",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2011",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2011/@Control@2007/@Label@2008",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2020",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2020/@Control@2016/@Label@2017",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2029",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2029/@Control@2025/@Label@2026",
+          "primary_stat": false,
+          "text": "38"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2038",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2038/@Control@2034/@Label@2035",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2047",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2047/@Control@2043/@Label@2044",
+          "primary_stat": false,
+          "text": "37"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2056",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2056/@Control@2052/@Label@2053",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1584",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1584/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.0"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078/@Control@2067/@Label@2068",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078/@Control@2069/@Label@2070",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098/@Control@2087/@Label@2088",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098/@Control@2089/@Label@2090",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2118",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2118/@Control@2105/@Label@2106",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138/@Control@2127/@Label@2128",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138/@Control@2129/@Label@2130",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158/@Control@2147/@Label@2148",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158/@Control@2149/@Label@2150",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178/@Control@2167/@Label@2168",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178/@Control@2169/@Label@2170",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198/@Control@2187/@Label@2188",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198/@Control@2189/@Label@2190",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218/@Control@2207/@Label@2208",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218/@Control@2209/@Label@2210",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "other",
+          "classification_field": "away_countdown",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1732",
+          "classification_script": "res://src/ui/widgets/away_tray.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1732/@ScrollContainer@1730/@HBoxContainer@1731/@Control@2057/Countdown",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1738",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1738/@Label@1734",
+          "primary_stat": false,
+          "text": "0"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1984",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Label@1740",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@1984",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Label@1741",
+          "primary_stat": false,
+          "text": "Turn 4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Button@1751",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Button@1751/@HBoxContainer@1742/@PanelContainer@1750/@HBoxContainer@1747/@Label@1749",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Button@1781",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Button@1781/@HBoxContainer@1772/@VBoxContainer@1774/@Label@1775",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ],
+      "image": "after/natural-birds-1688x780.png"
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1688,
+        780
+      ],
+      "reader_open": false,
+      "raw_count": 39,
+      "counts": {
+        "unit_stats": 24,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 3,
+        "other": 4
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2632",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2632/@Control@2628/@Label@2629",
+          "primary_stat": false,
+          "text": "30"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2641",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2641/@Control@2637/@Label@2638",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2650",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2650/@Control@2646/@Label@2647",
+          "primary_stat": false,
+          "text": "31"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2659",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2659/@Control@2655/@Label@2656",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2668",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2668/@Control@2664/@Label@2665",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2677",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2677/@Control@2673/@Label@2674",
+          "primary_stat": false,
+          "text": "24"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2686",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2686/@Control@2682/@Label@2683",
+          "primary_stat": false,
+          "text": "38"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2695",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2695/@Control@2691/@Label@2692",
+          "primary_stat": false,
+          "text": "32"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2223",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2223/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.25"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715/@Control@2704/@Label@2705",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715/@Control@2706/@Label@2707",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735/@Control@2724/@Label@2725",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735/@Control@2726/@Label@2727",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755/@Control@2744/@Label@2745",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755/@Control@2746/@Label@2747",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775/@Control@2764/@Label@2765",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775/@Control@2766/@Label@2767",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795/@Control@2784/@Label@2785",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795/@Control@2786/@Label@2787",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2844/@Label@2845",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2846/@Label@2847",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "other",
+          "classification_field": "counter",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2854",
+          "classification_script": "res://src/ui/widgets/combat_face.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2854/@Label@2853",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875/@Control@2864/@Label@2865",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875/@Control@2866/@Label@2867",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895/@Control@2884/@Label@2885",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895/@Control@2886/@Label@2887",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915/@Control@2904/@Label@2905",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915/@Control@2906/@Label@2907",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935/@Control@2924/@Label@2925",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935/@Control@2926/@Label@2927",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955/@Control@2944/@Label@2945",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955/@Control@2946/@Label@2947",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975/@Control@2964/@Label@2965",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975/@Control@2966/@Label@2967",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2377",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2377/@Label@2373",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@2623",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Label@2379",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@2623",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Label@2380",
+          "primary_stat": false,
+          "text": "Turn 8"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Button@2390",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Button@2390/@HBoxContainer@2381/@PanelContainer@2389/@HBoxContainer@2386/@Label@2388",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Button@2420",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Button@2420/@HBoxContainer@2411/@VBoxContainer@2413/@Label@2414",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ],
+      "image": "after/lobby-1688x780.png"
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "reader_open": false,
+      "raw_count": 30,
+      "counts": {
+        "unit_stats": 24,
+        "hero_health": 0,
+        "fallback_names": 0,
+        "costs_and_controls": 3,
+        "other": 3
+      },
+      "visible_text_nodes": [
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3953/@Label@3954",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3955/@Label@3956",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "other",
+          "classification_field": "counter",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3963",
+          "classification_script": "res://src/ui/widgets/combat_face.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3963/@Label@3962",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984/@Control@3973/@Label@3974",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984/@Control@3975/@Label@3976",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004/@Control@3993/@Label@3994",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024/@Control@4013/@Label@4014",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024/@Control@4015/@Label@4016",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064/@Control@4053/@Label@4054",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064/@Control@4055/@Label@4056",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084/@Control@4073/@Label@4074",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084/@Control@4075/@Label@4076",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3134",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3134/@Label@3130",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@3380",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Label@3136",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@3380",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Label@3137",
+          "primary_stat": false,
+          "text": "Turn 8"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Button@3147",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Button@3147/@HBoxContainer@3138/@PanelContainer@3146/@HBoxContainer@3143/@Label@3145",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Button@3177",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Button@3177/@HBoxContainer@3168/@VBoxContainer@3170/@Label@3171",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104/@Control@4093/@Label@4094",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104/@Control@4095/@Label@4096",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124/@Control@4113/@Label@4114",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124/@Control@4115/@Label@4116",
+          "primary_stat": false,
+          "text": "12"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144/@Control@4133/@Label@4134",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144/@Control@4135/@Label@4136",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164/@Control@4153/@Label@4154",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164/@Control@4155/@Label@4156",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184/@Control@4173/@Label@4174",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184/@Control@4175/@Label@4176",
+          "primary_stat": false,
+          "text": "12"
+        }
+      ],
+      "image": "after/scout-1688x780.png"
+    },
+    {
+      "scenario": "overview",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "reader_open": false,
+      "raw_count": 40,
+      "counts": {
+        "unit_stats": 24,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 3,
+        "other": 5
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@415",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@415/@Control@411/@Label@412",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@424",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@424/@Control@420/@Label@421",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@433",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@433/@Control@429/@Label@430",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@442",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@442/@Control@438/@Label@439",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@451",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@451/@Control@447/@Label@448",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@460",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@460/@Control@456/@Label@457",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@469",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@469/@Control@465/@Label@466",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@5/@Control@478",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@5/@Control@478/@Control@474/@Label@475",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@6",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@6/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.25"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502/@Control@491/@Label@492",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@502/@Control@493/@Label@494",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522/@Control@511/@Label@512",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@522/@Control@513/@Label@514",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542/@Control@531/@Label@532",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@542/@Control@533/@Label@534",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562/@Control@551/@Label@552",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@562/@Control@553/@Label@554",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582/@Control@571/@Label@572",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@GridContainer@13/@Control@582/@Control@573/@Label@574",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@642",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@642/@Control@631/@Label@632",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@642",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@642/@Control@633/@Label@634",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@662",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@662/@Control@651/@Label@652",
+          "primary_stat": false,
+          "text": "26"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@662",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@662/@Control@653/@Label@654",
+          "primary_stat": false,
+          "text": "27"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@682",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@682/@Control@671/@Label@672",
+          "primary_stat": false,
+          "text": "15"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@682",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@682/@Control@673/@Label@674",
+          "primary_stat": false,
+          "text": "19"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@702",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@702/@Control@691/@Label@692",
+          "primary_stat": false,
+          "text": "46"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@702",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@702/@Control@693/@Label@694",
+          "primary_stat": false,
+          "text": "48"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@722",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@722/@Control@711/@Label@712",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@722",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@722/@Control@713/@Label@714",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@742",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@742/@Control@731/@Label@732",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@742",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@742/@Control@733/@Label@734",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_egg_attack",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@127",
+          "classification_script": "res://src/ui/widgets/slot_marks.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@127/@Control@100/@Control@101/@Label@102",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_egg_health",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@128/@Control@127",
+          "classification_script": "res://src/ui/widgets/slot_marks.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@128/@Control@127/@Control@100/@Control@103/@Label@104",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "away_countdown",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@154",
+          "classification_script": "res://src/ui/widgets/away_tray.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@154/@ScrollContainer@152/@HBoxContainer@153/@Control@479/Countdown",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "other",
+          "classification_field": "away_countdown",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@154",
+          "classification_script": "res://src/ui/widgets/away_tray.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@154/@ScrollContainer@152/@HBoxContainer@153/@Control@481/Countdown",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@406/@Control@4/@Control@160",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Control@160/@Label@156",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@406",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Label@162",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@406",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Label@163",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@406/@Control@4/@Button@173",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Button@173/@HBoxContainer@164/@PanelContainer@172/@HBoxContainer@169/@Label@171",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@406/@Control@4/@Button@203",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@406/@Control@4/@Button@203/@HBoxContainer@194/@VBoxContainer@196/@Label@197",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ],
+      "image": "after/overview-1920x1080.png"
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "reader_open": true,
+      "raw_count": 51,
+      "counts": {
+        "unit_stats": 32,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 4,
+        "other": 7
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1176",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1176/@Control@1172/@Label@1173",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1185",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1185/@Control@1181/@Label@1182",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1194",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1194/@Control@1190/@Label@1191",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1203",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1203/@Control@1199/@Label@1200",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1212",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1212/@Control@1208/@Label@1209",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1221",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1221/@Control@1217/@Label@1218",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1230",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1230/@Control@1226/@Label@1227",
+          "primary_stat": false,
+          "text": "38"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@766/@Control@1239",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@766/@Control@1239/@Control@1235/@Label@1236",
+          "primary_stat": false,
+          "text": "36"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@767",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@767/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.25"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259/@Control@1248/@Label@1249",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1259/@Control@1250/@Label@1251",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279/@Control@1268/@Label@1269",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1279/@Control@1270/@Label@1271",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299/@Control@1288/@Label@1289",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1299/@Control@1290/@Label@1291",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319/@Control@1308/@Label@1309",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1319/@Control@1310/@Label@1311",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339/@Control@1328/@Label@1329",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1339/@Control@1330/@Label@1331",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1359",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@GridContainer@774/@Control@1359/@Control@1346/@Label@1347",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379/@Control@1368/@Label@1369",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1379/@Control@1370/@Label@1371",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399/@Control@1388/@Label@1389",
+          "primary_stat": false,
+          "text": "28"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1399/@Control@1390/@Label@1391",
+          "primary_stat": false,
+          "text": "29"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419/@Control@1408/@Label@1409",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1419/@Control@1410/@Label@1411",
+          "primary_stat": false,
+          "text": "11"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439/@Control@1428/@Label@1429",
+          "primary_stat": false,
+          "text": "17"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1439/@Control@1430/@Label@1431",
+          "primary_stat": false,
+          "text": "19"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459/@Control@1448/@Label@1449",
+          "primary_stat": false,
+          "text": "49"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1459/@Control@1450/@Label@1451",
+          "primary_stat": false,
+          "text": "51"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479/@Control@1468/@Label@1469",
+          "primary_stat": false,
+          "text": "9"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1479/@Control@1470/@Label@1471",
+          "primary_stat": false,
+          "text": "11"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499/@Control@1488/@Label@1489",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@889/@Control@1499/@Control@1490/@Label@1491",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519/@Control@1508/@Label@1509",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1519/@Control@1510/@Label@1511",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539/@Control@1528/@Label@1529",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1539/@Control@1530/@Label@1531",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559/@Control@1548/@Label@1549",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@907/@GridContainer@910/@Control@1559/@Control@1550/@Label@1551",
+          "primary_stat": false,
+          "text": "14"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@921",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@921/@Label@917",
+          "primary_stat": false,
+          "text": "24"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1167",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Label@923",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@1167",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Label@924",
+          "primary_stat": false,
+          "text": "Turn 4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Button@934",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Button@934/@HBoxContainer@925/@PanelContainer@933/@HBoxContainer@930/@Label@932",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Button@964",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Button@964/@HBoxContainer@955/@VBoxContainer@957/@Label@958",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "category": "other",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Panel@989/@Label@990",
+          "primary_stat": false,
+          "text": "Reel-Mistress"
+        },
+        {
+          "category": "other",
+          "classification_field": "_type",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@RichTextLabel@993",
+          "primary_stat": false,
+          "text": "GOLDEN \u00b7 CREATED \u00b7 FAIRIES"
+        },
+        {
+          "category": "other",
+          "classification_field": "_notes",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@RichTextLabel@996",
+          "primary_stat": false,
+          "text": "After a unit on a Ring attacks: its Ring moves to your next unit. Four times per Ring.\nDetails"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Control@1002/@Label@1003",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Control@1004/@Label@1005",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1167/@Control@765/@Control@1009",
+          "classification_script": "res://src/ui/widgets/card_detail.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1167/@Control@765/@Control@1009/@Control@1006/@Label@1007",
+          "primary_stat": false,
+          "text": "14"
+        }
+      ],
+      "image": "after/reader-reel_mistress-golden-1920x1080.png"
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "reader_open": false,
+      "raw_count": 30,
+      "counts": {
+        "unit_stats": 14,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 4,
+        "other": 4
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@1993",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@1993/@Control@1989/@Label@1990",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2002",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2002/@Control@1998/@Label@1999",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2011",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2011/@Control@2007/@Label@2008",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2020",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2020/@Control@2016/@Label@2017",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2029",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2029/@Control@2025/@Label@2026",
+          "primary_stat": false,
+          "text": "38"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2038",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2038/@Control@2034/@Label@2035",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2047",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2047/@Control@2043/@Label@2044",
+          "primary_stat": false,
+          "text": "37"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2056",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1583/@Control@2056/@Control@2052/@Label@2053",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1584",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1584/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.0"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078/@Control@2067/@Label@2068",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2078/@Control@2069/@Label@2070",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098/@Control@2087/@Label@2088",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2098/@Control@2089/@Label@2090",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2118",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@GridContainer@1591/@Control@2118/@Control@2105/@Label@2106",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138/@Control@2127/@Label@2128",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2138/@Control@2129/@Label@2130",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158/@Control@2147/@Label@2148",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2158/@Control@2149/@Label@2150",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178/@Control@2167/@Label@2168",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2178/@Control@2169/@Label@2170",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198/@Control@2187/@Label@2188",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2198/@Control@2189/@Label@2190",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218/@Control@2207/@Label@2208",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1706/@Control@2218/@Control@2209/@Label@2210",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "other",
+          "classification_field": "away_countdown",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1732",
+          "classification_script": "res://src/ui/widgets/away_tray.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1732/@ScrollContainer@1730/@HBoxContainer@1731/@Control@2057/Countdown",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Control@1738",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Control@1738/@Label@1734",
+          "primary_stat": false,
+          "text": "0"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@1984",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Label@1740",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@1984",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Label@1741",
+          "primary_stat": false,
+          "text": "Turn 4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Button@1751",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Button@1751/@HBoxContainer@1742/@PanelContainer@1750/@HBoxContainer@1747/@Label@1749",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@1984/@Control@1582/@Button@1781",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@1984/@Control@1582/@Button@1781/@HBoxContainer@1772/@VBoxContainer@1774/@Label@1775",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ],
+      "image": "after/natural-birds-1920x1080.png"
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "reader_open": false,
+      "raw_count": 39,
+      "counts": {
+        "unit_stats": 24,
+        "hero_health": 8,
+        "fallback_names": 0,
+        "costs_and_controls": 3,
+        "other": 4
+      },
+      "visible_text_nodes": [
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2632",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2632/@Control@2628/@Label@2629",
+          "primary_stat": false,
+          "text": "30"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2641",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2641/@Control@2637/@Label@2638",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2650",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2650/@Control@2646/@Label@2647",
+          "primary_stat": false,
+          "text": "31"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2659",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2659/@Control@2655/@Label@2656",
+          "primary_stat": false,
+          "text": "33"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2668",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2668/@Control@2664/@Label@2665",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2677",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2677/@Control@2673/@Label@2674",
+          "primary_stat": false,
+          "text": "24"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2686",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2686/@Control@2682/@Label@2683",
+          "primary_stat": false,
+          "text": "38"
+        },
+        {
+          "category": "hero_health",
+          "classification_field": "_hip",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2695",
+          "classification_script": "res://src/ui/widgets/lobby_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2222/@Control@2695/@Control@2691/@Label@2692",
+          "primary_stat": false,
+          "text": "32"
+        },
+        {
+          "category": "other",
+          "classification_field": "Engine",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2223",
+          "classification_script": "res://src/ui/widgets/tribe_bonuses.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2223/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d71.25"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715/@Control@2704/@Label@2705",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2715/@Control@2706/@Label@2707",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735/@Control@2724/@Label@2725",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2735/@Control@2726/@Label@2727",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755/@Control@2744/@Label@2745",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2755/@Control@2746/@Label@2747",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775/@Control@2764/@Label@2765",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2775/@Control@2766/@Label@2767",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795/@Control@2784/@Label@2785",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@GridContainer@2230/@Control@2795/@Control@2786/@Label@2787",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2844/@Label@2845",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2846/@Label@2847",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "other",
+          "classification_field": "counter",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2854",
+          "classification_script": "res://src/ui/widgets/combat_face.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2855/@Control@2854/@Label@2853",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875/@Control@2864/@Label@2865",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2875/@Control@2866/@Label@2867",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895/@Control@2884/@Label@2885",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2895/@Control@2886/@Label@2887",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915/@Control@2904/@Label@2905",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2915/@Control@2906/@Label@2907",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935/@Control@2924/@Label@2925",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2935/@Control@2926/@Label@2927",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955/@Control@2944/@Label@2945",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2955/@Control@2946/@Label@2947",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975/@Control@2964/@Label@2965",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2345/@Control@2975/@Control@2966/@Label@2967",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Control@2377",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Control@2377/@Label@2373",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@2623",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Label@2379",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@2623",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Label@2380",
+          "primary_stat": false,
+          "text": "Turn 8"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Button@2390",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Button@2390/@HBoxContainer@2381/@PanelContainer@2389/@HBoxContainer@2386/@Label@2388",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@2623/@Control@2221/@Button@2420",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@2623/@Control@2221/@Button@2420/@HBoxContainer@2411/@VBoxContainer@2413/@Label@2414",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ],
+      "image": "after/lobby-1920x1080.png"
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "reader_open": false,
+      "raw_count": 30,
+      "counts": {
+        "unit_stats": 24,
+        "hero_health": 0,
+        "fallback_names": 0,
+        "costs_and_controls": 3,
+        "other": 3
+      },
+      "visible_text_nodes": [
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3953/@Label@3954",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3955/@Label@3956",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "other",
+          "classification_field": "counter",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3963",
+          "classification_script": "res://src/ui/widgets/combat_face.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3964/@Control@3963/@Label@3962",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984/@Control@3973/@Label@3974",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@3984/@Control@3975/@Label@3976",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004/@Control@3993/@Label@3994",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4004/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024/@Control@4013/@Label@4014",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4024/@Control@4015/@Label@4016",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064/@Control@4053/@Label@4054",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4064/@Control@4055/@Label@4056",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084/@Control@4073/@Label@4074",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3102/@Control@4084/@Control@4075/@Label@4076",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "_value",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3134",
+          "classification_script": "res://src/ui/widgets/gold_plaque.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3134/@Label@3130",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "other",
+          "classification_field": "_tier_label",
+          "classification_owner": "/root/@Control@3380",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Label@3136",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "category": "other",
+          "classification_field": "_round_label",
+          "classification_owner": "/root/@Control@3380",
+          "classification_script": "res://src/ui/screens/recruit_screen.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Label@3137",
+          "primary_stat": false,
+          "text": "Turn 8"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Button@3147",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Button@3147/@HBoxContainer@3138/@PanelContainer@3146/@HBoxContainer@3143/@Label@3145",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "category": "costs_and_controls",
+          "classification_field": "button text or rendered button descendant",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Button@3177",
+          "classification_script": "res://src/ui/widgets/leaf_button.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Button@3177/@HBoxContainer@3168/@VBoxContainer@3170/@Label@3171",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104/@Control@4093/@Label@4094",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4104/@Control@4095/@Label@4096",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124/@Control@4113/@Label@4114",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4124/@Control@4115/@Label@4116",
+          "primary_stat": false,
+          "text": "12"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144/@Control@4133/@Label@4134",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4144/@Control@4135/@Label@4136",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164/@Control@4153/@Label@4154",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4164/@Control@4155/@Label@4156",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_attack_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184/@Control@4173/@Label@4174",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "category": "unit_stats",
+          "classification_field": "_health_label",
+          "classification_owner": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "fallback_reason": "",
+          "path": "/root/@Control@3380/@Control@2978/@Control@3342/@Control@3337/@Control@4184/@Control@4175/@Label@4176",
+          "primary_stat": false,
+          "text": "12"
+        }
+      ],
+      "image": "after/scout-1920x1080.png"
+    }
+  ]
+}

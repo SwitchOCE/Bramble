@@ -1,0 +1,32 @@
+{
+  "parent_packet": "..",
+  "state_source": "../states.json",
+  "states_sha256": "248b655da48e30de3c6a114a156c50a8b3d43ec5daba34d187833c9569f06e26",
+  "parent_before_policy": "Reference ../before images and manifests; no baseline rerender or rewrite.",
+  "guarded_parent_sha256": {
+    "states.json": "248b655da48e30de3c6a114a156c50a8b3d43ec5daba34d187833c9569f06e26",
+    "before/lobby-1688x780-calm-mask.png": "3655c0669b5429497c8110256b024fab690282884dcb8e8eb0cbf19747ee65ba",
+    "before/lobby-1688x780.png": "aa3e9f300885b06d70452450361b9d77fed300339a794dfb3e4a90525a1fe2c5",
+    "before/lobby-1920x1080-calm-mask.png": "d8510ace8cbc65daf5a566b90c42971929c6e2e80ba3e28929af8069fd40efc7",
+    "before/lobby-1920x1080.png": "779dea6be4e969247260e084b121658cbb90fd26420cba82d55bc2d76e0057f6",
+    "before/manifest-1688x780.json": "4112fc298789771f9ec1918a44e3ef25827371cbb86fba1e28b0e7839a09ef44",
+    "before/manifest-1920x1080.json": "fd98f3b491d53547cc0878945f260cf8fadec5b3e8cd71666c0fed640b111377",
+    "before/natural-birds-1688x780-calm-mask.png": "69b2cbb1b234ef14ad16c889471972570ef46ff9e3c3ca70caf29ed0f44c61d6",
+    "before/natural-birds-1688x780.png": "fc52c6979155cd4b4051c5bf9acf6edbb6a32883d6870a9f30dc4e181a3ab987",
+    "before/natural-birds-1920x1080-calm-mask.png": "47ae5bd2267432dfb40f3050bf9dce388fc0c6d309b653a9a14817a5da4996d5",
+    "before/natural-birds-1920x1080.png": "4ad05a3fad4bbfae358bf843df243cdf32a910b4fe30cbdc31863b321f052342",
+    "before/overview-1688x780-calm-mask.png": "58d56e4ebc7a63964b38612b1280a72186b0cec2dfff45c7355e7e67bd83cafd",
+    "before/overview-1688x780.png": "324f61ebfafda8bf8660fe2b629519d6b4c58b178cb484917c47dce8cbb3dc69",
+    "before/overview-1920x1080-calm-mask.png": "1f759852d859b552f3980bcd0d8a9f5e4c35dc1d8a96f27a643120acdc62443a",
+    "before/overview-1920x1080.png": "4c4f4d3728a408e70cb8a963b283bcba700ffa36c3ac3115e1cce1c316fa453d",
+    "before/preserved-baseline.json": "d1e8b8ef630088166bb2f2cd6271e2397ef7203cca26fbc6579944f0b781d983",
+    "before/reader-reel_mistress-golden-1688x780-calm-mask.png": "ce34c3ed772da8e8f02e6563b69265d61f0c4348025390ef9446408a1d4fe40b",
+    "before/reader-reel_mistress-golden-1688x780.png": "3553bfeb59a04a48acd4bb3f9d2741c598773868280ae28a25d74db7b6442aa9",
+    "before/reader-reel_mistress-golden-1920x1080-calm-mask.png": "9c46af13eb149ae5699c5775b45745d87341bca0c63fb355697025c0edcec203",
+    "before/reader-reel_mistress-golden-1920x1080.png": "20160fddaf58c757bdea3b5b40b99ca260783d45c7c5897ca194b76d569e3a99",
+    "before/scout-1688x780-calm-mask.png": "d053d4cacbb1ed306f0ea5d4849ce9bc9dbdcbaa22f6c907ef05be2a28158af7",
+    "before/scout-1688x780.png": "cc63a7f7d8a2b338f8d581a81d4052d56812c2dfce46a0d4aa14037730a3fcd1",
+    "before/scout-1920x1080-calm-mask.png": "80d8ef80a5c477f34f529ae68271572e4d1e7fc7ae2cb0d5d8a7862b2ab98cae",
+    "before/scout-1920x1080.png": "c6af869a53b8458ec991737561de06609977fd00b89e8227f544c63911723c25"
+  }
+}

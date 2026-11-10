@@ -1,0 +1,3552 @@
+{
+  "attacks": [
+    {
+      "duration": 1.1,
+      "end_tick": 453,
+      "event_index": 17,
+      "frame_count": 9,
+      "frames": [
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [
+            {
+              "opacity": 0.7444444894790649,
+              "path": "/root/@Control@6455/RetiringCues/DamagePop/Amount",
+              "recipient_uid": 1,
+              "rect": [
+                870.5484008789062,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22126"
+            },
+            {
+              "opacity": 0.7444444894790649,
+              "path": "/root/@Control@6455/RetiringCues/@TextureRect@6589/Amount",
+              "recipient_uid": 3,
+              "rect": [
+                870.5484008789062,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22128"
+            }
+          ],
+          "file": "attack-017-frame-0.png",
+          "raw_text_nodes": 14,
+          "seconds": 2.675,
+          "tick": 321,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6544/@Label@6545",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6546/@Label@6547",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "18"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/RetiringCues/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/RetiringCues/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22126"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/RetiringCues/@TextureRect@6589/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/RetiringCues/@TextureRect@6589/Amount",
+              "primary_stat": false,
+              "text": "\u22128"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                460.0,
+                -152.89999389648438
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-017-frame-1.png",
+          "raw_text_nodes": 12,
+          "seconds": 2.8,
+          "tick": 336,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6544/@Label@6545",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6546/@Label@6547",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "18"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                460.0,
+                -152.89999389648438
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "recipient_uid": 5,
+              "rect": [
+                1303.301025390625,
+                379.16766357421875,
+                68.39999389648438,
+                68.39999389648438
+              ],
+              "text": "\u22128"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "recipient_uid": 1,
+              "rect": [
+                1306.41162109375,
+                514.393310546875,
+                75.23999786376953,
+                75.23999786376953
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-017-frame-2.png",
+          "raw_text_nodes": 14,
+          "seconds": 2.8333333333333335,
+          "tick": 340,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6544/@Label@6545",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6546/@Label@6547",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22128"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "18"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "recipient_uid": 5,
+              "rect": [
+                1290.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22128"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "recipient_uid": 1,
+              "rect": [
+                870.5484008789062,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-017-frame-3.png",
+          "raw_text_nodes": 14,
+          "seconds": 2.9916666666666667,
+          "tick": 359,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6544/@Label@6545",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6546/@Label@6547",
+              "primary_stat": true,
+              "text": "0"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22128"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "recipient_uid": 5,
+              "rect": [
+                1290.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22128"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "recipient_uid": 1,
+              "rect": [
+                870.5484008789062,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-017-frame-4.png",
+          "raw_text_nodes": 14,
+          "seconds": 3.15,
+          "tick": 378,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6544/@Label@6545",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/@Control@6546/@Label@6547",
+              "primary_stat": true,
+              "text": "0"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22128"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [
+            {
+              "opacity": 0.18888890743255615,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "recipient_uid": 5,
+              "rect": [
+                1290.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22128"
+            },
+            {
+              "opacity": 0.18888890743255615,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "recipient_uid": 1,
+              "rect": [
+                870.5484008789062,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-017-frame-5.png",
+          "raw_text_nodes": 12,
+          "seconds": 3.3,
+          "tick": 396,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6555/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22128"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-017-frame-6.png",
+          "raw_text_nodes": 11,
+          "seconds": 3.4583333333333335,
+          "tick": 415,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6396/@TextureRect@6599/@Label@6601",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6396/@TextureRect@6599/@Label@6601",
+              "primary_stat": false,
+              "text": "+1"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-017-frame-7.png",
+          "raw_text_nodes": 12,
+          "seconds": 3.6166666666666667,
+          "tick": 434,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6396/TollLanding_0",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6396/TollLanding_0",
+              "primary_stat": false,
+              "text": "+1"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6396/PendingLanding_2",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6396/PendingLanding_2",
+              "primary_stat": false,
+              "text": "+2/+2"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-017-frame-8.png",
+          "raw_text_nodes": 11,
+          "seconds": 3.775,
+          "tick": 453,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6396/PendingLanding_2",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6396/PendingLanding_2",
+              "primary_stat": false,
+              "text": "+2/+2"
+            }
+          ]
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 1.105,
+      "sample_ticks": [
+        321,
+        336,
+        340,
+        359,
+        378,
+        396,
+        415,
+        434,
+        453
+      ],
+      "sampling": {
+        "appended_peak_ticks": [
+          336
+        ],
+        "lunge_peaks": [
+          {
+            "distance_squared": 208584.359375,
+            "flash_strength": 3.0,
+            "home": [
+              40.0,
+              26.5
+            ],
+            "kind": "lunge",
+            "position": [
+              460.0,
+              -152.89999389648438
+            ],
+            "tick": 336,
+            "uid": 1
+          }
+        ],
+        "method": "Preserve all eight uniform samples and append each distinct observed actor peak. Pack actors are measured separately. Under reduce motion, append the held-pose or strongest source-flash peak. No original sample is replaced.",
+        "mode": "uniform-plus-observed-lunge-peaks",
+        "uniform_sample_ticks": [
+          321,
+          340,
+          359,
+          378,
+          396,
+          415,
+          434,
+          453
+        ]
+      },
+      "start_tick": 321,
+      "strip": "attack-017.jpg"
+    },
+    {
+      "duration": 0.55,
+      "end_tick": 520,
+      "event_index": 25,
+      "frame_count": 9,
+      "frames": [
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                250.0,
+                255.5
+              ],
+              "uid": 4
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-025-frame-0.png",
+          "raw_text_nodes": 11,
+          "seconds": 3.783333333333333,
+          "tick": 454,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/RetiringCues/PendingLanding_2",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/RetiringCues/PendingLanding_2",
+              "primary_stat": false,
+              "text": "+2/+2"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                250.0,
+                300.3500061035156
+              ],
+              "uid": 4
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-025-frame-1.png",
+          "raw_text_nodes": 11,
+          "seconds": 3.8583333333333334,
+          "tick": 463,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/RetiringCues/PendingLanding_2",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/RetiringCues/PendingLanding_2",
+              "primary_stat": false,
+              "text": "+2/+2"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                250.0,
+                434.8999938964844
+              ],
+              "uid": 4
+            }
+          ],
+          "damage_receipts": [],
+          "file": "attack-025-frame-2.png",
+          "raw_text_nodes": 10,
+          "seconds": 3.908333333333333,
+          "tick": 469,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "recipient_uid": 4,
+              "rect": [
+                1093.4195556640625,
+                379.03936767578125,
+                68.39999389648438,
+                68.39999389648438
+              ],
+              "text": "\u22123"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "recipient_uid": 2,
+              "rect": [
+                1093.301025390625,
+                691.1676635742188,
+                68.39999389648438,
+                68.39999389648438
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-025-frame-3.png",
+          "raw_text_nodes": 12,
+          "seconds": 3.9416666666666664,
+          "tick": 473,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22123"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "20"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "recipient_uid": 4,
+              "rect": [
+                1078.4259033203125,
+                361.38812255859375,
+                100.79999542236328,
+                100.79999542236328
+              ],
+              "text": "\u22123"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "recipient_uid": 2,
+              "rect": [
+                1078.4259033203125,
+                673.3881225585938,
+                100.79999542236328,
+                100.79999542236328
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-025-frame-4.png",
+          "raw_text_nodes": 12,
+          "seconds": 4.016666666666667,
+          "tick": 482,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22123"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "19"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "recipient_uid": 4,
+              "rect": [
+                1080.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22123"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "recipient_uid": 2,
+              "rect": [
+                1080.54833984375,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-025-frame-5.png",
+          "raw_text_nodes": 12,
+          "seconds": 4.1,
+          "tick": 492,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "0"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22123"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "19"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "recipient_uid": 4,
+              "rect": [
+                1080.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22123"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "recipient_uid": 2,
+              "rect": [
+                1080.54833984375,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-025-frame-6.png",
+          "raw_text_nodes": 12,
+          "seconds": 4.175,
+          "tick": 501,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "0"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22123"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "19"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "damage_receipts": [
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "recipient_uid": 4,
+              "rect": [
+                1080.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22123"
+            },
+            {
+              "opacity": 1.0,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "recipient_uid": 2,
+              "rect": [
+                1080.54833984375,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-025-frame-7.png",
+          "raw_text_nodes": 12,
+          "seconds": 4.258333333333333,
+          "tick": 511,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "0"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22123"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "19"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "damage_receipts": [
+            {
+              "opacity": 0.6888889074325562,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "recipient_uid": 4,
+              "rect": [
+                1080.54833984375,
+                364.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22123"
+            },
+            {
+              "opacity": 0.6888889074325562,
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "recipient_uid": 2,
+              "rect": [
+                1080.54833984375,
+                676.19482421875,
+                96.0,
+                96.0
+              ],
+              "text": "\u22121"
+            }
+          ],
+          "file": "attack-025-frame-8.png",
+          "raw_text_nodes": 12,
+          "seconds": 4.333333333333333,
+          "tick": 520,
+          "visible_text_nodes": [
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6504/@Label@6505",
+              "primary_stat": true,
+              "text": "6"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6515/@Control@6506/@Label@6507",
+              "primary_stat": true,
+              "text": "2"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6524/@Label@6525",
+              "primary_stat": true,
+              "text": "1"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/@Control@6526/@Label@6527",
+              "primary_stat": true,
+              "text": "0"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6279/@Control@6535/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22123"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6464/@Label@6465",
+              "primary_stat": true,
+              "text": "8"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6475/@Control@6466/@Label@6467",
+              "primary_stat": true,
+              "text": "17"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_attack_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6484/@Label@6485",
+              "primary_stat": true,
+              "text": "3"
+            },
+            {
+              "category": "unit_stats",
+              "classification_field": "_health_label",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495",
+              "classification_script": "res://src/ui/widgets/card_view.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/@Control@6486/@Label@6487",
+              "primary_stat": true,
+              "text": "19"
+            },
+            {
+              "category": "other",
+              "classification_field": "unclassified text control",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "classification_script": "",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Control@6394/@Control@6495/DamagePop/Amount",
+              "primary_stat": false,
+              "text": "\u22121"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6432",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6432/@Control@6433/@Label@6434",
+              "primary_stat": true,
+              "text": "30"
+            },
+            {
+              "category": "costs_and_controls",
+              "classification_field": "button text or rendered button descendant",
+              "classification_owner": "/root/@Control@6455/@Control@6164/@Button@6437",
+              "classification_script": "res://src/ui/widgets/token_button.gd",
+              "fallback_reason": "",
+              "path": "/root/@Control@6455/@Control@6164/@Button@6437/@Control@6438/@Label@6439",
+              "primary_stat": true,
+              "text": "30"
+            }
+          ]
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.555,
+      "sample_ticks": [
+        454,
+        463,
+        469,
+        473,
+        482,
+        492,
+        501,
+        511,
+        520
+      ],
+      "sampling": {
+        "appended_peak_ticks": [
+          469
+        ],
+        "lunge_peaks": [
+          {
+            "distance_squared": 32184.357421875,
+            "flash_strength": 3.0,
+            "home": [
+              250.0,
+              255.5
+            ],
+            "kind": "lunge",
+            "position": [
+              250.0,
+              434.8999938964844
+            ],
+            "tick": 469,
+            "uid": 4
+          }
+        ],
+        "method": "Preserve all eight uniform samples and append each distinct observed actor peak. Pack actors are measured separately. Under reduce motion, append the held-pose or strongest source-flash peak. No original sample is replaced.",
+        "mode": "uniform-plus-observed-lunge-peaks",
+        "uniform_sample_ticks": [
+          454,
+          463,
+          473,
+          482,
+          492,
+          501,
+          511,
+          520
+        ]
+      },
+      "start_tick": 454,
+      "strip": "attack-025.jpg"
+    }
+  ],
+  "automatic_return_tick": 676,
+  "capture_mode": "selected-attacks",
+  "event_ticks": [
+    {
+      "event_index": 0,
+      "tick": 12,
+      "type": "combat_start"
+    },
+    {
+      "event_index": 1,
+      "tick": 21,
+      "type": "phase"
+    },
+    {
+      "event_index": 2,
+      "tick": 30,
+      "type": "phase"
+    },
+    {
+      "event_index": 3,
+      "tick": 39,
+      "type": "trigger"
+    },
+    {
+      "event_index": 4,
+      "tick": 48,
+      "type": "bog_patch"
+    },
+    {
+      "event_index": 5,
+      "tick": 57,
+      "type": "trigger"
+    },
+    {
+      "event_index": 6,
+      "tick": 67,
+      "type": "bog_patch"
+    },
+    {
+      "event_index": 7,
+      "tick": 76,
+      "type": "status"
+    },
+    {
+      "event_index": 8,
+      "tick": 124,
+      "type": "status"
+    },
+    {
+      "event_index": 9,
+      "tick": 172,
+      "type": "phase"
+    },
+    {
+      "event_index": 10,
+      "tick": 181,
+      "type": "trigger"
+    },
+    {
+      "event_index": 11,
+      "tick": 190,
+      "type": "stats"
+    },
+    {
+      "event_index": 12,
+      "tick": 238,
+      "type": "bog_toll"
+    },
+    {
+      "event_index": 13,
+      "tick": 247,
+      "type": "gain_pending"
+    },
+    {
+      "event_index": 14,
+      "tick": 256,
+      "type": "attack"
+    },
+    {
+      "event_index": 15,
+      "tick": 272,
+      "type": "damage"
+    },
+    {
+      "event_index": 16,
+      "tick": 272,
+      "type": "damage"
+    },
+    {
+      "event_index": 17,
+      "tick": 321,
+      "type": "attack"
+    },
+    {
+      "event_index": 18,
+      "tick": 337,
+      "type": "damage"
+    },
+    {
+      "event_index": 19,
+      "tick": 337,
+      "type": "damage"
+    },
+    {
+      "event_index": 20,
+      "tick": 337,
+      "type": "death"
+    },
+    {
+      "event_index": 21,
+      "tick": 355,
+      "type": "trigger"
+    },
+    {
+      "event_index": 22,
+      "tick": 364,
+      "type": "stats"
+    },
+    {
+      "event_index": 23,
+      "tick": 412,
+      "type": "bog_toll"
+    },
+    {
+      "event_index": 24,
+      "tick": 421,
+      "type": "gain_pending"
+    },
+    {
+      "event_index": 25,
+      "tick": 454,
+      "type": "attack"
+    },
+    {
+      "event_index": 26,
+      "tick": 470,
+      "type": "damage"
+    },
+    {
+      "event_index": 27,
+      "tick": 470,
+      "type": "damage"
+    },
+    {
+      "event_index": 28,
+      "tick": 470,
+      "type": "death"
+    },
+    {
+      "event_index": 29,
+      "tick": 488,
+      "type": "kiss"
+    },
+    {
+      "event_index": 30,
+      "tick": 521,
+      "type": "attack"
+    },
+    {
+      "event_index": 31,
+      "tick": 537,
+      "type": "damage"
+    },
+    {
+      "event_index": 32,
+      "tick": 537,
+      "type": "damage"
+    },
+    {
+      "event_index": 33,
+      "tick": 537,
+      "type": "death"
+    },
+    {
+      "event_index": 34,
+      "tick": 555,
+      "type": "combat_end"
+    }
+  ],
+  "events": [
+    {
+      "boards": [
+        [
+          {
+            "attack": 8.0,
+            "configured_details": "Soak keeps +2/+2 per Attack Bitter took from its own Mired enemies, at your next Start of Turn, even if this died. Each bite's gain rounds down. Bitter fractions round up; the biter keeps at least 1 Attack.",
+            "def_id": "bridge_toad",
+            "golden": false,
+            "health": 24.0,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Soak",
+                "text": "Bitter. Next Start of Turn: keep +2/+2 per Attack taken from its Mired enemies; golden +4/+4."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Soak"
+            ],
+            "max_health": 24.0,
+            "name": "Bridge Toad",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. Soak.",
+            "tier": 1.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 1.0
+          },
+          {
+            "attack": 3.0,
+            "bog_kiss_period": 3.0,
+            "configured_details": "Frogs share kisses; gain 1 per fight with a Sink while a frog is out. Only Bog folk beside this grow, using base plus permanent stats, never fight-only buffs. A unit grows at most 1 time(s) a turn; the strongest frog applies. Soak keeps +2/+2 per Attack Bitter took from its own Mired enemies, at your next Start of Turn, even if this died. Each bite's gain rounds down. Bitter fractions round up; the biter keeps at least 1 Attack.",
+            "counters": {
+              "kisses": 0.0
+            },
+            "def_id": "prince_restored",
+            "golden": false,
+            "health": 20.0,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Soak",
+                "text": "Bitter. Next Start of Turn: keep +2/+2 per Attack taken from its Mired enemies; golden +4/+4."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Soak"
+            ],
+            "max_health": 20.0,
+            "name": "The Prince Restored",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. Soak. Every third kiss: double the Bog folk beside this.",
+            "tier": 4.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 2.0
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "attack": 8.0,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 10.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 10.0,
+            "name": "Field Vole",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 3.0
+          },
+          {
+            "attack": 2.0,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 3.0,
+            "name": "Field Vole",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 4.0
+          },
+          {
+            "attack": 1.0,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 3.0,
+            "name": "Field Vole",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 5.0
+          },
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "first_side": 1.0,
+      "player_ids": [
+        0.0,
+        1.0
+      ],
+      "seq": 0.0,
+      "type": "combat_start"
+    },
+    {
+      "name": "start_of_combat",
+      "seq": 1.0,
+      "type": "phase"
+    },
+    {
+      "name": "bell",
+      "seq": 2.0,
+      "type": "phase"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 3.0,
+      "type": "trigger",
+      "uid": 1.0
+    },
+    {
+      "maker": 1.0,
+      "seq": 4.0,
+      "side": 1.0,
+      "slot": 0.0,
+      "type": "bog_patch"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 5.0,
+      "type": "trigger",
+      "uid": 2.0
+    },
+    {
+      "maker": 2.0,
+      "seq": 6.0,
+      "side": 1.0,
+      "slot": 1.0,
+      "type": "bog_patch"
+    },
+    {
+      "data": {
+        "maker": 1.0
+      },
+      "on": true,
+      "seq": 7.0,
+      "source": 1.0,
+      "status": "mired",
+      "target": 3.0,
+      "type": "status"
+    },
+    {
+      "data": {
+        "maker": 2.0
+      },
+      "on": true,
+      "seq": 8.0,
+      "source": 2.0,
+      "status": "mired",
+      "target": 4.0,
+      "type": "status"
+    },
+    {
+      "name": "attacks",
+      "seq": 9.0,
+      "type": "phase"
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 10.0,
+      "type": "trigger",
+      "uid": 1.0
+    },
+    {
+      "attack": 6.0,
+      "attack_delta": -2.0,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 10.0,
+      "health_delta": 0.0,
+      "max_health": 10.0,
+      "permanent": false,
+      "seq": 11.0,
+      "source": 1.0,
+      "target": 3.0,
+      "type": "stats"
+    },
+    {
+      "amount": 2.0,
+      "seq": 12.0,
+      "side": 0.0,
+      "source": 1.0,
+      "total": 2.0,
+      "type": "bog_toll"
+    },
+    {
+      "attack": 4.0,
+      "attack_delta": 4.0,
+      "cause": "Soak",
+      "health": 4.0,
+      "health_delta": 4.0,
+      "seq": 13.0,
+      "source": 1.0,
+      "target": 1.0,
+      "type": "gain_pending"
+    },
+    {
+      "attacker": 3.0,
+      "defender": 1.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 14.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 6.0,
+      "health_after": 18.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 6.0,
+      "seq": 15.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 1.0,
+      "type": "damage"
+    },
+    {
+      "amount": 8.0,
+      "health_after": 2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 8.0,
+      "seq": 16.0,
+      "source": 1.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "attacker": 1.0,
+      "defender": 5.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 17.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 8.0,
+      "health_after": -5.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 8.0,
+      "seq": 18.0,
+      "source": 1.0,
+      "strike": 1.0,
+      "target": 5.0,
+      "type": "damage"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 17.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 19.0,
+      "source": 5.0,
+      "strike": 1.0,
+      "target": 1.0,
+      "type": "damage"
+    },
+    {
+      "seq": 20.0,
+      "side": 1.0,
+      "slot": 2.0,
+      "type": "death",
+      "uid": 5.0
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 21.0,
+      "type": "trigger",
+      "uid": 2.0
+    },
+    {
+      "attack": 1.0,
+      "attack_delta": -1.0,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 3.0,
+      "health_delta": 0.0,
+      "max_health": 3.0,
+      "permanent": false,
+      "seq": 22.0,
+      "source": 2.0,
+      "target": 4.0,
+      "type": "stats"
+    },
+    {
+      "amount": 1.0,
+      "seq": 23.0,
+      "side": 0.0,
+      "source": 2.0,
+      "total": 3.0,
+      "type": "bog_toll"
+    },
+    {
+      "attack": 2.0,
+      "attack_delta": 2.0,
+      "cause": "Soak",
+      "health": 2.0,
+      "health_delta": 2.0,
+      "seq": 24.0,
+      "source": 2.0,
+      "target": 2.0,
+      "type": "gain_pending"
+    },
+    {
+      "attacker": 4.0,
+      "defender": 2.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 25.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 19.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 26.0,
+      "source": 4.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "amount": 3.0,
+      "health_after": 0.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 27.0,
+      "source": 2.0,
+      "strike": 1.0,
+      "target": 4.0,
+      "type": "damage"
+    },
+    {
+      "seq": 28.0,
+      "side": 1.0,
+      "slot": 1.0,
+      "type": "death",
+      "uid": 4.0
+    },
+    {
+      "count": 1.0,
+      "period": 3.0,
+      "seq": 29.0,
+      "side": 0.0,
+      "target": 2.0,
+      "type": "kiss"
+    },
+    {
+      "attacker": 2.0,
+      "defender": 3.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 30.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 3.0,
+      "health_after": -1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 31.0,
+      "source": 2.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "amount": 6.0,
+      "health_after": 13.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 6.0,
+      "seq": 32.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "seq": 33.0,
+      "side": 1.0,
+      "slot": 0.0,
+      "type": "death",
+      "uid": 3.0
+    },
+    {
+      "damage": 2.0,
+      "damage_base": 0.0,
+      "damage_mode": "v05",
+      "damage_performance": 2.0,
+      "damage_uncapped": 2.0,
+      "last_blow": false,
+      "last_blow_kind": "",
+      "last_blow_side": -1.0,
+      "last_blow_source": -1.0,
+      "reason": "board_empty",
+      "seq": 34.0,
+      "survivors": [
+        [
+          1.0,
+          2.0
+        ],
+        []
+      ],
+      "type": "combat_end",
+      "winner": 0.0
+    }
+  ],
+  "final_health_text": [
+    "30",
+    "28"
+  ],
+  "fixed_step": 0.008333333333333333,
+  "hero_health_after": [],
+  "hero_health_before": [],
+  "method": "two complete deterministic 1/120 s passes; preserve all eight uniform samples and append each distinct actor peak per selected interval; last attack ends before result; complete replay verifies all event ticks, final Health and automatic return",
+  "pixels": [
+    1688,
+    780
+  ],
+  "reduce_motion": false,
+  "scenario": "bog",
+  "seed": 23.0,
+  "selected_attack_event_indices": [
+    17,
+    25
+  ],
+  "source_events_sha256": "bdcf40232c4a76c5f6b16501501bcaa5ccb9404c68eec46f0e885901c35dd740",
+  "speed": 4.0,
+  "ticks": 677,
+  "timing_passes_equal": true,
+  "production_revision": "4c5c2900",
+  "render_provenance": "Fresh uniform-plus-peak render on the stated production revision.",
+  "whole_fight_seconds": 5.641666666666667,
+  "final_model_state_sha256": "7e9983a79855b33f254ca419285feef2fd3665008cd827fafca011620287c2cd"
+}
