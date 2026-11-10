@@ -4,9 +4,12 @@ extends GutTest
 # Assertions take Variants; GUT's untyped parameters count as unsafe arguments in 4.7.
 @warning_ignore_start("unsafe_call_argument")
 
-const SEEDS: Array[int] = [1, 2, 3, 42, 2026]
+const SharedLobby := preload("res://tests/core/shared_lobby.gd")
+## Two seeds (was 5: 1, 2, 3, 42, 2026). The run's shared Hard lobby below plays the real game to
+## its end with the same per-turn pool check, and the soak plays hundreds more.
+const SEEDS: Array[int] = [1, 42]
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _bot_game(game_seed: int, pool_filter: String = "all") -> GameSession:
@@ -54,9 +57,26 @@ func test_bot_games_end_with_one_winner_1_1_3() -> void:
 
 
 func test_skeleton_pool_games_end_10_2_3() -> void:
-	for game_seed: int in [7, 8]:
+	# One seed (was 7 and 8); test_bot_games_end_with_one_winner_1_1_3 covers the full pool.
+	for game_seed: int in [7]:
 		var session: GameSession = _bot_game(game_seed, "skeleton")
 		assert_true(session.is_over(), "seed %d: a skeleton-pool game ends" % game_seed)
+
+
+func test_the_shared_hard_lobby_ends_with_places_and_conserves_the_pool_5_3() -> void:
+	var lobby: Dictionary = SharedLobby.hard()
+	assert_true(lobby["over"], "the real Hard lobby ends")
+	assert_eq(lobby["end_turn_errors"], [], "end_turn succeeds while the game runs")
+	var start: int = lobby["pool_start"]
+	var turns: Array = lobby["pool_by_turn"]
+	assert_gt(turns.size(), 0, "turns played")
+	for turn: int in turns.size():
+		assert_eq(turns[turn], start, "turn %d: pool copies are conserved (5.3)" % turn)
+	var places: Array = []
+	for standing: Dictionary in lobby["standings"]:
+		places.append(standing["placement"])
+	places.sort()
+	assert_eq(places, [1, 2, 3, 4, 5, 6, 7, 8], "places 1-8 once each")
 
 
 func test_same_seed_same_game_determinism() -> void:

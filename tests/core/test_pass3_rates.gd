@@ -7,7 +7,7 @@ var config: GameConfig
 
 
 func before_each() -> void:
-	library = UnitLibrary.load_dir()
+	library = TestLibraries.current()
 	config = GameConfig.defaults()
 
 

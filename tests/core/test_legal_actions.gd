@@ -38,7 +38,7 @@ func test_every_legal_action_succeeds_through_a_whole_game() -> void:
 
 ## A session whose human holds this board, with a real shop.
 func _session_with(board: Dictionary) -> GameSession:
-	var session := GameSession.create(5, UnitLibrary.load_dir(), GameConfig.full_game())
+	var session := GameSession.create(5, TestLibraries.current(), GameConfig.full_game())
 	while session.get_state()["pending_choice"] != null:
 		session.choose(0)
 	var human: PlayerState = session._players[0]
@@ -88,7 +88,7 @@ func test_no_gold_lists_no_shop_swallow_but_a_discount_can_make_it_legal() -> vo
 
 func test_nothing_is_legal_once_the_game_is_over() -> void:
 	var config := GameConfig.defaults()
-	var session := GameSession.create(3, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(3, TestLibraries.current(), config)
 	var turns: int = 0
 	while not session.is_over() and turns < 80:
 		session.end_turn()
@@ -99,7 +99,7 @@ func test_nothing_is_legal_once_the_game_is_over() -> void:
 func test_while_choosing_only_choices_are_legal() -> void:
 	var config := GameConfig.defaults()
 	config.set_value("hero_choice", true)
-	var session := GameSession.create(3, UnitLibrary.load_dir(), config)
+	var session := GameSession.create(3, TestLibraries.current(), config)
 	var legal: Array[Dictionary] = LegalActions.of(session.get_state())
 	assert_eq(legal.size(), 3, "three heroes")
 	assert_eq(legal[0]["action"], "choose", "and nothing else")

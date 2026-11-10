@@ -40,4 +40,4 @@ func test_native_untouched_tribes_exactly_replay_f574eaf() -> void:
 ## Oozes stopped being untouched in W2B: keep the fixture's original Ooze definitions.
 ## Fixture bytes and current Birds/Fairies/Hedgerow definitions remain unchanged.
 func _historical_oozes() -> UnitLibrary:
-	return LegacyWave1.with_oozes(UnitLibrary.load_dir())
+	return LegacyWave1.current_with_oozes()

@@ -6,7 +6,7 @@ const Parity = preload("res://tools/checks/check_parity.gd")
 
 
 func test_counts_only_full_game_pool_with_actual_library_filter() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var template: Dictionary = library.get_unit("worker_bee").duplicate(true)
 	var synthetic := UnitLibrary.new()
 	for spec: Array in [

@@ -51,7 +51,7 @@ func test_direct_baseline_exactly_matches_capture_replay_and_does_not_mutate_fig
 	)
 	input["boards"][0][0]["held"] = [CombatKit.plain(1, 2)]
 	input["slots"][0][0] = [{"name": "Ring", "attack": 1, "health": 2}]
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var prepared: Dictionary = UpsetCombat.prepare(input, source)
 	var configured: UnitLibrary = prepared["intact_library"]
 	var before: String = FightCapture.canonical(input)
@@ -66,7 +66,7 @@ func test_direct_baseline_exactly_matches_capture_replay_and_does_not_mutate_fig
 
 
 func test_native_and_data_answer_positive_controls_and_oversized_negative_control() -> void:
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	for id: String in ["scale_answer", "scale_biggest_answer"]:
 		for seed_value: int in [1, 2, 19, 71]:
 			var input: Dictionary = _fight_input(
@@ -118,7 +118,7 @@ func test_partial_effect_mask_preserves_other_buff_grants_held_and_slot_state() 
 		}
 	]
 	var before: String = FightCapture.canonical(input)
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	var masked: Dictionary = prepared["input"]
 	assert_true(prepared["supported"])
 	assert_eq(masked["boards"][0][0]["grants"][0]["entry"]["do"], [buff])
@@ -141,13 +141,13 @@ func test_stateful_bundled_and_unknown_native_masks_are_unsupported() -> void:
 		{"entry": answer, "golden": false},
 		{"entry": {"id": "unknown_future_native"}, "golden": false}
 	]
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	assert_false(prepared["supported"])
 	assert_eq(prepared["unsupported"].size(), 2)
 
 
 func test_wave1_shared_native_audit_preserves_every_current_ability() -> void:
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: CombatKit.plain(4, 4)}), CombatKit.board({0: CombatKit.plain(6, 6)})
 	)
@@ -188,7 +188,7 @@ func test_future_or_missing_wave1_ability_remains_unsupported() -> void:
 			var input: Dictionary = _fight_input(
 				CombatKit.board({0: body}), CombatKit.board({0: CombatKit.plain(6, 6)})
 			)
-			var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+			var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 			assert_false(prepared["supported"])
 			assert_eq(prepared["unsupported"].size(), 1)
 			assert_eq(prepared["unsupported"][0]["ability"], ability)
@@ -201,7 +201,7 @@ func test_wave1_fetch_keeps_copying_but_copied_answer_text_is_masked() -> void:
 		CombatKit.board({0: CombatKit.u("cradle_fetch", 1, 1), 4: target}),
 		CombatKit.board({0: CombatKit.plain(30, 30)})
 	)
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	assert_true(prepared["supported"])
 	var library: UnitLibrary = prepared["library"]
 	assert_eq(library.get_unit("cradle_fetch")["mechanics"][0]["ability"], "fetch")
@@ -260,7 +260,7 @@ func test_unequal_unit_counts_do_not_override_first_attack() -> void:
 		CombatKit.board({0: CombatKit.plain(8, 8), 1: CombatKit.plain(1, 1)}),
 		CombatKit.board({0: CombatKit.plain(2, 3)})
 	)
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	var intact: UnitLibrary = prepared["intact_library"]
 	var normal: Dictionary = UpsetCombat.run_input(input, intact, false, true)
 	var flipped: Dictionary = UpsetCombat.run_input(input, intact, true, true)
@@ -272,7 +272,7 @@ func test_coin_override_preserves_start_of_combat_and_later_rng_when_no_attacks(
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: CombatKit.plain(0, 5)}), CombatKit.board({0: CombatKit.plain(0, 5)})
 	)
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	var intact: UnitLibrary = prepared["intact_library"]
 	var normal: Dictionary = UpsetCombat.run_input(input, intact, false, true)
 	var flipped: Dictionary = UpsetCombat.run_input(input, intact, true, true)
@@ -292,7 +292,7 @@ func test_lower_stat_win_without_declared_cause_is_not_answer_evidence() -> void
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: CombatKit.plain(1, 1)}), CombatKit.board({0: CombatKit.plain(0, 5)})
 	)
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	var intact: UnitLibrary = prepared["intact_library"]
 	var masked: UnitLibrary = prepared["library"]
 	var masked_input: Dictionary = prepared["input"]
@@ -307,7 +307,7 @@ func test_pre_overlay_capture_defaults_replay_exactly() -> void:
 	)
 	for key: String in ["card_size_caps", "card_rate_limits", "scale_levers"]:
 		input["config"].erase(key)
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var prepared: Dictionary = UpsetCombat.prepare(input, source)
 	var configured: UnitLibrary = prepared["intact_library"]
 	assert_eq(configured, source, "missing overlay keys keep inert defaults")
@@ -317,7 +317,7 @@ func test_pre_overlay_capture_defaults_replay_exactly() -> void:
 
 
 func test_held_and_borrowed_answer_grants_mask_identically() -> void:
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var config := GameConfig.defaults()
 	config.set_value("scale_levers", ["scale_answer"])
 	var configured: UnitLibrary = ScaleOverlay.library_for(source, config)
@@ -345,7 +345,7 @@ func test_known_layout_intervention_reverses_winner_independent_of_first_coin() 
 	var input: Dictionary = _fight_input(a, b, 1)
 	var changed: Dictionary = input.duplicate(true)
 	changed["boards"][0] = alternative["board"]
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	var intact: UnitLibrary = prepared["intact_library"]
 	for flip: bool in [false, true]:
 		var original: Dictionary = UpsetCombat.run_input(input, intact, flip)
@@ -361,7 +361,7 @@ func test_known_first_attack_coin_intervention_reverses_winner() -> void:
 	var input: Dictionary = _fight_input(body, body.duplicate(true), 1)
 	input["config"]["last_blow"] = false
 	assert_eq(input["rng_state"], "-1966449618399012673")
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	var intact: UnitLibrary = prepared["intact_library"]
 	var normal: Dictionary = UpsetCombat.run_input(input, intact)
 	var flipped: Dictionary = UpsetCombat.run_input(input, intact, true)
@@ -376,7 +376,7 @@ func test_copy_target_policy_keeps_whistle_and_nightshade_in_the_ranked_enemy_cl
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: CombatKit.plain(5, 5)}), CombatKit.board({0: CombatKit.plain(6, 6)})
 	)
-	var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+	var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 	assert_true(prepared["supported"], "the entire library remains audited")
 	var found: Dictionary = {}
 	for entry: Dictionary in prepared["manifest"]:
@@ -388,7 +388,7 @@ func test_copy_target_policy_keeps_whistle_and_nightshade_in_the_ranked_enemy_cl
 
 
 func test_bog_native_audit_masks_only_ranked_enemy_selectors_and_separate_snap() -> void:
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: CombatKit.plain(4, 4)}), CombatKit.board({0: CombatKit.plain(6, 6)})
 	)
@@ -434,7 +434,7 @@ func test_future_or_missing_bog_ability_remains_unsupported() -> void:
 		var input: Dictionary = _fight_input(
 			CombatKit.board({0: body}), CombatKit.board({0: CombatKit.plain(6, 6)})
 		)
-		var prepared: Dictionary = UpsetCombat.prepare(input, UnitLibrary.load_dir())
+		var prepared: Dictionary = UpsetCombat.prepare(input, TestLibraries.current())
 		assert_false(prepared["supported"])
 		var unsupported: Array = prepared["unsupported"]
 		assert_eq(unsupported.size(), 1)
@@ -442,7 +442,7 @@ func test_future_or_missing_bog_ability_remains_unsupported() -> void:
 
 
 func test_every_native_hunter_ability_is_audited_and_only_isegrim_is_masked() -> void:
-	var source := UnitLibrary.load_dir()
+	var source := TestLibraries.current()
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: CombatKit.plain(20, 30)}), CombatKit.board({0: CombatKit.plain(25, 35)})
 	)
