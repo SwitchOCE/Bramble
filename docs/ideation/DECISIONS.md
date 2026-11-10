@@ -4,6 +4,38 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — No more balance changes; only bug fixes (owner, 10h)
+**Source:** owner note `2026-11-10h-bugs-only.md`.
+
+**Picked:**
+- The Ooze tail cut stops. It's parked with a resume point (`PARKED.md`).
+- No further dial or preset changes for build 8, and no balance target.
+- The measurement run's preset B for the five other tribes, finished and reviewed before 10h, still merges once its four stale test fixtures are fixed.
+- From here, only bug fixes, the export and its checks.
+
+**Why:** the owner's words. The measurement run was the run note 10g asked for. Without it, build 8 would have the Oozes at 3–13× every other tribe.
+
+**Agreed by:** the owner's direction. The orchestrator's reading of where the measurement run falls is open to the owner's correction.
+
+### 10 Nov 2026 — Build 8's measurement run: four tribes in range, Fairies short, the Ooze engine runs away
+**Source:** `ideation/a35-run1` 480d2ee4 and `evidence/a35-run1/README.md`: four arms (t = 0 to 3) on 32 line lobbies, a log-linear fit per tribe to 900 at R12, and one confirming run at the new B.
+
+**Found:**
+- **Selected t:** Birds 0.75, Fairies 1.5, Bog 1.0, Hunters 1.25, Hedgerow 0.75. The Oozes were held.
+- **Engine-line R12 medians at the new B:** Birds 867, Fairies 480, Bog 742, Hunters 790, Hedgerow 1,313, Oozes 1,535.
+- **Fairies miss** the 675 floor (0.75 × 900). Their Court line reaches 901.
+- **Growth is generous everywhere:** R8–R14 medians run ×1.4–2.0 a round, and R15 ÷ R12 runs 2.4–13.6.
+- **The Ooze engine runs away.** Its R12 p90 is 116,519 (75.9× the median), its R15 ÷ R12 is 22.0, and Ooze tempo hits the 1-billion unit ceiling from R14 on one seed. The probe's arm b, before A3 made Soup tier 1, had a p90 of 4,367.
+
+**Picked:**
+- The five tribes' B ships as measured, after one review and the gate. The gate failure on four tests that still pinned the old B goes back to the worker; those are test fixes, not balance.
+- Fairies stay short. The gap is recorded in the build's README and the end-of-run report.
+- **No Ooze cut.** One bounded cut at the Ooze outlier was started, then stopped when the owner said no more balance changes, only bug fixes (note 10h). Its branch (`ideation/ooze-cut`, 51cbf7f0) is parked. Its partial diagnosis: in the worst seat, the Oozes' late growth came from combat gains, not eating. The tail is named in the README as a known gap.
+
+**Why:** the measurement run was the one run 10g asked for, and it was finished and reviewed before 10h. It brings the other tribes from 89–365 up to 480–1,313, so build 8 isn't the Oozes at 3–13× everyone else. Anything past that is new balance work, which 10h stops.
+
+**Agreed by:** the review of 480d2ee4 (MERGE; every point and confirmation cell reproduced); the orchestrator's call.
+
 ### 10 Nov 2026 — The Oozes' new presets merged
 **Source:** `ideation/ooze-probe` cc307b67, merged as `cca9242f` (gate PASS, run 42763229125).
 
