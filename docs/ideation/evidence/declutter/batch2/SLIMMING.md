@@ -36,5 +36,5 @@ manifests remain plain JSON for tools that enumerate or rewrite them.
 
 The repository gate limits changed documentation files to 2,000,000 bytes and
 new documentation files to 30,000,000 bytes per comparison range, including
-docs-only mode. The explicit batch 2 allowlist retains its two passing native
-contact sheets above the per-file cap with a one-line fidelity rationale.
+docs-only mode. The explicit batch 2 allowlist retains passing native images, including the
+two contact sheets above the per-file cap, with a one-line fidelity rationale.
