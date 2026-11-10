@@ -22,7 +22,12 @@ func test_a_dying_cards_flash_ends_with_the_card() -> void:
 	screen.call("_flash", 1, Color.WHITE, true)
 	var flash: Tween = screen._tweens.back()
 	screen.call("_death", 1, true)
-	await get_tree().create_timer(0.7).timeout
+	screen.manual_playback = true
+	screen.next_index = screen.events.size()
+	screen.playing = true
+	for tick: int in 84:
+		screen.advance_playback(1.0 / 120.0)
+		await wait_process_frames(1)
 	assert_false(screen._cards.has(1), "the card died before its flash finished")
 	assert_false(flash.is_valid(), "the delayed flash cannot outlive its card")
 

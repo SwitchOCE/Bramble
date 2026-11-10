@@ -157,6 +157,8 @@ func _start(event: Dictionary) -> void:
 			if entry is Dictionary:
 				var view: Dictionary = entry
 				_add(view.duplicate(true), side, slot)
+				units[Data.i(view, "uid", -1)]["starting"] = true
+				units[Data.i(view, "uid", -1)]["starting_side"] = side
 
 
 func _add(view: Dictionary, side: int, slot: int) -> void:

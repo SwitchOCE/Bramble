@@ -120,14 +120,14 @@ func test_nest_display_uses_live_tom_tit_redwing_tribe_and_slot_stats() -> void:
 	assert_string_contains(detail["text"], "2 turns")
 
 
-func test_spoils_result_and_income_name_the_payment() -> void:
+func test_spoils_log_and_income_name_the_payment() -> void:
 	var screen := CombatScreen.new()
 	add_child_autofree(screen)
 	screen.bottom_side = 0
-	screen.model.apply({"type": "early_spoils", "side": 0, "amount": 1})
-	screen.model.apply({"type": "combat_end", "winner": 0, "damage": 1})
-	screen._show_result()
-	assert_string_contains(screen._result_text.text, "+1 gold: Spoils")
+	screen._play_event({"type": "early_spoils", "side": 0, "amount": 1}, false)
+	screen._play_event({"type": "combat_end", "winner": 0, "damage": 1}, false)
+	assert_string_contains(screen._log.all_text(), "+1 gold next turn (Spoils)")
+	assert_false(screen._log.visible, "Spoils details stay in Log")
 	assert_string_contains(
 		RecruitView.income_note(
 			{"next_turn_income": 4, "gold_next_turn": 1, "early_spoils_next_turn": 1}

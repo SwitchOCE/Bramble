@@ -3,7 +3,7 @@ extends GutTest
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
-const HitPanel := preload("res://src/ui/widgets/hit_panel.gd")
+const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
@@ -34,27 +34,17 @@ func test_long_shop_rules_keep_the_portrait_at_phone_and_desktop_sizes() -> void
 				assert_false(card.chip_shown.is_empty(), id)
 
 
-func test_this_hit_explains_why_it_is_waiting_and_yields_to_the_first_attack() -> void:
-	var panel: HitPanel = HitPanel.new()
-	add_child_autofree(panel)
-	await wait_process_frames(1)
-	panel.size = Vector2(460, 348)
-	await wait_process_frames(1)
-	var waiting: Label = panel.get("_waiting")
-	assert_true(waiting.visible)
-	assert_true(
-		Rect2(Vector2.ZERO, panel.size).encloses(waiting.get_rect()), str(waiting.get_rect())
-	)
-	assert_string_contains(waiting.text, "first attack")
-	panel.begin("Field Vole", "Hedge Witch", 4, 1)
-	assert_false(waiting.visible)
-	assert_eq(panel.steps.size(), 1)
-	panel.clear()
-	assert_true(waiting.visible)
-	await wait_process_frames(1)
-	assert_true(
-		Rect2(Vector2.ZERO, panel.size).encloses(waiting.get_rect()), str(waiting.get_rect())
-	)
+func test_fight_begins_with_wordless_start_of_combat_cue() -> void:
+	var screen := CombatScreen.new()
+	add_child_autofree(screen)
+	screen.manual_playback = true
+	screen.setup({"events": []}, PackedStringArray(["You", "Opponent"]), 0, "Round 1")
+	var overlay: Control = screen.get("_overlay")
+	var before: int = overlay.get_child_count()
+	screen._play_event({"type": "phase", "name": "start_of_combat"}, true)
+	assert_gt(overlay.get_child_count(), before, "Start of Combat has a visual cue")
+	assert_false(screen._log.visible, "the opening narration stays in Log")
+	assert_false(screen._reader.visible, "no automatic reminder opens")
 
 
 func test_default_play_text_shows_stable_handles_before_legacy_numbers() -> void:

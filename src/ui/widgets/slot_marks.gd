@@ -41,6 +41,8 @@ var board: Control
 var _ring_labels: Array[Label] = []
 var _pass_label: Label
 var _hex_labels: Dictionary[int, Label] = {}
+var _hex_values: Dictionary[int, Dictionary] = {}
+var _trap_labels: Dictionary[int, Label] = {}
 var _nest_labels: Array[Label] = []
 var _egg_stats: Array[Control] = []
 var _egg_attack: Array[Label] = []
@@ -85,6 +87,7 @@ func _init(owner_board: Control) -> void:
 
 
 func set_hex(slot: int, total: int, percent: int = 0) -> void:
+	_hex_values[slot] = {"total": total, "percent": percent}
 	if not _hex_labels.has(slot):
 		var made: Label = UiTheme.number("", UiTheme.FONT_SMALL, UiTheme.CREAM)
 		made.add_theme_stylebox_override("normal", UiTheme.slip_box(HEX, 3, 8))
@@ -92,6 +95,19 @@ func set_hex(slot: int, total: int, percent: int = 0) -> void:
 		add_child(made)
 		_hex_labels[slot] = made
 	var label: Label = _hex_labels[slot]
+	if board.get("combat_mode") == true:
+		var amounts: PackedStringArray = []
+		if total != 0:
+			amounts.append("−" + StatNumbers.compact(absi(total)))
+		if percent > 0:
+			amounts.append("−%d%%" % mini(percent, 100))
+		label.text = "\n".join(amounts) if not amounts.is_empty() else "0"
+		label.add_theme_stylebox_override("normal", UiTheme.flat_box(HEX, UiTheme.INK, 2, 7))
+		label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
+		label.size = label.get_minimum_size()
+		_place_hex(slot)
+		queue_redraw()
+		return
 	var parts: PackedStringArray = []
 	if total != 0:
 		parts.append(str(-absi(total)))
@@ -106,11 +122,50 @@ func set_hex(slot: int, total: int, percent: int = 0) -> void:
 	label.position = at + Vector2((pocket.x - label.size.x) / 2.0, pocket.y - label.size.y - 28.0)
 
 
+func _place_hex(slot: int) -> void:
+	var at: Vector2 = board.call("slot_position", slot)
+	_hex_labels[slot].position = at + Vector2(38, 48 if _trap_labels.has(slot) else 8)
+
+
+func set_trap(slot: int, damage: int) -> void:
+	if damage <= 0:
+		if _trap_labels.has(slot):
+			remove_child(_trap_labels[slot])
+			_trap_labels[slot].queue_free()
+			_trap_labels.erase(slot)
+	else:
+		if not _trap_labels.has(slot):
+			var made: Label = UiTheme.number("", UiTheme.MIN_FONT, UiTheme.CREAM)
+			made.add_theme_stylebox_override(
+				"normal", UiTheme.flat_box(UiTheme.HEALTH, UiTheme.INK, 2, 7)
+			)
+			add_child(made)
+			_trap_labels[slot] = made
+		var label: Label = _trap_labels[slot]
+		label.text = StatNumbers.compact(damage)
+		label.size = label.get_minimum_size()
+		var at: Vector2 = board.call("slot_position", slot)
+		label.position = at + Vector2(38, 8)
+	if _hex_labels.has(slot) and board.get("combat_mode") == true:
+		_place_hex(slot)
+	queue_redraw()
+
+
+func clear_traps() -> void:
+	for label: Label in _trap_labels.values():
+		remove_child(label)
+		label.queue_free()
+	_trap_labels.clear()
+	queue_redraw()
+
+
 func clear_hexes() -> void:
 	for label: Label in _hex_labels.values():
 		remove_child(label)
 		label.queue_free()
 	_hex_labels.clear()
+	_hex_values.clear()
+	queue_redraw()
 
 
 func set_marks(slot_marks: Array) -> void:
@@ -159,7 +214,7 @@ func _place() -> void:
 		var mark: Dictionary = marks[i] if i < marks.size() else {}
 		var words: String = _ring_words(mark)
 		var cards: Array = board.get("cards")
-		label.visible = not words.is_empty()
+		label.visible = not words.is_empty() and board.get("combat_mode") != true
 		if label.visible:
 			label.text = words
 			var header: bool = board.get("with_labels") and cards[i] != null
@@ -184,7 +239,7 @@ func _place() -> void:
 		_place_nest_label(i, mark, pocket)
 		_place_egg_stats(i, mark, pocket)
 	var landing: int = _pass_landing()
-	_pass_label.visible = landing >= 0
+	_pass_label.visible = landing >= 0 and board.get("combat_mode") != true
 	if _pass_label.visible:
 		_pass_label.text = "Pass end" if pass_slot == -2 else "Pass lands"
 		var at: Vector2 = board.call("slot_position", landing)
@@ -206,7 +261,7 @@ func _pass_landing() -> int:
 ## "Nest 2": turns until its bird lands. A scouted Nest doesn't say.
 func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 	var label: Label = _nest_labels[slot]
-	label.visible = mark.get("nest", false) == true
+	label.visible = mark.get("nest", false) == true and board.get("combat_mode") != true
 	if not label.visible:
 		return
 	var cards: Array = board.get("cards")
@@ -251,7 +306,9 @@ func _draw() -> void:
 			)
 			draw_rect(band.grow(3.0), UiTheme.INK)
 			draw_rect(band, BAND_COLOURS[i])
-	var landing: int = _pass_landing()
+	if board.get("combat_mode") == true:
+		_draw_combat_marks()
+	var landing: int = _pass_landing() if board.get("combat_mode") != true else -1
 	if landing >= 0:
 		var at: Vector2 = board.call("slot_position", landing)
 		var tip: Vector2 = at + Vector2(pocket.x / 2.0, 124.0)
@@ -259,6 +316,35 @@ func _draw() -> void:
 		draw_colored_polygon(points, UiTheme.MOSS)
 		points.append(tip)
 		draw_polyline(points, UiTheme.INK, 4.0)
+
+
+## The Hex and trap silhouettes stay distinct even on an empty pocket.
+func _draw_combat_marks() -> void:
+	for slot: int in _hex_values:
+		var at: Vector2 = board.call("slot_position", slot)
+		var centre: Vector2 = at + Vector2(19, 66 if _trap_labels.has(slot) else 26)
+		var points: PackedVector2Array = [
+			centre + Vector2(0, -17),
+			centre + Vector2(17, 0),
+			centre + Vector2(0, 17),
+			centre + Vector2(-17, 0),
+			centre + Vector2(0, -17),
+		]
+		draw_polyline(points, UiTheme.INK, 8.0, true)
+		draw_polyline(points, Color("b68be2"), 4.0, true)
+		draw_line(centre + Vector2(-10, 0), centre + Vector2(10, 0), HEX, 5.0, true)
+	for slot: int in _trap_labels:
+		var at: Vector2 = board.call("slot_position", slot)
+		var centre: Vector2 = at + Vector2(19, 26)
+		var points: PackedVector2Array = [
+			centre + Vector2(-7, 17),
+			centre + Vector2(-7, -5),
+			centre + Vector2(0, -17),
+			centre + Vector2(7, -5),
+			centre + Vector2(7, 17),
+		]
+		draw_colored_polygon(points, UiTheme.HEALTH)
+		draw_polyline(points, UiTheme.INK, 3.0, true)
 
 
 ## On an empty Nest, the Egg that fights there, in its woven twigs. A unit standing on one keeps its
@@ -290,7 +376,7 @@ func _draw_ring(rect: Rect2, skip_top: bool) -> void:
 		var along: float = perimeter * dot / RING_DOTS
 		var point: Vector2 = rect.position
 		if along < rect.size.x:
-			if skip_top:
+			if skip_top and board.get("combat_mode") != true:
 				continue
 			point += Vector2(along, 0)
 		elif along < rect.size.x + rect.size.y:
@@ -299,8 +385,8 @@ func _draw_ring(rect: Rect2, skip_top: bool) -> void:
 			point += Vector2(rect.size.x * 2.0 + rect.size.y - along, rect.size.y)
 		else:
 			point += Vector2(0, perimeter - along)
-		draw_circle(point, 8.0, UiTheme.INK)
-		draw_circle(point, 5.5, RING)
+		draw_circle(point, 6.0 if board.get("combat_mode") == true else 8.0, UiTheme.INK)
+		draw_circle(point, 4.0 if board.get("combat_mode") == true else 5.5, RING)
 
 
 func _egg_number(parent: Control, shape: String, ink: Color) -> Label:
@@ -327,6 +413,7 @@ func _place_egg_stats(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 		and board.get("zone") != "scout"
 		and mark.has("egg_attack")
 		and mark.has("egg_health")
+		and board.get("combat_mode") != true
 	)
 	if not stats.visible:
 		return

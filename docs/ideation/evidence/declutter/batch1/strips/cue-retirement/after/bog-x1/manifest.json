@@ -1,0 +1,1021 @@
+{
+  "attacks": [
+    {
+      "duration": 1.9749999999999999,
+      "end_tick": 858,
+      "event_index": 17,
+      "frames": [
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-0.png",
+          "raw_text_nodes": 12,
+          "seconds": 5.175,
+          "tick": 621
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                460.0,
+                -152.89999389648438
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-1.png",
+          "raw_text_nodes": 14,
+          "seconds": 5.441666666666666,
+          "tick": 653
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-2.png",
+          "raw_text_nodes": 14,
+          "seconds": 5.741666666666666,
+          "tick": 689
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-3.png",
+          "raw_text_nodes": 10,
+          "seconds": 6.025,
+          "tick": 723
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-4.png",
+          "raw_text_nodes": 10,
+          "seconds": 6.3,
+          "tick": 756
+        },
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-5.png",
+          "raw_text_nodes": 11,
+          "seconds": 6.583333333333333,
+          "tick": 790
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-6.png",
+          "raw_text_nodes": 12,
+          "seconds": 6.866666666666666,
+          "tick": 824
+        },
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                40.0,
+                26.5
+              ],
+              "uid": 1
+            }
+          ],
+          "file": "attack-017-frame-7.png",
+          "raw_text_nodes": 11,
+          "seconds": 7.1499999999999995,
+          "tick": 858
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 1.9800000000000002,
+      "sample_ticks": [
+        621,
+        653,
+        689,
+        723,
+        756,
+        790,
+        824,
+        858
+      ],
+      "sampling": {
+        "lunge_peaks": [
+          {
+            "distance_squared": 208584.359375,
+            "flash_strength": 3.0,
+            "home": [
+              40.0,
+              26.5
+            ],
+            "kind": "lunge",
+            "position": [
+              460.0,
+              -152.89999389648438
+            ],
+            "tick": 653,
+            "uid": 1
+          }
+        ],
+        "method": "Pin each actor's maximum observed lunge displacement at 120Hz; under reduce motion pin held-pose or strongest source flash. Replace nearest unprotected interior uniform sample; endpoints yield only if peak count requires it.",
+        "mode": "uniform-with-observed-lunge-peaks",
+        "replacements": [
+          {
+            "peak_tick": 653,
+            "uniform_tick": 655
+          }
+        ],
+        "uniform_sample_ticks": [
+          621,
+          655,
+          689,
+          723,
+          756,
+          790,
+          824,
+          858
+        ]
+      },
+      "start_tick": 621,
+      "strip": "attack-017.jpg"
+    },
+    {
+      "duration": 0.975,
+      "end_tick": 976,
+      "event_index": 25,
+      "frames": [
+        {
+          "ancillary_text_nodes": 1,
+          "attack_actor_positions": [
+            {
+              "position": [
+                250.0,
+                255.5
+              ],
+              "uid": 4
+            }
+          ],
+          "file": "attack-025-frame-0.png",
+          "raw_text_nodes": 11,
+          "seconds": 7.158333333333333,
+          "tick": 859
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                250.0,
+                267.6663513183594
+              ],
+              "uid": 4
+            }
+          ],
+          "file": "attack-025-frame-1.png",
+          "raw_text_nodes": 10,
+          "seconds": 7.3,
+          "tick": 876
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [
+            {
+              "position": [
+                250.0,
+                431.18194580078125
+              ],
+              "uid": 4
+            }
+          ],
+          "file": "attack-025-frame-2.png",
+          "raw_text_nodes": 10,
+          "seconds": 7.416666666666667,
+          "tick": 890
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "file": "attack-025-frame-3.png",
+          "raw_text_nodes": 12,
+          "seconds": 7.575,
+          "tick": 909
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "file": "attack-025-frame-4.png",
+          "raw_text_nodes": 12,
+          "seconds": 7.716666666666667,
+          "tick": 926
+        },
+        {
+          "ancillary_text_nodes": 2,
+          "attack_actor_positions": [],
+          "file": "attack-025-frame-5.png",
+          "raw_text_nodes": 12,
+          "seconds": 7.858333333333333,
+          "tick": 943
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [],
+          "file": "attack-025-frame-6.png",
+          "raw_text_nodes": 8,
+          "seconds": 7.991666666666666,
+          "tick": 959
+        },
+        {
+          "ancillary_text_nodes": 0,
+          "attack_actor_positions": [],
+          "file": "attack-025-frame-7.png",
+          "raw_text_nodes": 8,
+          "seconds": 8.133333333333333,
+          "tick": 976
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.98,
+      "sample_ticks": [
+        859,
+        876,
+        890,
+        909,
+        926,
+        943,
+        959,
+        976
+      ],
+      "sampling": {
+        "lunge_peaks": [
+          {
+            "distance_squared": 30864.146484375,
+            "flash_strength": 3.0,
+            "home": [
+              250.0,
+              255.5
+            ],
+            "kind": "lunge",
+            "position": [
+              250.0,
+              431.18194580078125
+            ],
+            "tick": 890,
+            "uid": 4
+          }
+        ],
+        "method": "Pin each actor's maximum observed lunge displacement at 120Hz; under reduce motion pin held-pose or strongest source flash. Replace nearest unprotected interior uniform sample; endpoints yield only if peak count requires it.",
+        "mode": "uniform-with-observed-lunge-peaks",
+        "replacements": [
+          {
+            "peak_tick": 890,
+            "uniform_tick": 892
+          }
+        ],
+        "uniform_sample_ticks": [
+          859,
+          876,
+          892,
+          909,
+          926,
+          943,
+          959,
+          976
+        ]
+      },
+      "start_tick": 859,
+      "strip": "attack-025.jpg"
+    }
+  ],
+  "automatic_return_tick": 1166,
+  "capture_mode": "selected-attacks",
+  "event_ticks": [
+    {
+      "event_index": 0,
+      "tick": 12,
+      "type": "combat_start"
+    },
+    {
+      "event_index": 1,
+      "tick": 47,
+      "type": "phase"
+    },
+    {
+      "event_index": 2,
+      "tick": 83,
+      "type": "phase"
+    },
+    {
+      "event_index": 3,
+      "tick": 119,
+      "type": "trigger"
+    },
+    {
+      "event_index": 4,
+      "tick": 146,
+      "type": "bog_patch"
+    },
+    {
+      "event_index": 5,
+      "tick": 182,
+      "type": "trigger"
+    },
+    {
+      "event_index": 6,
+      "tick": 208,
+      "type": "bog_patch"
+    },
+    {
+      "event_index": 7,
+      "tick": 244,
+      "type": "status"
+    },
+    {
+      "event_index": 8,
+      "tick": 292,
+      "type": "status"
+    },
+    {
+      "event_index": 9,
+      "tick": 340,
+      "type": "phase"
+    },
+    {
+      "event_index": 10,
+      "tick": 376,
+      "type": "trigger"
+    },
+    {
+      "event_index": 11,
+      "tick": 403,
+      "type": "stats"
+    },
+    {
+      "event_index": 12,
+      "tick": 451,
+      "type": "bog_toll"
+    },
+    {
+      "event_index": 13,
+      "tick": 487,
+      "type": "gain_pending"
+    },
+    {
+      "event_index": 14,
+      "tick": 523,
+      "type": "attack"
+    },
+    {
+      "event_index": 15,
+      "tick": 555,
+      "type": "damage"
+    },
+    {
+      "event_index": 16,
+      "tick": 555,
+      "type": "damage"
+    },
+    {
+      "event_index": 17,
+      "tick": 621,
+      "type": "attack"
+    },
+    {
+      "event_index": 18,
+      "tick": 653,
+      "type": "damage"
+    },
+    {
+      "event_index": 19,
+      "tick": 653,
+      "type": "damage"
+    },
+    {
+      "event_index": 20,
+      "tick": 653,
+      "type": "death"
+    },
+    {
+      "event_index": 21,
+      "tick": 689,
+      "type": "trigger"
+    },
+    {
+      "event_index": 22,
+      "tick": 715,
+      "type": "stats"
+    },
+    {
+      "event_index": 23,
+      "tick": 763,
+      "type": "bog_toll"
+    },
+    {
+      "event_index": 24,
+      "tick": 799,
+      "type": "gain_pending"
+    },
+    {
+      "event_index": 25,
+      "tick": 859,
+      "type": "attack"
+    },
+    {
+      "event_index": 26,
+      "tick": 891,
+      "type": "damage"
+    },
+    {
+      "event_index": 27,
+      "tick": 891,
+      "type": "damage"
+    },
+    {
+      "event_index": 28,
+      "tick": 891,
+      "type": "death"
+    },
+    {
+      "event_index": 29,
+      "tick": 927,
+      "type": "kiss"
+    },
+    {
+      "event_index": 30,
+      "tick": 977,
+      "type": "attack"
+    },
+    {
+      "event_index": 31,
+      "tick": 1009,
+      "type": "damage"
+    },
+    {
+      "event_index": 32,
+      "tick": 1009,
+      "type": "damage"
+    },
+    {
+      "event_index": 33,
+      "tick": 1009,
+      "type": "death"
+    },
+    {
+      "event_index": 34,
+      "tick": 1045,
+      "type": "combat_end"
+    }
+  ],
+  "events": [
+    {
+      "boards": [
+        [
+          {
+            "attack": 8.0,
+            "configured_details": "Soak keeps +2/+2 per Attack Bitter took from its own Mired enemies, at your next Start of Turn, even if this died. Each bite's gain rounds down. Bitter fractions round up; the biter keeps at least 1 Attack.",
+            "def_id": "bridge_toad",
+            "golden": false,
+            "health": 24.0,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Soak",
+                "text": "Bitter. Next Start of Turn: keep +2/+2 per Attack taken from its Mired enemies; golden +4/+4."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Soak"
+            ],
+            "max_health": 24.0,
+            "name": "Bridge Toad",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. Soak.",
+            "tier": 1.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 1.0
+          },
+          {
+            "attack": 3.0,
+            "bog_kiss_period": 3.0,
+            "configured_details": "Frogs share kisses; gain 1 per fight with a Sink while a frog is out. Only Bog folk beside this grow, using base plus permanent stats, never fight-only buffs. A unit grows at most 1 time(s) a turn; the strongest frog applies. Soak keeps +2/+2 per Attack Bitter took from its own Mired enemies, at your next Start of Turn, even if this died. Each bite's gain rounds down. Bitter fractions round up; the biter keeps at least 1 Attack.",
+            "counters": {
+              "kisses": 0.0
+            },
+            "def_id": "prince_restored",
+            "golden": false,
+            "health": 20.0,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Soak",
+                "text": "Bitter. Next Start of Turn: keep +2/+2 per Attack taken from its Mired enemies; golden +4/+4."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Soak"
+            ],
+            "max_health": 20.0,
+            "name": "The Prince Restored",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. Soak. Every third kiss: double the Bog folk beside this.",
+            "tier": 4.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 2.0
+          },
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          {
+            "attack": 8.0,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 10.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 10.0,
+            "name": "Field Vole",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 3.0
+          },
+          {
+            "attack": 2.0,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 3.0,
+            "name": "Field Vole",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 4.0
+          },
+          {
+            "attack": 1.0,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 3.0,
+            "name": "Field Vole",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "",
+            "tier": 1.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 5.0
+          },
+          null,
+          null,
+          null,
+          null
+        ]
+      ],
+      "first_side": 1.0,
+      "player_ids": [
+        0.0,
+        1.0
+      ],
+      "seq": 0.0,
+      "type": "combat_start"
+    },
+    {
+      "name": "start_of_combat",
+      "seq": 1.0,
+      "type": "phase"
+    },
+    {
+      "name": "bell",
+      "seq": 2.0,
+      "type": "phase"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 3.0,
+      "type": "trigger",
+      "uid": 1.0
+    },
+    {
+      "maker": 1.0,
+      "seq": 4.0,
+      "side": 1.0,
+      "slot": 0.0,
+      "type": "bog_patch"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 5.0,
+      "type": "trigger",
+      "uid": 2.0
+    },
+    {
+      "maker": 2.0,
+      "seq": 6.0,
+      "side": 1.0,
+      "slot": 1.0,
+      "type": "bog_patch"
+    },
+    {
+      "data": {
+        "maker": 1.0
+      },
+      "on": true,
+      "seq": 7.0,
+      "source": 1.0,
+      "status": "mired",
+      "target": 3.0,
+      "type": "status"
+    },
+    {
+      "data": {
+        "maker": 2.0
+      },
+      "on": true,
+      "seq": 8.0,
+      "source": 2.0,
+      "status": "mired",
+      "target": 4.0,
+      "type": "status"
+    },
+    {
+      "name": "attacks",
+      "seq": 9.0,
+      "type": "phase"
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 10.0,
+      "type": "trigger",
+      "uid": 1.0
+    },
+    {
+      "attack": 6.0,
+      "attack_delta": -2.0,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 10.0,
+      "health_delta": 0.0,
+      "max_health": 10.0,
+      "permanent": false,
+      "seq": 11.0,
+      "source": 1.0,
+      "target": 3.0,
+      "type": "stats"
+    },
+    {
+      "amount": 2.0,
+      "seq": 12.0,
+      "side": 0.0,
+      "source": 1.0,
+      "total": 2.0,
+      "type": "bog_toll"
+    },
+    {
+      "attack": 4.0,
+      "attack_delta": 4.0,
+      "cause": "Soak",
+      "health": 4.0,
+      "health_delta": 4.0,
+      "seq": 13.0,
+      "source": 1.0,
+      "target": 1.0,
+      "type": "gain_pending"
+    },
+    {
+      "attacker": 3.0,
+      "defender": 1.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 14.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 6.0,
+      "health_after": 18.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 6.0,
+      "seq": 15.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 1.0,
+      "type": "damage"
+    },
+    {
+      "amount": 8.0,
+      "health_after": 2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 8.0,
+      "seq": 16.0,
+      "source": 1.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "attacker": 1.0,
+      "defender": 5.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 17.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 8.0,
+      "health_after": -5.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 8.0,
+      "seq": 18.0,
+      "source": 1.0,
+      "strike": 1.0,
+      "target": 5.0,
+      "type": "damage"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 17.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 19.0,
+      "source": 5.0,
+      "strike": 1.0,
+      "target": 1.0,
+      "type": "damage"
+    },
+    {
+      "seq": 20.0,
+      "side": 1.0,
+      "slot": 2.0,
+      "type": "death",
+      "uid": 5.0
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 21.0,
+      "type": "trigger",
+      "uid": 2.0
+    },
+    {
+      "attack": 1.0,
+      "attack_delta": -1.0,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 3.0,
+      "health_delta": 0.0,
+      "max_health": 3.0,
+      "permanent": false,
+      "seq": 22.0,
+      "source": 2.0,
+      "target": 4.0,
+      "type": "stats"
+    },
+    {
+      "amount": 1.0,
+      "seq": 23.0,
+      "side": 0.0,
+      "source": 2.0,
+      "total": 3.0,
+      "type": "bog_toll"
+    },
+    {
+      "attack": 2.0,
+      "attack_delta": 2.0,
+      "cause": "Soak",
+      "health": 2.0,
+      "health_delta": 2.0,
+      "seq": 24.0,
+      "source": 2.0,
+      "target": 2.0,
+      "type": "gain_pending"
+    },
+    {
+      "attacker": 4.0,
+      "defender": 2.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 25.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 19.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 26.0,
+      "source": 4.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "amount": 3.0,
+      "health_after": 0.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 27.0,
+      "source": 2.0,
+      "strike": 1.0,
+      "target": 4.0,
+      "type": "damage"
+    },
+    {
+      "seq": 28.0,
+      "side": 1.0,
+      "slot": 1.0,
+      "type": "death",
+      "uid": 4.0
+    },
+    {
+      "count": 1.0,
+      "period": 3.0,
+      "seq": 29.0,
+      "side": 0.0,
+      "target": 2.0,
+      "type": "kiss"
+    },
+    {
+      "attacker": 2.0,
+      "defender": 3.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 30.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 3.0,
+      "health_after": -1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 31.0,
+      "source": 2.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "amount": 6.0,
+      "health_after": 13.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 6.0,
+      "seq": 32.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "seq": 33.0,
+      "side": 1.0,
+      "slot": 0.0,
+      "type": "death",
+      "uid": 3.0
+    },
+    {
+      "damage": 2.0,
+      "damage_base": 0.0,
+      "damage_mode": "v05",
+      "damage_performance": 2.0,
+      "damage_uncapped": 2.0,
+      "last_blow": false,
+      "last_blow_kind": "",
+      "last_blow_side": -1.0,
+      "last_blow_source": -1.0,
+      "reason": "board_empty",
+      "seq": 34.0,
+      "survivors": [
+        [
+          1.0,
+          2.0
+        ],
+        []
+      ],
+      "type": "combat_end",
+      "winner": 0.0
+    }
+  ],
+  "final_health_text": [
+    "30",
+    "28"
+  ],
+  "fixed_step": 0.008333333333333333,
+  "hero_health_after": [],
+  "hero_health_before": [],
+  "method": "two complete deterministic 1/120 s passes; eight evenly spaced samples per selected actual attack-to-next-attack interval; last attack ends before result; complete replay verifies all event ticks, final Health and automatic return",
+  "pixels": [
+    1688,
+    780
+  ],
+  "reduce_motion": false,
+  "scenario": "bog",
+  "seed": 23.0,
+  "selected_attack_event_indices": [
+    17,
+    25
+  ],
+  "source_events_sha256": "bdcf40232c4a76c5f6b16501501bcaa5ccb9404c68eec46f0e885901c35dd740",
+  "speed": 1.0,
+  "ticks": 1167,
+  "timing_passes_equal": true,
+  "production_revision": "22c5e9f3",
+  "render_provenance": "Bog numeric popup layering repair; complete timing and state unchanged.",
+  "whole_fight_seconds": 9.725,
+  "final_model_state_sha256": "7e9983a79855b33f254ca419285feef2fd3665008cd827fafca011620287c2cd"
+}
