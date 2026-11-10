@@ -226,6 +226,27 @@ const AUDITED_OOZES: Dictionary = {
 	"cut_and_come_again": false,
 }
 
+# All sixteen are independent: recruit ranking reads friendlies; the Sergeant aims across
+# and spends Larder items. Urchin follows reverse Pass order. None ranks an enemy by size.
+const AUDITED_HEDGEROW: Dictionary = {
+	"mrs_burdock": false,
+	"mr_crumb": false,
+	"sleeping_partner": false,
+	"mrs_clover": false,
+	"mr_pym": false,
+	"mrs_sorrel": false,
+	"mrs_mallow": false,
+	"dr_urchin": false,
+	"sergeant_at_conkers": false,
+	"alderman_dozey": false,
+	"beadle_warrenby": false,
+	"honorary_treasurer": false,
+	"goodman_hayward": false,
+	"standing_committee": false,
+	"squire_lollop": false,
+	"old_mother_mast": false,
+}
+
 var flip_first_attack: bool = false
 var first_side_original: int = -1
 var first_side_used: int = -1
@@ -450,6 +471,8 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 
 static func _audited_native(entry: Dictionary) -> bool:
 	var id: String = str(entry.get("id", ""))
+	if id == "pass3_hedgerow":
+		return AUDITED_HEDGEROW.has(str(entry.get("ability", "")))
 	if id == "pass3_ooze":
 		return AUDITED_OOZES.has(str(entry.get("ability", "")))
 	if id == "pass3_hunter":

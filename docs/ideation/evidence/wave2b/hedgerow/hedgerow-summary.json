@@ -1,0 +1,2840 @@
+{
+  "counting": "One row per (seed, seat, round); identical duplicates removed, conflicts rejected. R8-R14 endpoint growth spans six rounds. Counts are real seats observed at that pre-start bell. Paired cohort means seats alive entering R14, observed at both R8 and R14; a lone winner in a lobby ending earlier is absent, not zero. Zero denominators and absent rounds yield null; zero-start seats stay in raw paired rows but are excluded from individual-growth medians.",
+  "seeds": [
+    282001,
+    282002,
+    282003,
+    282004,
+    282005,
+    282006,
+    282007,
+    282008,
+    282009,
+    282010,
+    282011,
+    282012,
+    282013,
+    282014,
+    282015,
+    282016,
+    282017,
+    282019,
+    282020,
+    282021,
+    282022,
+    282023,
+    282024,
+    282025,
+    282026,
+    282027,
+    282028,
+    282029,
+    282030,
+    282031,
+    282032,
+    282033
+  ],
+  "lobbies_ending_before_r14": {
+    "count": 0,
+    "seeds": [],
+    "known_round_counts": 32,
+    "missing_round_counts": 0
+  },
+  "unique_pre_start_rows": 3651,
+  "lines": {
+    "line_hedgerow_parish": {
+      "rounds": {
+        "8": {
+          "survivors": 32,
+          "active_stats": 115.5,
+          "including_bellies": 115.5
+        },
+        "9": {
+          "survivors": 32,
+          "active_stats": 176.0,
+          "including_bellies": 176.0
+        },
+        "10": {
+          "survivors": 29,
+          "active_stats": 324,
+          "including_bellies": 324
+        },
+        "11": {
+          "survivors": 27,
+          "active_stats": 692,
+          "including_bellies": 692
+        },
+        "12": {
+          "survivors": 24,
+          "active_stats": 1094.5,
+          "including_bellies": 1094.5
+        },
+        "13": {
+          "survivors": 22,
+          "active_stats": 2296.5,
+          "including_bellies": 2296.5
+        },
+        "14": {
+          "survivors": 20,
+          "active_stats": 4600.0,
+          "including_bellies": 4600.0
+        }
+      },
+      "survivor_counts": {
+        "r8": 32,
+        "r12": 24,
+        "r14": 20
+      },
+      "endpoint_growth": {
+        "active_stats": 1.8479745018410119,
+        "including_bellies": 1.8479745018410119
+      },
+      "r12_accounting": {
+        "active_stats": {
+          "median_divided_by_900": 1.2161111111111111,
+          "paper_reference": 870,
+          "median_divided_by_paper": 1.2580459770114942
+        },
+        "including_bellies": {
+          "median_divided_by_900": 1.2161111111111111,
+          "paper_reference": 870,
+          "median_divided_by_paper": 1.2580459770114942
+        }
+      },
+      "paired_r14_survivors": {
+        "count": 20,
+        "metrics": {
+          "active_stats": {
+            "r8_median": 167.0,
+            "r14_median": 4600.0,
+            "matched_medians_growth": 1.737828412544734,
+            "median_individual_growth": 1.7229897070691016,
+            "individual_growth_samples": 20
+          },
+          "including_bellies": {
+            "r8_median": 167.0,
+            "r14_median": 4600.0,
+            "matched_medians_growth": 1.737828412544734,
+            "median_individual_growth": 1.7229897070691016,
+            "individual_growth_samples": 20
+          }
+        },
+        "raw_rows": [
+          {
+            "seed": 282002,
+            "seat": 4,
+            "active_stats": {
+              "r8": 97,
+              "r14": 4944,
+              "growth": 1.9255336885208834
+            },
+            "including_bellies": {
+              "r8": 97,
+              "r14": 4944,
+              "growth": 1.9255336885208834
+            }
+          },
+          {
+            "seed": 282003,
+            "seat": 7,
+            "active_stats": {
+              "r8": 311,
+              "r14": 8607,
+              "growth": 1.7391961645352783
+            },
+            "including_bellies": {
+              "r8": 311,
+              "r14": 8607,
+              "growth": 1.7391961645352783
+            }
+          },
+          {
+            "seed": 282004,
+            "seat": 6,
+            "active_stats": {
+              "r8": 67,
+              "r14": 11642,
+              "growth": 2.3622478662424
+            },
+            "including_bellies": {
+              "r8": 67,
+              "r14": 11642,
+              "growth": 2.3622478662424
+            }
+          },
+          {
+            "seed": 282005,
+            "seat": 3,
+            "active_stats": {
+              "r8": 164,
+              "r14": 10248,
+              "growth": 1.9920453054934735
+            },
+            "including_bellies": {
+              "r8": 164,
+              "r14": 10248,
+              "growth": 1.9920453054934735
+            }
+          },
+          {
+            "seed": 282006,
+            "seat": 4,
+            "active_stats": {
+              "r8": 69,
+              "r14": 502,
+              "growth": 1.3920102645579409
+            },
+            "including_bellies": {
+              "r8": 69,
+              "r14": 502,
+              "growth": 1.3920102645579409
+            }
+          },
+          {
+            "seed": 282007,
+            "seat": 5,
+            "active_stats": {
+              "r8": 134,
+              "r14": 1241,
+              "growth": 1.4491427347908505
+            },
+            "including_bellies": {
+              "r8": 134,
+              "r14": 1241,
+              "growth": 1.4491427347908505
+            }
+          },
+          {
+            "seed": 282008,
+            "seat": 7,
+            "active_stats": {
+              "r8": 253,
+              "r14": 1741,
+              "growth": 1.3791548837675625
+            },
+            "including_bellies": {
+              "r8": 253,
+              "r14": 1741,
+              "growth": 1.3791548837675625
+            }
+          },
+          {
+            "seed": 282009,
+            "seat": 4,
+            "active_stats": {
+              "r8": 91,
+              "r14": 774,
+              "growth": 1.4287292238190041
+            },
+            "including_bellies": {
+              "r8": 91,
+              "r14": 774,
+              "growth": 1.4287292238190041
+            }
+          },
+          {
+            "seed": 282012,
+            "seat": 0,
+            "active_stats": {
+              "r8": 100,
+              "r14": 1337,
+              "growth": 1.5405952974523867
+            },
+            "including_bellies": {
+              "r8": 110,
+              "r14": 1337,
+              "growth": 1.5163162422783856
+            }
+          },
+          {
+            "seed": 282015,
+            "seat": 5,
+            "active_stats": {
+              "r8": 754,
+              "r14": 339714,
+              "growth": 2.768792117280243
+            },
+            "including_bellies": {
+              "r8": 754,
+              "r14": 339714,
+              "growth": 2.768792117280243
+            }
+          },
+          {
+            "seed": 282016,
+            "seat": 1,
+            "active_stats": {
+              "r8": 118,
+              "r14": 4256,
+              "growth": 1.8176904912527332
+            },
+            "including_bellies": {
+              "r8": 118,
+              "r14": 4256,
+              "growth": 1.8176904912527332
+            }
+          },
+          {
+            "seed": 282020,
+            "seat": 6,
+            "active_stats": {
+              "r8": 199,
+              "r14": 2747,
+              "growth": 1.5488199373479439
+            },
+            "including_bellies": {
+              "r8": 199,
+              "r14": 2747,
+              "growth": 1.5488199373479439
+            }
+          },
+          {
+            "seed": 282022,
+            "seat": 5,
+            "active_stats": {
+              "r8": 178,
+              "r14": 1962,
+              "growth": 1.4918088072650288
+            },
+            "including_bellies": {
+              "r8": 178,
+              "r14": 1962,
+              "growth": 1.4918088072650288
+            }
+          },
+          {
+            "seed": 282023,
+            "seat": 0,
+            "active_stats": {
+              "r8": 128,
+              "r14": 3892,
+              "growth": 1.7666905133079598
+            },
+            "including_bellies": {
+              "r8": 128,
+              "r14": 3892,
+              "growth": 1.7666905133079598
+            }
+          },
+          {
+            "seed": 282024,
+            "seat": 7,
+            "active_stats": {
+              "r8": 226,
+              "r14": 5587,
+              "growth": 1.7067832496029247
+            },
+            "including_bellies": {
+              "r8": 226,
+              "r14": 5587,
+              "growth": 1.7067832496029247
+            }
+          },
+          {
+            "seed": 282026,
+            "seat": 0,
+            "active_stats": {
+              "r8": 329,
+              "r14": 4982,
+              "growth": 1.5729006945587125
+            },
+            "including_bellies": {
+              "r8": 329,
+              "r14": 4982,
+              "growth": 1.5729006945587125
+            }
+          },
+          {
+            "seed": 282028,
+            "seat": 7,
+            "active_stats": {
+              "r8": 210,
+              "r14": 26576,
+              "growth": 2.2406725138159973
+            },
+            "including_bellies": {
+              "r8": 210,
+              "r14": 26576,
+              "growth": 2.2406725138159973
+            }
+          },
+          {
+            "seed": 282029,
+            "seat": 2,
+            "active_stats": {
+              "r8": 170,
+              "r14": 5602,
+              "growth": 1.7905331412775007
+            },
+            "including_bellies": {
+              "r8": 170,
+              "r14": 5602,
+              "growth": 1.7905331412775007
+            }
+          },
+          {
+            "seed": 282030,
+            "seat": 0,
+            "active_stats": {
+              "r8": 150,
+              "r14": 824,
+              "growth": 1.3283300333963035
+            },
+            "including_bellies": {
+              "r8": 158,
+              "r14": 824,
+              "growth": 1.3168764185878106
+            }
+          },
+          {
+            "seed": 282032,
+            "seat": 2,
+            "active_stats": {
+              "r8": 202,
+              "r14": 7286,
+              "growth": 1.8177031768412386
+            },
+            "including_bellies": {
+              "r8": 202,
+              "r14": 7286,
+              "growth": 1.8177031768412386
+            }
+          }
+        ]
+      }
+    },
+    "line_hedgerow_supper": {
+      "rounds": {
+        "8": {
+          "survivors": 32,
+          "active_stats": 141.0,
+          "including_bellies": 143.0
+        },
+        "9": {
+          "survivors": 32,
+          "active_stats": 195.0,
+          "including_bellies": 201.0
+        },
+        "10": {
+          "survivors": 32,
+          "active_stats": 273.0,
+          "including_bellies": 281.0
+        },
+        "11": {
+          "survivors": 28,
+          "active_stats": 441.5,
+          "including_bellies": 441.5
+        },
+        "12": {
+          "survivors": 25,
+          "active_stats": 730,
+          "including_bellies": 730
+        },
+        "13": {
+          "survivors": 21,
+          "active_stats": 1063,
+          "including_bellies": 1079
+        },
+        "14": {
+          "survivors": 19,
+          "active_stats": 2500,
+          "including_bellies": 2500
+        }
+      },
+      "survivor_counts": {
+        "r8": 32,
+        "r12": 25,
+        "r14": 19
+      },
+      "endpoint_growth": {
+        "active_stats": 1.614805237477251,
+        "including_bellies": 1.6110189979442635
+      },
+      "r12_accounting": {
+        "active_stats": {
+          "median_divided_by_900": 0.8111111111111111,
+          "paper_reference": 979,
+          "median_divided_by_paper": 0.745658835546476
+        },
+        "including_bellies": {
+          "median_divided_by_900": 0.8111111111111111,
+          "paper_reference": 979,
+          "median_divided_by_paper": 0.745658835546476
+        }
+      },
+      "paired_r14_survivors": {
+        "count": 19,
+        "metrics": {
+          "active_stats": {
+            "r8_median": 186,
+            "r14_median": 2500,
+            "matched_medians_growth": 1.541953146089986,
+            "median_individual_growth": 1.4804353665485668,
+            "individual_growth_samples": 19
+          },
+          "including_bellies": {
+            "r8_median": 186,
+            "r14_median": 2500,
+            "matched_medians_growth": 1.541953146089986,
+            "median_individual_growth": 1.4804353665485668,
+            "individual_growth_samples": 19
+          }
+        },
+        "raw_rows": [
+          {
+            "seed": 282001,
+            "seat": 4,
+            "active_stats": {
+              "r8": 178,
+              "r14": 1229,
+              "growth": 1.3799244618471034
+            },
+            "including_bellies": {
+              "r8": 178,
+              "r14": 1229,
+              "growth": 1.3799244618471034
+            }
+          },
+          {
+            "seed": 282003,
+            "seat": 5,
+            "active_stats": {
+              "r8": 156,
+              "r14": 699,
+              "growth": 1.283981489856241
+            },
+            "including_bellies": {
+              "r8": 156,
+              "r14": 699,
+              "growth": 1.283981489856241
+            }
+          },
+          {
+            "seed": 282004,
+            "seat": 4,
+            "active_stats": {
+              "r8": 131,
+              "r14": 783,
+              "growth": 1.3471472774063287
+            },
+            "including_bellies": {
+              "r8": 131,
+              "r14": 783,
+              "growth": 1.3471472774063287
+            }
+          },
+          {
+            "seed": 282006,
+            "seat": 3,
+            "active_stats": {
+              "r8": 208,
+              "r14": 1484,
+              "growth": 1.3874854184217826
+            },
+            "including_bellies": {
+              "r8": 208,
+              "r14": 1484,
+              "growth": 1.3874854184217826
+            }
+          },
+          {
+            "seed": 282009,
+            "seat": 7,
+            "active_stats": {
+              "r8": 193,
+              "r14": 6320,
+              "growth": 1.788655194858478
+            },
+            "including_bellies": {
+              "r8": 193,
+              "r14": 6320,
+              "growth": 1.788655194858478
+            }
+          },
+          {
+            "seed": 282012,
+            "seat": 1,
+            "active_stats": {
+              "r8": 163,
+              "r14": 4240,
+              "growth": 1.7213256566402926
+            },
+            "including_bellies": {
+              "r8": 163,
+              "r14": 4240,
+              "growth": 1.7213256566402926
+            }
+          },
+          {
+            "seed": 282013,
+            "seat": 0,
+            "active_stats": {
+              "r8": 213,
+              "r14": 1111,
+              "growth": 1.3169089298251369
+            },
+            "including_bellies": {
+              "r8": 213,
+              "r14": 1111,
+              "growth": 1.3169089298251369
+            }
+          },
+          {
+            "seed": 282014,
+            "seat": 7,
+            "active_stats": {
+              "r8": 239,
+              "r14": 13248,
+              "growth": 1.952654484104861
+            },
+            "including_bellies": {
+              "r8": 239,
+              "r14": 13248,
+              "growth": 1.952654484104861
+            }
+          },
+          {
+            "seed": 282017,
+            "seat": 1,
+            "active_stats": {
+              "r8": 284,
+              "r14": 2853,
+              "growth": 1.4689169377193714
+            },
+            "including_bellies": {
+              "r8": 284,
+              "r14": 2853,
+              "growth": 1.4689169377193714
+            }
+          },
+          {
+            "seed": 282019,
+            "seat": 7,
+            "active_stats": {
+              "r8": 186,
+              "r14": 9665,
+              "growth": 1.931737685435608
+            },
+            "including_bellies": {
+              "r8": 186,
+              "r14": 9665,
+              "growth": 1.931737685435608
+            }
+          },
+          {
+            "seed": 282020,
+            "seat": 2,
+            "active_stats": {
+              "r8": 228,
+              "r14": 8050,
+              "growth": 1.8112434956745607
+            },
+            "including_bellies": {
+              "r8": 228,
+              "r14": 8050,
+              "growth": 1.8112434956745607
+            }
+          },
+          {
+            "seed": 282022,
+            "seat": 4,
+            "active_stats": {
+              "r8": 140,
+              "r14": 1190,
+              "growth": 1.4285753571158484
+            },
+            "including_bellies": {
+              "r8": 140,
+              "r14": 1190,
+              "growth": 1.4285753571158484
+            }
+          },
+          {
+            "seed": 282025,
+            "seat": 3,
+            "active_stats": {
+              "r8": 147,
+              "r14": 2500,
+              "growth": 1.6036285479048613
+            },
+            "including_bellies": {
+              "r8": 147,
+              "r14": 2500,
+              "growth": 1.6036285479048613
+            }
+          },
+          {
+            "seed": 282026,
+            "seat": 6,
+            "active_stats": {
+              "r8": 135,
+              "r14": 1087,
+              "growth": 1.4157371527433922
+            },
+            "including_bellies": {
+              "r8": 149,
+              "r14": 1087,
+              "growth": 1.3926453902198586
+            }
+          },
+          {
+            "seed": 282029,
+            "seat": 4,
+            "active_stats": {
+              "r8": 214,
+              "r14": 5099,
+              "growth": 1.6963359774672109
+            },
+            "including_bellies": {
+              "r8": 214,
+              "r14": 5099,
+              "growth": 1.6963359774672109
+            }
+          },
+          {
+            "seed": 282030,
+            "seat": 4,
+            "active_stats": {
+              "r8": 117,
+              "r14": 721,
+              "growth": 1.3540194425746273
+            },
+            "including_bellies": {
+              "r8": 117,
+              "r14": 721,
+              "growth": 1.3540194425746273
+            }
+          },
+          {
+            "seed": 282031,
+            "seat": 0,
+            "active_stats": {
+              "r8": 213,
+              "r14": 3598,
+              "growth": 1.6018195600613352
+            },
+            "including_bellies": {
+              "r8": 213,
+              "r14": 3598,
+              "growth": 1.6018195600613352
+            }
+          },
+          {
+            "seed": 282032,
+            "seat": 7,
+            "active_stats": {
+              "r8": 144,
+              "r14": 1516,
+              "growth": 1.4804353665485668
+            },
+            "including_bellies": {
+              "r8": 144,
+              "r14": 1516,
+              "growth": 1.4804353665485668
+            }
+          },
+          {
+            "seed": 282033,
+            "seat": 2,
+            "active_stats": {
+              "r8": 260,
+              "r14": 11052,
+              "growth": 1.8681478942274268
+            },
+            "including_bellies": {
+              "r8": 260,
+              "r14": 11052,
+              "growth": 1.8681478942274268
+            }
+          }
+        ]
+      }
+    }
+  },
+  "splash": {
+    "tribe": "Hedgerow folk",
+    "scope": "All rounds; hard:varied only; committed-line seats and their food purchases excluded. Unique offers are counted by the harness per seat and unit iid. Grouping uses the final build's highest declared tribe weights; ties retain every primary tribe. Known neutral builds count as off-build; missing strategy definitions are separate.",
+    "groups": {
+      "own_build": {
+        "seats": 31,
+        "buys": 371,
+        "unique_offers": 614,
+        "buys_per_unique_offer": 0.6042345276872965
+      },
+      "off_build": {
+        "seats": 161,
+        "buys": 110,
+        "unique_offers": 2975,
+        "buys_per_unique_offer": 0.03697478991596639
+      },
+      "unknown_build": {
+        "seats": 0,
+        "buys": 0,
+        "unique_offers": 0,
+        "buys_per_unique_offer": null
+      }
+    },
+    "off_vs_own_buy_rate_ratio": 0.0611927789983918,
+    "raw_seats": [
+      {
+        "seed": 282001,
+        "seat": 0,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282001,
+        "seat": 1,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 4,
+        "unique_offers": 23
+      },
+      {
+        "seed": 282001,
+        "seat": 2,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 32
+      },
+      {
+        "seed": 282001,
+        "seat": 3,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282001,
+        "seat": 6,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 35
+      },
+      {
+        "seed": 282001,
+        "seat": 7,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 11,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282002,
+        "seat": 0,
+        "build": "fairies_hag",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 19
+      },
+      {
+        "seed": 282002,
+        "seat": 1,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282002,
+        "seat": 3,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282002,
+        "seat": 5,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 4,
+        "unique_offers": 25
+      },
+      {
+        "seed": 282002,
+        "seat": 6,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 5,
+        "unique_offers": 25
+      },
+      {
+        "seed": 282002,
+        "seat": 7,
+        "build": "hunters_open_season",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282003,
+        "seat": 0,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282003,
+        "seat": 1,
+        "build": "fairies_hag",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 24
+      },
+      {
+        "seed": 282003,
+        "seat": 2,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 33
+      },
+      {
+        "seed": 282003,
+        "seat": 3,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282003,
+        "seat": 4,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282003,
+        "seat": 6,
+        "build": "oozes_waste_not",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282004,
+        "seat": 0,
+        "build": "oozes_waste_not",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 22
+      },
+      {
+        "seed": 282004,
+        "seat": 1,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282004,
+        "seat": 2,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282004,
+        "seat": 3,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282004,
+        "seat": 5,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282004,
+        "seat": 7,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 9,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282005,
+        "seat": 0,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 22
+      },
+      {
+        "seed": 282005,
+        "seat": 1,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282005,
+        "seat": 2,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 11,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282005,
+        "seat": 5,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 21,
+        "unique_offers": 50
+      },
+      {
+        "seed": 282005,
+        "seat": 6,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282005,
+        "seat": 7,
+        "build": "oozes_waste_not",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282006,
+        "seat": 0,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 10
+      },
+      {
+        "seed": 282006,
+        "seat": 1,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282006,
+        "seat": 2,
+        "build": "fairies_hag",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282006,
+        "seat": 5,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 23,
+        "unique_offers": 30
+      },
+      {
+        "seed": 282006,
+        "seat": 6,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 9,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282006,
+        "seat": 7,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 8,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282007,
+        "seat": 0,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 22
+      },
+      {
+        "seed": 282007,
+        "seat": 1,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282007,
+        "seat": 2,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282007,
+        "seat": 3,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282007,
+        "seat": 4,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 23,
+        "unique_offers": 37
+      },
+      {
+        "seed": 282007,
+        "seat": 6,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282008,
+        "seat": 0,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282008,
+        "seat": 1,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282008,
+        "seat": 2,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282008,
+        "seat": 3,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 42
+      },
+      {
+        "seed": 282008,
+        "seat": 5,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282008,
+        "seat": 6,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 19
+      },
+      {
+        "seed": 282009,
+        "seat": 0,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 29
+      },
+      {
+        "seed": 282009,
+        "seat": 1,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282009,
+        "seat": 2,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282009,
+        "seat": 3,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282009,
+        "seat": 5,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282009,
+        "seat": 6,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 6
+      },
+      {
+        "seed": 282010,
+        "seat": 0,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282010,
+        "seat": 1,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 15,
+        "unique_offers": 38
+      },
+      {
+        "seed": 282010,
+        "seat": 2,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282010,
+        "seat": 3,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 10
+      },
+      {
+        "seed": 282010,
+        "seat": 5,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 17,
+        "unique_offers": 25
+      },
+      {
+        "seed": 282010,
+        "seat": 6,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282011,
+        "seat": 0,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 24
+      },
+      {
+        "seed": 282011,
+        "seat": 1,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 10,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282011,
+        "seat": 2,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 19
+      },
+      {
+        "seed": 282011,
+        "seat": 5,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 22,
+        "unique_offers": 40
+      },
+      {
+        "seed": 282011,
+        "seat": 6,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282011,
+        "seat": 7,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282012,
+        "seat": 2,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282012,
+        "seat": 3,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282012,
+        "seat": 4,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282012,
+        "seat": 5,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 31
+      },
+      {
+        "seed": 282012,
+        "seat": 6,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282012,
+        "seat": 7,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 10
+      },
+      {
+        "seed": 282013,
+        "seat": 1,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 24
+      },
+      {
+        "seed": 282013,
+        "seat": 2,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 27
+      },
+      {
+        "seed": 282013,
+        "seat": 3,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282013,
+        "seat": 4,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282013,
+        "seat": 6,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282013,
+        "seat": 7,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 3
+      },
+      {
+        "seed": 282014,
+        "seat": 0,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 13,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282014,
+        "seat": 1,
+        "build": "fairies_hag",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282014,
+        "seat": 2,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 38
+      },
+      {
+        "seed": 282014,
+        "seat": 3,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 24
+      },
+      {
+        "seed": 282014,
+        "seat": 5,
+        "build": "oozes_waste_not",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282014,
+        "seat": 6,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 23
+      },
+      {
+        "seed": 282015,
+        "seat": 0,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282015,
+        "seat": 1,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 27
+      },
+      {
+        "seed": 282015,
+        "seat": 2,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282015,
+        "seat": 4,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 26
+      },
+      {
+        "seed": 282015,
+        "seat": 6,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282015,
+        "seat": 7,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 9,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282016,
+        "seat": 0,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282016,
+        "seat": 2,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 6
+      },
+      {
+        "seed": 282016,
+        "seat": 3,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 15,
+        "unique_offers": 32
+      },
+      {
+        "seed": 282016,
+        "seat": 5,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 13,
+        "unique_offers": 53
+      },
+      {
+        "seed": 282016,
+        "seat": 6,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282016,
+        "seat": 7,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 6
+      },
+      {
+        "seed": 282017,
+        "seat": 0,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282017,
+        "seat": 2,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 26
+      },
+      {
+        "seed": 282017,
+        "seat": 3,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282017,
+        "seat": 4,
+        "build": "fairies_hag",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282017,
+        "seat": 5,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282017,
+        "seat": 6,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 34
+      },
+      {
+        "seed": 282019,
+        "seat": 0,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282019,
+        "seat": 1,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282019,
+        "seat": 3,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282019,
+        "seat": 4,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 33
+      },
+      {
+        "seed": 282019,
+        "seat": 5,
+        "build": "oozes_second_helpings",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 4,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282019,
+        "seat": 6,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 5,
+        "unique_offers": 37
+      },
+      {
+        "seed": 282020,
+        "seat": 0,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282020,
+        "seat": 1,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282020,
+        "seat": 3,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 26
+      },
+      {
+        "seed": 282020,
+        "seat": 4,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 20,
+        "unique_offers": 44
+      },
+      {
+        "seed": 282020,
+        "seat": 5,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282020,
+        "seat": 7,
+        "build": "hunters_open_season",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282021,
+        "seat": 0,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 44
+      },
+      {
+        "seed": 282021,
+        "seat": 1,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 40
+      },
+      {
+        "seed": 282021,
+        "seat": 3,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 10,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282021,
+        "seat": 4,
+        "build": "hunters_open_season",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282021,
+        "seat": 5,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282021,
+        "seat": 6,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 31
+      },
+      {
+        "seed": 282022,
+        "seat": 0,
+        "build": "oozes_second_helpings",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282022,
+        "seat": 1,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 22
+      },
+      {
+        "seed": 282022,
+        "seat": 2,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282022,
+        "seat": 3,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 10,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282022,
+        "seat": 6,
+        "build": "fairies_hag",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282022,
+        "seat": 7,
+        "build": "bog_borrowed",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 50
+      },
+      {
+        "seed": 282023,
+        "seat": 2,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 6
+      },
+      {
+        "seed": 282023,
+        "seat": 3,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 5,
+        "unique_offers": 24
+      },
+      {
+        "seed": 282023,
+        "seat": 4,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 27
+      },
+      {
+        "seed": 282023,
+        "seat": 5,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282023,
+        "seat": 6,
+        "build": "hunters_open_season",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282023,
+        "seat": 7,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 24,
+        "unique_offers": 44
+      },
+      {
+        "seed": 282024,
+        "seat": 0,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282024,
+        "seat": 1,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 5,
+        "unique_offers": 5
+      },
+      {
+        "seed": 282024,
+        "seat": 2,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282024,
+        "seat": 3,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282024,
+        "seat": 5,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 12,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282024,
+        "seat": 6,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282025,
+        "seat": 0,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 10
+      },
+      {
+        "seed": 282025,
+        "seat": 2,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282025,
+        "seat": 4,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282025,
+        "seat": 5,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 39
+      },
+      {
+        "seed": 282025,
+        "seat": 6,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282025,
+        "seat": 7,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 31
+      },
+      {
+        "seed": 282026,
+        "seat": 1,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282026,
+        "seat": 2,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 11,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282026,
+        "seat": 3,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282026,
+        "seat": 4,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282026,
+        "seat": 5,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282026,
+        "seat": 7,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282027,
+        "seat": 1,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 30
+      },
+      {
+        "seed": 282027,
+        "seat": 2,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282027,
+        "seat": 3,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 30
+      },
+      {
+        "seed": 282027,
+        "seat": 4,
+        "build": "hunters_open_season",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 38
+      },
+      {
+        "seed": 282027,
+        "seat": 5,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282027,
+        "seat": 6,
+        "build": "neutrals_purse",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 4,
+        "unique_offers": 64
+      },
+      {
+        "seed": 282028,
+        "seat": 1,
+        "build": "birds_summer_winter",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282028,
+        "seat": 2,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282028,
+        "seat": 3,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 21
+      },
+      {
+        "seed": 282028,
+        "seat": 4,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282028,
+        "seat": 5,
+        "build": "oozes_second_helpings",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 14
+      },
+      {
+        "seed": 282028,
+        "seat": 6,
+        "build": "birds_passage",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282029,
+        "seat": 0,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 20
+      },
+      {
+        "seed": 282029,
+        "seat": 1,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282029,
+        "seat": 3,
+        "build": "hedgerow_supper",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 7,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282029,
+        "seat": 5,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 5
+      },
+      {
+        "seed": 282029,
+        "seat": 6,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 31
+      },
+      {
+        "seed": 282029,
+        "seat": 7,
+        "build": "hunters_open_season",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282030,
+        "seat": 1,
+        "build": "fairies_rings",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282030,
+        "seat": 2,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282030,
+        "seat": 3,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282030,
+        "seat": 5,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 35
+      },
+      {
+        "seed": 282030,
+        "seat": 6,
+        "build": "oozes_waste_not",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282030,
+        "seat": 7,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 18
+      },
+      {
+        "seed": 282031,
+        "seat": 1,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 12
+      },
+      {
+        "seed": 282031,
+        "seat": 2,
+        "build": "bog_bitter",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 15
+      },
+      {
+        "seed": 282031,
+        "seat": 3,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282031,
+        "seat": 5,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 5,
+        "unique_offers": 32
+      },
+      {
+        "seed": 282031,
+        "seat": 6,
+        "build": "oozes_second_helpings",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 26
+      },
+      {
+        "seed": 282031,
+        "seat": 7,
+        "build": "oozes_waste_not",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 9
+      },
+      {
+        "seed": 282032,
+        "seat": 0,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 27
+      },
+      {
+        "seed": 282032,
+        "seat": 1,
+        "build": "fairies_rainbow",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 3
+      },
+      {
+        "seed": 282032,
+        "seat": 3,
+        "build": "oozes_rude_awakening",
+        "primary_tribes": [
+          "Oozes"
+        ],
+        "group": "off_build",
+        "buys": 3,
+        "unique_offers": 17
+      },
+      {
+        "seed": 282032,
+        "seat": 4,
+        "build": "neutrals_economy",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282032,
+        "seat": 5,
+        "build": "birds_highway",
+        "primary_tribes": [
+          "Birds"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282032,
+        "seat": 6,
+        "build": "neutrals_low_roll",
+        "primary_tribes": [],
+        "group": "off_build",
+        "buys": 2,
+        "unique_offers": 8
+      },
+      {
+        "seed": 282033,
+        "seat": 1,
+        "build": "fairies_help",
+        "primary_tribes": [
+          "Fairies"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 11
+      },
+      {
+        "seed": 282033,
+        "seat": 3,
+        "build": "hunters_pact",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 13
+      },
+      {
+        "seed": 282033,
+        "seat": 4,
+        "build": "hedgerow_parish",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 6,
+        "unique_offers": 7
+      },
+      {
+        "seed": 282033,
+        "seat": 5,
+        "build": "hunters_sett",
+        "primary_tribes": [
+          "Hunters"
+        ],
+        "group": "off_build",
+        "buys": 1,
+        "unique_offers": 26
+      },
+      {
+        "seed": 282033,
+        "seat": 6,
+        "build": "bog_tongues",
+        "primary_tribes": [
+          "Bog folk"
+        ],
+        "group": "off_build",
+        "buys": 0,
+        "unique_offers": 16
+      },
+      {
+        "seed": 282033,
+        "seat": 7,
+        "build": "hedgerow_treasury",
+        "primary_tribes": [
+          "Hedgerow folk"
+        ],
+        "group": "own_build",
+        "buys": 8,
+        "unique_offers": 8
+      }
+    ]
+  },
+  "source_revision": "313501fa271be0c0e9ac50ded81e780ad51347bc",
+  "preset": "B",
+  "lobbies": 32,
+  "seconds": 356.452,
+  "paper_source": "docs/ideation/content/pass3/presets-model/six.json B.lines.Hedgerow; six.py:31 maps Supper then Parish",
+  "pre_start_rows_identical_to_pre_order_fix": true,
+  "pooled_r12": {
+    "survivors": 49,
+    "active_stats": 874,
+    "median_divided_by_900": 0.9711111111111111
+  }
+}

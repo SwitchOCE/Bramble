@@ -278,6 +278,8 @@ func queue_pass(attack: int, health: int) -> void:
 		{"iid": source_iid, "slot": source_slot, "attack": attack, "health": health}
 	)
 	player.log_event("pass_queued", {"slot": source_slot, "attack": attack, "health": health})
+	if player.hedgerow_end_phase:
+		BoardUpkeep.resolve_passes(rules, player)
 
 
 func add_timer(target: BoardUnit, turns: int, attack: int, health: int) -> void:

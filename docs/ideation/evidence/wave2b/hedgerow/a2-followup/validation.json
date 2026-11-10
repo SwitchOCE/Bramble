@@ -1,0 +1,318 @@
+{
+  "broad": {
+    "tests": 431,
+    "passed": 431,
+    "seconds": 443.874,
+    "scripts": [
+      {
+        "name": "tests/core/test_bot_brain.gd",
+        "tests": "36",
+        "failures": "0",
+        "skipped": "0",
+        "time": "97.962658"
+      },
+      {
+        "name": "tests/core/test_bot_hedgerow.gd",
+        "tests": "28",
+        "failures": "0",
+        "skipped": "0",
+        "time": "17.093281"
+      },
+      {
+        "name": "tests/core/test_combat_logging.gd",
+        "tests": "3",
+        "failures": "0",
+        "skipped": "0",
+        "time": "8.058714"
+      },
+      {
+        "name": "tests/core/test_committed_lines.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "25.064626"
+      },
+      {
+        "name": "tests/core/test_engine_docs.gd",
+        "tests": "1",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.026169"
+      },
+      {
+        "name": "tests/core/test_engines.gd",
+        "tests": "14",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.26282"
+      },
+      {
+        "name": "tests/core/test_field_normal_regression.gd",
+        "tests": "1",
+        "failures": "0",
+        "skipped": "0",
+        "time": "61.367539"
+      },
+      {
+        "name": "tests/core/test_free_choice.gd",
+        "tests": "8",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.50588"
+      },
+      {
+        "name": "tests/core/test_game_session.gd",
+        "tests": "20",
+        "failures": "0",
+        "skipped": "0",
+        "time": "9.411393"
+      },
+      {
+        "name": "tests/core/test_pass3_hedge_burdock.gd",
+        "tests": "3",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.598172"
+      },
+      {
+        "name": "tests/core/test_pass3_hedge_combat.gd",
+        "tests": "24",
+        "failures": "0",
+        "skipped": "0",
+        "time": "13.959494"
+      },
+      {
+        "name": "tests/core/test_pass3_hedge_content.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.118586"
+      },
+      {
+        "name": "tests/core/test_pass3_hedge_recruit.gd",
+        "tests": "19",
+        "failures": "0",
+        "skipped": "0",
+        "time": "12.350767"
+      },
+      {
+        "name": "tests/core/test_pass3_hedge_shares.gd",
+        "tests": "6",
+        "failures": "0",
+        "skipped": "0",
+        "time": "9.540918"
+      },
+      {
+        "name": "tests/core/test_pass3_ooze_bots.gd",
+        "tests": "20",
+        "failures": "0",
+        "skipped": "0",
+        "time": "20.860291"
+      },
+      {
+        "name": "tests/core/test_supper_constructed_recipe.gd",
+        "tests": "2",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.392312"
+      },
+      {
+        "name": "tests/core/test_unit_library.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.008"
+      },
+      {
+        "name": "tests/core/test_wave1_lines.gd",
+        "tests": "12",
+        "failures": "0",
+        "skipped": "0",
+        "time": "60.82118"
+      },
+      {
+        "name": "tests/ui/test_cards.gd",
+        "tests": "16",
+        "failures": "0",
+        "skipped": "0",
+        "time": "3.935867"
+      },
+      {
+        "name": "tests/ui/test_combat_cue_lifetime.gd",
+        "tests": "11",
+        "failures": "0",
+        "skipped": "0",
+        "time": "14.121994"
+      },
+      {
+        "name": "tests/ui/test_combat_declutter.gd",
+        "tests": "36",
+        "failures": "0",
+        "skipped": "0",
+        "time": "9.736463"
+      },
+      {
+        "name": "tests/ui/test_combat_face.gd",
+        "tests": "11",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.039804"
+      },
+      {
+        "name": "tests/ui/test_combat_pockets.gd",
+        "tests": "2",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.019664"
+      },
+      {
+        "name": "tests/ui/test_combat_reader5_motion.gd",
+        "tests": "4",
+        "failures": "0",
+        "skipped": "0",
+        "time": "2.119892"
+      },
+      {
+        "name": "tests/ui/test_combat_relocate.gd",
+        "tests": "4",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.445857"
+      },
+      {
+        "name": "tests/ui/test_combat_wave2a.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "2.243226"
+      },
+      {
+        "name": "tests/ui/test_declutter_capture.gd",
+        "tests": "2",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.031436"
+      },
+      {
+        "name": "tests/ui/test_engines.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.94431"
+      },
+      {
+        "name": "tests/ui/test_feedback5_log.gd",
+        "tests": "15",
+        "failures": "0",
+        "skipped": "0",
+        "time": "7.016387"
+      },
+      {
+        "name": "tests/ui/test_field_presentation.gd",
+        "tests": "4",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.982367"
+      },
+      {
+        "name": "tests/ui/test_fixture_port.gd",
+        "tests": "6",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.027512"
+      },
+      {
+        "name": "tests/ui/test_followup_tribes56.gd",
+        "tests": "7",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.040633"
+      },
+      {
+        "name": "tests/ui/test_lane_display.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "10.158766"
+      },
+      {
+        "name": "tests/ui/test_pass2_ui.gd",
+        "tests": "8",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.964593"
+      },
+      {
+        "name": "tests/ui/test_pass3_hedge_ui.gd",
+        "tests": "4",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.308663"
+      },
+      {
+        "name": "tests/ui/test_pending_gains_ui.gd",
+        "tests": "7",
+        "failures": "0",
+        "skipped": "0",
+        "time": "3.437523"
+      },
+      {
+        "name": "tests/ui/test_phone_layout.gd",
+        "tests": "11",
+        "failures": "0",
+        "skipped": "0",
+        "time": "3.163152"
+      },
+      {
+        "name": "tests/ui/test_playthrough.gd",
+        "tests": "3",
+        "failures": "0",
+        "skipped": "0",
+        "time": "30.457443"
+      },
+      {
+        "name": "tests/ui/test_portraits.gd",
+        "tests": "6",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.456456"
+      },
+      {
+        "name": "tests/ui/test_review_tribes56_log.gd",
+        "tests": "9",
+        "failures": "0",
+        "skipped": "0",
+        "time": "4.900852"
+      },
+      {
+        "name": "tests/ui/test_round4_finish.gd",
+        "tests": "4",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.407819"
+      },
+      {
+        "name": "tests/ui/test_round4_guide.gd",
+        "tests": "6",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.673541"
+      },
+      {
+        "name": "tests/ui/test_scale_feedback.gd",
+        "tests": "4",
+        "failures": "0",
+        "skipped": "0",
+        "time": "0.040547"
+      }
+    ]
+  },
+  "final_bot": {
+    "tests": 30,
+    "passed": 30,
+    "seconds": 17.812
+  },
+  "static": "All four commands pass",
+  "cpu": "26/26 pass",
+  "initial_compile_fix": "Corrected strict Variant lookup and duplicate refresh override before useful broad run; initial failed logs stay in build."
+}

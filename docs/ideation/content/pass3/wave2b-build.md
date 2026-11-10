@@ -17,7 +17,7 @@ All 16 named Oozes retain their portraits and use the pass 3 bodies and rules. S
 | 7 Bubble | Damaging-hit requirement; halves cannot split; normal/golden split budgets |
 | 8 Frumenty | Persistent last-meal definitions feed the existing borrowed-text machinery |
 | 9 Elder | Shares original meal stats, board only, after the biggest Ooze eats a non-Ooze |
-| 10 Hasty | Empty Belly, biggest eligible enemy, see-through holder swallow, own-body permanent gain and existing releases |
+| 10 Hasty | Empty Belly, biggest eligible enemy, see-through holder swallow, permanent gain from current stats and existing releases |
 | 11 Posset | Actual damage source retained for death; killer's current stats reduced, golden same-row neighbours |
 | 12 Granny | Cleave and dependent late gather, releases family intact |
 | 13 Slice | Fractional body sent to hand, golden widens to two, full hand loses it |
@@ -189,3 +189,440 @@ in `part1-fixes/targeted-final.log` and `targeted-final.json`. Content validatio
 Hasty and Soup's reader text and rulebook now state the corrected current-stat
 and Shy rules; normal/golden Details tests also prevent Elder's missing space.
 No local full gate was run.
+
+## Part 2: Hedgerow light pass
+
+The sixteen pass 3 Hedgerow cards replace their same-ID live definitions. The
+separate 38-body retirement remains part 4. Frozen Hedgerow definitions are kept
+in `tests/core/data/pass2_hedgerow_units.json`; old-rule fixtures select them
+explicitly, retaining current content for other tribes.
+
+`Pass3HedgerowText` generates faces and parameters from the selected preset.
+`Pass3Hedgerow` owns recruit clocks, late wakes, source snapshots and gains;
+`Pass3HedgeCombat` owns the Hunker aura, summon sharing and positional throws.
+All sixteen audit entries are explicit; none selects the biggest enemy.
+B/C values are the paper values; no other tribe's dials changed.
+
+| Dial | B | C |
+| --- | --- | --- |
+| `hedgerow_beadle_pass` | 2 | 2 |
+| `hedgerow_burdock_kits` | 1 | 1 |
+| `hedgerow_clover_share` | 1.0 | 1.0 |
+| `hedgerow_committee_share` | 0.25 | 0.25 |
+| `hedgerow_crumb_pass` | 1 | 1 |
+| `hedgerow_crumb_sell_share` | 1.0 | 1.0 |
+| `hedgerow_dozey_food_per_gold` | 2.0 | 2.0 |
+| `hedgerow_dozey_period` | 3 | 3 |
+| `hedgerow_dozey_wake_multiplier` | 2.0 | 3.0 |
+| `hedgerow_golden_dozey_wake_multiplier` | 2.0 | 3.0 |
+| `hedgerow_hayward_per_gold` | 1.0 | 1.0 |
+| `hedgerow_larder_gold` | [1, 5, 16] | [1, 5, 16] |
+| `hedgerow_lollop_share` | 0.1 | 0.1 |
+| `hedgerow_mallow_multiplier` | 2.0 | 3.0 |
+| `hedgerow_mallow_targets` | 2 | 2 |
+| `hedgerow_mast_cap` | 5 | 5 |
+| `hedgerow_mast_gold_step` | 5 | 5 |
+| `hedgerow_partner_acorns` | 2 | 2 |
+| `hedgerow_partner_period` | 3 | 3 |
+| `hedgerow_pym_pass` | 3 | 3 |
+| `hedgerow_sergeant_share_per_gold` | 0.1 | 0.1 |
+| `hedgerow_sergeant_throws` | 1 | 1 |
+| `hedgerow_sorrel_summons` | 1 | 1 |
+| `hedgerow_treasurer_per_gold` | 1.0 | 2.0 |
+| `hedgerow_urchin_bristle` | 2 | 2 |
+| `hedgerow_urchin_hunker_targets` | 1 | 1 |
+
+Readings and limits:
+
+- A wake includes standing tribe stats once, but not slot/fight auras; its new
+  permanent increment survives moves. Golden wake strength is its own dial,
+  not a second application of the ordinary multiplier.
+- Dozey wakes after ordinary End of Turn effects and queued Passes. Repeated
+  wake/Partner clocks and Mallow multiplications are guarded; other ordinary
+  End of Turn growth remains eligible for legitimate extra triggers.
+- Source sharing is a reusable native snapshot helper: Clover reads its current
+  source, Committee freezes its runt, and all Lollops freeze the global biggest
+  before any Lollop growth. Biggest ties use reading order; smallest ties zigzag.
+- Hayward's bonus is a standing ownership layer, including later purchases and
+  held units. Shop offers preview that layer, as the synthesis specifies; buying
+  keeps the same layer and does not turn it into a permanent buff. It is separate
+  from Harvest Supper and has no cap.
+- Mast retains only its named rate guard; caps-off removes it. Its payout can
+  combine into larger Larder items immediately, counted as actual item events.
+- Larder item values are an actual three-element dial, rewriting gold paid and
+  reminders. Captures whose frozen rates predate it keep their original items.
+- UI reuses the hand header and reader; clock pips, selected-clock reset outline,
+  runt circle and live Hunker shield add no static explanatory labels.
+- The strict line JSON supplies Supper and Parish. Treasury remains an ordinary
+  strategy, cashing out on R13. Engine pieces are protected through the existing
+  replacement check, including the full-board purchase path. Supper holds food
+  until a wake; Parish cashes and grows its floor. Clock placement respects
+  real wake timing, with a deliberate move only in the free post-wake turn.
+- Paper low rolls remove the keystone: Dozey for Supper, Mallow for Parish. These
+  are paper policies, not unsupported keys in bot line JSON.
+- Trigger/condition audit: repeatable wake and Partner clocks continue at T6;
+  Mallow/Committee/Treasurer act every End of Turn, Lollop/Mast every Start of
+  Turn, and Hayward/Pym/Beadle require actual item events. No tier-up-only trap.
+- Early flexibility: Burdock/Sorrel provide bodies and summons without commitment;
+  Crumb's Pass can feed another tribe; Partner can make food counting itself;
+  Pym can use generic Larder acquisition. Clover's text needs Hedgerow summons
+  and is weak alone outside that package; no redesign was made.
+
+Intermediate checkpoints exposed strict helper typing, duplicate no-op markers,
+native timer pins, frozen-rate item handling and an old-content bot cash policy.
+These were fixed without loosening the legacy assertions or re-recording any
+field fixture. The 70-test native checkpoint and 14-test rollback checkpoint
+are retained in the evidence; the completed checks below supersede their WIP
+status.
+
+### Part 2 route fidelity and final source checks
+
+Both line files' complete priorities and climb schedules match the synthesis
+exactly (`hedgerow/route-fidelity.json`). Their saving rule is the exact next-turn
+discounted climb shortfall after income and promised income, not a flat reserve:
+Supper keeps 3 at R6 in the directed case, Parish 4 at R5. Tests use actual
+BenchSuites-created CommittedLineBrain instances. That exposed and fixed omitted
+purchase-timing/copy hooks, unscheduled early climbs, and held food incorrectly
+backing purchases/refreshes that should preserve banked climb gold. These fixes
+are conditional on native Hedgerow; the generic other-tribe early-climb checks
+and original complete-game replay still pass.
+
+Hayward now previews its standing bonus on shop offers, without making it a
+permanent shop buff; buy and Belly storage retain it exactly once. This corrects
+the earlier ownership-only reading against the synthesis's explicit shop line.
+Lollop may read a big Shy unit as a source; immunity still excludes Shy recipients.
+A recruit printed-plus-borrowed Clover case shows strongest-once growth, and the
+extra growth when that shared guard is disabled.
+
+Every seat-round now logs gold, shop tier, Larder gold and full nested Belly
+contents by top-level holder slot, alongside pre-start stats. The report includes
+both active-only and including-Belly growth, survivor counts, matched R14 cohorts
+and raw per-seat ratios. Known neutral builds count as off-build in splash;
+missing strategies remain separate. Its eight synthetic tests pass and its
+Ooze cross-check reproduces the previous 1.368714/1.250810 growth and 49/3582
+off-build purchases exactly. Paper per-line B R12 references are 979 (Supper) and
+870 (Parish), from `presets-model/six.json`; `six.py:31` identifies their order.
+
+Final source validation: **185/185 across 18 targeted files, 227.400s**, including
+all seven mandatory content-wide files and original replay hashes; checker and
+report Python checks **29/29**. `gdlint src tools`, `(cd tests && gdlint .)`,
+`ruff check tools/`, and `ruff format --check tools/` all pass. The requested
+FixturePort line wrap is isolated in `157c65e4`. Per-file counts/times are recorded
+in `hedgerow/targeted-final.json`; the full 37-file baseline was 360/360.
+
+The final two pilots took **12.617s and 15.529s**, mean **14.073s**, projecting
+**7.506 minutes** for 32. Telemetry keys and tiers were verified. The completed final remeasurement is recorded below. No local full gate ran.
+
+Final cross-tribe turn-order correction: Lollop's frozen snapshot belongs after
+the existing Digest → Nell → Slice dependent sequence, before ordinary Start of
+Turn dispatch. A mixed Digest/Lollop board proves the normal/golden share reads
+the pot's 200/200 after eating rather than its prior 100/100. This preserves
+rulebook 12.1.9; the same 32 seeds are remeasured after this correction.
+
+### Part 2 completed hand-off
+
+Both deciding criteria pass. All sixteen cards have authored/default generated
+normal/golden text checks and fixed known-answer behavior coverage: **80 new GUT
+tests** across six scripts. The latest targeted runs are **185/185**, the final
+cross-tribe Start of Turn checks **41/41**, and all seven mandatory content-wide
+files **59/59** on the final source. The earlier broader compatibility run passed
+**360/360 across 37 files**. No new test plays a whole game or lobby. Python
+checker/reporter tests pass **29/29**. Both requested repository-wide GDScript
+lint commands and both tools-wide Ruff commands pass.
+
+At B, **32 complete line lobbies**, 32 distinct admitted seeds, ran in
+**356.452 seconds** (5.94 minutes). There were no lobbies ending before R14.
+The one-line-growth rate is `(R14 median / R8 median)^(1/6)`; eliminated seats
+are absent, never replaced with zero.
+
+| Line | Active growth | Including Bellies | R8/R12/R14 survivors | R12 active median | /900 | /paper R12 |
+| --- | ---: | ---: | --- | ---: | ---: | ---: |
+| Supper | ×1.615 | ×1.611 | 32 / 25 / 19 | 730 | 0.811 | 0.746 |
+| Parish | ×1.848 | ×1.848 | 32 / 24 / 20 | 1,094.5 | 1.216 | 1.258 |
+
+Both exceed **×1.3**. Both R12 accounting ratios fall within **0.5–2×**;
+this is reported evidence, not an additional deciding criterion. Pooled R12 is
+**874** across 49 surviving seats, **0.971×** the 900 reference.
+
+For the same seats alive entering R14, Supper's matched medians are **186 →
+2,500** (×**1.542** a round); its median individual seat growth is ×**1.480**,
+19 pairs. Parish is **167 → 4,600** (×**1.738**), median individual growth
+×**1.723**, 20 pairs. Including Bellies gives the same paired values. Full raw
+seed/seat pairs and each round's medians are in `hedgerow-summary.json`.
+
+Normal Hard seats' Hedgerow purchases per unique offer: **110/2,975 = 3.697%**
+off-build, **371/614 = 60.423%** own-build. This includes early flexible buying,
+excludes line food purchases, and groups by the final build's declared primary
+tribe. Known neutral builds are off-build; there were no unknown strategies.
+This is an adoption count, not proof of relative strength.
+
+The turn-order correction was remeasured on the exact same seed list. Its
+constructed mixed board differs as intended; all recorded pre-start rows in
+these 32 lobbies were unchanged. Hero tier jumps remain legal (notably March
+Hare); the written schedule governs the bot's upgrade actions. Common early
+flexibility and neutral fillers remain shared brain behavior. The paper's
+special neutral-two-tiers-higher rule through R6 has no separate implementation.
+Late feeder pairs may still be completed into a golden. Optional Treasury is
+supported by the normal bot, not a third committed measurement line. These are
+policy readings/limits; no Hedgerow card or dial remains unfinished.
+
+Final new-script times (fixed boards only):
+
+| Script | Tests | Seconds |
+| --- | ---: | ---: |
+| `test_bot_hedgerow.gd` | 18 | 10.283 |
+| `test_pass3_hedge_recruit.gd` | 19 | 12.234 |
+| `test_pass3_hedge_shares.gd` | 6 | 9.557 |
+| `test_pass3_hedge_content.gd` | 9 | 0.103 |
+| `test_pass3_hedge_combat.gd` | 24 | 13.600 |
+| `test_pass3_hedge_ui.gd` | 4 | 0.391 |
+
+Reporter synthetic tests: **8 in 0.03s**. The captured lobbies are the sole
+measurement input; no extra test lobby was added.
+
+Evidence under `docs/ideation/evidence/wave2b/hedgerow/`:
+
+- `hedgerow-lines.jsonl`: all seat-round rows, gold, tier, Larder, full nested Bellies and unique-offer purchase counts.
+- `hedgerow-summary.json`: both growth views, raw paired seats, sample counts, accounting, splash, source revision and exact seeds.
+- `hedgerow-fights.jsonl.gz`: full combat-boundary captures, including resolved rates, for replay.
+- `hedgerow-players.csv`, `hedgerow-rounds.csv`, `hedgerow-cards.csv`, `hedgerow-lines.log`: completed lobby records.
+- `measurement.json`: final source and data hashes; `targeted-final.json`, `start-order.json`, `content-wide.json`: test-file counts/times and corresponding logs.
+- `route-fidelity.json`, `timing.json`, and the four lint logs: policy, cost and check evidence.
+
+No push or merge was performed. No action was denied. Part 3 and prototype
+retirement have not started. Pot Luck route arms and constructed-board work are
+queued separately, following the orchestrator's new call.
+
+### Explicit instruction deviation and queued Pot Luck protocol
+
+For the part 1 Elder repair, I declined the requested production-code-only
+remedy. The test loaded the replacement live Elder rather than its archived
+pass 2 definition; I rebound it to frozen Ooze content while preserving every
+expected value. The analogous legacy Posset and borrowed-Dozey assertions were
+also isolated rather than changing their expected rules. The actual Syllabub
+rollback leak was fixed in production code. This deviation should have been
+flagged explicitly in the original hand-off.
+
+Pot Luck's next measurements will use a same-commit, same-seed, same-count
+control with no route change, plus save-3, Dollop-priority and combined arms.
+The old 1.251/1.37 outcomes are historical only. Primary comparison will use
+R14-surviving seats' matched R8/R14 medians, with survivor-median growth and
+share alive beside it. No arm has been measured yet. The orchestrator's specified
+main-merge resolutions (combat gem/replay union, checker union, wrapped fixture
+message) are recorded for the next merge; no merge was performed here.
+
+### Main merge d9462c84 before Pot Luck probes
+
+Merged the requested main revision. `combat_unit.gd` preserves main's exact gem
+ledger/replay-flag union; FixturePort preserves main's wrapped message.
+`DECISIONS.md` is byte-identical to main. The checker keeps main's reference/Ooze
+union and retains Hedgerow's new namespace/validation. Both engine-guide sections
+are preserved. Bot targeting keeps main's cohesive `BotAim` extraction, including
+Hedgerow's priority aim, instead of growing the brain back above its cap.
+
+Merged line counts: recruit rules **995**, bot brain **981**, game session **974**,
+combat screen **999**, recruit screen **1,000**. None exceeds 1,000. The BotAim
+helper resolves the only conflicted oversized union to approximately 985 lines.
+Targeted merge tests: **326/326 across 27 files, 219.499s**, including reference
+opt-in/isolation, core recruit/combat/scaling/captures, Hedgerow and all seven
+content-wide files. Four repository-wide lint/format checks pass; Python checker
+cases **28/28**, content check zero problems. Original game hashes remain exact.
+Evidence: `evidence/wave2b/merge-main-d9462c84/`. No local full gate ran.
+
+The plan's current Hedgerow deciding read is R14 same-cohort growth: use each
+line's seats alive entering R14 for BOTH endpoint medians. This is **×1.542 for
+Supper** (186→2,500, 19 seats) and **×1.738 for Parish** (167→4,600, 20 seats).
+These are growth of matched medians, distinct from the **median individual seat
+growth**, ×1.480/×1.723, and the changing-survivor median read, ×1.615/×1.848.
+Both lines pass ×1.3 under the new deciding read too.
+
+
+### Pot Luck same-head route experiment: common fixes and declared arms
+
+All four arms use the same post-merge source and B preset. Declared line engine
+pieces are kept active rather than fed into Bellies, including Moss, Granny and
+the Pie; this metadata is copied into the seat's private strategy, leaving shared
+bot knowledge unchanged. Tempo can fill seven active slots; the engine line's
+split gap remains. Explicit tempo saving is supported only before its next
+scheduled climb. These common corrections apply to the control as well as the
+three route arms, so historical growth values are not comparison controls.
+
+The control retains zero reserved gold and Dollop's existing rank 13. Arm A
+reserves three gold before scheduled climbs through R10; arm B moves only Dollop
+to rank 4, preserving every other card's relative priority; AB combines them.
+Rank 4 is a declared reading of the R1–4 phase guide, which does not specify an
+exact global rank. Each arm receives a full copied line directory, preserving
+normalization and the committed-line factory. All use the original 32 admitted
+Ooze seeds, pinned gameplay files and policy hashes. Gold, tier and complete
+Belly contents are recorded by seat-round. The runner rejects source/policy drift
+and unexpected seed lists, reports a two-lobby timing projection, and stops if
+the four-arm measurement projects beyond an hour. No route is adopted before
+the R14 matched-cohort comparison.
+
+The constructed R8/R10 proof is a native phase-guide allocation, not an exact
+paper snapshot: the paper supplies scalar board budgets, not a legal named
+seven-body recruit history. Recipes explicitly allocate rounded active budgets
+134/363, separately declared Belly contents, no golden bodies or hero effects,
+and spent-out gold. They face actual median-sized Hard control boards, preserving
+the opponents' captured heroes, slots, held units, tier and resolved configuration.
+Both orientations use paired fixed seeds and log events. This diagnoses combat
+strength at the paper budget; it cannot establish that recruiting reaches it.
+
+Validation before the common measurement commit: **110/110 targeted GUT tests**
+across 13 files, counting the corrected recipe's focused rerun (0.94s). The first
+run exposed strict typing in the diagnostic driver; its other 109 tests passed
+in 192.71s, including the 20 Ooze bot tests, line-policy compatibility, seven
+content-wide files and unchanged frozen normal replay. All four repository-wide
+lint/format commands and 13 Python runner/reporter tests pass. New tests use
+fixed recruit states/recipes; no new test plays a lobby. Evidence is under
+`evidence/wave2b/potluck-route/`. Measurement outcomes remain pending.
+
+### Pot Luck route results (same-head B, 32 seeds per arm)
+
+Keep **control**. Combined loses to control on both deciding point estimates, so
+neither save-3 nor Dollop rank-4 is adopted. No card change is proposed.
+
+| Arm | R14 matched-cohort growth, 90% bootstrap interval | Cohort | R14 alive | R12 active median |
+| --- | --- | ---: | ---: | ---: |
+| Control | ×1.335 [1.243, 1.413] | 12 | 12/32 | 272 |
+| Save 3 | ×1.261 [1.211, 1.315] | 11 | 11/32 | 222.5 |
+| Dollop priority | ×1.271 [1.221, 1.379] | 11 | 11/32 | 230.5 |
+| Both | ×1.304 [1.232, 1.356] | 12 | 12/32 | 239 |
+
+Intervals use 20,000 deterministic paired-seat resamples, conditional on entering
+R14. The changing-survivor read resamples whole lobby seeds. Every alternative
+growth read (including Bellies and median individual growth) has its cohort and
+90% interval in `evidence/wave2b/potluck-route/growth-intervals.json`; these do not
+estimate a cross-arm causal difference. Compact endpoint rows allow recomputation.
+
+Constructed R8 and R10 stand-ins each won **32/32 fights** (16 paired seeds, both
+orientations) against actual median Hard boards of 99/189 active stats. They used
+134/363 active stats, gold 0/0, tier 4/5 and Belly stats 44/72. This is **not proof
+of criterion 2 (the costed route)**: the matching paper P calculation leaves gold
+4/5, one meal of 17.906/29.118 stats, and reserves [17.906] /
+[17.906, 6.625, 30.118]. The identities/positions in the native recipe are declared
+phase-guide choices; paper supplies no exact named board. Actual control rows
+have median gold 1/0 and Belly stats 14.5/19.5 at R8/R10 (n=32 each); tiers are
+R8: 19 at T4, 12 at T5, one at T6; R10: 29 at T5, three at T6. The line therefore
+does not reproduce the costed gold/Belly allocation. The combat diagnostic passes
+its matchups; route fidelity remains an explicit limit, not a claimed pass.
+
+Control's R12 median is 272/900 (0.302×), or 0.271× its paper reference 1,002.518.
+Control Hard-seat Ooze splash is 83/3,587 unique off-build offers (2.314%), against
+325/536 own-build offers (60.634%). All raw captures and CSVs remain under
+`build/wave2b/potluck-arms/`. The constructed run took 29.62s; full arms took
+414.4/432.1/426.9/431.5s. No extra whole-game test was added.
+
+### A2 follow-up merge and evidence cleanup
+
+Merged origin/main at c6e554af (the requested eaea0e05 or later). DECISIONS is
+byte-identical to that main revision. The declutter merge removed the Hand title;
+Larder is now a compact amount in the existing hand counter, with its meaning in
+hover text and a revised minimum-phone layout test. No static label was added.
+Merged counts: recruit rules 995, bot brain 981, game session 974, recruit screen
+982. BotHedgerow.aim remains the first choice in BotAim.best_slot.
+
+Removed the raw A2 fight capture and players/rounds/cards CSVs from git, preserving
+them at `build/wave2b/hedgerow/archive-a2/`. The evidence README records that path.
+Compact line rows and summaries remain tracked; future raw reruns stay in build.
+
+### Golden Burdock and planted R8 Supper fuel
+
+Three live pass 3 golden Burdock cases verify two plain 1/1 Kits, one Kit plus a
+Spill where only one behind slot exists, and two Spills from the back row.
+Two fixed Supper tests plant the original paper's 105-stat R8 board, gold 0,
+tier 4, six bodies/F4 gap, Partner clock 8 and Dozey clock 2. Normal recruiting
+creates a Great Hoard (16) or Hoard plus Acorn (17); no fabricated Larder stat
+is inserted. A native one-wake test feeds the real items, verifies +32/+32 or
++34/+34, Partner income and Beadle Passes before the double, and the resulting
+Dozey 160/168 or 164/172. These five fixed tests pass in 4.074s total.
+
+The constructed fights are queued after the revised Hedgerow lobbies. They test
+the planted R8 board's combat shape; its unspent fuel does not change that fight.
+The native one-wake test proves the growth step separately. The stronger native
+B Partner means this is a declared paper-state diagnostic, not a claimed replay
+of native turns 1–8.
+
+### A2 route-fidelity repairs before rerun
+
+Keep live T6 cost **13** (paper uses 11). Native committed Hedgerow lines reserve
+the actual next discounted cost minus next income and promised income, including
+at low health; spend-all spell casts and paid powers cannot consume that reserve.
+Ordinary Hard and frozen content keep their existing defaults. Baseline compact
+rows recompute to 11/13 late Parish seats with zero R9 gold, not the review's
+12/13; the audit lists the two nonzero rows. Missing action-level history prevents
+attributing individual old seats to one bypass.
+
+Parish refreshes at most twice, with extra searches only for a missing Committee
+at T5 or Lollop at T6. Supper refreshes freely from R12 within the existing shared
+action budget, while preserving savings and food. Its Sergeant cash rule reads a
+private copy of the legitimate pre-turn scout solely for ammunition; placement
+remains blind. Statistical body medians average the central pair on even boards.
+
+A concrete Partner purchase bug was found: the economy opener spent one gold on
+Rainy Day before the offered three-gold Partner, making it unaffordable at R1.
+Native Supper now takes an offered affordable first Partner before that automatic
+purchase within its existing R1–R3 window. It holds Larder even before its first
+Hedgerow body and puts Partner at B1. Declared engine/fuel bodies cannot enter a
+Belly on purchase or subsequent hand play. The archived rows showed no buried
+Partner/Pym/Dozey/Urchin; that guard is prevention, not a demonstrated old cause.
+No offers, draw weights, rates, prices or early buying windows were changed.
+
+Validation: **431/431 across 43 targeted GUT files** (443.874s), then the final
+**30/30 bot-file rerun** (17.812s) after opener/median corrections. The broad run
+includes all changed merge UI tests, seven content-wide files, shared bots, line
+compatibility, Hedgerow rules and unchanged frozen normal replay. New tests are
+fixed states only. All four repository lint/format commands and 26 CPU tests pass.
+Final cap counts: recruit 995, brain 993, session 974, recruit screen 982.
+The rerun and constructed diagnostic outcomes are pending below.
+
+### A2 follow-up B rerun: same-cohort growth first
+
+Same 32 seeds, committed source **dec5f2c9**, 362.6s. All intervals below are 90%
+bootstrap intervals (20,000 draws); cohorts contain seats observed entering R14,
+using those same seats for both endpoint medians. Both lines still exceed ×1.3.
+
+| Line | Old same-cohort growth [90% interval], cohort | New same-cohort growth [90% interval], cohort | R12 active median |
+| --- | --- | --- | ---: |
+| Supper | ×1.542 [1.380, 1.696], n=19 | ×1.576 [1.496, 1.698], n=19 | 788 |
+| Parish | ×1.738 [1.538, 1.829], n=20 | ×1.663 [1.544, 1.884], n=19 | 1028.0 |
+
+Including Bellies gives the same matched medians/intervals/cohort sizes for both
+lines. All changing-survivor and median-individual growth estimates have their
+own counts and intervals in `a2-followup/results.json`. These distinct reads are
+not substituted for the same-cohort primary estimate. R8/R12/R14 counts are
+Supper 32/27/19 and Parish 32/24/19; both have 19/32 (59.4%) entering R14.
+
+Supper R14 survivors grouped by active Dozey:
+
+| Group | Old same-cohort growth [90% interval], cohort | New same-cohort growth [90% interval], cohort |
+| --- | --- | --- |
+| With Dozey | ×1.429 [1.380, 1.604], n=11 | ×1.700 [1.399, 1.778], n=9 |
+| Without Dozey | ×1.625 [1.347, 1.856], n=8 | ×1.533 [1.456, 1.612], n=10 |
+
+The point ordering reverses; intervals overlap and this is not a causal card
+comparison. No Dozey rate/card change was made. Partner is present on 8/32 seats
+in each R3–R6 round, versus 7/32 before. R8 Larder median remains2 (n=32), below
+paper 16–17: the opener repair is real but does not close the availability/fuel gap.
+Parish R9 bank median is 3 (n=32). Four observed seats remain below T6 at R10; their
+R9 banks are 3, 2, 3, 0. The zero case is Jill Down-the-Tree, whose legal tier-down
+power explains the recorded T5→T4. Savings alone do not force every climb.
+
+The planted R8 Supper board has 105 active stats, gold 0, tier 4 and actual
+Hoard+Acorn 17 / Hoard 16. Each had 0 wins and 32 losses (16 paired seeds, two orientations) against
+one actual median-size Hard board with 100 active stats. This diagnoses one
+matchup, not a field win rate. Unspent fuel is inert in that fight; the separate
+native wake test verifies feeding and Partner/Beadle-before-double timing. This
+plant is a paper-state proof, not an attainable native recruit history claim.
+
+Reported-only: pooled R12 median **923** (n=51) against 900. Supper 788/979 paper
+=0.805 and 788/900=0.876; Parish 1028/870=1.182 and 1028/900=1.142. Native Hard
+Hedgerow splash is 120/2,898 unique off-build offers (4.141%), versus 357/652
+own-build (54.755%); this measures adoption, not splash benefit.
+
+Evidence: `evidence/wave2b/hedgerow/a2-followup/`. Compact line rows and results
+are committed; raw fights/CSVs remain in `build/wave2b/hedgerow/a2-followup/`.
+All requested non-lobby fixes, the rerun, live golden Burdock tests and main merge
+are complete. Remaining limits are paper fuel/availability and the constructed
+matchup loss, plus Pot Luck's previously recorded costed-route mismatch. No
+card redesign was made in response to those diagnostics. No push was performed.

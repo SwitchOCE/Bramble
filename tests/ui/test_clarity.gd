@@ -36,7 +36,7 @@ func test_terms_are_found_in_card_text_and_keyword_reminders() -> void:
 
 func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> void:
 	var kit := Kit.new()
-	kit.setup()
+	kit.setup(null, false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	var left: RecruitUnit = kit.put("field_vole", 4)
 	var right: RecruitUnit = kit.put("field_vole", 5)
 	kit.put("mr_crumb")

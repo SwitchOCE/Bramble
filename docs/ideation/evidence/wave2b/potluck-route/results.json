@@ -1,0 +1,500 @@
+{
+  "source_commit": "dfdd20fe78745786b8687fabbd04c1791e19d45e",
+  "preset": "B",
+  "seeds": [
+    280001,
+    280002,
+    280005,
+    280006,
+    280009,
+    280010,
+    280011,
+    280012,
+    280013,
+    280014,
+    280015,
+    280016,
+    280017,
+    280019,
+    280021,
+    280022,
+    280023,
+    280024,
+    280026,
+    280027,
+    280028,
+    280029,
+    280030,
+    280031,
+    280032,
+    280033,
+    280034,
+    280035,
+    280037,
+    280040,
+    280041,
+    280042
+  ],
+  "bootstrap": "growth-intervals.json",
+  "adopted": "control",
+  "decision": "AB does not beat control on either same-cohort growth or R12 active median; neither saving nor priority promotion adopted. No card change.",
+  "arms": {
+    "control": {
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.3352254792405367,
+        "ci90": [
+          1.2427699394472236,
+          1.4126607668590814
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.3313033655027624,
+        "ci90": [
+          1.2539525210999236,
+          1.4075939200705179
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 12,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "survivor_median_growth": {
+        "estimate": 1.3594211526782793,
+        "ci90": [
+          1.2750816212757368,
+          1.4438540366256316
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 12,
+        "lobby_seed_n": 32
+      },
+      "survivor_counts": {
+        "r8": 32,
+        "r12": 23,
+        "r14": 12
+      },
+      "r14_share_observed": 0.375,
+      "r12": {
+        "survivors": 23,
+        "active_stats": 272,
+        "including_bellies": 280
+      },
+      "splash": {
+        "tribe": "Oozes",
+        "scope": "All rounds; hard:varied only; committed-line seats and their food purchases excluded. Unique offers are counted by the harness per seat and unit iid. Grouping uses the final build's highest declared tribe weights; ties retain every primary tribe. Known neutral builds count as off-build; missing strategy definitions are separate.",
+        "groups": {
+          "own_build": {
+            "seats": 34,
+            "buys": 325,
+            "unique_offers": 536,
+            "buys_per_unique_offer": 0.6063432835820896
+          },
+          "off_build": {
+            "seats": 158,
+            "buys": 83,
+            "unique_offers": 3587,
+            "buys_per_unique_offer": 0.02313911346529133
+          },
+          "unknown_build": {
+            "seats": 0,
+            "buys": 0,
+            "unique_offers": 0,
+            "buys_per_unique_offer": null
+          }
+        },
+        "off_vs_own_buy_rate_ratio": 0.03816173789968047
+      }
+    },
+    "A": {
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.2611828673549519,
+        "ci90": [
+          1.211166545858013,
+          1.31454346430323
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.2637333181040107,
+        "ci90": [
+          1.2527001782677132,
+          1.3026787109770532
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 11,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "survivor_median_growth": {
+        "estimate": 1.2784414370171415,
+        "ci90": [
+          1.2386835951161077,
+          1.3502541995982826
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 11,
+        "lobby_seed_n": 32
+      },
+      "survivor_counts": {
+        "r8": 32,
+        "r12": 24,
+        "r14": 11
+      },
+      "r14_share_observed": 0.34375,
+      "r12": {
+        "survivors": 24,
+        "active_stats": 222.5,
+        "including_bellies": 258.0
+      },
+      "splash": {
+        "tribe": "Oozes",
+        "scope": "All rounds; hard:varied only; committed-line seats and their food purchases excluded. Unique offers are counted by the harness per seat and unit iid. Grouping uses the final build's highest declared tribe weights; ties retain every primary tribe. Known neutral builds count as off-build; missing strategy definitions are separate.",
+        "groups": {
+          "own_build": {
+            "seats": 34,
+            "buys": 329,
+            "unique_offers": 527,
+            "buys_per_unique_offer": 0.6242884250474383
+          },
+          "off_build": {
+            "seats": 158,
+            "buys": 79,
+            "unique_offers": 3583,
+            "buys_per_unique_offer": 0.022048562656991347
+          },
+          "unknown_build": {
+            "seats": 0,
+            "buys": 0,
+            "unique_offers": 0,
+            "buys_per_unique_offer": null
+          }
+        },
+        "off_vs_own_buy_rate_ratio": 0.03531791039584936
+      }
+    },
+    "B": {
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.2709271655353265,
+        "ci90": [
+          1.2209000663249265,
+          1.3791694143428792
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.2878802346051563,
+        "ci90": [
+          1.2135885204718089,
+          1.3684875825616276
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 11,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "survivor_median_growth": {
+        "estimate": 1.3014331184482149,
+        "ci90": [
+          1.2562315839869462,
+          1.4117476057652496
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 11,
+        "lobby_seed_n": 32
+      },
+      "survivor_counts": {
+        "r8": 32,
+        "r12": 24,
+        "r14": 11
+      },
+      "r14_share_observed": 0.34375,
+      "r12": {
+        "survivors": 24,
+        "active_stats": 230.5,
+        "including_bellies": 247.0
+      },
+      "splash": {
+        "tribe": "Oozes",
+        "scope": "All rounds; hard:varied only; committed-line seats and their food purchases excluded. Unique offers are counted by the harness per seat and unit iid. Grouping uses the final build's highest declared tribe weights; ties retain every primary tribe. Known neutral builds count as off-build; missing strategy definitions are separate.",
+        "groups": {
+          "own_build": {
+            "seats": 34,
+            "buys": 318,
+            "unique_offers": 506,
+            "buys_per_unique_offer": 0.6284584980237155
+          },
+          "off_build": {
+            "seats": 158,
+            "buys": 84,
+            "unique_offers": 3607,
+            "buys_per_unique_offer": 0.023288051011921263
+          },
+          "unknown_build": {
+            "seats": 0,
+            "buys": 0,
+            "unique_offers": 0,
+            "buys_per_unique_offer": null
+          }
+        },
+        "off_vs_own_buy_rate_ratio": 0.0370558295975854
+      }
+    },
+    "AB": {
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.3042034583950484,
+        "ci90": [
+          1.2323529636257957,
+          1.3555369202670686
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.28133415719806,
+        "ci90": [
+          1.2479429358081058,
+          1.3255308765328944
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 12,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "survivor_median_growth": {
+        "estimate": 1.3221642402208116,
+        "ci90": [
+          1.258116770084668,
+          1.3824237249026239
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 12,
+        "lobby_seed_n": 32
+      },
+      "survivor_counts": {
+        "r8": 32,
+        "r12": 23,
+        "r14": 12
+      },
+      "r14_share_observed": 0.375,
+      "r12": {
+        "survivors": 23,
+        "active_stats": 239,
+        "including_bellies": 276
+      },
+      "splash": {
+        "tribe": "Oozes",
+        "scope": "All rounds; hard:varied only; committed-line seats and their food purchases excluded. Unique offers are counted by the harness per seat and unit iid. Grouping uses the final build's highest declared tribe weights; ties retain every primary tribe. Known neutral builds count as off-build; missing strategy definitions are separate.",
+        "groups": {
+          "own_build": {
+            "seats": 34,
+            "buys": 321,
+            "unique_offers": 520,
+            "buys_per_unique_offer": 0.6173076923076923
+          },
+          "off_build": {
+            "seats": 158,
+            "buys": 80,
+            "unique_offers": 3480,
+            "buys_per_unique_offer": 0.022988505747126436
+          },
+          "unknown_build": {
+            "seats": 0,
+            "buys": 0,
+            "unique_offers": 0,
+            "buys_per_unique_offer": null
+          }
+        },
+        "off_vs_own_buy_rate_ratio": 0.0372399470046908
+      }
+    }
+  },
+  "constructed": [
+    {
+      "draws": 0,
+      "losses": 0,
+      "recipe": "potluck-native-r8",
+      "round": 8,
+      "trials": 32,
+      "wins": 32,
+      "gold": 0,
+      "shop_tier": 4,
+      "active_stats": 134,
+      "belly_stats": 44,
+      "belly_contents": {
+        "0": [
+          {
+            "def_id": "mouse",
+            "stats": [
+              4,
+              4
+            ],
+            "golden": false
+          },
+          {
+            "def_id": "mouse",
+            "stats": [
+              4,
+              4
+            ],
+            "golden": false
+          }
+        ],
+        "1": [
+          {
+            "def_id": "mouse",
+            "stats": [
+              4,
+              4
+            ],
+            "golden": false
+          }
+        ],
+        "3": [
+          {
+            "def_id": "mouse",
+            "stats": [
+              4,
+              4
+            ],
+            "golden": false
+          }
+        ],
+        "5": [
+          {
+            "def_id": "mouse",
+            "stats": [
+              6,
+              6
+            ],
+            "golden": false
+          }
+        ]
+      },
+      "opponent": {
+        "population": 192,
+        "selection": "lower central actual board by combat-start active stats; ties use source id; no outcome selection",
+        "size": 99,
+        "source": "280015.0:0:8"
+      }
+    },
+    {
+      "draws": 0,
+      "losses": 0,
+      "recipe": "potluck-native-r10",
+      "round": 10,
+      "trials": 32,
+      "wins": 32,
+      "gold": 0,
+      "shop_tier": 5,
+      "active_stats": 363,
+      "belly_stats": 72,
+      "belly_contents": {
+        "0": [
+          {
+            "def_id": "mouse",
+            "stats": [
+              12,
+              12
+            ],
+            "golden": false
+          },
+          {
+            "def_id": "mouse",
+            "stats": [
+              12,
+              12
+            ],
+            "golden": false
+          }
+        ],
+        "5": [
+          {
+            "def_id": "mouse",
+            "stats": [
+              12,
+              12
+            ],
+            "golden": false
+          }
+        ]
+      },
+      "opponent": {
+        "population": 190,
+        "selection": "lower central actual board by combat-start active stats; ties use source id; no outcome selection",
+        "size": 189,
+        "source": "280035.0:3:10"
+      }
+    }
+  ],
+  "route_comparison": {
+    "8": {
+      "n": 32,
+      "gold_median": 1.0,
+      "shop_tiers": {
+        "5": 12,
+        "4": 19,
+        "6": 1
+      },
+      "belly_units_median": 2.0,
+      "belly_stats_median": 14.5,
+      "paper": {
+        "gold": 4,
+        "shop_tier": 4,
+        "active_stats": 134.44903945922852,
+        "inside": 17.90555191040039,
+        "reserve_stats": [
+          17.90555191040039
+        ]
+      }
+    },
+    "10": {
+      "n": 32,
+      "gold_median": 0.0,
+      "shop_tiers": {
+        "5": 29,
+        "6": 3
+      },
+      "belly_units_median": 2.0,
+      "belly_stats_median": 19.5,
+      "paper": {
+        "gold": 5,
+        "shop_tier": 5,
+        "active_stats": 362.56587156653404,
+        "inside": 29.117755391635,
+        "reserve_stats": [
+          17.90555191040039,
+          6.625,
+          30.117755391635
+        ]
+      }
+    }
+  },
+  "criterion2": "Not established: native phase-guide stand-ins win these matchups, but neither their gold/Belly allocation nor the realized line reproduces the costed paper route.",
+  "raw_directory": "build/wave2b/potluck-arms",
+  "source_hashes": {
+    "control": "484036e6de51ea73de93013b4379f83018a0811733e3515e2b8a93200711596f",
+    "A": "7fc270043f3368dd38391558148ce2ec4be3c63f7903fc3417d25fc08fdace93",
+    "B": "1fbaa005a20135885dd73c0cb69cf88374a6568c2d57ee94390adb21fe8748ac",
+    "AB": "6f98a3b1fbda8f8605f116d94297314265a0d1ba03137672e753222daf9f2d57"
+  }
+}
