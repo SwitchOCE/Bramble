@@ -54,7 +54,9 @@ def main() -> int:
                 problems.append(f"R{round_number}: log says {logged.get(round_number)}, fight {fight['result']}")
             if shown.get("events") != fight["events"]:
                 problems.append(f"R{round_number}: the strip played other events")
-            if not fight["opponent"].startswith(shown.get("opponent", "").rstrip(".…")):
+            # The plaque shows the short name ("Farthing" for "Dame Farthing"), maybe trimmed.
+            plaque = shown.get("opponent", "").rstrip(".…")
+            if not plaque or plaque not in fight["opponent"]:
                 problems.append(f"R{round_number}: the strip shows {shown.get('opponent')}")
             if len(moment["files"]) < 2:
                 problems.append(f"R{round_number}: the strip has under two frames")
