@@ -8,6 +8,7 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const SlotView := preload("res://src/ui/widgets/slot_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const SlotMarks := preload("res://src/ui/widgets/slot_marks.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 const SLOTS: int = 7
@@ -277,36 +278,9 @@ func set_pass_landing(slot: int) -> void:
 	_marks.pass_slot = slot
 
 
-## A mossy recruit surface inside the carved oak edge, with no geometry links.
+## The formation sits directly on a thin painted stump surface.
 func _draw() -> void:
-	var top: Rect2 = row_rect(front_toward_top)
-	var bottom: Rect2 = row_rect(not front_toward_top)
-	var under: StyleBoxFlat = _row_box(UiTheme.CARVE, UiTheme.INK, BORDER)
-	draw_style_box(under, Rect2(top.position + Vector2(0, EDGE), top.size))
-	draw_style_box(under, Rect2(bottom.position + Vector2(0, EDGE), bottom.size))
-	for rect: Rect2 in [row_rect(true), row_rect(false)]:
-		draw_style_box(
-			_row_box(UiTheme.OAK if combat_mode else Color("425348"), UiTheme.INK, BORDER), rect
-		)
-	# The narrower row's join: the wood runs through with no line across.
-	var narrow: Rect2 = row_rect(false)
-	var seam_y: float = top.end.y
-	var join: Rect2 = Rect2(
-		narrow.position.x + BORDER,
-		seam_y - BORDER - 12.0,
-		narrow.size.x - BORDER * 2.0,
-		24.0 + BORDER * 2.0
-	)
-	draw_rect(join, UiTheme.OAK if combat_mode else Color("425348"))
-	for rect: Rect2 in [row_rect(true), row_rect(false)]:
-		var inset: float = 12.0
-		var grain: Rect2 = rect.grow_individual(-BORDER, -inset, -BORDER, -inset)
-		draw_texture_rect(
-			Icons.tile("oak"),
-			grain,
-			true,
-			Color.WHITE if combat_mode else Color(0.55, 0.65, 0.55, 0.22)
-		)
+	Surface.paint(self, Rect2(Vector2.ZERO, tray_size() - Vector2(0, EDGE)), 12.0)
 
 
 func _row_box(fill: Color, line: Color, width: float) -> StyleBoxFlat:

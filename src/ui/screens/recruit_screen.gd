@@ -50,7 +50,7 @@ func setup(game_port: GamePort) -> void:
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "recruit")
 	var blank: Interactive = Interactive.new()
 	blank.set_anchors_preset(Control.PRESET_FULL_RECT)
 	blank.zone = "table"

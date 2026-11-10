@@ -93,7 +93,7 @@ var _event_before: Dictionary = {}
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "fight")
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)

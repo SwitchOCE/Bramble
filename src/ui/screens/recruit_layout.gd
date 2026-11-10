@@ -477,7 +477,7 @@ func _hover_ring_aim(selection: Dictionary, zone: String, slot: int, inside: boo
 
 ## Build the trays here; the screen supplies their interaction callbacks.
 func _build_shop(wire: Callable) -> void:
-	_shelf = ShelfPlank.new()
+	_shelf = preload("res://src/ui/widgets/painted_counter.gd").new()
 	_stage.add_child(_shelf)
 	_shop_zone = Interactive.new()
 	_shop_zone.zone = "shop"
