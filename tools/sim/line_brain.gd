@@ -23,6 +23,8 @@ func configure_line(id: String) -> void:
 	profile = entry.duplicate(true)
 	pinned_strategy = id
 	value.strategy = LinePolicies.strategy(id)
+	var engine_pieces: Array = profile.get("engine_pieces", [])
+	value.strategy["line_engine_pieces"] = engine_pieces.duplicate()
 	level.set_place(BotLevel.PLACE_BLIND)
 
 
@@ -74,8 +76,7 @@ func _held_back() -> int:
 	var reserve: int = super._held_back()
 	if str(profile["tribe"]) == "Oozes":
 		if (
-			CoreUtil.to_bool(profile["engine"])
-			and _player.tier < UnitLibrary.TIERS
+			_player.tier < UnitLibrary.TIERS
 			and _round_now <= CoreUtil.to_int(profile["save_until"])
 			and _round_now + 1 == _target_round(_player.tier)
 		):

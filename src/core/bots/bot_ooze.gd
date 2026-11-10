@@ -187,6 +187,12 @@ static func _needs_live_pot(player: PlayerState, unit: RecruitUnit) -> bool:
 
 
 static func best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -> int:
+	var declared: Array = value.strategy.get("line_engine_pieces", [])
+	if (
+		declared.has(unit.def_id())
+		or (unit.has_mechanic_id("pass3_ooze") and unit.def_id() in ENGINES)
+	):
+		return -1
 	# A Belly reserve cannot digest. The first pot and a Dollop upgrade must stand on board.
 	if _needs_live_pot(player, unit):
 		return -1
@@ -199,10 +205,7 @@ static func best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -
 	var food: int = food_belly(player, value, unit)
 	if food >= 0:
 		return food
-	if (
-		keep_engine(player, unit, value)
-		or (unit.has_mechanic_id("pass3_ooze") and unit.def_id() in ENGINES)
-	):
+	if keep_engine(player, unit, value):
 		return -1
 	if not tempo(value):
 		return -1
@@ -380,7 +383,12 @@ static func arrange(
 static func max_bodies(
 	player: PlayerState, value: BotEval, can_replace: Callable = Callable()
 ) -> int:
-	if not active(player) or not build(value) or not has(carry(player), "bubble_and_squeak"):
+	if (
+		not active(player)
+		or not build(value)
+		or tempo(value)
+		or not has(carry(player), "bubble_and_squeak")
+	):
 		return BoardGeometry.SLOTS
 	for unit: RecruitUnit in player.board:
 		if has(unit, "granny_stir_up"):

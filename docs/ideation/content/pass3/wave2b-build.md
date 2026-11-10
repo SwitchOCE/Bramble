@@ -435,3 +435,44 @@ Supper** (186→2,500, 19 seats) and **×1.738 for Parish** (167→4,600, 20 sea
 These are growth of matched medians, distinct from the **median individual seat
 growth**, ×1.480/×1.723, and the changing-survivor median read, ×1.615/×1.848.
 Both lines pass ×1.3 under the new deciding read too.
+
+
+### Pot Luck same-head route experiment: common fixes and declared arms
+
+All four arms use the same post-merge source and B preset. Declared line engine
+pieces are kept active rather than fed into Bellies, including Moss, Granny and
+the Pie; this metadata is copied into the seat's private strategy, leaving shared
+bot knowledge unchanged. Tempo can fill seven active slots; the engine line's
+split gap remains. Explicit tempo saving is supported only before its next
+scheduled climb. These common corrections apply to the control as well as the
+three route arms, so historical growth values are not comparison controls.
+
+The control retains zero reserved gold and Dollop's existing rank 13. Arm A
+reserves three gold before scheduled climbs through R10; arm B moves only Dollop
+to rank 4, preserving every other card's relative priority; AB combines them.
+Rank 4 is a declared reading of the R1–4 phase guide, which does not specify an
+exact global rank. Each arm receives a full copied line directory, preserving
+normalization and the committed-line factory. All use the original 32 admitted
+Ooze seeds, pinned gameplay files and policy hashes. Gold, tier and complete
+Belly contents are recorded by seat-round. The runner rejects source/policy drift
+and unexpected seed lists, reports a two-lobby timing projection, and stops if
+the four-arm measurement projects beyond an hour. No route is adopted before
+the R14 matched-cohort comparison.
+
+The constructed R8/R10 proof is a native phase-guide allocation, not an exact
+paper snapshot: the paper supplies scalar board budgets, not a legal named
+seven-body recruit history. Recipes explicitly allocate rounded active budgets
+134/363, separately declared Belly contents, no golden bodies or hero effects,
+and spent-out gold. They face actual median-sized Hard control boards, preserving
+the opponents' captured heroes, slots, held units, tier and resolved configuration.
+Both orientations use paired fixed seeds and log events. This diagnoses combat
+strength at the paper budget; it cannot establish that recruiting reaches it.
+
+Validation before the common measurement commit: **110/110 targeted GUT tests**
+across 13 files, counting the corrected recipe's focused rerun (0.94s). The first
+run exposed strict typing in the diagnostic driver; its other 109 tests passed
+in 192.71s, including the 20 Ooze bot tests, line-policy compatibility, seven
+content-wide files and unchanged frozen normal replay. All four repository-wide
+lint/format commands and 13 Python runner/reporter tests pass. New tests use
+fixed recruit states/recipes; no new test plays a lobby. Evidence is under
+`evidence/wave2b/potluck-route/`. Measurement outcomes remain pending.
