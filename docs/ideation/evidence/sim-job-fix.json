@@ -115,5 +115,39 @@
       "status": "fixed"
     }
   },
-  "workflow_files_changed": []
+  "workflow_files_changed": [],
+  "verification": {
+    "check_sh": "passed all steps",
+    "gut_tests": 2410,
+    "gut_assertions": 51812,
+    "gut_risky_pending": 0,
+    "gut_seconds": 563.43,
+    "check_tests_step_seconds": 574,
+    "python_checks_tests": 146,
+    "ruff_check": "passed",
+    "ruff_format_check": "passed",
+    "gdlint_src_tools_tests": "passed",
+    "gate_log_sha256": "5c166215f71b57eb3958fad350bce41816e438e78892f2ea3ef70a7b0cac978a",
+    "junit_sha256": "84998ac25585b6e5df6ac5a7d2f8845b057254a79192230d15a5e1267c1447b9",
+    "field_and_designed_local_smokes": {
+      "fights_each": 4,
+      "seeds": [
+        123,
+        9007199254740993
+      ],
+      "passes": true,
+      "readers": "field.field_report and designed_report.summarize"
+    },
+    "extra_harness_python": {
+      "tests": 199,
+      "failures": 2,
+      "errors": 1,
+      "status": "fails in unchanged measurement files; baseline confirmation pending",
+      "cases": [
+        "test_line_bans.LineBansTest.test_prepare_rejects_a_known_unseated_line_before_godot",
+        "test_real_designed.RealDesignedTests.test_known_recipes_cover_committed_rounds_and_two_documented_payoffs",
+        "test_skilled_birds.SkilledBirdsTest.test_only_flight_call_changes_in_native_turn_flow"
+      ]
+    }
+  }
 }

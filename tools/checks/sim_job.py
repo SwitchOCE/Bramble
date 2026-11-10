@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Thin entry point for the Actions sim job (.github/workflows/sim.yml) and its local twin.
+"""Orchestration and report handling for the Actions sim job and its local twin.
 
     python3 tools/sim/sim_job.py matrix <config.json>                       shard numbers, as JSON
     python3 tools/sim/sim_job.py shard <config.json> <i> <out_dir>          run shard i (from 1)
