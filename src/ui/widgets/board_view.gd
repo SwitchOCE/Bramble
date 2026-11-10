@@ -393,6 +393,7 @@ func move_card_here(card: CardView, slot: int) -> Vector2:
 
 
 func clear() -> void:
+	_clear_lean()
 	for i: int in SLOTS:
 		remove_card(i)
 	for value: Variant in _loose:
@@ -465,20 +466,25 @@ func _set_reach_flash(value: float) -> void:
 		slots[slot].reach_flash = value
 
 
-## Candidate changes while dragging give the affected units one short lean.
-func _lean_reach(related: Array[int], candidate: int) -> void:
+func _clear_lean() -> void:
 	if _lean_tween != null and _lean_tween.is_valid():
 		_lean_tween.kill()
-	for card: CardView in _lean_origins:
-		if is_instance_valid(card):
-			card.position = _lean_origins[card]
+	_lean_tween = null
+	for value: Variant in _lean_origins:
+		if is_instance_valid(value):
+			var card: CardView = value
+			card.position = _lean_origins[value]
 	_lean_origins.clear()
+
+
+## Candidate changes while dragging give the affected units one short lean.
+func _lean_reach(related: Array[int], candidate: int) -> void:
+	_clear_lean()
 	if Settings.reduce_motion:
 		_pulse_reach(related)
 		return
 	if candidate < 0 or candidate >= SLOTS or not is_inside_tree():
 		return
-	_lean_tween = null
 	var duration: float = 0.15 / maxf(1.0, Settings.fight_speed)
 	var toward: Vector2 = slot_position(candidate) + pocket / 2.0
 	for slot: int in related:
