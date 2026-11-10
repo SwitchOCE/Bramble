@@ -43,7 +43,7 @@ These go into one DECISIONS entry (W-a). Changed or new since v2: items 8, 11, 1
 4. **Workers and machines** (kept).
    - Three Codex workers: w7 (content), w5 (UI), and w6 (measurement and delivery).
    - Three cloud code sessions: sharding (which then adds the sim job and the soak rework; the order is open call C3), the faster suite, and S5 (play tools).
-   - Two local Godot slots. Lobbies, soaks and library captures run on Actions. Local Godot runs only targeted tests, renders, UI runs and exports.
+   - Build 9 supersedes this scheduling rule: three local Godot slots, 3 GB each; sims run locally, with Actions reserved for a run estimated above two hours (see `plan-build9.md`).
 5. **Sims and soaks run on Actions** (kept). A run starts when `ideation/sim/<id>` is pushed with its config, and its results come back as a commit on that branch. The repo is public, so large raw captures never go there.
 6. **One shipped field library, recaptured last** (kept). Strong field is the default only on the default preset. The library is recaptured as the last step before every export, and its SHA goes in the README. A4 captures throwaway B and C libraries for the checkpoint testers only.
 7. **"Played the latest build" means** (kept):
@@ -208,7 +208,7 @@ The orchestrator resolves each merge into a worker branch, since the workers ref
 | **S10: faster suite** | its cloud session | per its brief; pushed at `4c572c86` | merges after A1 (C11) |
 | **Orchestrator** | n/a | Merges, Actions relays, and the main guard: <br>- check that `origin/main` is still `156e8c11` after every cloud session; <br>- every brief says "never push main, open no PR"; <br>- **new:** every worker brief says "don't edit DECISIONS.md; put notes in evidence"; <br>- ask the `portal/main` session for a per-workstream playtest link (fallback: PLAYTEST.md in each build folder). | now |
 
-**Godot:** workers run Godot only through the two-slot wrapper. Gates run on Actions, and sims and soaks run on the Actions sim job. The test-suite sessions own `check.sh` and `ci.yml`. S1 and S4 merge ideation/main in before gating.
+**Godot (updated for build 9):** workers run Godot only through the three-slot wrapper, 3 GB per run. Gates run on Actions; sims and soaks run locally through the sim-job runner. The test-suite sessions own `check.sh` and `ci.yml`. S1 and S4 merge ideation/main in before gating.
 
 ## 4. Done means: what to rewrite
 
@@ -392,7 +392,7 @@ This comes from the facts, the lesson drafts and their three skeptic checks. W-f
 | 3 | DM2 rewrite goes against 09c, 09d and v3, and is read too late | **Adapt** | Field fights at R10, R12 and R14 decide, first read at A4. The band is loose and only blocks dominance. **v3:** the 80% cap is checked on F9 from the archives, with the order-of-magnitude read at R14–R15 as its fallback (not lobby firsts). The reviewers' 3 builds are counted together, and the Naive bar is a checklist. |
 | 4 | Ownership table false; merge order | **Adopt the table, reject the order** | Rebuilt from trial merges at the live tips (§3). **v3:** Quilboar is done. A1 is gating and batch 1 needs its reader, in either order. The faster suite goes after A1 (C11), then batch 2. |
 | 5 | Library order, two libraries, soak arguments, Android memory | **Adopt, simplified** | Recapture last, with the SHA in the README. The soak takes preset and library arguments. The memory budget is 300 MB. One library only. |
-| 6 | §1.3's reason partly wrong (local cap) | **Adopt** | Two local Godot slots still bind, so lobbies, soaks and captures run on Actions. |
+| 6 | §1.3's reason partly wrong (local cap) | **Adopt** | Historical scheduling rule; build 9 now uses three capped local Godot slots and local sims (`plan-build9.md`). |
 | 7 | Claude budget | **Adopt** | The Actions sim job. S5b and S6 move to w5, and S9 to w7. Round 6 has 4 testers. About 14 sessions, plus 3. **v3:** the workflow cost goes in §7 (C7). |
 | 8 | Loosenings with no reason | **Adopt** | The UI-run depth bar is kept whole, and the slot table is fixed before the run. **v3:** the list is complete: the band, placing (c) and the re-skin rule were added, and the Naive bar is restored. |
 | 9 | v2 step 4 items missing | **Adapt** | Owner game logs adopted. Answer-buying bots dropped, with a reason. **v3:** W-g reads the logs (§10). |

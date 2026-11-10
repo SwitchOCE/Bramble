@@ -1,0 +1,57 @@
+{
+  "limits": [
+    {
+      "after": 1.0,
+      "before": 1.0,
+      "bound": 1.0,
+      "key": "bog_tiddy_share",
+      "limit": "max"
+    },
+    {
+      "after": 2.0,
+      "before": 2.0,
+      "bound": 2.0,
+      "key": "bog_golden_tiddy_share",
+      "limit": "max"
+    },
+    {
+      "after": 10,
+      "before": 10.0,
+      "bound": 10.0,
+      "key": "hunters_golden_ermeline_pelts",
+      "limit": "max"
+    }
+  ],
+  "provisional": true,
+  "rates": {
+    "birds_chiffchaff_gain": 6,
+    "birds_cuckoo_share": 0.16666666666666666,
+    "birds_golden_egg_multiplier": 3.5,
+    "birds_golden_homecoming_multiplier": 3.5,
+    "birds_homecoming_multiplier": 3.0,
+    "birds_redbreast_share": 0.1875,
+    "birds_stork_gold_step": 5,
+    "bog_golden_soak_keep": 8,
+    "bog_golden_tiddy_share": 2.0,
+    "bog_soak_keep": 4,
+    "bog_tiddy_share": 1.0,
+    "fairies_lob_growth": 16,
+    "fairies_ring_growth": 12,
+    "fairies_silky_growth": 6,
+    "hedgerow_dozey_wake_multiplier": 4.0,
+    "hedgerow_golden_dozey_wake_multiplier": 4.0,
+    "hedgerow_mallow_multiplier": 4.0,
+    "hedgerow_treasurer_per_gold": 3.0,
+    "hunters_ermeline_pelts": 5,
+    "hunters_glutton_share": 1.6666666666666667,
+    "hunters_golden_ermeline_pelts": 10,
+    "hunters_grizel_share": 0.8333333333333334,
+    "hunters_lodger_share": 1.6666666666666667,
+    "hunters_lutra_share": 0.875,
+    "hunters_nip_share": 0.875,
+    "hunters_pelt_share": 0.8333333333333334,
+    "hunters_russet_buff_share": 0.875,
+    "hunters_sable_share": 0.875,
+    "hunters_wick_share": 0.8333333333333334
+  }
+}

@@ -237,7 +237,7 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 				snapshot["gem_attack_halves"] = player.gem_attack_halves
 				snapshot["gem_health_halves"] = player.gem_health_halves
 				snapshot["committed"] = (player.round_number >= 6 or _has_quilboar_engine(player))
-			if str(_options["suite"]) in ["lines", "wave1_accounting"]:
+			if str(_options["suite"]) in ["lines", "wave1_accounting", "a35_run1"]:
 				snapshot["layout"] = "blind"
 			elif str(_options["suite"]) == "quilboar_h1":
 				snapshot["layout"] = (

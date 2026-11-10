@@ -170,6 +170,22 @@ class FieldLibraryTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     self.build()
                 self.rows = original
+
+    def test_a35_lobbies_reuse_real_captures_without_relabelling_the_suite(self):
+        for row in self.rows:
+            row["suite"] = "a35_run1"
+        self.write()
+        with self.players.open(newline="") as stream:
+            reader = csv.DictReader(stream)
+            columns = reader.fieldnames
+            seats = list(reader)
+        with self.players.open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, columns)
+            writer.writeheader()
+            writer.writerows({**seat, "suite": "a35_run1"} for seat in seats)
+        result = self.build(strength="top4")
+        self.assertEqual(result["source"]["strength_filter"], "top4")
+        self.assertTrue(result["lines"])
         self.rows[0]["combat_start"][0]["layout"] = "scouted"
         self.write()
         with self.assertRaisesRegex(ValueError, "blind"):

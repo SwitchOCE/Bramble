@@ -1,0 +1,85 @@
+{
+  "provisional": true,
+  "target_r12": 1800,
+  "source_commit": "e8d2f1ab",
+  "fit_source": "../a35-run1/results.json",
+  "endpoints_source": "../a35-run1/path-source.json",
+  "reason": "Frozen run-1 engine cohorts; endpoints, shared scaling and Soup have changed. No new arms or refit.",
+  "fits": {
+    "birds": {
+      "engine_line": "line_birds_homecoming",
+      "common_r12_seats": 14,
+      "points": [
+        431.0,
+        1396.0,
+        4345.5,
+        24914.5
+      ],
+      "log_intercept": 5.955870738532872,
+      "log_slope": 1.3306821279090397,
+      "raw_t": 1.1570540950833528,
+      "chosen_t": 1.25,
+      "weak_response_cap": false
+    },
+    "fairies": {
+      "engine_line": "line_fairies_ring",
+      "common_r12_seats": 9,
+      "points": [
+        289,
+        574,
+        1770,
+        2394
+      ],
+      "log_intercept": 5.699279745539733,
+      "log_slope": 0.7468988023264765,
+      "raw_t": 2.4049606087858746,
+      "chosen_t": 2.5,
+      "weak_response_cap": false
+    },
+    "bog": {
+      "engine_line": "line_bog_court",
+      "common_r12_seats": 10,
+      "points": [
+        459.0,
+        945.0,
+        3354.5,
+        7587.5
+      ],
+      "log_intercept": 6.055763431666623,
+      "log_slope": 0.9682494755430824,
+      "raw_t": 1.4869912647358516,
+      "chosen_t": 1.5,
+      "weak_response_cap": false
+    },
+    "hunters": {
+      "engine_line": "line_hunters_open_season",
+      "common_r12_seats": 9,
+      "points": [
+        481,
+        604,
+        1370,
+        3801
+      ],
+      "log_intercept": 5.9581894763323255,
+      "log_slope": 0.7020448417537821,
+      "raw_t": 2.189820900487584,
+      "chosen_t": 2.25,
+      "weak_response_cap": false
+    },
+    "hedgerow": {
+      "engine_line": "line_hedgerow_supper",
+      "common_r12_seats": 8,
+      "points": [
+        698.5,
+        847.5,
+        4775.5,
+        9498.5
+      ],
+      "log_intercept": 6.296518522660213,
+      "log_slope": 0.9558825095284448,
+      "raw_t": 1.2543627582594277,
+      "chosen_t": 1.5,
+      "weak_response_cap": false
+    }
+  }
+}

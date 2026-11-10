@@ -117,7 +117,7 @@ A push to `ideation/gate/**` runs the gate on that exact commit, with no exports
 
 ### The sim job on Actions
 
-Sims and soaks run on Actions, off the two local Godot slots. `.github/workflows/sim.yml` runs when `ideation/sim/<id>` is pushed with a config at `sim/<id>.json` in its tree, and commits compact results back to `sim/<id>/` on that branch.
+Build 9 sims and soaks run locally through three shared Godot slots; Actions sims are reserved for a single run estimated above two hours. `.github/workflows/sim.yml` runs when `ideation/sim/<id>` is pushed with a config at `sim/<id>.json` in its tree, and commits compact results back to `sim/<id>/` on that branch.
 
 ```json
 {"kind": "lines", "suite": "quilboar_h1", "preset": "B", "first_seed": 2911001, "lobbies": 32,
@@ -132,7 +132,7 @@ Sims and soaks run on Actions, off the two local Godot slots. `.github/workflows
 - **Jobs:** `plan` reads the config, then up to 8 `shard` jobs run at once (`max-parallel: 8`, since GitHub Free runs 20 jobs at once across the repo and a gate takes 5), then `merge`. Line and fight seeds are dealt round-robin; soak seeds use balanced nonempty contiguous blocks. A failed line chunk is retried seed by seed. A seed that still fails is recorded with its reason and makes the overall run fail; nothing is resampled.
 - **Results** in `sim/<id>/`: `summary.json` (the harness summary plus a `sim_job` block with the config, seeds, dropped seeds and shard seconds), `<preset>.lobbies.json.gz` (compact lobby records, or one record per seed containing paired-fight counts for field/designed runs), and `README.md` (commit, config, timing, dropped trials and the relevant summary). The results commit carries `[skip ci]`. Raw fight captures and logs are the run's `sim-raw-<i>` artifacts, kept 7 days and never in git.
 - **`scripts/sim-run.sh <config.json> [--base <commit>]`** commits the config as `sim/<id>.json` on top of the commit (default `HEAD`) without touching the working tree, and pushes `ideation/sim/<id>`. The id is the file name without `.json`; an id already on origin is refused. **`scripts/sim-run.sh --wait <id>`** waits, copies `sim/<id>/` to `build/sim/<id>/` and prints the summary's path, or exits 1 if the run failed. It uses `gh` when logged in, otherwise the public REST API.
-- **Locally:** `GODOT_SLOT_CLASS=worker scripts/godot_slot.sh python3 tools/sim/sim_job.py local <config> <dir>` runs the same shards and merge on this machine. Compare the harness's per-line R12 medians and R8–R14 growth on the same commit, config and seeds to verify local/Actions parity. Timing and receipt metadata naturally differ.
+- **Locally:** `python3 tools/sim/sim_job.py local <config> <dir> --jobs 2` runs the same shards and merge on this machine. The runner accepts `--jobs 1` through `--jobs 3` and acquires one shared slot per job; do not wrap parallel local runs in `godot_slot.sh`. Build 9 measurement may use three jobs; other workers use two. Compare the harness's per-line R12 medians and R8–R14 growth on the same commit, config and seeds to verify local/Actions parity. Timing and receipt metadata naturally differ.
 
 For example, freeze two constructed boards, commit that input with the job code, and use a config such as:
 
@@ -145,7 +145,7 @@ For example, freeze two constructed boards, commit that input with the job code,
 
 ### Godot slots
 
-The local machine has two Godot slots, flocks on `/tmp/bramble-godot.lock` and `/tmp/bramble-harness-godot.lock`. Sims take the harness lock themselves. Gates, tests and probes go through `GODOT_SLOT_CLASS=<gate|review|worker|probe> scripts/godot_slot.sh <command...>`, which logs start, class, slot, wait, hold, exit code and command to `~/.local/state/bramble/godot-slots.csv` and sets `BRAMBLE_SLOT_HELD=1` for the child. `check.sh` takes a slot itself, only from import through tests, so the wrapper runs it without one; with `BRAMBLE_SLOT_HELD=1` it doesn't lock again. Don't wrap `check.sh` in an outer `flock` on either lock: it would wait for a second slot. Where `systemd-run --user` works, the wrapper's command and each of `check.sh`'s Godot steps run under `MemoryMax=3G`. The tests step also prints the 20 slowest test scripts from `gut.xml`.
+The local machine has three Godot slots, flocks on `/tmp/bramble-godot.lock`, `/tmp/bramble-harness-godot.lock` and `/tmp/bramble-godot-third.lock`. Local sim-job shards use the same queue. Historical sim drivers that acquire the harness lock directly still share that one slot. Gates, tests and probes go through `GODOT_SLOT_CLASS=<gate|review|worker|probe> scripts/godot_slot.sh <command...>`, which logs start, class, slot, wait, hold, exit code and command to `~/.local/state/bramble/godot-slots.csv` and sets `BRAMBLE_SLOT_HELD=1` for the child. `check.sh` takes a slot itself, only from import through tests, so the wrapper runs it without one; with `BRAMBLE_SLOT_HELD=1` it doesn't lock again. Don't wrap `check.sh` in an outer `flock` on any slot lock: it would wait for a second slot. Where `systemd-run --user` works, the wrapper's command and each of `check.sh`'s Godot steps run under `MemoryMax=3G`. The tests step also prints the 20 slowest test scripts from `gut.xml`.
 
 ## 4. Locally
 

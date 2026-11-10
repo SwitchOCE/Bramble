@@ -3,6 +3,7 @@ extends RefCounted
 ## Current B and its printed faces are pinned separately by test_pass3_path and content tests.
 
 const PATH: String = "res://tests/core/data/a35_original_b.json"
+const SOURCE: String = "res://docs/ideation/evidence/a35-run1/path-source.json"
 
 
 static func apply(config: GameConfig) -> GameConfig:
@@ -14,6 +15,9 @@ static func apply(config: GameConfig) -> GameConfig:
 
 static func path(t: float) -> Dictionary:
 	Pass3Rates.defaults()
+	var current_c: Dictionary = Pass3Rates._presets["C"]
+	var frozen: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(SOURCE))
+	Pass3Rates._presets["C"] = frozen["c"]
 	var current: Dictionary = Pass3Rates._presets["B"]
 	var original: Dictionary = current.duplicate()
 	var rates: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(PATH))
@@ -21,6 +25,7 @@ static func path(t: float) -> Dictionary:
 	Pass3Rates._presets["B"] = original
 	var result: Dictionary = Pass3Path.override(t)
 	Pass3Rates._presets["B"] = current
+	Pass3Rates._presets["C"] = current_c
 	return result
 
 

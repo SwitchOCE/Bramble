@@ -150,18 +150,18 @@ func test_paper_b_and_c_rates_differ_only_in_the_nine_shares_and_a35_pelts() -> 
 		"hunters_trophies_after_fight": true,
 	}
 	var c_changes: Dictionary = {
-		"hunters_nip_share": 0.75,
-		"hunters_sable_share": 0.75,
-		"hunters_lutra_share": 0.75,
-		"hunters_glutton_share": 1.0,
-		"hunters_lodger_share": 1.0,
-		"hunters_wick_share": 0.5,
-		"hunters_grizel_share": 0.5,
-		"hunters_pelt_share": 0.5,
-		"hunters_russet_buff_share": 0.75,
+		"hunters_nip_share": 0.875,
+		"hunters_sable_share": 0.875,
+		"hunters_lutra_share": 0.875,
+		"hunters_glutton_share": 1.6666666666666667,
+		"hunters_lodger_share": 1.6666666666666667,
+		"hunters_wick_share": 0.8333333333333334,
+		"hunters_grizel_share": 0.8333333333333334,
+		"hunters_pelt_share": 0.8333333333333334,
+		"hunters_russet_buff_share": 0.875,
 		# A3.5 step 0 (DECISIONS 10 Nov): Ermeline's Pelts join the path.
-		"hunters_ermeline_pelts": 2,
-		"hunters_golden_ermeline_pelts": 4,
+		"hunters_ermeline_pelts": 5,
+		"hunters_golden_ermeline_pelts": 10,
 	}
 	for preset_id: String in ["B", "C"]:
 		config.set_value("pass3_preset", preset_id)
@@ -197,10 +197,12 @@ func test_golden_shares_and_geometry_have_their_distinct_meanings() -> void:
 	assert_string_contains(_card("madame_ermeline")["golden_text"], "six Pelts")
 	assert_string_contains(_card("laird_of_sett")["golden_text"], "3 times")
 	config.set_value("pass3_preset", "C")
-	assert_string_contains(_card("little_nip")["text"], "three quarters")
-	assert_string_contains(_card("little_nip")["golden_text"], "three halves")
-	assert_string_contains(_card("mountain_glutton")["golden_text"], "twice the quarry's stats")
-	assert_string_contains(_card("grizel")["golden_text"], "gain the target's stats")
+	assert_string_contains(_card("little_nip")["text"], "seven eighths")
+	assert_string_contains(_card("little_nip")["golden_text"], "seven quarters")
+	assert_string_contains(
+		_card("mountain_glutton")["golden_text"], "ten thirds of the quarry's stats"
+	)
+	assert_string_contains(_card("grizel")["golden_text"], "five thirds of the target's stats")
 
 
 func test_rate_sweeps_rewrite_faces_and_reader_rulings() -> void:
@@ -249,7 +251,10 @@ func test_borrowed_fragments_and_default_readers_keep_the_resolved_numbers() -> 
 		_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "seven twelfths"
 	)
 	config.set_value("pass3_preset", "C")
-	assert_string_contains(_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "half")
+	assert_string_contains(
+		_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "five sixths"
+	)
+	config.set_value("hunters_nip_share", 0.75)
 	config.set_value("hunters_golden_take_multiplier", 1.5)
 	assert_string_contains(_card("little_nip")["golden_text"], "nine eighths")
 

@@ -589,8 +589,8 @@ def main(argv):
         print(json.dumps(line_table(summary), indent=1))
         return 0 if summary["passes"] else 1
     else:
-        if not 1 <= args.jobs <= 2:
-            parser.error("local --jobs must be 1 or 2 (two shared Godot slots)")
+        if not 1 <= args.jobs <= 3:
+            parser.error("local --jobs must be 1 to 3 (three shared Godot slots)")
         if args.jobs > 1 and os.environ.get("BRAMBLE_SLOT_HELD"):
             parser.error("parallel local jobs must acquire their own slots; omit the outer slot wrapper")
         tick = time.monotonic()

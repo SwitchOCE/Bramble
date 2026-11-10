@@ -86,7 +86,7 @@ func test_move_and_triple_restart_wake_without_losing_food() -> void:
 	assert_eq(merged.perm_attack, 20)
 
 
-func test_golden_wake_is_not_fourfold_and_c_uses_threefold() -> void:
+func test_original_b_golden_wake_is_twofold_and_provisional_c_is_fourfold() -> void:
 	var dozey: RecruitUnit = kit.put("alderman_dozey", 6, true)
 	for _turn: int in 3:
 		_end()
@@ -100,7 +100,7 @@ func test_golden_wake_is_not_fourfold_and_c_uses_threefold() -> void:
 	dozey = kit.put("alderman_dozey", 6, true)
 	for _turn: int in 3:
 		_end()
-	assert_eq(Vector2i(dozey.attack, dozey.health), Vector2i(18, 36))
+	assert_eq(Vector2i(dozey.attack, dozey.health), Vector2i(24, 48))
 
 
 func test_mallow_b_doubles_two_and_golden_four_smallest_hedgerow_only() -> void:

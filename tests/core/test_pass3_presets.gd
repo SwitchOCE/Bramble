@@ -15,7 +15,7 @@ func test_b_is_default_a_is_fallback_and_c_has_data_authored_engine_overrides() 
 	config.set_value("pass3_preset", "C")
 	assert_eq(Pass3Rates.number(config, "fairies_fetch_share"), 1.0)
 	assert_eq(config.get_int("scale_hero_spell_percent"), 20)
-	assert_eq(Pass3Rates.number(config, "birds_homecoming_multiplier"), 2.5)
+	assert_eq(Pass3Rates.number(config, "birds_homecoming_multiplier"), 3.0)
 	assert_eq(Pass3Rates.integer(config, "birds_trip_turns"), 2, "C leaves clocks intact")
 	assert_eq(Pass3Rates.integer(config, "fairies_reel_moves"), 2, "C leaves loop guards intact")
 	config.set_value("fairies_fetch_share", 0.75)
@@ -29,11 +29,11 @@ func test_preset_resolution_contains_rates_without_metadata_and_does_not_mutate_
 	var c: Dictionary = Pass3Rates.resolved(config)
 	assert_false(c.has("notes"))
 	assert_false(c.has("presets"))
-	assert_eq(c["fairies_ring_growth"], 4.0)
+	assert_eq(c["fairies_ring_growth"], 12.0)
 	c["fairies_ring_growth"] = 99
 	assert_eq(Pass3Rates.defaults(), before)
 	assert_true(Pass3Rates.overridden(config))
-	assert_eq(Pass3Rates.resolved(config)["fairies_ring_growth"], 4.0)
+	assert_eq(Pass3Rates.resolved(config)["fairies_ring_growth"], 12.0)
 
 
 func test_fetch_real_combat_and_generated_words_follow_each_preset() -> void:
@@ -80,14 +80,14 @@ func test_fairy_rebase_uses_paper_rates_with_authorized_initial_ring_sizes() -> 
 			Pass3Rates.number(config, "fairies_initial_ring_size"), 4.0 if preset_id == "B" else 6.0
 		)
 		assert_eq(
-			Pass3Rates.number(config, "fairies_ring_growth"), 6.0 if preset_id == "B" else 4.0
+			Pass3Rates.number(config, "fairies_ring_growth"), 6.0 if preset_id == "B" else 12.0
 		)
 		assert_eq(Pass3Rates.integer(config, "fairies_lob_turns"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_monarch_period"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_nan_rings"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_annis_rings"), 1)
 		assert_eq(Pass3Rates.integer(config, "fairies_sally_rings"), 1)
-		assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3 if preset_id == "B" else 3)
+		assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3 if preset_id == "B" else 4)
 	config.set_value("pass3_preset", "A")
 	assert_eq(Pass3Rates.number(config, "fairies_initial_ring_size"), 1.0)
 	assert_eq(Pass3Rates.number(config, "fairies_ring_growth"), 1.0)
@@ -156,7 +156,7 @@ func test_bird_b_changes_only_measured_path_dials_from_9f03fe0() -> void:
 	assert_eq(actual, expected, "B changes only the measured Bird path values")
 
 
-func test_bird_c_rates_match_every_paper_c_bird_dial() -> void:
+func test_bird_c_raises_only_fitted_dials_from_the_paper_endpoint() -> void:
 	# Snapshot of ideation/main 4eacc662 presets.json: C's Birds subset only.
 	var expected: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/core/data/paper_c_birds.json")
@@ -168,7 +168,19 @@ func test_bird_c_rates_match_every_paper_c_bird_dial() -> void:
 	for key: String in resolved:
 		if key.begins_with("birds_"):
 			actual[key] = resolved[key]
-	assert_eq(actual, expected, "C uses the complete paper Birds map, without extra overrides")
+	expected.merge(
+		{
+			"birds_chiffchaff_gain": 6.0,
+			"birds_cuckoo_share": 0.16666666666666666,
+			"birds_golden_egg_multiplier": 3.5,
+			"birds_golden_homecoming_multiplier": 3.5,
+			"birds_homecoming_multiplier": 3.0,
+			"birds_redbreast_share": 0.1875,
+			"birds_stork_gold_step": 5.0
+		},
+		true
+	)
+	assert_eq(actual, expected, "C keeps held Bird dials and applies the provisional measured path")
 
 
 func test_optional_bird_dials_drive_real_recruits_without_changing_b() -> void:
@@ -180,7 +192,7 @@ func test_optional_bird_dials_drive_real_recruits_without_changing_b() -> void:
 			kit.setup(config)
 			kit.rules.start_phase(kit.player, 1)
 			var factor: int = 2 if golden else 1
-			var gain: int = (4 if preset_id == "C" else 3) * factor
+			var gain: int = (6 if preset_id == "C" else 3) * factor
 			var chiff: RecruitUnit = kit.play("chiffchaff", 0, golden)
 			assert_eq(chiff.attack, factor + gain, preset_id + " Chiffchaff Attack")
 			assert_eq(chiff.health, 2 * factor + gain, preset_id + " Chiffchaff Health")
