@@ -3,12 +3,26 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+## Mechanics here are checked at the pre-A3.5 Ooze dials; test_pass3_path covers the path values.
+const LEGACY_DIALS: Dictionary = {
+	"oozes_aspic_bonus": 0.5,
+	"oozes_golden_aspic_multiplier": 2.0,
+	"oozes_hasty_share": 0.2,
+	"oozes_eat_printed_multiplier": 1,
+}
 var kit: KIT
+
+
+static func _legacy_config() -> GameConfig:
+	var config := GameConfig.full_game()
+	for key: String in LEGACY_DIALS:
+		config.set_value(key, LEGACY_DIALS[key])
+	return config
 
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(_legacy_config())
 	kit.player.round_number = 5
 	kit.player.gold = 100
 
