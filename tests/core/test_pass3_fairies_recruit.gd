@@ -124,21 +124,29 @@ func test_annis_sale_dial_and_golden_ring_count_are_data() -> void:
 	assert_eq(_count(4), 6)
 
 
-func test_sally_uses_nearest_empty_placement_and_golden_rings_twice() -> void:
+func test_sally_spreads_to_nearest_unringed_slot_and_golden_rings_twice() -> void:
 	_kit.put("sally_spore", 0, true)
 	_kit.put("nan_toadstool", 1)
+	_ring(0)
 	_end_turn()
-	assert_eq(_count(2), 2, "F3 is next after occupied F2 in F1's placement order")
-	for slot: int in [0, 1, 3, 4, 5, 6]:
+	assert_eq(_count(0), 1, "an existing Ring is skipped")
+	assert_eq(_count(1), 2, "occupied F2 is the nearest unringed slot")
+	for slot: int in [2, 3, 4, 5, 6]:
 		assert_eq(_count(slot), 0)
 
 
-func test_sally_does_nothing_with_no_empty_slot() -> void:
+func test_sally_completes_the_rainbow_on_a_full_board_then_stops() -> void:
 	for slot: int in BoardGeometry.SLOTS:
 		_kit.put("sally_spore" if slot == 0 else "chiffchaff", slot)
+	for turn: int in BoardGeometry.SLOTS:
+		_player.round_number = turn + 1
+		_end_turn()
+	for slot: int in BoardGeometry.SLOTS:
+		assert_eq(_count(slot), 1)
+	_player.round_number += 1
 	_end_turn()
 	for slot: int in BoardGeometry.SLOTS:
-		assert_eq(_count(slot), 0)
+		assert_eq(_count(slot), 1, "a full rainbow adds no more Rings")
 
 
 func test_cluricaun_requires_every_slot_and_grows_at_end_of_turn_even_at_tier_six() -> void:

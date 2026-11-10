@@ -446,7 +446,7 @@ static func _fairy(id: String, golden: bool, config: GameConfig) -> String:
 			)
 		"sally_spore":
 			return (
-				"End of Turn: Ring your empty slot nearest this%s."
+				"End of Turn: Ring your nearest unringed slot%s."
 				% _repeat(Pass3Rates.integer(config, "fairies_sally_rings") * factor)
 			)
 		"rainbow_chaser":
