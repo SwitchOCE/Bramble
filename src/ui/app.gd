@@ -10,6 +10,8 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Sfx := preload("res://src/ui/sfx.gd")
 const Records := preload("res://src/ui/records.gd")
+const CorePort := preload("res://src/ui/adapter/core_port.gd")
+
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
@@ -319,6 +321,8 @@ func _record_result() -> void:
 		return
 	_recorded = true
 	_new_best = Records.add_game(Data.as_int(placement))
+	if port is CorePort:
+		GameRecordLog.write(port, (port as CorePort).recorded_actions)
 
 
 ## Which side of a fight is the given player; -1 if the start identity is missing.

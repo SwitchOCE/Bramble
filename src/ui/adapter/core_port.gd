@@ -4,11 +4,15 @@ extends "res://src/ui/adapter/game_port.gd"
 ## The GamePort backed by the rules core (src/core, SPEC section 7): every call forwards to
 ## GameSession, CombatSandbox, UnitLibrary or ScenarioLibrary unchanged. The UI's default port.
 
+const RecordedGame := preload("res://src/ui/game_record_log.gd")
+
 const Events := preload("res://src/core/combat/combat_events.gd")
 
 const Data := preload("res://src/ui/view_data.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const Settings := preload("res://src/ui/settings.gd")
+
+var recorded_actions: Array = []
 
 var library: UnitLibrary
 var config: GameConfig
@@ -49,6 +53,7 @@ func setup(game_config: GameConfig = null) -> void:
 
 
 func new_game(game_seed: int) -> String:
+	recorded_actions.clear()
 	_fight_floor.clear()
 	_fight_health.clear()
 	_fight_ids.clear()
@@ -123,47 +128,81 @@ func get_seed() -> int:
 
 
 func buy(shop_index: int) -> String:
-	return _after(session.buy(shop_index)) if session != null else NOT_AVAILABLE
+	return (
+		_record("buy", [shop_index], session.buy.bind(shop_index), true)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func sell(slot: int) -> String:
-	return session.sell(slot) if session != null else NOT_AVAILABLE
+	return _record("sell", [slot], session.sell.bind(slot)) if session != null else NOT_AVAILABLE
 
 
 func swallow(source: String, index: int, into_slot: int) -> String:
-	return session.swallow(source, index, into_slot) if session != null else NOT_AVAILABLE
+	return (
+		_record(
+			"swallow", [source, index, into_slot], session.swallow.bind(source, index, into_slot)
+		)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func play(hand_index: int, slot: int) -> String:
-	return _after(session.play(hand_index, slot)) if session != null else NOT_AVAILABLE
+	return (
+		_record("play", [hand_index, slot], session.play.bind(hand_index, slot), true)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func move(from_slot: int, to_slot: int) -> String:
-	return session.move(from_slot, to_slot) if session != null else NOT_AVAILABLE
+	return (
+		_record("move", [from_slot, to_slot], session.move.bind(from_slot, to_slot))
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func refresh() -> String:
-	return _after(session.refresh()) if session != null else NOT_AVAILABLE
+	return _record("refresh", [], session.refresh, true) if session != null else NOT_AVAILABLE
 
 
 func ask_for_kin() -> String:
-	return _after(session.ask_for_kin()) if session != null else NOT_AVAILABLE
+	return (
+		_record("ask_for_kin", [], session.ask_for_kin, true) if session != null else NOT_AVAILABLE
+	)
 
 
 func buy_spell(index: int) -> String:
-	return _after(session.buy_spell(index)) if session != null else NOT_AVAILABLE
+	return (
+		_record("buy_spell", [index], session.buy_spell.bind(index), true)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func play_item(index: int, slot: int = -1) -> String:
-	return _after(session.play_item(index, slot)) if session != null else NOT_AVAILABLE
+	return (
+		_record("play_item", [index, slot], session.play_item.bind(index, slot), true)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func use_power(slot: int = -1) -> String:
-	return _after(session.use_power(slot)) if session != null else NOT_AVAILABLE
+	return (
+		_record("use_power", [slot], session.use_power.bind(slot), true)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func choose(index: int) -> String:
-	return session.choose(index) if session != null else NOT_AVAILABLE
+	return (
+		_record("choose", [index], session.choose.bind(index)) if session != null else NOT_AVAILABLE
+	)
 
 
 func get_game_log() -> Dictionary:
@@ -176,11 +215,11 @@ func _after(result: String) -> String:
 
 
 func toggle_freeze() -> String:
-	return session.toggle_freeze() if session != null else NOT_AVAILABLE
+	return _record("toggle_freeze", [], session.toggle_freeze) if session != null else NOT_AVAILABLE
 
 
 func tier_up() -> String:
-	return session.tier_up() if session != null else NOT_AVAILABLE
+	return _record("tier_up", [], session.tier_up) if session != null else NOT_AVAILABLE
 
 
 func end_turn() -> String:
@@ -214,7 +253,7 @@ func end_turn() -> String:
 				_fight_floor.append(marks)
 		if previous.is_valid():
 			previous.call(input, result, fight)
-	var reason: String = session.end_turn()
+	var reason: String = _record("end_turn", [], session.end_turn)
 	session.fight_capture_observer = previous
 	return _after(reason)
 
@@ -282,20 +321,46 @@ func _scenario_library() -> ScenarioLibrary:
 
 
 func dev_add_gold(amount: int) -> String:
-	return session.dev_add_gold(amount) if session != null else NOT_AVAILABLE
+	return (
+		_record("dev_add_gold", [amount], session.dev_add_gold.bind(amount))
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func dev_spawn_to_hand(def_id: String, golden: bool = false) -> String:
-	return _after(session.dev_spawn_to_hand(def_id, golden)) if session != null else NOT_AVAILABLE
+	return (
+		_record(
+			"dev_spawn_to_hand",
+			[def_id, golden],
+			session.dev_spawn_to_hand.bind(def_id, golden),
+			true
+		)
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func dev_set_tier(tier: int) -> String:
-	return session.dev_set_tier(tier) if session != null else NOT_AVAILABLE
+	return (
+		_record("dev_set_tier", [tier], session.dev_set_tier.bind(tier))
+		if session != null
+		else NOT_AVAILABLE
+	)
 
 
 func dev_skip_turn() -> String:
-	return session.dev_skip_turn() if session != null else NOT_AVAILABLE
+	return _record("dev_skip_turn", [], session.dev_skip_turn) if session != null else NOT_AVAILABLE
 
 
 func shy_warning(action: String, first: int = -1, second: int = -1) -> String:
 	return session.shy_warning(action, first, second) if session != null else ""
+
+
+## Record only accepted actions, translating indices against the state before the mutation.
+func _record(method: String, args: Array, action: Callable, settle: bool = false) -> String:
+	var words: Array = RecordedGame.words(method, args, session.get_state())
+	var result: String = action.call()
+	if result.is_empty():
+		recorded_actions.append(words)
+	return _after(result) if settle else result
