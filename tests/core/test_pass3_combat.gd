@@ -461,6 +461,61 @@ func test_biggest_ties_use_reading_order_without_effect_random_draw() -> void:
 	assert_eq(combat.effect_rng.state, before)
 
 
+## Soak seed 25 R11 fight 1v3: cached uid17 emerged over Changeling uid12 after uid5 died.
+## Seed 63 R8 fight 1v7 found the same failure on the opposite side.
+func test_cached_belly_release_follows_traded_holder_without_overwriting_changeling() -> void:
+	for side: int in 2:
+		var holder: Dictionary = CK.u("little_dollop", 1, 20)
+		holder["held"] = [CK.u("little_dollop", 7, 11)]
+		var boards: Array = [{5: holder}, {5: "changeling"}]
+		var combat: Combat = _fight(boards[side], boards[1 - side], 25 if side == 0 else 63)
+		var host: CombatUnit = combat.unit_at(side, 5)
+		var changeling: CombatUnit = combat.unit_at(1 - side, 5)
+		# Stat-ranked enemy answers materialize the held identity before Changeling trades sides.
+		Pass3Combat.enemies(combat, 1 - side)
+		var cached: CombatUnit = host.held_specs[0]["_pass3_fighter"]
+		CombatMoves.borrow_across(combat, changeling, host, 0)
+		combat.deal_effect_damage(changeling, host, host.health)
+		combat._resolve_deaths(1 - side)
+		assert_same(combat.unit_at(side, 5), changeling, "occupied old-side slot is preserved")
+		assert_same(combat.unit_at(1 - side, 5), cached, "8.4.1: holder's death slot first")
+		assert_eq([cached.side, cached.slot], [1 - side, 5])
+		assert_eq([cached.attack, cached.health], [7, 11], "retain the cached body's stats")
+
+
+func test_cached_belly_release_uses_nearest_gap_when_holder_slot_is_taken() -> void:
+	var holder: Dictionary = CK.u("little_dollop", 1, 20)
+	holder["held"] = [CK.plain(7, 11)]
+	var combat: Combat = _fight({5: holder}, {5: "changeling", 6: CK.plain(1, 20)})
+	var host: CombatUnit = combat.unit_at(0, 5)
+	Pass3Combat.enemies(combat, 1)
+	var cached: CombatUnit = host.held_specs[0]["_pass3_fighter"]
+	CombatMoves.trade_sides(combat, host, combat.unit_at(1, 5))
+	var released: CombatUnit = CombatHeld.pop_one(combat, host, true)
+	assert_same(released, cached)
+	assert_eq([released.side, released.slot], [1, 4], "8.4.2: B3 full, so B1 is nearest")
+	assert_same(combat.unit_at(1, 5), host, "the holder still occupies B2")
+	assert_eq(combat.unit_at(0, 5).def_id(), "changeling")
+	assert_same(combat.unit_at(1, 4), released)
+
+
+func test_cached_belly_release_is_lost_when_traded_holder_side_is_full() -> void:
+	var holder: Dictionary = CK.u("little_dollop", 1, 20)
+	holder["held"] = [CK.plain(7, 11)]
+	var full: Dictionary = {}
+	for slot: int in BoardGeometry.SLOTS:
+		full[slot] = CK.u("changeling") if slot == 5 else CK.plain(1, 20)
+	var combat: Combat = _fight({5: holder}, full)
+	var host: CombatUnit = combat.unit_at(0, 5)
+	Pass3Combat.enemies(combat, 1)
+	CombatMoves.trade_sides(combat, host, combat.unit_at(1, 5))
+	assert_null(CombatHeld.pop_one(combat, host, true), "8.4.5: no space on the holder's side")
+	assert_true(host.held_specs.is_empty())
+	assert_eq(combat.units_of(1).size(), 7)
+	assert_eq(combat.events.back()["type"], "no_room")
+	assert_eq(combat.events.back()["outcome"], "lost")
+
+
 func test_diagnostic_old_order_exactly_replays_c74c2b9_other_tribes_and_neutrals() -> void:
 	kit.library = LegacyBog.library()
 	var fixture: Dictionary = JSON.parse_string(
