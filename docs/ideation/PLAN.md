@@ -1,19 +1,20 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Hedgerow is near its round-12 target and passed review. Pot Luck now grows fast enough, but its boards are still far too small. The export script now loads only the rivals a game needs, so a game with strong rivals fits the memory budget. The next step sets each tribe's numbers from real boards.
+- **In short:** Wave 2b, the export script, the sim job on Actions and the play-tool follow-ups are merged. The Oozes are still far below their round-12 target, so a buff probe and three redesigns are under way to find out why.
 - **Status:** active
 - **Last step done:** 10 Nov:
-  - S3 merged: one export script, and field rivals load lazily, using +166 MB of memory against a 300 MB budget.
-  - Play tools (S5) and the faster suite (S10) merged; the suite takes 364 s on Actions, down from 773 s.
-  - The game-design skill and Bramble's design guidance are in the repo (owner, 10 Nov).
-  - Codex Cloud: the handoff doc is merged, but this machine can't see the environment yet.
+  - Wave 2b merged: Hedgerow's route fixes and the Pot Luck route.
+  - The Actions sim job (S4) merged. Its results match local runs exactly, and its soak found four real game bugs.
+  - S5b merged: exported game logs record their build and replay.
+  - S3 merged: one export script, and memory use of +166 MB, within the 300 MB budget.
+  - The fight screen's batch 2 passed its cold reader 16/16. Its evidence was cut from 195 MB to 45 MB before merging.
 - **Next step:**
-  - Wave 2b: one test warning to clear, then merge; the neutrals and Soup fixes (A3) follow.
-  - A3.5's dials: gated, and under review. Then A3.5 run 1 sets B and C from realized boards.
-  - Fight screen batch 2: fixes in, with a second cold reader being scored.
-  - S5b: exported game logs need their build id. Sim job (S4): nine review fixes in progress.
-- **Waiting on you:** The GitHub login on this machine needs the workflow scope before the sim job can merge (`gh auth refresh -h github.com -s workflow`). Codex Cloud: the Bramble environment doesn't show in your Personal workspace.
+  - Oozes (owner, 10 Nov): an overbuff probe on the sim job and three designers on different routes, then a critic.
+  - The neutrals (A3): the Soup odds check, the Slice bug and the prototype retirement, then review.
+  - A3.5's dials: Hedgerow's four dials are being added, then review, then run 1.
+  - Batch 2: merge conflicts and the Hedgerow re-face, then review and a squashed merge.
+- **Waiting on you:** Nothing.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
 
