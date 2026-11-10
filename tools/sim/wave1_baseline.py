@@ -362,18 +362,48 @@ def parse_peat_diagnostic(record):
     return rows
 
 
-def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False, banned_cards=None):
+def contamination_summary(attempted, dropped):
+    return {
+        "attempted_trials": attempted,
+        "dropped_trials": len(dropped),
+        "dropped_share": len(dropped) / attempted if attempted else 0.0,
+        "dropped_seeds": sorted(dropped),
+        "passed": len(dropped) * 100 <= attempted * 2,
+    }
+
+
+def chunk_records(path):
+    with Path(path).open() as stream:
+        for raw in stream:
+            yield json.loads(raw)
+
+
+def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False, banned_cards=None, with_drops=False):
     bans = banned_cards or {}
     validate_banned_roster(bans)
-    boards, players, seen, got = [], [], set(), set()
-    diagnostics, diagnostic_seen = [], set()
-    for raw in Path(path).read_text().splitlines():
-        record = json.loads(raw)
+    dropped = set()
+    for record in chunk_records(path):
         seed = int(record["seed"])
         if seed not in seeds:
             raise ValueError("unexpected seed")
         if record["type"] == "ban_violation":
-            raise ValueError("banned-card policy violation: " + str(record))
+            dropped.add(seed)
+        snapshots = record.get("sides", []) if record["type"] == "peat_diagnostic" else record.get("combat_start", [])
+        for snapshot in snapshots:
+            line = snapshot.get("line", snapshot.get("starting_line"))
+            if bans.get(line):
+                try:
+                    validate_ban_audit(snapshot.get("ban_audit"), line, bans[line])
+                except ValueError as error:
+                    if "policy violation:" not in str(error):
+                        raise
+                    dropped.add(seed)
+    boards, players, seen, got = [], [], set(), set()
+    diagnostics, diagnostic_seen = [], set()
+    for record in chunk_records(path):
+        seed = int(record["seed"])
+        if seed in dropped:
+            continue
         if record["type"] == "peat_diagnostic":
             for row in parse_peat_diagnostic(record):
                 if bans.get(row["line"]):
@@ -459,7 +489,7 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False, banned_
                     **({"ban_audit": snapshot["ban_audit"]} if bans.get(starting) else {}),
                 }
             )
-    if got != set(seeds):
+    if got != set(seeds) - dropped:
         raise ValueError("missing completed lobby")
     places = {(p["seed"], p["seat"]): p["place"] for p in players}
     for board in boards:
@@ -471,8 +501,10 @@ def parse_chunk(path, seeds, expected_config, *, with_diagnostics=False, banned_
         labels = {(p["seed"], p["seat"]): p["line"] for p in players}
         if any(row["line"] != labels[row["seed"], row["seat"]] for row in diagnostics):
             raise ValueError("peat starting line mismatch")
-        return boards, players, diagnostics
-    return boards, players
+        result = (boards, players, diagnostics)
+    else:
+        result = (boards, players)
+    return (*result, sorted(dropped)) if with_drops else result
 
 
 def run(plan_path):
@@ -508,11 +540,14 @@ def run(plan_path):
                 2300,
                 target,
             )
-            boards, players, diagnostics = parse_chunk(
-                raw, seeds, plan["config"], with_diagnostics=True, banned_cards=bans
+            boards, players, diagnostics, dropped = parse_chunk(
+                raw, seeds, plan["config"], with_diagnostics=True, banned_cards=bans, with_drops=True
             )
             compact = prefix.with_suffix(".analysis.json.gz")
-            write_json(compact, {"boards": boards, "players": players, "peat_diagnostics": diagnostics})
+            write_json(
+                compact,
+                {"boards": boards, "players": players, "peat_diagnostics": diagnostics, "dropped_seeds": dropped},
+            )
             archive = prefix.with_suffix(".jsonl.gz")
             checksum = hashlib.sha256()
             with (
@@ -527,7 +562,8 @@ def run(plan_path):
             status["chunks"].append(
                 {
                     "seeds": seeds,
-                    "lobbies": len(seeds),
+                    "lobbies": len(seeds) - len(dropped),
+                    "dropped_seeds": dropped,
                     "seconds": time.monotonic() - tick,
                     "analysis": str(compact),
                     "analysis_sha256": file_sha(compact),
@@ -537,9 +573,15 @@ def run(plan_path):
                 }
             )
             status.update(completed_lobbies=offset + len(seeds))
+            status["contamination"] = contamination_summary(
+                status["completed_lobbies"],
+                {seed for chunk in status["chunks"] for seed in chunk.get("dropped_seeds", [])},
+            )
             atomic_json(progress_path, status)
         status.update(state="complete", active_seeds=[])
         atomic_json(progress_path, status)
+        if not status["contamination"]["passed"]:
+            raise ValueError("contaminated trials exceed 2%: " + str(status["contamination"]))
     except BaseException as error:
         status.update(state="failed", error=str(error))
         atomic_json(progress_path, status)
@@ -549,9 +591,9 @@ def run(plan_path):
 def report(plan_path, result_path, markdown_path):
     plan = read_json(plan_path)
     progress = read_json(Path(plan["output"]) / "progress.json")
-    if progress["state"] != "complete" or progress["completed_lobbies"] != len(plan["seeds"]):
+    if progress["state"] not in ("complete", "failed") or progress["completed_lobbies"] != len(plan["seeds"]):
         raise ValueError("complete fixed run required")
-    boards, players, covered, diagnostics = [], [], [], []
+    boards, players, covered, diagnostics, dropped = [], [], [], [], set()
     for chunk in progress["chunks"]:
         path = Path(chunk["analysis"])
         if file_sha(path) != chunk["analysis_sha256"]:
@@ -561,9 +603,16 @@ def report(plan_path, result_path, markdown_path):
         players.extend(data["players"])
         diagnostics.extend(data.get("peat_diagnostics", []))
         covered.extend(chunk["seeds"])
+        dropped.update(chunk.get("dropped_seeds", []))
     if covered != plan["seeds"]:
         raise ValueError("missing/duplicate seeds")
-    result = analyze(boards, players, plan)
+    accepted_plan = {**plan, "seeds": [seed for seed in plan["seeds"] if seed not in dropped]}
+    result = (
+        analyze(boards, players, accepted_plan)
+        if accepted_plan["seeds"]
+        else {"growth": {}, "lines": {}, "report_only": {}, "survival": "No accepted trials.", "starting_labels": ""}
+    )
+    result["contamination"] = contamination_summary(len(plan["seeds"]), dropped)
     if diagnostics:
         result["report_only"]["peat"] = peat_measurements(diagnostics)
     result.update(
@@ -575,18 +624,27 @@ def report(plan_path, result_path, markdown_path):
         banned_cards=plan.get("banned_cards", {}),
         population=plan["population"],
         pairing=plan["pairing"],
-        lobbies=len(plan["seeds"]),
+        lobbies=len(accepted_plan["seeds"]),
         excluded_candidates=len(plan["excluded_seeds"]),
         chunk_wall_seconds=sum(c["seconds"] for c in progress["chunks"]),
     )
     archive = result_path.with_suffix(".boards.json.gz")
     write_json(
         archive,
-        {"boards": boards, "players": players, "peat_diagnostics": diagnostics, "plan": plan, "progress": progress},
+        {
+            "boards": boards,
+            "players": players,
+            "peat_diagnostics": diagnostics,
+            "plan": accepted_plan,
+            "attempted_plan": plan,
+            "progress": progress,
+        },
     )
     result["analysis_archive"] = {"path": str(archive), "sha256": file_sha(archive)}
     atomic_json(result_path, result)
     markdown_path.write_text(markdown(result))
+    if not result["contamination"]["passed"]:
+        raise ValueError("contaminated trials exceed 2%: " + str(result["contamination"]))
 
 
 def analyze(boards, players, plan):
@@ -718,7 +776,10 @@ def markdown(result):
         "",
         result["pairing"],
         "",
-        f"{result['lobbies']} lobbies; source `{result['source_commit']}`; execution wall {result['chunk_wall_seconds']:.1f}s.",
+        f"{result['lobbies']} accepted lobbies; source `{result['source_commit']}`; execution wall {result['chunk_wall_seconds']:.1f}s.",
+        "",
+        "Contamination: "
+        + json.dumps(result.get("contamination", contamination_summary(result["lobbies"], set())), sort_keys=True),
         "",
         "Only growth and realized committed R12 medians decide this step. Other numbers below are reported, not pass/fail.",
         "",
