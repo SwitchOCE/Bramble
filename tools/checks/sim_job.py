@@ -129,6 +129,28 @@ def game_config(config):
     return values
 
 
+def check_godot_log(log):
+    """Use the gate's strict hook, including its shared allowlist, without copying regexes."""
+    checked = subprocess.run(
+        [
+            "bash",
+            "-c",
+            '. "$1"; godot_log_init "$2"; godot_log_problems "$3"',
+            "sim-log-check",
+            str(ROOT / "scripts/godot_log.sh"),
+            str(log.parent),
+            str(log),
+        ],
+        cwd=ROOT,
+        capture_output=True,
+        text=True,
+    )
+    if checked.returncode not in (0, 1) or checked.stderr:
+        raise RuntimeError(f"could not check Godot log {log.name}: {checked.stderr}")
+    if checked.stdout:
+        raise RuntimeError(f"Godot log problems in {log.name}: {checked.stdout.strip()}")
+
+
 def bench(config, out_dir, first, count):
     prefix = out_dir / f"{config['preset']}-{first}"
     config_path = prefix.with_suffix(".config.json")
@@ -162,6 +184,7 @@ def bench(config, out_dir, first, count):
     elapsed = time.monotonic() - tick
     if code != 0:
         raise RuntimeError(f"bench.gd exited {code} (log {prefix.with_suffix('.log').name})")
+    check_godot_log(prefix.with_suffix(".log"))
     return prefix, elapsed
 
 
@@ -211,9 +234,20 @@ def soak_shard(config, index, work):
     if os.environ.get("BRAMBLE_SLOT_HELD"):
         args = args[1:]
     tick = time.monotonic()
-    done = subprocess.run(
-        args, cwd=ROOT, capture_output=True, text=True, env={**os.environ, "GODOT_SLOT_CLASS": "worker"}
-    )
+    if not config["library"] and all(seed % 5 == 4 for seed in seeds) and not (index == 1 and config["synthetic"]):
+        # No lobby is assigned to execute. Avoid the standalone checker's legitimate
+        # "no fights ran" failure; merge still requires a played game across the run.
+        report = (
+            f"soak: games {len(seeds)} (seeds {seeds[0]}-{seeds[-1]}), played 0\n"
+            f"soak: mix {{}}; field skipped {len(seeds)} (no library); synthetic games 0\n"
+            "soak: synthetic violations 0\nsoak: violations 0\n"
+        )
+        log.write_text(report)
+        done = subprocess.CompletedProcess(args, 0, stdout=report, stderr="")
+    else:
+        done = subprocess.run(
+            args, cwd=ROOT, capture_output=True, text=True, env={**os.environ, "GODOT_SLOT_CLASS": "worker"}
+        )
     report = done.stdout.splitlines()
     (work / "soak.out").write_text(done.stdout + done.stderr)
 

@@ -6,6 +6,8 @@ from __future__ import annotations
 import contextlib
 import io
 import json
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -156,6 +158,100 @@ class SimJobTest(unittest.TestCase):
         result = json.loads((output / "result/summary.json").read_text())
         self.assertFalse(result["passes"])
         self.assertIn("1", result["sim_job"]["dropped"])
+
+    def test_exit_zero_line_logs_reject_every_gate_problem_before_compaction(self):
+        config = self.config(kind="lines", preset="B", seeds=[1], shards=1)
+        real_run = subprocess.run
+        for problem in (
+            "SCRIPT ERROR: planted runtime error",
+            "ERROR: planted engine error",
+            "WARNING: planted warning",
+            "Parse Error: planted parser error",
+            "[GUT ERROR] planted error",
+            "[GUT WARNING] planted warning",
+            "handle_crash: planted crash",
+        ):
+
+            def run(args, logged_problem=problem, **kwargs):
+                if args[0] == "bash":
+                    return real_run(args, **kwargs)
+                kwargs["stdout"].write(logged_problem + "\ncomplete-looking capture written\n")
+                return subprocess.CompletedProcess(args, 0)
+
+            with (
+                self.subTest(problem=problem),
+                patch.object(sim_job.subprocess, "run", side_effect=run),
+                patch.object(sim_job, "compact", return_value=[{"seed": 1}]) as compact,
+            ):
+                lobbies, dropped = sim_job.run_chunk(config, self.dir, 1, 1)
+                self.assertEqual(lobbies, [])
+                self.assertIn(problem, dropped[1])
+                compact.assert_not_called()
+
+    def test_log_hook_accepts_clean_logs_and_honors_the_shared_allowlist(self):
+        scripts = self.dir / "scripts"
+        checks = self.dir / "tools/checks"
+        scripts.mkdir()
+        checks.mkdir(parents=True)
+        shutil.copyfile(ROOT / "scripts/godot_log.sh", scripts / "godot_log.sh")
+        (checks / "log_allowlist.txt").write_text("# permitted fixture\n^WARNING: harmless$\n")
+        log = self.dir / "bench.log"
+        with patch.object(sim_job, "ROOT", self.dir):
+            for content in ("Godot Engine\ncompleted\n", "WARNING: harmless\n"):
+                log.write_text(content)
+                sim_job.check_godot_log(log)
+            log.write_text("WARNING: harmful\n")
+            with self.assertRaisesRegex(RuntimeError, "WARNING: harmful"):
+                sim_job.check_godot_log(log)
+
+    def test_ten_seeds_over_eight_shards_counts_the_skip_only_shard(self):
+        config = self.config(kind="soak", preset="B", first_seed=1, lobbies=10, shards=8)
+        shards = self.dir / "shards"
+
+        def run(args, **_kwargs):
+            first = int(args[args.index("--first-seed") + 1])
+            count = int(args[args.index("tools/checks/soak.sh") + 1])
+            seeds = range(first, first + count)
+            mix = {}
+            skipped = 0
+            for seed in seeds:
+                if seed % 5 == 4:
+                    skipped += 1
+                else:
+                    kind = "other" if seed % 5 == 3 else "preset"
+                    mix[kind] = mix.get(kind, 0) + 1
+            report = (
+                f"soak: games {count} (seeds {first}-{first + count - 1}), played {count - skipped}\n"
+                f"soak: mix {json.dumps(mix)}; field skipped {skipped}; synthetic games 0\n"
+                "soak: synthetic violations 0\nsoak: violations 0\n"
+            )
+            return subprocess.CompletedProcess(args, 0, stdout=report, stderr="")
+
+        with patch.object(sim_job.subprocess, "run", side_effect=run) as execute:
+            receipts = [sim_job.shard(config, i, shards) for i in range(1, 9)]
+        self.assertEqual(execute.call_count, 7)
+        self.assertEqual(receipts[6]["seeds"], [9])
+        self.assertEqual(receipts[6]["played"], 0)
+        self.assertEqual(receipts[6]["field_skipped"], 1)
+        self.assertEqual(receipts[6]["violations"], 0)
+        summary, _ = sim_job.merge(config, shards, self.dir / "result")
+        self.assertTrue(summary["passes"])
+        self.assertEqual((summary["games"], summary["played"], summary["field_skipped"]), (10, 8, 2))
+        receipts[6]["field_skipped"] = 0
+        self.assertFalse(sim_job.merge_soak(config, receipts, self.dir)["passes"])
+        (shards / "shard-7.receipt.json").unlink()
+        with self.assertRaisesRegex(ValueError, "shard 7: expected one receipt"):
+            sim_job.merge(config, shards, self.dir / "result")
+
+    def test_whole_soak_with_only_skipped_seeds_still_fails(self):
+        config = self.config(kind="soak", preset="B", seeds=[9], shards=1)
+        with patch.object(sim_job.subprocess, "run") as execute:
+            receipt = sim_job.shard(config, 1, self.dir / "shards")
+        execute.assert_not_called()
+        summary = sim_job.merge_soak(config, [receipt], self.dir)
+        self.assertEqual((summary["played"], summary["field_skipped"]), (0, 1))
+        self.assertEqual(summary["report_problems"], [])
+        self.assertFalse(summary["passes"])
 
 
 if __name__ == "__main__":
