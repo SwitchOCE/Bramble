@@ -4,6 +4,31 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 2b part 1 merged: narrow check calls
+**Source:** the narrow scope check of `a2f4295f..ba80977e` and the merge `53ff356a` (`evidence/review-wave2b-part1-fixes.md`): 22 keep, 0 cut, 0 simplify, 1 ask. Gate: 53ff356a passed (run 42724276794).
+
+**Picked:**
+- **Merged** `53ff356a` into ideation/main. Outside `docs/`, the merge result is byte-identical to the gated commit.
+- **The ask (the bot's keep hints changed, and nobody re-measured the lines afterwards):** yes, re-baseline. The Pot Luck route arms (a: save 3 gold before a climb; b: Dollop's priority; a+b) are each compared against a control arm run on the same commit, with the same seeds and the same lobby count. ×1.251 and ×1.37 stay as the historical record only.
+- **Row 8** (the worker changed the test, not the code, for the frozen Elders and Wobbly): accepted on the merits. The test asserted pass 2 Elder text that the native card no longer has. Workers say in their report when they decline an instruction.
+- **Gap:** `docs/ideation/content/pass3/wave2b-build.md:20` still gives Hasty an "own-body permanent gain". w2 fixes it on its next commit.
+- **Reference-only interactions** (`_can_lend` doesn't exclude Quilboar; the H1 suite's `line_oozes_engine` now resolves to the pass 3 line): noted. They matter only before any H1 rerun, and Quilboar tuning is stopped.
+
+**Agreed by:** the narrow scope check (no cut).
+
+### 10 Nov 2026 — Declutter batch 1 follow-ups narrow check: calls
+**Source:** the narrow scope check of `d400831e..cea9d0e2` on ideation/declutter (`evidence/declutter/batch1-independent/scope-review-followups.md`): 23 keep, 1 cut, 0 simplify, 2 ask. The check found it moves 09e: the reserve column and the Toll badge are gone, and every new mark fades within about 1.1 s.
+
+**Picked:**
+- **Cut (the branch's DECISIONS hunk):** already reverted on the branch (76ad2049). On merge, ideation/main's DECISIONS wins.
+- **Ask 1 (`c4c0b174` makes the next attack wait for the last stat cue):** end the old cues when the next attack starts, and drop the wait. The owner asked for animation that shows play (09e), not a slower fight. The wait added up to 0.6 s per window at every speed, and +16% to the Bog fight at ×4. Ending a cue early loses at most the tail of its fade. The route-overlap point (F11 gates only on `stats` events) goes away with the wait.
+- **Ask 2 (the Bog "before" was shot on `d400831e`, already decluttered):** accepted as it is. Batch 1's own before and after already covers the wave 2a word chips (`evidence/declutter/batch1/`). This pair has to show only the badge going.
+- **Gate blocker:** gdlint's duplicated-load at `tests/ui/test_combat_declutter.gd:863`. Fix it with one preload at the top of the file.
+- **Test gaps:** add tests for the lunge depth (0.85 for an ordinary attack, 0.35 for a joint one) and for the kept portrait reading `portrait_id`.
+- All of this went to w4 on 10 Nov. Then a fresh cold reader, the gate, and the merge after wave 2b part 1 (now merged).
+
+**Agreed by:** the narrow scope check. Its cut is already met.
+
 ### 10 Nov 2026 — Declutter batch 2 WIP: the scout focus view, the 40 cap as written, and portraits for every pool unit
 **Source:** w4's batch 2 progress report (`ideation/declutter-b2` at 344a5e75, `evidence/declutter/batch2/README.md`).
 - Recruit labels: overview 134 → 59, natural Birds 103 → 39, lobby 127 → 55, scout 136 → 64.
