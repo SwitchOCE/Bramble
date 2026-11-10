@@ -115,3 +115,22 @@ or an unissued Stone Soup card-change call is included.
 New fixed test script times (JUnit): content 0.02 s; recruit 0.67 s; combat
 0.57 s; bot 0.77 s; role recipes 14.48 s; UI preview 0.58 s. None adds a
 whole-game or lobby test; role recipes use short fixed boards.
+
+## A3 review follow-up: Click valuation
+
+Merged `origin/ideation/main` (`80dcc35a`) as `a2206273` before these fixes.
+All three review claims were confirmed. Generic golden effect parameters were
+already doubled, so the second golden factor is removed. Away payoffs now use
+`max(1, due - current_round)`, rather than the departure round. Ordinary plays
+value only extra firings above one; supported landings value the full two/three
+firings above their unsupported zero (or the one-firing improvement when upgrading
+an existing normal Click). Nan's native Ring count, golden factor and current
+Ring size now contribute to synergy and engine protection.
+
+The directed test checks golden Chiff's 4-stat and Swallow's 5-value per firing,
+actual golden payoffs, unchanged departure dates with different remaining time,
+and normal/golden Nan. `test_bot_neutral.gd` passes 10/10 with the strict hook and
+no warnings. `./scripts/check.sh --no-tests` passes, including formatting, lint,
+content, import, compilation and parity. The import also generated missing UIDs
+for five field scripts brought in by the main merge; those metadata files are
+tracked. The Stone Soup part remains a separate commit below.

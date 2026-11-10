@@ -116,13 +116,91 @@ func test_click_values_a_bird_homecoming_without_counting_an_extra_homecoming_mu
 	kit.player.away.append({"unit": bird, "left": 1, "due": 13, "nest": 4})
 	assert_gt(brain.value.keep_value(click), before)
 	assert_false(brain._can_replace(click))
-	var normal: float = BotNeutral.text_value(click, kit.player)
+	assert_eq(BotNeutral.text_value(click, kit.player), 8.0, "landing adds both on-play firings")
 	click.golden = true
 	assert_eq(
 		BotNeutral.text_value(click, kit.player),
-		normal * 2.0,
-		"three triggers add two copies of on-play, not a second doubling"
+		12.0,
+		"three landing firings precede one homecoming doubling"
 	)
+
+
+func test_golden_bird_hand_plays_scale_their_effect_once_and_click_adds_only_extra_firings(
+) -> void:
+	for card_id: String in ["chiffchaff", "one_swallow"]:
+		before_each()
+		var brain: BotBrain = _brain()
+		var click: RecruitUnit = kit.put("click_beetle", 0)
+		var before: float = brain.value.keep_value(click)
+		var bird: RecruitUnit = kit.put(card_id, -1, true)
+		var once: float = 4.0 if card_id == "chiffchaff" else 5.0
+		assert_eq(BotNeutral._on_play(bird, false, kit.player), once)
+		assert_eq(BotNeutral.text_value(click, kit.player), once)
+		assert_eq(brain.value.keep_value(click), before + once)
+		click.golden = true
+		assert_eq(BotNeutral.text_value(click, kit.player), once * 2.0)
+		assert_eq(
+			BotNeutral.text_value(bird, kit.player), -1.0, "Bird's own valuation is unchanged"
+		)
+		assert_eq(kit.rules.play(kit.player, 0, 1), "")
+		if card_id == "chiffchaff":
+			assert_eq(Vector2i(bird.perm_attack, bird.perm_health), Vector2i(6, 6))
+		else:
+			assert_eq(kit.player.gold, 6, "three golden Swallow firings grant two gold each")
+
+
+func test_away_click_payoff_uses_due_round_and_all_landing_firings() -> void:
+	var brain: BotBrain = _brain()
+	var bird: RecruitUnit = RecruitUnit.make(
+		kit.library.get_unit("chiffchaff"), kit.rules.new_iid(), true
+	)
+	kit.player.away.append({"unit": bird, "left": 7, "due": 14, "nest": 4})
+	assert_eq(Pass3Neutrals.homecoming_play_gain(kit.player, bird), Vector2i.ZERO)
+	var click: RecruitUnit = kit.put("click_beetle", 0)
+	assert_eq(
+		BotNeutral.text_value(click, kit.player), 8.0, "two firings, doubled, due in two rounds"
+	)
+	assert_false(brain._can_replace(click))
+	kit.player.away[0]["left"] = 11
+	assert_eq(
+		BotNeutral.text_value(click, kit.player), 8.0, "departure round is not remaining time"
+	)
+	kit.player.away[0]["due"] = 13
+	assert_eq(BotNeutral.text_value(click, kit.player), 16.0)
+	var golden: RecruitUnit = RecruitUnit.make(
+		kit.library.get_unit("click_beetle"), kit.rules.new_iid(), true
+	)
+	kit.player.board[0] = null
+	assert_eq(
+		BotNeutral.text_value(golden, kit.player), 24.0, "three firings versus no landing play"
+	)
+	kit.player.board[0] = click
+	assert_eq(
+		BotNeutral.text_value(golden, kit.player), 8.0, "upgrading two landing firings to three"
+	)
+
+
+func test_click_values_native_nan_rings_and_keeps_the_only_live_engine() -> void:
+	for golden_nan: bool in [false, true]:
+		before_each()
+		var brain: BotBrain = _brain()
+		kit.player.ring_size = 1.5
+		assert_eq(CoreUtil.to_int(kit.player.pass3_rates["fairies_nan_rings"]), 2)
+		var click: RecruitUnit = kit.put("click_beetle", 0)
+		assert_true(brain._can_replace(click), "no Nan means no extra-play payoff")
+		var nan: RecruitUnit = kit.put("nan_toadstool", -1, golden_nan)
+		var once: float = 12.0 if golden_nan else 6.0
+		assert_eq(BotNeutral._on_play(nan, false, kit.player), once)
+		assert_eq(BotNeutral.text_value(click, kit.player), once)
+		assert_false(brain._can_replace(click), "Nan alone supplies a real Ring payoff")
+		click.golden = true
+		assert_eq(BotNeutral.text_value(click, kit.player), once * 2.0)
+		assert_false(brain._can_replace(click))
+		assert_eq(BotNeutral.text_value(nan, kit.player), -1.0)
+		assert_eq(kit.rules.play(kit.player, 0, 1), "")
+		var stats: int = 18 if golden_nan else 9
+		assert_eq(BoardUpkeep.ring_value(kit.player.slot_effects[1]), Vector2i(stats, stats))
+		assert_true(brain._can_replace(click), "no future Nan removes the engine protection")
 
 
 func test_native_burner_forecast_matches_real_normal_and_golden_own_body_growth() -> void:

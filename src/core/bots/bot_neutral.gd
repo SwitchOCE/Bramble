@@ -50,7 +50,11 @@ static func text_value(unit: RecruitUnit, player: PlayerState) -> float:
 			for source: RecruitUnit in player.board:
 				if source != unit:
 					other = maxi(other, _repeats(source))
-			return maxi(0, _repeats(unit) - other) * _play_potential(player)
+			var repeats: int = _repeats(unit)
+			# A hand play already fires once. A landing fires on-play only with Click.
+			return _play_potential(
+				player, maxi(0, repeats - other), maxi(0, repeats - (other if other > 1 else 0))
+			)
 	return -1.0
 
 
@@ -131,7 +135,15 @@ static func _on_play(unit: RecruitUnit, homecoming: bool, player: PlayerState) -
 		var entry: Dictionary = compiled.params_for(unit.golden)
 		if compiled.id == "effect" and str(entry.get("trigger", "")) == "on_play":
 			for step: Dictionary in MechanicRegistry.steps_of(entry):
-				total += BotEval._effect_value(step) * unit.golden_factor()
+				# params_for already scales the effect's numeric steps for golden cards.
+				total += BotEval._effect_value(step)
+		elif compiled.id == "pass3_fairy" and str(entry.get("ability", "")) == "nan":
+			total += (
+				2.0
+				* player.ring_size
+				* CoreUtil.to_int(player.pass3_rates.get("fairies_nan_rings", 2))
+				* CoreUtil.to_int(entry.get("factor", 1))
+			)
 		elif compiled.id == "pass3_hedgerow" and str(entry.get("ability", "")) == "mr_crumb":
 			total += (
 				2.0
@@ -154,16 +166,19 @@ static func _on_play(unit: RecruitUnit, homecoming: bool, player: PlayerState) -
 	return total
 
 
-static func _play_potential(player: PlayerState) -> float:
+static func _play_potential(player: PlayerState, plays: int = 1, landings: int = 1) -> float:
 	var total: float = 0.0
 	for unit: RecruitUnit in player.hand:
-		total += _on_play(unit, false, player)
+		total += plays * _on_play(unit, false, player)
 	for trip: Dictionary in player.away:
 		var unit: RecruitUnit = trip["unit"]
-		total += _on_play(unit, true, player) / maxi(1, CoreUtil.to_int(trip.get("left", 1)))
+		var remaining: int = maxi(
+			1, CoreUtil.to_int(trip.get("due", player.round_number + 1)) - player.round_number
+		)
+		total += landings * _on_play(unit, true, player) / remaining
 	for unit: RecruitUnit in player.board:
 		if unit != null and unit.has_mechanic_id("fly_south"):
-			total += 0.5 * _on_play(unit, true, player)
+			total += landings * 0.5 * _on_play(unit, true, player)
 	return total
 
 
