@@ -16,3 +16,9 @@ Journey/competition: a tier-3 2/5 is a Hedgerow payoff, useful from R4–6 once 
 Process cause: paper mono-tribe boards made “two smallest” sound self-limiting. Mixed-board sims plus per-source attribution should have caught that a splash strips away the smaller recipients and makes the support its own carrier. Future tail triage must name the largest bodies' tribes and the source of their gains, and distinguish cap safety from balance. Relevant neighbors: Clover shares, Committee/Lollop copies, combat Soak imports.
 
 Confirmation is one local 32-seed run, no overrides, config `configs/ooze-other-mallow.json`. Decisions: engine R12 p90 ≤10×median; both Ooze medians ≥675. A miss will be recorded without another fit.
+
+## Confirmation
+
+`ea902d9a`, local two-job run, 32/32 seeds, no dropped seeds, no overrides. Engine R12 **769.2 / 1,067 / 2,516** (20/21 alive; p90/median **2.358**, pass). Tempo **693 / 993 / 2,758** (21/21 alive). Both medians ≥675, pass. Matched R15-survivor median ratios: engine **4.317**, tempo **3.788**. Full R6–15 distributions, growth/cohorts and all other lines are in `ooze-results.json`.
+
+The remaining engine maximum is 77,385 on native Soup/Aspic/Elder seed 2911007 seat 4; the next two are only 3,137 and 2,447. This is the surviving rare high roll the shape criterion permits, rather than cutting the whole tribe again. `ooze-attribution.json` preserves selected top-seat source ledgers and board states; the complete uncapped trace remains under `build/b9-content/ooze-other-mallow/shards/`.

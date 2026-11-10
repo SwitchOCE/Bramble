@@ -1,0 +1,7407 @@
+{
+  "counting": "Eating and Elder fields report permanent grants, including transfers; they are not a conserved net-created ledger. Other permanent visible deltas use before/after displayed stats and separate requested amounts beyond the display cap. Combat carry lands after this snapshot or next turn.",
+  "top_seats": [
+    [
+      2911001,
+      1
+    ],
+    [
+      2911004,
+      6
+    ],
+    [
+      2911007,
+      4
+    ],
+    [
+      2911009,
+      5
+    ],
+    [
+      2911010,
+      3
+    ],
+    [
+      2911012,
+      2
+    ],
+    [
+      2911024,
+      7
+    ],
+    [
+      2911027,
+      0
+    ]
+  ],
+  "top_seat_rounds": [
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 5,
+      "line": "line_oozes_tempo",
+      "active_stats": 30,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 4,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "buy": {
+          "little_dollop": 1,
+          "rainbow_chaser": 1
+        },
+        "swallow": {
+          "rainbow_chaser": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 6,
+      "line": "line_oozes_tempo",
+      "active_stats": 95,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 40,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 4,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 37,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 31
+        },
+        "eat_by_meal": {
+          "rainbow_chaser": 31
+        },
+        "eat_by_cause": {
+          "digest": 31
+        },
+        "swallow": {
+          "ballooning_spider": 1,
+          "shieldbug": 1,
+          "pill_bug": 1
+        },
+        "buy": {
+          "ballooning_spider": 1,
+          "shieldbug": 1,
+          "pill_bug": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 15,
+            "health": 16,
+            "meal_attack": 3,
+            "meal_health": 4,
+            "source": "little_dollop",
+            "target": "rainbow_chaser"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 7,
+      "line": "line_oozes_tempo",
+      "active_stats": 170,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 58,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 4,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 94,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 57
+        },
+        "eat_by_meal": {
+          "ballooning_spider": 57
+        },
+        "eat_by_cause": {
+          "digest": 57
+        },
+        "swallow": {
+          "lodger": 1
+        },
+        "buy": {
+          "lodger": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 32,
+            "health": 25,
+            "meal_attack": 8,
+            "meal_health": 7,
+            "source": "little_dollop",
+            "target": "ballooning_spider"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 8,
+      "line": "line_oozes_tempo",
+      "active_stats": 328,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 76,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 4,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 185,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 47,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 75
+        },
+        "eat_by_meal": {
+          "lodger": 75
+        },
+        "eat_by_cause": {
+          "digest": 75
+        },
+        "swallow": {
+          "grizel": 1
+        },
+        "buy": {
+          "grizel": 1,
+          "elder_ooze": 1
+        },
+        "other_permanent_requested": {
+          "": 18
+        },
+        "other_permanent_visible": {
+          "": 18
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 38,
+            "health": 37,
+            "meal_attack": 14,
+            "meal_health": 13,
+            "source": "little_dollop",
+            "target": "lodger"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 9,
+      "line": "line_oozes_tempo",
+      "active_stats": 751,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 94,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 68,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 71,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 57,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 55,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 311,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 95,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 126
+        },
+        "eat_by_meal": {
+          "grizel": 126
+        },
+        "eat_by_cause": {
+          "digest": 126
+        },
+        "elder_by_target": {
+          "sixpenny_pie": 48,
+          "stone_soup": 48,
+          "elder_ooze": 48
+        },
+        "swallow": {
+          "mountain_glutton": 1,
+          "little_nip": 1,
+          "belladonna": 1
+        },
+        "buy": {
+          "mountain_glutton": 1,
+          "figgy_duff": 1,
+          "frumenty": 1,
+          "belladonna": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 36
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 53,
+            "health": 73,
+            "meal_attack": 23,
+            "meal_health": 25,
+            "source": "little_dollop",
+            "target": "grizel"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 10,
+      "line": "line_oozes_tempo",
+      "active_stats": 1010,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 130,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 146,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 132,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 130,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 290,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 170,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 147,
+          "little_dollop": 147
+        },
+        "eat_by_meal": {
+          "belladonna": 147,
+          "mountain_glutton": 147
+        },
+        "eat_by_cause": {
+          "digest": 294
+        },
+        "elder_by_target": {
+          "frumenty": 75,
+          "figgy_duff": 75,
+          "sixpenny_pie": 75,
+          "stone_soup": 75,
+          "elder_ooze": 75
+        },
+        "swallow": {
+          "little_dollop": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 58,
+            "health": 89,
+            "meal_attack": 34,
+            "meal_health": 41,
+            "source": "frumenty",
+            "target": "belladonna"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 65,
+            "health": 82,
+            "meal_attack": 35,
+            "meal_health": 40,
+            "source": "little_dollop",
+            "target": "mountain_glutton"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 11,
+      "line": "line_oozes_tempo",
+      "active_stats": 1468,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 130,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 146,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 132,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 130,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 748,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 170,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 458
+        },
+        "eat_by_meal": {
+          "little_dollop": 458
+        },
+        "eat_by_cause": {
+          "digest": 458
+        },
+        "swallow": {
+          "grizel": 1
+        },
+        "buy": {
+          "grizel": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 213,
+            "health": 245,
+            "meal_attack": 213,
+            "meal_health": 245,
+            "source": "frumenty",
+            "target": "little_dollop"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 12,
+      "line": "line_oozes_tempo",
+      "active_stats": 2758,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 225,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 609,
+          "golden": true
+        },
+        {
+          "id": "fairy_monarch",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 295,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 293,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 989,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 333,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 241
+        },
+        "eat_by_meal": {
+          "grizel": 241
+        },
+        "eat_by_cause": {
+          "digest": 241
+        },
+        "elder_by_target": {
+          "granny_stir_up": 163,
+          "figgy_duff": 163,
+          "sixpenny_pie": 163,
+          "stone_soup": 163,
+          "elder_ooze": 163
+        },
+        "buy": {
+          "cut_and_come_again": 1,
+          "granny_stir_up": 2
+        },
+        "swallow": {
+          "bridge_toad": 1
+        },
+        "sell": {
+          "figgy_duff": 1,
+          "little_nip": 1
+        },
+        "triple": {
+          "granny_stir_up": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 103,
+            "health": 138,
+            "meal_attack": 73,
+            "meal_health": 90,
+            "source": "frumenty",
+            "target": "grizel"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 13,
+      "line": "line_oozes_tempo",
+      "active_stats": 3952,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 385,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 769,
+          "golden": true
+        },
+        {
+          "id": "slice",
+          "stats": 224,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 455,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 453,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 1173,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 493,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 138
+        },
+        "eat_by_meal": {
+          "bridge_toad": 138
+        },
+        "eat_by_cause": {
+          "digest": 138
+        },
+        "elder_by_target": {
+          "cut_and_come_again": 114,
+          "granny_stir_up": 114,
+          "sixpenny_pie": 114,
+          "stone_soup": 114,
+          "elder_ooze": 114
+        },
+        "swallow": {
+          "gabble_ratchet": 1
+        },
+        "buy": {
+          "gabble_ratchet": 1
+        },
+        "sell": {
+          "fairy_monarch": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 48
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 62,
+            "health": 76,
+            "meal_attack": 56,
+            "meal_health": 58,
+            "source": "frumenty",
+            "target": "bridge_toad"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 14,
+      "line": "line_oozes_tempo",
+      "active_stats": 5635,
+      "body_stats": [
+        {
+          "id": "slice",
+          "stats": 327,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 1011,
+          "golden": true
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 611,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 697,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 695,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 1559,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 735,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 338
+        },
+        "eat_by_meal": {
+          "gabble_ratchet": 338
+        },
+        "eat_by_cause": {
+          "digest": 338
+        },
+        "elder_by_target": {
+          "cut_and_come_again": 242,
+          "granny_stir_up": 242,
+          "sixpenny_pie": 242,
+          "stone_soup": 242,
+          "elder_ooze": 242
+        },
+        "swallow": {
+          "old_isegrim": 1
+        },
+        "buy": {
+          "old_isegrim": 1
+        },
+        "sell": {
+          "slice": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 143,
+            "health": 195,
+            "meal_attack": 107,
+            "meal_health": 135,
+            "source": "frumenty",
+            "target": "gabble_ratchet"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911001,
+      "seat": 1,
+      "round": 15,
+      "line": "line_oozes_tempo",
+      "active_stats": 8543,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 551,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 1341,
+          "golden": true
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 941,
+          "golden": false
+        },
+        {
+          "id": "sixpenny_pie",
+          "stats": 1027,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 1229,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 2389,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1065,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 432
+        },
+        "eat_by_meal": {
+          "old_isegrim": 432
+        },
+        "eat_by_cause": {
+          "digest": 432
+        },
+        "elder_by_target": {
+          "granny_stir_up": 330,
+          "cut_and_come_again": 330,
+          "sixpenny_pie": 330,
+          "stone_soup": 330,
+          "elder_ooze": 330
+        },
+        "swallow": {
+          "peat_king": 1
+        },
+        "buy": {
+          "peat_king": 1,
+          "cut_and_come_again": 1
+        },
+        "sell": {
+          "slice": 2
+        },
+        "other_permanent_requested": {
+          "": 602
+        },
+        "other_permanent_visible": {
+          "": 602
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 188,
+            "health": 244,
+            "meal_attack": 146,
+            "meal_health": 184,
+            "source": "frumenty",
+            "target": "old_isegrim"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 5,
+      "line": "line_oozes_tempo",
+      "active_stats": 109,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 13,
+          "golden": false
+        },
+        {
+          "id": "nan_toadstool",
+          "stats": 19,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 66,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 42
+        },
+        "eat_by_meal": {
+          "peat_cutter": 42
+        },
+        "eat_by_cause": {
+          "digest": 42
+        },
+        "swallow": {
+          "young_brock": 1
+        },
+        "buy": {
+          "young_brock": 1
+        },
+        "other_permanent_requested": {
+          "stone_soup": 6
+        },
+        "other_permanent_visible": {
+          "stone_soup": 6
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 14,
+            "health": 28,
+            "meal_attack": 2,
+            "meal_health": 4,
+            "source": "little_dollop",
+            "target": "peat_cutter"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 6,
+      "line": "line_oozes_tempo",
+      "active_stats": 207,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 13,
+          "golden": false
+        },
+        {
+          "id": "nan_toadstool",
+          "stats": 19,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 137,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 49
+        },
+        "eat_by_meal": {
+          "young_brock": 49
+        },
+        "eat_by_cause": {
+          "digest": 49
+        },
+        "swallow": {
+          "ballooning_spider": 1
+        },
+        "buy": {
+          "ballooning_spider": 1,
+          "lamp_moth": 1
+        },
+        "other_permanent_requested": {
+          "": 22
+        },
+        "other_permanent_visible": {
+          "": 22
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 6
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 19,
+            "health": 30,
+            "meal_attack": 7,
+            "meal_health": 12,
+            "source": "little_dollop",
+            "target": "young_brock"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 7,
+      "line": "line_oozes_tempo",
+      "active_stats": 334,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 19,
+          "golden": false
+        },
+        {
+          "id": "nan_toadstool",
+          "stats": 19,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 210,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 73
+        },
+        "eat_by_meal": {
+          "ballooning_spider": 73
+        },
+        "eat_by_cause": {
+          "digest": 73
+        },
+        "swallow": {
+          "lodger": 1
+        },
+        "buy": {
+          "lodger": 1,
+          "dishwater_nell": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 6
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 37,
+            "health": 36,
+            "meal_attack": 13,
+            "meal_health": 18,
+            "source": "little_dollop",
+            "target": "ballooning_spider"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 8,
+      "line": "line_oozes_tempo",
+      "active_stats": 593,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 25,
+          "golden": false
+        },
+        {
+          "id": "nan_toadstool",
+          "stats": 19,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 377,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 167
+        },
+        "eat_by_meal": {
+          "lodger": 99,
+          "stone_soup": 68
+        },
+        "eat_by_cause": {
+          "digest": 99,
+          "nell": 68
+        },
+        "swallow": {
+          "cuckoo": 1
+        },
+        "buy": {
+          "cuckoo": 1,
+          "mr_syllabub": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 46,
+            "health": 53,
+            "meal_attack": 22,
+            "meal_health": 29,
+            "source": "little_dollop",
+            "target": "lodger"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 29,
+            "cause": "nell",
+            "health": 39,
+            "meal_attack": 29,
+            "meal_health": 39,
+            "source": "little_dollop",
+            "target": "stone_soup"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 9,
+      "line": "line_oozes_tempo",
+      "active_stats": 875,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 25,
+          "golden": false
+        },
+        {
+          "id": "nan_toadstool",
+          "stats": 19,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 659,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 282
+        },
+        "eat_by_meal": {
+          "cuckoo": 154,
+          "sleeping_partner": 128
+        },
+        "eat_by_cause": {
+          "digest": 154,
+          "nell": 128
+        },
+        "swallow": {
+          "madame_ermeline": 1
+        },
+        "buy": {
+          "madame_ermeline": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 6
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 61,
+            "health": 93,
+            "meal_attack": 37,
+            "meal_health": 51,
+            "source": "little_dollop",
+            "target": "cuckoo"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 52,
+            "cause": "nell",
+            "health": 76,
+            "meal_attack": 46,
+            "meal_health": 64,
+            "source": "little_dollop",
+            "target": "sleeping_partner"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 10,
+      "line": "line_oozes_tempo",
+      "active_stats": 1507,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 31,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 249,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 1055,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 396
+        },
+        "eat_by_meal": {
+          "madame_ermeline": 202,
+          "earwig_mother": 194
+        },
+        "eat_by_cause": {
+          "digest": 202,
+          "nell": 194
+        },
+        "swallow": {
+          "jenny_greenteeth": 1,
+          "belladonna": 1
+        },
+        "buy": {
+          "jenny_greenteeth": 1,
+          "frumenty": 1,
+          "belladonna": 1
+        },
+        "sell": {
+          "nan_toadstool": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 36
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 76,
+            "health": 126,
+            "meal_attack": 58,
+            "meal_health": 84,
+            "source": "little_dollop",
+            "target": "madame_ermeline"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 77,
+            "cause": "nell",
+            "health": 117,
+            "meal_attack": 71,
+            "meal_health": 105,
+            "source": "little_dollop",
+            "target": "earwig_mother"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 11,
+      "line": "line_oozes_tempo",
+      "active_stats": 752,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 67,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 513,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 296,
+          "little_dollop": 580
+        },
+        "eat_by_meal": {
+          "belladonna": 296,
+          "jenny_greenteeth": 289,
+          "earwig_mother": 291
+        },
+        "eat_by_cause": {
+          "digest": 585,
+          "nell": 291
+        },
+        "swallow": {
+          "little_dollop": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 114,
+            "health": 182,
+            "meal_attack": 90,
+            "meal_health": 134,
+            "source": "frumenty",
+            "target": "belladonna"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 114,
+            "health": 175,
+            "meal_attack": 90,
+            "meal_health": 133,
+            "source": "little_dollop",
+            "target": "jenny_greenteeth"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 116,
+            "cause": "nell",
+            "health": 175,
+            "meal_attack": 110,
+            "meal_health": 163,
+            "source": "little_dollop",
+            "target": "earwig_mother"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 12,
+      "line": "line_oozes_tempo",
+      "active_stats": 3412,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 67,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 560,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 2613,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 2100
+        },
+        "eat_by_meal": {
+          "little_dollop": 1635,
+          "ichneumon_wasp": 465
+        },
+        "eat_by_cause": {
+          "digest": 1635,
+          "nell": 465
+        },
+        "swallow": {
+          "old_isegrim": 1,
+          "old_mother_mast": 1
+        },
+        "buy": {
+          "old_isegrim": 1,
+          "frumenty": 1,
+          "old_mother_mast": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 108
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 657,
+            "health": 978,
+            "meal_attack": 657,
+            "meal_health": 978,
+            "source": "frumenty",
+            "target": "little_dollop"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 186,
+            "cause": "nell",
+            "health": 279,
+            "meal_attack": 174,
+            "meal_health": 261,
+            "source": "frumenty",
+            "target": "ichneumon_wasp"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 13,
+      "line": "line_oozes_tempo",
+      "active_stats": 5505,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 175,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 1181,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 3977,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 1985
+        },
+        "eat_by_meal": {
+          "old_mother_mast": 621,
+          "old_isegrim": 642,
+          "charcoal_burner": 722
+        },
+        "eat_by_cause": {
+          "digest": 1263,
+          "nell": 722
+        },
+        "swallow": {
+          "queen_of_elfland": 1,
+          "laird_of_sett": 1
+        },
+        "buy": {
+          "queen_of_elfland": 1,
+          "laird_of_sett": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 24
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 251,
+            "health": 370,
+            "meal_attack": 215,
+            "meal_health": 322,
+            "source": "frumenty",
+            "target": "old_mother_mast"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 258,
+            "health": 384,
+            "meal_attack": 216,
+            "meal_health": 324,
+            "source": "frumenty",
+            "target": "old_isegrim"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 289,
+            "cause": "nell",
+            "health": 433,
+            "meal_attack": 265,
+            "meal_health": 397,
+            "source": "frumenty",
+            "target": "charcoal_burner"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 14,
+      "line": "line_oozes_tempo",
+      "active_stats": 8358,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 199,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 2082,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "lamp_moth",
+          "stats": 27,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 5905,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 2829
+        },
+        "eat_by_meal": {
+          "laird_of_sett": 901,
+          "queen_of_elfland": 908,
+          "mr_pym": 1020
+        },
+        "eat_by_cause": {
+          "digest": 1809,
+          "nell": 1020
+        },
+        "swallow": {
+          "old_mother_mast": 1,
+          "whirligig_beetle": 1
+        },
+        "buy": {
+          "old_mother_mast": 1,
+          "whirligig_beetle": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 192
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 361,
+            "health": 540,
+            "meal_attack": 325,
+            "meal_health": 486,
+            "source": "frumenty",
+            "target": "laird_of_sett"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 375,
+            "health": 533,
+            "meal_attack": 327,
+            "meal_health": 485,
+            "source": "frumenty",
+            "target": "queen_of_elfland"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 408,
+            "cause": "nell",
+            "health": 612,
+            "meal_attack": 396,
+            "meal_health": 588,
+            "source": "frumenty",
+            "target": "mr_pym"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911009,
+      "seat": 5,
+      "round": 15,
+      "line": "line_oozes_tempo",
+      "active_stats": 14255,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 391,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 3361,
+          "golden": false
+        },
+        {
+          "id": "mr_syllabub",
+          "stats": 86,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 1733,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 8625,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 48,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 3999
+        },
+        "eat_by_meal": {
+          "whirligig_beetle": 1279,
+          "old_mother_mast": 1279,
+          "mrs_posset": 1441
+        },
+        "eat_by_cause": {
+          "digest": 2558,
+          "nell": 1441
+        },
+        "swallow": {
+          "old_isegrim": 1,
+          "seven_whistlers": 1
+        },
+        "buy": {
+          "old_isegrim": 1,
+          "seven_whistlers": 1,
+          "bubble_and_squeak": 1
+        },
+        "sell": {
+          "lamp_moth": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 510
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 517,
+            "health": 762,
+            "meal_attack": 481,
+            "meal_health": 714,
+            "source": "frumenty",
+            "target": "whirligig_beetle"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 517,
+            "health": 762,
+            "meal_attack": 481,
+            "meal_health": 714,
+            "source": "frumenty",
+            "target": "old_mother_mast"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 581,
+            "cause": "nell",
+            "health": 860,
+            "meal_attack": 581,
+            "meal_health": 860,
+            "source": "frumenty",
+            "target": "mrs_posset"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 5,
+      "line": "line_oozes_tempo",
+      "active_stats": 89,
+      "body_stats": [
+        {
+          "id": "little_nip",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 57,
+          "golden": false
+        },
+        {
+          "id": "sexton_beetle",
+          "stats": 18,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 49
+        },
+        "eat_by_meal": {
+          "hob_in_the_hearth": 49
+        },
+        "eat_by_cause": {
+          "digest": 49
+        },
+        "swallow": {
+          "lob_lie_by_the_fire": 1
+        },
+        "buy": {
+          "lob_lie_by_the_fire": 1,
+          "sexton_beetle": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 3
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 14,
+            "health": 35,
+            "meal_attack": 2,
+            "meal_health": 5,
+            "source": "little_dollop",
+            "target": "hob_in_the_hearth"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 6,
+      "line": "line_oozes_tempo",
+      "active_stats": 193,
+      "body_stats": [
+        {
+          "id": "little_nip",
+          "stats": 10,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 34,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 122,
+          "golden": false
+        },
+        {
+          "id": "sexton_beetle",
+          "stats": 18,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 63
+        },
+        "eat_by_meal": {
+          "lob_lie_by_the_fire": 63
+        },
+        "eat_by_cause": {
+          "digest": 63
+        },
+        "swallow": {
+          "dr_urchin": 1
+        },
+        "buy": {
+          "dr_urchin": 1,
+          "stone_soup": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 4
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 21,
+            "health": 42,
+            "meal_attack": 3,
+            "meal_health": 6,
+            "source": "little_dollop",
+            "target": "lob_lie_by_the_fire"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 7,
+      "line": "line_oozes_tempo",
+      "active_stats": 316,
+      "body_stats": [
+        {
+          "id": "cricket_busker",
+          "stats": 45,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 34,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 196,
+          "golden": false
+        },
+        {
+          "id": "sexton_beetle",
+          "stats": 18,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 74
+        },
+        "eat_by_meal": {
+          "dr_urchin": 74
+        },
+        "eat_by_cause": {
+          "digest": 74
+        },
+        "swallow": {
+          "dr_urchin": 1
+        },
+        "buy": {
+          "dr_urchin": 1,
+          "cricket_busker": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 22,
+            "health": 52,
+            "meal_attack": 10,
+            "meal_health": 22,
+            "source": "little_dollop",
+            "target": "dr_urchin"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 8,
+      "line": "line_oozes_tempo",
+      "active_stats": 475,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 34,
+          "golden": false
+        },
+        {
+          "id": "cricket_busker",
+          "stats": 45,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 285,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 74,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 89
+        },
+        "eat_by_meal": {
+          "dr_urchin": 89
+        },
+        "eat_by_cause": {
+          "digest": 89
+        },
+        "swallow": {
+          "charcoal_burner": 1
+        },
+        "buy": {
+          "charcoal_burner": 1,
+          "elder_ooze": 1
+        },
+        "sell": {
+          "sexton_beetle": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 4
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 27,
+            "health": 62,
+            "meal_attack": 15,
+            "meal_health": 32,
+            "source": "little_dollop",
+            "target": "dr_urchin"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 9,
+      "line": "line_oozes_tempo",
+      "active_stats": 931,
+      "body_stats": [
+        {
+          "id": "elder_ooze",
+          "stats": 99,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 16,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 102,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 82,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 77,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 413,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 142,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 128
+        },
+        "eat_by_meal": {
+          "charcoal_burner": 128
+        },
+        "eat_by_cause": {
+          "digest": 128
+        },
+        "elder_by_target": {
+          "cut_and_come_again": 68,
+          "stone_soup": 136,
+          "elder_ooze": 68
+        },
+        "buy": {
+          "elder_ooze": 1
+        },
+        "swallow": {
+          "little_nip": 1
+        },
+        "sell": {
+          "cricket_busker": 1,
+          "slice": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 46,
+            "health": 82,
+            "meal_attack": 22,
+            "meal_health": 46,
+            "source": "little_dollop",
+            "target": "charcoal_burner"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 10,
+      "line": "line_oozes_tempo",
+      "active_stats": 1155,
+      "body_stats": [
+        {
+          "id": "elder_ooze",
+          "stats": 135,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 52,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 118,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 113,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 545,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 178,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 42
+        },
+        "eat_by_meal": {
+          "little_nip": 42
+        },
+        "eat_by_cause": {
+          "digest": 42
+        },
+        "elder_by_target": {
+          "elder_ooze": 72,
+          "granny_stir_up": 36,
+          "stone_soup": 72,
+          "cut_and_come_again": 36
+        },
+        "swallow": {
+          "belladonna": 1
+        },
+        "buy": {
+          "belladonna": 1
+        },
+        "sell": {
+          "stone_soup": 1
+        },
+        "other_permanent_requested": {
+          "": 90
+        },
+        "other_permanent_visible": {
+          "": 90
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 19,
+            "health": 23,
+            "meal_attack": 7,
+            "meal_health": 11,
+            "source": "little_dollop",
+            "target": "little_nip"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 11,
+      "line": "line_oozes_tempo",
+      "active_stats": 2667,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 350,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 260,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 222,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 343,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 385,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 721,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 386,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 176
+        },
+        "eat_by_meal": {
+          "belladonna": 176
+        },
+        "eat_by_cause": {
+          "digest": 176
+        },
+        "elder_by_target": {
+          "elder_ooze": 416,
+          "granny_stir_up": 208,
+          "cut_and_come_again": 416,
+          "stone_soup": 208
+        },
+        "triple": {
+          "slice": 1
+        },
+        "swallow": {
+          "click_beetle": 1
+        },
+        "buy": {
+          "click_beetle": 1
+        },
+        "other_permanent_requested": {
+          "": 64
+        },
+        "other_permanent_visible": {
+          "": 64
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 59,
+            "health": 117,
+            "meal_attack": 35,
+            "meal_health": 69,
+            "source": "little_dollop",
+            "target": "belladonna"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 12,
+      "line": "line_oozes_tempo",
+      "active_stats": 5474,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 38,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 582,
+          "golden": true
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 1164,
+          "golden": true
+        },
+        {
+          "id": "slice",
+          "stats": 374,
+          "golden": true
+        },
+        {
+          "id": "stone_soup",
+          "stats": 695,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 936,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1685,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 215
+        },
+        "eat_by_meal": {
+          "click_beetle": 215
+        },
+        "eat_by_cause": {
+          "digest": 215
+        },
+        "elder_by_target": {
+          "cut_and_come_again": 620,
+          "granny_stir_up": 310,
+          "elder_ooze": 620,
+          "stone_soup": 310
+        },
+        "buy": {
+          "elder_ooze": 1,
+          "jenny_greenteeth": 1,
+          "bubble_and_squeak": 1
+        },
+        "triple": {
+          "elder_ooze": 1,
+          "granny_stir_up": 1,
+          "cut_and_come_again": 1
+        },
+        "sell": {
+          "slice": 2,
+          "bubble_and_squeak": 1
+        },
+        "swallow": {
+          "jenny_greenteeth": 1
+        },
+        "other_permanent_requested": {
+          "": 152
+        },
+        "other_permanent_visible": {
+          "": 152
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 70,
+            "health": 145,
+            "meal_attack": 52,
+            "meal_health": 103,
+            "source": "little_dollop",
+            "target": "click_beetle"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 13,
+      "line": "line_oozes_tempo",
+      "active_stats": 6493,
+      "body_stats": [
+        {
+          "id": "slice",
+          "stats": 1030,
+          "golden": true
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 582,
+          "golden": true
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 1164,
+          "golden": true
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 16,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 695,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 1321,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1685,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 385
+        },
+        "eat_by_meal": {
+          "jenny_greenteeth": 385
+        },
+        "eat_by_cause": {
+          "digest": 385
+        },
+        "triple": {
+          "slice": 1
+        },
+        "swallow": {
+          "grizel": 1
+        },
+        "buy": {
+          "grizel": 1
+        },
+        "sell": {
+          "slice": 1,
+          "cut_and_come_again": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 132,
+            "health": 253,
+            "meal_attack": 108,
+            "meal_health": 211,
+            "source": "little_dollop",
+            "target": "jenny_greenteeth"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 14,
+      "line": "line_oozes_tempo",
+      "active_stats": 6922,
+      "body_stats": [
+        {
+          "id": "granny_stir_up",
+          "stats": 606,
+          "golden": true
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 16,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 1164,
+          "golden": true
+        },
+        {
+          "id": "slice",
+          "stats": 1006,
+          "golden": true
+        },
+        {
+          "id": "stone_soup",
+          "stats": 695,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 1750,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1685,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 429
+        },
+        "eat_by_meal": {
+          "grizel": 429
+        },
+        "eat_by_cause": {
+          "digest": 429
+        },
+        "swallow": {
+          "belladonna": 1
+        },
+        "buy": {
+          "belladonna": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 149,
+            "health": 280,
+            "meal_attack": 119,
+            "meal_health": 232,
+            "source": "little_dollop",
+            "target": "grizel"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911010,
+      "seat": 3,
+      "round": 15,
+      "line": "line_oozes_tempo",
+      "active_stats": 11170,
+      "body_stats": [
+        {
+          "id": "granny_stir_up",
+          "stats": 1332,
+          "golden": true
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 754,
+          "golden": true
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 1890,
+          "golden": true
+        },
+        {
+          "id": "slice",
+          "stats": 1177,
+          "golden": true
+        },
+        {
+          "id": "stone_soup",
+          "stats": 1421,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 2185,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 2411,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 435
+        },
+        "eat_by_meal": {
+          "belladonna": 435
+        },
+        "eat_by_cause": {
+          "digest": 435
+        },
+        "elder_by_target": {
+          "granny_stir_up": 1452,
+          "cut_and_come_again": 726,
+          "stone_soup": 726,
+          "elder_ooze": 726
+        },
+        "triple": {
+          "slice": 1,
+          "granny_stir_up": 1
+        },
+        "swallow": {
+          "old_isegrim": 1
+        },
+        "buy": {
+          "old_isegrim": 1
+        },
+        "sell": {
+          "slice": 2
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 147,
+            "health": 288,
+            "meal_attack": 123,
+            "meal_health": 240,
+            "source": "little_dollop",
+            "target": "belladonna"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 5,
+      "line": "line_oozes_engine",
+      "active_stats": 67,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 4,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 54,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 42
+        },
+        "eat_by_meal": {
+          "mrs_clover": 42
+        },
+        "eat_by_cause": {
+          "digest": 42
+        },
+        "other_permanent_requested": {
+          "warty_nan": 2,
+          "": 6
+        },
+        "other_permanent_visible": {
+          "warty_nan": 2,
+          "": 6
+        },
+        "swallow": {
+          "mrs_clover": 1
+        },
+        "buy": {
+          "mrs_clover": 1,
+          "earwig_mother": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 14,
+            "health": 28,
+            "meal_attack": 2,
+            "meal_health": 4,
+            "source": "little_dollop",
+            "target": "mrs_clover"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 6,
+      "line": "line_oozes_engine",
+      "active_stats": 117,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 10,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 96,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 42
+        },
+        "eat_by_meal": {
+          "mrs_clover": 42
+        },
+        "eat_by_cause": {
+          "digest": 42
+        },
+        "other_permanent_requested": {
+          "warty_nan": 4
+        },
+        "other_permanent_visible": {
+          "warty_nan": 4
+        },
+        "swallow": {
+          "old_lutra": 1
+        },
+        "buy": {
+          "old_lutra": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 14,
+            "health": 28,
+            "meal_attack": 2,
+            "meal_health": 4,
+            "source": "little_dollop",
+            "target": "mrs_clover"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 7,
+      "line": "line_oozes_engine",
+      "active_stats": 196,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 10,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 166,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 56
+        },
+        "eat_by_meal": {
+          "old_lutra": 56
+        },
+        "eat_by_cause": {
+          "digest": 56
+        },
+        "other_permanent_requested": {
+          "warty_nan": 4,
+          "": 14
+        },
+        "other_permanent_visible": {
+          "warty_nan": 4,
+          "": 14
+        },
+        "buy": {
+          "stone_soup": 1,
+          "gideon": 1
+        },
+        "swallow": {
+          "gideon": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 21,
+            "health": 35,
+            "meal_attack": 3,
+            "meal_health": 5,
+            "source": "little_dollop",
+            "target": "old_lutra"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 8,
+      "line": "line_oozes_engine",
+      "active_stats": 391,
+      "body_stats": [
+        {
+          "id": "ichneumon_wasp",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 16,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "bridge_toad",
+          "stats": 30,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 277,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 87
+        },
+        "eat_by_meal": {
+          "gideon": 87
+        },
+        "eat_by_cause": {
+          "digest": 87
+        },
+        "other_permanent_requested": {
+          "warty_nan": 6,
+          "": 28
+        },
+        "other_permanent_visible": {
+          "warty_nan": 6,
+          "": 28
+        },
+        "swallow": {
+          "madame_ermeline": 1
+        },
+        "buy": {
+          "madame_ermeline": 1,
+          "ichneumon_wasp": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 6
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 25,
+            "health": 62,
+            "meal_attack": 13,
+            "meal_health": 26,
+            "source": "little_dollop",
+            "target": "gideon"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 9,
+      "line": "line_oozes_engine",
+      "active_stats": 522,
+      "body_stats": [
+        {
+          "id": "ichneumon_wasp",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 20,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "bridge_toad",
+          "stats": 36,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 398,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 121
+        },
+        "eat_by_meal": {
+          "madame_ermeline": 121
+        },
+        "eat_by_cause": {
+          "digest": 121
+        },
+        "other_permanent_requested": {
+          "warty_nan": 4
+        },
+        "other_permanent_visible": {
+          "warty_nan": 4
+        },
+        "swallow": {
+          "mrs_stork": 1
+        },
+        "buy": {
+          "mrs_stork": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 30
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 38,
+            "health": 83,
+            "meal_attack": 20,
+            "meal_health": 41,
+            "source": "little_dollop",
+            "target": "madame_ermeline"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 10,
+      "line": "line_oozes_engine",
+      "active_stats": 835,
+      "body_stats": [
+        {
+          "id": "ichneumon_wasp",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 28,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 117,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 556,
+          "golden": false
+        },
+        {
+          "id": "bridge_toad",
+          "stats": 66,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 158
+        },
+        "eat_by_meal": {
+          "mrs_stork": 158
+        },
+        "eat_by_cause": {
+          "digest": 158
+        },
+        "other_permanent_requested": {
+          "warty_nan": 8
+        },
+        "other_permanent_visible": {
+          "warty_nan": 8
+        },
+        "swallow": {
+          "great_lump": 1
+        },
+        "buy": {
+          "great_lump": 1,
+          "dishwater_nell": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 54
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 55,
+            "health": 103,
+            "meal_attack": 31,
+            "meal_health": 61,
+            "source": "little_dollop",
+            "target": "mrs_stork"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 11,
+      "line": "line_oozes_engine",
+      "active_stats": 1293,
+      "body_stats": [
+        {
+          "id": "ichneumon_wasp",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 56,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 117,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 932,
+          "golden": false
+        },
+        {
+          "id": "bridge_toad",
+          "stats": 120,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 376
+        },
+        "eat_by_meal": {
+          "great_lump": 203,
+          "nan_toadstool": 173
+        },
+        "eat_by_cause": {
+          "digest": 203,
+          "nell": 173
+        },
+        "other_permanent_requested": {
+          "warty_nan": 28
+        },
+        "other_permanent_visible": {
+          "warty_nan": 28
+        },
+        "swallow": {
+          "mother_goose": 1
+        },
+        "buy": {
+          "mother_goose": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 24
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 73,
+            "health": 130,
+            "meal_attack": 43,
+            "meal_health": 82,
+            "source": "little_dollop",
+            "target": "great_lump"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 66,
+            "cause": "nell",
+            "health": 107,
+            "meal_attack": 54,
+            "meal_health": 101,
+            "source": "little_dollop",
+            "target": "nan_toadstool"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 12,
+      "line": "line_oozes_engine",
+      "active_stats": 2261,
+      "body_stats": [
+        {
+          "id": "ichneumon_wasp",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "warty_nan",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 332,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 23,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 135,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 1507,
+          "golden": false
+        },
+        {
+          "id": "bridge_toad",
+          "stats": 144,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 557
+        },
+        "eat_by_meal": {
+          "mother_goose": 285,
+          "hedge_witch": 272
+        },
+        "eat_by_cause": {
+          "digest": 285,
+          "nell": 272
+        },
+        "other_permanent_requested": {
+          "warty_nan": 4,
+          "": 0
+        },
+        "other_permanent_visible": {
+          "warty_nan": 4,
+          "": 0
+        },
+        "swallow": {
+          "queen_of_elfland": 1
+        },
+        "buy": {
+          "queen_of_elfland": 1,
+          "elder_ooze": 1
+        },
+        "sell": {
+          "earwig_mother": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 24
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 107,
+            "health": 178,
+            "meal_attack": 71,
+            "meal_health": 130,
+            "source": "little_dollop",
+            "target": "mother_goose"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 94,
+            "cause": "nell",
+            "health": 178,
+            "meal_attack": 88,
+            "meal_health": 160,
+            "source": "little_dollop",
+            "target": "hedge_witch"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 13,
+      "line": "line_oozes_engine",
+      "active_stats": 6598,
+      "body_stats": [
+        {
+          "id": "warty_nan",
+          "stats": 64,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 501,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1039,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 730,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 842,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 2821,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 601,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 845
+        },
+        "eat_by_meal": {
+          "queen_of_elfland": 411,
+          "natterjack_chorus": 434
+        },
+        "eat_by_cause": {
+          "digest": 411,
+          "nell": 434
+        },
+        "elder_by_target": {
+          "elder_ooze": 707,
+          "stone_soup": 707,
+          "dishwater_nell": 707
+        },
+        "other_permanent_requested": {
+          "warty_nan": 4,
+          "": 569
+        },
+        "other_permanent_visible": {
+          "warty_nan": 4,
+          "": 569
+        },
+        "buy": {
+          "granny_stir_up": 1,
+          "elder_ooze": 1
+        },
+        "swallow": {
+          "ichneumon_wasp": 1
+        },
+        "sell": {
+          "bridge_toad": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 162,
+            "health": 249,
+            "meal_attack": 114,
+            "meal_health": 201,
+            "source": "little_dollop",
+            "target": "queen_of_elfland"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 161,
+            "cause": "nell",
+            "health": 273,
+            "meal_attack": 143,
+            "meal_health": 249,
+            "source": "little_dollop",
+            "target": "natterjack_chorus"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 14,
+      "line": "line_oozes_engine",
+      "active_stats": 14638,
+      "body_stats": [
+        {
+          "id": "warty_nan",
+          "stats": 64,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 1939,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 2477,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 2168,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 2280,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 3671,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 2039,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 708
+        },
+        "eat_by_meal": {
+          "ichneumon_wasp": 90,
+          "mrs_dunnock": 618
+        },
+        "eat_by_cause": {
+          "digest": 90,
+          "nell": 618
+        },
+        "elder_by_target": {
+          "granny_stir_up": 1296,
+          "elder_ooze": 2592,
+          "stone_soup": 1296,
+          "dishwater_nell": 1296
+        },
+        "other_permanent_requested": {
+          "warty_nan": 0,
+          "": 0
+        },
+        "other_permanent_visible": {
+          "warty_nan": 0,
+          "": 0
+        },
+        "swallow": {
+          "gabble_ratchet": 1
+        },
+        "buy": {
+          "gabble_ratchet": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 32,
+            "health": 58,
+            "meal_attack": 20,
+            "meal_health": 40,
+            "source": "little_dollop",
+            "target": "ichneumon_wasp"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 227,
+            "cause": "nell",
+            "health": 391,
+            "meal_attack": 215,
+            "meal_health": 373,
+            "source": "little_dollop",
+            "target": "mrs_dunnock"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911027,
+      "seat": 0,
+      "round": 15,
+      "line": "line_oozes_engine",
+      "active_stats": 36403,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 1675,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 5549,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 6087,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5778,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 5890,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 5775,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 5649,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 1746
+        },
+        "eat_by_meal": {
+          "gabble_ratchet": 819,
+          "bridge_toad": 927
+        },
+        "eat_by_cause": {
+          "digest": 819,
+          "nell": 927
+        },
+        "elder_by_target": {
+          "granny_stir_up": 3252,
+          "elder_ooze": 6504,
+          "stone_soup": 3252,
+          "dishwater_nell": 3252
+        },
+        "other_permanent_requested": {
+          "warty_nan": 0,
+          "": 0
+        },
+        "other_permanent_visible": {
+          "warty_nan": 0,
+          "": 0
+        },
+        "buy": {
+          "cut_and_come_again": 1
+        },
+        "swallow": {
+          "warty_nan": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 300,
+            "health": 519,
+            "meal_attack": 264,
+            "meal_health": 459,
+            "source": "little_dollop",
+            "target": "gabble_ratchet"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 339,
+            "cause": "nell",
+            "health": 588,
+            "meal_attack": 333,
+            "meal_health": 570,
+            "source": "little_dollop",
+            "target": "bridge_toad"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 5,
+      "line": "line_oozes_engine",
+      "active_stats": 118,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 102,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 51
+        },
+        "eat_by_meal": {
+          "mr_redbreast": 51
+        },
+        "eat_by_cause": {
+          "digest": 51
+        },
+        "swallow": {
+          "peat_cutter": 1
+        },
+        "buy": {
+          "peat_cutter": 1
+        },
+        "other_permanent_requested": {
+          "": 11
+        },
+        "other_permanent_visible": {
+          "": 11
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 18,
+            "health": 33,
+            "meal_attack": 6,
+            "meal_health": 9,
+            "source": "little_dollop",
+            "target": "mr_redbreast"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 6,
+      "line": "line_oozes_engine",
+      "active_stats": 187,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 167,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 61
+        },
+        "eat_by_meal": {
+          "peat_cutter": 61
+        },
+        "eat_by_cause": {
+          "digest": 61
+        },
+        "swallow": {
+          "gideon": 1
+        },
+        "buy": {
+          "gideon": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 21,
+            "health": 40,
+            "meal_attack": 9,
+            "meal_health": 16,
+            "source": "little_dollop",
+            "target": "peat_cutter"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 7,
+      "line": "line_oozes_engine",
+      "active_stats": 340,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 63,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 257,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 90
+        },
+        "eat_by_meal": {
+          "gideon": 90
+        },
+        "eat_by_cause": {
+          "digest": 90
+        },
+        "swallow": {
+          "old_tern": 1,
+          "mr_redbreast": 1
+        },
+        "buy": {
+          "old_tern": 1,
+          "bubble_and_squeak": 1,
+          "mr_redbreast": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 27,
+            "health": 63,
+            "meal_attack": 15,
+            "meal_health": 27,
+            "source": "little_dollop",
+            "target": "gideon"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 8,
+      "line": "line_oozes_engine",
+      "active_stats": 262,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 41,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 44,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 157,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 94,
+          "little_dollop": 101
+        },
+        "eat_by_meal": {
+          "mr_redbreast": 94,
+          "old_tern": 101
+        },
+        "eat_by_cause": {
+          "digest": 195
+        },
+        "swallow": {
+          "little_dollop": 1,
+          "his_highness": 1
+        },
+        "buy": {
+          "figgy_duff": 1,
+          "frumenty": 1,
+          "his_highness": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 32,
+            "health": 62,
+            "meal_attack": 20,
+            "meal_health": 38,
+            "source": "bubble_and_squeak",
+            "target": "mr_redbreast"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 39,
+            "health": 62,
+            "meal_attack": 21,
+            "meal_health": 38,
+            "source": "little_dollop",
+            "target": "old_tern"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 9,
+      "line": "line_oozes_engine",
+      "active_stats": 704,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 129,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 44,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 511,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 88,
+          "bubble_and_squeak": 354
+        },
+        "eat_by_meal": {
+          "his_highness": 88,
+          "little_dollop": 354
+        },
+        "eat_by_cause": {
+          "digest": 442
+        },
+        "swallow": {
+          "old_brock": 1
+        },
+        "buy": {
+          "old_brock": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 32,
+            "health": 56,
+            "meal_attack": 14,
+            "meal_health": 26,
+            "source": "frumenty",
+            "target": "his_highness"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 127,
+            "health": 227,
+            "meal_attack": 127,
+            "meal_health": 227,
+            "source": "bubble_and_squeak",
+            "target": "little_dollop"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 10,
+      "line": "line_oozes_engine",
+      "active_stats": 1022,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 129,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 44,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 677,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 152,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 166
+        },
+        "eat_by_meal": {
+          "old_brock": 166
+        },
+        "eat_by_cause": {
+          "digest": 166
+        },
+        "swallow": {
+          "sexton_beetle": 1
+        },
+        "buy": {
+          "sexton_beetle": 1,
+          "hasty_pudding": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 277
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 58,
+            "health": 108,
+            "meal_attack": 40,
+            "meal_health": 72,
+            "source": "bubble_and_squeak",
+            "target": "old_brock"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 11,
+      "line": "line_oozes_engine",
+      "active_stats": 1477,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 129,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 44,
+          "golden": false
+        },
+        {
+          "id": "young_pretender",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 1132,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 152,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 178
+        },
+        "eat_by_meal": {
+          "sexton_beetle": 178
+        },
+        "eat_by_cause": {
+          "digest": 178
+        },
+        "swallow": {
+          "belladonna": 1
+        },
+        "buy": {
+          "belladonna": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 38
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 62,
+            "health": 116,
+            "meal_attack": 50,
+            "meal_health": 92,
+            "source": "bubble_and_squeak",
+            "target": "sexton_beetle"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 12,
+      "line": "line_oozes_engine",
+      "active_stats": 2447,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 129,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 313,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 313,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "figgy_duff",
+          "stats": 44,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 1481,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 152,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 311
+        },
+        "eat_by_meal": {
+          "belladonna": 311
+        },
+        "eat_by_cause": {
+          "digest": 311
+        },
+        "buy": {
+          "granny_stir_up": 2,
+          "gabble_ratchet": 1
+        },
+        "swallow": {
+          "young_pretender": 1,
+          "gabble_ratchet": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 90
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 104,
+            "health": 207,
+            "meal_attack": 80,
+            "meal_health": 159,
+            "source": "bubble_and_squeak",
+            "target": "belladonna"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 13,
+      "line": "line_oozes_engine",
+      "active_stats": 3455,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 538,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 313,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 1606,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 313,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 332,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 15,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 338,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 409,
+          "bubble_and_squeak": 35
+        },
+        "eat_by_meal": {
+          "gabble_ratchet": 409,
+          "young_pretender": 35
+        },
+        "eat_by_cause": {
+          "digest": 444
+        },
+        "buy": {
+          "elder_ooze": 1,
+          "aunt_aspic": 1,
+          "pipistrelle_echo": 1,
+          "brother_wolf": 1
+        },
+        "sell": {
+          "figgy_duff": 1,
+          "hasty_pudding": 1
+        },
+        "swallow": {
+          "pipistrelle_echo": 1,
+          "brother_wolf": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 142,
+            "health": 267,
+            "meal_attack": 106,
+            "meal_health": 207,
+            "source": "frumenty",
+            "target": "gabble_ratchet"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 21,
+            "health": 14,
+            "meal_attack": 3,
+            "meal_health": 2,
+            "source": "bubble_and_squeak",
+            "target": "young_pretender"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 14,
+      "line": "line_oozes_engine",
+      "active_stats": 7293,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 1927,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 1683,
+          "golden": true
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 1991,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 346,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 663,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 669,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 1058,
+          "bubble_and_squeak": 385
+        },
+        "eat_by_meal": {
+          "brother_wolf": 1058,
+          "pipistrelle_echo": 385
+        },
+        "eat_by_cause": {
+          "digest": 1443
+        },
+        "elder_by_target": {
+          "frumenty": 331,
+          "granny_stir_up": 662,
+          "aunt_aspic": 331,
+          "stone_soup": 331,
+          "elder_ooze": 331
+        },
+        "buy": {
+          "granny_stir_up": 1,
+          "old_mother_mast": 1,
+          "great_lump": 1
+        },
+        "triple": {
+          "granny_stir_up": 1
+        },
+        "swallow": {
+          "old_mother_mast": 1,
+          "great_lump": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 375,
+            "health": 683,
+            "meal_attack": 116,
+            "meal_health": 214,
+            "source": "frumenty",
+            "target": "brother_wolf"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 134,
+            "health": 251,
+            "meal_attack": 116,
+            "meal_health": 215,
+            "source": "bubble_and_squeak",
+            "target": "pipistrelle_echo"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911004,
+      "seat": 6,
+      "round": 15,
+      "line": "line_oozes_engine",
+      "active_stats": 9161,
+      "body_stats": [
+        {
+          "id": "frumenty",
+          "stats": 3298,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 1683,
+          "golden": true
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 2488,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 346,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 663,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 14,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 669,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 1371,
+          "bubble_and_squeak": 497
+        },
+        "eat_by_meal": {
+          "great_lump": 1371,
+          "old_mother_mast": 497
+        },
+        "eat_by_cause": {
+          "digest": 1868
+        },
+        "swallow": {
+          "laird_of_sett": 1,
+          "peat_king": 1
+        },
+        "buy": {
+          "laird_of_sett": 1,
+          "peat_king": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 489,
+            "health": 882,
+            "meal_attack": 145,
+            "meal_health": 267,
+            "source": "frumenty",
+            "target": "great_lump"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 182,
+            "health": 315,
+            "meal_attack": 146,
+            "meal_health": 267,
+            "source": "bubble_and_squeak",
+            "target": "old_mother_mast"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 5,
+      "line": "line_oozes_engine",
+      "active_stats": 30,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "pill_bug",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "mrs_burdock",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "mr_redbreast",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "kit",
+          "stats": 2,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "buy": {
+          "mr_redbreast": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 10
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 6,
+      "line": "line_oozes_engine",
+      "active_stats": 58,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "pill_bug",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "mrs_burdock",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 17,
+          "golden": false
+        },
+        {
+          "id": "mr_redbreast",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "cuckoo",
+          "stats": 13,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 7,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "buy": {
+          "dishwater_nell": 1,
+          "cuckoo": 1
+        },
+        "sell": {
+          "kit": 1
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 7,
+      "line": "line_oozes_engine",
+      "active_stats": 75,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "cuckoo",
+          "stats": 13,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 17,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "mr_redbreast",
+          "stats": 8,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "buy": {
+          "grey_agnes": 1,
+          "frumenty": 1,
+          "mag_pye": 1
+        },
+        "sell": {
+          "mrs_burdock": 1,
+          "pill_bug": 1
+        },
+        "swallow": {
+          "mag_pye": 1
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 8,
+      "line": "line_oozes_engine",
+      "active_stats": 207,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "cuckoo",
+          "stats": 13,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 17,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 141,
+          "golden": false
+        },
+        {
+          "id": "mr_redbreast",
+          "stats": 8,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 132
+        },
+        "eat_by_meal": {
+          "mag_pye": 79,
+          "mrs_dunnock": 53
+        },
+        "eat_by_cause": {
+          "digest": 79,
+          "nell": 53
+        },
+        "swallow": {
+          "will_o_the_wisp": 1
+        },
+        "buy": {
+          "will_o_the_wisp": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 4
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 29,
+            "health": 50,
+            "meal_attack": 5,
+            "meal_health": 8,
+            "source": "frumenty",
+            "target": "mag_pye"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 21,
+            "cause": "nell",
+            "health": 32,
+            "meal_attack": 9,
+            "meal_health": 14,
+            "source": "frumenty",
+            "target": "mrs_dunnock"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 9,
+      "line": "line_oozes_engine",
+      "active_stats": 433,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 21,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 69,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 302,
+          "golden": false
+        },
+        {
+          "id": "cuckoo",
+          "stats": 13,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 161
+        },
+        "eat_by_meal": {
+          "will_o_the_wisp": 92,
+          "lamp_moth": 69
+        },
+        "eat_by_cause": {
+          "digest": 92,
+          "nell": 69
+        },
+        "swallow": {
+          "reel_mistress": 1,
+          "madame_ermeline": 1
+        },
+        "buy": {
+          "reel_mistress": 1,
+          "frumenty": 1,
+          "madame_ermeline": 1
+        },
+        "sell": {
+          "mr_redbreast": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 32,
+            "health": 60,
+            "meal_attack": 14,
+            "meal_health": 24,
+            "source": "frumenty",
+            "target": "will_o_the_wisp"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 25,
+            "cause": "nell",
+            "health": 44,
+            "meal_attack": 19,
+            "meal_health": 32,
+            "source": "frumenty",
+            "target": "lamp_moth"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 10,
+      "line": "line_oozes_engine",
+      "active_stats": 951,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 21,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 201,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 572,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 129,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 402
+        },
+        "eat_by_meal": {
+          "madame_ermeline": 132,
+          "reel_mistress": 139,
+          "redwing": 131
+        },
+        "eat_by_cause": {
+          "digest": 271,
+          "nell": 131
+        },
+        "swallow": {
+          "jenny_greenteeth": 1,
+          "signor_ranocchio": 1
+        },
+        "buy": {
+          "jenny_greenteeth": 1,
+          "signor_ranocchio": 1,
+          "hasty_pudding": 1
+        },
+        "sell": {
+          "cuckoo": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 499
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 44,
+            "health": 88,
+            "meal_attack": 26,
+            "meal_health": 46,
+            "source": "frumenty",
+            "target": "madame_ermeline"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 51,
+            "health": 88,
+            "meal_attack": 27,
+            "meal_health": 46,
+            "source": "frumenty",
+            "target": "reel_mistress"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 47,
+            "cause": "nell",
+            "health": 84,
+            "meal_attack": 35,
+            "meal_health": 60,
+            "source": "frumenty",
+            "target": "redwing"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 11,
+      "line": "line_oozes_engine",
+      "active_stats": 2161,
+      "body_stats": [
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 81,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 365,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 1558,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 129,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 651
+        },
+        "eat_by_meal": {
+          "signor_ranocchio": 164,
+          "jenny_greenteeth": 192,
+          "mistress_russet": 295
+        },
+        "eat_by_cause": {
+          "digest": 356,
+          "nell": 295
+        },
+        "other_permanent_requested": {
+          "": 60
+        },
+        "other_permanent_visible": {
+          "": 60
+        },
+        "swallow": {
+          "mother_goose": 1
+        },
+        "buy": {
+          "mother_goose": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 106
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 63,
+            "health": 101,
+            "meal_attack": 45,
+            "meal_health": 77,
+            "source": "frumenty",
+            "target": "signor_ranocchio"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 70,
+            "health": 122,
+            "meal_attack": 46,
+            "meal_health": 80,
+            "source": "frumenty",
+            "target": "jenny_greenteeth"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 110,
+            "cause": "nell",
+            "health": 185,
+            "meal_attack": 92,
+            "meal_health": 167,
+            "source": "frumenty",
+            "target": "mistress_russet"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 12,
+      "line": "line_oozes_engine",
+      "active_stats": 3137,
+      "body_stats": [
+        {
+          "id": "sable",
+          "stats": 105,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 365,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 7,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 2510,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 129,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 846
+        },
+        "eat_by_meal": {
+          "mother_goose": 410,
+          "earwig_mother": 436
+        },
+        "eat_by_cause": {
+          "digest": 410,
+          "nell": 436
+        },
+        "swallow": {
+          "old_isegrim": 1,
+          "queen_of_elfland": 1
+        },
+        "buy": {
+          "old_isegrim": 1,
+          "queen_of_elfland": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 90,
+          "Take": 31
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 153,
+            "health": 257,
+            "meal_attack": 117,
+            "meal_health": 209,
+            "source": "frumenty",
+            "target": "mother_goose"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 159,
+            "cause": "nell",
+            "health": 277,
+            "meal_attack": 153,
+            "meal_health": 265,
+            "source": "frumenty",
+            "target": "earwig_mother"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 13,
+      "line": "line_oozes_engine",
+      "active_stats": 1224,
+      "body_stats": [
+        {
+          "id": "sable",
+          "stats": 152,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 28,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 23,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 25,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 996,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 1917
+        },
+        "eat_by_meal": {
+          "queen_of_elfland": 615,
+          "old_isegrim": 622,
+          "sable": 680
+        },
+        "eat_by_cause": {
+          "digest": 1237,
+          "nell": 680
+        },
+        "swallow": {
+          "mother_goose": 1
+        },
+        "buy": {
+          "mother_goose": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 131
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 240,
+            "health": 375,
+            "meal_attack": 192,
+            "meal_health": 327,
+            "source": "frumenty",
+            "target": "queen_of_elfland"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 233,
+            "health": 389,
+            "meal_attack": 191,
+            "meal_health": 329,
+            "source": "frumenty",
+            "target": "old_isegrim"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 253,
+            "cause": "nell",
+            "health": 427,
+            "meal_attack": 241,
+            "meal_health": 409,
+            "source": "frumenty",
+            "target": "sable"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 14,
+      "line": "line_oozes_engine",
+      "active_stats": 2398,
+      "body_stats": [
+        {
+          "id": "sable",
+          "stats": 283,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 28,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 375,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 53,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 55,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 1604,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 578
+        },
+        "eat_by_meal": {
+          "mother_goose": 298,
+          "nan_toadstool": 280
+        },
+        "eat_by_cause": {
+          "digest": 298,
+          "nell": 280
+        },
+        "swallow": {
+          "whirligig_beetle": 1
+        },
+        "buy": {
+          "whirligig_beetle": 1,
+          "hasty_pudding": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 2070,
+          "Take": 618
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 119,
+            "health": 179,
+            "meal_attack": 83,
+            "meal_health": 131,
+            "source": "frumenty",
+            "target": "mother_goose"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 114,
+            "cause": "nell",
+            "health": 166,
+            "meal_attack": 102,
+            "meal_health": 160,
+            "source": "frumenty",
+            "target": "nan_toadstool"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911012,
+      "seat": 2,
+      "round": 15,
+      "line": "line_oozes_engine",
+      "active_stats": 6384,
+      "body_stats": [
+        {
+          "id": "hasty_pudding",
+          "stats": 399,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 60,
+          "golden": false
+        },
+        {
+          "id": "sable",
+          "stats": 877,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 53,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 55,
+          "golden": false
+        },
+        {
+          "id": "frumenty",
+          "stats": 4912,
+          "golden": false
+        },
+        {
+          "id": "grey_agnes",
+          "stats": 28,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "frumenty": 1238
+        },
+        "eat_by_meal": {
+          "whirligig_beetle": 413,
+          "bubble_and_squeak": 825
+        },
+        "eat_by_cause": {
+          "digest": 413,
+          "nell": 825
+        },
+        "swallow": {
+          "seven_whistlers": 1
+        },
+        "buy": {
+          "seven_whistlers": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 335
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 165,
+            "health": 248,
+            "meal_attack": 129,
+            "meal_health": 200,
+            "source": "frumenty",
+            "target": "whirligig_beetle"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 351,
+            "cause": "nell",
+            "health": 474,
+            "meal_attack": 351,
+            "meal_health": 474,
+            "source": "frumenty",
+            "target": "bubble_and_squeak"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 5,
+      "line": "line_oozes_engine",
+      "active_stats": 119,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 16,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "mrs_posset",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 21,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 74,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 42
+        },
+        "eat_by_meal": {
+          "mrs_jay": 42
+        },
+        "eat_by_cause": {
+          "digest": 42
+        },
+        "buy": {
+          "stone_soup": 1,
+          "lodger": 1,
+          "bubble_and_squeak": 1
+        },
+        "swallow": {
+          "lodger": 1
+        },
+        "other_permanent_requested": {
+          "": 8
+        },
+        "other_permanent_visible": {
+          "": 8
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 21,
+            "health": 21,
+            "meal_attack": 3,
+            "meal_health": 3,
+            "source": "little_dollop",
+            "target": "mrs_jay"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 6,
+      "line": "line_oozes_engine",
+      "active_stats": 56,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 16,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "moss_ooze",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "mrs_posset",
+          "stats": 3,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 21,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 70
+        },
+        "eat_by_meal": {
+          "lodger": 70
+        },
+        "eat_by_cause": {
+          "digest": 70
+        },
+        "swallow": {
+          "little_dollop": 1
+        },
+        "buy": {
+          "moss_ooze": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 34,
+            "health": 36,
+            "meal_attack": 10,
+            "meal_health": 12,
+            "source": "little_dollop",
+            "target": "lodger"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 7,
+      "line": "line_oozes_engine",
+      "active_stats": 294,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 34,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 165,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 40,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 39,
+          "golden": false
+        },
+        {
+          "id": "moss_ooze",
+          "stats": 11,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 144
+        },
+        "eat_by_meal": {
+          "little_dollop": 144
+        },
+        "eat_by_cause": {
+          "digest": 144
+        },
+        "buy": {
+          "aunt_aspic": 1,
+          "dr_urchin": 1,
+          "dishwater_nell": 1
+        },
+        "swallow": {
+          "dr_urchin": 1
+        },
+        "sell": {
+          "mrs_posset": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 24
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 68,
+            "health": 76,
+            "meal_attack": 68,
+            "meal_health": 76,
+            "source": "bubble_and_squeak",
+            "target": "little_dollop"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 8,
+      "line": "line_oozes_engine",
+      "active_stats": 869,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 58,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 702,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 47,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 46,
+          "golden": false
+        },
+        {
+          "id": "moss_ooze",
+          "stats": 11,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 537
+        },
+        "eat_by_meal": {
+          "dr_urchin": 232,
+          "warty_nan": 305
+        },
+        "eat_by_cause": {
+          "digest": 232,
+          "nell": 305
+        },
+        "swallow": {
+          "cuckoo": 1
+        },
+        "buy": {
+          "cuckoo": 1
+        },
+        "other_permanent_requested": {
+          "": 14
+        },
+        "other_permanent_visible": {
+          "": 14
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 84,
+            "health": 148,
+            "meal_attack": 18,
+            "meal_health": 23,
+            "source": "bubble_and_squeak",
+            "target": "dr_urchin"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 112,
+            "cause": "nell",
+            "health": 193,
+            "meal_attack": 34,
+            "meal_health": 51,
+            "source": "bubble_and_squeak",
+            "target": "warty_nan"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 9,
+      "line": "line_oozes_engine",
+      "active_stats": 2273,
+      "body_stats": [
+        {
+          "id": "bridge_toad",
+          "stats": 58,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 2106,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 47,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 46,
+          "golden": false
+        },
+        {
+          "id": "moss_ooze",
+          "stats": 11,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 1404
+        },
+        "eat_by_meal": {
+          "cuckoo": 610,
+          "one_swallow": 794
+        },
+        "eat_by_cause": {
+          "digest": 610,
+          "nell": 794
+        },
+        "swallow": {
+          "mag_pye": 1
+        },
+        "buy": {
+          "mag_pye": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Soak": 18
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 232,
+            "health": 378,
+            "meal_attack": 59,
+            "meal_health": 93,
+            "source": "bubble_and_squeak",
+            "target": "cuckoo"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 302,
+            "cause": "nell",
+            "health": 492,
+            "meal_attack": 102,
+            "meal_health": 164,
+            "source": "bubble_and_squeak",
+            "target": "one_swallow"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 10,
+      "line": "line_oozes_engine",
+      "active_stats": 8563,
+      "body_stats": [
+        {
+          "id": "moss_ooze",
+          "stats": 11,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 6183,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 1137,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 47,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 46,
+          "golden": false
+        },
+        {
+          "id": "pipistrelle_echo",
+          "stats": 1134,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 3516
+        },
+        "eat_by_meal": {
+          "mag_pye": 1397,
+          "old_lutra": 2119
+        },
+        "eat_by_cause": {
+          "digest": 1397,
+          "nell": 2119
+        },
+        "buy": {
+          "elder_ooze": 1,
+          "pipistrelle_echo": 1
+        },
+        "swallow": {
+          "bridge_toad": 1
+        },
+        "other_permanent_requested": {
+          "": 561
+        },
+        "other_permanent_visible": {
+          "": 561
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 532,
+            "health": 865,
+            "meal_attack": 166,
+            "meal_health": 267,
+            "source": "bubble_and_squeak",
+            "target": "mag_pye"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 809,
+            "cause": "nell",
+            "health": 1310,
+            "meal_attack": 271,
+            "meal_health": 438,
+            "source": "bubble_and_squeak",
+            "target": "old_lutra"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 11,
+      "line": "line_oozes_engine",
+      "active_stats": 20316,
+      "body_stats": [
+        {
+          "id": "moss_ooze",
+          "stats": 1384,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 10160,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 2510,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 1378,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 1420,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 1419,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 2045,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 3977
+        },
+        "eat_by_meal": {
+          "bridge_toad": 279,
+          "spitfire_sal": 3698
+        },
+        "eat_by_cause": {
+          "digest": 279,
+          "nell": 3698
+        },
+        "elder_by_target": {
+          "moss_ooze": 1373,
+          "elder_ooze": 1373,
+          "stone_soup": 1373,
+          "aunt_aspic": 1373,
+          "dishwater_nell": 1373
+        },
+        "buy": {
+          "elder_ooze": 1
+        },
+        "swallow": {
+          "pipistrelle_echo": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 120,
+            "health": 159,
+            "meal_attack": 37,
+            "meal_health": 39,
+            "source": "bubble_and_squeak",
+            "target": "bridge_toad"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 1411,
+            "cause": "nell",
+            "health": 2287,
+            "meal_attack": 498,
+            "meal_health": 799,
+            "source": "bubble_and_squeak",
+            "target": "spitfire_sal"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 12,
+      "line": "line_oozes_engine",
+      "active_stats": 77385,
+      "body_stats": [
+        {
+          "id": "moss_ooze",
+          "stats": 9060,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 21173,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 10186,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 9054,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 9096,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9095,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 9721,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 11013
+        },
+        "eat_by_meal": {
+          "pipistrelle_echo": 3325,
+          "natterjack_chorus": 7688
+        },
+        "eat_by_cause": {
+          "digest": 3325,
+          "nell": 7688
+        },
+        "elder_by_target": {
+          "moss_ooze": 7676,
+          "elder_ooze": 15352,
+          "stone_soup": 7676,
+          "aunt_aspic": 7676,
+          "dishwater_nell": 7676
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 1262,
+            "health": 2063,
+            "meal_attack": 433,
+            "meal_health": 701,
+            "source": "bubble_and_squeak",
+            "target": "pipistrelle_echo"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 2945,
+            "cause": "nell",
+            "health": 4743,
+            "meal_attack": 1034,
+            "meal_health": 1670,
+            "source": "bubble_and_squeak",
+            "target": "natterjack_chorus"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 13,
+      "line": "line_oozes_engine",
+      "active_stats": 86473,
+      "body_stats": [
+        {
+          "id": "moss_ooze",
+          "stats": 9060,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 4853,
+          "golden": true
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 21173,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 9054,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 9096,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 9095,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 24142,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "buy": {
+          "elder_ooze": 1,
+          "seven_whistlers": 1,
+          "granny_stir_up": 1
+        },
+        "triple": {
+          "elder_ooze": 1,
+          "granny_stir_up": 1
+        },
+        "swallow": {
+          "seven_whistlers": 1
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 14,
+      "line": "line_oozes_engine",
+      "active_stats": 164204,
+      "body_stats": [
+        {
+          "id": "moss_ooze",
+          "stats": 19518,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 15311,
+          "golden": true
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 31373,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 19512,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 19554,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 19553,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 39383,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 10200
+        },
+        "eat_by_meal": {
+          "seven_whistlers": 4941,
+          "ichneumon_wasp": 5259
+        },
+        "eat_by_cause": {
+          "digest": 4941,
+          "nell": 5259
+        },
+        "elder_by_target": {
+          "moss_ooze": 10458,
+          "granny_stir_up": 10458,
+          "stone_soup": 10458,
+          "aunt_aspic": 10458,
+          "dishwater_nell": 10458,
+          "elder_ooze": 10458
+        },
+        "swallow": {
+          "queen_of_elfland": 1
+        },
+        "buy": {
+          "queen_of_elfland": 1
+        },
+        "other_permanent_requested": {
+          "": 4783
+        },
+        "other_permanent_visible": {
+          "": 4783
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 1897,
+            "health": 3044,
+            "meal_attack": 1855,
+            "meal_health": 2990,
+            "source": "bubble_and_squeak",
+            "target": "seven_whistlers"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 2014,
+            "cause": "nell",
+            "health": 3245,
+            "meal_attack": 2002,
+            "meal_health": 3227,
+            "source": "bubble_and_squeak",
+            "target": "ichneumon_wasp"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911007,
+      "seat": 4,
+      "round": 15,
+      "line": "line_oozes_engine",
+      "active_stats": 292622,
+      "body_stats": [
+        {
+          "id": "moss_ooze",
+          "stats": 35286,
+          "golden": false
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 31079,
+          "golden": true
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 54174,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 35280,
+          "golden": false
+        },
+        {
+          "id": "aunt_aspic",
+          "stats": 42386,
+          "golden": false
+        },
+        {
+          "id": "dishwater_nell",
+          "stats": 42385,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 52032,
+          "golden": true
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 7033,
+          "elder_ooze": 7920
+        },
+        "eat_by_meal": {
+          "queen_of_elfland": 7033,
+          "sally_spore": 7920
+        },
+        "eat_by_cause": {
+          "digest": 7033,
+          "nell": 7920
+        },
+        "elder_by_target": {
+          "moss_ooze": 15768,
+          "granny_stir_up": 15768,
+          "bubble_and_squeak": 15768,
+          "stone_soup": 15768,
+          "aunt_aspic": 15768,
+          "dishwater_nell": 15768
+        },
+        "swallow": {
+          "gabble_ratchet": 1
+        },
+        "buy": {
+          "gabble_ratchet": 1
+        },
+        "other_permanent_requested": {
+          "": 18857
+        },
+        "other_permanent_visible": {
+          "": 18857
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 2705,
+            "health": 4328,
+            "meal_attack": 2657,
+            "meal_health": 4280,
+            "source": "bubble_and_squeak",
+            "target": "queen_of_elfland"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 3193,
+            "cause": "nell",
+            "health": 4727,
+            "meal_attack": 3181,
+            "meal_health": 4703,
+            "source": "elder_ooze",
+            "target": "sally_spore"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 5,
+      "line": "line_oozes_tempo",
+      "active_stats": 60,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 10,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 25,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 5,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "buy": {
+          "little_dollop": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 3
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 6,
+      "line": "line_oozes_tempo",
+      "active_stats": 84,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 13,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 37,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 5,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "swallow": {
+          "brother_wolf": 1
+        },
+        "buy": {
+          "brother_wolf": 1,
+          "earwig_mother": 1
+        },
+        "other_permanent_requested": {
+          "": 4
+        },
+        "other_permanent_visible": {
+          "": 4
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 4
+        }
+      },
+      "meals": []
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 7,
+      "line": "line_oozes_tempo",
+      "active_stats": 158,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 17,
+          "golden": false
+        },
+        {
+          "id": "earwig_mother",
+          "stats": 9,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 45,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 67,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 62
+        },
+        "eat_by_meal": {
+          "brother_wolf": 62
+        },
+        "eat_by_cause": {
+          "digest": 62
+        },
+        "swallow": {
+          "mrs_mallow": 1
+        },
+        "buy": {
+          "mrs_mallow": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 12
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 24,
+            "health": 38,
+            "meal_attack": 6,
+            "meal_health": 8,
+            "source": "little_dollop",
+            "target": "brother_wolf"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 8,
+      "line": "line_oozes_tempo",
+      "active_stats": 275,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 29,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 34,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 61,
+          "golden": false
+        },
+        {
+          "id": "little_dollop",
+          "stats": 131,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "little_dollop": 64
+        },
+        "eat_by_meal": {
+          "mrs_mallow": 64
+        },
+        "eat_by_cause": {
+          "digest": 64
+        },
+        "swallow": {
+          "mrs_stork": 1,
+          "cluricaun": 1
+        },
+        "buy": {
+          "mrs_stork": 1,
+          "bubble_and_squeak": 1,
+          "cluricaun": 1
+        },
+        "sell": {
+          "earwig_mother": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 7
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 20,
+            "health": 44,
+            "meal_attack": 8,
+            "meal_health": 14,
+            "source": "little_dollop",
+            "target": "mrs_mallow"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 9,
+      "line": "line_oozes_tempo",
+      "active_stats": 242,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 36,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 69,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 117,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 83,
+          "little_dollop": 104
+        },
+        "eat_by_meal": {
+          "cluricaun": 83,
+          "mrs_stork": 104
+        },
+        "eat_by_cause": {
+          "digest": 187
+        },
+        "swallow": {
+          "little_dollop": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 7
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 31,
+            "health": 52,
+            "meal_attack": 13,
+            "meal_health": 22,
+            "source": "bubble_and_squeak",
+            "target": "cluricaun"
+          },
+          "type": "eat"
+        },
+        {
+          "fields": {
+            "attack": 38,
+            "health": 66,
+            "meal_attack": 14,
+            "meal_health": 24,
+            "source": "little_dollop",
+            "target": "mrs_stork"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 10,
+      "line": "line_oozes_tempo",
+      "active_stats": 606,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 43,
+          "golden": false
+        },
+        {
+          "id": "pipistrelle_echo",
+          "stats": 80,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 77,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 386,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 235
+        },
+        "eat_by_meal": {
+          "little_dollop": 235
+        },
+        "eat_by_cause": {
+          "digest": 235
+        },
+        "swallow": {
+          "mother_goose": 1
+        },
+        "buy": {
+          "mother_goose": 1,
+          "pipistrelle_echo": 1
+        },
+        "other_permanent_requested": {
+          "": 34
+        },
+        "other_permanent_visible": {
+          "": 34
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 7
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 84,
+            "health": 151,
+            "meal_attack": 84,
+            "meal_health": 151,
+            "source": "bubble_and_squeak",
+            "target": "little_dollop"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 11,
+      "line": "line_oozes_tempo",
+      "active_stats": 908,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "pipistrelle_echo",
+          "stats": 80,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 50,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 124,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 85,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 555,
+          "golden": false
+        },
+        {
+          "id": "hedge_witch",
+          "stats": 6,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 169
+        },
+        "eat_by_meal": {
+          "mother_goose": 169
+        },
+        "eat_by_cause": {
+          "digest": 169
+        },
+        "buy": {
+          "elder_ooze": 1
+        },
+        "swallow": {
+          "hedge_witch": 1
+        },
+        "combat_carry_after_this_snapshot": {
+          "Take": 74
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 68,
+            "health": 101,
+            "meal_attack": 32,
+            "meal_health": 53,
+            "source": "bubble_and_squeak",
+            "target": "mother_goose"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 12,
+      "line": "line_oozes_tempo",
+      "active_stats": 1164,
+      "body_stats": [
+        {
+          "id": "old_moth_annis",
+          "stats": 8,
+          "golden": false
+        },
+        {
+          "id": "pipistrelle_echo",
+          "stats": 80,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 124,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 130,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 107,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 585,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 130,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 30
+        },
+        "eat_by_meal": {
+          "hedge_witch": 30
+        },
+        "eat_by_cause": {
+          "digest": 30
+        },
+        "elder_by_target": {
+          "elder_ooze": 6,
+          "stone_soup": 6
+        },
+        "swallow": {
+          "gabble_ratchet": 1
+        },
+        "buy": {
+          "gabble_ratchet": 1,
+          "hasty_pudding": 1
+        },
+        "sell": {
+          "hedge_witch": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 280,
+          "Take": 165
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 8,
+            "health": 22,
+            "meal_attack": 2,
+            "meal_health": 4,
+            "source": "bubble_and_squeak",
+            "target": "hedge_witch"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 13,
+      "line": "line_oozes_tempo",
+      "active_stats": 2615,
+      "body_stats": [
+        {
+          "id": "elder_ooze",
+          "stats": 264,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 232,
+          "golden": false
+        },
+        {
+          "id": "little_nip",
+          "stats": 289,
+          "golden": false
+        },
+        {
+          "id": "cut_and_come_again",
+          "stats": 230,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 241,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 1095,
+          "golden": false
+        },
+        {
+          "id": "hasty_pudding",
+          "stats": 264,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 230
+        },
+        "eat_by_meal": {
+          "gabble_ratchet": 230
+        },
+        "eat_by_cause": {
+          "digest": 230
+        },
+        "elder_by_target": {
+          "elder_ooze": 134,
+          "stone_soup": 134,
+          "hasty_pudding": 134
+        },
+        "buy": {
+          "cut_and_come_again": 1,
+          "hasty_pudding": 1,
+          "wee_wobbly": 1
+        },
+        "swallow": {
+          "old_moth_annis": 1,
+          "wee_wobbly": 1
+        },
+        "sell": {
+          "pipistrelle_echo": 1
+        },
+        "other_permanent_requested": {
+          "": 0
+        },
+        "other_permanent_visible": {
+          "": 0
+        },
+        "combat_carry_after_this_snapshot": {
+          "permanent combat buff": 1534,
+          "Take": 8
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 86,
+            "health": 144,
+            "meal_attack": 50,
+            "meal_health": 84,
+            "source": "bubble_and_squeak",
+            "target": "gabble_ratchet"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 14,
+      "line": "line_oozes_tempo",
+      "active_stats": 5606,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 1318,
+          "golden": true
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 12,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 272,
+          "golden": false
+        },
+        {
+          "id": "whirligig_beetle",
+          "stats": 549,
+          "golden": false
+        },
+        {
+          "id": "stone_soup",
+          "stats": 249,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 2673,
+          "golden": false
+        },
+        {
+          "id": "slice",
+          "stats": 533,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 44
+        },
+        "eat_by_meal": {
+          "old_moth_annis": 44
+        },
+        "eat_by_cause": {
+          "digest": 44
+        },
+        "elder_by_target": {
+          "elder_ooze": 8,
+          "hasty_pudding": 16,
+          "cut_and_come_again": 8,
+          "stone_soup": 8
+        },
+        "buy": {
+          "cut_and_come_again": 2,
+          "whirligig_beetle": 1
+        },
+        "sell": {
+          "hasty_pudding": 2
+        },
+        "swallow": {
+          "little_nip": 1
+        },
+        "triple": {
+          "cut_and_come_again": 1
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 15,
+            "health": 29,
+            "meal_attack": 3,
+            "meal_health": 5,
+            "source": "bubble_and_squeak",
+            "target": "old_moth_annis"
+          },
+          "type": "eat"
+        }
+      ]
+    },
+    {
+      "seed": 2911024,
+      "seat": 7,
+      "round": 15,
+      "line": "line_oozes_tempo",
+      "active_stats": 9197,
+      "body_stats": [
+        {
+          "id": "cut_and_come_again",
+          "stats": 1615,
+          "golden": true
+        },
+        {
+          "id": "granny_stir_up",
+          "stats": 309,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 731,
+          "golden": false
+        },
+        {
+          "id": "slice",
+          "stats": 1727,
+          "golden": true
+        },
+        {
+          "id": "stone_soup",
+          "stats": 654,
+          "golden": false
+        },
+        {
+          "id": "bubble_and_squeak",
+          "stats": 3592,
+          "golden": false
+        },
+        {
+          "id": "elder_ooze",
+          "stats": 569,
+          "golden": false
+        }
+      ],
+      "sources": {
+        "eat_by_source": {
+          "bubble_and_squeak": 321
+        },
+        "eat_by_meal": {
+          "little_nip": 321
+        },
+        "eat_by_cause": {
+          "digest": 321
+        },
+        "elder_by_target": {
+          "cut_and_come_again": 297,
+          "granny_stir_up": 297,
+          "elder_ooze": 297,
+          "stone_soup": 297
+        },
+        "triple": {
+          "slice": 1
+        },
+        "swallow": {
+          "seven_whistlers": 1,
+          "frumenty": 1
+        },
+        "buy": {
+          "seven_whistlers": 1,
+          "figgy_duff": 1,
+          "frumenty": 1,
+          "elder_ooze": 1
+        },
+        "sell": {
+          "wee_wobbly": 1,
+          "whirligig_beetle": 1,
+          "figgy_duff": 1
+        },
+        "other_permanent_requested": {
+          "": 706
+        },
+        "other_permanent_visible": {
+          "": 706
+        }
+      },
+      "meals": [
+        {
+          "fields": {
+            "attack": 135,
+            "health": 186,
+            "meal_attack": 123,
+            "meal_health": 174,
+            "source": "bubble_and_squeak",
+            "target": "little_nip"
+          },
+          "type": "eat"
+        }
+      ]
+    }
+  ]
+}

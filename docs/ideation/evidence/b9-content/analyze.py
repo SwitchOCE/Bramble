@@ -18,7 +18,7 @@ LINES = ("line_oozes_engine", "line_oozes_tempo")
 def summarize(folder, baseline):
     arm = METRICS.load(folder)
     result = METRICS.confirmation(arm, METRICS.load(baseline))
-    return {line: result[line] for line in LINES}
+    return result
 
 
 def attribute(record, side):
