@@ -44,7 +44,7 @@
     "doc": "docs/ideation/content/pass3/birds-pass3.md",
     "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Flying counts as selling. Played this turn, this sells normally.",
+  "details": "Sold, flies south for 2 turns; returns to hand at 2.5× permanent stats. Flying pays no sale gold; played this turn, it sells normally. Early recalls require a missed fight; each trip grows once.",
   "mechanic_text": {
     "2": {
       "id": "pass3_bird",

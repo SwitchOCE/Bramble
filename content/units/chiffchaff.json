@@ -8,8 +8,8 @@
   "tribes": [
     "Birds"
   ],
-  "text": "Fly South. When played: gain +1/+1.",
-  "golden_text": "Fly South. When played: gain +2/+2.",
+  "text": "Fly South. When played: gain +3/+3.",
+  "golden_text": "Fly South. When played: gain +6/+6.",
   "mechanics": [
     {
       "id": "fly_south",
@@ -46,7 +46,7 @@
     "doc": "docs/ideation/content/pass3/birds-pass3.md",
     "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Played this turn, this sells normally. A homecoming doubles permanent stats, then returns this to hand.",
+  "details": "Sold, flies south for 2 turns; returns to hand at 2.5× permanent stats. Flying pays no sale gold; played this turn, it sells normally. Early recalls require a missed fight; each trip grows once.",
   "mechanic_text": {
     "2": {
       "id": "pass3_bird",

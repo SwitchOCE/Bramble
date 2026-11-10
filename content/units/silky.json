@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Shy. After a Shy unit leaves: your Rings grow +1/+1.",
-  "golden_text": "Shy. After a Shy unit leaves: your Rings grow +2/+2.",
+  "text": "Shy. After a Shy unit leaves: your Rings grow +3/+3.",
+  "golden_text": "Shy. After a Shy unit leaves: your Rings grow +6/+6.",
   "mechanics": [
     {
       "id": "shy",

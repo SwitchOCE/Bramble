@@ -47,6 +47,13 @@ class SimJobTest(unittest.TestCase):
         for shard in shards:
             self.assertEqual(shard, list(range(shard[0], shard[0] + len(shard))))
 
+    def test_build8_suite_uses_native_pool_without_reference_quilboar(self) -> None:
+        config = self.config(kind="lines", suite="a35_run1", preset="B", first_seed=2911001, lobbies=32)
+        values = sim_job.game_config(config)
+        self.assertFalse(values["reference_quilboar"])
+        self.assertFalse(values["card_size_caps"])
+        self.assertEqual(values["pass3_preset"], "B")
+
     def test_bad_configs_are_refused(self) -> None:
         bad = [
             {"kind": "fights", "preset": "B", "seeds": [1]},

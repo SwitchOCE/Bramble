@@ -8,8 +8,8 @@
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "End of Turn: double your two smallest Hedgerow units' stats.",
-  "golden_text": "End of Turn: double your four smallest Hedgerow units' stats.",
+  "text": "End of Turn: triple your two smallest Hedgerow units' stats.",
+  "golden_text": "End of Turn: triple your four smallest Hedgerow units' stats.",
   "mechanics": [
     {
       "id": "pass3_hedgerow",

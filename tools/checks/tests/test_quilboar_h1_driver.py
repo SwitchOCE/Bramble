@@ -84,6 +84,26 @@ def write_fixture(prefix, players, records):
 
 
 class QuilboarH1DriverTests(unittest.TestCase):
+    def test_build8_capture_validates_rotating_native_roster(self):
+        with tempfile.TemporaryDirectory() as directory:
+            prefix = Path(directory) / "build8"
+            players, records = synthetic_capture(prefix)
+            roster = [DRIVER.A35_LINES[(31 * 8 + i) % 12] for i in range(8)]
+            for seat, player in enumerate(players):
+                player["bot"] = roster[seat] + ":assigned_build"
+            for record in records:
+                record["input"]["config"]["reference_quilboar"] = False
+                for side, seat in enumerate(record["input"]["player_ids"]):
+                    record["combat_start"][side]["assigned_line"] = roster[seat]
+            write_fixture(prefix, players, records)
+            [game] = DRIVER.compact_chunk(prefix, "B", 31, 1, 2.5, a35_run1=True)
+            self.assertEqual({row["line"] for row in game["rounds"]}, set(roster))
+            self.assertFalse(game["config"]["reference_quilboar"])
+            players[0]["bot"] = "line_quilboar_engine:assigned_build"
+            write_fixture(prefix, players, records)
+            with self.assertRaisesRegex(ValueError, "roster"):
+                DRIVER.compact_chunk(prefix, "B", 31, 1, 2.5, a35_run1=True)
+
     def test_legacy_capture_without_post_fight_health_still_compacts(self):
         with tempfile.TemporaryDirectory() as directory:
             prefix = Path(directory) / "legacy"
