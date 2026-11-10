@@ -206,6 +206,11 @@ The NDK isn't pinned or installed. Once Bramble has native code, it comes from t
 
 ## Screenshots
 
+For local headless play, see [tools/look/README.md](../tools/look/README.md):
+`tools/look/look start --size phone --state recruit`, then `shot`, `click x y`, `shot`.
+Look sessions have two independent slots, a 30-minute idle timeout, and keep output under
+`${XDG_STATE_HOME:-~/.local/state}/bramble/look/`. The static gate also runs the ideation scope fence.
+
 Sessions can't create GitHub releases (HTTP 403 from the session's gateway, [build.md](build.md) item 8). The owner chose on 6 November 2026: an orphan `screens` branch, reset by a scheduled Action, with PRs linking its `raw.githubusercontent.com` URLs. The screenshot tool and the Action come when something needs them. A session can create and push the branch, and the image renders in a PR comment, but it can't delete a branch (HTTP 403); the Action uses its own token, so it can reset it. Updating an existing `screens` branch from a session wasn't tried. The lifecycle wording comes to the owner when the Action is built.
 
 ## What stays out of the cloud
