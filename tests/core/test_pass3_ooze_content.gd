@@ -96,13 +96,14 @@ func test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values_but_a35s() 
 		var count: int = 0
 		var expected: Dictionary = paper[preset]
 		var resolved: Dictionary = Pass3Rates.resolved(config)
+		var moved: Dictionary = A35_DIALS[preset]
 		for key: String in expected:
 			if key.begins_with("oozes_"):
-				var want: Variant = A35_DIALS[preset].get(key, expected[key])
+				var want: Variant = moved.get(key, expected[key])
 				assert_eq(resolved[key], want, preset + " " + key)
 				count += 1
 		assert_eq(count, 23)
-		var eat: Variant = A35_DIALS[preset]["oozes_eat_printed_multiplier"]
+		var eat: Variant = moved["oozes_eat_printed_multiplier"]
 		assert_eq(resolved["oozes_eat_printed_multiplier"], eat)
 
 
