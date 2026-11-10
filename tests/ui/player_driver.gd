@@ -563,7 +563,27 @@ func _click_control(target: Control, signal_name: String, label: String) -> bool
 	var fired: Array[bool] = [false]
 	var mark: Callable = func(_a: Variant = null, _b: Variant = null) -> void: fired[0] = true
 	target.connect(signal_name, mark)
-	var at: Vector2 = target.get_global_rect().get_center()
+	var rect: Rect2 = target.get_global_rect()
+	var at: Vector2 = rect.get_center()
+	# Fans and floating readers can cover the centre while leaving a tappable edge.
+	# Find an exposed point by real hit testing; never send a press through another control.
+	for fraction: Vector2 in [
+		Vector2(0.5, 0.5),
+		Vector2(0.2, 0.8),
+		Vector2(0.8, 0.8),
+		Vector2(0.5, 0.95),
+		Vector2(0.1, 0.2),
+		Vector2(0.9, 0.2),
+	]:
+		at = rect.position + rect.size * fraction
+		var motion := InputEventMouseMotion.new()
+		motion.position = at
+		motion.global_position = at
+		viewport.push_input(motion, true)
+		var over: Control = viewport.gui_get_hovered_control()
+		if over == target or (over != null and target.is_ancestor_of(over)):
+			break
+	viewport.warp_mouse(at)
 	for pressed: bool in [true, false]:
 		var click: InputEventMouseButton = InputEventMouseButton.new()
 		click.button_index = MOUSE_BUTTON_LEFT
@@ -578,5 +598,7 @@ func _click_control(target: Control, signal_name: String, label: String) -> bool
 	if not fired[0]:
 		var over: Control = viewport.gui_get_hovered_control()
 		var hit: String = "nothing" if over == null else str(over.get_path())
+		if over != null:
+			hit += " rect=%s mouse=%s" % [over.get_global_rect(), viewport.get_mouse_position()]
 		missed_taps.append("%s: the click at %s hit %s" % [label, at, hit])
 	return fired[0]
