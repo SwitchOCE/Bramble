@@ -8,11 +8,13 @@ from pathlib import Path
 from declutter_strips import validate_interval_sampling, write_sheet
 from PIL import Image
 
+from declutter_evidence import read_json
+
 
 def assemble(packet: Path, frames: Path, revision: str) -> None:
-    before = json.loads((packet / "before-timings.json").read_text())
-    cleanup = json.loads((packet / "after-cleanup-timings.json").read_text())
-    final = json.loads((packet / "after-final-timings.json").read_text())
+    before = read_json(packet / "before-timings.json")
+    cleanup = read_json(packet / "after-cleanup-timings.json")
+    final = read_json(packet / "after-final-timings.json")
     old_runs = {(x["scenario"], x["speed"]): x for x in before["runs"]}
     cleanup_runs = {(x["scenario"], x["speed"]): x for x in cleanup["runs"]}
     final_runs = {(x["scenario"], x["speed"]): x for x in final["runs"]}
@@ -48,7 +50,7 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
     sheets = []
     content_audits = []
     for source in sorted(frames.glob("*/manifest.json")):
-        manifest = json.loads(source.read_text())
+        manifest = read_json(source)
         scenario = manifest["scenario"]
         selected = [17, 25] if scenario == "bog" else [45]
         assert manifest["speed"] in {1.0, 4.0}

@@ -10,18 +10,20 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from declutter_evidence import original_image, read_json
+
 
 def merge_baseline(packet, temporary):
     """Preserve original PNG bytes; add missing scenes and metadata from d400 replay."""
     report = []
     for manifest in sorted((temporary / "before").glob("manifest-*.json")):
-        value = json.loads(manifest.read_text())
+        value = read_json(manifest)
         for capture in value["captures"]:
             source = temporary / "before" / capture["file"]
             target = packet / "before" / capture["file"]
             identical = True
             if target.exists() and capture["scenario"] not in {"lobby", "scout"}:
-                with Image.open(source) as a, Image.open(target) as b:
+                with Image.open(source) as a, Image.open(original_image(target)) as b:
                     identical = a.size == b.size and a.convert("RGBA").tobytes() == b.convert("RGBA").tobytes()
                 capture["existing_before_png_preserved"] = True
             else:
@@ -70,7 +72,7 @@ def measure(packet):
         phases = {}
         for phase in ["before", "after"]:
             path = packet / phase / ("manifest-" + size + ".json")
-            manifest = json.loads(path.read_text())
+            manifest = read_json(path)
             for capture in manifest["captures"]:
                 mask_capture(packet / phase, capture, manifest["pixels"])
             path.write_text(json.dumps(manifest, indent=2) + "\n")
@@ -162,7 +164,7 @@ CONFUSABLE_PORTRAITS = {}
 
 def budget_breakdown(packet, classified_run, revision, output_stem="budget-breakdown", stage="current"):
     """Publish live ownership classifications; never infer roles from printed digits."""
-    raw = json.loads(classified_run.read_text())
+    raw = read_json(classified_run)
     captures = raw["captures"]
     keys = set()
     for capture in captures:
@@ -297,7 +299,7 @@ TILE_ZONES = ("shop", "hand", "own_board", "scout_board")
 
 def tile_word_breakdown(packet, classified_run, revision, output_stem="tile-words", stage="current"):
     """Publish lexical tile words without changing or substituting for the raw label budget."""
-    raw = json.loads(classified_run.read_text())
+    raw = read_json(classified_run)
     captures = raw["captures"]
     seen = set()
     for capture in captures:

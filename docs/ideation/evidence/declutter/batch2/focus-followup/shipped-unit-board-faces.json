@@ -3,7 +3,7 @@
   "card_set": "slice",
   "unit_count": 120,
   "fallback_names": [],
-  "method": "Exact rendered cells from all-unit-board-faces.png, filtered by full_game card_set and repacked offline.",
+  "method": "Exact rendered cells from all-unit-board-faces.jpg, filtered by full_game card_set and repacked offline.",
   "source_entries": [
     {
       "art_rect_share": 0.7741838873914345,

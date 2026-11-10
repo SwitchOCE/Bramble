@@ -2,7 +2,7 @@
   "production_revision": "4c5c2900",
   "parent_baseline_unchanged": true,
   "stills": "pairs.json",
-  "budget_breakdown": "budget-breakdown.json",
+  "budget_breakdown": "budget-breakdown.json.gz",
   "motion_runs": [
     {
       "run": "end-turn-reduce",
@@ -68,7 +68,7 @@
   "end_turn_events_sha256": "01bfdf3cb7c6781c0caeac4c6e8a9fa347107037f514e5f0b55bbb6a7e887ec9",
   "face_unit_count": 158,
   "shipped_face_unit_count": 120,
-  "shipped_contact_sheet": "shipped-unit-board-faces.png",
+  "shipped_contact_sheet": "shipped-unit-board-faces.jpg",
   "shipped_fallback_names": [],
   "legacy_unit_count": 38,
   "fallback_names": [

@@ -9,13 +9,15 @@ from pathlib import Path
 from declutter_strips import write_sheet
 from PIL import Image
 
+from declutter_evidence import read_json
+
 
 def assemble(frames_dir, output_dir, fixture_path, revision):
-    fixture = json.loads(fixture_path.read_text())
+    fixture = read_json(fixture_path)
     output_dir.mkdir(parents=True, exist_ok=True)
     summary = []
     for source in sorted(frames_dir.glob("*/manifest.json")):
-        manifest = json.loads(source.read_text())
+        manifest = read_json(source)
         assert manifest["timing_passes_equal"]
         assert manifest["events"] == fixture["combat"]["events"]
         assert set(manifest["selected_attack_event_indices"]) == set(fixture["selected_attack_event_indices"])
@@ -70,8 +72,8 @@ def assemble(frames_dir, output_dir, fixture_path, revision):
 
 
 def compare(packet):
-    before = json.loads((packet / "before/runs.json").read_text())
-    after = json.loads((packet / "after/runs.json").read_text())
+    before = read_json(packet / "before/runs.json")
+    after = read_json(packet / "after/runs.json")
     assert len(before) == len(after) == 3
     pairs = []
     for a, b in zip(before, after, strict=False):

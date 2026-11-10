@@ -1,0 +1,497 @@
+[
+  {
+    "image": "after/lobby-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "after/lobby-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "after/natural-birds-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "after/natural-birds-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "after/overview-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "after/overview-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "after/reader-reel_mistress-golden-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "after/reader-reel_mistress-golden-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "after/scout-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "after/scout-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "all-unit-board-faces.jpg",
+    "capture_pixels": [
+      2190,
+      3904
+    ],
+    "display_pixels": [
+      720,
+      1284
+    ]
+  },
+  {
+    "image": "before/lobby-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "before/lobby-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "before/natural-birds-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "before/natural-birds-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "before/overview-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "before/overview-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "before/reader-reel_mistress-golden-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "before/reader-reel_mistress-golden-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "before/scout-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "before/scout-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "focus-followup/after/lobby-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "focus-followup/after/lobby-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "focus-followup/after/natural-birds-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "focus-followup/after/natural-birds-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "focus-followup/after/overview-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "focus-followup/after/overview-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "focus-followup/after/reader-reel_mistress-golden-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "focus-followup/after/reader-reel_mistress-golden-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "focus-followup/after/scout-1688x780.jpg",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "image": "focus-followup/after/scout-1920x1080.jpg",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "image": "focus-followup/all-unit-board-faces.jpg",
+    "capture_pixels": [
+      2190,
+      3904
+    ],
+    "display_pixels": [
+      720,
+      1284
+    ]
+  },
+  {
+    "image": "focus-followup/shipped-unit-board-faces.jpg",
+    "capture_pixels": [
+      2190,
+      2928
+    ],
+    "display_pixels": [
+      720,
+      963
+    ]
+  },
+  {
+    "image": "focus-followup/strips/end-turn-reduce/end-turn.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "focus-followup/strips/end-turn-x1/end-turn.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "focus-followup/strips/end-turn-x4/end-turn.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "focus-followup/strips/scout-reach-reduce/scout-reach.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "focus-followup/strips/scout-reach-x1/scout-reach.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "focus-followup/strips/scout-reach-x4/scout-reach.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "strips/end-turn-reduce/end-turn.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "strips/end-turn-x1/end-turn.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "strips/end-turn-x4/end-turn.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "strips/scout-reach-reduce/scout-reach.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "strips/scout-reach-x1/scout-reach.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "image": "strips/scout-reach-x4/scout-reach.jpg",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  }
+]

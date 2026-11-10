@@ -2,7 +2,7 @@
   "schema": 1,
   "source_revision": "9d649868 + frozen finish working tree (HandFan, Ring travel and tile-word audit)",
   "capture_stage": "batch2 finish text-node audit; fan10 authorized edge case",
-  "classification_input": "build/declutter/b2-finish-tests/tile-words-run.json",
+  "classification_input": "build/declutter/b2-finish-tests/tile-words-run.json.gz",
   "method": "Live visible Label, RichTextLabel and rendered Button text. Scope follows actual CardView zones, HandFan ownership and BoardView ancestry, including slot/name strips. HUD and CardDetail reader text are outside tile scope. Letter-containing tokens count as words, including F1; signed/fractional numbers and compact k/m/b stat numbers do not. Every word retains its node, full path, zone, tile path, source text and unit identity.",
   "legacy_policy": "The unchanged legacy slice uses unit IDs without individual art. Their fallback name words are explicitly listed and counted; only those missing-art names are allowed. No shipped portrait exceptions remain.",
   "raw_budget_policy": "The <=40 gate applies to its defined recruit/scout budget states and is unchanged. The user authorized fan10 as an edge case: it keeps every hand stat, reports all 61 raw text nodes, and passes the separate zero-tile-words check. Its 61 is not a failure of the defined budget-state test. No occlusion or focus-only exclusion is applied.",

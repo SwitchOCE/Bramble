@@ -10,6 +10,8 @@ from pathlib import Path
 from declutter_b2_report import LABEL_CATEGORIES, budget_breakdown, mask_capture
 from PIL import Image
 
+from declutter_evidence import original_image, read_json
+
 
 def file_hash(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -35,14 +37,14 @@ def prepare(packet: Path) -> None:
         "guarded_parent_sha256": hashes,
     }
     if path.exists():
-        assert json.loads(path.read_text()) == record, "parent baseline evidence changed"
+        assert read_json(path) == record, "parent baseline evidence changed"
     else:
         path.write_text(json.dumps(record, indent=2) + "\n")
     print("Pinned identical states and", len(hashes), "immutable parent inputs/before artifacts")
 
 
 def verify_parent(packet: Path) -> None:
-    record = json.loads((packet / "input-provenance.json").read_text())
+    record = read_json(packet / "input-provenance.json")
     assert file_hash(packet / "states.json") == record["states_sha256"]
     for relative, expected in record["guarded_parent_sha256"].items():
         assert file_hash(packet.parent / relative) == expected, relative
@@ -55,8 +57,8 @@ def stills(packet: Path, revision: str) -> None:
     for dimensions in ["1688x780", "1920x1080"]:
         before_path = packet.parent / "before" / ("manifest-" + dimensions + ".json")
         after_path = packet / "after" / ("manifest-" + dimensions + ".json")
-        before = json.loads(before_path.read_text())
-        after = json.loads(after_path.read_text())
+        before = read_json(before_path)
+        after = read_json(after_path)
         old = {capture["scenario"]: capture for capture in before["captures"]}
         for capture in after["captures"]:
             scenario = capture["scenario"]
@@ -137,11 +139,11 @@ def stills(packet: Path, revision: str) -> None:
 
 def finish(packet: Path, revision: str) -> None:
     verify_parent(packet)
-    runs = json.loads((packet / "strips" / "runs.json").read_text())
+    runs = read_json(packet / "strips" / "runs.json")
     assert len(runs) == 6 and sum(run["frames"] for run in runs) == 48
     hashes = set()
     for path in sorted((packet / "strips").glob("*/manifest.json")):
-        value = json.loads(path.read_text())
+        value = read_json(path)
         value["production_revision"] = revision
         if value["name"].startswith("end-turn"):
             assert value["final_stats_equal_core"]
@@ -151,7 +153,7 @@ def finish(packet: Path, revision: str) -> None:
         path.write_text(json.dumps(value, indent=2) + "\n")
     assert len(hashes) == 1
     faces_path = packet / "all-unit-board-faces.json"
-    faces = json.loads(faces_path.read_text())
+    faces = read_json(faces_path)
     faces["production_revision"] = revision
     faces_path.write_text(json.dumps(faces, indent=2) + "\n")
     # Repack rendered cells without rerendering or changing any actual card pixels.
@@ -159,13 +161,13 @@ def finish(packet: Path, revision: str) -> None:
     definitions = {
         value["id"]: value
         for path in (root / "content" / "units").glob("*.json")
-        for value in [json.loads(path.read_text())]
+        for value in [read_json(path)]
     }
     config_source = (root / "src" / "core" / "game_config.gd").read_text()
     assert 'const SLICE: String = "slice"' in config_source
     shipped = [entry for entry in faces["entries"] if definitions[entry["def_id"]].get("set", "") == "slice"]
     assert shipped and not any(entry["fallback_name_shown"] for entry in shipped)
-    with Image.open(packet / "all-unit-board-faces.png") as source:
+    with Image.open(original_image(packet / "all-unit-board-faces.jpg")) as source:
         cell_width = source.width // faces["columns"]
         cell_height = source.height // ((faces["unit_count"] + faces["columns"] - 1) // faces["columns"])
         sheet = Image.new(source.mode, (source.width, cell_height * ((len(shipped) + 9) // 10)))
@@ -175,7 +177,7 @@ def finish(packet: Path, revision: str) -> None:
                 source.crop((left, top, left + cell_width, top + cell_height)),
                 ((index % 10) * cell_width, (index // 10) * cell_height),
             )
-        sheet.save(packet / "shipped-unit-board-faces.png")
+        sheet.save(packet / "shipped-unit-board-faces.jpg", quality=85, optimize=True)
     (packet / "shipped-unit-board-faces.json").write_text(
         json.dumps(
             {
@@ -184,7 +186,7 @@ def finish(packet: Path, revision: str) -> None:
                 "unit_count": len(shipped),
                 "fallback_names": [],
                 "method": (
-                    "Exact rendered cells from all-unit-board-faces.png, "
+                    "Exact rendered cells from all-unit-board-faces.jpg, "
                     "filtered by full_game card_set and repacked offline."
                 ),
                 "source_entries": shipped,
@@ -202,7 +204,7 @@ def finish(packet: Path, revision: str) -> None:
         "end_turn_events_sha256": next(iter(hashes)),
         "face_unit_count": faces["unit_count"],
         "shipped_face_unit_count": len(shipped),
-        "shipped_contact_sheet": "shipped-unit-board-faces.png",
+        "shipped_contact_sheet": "shipped-unit-board-faces.jpg",
         "shipped_fallback_names": [],
         "legacy_unit_count": faces["unit_count"] - len(shipped),
         "fallback_names": [entry["def_id"] for entry in faces["entries"] if entry["fallback_name_shown"]],
