@@ -27,6 +27,8 @@ const BARK_EDGE: Color = Color("899078")
 const PAPER_INK: Color = Color("515747")
 const PAPER_LIGHT: Color = Color("fff4d9")
 const CONTACT: Color = Color(0.06, 0.12, 0.10, 0.18)
+## One art-direction switch for every portrait; false restores the earlier gentle grade.
+const STRONG_PORTRAIT_GRADE: bool = true
 ## Public portrait floor used by layout checks.
 const ART_MIN: float = 40.0
 const ART_SHARE: float = 0.68
@@ -253,6 +255,7 @@ func _build() -> void:
 		_portrait_shader = Shader.new()
 		_portrait_shader.code = """
 shader_type canvas_item;
+uniform bool strong_grade = false;
 varying vec4 tint;
 void vertex() {
 	tint = COLOR;
@@ -262,11 +265,24 @@ void fragment() {
 	float value = dot(portrait.rgb, vec3(0.2126, 0.7152, 0.0722));
 	vec3 ink = mix(vec3(value), portrait.rgb, 0.89);
 	ink *= vec3(1.015, 1.0, 0.955);
+	if (strong_grade) {
+		// Keep identifying blues and yellows while muting the broader palette.
+		float blue = smoothstep(0.03, 0.20, portrait.b - max(portrait.r, portrait.g));
+		float yellow = smoothstep(0.06, 0.30, min(portrait.r, portrait.g) - portrait.b);
+		yellow *= smoothstep(0.70, 0.88, portrait.g / max(portrait.r, 0.001));
+		float saturation = mix(0.46, 0.70, max(blue, yellow));
+		ink = mix(vec3(value), portrait.rgb, saturation);
+		// Broad upper-right cream light and cool lower-left shade; no new texture.
+		float key = clamp(0.5 + 0.55 * (UV.x - UV.y), 0.0, 1.0);
+		vec3 light = mix(vec3(0.84, 0.91, 0.90), vec3(1.09, 1.04, 0.94), key);
+		ink = min(ink * light, vec3(1.0));
+	}
 	COLOR = tint * vec4(ink, portrait.a);
 }
 """
 	var grade := ShaderMaterial.new()
 	grade.shader = _portrait_shader
+	grade.set_shader_parameter("strong_grade", STRONG_PORTRAIT_GRADE)
 	_art.material = grade
 	add_child(_art)
 	_hedge_marks = HedgeMarks.new()

@@ -1,7 +1,7 @@
 extends SceneTree
 ## Review-only portrait substitution; never changes the game's content or portrait lookup.
 ## Run with a real renderer through scripts/godot_slot.sh:
-## godot -s tools/render_unit_art.gd -- current|v2|v2b output.png
+## godot -s tools/render_unit_art.gd -- current|v2|v2b|strong output.png
 
 const Card := preload("res://src/ui/widgets/card_view.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -33,8 +33,8 @@ func _initialize() -> void:
 
 func _run() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args.size() != 2 or args[0] not in ["current", "v2", "v2b"]:
-		printerr("usage: -- current|v2|v2b output.png")
+	if args.size() != 2 or args[0] not in ["current", "v2", "v2b", "strong"]:
+		printerr("usage: -- current|v2|v2b|strong output.png")
 		quit(2)
 		return
 	DisplayServer.window_set_size(Vector2i(1920, 1080))
@@ -62,7 +62,10 @@ func _run() -> void:
 		)
 		card.set_card_size(Vector2(270, 297))
 		card.position = Vector2(210 + index % 4 * 400, 130 + floori(index / 4.0) * 460)
-		if args[0] != "current":
+		# Comparison columns keep the earlier grade; only the fifth uses the new option.
+		var grade: ShaderMaterial = card._art.material as ShaderMaterial
+		grade.set_shader_parameter("strong_grade", args[0] == "strong")
+		if args[0] in ["v2", "v2b"]:
 			var path: String = "res://assets/portraits_%s/%s.jpg" % [args[0], IDS[index]]
 			var portrait := Image.load_from_file(ProjectSettings.globalize_path(path))
 			if portrait == null:
