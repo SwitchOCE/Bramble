@@ -4,6 +4,18 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — S3 measurement and delivery: review calls
+**Source:** the scope review of `ideation/measure` `ce50d9d7..00ed62b9` (`evidence/review-s3-measure.md`): 13 keep, 0 cut, 2 simplify, 1 ask.
+
+**Picked:**
+- **Ask (ship the library while the field is off):** ship it. Plan §5 makes the library required in build 8's packs, and criterion 4's checklist wants it in the pack listing. The memory work (entry below) decides whether a player can turn the field on.
+- **Simplify 1:** `export_smoke.sh` gets one mode that requires the library and still boots a feature-off Linux export to check that the default opponents are Bots. As it stands, CI's export smoke would break the moment A6 commits the library.
+- **Simplify 2:** delete the nine old per-build scripts in `build/`. Git keeps them, and the plan says "the one export script".
+- **The reviewer's open question** (cut the 640 MB parse before settling the default) was already taken: w7 is loading only the dealt rivals.
+- **Merge** after w7's memory commit and these two simplifications pass a narrow review and the gate. A3.5 run 1 doesn't need S3 before then, since it also waits on the dials routine and Hedgerow's route fixes.
+
+**Agreed by:** the scope review (no cuts).
+
 ### 10 Nov 2026 — Done means: re-check calls
 **Source:** a fresh re-check of the fidelity fixes at `34d8397e` (`evidence/plan-to-done/done-means-recheck.md`).
 - Closed: cuts 2 and 3, and asks 1, 3 and 5.
