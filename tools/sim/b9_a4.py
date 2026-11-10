@@ -113,6 +113,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--source-commit")
+    parser.add_argument("--presets", nargs="+", choices=["B", "C"], default=["B", "C"])
     parser.add_argument("--out", type=Path, required=True)
     args = parser.parse_args()
     source = revision()
@@ -140,7 +141,7 @@ def main():
         "library_tool": "tools/sim/recapture_field.sh --reuse-captures --strength top4",
         "presets": {},
     }
-    for preset in ("B", "C"):
+    for preset in dict.fromkeys(args.presets):
         output = args.out / preset
         output.mkdir()
         config = CONFIGS / f"{preset}-{mode}.json"

@@ -153,15 +153,15 @@ func test_paper_b_and_c_rates_differ_only_in_the_nine_shares_and_a35_pelts() -> 
 		"hunters_nip_share": 0.875,
 		"hunters_sable_share": 0.875,
 		"hunters_lutra_share": 0.875,
-		"hunters_glutton_share": 1.6666666666666667,
-		"hunters_lodger_share": 1.6666666666666667,
-		"hunters_wick_share": 0.8333333333333334,
-		"hunters_grizel_share": 0.8333333333333334,
-		"hunters_pelt_share": 0.8333333333333334,
+		"hunters_glutton_share": 1.5,
+		"hunters_lodger_share": 1.5,
+		"hunters_wick_share": 0.75,
+		"hunters_grizel_share": 0.75,
+		"hunters_pelt_share": 0.75,
 		"hunters_russet_buff_share": 0.875,
 		# A3.5 step 0 (DECISIONS 10 Nov): Ermeline's Pelts join the path.
-		"hunters_ermeline_pelts": 5,
-		"hunters_golden_ermeline_pelts": 10,
+		"hunters_ermeline_pelts": 4,
+		"hunters_golden_ermeline_pelts": 8,
 	}
 	for preset_id: String in ["B", "C"]:
 		config.set_value("pass3_preset", preset_id)
@@ -200,9 +200,9 @@ func test_golden_shares_and_geometry_have_their_distinct_meanings() -> void:
 	assert_string_contains(_card("little_nip")["text"], "seven eighths")
 	assert_string_contains(_card("little_nip")["golden_text"], "seven quarters")
 	assert_string_contains(
-		_card("mountain_glutton")["golden_text"], "ten thirds of the quarry's stats"
+		_card("mountain_glutton")["golden_text"], "three times the quarry's stats"
 	)
-	assert_string_contains(_card("grizel")["golden_text"], "five thirds of the target's stats")
+	assert_string_contains(_card("grizel")["golden_text"], "three halves of the target's stats")
 
 
 func test_rate_sweeps_rewrite_faces_and_reader_rulings() -> void:
@@ -252,7 +252,7 @@ func test_borrowed_fragments_and_default_readers_keep_the_resolved_numbers() -> 
 	)
 	config.set_value("pass3_preset", "C")
 	assert_string_contains(
-		_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "five sixths"
+		_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "three quarters"
 	)
 	config.set_value("hunters_nip_share", 0.75)
 	config.set_value("hunters_golden_take_multiplier", 1.5)

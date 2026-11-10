@@ -71,7 +71,7 @@ func test_authored_normal_and_golden_faces_equal_resolved_b_generation() -> void
 			assert_eq(library.get_unit(id)[key], authored, id + " runtime")
 
 
-func test_ooze_presets_match_probe_endpoints_with_soup_cut_and_c_share_limits() -> void:
+func test_ooze_b_keeps_probe_and_c_matches_the_one_a4_repair() -> void:
 	for row: Array in [
 		["B", "res://tools/sim/evidence/ooze-probe/ooze-b-20261110-r4.json"],
 		["C", "res://tools/sim/evidence/ooze-probe/ooze-c-20261110-r4.json"],
@@ -79,6 +79,16 @@ func test_ooze_presets_match_probe_endpoints_with_soup_cut_and_c_share_limits() 
 		var preset: String = str(row[0])
 		var fixture: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(str(row[1])))
 		var expected: Dictionary = fixture["rates"]
+		if preset == "C":
+			var repair: Dictionary = JSON.parse_string(
+				FileAccess.get_file_as_string(
+					"res://docs/ideation/evidence/b9-measure/c-repair/rates.json"
+				)
+			)
+			var changed: Dictionary = repair["rates"]
+			for key: String in expected:
+				if changed.has(key):
+					expected[key] = changed[key]
 		config.set_value("pass3_preset", preset)
 		var resolved: Dictionary = Pass3Rates.resolved(config)
 		assert_eq(expected.size(), 24)
@@ -95,10 +105,12 @@ func test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_d
 	config.set_value("pass3_preset", "C")
 	var soup: Dictionary = library.get_unit("stone_soup").duplicate(true)
 	Pass3OozeText.configure(soup, config)
-	assert_eq(soup["text"], "Shop units gain 9 tenths of your biggest Ooze's stats, rounded up.")
+	assert_eq(
+		soup["text"], "Shop units gain three tenths of your biggest Ooze's stats, rounded up."
+	)
 	assert_eq(
 		soup["golden_text"],
-		"Shop units gain 9 tenths of your six biggest Oozes' combined stats, rounded up."
+		"Shop units gain three tenths of your three biggest Oozes' combined stats, rounded up."
 	)
 	var elder: Dictionary = library.get_unit("elder_ooze").duplicate(true)
 	Pass3OozeText.configure(elder, config)

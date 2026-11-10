@@ -1,0 +1,43 @@
+{
+  "source_commit": "31aa4273",
+  "path_source": "../../a35-run1/path-source.json (Hunters/Bog); ooze-endpoints.json (A4 B/C, including Soup B=0.2)",
+  "fits": {
+    "oozes": {
+      "points": [
+        [
+          0,
+          958
+        ],
+        [
+          1,
+          18322
+        ]
+      ],
+      "slope": 2.9510100246042934,
+      "target": 1800,
+      "raw_t": 0.21372145829899936,
+      "chosen_t": 0.25
+    },
+    "hunters": {
+      "points": [
+        [
+          1.25,
+          585
+        ],
+        [
+          2.25,
+          4463
+        ]
+      ],
+      "slope": 2.0319646173974135,
+      "target": 1800,
+      "raw_t": 1.8031248364412735,
+      "chosen_t": 2.0
+    },
+    "bog": {
+      "old_t": 1.5,
+      "chosen_t": 1.0,
+      "reason": "Jenny carries 99.8%/98.4% of the sampled R12/R14 board. Native R10 Soak grant +103796/+103796 after meeting a 779536-stat Ooze board seeds the carry. Lower full Bog path by 0.5; Soak normal/golden 4/8 -> 3/6, Tiddy 1/2 -> 0.75/1.5. Upstream Ooze repair also cuts the source."
+    }
+  }
+}

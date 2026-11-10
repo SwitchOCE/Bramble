@@ -1,0 +1,405 @@
+[
+  {
+    "preset": "B",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 10,
+    "own_active_stats": 134,
+    "opponent_line": "line_oozes_tempo",
+    "opponent_active_stats": 437,
+    "toll": 10,
+    "largest_units": [],
+    "own_carry": [
+      {
+        "attack": 15,
+        "cause": "Soak",
+        "health": 15,
+        "iid": 496,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "bridge_toad"
+      },
+      {
+        "attack": 2,
+        "cause": "Take",
+        "health": 5,
+        "iid": 30,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "little_nip"
+      },
+      {
+        "attack": 3,
+        "cause": "Soak",
+        "health": 3,
+        "iid": 492,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "prima_donna"
+      },
+      {
+        "attack": 3,
+        "cause": "Soak",
+        "health": 3,
+        "iid": 492,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "prima_donna"
+      },
+      {
+        "attack": 18,
+        "health": 18,
+        "iid": 300,
+        "op": "buff",
+        "side": 0,
+        "card": "signor_ranocchio"
+      },
+      {
+        "attack": 27,
+        "cause": "Soak",
+        "health": 27,
+        "iid": 263,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "prince_restored"
+      },
+      {
+        "kisses": 4,
+        "op": "bog_state",
+        "side": 0,
+        "toll": 50,
+        "card": null
+      }
+    ]
+  },
+  {
+    "preset": "B",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 11,
+    "own_active_stats": 279,
+    "opponent_line": "line_bog_swamp",
+    "opponent_active_stats": 366,
+    "toll": 50,
+    "largest_units": [],
+    "own_carry": [
+      {
+        "attack": 6,
+        "cause": "Soak",
+        "health": 6,
+        "iid": 492,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prima_donna"
+      },
+      {
+        "attack": 4,
+        "cause": "Take",
+        "health": 5,
+        "iid": 30,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "little_nip"
+      },
+      {
+        "attack": 33,
+        "cause": "Soak",
+        "health": 33,
+        "iid": 263,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prince_restored"
+      },
+      {
+        "attack": 60,
+        "cause": "Soak",
+        "health": 60,
+        "iid": 496,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "bridge_toad"
+      },
+      {
+        "attack": 30,
+        "health": 30,
+        "iid": 300,
+        "op": "buff",
+        "side": 1,
+        "card": "signor_ranocchio"
+      },
+      {
+        "attack": 21,
+        "cause": "Soak",
+        "health": 21,
+        "iid": 492,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prima_donna"
+      },
+      {
+        "kisses": 5,
+        "op": "bog_state",
+        "side": 1,
+        "toll": 60,
+        "card": null
+      }
+    ]
+  },
+  {
+    "preset": "B",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 12,
+    "own_active_stats": 578,
+    "opponent_line": "line_hunters_open_season",
+    "opponent_active_stats": 934,
+    "toll": 60,
+    "largest_units": [],
+    "own_carry": [
+      {
+        "attack": 129,
+        "cause": "Soak",
+        "health": 129,
+        "iid": 263,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prince_restored"
+      },
+      {
+        "attack": 75,
+        "health": 75,
+        "iid": 300,
+        "op": "buff",
+        "side": 1,
+        "card": "signor_ranocchio"
+      },
+      {
+        "attack": 114,
+        "cause": "Soak",
+        "health": 114,
+        "iid": 492,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prima_donna"
+      },
+      {
+        "kisses": 5,
+        "op": "bog_state",
+        "side": 1,
+        "toll": 101,
+        "card": null
+      }
+    ]
+  },
+  {
+    "preset": "C",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 10,
+    "own_active_stats": 821,
+    "opponent_line": "line_oozes_tempo",
+    "opponent_active_stats": 779536,
+    "toll": 55,
+    "largest_units": [],
+    "own_carry": [
+      {
+        "attack": 103796,
+        "cause": "Soak",
+        "health": 103796,
+        "iid": 354,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "jenny_greenteeth"
+      },
+      {
+        "kisses": 0,
+        "op": "bog_state",
+        "side": 0,
+        "toll": 26586,
+        "card": null
+      }
+    ]
+  },
+  {
+    "preset": "C",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 11,
+    "own_active_stats": 249974,
+    "opponent_line": "line_hunters_pack",
+    "opponent_active_stats": 431,
+    "toll": 26586,
+    "largest_units": [
+      {
+        "id": "jenny_greenteeth",
+        "attack": 124621,
+        "health": 124629
+      }
+    ],
+    "own_carry": [
+      {
+        "attack": 64,
+        "cause": "Soak",
+        "health": 64,
+        "iid": 641,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "jenny_greenteeth"
+      },
+      {
+        "attack": 7,
+        "cause": "Take",
+        "health": 7,
+        "iid": 30,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "little_nip"
+      },
+      {
+        "attack": 16,
+        "cause": "Soak",
+        "health": 16,
+        "iid": 643,
+        "op": "pending_gain",
+        "side": 0,
+        "card": "peat_king"
+      },
+      {
+        "kisses": 0,
+        "op": "bog_state",
+        "side": 0,
+        "toll": 17,
+        "card": null
+      }
+    ]
+  },
+  {
+    "preset": "C",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 12,
+    "own_active_stats": 389796,
+    "opponent_line": "line_birds_homecoming",
+    "opponent_active_stats": 8056,
+    "toll": 17,
+    "largest_units": [
+      {
+        "id": "jenny_greenteeth",
+        "attack": 179546,
+        "health": 209484
+      }
+    ],
+    "own_carry": [
+      {
+        "attack": 97456,
+        "cause": "Soak",
+        "health": 97456,
+        "iid": 641,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "jenny_greenteeth"
+      },
+      {
+        "attack": 24,
+        "cause": "Soak",
+        "health": 24,
+        "iid": 638,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prima_donna"
+      },
+      {
+        "attack": 100,
+        "cause": "Soak",
+        "health": 100,
+        "iid": 98,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "bridge_toad"
+      },
+      {
+        "kisses": 0,
+        "op": "bog_state",
+        "side": 1,
+        "toll": 12212,
+        "card": null
+      }
+    ]
+  },
+  {
+    "preset": "C",
+    "seed": 2911045,
+    "seat": 4,
+    "round": 14,
+    "own_active_stats": 872448,
+    "opponent_line": "line_bog_swamp",
+    "opponent_active_stats": 6809065,
+    "toll": 56,
+    "largest_units": [
+      {
+        "id": "jenny_greenteeth",
+        "attack": 407720,
+        "health": 450831
+      },
+      {
+        "id": "prima_donna",
+        "attack": 6681,
+        "health": 6694
+      }
+    ],
+    "own_carry": [
+      {
+        "attack": 184,
+        "cause": "Soak",
+        "health": 184,
+        "iid": 638,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prima_donna"
+      },
+      {
+        "attack": 32,
+        "cause": "Soak",
+        "health": 32,
+        "iid": 638,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "prima_donna"
+      },
+      {
+        "attack": 20,
+        "cause": "Soak",
+        "health": 20,
+        "iid": 98,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "bridge_toad"
+      },
+      {
+        "attack": 6808528,
+        "cause": "Soak",
+        "health": 6808528,
+        "iid": 641,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "jenny_greenteeth"
+      },
+      {
+        "attack": 16,
+        "cause": "Soak",
+        "health": 16,
+        "iid": 643,
+        "op": "pending_gain",
+        "side": 1,
+        "card": "peat_king"
+      },
+      {
+        "kisses": 0,
+        "op": "bog_state",
+        "side": 1,
+        "toll": 1489414,
+        "card": null
+      }
+    ]
+  }
+]

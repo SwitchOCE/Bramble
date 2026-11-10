@@ -139,18 +139,21 @@ func test_measured_b_and_provisional_c_keep_their_own_soak_and_tiddy_values() ->
 		for key: String in expected:
 			assert_eq(Pass3Rates.number(config, key), float(expected[key]), preset + " " + key)
 	config.set_value("pass3_preset", "C")
-	assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 4)
-	assert_eq(Pass3Rates.integer(config, "bog_golden_soak_keep"), 8)
-	assert_eq(Pass3Rates.number(config, "bog_tiddy_share"), 1.0, "A3.5: Tiddy joins the path")
-	assert_eq(Pass3Rates.number(config, "bog_golden_tiddy_share"), 2.0)
+	assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3)
+	assert_eq(Pass3Rates.integer(config, "bog_golden_soak_keep"), 6)
+	assert_eq(Pass3Rates.number(config, "bog_tiddy_share"), 0.75, "A3.5: Tiddy joins the path")
+	assert_eq(Pass3Rates.number(config, "bog_golden_tiddy_share"), 1.5)
 	assert_eq(Pass3Rates.number(config, "bog_nan_share"), 0.5)
-	assert_eq(_card("tiddy_mun")["text"], "Start of Turn: the Bog folk beside this split the Toll.")
+	assert_eq(
+		_card("tiddy_mun")["text"],
+		"Start of Turn: the Bog folk beside this split three quarters of the Toll."
+	)
 	assert_eq(
 		_card("tiddy_mun")["golden_text"],
-		"Start of Turn: the Bog folk beside this split twice the Toll."
+		"Start of Turn: the Bog folk beside this split one and a half times the Toll."
 	)
-	assert_string_contains(_card("bridge_toad")["details"], "+4/+4")
-	assert_string_contains(_card("bridge_toad")["golden_details"], "+8/+8")
+	assert_string_contains(_card("bridge_toad")["details"], "+3/+3")
+	assert_string_contains(_card("bridge_toad")["golden_details"], "+6/+6")
 
 
 func test_changed_rates_rewrite_faces_details_and_keyword_reminders() -> void:

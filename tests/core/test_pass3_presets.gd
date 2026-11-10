@@ -87,7 +87,7 @@ func test_fairy_rebase_uses_paper_rates_with_authorized_initial_ring_sizes() -> 
 		assert_eq(Pass3Rates.integer(config, "fairies_nan_rings"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_annis_rings"), 1)
 		assert_eq(Pass3Rates.integer(config, "fairies_sally_rings"), 1)
-		assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3 if preset_id == "B" else 4)
+		assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3)
 	config.set_value("pass3_preset", "A")
 	assert_eq(Pass3Rates.number(config, "fairies_initial_ring_size"), 1.0)
 	assert_eq(Pass3Rates.number(config, "fairies_ring_growth"), 1.0)

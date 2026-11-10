@@ -1,0 +1,428 @@
+{
+  "audit": [
+    {
+      "after_limits": 3,
+      "b": 2.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "bog_soak_keep",
+      "rounded_value": 3.0,
+      "t": 1.0
+    },
+    {
+      "after_limits": 6,
+      "b": 4.0,
+      "c": 6.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "bog_golden_soak_keep",
+      "rounded_value": 6.0,
+      "t": 1.0
+    },
+    {
+      "after_limits": 0.75,
+      "b": 0.5,
+      "c": 0.75,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "bog_tiddy_share",
+      "rounded_value": 0.75,
+      "t": 1.0
+    },
+    {
+      "after_limits": 1.5,
+      "b": 1.0,
+      "c": 1.5,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "bog_golden_tiddy_share",
+      "rounded_value": 1.5,
+      "t": 1.0
+    },
+    {
+      "after_limits": 0.875,
+      "b": 0.6666666666666666,
+      "c": 0.75,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_nip_share",
+      "rounded_value": 0.875,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.875,
+      "b": 0.6666666666666666,
+      "c": 0.75,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_sable_share",
+      "rounded_value": 0.875,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.875,
+      "b": 0.6666666666666666,
+      "c": 0.75,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_lutra_share",
+      "rounded_value": 0.875,
+      "t": 2.0
+    },
+    {
+      "after_limits": 1.5,
+      "b": 0.6666666666666666,
+      "c": 1.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_glutton_share",
+      "rounded_value": 1.5,
+      "t": 2.0
+    },
+    {
+      "after_limits": 1.5,
+      "b": 0.6666666666666666,
+      "c": 1.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_lodger_share",
+      "rounded_value": 1.5,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.75,
+      "b": 0.3333333333333333,
+      "c": 0.5,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_wick_share",
+      "rounded_value": 0.75,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.75,
+      "b": 0.3333333333333333,
+      "c": 0.5,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_grizel_share",
+      "rounded_value": 0.75,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.75,
+      "b": 0.3333333333333333,
+      "c": 0.5,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_pelt_share",
+      "rounded_value": 0.75,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.875,
+      "b": 0.6666666666666666,
+      "c": 0.75,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_russet_buff_share",
+      "rounded_value": 0.875,
+      "t": 2.0
+    },
+    {
+      "after_limits": 4,
+      "b": 1.0,
+      "c": 2.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_ermeline_pelts",
+      "rounded_value": 4.0,
+      "t": 2.0
+    },
+    {
+      "after_limits": 8,
+      "b": 2.0,
+      "c": 4.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "hunters_golden_ermeline_pelts",
+      "rounded_value": 8.0,
+      "t": 2.0
+    },
+    {
+      "after_limits": 0.3,
+      "b": 0.2,
+      "c": 0.9,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_soup_share",
+      "rounded_value": 0.3,
+      "t": 0.25
+    },
+    {
+      "after_limits": 1.0,
+      "b": 1.0,
+      "c": 1.0,
+      "clipped": false,
+      "equality_limits": [
+        "max"
+      ],
+      "key": "oozes_elder_share",
+      "rounded_value": 1.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 1.0,
+      "b": 1.0,
+      "c": 1.0,
+      "clipped": false,
+      "equality_limits": [
+        "max"
+      ],
+      "key": "oozes_hasty_share",
+      "rounded_value": 1.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2.4,
+      "b": 1.8,
+      "c": 5.4,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_aspic_bonus",
+      "rounded_value": 2.4,
+      "t": 0.25
+    },
+    {
+      "after_limits": 5.8,
+      "b": 4.6,
+      "c": 11.8,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_golden_aspic_multiplier",
+      "rounded_value": 5.8,
+      "t": 0.25
+    },
+    {
+      "after_limits": 10,
+      "b": 7.0,
+      "c": 21.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_eat_printed_multiplier",
+      "rounded_value": 10.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_nell_meals",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_bubble_belly",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_dollop_belly",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_dollop_discount",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 0.2857142857142857,
+      "b": 0.2,
+      "c": 0.6,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_slice_share",
+      "rounded_value": 0.2857142857142857,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_slice_count",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_hasty_swallows",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 3,
+      "b": 3.0,
+      "c": 1.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_hasty_release_deaths",
+      "rounded_value": 3.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 3,
+      "b": 2.0,
+      "c": 6.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_golden_soup_reads",
+      "rounded_value": 3.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 1.5,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_granny_attack_multiplier",
+      "rounded_value": 1.5,
+      "t": 0.25
+    },
+    {
+      "after_limits": 0.6,
+      "b": 0.5,
+      "c": 1.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_posset_loss_share",
+      "rounded_value": 0.6,
+      "t": 0.25
+    },
+    {
+      "after_limits": 33,
+      "b": 25.0,
+      "c": 75.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_moss_golden_reduction",
+      "rounded_value": 33.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_bubble_splits",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_pie_gold",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_wobbly_drip",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_frumenty_meals",
+      "rounded_value": 2.0,
+      "t": 0.25
+    },
+    {
+      "after_limits": 2,
+      "b": 1.0,
+      "c": 3.0,
+      "clipped": false,
+      "equality_limits": [],
+      "key": "oozes_syllabub_fires",
+      "rounded_value": 2.0,
+      "t": 0.25
+    }
+  ],
+  "rates": {
+    "bog_golden_soak_keep": 6,
+    "bog_golden_tiddy_share": 1.5,
+    "bog_soak_keep": 3,
+    "bog_tiddy_share": 0.75,
+    "hunters_ermeline_pelts": 4,
+    "hunters_glutton_share": 1.5,
+    "hunters_golden_ermeline_pelts": 8,
+    "hunters_grizel_share": 0.75,
+    "hunters_lodger_share": 1.5,
+    "hunters_lutra_share": 0.875,
+    "hunters_nip_share": 0.875,
+    "hunters_pelt_share": 0.75,
+    "hunters_russet_buff_share": 0.875,
+    "hunters_sable_share": 0.875,
+    "hunters_wick_share": 0.75,
+    "oozes_aspic_bonus": 2.4,
+    "oozes_bubble_belly": 2,
+    "oozes_bubble_splits": 2,
+    "oozes_dollop_belly": 2,
+    "oozes_dollop_discount": 2,
+    "oozes_eat_printed_multiplier": 10,
+    "oozes_elder_share": 1.0,
+    "oozes_frumenty_meals": 2,
+    "oozes_golden_aspic_multiplier": 5.8,
+    "oozes_golden_soup_reads": 3,
+    "oozes_granny_attack_multiplier": 1.5,
+    "oozes_hasty_release_deaths": 3,
+    "oozes_hasty_share": 1.0,
+    "oozes_hasty_swallows": 2,
+    "oozes_moss_golden_reduction": 33,
+    "oozes_nell_meals": 2,
+    "oozes_pie_gold": 2,
+    "oozes_posset_loss_share": 0.6,
+    "oozes_slice_count": 2,
+    "oozes_slice_share": 0.2857142857142857,
+    "oozes_soup_share": 0.3,
+    "oozes_syllabub_fires": 2,
+    "oozes_wobbly_drip": 2
+  }
+}
