@@ -222,7 +222,7 @@ func _layout_hand(x: float) -> void:
 	# Reserving the same journey row keeps hand tiles and fan spacing stable when Birds fly.
 	var maximum: float = CANVAS_H - 24.0 - HAND_TOP - 12.0 - _away_tray.row_height()
 	var wanted: float = (
-		100.0
+		tap_size()
 		if count == 0
 		else 66.0 + HandFan.FOCUS_LIFT + rows * card.y + maxf(0, rows - 1) * HandFan.ROW_GAP + 12.0
 	)
