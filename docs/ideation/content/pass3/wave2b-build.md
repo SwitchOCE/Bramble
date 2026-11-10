@@ -655,3 +655,13 @@ corrected by an explicit keep-value precondition, not a production valuation
 change. All four lint/format commands and 27 CPU tests pass. Bootstrap outputs
 are byte-identical for the five original datasets and the revised Hedgerow run.
 Compact proof: `evidence/wave2b/gate-followup/`; detailed logs remain in build.
+
+### Merged faster-suite shard-4 warning repair
+
+Fast-forwarded wave2b to d0169f87, retaining its five cached-library resolutions.
+The complete local shard4 reproduced580/580 passing tests but two strict GUT
+Float/Int warnings: both come from the two recipes in
+`test_potluck_constructed_recipe.gd`, where an integer raw body-stat count was
+compared with a JSON float. The expectation now converts to an integer, preserving
+the exact numeric check. The affected file passes1/1 with the strict hook and
+zero GUT warnings. No game rules, recipes, rates or fixtures were changed.

@@ -27,7 +27,9 @@ func test_declared_native_recipes_match_their_phase_budgets_and_real_belly_capac
 		var board: Dictionary = RealDesignedBoards.make_board(
 			recipe, library, GameConfig.full_game()
 		)
-		assert_eq(board["design"]["raw_body_stats"], recipe["expected_active_stats"])
+		assert_eq(
+			board["design"]["raw_body_stats"], CoreUtil.to_int(recipe["expected_active_stats"])
+		)
 		assert_eq(board["hero_effects"], [])
 		var specs: Array = board["board"]
 		assert_eq(specs[5]["def_id"], "bubble_and_squeak")
