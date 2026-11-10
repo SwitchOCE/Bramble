@@ -209,8 +209,7 @@ static func short_tribe(tribes: Array) -> String:
 ## the neutral one.
 static func portrait_for(def_id: String, tribes: Array) -> Texture2D:
 	if not def_id.is_empty():
-		var portrait_id: String = "nest_egg" if def_id == "golden_egg" else def_id
-		var own: String = UNIT_PORTRAIT_DIR % portrait_id
+		var own: String = UNIT_PORTRAIT_DIR % def_id
 		if _portrait_cache.has(own):
 			return _portrait_cache[own]
 		if ResourceLoader.exists(own):
