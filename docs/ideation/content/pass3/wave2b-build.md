@@ -17,7 +17,7 @@ All 16 named Oozes retain their portraits and use the pass 3 bodies and rules. S
 | 7 Bubble | Damaging-hit requirement; halves cannot split; normal/golden split budgets |
 | 8 Frumenty | Persistent last-meal definitions feed the existing borrowed-text machinery |
 | 9 Elder | Shares original meal stats, board only, after the biggest Ooze eats a non-Ooze |
-| 10 Hasty | Empty Belly, biggest eligible enemy, see-through holder swallow, own-body permanent gain and existing releases |
+| 10 Hasty | Empty Belly, biggest eligible enemy, see-through holder swallow, permanent gain from current stats and existing releases |
 | 11 Posset | Actual damage source retained for death; killer's current stats reduced, golden same-row neighbours |
 | 12 Granny | Cleave and dependent late gather, releases family intact |
 | 13 Slice | Fractional body sent to hand, golden widens to two, full hand loses it |
@@ -392,3 +392,21 @@ Evidence under `docs/ideation/evidence/wave2b/hedgerow/`:
 No push or merge was performed. No action was denied. Part 3 and prototype
 retirement have not started. Pot Luck route arms and constructed-board work are
 queued separately, following the orchestrator's new call.
+
+### Explicit instruction deviation and queued Pot Luck protocol
+
+For the part 1 Elder repair, I declined the requested production-code-only
+remedy. The test loaded the replacement live Elder rather than its archived
+pass 2 definition; I rebound it to frozen Ooze content while preserving every
+expected value. The analogous legacy Posset and borrowed-Dozey assertions were
+also isolated rather than changing their expected rules. The actual Syllabub
+rollback leak was fixed in production code. This deviation should have been
+flagged explicitly in the original hand-off.
+
+Pot Luck's next measurements will use a same-commit, same-seed, same-count
+control with no route change, plus save-3, Dollop-priority and combined arms.
+The old 1.251/1.37 outcomes are historical only. Primary comparison will use
+R14-surviving seats' matched R8/R14 medians, with survivor-median growth and
+share alive beside it. No arm has been measured yet. The orchestrator's specified
+main-merge resolutions (combat gem/replay union, checker union, wrapped fixture
+message) are recorded for the next merge; no merge was performed here.
