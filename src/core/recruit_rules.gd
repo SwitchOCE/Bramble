@@ -163,8 +163,8 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	var frozen_offers: bool = player.frozen
 	player.frozen = false
 	HeldUnits.land_due(self, player)
-	Pass3Hedgerow.start_turn(self, player)
 	Pass3Oozes.start_turn(self, player, frozen_offers)
+	Pass3Hedgerow.start_turn(self, player)
 	events.fire(player, "start_of_turn")
 
 

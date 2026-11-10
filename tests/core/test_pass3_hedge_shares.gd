@@ -98,3 +98,21 @@ func test_recruit_growth_uses_strongest_printed_or_borrowed_text_with_guard_off_
 		assert_eq(summoned.def_id(), "kit")
 		assert_eq(summoned.attack, 21 if guarded else 31)
 		assert_eq(summoned.health, 41 if guarded else 61)
+
+
+func test_lollop_snapshots_after_digest_and_before_ordinary_start_text() -> void:
+	for golden: bool in [false, true]:
+		before_each()
+		var pot: RecruitUnit = kit.put("little_dollop", 0)
+		pot.add_permanent(100 - pot.attack, 100 - pot.health)
+		var meal: RecruitUnit = kit.put("field_vole")
+		meal.add_permanent(100 - meal.attack, 100 - meal.health)
+		kit.player.hand.erase(meal)
+		pot.held.append(meal)
+		var lollop: RecruitUnit = kit.put("squire_lollop", 4, golden)
+		var friend: RecruitUnit = kit.put("field_vole", 1)
+		kit.rules.start_phase(kit.player, 2)
+		assert_eq(Vector2i(pot.attack, pot.health), Vector2i(200, 200))
+		var share: int = 40 if golden else 20
+		assert_eq(Vector2i(friend.perm_attack, friend.perm_health), Vector2i(share, share))
+		assert_eq(Vector2i(lollop.perm_attack, lollop.perm_health), Vector2i(share, share))

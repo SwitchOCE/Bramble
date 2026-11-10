@@ -342,3 +342,9 @@ The final two pilots took **12.617s and 15.529s**, mean **14.073s**, projecting
 **7.506 minutes** for 32. Telemetry keys and tiers were verified. The 32-lobby
 run is detached in `build/wave2b/hedgerow/final-lines.*`; acceptance/accounting
 values remain pending until it finishes. No local full gate ran.
+
+Final cross-tribe turn-order correction: Lollop's frozen snapshot belongs after
+the existing Digest → Nell → Slice dependent sequence, before ordinary Start of
+Turn dispatch. A mixed Digest/Lollop board proves the normal/golden share reads
+the pot's 200/200 after eating rather than its prior 100/100. This preserves
+rulebook 12.1.9; the same 32 seeds are remeasured after this correction.
