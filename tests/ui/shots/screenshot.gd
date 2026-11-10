@@ -14,6 +14,7 @@ extends SceneTree
 ## clarity_discover_live is a tier-4 Discover from the real pool.
 ## commit_bonus, commit_harvest and commit_<unit id> stage the commitment package.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
+## Dev-only: BACKDROP=<image path> replaces table backgrounds with a centered cover image.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
@@ -26,6 +27,7 @@ const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const CommitmentStates := preload("res://tests/ui/commitment_states.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
+const TableBackground := preload("res://src/ui/widgets/table_background.gd")
 
 const ReviewBogStates := preload("res://tests/ui/review_bog_states.gd")
 const LaneStates := preload("res://tests/ui/lane_states.gd")
@@ -33,6 +35,8 @@ const LaneStates := preload("res://tests/ui/lane_states.gd")
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
 const GAME_OVER_ROUNDS: int = 60
+
+var _backdrop: ImageTexture
 
 
 func _initialize() -> void:
@@ -42,6 +46,14 @@ func _initialize() -> void:
 		printerr("usage: -- <screen> <WxH> <out.png>")
 		quit(2)
 		return
+	var backdrop_path: String = OS.get_environment("BACKDROP")
+	if not backdrop_path.is_empty():
+		var backdrop_image: Image = Image.new()
+		if backdrop_image.load(backdrop_path) != OK:
+			printerr("screenshot: cannot load BACKDROP: %s" % backdrop_path)
+			quit(2)
+			return
+		_backdrop = ImageTexture.create_from_image(backdrop_image)
 	var dims: PackedStringArray = args[1].split("x")
 	var window_size: Vector2i = Vector2i(int(dims[0]), int(dims[1]))
 	DisplayServer.window_set_size(window_size)
@@ -564,6 +576,8 @@ func _plain_app(app: App) -> void:
 
 
 func _shoot(window_size: Vector2i, out_path: String) -> void:
+	if _backdrop != null:
+		_replace_tables(root)
 	for i: int in 20:
 		await process_frame
 	var image: Image = root.get_texture().get_image()
@@ -574,3 +588,23 @@ func _shoot(window_size: Vector2i, out_path: String) -> void:
 	image.save_png(out_path)
 	print("screenshot: saved %s %s" % [out_path, image.get_size()])
 	quit(0)
+
+
+## Only replace the painted table surface; board trays, panels and unit art stay intact.
+## Loading an Image directly also supports external files without Godot's import pipeline.
+func _replace_tables(parent: Node) -> void:
+	for child: Node in parent.get_children():
+		if child.get_script() == TableBackground:
+			var table: Control = child as Control
+			var backdrop: TextureRect = TextureRect.new()
+			backdrop.name = "ShotBackdrop"
+			backdrop.texture = _backdrop
+			backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			parent.add_child(backdrop)
+			parent.move_child(backdrop, table.get_index())
+			backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			table.hide()
+		else:
+			_replace_tables(child)
