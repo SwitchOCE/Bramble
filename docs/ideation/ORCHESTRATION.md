@@ -65,13 +65,8 @@ The bridge cap is `CODEX_BRIDGE_MAX` = 5 (the owner's config). It loads when the
 - **For anything that needs a decision,** put the question in the branch's commit message or at the top of the file you changed. The orchestrator answers in DECISIONS.
 - **The owner's messages** come in the orchestrator session and the portal inbox (`docs/workstreams/README.md`).
 
-## Codex Cloud: steering and collecting (to be filled by the Codex Cloud setup worker)
-*[Placeholder. The orchestrator needs:*
-- *the environment id and how to find it;*
-- *how to submit a task on an `ideation/*` branch;*
-- *any way to send a follow-up or steer a running task (the CLI's `codex cloud` has none as of 0.166);*
-- *how to read a task's transcript and final message;*
-- *task time and concurrency limits;*
-- *what a task costs against the weekly pool.*
+## Codex Cloud: steering and collecting
 
-*Results must come back as diffs or branches that only touch `ideation/*`.]*
+The owner published the **Bramble** environment on 10 Nov 2026. [Codex Cloud handoff](CODEX_CLOUD.md) covers setup, submission, collecting results, steering, limits and usage, with verified commands and the remaining authentication/ID question at the top.
+
+The installed `codex cloud` CLI has no follow-up or steering command. The existing local bridge's `codex_send` is the available steering route for workers it owns; it does not attach to hosted cloud tasks. Cloud results come back as diffs applied on an `ideation/*` branch, or as a worker's `ideation/*` branch. Never apply to `main`, open a PR, or assume cloud workers cannot push. The orchestrator still gates and reviews before merging.
