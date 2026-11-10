@@ -512,3 +512,16 @@ Control Hard-seat Ooze splash is 83/3,587 unique off-build offers (2.314%), agai
 325/536 own-build offers (60.634%). All raw captures and CSVs remain under
 `build/wave2b/potluck-arms/`. The constructed run took 29.62s; full arms took
 414.4/432.1/426.9/431.5s. No extra whole-game test was added.
+
+### A2 follow-up merge and evidence cleanup
+
+Merged origin/main at c6e554af (the requested eaea0e05 or later). DECISIONS is
+byte-identical to that main revision. The declutter merge removed the Hand title;
+Larder is now a compact amount in the existing hand counter, with its meaning in
+hover text and a revised minimum-phone layout test. No static label was added.
+Merged counts: recruit rules 995, bot brain 981, game session 974, recruit screen
+982. BotHedgerow.aim remains the first choice in BotAim.best_slot.
+
+Removed the raw A2 fight capture and players/rounds/cards CSVs from git, preserving
+them at `build/wave2b/hedgerow/archive-a2/`. The evidence README records that path.
+Compact line rows and summaries remain tracked; future raw reruns stay in build.
