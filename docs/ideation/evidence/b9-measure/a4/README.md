@@ -37,8 +37,8 @@ The deciding growth bar is median per-seat R8–R14 growth ≥1.3 on both preset
 must be 1,350–3,600. The three v3 extremes are a tribe's best line outside an order of magnitude of the
 others; one line winning whatever the player chooses; and runaway snowballs in most lobbies.
 The DM2 dominance diagnostic is ≥80% field points at both R12/R14, requiring all lines. The snowball
-proxy (pending orchestrator interpretation) is a ≥10× R14 lead over the runner-up that eventually wins
-in >50% of eligible lobbies; R8-leader win rate is also reported. These proxies need judgment.
+diagnostic (accepted at review) is a ≥10× R14 lead over the runner-up that eventually wins
+at R14 (or the final round for earlier endings) in >50% of all completed lobbies; R8-leader win rate is also reported. These proxies need judgment.
 No dry-run values decide balance. A miss in the full run is reported, never refitted.
 
 ## Two-lobby smoke, completed

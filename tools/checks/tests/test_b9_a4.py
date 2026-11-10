@@ -87,3 +87,43 @@ class A4Test(unittest.TestCase):
         self.assertFalse(report.outside_magnitude(values))
         values["14"]["tribe_ratios"]["birds"] = 0.1
         self.assertTrue(report.outside_magnitude(values))
+
+    def test_early_runaway_win_counts_toward_the_extreme_and_denominator(self):
+        games, winners = [], {}
+        for seed, final, leader, won in [(1, 9, 100, True), (2, 10, 100, True), (3, 18, 20, False)]:
+            games.append(
+                {
+                    "seed": seed,
+                    "players": [{"rounds": final}],
+                    "rounds": [
+                        {"round": min(14, final), "seat": seat, "stats": stats, "line": f"line_{seat}"}
+                        for seat, stats in [(0, leader), (1, 10)]
+                    ],
+                }
+            )
+            winners[seed, 0] = won
+            winners[seed, 1] = not won
+        data = report.snowballs(games, winners)
+        self.assertEqual(data["eligible_lobbies"], 3)
+        self.assertEqual(data["early_finish_lobbies"], 2)
+        self.assertEqual(data["runaway_proxy_share"], 2 / 3)
+        self.assertTrue(data["most_lobbies_proxy"])
+        self.assertEqual([r["round"] for r in data["runaway_proxy_lobbies"]], [9, 10])
+
+    def test_zero_runner_up_is_included_and_exactly_half_is_not_most(self):
+        games = [
+            {
+                "seed": seed,
+                "players": [{"rounds": 8}],
+                "rounds": [
+                    {"round": 8, "seat": seat, "stats": stats, "line": f"line_{seat}"}
+                    for seat, stats in [(0, lead), (1, 0)]
+                ],
+            }
+            for seed, lead in [(1, 10), (2, 0)]
+        ]
+        winners = {(seed, seat): seat == 0 for seed in (1, 2) for seat in (0, 1)}
+        result = report.snowballs(games, winners)
+        self.assertEqual(result["runaway_proxy_share"], 0.5)
+        self.assertFalse(result["most_lobbies_proxy"])
+        self.assertTrue(result["runaway_proxy_lobbies"][0]["zero_runner_up"])

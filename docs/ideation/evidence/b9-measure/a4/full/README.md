@@ -33,7 +33,7 @@ R14 and R15 order-of-magnitude reads use each line's identical R15-surviving coh
 
 Field fights reuse tools/sim/field_fights.gd on complete captured states and blind placer layouts at R10/R12/R14. A seeded representative is sampled uniformly within each surviving committed line. One board per line gives equal line weight, excludes own-line opponents, and runs every cross-line pair in both orientations: at most 22 fights per line per round, below the 40 cap. Draws count half. This small first read has one board per line; it cannot estimate within-line board variation. Missing lines are recorded. Its 80%-at-both-R12/R14 dominance flag is a proxy, not proof of outcomes for every player choice.
 
-The three v3 extreme misses are (1) a tribe's best line outside an order of magnitude of the others, (2) one line winning whatever the player chooses, and (3) runaway snowballs in most lobbies. For (3), the predeclared diagnostic proxy is a >=10x R14 lead over the runner-up that eventually wins, in >50% of lobbies with two positive R14 boards. R8-leader win rate is reported beside it. These proxies require judgment; a dry run evaluates no deciding bar.
+The three v3 extreme misses are (1) a tribe's best line outside an order of magnitude of the others, (2) one line winning whatever the player chooses, and (3) runaway snowballs in most lobbies. For (3), the diagnostic measures a >=10x lead over the runner-up by the eventual winner at R14, or at the final pre-fight round for games ending before R14. All completed lobbies are in the denominator; a positive leader against a zero runner-up qualifies. An extreme miss requires this in >50% of all completed lobbies. R8-leader win rate is reported beside it. These proxies require judgment; a dry run evaluates no deciding bar.
 
 Libraries use the same native captures via recapture_field.sh --reuse-captures --strength top4; no additional lobby or balance arm is needed. Source commit and capture hashes are sealed.
 
@@ -243,7 +243,7 @@ R12 p10 below 0.25× median: birds_homecoming, fairies_court, hedgerow_supper, h
 
 Throwaway C checkpoint library: `/home/alex/code/Bramble-ideation-b9measure/build/b9-a4/final/C/checkpoint-C.json.gz`; SHA-256 `653ff6b506ac6cfded2128da96e45c2c3a95359cdafd24339a0e1fcd4b26940a`. 256 complete top-four trajectories, 12 lines; Godot load/session creation passed.
 
-The three v3 extremes are a tribe's best line outside an order of magnitude of the others; a line winning whatever the player chooses; and runaway snowballs in most lobbies. The first is read from late same-seat cohorts, the second through DM2's ≥80% points at both R12/R14, and the third through the predeclared ≥10× R14 leader/eventual-winner proxy in >50% of eligible lobbies. The last two are diagnostic proxies rather than proofs about every player choice. No line is missing from the final field rounds.
+The three v3 extremes are a tribe's best line outside an order of magnitude of the others; a line winning whatever the player chooses; and runaway snowballs in most lobbies. The first is read from late same-seat cohorts, the second through DM2's ≥80% points at both R12/R14, and the third through the predeclared ≥10× R14 leader/eventual-winner proxy in >50% of all completed lobbies (using the final pre-fight round when ending before R14). The last two are diagnostic proxies rather than proofs about every player choice. No line is missing from the final field rounds.
 
 Full line-lobby compact records, summaries, sampled fields and pair results are archived beside this README; `report.json.gz` and `receipt.json` preserve all values and hashes. Raw captures, local runner logs and checkpoint bundles remain under `build/b9-a4/final/`. No Actions sims or extra balance arms ran. The source stayed at 31aa4273 throughout capture and library creation.
 
@@ -268,3 +268,9 @@ and session creation. Every line-report cell and field-matrix cell reproduces fr
 `scripts/check.sh --docs-only --base 31aa4273` passed: 202 Python tests, Ruff, shellcheck, content,
 gdformat --check, gdlint and documentation checks. No Godot test suite was rerun for these evidence-only
 changes; the orchestrator owns the merged-source cloud gate. See `validation.log`.
+
+## Review revalidation
+
+The fixed validator (`2a89e251`) accepts every native and compact trajectory: B 512 seats / 7,448 seat-rounds, C 512 / 7,253. Captured rounds exactly match each seat's declared played rounds. No seeds are rejected, so no A4 seeds were rerun. See `revalidation.json`. The report JSON was regenerated with this validator.
+
+The snowball definition is settled: measure whether the eventual winner has a ≥10× pre-fight size lead over the runner-up at R14, or at the final round for a game ending before R14. A positive leader against a zero runner-up qualifies. Divide by **all completed lobbies**; an extreme miss is strictly more than half. This measures a large size lead that converts to victory, rather than player agency. There are no early-ending games in the original B/C samples; counts remain B 6/64 and C 13/64.

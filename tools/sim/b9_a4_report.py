@@ -68,7 +68,7 @@ def magnitude(seats):
 
 
 def snowballs(games, winners):
-    eligible, runaway, early_eligible, early_credit = 0, [], 0, 0.0
+    runaway, early_eligible, early_credit, early_finishes = [], 0, 0.0, 0
     for game in games:
         early = [row for row in game["rounds"] if row["round"] == 8]
         if early:
@@ -76,20 +76,34 @@ def snowballs(games, winners):
             high = max(row["stats"] for row in early)
             tied = [row for row in early if row["stats"] == high]
             early_credit += sum(winners[game["seed"], row["seat"]] for row in tied) / len(tied)
-        late = sorted((row for row in game["rounds"] if row["round"] == 14), key=lambda r: r["stats"], reverse=True)
-        if len(late) < 2 or late[1]["stats"] <= 0:
-            continue
-        eligible += 1
-        ratio = late[0]["stats"] / late[1]["stats"]
-        if ratio >= 10 and winners[game["seed"], late[0]["seat"]]:
-            runaway.append({"seed": game["seed"], "seat": late[0]["seat"], "line": late[0]["line"], "ratio": ratio})
+        # An early decisive win belongs in the denominator and uses its final pre-fight boards.
+        final = max(p["rounds"] for p in game["players"])
+        checkpoint = min(14, final)
+        early_finishes += final < 14
+        late = sorted((r for r in game["rounds"] if r["round"] == checkpoint), key=lambda r: r["stats"], reverse=True)
+        if len(late) < 2:
+            raise ValueError(f"seed {game['seed']}: no contested snowball checkpoint R{checkpoint}")
+        ratio = late[0]["stats"] / late[1]["stats"] if late[1]["stats"] > 0 else None
+        huge_lead = late[0]["stats"] > 0 and (ratio is None or ratio >= 10)
+        if huge_lead and winners[game["seed"], late[0]["seat"]]:
+            runaway.append(
+                {
+                    "seed": game["seed"],
+                    "seat": late[0]["seat"],
+                    "line": late[0]["line"],
+                    "round": checkpoint,
+                    "ratio": ratio,
+                    "zero_runner_up": ratio is None,
+                }
+            )
     return {
         "r8_leader_win_rate": early_credit / early_eligible if early_eligible else None,
         "r8_lobbies": early_eligible,
         "runaway_proxy_lobbies": runaway,
-        "eligible_r14_lobbies": eligible,
-        "runaway_proxy_share": len(runaway) / eligible if eligible else None,
-        "most_lobbies_proxy": len(runaway) / eligible > 0.5 if eligible else None,
+        "eligible_lobbies": len(games),
+        "early_finish_lobbies": early_finishes,
+        "runaway_proxy_share": len(runaway) / len(games) if games else None,
+        "most_lobbies_proxy": len(runaway) / len(games) > 0.5 if games else None,
     }
 
 
@@ -193,9 +207,12 @@ def markdown(result):
         "",
         "The three v3 extreme misses are (1) a tribe's best line outside an order of magnitude of the others, "
         "(2) one line winning whatever the player chooses, and (3) runaway snowballs in most lobbies. "
-        "For (3), the predeclared diagnostic proxy is a >=10x R14 lead over the runner-up that eventually wins, "
-        "in >50% of lobbies with two positive R14 boards. R8-leader win rate is reported beside it. "
-        "These proxies require judgment; a dry run evaluates no deciding bar.",
+        "For (3), the diagnostic measures a >=10x lead over the runner-up by the eventual winner at R14, "
+        "or at the final pre-fight round for games ending before R14. All completed lobbies are in the denominator; "
+        "a positive leader against a zero runner-up qualifies. An extreme miss is this outcome in >50% of all lobbies. "
+        "R8-leader win rate is reported beside it. "
+        "This is a size-lead/eventual-win diagnostic, not an estimate of player agency; "
+        "a dry run evaluates no deciding bar.",
         "",
         "Libraries use the same native captures via recapture_field.sh --reuse-captures --strength top4; "
         "no additional lobby or balance arm is needed. Source commit and capture hashes are sealed.",

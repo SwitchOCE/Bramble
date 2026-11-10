@@ -1,0 +1,32 @@
+{
+  "validator_commit": "2a89e251",
+  "presets": {
+    "B": {
+      "native": {
+        "seats": 512,
+        "seat_rounds": 7448,
+        "seeds": 64
+      },
+      "compact": {
+        "seats": 512,
+        "seat_rounds": 7448,
+        "seeds": 64
+      },
+      "rejected_seeds": []
+    },
+    "C": {
+      "native": {
+        "seats": 512,
+        "seat_rounds": 7253,
+        "seeds": 64
+      },
+      "compact": {
+        "seats": 512,
+        "seat_rounds": 7253,
+        "seeds": 64
+      },
+      "rejected_seeds": []
+    }
+  },
+  "rerun_seeds": []
+}
