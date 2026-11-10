@@ -4,6 +4,38 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Hedgerow light pass (A2): review calls
+**Source:**
+- the scope review of `ideation/wave2b` `ba80977e..424b3c2a` (`evidence/review-hedgerow-a2.md`): 24 keep, 0 cut, 1 simplify, 3 ask;
+- the fresh signature check against `docs/research/battlegrounds/` (`evidence/review-hedgerow-signature.md`): "Signature: yes. Re-skin: no."
+
+**Picked:**
+- **A2 meets both deciding criteria.**
+  1. A fresh reviewer found a signature that isn't Blood Gems: the Long Sleep ("every 3 turns in this slot") and the Standing Committee. Neither has a Battlegrounds counterpart.
+  2. Same cohort, R8–R14: Supper grows ×1.542 and Parish ×1.738 a round. Pooled R12 is 874 against the 900 target.
+
+  Hedgerow merges with wave 2b once that merge onto ideation/main passes its gate.
+- **Ask 1 (the 5.9 MB fight capture and the CSVs, which nothing reads):** take them out of git.
+  - The compact `hedgerow-lines.jsonl` stays: the growth figures and the reviewer's recompute come from it.
+  - Raw captures go to the sim job's workflow artifacts from now on (S4 brief), or to `build/` locally.
+- **Ask 2 (route fidelity):** fix it before A3.5 run 1, since A3.5 sets B and C from these lines' realized boards.
+  - Find why 12 of the 13 late Parish seats banked 0 gold at R9. The save rule should have banked the shortfall.
+  - Build the paper's refresh rules for both lines.
+  - Build the Supper's Sergeant cash rule.
+  - Report the new same-cohort growth beside the old.
+
+  This doesn't block the merge: the bar already passes, and a line that plays its route better should grow more, not less.
+- **Ask 3 (Dozey doesn't carry the Supper on real boards):** the criterion passes on the rules, since the signature reviewer judged the shipped cards. But a signature the line rarely fields won't reach reviewers. Treat it first as the same fidelity gap as ask 2.
+  - The Partner is on 7 of 32 boards at R3–R6.
+  - The Larder median at R8 is 2 gold, against the paper's 16–17, so Dozey starves.
+
+  With ask 2's fixes, add a constructed R8 Supper board with the paper's fuel, as A1b does for Pot Luck. If seats with Dozey still grow slower than seats without him, triage Dozey (generous first, 09h) before A4.
+- **Simplify:** the growth summary leads with the same-cohort read (×1.542 and ×1.738). The survivor and per-seat reads follow.
+- **The signature reviewer's caution:** timed doubling also appears in Fairy Monarch ("Every 2nd End of Turn") and Bog's Prince ("Every third kiss"). "In this slot" stays Hedgerow's alone, and A5's cross-tribe check confirms that no other tribe takes a slot clock.
+- **Golden Mrs Burdock** gets a live pass 3 behaviour test along with the fixes.
+
+**Agreed by:** the scope review (no cuts) and the signature check.
+
 ### 10 Nov 2026 — Look-alike portraits and gate shards: review calls
 **Source:**
 - the scope review of `ideation/portraits4` `0c3fd133` (`evidence/review-portraits4.md`): 7 keep, 0 cut, 1 simplify, 2 ask;
