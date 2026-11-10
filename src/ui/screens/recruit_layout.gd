@@ -15,6 +15,7 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const AwayTray := preload("res://src/ui/widgets/away_tray.gd")
+const HandFan := preload("res://src/ui/widgets/hand_fan.gd")
 const TribeBonuses := preload("res://src/ui/widgets/tribe_bonuses.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
@@ -49,8 +50,8 @@ const WRAP_MIN: float = 101.0
 const END_H: float = 189.0
 const LEAF_H: float = 128.0
 const TOAST_SECONDS: float = 3.5
-## Past this many cards the hand shows five and a "+N more" button.
-const HAND_SHOWN: int = 6
+## The full hand is always represented by real tiles.
+const HAND_SHOWN: int = 10
 const HOVER_SECONDS: float = 0.2
 ## How long a hovered card's panel waits for the pointer to reach it before closing.
 const LEAVE_SECONDS: float = 0.3
@@ -80,7 +81,7 @@ var _board: BoardView
 var _hand_zone: Interactive
 var _hand_panel: WoodPanel
 var _hand_count: Label
-var _hand_cards: GridContainer
+var _hand_cards: HandFan
 var _away_tray: AwayTray
 var _gold: GoldPlaque
 var _tier_icon: TextureRect
@@ -210,26 +211,34 @@ func _layout_hero(right_edge: float) -> void:
 
 
 func _layout_hand(x: float) -> void:
+	var right_edge: float = size.x - 30.0 - RIGHT_W
+	if _split_detail():
+		right_edge -= DETAIL_W + DETAIL_GAP
+	x = minf(x, right_edge - HAND_W - 24.0)
 	var count: int = Data.a(state, "hand").size()
-	var away: bool = not RecruitHeld.sky_card(state).is_empty()
-	var bottom: float = 905.0 if count <= 1 else 1000.0
-	if away:
-		bottom = HAND_TOP + (100.0 if count == 0 else 210.0 if count <= 2 else 366.0)
+	var card: Vector2 = _hand_card_size(count)
+	var columns: int = 1 if count <= 2 else 2
+	var rows: int = ceili(count / float(columns))
+	# Reserving the same journey row keeps hand tiles and fan spacing stable when Birds fly.
+	var maximum: float = CANVAS_H - 24.0 - HAND_TOP - 12.0 - _away_tray.row_height()
+	var wanted: float = (
+		100.0
+		if count == 0
+		else 66.0 + HandFan.FOCUS_LIFT + rows * card.y + maxf(0, rows - 1) * HandFan.ROW_GAP + 12.0
+	)
+	var height: float = minf(maximum, wanted)
 	_hand_zone.position = Vector2(x, HAND_TOP)
-	_hand_zone.size = Vector2(HAND_W, bottom - HAND_TOP)
+	_hand_zone.size = Vector2(HAND_W, height)
 	_hand_panel.position = Vector2.ZERO
 	_hand_panel.size = _hand_zone.size
-	_hand_count.position = Vector2(170, 12)
+	_hand_count.position = Vector2(170, 8)
 	_hand_count.size = Vector2(HAND_W - 200.0, 44)
-	var card_w: float = _hand_card_size(count).x
-	var columns: int = 2 if count >= (2 if away else 3) else 1
-	var gap: float = 43.0 if columns == 2 else 0.0
-	var grid_w: float = card_w * columns + gap * (columns - 1)
-	_hand_cards.position = Vector2((HAND_W - grid_w) / 2.0, 66)
-	_hand_cards.size = Vector2(grid_w, 0)
-	_away_tray.position = Vector2(x, bottom + 12.0)
+	_hand_cards.position = Vector2(0, 66)
+	_hand_cards.size = Vector2(HAND_W, maxf(0.0, height - 66.0 - 12.0))
+	_hand_cards.arrange()
+	_away_tray.position = Vector2(x, HAND_TOP + height + 12.0)
 	var away_w: float = minf(HAND_W, size.x - 30.0 - RIGHT_W - x - 12.0)
-	_away_tray.size = Vector2(away_w, CANVAS_H - 24.0 - bottom - 12.0)
+	_away_tray.size = Vector2(away_w, _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
@@ -281,6 +290,8 @@ func _layout_right(x: float, w: float) -> void:
 			clampf(get_local_mouse_position().x + 30.0, 20.0, w - DETAIL_W - 20.0), 110
 		)
 		_detail.size = Vector2(DETAIL_W, 740)
+		if _reader_is_hand():
+			_detail.position.x = maxf(20.0, _hand_zone.position.x - DETAIL_W - 24.0)
 	var clear: bool = not _detail.visible or _split_detail() or not CardView.is_phone()
 	for node: Control in [
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
@@ -318,8 +329,6 @@ func _tile_width(offers: int) -> float:
 
 
 func _hand_card_size(count: int) -> Vector2:
-	if not RecruitHeld.sky_card(state).is_empty():
-		return Vector2(130, 130)
 	if count <= 1:
 		return Vector2(CardView.SHOP_WIDTH, CardView.SHOP_HEIGHT)
 	if count == 2:
@@ -499,8 +508,7 @@ func _build_hand(wire: Callable) -> void:
 	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
 	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_hand_zone.add_child(_hand_count)
-	_hand_cards = GridContainer.new()
-	_hand_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_hand_cards = HandFan.new()
 	_hand_zone.add_child(_hand_cards)
 	_away_tray = AwayTray.new()
 	_stage.add_child(_away_tray)
@@ -522,3 +530,17 @@ func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable)
 	_dev_token.pressed.connect(dev)
 	_stage.add_child(_dev_token)
 	_dev_token.visible = Settings.show_dev_panel
+
+
+## A floating hand reader sits left of the fan, including before its focus signal arrives.
+func _reader_is_hand() -> bool:
+	var shown: Dictionary = _detail.shown
+	for card: CardView in _hand_cards.cards:
+		if Data.i(shown, "iid", -1) > 0 and Data.i(card.unit, "iid", -2) == Data.i(shown, "iid"):
+			return true
+		if (
+			Data.i(shown, "card_index", -1) >= 0
+			and Data.i(card.unit, "card_index", -2) == Data.i(shown, "card_index")
+		):
+			return true
+	return false

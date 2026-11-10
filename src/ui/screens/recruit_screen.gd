@@ -10,6 +10,7 @@ signal guide_requested
 signal settings_requested
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
+const RecruitActionMotion := preload("res://src/ui/screens/recruit_action_motion.gd")
 const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
 const RecruitHud := preload("res://src/ui/screens/recruit_hud.gd")
 const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
@@ -24,6 +25,7 @@ var _selected: Dictionary = {}
 var _ooze_ui: RecruitOozes = RecruitOozes.new()
 
 var _projection: LaneProjection = LaneProjection.new()
+var _action_motion: RecruitActionMotion
 var _motion: RecruitMotion
 var _hover_zone: String = ""
 var _hover_index: int = -1
@@ -86,6 +88,8 @@ func _init() -> void:
 	_stage.add_child(_scout)
 	_motion = RecruitMotion.new()
 	_stage.add_child(_motion)
+	_action_motion = RecruitActionMotion.new()
+	_stage.add_child(_action_motion)
 	_lanes = LaneOverlay.new()
 	_lanes.boards = [_board, _scout.get("_board")]
 	_stage.add_child(_lanes)
@@ -249,47 +253,19 @@ func _render_board() -> void:
 
 
 func _render_hand() -> void:
-	_clear(_hand_cards)
+	_hand_cards.clear_cards()
 	var hand: Array = Data.a(state, "hand")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
 	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
-	var away: bool = not RecruitHeld.sky_card(state).is_empty()
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
-	_hand_cards.columns = 2 if count >= (2 if away else 3) else 1
-	_hand_cards.add_theme_constant_override("h_separation", 43)
-	_hand_cards.add_theme_constant_override("v_separation", 22 if count <= 2 else 26)
-	var limit: int = 4 if away else HAND_SHOWN
-	var shown: int = count if count <= limit else limit - 1
-	var mode: CardView.Mode = CardView.Mode.MINI if away or count > 2 else CardView.Mode.SHOP
-	for i: int in shown:
-		var view: Dictionary = hand[i]
-		var card: CardView = _make_card(view, "hand", i, card_size.x, mode)
+	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP
+	for index: int in count:
+		var view: Dictionary = hand[index]
+		var card: CardView = _make_card(view, "hand", index, card_size.x, mode)
 		card.set_card_size(card_size)
-		_hand_cards.add_child(card)
-	if count > shown:
-		_hand_cards.add_child(_more_button(count - shown, card_size))
-	# A grid can keep the height it had before its columns changed; its tiles land outside it.
-	_hand_cards.reset_size.call_deferred()
-
-
-func _more_button(more: int, tile: Vector2) -> Button:
-	var button: Button = UiTheme.button("+%d more" % more, 0, UiTheme.FONT_SMALL)
-	button.custom_minimum_size = Vector2(tile.x, maxf(tile.y, tap_size()))
-	button.pressed.connect(_open_hand_picker)
-	return button
-
-
-func _open_hand_picker() -> void:
-	var picker: CardPicker = CardPicker.new()
-	picker.picked.connect(_on_hand_picked)
-	picker.show_cards("Your hand", Data.a(state, "hand"), true)
-	add_child(picker)
-
-
-func _on_hand_picked(index: int) -> void:
-	_selected = {"zone": "hand", "index": index}
-	_show_selection()
+		_hand_cards.add_card(card)
+	_hand_cards.arrange()
 
 
 func _make_card(
@@ -454,12 +430,11 @@ func _card_at(zone: String, index: int) -> CardView:
 	match zone:
 		"board":
 			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
-		"shop", "hand":
-			var holder: Node = _hand_cards
-			if zone == "shop":
-				holder = _shop_cards
-			if index >= 0 and index < holder.get_child_count():
-				return holder.get_child(index) as CardView
+		"hand":
+			return _hand_cards.card_at(index)
+		"shop":
+			if index >= 0 and index < _shop_cards.get_child_count():
+				return _shop_cards.get_child(index) as CardView
 		"scout":
 			return _scout.card_at(index)
 	return null
@@ -836,59 +811,13 @@ func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> v
 
 
 func _after_change(rewards: bool = true, sound: String = "") -> void:
-	var known: Dictionary = {}
-	for zone: String in ["hand", "shop", "board"]:
-		for entry: Variant in Data.a(state, zone):
-			if entry is Dictionary:
-				var old: Dictionary = entry
-				known[Data.i(old, "iid", -1)] = true
-	var copies_before: Dictionary = RecruitView.copies(state)
+	_action_motion.finish()
+	var before: Dictionary = _action_motion.snapshot(self)
 	var old_state: Dictionary = state
 	render()
-	var copies_after: Dictionary = RecruitView.copies(state)
-	var combined: String = RecruitView.combine_note(old_state, state)
+	_action_motion.present(self, before, sound)
 	if rewards:
 		_play_change_sounds(old_state, sound)
-	if not combined.is_empty():
-		Sfx.play("acorns_combine")
-		show_toast(combined)
-		_pulse_new_hand_card(known)
-	for entry: Variant in Data.a(state, "hand"):
-		var view: Dictionary = entry
-		if known.has(Data.i(view, "iid", -1)):
-			continue
-		var def_id: String = Data.s(view, "def_id")
-		var used: int = copies_before.get(def_id, 0) - copies_after.get(def_id, 0)
-		if Data.b(view, "golden", false):
-			# A triple took copies that were already owned; a golden dev spawn takes none.
-			if used >= 2:
-				Sfx.play("triple")
-				show_toast(
-					"Triple! Golden %s in hand: play it for your reward." % Data.s(view, "name")
-				)
-		elif rewards and Data.s(view, "origin") == "created":
-			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
-	_note_golden_on_board(known, copies_before, copies_after)
-	var notice: String = RecruitView.change_notices(old_state, state)
-	if not notice.is_empty():
-		show_toast(notice)
-
-
-func _note_golden_on_board(known: Dictionary, before: Dictionary, after: Dictionary) -> void:
-	for entry: Variant in Data.a(state, "board"):
-		if not entry is Dictionary:
-			continue
-		var view: Dictionary = entry
-		var def_id: String = Data.s(view, "def_id")
-		var used: int = Data.i(before, def_id, 0) - Data.i(after, def_id, 0)
-		if Data.b(view, "golden", false) and not known.has(Data.i(view, "iid", -1)) and used >= 2:
-			Sfx.play("triple")
-			show_toast(
-				(
-					"Triple! Your hand was full: Golden %s took a slot, no reward."
-					% Data.s(view, "name")
-				)
-			)
 
 
 func show_toast(text: String) -> void:

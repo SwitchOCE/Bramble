@@ -7,6 +7,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const RingTravel := preload("res://src/ui/widgets/ring_travel.gd")
 
 const BAND_COLOURS: Array[Color] = [
 	Color("c8372d"),
@@ -177,11 +178,13 @@ func set_marks(slot_marks: Array) -> void:
 	_place()
 	if previous.is_empty() or not is_inside_tree() or board.get("combat_mode") == true:
 		return
+	var paired: Array[int] = _recruit_ring_move(previous)
 	for slot: int in mini(marks.size(), 7):
 		var before: Dictionary = previous[slot] if slot < previous.size() else {}
 		var now: Dictionary = marks[slot]
 		var ring_changed: bool = Data.i(before, "ring_count") != Data.i(now, "ring_count")
 		ring_changed = ring_changed or Data.s(before, "ring") != Data.s(now, "ring")
+		ring_changed = ring_changed and not paired.has(slot)
 		var painted: bool = Data.b(now, "band") and not Data.b(before, "band")
 		if not ring_changed and not painted:
 			continue
@@ -202,6 +205,84 @@ func set_marks(slot_marks: Array) -> void:
 		if painted:
 			_band_reveal[slot] = 0.0
 			tween.tween_method(_set_band_reveal.bind(slot), 0.0, 1.0, duration)
+
+
+## Pair an exact conserved pile transfer; additions and growth retain the ordinary sprout cue.
+func _recruit_ring_move(previous: Array) -> Array[int]:
+	var decreased: Array[int] = []
+	var increased: Array[int] = []
+	for slot: int in mini(marks.size(), 7):
+		var before: Dictionary = Data.entry(previous, slot)
+		var now: Dictionary = Data.entry(marks, slot)
+		var delta: int = Data.i(now, "ring_count") - Data.i(before, "ring_count")
+		if delta < 0:
+			decreased.append(slot)
+		elif delta > 0:
+			increased.append(slot)
+	if decreased.size() != 1 or increased.size() != 1:
+		return []
+	var from: int = decreased[0]
+	var to: int = increased[0]
+	var before_from: Dictionary = Data.entry(previous, from)
+	var after_from: Dictionary = Data.entry(marks, from)
+	var before_to: Dictionary = Data.entry(previous, to)
+	var after_to: Dictionary = Data.entry(marks, to)
+	var amount: int = Data.i(before_from, "ring_count") - Data.i(after_from, "ring_count")
+	if amount != Data.i(after_to, "ring_count") - Data.i(before_to, "ring_count"):
+		return []
+	travel_ring(from, to, null, Callable(), not Data.b(before_to, "has_ring"), amount)
+	return [from, to]
+
+
+## Combat supplies its overlay and deterministic clock; recruit uses the floor's short cue clock.
+func travel_ring(
+	from: int,
+	to: int,
+	host: Control = null,
+	clock: Callable = Callable(),
+	hide_destination: bool = true,
+	moved_count: int = 1,
+	speed: float = -1.0
+) -> RingTravel:
+	var layer: Control = self if host == null else host
+	var travel: RingTravel = RingTravel.new()
+	travel.name = "RingTravel_%d_%d" % [from, to]
+	travel.reduced = Settings.reduce_motion
+	travel.set_meta("ring_from", from)
+	travel.set_meta("ring_to", to)
+	travel.set_meta("moved_ring_count", moved_count)
+	layer.add_child(travel)
+	var transform: Transform2D = (
+		layer.get_global_transform().affine_inverse() * get_global_transform()
+	)
+	var pocket: Vector2 = board.get("pocket")
+	var origin: Vector2 = board.call("slot_position", from)
+	var destination: Vector2 = board.call("slot_position", to)
+	travel.from_rect = transform * Rect2(origin, pocket).grow(-1.0)
+	travel.to_rect = transform * Rect2(destination, pocket).grow(-1.0)
+	if hide_destination:
+		_ring_reveal[to] = 0.0
+		queue_redraw()
+	travel.tree_exiting.connect(_ring_arrived.bind(to))
+	var tween: Tween = clock.call() if clock.is_valid() else create_tween()
+	tween.bind_node(travel)
+	var duration: float = 0.3 / maxf(1.0, Settings.fight_speed if speed < 0 else speed)
+	travel.set_meta("ring_duration", 0.3 if travel.reduced else duration)
+	if travel.reduced:
+		duration = 0.3
+		tween.tween_interval(duration / 2.0)
+		tween.tween_property(travel, "progress", 1.0, 0.0)
+		tween.tween_interval(duration / 2.0)
+	else:
+		tween.tween_property(travel, "progress", 1.0, duration)
+	tween.tween_callback(_ring_arrived.bind(to))
+	tween.tween_callback(travel.queue_free)
+	return travel
+
+
+func _ring_arrived(slot: int) -> void:
+	_ring_reveal[slot] = 1.0
+	queue_redraw()
 
 
 func _set_ring_reveal(value: float, slot: int) -> void:

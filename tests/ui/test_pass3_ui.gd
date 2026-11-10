@@ -297,16 +297,17 @@ func test_many_away_birds_scroll_with_a_full_hand_and_clear_when_they_land() -> 
 	var scroll_box: ScrollContainer = tray.get("_scroll")
 	var scroll: HScrollBar = scroll_box.get_h_scroll_bar()
 	assert_gt(scroll.max_value, scroll.page, "all Birds remain available through scrolling")
-	var hand: GridContainer = screen.get("_hand_cards")
-	assert_eq(hand.get_child_count(), 4, "three hand tiles plus the full-hand picker")
-	assert_true(hand.get_child(3) is Button)
+	var hand: Control = screen.get("_hand_cards")
+	assert_eq(hand.get_child_count(), 7, "every hand card remains visible beside Birds away")
+	for card: Node in hand.get_children():
+		assert_true(card is CardView, "no overflow picker replaces a hand card")
 	assert_eq(LayoutCheck.problems(screen, "full hand and sky"), PackedStringArray())
 	state["away"] = []
 	state["doorstep"] = []
 	screen.render()
 	await wait_process_frames(2)
 	assert_false(tray.visible, "an empty sky returns the space to the hand")
-	assert_eq(hand.get_child_count(), 6)
+	assert_eq(hand.get_child_count(), 7, "all cards remain visible after the sky clears")
 
 
 func test_crowded_pc_shop_uses_distinct_art_and_keeps_full_identity_in_the_view() -> void:

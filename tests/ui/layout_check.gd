@@ -57,6 +57,8 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 		cards.clear()
 	for i: int in cards.size():
 		for j: int in range(i + 1, cards.size()):
+			if _same_hand_fan(cards[i], cards[j]):
+				continue
 			var a: Rect2 = cards[i].get_global_rect()
 			var b: Rect2 = cards[j].get_global_rect()
 			var shared: float = a.intersection(b).get_area()
@@ -68,6 +70,16 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 					)
 				)
 	return out
+
+
+## Only sibling hand tiles intentionally overlap. Their bounds/fonts/taps were still checked.
+## Cards outside that exact fan continue through the ordinary pairwise overlap check.
+static func _same_hand_fan(a: CardView, b: CardView) -> bool:
+	if a.zone != "hand" or b.zone != "hand" or a.get_parent() != b.get_parent():
+		return false
+	var parent: Node = a.get_parent()
+	var script: Script = parent.get_script() if parent != null else null
+	return script != null and script.resource_path == "res://src/ui/widgets/hand_fan.gd"
 
 
 static func _walk(

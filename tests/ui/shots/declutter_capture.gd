@@ -220,6 +220,93 @@ static func summarize_text_nodes(nodes: Array[Dictionary]) -> Dictionary:
 	return {"raw_count": nodes.size(), "counts": counts, "visible_text_nodes": nodes}
 
 
+## Separate from the raw label budget: inspect rendered text on tiles and their slot strips.
+## Raster lettering and custom drawing still require an audit of the native screenshots.
+static func tile_words(screen: Node) -> Dictionary:
+	var labels: Array[Dictionary] = text_nodes(screen)
+	var words: Array[Dictionary] = []
+	var zones: Dictionary = {"shop": 0, "hand": 0, "own_board": 0, "scout_board": 0}
+	var legacy: int = 0
+	for record: Dictionary in labels:
+		var node: Node = screen.get_node_or_null(NodePath(str(record["path"])))
+		if node == null:
+			continue
+		var context: Dictionary = _tile_context(node)
+		if context.is_empty():
+			continue
+		var allowed: bool = (
+			str(record["category"]) == "fallback_names"
+			and str(record["fallback_reason"]).begins_with("no individual portrait: ")
+		)
+		for word: String in word_tokens(str(record["text"])):
+			var found: Dictionary = record.duplicate(true)
+			found.merge(context)
+			found["node"] = str(node.name)
+			found["word"] = word
+			found["allowed_legacy_fallback"] = allowed
+			words.append(found)
+			var zone: String = str(context["zone"])
+			zones[zone] = CoreUtil.to_int(zones[zone]) + 1
+			if allowed:
+				legacy += 1
+	return {
+		"word_count": words.size(),
+		"unexpected_word_count": words.size() - legacy,
+		"legacy_fallback_word_count": legacy,
+		"zone_counts": zones,
+		"words": words,
+		"raw_label_breakdown": summarize_text_nodes(labels),
+	}
+
+
+## Letter-containing tokens are words, including F1. Compact numeric stats (e.g. 9.5k) are not.
+static func word_tokens(text: String) -> PackedStringArray:
+	var tokens: PackedStringArray = []
+	var token_pattern := RegEx.create_from_string(
+		r"[\p{L}\p{M}\p{N}]+(?:['’\-][\p{L}\p{M}\p{N}]+)*"
+	)
+	var numeric_pattern := RegEx.create_from_string(r"^\p{N}+[kmbKMB]?$")
+	var letter_pattern := RegEx.create_from_string(r"\p{L}")
+	for result: RegExMatch in token_pattern.search_all(text):
+		var token: String = result.get_string()
+		if letter_pattern.search(token) != null and numeric_pattern.search(token) == null:
+			tokens.append(token)
+	return tokens
+
+
+static func _tile_context(node: Node) -> Dictionary:
+	var ancestor: Node = node
+	var card: Node = null
+	var zone: String = ""
+	var tile_path: String = ""
+	while ancestor != null:
+		var script: Script = ancestor.get_script()
+		var path: String = script.resource_path if script != null else ""
+		if path == "res://src/ui/widgets/card_view.gd" and card == null:
+			card = ancestor
+			tile_path = str(card.get_path())
+			zone = str(card.get("zone"))
+		if path == "res://src/ui/widgets/board_view.gd":
+			zone = str(ancestor.get("zone"))
+			if tile_path.is_empty():
+				tile_path = str(ancestor.get_path())
+			break
+		if path == "res://src/ui/widgets/hand_fan.gd":
+			zone = "hand"
+			if tile_path.is_empty():
+				tile_path = str(ancestor.get_path())
+			break
+		ancestor = ancestor.get_parent()
+	if zone not in ["shop", "hand", "board", "scout"]:
+		return {}
+	var view: Dictionary = card.get("unit") if card != null else {}
+	return {
+		"zone": "own_board" if zone == "board" else "scout_board" if zone == "scout" else zone,
+		"tile_path": tile_path,
+		"def_id": str(view.get("def_id", "")),
+	}
+
+
 ## Budget only ancillary text; the unit Attack/Health and hero Health labels carry explicit tags.
 static func budget_nodes(node: Node) -> Array[Dictionary]:
 	return text_nodes(node, true)

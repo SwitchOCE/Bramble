@@ -241,6 +241,7 @@ func _layout() -> void:
 
 func restart() -> void:
 	_kill_tweens()
+	CombatLanesView.reset_floor_state(self)
 	_motion = CombatMotion.new(self)
 	model = CombatModel.new()
 	for board: BoardView in _boards:
@@ -520,10 +521,11 @@ func _sync_all() -> void:
 				_make_card(uid, side, slot)
 	for mark: Dictionary in model.slot_marks:
 		_mark_slot(mark)
-	for side: int in mini(2, floor_marks.size()):
-		if not floor_marks[side] is Array:
+	var current_floor: Array = CombatLanesView.floor_state(self)
+	for side: int in mini(2, current_floor.size()):
+		if not current_floor[side] is Array:
 			continue
-		var marks: Array = floor_marks[side]
+		var marks: Array = current_floor[side]
 		board_for_side(side).set_marks(marks)
 	for hex: Dictionary in model.slot_hexes.values():
 		board_for_side(Data.i(hex, "side")).set_hex(
@@ -647,8 +649,9 @@ func _on_slot_tapped(_zone: String, slot: int, visual_side: int) -> void:
 
 func _slot_notes(side: int, slot: int) -> PackedStringArray:
 	var words: PackedStringArray = []
-	if side >= 0 and side < floor_marks.size():
-		var marks: Array = floor_marks[side]
+	var current_floor: Array = CombatLanesView.floor_state(self)
+	if side >= 0 and side < current_floor.size():
+		var marks: Array = current_floor[side]
 		var mark: Dictionary = Data.entry(marks, slot)
 		if Data.b(mark, "has_ring"):
 			words.append("Ring: " + Data.s(mark, "ring"))
