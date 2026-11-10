@@ -71,6 +71,16 @@ static func _hand(state: Dictionary, out: Array[Dictionary]) -> void:
 		for action: Dictionary in aims:
 			var args: Array = action["args"]
 			var slot: int = CoreUtil.to_int(args.back())
+			if str(item["def_id"]) == "golden_egg":
+				var bird: Dictionary = board[slot]
+				var tribes: Array = bird.get("tribes", [])
+				if not tribes.has("Birds"):
+					continue
+				if (
+					CoreUtil.to_bool(state.get("pass3_loop_guards", true))
+					and CoreUtil.to_bool(bird.get("egged", false))
+				):
+					continue
 			if str(item.get("target_tribe", "")) != "":
 				if slot < 0 or board[slot] == null:
 					continue

@@ -61,6 +61,8 @@ static func pop_one(combat: Combat, holder: CombatUnit, own_slot: bool) -> Comba
 	var fields: Dictionary = {"came_out": true}
 	var fighter: CombatUnit = spec.get("_pass3_fighter")
 	if fighter != null:
+		# A Changeling may have traded the holder since this held identity was cached.
+		fighter.side = side
 		fighter.slot = slot
 		combat._apply_slot_grants(fighter)
 		combat.enter_board(fighter, holder, fields)

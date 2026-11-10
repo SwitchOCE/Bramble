@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## Lobby tribes (rulebook 5.2.4, 5.2.7, 5.1.3).
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -11,7 +12,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup()
+	_kit.setup(null, false, LegacyPrototypes.library())
 	_player = _kit.player
 	_rules = _kit.rules
 
@@ -25,7 +26,7 @@ func _neutral_count(pool: UnitPool) -> int:
 
 
 func test_lobby_draws_the_config_number_of_tribes_5_2_4() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var config := GameConfig.defaults()
 	config.set_value("tribes_per_lobby", 2)
 	var state: Dictionary = GameSession.create(3, library, config).get_state()
@@ -34,13 +35,13 @@ func test_lobby_draws_the_config_number_of_tribes_5_2_4() -> void:
 
 func test_lobby_default_means_every_tribe_5_2_4() -> void:
 	var state: Dictionary = (
-		GameSession.create(3, TestLibraries.current(), GameConfig.defaults()).get_state()
+		GameSession.create(3, LegacyPrototypes.library(), GameConfig.defaults()).get_state()
 	)
 	assert_eq(state["lobby_tribes"], [], "empty: all in")
 
 
 func test_pool_holds_only_lobby_tribes_and_neutrals_5_1_3_5_2_7() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var rotation: PackedStringArray = library.tribes_in_rotation()
 	var chosen := PackedStringArray([rotation[0]])
 	var whole: UnitPool = UnitPool.create(library, _kit.config)
@@ -52,7 +53,7 @@ func test_pool_holds_only_lobby_tribes_and_neutrals_5_1_3_5_2_7() -> void:
 
 
 func test_lobby_draw_is_seeded_5_2_4() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var config := GameConfig.defaults()
 	config.set_value("tribes_per_lobby", 1)
 	var one: Array = GameSession.create(8, library, config).get_state()["lobby_tribes"]
@@ -61,7 +62,7 @@ func test_lobby_draw_is_seeded_5_2_4() -> void:
 
 
 func test_thin_tribes_stay_out_of_lobbies_5_2_4() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var config := GameConfig.defaults()
 	config.set_value("spells_in_shop", true)
 	config.set_value("hero_choice", true)
@@ -81,7 +82,7 @@ func test_thin_tribes_stay_out_of_lobbies_5_2_4() -> void:
 
 
 func test_lobby_asking_for_more_than_there_are_still_leaves_thin_tribes_out_5_2_4() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var config := GameConfig.defaults()
 	config.set_value("tribes_per_lobby", 99)
 	var tribes: Array = GameSession.create(3, library, config).get_state()["lobby_tribes"]

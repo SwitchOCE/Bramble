@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains a fifth of it.",
-  "golden_text": "Belly 2. Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains a fifth of each.",
+  "text": "Belly 1. Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains a third of it.",
+  "golden_text": "Belly 2. Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains a third of each.",
   "mechanics": [
     {
       "id": "belly",
@@ -19,7 +19,7 @@
       "id": "pass3_ooze",
       "ability": "hasty_pudding",
       "factor": 1,
-      "share": 0.2,
+      "share": 0.3333333333333333,
       "count": 1,
       "after": 3
     }
@@ -39,8 +39,8 @@
   "mechanic_text": {
     "1": {
       "id": "pass3_ooze",
-      "text": "Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains a fifth of it.",
-      "golden_text": "Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains a fifth of each."
+      "text": "Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains a third of it.",
+      "golden_text": "Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains a third of each."
     }
   }
 }

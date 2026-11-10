@@ -57,6 +57,8 @@ func test_opponent_choice_buttons_persist_and_are_touch_sized() -> void:
 func test_settings_choice_starts_field_through_app_and_core_port_then_restores_bots() -> void:
 	var port := CorePort.new()
 	port.setup()
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	var app := App.new()
 	add_child_autofree(app)
 	app.setup(port)
@@ -91,6 +93,8 @@ func test_explicit_config_is_not_overridden_by_saved_field_choice() -> void:
 	config.set_value("starting_health", 17)
 	var port := CorePort.new()
 	port.setup(config)
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	assert_eq(port.new_game(5), "")
 	assert_eq(port.get_state()["health"], 17)
 	assert_null(port.session._field)
@@ -119,6 +123,8 @@ func test_feature_off_hides_choice_and_ignores_a_saved_field_preference() -> voi
 	assert_lte(screen.size.y - sound.get_rect().end.y, 150.0, "no reserved portrait-tray gap")
 	var port := CorePort.new()
 	port.setup()
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	assert_eq(port.new_game(5), "")
 	assert_eq(port.config.get_string("opponents"), "bots")
 	assert_eq(port.config.get_string("field_library"), "")

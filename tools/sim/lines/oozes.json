@@ -34,6 +34,7 @@
     "tribe_weight": 4,
     "save_rule": "Spend out every turn, because a meal now compounds through the Soup. The one save: on the turn before a scheduled tier-up, keep 3 gold so the climb and a meal fit the same turn. After tier 6, spend everything; every 3 spare gold buys a stomach meal.",
     "placement": [
+      "Until a Digest Ooze is on your board, buy Little Dollop ahead of Stone Soup and allow off-tribe bodies. Once the Digest carry is down, use the listed priority order.",
       "After the board is set, put the biggest non-Ooze shop unit into the carry (the biggest Digest Ooze with room); use the Dollop's discount while the carry is a Dollop. From R12, the Slice is the carry's meal when it is bigger than the best shop unit; otherwise play it over the smallest support.",
       "When Bubble and Squeak or Frumenty arrives, put the empty Dollop into it, unless the Dollop is golden.",
       "From R8, keep a fresh Little Dollop as a second stomach in front of Aspic; one 2-gold meal a turn; the carry eats it every 3 turns, unless the next opponent's scout shows a biggest-enemy answer, then keep both.",
@@ -86,6 +87,7 @@
     "tribe_weight": 4,
     "save_rule": "Never save. Spare gold buys reserves into front Bellies, Ooze reserves first.",
     "placement": [
+      "Until a Digest Ooze is on your board, buy Little Dollop ahead of Stone Soup and allow off-tribe bodies. Once the Digest carry is down, use the listed priority order.",
       "The pot (Bubble and Squeak in B2) gets one non-Ooze meal a turn; Nell stands beside it.",
       "Fill front Bellies (Pie, Wobbly, Posset) with the biggest spare units; the last in is the biggest.",
       "Pot B2, Nell B3, Soup B1; Pie, Moss and Elder in front; from R12 Granny F2 with every slot occupied so the run is unbroken.",

@@ -21,7 +21,7 @@
     "Bide"
   ],
   "row_hint": "back",
-  "pool": true,
+  "pool": false,
   "priority": 13,
   "skeleton": false,
   "source": {

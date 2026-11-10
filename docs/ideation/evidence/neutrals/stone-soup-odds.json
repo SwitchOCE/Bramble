@@ -1,0 +1,2627 @@
+{
+  "availability_cap_on_this_logged_route": 18,
+  "bar": {
+    "denominator": 32,
+    "fraction": 0.625,
+    "minimum": 20
+  },
+  "bar_attainable_by_buy_selection_only_on_this_route": false,
+  "bought_rate": 0.53125,
+  "engine_paid_refreshes_by_r6": 2,
+  "fielded_rate": 0.53125,
+  "first_arrival_bootstrap_90": [
+    0.46905292668068854,
+    0.5930677630159064
+  ],
+  "first_arrival_method": "Average the sum of predictable native draw hazards while the seat has not yet seen Soup, including its first-hit draw. The stopped counting-process compensator estimates first-arrival probability under the actual policy. Bootstrap 10000 complete lobby routes, seed 51052; this is an estimate, not a universal cap or an exact ex-ante enumeration.",
+  "first_arrival_probability_estimate": 0.532215985574876,
+  "lobbies": 32,
+  "mean_realized_pool_route_reference": 0.510521433709822,
+  "mean_undepleted_route_reference": 0.5065809580890331,
+  "method": "Each logged shop draw hazard is q(T1 among nonempty tier weights) * actual Soup copies left / actual T1 copies left, immediately before the unchanged native draw. Pool subclass delegates to the original draw and uses no extra random draws. Captured R1-R6 active stats and ordered card IDs must equal the original route for every seat.",
+  "observed_selection_gap": 1,
+  "opportunity_shortfall": 2,
+  "parity_boards_checked": 1536,
+  "pool_rules": {
+    "base_shop_slots_t1_t3": 4,
+    "copies_per_definition": 15,
+    "initial_soup_copies": 15,
+    "initial_tier1_copies": 285,
+    "tier1_definitions_per_lobby": 19
+  },
+  "probe_exit_clean": true,
+  "qualification": "Seen/bought/fielded are exact observations for these seeds. Products of realized-pool hazards along the observed route are descriptive path references, not ex-ante counterfactual policy probabilities: earlier hits change buys, freezes, climbs and the shared pool. Missing Soup opportunities cannot be repaired solely by choosing a different purchase on this fixed trace. This does not prove a universal mathematical impossibility or that another route cannot reach the bar.",
+  "seats": [
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011023622047244096,
+        0.048582995951417005
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "3": 12
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.5161191632823466,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4092231838493994,
+      "seat": 7,
+      "seed": 280001,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        12,
+        14
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        247,
+        255
+      ],
+      "undepleted_19_card_route_reference": 0.4285184513690916,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011155378486055778,
+        0.06147540983606557
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 12,
+        "3": 6
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.8340315975874466,
+      "first_offer_round": 4,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.6851137794542945,
+      "seat": 6,
+      "seed": 280002,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        244,
+        261
+      ],
+      "undepleted_19_card_route_reference": 0.6438197215662164,
+      "unique_offers": 30
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.009836065573770493,
+        0.05343511450381679
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 5,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.5343187822911583,
+      "first_offer_round": 5,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4830964751938638,
+      "seat": 5,
+      "seed": 280005,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        14
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        243,
+        265
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010655737704918034,
+        0.05791505791505792
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.5336460523232439,
+      "first_offer_round": 3,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5960806073404031,
+      "seat": 5,
+      "seed": 280006,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 3,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        243,
+        263
+      ],
+      "undepleted_19_card_route_reference": 0.5952481311833195,
+      "unique_offers": 24
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.009756097560975611,
+        0.051587301587301584
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 5,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.20513219531585525,
+      "first_offer_round": 1,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4842231686906373,
+      "seat": 7,
+      "seed": 280009,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        13
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 2,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        242,
+        255
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011811023622047244,
+        0.058823529411764705
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 11,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.8038576153852203,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5602868221767998,
+      "seat": 1,
+      "seed": 280010,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        251,
+        281
+      ],
+      "undepleted_19_card_route_reference": 0.5361606083625603,
+      "unique_offers": 23
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011200000000000002,
+        0.05952380952380952
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 5,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6587087018426692,
+      "first_offer_round": 5,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5268927122395585,
+      "seat": 5,
+      "seed": 280011,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        250,
+        263
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.01056910569105691,
+        0.056
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "3": 16
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 1,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6196946754817696,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 1,
+      "realized_pool_route_reference": 0.46907517992099745,
+      "seat": 5,
+      "seed": 280012,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        246,
+        263
+      ],
+      "undepleted_19_card_route_reference": 0.4522035592080832,
+      "unique_offers": 24
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.008695652173913044,
+        0.05555555555555555
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 5,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6391115516124944,
+      "first_offer_round": 5,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 3,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4979201847182504,
+      "seat": 1,
+      "seed": 280013,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        11,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        244,
+        281
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010743801652892562,
+        0.051587301587301584
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "3": 12
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.5365211329453278,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4217498863739919,
+      "seat": 7,
+      "seed": 280014,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        12,
+        14
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        241,
+        255
+      ],
+      "undepleted_19_card_route_reference": 0.4285184513690916,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.008627450980392158,
+        0.047058823529411764
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.047058823529411764,
+      "first_offer_round": 1,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.43190072788521294,
+      "seat": 7,
+      "seed": 280015,
+      "soup_bought_by_r6": true,
+      "soup_buys": 2,
+      "soup_copies_left_range": [
+        10,
+        12
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 2,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        250,
+        255
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.009411764705882354,
+        0.055970149253731345
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 4,
+        "3": 8
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.43731082698137574,
+      "first_offer_round": 3,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.46256364161798047,
+      "seat": 1,
+      "seed": 280016,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        255,
+        281
+      ],
+      "undepleted_19_card_route_reference": 0.4641321158750067,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010236220472440945,
+        0.06
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 8,
+        "3": 7
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.9656176657794154,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.6278561414183141,
+      "seat": 7,
+      "seed": 280017,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        247,
+        257
+      ],
+      "undepleted_19_card_route_reference": 0.6078956976711081,
+      "unique_offers": 27
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010894941634241246,
+        0.058823529411764705
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 4,
+        "3": 12
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 1,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.7097341034121999,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 1,
+      "realized_pool_route_reference": 0.5161321752442258,
+      "seat": 4,
+      "seed": 280019,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        250,
+        269
+      ],
+      "undepleted_19_card_route_reference": 0.4863412119575645,
+      "unique_offers": 24
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010317460317460317,
+        0.056818181818181816
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 6,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6960019260025276,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5090278432173899,
+      "seat": 1,
+      "seed": 280021,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        251,
+        281
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010937500000000001,
+        0.05639097744360902
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "3": 12
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.5729222414866325,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4435828964117936,
+      "seat": 4,
+      "seed": 280022,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        250,
+        269
+      ],
+      "undepleted_19_card_route_reference": 0.4285184513690916,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [
+        {
+          "fields": {
+            "unit": "little_dollop"
+          },
+          "gold_after": 4,
+          "round": 2,
+          "tier": 1,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "slot": 1,
+            "unit": "little_dollop"
+          },
+          "gold_after": 4,
+          "round": 2,
+          "tier": 1,
+          "type": "play"
+        },
+        {
+          "fields": {
+            "unit": "mrs_posset"
+          },
+          "gold_after": 4,
+          "round": 3,
+          "tier": 2,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "slot": 1,
+            "unit": "mrs_posset"
+          },
+          "gold_after": 4,
+          "round": 3,
+          "tier": 2,
+          "type": "play"
+        },
+        {
+          "fields": {
+            "unit": "young_pretender"
+          },
+          "gold_after": 1,
+          "round": 3,
+          "tier": 2,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "slot": 4,
+            "unit": "young_pretender"
+          },
+          "gold_after": 1,
+          "round": 3,
+          "tier": 2,
+          "type": "play"
+        },
+        {
+          "fields": {
+            "by": "little_dollop",
+            "from": "shop",
+            "slot": 5,
+            "unit": "hob_in_the_hearth"
+          },
+          "gold_after": 3,
+          "round": 4,
+          "tier": 3,
+          "type": "swallow"
+        },
+        {
+          "fields": {
+            "unit": "hob_in_the_hearth"
+          },
+          "gold_after": 1,
+          "round": 4,
+          "tier": 3,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "unit": "bubble_and_squeak"
+          },
+          "gold_after": 7,
+          "round": 5,
+          "tier": 3,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "slot": 2,
+            "unit": "bubble_and_squeak"
+          },
+          "gold_after": 7,
+          "round": 5,
+          "tier": 3,
+          "type": "play"
+        },
+        {
+          "fields": {
+            "by": "little_dollop",
+            "from": "shop",
+            "slot": 5,
+            "unit": "dr_urchin"
+          },
+          "gold_after": 4,
+          "round": 5,
+          "tier": 3,
+          "type": "swallow"
+        },
+        {
+          "fields": {
+            "unit": "dr_urchin"
+          },
+          "gold_after": 2,
+          "round": 5,
+          "tier": 3,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "by": "bubble_and_squeak",
+            "from": "board",
+            "slot": 2,
+            "unit": "little_dollop"
+          },
+          "gold_after": 10,
+          "round": 6,
+          "tier": 3,
+          "type": "swallow"
+        },
+        {
+          "fields": {
+            "unit": "bubble_and_squeak"
+          },
+          "gold_after": 7,
+          "round": 6,
+          "tier": 3,
+          "type": "buy"
+        },
+        {
+          "fields": {
+            "slot": 0,
+            "unit": "bubble_and_squeak"
+          },
+          "gold_after": 7,
+          "round": 6,
+          "tier": 3,
+          "type": "play"
+        },
+        {
+          "fields": {
+            "by": "bubble_and_squeak",
+            "from": "shop",
+            "slot": 0,
+            "unit": "mrs_mallow"
+          },
+          "gold_after": 6,
+          "round": 6,
+          "tier": 3,
+          "type": "swallow"
+        },
+        {
+          "fields": {
+            "unit": "mrs_mallow"
+          },
+          "gold_after": 3,
+          "round": 6,
+          "tier": 3,
+          "type": "buy"
+        }
+      ],
+      "actual_conditional_hazard_range": [
+        0.009375000000000001,
+        0.056
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 4,
+        "3": 8
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.053231939163498096,
+      "first_offer_round": 1,
+      "missed_offer_details": [
+        {
+          "board": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ],
+          "card": "stone_soup",
+          "engine": true,
+          "frozen": false,
+          "gold": 3,
+          "iid": 33,
+          "round": 1,
+          "seat": 5,
+          "seed": 280023,
+          "shop": [
+            {
+              "card": "stone_soup",
+              "iid": 33
+            },
+            {
+              "card": "rainbow_chaser",
+              "iid": 34
+            },
+            {
+              "card": "little_dollop",
+              "iid": 35
+            },
+            {
+              "card": "little_nip",
+              "iid": 36
+            }
+          ],
+          "tier": 1
+        }
+      ],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4621237073861718,
+      "seat": 5,
+      "seed": 280023,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        12,
+        14
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        250,
+        263
+      ],
+      "undepleted_19_card_route_reference": 0.4641321158750067,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010894941634241246,
+        0.05319148936170213
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6732062259315187,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4972236388329644,
+      "seat": 0,
+      "seed": 280024,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        250,
+        285
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010038610038610039,
+        0.055970149253731345
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 5,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6495696686595636,
+      "first_offer_round": 5,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5059496860535411,
+      "seat": 0,
+      "seed": 280026,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        258,
+        285
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.01171875,
+        0.058823529411764705
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "3": 8
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.5377660721811812,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.42369898493840186,
+      "seat": 4,
+      "seed": 280027,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        252,
+        269
+      ],
+      "undepleted_19_card_route_reference": 0.40380926909008774,
+      "unique_offers": 16
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011290322580645162,
+        0.058823529411764705
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 12,
+        "3": 6
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.4423831081179468,
+      "first_offer_round": 3,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.6601864666568701,
+      "seat": 6,
+      "seed": 280028,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        246,
+        261
+      ],
+      "undepleted_19_card_route_reference": 0.6438197215662164,
+      "unique_offers": 30
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010894941634241246,
+        0.05474452554744526
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6962114334869238,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5091340175972028,
+      "seat": 2,
+      "seed": 280029,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        248,
+        277
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.00963855421686747,
+        0.055776892430278883
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 11,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6735153040308524,
+      "first_offer_round": 5,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5280144405783772,
+      "seat": 4,
+      "seed": 280030,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        14
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        248,
+        269
+      ],
+      "undepleted_19_card_route_reference": 0.5361606083625603,
+      "unique_offers": 23
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.009600000000000001,
+        0.054945054945054944
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.321333083778926,
+      "first_offer_round": 2,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5929390542038443,
+      "seat": 0,
+      "seed": 280031,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        250,
+        285
+      ],
+      "undepleted_19_card_route_reference": 0.5952481311833195,
+      "unique_offers": 24
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.009523809523809525,
+        0.0539568345323741
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.4217000532399068,
+      "first_offer_round": 2,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 2,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5637716037610565,
+      "seat": 1,
+      "seed": 280032,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        11,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        250,
+        281
+      ],
+      "undepleted_19_card_route_reference": 0.5952481311833195,
+      "unique_offers": 24
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011450381679389313,
+        0.055776892430278883
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "3": 15
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6105512933790137,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.4641535342091271,
+      "seat": 5,
+      "seed": 280033,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        251,
+        263
+      ],
+      "undepleted_19_card_route_reference": 0.4463759374975309,
+      "unique_offers": 23
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010276679841897233,
+        0.05813953488372093
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 5,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.534661161687197,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.42077445246644685,
+      "seat": 6,
+      "seed": 280034,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        246,
+        261
+      ],
+      "undepleted_19_card_route_reference": 0.40904211242361654,
+      "unique_offers": 17
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011067193675889328,
+        0.05363984674329502
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 4,
+        "3": 8
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.26528335002972087,
+      "first_offer_round": 3,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 0,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.461128104065578,
+      "seat": 0,
+      "seed": 280035,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        248,
+        285
+      ],
+      "undepleted_19_card_route_reference": 0.4641321158750067,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.011111111111111112,
+        0.057692307692307696
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6959532147804476,
+      "first_offer_round": null,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5090624313525873,
+      "seat": 2,
+      "seed": 280037,
+      "soup_bought_by_r6": false,
+      "soup_buys": 0,
+      "soup_copies_left_range": [
+        14,
+        15
+      ],
+      "soup_fielded_by_r6": false,
+      "soup_offers": 0,
+      "soup_seen_by_r6": false,
+      "tier1_copies_left_range": [
+        251,
+        277
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010077519379844961,
+        0.05747126436781609
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 7
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.6168446092265245,
+      "first_offer_round": 5,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.5299169606374755,
+      "seat": 4,
+      "seed": 280040,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        254,
+        269
+      ],
+      "undepleted_19_card_route_reference": 0.51322754930838,
+      "unique_offers": 23
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010276679841897233,
+        0.050387596899224806
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 8,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 4,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.20038907621104893,
+      "first_offer_round": 1,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.48260211338312353,
+      "seat": 6,
+      "seed": 280041,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        12,
+        13
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 1,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        246,
+        261
+      ],
+      "undepleted_19_card_route_reference": 0.49752640321541497,
+      "unique_offers": 20
+    },
+    {
+      "actions_after_missed_offer": [],
+      "actual_conditional_hazard_range": [
+        0.010358565737051793,
+        0.057034220532319393
+      ],
+      "actual_draws_by_shop_tier": {
+        "1": 12,
+        "2": 8,
+        "3": 4
+      },
+      "actual_round_route": [
+        {
+          "end_tier": 1,
+          "gold_left": 2,
+          "paid_refreshes": 0,
+          "round": 1
+        },
+        {
+          "end_tier": 1,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 2
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 0,
+          "paid_refreshes": 0,
+          "round": 3
+        },
+        {
+          "end_tier": 2,
+          "gold_left": 3,
+          "paid_refreshes": 0,
+          "round": 4
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 1,
+          "paid_refreshes": 0,
+          "round": 5
+        },
+        {
+          "end_tier": 3,
+          "gold_left": 4,
+          "paid_refreshes": 0,
+          "round": 6
+        }
+      ],
+      "first_arrival_hazard": 0.32852488923266837,
+      "first_offer_round": 2,
+      "missed_offer_details": [],
+      "other_seat_owned_soup_max": 1,
+      "paid_refreshes_by_r6": 0,
+      "realized_pool_route_reference": 0.6012812568384194,
+      "seat": 1,
+      "seed": 280042,
+      "soup_bought_by_r6": true,
+      "soup_buys": 1,
+      "soup_copies_left_range": [
+        13,
+        15
+      ],
+      "soup_fielded_by_r6": true,
+      "soup_offers": 2,
+      "soup_seen_by_r6": true,
+      "tier1_copies_left_range": [
+        250,
+        281
+      ],
+      "undepleted_19_card_route_reference": 0.5952481311833195,
+      "unique_offers": 24
+    }
+  ],
+  "seen_rate": 0.5625,
+  "soup_bought_by_r6": 17,
+  "soup_fielded_by_r6": 17,
+  "soup_seen_by_r6": 18,
+  "source_seed_list": [
+    280001,
+    280002,
+    280005,
+    280006,
+    280009,
+    280010,
+    280011,
+    280012,
+    280013,
+    280014,
+    280015,
+    280016,
+    280017,
+    280019,
+    280021,
+    280022,
+    280023,
+    280024,
+    280026,
+    280027,
+    280028,
+    280029,
+    280030,
+    280031,
+    280032,
+    280033,
+    280034,
+    280035,
+    280037,
+    280040,
+    280041,
+    280042
+  ],
+  "sources": {
+    "build/neutrals/soup-confirm.line-metrics.jsonl": "1cfc3c4f1bf1dd23d9b29bf9c16cd115c136477a71723118d47bee2fcc5449a8",
+    "build/neutrals/soup-confirm.rounds.csv": "d32bcd5b07fb68d8047efba033fc57127e82856b466ff6409d04b35d6e67fc9a",
+    "build/neutrals/soup-odds-probe.json": "b45e834e1100ee840aa8bcf8e0c433274f8b13b04e0dcc4a2099e5dc08fe903b"
+  },
+  "validation": {
+    "no_tests_check": "PASS build/neutrals/arrival/check.log",
+    "parity_boards": 1536,
+    "policy_changes": false,
+    "pool_gut_tests": 6,
+    "python_tests": 4
+  },
+  "version": 1
+}

@@ -51,6 +51,9 @@ const FRACTIONS: Dictionary = {
 
 
 static func configure(card: Dictionary, config: GameConfig) -> void:
+	if Pass3NeutralText.is_native(card):
+		Pass3NeutralText.configure(card, config)
+		return
 	if Pass3HedgerowText.configure_larder_item(card, config):
 		return
 	if Pass3HedgerowText.is_native(card):
@@ -82,6 +85,8 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 
 ## Pure generation never consults text/golden_text, including at the default rates.
 static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> String:
+	if Pass3NeutralText.is_native(card):
+		return Pass3NeutralText.face(card, config, golden)
 	if Pass3HedgerowText.is_native(card):
 		return Pass3HedgerowText.face(card, config, golden)
 	if Pass3OozeText.is_native(card):
@@ -498,6 +503,7 @@ static func _flight(card: Dictionary, config: GameConfig) -> void:
 	if not flies:
 		return
 	var id: String = str(card.get("id", ""))
+	var flight_reminders: Array[String] = []
 	for golden: bool in [false, true]:
 		var turns: int = _trip(id, golden, config)
 		var multiplier: String = _n(
@@ -515,14 +521,18 @@ static func _flight(card: Dictionary, config: GameConfig) -> void:
 			+ " Flying pays no sale gold; played this turn, it sells normally."
 			+ " Early recalls require a missed fight; each trip grows once."
 		)
-		if not golden:
-			var overrides: Dictionary = card.get("keyword_text_overrides", {})
-			overrides["Fly South"] = reminder
-			card["keyword_text_overrides"] = overrides
-			var reminders: Array = card.get("keyword_text", [])
-			for entry: Dictionary in reminders:
-				if str(entry.get("keyword", "")) == "Fly South":
-					entry["text"] = reminder
+		flight_reminders.append(reminder)
+	# Keyword reminders are shared by recruit and combat views of both twins. Name both
+	# outcomes when they differ, including the golden Tern's shorter trip.
+	var shared: String = flight_reminders[0]
+	if flight_reminders[0] != flight_reminders[1]:
+		shared = "Normal: %s Golden: %s" % [flight_reminders[0], flight_reminders[1]]
+	var overrides: Dictionary = card.get("keyword_text_overrides", {})
+	overrides["Fly South"] = shared
+	card["keyword_text_overrides"] = overrides
+	for entry: Dictionary in card.get("keyword_text", []):
+		if str(entry.get("keyword", "")) == "Fly South":
+			entry["text"] = shared
 
 
 static func _trip_sentence(id: String, golden: bool, config: GameConfig) -> String:

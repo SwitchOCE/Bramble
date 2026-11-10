@@ -92,6 +92,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	if BotHedgerow.build(value) and BotHedgerow.active(player):
 		layout.resize(BoardGeometry.SLOTS)
 		BotHedgerow.arrange(player, value, layout, pinned)
+		BotNeutral.arrange(player, value, layout, pinned)
 		return layout
 	# Bog keeps useful carry landmarks and moves only for a better meal or court adjacency.
 	if value.level.reads_text and BotBog.has_units(player):
@@ -101,6 +102,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 		BotEggs.preserve(player, layout, pinned)
 		BotPass3.arrange(player, value, layout, pinned)
 		BotOoze.arrange(player, value, layout, pinned)
+		BotNeutral.arrange(player, value, layout, pinned)
 		return layout
 	layout.resize(BoardGeometry.SLOTS)
 	layout.fill(-1)
@@ -149,6 +151,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 		BotEggs.preserve(player, layout, pinned)
 	BotPass3.arrange(player, value, layout, pinned)
 	BotOoze.arrange(player, value, layout, pinned)
+	BotNeutral.arrange(player, value, layout, pinned)
 	return layout
 
 
@@ -501,6 +504,9 @@ static func _search_pins(
 			most = worth
 	if best >= 0 and not out.has(best):
 		out.append(best)
+	for slot: int in BotNeutral.search_pins(player, layout):
+		if not out.has(slot):
+			out.append(slot)
 	for slot: int in BotHedgerow.search_pins(player, value, layout):
 		if not out.has(slot):
 			out.append(slot)

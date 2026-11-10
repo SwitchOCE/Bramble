@@ -10,6 +10,7 @@ const Settings := preload("res://src/ui/settings.gd")
 
 const AIMED_POWER: String = "any_slot"
 const AIMED_SPELL: String = "unit"
+const AIMED_BUFF: String = "elderflower_cordial"
 const SEEDS: int = 30
 
 
@@ -19,10 +20,12 @@ func _game_with_aimed_hero() -> RecruitScreen:
 	var app: App = App.new()
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
-	# The slice's heroes have no aimed power yet; the wider library has one.
+	# Keep live pools; expose only the aimed sample hero to this card set for UI coverage.
 	var config: GameConfig = GameConfig.full_game()
-	config.set_value("pool_filter", "all")
 	port.setup(config)
+	var painter: Dictionary = port.library.get_hero("sample_painter").duplicate(true)
+	painter["set"] = config.card_set()
+	port.library.register_hero(painter)
 	app.setup(port)
 	Settings.seen_guide = true
 	for game_seed: int in range(1, SEEDS):
@@ -40,7 +43,8 @@ func _game_with_aimed_hero() -> RecruitScreen:
 func _spell_index(screen: RecruitScreen) -> int:
 	var shop: Array = Data.a(screen.state, "shop")
 	for i: int in shop.size():
-		if Data.s(Data.entry(shop, i), "aim") == AIMED_SPELL:
+		var spell: Dictionary = Data.entry(shop, i)
+		if Data.s(spell, "aim") == AIMED_SPELL and Data.s(spell, "def_id") == AIMED_BUFF:
 			return i
 	return -1
 
@@ -87,16 +91,21 @@ func test_aimed_spell_is_bought_and_lands_on_the_tapped_unit() -> void:
 	screen.call("_on_tapped", "hand", 0)
 	screen.call("_on_tapped", "board", 1)
 	var before: Dictionary = Data.entry(Data.a(screen.port.get_state(), "board"), 1)
+	assert_false(before.is_empty(), "a live shop unit was played onto F2")
 	index = _spell_index(screen)
 	for attempt: int in 25:
 		if index >= 0:
 			break
 		screen.call("_on_refresh")
 		index = _spell_index(screen)
+	assert_gte(index, 0, "Cordial is legal on the chosen unit")
+	if index < 0:
+		return
 	screen.call("_on_tapped", "shop", index)
 	screen.call("_on_buy_selected")
 	var hand: Array = Data.a(screen.state, "hand")
 	assert_eq(Data.s(Data.entry(hand, hand.size() - 1), "aim"), AIMED_SPELL, "bought to hand")
+	assert_eq(Data.s(Data.entry(hand, hand.size() - 1), "def_id"), AIMED_BUFF)
 	screen.call("_on_tapped", "hand", hand.size() - 1)
 	screen.call("_on_tapped", "board", 1)
 	var after: Dictionary = Data.entry(Data.a(screen.port.get_state(), "board"), 1)

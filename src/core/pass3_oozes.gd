@@ -110,7 +110,7 @@ static func soup_bonus(player: PlayerState) -> Vector2i:
 		var stats := Vector2i.ZERO
 		for target: RecruitUnit in targets.slice(0, count):
 			stats += Vector2i(target.attack, target.health)
-		total += _portion(stats, share)
+		total += Vector2i(ceili(stats.x * share), ceili(stats.y * share))
 	return total
 
 
@@ -187,7 +187,7 @@ static func start_turn(rules: RecruitRules, player: PlayerState, frozen: bool) -
 				break
 			commit_shop(meal)
 			player.shop.erase(meal)
-			eat(rules, player, eater, meal)
+			eat(rules, player, eater, meal, "nell")
 	for source: RecruitUnit in player.board:
 		if source == null or not has(source, "cut_and_come_again"):
 			continue
@@ -211,6 +211,7 @@ static func start_turn(rules: RecruitRules, player: PlayerState, frozen: bool) -
 			player.log_event(
 				"card", {"card": "slice", "attack": stats.x, "health": maxi(1, stats.y)}
 			)
+			rules.check_triples(player)
 
 
 static func lowest_unfrozen(player: PlayerState, frozen: bool = false) -> RecruitUnit:
@@ -225,13 +226,17 @@ static func lowest_unfrozen(player: PlayerState, frozen: bool = false) -> Recrui
 
 ## One meal event, shared by Digest and Nell. No sale, buy, or play event is fabricated.
 static func eat(
-	rules: RecruitRules, player: PlayerState, eater: RecruitUnit, meal: RecruitUnit
+	rules: RecruitRules,
+	player: PlayerState,
+	eater: RecruitUnit,
+	meal: RecruitUnit,
+	cause: String = ""
 ) -> void:
 	var was_biggest: bool = biggest(player) == eater
 	var stats: Vector2i = own_stats(meal)
 	var receives_bonuses: bool = not meal.has_tribe("Oozes") or not player.pass3_loop_guards
 	var multiplier: float = 1.0 + (aspic_bonus(player, eater) if receives_bonuses else 0.0)
-	var gained: Vector2i = _portion(stats, multiplier)
+	var gained: Vector2i = _portion(meal_stats(player, meal), multiplier)
 	eater.add_permanent(gained.x, gained.y)
 	if has(eater, "frumenty"):
 		eater.last_meals.append({"def": meal.def, "golden": meal.golden})
@@ -240,21 +245,38 @@ static func eat(
 		while eater.last_meals.size() > maxi(0, keep):
 			eater.last_meals.pop_front()
 	rules.pool.give_back(meal.pool_id(), meal.pool_copies)
-	player.log_event(
-		"eat",
-		{
-			"source": eater.def_id(),
-			"target": meal.def_id(),
-			"attack": gained.x,
-			"health": gained.y,
-			"meal_attack": stats.x,
-			"meal_health": stats.y
-		}
-	)
+	var fields: Dictionary = {
+		"source": eater.def_id(),
+		"target": meal.def_id(),
+		"attack": gained.x,
+		"health": gained.y,
+		"meal_attack": stats.x,
+		"meal_health": stats.y
+	}
+	if cause != "":
+		fields["cause"] = cause
+	player.log_event("eat", fields)
 	if was_biggest and receives_bonuses:
 		_share(rules, player, eater, stats)
 	rules.board_changed(player)
 	rules.events.fire(player, "on_eat", {"subject": eater, "meal": meal})
+
+
+## What a meal gives before Aspic: a non-Ooze's printed stats count the eat multiplier's times.
+## Elder still reads the meal's own stats; Ooze meals pass whole.
+static func meal_stats(player: PlayerState, meal: RecruitUnit) -> Vector2i:
+	var stats: Vector2i = own_stats(meal)
+	if meal.has_tribe("Oozes"):
+		return stats
+	var extra: int = eat_multiplier(player) - 1
+	return Vector2i(
+		stats.x + maxi(0, meal.base_attack_now()) * extra,
+		stats.y + maxi(0, meal.base_health_now()) * extra
+	)
+
+
+static func eat_multiplier(player: PlayerState) -> int:
+	return maxi(1, CoreUtil.to_int(player.pass3_rates.get("oozes_eat_printed_multiplier", 1)))
 
 
 static func aspic_bonus(player: PlayerState, eater: RecruitUnit) -> float:
@@ -283,7 +305,7 @@ static func digest_preview(player: PlayerState, eater: RecruitUnit) -> Vector2i:
 	var total := Vector2i.ZERO
 	for meal: RecruitUnit in eater.held:
 		var bonus: float = aspic_bonus(player, eater) if not meal.has_tribe("Oozes") else 0.0
-		total += _portion(own_stats(meal), 1.0 + bonus)
+		total += _portion(meal_stats(player, meal), 1.0 + bonus)
 	return total
 
 

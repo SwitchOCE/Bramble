@@ -29,4 +29,4 @@ static func build(restore_wave1: bool = true, restore_hunters: bool = true) -> U
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return WAVE1.with_hunters(out) if restore_hunters else out
+	return LegacyPrototypes.restore(WAVE1.with_hunters(out) if restore_hunters else out)

@@ -57,6 +57,59 @@ func _swallows(session: GameSession) -> Array[Dictionary]:
 	return out
 
 
+func _item_targets(session: GameSession) -> Array:
+	var targets: Array = []
+	for entry: Dictionary in LegalActions.of(session.get_state()):
+		if entry["action"] == "play_item":
+			targets.append(entry["args"])
+	return targets
+
+
+## Soak seed 1 offered play_item [3, 5] on a non-Bird (45 violations overall).
+func test_golden_egg_lists_only_birds_and_every_listed_target_succeeds() -> void:
+	var session := _session_with({0: "field_vole", 1: "chiffchaff", 5: "pill_bug"})
+	var human: PlayerState = session._players[0]
+	human.items.clear()
+	session._rules.give_card(human, "golden_egg")
+	assert_eq(_item_targets(session), [[0, 1]], "12.1.4c: Golden Egg feeds only Birds")
+	assert_eq(session.play_item(0, 5), "Choose a Bird")
+	for entry: Dictionary in LegalActions.of(session.get_state()):
+		if entry["action"] == "play_item":
+			assert_eq(_take(session, entry), "")
+	assert_true(human.items.is_empty())
+	assert_true(CoreUtil.to_bool(human.board[1].counters.get("egged", false)))
+
+
+## Soak seed 53 offered play_item [1, 4] on an already egged Bird.
+func test_golden_egg_does_not_list_a_bird_twice_even_without_caps() -> void:
+	var session := _session_with({1: "chiffchaff", 4: "mrs_jay"})
+	var human: PlayerState = session._players[0]
+	human.items.clear()
+	human.card_rate_limits = false
+	human.card_size_caps = false
+	session._rules.give_card(human, "golden_egg")
+	session._rules.give_card(human, "golden_egg")
+	assert_has(_item_targets(session), [0, 4])
+	assert_eq(session.play_item(0, 4), "")
+	assert_eq(_item_targets(session), [[0, 1]], "12.1.4c: each Bird receives the doubling once")
+	assert_eq(session.play_item(0, 4), "This Bird already had a Golden Egg")
+	assert_eq(session.play_item(0, 1), "")
+	assert_true(human.items.is_empty())
+
+
+func test_golden_egg_legal_targets_respect_the_explicit_guard_off_diagnostic() -> void:
+	var session := _session_with({0: "field_vole", 4: "mrs_jay"})
+	var human: PlayerState = session._players[0]
+	human.items.clear()
+	session._rules.config.set_value("pass3_loop_guards", false)
+	human.pass3_loop_guards = false
+	session._rules.give_card(human, "golden_egg")
+	session._rules.give_card(human, "golden_egg")
+	assert_eq(session.play_item(0, 4), "")
+	assert_eq(_item_targets(session), [[0, 4]], "diagnostic disables only the once-per-Bird guard")
+	assert_eq(session.play_item(0, 4), "")
+
+
 func test_every_listed_swallow_goes_through_and_really_swallows() -> void:
 	var first := _session_with({0: "wee_wobbly", 1: "mrs_sorrel"})
 	var kinds: Dictionary = {}
@@ -88,7 +141,11 @@ func test_no_gold_lists_no_shop_swallow_but_a_discount_can_make_it_legal() -> vo
 
 func test_nothing_is_legal_once_the_game_is_over() -> void:
 	var config := GameConfig.defaults()
-	var session := GameSession.create(3, TestLibraries.current(), config)
+	var session := GameSession.create(
+		3,
+		LegacyPrototypes.library() if config.card_set().is_empty() else TestLibraries.current(),
+		config
+	)
 	var turns: int = 0
 	while not session.is_over() and turns < 80:
 		session.end_turn()
@@ -99,7 +156,11 @@ func test_nothing_is_legal_once_the_game_is_over() -> void:
 func test_while_choosing_only_choices_are_legal() -> void:
 	var config := GameConfig.defaults()
 	config.set_value("hero_choice", true)
-	var session := GameSession.create(3, TestLibraries.current(), config)
+	var session := GameSession.create(
+		3,
+		LegacyPrototypes.library() if config.card_set().is_empty() else TestLibraries.current(),
+		config
+	)
 	var legal: Array[Dictionary] = LegalActions.of(session.get_state())
 	assert_eq(legal.size(), 3, "three heroes")
 	assert_eq(legal[0]["action"], "choose", "and nothing else")

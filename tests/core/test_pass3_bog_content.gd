@@ -112,7 +112,7 @@ func test_tier_swap_and_removed_prototype_abilities_and_caps() -> void:
 	)
 
 
-func test_presets_keep_b_generous_and_only_raise_soak_in_c() -> void:
+func test_presets_keep_b_generous_and_raise_only_soak_and_tiddy_in_c() -> void:
 	var expected: Dictionary = {
 		"bog_soak_keep": 2,
 		"bog_golden_soak_keep": 4,
@@ -131,8 +131,17 @@ func test_presets_keep_b_generous_and_only_raise_soak_in_c() -> void:
 	config.set_value("pass3_preset", "C")
 	assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3)
 	assert_eq(Pass3Rates.integer(config, "bog_golden_soak_keep"), 6)
-	assert_eq(Pass3Rates.number(config, "bog_tiddy_share"), 0.5)
+	assert_eq(Pass3Rates.number(config, "bog_tiddy_share"), 0.75, "A3.5: Tiddy joins the path")
+	assert_eq(Pass3Rates.number(config, "bog_golden_tiddy_share"), 1.5)
 	assert_eq(Pass3Rates.number(config, "bog_nan_share"), 0.5)
+	assert_eq(
+		_card("tiddy_mun")["text"],
+		"Start of Turn: the Bog folk beside this split three quarters of the Toll."
+	)
+	assert_eq(
+		_card("tiddy_mun")["golden_text"],
+		"Start of Turn: the Bog folk beside this split one and a half times the Toll."
+	)
 	assert_string_contains(_card("bridge_toad")["details"], "+3/+3")
 	assert_string_contains(_card("bridge_toad")["golden_details"], "+6/+6")
 

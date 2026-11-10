@@ -1,0 +1,65 @@
+{
+  "merged_main": "3ab98ae5",
+  "merge_commit": "3c6e8aaf",
+  "changes": [
+    "Fight benchmark uses GameConfig.full_game() and its selected card set, rejecting an empty pool before board construction.",
+    "Merged main already replaced the legacy soak defaults arm with full_game; this follow-up checks tier-1 supply before creation and actual lobby-filtered supply before play.",
+    "The Soup arrival bar is dropped as a merge condition, per DECISIONS. No proposed freeze change applied."
+  ],
+  "targeted_tests": {
+    "scripts": 7,
+    "tests": 67,
+    "failures": 0,
+    "files": [
+      "tests/core/test_soak_checks.gd",
+      "tests/core/test_prototype_retirement.gd",
+      "tests/core/test_pass3_slice_triples.gd",
+      "tests/core/test_pass3_ooze_recruit.gd",
+      "tests/core/test_pass3_ooze_content.gd",
+      "tests/core/test_pass3_rates.gd",
+      "tests/core/test_pass3_presets.gd"
+    ]
+  },
+  "benchmark": "bench: 64 fights, 8.244 ms per fight, 53.2 events per fight, log hash 5cb7cfba01c22d6968b49776573b9bbd",
+  "soak": {
+    "exit": 1,
+    "empty_pool_games": 0,
+    "played": 6,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "actual_pool_units_each": 95,
+    "rounds": 111,
+    "fights": 344,
+    "violations": 7,
+    "output": [
+      "soak: seed 1 preset pool 95 units",
+      "soak: seed 2 preset pool 95 units",
+      "soak: seed 3 other pool 95 units",
+      "soak: seed 4 field pool 95 units",
+      "soak: seed 5 preset pool 95 units",
+      "soak: seed 6 preset pool 95 units",
+      "soak: games 6 (seeds 1-6), played 6",
+      "soak: mix { \"field\": 1, \"other\": 1, \"preset\": 4 }; preset B, other C; field skipped 0 (no library); synthetic games 0",
+      "soak: rounds 111, fights 344, reasons { \"board_empty\": 344 }",
+      "soak: time 46.7 s, 7787 ms per game, slowest 13696 ms",
+      "soak: empty-pool games 0",
+      "soak: violations 7",
+      "soak: VIOLATION seed 1 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [3, 3] } and the rules said 'Choose a Bird'",
+      "soak: VIOLATION seed 1 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [3, 6] } and the rules said 'Choose a Bird'",
+      "soak: VIOLATION seed 1 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [3, 6] } and the rules said 'Choose a Bird'",
+      "soak: VIOLATION seed 1 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [3, 6] } and the rules said 'Choose a Bird'",
+      "soak: VIOLATION seed 3 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [1, 2] } and the rules said 'Choose a Bird'",
+      "soak: VIOLATION seed 5 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [0, 0] } and the rules said 'Choose a Bird'",
+      "soak: VIOLATION seed 5 round 0: LegalActions listed { \"action\": \"play_item\", \"args\": [0, 6] } and the rules said 'Choose a Bird'"
+    ],
+    "open_issue": "LegalActions offers Golden Egg item targets that the rule rejects with Choose a Bird. This follow-up leaves that separate legality mismatch unchanged."
+  },
+  "no_tests_check": "PASS after final code edit",
+  "raw_directory": "build/neutrals/pool-tools/"
+}

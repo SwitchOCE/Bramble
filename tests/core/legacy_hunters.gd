@@ -27,4 +27,4 @@ static func build() -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return out
+	return LegacyPrototypes.restore(out)

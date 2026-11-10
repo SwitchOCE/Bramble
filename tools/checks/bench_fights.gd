@@ -14,8 +14,12 @@ func _initialize() -> void:
 	var fights: int = 4000 if args.size() < 1 else args[0].to_int()
 	var first_seed: int = 1 if args.size() < 2 else args[1].to_int()
 	var library: UnitLibrary = UnitLibrary.load_dir()
-	var config := GameConfig.defaults()
-	var units: Array[Dictionary] = library.pool_units()
+	var config := GameConfig.full_game()
+	var units: Array[Dictionary] = _pool_units(library, config)
+	if units.is_empty():
+		printerr("bench: empty full-game unit pool; no fights started")
+		quit(1)
+		return
 	var pairs: Array = []
 	var rng := RandomNumberGenerator.new()
 	rng.seed = first_seed
@@ -48,6 +52,10 @@ func _initialize() -> void:
 		)
 	)
 	quit(0)
+
+
+static func _pool_units(library: UnitLibrary, config: GameConfig) -> Array[Dictionary]:
+	return library.pool_units(config.card_set())
 
 
 static func _fight(

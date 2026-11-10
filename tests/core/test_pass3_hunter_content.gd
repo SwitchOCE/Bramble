@@ -119,7 +119,7 @@ func test_authored_default_faces_match_generation_without_reading_authored_words
 			assert_lte(generated.split(" ", false).size(), 22, id + " face word budget")
 
 
-func test_paper_b_and_c_rates_differ_only_in_the_nine_approved_shares() -> void:
+func test_paper_b_and_c_rates_differ_only_in_the_nine_shares_and_a35_pelts() -> void:
 	var expected: Dictionary = {
 		"hunters_nip_share": 2.0 / 3.0,
 		"hunters_sable_share": 2.0 / 3.0,
@@ -159,6 +159,9 @@ func test_paper_b_and_c_rates_differ_only_in_the_nine_approved_shares() -> void:
 		"hunters_grizel_share": 0.5,
 		"hunters_pelt_share": 0.5,
 		"hunters_russet_buff_share": 0.75,
+		# A3.5 step 0 (DECISIONS 10 Nov): Ermeline's Pelts join the path.
+		"hunters_ermeline_pelts": 2,
+		"hunters_golden_ermeline_pelts": 4,
 	}
 	for preset_id: String in ["B", "C"]:
 		config.set_value("pass3_preset", preset_id)
@@ -177,7 +180,7 @@ func test_paper_b_and_c_rates_differ_only_in_the_nine_approved_shares() -> void:
 	for key: String in c_map:
 		if key.begins_with("hunters_"):
 			hunter_c_count += 1
-	assert_eq(hunter_c_count, 9)
+	assert_eq(hunter_c_count, 11)
 
 
 func test_golden_shares_and_geometry_have_their_distinct_meanings() -> void:

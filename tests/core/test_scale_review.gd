@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## Scope-review contracts: independent overlays, individually selected cards, and honest text.
 @warning_ignore_start("unsafe_call_argument")
 
@@ -179,7 +180,7 @@ func test_rate_overlay_does_not_disable_size_ceilings_or_trigger_guards() -> voi
 
 func test_percent_hex_recruit_view_reports_percent_and_flat_components_separately() -> void:
 	var kit := KIT.new()
-	kit.setup()
+	kit.setup(null, false, LegacyPrototypes.library())
 	kit.card("percent_display", [{"id": "hex", "percent": 25}])
 	var unit: RecruitUnit = kit.put("percent_display", 0)
 	unit.counters["hex_percent"] = 125
@@ -192,7 +193,7 @@ func test_percent_hex_recruit_view_reports_percent_and_flat_components_separatel
 
 func test_default_flat_hex_keeps_the_original_event_fields_and_mixed_hex_keeps_percent() -> void:
 	var kit := KIT.new()
-	kit.setup()
+	kit.setup(null, false, LegacyPrototypes.library())
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 9
 	var combat := Combat.create(kit.library, kit.config, rng)
@@ -222,7 +223,7 @@ func test_default_flat_hex_keeps_the_original_event_fields_and_mixed_hex_keeps_p
 
 func test_rank_ties_vary_with_effect_seed_and_repeat_for_the_same_seed() -> void:
 	var kit := KIT.new()
-	kit.setup()
+	kit.setup(null, false, LegacyPrototypes.library())
 	var seen: Dictionary = {}
 	for seed_value: int in range(1, 33):
 		var rng := RandomNumberGenerator.new()

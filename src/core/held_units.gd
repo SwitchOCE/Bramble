@@ -297,6 +297,9 @@ static func land_flock(rules: RecruitRules, player: PlayerState) -> void:
 
 
 static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dictionary]) -> void:
+	if Pass3Neutrals.play_repeats(player) > 1:
+		_land_with_replays(rules, player, entries)
+		return
 	var landed: Array[RecruitUnit] = []
 	for entry: Dictionary in entries:
 		if not player.away.has(entry):
@@ -304,6 +307,7 @@ static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dicti
 		player.away.erase(entry)
 		var unit: RecruitUnit = entry["unit"]
 		unit.played_round = player.round_number
+		Pass3Neutrals.replay_homecoming(rules, player, unit)
 		Pass3Birds.homecoming(rules, player, unit)
 		if _completes_triple(player, unit):
 			player.hand.append(unit)
@@ -318,6 +322,58 @@ static func _land(rules: RecruitRules, player: PlayerState, entries: Array[Dicti
 	if not landed.is_empty():
 		rules.board_changed(player)
 		rules.check_triples(player)
+
+
+## Reserve the whole batch immediately, so another queued recall cannot land any Bird twice.
+## Unfinished Birds stay outside owned_units: replay effects may themselves check for triples.
+static func _land_with_replays(
+	rules: RecruitRules, player: PlayerState, entries: Array[Dictionary]
+) -> void:
+	var landed: Array[RecruitUnit] = []
+	for entry: Dictionary in entries:
+		if not player.away.has(entry):
+			continue
+		player.away.erase(entry)
+		var unit: RecruitUnit = entry["unit"]
+		unit.played_round = player.round_number
+		landed.append(unit)
+	if not landed.is_empty():
+		rules.events.continue_with(_replay_landings.bind(rules, player, landed))
+
+
+## This runs inside the drain, so each replay and its completion are appended without reentry.
+## There is one structural completion per Bird plus the finite batch completions.
+static func _replay_landings(
+	rules: RecruitRules, player: PlayerState, landed: Array[RecruitUnit]
+) -> void:
+	for unit: RecruitUnit in landed:
+		Pass3Neutrals.replay_homecoming(rules, player, unit)
+		rules.events.continue_with(_finish_landing.bind(rules, player, unit))
+	rules.events.continue_with(_notify_landings.bind(rules, player, landed))
+
+
+static func _finish_landing(rules: RecruitRules, player: PlayerState, unit: RecruitUnit) -> void:
+	Pass3Birds.homecoming(rules, player, unit)
+	if _completes_triple(player, unit):
+		player.hand.append(unit)
+	else:
+		_to_hand(rules, player, unit)
+	player.log_event("home", {"unit": unit.def_id()})
+	if unit.has_tribe(BIRDS):
+		player.homecomings_this_turn += 1
+
+
+static func _notify_landings(
+	rules: RecruitRules, player: PlayerState, landed: Array[RecruitUnit]
+) -> void:
+	for unit: RecruitUnit in landed:
+		rules.events.fire(player, "on_home", {"subject": unit})
+	rules.events.continue_with(_finish_landings.bind(rules, player))
+
+
+static func _finish_landings(rules: RecruitRules, player: PlayerState) -> void:
+	rules.board_changed(player)
+	rules.check_triples(player)
 
 
 static func _completes_triple(player: PlayerState, unit: RecruitUnit) -> bool:
@@ -500,11 +556,14 @@ static func away_views(player: PlayerState) -> Array:
 				else "birds_homecoming_multiplier"
 			)
 			var multiplier: float = CoreUtil.to_float(player.pass3_rates.get(key, 2.0))
+			var replay: Vector2i = Pass3Neutrals.homecoming_play_gain(player, unit)
 			view["home_attack"] = (
-				ceili((unit.base_attack_now() + unit.perm_attack) * multiplier) + unit.tribe_attack
+				ceili((unit.base_attack_now() + unit.perm_attack + replay.x) * multiplier)
+				+ unit.tribe_attack
 			)
 			view["home_health"] = (
-				ceili((unit.base_health_now() + unit.perm_health) * multiplier) + unit.tribe_health
+				ceili((unit.base_health_now() + unit.perm_health + replay.y) * multiplier)
+				+ unit.tribe_health
 			)
 		view["nest"] = entry["nest"]
 		view["due"] = entry["due"]

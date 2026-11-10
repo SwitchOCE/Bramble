@@ -501,6 +501,34 @@ late Dozey wake, tracks repeatable slot clocks, and keeps Hayward's standing
 bonus separate from Harvest Supper. Combat support recalculates Urchin's Hunker
 aura and spends actual Larder ammunition across Sergeant's separate throws.
 
+### Pass 3 neutral dispatch
+
+`pass3_neutral` dispatches each native neutral by its card ID. Ballooning Spider
+lends Swoop to the living units geometrically behind it while it lives. The loan
+recalculates after movement, summons, swallowing, return and text theft; it never
+becomes permanent text. Mire, quarry and the recipient's own targeting text retain
+their existing precedence. Golden changes only Spider's body.
+
+Shieldbug gives Shield once at Start of Combat to the friendly units geometrically
+behind it; those Shields remain if Shieldbug dies. Golden changes only its body.
+Whirligig swaps F1/B1, F2/B2 and F3/B3, leaving F4 alone. A pair stays if either
+occupant would gain Ring Attack or Health. Each actually moved enemy then loses
+10% of its current Health (20% golden), rounded down, retaining at least 1 Health.
+This reads Health after relocation and aura recalculation, is Health loss rather
+than damage, preserves Shield, and does not fire damage reactions. Normal and
+golden fractions have separate resolved rate dials.
+
+Charcoal Burner burns up to 6 gold above 5 at End of Turn (12 golden). Each unit
+behind gains 5% of its own base plus permanent stats per gold burned, multiplying
+by total burn before rounding down once; Rings, auras and standing tribe bonuses
+are excluded. Click Beetle uses only the strongest printed or borrowed instance:
+When played effects fire twice, or three times golden. Every Bird landing with
+Click repeats When played effects before its single homecoming growth; ordinary
+play after returning repeats again. Without Click, landing behavior is unchanged.
+Existing repeat-index guards prevent repeated multiplication or countdown advance.
+All five abilities are individually audited by UpsetCombat; none selects the
+biggest enemy, and unknown shared-dispatch ability names remain unsupported.
+
 ### Test-only Quilboar reference
 
 Behind the default-off `reference_quilboar` flag, `gem` plays counted Gems without

@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## BRAMBLE ideation: shared mechanisms, including large-number breakpoints.
 @warning_ignore_start("unsafe_call_argument")
 
@@ -9,7 +10,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup()
+	kit.setup(null, false, LegacyPrototypes.library())
 
 
 func _enable_levers() -> void:

@@ -1,0 +1,35 @@
+{
+  "status": "UNFINISHED",
+  "new_tests": {
+    "tests": 24,
+    "pass": 23,
+    "fail": 1,
+    "seconds": 23.55,
+    "scripts": [
+      {
+        "name": "tests/core/test_pass3_neutral_recruit.gd",
+        "tests": "7",
+        "failures": "1",
+        "skipped": "0",
+        "time": "7.317945"
+      },
+      {
+        "name": "tests/core/test_pass3_neutral_combat.gd",
+        "tests": "10",
+        "failures": "0",
+        "skipped": "0",
+        "time": "6.36552"
+      },
+      {
+        "name": "tests/core/test_bot_neutral.gd",
+        "tests": "7",
+        "failures": "0",
+        "skipped": "0",
+        "time": "9.456836"
+      }
+    ]
+  },
+  "known_failure": "Nested Old Tern recall queues Click on-play after homecoming multiplier; fix FIFO landing completion and triple staging.",
+  "raw_logs": "build/neutrals/",
+  "role_checks": "Not built yet."
+}

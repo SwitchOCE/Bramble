@@ -317,6 +317,8 @@ static func _share(value: float, noun: String) -> String:
 	]:
 		if is_equal_approx(value, CoreUtil.to_float(pair[0])):
 			return str(pair[1]) + " of " + noun
+	if is_equal_approx(value, 1.5):
+		return "one and a half times " + noun
 	if is_equal_approx(value, 2.0):
 		return "twice " + noun
 	return _n(value * 100.0) + "% of " + noun

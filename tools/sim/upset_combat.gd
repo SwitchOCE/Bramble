@@ -247,6 +247,15 @@ const AUDITED_HEDGEROW: Dictionary = {
 	"old_mother_mast": false,
 }
 
+# Neutral answers remain positional: Whirligig swaps fixed pairs, and the holders lend behind.
+const AUDITED_NEUTRALS: Dictionary = {
+	"ballooning_spider": false,
+	"whirligig_beetle": false,
+	"shieldbug": false,
+	"charcoal_burner": false,
+	"click_beetle": false,
+}
+
 var flip_first_attack: bool = false
 var first_side_original: int = -1
 var first_side_used: int = -1
@@ -471,6 +480,8 @@ static func _walk(value: Variant, path: String, manifest: Array, unsupported: Ar
 
 static func _audited_native(entry: Dictionary) -> bool:
 	var id: String = str(entry.get("id", ""))
+	if id == "pass3_neutral":
+		return AUDITED_NEUTRALS.has(str(entry.get("ability", "")))
 	if id == "pass3_hedgerow":
 		return AUDITED_HEDGEROW.has(str(entry.get("ability", "")))
 	if id == "pass3_ooze":

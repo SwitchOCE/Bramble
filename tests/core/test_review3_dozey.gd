@@ -105,7 +105,10 @@ func test_borrowing_dozey_keeps_the_original_doubling_increment_bound() -> void:
 
 func test_native_frumenty_digests_before_its_borrowed_bounded_wake() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
+	var config := GameConfig.full_game()
+	# The meal is a non-Ooze; isolate historical wake order from the printed-stat multiplier.
+	config.set_value("oozes_eat_printed_multiplier", 1)
+	kit.setup(config, false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	kit.rules.start_phase(kit.player, 1)
 	var ooze: RecruitUnit = kit.put("frumenty", 0)
 	ooze.add_permanent(30, 30)

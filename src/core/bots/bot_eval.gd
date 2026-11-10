@@ -34,6 +34,8 @@ func keep_value(unit: RecruitUnit) -> float:
 
 
 func _profile_keep_value(unit: RecruitUnit) -> float:
+	if BotOoze.soup_pair_only(board_owner, unit) or BotOoze.redundant_soup(board_owner, unit):
+		return float(unit.attack + unit.health)
 	var factor: float = 2.0 if unit.golden else 1.0
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
@@ -69,6 +71,8 @@ func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 
 
 func _profile_buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
+	if BotOoze.soup_pair_only(player, unit):
+		return float(unit.attack + unit.health) + PAIR_BONUS
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
 		var pass3_text: float = BotPass3.text_value(unit, player, self)
@@ -109,6 +113,10 @@ func fly_value(unit: RecruitUnit) -> float:
 
 func _profile_fly_value(unit: RecruitUnit) -> float:
 	var hinted: float = _hint_number(unit.def, "fly", 0.0)
+	if level.reads_text and board_owner != null:
+		var live: float = BotPass3.fly_value(unit, board_owner, self)
+		if live >= 0.0:
+			hinted = live
 	var builds: Dictionary = strategy.get("fly", {})
 	return hinted + _number(builds.get(unit.def_id(), 0))
 
@@ -141,8 +149,7 @@ func build_bonus(card_def: Dictionary) -> float:
 	if strategy.is_empty():
 		return 0.0
 	var total: float = 0.0
-	var units: Dictionary = strategy.get("units", {})
-	total += _number(units.get(str(card_def["id"]), 0))
+	total += BotOoze.priority_weight(card_def, board_owner, self)
 	var tribes: Dictionary = strategy.get("tribes", {})
 	var card_tribes: Array = card_def.get("tribes", [])
 	for tribe: Variant in card_tribes:
@@ -170,7 +177,7 @@ func follows_strategy(card_def: Dictionary) -> bool:
 
 ## A fixed line takes early tempo and fills a sparse board before committing to its route.
 func flexible_purchases(player: PlayerState, round_number: int) -> bool:
-	return round_number < 4 or player.board_count() < 3
+	return round_number < 4 or player.board_count() < 3 or BotOoze.no_digest_flex(player, self)
 
 
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.
@@ -188,6 +195,9 @@ func _profile_spell_value(
 	var bonus: float = _number(spells.get(str(card_def["id"]), 0))
 	if player != null and level.reads_text:
 		bonus += BotPass3.spell_bonus(card_def, player, self)
+		var pass3: float = BotPass3.spell_value(card_def, player, self)
+		if pass3 >= 0.0:
+			return pass3 + (bonus if pass3 > 0.0 else 0.0)
 		var content5: float = BotContent5.spell_value(card_def, player, recruit_rules)
 		if content5 >= 0.0:
 			return content5 + (bonus if content5 > 0.0 else 0.0)

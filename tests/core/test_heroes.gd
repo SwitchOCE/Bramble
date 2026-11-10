@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## Heroes (rulebook 2.2) and the small rule-query list: refresh cost, tier-up cost, income, shop
 ## size, sell value (architecture-notes 1-2).
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -12,7 +13,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup()
+	_kit.setup(null, false, LegacyPrototypes.library())
 	_player = _kit.player
 	_rules = _kit.rules
 

@@ -1,0 +1,18 @@
+{
+  "id": "shieldbug",
+  "name": "Shieldbug",
+  "set": "slice",
+  "tier": 3,
+  "attack": 2,
+  "health": 5,
+  "tribes": [],
+  "text": "Start of Combat: give the units behind this Shield.",
+  "golden_text": "Start of Combat: give the units behind this Shield.",
+  "mechanics": [{"id":"pass3_neutral","ability":"shieldbug","factor":1}],
+  "keywords": ["Shield"],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {"kind":"slice","doc":"docs/ideation/content/pass3/cross-tribe.md#8-neutrals"}
+}

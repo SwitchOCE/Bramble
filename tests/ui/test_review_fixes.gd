@@ -40,6 +40,8 @@ class FrontBuyPort:
 func _core() -> CorePort:
 	var port: CorePort = CorePort.new()
 	port.setup(GameConfig.defaults())
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.manual_choices = false
 	return port
 
@@ -50,6 +52,8 @@ func _rich_core() -> CorePort:
 	config.set_value("income_by_turn", [10, 10, 10, 10, 10, 10, 10, 10])
 	var port: CorePort = CorePort.new()
 	port.setup(config)
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	return port
 
 

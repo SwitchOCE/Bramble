@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## The one pick function (direction-summary, Engineering) and Discover (rulebook 6.2, 5.3.3).
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -12,7 +13,7 @@ var _rng: RandomNumberGenerator
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup()
+	_kit.setup(null, false, LegacyPrototypes.library())
 	_player = _kit.player
 	_rules = _kit.rules
 	_rng = RandomNumberGenerator.new()
@@ -201,7 +202,7 @@ func test_end_phase_settles_a_waiting_choice_6_2() -> void:
 
 
 func test_session_blocks_end_turn_while_choosing_6_2() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var session := GameSession.create(4, library, GameConfig.defaults())
 	assert_null(session.get_state()["pending_choice"], "null when nothing waits")
 	session._human().pending.append(

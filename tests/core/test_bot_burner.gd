@@ -8,7 +8,7 @@ var _brain: BotBrain
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_neutrals())
 	_player = _kit.player
 	_player.gold = 11
 	_player.tier = 5

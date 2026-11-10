@@ -1,0 +1,49 @@
+{
+  "soak_bugs_commit": "450098d8",
+  "merge_commit": "23850fee",
+  "cloud_run": "42759121987",
+  "causes": {
+    "soup": "The printer already says rounded up and the rule uses ceil after summing. A3.5 endpoint answers still floored. Correct literal known answers are 13/25 normal and 19/38 golden; tests now also assert the rounding words. No printer, rule or rate changes.",
+    "russet": "The prey was retired Field Vole: pool=false intentionally makes it ineligible for poaching. Use live tier-1 Young Brock with the same printed 2/3, preserving the 120/240 permanent-buff input and all expected shares. No production poach change.",
+    "ui": "The aimed sample-hero fixture selected pool_filter=all, leaving an empty retired unit pool. It could buy spells instead of a board unit, and aim=unit alone did not identify a suitable buff. Keep the live full-game pools, expose Sample Painter only in this private test library, and buy Elderflower Cordial, with explicit subject and card-ID checks."
+  },
+  "tests": {
+    "scripts": 4,
+    "tests": 85,
+    "failures": 0,
+    "files": [
+      {
+        "name": "tests/core/test_pass3_dial_behaviour.gd",
+        "tests": "21",
+        "failures": "0",
+        "skipped": "0",
+        "time": "3.466285"
+      },
+      {
+        "name": "tests/ui/test_full_game.gd",
+        "tests": "2",
+        "failures": "0",
+        "skipped": "0",
+        "time": "2.273847"
+      },
+      {
+        "name": "tests/core/test_legal_actions.gd",
+        "tests": "16",
+        "failures": "0",
+        "skipped": "0",
+        "time": "12.555611"
+      },
+      {
+        "name": "tests/core/test_pass3_combat.gd",
+        "tests": "46",
+        "failures": "0",
+        "skipped": "0",
+        "time": "1.540495"
+      }
+    ],
+    "strict_hook": "PASS",
+    "warnings": 0
+  },
+  "checks": "check.sh --no-tests PASS, including Ruff, gdformat and gdlint after the final code edit; no full GUT suite run",
+  "raw_directory": "build/neutrals/cloud-fixes/"
+}

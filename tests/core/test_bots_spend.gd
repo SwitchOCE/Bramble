@@ -30,9 +30,9 @@ func test_every_bot_fields_a_unit_by_round_two() -> void:
 
 func test_a_spell_is_bought_only_with_gold_left_after_units() -> void:
 	var kit := RecruitRules.create(
-		TestLibraries.current(),
+		LegacyPrototypes.library(),
 		_spell_config(),
-		UnitPool.create(TestLibraries.current(), _spell_config())
+		UnitPool.create(LegacyPrototypes.library(), _spell_config())
 	)
 	var player := PlayerState.new()
 	player.shop_rng.seed = 7

@@ -17,7 +17,7 @@
     "Shell"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 5,
   "skeleton": false,
   "source": {

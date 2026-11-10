@@ -17,6 +17,8 @@ func _app() -> App:
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
 	port.setup(GameConfig.defaults())
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.manual_choices = false
 	app.setup(port)
 	app.show_sandbox()

@@ -99,7 +99,7 @@ func test_exhausted_discover_explains_two_options_and_an_empty_pool() -> void:
 
 
 func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> void:
-	var library := TestLibraries.current()
+	var library := LegacyPrototypes.library()
 	var config := GameConfig.defaults()
 	config.set_value("income_by_turn", [3, 8])
 	var session := GameSession.create(4, library, config)

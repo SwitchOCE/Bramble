@@ -1,7 +1,7 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Wave 2b, the export script, the sim job on Actions and the play-tool follow-ups are merged. The Oozes are still far below their round-12 target, so a buff probe and three redesigns are under way to find out why.
+- **In short:** The Oozes' shortfall turned out to be their numbers: a measured buff takes their round-12 median from 352 to 1,235 with a healthy spread, so that becomes their starting point. Batch 2, the neutrals and A3.5's dials are in their last fixes before merging.
 - **Status:** active
 - **Last step done:** 10 Nov:
   - Wave 2b merged: Hedgerow's route fixes and the Pot Luck route.
@@ -10,10 +10,11 @@
   - S3 merged: one export script, and memory use of +166 MB, within the 300 MB budget.
   - The fight screen's batch 2 passed its cold reader 16/16. Its evidence was cut from 195 MB to 45 MB before merging.
 - **Next step:**
-  - Oozes (owner, 10 Nov): an overbuff probe on the sim job and three designers on different routes, then a critic.
+  - Oozes: arm b's values become preset B after A3.5 merges, with the probe's two overflow guards (DECISIONS, "Oozes: the problem is the numbers").
+  - A3.5's dials: Hedgerow's four dials are in (4c8bb077); a fresh review is running, then the gate, then run 1.
+  - Batch 2: its gate failed on frozen replays and two text tests; the author is proving the replay changes are presentation-only, and fixing six review cuts.
   - The neutrals (A3): the Soup odds check, the Slice bug and the prototype retirement, then review.
-  - A3.5's dials: Hedgerow's four dials are being added, then review, then run 1.
-  - Batch 2: merge conflicts and the Hedgerow re-face, then review and a squashed merge.
+  - The soak's Egg and held-release bugs: a worker is on them.
 - **Waiting on you:** Nothing.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->

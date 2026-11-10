@@ -21,7 +21,7 @@
     "Both Ends"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 12,
   "skeleton": false,
   "source": {

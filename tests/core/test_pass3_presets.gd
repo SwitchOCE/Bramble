@@ -141,6 +141,8 @@ func test_bird_b_rates_stay_frozen_at_9f03fe0() -> void:
 	for key: String in resolved:
 		if key.begins_with("birds_"):
 			actual[key] = resolved[key]
+	# A3.5 step 0 (DECISIONS 10 Nov): B writes Chiffchaff's printed +1 explicitly; no value moves.
+	expected["birds_chiffchaff_gain"] = 1.0
 	assert_eq(actual, expected, "B keeps all original Bird values and no new dials")
 
 

@@ -52,6 +52,7 @@ var _in_synthetic: bool = false
 var _limit_fights: Array[String] = []
 var _game_seed: int = 0
 var _fights: int = 0
+var _empty_pools: int = 0
 var _max_events: int = 0
 var _max_events_at: String = ""
 var _reasons: Dictionary = {}
@@ -171,6 +172,7 @@ func _initialize() -> void:
 	print("soak: synthetic violations %d" % _synthetic_violations.size())
 	for line: String in _synthetic_violations.slice(0, 20):
 		print("soak: SYNTHETIC VIOLATION %s" % line)
+	print("soak: empty-pool games %d" % _empty_pools)
 	print("soak: violations %d" % _violations.size())
 	for line: String in _violations.slice(0, 50):
 		print("soak: VIOLATION %s" % line)
@@ -209,10 +211,20 @@ func _play(game_seed: int, kind: String) -> int:
 			"pool_copies_by_tier", GameConfig.defaults().get_value("pool_copies_by_tier")
 		)
 	config.set_value("human_bot", "balanced")
+	var pool: UnitPool = UnitPool.create(_library, config)
+	if pool.eligible_copies(1) == 0:
+		_empty_pools += 1
+		_violation(0, "empty recruit pool (%s game); no game started" % kind)
+		return 0
 	var session := GameSession.create(game_seed, _library, config)
 	if session == null:
 		_violation(0, "GameSession.create failed (%s game)" % kind)
 		return 0
+	if session._pool.ids().is_empty():
+		_empty_pools += 1
+		_violation(0, "empty lobby-filtered recruit pool (%s game)" % kind)
+		return 0
+	print("soak: seed %d %s pool %d units" % [game_seed, kind, session._pool.ids().size()])
 	_session = session
 	_slice_game = slice
 	session.fight_observer = _check_fight

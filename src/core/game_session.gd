@@ -234,6 +234,8 @@ func get_state(player_id: int = HUMAN_ID) -> Dictionary:
 		state["card_size_caps"] = false
 	if not human.card_rate_limits:
 		state["card_rate_limits"] = false
+	if not human.pass3_loop_guards:
+		state["pass3_loop_guards"] = false
 	ReferenceQuilboar.add_view(human, state)
 	return state
 

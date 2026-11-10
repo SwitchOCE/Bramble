@@ -191,6 +191,8 @@ func _finish() -> void:
 static func _fill_keyword_text(units: Array[Dictionary]) -> void:
 	for unit: Dictionary in units:
 		var config: GameConfig = GameConfig.defaults()
+		if unit.has("pass3_neutral_size_caps"):
+			config.set_value("card_size_caps", unit["pass3_neutral_size_caps"])
 		for key: String in unit.get("pass3_rates", {}):
 			config.set_value(key, unit["pass3_rates"][key])
 		Pass3Text.configure(unit, config)

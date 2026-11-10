@@ -1,0 +1,1193 @@
+{
+  "source_checkpoint": "ad9bbff0",
+  "construction": "Paired text-on/off controlled combat roles with identical bodies and inputs; outcomes are secondary to direct Shield, targeting, movement and Health-loss evidence. Not a population-strength estimate.",
+  "orientation_rule": "Alternate our side by seed index, giving 16 pairs in each orientation per normal/golden case.",
+  "recipe_sha256": "f029a4a152bda74f9434ce9f9bb475a43afeb327b279d1afa641a03befb3c018",
+  "raw_fights": "build/neutrals/neutral-roles.fights.jsonl",
+  "raw_fights_sha256": "2aeb1cbf6622437d685f89df33d2360d4b6572d8213439069e705de742c8b3ac",
+  "fight_count": 384,
+  "combat_roles": [
+    {
+      "assumptions": [],
+      "card": "shieldbug",
+      "golden": false,
+      "paired_seeds": 32,
+      "role": "shieldbug-protects-carry-from-damage-answer",
+      "text_off_draws": 0,
+      "text_off_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 20,
+            "slot": 0
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 0,
+        "whirligig_health_loss_total": 0
+      },
+      "text_off_wins": 0,
+      "text_on_draws": 0,
+      "text_on_metrics": {
+        "carry_has_start_shield": 32,
+        "carry_shield_blocks": 32,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 20,
+            "slot": 0
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 32,
+        "whirligig_health_loss_total": 0
+      },
+      "text_on_wins": 32
+    },
+    {
+      "assumptions": [],
+      "card": "shieldbug",
+      "golden": true,
+      "paired_seeds": 32,
+      "role": "shieldbug-protects-carry-from-damage-answer",
+      "text_off_draws": 0,
+      "text_off_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 20,
+            "slot": 0
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 0,
+        "whirligig_health_loss_total": 0
+      },
+      "text_off_wins": 0,
+      "text_on_draws": 0,
+      "text_on_metrics": {
+        "carry_has_start_shield": 32,
+        "carry_shield_blocks": 32,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 20,
+            "slot": 0
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 32,
+        "whirligig_health_loss_total": 0
+      },
+      "text_on_wins": 32
+    },
+    {
+      "assumptions": [
+        "Spider receives an explicit permanent Health budget of 60 in both variants so the loan survives until the carry first attacks; golden Attack remains 8. This isolates targeting rather than source survivability."
+      ],
+      "card": "ballooning_spider",
+      "golden": false,
+      "paired_seeds": 32,
+      "role": "spider-reaches-protected-back-carry",
+      "text_off_draws": 0,
+      "text_off_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 35,
+            "slot": 4
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 0,
+        "whirligig_health_loss_total": 0
+      },
+      "text_off_wins": 0,
+      "text_on_draws": 0,
+      "text_on_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 35,
+            "slot": 4
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 32,
+        "whirligig_health_loss_total": 0
+      },
+      "text_on_wins": 0
+    },
+    {
+      "assumptions": [
+        "Spider receives an explicit permanent Health budget of 60 in both variants so the loan survives until the carry first attacks; golden Attack remains 8. This isolates targeting rather than source survivability."
+      ],
+      "card": "ballooning_spider",
+      "golden": true,
+      "paired_seeds": 32,
+      "role": "spider-reaches-protected-back-carry",
+      "text_off_draws": 0,
+      "text_off_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 35,
+            "slot": 4
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 0,
+        "whirligig_health_loss_total": 0
+      },
+      "text_off_wins": 32,
+      "text_on_draws": 0,
+      "text_on_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 35,
+            "slot": 4
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 32,
+        "whirligig_health_loss_total": 0
+      },
+      "text_on_wins": 32
+    },
+    {
+      "assumptions": [],
+      "card": "whirligig_beetle",
+      "golden": false,
+      "paired_seeds": 32,
+      "role": "whirligig-exposes-back-carry-and-charges-health",
+      "text_off_draws": 0,
+      "text_off_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 60,
+            "slot": 4
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 0,
+        "whirligig_health_loss_total": 0
+      },
+      "text_off_wins": 32,
+      "text_on_draws": 0,
+      "text_on_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 54,
+            "slot": 0
+          }
+        ],
+        "enemy_relocations": 64,
+        "first_carry_targets_enemy_carry": 32,
+        "whirligig_health_loss_total": 576
+      },
+      "text_on_wins": 32
+    },
+    {
+      "assumptions": [],
+      "card": "whirligig_beetle",
+      "golden": true,
+      "paired_seeds": 32,
+      "role": "whirligig-exposes-back-carry-and-charges-health",
+      "text_off_draws": 0,
+      "text_off_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 60,
+            "slot": 4
+          }
+        ],
+        "enemy_relocations": 0,
+        "first_carry_targets_enemy_carry": 0,
+        "whirligig_health_loss_total": 0
+      },
+      "text_off_wins": 32,
+      "text_on_draws": 0,
+      "text_on_metrics": {
+        "carry_has_start_shield": 0,
+        "carry_shield_blocks": 0,
+        "enemy_carry_after_start_states": [
+          {
+            "health": 48,
+            "slot": 0
+          }
+        ],
+        "enemy_relocations": 64,
+        "first_carry_targets_enemy_carry": 32,
+        "whirligig_health_loss_total": 1152
+      },
+      "text_on_wins": 32
+    }
+  ],
+  "recruit_roles": [
+    {
+      "control": "Without the Burner mechanic: bodies stay 100/100 and no gold is burned.",
+      "golden": false,
+      "per_recipient_first_gain": 30,
+      "role": "charcoal_fractional_growth",
+      "second_turn_body": 169,
+      "total_first_stat_gain": 120,
+      "before": {
+        "board": [
+          null,
+          {
+            "attack": 4,
+            "def_id": "charcoal_burner",
+            "golden": false,
+            "health": 6,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 100,
+            "def_id": "old_isegrim",
+            "golden": false,
+            "health": 100,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "lantern_man",
+            "golden": false,
+            "health": 100,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null
+        ],
+        "gold": 11,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          null,
+          {
+            "attack": 4,
+            "def_id": "charcoal_burner",
+            "golden": false,
+            "health": 6,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 130,
+            "def_id": "old_isegrim",
+            "golden": false,
+            "health": 130,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 130,
+            "def_id": "lantern_man",
+            "golden": false,
+            "health": 130,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null
+        ],
+        "gold": 5,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "second_turn": {
+        "board": [
+          null,
+          {
+            "attack": 4,
+            "def_id": "charcoal_burner",
+            "golden": false,
+            "health": 6,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 169,
+            "def_id": "old_isegrim",
+            "golden": false,
+            "health": 169,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 169,
+            "def_id": "lantern_man",
+            "golden": false,
+            "health": 169,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null
+        ],
+        "gold": 5,
+        "larder": 0,
+        "shop_tier": 4
+      }
+    },
+    {
+      "carry_gain": 2,
+      "golden": false,
+      "role": "click_two_when_played_units",
+      "tier_discount_gain": 2,
+      "without_click_each_gain": 1,
+      "before": {
+        "board": [
+          {
+            "attack": 3,
+            "def_id": "click_beetle",
+            "golden": false,
+            "health": 7,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 10,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 10,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          {
+            "attack": 3,
+            "def_id": "click_beetle",
+            "golden": false,
+            "health": 7,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 1,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 2,
+            "iid": 4,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          {
+            "attack": 12,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 12,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 1,
+            "def_id": "mr_crumb",
+            "golden": false,
+            "health": 2,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "homecoming": [
+        {
+          "attack": 6,
+          "bird": "chiffchaff",
+          "gold": 0,
+          "health": 8,
+          "items": 0
+        },
+        {
+          "attack": 2,
+          "bird": "one_swallow",
+          "gold": 2,
+          "health": 4,
+          "items": 0
+        },
+        {
+          "attack": 12,
+          "bird": "mother_goose",
+          "gold": 0,
+          "health": 16,
+          "items": 2
+        }
+      ]
+    },
+    {
+      "golden": false,
+      "preset": "B",
+      "recipient_gain": 10,
+      "role": "echo_scaled_spell",
+      "total_stat_gain": 60,
+      "without_echo_total_stat_gain": 20,
+      "before": {
+        "board": [
+          {
+            "attack": 100,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 100,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "pipistrelle_echo",
+            "golden": false,
+            "health": 100,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 100,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          {
+            "attack": 110,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 110,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 110,
+            "def_id": "pipistrelle_echo",
+            "golden": false,
+            "health": 110,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 110,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 110,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      }
+    },
+    {
+      "golden": false,
+      "preset": "C",
+      "recipient_gain": 20,
+      "role": "echo_scaled_spell",
+      "total_stat_gain": 120,
+      "without_echo_total_stat_gain": 40,
+      "before": {
+        "board": [
+          {
+            "attack": 100,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 100,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "pipistrelle_echo",
+            "golden": false,
+            "health": 100,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 100,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          {
+            "attack": 120,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 120,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 120,
+            "def_id": "pipistrelle_echo",
+            "golden": false,
+            "health": 120,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 120,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 120,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      }
+    },
+    {
+      "control": "Without the Burner mechanic: bodies stay 100/100 and no gold is burned.",
+      "golden": true,
+      "per_recipient_first_gain": 60,
+      "role": "charcoal_fractional_growth",
+      "second_turn_body": 256,
+      "total_first_stat_gain": 240,
+      "before": {
+        "board": [
+          null,
+          {
+            "attack": 8,
+            "def_id": "charcoal_burner",
+            "golden": true,
+            "health": 12,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 100,
+            "def_id": "old_isegrim",
+            "golden": false,
+            "health": 100,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "lantern_man",
+            "golden": false,
+            "health": 100,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null
+        ],
+        "gold": 17,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          null,
+          {
+            "attack": 8,
+            "def_id": "charcoal_burner",
+            "golden": true,
+            "health": 12,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 160,
+            "def_id": "old_isegrim",
+            "golden": false,
+            "health": 160,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 160,
+            "def_id": "lantern_man",
+            "golden": false,
+            "health": 160,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null
+        ],
+        "gold": 5,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "second_turn": {
+        "board": [
+          null,
+          {
+            "attack": 8,
+            "def_id": "charcoal_burner",
+            "golden": true,
+            "health": 12,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 256,
+            "def_id": "old_isegrim",
+            "golden": false,
+            "health": 256,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 256,
+            "def_id": "lantern_man",
+            "golden": false,
+            "health": 256,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null
+        ],
+        "gold": 5,
+        "larder": 0,
+        "shop_tier": 4
+      }
+    },
+    {
+      "carry_gain": 3,
+      "golden": true,
+      "role": "click_two_when_played_units",
+      "tier_discount_gain": 3,
+      "without_click_each_gain": 1,
+      "before": {
+        "board": [
+          {
+            "attack": 6,
+            "def_id": "click_beetle",
+            "golden": true,
+            "health": 14,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          {
+            "attack": 10,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 10,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          {
+            "attack": 6,
+            "def_id": "click_beetle",
+            "golden": true,
+            "health": 14,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 1,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 2,
+            "iid": 4,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          {
+            "attack": 13,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 13,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 1,
+            "def_id": "mr_crumb",
+            "golden": false,
+            "health": 2,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "homecoming": [
+        {
+          "attack": 8,
+          "bird": "chiffchaff",
+          "gold": 0,
+          "health": 10,
+          "items": 0
+        },
+        {
+          "attack": 2,
+          "bird": "one_swallow",
+          "gold": 3,
+          "health": 4,
+          "items": 0
+        },
+        {
+          "attack": 12,
+          "bird": "mother_goose",
+          "gold": 0,
+          "health": 16,
+          "items": 3
+        }
+      ]
+    },
+    {
+      "golden": true,
+      "preset": "B",
+      "recipient_gain": 10,
+      "role": "echo_scaled_spell",
+      "total_stat_gain": 60,
+      "without_echo_total_stat_gain": 20,
+      "before": {
+        "board": [
+          {
+            "attack": 100,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 100,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "pipistrelle_echo",
+            "golden": true,
+            "health": 100,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 100,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          {
+            "attack": 110,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 110,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 110,
+            "def_id": "pipistrelle_echo",
+            "golden": true,
+            "health": 110,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 110,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 110,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      }
+    },
+    {
+      "golden": true,
+      "preset": "C",
+      "recipient_gain": 20,
+      "role": "echo_scaled_spell",
+      "total_stat_gain": 120,
+      "without_echo_total_stat_gain": 40,
+      "before": {
+        "board": [
+          {
+            "attack": 100,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 100,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "pipistrelle_echo",
+            "golden": true,
+            "health": 100,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 100,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 100,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      },
+      "after": {
+        "board": [
+          {
+            "attack": 120,
+            "def_id": "field_vole",
+            "golden": false,
+            "health": 120,
+            "iid": 1,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 120,
+            "def_id": "pipistrelle_echo",
+            "golden": true,
+            "health": 120,
+            "iid": 2,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          {
+            "attack": 120,
+            "def_id": "lamp_moth",
+            "golden": false,
+            "health": 120,
+            "iid": 3,
+            "tribe_attack": 0,
+            "tribe_health": 0
+          },
+          null,
+          null,
+          null,
+          null
+        ],
+        "gold": 30,
+        "larder": 0,
+        "shop_tier": 4
+      }
+    }
+  ],
+  "resolved_rates": {
+    "birds_cuckoo_share": 0.1,
+    "birds_dunnock_targets": 1.0,
+    "birds_dunnock_turns": 1.0,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 2.0,
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_golden_tern_trip_turns": 1.0,
+    "birds_homecoming_multiplier": 2.0,
+    "birds_jack_daw_permanent": true,
+    "birds_jack_daw_share": 0.25,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redbreast_share": 0.125,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2.0,
+    "birds_stork_gold_step": 6.0,
+    "birds_stork_recalls": 1.0,
+    "birds_swallow_trip_turns": 1.0,
+    "birds_tom_tit_reduction": 50.0,
+    "birds_tom_tit_targets": 1.0,
+    "birds_trip_turns": 2.0,
+    "birds_whistlers_flock_count": 7.0,
+    "birds_whistlers_loss_share": 0.5,
+    "bog_bitter_round_up": true,
+    "bog_bitter_share": 0.25,
+    "bog_bufo_halvings": 1.0,
+    "bog_capstone_gain_toll": false,
+    "bog_chorus_lends": 2.0,
+    "bog_cutter_gold": 1.0,
+    "bog_frog_doubles_per_turn": 1.0,
+    "bog_frog_multiplier": 2.0,
+    "bog_gideon_hitbacks": 1.0,
+    "bog_golden_frog_multiplier": 3.0,
+    "bog_golden_nan_share": 1.0,
+    "bog_golden_ranocchio_share": 1.0,
+    "bog_golden_soak_keep": 4.0,
+    "bog_golden_tiddy_share": 1.0,
+    "bog_hopkin_share": 0.25,
+    "bog_jenny_pulls": 1.0,
+    "bog_king_peatlings": 2.0,
+    "bog_kiss_period": 3.0,
+    "bog_kisses_per_fight": 1.0,
+    "bog_lantern_lures": 1.0,
+    "bog_nan_share": 0.5,
+    "bog_peatling_stat_share": 1.0,
+    "bog_pretender_gold": 1.0,
+    "bog_prima_donna_patches": 3.0,
+    "bog_ranocchio_share": 0.5,
+    "bog_sal_toll_multiplier": 1.0,
+    "bog_soak_keep": 2.0,
+    "bog_soak_mired_only": true,
+    "bog_tiddy_share": 0.5,
+    "fairies_annis_rings": 1.0,
+    "fairies_annis_sale": true,
+    "fairies_chaser_gold": 1.0,
+    "fairies_fetch_share": 1.0,
+    "fairies_golden_monarch_multiplier": 3.0,
+    "fairies_initial_ring_size": 4.0,
+    "fairies_lob_growth": 1.0,
+    "fairies_lob_turns": 2.0,
+    "fairies_monarch_multiplier": 2.0,
+    "fairies_monarch_period": 2.0,
+    "fairies_nan_rings": 2.0,
+    "fairies_queen_period": 1.0,
+    "fairies_queen_rings": 1.0,
+    "fairies_reel_moves": 2.0,
+    "fairies_ring_growth": 2.0,
+    "fairies_sally_rings": 1.0,
+    "fairies_silky_growth": 1.0,
+    "fairies_wisp_attack": 1.0,
+    "fairies_wisp_health": 1.0,
+    "hedgerow_beadle_pass": 2.0,
+    "hedgerow_burdock_kits": 1.0,
+    "hedgerow_clover_share": 1.0,
+    "hedgerow_committee_share": 0.25,
+    "hedgerow_crumb_pass": 1.0,
+    "hedgerow_crumb_sell_share": 1.0,
+    "hedgerow_dozey_food_per_gold": 2.0,
+    "hedgerow_dozey_period": 3.0,
+    "hedgerow_dozey_wake_multiplier": 2.0,
+    "hedgerow_golden_dozey_wake_multiplier": 2.0,
+    "hedgerow_hayward_per_gold": 1.0,
+    "hedgerow_larder_gold": [
+      1.0,
+      5.0,
+      16.0
+    ],
+    "hedgerow_lollop_share": 0.1,
+    "hedgerow_mallow_multiplier": 2.0,
+    "hedgerow_mallow_targets": 2.0,
+    "hedgerow_mast_cap": 5.0,
+    "hedgerow_mast_gold_step": 5.0,
+    "hedgerow_partner_acorns": 2.0,
+    "hedgerow_partner_period": 3.0,
+    "hedgerow_pym_pass": 3.0,
+    "hedgerow_sergeant_share_per_gold": 0.1,
+    "hedgerow_sergeant_throws": 1.0,
+    "hedgerow_sorrel_summons": 1.0,
+    "hedgerow_treasurer_per_gold": 1.0,
+    "hedgerow_urchin_bristle": 2.0,
+    "hedgerow_urchin_hunker_targets": 1.0,
+    "hunters_agnes_hit_back": 0.5,
+    "hunters_ermeline_pelts": 1.0,
+    "hunters_glutton_share": 0.6666666666666666,
+    "hunters_golden_agnes_hit_back": 0.25,
+    "hunters_golden_ermeline_pelts": 2.0,
+    "hunters_golden_laird_multiplier": 3.0,
+    "hunters_golden_lane_bard_gold": 2.0,
+    "hunters_golden_russet_buff_share": 1.0,
+    "hunters_golden_sable_strike": 2.0,
+    "hunters_golden_take_multiplier": 2.0,
+    "hunters_grizel_share": 0.3333333333333333,
+    "hunters_isegrim_health_cut": 0.0,
+    "hunters_laird_multiplier": 2.0,
+    "hunters_lane_bard_gold": 1.0,
+    "hunters_lane_bard_triggers": 2.0,
+    "hunters_lodger_share": 0.6666666666666666,
+    "hunters_lutra_share": 0.6666666666666666,
+    "hunters_nip_share": 0.6666666666666666,
+    "hunters_pelt_share": 0.3333333333333333,
+    "hunters_russet_buff_share": 0.6666666666666666,
+    "hunters_russet_copies": 1.0,
+    "hunters_sable_share": 0.6666666666666666,
+    "hunters_sable_strike": 1.0,
+    "hunters_take_floor": 1.0,
+    "hunters_trophies_after_fight": true,
+    "hunters_wick_share": 0.3333333333333333,
+    "hunters_young_brock_share": 1.0,
+    "neutrals_burner_above": 5.0,
+    "neutrals_burner_cap": 6.0,
+    "neutrals_burner_share": 0.05,
+    "neutrals_click_repeats": 2.0,
+    "neutrals_golden_click_repeats": 3.0,
+    "neutrals_golden_whirligig_health_share": 0.2,
+    "neutrals_whirligig_health_share": 0.1,
+    "oozes_aspic_bonus": 0.5,
+    "oozes_bubble_belly": 1.0,
+    "oozes_bubble_splits": 1.0,
+    "oozes_dollop_belly": 1.0,
+    "oozes_dollop_discount": 1.0,
+    "oozes_elder_share": 0.5,
+    "oozes_frumenty_meals": 1.0,
+    "oozes_golden_aspic_multiplier": 2.0,
+    "oozes_golden_elder_multiplier": 2.0,
+    "oozes_golden_soup_reads": 2.0,
+    "oozes_granny_attack_multiplier": 1.0,
+    "oozes_hasty_release_deaths": 3.0,
+    "oozes_hasty_share": 0.2,
+    "oozes_hasty_swallows": 1.0,
+    "oozes_moss_golden_reduction": 25.0,
+    "oozes_nell_meals": 1.0,
+    "oozes_pie_gold": 1.0,
+    "oozes_posset_loss_share": 0.5,
+    "oozes_slice_count": 1.0,
+    "oozes_slice_share": 0.2,
+    "oozes_soup_share": 0.125,
+    "oozes_syllabub_fires": 1.0,
+    "oozes_wobbly_drip": 1.0,
+    "scale_hero_spell_percent": 10.0
+  },
+  "scope": "Controlled role mechanisms, not population win-rate or acquisition evidence. Recruit without-card values are calculated reference values, not separately simulated arms."
+}

@@ -18,7 +18,7 @@
     "Whistle"
   ],
   "row_hint": "back",
-  "pool": true,
+  "pool": false,
   "priority": 14,
   "skeleton": false,
   "source": {

@@ -24,7 +24,7 @@
     "Bristle"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 3,
   "skeleton": false,
   "source": {

@@ -198,9 +198,18 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 			* 2.0
 		)
 	if has(unit, "alderman_dozey"):
+		var wake_multiplier: float = _rate(
+			player,
+			(
+				"hedgerow_golden_dozey_wake_multiplier"
+				if unit.golden
+				else "hedgerow_dozey_wake_multiplier"
+			),
+			2.0
+		)
 		return (
 			(
-				body(unit) * 0.8
+				body(unit) * 0.8 * (wake_multiplier - 1.0)
 				+ 2.0 * player.larder() * _rate(player, "hedgerow_dozey_food_per_gold", 2)
 			)
 			if committed and not parish(value) and not treasury(value)

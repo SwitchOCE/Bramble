@@ -103,6 +103,9 @@ func test_recruit_growth_uses_strongest_printed_or_borrowed_text_with_guard_off_
 func test_lollop_snapshots_after_digest_and_before_ordinary_start_text() -> void:
 	for golden: bool in [false, true]:
 		before_each()
+		# Isolate phase ordering from A3.5's separate non-Ooze printed-stat dial.
+		kit.config.set_value("oozes_eat_printed_multiplier", 1)
+		kit.rules.board_changed(kit.player)
 		var pot: RecruitUnit = kit.put("little_dollop", 0)
 		pot.add_permanent(100 - pot.attack, 100 - pot.health)
 		var meal: RecruitUnit = kit.put("field_vole")
