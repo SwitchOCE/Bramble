@@ -131,3 +131,47 @@ func test_slice_hand_and_belly_choices_use_the_same_live_food_return() -> void:
 		var expected: int = 1 if multiplier == 1 else -1
 		assert_eq(BotOoze.hand_belly(brain, slice), expected)
 		assert_eq(BotOoze.best_belly(_kit.player, brain.value, slice), expected)
+
+
+func test_mallow_values_its_live_multiplier_on_normal_and_golden_targets() -> void:
+	for row: Array in [[0.0, 40.0], [3.0, 240.0]]:
+		for golden: bool in [false, true]:
+			_setup(row[0])
+			_kit.card("dial_runt", [], ["Hedgerow folk"], 5, 5)
+			for slot: int in [0, 1, 2, 4]:
+				_kit.put("dial_runt", slot)
+			var mallow: RecruitUnit = _kit.put("mrs_mallow", 6, golden)
+			mallow.add_permanent(50, 50)
+			var brain: BotBrain = _brain("hedgerow_parish")
+			assert_eq(
+				BotPass3.text_value(mallow, _kit.player, brain.value),
+				row[1] * mallow.golden_factor()
+			)
+
+
+func test_dozey_values_each_wake_dial_and_keeps_the_supper_route() -> void:
+	for row: Array in [[0.0, 80.0], [3.0, 480.0]]:
+		for golden: bool in [false, true]:
+			_setup(row[0])
+			var dozey: RecruitUnit = _kit.put("alderman_dozey", 6, golden)
+			dozey.add_permanent(40 - dozey.base_attack_now(), 60 - dozey.base_health_now())
+			var brain: BotBrain = _brain("hedgerow_supper")
+			assert_eq(BotPass3.text_value(dozey, _kit.player, brain.value), row[1])
+			_kit.config.set_value("hedgerow_dozey_wake_multiplier", 2.5)
+			_kit.config.set_value("hedgerow_golden_dozey_wake_multiplier", 3.5)
+			_kit.rules.board_changed(_kit.player)
+			assert_eq(
+				BotPass3.text_value(dozey, _kit.player, brain.value), 200.0 if golden else 120.0
+			)
+
+
+func test_treasurer_values_the_live_per_gold_dial_for_both_twins() -> void:
+	for row: Array in [[0.0, 10.0], [3.0, 80.0]]:
+		for golden: bool in [false, true]:
+			_setup(row[0])
+			var bank: RecruitUnit = _kit.put("honorary_treasurer", 6, golden)
+			_kit.rules.give_card(_kit.player, "stash")
+			var brain: BotBrain = _brain("hedgerow_treasury")
+			assert_eq(
+				BotPass3.text_value(bank, _kit.player, brain.value), row[1] * bank.golden_factor()
+			)

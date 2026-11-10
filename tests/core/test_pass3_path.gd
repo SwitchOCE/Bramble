@@ -6,9 +6,8 @@ extends GutTest
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
 const CK := preload("res://tests/core/combat_kit.gd")
-## Wave 2b owns these four dials. Keep the complete dependency visible even while rates
-## omit them; arrival must fail this pending assertion and trigger behaviour/face coverage.
-const EXPECTED_PENDING: PackedStringArray = [
+## All four Hedgerow dials are required after the wave 2b merge.
+const REQUIRED_HEDGEROW: PackedStringArray = [
 	"hedgerow_mallow_multiplier",
 	"hedgerow_dozey_wake_multiplier",
 	"hedgerow_golden_dozey_wake_multiplier",
@@ -129,6 +128,36 @@ const FACES: Array = [
 		"printed stats (doubled|tripled|× \\d+)",
 		1
 	],
+	[
+		"hedgerow_mallow_multiplier",
+		"mrs_mallow",
+		"text",
+		"(double|triple|multiply) your .* stats(?: by ([\\d.]+))?\\.",
+		1
+	],
+	[
+		"hedgerow_mallow_multiplier",
+		"mrs_mallow",
+		"golden_text",
+		"(double|triple|multiply) your .* stats(?: by ([\\d.]+))?\\.",
+		1
+	],
+	[
+		"hedgerow_dozey_wake_multiplier",
+		"alderman_dozey",
+		"text",
+		"(double|triple|multiply) its stats(?: by ([\\d.]+))?\\.",
+		1
+	],
+	[
+		"hedgerow_golden_dozey_wake_multiplier",
+		"alderman_dozey",
+		"golden_text",
+		"(double|triple|multiply) its stats(?: by ([\\d.]+))?\\.",
+		1
+	],
+	["hedgerow_treasurer_per_gold", "honorary_treasurer", "text", "gain \\+([\\d.]+)/", 1],
+	["hedgerow_treasurer_per_gold", "honorary_treasurer", "golden_text", "gain \\+([\\d.]+)/", 2],
 ]
 const NUMBERS: Dictionary = {
 	"a": 1,
@@ -210,17 +239,14 @@ func test_every_dial_that_differs_between_b_and_c_is_on_a_path_or_named_off_it()
 	var c: Dictionary = Pass3Path.preset_rates("C")
 	var on_path: PackedStringArray = Pass3Path.keys()
 	var described: PackedStringArray = []
-	var pending_keys: PackedStringArray = []
 	for dial: Dictionary in Pass3Path.DIALS:
 		var key: String = str(dial["key"])
 		described.append(key)
-		if not Pass3Rates.keys().has(key):
-			pending_keys.append(key)
-		else:
-			assert_true(on_path.has(key), key + " must be emitted")
-	assert_eq(pending_keys, EXPECTED_PENDING, "only wave 2b's explicit dependency may be absent")
-	for key: String in EXPECTED_PENDING:
-		assert_true(described.has(key), key + " is expected and pending wave 2b")
+		assert_true(Pass3Rates.keys().has(key), key + " must have an authored rate")
+		assert_true(on_path.has(key), key + " must be emitted")
+	for key: String in REQUIRED_HEDGEROW:
+		assert_true(described.has(key), key + " is required")
+		assert_true(b.has(key) and c.has(key), key + " must exist in both presets")
 	for key: String in c:
 		if b.get(key) == c[key]:
 			continue
@@ -276,6 +302,10 @@ func test_limits_snaps_and_golden_relations_hold_along_every_path() -> void:
 			1e-9,
 			at
 		)
+		for key: String in REQUIRED_HEDGEROW:
+			var dial_value: float = CoreUtil.to_float(path[key])
+			assert_gt(dial_value, 0.0 if key == "hedgerow_treasurer_per_gold" else 1.0, key + at)
+			assert_eq(dial_value * 2.0, roundf(dial_value * 2.0), "half steps: " + key + at)
 		for pair: Array in [
 			["birds_homecoming_multiplier", "birds_golden_homecoming_multiplier"],
 			["bog_soak_keep", "bog_golden_soak_keep"],
@@ -283,6 +313,7 @@ func test_limits_snaps_and_golden_relations_hold_along_every_path() -> void:
 			["hunters_ermeline_pelts", "hunters_golden_ermeline_pelts"],
 			["hunters_russet_buff_share", "hunters_golden_russet_buff_share"],
 			["fairies_monarch_multiplier", "fairies_golden_monarch_multiplier"],
+			["hedgerow_dozey_wake_multiplier", "hedgerow_golden_dozey_wake_multiplier"],
 		]:
 			var config: GameConfig = _config(t)
 			assert_gte(
