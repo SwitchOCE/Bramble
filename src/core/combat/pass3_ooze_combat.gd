@@ -140,8 +140,8 @@ static func _hasty(combat: Combat, unit: CombatUnit, params: Dictionary) -> void
 			break
 		# Read the selected enemy's current stats before swallowing changes its aura membership.
 		var share: float = CoreUtil.to_float(params.get("share", 0.2))
-		var attack: int = floori(target.attack * share)
-		var health: int = floori(target.health * share)
+		var attack: int = mini(BoardUnit.STAT_CLAMP, floori(target.attack * share))
+		var health: int = mini(BoardUnit.STAT_CLAMP, floori(target.health * share))
 		var biggest: Array[CombatUnit] = Pass3Combat.biggest(
 			Pass3Combat.tribe(combat, unit.side, "Oozes")
 		)
@@ -164,9 +164,12 @@ static func _granny(combat: Combat, unit: CombatUnit, params: Dictionary) -> voi
 		combat.trigger(unit, "granny_stir_up")
 		combat.buff(
 			unit,
-			(
-				floori(gain * CoreUtil.to_float(params.get("attack_multiplier", 1.0)))
-				* CoreUtil.to_int(params.get("factor", 1))
+			mini(
+				BoardUnit.STAT_CLAMP,
+				(
+					floori(gain * CoreUtil.to_float(params.get("attack_multiplier", 1.0)))
+					* CoreUtil.to_int(params.get("factor", 1))
+				)
 			),
 			0,
 			unit

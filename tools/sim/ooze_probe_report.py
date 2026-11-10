@@ -55,6 +55,8 @@ def inspect_seat(rows):
         stock, visible_stock = Counter(), Counter()
         cap_excess = 0
         for unit in probe["inventory"]:
+            if unit["attack"] < 0 or unit["health"] <= 0 or unit["credit"] < 0:
+                raise ValueError(f"invalid recruit body: {row['seed']}/{row['seat']}/{row['round']}: {unit}")
             stock[unit["location"]] += unit["credit"]
             visible = min(unit["credit"], max(0, unit["attack"]) + max(0, unit["health"]))
             visible_stock[unit["location"]] += visible
@@ -172,6 +174,18 @@ def summarize_line(rows, seeds, common):
         "growth_matched_within_arm": matched_growth(rows),
         "growth_common_across_arms": matched_growth(rows, common),
         "r12_credit_ledger_all_starting_seats": dict(ledger),
+        "r12_survivor_credit_medians": {
+            key: median([row[key] for row in r12])
+            for key in (
+                "active_credit",
+                "belly_credit",
+                "reserve_credit",
+                "cap_excess_credit",
+                "net_generated_cumulative",
+                "sold_credit_cumulative",
+                "destroyed_credit_cumulative",
+            )
+        },
         "r1_r12_telemetry": {
             "seat_rounds": len(upto12),
             **totals,

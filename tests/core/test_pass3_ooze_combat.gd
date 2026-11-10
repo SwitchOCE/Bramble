@@ -529,3 +529,19 @@ func test_duplicate_syllabubs_on_one_body_use_strongest_times_with_guard_off_cou
 		combat.unit_at(0, 0).take_damage(100)
 		combat._resolve_deaths(0)
 		assert_eq(combat.unit_at(0, 0).attack, 7 if guarded else 10)
+
+
+func test_overbuff_hasty_carries_a_capped_gain_without_vector_wrap() -> void:
+	var fighter: Dictionary = CK.u("hasty_pudding")
+	fighter["iid"] = 101
+	var combat: Combat = _fight({0: fighter}, {0: CK.plain(1000000000, 1000000000)})
+	var hasty: CombatUnit = combat.unit_at(0, 0)
+	Pass3OozeCombat._hasty(combat, hasty, {"share": 3.0, "count": 1})
+	assert_eq(hasty.attack, BoardUnit.STAT_CLAMP)
+	assert_eq(hasty.health, BoardUnit.STAT_CLAMP)
+	var buffs: Array = combat.carry.filter(
+		func(change: Dictionary) -> bool: return change["op"] == "buff"
+	)
+	assert_eq(buffs.size(), 1)
+	assert_eq(buffs[0]["attack"], BoardUnit.STAT_CLAMP)
+	assert_eq(buffs[0]["health"], BoardUnit.STAT_CLAMP)
