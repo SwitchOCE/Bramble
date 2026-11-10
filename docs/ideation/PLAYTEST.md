@@ -18,9 +18,9 @@ Last Blow decides mutual wipes by the final attack or effect and deals only the 
 
 ## Returning after build 7
 
-Every tribe has bigger stats. New neutrals replace 38 prototypes; Stone Soup is tier 1. Shop and board tiles are wordless: tap for rules. The hand fans out; Rings animate travel.
+Every tribe has bigger stats. New neutrals replace 38 prototypes; tier 1 Stone Soup now shares a fifth. Shop and board tiles are wordless: tap for rules. The hand fans out; Rings animate travel.
 
-Try engines, scouting, repositioning and early Soup. The Fairy Ring line falls short of the scale: about 480 Attack plus Health at round 12. The Ooze engine can still run far ahead late in some games. Growth after round 12 is generous. Balance was not tuned further for this build.
+Try engines, scouting, repositioning and early Soup. The Fairy Ring line is short of the scale: about 480 Attack plus Health at round 12. The Ooze engine can still run far ahead late in some games. Growth after round 12 is generous. Balance was not tuned further for this build.
 
 Finished games save build and replay in `user://games/`. Send zipped JSON logs:
 
