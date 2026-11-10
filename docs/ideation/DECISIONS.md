@@ -71,6 +71,18 @@ In the same turn, w16 fixes the soak's untripled-Slice bug and retires the 38 pr
 
 **Agreed by:** the measurement.
 
+### 10 Nov 2026 — The orchestrator is local admin on the Optiplex (owner, 10e)
+**Source:** owner note `2026-11-10e-local-admin-and-oozes.md`.
+
+**Picked:**
+- The orchestrator clears temp files on this machine as needed, and decides deletions without asking.
+- It skips anything a running process holds open or that was touched in the last few hours, and logs each cleanup to `build/orchestrator/logs/`.
+- Orchestrator logs live on `/home`, and workers write their logs under `build/`.
+- **Why:** `/tmp` is a 7.5 GB RAM-backed tmpfs with a per-user quota. On 10 Nov, old worker scratch filled it: commands lost their output and swap filled.
+- **The first cleanup:** 840 items deleted. `/tmp` went from 81% to 34%, and free memory from 5 GB to 7 GB.
+
+**Agreed by:** the owner.
+
 ### 10 Nov 2026 — Oozes: find the level first, then three routes (owner, 10 Nov)
 **Source:** the owner, 10 Nov: "Maybe try a buff that's... overestimating a buff for the Oozes... something that you think is going to push them way past 900, or try designing new content or reworking the tribe entirely. Use the new design skill... See if you can identify what the problem is."
 
