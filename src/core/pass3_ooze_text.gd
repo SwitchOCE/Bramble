@@ -38,6 +38,26 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 				fragment["golden_text" if golden else "text"] = words
 			fragments[str(index)] = fragment
 	card["mechanic_text"] = fragments
+	var keywords: Array = card.get("keywords", [])
+	if keywords.has("Eat"):
+		var overrides: Dictionary = card.get("keyword_text_overrides", {})
+		overrides["Eat"] = eat_reminder(config)
+		card["keyword_text_overrides"] = overrides
+		for entry: Dictionary in card.get("keyword_text", []):
+			if str(entry.get("keyword", "")) == "Eat":
+				entry["text"] = overrides["Eat"]
+
+
+## The non-Ooze multiplier never touches Ooze meals, which pass whole.
+static func eat_reminder(config: GameConfig) -> String:
+	var multiple: int = maxi(1, Pass3Rates.integer(config, "oozes_eat_printed_multiplier"))
+	var words: String = "Destroy it. The eater gains its stats permanently"
+	if multiple == 1:
+		return words + "."
+	var scaled: String = (
+		"doubled" if multiple == 2 else "tripled" if multiple == 3 else "× %d" % multiple
+	)
+	return words + ", with a non-Ooze's printed stats %s." % scaled
 
 
 static func _parameters(card: Dictionary, config: GameConfig) -> void:
@@ -183,7 +203,14 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 				var words: String = (
 					"double"
 					if is_equal_approx(multiple, 2.0)
-					else "%s times as many" % _n(multiple)
+					else (
+						"%s times as many"
+						% (
+							_word(roundi(multiple))
+							if is_equal_approx(multiple, roundf(multiple))
+							else _n(multiple)
+						)
+					)
 				)
 				return "Oozes in front of this gain %s stats from eating non-Oozes." % words
 			return (

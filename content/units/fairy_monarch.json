@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Every 2nd End of Turn: double your Ring size.",
-  "golden_text": "Every 2nd End of Turn: triple your Ring size.",
+  "text": "Every 2nd End of Turn: triple your Ring size.",
+  "golden_text": "Every 2nd End of Turn: multiply your Ring size by 4.",
   "mechanics": [
     {
       "id": "pass3_fairy",
@@ -29,5 +29,5 @@
     "doc": "docs/ideation/content/pass3/fairies-pass3.md",
     "note": "Pass 3, with README amendments adopted."
   },
-  "details": "Midsummer shares one countdown across copies. Extra triggers never advance it or repeat its growth; a golden copy triples instead."
+  "details": "Midsummer shares one countdown across copies. Extra triggers never advance it or repeat its growth; a golden copy multiplies by 4 instead."
 }

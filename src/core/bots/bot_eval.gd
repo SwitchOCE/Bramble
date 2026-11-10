@@ -109,6 +109,10 @@ func fly_value(unit: RecruitUnit) -> float:
 
 func _profile_fly_value(unit: RecruitUnit) -> float:
 	var hinted: float = _hint_number(unit.def, "fly", 0.0)
+	if level.reads_text and board_owner != null:
+		var live: float = BotPass3.fly_value(unit, board_owner, self)
+		if live >= 0.0:
+			hinted = live
 	var builds: Dictionary = strategy.get("fly", {})
 	return hinted + _number(builds.get(unit.def_id(), 0))
 
@@ -188,6 +192,9 @@ func _profile_spell_value(
 	var bonus: float = _number(spells.get(str(card_def["id"]), 0))
 	if player != null and level.reads_text:
 		bonus += BotPass3.spell_bonus(card_def, player, self)
+		var pass3: float = BotPass3.spell_value(card_def, player, self)
+		if pass3 >= 0.0:
+			return pass3 + (bonus if pass3 > 0.0 else 0.0)
 		var content5: float = BotContent5.spell_value(card_def, player, recruit_rules)
 		if content5 >= 0.0:
 			return content5 + (bonus if content5 > 0.0 else 0.0)

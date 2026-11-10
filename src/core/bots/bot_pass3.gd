@@ -76,10 +76,33 @@ static func trip_score(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	return score - cost * 0.7
 
 
+## A returned Chiffchaff earns its printed play gain when replayed; trip_score already
+## values the permanent body's homecoming separately.
+static func fly_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -> float:
+	if not active(player) or unit.def_id() != "chiffchaff":
+		return -1.0
+	return 2.0 * unit.golden_factor() * _rate(value, "birds_chiffchaff_gain", 1.0)
+
+
+## Golden Egg buys the best legal Bird's actual permanent gain at the current multiplier.
+static func spell_value(card: Dictionary, player: PlayerState, value: BotEval) -> float:
+	if not active(player) or str(card.get("id", "")) != "golden_egg":
+		return -1.0
+	var multiplier: float = _rate(value, "birds_golden_egg_multiplier", 2.0)
+	var best: float = 0.0
+	for bird: RecruitUnit in player.board:
+		if Pass3Birds.egg_problem(bird, player.pass3_loop_guards) != "":
+			continue
+		var attack: int = maxi(0, bird.base_attack_now() + bird.perm_attack)
+		var health: int = maxi(1, bird.base_health_now() + bird.perm_health)
+		best = maxf(best, ceili(attack * multiplier) + ceili(health * multiplier) - attack - health)
+	return best
+
+
 static func _rate(value: BotEval, key: String, fallback: float) -> float:
 	if value.recruit_rules == null:
 		return fallback
-	return Pass3Rates.number(value.recruit_rules.config, key)
+	return Pass3Rates.number(value.recruit_rules.config, key, fallback)
 
 
 static func _biggest_bird(player: PlayerState) -> RecruitUnit:
@@ -288,7 +311,26 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 		"old_moth_annis":
 			return factor * player.ring_size * 6.0 * _rate(value, "fairies_annis_rings", 1.0)
 		"fairy_monarch":
-			return factor * ring_total(player) * player.ring_size
+			var multiplier: float = _rate(
+				value,
+				(
+					"fairies_golden_monarch_multiplier"
+					if unit.golden
+					else "fairies_monarch_multiplier"
+				),
+				3.0 if unit.golden else 2.0
+			)
+			return (multiplier - 1.0) * ring_total(player) * player.ring_size
+		"chiffchaff":
+			return 2.0 * factor * _rate(value, "birds_chiffchaff_gain", 1.0)
+		"mrs_stork":
+			return (
+				12.0
+				* factor
+				* _rate(value, "birds_stork_recalls", 1.0)
+				* 6.0
+				/ maxf(1.0, _rate(value, "birds_stork_gold_step", 6.0))
+			)
 		"silky":
 			return factor * ring_total(player) * 2.0 * _rate(value, "fairies_silky_growth", 1.0)
 		"cradle_fetch":
