@@ -1,5 +1,8 @@
 # S3 memory budget and packed field — 10 Nov 2026
 
+**Update: the lazy loader now passes at +166.1 MB.** See [the lazy-loader result](memory-lazy.md).
+The original eager baseline below is retained as historical evidence.
+
 **The memory budget fails: field startup adds 665.4 MB of median
 peak RSS, above the 300 MB limit. Keep normal Hard lobbies as the default.**
 The pack-loading and missing-library checks pass. The shipped library is still
