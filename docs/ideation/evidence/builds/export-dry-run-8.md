@@ -3,7 +3,7 @@
 **PASS. No real export, tag or latest update was made.**
 
 Command: `build/export.sh --dry-run 8 "Bigger tribe stats with new neutrals and clearer screens"`.
-Source: `48fbedd0dd3f674fc00aa1141771424915b87ecf`. Folder: `/home/alex/code/Bramble-ideation-build8/build/export-dry-run-8-1110-1828.n6b4PO`.
+Source: `3070b6d09278f342a916beb7e5849bf76f72a566`. Folder: `/home/alex/code/Bramble-ideation-build8/build/export-dry-run-8-1110-1906.dOf72B`.
 
 The script exited 0 after all its own checks:
 

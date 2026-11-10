@@ -65,3 +65,13 @@ sample later requires that recorded source commit, as the verifier intends.
 
 The original source-ff1da4e8 failure was fixed, and its exact log is retained at
 [ui-8-blocker.log](ui-8-blocker.log). No real phone or physical touch was tested.
+
+## Final export-source confirmation
+
+After the timing refinement and ghost-harness correction, desktop seed 1000 was
+played once more on export source `3070b6d09278f342a916beb7e5849bf76f72a566`: **11 turns, place 8,
+0 problems, 0 errors, exit 0** (`build/ui-final-source-smoke.log`). Its actual
+finished-game record has that same build id, 57 actions and the same final state
+hash recorded above. The export on this source passed every pack/hash/signing
+and Linux/Wine boot check. This confirms the final real-frame return behavior
+as well as the deterministic targeted timing tests.
