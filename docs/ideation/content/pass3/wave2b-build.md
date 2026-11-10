@@ -525,3 +525,20 @@ Merged counts: recruit rules 995, bot brain 981, game session 974, recruit scree
 Removed the raw A2 fight capture and players/rounds/cards CSVs from git, preserving
 them at `build/wave2b/hedgerow/archive-a2/`. The evidence README records that path.
 Compact line rows and summaries remain tracked; future raw reruns stay in build.
+
+### Golden Burdock and planted R8 Supper fuel
+
+Three live pass 3 golden Burdock cases verify two plain 1/1 Kits, one Kit plus a
+Spill where only one behind slot exists, and two Spills from the back row.
+Two fixed Supper tests plant the original paper's 105-stat R8 board, gold 0,
+tier 4, six bodies/F4 gap, Partner clock 8 and Dozey clock 2. Normal recruiting
+creates a Great Hoard (16) or Hoard plus Acorn (17); no fabricated Larder stat
+is inserted. A native one-wake test feeds the real items, verifies +32/+32 or
++34/+34, Partner income and Beadle Passes before the double, and the resulting
+Dozey 160/168 or 164/172. These five fixed tests pass in 4.074s total.
+
+The constructed fights are queued after the revised Hedgerow lobbies. They test
+the planted R8 board's combat shape; its unspent fuel does not change that fight.
+The native one-wake test proves the growth step separately. The stronger native
+B Partner means this is a declared paper-state diagnostic, not a claimed replay
+of native turns 1–8.
