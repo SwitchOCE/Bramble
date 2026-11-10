@@ -1,6 +1,7 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
+const Detail := preload("res://src/ui/widgets/card_detail.gd")
 const Cards := preload("res://src/ui/widgets/card_view.gd")
 const Views := preload("res://src/ui/unit_views.gd")
 const Model := preload("res://src/ui/screens/combat_model.gd")
@@ -25,25 +26,21 @@ var _library: UnitLibrary = LegacyWave1.with_hedgerow(LegacyBog.library(false))
 var _combat: Combat
 
 
-func test_every_plain_and_golden_unit_has_a_meaningful_authored_chip() -> void:
-	for card: Dictionary in _library.all_units():
+func test_every_plain_and_golden_unit_keeps_rules_in_reader_without_word_chips() -> void:
+	for definition: Dictionary in _library.all_units():
 		for golden: bool in [false, true]:
-			var view: Dictionary = Views.from_def(card, golden)
-			if str(view["text"]).is_empty():
-				continue
-			var chip: String = Cards.chip_text(view)
-			assert_ne(chip, "Ability", str(card["id"]))
-			assert_false(chip.is_empty(), str(card["id"]))
-			assert_lte(chip.length(), 16, "%s: %s" % [card["id"], chip])
+			var view: Dictionary = Views.from_def(definition, golden)
+			assert_eq(Cards.chip_text(view), "")
+			if not str(view["text"]).is_empty():
+				assert_false(Detail.full_text_bbcode(view).is_empty(), str(definition["id"]))
 
 
-func test_all_audited_fallbacks_have_explicit_plain_and_golden_tags() -> void:
+func test_audited_cards_keep_their_exact_abilities_in_the_reader() -> void:
 	for id: String in TAGS:
 		for golden: bool in [false, true]:
-			var wanted: String = str(TAGS[id])
-			if id == "beadle_warrenby" and golden:
-				wanted = "Pass +2/+2"
-			assert_eq(Cards.chip_text(Views.from_def(_library.get_unit(id), golden)), wanted)
+			var view: Dictionary = Views.from_def(_library.get_unit(id), golden)
+			assert_eq(Cards.chip_text(view), "")
+			assert_false(Detail.full_text_bbcode(view).is_empty(), id)
 
 
 func _setup(ours: Dictionary, theirs: Dictionary, mousewife: bool = false) -> void:

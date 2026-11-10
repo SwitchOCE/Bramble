@@ -9,7 +9,11 @@ signal replay_requested(game_seed: int)
 signal guide_requested
 signal settings_requested
 
-const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
+const CorePort := preload("res://src/ui/adapter/core_port.gd")
+const RecruitActionMotion := preload("res://src/ui/screens/recruit_action_motion.gd")
+const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
+const RecruitHud := preload("res://src/ui/screens/recruit_hud.gd")
+const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
 
 var _toast_timer: Timer
 var _hover_timer: Timer
@@ -21,6 +25,12 @@ var _selected: Dictionary = {}
 var _ooze_ui: RecruitOozes = RecruitOozes.new()
 
 var _projection: LaneProjection = LaneProjection.new()
+var _action_motion: RecruitActionMotion
+var _motion: RecruitMotion
+var _hover_zone: String = ""
+var _hover_index: int = -1
+var _landing_round: int = -1
+var _ending: bool = false
 var _drag_card: CardView
 
 
@@ -47,25 +57,39 @@ func _init() -> void:
 	add_child(_stage)
 	_lobby = LobbyStrip.new()
 	_lobby.next_tapped.connect(toggle_scout)
+	_lobby.hero_requested.connect(_show_lobby_hero)
 	_stage.add_child(_lobby)
 	_tribes = TribeBonuses.new()
 	_stage.add_child(_tribes)
-	_build_shop()
-	_build_board()
-	_build_hand()
+	_build_shop(_wire)
+	_build_board(_wire, _on_hero_power, _on_hero_tapped)
+	_build_hand(_wire)
+	_away_tray.bird_requested.connect(_show_away_bird)
 	_build_right(_on_tier_up, _on_refresh, _on_freeze, _on_end_turn)
 	_kin_button = _leaf(
 		LeafButton.Colour.BIRCH, func() -> void: _act(port.ask_for_kin(), "refresh")
 	)
-	_build_tools()
+	_build_tools(_open_pause, toggle_scout, _show_opponent, toggle_dev_panel)
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
 	_detail.visibility_changed.connect(_on_detail_shown)
+	var rules_links: RichTextLabel = _detail.get("_notes")
+	rules_links.meta_clicked.connect(
+		func(meta: Variant) -> void:
+			var word: String = str(meta).trim_prefix("kw:").to_lower()
+			if word in ["behind", "touching", "beside", "next to", "across", "quarry", "mire"]:
+				_pulse_reader_reach()
+	)
 	_detail.z_index = 13
 	_scout = ScoutPanel.new()
+	_scout.hero_pressed.connect(_show_opponent)
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
+	_motion = RecruitMotion.new()
+	_stage.add_child(_motion)
+	_action_motion = RecruitActionMotion.new()
+	_stage.add_child(_action_motion)
 	_lanes = LaneOverlay.new()
 	_lanes.boards = [_board, _scout.get("_board")]
 	_stage.add_child(_lanes)
@@ -99,72 +123,6 @@ func _init() -> void:
 	_layout()
 
 
-func _build_shop() -> void:
-	_shelf = ShelfPlank.new()
-	_stage.add_child(_shelf)
-	_shop_zone = Interactive.new()
-	_shop_zone.zone = "shop"
-	_shop_zone.index = -1
-	_wire(_shop_zone)
-	_stage.add_child(_shop_zone)
-	_shop_scroll = ScrollContainer.new()
-	_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_shop_scroll.add_theme_stylebox_override("panel", UiTheme.slip_box(Color.TRANSPARENT, 0, 16))
-	_stage.add_child(_shop_scroll)
-	_shop_cards = GridContainer.new()
-	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_stage.add_child(_shop_cards)
-
-
-func _build_board() -> void:
-	_board = BoardView.new()
-	_board.configure("board", BOARD_POCKET, true, true, true)
-	for slot: Interactive in _board.slots:
-		_wire(slot)
-	_stage.add_child(_board)
-	_hero = HeroPlaque.new()
-	_hero.visible = false
-	_hero.power_pressed.connect(_on_hero_power)
-	_hero.portrait_pressed.connect(_on_hero_tapped)
-	_stage.add_child(_hero)
-
-
-func _build_hand() -> void:
-	_hand_zone = Interactive.new()
-	_hand_zone.zone = "hand"
-	_hand_zone.index = -1
-	_wire(_hand_zone)
-	_stage.add_child(_hand_zone)
-	_hand_panel = WoodPanel.new(WoodPanel.Kind.OAK)
-	_hand_zone.add_child(_hand_panel)
-	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
-	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_hand_count.tooltip_text = "Larder: the gold held in your Acorns, Stashes and Great Hoards."
-	_hand_zone.add_child(_hand_count)
-	_hand_cards = GridContainer.new()
-	_hand_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_hand_zone.add_child(_hand_cards)
-	_away_tray = AwayTray.new()
-	_stage.add_child(_away_tray)
-
-
-func _build_tools() -> void:
-	_menu_token = TokenButton.new("", "gear")
-	_menu_token.pressed.connect(_open_pause)
-	_stage.add_child(_menu_token)
-	_scout_token = TokenButton.new("Scout", "", UiTheme.FONT_SMALL)
-	_scout_token.pressed.connect(toggle_scout)
-	_stage.add_child(_scout_token)
-	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
-	_who_token.pressed.connect(_show_opponent)
-	_who_token.visible = false
-	_stage.add_child(_who_token)
-	_dev_token = TokenButton.new("Dev")
-	_dev_token.pressed.connect(toggle_dev_panel)
-	_stage.add_child(_dev_token)
-	_dev_token.visible = Settings.show_dev_panel
-
-
 func _wire(node: Interactive) -> void:
 	node.tapped.connect(_on_tapped)
 	node.hovered.connect(_on_hovered)
@@ -182,34 +140,7 @@ func render() -> void:
 	state = RecruitView.with_cards(port.get_state()) if port != null else {}
 	if state.is_empty():
 		return
-	_gold.show_gold(Data.i(state, "gold", 0))
-	_gold.show_income(RecruitView.income_note(state))
-	_tier_label.text = "Tier %d" % Data.i(state, "tier", 1)
-	_round_label.text = "Turn %d" % Data.i(state, "round", 1)
-	var tier_cost: Variant = state.get("tier_up_cost")
-	if tier_cost == null:
-		_tier_button.set_face("Top tier", "tier")
-		_tier_button.disabled = true
-	else:
-		_tier_button.set_face("Tier up", "tier", Data.as_int(tier_cost))
-		_tier_button.disabled = false
-	_refresh_button.set_face("Refresh", "refresh", Data.i(state, "refresh_cost", 1))
-	_kin_button.set_face("Ask for Kin", "refresh", 2)
-	_kin_button.tooltip_text = (
-		"2 gold, once a turn: refresh with at least two units sharing your tribes. "
-		+ "Nests count as Birds."
-	)
-	_kin_button.disabled = not Data.b(state, "can_ask_for_kin")
-	var frozen: bool = Data.b(state, "frozen", false)
-	_freeze_button.set_face("Unfreeze" if frozen else "Freeze", "freeze")
-	_end_button.set_face("End turn", "", -1, RecruitView.fight_note(state))
-	_lobby.show_standings(
-		Data.a(state, "standings"),
-		Data.i(state, "next_opponent_id", -2),
-		Data.i(RecruitView.ghost_owner(state), "player_id", -9)
-	)
-	_tribes.show_bonuses(Data.a(state, "lobby_tribes"), Data.d(state, "tribe_bonuses"))
-	_tribes.show_engine(state)
+	var frozen: bool = RecruitHud.populate(self)
 	_layout()
 	_render_shop(frozen)
 	_render_board()
@@ -218,15 +149,18 @@ func render() -> void:
 	_show_selection()
 	_render_discover()
 	_refresh_scout()
+	_land_queued_gains()
 
 
 func toggle_scout() -> void:
+	_hover_timer.stop()
+	_leave_timer.stop()
+	_hover_view = {}
+	_selected = {}
+	_detail.show_empty()
 	_scout.visible = not _scout.visible
 	_scout_token.lit = _scout.visible
-	_who_token.visible = _scout.visible
-	_scout_token.set_word("Close" if _scout.visible else "Scout")
-	if _selected.get("zone", "") == "scout":
-		_selected = {}
+	_who_token.visible = false
 	render()
 	if _scout.visible and RecruitView.is_ghost_next(state):
 		_show_opponent()
@@ -237,7 +171,9 @@ func _refresh_scout() -> void:
 		var units: Array = Data.a(state, "next_opponent_last_board")
 		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
 		var nests: Array = Data.a(state, "next_opponent_last_nests")
-		_scout.show_board(RecruitView.next_name(state), units, slots, nests)
+		_scout.show_board(
+			RecruitView.next_name(state), units, slots, nests, Data.d(state, "next_opponent_hero")
+		)
 		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
 
 
@@ -247,6 +183,30 @@ func _show_opponent() -> void:
 	_show_selection()
 	if not card.is_empty():
 		_detail.show_unit(card)
+
+
+func _read_external(view: Dictionary) -> void:
+	_hover_timer.stop()
+	_leave_timer.stop()
+	_hover_view = {}
+	_selected = {}
+	_show_selection()
+	_detail.show_unit(view)
+
+
+func _show_away_bird(view: Dictionary, nest: int) -> void:
+	_read_external(view)
+	if nest >= 0:
+		_board.show_relations([nest])
+
+
+func _show_lobby_hero(standing: Dictionary) -> void:
+	var hero: Dictionary = {}
+	if Data.b(standing, "is_human"):
+		hero = Data.d(state, "hero")
+	elif Data.i(standing, "player_id", -9) == Data.i(state, "next_opponent_id", -2):
+		hero = Data.d(state, "next_opponent_hero")
+	_read_external(LobbyPlaque.reader_card(standing, hero))
 
 
 func _render_shop(frozen: bool) -> void:
@@ -289,53 +249,27 @@ func _render_board() -> void:
 		if _board.cards[slot] != null:
 			var unit: Dictionary = _board.cards[slot].unit
 			_board.cards[slot].turns_shown = RecruitView.tile_slip(unit)
-	_ooze_ui.render(_board)
+	_ooze_ui.render(_board, _motion, _shop_cards)
 
 
 func _render_hand() -> void:
-	_clear(_hand_cards)
+	_hand_cards.clear_cards()
 	var hand: Array = Data.a(state, "hand")
+	_hand_zone.tooltip_text = Data.s(RecruitView.larder_card(state), "text")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
 	var larder: int = Data.i(state, "larder")
 	if larder > 0:
 		_hand_count.text = "%dg · %s" % [larder, _hand_count.text]
-	var away: bool = not RecruitHeld.sky_card(state).is_empty()
+	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
-	_hand_cards.columns = 2 if count >= (2 if away else 3) else 1
-	_hand_cards.add_theme_constant_override("h_separation", 43)
-	_hand_cards.add_theme_constant_override("v_separation", 22 if count <= 2 else 26)
-	var limit: int = 4 if away else HAND_SHOWN
-	var shown: int = count if count <= limit else limit - 1
-	var mode: CardView.Mode = CardView.Mode.MINI if away or count > 2 else CardView.Mode.SHOP
-	for i: int in shown:
-		var view: Dictionary = hand[i]
-		var card: CardView = _make_card(view, "hand", i, card_size.x, mode)
+	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP
+	for index: int in count:
+		var view: Dictionary = hand[index]
+		var card: CardView = _make_card(view, "hand", index, card_size.x, mode)
 		card.set_card_size(card_size)
-		_hand_cards.add_child(card)
-	if count > shown:
-		_hand_cards.add_child(_more_button(count - shown, card_size))
-	# A grid can keep the height it had before its columns changed; its tiles land outside it.
-	_hand_cards.reset_size.call_deferred()
-
-
-func _more_button(more: int, tile: Vector2) -> Button:
-	var button: Button = UiTheme.button("+%d more" % more, 0, UiTheme.FONT_SMALL)
-	button.custom_minimum_size = Vector2(tile.x, maxf(tile.y, tap_size()))
-	button.pressed.connect(_open_hand_picker)
-	return button
-
-
-func _open_hand_picker() -> void:
-	var picker: CardPicker = CardPicker.new()
-	picker.picked.connect(_on_hand_picked)
-	picker.show_cards("Your hand", Data.a(state, "hand"), true)
-	add_child(picker)
-
-
-func _on_hand_picked(index: int) -> void:
-	_selected = {"zone": "hand", "index": index}
-	_show_selection()
+		_hand_cards.add_card(card)
+	_hand_cards.arrange()
 
 
 func _make_card(
@@ -493,18 +427,18 @@ func _show_selection() -> void:
 				_highlight_bellies(view)
 		"scout":
 			_detail.show_unit(RecruitHeld.with_inside(view))
+			_scout.pulse_reach(_board, _lanes.bindings, index)
 
 
 func _card_at(zone: String, index: int) -> CardView:
 	match zone:
 		"board":
 			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
-		"shop", "hand":
-			var holder: Node = _hand_cards
-			if zone == "shop":
-				holder = _shop_cards
-			if index >= 0 and index < holder.get_child_count():
-				return holder.get_child(index) as CardView
+		"hand":
+			return _hand_cards.card_at(index)
+		"shop":
+			if index >= 0 and index < _shop_cards.get_child_count():
+				return _shop_cards.get_child(index) as CardView
 		"scout":
 			return _scout.card_at(index)
 	return null
@@ -542,15 +476,11 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	if not _selected.is_empty():
 		_hover_ring_aim(_selected, zone, index, inside)
 		return
+	_hover_zone = zone
+	_hover_index = index
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
 	view = _ooze_ui.hover(_board, view, index, inside and zone == "board")
-	if inside and zone == "board" and RecruitView.pass_direction(view) != 0:
-		var board: Array = Data.a(state, "board")
-		_board.set_pass_landing(RecruitView.pass_preview(board, view, index, index))
-		view = view.duplicate()
-		view["text"] = Data.s(view, "text") + "\n" + RecruitView.geometry_note(view, index, board)
-	elif not inside:
-		_board.set_pass_landing(-2)
+
 	if inside and zone == "board" and _unit_at(zone, index).is_empty():
 		view = RecruitHeld.egg_card(Data.entry(RecruitView.slot_marks(state), index))
 	_hover_view = view
@@ -586,6 +516,10 @@ func _on_leave_check() -> void:
 func _show_hover() -> void:
 	if not _hover_view.is_empty() and _selected.is_empty():
 		_detail.show_unit(_hover_view)
+		if _hover_zone == "scout":
+			_scout.pulse_reach(_board, _lanes.bindings, _hover_index)
+		elif _hover_zone == "board":
+			_board.show_relations(RecruitView.related_slots(_hover_view, _hover_index))
 		_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
@@ -593,6 +527,9 @@ func _on_tapped(zone: String, index: int) -> void:
 	_hover_timer.stop()
 	if zone != "table":
 		Sfx.tap()
+	if zone == "hand" and index < 0 and Data.i(state, "larder") > 0:
+		_read_external(RecruitView.larder_card(state))
+		return
 	var from_index: int = Data.i(_selected, "index", -1)
 	if zone == "board" and _try_swallow(str(_selected.get("zone", "")), from_index, index):
 		return
@@ -751,15 +688,8 @@ func show_pass_preview(from_zone: String, from_index: int, zone: String, index: 
 			Data.entry(RecruitView.slot_marks(state), index) if zone == "board" else {}
 		)
 		_drag_card.show_unit(RecruitHeld.lump_preview(card, mark), CardView.Mode.BOARD)
-	var from_slot: int = from_index if from_zone == "board" else -1
-	var landing: int = -2
-	if RecruitView.pass_direction(card) != 0 and zone == "board":
-		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, index)
-	elif RecruitView.pass_direction(card) != 0 and zone == "shop" and from_slot >= 0:
-		landing = RecruitView.pass_preview(Data.a(state, "board"), card, from_slot, -1)
-	_board.set_pass_landing(landing)
 	if zone == "board":
-		_board.show_relations(RecruitView.related_slots(card, index))
+		_board.show_relations(RecruitView.related_slots(card, index), index)
 
 
 func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bool) -> bool:
@@ -831,7 +761,10 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		toggle_dev_panel()
 		accept_event()
 	elif key.keycode == KEY_ESCAPE:
-		_open_pause()
+		if _scout.visible:
+			toggle_scout()
+		else:
+			_open_pause()
 		accept_event()
 
 
@@ -882,68 +815,16 @@ func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> v
 	if reason.is_empty():
 		Sfx.play_voice(Data.a(view, "tribes"))
 	_act(reason, sound)
-	if reason.is_empty():
-		var board: Array = Data.a(state, "board")
-		for slot: int in board.size():
-			var placed: Dictionary = Data.entry(board, slot)
-			if Data.i(placed, "iid", -2) == Data.i(view, "iid", -1):
-				_board.show_relations(RecruitView.related_slots(placed, slot))
 
 
 func _after_change(rewards: bool = true, sound: String = "") -> void:
-	var known: Dictionary = {}
-	for zone: String in ["hand", "shop", "board"]:
-		for entry: Variant in Data.a(state, zone):
-			if entry is Dictionary:
-				var old: Dictionary = entry
-				known[Data.i(old, "iid", -1)] = true
-	var copies_before: Dictionary = RecruitView.copies(state)
+	_action_motion.finish()
+	var before: Dictionary = _action_motion.snapshot(self)
 	var old_state: Dictionary = state
 	render()
-	var copies_after: Dictionary = RecruitView.copies(state)
-	var combined: String = RecruitView.combine_note(old_state, state)
+	_action_motion.present(self, before, sound)
 	if rewards:
 		_play_change_sounds(old_state, sound)
-	if not combined.is_empty():
-		Sfx.play("acorns_combine")
-		show_toast(combined)
-		_pulse_new_hand_card(known)
-	for entry: Variant in Data.a(state, "hand"):
-		var view: Dictionary = entry
-		if known.has(Data.i(view, "iid", -1)):
-			continue
-		var def_id: String = Data.s(view, "def_id")
-		var used: int = copies_before.get(def_id, 0) - copies_after.get(def_id, 0)
-		if Data.b(view, "golden", false):
-			# A triple took copies that were already owned; a golden dev spawn takes none.
-			if used >= 2:
-				Sfx.play("triple")
-				show_toast(
-					"Triple! Golden %s in hand: play it for your reward." % Data.s(view, "name")
-				)
-		elif rewards and Data.s(view, "origin") == "created":
-			show_toast("Triple Reward: %s is in your hand." % Data.s(view, "name"))
-	_note_golden_on_board(known, copies_before, copies_after)
-	var notice: String = RecruitView.change_notices(old_state, state)
-	if not notice.is_empty():
-		show_toast(notice)
-
-
-func _note_golden_on_board(known: Dictionary, before: Dictionary, after: Dictionary) -> void:
-	for entry: Variant in Data.a(state, "board"):
-		if not entry is Dictionary:
-			continue
-		var view: Dictionary = entry
-		var def_id: String = Data.s(view, "def_id")
-		var used: int = Data.i(before, def_id, 0) - Data.i(after, def_id, 0)
-		if Data.b(view, "golden", false) and not known.has(Data.i(view, "iid", -1)) and used >= 2:
-			Sfx.play("triple")
-			show_toast(
-				(
-					"Triple! Your hand was full: Golden %s took a slot, no reward."
-					% Data.s(view, "name")
-				)
-			)
 
 
 func show_toast(text: String) -> void:
@@ -967,16 +848,75 @@ func _on_refresh() -> void:
 
 
 func _on_freeze() -> void:
-	_act(port.toggle_freeze(), "freeze")
+	var reason: String = port.toggle_freeze()
+	_act(reason, "freeze")
+	if reason.is_empty():
+		var delay: float = 0.0
+		for child: Node in _shop_cards.get_children():
+			var card: CardView = child as CardView
+			if card != null:
+				card.animate_frost(
+					Data.b(state, "frozen"), delay, Settings.fight_speed, Settings.reduce_motion
+				)
+				delay += 0.05 / maxf(1.0, Settings.fight_speed)
 
 
 func _on_end_turn() -> void:
+	if _ending:
+		_motion.finish()
+		return
 	if not _allow_shy("end_turn"):
 		return
+	var captured: Array[Dictionary] = []
+	var player: PlayerState = null
+	var previous: Callable
+	if port is CorePort:
+		var core: CorePort = port as CorePort
+		var players: Array[PlayerState] = core.session.get("_players")
+		player = players[0]
+		previous = player.log_observer
+		player.log_observer = func(type: String, fields: Dictionary) -> void:
+			var entry: Dictionary = fields.duplicate(true)
+			entry["type"] = type
+			captured.append(entry)
+			if previous.is_valid():
+				previous.call(type, fields)
 	var reason: String = port.end_turn()
+	if player != null:
+		player.log_observer = previous
 	if reason.is_empty():
 		_selected = {}
+		_detail.show_empty()
 		Sfx.play("turn_end")
-		combat_ready.emit()
+		_ending = true
+		_motion.play_events(
+			_board,
+			captured,
+			func() -> void:
+				_ending = false
+				combat_ready.emit()
+		)
 	else:
 		show_toast(reason)
+
+
+func _land_queued_gains() -> void:
+	var round_now: int = Data.i(state, "round")
+	if _landing_round == round_now:
+		return
+	_landing_round = round_now
+	for event: Dictionary in Data.a(state, "recruit_log"):
+		if Data.s(event, "type") != "gain_landed":
+			continue
+		for card: CardView in _board.cards:
+			if card != null and Data.i(card.unit, "iid") == Data.i(event, "iid", -2):
+				_motion.roll_gain(card, Data.i(event, "attack"), Data.i(event, "health"))
+
+
+func _pulse_reader_reach() -> void:
+	var zone: String = Data.s(_selected, "zone", _hover_zone)
+	var index: int = Data.i(_selected, "index", _hover_index)
+	if zone == "scout":
+		_scout.pulse_reach(_board, _lanes.bindings, index)
+	elif zone == "board":
+		_board.show_relations(RecruitView.related_slots(_unit_at(zone, index), index))

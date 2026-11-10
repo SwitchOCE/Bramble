@@ -39,13 +39,9 @@ func test_all_wave1_cards_keep_readable_phone_rules_or_a_tap_target() -> void:
 			card.set_card_width(CardView.SHOP_WIDTH)
 			holder.add_child(card)
 			await get_tree().process_frame
-			assert_true(
-				card.rules_shown or not card.chip_shown.is_empty(),
-				"%s keeps an ability on its tile" % definition["name"]
-			)
-			var rules: Label = card.get("_rules")
-			if card.rules_shown:
-				assert_gte(rules.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+			assert_false(card.rules_shown)
+			assert_eq(card.chip_shown, "")
+			assert_false(CardDetail.full_text_bbcode(card.unit).is_empty(), str(definition["name"]))
 			assert_eq(LayoutCheck.problems(card, str(definition["name"])), PackedStringArray())
 			card.queue_free()
 	assert_eq(count, 32, "exactly sixteen cards of each wave1 tribe are in the pool")
@@ -148,8 +144,10 @@ func test_ring_size_and_midsummer_fit_beside_supper_at_the_phone_minimum() -> vo
 	var chips: Control = screen.get("_tribes")
 	var size_label: Label = chips.get_node("RingSize/Engine")
 	var summer_label: Label = chips.get_node("Midsummer/Engine")
-	assert_eq(size_label.text, "Ring size 1.25")
-	assert_eq(summer_label.text, "Midsummer 2")
+	assert_eq(size_label.text, "×1.25")
+	assert_eq(summer_label.text, "2")
+	assert_string_contains((size_label.get_parent() as Control).tooltip_text, "+1.25/+1.25")
+	assert_string_contains((summer_label.get_parent() as Control).tooltip_text, "Midsummer in 2")
 	assert_gte(size_label.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
 	assert_eq(LayoutCheck.problems(screen, "Fairy engine phone"), PackedStringArray())
 
@@ -241,12 +239,16 @@ func test_away_tray_shows_now_and_landing_without_covering_recruit_actions() -> 
 		var screen: RecruitScreen = _away_screen(window)
 		await wait_process_frames(3)
 		var tray: AwayTray = screen.get("_away_tray")
-		var notes: RichTextLabel = tray.get("_notes")
+		var first: Dictionary = tray.reader_for(0)
+		var second: Dictionary = tray.reader_for(1)
 		assert_true(tray.is_visible_in_tree())
-		assert_string_contains(notes.text, "Now → landing")
-		assert_string_contains(notes.text, "One Swallow · home in 1 turn\n78/94 → 156/188 · F3")
-		assert_string_contains(notes.text, "Mrs Jay · home in 2 turns\n7/10 → 14/20")
-		assert_gte(notes.get_theme_font_size("normal_font_size"), UiTheme.MIN_FONT)
+		assert_eq(tray.tokens.size(), 2)
+		assert_string_contains(str(first["text"]), "Now: 78 Attack / 94 Health.")
+		assert_string_contains(str(first["text"]), "Homecoming: 156 Attack / 188 Health.")
+		assert_string_contains(str(first["text"]), "Home in 1 turn.")
+		assert_string_contains(str(second["text"]), "Homecoming: 14 Attack / 20 Health.")
+		var countdown: Label = tray.tokens[0].get_node("Countdown")
+		assert_gte(countdown.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
 		var hand_zone: Control = screen.get("_hand_zone")
 		assert_false(tray.get_global_rect().intersects(hand_zone.get_global_rect()))
 		for key: String in [
@@ -287,25 +289,28 @@ func test_many_away_birds_scroll_with_a_full_hand_and_clear_when_they_land() -> 
 	screen.render()
 	await wait_process_frames(3)
 	var tray: AwayTray = screen.get("_away_tray")
-	var notes: RichTextLabel = tray.get("_notes")
-	assert_string_contains(notes.text, "Long travelling Mother Goose 9")
-	assert_string_contains(notes.text, "100k/200k → 200k/400k")
-	assert_string_contains(notes.text, "Old Tern: on the doorstep")
-	var scroll: VScrollBar = notes.get_v_scroll_bar()
+	assert_eq(tray.tokens.size(), 13, "every travelling and doorstep Bird retains a token")
+	var final: Dictionary = tray.reader_for(11)
+	assert_string_contains(str(final["name"]), "Long travelling Mother Goose 9")
+	assert_string_contains(str(final["text"]), "Homecoming: 200000 Attack / 400000 Health.")
+	assert_string_contains(str(tray.reader_for(12)["text"]), "On the doorstep")
+	var scroll_box: ScrollContainer = tray.get("_scroll")
+	var scroll: HScrollBar = scroll_box.get_h_scroll_bar()
 	assert_gt(scroll.max_value, scroll.page, "all Birds remain available through scrolling")
-	var hand: GridContainer = screen.get("_hand_cards")
-	assert_eq(hand.get_child_count(), 4, "three hand tiles plus the full-hand picker")
-	assert_true(hand.get_child(3) is Button)
+	var hand: Control = screen.get("_hand_cards")
+	assert_eq(hand.get_child_count(), 7, "every hand card remains visible beside Birds away")
+	for card: Node in hand.get_children():
+		assert_true(card is CardView, "no overflow picker replaces a hand card")
 	assert_eq(LayoutCheck.problems(screen, "full hand and sky"), PackedStringArray())
 	state["away"] = []
 	state["doorstep"] = []
 	screen.render()
 	await wait_process_frames(2)
 	assert_false(tray.visible, "an empty sky returns the space to the hand")
-	assert_eq(hand.get_child_count(), 6)
+	assert_eq(hand.get_child_count(), 7, "all cards remain visible after the sky clears")
 
 
-func test_crowded_pc_shop_keeps_long_names_on_whole_word_lines() -> void:
+func test_crowded_pc_shop_uses_distinct_art_and_keeps_full_identity_in_the_view() -> void:
 	var screen: RecruitScreen = _away_screen(Vector2(1920, 1080))
 	var state: Dictionary = screen.port.get_state()
 	var library: UnitLibrary = TestLibraries.current()
@@ -325,15 +330,13 @@ func test_crowded_pc_shop_keeps_long_names_on_whole_word_lines() -> void:
 	for index: int in [1, 4]:
 		var card: CardView = offers.get_child(index)
 		var label: Label = card.get("_name_label")
-		assert_eq(label.text, shop[index]["name"])
-		assert_lte(
-			label.get_line_count(), 3 if index == 1 else 2, "no split word or comma-only line"
-		)
-		assert_gte(label.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+		assert_false(label.is_visible_in_tree(), "its own portrait supplies the identity")
+		assert_false(CardView.needs_name(card.unit))
+		assert_eq(card.unit["name"], shop[index]["name"], "the reader keeps the full identity")
 	assert_eq(LayoutCheck.problems(screen, "crowded PC shop"), PackedStringArray())
 
 
-func test_end_turn_subtitle_clears_the_leaf_rim_with_and_without_phone_reader() -> void:
+func test_end_turn_has_no_subtitle_with_or_without_the_phone_reader() -> void:
 	var screen: RecruitScreen = _away_screen(Vector2(1688, 780))
 	for reader: bool in [false, true]:
 		if reader:
@@ -342,11 +345,8 @@ func test_end_turn_subtitle_clears_the_leaf_rim_with_and_without_phone_reader() 
 		var button: Control = screen.get("_end_button")
 		var subtitle: Label = button.get("_sub")
 		var title: Label = button.get("_label")
-		assert_true(subtitle.is_visible_in_tree())
-		assert_gte(subtitle.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
+		assert_false(subtitle.is_visible_in_tree())
+		assert_eq(subtitle.text, "")
+		assert_eq(title.text, "End turn")
 		assert_gte(title.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-		assert_lte(
-			subtitle.get_global_rect().end.y,
-			button.get_global_rect().end.y - button.size.y * 0.04,
-			"the second line stays clear of the lower leaf rim"
-		)
+		assert_true(button.get_global_rect().encloses(title.get_global_rect()))

@@ -267,7 +267,7 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		for interval: Dictionary in windows:
 			var samples: Array = interval["sample_ticks"]
 			var frames: Array = interval["frames"]
-			if frames.size() < 8 and tick == CoreUtil.to_int(samples[frames.size()]):
+			if frames.size() < samples.size() and tick == CoreUtil.to_int(samples[frames.size()]):
 				pending.append(interval)
 		if not pending.is_empty():
 			await _capture(directory, pending, screen)
@@ -278,7 +278,8 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 	assert(event_hash == JSON.stringify(source_events, "", true, true).sha256_text())
 	for interval: Dictionary in windows:
 		var frames: Array = interval["frames"]
-		assert(frames.size() == 8, "each interval contains all eight native samples")
+		var samples: Array = interval["sample_ticks"]
+		assert(frames.size() == samples.size(), "every uniform and peak sample was captured")
 	var expected_health: Array = combat.get("hero_health_after", [])
 	var displayed: PackedStringArray = _health_text(screen)
 	for side: int in expected_health.size():
@@ -307,15 +308,15 @@ func _fight(scenario: String, speed: float, reduced: bool) -> void:
 		"timing_passes_equal": true,
 		"method":
 		(
-			"two deterministic 1/120 s passes; eight evenly spaced actual attack-to-next-attack "
-			+ "samples; opening source-group focus sheets; last attack ends before result; "
+			"two deterministic 1/120 s passes; all eight uniform attack-interval samples plus "
+			+ "each distinct observed actor peak; opening source groups; last attack ends before result; "
 			+ "separate result continues through settled Health and automatic return"
 		),
 	}
 	if selected_mode:
 		manifest["method"] = (
-			"two complete deterministic 1/120 s passes; eight evenly spaced samples per selected "
-			+ "actual attack-to-next-attack interval; last attack ends before result; "
+			"two complete deterministic 1/120 s passes; preserve all eight uniform samples and "
+			+ "append each distinct actor peak per selected interval; last attack ends before result; "
 			+ "complete replay verifies all event ticks, final Health and automatic return"
 		)
 	else:
@@ -365,6 +366,8 @@ func _capture(directory: String, intervals: Array[Dictionary], screen: CombatScr
 				"seconds": _tick * STEP,
 				"ancillary_text_nodes": ancillary,
 				"raw_text_nodes": raw_labels,
+				"visible_text_nodes": Capture.text_nodes(screen),
+				"damage_receipts": _damage_receipts(screen),
 				"attack_actor_positions": _actor_positions(screen, interval)
 			}
 		)
@@ -467,49 +470,29 @@ func _pin_lunge_peaks(interval: Dictionary, attack: Dictionary) -> void:
 	uniform = uniform.duplicate()
 	var samples: Array = uniform.duplicate()
 	var peaks: Array = attack["lunge_peaks"]
-	var required: Array[int] = []
-	var replacements: Array[Dictionary] = []
+	var appended: Array[int] = []
 	for peak: Dictionary in peaks:
 		var tick: int = CoreUtil.to_int(peak["tick"])
 		assert(tick >= interval["start_tick"] and tick <= interval["end_tick"])
-		if not required.has(tick):
-			required.append(tick)
-	for tick: int in required:
-		if samples.has(tick):
-			continue
-		var victim: int = -1
-		var gap: int = 2147483647
-		for candidate: Variant in samples:
-			var value: int = CoreUtil.to_int(candidate)
-			if required.has(value) or value in [interval["start_tick"], interval["end_tick"]]:
-				continue
-			if absi(value - tick) < gap:
-				victim = value
-				gap = absi(value - tick)
-		if victim < 0:
-			# Seven distinct Pack peaks can require an endpoint's slot in an eight-frame sheet.
-			for candidate: Variant in samples:
-				var value: int = CoreUtil.to_int(candidate)
-				if not required.has(value):
-					victim = value
-					break
-		assert(victim >= 0, "all actor peaks fit in eight distinct frames")
-		samples.erase(victim)
-		samples.append(tick)
-		replacements.append({"uniform_tick": victim, "peak_tick": tick})
+		if not samples.has(tick):
+			samples.append(tick)
+			appended.append(tick)
 	samples.sort()
-	assert(samples.size() == 8)
+	assert(samples.size() >= 8)
+	for tick: Variant in uniform:
+		assert(samples.has(tick), "all original uniform samples survive peak inclusion")
 	interval["sample_ticks"] = samples
+	interval["frame_count"] = samples.size()
 	interval["sampling"] = {
-		"mode": "uniform-with-observed-lunge-peaks",
+		"mode": "uniform-plus-observed-lunge-peaks",
 		"uniform_sample_ticks": uniform,
-		"replacements": replacements,
+		"appended_peak_ticks": appended,
 		"lunge_peaks": peaks,
 		"method":
 		(
-			"Pin each actor's maximum observed lunge displacement at 120Hz; under reduce "
-			+ "motion pin held-pose or strongest source flash. Replace nearest unprotected "
-			+ "interior uniform sample; endpoints yield only if peak count requires it."
+			"Preserve all eight uniform samples and append each distinct observed actor peak. "
+			+ "Pack actors are measured separately. Under reduce motion, append the held-pose "
+			+ "or strongest source-flash peak. No original sample is replaced."
 		)
 	}
 
@@ -523,4 +506,35 @@ func _actor_positions(screen: CombatScreen, interval: Dictionary) -> Array[Dicti
 		var card: CardView = cards.get(uid)
 		if card != null and is_instance_valid(card):
 			found.append({"uid": uid, "position": [card.position.x, card.position.y]})
+	return found
+
+
+## Record the actual live DamagePop label, its recipient and inherited opacity.
+func _damage_receipts(node: Node) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	if node is CanvasItem:
+		var item: CanvasItem = node as CanvasItem
+		if not item.is_visible_in_tree():
+			return found
+	if node.has_meta("recipient_uid"):
+		var amount: Label = node.get_node_or_null("Amount") as Label
+		if amount != null and amount.is_visible_in_tree():
+			var opacity: float = amount.self_modulate.a
+			var ancestor: Node = amount
+			while ancestor is CanvasItem:
+				opacity *= (ancestor as CanvasItem).modulate.a
+				ancestor = ancestor.get_parent()
+			if opacity >= 0.05:
+				var rect: Rect2 = amount.get_global_rect()
+				found.append(
+					{
+						"recipient_uid": CoreUtil.to_int(node.get_meta("recipient_uid")),
+						"text": amount.text,
+						"opacity": opacity,
+						"path": str(amount.get_path()),
+						"rect": [rect.position.x, rect.position.y, rect.size.x, rect.size.y]
+					}
+				)
+	for child: Node in node.get_children():
+		found.append_array(_damage_receipts(child))
 	return found

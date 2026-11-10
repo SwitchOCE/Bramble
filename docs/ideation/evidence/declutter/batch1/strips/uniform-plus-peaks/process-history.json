@@ -1,0 +1,17 @@
+{
+  "production_revision": "4c5c2900",
+  "accepted_runs": [
+    {
+      "start_utc": "2026-11-10T01:23:28Z",
+      "class": "worker",
+      "slot": "bramble-harness-godot",
+      "wait_s": "0.0",
+      "hold_s": "27.9",
+      "exit": "0",
+      "command": "timeout 90 xvfb-run -a -s -screen 0 2560x1440x24 godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_retire_frames.gd -- after /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/declutter/batch1/strips/uniform-plus-peaks 4c5c2900"
+    }
+  ],
+  "accepted_runs_sequential": true,
+  "failed_accepted_runs": 0,
+  "runtime_released_after_exit": true
+}

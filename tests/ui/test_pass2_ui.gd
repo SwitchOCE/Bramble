@@ -30,11 +30,11 @@ func test_pass_preview_crosses_gaps_skips_source_and_handles_sale() -> void:
 	assert_eq(RecruitView.pass_preview(board, crumb, 3, 1), 3, "swap leaves Other at F4")
 	board[1] = null
 	assert_eq(RecruitView.pass_preview(board, crumb, 3, 3), -1)
-	assert_string_contains(RecruitView.geometry_note(crumb, 3, board), "No one to pass to")
-	assert_string_contains(RecruitView.geometry_note(crumb, 3, board), "F1-B1-F2-B2-F3-B3-F4")
+	assert_eq(RecruitView.geometry_note(crumb, 3, board), "")
+	assert_false(RecruitView.geometry_note(crumb, 3, board).contains("Pass order"))
 
 
-func test_pass_mark_is_permanent_and_preview_returns_to_it() -> void:
+func test_pass_recipient_is_state_without_a_permanent_mark_or_selection_preview() -> void:
 	var board := BoardView.new()
 	board.configure("board", 180, true, true)
 	add_child_autofree(board)
@@ -42,29 +42,21 @@ func test_pass_mark_is_permanent_and_preview_returns_to_it() -> void:
 	board.set_marks(RecruitView.slot_marks({"board": units}))
 	var marks: Control = board.get("_marks")
 	var label: Label = marks.get("_pass_label")
-	assert_true(label.visible)
-	assert_eq(label.text, "Pass end")
-	assert_eq(marks.call("_pass_landing"), 6)
+	assert_false(label.visible)
+	assert_eq(RecruitView.pass_end(units), 6)
 	board.set_pass_landing(0)
-	assert_eq(label.text, "Pass lands")
-	assert_eq(marks.call("_pass_landing"), 0)
+	assert_false(label.visible, "selection cannot restore a standing Pass pointer")
 	board.set_pass_landing(-2)
-	assert_eq(marks.call("_pass_landing"), 6)
-	assert_eq(label.text, "Pass end")
+	assert_false(label.visible)
 
 
-func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards() -> void:
+func test_pass_rules_remain_in_the_reader_without_geometry_instructions() -> void:
 	var library: UnitLibrary = LegacyWave1.with_hedgerow(TestLibraries.current())
 	for golden: bool in [false, true]:
-		var urchin := RecruitUnit.make(library.get_unit("dr_urchin"), 1, golden)
-		var combat_note: String = RecruitView.geometry_note(urchin.view(), 0)
-		assert_string_contains(combat_note, "Lands immediately in combat.")
-		assert_false(combat_note.contains("End of Turn"))
-		for id: String in ["mr_crumb", "mr_pym", "beadle_warrenby"]:
+		for id: String in ["dr_urchin", "mr_crumb", "mr_pym", "beadle_warrenby"]:
 			var source := RecruitUnit.make(library.get_unit(id), 2, golden)
-			assert_string_contains(
-				RecruitView.geometry_note(source.view(), 0), "Lands at End of Turn."
-			)
+			assert_eq(RecruitView.geometry_note(source.view(), 0), "")
+			assert_false(str(source.view()["text"]).is_empty(), id)
 
 
 func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings() -> void:
@@ -113,7 +105,7 @@ func test_nest_display_uses_live_tom_tit_redwing_tribe_and_slot_stats() -> void:
 	var overlay: Control = board.get("_marks")
 	var labels: Array = overlay.get("_nest_labels")
 	var caption: Label = labels[0]
-	assert_eq(caption.text, "Egg · home in 2")
+	assert_false(caption.visible, "homecoming countdown stays on the away token")
 	var detail: Dictionary = RecruitHeld.egg_card(mark)
 	assert_eq(detail["attack"], 9)
 	assert_eq(detail["health"], 12)
@@ -166,13 +158,16 @@ func test_kin_controls_only_appear_for_the_enabled_game_and_fit_on_phone() -> vo
 		assert_gte(control.size.y, 122.0, key)
 	screen.call("_on_tapped", "board", 0)
 	await get_tree().process_frame
-	assert_false(kin.visible, "card actions use the fourth tool's space while inspecting a card")
+	assert_false(kin.visible, "the card reader temporarily takes the Kin action's space")
 	var end: Control = screen.get("_end_button")
 	for key: String in ["_tier_button", "_refresh_button", "_freeze_button"]:
 		var control: Control = screen.get(key)
 		assert_true(control.visible, key)
 		assert_gte(control.size.y, 122.0, key)
 		assert_lte(control.position.y + control.size.y, end.position.y, key)
+	screen.call("_on_tapped", "table", -1)
+	assert_true(kin.visible, "closing the reader restores the enabled Kin action")
+	assert_false(kin.disabled)
 
 
 func test_kin_setting_defaults_off_and_persists_explicit_choice() -> void:

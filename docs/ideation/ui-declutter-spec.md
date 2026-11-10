@@ -42,10 +42,10 @@ Verdicts: **cut**, **shrink**, **animate** (the static form goes and motion repl
 | Trigger/ability chip ("End of Turn", "Start of Combat", "Take reward", "Ability"), `card_view.gd` `_refresh_chip` | Animate | One 44 px glyph at bottom centre, between the stat beads. Use `spark` for any trigger and `bones` for When this dies. On play gets none. It pulses when the ability fires (anim 14). Delete `RULE_TAGS`, `TAG_KEYWORDS` and the "Ability" fallback. |
 | Keyword words on the chip (Quarry, Mire, Snap, Pack, Cleave, Shy, Peck 2, Bristle 2, Belly 1, "Gives Nightshade", "Ring +1/+1") | Cut † | No words. Wordless frame marks for three keywords: reeds along the tile foot (Mire), a claw notch on the frame (Quarry hunter) and a wing notch (Swoop). All other keywords show by motion (anims 2–12) and in the reader. |
 | Rules text on shop unit tiles | Move to reader | Shop units use the board tile: portrait, beads and glyph. Full text on hover (PC) or tap (phone). |
-| Unit name: shop tiles and board name strips | Cut per unit † | Gone on units with their own portrait. Two groups keep one short-name line at `MIN_FONT` 31 until their art lands: the 50 of 157 units still on a shared tribe portrait, and portraits reviewers confuse at board size (today Brock, Old Brock, Sable and Russet). |
+| Unit name: shop tiles and board name strips | Cut per unit † | Every shipped unit has its own portrait. Only look-alike portraits keep a short-name line at `MIN_FONT` 31. Grizel's re-roll is now merged, so no shipped unit keeps a name. |
 | Tier knot on unit tiles | Move to reader | Shown only in the reader's knot. The freed top-left corner holds a cost knot only when the price isn't the standard 3 (poached). |
 | Tribe word under shop tiles | Move to reader | The reader's type line. |
-| Spell and item tiles: name, text and the word "Spell"/"Item" | Move to reader | An arched tile with art and its gold cost knot. |
+| Spell and item tiles: name, text and the word "Spell"/"Item" | Move to reader | An arched tile with art. The standard 1-gold cost is in the reader and Buy action; free or nonstandard costs retain a gold knot. |
 | Status slips in fights (Shield, "Mired +1", Nightshade, Waiting, Warned, First Bite, Shell, Borrowed, Stalled) | Animate | One visual per status, stacking freely. Shield: a bubble. Shell: a pale rim. Nightshade: a berry on the Health bead and a purple tint. Mired: a mud rim at the tile foot. Waiting: drifting z curls. Warned: a whistle note on the Attack bead. First Bite: a fang glint on the Attack bead. Borrowed: the tile stands in the enemy tray (anim 29). Stalled: reader only. Statuses that persist into recruit (Shield) show there too. |
 | Counter slip ("In 1/1", "Hex 2 (4 stored)", "3g"/"No ammo", "Bitter 3", "Kiss 1/3") | Shrink | A number-only pip in the glyph's spot (at least `MIN_FONT`, at most 64 px wide) with a small icon: belly outline, hex curl or acorn. Kisses: three pips on the face. The breakdowns go to the reader. The pip flips when the count changes. |
 | Golden marks: glow, gilt face, gold knot, spark star, gilded frame | Shrink | Keep the gilded frame and the soft glow. Cut the star. The knot goes with the tier knot. |
@@ -70,7 +70,7 @@ Verdicts: **cut**, **shrink**, **animate** (the static form goes and motion repl
 | Slot-code chips F1–B3 on tiles and marked empty slots | Cut | Codes stay only on the Rules brick-wall diagram and the log page. |
 | Empty-pocket text ("F3 / before B2 & B3", "B2 EMPTY") | Move to tutorial | A bare carved pocket with its dashed edge. |
 | Row tags FRONT / BACK / SHOP | Cut | The board and hero move left into the gutter. |
-| Ring badge ("×2", "+3/+3 · 2", "+4/+4") | Shrink | Your own board only: one digit on a toadstool at the ring's top-left, shown from 2 Rings up. A single Ring shows just the dots. The stats are already in the beads, and the reader has the note. |
+| Ring badge ("×2", "+3/+3 · 2", "+4/+4") | Move to reader | The Ring frame shows presence; exact stack counts and totals are in the one-tap unit or empty-slot reader. A changed Ring sprouts or shimmers (anim 44); its stats remain in the beads. |
 | Fairy-ring dots (26 dots, 8 px) | Shrink | Dots of about 5 px with a thin ink rim, so the ring reads as a frame (anim 44). |
 | Empty Nest: Egg art, 64 px beads, "Egg · home in 2" | Shrink † | Egg-in-nest art fills the pocket like a tile, with beads at normal tile size. No label and no countdown on the board. The countdown lives on the away token. |
 | "On Nest 1" banner under a unit | Shrink † | A thin twig rim inside the pocket edge, with no words and no digit. The reader says "Stands on Mrs Jay's Nest." |
@@ -274,7 +274,7 @@ Verdicts: **cut**, **shrink**, **animate** (the static form goes and motion repl
 | 41 | A Pass resolves | A glowing seed hops pocket to pocket, left to right, skipping empty pockets, 0.05 s per hop. It lands on the recipient with a bead pop. A combat Pass flies straight (0.3 s). With no one to pass to, it fizzles at the source. | ≤0.4 s | "Pass end" banner, preview arrow, zigzag line |
 | 42 | A unit's reader opens, or you tap a spatial word in it | The slots its text reaches glow and fade once. When scouting, this includes the enemy slots it will reach, such as a lent quarry. | 0.4 s | Relation highlight, "Highlighted" line, scout lane forecast |
 | 43 | Dragging a unit with spatial text over a candidate pocket | The units it would reach lean 6 px toward that pocket and back. It replays when the pocket changes. | 0.15 s | Relation highlight during drag |
-| 44 | Ring added, moved or grown | **Added**: toadstools sprout clockwise round the pocket and the count digit ticks up. **Moved** (Reel-Mistress): the dots hop pocket to pocket to the new slot. **Ring size grows**: the counter pulses and every Ring shimmers. **Midsummer reaches 0**: a sun arc sweeps across the board and the Rings flare. | 0.3 s; ≤0.4 s; 0.4 s; 0.6 s | Ring badge stats, "Ring size" words |
+| 44 | Ring added, moved or grown | **Added**: toadstools sprout clockwise round the pocket and its stat beads roll. **Moved** (Reel-Mistress): the dots hop pocket to pocket to the new slot. **Ring size grows**: the counter pulses and every Ring shimmers. **Midsummer reaches 0**: a sun arc sweeps across the board and the Rings flare. | 0.3 s; ≤0.4 s; 0.4 s; 0.6 s | Ring badge stats, "Ring size" words |
 | 45 | A unit paints its slot | The colour wipes across the band. | 0.3 s | Nothing new |
 | 46 | Fly South | The card lifts, shrinks into its token and arcs into the away row with a wing-flap sound. An Egg drops into the Nest with a bounce. | 0.5 s + 0.25 s | Birds away panel text |
 | 47 | Start of Turn, Birds away | Each moon digit flips down one, staggered 0.08 s. | 0.2 s | "home in 2 turns" |
@@ -393,7 +393,7 @@ Each batch logs its calls in `DECISIONS.md` and saves evidence in `docs/ideation
 
 **Checks:**
 - Before/after at both sizes for `wave1/redbreast-label/ui-after-overview`, `reader-reel_mistress-golden`, strong-field `scout` and `lobby`, and `wave1/natural-birds` or `round4-geometry`.
-- Words at rest on shop and board tiles: 0, apart from short names on units that lack their own portrait. Today the count is about 65.
+- Words at rest on shop and board tiles: 0, apart from short names on the remaining look-alike portraits. Today the count is about 65.
 - No lines on the scouted board.
 - Pocket size before/after, with the freed 100 px spent on pockets.
 - Frame strips of an End of Turn with a Pass and a Touching effect, and of the reach pulse during scouting with a lent quarry.
@@ -437,7 +437,7 @@ These replace every criterion that rewards explaining things on the main screen.
 **Who judges:** a player in their hundredth game, a strong Battlegrounds player, for every main screen. A first-timer judges only the tutorial and the Rules pages.
 
 **Resting stills (recruit, scout, lobby, combat paused):**
-1. **Words at rest.** On shop and board tiles the target is 0, apart from short names on units without their own art. The whole recruit screen allows only End turn, numbers and those names. Report the count.
+1. **Words at rest.** On shop and board tiles the target is 0, apart from short names on the remaining look-alike portraits. The whole recruit screen allows only End turn, numbers and those names. Report the count.
 2. **Lines at rest.** Lines, arrows or links between tiles: 0.
 3. **Every mark passes the three tests** (Section 1). For each mark, the reviewer names the changing state it shows that can't be seen any other way. A mark with no answer is a finding.
 4. **Every mark is readable.** Tapping each kind of mark in a scripted run opens the reader with its meaning.
@@ -496,7 +496,7 @@ The visual tier is scored again after Batch 2 and after Batch 4, by a fresh revi
 | Slot codes in text | Undecided. Critique B: reword. | Reword | The zigzag (`board_geometry.gd` `ZIGZAG`) runs left to right, so the Pass recipient is the rightmost other unit. |
 | Pass preview | Board audit: a "Passes to" reader line. Card audit: a mote while dragging. | Neither | The rightmost other unit can be seen on the board. |
 | Lunge at speed | Combat audit: every timing scales. Critique B: a floor. | Floor | At ×4 the travel would last about 2 frames, and the yarn that used to show the hit is gone. |
-| Names on tiles | Board audit: cut now. Critique B: cut per unit. Critique A: cut once all art exists. | Per unit. Portraits reviewers confuse count as missing. | The chess point works only if pieces look different. 50 of 157 units share a tribe portrait. |
+| Names on tiles | Board audit: cut now. Critique B: cut per unit. Critique A: cut once all art exists. | Only look-alike portraits keep a short name. Grizel's re-roll has landed; no shipped unit now needs one. | Every shipped unit now has its own portrait; the chess point requires distinguishable pieces. |
 | Lobby names | Lobby audit: portraits are enough. Critique A: the strong-field lobby repeats heroes. | Deal heroes without repeats | Portraits identify only unique heroes. There are 9 heroes for 8 seats. |
 | Lobby order and layout | Lobby audit: re-sort optional. Critique A: always sorted, and a vertical column. | Always sorted. The column goes in only if the fit test passes. | Standing is checked every turn. The phone screen is short on height. |
 | Shy | HUD audit: a looping fidget and keep the confirm. Critique A: cut both. | Cut both. The unit leaves at once when thanked. | Only an aimed spell thanks Shy (`shy.gd`), so the player just chose it. Critique A's "at End of Turn" was wrong. |
@@ -506,7 +506,7 @@ The visual tier is scored again after Batch 2 and after Batch 4, by a fresh revi
 | "+X" pops on gains | Board and card audits: keep. Combat audit: none. | None. The bead pops and rolls. Damage keeps −N. | Battlegrounds shows buffs by the stats changing. Damage is what a fight is read by. |
 | Hex amount | Combat audit: sigil only. Board and card audits: a number. | Sigil with the number | On an empty hexed pocket the amount shows nowhere else. |
 | Hand count | From 8 cards (card audit) or at 10/10 (HUD audit) | 10/10 only | Every card is visible anyway. |
-| Ring count digit | Bottom-right or top-right | Top-left of the ring | Bottom-right is the Health bead and top-right is the quarry paw. |
+| Ring count digit | On the frame or in the reader | Reader; changes animate on the Ring frame | Seven standing stack labels crowded the recruit overview; exact counts remain one tap away. |
 | Names on combat plaques | Combat audit: a short name. Lobby audit: none. | None | The same reason as the lobby. |
 | Mire pictures | Reeds on the unit and on the patch | Reeds on the Mire unit; plain mud on the patch | One picture per meaning. |
 | The bell | Combat audit: "the game's word". Critique B: wording guide line 45. | A picture and a sound only; the text says Start of Combat | The wording guide says to write Start of Combat, not bell. |

@@ -1,12 +1,13 @@
 extends Control
-## What lies on the board's slots, over the tiles: a Ring of dots with its stats, a Rainbow band in
-## the slot's own colour, an arrow on the unit a Pass will land on, and in a fight a Hex's slip.
-## Empty slots show them too.
+## Floor state: Ring dots with a stack count, a Rainbow band, Nest twigs and combat sigils.
+## Counts stay on your own board; scouting shows only the wordless floor pictures.
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
+const Settings := preload("res://src/ui/settings.gd")
+const RingTravel := preload("res://src/ui/widgets/ring_travel.gd")
 
 const BAND_COLOURS: Array[Color] = [
 	Color("c8372d"),
@@ -24,13 +25,13 @@ const TWIG: Color = Color("8a5a2b")
 const TWIG_DARK: Color = Color("4a2f16")
 const EGG_ART: String = "res://assets/portraits/nest_egg.jpg"
 const NEST_TWIGS: int = 22
-const EGG_BEAD: float = 64.0
+const EGG_BEAD: float = 84.0
 ## A pocket this short (the scout's) has no room between its badges.
 const SMALL_POCKET: float = 150.0
 
 ## One entry per slot: {"ring": "+1/+1" or "", "has_ring", "band"} (RecruitView.slot_marks).
 var marks: Array = []
-## Preview destination; -1 means no recipient, -2 shows the permanent end mark.
+## Legacy preview input, retained while callers migrate. It never creates a standing mark.
 var pass_slot: int = -2:
 	set(value):
 		pass_slot = value
@@ -48,6 +49,9 @@ var _egg_stats: Array[Control] = []
 var _egg_attack: Array[Label] = []
 var _egg_health: Array[Label] = []
 var _egg: Texture2D
+var _ring_reveal: Dictionary[int, float] = {}
+var _band_reveal: Dictionary[int, float] = {}
+var _mark_tweens: Dictionary[int, Tween] = {}
 
 
 func _init(owner_board: Control) -> void:
@@ -169,42 +173,136 @@ func clear_hexes() -> void:
 
 
 func set_marks(slot_marks: Array) -> void:
-	marks = slot_marks
+	var previous: Array = marks
+	marks = slot_marks.duplicate(true)
 	_place()
+	if previous.is_empty() or not is_inside_tree() or board.get("combat_mode") == true:
+		return
+	var paired: Array[int] = _recruit_ring_move(previous)
+	for slot: int in mini(marks.size(), 7):
+		var before: Dictionary = previous[slot] if slot < previous.size() else {}
+		var now: Dictionary = marks[slot]
+		var ring_changed: bool = Data.i(before, "ring_count") != Data.i(now, "ring_count")
+		ring_changed = ring_changed or Data.s(before, "ring") != Data.s(now, "ring")
+		ring_changed = ring_changed and not paired.has(slot)
+		var painted: bool = Data.b(now, "band") and not Data.b(before, "band")
+		if not ring_changed and not painted:
+			continue
+		if Settings.reduce_motion:
+			_ring_reveal[slot] = 1.0
+			_band_reveal[slot] = 1.0
+			var reached: Array[int] = [slot]
+			board.call("show_relations", reached)
+			continue
+		if _mark_tweens.has(slot) and _mark_tweens[slot].is_valid():
+			_mark_tweens[slot].kill()
+		var tween: Tween = create_tween().set_parallel(true)
+		_mark_tweens[slot] = tween
+		var duration: float = 0.3 / maxf(1.0, Settings.fight_speed)
+		if ring_changed:
+			_ring_reveal[slot] = 0.0
+			tween.tween_method(_set_ring_reveal.bind(slot), 0.0, 1.0, duration)
+		if painted:
+			_band_reveal[slot] = 0.0
+			tween.tween_method(_set_band_reveal.bind(slot), 0.0, 1.0, duration)
 
 
-func header_width(slot: int) -> float:
-	var mark: Dictionary = marks[slot] if slot < marks.size() else {}
-	return (
-		(
-			UiTheme
-			. bold_font()
-			. get_string_size(_ring_words(mark), HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.FONT_SMALL)
-			. x
-		)
-		+ 4.0
+## Pair an exact conserved pile transfer; additions and growth retain the ordinary sprout cue.
+func _recruit_ring_move(previous: Array) -> Array[int]:
+	var decreased: Array[int] = []
+	var increased: Array[int] = []
+	for slot: int in mini(marks.size(), 7):
+		var before: Dictionary = Data.entry(previous, slot)
+		var now: Dictionary = Data.entry(marks, slot)
+		var delta: int = Data.i(now, "ring_count") - Data.i(before, "ring_count")
+		if delta < 0:
+			decreased.append(slot)
+		elif delta > 0:
+			increased.append(slot)
+	if decreased.size() != 1 or increased.size() != 1:
+		return []
+	var from: int = decreased[0]
+	var to: int = increased[0]
+	var before_from: Dictionary = Data.entry(previous, from)
+	var after_from: Dictionary = Data.entry(marks, from)
+	var before_to: Dictionary = Data.entry(previous, to)
+	var after_to: Dictionary = Data.entry(marks, to)
+	var amount: int = Data.i(before_from, "ring_count") - Data.i(after_from, "ring_count")
+	if amount != Data.i(after_to, "ring_count") - Data.i(before_to, "ring_count"):
+		return []
+	travel_ring(from, to, null, Callable(), not Data.b(before_to, "has_ring"), amount)
+	return [from, to]
+
+
+## Combat supplies its overlay and deterministic clock; recruit uses the floor's short cue clock.
+func travel_ring(
+	from: int,
+	to: int,
+	host: Control = null,
+	clock: Callable = Callable(),
+	hide_destination: bool = true,
+	moved_count: int = 1,
+	speed: float = -1.0
+) -> RingTravel:
+	var layer: Control = self if host == null else host
+	var travel: RingTravel = RingTravel.new()
+	travel.name = "RingTravel_%d_%d" % [from, to]
+	travel.reduced = Settings.reduce_motion
+	travel.set_meta("ring_from", from)
+	travel.set_meta("ring_to", to)
+	travel.set_meta("moved_ring_count", moved_count)
+	layer.add_child(travel)
+	var transform: Transform2D = (
+		layer.get_global_transform().affine_inverse() * get_global_transform()
 	)
+	var pocket: Vector2 = board.get("pocket")
+	var origin: Vector2 = board.call("slot_position", from)
+	var destination: Vector2 = board.call("slot_position", to)
+	travel.from_rect = transform * Rect2(origin, pocket).grow(-1.0)
+	travel.to_rect = transform * Rect2(destination, pocket).grow(-1.0)
+	if hide_destination:
+		_ring_reveal[to] = 0.0
+		queue_redraw()
+	travel.tree_exiting.connect(_ring_arrived.bind(to))
+	var tween: Tween = clock.call() if clock.is_valid() else create_tween()
+	tween.bind_node(travel)
+	var duration: float = 0.3 / maxf(1.0, Settings.fight_speed if speed < 0 else speed)
+	travel.set_meta("ring_duration", 0.3 if travel.reduced else duration)
+	if travel.reduced:
+		duration = 0.3
+		tween.tween_interval(duration / 2.0)
+		tween.tween_property(travel, "progress", 1.0, 0.0)
+		tween.tween_interval(duration / 2.0)
+	else:
+		tween.tween_property(travel, "progress", 1.0, duration)
+	tween.tween_callback(_ring_arrived.bind(to))
+	tween.tween_callback(travel.queue_free)
+	return travel
 
 
-## A counted Ring's size is already in the shared header and the slot's reader.
-## Keep its badge to the count so it fits beside the fixed F/B slot chip.
-func _ring_words(mark: Dictionary) -> String:
-	var count: int = Data.i(mark, "ring_count")
-	if count <= 0:
-		return Data.s(mark, "ring")
-	if board.get("with_labels"):
-		var pocket: Vector2 = board.get("pocket")
-		var font: Font = UiTheme.bold_font()
-		# The fixed slot chip, its gap and the badge's padding keep their own room.
-		for prefix: String in ["×", ""]:
-			for candidate: String in StatNumbers.candidates(count):
-				var words: String = prefix + candidate
-				if (
-					font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, UiTheme.MIN_FONT).x
-					<= pocket.x - 62.0
-				):
-					return words
-	return "×" + StatNumbers.compact(count)
+func _ring_arrived(slot: int) -> void:
+	_ring_reveal[slot] = 1.0
+	queue_redraw()
+
+
+func _set_ring_reveal(value: float, slot: int) -> void:
+	_ring_reveal[slot] = value
+	_ring_labels[slot].scale = Vector2.ONE * (1.0 + sin(value * PI) * 0.2)
+	queue_redraw()
+
+
+func _set_band_reveal(value: float, slot: int) -> void:
+	_band_reveal[slot] = value
+	queue_redraw()
+
+
+func header_width(_slot: int) -> float:
+	return 0.0
+
+
+## The Ring frame shows its presence; exact pile counts are in the one-tap slot reader.
+func _ring_words(_mark: Dictionary) -> String:
+	return ""
 
 
 func _place() -> void:
@@ -213,38 +311,24 @@ func _place() -> void:
 		var label: Label = _ring_labels[i]
 		var mark: Dictionary = marks[i] if i < marks.size() else {}
 		var words: String = _ring_words(mark)
-		var cards: Array = board.get("cards")
-		label.visible = not words.is_empty() and board.get("combat_mode") != true
+		label.visible = (
+			not words.is_empty()
+			and board.get("combat_mode") != true
+			and board.get("zone") != "scout"
+		)
 		if label.visible:
 			label.text = words
-			var header: bool = board.get("with_labels") and cards[i] != null
-			label.add_theme_font_override(
-				"font", UiTheme.bold_font() if header else UiTheme.number_font()
+			label.add_theme_stylebox_override(
+				"normal", UiTheme.flat_box(Color.TRANSPARENT, Color.TRANSPARENT, 0, 0)
 			)
-			var face: StyleBoxFlat = label.get_theme_stylebox("normal") as StyleBoxFlat
-			face.content_margin_left = 2 if header else 10
-			face.content_margin_right = 2 if header else 10
-			face.content_margin_top = 0 if header else 1
-			face.content_margin_bottom = 0 if header else 3
-			label.size = label.get_minimum_size()
+			label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
+			label.size = Vector2(64, 42)
+			label.pivot_offset = label.size / 2.0
 			var at: Vector2 = board.call("slot_position", i)
-			var y: float = (58.0 if pocket.y > SMALL_POCKET else 12.0) if cards[i] != null else 6.0
-			label.position = at + Vector2(pocket.x - label.size.x + 6.0, y)
-			if header:
-				var strip: Rect2 = board.call("label_rect", i)
-				label.position = Vector2(
-					strip.end.x - label.size.x - 4.0,
-					strip.position.y + (strip.size.y - label.size.y) / 2.0
-				)
+			label.position = at + Vector2(-10, -20)
 		_place_nest_label(i, mark, pocket)
 		_place_egg_stats(i, mark, pocket)
-	var landing: int = _pass_landing()
-	_pass_label.visible = landing >= 0 and board.get("combat_mode") != true
-	if _pass_label.visible:
-		_pass_label.text = "Pass end" if pass_slot == -2 else "Pass lands"
-		var at: Vector2 = board.call("slot_position", landing)
-		_pass_label.size = _pass_label.get_minimum_size()
-		_pass_label.position = at + Vector2((pocket.x - _pass_label.size.x) / 2.0, 44.0)
+	_pass_label.visible = false
 	queue_redraw()
 
 
@@ -258,34 +342,10 @@ func _pass_landing() -> int:
 	return -1
 
 
-## "Nest 2": turns until its bird lands. A scouted Nest doesn't say.
-func _place_nest_label(slot: int, mark: Dictionary, pocket: Vector2) -> void:
-	var label: Label = _nest_labels[slot]
-	label.visible = mark.get("nest", false) == true and board.get("combat_mode") != true
-	if not label.visible:
-		return
-	var cards: Array = board.get("cards")
-	var left: int = -1 if board.get("zone") == "scout" else Data.i(mark, "nest_left", -1)
-	label.text = "Nest %d" % left if left >= 0 else "Nest"
-	if cards[slot] == null and board.get("zone") != "scout" and mark.has("egg_attack"):
-		label.text = "Egg · home in %d" % left
-	var occupant: Dictionary = cards[slot].unit if cards[slot] != null else {}
-	if not occupant.is_empty() and Data.s(occupant, "def_id") != "nest_egg":
-		label.text = "On " + label.text
-	if not board.get("with_labels"):
-		label.text = "%s · %s" % [["F1", "F2", "F3", "F4", "B1", "B2", "B3"][slot], label.text]
-	label.size = label.get_minimum_size()
-	# On a bare slot it lies over the slot's own note; on a tile it sits between the stat badges.
-	if cards[slot] == null:
-		label.size.x = pocket.x - 20.0
-	var at: Vector2 = board.call("slot_position", slot)
-	var low: float = pocket.y - label.size.y + 6.0
-	if pocket.y <= SMALL_POCKET:
-		low = pocket.y + 12.0
-	elif cards[slot] != null:
-		low = pocket.y + 12.0 if slot < 4 else -label.size.y - 12.0
-	var x: float = (pocket.x - label.size.x) / 2.0
-	label.position = at + Vector2(x, low)
+## A Nest never repeats its away token's countdown.
+func _place_nest_label(slot: int, _mark: Dictionary, _pocket: Vector2) -> void:
+	# The away token owns the countdown; a Nest is only its woven floor rim here.
+	_nest_labels[slot].visible = false
 
 
 func _draw() -> void:
@@ -296,8 +356,9 @@ func _draw() -> void:
 		if mark.get("nest", false) == true:
 			_draw_nest(Rect2(at, pocket), i)
 		if mark.get("has_ring", false) == true:
-			var cards: Array = board.get("cards")
-			_draw_ring(Rect2(at, pocket).grow(-1.0), cards[i] != null)
+			_draw_ring(Rect2(at, pocket).grow(-1.0), i)
+			if _ring_labels[i].visible:
+				_draw_toadstool(at + Vector2(22, 3))
 		if mark.get("horseshoe", false) == true:
 			_draw_horseshoe(Rect2(at, pocket))
 		if mark.get("band", false) == true:
@@ -305,17 +366,10 @@ func _draw() -> void:
 				at + Vector2(pocket.x * 0.27, pocket.y - 8.0), Vector2(pocket.x * 0.46, 16)
 			)
 			draw_rect(band.grow(3.0), UiTheme.INK)
+			band.size.x *= _band_reveal.get(i, 1.0)
 			draw_rect(band, BAND_COLOURS[i])
 	if board.get("combat_mode") == true:
 		_draw_combat_marks()
-	var landing: int = _pass_landing() if board.get("combat_mode") != true else -1
-	if landing >= 0:
-		var at: Vector2 = board.call("slot_position", landing)
-		var tip: Vector2 = at + Vector2(pocket.x / 2.0, 124.0)
-		var points: PackedVector2Array = [tip, tip + Vector2(-28, -34), tip + Vector2(28, -34)]
-		draw_colored_polygon(points, UiTheme.MOSS)
-		points.append(tip)
-		draw_polyline(points, UiTheme.INK, 4.0)
 
 
 ## The Hex and trap silhouettes stay distinct even on an empty pocket.
@@ -347,37 +401,45 @@ func _draw_combat_marks() -> void:
 		draw_polyline(points, UiTheme.INK, 3.0, true)
 
 
-## On an empty Nest, the Egg that fights there, in its woven twigs. A unit standing on one keeps its
-## stats in view: only the slip shows.
+## The empty Nest shows its Egg; a covering unit leaves only a thin twig rim visible.
 func _draw_nest(rect: Rect2, slot: int) -> void:
 	var cards: Array = board.get("cards")
-	if cards[slot] != null:
-		return
-	if _egg == null:
-		_egg = load(EGG_ART)
-	var side: float = minf(rect.size.x, rect.size.y) * 0.56
-	var at: Vector2 = rect.get_center() - Vector2(side, side) / 2.0 - Vector2(0, 10)
-	draw_texture_rect(_egg, Rect2(at, Vector2(side, side)), false)
-	var radius: Vector2 = rect.size / 2.0 - Vector2(12, 12)
+	var occupied: bool = cards[slot] != null
+	if not occupied:
+		if _egg == null:
+			_egg = load(EGG_ART)
+		var art_rect: Rect2 = rect.grow(-14.0)
+		art_rect.size.y -= EGG_BEAD * 0.32
+		draw_texture_rect(_egg, art_rect, false)
+	var radius: Vector2 = rect.size / 2.0 - Vector2(5, 5)
 	for twig: int in NEST_TWIGS:
 		var angle: float = TAU * twig / NEST_TWIGS
 		var along: Vector2 = Vector2(cos(angle), sin(angle))
-		var across: Vector2 = Vector2(-along.y, along.x) * (20.0 if twig % 2 == 0 else -20.0)
+		var across: Vector2 = Vector2(-along.y, along.x) * (12.0 if twig % 2 == 0 else -12.0)
 		var mid: Vector2 = rect.get_center() + along * radius
-		draw_line(mid - across, mid + across, TWIG_DARK, 8.0)
-		draw_line(mid - across, mid + across, TWIG, 5.0)
+		draw_line(mid - across, mid + across, TWIG_DARK, 5.0 if occupied else 7.0)
+		draw_line(mid - across, mid + across, TWIG, 2.0 if occupied else 4.0)
 
 
-## Dots around the pocket's edge, like toadstools in a fairy ring.
-## With a unit there the top run is left off: that edge is the unit's keyword chip.
-func _draw_ring(rect: Rect2, skip_top: bool) -> void:
+func _draw_toadstool(at: Vector2) -> void:
+	draw_line(at + Vector2(0, 2), at + Vector2(0, 24), UiTheme.INK, 15.0)
+	draw_line(at + Vector2(0, 2), at + Vector2(0, 24), RING, 9.0)
+	draw_style_box(
+		UiTheme.flat_box(RING, UiTheme.INK, 2, 18), Rect2(at - Vector2(33, 24), Vector2(66, 44))
+	)
+
+
+## Dots stay outside the portrait and read as one quiet floor frame.
+func _draw_ring(rect: Rect2, slot: int) -> void:
 	var perimeter: float = (rect.size.x + rect.size.y) * 2.0
+	var reveal: float = _ring_reveal.get(slot, 1.0)
+	var limit: int = roundi(RING_DOTS * reveal)
 	for dot: int in RING_DOTS:
+		if dot >= limit:
+			continue
 		var along: float = perimeter * dot / RING_DOTS
 		var point: Vector2 = rect.position
 		if along < rect.size.x:
-			if skip_top and board.get("combat_mode") != true:
-				continue
 			point += Vector2(along, 0)
 		elif along < rect.size.x + rect.size.y:
 			point += Vector2(rect.size.x, along - rect.size.x)
@@ -385,8 +447,8 @@ func _draw_ring(rect: Rect2, skip_top: bool) -> void:
 			point += Vector2(rect.size.x * 2.0 + rect.size.y - along, rect.size.y)
 		else:
 			point += Vector2(0, perimeter - along)
-		draw_circle(point, 6.0 if board.get("combat_mode") == true else 8.0, UiTheme.INK)
-		draw_circle(point, 4.0 if board.get("combat_mode") == true else 5.5, RING)
+		draw_circle(point, 5.0, UiTheme.INK)
+		draw_circle(point, 3.5, RING)
 
 
 func _egg_number(parent: Control, shape: String, ink: Color) -> Label:
@@ -420,8 +482,7 @@ func _place_egg_stats(slot: int, mark: Dictionary, pocket: Vector2) -> void:
 	_egg_attack[slot].text = str(Data.i(mark, "egg_attack"))
 	_egg_health[slot].text = str(Data.i(mark, "egg_health"))
 	var at: Vector2 = board.call("slot_position", slot)
-	var label: Label = _nest_labels[slot]
-	stats.position = Vector2(at.x, label.position.y - EGG_BEAD - 6.0)
+	stats.position = at + Vector2(0, pocket.y - EGG_BEAD + 5.0)
 	stats.size = Vector2(pocket.x, EGG_BEAD)
 	var health: Control = stats.get_child(1) as Control
 	health.position.x = pocket.x - EGG_BEAD

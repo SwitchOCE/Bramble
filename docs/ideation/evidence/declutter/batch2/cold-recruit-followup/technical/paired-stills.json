@@ -1,0 +1,132 @@
+[
+  {
+    "scenario": "lobby",
+    "pixels": [
+      1688,
+      780
+    ],
+    "same_state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+    "before": "../../before/lobby-1688x780.jpg",
+    "before_raw_text_count": 127,
+    "after": "stills/spec-lobby-before-1688x780.jpg",
+    "after_raw_text_count": 39,
+    "reader_open": false
+  },
+  {
+    "scenario": "natural-birds",
+    "pixels": [
+      1688,
+      780
+    ],
+    "same_state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+    "before": "../../before/natural-birds-1688x780.jpg",
+    "before_raw_text_count": 103,
+    "after": "stills/spec-natural-birds-before-1688x780.jpg",
+    "after_raw_text_count": 30,
+    "reader_open": false
+  },
+  {
+    "scenario": "overview",
+    "pixels": [
+      1688,
+      780
+    ],
+    "same_state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+    "before": "../../before/overview-1688x780.jpg",
+    "before_raw_text_count": 134,
+    "after": "stills/spec-overview-before-1688x780.jpg",
+    "after_raw_text_count": 40,
+    "reader_open": false
+  },
+  {
+    "scenario": "reader-reel_mistress-golden",
+    "pixels": [
+      1688,
+      780
+    ],
+    "same_state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+    "before": "../../before/reader-reel_mistress-golden-1688x780.jpg",
+    "before_raw_text_count": 145,
+    "after": "stills/spec-reader-reel_mistress-golden-before-1688x780.jpg",
+    "after_raw_text_count": 51,
+    "reader_open": true
+  },
+  {
+    "scenario": "scout",
+    "pixels": [
+      1688,
+      780
+    ],
+    "same_state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+    "before": "../../before/scout-1688x780.jpg",
+    "before_raw_text_count": 136,
+    "after": "stills/spec-scout-before-1688x780.jpg",
+    "after_raw_text_count": 30,
+    "reader_open": false
+  },
+  {
+    "scenario": "lobby",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "same_state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+    "before": "../../before/lobby-1920x1080.jpg",
+    "before_raw_text_count": 128,
+    "after": "stills/spec-lobby-before-1920x1080.jpg",
+    "after_raw_text_count": 39,
+    "reader_open": false
+  },
+  {
+    "scenario": "natural-birds",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "same_state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+    "before": "../../before/natural-birds-1920x1080.jpg",
+    "before_raw_text_count": 103,
+    "after": "stills/spec-natural-birds-before-1920x1080.jpg",
+    "after_raw_text_count": 30,
+    "reader_open": false
+  },
+  {
+    "scenario": "overview",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "same_state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+    "before": "../../before/overview-1920x1080.jpg",
+    "before_raw_text_count": 135,
+    "after": "stills/spec-overview-before-1920x1080.jpg",
+    "after_raw_text_count": 40,
+    "reader_open": false
+  },
+  {
+    "scenario": "reader-reel_mistress-golden",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "same_state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+    "before": "../../before/reader-reel_mistress-golden-1920x1080.jpg",
+    "before_raw_text_count": 135,
+    "after": "stills/spec-reader-reel_mistress-golden-before-1920x1080.jpg",
+    "after_raw_text_count": 51,
+    "reader_open": true
+  },
+  {
+    "scenario": "scout",
+    "pixels": [
+      1920,
+      1080
+    ],
+    "same_state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+    "before": "../../before/scout-1920x1080.jpg",
+    "before_raw_text_count": 136,
+    "after": "stills/spec-scout-before-1920x1080.jpg",
+    "after_raw_text_count": 30,
+    "reader_open": false
+  }
+]

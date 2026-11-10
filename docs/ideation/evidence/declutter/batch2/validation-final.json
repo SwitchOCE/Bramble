@@ -1,0 +1,49 @@
+{
+  "production_revision": "4c5c2900",
+  "clean_targeted": {
+    "files": 14,
+    "tests": 139,
+    "passing": 139,
+    "assertions": 7837,
+    "seconds": 45.83
+  },
+  "new_test_file_timings": [
+    {
+      "file": "test_recruit_declutter.gd",
+      "tests": 12,
+      "passing": 12,
+      "seconds": 7.603
+    },
+    {
+      "file": "test_declutter_classifier.gd",
+      "tests": 5,
+      "passing": 5,
+      "seconds": 1.228
+    },
+    {
+      "file": "test_recruit_motion.gd",
+      "tests": 5,
+      "passing": 5,
+      "seconds": 0.486
+    },
+    {
+      "file": "test_scout_reach.gd",
+      "tests": 4,
+      "passing": 4,
+      "seconds": 3.244
+    },
+    {
+      "file": "test_counter_layout.gd",
+      "tests": 1,
+      "passing": 1,
+      "seconds": 0.46
+    },
+    {
+      "file": "test_away_tokens.gd",
+      "tests": 5,
+      "passing": 5,
+      "seconds": 0.6
+    }
+  ],
+  "new_away_final_no_orphans": true
+}

@@ -67,7 +67,7 @@ func test_normal_and_golden_shares_use_the_existing_reader_on_phone_and_desktop(
 				assert_eq(LayoutCheck.problems(detail, "Hedgerow reader"), PackedStringArray())
 
 
-func test_wake_pips_and_runt_circle_are_wordless_and_clear_when_state_changes() -> void:
+func test_wake_progress_stays_wordless_and_selection_keeps_the_same_state() -> void:
 	for golden: bool in [false, true]:
 		for id: String in ["alderman_dozey", "sleeping_partner"]:
 			var view: Dictionary = _view(id, golden)
@@ -85,28 +85,27 @@ func test_wake_pips_and_runt_circle_are_wordless_and_clear_when_state_changes() 
 			var mark: HedgeMarks = card.get("_hedge_marks")
 			assert_eq(mark.period, 3)
 			assert_eq(mark.progress, 2)
-			assert_true(mark.runt)
+			assert_true(mark.visible)
 			assert_eq(mark.get_child_count(), 0)
 			assert_eq(mark.mouse_filter, Control.MOUSE_FILTER_IGNORE)
 			assert_string_contains(
 				CardDetail.full_text_bbcode(view), "Moving this restarts the wait"
 			)
+			assert_string_contains(CardDetail.full_text_bbcode(view), "Sleep: 2/3")
 			card.selected = true
-			assert_true(
-				mark.reset_preview, "selecting a sleeping clock highlights progress at risk"
-			)
+			assert_eq(mark.progress, 2, "selection keeps the current wake state")
 			card.selected = false
-			assert_false(mark.reset_preview, "deselecting clears the reset highlight")
+			assert_eq(mark.progress, 2)
 			card.selected = true
 			view["turns_in_slot"] = 0
 			card.show_unit(view, CardView.Mode.BOARD)
 			assert_eq(mark.progress, 0, "a move reset is visible in existing pips")
-			assert_false(mark.reset_preview, "a clock with no progress has nothing to lose")
+			assert_string_contains(CardDetail.full_text_bbcode(view), "Sleep: 0/3")
 			card.show_unit({"name": "Plain unit", "tribes": []})
 			assert_false(mark.visible)
 
 
-func test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header() -> void:
+func test_larder_gold_uses_the_one_tap_reader_without_an_extra_phone_label() -> void:
 	CardView.window_override = Vector2(1688, 780)
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(2337, 1080)
@@ -126,8 +125,13 @@ func test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header() -> voi
 	state["larder"] = 160
 	screen.render()
 	await get_tree().process_frame
-	assert_eq(count.text, "160g · 4/10")
-	assert_string_contains(count.tooltip_text, "Acorns, Stashes and Great Hoards")
+	assert_false(count.visible, "Larder must not add a resting label below full hand capacity")
+	assert_string_contains(zone.tooltip_text, "Acorns, Stashes and Great Hoards: 160")
+	screen._on_tapped("hand", -1)
+	var detail: CardDetail = screen.get("_detail")
+	var notes: RichTextLabel = detail.get("_notes")
+	assert_true(detail.visible)
+	assert_string_contains(notes.get_parsed_text(), "Acorns, Stashes and Great Hoards: 160")
 	assert_eq(zone.get_child_count(), nodes, "Larder adds no static labels")
 	for label: Label in [count]:
 		var font_size: int = label.get_theme_font_size("font_size")
@@ -141,13 +145,22 @@ func test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header() -> voi
 		assert_lte(width, label.size.x, label.text + " fits at phone minimum")
 
 
-func test_hunker_uses_a_wordless_shield_and_clears_with_the_aura_status() -> void:
+func test_roles_and_hunker_stay_in_the_reader_without_standing_marks() -> void:
 	var mark: HedgeMarks = HedgeMarks.new()
 	add_child_autofree(mark)
-	mark.show_state({"statuses": [{"status": "hunker"}]})
-	assert_true(mark.hunker)
-	assert_true(mark.visible)
+	var view: Dictionary = _view("standing_committee")
+	view["hedgerow_runt"] = true
+	view["statuses"] = [{"status": "hunker"}]
+	mark.show_state(view, true)
+	assert_false(mark.visible, "roles and aura status add no standing face marks")
 	assert_eq(mark.get_child_count(), 0)
-	mark.show_state({"statuses": []})
-	assert_false(mark.hunker)
-	assert_false(mark.visible)
+	var detail: CardDetail = CardDetail.new()
+	add_child_autofree(detail)
+	detail.show_unit(view)
+	var notes: RichTextLabel = detail.get("_notes")
+	assert_string_contains(notes.text, "The Standing Committee's current smallest unit.")
+	assert_string_contains(notes.text.to_lower(), "hunker")
+	assert_string_contains(notes.text, "+12/+17 per recipient")
+	detail.show_unit({"name": "Plain unit", "tribes": []})
+	assert_false(notes.text.contains("current smallest unit"), "the role clears with the view")
+	assert_false(notes.text.to_lower().contains("hunker"), "the aura clears with the view")

@@ -1,0 +1,409 @@
+{
+  "production_revision": "4c5c2900",
+  "parent_baseline_unchanged": true,
+  "all_resting_budgets_pass": true,
+  "calm_space_method": "Identical semantic free-surface proxy as the parent packet: union visible nonempty text bounds, card faces, action buttons, art frames, stat/cost badges and gold plaque. Remaining native pixels are white in the mask. It measures free surface rather than perceptual complexity; floor carving and grain are not subtracted.",
+  "historical_category_policy": "Parent before raw counts and node lists are referenced unchanged; their category split is not guessed. Current categories come from live owning widget/field metadata and sum to every raw visible text node.",
+  "pairs": [
+    {
+      "scenario": "overview",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "source": "wave1/redbreast-label/ui-after-overview; wave1/screenshots-1920x1080.json: ring-carry-away-birds",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/overview-1688x780.jpg",
+        "manifest": "../before/manifest-1688x780.json",
+        "labels": 134,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.44673335156155064,
+        "mask": "../before/overview-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/overview-1688x780.jpg",
+        "labels": 40,
+        "category_counts": {
+          "unit_stats": 24,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 3,
+          "other": 5
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.5238341536031109,
+        "mask": "after/overview-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "source": "wave1/screenshots-1920x1080.json: reader-reel_mistress-golden",
+      "reader_open": true,
+      "resting_budget_pass": null,
+      "before": {
+        "image": "../before/reader-reel_mistress-golden-1688x780.jpg",
+        "manifest": "../before/manifest-1688x780.json",
+        "labels": 145,
+        "pocket_canvas": [
+          180,
+          163
+        ],
+        "calm_space_share": 0.3045092052497266,
+        "mask": "../before/reader-reel_mistress-golden-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/reader-reel_mistress-golden-1688x780.jpg",
+        "labels": 51,
+        "category_counts": {
+          "unit_stats": 32,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 4,
+          "other": 7
+        },
+        "pocket_canvas": [
+          180.0,
+          203.0
+        ],
+        "calm_space_share": 0.37149790375501274,
+        "mask": "after/reader-reel_mistress-golden-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "source": "wave1/screenshots-1920x1080.json: natural-birds-ring-and-away",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/natural-birds-1688x780.jpg",
+        "manifest": "../before/manifest-1688x780.json",
+        "labels": 103,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.4944935593632276,
+        "mask": "../before/natural-birds-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/natural-birds-1688x780.jpg",
+        "labels": 30,
+        "category_counts": {
+          "unit_stats": 14,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 4,
+          "other": 4
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.590486389597764,
+        "mask": "after/natural-birds-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/lobby-1688x780.jpg",
+        "manifest": "../before/manifest-1688x780.json",
+        "labels": 127,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.45237878235508566,
+        "mask": "../before/lobby-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/lobby-1688x780.jpg",
+        "labels": 39,
+        "category_counts": {
+          "unit_stats": 24,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 3,
+          "other": 4
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.52239336492891,
+        "mask": "after/lobby-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/scout-1688x780.jpg",
+        "manifest": "../before/manifest-1688x780.json",
+        "labels": 136,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.5206009235630089,
+        "mask": "../before/scout-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/scout-1688x780.jpg",
+        "labels": 30,
+        "category_counts": {
+          "unit_stats": 24,
+          "hero_health": 0,
+          "fallback_names": 0,
+          "costs_and_controls": 3,
+          "other": 3
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.7560616417547698,
+        "mask": "after/scout-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "overview",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "source": "wave1/redbreast-label/ui-after-overview; wave1/screenshots-1920x1080.json: ring-carry-away-birds",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/overview-1920x1080.jpg",
+        "manifest": "../before/manifest-1920x1080.json",
+        "labels": 135,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.3573804012345679,
+        "mask": "../before/overview-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/overview-1920x1080.jpg",
+        "labels": 40,
+        "category_counts": {
+          "unit_stats": 24,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 3,
+          "other": 5
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.44784577546296295,
+        "mask": "after/overview-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "source": "wave1/screenshots-1920x1080.json: reader-reel_mistress-golden",
+      "reader_open": true,
+      "resting_budget_pass": null,
+      "before": {
+        "image": "../before/reader-reel_mistress-golden-1920x1080.jpg",
+        "manifest": "../before/manifest-1920x1080.json",
+        "labels": 135,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.35062355324074074,
+        "mask": "../before/reader-reel_mistress-golden-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/reader-reel_mistress-golden-1920x1080.jpg",
+        "labels": 51,
+        "category_counts": {
+          "unit_stats": 32,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 4,
+          "other": 7
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.3599363425925926,
+        "mask": "after/reader-reel_mistress-golden-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "source": "wave1/screenshots-1920x1080.json: natural-birds-ring-and-away",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/natural-birds-1920x1080.jpg",
+        "manifest": "../before/manifest-1920x1080.json",
+        "labels": 103,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.4191869212962963,
+        "mask": "../before/natural-birds-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/natural-birds-1920x1080.jpg",
+        "labels": 30,
+        "category_counts": {
+          "unit_stats": 14,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 4,
+          "other": 4
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.5424710648148148,
+        "mask": "after/natural-birds-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/lobby-1920x1080.jpg",
+        "manifest": "../before/manifest-1920x1080.json",
+        "labels": 128,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.3971629050925926,
+        "mask": "../before/lobby-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/lobby-1920x1080.jpg",
+        "labels": 39,
+        "category_counts": {
+          "unit_stats": 24,
+          "hero_health": 8,
+          "fallback_names": 0,
+          "costs_and_controls": 3,
+          "other": 4
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.448491512345679,
+        "mask": "after/lobby-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "reader_open": false,
+      "resting_budget_pass": true,
+      "before": {
+        "image": "../before/scout-1920x1080.jpg",
+        "manifest": "../before/manifest-1920x1080.json",
+        "labels": 136,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.44841338734567904,
+        "mask": "../before/scout-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/scout-1920x1080.jpg",
+        "labels": 30,
+        "category_counts": {
+          "unit_stats": 24,
+          "hero_health": 0,
+          "fallback_names": 0,
+          "costs_and_controls": 3,
+          "other": 3
+        },
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.6058400848765432,
+        "mask": "after/scout-1920x1080-calm-mask.png"
+      }
+    }
+  ]
+}

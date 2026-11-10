@@ -297,11 +297,7 @@ static func pass_preview(board: Array, card: Dictionary, from_slot: int, target:
 ## One entry per slot from the state: slot_effects (a Ring is one entry, its numbers stacked) and
 ## bands (one bool a slot).
 static func slot_marks(view: Dictionary) -> Array:
-	var marks: Array = RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
-	var last: int = pass_end(Data.a(view, "board"))
-	if last >= 0:
-		marks[last]["pass_end"] = true
-	return marks
+	return RecruitHeld.with_nests(_ring_marks(view), Data.a(view, "away"))
 
 
 static func _ring_marks(view: Dictionary) -> Array:
@@ -313,7 +309,7 @@ static func _ring_marks(view: Dictionary) -> Array:
 		var attack: int = 0
 		var health: int = 0
 		var count: int = 0
-		var band: bool = slot < bands.size() and bands[slot] == true
+		var band: bool = slot < bands.size() and CoreUtil.to_bool(bands[slot])
 		var mark: Dictionary = {"ring": "", "has_ring": false, "band": band, "text": ""}
 		for entry: Variant in entries:
 			var effect: Dictionary = entry
@@ -409,40 +405,45 @@ static func with_reward_note(unit: Dictionary) -> Dictionary:
 
 
 ## What lies on a slot in words; "" for a bare slot.
-static func slot_note(mark: Dictionary, slot: int) -> String:
+static func slot_note(mark: Dictionary, _slot: int) -> String:
 	var nest: String = RecruitHeld.nest_note(mark)
 	var parts: PackedStringArray = []
 	if mark.get("has_ring", false) == true:
-		parts.append(("Ring %s" % str(mark.get("ring", ""))).strip_edges())
+		var count: int = Data.i(mark, "ring_count")
+		var stats: String = Data.s(mark, "ring").split(" · ")[0]
+		var rings: String = "%d %s" % [count, "Ring" if count == 1 else "Rings"]
+		if count <= 0:
+			rings = "Ring"
+		parts.append("%s (%s)" % [rings, stats] if not stats.is_empty() else rings)
 	if mark.get("horseshoe", false) == true:
 		parts.append("Horseshoe (next fight)")
 	if mark.get("band", false) == true:
-		parts.append("Rainbow band")
+		parts.append("painted")
 	if parts.is_empty():
-		return "%s: %s" % [SLOT_NAMES[slot], nest] if not nest.is_empty() else ""
-	var note: String = "%s: %s." % [SLOT_NAMES[slot], ", ".join(parts)]
+		return "This slot: %s" % nest if not nest.is_empty() else ""
+	var note: String = "This slot: %s." % ", ".join(parts)
 	var extra: String = str(mark.get("text", ""))
 	note = note if extra.is_empty() else "%s %s" % [note, extra]
 	return note if nest.is_empty() else "%s %s" % [note, nest]
 
 
-## Non-golden copies owned (hand and board) per def_id.
-static func copies(from_state: Dictionary) -> Dictionary:
+## Owned copies per def_id, including Bellies; normal by default, golden on request.
+static func copies(from_state: Dictionary, golden: bool = false) -> Dictionary:
 	var out: Dictionary = {}
 	for zone: String in ["hand", "board"]:
 		for entry: Variant in Data.a(from_state, zone):
 			if entry is Dictionary:
 				var view: Dictionary = entry
-				_count_copy(view, out)
+				_count_copy(view, out, golden)
 				for inside: Variant in Data.a(view, "held"):
 					var held: Dictionary = inside
-					_count_copy(held, out)
+					_count_copy(held, out, golden)
 	return out
 
 
 ## Copies inside a Belly count for triples too.
-static func _count_copy(entry: Dictionary, into: Dictionary) -> void:
-	if not Data.b(entry, "golden", false) and not Data.b(entry, "plain_copy", false):
+static func _count_copy(entry: Dictionary, into: Dictionary, golden: bool) -> void:
+	if Data.b(entry, "golden", false) == golden and not Data.b(entry, "plain_copy", false):
 		var def_id: String = Data.s(entry, "def_id")
 		into[def_id] = Data.i(into, def_id, 0) + 1
 
@@ -572,19 +573,6 @@ static func full_view(zone: String, view: Dictionary, state: Dictionary) -> Dict
 		view = with_reward_note(view)
 	# Next income sits beside the gold (GoldPlaque), never in a card's rules.
 	var notes: PackedStringArray = []
-	if zone != "shop" and view.has("sell_value"):
-		var flies: bool = (
-			zone == "board" and RecruitHeld.sell_word(view, Data.i(state, "round")) == "Fly south"
-		)
-		notes.append(
-			(
-				"Fly south: 0 sale gold."
-				if flies
-				else "Sell value: %d gold." % RecruitHeld.sell_gold(view, Data.i(state, "round"))
-			)
-		)
-	if zone == "shop" and Data.b(view, "poached"):
-		notes.append("Poached. Costs %d gold; stays through refreshes." % Data.i(view, "cost"))
 	if zone == "shop":
 		var warning: String = triple_warning(state, view)
 		if not warning.is_empty():
@@ -619,32 +607,9 @@ static func related_slots(card: Dictionary, slot: int) -> Array[int]:
 	return []
 
 
-static func geometry_note(card: Dictionary, slot: int, board: Array = []) -> String:
-	var slots: Array[int] = related_slots(card, slot)
-	if card.has("ooze_nell_eaters"):
-		var eaters: PackedStringArray = []
-		for eater: int in slots:
-			eaters.append(SLOT_NAMES[eater])
-		return (
-			"No Ooze next to this."
-			if eaters.is_empty()
-			else "Current eater: %s." % " and ".join(eaters)
-		)
-	if slots.is_empty():
-		if pass_direction(card) == 0:
-			return ""
-		var note: String = "Pass order: F1-B1-F2-B2-F3-B3-F4."
-		if "After this pricks:" in Data.s(card, "text"):
-			note += " Lands immediately in combat."
-		else:
-			note += " Lands at End of Turn."
-		if not board.is_empty() and pass_landing(board, slot) < 0:
-			note += " No one to pass to."
-		return note
-	var labels: PackedStringArray = []
-	for other: int in slots:
-		labels.append(SLOT_NAMES[other])
-	return "Highlighted: %s." % " and ".join(labels)
+## Spatial information is shown by an on-demand reach pulse, never a standing caption.
+static func geometry_note(_card: Dictionary, _slot: int, _board: Array = []) -> String:
+	return ""
 
 
 ## Scheduled round income and already queued gold; later card/hero earnings can add more.
@@ -720,3 +685,12 @@ static func ring_aim_note(view: Dictionary, item: Dictionary) -> String:
 		var names: PackedStringArray = groups[preview]
 		lines.append("%s: %s." % [", ".join(names), preview])
 	return "\n".join(lines)
+
+
+## Exact hidden-hand economy stays one tap away without spending another resting label.
+static func larder_card(from_state: Dictionary) -> Dictionary:
+	return {
+		"name": "Larder",
+		"text":
+		"Gold held in your Acorns, Stashes and Great Hoards: %d." % Data.i(from_state, "larder"),
+	}

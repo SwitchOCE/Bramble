@@ -34,6 +34,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2 # docs size guard compares the commit with its first parent.
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
@@ -95,6 +97,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2 # docs size guard compares the commit with its first parent.
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
@@ -147,6 +151,8 @@ jobs:
     name: gate-tests (shard ${{ matrix.shard }}/4)
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2 # docs size guard compares the commit with its first parent.
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
@@ -203,6 +209,8 @@ jobs:
         android_debug.apk android_source.zip
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2 # docs size guard compares the commit with its first parent.
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"

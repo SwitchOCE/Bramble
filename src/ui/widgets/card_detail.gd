@@ -23,6 +23,7 @@ const STATE_WORDS: Dictionary[String, String] = {
 	"Shield": "Prevents the first damage this would take each fight.",
 	"Golden": "Double stats; numbers in its text double.",
 	"Created": "Made by a card, not bought.",
+	"Poached": "Bought from your last opponent. Stays through refreshes.",
 	"Tribe bonus": KeywordRules.TRIBE_BONUS_TEXT,
 }
 ## The link to a card's rulings kept off its face (its `details`), opened on the same slip.
@@ -39,7 +40,7 @@ var _panel: WoodPanel
 var _art: ArtFrame
 var _banner: Panel
 var _name_label: Label
-var _type: Label
+var _type: RichTextLabel
 var _notes: RichTextLabel
 var _hint: Label
 var _tier: ShapeBadge
@@ -74,11 +75,14 @@ func _init() -> void:
 	# Clipped so a layout at a narrow width can't leave it stretched tall out of the banner.
 	_name_label.clip_text = true
 	_banner.add_child(_name_label)
-	_type = UiTheme.burned("", UiTheme.FONT_SMALL, UiTheme.MUTE)
-	_type.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_type.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_type.clip_text = true
-	_type.add_theme_constant_override("line_spacing", -8)
+	_type = RichTextLabel.new()
+	_type.bbcode_enabled = true
+	_type.scroll_active = false
+	_type.mouse_filter = Control.MOUSE_FILTER_PASS
+	_type.add_theme_font_size_override("normal_font_size", UiTheme.FONT_SMALL)
+	_type.add_theme_font_size_override("bold_font_size", UiTheme.FONT_SMALL)
+	_type.add_theme_color_override("default_color", UiTheme.MUTE)
+	_type.add_theme_constant_override("line_separation", -8)
 	add_child(_type)
 	_notes = RichTextLabel.new()
 	_notes.bbcode_enabled = true
@@ -93,6 +97,7 @@ func _init() -> void:
 	reminder.docked = true
 	reminder.reminder_fn = func(word: String) -> String: return reminder_for(word, shown)
 	reminder.watch(_notes)
+	reminder.watch(_type)
 	reminder.shown_changed.connect(_layout)
 	add_child(reminder)
 	_hint = UiTheme.label("", UiTheme.FONT_SMALL, UiTheme.MUTE)
@@ -146,16 +151,14 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 	_art.visible = not Data.s(view, "def_id").is_empty()
 	_name_label.text = Data.s(view, "name")
 	_fit_name()
-	_type.text = (
-		(CardView.card_word(view) if spell else UiTheme.type_line(Data.a(view, "tribes")))
-		. to_upper()
-	)
+	_type.text = "[center]%s[/center]" % type_bbcode(view)
 	_tier_label.text = str(Data.i(view, "cost", 1) if spell else Data.i(view, "tier", 1))
 	_tier.visible = Data.s(view, "type_word").is_empty()
 	_attack.visible = not spell
 	_health.visible = not spell
-	_hint.text = hint
-	_hint.visible = not hint.is_empty()
+	# Repeated action instructions belong to the tutorial. Keep only the changing wait warning.
+	_hint.text = "Its wait restarts." if hint.contains("Its wait restarts.") else ""
+	_hint.visible = not _hint.text.is_empty()
 	# The rules read a size larger on a phone, so the reminder (at the phone minimum) stays smaller.
 	var rules_size: int = UiTheme.FONT_BODY if CardView.is_phone() else UiTheme.FONT_SMALL
 	for key: String in ["normal_font_size", "bold_font_size", "italics_font_size"]:
@@ -311,9 +314,7 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 			]
 		)
 	var linked: Array[String] = []
-	if rules.is_empty() and not CardView.is_spell(view):
-		lines.append("[color=#%s]No special rules.[/color]" % UiTheme.hex(UiTheme.MUTE))
-	elif not rules.is_empty():
+	if not rules.is_empty():
 		var words: PackedStringArray = KeywordRules.named_on(view)
 		if rules.contains("Tribe bonus"):
 			words.append("Tribe bonus")
@@ -333,12 +334,6 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 			also.append(ReminderSlip.link(word))
 	if not also.is_empty():
 		lines.append("[b]%s[/b]" % ", ".join(also))
-	if Data.s(view, "def_id") == "charcoal_burner":
-		var plan: String = _burner_plan(rules)
-		if not plan.is_empty():
-			lines.append(plan)
-	if Data.s(view, "def_id") == "harvest_supper":
-		lines.append("Offered from tier 3.")
 	var bonuses: Dictionary = Data.d(view, "tribe_bonuses")
 	for value: Variant in bonuses:
 		var tribe: String = str(value)
@@ -416,6 +411,8 @@ static func full_text_bbcode(view: Dictionary, own_card: bool = true) -> String:
 				% [timing, StatNumbers.exact(preview.x), StatNumbers.exact(preview.y)]
 			)
 		)
+	if Data.b(view, "hedgerow_runt"):
+		lines.append("The Standing Committee's current smallest unit.")
 	if Data.b(view, "hedgerow_clock"):
 		lines.append(
 			(
@@ -494,10 +491,56 @@ static func _keyword_marks(
 	return out
 
 
-## What is true of this unit now: statuses, golden, created, unbuilt. Each names its word as a
+## Identity and origin share one readable line; their meanings remain one tap away.
+static func type_bbcode(view: Dictionary) -> String:
+	var parts: PackedStringArray = []
+	if Data.b(view, "golden"):
+		parts.append(ReminderSlip.link("Golden", "GOLDEN"))
+	if Data.s(view, "origin") == "created":
+		parts.append(ReminderSlip.link("Created", "CREATED"))
+	parts.append(
+		(
+			(
+				CardView.card_word(view)
+				if CardView.is_spell(view)
+				else UiTheme.type_line(Data.a(view, "tribes"))
+			)
+			. to_upper()
+		)
+	)
+	return " · ".join(parts)
+
+
+## Worked examples and offer exceptions live behind Details, beside card-local rulings.
+static func _details_for(view: Dictionary) -> String:
+	var parts: PackedStringArray = []
+	var rulings: String = CardRulings.for_view(view)
+	if not rulings.is_empty():
+		parts.append(rulings)
+	if Data.s(view, "def_id") == "charcoal_burner":
+		var plan: String = _burner_plan(Data.s(view, "text"))
+		if not plan.is_empty():
+			parts.append(plan)
+	if Data.s(view, "def_id") == "harvest_supper":
+		parts.append("Offered from tier 3.")
+	return "\n".join(parts)
+
+
+## What is true of this unit now: statuses, pending gains and unbuilt. Each names its word as a
 ## link; the meaning is one hover or tap away.
 static func state_bbcode(view: Dictionary) -> String:
 	var lines: PackedStringArray = []
+	var hex_parts: PackedStringArray = []
+	for field: String in ["hex_amount", "hex_percent_amount"]:
+		var amount: int = Data.i(view, field)
+		if amount <= 0:
+			continue
+		var stored_field: String = "hex_stored" if field == "hex_amount" else "hex_percent_stored"
+		var suffix: String = "" if field == "hex_amount" else "%"
+		var stored: int = Data.i(view, stored_field, amount)
+		hex_parts.append("%d%s (%d%s stored)" % [amount, suffix, stored, suffix])
+	if not hex_parts.is_empty():
+		lines.append("[b]Hex: %s.[/b]" % " + ".join(hex_parts))
 	var pending_attack: int = Data.i(view, "pending_attack")
 	var pending_health: int = Data.i(view, "pending_health")
 	if pending_attack != 0 or pending_health != 0:
@@ -509,6 +552,8 @@ static func state_bbcode(view: Dictionary) -> String:
 		)
 	if Data.b(view, "combat_start_overlay"):
 		lines.append("[b]Combat-start stats.[/b] Copies %s." % Data.s(view, "copied_name"))
+	if Data.b(view, "poached"):
+		lines.append("[b]%s[/b]" % ReminderSlip.link("Poached"))
 	if Data.b(view, "egged"):
 		lines.append("[b]Golden Egg used.[/b] This Bird cannot take another Golden Egg.")
 	var statuses: Array = Data.a(view, "statuses")
@@ -525,16 +570,7 @@ static func state_bbcode(view: Dictionary) -> String:
 	if CardView.is_unbuilt(view):
 		var warn: String = "[color=#%s][b]Not built yet[/b]: " % UiTheme.hex(UiTheme.NOTE_WARN)
 		lines.append(warn + "stats only.[/color]")
-	if Data.b(view, "golden", false):
-		lines.append(
-			(
-				"[color=#%s][b]%s[/b][/color]"
-				% [UiTheme.hex(UiTheme.NOTE_GOLDEN), ReminderSlip.link("Golden")]
-			)
-		)
-	if str(view.get("origin", "")) == "created":
-		lines.append("[b]%s[/b]" % ReminderSlip.link("Created"))
-	if not CardRulings.for_view(view).is_empty():
+	if not _details_for(view).is_empty():
 		var mute: String = UiTheme.hex(UiTheme.MUTE)
 		lines.append("[color=#%s][i]%s[/i][/color]" % [mute, ReminderSlip.link(DETAILS)])
 	return "\n".join(lines)
@@ -566,7 +602,7 @@ static func show_rules(rich: RichTextLabel, view: Dictionary, own_card: bool = t
 ## A word's reminder for this card, as the slip shows it; "" for no reminder.
 static func reminder_for(word: String, view: Dictionary = {}) -> String:
 	if word == DETAILS:
-		var rulings: String = CardRulings.for_view(view)
+		var rulings: String = _details_for(view)
 		return "" if rulings.is_empty() else "[b]%s:[/b] %s" % [word, rulings]
 	if STATE_WORDS.has(word):
 		var text: String = STATE_WORDS[word]

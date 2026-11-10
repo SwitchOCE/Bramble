@@ -9,6 +9,7 @@ extends GutTest
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
 const PlayerDriver := preload("res://tests/ui/player_driver.gd")
@@ -30,6 +31,12 @@ func before_all() -> void:
 	Records.path = "user://test_records.cfg"
 
 
+func _finish_recruit_motion(screen: RecruitScreen) -> void:
+	var motion: RecruitMotion = screen.get("_motion")
+	motion.finish()
+	await wait_process_frames(2)
+
+
 func test_scripted_player_reaches_game_over() -> void:
 	var app: App = App.new()
 	add_child_autofree(app)
@@ -47,13 +54,16 @@ func test_scripted_player_reaches_game_over() -> void:
 		app.start_game(game_seed)
 		var turns: int = 0
 		while app.current is RecruitScreen and turns < MAX_TURNS:
-			driver.play_turn(app.current as RecruitScreen)
+			var recruit: RecruitScreen = app.current as RecruitScreen
+			driver.play_turn(recruit)
+			await _finish_recruit_motion(recruit)
 			turns += 1
 			if app.current is CombatScreen:
 				var combat: CombatScreen = app.current as CombatScreen
 				combat.skip_to_end()
 				assert_true(combat.is_showing_result())
 				combat.advance_playback(0.11)
+			await wait_process_frames(2)
 		assert_true(app.current is GameOverScreen, "seed %d ends at game over" % game_seed)
 		for action: String in driver.counts:
 			all_counts[action] = true
@@ -117,11 +127,14 @@ func test_game_over_screen_lays_out_cleanly() -> void:
 	app.start_game(20261104)
 	var turns: int = 0
 	while app.current is RecruitScreen and turns < MAX_TURNS:
-		(app.current as RecruitScreen).call("_on_end_turn")
+		var recruit: RecruitScreen = app.current as RecruitScreen
+		recruit.call("_on_end_turn")
+		await _finish_recruit_motion(recruit)
 		if app.current is CombatScreen:
 			var combat: CombatScreen = app.current as CombatScreen
 			combat.skip_to_end()
 			combat.advance_playback(0.11)
+		await wait_process_frames(2)
 		turns += 1
 	assert_true(app.current is GameOverScreen)
 	await get_tree().process_frame

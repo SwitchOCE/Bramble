@@ -50,7 +50,7 @@ func test_scouting_shows_their_rings_and_their_hero_a_tap_away() -> void:
 	screen.call("_on_tapped", "scout", 1)
 	var detail: Control = screen.get("_detail")
 	var on_slot: Dictionary = detail.get("shown")
-	assert_string_contains(str(on_slot["text"]), "Ring +2/+1")
+	assert_string_contains(str(on_slot["text"]), "Ring (+2/+1)")
 	screen.call("_show_opponent")
 	var hero_card: Dictionary = detail.get("shown")
 	assert_string_contains(str(hero_card["text"]), "Her power.")
@@ -64,7 +64,7 @@ func test_scouting_says_so_when_they_have_not_fought() -> void:
 	var shown: int = scout.get("unit_count")
 	assert_eq(shown, 0)
 	var empty: Label = scout.get("_empty")
-	assert_true(empty.visible)
+	assert_false(empty.visible, "the bare scout tray has no tutorial text")
 
 
 func test_pass_lands_on_the_last_other_unit_across_gaps() -> void:
@@ -83,7 +83,9 @@ func test_rings_and_bands_read_from_slot_effects_on_empty_slots_too() -> void:
 	assert_eq(Data.s(Data.entry(marks, 2), "ring"), "+1/+1", "a Ring on empty F3")
 	assert_eq(Data.b(Data.entry(marks, 0), "band"), true, "F1 has a band")
 	assert_eq(Data.s(Data.entry(marks, 3), "ring"), "", "bare F4")
-	assert_string_contains(RecruitView.slot_note(Data.entry(marks, 2), 2), "F3: Ring +1/+1")
+	assert_string_contains(
+		RecruitView.slot_note(Data.entry(marks, 2), 2), "This slot: Ring (+1/+1)"
+	)
 
 
 func test_acorns_combining_is_announced() -> void:

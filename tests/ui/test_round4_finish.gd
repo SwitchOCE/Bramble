@@ -31,7 +31,8 @@ func test_long_shop_rules_keep_the_portrait_at_phone_and_desktop_sizes() -> void
 			if rules.visible:
 				assert_lte(name_label.position.y + name_label.size.y, rules.position.y, id)
 			else:
-				assert_false(card.chip_shown.is_empty(), id)
+				assert_eq(card.chip_shown, "", id)
+				assert_false(str(UnitViews.from_def(library.get_unit(id))["text"]).is_empty(), id)
 
 
 func test_fight_begins_with_wordless_start_of_combat_cue() -> void:
@@ -62,17 +63,17 @@ func test_default_play_text_shows_stable_handles_before_legacy_numbers() -> void
 	assert_true(lines[1].begins_with("  @123 "))
 
 
-func test_mire_and_hex_slips_clear_slot_names_in_recruit_scout_and_guide() -> void:
+func test_hex_and_mire_fit_without_slot_code_chips_in_recruit_scout_and_guide() -> void:
 	var library: UnitLibrary = TestLibraries.current()
 	for zone: String in ["board", "scout", "guide"]:
-		var board: BoardView = BoardView.new()
+		var board := BoardView.new()
 		board.configure(zone, 130.0 if zone != "board" else 209.0, true, zone == "board")
 		add_child_autofree(board)
-		var overlay: LaneOverlay = LaneOverlay.new()
+		var overlay := LaneOverlay.new()
 		overlay.boards = [board, board]
 		add_child_autofree(overlay)
 		for slot: int in BoardView.SLOTS:
-			var card: CardView = CardView.new()
+			var card := CardView.new()
 			card.show_unit(UnitViews.from_def(library.get_unit("field_vole")), CardView.Mode.BOARD)
 			board.place_card(card, slot)
 			board.set_hex(slot, 2)
@@ -81,17 +82,11 @@ func test_mire_and_hex_slips_clear_slot_names_in_recruit_scout_and_guide() -> vo
 		var marks: Control = board.get("_marks")
 		var hexes: Dictionary = marks.get("_hex_labels")
 		for slot: int in BoardView.SLOTS:
-			var name_rect: Rect2 = (
-				board.label_rect(slot) if zone == "board" else chips[slot].get_rect()
-			)
-			if zone == "scout":
-				assert_true(
-					overlay.patch_rect(0, slot).encloses(name_rect),
-					"Mire replaces the scout caption"
-				)
-			else:
-				assert_false(
-					overlay.patch_rect(0, slot).intersects(name_rect), "%s %d Mire" % [zone, slot]
-				)
+			assert_false(chips[slot].visible)
 			var hex_label: Label = hexes[slot]
-			assert_false(hex_label.get_rect().intersects(name_rect), "%s %d Hex" % [zone, slot])
+			assert_true(hex_label.visible)
+			assert_false(
+				overlay.patch_rect(0, slot).intersects(hex_label.get_rect()),
+				"%s %d Mire and Hex" % [zone, slot]
+			)
+			assert_string_contains(hex_label.text, "2")

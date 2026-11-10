@@ -83,7 +83,7 @@ func test_combat_plaque_keeps_rival_identity_in_its_reader_at_both_sizes() -> vo
 		assert_eq(rival.text, "", "the plaque has no resting name")
 
 
-func test_scout_heading_clears_last_stand_and_the_shop_at_both_sizes() -> void:
+func test_scout_hides_and_restores_lobby_and_shop_at_both_sizes() -> void:
 	for phone: bool in [false, true]:
 		var viewport: SubViewport = _viewport(phone)
 		var port := FixturePort.new()
@@ -95,16 +95,19 @@ func test_scout_heading_clears_last_stand_and_the_shop_at_both_sizes() -> void:
 		var screen := RecruitScreen.new()
 		viewport.add_child(screen)
 		screen.setup(port)
+		var lobby: Control = screen.get("_lobby")
+		var shop: GridContainer = screen.get("_shop_cards")
+		assert_true(lobby.is_visible_in_tree())
+		assert_true(shop.is_visible_in_tree())
 		screen.toggle_scout()
 		await get_tree().process_frame
 		await get_tree().process_frame
 		var scout: Control = screen.get("_scout")
-		var heading: Label = scout.get("_title")
-		var lobby: Control = screen.get("_lobby")
-		for plaque: Control in lobby.get("plaques"):
-			if plaque.has_node("LastStand"):
-				var status: Control = plaque.get_node("LastStand")
-				assert_lte(status.get_global_rect().end.y, heading.global_position.y)
-		var shop: GridContainer = screen.get("_shop_cards")
-		var first_offer: Control = shop.get_child(0)
-		assert_lte(heading.get_global_rect().end.y + 8.0, first_offer.global_position.y)
+		assert_true(scout.is_visible_in_tree())
+		assert_false(lobby.is_visible_in_tree(), "scouting clears the lobby's Last Stand marks")
+		assert_false(shop.is_visible_in_tree(), "scouting clears shop offers")
+		screen.toggle_scout()
+		await get_tree().process_frame
+		assert_false(scout.is_visible_in_tree())
+		assert_true(lobby.is_visible_in_tree())
+		assert_true(shop.is_visible_in_tree())

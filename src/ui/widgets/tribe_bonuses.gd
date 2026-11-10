@@ -16,7 +16,6 @@ var bonuses: Dictionary = {}
 var tribes: Array = []
 var chips: Array[Control] = []
 var _caption: Label
-var _engine: bool = false
 
 
 func _init() -> void:
@@ -31,7 +30,6 @@ func _init() -> void:
 
 
 func show_bonuses(lobby: Array, values: Dictionary) -> void:
-	_engine = false
 	tribes.clear()
 	bonuses = values.duplicate()
 	for child: Control in chips:
@@ -41,7 +39,7 @@ func show_bonuses(lobby: Array, values: Dictionary) -> void:
 	for value: Variant in lobby:
 		if Data.i(bonuses, str(value)) > 0:
 			tribes.append(value)
-	_caption.visible = not tribes.is_empty()
+	_caption.visible = false
 	for value: Variant in tribes:
 		var tribe: String = str(value)
 		var bonus: int = Data.i(bonuses, tribe)
@@ -77,7 +75,6 @@ func show_engine(state: Dictionary) -> void:
 	if Data.b(state, "reference_quilboar"):
 		var gem: Dictionary = state.get("gem_size", {})
 		var size_text: String = "+%d/+%d" % [Data.i(gem, "attack", 1), Data.i(gem, "health", 1)]
-		_engine = true
 		_engine_chip(
 			"GemSize", "Blood Gems " + size_text, "Each future Gem gives " + size_text + "."
 		)
@@ -94,18 +91,15 @@ func show_engine(state: Dictionary) -> void:
 					has_rings = true
 	if not has_rings and not Data.a(state, "lobby_tribes").has("Fairies"):
 		return
-	_engine = true
 	var exact: String = String.num(size_value, 4)
 	var shown: String = exact
 	if size_value >= 1000.0:
 		shown = StatNumbers.compact(roundi(size_value), 1, true)
-	_engine_chip("RingSize", "Ring size " + shown, "Each Ring gives +%s/+%s." % [exact, exact])
+	_engine_chip("RingSize", "×" + shown, "Each Ring gives +%s/+%s." % [exact, exact])
 	var left: int = Data.i(state, "midsummer_left")
 	if left > 0:
 		_engine_chip(
-			"Midsummer",
-			"Midsummer %d" % left,
-			"Midsummer in %d End of Turns: your Ring size grows." % left
+			"Midsummer", "%d" % left, "Midsummer in %d End of Turns: your Ring size grows." % left
 		)
 	_place()
 
@@ -129,7 +123,6 @@ func _show_bog_toll(state: Dictionary) -> void:
 	chip.tooltip_text = (
 		"Bog Toll: %s. Attack taken by your Bitter in the last fight." % StatNumbers.exact(toll)
 	)
-	_engine = true
 	_place()
 
 
@@ -156,13 +149,8 @@ func _place() -> void:
 	for chip: Control in chips:
 		var width: float = chip.get_meta("chip_width", WIDTH)
 		chips_width += width
-	var captioned: bool = (
-		not tribes.is_empty()
-		and not _engine
-		and size.x >= CAPTION_WIDTH + GAP + chips_width + GAP * (chips.size() - 1)
-	)
-	_caption.visible = captioned
-	var start: float = CAPTION_WIDTH + GAP if captioned else 0.0
+	_caption.visible = false
+	var start: float = 0.0
 	var gap: float = minf(
 		GAP, maxf(0.0, (size.x - start - chips_width) / maxf(chips.size() - 1, 1))
 	)

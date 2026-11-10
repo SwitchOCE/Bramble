@@ -139,7 +139,7 @@ func test_recruit_no_room_notice_reaches_the_screen_and_cli() -> void:
 	assert_has(lines, "No room for Mouse.")
 
 
-func test_banked_hex_wraps_and_hides_the_chip_for_native_borrowed_and_granted_hex() -> void:
+func test_banked_hex_reader_and_single_counter_for_native_borrowed_and_granted_hex() -> void:
 	var library := LegacyWave1.library()
 	var witch := RecruitUnit.make(library.get_unit("hedge_witch"), 100)
 	var borrowed := RecruitUnit.make(library.get_unit("frumenty"), 101)
@@ -153,11 +153,18 @@ func test_banked_hex_wraps_and_hides_the_chip_for_native_borrowed_and_granted_he
 		card.show_unit(unit.view(), CardView.Mode.BOARD)
 		card.set_card_width(176)
 		card.turns_shown = RecruitView.tile_slip(unit.view())
-		var label: Label = card.get("_turns")
+		var face: Control = card.get("_combat_marks")
+		var label: Label = face.get("counter")
+		assert_true(label.visible)
+		if unit == borrowed:
+			assert_eq(face.get("counter_kind"), "belly", "held units take the one counter slot")
+			assert_eq(label.text, "1")
+		else:
+			assert_eq(face.get("counter_kind"), "hex")
+			assert_eq(label.text, str(unit.view()["hex_amount"]))
+		assert_string_contains(CardDetail.full_text_bbcode(unit.view()), "stored")
 		var chip: Control = card.get("_chip")
-		assert_string_contains(label.text, "\n")
-		assert_string_contains(label.text, "stored")
-		assert_false(chip.visible, "%s's chip clears the wrapped Hex label" % unit.def_id())
+		assert_false(chip.visible)
 
 
 func test_frumenty_mixed_rules_ignore_card_rewording_and_punctuation() -> void:

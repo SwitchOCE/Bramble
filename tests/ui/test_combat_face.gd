@@ -78,17 +78,37 @@ func test_held_count_replaces_the_glyph_and_old_slip_without_words() -> void:
 	assert_eq(LayoutCheck.problems(tile, "held fight face"), PackedStringArray())
 
 
-func test_on_play_has_no_trigger_mark_and_recruit_keeps_its_chip() -> void:
+func test_swallow_anchor_tracks_the_stomach_above_its_count_at_both_sizes() -> void:
+	for dimensions: Vector2 in [Vector2(96, 116), Vector2(200, 216)]:
+		var tile: CardView = _card()
+		var view: Dictionary = tile.unit.duplicate(true)
+		view["held"] = [{"def_id": "sleeping_partner"}]
+		tile.show_unit(view, CardView.Mode.BOARD)
+		tile.set_card_size(dimensions)
+		tile.scale = Vector2.ONE * 1.1
+		var marks: CombatFace = tile.get("_combat_marks")
+		var anchor: Vector2 = tile.belly_point()
+		assert_true(tile.get_global_rect().has_point(anchor), str(dimensions))
+		assert_lt(anchor.y, marks.counter.get_global_rect().position.y)
+		assert_almost_eq(anchor.x, marks.counter.get_global_rect().get_center().x, 0.01)
+		var before: Vector2 = anchor
+		tile.position += Vector2(42, -19)
+		assert_eq(tile.belly_point() - before, Vector2(42, -19), "anchor follows the tile")
+		assert_eq(marks.counter.text, "1", "the route anchor adds no label")
+
+
+func test_on_play_has_no_trigger_mark_and_recruit_uses_wordless_marks() -> void:
 	assert_eq(CombatFace.trigger_kind({"text": "On play: Gain 1 Attack."}), "")
 	assert_eq(CombatFace.trigger_kind({"text": "When played: Gain 1 Attack."}), "")
 	assert_eq(CombatFace.trigger_kind({"text": "Start of Combat: Gain Shield."}), "spark")
 	var tile: CardView = _card()
 	tile.combat_face = false
-	assert_false(tile.chip_shown.is_empty())
+	assert_eq(tile.chip_shown, "")
 	var marks: CombatFace = tile.get("_combat_marks")
 	assert_eq(marks.marked_statuses, PackedStringArray(["shield"]))
-	assert_eq(marks.marked_keywords, PackedStringArray())
-	assert_false(marks.glyph.visible)
+	assert_true(marks.marked_keywords.has("Mire"))
+	assert_true(marks.marked_keywords.has("Quarry"))
+	assert_true(marks.glyph.visible)
 
 
 func test_recruit_only_triggers_have_no_combat_spark() -> void:

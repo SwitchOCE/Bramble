@@ -1,0 +1,82 @@
+[
+  {
+    "file": "lobby-1688x780.jpg",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "9992f088f553ed7ac9b79843c26fac8065c3d4cb434c95159b4497271ef906cd",
+    "original_sha256": "aa3e9f300885b06d70452450361b9d77fed300339a794dfb3e4a90525a1fe2c5",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "scout-1688x780.jpg",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "b4fdb598b02288a9030a70a6592d359dc141e6efc54b40f065e84bb370b71019",
+    "original_sha256": "cc63a7f7d8a2b338f8d581a81d4052d56812c2dfce46a0d4aa14037730a3fcd1",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "overview-1688x780.jpg",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "a6b04b2aef7069b31afe17e7bc71613a9f1c5620a352408197f495aa4347bb96",
+    "original_sha256": "324f61ebfafda8bf8660fe2b629519d6b4c58b178cb484917c47dce8cbb3dc69",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "reader-reel_mistress-golden-1688x780.jpg",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "296c7d56a72549c66127dc2361a16c67566ed9c40f1b3b3073658c627d67f1b4",
+    "original_sha256": "3553bfeb59a04a48acd4bb3f9d2741c598773868280ae28a25d74db7b6442aa9",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "natural-birds-1688x780.jpg",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "856f6d9e59f8938a79ab87352e1ca6ffedc18b9636357d7be0a237fdb75cffe7",
+    "original_sha256": "fc52c6979155cd4b4051c5bf9acf6edbb6a32883d6870a9f30dc4e181a3ab987",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "lobby-1920x1080.jpg",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "85d50cd841056225f029f0ebd1361c1ccef422eef055833d84333b8a96ea59cc",
+    "original_sha256": "779dea6be4e969247260e084b121658cbb90fd26420cba82d55bc2d76e0057f6",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "scout-1920x1080.jpg",
+    "existing_before_png_preserved": false,
+    "mask_reference_pixels_equal": true,
+    "sha256": "611c8355e69d4faddca13209a6a2a990b10aa18c5438c4a69559ff79da0accb1",
+    "original_sha256": "c6af869a53b8458ec991737561de06609977fd00b89e8227f544c63911723c25",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "overview-1920x1080.jpg",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "b51c443f2d8747916b9e33811372ddad4475a2d1a361e35c36fae8659b6bad5d",
+    "original_sha256": "4c4f4d3728a408e70cb8a963b283bcba700ffa36c3ac3115e1cce1c316fa453d",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "reader-reel_mistress-golden-1920x1080.jpg",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "485cf51ae97c0312c23418dc3a8bed3c22c23303cfa724791373fbe11df5aaca",
+    "original_sha256": "20160fddaf58c757bdea3b5b40b99ca260783d45c7c5897ca194b76d569e3a99",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  },
+  {
+    "file": "natural-birds-1920x1080.jpg",
+    "existing_before_png_preserved": true,
+    "mask_reference_pixels_equal": true,
+    "sha256": "2a7959b42595b1682fed5ffb24815e905eff75dbeffe5d0e77b2d79c9046b068",
+    "original_sha256": "4ad05a3fad4bbfae358bf843df243cdf32a910b4fe30cbdc31863b321f052342",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
+  }
+]

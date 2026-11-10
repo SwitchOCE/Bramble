@@ -117,6 +117,7 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		if not recruit.shy_accepts_stats:
 			attack = mini(0, attack)
 			health = mini(0, health)
+	var display_before := Vector2i(target.attack, target.health)
 	var before: Vector2i = Vector2i(target.perm_attack, target.perm_health)
 	if duration == "combat":
 		before = Vector2i(target.combat_attack, target.combat_health)
@@ -126,9 +127,25 @@ func buff(target: BoardUnit, attack: int, health: int, duration: String) -> void
 		target.add_permanent(attack, health)
 	if recruit != null:
 		recruit.shy_accepts_stats = false
-	player.log_event(
-		"buff",
-		{"target": target.def_id(), "attack": attack, "health": health, "duration": duration}
+	(
+		player
+		. log_event(
+			"buff",
+			{
+				"target": target.def_id(),
+				"attack": attack,
+				"health": health,
+				"duration": duration,
+				"target_iid": recruit.iid if recruit != null else 0,
+				"source_slot": source_slot,
+				"source": source.def_id() if source != null else "",
+				"trigger": trigger,
+				"before_attack": display_before.x,
+				"before_health": display_before.y,
+				"after_attack": target.attack,
+				"after_health": target.health,
+			}
+		)
 	)
 	if trigger == "cast" and str(card_def.get("kind", "")) == "spell" and target is RecruitUnit:
 		var after: Vector2i = Vector2i(target.perm_attack, target.perm_health)

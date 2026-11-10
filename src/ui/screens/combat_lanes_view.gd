@@ -11,9 +11,13 @@ const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const LaneProjection := preload("res://src/ui/lane_projection.gd")
 
 
-static func present(screen: Control, event: Dictionary, _animate: bool) -> void:
+static func present(screen: Control, event: Dictionary, animate: bool) -> void:
 	var lanes: LaneOverlay = screen.get("_lanes")
 	var model: CombatModel = screen.get("model")
+	if Data.s(event, "type") == "combat_start":
+		reset_floor_state(screen)
+	elif Data.s(event, "type") == "ring_dance":
+		_ring_dance(screen, event, animate)
 	_refresh_stat_detail(screen, model, event)
 	lanes.bindings = LaneProjection.playback(model)
 
@@ -81,3 +85,77 @@ static func bog_summary(model: CombatModel, side: int) -> String:
 		if model.bog_toll.has(side)
 		else ""
 	)
+
+
+static func reset_floor_state(screen: Control) -> void:
+	var initial: Array = screen.get("floor_marks")
+	var copied: Array = initial.duplicate(true)
+	screen.set_meta("ring_floor_state", copied)
+	for side: int in 2:
+		var board: BoardView = screen.call("board_for_side", side)
+		var row: Array = copied[side] if side < copied.size() and copied[side] is Array else []
+		if board != null:
+			board.set_marks(row)
+
+
+static func floor_state(screen: Control) -> Array:
+	if not screen.has_meta("ring_floor_state"):
+		reset_floor_state(screen)
+	var current: Array = screen.get_meta("ring_floor_state")
+	return current
+
+
+static func _ring_dance(screen: Control, event: Dictionary, animate: bool) -> void:
+	if not event.has("from_ring") or not event.has("to_ring"):
+		return  # Historical event streams did not record exact Ring cohorts.
+	var side: int = Data.i(event, "side")
+	var from: int = Data.i(event, "from", -1)
+	var to: int = Data.i(event, "to", -1)
+	if side < 0 or side > 1 or not BoardGeometry.is_valid(from) or not BoardGeometry.is_valid(to):
+		return
+	var current: Array = floor_state(screen).duplicate(true)
+	while current.size() < 2:
+		current.append([])
+	var row: Array = current[side]
+	while row.size() < BoardGeometry.SLOTS:
+		row.append({})
+	var destination_before: Dictionary = row[to]
+	var had_destination: bool = Data.b(destination_before, "has_ring")
+	for endpoint: String in ["from", "to"]:
+		var slot: int = Data.i(event, endpoint)
+		var state: Dictionary = Data.d(event, endpoint + "_ring")
+		var mark: Dictionary = row[slot]
+		var count: int = Data.i(state, "count")
+		mark["has_ring"] = count > 0
+		mark["ring_count"] = count
+		mark["slot_attack"] = Data.i(state, "slot_attack", Data.i(state, "attack"))
+		mark["slot_health"] = Data.i(state, "slot_health", Data.i(state, "health"))
+		mark["ring"] = (
+			(
+				"%s/%s"
+				% [
+					StatNumbers.signed(Data.i(state, "attack")),
+					StatNumbers.signed(Data.i(state, "health"))
+				]
+			)
+			if count > 0
+			else ""
+		)
+		if count > 0:
+			mark["ring"] = Data.s(mark, "ring") + " · %d" % count
+	screen.set_meta("ring_floor_state", current)
+	var board: BoardView = screen.call("board_for_side", side)
+	board.set_marks(row)
+	if animate:
+		var marks: Control = board.get("_marks")
+		var overlay: Control = screen.get("_overlay")
+		marks.call(
+			"travel_ring",
+			from,
+			to,
+			overlay,
+			Callable(screen, "_tween"),
+			not had_destination,
+			Data.i(event, "moved_count", 1),
+			CoreUtil.to_float(screen.get("speed"))
+		)

@@ -30,10 +30,10 @@ func test_combat_egg_detail_reads_the_current_egg_bird_and_trip_without_a_name()
 	assert_string_contains(text, "Bird: 7/9.")
 	assert_string_contains(text, "Home in 1 turn.")
 	assert_false(text.contains("No special rules"))
-	assert_string_contains(
+	assert_eq(
 		CardDetail.full_text_bbcode({"def_id": "nest_egg", "attack": 4, "health": 3}),
-		"No special rules",
-		"scout Eggs never infer the private Bird or timer"
+		"",
+		"scout Eggs never infer private Bird stats or timers, and have no empty-rules message"
 	)
 
 

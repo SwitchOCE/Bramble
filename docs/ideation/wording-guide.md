@@ -9,8 +9,8 @@ Effects never change for wording; only words do. The evidence behind these rules
 | | Card text | Reminder | Details |
 |---|---|---|---|
 | What it is | What this card does | What a keyword or term means | A ruling for this card: a cap, a tie, a timing exception |
-| Where | Card face, details panel, Discover slips, combat note | The reminder slip | The same slip, from the muted *Details* link |
-| How it opens | Always shown | Hover the word (PC), tap it (phone); tap again or leave to close | As a reminder |
+| Where | Card reader and Discover slips | The reminder slip | The same slip, from the muted *Details* link |
+| How it opens | Open the card reader; shown on Discover choices | Hover the word (PC), tap it (phone); tap again or leave to close | As a reminder |
 | Look | Upright ink; keywords bold and underlined, first mention only | Italic, muted brown, a size smaller, on its own cream slip | As a reminder |
 | Length | Median ≤ 11 words, p90 ≤ 17, max 22 | One sentence: aim for 12 words, never over 16 | One or two short sentences |
 | Lives in | The card's `text` / `golden_text` | `content/schema/effects.json`, `src/ui/keyword_rules.gd`, `CardDetail.STATE_WORDS` | The card's `details` / `golden_details` |
@@ -19,7 +19,7 @@ Reminders sit off the card, as in Hearthstone, Legends of Runeterra and Slay the
 
 ## Card text
 
-1. **Trigger, colon, effect.** One timing phrase starts the sentence and a colon follows it, every time (`When this dies: summon...`). On-card tags use the same words (`Start of Combat`, never `Fight start`). *(Hearthstone, Marvel Snap, LoR.)*
+1. **Trigger, colon, effect.** One timing phrase starts the sentence and a colon follows it, every time (`When this dies: summon...`). Reader text uses the same words (`Start of Combat`, never `Fight start`). *(Hearthstone, Marvel Snap, LoR.)*
 2. **Say the main effect once.** Rounding, ties, rare caps and timing exceptions go to Details or nowhere. A condition that changes how you play stays (Mire's back row, Hasty Pudding's "if this has room"). *(Hearthstone, Snap's "if able" only where a reader would wonder.)*
 3. **Keywords do the explaining.** Write `Bristle 2.`, never what Bristle does, and put the number on the keyword: `Shell 4`, `Mark 2`. *(Battlegrounds' Avenge (X), Dominion's bonuses.)*
 4. **Durations are implied.** Combat changes end with the fight, so never write "this combat". Say **permanently** only when it lasts. *(Battlegrounds.)*
@@ -70,4 +70,4 @@ Snap runs on two keywords and Battlegrounds on about ten. Bramble has more, so e
 Rules terms that aren't on cards (Round base, Starting survivor, Last Blow, Last Stand) are links that open the same slip, on the guide's damage page and the hero's Last Stand line. Next income sits beside the gold, never in a card's rules. Two cards never share a name (the Mire Belladonna is **Lady Belladonna**).
 
 
-*(Snap's tap-for-detail, Slay the Spire's live numbers, TFT's highlights.)* Already in the game: the Sell button reads "Fly south" for a Bird, Bellies that can take a unit light up, and selecting a unit lights the slots its text reaches. A card needn't say what those show. Bigger cues, such as lighting slots when a spatial word is hovered or showing a live number for a formula, are listed in `evidence/wording-pass.md` for later.
+*(Snap's tap-for-detail, Slay the Spire's live numbers, TFT's highlights.)* Already in the game: the Sell button reads "Fly south" for a Bird, Bellies that can take a unit light up, and opening a unit's reader pulses the slots its text reaches. A card needn't say what those show. Tapping a spatial word replays the reach pulse. Live numbers for formulas are listed in `evidence/wording-pass.md`.

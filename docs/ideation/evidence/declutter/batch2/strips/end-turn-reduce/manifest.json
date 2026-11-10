@@ -1,0 +1,2970 @@
+{
+  "after_board": [
+    {
+      "attack": 2,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "mr_crumb",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 3,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 1,
+      "keyword_text": [
+        {
+          "keyword": "Pass",
+          "text": "Pass X: your rightmost unit, other than this, gains X."
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "name": "Mr Crumb",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 1,
+        "base_health": 2,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 1,
+        "perm_health": 1,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "When played or sold: Pass +1/+1.",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {
+        "Hedgerow folk": 0
+      },
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 1
+    },
+    {
+      "attack": 3,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "field_vole",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 4,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 2,
+      "keyword_text": [],
+      "keywords": [],
+      "name": "Field Vole",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 2,
+        "base_health": 3,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 1,
+        "perm_health": 1,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {
+        "Hedgerow folk": 0
+      },
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 1
+    },
+    {
+      "attack": 4,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "field_vole",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 5,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 3,
+      "keyword_text": [],
+      "keywords": [],
+      "name": "Field Vole",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 2,
+        "base_health": 3,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 2,
+        "perm_health": 2,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {
+        "Hedgerow folk": 0
+      },
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 1
+    },
+    null,
+    {
+      "attack": 6,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "declutter_test_committee",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 8,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 5,
+      "keyword_text": [],
+      "keywords": [],
+      "name": "The Standing Committee",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 5,
+        "base_health": 7,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 1,
+        "perm_health": 1,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "End of Turn: give units touching this +1/+1.",
+      "tier": 5,
+      "timers": [],
+      "tribe_bonuses": {
+        "Hedgerow folk": 0
+      },
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 1
+    },
+    {
+      "attack": 2,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "mr_crumb",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 3,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 6,
+      "keyword_text": [
+        {
+          "keyword": "Pass",
+          "text": "Pass X: your rightmost unit, other than this, gains X."
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "name": "Mr Crumb",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 1,
+        "base_health": 2,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 1,
+        "perm_health": 1,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "When played or sold: Pass +1/+1.",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {
+        "Hedgerow folk": 0
+      },
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 1
+    },
+    null
+  ],
+  "before_board": [
+    {
+      "attack": 1,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "mr_crumb",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 2,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 1,
+      "keyword_text": [
+        {
+          "keyword": "Pass",
+          "text": "Pass X: your rightmost unit, other than this, gains X."
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "name": "Mr Crumb",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 1,
+        "base_health": 2,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "When played or sold: Pass +1/+1.",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {},
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 0
+    },
+    {
+      "attack": 2,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "field_vole",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 3,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 2,
+      "keyword_text": [],
+      "keywords": [],
+      "name": "Field Vole",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 2,
+        "base_health": 3,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {},
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 0
+    },
+    {
+      "attack": 2,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "field_vole",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 3,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 3,
+      "keyword_text": [],
+      "keywords": [],
+      "name": "Field Vole",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 2,
+        "base_health": 3,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {},
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 0
+    },
+    null,
+    {
+      "attack": 5,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "declutter_test_committee",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 7,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 5,
+      "keyword_text": [],
+      "keywords": [],
+      "name": "The Standing Committee",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 5,
+        "base_health": 7,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "End of Turn: give units touching this +1/+1.",
+      "tier": 5,
+      "timers": [],
+      "tribe_bonuses": {},
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 0
+    },
+    {
+      "attack": 1,
+      "belly": 0,
+      "belly_discount": 0,
+      "counters": {},
+      "def_id": "mr_crumb",
+      "eats_items": false,
+      "egged": false,
+      "fly_south": 0,
+      "golden": false,
+      "health": 2,
+      "held": [],
+      "hex_amount": 0,
+      "hex_stored": 0,
+      "iid": 6,
+      "keyword_text": [
+        {
+          "keyword": "Pass",
+          "text": "Pass X: your rightmost unit, other than this, gains X."
+        }
+      ],
+      "keywords": [
+        "Pass"
+      ],
+      "name": "Mr Crumb",
+      "origin": "bought",
+      "pass3_content": false,
+      "plain_copy": false,
+      "played_round": 0,
+      "poached": false,
+      "reward_pending": false,
+      "shy": false,
+      "stat_layers": {
+        "aura_attack": 0,
+        "aura_health": 0,
+        "base_attack": 1,
+        "base_health": 2,
+        "combat_attack": 0,
+        "combat_health": 0,
+        "perm_attack": 0,
+        "perm_health": 0,
+        "tribe_attack": 0,
+        "tribe_health": 0
+      },
+      "text": "When played or sold: Pass +1/+1.",
+      "tier": 1,
+      "timers": [],
+      "tribe_bonuses": {},
+      "tribes": [
+        "Hedgerow folk"
+      ],
+      "turns_goal": 0,
+      "turns_in_slot": 0
+    },
+    null
+  ],
+  "duration": 0.44999999999999996,
+  "events": [
+    {
+      "mechanic": "pass",
+      "source": "mr_crumb",
+      "type": "trigger"
+    },
+    {
+      "after_attack": 3,
+      "after_health": 4,
+      "attack": 1,
+      "before_attack": 2,
+      "before_health": 3,
+      "duration": "",
+      "health": 1,
+      "source": "",
+      "source_slot": -1,
+      "target": "field_vole",
+      "target_iid": 3,
+      "trigger": "pass",
+      "type": "buff"
+    },
+    {
+      "after_attack": 3,
+      "after_health": 4,
+      "attack": 1,
+      "before_attack": 2,
+      "before_health": 3,
+      "from": 0,
+      "health": 1,
+      "source_iid": 1,
+      "target_iid": 3,
+      "to": 2,
+      "type": "pass"
+    },
+    {
+      "mechanic": "committee",
+      "source": "declutter_test_committee",
+      "type": "trigger"
+    },
+    {
+      "after_attack": 2,
+      "after_health": 3,
+      "attack": 1,
+      "before_attack": 1,
+      "before_health": 2,
+      "duration": "permanent",
+      "health": 1,
+      "source": "declutter_test_committee",
+      "source_slot": 4,
+      "target": "mr_crumb",
+      "target_iid": 1,
+      "trigger": "end_of_turn",
+      "type": "buff"
+    },
+    {
+      "after_attack": 6,
+      "after_health": 8,
+      "attack": 1,
+      "before_attack": 5,
+      "before_health": 7,
+      "duration": "permanent",
+      "health": 1,
+      "source": "declutter_test_committee",
+      "source_slot": 4,
+      "target": "declutter_test_committee",
+      "target_iid": 5,
+      "trigger": "end_of_turn",
+      "type": "buff"
+    },
+    {
+      "after_attack": 3,
+      "after_health": 4,
+      "attack": 1,
+      "before_attack": 2,
+      "before_health": 3,
+      "duration": "permanent",
+      "health": 1,
+      "source": "declutter_test_committee",
+      "source_slot": 4,
+      "target": "field_vole",
+      "target_iid": 2,
+      "trigger": "end_of_turn",
+      "type": "buff"
+    },
+    {
+      "after_attack": 2,
+      "after_health": 3,
+      "attack": 1,
+      "before_attack": 1,
+      "before_health": 2,
+      "duration": "permanent",
+      "health": 1,
+      "source": "declutter_test_committee",
+      "source_slot": 4,
+      "target": "mr_crumb",
+      "target_iid": 6,
+      "trigger": "end_of_turn",
+      "type": "buff"
+    },
+    {
+      "after_attack": 4,
+      "after_health": 5,
+      "attack": 1,
+      "before_attack": 3,
+      "before_health": 4,
+      "duration": "permanent",
+      "health": 1,
+      "source": "declutter_test_committee",
+      "source_slot": 4,
+      "target": "field_vole",
+      "target_iid": 3,
+      "trigger": "end_of_turn",
+      "type": "buff"
+    }
+  ],
+  "events_sha256": "01bfdf3cb7c6781c0caeac4c6e8a9fa347107037f514e5f0b55bbb6a7e887ec9",
+  "fixed_step": 0.008333333333333333,
+  "fixture": "Test-only Standing Committee trigger is end_of_turn instead of start_of_combat; all effects and Pass resolution run through real RecruitRules.end_phase. Mr Crumb Pass +1/+1 queued at on_play. No production definition changed.",
+  "frames": [
+    {
+      "board_stats": [
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 5,
+          "health": 7,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-000.png",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 0,
+      "time": 0.0,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 5,
+          "health": 7,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-001.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 8,
+      "time": 0.06666666666666667,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 5,
+          "health": 7,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-002.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 15,
+      "time": 0.125,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 5,
+          "health": 7,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 1,
+          "health": 2,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-003.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 23,
+      "time": 0.19166666666666665,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "7"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 6,
+          "health": 8,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-004.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 31,
+      "time": 0.2583333333333333,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 6,
+          "health": 8,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-005.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 39,
+      "time": 0.325,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 4,
+          "health": 5,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 6,
+          "health": 8,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-006.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 46,
+      "time": 0.3833333333333333,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 1,
+          "slot": 0
+        },
+        {
+          "attack": 3,
+          "health": 4,
+          "iid": 2,
+          "slot": 1
+        },
+        {
+          "attack": 4,
+          "health": 5,
+          "iid": 3,
+          "slot": 2
+        },
+        {
+          "attack": 6,
+          "health": 8,
+          "iid": 5,
+          "slot": 4
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": 6,
+          "slot": 5
+        }
+      ],
+      "file": "frame-007.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 54,
+      "time": 0.45,
+      "visible_text_count": 49,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3759/@Control@3756/@Label@3757",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3761/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3767/@Control@3764/@Label@3765",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3769/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3775/@Control@3772/@Label@3773",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3777/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3783/@Control@3780/@Label@3781",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3785/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3791/@Control@3788/@Label@3789",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3793/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3800/@Control@3796/@Label@3797",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3802/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3808/@Control@3805/@Label@3806",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3810/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3349/@Control@3816/@Control@3813/@Label@3814",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3350/RingSize/Engine",
+          "primary_stat": false,
+          "text": "\u00d74.0"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3824/@Label@3825",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3835/@Control@3826/@Label@3827",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3843/@Label@3844",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3854/@Control@3845/@Label@3846",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Label@3856",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3862/@Label@3863",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3873/@Control@3864/@Label@3865",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3881/@Label@3882",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3892/@Control@3883/@Label@3884",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3900/@Label@3901",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3911/@Control@3902/@Label@3903",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3930/@Control@3917/@Label@3918",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@GridContainer@3357/@Control@3949/@Control@3936/@Label@3937",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3957/@Label@3958",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3968/@Control@3959/@Label@3960",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Label@3970",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3976/@Label@3977",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@3987/@Control@3978/@Label@3979",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Label@3989",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3995/@Label@3996",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4006/@Control@3997/@Label@3998",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Label@4008",
+          "primary_stat": false,
+          "text": "The Standing Committee"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4014/@Label@4015",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4025/@Control@4016/@Label@4017",
+          "primary_stat": false,
+          "text": "8"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4033/@Label@4034",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3472/@Control@4044/@Control@4035/@Label@4036",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3490/@GridContainer@3493/@Control@4063/@Control@4050/@Label@4051",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Control@3505/@Label@3501",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3507",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Label@3508",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3518/@HBoxContainer@3509/@PanelContainer@3517/@HBoxContainer@3514/@Label@3516",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3528/@HBoxContainer@3519/@PanelContainer@3527/@HBoxContainer@3524/@Label@3526",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@3751/@Control@3348/@Button@3548/@HBoxContainer@3539/@VBoxContainer@3541/@Label@3542",
+          "primary_stat": false,
+          "text": "End turn"
+        }
+      ]
+    }
+  ],
+  "name": "end-turn-reduce",
+  "pixels": [
+    1688,
+    780
+  ],
+  "sample_ticks": [
+    0,
+    8,
+    15,
+    23,
+    31,
+    39,
+    46,
+    54
+  ],
+  "final_stats_equal_core": true,
+  "strip": "end-turn.jpg",
+  "method": "Fixed1/120s explicit animation advance; eight evenly spaced native1688x780 frames, no image scaling, assembled6752x1640 as batch1. Actual core End-of-Turn events, or the real reader-open reach pulse with manually stepped native Tween.",
+  "production_revision": "8ef164b5"
+}

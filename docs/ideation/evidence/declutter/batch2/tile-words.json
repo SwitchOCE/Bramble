@@ -1,0 +1,2360 @@
+{
+  "schema": 1,
+  "source_revision": "9d649868 + frozen finish working tree (HandFan, Ring travel and tile-word audit)",
+  "capture_stage": "batch2 finish text-node audit; fan10 authorized edge case",
+  "classification_input": "build/declutter/b2-finish-tests/tile-words-run.json.gz",
+  "method": "Live visible Label, RichTextLabel and rendered Button text. Scope follows actual CardView zones, HandFan ownership and BoardView ancestry, including slot/name strips. HUD and CardDetail reader text are outside tile scope. Letter-containing tokens count as words, including F1; signed/fractional numbers and compact k/m/b stat numbers do not. Every word retains its node, full path, zone, tile path, source text and unit identity.",
+  "legacy_policy": "The unchanged legacy slice uses unit IDs without individual art. Their fallback name words are explicitly listed and counted; only those missing-art names are allowed. No shipped portrait exceptions remain.",
+  "raw_budget_policy": "The <=40 gate applies to its defined recruit/scout budget states and is unchanged. The user authorized fan10 as an edge case: it keeps every hand stat, reports all 61 raw text nodes, and passes the separate zero-tile-words check. Its 61 is not a failure of the defined budget-state test. No occlusion or focus-only exclusion is applied.",
+  "raster_policy": "Raster lettering and text drawn directly by custom drawing are not discoverable from TextNodes. This automated count is not a claim of zero words in pixels: a native-size visual audit of tile art, stamps and custom drawing remains required.",
+  "native_visual_audit": "required separately; not performed by this counter",
+  "above_forty_label_rows": [
+    {
+      "scenario": "fan10",
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 61
+    },
+    {
+      "scenario": "fan10",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 61
+    }
+  ],
+  "raw_label_details_complete": false,
+  "coverage": {
+    "required_state_size_rows": 12,
+    "present_state_size_rows": 12,
+    "complete_packet_and_fan10": true
+  },
+  "roster": {
+    "unit_count": 120,
+    "variant_count": 2,
+    "word_count": 0,
+    "words": [],
+    "zone_count": 4
+  },
+  "fan10_state": {
+    "armor": 0,
+    "ask_for_kin_enabled": false,
+    "away": [
+      {
+        "attack": 7,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "one_swallow",
+        "due": 3,
+        "eats_items": false,
+        "egg_attack": 0,
+        "egg_health": 1,
+        "egged": false,
+        "fly_south": 1,
+        "golden": false,
+        "health": 8,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "home_attack": 14,
+        "home_health": 16,
+        "iid": 53,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ],
+        "keywords": [
+          "Fly South"
+        ],
+        "name": "One Swallow",
+        "nest": 2,
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "reward_pending": false,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 1,
+          "base_health": 2,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 6,
+          "perm_health": 6,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Fly South. When played: get 1 gold.",
+        "tier": 1,
+        "timers": [],
+        "tribe_bonuses": {
+          "Birds": 0
+        },
+        "tribes": [
+          "Birds"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 1,
+        "turns_left": 1
+      },
+      {
+        "attack": 7,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "mrs_jay",
+        "due": 4,
+        "eats_items": false,
+        "egg_attack": 0,
+        "egg_health": 1,
+        "egged": false,
+        "fly_south": 2,
+        "golden": false,
+        "health": 7,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "home_attack": 14,
+        "home_health": 14,
+        "iid": 54,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          },
+          {
+            "keyword": "Acorn",
+            "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+          }
+        ],
+        "keywords": [
+          "Fly South",
+          "Acorn"
+        ],
+        "name": "Mrs Jay",
+        "nest": 3,
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "reward_pending": false,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 3,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 4,
+          "perm_health": 4,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Fly South. When sold: get an Acorn.",
+        "tier": 2,
+        "timers": [],
+        "tribe_bonuses": {
+          "Birds": 0
+        },
+        "tribes": [
+          "Birds"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 1,
+        "turns_left": 2
+      }
+    ],
+    "band_count": 0,
+    "bands": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "base_damage": 0,
+    "birds_homecoming_multiplier": 2,
+    "birds_lump_multiplier": 1,
+    "board": [
+      {
+        "attack": 5,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "old_moth_annis",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 7,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 51,
+        "keyword_text": [
+          {
+            "keyword": "Ring",
+            "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+          }
+        ],
+        "keywords": [
+          "Ring"
+        ],
+        "name": "Old Moth Annis",
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "reward_pending": false,
+        "sell_payout": 0,
+        "sell_value": 0,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 3,
+          "aura_health": 3,
+          "base_attack": 2,
+          "base_health": 4,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "End of Turn and after you sell: Ring the slots behind this.",
+        "tier": 2,
+        "timers": [],
+        "tribe_bonuses": {
+          "Fairies": 0
+        },
+        "tribes": [
+          "Fairies"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 1
+      },
+      {
+        "attack": 26,
+        "belly": 0,
+        "belly_discount": 0,
+        "combat_start_overlay": true,
+        "copied_name": "Hedge Witch",
+        "counters": {},
+        "def_id": "cradle_fetch",
+        "details": "Starts as a copy of Hedge Witch at 50.0% stats, plus this slot's Ring.",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 27,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 52,
+        "keyword_text": [
+          {
+            "keyword": "Ring",
+            "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+          }
+        ],
+        "keywords": [
+          "Ring"
+        ],
+        "name": "Cradle Fetch",
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "recruit_attack": 5,
+        "recruit_health": 7,
+        "reward_pending": false,
+        "sell_payout": 0,
+        "sell_value": 0,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 3,
+          "aura_health": 3,
+          "base_attack": 2,
+          "base_health": 4,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Start of Combat: become a copy of the Fairy behind, Ring and all, with half stats.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {
+          "Fairies": 0
+        },
+        "tribes": [
+          "Fairies"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 1
+      },
+      {
+        "attack": 15,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "great_lump",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 19,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 125,
+        "keyword_text": [
+          {
+            "keyword": "Cleave",
+            "text": "Attacks also hit the units beside the target."
+          },
+          {
+            "keyword": "Nest",
+            "text": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here."
+          }
+        ],
+        "keywords": [
+          "Cleave",
+          "Nest"
+        ],
+        "name": "The Great Lump",
+        "nest_multiplier": 1,
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 2,
+        "poached": false,
+        "reward_pending": false,
+        "sell_payout": 0,
+        "sell_value": 0,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 10,
+          "aura_health": 11,
+          "base_attack": 5,
+          "base_health": 8,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Cleave. On a Nest, this has its Bird's stats too.",
+        "tier": 5,
+        "timers": [],
+        "tribe_bonuses": {
+          "Birds": 0
+        },
+        "tribes": [
+          "Birds"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      null,
+      {
+        "attack": 46,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "hedge_witch",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 48,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 55,
+        "keyword_text": [
+          {
+            "keyword": "Ring",
+            "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+          }
+        ],
+        "keywords": [
+          "Ring"
+        ],
+        "name": "Hedge Witch",
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "reward_pending": false,
+        "sell_payout": 0,
+        "sell_value": 0,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 45,
+          "aura_health": 45,
+          "base_attack": 1,
+          "base_health": 3,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+        "tier": 1,
+        "timers": [],
+        "tribe_bonuses": {
+          "Fairies": 0
+        },
+        "tribes": [
+          "Fairies"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 1
+      },
+      {
+        "attack": 5,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "mr_redbreast",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 7,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 56,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ],
+        "keywords": [
+          "Fly South"
+        ],
+        "name": "Mr Redbreast",
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "reward_pending": false,
+        "sell_payout": 0,
+        "sell_value": 0,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 3,
+          "aura_health": 3,
+          "base_attack": 2,
+          "base_health": 4,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "After a Bird comes home: gain an eighth of its stats.",
+        "tier": 2,
+        "timers": [],
+        "tribe_bonuses": {
+          "Birds": 0
+        },
+        "tribes": [
+          "Birds"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 1
+      },
+      {
+        "attack": 2,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {},
+        "def_id": "hob_in_the_hearth",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 126,
+        "keyword_text": [
+          {
+            "keyword": "Shy",
+            "text": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn."
+          },
+          {
+            "keyword": "Shield",
+            "text": "Prevents the first damage this would take each fight."
+          }
+        ],
+        "keywords": [
+          "Shy",
+          "Shield"
+        ],
+        "name": "Hob-in-the-Hearth",
+        "origin": "created",
+        "pass3_content": true,
+        "plain_copy": false,
+        "played_round": 2,
+        "poached": false,
+        "reward_pending": false,
+        "sell_payout": 0,
+        "sell_value": 0,
+        "shy": true,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 2,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Shy. Start of Combat: your biggest Fairy gains Shield.",
+        "tier": 2,
+        "timers": [],
+        "tribe_bonuses": {
+          "Fairies": 0
+        },
+        "tribes": [
+          "Fairies"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      }
+    ],
+    "buys_left": -1,
+    "can_ask_for_kin": false,
+    "damage_cap": 0,
+    "damage_mode": "v05",
+    "debt": 0,
+    "debt_payment": 0,
+    "doorstep": [],
+    "early_spoils_income": 1,
+    "early_spoils_next_turn": 0,
+    "fairies_fetch_share": 0.5,
+    "free_refreshes": 0,
+    "freezes_left": 5,
+    "frozen": false,
+    "gold": 10,
+    "gold_next_turn": 0,
+    "gold_spent_turn": 0,
+    "hand": [
+      {
+        "attack": 2,
+        "counters": {},
+        "def_id": "old_moth_annis",
+        "golden": false,
+        "health": 4,
+        "iid": 900,
+        "keyword_text": [
+          {
+            "keyword": "Ring",
+            "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+          }
+        ],
+        "keywords": [
+          "Ring"
+        ],
+        "max_health": 4,
+        "name": "Old Moth Annis",
+        "statuses": [],
+        "text": "End of Turn and after you sell: Ring the slots behind this.",
+        "tier": 2,
+        "tribes": [
+          "Fairies"
+        ],
+        "uid": 900
+      },
+      {
+        "attack": 4,
+        "counters": {},
+        "def_id": "mrs_sorrel",
+        "golden": true,
+        "health": 6,
+        "iid": 901,
+        "keyword_text": [
+          {
+            "keyword": "Spill",
+            "text": "If a summon from this has no room, get an Acorn instead."
+          }
+        ],
+        "keywords": [
+          "Spill"
+        ],
+        "max_health": 6,
+        "name": "Mrs Sorrel, Harassed",
+        "statuses": [],
+        "text": "After this attacks: summon two 1/1 Shrewlets behind this. Spill.",
+        "tier": 2,
+        "tribes": [
+          "Hedgerow folk"
+        ],
+        "uid": 901
+      },
+      {
+        "attack": 1,
+        "counters": {},
+        "def_id": "one_swallow",
+        "golden": false,
+        "health": 2,
+        "iid": 902,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ],
+        "keywords": [
+          "Fly South"
+        ],
+        "max_health": 2,
+        "name": "One Swallow",
+        "statuses": [],
+        "text": "Fly South. Its trips last 1 turn. When played: get 1 gold.",
+        "tier": 1,
+        "tribes": [
+          "Birds"
+        ],
+        "uid": 902
+      },
+      {
+        "attack": 3,
+        "counters": {},
+        "def_id": "mrs_jay",
+        "golden": false,
+        "health": 3,
+        "iid": 903,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          },
+          {
+            "keyword": "Acorn",
+            "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+          }
+        ],
+        "keywords": [
+          "Fly South",
+          "Acorn"
+        ],
+        "max_health": 3,
+        "name": "Mrs Jay",
+        "statuses": [],
+        "text": "Fly South. When sold: get an Acorn.",
+        "tier": 2,
+        "tribes": [
+          "Birds"
+        ],
+        "uid": 903
+      },
+      {
+        "attack": 4,
+        "configured_details": "Shares read bell stats, rounded down, at least +1/+1. Gains arrive at your next Start of Turn, even if this died making the Take.",
+        "counters": {},
+        "def_id": "little_nip",
+        "golden": true,
+        "health": 4,
+        "iid": 904,
+        "keyword_text": [
+          {
+            "keyword": "Quarry",
+            "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+          }
+        ],
+        "keywords": [
+          "Quarry"
+        ],
+        "max_health": 4,
+        "name": "Little Nip",
+        "statuses": [],
+        "text": "Quarry. Take: gain four thirds of the quarry's stats permanently.",
+        "tier": 1,
+        "tribes": [
+          "Hunters"
+        ],
+        "uid": 904
+      },
+      {
+        "attack": 2,
+        "configured_details": "Shares read bell stats, rounded down, at least +1/+1. Gains arrive at your next Start of Turn, even if this died making the Take.",
+        "counters": {},
+        "def_id": "wick",
+        "golden": false,
+        "health": 2,
+        "iid": 905,
+        "keyword_text": [
+          {
+            "keyword": "Pack",
+            "text": "When a unit beside this attacks, this joins in, using up its own attack."
+          }
+        ],
+        "keywords": [
+          "Pack"
+        ],
+        "max_health": 2,
+        "name": "Wick",
+        "statuses": [],
+        "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.",
+        "tier": 1,
+        "tribes": [
+          "Hunters"
+        ],
+        "uid": 905
+      },
+      {
+        "attack": 2,
+        "counters": {},
+        "def_id": "old_moth_annis",
+        "golden": false,
+        "health": 4,
+        "iid": 906,
+        "keyword_text": [
+          {
+            "keyword": "Ring",
+            "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+          }
+        ],
+        "keywords": [
+          "Ring"
+        ],
+        "max_health": 4,
+        "name": "Old Moth Annis",
+        "statuses": [],
+        "text": "End of Turn and after you sell: Ring the slots behind this.",
+        "tier": 2,
+        "tribes": [
+          "Fairies"
+        ],
+        "uid": 906
+      },
+      {
+        "attack": 4,
+        "counters": {},
+        "def_id": "mrs_sorrel",
+        "golden": true,
+        "health": 6,
+        "iid": 907,
+        "keyword_text": [
+          {
+            "keyword": "Spill",
+            "text": "If a summon from this has no room, get an Acorn instead."
+          }
+        ],
+        "keywords": [
+          "Spill"
+        ],
+        "max_health": 6,
+        "name": "Mrs Sorrel, Harassed",
+        "statuses": [],
+        "text": "After this attacks: summon two 1/1 Shrewlets behind this. Spill.",
+        "tier": 2,
+        "tribes": [
+          "Hedgerow folk"
+        ],
+        "uid": 907
+      },
+      {
+        "attack": 1,
+        "counters": {},
+        "def_id": "one_swallow",
+        "golden": false,
+        "health": 2,
+        "iid": 908,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          }
+        ],
+        "keywords": [
+          "Fly South"
+        ],
+        "max_health": 2,
+        "name": "One Swallow",
+        "statuses": [],
+        "text": "Fly South. Its trips last 1 turn. When played: get 1 gold.",
+        "tier": 1,
+        "tribes": [
+          "Birds"
+        ],
+        "uid": 908
+      },
+      {
+        "attack": 3,
+        "counters": {},
+        "def_id": "mrs_jay",
+        "golden": false,
+        "health": 3,
+        "iid": 909,
+        "keyword_text": [
+          {
+            "keyword": "Fly South",
+            "text": "Sold, it flies south, then comes home to hand with double stats."
+          },
+          {
+            "keyword": "Acorn",
+            "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+          }
+        ],
+        "keywords": [
+          "Fly South",
+          "Acorn"
+        ],
+        "max_health": 3,
+        "name": "Mrs Jay",
+        "statuses": [],
+        "text": "Fly South. When sold: get an Acorn.",
+        "tier": 2,
+        "tribes": [
+          "Birds"
+        ],
+        "uid": 909
+      }
+    ],
+    "hand_items": [],
+    "hand_limit": 10,
+    "harvest_supper_used": false,
+    "health": 40,
+    "hero": {
+      "aim": "none",
+      "armor": 0,
+      "cost": 0,
+      "id": "brother_bracken",
+      "kind": "passive",
+      "last_stand_used": false,
+      "name": "Brother Bracken",
+      "sample": false,
+      "text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
+      "usable": true,
+      "uses_left": 0,
+      "uses_per_turn": 0
+    },
+    "larder": 1,
+    "last_combat": {
+      "damage": 6,
+      "opponent_id": 4,
+      "round": 1,
+      "winner": 0
+    },
+    "last_stand_active": false,
+    "last_stand_enabled": true,
+    "last_stand_used": false,
+    "lobby_tribes": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "midsummer_left": 0,
+    "next_opponent_hero": {
+      "aim": "none",
+      "armor": 0,
+      "cost": 0,
+      "id": "dame_farthing",
+      "kind": "passive",
+      "last_stand_used": false,
+      "name": "Dame Farthing",
+      "sample": false,
+      "text": "Start of Turn: get 1 gold for every 4 you carried over.\nLast Stand: unused.",
+      "usable": true,
+      "uses_left": 0,
+      "uses_per_turn": 0
+    },
+    "next_opponent_id": 5,
+    "next_opponent_last_board": [
+      null,
+      {
+        "attack": 1,
+        "belly": 0,
+        "belly_discount": 0,
+        "counters": {
+          "savings": 1
+        },
+        "def_id": "pennywort_snail",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 4,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 31,
+        "keyword_text": [],
+        "keywords": [],
+        "name": "Pennywort Snail",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 1,
+        "poached": false,
+        "reward_pending": false,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 1,
+          "base_health": 3,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 1,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Each turn on your board: gain +1 Health and sell for 1 more gold, up to 3 turns.",
+        "tier": 1,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [],
+        "turns_goal": 0,
+        "turns_in_slot": 1
+      },
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "next_opponent_last_nests": [],
+    "next_opponent_last_slot_effects": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "next_turn_income": 5,
+    "paid_refreshes": 0,
+    "pass3_content": true,
+    "pending_choice": null,
+    "pending_passes": [],
+    "phase": "recruit",
+    "placement": null,
+    "player_id": 0,
+    "poached": [],
+    "recruit_log": [
+      {
+        "name": "Ring",
+        "slot": 4,
+        "type": "slot_effect"
+      },
+      {
+        "due": 3,
+        "slot": 2,
+        "type": "fly_south",
+        "unit": "one_swallow"
+      },
+      {
+        "mechanic": "fly_south",
+        "source": "one_swallow",
+        "type": "trigger"
+      },
+      {
+        "name": "Ring",
+        "slot": 4,
+        "type": "slot_effect"
+      },
+      {
+        "mechanic": "jay",
+        "source": "mrs_jay",
+        "type": "trigger"
+      },
+      {
+        "card": "acorn",
+        "type": "card"
+      },
+      {
+        "due": 4,
+        "slot": 3,
+        "type": "fly_south",
+        "unit": "mrs_jay"
+      },
+      {
+        "mechanic": "fly_south",
+        "source": "mrs_jay",
+        "type": "trigger"
+      },
+      {
+        "slot": 2,
+        "type": "play",
+        "unit": "great_lump"
+      },
+      {
+        "name": "Ring",
+        "slot": 4,
+        "type": "slot_effect"
+      },
+      {
+        "type": "sell",
+        "unit": "cluricaun"
+      },
+      {
+        "slot": 6,
+        "type": "play",
+        "unit": "hob_in_the_hearth"
+      }
+    ],
+    "refresh_cost": 1,
+    "ring_size": 1.25,
+    "round": 2,
+    "round_toll": 0,
+    "shop": [
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "madame_ermeline",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 6,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 85,
+        "keyword_text": [],
+        "keywords": [],
+        "name": "Madame Ermeline",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 6,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Hunters"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "his_highness",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 86,
+        "keyword_text": [
+          {
+            "keyword": "Snap",
+            "text": "Attacks the Mired enemy with the most Attack."
+          }
+        ],
+        "keywords": [
+          "Snap"
+        ],
+        "name": "His Highness, Allegedly",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become The Prince Restored.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Bog folk"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 2,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "grey_agnes",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 87,
+        "keyword_text": [
+          {
+            "keyword": "Pack",
+            "text": "When a unit beside this attacks, this joins in, using up its own attack."
+          }
+        ],
+        "keywords": [
+          "Pack"
+        ],
+        "name": "Grey Agnes",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 2,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Pack. The unit after this in the row has Pack and +1 Attack.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Hunters"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "madame_ermeline",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 6,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 88,
+        "keyword_text": [],
+        "keywords": [],
+        "name": "Madame Ermeline",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 6,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Hunters"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "jenny_greenteeth",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 89,
+        "keyword_text": [
+          {
+            "keyword": "Mire",
+            "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+          }
+        ],
+        "keywords": [
+          "Mire"
+        ],
+        "name": "Jenny Greenteeth",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Bog folk"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      }
+    ],
+    "shop_size": 5,
+    "shop_spells": [
+      {
+        "aim": "none",
+        "combines_into": "",
+        "cost": 1,
+        "def_id": "rainy_day",
+        "gold_value": 0,
+        "iid": 90,
+        "keyword_text": [],
+        "keywords": [],
+        "kind": "spell",
+        "name": "Rainy Day",
+        "sample": false,
+        "text": "Next turn: get 1 gold, or 3 if you lose your next fight.",
+        "tier": 1
+      },
+      {
+        "aim": "none",
+        "combines_into": "",
+        "cost": 1,
+        "def_id": "a_leg_up",
+        "gold_value": 0,
+        "iid": 91,
+        "keyword_text": [],
+        "keywords": [],
+        "kind": "spell",
+        "name": "A Leg Up",
+        "sample": false,
+        "text": "Your next Tier up costs 2 less.",
+        "tier": 1
+      }
+    ],
+    "slot_effects": [
+      [
+        {
+          "attack": 3,
+          "count": 2,
+          "golden": false,
+          "health": 3,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [
+        {
+          "attack": 3,
+          "count": 2,
+          "golden": false,
+          "health": 3,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [
+        {
+          "attack": 3,
+          "count": 2,
+          "golden": false,
+          "health": 3,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [
+        {
+          "attack": 3,
+          "count": 2,
+          "golden": false,
+          "health": 3,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [
+        {
+          "attack": 45,
+          "count": 36,
+          "golden": false,
+          "health": 45,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [
+        {
+          "attack": 3,
+          "count": 2,
+          "golden": false,
+          "health": 3,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [
+        {
+          "attack": 3,
+          "count": 2,
+          "golden": false,
+          "health": 3,
+          "name": "Ring",
+          "ring_size": 1.25,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ]
+    ],
+    "standings": [
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "Brother Bracken",
+        "is_human": true,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "You",
+        "personality": "human",
+        "placement": null,
+        "player_id": 0,
+        "tier": 4
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "Hob Mumblecrust",
+        "is_human": false,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 1 (hard)",
+        "personality": "hard:bog_bitter",
+        "placement": null,
+        "player_id": 1,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 39,
+        "hero": "Little King Wren",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 2 (hard)",
+        "personality": "hard:neutrals_low_roll",
+        "placement": null,
+        "player_id": 2,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "The March Hare",
+        "is_human": false,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 3 (hard)",
+        "personality": "hard:bog_borrowed",
+        "placement": null,
+        "player_id": 3,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 34,
+        "hero": "Dame Hoolet",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 4 (hard)",
+        "personality": "hard:bog_tongues",
+        "placement": null,
+        "player_id": 4,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "Dame Farthing",
+        "is_human": false,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 5 (hard)",
+        "personality": "hard:birds_summer_winter",
+        "placement": null,
+        "player_id": 5,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 39,
+        "hero": "Pipkin",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 6 (hard)",
+        "personality": "hard:fairies_rings",
+        "placement": null,
+        "player_id": 6,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 39,
+        "hero": "Old Mother Mousewife",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 7 (hard)",
+        "personality": "hard:oozes_rude_awakening",
+        "placement": null,
+        "player_id": 7,
+        "tier": 1
+      }
+    ],
+    "takes_last_fight": 0,
+    "tier": 4,
+    "tier_up_cost": 10,
+    "tribe_bonuses": {}
+  },
+  "captures": [
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 40,
+      "reader_open": false,
+      "scenario": "overview",
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 40,
+      "reader_open": false,
+      "scenario": "overview",
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 30,
+      "reader_open": false,
+      "scenario": "natural-birds",
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 30,
+      "reader_open": false,
+      "scenario": "natural-birds",
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 39,
+      "reader_open": false,
+      "scenario": "lobby",
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 39,
+      "reader_open": false,
+      "scenario": "lobby",
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 30,
+      "reader_open": false,
+      "scenario": "scout",
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 30,
+      "reader_open": false,
+      "scenario": "scout",
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 51,
+      "reader_open": true,
+      "scenario": "reader-reel_mistress-golden",
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 51,
+      "reader_open": true,
+      "scenario": "reader-reel_mistress-golden",
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 61,
+      "reader_open": false,
+      "scenario": "fan10",
+      "state_sha256": "1ad524a02538a06ee31786e2079c5183f4fff219ebd9362d657bc0b95ce3ec53",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 0,
+      "legacy_fixture": false,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 61,
+      "reader_open": false,
+      "scenario": "fan10",
+      "state_sha256": "1ad524a02538a06ee31786e2079c5183f4fff219ebd9362d657bc0b95ce3ec53",
+      "unexpected_word_count": 0,
+      "word_count": 0,
+      "words": [],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 6,
+      "legacy_fixture": true,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 30,
+      "reader_open": false,
+      "scenario": "legacy-slice-recruit",
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "unexpected_word_count": 0,
+      "word_count": 6,
+      "words": [
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10925",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "drumming_woodpecker",
+          "fallback_reason": "no individual portrait: drumming_woodpecker",
+          "node": "@Label@10908",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10925/@Label@10908",
+          "primary_stat": false,
+          "text": "Drumming Woodpecker",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10925",
+          "word": "Drumming",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10925",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "drumming_woodpecker",
+          "fallback_reason": "no individual portrait: drumming_woodpecker",
+          "node": "@Label@10908",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10925/@Label@10908",
+          "primary_stat": false,
+          "text": "Drumming Woodpecker",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10925",
+          "word": "Woodpecker",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10945",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedge_doctor",
+          "fallback_reason": "no individual portrait: hedge_doctor",
+          "node": "@Label@10928",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10945/@Label@10928",
+          "primary_stat": false,
+          "text": "Hedge Doctor",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10945",
+          "word": "Hedge",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10945",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedge_doctor",
+          "fallback_reason": "no individual portrait: hedge_doctor",
+          "node": "@Label@10928",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10945/@Label@10928",
+          "primary_stat": false,
+          "text": "Hedge Doctor",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10945",
+          "word": "Doctor",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10965",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "garden_snail",
+          "fallback_reason": "no individual portrait: garden_snail",
+          "node": "@Label@10948",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10965/@Label@10948",
+          "primary_stat": false,
+          "text": "Garden Snail",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10965",
+          "word": "Garden",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10965",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "garden_snail",
+          "fallback_reason": "no individual portrait: garden_snail",
+          "node": "@Label@10948",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10965/@Label@10948",
+          "primary_stat": false,
+          "text": "Garden Snail",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@GridContainer@10457/@Control@10965",
+          "word": "Snail",
+          "zone": "shop"
+        }
+      ],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 6
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 8,
+      "legacy_fixture": true,
+      "pixels": [
+        1688,
+        780
+      ],
+      "raw_visible_text_count": 28,
+      "reader_open": false,
+      "scenario": "legacy-slice-scout",
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "unexpected_word_count": 0,
+      "word_count": 8,
+      "words": [
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11419",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "bramble_ooze",
+          "fallback_reason": "no individual portrait: bramble_ooze",
+          "node": "@Label@11402",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11419/@Label@11402",
+          "primary_stat": false,
+          "text": "Bramble Ooze",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11419",
+          "word": "Bramble",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11419",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "bramble_ooze",
+          "fallback_reason": "no individual portrait: bramble_ooze",
+          "node": "@Label@11402",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11419/@Label@11402",
+          "primary_stat": false,
+          "text": "Bramble Ooze",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11419",
+          "word": "Ooze",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11439",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedgehog_twin",
+          "fallback_reason": "no individual portrait: hedgehog_twin",
+          "node": "@Label@11422",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11439/@Label@11422",
+          "primary_stat": false,
+          "text": "Hedgehog Twin",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11439",
+          "word": "Hedgehog",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11439",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedgehog_twin",
+          "fallback_reason": "no individual portrait: hedgehog_twin",
+          "node": "@Label@11422",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11439/@Label@11422",
+          "primary_stat": false,
+          "text": "Hedgehog Twin",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11439",
+          "word": "Twin",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11459",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "fox_notary",
+          "fallback_reason": "no individual portrait: fox_notary",
+          "node": "@Label@11442",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11459/@Label@11442",
+          "primary_stat": false,
+          "text": "Fox Notary",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11459",
+          "word": "Fox",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11459",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "fox_notary",
+          "fallback_reason": "no individual portrait: fox_notary",
+          "node": "@Label@11442",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11459/@Label@11442",
+          "primary_stat": false,
+          "text": "Fox Notary",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11459",
+          "word": "Notary",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11479",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "pixie_scout",
+          "fallback_reason": "no individual portrait: pixie_scout",
+          "node": "@Label@11462",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11479/@Label@11462",
+          "primary_stat": false,
+          "text": "Pixie Scout",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11479",
+          "word": "Pixie",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11479",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "pixie_scout",
+          "fallback_reason": "no individual portrait: pixie_scout",
+          "node": "@Label@11462",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11479/@Label@11462",
+          "primary_stat": false,
+          "text": "Pixie Scout",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@10445/@Control@10851/@Control@10448/@Control@10812/@Control@10807/@Control@11479",
+          "word": "Scout",
+          "zone": "scout_board"
+        }
+      ],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 8,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 6,
+      "legacy_fixture": true,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 30,
+      "reader_open": false,
+      "scenario": "legacy-slice-recruit",
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "unexpected_word_count": 0,
+      "word_count": 6,
+      "words": [
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11960",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "drumming_woodpecker",
+          "fallback_reason": "no individual portrait: drumming_woodpecker",
+          "node": "@Label@11943",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11960/@Label@11943",
+          "primary_stat": false,
+          "text": "Drumming Woodpecker",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11960",
+          "word": "Drumming",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11960",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "drumming_woodpecker",
+          "fallback_reason": "no individual portrait: drumming_woodpecker",
+          "node": "@Label@11943",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11960/@Label@11943",
+          "primary_stat": false,
+          "text": "Drumming Woodpecker",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11960",
+          "word": "Woodpecker",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11980",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedge_doctor",
+          "fallback_reason": "no individual portrait: hedge_doctor",
+          "node": "@Label@11963",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11980/@Label@11963",
+          "primary_stat": false,
+          "text": "Hedge Doctor",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11980",
+          "word": "Hedge",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11980",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedge_doctor",
+          "fallback_reason": "no individual portrait: hedge_doctor",
+          "node": "@Label@11963",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11980/@Label@11963",
+          "primary_stat": false,
+          "text": "Hedge Doctor",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@11980",
+          "word": "Doctor",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@12000",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "garden_snail",
+          "fallback_reason": "no individual portrait: garden_snail",
+          "node": "@Label@11983",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@12000/@Label@11983",
+          "primary_stat": false,
+          "text": "Garden Snail",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@12000",
+          "word": "Garden",
+          "zone": "shop"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@12000",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "garden_snail",
+          "fallback_reason": "no individual portrait: garden_snail",
+          "node": "@Label@11983",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@12000/@Label@11983",
+          "primary_stat": false,
+          "text": "Garden Snail",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@GridContainer@11492/@Control@12000",
+          "word": "Snail",
+          "zone": "shop"
+        }
+      ],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 0,
+        "shop": 6
+      },
+      "text_node_gate_pass": true
+    },
+    {
+      "legacy_fallback_word_count": 8,
+      "legacy_fixture": true,
+      "pixels": [
+        1920,
+        1080
+      ],
+      "raw_visible_text_count": 28,
+      "reader_open": false,
+      "scenario": "legacy-slice-scout",
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf",
+      "unexpected_word_count": 0,
+      "word_count": 8,
+      "words": [
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12454",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "bramble_ooze",
+          "fallback_reason": "no individual portrait: bramble_ooze",
+          "node": "@Label@12437",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12454/@Label@12437",
+          "primary_stat": false,
+          "text": "Bramble Ooze",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12454",
+          "word": "Bramble",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12454",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "bramble_ooze",
+          "fallback_reason": "no individual portrait: bramble_ooze",
+          "node": "@Label@12437",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12454/@Label@12437",
+          "primary_stat": false,
+          "text": "Bramble Ooze",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12454",
+          "word": "Ooze",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12474",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedgehog_twin",
+          "fallback_reason": "no individual portrait: hedgehog_twin",
+          "node": "@Label@12457",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12474/@Label@12457",
+          "primary_stat": false,
+          "text": "Hedgehog Twin",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12474",
+          "word": "Hedgehog",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12474",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "hedgehog_twin",
+          "fallback_reason": "no individual portrait: hedgehog_twin",
+          "node": "@Label@12457",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12474/@Label@12457",
+          "primary_stat": false,
+          "text": "Hedgehog Twin",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12474",
+          "word": "Twin",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12494",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "fox_notary",
+          "fallback_reason": "no individual portrait: fox_notary",
+          "node": "@Label@12477",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12494/@Label@12477",
+          "primary_stat": false,
+          "text": "Fox Notary",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12494",
+          "word": "Fox",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12494",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "fox_notary",
+          "fallback_reason": "no individual portrait: fox_notary",
+          "node": "@Label@12477",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12494/@Label@12477",
+          "primary_stat": false,
+          "text": "Fox Notary",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12494",
+          "word": "Notary",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12514",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "pixie_scout",
+          "fallback_reason": "no individual portrait: pixie_scout",
+          "node": "@Label@12497",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12514/@Label@12497",
+          "primary_stat": false,
+          "text": "Pixie Scout",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12514",
+          "word": "Pixie",
+          "zone": "scout_board"
+        },
+        {
+          "allowed_legacy_fallback": true,
+          "category": "fallback_names",
+          "classification_field": "_name_label",
+          "classification_owner": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12514",
+          "classification_script": "res://src/ui/widgets/card_view.gd",
+          "def_id": "pixie_scout",
+          "fallback_reason": "no individual portrait: pixie_scout",
+          "node": "@Label@12497",
+          "path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12514/@Label@12497",
+          "primary_stat": false,
+          "text": "Pixie Scout",
+          "tile_path": "/root/GutRunner/@Node@11/@SubViewport@11480/@Control@11886/@Control@11483/@Control@11847/@Control@11842/@Control@12514",
+          "word": "Scout",
+          "zone": "scout_board"
+        }
+      ],
+      "zone_counts": {
+        "hand": 0,
+        "own_board": 0,
+        "scout_board": 8,
+        "shop": 0
+      },
+      "text_node_gate_pass": true
+    }
+  ]
+}

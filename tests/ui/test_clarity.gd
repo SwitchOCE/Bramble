@@ -54,7 +54,7 @@ func test_crumb_queues_on_play_and_sale_but_lands_after_final_positioning() -> v
 	kit.rules.end_phase(kit.player)
 	assert_eq(right.perm_attack, 2, "the sale's Pass starts from F2 after its source has gone")
 	assert_false(Keywords.text("Pass").contains("Mr Crumb"))
-	assert_eq(Keywords.text("Pass"), "Pass X: your last unit, other than this, gains X")
+	assert_eq(Keywords.text("Pass"), "Pass X: your rightmost unit, other than this, gains X.")
 
 
 func test_triple_rewards_offer_three_across_all_shop_tiers() -> void:
@@ -120,8 +120,8 @@ func test_income_and_sell_values_follow_config_origin_savings_and_queries() -> v
 		RecruitView.full_view("shop", state["shop"][0], state)["text"].contains("Sell value")
 	)
 	assert_false(PlayView._card(state["shop"][0]).contains("sell value"))
-	assert_string_contains(
-		RecruitView.full_view("board", state["board"][0], state)["text"], "Sell value: 4 gold."
+	assert_false(
+		RecruitView.full_view("board", state["board"][0], state)["text"].contains("Sell value")
 	)
 	assert_false(
 		RecruitView.full_view("board", state["board"][0], state)["text"].contains("Next income"),
@@ -240,18 +240,12 @@ func test_short_discover_note_and_scrollable_keyword_help_fit() -> void:
 func test_pass_hint_names_end_of_turn_and_leaves_other_cards_alone() -> void:
 	var library := TestLibraries.current()
 	for slot: int in BoardGeometry.SLOTS:
-		assert_eq(
-			RecruitView.geometry_note(library.get_unit("mr_crumb"), slot),
-			"Pass order: F1-B1-F2-B2-F3-B3-F4. Lands at End of Turn."
-		)
+		assert_eq(RecruitView.geometry_note(library.get_unit("mr_crumb"), slot), "")
 	assert_eq(RecruitView.geometry_note(library.get_unit("field_vole"), 0), "")
-	assert_eq(
-		RecruitView.geometry_note({"text": "Units behind this gain +1 Attack."}, 1),
-		"Highlighted: B1 and B2."
-	)
+	assert_eq(RecruitView.geometry_note({"text": "Units behind this gain +1 Attack."}, 1), "")
 
 
-func test_income_sits_below_the_full_acorn_pile() -> void:
+func test_only_queued_income_difference_is_visible_with_full_income_in_reader() -> void:
 	var plaque := preload("res://src/ui/widgets/gold_plaque.gd").new()
 	add_child_autofree(plaque)
 	plaque.size = Vector2(422, 152)
@@ -259,7 +253,10 @@ func test_income_sits_below_the_full_acorn_pile() -> void:
 	plaque.show_income("Next income: +4 gold. Saved gold carries over.")
 	await wait_process_frames(2)
 	var income: Label = plaque.get("_income")
-	assert_eq(income.text, "Next +4")
-	assert_gte(income.position.y, 103.0, "both pile rows stay above income")
+	assert_false(income.visible, "scheduled income needs no reminder")
+	plaque.show_income("Next income: +6 gold. Includes 2 queued.", 2)
+	assert_true(income.visible)
+	assert_eq(income.text, "+2")
+	assert_string_contains(income.tooltip_text, "Includes 2 queued")
 	assert_true(Rect2(Vector2.ZERO, plaque.size).encloses(income.get_rect()))
 	assert_lte(income.get_minimum_size().y, income.size.y)

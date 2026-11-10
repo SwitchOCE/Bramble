@@ -1,0 +1,62 @@
+[
+  {
+    "run": "end-turn-reduce",
+    "strip": "end-turn-reduce/end-turn.jpg",
+    "duration": 0.44999999999999996,
+    "frames": 8,
+    "labels": [
+      49,
+      49
+    ]
+  },
+  {
+    "run": "end-turn-x1",
+    "strip": "end-turn-x1/end-turn.jpg",
+    "duration": 0.76,
+    "frames": 8,
+    "labels": [
+      49,
+      49
+    ]
+  },
+  {
+    "run": "end-turn-x4",
+    "strip": "end-turn-x4/end-turn.jpg",
+    "duration": 0.19,
+    "frames": 8,
+    "labels": [
+      49,
+      49
+    ]
+  },
+  {
+    "run": "scout-reach-reduce",
+    "strip": "scout-reach-reduce/scout-reach.jpg",
+    "duration": 0.4,
+    "frames": 8,
+    "labels": [
+      52,
+      52
+    ]
+  },
+  {
+    "run": "scout-reach-x1",
+    "strip": "scout-reach-x1/scout-reach.jpg",
+    "duration": 0.4,
+    "frames": 8,
+    "labels": [
+      52,
+      52
+    ]
+  },
+  {
+    "run": "scout-reach-x4",
+    "strip": "scout-reach-x4/scout-reach.jpg",
+    "duration": 0.1,
+    "frames": 8,
+    "labels": [
+      52,
+      52
+    ]
+  }
+]

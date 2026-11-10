@@ -21,7 +21,7 @@
 # BRAMBLE_SLOT_HELD=1 says the caller holds one. The static steps run without a slot. Where
 # systemd-run --user works, each Godot step runs in a scope capped at MemoryMax=3G.
 # The tests step writes JUnit XML to build/check/gut.xml and prints the 20 slowest scripts.
-# Steps: tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
+# Steps: docs-size, tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -376,6 +376,14 @@ step_tests() {
   fi
 }
 
+# This guard also runs in docs-only and shard modes, before any Godot process starts.
+step_docs_size() {
+  local args=()
+  [ -z "$DOCS_BASE" ] || args=(--base "$DOCS_BASE")
+  python3 tools/checks/docs_size.py "${args[@]}"
+}
+
+run_step "docs-size" step_docs_size
 run_step "tools" step_tools
 if [ -n "$SHARD" ]; then
   slot_take

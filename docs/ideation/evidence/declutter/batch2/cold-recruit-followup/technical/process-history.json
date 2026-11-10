@@ -1,0 +1,37 @@
+{
+  "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c",
+  "capture_runs_sequential": true,
+  "all_capture_exit_zero": false,
+  "failed_capture_attempts": 1,
+  "runs": [
+    {
+      "start_utc": "2026-11-10T02:49:48Z",
+      "class": "worker",
+      "slot": "bramble-harness-godot",
+      "wait_s": "0.0",
+      "hold_s": "1.0",
+      "exit": "1",
+      "command": "timeout 360 xvfb-run -a -s -screen 0 2560x1440x24 godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_cold_frames.gd -- /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/declutter/batch2/cold-recruit-followup /home/alex/code/Bramble-ideation-tribes2/build/cold-recruit-followup/frames f85a45ca4d50f3a9474abf0f8af5e4f381ec1418"
+    },
+    {
+      "start_utc": "2026-11-10T02:50:51Z",
+      "class": "worker",
+      "slot": "bramble-harness-godot",
+      "wait_s": "0.0",
+      "hold_s": "178.4",
+      "exit": "0",
+      "command": "timeout 360 xvfb-run -a -s -screen 0 2560x1440x24 godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_cold_frames.gd -- /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/declutter/batch2/cold-recruit-followup /home/alex/code/Bramble-ideation-tribes2/build/cold-recruit-followup/frames 58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "start_utc": "2026-11-10T02:53:57Z",
+      "class": "worker",
+      "slot": "bramble-godot",
+      "wait_s": "0.0",
+      "hold_s": "14.8",
+      "exit": "0",
+      "command": "timeout 90 xvfb-run -a -s -screen 0 2560x1440x24 godot --rendering-driver opengl3 --audio-driver Dummy --fixed-fps 120 -s res://tests/ui/shots/declutter_b2_faces.gd -- /home/alex/code/Bramble-ideation-tribes2/docs/ideation/evidence/declutter/batch2/cold-recruit-followup/technical"
+    }
+  ],
+  "source": "/tmp/cold-recruit-followup-state/bramble/godot-slots.csv",
+  "scope": "This fresh packet capture and face audit only; targeted tests are reported separately."
+}

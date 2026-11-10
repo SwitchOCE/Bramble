@@ -19,6 +19,12 @@ var line: float = 4.0
 var frozen: bool = false:
 	set(value):
 		frozen = value
+		frost_progress = 1.0 if value else 0.0
+		queue_redraw()
+## Animation wipes rime across the portrait; the underlying frozen flag remains exact.
+var frost_progress: float = 0.0:
+	set(value):
+		frost_progress = clampf(value, 0.0, 1.0)
 		queue_redraw()
 ## A second gold ring round the art (golden tiles).
 var gilded: bool = false:
@@ -45,8 +51,10 @@ func _draw() -> void:
 	if texture != null:
 		var uvs: PackedVector2Array = _cover_uvs(points)
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
-	if frozen:
+	if frost_progress > 0.0:
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2(frost_progress, 1.0))
 		_draw_frost(points)
+		draw_set_transform(Vector2.ZERO)
 	var closed: PackedVector2Array = points.duplicate()
 	closed.append(points[0])
 	draw_polyline(closed, UiTheme.INK, line, true)

@@ -10,7 +10,6 @@ const States := preload("res://tests/ui/lane_states.gd")
 const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
-const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 
 
@@ -122,7 +121,9 @@ func test_poach_claim_and_reserved_copy_have_different_feedback() -> void:
 	var view: Dictionary = RecruitView.full_view(
 		"shop", {"poached": true, "cost": 2, "text": "Quarry."}, {}
 	)
-	assert_string_contains(str(view["text"]), "Costs 2 gold")
+	assert_eq(CoreUtil.to_int(view["cost"]), 2)
+	assert_true(CoreUtil.to_bool(view["poached"]))
+	assert_false(str(view["text"]).contains("Costs 2 gold"), "the action carries its price")
 
 
 func test_pack_pounce_and_counter_feedback_names_the_right_action() -> void:
@@ -145,7 +146,7 @@ func test_pack_pounce_and_counter_feedback_names_the_right_action() -> void:
 	assert_eq(combat_log.last_keyword, "", "a Bog counter does not teach Pounce")
 
 
-func test_phone_scout_projection_uses_the_named_slots_and_keeps_shop_cost_visible() -> void:
+func test_phone_scout_focus_preserves_exact_shop_state_and_restores_cost_when_closed() -> void:
 	CardView.window_override = Vector2(1688, 780)
 	var viewport: SubViewport = SubViewport.new()
 	viewport.size = Vector2i(2337, 1080)
@@ -156,8 +157,13 @@ func test_phone_scout_projection_uses_the_named_slots_and_keeps_shop_cost_visibl
 	var screen: RecruitScreen = RecruitScreen.new()
 	viewport.add_child(screen)
 	screen.setup(port)
+	var before: Dictionary = port.get_state().duplicate(true)
 	screen.toggle_scout()
 	await wait_process_frames(2)
+	assert_eq(port.get_state(), before, "focus does not mutate shop or recruit state")
+	for key: String in ["_shop_cards", "_shop_scroll", "_shop_zone", "_shelf", "_lobby"]:
+		var hidden: Control = screen.get(key)
+		assert_false(hidden.is_visible_in_tree(), key + " collapses during scouting")
 	var scout_board: BoardView = screen._scout.get("_board")
 	for slot: int in 7:
 		assert_almost_eq(
@@ -166,10 +172,15 @@ func test_phone_scout_projection_uses_the_named_slots_and_keeps_shop_cost_visibl
 			1.0,
 			"same slot label faces the same column"
 		)
+	screen.toggle_scout()
+	await wait_process_frames(2)
+	assert_eq(port.get_state(), before, "closing focus restores presentation only")
+	assert_true(screen._shop_cards.is_visible_in_tree())
 	var card: CardView = screen._shop_cards.get_child(0)
-	var badge: PoachedBadge = card.get("_poached_badge")
+	var badge: Control = card.get("_tier_badge")
+	var cost: Label = card.get("_tier_label")
 	assert_true(badge.visible)
-	assert_eq(badge.cost, 2)
+	assert_eq(cost.text, "2")
 	screen.free()
 	CardView.window_override = Vector2.ZERO
 
