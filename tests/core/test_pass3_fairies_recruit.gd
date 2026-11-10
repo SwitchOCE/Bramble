@@ -125,6 +125,9 @@ func test_annis_sale_dial_and_golden_ring_count_are_data() -> void:
 
 
 func test_sally_spreads_to_nearest_unringed_slot_and_golden_rings_twice() -> void:
+	var card: Dictionary = _kit.library.get_unit("sally_spore")
+	assert_eq(str(card["text"]), "End of Turn: Ring your nearest unringed slot.")
+	assert_eq(str(card["golden_text"]), "End of Turn: Ring your nearest unringed slot twice.")
 	_kit.put("sally_spore", 0, true)
 	_kit.put("nan_toadstool", 1)
 	_ring(0)

@@ -46,3 +46,11 @@ Observed near-p10 / median / p90 seats, before the Fairy change. Gold is cumulat
 | 12 | low | 2911016 / 2 | 6 | 105 | 187 | bridge_toad, cradle_fetch, cluricaun, belladonna, hob_in_the_hearth |
 | 12 | average | 2911010 / 0 | 5 | 108 | 394 | old_moth_annis, cradle_fetch, belladonna, fairy_monarch, sally_spore, hob_in_the_hearth, jenny_greenteeth |
 | 12 | high | 2911029 / 6 | 5 | 113 | 1598 | old_moth_annis, cradle_fetch, little_nip, old_moth_annis, belladonna, cluricaun, fairy_monarch |
+
+## Single confirmation: miss, no refit
+
+Source `f43dbb40`, 32/32 seeds, no drops, no overrides. Ring R12 **223.8 / 471 / 2,070.4**; Court **561.6 / 973 / 2,976.2**. Ring's median is below 675: **miss**. It improves from this step's 394 baseline, but that does not satisfy the bar. Its R12 post-start median is 785, which explains some apparent missing power; the active-board criterion is retained.
+
+Coverage improves (R9 median 2→2.5, R12 3→4; R12 Court 6.5→7), but access/uptime remains a problem: 5/6 R12 Ring Cluricaun seats still lack a complete rainbow; only 1/17 retains Sally. The normal run can fill its board, and Sally now works there, but this single change does not reliably build the whole Ring route. Next triage should examine access/retention and the combat-only payoff share. No second candidate or further balance change is attempted.
+
+Final Ooze engine **673.1 / 1,204.5 / 2,447.2**, tempo **693 / 990 / 3,412**; both Ooze decisions still pass after the field changes. Full distributions, cohorts, growth and other-line medians are in `fairy-results.json`.
