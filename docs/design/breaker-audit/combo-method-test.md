@@ -47,3 +47,17 @@ Findings:
 5. **Blame is still loose.** Sonnet blamed Brann for the Kelp loop; the rule says to pin a loop on the card that closes it (Kelp Keeper here).
 
 One run per cell. Next fair check: a held-out set of known-broken and known-healthy cards the guide wasn't written around.
+
+## Small balance-watch check, Opus only (11 Nov)
+
+The owner asked for the smallest version that flags cards with the potential to break, so data and replays can look at them, rather than precision at high cost; Opus only. A 420-word brief (`balance-watch-brief.md`; the guide round's was 940): work backwards, eight one-line questions instead of the field guide, and three flags: BROKEN (only the egregious kind), WATCH, CLEAR. Two Opus runs on the same clean snapshots.
+
+| | Behemoth | Slamma | Athissa | Chronormu | Construct | Nathanos | Slab | Enforcer | Brann |
+|---|---|---|---|---|---|---|---|---|---|
+| Run 1 | W | W (in-fight) | C | W | W | W | W | W | **B** (Kelp gold loop, pinned on Kelp Keeper) |
+| Run 2 | W | W (in-fight) | C | W | W | W | W | W | **B** (same) |
+
+- Every known loop card flagged, both runs, with the same flags. Athissa is CLEAR in both; its real problem was pace, which this check doesn't look for.
+- Cost per run: about 128k tokens and 5.7 minutes, against 166k and 9.5 minutes for Opus with the full guide.
+- BROKEN went only to the Kelp Keeper gold loop (unlimited within a turn). Slab was held at WATCH because its pieces are rare.
+- Not yet known: how often it flags healthy cards. Only Athissa came back CLEAR, and the controls turned out to have real lines in their pools. The 24-card set in `bg-test.md` is the check for that.

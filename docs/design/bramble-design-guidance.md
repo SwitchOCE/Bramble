@@ -4,34 +4,20 @@ This is the Bramble-specific companion to the general `game-design-process` skil
 
 *Status: 10 Nov 2026 (runaway-growth rule and breaker review added). In the repo on `ideation/main`. The general skill is `.claude/skills/game-design-process/`, used only when a user or an orchestrator says so. Codex workers are given the file path to read.*
 
-## Runaway growth: one hard rule, judged by a fresh breaker (owner, 10–11 Nov 2026)
+## Runaway growth: flag it for balance watch (owner, 10–11 Nov 2026)
 
-Every time Battlegrounds has had exponential scaling, it has had to be removed (owner). But a long hard rule kills good cards and still leaks, so only the verdict is hard; spotting it is a judgement question with the maths shown.
+Every time Battlegrounds has had exponential scaling, it has had to be removed (owner). We don't try to prove a card safe before it's built. One quick check flags the cards that could run away; data and replays decide, and flagged cards are brought to the owner.
 
-**The hard rule:** *No number may grow by a share of itself turn after turn, by any route, unless the card states the most it can multiply that number by for any one unit in a whole game, and that is at most ×3.* A card found doing it changes before it's built, however good it looks in sims.
+**The flag.** A card goes on balance watch if a breaker can name a line, with pieces that exist in the pool, where some number grows by a share of itself turn after turn, or doubles without limit inside one fight. Rare, slow or many-piece lines are still flagged: how often they happen is for the data to show. Two linear things multiplied together (units × buff per unit) aren't flagged.
 
-**The breaker's question,** for every new or changed card: *"Can what this card gives ever raise the number it was measured from, directly or through another card (yours or an enemy's), a copy, a golden, a return to hand or a system rule? Show the formula."*
+**Broken.** Only the egregious kind is flagged broken instead: cheap or common pieces, growth of about ×2 a turn or more (or unlimited within a turn, like gold that pays for itself), and a player who assembles it wins nearly every fight from then on. The breaker uses it only when very confident, and broken cards go to the owner first.
+
+**The check.** One fresh Opus breaker per batch of new or changed cards, with the whole pool and the brief in `breaker-audit/balance-watch-brief.md`. It works backwards: what would make this card loop, then a search of the pool for those pieces by mechanic. Flagging something that turns out fine is cheaper than missing a runaway.
 - Pass: Honorary Treasurer reads the gold in the Larder; his stats never raise that gold.
-- Fail: Squire Lollop skips your biggest unit, but a receiver overtakes it and becomes the next source.
-- Costs, periods and exclusions don't stop compounding: Charcoal Burner's gold cost, Alderman Dozey's "every 3 turns" and Lollop's "except your biggest" all still compound.
+- Flag: Squire Lollop skips your biggest unit, but a receiver overtakes it and becomes the next source. Costs, periods and exclusions don't stop this.
+- Pin a loop on the card that closes it: the one whose gain raises its own source. Aunt Aspic multiplies what an Ooze eats; Stone Soup makes the meal a share of the eater, so Soup is flagged and Aspic isn't.
 
-- Pin a loop on the card that closes it: the one whose gain raises its own source. A card that only amplifies someone else's loop passes, judged as if that loop were fixed. Aunt Aspic multiplies what an Ooze eats; Stone Soup is what makes the meal a share of the eater, so Soup breaks the rule and Aspic doesn't.
-- An enemy running the same card doesn't count as a loop. Mirrors are rare and the health clock ends them (Sable, Jack Daw).
-
-**When unsure, run it:** script the card's best line for six turns. A steady ratio above 1 between turns means it compounds.
-
-**Judged on best play, not bot play.** Bots under-play engines, so a sim median never clears a card.
-
-**Big numbers are wanted.** Two linear things multiplied together (Ring count × Ring size, units × buff per unit) are fine, and so are combos that take real assembly. The breaker sorts what's left by judgement:
-
-1. **Best use:** the board, the line and the pieces that get the most out of it.
-2. **Growth per turn** on that line, as a formula: flat, linear, polynomial or compounding.
-3. **Combos** with named cards from the whole pool, any tribe.
-4. **Power fantasy or degenerate?** A power fantasy takes real assembly and can still lose to a strong board. A degenerate combo is cheap or common and wins nearly every fight.
-5. **How often** the pieces come together in a real lobby, with the reasoning.
-6. **Verdict:** fine; power fantasy (keep it); degenerate (change one piece); or breaks the hard rule (must change). Give the smallest change that keeps the card's creative core.
-
-**Keeping the rule honest.** Before the rule's wording changes, a fresh agent given only the rule and the cards must sort both lists correctly. Must catch: Mrs Mallow, Alderman Dozey, Standing Committee, Charcoal Burner, Squire Lollop, Fly South, Fairy Monarch. Must keep: Honorary Treasurer, Hayward, Redbreast, Aunt Aspic, a Hunter trophy card, Cluricaun. If the rule needs a new clause to pass, make it a worked example for the breaker instead.
+**Each flag records** the line and its pieces, the growth per turn, the card that closes the loop, and what to watch: which pieces show up together, and the unit's stats by a given turn. Flags go in `docs/design/balance-watch.md`. Sims and playtest replays look for the line, judged on strong play: bots under-play engines, so a quiet sim median doesn't clear a card. If the line shows up, the owner decides the change. A card that wasn't flagged isn't cleared: a runaway seen in replays adds it.
 
 ## Where the specifics live
 | Need | Source |
