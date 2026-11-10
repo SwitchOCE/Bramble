@@ -79,3 +79,11 @@ class A4Test(unittest.TestCase):
         self.assertFalse(report.field_dominance(field)["flag"])
         del field["rounds"]["14"]["line_point_rates"]["line_1"]
         self.assertIsNone(report.field_dominance(field)["flag"])
+
+    def test_incomplete_magnitude_cannot_silently_pass_and_low_outliers_fire(self):
+        values = {"14": {"complete": False, "fires_10x": False, "tribe_ratios": {"birds": 1}}}
+        self.assertIsNone(report.outside_magnitude(values))
+        values["14"]["complete"] = True
+        self.assertFalse(report.outside_magnitude(values))
+        values["14"]["tribe_ratios"]["birds"] = 0.1
+        self.assertTrue(report.outside_magnitude(values))

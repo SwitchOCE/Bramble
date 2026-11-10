@@ -24,6 +24,8 @@ import b9_a4_report  # noqa: E402
 import field  # noqa: E402
 from evidence_io import read_json, write_json  # noqa: E402
 
+from tools.checks.sim_job import check_godot_log  # noqa: E402
+
 CONFIGS = ROOT / "docs/ideation/evidence/b9-measure/a4/configs"
 ROUNDS = (10, 12, 14)
 
@@ -164,8 +166,6 @@ def main():
                 ],
                 output / "field.log",
             )
-            from tools.checks.sim_job import check_godot_log
-
             check_godot_log(output / "field.log")
             pairs = [json.loads(line) for line in pairs_path.read_text().splitlines()]
             field_result = field.field_report(sampled, pairs, bootstrap_replicates=200)
@@ -189,6 +189,20 @@ def main():
             ],
             output / "library.log",
         )
+        # Confirm that checkpoint testers can open this exact source/config bundle.
+        run(
+            [
+                "scripts/godot_slot.sh",
+                "godot",
+                "--headless",
+                "-s",
+                "res://tools/sim/profile_field_load.gd",
+                "--",
+                f"library={library}",
+            ],
+            output / "library-load.log",
+        )
+        check_godot_log(output / "library-load.log")
         manifest["presets"][preset] = {
             "config": read_json(config),
             "library": str(library),

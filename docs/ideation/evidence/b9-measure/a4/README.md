@@ -40,3 +40,21 @@ The DM2 dominance diagnostic is ≥80% field points at both R12/R14, requiring a
 proxy (pending orchestrator interpretation) is a ≥10× R14 lead over the runner-up that eventually wins
 in >50% of eligible lobbies; R8-leader win rate is also reported. These proxies need judgment.
 No dry-run values decide balance. A miss in the full run is reported, never refitted.
+
+## Two-lobby smoke, completed
+
+[Dry report](dry-run/README.md) and [receipt](dry-run/receipt.json) record the completed pipeline at
+`91d8b726`. Two lobbies per preset (seeds 2911001–2911002), requested jobs 3; two shards actually
+needed at most two lobby slots. B: 298 field fights; C: 264. Every represented line stays under 22
+fights per round. Both top4 libraries contain eight complete winning trajectories; the native Godot
+loader validates each and creates a field session. Later-round missing lines are explicit. These
+throwaway tiny-sample libraries are plumbing checks, not the final checkpoint bundles.
+
+The first attempt stopped after B's two lobbies because a35_run1's blind layouts lacked their capture
+label. Commit `91d8b726` adds that metadata without changing play. The successful smoke recaptured B
+and captured C at the fixed revision. Afterwards, the pipeline gained the same independently verified
+Godot library-load check and refuses to mark incomplete magnitude cohorts as a pass.
+
+Validation: 148/148 tests across the 13 C-reader files, plus 32/32 bench/capture/field tests; 201 Python
+tests; targeted Ruff, gdlint, gdformat --check, shellcheck and whitespace checks. The full 128-lobby
+run has not started. No balance changes or refits were made during preparation.

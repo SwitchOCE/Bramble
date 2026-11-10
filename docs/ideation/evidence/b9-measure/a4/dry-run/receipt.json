@@ -1,0 +1,103 @@
+{
+  "dry_run": true,
+  "source_commit": "91d8b7268059016342c62d0e9d51420a059c8928",
+  "seeds": [
+    2911001,
+    2911002
+  ],
+  "lobbies_per_preset": 2,
+  "jobs_requested": 3,
+  "initial_attempt": {
+    "source_commit": "628185d0",
+    "lobbies": 2,
+    "preset": "B",
+    "outcome": "Stopped before field fights: a35 snapshots lacked the blind-layout label. Fixed in 91d8b726; gameplay unchanged. Successful dry run recaptured at that revision."
+  },
+  "presets": {
+    "B": {
+      "field_boards_by_round": {
+        "10": 12,
+        "12": 11,
+        "14": 8
+      },
+      "field_fights": 298,
+      "max_fights_per_line_per_round": 22,
+      "field_missing_lines": {
+        "10": [],
+        "12": [
+          "line_hunters_open_season"
+        ],
+        "14": [
+          "line_bog_swamp",
+          "line_fairies_ring",
+          "line_hedgerow_parish",
+          "line_hunters_open_season"
+        ]
+      },
+      "top4_trajectories": 8,
+      "library_sha256": "298f2adf10eaa06d4f82090f43ceb445bdc19efb8f20d7f556fb5444a4eb8653",
+      "godot_load_and_session_create": "pass",
+      "library_path": "build/b9-a4/dry-run-v2/B/checkpoint-B.json.gz",
+      "capture_seal": {
+        "source_commit": "91d8b7268059016342c62d0e9d51420a059c8928",
+        "sha256": {
+          "lines.fights.jsonl": "04db0eb8583120ca9cc29fa9c91e4f9d937ed086157429dc8bcdd262e2ec23b3",
+          "lines.players.csv": "ee3a5ec838326a50440d9b090ea3c1d3e5b61d2b1f810c909a78edf9bb5aea32"
+        }
+      }
+    },
+    "C": {
+      "field_boards_by_round": {
+        "10": 12,
+        "12": 10,
+        "14": 7
+      },
+      "field_fights": 264,
+      "max_fights_per_line_per_round": 22,
+      "field_missing_lines": {
+        "10": [],
+        "12": [
+          "line_hedgerow_parish",
+          "line_hunters_open_season"
+        ],
+        "14": [
+          "line_bog_swamp",
+          "line_hedgerow_parish",
+          "line_hedgerow_supper",
+          "line_hunters_open_season",
+          "line_oozes_tempo"
+        ]
+      },
+      "top4_trajectories": 8,
+      "library_sha256": "f384512372386a4941cb3de08b46b6562a9dffadcca2e881a8267f9e3ca6ed78",
+      "godot_load_and_session_create": "pass",
+      "library_path": "build/b9-a4/dry-run-v2/C/checkpoint-C.json.gz",
+      "capture_seal": {
+        "source_commit": "91d8b7268059016342c62d0e9d51420a059c8928",
+        "sha256": {
+          "lines.fights.jsonl": "5f67a9b425055dc4b03b5d92815e3b65095677c168dbe63c8b806c6a89fec528",
+          "lines.players.csv": "11a18f6d603364440dbba7f8f0e3239d717b53cbdf1047468f0c6052cbeb5ef4"
+        }
+      }
+    }
+  },
+  "checks": {
+    "c_reader_tests": {
+      "files": 13,
+      "tests": 148,
+      "passed": 148
+    },
+    "a4_godot_tests": {
+      "files": 5,
+      "tests": 32,
+      "passed": 32
+    },
+    "python_tests": 201,
+    "ruff": "pass",
+    "gdlint": "pass",
+    "gdformat_check": "pass",
+    "shellcheck": "pass"
+  },
+  "full_run_started": false,
+  "snowball_proxy": "Predeclared diagnostic, pending orchestrator interpretation; no dry-run balance decisions."
+}

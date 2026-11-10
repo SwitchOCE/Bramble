@@ -108,6 +108,15 @@ def field_dominance(field):
     }
 
 
+def outside_magnitude(rounds):
+    for values in rounds.values():
+        if values.get("fires_10x") or any(
+            ratio is not None and (ratio <= 0.1 or ratio >= 10) for ratio in values.get("tribe_ratios", {}).values()
+        ):
+            return True
+    return False if all(values["complete"] for values in rounds.values()) else None
+
+
 def report(root, manifest):
     output = {
         "dry_run": manifest["dry_run"],
@@ -129,13 +138,7 @@ def report(root, manifest):
         result["field"] = json.loads((root / preset / "field-report.json").read_text())
         result["field_dominance"] = field_dominance(result["field"])
         result["extreme_misses"] = {
-            "outside_order_of_magnitude": any(
-                v.get("fires_10x")
-                or any(
-                    ratio is not None and (ratio < 0.1 or ratio >= 10) for ratio in v.get("tribe_ratios", {}).values()
-                )
-                for v in result["magnitude_r14_r15"].values()
-            ),
+            "outside_order_of_magnitude": outside_magnitude(result["magnitude_r14_r15"]),
             "one_line_wins_regardless_proxy": result["field_dominance"]["flag"],
             "runaway_snowballs_in_most_lobbies_proxy": result["snowballs"]["most_lobbies_proxy"],
         }
