@@ -118,6 +118,7 @@ func show_board(
 			var view: Dictionary = Data.entry(units, slot)
 			var card: CardView = CardView.new()
 			card.chip_hidden = true
+			card.selection_color = UiTheme.RIME
 			card.show_unit(view, CardView.Mode.BOARD)
 			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			card.set_meta("overlap_checked", true)
@@ -142,9 +143,10 @@ func show_hero(hero: Dictionary) -> void:
 ## Forecast carries the resolved quarry destination, including a neighbour's lent mark.
 ## `bindings` is LaneProjection.forecast([your_board, scouted_board]), not inferred across.
 func pulse_reach(own_board: BoardView, bindings: Dictionary, source_slot: int) -> void:
-	var source: Array[int] = [source_slot]
-	_board.show_relations(source)
+	# The source keeps its blue selection; only the destination gets a gold target beat.
+	_board.show_relations([])
 	var targets: Array[int] = []
+	var quarries: Array[int] = []
 	for kind: String in ["patches", "quarries"]:
 		for entry: Dictionary in Data.a(bindings, kind):
 			if (
@@ -157,7 +159,9 @@ func pulse_reach(own_board: BoardView, bindings: Dictionary, source_slot: int) -
 				var target: int = Data.i(entry, "slot", -1)
 				if Data.i(entry, "side") == 0 and target >= 0 and not targets.has(target):
 					targets.append(target)
-	own_board.show_relations(targets)
+				if Data.i(entry, "side") == 0 and target >= 0 and kind == "quarries":
+					quarries.append(target)
+	own_board.show_relations(targets, -1, quarries)
 
 
 func _layout() -> void:

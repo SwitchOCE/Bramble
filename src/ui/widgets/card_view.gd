@@ -44,6 +44,8 @@ var selected: bool = false:
 	set(value):
 		selected = value
 		queue_redraw()
+## Scout selection differs from a target pulse and from a golden unit's rim.
+var selection_color: Color = UiTheme.SELECT
 ## A ring round the tile: the drop-target moss, an attacker's acorn or a target's red.
 var outline: Color = Color.TRANSPARENT:
 	set(value):
@@ -191,6 +193,10 @@ func trigger_glyph() -> Control:
 	if _combat_marks.counter.visible:
 		return _combat_marks.counter
 	return _combat_marks.glyph
+
+
+func belly_point() -> Vector2:
+	return _combat_marks.get_global_transform() * _combat_marks.belly_point()
 
 
 func attack_bead() -> Control:
@@ -478,7 +484,7 @@ func _draw() -> void:
 		draw_style_box(_tile_box(Color(UiTheme.GILT, 0.55), Color.TRANSPARENT, 0), rect.grow(12))
 	if frost:
 		draw_style_box(_tile_box(UiTheme.RIME, Color.TRANSPARENT, 0), rect.grow(10))
-	var ring: Color = UiTheme.SELECT if selected else outline
+	var ring: Color = selection_color if selected else outline
 	if ring.a > 0.0:
 		draw_style_box(_tile_box(UiTheme.INK, Color.TRANSPARENT, 0), rect.grow(19))
 		draw_style_box(_tile_box(ring, Color.TRANSPARENT, 0), rect.grow(15))

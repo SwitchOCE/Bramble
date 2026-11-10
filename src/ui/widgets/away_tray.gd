@@ -82,6 +82,7 @@ func _add_bird(bird: Dictionary, waiting: bool) -> void:
 	_row.add_child(token)
 	tokens.append(token)
 	var portrait := ArtFrame.new()
+	portrait.name = "Portrait"
 	portrait.radius = token_size() / 2.0
 	portrait.position = Vector2(6, 6)
 	portrait.size = Vector2.ONE * (token_size() - 12)
@@ -107,6 +108,25 @@ func _add_bird(bird: Dictionary, waiting: bool) -> void:
 		countdown.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		countdown.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 		token.add_child(countdown)
+
+
+## Motion lands in the portrait, then pulses its moon and countdown separately.
+## Positive instance IDs must match exactly when two Birds share a definition.
+func arrival_target(unit: Dictionary) -> Dictionary:
+	var iid: int = Data.i(unit, "iid", -1)
+	for index: int in _birds.size():
+		var bird: Dictionary = _birds[index]
+		if (
+			(iid > 0 and Data.i(bird, "iid", -2) == iid)
+			or (iid <= 0 and Data.s(bird, "def_id") == Data.s(unit, "def_id"))
+		):
+			var token: Interactive = tokens[index]
+			return {
+				"portrait": token.get_node("Portrait"),
+				"countdown": token.get_node_or_null("Countdown"),
+				"mark": token.get_node("JourneyMark"),
+			}
+	return {}
 
 
 func _draw_token(token: Control, waiting: bool) -> void:

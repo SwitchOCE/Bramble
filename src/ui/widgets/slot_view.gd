@@ -3,6 +3,7 @@ extends "res://src/ui/widgets/interactive.gd"
 ## breathes as an action target or flashes once when the reader reveals a spatial reach.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const QuarryPreview := preload("res://src/ui/widgets/quarry_preview.gd")
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 
 ## Highlight colour (valid target); transparent for none.
@@ -35,8 +36,12 @@ var reach_flash: float = 0.0:
 		if _reach_face != null:
 			_reach_face.visible = value > 0.001
 			_reach_face.modulate.a = value
+		if _quarry_stamp != null:
+			_quarry_stamp.visible = quarry_preview and value > 0.001
+			_quarry_stamp.modulate.a = value
 		queue_redraw()
 
+var quarry_preview: bool = false
 var _target_age: float = 0.0
 
 var _name_label: Label
@@ -44,6 +49,7 @@ var _empty_label: Label
 var _note: Label
 var _note_box: Panel
 var _reach_face: Panel
+var _quarry_stamp: Control
 
 
 func _init() -> void:
@@ -74,6 +80,10 @@ func _init() -> void:
 	add_child(_reach_face)
 	_reach_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_reach_face.hide()
+	_quarry_stamp = QuarryPreview.new()
+	_quarry_stamp.z_index = 21
+	add_child(_quarry_stamp)
+	_quarry_stamp.hide()
 
 
 func set_slot(slot_zone: String, slot: int) -> void:
@@ -97,6 +107,8 @@ static func note(slot: int) -> String:
 func _refresh_labels() -> void:
 	if _name_label == null:
 		return
+	if _quarry_stamp != null:
+		_quarry_stamp.position = (size - _quarry_stamp.size) / 2.0
 	var empty: bool = not filled and not wordless
 	_name_label.visible = empty
 	_empty_label.visible = empty and not with_note

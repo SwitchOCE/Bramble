@@ -123,7 +123,7 @@ func _action(label: String, kind: String, mode: String) -> void:
 	var motion: Control = screen.get("_action_motion")
 	var duration: float = 0.4 if kind == "scout" else CoreUtil.to_float(motion.get("duration"))
 	assert(duration > 0.0 and duration <= 1.5, "production action cue starts and fits its window")
-	var last_tick: int = maxi(7, ceili(duration / STEP))
+	var last_tick: int = maxi(7, ceili(duration / STEP) + 2)
 	var ticks: Array[int] = []
 	for index: int in 8:
 		ticks.append(roundi(index * float(last_tick) / 7.0))
@@ -143,6 +143,7 @@ func _action(label: String, kind: String, mode: String) -> void:
 	assert(
 		not CoreUtil.to_bool(motion.get("active")), "action helper retires at the captured endpoint"
 	)
+	assert(_visible_overlays(motion) == 0, "last frame contains no surviving action overlay")
 	if mode == "x1":
 		_states[label] = {"action": kind, "before": before, "after": after}
 	_write(
@@ -155,6 +156,8 @@ func _action(label: String, kind: String, mode: String) -> void:
 			"pixels": [PIXELS.x, PIXELS.y],
 			"fixed_step": STEP,
 			"duration": duration,
+			"capture_duration": last_tick * STEP,
+			"settled_ticks": 2,
 			"sample_ticks": ticks,
 			"frames": frames,
 			"before": before,
@@ -194,6 +197,7 @@ func _frame(screen: Control, directory: String, frames: Array[Dictionary], tick:
 	var name: String = "frame-%03d.png" % frames.size()
 	assert(image.save_png(directory.path_join(name)) == OK)
 	var nodes: Array[Dictionary] = Capture.text_nodes(screen)
+	var motion: Control = screen.get("_action_motion")
 	frames.append(
 		{
 			"file": name,
@@ -202,9 +206,19 @@ func _frame(screen: Control, directory: String, frames: Array[Dictionary], tick:
 			"visible_text_count": nodes.size(),
 			"visible_text_nodes": nodes,
 			"shown_beads": _shown_beads(screen),
+			"action_active": CoreUtil.to_bool(motion.get("active")),
+			"visible_action_overlays": _visible_overlays(motion),
 			"reach_values": _reach_values(screen)
 		}
 	)
+
+
+func _visible_overlays(motion: Control) -> int:
+	var count: int = 0
+	for child: Node in motion.get_children():
+		if child is Control and child.is_visible_in_tree() and child.modulate.a > 0.001:
+			count += 1
+	return count
 
 
 func _reach_values(screen: Control) -> Dictionary:
@@ -212,8 +226,14 @@ func _reach_values(screen: Control) -> Dictionary:
 	var slots: Array = board.get("slots")
 	var target: Control = slots[5]
 	var across: Control = slots[2]
+	var quarry: Control = target.get("_quarry_stamp")
+	var across_quarry: Control = across.get("_quarry_stamp")
 	return {
-		"expected_target5": target.get("reach_flash"), "straight_across2": across.get("reach_flash")
+		"expected_target5": target.get("reach_flash"),
+		"straight_across2": across.get("reach_flash"),
+		"target_quarry_visible": quarry.is_visible_in_tree() and quarry.modulate.a > 0.001,
+		"straight_across_quarry_visible":
+		across_quarry.is_visible_in_tree() and across_quarry.modulate.a > 0.001,
 	}
 
 

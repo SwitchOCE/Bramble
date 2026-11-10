@@ -96,7 +96,55 @@ func _check_actions(reduced: bool) -> void:
 		assert_eq(
 			port.get_state(), after, "presentation never delays or changes the committed core state"
 		)
-		motion.call("finish")
+		if kind == "triple":
+			var destination: Control = tracks[0]["target"]
+			assert_eq(
+				destination.modulate.a, 0.0, "golden stays hidden until every incoming copy retires"
+			)
+		if kind == "buy" and not reduced:
+			var purchase: Dictionary = tracks[0]
+			var travelling: Control = purchase["node"]
+			var own_board: Control = screen.get("_board")
+			var residents: Array = own_board.get("cards")
+			for resident: Control in residents:
+				if resident != null:
+					assert_false(
+						travelling.get_global_rect().intersects(resident.get_global_rect()),
+						"purchase uses the gutter, clear of occupied board portraits"
+					)
+		if kind == "tier-up":
+			var button: Control = screen.get("_tier_button")
+			var price: Label = button.get("_cost_label")
+			assert_eq(price.text, str(before["tier_up_cost"]), "old price remains during payment")
+		if kind in ["ooze", "bird"]:
+			var travel: Dictionary = tracks[0]
+			assert_true(CoreUtil.to_bool(travel.get("dissolve")))
+			var endpoint: Rect2 = travel["to"]
+			if kind == "ooze":
+				assert_lte(endpoint.size.x, 16.0, "purchase shrinks into the Belly glyph")
+			var pulses: Array = motion.get("_pulses")
+			assert_gt(pulses.size(), 0, "arrival has a count pulse")
+			var first_pulse: Dictionary = pulses[0]
+			var count: Control = first_pulse["target"]
+			assert_eq(count.modulate.a, 0.0, "count waits until incoming overlay has retired")
+			var current: float = CoreUtil.to_float(motion.get("elapsed"))
+			var near_arrival: float = CoreUtil.to_float(travel["seconds"]) - 0.0001
+			motion.call("advance", maxf(0.0, near_arrival - current))
+			var picture: Control = travel["node"]
+			var expected: Vector2 = motion.get_global_transform() * endpoint.get_center()
+			assert_lt(
+				picture.get_global_rect().get_center().distance_to(expected),
+				1.0,
+				"scaled picture reaches the actual glyph/portrait, not the neighbouring space"
+			)
+			assert_gte(
+				CoreUtil.to_float(first_pulse["start"]), CoreUtil.to_float(travel["seconds"])
+			)
+		motion.call("advance", duration)
+		for overlay: Node in motion.get_children():
+			if overlay is Control:
+				var picture: Control = overlay as Control
+				assert_false(picture.visible, "natural ending retires every overlay before rest")
 		assert_false(CoreUtil.to_bool(motion.get("active")))
 		var settled_tracks: Array = motion.get("tracks")
 		assert_true(settled_tracks.is_empty())

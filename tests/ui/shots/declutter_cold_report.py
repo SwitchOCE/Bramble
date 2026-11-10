@@ -2,10 +2,12 @@
 """Keep neutral reader artifacts separate from technical action/state evidence."""
 
 import argparse
+import csv
 import json
 import statistics
 from pathlib import Path
 
+from declutter_b2_report import tile_word_breakdown
 from declutter_strips import write_sheet
 from PIL import Image
 
@@ -19,10 +21,14 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
     same_modes = {}
     for source in sorted(raw.glob("*/manifest.json")):
         data = json.loads(source.read_text())
-        assert data["production_revision"] == (revision if data["reader_label"] == "D" else "b7ab5d02")
+        assert data["production_revision"] == revision
         assert len(data["frames"]) == 8
         assert data["duration"] <= 1.5
         assert data["frames"][0]["tick"] == 0
+        assert data["settled_ticks"] == 2
+        assert data["capture_duration"] >= data["duration"] + data["fixed_step"]
+        assert not data["frames"][-1]["action_active"]
+        assert data["frames"][-1]["visible_action_overlays"] == 0
         assert [frame["tick"] for frame in data["frames"]] == data["sample_ticks"]
         label, mode = data["reader_label"], data["mode"]
         equality = {key: data[key] for key in ["action", "before", "after", "events", "events_sha256"]}
@@ -48,6 +54,9 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
             assert any(row["expected_target5"] > 0.5 for row in reach)
             assert all(row["straight_across2"] < 0.001 for row in reach)
             assert reach[-1]["expected_target5"] < 0.05
+            assert any(row["target_quarry_visible"] for row in reach)
+            assert not any(row["straight_across_quarry_visible"] for row in reach)
+            assert not reach[-1]["target_quarry_visible"]
         for card in data["frames"][-1]["shown_beads"]:
             if card["visible"] and card["zone"] in {"board", "shop", "hand"}:
                 assert int(card["attack"] or 0) == int(card["view_attack"]), (label, card)
@@ -62,7 +71,8 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
         data["reader_sheet"] = write_sheet(source.parent, reader, data["pixels"], interval, data["fixed_step"])
         data["method"] = (
             "Eight native 1688x780 frames: a genuine pre-action frame, then seven evenly spaced samples "
-            "through the production helper duration. Helpers and native Tweens advance explicitly at120Hz. "
+            "through the production helper duration plus two fixed settling ticks. "
+            "Helpers and native Tweens advance explicitly at120Hz. "
             "Opaque reader label and timing only appear in the reader sheet. "
             "Designed legal state; no fake definitions, triggers, core events or cue timing."
         )
@@ -74,11 +84,33 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
             }
         )
     assert len(manifests) == 16 and len(same_modes) == 8
+    assert {(row["reader_label"], row["mode"]) for row in manifests} == {
+        (label, mode) for label in "ABCDEFGH" for mode in ["x1", "reduce"]
+    }
     rest = json.loads((technical / "resting-words.json").read_text())
     assert len(rest["captures"]) == 44
     for capture in rest["captures"]:
         assert capture["visible_text_count"] == len(capture["visible_text_nodes"])
         assert capture["tile_words"]["unexpected_word_count"] == 0, capture["reader_label"]
+    classified = []
+    for row in rest["captures"]:
+        scenario = row["reader_label"].removeprefix("spec-")
+        if len(scenario) == 1:
+            scenario += "/" + row["stage"]
+        classified.append(
+            row["tile_words"]
+            | {
+                "scenario": scenario,
+                "pixels": row["pixels"],
+                "reader_open": row["reader_open"],
+                "image": row["image"],
+                "state_sha256": row["state_sha256"],
+                "raw_visible_text_count": row["visible_text_count"],
+            }
+        )
+    tile_run = technical / "tile-words-run.json"
+    tile_run.write_text(json.dumps({"captures": classified}, indent=2) + "\n")
+    tile_word_breakdown(technical, tile_run, revision, stage=packet.name)
     pairs = []
     for row in rest["captures"]:
         if not row["reader_label"].startswith("spec-"):
@@ -110,6 +142,8 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
         "All eight designed states execute unchanged shipped cards through actual production callbacks and core rules.",
         "The older Committee End-of-Turn variant remains in its original packet and is not used here.",
         "No cold-reader result is claimed by capture or validation.",
+        "Every final frame is captured two fixed ticks beyond the cue duration, with the helper inactive "
+        "and no visible action overlay remaining (asserted in capture and report).",
         "Tier-up emits no recruit-log event in the current core; its actual empty stream is preserved, "
         "and tier/gold are checked directly.",
         "",
@@ -161,6 +195,7 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
         "same_actual_core_events_and_states_across_modes": True,
         "resting_rows": len(rest["captures"]),
         "zero_unexpected_tile_words_all_rows": True,
+        "all_last_frames_action_helper_inactive_and_no_visible_action_overlay": True,
         "cold_reader_performed": False,
         "reader_packet": "reader/",
         "technical_answer_key": "technical/",
@@ -209,15 +244,35 @@ def faces(packet: Path, revision: str) -> None:
     print("Shipped faces", len(shipped), "art rectangle shares", result["art_rect_share"])
 
 
+def history(packet: Path, revision: str, slot_log: Path) -> None:
+    with slot_log.open(newline="") as stream:
+        runs = list(csv.DictReader(stream))
+    assert len(runs) >= 2 and all(row["exit"] == "0" for row in runs[-2:]), runs
+    result = {
+        "production_revision": revision,
+        "capture_runs_sequential": True,
+        "all_capture_exit_zero": all(row["exit"] == "0" for row in runs),
+        "failed_capture_attempts": sum(row["exit"] != "0" for row in runs),
+        "runs": runs,
+        "source": str(slot_log),
+        "scope": "This fresh packet capture and face audit only; targeted tests are reported separately.",
+    }
+    (packet / "technical/process-history.json").write_text(json.dumps(result, indent=2) + "\n")
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("stage", choices=["assemble", "faces"])
+    parser.add_argument("stage", choices=["assemble", "faces", "history"])
     parser.add_argument("packet", type=Path)
     parser.add_argument("revision")
     parser.add_argument("--raw", type=Path)
+    parser.add_argument("--slot-log", type=Path)
     arguments = parser.parse_args()
     if arguments.stage == "assemble":
         assert arguments.raw is not None
         assemble(arguments.packet, arguments.raw, arguments.revision)
-    else:
+    elif arguments.stage == "faces":
         faces(arguments.packet, arguments.revision)
+    else:
+        assert arguments.slot_log is not None
+        history(arguments.packet, arguments.revision, arguments.slot_log)

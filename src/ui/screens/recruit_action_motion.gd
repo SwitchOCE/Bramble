@@ -22,6 +22,9 @@ var _final_gold: int = 0
 var _final_tier: int = 1
 var _reduced: bool = false
 var _rate: float = 1.0
+var _pulses: Array[Dictionary] = []
+var _price: Label
+var _final_price: String = ""
 
 
 func _init() -> void:
@@ -53,7 +56,7 @@ func snapshot(ui: Layout) -> Dictionary:
 	return {
 		"cards": cards,
 		"state": ui.state.duplicate(true),
-		"gold": _point(ui._gold),
+		"gold": _point(ui._gold.get("_big")),
 		"tier": _point(ui._tier_icon),
 	}
 
@@ -74,6 +77,8 @@ func present(ui: Layout, before: Dictionary, action: String) -> void:
 	var old_state: Dictionary = Data.d(before, "state")
 	_gold = ui._gold.get("_value")
 	_tier = ui._tier_label
+	_price = ui._tier_button.get("_cost_label")
+	_final_price = _price.text
 	_old_gold = Data.i(old_state, "gold")
 	_final_gold = Data.i(ui.state, "gold")
 	_final_tier = Data.i(ui.state, "tier", 1)
@@ -87,11 +92,18 @@ func present(ui: Layout, before: Dictionary, action: String) -> void:
 			if Data.s(Data.d(source, "unit"), "def_id") == id and copies < 3:
 				_fly(source, golden, 0.3, copies * 0.025)
 				copies += 1
+		for track: Dictionary in tracks:
+			track["reveal_at"] = duration
+		_pulse(golden.get("card"), duration, true)
 	elif not eater.is_empty():
 		kind = "swallow"
 		for source: Dictionary in removed:
 			if Data.s(source, "zone") != "board" or _key(source) != _key(eater):
-				_fly(source, eater, 0.36, 0.0, false)
+				var belly: Card = eater["card"]
+				var point: Vector2 = get_global_transform().affine_inverse() * belly.belly_point()
+				_fly(source, {"rect": Rect2(point - Vector2(8, 8), Vector2(16, 16))}, 0.36)
+				tracks[-1]["dissolve"] = true
+				_pulse(belly.trigger_glyph(), 0.36 / _rate, true)
 				break
 	elif action == "buy":
 		for target: Dictionary in added:
@@ -99,14 +111,20 @@ func present(ui: Layout, before: Dictionary, action: String) -> void:
 				var source: Dictionary = _matching(removed, "shop", Data.d(target, "unit"))
 				if not source.is_empty():
 					_fly(source, target, 0.36)
+					tracks[-1]["via"] = _hand_route(source, target)
+					_pulse(target.get("card"), 0.36 / _rate, true)
 	elif action == "sell":
 		for source: Dictionary in removed:
 			if Data.s(source, "zone") != "board":
 				continue
-			var away: Rect2 = _away_rect(ui, Data.d(source, "unit"))
-			if away.size != Vector2.ZERO:
+			var away: Dictionary = ui._away_tray.arrival_target(Data.d(source, "unit"))
+			if not away.is_empty():
 				kind = "fly_south"
-				_fly(source, {"rect": away}, 0.4)
+				var portrait: Control = away["portrait"]
+				_fly(source, {"rect": _rect(portrait)}, 0.4)
+				tracks[-1]["dissolve"] = true
+				_pulse(away["countdown"], 0.4 / _rate, true)
+				_pulse(away["mark"], 0.4 / _rate)
 			else:
 				_dissolve(source)
 	else:
@@ -122,15 +140,17 @@ func present(ui: Layout, before: Dictionary, action: String) -> void:
 		var other: Vector2 = after["tier"]
 		if not removed.is_empty():
 			var source_rect: Rect2 = removed[0]["rect"]
-			other = source_rect.get_center()
+			other = Vector2(source_rect.get_center().x, source_rect.position.y - 30.0)
 		_coin(
 			anchor if _final_gold < _old_gold else other,
 			other if _final_gold < _old_gold else anchor
 		)
+		_pulse(ui._gold.get("_big"), 0.36 / _rate)
 	if _final_tier != Data.i(old_state, "tier", 1):
 		kind = "tier_up"
 		_tier.text = str(Data.i(old_state, "tier", 1))
-		duration = maxf(duration, 0.4 / _rate)
+		_price.text = str(Data.i(old_state, "tier_up_cost"))
+		duration = maxf(duration, 0.56 / _rate)
 	active = duration > 0.0
 	set_process(active)
 	advance(0.0)
@@ -154,31 +174,57 @@ func advance(delta: float) -> void:
 		node.visible = elapsed >= track.start and phase < 1.0
 		var progress: float = 0.0 if _reduced and phase < 0.5 else 1.0 if _reduced else phase
 		node.position = from.position.lerp(to.position, progress)
-		if not _reduced:
+		node.scale = from.size.lerp(to.size, phase) / from.size
+		if track.has("via") and not _reduced:
+			_hand_position(node, from, to, track["via"], phase)
+		elif not _reduced:
 			node.position.y -= sin(phase * PI) * 42.0
-		node.scale = from.size.lerp(to.size, progress) / from.size
 		if track.get("dissolve", false):
 			node.modulate.a = 1.0 - phase
 		var target: Control = track.get("target")
 		if is_instance_valid(target):
 			if track.get("hide_target", true):
-				target.modulate.a = 1.0 if phase >= 1.0 else 0.0
+				target.modulate.a = (
+					1.0 if elapsed >= track.get("reveal_at", track.start + track.seconds) else 0.0
+				)
 			elif phase >= 0.65:
 				var pop: float = sin((phase - 0.65) / 0.35 * PI)
 				target.scale = Vector2.ONE * (1.0 if _reduced else 1.0 + pop * 0.1)
-	var landing: float = clampf((elapsed * _rate - 0.16) / 0.2, 0.0, 1.0)
+	for pulse: Dictionary in _pulses:
+		var target: Control = pulse["target"]
+		if not is_instance_valid(target):
+			continue
+		var beat: float = clampf((elapsed - pulse.start) / (0.18 / _rate), 0.0, 1.0)
+		if pulse.hidden:
+			target.modulate.a = 1.0 if elapsed >= pulse.start else 0.0
+		target.pivot_offset = target.size / 2.0
+		target.scale = Vector2.ONE * (1.0 + sin(beat * PI) * (0.12 if _reduced else 0.3))
+	var earning: bool = _final_gold > _old_gold
+	var landing: float = clampf(
+		(elapsed * _rate - (0.32 if earning else 0.16)) / (0.04 if earning else 0.2), 0.0, 1.0
+	)
 	if is_instance_valid(_gold):
 		_gold.text = str(roundi(lerpf(_old_gold, _final_gold, landing)))
 	if is_instance_valid(_tier) and kind == "tier_up":
-		if elapsed * _rate >= 0.18:
+		if elapsed * _rate >= 0.36:
 			_tier.text = str(_final_tier)
+			_price.text = _final_price
 		_tier.pivot_offset = _tier.size / 2
-		_tier.scale = Vector2.ONE * (1.0 if _reduced else 1.0 + sin(landing * PI) * 0.25)
+		var tier_beat: float = clampf((elapsed * _rate - 0.36) / 0.2, 0.0, 1.0)
+		_tier.scale = Vector2.ONE * (1.0 + sin(tier_beat * PI) * (0.1 if _reduced else 0.25))
 	if elapsed >= duration:
 		finish()
 
 
 func finish() -> void:
+	for pulse: Dictionary in _pulses:
+		var target: Control = pulse["target"]
+		if is_instance_valid(target):
+			target.scale = Vector2.ONE
+			target.modulate.a = 1.0
+	_pulses.clear()
+	if is_instance_valid(_price):
+		_price.text = _final_price
 	for target: Control in _targets:
 		if is_instance_valid(target):
 			target.modulate.a = 1.0
@@ -212,6 +258,7 @@ func _fly(
 	ghost.show_unit(Data.d(source, "unit"), source.get("mode", Card.Mode.MINI))
 	var from: Rect2 = source["rect"]
 	ghost.set_card_size(from.size)
+	ghost.pivot_offset = Vector2.ZERO
 	ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(ghost)
 	var landing: Control = target.get("card")
@@ -342,14 +389,34 @@ static func _eater(before: Array, after: Array) -> Dictionary:
 	return {}
 
 
-func _away_rect(ui: Layout, unit: Dictionary) -> Rect2:
-	var birds: Array = ui._away_tray.get("_birds")
-	var iid: int = Data.i(unit, "iid", -1)
-	for index: int in birds.size():
-		var bird: Dictionary = birds[index]
-		if (
-			(iid > 0 and Data.i(bird, "iid", -2) == iid)
-			or (iid <= 0 and Data.s(bird, "def_id") == Data.s(unit, "def_id"))
-		):
-			return _rect(ui._away_tray.tokens[index])
-	return Rect2()
+func _pulse(target: Control, start: float, hide_before: bool = false) -> void:
+	if not is_instance_valid(target):
+		return
+	_pulses.append({"target": target, "start": start, "hidden": hide_before})
+	if hide_before:
+		target.modulate.a = 0.0
+	duration = maxf(duration, start + 0.18 / _rate)
+
+
+func _hand_route(source: Dictionary, target: Dictionary) -> Vector2:
+	# Cross the shop/board gutter before descending through the hand column.
+	var from: Rect2 = source["rect"]
+	var to: Rect2 = target["rect"]
+	return Vector2(to.get_center().x, from.end.y + 18.0)
+
+
+func _hand_position(node: Control, from: Rect2, to: Rect2, via: Vector2, phase: float) -> void:
+	var small: Vector2 = Vector2.ONE * 32.0
+	var center: Vector2
+	var extent: Vector2
+	if phase < 0.2:
+		center = from.get_center().lerp(Vector2(from.get_center().x, via.y), phase / 0.2)
+		extent = from.size.lerp(small, phase / 0.2)
+	elif phase < 0.7:
+		center = Vector2(lerpf(from.get_center().x, via.x, (phase - 0.2) / 0.5), via.y)
+		extent = small
+	else:
+		center = Vector2(via.x, via.y).lerp(to.get_center(), (phase - 0.7) / 0.3)
+		extent = small.lerp(to.size, (phase - 0.7) / 0.3)
+	node.position = center - extent / 2.0
+	node.scale = extent / from.size

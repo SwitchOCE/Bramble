@@ -414,6 +414,7 @@ func clear_highlights() -> void:
 	for slot: SlotView in slots:
 		slot.highlight = Color.TRANSPARENT
 		slot.reach_flash = 0.0
+		slot.quarry_preview = false
 	_relations.clear()
 	for card: CardView in cards:
 		if card != null:
@@ -422,22 +423,26 @@ func clear_highlights() -> void:
 
 
 ## A relation is revealed once on demand, never held while the reader stays open.
-func show_relations(related: Array[int], candidate: int = -1) -> void:
+func show_relations(
+	related: Array[int], candidate: int = -1, quarry_targets: Array[int] = []
+) -> void:
 	if candidate >= 0:
 		_lean_reach(related, candidate)
 	else:
-		_pulse_reach(related)
+		_pulse_reach(related, quarry_targets)
 
 
-func _pulse_reach(related: Array[int]) -> void:
+func _pulse_reach(related: Array[int], quarry_targets: Array[int] = []) -> void:
 	if _reach_tween != null and _reach_tween.is_valid():
 		_reach_tween.kill()
 	for slot: int in _relations:
 		slots[slot].reach_flash = 0.0
+		slots[slot].quarry_preview = false
 	_relations.clear()
 	for slot: int in related:
 		if slot >= 0 and slot < SLOTS and not _relations.has(slot):
 			_relations.append(slot)
+			slots[slot].quarry_preview = quarry_targets.has(slot)
 	if _relations.is_empty() or not is_inside_tree():
 		return
 	var duration: float = 0.4 / maxf(1.0, Settings.fight_speed)

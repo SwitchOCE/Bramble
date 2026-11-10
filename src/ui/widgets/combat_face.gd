@@ -339,21 +339,51 @@ func _draw_pending() -> void:
 
 
 func _draw_counter() -> void:
+	if counter_kind == "belly":
+		_draw_stomach(_counter_rect)
+		return
 	draw_style_box(UiTheme.flat_box(UiTheme.INK, UiTheme.CREAM, 2, 15), _counter_rect)
 	var icon_rect: Rect2 = Rect2(
 		_counter_rect.position + Vector2((_counter_rect.size.x - 22.0) / 2.0, -1), Vector2(22, 22)
 	)
 	match counter_kind:
-		"belly":
-			draw_arc(icon_rect.get_center(), 9, 0.0, TAU, 20, UiTheme.CREAM, 3, true)
-			draw_line(
-				icon_rect.position + Vector2(7, 2),
-				icon_rect.position + Vector2(15, 2),
-				UiTheme.INK,
-				4
-			)
 		"hex":
 			draw_arc(icon_rect.get_center(), 9, 0.0, TAU * 0.8, 20, UiTheme.NIGHTSHADE, 4, true)
 			draw_circle(icon_rect.get_center(), 3, UiTheme.CREAM)
 		_:
 			_draw_icon(counter_kind, icon_rect)
+
+
+## The swallowing route lands in the organ above its current count.
+func belly_point() -> Vector2:
+	return _counter_rect.position + Vector2(_counter_rect.size.x / 2.0, 10.0)
+
+
+func _draw_stomach(rect: Rect2) -> void:
+	var outline: PackedVector2Array = []
+	# The organ is the counter itself: open neck, right pouch and left outlet.
+	# Its lower pouch contains the existing number without adding another framed badge.
+	for point: Vector2 in [
+		Vector2(0.43, 0.0),
+		Vector2(0.43, 0.20),
+		Vector2(0.35, 0.34),
+		Vector2(0.19, 0.43),
+		Vector2(0.13, 0.50),
+		Vector2(0.02, 0.50),
+		Vector2(0.02, 0.65),
+		Vector2(0.13, 0.65),
+		Vector2(0.13, 0.81),
+		Vector2(0.25, 0.97),
+		Vector2(0.75, 0.97),
+		Vector2(0.95, 0.81),
+		Vector2(0.98, 0.60),
+		Vector2(0.98, 0.37),
+		Vector2(0.89, 0.24),
+		Vector2(0.74, 0.23),
+		Vector2(0.60, 0.34),
+		Vector2(0.57, 0.22),
+		Vector2(0.57, 0.0)
+	]:
+		outline.append(rect.position + point * rect.size)
+	draw_colored_polygon(outline, UiTheme.INK)
+	draw_polyline(outline, UiTheme.CREAM, 2.0, true)

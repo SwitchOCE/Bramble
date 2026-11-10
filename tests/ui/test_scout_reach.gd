@@ -6,6 +6,8 @@ const UnitViews := preload("res://src/ui/unit_views.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const Settings := preload("res://src/ui/settings.gd")
+const UiTheme := preload("res://src/ui/ui_theme.gd")
+const CardView := preload("res://src/ui/widgets/card_view.gd")
 
 
 func after_each() -> void:
@@ -94,7 +96,7 @@ func test_reach_flash_paints_above_an_occupied_card_and_leaves_no_mark() -> void
 	var board := BoardView.new()
 	add_child_autofree(board)
 	board.configure("board", 209, true)
-	var card := preload("res://src/ui/widgets/card_view.gd").new()
+	var card := CardView.new()
 	card.show_unit(_unit("mr_crumb"), card.Mode.BOARD)
 	board.place_card(card, 5)
 	board.show_relations([5])
@@ -108,3 +110,55 @@ func test_reach_flash_paints_above_an_occupied_card_and_leaves_no_mark() -> void
 	assert_eq(foreground.mouse_filter, Control.MOUSE_FILTER_IGNORE)
 	pulse.custom_step(0.4)
 	assert_false(foreground.visible, "no permanent outline survives the reader beat")
+
+
+func test_lent_quarry_stamps_only_the_resolved_target_and_keeps_a_distinct_aimer() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var own: Array = [null, null, _unit("field_vole"), null, null, _unit("mrs_sorrel"), null]
+		var theirs: Array = [null, null, _unit("wick"), null, null, _unit("old_brock"), null]
+		var board := BoardView.new()
+		add_child_autofree(board)
+		board.configure("board", 209, true)
+		var resident := CardView.new()
+		var resident_view: Dictionary = own[5]
+		resident.show_unit(resident_view, CardView.Mode.BOARD)
+		board.place_card(resident, 5)
+		var scout := ScoutPanel.new()
+		add_child_autofree(scout)
+		scout.show_board("Enemy", theirs)
+		scout.card_at(2).selected = true
+		var projection := LaneProjection.new()
+		scout.pulse_reach(board, projection.forecast([own, theirs]), 2)
+		var pulse: Tween = board.get("_reach_tween")
+		pulse.pause()
+		pulse.custom_step(0.1)
+		var stamp: Control = board.slots[5].get("_quarry_stamp")
+		var across_stamp: Control = board.slots[2].get("_quarry_stamp")
+		assert_true(stamp.visible, "the lent quarry is stamped in both motion modes")
+		assert_gt(stamp.z_index, resident.z_index, "the target portrait cannot cover the glyph")
+		assert_eq(stamp.mouse_filter, Control.MOUSE_FILTER_IGNORE)
+		assert_false(across_stamp.visible, "no straight-across target is invented")
+		assert_true(scout.card_at(2).selected, "the aimer stays selected during the target beat")
+		assert_eq(scout.card_at(2).selection_color, UiTheme.RIME)
+		assert_ne(scout.card_at(2).selection_color, UiTheme.SELECT)
+		var source_board: BoardView = scout.get("_board")
+		assert_eq(source_board.slots[2].reach_flash, 0.0, "selection is not a second gold pulse")
+		pulse.custom_step(0.4)
+		assert_false(stamp.visible, "the quarry glyph retires with the cue")
+		assert_true(scout.card_at(2).selected, "the active selection remains available to inspect")
+
+
+func test_non_quarry_relations_never_acquire_a_quarry_stamp_and_clearing_retires_it() -> void:
+	Settings.reduce_motion = true
+	var board := BoardView.new()
+	add_child_autofree(board)
+	board.configure("board", 209, true)
+	board.show_relations([5], -1, [5])
+	var stamp: Control = board.slots[5].get("_quarry_stamp")
+	assert_true(stamp.visible)
+	board.show_relations([5])
+	assert_false(stamp.visible, "a later ordinary relation does not inherit the quarry glyph")
+	board.show_relations([5], -1, [5])
+	board.clear_highlights()
+	assert_false(stamp.visible, "closing the reader retires the stamp immediately")

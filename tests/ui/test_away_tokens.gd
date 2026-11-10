@@ -110,6 +110,34 @@ func test_one_tap_reads_exact_stats_homecoming_countdown_and_nest_without_mutati
 	assert_eq(CoreUtil.to_int(requested[1]["health"]), 35)
 
 
+func test_arrival_targets_the_exact_birds_portrait_not_its_outer_token() -> void:
+	var state: Dictionary = _state()
+	var birds: Array = state["away"]
+	var first: Dictionary = birds[0]
+	first["iid"] = 501
+	var second: Dictionary = birds[1]
+	second["def_id"] = first["def_id"]
+	second["iid"] = 502
+	var tray: Away = _tray(state)
+	await wait_process_frames(2)
+	var destination: Dictionary = tray.arrival_target({"iid": 502, "def_id": first["def_id"]})
+	var portrait: Control = destination["portrait"]
+	var countdown: Control = destination["countdown"]
+	var mark: Control = destination["mark"]
+	assert_eq(portrait, tray.tokens[1].get_node("Portrait"))
+	assert_eq(countdown, tray.tokens[1].get_node("Countdown"))
+	assert_eq(mark, tray.tokens[1].get_node("JourneyMark"))
+	assert_true(tray.tokens[1].get_global_rect().encloses(portrait.get_global_rect()))
+	assert_lt(portrait.size.x, tray.tokens[1].size.x, "arrival dissolves inside the portrait")
+	assert_eq(tray.arrival_target({"iid": 999, "def_id": first["def_id"]}), {})
+	var legacy: Dictionary = tray.arrival_target({"def_id": first["def_id"]})
+	var legacy_portrait: Control = legacy["portrait"]
+	assert_eq(legacy_portrait, tray.tokens[0].get_node("Portrait"))
+	var doorstep: Dictionary = tray.arrival_target({"def_id": "old_tern"})
+	var doorstep_countdown: Control = doorstep["countdown"]
+	assert_null(doorstep_countdown, "doorstep has no travelling countdown")
+
+
 func test_overflow_scrolls_without_dropping_any_birds_and_clears_when_empty() -> void:
 	var state: Dictionary = _state()
 	var birds: Array = state["away"]
