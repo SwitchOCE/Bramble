@@ -4,6 +4,26 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Build 9 content: the Ooze tail is cut; the Fairy Ring line still misses
+**Source:** `plan-build9.md` steps 1–2. `ideation/b9-content` 987d13ff, merged as ccdb79c6 (gate PASS, run 42793588496). Evidence: `evidence/b9-content/`.
+
+**Found:** two of the Ooze tail's three sources were bugs, and are fixed with regressions that failed before:
+- Hedgerow's own-stat reads wrapped negative past the ceiling (f97ee3ca).
+- Soak and Toll banked more Attack than they actually removed (25521d6a).
+
+**Picked:**
+- **Mrs Mallow now feeds other Hedgerow units** (ea902d9a). Her old self-feeding was legal, but a lone Mallow fed herself in a ×9 loop. With the change, the pair is ×3.
+- **Sally now Rings the nearest unringed slot, occupied or empty** (f43dbb40). That fixes a gap in her enabler role.
+
+**Results** (32 seeds, B, R12 p10 / median / p90):
+- Ooze engine: 673 / 1,205 / 2,447, so its p90 is 2.0× the median (it was 38×).
+- Ooze tempo: 693 / 990 / 3,412.
+- Fairy Ring: 224 / 471 / 2,070, under 675. That's a miss, reported and not refit. Five of six R12 Cluricaun seats still lack a rainbow.
+
+**Side effects:** Hedgerow Supper went from 1,313 to 592 and Hunters Pack from 1,074 to 629. The review traced these mostly to indirect field effects after the Sally change, not to Mallow (Open Season never owns Mallow). The measurement run re-reads them, with no further content refit. All lines stay within 2.6× of each other at R12.
+
+**Agreed by:** one Codex review ("Merge", no cuts; its one ask applied in 987d13ff). The gate.
+
 ### 10 Nov 2026 — The run resumes, smaller: build 9 is the build 8 v3 planned (owner, 10i)
 **Source:** owner note `2026-11-10i-resume-bounded.md`: "go back to the polishing and all the stuff that I asked you to stop … Keep it smaller and keep it more bounded. Less fan-outs, less cloud utilization … use the PC's full resources" and "Get it to the spot where you would have gotten build 8 to if I hadn't intervened earlier."
 
