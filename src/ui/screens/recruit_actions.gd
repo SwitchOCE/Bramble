@@ -1,25 +1,10 @@
 extends "res://src/ui/screens/recruit_layout.gd"
-## Guard recruit actions before they mutate state; the screen supplies its ordinary toast.
-
-var _pending_shy: String = ""
-var _shy_notice: Callable
+## Recruit action adapters and presentation sounds.
 
 
-## A second identical action confirms a precise warning. A changed state requires a fresh warning.
-func _allow_shy(action: String, first: int = -1, second: int = -1) -> bool:
-	var warning: String = port.shy_warning(action, first, second)
-	if warning.is_empty():
-		_pending_shy = ""
-		return true
-	var key: String = (
-		"%s:%d:%d:%d" % [action, first, second, JSON.stringify(port.get_state()).hash()]
-	)
-	if key == _pending_shy:
-		_pending_shy = ""
-		return true
-	_pending_shy = key
-	_shy_notice.call(warning)
-	return false
+## Shy is a one-press action. Its departure and queued acorns explain the committed result.
+func _allow_shy(_action: String, _first: int = -1, _second: int = -1) -> bool:
+	return true
 
 
 func _safe_item(index: int, slot: int = -1) -> String:

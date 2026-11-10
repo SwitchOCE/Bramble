@@ -188,6 +188,20 @@ func add_action(words: String, on_press: Callable, cost: int = -1) -> Button:
 	return button
 
 
+## A changing reason replaces Play itself; it is never a second instruction below the rules.
+func add_unavailable_action(reason: String) -> Button:
+	var button: LeafButton = add_action(reason, func() -> void: pass) as LeafButton
+	button.disabled = true
+	button.set_label_size(UiTheme.MIN_FONT)
+	button.set_meta("unavailable_action", true)
+	var label: Label = button.get("_label")
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.get_parent().set("size_flags_horizontal", Control.SIZE_EXPAND_FILL)
+	_layout()
+	return button
+
+
 ## A wide recruit screen can place actions beside the reader, keeping the full page for text.
 func set_action_column(rect: Rect2 = Rect2()) -> void:
 	_action_column = rect
@@ -204,8 +218,13 @@ func _layout() -> void:
 	actions.add_theme_constant_override("separation", gap)
 	var action_h: float = 0.0
 	for child: Node in actions.get_children():
-		(child as Control).custom_minimum_size.y = button_h
-		action_h += button_h + gap
+		var height: float = button_h
+		if child.has_meta("unavailable_action"):
+			var label: Label = child.get("_label")
+			var width: float = (_action_column.size.x if side_actions else w) * 0.73
+			height = maxf(height, _wrapped_height(label, width) + 20.0)
+		(child as Control).custom_minimum_size.y = height
+		action_h += height + gap
 	var bottom: float = size.y if side_actions else size.y - action_h
 	_panel.position = Vector2.ZERO
 	_panel.size = Vector2(w, bottom - 14.0)

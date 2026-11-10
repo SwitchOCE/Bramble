@@ -12,6 +12,7 @@ signal settings_requested
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const RecruitActionMotion := preload("res://src/ui/screens/recruit_action_motion.gd")
 const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
+const RecruitFeedback := preload("res://src/ui/screens/recruit_feedback.gd")
 const RecruitHud := preload("res://src/ui/screens/recruit_hud.gd")
 const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
 
@@ -27,6 +28,7 @@ var _ooze_ui: RecruitOozes = RecruitOozes.new()
 var _projection: LaneProjection = LaneProjection.new()
 var _action_motion: RecruitActionMotion
 var _motion: RecruitMotion
+var _feedback: RecruitFeedback
 var _hover_zone: String = ""
 var _hover_index: int = -1
 var _landing_round: int = -1
@@ -38,12 +40,14 @@ func setup(game_port: GamePort) -> void:
 	port = game_port
 	_dev.setup(port)
 	render()
+	var notice: String = _feedback.present(self, {})
+	if not notice.is_empty():
+		show_toast(notice)
 	if Data.i(state, "round", 1) > 1 and Data.d(state, "pending_choice").is_empty():
 		Sfx.play("gold")
 
 
 func _init() -> void:
-	_shy_notice = show_toast
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	UiTheme.add_table(self)
@@ -90,6 +94,8 @@ func _init() -> void:
 	_stage.add_child(_motion)
 	_action_motion = RecruitActionMotion.new()
 	_stage.add_child(_action_motion)
+	_feedback = RecruitFeedback.new()
+	_stage.add_child(_feedback)
 	_lanes = LaneOverlay.new()
 	_lanes.boards = [_board, _scout.get("_board")]
 	_stage.add_child(_lanes)
@@ -374,16 +380,16 @@ func _show_selection() -> void:
 			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
 			var aim: String = Data.s(view, "aim", "none")
-			if CardView.is_spell(view) and aim == "none":
+			var no_target: String = RecruitView.no_target_note(state, view)
+			if CardView.is_spell(view) and not no_target.is_empty():
+				_detail.show_unit(_ring_aim_card(view))
+				_detail.add_unavailable_action(no_target)
+			elif CardView.is_spell(view) and aim == "none":
 				_detail.show_unit(view)
 				_detail.add_action("Play", _on_spell_selected)
 				_highlight_item(view)
 			elif CardView.is_spell(view):
-				var no_target: String = RecruitView.no_target_note(state, view)
-				_detail.show_unit(
-					_ring_aim_card(view),
-					no_target if not no_target.is_empty() else "Tap where to play it"
-				)
+				_detail.show_unit(_ring_aim_card(view))
 				_highlight_item(view)
 			else:
 				var into_belly: bool = not _highlight_bellies(view).is_empty()
@@ -572,6 +578,10 @@ func _tap_without_swallow(zone: String, index: int) -> void:
 	else:
 		_selected = {}
 	_show_selection()
+	if zone == "hand" and not _selected.is_empty():
+		var item: Dictionary = _unit_at(zone, index)
+		if CardView.is_spell(item) and not RecruitView.no_target_note(state, item).is_empty():
+			_feedback.refuse(_card_at(zone, index))
 
 
 func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
@@ -818,11 +828,15 @@ func _act_placed(reason: String, view: Dictionary, sound: String = "place") -> v
 
 
 func _after_change(rewards: bool = true, sound: String = "") -> void:
+	_feedback.finish()
 	_action_motion.finish()
 	var before: Dictionary = _action_motion.snapshot(self)
 	var old_state: Dictionary = state
 	render()
 	_action_motion.present(self, before, sound)
+	var notice: String = _feedback.present(self, before)
+	if not notice.is_empty():
+		show_toast(notice)
 	if rewards:
 		_play_change_sounds(old_state, sound)
 
@@ -863,11 +877,17 @@ func _on_freeze() -> void:
 
 func _on_end_turn() -> void:
 	if _ending:
+		_ending = false
+		_feedback.finish()
 		_motion.finish()
+		combat_ready.emit()
 		return
 	if not _allow_shy("end_turn"):
 		return
 	var captured: Array[Dictionary] = []
+	_feedback.finish()
+	_action_motion.finish()
+	var before: Dictionary = _action_motion.snapshot(self)
 	var player: PlayerState = null
 	var previous: Callable
 	if port is CorePort:
@@ -889,15 +909,23 @@ func _on_end_turn() -> void:
 		_detail.show_empty()
 		Sfx.play("turn_end")
 		_ending = true
-		_motion.play_events(
-			_board,
-			captured,
-			func() -> void:
-				_ending = false
-				combat_ready.emit()
-		)
+		var notice: String = _feedback.present(self, before, captured)
+		if not notice.is_empty():
+			show_toast(notice)
+		_motion.play_events(_board, captured, _complete_end_turn)
 	else:
 		show_toast(reason)
+
+
+func _complete_end_turn() -> void:
+	var remaining: float = _feedback.duration - _feedback.elapsed
+	if remaining > 0.0:
+		await get_tree().create_timer(remaining).timeout
+	if not _ending:
+		return
+	_feedback.finish()
+	_ending = false
+	combat_ready.emit()
 
 
 func _land_queued_gains() -> void:

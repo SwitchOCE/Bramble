@@ -165,7 +165,7 @@ func test_overflow_scrolls_without_dropping_any_birds_and_clears_when_empty() ->
 	await wait_process_frames(1)
 
 
-func test_opponent_tiers_leave_resting_plaques_and_remain_exact_in_hero_readers() -> void:
+func test_opponent_tier_knots_show_exact_numerals_and_reader_numbers() -> void:
 	var hero: Dictionary = UnitLibrary.load_dir().all_heroes()[0]
 	var standing: Dictionary = {
 		"player_id": 1,
@@ -182,10 +182,17 @@ func test_opponent_tiers_leave_resting_plaques_and_remain_exact_in_hero_readers(
 	add_child_autofree(plaque)
 	plaque.size = Vector2(160, 74)
 	var knot: Control = plaque.get("_knot")
-	assert_false(knot.is_visible_in_tree(), "no tier badge remains at rest")
+	assert_true(knot.is_visible_in_tree(), "the opponent tier knot stays on its portrait")
+	var tier_number: Label = knot.get_node("TierKnot")
+	assert_eq(tier_number.text, "6")
+	assert_true(tier_number.is_visible_in_tree())
 	var labels: Array[Dictionary] = Capture.text_nodes(plaque)
-	assert_eq(labels.size(), 1, "only current Health stays on the plaque")
-	assert_eq(str(labels[0]["text"]), "17")
+	assert_eq(labels.size(), 2, "opponent tier and current Health both count")
+	var texts: Array[String] = []
+	for label: Dictionary in labels:
+		texts.append(str(label["text"]))
+	assert_has(texts, "17")
+	assert_has(texts, "6")
 	var reader: Dictionary = Plaque.reader_card(standing)
 	assert_eq(CoreUtil.to_int(reader["tier"]), 6)
 	assert_string_contains(str(reader["text"]), "Tier 6.")
@@ -223,3 +230,24 @@ func test_next_tap_scouts_then_opens_the_hero_reader_and_other_taps_only_read() 
 	order.clear()
 	next.tap.hovered.emit("lobby", 1, true)
 	assert_eq(order, ["reader"], "desktop hover reads without toggling scouting")
+
+
+func test_all_six_tiers_have_one_counted_numeral_and_nonopponent_knots_stay_hidden() -> void:
+	for tier: int in range(1, 7):
+		var standing: Dictionary = {"name": "Rival", "tier": tier, "health": 20, "alive": true}
+		var plaque := Plaque.new(standing, false)
+		add_child_autofree(plaque)
+		plaque.size = Vector2(160, 74)
+		var knot: Control = plaque.get("_knot")
+		assert_true(knot.visible)
+		var number: Label = knot.get_node("TierKnot")
+		assert_eq(number.text, str(tier))
+		assert_eq(Capture.text_nodes(plaque).size(), 2, "tier and Health each count as text")
+	for flags: Dictionary in [{"is_human": true}, {"alive": false}, {}]:
+		var standing: Dictionary = {"name": "Rival", "tier": 6, "health": 20, "alive": true}
+		standing.merge(flags, true)
+		var ghost: bool = flags.is_empty()
+		var plaque := Plaque.new(standing, false, ghost)
+		add_child_autofree(plaque)
+		var knot: Control = plaque.get("_knot")
+		assert_false(knot.visible, "own, out and ghost portraits do not gain a tier knot")

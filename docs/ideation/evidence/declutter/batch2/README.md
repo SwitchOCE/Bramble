@@ -1,9 +1,29 @@
 # Declutter batch 2 — implementation and evidence checkpoints
 
-**Current checkpoint:** the recruit label gate now passes at both sizes: overview
-40, lobby 39, scout 30, natural Birds 30. See [main integration and verified cuts](followup-main.md)
+**Current checkpoint:** the amended label gate keeps the seven opponent tier
+numerals: overview 47, lobby 46; other budget states retain a cap of 40. See [main integration and verified cuts](followup-main.md)
 and [refreshed native evidence](focus-followup/README.md). The remainder below
 preserves the original checkpoint and its historical limitations.
+
+**Kept-state cap amendment (orchestrator):** opponent tier numerals are restored
+because spec §2.5 keeps that changing state. Overview/lobby limits are now **47/46**, admitting exactly the seven restored
+numerals over their previous counts of 40/39. This is the only cap amendment: other budget states keep 40. The cap
+is our clutter proxy; one numeral per opponent is less to read than up to six
+pips across seven portraits. No restored tier node is excluded from counting.
+
+**Click preview baseline:** at merged main `bc9ee571`, the away reader prints the
+`home_attack`/`home_health` supplied by `HeldUnits.away_views` for native pass-3
+Birds: configured homecoming multiplier plus the current tribe bonus. It does
+not forecast future homecoming-trigger rewards. This baseline has no Click
+unit/mechanic, so this packet does not establish a Click homecoming preview.
+No away-reader code was changed for that review ask.
+
+**Ring-count review:** spec §2.2, line 73 moves exact Ring stack counts and totals
+into the one-tap unit/empty-slot reader, including stacks of two or more. The
+floor keeps its Ring frame without digits. The contrary historical bullet below
+belongs to an earlier checkpoint; the current reader regression pins exact
+counts 2, 36 and 12345. Restoring standing digits is left for the orchestrator's
+spec decision.
 
 Started at d400831e on ideation/declutter-b2. Batch 1's requested follow-ups were
 committed through cea9d0e2 and merged back at 593e0740. Nothing was pushed.

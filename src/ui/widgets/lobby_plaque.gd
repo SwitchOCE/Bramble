@@ -1,5 +1,5 @@
 extends Control
-## A portrait with current Health. Tier and full hero state live in its one-tap reader.
+## A portrait with current Health and an opponent tier numeral; full hero state is one tap away.
 ## The next opponent has a red rim; a ghost is grey and has no Health.
 
 signal next_requested
@@ -90,7 +90,7 @@ func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	health.offset_top = 5.0
 	_hip.add_child(health)
 	_hip.visible = not is_out and not is_ghost
-	_knot.visible = false
+	_knot.visible = not is_me and not is_out and not is_ghost
 	if (
 		Data.b(standing, "last_stand_enabled")
 		and Data.b(standing, "last_stand_active")

@@ -18,6 +18,8 @@ const LaneStates := preload("res://tests/ui/lane_states.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 const LIMIT: int = 40
+# The orchestrator restored seven opponent tier numerals, explicitly kept by spec §2.5.
+const KEPT_TIER_LIMITS: Dictionary = {"overview": 47, "lobby": 46}
 var _breakdown_records: Array[Dictionary] = []
 
 
@@ -70,13 +72,14 @@ func _screen(pixels: Vector2i, port: GamePort) -> RecruitScreen:
 func _assert_budget(screen: RecruitScreen, scenario: String) -> void:
 	var breakdown: Dictionary = _record_breakdown(screen, scenario)
 	var labels: Array[Dictionary] = breakdown["visible_text_nodes"]
+	var limit: int = CoreUtil.to_int(KEPT_TIER_LIMITS.get(scenario.get_slice(" ", 0), LIMIT))
 	print(
 		(
 			"declutter recruit label budget: %s = %d/%d %s"
-			% [scenario, labels.size(), LIMIT, JSON.stringify(breakdown["counts"])]
+			% [scenario, labels.size(), limit, JSON.stringify(breakdown["counts"])]
 		)
 	)
-	assert_lte(labels.size(), LIMIT, "%s: %s" % [scenario, JSON.stringify(labels)])
+	assert_lte(labels.size(), limit, "%s: %s" % [scenario, JSON.stringify(labels)])
 
 
 func test_scripted_recruit_and_scout_keep_all_visible_text_within_forty() -> void:
