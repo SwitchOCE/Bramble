@@ -80,6 +80,8 @@ var _status_text: Dictionary = {}
 var _pending_hits: Array[Hit] = []
 var _landing: int = 0
 var _tiers: Array[int] = [1, 1]
+## Initial aura statuses belong in combat_start, not in transitions before the snapshot.
+var _setting_up: bool = false
 
 
 static func create(
@@ -101,12 +103,14 @@ func run(boards: Array, tiers: Array[int], player_ids: Array[int], damage_cap: i
 	_last_blow_source = -1
 	_last_blow_kind = ""
 	_tiers = tiers
+	_setting_up = true
 	CombatRings.prepare(self)
 	_slots_active = _has_slot_effects()
 	_setup(boards)
 	Pass3BogCombat.prepare(self)
 	var first_side: int = _first_side()
 	_recalc_auras(false)
+	_setting_up = false
 	if log_events:
 		for status: String in STATUS_SOURCES:
 			var source: Array = STATUS_SOURCES[status]
@@ -968,7 +972,7 @@ func _board_views(side: int) -> Array:
 
 
 func _emit(type: String, fields: Dictionary) -> void:
-	if not log_events:
+	if not log_events or _setting_up:
 		return
 	var event: Dictionary = {"seq": events.size(), "type": type}
 	event.merge(fields)

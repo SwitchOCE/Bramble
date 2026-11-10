@@ -16,6 +16,8 @@ extends SceneTree
 ## tools/checks/soak.sh wraps it and also fails on any ERROR / SCRIPT ERROR line in the log.
 ## Exit code 1 if any violation was found.
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const MAX_TURNS: int = 60
 const VALID_REASONS: PackedStringArray = [
 	Combat.REASON_BOARD_EMPTY,
@@ -794,7 +796,8 @@ static func _slot_key(side: int, slot: int) -> int:
 ## The def ids on both boards at the start, for limit-fight reports.
 static func _names(events: Array[Dictionary]) -> String:
 	var out: Array = []
-	var boards: Array = events[0]["boards"]
+	var start: Dictionary = Events.start(events)
+	var boards: Array = start.get("boards", [[], []])
 	for side: int in 2:
 		var names: Array = []
 		var row: Array = boards[side]

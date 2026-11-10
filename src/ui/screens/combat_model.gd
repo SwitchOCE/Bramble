@@ -10,7 +10,7 @@ const SLOTS: int = 7
 var units: Dictionary[int, Dictionary] = {}
 ## boards[side][slot] = uid, or -1 for empty.
 var boards: Array[PackedInt32Array] = []
-var player_ids: Array = [-1, -1]
+var player_ids: Array = []
 var first_side: int = 0
 var phase: String = ""
 var finished: bool = false
@@ -36,6 +36,7 @@ func _init() -> void:
 
 
 func reset() -> void:
+	player_ids = []
 	units.clear()
 	boards = [PackedInt32Array(), PackedInt32Array()]
 	for side: int in 2:
@@ -147,7 +148,7 @@ func apply(event: Dictionary) -> void:
 
 func _start(event: Dictionary) -> void:
 	reset()
-	player_ids = event.get("player_ids", [-1, -1])
+	player_ids = Data.a(event, "player_ids").duplicate()
 	first_side = Data.i(event, "first_side", 0)
 	var start_boards: Array = event.get("boards", [[], []])
 	for side: int in mini(2, start_boards.size()):

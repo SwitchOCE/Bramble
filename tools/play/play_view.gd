@@ -2,6 +2,8 @@ class_name PlayView
 extends RefCounted
 ## What every tools/play call prints: everything a player can see, plain and quick to read.
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const CardRulings := preload("res://src/ui/card_rulings.gd")
 const FightLog := preload("res://tools/play/play_fight_log.gd")
 const KeywordRules := preload("res://src/ui/keyword_rules.gd")
@@ -573,9 +575,11 @@ static func fight_lines(fight: Dictionary, state: Dictionary, lines: PackedStrin
 	var events: Array = fight.get("events", [])
 	if events.is_empty():
 		return
-	var start: Dictionary = events[0]
-	var ids: Array = start["player_ids"]
-	var mine: int = maxi(0, ids.find(GameSession.HUMAN_ID))
+	var start: Dictionary = Events.start(events)
+	var mine: int = Events.side(start, GameSession.HUMAN_ID)
+	if mine < 0:
+		push_error("Cannot describe a fight without the human in combat_start.player_ids")
+		return
 	var winner: int = CoreUtil.to_int(fight.get("winner", -1))
 	var outcome: String = "Tied" if winner < 0 else ("You won" if winner == mine else "You lost")
 	(

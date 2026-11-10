@@ -2,6 +2,8 @@
 extends Control
 ## Short recruit consequences share one clock. Only an unexplained failure gets prose.
 
+const Events := preload("res://src/core/combat/combat_events.gd")
+
 const Data := preload("res://src/ui/view_data.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -242,9 +244,9 @@ func _spent_target(ui: Layout) -> Control:
 func _rival_point(ui: Layout) -> Vector2:
 	# The most recent combat records the actual rival, including a ghost owner.
 	var fight: Dictionary = ui.port.get_last_combat()
-	var ids: Array = Data.a(fight, "player_ids")
+	var ids: Array = Data.a(Events.start(Data.a(fight, "events")), "player_ids")
 	if ids.is_empty():
-		ids = Data.a(Data.entry(Data.a(fight, "events"), 0), "player_ids")
+		ids = Data.a(fight, "player_ids")
 	for plaque: Control in ui._lobby.plaques:
 		var standing: Dictionary = plaque.get("_standing")
 		if not Data.b(standing, "is_human") and ids.has(Data.i(standing, "player_id", -9)):
