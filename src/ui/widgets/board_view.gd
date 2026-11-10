@@ -395,8 +395,11 @@ func move_card_here(card: CardView, slot: int) -> Vector2:
 func clear() -> void:
 	for i: int in SLOTS:
 		remove_card(i)
-	for card: CardView in _loose:
-		if is_instance_valid(card) and card.get_parent() == self:
+	for value: Variant in _loose:
+		if not is_instance_valid(value):
+			continue
+		var card: CardView = value
+		if card.get_parent() == self:
 			remove_child(card)
 			card.queue_free()
 	_loose.clear()

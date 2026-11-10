@@ -756,9 +756,7 @@ func die(card: CardView) -> void:
 	tween.tween_interval(0.15)
 	if Data.i(card.unit, "health") > 0:
 		# A self-removal has no lethal damage pop: show death before its replacement arrives.
-		var bones: TextureRect = _icon(
-			"bones", card.get_global_rect().get_center(), 84, UiTheme.CREAM
-		)
+		var bones := _icon("bones", card.get_global_rect().get_center(), 84, UiTheme.CREAM)
 		var death_mark: Tween = _tween(bones)
 		death_mark.tween_interval(0.35)
 		death_mark.tween_property(bones, "modulate:a", 0.0, 0.15)
@@ -994,6 +992,8 @@ func result(animate: bool) -> void:
 
 func _clear_result_transfers(items: Array[Control]) -> void:
 	# Leave the final Health readable before automatic return, after the impact pop settles.
-	for item: Control in items:
-		if is_instance_valid(item):
+	for value: Variant in items:
+		var item: Control = Data.control(value)
+		if item != null:
 			item.hide()
+	items.clear()
