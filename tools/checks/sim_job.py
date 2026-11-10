@@ -74,6 +74,8 @@ def load_config(path):
     rates = config.get("rates", {})
     if not isinstance(rates, dict):
         raise ValueError("rates must be an object of dial: value")
+    if not isinstance(config.get("recruit_trace", False), bool):
+        raise ValueError("recruit_trace must be a boolean")
     config = {**config, "seeds": seeds, "shards": min(shards, len(seeds)), "rates": rates}
     if kind == "soak":
         presets = read_json(ROOT / "content/pass3/rates.json")["presets"]
@@ -171,6 +173,8 @@ def bench(config, out_dir, first, count):
         f"config={config_path}",
         f"out={prefix}",
     ]
+    if config.get("recruit_trace", False):
+        args.append("recruit_trace=on")
     if os.environ.get("BRAMBLE_SLOT_HELD"):
         args = args[1:]
     tick = time.monotonic()
