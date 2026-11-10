@@ -58,8 +58,8 @@ The existing dead-reward test now requires a persistent reserve landing instead 
 an expiring echo. New tests check both Pack poses at ×1/×4/reduce, directed Aura and
 its recipient landing, and Counter's ordered self-gain/answer cue.
 Targeted `test_combat_declutter.gd`: **31/31, 273 assertions, 5.06 s**;
-strict hook passes (`build/declutter/motion4d-test_combat_declutter.log`). Source
-formatting/lint pass. No rule text was added to the resting board.
+strict hook passes (`build/declutter/motion4d-test_combat_declutter.log`). Production source
+formatting/lint passed; the full test-directory lint was not run at that checkpoint. No rule text was added to the resting board.
 
 ## Part 3: wordless wave 2a state and source cues
 
@@ -247,7 +247,8 @@ Clean editor import and all five targeted files pass with no script/runtime erro
 
 Logs: `build/declutter/narrow4-*.log` and `narrow4cue-*.log`. GUT reports 1,173
 orphans in the existing recruit-replay and simultaneous-Take tests; the new tests
-report none. Formatting/lint and whitespace checks pass. No full gate or new cold
+report none. Scoped formatting/lint and whitespace checks passed. Full test-directory lint later found
+the duplicate preload described below. No full gate or new cold
 reader was run here. The committed reshoot cold-reader files are the orchestrator's
 verbatim input on the earlier packet, not a claim about these new strips.
 
@@ -290,3 +291,12 @@ An initial failed fixture probe survived an attempted cancellation until its tim
 and briefly overlapped regeneration. The accepted render passes ran sequentially;
 `strips/bog-followup/process-history.md` records the exact overlap and timing.
 No Godot process remains.
+
+
+## Gate correction: complete test-directory lint
+
+The earlier 'lint passes' wording referred to scoped source/file checks. Running
+`(cd tests && gdlint .)` found a duplicate inline preload of `combat_attack_cue.gd`
+in the Pounce regression (line 863), already used at line 497. Both now use one
+`AttackCue` constant at the top of the file. No behavior or evidence changes.
+The full requested static-check results are recorded with this follow-up below.
