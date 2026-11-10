@@ -278,3 +278,33 @@ That legality mismatch remains open; this is not a clean whole-soak result.
 run. [Compact output and checks](../../evidence/neutrals/pool-tools.json) retain
 the result, including all seven violations. Raw logs remain under
 `build/neutrals/pool-tools/`.
+
+## Combined soak-fix gate follow-up
+
+Merged the reviewed `ideation/soak-bugs` commit `450098d8` as `23850fee`,
+including Egg legality and held-release fixes. The combined cloud run
+`42759121987` found three stale fixture contracts:
+
+- Soup's existing face already says “rounded up”, its Details say shares round
+  up, and its rule uses `ceil` after summing. The A3.5 endpoint test still
+  expected floors. The independent known answers are corrected to 13/25 normal
+  and 19/38 golden at one eighth; both faces must explicitly say “rounded up”.
+  Printing, rates and gameplay remain unchanged.
+- Russet's prey was retired Field Vole. The rule intentionally skips prey with
+  `pool=false`; there is no random pool draw involved. Live tier-1 Young Brock
+  has the same printed 2/3, retaining the test's 120/240 buff input and every
+  expected share. A failed count assertion now prevents an additional invalid
+  array access.
+- The aimed-hero UI fixture selected the empty old unit pool with
+  `pool_filter=all`. It now keeps current full-game units and spells, exposing
+  Sample Painter in that test library's live card set for the aimed-power
+  check. Its spell selection names Elderflower Cordial, a legal buff on the
+  played unit, rather than accepting any `aim=unit` item. The test additionally
+  asserts a unit actually reached F2 and the bought spell has the expected ID.
+
+All 85 tests across the four requested files pass, including the merged Egg
+legality and held-release tests, with the strict hook and no GUT warnings.
+`check.sh --no-tests` passes after the final code edit, including Ruff, gdformat
+and gdlint. No full GUT suite was run.
+[Compact results](../../evidence/neutrals/cloud-fixture-fixes.json); raw logs:
+`build/neutrals/cloud-fixes/`.
