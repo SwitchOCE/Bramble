@@ -1,14 +1,19 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The Oozes rebuild and portraits for every unit are merged. Hedgerow's rebuild is done: its boards reach about 874 at round 12, near the 900 target, and it's in review. The other tribes still end up too small at round 12, and the next step sets each tribe's numbers from real boards.
+- **In short:** Hedgerow is near its round-12 target and passed review. Pot Luck now grows fast enough, but its boards are still far too small. The fight screen's first clean-up and every unit's portrait are in the game. The next step sets each tribe's numbers from real boards.
 - **Status:** active
-- **Last step done:** 10 Nov: the plan to Done (`plan-to-done.md`) was approved, wave 2b part 1 (the pass 3 Oozes) merged, the last 12 pool portraits merged, and the Quilboar lessons were written up (`reference/quilboar/lessons.md`).
+- **Last step done:** 10 Nov:
+  - Hedgerow (A2) passed both checks: a signature that isn't Blood Gems, and ×1.54 and ×1.74 growth a round.
+  - Pot Luck's same-commit control grows ×1.335 (A1b criterion 1).
+  - Declutter batch 1 merged after its sixth cold reader.
+  - All 15 planned images are in, including Golden Egg, Shieldbug and Click Beetle.
+  - The Actions gate is sharded.
 - **Next step:**
-  - Hedgerow (A2): a scope review and a fresh signature check are running. Then Pot Luck's route arms against a same-commit control (A1b), then the neutrals (A3).
-  - Set B and C from realized boards (A3.5). Run 1 comes right after A1b, on Actions.
-  - Fight screen (batch 1): four cues to fix (Toll, queued gain, kiss, Mire wait), then one more fresh reader. Batch 2 follows.
-  - Test suite: merge the gate shards, then the faster suite. Look-alike portraits are being redrawn.
+  - Pot Luck's constructed boards (A1b criterion 2). Hedgerow's route fixes, which must land before A3.5 run 1. Then the neutrals (A3).
+  - Set B and C from realized boards (A3.5): the step 0 dial check is finishing. Hunters need new dials, and the other tribes can reach their targets on today's dials, with conditions.
+  - Fight screen batch 2: the 40-node cap, names off tiles, the Mire stamp and capture fixes.
+  - The Actions sim job (S4), the play tools (S5), the faster suite (S10) and the export script and memory budget (S3) are in progress.
 - **Waiting on you:** Nothing.
 - **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
 <!-- /status -->
