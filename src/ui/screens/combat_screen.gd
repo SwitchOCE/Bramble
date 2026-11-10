@@ -558,11 +558,11 @@ func _roll_changes(uid: int, before: Dictionary, delay: float = 0.0) -> void:
 		var current: int = maxi(0, Data.i(model.unit(uid), stat))
 		if old != current:
 			var label: Label = card.get("_" + stat + "_label")
-			label.text = Numbers.compact(old)
+			card.show_stat(stat, old)
 			var tween: Tween = _tween().bind_node(label)
 			tween.tween_interval(delay)
 			tween.tween_method(
-				func(value: int) -> void: label.text = Numbers.compact(value), old, current, 0.15
+				func(value: int) -> void: card.show_stat(stat, value), old, current, 0.15
 			)
 
 

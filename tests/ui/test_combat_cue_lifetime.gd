@@ -521,3 +521,24 @@ func test_preempted_toll_and_queued_gain_numbers_never_land_during_the_next_acti
 			assert_eq(screen.model.units, units)
 			assert_eq(screen.model.bog_toll, toll)
 			_assert_card_numbers_match_model(screen, "preempted Toll and queued gain")
+
+
+func test_animated_stat_roll_refits_old_and_intermediate_numbers_to_the_bead() -> void:
+	var screen: CombatScreen = _screen()
+	var card: CardView = screen._cards[1]
+	card.set_card_width(171)
+	screen.model.units[1]["health"] = 1
+	screen._sync_unit(1)
+	screen._roll_changes(1, {"attack": screen.model.units[1]["attack"], "health": 229})
+	var label: Label = card.get("_health_label")
+	var badge: Control = card.health_bead()
+	for delta: float in [0.0, 0.075, 0.075]:
+		screen.advance_playback(delta)
+		var font: Font = label.get_theme_font("font")
+		var font_size: int = label.get_theme_font_size("font_size")
+		var width: float = (
+			font.get_string_size(label.text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+		)
+		var room: float = badge.call("inner_width")
+		assert_lte(width, room, "each animated numeral fits the actual bead")
+		assert_gte(font_size, 31, "fitting preserves the shared minimum font")

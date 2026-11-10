@@ -8,7 +8,6 @@ const Settings := preload("res://src/ui/settings.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
-const Numbers := preload("res://src/ui/stat_numbers.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 
 var tracks: Array[Dictionary] = []
@@ -322,10 +321,8 @@ func _advance_rolls(delta: float) -> void:
 
 
 func _set_numbers(card: CardView, attack: int, health: int) -> void:
-	var attack_label: Label = card.get("_attack_label")
-	var health_label: Label = card.get("_health_label")
-	attack_label.text = Numbers.compact(maxi(0, attack))
-	health_label.text = Numbers.compact(maxi(0, health))
+	card.show_stat("attack", attack)
+	card.show_stat("health", health)
 
 
 func pop_beads(card: CardView) -> void:
