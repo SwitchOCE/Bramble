@@ -476,3 +476,39 @@ content-wide files and unchanged frozen normal replay. All four repository-wide
 lint/format commands and 13 Python runner/reporter tests pass. New tests use
 fixed recruit states/recipes; no new test plays a lobby. Evidence is under
 `evidence/wave2b/potluck-route/`. Measurement outcomes remain pending.
+
+### Pot Luck route results (same-head B, 32 seeds per arm)
+
+Keep **control**. Combined loses to control on both deciding point estimates, so
+neither save-3 nor Dollop rank-4 is adopted. No card change is proposed.
+
+| Arm | R14 matched-cohort growth, 90% bootstrap interval | Cohort | R14 alive | R12 active median |
+| --- | --- | ---: | ---: | ---: |
+| Control | ×1.335 [1.243, 1.413] | 12 | 12/32 | 272 |
+| Save 3 | ×1.261 [1.211, 1.315] | 11 | 11/32 | 222.5 |
+| Dollop priority | ×1.271 [1.221, 1.379] | 11 | 11/32 | 230.5 |
+| Both | ×1.304 [1.232, 1.356] | 12 | 12/32 | 239 |
+
+Intervals use 20,000 deterministic paired-seat resamples, conditional on entering
+R14. The changing-survivor read resamples whole lobby seeds. Every alternative
+growth read (including Bellies and median individual growth) has its cohort and
+90% interval in `evidence/wave2b/potluck-route/growth-intervals.json`; these do not
+estimate a cross-arm causal difference. Compact endpoint rows allow recomputation.
+
+Constructed R8 and R10 stand-ins each won **32/32 fights** (16 paired seeds, both
+orientations) against actual median Hard boards of 99/189 active stats. They used
+134/363 active stats, gold 0/0, tier 4/5 and Belly stats 44/72. This is **not proof
+of criterion 2 (the costed route)**: the matching paper P calculation leaves gold
+4/5, one meal of 17.906/29.118 stats, and reserves [17.906] /
+[17.906, 6.625, 30.118]. The identities/positions in the native recipe are declared
+phase-guide choices; paper supplies no exact named board. Actual control rows
+have median gold 1/0 and Belly stats 14.5/19.5 at R8/R10 (n=32 each); tiers are
+R8: 19 at T4, 12 at T5, one at T6; R10: 29 at T5, three at T6. The line therefore
+does not reproduce the costed gold/Belly allocation. The combat diagnostic passes
+its matchups; route fidelity remains an explicit limit, not a claimed pass.
+
+Control's R12 median is 272/900 (0.302×), or 0.271× its paper reference 1,002.518.
+Control Hard-seat Ooze splash is 83/3,587 unique off-build offers (2.314%), against
+325/536 own-build offers (60.634%). All raw captures and CSVs remain under
+`build/wave2b/potluck-arms/`. The constructed run took 29.62s; full arms took
+414.4/432.1/426.9/431.5s. No extra whole-game test was added.
