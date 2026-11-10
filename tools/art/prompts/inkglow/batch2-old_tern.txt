@@ -11,4 +11,4 @@ BACKGROUND HUE FAMILIES (muted mid-light washes; hue guides, not exact flat-fill
 Square edge-to-edge illustration, generous subject scale. No border, UI, lettering, logo or watermark. No named-artist imitation.
 
 JOB: old_tern; asset type: unit; visual background family: Birds.
-IDENTITY: Stern old grey-and-white tern facing right, black cap, long red pointed beak. Navy double-breasted captain coat with large gold buttons, yellow neckerchief, round gold pocket watch held at lower chest in wing. Preserve watch and nautical costume. Pale duck-egg sky with a few broad cream cloud shapes.
+IDENTITY: Stern old grey-and-white tern facing LEFT, exactly as in image 1, black cap, long red pointed beak. Navy double-breasted captain coat with large gold buttons, yellow neckerchief, round gold pocket watch held at lower-right chest in grey wing. Keep original leftward gaze and original wing/watch arrangement; do not mirror the character. Preserve watch and nautical costume. Pale duck-egg sky with a few broad cream cloud shapes.
