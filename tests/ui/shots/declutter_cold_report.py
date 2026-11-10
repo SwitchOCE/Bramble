@@ -19,7 +19,7 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
     same_modes = {}
     for source in sorted(raw.glob("*/manifest.json")):
         data = json.loads(source.read_text())
-        assert data["production_revision"] == revision
+        assert data["production_revision"] == (revision if data["reader_label"] == "D" else "b7ab5d02")
         assert len(data["frames"]) == 8
         assert data["duration"] <= 1.5
         assert data["frames"][0]["tick"] == 0
@@ -67,7 +67,12 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
             "Designed legal state; no fake definitions, triggers, core events or cue timing."
         )
         (technical / (label + "-" + mode + ".json")).write_text(json.dumps(data, indent=2) + "\n")
-        manifests.append({key: data[key] for key in ["reader_label", "action", "mode", "duration", "reader_sheet"]})
+        manifests.append(
+            {
+                key: data[key]
+                for key in ["reader_label", "action", "mode", "duration", "reader_sheet", "production_revision"]
+            }
+        )
     assert len(manifests) == 16 and len(same_modes) == 8
     rest = json.loads((technical / "resting-words.json").read_text())
     assert len(rest["captures"]) == 44

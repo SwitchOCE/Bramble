@@ -29,14 +29,17 @@ var _tweens: Array[Tween] = []
 var _states: Dictionary = {}
 var _events: Array[Dictionary] = []
 var _rest: Array[Dictionary] = []
+var _selected: PackedStringArray = []
 
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	assert(args.size() == 3, "usage: -- <packet> <raw frames> <production revision>")
+	assert(args.size() in [3, 4], "usage: -- <packet> <raw> <revision> [reader labels]")
 	_out = args[0]
 	_raw = args[1]
 	_revision = args[2]
+	if args.size() == 4:
+		_selected = args[3].split(",", false)
 	Settings.path = "user://declutter_cold.cfg"
 	Settings.reset()
 	_resize(PIXELS)
@@ -56,7 +59,12 @@ func _run() -> void:
 		Settings.fight_speed = 1.0
 		Settings.reduce_motion = mode == "reduce"
 		for label: String in CASES:
-			await _action(label, str(CASES[label]), mode)
+			if _selected.is_empty() or _selected.has(label):
+				await _action(label, str(CASES[label]), mode)
+	if not _selected.is_empty():
+		print("declutter cold: selected native replays complete")
+		quit()
+		return
 	var source: Dictionary = FixturePort.load_json(
 		"res://docs/ideation/evidence/declutter/batch2/states.json"
 	)
