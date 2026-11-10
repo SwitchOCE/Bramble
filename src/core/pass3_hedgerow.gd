@@ -53,13 +53,15 @@ static func larder(player: PlayerState) -> int:
 
 static func own_stats(unit: RecruitUnit, include_tribe: bool = true) -> Vector2i:
 	return Vector2i(
-		maxi(
+		clampi(
+			unit.base_attack_now() + unit.perm_attack + (unit.tribe_attack if include_tribe else 0),
 			0,
-			unit.base_attack_now() + unit.perm_attack + (unit.tribe_attack if include_tribe else 0)
+			BoardUnit.STAT_CLAMP
 		),
-		maxi(
+		clampi(
+			unit.base_health_now() + unit.perm_health + (unit.tribe_health if include_tribe else 0),
 			0,
-			unit.base_health_now() + unit.perm_health + (unit.tribe_health if include_tribe else 0)
+			BoardUnit.STAT_CLAMP
 		)
 	)
 
