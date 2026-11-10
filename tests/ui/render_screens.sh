@@ -3,9 +3,16 @@
 # native-size JPEGs (quality 80) to build/screens/. tests/ui/render_screens.sh publish then copies
 # the JPEGs into docs/ideation/evidence/ui/ (kept under 5 MB).
 #   SCREEN_SIZES="1688x780" tests/ui/render_screens.sh [screen ...]
+#   BACKDROP=/path/to/painting.jpg SCREEN_OUT=build/backdrops tests/ui/render_screens.sh recruit combat_mid
+# BACKDROP is dev-only, centered cover scaling; unset/empty keeps the normal table and output.
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 GODOT="${GODOT:-godot}"
+# Reuse a caller's slot when the whole render batch is already wrapped.
+GODOT_RUNNER=()
+if [ "${BRAMBLE_SLOT_HELD:-0}" != 1 ]; then
+  GODOT_RUNNER=(scripts/godot_slot.sh)
+fi
 # Mesa llvmpipe starts a render thread per core; the machine is shared (CLAUDE.md: half the cores).
 export LP_NUM_THREADS="${LP_NUM_THREADS:-1}"
 # The project venv may omit Pillow; use the system interpreter when its image codec is available.
@@ -18,8 +25,13 @@ if ! "$PYTHON" -c 'from PIL import Image; Image.new("RGB", (1, 1))' >/dev/null 2
     exit 1
   fi
 fi
-OUT_PNG=build/screens
-OUT_JPG=build/screens/jpg
+if [ -n "${BACKDROP:-}" ]; then
+  [ -f "$BACKDROP" ] || { echo "BACKDROP image not found: $BACKDROP" >&2; exit 2; }
+  BACKDROP="$(realpath "$BACKDROP")"
+  export BACKDROP
+fi
+OUT_PNG="${SCREEN_OUT:-build/screens}"
+OUT_JPG="$OUT_PNG/jpg"
 mkdir -p "$OUT_PNG" "$OUT_JPG"
 if [ "${1:-}" = publish ]; then
   mkdir -p docs/ideation/evidence/ui
@@ -40,7 +52,7 @@ for size in "${SIZES[@]}"; do
     prefix=""
     case "$screen" in recruit_spells | discover | hero_choice | recruit_slice | scout | scout_long_name | pass_drag | ghost_next) prefix="fixture_" ;; esac
     png="$OUT_PNG/${prefix}${screen}_${size}.png"
-    timeout 120 xvfb-run -a -s "-screen 0 2560x1440x24" "$GODOT" --rendering-driver opengl3 \
+    "${GODOT_RUNNER[@]}" timeout 120 xvfb-run -a -s "-screen 0 2560x1440x24" "$GODOT" --rendering-driver opengl3 \
       --audio-driver Dummy -s res://tests/ui/shots/screenshot.gd -- "$screen" "$size" "$png" \
       >"$OUT_PNG/${screen}_${size}.log" 2>&1 || { echo "FAILED $screen $size"; tail -n 20 "$OUT_PNG/${screen}_${size}.log"; exit 1; }
     # Quitting mid-fight leaves a resource held at exit; only the shot tool does that.

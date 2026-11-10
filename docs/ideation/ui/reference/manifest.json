@@ -1,0 +1,2701 @@
+{
+  "schema_version": 1,
+  "frames": [
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--forest-launch-0001.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "source_id": "forest-launch",
+      "timestamp": "00:00:01.000",
+      "timestamp_seconds": 1.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 171.245,
+      "notes": "Blind Forest: marsh canopy and distant Spirit Tree; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "11421409595349a72ff2c4929ecbdcb765ff40991e8b91062b15b3fa9397900e"
+    },
+    {
+      "game": "Ori and the Will of the Wisps",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--wisps-gameplay-0017.jpg",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/257433/38c99365dd28cc6e7c0ce25db2d447b52d9ec276/1750610400/dash_h264.mpd?t=1576271885",
+      "source_id": "wisps-gameplay",
+      "timestamp": "00:00:35.500",
+      "timestamp_seconds": 35.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 593.59,
+      "notes": "Will of the Wisps: snowy forest at sunrise; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "2bd31e34c09dd7c2958241823b02b7fdeb345e45e2618f162afe9d1fdc9b6d6a"
+    },
+    {
+      "game": "Ori and the Blind Forest: Definitive Edition",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--forest-definitive-0024.jpg",
+      "source_url": "https://store.steampowered.com/app/387290/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/387290/54110/fb31874cd34ce9f49e635bf2615418b109d073da/1751275695/dash_h264.mpd?t=1461769481",
+      "source_id": "forest-definitive",
+      "timestamp": "00:00:44.500",
+      "timestamp_seconds": 44.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 263.408,
+      "notes": "Blind Forest DE: sunlit lily pool with foreground ledge; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "9135e1589e1652175298cd6144fbd24413286b335206b53ed7dfa08506fca24a"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "close-characters",
+      "file_name": "close-characters--forest-reveal-0015.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "source_id": "forest-reveal",
+      "timestamp": "00:00:29.500",
+      "timestamp_seconds": 29.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 132.959,
+      "notes": "Blind Forest: Naru holding Ori in the rain; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "9d4bd033ad7cfc988441e4f6945b8fda8b85a296a6e11b0f824bcf453de62a2a"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "close-characters",
+      "file_name": "close-characters--forest-reveal-0016.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "source_id": "forest-reveal",
+      "timestamp": "00:00:33.000",
+      "timestamp_seconds": 33.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 480.585,
+      "notes": "Blind Forest: Naru lifts Ori to gather fruit; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "38143bf4de02749fb54ec5de696b83e3a8a3f28f9cd7a655a9ba8479fa9614b7"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "light-atmosphere",
+      "file_name": "light-atmosphere--forest-launch-0012.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "source_id": "forest-launch",
+      "timestamp": "00:00:37.000",
+      "timestamp_seconds": 37.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 120.115,
+      "notes": "Blind Forest: green haze, waterfalls and underwater light; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "797231619bcc5f8a3b267e09c4ae951be583c710f2aa2b06dcd6d954912e6cb4"
+    },
+    {
+      "game": "Ori and the Blind Forest: Definitive Edition",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "light-atmosphere",
+      "file_name": "light-atmosphere--forest-definitive-0019.jpg",
+      "source_url": "https://store.steampowered.com/app/387290/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/387290/54110/fb31874cd34ce9f49e635bf2615418b109d073da/1751275695/dash_h264.mpd?t=1461769481",
+      "source_id": "forest-definitive",
+      "timestamp": "00:00:40.000",
+      "timestamp_seconds": 40.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 340.564,
+      "notes": "Blind Forest DE: warm shafts and glowing garden structures; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "fda66ab6126fc2db2e31ded2f08b1e0c57e430c07d97a5031fd09c85e6b7ba09"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--forest-launch-0019.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "source_id": "forest-launch",
+      "timestamp": "00:00:45.000",
+      "timestamp_seconds": 45.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 261.297,
+      "notes": "Blind Forest: small Ori grounded at a monumental hollow tree; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "dc7fb3e60fa32362674eaee20849ac2ca4ba45cdc4d032981ff685c3c7cc40a8"
+    },
+    {
+      "game": "Ori and the Will of the Wisps",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--wisps-gameplay-0010.jpg",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/257433/38c99365dd28cc6e7c0ce25db2d447b52d9ec276/1750610400/dash_h264.mpd?t=1576271885",
+      "source_id": "wisps-gameplay",
+      "timestamp": "00:00:24.500",
+      "timestamp_seconds": 24.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 432.528,
+      "notes": "Will of the Wisps: Ori under a mossy log, with foreground fungi; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "e9fe6880bebabf455fa288b5011a4c9bdef79f3bce25a309e4d2fbaf4a211270"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--forest-reveal-0018.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "source_id": "forest-reveal",
+      "timestamp": "00:00:39.000",
+      "timestamp_seconds": 39.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 252.787,
+      "notes": "Blind Forest: Naru and Ori resting on a swing above the moonlit pond; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "36f31c00e751039f0055efd873714db845c09e65de3ab1936eeb466e4107f32a"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "menu",
+      "file_name": "menu--steam-opening-0008.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-opening",
+      "timestamp": "00:00:11.750",
+      "timestamp_seconds": 11.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2499.685,
+      "notes": "Hero-select menu; Vanessa selected, before promotional captions.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "56b2eac6b1c7efbf2d286c05e6bd4b62e047621c193a7d249922c7d56cc8b054"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "menu",
+      "file_name": "menu--bek-ending-0020.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:37:08.000",
+      "timestamp_seconds": 2228.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1635.591,
+      "notes": "Main menu after the run; no hero selected.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "a1ea66df8b57d52842be0d66b3898071ab18e91ed4b943f058991e176133a09b"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--bek-initial-0011.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-initial",
+      "timestamp": "00:03:18.000",
+      "timestamp_seconds": 198.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1275.466,
+      "notes": "Empty owned board at first encounter; native tutorial bubble visible.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "eb801663bbe1c5bfbce5b0c4fd81397dc30459a4311586c28ab443594093e650"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--bek-empty-shop-0003.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-empty-shop",
+      "timestamp": "00:03:30.750",
+      "timestamp_seconds": 210.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1208.906,
+      "notes": "First shop offers settled above the empty owned board, before purchase.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "be17489b41a9bb577539c529c95b5d564157a543fea7d3f12314722c24714802"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--steam-trailer-0028.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:33.000",
+      "timestamp_seconds": 93.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1373.976,
+      "notes": "Late run after a purchase; full owned board and skill HUD.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "b1021c3d3491b33ecd858bd21b186004f2b567e616b076bb9a852a1a8202fb27"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--bek-ending-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:35:00.000",
+      "timestamp_seconds": 2100.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2052.38,
+      "notes": "Late run post-fight loot above a full owned board.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "ee526a8ea6d2860cc88d3058ed9ff2e249c8c397218765ac745fbbe24bb2ec00"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "item-inspect",
+      "file_name": "item-inspect--steam-trailer-0011.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:42.000",
+      "timestamp_seconds": 42.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2214.157,
+      "notes": "Shop hover: medium Exoskeleton item and compact description.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "47687426625bb1d350086467c45d5491212fa1d2256f718f59a90dc12b8a6818"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "item-inspect",
+      "file_name": "item-inspect--steam-trailer-0021.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:11.500",
+      "timestamp_seconds": 71.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1587.59,
+      "notes": "Expanded inspection of Fiery Katana with keyword help.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "f40b2e7b47cc1d7751d243b04c94eec13e0b1684f9966828f3ca7fd8c63f8a09"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-start",
+      "file_name": "fight-start--steam-trailer-0012.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:49.000",
+      "timestamp_seconds": 49.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1212.522,
+      "notes": "PvE opponent introduction and rewards before combat.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "e920f4110af2419c557e8df75d4ef5139ed55d365b009c9582f8491a6b0357b3"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-start",
+      "file_name": "fight-start--bek-ending-0009.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:35:35.000",
+      "timestamp_seconds": 2135.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1274.982,
+      "notes": "PvP matchup introduction before the final fight.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "49bdc8b3a51c0fff98de28b3f32bfbf0413e768fb80fa14eb71f5d43c0ab84c6"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--steam-trailer-0014.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:57.500",
+      "timestamp_seconds": 57.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 273.795,
+      "notes": "Opponent portrait bursts as the fight resolves; native combat effects.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "d863e7137f5a6cb059f5f3414ef52ae2d94e6e428cb6d662aa63a357a52cf111"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--steam-trailer-0035.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:46.000",
+      "timestamp_seconds": 106.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 450.071,
+      "notes": "Late combat with large red area effect and ocean-wave effect.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "3728fa19f87387b9f4e24c66b27fd8a1cb0dc30564fc2e5373389187430d30ca"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "end-of-game",
+      "file_name": "end-of-game--bek-ending-0016.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:36:29.000",
+      "timestamp_seconds": 2189.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2186.922,
+      "notes": "Run result with final items revealed and summary statistics.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "ab70378e064ff62a7f8aa9fa09b308f52031c60444eb56f307f548d576c0b988"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "end-of-game",
+      "file_name": "end-of-game--bek-ending-0017.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:36:38.000",
+      "timestamp_seconds": 2198.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2105.816,
+      "notes": "Post-run progression and daily/weekly challenge summary.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "06317e2774287691ba47bc8afdd446b655d6fc35c67747b1a366827609e3117e"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "merchant-shop-choice",
+      "file_name": "merchant-shop-choice--bek-choices-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-choices",
+      "timestamp": "00:05:42.000",
+      "timestamp_seconds": 342.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1471.394,
+      "notes": "Three merchant/encounter destinations; native tutorial bubble at left.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "35038cd41618a7373916b4336696b4b340e540944f87d881c465836535a7248b"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "merchant-shop-choice",
+      "file_name": "merchant-shop-choice--steam-shop-0004.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-shop",
+      "timestamp": "00:00:40.750",
+      "timestamp_seconds": 40.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1904.816,
+      "notes": "Settled merchant inventory above the owned board, without hover.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "3d8a6ceef60efb86fd641571f36f4a9b6f8c0a41f6fd36ce1abc425bbd5716e0"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "event-choice",
+      "file_name": "event-choice--steam-trailer-0006.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:24.500",
+      "timestamp_seconds": 24.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1983.772,
+      "notes": "Initial choice between three skills, with one native hover tooltip.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "56d04cf6d16027463110df373fc856cf8ed6d6cafbb7161949477fb052c494fb"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "event-choice",
+      "file_name": "event-choice--steam-trailer-0017.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:02.500",
+      "timestamp_seconds": 62.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2606.419,
+      "notes": "Level-up choice between two enchantment events.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "28f443a3f0dcca33594f8aa83472f3ba04d54bbcc3546f86e5b7850100ff6613"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "board-item-layout",
+      "file_name": "board-item-layout--steam-trailer-0008.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:30.000",
+      "timestamp_seconds": 30.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 334.999,
+      "notes": "Sparse owned board with differently sized items and compact skill area.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "9cedef2be58283c759a7c1c3077940a32910eb55423e907aae2bb4b8d1e28c7d"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "board-item-layout",
+      "file_name": "board-item-layout--bek-market-0010.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-market",
+      "timestamp": "00:10:16.000",
+      "timestamp_seconds": 616.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1703.674,
+      "notes": "Stash expanded above owned items; one item lifted for rearrangement.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "6533987345445f7f355623e01d21c2133cf7a54bcf06a653e73359cfd886e43b"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight",
+      "file_name": "fight--steam-trailer-0034.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:44.500",
+      "timestamp_seconds": 104.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2084.814,
+      "notes": "Two filled opposing boards during late combat; forest arena.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "a8ff2f33d4f50912bb1db096af71c423a704c563fa93683959b72ae675f7c066"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight",
+      "file_name": "fight--bek-ending-0011.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:35:47.000",
+      "timestamp_seconds": 2147.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2033.391,
+      "notes": "Two filled opposing boards in the final PvP combat; native opponent tooltip.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "92b1a7947dafbc81d508c677ef34ea81266fd89c8e33b26b36d40fa20907b7ca"
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "menu",
+      "file_name": "menu--podmates-opening-0002.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-opening",
+      "media_type": "video",
+      "timestamp": "00:00:18.000",
+      "timestamp_seconds": 18.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1350.299,
+      "notes": "PC hero selection; 2022 UI.",
+      "max_height": 1080,
+      "sha256": "1ced03ed61aaac03b4569f8d298cc8ff1fba95b0544088325d7df47a80ccf0ef",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "menu",
+      "file_name": "menu--android-opening-0000.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-opening",
+      "media_type": "video",
+      "timestamp": "00:00:04.000",
+      "timestamp_seconds": 4.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1666.359,
+      "notes": "Android hero selection; source explicitly identifies Android gameplay.",
+      "max_height": 1080,
+      "sha256": "c0b639c058b873638dcd30ad408f57ea72047621e07aadea8b7b38a2251e45d1",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--podmates-opening-0007.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-opening",
+      "media_type": "video",
+      "timestamp": "00:01:06.000",
+      "timestamp_seconds": 66.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1613.076,
+      "notes": "Empty owned board before the opening minion is played.",
+      "max_height": 1080,
+      "sha256": "cb959cb141b0601df8b3dca5067bae659ecb11081f85ff3c346ecbefcafc784a",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--android-opening-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-opening",
+      "media_type": "video",
+      "timestamp": "00:00:50.000",
+      "timestamp_seconds": 50.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1761.991,
+      "notes": "Android first recruit turn with an empty owned board.",
+      "max_height": 1080,
+      "sha256": "943f68f1c369effe8b178c3746a91bb397c6316b3a48d716df66ad5b476b5794",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--podmates-rounds-0025.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:13:11.500",
+      "timestamp_seconds": 791.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2024.08,
+      "notes": "Busy recruit turn with shop, hand and native minion inspection.",
+      "max_height": 1080,
+      "sha256": "1f008320b3d65a8f91487b0f6624ed55600e34de213f05fe21ac0ddb551cd5e0",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--android-rounds-0037.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:16:51.500",
+      "timestamp_seconds": 1011.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2662.483,
+      "notes": "Android full board and hand with a native Discover choice.",
+      "max_height": 1080,
+      "sha256": "ccb4a07d6ebceb5fdd54c62b6ee0b75e7005a8975759a704ca50238c6ef95a55",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "card-inspect",
+      "file_name": "card-inspect--podmates-rounds-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:03:11.500",
+      "timestamp_seconds": 191.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1736.337,
+      "notes": "PC hand-card hover showing Freedealing Gambler text and stats.",
+      "max_height": 1080,
+      "sha256": "68edbd71b3e0cb33dc6755deabc36dc5fbefc305b52d35b9353ab599e4e67d96",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "card-inspect",
+      "file_name": "card-inspect--android-rounds-0007.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:05:20.500",
+      "timestamp_seconds": 320.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2012.742,
+      "notes": "Android shop minion inspection.",
+      "max_height": 1080,
+      "sha256": "3ce9175e6f918bef0a26a07080aa568206b3bc5b4896fdc5924bd022a2a93dbc",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "fight-start",
+      "file_name": "fight-start--podmates-opening-0005.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-opening",
+      "media_type": "video",
+      "timestamp": "00:00:49.000",
+      "timestamp_seconds": 49.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 790.373,
+      "notes": "PC versus introduction before the opening combat.",
+      "max_height": 1080,
+      "sha256": "df88933c1fc28376b4ece3b1019cf3626287f070e68a8357641154efd50d91cf",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "fight-start",
+      "file_name": "fight-start--android-opening-0002.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-opening",
+      "media_type": "video",
+      "timestamp": "00:00:35.000",
+      "timestamp_seconds": 35.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1762.664,
+      "notes": "Android versus introduction before the opening combat.",
+      "max_height": 1080,
+      "sha256": "048e49ea61f5af94bec6386767aa86613897bb219912e9f0fbc1eda6db9c6dcc",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--podmates-rounds-0040.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:19:40.500",
+      "timestamp_seconds": 1180.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1263.709,
+      "notes": "Late fight with a dense central death/trigger burst.",
+      "max_height": 1080,
+      "sha256": "9c767cc562fa9e767968a124bf971c4431c65e5dfacbd2f4f68434a32e552659",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--android-rounds-0048.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:21:20.000",
+      "timestamp_seconds": 1280.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1574.712,
+      "notes": "Late combat with bright hero impact and surviving minions.",
+      "max_height": 1080,
+      "sha256": "8e0e10ed8ef858522c23c31cfaf922b7731da74d9bd6240b69c482c241d86ad8",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "recruit-mid-turn",
+      "file_name": "recruit-mid-turn--podmates-rounds-0006.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:04:11.000",
+      "timestamp_seconds": 251.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1971.755,
+      "notes": "Mid-turn recruitment with five owned minions.",
+      "max_height": 1080,
+      "sha256": "d3ba2d9ac18ceb9d38ea5e20fd8f488caef10192b5523b5f9ad8d8f73b3d3e2e",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "recruit-mid-turn",
+      "file_name": "recruit-mid-turn--android-rounds-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:03:50.000",
+      "timestamp_seconds": 230.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1884.445,
+      "notes": "Android recruitment with a partially filled board.",
+      "max_height": 1080,
+      "sha256": "a6775d58ef7b8366fd76d701c8d012514726f70ab05bd494b60eb61fa2fc8712",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "recruit-full",
+      "file_name": "recruit-full--podmates-rounds-0036.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:17:40.000",
+      "timestamp_seconds": 1060.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2301.444,
+      "notes": "Seven owned minions during recruitment; native minion and keyword hover visible.",
+      "max_height": 1080,
+      "sha256": "f316d334fdc8039f93aa7a1edb7bfb298148c3f56e7f3168157ccc0802382936",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "recruit-full",
+      "file_name": "recruit-full--android-rounds-0018.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:09:21.500",
+      "timestamp_seconds": 561.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2089.812,
+      "notes": "Android full seven-minion recruit board.",
+      "max_height": 1080,
+      "sha256": "271748a347fa8a23f22a6e8f206a2d2e2aec976f724eecfa6bf97fdeb327898d",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "opponent-board",
+      "file_name": "opponent-board--podmates-rounds-0034.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:16:41.500",
+      "timestamp_seconds": 1001.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1880.464,
+      "notes": "Opponent composition visible across the top row during combat; this is not a separate scouting panel.",
+      "max_height": 1080,
+      "sha256": "91a0184b842be839aa38d992f8589dacab47aec2474d8826b7a4fcb129965a6b",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "opponent-board",
+      "file_name": "opponent-board--android-rounds-0041.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:18:20.000",
+      "timestamp_seconds": 1100.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1999.271,
+      "notes": "Android opposing full board visible in combat; this is not a separate scouting panel.",
+      "max_height": 1080,
+      "sha256": "a4bfb6087ae6b351ed630f624ea54b7526bc6bac453d6dc1876eaf6baf107dc7",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "deaths",
+      "file_name": "deaths--podmates-rounds-0035.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-rounds",
+      "media_type": "video",
+      "timestamp": "00:17:11.000",
+      "timestamp_seconds": 1031.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1890.901,
+      "notes": "Central minion shatter/death particles during late combat.",
+      "max_height": 1080,
+      "sha256": "b270fd95cdbd329abccbd3148f3be6fff89c38bb8bf91f8c539b626705fb4a42",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "deaths",
+      "file_name": "deaths--android-rounds-0034.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:15:50.000",
+      "timestamp_seconds": 950.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1648.998,
+      "notes": "Android combat: own minion reduced below zero health with death particles.",
+      "max_height": 1080,
+      "sha256": "ee77c7d88ba362ce2d069ccbab1c2830ca846b8c39c0227d7948503146ec7c92",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "big-late-board",
+      "file_name": "big-late-board--podmates-finish-0003.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-finish",
+      "media_type": "video",
+      "timestamp": "00:19:53.500",
+      "timestamp_seconds": 1193.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1672.696,
+      "notes": "Final seven-minion board returned to recruit view before the victory result; native achievement notification at the edge.",
+      "max_height": 1080,
+      "sha256": "e5ddf966a8e27ef476a28ebfec32b872fcf724a0cd39f78f7f41cb18b7b9b83d",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "big-late-board",
+      "file_name": "big-late-board--android-rounds-0045.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-rounds",
+      "media_type": "video",
+      "timestamp": "00:19:50.000",
+      "timestamp_seconds": 1190.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2028.939,
+      "notes": "Android late seven-minion board with high stats.",
+      "max_height": 1080,
+      "sha256": "55e681b1b61662acb74cf10909fa130eb4c29ed15a24a15e90d4d86c497917d5",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "PC",
+      "state": "end-of-game",
+      "file_name": "end-of-game--podmates-finish-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "source_id": "podmates-finish",
+      "media_type": "video",
+      "timestamp": "00:19:55.250",
+      "timestamp_seconds": 1195.25,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1339.064,
+      "notes": "PC first-place result and rating gain.",
+      "max_height": 1080,
+      "sha256": "59359d226702deb5a2a015ac4e748fb61807ff99be8f065476965e734446fc22",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Hearthstone Battlegrounds",
+      "game_slug": "battlegrounds",
+      "platform": "Android",
+      "state": "end-of-game",
+      "file_name": "end-of-game--android-finish-0010.jpg",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "source_id": "android-finish",
+      "media_type": "video",
+      "timestamp": "00:21:38.250",
+      "timestamp_seconds": 1298.25,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 972.902,
+      "notes": "Android fifth-place result and rating loss.",
+      "max_height": 1080,
+      "sha256": "9bb355cb3a98920ef817c2b89a285ffde3cf7c3189db45c3d35cbd14b6b716df",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "menu",
+      "file_name": "menu--android1080-opening-0000.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-opening",
+      "media_type": "video",
+      "timestamp": "00:00:04.000",
+      "timestamp_seconds": 4.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 724.89,
+      "notes": "Android client home menu before its tutorial.",
+      "max_height": 1080,
+      "sha256": "bf1e1d4bb54f866ba495999ad7638e3e854576b2fd9d64e8d340953de1b24994",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "menu",
+      "file_name": "menu--android1080-opening-0001.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-opening",
+      "media_type": "video",
+      "timestamp": "00:00:09.000",
+      "timestamp_seconds": 9.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 592.661,
+      "notes": "Android client missions drawer over the home menu.",
+      "max_height": 1080,
+      "sha256": "ef61a10f6c9056ef9ec6df42496fb53606022acf7ddac065960a8816ec88cf7b",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--pajos-opening-0009.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-opening",
+      "media_type": "video",
+      "timestamp": "00:00:45.000",
+      "timestamp_seconds": 45.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1251.549,
+      "notes": "Opening arena with 0/2 deployed units.",
+      "max_height": 1080,
+      "sha256": "2064c1e14c8465a253bc46f4c071fb6c4bfe39a306463ff6b86f9403313e2b82",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--android1080-opening-0013.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-opening",
+      "media_type": "video",
+      "timestamp": "00:01:35.000",
+      "timestamp_seconds": 95.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1189.094,
+      "notes": "Android tutorial opening with 0/1 units deployed; native tutorial bubble retained.",
+      "max_height": 1080,
+      "sha256": "1b702c6bd591a3da0d87df97487a38d77dc15c45a585e503abeb682aea3c473f",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--pajos-rounds-0044.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-rounds",
+      "media_type": "video",
+      "timestamp": "00:29:25.000",
+      "timestamp_seconds": 1765.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1735.426,
+      "notes": "Busy recruitment: occupied formation, full bench and active drag placement; native full-bench notice.",
+      "max_height": 1080,
+      "sha256": "2fa21a71dc45cc9cd62ea2e5a784d1889621488182a741d1865dba88c6d38243",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--android1080-rounds-0031.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-rounds",
+      "media_type": "video",
+      "timestamp": "00:11:15.000",
+      "timestamp_seconds": 675.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 2101.875,
+      "notes": "Android tutorial: level-nine recruitment with occupied formation, bench and open shop.",
+      "max_height": 1080,
+      "sha256": "f97234c6b28c054831634a810639ae42a047366880aa5f8a0b6ec4e0c69bad0e",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "card-inspect",
+      "file_name": "card-inspect--pajos-opening-0018.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-opening",
+      "media_type": "video",
+      "timestamp": "00:01:39.000",
+      "timestamp_seconds": 99.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1570.091,
+      "notes": "Garen inspection panel at right, with shop still visible.",
+      "max_height": 1080,
+      "sha256": "e0112ed2bfedc1e9e1172887db25e367f8bc2e43904267bf869eb800a35a44bc",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "card-inspect",
+      "file_name": "card-inspect--android1080-deaths-0009.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-deaths",
+      "media_type": "video",
+      "timestamp": "00:12:05.500",
+      "timestamp_seconds": 725.5,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1917.594,
+      "notes": "Android tutorial: Kai’Sa unit inspection in the right panel.",
+      "max_height": 1080,
+      "sha256": "5622ce2d4612191c0b41bd18f19d9a901a6384d7652e21e13f24b426cd58e184",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "fight-start",
+      "file_name": "fight-start--pajos-combat-0005.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-combat",
+      "media_type": "video",
+      "timestamp": "00:03:07.500",
+      "timestamp_seconds": 187.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1658.747,
+      "notes": "First player combat: opponent formation, portal and Combat banner before arrival.",
+      "max_height": 1080,
+      "sha256": "273a376cceb5dbf6fadb76c8d3a38a8b0f82bc35a1bf59ab52860934bfba363e",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "fight-start",
+      "file_name": "fight-start--android1080-rounds-0029.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-rounds",
+      "media_type": "video",
+      "timestamp": "00:10:50.000",
+      "timestamp_seconds": 650.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1714.953,
+      "notes": "Android tutorial: Combat banner and portal before the opposing team arrives.",
+      "max_height": 1080,
+      "sha256": "eb5f5dc307f5fc83bc296777b4ce71a137e09a4041f18d49adc27cf8ee323947",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--pajos-finish-0001.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-finish",
+      "media_type": "video",
+      "timestamp": "00:36:55.500",
+      "timestamp_seconds": 2215.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2112.404,
+      "notes": "Final fight with simultaneous healing, spell effects and damage feedback.",
+      "max_height": 1080,
+      "sha256": "c6c20f97b02fa3c2cb46072eb542ce346c91e62f00c163d023bac104cc213b08",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--android1080-combat-0003.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-combat",
+      "media_type": "video",
+      "timestamp": "00:11:36.000",
+      "timestamp_seconds": 696.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1811.678,
+      "notes": "Android tutorial fight: clustered units, shields, attack impacts and floating damage.",
+      "max_height": 1080,
+      "sha256": "797be269f65db15d1ef1948c62aec4bf7efc6026f43781ce6e63724fd3c9aef0",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "recruit-mid-turn",
+      "file_name": "recruit-mid-turn--pajos-opening-0015.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-opening",
+      "media_type": "video",
+      "timestamp": "00:01:12.000",
+      "timestamp_seconds": 72.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1520.9,
+      "notes": "Early planning with 2/3 units deployed and five shop offers.",
+      "max_height": 1080,
+      "sha256": "0ee2991a34c717992abd0c48c1cd5bf14f204a2d562e17755093e444918ed7a1",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "recruit-mid-turn",
+      "file_name": "recruit-mid-turn--android1080-rounds-0023.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-rounds",
+      "media_type": "video",
+      "timestamp": "00:09:35.000",
+      "timestamp_seconds": 575.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1886.424,
+      "notes": "Android tutorial recruitment after two shop purchases; occupied bench and remaining offers.",
+      "max_height": 1080,
+      "sha256": "a1425e37190375aadb4cf647ea22bd896f3d904c70d789a495afda52439949c3",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "recruit-full",
+      "file_name": "recruit-full--pajos-rounds-0031.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-rounds",
+      "media_type": "video",
+      "timestamp": "00:21:11.500",
+      "timestamp_seconds": 1271.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1690.525,
+      "notes": "Planning board at its displayed 8/8 capacity, plus bench and shop.",
+      "max_height": 1080,
+      "sha256": "2da51f3b27de142f3dc4faa1778f79073d2bdf7537c800e04a0fd574b02468f8",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "recruit-full",
+      "file_name": "recruit-full--android1080-rounds-0036.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-rounds",
+      "media_type": "video",
+      "timestamp": "00:13:20.000",
+      "timestamp_seconds": 800.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 2622.303,
+      "notes": "Android tutorial at level-nine capacity with nine units, bench and open shop.",
+      "max_height": 1080,
+      "sha256": "d65c917343dffdf9f6aa4b40bfed9ddf1c84a4033d5fdf5a560a5d1f9c4a9993",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "opponent-board",
+      "file_name": "opponent-board--pajos-rounds-0024.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-rounds",
+      "media_type": "video",
+      "timestamp": "00:16:40.000",
+      "timestamp_seconds": 1000.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1921.542,
+      "notes": "Opponent formation viewed on its arena at combat arrival; not a separate scouting panel.",
+      "max_height": 1080,
+      "sha256": "c10e4451efe77afc844e4af3233972d0aba5ef94a957a8fa5f87551a5d729c2a",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "opponent-board",
+      "file_name": "opponent-board--android1080-combat-0000.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-combat",
+      "media_type": "video",
+      "timestamp": "00:11:30.000",
+      "timestamp_seconds": 690.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1935.352,
+      "notes": "Android tutorial: five red-health opposing units on their arena before melee; combat composition view, not a separate scouting panel.",
+      "max_height": 1080,
+      "sha256": "1a18a5551437f7b62a430578d5bd6ad71b4793315250e4ba09f505582483d9ad",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "deaths",
+      "file_name": "deaths--pajos-deaths-early-0002.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-deaths-early",
+      "media_type": "video",
+      "timestamp": "00:32:37.750",
+      "timestamp_seconds": 1957.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1881.102,
+      "notes": "Late-fight casualties: thinned formations and a unit disappearance beam; no external overlays.",
+      "max_height": 1080,
+      "sha256": "3f97bf4760591536e9c29ca160d8f8f8ea99ccb34be24561887bdd534ca6d04b",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "deaths",
+      "file_name": "deaths--android1080-rounds-0032.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-rounds",
+      "media_type": "video",
+      "timestamp": "00:11:40.500",
+      "timestamp_seconds": 700.5,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1799.688,
+      "notes": "Android tutorial: casualties have thinned the opposing formation; a disappearance beam is visible near its tactician.",
+      "max_height": 1080,
+      "sha256": "81238e2bf9c5c8af3314023f14c6fa480932729192d8c1271a864146a17274d4",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "big-late-board",
+      "file_name": "big-late-board--pajos-rounds-0057.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-rounds",
+      "media_type": "video",
+      "timestamp": "00:35:26.000",
+      "timestamp_seconds": 2126.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2102.261,
+      "notes": "Stage 6-2 level-nine formation and deep bench as the final opponent arrives.",
+      "max_height": 1080,
+      "sha256": "ab9ba40e3b51217b082f68b5d5c0634cce7a7a612fa086df109d7f7d3438b20a",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "big-late-board",
+      "file_name": "big-late-board--android1080-rounds-0034.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-rounds",
+      "media_type": "video",
+      "timestamp": "00:12:30.000",
+      "timestamp_seconds": 750.0,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 1698.444,
+      "notes": "Android tutorial: level-nine formation near the tutorial end, after a round; remaining health and bench visible.",
+      "max_height": 1080,
+      "sha256": "ce9181e9a2bd359f198b04fa02d7a55a2a1b005d8a17cc1ff9653c4c4db04428",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "PC",
+      "state": "end-of-game",
+      "file_name": "end-of-game--pajos-finish-0009.jpg",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "source_id": "pajos-finish",
+      "media_type": "video",
+      "timestamp": "00:37:05.250",
+      "timestamp_seconds": 2225.25,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 768.356,
+      "notes": "First-place result and exit button in the arena.",
+      "max_height": 1080,
+      "sha256": "493a9c2e955b718a0e6b6ed8f292b3d2e6b85cdd9d4a4462c97c1400b0df4318",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Teamfight Tactics",
+      "game_slug": "tft",
+      "platform": "Android",
+      "state": "end-of-game",
+      "file_name": "end-of-game--android1080-finish-0014.jpg",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "source_id": "android1080-finish",
+      "media_type": "video",
+      "timestamp": "00:14:19.250",
+      "timestamp_seconds": 859.25,
+      "resolution": [
+        2220,
+        1080
+      ],
+      "sharpness": 410.986,
+      "notes": "Android tutorial completion close-up and Tap to Continue; no chat-head notification in this frame.",
+      "max_height": 1080,
+      "sha256": "0b1ad24e9d7d65ba50dfa5762859b83bf8ba03516b4e3f61eca4fbca438257bd",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "PC",
+      "state": "digital-board",
+      "file_name": "digital-board--steam-screens-0000.jpg",
+      "source_url": "https://store.steampowered.com/app/1722840/",
+      "media_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1722840/ss_e3e08261f55487e473786251cc12e136d72ecbd9.1920x1080.jpg?t=1778777751",
+      "source_id": "steam-screens",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1712.92,
+      "notes": "Official Steam screenshot: the Ever Tree, framed forest edges, river foreground and worker sites.",
+      "max_height": null,
+      "sha256": "1e89a79ccf26814eafab97793424a812b2d4a62022709d16e7d798d086a4e101",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "PC",
+      "state": "digital-board",
+      "file_name": "digital-board--steam-screens-0001.jpg",
+      "source_url": "https://store.steampowered.com/app/1722840/",
+      "media_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1722840/ss_a6e6bbcd86a886ae7e6fa451ad06de3e03ebca9b.1920x1080.jpg?t=1778777751",
+      "source_id": "steam-screens",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2353.378,
+      "notes": "Official Steam screenshot: populated meadow board, cards, hand and opponent HUD.",
+      "max_height": null,
+      "sha256": "468890adbc69199b881a83a6d21c78973ed5d667fb3a8f3408ad0a9c52f6acd9",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "PC",
+      "state": "digital-board",
+      "file_name": "digital-board--steam-screens-0002.jpg",
+      "source_url": "https://store.steampowered.com/app/1722840/",
+      "media_url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1722840/ss_b9430d78b25ae1fa031563a7b6f28dbaf0f7f10d.1920x1080.jpg?t=1778777751",
+      "source_id": "steam-screens",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1123.985,
+      "notes": "Official Steam screenshot: developed city tableau, wooden portrait frames and creatures within the board environment.",
+      "max_height": null,
+      "sha256": "dbdc8e5320531817cdd9abcac181b2844d644fd924f75fcc1b53c3988d0c1e8f",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--bosley-making-of-0010.jpg",
+      "source_url": "https://www.bosleyart.com/post/wits-and-wisdom-the-making-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_a240a79a9c654267b4a4d28018015c61~mv2.jpg",
+      "source_id": "bosley-making-of",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        2500,
+        2500
+      ],
+      "sharpness": 803.377,
+      "notes": "Finished Everdell cover illustration without title graphics: layered woodland settlement, water, golden haze and foreground travelers.",
+      "max_height": null,
+      "sha256": "acdb4be69e8b9bbcdaef84abd2a03f1108c3217830daaf9a26fc3dbe2da276f6",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--bosley-making-of-0005.jpg",
+      "source_url": "https://www.bosleyart.com/post/wits-and-wisdom-the-making-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_1c381b1a91214713b9e3ddf3d9d8b0c7~mv2.jpg",
+      "source_id": "bosley-making-of",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        2445,
+        3330
+      ],
+      "sharpness": 420.926,
+      "notes": "Finished Inn card illustration: snowy woodland depth, tree architecture, warm windows and badger sign; no actual innkeeper in this exterior.",
+      "max_height": null,
+      "sha256": "ba90ca7bfc52dd520faf5e253390d9f677a71e1d84ad39f5ff00ba58b75cb86f",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "close-characters",
+      "file_name": "close-characters--bosley-making-of-0006.jpg",
+      "source_url": "https://www.bosleyart.com/post/wits-and-wisdom-the-making-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_d5d084b070a3490db0dac2d3e3dc2230~mv2.jpg",
+      "source_id": "bosley-making-of",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        2445,
+        3330
+      ],
+      "sharpness": 401.329,
+      "notes": "Finished Innkeeper card illustration: badger close-up, firelit interior, serving tray and foreground table.",
+      "max_height": null,
+      "sha256": "d3edbb7ca7c2b2501318c6b9703b001684763c49e08e34d99eb83ae1f7ebbf35",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "close-characters",
+      "file_name": "close-characters--bosley-making-of-0012.jpg",
+      "source_url": "https://www.bosleyart.com/post/wits-and-wisdom-the-making-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_820f5fe9ef5e4c2ca0796afca2adc6e4~mv2.jpg",
+      "source_id": "bosley-making-of",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        2445,
+        3330
+      ],
+      "sharpness": 214.529,
+      "notes": "Finished Ranger card illustration: hooded fox, staff, roots and cool forest haze.",
+      "max_height": null,
+      "sha256": "7e8969d50e245ca0b2d46e71ca4d9b259dcd4d041ca117258828a65242a6d999",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--bosley-gallery-0006.jpg",
+      "source_url": "https://www.bosleyart.com/copy-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_f85b40eb951f474283df19abac384730~mv2.jpg",
+      "source_id": "bosley-gallery",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        3300,
+        2423
+      ],
+      "sharpness": 256.738,
+      "notes": "Everdell Spirecrest Honeypaw illustration, identified by artist gallery metadata: seated bear grounded against a tree in a woodland clearing.",
+      "max_height": null,
+      "sha256": "2f4dee806d8a89653b955c0b900d6b5bdda8ddddcf5ff9ce67e82a531a0c616b",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--bosley-gallery-0008.jpg",
+      "source_url": "https://www.bosleyart.com/copy-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_b3cdb6ef5e3d469ea2ce005ad70bebba~mv2.jpg",
+      "source_id": "bosley-gallery",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        2445,
+        3330
+      ],
+      "sharpness": 357.923,
+      "notes": "Everdell Husband illustration, identified by artist gallery metadata: mouse, pitchfork and berries framed by foliage.",
+      "max_height": null,
+      "sha256": "ed86a23260f4281a808ac07c09862fc19f04197d367794b2ddf088449d6b5c94",
+      "visually_reviewed": true
+    },
+    {
+      "game": "Everdell",
+      "game_slug": "everdell",
+      "platform": "Illustration",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--bosley-gallery-0011.jpg",
+      "source_url": "https://www.bosleyart.com/copy-of-everdell",
+      "media_url": "https://static.wixstatic.com/media/96fa21_00169e407731458b83aec139d60fc72b~mv2.jpg",
+      "source_id": "bosley-gallery",
+      "media_type": "image",
+      "timestamp": null,
+      "timestamp_seconds": null,
+      "resolution": [
+        2445,
+        3330
+      ],
+      "sharpness": 355.514,
+      "notes": "Everdell Town Crier illustration, identified by artist gallery metadata: bird holding a bell, perched on a mossy roof against the forest.",
+      "max_height": null,
+      "sha256": "905a4d886c342f65f09b864cd412ab2c1ad22982f4e79d16b6279e969fcb3a32",
+      "visually_reviewed": true
+    }
+  ],
+  "storage_root": "/data/bramble-reference",
+  "usage": "Other studios’ images. Internal study only; never ship or trace.",
+  "sources": [
+    {
+      "source_id": "forest-definitive",
+      "source_url": "https://store.steampowered.com/app/387290/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/387290/54110/fb31874cd34ce9f49e635bf2615418b109d073da/1751275695/dash_h264.mpd?t=1461769481",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "forest-launch",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "forest-reveal",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "wisps-accolades",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/275562/d5ae82dcc0983c4d675ca617dc205a8d444d4f44/1750610401/dash_h264.mpd?t=1585866497",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "wisps-gameplay",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/257433/38c99365dd28cc6e7c0ce25db2d447b52d9ec276/1750610400/dash_h264.mpd?t=1576271885",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-board",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-choices",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-empty-shop",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-ending",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-initial",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-market",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-part1",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "notes": "Download succeeded after yt-dlp update. Long extraction was terminated; bounded capture passes supplied the picks.",
+      "game_slug": "bazaar",
+      "status": "downloaded-analysis-incomplete"
+    },
+    {
+      "source_id": "developer-update19",
+      "source_url": "https://www.youtube.com/watch?v=Zv0CKGxm680",
+      "media_url": "https://www.youtube.com/watch?v=Zv0CKGxm680",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "mobile-preflight",
+      "source_url": "https://www.youtube.com/watch?v=jJd3xxo72h0",
+      "media_url": "https://www.youtube.com/watch?v=jJd3xxo72h0",
+      "platform": "Android",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "notes": "Preview at 00:10:00: stream chat covers the lower-right play area; mobile feed is visibly soft and padded. No frames picked.",
+      "game_slug": "bazaar",
+      "status": "rejected"
+    },
+    {
+      "source_id": "official-2024",
+      "source_url": "https://www.youtube.com/watch?v=3OB-iP4IpI4",
+      "media_url": "https://www.youtube.com/watch?v=3OB-iP4IpI4",
+      "platform": "PC",
+      "resolution": [
+        3840,
+        2160
+      ],
+      "notes": "Download succeeded after yt-dlp update. Long extraction was terminated; bounded capture passes supplied the picks.",
+      "game_slug": "bazaar",
+      "status": "downloaded-analysis-incomplete"
+    },
+    {
+      "source_id": "steam-choices",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-matchup",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-opening",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-shop",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-trailer",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "android-finish",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "platform": "Android",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "battlegrounds",
+      "status": "captured"
+    },
+    {
+      "source_id": "android-opening",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "platform": "Android",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "battlegrounds",
+      "status": "captured"
+    },
+    {
+      "source_id": "android-rounds",
+      "source_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "media_url": "https://www.youtube.com/watch?v=dCZPojn0D4U",
+      "platform": "Android",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "battlegrounds",
+      "status": "captured"
+    },
+    {
+      "source_id": "podmates-finish",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "battlegrounds",
+      "status": "captured"
+    },
+    {
+      "source_id": "podmates-opening",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "battlegrounds",
+      "status": "captured"
+    },
+    {
+      "source_id": "podmates-rounds",
+      "source_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "media_url": "https://www.youtube.com/watch?v=0vKxLg0IZDk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "battlegrounds",
+      "status": "captured"
+    },
+    {
+      "source_id": "android-opening",
+      "source_url": "https://www.youtube.com/watch?v=1LMCAA1_IAA",
+      "media_url": "https://www.youtube.com/watch?v=1LMCAA1_IAA",
+      "platform": "Android",
+      "resolution": [
+        854,
+        384
+      ],
+      "notes": "Native 854×384 source; no picks. A cleaner 1080p mobile source was sought instead.",
+      "game_slug": "tft",
+      "status": "rejected"
+    },
+    {
+      "source_id": "android1080-combat",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "platform": "Android",
+      "resolution": [
+        2220,
+        1080
+      ],
+      "notes": "Native 2220×1080 Android client tutorial, recorded 2020-03-24. Native tutorial guidance is retained where noted. Chat-head notification near the final fight is excluded from all picks; the completion frame is unobstructed.",
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "android1080-deaths",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "platform": "Android",
+      "resolution": [
+        2220,
+        1080
+      ],
+      "notes": "Native 2220×1080 Android client tutorial, recorded 2020-03-24. Native tutorial guidance is retained where noted. Chat-head notification near the final fight is excluded from all picks; the completion frame is unobstructed.",
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "android1080-finish",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "platform": "Android",
+      "resolution": [
+        2220,
+        1080
+      ],
+      "notes": "Native 2220×1080 Android client tutorial, recorded 2020-03-24. Native tutorial guidance is retained where noted. Chat-head notification near the final fight is excluded from all picks; the completion frame is unobstructed.",
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "android1080-opening",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "platform": "Android",
+      "resolution": [
+        2220,
+        1080
+      ],
+      "notes": "Native 2220×1080 Android client tutorial, recorded 2020-03-24. Native tutorial guidance is retained where noted. Chat-head notification near the final fight is excluded from all picks; the completion frame is unobstructed.",
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "android1080-opponent",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "platform": "Android",
+      "resolution": [
+        2220,
+        1080
+      ],
+      "notes": "Native 2220×1080 Android client tutorial, recorded 2020-03-24. Native tutorial guidance is retained where noted. Chat-head notification near the final fight is excluded from all picks; the completion frame is unobstructed.",
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "android1080-rounds",
+      "source_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "media_url": "https://www.youtube.com/watch?v=XajQRMeu-ko",
+      "platform": "Android",
+      "resolution": [
+        2220,
+        1080
+      ],
+      "notes": "Native 2220×1080 Android client tutorial, recorded 2020-03-24. Native tutorial guidance is retained where noted. Chat-head notification near the final fight is excluded from all picks; the completion frame is unobstructed.",
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "pajos-combat",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "pajos-deaths",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "pajos-deaths-early",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "pajos-finish",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "pajos-opening",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "pajos-rounds",
+      "source_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "media_url": "https://www.youtube.com/watch?v=3W7tMyDtQFQ",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "tft",
+      "status": "captured"
+    },
+    {
+      "source_id": "uptodown-opening",
+      "source_url": "https://www.youtube.com/watch?v=67M2VjMy69A",
+      "media_url": "https://www.youtube.com/watch?v=67M2VjMy69A",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "notes": "2019 PC recording surfaced in mobile search; PC interface, uploader watermark at upper right. No picks; not a mobile source.",
+      "game_slug": "tft",
+      "status": "rejected"
+    },
+    {
+      "source_id": "bosley-artstation",
+      "source_url": "https://andybosley.artstation.com/projects/33G2m",
+      "media_url": "https://andybosley.artstation.com/projects/33G2m",
+      "platform": "Illustration",
+      "notes": "No bypass attempted; moved to the next public source.",
+      "game_slug": "everdell",
+      "status": "blocked",
+      "error": "HTTP 403 Forbidden"
+    },
+    {
+      "source_id": "bosley-gallery",
+      "source_url": "https://www.bosleyart.com/copy-of-everdell",
+      "media_type": "image",
+      "platform": "Illustration",
+      "notes": "Artist portfolio includes multiple projects. Picks restricted to files identified by its published metadata as Spirecrest_Discovery_Honeypaw, Everdell_Husband and Extra_Everdell_TownCrier. Other projects in this mixed gallery are excluded.",
+      "failures": [],
+      "game_slug": "everdell",
+      "status": "captured"
+    },
+    {
+      "source_id": "bosley-making-of",
+      "source_url": "https://www.bosleyart.com/post/wits-and-wisdom-the-making-of-everdell",
+      "media_type": "image",
+      "platform": "Illustration",
+      "failures": [],
+      "game_slug": "everdell",
+      "status": "captured"
+    },
+    {
+      "source_id": "old-starling",
+      "source_url": "https://www.starling.games/everdell",
+      "media_url": "https://www.starling.games/everdell",
+      "platform": "Illustration",
+      "notes": "No bypass attempted; moved to the next public source.",
+      "game_slug": "everdell",
+      "status": "unavailable",
+      "error": "HTTP 404 Not Found"
+    },
+    {
+      "source_id": "steam-screens",
+      "source_url": "https://store.steampowered.com/app/1722840/",
+      "media_type": "image",
+      "platform": "PC",
+      "failures": [],
+      "game_slug": "everdell",
+      "status": "captured"
+    },
+    {
+      "source_id": "tabletop-publisher",
+      "source_url": "https://www.tabletoptycoon.com/products/everdell",
+      "media_url": "https://www.tabletoptycoon.com/products/everdell",
+      "platform": "Illustration",
+      "notes": "No bypass attempted; moved to the next public source.",
+      "game_slug": "everdell",
+      "status": "blocked",
+      "error": "HTTP 429 Too Many Requests"
+    },
+    {
+      "source_id": "tycoon-publisher",
+      "source_url": "https://tycoongames.com/products/everdell-collectors-edition",
+      "media_url": "https://tycoongames.com/products/everdell-collectors-edition",
+      "platform": "Illustration",
+      "notes": "No bypass attempted; moved to the next public source.",
+      "game_slug": "everdell",
+      "status": "blocked",
+      "error": "HTTP 429 Too Many Requests"
+    }
+  ],
+  "captured_on": "2026-11-10",
+  "tools": {
+    "yt-dlp": "2026.10.26 (YouTube retry); 2026.03.17 (initial Steam captures)",
+    "ffmpeg": "8.0.1",
+    "python": "3.14.4",
+    "pillow": "12.1.1",
+    "numpy": "2.3.5"
+  },
+  "coverage": {
+    "bazaar": {
+      "platforms": [
+        "PC"
+      ],
+      "states": {
+        "menu": 2,
+        "main-play-empty": 2,
+        "main-play-busy": 2,
+        "item-inspect": 2,
+        "fight-start": 2,
+        "fight-big-moment": 2,
+        "end-of-game": 2,
+        "merchant-shop-choice": 2,
+        "event-choice": 2,
+        "board-item-layout": 2,
+        "fight": 2
+      },
+      "notes": "PC: two picks for each of the 11 requested states. Android preview rejected because stream chat covers play and the mobile feed is soft. No acceptable mobile picks in this handoff. Native game HUD, tooltips, build labels and two tutorial bubbles are retained."
+    },
+    "ori": {
+      "platforms": [
+        "PC"
+      ],
+      "states": {
+        "wide-scenery": 3,
+        "close-characters": 2,
+        "light-atmosphere": 2,
+        "characters-in-scene": 3
+      },
+      "notes": "Ten video frames across Blind Forest, its Definitive Edition and Will of the Wisps. Gameplay and cinematics are identified in each frame note."
+    },
+    "battlegrounds": {
+      "platforms": [
+        "Android",
+        "PC"
+      ],
+      "states": {
+        "menu": 2,
+        "main-play-empty": 2,
+        "main-play-busy": 2,
+        "card-inspect": 2,
+        "fight-start": 2,
+        "fight-big-moment": 2,
+        "recruit-mid-turn": 2,
+        "recruit-full": 2,
+        "opponent-board": 2,
+        "deaths": 2,
+        "big-late-board": 2,
+        "end-of-game": 2
+      },
+      "notes": "24 picks, two per requested state: one PC and one Android. Menu references show hero selection. Opponent-board references are explicit combat composition views; no separate scouting panel was present in the selected footage. Sources retain native HUD and notifications.",
+      "by_platform": {
+        "Android": {
+          "menu": 1,
+          "main-play-empty": 1,
+          "main-play-busy": 1,
+          "card-inspect": 1,
+          "fight-start": 1,
+          "fight-big-moment": 1,
+          "recruit-mid-turn": 1,
+          "recruit-full": 1,
+          "opponent-board": 1,
+          "deaths": 1,
+          "big-late-board": 1,
+          "end-of-game": 1
+        },
+        "PC": {
+          "menu": 1,
+          "main-play-empty": 1,
+          "main-play-busy": 1,
+          "card-inspect": 1,
+          "fight-start": 1,
+          "fight-big-moment": 1,
+          "recruit-mid-turn": 1,
+          "recruit-full": 1,
+          "opponent-board": 1,
+          "deaths": 1,
+          "big-late-board": 1,
+          "end-of-game": 1
+        }
+      }
+    },
+    "tft": {
+      "platforms": [
+        "Android",
+        "PC"
+      ],
+      "states": {
+        "menu": 2,
+        "main-play-empty": 2,
+        "main-play-busy": 2,
+        "card-inspect": 2,
+        "fight-start": 2,
+        "fight-big-moment": 2,
+        "recruit-mid-turn": 2,
+        "recruit-full": 2,
+        "opponent-board": 2,
+        "deaths": 2,
+        "big-late-board": 2,
+        "end-of-game": 2
+      },
+      "by_platform": {
+        "Android": {
+          "menu": 2,
+          "main-play-empty": 1,
+          "main-play-busy": 1,
+          "card-inspect": 1,
+          "fight-start": 1,
+          "fight-big-moment": 1,
+          "recruit-mid-turn": 1,
+          "recruit-full": 1,
+          "opponent-board": 1,
+          "deaths": 1,
+          "big-late-board": 1,
+          "end-of-game": 1
+        },
+        "PC": {
+          "main-play-empty": 1,
+          "main-play-busy": 1,
+          "card-inspect": 1,
+          "fight-start": 1,
+          "fight-big-moment": 1,
+          "recruit-mid-turn": 1,
+          "recruit-full": 1,
+          "opponent-board": 1,
+          "deaths": 1,
+          "big-late-board": 1,
+          "end-of-game": 1
+        }
+      },
+      "notes": "24 picks, two per requested state. PC gameplay is a normal match (2024); Android footage is the native 2220×1080 client tutorial (2020), not a normal mobile match. Both menu references are Android client menus; the PC video starts inside a match. Opponent-board references show combat compositions on opposing arenas, not separate scouting panels. Native game HUD and the noted tutorial bubble are retained. Frames containing the later chat-head notification were rejected."
+    },
+    "everdell": {
+      "platforms": [
+        "Illustration",
+        "PC"
+      ],
+      "states": {
+        "digital-board": 3,
+        "wide-scenery": 2,
+        "close-characters": 2,
+        "characters-in-scene": 3
+      },
+      "by_platform": {
+        "Illustration": {
+          "wide-scenery": 2,
+          "close-characters": 2,
+          "characters-in-scene": 3
+        },
+        "PC": {
+          "digital-board": 3
+        }
+      },
+      "notes": "Ten original stills: three official Steam digital-board screenshots and seven finished Everdell/Spirecrest illustrations from Andrew Bosley’s public site. Wide scenery 2, close characters 2, characters in the scene 3. Images retain original bytes and dimensions, with no cropping or upscaling. Publisher product pages returned HTTP 429, the old Starling URL 404 and ArtStation 403; no bypass was attempted. The artist gallery mixes projects; only explicitly identified Everdell art was selected."
+    }
+  },
+  "source_attempts": [
+    {
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "initial_result": "HTTP 403 using yt-dlp 2026.03.17",
+      "retry_result": "Downloaded successfully; bounded gameplay captures used.",
+      "retry_yt_dlp": "2026.10.26"
+    },
+    {
+      "source_url": "https://www.youtube.com/watch?v=3OB-iP4IpI4",
+      "initial_result": "HTTP 403 using yt-dlp 2026.03.17",
+      "retry_result": "Downloaded successfully at 3840x2160; analysis interrupted; Steam trailer and clean gameplay used for picks.",
+      "retry_yt_dlp": "2026.10.26"
+    },
+    {
+      "source_url": "https://www.youtube.com/watch?v=Zv0CKGxm680",
+      "initial_result": "HTTP 403 using yt-dlp 2026.03.17",
+      "retry_result": "Downloaded successfully; opening candidate pass completed; interview footage not selected.",
+      "retry_yt_dlp": "2026.10.26"
+    }
+  ]
+}

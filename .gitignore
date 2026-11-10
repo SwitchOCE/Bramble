@@ -35,5 +35,4 @@ build/
 .claude/settings.local.json
 
 # Look-and-feel phase: other studios' reference frames stay local (the manifest is committed)
-docs/ideation/ui/reference/*
-!docs/ideation/ui/reference/manifest.*
+docs/ideation/ui/reference/frames/
