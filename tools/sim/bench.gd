@@ -17,6 +17,7 @@ var _options: Dictionary = {
 	"trace": "off",
 	"profile": "off",
 	"capture": "off",
+	"recruit_trace": "off",
 	"lines": "",
 	"plant_growth": "0",
 	"plant_mode": "off",
@@ -38,6 +39,7 @@ var _active_session: GameSession
 var _test_card: Dictionary = {}
 var _plant_spawned: bool = false
 var _overrides: Dictionary = {}
+var _recruit_events: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -163,6 +165,11 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		game_seed, _library, config, BenchSuites.create_bot
 	)
 	_active_session = session
+	_recruit_events.clear()
+	if _options["recruit_trace"] == "on":
+		for player: PlayerState in session._players:
+			if _current_seats[player.id].begins_with("line_oozes_"):
+				player.log_observer = _trace_recruit.bind(player)
 	for id: int in BenchSuites.SEATS:
 		_starting_policies[id] = session.build_of(id)
 	_plant_spawned = false
@@ -176,6 +183,9 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		session.end_turn()
 		turns += 1
 	_write_game(suite, game_seed, session, seats)
+	if _options["recruit_trace"] == "on":
+		for player: PlayerState in session._players:
+			player.log_observer = Callable()
 	_active_session = null
 
 
@@ -194,6 +204,10 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 			var units: Array = snapshot["units"]
 			units.append_array(FightCapture.reserves(player, _active_session._library))
 			snapshot["recruit_units"] = FightCapture.recruit_inventory(player)
+			if _options["recruit_trace"] == "on":
+				snapshot["recruit_events"] = _recruit_events.get(
+					"%d:%d" % [id, player.round_number], []
+				)
 			(
 				snapshot
 				. merge(
@@ -521,3 +535,12 @@ func _has_quilboar_engine(player: PlayerState) -> bool:
 		if unit != null and unit.def_id() in ["qb_gem_rat", "qb_bramble_tunneler"]:
 			return true
 	return false
+
+
+## Optional uncapped recruit logs for diagnosis; never changes rules, stats or RNG.
+func _trace_recruit(kind: String, fields: Dictionary, player: PlayerState) -> void:
+	var key: String = "%d:%d" % [player.id, player.round_number]
+	if not _recruit_events.has(key):
+		_recruit_events[key] = []
+	var events: Array = _recruit_events[key]
+	events.append({"type": kind, "fields": fields.duplicate(true)})

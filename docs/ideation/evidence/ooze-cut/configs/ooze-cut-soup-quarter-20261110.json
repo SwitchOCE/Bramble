@@ -1,0 +1,11 @@
+{
+  "kind": "lines",
+  "suite": "a35_run1",
+  "preset": "B",
+  "first_seed": 2911001,
+  "lobbies": 32,
+  "shards": 8,
+  "rates": {
+    "oozes_soup_share": 0.25
+  }
+}

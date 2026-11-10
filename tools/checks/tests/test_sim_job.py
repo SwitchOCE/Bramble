@@ -78,6 +78,15 @@ class SimJobTest(unittest.TestCase):
         self.assertEqual(values["pass3_preset"], "C")
         self.assertEqual(values["bog_soak_keep"], 4)
 
+    def test_optional_recruit_trace_never_changes_game_configuration(self) -> None:
+        base = {"kind": "lines", "suite": "a35_run1", "preset": "B", "seeds": [1]}
+        normal = self.config(**base)
+        traced = self.config(**base, recruit_trace=True)
+        self.assertEqual(sim_job.game_config(normal), sim_job.game_config(traced))
+        self.assertNotIn("recruit_trace", sim_job.game_config(traced))
+        with self.assertRaisesRegex(ValueError, "recruit_trace"):
+            self.config(**base, recruit_trace="on")
+
     def test_soak_merge_counts_violations_and_crashes(self) -> None:
         config = self.config(kind="soak", preset="B", first_seed=1, lobbies=4, shards=2)
         base = {
