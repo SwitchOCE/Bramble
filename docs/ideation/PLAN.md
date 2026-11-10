@@ -79,51 +79,59 @@ Numbers are starting bars; tightening is free, loosening needs a line in `DECISI
 
 **This section decides whether Done is met.** The base text and the 6 Nov sharpened bars above stay as the record. Each change is listed below beside the 6 Nov line it changes, with its kind; every loosening's reason is in `plan-to-done.md` §1.12 and DECISIONS "Plan to Done v3 approved". Each criterion has at most two deciding items (owner, 09i: "Get good at one or two things and then start fixing other issues"). A checklist item is a fact or test that must hold. A reported item is triaged only on an extreme miss. These bars were written before A4's numbers exist, and they don't move to fit them.
 
+**Lines the table doesn't change still bind** (fidelity check, 10 Nov: `evidence/plan-to-done/done-means-fidelity.md`). Every line of the 6 Nov text that no row below changes is still part of Done, and the criteria restate the ones a reader could miss: the pool target, unique art, full text one tap away, and the declutter line.
+
 ### Each change beside the 6 Nov text
 
 | # | 6 Nov sharpened text (quoted) | v3 | Kind |
 |---|---|---|---|
 | 1 | "each lobby uses all six unless measured shop thinness justifies rotation" | five of six tribes per lobby (DECISIONS 8 Nov, "Commit review B", item 7) | logged 8 Nov |
-| 1 | "No filler stat-line units unless a reviewer would call it a deliberate vanilla body" | 0 units without rules text (counted), plus a final reviewer's line | loosening, §1.12 |
+| 1 | "No filler stat-line units unless a reviewer would call it a deliberate vanilla body" | **kept** (restored 10 Nov): 0 units without rules text, and no final reviewer names a filler unit that isn't a deliberate vanilla body | unchanged |
 | 1 | "2,000-game soak with rules checks, 0 violations, 0 crashes" | kept, on S4's mix, plus "no unit without a set appears" | tightening |
 | 2 | "At least 5 distinct strategies … each win 6–25% of lobbies they appear in. Nothing above 25%." | field fights at R10, R12 and R14 decide. The band is reported | loosening, §1.12 |
 | 2 | "1 best bot among 7 Naive places top-4 at least 85% and wins at least 45%" | **kept, as a checklist item at J2** | unchanged |
 | 2 | "The current best bot clearly beats the previous best head to head on fresh seeds" | dropped | loosening, §1.12 |
 | 2 | placing (a), (b) and (c) | all three reported. (c) is a verdict-brief question | loosening, §1.12 |
-| 2 | "Reviewers who played: a real decision on most turns, and they found at least 3 builds that felt different" | **kept as written.** "They" is the reviewers together, and decisions are asked by round range | unchanged |
+| 2 | "Reviewers who played: a real decision on most turns, and they found at least 3 builds that felt different" | "most final reviewers" report a real decision on most turns, and "together" they found 3 builds; decisions asked by round range | loosening (a reading): 6 Nov said neither "most" nor "together", and v2 read "each". Reason: 09d, "I don't want you to force it" |
 | 3 | "Every tribe has at least one signature mechanic Battlegrounds doesn't have. Every tribe has some economy … Reviewers don't call it a re-skin." | an evidence file with a fresh check against `docs/research/battlegrounds/`; no tribe called a re-skin by 2+ final reviewers | the re-skin part is a loosening, §1.12 |
-| 4 | "One strength … 'How far can I get' shows as a visible record" | kept, plus the default-opponent call | unchanged |
-| 5 | "20 scripted full UI games at phone and PC sizes without a crash or a layout failure"; "Fights read clearly … who hits, what triggered, why it died" | kept, plus the script's own depth bar, a fixed slot table and a cold reader | tightening |
+| 4 | "One strength … 'How far can I get' shows as a visible record"; base 4 "Bots worth beating" | kept, plus the default-opponent call; "worth beating" now decides (most final reviewers calling the rivals pushovers blocks Done) | tightening (restored 10 Nov) |
+| 5 | "20 scripted full UI games at phone and PC sizes without a crash or a layout failure"; "Fights read clearly, through animation and feel rather than static labels, arrows or a running log: who hits, what triggered, why it died. The main game space assumes a player who knows the rules: no tutorial text, rule reminders or static pointers on the board." | kept, plus the script's own depth bar, a fixed slot table, and a cold reader who also checks the board for the owner's 9 Nov declutter line | tightening (the declutter line restored 10 Nov) |
 | 6 | "Windows and Android builds on the portal, each with a README.txt, and PLAYTEST.md" | kept, plus the tag, the library SHA and `latest` | tightening |
-| 7 | "Three fresh reviewers who each played full games say "very good for a playtest", with their agreed items fixed" | kept, plus `plan-to-done.md` §1.7's definition and §1.8's pass rule (no counted agreed item left) | tightening, with 09d's filter |
+| 7 | "Three fresh reviewers who each played full games say "very good for a playtest", with their agreed items fixed" | kept, plus `plan-to-done.md` §1.7's definition and §1.8's pass rule (no counted agreed item left) | tightening on who reviews and how; **loosening** on "fixed": C4 and 09d's power filter count only agreed items that pass the filter. Reason: 09d is the owner's own direction, and filtered-out items go into PLAYTEST as known issues |
 
 ### The criteria (these govern)
 
 **1. Whole game.**
-- **Checklist:** the pool count on the build 9 tree, and 0 units without rules text.
+- **Checklist:**
+  - The pool on the build 9 tree, counting only units with a `set`: six tribes of 12+ units each across tiers 1–6, plus neutrals and 10+ tavern spells (6 Nov target).
+  - 0 units without rules text, and no final reviewer names a filler unit that isn't a deliberate vanilla body (the brief asks).
 - **Deciding:**
   1. 2,000 real `full_game` lobbies on the build 9 tree (S4's mix, on Actions): 0 violations, 0 crashes, and no unit without a set appearing.
   2. The 20 scripted UI games (shared with item 5) pick a hero and play 8-player games to game over.
-- **Reported:** one line from a final reviewer on filler units.
 
 **2. Depth.** 09d: "rely far more on empirical simulation data than on observational bot play"; "I don't want you to force it". 09c: tribes "the same order of magnitude".
 - **Deciding:**
   1. **Field fights at R10, R12 and R14**, on the shipped default preset. Each committed line's boards from that round, plus each tribe's designed strong board, fight the round's field, with placer layouts and both orientations.
      - It passes when at least 5 lines from at least 4 tribes beat the field in 40%+ of fights at R12 or R14, and no line or designed board beats it in 80%+ at both R12 and R14.
      - The 80% cap was checked on the Quilboar archives (`plan-to-done.md` §1.13), and its fallback is the order-of-magnitude read.
+     - **The field, fixed before A4:**
+       - The round's field is the shipped library's boards from that round, equally weighted per line.
+       - Each line is scored against the field without its own boards.
+       - A draw counts as half a win.
+       - A committed line is one in `tools/sim/lines/*.json`.
      - First read at A4, where a miss is cut at the outlier dial. Decided at J2. The bar never moves.
-  2. **Reviewers:** most final reviewers report a real decision on most turns, and **together they found at least 3 builds that felt different.** Decisions are asked by round range (R1–5, R6–10, R11+). The ranges are reported, and "most turns" overall decides.
+  2. **Reviewers:** most final reviewers report a real decision on most turns, and **together they found at least 3 builds that felt different.** Decisions are asked by round range (R1–5, R6–10, R11+), and each reviewer also answers one overall question ("a real decision on most turns?"). The overall answers decide, and the ranges are reported.
 - **Checklist:** the Naive check (J2): 1 best bot among 7 Naive places top 4 in at least 85% of 300 games and wins at least 45%.
 - **Reported:**
   - line-lobby firsts (the 6–25% band);
   - answers against carries, and distribution against totals;
-  - placing (a) and (b), from build 6 unless rerun (an extreme miss is an interval that includes 0);
+  - placing (a) and (b), rerun once on the build 9 tree at J2 (an extreme miss is an interval that includes 0);
   - placing (c), from the verdict brief;
   - decisions in R1–5. If round 6 agrees they're thin, W-g triages it (see C6).
 
 **3. Interesting.**
 - **Deciding:**
-  1. `evidence/interesting-designs.md`, from shipped content. For each tribe: its signature, the nearest Battlegrounds analogue and why it differs, and an economy card tied to the tribe's own action (02h). A fresh reviewer checks it against `docs/research/battlegrounds/`.
+  1. `evidence/interesting-designs.md`, from shipped content. For each tribe: its signature, the nearest Battlegrounds analogue and why it differs, and an economy card tied to the tribe's own action (02h). A fresh reviewer checks it against `docs/research/battlegrounds/`. It fails if the reviewer finds a tribe with no signature that Battlegrounds lacks, or no economy card tied to the tribe's own action.
   2. No tribe is called a re-skin by 2+ final reviewers. The brief asks about each tribe by name.
 - **Reported:** tribe gold against neutral gold (the 02h risk), and Quilboar absent from the pack.
 
@@ -133,18 +141,19 @@ Numbers are starting bars; tightening is free, loosening needs a line in `DECISI
   - the library loads from the APK and Windows packs, and fails loudly when missing.
 
   Otherwise the default is normal Hard lobbies, and the call is logged.
+- **Checklist:** the build 9 export's default opponents are as called above, with the library SHA in the README and the library in the pack listing.
 - **Deciding:**
-  1. The build 9 export's default opponents are as called above, with the library SHA in the README and the library in the pack listing.
+  1. **Worth beating:** the final brief asks "were the opponents worth beating?". Done fails if most final reviewers call the rivals pushovers.
   2. The record (best placement and wins, default settings only) shows on the main menu and at game over, on build 9 screenshots at both sizes.
 - **Reported:**
-  - "were the opponents worth beating" (an extreme miss is most reviewers saying pushovers);
   - distinct dealt lines.
   - PLAYTEST says the rivals replay strong games and don't react to the player (the owner's 09a ghost question).
 
 **5. Release feel.**
 - **Checklist:**
   - one theme;
-  - `portraits_pending.json` empty and `test_portraits` passing;
+  - `portraits_pending.json` empty and `test_portraits` passing, and every unit, hero and spell with a `set` has its own art (Pelt wears its prey's, by design);
+  - full rules text one tap away from every card on every screen;
   - a sound for each new cue, unheard, and PLAYTEST says so;
   - the tutorial;
   - the Rules hub covering every keyword in the pool;
@@ -152,11 +161,12 @@ Numbers are starting bars; tightening is free, loosening needs a line in `DECISI
   - game over;
   - no dev tools in exports.
 - **Deciding:**
-  1. 20 scripted UI games on the build 9 tree, 10 at 1920×1080 and 10 at 1688×780: 0 crashes, 0 layout failures, and phone text at least 31.
+  1. 20 scripted UI games on the build 9 tree, 10 at 1920×1080 and 10 at 1688×780: 0 crashes and 0 layout failures.
+     - A layout failure is any fault `tests/ui/layout_check.gd` reports on a checked screen: a control leaving the window or its container, text that doesn't fit, overlapping cards, text under `UiTheme.MIN_FONT` (31 canvas units, which is 22 window px at 1688×780, 11 pt on a 2× phone), or a tap target under the minimum.
      - The script's own depth bar applies as written: 10 games reach turn 12, 3 reach turn 15, one is won, 3 ghost fights happen, and tiers 5 and 6 are reached.
      - The scripted player is Hard.
      - The slot table is fixed before the run: at least 10 games at default settings, and the rest in lobbies chosen to reach the late game. There is no fallback bar.
-  2. A fresh cold reader passes build 9's fight strips at batch 1's bar: who hits, what triggered, and why it died.
+  2. A fresh cold reader passes build 9's fight strips at batch 1's bar: who hits, what triggered, and why it died. The same reader checks build 9's recruit and fight screenshots at both sizes against the owner's 9 Nov line: "no tutorial text, rule reminders or static pointers on the board" (09e). Any one found fails it.
 
 **6. Delivered.**
 - **Deciding:**
