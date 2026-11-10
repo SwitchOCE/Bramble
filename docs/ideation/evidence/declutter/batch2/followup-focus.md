@@ -42,3 +42,24 @@ normalized AST equivalence checked for the three mechanical cleanup files.
 New refresh-price/forecast regressions, a clean final targeted rerun, and updated
 focus screenshots/strips are pending this checkpoint. Historical captures remain
 unchanged. Current code and tests are saved before switching to batch 1.
+
+
+## Batch 1 review follow-ups merged before continuing batch 2
+
+Batch 1 through `330ed2cd` is merged at `bf8bb4d1`. The lint gate, short
+next-action cue retirement, lunge/portrait tests, and reader-5 Toll/pending/kiss/
+Mire fixes are committed separately on `ideation/declutter`. The new packet is
+`../batch1/strips/cue-retirement/README.md`: nine sheets / 72 frames, with
+observed lunge peaks, at ×1/×4/reduce. Final Bog amounts are visibly unobscured;
+the accepted before images are unchanged. A fresh independent read is pending.
+
+After the merge, six targeted combat files pass **78/78 tests, 2957 assertions,
+25.764 s**, strict hook clean. Required Ruff and both full gdlint commands pass;
+full gdformat verification is recorded at hand-off. DECISIONS still exactly
+matches d400831e. No pushes were made.
+
+Batch 2 remains WIP: recruit overview 57, lobby 54, scout 35 against the unchanged
+40-node cap. New focus screenshots and the pending refresh/forecast rerun remain
+undone. No art merge was performed; updating spec portrait-name exceptions and
+removing dead SHORT_NAMES entries awaits the requested ideation/main integration.
+Stopping for the orchestrator's 45-minute turn limit.
