@@ -4,6 +4,25 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Oozes: the problem is the numbers
+**Source:** the owner's request in `2026-11-10e`; the overbuff probe (`ideation/ooze-probe` 02d4a1bf, three arms on the same 32 B seeds); three blind redesigns from the design skill's surgical, bottom-up mechanical and top-down mechanical routes. All in `evidence/ooze-level/`.
+
+**Found:**
+- **Measured, the problem is at the parameter level.** Arm b (meals give 7× their stats, Aspic 1.8, Soup 0.3, Slice 0.2, the rest at the A3.5 dials' t=3) takes the engine line's R12 median from 352 to 1,235. Pot Luck goes from 271 to 786.
+- **Arm b's shape reads well by note 10f.** At R12 the engine's p10 is 625 and its p90 4,367. Seat growth R8–R14 runs ×1.32 at p10, ×1.45 at the median and ×1.85 at p90. Low rolls don't collapse, and the top tail is about 3.5× the median, not a snowball in most games.
+- **Arm c (about 3× arm b) runs away.** Its R12 p90 is 125 million, and some seats hit the 12-billion cap.
+- **The designers split from the probe.** Two of the three blind designers called it a mechanic problem (eating is additive, so it can't compound). The third called it content (no early source of growing food). Their numbers are paper estimates; the probe's are the engine's, with the bots following the route only partly (8 of 28 surviving engine boards had Soup).
+
+**Picked:**
+- Arm b becomes the Oozes' starting values, generous first.
+- Pot Luck at 786 is within reach of 900 and gets no special push yet. A3.5 run 1 compares it with the other tribes on the same seeds.
+- The three redesigns stay as an idea library. Both multiplicative Digests (⅔ culture, ×2 double) are the first thing to try if playtests say eating feels flat, even at the right size.
+- The probe's two overflow guards (apply the existing stat maximum before Ooze vector arithmetic, and before combat gains are converted into carry) merge after A3.5, with a review and the gate. They matter at any dial setting where stats get large.
+
+**Why:** a measured parameter fix that meets the bar with a healthy shape beats paper redesigns that would need their own sims. Past paper models of this tribe ran 3.6× too high (realization 0.275). The redesigns also change what the tribe is, which the owner hasn't asked for.
+
+**Agreed by:** the probe's report and its seat-round audit (3,279 seat-rounds reconcile). The distribution table is the orchestrator's own reading of `seat-rounds.csv`.
+
 ### 10 Nov 2026 — Neutrals (A3): review calls; wave 2b merged
 **Source:**
 - A fresh Sol review of `ideation/neutrals` `125db4df..2b2e00d7`: 6 cut, 4 keep.
