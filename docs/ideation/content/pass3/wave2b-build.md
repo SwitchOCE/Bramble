@@ -190,7 +190,7 @@ Hasty and Soup's reader text and rulebook now state the corrected current-stat
 and Shy rules; normal/golden Details tests also prevent Elder's missing space.
 No local full gate was run.
 
-## Part 2: Hedgerow implementation checkpoint
+## Part 2: Hedgerow light pass
 
 The sixteen pass 3 Hedgerow cards replace their same-ID live definitions. The
 separate 38-body retirement remains part 4. Frozen Hedgerow definitions are kept
@@ -268,40 +268,12 @@ Readings and limits:
   Pym can use generic Larder acquisition. Clover's text needs Hedgerow summons
   and is weak alone outside that package; no redesign was made.
 
-Validation and 32-lobby growth/accounting are still pending at this checkpoint.
-The first integrated run found strict helper typing, JSON-number comparisons,
-duplicate no-op markers, a native clock pinned by the old placer, and a frozen
-Larder-dial boundary; each is being checked with fixed-board cases.
-
-Native fixed-board checkpoint: **70/70 tests across six new scripts, 38.707s**,
-strict hook clean. Per-file counts and times are in `evidence/wave2b/hedgerow/new-tests.json`.
-- `tests/core/test_bot_hedgerow.gd`: 12 tests, 8.511643s.
-- `tests/core/test_pass3_hedge_recruit.gd`: 18 tests, 10.763168s.
-- `tests/core/test_pass3_hedge_shares.gd`: 3 tests, 4.76699s.
-- `tests/core/test_pass3_hedge_content.gd`: 9 tests, 0.102257s.
-- `tests/core/test_pass3_hedge_combat.gd`: 24 tests, 13.568589s.
-- `tests/ui/test_pass3_hedge_ui.gd`: 4 tests, 0.3941s.
-
-The broader changed-file/content-wide compatibility run and two-lobby timing
-probe are detached and sequential in `build/wave2b/hedgerow/run-final-pilot.sh`.
-No 32-lobby acceptance result is claimed yet.
-
-Part 2 compatibility follow-up (still WIP): the 35-file run exposed native
-Parish's unconditional cash policy reaching archived Hedgerow strategies. The
-central native-build check now also requires native Hedgerow content in BotEval's
-library. A directed old-content/no-cash case and the original complete-game hash
-check are running detached in `build/wave2b/hedgerow/run-rollback.sh`, with output
-`rollback.log` and completion code `rollback.exit`. The failed broad run was
-stopped; its chained pilot did not start. The broader 35-file run, the two timed
-lobbies and the 32-lobby measurements therefore remain open. No fixture has been
-re-recorded or weakened. The native 70/70 checkpoint predates this final guard;
-the bot script now has one additional boundary test awaiting its run.
-
-The final native-content policy guard passes **14/14** targeted checks in
-**68.088s**: thirteen bot cases and all four original normal-game hashes. No
-fixture changed. Evidence: `evidence/wave2b/hedgerow/rollback.json` and `.log`.
-The remaining compatibility files, two-lobby timing and full32 measurements
-remain pending; part 2 is not an acceptance hand-off.
+Intermediate checkpoints exposed strict helper typing, duplicate no-op markers,
+native timer pins, frozen-rate item handling and an old-content bot cash policy.
+These were fixed without loosening the legacy assertions or re-recording any
+field fixture. The 70-test native checkpoint and 14-test rollback checkpoint
+are retained in the evidence; the completed checks below supersede their WIP
+status.
 
 ### Part 2 route fidelity and final source checks
 
@@ -339,12 +311,84 @@ FixturePort line wrap is isolated in `157c65e4`. Per-file counts/times are recor
 in `hedgerow/targeted-final.json`; the full 37-file baseline was 360/360.
 
 The final two pilots took **12.617s and 15.529s**, mean **14.073s**, projecting
-**7.506 minutes** for 32. Telemetry keys and tiers were verified. The 32-lobby
-run is detached in `build/wave2b/hedgerow/final-lines.*`; acceptance/accounting
-values remain pending until it finishes. No local full gate ran.
+**7.506 minutes** for 32. Telemetry keys and tiers were verified. The completed final remeasurement is recorded below. No local full gate ran.
 
 Final cross-tribe turn-order correction: Lollop's frozen snapshot belongs after
 the existing Digest → Nell → Slice dependent sequence, before ordinary Start of
 Turn dispatch. A mixed Digest/Lollop board proves the normal/golden share reads
 the pot's 200/200 after eating rather than its prior 100/100. This preserves
 rulebook 12.1.9; the same 32 seeds are remeasured after this correction.
+
+### Part 2 completed hand-off
+
+Both deciding criteria pass. All sixteen cards have authored/default generated
+normal/golden text checks and fixed known-answer behavior coverage: **80 new GUT
+tests** across six scripts. The latest targeted runs are **185/185**, the final
+cross-tribe Start of Turn checks **41/41**, and all seven mandatory content-wide
+files **59/59** on the final source. The earlier broader compatibility run passed
+**360/360 across 37 files**. No new test plays a whole game or lobby. Python
+checker/reporter tests pass **29/29**. Both requested repository-wide GDScript
+lint commands and both tools-wide Ruff commands pass.
+
+At B, **32 complete line lobbies**, 32 distinct admitted seeds, ran in
+**356.452 seconds** (5.94 minutes). There were no lobbies ending before R14.
+The one-line-growth rate is `(R14 median / R8 median)^(1/6)`; eliminated seats
+are absent, never replaced with zero.
+
+| Line | Active growth | Including Bellies | R8/R12/R14 survivors | R12 active median | /900 | /paper R12 |
+| --- | ---: | ---: | --- | ---: | ---: | ---: |
+| Supper | ×1.615 | ×1.611 | 32 / 25 / 19 | 730 | 0.811 | 0.746 |
+| Parish | ×1.848 | ×1.848 | 32 / 24 / 20 | 1,094.5 | 1.216 | 1.258 |
+
+Both exceed **×1.3**. Both R12 accounting ratios fall within **0.5–2×**;
+this is reported evidence, not an additional deciding criterion. Pooled R12 is
+**874** across 49 surviving seats, **0.971×** the 900 reference.
+
+For the same seats alive entering R14, Supper's matched medians are **186 →
+2,500** (×**1.542** a round); its median individual seat growth is ×**1.480**,
+19 pairs. Parish is **167 → 4,600** (×**1.738**), median individual growth
+×**1.723**, 20 pairs. Including Bellies gives the same paired values. Full raw
+seed/seat pairs and each round's medians are in `hedgerow-summary.json`.
+
+Normal Hard seats' Hedgerow purchases per unique offer: **110/2,975 = 3.697%**
+off-build, **371/614 = 60.423%** own-build. This includes early flexible buying,
+excludes line food purchases, and groups by the final build's declared primary
+tribe. Known neutral builds are off-build; there were no unknown strategies.
+This is an adoption count, not proof of relative strength.
+
+The turn-order correction was remeasured on the exact same seed list. Its
+constructed mixed board differs as intended; all recorded pre-start rows in
+these 32 lobbies were unchanged. Hero tier jumps remain legal (notably March
+Hare); the written schedule governs the bot's upgrade actions. Common early
+flexibility and neutral fillers remain shared brain behavior. The paper's
+special neutral-two-tiers-higher rule through R6 has no separate implementation.
+Late feeder pairs may still be completed into a golden. Optional Treasury is
+supported by the normal bot, not a third committed measurement line. These are
+policy readings/limits; no Hedgerow card or dial remains unfinished.
+
+Final new-script times (fixed boards only):
+
+| Script | Tests | Seconds |
+| --- | ---: | ---: |
+| `test_bot_hedgerow.gd` | 18 | 10.283 |
+| `test_pass3_hedge_recruit.gd` | 19 | 12.234 |
+| `test_pass3_hedge_shares.gd` | 6 | 9.557 |
+| `test_pass3_hedge_content.gd` | 9 | 0.103 |
+| `test_pass3_hedge_combat.gd` | 24 | 13.600 |
+| `test_pass3_hedge_ui.gd` | 4 | 0.391 |
+
+Reporter synthetic tests: **8 in 0.03s**. The captured lobbies are the sole
+measurement input; no extra test lobby was added.
+
+Evidence under `docs/ideation/evidence/wave2b/hedgerow/`:
+
+- `hedgerow-lines.jsonl`: all seat-round rows, gold, tier, Larder, full nested Bellies and unique-offer purchase counts.
+- `hedgerow-summary.json`: both growth views, raw paired seats, sample counts, accounting, splash, source revision and exact seeds.
+- `hedgerow-fights.jsonl.gz`: full combat-boundary captures, including resolved rates, for replay.
+- `hedgerow-players.csv`, `hedgerow-rounds.csv`, `hedgerow-cards.csv`, `hedgerow-lines.log`: completed lobby records.
+- `measurement.json`: final source and data hashes; `targeted-final.json`, `start-order.json`, `content-wide.json`: test-file counts/times and corresponding logs.
+- `route-fidelity.json`, `timing.json`, and the four lint logs: policy, cost and check evidence.
+
+No push or merge was performed. No action was denied. Part 3 and prototype
+retirement have not started. Pot Luck route arms and constructed-board work are
+queued separately, following the orchestrator's new call.

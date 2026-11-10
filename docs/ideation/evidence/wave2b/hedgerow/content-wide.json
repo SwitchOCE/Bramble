@@ -1,0 +1,56 @@
+{
+  "tests": 59,
+  "failures": 0,
+  "seconds": 20.576,
+  "files": [
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.0076"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.316927"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.01876"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.940486"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.020702"
+    },
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.443985"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.173632"
+    }
+  ]
+}
