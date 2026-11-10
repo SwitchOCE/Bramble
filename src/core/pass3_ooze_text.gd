@@ -171,7 +171,9 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 		"stone_soup":
 			var reads: int = Pass3Rates.integer(config, "oozes_golden_soup_reads") if golden else 1
 			var noun: String = (
-				"your biggest Ooze's" if reads == 1 else "your %s biggest Oozes'" % _word(reads)
+				"your biggest Ooze's"
+				if reads == 1
+				else "your %s biggest Oozes' combined" % _word(reads)
 			)
 			return (
 				"Shop units gain %s, rounded up."

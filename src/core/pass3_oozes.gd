@@ -80,8 +80,8 @@ static func ranked(
 
 static func own_stats(unit: RecruitUnit) -> Vector2i:
 	return Vector2i(
-		maxi(0, unit.base_attack_now() + unit.perm_attack),
-		maxi(0, unit.base_health_now() + unit.perm_health)
+		clampi(unit.base_attack_now() + unit.perm_attack, 0, BoardUnit.STAT_CLAMP),
+		clampi(unit.base_health_now() + unit.perm_health, 0, BoardUnit.STAT_CLAMP)
 	)
 
 
@@ -107,10 +107,14 @@ static func soup_bonus(player: PlayerState) -> Vector2i:
 	var share: float = CoreUtil.to_float(player.pass3_rates.get("oozes_soup_share", 0.125))
 	var total := Vector2i.ZERO
 	for count: int in sources:
-		var stats := Vector2i.ZERO
+		var attack: int = 0
+		var health: int = 0
 		for target: RecruitUnit in targets.slice(0, count):
-			stats += Vector2i(target.attack, target.health)
-		total += Vector2i(ceili(stats.x * share), ceili(stats.y * share))
+			attack += target.attack
+			health += target.health
+		# Sum in 64-bit scalars: six legal capped bodies exceed Vector2i's range.
+		total.x = mini(BoardUnit.STAT_CLAMP, total.x + ceili(attack * share))
+		total.y = mini(BoardUnit.STAT_CLAMP, total.y + ceili(health * share))
 	return total
 
 
@@ -347,4 +351,8 @@ static func recruit_hook(_ctx: RecruitContext) -> void:
 
 
 static func _portion(stats: Vector2i, fraction: float) -> Vector2i:
-	return Vector2i(floori(stats.x * fraction), floori(stats.y * fraction))
+	# Apply the existing game maximum before converting back to a 32-bit vector.
+	return Vector2i(
+		mini(BoardUnit.STAT_CLAMP, floori(stats.x * fraction)),
+		mini(BoardUnit.STAT_CLAMP, floori(stats.y * fraction))
+	)

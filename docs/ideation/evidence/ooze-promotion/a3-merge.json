@@ -1,0 +1,58 @@
+{
+  "merge_parents": [
+    "3615340961ed",
+    "f0df66bb5364d908d37b49b054318faa21635012"
+  ],
+  "resolutions": {
+    "stone_soup.json": "A3 tier 1, 2/3 body, promoted B share .3 and golden reads 2; rounded-up faces with explicit combined golden stats.",
+    "pass3_oozes.gd": "64-bit Soup sums, ceiling only after each full sum, cap before Vector2i; retained own_stats and general floor-portion guards, A3 Nell cause, and generated Slice check_triples.",
+    "test_pass3_ooze_content.gd": "A3 body/tier/retirement expectations plus promoted B/C endpoints and rounded-up faces.",
+    "dial_behaviour": "B/C normal and golden Soup share text agrees with actual summed/rounded shop and purchased stats; updated current Ooze path expectations without changing non-Ooze cases."
+  },
+  "validated_soup_faces": {
+    "B_normal": "Shop units gain three tenths of your biggest Ooze's stats, rounded up.",
+    "B_golden": "Shop units gain three tenths of your two biggest Oozes' combined stats, rounded up.",
+    "C_normal": "Shop units gain 9 tenths of your biggest Ooze's stats, rounded up.",
+    "C_golden": "Shop units gain 9 tenths of your six biggest Oozes' combined stats, rounded up."
+  },
+  "guards": {
+    "soup": "Six 900M bodies sum without Vector2i wrap and produce capped positive stats.",
+    "slice": "Three capped generated Slices triple into a golden with a >2^31 permanent layer; own_stats and Aspic-scaled digestion remain capped and positive.",
+    "general_rounding": "Elder and Slice helper remains floor-based; Soup alone rounds up.",
+    "other": "Hasty permanent carry guard and uncapped 64-bit Granny temporary gains retained."
+  },
+  "verified_invariants": [
+    "All promoted Ooze B and C values unchanged",
+    "Every live/retired pool flag equals f0df66bb"
+  ],
+  "checks": {
+    "ooze_path_dial_ui_and_triple_gut": {
+      "scripts": 11,
+      "passed": 209,
+      "log": "build/ooze-a3-merge/gut-oozes.log"
+    },
+    "replay_gut": {
+      "scripts": [
+        "test_pass3_pool_replays.gd",
+        "test_pass3_combat.gd",
+        "test_fight_capture.gd",
+        "test_field_normal_regression.gd"
+      ],
+      "passed": 52,
+      "log": "build/ooze-a3-merge/gut-replays.log"
+    },
+    "gate_python": {
+      "pytest_passed": 173,
+      "unittest_passed": 173,
+      "logs": [
+        "build/ooze-a3-merge/python-pytest.log",
+        "build/ooze-a3-merge/python-unittest.log"
+      ]
+    },
+    "ruff": "pass",
+    "gdlint": "pass",
+    "gdformat_check": "pass",
+    "full_godot_suite_run": false
+  },
+  "pushes": []
+}

@@ -89,7 +89,7 @@ def load_config(path):
         from quilboar_h1 import ARMS
 
         config.setdefault("suite", "quilboar_h1")
-        if config["suite"] != "quilboar_h1":
+        if config["suite"] not in ("quilboar_h1", "ooze_probe"):
             raise ValueError("kind lines supports suite quilboar_h1 (the harness with a compact reader)")
         if config.get("preset") not in ARMS:
             raise ValueError(f"preset must be one of {list(ARMS)}")
@@ -191,7 +191,7 @@ def bench(config, out_dir, first, count):
 def compact(config, prefix, first, count, elapsed):
     from quilboar_h1 import compact_chunk
 
-    lobbies = compact_chunk(prefix, config["preset"], first, count, elapsed)
+    lobbies = compact_chunk(prefix, config["preset"], first, count, elapsed, ooze_probe=config["suite"] == "ooze_probe")
     for lobby in lobbies:
         lobby["rates_overrides"] = config["rates"]
     return lobbies

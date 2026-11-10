@@ -84,6 +84,26 @@ def write_fixture(prefix, players, records):
 
 
 class QuilboarH1DriverTests(unittest.TestCase):
+    def test_legacy_capture_without_post_fight_health_still_compacts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            prefix = Path(directory) / "legacy"
+            _, records = synthetic_capture(prefix)
+            self.assertTrue(all("health_after" not in record for record in records))
+            [game] = DRIVER.compact_chunk(prefix, "B", 31, 1, 2.5)
+        self.assertEqual(len(game["rounds"]), 8)
+        self.assertTrue(all(row["health_after"] is None for row in game["rounds"]))
+        self.assertTrue(all(row["stats"] == 12 for row in game["rounds"]))
+
+    def test_capture_preserves_available_post_fight_health(self):
+        with tempfile.TemporaryDirectory() as directory:
+            prefix = Path(directory) / "current"
+            players, records = synthetic_capture(prefix)
+            for record in records:
+                record["health_after"] = [37, 39]
+            write_fixture(prefix, players, records)
+            [game] = DRIVER.compact_chunk(prefix, "B", 31, 1, 2.5)
+        self.assertEqual([row["health_after"] for row in game["rounds"]], [37, 39] * 4)
+
     def test_compact_capture_uses_assigned_line_and_excludes_reserves(self):
         with tempfile.TemporaryDirectory() as directory:
             prefix = Path(directory) / "chunk"

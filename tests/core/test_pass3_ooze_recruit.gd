@@ -1,3 +1,4 @@
+# gdlint:disable=max-public-methods
 extends GutTest
 ## Known meal/shop answers, plus diagnostic guard-off counterexamples. No lobbies.
 @warning_ignore_start("unsafe_call_argument")
@@ -5,6 +6,8 @@ extends GutTest
 const KIT := preload("res://tests/core/recruit_kit.gd")
 ## Mechanics here are checked at the pre-A3.5 Ooze dials; test_pass3_path covers the path values.
 const LEGACY_DIALS: Dictionary = {
+	"oozes_soup_share": 0.125,
+	"oozes_elder_share": 0.5,
 	"oozes_aspic_bonus": 0.5,
 	"oozes_golden_aspic_multiplier": 2.0,
 	"oozes_hasty_share": 0.2,

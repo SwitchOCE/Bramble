@@ -1,0 +1,278 @@
+{
+	"aunt_aspic": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Oozes in front of this gain 4.6 times as many stats from eating non-Oozes.",
+		"mechanics": [
+			{
+				"ability": "aunt_aspic",
+				"bonus": 1.8,
+				"factor": 1,
+				"golden_multiplier": 4.6,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Oozes in front of this gain 180% more from eating non-Oozes."
+	},
+	"bubble_and_squeak": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. Digest. After this survives a hit: split in two. Twice a fight.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"id": "bubble",
+				"pass3": true,
+				"splits": 1
+			},
+			{
+				"ability": "bubble_and_squeak",
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Belly 1. Digest. After this survives a hit: split in two. Once a fight."
+	},
+	"cut_and_come_again": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Start of Turn: get two Slices with a fifth of your biggest Ooze's stats.",
+		"mechanics": [
+			{
+				"ability": "cut_and_come_again",
+				"count": 1,
+				"factor": 1,
+				"id": "pass3_ooze",
+				"share": 0.2
+			}
+		],
+		"text": "Start of Turn: get a Slice with a fifth of your biggest Ooze's stats."
+	},
+	"dishwater_nell": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Start of Turn: the two biggest Oozes next to this eat your shop's two lowest-tier units.",
+		"mechanics": [
+			{
+				"ability": "dishwater_nell",
+				"count": 1,
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Start of Turn: the biggest Ooze next to this eats your shop's lowest-tier unit."
+	},
+	"elder_ooze": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain twice its stats.",
+		"mechanics": [
+			{
+				"ability": "elder_ooze",
+				"factor": 1,
+				"golden_multiplier": 2.0,
+				"id": "pass3_ooze",
+				"share": 1.0
+			}
+		],
+		"text": "After your biggest Ooze eats a non-Ooze: your other Oozes gain all its stats."
+	},
+	"figgy_duff": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. What's inside goes golden when you buy another copy.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"id": "figgy_duff",
+				"pass3": true
+			},
+			{
+				"ability": "figgy_duff",
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Belly 1. What's inside goes golden when you buy another copy."
+	},
+	"frumenty": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. Digest. This has the text of its last two meals.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"id": "borrows_text",
+				"pass3": true
+			},
+			{
+				"ability": "frumenty",
+				"factor": 1,
+				"id": "pass3_ooze",
+				"meals": 1
+			}
+		],
+		"text": "Belly 1. Digest. This has the text of its last meal."
+	},
+	"granny_stir_up": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Cleave. Start of Combat: touching Oozes go inside. Gain twice their Attack.",
+		"mechanics": [
+			{
+				"id": "cleave"
+			},
+			{
+				"ability": "granny_stir_up",
+				"attack_multiplier": 1.0,
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Cleave. Start of Combat: touching Oozes go inside. Gain their Attack."
+	},
+	"hasty_pudding": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. Start of Combat: if empty, swallow the two biggest enemies. Your biggest Ooze permanently gains all of each.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"ability": "hasty_pudding",
+				"after": 3,
+				"count": 1,
+				"factor": 1,
+				"id": "pass3_ooze",
+				"share": 1.0
+			}
+		],
+		"text": "Belly 1. Start of Combat: if empty, swallow the biggest enemy. Your biggest Ooze permanently gains all of it."
+	},
+	"little_dollop": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. Digest. Buying into this costs 2 gold less.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"gold": 1,
+				"id": "belly_discount"
+			},
+			{
+				"ability": "little_dollop",
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Belly 1. Digest. Buying into this costs 1 gold less."
+	},
+	"moss_ooze": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "When a unit comes out of your Oozes: it gains Shield and Damage Reduction 25%.",
+		"mechanics": [
+			{
+				"ability": "moss_ooze",
+				"factor": 1,
+				"id": "pass3_ooze",
+				"reduction": 25
+			}
+		],
+		"text": "When a unit comes out of your Oozes: it gains Shield."
+	},
+	"mr_syllabub": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "When a unit comes out of your Oozes: its Start of Combat fires twice.",
+		"mechanics": [
+			{
+				"id": "syllabub",
+				"pass3": true,
+				"times": 1
+			},
+			{
+				"ability": "mr_syllabub",
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "When a unit comes out of your Oozes: its Start of Combat fires."
+	},
+	"mrs_posset": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. When this dies: its killer and the units beside it lose half their stats.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"ability": "mrs_posset",
+				"factor": 1,
+				"id": "pass3_ooze",
+				"loss_share": 0.5
+			}
+		],
+		"text": "Belly 1. When this dies: its killer loses half its stats."
+	},
+	"sixpenny_pie": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 4. When this dies: get 1 gold per unit that comes out.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 2
+			},
+			{
+				"id": "pie",
+				"pass3": true,
+				"per_unit": 1
+			},
+			{
+				"ability": "sixpenny_pie",
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Belly 2. When this dies: get 1 gold per unit that comes out."
+	},
+	"stone_soup": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Shop units gain three tenths of your two biggest Oozes' stats.",
+		"mechanics": [
+			{
+				"ability": "stone_soup",
+				"factor": 1,
+				"golden_reads": 2,
+				"id": "pass3_ooze",
+				"share": 0.3
+			}
+		],
+		"text": "Shop units gain three tenths of your biggest Ooze's stats."
+	},
+	"wee_wobbly": {
+		"eat_reminder": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats × 7.",
+		"golden_text": "Belly 2. After this survives a hit: what's inside comes out, or a 2/2 Drip.",
+		"mechanics": [
+			{
+				"id": "belly",
+				"size": 1
+			},
+			{
+				"drip": 1,
+				"id": "wobbly",
+				"pass3": true,
+				"unit": "drip"
+			},
+			{
+				"ability": "wee_wobbly",
+				"factor": 1,
+				"id": "pass3_ooze"
+			}
+		],
+		"text": "Belly 1. After this survives a hit: what's inside comes out, or a 1/1 Drip."
+	}
+}
