@@ -4,7 +4,6 @@ extends GutTest
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
 const SharedLobby := preload("res://tests/core/shared_lobby.gd")
-const REPLAY_ROUNDS: int = 8
 
 var _library: UnitLibrary = TestLibraries.current()
 
@@ -93,14 +92,13 @@ func test_hard_profiles_play_a_full_game() -> void:
 
 
 func test_a_seed_replays_exactly() -> void:
-	# 8 rounds (was the whole game). Determinism of whole Hard games is also pinned by
-	# test_field_normal_regression's hashes, and test_full_games replays a whole game.
-	var seats: Array = ["hard", "hard", "hard", "naive", "hard", "hard", "hard", "naive"]
+	# Replay a whole current-content game. A smaller Hard search keeps this guard affordable;
+	# the shared lobby and frozen field regression separately retain full-strength Hard games.
+	var seats: Array = SharedLobby.quick_seats() + [SharedLobby.QUICK_HARD]
 	var logs: Array = []
 	for _copy: int in 2:
 		var session: GameSession = _full_game(seats, 21)
-		for turn: int in REPLAY_ROUNDS:
-			assert_eq(session.end_turn(), "", "turn %d" % turn)
+		_play_out(session)
 		logs.append(JSON.stringify(session.get_game_log()))
 	assert_eq(logs[0], logs[1], "same game")
 

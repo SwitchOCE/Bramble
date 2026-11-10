@@ -9,6 +9,7 @@ const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const Records := preload("res://src/ui/records.gd")
+const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 
 ## Frames in a fight strip, the last one after the fight's final event.
 const STRIP: int = 6
@@ -18,11 +19,13 @@ var _size: Vector2i
 var _out: String
 var _files: Array = []
 var _moments: Array = []
+var _capture_error: bool = false
 
 
 func _initialize() -> void:
 	# The game-over screen records a result; keep it away from a player's real records.
 	Records.path = "user://render_records.cfg"
+	GameRecordLog.dir = "user://render_games"
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	if args.size() < 3:
 		printerr("usage: -- <save> <WxH> <out dir> [--turn N | --all]")
@@ -69,6 +72,8 @@ func _run(save_path: String, only: int) -> void:
 			wanted = only < 0
 		if wanted:
 			await _draw(app, moment)
+			if _capture_error:
+				return
 	if turns.error != "":
 		printerr("render: %s" % turns.error)
 		quit(2)
@@ -116,10 +121,10 @@ func _strip(fight: CombatScreen, stem: String) -> Array:
 	return files
 
 
-## What the fight screen was given: the opponent on its plaque and the events it plays.
+## The opponent name used by the fight's hero reader and log, and the events it plays.
 static func _shown(fight: CombatScreen) -> Dictionary:
-	var plaque: Label = fight.get("_fight_name")
-	return {"opponent": plaque.text if plaque != null else "", "events": fight.events.size()}
+	var fight_log: CombatLog = fight.get("_log_text")
+	return {"opponent": fight_log.side_names[1 - fight.bottom_side], "events": fight.events.size()}
 
 
 func _shoot(stem: String) -> String:
@@ -129,6 +134,9 @@ func _shoot(stem: String) -> String:
 	var name: String = "%s_%dx%d.png" % [stem, _size.x, _size.y]
 	if image.get_size() != _size:
 		printerr("render: got %s, wanted %s" % [image.get_size(), _size])
+		_capture_error = true
+		quit(1)
+		return ""
 	image.save_png(_out.path_join(name))
 	_files.append(name)
 	return name

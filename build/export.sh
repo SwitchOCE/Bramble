@@ -31,6 +31,9 @@ else
 fi
 mkdir -p "$out/project" "$out/logs" "$out/data/godot/keystores" "$out/data/godot/export_templates" "$out/config" "$out/cache" "$out/tmp"
 git archive "$commit" | tar -x -C "$out/project"
+# Bake the archived source revision into every platform's pack. Runtime environment and
+# Git are not available on the owner's machine; the checkout itself stays untouched.
+sed -i "/^\[application\]$/a config/build_commit=\"$commit\"" "$out/project/project.godot"
 if [ "$dry" = 1 ]; then
   mkdir -p "$out/project/content/fields"
   cp "$library" "$out/project/content/fields/baseline.json.gz"

@@ -33,3 +33,8 @@ func test_per_seed_row_keeps_paired_counts_and_lossless_seed_string() -> void:
 	assert_eq(row["draws"], 1)
 	assert_eq(row["trials"], 2)
 	assert_eq(CoreUtil.to_int(row["wins_a"]) + CoreUtil.to_int(row["wins_b"]) + 1, 2)
+
+
+func test_explicit_job_seeds_keep_all_signed_64_bits() -> void:
+	for value: int in [0, 123, -123, 9007199254740993, 9223372036854775807]:
+		assert_eq(FieldDriver.explicit_seed(str(value)), value)

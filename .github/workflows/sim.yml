@@ -1,0 +1,139 @@
+# The Actions sim job (docs/CLOUD_SETUP.md, "The sim job on Actions"). A push of ideation/sim/<id>
+# whose tree holds sim/<id>.json runs that config: the seeds are dealt across up to 8 shard jobs,
+# each runs tools/sim/sim_job.py shard (the same bench.gd or soak.sh entry points local runs use),
+# and the merge job commits compact results to sim/<id>/ on the same branch. Raw fight captures and
+# logs stay as artifacts for 7 days. scripts/sim-run.sh pushes a config and waits for the results.
+name: Sim
+
+on:
+  push:
+    branches: ["ideation/sim/**"]
+
+# One run per sim branch; a second push waits rather than cancelling a run half way.
+concurrency:
+  group: sim-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    # The merge job's own results commit carries [skip ci]; this guards a hand-pushed one too.
+    if: ${{ !contains(github.event.head_commit.message, '[skip ci]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      id: ${{ steps.plan.outputs.id }}
+      shards: ${{ steps.plan.outputs.shards }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read sim/<id>.json
+        id: plan
+        run: |
+          id="${GITHUB_REF_NAME#ideation/sim/}"
+          config="sim/${id}.json"
+          [ -f "$config" ] || { echo "::error::no $config in this commit"; exit 1; }
+          [ ! -e "sim/${id}/summary.json" ] || { echo "::error::sim/${id}/ already holds results"; exit 1; }
+          shards="$(python3 tools/sim/sim_job.py matrix "$config")"
+          echo "id=$id" >>"$GITHUB_OUTPUT"
+          echo "shards=$shards" >>"$GITHUB_OUTPUT"
+          echo "sim $id: shards $shards"
+
+  shard:
+    needs: plan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      # GitHub Free runs 20 jobs at once across the repo, and gate runs take 5 of them.
+      max-parallel: 8
+      matrix:
+        shard: ${{ fromJSON(needs.plan.outputs.shards) }}
+    name: shard ${{ matrix.shard }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Load tools/versions.env
+        run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
+
+      - name: Download Godot
+        run: |
+          tag="${GODOT_VERSION}-stable"
+          zip="Godot_v${tag}_linux.x86_64.zip"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$zip" \
+            "https://github.com/godotengine/godot/releases/download/${tag}/${zip}"
+          echo "${GODOT_LINUX_SHA512}  $RUNNER_TEMP/$zip" | sha512sum -c -
+          mkdir -p ~/godot
+          unzip -q "$RUNNER_TEMP/$zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v${tag}_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+          echo "$HOME/godot" >> "$GITHUB_PATH"
+
+      # The class cache; a first import after checkout can log stale-cache noise, so a failed
+      # first pass gets a second (as in check.sh).
+      - name: Import
+        run: |
+          mkdir -p build && : > build/.gdignore
+          timeout 600 godot --headless --import >build/import-1.log 2>&1 \
+            || timeout 600 godot --headless --import >build/import-2.log 2>&1
+
+      - name: sim_job.py shard ${{ matrix.shard }}
+        run: python3 tools/sim/sim_job.py shard "sim/${{ needs.plan.outputs.id }}.json" ${{ matrix.shard }} build/sim-job
+
+      - name: Upload compact shard results
+        uses: actions/upload-artifact@v7
+        with:
+          name: sim-shard-${{ matrix.shard }}
+          path: |
+            build/sim-job/shard-${{ matrix.shard }}.lobbies.json.gz
+            build/sim-job/shard-${{ matrix.shard }}.receipt.json
+          retention-days: 1
+
+      - name: Upload raw captures and logs
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: sim-raw-${{ matrix.shard }}
+          path: |
+            build/sim-job/shard-${{ matrix.shard }}/
+            build/import-*.log
+          if-no-files-found: warn
+          retention-days: 7
+
+  merge:
+    needs: [plan, shard]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/download-artifact@v7
+        with:
+          pattern: sim-shard-*
+          path: build/sim-shards
+
+      - name: Merge and commit the results
+        env:
+          ID: ${{ needs.plan.outputs.id }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          PUSHED: ${{ github.event.head_commit.timestamp }}
+        run: |
+          now="$(date -u +%s)"
+          pushed="$(date -u -d "$PUSHED" +%s)"
+          timing="config commit to merge $((now - pushed)) s; run $RUN_URL"
+          # A soak with violations or crashes still commits its results, then fails the run.
+          status=0
+          python3 tools/sim/sim_job.py merge "sim/${ID}.json" build/sim-shards "sim/${ID}" \
+            --commit "$GITHUB_SHA" --timing "$timing" || status=$?
+          [ -f "sim/${ID}/summary.json" ] || exit 1
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "sim/${ID}"
+          git commit -q -m "sim ${ID}: results [skip ci]" -m "Run: $RUN_URL"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          exit "$status"

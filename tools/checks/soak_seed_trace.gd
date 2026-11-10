@@ -5,9 +5,9 @@ extends "res://tools/checks/soak.gd"
 
 ## Hold synthetic inputs fixed across revisions. Otherwise a newly added effect
 ## creates another SoakContent pool unit, changing shops despite default switches.
-func _play(game_seed: int) -> int:
+func _play(game_seed: int, kind: String) -> int:
 	var manifest: String = OS.get_environment("BRAMBLE_SOAK_INPUTS")
-	if game_seed % 3 == 2 and manifest != "":
+	if kind == "synthetic" and manifest != "":
 		var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(manifest))
 		_full_library = UnitLibrary.load_dir()
 		SoakContent._register(_full_library, SoakContent.TOKEN, [], 1, false)
@@ -28,7 +28,7 @@ func _play(game_seed: int) -> int:
 			)
 			index += 1
 		SoakContent._add_heroes(_full_library)
-	return super._play(game_seed)
+	return super._play(game_seed, kind)
 
 
 func _check_fight(round_number: int, id_a: int, id_b: int, result: Dictionary) -> void:

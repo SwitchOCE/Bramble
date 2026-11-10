@@ -4,9 +4,7 @@ For three or more fresh players, each running in their own cloud session. Fill i
 
 ## What you're testing
 
-Bramble is an auto-battler in the Battlegrounds family. Until now its numbers grew in a straight line: about +13 stats a round, with no big moments. This build turns on mechanics that let power compound: engines that grow, answers to big units, and units that hold their stats. It carries the full pass 3 pool and comes in two variants, both on the generous side (owner, 9 Nov: start too strong and dial back):
-- **B:** about 900 total stats on a typical round-12 board;
-- **C:** about twice B's totals, about 1,800.
+Bramble is an auto-battler in the Battlegrounds family. Until now its numbers grew in a straight line: about +13 stats a round, with no big moments. This build turns on mechanics that let power compound: engines that grow, answers to big units, and units that hold their stats. It carries the full pass 3 pool and comes in two blind variants, **X** and **Y**.
 
 The owner's bar, in their words:
 - "Does it feel like it has a nice flow?"
@@ -17,7 +15,8 @@ The owner's bar, in their words:
 ## How to play
 
 - Branch `<branch>`, commit `<sha>`. Start with `tools/play/play.sh` (`tools/play/README.md` explains the commands).
-- Play `<n>` full games of each variant, alternating B and C, at seeds `<seeds>`. Opponents: `<strong-field mode or Hard>`.
+- Play `<n>` full games of each variant, alternating X and Y, at seeds `<seeds>`. Opponents: `<strong-field mode or Hard>`.
+- Keep the variants blind: do not run `reveal`, open saves, read `content/pass3/rates.json`, or read the variant map (`BRAMBLE_VARIANT_MAP`). Test only X and Y through the play commands.
 - Read no earlier playtest reports.
 - Play to win. Commit to a plan each game, and try at least once to beat a bigger board with an answer or placement.
 

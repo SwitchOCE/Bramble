@@ -1,5 +1,5 @@
 extends SceneTree
-## -- FIELD.json OUTPUT.jsonl [replicates_per_orientation=8] [aggregate|per_seed]
+## -- FIELD.json OUTPUT.jsonl [replicates_per_orientation=8] [aggregate|per_seed] [SEEDS.json]
 ## per_seed preserves the designed-field seed family and pairs both orientations per row.
 
 
@@ -10,6 +10,11 @@ static func seed_for(
 		var base_seed: int = ("designed|%s|%s|%s" % [round_key, left_id, right_id]).hash()
 		return base_seed * 4096 + rep
 	return ("field|%s|%s|%s|%d" % [round_key, left_id, right_id, rep]).hash()
+
+
+static func explicit_seed(value: Variant) -> int:
+	assert(value is String and str(str(value).to_int()) == str(value))
+	return str(value).to_int()
 
 
 static func result_row(
@@ -31,8 +36,8 @@ static func result_row(
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args.size() < 2 or args.size() > 4:
-		printerr("field_fights: expected field.json output.jsonl [replicates] [aggregate|per_seed]")
+	if args.size() < 2 or args.size() > 5:
+		printerr("field_fights: expected field.json output.jsonl [replicates] [mode] [seeds.json]")
 		quit(2)
 		return
 	var mode: String = args[3] if args.size() > 3 else "aggregate"
@@ -43,7 +48,16 @@ func _initialize() -> void:
 	var per_seed: bool = mode == "per_seed"
 	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(args[0]))
 	var reps: int = args[2].to_int() if args.size() > 2 else 8
-	assert(reps > 0 and (not per_seed or reps <= 4096))
+	assert(reps > 0 and (not per_seed or reps <= 4096 or args.size() == 5))
+	var explicit_seeds: Array = []
+	if args.size() == 5:
+		explicit_seeds = JSON.parse_string(FileAccess.get_file_as_string(args[4]))
+		assert(per_seed and explicit_seeds.size() == reps)
+		var seen: Dictionary = {}
+		for value: Variant in explicit_seeds:
+			explicit_seed(value)
+			assert(not seen.has(value), "duplicate explicit fight seed")
+			seen[value] = true
 	var output := FileAccess.open(args[1], FileAccess.WRITE)
 	var library := UnitLibrary.load_dir()
 	for card: Dictionary in data.get("test_cards", []):
@@ -66,7 +80,11 @@ func _initialize() -> void:
 				var totals: Array[int] = [0, 0]
 				var total_draws: int = 0
 				for rep: int in reps:
-					var fight_seed: int = seed_for(round_key, left_id, right_id, rep, per_seed)
+					var fight_seed: int = (
+						explicit_seed(explicit_seeds[rep])
+						if not explicit_seeds.is_empty()
+						else seed_for(round_key, left_id, right_id, rep, per_seed)
+					)
 					var wins: Array[int] = [0, 0]
 					var draws: int = 0
 					for orientation: int in 2:

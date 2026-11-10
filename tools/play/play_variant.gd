@@ -9,6 +9,7 @@ const VARIANTS: PackedStringArray = ["X", "Y"]
 ## The seal is base64, so a glance at the save doesn't give the preset away. It isn't secret:
 ## a tester who decodes their own save can read it (tools/play/README.md says so).
 const SEAL_KEY: String = "variant_seal"
+const FIELD_SEAL_KEY: String = "variant_field_seal"
 const SEAL_PREFIX: String = "bramble-variant:"
 
 
@@ -85,8 +86,28 @@ static func store_preset(game: PlayGame, saved: Dictionary) -> void:
 	if game.variant != "":
 		saved["variant"] = game.variant
 		saved[SEAL_KEY] = seal(game.preset)
+		if saved.has("field_library"):
+			var field_data: Dictionary = {}
+			for key: String in ["field_library", "field_library_sha256", "field_strength"]:
+				field_data[key] = saved[key]
+				saved.erase(key)
+			saved[FIELD_SEAL_KEY] = seal(JSON.stringify(field_data))
 	elif game.preset != "":
 		saved["preset"] = game.preset
+
+
+## Blind field references are sealed too; older saves with a plain reference still replay.
+static func field_reference(data: Dictionary) -> Dictionary:
+	if not data.has(FIELD_SEAL_KEY):
+		return data
+	var opened: Variant = unseal(str(data[FIELD_SEAL_KEY]))
+	if opened != null:
+		var parsed: Variant = JSON.parse_string(str(opened))
+		if parsed is Dictionary:
+			var field_data: Dictionary = parsed
+			if field_data.has("field_library") and field_data.has("field_library_sha256"):
+				return field_data
+	return {"error": "This save's field seal is damaged. Start a new game."}
 
 
 ## Reads a save's preset and variant into the game; "" or why the save can't be used.

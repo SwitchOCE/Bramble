@@ -3,7 +3,8 @@
 # authenticated gh (the local orchestrator's).
 #   scripts/cloud-gate.sh <commit> [label]   push <commit> to ideation/gate/<short-sha>, wait for
 #                                            its CI run, print GATE <sha> PASS|FAIL <url>; on a
-#                                            failure, also the last 40 lines of the failed log
+#                                            failure, also the failed jobs' check.sh lines
+#                                            (scripts/gate_failures.sh)
 #   scripts/cloud-gate.sh --check <commit>   print whether <commit> has a successful gate run
 #                                            (GATE <sha> PASSED <url>, or GATE <sha> NONE)
 # Exit: 0 pass, 1 fail or no passing run, 2 usage or setup error.
@@ -82,6 +83,9 @@ echo "$start_utc,\"${label//\"/\"\"}\",$sha,$verdict,$((SECONDS - t0)),$url" >>"
 
 echo "GATE $sha $verdict $url"
 if [ "$verdict" = FAIL ]; then
-  gh run view "$run_id" --log-failed 2>&1 | tail -n 40
+  failed_log="$(gh run view "$run_id" --log-failed 2>&1)"
+  lines="$(scripts/gate_failures.sh <<<"$failed_log")"
+  # Nothing matched (a setup step failed before check.sh): fall back to the log's end.
+  if [ -n "$lines" ]; then echo "$lines"; else tail -n 40 <<<"$failed_log"; fi
   exit 1
 fi
