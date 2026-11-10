@@ -1,0 +1,501 @@
+{
+  "tests": 682,
+  "failures": 0,
+  "scripts": 53,
+  "selected_config": "build/neutrals/final.json",
+  "new_script_times": [
+    {
+      "name": "tests/core/test_bot_neutral.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.767365",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_neutral_role_recipes.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.484542",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_combat.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.574551",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_recruit.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.667913",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_content.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.0187",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_neutral_ui.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.579078",
+      "run": "build/neutrals/preview.log"
+    }
+  ],
+  "results": [
+    {
+      "name": "tests/core/test_belly.gd",
+      "tests": "36",
+      "failures": "0",
+      "skipped": "0",
+      "time": "13.524926",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_birds.gd",
+      "tests": "70",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.266693",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_brain.gd",
+      "tests": "37",
+      "failures": "0",
+      "skipped": "0",
+      "time": "62.040485",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_burner.gd",
+      "tests": "15",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.288828",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_commitment.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.003451",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_eggs.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.031628",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "33",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.070058",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_held.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.655155",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_lanes.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.845893",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bot_neutral.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.767365",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bots.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.094194",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_bots_spend.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.961503",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_burner_tier_four.gd",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.001459",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.155001",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_copy_text.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.082156",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.023744",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.204608",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "61.807043",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.482519",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.591786",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_line_bans.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "19.782092",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_line_mixture.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.005293",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_line_policies.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.497558",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_neutral_role_recipes.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.484542",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_overlay_text.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.265152",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_pass2_followup_review.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.683295",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_pass3_birds_recruit.gd",
+      "tests": "22",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.512029",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_combat.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.574551",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_recruit.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.667913",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/core/test_pass3_whirligig.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.97257",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_recruit_rules.gd",
+      "tests": "23",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.124393",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_recruit_triggers.gd",
+      "tests": "53",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.951205",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_review3_dozey.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "3.883833",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_round4_bugs.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.813254",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_scale_mechanics.gd",
+      "tests": "21",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.308845",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_scale_review.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.973829",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_slice_keywords.gd",
+      "tests": "26",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.452155",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_slice_neutrals.gd",
+      "tests": "17",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.222293",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_triples.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.47485",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.008292",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/core/test_upset_combat.gd",
+      "tests": "19",
+      "failures": "0",
+      "skipped": "0",
+      "time": "14.475534",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_burner_hint.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.25732",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_engines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.070482",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.025289",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_pass2_ui.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.873973",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_bog_ui.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.580712",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_hedge_ui.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.316941",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_ooze_ui.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.286344",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_ui.gd",
+      "tests": "10",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.154058",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/ui/test_polish.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.291762",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.246934",
+      "run": "build/neutrals/final.log"
+    },
+    {
+      "name": "tests/core/test_pass3_neutral_content.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.0187",
+      "run": "build/neutrals/preview.log"
+    },
+    {
+      "name": "tests/ui/test_pass3_neutral_ui.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.579078",
+      "run": "build/neutrals/preview.log"
+    }
+  ],
+  "warning_resolution": "The 51-script run passed 674/674 but correctly rejected an ignored new content script (Variant.size parse warning). Typed Array fix; affected content script rerun passed 7/7 with strict hook and zero logged warnings/errors. Other tests were not repeated for a test-only typing edit.",
+  "strict_hook": "ok in both runs",
+  "static_checks": [
+    "ruff check tools: PASS",
+    "ruff format --check tools: PASS",
+    "gdlint src tools: PASS",
+    "(cd tests && gdlint .): PASS"
+  ],
+  "frozen_normal_replay": "PASS, fixture unchanged",
+  "raw_logs": "build/neutrals/",
+  "local_full_gate": "not run, per instruction",
+  "last_affected_rerun": {
+    "scripts": 7,
+    "tests": 57,
+    "failures": 0,
+    "warnings": 0,
+    "strict_hook": "ok",
+    "log": "build/neutrals/preview.log"
+  }
+}

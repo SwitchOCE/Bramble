@@ -53,6 +53,8 @@ const TAG_KEYWORDS: PackedStringArray = [
 ## Rules pattern -> the tile's short tag, first match wins. Both lines of a tag fit a board tile.
 const RULE_TAGS: Dictionary[String, String] = {
 	"^shop units gain": "Shop grows",
+	"^the units behind this have swoop": "Swoop aura",
+	"^your when played effects trigger": "Extra plays",
 	"^oozes in front of this gain": "Eat bonus",
 	"^after your biggest ooze eats": "Meal share",
 	"^when a hunter (beside|next to) this is sold:": "Sale growth",

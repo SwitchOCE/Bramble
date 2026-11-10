@@ -18,7 +18,7 @@
     "Swarm"
   ],
   "row_hint": "front",
-  "pool": true,
+  "pool": false,
   "priority": 11,
   "skeleton": false,
   "source": {

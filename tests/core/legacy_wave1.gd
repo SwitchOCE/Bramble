@@ -42,7 +42,7 @@ static func build(restore_hunters: bool = true) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return with_hunters(out) if restore_hunters else out
+	return with_neutrals(with_hunters(out) if restore_hunters else out)
 
 
 ## A deep copy of with_hunters(UnitLibrary.load_dir()), built once a run.
@@ -68,7 +68,7 @@ static func with_hunters(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return out
+	return LegacyPrototypes.restore(out)
 
 
 ## A deep copy of with_oozes(UnitLibrary.load_dir()), built once a run.
@@ -102,7 +102,7 @@ static func with_oozes(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return out
+	return LegacyPrototypes.restore(out)
 
 
 ## Historical Hedgerow tests can keep the other five current tribes.
@@ -121,4 +121,32 @@ static func with_hedgerow(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for card: Dictionary in current.all_heroes():
 		out.register_hero(card)
-	return out
+	return LegacyPrototypes.restore(out)
+
+
+## A deep copy of the original neutrals over current tribes, built once per run.
+static func current_with_neutrals() -> UnitLibrary:
+	return TestLibraries.cached(
+		"current+neutrals", func() -> UnitLibrary: return with_neutrals(UnitLibrary.load_dir())
+	)
+
+
+## Keep the original neutral rules and pool when testing the rollback.
+static func with_neutrals(current: UnitLibrary) -> UnitLibrary:
+	var archive: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/pass2_neutral_units.json")
+	)
+	var replacements: Dictionary = {}
+	for card: Dictionary in archive["units"]:
+		replacements[str(card["id"])] = card
+	var out := UnitLibrary.new()
+	for card: Dictionary in current.all_units():
+		if str(card["id"]) in ["shieldbug", "click_beetle"]:
+			continue
+		var definition: Dictionary = replacements.get(str(card["id"]), card)
+		out.register_unit(definition)
+	for card: Dictionary in current.all_cards():
+		out.register_card(card)
+	for card: Dictionary in current.all_heroes():
+		out.register_hero(card)
+	return LegacyPrototypes.restore(out)

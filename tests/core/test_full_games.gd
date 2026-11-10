@@ -16,7 +16,10 @@ func _bot_game(game_seed: int, pool_filter: String = "all") -> GameSession:
 	var config := GameConfig.defaults()
 	config.set_value("human_bot", "balanced")
 	config.set_value("pool_filter", pool_filter)
-	var session := GameSession.create(game_seed, _library, config)
+	var library: UnitLibrary = (
+		LegacyPrototypes.library() if config.card_set().is_empty() else _library
+	)
+	var session := GameSession.create(game_seed, library, config)
 	var start_total: int = _copies_accounted(session)
 	var turns: int = 0
 	while not session.is_over() and turns < 60:
@@ -87,8 +90,8 @@ func test_same_seed_same_game_determinism() -> void:
 
 
 func test_different_seeds_differ() -> void:
-	var first: GameSession = GameSession.create(1, _library)
-	var second: GameSession = GameSession.create(2, _library)
+	var first: GameSession = GameSession.create(1, LegacyPrototypes.library())
+	var second: GameSession = GameSession.create(2, LegacyPrototypes.library())
 	var shop_1: Array = first.get_state()["shop"]
 	var shop_2: Array = second.get_state()["shop"]
 	assert_ne(shop_1, shop_2, "different first shops")

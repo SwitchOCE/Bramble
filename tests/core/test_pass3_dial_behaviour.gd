@@ -355,11 +355,13 @@ func test_russet_printed_buff_share_matches_the_poached_copy_payload() -> void:
 			var share: float = 1.0 if golden or t == 3.0 else 2.0 / 3.0
 			_face("mistress_russet", golden, "with ?(.*?) ?(?:of )?its buffs", share)
 			var combat: Combat = _fight(
-				{0: _spec("mistress_russet", golden)}, {0: CK.plain(122, 243)}
+				{0: _spec("mistress_russet", golden)}, {0: CK.u("young_brock", 122, 243)}
 			)
 			_kill(combat, 1, 0)
 			var copies: Array = _changes(combat, "poach")
 			assert_eq(copies.size(), 1)
+			if copies.size() != 1:
+				continue
 			assert_eq(
 				Vector2i(copies[0]["perm_attack"], copies[0]["perm_health"]),
 				Vector2i(roundi(120 * share), roundi(240 * share))
@@ -404,6 +406,8 @@ func test_soup_printed_share_matches_live_shop_stats_normal_and_golden() -> void
 			_setup(t)
 			var share: float = 0.3 if t == 3.0 else 0.125
 			_face("stone_soup", golden, "gain ?(.*?) ?(?:of )?your (?:two )?biggest", share)
+			var card: Dictionary = kit.library.get_unit("stone_soup")
+			assert_true(str(card["golden_text" if golden else "text"]).ends_with(", rounded up."))
 			kit.put("stone_soup", 4, golden)
 			_body(kit.put("little_dollop", 0), 100, 200)
 			_body(kit.put("bubble_and_squeak", 1), 50, 100)
@@ -413,7 +417,7 @@ func test_soup_printed_share_matches_live_shop_stats_normal_and_golden() -> void
 			if t == 3.0:
 				expected = Vector2i(45, 90) if golden else Vector2i(30, 60)
 			else:
-				expected = Vector2i(18, 37) if golden else Vector2i(12, 25)
+				expected = Vector2i(19, 38) if golden else Vector2i(13, 25)
 			assert_eq(Vector2i(offer.attack, offer.health) - Pass3Oozes.own_stats(offer), expected)
 			assert_eq(kit.rules.buy(kit.player, 0), "")
 			assert_eq(Vector2i(offer.perm_attack, offer.perm_health), expected)
