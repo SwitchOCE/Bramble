@@ -1,0 +1,985 @@
+{
+  "schema_version": 1,
+  "frames": [
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--forest-launch-0001.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "source_id": "forest-launch",
+      "timestamp": "00:00:01.000",
+      "timestamp_seconds": 1.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 171.245,
+      "notes": "Blind Forest: marsh canopy and distant Spirit Tree; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "11421409595349a72ff2c4929ecbdcb765ff40991e8b91062b15b3fa9397900e"
+    },
+    {
+      "game": "Ori and the Will of the Wisps",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--wisps-gameplay-0017.jpg",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/257433/38c99365dd28cc6e7c0ce25db2d447b52d9ec276/1750610400/dash_h264.mpd?t=1576271885",
+      "source_id": "wisps-gameplay",
+      "timestamp": "00:00:35.500",
+      "timestamp_seconds": 35.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 593.59,
+      "notes": "Will of the Wisps: snowy forest at sunrise; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "2bd31e34c09dd7c2958241823b02b7fdeb345e45e2618f162afe9d1fdc9b6d6a"
+    },
+    {
+      "game": "Ori and the Blind Forest: Definitive Edition",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "wide-scenery",
+      "file_name": "wide-scenery--forest-definitive-0024.jpg",
+      "source_url": "https://store.steampowered.com/app/387290/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/387290/54110/fb31874cd34ce9f49e635bf2615418b109d073da/1751275695/dash_h264.mpd?t=1461769481",
+      "source_id": "forest-definitive",
+      "timestamp": "00:00:44.500",
+      "timestamp_seconds": 44.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 263.408,
+      "notes": "Blind Forest DE: sunlit lily pool with foreground ledge; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "9135e1589e1652175298cd6144fbd24413286b335206b53ed7dfa08506fca24a"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "close-characters",
+      "file_name": "close-characters--forest-reveal-0015.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "source_id": "forest-reveal",
+      "timestamp": "00:00:29.500",
+      "timestamp_seconds": 29.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 132.959,
+      "notes": "Blind Forest: Naru holding Ori in the rain; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "9d4bd033ad7cfc988441e4f6945b8fda8b85a296a6e11b0f824bcf453de62a2a"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "close-characters",
+      "file_name": "close-characters--forest-reveal-0016.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "source_id": "forest-reveal",
+      "timestamp": "00:00:33.000",
+      "timestamp_seconds": 33.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 480.585,
+      "notes": "Blind Forest: Naru lifts Ori to gather fruit; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "38143bf4de02749fb54ec5de696b83e3a8a3f28f9cd7a655a9ba8479fa9614b7"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "light-atmosphere",
+      "file_name": "light-atmosphere--forest-launch-0012.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "source_id": "forest-launch",
+      "timestamp": "00:00:37.000",
+      "timestamp_seconds": 37.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 120.115,
+      "notes": "Blind Forest: green haze, waterfalls and underwater light; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "797231619bcc5f8a3b267e09c4ae951be583c710f2aa2b06dcd6d954912e6cb4"
+    },
+    {
+      "game": "Ori and the Blind Forest: Definitive Edition",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "light-atmosphere",
+      "file_name": "light-atmosphere--forest-definitive-0019.jpg",
+      "source_url": "https://store.steampowered.com/app/387290/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/387290/54110/fb31874cd34ce9f49e635bf2615418b109d073da/1751275695/dash_h264.mpd?t=1461769481",
+      "source_id": "forest-definitive",
+      "timestamp": "00:00:40.000",
+      "timestamp_seconds": 40.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 340.564,
+      "notes": "Blind Forest DE: warm shafts and glowing garden structures; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "fda66ab6126fc2db2e31ded2f08b1e0c57e430c07d97a5031fd09c85e6b7ba09"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--forest-launch-0019.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "source_id": "forest-launch",
+      "timestamp": "00:00:45.000",
+      "timestamp_seconds": 45.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 261.297,
+      "notes": "Blind Forest: small Ori grounded at a monumental hollow tree; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "dc7fb3e60fa32362674eaee20849ac2ca4ba45cdc4d032981ff685c3c7cc40a8"
+    },
+    {
+      "game": "Ori and the Will of the Wisps",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--wisps-gameplay-0010.jpg",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/257433/38c99365dd28cc6e7c0ce25db2d447b52d9ec276/1750610400/dash_h264.mpd?t=1576271885",
+      "source_id": "wisps-gameplay",
+      "timestamp": "00:00:24.500",
+      "timestamp_seconds": 24.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 432.528,
+      "notes": "Will of the Wisps: Ori under a mossy log, with foreground fungi; gameplay.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "e9fe6880bebabf455fa288b5011a4c9bdef79f3bce25a309e4d2fbaf4a211270"
+    },
+    {
+      "game": "Ori and the Blind Forest",
+      "game_slug": "ori",
+      "platform": "PC",
+      "state": "characters-in-scene",
+      "file_name": "characters-in-scene--forest-reveal-0018.jpg",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "source_id": "forest-reveal",
+      "timestamp": "00:00:39.000",
+      "timestamp_seconds": 39.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 252.787,
+      "notes": "Blind Forest: Naru and Ori resting on a swing above the moonlit pond; cinematic.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "36f31c00e751039f0055efd873714db845c09e65de3ab1936eeb466e4107f32a"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "menu",
+      "file_name": "menu--steam-opening-0008.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-opening",
+      "timestamp": "00:00:11.750",
+      "timestamp_seconds": 11.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2499.685,
+      "notes": "Hero-select menu; Vanessa selected, before promotional captions.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "56b2eac6b1c7efbf2d286c05e6bd4b62e047621c193a7d249922c7d56cc8b054"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "menu",
+      "file_name": "menu--bek-ending-0020.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:37:08.000",
+      "timestamp_seconds": 2228.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1635.591,
+      "notes": "Main menu after the run; no hero selected.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "a1ea66df8b57d52842be0d66b3898071ab18e91ed4b943f058991e176133a09b"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--bek-initial-0011.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-initial",
+      "timestamp": "00:03:18.000",
+      "timestamp_seconds": 198.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1275.466,
+      "notes": "Empty owned board at first encounter; native tutorial bubble visible.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "eb801663bbe1c5bfbce5b0c4fd81397dc30459a4311586c28ab443594093e650"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-empty",
+      "file_name": "main-play-empty--bek-empty-shop-0003.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-empty-shop",
+      "timestamp": "00:03:30.750",
+      "timestamp_seconds": 210.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1208.906,
+      "notes": "First shop offers settled above the empty owned board, before purchase.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "be17489b41a9bb577539c529c95b5d564157a543fea7d3f12314722c24714802"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--steam-trailer-0028.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:33.000",
+      "timestamp_seconds": 93.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1373.976,
+      "notes": "Late run after a purchase; full owned board and skill HUD.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "b1021c3d3491b33ecd858bd21b186004f2b567e616b076bb9a852a1a8202fb27"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "main-play-busy",
+      "file_name": "main-play-busy--bek-ending-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:35:00.000",
+      "timestamp_seconds": 2100.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2052.38,
+      "notes": "Late run post-fight loot above a full owned board.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "ee526a8ea6d2860cc88d3058ed9ff2e249c8c397218765ac745fbbe24bb2ec00"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "item-inspect",
+      "file_name": "item-inspect--steam-trailer-0011.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:42.000",
+      "timestamp_seconds": 42.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2214.157,
+      "notes": "Shop hover: medium Exoskeleton item and compact description.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "47687426625bb1d350086467c45d5491212fa1d2256f718f59a90dc12b8a6818"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "item-inspect",
+      "file_name": "item-inspect--steam-trailer-0021.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:11.500",
+      "timestamp_seconds": 71.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1587.59,
+      "notes": "Expanded inspection of Fiery Katana with keyword help.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "f40b2e7b47cc1d7751d243b04c94eec13e0b1684f9966828f3ca7fd8c63f8a09"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-start",
+      "file_name": "fight-start--steam-trailer-0012.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:49.000",
+      "timestamp_seconds": 49.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1212.522,
+      "notes": "PvE opponent introduction and rewards before combat.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "e920f4110af2419c557e8df75d4ef5139ed55d365b009c9582f8491a6b0357b3"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-start",
+      "file_name": "fight-start--bek-ending-0009.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:35:35.000",
+      "timestamp_seconds": 2135.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1274.982,
+      "notes": "PvP matchup introduction before the final fight.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "49bdc8b3a51c0fff98de28b3f32bfbf0413e768fb80fa14eb71f5d43c0ab84c6"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--steam-trailer-0014.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:57.500",
+      "timestamp_seconds": 57.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 273.795,
+      "notes": "Opponent portrait bursts as the fight resolves; native combat effects.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "d863e7137f5a6cb059f5f3414ef52ae2d94e6e428cb6d662aa63a357a52cf111"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight-big-moment",
+      "file_name": "fight-big-moment--steam-trailer-0035.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:46.000",
+      "timestamp_seconds": 106.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 450.071,
+      "notes": "Late combat with large red area effect and ocean-wave effect.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "3728fa19f87387b9f4e24c66b27fd8a1cb0dc30564fc2e5373389187430d30ca"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "end-of-game",
+      "file_name": "end-of-game--bek-ending-0016.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:36:29.000",
+      "timestamp_seconds": 2189.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2186.922,
+      "notes": "Run result with final items revealed and summary statistics.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "ab70378e064ff62a7f8aa9fa09b308f52031c60444eb56f307f548d576c0b988"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "end-of-game",
+      "file_name": "end-of-game--bek-ending-0017.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:36:38.000",
+      "timestamp_seconds": 2198.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2105.816,
+      "notes": "Post-run progression and daily/weekly challenge summary.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "06317e2774287691ba47bc8afdd446b655d6fc35c67747b1a366827609e3117e"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "merchant-shop-choice",
+      "file_name": "merchant-shop-choice--bek-choices-0004.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-choices",
+      "timestamp": "00:05:42.000",
+      "timestamp_seconds": 342.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1471.394,
+      "notes": "Three merchant/encounter destinations; native tutorial bubble at left.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "35038cd41618a7373916b4336696b4b340e540944f87d881c465836535a7248b"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "merchant-shop-choice",
+      "file_name": "merchant-shop-choice--steam-shop-0004.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-shop",
+      "timestamp": "00:00:40.750",
+      "timestamp_seconds": 40.75,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1904.816,
+      "notes": "Settled merchant inventory above the owned board, without hover.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "3d8a6ceef60efb86fd641571f36f4a9b6f8c0a41f6fd36ce1abc425bbd5716e0"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "event-choice",
+      "file_name": "event-choice--steam-trailer-0006.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:24.500",
+      "timestamp_seconds": 24.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1983.772,
+      "notes": "Initial choice between three skills, with one native hover tooltip.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "56d04cf6d16027463110df373fc856cf8ed6d6cafbb7161949477fb052c494fb"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "event-choice",
+      "file_name": "event-choice--steam-trailer-0017.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:02.500",
+      "timestamp_seconds": 62.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2606.419,
+      "notes": "Level-up choice between two enchantment events.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "28f443a3f0dcca33594f8aa83472f3ba04d54bbcc3546f86e5b7850100ff6613"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "board-item-layout",
+      "file_name": "board-item-layout--steam-trailer-0008.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:00:30.000",
+      "timestamp_seconds": 30.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 334.999,
+      "notes": "Sparse owned board with differently sized items and compact skill area.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "9cedef2be58283c759a7c1c3077940a32910eb55423e907aae2bb4b8d1e28c7d"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "board-item-layout",
+      "file_name": "board-item-layout--bek-market-0010.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-market",
+      "timestamp": "00:10:16.000",
+      "timestamp_seconds": 616.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 1703.674,
+      "notes": "Stash expanded above owned items; one item lifted for rearrangement.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "6533987345445f7f355623e01d21c2133cf7a54bcf06a653e73359cfd886e43b"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight",
+      "file_name": "fight--steam-trailer-0034.jpg",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "source_id": "steam-trailer",
+      "timestamp": "00:01:44.500",
+      "timestamp_seconds": 104.5,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2084.814,
+      "notes": "Two filled opposing boards during late combat; forest arena.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "a8ff2f33d4f50912bb1db096af71c423a704c563fa93683959b72ae675f7c066"
+    },
+    {
+      "game": "The Bazaar",
+      "game_slug": "bazaar",
+      "platform": "PC",
+      "state": "fight",
+      "file_name": "fight--bek-ending-0011.jpg",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "source_id": "bek-ending",
+      "timestamp": "00:35:47.000",
+      "timestamp_seconds": 2147.0,
+      "resolution": [
+        1920,
+        1080
+      ],
+      "sharpness": 2033.391,
+      "notes": "Two filled opposing boards in the final PvP combat; native opponent tooltip.",
+      "max_height": null,
+      "visually_reviewed": true,
+      "sha256": "92b1a7947dafbc81d508c677ef34ea81266fd89c8e33b26b36d40fa20907b7ca"
+    }
+  ],
+  "storage_root": "/data/bramble-reference",
+  "usage": "Other studios’ images. Internal study only; never ship or trace.",
+  "sources": [
+    {
+      "source_id": "forest-definitive",
+      "source_url": "https://store.steampowered.com/app/387290/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/387290/54110/fb31874cd34ce9f49e635bf2615418b109d073da/1751275695/dash_h264.mpd?t=1461769481",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "forest-launch",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32473/1c492b90191a466113f5ef109d8186c2e692c66c/1750497787/dash_h264.mpd?t=1447370570",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "forest-reveal",
+      "source_url": "https://store.steampowered.com/app/261570/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/261570/32137/e3f9bf3706ad77fb47524191ec9256e9a49abcb3/1750497754/dash_h264.mpd?t=1447370145",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "wisps-accolades",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/275562/d5ae82dcc0983c4d675ca617dc205a8d444d4f44/1750610401/dash_h264.mpd?t=1585866497",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "wisps-gameplay",
+      "source_url": "https://store.steampowered.com/app/1057090/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1057090/257433/38c99365dd28cc6e7c0ce25db2d447b52d9ec276/1750610400/dash_h264.mpd?t=1576271885",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "ori",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-board",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-choices",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-empty-shop",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-ending",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-initial",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-market",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "bek-part1",
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "media_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "notes": "Download succeeded after yt-dlp update. Long extraction was terminated; bounded capture passes supplied the picks.",
+      "game_slug": "bazaar",
+      "status": "downloaded-analysis-incomplete"
+    },
+    {
+      "source_id": "developer-update19",
+      "source_url": "https://www.youtube.com/watch?v=Zv0CKGxm680",
+      "media_url": "https://www.youtube.com/watch?v=Zv0CKGxm680",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "mobile-preflight",
+      "source_url": "https://www.youtube.com/watch?v=jJd3xxo72h0",
+      "media_url": "https://www.youtube.com/watch?v=jJd3xxo72h0",
+      "platform": "Android",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "notes": "Preview at 00:10:00: stream chat covers the lower-right play area; mobile feed is visibly soft and padded. No frames picked.",
+      "game_slug": "bazaar",
+      "status": "rejected"
+    },
+    {
+      "source_id": "official-2024",
+      "source_url": "https://www.youtube.com/watch?v=3OB-iP4IpI4",
+      "media_url": "https://www.youtube.com/watch?v=3OB-iP4IpI4",
+      "platform": "PC",
+      "resolution": [
+        3840,
+        2160
+      ],
+      "notes": "Download succeeded after yt-dlp update. Long extraction was terminated; bounded capture passes supplied the picks.",
+      "game_slug": "bazaar",
+      "status": "downloaded-analysis-incomplete"
+    },
+    {
+      "source_id": "steam-choices",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-matchup",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-opening",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-shop",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    },
+    {
+      "source_id": "steam-trailer",
+      "source_url": "https://store.steampowered.com/app/1617400/",
+      "media_url": "https://video.akamai.steamstatic.com/store_trailers/1617400/824712298/487560bec45bc879478173cdebe22a99924b5bd2/1755090008/dash_h264.mpd?t=1755094125",
+      "platform": "PC",
+      "resolution": [
+        1920,
+        1080
+      ],
+      "game_slug": "bazaar",
+      "status": "captured"
+    }
+  ],
+  "captured_on": "2026-11-10",
+  "tools": {
+    "yt-dlp": "2026.10.26 (YouTube retry); 2026.03.17 (initial Steam captures)",
+    "ffmpeg": "8.0.1",
+    "python": "3.14.4",
+    "pillow": "12.1.1",
+    "numpy": "2.3.5"
+  },
+  "coverage": {
+    "bazaar": {
+      "platforms": [
+        "PC"
+      ],
+      "states": {
+        "menu": 2,
+        "main-play-empty": 2,
+        "main-play-busy": 2,
+        "item-inspect": 2,
+        "fight-start": 2,
+        "fight-big-moment": 2,
+        "end-of-game": 2,
+        "merchant-shop-choice": 2,
+        "event-choice": 2,
+        "board-item-layout": 2,
+        "fight": 2
+      },
+      "notes": "PC: two picks for each of the 11 requested states. Android preview rejected because stream chat covers play and the mobile feed is soft. No acceptable mobile picks in this handoff. Native game HUD, tooltips, build labels and two tutorial bubbles are retained."
+    },
+    "ori": {
+      "platforms": [
+        "PC"
+      ],
+      "states": {
+        "wide-scenery": 3,
+        "close-characters": 2,
+        "light-atmosphere": 2,
+        "characters-in-scene": 3
+      },
+      "notes": "Ten video frames across Blind Forest, its Definitive Edition and Will of the Wisps. Gameplay and cinematics are identified in each frame note."
+    }
+  },
+  "source_attempts": [
+    {
+      "source_url": "https://www.youtube.com/watch?v=gaX0SxOxRzk",
+      "initial_result": "HTTP 403 using yt-dlp 2026.03.17",
+      "retry_result": "Downloaded successfully; bounded gameplay captures used.",
+      "retry_yt_dlp": "2026.10.26"
+    },
+    {
+      "source_url": "https://www.youtube.com/watch?v=3OB-iP4IpI4",
+      "initial_result": "HTTP 403 using yt-dlp 2026.03.17",
+      "retry_result": "Downloaded successfully at 3840x2160; analysis interrupted; Steam trailer and clean gameplay used for picks.",
+      "retry_yt_dlp": "2026.10.26"
+    },
+    {
+      "source_url": "https://www.youtube.com/watch?v=Zv0CKGxm680",
+      "initial_result": "HTTP 403 using yt-dlp 2026.03.17",
+      "retry_result": "Downloaded successfully; opening candidate pass completed; interview footage not selected.",
+      "retry_yt_dlp": "2026.10.26"
+    }
+  ]
+}
