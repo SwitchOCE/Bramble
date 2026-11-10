@@ -292,9 +292,11 @@ func _layout_right(x: float, w: float) -> void:
 		)
 		_detail.size = Vector2(DETAIL_W, 740)
 		if _reader_is_hand():
-			# A hand's destination can be any board slot; keep the reader out of that path.
-			_detail.position = Vector2(x, 300)
-			_detail.size = Vector2(RIGHT_W, _end_button.position.y - 308.0)
+			# Read across the shop space, left of the whole fan and above every destination.
+			_detail.position = Vector2(20, 110)
+			_detail.size = Vector2(_hand_zone.position.x - 44.0, HAND_TOP - 122.0)
+			# Actions keep their full targets in the economy column, clear of both trays.
+			_detail.set_action_column(Rect2(x - 20.0, 252, RIGHT_W, 244))
 	var clear: bool = (
 		not _detail.visible
 		or _split_detail()
