@@ -72,7 +72,7 @@ func _start(args: PackedStringArray) -> PlayGame:
 			return refused
 		field_path = entry["field_library"]
 		strength = entry["field_strength"]
-	return PlayGame.start(game_seed, field_path, strength, entry["preset"], variant)
+	return PlayGame.start(game_seed, field_path, strength, str(entry["preset"]), variant)
 
 
 func _act(path: String, words: PackedStringArray, as_json: bool) -> int:
@@ -130,7 +130,8 @@ func _replay_log(args: PackedStringArray, as_json: bool) -> int:
 	if typeof(data) != TYPE_DICTIONARY:
 		print("No game log at %s" % args[0])
 		return 1
-	var game: PlayGame = _from_log(data, _option(args, "--field-library", ""))
+	var record: Dictionary = data
+	var game: PlayGame = _from_log(record, _option(args, "--field-library", ""))
 	if game.load_error != "":
 		print("Cannot replay log: %s" % game.load_error)
 		return 2
