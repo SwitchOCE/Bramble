@@ -4,6 +4,16 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Strong field memory budget failed: try loading only the dealt rivals
+**Source:** S3 (w7) on `ideation/measure` `00ed62b9`, `evidence/builds/memory-budget.md` (scope review running). On the Linux export, a field start adds 665.4 MB median peak RSS over a normal start, against Done criterion 4's 300 MB. The throwaway library is 14 lines and 480 trajectories: 1.6 MB stored and 37 MB of JSON.
+
+**Picked:**
+- **Not settled yet.** A lobby deals only 7 rivals, but the export parses all 480 trajectories into Godot dictionaries. Loading only the dealt trajectories should cost a small fraction of that. w7 profiles the memory and tries this, under the same measurement protocol and with the same boards for fixed seeds.
+- If a field start is still over 300 MB, **normal Hard lobbies are the default**, as criterion 4 says, and the strong field stays a menu choice.
+- **Why it's worth trying:** "worth beating" now decides Done (criterion 4, fidelity calls), and the strong field replays winning boards.
+
+**Agreed by:** the worker's measurement. The scope review of `ce50d9d7..00ed62b9` is pending.
+
 ### 10 Nov 2026 — A3.5 step 0: dials for run 1
 **Source:** `content/pass3/a35-dial-check.md` (the synthesis), with each tribe's analyst draft and critic in `evidence/a35-step0/`. The critics' sourced corrections win over the drafts.
 
