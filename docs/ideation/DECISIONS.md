@@ -4,6 +4,26 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Codex Cloud: calls
+**Source:** `evidence/codex-cloud.md`, a Sol research agent's report with OpenAI doc links and the CLI's own help output.
+
+**Found:**
+- Pro includes Codex Cloud. Cloud and local share one weekly pool, and cloud can cost more.
+- `codex cloud exec --env --branch --attempts` can submit tasks from this machine, and `status`, `list`, `diff` and `apply` can collect them.
+- There are no follow-up messages, no push and no PR from the CLI. Results come back as diffs.
+- No environment exists yet. The owner creates one in the web UI.
+- Credits pay for use past the weekly limit.
+
+**Picked:**
+- **Local Codex first.** Cloud adds no Codex capacity, only more machines, and Actions already runs the gates. So the saving comes from routing Claude work to Sol (10b call), not from where Sol runs.
+- **Codex Cloud for bounded jobs once the owner creates the environment.** That means reviews, critics and design reports that come back as a Markdown diff, and builds that come back as a diff.
+  - Diffs are applied only in a clean `ideation/*` worktree, then gated and pushed by the orchestrator, so nothing in the cloud can reach `main`.
+  - Long sims stay local or on Actions until the maximum task time is known.
+- **Claude routines** stay only for work that needs follow-up messages, and new ones need a logged reason (10b).
+- **The weekly pool:** 64% used with about 52 h to the reset. The owner decides on spending credits. Without them, the pace must drop to about 0.7% an hour, roughly one worker.
+
+**Agreed by:** the owner's direction; the research report.
+
 ### 10 Nov 2026 — Stone Soup triage: calls
 **Source:** `evidence/triage-stone-soup.md`. A triage workflow ran five hypothesis investigators, five refuters and a synthesis on the engine line's 32 B lobbies.
 
