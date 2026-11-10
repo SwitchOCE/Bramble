@@ -45,8 +45,8 @@ REQUIRED_RE='^src/main/main\.tscn(\.remap)?$'
 # And the sounds: an import stub for each, and its data under .godot/imported.
 AUDIO_STUB_RE='^assets/audio/.*\.wav\.import$'
 AUDIO_DATA_RE='^\.godot/imported/.*\.wav-[0-9a-f]+\.sample$'
-# The field experiment stays off and its baseline must not ship before the full new pool.
-FIELD_RE='^content/fields/.*\.json(\.gz)?$'
+# The field bundle ships independently of whether players can enable field opponents.
+FIELD_PATH=content/fields/baseline.json.gz
 LEVER_RE='^content/levers/[^/]+\.json$'
 RATES_RE='^content/pass3/rates\.json$'
 # Development-only directories no pack may ship.
@@ -128,12 +128,7 @@ check_size() {
 check_listing() {
   local label="$1" listing="$2" dir card ok=1
   grep -qE "$REQUIRED_RE" "$listing" || { fail "$label: pack lacks the main scene"; ok=0; }
-  if [ "${REQUIRE_FIELD_LIBRARY:-0}" = 1 ]; then
-    grep -qxF 'content/fields/baseline.json.gz' "$listing" || { fail "$label: missing strong-field library"; ok=0; }
-  elif grep -qE "$FIELD_RE" "$listing"; then
-    fail "$label: player pack ships an experimental field library"
-    ok=0
-  fi
+  grep -qxF "$FIELD_PATH" "$listing" || { fail "$label: missing strong-field library"; ok=0; }
   if grep -qE '^content/(reference/quilboar/|units/(quilboar|quillboar))' "$listing"; then
     fail "$label: reference Quilboar content shipped"
     ok=0
@@ -230,7 +225,7 @@ boot_linux() {
   echo "boot ok: linux reached the main scene and exited 0"
 }
 
-# Use the real PCK to verify feature-off UI/defaults and reject the CLI escape route.
+# Use the real PCK to verify feature-off UI/defaults with the required bundle present.
 # The probe is external and is not shipped in player builds.
 boot_linux_field() {
   local bin="$1" log status found expected
@@ -277,6 +272,12 @@ android_ready() {
     && [ -n "${ANDROID_HOME:-}" ] && [ -d "$ANDROID_HOME/platform-tools" ]
 }
 
+# The one smoke contract: every exported pack must carry the library.
+if [ ! -s "$FIELD_PATH" ]; then
+  echo "FAIL missing required field bundle: $FIELD_PATH; recapture before exporting"
+  exit 1
+fi
+
 # The pack and the class cache come from the import cache; build it on a fresh clone.
 if [ ! -f .godot/global_script_class_cache.cfg ] && [ ! -d .godot/imported ]; then
   echo "no import cache yet; running godot --headless --import"
@@ -293,13 +294,10 @@ if export_build debug "Linux" "$linux" "$LOG_DIR/export_linux.log"; then
   check_size "${linux%.*}.pck" 1 204800
   list_pck "${linux%.*}.pck" "$OUT_DIR/linux.files" && check_listing linux "$OUT_DIR/linux.files"
   boot_linux "$linux"
-  if [ "${REQUIRE_FIELD_LIBRARY:-0}" = 1 ]; then
-    run_godot timeout "$BOOT_TIMEOUT" "$GODOT" --headless --main-pack "${linux%.*}.pck" \
-      -s "$ROOT/tools/sim/export_field_probe.gd" >"$LOG_DIR/export_field_linux.log" 2>&1 \
-      || fail "Linux pack field load failed"
-  else
-    boot_linux_field "$linux"
-  fi
+  boot_linux_field "$linux"
+  run_godot timeout "$BOOT_TIMEOUT" "$GODOT" --headless --main-pack "${linux%.*}.pck" \
+    -s "$ROOT/tools/sim/export_field_probe.gd" >"$LOG_DIR/export_field_linux.log" 2>&1 \
+    || fail "Linux pack field load failed"
 fi
 
 windows="$OUT_DIR/windows/bramble.exe"

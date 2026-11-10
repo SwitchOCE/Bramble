@@ -40,7 +40,9 @@ Checks passed:
   `ideation-build-8` was absent before and after. The comparison records are
   `build/measure-{latest,tag}-{before,after}.txt`.
 
-The script retains old per-build scripts as historical records. A real run refuses
+The initial export change retained old per-build wrappers. The scope review then
+required their deletion; Git retains their history, and `build/export.sh` is the
+only delivery entry point. A real run refuses
 an existing tag or evidence record, creates only a local tag and atomically
 updates `latest` after every check. This path was inspected, not executed: this
 assignment requested a dry run, not publication.

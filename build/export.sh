@@ -46,7 +46,7 @@ ln -s "/opt/godot-data/godot/export_templates/$GODOT_VERSION.stable" "$out/data/
 slot() { GODOT_SLOT_CLASS=worker "$ROOT/scripts/godot_slot.sh" "$@"; }
 (
   cd "$out/project"
-  REQUIRE_ANDROID=1 REQUIRE_FIELD_LIBRARY=1 EXPORT_LOG_DIR="$out/logs" GODOT_EXPORT_TEMP_DIR="$out/tmp" scripts/export_smoke.sh "$out"
+  REQUIRE_ANDROID=1 EXPORT_LOG_DIR="$out/logs" GODOT_EXPORT_TEMP_DIR="$out/tmp" scripts/export_smoke.sh "$out"
 ) >"$out/export.log" 2>&1
 cp "$out/logs/export_boot_linux.log" "$out/linux-boot.log"
 # Check Windows and Android content with the editor against each actual pack.
