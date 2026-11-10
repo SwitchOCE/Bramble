@@ -98,6 +98,12 @@ The Quilboar merge (92cbce1f) passed every test on Actions and failed lint: `gam
 
 Three of five triage agents were stopped by Anthropic's safety filter (`reasoning_extraction`), a false positive. The prompt had asked each agent to "write your full working notes" and spell out its thinking per hypothesis. A one-off, and nothing to overlearn (owner, 10 Nov): just ask for findings, justification and evidence rather than "working notes" or step-by-step thinking.
 
+## A pipe hid a failed docs-only check (10 Nov)
+`./scripts/check.sh --docs-only ... | tail -1` inside an `&&` chain returns tail's exit code, so a failed check (an untracked prompt file under `tools/`) let the push go ahead. The pushed commit happened to be docs-only.
+- **Write check.sh to a log, then test its exit code** (`check.sh ... > log 2>&1; echo "exit $?"`), never through a pipe.
+- **Untracked files outside `docs/` fail the docs-only check.** Keep prompt drafts and art outputs under `build/` until they go on a branch.
+- **Art workers write only to their output folder.** A Codex image worker exported straight into the main checkout's `assets/portraits/`. The prompt header now says "Do not write into assets/".
+
 ## What the Quilboar reference taught our methods (10 Nov)
 
 From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterion (09i); they change how a bar is checked before it decides, and what is reported beside the two criteria.

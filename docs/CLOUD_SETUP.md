@@ -99,7 +99,14 @@ Session B should show no warning and a full `setup.log`. Session C should show `
 
 ### The ideation gate on Actions
 
-A push to `ideation/gate/**` runs only the `check` job, on that exact commit, with no exports and no paths-ignore. It uploads `build/check/gut.xml` (GUT's JUnit output) as the `gut-junit` artifact and writes the GUT totals to the job summary. The workflow comes from the pushed commit, so only commits that carry this trigger can be gated.
+A push to `ideation/gate/**` runs the gate on that exact commit, with no exports and no paths-ignore, as five parallel jobs. The run's conclusion is the verdict. The workflow comes from the pushed commit, so only commits that carry this trigger can be gated.
+
+- `gate-static` runs `./scripts/check.sh --keep-going --no-tests`: every step but tests, once.
+- `gate-tests` is a matrix of 4 shards. Each runs `./scripts/check.sh --shard i/4`: the tools step (Godot and Python only), import, then the tests step on shard i's scripts. Each shard uploads its `build/check/gut.xml` (GUT's JUnit output) as `gut-junit-<i>`. The Run Summary is in each shard's step log.
+- In the tests step, the strict hook, the parse-error check and the zero-tests backstop apply to each shard. A shard also fails if GUT ran fewer scripts than the shard lists.
+- `tools/checks/test_shards.py` makes the shards. It balances by the per-script seconds in `tools/checks/test_times.json`, slowest first onto the lightest shard. A script with no time (a new test) goes on the lightest shard at the median time, after the known ones, so it never moves them. `test_shards.py show 4` prints the split. To refresh the times, run `python3 tools/checks/test_shards.py times <gut.xml>...` on an unsharded `build/check/gut.xml` or on all four `gut-junit-<i>` files of one gate run. A unit test fails when more than a quarter of the scripts have no time.
+- Gate jobs restore the Godot cache but never save it: gate branches can't read each other's caches. PR runs save it.
+- PR and manual runs are unchanged: one unsharded `check` job, plus exports when asked. Without `--shard` or `--no-tests`, `check.sh` is the full unsharded gate, locally and anywhere else.
 
 - `scripts/cloud-gate.sh <commit> [label]` pushes the commit to `ideation/gate/<12-char sha>`, waits with `gh run watch`, and prints `GATE <sha> PASS|FAIL <url>`, plus the last 40 lines of the failed log on a failure. It needs an authenticated `gh`, and logs each gate to `~/.local/state/bramble/cloud-gates.csv`.
 - `scripts/cloud-gate.sh --check <commit>` says whether the commit has a successful gate run: the merge rule's test.

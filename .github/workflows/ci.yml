@@ -1,8 +1,10 @@
 # Pull requests: the quality gate (scripts/check.sh). PRs labelled "exports", and manual runs:
 # export builds too (Linux, Windows, Android APK, Android AAB through Gradle) via
 # scripts/export_smoke.sh. Every version and checksum comes from tools/versions.env.
-# Pushes to ideation/gate/** (scripts/cloud-gate.sh): the gate only, for that exact commit, with
-# gut.xml uploaded and the GUT totals in the job summary.
+# Pushes to ideation/gate/** (scripts/cloud-gate.sh): the gate only, for that exact commit, sharded:
+# gate-static runs every step but tests once, and gate-tests runs the tests as 4 parallel shards
+# (check.sh --shard i/4, tools/checks/test_shards.py), each uploading its gut.xml. The run's
+# conclusion is the verdict.
 name: CI
 
 on:
@@ -25,8 +27,9 @@ permissions:
 
 jobs:
   check:
-    # Adding a label doesn't change the code; the gate already ran for this commit.
-    if: github.event.action != 'labeled'
+    # Adding a label doesn't change the code; the gate already ran for this commit. Gate pushes
+    # run the sharded jobs below instead.
+    if: github.event_name != 'push' && github.event.action != 'labeled'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -76,28 +79,120 @@ jobs:
       - name: check.sh
         run: ./scripts/check.sh --keep-going
 
-      - name: GUT totals to the job summary
-        if: always() && github.event_name == 'push'
-        continue-on-error: true
-        run: |
-          {
-            echo '### GUT'
-            echo '```'
-            if [ -f build/check/gut.log ]; then
-              sed -n '/= Run Summary/,$p' build/check/gut.log | sed $'s/\e\\[[0-9;]*m//g'
-            else
-              echo 'no GUT log (the gate stopped before the tests step)'
-            fi
-            echo '```'
-          } >>"$GITHUB_STEP_SUMMARY"
-
-      # Uploads never fail the job; check.sh is the verdict.
-      - name: Upload gut.xml
-        if: always() && github.event_name == 'push'
+      - name: Upload logs
+        if: failure()
         continue-on-error: true
         uses: actions/upload-artifact@v7
         with:
-          name: gut-junit
+          name: check-logs
+          path: build/check/
+          retention-days: 7
+
+  # Gate pushes: every step but tests, once.
+  gate-static:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Load tools/versions.env
+        run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install gdtoolkit and ruff
+        run: pip install "gdtoolkit==${GDTOOLKIT_VERSION}" "ruff==${RUFF_VERSION}"
+
+      # Gate branches can't read each other's caches, so gate jobs only restore (from PR runs).
+      - name: Restore Godot
+        id: godot-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux-${{ env.GODOT_LINUX_SHA512 }}
+
+      - name: Download Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          tag="${GODOT_VERSION}-stable"
+          zip="Godot_v${tag}_linux.x86_64.zip"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$zip" \
+            "https://github.com/godotengine/godot/releases/download/${tag}/${zip}"
+          echo "${GODOT_LINUX_SHA512}  $RUNNER_TEMP/$zip" | sha512sum -c -
+          mkdir -p ~/godot
+          unzip -q "$RUNNER_TEMP/$zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v${tag}_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+
+      - name: Put Godot on PATH
+        run: echo "$HOME/godot" >> "$GITHUB_PATH"
+
+      - name: check.sh --no-tests
+        run: ./scripts/check.sh --keep-going --no-tests
+
+      - name: Upload logs
+        if: failure()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: static-logs
+          path: build/check/
+          retention-days: 7
+
+  # Gate pushes: the tests step in 4 shards balanced by tools/checks/test_times.json. Each shard
+  # imports for itself and needs only Godot and the runner's python3.
+  gate-tests:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    name: gate-tests (shard ${{ matrix.shard }}/4)
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Load tools/versions.env
+        run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
+
+      # Gate branches can't read each other's caches, so gate jobs only restore (from PR runs).
+      - name: Restore Godot
+        id: godot-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-linux-${{ env.GODOT_LINUX_SHA512 }}
+
+      - name: Download Godot
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          tag="${GODOT_VERSION}-stable"
+          zip="Godot_v${tag}_linux.x86_64.zip"
+          curl -fsSL --retry 3 -o "$RUNNER_TEMP/$zip" \
+            "https://github.com/godotengine/godot/releases/download/${tag}/${zip}"
+          echo "${GODOT_LINUX_SHA512}  $RUNNER_TEMP/$zip" | sha512sum -c -
+          mkdir -p ~/godot
+          unzip -q "$RUNNER_TEMP/$zip" -d "$RUNNER_TEMP/godot"
+          mv "$RUNNER_TEMP/godot/Godot_v${tag}_linux.x86_64" ~/godot/godot
+          chmod +x ~/godot/godot
+
+      - name: Put Godot on PATH
+        run: echo "$HOME/godot" >> "$GITHUB_PATH"
+
+      - name: check.sh --shard ${{ matrix.shard }}/4
+        run: ./scripts/check.sh --shard ${{ matrix.shard }}/4
+
+      # Uploads never fail the job; check.sh is the verdict.
+      - name: Upload gut.xml
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v7
+        with:
+          name: gut-junit-${{ matrix.shard }}
           path: build/check/gut.xml
           if-no-files-found: warn
           retention-days: 14
@@ -107,7 +202,7 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v7
         with:
-          name: check-logs
+          name: shard-${{ matrix.shard }}-logs
           path: build/check/
           retention-days: 7
 
