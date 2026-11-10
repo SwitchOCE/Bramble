@@ -17,7 +17,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/overview-1688x780.png",
+        "image": "../before/overview-1688x780.jpg",
         "manifest": "../before/manifest-1688x780.json",
         "labels": 134,
         "pocket_canvas": [
@@ -28,7 +28,7 @@
         "mask": "../before/overview-1688x780-calm-mask.png"
       },
       "after": {
-        "image": "after/overview-1688x780.png",
+        "image": "after/overview-1688x780.jpg",
         "labels": 40,
         "category_counts": {
           "unit_stats": 24,
@@ -57,7 +57,7 @@
       "reader_open": true,
       "resting_budget_pass": null,
       "before": {
-        "image": "../before/reader-reel_mistress-golden-1688x780.png",
+        "image": "../before/reader-reel_mistress-golden-1688x780.jpg",
         "manifest": "../before/manifest-1688x780.json",
         "labels": 145,
         "pocket_canvas": [
@@ -68,7 +68,7 @@
         "mask": "../before/reader-reel_mistress-golden-1688x780-calm-mask.png"
       },
       "after": {
-        "image": "after/reader-reel_mistress-golden-1688x780.png",
+        "image": "after/reader-reel_mistress-golden-1688x780.jpg",
         "labels": 51,
         "category_counts": {
           "unit_stats": 32,
@@ -97,7 +97,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/natural-birds-1688x780.png",
+        "image": "../before/natural-birds-1688x780.jpg",
         "manifest": "../before/manifest-1688x780.json",
         "labels": 103,
         "pocket_canvas": [
@@ -108,7 +108,7 @@
         "mask": "../before/natural-birds-1688x780-calm-mask.png"
       },
       "after": {
-        "image": "after/natural-birds-1688x780.png",
+        "image": "after/natural-birds-1688x780.jpg",
         "labels": 30,
         "category_counts": {
           "unit_stats": 14,
@@ -137,7 +137,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/lobby-1688x780.png",
+        "image": "../before/lobby-1688x780.jpg",
         "manifest": "../before/manifest-1688x780.json",
         "labels": 127,
         "pocket_canvas": [
@@ -148,7 +148,7 @@
         "mask": "../before/lobby-1688x780-calm-mask.png"
       },
       "after": {
-        "image": "after/lobby-1688x780.png",
+        "image": "after/lobby-1688x780.jpg",
         "labels": 39,
         "category_counts": {
           "unit_stats": 24,
@@ -177,7 +177,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/scout-1688x780.png",
+        "image": "../before/scout-1688x780.jpg",
         "manifest": "../before/manifest-1688x780.json",
         "labels": 136,
         "pocket_canvas": [
@@ -188,7 +188,7 @@
         "mask": "../before/scout-1688x780-calm-mask.png"
       },
       "after": {
-        "image": "after/scout-1688x780.png",
+        "image": "after/scout-1688x780.jpg",
         "labels": 30,
         "category_counts": {
           "unit_stats": 24,
@@ -217,7 +217,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/overview-1920x1080.png",
+        "image": "../before/overview-1920x1080.jpg",
         "manifest": "../before/manifest-1920x1080.json",
         "labels": 135,
         "pocket_canvas": [
@@ -228,7 +228,7 @@
         "mask": "../before/overview-1920x1080-calm-mask.png"
       },
       "after": {
-        "image": "after/overview-1920x1080.png",
+        "image": "after/overview-1920x1080.jpg",
         "labels": 40,
         "category_counts": {
           "unit_stats": 24,
@@ -257,7 +257,7 @@
       "reader_open": true,
       "resting_budget_pass": null,
       "before": {
-        "image": "../before/reader-reel_mistress-golden-1920x1080.png",
+        "image": "../before/reader-reel_mistress-golden-1920x1080.jpg",
         "manifest": "../before/manifest-1920x1080.json",
         "labels": 135,
         "pocket_canvas": [
@@ -268,7 +268,7 @@
         "mask": "../before/reader-reel_mistress-golden-1920x1080-calm-mask.png"
       },
       "after": {
-        "image": "after/reader-reel_mistress-golden-1920x1080.png",
+        "image": "after/reader-reel_mistress-golden-1920x1080.jpg",
         "labels": 51,
         "category_counts": {
           "unit_stats": 32,
@@ -297,7 +297,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/natural-birds-1920x1080.png",
+        "image": "../before/natural-birds-1920x1080.jpg",
         "manifest": "../before/manifest-1920x1080.json",
         "labels": 103,
         "pocket_canvas": [
@@ -308,7 +308,7 @@
         "mask": "../before/natural-birds-1920x1080-calm-mask.png"
       },
       "after": {
-        "image": "after/natural-birds-1920x1080.png",
+        "image": "after/natural-birds-1920x1080.jpg",
         "labels": 30,
         "category_counts": {
           "unit_stats": 14,
@@ -337,7 +337,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/lobby-1920x1080.png",
+        "image": "../before/lobby-1920x1080.jpg",
         "manifest": "../before/manifest-1920x1080.json",
         "labels": 128,
         "pocket_canvas": [
@@ -348,7 +348,7 @@
         "mask": "../before/lobby-1920x1080-calm-mask.png"
       },
       "after": {
-        "image": "after/lobby-1920x1080.png",
+        "image": "after/lobby-1920x1080.jpg",
         "labels": 39,
         "category_counts": {
           "unit_stats": 24,
@@ -377,7 +377,7 @@
       "reader_open": false,
       "resting_budget_pass": true,
       "before": {
-        "image": "../before/scout-1920x1080.png",
+        "image": "../before/scout-1920x1080.jpg",
         "manifest": "../before/manifest-1920x1080.json",
         "labels": 136,
         "pocket_canvas": [
@@ -388,7 +388,7 @@
         "mask": "../before/scout-1920x1080-calm-mask.png"
       },
       "after": {
-        "image": "after/scout-1920x1080.png",
+        "image": "after/scout-1920x1080.jpg",
         "labels": 30,
         "category_counts": {
           "unit_stats": 24,

@@ -7,6 +7,8 @@ from pathlib import Path
 
 from declutter_strips import write_sheet
 
+from declutter_evidence import read_json
+
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument("frames", type=Path)
 p.add_argument("output", type=Path)
@@ -15,7 +17,7 @@ a.output.mkdir(parents=True, exist_ok=True)
 runs = []
 event_hashes = set()
 for source in sorted(a.frames.glob("*/manifest.json")):
-    m = json.loads(source.read_text())
+    m = read_json(source)
     assert len(m["frames"]) == 8
     assert [f["tick"] for f in m["frames"]] == m["sample_ticks"]
     gaps = [b - a for a, b in zip(m["sample_ticks"], m["sample_ticks"][1:], strict=False)]

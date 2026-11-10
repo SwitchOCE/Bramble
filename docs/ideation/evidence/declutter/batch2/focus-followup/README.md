@@ -40,7 +40,7 @@ free-surface mask used by the parent packet. This proxy measures unoccupied
 surface, not perceived calm; carving and background grain are not separately
 subtracted. It is not a fresh visual-tier score.
 
-`budget-breakdown.json` and `.md` list every current node by its actual owning
+`budget-breakdown.json.gz` and `.md` list every current node by its actual owning
 widget/field, split into unit stats, hero Health, fallback names, costs/controls and
 other. Those categories sum to the unchanged raw count; none are exemptions. The
 reader-open rows are shown separately from the resting 40-node gate. Historical
@@ -56,10 +56,10 @@ across quarry: pocket 5 must pulse, pocket 2 must stay dark, then the pulse clea
 The assembler verifies identical End-of-Turn events across modes, exact final
 beads against the core, cue timing limits and the resolved lent target.
 
-[Shipped contact sheet](shipped-unit-board-faces.png) contains all **120** definitions
+[Shipped contact sheet](shipped-unit-board-faces.jpg) contains all **120** definitions
 in `GameConfig.full_game().card_set()` (`slice`), including created units: every
 face has its own portrait and **zero** fallback names. It repacks exact rendered
-cells offline without changing their pixels. [Full library audit](all-unit-board-faces.png)
+cells offline without changing their pixels. [Full library audit](all-unit-board-faces.jpg)
 retains all 158 definitions, including 38 legacy units outside the shipped set;
 those 38 missing-art legacy names remain visible and counted. Both manifests
 retain source entries and art-rectangle shares.

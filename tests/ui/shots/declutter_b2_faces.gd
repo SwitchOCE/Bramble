@@ -60,7 +60,7 @@ func _run() -> void:
 	await RenderingServer.frame_post_draw
 	var image: Image = viewport.get_texture().get_image()
 	assert(image.get_size() == viewport.size)
-	assert(image.save_png(_out.path_join("all-unit-board-faces.png")) == OK)
+	assert(image.save_jpg(_out.path_join("all-unit-board-faces.jpg"), 0.85) == OK)
 	var file := FileAccess.open(_out.path_join("all-unit-board-faces.json"), FileAccess.WRITE)
 	file.store_string(
 		JSON.stringify(

@@ -1084,7 +1084,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-001.png",
+      "file": "frame-001.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0
@@ -1488,7 +1488,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-002.png",
+      "file": "frame-002.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0
@@ -1892,7 +1892,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-003.png",
+      "file": "frame-003.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0
@@ -2296,7 +2296,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-004.png",
+      "file": "frame-004.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0
@@ -2700,7 +2700,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-005.png",
+      "file": "frame-005.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0
@@ -3104,7 +3104,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-006.png",
+      "file": "frame-006.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0
@@ -3508,7 +3508,7 @@
           "slot": 5
         }
       ],
-      "file": "frame-007.png",
+      "file": "frame-007.jpg",
       "reach_values": {
         "expected_target5": 0.0,
         "straight_across2": 0.0

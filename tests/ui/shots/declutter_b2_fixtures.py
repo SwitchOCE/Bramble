@@ -5,10 +5,12 @@ import copy
 import json
 from pathlib import Path
 
+from declutter_evidence import read_json
+
 ROOT = Path(__file__).resolve().parents[3]
 packet = ROOT / "docs/ideation/evidence/declutter/batch2"
-source = json.loads((ROOT / "docs/ideation/evidence/strong-field/ui-1688x780.json").read_text())
-states = json.loads((packet / "states.json").read_text())
+source = read_json(ROOT / "docs/ideation/evidence/strong-field/ui-1688x780.json")
+states = read_json(packet / "states.json")
 fight = next(x for x in source["human_fight_inputs"] if x["round"] == 8)
 state = copy.deepcopy(states["overview"]["state"])
 
@@ -16,7 +18,7 @@ state = copy.deepcopy(states["overview"]["state"])
 def view(spec):
     if spec is None:
         return None
-    unit = json.loads((ROOT / "content/units" / (spec["def_id"] + ".json")).read_text())
+    unit = read_json(ROOT / "content/units" / (spec["def_id"] + ".json"))
     result = copy.deepcopy(spec)
     for key in ["name", "tier", "tribes", "keywords"]:
         result[key] = unit.get(key, [])
@@ -44,7 +46,7 @@ state.update(
     pending_choice={},
 )
 state["bands"] = [bool(x) for x in fight["fight_rules"][0]["bands"]]
-heroes = {json.loads(p.read_text())["id"]: json.loads(p.read_text()) for p in (ROOT / "content/heroes").glob("*.json")}
+heroes = {read_json(p)["id"]: read_json(p) for p in (ROOT / "content/heroes").glob("*.json")}
 state["standings"] = []
 for player in source["game_log"]["players"]:
     prior = next((x for x in player["rounds"] if x["round"] == 7), player["rounds"][-1])

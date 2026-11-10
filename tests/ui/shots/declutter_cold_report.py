@@ -11,6 +11,8 @@ from declutter_b2_report import tile_word_breakdown
 from declutter_strips import write_sheet
 from PIL import Image
 
+from declutter_evidence import read_json
+
 
 def assemble(packet: Path, raw: Path, revision: str) -> None:
     reader = packet / "reader"
@@ -20,7 +22,7 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
     manifests = []
     same_modes = {}
     for source in sorted(raw.glob("*/manifest.json")):
-        data = json.loads(source.read_text())
+        data = read_json(source)
         assert data["production_revision"] == revision
         assert len(data["frames"]) == 8
         assert data["duration"] <= 1.5
@@ -87,7 +89,7 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
     assert {(row["reader_label"], row["mode"]) for row in manifests} == {
         (label, mode) for label in "ABCDEFGH" for mode in ["x1", "reduce"]
     }
-    rest = json.loads((technical / "resting-words.json").read_text())
+    rest = read_json(technical / "resting-words.json")
     assert len(rest["captures"]) == 44
     for capture in rest["captures"]:
         assert capture["visible_text_count"] == len(capture["visible_text_nodes"])
@@ -117,7 +119,7 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
             continue
         scenario = row["reader_label"].removeprefix("spec-")
         dimensions = "x".join(map(str, row["pixels"]))
-        baseline = json.loads((packet.parent / "before" / ("manifest-" + dimensions + ".json")).read_text())
+        baseline = read_json(packet.parent / "before" / ("manifest-" + dimensions + ".json"))
         original = next(item for item in baseline["captures"] if item["scenario"] == scenario)
         assert original["state_sha256"] == row["state_sha256"]
         pairs.append(
@@ -184,7 +186,7 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
         "## Rules",
         "",
     ]
-    neutral += [f"[Page {index}](rules/{index:02d}.png)" for index in range(1, 15)]
+    neutral += [f"[Page {index}](rules/{index:02d}.jpg)" for index in range(1, 15)]
     neutral += ["", "## Sequences", "", "| Sequence | x1 | Reduce motion |", "| --- | --- | --- |"]
     neutral += [f"| {label} | [x1]({label}-x1.jpg) | [Reduce]({label}-reduce.jpg) |" for label in "ABCDEFGH"]
     (reader / "README.md").write_text("\n".join(neutral) + "\n")
@@ -207,24 +209,24 @@ def assemble(packet: Path, raw: Path, revision: str) -> None:
 def faces(packet: Path, revision: str) -> None:
     technical = packet / "technical"
     path = technical / "all-unit-board-faces.json"
-    data = json.loads(path.read_text())
+    data = read_json(path)
     root = Path(__file__).resolve().parents[3]
     definitions = {
         value["id"]: value
         for item in (root / "content/units").glob("*.json")
-        for value in [json.loads(item.read_text())]
+        for value in [read_json(item)]
     }
     assert 'const SLICE: String = "slice"' in (root / "src/core/game_config.gd").read_text()
     shipped = [entry for entry in data["entries"] if definitions[entry["def_id"]].get("set", "") == "slice"]
     assert len(shipped) >= 120 and not any(entry["fallback_name_shown"] for entry in shipped)
-    with Image.open(technical / "all-unit-board-faces.png") as image:
+    with Image.open(technical / "all-unit-board-faces.jpg") as image:
         width = image.width // data["columns"]
         height = image.height // ((data["unit_count"] + data["columns"] - 1) // data["columns"])
         sheet = Image.new(image.mode, (image.width, height * ((len(shipped) + 9) // 10)))
         for index, entry in enumerate(shipped):
             x, y = entry["column"] * width, entry["row"] * height
             sheet.paste(image.crop((x, y, x + width, y + height)), (index % 10 * width, index // 10 * height))
-        sheet.save(technical / "shipped-unit-board-faces.png")
+        sheet.save(technical / "shipped-unit-board-faces.jpg", quality=85, optimize=True)
     shares = [entry["art_rect_share"] for entry in shipped]
     result = {
         "production_revision": revision,

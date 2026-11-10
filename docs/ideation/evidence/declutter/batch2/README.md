@@ -102,7 +102,7 @@ failure and no fresh cold-reader pass is claimed.
 | End of Turn | 0.76 s | 0.19 s | 0.45 s |
 | Scout reach | 0.40 s | 0.10 s | 0.40 s |
 
-`all-unit-board-faces.png` shows all 157 units using the actual CardView at
+`all-unit-board-faces.jpg` shows all 157 units using the actual CardView at
 189×212 canvas px; 54 retain fallback names. Nominal art rectangles average
 66.09% of the face, but the distribution misses the uniform target: named faces
 average 44.47%, others 77.42%. Keeping names clear of stat beads takes space on

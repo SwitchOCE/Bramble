@@ -1,62 +1,82 @@
 [
   {
-    "file": "lobby-1688x780.png",
+    "file": "lobby-1688x780.jpg",
     "existing_before_png_preserved": false,
     "mask_reference_pixels_equal": true,
-    "sha256": "aa3e9f300885b06d70452450361b9d77fed300339a794dfb3e4a90525a1fe2c5"
+    "sha256": "ae30bb314073bce9ced33dd5d9d229c46da95bb1a9bd90d5308ba8954d75af16",
+    "original_sha256": "aa3e9f300885b06d70452450361b9d77fed300339a794dfb3e4a90525a1fe2c5",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "scout-1688x780.png",
+    "file": "scout-1688x780.jpg",
     "existing_before_png_preserved": false,
     "mask_reference_pixels_equal": true,
-    "sha256": "cc63a7f7d8a2b338f8d581a81d4052d56812c2dfce46a0d4aa14037730a3fcd1"
+    "sha256": "1277cf2516dfdfbe076bae1d4d2048e21a3bd9219f6e2c2d1f5bda781ab78fa7",
+    "original_sha256": "cc63a7f7d8a2b338f8d581a81d4052d56812c2dfce46a0d4aa14037730a3fcd1",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "overview-1688x780.png",
+    "file": "overview-1688x780.jpg",
     "existing_before_png_preserved": true,
     "mask_reference_pixels_equal": true,
-    "sha256": "324f61ebfafda8bf8660fe2b629519d6b4c58b178cb484917c47dce8cbb3dc69"
+    "sha256": "26e497ef570edead6c8a9b60fd5f936338989231c3ba05f15c30b689d67d2821",
+    "original_sha256": "324f61ebfafda8bf8660fe2b629519d6b4c58b178cb484917c47dce8cbb3dc69",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "reader-reel_mistress-golden-1688x780.png",
+    "file": "reader-reel_mistress-golden-1688x780.jpg",
     "existing_before_png_preserved": true,
     "mask_reference_pixels_equal": true,
-    "sha256": "3553bfeb59a04a48acd4bb3f9d2741c598773868280ae28a25d74db7b6442aa9"
+    "sha256": "0bcd2debd680d17f515bb20f84609e858163ef5544d466c1da3e149d45bdcbbd",
+    "original_sha256": "3553bfeb59a04a48acd4bb3f9d2741c598773868280ae28a25d74db7b6442aa9",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "natural-birds-1688x780.png",
+    "file": "natural-birds-1688x780.jpg",
     "existing_before_png_preserved": true,
     "mask_reference_pixels_equal": true,
-    "sha256": "fc52c6979155cd4b4051c5bf9acf6edbb6a32883d6870a9f30dc4e181a3ab987"
+    "sha256": "4af2dc34ac3e7c4cab6877b9c26d4cff7d88c3c8e40a7deb77973825f1c80001",
+    "original_sha256": "fc52c6979155cd4b4051c5bf9acf6edbb6a32883d6870a9f30dc4e181a3ab987",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "lobby-1920x1080.png",
+    "file": "lobby-1920x1080.jpg",
     "existing_before_png_preserved": false,
     "mask_reference_pixels_equal": true,
-    "sha256": "779dea6be4e969247260e084b121658cbb90fd26420cba82d55bc2d76e0057f6"
+    "sha256": "c4c0b87bea8e7024ef776de0d7f808ff6de9d902c2b8dba0f27a2b0a8f234e70",
+    "original_sha256": "779dea6be4e969247260e084b121658cbb90fd26420cba82d55bc2d76e0057f6",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "scout-1920x1080.png",
+    "file": "scout-1920x1080.jpg",
     "existing_before_png_preserved": false,
     "mask_reference_pixels_equal": true,
-    "sha256": "c6af869a53b8458ec991737561de06609977fd00b89e8227f544c63911723c25"
+    "sha256": "b9b40063b8f63945715089a99cc3db54c74cd0631bfd1b16365d3b3f76bc16f7",
+    "original_sha256": "c6af869a53b8458ec991737561de06609977fd00b89e8227f544c63911723c25",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "overview-1920x1080.png",
+    "file": "overview-1920x1080.jpg",
     "existing_before_png_preserved": true,
     "mask_reference_pixels_equal": true,
-    "sha256": "4c4f4d3728a408e70cb8a963b283bcba700ffa36c3ac3115e1cce1c316fa453d"
+    "sha256": "1d28a6b94baf1123594eb2a2fc77af124b271f05e82a2aa6b125d650d26313fe",
+    "original_sha256": "4c4f4d3728a408e70cb8a963b283bcba700ffa36c3ac3115e1cce1c316fa453d",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "reader-reel_mistress-golden-1920x1080.png",
+    "file": "reader-reel_mistress-golden-1920x1080.jpg",
     "existing_before_png_preserved": true,
     "mask_reference_pixels_equal": true,
-    "sha256": "20160fddaf58c757bdea3b5b40b99ca260783d45c7c5897ca194b76d569e3a99"
+    "sha256": "d0faea15d0835b40e11bab4f13c4e6c5c9220624f0a923622b1402a169ba4598",
+    "original_sha256": "20160fddaf58c757bdea3b5b40b99ca260783d45c7c5897ca194b76d569e3a99",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   },
   {
-    "file": "natural-birds-1920x1080.png",
+    "file": "natural-birds-1920x1080.jpg",
     "existing_before_png_preserved": true,
     "mask_reference_pixels_equal": true,
-    "sha256": "4ad05a3fad4bbfae358bf843df243cdf32a910b4fe30cbdc31863b321f052342"
+    "sha256": "22e4101e8b5b8aae253996611218893164d67f7825782869b59bf6183966c7a8",
+    "original_sha256": "4ad05a3fad4bbfae358bf843df243cdf32a910b4fe30cbdc31863b321f052342",
+    "slim_encoding": "JPEG display derivative; capture-era digest retained as original_sha256"
   }
 ]

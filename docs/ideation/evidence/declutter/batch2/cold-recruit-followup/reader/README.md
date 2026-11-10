@@ -5,20 +5,20 @@ For each sequence, describe what you think happened and anything you could not t
 
 ## Rules
 
-[Page 1](rules/01.png)
-[Page 2](rules/02.png)
-[Page 3](rules/03.png)
-[Page 4](rules/04.png)
-[Page 5](rules/05.png)
-[Page 6](rules/06.png)
-[Page 7](rules/07.png)
-[Page 8](rules/08.png)
-[Page 9](rules/09.png)
-[Page 10](rules/10.png)
-[Page 11](rules/11.png)
-[Page 12](rules/12.png)
-[Page 13](rules/13.png)
-[Page 14](rules/14.png)
+[Page 1](rules/01.jpg)
+[Page 2](rules/02.jpg)
+[Page 3](rules/03.jpg)
+[Page 4](rules/04.jpg)
+[Page 5](rules/05.jpg)
+[Page 6](rules/06.jpg)
+[Page 7](rules/07.jpg)
+[Page 8](rules/08.jpg)
+[Page 9](rules/09.jpg)
+[Page 10](rules/10.jpg)
+[Page 11](rules/11.jpg)
+[Page 12](rules/12.jpg)
+[Page 13](rules/13.jpg)
+[Page 14](rules/14.jpg)
 
 ## Sequences
 

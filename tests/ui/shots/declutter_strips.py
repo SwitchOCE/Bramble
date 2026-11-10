@@ -8,6 +8,8 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from declutter_evidence import read_json
+
 
 def validate_interval_sampling(interval: dict, event: dict | None = None) -> None:
     """Legacy eight-frame layouts and both explicit peak policies remain readable."""
@@ -84,7 +86,7 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
     summary = []
     for source in sorted(args.frames.glob("*/manifest.json")):
-        manifest = json.loads(source.read_text())
+        manifest = read_json(source)
         assert manifest["timing_passes_equal"]
         destination = args.output / source.parent.name
         destination.mkdir(parents=True, exist_ok=True)
