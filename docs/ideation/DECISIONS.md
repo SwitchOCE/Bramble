@@ -4,6 +4,28 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Wave 2b follow-ups (A1b, A2): review calls
+**Source:**
+- the scope review of `ideation/wave2b` `424b3c2a..8f94f607` (`evidence/review-wave2b-followups.md`): 13 keep, 0 cut, 1 simplify, 4 ask;
+- the Actions gate of its merge `a0878668` (run 42738005066), which failed three tests that the worker's targeted run had missed: Hedgerow tile tags, the `birds_passage` deal, and a line-brain type error.
+
+**Picked:**
+- **Ask 1 (four bot changes reach normal Hard, untested):** keep them as a deliberate change to Hard.
+  - The changes: holding Larder before the first Hedgerow unit, freeing B1 for the Partner, an averaged median on even boards, and no split gap for tempo Oozes.
+  - Why keep: the owner wants one bot strength, the best we can make (08a, 08b), and each change plays the tribe's route better.
+  - Each one gets a test that pins its Hard behaviour.
+  - The field regression test and `test_bot_brain` run on the final code through the gate.
+- **Ask 2 (Pot Luck criterion 2 not met):** accept A1b on criterion 1 alone, and log the deviation.
+  - The mismatch is that the line spends what paper banks: gold 1/0 at R8/R10 against paper's 4/5.
+  - The arm that forced paper's saving grew slower (save 3: ×1.261 against control's ×1.335). So paper's costed route, not the line, is what's off. Paper is not a target (LEARNINGS).
+  - A3.5 and A4 measure Pot Luck as it plays. Its interval [1.243, 1.413] dips under 1.3, and A3.5's same-cohort read on the new dials decides from here.
+- **Ask 3 (Dozey's fuel still missing):** carry it to A4 with a trigger. The triage trigger set at A2 (Dozey seats growing slower) isn't met. Dozey triage starts if A4's field fights show the Supper below 40%, or if checkpoint 1 testers never see Dozey wake.
+- **Ask 4 (planted Supper 0/32):** drop the claim from the build notes. The reviewer showed it is mostly an artefact: one opponent, a paper board unlike native ones, and an opponent undercounted by its Wisps.
+- **Simplify:** the bootstrap moves into `wave2b_growth_report.py`, replacing `growth_intervals.py`.
+- **Merge** once w2's fixes for the three failures, the ask 1 tests, the simplify and the build-notes edit pass the gate on a fresh merge. A narrow check of that range comes first.
+
+**Agreed by:** the scope review (no cuts) and the gate.
+
 ### 10 Nov 2026 — S3 measurement and delivery: review calls
 **Source:** the scope review of `ideation/measure` `ce50d9d7..00ed62b9` (`evidence/review-s3-measure.md`): 13 keep, 0 cut, 2 simplify, 1 ask.
 

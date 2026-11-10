@@ -104,6 +104,11 @@ Three of five triage agents were stopped by Anthropic's safety filter (`reasonin
 - **Untracked files outside `docs/` fail the docs-only check.** Keep prompt drafts and art outputs under `build/` until they go on a branch.
 - **Art workers write only to their output folder.** A Codex image worker exported straight into the main checkout's `assets/portraits/`. The prompt header now says "Do not write into assets/".
 
+## A targeted run missed three failures a merge would have shipped (10 Nov)
+Wave 2b's worker ran 431 targeted tests, then changed bot code and reran only the 30 bot tests. The Actions gate on the merge failed three tests outside both sets: a UI tile-tag test, a lobby deal test and a line-brain type error.
+- **After the last code edit, rerun every test script the diff can reach,** or gate the branch itself on Actions before reporting.
+- **A worker's "N/N targeted" says nothing about files it didn't pick.** The orchestrator gates before any merge, never on a targeted count.
+
 ## What the Quilboar reference taught our methods (10 Nov)
 
 From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterion (09i); they change how a bar is checked before it decides, and what is reported beside the two criteria.
