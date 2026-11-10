@@ -2,31 +2,36 @@
 
 This is the Bramble-specific companion to the general `game-design-process` skill. The skill covers how to design; this file covers what is true of Bramble right now. Bramble's current systems, such as shop tiers, rows and the gold economy, are a paradigm that can change, so check the docs below before relying on any of them.
 
-*Status: 10 Nov 2026 (hard rules and the breaker review added). In the repo on `ideation/main`. The general skill is `.claude/skills/game-design-process/`, used only when a user or an orchestrator says so. Codex workers are given the file path to read.*
+*Status: 10 Nov 2026 (runaway-growth rule and breaker review added). In the repo on `ideation/main`. The general skill is `.claude/skills/game-design-process/`, used only when a user or an orchestrator says so. Codex workers are given the file path to read.*
 
-## Hard rules (owner, 10 Nov 2026)
+## Runaway growth: one hard rule, judged by a fresh breaker (owner, 10–11 Nov 2026)
 
-A few rules that bind absolutely, in place of soft bars. A design that breaks one is changed before it's built, however good it looks in sims. The owner's reason: every time Battlegrounds has had exponential scaling, it has had to be removed, however rare or hard Blizzard made it.
+Every time Battlegrounds has had exponential scaling, it has had to be removed (owner). But a long hard rule kills good cards and still leaks, so only the verdict is hard; spotting it is a judgement question with the maths shown.
 
-1. **No repeated multiplication without a hard cap.** Nothing may repeatedly give a unit a gain proportional to its own current stats (or multiply gold, cards or triggers the same way) without a hard cap. This covers cards, golden text, copied text, combinations of cards and system rules alike (a spell-scaling rule that turns +1 into "10% of the target" counts).
-   - A cap is a lifetime count ("up to three times a game") or a ceiling on the result ("never past your biggest unit"). A gold cost, a period ("every 3 turns") or excluding the card itself is not a cap.
-   - One-shot means once in the card's whole life: if it can return to hand, be replayed or be copied, it isn't one-shot.
-2. **One card's own growth is at most linear.** What a card adds each turn may grow with the game (tier, turn, gold spent, units on board), but never with the stats it has already given. Taking a share of another unit's stats is fine one way (an enemy's body as a trophy, one copy at a sale); it breaks the rule when the share flows back to the unit it came from, directly or round a loop.
-3. **Cards are judged on their best play, not on bot play.** Bots under-play engines, so a sim median never clears a card. The breaker review below decides.
+**The hard rule:** *No number may grow by a share of itself turn after turn, by any route, unless the card states the most it can multiply that number by for any one unit in a whole game, and that is at most ×3.* A card found doing it changes before it's built, however good it looks in sims.
 
-**Allowed on purpose:** two linear things multiplied together (Ring count × Ring size, units × buff per unit) are quadratic, not exponential. They are a power fantasy and the rules allow them; the breaker review checks how often they come together.
+**The breaker's question,** for every new or changed card: *"Can what this card gives ever raise the number it was measured from, directly or through another card (yours or an enemy's), a copy, a golden, a return to hand or a system rule? Show the formula."*
+- Pass: Honorary Treasurer reads the gold in the Larder; his stats never raise that gold.
+- Fail: Squire Lollop skips your biggest unit, but a receiver overtakes it and becomes the next source.
+- Costs, periods and exclusions don't stop compounding: Charcoal Burner's gold cost, Alderman Dozey's "every 3 turns" and Lollop's "except your biggest" all still compound.
 
-**Combos are the power fantasy.** Big numbers from assembling several cards are wanted, as long as the chain obeys rule 1. The breaker review separates a combo worth chasing from a degenerate one.
+- Pin a loop on the card that closes it: the one whose gain raises its own source. A card that only amplifies someone else's loop passes, judged as if that loop were fixed. Aunt Aspic multiplies what an Ooze eats; Stone Soup is what makes the meal a share of the eater, so Soup breaks the rule and Aspic doesn't.
+- An enemy running the same card doesn't count as a loop. Mirrors are rare and the health clock ends them (Sable, Jack Daw).
 
-## The breaker review (every new or changed card)
+**When unsure, run it:** script the card's best line for six turns. A steady ratio above 1 between turns means it compounds.
 
-The reviewer plays as a top Battlegrounds player whose aim is to break the card. For each card:
+**Judged on best play, not bot play.** Bots under-play engines, so a sim median never clears a card.
+
+**Big numbers are wanted.** Two linear things multiplied together (Ring count × Ring size, units × buff per unit) are fine, and so are combos that take real assembly. The breaker sorts what's left by judgement:
+
 1. **Best use:** the board, the line and the pieces that get the most out of it.
-2. **Its own growth per turn** under that play, written as a formula, and its class: flat, linear, polynomial or exponential.
-3. **Combos:** the cards in the pool, from any tribe, that multiply it, and the combo's growth.
-4. **Power fantasy or degenerate?** A power fantasy takes real assembly (several specific pieces, a real cost along the way), and once assembled it can still lose to a strong board. A degenerate combo is cheap or common to assemble and wins nearly every fight once it is.
-5. **How often:** a rough estimate of how often the pieces come together in a real lobby (copies in the pool, tiers, how many pieces, five of six tribes per lobby), with the reasoning.
-6. **Verdict:** fine; power fantasy (keep it); degenerate (change one piece); or breaks a hard rule (must change). For a change, give the smallest one that keeps the card's creative core. Cool designs are kept wherever a version can obey the rules.
+2. **Growth per turn** on that line, as a formula: flat, linear, polynomial or compounding.
+3. **Combos** with named cards from the whole pool, any tribe.
+4. **Power fantasy or degenerate?** A power fantasy takes real assembly and can still lose to a strong board. A degenerate combo is cheap or common and wins nearly every fight.
+5. **How often** the pieces come together in a real lobby, with the reasoning.
+6. **Verdict:** fine; power fantasy (keep it); degenerate (change one piece); or breaks the hard rule (must change). Give the smallest change that keeps the card's creative core.
+
+**Keeping the rule honest.** Before the rule's wording changes, a fresh agent given only the rule and the cards must sort both lists correctly. Must catch: Mrs Mallow, Alderman Dozey, Standing Committee, Charcoal Burner, Squire Lollop, Fly South, Fairy Monarch. Must keep: Honorary Treasurer, Hayward, Redbreast, Aunt Aspic, a Hunter trophy card, Cluricaun. If the rule needs a new clause to pass, make it a worked example for the breaker instead.
 
 ## Where the specifics live
 | Need | Source |
@@ -52,12 +57,12 @@ Source: `owner-notes/2026-11-10d-audience.md`.
 - **No endless loops.** In async play with no timer, an endless loop breaks the game. Big economy turns are wanted: "Big economy turns for everybody, never infinite" (`pillars.md` 4).
   - Prefer a system rule to bound endless loops. Escalating reroll cost is the model.
   - Content safeguards are allowed too: "Not every problem needs a system to prevent it, we can have content safeguards as well" (`content-guardrails.md`).
-- **Caps only as loop guards.** Where sims show a common snowball, add a rate limit or an answer, not a size cap (`fundamentals.md`). Hard rule 1 overrides this: repeated multiplication always needs a cap.
+- **Caps only as loop guards.** Where sims show a common snowball, add a rate limit or an answer, not a size cap (`fundamentals.md`). The runaway-growth rule overrides this.
 - **Growth is wanted.**
   - The game was "flat by construction", growing about +13 a round.
   - The first target was Battlegrounds' September 2025 shape, about ×1.5 a round from round 8. Check `DECISIONS.md` for the current bar: 10 Nov entries work to ×1.3 for one line and a 900 R12 target.
   - Growth rate and game length are one decision.
-  - Growth comes from the whole board, the economy and combos, never from one card multiplying itself (hard rules 1 and 2).
+  - Growth comes from the whole board, the economy and combos, never from a number growing by a share of itself (the runaway-growth rule).
 - **Briefs** carry the target curve shape and the condition/payoff/enabler frame, but no price table.
 - **Fun over balance.** Rewards always give the player power. Be generous, then dial back.
 
@@ -67,7 +72,7 @@ Source: `owner-notes/2026-11-10d-audience.md`.
 - **Complaints not tallied across rounds:** "Birds weak" came up in four rounds and never reached the top.
 - **Paper models overshoot:** real round-12 boards reach 0.17–0.72× of paper (corrected 10 Nov, `RESTART.md`). Set targets on measured medians.
 - **Bot play is weak evidence:** bots are "okay at best" as players. Weight sims far above observational bot play (`owner-notes/2026-11-09d`).
-- **Exponential engines passed every review (run 1):** Mrs Mallow ("triple your two smallest other Hedgerow units" every turn) grows ×3 a turn when you keep two eligible units, and the Standing Committee spreads that to its whole run. A breaker panel called her "a spread compounder that limits itself by design", reasoning on an even board; the costing warning in `power-budget.md` was never shown to designers; the bots valued her at one turn's gain; reviews read medians. The owner found it by playing. Hence the hard rules and the breaker review above.
+- **Exponential engines passed every review (run 1):** Mrs Mallow ("triple your two smallest other Hedgerow units" every turn) grows ×3 a turn when you keep two eligible units, and the Standing Committee spreads that to its whole run. A breaker panel called her "a spread compounder that limits itself by design", reasoning on an even board; the costing warning in `power-budget.md` was never shown to designers; the bots valued her at one turn's gain; reviews read medians. The owner found it by playing. Hence the runaway-growth rule and the breaker's question above.
 - **Chasing critics' scores cluttered the UI:** trust real players over agent critics (`owner-notes/2026-11-09e`).
 
 ## Open questions for the owner
