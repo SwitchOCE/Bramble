@@ -247,8 +247,8 @@ func _layout_hand(x: float) -> void:
 	_hand_zone.size = Vector2(HAND_W, bottom - HAND_TOP)
 	_hand_panel.position = Vector2.ZERO
 	_hand_panel.size = _hand_zone.size
-	_hand_count.position = Vector2(170, 12)
-	_hand_count.size = Vector2(HAND_W - 200.0, 44)
+	_hand_count.position = Vector2(30, 12)
+	_hand_count.size = Vector2(HAND_W - 60.0, 44)
 	var card_w: float = _hand_card_size(count).x
 	var columns: int = 2 if count >= (2 if away else 3) else 1
 	var gap: float = 43.0 if columns == 2 else 0.0

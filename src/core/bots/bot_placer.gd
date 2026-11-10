@@ -30,7 +30,15 @@ static func pinned_slots(player: PlayerState) -> Array[int]:
 		var counting: bool = goal > 0 and unit.turns_in_slot > 0 and unit.turns_in_slot < goal
 		if goal > 0 and unit.pays_again():
 			counting = true
-		if counting or not unit.timers.is_empty() or player.bands[slot] != 0:
+		# Native sleep clocks use their wake phase; the legacy fields only describe the UI pips.
+		if unit.has_mechanic_id("pass3_hedgerow"):
+			counting = false
+		if (
+			BotHedgerow.clock_pinned(player, unit)
+			or counting
+			or not unit.timers.is_empty()
+			or player.bands[slot] != 0
+		):
 			out.append(slot)
 		elif _keeps_its_nest(player, unit, slot):
 			out.append(slot)
@@ -81,6 +89,10 @@ static func _worth_searching(player: PlayerState) -> bool:
 ## Shy unit gets out from behind whatever would feed it, and a planner's Passes land on its carry.
 static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int]) -> Array[int]:
 	var layout: Array[int] = []
+	if BotHedgerow.build(value) and BotHedgerow.active(player):
+		layout.resize(BoardGeometry.SLOTS)
+		BotHedgerow.arrange(player, value, layout, pinned)
+		return layout
 	# Bog keeps useful carry landmarks and moves only for a better meal or court adjacency.
 	if value.level.reads_text and BotBog.has_units(player):
 		for slot: int in BoardGeometry.SLOTS:
@@ -161,6 +173,8 @@ static func apply_layout(player: PlayerState, rules: RecruitRules, layout: Array
 ## An empty slot for a unit about to be played. A unit that may gain stats takes the biggest empty
 ## Ring; otherwise its row if it has room, else any. -1 if the board is full.
 static func play_slot(player: PlayerState, unit: RecruitUnit, value: BotEval) -> int:
+	if BotHedgerow.build(value) and unit.has_mechanic_id("pass3_hedgerow"):
+		return BotHedgerow.play_slot(player, unit, value)
 	var bog_slot: int = BotBog.play_slot(player, unit, value)
 	if bog_slot >= 0:
 		return bog_slot
@@ -487,6 +501,9 @@ static func _search_pins(
 			most = worth
 	if best >= 0 and not out.has(best):
 		out.append(best)
+	for slot: int in BotHedgerow.search_pins(player, value, layout):
+		if not out.has(slot):
+			out.append(slot)
 	for slot: int in BotOoze.search_pins(player, value, layout):
 		if not out.has(slot):
 			out.append(slot)

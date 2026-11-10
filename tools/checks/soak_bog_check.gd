@@ -32,7 +32,8 @@ static func problems(library: UnitLibrary) -> PackedStringArray:
 			theirs[1]["held"] = [{"def_id": "field_vole", "golden": false}]
 			var rng := RandomNumberGenerator.new()
 			rng.seed = fight_seed
-			var result: Dictionary = Combat.create(library, GameConfig.full_game(), rng).run(
+			var config := GameConfig.full_game()
+			var result: Dictionary = Combat.create(library, config, rng).run(
 				[ours, theirs], [6, 6], [0, 1], 0
 			)
 			var kings: Dictionary = {}
@@ -58,9 +59,15 @@ static func problems(library: UnitLibrary) -> PackedStringArray:
 			for count: int in transforms.values():
 				if count > 1:
 					out.append("bog mirror transformed the same frog twice")
+			var cap: int = Pass3Rates.integer(config, "bog_king_peatlings") * (2 if golden else 1)
 			for count: int in kings.values():
-				if count > 2:
-					out.append("bog mirror raised more than two Peatlings per King")
+				if config.get_bool("pass3_loop_guards") and count > cap:
+					out.append(
+						(
+							"bog mirror raised %d Peatlings, cap %d, seed %d golden=%s"
+							% [count, cap, fight_seed, golden]
+						)
+					)
 	return out
 
 

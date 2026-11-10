@@ -1,0 +1,121 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-hedge-verified/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_bot_hedgerow.gd
+[0m* test_supper_holds_food_until_native_wake_then_feeds_the_carry
+* test_supper_cash_is_reserved_for_scheduled_climbs_and_priority_engines
+* test_third_dozey_waits_until_after_a_wake
+* test_placement_preserves_sleep_then_moves_a_large_carry_after_a_wake
+* test_crumb_is_played_into_dozey_before_his_real_sold_pass_lands
+* test_parish_cash_and_floor_growth_value_are_live
+* test_parish_sells_a_kit_only_when_mallow_will_not_double_it
+* test_pinned_strategy_keeps_early_tempo_flexibility
+* test_ordinary_native_routes_climb_for_their_actual_engines
+* test_optional_treasury_cashes_once_with_hayward_then_holds_again
+* test_parish_keeps_buying_engine_copies_for_real_triples_on_a_full_board
+* test_parish_sparse_board_keeps_a_single_unbroken_line
+[1m12/12 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_recruit.gd
+[0m* test_crumb_play_and_sale_pass_normal_and_golden_exclude_tribe_and_keep_permanent
+* test_dozey_food_uses_all_three_real_larder_values_normal_and_golden
+* test_wake_repeats_every_three_turns_after_all_acorn_and_pass_listeners
+* test_wake_includes_standing_bonus_but_not_slot_or_next_combat_stats
+* test_move_and_triple_restart_wake_without_losing_food
+* test_golden_wake_is_not_fourfold_and_c_uses_threefold
+* test_mallow_b_doubles_two_and_golden_four_smallest_hedgerow_only
+* test_doubling_and_timed_payout_ignore_extra_end_turn_firings_with_guard_off_proof
+* test_partner_counts_only_touching_hedgerow_and_golden_doubles_payout
+* test_clover_recruit_shares_source_stats_no_limit_normal_and_golden
+* test_pym_counts_combining_and_beadle_counts_only_actual_acorns_uncapped
+* test_golden_pym_and_beadle_double_pass_values
+* test_hayward_cash_and_feed_create_uncapped_bonus_on_future_owned_and_held_units
+* test_treasurer_keeps_larder_growth_after_cashing_normal_and_golden
+* test_committee_reads_runt_once_and_only_touches_hedgerow
+* test_lollop_copies_freeze_biggest_and_never_feed_it_guard_off_counterexample
+* test_mast_caps_each_source_and_caps_off_counterexample
+* test_wake_view_pips_cycle_and_reset_on_move
+[1m18/18 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_shares.gd
+[0m* test_committee_normal_and_golden_share_runt_with_the_whole_hedgerow_run
+* test_lollop_normal_and_golden_reads_biggest_other_tribe_once_at_start
+* test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns
+[1m3/3 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_content.gd
+[0m* test_fixed_authored_normal_and_golden_faces_and_native_factors
+* test_all_hedgerow_rates_are_registered_and_match_exact_paper_b_and_c
+* test_golden_dozey_wake_is_independent_from_food_and_normal_wake
+* test_rate_overrides_rewrite_faces_and_native_parameters
+* test_reused_summon_effects_keep_tokens_normal_and_follow_count_dials
+* test_c_wakes_and_mallow_targets_and_rate_overlay_remain_distinct
+* test_legacy_definitions_are_not_configured_without_a_native_marker
+* test_larder_value_override_changes_actual_items_gold_and_reminders
+* test_archived_rates_without_larder_dial_leave_the_old_items_untouched
+[1m9/9 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hedge_combat.gd
+[0m* test_urchin_has_native_body_and_normal_golden_bristle_without_the_old_pass
+* test_urchin_protects_last_other_hedgerow_across_gaps_and_ignores_other_tribes
+* test_urchin_alone_has_no_hunker_target
+* test_hunker_halves_only_incoming_defending_attack_damage_rounded_up
+* test_hunker_does_not_stack_with_intrinsic_hunker
+* test_hunker_retargets_when_the_last_unit_dies_and_ends_when_urchin_dies
+* test_hunker_follows_relocation_and_new_last_summon_and_cleans_departed_targets
+* test_overlapping_urchins_keep_protection_until_the_last_source_leaves
+* test_hunker_stops_while_urchin_is_inside_and_returns_when_he_comes_out
+* test_hunker_text_theft_moves_protection_to_the_thiefs_current_side
+* test_stealing_a_protected_units_text_does_not_steal_its_borrowed_aura
+* test_clover_uses_current_source_stats_and_golden_share_without_a_limit
+* test_clover_fraction_dial_floors_each_current_stat_and_reads_ring_aura
+* test_clover_ignores_offtribe_and_enemy_summons_and_dead_sources
+* test_sorrel_normal_golden_summon_plain_tokens_and_denied_space_spills
+* test_backrow_sorrel_spills_each_attempt_and_clover_cannot_buff_a_denied_body
+* test_sergeant_throws_the_smallest_item_across_and_only_spends_one
+* test_golden_sergeant_takes_two_sequential_current_stat_shares_without_doubling_share
+* test_sergeant_no_enemy_or_ammo_spends_nothing_and_golden_one_item_only_throws_once
+* test_sergeant_hoard_clamps_at_zero_attack_one_health_and_shares_ammo_between_sources
+* test_sergeant_carry_consumes_actual_items_after_the_fight
+* test_borrowed_clover_uses_strongest_once_on_every_summon_with_guard_off_counterexample
+* test_borrowed_sergeant_uses_strongest_once_and_can_replay_with_guard_off_counterexample
+* test_hedgerow_native_audit_preserves_all_sixteen_and_rejects_unknown_abilities
+[1m24/24 passed.
+[0m[4m
+
+res://tests/ui/test_pass3_hedge_ui.gd
+[0m* test_normal_and_golden_shares_use_the_existing_reader_on_phone_and_desktop
+* test_wake_pips_and_runt_circle_are_wordless_and_clear_when_state_changes
+* test_larder_gold_and_hand_capacity_reuse_the_existing_phone_header
+* test_hunker_uses_a_wordless_shield_and_clears_with_the_aura_status
+[1m4/4 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               6
+Tests                70
+Passing Tests        70
+Asserts             705
+Time              38.707s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/hedgerow/new-final.xml

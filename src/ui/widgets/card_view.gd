@@ -16,6 +16,7 @@ enum Mode { SHOP, BOARD, MINI }
 
 const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
 const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
+const HedgeMarks := preload("res://src/ui/widgets/hedgerow_marks.gd")
 const OozeMarks := preload("res://src/ui/widgets/ooze_marks.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -68,7 +69,10 @@ const RULE_TAGS: Dictionary[String, String] = {
 	"^after a mired enemy dies: the unit that": "Maker grows",
 	"^after a mired enemy attacks": "Hit growth",
 	"^after you play a stash": "Hoard feeds",
-	"^after you summon a unit": "Summons grow",
+	"^after you summon a (?:hedgerow )?unit": "Summons grow",
+	"^after you play a larder item:": "Tribe grows",
+	"^larder items played on this:.*every \\d+ turns in this slot:": "Food + wake",
+	"^every (\\d+) turns in this slot: get": "Acorns every $1",
 	"^a bought unit inside": "Belly golden",
 	"^your units have.*while joining": "Pack power",
 	"^your snap units": "Snap power",
@@ -128,6 +132,8 @@ var combat_face: bool = false:
 var selected: bool = false:
 	set(value):
 		selected = value
+		if _hedge_marks != null:
+			_hedge_marks.show_state(unit, selected)
 		queue_redraw()
 ## A ring round the tile: the drop-target moss, an attacker's acorn or a target's red.
 var outline: Color = Color.TRANSPARENT:
@@ -155,6 +161,7 @@ var rules_shown: bool = false
 
 var _combat_marks: CombatFace
 var _poached_badge: PoachedBadge
+var _hedge_marks: HedgeMarks
 var _ooze_marks: OozeMarks
 var _art: ArtFrame
 var _chip: Panel
@@ -374,6 +381,8 @@ func show_frost_tag(on: bool) -> void:
 func _build() -> void:
 	_art = ArtFrame.new()
 	add_child(_art)
+	_hedge_marks = HedgeMarks.new()
+	_art.add_child(_hedge_marks)
 	_ooze_marks = OozeMarks.new()
 	_art.add_child(_ooze_marks)
 	_name_label = UiTheme.head("", UiTheme.FONT_BODY)
@@ -513,6 +522,8 @@ func _refresh() -> void:
 	_refresh_status()
 	_refresh_pending()
 	_place_turns()
+	_hedge_marks.size = _art.size
+	_hedge_marks.show_state(unit, selected)
 	_ooze_marks.size = _art.size
 	_ooze_marks.show_state(unit)
 	if _frost_tag != null:

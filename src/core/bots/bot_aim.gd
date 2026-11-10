@@ -5,6 +5,9 @@ extends RefCounted
 
 ## The target worth the most, including a deliberate Shy departure.
 static func best_slot(brain: BotBrain, legal: Array[int], card_def: Dictionary) -> int:
+	var hedgerow_aim: int = BotHedgerow.aim(brain._player, brain.value, legal, card_def)
+	if hedgerow_aim >= 0:
+		return hedgerow_aim
 	if brain.level.reads_text and str(card_def.get("id", "")) == "pelt":
 		return BotHunt.pelt_aim(brain._player, legal)
 	if BotPass3.active(brain._player) and brain.level.reads_text:

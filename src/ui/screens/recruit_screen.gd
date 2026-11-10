@@ -139,6 +139,7 @@ func _build_hand() -> void:
 	_hand_zone.add_child(_hand_panel)
 	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
 	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_hand_count.tooltip_text = "Larder: the gold held in your Acorns, Stashes and Great Hoards."
 	_hand_zone.add_child(_hand_count)
 	_hand_cards = GridContainer.new()
 	_hand_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -295,6 +296,9 @@ func _render_hand() -> void:
 	_clear(_hand_cards)
 	var hand: Array = Data.a(state, "hand")
 	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
+	var larder: int = Data.i(state, "larder")
+	if larder > 0:
+		_hand_count.text = "%dg · %s" % [larder, _hand_count.text]
 	var away: bool = not RecruitHeld.sky_card(state).is_empty()
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)

@@ -1,23 +1,29 @@
 {
  "id": "hedgerow_treasury",
  "name": "The Treasury",
- "shape": "tall carry behind a wall, hoard",
+ "shape": "held Larder, Treasurer carry, one cash-out",
  "needs_tribes": [
   "Hedgerow folk"
  ],
  "tribes": {
-  "Hedgerow folk": 3
+  "Hedgerow folk": 4
  },
  "units": {
-  "sleeping_partner": 10,
-  "alderman_dozey": 10,
-  "honorary_treasurer": 14,
-  "sergeant_at_conkers": 10,
-  "mrs_burdock": 4,
-  "old_mother_mast": 12,
-  "beadle_warrenby": 6,
-  "pill_bug": 3,
-  "turnip_scarecrow": 3
+  "honorary_treasurer": 14.0,
+  "old_mother_mast": 13.07,
+  "goodman_hayward": 12.13,
+  "sergeant_at_conkers": 11.2,
+  "dr_urchin": 10.27,
+  "sleeping_partner": 9.33,
+  "mrs_sorrel": 8.4,
+  "beadle_warrenby": 7.47,
+  "mr_pym": 6.53,
+  "mrs_mallow": 5.6,
+  "squire_lollop": 4.67,
+  "standing_committee": 3.73,
+  "mr_crumb": 2.8,
+  "mrs_burdock": 1.87,
+  "mrs_clover": 0.93
  },
  "spells": {
   "squirrel_away": 8,
@@ -28,14 +34,15 @@
   "little_king_wren": -2
  },
  "rows": {
-  "mrs_burdock": "back",
-  "mrs_sorrel": "back"
+  "dr_urchin": "back",
+  "mrs_sorrel": "back",
+  "mrs_burdock": "front"
  },
  "larder_value": 2.5,
  "curve": [
+  2,
   4,
-  6,
-  8,
+  7,
   10,
   12
  ],
