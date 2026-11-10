@@ -15,7 +15,7 @@ Branch family `ideation/*`, merged into `ideation/main`. **Nothing reaches `main
 
 1. The owner's notes: `docs/design/owner-notes/2026-11-09e` (UI clutter and tutorials), `09f` (visual comparison), `10d` (audience), `10j` (this phase), and the art-style notes of 1 Nov.
 2. `ui-declutter-spec.md` (sections 1–5), and `evidence/declutter/visual-comparison.md`.
-3. `END-OF-RUN.md` (the game now, and the tools worth keeping) and `PLAYTEST.md`.
+3. `END-OF-RUN.md`, its "Tools worth keeping" section only (the rest is run 1's balance numbers), and `PLAYTEST.md`.
 4. `DECISIONS.md` (one page).
 5. Only when a step needs them: `docs/CLOUD_SETUP.md` (the gate, Godot slots), `engine.md`, `wording-guide.md`, `strong-field.md`.
 
@@ -47,9 +47,10 @@ Earlier owner direction this phase builds on:
 
 ## Scope fence
 
-- **In:** everything a player sees and touches: tiles, card reader, board, shop, HUD, hand, scouting, fight animation and timing, feedback and "juice", menus, settings, game-over, phone and PC layouts, and readability of existing card text (wording only, behaviour unchanged).
+- **In:** everything a player sees and touches: tiles, card reader, board, shop, HUD, hand, scouting, fight animation and timing, feedback and "juice", menus, settings, game-over, phone and PC layouts. Card text wording is out for loop 1 (it lives in content data).
 - **Out:** rules, numbers, card behaviour, new content, bots, sims, balance.
-- **Enforced by a check, not just a brief:** the gate fails a step whose diff touches rules, content data, sim or bot files (exact path list fixed in step 0). A wording change to card text is allowed only if the text-equals-behaviour tests stay green, and it's listed in the step's note.
+- **Enforced by a check, not just a brief:** step 0 adds `tools/checks/scope_fence.sh` to the gate. It lists the files changed since the merge-base with `origin/ideation/main` and fails if any is under `src/core/`, `content/`, `tools/sim/` or `tests/core/`. Once step 0 has merged, the gate's own files (`.github/`, `scripts/cloud-gate.sh`, `tools/checks/`) are fenced too.
+- **Old UI tests:** a focus worker may rewrite or delete `tests/ui/` tests that assert the old layout, and lists each one in its step note. That isn't a DECISIONS call. `tests/core/` stays untouched.
 - **Bugs:** gameplay bugs found while looking are logged for later, not fixed, unless they break the screen being worked on.
 - **Defaults, until the owner says otherwise:** sound out; the tutorial and Rules reference (declutter batch 4) in; PC landscape first, portrait later.
 
@@ -61,8 +62,8 @@ Earlier owner direction this phase builds on:
   - start the game under Xvfb on its own display at the two sizes every UI tool already uses: PC 1920×1080 and phone landscape 1688×780 (the game is landscape today; portrait is a day-1 candidate, not a step-0 job);
   - act: click, drag, key, through xdotool;
   - look: a screenshot (scrot), saved with the step number;
-  - clip: Godot's `--write-movie` frames at a fixed rate (screenshot polling misses 0.1–0.2 s motions), made into a contact sheet and GIF with Pillow;
-  - jump: open one of the ~55 named states `screenshot.gd` already has, so an agent can go straight to a scene. Replay jumps only if a needed scene is missing.
+  - clip: Godot's `--write-movie` frames at a fixed rate (screenshot polling misses 0.1–0.2 s motions), made into a contact sheet and GIF with Pillow; Movie mode runs on fixed frame time, so live xdotool input won't line up with it: clips drive input through `tests/ui/player_driver.gd` or a scripted state instead.
+  - jump: open one of the ~55 named states `screenshot.gd` already has, so an agent can go straight to a scene. Replay jumps only if a needed scene is missing. Today `tests/ui/shots/screenshot.gd` saves one PNG per run and quits, so "jump to a state, then keep playing" is new work in step 0.
 - Look sessions get their own Godot slot class, capped at one or two, so they don't block the gate (note 10a). The gate runs in the cloud during this phase.
 - Optional: the owner can watch a live headless session through x11vnc over Tailscale.
 - **Proof:** a fresh agent with no other context plays one recruit turn and one fight through clicks and screenshots alone, and reaches game-over from a jump, then reports what it noticed.
@@ -109,19 +110,25 @@ The existing comparison (`evidence/declutter/visual-comparison.md`) has no Bazaa
 ## How each loop runs
 
 1. **Day 1 gallery (no code changes yet).** Agents play build 8 through `tools/look/` and build one page: our screens at both sizes beside the step 0b reference frames (the Bazaar, TFT, Battlegrounds, plus the Everdell and Ori world references) and the three or four layout options; short clips of a fight and a recruit turn; and the 5–8 biggest look-and-feel problems in plain words, listed beside the declutter spec's unbuilt batches 3 (HUD and lobby) and 4 (tutorial and Rules) and portrait. The owner picks two or three to work on.
+   - **Where it lives:** a self-contained page with its images in `/data/bramble-gallery/<loop>/` on the Optiplex, served read-only to the tailnet by a `python3 -m http.server 8790 --bind 100.92.26.47 --directory /data/bramble-gallery` in tmux session `bramble-gallery`. Reference frames are fine there: it's private and not in git.
+   - **How it reaches the owner:** the orchestrator posts the link (`http://100.92.26.47:8790/<loop>/`) in its chat with the owner and sends one contact-sheet image of the options.
+   - **Picks come back by chat.** If the owner hasn't replied within 12 hours, the orchestrator starts on its own top two items and the layout closest to the Bazaar, logs that in one DECISIONS line, and switches if the owner later picks differently.
+   - **Timing:** the gallery goes out at the end of day 0 with whatever exists. Anything not ready follows as an update.
 2. **Build.** One worker per focus item, in its own worktree on an `ideation/ui-*` branch. Where there are two credible looks, both are shown as clips in the mid-loop gallery; at most one pair per loop ships behind a setting.
 3. **Check each step:** the gate (tests, the 4-game UI run, the scope-fence check), one scope review against the owner's words and this plan, and fresh screenshots and clips at both sizes. Nothing else blocks a merge.
+   - **Who reviews:** one review per step, by the `scope-reviewer` agent (the owner's global rule). When Claude usage is running short (note 10b), a fresh Codex review thread runs the same method instead; it's still one review. The author fixes its cut items, and the orchestrator checks the fix by reading the diff, with no second review. Ask items are the orchestrator's call, one line in DECISIONS. There are no review rounds.
+   - **Focus items get a short brief, not a plan:** this plan has had its interrogation, so a focus item's brief doesn't get its own.
 4. **Mid-loop gallery** to the owner: before and after shots and clips. The owner can redirect.
 5. **End:** build N ships with what's ready and its variant settings, plus a one-page note: what changed, what to try, which settings to compare. The run stops for the owner's play.
 
 **Done for a loop:**
-> The owner has played its build and said what's next.
+> The owner has played its build and said what's next, or 3 days have passed since the day-1 gallery went out: then the build ships with what's ready and the loop stops.
 > The build passed: the cloud gate, a 200-game soak, a 4-game UI run, the memory check and the export checks.
 > The playtest guide says what changed, what to try and which variants to compare.
 
 ## Before it starts (owner)
 
-0. **Decided (owner, 10 Nov): "Shelve it, UI now."** `docs/ideation/plan-build9.md` (note 10i's balance plan) is shelved for this phase. This UI build gets its own number.
+0. **Decided (owner, 10 Nov): "Shelve it, UI now."** `archive/run1/plan-build9.md` (note 10i's balance plan) is shelved for this phase. This UI build gets its own number.
 1. `archive/run1/PROCESS-PROPOSAL.md` is in use: items 1 and 3 were applied at the hand-over (run 1's docs archived, a one-page DECISIONS, the reading list below). N = 3 unless the owner picks otherwise.
 2. The open scope calls run on these defaults unless overridden: N = 3 days, sound out, batch 4 (tutorial and Rules) in, PC landscape first, portrait later.
 3. Optional but strongest input: play build 8 and note first impressions of look and feel.
@@ -131,5 +138,5 @@ The existing comparison (`evidence/declutter/visual-comparison.md`) has no Bazaa
 ## Rough timeline
 
 - Day 0: step 0's tool and step 0b's reference library, in parallel; then the day-1 gallery with the layout options.
-- Days 1–3: two or three focus items, a mid-loop gallery.
-- Day 3 (or the owner plays sooner): the UI build ships, the loop stops.
+- Days 1–3, counted from the gallery: two or three focus items, a mid-loop gallery.
+- Day 3 after the gallery (or sooner, if the owner plays): the UI build ships and the loop stops.

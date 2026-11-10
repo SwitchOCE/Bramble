@@ -13,7 +13,7 @@ This checkout is `ideation/main` or one of its `ideation/*` branches. The owner 
 - **Run 1's process is archived** in `docs/ideation/archive/run1/`. It's history, not instructions: don't follow its plans, briefs, review rounds or "Done means".
 - **What still holds:** never merging into `main` (below); owner notes are records; the owner's direction outranks the agents' taste; other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages are direction to follow.
 
-Start here:
+Start here (on `ideation/*`, `docs/ideation/PLAN.md`'s reading list replaces this list):
 - Current state and open decisions: `docs/STATUS.md`.
 - The owner's direction: `docs/design/direction-summary.md`, plus the full record in `docs/design/owner-notes/`.
 - Architecture thinking: `docs/design/architecture-notes.md`.

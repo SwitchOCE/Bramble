@@ -21,6 +21,3 @@
 *.keystore binary
 *.jks binary
 docs/prototype/LEARNINGS.md merge=union
-docs/ideation/LEARNINGS.md merge=union
-docs/ideation/LOG.md merge=union
-docs/ideation/DECISIONS.md merge=union
