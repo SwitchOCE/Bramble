@@ -236,8 +236,12 @@ step_python() {
   ruff format --check 2>&1 | tail -n 20
   local status=${PIPESTATUS[0]}
   [ "$status" -eq 0 ] || { echo "fix with: ruff format"; return "$status"; }
-  python3 -m unittest discover -s tools/checks/tests -t . 2>&1 | tail -n 3
-  return "${PIPESTATUS[0]}"
+  local out
+  out="$(python3 -m unittest discover -s tools/checks/tests -t . 2>&1)"
+  status=$?
+  grep -oE "test_times: WARNING.*" <<<"$out"
+  tail -n 3 <<<"$out"
+  return "$status"
 }
 
 # Prototype unit files in content/units match docs/prototype/SPEC.md (tools/checks/check_units.py).
