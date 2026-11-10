@@ -1,4 +1,6 @@
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Dial regressions use the production BotEval and food action paths.
 @warning_ignore_start("unsafe_call_argument")
 
@@ -8,7 +10,7 @@ var _kit: KIT
 
 func _setup(t: float) -> void:
 	var config := GameConfig.full_game()
-	var path: Dictionary = Pass3Path.override(t)
+	var path: Dictionary = ORIGINAL_B.path(t)
 	for key: String in path:
 		config.set_value(key, path[key])
 	_kit = KIT.new()

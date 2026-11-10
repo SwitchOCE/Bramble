@@ -80,14 +80,14 @@ func test_fairy_rebase_uses_paper_rates_with_authorized_initial_ring_sizes() -> 
 			Pass3Rates.number(config, "fairies_initial_ring_size"), 4.0 if preset_id == "B" else 6.0
 		)
 		assert_eq(
-			Pass3Rates.number(config, "fairies_ring_growth"), 2.0 if preset_id == "B" else 4.0
+			Pass3Rates.number(config, "fairies_ring_growth"), 6.0 if preset_id == "B" else 4.0
 		)
 		assert_eq(Pass3Rates.integer(config, "fairies_lob_turns"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_monarch_period"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_nan_rings"), 2)
 		assert_eq(Pass3Rates.integer(config, "fairies_annis_rings"), 1)
 		assert_eq(Pass3Rates.integer(config, "fairies_sally_rings"), 1)
-		assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 2 if preset_id == "B" else 3)
+		assert_eq(Pass3Rates.integer(config, "bog_soak_keep"), 3 if preset_id == "B" else 3)
 	config.set_value("pass3_preset", "A")
 	assert_eq(Pass3Rates.number(config, "fairies_initial_ring_size"), 1.0)
 	assert_eq(Pass3Rates.number(config, "fairies_ring_growth"), 1.0)
@@ -107,7 +107,7 @@ func test_queen_period_keeps_start_of_turn_and_cluricaun_uses_end_of_turn() -> v
 func test_overridden_compares_with_effective_default_b_instead_of_historical_base() -> void:
 	var config := GameConfig.defaults()
 	assert_false(Pass3Rates.overridden(config), "B is the default, including its override map")
-	config.set_value("fairies_ring_growth", 2.0)
+	config.set_value("fairies_ring_growth", 6.0)
 	assert_false(Pass3Rates.overridden(config), "an explicit default value is not a sweep")
 	config.set_value("fairies_ring_growth", 3.0)
 	assert_true(Pass3Rates.overridden(config))
@@ -117,7 +117,7 @@ func test_overridden_compares_with_effective_default_b_instead_of_historical_bas
 		assert_true(Pass3Rates.overridden(config), preset_id)
 
 
-func test_bird_b_rates_stay_frozen_at_9f03fe0() -> void:
+func test_bird_b_changes_only_measured_path_dials_from_9f03fe0() -> void:
 	var frozen: Dictionary = (
 		JSON
 		. parse_string(
@@ -141,9 +141,19 @@ func test_bird_b_rates_stay_frozen_at_9f03fe0() -> void:
 	for key: String in resolved:
 		if key.begins_with("birds_"):
 			actual[key] = resolved[key]
-	# A3.5 step 0 (DECISIONS 10 Nov): B writes Chiffchaff's printed +1 explicitly; no value moves.
-	expected["birds_chiffchaff_gain"] = 1.0
-	assert_eq(actual, expected, "B keeps all original Bird values and no new dials")
+	# Build 8 measurement: held dials stay at their historical values.
+	expected.merge(
+		{
+			"birds_chiffchaff_gain": 3.0,
+			"birds_homecoming_multiplier": 2.5,
+			"birds_golden_homecoming_multiplier": 3.0,
+			"birds_redbreast_share": 1.0 / 6.0,
+			"birds_cuckoo_share": 1.0 / 7.0,
+			"birds_golden_egg_multiplier": 3.0
+		},
+		true
+	)
+	assert_eq(actual, expected, "B changes only the measured Bird path values")
 
 
 func test_bird_c_rates_match_every_paper_c_bird_dial() -> void:
@@ -170,7 +180,7 @@ func test_optional_bird_dials_drive_real_recruits_without_changing_b() -> void:
 			kit.setup(config)
 			kit.rules.start_phase(kit.player, 1)
 			var factor: int = 2 if golden else 1
-			var gain: int = (4 if preset_id == "C" else 1) * factor
+			var gain: int = (4 if preset_id == "C" else 3) * factor
 			var chiff: RecruitUnit = kit.play("chiffchaff", 0, golden)
 			assert_eq(chiff.attack, factor + gain, preset_id + " Chiffchaff Attack")
 			assert_eq(chiff.health, 2 * factor + gain, preset_id + " Chiffchaff Health")

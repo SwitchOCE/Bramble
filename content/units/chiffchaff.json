@@ -49,9 +49,9 @@
   "details": "Sold, flies south for 2 turns; returns to hand at 2.5× permanent stats. Flying pays no sale gold; played this turn, it sells normally. Early recalls require a missed fight; each trip grows once.",
   "mechanic_text": {
     "2": {
+      "golden_text": "When played: gain +6/+6.",
       "id": "pass3_bird",
-      "text": "When played: gain +1/+1.",
-      "golden_text": "When played: gain +2/+2."
+      "text": "When played: gain +3/+3."
     }
   }
 }

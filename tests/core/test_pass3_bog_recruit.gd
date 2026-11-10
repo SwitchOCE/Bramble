@@ -1,4 +1,6 @@
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
@@ -7,7 +9,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(ORIGINAL_B.apply(GameConfig.full_game()))
 
 
 func test_nan_levels_smallest_bog_and_tiddy_excludes_other_tribes_from_the_split() -> void:

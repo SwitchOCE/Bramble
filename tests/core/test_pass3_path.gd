@@ -641,17 +641,17 @@ func test_glutton_and_lodger_take_past_one_at_measured_b() -> void:
 			assert_eq(
 				[unit.pending_attack, unit.pending_health], row[2], "%s slot %d" % [row, slot]
 			)
-	var config: GameConfig = _config(3.0)
+	var config: GameConfig = _config(0.0)
 	var library: UnitLibrary = ScaleOverlay.library_for(UnitLibrary.load_dir(), config)
 	assert_string_contains(
-		library.get_unit("mountain_glutton")["text"], "nine quarters of the quarry's stats"
+		library.get_unit("mountain_glutton")["text"], "nine eighths of the quarry's stats"
 	)
 	assert_string_contains(
-		library.get_unit("mountain_glutton")["golden_text"], "nine halves of the quarry's stats"
+		library.get_unit("mountain_glutton")["golden_text"], "nine quarters of the quarry's stats"
 	)
 	library = ScaleOverlay.library_for(UnitLibrary.load_dir(), _config(2.0))
 	assert_string_contains(
-		library.get_unit("lodger")["golden_text"], "three times the quarry's stats"
+		library.get_unit("lodger")["golden_text"], "11 sixths of the quarry's stats"
 	)
 
 

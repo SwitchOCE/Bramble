@@ -121,18 +121,18 @@ func test_authored_default_faces_match_generation_without_reading_authored_words
 
 func test_paper_b_and_c_rates_differ_only_in_the_nine_shares_and_a35_pelts() -> void:
 	var expected: Dictionary = {
-		"hunters_nip_share": 2.0 / 3.0,
-		"hunters_sable_share": 2.0 / 3.0,
-		"hunters_lutra_share": 2.0 / 3.0,
-		"hunters_glutton_share": 2.0 / 3.0,
-		"hunters_lodger_share": 2.0 / 3.0,
-		"hunters_wick_share": 1.0 / 3.0,
-		"hunters_grizel_share": 1.0 / 3.0,
-		"hunters_pelt_share": 1.0 / 3.0,
-		"hunters_russet_buff_share": 2.0 / 3.0,
+		"hunters_nip_share": 0.8333333333333334,
+		"hunters_sable_share": 0.8333333333333334,
+		"hunters_lutra_share": 0.8333333333333334,
+		"hunters_glutton_share": 1.125,
+		"hunters_lodger_share": 1.125,
+		"hunters_wick_share": 0.5833333333333334,
+		"hunters_grizel_share": 0.5833333333333334,
+		"hunters_pelt_share": 0.5833333333333334,
+		"hunters_russet_buff_share": 0.8333333333333334,
 		"hunters_golden_russet_buff_share": 1.0,
-		"hunters_ermeline_pelts": 1,
-		"hunters_golden_ermeline_pelts": 2,
+		"hunters_ermeline_pelts": 3,
+		"hunters_golden_ermeline_pelts": 6,
 		"hunters_laird_multiplier": 2,
 		"hunters_golden_laird_multiplier": 3,
 		"hunters_golden_take_multiplier": 2.0,
@@ -184,9 +184,9 @@ func test_paper_b_and_c_rates_differ_only_in_the_nine_shares_and_a35_pelts() -> 
 
 
 func test_golden_shares_and_geometry_have_their_distinct_meanings() -> void:
-	assert_string_contains(_card("little_nip")["text"], "two thirds")
-	assert_string_contains(_card("little_nip")["golden_text"], "four thirds")
-	assert_string_contains(_card("wick")["golden_text"], "two thirds")
+	assert_string_contains(_card("little_nip")["text"], "five sixths")
+	assert_string_contains(_card("little_nip")["golden_text"], "five thirds")
+	assert_string_contains(_card("wick")["golden_text"], "seven sixths")
 	assert_string_contains(_card("mistress_russet")["golden_text"], "with its buffs")
 	assert_string_contains(_card("young_brock")["text"], "beside this")
 	assert_string_contains(_card("young_brock")["golden_text"], "next to this")
@@ -194,7 +194,7 @@ func test_golden_shares_and_geometry_have_their_distinct_meanings() -> void:
 	assert_eq(_card("brother_wolf")["text"], _card("brother_wolf")["golden_text"])
 	assert_string_contains(_card("old_isegrim")["text"], "Hunters beside it")
 	assert_string_contains(_card("old_isegrim")["golden_text"], "Hunters next to it")
-	assert_string_contains(_card("madame_ermeline")["golden_text"], "two Pelts")
+	assert_string_contains(_card("madame_ermeline")["golden_text"], "six Pelts")
 	assert_string_contains(_card("laird_of_sett")["golden_text"], "3 times")
 	config.set_value("pass3_preset", "C")
 	assert_string_contains(_card("little_nip")["text"], "three quarters")
@@ -237,15 +237,17 @@ func test_borrowed_fragments_and_default_readers_keep_the_resolved_numbers() -> 
 	var fragments: Dictionary = card["mechanic_text"]
 	var fragment: Dictionary = fragments["1"]
 	assert_eq(fragment["id"], "pass3_hunter")
-	assert_true(str(fragment["text"]).begins_with("Take: gain two thirds"))
-	assert_string_contains(fragment["golden_text"], "four thirds")
+	assert_true(str(fragment["text"]).begins_with("Take: gain five sixths"))
+	assert_string_contains(fragment["golden_text"], "five thirds")
 	var normal: Dictionary = {}
 	var golden: Dictionary = {}
 	UnitLibrary.add_configured_rulings(normal, card)
 	UnitLibrary.add_configured_rulings(golden, card, true)
 	assert_string_contains(normal["configured_details"], "next Start of Turn")
 	assert_string_contains(golden["configured_details"], "next Start of Turn")
-	assert_string_contains(_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "a third")
+	assert_string_contains(
+		_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "seven twelfths"
+	)
 	config.set_value("pass3_preset", "C")
 	assert_string_contains(_card("madame_ermeline")["keyword_text_overrides"]["Pelt"], "half")
 	config.set_value("hunters_golden_take_multiplier", 1.5)
@@ -254,10 +256,14 @@ func test_borrowed_fragments_and_default_readers_keep_the_resolved_numbers() -> 
 
 func test_edited_json_default_rates_generate_words_without_per_game_overrides() -> void:
 	var original: Dictionary = Pass3Rates.defaults()
+	var original_presets: Dictionary = Pass3Rates._presets.duplicate(true)
+	Pass3Rates._presets["B"]["hunters_nip_share"] = 0.5
+	Pass3Rates._presets["B"]["hunters_pelt_share"] = 0.5
 	Pass3Rates._defaults["hunters_nip_share"] = 0.5
 	Pass3Rates._defaults["hunters_pelt_share"] = 0.5
 	var changed := UnitLibrary.load_dir()
 	Pass3Rates._defaults = original
+	Pass3Rates._presets = original_presets
 	assert_string_contains(changed.get_unit("little_nip")["text"], "half the quarry's stats")
 	assert_string_contains(changed.get_unit("little_nip")["golden_text"], "gain the quarry's stats")
 	var card: Dictionary = changed.get_unit("madame_ermeline")

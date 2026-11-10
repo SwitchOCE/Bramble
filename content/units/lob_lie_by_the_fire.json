@@ -38,9 +38,9 @@
   "golden_details": "Shy pays 4 gold. Only thanking counts; each complete 2 turns gives +12/+12 Ring size.",
   "mechanic_text": {
     "1": {
+      "golden_text": "When this leaves: your Rings grow +12/+12 per 2 turns it stayed.",
       "id": "pass3_fairy",
-      "text": "When this leaves: your Rings grow +1/+1 per 2 turns it stayed.",
-      "golden_text": "When this leaves: your Rings grow +2/+2 per 2 turns it stayed."
+      "text": "When this leaves: your Rings grow +6/+6 per 2 turns it stayed."
     }
   }
 }

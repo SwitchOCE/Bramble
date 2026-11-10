@@ -1,4 +1,6 @@
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 @warning_ignore_start("unsafe_call_argument")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
@@ -9,7 +11,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(ORIGINAL_B.apply(GameConfig.full_game()))
 	kit.rules.start_phase(kit.player, 1)
 	kit.player.gold = 100
 
