@@ -399,3 +399,7 @@ func test_gideons_reply_bonus_can_restore_attack_lost_to_hex() -> void:
 	assert_eq(_events("immediate_attack").size(), 1, "the reply gets its +2 before checking Attack")
 	assert_eq(enemy.health, 98)
 	assert_eq(gideon.attack, 0, "the temporary bonus ends")
+
+
+func test_planted_failure_shard_2() -> void:
+	assert_true(false, "planted failing test for cloud-gate failure output; never merge")
