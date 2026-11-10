@@ -798,8 +798,9 @@ func _retire_older_cues() -> void:
 		if child is CanvasItem and not child.is_queued_for_deletion():
 			child.set_meta("cue_retired", true)
 			child.reparent(_retiring_cues)
-	for dead: CardView in _dying:
-		if is_instance_valid(dead) and not dead.is_queued_for_deletion():
+	for value: Variant in _dying:
+		var dead: CardView = Data.control(value) as CardView
+		if dead != null and not dead.is_queued_for_deletion():
 			dead.set_meta("cue_retired", true)
 			dead.reparent(_retiring_cues)
 	_dying.clear()

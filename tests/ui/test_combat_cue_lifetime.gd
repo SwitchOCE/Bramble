@@ -130,6 +130,47 @@ func _advance(screen: CombatScreen, seconds: float) -> void:
 		screen.advance_playback(STEP)
 
 
+func test_freed_death_cards_allow_next_attack_skip_and_replay() -> void:
+	for early_free: bool in [false, true]:
+		for action: String in ["attack", "skip", "replay"]:
+			var screen: CombatScreen = _screen()
+			var board: Control = screen.board_for_side(0)
+			var dead: CardView = screen._cards[1]
+			screen._play_event({"type": "death", "uid": 1}, true)
+			_advance(screen, 0.1 if early_free else 0.7)
+			if early_free:
+				dead.free()
+			await wait_process_frames(1)
+			assert_false(is_instance_valid(dead), "death card is freed before the next step")
+			if action == "attack":
+				screen._play_event(_boundary("attack"), true)
+			elif action == "skip":
+				screen.skip_to_end()
+			else:
+				screen.restart()
+			assert_true(screen._dying.is_empty(), action + " clears stale death references")
+			board.call("clear")
+			var loose: Array = board.get("_loose")
+			assert_true(loose.is_empty(), action + " clears detached card references")
+	assert_engine_error_count(0, "freed cards never reach a typed assignment")
+
+
+func test_result_cleanup_survives_transfers_freed_mid_animation() -> void:
+	var screen: CombatScreen = _screen()
+	screen._play_event({"type": "combat_end", "winner": 0, "damage": 3}, true)
+	var transfers: Array[Control] = []
+	for child: Node in screen._overlay.get_children():
+		if child.has_meta("hero_result_transfer"):
+			transfers.append(child as Control)
+	assert_gt(transfers.size(), 0, "the result creates actual transfer pictures")
+	_advance(screen, 0.1)
+	for transfer: Control in transfers:
+		transfer.free()
+	# The production callback retains its own array of the now-freed transfers.
+	_advance(screen, 0.7)
+	assert_engine_error_count(0, "delayed result cleanup validates freed pictures")
+
+
 func _routes(screen: CombatScreen) -> Array[EffectPath]:
 	var result: Array[EffectPath] = []
 	for child: Node in screen._overlay.get_children():
