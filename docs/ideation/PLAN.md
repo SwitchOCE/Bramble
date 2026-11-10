@@ -1,11 +1,11 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** Agents can now see and play the game headless (step 0 merged). The reference frames, painted backdrops and layout options for the day-1 gallery are being made.
+- **In short:** The day-1 gallery is out: our screens beside The Bazaar, Battlegrounds and TFT, four painted woodland backdrops, and four layout options. It waits on the owner's picks.
 - **Status:** active
-- **Last step done:** 10 Nov: step 0 merged: the headless look tool (`tools/look/`) and the scope-fence check in the gate; gate passed, one scope review, proven by a fresh agent playing by clicks alone.
-- **Next step:** finish step 0b (Battlegrounds, TFT and Everdell frames; layout options and their critic), then the day-1 gallery.
-- **Waiting on you:** nothing yet. The day-1 gallery will ask you to pick two or three focus items and a layout.
+- **Last step done:** 10 Nov 23:22 AEDT: day-1 gallery sent (`http://100.92.26.47:8790/loop1/`). Step 0 merged; step 0b's branches are on `ideation/ui-0b`, in gate and scope review.
+- **Next step:** merge step 0b once its gate and review pass; start the focus items the owner picks.
+- **Waiting on you:** pick two or three focus items and one layout from the day-1 gallery, by chat.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
 <!-- /status -->
 
