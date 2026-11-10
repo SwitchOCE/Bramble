@@ -3,6 +3,7 @@ extends RefCounted
 ## dict, so tests need no screen.
 
 const Data := preload("res://src/ui/view_data.gd")
+const Settings := preload("res://src/ui/settings.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
@@ -243,3 +244,103 @@ static func sell_gold(unit: Dictionary, round_number: int) -> int:
 		if sell_word(unit, round_number) == "Fly south"
 		else Data.i(unit, "sell_payout", Data.i(unit, "sell_value", 1))
 	)
+
+
+## Godot moves the preview root; the picture has a small, bounded amount of follow-through.
+class DragLift:
+	extends Control
+
+	var card: Control
+	var _shadow: Panel
+	var _last_pointer: Vector2
+	var _offset: Vector2 = Vector2.ZERO
+	var _lift: Vector2
+
+	func hold(picture: Control, phone: bool) -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		card = picture
+		_lift = Vector2(0, -picture.size.y * (0.38 if phone else 0.10))
+		_shadow = Panel.new()
+		_shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var ink := StyleBoxFlat.new()
+		ink.bg_color = Color(0.07, 0.045, 0.02, 0.3)
+		ink.set_corner_radius_all(22)
+		ink.shadow_color = Color(0.04, 0.025, 0.01, 0.42)
+		ink.shadow_size = 22
+		_shadow.add_theme_stylebox_override("panel", ink)
+		_shadow.size = picture.size
+		add_child(_shadow)
+		add_child(card)
+		card.pivot_offset = card.size / 2.0
+		card.position = -card.size / 2.0
+
+	func _ready() -> void:
+		_last_pointer = get_global_mouse_position()
+
+	func _process(delta: float) -> void:
+		var pointer: Vector2 = get_global_mouse_position()
+		var motion: Vector2 = (pointer - _last_pointer).limit_length(42.0)
+		_last_pointer = pointer
+		var blend: float = 1.0 - exp(-22.0 * delta)
+		_offset = _offset.lerp(Vector2.ZERO if Settings.reduce_motion else -motion * 0.65, blend)
+		card.position = -card.size / 2.0 + _lift + _offset
+		card.rotation = lerpf(
+			card.rotation, 0.0 if Settings.reduce_motion else motion.x * 0.003, blend
+		)
+		card.scale = card.scale.lerp(Vector2.ONE * (1.0 if Settings.reduce_motion else 1.06), blend)
+		_shadow.position = card.position + Vector2(10, 24)
+		_shadow.rotation = card.rotation * 0.5
+
+
+## A transient pocket opening follows the real destination, including after a layout change.
+class DropPocket:
+	extends Control
+
+	const UiTheme := preload("res://src/ui/ui_theme.gd")
+	var _target: Control
+	var _opening: float = 0.0
+
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		z_index = 11
+
+	func aim(target: Control) -> void:
+		if target != _target:
+			_target = target
+			_opening = 0.0
+
+	func aim_recruit(
+		board: Control, hand: Control, shop: Control, zone: String, index: int, allowed: bool
+	) -> void:
+		var target: Control
+		match zone:
+			"board":
+				var slots: Array = board.get("slots")
+				if index >= 0 and index < slots.size():
+					target = slots[index]
+			"hand":
+				target = hand
+			"shop":
+				target = shop
+		aim(target if allowed else null)
+
+	func _process(delta: float) -> void:
+		_opening = minf(1.0, _opening + delta * 10.0)
+		queue_redraw()
+
+	func _draw() -> void:
+		if (
+			not is_instance_valid(_target)
+			or not _target.get_global_rect().has_point(get_global_mouse_position())
+		):
+			return
+		var rect: Rect2 = get_global_transform().affine_inverse() * _target.get_global_rect()
+		var spread: float = 4.0 if Settings.reduce_motion else lerpf(0.0, 10.0, _opening)
+		var rim := StyleBoxFlat.new()
+		rim.bg_color = Color(0.95, 0.8, 0.4, 0.07)
+		rim.border_color = UiTheme.GILT
+		rim.set_border_width_all(4)
+		rim.set_corner_radius_all(18)
+		rim.shadow_color = Color(0.06, 0.04, 0.01, 0.35)
+		rim.shadow_size = int(spread)
+		rim.draw(get_canvas_item(), rect.grow(spread))

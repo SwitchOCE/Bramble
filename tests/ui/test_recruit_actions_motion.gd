@@ -1,6 +1,7 @@
 extends GutTest
 ## Production action callbacks present actual state without delaying or changing core actions.
 
+const Detail := preload("res://src/ui/widgets/card_detail.gd")
 const Fixture := preload("res://tests/ui/shots/declutter_cold_fixture.gd")
 const Screen := preload("res://src/ui/screens/recruit_screen.gd")
 const Card := preload("res://src/ui/widgets/card_view.gd")
@@ -241,19 +242,165 @@ func test_feedback_and_end_of_turn_motion_survive_freed_nodes() -> void:
 	assert_true(sources.is_empty(), "freed end-of-turn glyphs are retired")
 
 
-func test_desktop_hand_reader_does_not_move_board_destinations() -> void:
-	Card.window_override = Vector2(1920, 1080)
+func test_reader_overlays_without_reflow_at_both_sizes() -> void:
+	for window: Vector2i in [Vector2i(1920, 1080), Vector2i(1688, 780)]:
+		Card.window_override = Vector2(window)
+		var viewport := SubViewport.new()
+		viewport.size = window if window.x == 1920 else Vector2i(2337, 1080)
+		add_child_autofree(viewport)
+		var screen := Screen.new()
+		viewport.add_child(screen)
+		screen.setup(Fixture.make("play"))
+		await wait_process_frames(2)
+		var controls: Array[Control] = []
+		for key: String in [
+			"_board",
+			"_shop_cards",
+			"_hand_zone",
+			"_gold",
+			"_tier_button",
+			"_refresh_button",
+			"_freeze_button",
+			"_end_button"
+		]:
+			controls.append(screen.get(key))
+		var rectangles: Array[Rect2] = []
+		for control: Control in controls:
+			rectangles.append(control.get_global_rect())
+		for zone: String in ["hand", "shop", "board"]:
+			screen.call("_on_tapped", zone, 0)
+			await wait_process_frames(2)
+			var reader: Control = screen.get("_detail")
+			assert_true(reader.visible)
+			for i: int in controls.size():
+				assert_eq(
+					controls[i].get_global_rect(),
+					rectangles[i],
+					"reader leaves every control in place"
+				)
+			var row: Control = screen._board
+			if zone == "shop":
+				row = screen._shop_cards
+			elif zone == "hand":
+				row = screen._hand_zone
+			assert_false(
+				reader.get_global_rect().intersects(row.get_global_rect()),
+				"the inspected row stays exposed"
+			)
+			if zone == "hand":
+				assert_false(
+					reader.get_global_rect().intersects(screen._board.get_global_rect()),
+					"hand play destinations stay exposed"
+				)
+			screen.call("_on_tapped", "table", -1)
+		await wait_process_frames(1)
+		viewport.free()
+
+
+func test_direct_purchase_and_swap_have_tracks_for_the_actual_units() -> void:
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(1920, 1080)
 	add_child_autofree(viewport)
 	var screen := Screen.new()
 	viewport.add_child(screen)
-	screen.setup(Fixture.make("play"))
+	screen.setup(Fixture.make("buy"))
 	await wait_process_frames(2)
-	var board: Control = screen.get("_board")
-	var before: Rect2 = board.get_global_rect()
-	screen.call("_on_tapped", "hand", 0)
-	await wait_process_frames(2)
-	var reader: Control = screen.get("_detail")
-	assert_true(reader.visible)
-	assert_eq(board.get_global_rect(), before, "the floating reader never reflows destinations")
+	screen._drop({"zone": "shop", "index": 0}, "board", 1)
+	var motion: Control = screen.get("_action_motion")
+	motion.set_process(false)
+	var tracks: Array = motion.get("tracks")
+	assert_false(tracks.is_empty(), "direct shop-to-board has visible travel")
+	var landing: Control = tracks[0]["target"]
+	assert_eq(landing, screen._card_at("board", 1))
+	var card_before_end: Control = screen._card_at("board", 1)
+	screen.notification(Control.NOTIFICATION_DRAG_END)
+	assert_eq(
+		screen._card_at("board", 1), card_before_end, "drag-end does not rebuild the landing card"
+	)
+	screen._drop({"zone": "board", "index": 0}, "board", 1)
+	motion.set_process(false)
+	tracks = motion.get("tracks")
+	assert_eq(tracks.size(), 2, "both actual swap participants travel")
+	var first_target: Control = tracks[0]["target"]
+	var second_target: Control = tracks[1]["target"]
+	assert_ne(first_target, second_target)
+	motion.call("finish")
+	_cards_restored(screen)
+	await wait_process_frames(1)
+
+
+func test_reader_protects_each_whole_row_in_a_stacked_arrangement() -> void:
+	var stage := Control.new()
+	stage.size = Vector2(1920, 1080)
+	add_child_autofree(stage)
+	var rows: Dictionary = {}
+	var rectangles: Dictionary = {
+		"shop": Rect2(80, 100, 1760, 280),
+		"board": Rect2(280, 420, 1000, 430),
+		"hand": Rect2(1420, 420, 430, 430),
+		"gold": Rect2(120, 940, 200, 100),
+		"end": Rect2(1480, 940, 350, 100),
+	}
+	for key: String in rectangles:
+		var row := Control.new()
+		var rect: Rect2 = rectangles[key]
+		row.position = rect.position
+		row.size = rect.size
+		stage.add_child(row)
+		rows[key] = row
+	var reader := Detail.new()
+	stage.add_child(reader)
+	var gold: Control = rows["gold"]
+	var end: Control = rows["end"]
+	reader.attach_recruit_overlay(
+		stage, gold, end, {"shop": rows["shop"], "board": rows["board"], "hand": rows["hand"]}
+	)
+	for zone: String in ["shop", "board", "hand"]:
+		reader.read_zone = zone
+		reader.show_unit(
+			{"name": "Hedge Witch", "def_id": "hedge_witch", "text": "Start of Combat."}
+		)
+		reader.add_action("Buy", func() -> void: pass, 3)
+		await wait_process_frames(1)
+		var row: Control = rows[zone]
+		assert_false(
+			reader.get_global_rect().intersects(row.get_global_rect()),
+			zone + " stays completely exposed"
+		)
+		if zone == "hand":
+			var board: Control = rows["board"]
+			assert_false(
+				reader.get_global_rect().intersects(board.get_global_rect()),
+				"hand inspection also leaves play destinations clear"
+			)
+		reader.show_empty()
+	reader.read_zone = "hand"
+	reader.show_unit({"name": "Shake the Tree", "kind": "spell", "aim": "shop_unit"})
+	await wait_process_frames(1)
+	for zone: String in ["hand", "shop"]:
+		var row: Control = rows[zone]
+		assert_false(
+			reader.get_global_rect().intersects(row.get_global_rect()),
+			"a shop-targeted spell leaves its source and targets exposed"
+		)
+	await wait_process_frames(1)
+
+
+func test_board_into_belly_drag_uses_the_explicit_tap_mode_instead_of_swapping() -> void:
+	var screen := Screen.new()
+	add_child_autofree(screen)
+	var port: CorePort = Fixture.make("ooze")
+	screen.setup(port)
+	await wait_process_frames(1)
+	screen.call("_on_tapped", "board", 0)
+	screen.call("_on_into_belly")
+	assert_true(screen._can_drop({"zone": "board", "index": 0}, "board", 1))
+	screen._drop({"zone": "board", "index": 0}, "board", 1)
+	var state: Dictionary = port.get_state()
+	var board: Array = state["board"]
+	var eater: Dictionary = board[1]
+	var held: Array = eater["held"]
+	assert_true(board[0] == null)
+	assert_eq(held.size(), 1)
+	assert_eq(str(eater["def_id"]), "figgy_duff")
+	await wait_process_frames(1)

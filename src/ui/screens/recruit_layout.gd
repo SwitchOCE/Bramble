@@ -208,7 +208,7 @@ func _layout_hand(x: float) -> void:
 	_away_tray.show_state(state)
 
 
-func _layout_right(x: float, w: float) -> void:
+func _layout_right(x: float, _w: float) -> void:
 	var center: float = x + _player_surface.size.x / 2.0
 	_gold.position = Vector2(x + 10, 984)
 	_gold.size = Vector2(205, 80)
@@ -239,15 +239,6 @@ func _layout_right(x: float, w: float) -> void:
 	_tribes.position = Vector2(center + 208, 967)
 	_tribes.size = Vector2(344, 88)
 	_tribes.visible = not _tribes.tribes.is_empty()
-	# The reader floats. These coordinates never change any card, board or action position.
-	_detail.position = Vector2(w - RIGHT_W - 30, 0 if CardView.is_phone() else 112)
-	_detail.size = Vector2(RIGHT_W, CANVAS_H - 112.0 - 24.0 if CardView.is_phone() else 740.0)
-	_detail.set_action_column()
-	if not CardView.is_phone() and not _scout.visible:
-		# Read over the merchant, keeping every formation and reserve target exposed.
-		_detail.position = Vector2(150, 12)
-		_detail.size = Vector2(w - 670, 270)
-		_detail.set_action_column(Rect2(_detail.size.x + 20, 0, 340, 244))
 	_gold.show()
 
 
