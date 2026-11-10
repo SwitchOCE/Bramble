@@ -13,6 +13,7 @@ One line per call that still holds. Newest calls go at the bottom of their group
 - Step 0b's capture, backdrops and layout options are one step: one scope review over their branches together. (orchestrator, 10 Nov)
 - The scope fence also covers `tests/sim/` and, once step 0 has merged, `scripts/check.sh`, so one edit can't switch the fence off. (orchestrator, 10 Nov, step 0 review ask)
 - Loop 1's day-1 gallery went out 10 Nov 23:22 AEDT. With no picks by 11 Nov 11:22, start on A (the layout, with its painted world) and B (recruit feel) with Bazaar Stack, the layout the critic found closest to The Bazaar. Loop 1 ends when the owner plays its build, or 13 Nov 23:22. (orchestrator, 10 Nov)
+- The layout mockups' tile-size pass/fail (150 px phone, 270 px PC shop) is dropped: it was a one-off brief direction, and the owner said no new bars. (orchestrator, 10 Nov, step 0b review ask)
 - Look clips keep the GIF and contact sheet and delete their raw frames unless `--keep-frames` is given; look sessions older than 7 days are pruned. (orchestrator, 10 Nov, step 0 review ask)
 
 ## Look
