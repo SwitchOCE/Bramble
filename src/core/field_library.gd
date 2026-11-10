@@ -95,7 +95,10 @@ static func prepare(config: GameConfig, library: UnitLibrary, path: String) -> F
 
 func config_problem(config: GameConfig) -> String:
 	var source: Dictionary = data["config"]
-	var recorded: GameConfig = FightCapture.config_for(source)
+	var recorded := GameConfig.defaults()
+	var restored: Dictionary = Pass3Rates.restore_values(source)
+	for key: String in restored:
+		recorded.set_value(key, restored[key])
 	var expected: Dictionary = recorded.resolved_values()
 	var actual: Dictionary = config.resolved_values()
 	for key: String in expected:
