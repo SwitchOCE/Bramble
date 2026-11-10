@@ -189,6 +189,7 @@ func _initialize() -> void:
 	var started: int = Time.get_ticks_msec()
 	for candidate: Variant in plan["seeds"]:
 		_seed = CoreUtil.to_int(candidate)
+		_ban_invalid = false
 		_names = _seats(_seed)
 		config = _config(plan)
 		config.set_value("human_bot", _names[0])
@@ -215,11 +216,10 @@ func _initialize() -> void:
 			_session.end_turn()
 			_audit_bans()
 		if _ban_invalid:
-			_stream.close()
+			_stream.flush()
 			_session = null
-			printerr("banned-card policy violation; entire run is invalid")
-			quit(2)
-			return
+			printerr("banned-card policy violation; dropping trial %d" % _seed)
+			continue
 		var players: Array = []
 		for row: Dictionary in _session.get_game_log()["players"]:
 			var seat: int = CoreUtil.to_int(row["player_id"])

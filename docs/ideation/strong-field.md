@@ -1,6 +1,6 @@
 # Strong-field mode
 
-**Status: development experiment, excluded from player exports.** The `strong_field`
+**Status: the library is required in every player pack; activation remains gated.** The `strong_field`
 feature flag is off in every current export preset. The plain **Bots / Strong field**
 setting is present only when that flag is enabled; saved field preferences fall back
 to Bots when it is off. A player export also rejects a command-line field launch.
@@ -101,9 +101,12 @@ Omit `--config` for the committed defaults. The script sources `/opt/bramble/env
 requires committed gameplay source, runs import and capture sequentially under the
 shared lock and 3G cap, and emits `content/fields/baseline.json.gz`. Defaults are 120
 lobbies, seeds 20262000–20262119, per-stratum limit 64, sample seed 91407. Before
-shipping, enable the `strong_field` custom feature, include the final library in the
-export presets, and change the export smoke from exclusion checks to positive
-field-game launch checks. Until then every player preset excludes `content/fields/*`.
+shipping, recapture the final library on that build's content. Every preset already
+includes the library and export smoke requires it, including feature-off builds.
+The smoke checks positive field loads and the disabled-feature Bots defaults.
+Enable the `strong_field` custom feature only when the default-opponent call is
+made. The lazy-loader throwaway measurement passes at +166.1 MB median peak RSS;
+see [the memory evidence](evidence/builds/memory-lazy.md).
 
 For development, an explicit source-tree UI launch with `--field-library <path>`
 opts into the experiment. With the feature enabled, the same plain setting works
@@ -281,10 +284,11 @@ log for seeds 3, 17, 71 and 20261109, captured directly on merged revision `0946
 normal fixture remains as historical data and is no longer the regression target.
 
 The export smoke builds real Linux, Windows and available Android targets. It checks
-that every pack includes levers and excludes the deferred library. The exported
+that every pack includes levers and the required field library. The exported
 Linux binary boots the main scene. An editor process loads the exported PCK and
-exercises its packed settings/CorePort code: the field option is absent and a saved
-field preference starts Bots. This probe is distinct from a player-template boot:
+exercises its packed settings/CorePort code with the field feature disabled: the
+field option is absent, default opponents are Bots, and a saved field preference
+also starts Bots. The library remains packed independently of the feature setting. This probe is distinct from a player-template boot:
 the pinned stock templates disable `--script` overrides, so an external script
 cannot run inside them ([Godot command-line reference](https://docs.godotengine.org/en/latest/tutorials/editor/command_line_tutorial.html)). The source tests exercise the enabled UI choice path.
 
@@ -335,8 +339,9 @@ switch tests cover selection, exclusions and persistent Health; the 40-game tabl
 above measures how often switches occur under the new strength filter.
 
 The corrected [export smoke](evidence/strong-field/review-export.log) passed Linux,
-Windows and Android APK exports. All packs include levers and exclude field
-libraries. The [packed UI probe](evidence/strong-field/review-packed-ui.log) passed
+Windows and Android APK exports at that historical revision. Those packs included
+levers and excluded field libraries. The current contract instead requires the
+library in every pack, independently of feature activation. The [packed UI probe](evidence/strong-field/review-packed-ui.log) passed
 manifest validation and feature-off preference fallback. The **actual Windows
 executable booted under Wine and exited 0** after reaching the main scene:
 [Windows boot log](evidence/strong-field/review-windows-boot.log). This is a headless

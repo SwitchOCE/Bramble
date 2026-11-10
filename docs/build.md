@@ -83,6 +83,12 @@ Ran `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-m
 
 ## 6. `./scripts/export_smoke.sh --aab`
 
+Current prerequisite: `content/fields/baseline.json.gz` must exist and match the
+source gameplay manifest. Export smoke has one contract: the field library is
+required in every pack, even while the field feature is off and default opponents
+are Bots. Numbered deliveries use `build/export.sh <N> "<summary>"`. The results
+below describe earlier toolchain smoke runs.
+
 **Linux, Windows and APK pass in every run:**
 - `boot ok: linux reached the main scene and exited 0`
 - `resources ok: build/export-smoke/windows/bramble.exe has ProductName 'Bramble'`

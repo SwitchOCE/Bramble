@@ -289,8 +289,13 @@ jobs:
 
       # Godot reads the JDK and SDK paths from JAVA_HOME and ANDROID_HOME and makes its own
       # debug keystore.
-      - name: export_smoke.sh
-        run: REQUIRE_ANDROID=1 ./scripts/export_smoke.sh --aab build/export-smoke
+      - name: Export smoke with bundled field and feature-off Bots defaults
+        run: |
+          test -s content/fields/baseline.json.gz || {
+            echo "Missing committed field library: recapture it before requesting exports."
+            exit 1
+          }
+          REQUIRE_ANDROID=1 ./scripts/export_smoke.sh --aab build/export-smoke
 
       # Short retention and never fatal: builds are large.
       - name: Upload builds
