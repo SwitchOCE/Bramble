@@ -1,0 +1,550 @@
+{
+  "control": {
+    "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+    "draws": 20000,
+    "seed": 20261110,
+    "lobby_seed_n": 32,
+    "lobbies_ending_before_r14": 0,
+    "missing_lobby_round_counts": 0,
+    "lines": {
+      "line_oozes_tempo": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 23,
+          "r14": 12
+        },
+        "paired_cohort_n": 12,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.3352254792405367,
+              "ci90": [
+                1.2427699394472236,
+                1.4126607668590814
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.3313033655027624,
+              "ci90": [
+                1.2539525210999236,
+                1.4075939200705179
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 12,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.3594211526782793,
+              "ci90": [
+                1.2750816212757368,
+                1.4438540366256316
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 12,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.3219856720871013,
+              "ci90": [
+                1.2561767599896796,
+                1.3978423322974358
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.3011510164391558,
+              "ci90": [
+                1.2599210498948732,
+                1.4174240840444736
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 12,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.3515936110456037,
+              "ci90": [
+                1.2788496471189645,
+                1.4279787498558874
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 12,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      }
+    }
+  },
+  "A": {
+    "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+    "draws": 20000,
+    "seed": 20261110,
+    "lobby_seed_n": 32,
+    "lobbies_ending_before_r14": 0,
+    "missing_lobby_round_counts": 0,
+    "lines": {
+      "line_oozes_tempo": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 24,
+          "r14": 11
+        },
+        "paired_cohort_n": 11,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.2611828673549519,
+              "ci90": [
+                1.211166545858013,
+                1.31454346430323
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.2637333181040107,
+              "ci90": [
+                1.2527001782677132,
+                1.3026787109770532
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 11,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.2784414370171415,
+              "ci90": [
+                1.2386835951161077,
+                1.3502541995982826
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 11,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.2437137976676587,
+              "ci90": [
+                1.216486745881078,
+                1.2954018428310208
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.2517120755952502,
+              "ci90": [
+                1.230135548127188,
+                1.2852479732650175
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 11,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.2547323738395253,
+              "ci90": [
+                1.2342439393203273,
+                1.3222934373124833
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 11,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      }
+    }
+  },
+  "B": {
+    "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+    "draws": 20000,
+    "seed": 20261110,
+    "lobby_seed_n": 32,
+    "lobbies_ending_before_r14": 0,
+    "missing_lobby_round_counts": 0,
+    "lines": {
+      "line_oozes_tempo": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 24,
+          "r14": 11
+        },
+        "paired_cohort_n": 11,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.2709271655353265,
+              "ci90": [
+                1.2209000663249265,
+                1.3791694143428792
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.2878802346051563,
+              "ci90": [
+                1.2135885204718089,
+                1.3684875825616276
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 11,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.3014331184482149,
+              "ci90": [
+                1.2562315839869462,
+                1.4117476057652496
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 11,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.3045561963846701,
+              "ci90": [
+                1.2225567723092503,
+                1.38010233499258
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.2664466643186165,
+              "ci90": [
+                1.2555537525632932,
+                1.357357096618191
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 11,
+              "r8_n": 11,
+              "r14_n": 11,
+              "cohort_n": 11
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.328102289845818,
+              "ci90": [
+                1.249044504642206,
+                1.4195969523660044
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 11,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      }
+    }
+  },
+  "AB": {
+    "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+    "draws": 20000,
+    "seed": 20261110,
+    "lobby_seed_n": 32,
+    "lobbies_ending_before_r14": 0,
+    "missing_lobby_round_counts": 0,
+    "lines": {
+      "line_oozes_tempo": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 23,
+          "r14": 12
+        },
+        "paired_cohort_n": 12,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.3042034583950484,
+              "ci90": [
+                1.2323529636257957,
+                1.3555369202670686
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.28133415719806,
+              "ci90": [
+                1.2479429358081058,
+                1.3255308765328944
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 12,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.3221642402208116,
+              "ci90": [
+                1.258116770084668,
+                1.3824237249026239
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 12,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.284168858567785,
+              "ci90": [
+                1.2251977417167015,
+                1.3134342944745132
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.263274746502374,
+              "ci90": [
+                1.2368408990356623,
+                1.2968624298609774
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 12,
+              "r8_n": 12,
+              "r14_n": 12,
+              "cohort_n": 12
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.298941615313475,
+              "ci90": [
+                1.2473238735435284,
+                1.3455121312383276
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 12,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      }
+    }
+  },
+  "hedgerow": {
+    "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
+    "draws": 20000,
+    "seed": 20261110,
+    "lobby_seed_n": 32,
+    "lobbies_ending_before_r14": 0,
+    "missing_lobby_round_counts": 0,
+    "lines": {
+      "line_hedgerow_parish": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 24,
+          "r14": 20
+        },
+        "paired_cohort_n": 20,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.737828412544734,
+              "ci90": [
+                1.537846949160116,
+                1.828698547925629
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.7229897070691016,
+              "ci90": [
+                1.5405952974523867,
+                1.8176904912527332
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 20,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.8479745018410119,
+              "ci90": [
+                1.6061636002337145,
+                1.9409323421030507
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 20,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.737828412544734,
+              "ci90": [
+                1.537846949160116,
+                1.8265496964630048
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.7229897070691016,
+              "ci90": [
+                1.5163162422783856,
+                1.8176904912527332
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 20,
+              "r8_n": 20,
+              "r14_n": 20,
+              "cohort_n": 20
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.8479745018410119,
+              "ci90": [
+                1.604477115274745,
+                1.936880099139463
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 20,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      },
+      "line_hedgerow_supper": {
+        "endpoint_counts": {
+          "r8": 32,
+          "r12": 25,
+          "r14": 19
+        },
+        "paired_cohort_n": 19,
+        "lobby_seed_n": 32,
+        "metrics": {
+          "active_stats": {
+            "matched_medians_primary": {
+              "estimate": 1.541953146089986,
+              "ci90": [
+                1.3799244618471034,
+                1.6962543551083171
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.4804353665485668,
+              "ci90": [
+                1.4157371527433922,
+                1.6963359774672109
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.614805237477251,
+              "ci90": [
+                1.4388549600689262,
+                1.7910420274453493
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          },
+          "including_bellies": {
+            "matched_medians_primary": {
+              "estimate": 1.541953146089986,
+              "ci90": [
+                1.3799244618471034,
+                1.6962543551083171
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "individual_median_diagnostic": {
+              "estimate": 1.4804353665485668,
+              "ci90": [
+                1.3926453902198586,
+                1.6963359774672109
+              ],
+              "valid_bootstrap_draws": 20000,
+              "eligible_positive_start_n": 19,
+              "r8_n": 19,
+              "r14_n": 19,
+              "cohort_n": 19
+            },
+            "changing_survivor_medians": {
+              "estimate": 1.6110189979442635,
+              "ci90": [
+                1.4337737708643787,
+                1.7884092385745856
+              ],
+              "valid_bootstrap_draws": 20000,
+              "r8_n": 32,
+              "r14_n": 19,
+              "lobby_seed_n": 32
+            }
+          }
+        }
+      }
+    }
+  }
+}

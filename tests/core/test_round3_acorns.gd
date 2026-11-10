@@ -6,7 +6,7 @@ const Kit := preload("res://tests/core/recruit_kit.gd")
 
 func test_treasurer_has_a_reversible_ceiling_and_copies_share_it() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	var plain: RecruitUnit = kit.put("honorary_treasurer", 0)
 	var golden: RecruitUnit = kit.put("honorary_treasurer", 1, true)
 	HeldUnits.give_plain_copy(kit.rules, kit.player, "honorary_treasurer")
@@ -44,7 +44,7 @@ func test_hoard_still_pays_more_than_its_three_stashes() -> void:
 func test_dozey_keeps_small_acorns_and_limits_large_conversion() -> void:
 	for golden: bool in [false, true]:
 		var kit := Kit.new()
-		kit.setup(GameConfig.full_game())
+		kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 		var unit: RecruitUnit = kit.put("alderman_dozey", 0, golden)
 		var rate: int = 2 if golden else 1
 		var base: int = unit.attack
@@ -58,7 +58,7 @@ func test_dozey_keeps_small_acorns_and_limits_large_conversion() -> void:
 
 func test_mast_cannot_take_both_interest_branches_in_one_turn() -> void:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	kit.put("old_mother_mast", 0)
 	kit.player.gold = 20
 	kit.shop("pill_bug")

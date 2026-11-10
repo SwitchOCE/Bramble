@@ -1,0 +1,39 @@
+{
+  "original_datasets": {
+    "control": {
+      "bit_equal": true,
+      "records": 32,
+      "sha256": "0032c1e727406f20c45963eda56b6f00a293ceaef552c448d54ac2ad70886de0"
+    },
+    "A": {
+      "bit_equal": true,
+      "records": 32,
+      "sha256": "b107c631709fd26fe6ff631096b0fb214e691dbad3bbf141defb6c74cb714309"
+    },
+    "B": {
+      "bit_equal": true,
+      "records": 32,
+      "sha256": "a16d85643b4ba565d037a5b8dc4bbdffa7c233382e1872dda017644eb6be16c0"
+    },
+    "AB": {
+      "bit_equal": true,
+      "records": 32,
+      "sha256": "8a06e8ecc83c0de0e124fd143fc5a902cab808676189c805c88f9a4bc49643f6"
+    },
+    "hedgerow": {
+      "bit_equal": true,
+      "records": 32,
+      "sha256": "edd54d1752c5d5cc40357157eb2ec047b379396f342e1bc5070d5b03272e9ffe"
+    },
+    "seconds": 10.301
+  },
+  "revised_hedgerow_dataset": {
+    "dataset": "docs/ideation/evidence/wave2b/hedgerow/a2-followup/hedgerow-lines.jsonl",
+    "records": 32,
+    "draws": 20000,
+    "identical": true,
+    "sha256": "e61abb058e46210bc3b038411f269cb05a20b3f8dbbdde2dc4b99d3aff4df508",
+    "seconds": 3.967278496013023
+  },
+  "reading": "Old and migrated output bytes match; no figures changed."
+}

@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "kind": "native_phase_guide",
+  "construction": "Declared native phase-matched allocation of rounded paper active stat budgets; these are not exact paper snapshots or simulated recruit histories.",
+  "boards": [
+    {
+      "id": "potluck-native-r8",
+      "line": "line_oozes_tempo",
+      "round": 8,
+      "tier": 4,
+      "gold": 0,
+      "expected_active_stats": 134,
+      "expected_belly_stats": 44,
+      "source": "docs/ideation/content/pass3/presets-model/six.json: B.lines.Oozes[1].8 = 134.44903945922852; oozes-pass3.md:427-430 phase guide",
+      "assumptions": [
+        "Round the scalar active budget to 134, then allocate explicit permanent native body stats. No goldens, Rings, tribe bonuses, hero effects, borrowed text or synthetic mechanics.",
+        "Use seven phase-appropriate bodies. Pie F1, Wobbly F2, Moss F3, Posset F4, Soup B1, Bubble pot B2, Nell B3. Figgy is omitted because all seven slots are occupied.",
+        "Bubble is the unique biggest Ooze. Native Bubble, Moss and Posset text remains authoritative; every fight starts before Start of Combat.",
+        "The paper does not identify reserve bodies, their owners, or individual stats. Declare four ordinary 4/4 Mouse reserves in front Bellies and a 6/6 Mouse meal in Bubble, separately from the active budget.",
+        "Gold zero is a declared spent-out allocation, not evidence that a legal shop sequence produces this board. This diagnostic runs fights only, without recruiting continuation."
+      ],
+      "units": [
+        {"def_id":"sixpenny_pie","stats":[10,10],"golden":false,"held":[{"def_id":"mouse","stats":[4,4],"golden":false},{"def_id":"mouse","stats":[4,4],"golden":false}]},
+        {"def_id":"wee_wobbly","stats":[8,10],"golden":false,"held":[{"def_id":"mouse","stats":[4,4],"golden":false}]},
+        {"def_id":"moss_ooze","stats":[8,10],"golden":false},
+        {"def_id":"mrs_posset","stats":[8,8],"golden":false,"held":[{"def_id":"mouse","stats":[4,4],"golden":false}]},
+        {"def_id":"stone_soup","stats":[10,10],"golden":false},
+        {"def_id":"bubble_and_squeak","stats":[12,12],"golden":false,"held":[{"def_id":"mouse","stats":[6,6],"golden":false}]},
+        {"def_id":"dishwater_nell","stats":[9,9],"golden":false}
+      ]
+    },
+    {
+      "id": "potluck-native-r10",
+      "line": "line_oozes_tempo",
+      "round": 10,
+      "tier": 5,
+      "gold": 0,
+      "expected_active_stats": 363,
+      "expected_belly_stats": 72,
+      "source": "docs/ideation/content/pass3/presets-model/six.json: B.lines.Oozes[1].10 = 362.56587156653404; oozes-pass3.md:427-430 phase guide",
+      "assumptions": [
+        "Round the scalar active budget to 363. Native phase-appropriate Elder and empty Hasty replace Wobbly and Posset. All other R8 construction restrictions remain.",
+        "Pie F1, Moss F2, Elder F3, Hasty F4, Soup B1, Bubble B2, Nell B3. Bubble remains the unique biggest Ooze.",
+        "Declare two 12/12 Mouse reserves in Pie and one 12/12 Mouse meal in Bubble. These 72 held stats are an explicit assumption, not extracted paper reserve identities.",
+        "Gold zero, no hero effects, and fixed positions are declared diagnostic conditions. This is not a claimed attainable recruit history."
+      ],
+      "units": [
+        {"def_id":"sixpenny_pie","stats":[20,22],"golden":false,"held":[{"def_id":"mouse","stats":[12,12],"golden":false},{"def_id":"mouse","stats":[12,12],"golden":false}]},
+        {"def_id":"moss_ooze","stats":[20,22],"golden":false},
+        {"def_id":"elder_ooze","stats":[22,24],"golden":false},
+        {"def_id":"hasty_pudding","stats":[24,28],"golden":false},
+        {"def_id":"stone_soup","stats":[22,23],"golden":false},
+        {"def_id":"bubble_and_squeak","stats":[42,43],"golden":false,"held":[{"def_id":"mouse","stats":[12,12],"golden":false}]},
+        {"def_id":"dishwater_nell","stats":[25,26],"golden":false}
+      ]
+    }
+  ]
+}

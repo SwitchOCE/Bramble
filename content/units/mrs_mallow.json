@@ -2,19 +2,21 @@
   "id": "mrs_mallow",
   "name": "Mrs Mallow, Feeding Them Up",
   "set": "slice",
-  "tier": 4,
-  "attack": 3,
+  "tier": 3,
+  "attack": 2,
   "health": 5,
   "tribes": [
     "Hedgerow folk"
   ],
-  "text": "End of Turn: your smallest unit gains +1/+1.",
-  "golden_text": "End of Turn: your smallest unit gains +2/+2.",
-  "details": "Smallest means Attack plus Health. Skip Shy units. Ties go to the earlier slot in the zigzag F1-B1-F2-B2-F3-B3-F4. This can choose itself.",
+  "text": "End of Turn: double your two smallest Hedgerow units' stats.",
+  "golden_text": "End of Turn: double your four smallest Hedgerow units' stats.",
   "mechanics": [
     {
-      "id": "mrs_mallow",
-      "stats": 1
+      "id": "pass3_hedgerow",
+      "ability": "mrs_mallow",
+      "factor": 1,
+      "multiplier": 2.0,
+      "targets": 2
     }
   ],
   "keywords": [],
@@ -24,7 +26,9 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-a.md",
-    "note": "Pass 2 review calls in DECISIONS.md take precedence."
-  }
+    "doc": "docs/ideation/content/pass3/hedgerow-pass3.md",
+    "note": "Pass 3; amended tribe gates and provisional paper B/C rates in content/pass3/rates.json."
+  },
+  "details": "Smallest means Attack plus Health; ties use zigzag order. Can pick this. Shy units are skipped. Targets are selected before any gain; extra triggers cannot repeat multiplication.",
+  "golden_details": "Smallest means Attack plus Health; ties use zigzag order. Can pick this. Shy units are skipped. Targets are selected before any gain; extra triggers cannot repeat multiplication."
 }

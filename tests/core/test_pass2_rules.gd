@@ -7,7 +7,7 @@ const Fight := preload("res://tests/core/combat_kit.gd")
 
 func test_pass_ignores_gaps_and_source_and_sold_slot_replacement() -> void:
 	var kit := Kit.new()
-	kit.setup()
+	kit.setup(null, false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
 	var carry: RecruitUnit = kit.put("field_vole", 3)
 	var crumb: RecruitUnit = kit.put("mr_crumb")
 	assert_eq(kit.rules.play(kit.player, 0, 0), "")
