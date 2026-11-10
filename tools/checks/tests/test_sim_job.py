@@ -166,6 +166,36 @@ class SimJobTest(unittest.TestCase):
         self.assertFalse(result["passes"])
         self.assertIn("1", result["sim_job"]["dropped"])
 
+    def test_local_accepts_three_jobs_and_rejects_out_of_range_or_nested_parallelism(self):
+        config_path = self.dir / "local.json"
+        config_path.write_text(json.dumps({"kind": "lines", "preset": "B", "seeds": [1, 2, 3], "shards": 3}))
+        output = self.dir / "output"
+
+        def write_readme(_config, _summary, result_dir, *_args):
+            result_dir.mkdir(parents=True, exist_ok=True)
+            (result_dir / "README.md").write_text("done")
+
+        for jobs in (1, 2, 3):
+            with (
+                self.subTest(jobs=jobs),
+                patch.dict(sim_job.os.environ, {"BRAMBLE_SLOT_HELD": ""}),
+                patch.object(sim_job, "shard") as shard,
+                patch.object(sim_job, "merge", return_value=({"passes": True}, [])),
+                patch.object(sim_job, "write_readme", side_effect=write_readme),
+                contextlib.redirect_stdout(io.StringIO()),
+            ):
+                self.assertEqual(sim_job.main(["local", str(config_path), str(output), "--jobs", str(jobs)]), 0)
+                self.assertEqual(sorted(call.args[1] for call in shard.call_args_list), [1, 2, 3])
+        for jobs, held in ((0, ""), (4, ""), (2, "1"), (3, "1")):
+            with (
+                self.subTest(jobs=jobs, held=held),
+                patch.dict(sim_job.os.environ, {"BRAMBLE_SLOT_HELD": held}),
+                contextlib.redirect_stderr(io.StringIO()),
+                self.assertRaises(SystemExit) as raised,
+            ):
+                sim_job.main(["local", str(config_path), str(output), "--jobs", str(jobs)])
+            self.assertEqual(raised.exception.code, 2)
+
     def test_exit_zero_line_logs_reject_every_gate_problem_before_compaction(self):
         config = self.config(kind="lines", preset="B", seeds=[1], shards=1)
         real_run = subprocess.run

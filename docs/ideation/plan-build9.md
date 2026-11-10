@@ -15,8 +15,8 @@
 It ships as **build 9**, because export numbers only go up. v3's later steps (round 6, batches 3–4, J1–J4) come after it, one at a time.
 
 **How it runs.**
-- At most three Codex workers at once, each in its own worktree. Godot goes through the two-slot wrapper.
-- Sims and soaks run on this PC with `python3 tools/sim/sim_job.py local <config> <out> --jobs N`. The local runner takes 1–2 jobs, one per shared Godot slot. Step 3's first commit raises the slots to 3, with the 3 GB cap per run kept, so local runs use more of the 6 cores (the owner: "use the PC's full resources").
+- At most three Codex workers at once, each in its own worktree. Godot goes through the three-slot wrapper, capped at 3 GB per run.
+- Sims and soaks run on this PC with `python3 tools/sim/sim_job.py local <config> <out> --jobs N`. The local runner takes 1–3 jobs, one per shared Godot slot. Step 3's slot change keeps the 3 GB cap per run, so local runs use more of the 6 cores (the owner: "use the PC's full resources"). The measurement worker may use `--jobs 3`; the other workers keep `--jobs 2`.
 - Actions runs only the test gate, plus a sim only when a local run would take more than about two hours.
 - Cloud workers: only checkpoint 1's three testers.
 - No Workflows, and no Claude subagents running Godot.

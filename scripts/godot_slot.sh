@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Runs a command in one of the two local Godot slots, waiting until one is free.
+# Runs a command in one of the three local Godot slots, waiting until one is free.
 #   GODOT_SLOT_CLASS=gate scripts/godot_slot.sh ./scripts/check.sh
 #   GODOT_SLOT_CLASS=worker scripts/godot_slot.sh godot --headless -s addons/gut/gut_cmdln.gd ...
 # Where systemd-run --user works, the command runs under MemoryMax=3G, as check.sh's Godot steps do.
-# A slot is a flock on /tmp/bramble-godot.lock or /tmp/bramble-harness-godot.lock. Sims keep
-# taking only the harness lock themselves; this wrapper is for gates, tests and probes.
+# Slots are flocks on /tmp/bramble-godot.lock, /tmp/bramble-harness-godot.lock and
+# /tmp/bramble-godot-third.lock. Local sim jobs, gates, tests and probes share this queue.
 # GODOT_SLOT_CLASS is gate, review, worker or probe (default: other).
 # The child sees BRAMBLE_SLOT_HELD=1, so a nested check.sh doesn't lock again.
 # Each run appends one CSV line to ${XDG_STATE_HOME:-$HOME/.local/state}/bramble/godot-slots.csv:
@@ -12,7 +12,7 @@
 # check.sh takes a slot itself, only from import through tests, so this wrapper runs it without
 # a slot (it still passes the class on). Sourced, this file only defines the functions.
 
-GODOT_SLOT_LOCKS=(/tmp/bramble-godot.lock /tmp/bramble-harness-godot.lock)
+GODOT_SLOT_LOCKS=(/tmp/bramble-godot.lock /tmp/bramble-harness-godot.lock /tmp/bramble-godot-third.lock)
 GODOT_SLOT_LOG="${XDG_STATE_HOME:-$HOME/.local/state}/bramble/godot-slots.csv"
 
 # godot_slot_acquire: blocks until a slot's lock is held on fd 9.
@@ -33,7 +33,7 @@ godot_slot_acquire() {
       exec 9>&-
     done
     if [ "$said" -eq 0 ]; then
-      echo "godot_slot: both Godot slots are busy; waiting" >&2
+      echo "godot_slot: all ${#GODOT_SLOT_LOCKS[@]} Godot slots are busy; waiting" >&2
       said=1
     fi
     sleep 5

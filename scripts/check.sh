@@ -20,7 +20,7 @@
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
 #   PARITY_STRICT=1                 Fail shop-pool parity mismatches (default: warn)
 #   GODOT_SLOT_CLASS=gate           Class for the slot log (scripts/godot_slot.sh; default other)
-# Import through tests hold one of the two local Godot slots (scripts/godot_slot.sh), unless
+# Import through tests hold one of the three local Godot slots (scripts/godot_slot.sh), unless
 # BRAMBLE_SLOT_HELD=1 says the caller holds one. The static steps run without a slot. Where
 # systemd-run --user works, each Godot step runs in a scope capped at MemoryMax=3G.
 # The tests step writes JUnit XML to build/check/gut.xml and prints the 20 slowest scripts.
