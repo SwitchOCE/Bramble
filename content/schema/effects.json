@@ -923,7 +923,7 @@
     "Hex": "Start of Combat: whoever stands across has this much less Attack.",
     "Nightshade": "When attacked, this first loses half its Health.",
     "Belly": "Holds this many units, safe inside. When this dies, they come out.",
-    "Fly South": "Sold, it flies south, then comes home to hand with double stats.",
+    "Fly South": "Sold, it flies south, then comes home to hand with multiplied permanent stats.",
     "Nest": "The slot a Bird left; a 0/1 Egg fights here unless a unit stands here.",
     "Swoop": "Attacks the enemy back row while anyone is in it.",
     "Mired": "Must attack the unit that mired it.",
@@ -946,7 +946,7 @@
     "Toll": "Attack your Bitter removed in the last fight.",
     "kiss": "Shared progress: a fight with a Sink while a frog is present earns a kiss.",
     "Digest": "Start of Turn: this eats what's inside it.",
-    "Eat": "Destroy it. The eater gains its stats permanently.",
+    "Eat": "Destroy it. The eater gains its stats permanently, with a non-Ooze's printed stats doubled.",
     "Slice": "A Created unit with no tribe or text; its stats come from your biggest Ooze."
   },
   "optional_mechanic_params": {

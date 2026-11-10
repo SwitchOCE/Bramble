@@ -20,6 +20,23 @@ const BODIES: Dictionary = {
 	"granny_stir_up": [6, 4, 8],
 	"cut_and_come_again": [6, 4, 6],
 }
+## A3.5 step 0 (DECISIONS 10 Nov) moves these off paper; the eat multiplier is new.
+const A35_DIALS: Dictionary = {
+	"B":
+	{
+		"oozes_hasty_share": 1.0 / 3.0,
+		"oozes_aspic_bonus": 0.75,
+		"oozes_golden_aspic_multiplier": 2.5,
+		"oozes_eat_printed_multiplier": 2,
+	},
+	"C":
+	{
+		"oozes_hasty_share": 0.5,
+		"oozes_aspic_bonus": 1.0,
+		"oozes_golden_aspic_multiplier": 3.0,
+		"oozes_eat_printed_multiplier": 3,
+	},
+}
 var library: UnitLibrary
 var config: GameConfig
 
@@ -70,7 +87,7 @@ func test_authored_normal_and_golden_faces_equal_resolved_b_generation() -> void
 			assert_eq(library.get_unit(id)[key], authored, id + " runtime")
 
 
-func test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values() -> void:
+func test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values_but_a35s() -> void:
 	var paper: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://docs/ideation/content/pass3/presets.json")
 	)
@@ -81,9 +98,12 @@ func test_all_twenty_three_ooze_dials_match_the_paper_b_and_c_values() -> void:
 		var resolved: Dictionary = Pass3Rates.resolved(config)
 		for key: String in expected:
 			if key.begins_with("oozes_"):
-				assert_eq(resolved[key], expected[key], preset + " " + key)
+				var want: Variant = A35_DIALS[preset].get(key, expected[key])
+				assert_eq(resolved[key], want, preset + " " + key)
 				count += 1
 		assert_eq(count, 23)
+		var eat: Variant = A35_DIALS[preset]["oozes_eat_printed_multiplier"]
+		assert_eq(resolved["oozes_eat_printed_multiplier"], eat)
 
 
 func test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_doubling() -> void:
@@ -153,7 +173,7 @@ func test_native_count_rates_widen_golden_targets_but_keep_compounding_fractions
 		if str(pair[0]) == "hasty_pudding":
 			assert_eq(_params(card, "belly", true)["size"], 6, "swallow dial also widens capacity")
 	var hasty: Dictionary = library.get_unit("hasty_pudding")
-	assert_eq(_params(hasty, "pass3_ooze", true)["share"], 0.2)
+	assert_eq(_params(hasty, "pass3_ooze", true)["share"], 1.0 / 3.0)
 	assert_eq(_params(hasty, "pass3_ooze", true)["after"], 3)
 	assert_eq(_params(library.get_unit("mrs_posset"), "pass3_ooze", true)["loss_share"], 0.5)
 

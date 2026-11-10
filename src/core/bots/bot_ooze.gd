@@ -132,7 +132,7 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 		if tempo(value):
 			return 0.0
 		return (
-			(maxf(6.0, size * _rate(player, "oozes_aspic_bonus", 0.5) * 0.3) * factor)
+			(maxf(6.0, size * _rate(player, "oozes_aspic_bonus", 0.75) * 0.3) * factor)
 			if carry(player) != null
 			else 0.0
 		)
@@ -145,7 +145,11 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	if has(unit, "cut_and_come_again"):
 		return size * _rate(player, "oozes_slice_share", 0.2) * 2.0 * factor
 	if has(unit, "hasty_pudding"):
-		return (size * 0.2 + 16.0) * factor if wants_hasty(player) else 4.0 * factor
+		return (
+			(size * _rate(player, "oozes_hasty_share", 1.0 / 3.0) + 16.0) * factor
+			if wants_hasty(player)
+			else 4.0 * factor
+		)
 	if has(unit, "granny_stir_up"):
 		return size * 0.5 * factor if committed else 4.0 * factor
 	if Pass3Oozes.is_digest(unit):
@@ -165,7 +169,8 @@ static func meal_gain(brain: BotBrain, meal: RecruitUnit) -> float:
 	if belly < 0:
 		return -1.0
 	# The same stats become permanent next turn, before the next Soup and Nell meal.
-	return float(_meal_size(meal))
+	var printed: int = maxi(0, meal.base_attack_now()) + maxi(0, meal.base_health_now())
+	return float(_meal_size(meal) + printed * (Pass3Oozes.eat_multiplier(player) - 1))
 
 
 static func food_belly(player: PlayerState, value: BotEval, meal: RecruitUnit) -> int:

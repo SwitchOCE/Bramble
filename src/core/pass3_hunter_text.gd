@@ -229,6 +229,8 @@ static func _portion(value: float, noun: String) -> String:
 		return noun
 	if is_equal_approx(value, 2.0):
 		return "twice " + noun
+	if value > 2.0 and is_equal_approx(value, roundf(value)):
+		return "%s times %s" % [_word(roundi(value)), noun]
 	for pair: Array in [
 		[2, "half", "halves"],
 		[3, "third", "thirds"],
