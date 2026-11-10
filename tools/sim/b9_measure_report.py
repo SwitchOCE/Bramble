@@ -8,6 +8,8 @@ import math
 import statistics
 from pathlib import Path
 
+from capture_validation import validate_compact
+
 ENGINES = {
     "birds": "line_birds_homecoming",
     "fairies": "line_fairies_ring",
@@ -37,6 +39,7 @@ def summarize(folder, preset="C", expected_seeds=None):
         games = json.load(stream)
     expected_seeds = list(range(2911001, 2911033)) if expected_seeds is None else expected_seeds
     assert sorted(game["seed"] for game in games) == expected_seeds
+    validate_compact(games)
     by_line, assigned, caps = {}, {}, []
     for game in games:
         for player in game["players"]:

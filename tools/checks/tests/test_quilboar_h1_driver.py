@@ -225,3 +225,17 @@ class QuilboarH1DriverTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_declared_fifteen_rounds_cannot_accept_a_seat_truncated_at_round_eight(self):
+        with tempfile.TemporaryDirectory() as directory:
+            prefix = Path(directory) / "truncated"
+            players, records = synthetic_capture(prefix)
+            players[0]["rounds"] = 15
+            for number in range(2, 9):
+                record = json.loads(json.dumps(records[0]))
+                record["input"]["player_ids"] = [0, -1]
+                record["input"]["round"] = number
+                records.append(record)
+            write_fixture(prefix, players, records)
+            with self.assertRaisesRegex(ValueError, "incomplete seat trajectories"):
+                DRIVER.compact_chunk(prefix, "B", 31, 1, 2.5)

@@ -14,6 +14,7 @@ import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from capture_validation import validate_compact
 from evidence_io import read_json, write_json
 from lever_sweep import ROOT, atomic_json, file_sha, run_command, source_manifest
 
@@ -246,6 +247,7 @@ def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False, a35_r
                 "players": grouped_players[seed],
             }
         )
+    validate_compact(output)
     return output
 
 

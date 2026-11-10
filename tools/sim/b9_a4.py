@@ -22,6 +22,7 @@ sys.path.insert(0, str(ROOT / "tools/sim"))
 
 import b9_a4_report  # noqa: E402
 import field  # noqa: E402
+from capture_validation import validate_native  # noqa: E402
 from evidence_io import read_json, write_json  # noqa: E402
 
 from tools.checks.sim_job import check_godot_log  # noqa: E402
@@ -43,6 +44,7 @@ def run(command, log):
 def collect_captures(lobby_dir, output, source):
     """Join transport shards, preserving original suites, seeds, seat ids and capture records."""
     output.mkdir(parents=True, exist_ok=True)
+    (output / "source.json").unlink(missing_ok=True)
     captures = sorted((lobby_dir / "shards").glob("shard-*/*.fights.jsonl.gz"))
     players = sorted((lobby_dir / "shards").glob("shard-*/*.players.csv"))
     if not captures or len(captures) != len(players):
@@ -67,6 +69,7 @@ def collect_captures(lobby_dir, output, source):
                         raise ValueError(f"duplicate source player: {key}")
                     seen.add(key)
                     writer.writerow(row)
+    validate_native(capture_path, players_path)
     if revision() != source:
         raise ValueError("HEAD changed while capturing; source provenance is not reliable")
     write_json(
