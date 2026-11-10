@@ -1,5 +1,7 @@
 # Parked work (10 Nov 2026)
 
+*[Build 9 was shelved by the owner on 10 Nov (note 10j) for a look-and-feel phase. Its three branches are the `b9` rows.]*
+
 The owner ended the ideation run at build 8 (owner note `2026-11-10g`). Work that build 8 doesn't need stays on its branch, one line each.
 
 | Branch | Tip | State |
@@ -8,6 +10,9 @@ The owner ended the ideation run at build 8 (owner note `2026-11-10g`). Work tha
 | `ideation/portraits3` | 99374707 | Every shipped portrait is on main; a small `tests/ui/test_portraits.gd` and prompt-file difference was never merged. |
 | `ideation/ooze-cut` | 51cbf7f0 | The Ooze tail cut, stopped by note 10h. Its Soup-at-a-fifth arm shipped in build 8 at the owner's word; the rest is in the resume point below. |
 | `ideation/declutter-b2` | b97d4644 | Batch 2's unsquashed history, kept only for its full evidence. Its content is on main as the squash 54d7fb78. |
+| `ideation/b9-content` | 987d13ff | Build 9 steps 1–2. **Merged into ideation/main as ccdb79c6** (gate PASS): Ooze tail fixes (ceiling, Soak), Mallow feeds others, Sally spreads Rings. Open: the Fairy Ring line misses (R12 471 < 675). Resume from `evidence/b9-content/fairy-triage.md`. |
+| `ideation/b9-measure` | 456b25e7 (WIP) | Build 9 step 3 plus A4, **not merged**. Holds: three Godot slots gated on free memory, provisional C, the A4 pipeline and its full 64-lobby B/C run (520edc73). B is healthy. C misses: Oozes 18,322, Hunters Open Season 4,463, Bog 90.9% field wins. The review's fixes are in (2a89e251, 00200291, 22310a62). The WIP commit holds the unfinished C repair (Ooze first fit, Hunters t 2.0, Bog Soak and Tiddy lowered); its C confirmation wasn't reported, and nothing past bcb8fcb1 is reviewed. Resume in `/home/alex/code/Bramble-ideation-b9measure` (Codex session 01a1c3f5-86b1-75e0-a50f-0525ea96809d): rerun the C confirmation, then one review and the gate of bcb8fcb1..456b25e7. |
+| `ideation/b9-ui` | e8d2f1ab | Build 9 step 4, **no commits**: the worker hit Codex's output limit while reading code, before any edit. Not started: the Normal/Big preset setting and the strong field as default opponents (build 8 defaults to `"bots"`, and no export sets `strong_field`). Resume from `plan-build9.md` step 4, worktree `/home/alex/code/Bramble-ideation-b9ui`. |
 
 Not started, and skipped for build 8 (from `plan-to-done.md`):
 - **A4's full measurement** (150+ lobbies a preset), **A5's cuts** and **C's own fit.** Build 8 uses one smaller run that sets preset B.

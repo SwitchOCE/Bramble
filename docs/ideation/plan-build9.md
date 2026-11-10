@@ -1,5 +1,9 @@
 # Plan: build 9, the build 8 that plan-to-done v3 planned (10 Nov 2026)
 
+> **Shelved (10 Nov 2026), by the owner (note `2026-11-10j-shelve-build9-look-and-feel.md`):** "New direction: shelve build 9 and stop. … I'm starting a new phase that is only about look and feel: UI, UX, how the game looks and plays on screen. Nothing on balance or mechanics. A fresh orchestrator session will run it, from a plan I've approved. So the balance plan for build 9 (plan-build9.md) is shelved, and this run stops here."
+>
+> Where it stopped: steps 1–2 merged into ideation/main as ccdb79c6. Step 3 and A4 are on `ideation/b9-measure` with a WIP commit. Step 4 never started. Steps 6–7 never started. Resume points: `PARKED.md`.
+
 *[Approved by the orchestrator on 10 Nov after a fresh plan interrogation (`evidence/plan-build9/interrogation.md`); its corrections are applied.]*
 
 **The owner's words (note 10i):** "you can go back to the polishing and all the stuff that I asked you to stop, and you can continue on with your iteration stuff. Keep it smaller and keep it more bounded. Less fan-outs, less cloud utilization. Just mainly try to use the PC's full resources, but not go too much beyond that. Maybe a few cloud workers here and there." Then: "Get it to the spot where you would have gotten build 8 to if I hadn't intervened earlier."

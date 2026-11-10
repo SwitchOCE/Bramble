@@ -1,12 +1,15 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 8 is out. On your word (note 10i), the run resumes in a smaller form: build 9 will be the build 8 the old plan aimed at, with preset C, the Ooze and Fairy fixes, a preset setting, the strong field as default opponents, and the checkpoint testers' pick.
-- **Status:** active
-- **Last step done:** 10 Nov: build 8 exported (6cb1c68c, `ideation-build-8`). Then `plan-build9.md` was written and interrogated, and its corrections applied.
-- **Next step:** three workers side by side: the Ooze tail then the Fairy Ring line; the Godot slot change and a provisional C; the preset setting and the default opponents. Then the smaller A4, checkpoint 1 and the build 9 export.
-- **Waiting on you:** nothing. Play build 8 whenever you like. `PROCESS-PROPOSAL.md` waits for your yes or no.
-- **Scope:** `plan-build9.md`. About two days, at most three Codex workers, sims on this PC. Parked work: `PARKED.md`.
+- **In short:** The run is shelved for the look-and-feel phase (note 10j). Build 8 is the latest build. Build 9's balance work is parked on its branches.
+- **Status:** paused
+- **Last step done:** 10 Nov:
+  - Build 9 steps 1–2 (the Ooze tail cut, Mallow and Sally) merged as ccdb79c6.
+  - A4 ran on B and C: B is healthy; C misses on Oozes, Hunters and Bog.
+  - The C repair round was stopped mid-way and saved as WIP on `ideation/b9-measure` (456b25e7).
+- **Next step:** none in this run. A fresh orchestrator runs the look-and-feel phase from the owner's approved plan.
+- **Waiting on you:** nothing. `PROCESS-PROPOSAL.md` still waits for your yes or no.
+- **Scope:** shelved. `plan-build9.md` is marked shelved, and resume points are in `PARKED.md`.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).

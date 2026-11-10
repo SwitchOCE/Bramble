@@ -4,6 +4,18 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Build 9 shelved; the run stops for a look-and-feel phase (owner, 10j)
+**Source:** owner note `2026-11-10j-shelve-build9-look-and-feel.md`: "New direction: shelve build 9 and stop. … I'm starting a new phase that is only about look and feel: UI, UX, how the game looks and plays on screen. Nothing on balance or mechanics. A fresh orchestrator session will run it, from a plan I've approved. So the balance plan for build 9 (plan-build9.md) is shelved, and this run stops here."
+
+**Done:**
+- The measurement worker was stopped mid C-repair round. The UI worker had already ended at a Codex output limit without editing anything. The content worker had finished and merged.
+- Uncommitted work went into a WIP commit on `ideation/b9-measure` (456b25e7). `ideation/b9-content` and `ideation/b9-ui` had nothing uncommitted.
+- Nothing else merged into ideation/main. `plan-build9.md` is marked shelved, `PARKED.md` has one line per branch, and the PLAN status block says paused.
+
+**Not merged, and why:** `ideation/b9-measure` holds the slot change, provisional C and the A4 run. Its review cuts were fixed, but the fixes are unreviewed and ungated, its C repair is unfinished, and the owner said to merge nothing else.
+
+**Agreed by:** the owner's direction.
+
 ### 10 Nov 2026 — Build 9 content: the Ooze tail is cut; the Fairy Ring line still misses
 **Source:** `plan-build9.md` steps 1–2. `ideation/b9-content` 987d13ff, merged as ccdb79c6 (gate PASS, run 42793588496). Evidence: `evidence/b9-content/`.
 
