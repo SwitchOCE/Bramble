@@ -186,7 +186,7 @@ CSVs, metrics and the full per-seat report stay in `build/neutrals/soup-confirm.
 
 | Confirmation bar | Observed | Result |
 |---|---|---|
-| Soup fielded by R6 on at least 20/32 engine seats | 17/32 | **FAIL** |
+| Soup fielded by R6 on at least 20/32 engine seats | 17/32 | **Dropped as a merge condition (DECISIONS)** |
 | Soup seats out before R12 no more often than the rest | 2/17 (11.8%) versus 4/15 (26.7%) | **PASS** |
 | Soup on at least half the R12 engine boards | 15/26 (57.7%) | **PASS** |
 
@@ -195,7 +195,9 @@ produces the same 17 versus 15 seats and the same result. These are descriptive
 exposure cohorts, not a causal survival estimate. The engine seats saw 30 unique
 Soup offers across 20 seats and bought 19 copies; Nell ate one Soup on engine
 seats. No extra card or route change was made to force the failed arrival bar.
-That bar remains open for the orchestrator's next call.
+The orchestrator subsequently dropped the arrival bar as a merge condition
+(DECISIONS, “Neutrals (A3): the Soup arrival bar is dropped as a merge condition”).
+The proposed freeze change stays out; the bot is unchanged by this follow-up.
 
 | Round | Observed engine boards / 32 | Eliminated before round | Median active stats | Median including Bellies |
 |---|---:|---:|---:|---:|
@@ -254,3 +256,25 @@ The three new fixed retirement tests take 0.752 seconds.
 gdformat, gdlint, content, imports and compilation. No local full GUT gate was
 run. [Compact evidence](../../evidence/neutrals/prototype-retirement.json) records
 the IDs and validation; raw logs remain in `build/neutrals/retirement/`.
+
+## Retirement tool follow-up
+
+Merged `origin/ideation/main` at `3ab98ae5` (merge `3c6e8aaf`), including A3.5's
+dials and the upstream soak rework. That rework already replaces the obsolete
+defaults/prototype arm with full-game B/C/field lobbies. The fight benchmark now
+also uses `full_game()` and its selected card set. It rejects an empty supply
+before board construction. The soak rejects missing tier-1 supply before
+creation and checks the actual tribe-filtered pool before playing each game.
+
+All 67 targeted tests in seven files pass, including fixed empty-pool guard
+coverage and current benchmark board construction. The benchmark completes
+64 fights. The six-seed soak (1–6, B with C and a generated field library) plays
+all six games: 111 rounds, 344 fights, 95 units in each actual lobby pool,
+**zero empty-pool games**. It exits 1 with seven separate legality violations:
+`LegalActions` offers Golden Egg item targets rejected with “Choose a Bird”.
+That legality mismatch remains open; this is not a clean whole-soak result.
+
+`check.sh --no-tests` passes after the final code edit; no full GUT suite was
+run. [Compact output and checks](../../evidence/neutrals/pool-tools.json) retain
+the result, including all seven violations. Raw logs remain under
+`build/neutrals/pool-tools/`.
