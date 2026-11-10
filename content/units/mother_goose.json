@@ -33,7 +33,7 @@
     "doc": "docs/ideation/content/pass3/birds-pass3.md",
     "note": "Pass 3, with README amendments adopted."
   },
-  "details": "A Golden Egg doubles one Bird permanently, once per Bird. A golden Bird comes home at the same multiplier as any Bird.",
+  "details": "Sold, flies south for 2 turns; returns to hand at 2.5× permanent stats. Flying pays no sale gold; played this turn, it sells normally. Early recalls require a missed fight; each trip grows once.",
   "mechanic_text": {
     "1": {
       "id": "pass3_bird",

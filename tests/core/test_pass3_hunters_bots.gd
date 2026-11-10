@@ -1,5 +1,7 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Native Hunters keep, feed and cash real engines through the same legal actions as players.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -11,7 +13,7 @@ var _rules: RecruitRules
 
 func before_each() -> void:
 	_kit = KIT.new()
-	_kit.setup(GameConfig.full_game())
+	_kit.setup(ORIGINAL_B.apply(GameConfig.full_game()))
 	_player = _kit.player
 	_rules = _kit.rules
 	_player.tier = 6

@@ -1,4 +1,6 @@
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Literal answers check configured faces against actual End of Turn effects.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -9,7 +11,7 @@ var kit: KIT
 
 func _setup(t: float, extra: Dictionary = {}) -> void:
 	var config := GameConfig.full_game()
-	var rates: Dictionary = Pass3Path.override(t)
+	var rates: Dictionary = ORIGINAL_B.path(t)
 	rates.merge(extra, true)
 	for key: String in rates:
 		config.set_value(key, rates[key])

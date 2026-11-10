@@ -3,6 +3,7 @@ extends GutTest
 
 const DRIVER := preload("res://tools/sim/neutral_roles.gd")
 const FIGHTS := preload("res://tools/sim/potluck_constructed.gd")
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 
 
 func _document() -> Dictionary:
@@ -68,7 +69,9 @@ func test_fixed_roles_record_shield_target_and_exposure_answers_normal_and_golde
 
 
 func test_recruit_roles_have_known_answers_for_both_bodies_and_scaled_echo() -> void:
-	var rows: Array = DRIVER.RECRUIT.run(UnitLibrary.load_dir(), GameConfig.full_game())
+	var rows: Array = DRIVER.RECRUIT.run(
+		UnitLibrary.load_dir(), ORIGINAL_B.apply(GameConfig.full_game())
+	)
 	assert_eq(rows.size(), 8)
 	for row: Dictionary in rows:
 		var golden: bool = row["golden"]

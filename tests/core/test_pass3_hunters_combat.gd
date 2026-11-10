@@ -1,5 +1,7 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Real Hunter rewards use immutable prey prices and the shared next-turn queue.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -10,7 +12,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(ORIGINAL_B.apply(GameConfig.full_game()))
 
 
 func _owned(id: String, attack: int = 1, health: int = 100, golden: bool = false) -> Dictionary:

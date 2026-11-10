@@ -36,7 +36,9 @@ func test_authored_faces_match_default_rates_without_using_loaded_words() -> voi
 		var id: String = str(authored["id"])
 		for golden: bool in [false, true]:
 			var field: String = "golden_text" if golden else "text"
-			var generated: String = Pass3Text.face(authored, config, golden)
+			var configured: Dictionary = authored.duplicate(true)
+			Pass3Text.configure(configured, config)
+			var generated: String = Pass3Text.face(configured, config, golden)
 			assert_false(generated.is_empty(), id + " has a generator")
 			assert_eq(generated, authored[field], id + " " + field + " in JSON")
 			assert_eq(library.get_unit(id)[field], generated, id + " " + field + " at runtime")
@@ -53,8 +55,8 @@ func test_default_generation_replaces_stale_authored_words() -> void:
 	card["text"] = "Stale normal words."
 	card["golden_text"] = "Stale golden words."
 	Pass3Text.configure(card, config)
-	assert_eq(card["text"], "After a Bird comes home: gain an eighth of its stats.")
-	assert_eq(card["golden_text"], "After a Bird comes home: gain a quarter of its stats.")
+	assert_eq(card["text"], "After a Bird comes home: gain a sixth of its stats.")
+	assert_eq(card["golden_text"], "After a Bird comes home: gain a third of its stats.")
 
 
 func test_changed_rate_defaults_generate_library_words_without_overrides() -> void:
@@ -89,11 +91,11 @@ func test_tom_tit_whole_line_and_one_swallow_amendments() -> void:
 		"Fly South. Its trips last 1 turn. When played: get 2 gold."
 	)
 	assert_eq(
-		_card("cluricaun")["text"], "End of Turn: if every slot has a Ring, your Rings grow +2/+2."
+		_card("cluricaun")["text"], "End of Turn: if every slot has a Ring, your Rings grow +6/+6."
 	)
 	assert_eq(
 		_card("cluricaun")["golden_text"],
-		"End of Turn: if every slot has a Ring, your Rings grow +4/+4."
+		"End of Turn: if every slot has a Ring, your Rings grow +12/+12."
 	)
 
 
@@ -203,7 +205,7 @@ func test_private_library_applies_sweep_words_without_changing_source() -> void:
 		swept.get_unit("one_swallow")["text"],
 		"Fly South. Its trips last 3 turns. When played: get 1 gold."
 	)
-	assert_string_contains(library.get_unit("cluricaun")["text"], "+2/+2")
+	assert_string_contains(library.get_unit("cluricaun")["text"], "+6/+6")
 	var swallow := RecruitUnit.make(swept.get_unit("one_swallow"), 1)
 	assert_eq(swallow.flight_turns(), 3)
 	for entry: Dictionary in swallow.view()["keyword_text"]:

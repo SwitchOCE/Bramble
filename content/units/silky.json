@@ -8,8 +8,8 @@
   "tribes": [
     "Fairies"
   ],
-  "text": "Shy. After a Shy unit leaves: your Rings grow +1/+1.",
-  "golden_text": "Shy. After a Shy unit leaves: your Rings grow +2/+2.",
+  "text": "Shy. After a Shy unit leaves: your Rings grow +3/+3.",
+  "golden_text": "Shy. After a Shy unit leaves: your Rings grow +6/+6.",
   "mechanics": [
     {
       "id": "shy",
@@ -38,9 +38,9 @@
   "golden_details": "Shy pays 4 gold. Copies grow once per departure, using the strongest copy.",
   "mechanic_text": {
     "1": {
+      "golden_text": "After a Shy unit leaves: your Rings grow +6/+6.",
       "id": "pass3_fairy",
-      "text": "After a Shy unit leaves: your Rings grow +1/+1.",
-      "golden_text": "After a Shy unit leaves: your Rings grow +2/+2."
+      "text": "After a Shy unit leaves: your Rings grow +3/+3."
     }
   }
 }

@@ -1,4 +1,6 @@
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Fixed recruit boards: exact normal/golden rules and guard-off counterexamples.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 const KIT := preload("res://tests/core/recruit_kit.gd")
@@ -7,7 +9,7 @@ var kit: KIT
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(ORIGINAL_B.apply(GameConfig.full_game()))
 	kit.player.round_number = 1
 	kit.player.gold = 100
 
@@ -90,7 +92,8 @@ func test_golden_wake_is_not_fourfold_and_c_uses_threefold() -> void:
 		_end()
 	assert_eq(Vector2i(dozey.attack, dozey.health), Vector2i(12, 24))
 	kit = KIT.new()
-	var config: GameConfig = GameConfig.full_game()
+	var config: GameConfig = ORIGINAL_B.apply(GameConfig.full_game())
+	ORIGINAL_B.clear(config)
 	config.set_value("pass3_preset", "C")
 	kit.setup(config)
 	kit.player.round_number = 1

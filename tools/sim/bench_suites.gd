@@ -42,6 +42,21 @@ const BASE_REGISTRY: Dictionary = {
 	"shuffled": {"profile": "hard@shuffled", "script": BEST_BRAIN},
 }
 const SEATS: int = 8
+## Build 8 measurement: twelve committed lines, eight rotating seats, no reference tribe.
+const A35_LINES: PackedStringArray = [
+	"line_birds_homecoming",
+	"line_birds_tempo",
+	"line_bog_court",
+	"line_bog_swamp",
+	"line_fairies_ring",
+	"line_fairies_court",
+	"line_hedgerow_supper",
+	"line_hedgerow_parish",
+	"line_hunters_open_season",
+	"line_hunters_pack",
+	"line_oozes_engine",
+	"line_oozes_tempo",
+]
 ## Ensemble candidate: over the swapped legs, exactly the all-line lobby's eight profiles.
 const LINE_MIXTURE: String = "line_mixture"
 ## Historical tribal-only composition for a real, equal-placement strength comparison.
@@ -84,7 +99,8 @@ static func is_known(suite: String) -> bool:
 				"lines",
 				"wave1_accounting",
 				"quilboar_h1",
-				"ooze_probe"
+				"ooze_probe",
+				"a35_run1"
 			]
 		)
 	)
@@ -107,6 +123,14 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
+	if suite == "a35_run1":
+		var roster: Array = []
+		for index: int in range(SEATS):
+			roster.append(A35_LINES[posmod(game_seed * SEATS + index, A35_LINES.size())])
+		var roster_rng := RandomNumberGenerator.new()
+		roster_rng.seed = ("a35_run1|%d" % game_seed).hash()
+		_shuffle(roster, roster_rng)
+		return PackedStringArray(roster)
 	if suite in ["quilboar_h1", "ooze_probe"]:
 		var reference_seats: Array = [
 			"line_oozes_tempo" if suite == "ooze_probe" else "line_quilboar_engine",

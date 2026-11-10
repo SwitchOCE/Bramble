@@ -3,6 +3,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const DRIVER := preload("res://tools/sim/supper_constructed.gd")
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 
 
 func _recipes() -> Array:
@@ -39,7 +40,7 @@ func test_native_supper_plants_the_paper_bodies_normal_larder_and_explicit_clock
 func test_native_supper_spends_its_real_fuel_then_partner_passes_land_before_the_wake() -> void:
 	for recipe: Dictionary in _recipes():
 		var state: Dictionary = DRIVER.make_state(
-			recipe, UnitLibrary.load_dir(), GameConfig.full_game()
+			recipe, UnitLibrary.load_dir(), ORIGINAL_B.apply(GameConfig.full_game())
 		)
 		var player: PlayerState = state["player"]
 		var rules: RecruitRules = state["rules"]
@@ -51,7 +52,7 @@ func test_native_supper_spends_its_real_fuel_then_partner_passes_land_before_the
 		assert_eq(player.gold, 0, "feeding is not cashing")
 		assert_eq(player.larder(), 0)
 		rules.end_phase(player)
-		# Six touching Hedgerow give12 real Acorns at B. Beadle's twelve +2/+2 Passes
+		# Six touching Hedgerow give 12 real Acorns at original B. Beadle's twelve +2/+2 Passes
 		# land before the normal double. Sorrel's next-fight income is deliberately absent.
 		assert_eq([player.board[6].attack, player.board[6].health], [96 + 4 * fuel, 104 + 4 * fuel])
 		assert_eq(player.board[6].counters["hedgerow_last_wake_round"], 9)

@@ -1,5 +1,7 @@
 # gdlint:disable=max-public-methods
 extends GutTest
+
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 ## Endpoint answers are deliberately literal, independent of the rate reads in each rule.
 ## Each example checks the configured face and runs the recruit/combat effect it describes.
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -24,7 +26,7 @@ var kit: KIT
 
 func _setup(t: float) -> void:
 	var config := GameConfig.full_game()
-	var rates: Dictionary = Pass3Path.override(t)
+	var rates: Dictionary = ORIGINAL_B.path(t)
 	for key: String in rates:
 		config.set_value(key, rates[key])
 	kit = KIT.new()

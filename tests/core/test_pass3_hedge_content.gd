@@ -31,8 +31,8 @@ const FACES: Dictionary = {
 	],
 	"mrs_mallow":
 	[
-		"End of Turn: double your two smallest Hedgerow units' stats.",
-		"End of Turn: double your four smallest Hedgerow units' stats."
+		"End of Turn: triple your two smallest Hedgerow units' stats.",
+		"End of Turn: triple your four smallest Hedgerow units' stats."
 	],
 	"dr_urchin":
 	[
@@ -52,15 +52,15 @@ const FACES: Dictionary = {
 	],
 	"alderman_dozey":
 	[
-		"Larder items played on this: +2/+2 per gold. Every 3 turns in this slot: double its stats.",
-		"Larder items played on this: +4/+4 per gold. Every 3 turns in this slot: double its stats."
+		"Larder items played on this: +2/+2 per gold. Every 3 turns in this slot: triple its stats.",
+		"Larder items played on this: +4/+4 per gold. Every 3 turns in this slot: triple its stats."
 	],
 	"beadle_warrenby":
 	["After you get an Acorn: Pass +2/+2.", "After you get an Acorn: Pass +4/+4."],
 	"honorary_treasurer":
 	[
-		"End of Turn: gain +1/+1 per gold in your Larder.",
-		"End of Turn: gain +2/+2 per gold in your Larder."
+		"End of Turn: gain +2/+2 per gold in your Larder.",
+		"End of Turn: gain +4/+4 per gold in your Larder."
 	],
 	"goodman_hayward":
 	[
@@ -84,8 +84,8 @@ const FACES: Dictionary = {
 	]
 }
 const B_RATES: Dictionary = {
-	"hedgerow_dozey_wake_multiplier": 2.0,
-	"hedgerow_golden_dozey_wake_multiplier": 2.0,
+	"hedgerow_dozey_wake_multiplier": 3.0,
+	"hedgerow_golden_dozey_wake_multiplier": 3.0,
 	"hedgerow_dozey_period": 3,
 	"hedgerow_dozey_food_per_gold": 2.0,
 	"hedgerow_partner_period": 3,
@@ -96,14 +96,14 @@ const B_RATES: Dictionary = {
 	"hedgerow_pym_pass": 3,
 	"hedgerow_sorrel_summons": 1,
 	"hedgerow_burdock_kits": 1,
-	"hedgerow_mallow_multiplier": 2.0,
+	"hedgerow_mallow_multiplier": 3.0,
 	"hedgerow_mallow_targets": 2,
 	"hedgerow_urchin_bristle": 2,
 	"hedgerow_urchin_hunker_targets": 1,
 	"hedgerow_sergeant_share_per_gold": 0.1,
 	"hedgerow_sergeant_throws": 1,
 	"hedgerow_beadle_pass": 2,
-	"hedgerow_treasurer_per_gold": 1.0,
+	"hedgerow_treasurer_per_gold": 2.0,
 	"hedgerow_hayward_per_gold": 1.0,
 	"hedgerow_committee_share": 0.25,
 	"hedgerow_lollop_share": 0.1,
@@ -173,6 +173,7 @@ func test_all_hedgerow_rates_are_registered_and_match_exact_paper_b_and_c() -> v
 
 func test_golden_dozey_wake_is_independent_from_food_and_normal_wake() -> void:
 	config.set_value("hedgerow_dozey_wake_multiplier", 3.0)
+	config.set_value("hedgerow_golden_dozey_wake_multiplier", 2.0)
 	var card: Dictionary = _configured("alderman_dozey")
 	assert_string_contains(card["text"], "triple its stats")
 	assert_string_contains(card["golden_text"], "double its stats")
