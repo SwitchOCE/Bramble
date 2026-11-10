@@ -1,0 +1,117 @@
+{
+  "runs": [
+    {
+      "run": "targeted",
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "22.502901"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_potluck_constructed_recipe.gd",
+      "tests": "1",
+      "failures": "1",
+      "skipped": "0",
+      "time": "0.125826"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_wave1_lines.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "62.28889"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_committed_lines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "25.35424"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.404933"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.008021"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "9.327105"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.022602"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.634039"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.20452"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/core/test_field_normal_regression.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "59.540738"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.019554"
+    },
+    {
+      "run": "targeted",
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.395283"
+    },
+    {
+      "run": "recipe",
+      "name": "tests/core/test_potluck_constructed_recipe.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.577302"
+    }
+  ],
+  "reading": "Initial driver strict-typing failure fixed; its focused rerun passes. All other 109 tests pass, including frozen normal replay. Final effective total110/110. All four repository lint/format commands and13 CPU tests pass."
+}

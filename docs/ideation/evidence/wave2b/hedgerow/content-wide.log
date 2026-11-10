@@ -1,0 +1,114 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-hedge-content-wide/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_unit_library.gd
+[0m* test_loads_every_unit_file_without_errors
+* test_sorted_by_tier_then_name
+* test_numbers_are_ints
+* test_unknown_unit_is_empty
+* test_unbuilt_units_lists_units_with_unbuilt_mechanics
+* test_keyword_text_from_source_notes
+* test_keyword_text_for_quick
+* test_bad_files_are_skipped_and_reported
+* test_missing_directory_is_reported
+[1m9/9 passed.
+[0m[4m
+
+res://tests/ui/test_portraits.gd
+[0m* test_the_slice_is_all_there
+* test_every_unit_and_token_has_its_own_portrait
+* test_every_spell_and_hand_item_has_its_own_portrait
+* test_a_created_pelt_shows_its_recorded_prey_on_tile_and_reader
+* test_every_hero_has_its_own_portrait
+* test_pending_portraits_name_only_real_cards
+[1m6/6 passed.
+[0m[4m
+
+res://tests/ui/test_fixture_port.gd
+[0m* test_fixture_numbers_are_ints
+* test_every_fixture_unit_view_has_keyword_text
+* test_new_game_then_end_turn_steps_states_and_sets_combat
+* test_recruit_actions_are_refused_with_a_reason
+* test_library_has_every_unit_sorted_by_tier
+* test_sandbox_fight_returns_the_nightshade_events
+[1m6/6 passed.
+[0m[4m
+
+res://tests/core/test_game_session.gd
+[0m* test_state_keys_match_fixture_6_1
+* test_unit_view_keys_match_fixture_6_2
+* test_bots_never_share_a_hero
+* test_round_one_state_3_2_1
+* test_human_actions
+* test_end_turn_starts_next_round_4_1_2_4_6_3
+* test_empty_board_loses_and_takes_damage_10_1_1
+* test_actions_after_game_over
+* test_same_round_eliminations_placed_by_health_10_2_2
+* test_ghost_for_an_odd_player_out_2_1_2
+* test_eliminated_units_return_to_pool_5_3_8
+* test_damage_cap_by_turn_and_alive_10_1_4
+* test_matchmaking_avoids_recent_opponents_2_3_2
+* test_matchmaking_everyone_once
+* test_dev_add_gold
+* test_dev_spawn_to_hand_is_created_and_not_from_the_pool
+* test_dev_spawn_completes_a_triple
+* test_dev_set_tier
+* test_dev_skip_turn_skips_only_the_humans_fight
+* test_fight_observer_sees_every_fight
+[1m20/20 passed.
+[0m[4m
+
+res://tests/core/test_engine_docs.gd
+[0m* test_every_schema_name_is_in_the_doc
+[1m1/1 passed.
+[0m[4m
+
+res://tests/core/test_combat_logging.gd
+[0m* test_last_blow_credit_and_results_are_identical_without_event_logging
+* test_native_posset_halving_preserves_actual_damage_credit_with_or_without_logging
+* test_last_stand_and_ghost_damage_use_identical_quiet_results
+[1m3/3 passed.
+[0m[4m
+
+res://tests/core/test_engines.gd
+[0m* test_last_stand_saves_from_two_and_five_once_with_armor_first
+* test_ghost_and_one_health_never_spend_the_save
+* test_four_left_lifts_cap_and_session_records_last_stand
+* test_engine_coverage_reports_unfired_rules_then_records_actual_events
+* test_last_blow_credits_exchange_attacker_and_uses_round_base
+* test_last_blow_credits_possets_death_effect_instead_of_declared_attacker
+* test_bitter_is_attack_loss_and_cannot_steal_last_blow
+* test_start_of_combat_wipe_stays_a_tie_even_after_lethal_effect_damage
+* test_nonlethal_effect_does_not_steal_last_blow_or_safety_limit_win
+* test_last_blow_uses_a_swapped_effect_owners_fighting_side
+* test_review_wasp_parasite_finishes_mutual_wipe_through_health_loss
+* test_session_ghost_fight_never_spends_last_stand_even_in_last_three
+* test_last_stand_does_not_fire_with_five_alive_or_when_disabled
+* test_battlegrounds_baseline_keeps_both_engines_off
+[1m14/14 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               7
+Tests                59
+Passing Tests        59
+Asserts            3135
+Time              20.576s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/hedgerow/content-wide.xml

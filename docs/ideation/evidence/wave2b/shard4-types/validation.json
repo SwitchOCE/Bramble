@@ -1,0 +1,26 @@
+{
+  "merged_tip": "d0169f87",
+  "before": {
+    "scripts": 58,
+    "passed_tests": 580,
+    "gut_warnings": 2,
+    "strict_gate": "failed due warnings",
+    "warning_test": "tests/core/test_potluck_constructed_recipe.gd::test_declared_native_recipes_match_their_phase_budgets_and_real_belly_capacities"
+  },
+  "fix": "Compare integer raw body-stat count with CoreUtil.to_int(JSON expected_active_stats); identical numeric assertion, one warning per recipe before fix.",
+  "after": {
+    "scripts": 1,
+    "tests": 1,
+    "pass": 1,
+    "warnings": 0,
+    "strict_hook": "passed",
+    "suite": {
+      "name": "tests/core/test_potluck_constructed_recipe.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.539625"
+    }
+  },
+  "raw_logs": "build/wave2b/shard4-followup/"
+}

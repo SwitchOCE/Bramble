@@ -1,0 +1,49 @@
+{
+  "tests": 70,
+  "failures": 0,
+  "seconds": 38.707,
+  "files": [
+    {
+      "name": "tests/core/test_bot_hedgerow.gd",
+      "tests": "12",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.511643"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_recruit.gd",
+      "tests": "18",
+      "failures": "0",
+      "skipped": "0",
+      "time": "10.763168"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_shares.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.76699"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_content.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.102257"
+    },
+    {
+      "name": "tests/core/test_pass3_hedge_combat.gd",
+      "tests": "24",
+      "failures": "0",
+      "skipped": "0",
+      "time": "13.568589"
+    },
+    {
+      "name": "tests/ui/test_pass3_hedge_ui.gd",
+      "tests": "4",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.3941"
+    }
+  ]
+}
