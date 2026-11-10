@@ -22,6 +22,7 @@ const LINE: int = 5
 const EDGE: float = 12.0
 ## Public portrait floor used by layout checks.
 const ART_MIN: float = 40.0
+const ART_SHARE: float = 0.68
 ## Every shipped portrait is now distinct; future look-alike exceptions would live here.
 const NAME_EXCEPTIONS: Dictionary[String, String] = {}
 
@@ -349,7 +350,16 @@ func _place_parts(spell: bool) -> void:
 	_rules.visible = false
 	rules_shown = false
 	_art.radius = 44.0 if spell else 15.0
-	_place(_art, Rect2(12, 12, w - 24, h - (104 if named else 24)))
+	if named:
+		# Legacy shared portraits keep the reserved name line until their own art arrives.
+		_place(_art, Rect2(12, 12, w - 24, h - 104))
+	else:
+		# A responsive rim keeps small faces recognisable and leaves a calm foot below
+		# the portrait. Stat/target/defence anchors remain independent of the art crop.
+		var inset: float = clampf(minf(w, h) * 0.05, 6.0, 12.0)
+		var art_width: float = w - inset * 2.0
+		var art_height: float = clampf(w * h * ART_SHARE / art_width, ART_MIN, h - inset * 2.0)
+		_place(_art, Rect2(inset, inset, art_width, art_height))
 	_place(_name_label, Rect2(4, h - 98, w - 8, 40))
 	_place(_tier_badge, Rect2(-knot * 0.2, -knot * 0.2, knot, knot))
 	_tier_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
