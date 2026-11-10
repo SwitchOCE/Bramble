@@ -21,6 +21,9 @@ One line per call that still holds. Newest calls go at the bottom of their group
 - The layout mockups' tile-size pass/fail (150 px phone, 270 px PC shop) is dropped: it was a one-off brief direction, and the owner said no new bars. (orchestrator, 10 Nov, step 0b review ask)
 - Look clips keep the GIF and contact sheet and delete their raw frames unless `--keep-frames` is given; look sessions older than 7 days are pruned. (orchestrator, 10 Nov, step 0 review ask)
 
+- On recruit, the player's Health lives on their hero in the bottom bar, as in The Bazaar's hero bar; their lobby-rail chip keeps its place in the standings without repeating the number. (orchestrator, 11 Nov, step A review ask)
+- Bazaar Stack drops resting sockets and dashed empty pockets from every board, so day-1 problem 7's "empty slots shout" is already handled when loop 2 takes up fights (item C). (orchestrator, 11 Nov, step A review)
+
 ## Look
 
 - Units are drawn in "Ink + flat B" (owner, 1 Nov: `docs/design/owner-notes/2026-11-01-art-style-decision.md`).
