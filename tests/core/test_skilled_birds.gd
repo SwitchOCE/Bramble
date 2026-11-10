@@ -3,6 +3,7 @@ extends GutTest
 
 const Kit := preload("res://tests/core/recruit_kit.gd")
 const Brain := preload("res://tools/sim/skilled_birds_brain.gd")
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 
 
 func _brain(kit: Kit, aggressive: bool) -> Brain:
@@ -18,9 +19,9 @@ func _brain(kit: Kit, aggressive: bool) -> Brain:
 	return brain
 
 
-func _kit() -> Kit:
+func _kit(config: GameConfig = null) -> Kit:
 	var kit := Kit.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game() if config == null else config)
 	kit.rules.start_phase(kit.player, 10)
 	kit.player.shop.clear()
 	return kit
@@ -81,7 +82,7 @@ func test_pending_choice_never_performs_a_flight_action() -> void:
 
 
 func test_native_homecoming_doubles_body_and_forbids_same_round_redeparture() -> void:
-	var kit: Kit = _kit()
+	var kit: Kit = _kit(ORIGINAL_B.apply(GameConfig.full_game()))
 	var bird: RecruitUnit = kit.put("one_swallow", 0)
 	bird.played_round = 9
 	kit.rules.board_changed(kit.player)

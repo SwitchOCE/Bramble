@@ -3,12 +3,13 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
 var kit: KIT
 
 
 func before_each() -> void:
 	kit = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(ORIGINAL_B.apply(GameConfig.full_game()))
 	kit.player.round_number = 12
 	kit.player.tier = 6
 

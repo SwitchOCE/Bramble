@@ -1,6 +1,8 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
+const ORIGINAL_B := preload("res://tests/core/pass3_original_b.gd")
+
 var _library: UnitLibrary = TestLibraries.current()
 var _records: Array[Dictionary] = []
 
@@ -103,7 +105,8 @@ func test_capture_is_detached_and_rng_state_is_lossless() -> void:
 
 
 func test_default_json_roundtrip_preserves_thirds_and_explicit_rate_overrides() -> void:
-	var config := GameConfig.full_game()
+	# Original B's one-third share exposes JSON rounding at the integer reward boundary.
+	var config: GameConfig = ORIGINAL_B.apply(GameConfig.full_game())
 	var raw_values: Dictionary = JSON.parse_string(JSON.stringify(config.resolved_values()))
 	var raw_restored: GameConfig = FightCapture.config_for(raw_values)
 	for key: String in Pass3Rates.resolved(config):
