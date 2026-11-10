@@ -18,6 +18,11 @@ static func library(restore_hunters: bool = true) -> UnitLibrary:
 	)
 	for card: Dictionary in bog["units"]:
 		replacements[str(card["id"])] = card
+	var oozes: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/pass2_oozes_units.json")
+	)
+	for card: Dictionary in oozes["units"]:
+		replacements[str(card["id"])] = card
 	var out := UnitLibrary.new()
 	for card: Dictionary in current.all_units():
 		var raw: Dictionary = replacements.get(str(card["id"]), card)
@@ -33,6 +38,25 @@ static func library(restore_hunters: bool = true) -> UnitLibrary:
 static func with_hunters(current: UnitLibrary) -> UnitLibrary:
 	var parsed: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://tests/core/data/pass2_hunters_units.json")
+	)
+	var replacements: Dictionary = {}
+	for card: Dictionary in parsed["units"]:
+		replacements[str(card["id"])] = card
+	var out := UnitLibrary.new()
+	for card: Dictionary in current.all_units():
+		var replacement: Dictionary = replacements.get(str(card["id"]), card)
+		out.register_unit(replacement)
+	for card: Dictionary in current.all_cards():
+		out.register_card(card)
+	for hero: Dictionary in current.all_heroes():
+		out.register_hero(hero)
+	return out
+
+
+## Replace Oozes alone where historical tests intentionally keep modern Birds/Fairies.
+static func with_oozes(current: UnitLibrary) -> UnitLibrary:
+	var parsed: Dictionary = JSON.parse_string(
+		FileAccess.get_file_as_string("res://tests/core/data/pass2_oozes_units.json")
 	)
 	var replacements: Dictionary = {}
 	for card: Dictionary in parsed["units"]:

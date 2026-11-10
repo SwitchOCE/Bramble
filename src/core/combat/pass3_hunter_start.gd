@@ -9,6 +9,8 @@ static func late(id: String, params: Dictionary) -> bool:
 
 static func begin_dispatch(unit: CombatUnit) -> void:
 	unit.limits.erase("hunter_sable_applied")
+	unit.limits.erase("ooze_start_hasty_pudding")
+	unit.limits.erase("ooze_start_granny_stir_up")
 
 
 static func sable(combat: Combat, unit: CombatUnit) -> void:

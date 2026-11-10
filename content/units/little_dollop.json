@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. Units you buy into this cost 1 gold less.",
-  "golden_text": "Belly 2. Units you buy into this cost 2 gold less.",
+  "text": "Belly 1. Digest. Buying into this costs 1 gold less.",
+  "golden_text": "Belly 2. Digest. Buying into this costs 2 gold less.",
   "mechanics": [
     {
       "id": "belly",
@@ -18,10 +18,17 @@
     {
       "id": "belly_discount",
       "gold": 1
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "little_dollop",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Belly"
+    "Belly",
+    "Digest",
+    "Eat"
   ],
   "row_hint": "front",
   "pool": true,
@@ -29,6 +36,7 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   }
 }

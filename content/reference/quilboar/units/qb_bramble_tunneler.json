@@ -1,0 +1,30 @@
+{
+  "id": "qb_bramble_tunneler",
+  "name": "Bramble Tunneler",
+  "set": "slice",
+  "tier": 4,
+  "attack": 3,
+  "health": 6,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "When this attacks: get a random Choose One card. Once a fight.",
+  "golden_text": "When this attacks: get 2 random Choose One cards. Once a fight.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "bramble_tunneler",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

@@ -323,6 +323,7 @@ func test_held_and_borrowed_answer_grants_mask_identically() -> void:
 	var configured: UnitLibrary = ScaleOverlay.library_for(source, config)
 	var borrower := RecruitUnit.make(configured.get_unit("frumenty"), 51)
 	borrower.held.append(RecruitUnit.make(configured.get_unit("scale_answer"), 52))
+	borrower.last_meals.append({"def": configured.get_unit("scale_answer"), "golden": false})
 	var input: Dictionary = _fight_input(
 		CombatKit.board({0: borrower.combat_spec()}), CombatKit.board({0: CombatKit.plain(6, 6)})
 	)

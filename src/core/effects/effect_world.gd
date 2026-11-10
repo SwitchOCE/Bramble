@@ -243,3 +243,16 @@ func market_stall() -> void:
 ## Opt-in conversion of positive flat hero/spell gains; units return zero.
 func flat_gain_percent() -> int:
 	return 0
+
+
+## A Blood Gem is a stat effect, not a spell cast. Sizes are integer half-points.
+func gem(_target: BoardUnit, _count: int, _permanent: bool = false) -> void:
+	_unsupported("gem")
+
+
+func gem_size_add(_attack: int, _health: int) -> void:
+	_unsupported("gem_size_add")
+
+
+func add_random_card(_spec: Dictionary, _count: int) -> void:
+	_unsupported("add_random_card")

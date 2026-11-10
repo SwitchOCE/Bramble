@@ -1,0 +1,156 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-borrowed-fix-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_pass3_ooze_combat.gd
+[0m* test_posset_halves_her_actual_effect_killer_and_records_its_reference
+* test_golden_posset_halves_killer_and_beside_units_only
+* test_posset_does_not_halve_a_friendly_killer_or_revive_a_dead_killer
+* test_posset_never_takes_a_living_killer_below_one_health
+* test_moss_shields_each_own_release_and_golden_reduces_damage_by_a_quarter
+* test_moss_does_not_shield_an_enemy_returned_by_hasty
+* test_moss_reduction_survives_a_stronger_tom_protection_ending
+* test_gathered_moss_returns_with_family_and_shields_earlier_siblings_too
+* test_wobbly_releases_then_keeps_making_drips_beyond_the_old_two_hit_limit
+* test_bubble_ignores_a_hit_fully_stopped_by_shield_then_splits_a_damaging_hit
+* test_golden_wobbly_releases_both_reserves_lifo_with_no_drip_on_that_hit
+* test_golden_wobbly_keeps_the_reserve_that_cannot_find_a_gap
+* test_bubble_split_limit_and_empty_halves_normal_and_golden
+* test_bubble_halves_cannot_split_with_guard_off_counterexample
+* test_a_frumenty_half_keeps_borrowed_bubble_and_other_meal_text_but_never_splits
+* test_bubble_has_no_split_without_a_gap_or_if_the_hit_kills_it
+* test_pie_pays_for_every_actual_release_and_golden_does_not_double_the_rate
+* test_pie_does_not_pay_for_a_reserve_without_room
+* test_syllabub_replays_a_returned_grannys_family_soc_normal_and_golden
+* test_starting_held_survivor_variant_is_off_by_default_and_counts_once_after_release
+* test_starting_held_survivor_variant_does_not_count_a_new_split_as_another_starter
+* test_borrowed_hasties_use_strongest_once_per_start_and_syllabub_dispatch_guard_off
+* test_borrowed_hasty_deaths_count_actual_friendly_deaths_once_guard_off
+* test_borrowed_grannies_choose_golden_gather_before_the_weak_instance_guard_off
+* test_frumentys_own_borrowed_syllabub_replays_its_other_hasty_meal_on_release
+* test_self_syllabub_fires_normal_and_golden_counts_without_recursive_replay
+* test_duplicate_syllabubs_on_one_body_use_strongest_times_with_guard_off_counterexample
+[1m27/27 passed.
+[0m[4m
+
+res://tests/core/test_pass3_ooze_start.gd
+[0m* test_hasty_swallows_biggest_anywhere_and_gives_own_biggest_ooze_a_permanent_fifth
+* test_golden_hasty_swallows_two_and_does_not_double_the_share
+* test_hasty_reads_body_stats_excluding_tribe_auras_and_combat_loans
+* test_hasty_with_anything_inside_does_nothing_even_when_golden_has_room
+* test_hasty_sees_hidden_biggest_swallows_its_holder_and_reads_the_hidden_meal
+* test_hasty_skips_a_full_fetch_twin_for_each_normal_and_golden_pick
+* test_golden_hasty_falls_back_to_copy_when_it_is_the_only_remaining_enemy
+* test_hasty_releases_on_three_friendly_deaths_and_on_its_own_death
+* test_granny_gathers_only_touching_oozes_and_golden_doubles_attack_only
+* test_granny_gathers_after_own_hasty_and_both_mirror_hasties_see_pre_gather_boards
+* test_granny_gathers_after_other_starts_and_stat_ranked_answers
+* test_granny_has_cleave_on_normal_and_golden
+* test_upset_audits_every_ooze_ability_and_masks_only_hasty
+[1m13/13 passed.
+[0m[4m
+
+res://tests/core/test_pass3_hunters_start.gd
+[0m* test_sable_mirrors_read_the_same_pre_strike_bell_snapshots_for_every_seed
+* test_golden_sable_adds_twice_the_quarrys_frozen_attack
+* test_sable_with_empty_across_gets_the_strike_after_a_brock_or_isegrim_loan
+* test_printed_and_borrowed_sable_use_strongest_strike_once_with_guard_off_counterexample
+* test_syllabub_dispatches_repeat_sable_addition_without_repeating_borrowed_ability
+* test_brock_loan_and_reach_persist_after_brock_faints
+* test_across_quarry_identity_is_fixed_before_jennys_movement
+* test_isegrim_own_hunt_beats_loans_and_lenders_compete_in_reading_order
+* test_lenders_hunt_only_hunters_and_golden_isegrim_reaches_neighbours
+* test_isegrim_sees_ordinary_gathered_stats_and_respects_across_own_quarry
+* test_isegrim_sees_through_belly_without_releasing_it_and_keeps_exact_identity
+* test_full_fetch_twin_and_copied_isegrim_both_wait_and_pick_the_real_original
+* test_isegrim_falls_back_to_a_copy_when_no_original_enemy_remains
+* test_new_hunter_entries_and_extra_start_triggers_do_not_make_late_marks
+* test_jack_runs_after_both_sides_ranked_answers_and_bog_stages_with_seed_invariant_recipient
+* test_copied_jack_also_uses_the_final_queue
+[1m16/16 passed.
+[0m[4m
+
+res://tests/core/test_oozes.gd
+[0m* test_wobbly_lets_out_what_is_inside_when_it_survives_a_hit
+* test_wobbly_summons_a_drip_with_nobody_inside_twice_a_fight
+* test_wobbly_does_nothing_if_it_dies_from_the_hit
+* test_posset_hits_the_enemy_across_for_3_when_she_dies
+* test_golden_posset_hits_for_6
+* test_nell_swaps_the_lowest_tier_shop_unit_for_one_of_your_tier
+* test_nell_pays_only_for_a_unit_2_tiers_lower_touching_an_ooze
+* test_nell_not_touching_an_ooze_pays_nothing_but_still_swaps
+* test_nell_one_tier_lower_pays_nothing
+* test_only_the_first_nell_pays
+* test_golden_nell_swaps_two_and_pays_2
+* test_nell_leaves_a_shop_of_your_tier_alone
+* test_stone_soup_grows_itself_after_a_unit_is_bought_into_any_belly
+* test_stone_soup_hears_a_free_swallow
+* test_stone_soup_keeps_its_growth_when_the_shop_is_frozen
+* test_golden_stone_soup_grows_by_2
+* test_aspic_feeds_what_is_inside_the_oozes_in_front
+* test_aspic_only_feeds_inside_oozes_not_the_oozes
+* test_golden_aspic_gives_2
+* test_bubble_splits_half_into_a_copy_once_a_fight_with_an_empty_belly
+* test_bubble_needs_a_gap
+* test_golden_bubble_splits_twice
+* test_pie_pays_1_next_turn_when_2_come_out
+* test_pie_pays_for_one
+* test_pie_pays_only_for_those_that_found_room
+* test_golden_pie_pays_2
+* test_frumenty_has_the_text_of_what_is_inside_in_a_fight
+* test_frumenty_has_the_text_in_the_recruit_phase
+* test_frumenty_doesnt_borrow_belly_fly_south_or_when_played
+* test_frumentys_borrowed_aura_counts
+* test_syllabub_fires_start_of_combat_text_of_what_comes_out
+* test_golden_syllabub_fires_it_twice
+* test_syllabub_doesnt_fire_for_a_plain_summon
+* test_hasty_swallows_the_enemy_across
+* test_hasty_with_a_full_belly_swallows_nobody
+* test_a_swallowed_enemy_goes_back_when_the_pudding_dies
+* test_a_swallowed_enemy_goes_back_after_3_of_your_units_die
+* test_a_swallowed_enemy_goes_back_when_its_side_has_nobody_else
+* test_two_puddings_across_dont_deadlock
+* test_golden_hasty_swallows_two
+* test_a_swallowed_unit_doesnt_count_for_damage_if_you_win
+* test_figgy_makes_a_golden_from_two_bought_copies_with_a_reward
+* test_figgy_needs_both_bought
+* test_figgy_needs_one_inside
+* test_figgy_fires_once_every_other_turn
+* test_cut_and_come_gives_a_plain_copy_every_other_turn
+* test_cut_and_come_copies_dont_count_for_triples
+* test_cut_and_come_skips_oozes_inside
+* test_cut_and_come_with_nothing_inside_waits
+* test_granny_takes_touching_oozes_inside_and_gains_their_attack_only
+* test_a_gap_cuts_who_joins_granny
+* test_others_in_grannys_run_stay_put
+* test_grannys_oozes_return_to_their_slots_still_holding_when_she_dies
+* test_golden_granny_doubles_the_attack
+* test_pie_keeps_paying_after_three_fights_and_a_move
+* test_golden_pie_keeps_its_double_payments
+* test_a_new_pie_has_its_own_payments
+* test_cut_and_come_birds_sell_for_good_after_fighting
+[1m58/58 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               4
+Tests               114
+Passing Tests       114
+Asserts             646
+Time              38.011s
+
+
+[32m---- All tests passed! ----
+[0m

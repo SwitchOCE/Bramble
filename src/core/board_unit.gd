@@ -23,6 +23,11 @@ var tribe_attack: int = 0
 var tribe_health: int = 0
 var combat_attack: int = 0
 var combat_health: int = 0
+## Blood Gem attribution is separate from stat layers; size changes never rewrite this ledger.
+var gem_attack: int = 0
+var gem_health: int = 0
+var combat_gem_attack: int = 0
+var combat_gem_health: int = 0
 var aura_attack: int = 0
 var aura_health: int = 0
 ## Health lost so far this combat (damage and Health loss).

@@ -3,28 +3,31 @@
   "name": "Dishwater Nell",
   "set": "slice",
   "tier": 2,
-  "attack": 1,
-  "health": 2,
+  "attack": 2,
+  "health": 3,
   "tribes": [
     "Oozes"
   ],
-  "text": "Start of Turn: swap your shop's lowest-tier unit for one of your tier. If that's 2+ tiers up and this touches an Ooze, get 1 gold.",
-  "golden_text": "Start of Turn: swap your shop's 2 lowest-tier units for ones of your tier. If one is 2+ tiers up and this touches an Ooze, get 2 gold.",
-  "details": "The new unit is random. Only your first Nell pays.",
+  "text": "Start of Turn: the biggest Ooze next to this eats your shop's lowest-tier unit.",
+  "golden_text": "Start of Turn: the two biggest Oozes next to this eat your shop's two lowest-tier units.",
   "mechanics": [
     {
-      "id": "nell",
-      "units": 1,
-      "gold": 1
+      "id": "pass3_ooze",
+      "ability": "dishwater_nell",
+      "factor": 1,
+      "count": 1
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Eat"
+  ],
   "row_hint": "back",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   }
 }

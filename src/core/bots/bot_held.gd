@@ -110,6 +110,8 @@ static func best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -
 static func _profile_best_belly(player: PlayerState, value: BotEval, unit: RecruitUnit) -> int:
 	if unit == null or not unit.held.is_empty():
 		return -1
+	if BotOoze.active(player) and BotOoze.build(value):
+		return BotOoze.best_belly(player, value, unit)
 	var best: int = -1
 	var best_score: float = -1000.0
 	for slot: int in BoardGeometry.SLOTS:
@@ -146,6 +148,8 @@ static func _profile_buys_into_belly(
 ) -> bool:
 	if slot < 0:
 		return false
+	if BotOoze.food_belly(player, value, unit) == slot:
+		return true
 	if no_room:
 		return true
 	if not value.level.reads_text or value.pays_on_play(unit):

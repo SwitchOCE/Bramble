@@ -1,0 +1,72 @@
+{
+  "quilboar_ref": {
+    "_note": "Budget dials, not caps: caps-off must not strip them. null = every attack.",
+    "uncut": {
+      "gem_size_step": 1.0,
+      "gem_round": "none",
+      "hogrider_every": 1,
+      "hogrider_gems": 2,
+      "hogrider_targets": "all_quilboar",
+      "tunneler_per_fight": null,
+      "refiner_per_fight": null,
+      "brigand_gems": 3,
+      "brigand_barrage_casts": 3,
+      "trailblazer_both_per_turn": 1,
+      "geomant_gems": 6,
+      "bandit_gems": 3,
+      "roogug_every": 1
+    },
+    "A": {
+      "gem_size_step": 0.5,
+      "gem_round": "up",
+      "hogrider_every": 2,
+      "hogrider_gems": 1,
+      "hogrider_targets": "other_quilboar",
+      "tunneler_per_fight": 1,
+      "refiner_per_fight": null,
+      "brigand_gems": 1,
+      "brigand_barrage_casts": 1,
+      "trailblazer_both_per_turn": 1,
+      "geomant_gems": 6,
+      "bandit_gems": 3,
+      "roogug_every": 1
+    },
+    "B": {
+      "gem_size_step": 0.5,
+      "gem_round": "up",
+      "hogrider_every": 1,
+      "hogrider_gems": 1,
+      "hogrider_targets": "other_quilboar",
+      "tunneler_per_fight": 1,
+      "refiner_per_fight": null,
+      "brigand_gems": 1,
+      "brigand_barrage_casts": 1,
+      "trailblazer_both_per_turn": 1,
+      "geomant_gems": 6,
+      "bandit_gems": 3,
+      "roogug_every": 1
+    },
+    "C": {
+      "gem_size_step": 1.0,
+      "gem_round": "none",
+      "hogrider_every": 1,
+      "hogrider_gems": 1,
+      "hogrider_targets": "other_quilboar",
+      "tunneler_per_fight": 1,
+      "refiner_per_fight": null,
+      "brigand_gems": 1,
+      "brigand_barrage_casts": 1,
+      "trailblazer_both_per_turn": 1,
+      "geomant_gems": 6,
+      "bandit_gems": 3,
+      "roogug_every": 1
+    }
+  },
+  "quilboar_ref_loop_guards": {
+    "_note": "Always on under reference_quilboar, kept with caps off.",
+    "unit_power_once_per_turn": true,
+    "roogug_chain_guard": true,
+    "surveyor_extra_casts_not_recursive": true,
+    "busker_created_spell_refund_once_per_turn": true
+  }
+}

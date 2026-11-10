@@ -41,7 +41,7 @@ static func create(
 	rules.events = RecruitEvents.create(rules)
 	if game_config.get_bool("spells_in_shop"):
 		rules.spell_pool = UnitPool.from_cards(
-			unit_library.pool_spells(game_config.card_set()),
+			rules.library.pool_spells(game_config.card_set()),
 			game_config,
 			"spell_copies_by_tier",
 			PackedStringArray()
@@ -57,6 +57,7 @@ func new_iid() -> int:
 
 func setup_player(player: PlayerState) -> void:
 	Pass3Birds.setup(self, player)
+	ReferenceQuilboar.setup(self, player)
 	player.card_size_caps = config.get_bool("card_size_caps")
 	player.card_rate_limits = config.get_bool("card_rate_limits")
 	player.health = config.get_int("starting_health")
@@ -162,8 +163,10 @@ func start_phase(player: PlayerState, round_number: int) -> void:
 	_fill_shop(player)
 	HunterRecruit.start_turn(player)
 	observe_shop(player)
+	var frozen_offers: bool = player.frozen
 	player.frozen = false
 	HeldUnits.land_due(self, player)
+	Pass3Oozes.start_turn(self, player, frozen_offers)
 	events.fire(player, "start_of_turn")
 
 
@@ -202,6 +205,7 @@ func board_changed(player: PlayerState) -> void:
 	Pass3Bog.prepare(self, player)
 	Pass3Fairies.sync_rings(player)
 	BoardUpkeep.settle(self, player)
+	Pass3Oozes.prepare(player)
 	_settling = false
 
 
@@ -253,6 +257,7 @@ func buy(player: PlayerState, shop_index: int) -> String:
 	if buys_left(player) == 0:
 		return "Pipkin can buy only two units each turn; no unit buys left."
 	var unit: RecruitUnit = player.shop[shop_index]
+	Pass3Oozes.commit_shop(unit)
 	player.shop.remove_at(shop_index)
 	unit.poached_discount = 0
 	unit.poached_offer = false
@@ -344,6 +349,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	board_changed(player)
 	if player.board[slot] == unit:
 		events.fire(player, "on_play", {"subject": unit})
+		QuilboarChoices.begin(self, player, unit.def, unit)
 	board_changed(player)
 	HeldUnits.drain_doorstep(self, player)
 	return ""
@@ -500,6 +506,10 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 		var copy: RecruitUnit = entry
 		golden.add_permanent(copy.perm_attack, copy.perm_health)
 		golden.add_combat(copy.combat_attack, copy.combat_health)
+		golden.gem_attack += copy.gem_attack
+		golden.gem_health += copy.gem_health
+		golden.combat_gem_attack += copy.combat_gem_attack
+		golden.combat_gem_health += copy.combat_gem_health
 		golden.pool_copies += copy.pool_copies
 		if copy.pool_origin != "":
 			golden.pool_origin = copy.pool_origin
@@ -510,6 +520,7 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 			)
 		# A wait the player paid for stays: it starts over when the golden lands, as any move does.
 		golden.timers.append_array(copy.timers)
+		golden.last_meals.append_array(copy.last_meals)
 		if CoreUtil.to_bool(copy.counters.get("egged", false)):
 			golden.counters["egged"] = true
 		for counter: String in ["hex", "hex_percent"]:
@@ -530,6 +541,10 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 			HeldUnits.take_out(player, copy)
 		HeldUnits.release(self, player, copy)
 	golden.shy_accepts_stats = false
+	if Pass3Oozes.has(golden, "frumenty"):
+		var meals: int = Pass3Rates.integer(config, "oozes_frumenty_meals") * 2
+		while golden.last_meals.size() > maxi(0, meals):
+			golden.last_meals.pop_front()
 	golden.perm_attack = maxi(0, golden.perm_attack)
 	golden.perm_health = maxi(0, golden.perm_health)
 	golden.origin = RecruitUnit.ORIGIN_BOUGHT if any_bought else RecruitUnit.ORIGIN_CREATED
@@ -690,6 +705,9 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		spell_pool.give_back(item.def_id(), item.pool_copies)
 	var fields: Dictionary = _aim_fields(player, item.aim(), slot)
 	fields["card_def"] = item.def
+	fields["created_free_spell"] = (
+		item.is_spell() and item.cost() == 0 and item.paid_cost < 0 and item.pool_copies == 0
+	)
 	var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
 	var thanked: RecruitUnit = null
 	if (
@@ -700,18 +718,20 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		thanked = player.board[slot]
 	ctx.params = item.def
 	player.log_event("cast", {"card": item.def_id(), "slot": slot})
-	if item.def_id() == "golden_egg":
-		Pass3Birds.golden_egg(self, player, player.board[slot])
-	else:
-		EffectRunner.run(item.def, ctx)
-	if item.def_id() != "golden_egg":
-		RecruitExtras.echo(self, player, item, slot, ctx)
-	if item.is_spell():
-		events.fire(player, "on_spell_cast", fields)
-		if thanked != null:
-			ShyRule.thank(self, player, thanked)
-	else:
-		events.fire(player, "on_item_played", fields)
+	var choosing: bool = QuilboarChoices.begin(self, player, item.def, null, fields)
+	if not choosing:
+		if item.def_id() == "golden_egg":
+			Pass3Birds.golden_egg(self, player, player.board[slot])
+		else:
+			EffectRunner.run(item.def, ctx)
+		if item.def_id() != "golden_egg":
+			RecruitExtras.echo(self, player, item, slot, ctx)
+		if item.is_spell():
+			events.fire(player, "on_spell_cast", fields)
+			if thanked != null:
+				ShyRule.thank(self, player, thanked)
+		else:
+			events.fire(player, "on_item_played", fields)
 	board_changed(player)
 	HeldUnits.drain_doorstep(self, player)
 	return ""
@@ -825,23 +845,7 @@ func discover(player: PlayerState, step: Dictionary) -> void:
 ## Makes the oldest waiting choice. 5.3.3: the chosen card stays out of the pool, the others go
 ## back; it arrives Created (4.3.2), and is lost with its copy returned on a full hand (7.1.2).
 func choose(player: PlayerState, index: int) -> String:
-	if not player.is_choosing():
-		return "Nothing to choose"
-	var choice: Dictionary = player.pending[0]
-	var options: PackedStringArray = choice["options"]
-	if options.is_empty():
-		player.pending.remove_at(0)
-		return ""
-	if index < 0 or index >= options.size():
-		return "No such option"
-	player.pending.remove_at(0)
-	var from_spells: bool = choice["spells"]
-	var source_pool: UnitPool = spell_pool if from_spells else pool
-	for other: int in options.size():
-		if other != index:
-			source_pool.give_back(options[other])
-	_receive_discovered(player, options[index], from_spells, source_pool)
-	return ""
+	return RecruitDiscover.choose(self, player, index)
 
 
 func _receive_discovered(
@@ -982,5 +986,6 @@ func _return_shop(player: PlayerState) -> void:
 
 
 func observe_shop(player: PlayerState) -> void:
+	Pass3Oozes.prepare(player)
 	if shop_observer.is_valid():
 		shop_observer.call(player)

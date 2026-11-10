@@ -165,9 +165,13 @@ func test_lenders_hunt_only_hunters_and_golden_isegrim_reaches_neighbours() -> v
 
 
 func test_isegrim_sees_ordinary_gathered_stats_and_respects_across_own_quarry() -> void:
+	# Keep this ordinary-buff timing fixture separate from new Granny's Hasty dependency.
+	var gatherer: String = kit.card(
+		"ordinary_gatherer", [{"id": "granny", "factor": 1}], ["Oozes"], 4, 8
+	)
 	var combat: Combat = _fight(
 		{0: "old_isegrim", 1: "little_nip"},
-		{0: "granny_stir_up", 1: CK.plain(20, 20), 4: CK.u("moss_ooze", 90, 1)}
+		{0: gatherer, 1: CK.plain(20, 20), 4: CK.u("moss_ooze", 90, 1)}
 	)
 	var granny: CombatUnit = combat.unit_at(1, 0)
 	var gathered: CombatUnit = granny.inside[0]

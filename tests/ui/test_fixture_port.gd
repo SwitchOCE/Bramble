@@ -52,8 +52,11 @@ func test_library_has_every_unit_sorted_by_tier() -> void:
 	var units: Array[Dictionary] = FixturePort.new().library_units()
 	assert_eq(
 		units.size(),
-		157,
-		"37 library units, the Hoglet, 109 shop units, 9 created slice cards and retired Barn Owl"
+		158,
+		(
+			"37 library units, the Hoglet, 109 shop units, 10 created slice cards"
+			+ " including Slice and retired Barn Owl"
+		)
 	)
 	var last_tier: int = 0
 	for unit: Dictionary in units:

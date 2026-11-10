@@ -3,13 +3,13 @@
   "name": "The Sixpenny Pie",
   "set": "slice",
   "tier": 3,
-  "attack": 1,
-  "health": 4,
+  "attack": 2,
+  "health": 5,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 2. When this dies: if anything comes out, get 1 gold next turn.",
-  "golden_text": "Belly 4. When this dies: if anything comes out, get 2 gold next turn.",
+  "text": "Belly 2. When this dies: get 1 gold per unit that comes out.",
+  "golden_text": "Belly 4. When this dies: get 1 gold per unit that comes out.",
   "mechanics": [
     {
       "id": "belly",
@@ -17,7 +17,13 @@
     },
     {
       "id": "pie",
-      "gold": 1
+      "per_unit": 1,
+      "pass3": true
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "sixpenny_pie",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -29,15 +35,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "mechanic_text": {
     "1": {
       "id": "pie",
-      "text": "When this dies: if anything comes out, get 1 gold next turn.",
-      "golden_text": "When this dies: if anything comes out, get 2 gold next turn."
+      "text": "When this dies: get 1 gold per unit that comes out.",
+      "golden_text": "When this dies: get 1 gold per unit that comes out."
     }
-  },
-  "details": "Only units that find room count."
+  }
 }

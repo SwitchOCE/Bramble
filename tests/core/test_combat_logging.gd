@@ -2,6 +2,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument")
 
 const KIT := preload("res://tests/core/combat_kit.gd")
+const LEGACY := preload("res://tests/core/legacy_wave1.gd")
 const FIRST_SEED: int = 171001
 const SEEDS: int = 32
 
@@ -9,7 +10,8 @@ const SEEDS: int = 32
 func _run(seed_now: int, logging: bool, line: String) -> Dictionary:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = seed_now
-	var combat := Combat.create(KIT.library, GameConfig.full_game(), rng)
+	var library: UnitLibrary = LEGACY.with_oozes(KIT.library) if line == "posset" else KIT.library
+	var combat := Combat.create(library, GameConfig.full_game(), rng)
 	combat.log_events = logging
 	combat.round_number = 11  # Arm B base 7 makes the Last Stand/ghost checks lethal.
 	var boards: Array = [KIT.board({0: KIT.plain(3, 3)}), KIT.board({0: KIT.plain(3, 3)})]
@@ -75,6 +77,73 @@ func test_last_blow_credit_and_results_are_identical_without_event_logging() -> 
 				assert_eq(result["winner"], 1)
 				assert_eq(quiet["last_blow_source"], 2)
 				assert_eq(quiet["last_blow_kind"], Hit.EFFECT)
+
+
+func _native_posset(
+	seed_now: int, logging: bool, effect_kill: bool, swapped: bool, golden: bool
+) -> Dictionary:
+	var rng := RandomNumberGenerator.new()
+	rng.seed = seed_now
+	var combat := Combat.create(KIT.library, GameConfig.full_game(), rng)
+	combat.log_events = logging
+	combat._setup(
+		[KIT.board({6: KIT.plain(11, 9)}), KIT.board({0: KIT.u("mrs_posset", 0, 1, golden)})]
+	)
+	var killer: CombatUnit = combat.unit_at(0, 6)
+	var posset: CombatUnit = combat.unit_at(1, 0)
+	assert_true(Pass3OozeCombat.has(posset, "mrs_posset"), "this exercises current native text")
+	if swapped:
+		CombatMoves.trade_sides(combat, killer, posset)
+	combat._attacks_started = true
+	if effect_kill:
+		combat.deal_effect_damage(killer, posset, 1)
+		combat._resolve_deaths(killer.side)
+	else:
+		combat._perform_attack(killer, posset)
+	var result: Dictionary = combat._finish(Combat.REASON_BOARD_EMPTY, [6, 5], 0)
+	var events: Array = result["events"]
+	assert_eq(not events.is_empty(), logging)
+	if logging:
+		var deaths: Array[Dictionary] = KIT.of_type(result, "death")
+		assert_eq(deaths[0]["killer"], killer.uid)
+	result.erase("events")
+	return {
+		"result": result,
+		"killer_stats": [killer.attack, killer.health],
+		"killed_by": posset.killed_by,
+		"credit": [combat._last_blow_side, combat._last_blow_source, combat._last_blow_kind],
+		"rng": rng.state,
+		"effect_rng": combat.effect_rng.state,
+		"carry": combat.carry,
+		"triggers": combat._triggers,
+	}
+
+
+func test_native_posset_halving_preserves_actual_damage_credit_with_or_without_logging() -> void:
+	for seed_now: int in [FIRST_SEED, FIRST_SEED + 1, FIRST_SEED + 7]:
+		for effect_kill: bool in [false, true]:
+			for swapped: bool in [false, true]:
+				for golden: bool in [false, true]:
+					var logged: Dictionary = _native_posset(
+						seed_now, true, effect_kill, swapped, golden
+					)
+					var quiet: Dictionary = _native_posset(
+						seed_now, false, effect_kill, swapped, golden
+					)
+					assert_eq_deep(quiet, logged)
+					assert_eq(
+						quiet["killer_stats"], [6, 5], "native halving is nonlethal stat loss"
+					)
+					assert_eq(quiet["killed_by"], 1, "the actual killer was not across Posset")
+					assert_eq(
+						quiet["credit"],
+						[1 if swapped else 0, 1, Hit.EFFECT if effect_kill else Hit.ATTACK]
+					)
+					var result: Dictionary = quiet["result"]
+					assert_eq(result["winner"], 1 if swapped else 0)
+					assert_false(
+						result["last_blow"], "the killer survives; Posset cannot claim a wipe"
+					)
 
 
 func test_last_stand_and_ghost_damage_use_identical_quiet_results() -> void:

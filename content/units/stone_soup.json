@@ -3,41 +3,30 @@
   "name": "Stone Soup",
   "set": "slice",
   "tier": 2,
-  "attack": 1,
+  "attack": 2,
   "health": 3,
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
-  "golden_text": "Belly 2. After you put a unit into any Belly: gain +2/+2 permanently. Once a turn.",
-  "details": "Recruit Phase only. Shop, hand and board units count, including its own Belly.",
+  "text": "Shop units gain an eighth of your biggest Ooze's stats.",
+  "golden_text": "Shop units gain an eighth of your two biggest Oozes' stats.",
   "mechanics": [
     {
-      "id": "belly",
-      "size": 1
-    },
-    {
-      "id": "stone_soup",
-      "stats": 1
+      "id": "pass3_ooze",
+      "ability": "stone_soup",
+      "factor": 1,
+      "share": 0.125,
+      "golden_reads": 2
     }
   ],
-  "keywords": [
-    "Belly"
-  ],
+  "keywords": [],
   "row_hint": null,
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
-  },
-  "mechanic_text": {
-    "1": {
-      "id": "stone_soup",
-      "text": "After you put a unit into any Belly: gain +1/+1 permanently. Once a turn.",
-      "golden_text": "After you put a unit into any Belly: gain +2/+2 permanently. Once a turn."
-    }
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   }
 }

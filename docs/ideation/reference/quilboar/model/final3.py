@@ -1,6 +1,7 @@
 """All numbers for the final reference-tribe doc. python3 -I final3.py"""
 import importlib.util, copy, math
-spec = importlib.util.spec_from_file_location('p', '/tmp/claude-1000/-home-alex-code-Bramble-ideation/5369878e-e379-478d-ac97-3201f49297d2/scratchpad/qfinal/presets3.py')
+from pathlib import Path
+spec = importlib.util.spec_from_file_location('p', Path(__file__).with_name('presets3.py'))
 p = importlib.util.module_from_spec(spec); spec.loader.exec_module(p)
 q = p.q
 CYC = 6.0

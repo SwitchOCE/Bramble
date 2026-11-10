@@ -1,0 +1,48 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-bot-fix/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_pass3_ooze_bots.gd
+[0m* test_engine_keeps_soup_nell_aspic_and_elder_over_large_new_bodies
+* test_only_the_best_engine_copy_is_protected
+* test_meal_route_bypasses_the_pin_only_to_feed_a_real_digest_belly
+* test_a_real_engine_offer_is_not_bought_into_an_empty_stomach
+* test_first_empty_dollop_moves_whole_to_the_new_bubble
+* test_golden_dollop_is_not_migrated
+* test_second_stomach_waits_three_turns_and_a_scouted_answer_preserves_it
+* test_aspic_feeds_front_carry_and_nell_touches_it
+* test_pot_luck_reserves_stay_out_of_hasty_when_the_scout_shows_a_carry
+* test_a_large_slice_is_food_only_in_the_engine_line
+* test_freeze_does_not_take_nells_meal_for_generic_shop_quality
+* test_line_source_is_strictly_valid_and_food_uses_the_same_legal_path
+* test_meal_valuation_includes_the_live_soup_layer_exactly_once
+* test_six_protected_investments_allow_a_seventh_engine_but_a_spare_keeps_the_gap
+* test_first_digest_purchase_replaces_a_weak_body_instead_of_becoming_a_reserve
+* test_bubble_upgrade_is_played_then_receives_the_old_dollop_whole
+* test_tempo_replaces_dead_aspic_while_the_front_carry_engine_keeps_her
+[1m17/17 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                17
+Passing Tests        17
+Asserts             121
+Time              12.514s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to build/wave2b/ooze-bot-fix.xml

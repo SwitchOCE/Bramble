@@ -1,0 +1,46 @@
+{
+  "id": "qb_gem_day",
+  "name": "Gem Day",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "none",
+  "text": "Choose one: your Blood Gems give an extra +½ Attack this game; or +½ Health.",
+  "keywords": [],
+  "scaling_exempt": true,
+  "do": [],
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  },
+  "tags": [
+    "choose_one"
+  ],
+  "modes": [
+    {
+      "name": "Attack",
+      "text": "Your Blood Gems give an extra +½ Attack this game.",
+      "effects": [
+        {
+          "effect": "gem_size_add",
+          "attack": 1,
+          "health": 0
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "text": "Your Blood Gems give an extra +½ Health this game.",
+      "effects": [
+        {
+          "effect": "gem_size_add",
+          "attack": 0,
+          "health": 1
+        }
+      ]
+    }
+  ]
+}

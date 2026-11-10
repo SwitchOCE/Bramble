@@ -51,6 +51,9 @@ const FRACTIONS: Dictionary = {
 
 
 static func configure(card: Dictionary, config: GameConfig) -> void:
+	if Pass3OozeText.is_native(card):
+		Pass3OozeText.configure(card, config)
+		return
 	if Pass3HunterText.is_native(card):
 		Pass3HunterText.configure(card, config)
 		return
@@ -74,6 +77,8 @@ static func configure(card: Dictionary, config: GameConfig) -> void:
 
 ## Pure generation never consults text/golden_text, including at the default rates.
 static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> String:
+	if Pass3OozeText.is_native(card):
+		return Pass3OozeText.face(card, config, golden)
 	if Pass3HunterText.is_native(card):
 		return Pass3HunterText.face(card, config, golden)
 	if Pass3BogText.is_native(card):

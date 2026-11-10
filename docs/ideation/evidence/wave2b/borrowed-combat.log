@@ -1,0 +1,58 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-borrowed-fix-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/core/test_pass3_ooze_combat.gd
+[0m* test_posset_halves_her_actual_effect_killer_and_records_its_reference
+* test_golden_posset_halves_killer_and_beside_units_only
+* test_posset_does_not_halve_a_friendly_killer_or_revive_a_dead_killer
+* test_posset_never_takes_a_living_killer_below_one_health
+* test_moss_shields_each_own_release_and_golden_reduces_damage_by_a_quarter
+* test_moss_does_not_shield_an_enemy_returned_by_hasty
+* test_moss_reduction_survives_a_stronger_tom_protection_ending
+* test_gathered_moss_returns_with_family_and_shields_earlier_siblings_too
+* test_wobbly_releases_then_keeps_making_drips_beyond_the_old_two_hit_limit
+* test_bubble_ignores_a_hit_fully_stopped_by_shield_then_splits_a_damaging_hit
+* test_golden_wobbly_releases_both_reserves_lifo_with_no_drip_on_that_hit
+* test_golden_wobbly_keeps_the_reserve_that_cannot_find_a_gap
+* test_bubble_split_limit_and_empty_halves_normal_and_golden
+* test_bubble_halves_cannot_split_with_guard_off_counterexample
+* test_a_frumenty_half_keeps_borrowed_bubble_and_other_meal_text_but_never_splits
+* test_bubble_has_no_split_without_a_gap_or_if_the_hit_kills_it
+* test_pie_pays_for_every_actual_release_and_golden_does_not_double_the_rate
+* test_pie_does_not_pay_for_a_reserve_without_room
+* test_syllabub_replays_a_returned_grannys_family_soc_normal_and_golden
+* test_starting_held_survivor_variant_is_off_by_default_and_counts_once_after_release
+* test_starting_held_survivor_variant_does_not_count_a_new_split_as_another_starter
+* test_borrowed_hasties_use_strongest_once_per_start_and_syllabub_dispatch_guard_off
+* test_borrowed_hasty_deaths_count_actual_friendly_deaths_once_guard_off
+* test_borrowed_grannies_choose_golden_gather_before_the_weak_instance_guard_off
+* test_frumentys_own_borrowed_syllabub_replays_its_other_hasty_meal_on_release
+* test_self_syllabub_fires_normal_and_golden_counts_without_recursive_replay
+* test_duplicate_syllabubs_on_one_body_use_strongest_times_with_guard_off_counterexample
+[1m27/27 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                27
+Passing Tests        27
+Asserts             126
+Time              11.548s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to res://build/wave2b/borrowed-combat.xml

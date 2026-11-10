@@ -1,0 +1,35 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/bramble-wave2b-ui-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/ui/test_pass3_ooze_ui.gd
+[0m* test_ladle_and_held_meal_are_wordless_marks_inside_the_portrait
+* test_live_soup_stats_use_a_pot_mark_and_reader_breakdown
+* test_marks_clear_when_a_reused_card_no_longer_has_ooze_state
+* test_nell_hover_highlights_the_resolved_eater_and_aspic_the_front_slots
+* test_elder_share_landing_pulses_once_per_new_serial_without_a_label
+[1m5/5 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               1
+Tests                 5
+Passing Tests         5
+Asserts              45
+Time              0.806s
+
+
+[32m---- All tests passed! ----
+[0m

@@ -8,6 +8,12 @@ func hit_counter() -> String:
 
 
 func after_hit(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
+	var guarded: bool = (
+		CoreUtil.to_bool(params.get("pass3", false))
+		and combat.config.get_value("pass3_loop_guards") != false
+	)
+	if guarded and unit.counters.has("pass3_bubble_half"):
+		return
 	var used: int = CoreUtil.to_int(unit.counters.get("split", 0))
 	var limit: int = CoreUtil.to_int(params.get("splits", 1))
 	var slot: int = BoardGeometry.summon_slot(combat._occupied(unit.side), unit.slot, false)
@@ -23,7 +29,10 @@ func after_hit(combat: Combat, unit: CombatUnit, params: Dictionary) -> void:
 	var spec: Dictionary = {
 		"def_id": unit.def_id(), "golden": unit.golden, "attack": attack, "health": health
 	}
-	var copy: CombatUnit = combat.enter_from_spec(spec, unit.side, slot, unit, {"split": true})
-	if copy != null:
-		copy.counters["split"] = limit
+	if CoreUtil.to_bool(params.get("pass3", false)):
+		Pass3OozeCombat.split_copy(combat, unit, spec, slot, limit, guarded)
+	else:
+		var copy: CombatUnit = combat.enter_from_spec(spec, unit.side, slot, unit, {"split": true})
+		if copy != null:
+			copy.counters["split"] = limit
 	combat._resolve_deaths(unit.side)

@@ -7,6 +7,7 @@ enum Mode { SHOP, BOARD, MINI }
 
 const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
 const PoachedBadge := preload("res://src/ui/widgets/poached_badge.gd")
+const OozeMarks := preload("res://src/ui/widgets/ooze_marks.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -21,32 +22,10 @@ const LINE: int = 5
 const EDGE: float = 12.0
 ## Public portrait floor used by layout checks.
 const ART_MIN: float = 40.0
-## These portraits are not yet distinguishable at board size (declutter spec §2.1).
+## Only this still-confusable pair keeps a short identity until Grizel's re-roll lands.
 const NAME_EXCEPTIONS: Dictionary[String, String] = {
-	"young_brock": "Brock",
-	"old_brock": "Old Brock",
-	"sable": "Sable",
-	"mistress_russet": "Russet",
-}
-## Short identities for shared tribe portraits. The full name stays in the reader.
-const SHORT_NAMES: Dictionary[String, String] = {
-	"grey_agnes": "Agnes",
-	"lob_lie_by_the_fire": "Lob",
-	"signor_ranocchio": "Ranocchio",
-	"still_water_heron": "Still-Water",
-	"wood_mouse_guard": "Mouse Guard",
-	"hedgehog_twin": "Twin",
-	"hedgerow_elder": "Elder",
-	"drumming_woodpecker": "Drummer",
-	"squire_lollop": "Lollop",
-	"mudwallow_toad": "Mudwallow",
-	"lantern_man": "Lantern Man",
-	"goodman_hayward": "Hayward",
-	"belladonna_sprite": "Belladonna",
-	"brownie_porter": "Porter",
-	"ermine_duellist": "Duellist",
-	"marmot_lookout": "Lookout",
-	"hazel_dormouse": "Dormouse",
+	"brother_wolf": "Brother Wolf",
+	"grizel": "Grizel",
 }
 
 ## def_id -> true for units whose mechanics are not built; the reader names them.
@@ -93,6 +72,7 @@ var rules_shown: bool = false
 
 var _combat_marks: CombatFace
 var _poached_badge: PoachedBadge
+var _ooze_marks: OozeMarks
 var _art: ArtFrame
 var _chip: Panel
 var _rules: Label
@@ -138,9 +118,7 @@ static func needs_name(view: Dictionary) -> bool:
 static func short_name(view: Dictionary) -> String:
 	var id: String = Data.s(view, "portrait_id", Data.s(view, "def_id"))
 	return Data.s(
-		view,
-		"short_name",
-		str(NAME_EXCEPTIONS.get(id, SHORT_NAMES.get(id, Data.s(view, "name").get_slice(",", 0))))
+		view, "short_name", str(NAME_EXCEPTIONS.get(id, Data.s(view, "name").get_slice(",", 0)))
 	)
 
 
@@ -240,6 +218,10 @@ func set_kisses(count: int, period: int) -> void:
 	_refresh_pending()
 
 
+func show_ooze_share() -> void:
+	_ooze_marks.share_landed()
+
+
 func uid() -> int:
 	return Data.i(unit, "uid", -1)
 
@@ -253,6 +235,8 @@ func show_frost_tag(_on: bool) -> void:
 func _build() -> void:
 	_art = ArtFrame.new()
 	add_child(_art)
+	_ooze_marks = OozeMarks.new()
+	_art.add_child(_ooze_marks)
 	_name_label = UiTheme.head("", UiTheme.FONT_BODY)
 	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_name_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -342,6 +326,9 @@ func _refresh() -> void:
 	_refresh_status()
 	_refresh_pending()
 	_place_turns()
+	_ooze_marks.size = _art.size
+	_ooze_marks.show_state(unit)
+
 	queue_redraw()
 
 

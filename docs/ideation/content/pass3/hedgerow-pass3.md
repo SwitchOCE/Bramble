@@ -788,7 +788,7 @@ Bots never hold today (the audit found a Hedgerow Larder p90 of 2 gold at R8), s
 | Squire Lollop | Fight aura +1/+1 or +2/+2, any tribe | Start of Turn: touching Hedgerow folk, except your biggest, gain a tenth of it | Hedgerow only; permanent; spreads the carry |
 | Old Mother Mast | An Acorn after your first buy (2 with a Great Hoard) | An Acorn per 5 gold in your Larder, up to 5 | Interest on the hoard: holding pays |
 
-Portraits: no creature changes. Mr Pym, Mrs Clover, Mrs Mallow, Goodman Hayward and Squire Lollop still use the tribe portrait (`content/portraits_pending.json`).
+Portraits: no creature changes. Mr Pym, Mrs Clover, Mrs Mallow, Goodman Hayward and Squire Lollop got their own portraits on 10 Nov (`tools/art/prompts/pool-portraits-10nov.txt`).
 
 ---
 

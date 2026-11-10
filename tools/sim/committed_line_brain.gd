@@ -21,6 +21,10 @@ func configure_line(id: String) -> void:
 
 
 func _unit_gain(unit: RecruitUnit) -> float:
+	if not is_banned(unit.def_id()) and ban_failure.is_empty():
+		var meal: float = BotOoze.meal_gain(self, unit)
+		if meal >= 0.0:
+			return meal
 	if not _permits(unit):
 		return 0.0
 	var ordinary: float = _ordinary_unit_gain(unit)

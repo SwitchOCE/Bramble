@@ -162,22 +162,25 @@ static func sync_protection(combat: Combat) -> void:
 				protected[uid] = true
 		for target: CombatUnit in combat.units_of(side):
 			var active: bool = protected.has(target.uid)
-			if active and not target.has_status("damage_reduction"):
-				combat.set_status(
-					target,
-					"damage_reduction",
-					true,
-					null,
-					{"percent": Pass3Rates.integer(combat.config, "birds_tom_tit_reduction")}
+			var percent: int = CoreUtil.to_int(target.counters.get("ooze_reduction", 0))
+			if active:
+				percent = maxi(
+					percent, Pass3Rates.integer(combat.config, "birds_tom_tit_reduction")
 				)
-			elif not active and target.has_status("damage_reduction"):
+			var current: Dictionary = target.statuses.get("damage_reduction", {})
+			if percent > 0 and CoreUtil.to_int(current.get("percent", 0)) != percent:
+				combat.set_status(target, "damage_reduction", true, null, {"percent": percent})
+			elif percent <= 0 and target.has_status("damage_reduction"):
 				combat.set_status(target, "damage_reduction", false, null)
 
 
 static func reduce_hit(combat: Combat, hit: Hit) -> void:
 	if not hit.target.has_status("damage_reduction") or hit.modifiers.has("damage_reduction"):
 		return
-	var percent: int = Pass3Rates.integer(combat.config, "birds_tom_tit_reduction")
+	var data: Dictionary = hit.target.statuses["damage_reduction"]
+	var percent: int = CoreUtil.to_int(
+		data.get("percent", Pass3Rates.integer(combat.config, "birds_tom_tit_reduction"))
+	)
 	hit.amount -= StatFraction.part(hit.amount, percent)
 	hit.modifiers.append("damage_reduction")
 

@@ -113,6 +113,7 @@ func test_tokens_do_not_dilute_tribes_and_pluralities_explain_mixed_boards() -> 
 func test_plain_arm_ignores_buy_keep_hints_without_mutating_shared_knowledge() -> void:
 	var plain: BotBrain = BenchSuites.create_bot("free_choice_plain") as BotBrain
 	var hinted: BotBrain = BenchSuites.create_bot("free_choice") as BotBrain
+	var shared_before: Dictionary = hinted.value.knowledge.cards.duplicate(true)
 	var player := PlayerState.new()
 	var unit: RecruitUnit = RecruitUnit.make(_library.get_unit("wee_wobbly"), 1)
 	plain._choose_build()
@@ -130,7 +131,14 @@ func test_plain_arm_ignores_buy_keep_hints_without_mutating_shared_knowledge() -
 	assert_eq(plain.value.keep_value(unit), keep_before)
 	assert_eq(plain.value.text_value(unit), text_before)
 	assert_eq(text_before, BotEval.TEXT_PER_TIER * unit.tier())
+	assert_eq(buy_before, float(unit.attack + unit.health) + text_before)
 	assert_ne(hinted.value.knowledge.card(unit.def_id()), injected.card(unit.def_id()))
+	assert_eq(hinted.value.knowledge.cards, shared_before, "the shared hints remain unchanged")
+	assert_eq(
+		hinted.value.buy_value(unit, player),
+		float(unit.attack + unit.health) + hinted.value.text_value(unit),
+		"unmodeled native text still uses the ordinary authored hint"
+	)
 	assert_ne(hinted.value.buy_value(unit, player), buy_before)
 
 

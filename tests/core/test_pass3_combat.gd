@@ -404,11 +404,18 @@ func _answer() -> void:
 	)
 
 
+func _ordinary_gatherer() -> String:
+	# This pool-order regression needs an ordinary buff, independent of pass 3 Granny's
+	# new Hasty-dependent gathering step. The new Ooze order has its own directed tests.
+	return kit.card("ordinary_gatherer", [{"id": "granny", "factor": 1}], ["Oozes"], 4, 8)
+
+
 func test_biggest_enemy_effects_wait_for_both_sides_other_start_effects() -> void:
 	_answer()
+	var gatherer: String = _ordinary_gatherer()
 	for seed_value: int in 12:
 		var combat: Combat = _fight(
-			{0: "biggest_answer"}, {0: "granny_stir_up", 4: CK.u("moss_ooze", 100, 10)}, seed_value
+			{0: "biggest_answer"}, {0: gatherer, 4: CK.u("moss_ooze", 100, 10)}, seed_value
 		)
 		combat._start_of_combat()
 		assert_eq(
@@ -418,10 +425,11 @@ func test_biggest_enemy_effects_wait_for_both_sides_other_start_effects() -> voi
 
 func test_diagnostic_old_order_exposes_pre_gather_counterexample() -> void:
 	_answer()
+	var gatherer: String = _ordinary_gatherer()
 	var found: bool = false
 	for seed_value: int in 12:
 		var combat: Combat = _fight(
-			{0: "biggest_answer"}, {0: "granny_stir_up", 4: CK.u("moss_ooze", 100, 10)}, seed_value
+			{0: "biggest_answer"}, {0: gatherer, 4: CK.u("moss_ooze", 100, 10)}, seed_value
 		)
 		combat.notes["test_pass3_start_order"] = false
 		combat._start_of_combat()
@@ -508,9 +516,10 @@ func test_shy_ignores_rings_even_with_test_order_override_off() -> void:
 
 
 func test_biggest_enemy_hero_effect_waits_for_both_sides_units() -> void:
+	var gatherer: String = _ordinary_gatherer()
 	for seed_value: int in 6:
 		var combat: Combat = _fight(
-			{0: CK.plain(1, 100)}, {0: "granny_stir_up", 4: CK.u("moss_ooze", 100, 10)}, seed_value
+			{0: CK.plain(1, 100)}, {0: gatherer, 4: CK.u("moss_ooze", 100, 10)}, seed_value
 		)
 		combat.hero_effects[0] = [
 			KIT.effect(
@@ -603,8 +612,9 @@ func test_golden_mag_pye_reaches_occupied_front_back_neighbour() -> void:
 
 func test_biggest_enemy_sees_midfight_prisoner_with_its_current_stats() -> void:
 	_answer()
+	var gatherer: String = _ordinary_gatherer()
 	var combat: Combat = _fight(
-		{0: "biggest_answer"}, {0: "granny_stir_up", 4: CK.u("moss_ooze", 100, 3000)}
+		{0: "biggest_answer"}, {0: gatherer, 4: CK.u("moss_ooze", 100, 3000)}
 	)
 	combat._start_of_combat()
 	var holder: CombatUnit = combat.unit_at(1, 0)
@@ -616,9 +626,15 @@ func test_biggest_enemy_sees_midfight_prisoner_with_its_current_stats() -> void:
 
 func test_biggest_enemy_never_targets_own_prisoner_in_enemy_belly() -> void:
 	_answer()
-	var combat: Combat = _fight(
-		{0: CK.plain(1000, 1000), 4: "biggest_answer"}, {0: "hasty_pudding"}
+	# A positional swallow isolates the enemy-filter assertion from new Hasty's permanent gain.
+	var holder_id: String = kit.card(
+		"positional_holder",
+		[{"id": "belly", "size": 1}, {"id": "hasty", "reach": 1, "after": 3}],
+		["Oozes"],
+		2,
+		8
 	)
+	var combat: Combat = _fight({0: CK.plain(1000, 1000), 4: "biggest_answer"}, {0: holder_id})
 	combat._start_of_combat()
 	var holder: CombatUnit = combat.unit_at(1, 0)
 	assert_eq([holder.attack, holder.health], [1, 4])

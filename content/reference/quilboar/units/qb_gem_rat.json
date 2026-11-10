@@ -1,0 +1,30 @@
+{
+  "id": "qb_gem_rat",
+  "name": "Gem Rat",
+  "set": "slice",
+  "tier": 3,
+  "attack": 4,
+  "health": 4,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "End of Turn: get a Gem Day.",
+  "golden_text": "End of Turn: get 2 Gem Days.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "gem_rat",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

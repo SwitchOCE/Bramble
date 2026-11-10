@@ -1,0 +1,30 @@
+{
+  "id": "qb_thorned_trailblazer",
+  "name": "Thorned Trailblazer",
+  "set": "slice",
+  "tier": 3,
+  "attack": 4,
+  "health": 5,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "One Choose One card each turn has both effects. (1 left!)",
+  "golden_text": "Two Choose One cards each turn have both effects. (2 left!)",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "thorned_trailblazer",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

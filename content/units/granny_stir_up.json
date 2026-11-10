@@ -8,23 +8,29 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Start of Combat: touching Oozes go inside this. Gain their Attack.",
-  "golden_text": "Start of Combat: touching Oozes go inside this. Gain twice their Attack.",
-  "details": "When this dies, they return to their slots, still holding what they hold.",
+  "text": "Cleave. Start of Combat: touching Oozes go inside. Gain their Attack.",
+  "golden_text": "Cleave. Start of Combat: touching Oozes go inside. Gain twice their Attack.",
   "mechanics": [
     {
-      "id": "granny",
-      "factor": 1
+      "id": "cleave"
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "granny_stir_up",
+      "factor": 1,
+      "attack_multiplier": 1.0
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "Cleave"
+  ],
   "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md",
-    "note": "Gains their Attack one time."
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   }
 }

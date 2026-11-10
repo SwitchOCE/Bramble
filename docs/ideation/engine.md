@@ -60,6 +60,7 @@ Recruit Phase. All fire through one queue in `src/core/recruit_events.gd`; anyth
 | `on_move` | A unit changes slot | it, `self` |
 | `on_home` | A bird lands back in hand after Fly South | it, `self` |
 | `on_swallow` | A unit goes into a Belly | the Ooze, `other` is the unit |
+| `on_eat` | An Ooze eats a meal through the shared meal pipeline | `subject` is the eater; `meal` contains the consumed unit and its stats |
 | `on_refresh` | The shop refreshes | `paid` tells if it cost gold |
 | `on_spell_cast` | A spell is cast (items don't count) | `card_def` for scripts |
 | `on_tier_up` | Tavern tier goes up | |
@@ -490,3 +491,11 @@ percentage application, and carry total active `percent` even on a flat applicat
 The combat model, log, slot badges and recruit slips preserve the distinction and
 show both components for mixed Hex. Shield has an explicit status tag and linked
 reminder; playback removes the tag when the status is spent.
+
+### Test-only Quilboar reference
+
+Behind the default-off `reference_quilboar` flag, `gem` plays counted Gems without
+casting a spell, `gem_size_add` changes future Gem size in integer half-stat units,
+and `steal_gems` transfers only adjacent units' Gem-ledger stats. A real Choose One
+play queues modes independently of When played; `on_choose_one_played` fires after
+mode resolution. Trailblazer uses its own `both_per_turn` dial. The reference resources are excluded from player exports.

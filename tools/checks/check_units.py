@@ -11,11 +11,13 @@ Usage: python3 tools/checks/check_units.py [units dir]. Exit 0 = all valid, 1 = 
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from pathlib import Path
 
 UNITS_DIR = Path("content/units")
+REFERENCE_DIR = Path("content/reference/quilboar")
 TRIBES = {"Fairies", "Oozes", "Hedgerow folk", "Hunters", "Birds", "Bog folk", "Hive"}
 ROW_HINTS = {"front", "back", None}
 SOURCE_KINDS = {"library", "filler", "token", "slice"}
@@ -83,12 +85,15 @@ def type_ok(value: object, allowed: tuple[type | None, ...]) -> bool:
 
 
 # Parameter kinds check_param can judge alone (the rest are checked where they're used).
-PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap", "ratio"}
+PARAM_KINDS = {"number", "threshold", "bool", "tribe", "action", "unit", "selector", "tier_cap", "ratio", "scalar"}
 
 
 def check_param(kind: str, value: object) -> str | None:
     if kind == "string":
         return None if isinstance(value, str) and value else "must be non-empty text"
+    if kind == "scalar":
+        ok = isinstance(value, (int, float)) and not isinstance(value, bool) and math.isfinite(value) and value >= 0
+        return None if ok else "must be a finite non-negative number"
     if kind == "ratio":
         ok = isinstance(value, int) and not isinstance(value, bool) and value >= 0
         return None if ok else "must be a non-negative integer"
@@ -113,6 +118,7 @@ def check_param(kind: str, value: object) -> str | None:
 def check_unit(path: Path, unit: object) -> list[str]:
     if not isinstance(unit, dict):
         return [f"{path.name}: top level must be an object"]
+    reference = path.resolve().parent == (REFERENCE_DIR / "units").resolve()
     problems: list[str] = []
     for field, allowed in FIELDS.items():
         if field not in unit:
@@ -120,7 +126,8 @@ def check_unit(path: Path, unit: object) -> list[str]:
         elif not type_ok(unit[field], allowed):
             problems.append(f"{path.name}: field '{field}' has the wrong type")
     for field in unit:
-        if field not in FIELDS and field not in OPTIONAL_FIELDS:
+        optional_fields = OPTIONAL_FIELDS | ({"modes", "tags"} if reference else set())
+        if field not in FIELDS and field not in optional_fields:
             problems.append(f"{path.name}: unknown field '{field}'")
     if problems:
         return problems
@@ -130,7 +137,11 @@ def check_unit(path: Path, unit: object) -> list[str]:
         problems.append(f"{path.name}: tier {unit['tier']} is outside 1-6")
     if unit["attack"] < 0 or unit["health"] < 1:
         problems.append(f"{path.name}: attack must be >= 0 and health >= 1")
-    problems += [f"{path.name}: unknown tribe {t!r}" for t in unit["tribes"] if t not in TRIBES]
+    tribes = TRIBES | ({"quilboar"} if reference else set())
+    problems += [f"{path.name}: unknown tribe {t!r}" for t in unit["tribes"] if t not in tribes]
+    problems += check_reference_namespace(path, unit, reference)
+    if reference:
+        problems += check_modes(unit)
     if unit["row_hint"] not in ROW_HINTS:
         problems.append(f"{path.name}: row_hint must be front, back or null")
     if unit["source"].get("kind") not in SOURCE_KINDS:
@@ -178,6 +189,16 @@ def check_overlay_text(card: dict) -> list[str]:
 
 def can_lend(entry: dict) -> bool:
     """The same exclusions as RecruitUnit._can_lend: display metadata never changes this choice."""
+    if entry.get("id") == "pass3_ooze" and entry.get("ability") in {
+        "little_dollop",
+        "bubble_and_squeak",
+        "frumenty",
+        "wee_wobbly",
+        "figgy_duff",
+        "sixpenny_pie",
+        "mr_syllabub",
+    }:
+        return False
     return entry.get("id") not in {"belly", "belly_discount", "fly_south", "shy", "borrows_text"} and entry.get(
         "trigger"
     ) not in {"on_play", "on_sell", "on_home"}
@@ -292,6 +313,10 @@ def check_step(step: object, phase: str, trigger: str, default_target: bool) -> 
             problems.append(f"effect {name}: '{key}' {error}")
     if "target" in step:
         problems += check_selector(step["target"], phase, trigger)
+    if name == "add_card" and "random" in step:
+        problems += check_random_card_filter(step["random"])
+        if "card" in step:
+            problems.append("effect add_card: choose a fixed card or random filter, not both")
     if name == "rule" and step.get("query") not in SCHEMA["queries"]:
         problems.append(f"effect rule: query must be one of {SCHEMA['queries']}")
     if name in {"grant", "slot_effect"} and "mechanic" in step:
@@ -331,7 +356,14 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
     """The (name, value) pairs of a mechanic entry that double on golden (rulebook 7.3.5)."""
     # Pass 3's factor preserves the originating text's golden strength when stolen. It
     # scales authored rates, rather than representing a number printed on the card.
-    if mech.get("id") in {"pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"}:
+    if mech.get("id") in {
+        "pass3_bird",
+        "pass3_fairy",
+        "pass3_bog",
+        "pass3_hunter",
+        "pass3_ooze",
+        "reference_quilboar",
+    }:
         return []
     out: list[tuple[str, int]] = []
     if mech.get("id") == "effect":
@@ -371,6 +403,22 @@ def check_mechanic(mech: object) -> list[str]:
     problems: list[str] = []
     given = {k for k in mech if k != "id"}
     optional = set(SCHEMA.get("optional_mechanic_params", {}).get(mech["id"], []))
+    abilities = SCHEMA.get("mechanic_ability_params", {}).get(mech["id"], {})
+    if abilities:
+        ability = mech.get("ability")
+        if ability not in abilities:
+            problems.append(f"mechanic {mech['id']}: unknown ability {ability!r}")
+        else:
+            required = set(abilities[ability])
+            optional.difference_update(required)
+            unrelated = given - required - {"ability", "factor"}
+            problems += [f"mechanic {mech['id']}: '{key}' does not belong to {ability}" for key in sorted(unrelated)]
+    if mech.get("id") == "wobbly" and mech.get("pass3") is True:
+        optional.add("limit")
+        optional.discard("drip")
+    if mech.get("id") == "pie" and mech.get("pass3") is True:
+        optional.add("gold")
+        optional.discard("per_unit")
     if mech.get("id") == "bitter" and mech.get("pass3") is True:
         optional.update({"n", "once_per_enemy"})
     if "percent" in mech:
@@ -413,7 +461,13 @@ def check_card(path: Path, card: object) -> list[str]:
     if not isinstance(card.get("cost"), int) or card["cost"] < 0:
         out.append("cost must be a whole number, 0 or more")
     entry = {key: card[key] for key in EFFECT_KEYS if key in card}
-    out += check_effect({**entry, "trigger": "cast"}, allowed_triggers={"cast"})
+    reference = path.resolve().parent == (REFERENCE_DIR / "spells").resolve()
+    out += check_reference_namespace(path, card, reference)
+    if "modes" in card:
+        out += check_modes(card)
+    # A choice spell resolves its mode steps rather than a separate cast body.
+    if not ("modes" in card and entry.get("do") == []):
+        out += check_effect({**entry, "trigger": "cast"}, allowed_triggers={"cast"})
     out += check_set(path.name, card)
     out += check_overlay_text(card)
     if "gold_value" in card and (not isinstance(card["gold_value"], int) or card["gold_value"] < 1):
@@ -475,6 +529,113 @@ def check_extra(directory: Path, check) -> list[str]:
     return failures
 
 
+def check_reference_namespace(path: Path, card: dict, reference: bool) -> list[str]:
+    """Reference IDs/mechanics belong only to the separately opted-in directory."""
+    problems: list[str] = []
+    is_qb = str(card.get("id", "")).startswith("qb_")
+    native = any(
+        isinstance(entry, dict) and entry.get("id") == "reference_quilboar" for entry in card.get("mechanics", [])
+    )
+    if reference:
+        if not is_qb or not path.stem.startswith("qb_"):
+            problems.append(f"{path.name}: reference IDs and filenames must start qb_")
+        if "tribes" in card and card["tribes"] != ["quilboar"]:
+            problems.append(f"{path.name}: reference units must belong only to quilboar")
+        if card.get("kind") == "spell" and card.get("scaling_exempt") is not True:
+            problems.append(f"{path.name}: reference spells must be scaling_exempt")
+        for entry in card.get("mechanics", []):
+            if (
+                isinstance(entry, dict)
+                and entry.get("id") == "reference_quilboar"
+                and entry.get("kind") != str(card.get("id", ""))[3:]
+            ):
+                problems.append(f"{path.name}: native kind must match the reference card ID")
+    elif is_qb or native:
+        problems.append(f"{path.name}: Quilboar reference content is outside its test-only directory")
+    return problems
+
+
+def check_random_card_filter(value: object) -> list[str]:
+    if not isinstance(value, dict) or not value:
+        return ["effect add_card: random must be a non-empty filter"]
+    problems = [
+        f"effect add_card: unknown random filter {key!r}"
+        for key in value
+        if key not in {"tag", "tribe", "tier_at_most"}
+    ]
+    if not ({"tag", "tribe"} & value.keys()):
+        problems.append("effect add_card: random needs a tag or tribe")
+    for key in ("tag", "tribe"):
+        if key in value and (not isinstance(value[key], str) or not value[key]):
+            problems.append(f"effect add_card: random {key} must be non-empty text")
+    if "tribe" in value and value["tribe"] not in TRIBES | {"quilboar"}:
+        problems.append(f"effect add_card: unknown random tribe {value['tribe']!r}")
+    if "tier_at_most" in value:
+        tier = value["tier_at_most"]
+        if tier != "tier" and (not isinstance(tier, int) or isinstance(tier, bool) or not 1 <= tier <= 6):
+            problems.append("effect add_card: random tier_at_most must be tier or 1-6")
+    return problems
+
+
+def check_modes(card: dict) -> list[str]:
+    """Choose One has two explicitly named, recursively checked recruit effects."""
+    if "modes" not in card and "tags" not in card:
+        return []
+    modes = card.get("modes")
+    tags = card.get("tags", [])
+    problems: list[str] = []
+    if not isinstance(tags, list) or not all(isinstance(tag, str) and tag for tag in tags):
+        problems.append("choice tags must be a list of non-empty strings")
+    elif "choose_one" not in tags:
+        problems.append("choice card needs the choose_one tag")
+    if not isinstance(modes, list) or len(modes) != 2:
+        return [*problems, "Choose One needs exactly two modes"]
+    available = 0
+    for index, mode in enumerate(modes):
+        label = f"mode {index}"
+        if not isinstance(mode, dict):
+            problems.append(f"{label} must be an object")
+            continue
+        problems += [
+            f"{label}: unknown field {key!r}" for key in mode if key not in {"name", "text", "effects", "unavailable"}
+        ]
+        for key in ("name", "text"):
+            if not isinstance(mode.get(key), str) or not mode[key]:
+                problems.append(f"{label}: needs non-empty {key}")
+        unavailable = mode.get("unavailable", False)
+        if not isinstance(unavailable, bool):
+            problems.append(f"{label}: unavailable must be boolean")
+        steps = mode.get("effects")
+        if not isinstance(steps, list):
+            problems.append(f"{label}: effects must be a list")
+            continue
+        if unavailable:
+            if steps:
+                problems.append(f"{label}: an unavailable mode must have no effects")
+            continue
+        available += 1
+        if not steps:
+            problems.append(f"{label}: needs at least one effect")
+        for step in steps:
+            problems += [
+                f"{label}: {problem}" for problem in check_step(step, "recruit", "on_choose_one_played", False)
+            ]
+    if not available:
+        problems.append("Choose One needs at least one available mode")
+    return problems
+
+
+def check_reference() -> list[str]:
+    """Validate reference files in the gate without adding them to the release inventory."""
+    problems: list[str] = []
+    for directory, checker in ((REFERENCE_DIR / "units", check_unit), (REFERENCE_DIR / "spells", check_card)):
+        if not directory.is_dir() or not list(directory.glob("*.json")):
+            problems.append(f"{directory}: missing reference content")
+        else:
+            problems += check_extra(directory, checker)
+    return problems
+
+
 def main(argv: list[str]) -> int:
     units_dir = Path(argv[1]) if len(argv) > 1 else UNITS_DIR
     files = sorted(units_dir.glob("*.json"))
@@ -501,6 +662,8 @@ def main(argv: list[str]) -> int:
                 problems.append(f"{unit['id']}.json: death_summon names unknown unit {mech['unit']!r}")
     problems += check_extra(units_dir.parent / "spells", check_card)
     problems += check_extra(units_dir.parent / "heroes", check_hero)
+    if units_dir == UNITS_DIR:
+        problems += check_reference()
     for line in problems:
         print(line)
     pool = [u for u in units.values() if u["pool"]]

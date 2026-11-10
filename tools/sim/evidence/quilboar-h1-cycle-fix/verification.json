@@ -1,0 +1,24 @@
+{
+  "completed": {
+    "B": 150,
+    "uncut": 100
+  },
+  "lobbies": 250,
+  "plan_sha256": "0174e6bdf151059620fcef02d38a62780a12259151b210f46b11f25301606868",
+  "godot_scope_seconds": 887.0699999999999,
+  "simulation_lock": "/tmp/bramble-harness-godot.lock",
+  "godot_targeted_tests": 64,
+  "python_driver_report_tests": 22,
+  "capture_hashes_verified": true,
+  "compact_hashes_verified": true,
+  "seeds_verified": true,
+  "first_chunk_wall_time": "unavailable after recovered bookkeeping error; scope time recorded",
+  "retained_pre_fix_arms": {
+    "C": 150,
+    "uncut_frozen": 100
+  },
+  "superseded_original_arms": {
+    "B": 150,
+    "uncut": 100
+  }
+}

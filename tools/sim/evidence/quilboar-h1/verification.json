@@ -1,0 +1,17 @@
+{
+  "completed": {
+    "B": 150,
+    "C": 150,
+    "uncut": 100,
+    "uncut_frozen": 100
+  },
+  "godot_scope_seconds": 1726.58,
+  "godot_targeted_tests": 64,
+  "lobbies": 500,
+  "plan_sha256": "fddb868bef9b1c7a0471056aff8f44ee0e92f28feec328804a5c958f935f904e",
+  "python_driver_report_tests": 15,
+  "reviewed_range_unchanged": "cc6d26d5..4d23628e",
+  "simulation_lock": "/tmp/bramble-harness-godot.lock",
+  "source_commit": "bb8bb5f2",
+  "wall_seconds_including_wait_excluding_archival": 1731.4009720663307
+}

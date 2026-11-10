@@ -88,6 +88,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 		BotLanes.arrange(player, value, layout, pinned)
 		BotEggs.preserve(player, layout, pinned)
 		BotPass3.arrange(player, value, layout, pinned)
+		BotOoze.arrange(player, value, layout, pinned)
 		return layout
 	layout.resize(BoardGeometry.SLOTS)
 	layout.fill(-1)
@@ -135,6 +136,7 @@ static func rule_layout(player: PlayerState, value: BotEval, pinned: Array[int])
 	if value.level.reads_text:
 		BotEggs.preserve(player, layout, pinned)
 	BotPass3.arrange(player, value, layout, pinned)
+	BotOoze.arrange(player, value, layout, pinned)
 	return layout
 
 
@@ -485,6 +487,9 @@ static func _search_pins(
 			most = worth
 	if best >= 0 and not out.has(best):
 		out.append(best)
+	for slot: int in BotOoze.search_pins(player, value, layout):
+		if not out.has(slot):
+			out.append(slot)
 	if BotBog.active(player):
 		for slot: int in BotBog.search_pins(player, layout):
 			if not out.has(slot):

@@ -33,6 +33,8 @@ var shy_seen: Vector2i = Vector2i(-1, -1)
 var shy_accepts_stats: bool = false
 ## Belly: the units inside, oldest first, so the last in is the last entry. Only a board unit holds.
 var held: Array[RecruitUnit] = []
+## Frumenty's permanent text history, oldest first; never retains a destroyed meal's pool copy.
+var last_meals: Array[Dictionary] = []
 ## The round this was last played. A bird played this turn hasn't fought, so it can't fly yet.
 var played_round: int = 0
 ## Cut-and-Come-Again's copies: they don't count for triples or Fly South.
@@ -140,6 +142,10 @@ func view() -> Dictionary:
 	var borrowed: Array[Dictionary] = _borrowed_rules()
 	if not borrowed.is_empty():
 		out["borrowed_rules"] = borrowed
+	for key: String in ["ooze_ladle", "ooze_soup_bonus", "ooze_digest_preview", "ooze_nell_eaters"]:
+		if has_meta(key):
+			out[key] = get_meta(key)
+	out["ooze_share_serial"] = CoreUtil.to_int(counters.get("ooze_share_serial", 0))
 	UnitLibrary.add_configured_rulings(out, def, golden)
 	return out
 
@@ -211,6 +217,9 @@ func combat_spec() -> Dictionary:
 		"tribe_attack": tribe_attack,
 		"tribe_health": tribe_health,
 	}
+	for field: String in ["gem_attack", "gem_health", "combat_gem_attack", "combat_gem_health"]:
+		if CoreUtil.to_int(get(field)) != 0:
+			spec[field] = get(field)
 	if counters.has("hex"):
 		spec["hex"] = counters["hex"]
 	if counters.has("bog_frog_turn"):
@@ -249,9 +258,9 @@ func combat_spec() -> Dictionary:
 ## only happens as a unit is played, sold or comes home.
 func borrowed_text() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
-	if held.is_empty() or not has_mechanic_id("borrows_text"):
+	if not has_mechanic_id("borrows_text"):
 		return out
-	for unit: RecruitUnit in held:
+	for unit: RecruitUnit in _text_sources():
 		var entries: Array = unit.def["mechanics"]
 		for value: Variant in entries:
 			var entry: Dictionary = value
@@ -266,7 +275,7 @@ func _borrowed_rules() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	if not has_mechanic_id("borrows_text"):
 		return out
-	for unit: RecruitUnit in held:
+	for unit: RecruitUnit in _text_sources():
 		var entries: Array = unit.def["mechanics"]
 		var lendable: Array[int] = []
 		for index: int in entries.size():
@@ -292,6 +301,17 @@ func _borrowed_rules() -> Array[Dictionary]:
 	return out
 
 
+func _text_sources() -> Array[RecruitUnit]:
+	# The native marker distinguishes the permanent pass 3 history from the frozen Belly rule.
+	if not has_mechanic_id("pass3_ooze"):
+		return held
+	var out: Array[RecruitUnit] = []
+	for record: Dictionary in last_meals:
+		var definition: Dictionary = record["def"]
+		out.append(RecruitUnit.make(definition, 0, CoreUtil.to_bool(record["golden"])))
+	return out
+
+
 static func _fragment_matches(fragment: Dictionary, entry: Dictionary) -> bool:
 	return (
 		str(fragment.get("id", "")) == str(entry.get("id", ""))
@@ -302,6 +322,22 @@ static func _fragment_matches(fragment: Dictionary, entry: Dictionary) -> bool:
 static func _can_lend(entry: Dictionary) -> bool:
 	const NEVER: PackedStringArray = ["belly", "belly_discount", "fly_south", "shy", "borrows_text"]
 	const NOT_TRIGGERS: PackedStringArray = ["on_play", "on_sell", "on_home"]
+	if (
+		str(entry.get("id", "")) == "pass3_ooze"
+		and (
+			str(entry.get("ability", ""))
+			in [
+				"little_dollop",
+				"bubble_and_squeak",
+				"frumenty",
+				"wee_wobbly",
+				"figgy_duff",
+				"sixpenny_pie",
+				"mr_syllabub"
+			]
+		)
+	):
+		return false
 	if (
 		str(entry.get("id", "")) == "pass3_bird"
 		and str(entry.get("ability", "")) in ["swallow", "chiffchaff", "jay", "goose", "old_tern"]
@@ -329,6 +365,8 @@ func _held_views() -> Array:
 func clear_combat_layer() -> void:
 	combat_attack = 0
 	combat_health = 0
+	combat_gem_attack = 0
+	combat_gem_health = 0
 	if grants.is_empty():
 		return
 	var kept: Array[Dictionary] = []

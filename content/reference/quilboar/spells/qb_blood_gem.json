@@ -1,0 +1,25 @@
+{
+  "id": "qb_blood_gem",
+  "name": "Blood Gem",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 1,
+  "cost": 0,
+  "pool": false,
+  "aim": "unit",
+  "text": "Give a unit +[gem size] (starts +1/+1).",
+  "keywords": [],
+  "scaling_exempt": true,
+  "do": {
+    "effect": "gem",
+    "count": 1,
+    "target": {
+      "select": "chosen"
+    }
+  },
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

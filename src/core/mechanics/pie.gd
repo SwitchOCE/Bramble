@@ -6,6 +6,7 @@ func after_release(combat: Combat, unit: CombatUnit, params: Dictionary, count: 
 	if count <= 0:
 		return
 	combat.trigger(unit, "pie")
-	combat.carry_back(
-		unit.side, {"op": "gold_next_turn", "amount": CoreUtil.to_int(params.get("gold", 1))}
-	)
+	var gold: int = CoreUtil.to_int(params.get("gold", 1))
+	if CoreUtil.to_bool(params.get("pass3", false)):
+		gold = count * CoreUtil.to_int(params.get("per_unit", 1))
+	combat.carry_back(unit.side, {"op": "gold_next_turn", "amount": gold})

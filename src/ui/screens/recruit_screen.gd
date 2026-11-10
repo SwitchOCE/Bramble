@@ -12,6 +12,7 @@ signal settings_requested
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
+const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
 
 var _toast_timer: Timer
 var _hover_timer: Timer
@@ -20,6 +21,7 @@ var _hover_view: Dictionary = {}
 var _discover: CardPicker
 var _pause: PauseMenu
 var _selected: Dictionary = {}
+var _ooze_ui: RecruitOozes = RecruitOozes.new()
 
 var _projection: LaneProjection = LaneProjection.new()
 var _motion: RecruitMotion
@@ -317,6 +319,7 @@ func _render_board() -> void:
 		if _board.cards[slot] != null:
 			var unit: Dictionary = _board.cards[slot].unit
 			_board.cards[slot].turns_shown = RecruitView.tile_slip(unit)
+	_ooze_ui.render(_board)
 
 
 func _render_hand() -> void:
@@ -571,6 +574,8 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 	_hover_zone = zone
 	_hover_index = index
 	var view: Dictionary = _full_view(zone, _unit_at(zone, index)) if inside else {}
+	view = _ooze_ui.hover(_board, view, index, inside and zone == "board")
+
 	if inside and zone == "board" and _unit_at(zone, index).is_empty():
 		view = RecruitHeld.egg_card(Data.entry(RecruitView.slot_marks(state), index))
 	_hover_view = view
@@ -589,6 +594,7 @@ func _on_hovered(zone: String, index: int, inside: bool) -> void:
 func _end_hover() -> void:
 	_leave_timer.stop()
 	_board.set_pass_landing(-2)
+	_board.show_relations([])
 	_detail.show_empty()
 	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
 

@@ -1,0 +1,13 @@
+{
+  "full_main_lobbies": 500,
+  "full_projected_seconds": 2243.5,
+  "godot_asserts": 990,
+  "godot_tests": 64,
+  "python_driver_report_tests": 15,
+  "reviewed_range_unchanged": "cc6d26d5..4d23628e",
+  "runtime_seconds_per_lobby": 4.44,
+  "scope_smoke_only": true,
+  "simulation_lock": "/tmp/bramble-harness-godot.lock",
+  "source_commit": "bb8bb5f2",
+  "test_lock_wrapper": "/tmp/bramble-godot-slot"
+}

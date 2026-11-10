@@ -8,9 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After this survives a hit: split half its stats into a copy. Once a fight.",
-  "golden_text": "Belly 2. After this survives a hit: split half its stats into a copy. Twice a fight.",
-  "details": "The copy appears in the nearest gap with an empty Belly.",
+  "text": "Belly 1. Digest. After this survives a hit: split in two. Once a fight.",
+  "golden_text": "Belly 2. Digest. After this survives a hit: split in two. Twice a fight.",
   "mechanics": [
     {
       "id": "belly",
@@ -18,11 +17,19 @@
     },
     {
       "id": "bubble",
-      "splits": 1
+      "splits": 1,
+      "pass3": true
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "bubble_and_squeak",
+      "factor": 1
     }
   ],
   "keywords": [
-    "Belly"
+    "Belly",
+    "Digest",
+    "Eat"
   ],
   "row_hint": "front",
   "pool": true,
@@ -30,13 +37,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "mechanic_text": {
     "1": {
       "id": "bubble",
-      "text": "After this survives a hit: split half its stats into a copy. Once a fight.",
-      "golden_text": "After this survives a hit: split half its stats into a copy. Twice a fight."
+      "text": "After this survives a hit: split in two. Once a fight.",
+      "golden_text": "After this survives a hit: split in two. Twice a fight."
     }
   }
 }

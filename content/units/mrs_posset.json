@@ -8,24 +8,18 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. When this dies: deal 3 damage to the enemy across.",
-  "golden_text": "Belly 2. When this dies: deal 6 damage to the enemy across.",
+  "text": "Belly 1. When this dies: its killer loses half its stats.",
+  "golden_text": "Belly 2. When this dies: its killer and the units beside it lose half their stats.",
   "mechanics": [
     {
       "id": "belly",
       "size": 1
     },
     {
-      "id": "effect",
-      "trigger": "on_death",
-      "name": "posset",
-      "target": {
-        "select": "across"
-      },
-      "do": {
-        "effect": "damage",
-        "amount": 3
-      }
+      "id": "pass3_ooze",
+      "ability": "mrs_posset",
+      "factor": 1,
+      "loss_share": 0.5
     }
   ],
   "keywords": [
@@ -37,14 +31,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "mechanic_text": {
     "1": {
-      "id": "effect",
-      "trigger": "on_death",
-      "text": "When this dies: deal 3 damage to the enemy across.",
-      "golden_text": "When this dies: deal 6 damage to the enemy across."
+      "id": "pass3_ooze",
+      "text": "When this dies: its killer loses half its stats.",
+      "golden_text": "When this dies: its killer and the units beside it lose half their stats."
     }
   }
 }

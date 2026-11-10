@@ -23,7 +23,7 @@ static func has_content(combat: Combat) -> bool:
 					found
 					or (
 						str(entry.get("id", ""))
-						in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter"]
+						in ["pass3_bird", "pass3_fairy", "pass3_bog", "pass3_hunter", "pass3_ooze"]
 					)
 				)
 		combat.notes["pass3_pool_content"] = found
@@ -39,6 +39,7 @@ static func has_content(combat: Combat) -> bool:
 				or unit.has_mechanic("pass3_fairy")
 				or unit.has_mechanic("pass3_bog")
 				or unit.has_mechanic("pass3_hunter")
+				or unit.has_mechanic("pass3_ooze")
 			):
 				return true
 	return false
@@ -71,6 +72,10 @@ static func is_late_start(id: String, params: Dictionary) -> bool:
 	return (
 		is_biggest_enemy(id, params)
 		or Pass3HunterStart.late(id, params)
+		or (
+			id == "pass3_ooze"
+			and str(params.get("ability", "")) in ["hasty_pudding", "granny_stir_up"]
+		)
 		or (id == "pass3_bird" and str(params.get("ability", "")) == "jack_daw")
 	)
 
@@ -122,9 +127,16 @@ static func start(combat: Combat, first: int) -> void:
 	for priority: int in 3:
 		for invocation: Array in late:
 			var source: CombatUnit = invocation[0]
-			if _priority(source) == priority and not _jack(invocation):
+			if _priority(source) == priority and not _jack(invocation) and not _granny(invocation):
 				_invoke(combat, invocation)
 	Pass3HunterStart.finish_marks(combat)
+	# Both Hasty answers see the board before either Granny gathers. Granny's own Hasty
+	# has finished first; the globally final Jack dependency remains final.
+	for side: int in 2:
+		for invocation: Array in late:
+			var source: CombatUnit = invocation[0]
+			if source.side == side and _granny(invocation):
+				_invoke(combat, invocation)
 	# Permanent steals run last, in stable physical side/slot order, including copied text.
 	for side: int in 2:
 		for slot: int in BoardGeometry.SLOTS:
@@ -133,6 +145,12 @@ static func start(combat: Combat, first: int) -> void:
 				if source.side == side and source.slot == slot and _jack(invocation):
 					_invoke(combat, invocation)
 	Pass3BogStart.snapshot(combat)
+
+
+static func _granny(invocation: Array) -> bool:
+	var unit: CombatUnit = invocation[0]
+	var index: int = invocation[1]
+	return index < unit.params.size() and Pass3OozeCombat.ability(unit, index) == "granny_stir_up"
 
 
 static func _jack(invocation: Array) -> bool:

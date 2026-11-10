@@ -1,0 +1,30 @@
+{
+  "id": "qb_trench_fighter",
+  "name": "Trench Fighter",
+  "set": "slice",
+  "tier": 3,
+  "attack": 3,
+  "health": 3,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "End of Turn: get a Gem Confiscation.",
+  "golden_text": "End of Turn: get 2 Gem Confiscations.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "trench_fighter",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

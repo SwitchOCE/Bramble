@@ -8,8 +8,8 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
-  "golden_text": "Belly 2. After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight.",
+  "text": "Belly 1. After this survives a hit: what's inside comes out, or a 1/1 Drip.",
+  "golden_text": "Belly 2. After this survives a hit: what's inside comes out, or a 2/2 Drip.",
   "mechanics": [
     {
       "id": "belly",
@@ -17,8 +17,14 @@
     },
     {
       "id": "wobbly",
-      "limit": 2,
-      "unit": "drip"
+      "unit": "drip",
+      "drip": 1,
+      "pass3": true
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "wee_wobbly",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -30,13 +36,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/oozes.md"
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "mechanic_text": {
     "1": {
       "id": "wobbly",
-      "text": "After this survives a hit: the unit inside comes out, or a 1/1 Drip if empty. Twice a fight.",
-      "golden_text": "After this survives a hit: a unit inside comes out, or a golden 2/2 Drip if empty. Twice a fight."
+      "text": "After this survives a hit: what's inside comes out, or a 1/1 Drip.",
+      "golden_text": "After this survives a hit: what's inside comes out, or a 2/2 Drip."
     }
   }
 }

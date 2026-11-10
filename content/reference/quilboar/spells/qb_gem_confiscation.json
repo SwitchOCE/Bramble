@@ -1,0 +1,34 @@
+{
+  "id": "qb_gem_confiscation",
+  "name": "Gem Confiscation",
+  "set": "slice",
+  "kind": "spell",
+  "tier": 4,
+  "cost": 1,
+  "pool": true,
+  "aim": "unit",
+  "text": "Play 3 Blood Gems on a unit. It takes all Blood Gem stats from the units beside it.",
+  "keywords": [],
+  "scaling_exempt": true,
+  "do": [
+    {
+      "effect": "gem",
+      "count": 3,
+      "target": {
+        "select": "chosen"
+      }
+    },
+    {
+      "effect": "steal_gems",
+      "from": "adjacent",
+      "target": {
+        "select": "chosen"
+      }
+    }
+  ],
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

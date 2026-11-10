@@ -8,16 +8,21 @@
   "tribes": [
     "Oozes"
   ],
-  "text": "Belly 1. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
-  "golden_text": "Belly 2. A bought unit inside this goes golden with one more bought copy. Once every other turn.",
-  "details": "The golden goes to your hand and gives a Triple Reward when played.",
+  "text": "Belly 1. What's inside goes golden when you buy another copy.",
+  "golden_text": "Belly 2. What's inside goes golden when you buy another copy.",
   "mechanics": [
     {
       "id": "belly",
       "size": 1
     },
     {
-      "id": "figgy_duff"
+      "id": "figgy_duff",
+      "pass3": true
+    },
+    {
+      "id": "pass3_ooze",
+      "ability": "figgy_duff",
+      "factor": 1
     }
   ],
   "keywords": [
@@ -29,14 +34,14 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "docs/ideation/content/pass2-b.md",
-    "note": "Pass 2 review amendments in DECISIONS.md."
+    "doc": "docs/ideation/content/pass3/oozes-pass3.md",
+    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
   },
   "mechanic_text": {
     "1": {
       "id": "figgy_duff",
-      "text": "A bought unit inside this goes golden with one more bought copy. Once every other turn.",
-      "golden_text": "A bought unit inside this goes golden with one more bought copy. Once every other turn."
+      "text": "What's inside goes golden when you buy another copy.",
+      "golden_text": "What's inside goes golden when you buy another copy."
     }
   }
 }

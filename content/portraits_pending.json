@@ -1,17 +1,4 @@
 {
-  "reason": "9 Nov 2026: the Cuckoo and 11 new pass-2 units intentionally use their tribe portraits until bespoke art is ready. Pass 2 covers card behavior and text; no new art is included.",
-  "units": [
-    "cuckoo",
-    "grey_agnes",
-    "old_isegrim",
-    "mr_pym",
-    "mrs_clover",
-    "mrs_mallow",
-    "goodman_hayward",
-    "squire_lollop",
-    "signor_ranocchio",
-    "lantern_man",
-    "lob_lie_by_the_fire",
-    "silky"
-  ]
+  "reason": "10 Nov 2026: every shipped unit and created unit token has its own portrait; the 12 previously pending portraits are now covered.",
+  "units": []
 }

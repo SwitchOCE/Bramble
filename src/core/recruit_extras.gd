@@ -119,6 +119,10 @@ static func fight_rules(rules: RecruitRules, player: PlayerState) -> Dictionary:
 		"away_specs": HeldUnits.away_specs(player),
 		"homecomings": player.homecomings_this_turn,
 	}
+	if player.reference_quilboar:
+		out["gem_attack_halves"] = player.gem_attack_halves
+		out["gem_health_halves"] = player.gem_health_halves
+		out["quilboar_ref"] = player.quilboar_ref.duplicate(true)
 	if player.pass3_bog or player.bog_toll > 0 or player.bog_kisses > 0:
 		out.merge({"bog_toll": player.bog_toll, "bog_kisses": player.bog_kisses})
 	return out

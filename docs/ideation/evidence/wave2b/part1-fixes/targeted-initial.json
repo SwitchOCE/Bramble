@@ -1,0 +1,126 @@
+{
+  "tests": 179,
+  "failures": 0,
+  "seconds": 65.036,
+  "files": [
+    {
+      "name": "tests/core/test_combat_logging.gd",
+      "tests": "3",
+      "failures": "0",
+      "skipped": "0",
+      "time": "6.161924"
+    },
+    {
+      "name": "tests/ui/test_engines.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.979849"
+    },
+    {
+      "name": "tests/core/test_engines.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.950813"
+    },
+    {
+      "name": "tests/core/test_engine_docs.gd",
+      "tests": "1",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.019525"
+    },
+    {
+      "name": "tests/core/test_pass2_followup_review.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "4.405358"
+    },
+    {
+      "name": "tests/core/test_review3_dozey.gd",
+      "tests": "5",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.50682"
+    },
+    {
+      "name": "tests/core/test_free_choice.gd",
+      "tests": "8",
+      "failures": "0",
+      "skipped": "0",
+      "time": "1.155899"
+    },
+    {
+      "name": "tests/core/test_game_session.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "7.070607"
+    },
+    {
+      "name": "tests/core/test_unit_library.gd",
+      "tests": "9",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.007856"
+    },
+    {
+      "name": "tests/ui/test_fixture_port.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.018568"
+    },
+    {
+      "name": "tests/ui/test_followup_tribes56.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.03633"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_recruit.gd",
+      "tests": "20",
+      "failures": "0",
+      "skipped": "0",
+      "time": "8.892236"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_combat.gd",
+      "tests": "27",
+      "failures": "0",
+      "skipped": "0",
+      "time": "11.120665"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_content.gd",
+      "tests": "7",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.658545"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_bots.gd",
+      "tests": "17",
+      "failures": "0",
+      "skipped": "0",
+      "time": "12.166689"
+    },
+    {
+      "name": "tests/core/test_pass3_ooze_start.gd",
+      "tests": "14",
+      "failures": "0",
+      "skipped": "0",
+      "time": "5.76242"
+    },
+    {
+      "name": "tests/ui/test_portraits.gd",
+      "tests": "6",
+      "failures": "0",
+      "skipped": "0",
+      "time": "2.037025"
+    }
+  ]
+}

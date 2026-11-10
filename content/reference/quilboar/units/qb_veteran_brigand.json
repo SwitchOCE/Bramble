@@ -1,0 +1,54 @@
+{
+  "id": "qb_veteran_brigand",
+  "name": "Veteran Brigand",
+  "set": "slice",
+  "tier": 6,
+  "attack": 8,
+  "health": 8,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "Choose one: play a Blood Gem on each of your units; or cast Blood Gem Barrage once.",
+  "golden_text": "Choose one: play 2 Blood Gems on each of your units; or cast Blood Gem Barrage twice.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "veteran_brigand",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": null,
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  },
+  "tags": [
+    "choose_one"
+  ],
+  "modes": [
+    {
+      "name": "Blood Gems",
+      "text": "Play a Blood Gem on each of your units.",
+      "effects": [
+        {
+          "effect": "gem",
+          "count": 1,
+          "target": {
+            "select": "friendly"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Blood Gem Barrage",
+      "text": "Unavailable until Phase 2.",
+      "effects": [],
+      "unavailable": true
+    }
+  ]
+}
