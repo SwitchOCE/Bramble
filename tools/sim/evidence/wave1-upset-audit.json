@@ -49,7 +49,7 @@
     "src/core/combat/pass3_ooze_combat.gd": "78d81c4633818a413e430ccf6b0184721c97c0f243850b3fff95d859fd22831d",
     "src/core/mechanics/pass3_ooze.gd": "05aa5ce6da821117367658b613d9e70bc9b8176d0a9a9aa2f96576e4247928b3",
     "src/core/pass3_ooze_text.gd": "c39f87e4bf08268774e978878868a9fe14b99019317e4453ab8eefc35a601d4c",
-    "src/core/pass3_oozes.gd": "f6bb184665953466d9c33647bcd0d7d0a2f07df9bfc15dc0a5e5249f90607c76",
+    "src/core/pass3_oozes.gd": "514f4eb0ebe23af534c9fc6a2dcc028ef874d21446894a3f26a9d4b2f6f50321",
     "src/core/mechanics/bubble.gd": "cd490923a0b81b1e1b2538340cdc451f3abbdcb7dbe9c903a21772d5e634b519",
     "src/core/mechanics/wobbly.gd": "57e6bb112a6c8d45515c31229ea4c8a294e9e0d9d4193e6801317e45f80d2dd5",
     "src/core/mechanics/pie.gd": "276ec7bbeaaffc61ebb831c47011811d4edf54ccef3d10f628ba862ed3ce9705",

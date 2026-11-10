@@ -1,0 +1,22 @@
+{
+  "cause": "Native Slice generator appended fully buffed created cards without running immediate triple resolution.",
+  "fix": "Check triples after each append/card log, before capacity is checked for the next generated copy.",
+  "red": {
+    "name": "GutTests",
+    "failures": "3",
+    "tests": "3"
+  },
+  "green": {
+    "name": "GutTests",
+    "failures": "0",
+    "tests": "41"
+  },
+  "no_tests_check": "PASS build/neutrals/slice/check.log",
+  "cases": {
+    "normal": "two owned 3/5 and 7/11 plus generated 20/20 combine to golden 29/35",
+    "golden_full_hand": "first arrival combines to 59/59, making room for second 20/20; hand size 9",
+    "belly": "owned Belly copy participates and leaves its holder"
+  },
+  "historical_evidence": "/home/alex/code/Bramble-ideation-simfix/docs/ideation/evidence/sim-job-fix.json: 48 violations; seed15 P1 R18",
+  "raw_logs": "build/neutrals/slice/"
+}

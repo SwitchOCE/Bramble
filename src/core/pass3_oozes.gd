@@ -211,6 +211,7 @@ static func start_turn(rules: RecruitRules, player: PlayerState, frozen: bool) -
 			player.log_event(
 				"card", {"card": "slice", "attack": stats.x, "health": maxi(1, stats.y)}
 			)
+			rules.check_triples(player)
 
 
 static func lowest_unfrozen(player: PlayerState, frozen: bool = false) -> RecruitUnit:

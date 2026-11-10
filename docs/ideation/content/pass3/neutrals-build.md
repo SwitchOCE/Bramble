@@ -209,3 +209,18 @@ The R12 active median is 44.2% of 900; the payout gap is not claimed fixed.
 The new seven-test bot script takes 0.68 seconds, and the four Python report tests
 0.006 seconds. Checks, fixture hashes and source remain unchanged after measuring.
 Prototype retirement was not started within this turn's 45-minute budget.
+
+## Immediate Slice triples: soak follow-up
+
+The native producer appended each Created Slice without calling `check_triples`.
+That left three eligible owned copies uncombined and could lose a golden
+producer's second Slice because the first had not yet freed hand space. The fix
+checks immediately after each fully buffed copy is appended and logged. It uses
+the shared triple rule, including copies inside Bellies, and preserves creation,
+stat assignment, reward and full-hand rules. The pass 2 producer is unchanged.
+
+All three fixed regressions fail without the line and pass with it: normal
+29/35 golden, full-hand golden batch 59/59 plus a second 20/20, and Belly ownership.
+The broader affected run passes 41/41; `check.sh --no-tests` passes with formatting,
+lint, content, imports and compilation. [Evidence](../../evidence/neutrals/slice-triples.json)
+records the red/green results and links the 48 historical soak violations.
