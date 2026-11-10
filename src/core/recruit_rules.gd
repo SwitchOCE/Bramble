@@ -313,7 +313,7 @@ func sell(player: PlayerState, slot: int) -> String:
 	else:
 		player.gold += sell_value(unit, player)
 		pool.give_back(unit.pool_id(), unit.pool_copies)
-		player.log_event("sell", {"unit": unit.def_id()})
+		player.log_event("sell", Pass3Oozes.probe_sale(unit))
 		HeldUnits.release(self, player, unit)
 	board_changed(player)
 	HeldUnits.drain_doorstep(self, player)
@@ -507,6 +507,7 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 	var any_bought: bool = false
 	for entry: Variant in copies:
 		var copy: RecruitUnit = entry
+		Pass3Oozes.probe_merge(golden, copy)
 		golden.add_permanent(copy.perm_attack, copy.perm_health)
 		golden.add_combat(copy.combat_attack, copy.combat_health)
 		golden.gem_attack += copy.gem_attack

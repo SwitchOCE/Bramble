@@ -83,7 +83,8 @@ static func is_known(suite: String) -> bool:
 				"free_choice_plain",
 				"lines",
 				"wave1_accounting",
-				"quilboar_h1"
+				"quilboar_h1",
+				"ooze_probe"
 			]
 		)
 	)
@@ -106,9 +107,9 @@ static func seats(
 	incumbent: String = "hard",
 	leg: int = 0
 ) -> PackedStringArray:
-	if suite == "quilboar_h1":
+	if suite in ["quilboar_h1", "ooze_probe"]:
 		var reference_seats: Array = [
-			"line_quilboar_engine",
+			"line_oozes_tempo" if suite == "ooze_probe" else "line_quilboar_engine",
 			"line_birds_homecoming",
 			"line_fairies_ring",
 			"line_bog_engine",

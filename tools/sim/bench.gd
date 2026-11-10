@@ -38,6 +38,7 @@ var _active_session: GameSession
 var _test_card: Dictionary = {}
 var _plant_spawned: bool = false
 var _overrides: Dictionary = {}
+var _probe_events: Dictionary = {}
 
 
 func _initialize() -> void:
@@ -163,6 +164,13 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		game_seed, _library, config, BenchSuites.create_bot
 	)
 	_active_session = session
+	_probe_events.clear()
+	if suite == "ooze_probe":
+		for player: PlayerState in session._players:
+			player.set_meta("ooze_probe", true)
+			player.log_observer = _probe_event.bind(player)
+			session._rules.shop_observer = _probe_shop
+			_probe_shop(player)
 	for id: int in BenchSuites.SEATS:
 		_starting_policies[id] = session.build_of(id)
 	_plant_spawned = false
@@ -194,6 +202,8 @@ func _on_capture(input: Dictionary, result: Dictionary, combat: Combat) -> void:
 			var units: Array = snapshot["units"]
 			units.append_array(FightCapture.reserves(player, _active_session._library))
 			snapshot["recruit_units"] = FightCapture.recruit_inventory(player)
+			if str(_options["suite"]) == "ooze_probe":
+				snapshot["ooze_probe"] = _probe_snapshot(player)
 			(
 				snapshot
 				. merge(
@@ -521,3 +531,62 @@ func _has_quilboar_engine(player: PlayerState) -> bool:
 		if unit != null and unit.def_id() in ["qb_gem_rat", "qb_bramble_tunneler"]:
 			return true
 	return false
+
+
+func _probe_event(kind: String, fields: Dictionary, player: PlayerState) -> void:
+	var key: String = "%d:%d" % [player.id, player.round_number]
+	if not _probe_events.has(key):
+		_probe_events[key] = []
+	var events: Array = _probe_events[key]
+	events.append({"type": kind, "fields": fields.duplicate(true)})
+
+
+func _probe_snapshot(player: PlayerState) -> Dictionary:
+	var inventory: Array = []
+	for location: String in ["board", "hand", "doorstep", "poached_pending"]:
+		var units: Array = player.get(location)
+		for unit: RecruitUnit in units:
+			if unit != null:
+				_probe_unit(inventory, unit, location)
+	return {
+		"events": _probe_events.get("%d:%d" % [player.id, player.round_number], []),
+		"inventory": inventory,
+		"rolls": player.paid_refreshes,
+		"gold_left": player.gold,
+		"spent": player.gold_spent_turn,
+		"digest_room": _probe_room(player),
+		"gold_at_start": player.gold_at_start,
+	}
+
+
+func _probe_unit(inventory: Array, unit: RecruitUnit, location: String) -> void:
+	(
+		inventory
+		. append(
+			{
+				"iid": unit.iid,
+				"id": unit.def_id(),
+				"location": location,
+				"credit": CoreUtil.to_int(unit.get_meta("probe_eat_credit", 0)),
+				"attack": unit.attack,
+				"health": unit.health,
+			}
+		)
+	)
+	for held: RecruitUnit in unit.held:
+		_probe_unit(inventory, held, "belly")
+
+
+func _probe_shop(player: PlayerState) -> void:
+	var offers: Array = []
+	for unit: RecruitUnit in player.shop:
+		offers.append({"iid": unit.iid, "id": unit.def_id(), "stats": unit.attack + unit.health})
+	_probe_event("shop", {"offers": offers}, player)
+
+
+func _probe_room(player: PlayerState) -> int:
+	var room: int = 0
+	for unit: RecruitUnit in player.board:
+		if unit != null and Pass3Oozes.is_digest(unit):
+			room += HeldUnits.room(unit)
+	return room

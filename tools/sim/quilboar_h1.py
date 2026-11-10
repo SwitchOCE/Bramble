@@ -112,7 +112,10 @@ def run_git(*arguments):
     return subprocess.check_output(["git", "-C", str(ROOT), *arguments], text=True).strip()
 
 
-def compact_chunk(prefix, arm, first, count, elapsed):
+def compact_chunk(prefix, arm, first, count, elapsed, *, ooze_probe=False):
+    lines = (
+        tuple("line_oozes_tempo" if name == "line_quilboar_engine" else name for name in LINES) if ooze_probe else LINES
+    )
     with prefix.with_suffix(".players.csv").open() as stream:
         players = list(csv.DictReader(stream))
     grouped_players = defaultdict(list)
@@ -123,7 +126,7 @@ def compact_chunk(prefix, arm, first, count, elapsed):
                 "seat": int(player["seat"]),
                 "line": line,
                 "final_line": player["strategy"],
-                "assigned_tribe": TRIBES[line],
+                "assigned_tribe": ("Oozes" if line == "line_oozes_tempo" else TRIBES[line]),
                 "final_tribe": player["final_tribe"],
                 "place": int(player["place"]),
                 "rounds": int(player["rounds"]),
@@ -134,7 +137,7 @@ def compact_chunk(prefix, arm, first, count, elapsed):
     if sorted(grouped_players) != seeds:
         raise ValueError("incomplete seed coverage")
     for seed in seeds:
-        if Counter(p["line"] for p in grouped_players[seed]) != Counter(LINES):
+        if Counter(p["line"] for p in grouped_players[seed]) != Counter(lines):
             raise ValueError("wrong H1 roster")
     rows, seen, commits, keystones = defaultdict(list), set(), {}, {}
     with prefix.with_suffix(".fights.jsonl").open() as stream:
@@ -155,7 +158,7 @@ def compact_chunk(prefix, arm, first, count, elapsed):
                 before = record["combat_start"][side]
                 after = record["after_start_effects"][side]
                 line = before["assigned_line"]
-                if line not in LINES:
+                if line not in lines:
                     raise ValueError("unexpected assigned line")
                 key = seed, seat
                 if line != "line_quilboar_engine" or before["committed"]:
@@ -188,15 +191,20 @@ def compact_chunk(prefix, arm, first, count, elapsed):
                             }
                             for u in active
                         ],
+                        "ooze_probe": before.get("ooze_probe", {}),
+                        "belly_stats": sum(
+                            u["attack"] + u["health"] for u in before["units"] if u.get("location") == "belly"
+                        ),
+                        "health_after": record["health_after"][side],
                         "tier": int(fight["tiers"][side]),
-                        "gem_size": [before["gem_attack_halves"], before["gem_health_halves"]],
+                        "gem_size": [before.get("gem_attack_halves", 0), before.get("gem_health_halves", 0)],
                         "commit_round": commits.get(key),
                         "keystone_found_round": keystones.get(key),
                     }
                 )
     output = []
     for seed in seeds:
-        if Counter(r["line"] for r in rows[seed] if r["round"] == 1) != Counter(LINES):
+        if Counter(r["line"] for r in rows[seed] if r["round"] == 1) != Counter(lines):
             raise ValueError("missing starting board capture")
         roster = [
             {"seat": p["seat"], "line": p["line"], "assigned_tribe": p["assigned_tribe"]} for p in grouped_players[seed]
