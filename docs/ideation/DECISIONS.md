@@ -4,6 +4,51 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Sim job (S4): review calls
+**Source:** a fresh Sol review of `ideation/c-sim-job` `ce50d9d7..41428960`: 9 cut, 1 simplify, 2 keep.
+
+**Cuts:**
+- `sim-run.sh --wait` reports a failed run as done.
+- An entirely failed line run passes.
+- The soak merge doesn't reconcile seeds or require complete shard reports.
+- Uneven shard splits crash.
+- Field soaks read bots that `FieldRivals.setup()` removed.
+- The no-set check misses units that appear only in combat.
+- Field fights and designed setups are missing as run kinds.
+- The acceptance runs aren't met: the committed 200-game soak shows 198 violations.
+- Part 0's timing warning is hidden, and `test_times.json` is stale.
+
+**Simplify:** move job orchestration out of `tools/sim/`.
+
+**Picked:** all ten go to a Sol worker on `ideation/sim-job-fix`, which has ideation/main merged in, not back to the Claude routine (10b). Each violation kind in the 198 is classed as a checker bug, fixed there, or a real rule break, reported to the orchestrator with an example. The worker may push only `ideation/sim/<id>` branches, through `sim-run.sh`, for the acceptance runs.
+
+**Blocked on the owner for the merge:** the sim job adds `sim.yml`, and this machine's token can't push workflow changes.
+
+**Agreed by:** the review. The routine's own report claimed done.
+
+### 10 Nov 2026 — S5b/S10b: review calls
+**Source:** a fresh Sol review of `bcb30012..d0b918ec` (gated: PASS): 1 cut, 1 simplify, 2 ask, 3 keep.
+
+**Picked:**
+- **Cut:** exported builds record an empty build id, so `replay-log` rejects the owner's exported games. The export script (S3, now merged) supplies the commit, proved by one export whose log replays.
+- **Simplify:** the cache test compares `_by_id` with itself; compare against `copied._units`.
+- **Asks:** A4's strong-field render check becomes an A7 prerequisite, and W-d's handoff gets the `--field-library` argument, both in `plan-to-done.md`. The planted-bug base stays labelled as inferred: the deleted branch can't be recovered, and the timing evidence is confirmed from Actions artifacts.
+
+All of this goes back to the same Sol author on `ideation/s5b-s10b`, with ideation/main merged in.
+
+**Agreed by:** the review.
+
+### 10 Nov 2026 — S3 merged
+**Source:** the narrow Sol review of `fb659fc3`, `d9b228c6` (w8: 5 keep, 0 cut, 1 simplify, 2 ask), then the Actions gate.
+
+**Picked:**
+- Merged as `8b64da69`, gated PASS.
+- **Simplify taken:** `ci.yml` stays as ideation/main had it. The duplicate preflight is gone, and this machine can't push workflow changes anyway.
+- **Both asks kept:** the S1 ownership exception (`field_rivals.gd` and its test) and the smoke probe with its docs. Both support lazy loading and the new smoke contract.
+- **The first gate failed** on `test_source_fingerprints_use_requested_git_commit`. Its git mock answered the new `tools/sim/lines` lookup with the content list. That was fixed in the merge, and the second gate passed. The worker's targeted run (32 Python tests) had missed it; the gate's full Python run caught it.
+
+**Agreed by:** w8's review and the gate.
+
 ### 10 Nov 2026 — Codex Cloud handoff merged; this machine can't see the environment yet
 **Source:** `ideation/codex-cloud-handoff` be5f8e84, from the owner's Codex Cloud setup worker. It is docs-only: a new `CODEX_CLOUD.md`, and the placeholder in `ORCHESTRATION.md` filled in.
 
