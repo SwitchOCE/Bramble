@@ -1,22 +1,19 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** The Oozes' shortfall turned out to be their numbers: a measured buff takes their round-12 median from 352 to 1,235 with a healthy spread, so that becomes their starting point. Batch 2, the neutrals and A3.5's dials are in their last fixes before merging.
-- **Status:** active
+- **In short:** You ended this run at build 8 (note 10g). The A3.5 dials, the neutrals, the soak fixes and the fight-screen declutter are merged. What's left is the Oozes' new values, one smaller run that sets every other tribe's numbers, and the export.
+- **Status:** active, ending at build 8
 - **Last step done:** 10 Nov:
-  - Wave 2b merged: Hedgerow's route fixes and the Pot Luck route.
-  - The Actions sim job (S4) merged. Its results match local runs exactly, and its soak found four real game bugs.
-  - S5b merged: exported game logs record their build and replay.
-  - S3 merged: one export script, and memory use of +166 MB, within the 300 MB budget.
-  - The fight screen's batch 2 passed its cold reader 16/16. Its evidence was cut from 195 MB to 45 MB before merging.
+  - Merged: A3.5's dials (c5e65925), the neutrals with the soak's Egg and release fixes (4df1c876), and declutter batch 2 (54d7fb78).
+  - The 200-game soak on the merged pool: 0 violations in 160 games played. The 40 field-rival games need the rebuilt field library.
+  - The Ooze probe: their problem is the numbers. Arm b takes the engine line's R12 median from 352 to 1,205 on the same seeds.
 - **Next step:**
-  - Oozes: arm b's values become preset B after A3.5 merges, with the probe's two overflow guards (DECISIONS, "Oozes: the problem is the numbers").
-  - A3.5's dials: Hedgerow's four dials are in (4c8bb077); a fresh review is running, then the gate, then run 1.
-  - Batch 2: its gate failed on frozen replays and two text tests; the author is proving the replay changes are presentation-only, and fixing six review cuts.
-  - The neutrals (A3): the Soup odds check, the Slice bug and the prototype retirement, then review.
-  - The soak's Egg and held-release bugs: a worker is on them.
-- **Waiting on you:** Nothing.
-- **Scope:** Fun first, then balance. Simulations over bot play. Power starts generous and is cut back at the outlier. Two criteria decide checkpoint 1: testers feel progress, and the median grows ×1.3 a round from R8 to R14 (owner, 9 Nov).
+  - The Ooze values: merging main, then the gate.
+  - The measurement run: four dial settings on 32 seeds, a fit per tribe to 900 at R12, and one confirming run.
+  - Build 8: rebuild the field library, export with the usual checks, point `latest` at it.
+  - Then the end-of-run report and the process proposal (note 10g), and the run stops.
+- **Waiting on you:** Nothing until build 8 is out.
+- **Scope:** Only what build 8 needs (note 10g). Parked work: `PARKED.md`. One review per step, plus the test gate.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).

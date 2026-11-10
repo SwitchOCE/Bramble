@@ -4,6 +4,35 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — The run ends at build 8 (owner, 10g)
+**Source:** owner note `2026-11-10g-run-ends-at-build-8.md`. It replaces the run's end condition: no checkpoint-1 tester round and no three-reviewer bar before the owner plays.
+
+**Picked:** build 8 contains only:
+- **The Oozes' new values** (arm b as preset B), with the probe's overflow guards. In its last merge.
+- **One smaller measurement run** that sets preset B for every other tribe from realized boards: four arms (t = 0, 1, 2, 3) on the same 32 line-lobby seeds, a fit per tribe to 900 at R12, then one confirming run at the new B. C's fit, run 2 at C, A4's 150+ lobbies and A5's cuts are skipped.
+- **The export with its usual checks:** the strong-field library rebuilt on the new presets, the gate, the boot and pack checks, and the README.
+
+Also:
+- Batch 2 (declutter) passed its gate, so it ships in build 8 (54d7fb78).
+- Everything else is parked in `PARKED.md`. Nothing new starts.
+- Each step gets one fresh review plus the test gate.
+- After the export: an end-of-run report for the owner (two pages at most), and a proposal for thinning the process, not acted on.
+
+**Why:** the owner's words. Process had overtaken the game, and the owner playing a build at the new scale is the most useful signal.
+
+**Agreed by:** the owner's direction.
+
+### 10 Nov 2026 — The 200-game soak passes on the merged pool; its field games wait
+**Source:** sim job `soak200-a3-20261110` on ideation/main 4df1c876 (A3 and the soak fixes merged): run 42760944927.
+
+**Found:** 0 violations and 0 crashes in the 160 games played (120 at preset B, 40 at C). The 40 field-rival games (every seed ≡ 4 mod 5) were skipped, because no field library was given and none is committed.
+
+**Picked:** the preset arms meet the soak prerequisite. The field arm waits for the strong-field library rebuilt on the new presets, since a library built now would be stale once the measurement run moves the rates. Since 10g skipped A4, it runs with the next measurement (`PARKED.md`).
+
+**Why:** the field rivals' boards come from the presets, so testing them before the presets settle would test the wrong rivals.
+
+**Agreed by:** the soak's own verdict; the orchestrator's call on the field arm.
+
 ### 10 Nov 2026 — Neutrals (A3) and the soak's Egg and release fixes merged
 **Source:** `ideation/neutrals` aecf96a8, which merged `ideation/soak-bugs` 450098d8, merged as `4df1c876` (gate PASS on 2202a70e, run 42760315894).
 
