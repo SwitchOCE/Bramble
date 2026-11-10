@@ -125,7 +125,14 @@ func to_save() -> Dictionary:
 	return saved
 
 
-func _load_field_reference(data: Dictionary) -> String:
+func _load_field_reference(saved: Dictionary) -> String:
+	var data: Dictionary = PlayVariant.field_reference(saved)
+	if data.has("error"):
+		return str(data["error"])
+	return _check_field_reference(data)
+
+
+func _check_field_reference(data: Dictionary) -> String:
 	field_strength = str(data.get("field_strength", "top4"))
 	if field_strength not in ["top4", "all"]:
 		return "Unknown field strength: %s" % field_strength
