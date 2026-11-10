@@ -1,6 +1,6 @@
 # Mechanics batch 5: the owner's venom idea
 
-This batch has one mechanic, the owner's own. There is no earlier entry or rules review. Read the owner's words in `docs/design/owner-notes/2026-11-02k-venom-idea.md` and treat them as the idea to design from.
+This batch has one mechanic, the owner's own. There is no earlier entry or rules review. Read the owner's words in `docs/design/owner-notes/archive/2026-11-02k-venom-idea.md` and treat them as the idea to design from.
 
 ### 75. (working name: Venom) — NEW, the owner's idea
 - **The owner's words.** A debuff "that goes on creatures. Whenever they're attacked, they lose half their HP, their current HP, rounded down. So it helps wide boards deal with really, really big boards. It would have to be a powerful effect that goes on high-tier stuff."

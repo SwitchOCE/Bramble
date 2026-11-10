@@ -6,7 +6,7 @@ argument-hint: "[the problem, with where it was reported]"
 
 # Triage a design problem
 
-The owner's method (`docs/design/owner-notes/2026-11-08f-birds-case-study.md`): "When you see an issue… take a step back and then triage what's causing it… form multiple hypotheses… and then look for evidence for each of those." Don't jump from the symptom to a fix.
+The owner's method (`docs/design/owner-notes/archive/2026-11-08f-birds-case-study.md`): "When you see an issue… take a step back and then triage what's causing it… form multiple hypotheses… and then look for evidence for each of those." Don't jump from the symptom to a fix.
 
 ## 1. State the symptom
 

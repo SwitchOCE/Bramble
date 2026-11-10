@@ -1,6 +1,6 @@
 # Mechanics ideas: rows and slots
 
-**Status: goldfish ideation, 2 November 2026. Not adopted, not costed.** This is one of several idea lists written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and to "experiment with slot buff mechanics" because "We have set slots" ([2026-11-02f](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md), [2026-11-02e](../owner-notes/2026-11-02e-mechanics-are-examples.md)).
+**Status: goldfish ideation, 2 November 2026. Not adopted, not costed.** This is one of several idea lists written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and to "experiment with slot buff mechanics" because "We have set slots" ([2026-11-02f](../owner-notes/archive/2026-11-02f-new-effects-and-goldfish-designers.md), [2026-11-02e](../owner-notes/archive/2026-11-02e-mechanics-are-examples.md)).
 
 **Angle:** the two rows and the fixed slots. That covers slot effects that stay when units change; front and back; in front of and behind; across from; gaps and empty slots as resources; moving and swapping; summon space; rows that change during combat.
 

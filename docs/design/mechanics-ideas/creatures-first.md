@@ -1,6 +1,6 @@
 # Mechanics ideas: creatures first
 
-**Status: ideas for the owner, 2 November 2026. Nothing here is adopted.** Written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds" ([2026-11-02f note](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)), and the point that Battlegrounds keywords "are illustrations" ([2026-11-02e note](../owner-notes/2026-11-02e-mechanics-are-examples.md)).
+**Status: ideas for the owner, 2 November 2026. Nothing here is adopted.** Written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds" ([2026-11-02f note](../owner-notes/archive/2026-11-02f-new-effects-and-goldfish-designers.md)), and the point that Battlegrounds keywords "are illustrations" ([2026-11-02e note](../owner-notes/archive/2026-11-02e-mechanics-are-examples.md)).
 
 **The angle.** Start from what a woodland animal, fairy or ooze really does (or does in folklore), and find the mechanic that behaviour suggests. 18 mechanics, 17 creatures.
 

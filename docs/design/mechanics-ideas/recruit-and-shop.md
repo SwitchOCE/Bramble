@@ -1,6 +1,6 @@
 # Mechanics ideas: the Recruit Phase
 
-**Status: goldfish ideas, 2 November 2026. Not costed, not decided.** Written blind to the power budget, as the owner asked: "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules. They change them" ([2026-11-02f note](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)). Every number on an example unit is a guess by feel. Balance is someone else's job.
+**Status: goldfish ideas, 2 November 2026. Not costed, not decided.** Written blind to the power budget, as the owner asked: "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules. They change them" ([2026-11-02f note](../owner-notes/archive/2026-11-02f-new-effects-and-goldfish-designers.md)). Every number on an example unit is a guess by feel. Balance is someone else's job.
 
 **Angle.** Buying, selling, refreshing, freezing, upgrading, the hand, triples and goldens, Tavern spells, gold kept over turns, the shared pool and the next opponent. Each mechanic is a turn-to-turn engine or a choice, and each says how it **ends within a turn**, because Bramble has no recruit timer ([rulebook](../rulebook.md) 3.1.2).
 

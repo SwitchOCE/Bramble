@@ -19,14 +19,23 @@ Start here:
 - Architecture thinking: `docs/design/architecture-notes.md`.
 - Game design: Bramble's specifics in `docs/design/bramble-design-guidance.md`, and the general `game-design-process` skill (`.claude/skills/game-design-process/`), used only when the owner or an orchestrator says so.
 
-## Owner notes are records
+## Owner notes are records, and the current set stays short (owner, 10 Nov 2026)
 
-Files in `docs/design/owner-notes/` are the owner's dictated words. Never reword, summarize over or "improve" them. Corrections go in a new dated note or in the summary.
+Files in `docs/design/owner-notes/` are the owner's dictated words. Never reword, summarize over or "improve" them.
 
-When transcribing a new dictation:
-- Remove dictation errors, filler words and repeats, and add punctuation.
-- Reordering into sections is allowed.
-- Mark any interpretation of yours as *[italic bracketed editor notes]*.
+**Only big direction becomes a note:** a change of goal, scope, phase or standing preference. A correction or remark inside a task goes into that task's brief, quoted, and nowhere else.
+
+**The current set stays short.** `docs/design/owner-notes/README.md` lists the notes that bind now, one line each, and the folder holds only those: at most 15 notes and about 5,000 words. Everything else lives unchanged in `owner-notes/archive/`, listed in the README so it can be found.
+- A new note says which notes it replaces, if any; the replaced ones move to the archive.
+- A note older than two weeks stays current only if its README line says why it still binds. At each new note, check the oldest ones and archive any that can't justify their place.
+- Moving a note never changes its text.
+
+**Dictation is often misheard, so guard against recording garbage:**
+- Clean up only what's certain: filler words, repeats and punctuation. Reordering into sections is allowed.
+- Never silently "fix" a word you aren't sure of. Keep the words as heard and add your guess as *[probably "…"]*. Mark any other interpretation as *[italic bracketed editor notes]*.
+- Before committing a note, show the owner the cleaned text with every guess listed, in one short message. A guess that would change what agents do needs the owner's yes; otherwise the note stands with its brackets.
+- Agents never act on a bracketed guess that matters without checking it with the owner.
+- A correction goes in a new dated note (or the README line), never into the old note.
 
 ## Layout
 

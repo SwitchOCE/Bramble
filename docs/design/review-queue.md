@@ -9,7 +9,7 @@ Sources:
 
 ## 1. Combat shape: answered 27 Oct
 
-All seven are decided; see [the owner note](owner-notes/2026-10-27d-combat-shape-decisions.md). The rulebook is updated to match.
+All seven are decided; see [the owner note](owner-notes/archive/2026-10-27d-combat-shape-decisions.md). The rulebook is updated to match.
 
 - Attack order stays front then back.
 - Random effects can hit either row.
@@ -20,7 +20,7 @@ All seven are decided; see [the owner note](owner-notes/2026-10-27d-combat-shape
 
 ## 2. Economy: answered 27 Oct
 
-All four are decided; see [the owner note](owner-notes/2026-10-27e-economy-decisions.md).
+All four are decided; see [the owner note](owner-notes/archive/2026-10-27e-economy-decisions.md).
 
 - Units drawn from the pool by effects sell for 0.
 - Refresh thresholds are 1–10, 11–20 and 21+.
@@ -31,7 +31,7 @@ The free-refresh safety cap was declined: loops are prevented by content design 
 
 ## 3. Power budget: answered 27 Oct
 
-See [the owner note](owner-notes/2026-10-27f-power-budget-decisions.md).
+See [the owner note](owner-notes/archive/2026-10-27f-power-budget-decisions.md).
 
 - Plain units sit on budget.
 - Golden doubles effect numbers; thresholds stay the same.

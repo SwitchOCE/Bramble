@@ -2,7 +2,7 @@
 
 **Status: goldfish designer draft, 2 November 2026. Not costed.** Numbers on the example units are written by feel; a separate review step costs them. Every keyword name here is a working name.
 
-This answers the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules" ([2026-11-02f note](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)). The angle is how attacks, damage and death work. Rule numbers refer to [rulebook.md](../rulebook.md); archetype IDs (WIDE, TALL, MEDIUM, STICKY, ECO, SCAM, BURST) refer to [archetypes.md](../archetypes.md).
+This answers the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules" ([2026-11-02f note](../owner-notes/archive/2026-11-02f-new-effects-and-goldfish-designers.md)). The angle is how attacks, damage and death work. Rule numbers refer to [rulebook.md](../rulebook.md); archetype IDs (WIDE, TALL, MEDIUM, STICKY, ECO, SCAM, BURST) refer to [archetypes.md](../archetypes.md).
 
 **How new they are.** 18 mechanics. Four are close variants of an existing keyword, and say so: Bristle (Galaxy's Stinky), Antlers (Galaxy's Ranged), Shoulder (Battlegrounds' Taunt) and Bloodied (Battlegrounds' retired Frenzy). The other 14 have no close match in Battlegrounds or Galaxy that I found.
 

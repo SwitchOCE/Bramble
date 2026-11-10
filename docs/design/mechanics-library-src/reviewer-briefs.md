@@ -12,7 +12,7 @@ Output `rules-review.json`: an array of {`num`, `name`, `verdict` ("clean", "nee
 
 ## B. Budget reviewer
 
-Cost every example unit against `docs/design/power-budget.md`: V(t), the tier curve with its growth caps, and the tolerance bands (±15% plain, ±25% economy, scaling and engine). Use `docs/design/effect-taxonomy.md` for class prices; most prices are guesses until simulated, so mark them **[guess]**. Flag only against the tier curve and the tolerance bands, not against caps or guardrails the owner hasn't approved (owner, `docs/design/owner-notes/2026-11-02g-stage-2-checkpoint-scope.md`: "Don't flag against them"); mention one as information only if it matters. Reuse prices from the old budget lines in `docs/design/mechanics-ideas.md` where the effect is the same.
+Cost every example unit against `docs/design/power-budget.md`: V(t), the tier curve with its growth caps, and the tolerance bands (±15% plain, ±25% economy, scaling and engine). Use `docs/design/effect-taxonomy.md` for class prices; most prices are guesses until simulated, so mark them **[guess]**. Flag only against the tier curve and the tolerance bands, not against caps or guardrails the owner hasn't approved (owner, `docs/design/owner-notes/archive/2026-11-02g-stage-2-checkpoint-scope.md`: "Don't flag against them"); mention one as information only if it matters. Reuse prices from the old budget lines in `docs/design/mechanics-ideas.md` where the effect is the same.
 
 Output `budget-review.json`: an array of {`num`, `name`, `units`: [{`name`, `verdict` ("in band", "edge", "flag over" or "flag under"), `estimate` (a short working line, e.g. "body 7 + Peck ≈ 0.5 ≈ 7.5 vs V(3) 8: −6%"), `fix` ("" if in band)}], `line` (one plain sentence for the owner)}.
 

@@ -1,6 +1,6 @@
 # Content guardrails
 
-Rules for content design: what units, spells and modifiers must not do, or must only do carefully. These guardrails stand in for system-level limits. The owner's principle, from [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md):
+Rules for content design: what units, spells and modifiers must not do, or must only do carefully. These guardrails stand in for system-level limits. The owner's principle, from [owner-notes/archive/2026-10-27f-power-budget-decisions.md](owner-notes/archive/2026-10-27f-power-budget-decisions.md):
 
 > Not every problem needs a system to prevent it, we can have content safeguards as well.
 
@@ -16,4 +16,4 @@ Each guardrail names the risk it guards against and where it came from.
 - Free refreshes come only from sources that can't be retriggered or repeated cheaply. Examples: a once-per-turn effect, a one-off spell, or an effect that can't stack with retriggers.
 - Any card or modifier that grants free refreshes is reviewed against every retrigger effect in the pool.
 
-**Source:** owner decision, 27 Oct 2026; reworded and widened to effect refreshes by the owner, 2 Nov 2026 (owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md). The paid refresh price (rulebook 4.4) is the primary guardrail against infinites; G1 covers the refreshes that skip it.
+**Source:** owner decision, 27 Oct 2026; reworded and widened to effect refreshes by the owner, 2 Nov 2026 (owner-notes/archive/2026-11-02d-refresh-schedule-and-free-refreshes.md). The paid refresh price (rulebook 4.4) is the primary guardrail against infinites; G1 covers the refreshes that skip it.

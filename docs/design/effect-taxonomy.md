@@ -1,6 +1,6 @@
 # Bramble effect taxonomy
 
-**Status: draft for the owner's review, 2 November 2026.** This answers the owner's ask in [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md):
+**Status: draft for the owner's review, 2 November 2026.** This answers the owner's ask in [owner-notes/archive/2026-11-02-pre-development-design-pass.md](owner-notes/archive/2026-11-02-pre-development-design-pass.md):
 
 > We need to understand our total effects taxonomy, and if we can, have some idea of the power associated with those effects.
 
