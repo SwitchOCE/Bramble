@@ -202,6 +202,9 @@ static func choose_target(
 			if announce and attacker.mechanic_ids[index] == "snap":
 				combat.trigger(attacker, "snap")
 			return forced
+	var lent: CombatUnit = Pass3NeutralCombat.lent_target(combat, attacker)
+	if lent != null:
+		return lent
 	if candidates.is_empty():
 		return null
 	return candidates[combat.rng.randi_range(0, candidates.size() - 1)]

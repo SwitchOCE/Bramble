@@ -41,7 +41,8 @@ func test_discounted_spell_retains_price_paid_after_discount_expires() -> void:
 func test_plain_mag_pye_takes_only_across_before_any_row_swap() -> void:
 	for slot: int in BoardGeometry.SLOTS:
 		var kit: KIT = KIT.new()
-		kit.setup(GameConfig.full_game())
+		# This ordering regression predates Whirligig's additional current-health loss.
+		kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_neutrals())
 		kit.put("mag_pye", slot)
 		var enemy: Dictionary = {}
 		for other: int in BoardGeometry.SLOTS:
@@ -72,7 +73,7 @@ func test_golden_mag_pye_takes_across_and_first_occupied_next_to() -> void:
 
 func test_row_swap_logs_a_slot_and_side_changes_keep_ownership() -> void:
 	var kit: KIT = KIT.new()
-	kit.setup(GameConfig.full_game())
+	kit.setup(GameConfig.full_game(), false, LegacyWave1.current_with_neutrals())
 	kit.put("whirligig_beetle", 0)
 	var result: Dictionary = kit.fight_board({0: FIGHT.u("pill_bug", 0, 100)})
 	var model: CombatModel = CombatModel.new()

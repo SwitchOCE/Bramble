@@ -1,0 +1,101 @@
+{
+  "source": "a0878668 before A3; frozen rollback for the three redesigned neutral definitions",
+  "units": [
+    {
+      "id": "ballooning_spider",
+      "name": "Ballooning Spider",
+      "set": "slice",
+      "tier": 3,
+      "attack": 4,
+      "health": 3,
+      "tribes": [],
+      "text": "In your back row, this attacks the enemy back row.",
+      "golden_text": "In your back row, this attacks the enemy back row.",
+      "mechanics": [
+        {
+          "id": "back_strike"
+        }
+      ],
+      "keywords": [],
+      "row_hint": "back",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "neutrals-spells-heroes.md"
+      }
+    },
+    {
+      "id": "charcoal_burner",
+      "name": "Charcoal Burner",
+      "set": "slice",
+      "tier": 4,
+      "attack": 4,
+      "health": 6,
+      "tribes": [],
+      "text": "End of Turn: burn up to 6 of your gold above 5. Units behind this gain +1/+1 per 2 burned.",
+      "golden_text": "End of Turn: burn up to 12 of your gold above 5. Units behind this gain +1/+1 per 2 burned.",
+      "mechanics": [
+        {
+          "id": "effect",
+          "trigger": "end_of_turn",
+          "name": "burn",
+          "do": [
+            {
+              "effect": "burn_gold",
+              "above": 5,
+              "most": 6
+            },
+            {
+              "effect": "buff",
+              "attack": 1,
+              "health": 1,
+              "per": "amount",
+              "per_div": 2,
+              "target": {
+                "select": "behind"
+              },
+              "golden_static": true
+            }
+          ]
+        }
+      ],
+      "keywords": [],
+      "row_hint": "front",
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "neutrals-spells-heroes.md"
+      }
+    },
+    {
+      "id": "whirligig_beetle",
+      "name": "Whirligig Beetle",
+      "set": "slice",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "tribes": [],
+      "text": "Start of Combat: swap the enemy's rows. Each enemy moved takes 2 damage.",
+      "golden_text": "Start of Combat: swap the enemy's rows. Each enemy moved takes 4 damage.",
+      "mechanics": [
+        {
+          "id": "row_swap",
+          "damage": 2
+        }
+      ],
+      "keywords": [],
+      "row_hint": null,
+      "pool": true,
+      "priority": null,
+      "skeleton": false,
+      "source": {
+        "kind": "slice",
+        "doc": "SLICE.md"
+      }
+    }
+  ]
+}

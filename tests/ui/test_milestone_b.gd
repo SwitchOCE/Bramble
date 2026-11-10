@@ -41,6 +41,8 @@ const SEEDS: int = 6
 func _core() -> CorePort:
 	var port: CorePort = CorePort.new()
 	port.setup(GameConfig.defaults())
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.manual_choices = false
 	return port
 
@@ -237,6 +239,8 @@ func test_game_over_shows_the_board_of_the_last_fight() -> void:
 	config.set_value("human_bot", "greedy")
 	var port: CorePort = CorePort.new()
 	port.setup(config)
+	if port.config.card_set().is_empty():
+		port.library = LegacyPrototypes.library()
 	port.new_game(20261104)
 	var turns: int = 0
 	while not (port.is_over() or port.get_state().get("placement") != null) and turns < 60:

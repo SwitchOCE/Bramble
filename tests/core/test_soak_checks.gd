@@ -1,6 +1,7 @@
 extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access", "unsafe_property_access")
 
+const Bench := preload("res://tools/checks/bench_fights.gd")
 const Checker := preload("res://tools/checks/soak.gd")
 const FieldTestData := preload("res://tests/core/field_test_data.gd")
 var _checker: SceneTree
@@ -82,3 +83,34 @@ func test_fetch_golden_copy_uses_explicit_stats_below_double_printed_base() -> v
 	assert_eq(
 		_checker._violations, [], "Fetch sets copied totals; the golden base layer is separate"
 	)
+
+
+func test_retired_prototypes_leave_a_nonempty_current_fight_benchmark_pool() -> void:
+	assert_true(_library.pool_units().is_empty(), "the old default pool is retired")
+	var config := GameConfig.full_game()
+	var units: Array[Dictionary] = Bench._pool_units(_library, config)
+	assert_eq(units.size(), _library.pool_units(config.card_set()).size())
+	assert_gt(units.size(), 0, "the benchmark samples the full-game pool")
+	var rng := RandomNumberGenerator.new()
+	rng.seed = 1
+	var board: Array = Bench._board(units, rng)
+	var bodies: int = 0
+	for body: Variant in board:
+		if body != null:
+			bodies += 1
+			assert_true(_library.get_unit(body["def_id"]).has("set"))
+	assert_gte(bodies, Bench.BOARD_MIN)
+	assert_true(Bench._pool_units(UnitLibrary.new(), config).is_empty())
+
+
+func test_soak_fails_loudly_before_starting_an_empty_pool_game() -> void:
+	for kind: String in ["preset", "other", "synthetic"]:
+		_checker._plain_library = UnitLibrary.new()
+		_checker._full_library = UnitLibrary.new()
+		assert_eq(_checker._play(3, kind), 0)
+	assert_eq(_checker._empty_pools, 3)
+	assert_eq(_checker._fights, 0)
+	assert_eq(_checker._violations.size(), 2)
+	assert_eq(_checker._synthetic_violations.size(), 1)
+	for line: String in _checker._violations + _checker._synthetic_violations:
+		assert_true(line.contains("empty recruit pool"), line)

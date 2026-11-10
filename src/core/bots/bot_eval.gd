@@ -34,6 +34,8 @@ func keep_value(unit: RecruitUnit) -> float:
 
 
 func _profile_keep_value(unit: RecruitUnit) -> float:
+	if BotOoze.soup_pair_only(board_owner, unit) or BotOoze.redundant_soup(board_owner, unit):
+		return float(unit.attack + unit.health)
 	var factor: float = 2.0 if unit.golden else 1.0
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
@@ -69,6 +71,8 @@ func buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
 
 
 func _profile_buy_value(unit: RecruitUnit, player: PlayerState, cost: int = 3) -> float:
+	if BotOoze.soup_pair_only(player, unit):
+		return float(unit.attack + unit.health) + PAIR_BONUS
 	var total: float = unit.attack + unit.health
 	if level.reads_text:
 		var pass3_text: float = BotPass3.text_value(unit, player, self)
@@ -145,8 +149,7 @@ func build_bonus(card_def: Dictionary) -> float:
 	if strategy.is_empty():
 		return 0.0
 	var total: float = 0.0
-	var units: Dictionary = strategy.get("units", {})
-	total += _number(units.get(str(card_def["id"]), 0))
+	total += BotOoze.priority_weight(card_def, board_owner, self)
 	var tribes: Dictionary = strategy.get("tribes", {})
 	var card_tribes: Array = card_def.get("tribes", [])
 	for tribe: Variant in card_tribes:
@@ -174,7 +177,7 @@ func follows_strategy(card_def: Dictionary) -> bool:
 
 ## A fixed line takes early tempo and fills a sparse board before committing to its route.
 func flexible_purchases(player: PlayerState, round_number: int) -> bool:
-	return round_number < 4 or player.board_count() < 3
+	return round_number < 4 or player.board_count() < 3 or BotOoze.no_digest_flex(player, self)
 
 
 ## What a spell is worth to cast, on what's on the board. Only hints and its effect are read.

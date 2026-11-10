@@ -365,6 +365,7 @@ def numbers_of(mech: dict) -> list[tuple[str, int]]:
         "pass3_hunter",
         "pass3_ooze",
         "pass3_hedgerow",
+        "pass3_neutral",
         "reference_quilboar",
     }:
         return []

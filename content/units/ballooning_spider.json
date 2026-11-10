@@ -6,20 +6,22 @@
   "attack": 4,
   "health": 3,
   "tribes": [],
-  "text": "In your back row, this attacks the enemy back row.",
-  "golden_text": "In your back row, this attacks the enemy back row.",
+  "text": "The units behind this have Swoop.",
+  "golden_text": "The units behind this have Swoop.",
   "mechanics": [
     {
-      "id": "back_strike"
+      "id": "pass3_neutral",
+      "ability": "ballooning_spider",
+      "factor": 1
     }
   ],
-  "keywords": [],
-  "row_hint": "back",
+  "keywords": ["Swoop"],
+  "row_hint": "front",
   "pool": true,
   "priority": null,
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "neutrals-spells-heroes.md"
+    "doc": "docs/ideation/content/pass3/cross-tribe.md#8-neutrals"
   }
 }

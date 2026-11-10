@@ -6,12 +6,15 @@
   "attack": 6,
   "health": 8,
   "tribes": [],
-  "text": "Start of Combat: swap the enemy's rows. Each enemy moved takes 2 damage.",
-  "golden_text": "Start of Combat: swap the enemy's rows. Each enemy moved takes 4 damage.",
+  "text": "Start of Combat: swap enemy rows without improving Rings. Each enemy moved loses a tenth of its Health.",
+  "golden_text": "Start of Combat: swap enemy rows without improving Rings. Each enemy moved loses a fifth of its Health.",
   "mechanics": [
     {
-      "id": "row_swap",
-      "damage": 2
+      "id": "pass3_neutral",
+      "ability": "whirligig_beetle",
+      "factor": 1,
+      "health_share": 0.1,
+      "golden_health_share": 0.2
     }
   ],
   "keywords": [],
@@ -21,6 +24,6 @@
   "skeleton": false,
   "source": {
     "kind": "slice",
-    "doc": "SLICE.md"
+    "doc": "docs/ideation/content/pass3/cross-tribe.md#8-neutrals"
   }
 }
