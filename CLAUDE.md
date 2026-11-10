@@ -17,6 +17,7 @@ Start here:
 - Current state and open decisions: `docs/STATUS.md`.
 - The owner's direction: `docs/design/direction-summary.md`, plus the full record in `docs/design/owner-notes/`.
 - Architecture thinking: `docs/design/architecture-notes.md`.
+- Game design: Bramble's specifics in `docs/design/bramble-design-guidance.md`, and the general `game-design-process` skill (`.claude/skills/game-design-process/`), used only when the owner or an orchestrator says so.
 
 ## Owner notes are records
 
