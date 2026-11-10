@@ -542,3 +542,22 @@ func test_animated_stat_roll_refits_old_and_intermediate_numbers_to_the_bead() -
 		var room: float = badge.call("inner_width")
 		assert_lte(width, room, "each animated numeral fits the actual bead")
 		assert_gte(font_size, 31, "fitting preserves the shared minimum font")
+
+
+func test_automatic_return_waits_for_the_final_motion_to_finish() -> void:
+	var screen: CombatScreen = _screen()
+	screen.auto_return = true
+	screen.model.finished = true
+	screen.set("_return_wait", 0.01)
+	var marker := Control.new()
+	screen.add_child(marker)
+	var tween: Tween = screen.call("_tween")
+	tween.bind_node(marker).tween_property(marker, "position", Vector2(40, 0), 0.4)
+	var returns: Array[bool] = []
+	screen.finished.connect(func() -> void: returns.append(true))
+	screen.advance_playback(0.02)
+	assert_true(returns.is_empty(), "the result does not cut off a live motion")
+	for frame: int in 30:
+		screen.advance_playback(0.02)
+	assert_eq(returns.size(), 1, "automatic return still completes exactly once")
+	assert_eq(marker.position, Vector2(40, 0), "the final motion reached its destination")

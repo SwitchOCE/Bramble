@@ -338,8 +338,12 @@ func advance_playback(delta: float) -> void:
 	if _return_wait >= 0:
 		_return_wait -= delta
 		if _return_wait <= 0 and auto_return and not _complete:
-			_complete = true
-			finished.emit()
+			if _has_active_tweens():
+				# The final death/return lunge can outlast the result's nominal hold.
+				_return_wait = 0.1
+			else:
+				_complete = true
+				finished.emit()
 		return
 	_attack_remaining = maxf(0, _attack_remaining - delta)
 	_contact_remaining = maxf(0, _contact_remaining - delta)
@@ -854,3 +858,10 @@ func _flash(uid: int, colour: Color, animate: bool) -> void:
 	var card: CardView = _cards.get(uid)
 	if card != null and animate:
 		_motion.flash(card, colour)
+
+
+func _has_active_tweens() -> bool:
+	for tween: Tween in _tweens:
+		if tween.is_valid() and tween.get_loops_left() != 0:
+			return true
+	return false
