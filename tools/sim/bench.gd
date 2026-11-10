@@ -184,6 +184,10 @@ func _play_leg(suite: String, game_seed: int, leg: int) -> void:
 		session.end_turn()
 		turns += 1
 	_write_game(suite, game_seed, session, seats)
+	if suite == "ooze_probe":
+		for player: PlayerState in session._players:
+			player.log_observer = Callable()
+		session._rules.shop_observer = Callable()
 	_active_session = null
 
 

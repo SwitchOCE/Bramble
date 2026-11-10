@@ -328,11 +328,14 @@ static func _share(
 		for target: RecruitUnit in player.board:
 			if target == null or target == eater or not target.has_tribe("Oozes"):
 				continue
+			var old_attack: int = target.perm_attack
+			var old_health: int = target.perm_health
 			target.add_permanent(bonus.x, bonus.y)
+			var accepted: int = target.perm_attack - old_attack + target.perm_health - old_health
 			if player.has_meta("ooze_probe"):
 				target.set_meta(
 					"probe_eat_credit",
-					CoreUtil.to_int(target.get_meta("probe_eat_credit", 0)) + bonus.x + bonus.y
+					CoreUtil.to_int(target.get_meta("probe_eat_credit", 0)) + accepted
 				)
 			target.counters["ooze_share_serial"] = (
 				CoreUtil.to_int(target.counters.get("ooze_share_serial", 0)) + 1
@@ -341,6 +344,7 @@ static func _share(
 				"ooze_share",
 				{
 					"source": elder.def_id(),
+					"accepted": accepted,
 					"target": target.def_id(),
 					"attack": bonus.x,
 					"health": bonus.y
