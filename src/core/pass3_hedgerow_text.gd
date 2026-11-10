@@ -45,7 +45,7 @@ const DETAILS: Dictionary = {
 	"mr_pym": "Combining three Acorns counts as getting a Stash.",
 	"mrs_mallow":
 	(
-		"Smallest means Attack plus Health; ties use zigzag order. Can pick this. "
+		"Smallest means Attack plus Health; ties use zigzag order. Excludes this unit. "
 		+ "Shy units are skipped. Targets are selected before any gain; extra "
 		+ "triggers cannot repeat multiplication."
 	),
@@ -230,9 +230,9 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 			var targets: int = Pass3Rates.integer(config, "hedgerow_mallow_targets") * factor
 			var multiple: float = Pass3Rates.number(config, "hedgerow_mallow_multiplier")
 			var noun: String = (
-				"your smallest Hedgerow unit's"
+				"your smallest other Hedgerow unit's"
 				if targets == 1
-				else "your %s smallest Hedgerow units'" % Pass3Text._word(targets)
+				else "your %s smallest other Hedgerow units'" % Pass3Text._word(targets)
 			)
 			return (
 				"End of Turn: %s %s stats%s."

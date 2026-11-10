@@ -1,0 +1,16 @@
+{
+  "ooze-other-mallow": {
+    "compact_sha256": "a2624c42ace2e1ff414e580380ceb8099fb33fa4da37193cc5f80e2816dd415f",
+    "summary_sha256": "3eab554a302d81b319ed9bd74f8eab8e2518c81b537633b122bb2f05ff5691e9",
+    "cap_hits": [],
+    "combat_captures": 1912,
+    "peak_active_unit_stat": 14507712
+  },
+  "fairy-spread": {
+    "compact_sha256": "02ffff3a005e755cb7f95505bac18460f72671b59c1ec33459ad9ae6a46887dd",
+    "summary_sha256": "cf150b6f9c6d65f05dbe60302e02fd668876c202cab987a9da69a174c7106ec4",
+    "cap_hits": [],
+    "combat_captures": 1914,
+    "peak_active_unit_stat": 14507712
+  }
+}

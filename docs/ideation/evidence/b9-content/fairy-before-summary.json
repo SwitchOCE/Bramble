@@ -1,0 +1,174 @@
+{
+  "line_fairies_ring": {
+    "3": {
+      "n": 22,
+      "median_stats": 13.5,
+      "median_post_start": 14.5,
+      "median_covered": 0.0,
+      "median_rings": 0.0,
+      "median_size": 4.0,
+      "full_rainbow": 0,
+      "cluricaun": 0,
+      "cluricaun_blocked": 0,
+      "sally_full_board": 0,
+      "card_seats": {
+        "old_moth_annis": 1,
+        "cluricaun": 0,
+        "lob_lie_by_the_fire": 0,
+        "silky": 0,
+        "fairy_monarch": 0,
+        "cradle_fetch": 0,
+        "sally_spore": 0
+      }
+    },
+    "6": {
+      "n": 22,
+      "median_stats": 55.5,
+      "median_post_start": 57.0,
+      "median_covered": 1.0,
+      "median_rings": 2.0,
+      "median_size": 4.0,
+      "full_rainbow": 0,
+      "cluricaun": 2,
+      "cluricaun_blocked": 2,
+      "sally_full_board": 1,
+      "card_seats": {
+        "old_moth_annis": 5,
+        "cluricaun": 2,
+        "lob_lie_by_the_fire": 2,
+        "silky": 2,
+        "fairy_monarch": 0,
+        "cradle_fetch": 0,
+        "sally_spore": 5
+      }
+    },
+    "9": {
+      "n": 22,
+      "median_stats": 112.5,
+      "median_post_start": 138.5,
+      "median_covered": 2.0,
+      "median_rings": 4.0,
+      "median_size": 4.0,
+      "full_rainbow": 1,
+      "cluricaun": 4,
+      "cluricaun_blocked": 4,
+      "sally_full_board": 5,
+      "card_seats": {
+        "old_moth_annis": 6,
+        "cluricaun": 4,
+        "lob_lie_by_the_fire": 2,
+        "silky": 5,
+        "fairy_monarch": 1,
+        "cradle_fetch": 5,
+        "sally_spore": 7
+      }
+    },
+    "12": {
+      "n": 15,
+      "median_stats": 394,
+      "median_post_start": 465,
+      "median_covered": 3,
+      "median_rings": 14,
+      "median_size": 10.0,
+      "full_rainbow": 4,
+      "cluricaun": 3,
+      "cluricaun_blocked": 3,
+      "sally_full_board": 2,
+      "card_seats": {
+        "old_moth_annis": 6,
+        "cluricaun": 3,
+        "lob_lie_by_the_fire": 1,
+        "silky": 0,
+        "fairy_monarch": 10,
+        "cradle_fetch": 9,
+        "sally_spore": 2
+      }
+    }
+  },
+  "line_fairies_court": {
+    "3": {
+      "n": 22,
+      "median_stats": 18.0,
+      "median_post_start": 18.0,
+      "median_covered": 0.0,
+      "median_rings": 0.0,
+      "median_size": 4.0,
+      "full_rainbow": 0,
+      "cluricaun": 0,
+      "cluricaun_blocked": 0,
+      "sally_full_board": 0,
+      "card_seats": {
+        "old_moth_annis": 0,
+        "cluricaun": 0,
+        "lob_lie_by_the_fire": 0,
+        "silky": 1,
+        "fairy_monarch": 0,
+        "cradle_fetch": 0,
+        "sally_spore": 1
+      }
+    },
+    "6": {
+      "n": 22,
+      "median_stats": 55.0,
+      "median_post_start": 53.5,
+      "median_covered": 2.0,
+      "median_rings": 3.5,
+      "median_size": 4.0,
+      "full_rainbow": 0,
+      "cluricaun": 3,
+      "cluricaun_blocked": 3,
+      "sally_full_board": 0,
+      "card_seats": {
+        "old_moth_annis": 5,
+        "cluricaun": 3,
+        "lob_lie_by_the_fire": 1,
+        "silky": 3,
+        "fairy_monarch": 0,
+        "cradle_fetch": 0,
+        "sally_spore": 6
+      }
+    },
+    "9": {
+      "n": 22,
+      "median_stats": 162.0,
+      "median_post_start": 191.5,
+      "median_covered": 3.0,
+      "median_rings": 7.0,
+      "median_size": 4.0,
+      "full_rainbow": 0,
+      "cluricaun": 5,
+      "cluricaun_blocked": 5,
+      "sally_full_board": 9,
+      "card_seats": {
+        "old_moth_annis": 6,
+        "cluricaun": 5,
+        "lob_lie_by_the_fire": 2,
+        "silky": 1,
+        "fairy_monarch": 2,
+        "cradle_fetch": 6,
+        "sally_spore": 10
+      }
+    },
+    "12": {
+      "n": 16,
+      "median_stats": 866.5,
+      "median_post_start": 935.0,
+      "median_covered": 6.5,
+      "median_rings": 20.5,
+      "median_size": 16.5,
+      "full_rainbow": 8,
+      "cluricaun": 6,
+      "cluricaun_blocked": 3,
+      "sally_full_board": 2,
+      "card_seats": {
+        "old_moth_annis": 6,
+        "cluricaun": 6,
+        "lob_lie_by_the_fire": 1,
+        "silky": 0,
+        "fairy_monarch": 11,
+        "cradle_fetch": 6,
+        "sally_spore": 2
+      }
+    }
+  }
+}

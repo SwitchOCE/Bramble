@@ -132,7 +132,10 @@ static func _annis(ctx: RecruitContext) -> void:
 static func _sally(ctx: RecruitContext) -> void:
 	if ctx.trigger != "end_of_turn" or ctx.source_slot < 0:
 		return
-	var slot: int = BoardGeometry.summon_slot(ctx.player.occupied(), ctx.source_slot, false)
+	var ringed: Array[bool] = []
+	for effects: Array in ctx.player.slot_effects:
+		ringed.append(BoardUpkeep.has_ring(effects))
+	var slot: int = BoardGeometry.summon_slot(ringed, ctx.source_slot, true)
 	if slot >= 0:
 		_ring(ctx, [slot], _rate_int(ctx, "fairies_sally_rings") * _factor(ctx))
 

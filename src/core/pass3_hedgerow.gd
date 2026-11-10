@@ -53,13 +53,15 @@ static func larder(player: PlayerState) -> int:
 
 static func own_stats(unit: RecruitUnit, include_tribe: bool = true) -> Vector2i:
 	return Vector2i(
-		maxi(
+		clampi(
+			unit.base_attack_now() + unit.perm_attack + (unit.tribe_attack if include_tribe else 0),
 			0,
-			unit.base_attack_now() + unit.perm_attack + (unit.tribe_attack if include_tribe else 0)
+			BoardUnit.STAT_CLAMP
 		),
-		maxi(
+		clampi(
+			unit.base_health_now() + unit.perm_health + (unit.tribe_health if include_tribe else 0),
 			0,
-			unit.base_health_now() + unit.perm_health + (unit.tribe_health if include_tribe else 0)
+			BoardUnit.STAT_CLAMP
 		)
 	)
 
@@ -191,6 +193,7 @@ static func recruit_hook(ctx: RecruitContext) -> void:
 				and not (ctx.player.pass3_loop_guards and ctx.repeat_index > 0)
 			):
 				var targets: Array[RecruitUnit] = ranked(ctx.player)
+				targets.erase(unit)
 				var count: int = CoreUtil.to_int(ctx.params.get("targets", 2)) * scale
 				for target: RecruitUnit in targets.slice(0, count):
 					_multiply(ctx, target, CoreUtil.to_float(ctx.params.get("multiplier", 2.0)))

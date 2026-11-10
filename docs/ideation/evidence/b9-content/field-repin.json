@@ -1,0 +1,154 @@
+{
+  "source_commit": "9affb598",
+  "seeds": [
+    3,
+    17,
+    71,
+    20261109
+  ],
+  "current": [
+    {
+      "fight_count": 59,
+      "previous_fight_count": 59.0,
+      "previous_sha256": "bd60851072617cdbba5aaf2412923096a063460be9cabf85e79fd7f214a44a6d",
+      "seed": 3,
+      "sha256": "bd60851072617cdbba5aaf2412923096a063460be9cabf85e79fd7f214a44a6d"
+    },
+    {
+      "fight_count": 64,
+      "previous_fight_count": 64.0,
+      "previous_sha256": "a84614aeb0c7d30fd185cdf30f0c54b9c9656d5b7433b3b988ece610158870e5",
+      "seed": 17,
+      "sha256": "a84614aeb0c7d30fd185cdf30f0c54b9c9656d5b7433b3b988ece610158870e5"
+    },
+    {
+      "fight_count": 62,
+      "previous_fight_count": 62.0,
+      "previous_sha256": "57c1caf17b9dcb7013f6d2ce490154d9aec1a4e9f764fed1c9b1088e3be2cac0",
+      "seed": 71,
+      "sha256": "57c1caf17b9dcb7013f6d2ce490154d9aec1a4e9f764fed1c9b1088e3be2cac0"
+    },
+    {
+      "fight_count": 61,
+      "previous_fight_count": 59.0,
+      "previous_sha256": "1eac0efb94eb01ff3e59787f932c4e3edb72b5c482820c61a340b0a397832a15",
+      "seed": 20261109,
+      "sha256": "c3e36d64e35d713cd2e8bfbc0a4efac020cc903a9263e6e2a2ae4f186066fb23"
+    }
+  ],
+  "targeting_reverted_face_retained": [
+    {
+      "fight_count": 59,
+      "previous_fight_count": 59.0,
+      "previous_sha256": "bd60851072617cdbba5aaf2412923096a063460be9cabf85e79fd7f214a44a6d",
+      "seed": 3,
+      "sha256": "bd60851072617cdbba5aaf2412923096a063460be9cabf85e79fd7f214a44a6d"
+    },
+    {
+      "fight_count": 64,
+      "previous_fight_count": 64.0,
+      "previous_sha256": "a84614aeb0c7d30fd185cdf30f0c54b9c9656d5b7433b3b988ece610158870e5",
+      "seed": 17,
+      "sha256": "a84614aeb0c7d30fd185cdf30f0c54b9c9656d5b7433b3b988ece610158870e5"
+    },
+    {
+      "fight_count": 62,
+      "previous_fight_count": 62.0,
+      "previous_sha256": "57c1caf17b9dcb7013f6d2ce490154d9aec1a4e9f764fed1c9b1088e3be2cac0",
+      "seed": 71,
+      "sha256": "57c1caf17b9dcb7013f6d2ce490154d9aec1a4e9f764fed1c9b1088e3be2cac0"
+    },
+    {
+      "fight_count": 59,
+      "previous_fight_count": 59.0,
+      "previous_sha256": "1eac0efb94eb01ff3e59787f932c4e3edb72b5c482820c61a340b0a397832a15",
+      "seed": 20261109,
+      "sha256": "e8a04875c9518194d300a3f7e54f4aa712ca62a859d7da98f48a0037f7b380a5"
+    }
+  ],
+  "sally_targeting_and_face_reverted": [
+    {
+      "fight_count": 59,
+      "previous_fight_count": 59.0,
+      "previous_sha256": "1eac0efb94eb01ff3e59787f932c4e3edb72b5c482820c61a340b0a397832a15",
+      "seed": 20261109,
+      "sha256": "1eac0efb94eb01ff3e59787f932c4e3edb72b5c482820c61a340b0a397832a15"
+    }
+  ],
+  "unchanged_complete_bytes": [
+    {
+      "seed": 3,
+      "bytes": 1320189,
+      "sha256": "bd60851072617cdbba5aaf2412923096a063460be9cabf85e79fd7f214a44a6d"
+    },
+    {
+      "seed": 17,
+      "bytes": 1607304,
+      "sha256": "a84614aeb0c7d30fd185cdf30f0c54b9c9656d5b7433b3b988ece610158870e5"
+    },
+    {
+      "seed": 71,
+      "bytes": 1389296,
+      "sha256": "57c1caf17b9dcb7013f6d2ce490154d9aec1a4e9f764fed1c9b1088e3be2cac0"
+    }
+  ],
+  "first_gameplay_difference": {
+    "fight_index": 11,
+    "preceding_identical_fights": 11,
+    "round": 3,
+    "player_ids": [
+      4,
+      5
+    ],
+    "source": "sally_spore",
+    "source_slot": 4,
+    "all_input_fields_except_slots_identical": true,
+    "old_slots": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [
+        {
+          "attack": 1,
+          "count": 1,
+          "golden": false,
+          "health": 1,
+          "name": "Ring",
+          "ring_size": 1,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      []
+    ],
+    "new_slots": [
+      [],
+      [],
+      [],
+      [],
+      [
+        {
+          "attack": 1,
+          "count": 1,
+          "golden": false,
+          "health": 1,
+          "name": "Ring",
+          "ring_size": 1,
+          "text": "Whoever stands here gains your Ring size for each Ring."
+        }
+      ],
+      [],
+      []
+    ],
+    "first_different_event_index": 0,
+    "old_sally_stats": [
+      2,
+      4
+    ],
+    "new_sally_stats": [
+      3,
+      5
+    ]
+  }
+}

@@ -235,3 +235,18 @@ func test_standalone_pass3_bitter_still_records_and_carries_toll() -> void:
 	Pass3BogCombat.finish(combat)
 	assert_true(combat.notes.get("bog_active", false))
 	assert_eq(combat.carry[-1], {"op": "bog_state", "side": 0, "toll": 2, "kisses": 0})
+
+
+func test_soak_banks_only_attack_actually_removed_above_the_unit_ceiling() -> void:
+	var combat: Combat = _fight({0: _owned("bridge_toad", 0, 100)}, {0: CK.plain(1400000000, 100)})
+	var toad: CombatUnit = combat.unit_at(0, 0)
+	var enemy: CombatUnit = combat.unit_at(1, 0)
+	CombatLanes.bitter(combat, toad, enemy)
+	assert_eq(enemy.attack, BoardUnit.STAT_CLAMP, "the first loss is hidden above the ceiling")
+	assert_eq(toad.pending_attack, 0, "no Attack removed from this bite")
+	assert_eq(combat.notes["bog_toll"][0], 0)
+	CombatLanes.bitter(combat, toad, enemy)
+	assert_eq(enemy.attack, 900000000)
+	assert_eq(toad.pending_attack, 200000000, "100M actual loss, original B keep of two")
+	assert_eq(toad.pending_health, 200000000)
+	assert_eq(combat.notes["bog_toll"][0], 100000000)

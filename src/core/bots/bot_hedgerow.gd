@@ -180,11 +180,11 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	var factor: int = unit.golden_factor()
 	var committed: bool = build(value)
 	if has(unit, "mrs_mallow"):
+		units.erase(unit)
 		return (
-			smallest
+			(body(units[0]) if not units.is_empty() else 0)
 			* (_rate(player, "hedgerow_mallow_multiplier", 2) - 1.0)
-			* _rate(player, "hedgerow_mallow_targets", 2)
-			* factor
+			* minf(_rate(player, "hedgerow_mallow_targets", 2) * factor, units.size())
 			* 2.0
 		)
 	if has(unit, "standing_committee"):
@@ -317,8 +317,9 @@ static func _sell_runt(brain: BotBrain) -> void:
 		var count: int = (
 			CoreUtil.to_int(entry.get("targets", 2)) * CoreUtil.to_int(entry.get("factor", 1))
 		)
-		for index: int in mini(count, units.size()):
-			var unit: RecruitUnit = units[index]
+		var targets: Array[RecruitUnit] = units.duplicate()
+		targets.erase(source)
+		for unit: RecruitUnit in targets.slice(0, count):
 			due[unit.iid] = true
 			sizes[unit.iid] = sizes[unit.iid] * CoreUtil.to_float(entry.get("multiplier", 2))
 	for unit: RecruitUnit in units:
