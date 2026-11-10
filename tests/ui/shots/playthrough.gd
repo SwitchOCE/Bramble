@@ -305,7 +305,8 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 	var frames: int = 0
 	var checked_end: bool = false
 	while is_instance_valid(combat) and app.current == combat and frames < 4000:
-		if combat.model.finished and not checked_end:
+		var pending: Array = combat.get("_tweens")
+		if combat.model.finished and not checked_end and pending.is_empty():
 			await _check(combat, where + " combat end")
 			checked_end = true
 		if frames == 40 and not combat.model.finished:
@@ -316,6 +317,7 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 		not is_instance_valid(combat) or app.current != combat,
 		"fight did not automatically return after %d frames" % frames
 	)
+	_driver.expect(checked_end, "combat end: no settled layout was checked")
 	_drain_misses(where)
 
 
