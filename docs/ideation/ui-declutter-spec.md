@@ -1,5 +1,7 @@
 # Declutter spec (ideation, 9 Nov 2026)
 
+> **Look-and-feel phase (10 Nov 2026):** sections 1–5 are the content to build from. Section 6's checks (including the cold reader) and section 7's visual-tier scores no longer gate anything; `PLAN.md`'s checks replace them. Section 6's playtester questions may be reused. The calls in force are in `DECISIONS.md`.
+
 Source: owner note `docs/design/owner-notes/2026-11-09e-ui-clutter-and-tutorials.md`, five area audits and two critiques of the UI on `ideation/wave1` (`/home/alex/code/Bramble-ideation-balance`). Code and screenshots were read. Godot was not run. Where reviewers disagreed, the call is marked † and its reason is in the Appendix, ready for `DECISIONS.md`.
 
 This spec overrules one reason given for choosing the current look: "its THIS HIT panel explains a fight best" (`DECISIONS.md`, 6 Nov, "Which look to build on"). That reason came from critics scoring still screenshots, and the owner's 9 Nov direction replaces it.

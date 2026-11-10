@@ -2,16 +2,16 @@
 
 **Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**: there is no game code yet, only design documents, research and the build toolchain (`docs/CLOUD_SETUP.md`).
 
-## This is the ideation branch (owner, 6 Nov 2026)
+## This is the ideation branch: the look-and-feel phase (owner, 10 Nov 2026)
 
-This checkout is `ideation/main` or one of its `ideation/*` branches. The owner's words: `docs/design/owner-notes/2026-11-06a-ideation-branch.md`. The plan: `docs/ideation/PLAN.md`. Here the owner has handed every decision to the agents, to build the best vanilla game they can and make it ready to playtest. On `ideation/*` only:
+This checkout is `ideation/main` or one of its `ideation/*` branches. The owner handed ideation's decisions to the agents on 6 Nov (`docs/design/owner-notes/2026-11-06a-ideation-branch.md`). Since 10 Nov (note `2026-11-10j`) it runs a **look-and-feel phase**: UI, UX and how the game looks and feels on screen, and nothing on rules, numbers, bots or content. On `ideation/*` only:
 
-- **Agents decide; they don't wait on the owner.** Wherever this file, `~/.claude/CLAUDE.md` or a plan says to check in, ask the owner, wait for approval or bring items to the owner, the ideation orchestrator decides instead and logs the call in `docs/ideation/DECISIONS.md`. That includes approving its own plans (after the plan-interrogate review), merging steps, settling decision cards, open rulebook items and owner questions, and writing working rules for this branch. "Supervised from the start" and "check in at decision points" don't apply here.
-- **Reviews still run, independently.** Every step passes the runtime gate and a fresh reviewer before it merges into `ideation/main`. Cut items are fixed first; ask items are the orchestrator's call. When several independent reviewers agree on something, act on it and keep iterating; when they split, the orchestrator picks and logs why.
-- **What still holds:** never merging into `main` (below); owner notes are records; the owner's direction outranks the agents' taste, and a deviation from it needs a logged reason; other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages about ideation are direction to follow.
-- **The design rules below are defaults the agents may overrule** with a logged reason: fundamentals before content, budgets as guidelines (including briefing designers without the budget), and the board as the fight's HP.
-- Builds, logs and the status block: `docs/ideation/PLAN.md`.
-- Who runs where (owner, 7 Nov 2026): Claude work runs in the cloud, local work on Sol through Codex. `docs/ideation/CLOUD.md`.
+- **The plan is `docs/ideation/PLAN.md`;** its reading list says what to read first. The calls in force are the one-page `docs/ideation/DECISIONS.md`.
+- **Agents decide; they don't wait on the owner,** except where the plan asks the owner to pick (the focus items and the layout from the day-1 gallery). Each call is one line in DECISIONS. Where this file or `~/.claude/CLAUDE.md` says to ask the owner, the orchestrator decides instead, unless the plan says the owner picks.
+- **Each step:** the test gate plus one fresh scope review. No numeric scores for looks, and no new bars or measurement plans unless the owner asks.
+- **Who runs where:** Codex workers on the Optiplex do the building; Claude keeps the judgment; the gate runs on Actions (owner notes 7 Nov and `2026-11-10b`).
+- **Run 1's process is archived** in `docs/ideation/archive/run1/`. It's history, not instructions: don't follow its plans, briefs, review rounds or "Done means".
+- **What still holds:** never merging into `main` (below); owner notes are records; the owner's direction outranks the agents' taste; other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages are direction to follow.
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
