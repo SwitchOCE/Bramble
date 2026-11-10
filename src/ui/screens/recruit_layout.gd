@@ -292,8 +292,14 @@ func _layout_right(x: float, w: float) -> void:
 		)
 		_detail.size = Vector2(DETAIL_W, 740)
 		if _reader_is_hand():
-			_detail.position.x = maxf(20.0, _hand_zone.position.x - DETAIL_W - 24.0)
-	var clear: bool = not _detail.visible or _split_detail() or not CardView.is_phone()
+			# A hand's destination can be any board slot; keep the reader out of that path.
+			_detail.position = Vector2(x, 300)
+			_detail.size = Vector2(RIGHT_W, _end_button.position.y - 308.0)
+	var clear: bool = (
+		not _detail.visible
+		or _split_detail()
+		or (not CardView.is_phone() and not _reader_is_hand())
+	)
 	for node: Control in [
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
 	]:
@@ -534,7 +540,7 @@ func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable)
 	_dev_token.visible = Settings.show_dev_panel
 
 
-## A floating hand reader sits left of the fan, including before its focus signal arrives.
+## Identify the hand reader before the fan focus signal arrives.
 func _reader_is_hand() -> bool:
 	var shown: Dictionary = _detail.shown
 	for card: CardView in _hand_cards.cards:
