@@ -292,6 +292,7 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 			break
 		_driver.press(speed_token, "speed")
 	_driver.expect(is_equal_approx(combat.speed, 4.0), "speed token: speed is %s" % combat.speed)
+	var checked_end: bool = false
 	if replay:
 		var gear: Button = combat.get("_gear")
 		_driver.press(gear, "pause fight")
@@ -302,8 +303,9 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 		var skip: Button = combat.get("_skip_button")
 		_driver.press(skip, "Skip")
 		_driver.expect(combat.model.finished, "Skip: fight did not finish")
+		await _check(combat, where + " skipped combat end")
+		checked_end = true
 	var frames: int = 0
-	var checked_end: bool = false
 	while is_instance_valid(combat) and app.current == combat and frames < 4000:
 		var pending: Array = combat.get("_tweens")
 		if combat.model.finished and not checked_end and pending.is_empty():
