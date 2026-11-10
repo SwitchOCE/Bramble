@@ -4,12 +4,49 @@ extends "res://tests/ui/shots/screenshot.gd"
 ## --rendering-driver opengl3 -s tools/render_unit_art_recruit.gd -- recruit 1920x1080 out.png
 ## UNIT_ART_SHOWCASE=1 places all eight artworks over the first eight visible unit tiles.
 ## This changes only textures; log records the real unit -> review artwork mapping.
+## UNIT_ART_ALL_ASSETS=1 also primes the review process's portrait cache for exact-ID
+## hero, spell, item and tribe fallback replacements before the real UI is built.
 
 const ReviewCard := preload("res://src/ui/widgets/card_view.gd")
 const PortraitReview := preload("res://tools/render_unit_art.gd")
+const ReviewTheme := preload("res://src/ui/ui_theme.gd")
 
 var _replaced: Dictionary[String, int] = {}
 var _showcase_index: int = 0
+
+
+func _initialize() -> void:
+	if OS.get_environment("UNIT_ART_ALL_ASSETS") == "1":
+		var style: String = OS.get_environment("UNIT_ART_STYLE")
+		if style not in ["v2", "v2b", "inkglow"]:
+			printerr("invalid review art style")
+			quit(2)
+			return
+		if not _cache_review_folder("res://assets/portraits_%s" % style, "res://assets/portraits"):
+			quit(2)
+			return
+		if not _cache_review_folder(
+			"res://assets/ui/portraits_%s" % style, "res://assets/ui/portraits"
+		):
+			quit(2)
+			return
+	super._initialize()
+
+
+func _cache_review_folder(folder: String, original_folder: String) -> bool:
+	if not DirAccess.dir_exists_absolute(folder):
+		return true
+	for file: String in DirAccess.get_files_at(folder):
+		if file.get_extension().to_lower() != "jpg":
+			continue
+		var image := Image.load_from_file(ProjectSettings.globalize_path(folder.path_join(file)))
+		if image == null:
+			printerr("missing review portrait: ", file)
+			return false
+		var original: String = original_folder.path_join(file)
+		ReviewTheme._portrait_cache[original] = ImageTexture.create_from_image(image)
+		print("review exact-ID cache: ", original)
+	return true
 
 
 func _shoot(window_size: Vector2i, out_path: String) -> void:
