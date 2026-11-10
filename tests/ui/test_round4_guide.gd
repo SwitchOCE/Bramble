@@ -57,7 +57,7 @@ func test_guide_pages_fit_the_phone_canvas() -> void:
 				)
 
 
-func test_toll_result_and_hint_show_cap_limited_damage() -> void:
+func test_toll_log_and_hint_show_cap_limited_damage() -> void:
 	var screen := preload("res://src/ui/screens/combat_screen.gd").new()
 	add_child_autofree(screen)
 	var log_text := preload("res://src/ui/screens/combat_log.gd").new()
@@ -70,12 +70,12 @@ func test_toll_result_and_hint_show_cap_limited_damage() -> void:
 			"round_toll": 7,
 			"round_toll_added": added
 		}
-		screen.model.apply(event)
-		screen._show_result()
+		screen._play_event(event, false)
 		var expected: String = "Round toll added %d" % added
-		assert_true(expected in screen._result_text.text, "visible result: " + expected)
+		assert_true(expected in screen._log.all_text(), "log retains result: " + expected)
 		assert_true(expected in log_text._end(event), "combat log: " + expected)
-		assert_eq("limited by cap" in screen._result_text.text, added < 7)
+		assert_eq("limited by cap" in log_text._end(event), added < 7)
+		assert_false(screen._log.visible, "result details stay off the board")
 	var note: String = RecruitView.fight_note({"round_toll": 7, "damage_cap": 12})
 	assert_true("Toll 7" in note)
 	assert_true("cap 12" in note)

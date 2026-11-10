@@ -98,6 +98,22 @@ The Quilboar merge (92cbce1f) passed every test on Actions and failed lint: `gam
 
 Three of five triage agents were stopped by Anthropic's safety filter (`reasoning_extraction`), a false positive. The prompt had asked each agent to "write your full working notes" and spell out its thinking per hypothesis. A one-off, and nothing to overlearn (owner, 10 Nov): just ask for findings, justification and evidence rather than "working notes" or step-by-step thinking.
 
+## A pipe hid a failed docs-only check (10 Nov)
+`./scripts/check.sh --docs-only ... | tail -1` inside an `&&` chain returns tail's exit code, so a failed check (an untracked prompt file under `tools/`) let the push go ahead. The pushed commit happened to be docs-only.
+- **Write check.sh to a log, then test its exit code** (`check.sh ... > log 2>&1; echo "exit $?"`), never through a pipe.
+- **Untracked files outside `docs/` fail the docs-only check.** Keep prompt drafts and art outputs under `build/` until they go on a branch.
+- **Art workers write only to their output folder.** A Codex image worker exported straight into the main checkout's `assets/portraits/`. The prompt header now says "Do not write into assets/".
+
+## Copies are not reach; survivors hide deaths (10 Nov)
+Stone Soup's design assumed it would be on the board by R3–R4 ("never misses a shop"; "T2 cards with many copies"). Only 25% of engine seats saw it by R6, and when it landed it gave +0, because each stat rounds down. The medians counted survivors only, so the seats it killed never showed.
+- **For each named piece, state its chance of being seen by its round** (shop odds times the real climb) **and its rounded yield** on the board it lands on.
+- **Report eliminations next to every survivor median.**
+
+## A targeted run missed three failures a merge would have shipped (10 Nov)
+Wave 2b's worker ran 431 targeted tests, then changed bot code and reran only the 30 bot tests. The Actions gate on the merge failed three tests outside both sets: a UI tile-tag test, a lobby deal test and a line-brain type error.
+- **After the last code edit, rerun every test script the diff can reach,** or gate the branch itself on Actions before reporting.
+- **A worker's "N/N targeted" says nothing about files it didn't pick.** The orchestrator gates before any merge, never on a targeted count.
+
 ## What the Quilboar reference taught our methods (10 Nov)
 
 From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterion (09i); they change how a bar is checked before it decides, and what is reported beside the two criteria.

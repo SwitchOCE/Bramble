@@ -384,13 +384,14 @@ func test_a_real_hard_lobby_plays_both_replacement_engines() -> void:
 			"hard:birds_summer_winter"
 		]
 	)
-	var game: GameSession = GameSession.create(412, UnitLibrary.load_dir(), config)
+	var game: GameSession = GameSession.create(412, TestLibraries.current(), config)
 	var counts: Dictionary = {}
 	var note: Callable = func(type: String, _fields: Dictionary) -> void:
 		counts[type] = CoreUtil.to_int(counts.get(type, 0)) + 1
 	for player: PlayerState in game._players:
 		player.log_observer = note
-	for _turn: int in 12:
+	# 8 rounds (was 12): fly_south, home and rings all happen by then.
+	for _turn: int in 8:
 		if game.is_over():
 			break
 		game.end_turn()

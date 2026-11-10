@@ -49,7 +49,7 @@ func _option(key: String, fallback: String) -> String:
 
 
 func _probe() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for offset: int in 30:
 		var config := GameConfig.full_game()
 		var problem: String = FieldLibrary.configure(
@@ -156,9 +156,11 @@ func _run() -> void:
 			ghost_found = true
 			break
 		_driver.press(_button(combat, "_skip_button"), "Skip")
-		await _frames()
-		var result: Control = combat.get("_result_plaque")
-		_driver.press(result.get_node("Continue") as Button, "Continue")
+		var return_frames: int = 0
+		while is_instance_valid(combat) and _app.current == combat and return_frames < 120:
+			await process_frame
+			return_frames += 1
+		assert(_app.current is RecruitScreen, "Skip automatically returns to recruit")
 		await _frames()
 	assert(ghost_found, "selected seed must reach an ordinary field ghost pairing")
 	assert(_driver.missed_taps.is_empty(), str(_driver.missed_taps))

@@ -14,12 +14,17 @@ const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const CombatModel := preload("res://src/ui/screens/combat_model.gd")
+const CombatLog := preload("res://src/ui/screens/combat_log.gd")
+const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
 const SettingsScreen := preload("res://src/ui/screens/settings_screen.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
 const MAX_SEED: int = 999_999_999
+
+static var _heroes_by_name: Dictionary = {}
 
 var port: GamePort
 var current: Control
@@ -34,6 +39,9 @@ var _seeds: RandomNumberGenerator = RandomNumberGenerator.new()
 ## This game's result is already in the records.
 var _recorded: bool = false
 var _new_best: bool = false
+## A replay uses the fight's pairing, not the next recruit screen's pairing.
+var _combat_round: int = -1
+var _combat_side_names: PackedStringArray = []
 
 
 func _init() -> void:
@@ -89,6 +97,8 @@ func request_new_game() -> void:
 func start_game(chosen_seed: int = -1) -> void:
 	game_seed = chosen_seed if chosen_seed >= 0 else _seeds.randi_range(1, MAX_SEED)
 	round_log.clear()
+	_combat_round = -1
+	_combat_side_names.clear()
 	_recorded = false
 	_new_best = false
 	var reason: String = port.new_game(game_seed)
@@ -149,7 +159,23 @@ func show_recruit() -> void:
 	screen.guide_requested.connect(open_guide)
 	screen.settings_requested.connect(open_settings)
 	_swap(screen)
+	screen.last_fight_requested.connect(open_last_fight)
+	screen.watch_fight_requested.connect(show_game_combat)
 	screen.setup(port)
+
+
+func open_last_fight() -> void:
+	var combat: Dictionary = port.get_last_combat()
+	var model := CombatModel.new()
+	var fight_log := CombatLog.new()
+	fight_log.side_names = _game_combat_names(combat, port.get_state())
+	var words: PackedStringArray = []
+	for event: Dictionary in Data.a(combat, "events"):
+		words.append(fight_log.describe(event, model, false))
+		model.apply(event)
+	var page := FightLogPage.new()
+	page.setup("Turn %d" % Data.i(combat, "round"), "\n".join(words))
+	add_child(page)
 
 
 func show_game_combat() -> void:
@@ -160,13 +186,16 @@ func show_game_combat() -> void:
 		return
 	var start: Dictionary = Data.entry(events, 0)
 	var state: Dictionary = port.get_state()
-	# The ghost fought was named before the fight: this fight may have knocked out someone new.
-	var ghost: String = ""
-	if current is RecruitScreen:
-		ghost = RecruitView.next_name((current as RecruitScreen).state)
-	var names: PackedStringArray = side_names(start, state, ghost)
+	var names: PackedStringArray = _game_combat_names(combat, state)
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
-	note_round(combat, me)
+	if (
+		round_log.is_empty()
+		or (
+			Data.i(Data.entry(round_log, round_log.size() - 1), "round", -1)
+			!= Data.i(combat, "round")
+		)
+	):
+		note_round(combat, me)
 	var title: String = "Turn %d" % Data.i(combat, "round", 0)
 	var ids: Array = Data.a(start, "player_ids")
 	var health: int = -1
@@ -174,8 +203,42 @@ func show_game_combat() -> void:
 		health = _health_before(state, combat, Data.as_int(ids[1 - me]), me)
 	var screen: CombatScreen = CombatScreen.new()
 	screen.finished.connect(show_recruit)
+	screen.guide_requested.connect(open_guide)
+	screen.settings_requested.connect(open_settings)
+	screen.menu_requested.connect(show_menu)
 	_swap(screen)
+	for side: int in 2:
+		var id: int = Data.as_int(ids[side]) if ids.size() > side else -1
+		for entry: Variant in Data.a(state, "standings"):
+			var standing: Dictionary = entry
+			if Data.i(standing, "player_id", -2) == id:
+				var hero_name: String = Data.s(standing, "hero")
+				screen.hero_views[side] = _hero_named(hero_name)
+				if side == me:
+					screen.hero_views[side] = Data.d(state, "hero")
+				screen.hero_health[side] = _health_before(state, combat, id, 1 - side)
 	screen.setup(combat, names, me, title, health)
+
+
+func _game_combat_names(combat: Dictionary, state: Dictionary) -> PackedStringArray:
+	var round_number: int = Data.i(combat, "round", -1)
+	if not _combat_side_names.is_empty() and round_number == _combat_round:
+		return _combat_side_names
+	# Recruit still holds the pre-fight pairing when combat_ready first arrives.
+	var ghost: String = ""
+	if current is RecruitScreen:
+		ghost = RecruitView.next_name((current as RecruitScreen).state)
+	_combat_round = round_number
+	_combat_side_names = side_names(Data.entry(Data.a(combat, "events"), 0), state, ghost)
+	return _combat_side_names
+
+
+## The content library is immutable during a run; fights reuse its hero views.
+static func _hero_named(hero_name: String) -> Dictionary:
+	if _heroes_by_name.is_empty():
+		for hero: Dictionary in UnitLibrary.load_dir().all_heroes():
+			_heroes_by_name[Data.s(hero, "name")] = hero
+	return _heroes_by_name.get(hero_name, {})
 
 
 ## The opponent's Health going into this fight: the state is already past it, so a loss gets added

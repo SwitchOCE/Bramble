@@ -54,7 +54,7 @@ func test_pass_mark_is_permanent_and_preview_returns_to_it() -> void:
 
 
 func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for golden: bool in [false, true]:
 		var urchin := RecruitUnit.make(library.get_unit("dr_urchin"), 1, golden)
 		var combat_note: String = RecruitView.geometry_note(urchin.view(), 0)
@@ -68,7 +68,7 @@ func test_pass_timing_note_follows_the_card_trigger_for_normal_and_golden_cards(
 
 
 func test_golden_shy_cards_print_the_payment_once_and_keep_their_other_rulings() -> void:
-	var library := UnitLibrary.load_dir()
+	var library := TestLibraries.current()
 	for id: String in ["hob_in_the_hearth", "lob_lie_by_the_fire", "silky"]:
 		var unit := RecruitUnit.make(library.get_unit(id), 1, true)
 		var face: String = unit.view()["text"]
@@ -120,14 +120,14 @@ func test_nest_display_uses_live_tom_tit_redwing_tribe_and_slot_stats() -> void:
 	assert_string_contains(detail["text"], "2 turns")
 
 
-func test_spoils_result_and_income_name_the_payment() -> void:
+func test_spoils_log_and_income_name_the_payment() -> void:
 	var screen := CombatScreen.new()
 	add_child_autofree(screen)
 	screen.bottom_side = 0
-	screen.model.apply({"type": "early_spoils", "side": 0, "amount": 1})
-	screen.model.apply({"type": "combat_end", "winner": 0, "damage": 1})
-	screen._show_result()
-	assert_string_contains(screen._result_text.text, "+1 gold: Spoils")
+	screen._play_event({"type": "early_spoils", "side": 0, "amount": 1}, false)
+	screen._play_event({"type": "combat_end", "winner": 0, "damage": 1}, false)
+	assert_string_contains(screen._log.all_text(), "+1 gold next turn (Spoils)")
+	assert_false(screen._log.visible, "Spoils details stay in Log")
 	assert_string_contains(
 		RecruitView.income_note(
 			{"next_turn_income": 4, "gold_next_turn": 1, "early_spoils_next_turn": 1}

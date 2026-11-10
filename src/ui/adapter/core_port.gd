@@ -5,6 +5,7 @@ extends "res://src/ui/adapter/game_port.gd"
 ## GameSession, CombatSandbox, UnitLibrary or ScenarioLibrary unchanged. The UI's default port.
 
 const Data := preload("res://src/ui/view_data.gd")
+const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 var library: UnitLibrary
@@ -17,6 +18,9 @@ var manual_choices: bool = true
 var _uses_saved_settings: bool = true
 var _field_library_path: String = ""
 var _launch_error: String = ""
+var _fight_floor: Array = []
+var _fight_health: Array[int] = []
+var _fight_ids: Array = []
 
 
 ## Loads the unit library, for the full game unless a config says otherwise (tests use human_bot).
@@ -43,6 +47,9 @@ func setup(game_config: GameConfig = null) -> void:
 
 
 func new_game(game_seed: int) -> String:
+	_fight_floor.clear()
+	_fight_health.clear()
+	_fight_ids.clear()
 	if library == null:
 		setup()
 	if _launch_error != "":
@@ -94,7 +101,13 @@ func get_state() -> Dictionary:
 
 
 func get_last_combat() -> Dictionary:
-	return session.get_last_combat() if session != null else {}
+	if session == null:
+		return {}
+	var combat: Dictionary = session.get_last_combat().duplicate(true)
+	combat["floor_marks"] = _fight_floor.duplicate(true)
+	combat["hero_health_before"] = _fight_health.duplicate()
+	combat["hero_health_after"] = _health_for_ids(_fight_ids)
+	return combat
 
 
 func is_over() -> bool:
@@ -167,7 +180,50 @@ func tier_up() -> String:
 
 
 func end_turn() -> String:
-	return _after(session.end_turn()) if session != null else NOT_AVAILABLE
+	if session == null:
+		return NOT_AVAILABLE
+	# Observe the exact fight inputs without changing any rules or taking over evidence hooks.
+	var previous: Callable = session.fight_capture_observer
+	session.fight_capture_observer = func(
+		input: Dictionary, result: Dictionary, fight: Combat
+	) -> void:
+		var ids: Array = Data.a(input, "player_ids")
+		if ids.has(0):
+			_fight_ids = ids.duplicate()
+			_fight_health = _health_for_ids(ids)
+			_fight_floor = []
+			var slots: Array = Data.a(input, "slots")
+			var rules: Array = Data.a(input, "fight_rules")
+			for side: int in 2:
+				var side_rules: Dictionary = Data.entry(rules, side)
+				var bands: Array = []
+				for band: Variant in Data.a(side_rules, "bands"):
+					if band is bool:
+						bands.append(band)
+					else:
+						bands.append(Data.as_int(band, 0) > 0)
+				var marks: Array = RecruitView.slot_marks(
+					{"slot_effects": slots[side] if slots.size() > side else [], "bands": bands}
+				)
+				for nest: Dictionary in Data.a(side_rules, "nests"):
+					marks[Data.i(nest, "slot")]["nest"] = true
+				_fight_floor.append(marks)
+		if previous.is_valid():
+			previous.call(input, result, fight)
+	var reason: String = session.end_turn()
+	session.fight_capture_observer = previous
+	return _after(reason)
+
+
+func _health_for_ids(ids: Array) -> Array[int]:
+	var out: Array[int] = []
+	for id: Variant in ids:
+		var health: int = -1
+		for standing: Dictionary in Data.a(session.get_state(), "standings"):
+			if Data.i(standing, "player_id", -2) == Data.as_int(id):
+				health = Data.i(standing, "health")
+		out.append(health)
+	return out
 
 
 func library_units() -> Array[Dictionary]:

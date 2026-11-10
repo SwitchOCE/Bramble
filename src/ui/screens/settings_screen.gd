@@ -33,7 +33,6 @@ var master_groove: VolumeGroove
 
 var _back: LeafButton
 var _plaque: WoodPanel
-var _saved: Label
 var _panels: Array[WoodPanel] = []
 var _version: Label
 var _taps: int = 0
@@ -65,10 +64,6 @@ func _init() -> void:
 	title.set_anchors_preset(Control.PRESET_FULL_RECT)
 	title.offset_bottom = -6.0
 	_plaque.add_child(title)
-	_saved = UiTheme.label("Changes save as you make them.", UiTheme.FONT_SMALL, UiTheme.MUTE)
-	_saved.add_theme_font_override("font", UiTheme.bold_font())
-	_saved.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	add_child(_saved)
 	for i: int in 2:
 		var panel: WoodPanel = WoodPanel.new(WoodPanel.Kind.OAK)
 		add_child(panel)
@@ -111,7 +106,9 @@ func _build_fights(panel: WoodPanel) -> void:
 	motion_latch.set_on(Settings.reduce_motion)
 	motion_latch.toggled.connect(_on_motion)
 	panel.add_child(motion_latch)
-	_rows.append(_row(panel, motion_latch, "Reduce motion", "no lunges, shakes or leaves"))
+	_rows.append(
+		_row(panel, motion_latch, "Reduce motion", "Flashes instead of lunges and shakes.")
+	)
 
 
 func _build_sound(panel: WoodPanel) -> void:
@@ -199,8 +196,6 @@ func _layout() -> void:
 	_back.size = Vector2(350, 124)
 	_plaque.position = Vector2(412, top + 34.0)
 	_plaque.size = Vector2(330, 110)
-	_saved.position = Vector2(w - SIDE - 560.0, top + 62.0)
-	_saved.size = Vector2(560, 50)
 	var panel_w: float = (w - SIDE * 2.0 - PANEL_GAP) / 2.0
 	var panel_h: float = PANEL_H
 	_sound.position = Vector2(SIDE, top + sound_y)

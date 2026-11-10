@@ -46,7 +46,7 @@ func _render(window_size: Vector2i, out_path: String) -> void:
 		if phone
 		else PackedStringArray(["horseshoe", "barn_owl"])
 	)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var width: float = minf(720.0, (canvas.x - 144.0) / 2.0)
 	var left: float = (canvas.x - width * 2.0 - 48.0) / 2.0
 	for index: int in ids.size():

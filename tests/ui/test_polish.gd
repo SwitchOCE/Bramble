@@ -122,7 +122,7 @@ func test_opening_scout_on_a_ghost_says_what_a_ghost_is() -> void:
 
 
 func test_a_triple_keeps_a_cold_frame_paid_for() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var config: GameConfig = GameConfig.full_game()
 	var session: GameSession = GameSession.create(5, library, config)
 	session.choose(0)
@@ -161,7 +161,7 @@ func test_buying_a_third_copy_says_what_it_does_before_it_happens() -> void:
 
 
 func test_tile_tags_say_something_for_every_unit_in_the_game() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	for def: Dictionary in library.pool_units("slice"):
 		var view: Dictionary = UnitViews.from_def(def)
 		var tag: String = CardView.chip_text(view)
@@ -188,7 +188,7 @@ func _tag(rules: String, keywords: Array) -> String:
 func test_every_keyword_in_a_discover_is_one_hover_or_tap_from_its_reminder() -> void:
 	var picker: CardPicker = CardPicker.new()
 	add_child_autofree(picker)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var views: Array = [
 		UnitViews.from_def(library.get_unit("belladonna")),
 		UnitViews.from_def(library.get_unit("nan_toadstool")),
@@ -298,7 +298,7 @@ func test_the_guide_says_gold_and_shows_only_whats_in_the_game() -> void:
 	for entry: Dictionary in HowToPlay.PAGES:
 		var words: String = str(entry["text"]) + str(entry["title"])
 		assert_false(words.contains("acorns on"), words)
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var allowed: Array[String] = ["Hedgerow folk", "Fairies", "Oozes", "Birds"]
 	var in_game: Dictionary = {}
 	for unit: Dictionary in library.pool_units("slice"):

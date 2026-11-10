@@ -1,7 +1,8 @@
 extends GutTest
 ## The scripted player (tests/ui/player_driver.gd) plays whole games through the real App by
-## calling the recruit screen's handlers, combats skipped to their result, to the game over
-## screen. Every drop's _can_drop answer must match the rules. GUT fails the test on any engine
+## calling the recruit screen's handlers, with combats skipped and returned automatically
+## to the game over screen. Every drop's _can_drop answer must match the rules.
+## GUT fails the test on any engine
 ## or script error along the way. The full run, with combats watched at 4x and layout checks at
 ## both sizes, is tests/ui/shots/playthrough.gd.
 
@@ -15,6 +16,8 @@ const LayoutCheck := preload("res://tests/ui/layout_check.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const Records := preload("res://src/ui/records.gd")
+const SharedLobby := preload("res://tests/core/shared_lobby.gd")
+const Settings := preload("res://src/ui/settings.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -31,7 +34,12 @@ func test_scripted_player_reaches_game_over() -> void:
 	var app: App = App.new()
 	add_child_autofree(app)
 	var port: CorePort = CorePort.new()
-	port.setup()
+	# The real game's config with Hard seats on a smaller board search: this test drives the UI
+	# journey, not Hard's choices (test_bot_brain, test_field_normal_regression pin those).
+	var config: GameConfig = GameConfig.full_game()
+	config.set_value("ask_for_kin", Settings.ask_for_kin)
+	config.set_value("bots", SharedLobby.quick_seats())
+	port.setup(config)
 	app.setup(port)
 	var all_counts: Dictionary = {}
 	for game_seed: int in SEEDS:
@@ -45,7 +53,7 @@ func test_scripted_player_reaches_game_over() -> void:
 				var combat: CombatScreen = app.current as CombatScreen
 				combat.skip_to_end()
 				assert_true(combat.is_showing_result())
-				combat.finished.emit()
+				combat.advance_playback(0.11)
 		assert_true(app.current is GameOverScreen, "seed %d ends at game over" % game_seed)
 		for action: String in driver.counts:
 			all_counts[action] = true
@@ -111,7 +119,9 @@ func test_game_over_screen_lays_out_cleanly() -> void:
 	while app.current is RecruitScreen and turns < MAX_TURNS:
 		(app.current as RecruitScreen).call("_on_end_turn")
 		if app.current is CombatScreen:
-			(app.current as CombatScreen).finished.emit()
+			var combat: CombatScreen = app.current as CombatScreen
+			combat.skip_to_end()
+			combat.advance_playback(0.11)
 		turns += 1
 	assert_true(app.current is GameOverScreen)
 	await get_tree().process_frame

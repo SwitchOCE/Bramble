@@ -5,7 +5,7 @@ const Views := preload("res://src/ui/unit_views.gd")
 
 
 func test_burner_explains_the_bank_or_buy_choice_for_normal_and_golden() -> void:
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var definition: Dictionary = library.get_unit("charcoal_burner")
 	for golden: bool in [false, true]:
 		var text: String = CardDetail.full_text_bbcode(Views.from_def(definition, golden))

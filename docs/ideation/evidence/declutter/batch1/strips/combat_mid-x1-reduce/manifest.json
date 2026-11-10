@@ -1,0 +1,3348 @@
+{
+  "attacks": [
+    {
+      "duration": 0.9416666666666667,
+      "end_tick": 952,
+      "event_index": 21,
+      "frames": [
+        {
+          "file": "attack-021-frame-0.png",
+          "seconds": 6.991666666666666,
+          "tick": 839
+        },
+        {
+          "file": "attack-021-frame-1.png",
+          "seconds": 7.125,
+          "tick": 855
+        },
+        {
+          "file": "attack-021-frame-2.png",
+          "seconds": 7.258333333333333,
+          "tick": 871
+        },
+        {
+          "file": "attack-021-frame-3.png",
+          "seconds": 7.391666666666667,
+          "tick": 887
+        },
+        {
+          "file": "attack-021-frame-4.png",
+          "seconds": 7.533333333333333,
+          "tick": 904
+        },
+        {
+          "file": "attack-021-frame-5.png",
+          "seconds": 7.666666666666667,
+          "tick": 920
+        },
+        {
+          "file": "attack-021-frame-6.png",
+          "seconds": 7.8,
+          "tick": 936
+        },
+        {
+          "file": "attack-021-frame-7.png",
+          "seconds": 7.933333333333334,
+          "tick": 952
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.8699999999999999,
+      "sample_ticks": [
+        839,
+        855,
+        871,
+        887,
+        904,
+        920,
+        936,
+        952
+      ],
+      "start_tick": 839,
+      "strip": "attack-021.jpg"
+    },
+    {
+      "duration": 0.7333333333333333,
+      "end_tick": 1041,
+      "event_index": 26,
+      "frames": [
+        {
+          "file": "attack-026-frame-0.png",
+          "seconds": 7.941666666666666,
+          "tick": 953
+        },
+        {
+          "file": "attack-026-frame-1.png",
+          "seconds": 8.05,
+          "tick": 966
+        },
+        {
+          "file": "attack-026-frame-2.png",
+          "seconds": 8.15,
+          "tick": 978
+        },
+        {
+          "file": "attack-026-frame-3.png",
+          "seconds": 8.258333333333333,
+          "tick": 991
+        },
+        {
+          "file": "attack-026-frame-4.png",
+          "seconds": 8.358333333333333,
+          "tick": 1003
+        },
+        {
+          "file": "attack-026-frame-5.png",
+          "seconds": 8.466666666666667,
+          "tick": 1016
+        },
+        {
+          "file": "attack-026-frame-6.png",
+          "seconds": 8.566666666666666,
+          "tick": 1028
+        },
+        {
+          "file": "attack-026-frame-7.png",
+          "seconds": 8.675,
+          "tick": 1041
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.74,
+      "sample_ticks": [
+        953,
+        966,
+        978,
+        991,
+        1003,
+        1016,
+        1028,
+        1041
+      ],
+      "start_tick": 953,
+      "strip": "attack-026.jpg"
+    },
+    {
+      "duration": 0.9416666666666667,
+      "end_tick": 1155,
+      "event_index": 31,
+      "frames": [
+        {
+          "file": "attack-031-frame-0.png",
+          "seconds": 8.683333333333334,
+          "tick": 1042
+        },
+        {
+          "file": "attack-031-frame-1.png",
+          "seconds": 8.816666666666666,
+          "tick": 1058
+        },
+        {
+          "file": "attack-031-frame-2.png",
+          "seconds": 8.95,
+          "tick": 1074
+        },
+        {
+          "file": "attack-031-frame-3.png",
+          "seconds": 9.083333333333334,
+          "tick": 1090
+        },
+        {
+          "file": "attack-031-frame-4.png",
+          "seconds": 9.225,
+          "tick": 1107
+        },
+        {
+          "file": "attack-031-frame-5.png",
+          "seconds": 9.358333333333333,
+          "tick": 1123
+        },
+        {
+          "file": "attack-031-frame-6.png",
+          "seconds": 9.491666666666667,
+          "tick": 1139
+        },
+        {
+          "file": "attack-031-frame-7.png",
+          "seconds": 9.625,
+          "tick": 1155
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.8699999999999999,
+      "sample_ticks": [
+        1042,
+        1058,
+        1074,
+        1090,
+        1107,
+        1123,
+        1139,
+        1155
+      ],
+      "start_tick": 1042,
+      "strip": "attack-031.jpg"
+    },
+    {
+      "duration": 2.466666666666667,
+      "end_tick": 1452,
+      "event_index": 36,
+      "frames": [
+        {
+          "file": "attack-036-frame-0.png",
+          "seconds": 9.633333333333333,
+          "tick": 1156
+        },
+        {
+          "file": "attack-036-frame-1.png",
+          "seconds": 9.983333333333333,
+          "tick": 1198
+        },
+        {
+          "file": "attack-036-frame-2.png",
+          "seconds": 10.341666666666667,
+          "tick": 1241
+        },
+        {
+          "file": "attack-036-frame-3.png",
+          "seconds": 10.691666666666666,
+          "tick": 1283
+        },
+        {
+          "file": "attack-036-frame-4.png",
+          "seconds": 11.041666666666666,
+          "tick": 1325
+        },
+        {
+          "file": "attack-036-frame-5.png",
+          "seconds": 11.391666666666666,
+          "tick": 1367
+        },
+        {
+          "file": "attack-036-frame-6.png",
+          "seconds": 11.75,
+          "tick": 1410
+        },
+        {
+          "file": "attack-036-frame-7.png",
+          "seconds": 12.1,
+          "tick": 1452
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 2.47,
+      "sample_ticks": [
+        1156,
+        1198,
+        1241,
+        1283,
+        1325,
+        1367,
+        1410,
+        1452
+      ],
+      "start_tick": 1156,
+      "strip": "attack-036.jpg"
+    },
+    {
+      "duration": 3.4833333333333334,
+      "end_tick": 1871,
+      "event_index": 45,
+      "frames": [
+        {
+          "file": "attack-045-frame-0.png",
+          "seconds": 12.108333333333333,
+          "tick": 1453
+        },
+        {
+          "file": "attack-045-frame-1.png",
+          "seconds": 12.608333333333333,
+          "tick": 1513
+        },
+        {
+          "file": "attack-045-frame-2.png",
+          "seconds": 13.1,
+          "tick": 1572
+        },
+        {
+          "file": "attack-045-frame-3.png",
+          "seconds": 13.6,
+          "tick": 1632
+        },
+        {
+          "file": "attack-045-frame-4.png",
+          "seconds": 14.1,
+          "tick": 1692
+        },
+        {
+          "file": "attack-045-frame-5.png",
+          "seconds": 14.6,
+          "tick": 1752
+        },
+        {
+          "file": "attack-045-frame-6.png",
+          "seconds": 15.091666666666667,
+          "tick": 1811
+        },
+        {
+          "file": "attack-045-frame-7.png",
+          "seconds": 15.591666666666667,
+          "tick": 1871
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 3.27,
+      "sample_ticks": [
+        1453,
+        1513,
+        1572,
+        1632,
+        1692,
+        1752,
+        1811,
+        1871
+      ],
+      "start_tick": 1453,
+      "strip": "attack-045.jpg"
+    },
+    {
+      "duration": 0.6916666666666667,
+      "end_tick": 1955,
+      "event_index": 54,
+      "frames": [
+        {
+          "file": "attack-054-frame-0.png",
+          "seconds": 15.6,
+          "tick": 1872
+        },
+        {
+          "file": "attack-054-frame-1.png",
+          "seconds": 15.7,
+          "tick": 1884
+        },
+        {
+          "file": "attack-054-frame-2.png",
+          "seconds": 15.799999999999999,
+          "tick": 1896
+        },
+        {
+          "file": "attack-054-frame-3.png",
+          "seconds": 15.9,
+          "tick": 1908
+        },
+        {
+          "file": "attack-054-frame-4.png",
+          "seconds": 15.991666666666667,
+          "tick": 1919
+        },
+        {
+          "file": "attack-054-frame-5.png",
+          "seconds": 16.091666666666665,
+          "tick": 1931
+        },
+        {
+          "file": "attack-054-frame-6.png",
+          "seconds": 16.191666666666666,
+          "tick": 1943
+        },
+        {
+          "file": "attack-054-frame-7.png",
+          "seconds": 16.291666666666668,
+          "tick": 1955
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.7,
+      "sample_ticks": [
+        1872,
+        1884,
+        1896,
+        1908,
+        1919,
+        1931,
+        1943,
+        1955
+      ],
+      "start_tick": 1872,
+      "strip": "attack-054.jpg"
+    },
+    {
+      "duration": 0.6916666666666667,
+      "end_tick": 2039,
+      "event_index": 58,
+      "frames": [
+        {
+          "file": "attack-058-frame-0.png",
+          "seconds": 16.3,
+          "tick": 1956
+        },
+        {
+          "file": "attack-058-frame-1.png",
+          "seconds": 16.4,
+          "tick": 1968
+        },
+        {
+          "file": "attack-058-frame-2.png",
+          "seconds": 16.5,
+          "tick": 1980
+        },
+        {
+          "file": "attack-058-frame-3.png",
+          "seconds": 16.6,
+          "tick": 1992
+        },
+        {
+          "file": "attack-058-frame-4.png",
+          "seconds": 16.691666666666666,
+          "tick": 2003
+        },
+        {
+          "file": "attack-058-frame-5.png",
+          "seconds": 16.791666666666668,
+          "tick": 2015
+        },
+        {
+          "file": "attack-058-frame-6.png",
+          "seconds": 16.891666666666666,
+          "tick": 2027
+        },
+        {
+          "file": "attack-058-frame-7.png",
+          "seconds": 16.991666666666667,
+          "tick": 2039
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.7,
+      "sample_ticks": [
+        1956,
+        1968,
+        1980,
+        1992,
+        2003,
+        2015,
+        2027,
+        2039
+      ],
+      "start_tick": 1956,
+      "strip": "attack-058.jpg"
+    },
+    {
+      "duration": 2.15,
+      "end_tick": 2298,
+      "event_index": 62,
+      "frames": [
+        {
+          "file": "attack-062-frame-0.png",
+          "seconds": 17.0,
+          "tick": 2040
+        },
+        {
+          "file": "attack-062-frame-1.png",
+          "seconds": 17.308333333333334,
+          "tick": 2077
+        },
+        {
+          "file": "attack-062-frame-2.png",
+          "seconds": 17.616666666666667,
+          "tick": 2114
+        },
+        {
+          "file": "attack-062-frame-3.png",
+          "seconds": 17.925,
+          "tick": 2151
+        },
+        {
+          "file": "attack-062-frame-4.png",
+          "seconds": 18.225,
+          "tick": 2187
+        },
+        {
+          "file": "attack-062-frame-5.png",
+          "seconds": 18.53333333333333,
+          "tick": 2224
+        },
+        {
+          "file": "attack-062-frame-6.png",
+          "seconds": 18.841666666666665,
+          "tick": 2261
+        },
+        {
+          "file": "attack-062-frame-7.png",
+          "seconds": 19.15,
+          "tick": 2298
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 2.15,
+      "sample_ticks": [
+        2040,
+        2077,
+        2114,
+        2151,
+        2187,
+        2224,
+        2261,
+        2298
+      ],
+      "start_tick": 2040,
+      "strip": "attack-062.jpg"
+    },
+    {
+      "duration": 1.475,
+      "end_tick": 2476,
+      "event_index": 69,
+      "frames": [
+        {
+          "file": "attack-069-frame-0.png",
+          "seconds": 19.15833333333333,
+          "tick": 2299
+        },
+        {
+          "file": "attack-069-frame-1.png",
+          "seconds": 19.366666666666667,
+          "tick": 2324
+        },
+        {
+          "file": "attack-069-frame-2.png",
+          "seconds": 19.583333333333332,
+          "tick": 2350
+        },
+        {
+          "file": "attack-069-frame-3.png",
+          "seconds": 19.791666666666668,
+          "tick": 2375
+        },
+        {
+          "file": "attack-069-frame-4.png",
+          "seconds": 20.0,
+          "tick": 2400
+        },
+        {
+          "file": "attack-069-frame-5.png",
+          "seconds": 20.208333333333332,
+          "tick": 2425
+        },
+        {
+          "file": "attack-069-frame-6.png",
+          "seconds": 20.425,
+          "tick": 2451
+        },
+        {
+          "file": "attack-069-frame-7.png",
+          "seconds": 20.633333333333333,
+          "tick": 2476
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 1.2699999999999998,
+      "sample_ticks": [
+        2299,
+        2324,
+        2350,
+        2375,
+        2400,
+        2425,
+        2451,
+        2476
+      ],
+      "start_tick": 2299,
+      "strip": "attack-069.jpg"
+    },
+    {
+      "duration": 1.475,
+      "end_tick": 2654,
+      "event_index": 75,
+      "frames": [
+        {
+          "file": "attack-075-frame-0.png",
+          "seconds": 20.641666666666666,
+          "tick": 2477
+        },
+        {
+          "file": "attack-075-frame-1.png",
+          "seconds": 20.85,
+          "tick": 2502
+        },
+        {
+          "file": "attack-075-frame-2.png",
+          "seconds": 21.066666666666666,
+          "tick": 2528
+        },
+        {
+          "file": "attack-075-frame-3.png",
+          "seconds": 21.275,
+          "tick": 2553
+        },
+        {
+          "file": "attack-075-frame-4.png",
+          "seconds": 21.483333333333334,
+          "tick": 2578
+        },
+        {
+          "file": "attack-075-frame-5.png",
+          "seconds": 21.691666666666666,
+          "tick": 2603
+        },
+        {
+          "file": "attack-075-frame-6.png",
+          "seconds": 21.90833333333333,
+          "tick": 2629
+        },
+        {
+          "file": "attack-075-frame-7.png",
+          "seconds": 22.116666666666667,
+          "tick": 2654
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 1.05,
+      "sample_ticks": [
+        2477,
+        2502,
+        2528,
+        2553,
+        2578,
+        2603,
+        2629,
+        2654
+      ],
+      "start_tick": 2477,
+      "strip": "attack-075.jpg"
+    },
+    {
+      "duration": 0.44166666666666665,
+      "end_tick": 2708,
+      "event_index": 80,
+      "frames": [
+        {
+          "file": "attack-080-frame-0.png",
+          "seconds": 22.125,
+          "tick": 2655
+        },
+        {
+          "file": "attack-080-frame-1.png",
+          "seconds": 22.191666666666666,
+          "tick": 2663
+        },
+        {
+          "file": "attack-080-frame-2.png",
+          "seconds": 22.25,
+          "tick": 2670
+        },
+        {
+          "file": "attack-080-frame-3.png",
+          "seconds": 22.316666666666666,
+          "tick": 2678
+        },
+        {
+          "file": "attack-080-frame-4.png",
+          "seconds": 22.375,
+          "tick": 2685
+        },
+        {
+          "file": "attack-080-frame-5.png",
+          "seconds": 22.441666666666666,
+          "tick": 2693
+        },
+        {
+          "file": "attack-080-frame-6.png",
+          "seconds": 22.5,
+          "tick": 2700
+        },
+        {
+          "file": "attack-080-frame-7.png",
+          "seconds": 22.566666666666666,
+          "tick": 2708
+        }
+      ],
+      "kind": "attack",
+      "predicted_duration": 0.7,
+      "sample_ticks": [
+        2655,
+        2663,
+        2670,
+        2678,
+        2685,
+        2693,
+        2700,
+        2708
+      ],
+      "start_tick": 2655,
+      "strip": "attack-080.jpg"
+    }
+  ],
+  "automatic_return_tick": 2830,
+  "event_ticks": [
+    {
+      "event_index": 0,
+      "tick": 12,
+      "type": "combat_start"
+    },
+    {
+      "event_index": 1,
+      "tick": 47,
+      "type": "phase"
+    },
+    {
+      "event_index": 2,
+      "tick": 83,
+      "type": "phase"
+    },
+    {
+      "event_index": 3,
+      "tick": 119,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 4,
+      "tick": 167,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 5,
+      "tick": 215,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 6,
+      "tick": 263,
+      "type": "trigger"
+    },
+    {
+      "event_index": 7,
+      "tick": 290,
+      "type": "bog_patch"
+    },
+    {
+      "event_index": 8,
+      "tick": 326,
+      "type": "trigger"
+    },
+    {
+      "event_index": 9,
+      "tick": 352,
+      "type": "bog_patch"
+    },
+    {
+      "event_index": 10,
+      "tick": 388,
+      "type": "quarry_marked"
+    },
+    {
+      "event_index": 11,
+      "tick": 436,
+      "type": "status"
+    },
+    {
+      "event_index": 12,
+      "tick": 484,
+      "type": "status"
+    },
+    {
+      "event_index": 13,
+      "tick": 532,
+      "type": "stats"
+    },
+    {
+      "event_index": 14,
+      "tick": 580,
+      "type": "trigger"
+    },
+    {
+      "event_index": 15,
+      "tick": 607,
+      "type": "no_target"
+    },
+    {
+      "event_index": 16,
+      "tick": 643,
+      "type": "trigger"
+    },
+    {
+      "event_index": 17,
+      "tick": 669,
+      "type": "stats"
+    },
+    {
+      "event_index": 18,
+      "tick": 717,
+      "type": "phase"
+    },
+    {
+      "event_index": 19,
+      "tick": 753,
+      "type": "trigger"
+    },
+    {
+      "event_index": 20,
+      "tick": 779,
+      "type": "stats"
+    },
+    {
+      "event_index": 21,
+      "tick": 839,
+      "type": "attack"
+    },
+    {
+      "event_index": 22,
+      "tick": 858,
+      "type": "damage"
+    },
+    {
+      "event_index": 23,
+      "tick": 858,
+      "type": "damage"
+    },
+    {
+      "event_index": 24,
+      "tick": 858,
+      "type": "death"
+    },
+    {
+      "event_index": 25,
+      "tick": 893,
+      "type": "trigger"
+    },
+    {
+      "event_index": 26,
+      "tick": 953,
+      "type": "attack"
+    },
+    {
+      "event_index": 27,
+      "tick": 972,
+      "type": "damage"
+    },
+    {
+      "event_index": 28,
+      "tick": 976,
+      "type": "damage"
+    },
+    {
+      "event_index": 29,
+      "tick": 976,
+      "type": "damage"
+    },
+    {
+      "event_index": 30,
+      "tick": 976,
+      "type": "death"
+    },
+    {
+      "event_index": 31,
+      "tick": 1042,
+      "type": "attack"
+    },
+    {
+      "event_index": 32,
+      "tick": 1061,
+      "type": "damage"
+    },
+    {
+      "event_index": 33,
+      "tick": 1061,
+      "type": "damage"
+    },
+    {
+      "event_index": 34,
+      "tick": 1061,
+      "type": "death"
+    },
+    {
+      "event_index": 35,
+      "tick": 1096,
+      "type": "trigger"
+    },
+    {
+      "event_index": 36,
+      "tick": 1156,
+      "type": "attack"
+    },
+    {
+      "event_index": 37,
+      "tick": 1175,
+      "type": "damage"
+    },
+    {
+      "event_index": 38,
+      "tick": 1179,
+      "type": "damage"
+    },
+    {
+      "event_index": 39,
+      "tick": 1179,
+      "type": "damage"
+    },
+    {
+      "event_index": 40,
+      "tick": 1179,
+      "type": "death"
+    },
+    {
+      "event_index": 41,
+      "tick": 1215,
+      "type": "take"
+    },
+    {
+      "event_index": 42,
+      "tick": 1323,
+      "type": "trigger"
+    },
+    {
+      "event_index": 43,
+      "tick": 1350,
+      "type": "stats"
+    },
+    {
+      "event_index": 44,
+      "tick": 1398,
+      "type": "quarry_lost"
+    },
+    {
+      "event_index": 45,
+      "tick": 1453,
+      "type": "attack"
+    },
+    {
+      "event_index": 46,
+      "tick": 1472,
+      "type": "damage"
+    },
+    {
+      "event_index": 47,
+      "tick": 1472,
+      "type": "damage"
+    },
+    {
+      "event_index": 48,
+      "tick": 1472,
+      "type": "death"
+    },
+    {
+      "event_index": 49,
+      "tick": 1472,
+      "type": "death"
+    },
+    {
+      "event_index": 50,
+      "tick": 1507,
+      "type": "take"
+    },
+    {
+      "event_index": 51,
+      "tick": 1616,
+      "type": "trigger"
+    },
+    {
+      "event_index": 52,
+      "tick": 1642,
+      "type": "permanent_reward"
+    },
+    {
+      "event_index": 53,
+      "tick": 1763,
+      "type": "mire_wait"
+    },
+    {
+      "event_index": 54,
+      "tick": 1872,
+      "type": "attack"
+    },
+    {
+      "event_index": 55,
+      "tick": 1891,
+      "type": "damage"
+    },
+    {
+      "event_index": 56,
+      "tick": 1891,
+      "type": "damage"
+    },
+    {
+      "event_index": 57,
+      "tick": 1891,
+      "type": "death"
+    },
+    {
+      "event_index": 58,
+      "tick": 1956,
+      "type": "attack"
+    },
+    {
+      "event_index": 59,
+      "tick": 1975,
+      "type": "damage"
+    },
+    {
+      "event_index": 60,
+      "tick": 1975,
+      "type": "damage"
+    },
+    {
+      "event_index": 61,
+      "tick": 1975,
+      "type": "death"
+    },
+    {
+      "event_index": 62,
+      "tick": 2040,
+      "type": "attack"
+    },
+    {
+      "event_index": 63,
+      "tick": 2059,
+      "type": "damage"
+    },
+    {
+      "event_index": 64,
+      "tick": 2059,
+      "type": "damage"
+    },
+    {
+      "event_index": 65,
+      "tick": 2059,
+      "type": "death"
+    },
+    {
+      "event_index": 66,
+      "tick": 2059,
+      "type": "death"
+    },
+    {
+      "event_index": 67,
+      "tick": 2094,
+      "type": "take"
+    },
+    {
+      "event_index": 68,
+      "tick": 2203,
+      "type": "quarry_lost"
+    },
+    {
+      "event_index": 69,
+      "tick": 2299,
+      "type": "attack"
+    },
+    {
+      "event_index": 70,
+      "tick": 2318,
+      "type": "damage"
+    },
+    {
+      "event_index": 71,
+      "tick": 2318,
+      "type": "damage"
+    },
+    {
+      "event_index": 72,
+      "tick": 2318,
+      "type": "trigger"
+    },
+    {
+      "event_index": 73,
+      "tick": 2344,
+      "type": "immediate_attack"
+    },
+    {
+      "event_index": 74,
+      "tick": 2402,
+      "type": "stats"
+    },
+    {
+      "event_index": 75,
+      "tick": 2477,
+      "type": "attack"
+    },
+    {
+      "event_index": 76,
+      "tick": 2496,
+      "type": "damage"
+    },
+    {
+      "event_index": 77,
+      "tick": 2496,
+      "type": "damage"
+    },
+    {
+      "event_index": 78,
+      "tick": 2496,
+      "type": "death"
+    },
+    {
+      "event_index": 79,
+      "tick": 2580,
+      "type": "stats"
+    },
+    {
+      "event_index": 80,
+      "tick": 2655,
+      "type": "attack"
+    },
+    {
+      "event_index": 81,
+      "tick": 2674,
+      "type": "damage"
+    },
+    {
+      "event_index": 82,
+      "tick": 2674,
+      "type": "damage"
+    },
+    {
+      "event_index": 83,
+      "tick": 2674,
+      "type": "death"
+    },
+    {
+      "event_index": 84,
+      "tick": 2709,
+      "type": "combat_end"
+    }
+  ],
+  "events": [
+    {
+      "boards": [
+        [
+          {
+            "attack": 2.0,
+            "def_id": "mrs_clover",
+            "golden": false,
+            "health": 4.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 4.0,
+            "name": "Mrs Clover, Midwife",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "After you summon a unit: give it +1/+1. Twice a turn.",
+            "tier": 2.0,
+            "tribes": [
+              "Hedgerow folk"
+            ],
+            "uid": 1.0
+          },
+          {
+            "attack": 5.0,
+            "def_id": "little_nip",
+            "golden": false,
+            "health": 6.0,
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ],
+            "keywords": [
+              "Quarry"
+            ],
+            "max_health": 6.0,
+            "name": "Little Nip",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Quarry. Take: gain +1/+1 permanently.",
+            "tier": 1.0,
+            "tribes": [
+              "Hunters"
+            ],
+            "uid": 2.0
+          },
+          {
+            "attack": 4.0,
+            "def_id": "little_nip",
+            "golden": false,
+            "health": 5.0,
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ],
+            "keywords": [
+              "Quarry"
+            ],
+            "max_health": 5.0,
+            "name": "Little Nip",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Quarry. Take: gain +1/+1 permanently.",
+            "tier": 1.0,
+            "tribes": [
+              "Hunters"
+            ],
+            "uid": 3.0
+          },
+          {
+            "attack": 1.0,
+            "def_id": "young_brock",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ],
+            "keywords": [
+              "Quarry"
+            ],
+            "max_health": 3.0,
+            "name": "Young Brock",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+            "tier": 1.0,
+            "tribes": [
+              "Hunters"
+            ],
+            "uid": 4.0
+          },
+          {
+            "attack": 1.0,
+            "def_id": "spitfire_sal",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [],
+            "keywords": [],
+            "max_health": 3.0,
+            "name": "Spitfire Sal",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Start of Combat: deal 2 damage to each Mired enemy.",
+            "tier": 3.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 5.0
+          },
+          {
+            "attack": 5.0,
+            "def_id": "vaulting_hopkin",
+            "golden": false,
+            "health": 1.0,
+            "keyword_text": [
+              {
+                "keyword": "Snap",
+                "text": "Attacks the Mired enemy with the most Attack."
+              }
+            ],
+            "keywords": [
+              "Snap"
+            ],
+            "max_health": 1.0,
+            "name": "Vaulting Hopkin",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Snap. In your back row, this attacks first, with +2 Attack.",
+            "tier": 2.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 6.0
+          },
+          {
+            "attack": 2.0,
+            "def_id": "sable",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ],
+            "keywords": [
+              "Quarry"
+            ],
+            "max_health": 3.0,
+            "name": "Sable",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Quarry. Start of Combat: if its quarry has more Attack, gain +3 Attack.",
+            "tier": 2.0,
+            "tribes": [
+              "Hunters"
+            ],
+            "uid": 7.0
+          }
+        ],
+        [
+          {
+            "attack": 1.0,
+            "def_id": "hedge_witch",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [
+              {
+                "keyword": "Ring",
+                "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+              }
+            ],
+            "keywords": [
+              "Ring"
+            ],
+            "max_health": 3.0,
+            "name": "Hedge Witch",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Start of Combat: the enemy across loses Attack equal to this slot's Ring.",
+            "tier": 1.0,
+            "tribes": [
+              "Fairies"
+            ],
+            "uid": 8.0
+          },
+          {
+            "attack": 3.0,
+            "def_id": "brother_wolf",
+            "golden": false,
+            "health": 4.0,
+            "keyword_text": [
+              {
+                "keyword": "Pack",
+                "text": "When a unit beside this attacks, this joins in, using up its own attack."
+              }
+            ],
+            "keywords": [
+              "Pack"
+            ],
+            "max_health": 4.0,
+            "name": "Brother Wolf",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Pack. Units beside this attack first; this joins each once a cycle.",
+            "tier": 3.0,
+            "tribes": [
+              "Hunters"
+            ],
+            "uid": 9.0
+          },
+          {
+            "attack": 1.0,
+            "def_id": "young_brock",
+            "golden": false,
+            "health": 3.0,
+            "keyword_text": [
+              {
+                "keyword": "Quarry",
+                "text": "The enemy across becomes its quarry. This attacks it whenever it can."
+              }
+            ],
+            "keywords": [
+              "Quarry"
+            ],
+            "max_health": 3.0,
+            "name": "Young Brock",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Start of Combat: units beside this gain +1 Attack. They mark the enemy across from this as quarry.",
+            "tier": 1.0,
+            "tribes": [
+              "Hunters"
+            ],
+            "uid": 10.0
+          },
+          null,
+          {
+            "attack": 2.0,
+            "def_id": "gideon",
+            "golden": false,
+            "health": 6.0,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              }
+            ],
+            "keywords": [
+              "Mire"
+            ],
+            "max_health": 6.0,
+            "name": "Gideon, Basso Profundo",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Mire. After the enemy this Mires attacks this: attack it back with +2 Attack.",
+            "tier": 3.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 11.0
+          },
+          {
+            "attack": 3.0,
+            "def_id": "cluricaun",
+            "golden": false,
+            "health": 5.0,
+            "keyword_text": [
+              {
+                "keyword": "Ring",
+                "text": "Whoever stands on this slot gains your Ring size for each Ring here."
+              },
+              {
+                "keyword": "Ring size",
+                "text": "What each Ring gives; starts at +1/+1."
+              }
+            ],
+            "keywords": [
+              "Ring",
+              "Ring size"
+            ],
+            "max_health": 5.0,
+            "name": "Cluricaun",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "After you Tier up: if every slot has a Ring, your Rings grow +1/+1.",
+            "tier": 3.0,
+            "tribes": [
+              "Fairies"
+            ],
+            "uid": 12.0
+          },
+          {
+            "attack": 3.0,
+            "def_id": "natterjack_chorus",
+            "golden": false,
+            "health": 4.0,
+            "keyword_text": [
+              {
+                "keyword": "Mire",
+                "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+              },
+              {
+                "keyword": "Bitter",
+                "text": "When an enemy attacks this, it first loses this much Attack, down to 1."
+              }
+            ],
+            "keywords": [
+              "Mire",
+              "Bitter"
+            ],
+            "max_health": 4.0,
+            "name": "The Natterjack Chorus",
+            "quarry": 0.0,
+            "quarry_reach": false,
+            "statuses": [],
+            "text": "Your units beside this have Mire and Bitter 1.",
+            "tier": 3.0,
+            "tribes": [
+              "Bog folk"
+            ],
+            "uid": 13.0
+          }
+        ]
+      ],
+      "first_side": 0.0,
+      "player_ids": [
+        0.0,
+        7.0
+      ],
+      "seq": 0.0,
+      "type": "combat_start"
+    },
+    {
+      "name": "start_of_combat",
+      "seq": 1.0,
+      "type": "phase"
+    },
+    {
+      "name": "bell",
+      "seq": 2.0,
+      "type": "phase"
+    },
+    {
+      "hunter": 2.0,
+      "quarry": 9.0,
+      "seq": 3.0,
+      "source": 2.0,
+      "type": "quarry_marked"
+    },
+    {
+      "hunter": 3.0,
+      "quarry": 10.0,
+      "seq": 4.0,
+      "source": 3.0,
+      "type": "quarry_marked"
+    },
+    {
+      "hunter": 7.0,
+      "quarry": 13.0,
+      "seq": 5.0,
+      "source": 7.0,
+      "type": "quarry_marked"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 6.0,
+      "type": "trigger",
+      "uid": 11.0
+    },
+    {
+      "maker": 11.0,
+      "seq": 7.0,
+      "side": 0.0,
+      "slot": 4.0,
+      "type": "bog_patch"
+    },
+    {
+      "mechanic": "mire",
+      "seq": 8.0,
+      "type": "trigger",
+      "uid": 12.0
+    },
+    {
+      "maker": 12.0,
+      "seq": 9.0,
+      "side": 0.0,
+      "slot": 5.0,
+      "type": "bog_patch"
+    },
+    {
+      "hunter": 9.0,
+      "quarry": 3.0,
+      "seq": 10.0,
+      "source": 10.0,
+      "type": "quarry_marked"
+    },
+    {
+      "data": {
+        "maker": 11.0
+      },
+      "on": true,
+      "seq": 11.0,
+      "source": 11.0,
+      "status": "mired",
+      "target": 5.0,
+      "type": "status"
+    },
+    {
+      "data": {
+        "maker": 12.0
+      },
+      "on": true,
+      "seq": 12.0,
+      "source": 12.0,
+      "status": "mired",
+      "target": 6.0,
+      "type": "status"
+    },
+    {
+      "attack": 4.0,
+      "attack_delta": 1.0,
+      "cause": "",
+      "causes": [],
+      "health": 4.0,
+      "health_delta": 0.0,
+      "max_health": 4.0,
+      "permanent": false,
+      "seq": 13.0,
+      "source": 10.0,
+      "target": 9.0,
+      "type": "stats"
+    },
+    {
+      "mechanic": "start_of_combat",
+      "seq": 14.0,
+      "type": "trigger",
+      "uid": 5.0
+    },
+    {
+      "reason": "no target",
+      "seq": 15.0,
+      "side": 0.0,
+      "type": "no_target",
+      "uid": 5.0
+    },
+    {
+      "mechanic": "sable",
+      "seq": 16.0,
+      "type": "trigger",
+      "uid": 7.0
+    },
+    {
+      "attack": 5.0,
+      "attack_delta": 3.0,
+      "cause": "",
+      "causes": [],
+      "health": 3.0,
+      "health_delta": 0.0,
+      "max_health": 3.0,
+      "permanent": false,
+      "seq": 17.0,
+      "source": 7.0,
+      "target": 7.0,
+      "type": "stats"
+    },
+    {
+      "name": "attacks",
+      "seq": 18.0,
+      "type": "phase"
+    },
+    {
+      "mechanic": "bitter",
+      "seq": 19.0,
+      "type": "trigger",
+      "uid": 12.0
+    },
+    {
+      "attack": 4.0,
+      "attack_delta": -1.0,
+      "cause": "Bitter",
+      "causes": [],
+      "health": 1.0,
+      "health_delta": 0.0,
+      "max_health": 1.0,
+      "permanent": false,
+      "seq": 20.0,
+      "source": 12.0,
+      "target": 6.0,
+      "type": "stats"
+    },
+    {
+      "attacker": 6.0,
+      "defender": 12.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 21.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 4.0,
+      "health_after": 1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4.0,
+      "seq": 22.0,
+      "source": 6.0,
+      "strike": 1.0,
+      "target": 12.0,
+      "type": "damage"
+    },
+    {
+      "amount": 3.0,
+      "health_after": -2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 23.0,
+      "source": 12.0,
+      "strike": 1.0,
+      "target": 6.0,
+      "type": "damage"
+    },
+    {
+      "seq": 24.0,
+      "side": 0.0,
+      "slot": 5.0,
+      "type": "death",
+      "uid": 6.0
+    },
+    {
+      "mechanic": "pack",
+      "seq": 25.0,
+      "type": "trigger",
+      "uid": 9.0
+    },
+    {
+      "attacker": 8.0,
+      "defender": 4.0,
+      "joiners": [
+        9.0
+      ],
+      "pack": true,
+      "quick": false,
+      "seq": 26.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 27.0,
+      "source": 8.0,
+      "strike": 1.0,
+      "target": 4.0,
+      "type": "damage"
+    },
+    {
+      "amount": 4.0,
+      "health_after": -2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4.0,
+      "seq": 28.0,
+      "source": 9.0,
+      "strike": 1.0,
+      "target": 4.0,
+      "type": "damage"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 29.0,
+      "source": 4.0,
+      "strike": 1.0,
+      "target": 8.0,
+      "type": "damage"
+    },
+    {
+      "seq": 30.0,
+      "side": 0.0,
+      "slot": 3.0,
+      "type": "death",
+      "uid": 4.0
+    },
+    {
+      "attacker": 1.0,
+      "defender": 9.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 31.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 2.0,
+      "health_after": 2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 2.0,
+      "seq": 32.0,
+      "source": 1.0,
+      "strike": 1.0,
+      "target": 9.0,
+      "type": "damage"
+    },
+    {
+      "amount": 4.0,
+      "health_after": 0.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4.0,
+      "seq": 33.0,
+      "source": 9.0,
+      "strike": 1.0,
+      "target": 1.0,
+      "type": "damage"
+    },
+    {
+      "seq": 34.0,
+      "side": 0.0,
+      "slot": 0.0,
+      "type": "death",
+      "uid": 1.0
+    },
+    {
+      "mechanic": "pack",
+      "seq": 35.0,
+      "type": "trigger",
+      "uid": 9.0
+    },
+    {
+      "attacker": 10.0,
+      "defender": 2.0,
+      "joiners": [
+        9.0
+      ],
+      "pack": true,
+      "quick": false,
+      "seq": 36.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 5.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 37.0,
+      "source": 10.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "amount": 4.0,
+      "health_after": 1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4.0,
+      "seq": 38.0,
+      "source": 9.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "amount": 5.0,
+      "health_after": -2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 5.0,
+      "seq": 39.0,
+      "source": 2.0,
+      "strike": 1.0,
+      "target": 10.0,
+      "type": "damage"
+    },
+    {
+      "seq": 40.0,
+      "side": 1.0,
+      "slot": 2.0,
+      "type": "death",
+      "uid": 10.0
+    },
+    {
+      "hunter": 3.0,
+      "quarry": 10.0,
+      "seq": 41.0,
+      "side": 0.0,
+      "type": "take"
+    },
+    {
+      "mechanic": "take_growth",
+      "seq": 42.0,
+      "type": "trigger",
+      "uid": 3.0
+    },
+    {
+      "attack": 5.0,
+      "attack_delta": 1.0,
+      "cause": "",
+      "causes": [],
+      "health": 6.0,
+      "health_delta": 1.0,
+      "max_health": 6.0,
+      "permanent": true,
+      "seq": 43.0,
+      "source": 3.0,
+      "target": 3.0,
+      "type": "stats"
+    },
+    {
+      "hunter": 3.0,
+      "quarry": 10.0,
+      "seq": 44.0,
+      "type": "quarry_lost"
+    },
+    {
+      "attacker": 2.0,
+      "defender": 9.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 45.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 5.0,
+      "health_after": -3.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 5.0,
+      "seq": 46.0,
+      "source": 2.0,
+      "strike": 1.0,
+      "target": 9.0,
+      "type": "damage"
+    },
+    {
+      "amount": 4.0,
+      "health_after": -3.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4.0,
+      "seq": 47.0,
+      "source": 9.0,
+      "strike": 1.0,
+      "target": 2.0,
+      "type": "damage"
+    },
+    {
+      "seq": 48.0,
+      "side": 0.0,
+      "slot": 1.0,
+      "type": "death",
+      "uid": 2.0
+    },
+    {
+      "seq": 49.0,
+      "side": 1.0,
+      "slot": 1.0,
+      "type": "death",
+      "uid": 9.0
+    },
+    {
+      "hunter": 2.0,
+      "quarry": 9.0,
+      "seq": 50.0,
+      "side": 0.0,
+      "type": "take"
+    },
+    {
+      "mechanic": "take_growth",
+      "seq": 51.0,
+      "type": "trigger",
+      "uid": 2.0
+    },
+    {
+      "attack_delta": 1.0,
+      "cause": "",
+      "health_delta": 1.0,
+      "seq": 52.0,
+      "source": 2.0,
+      "target": 2.0,
+      "type": "permanent_reward"
+    },
+    {
+      "seq": 53.0,
+      "side": 1.0,
+      "target": 5.0,
+      "type": "mire_wait",
+      "uid": 11.0
+    },
+    {
+      "attacker": 12.0,
+      "defender": 3.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 54.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 3.0,
+      "health_after": 3.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 55.0,
+      "source": 12.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "amount": 5.0,
+      "health_after": -4.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 5.0,
+      "seq": 56.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 12.0,
+      "type": "damage"
+    },
+    {
+      "seq": 57.0,
+      "side": 1.0,
+      "slot": 5.0,
+      "type": "death",
+      "uid": 12.0
+    },
+    {
+      "attacker": 3.0,
+      "defender": 8.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 58.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 5.0,
+      "health_after": -3.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 5.0,
+      "seq": 59.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 8.0,
+      "type": "damage"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 2.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 60.0,
+      "source": 8.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "seq": 61.0,
+      "side": 1.0,
+      "slot": 0.0,
+      "type": "death",
+      "uid": 8.0
+    },
+    {
+      "attacker": 13.0,
+      "defender": 3.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 62.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 3.0,
+      "health_after": -1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 3.0,
+      "seq": 63.0,
+      "source": 13.0,
+      "strike": 1.0,
+      "target": 3.0,
+      "type": "damage"
+    },
+    {
+      "amount": 5.0,
+      "health_after": -1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 5.0,
+      "seq": 64.0,
+      "source": 3.0,
+      "strike": 1.0,
+      "target": 13.0,
+      "type": "damage"
+    },
+    {
+      "seq": 65.0,
+      "side": 1.0,
+      "slot": 6.0,
+      "type": "death",
+      "uid": 13.0
+    },
+    {
+      "seq": 66.0,
+      "side": 0.0,
+      "slot": 2.0,
+      "type": "death",
+      "uid": 3.0
+    },
+    {
+      "hunter": 7.0,
+      "quarry": 13.0,
+      "seq": 67.0,
+      "side": 0.0,
+      "type": "take"
+    },
+    {
+      "hunter": 7.0,
+      "quarry": 13.0,
+      "seq": 68.0,
+      "type": "quarry_lost"
+    },
+    {
+      "attacker": 5.0,
+      "defender": 11.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 69.0,
+      "side": 0.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 5.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 70.0,
+      "source": 5.0,
+      "strike": 1.0,
+      "target": 11.0,
+      "type": "damage"
+    },
+    {
+      "amount": 2.0,
+      "health_after": 1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 2.0,
+      "seq": 71.0,
+      "source": 11.0,
+      "strike": 1.0,
+      "target": 5.0,
+      "type": "damage"
+    },
+    {
+      "mechanic": "bog_answer",
+      "seq": 72.0,
+      "type": "trigger",
+      "uid": 11.0
+    },
+    {
+      "attacker": 11.0,
+      "defender": 5.0,
+      "kind": "counter",
+      "seq": 73.0,
+      "type": "immediate_attack"
+    },
+    {
+      "attack": 4.0,
+      "attack_delta": 2.0,
+      "cause": "",
+      "causes": [],
+      "health": 5.0,
+      "health_delta": 0.0,
+      "max_health": 6.0,
+      "permanent": false,
+      "seq": 74.0,
+      "source": 11.0,
+      "target": 11.0,
+      "type": "stats"
+    },
+    {
+      "attacker": 11.0,
+      "defender": 5.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 75.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 4.0,
+      "health_after": -3.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 4.0,
+      "seq": 76.0,
+      "source": 11.0,
+      "strike": 1.0,
+      "target": 5.0,
+      "type": "damage"
+    },
+    {
+      "amount": 1.0,
+      "health_after": 4.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 1.0,
+      "seq": 77.0,
+      "source": 5.0,
+      "strike": 1.0,
+      "target": 11.0,
+      "type": "damage"
+    },
+    {
+      "seq": 78.0,
+      "side": 0.0,
+      "slot": 4.0,
+      "type": "death",
+      "uid": 5.0
+    },
+    {
+      "attack": 2.0,
+      "attack_delta": -2.0,
+      "cause": "",
+      "causes": [],
+      "health": 4.0,
+      "health_delta": 0.0,
+      "max_health": 6.0,
+      "permanent": false,
+      "seq": 79.0,
+      "source": 11.0,
+      "target": 11.0,
+      "type": "stats"
+    },
+    {
+      "attacker": 11.0,
+      "defender": 7.0,
+      "joiners": [],
+      "quick": false,
+      "seq": 80.0,
+      "side": 1.0,
+      "strikes": 1.0,
+      "type": "attack"
+    },
+    {
+      "amount": 2.0,
+      "health_after": 1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 2.0,
+      "seq": 81.0,
+      "source": 11.0,
+      "strike": 1.0,
+      "target": 7.0,
+      "type": "damage"
+    },
+    {
+      "amount": 5.0,
+      "health_after": -1.0,
+      "kind": "attack",
+      "modifiers": [],
+      "raw": 5.0,
+      "seq": 82.0,
+      "source": 7.0,
+      "strike": 1.0,
+      "target": 11.0,
+      "type": "damage"
+    },
+    {
+      "seq": 83.0,
+      "side": 1.0,
+      "slot": 4.0,
+      "type": "death",
+      "uid": 11.0
+    },
+    {
+      "alive": 8.0,
+      "damage": 3.0,
+      "damage_base": 2.0,
+      "damage_cap": 0.0,
+      "damage_mode": "v05",
+      "damage_performance": 1.0,
+      "damage_uncapped": 3.0,
+      "last_blow": false,
+      "last_blow_kind": "",
+      "last_blow_side": -1.0,
+      "last_blow_source": -1.0,
+      "last_stand_sides": [],
+      "reason": "board_empty",
+      "seq": 84.0,
+      "survivors": [
+        [
+          7.0
+        ],
+        []
+      ],
+      "type": "combat_end",
+      "winner": 0.0
+    }
+  ],
+  "final_health_text": [
+    "38",
+    "31"
+  ],
+  "fixed_step": 0.008333333333333333,
+  "hero_health_after": [
+    38.0,
+    31.0
+  ],
+  "hero_health_before": [
+    38.0,
+    34.0
+  ],
+  "method": "two deterministic 1/120 s passes; eight evenly spaced actual attack-to-next-attack samples; opening source-group focus sheets; last attack ends before result; separate result continues through settled Health and automatic return",
+  "opening": {
+    "duration": 6.983333333333333,
+    "end_tick": 838,
+    "event_index": -1,
+    "frames": [
+      {
+        "file": "opening-frame-0.png",
+        "seconds": 0.0,
+        "tick": 0
+      },
+      {
+        "file": "opening-frame-1.png",
+        "seconds": 1.0,
+        "tick": 120
+      },
+      {
+        "file": "opening-frame-2.png",
+        "seconds": 1.9916666666666667,
+        "tick": 239
+      },
+      {
+        "file": "opening-frame-3.png",
+        "seconds": 2.9916666666666667,
+        "tick": 359
+      },
+      {
+        "file": "opening-frame-4.png",
+        "seconds": 3.9916666666666667,
+        "tick": 479
+      },
+      {
+        "file": "opening-frame-5.png",
+        "seconds": 4.991666666666666,
+        "tick": 599
+      },
+      {
+        "file": "opening-frame-6.png",
+        "seconds": 5.983333333333333,
+        "tick": 718
+      },
+      {
+        "file": "opening-frame-7.png",
+        "seconds": 6.983333333333333,
+        "tick": 838
+      }
+    ],
+    "kind": "opening",
+    "sample_ticks": [
+      0,
+      120,
+      239,
+      359,
+      479,
+      599,
+      718,
+      838
+    ],
+    "start_tick": 0,
+    "strip": "opening.jpg"
+  },
+  "opening_effects": [
+    {
+      "causes": [],
+      "duration": 0.9833333333333333,
+      "end_tick": 118,
+      "event_index": 0,
+      "event_indices": [
+        0,
+        1,
+        2
+      ],
+      "frames": [
+        {
+          "file": "opening-event-000-frame-0.png",
+          "seconds": 0.0,
+          "tick": 0
+        },
+        {
+          "file": "opening-event-000-frame-1.png",
+          "seconds": 0.14166666666666666,
+          "tick": 17
+        },
+        {
+          "file": "opening-event-000-frame-2.png",
+          "seconds": 0.2833333333333333,
+          "tick": 34
+        },
+        {
+          "file": "opening-event-000-frame-3.png",
+          "seconds": 0.425,
+          "tick": 51
+        },
+        {
+          "file": "opening-event-000-frame-4.png",
+          "seconds": 0.5583333333333333,
+          "tick": 67
+        },
+        {
+          "file": "opening-event-000-frame-5.png",
+          "seconds": 0.7,
+          "tick": 84
+        },
+        {
+          "file": "opening-event-000-frame-6.png",
+          "seconds": 0.8416666666666667,
+          "tick": 101
+        },
+        {
+          "file": "opening-event-000-frame-7.png",
+          "seconds": 0.9833333333333333,
+          "tick": 118
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        0,
+        17,
+        34,
+        51,
+        67,
+        84,
+        101,
+        118
+      ],
+      "start_tick": 0,
+      "strip": "opening-event-000.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 3,
+          "source": "unit:2",
+          "tick": 119,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 166,
+      "event_index": 3,
+      "event_indices": [
+        3
+      ],
+      "frames": [
+        {
+          "file": "opening-event-003-frame-0.png",
+          "seconds": 0.9916666666666667,
+          "tick": 119
+        },
+        {
+          "file": "opening-event-003-frame-1.png",
+          "seconds": 1.05,
+          "tick": 126
+        },
+        {
+          "file": "opening-event-003-frame-2.png",
+          "seconds": 1.1,
+          "tick": 132
+        },
+        {
+          "file": "opening-event-003-frame-3.png",
+          "seconds": 1.1583333333333332,
+          "tick": 139
+        },
+        {
+          "file": "opening-event-003-frame-4.png",
+          "seconds": 1.2166666666666666,
+          "tick": 146
+        },
+        {
+          "file": "opening-event-003-frame-5.png",
+          "seconds": 1.275,
+          "tick": 153
+        },
+        {
+          "file": "opening-event-003-frame-6.png",
+          "seconds": 1.325,
+          "tick": 159
+        },
+        {
+          "file": "opening-event-003-frame-7.png",
+          "seconds": 1.3833333333333333,
+          "tick": 166
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        119,
+        126,
+        132,
+        139,
+        146,
+        153,
+        159,
+        166
+      ],
+      "start_tick": 119,
+      "strip": "opening-event-003.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 4,
+          "source": "unit:3",
+          "tick": 167,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 214,
+      "event_index": 4,
+      "event_indices": [
+        4
+      ],
+      "frames": [
+        {
+          "file": "opening-event-004-frame-0.png",
+          "seconds": 1.3916666666666666,
+          "tick": 167
+        },
+        {
+          "file": "opening-event-004-frame-1.png",
+          "seconds": 1.45,
+          "tick": 174
+        },
+        {
+          "file": "opening-event-004-frame-2.png",
+          "seconds": 1.5,
+          "tick": 180
+        },
+        {
+          "file": "opening-event-004-frame-3.png",
+          "seconds": 1.5583333333333333,
+          "tick": 187
+        },
+        {
+          "file": "opening-event-004-frame-4.png",
+          "seconds": 1.6166666666666667,
+          "tick": 194
+        },
+        {
+          "file": "opening-event-004-frame-5.png",
+          "seconds": 1.675,
+          "tick": 201
+        },
+        {
+          "file": "opening-event-004-frame-6.png",
+          "seconds": 1.7249999999999999,
+          "tick": 207
+        },
+        {
+          "file": "opening-event-004-frame-7.png",
+          "seconds": 1.7833333333333332,
+          "tick": 214
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        167,
+        174,
+        180,
+        187,
+        194,
+        201,
+        207,
+        214
+      ],
+      "start_tick": 167,
+      "strip": "opening-event-004.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 5,
+          "source": "unit:7",
+          "tick": 215,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 262,
+      "event_index": 5,
+      "event_indices": [
+        5
+      ],
+      "frames": [
+        {
+          "file": "opening-event-005-frame-0.png",
+          "seconds": 1.7916666666666667,
+          "tick": 215
+        },
+        {
+          "file": "opening-event-005-frame-1.png",
+          "seconds": 1.8499999999999999,
+          "tick": 222
+        },
+        {
+          "file": "opening-event-005-frame-2.png",
+          "seconds": 1.9,
+          "tick": 228
+        },
+        {
+          "file": "opening-event-005-frame-3.png",
+          "seconds": 1.9583333333333333,
+          "tick": 235
+        },
+        {
+          "file": "opening-event-005-frame-4.png",
+          "seconds": 2.0166666666666666,
+          "tick": 242
+        },
+        {
+          "file": "opening-event-005-frame-5.png",
+          "seconds": 2.075,
+          "tick": 249
+        },
+        {
+          "file": "opening-event-005-frame-6.png",
+          "seconds": 2.125,
+          "tick": 255
+        },
+        {
+          "file": "opening-event-005-frame-7.png",
+          "seconds": 2.183333333333333,
+          "tick": 262
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        215,
+        222,
+        228,
+        235,
+        242,
+        249,
+        255,
+        262
+      ],
+      "start_tick": 215,
+      "strip": "opening-event-005.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 6,
+          "source": "unit:11",
+          "tick": 263,
+          "type": "trigger"
+        },
+        {
+          "event_index": 7,
+          "source": "unit:11",
+          "tick": 290,
+          "type": "bog_patch"
+        }
+      ],
+      "duration": 0.5166666666666666,
+      "end_tick": 325,
+      "event_index": 6,
+      "event_indices": [
+        6,
+        7
+      ],
+      "frames": [
+        {
+          "file": "opening-event-006-frame-0.png",
+          "seconds": 2.1916666666666664,
+          "tick": 263
+        },
+        {
+          "file": "opening-event-006-frame-1.png",
+          "seconds": 2.2666666666666666,
+          "tick": 272
+        },
+        {
+          "file": "opening-event-006-frame-2.png",
+          "seconds": 2.341666666666667,
+          "tick": 281
+        },
+        {
+          "file": "opening-event-006-frame-3.png",
+          "seconds": 2.4166666666666665,
+          "tick": 290
+        },
+        {
+          "file": "opening-event-006-frame-4.png",
+          "seconds": 2.4833333333333334,
+          "tick": 298
+        },
+        {
+          "file": "opening-event-006-frame-5.png",
+          "seconds": 2.558333333333333,
+          "tick": 307
+        },
+        {
+          "file": "opening-event-006-frame-6.png",
+          "seconds": 2.6333333333333333,
+          "tick": 316
+        },
+        {
+          "file": "opening-event-006-frame-7.png",
+          "seconds": 2.7083333333333335,
+          "tick": 325
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        263,
+        272,
+        281,
+        290,
+        298,
+        307,
+        316,
+        325
+      ],
+      "start_tick": 263,
+      "strip": "opening-event-006.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 8,
+          "source": "unit:12",
+          "tick": 326,
+          "type": "trigger"
+        },
+        {
+          "event_index": 9,
+          "source": "unit:12",
+          "tick": 352,
+          "type": "bog_patch"
+        }
+      ],
+      "duration": 0.5083333333333333,
+      "end_tick": 387,
+      "event_index": 8,
+      "event_indices": [
+        8,
+        9
+      ],
+      "frames": [
+        {
+          "file": "opening-event-008-frame-0.png",
+          "seconds": 2.716666666666667,
+          "tick": 326
+        },
+        {
+          "file": "opening-event-008-frame-1.png",
+          "seconds": 2.7916666666666665,
+          "tick": 335
+        },
+        {
+          "file": "opening-event-008-frame-2.png",
+          "seconds": 2.8583333333333334,
+          "tick": 343
+        },
+        {
+          "file": "opening-event-008-frame-3.png",
+          "seconds": 2.933333333333333,
+          "tick": 352
+        },
+        {
+          "file": "opening-event-008-frame-4.png",
+          "seconds": 3.0083333333333333,
+          "tick": 361
+        },
+        {
+          "file": "opening-event-008-frame-5.png",
+          "seconds": 3.0833333333333335,
+          "tick": 370
+        },
+        {
+          "file": "opening-event-008-frame-6.png",
+          "seconds": 3.15,
+          "tick": 378
+        },
+        {
+          "file": "opening-event-008-frame-7.png",
+          "seconds": 3.225,
+          "tick": 387
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        326,
+        335,
+        343,
+        352,
+        361,
+        370,
+        378,
+        387
+      ],
+      "start_tick": 326,
+      "strip": "opening-event-008.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 10,
+          "source": "unit:10",
+          "tick": 388,
+          "type": "quarry_marked"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 435,
+      "event_index": 10,
+      "event_indices": [
+        10
+      ],
+      "frames": [
+        {
+          "file": "opening-event-010-frame-0.png",
+          "seconds": 3.2333333333333334,
+          "tick": 388
+        },
+        {
+          "file": "opening-event-010-frame-1.png",
+          "seconds": 3.2916666666666665,
+          "tick": 395
+        },
+        {
+          "file": "opening-event-010-frame-2.png",
+          "seconds": 3.341666666666667,
+          "tick": 401
+        },
+        {
+          "file": "opening-event-010-frame-3.png",
+          "seconds": 3.4,
+          "tick": 408
+        },
+        {
+          "file": "opening-event-010-frame-4.png",
+          "seconds": 3.4583333333333335,
+          "tick": 415
+        },
+        {
+          "file": "opening-event-010-frame-5.png",
+          "seconds": 3.5166666666666666,
+          "tick": 422
+        },
+        {
+          "file": "opening-event-010-frame-6.png",
+          "seconds": 3.5666666666666664,
+          "tick": 428
+        },
+        {
+          "file": "opening-event-010-frame-7.png",
+          "seconds": 3.625,
+          "tick": 435
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        388,
+        395,
+        401,
+        408,
+        415,
+        422,
+        428,
+        435
+      ],
+      "start_tick": 388,
+      "strip": "opening-event-010.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 11,
+          "source": "unit:11",
+          "tick": 436,
+          "type": "status"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 483,
+      "event_index": 11,
+      "event_indices": [
+        11
+      ],
+      "frames": [
+        {
+          "file": "opening-event-011-frame-0.png",
+          "seconds": 3.6333333333333333,
+          "tick": 436
+        },
+        {
+          "file": "opening-event-011-frame-1.png",
+          "seconds": 3.6916666666666664,
+          "tick": 443
+        },
+        {
+          "file": "opening-event-011-frame-2.png",
+          "seconds": 3.7416666666666667,
+          "tick": 449
+        },
+        {
+          "file": "opening-event-011-frame-3.png",
+          "seconds": 3.8,
+          "tick": 456
+        },
+        {
+          "file": "opening-event-011-frame-4.png",
+          "seconds": 3.8583333333333334,
+          "tick": 463
+        },
+        {
+          "file": "opening-event-011-frame-5.png",
+          "seconds": 3.9166666666666665,
+          "tick": 470
+        },
+        {
+          "file": "opening-event-011-frame-6.png",
+          "seconds": 3.966666666666667,
+          "tick": 476
+        },
+        {
+          "file": "opening-event-011-frame-7.png",
+          "seconds": 4.025,
+          "tick": 483
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        436,
+        443,
+        449,
+        456,
+        463,
+        470,
+        476,
+        483
+      ],
+      "start_tick": 436,
+      "strip": "opening-event-011.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 12,
+          "source": "unit:12",
+          "tick": 484,
+          "type": "status"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 531,
+      "event_index": 12,
+      "event_indices": [
+        12
+      ],
+      "frames": [
+        {
+          "file": "opening-event-012-frame-0.png",
+          "seconds": 4.033333333333333,
+          "tick": 484
+        },
+        {
+          "file": "opening-event-012-frame-1.png",
+          "seconds": 4.091666666666667,
+          "tick": 491
+        },
+        {
+          "file": "opening-event-012-frame-2.png",
+          "seconds": 4.141666666666667,
+          "tick": 497
+        },
+        {
+          "file": "opening-event-012-frame-3.png",
+          "seconds": 4.2,
+          "tick": 504
+        },
+        {
+          "file": "opening-event-012-frame-4.png",
+          "seconds": 4.258333333333333,
+          "tick": 511
+        },
+        {
+          "file": "opening-event-012-frame-5.png",
+          "seconds": 4.316666666666666,
+          "tick": 518
+        },
+        {
+          "file": "opening-event-012-frame-6.png",
+          "seconds": 4.366666666666666,
+          "tick": 524
+        },
+        {
+          "file": "opening-event-012-frame-7.png",
+          "seconds": 4.425,
+          "tick": 531
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        484,
+        491,
+        497,
+        504,
+        511,
+        518,
+        524,
+        531
+      ],
+      "start_tick": 484,
+      "strip": "opening-event-012.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 13,
+          "source": "unit:10",
+          "tick": 532,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.39166666666666666,
+      "end_tick": 579,
+      "event_index": 13,
+      "event_indices": [
+        13
+      ],
+      "frames": [
+        {
+          "file": "opening-event-013-frame-0.png",
+          "seconds": 4.433333333333334,
+          "tick": 532
+        },
+        {
+          "file": "opening-event-013-frame-1.png",
+          "seconds": 4.491666666666666,
+          "tick": 539
+        },
+        {
+          "file": "opening-event-013-frame-2.png",
+          "seconds": 4.541666666666667,
+          "tick": 545
+        },
+        {
+          "file": "opening-event-013-frame-3.png",
+          "seconds": 4.6,
+          "tick": 552
+        },
+        {
+          "file": "opening-event-013-frame-4.png",
+          "seconds": 4.658333333333333,
+          "tick": 559
+        },
+        {
+          "file": "opening-event-013-frame-5.png",
+          "seconds": 4.716666666666667,
+          "tick": 566
+        },
+        {
+          "file": "opening-event-013-frame-6.png",
+          "seconds": 4.766666666666667,
+          "tick": 572
+        },
+        {
+          "file": "opening-event-013-frame-7.png",
+          "seconds": 4.825,
+          "tick": 579
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        532,
+        539,
+        545,
+        552,
+        559,
+        566,
+        572,
+        579
+      ],
+      "start_tick": 532,
+      "strip": "opening-event-013.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 14,
+          "source": "unit:5",
+          "tick": 580,
+          "type": "trigger"
+        }
+      ],
+      "duration": 0.5166666666666666,
+      "end_tick": 642,
+      "event_index": 14,
+      "event_indices": [
+        14,
+        15
+      ],
+      "frames": [
+        {
+          "file": "opening-event-014-frame-0.png",
+          "seconds": 4.833333333333333,
+          "tick": 580
+        },
+        {
+          "file": "opening-event-014-frame-1.png",
+          "seconds": 4.908333333333333,
+          "tick": 589
+        },
+        {
+          "file": "opening-event-014-frame-2.png",
+          "seconds": 4.983333333333333,
+          "tick": 598
+        },
+        {
+          "file": "opening-event-014-frame-3.png",
+          "seconds": 5.058333333333334,
+          "tick": 607
+        },
+        {
+          "file": "opening-event-014-frame-4.png",
+          "seconds": 5.125,
+          "tick": 615
+        },
+        {
+          "file": "opening-event-014-frame-5.png",
+          "seconds": 5.2,
+          "tick": 624
+        },
+        {
+          "file": "opening-event-014-frame-6.png",
+          "seconds": 5.275,
+          "tick": 633
+        },
+        {
+          "file": "opening-event-014-frame-7.png",
+          "seconds": 5.35,
+          "tick": 642
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        580,
+        589,
+        598,
+        607,
+        615,
+        624,
+        633,
+        642
+      ],
+      "start_tick": 580,
+      "strip": "opening-event-014.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 16,
+          "source": "unit:7",
+          "tick": 643,
+          "type": "trigger"
+        },
+        {
+          "event_index": 17,
+          "source": "unit:7",
+          "tick": 669,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.9083333333333333,
+      "end_tick": 752,
+      "event_index": 16,
+      "event_indices": [
+        16,
+        17,
+        18
+      ],
+      "frames": [
+        {
+          "file": "opening-event-016-frame-0.png",
+          "seconds": 5.358333333333333,
+          "tick": 643
+        },
+        {
+          "file": "opening-event-016-frame-1.png",
+          "seconds": 5.491666666666666,
+          "tick": 659
+        },
+        {
+          "file": "opening-event-016-frame-2.png",
+          "seconds": 5.616666666666666,
+          "tick": 674
+        },
+        {
+          "file": "opening-event-016-frame-3.png",
+          "seconds": 5.75,
+          "tick": 690
+        },
+        {
+          "file": "opening-event-016-frame-4.png",
+          "seconds": 5.875,
+          "tick": 705
+        },
+        {
+          "file": "opening-event-016-frame-5.png",
+          "seconds": 6.008333333333333,
+          "tick": 721
+        },
+        {
+          "file": "opening-event-016-frame-6.png",
+          "seconds": 6.133333333333333,
+          "tick": 736
+        },
+        {
+          "file": "opening-event-016-frame-7.png",
+          "seconds": 6.266666666666667,
+          "tick": 752
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        643,
+        659,
+        674,
+        690,
+        705,
+        721,
+        736,
+        752
+      ],
+      "start_tick": 643,
+      "strip": "opening-event-016.jpg"
+    },
+    {
+      "causes": [
+        {
+          "event_index": 19,
+          "source": "unit:12",
+          "tick": 753,
+          "type": "trigger"
+        },
+        {
+          "event_index": 20,
+          "source": "unit:12",
+          "tick": 779,
+          "type": "stats"
+        }
+      ],
+      "duration": 0.7083333333333334,
+      "end_tick": 838,
+      "event_index": 19,
+      "event_indices": [
+        19,
+        20
+      ],
+      "frames": [
+        {
+          "file": "opening-event-019-frame-0.png",
+          "seconds": 6.275,
+          "tick": 753
+        },
+        {
+          "file": "opening-event-019-frame-1.png",
+          "seconds": 6.375,
+          "tick": 765
+        },
+        {
+          "file": "opening-event-019-frame-2.png",
+          "seconds": 6.475,
+          "tick": 777
+        },
+        {
+          "file": "opening-event-019-frame-3.png",
+          "seconds": 6.575,
+          "tick": 789
+        },
+        {
+          "file": "opening-event-019-frame-4.png",
+          "seconds": 6.683333333333334,
+          "tick": 802
+        },
+        {
+          "file": "opening-event-019-frame-5.png",
+          "seconds": 6.783333333333333,
+          "tick": 814
+        },
+        {
+          "file": "opening-event-019-frame-6.png",
+          "seconds": 6.883333333333333,
+          "tick": 826
+        },
+        {
+          "file": "opening-event-019-frame-7.png",
+          "seconds": 6.983333333333333,
+          "tick": 838
+        }
+      ],
+      "kind": "opening-event",
+      "sample_ticks": [
+        753,
+        765,
+        777,
+        789,
+        802,
+        814,
+        826,
+        838
+      ],
+      "start_tick": 753,
+      "strip": "opening-event-019.jpg"
+    }
+  ],
+  "pixels": [
+    1688,
+    780
+  ],
+  "reduce_motion": true,
+  "result": {
+    "duration": 1.0083333333333333,
+    "end_tick": 2830,
+    "event_index": -1,
+    "frames": [
+      {
+        "file": "result-frame-0.png",
+        "seconds": 22.575,
+        "tick": 2709
+      },
+      {
+        "file": "result-frame-1.png",
+        "seconds": 22.716666666666665,
+        "tick": 2726
+      },
+      {
+        "file": "result-frame-2.png",
+        "seconds": 22.866666666666667,
+        "tick": 2744
+      },
+      {
+        "file": "result-frame-3.png",
+        "seconds": 23.008333333333333,
+        "tick": 2761
+      },
+      {
+        "file": "result-frame-4.png",
+        "seconds": 23.15,
+        "tick": 2778
+      },
+      {
+        "file": "result-frame-5.png",
+        "seconds": 23.291666666666668,
+        "tick": 2795
+      },
+      {
+        "file": "result-frame-6.png",
+        "seconds": 23.441666666666666,
+        "tick": 2813
+      },
+      {
+        "file": "result-frame-7.png",
+        "seconds": 23.583333333333332,
+        "tick": 2830
+      }
+    ],
+    "kind": "result",
+    "sample_ticks": [
+      2709,
+      2726,
+      2744,
+      2761,
+      2778,
+      2795,
+      2813,
+      2830
+    ],
+    "start_tick": 2709,
+    "strip": "result.jpg"
+  },
+  "scenario": "combat_mid",
+  "seed": 20261104.0,
+  "source_events_sha256": "ee80730bd80f0ef3b9d00c5299a5df19b5b31f95d1bd3cfbf0bd91a122e86d1f",
+  "speed": 1.0,
+  "ticks": 2831,
+  "timing_passes_equal": true
+}

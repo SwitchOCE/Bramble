@@ -42,6 +42,17 @@ func _init() -> void:
 	ready.connect(_layout)
 
 
+func add_fight_actions(log_action: Callable, replay_action: Callable) -> void:
+	_add_leaf("Log", LeafButton.Colour.BIRCH, log_action)
+	_add_leaf(
+		"Watch again",
+		LeafButton.Colour.BIRCH,
+		func() -> void:
+			_close()
+			replay_action.call()
+	)
+
+
 func _add_leaf(words: String, colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
 	var leaf: LeafButton = LeafButton.new()
 	leaf.colour = colour

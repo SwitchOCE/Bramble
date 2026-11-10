@@ -24,7 +24,7 @@ func before_each() -> void:
 	_holder = Control.new()
 	_holder.theme = UiTheme.get_theme()
 	add_child_autofree(_holder)
-	_library = UnitLibrary.load_dir()
+	_library = TestLibraries.current()
 	_card_set = GameConfig.full_game().card_set()
 	var manifest: Dictionary = JSON.parse_string(
 		FileAccess.get_file_as_string("res://content/portraits_pending.json")
@@ -37,9 +37,6 @@ func _assert_own_art(
 ) -> void:
 	var frame: ArtFrame = owner_node.get("_art")
 	var expected: String = UiTheme.UNIT_PORTRAIT_DIR % def_id
-	# Wave 1 explicitly reuses the existing Egg portrait for its created Golden Egg spell.
-	if def_id == "golden_egg":
-		expected = UiTheme.UNIT_PORTRAIT_DIR % "nest_egg"
 	# A Pelt has no independent portrait: the created item wears its recorded prey's art.
 	if def_id == "pelt":
 		expected = (

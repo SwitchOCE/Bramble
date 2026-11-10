@@ -11,6 +11,7 @@ const F4: int = 3
 const B1: int = 4
 const B2: int = 5
 const B3: int = 6
+const HELD_ROUNDS: int = 12
 ## One of each, so nothing triples.
 const FILLER: Array[String] = [
 	"mrs_burdock", "mr_crumb", "mrs_sorrel", "sexton_beetle", "alderman_dozey", "earwig_mother"
@@ -326,7 +327,8 @@ func test_a_lobby_deals_the_new_builds() -> void:
 	assert_true(names.has("birds_passage"), "and the bench's spread has them")
 
 
-## Whole games at each level. A strategy the bot never carries out wouldn't be a strategy.
+## Real Hard play for HELD_ROUNDS rounds (was up to 40 turns, a whole game; pass3_bots also stops
+## at a fixed round). A strategy the bot never carries out wouldn't be a strategy.
 func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 	var counts: Dictionary = {}
 	var game_config: GameConfig = GameConfig.full_game()
@@ -341,7 +343,7 @@ func _count_in_games(bots: Array, game_seed: int) -> Dictionary:
 	for player: PlayerState in session._players:
 		player.log_observer = note
 	var turns: int = 0
-	while not session.is_over() and turns < 40:
+	while not session.is_over() and turns < HELD_ROUNDS:
 		session.end_turn()
 		turns += 1
 	return counts

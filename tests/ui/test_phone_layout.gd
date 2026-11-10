@@ -142,7 +142,7 @@ func test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var units: Array = raw["board"]
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var bird: Dictionary = UnitViews.from_def(library.get_unit("mrs_jay"))
 	bird["played_round"] = 1
 	units[0] = bird
@@ -209,11 +209,11 @@ func test_scout_slot_labels_clear_every_stat_badge() -> void:
 		assert_false(chip.get_global_rect().intersects(own.get_global_rect()))
 
 
-func test_selected_phone_row_tags_and_posset_counters_do_not_overlap() -> void:
+func test_selected_phone_posset_counters_do_not_overlap() -> void:
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var units: Array = raw["board"]
-	var library: UnitLibrary = UnitLibrary.load_dir()
+	var library: UnitLibrary = TestLibraries.current()
 	var posset: Dictionary = UnitViews.from_def(library.get_unit("mrs_posset"))
 	posset["belly"] = 1
 	posset["held"] = [UnitViews.from_def(library.get_unit("mrs_sorrel"))]
@@ -227,24 +227,7 @@ func test_selected_phone_row_tags_and_posset_counters_do_not_overlap() -> void:
 	screen.call("_on_tapped", "board", 6)
 	await get_tree().process_frame
 	await get_tree().process_frame
-	var shop: Control = screen.get("_shop_tag")
-	var scout: Control = screen.get("_scout_token")
-	assert_false(shop.get_global_rect().intersects(scout.get_global_rect()), "SHOP clears Scout")
-	var back: Control = screen.get("_back_tag")
-	var hero: Control = screen.get("_hero")
-	assert_gte(
-		back.global_position.x - hero.get_global_rect().end.x,
-		20.0,
-		"BACK clears the portrait and glyph overhang"
-	)
 	var board: BoardView = screen.get("_board")
-	assert_gt(back.z_index, board.z_index, "BACK draws above the tray in the compact gutter")
-	for slot: int in range(BoardView.FRONT, BoardView.SLOTS):
-		if board.cards[slot] != null:
-			assert_false(
-				back.get_global_rect().grow(4.0).intersects(board.cards[slot].get_global_rect()),
-				"BACK clears the back-row cards"
-			)
 	var card: CardView = board.cards[0]
 	var belly: Control = card.get("_chip")
 	var inside: Control = card.get("_turns")

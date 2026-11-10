@@ -3,7 +3,7 @@ extends GutTest
 
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 
-var _library: UnitLibrary = UnitLibrary.load_dir()
+var _library: UnitLibrary = TestLibraries.current()
 
 
 func _session() -> GameSession:
