@@ -1,0 +1,35 @@
+{
+  "source_commit": "31aa42734872f93c81c313490c9f85188b536265",
+  "dry_run": false,
+  "jobs": 3,
+  "field_tool": "tools/sim/field_fights.gd",
+  "library_tool": "tools/sim/recapture_field.sh --reuse-captures --strength top4",
+  "presets": {
+    "B": {
+      "config": {
+        "kind": "lines",
+        "suite": "a35_run1",
+        "preset": "B",
+        "first_seed": 2911001,
+        "lobbies": 64,
+        "shards": 8
+      },
+      "library": "/home/alex/code/Bramble-ideation-b9measure/build/b9-a4/final/B/checkpoint-B.json.gz",
+      "library_sha256": "dfe8bf567fc656deef58cecff619c24b4d323741ce6bd3bd1d8d6ef258cd1106",
+      "field_pair_count": 198
+    },
+    "C": {
+      "config": {
+        "kind": "lines",
+        "suite": "a35_run1",
+        "preset": "C",
+        "first_seed": 2911001,
+        "lobbies": 64,
+        "shards": 8
+      },
+      "library": "/home/alex/code/Bramble-ideation-b9measure/build/b9-a4/final/C/checkpoint-C.json.gz",
+      "library_sha256": "653ff6b506ac6cfded2128da96e45c2c3a95359cdafd24339a0e1fcd4b26940a",
+      "field_pair_count": 198
+    }
+  }
+}

@@ -1,13 +1,13 @@
 # Bounded build 9 A4 pipeline
 
-Prepared before the content merge. **Only the two-lobby smoke per preset is authorized now.**
-The full run must wait for the orchestrator's merged commit; checkout that commit with these tools included.
+**Full A4 completed on merged source `31aa4273`.** [Owner summary and full report](full/README.md); [library paths, hashes and capture receipt](full/receipt.json).
+The original two-lobby smoke is retained below as pipeline validation.
 
 ```sh
 source /opt/bramble/env.sh
 GODOT_SLOT_CLASS=worker python3 tools/sim/b9_a4.py --out build/b9-a4/dry-run
-# After the orchestrator supplies the merged SHA:
-GODOT_SLOT_CLASS=worker python3 tools/sim/b9_a4.py --full --source-commit MERGED_SHA --out build/b9-a4/final
+# Full run executed after the orchestrator supplied the merged SHA:
+GODOT_SLOT_CLASS=worker python3 tools/sim/b9_a4.py --full --source-commit 31aa4273 --out build/b9-a4/final
 ```
 
 The checked-in full configs use a35_run1, 64 lobbies at each preset, seeds 2911001–2911064.
@@ -57,4 +57,13 @@ Godot library-load check and refuses to mark incomplete magnitude cohorts as a p
 
 Validation: 148/148 tests across the 13 C-reader files, plus 32/32 bench/capture/field tests; 201 Python
 tests; targeted Ruff, gdlint, gdformat --check, shellcheck and whitespace checks. The full 128-lobby
-run has not started. No balance changes or refits were made during preparation.
+run subsequently completed on `31aa4273`; see the final report above. No balance changes or refits were made during preparation.
+
+## Full run disposition
+
+All 128 lobbies completed locally at jobs 3, with no dropped seeds. Each preset's field read ran 396
+fights (22 per line per round, complete R10/R12/R14 coverage). Each throwaway top4 library contains
+256 complete trajectories across all 12 lines and passes native Godot loading/session creation.
+Growth passes on all lines at both presets. B's Fairy Ring and Hunters engine scale remain low;
+C's Hunters and Ooze engine scales exceed the C band. C also triggers the R15 10× and field-dominance
+diagnostics. These are reported, not refitted. No extra arms or Actions simulations ran.

@@ -1,0 +1,4425 @@
+{
+  "version": 1,
+  "rounds": {
+    "10": {
+      "boards": [
+        {
+          "id": "2911044:0:6:10",
+          "line": "line_birds_homecoming",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.6363636363636362
+        },
+        {
+          "id": "2911008:0:0:10",
+          "line": "line_birds_tempo",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.3636363636363636
+        },
+        {
+          "id": "2911054:0:0:10",
+          "line": "line_bog_court",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.0
+        },
+        {
+          "id": "2911032:0:3:10",
+          "line": "line_bog_swamp",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.4545454545454545
+        },
+        {
+          "id": "2911050:0:0:10",
+          "line": "line_fairies_court",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.1818181818181818
+        },
+        {
+          "id": "2911001:0:5:10",
+          "line": "line_fairies_ring",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.7272727272727272
+        },
+        {
+          "id": "2911032:0:4:10",
+          "line": "line_hedgerow_parish",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.0909090909090909
+        },
+        {
+          "id": "2911029:0:7:10",
+          "line": "line_hedgerow_supper",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.6363636363636362
+        },
+        {
+          "id": "2911054:0:3:10",
+          "line": "line_hunters_open_season",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.7272727272727272
+        },
+        {
+          "id": "2911003:0:5:10",
+          "line": "line_hunters_pack",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.2727272727272727
+        },
+        {
+          "id": "2911003:0:4:10",
+          "line": "line_oozes_engine",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.9090909090909091
+        },
+        {
+          "id": "2911045:0:5:10",
+          "line": "line_oozes_tempo",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 1.0
+        }
+      ],
+      "line_weights": {
+        "line_birds_homecoming": 0.08333333333333333,
+        "line_birds_tempo": 0.08333333333333333,
+        "line_bog_court": 0.08333333333333333,
+        "line_bog_swamp": 0.08333333333333333,
+        "line_fairies_court": 0.08333333333333333,
+        "line_fairies_ring": 0.08333333333333333,
+        "line_hedgerow_parish": 0.08333333333333333,
+        "line_hedgerow_supper": 0.08333333333333333,
+        "line_hunters_open_season": 0.08333333333333333,
+        "line_hunters_pack": 0.08333333333333333,
+        "line_oozes_engine": 0.08333333333333333,
+        "line_oozes_tempo": 0.08333333333333333
+      },
+      "line_point_rates": {
+        "line_birds_homecoming": 0.6363636363636364,
+        "line_birds_tempo": 0.36363636363636365,
+        "line_bog_court": 0.0,
+        "line_bog_swamp": 0.4545454545454546,
+        "line_fairies_court": 0.18181818181818182,
+        "line_fairies_ring": 0.7272727272727273,
+        "line_hedgerow_parish": 0.09090909090909091,
+        "line_hedgerow_supper": 0.6363636363636364,
+        "line_hunters_open_season": 0.7272727272727273,
+        "line_hunters_pack": 0.27272727272727276,
+        "line_oozes_engine": 0.9090909090909092,
+        "line_oozes_tempo": 1.0
+      },
+      "line_point_rate_ci95": {
+        "line_birds_homecoming": [
+          0.6363636363636362,
+          0.6363636363636362
+        ],
+        "line_birds_tempo": [
+          0.36363636363636354,
+          0.36363636363636354
+        ],
+        "line_bog_court": [
+          0.0,
+          0.0
+        ],
+        "line_bog_swamp": [
+          0.4545454545454544,
+          0.4545454545454544
+        ],
+        "line_fairies_court": [
+          0.18181818181818177,
+          0.18181818181818177
+        ],
+        "line_fairies_ring": [
+          0.7272727272727272,
+          0.7272727272727272
+        ],
+        "line_hedgerow_parish": [
+          0.09090909090909088,
+          0.09090909090909088
+        ],
+        "line_hedgerow_supper": [
+          0.6363636363636362,
+          0.6363636363636362
+        ],
+        "line_hunters_open_season": [
+          0.7272727272727272,
+          0.7272727272727272
+        ],
+        "line_hunters_pack": [
+          0.27272727272727265,
+          0.27272727272727265
+        ],
+        "line_oozes_engine": [
+          0.9090909090909091,
+          0.9090909090909091
+        ],
+        "line_oozes_tempo": [
+          1.0,
+          1.0
+        ]
+      },
+      "line_sample_sizes": {
+        "line_birds_homecoming": 1,
+        "line_birds_tempo": 1,
+        "line_bog_court": 1,
+        "line_bog_swamp": 1,
+        "line_fairies_court": 1,
+        "line_fairies_ring": 1,
+        "line_hedgerow_parish": 1,
+        "line_hedgerow_supper": 1,
+        "line_hunters_open_season": 1,
+        "line_hunters_pack": 1,
+        "line_oozes_engine": 1,
+        "line_oozes_tempo": 1
+      },
+      "line_uncertainty": {
+        "line_birds_homecoming": {
+          "ci95": [
+            0.6363636363636362,
+            0.6363636363636362
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_birds_tempo": {
+          "ci95": [
+            0.36363636363636354,
+            0.36363636363636354
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_bog_court": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_bog_swamp": {
+          "ci95": [
+            0.4545454545454544,
+            0.4545454545454544
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_fairies_court": {
+          "ci95": [
+            0.18181818181818177,
+            0.18181818181818177
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_fairies_ring": {
+          "ci95": [
+            0.7272727272727272,
+            0.7272727272727272
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hedgerow_parish": {
+          "ci95": [
+            0.09090909090909088,
+            0.09090909090909088
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hedgerow_supper": {
+          "ci95": [
+            0.6363636363636362,
+            0.6363636363636362
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hunters_open_season": {
+          "ci95": [
+            0.7272727272727272,
+            0.7272727272727272
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hunters_pack": {
+          "ci95": [
+            0.27272727272727265,
+            0.27272727272727265
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_oozes_engine": {
+          "ci95": [
+            0.9090909090909091,
+            0.9090909090909091
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_oozes_tempo": {
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        }
+      },
+      "win_matrix": {
+        "line_birds_homecoming": {
+          "line_birds_homecoming": null,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_birds_tempo": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": null,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_bog_court": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": null,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_bog_swamp": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": null,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_fairies_court": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": null,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_fairies_ring": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": null,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hedgerow_parish": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": null,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hedgerow_supper": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": null,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hunters_open_season": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": null,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hunters_pack": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": null,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_oozes_engine": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": null,
+          "line_oozes_tempo": 0.0
+        },
+        "line_oozes_tempo": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": null
+        }
+      },
+      "strongest_line": "line_oozes_tempo",
+      "field_includes_hard": false,
+      "hard_floor_passes": null,
+      "hard_floor_status": "not_a_strength_gate; use fresh held-out head-to-head evidence"
+    },
+    "12": {
+      "boards": [
+        {
+          "id": "2911057:0:6:12",
+          "line": "line_birds_homecoming",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.2727272727272727
+        },
+        {
+          "id": "2911018:0:4:12",
+          "line": "line_birds_tempo",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.1818181818181818
+        },
+        {
+          "id": "2911045:0:4:12",
+          "line": "line_bog_court",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.9090909090909091
+        },
+        {
+          "id": "2911045:0:3:12",
+          "line": "line_bog_swamp",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.8181818181818181
+        },
+        {
+          "id": "2911007:0:7:12",
+          "line": "line_fairies_court",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.4999999999999999
+        },
+        {
+          "id": "2911026:0:5:12",
+          "line": "line_fairies_ring",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.5909090909090908
+        },
+        {
+          "id": "2911013:0:6:12",
+          "line": "line_hedgerow_parish",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.5454545454545453
+        },
+        {
+          "id": "2911037:0:4:12",
+          "line": "line_hedgerow_supper",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.7272727272727272
+        },
+        {
+          "id": "2911043:0:3:12",
+          "line": "line_hunters_open_season",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.0909090909090909
+        },
+        {
+          "id": "2911007:0:5:12",
+          "line": "line_hunters_pack",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.0
+        },
+        {
+          "id": "2911013:0:0:12",
+          "line": "line_oozes_engine",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.3636363636363636
+        },
+        {
+          "id": "2911003:0:2:12",
+          "line": "line_oozes_tempo",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 1.0
+        }
+      ],
+      "line_weights": {
+        "line_birds_homecoming": 0.08333333333333333,
+        "line_birds_tempo": 0.08333333333333333,
+        "line_bog_court": 0.08333333333333333,
+        "line_bog_swamp": 0.08333333333333333,
+        "line_fairies_court": 0.08333333333333333,
+        "line_fairies_ring": 0.08333333333333333,
+        "line_hedgerow_parish": 0.08333333333333333,
+        "line_hedgerow_supper": 0.08333333333333333,
+        "line_hunters_open_season": 0.08333333333333333,
+        "line_hunters_pack": 0.08333333333333333,
+        "line_oozes_engine": 0.08333333333333333,
+        "line_oozes_tempo": 0.08333333333333333
+      },
+      "line_point_rates": {
+        "line_birds_homecoming": 0.27272727272727276,
+        "line_birds_tempo": 0.18181818181818182,
+        "line_bog_court": 0.9090909090909092,
+        "line_bog_swamp": 0.8181818181818182,
+        "line_fairies_court": 0.5,
+        "line_fairies_ring": 0.5909090909090909,
+        "line_hedgerow_parish": 0.5454545454545455,
+        "line_hedgerow_supper": 0.7272727272727273,
+        "line_hunters_open_season": 0.09090909090909091,
+        "line_hunters_pack": 0.0,
+        "line_oozes_engine": 0.36363636363636365,
+        "line_oozes_tempo": 1.0
+      },
+      "line_point_rate_ci95": {
+        "line_birds_homecoming": [
+          0.27272727272727265,
+          0.27272727272727265
+        ],
+        "line_birds_tempo": [
+          0.18181818181818177,
+          0.18181818181818177
+        ],
+        "line_bog_court": [
+          0.9090909090909091,
+          0.9090909090909091
+        ],
+        "line_bog_swamp": [
+          0.8181818181818181,
+          0.8181818181818181
+        ],
+        "line_fairies_court": [
+          0.4999999999999999,
+          0.4999999999999999
+        ],
+        "line_fairies_ring": [
+          0.5909090909090908,
+          0.5909090909090908
+        ],
+        "line_hedgerow_parish": [
+          0.5454545454545454,
+          0.5454545454545454
+        ],
+        "line_hedgerow_supper": [
+          0.7272727272727272,
+          0.7272727272727272
+        ],
+        "line_hunters_open_season": [
+          0.09090909090909088,
+          0.09090909090909088
+        ],
+        "line_hunters_pack": [
+          0.0,
+          0.0
+        ],
+        "line_oozes_engine": [
+          0.36363636363636354,
+          0.36363636363636354
+        ],
+        "line_oozes_tempo": [
+          1.0,
+          1.0
+        ]
+      },
+      "line_sample_sizes": {
+        "line_birds_homecoming": 1,
+        "line_birds_tempo": 1,
+        "line_bog_court": 1,
+        "line_bog_swamp": 1,
+        "line_fairies_court": 1,
+        "line_fairies_ring": 1,
+        "line_hedgerow_parish": 1,
+        "line_hedgerow_supper": 1,
+        "line_hunters_open_season": 1,
+        "line_hunters_pack": 1,
+        "line_oozes_engine": 1,
+        "line_oozes_tempo": 1
+      },
+      "line_uncertainty": {
+        "line_birds_homecoming": {
+          "ci95": [
+            0.27272727272727265,
+            0.27272727272727265
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_birds_tempo": {
+          "ci95": [
+            0.18181818181818177,
+            0.18181818181818177
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_bog_court": {
+          "ci95": [
+            0.9090909090909091,
+            0.9090909090909091
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_bog_swamp": {
+          "ci95": [
+            0.8181818181818181,
+            0.8181818181818181
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_fairies_court": {
+          "ci95": [
+            0.4999999999999999,
+            0.4999999999999999
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_fairies_ring": {
+          "ci95": [
+            0.5909090909090908,
+            0.5909090909090908
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hedgerow_parish": {
+          "ci95": [
+            0.5454545454545454,
+            0.5454545454545454
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hedgerow_supper": {
+          "ci95": [
+            0.7272727272727272,
+            0.7272727272727272
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hunters_open_season": {
+          "ci95": [
+            0.09090909090909088,
+            0.09090909090909088
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hunters_pack": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_oozes_engine": {
+          "ci95": [
+            0.36363636363636354,
+            0.36363636363636354
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_oozes_tempo": {
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        }
+      },
+      "win_matrix": {
+        "line_birds_homecoming": {
+          "line_birds_homecoming": null,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_birds_tempo": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": null,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_bog_court": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": null,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_bog_swamp": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": null,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_fairies_court": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": null,
+          "line_fairies_ring": 0.5,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_fairies_ring": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.5,
+          "line_fairies_ring": null,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hedgerow_parish": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": null,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hedgerow_supper": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": null,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hunters_open_season": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": null,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hunters_pack": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": null,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_oozes_engine": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": 0.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": null,
+          "line_oozes_tempo": 0.0
+        },
+        "line_oozes_tempo": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 1.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": null
+        }
+      },
+      "strongest_line": "line_oozes_tempo",
+      "field_includes_hard": false,
+      "hard_floor_passes": null,
+      "hard_floor_status": "not_a_strength_gate; use fresh held-out head-to-head evidence"
+    },
+    "14": {
+      "boards": [
+        {
+          "id": "2911044:0:6:14",
+          "line": "line_birds_homecoming",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.3636363636363636
+        },
+        {
+          "id": "2911023:0:6:14",
+          "line": "line_birds_tempo",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.22727272727272724
+        },
+        {
+          "id": "2911045:0:4:14",
+          "line": "line_bog_court",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.9090909090909091
+        },
+        {
+          "id": "2911059:0:3:14",
+          "line": "line_bog_swamp",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.0909090909090909
+        },
+        {
+          "id": "2911026:0:3:14",
+          "line": "line_fairies_court",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.0
+        },
+        {
+          "id": "2911056:0:6:14",
+          "line": "line_fairies_ring",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.22727272727272724
+        },
+        {
+          "id": "2911034:0:2:14",
+          "line": "line_hedgerow_parish",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.5454545454545453
+        },
+        {
+          "id": "2911020:0:0:14",
+          "line": "line_hedgerow_supper",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.6363636363636362
+        },
+        {
+          "id": "2911046:0:3:14",
+          "line": "line_hunters_open_season",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.4545454545454545
+        },
+        {
+          "id": "2911036:0:7:14",
+          "line": "line_hunters_pack",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 1.0
+        },
+        {
+          "id": "2911061:0:7:14",
+          "line": "line_oozes_engine",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.8181818181818181
+        },
+        {
+          "id": "2911010:0:3:14",
+          "line": "line_oozes_tempo",
+          "weight": 0.08333333333333333,
+          "field_point_rate": 0.7272727272727272
+        }
+      ],
+      "line_weights": {
+        "line_birds_homecoming": 0.08333333333333333,
+        "line_birds_tempo": 0.08333333333333333,
+        "line_bog_court": 0.08333333333333333,
+        "line_bog_swamp": 0.08333333333333333,
+        "line_fairies_court": 0.08333333333333333,
+        "line_fairies_ring": 0.08333333333333333,
+        "line_hedgerow_parish": 0.08333333333333333,
+        "line_hedgerow_supper": 0.08333333333333333,
+        "line_hunters_open_season": 0.08333333333333333,
+        "line_hunters_pack": 0.08333333333333333,
+        "line_oozes_engine": 0.08333333333333333,
+        "line_oozes_tempo": 0.08333333333333333
+      },
+      "line_point_rates": {
+        "line_birds_homecoming": 0.36363636363636365,
+        "line_birds_tempo": 0.2272727272727273,
+        "line_bog_court": 0.9090909090909092,
+        "line_bog_swamp": 0.09090909090909091,
+        "line_fairies_court": 0.0,
+        "line_fairies_ring": 0.2272727272727273,
+        "line_hedgerow_parish": 0.5454545454545455,
+        "line_hedgerow_supper": 0.6363636363636364,
+        "line_hunters_open_season": 0.4545454545454546,
+        "line_hunters_pack": 1.0,
+        "line_oozes_engine": 0.8181818181818182,
+        "line_oozes_tempo": 0.7272727272727273
+      },
+      "line_point_rate_ci95": {
+        "line_birds_homecoming": [
+          0.36363636363636354,
+          0.36363636363636354
+        ],
+        "line_birds_tempo": [
+          0.2272727272727272,
+          0.2272727272727272
+        ],
+        "line_bog_court": [
+          0.9090909090909091,
+          0.9090909090909091
+        ],
+        "line_bog_swamp": [
+          0.09090909090909088,
+          0.09090909090909088
+        ],
+        "line_fairies_court": [
+          0.0,
+          0.0
+        ],
+        "line_fairies_ring": [
+          0.2272727272727272,
+          0.2272727272727272
+        ],
+        "line_hedgerow_parish": [
+          0.5454545454545454,
+          0.5454545454545454
+        ],
+        "line_hedgerow_supper": [
+          0.6363636363636362,
+          0.6363636363636362
+        ],
+        "line_hunters_open_season": [
+          0.4545454545454544,
+          0.4545454545454544
+        ],
+        "line_hunters_pack": [
+          1.0,
+          1.0
+        ],
+        "line_oozes_engine": [
+          0.8181818181818181,
+          0.8181818181818181
+        ],
+        "line_oozes_tempo": [
+          0.7272727272727272,
+          0.7272727272727272
+        ]
+      },
+      "line_sample_sizes": {
+        "line_birds_homecoming": 1,
+        "line_birds_tempo": 1,
+        "line_bog_court": 1,
+        "line_bog_swamp": 1,
+        "line_fairies_court": 1,
+        "line_fairies_ring": 1,
+        "line_hedgerow_parish": 1,
+        "line_hedgerow_supper": 1,
+        "line_hunters_open_season": 1,
+        "line_hunters_pack": 1,
+        "line_oozes_engine": 1,
+        "line_oozes_tempo": 1
+      },
+      "line_uncertainty": {
+        "line_birds_homecoming": {
+          "ci95": [
+            0.36363636363636354,
+            0.36363636363636354
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_birds_tempo": {
+          "ci95": [
+            0.2272727272727272,
+            0.2272727272727272
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_bog_court": {
+          "ci95": [
+            0.9090909090909091,
+            0.9090909090909091
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_bog_swamp": {
+          "ci95": [
+            0.09090909090909088,
+            0.09090909090909088
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_fairies_court": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_fairies_ring": {
+          "ci95": [
+            0.2272727272727272,
+            0.2272727272727272
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hedgerow_parish": {
+          "ci95": [
+            0.5454545454545454,
+            0.5454545454545454
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hedgerow_supper": {
+          "ci95": [
+            0.6363636363636362,
+            0.6363636363636362
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hunters_open_season": {
+          "ci95": [
+            0.4545454545454544,
+            0.4545454545454544
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_hunters_pack": {
+          "ci95": [
+            1.0,
+            1.0
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_oozes_engine": {
+          "ci95": [
+            0.8181818181818181,
+            0.8181818181818181
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        },
+        "line_oozes_tempo": {
+          "ci95": [
+            0.7272727272727272,
+            0.7272727272727272
+          ],
+          "selected_boards": 1,
+          "low_n": true,
+          "very_low_n": true,
+          "own_line_variation_estimable": false,
+          "valid_bootstrap_replicates": 200
+        }
+      },
+      "win_matrix": {
+        "line_birds_homecoming": {
+          "line_birds_homecoming": null,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_birds_tempo": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": null,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.5,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_bog_court": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": null,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 1.0
+        },
+        "line_bog_swamp": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": null,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_fairies_court": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 0.0,
+          "line_fairies_court": null,
+          "line_fairies_ring": 0.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_fairies_ring": {
+          "line_birds_homecoming": 0.0,
+          "line_birds_tempo": 0.5,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": null,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 0.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hedgerow_parish": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": null,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hedgerow_supper": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": null,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hunters_open_season": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 0.0,
+          "line_hedgerow_supper": 0.0,
+          "line_hunters_open_season": null,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": 0.0
+        },
+        "line_hunters_pack": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 1.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": null,
+          "line_oozes_engine": 1.0,
+          "line_oozes_tempo": 1.0
+        },
+        "line_oozes_engine": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": null,
+          "line_oozes_tempo": 1.0
+        },
+        "line_oozes_tempo": {
+          "line_birds_homecoming": 1.0,
+          "line_birds_tempo": 1.0,
+          "line_bog_court": 0.0,
+          "line_bog_swamp": 1.0,
+          "line_fairies_court": 1.0,
+          "line_fairies_ring": 1.0,
+          "line_hedgerow_parish": 1.0,
+          "line_hedgerow_supper": 1.0,
+          "line_hunters_open_season": 1.0,
+          "line_hunters_pack": 0.0,
+          "line_oozes_engine": 0.0,
+          "line_oozes_tempo": null
+        }
+      },
+      "strongest_line": "line_hunters_pack",
+      "field_includes_hard": false,
+      "hard_floor_passes": null,
+      "hard_floor_status": "not_a_strength_gate; use fresh held-out head-to-head evidence"
+    }
+  },
+  "pairs": [
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911008:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911054:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911032:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911050:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911001:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911032:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911054:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911032:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911050:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911001:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911032:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911008:0:0:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911032:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911050:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911001:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911032:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:0:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911050:0:0:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911001:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911032:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:3:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911001:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911032:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911050:0:0:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911001:0:5:10",
+      "b": "2911032:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911001:0:5:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911001:0:5:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911001:0:5:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911001:0:5:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911001:0:5:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:4:10",
+      "b": "2911029:0:7:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:4:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:4:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:4:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911032:0:4:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911029:0:7:10",
+      "b": "2911054:0:3:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911029:0:7:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911029:0:7:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911029:0:7:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:3:10",
+      "b": "2911003:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:3:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911054:0:3:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911003:0:5:10",
+      "b": "2911003:0:4:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911003:0:5:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911003:0:4:10",
+      "b": "2911045:0:5:10",
+      "draws": 0,
+      "round": 10,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911018:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911045:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911045:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911007:0:7:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911026:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911013:0:6:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911057:0:6:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911045:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911045:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911007:0:7:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911026:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911013:0:6:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911018:0:4:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911045:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911007:0:7:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911026:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911013:0:6:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911007:0:7:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911026:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911013:0:6:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:3:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911026:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 1,
+      "wins_b": 1,
+      "p_win_a": 0.5,
+      "p_win_a_ci95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911013:0:6:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:7:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:5:12",
+      "b": "2911013:0:6:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:5:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:5:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:5:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:5:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:5:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911013:0:6:12",
+      "b": "2911037:0:4:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911013:0:6:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911013:0:6:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911013:0:6:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911013:0:6:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911037:0:4:12",
+      "b": "2911043:0:3:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911037:0:4:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911037:0:4:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911037:0:4:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911043:0:3:12",
+      "b": "2911007:0:5:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911043:0:3:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911043:0:3:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:5:12",
+      "b": "2911013:0:0:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911007:0:5:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911013:0:0:12",
+      "b": "2911003:0:2:12",
+      "draws": 0,
+      "round": 12,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911023:0:6:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911045:0:4:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911059:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911026:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911056:0:6:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911034:0:2:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911044:0:6:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911045:0:4:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911059:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911026:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911056:0:6:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 1,
+      "wins_b": 1,
+      "p_win_a": 0.5,
+      "p_win_a_ci95": [
+        0.09453120573423074,
+        0.9054687942657693
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911034:0:2:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911023:0:6:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911059:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911026:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911056:0:6:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911034:0:2:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911045:0:4:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911026:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911056:0:6:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911034:0:2:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911059:0:3:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911056:0:6:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911034:0:2:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911026:0:3:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911056:0:6:14",
+      "b": "2911034:0:2:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911056:0:6:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911056:0:6:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911056:0:6:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911056:0:6:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911056:0:6:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911034:0:2:14",
+      "b": "2911020:0:0:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911034:0:2:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911034:0:2:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911034:0:2:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911034:0:2:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911020:0:0:14",
+      "b": "2911046:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911020:0:0:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911020:0:0:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911020:0:0:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911046:0:3:14",
+      "b": "2911036:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911046:0:3:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911046:0:3:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 0,
+      "wins_b": 2,
+      "p_win_a": 0.0,
+      "p_win_a_ci95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911036:0:7:14",
+      "b": "2911061:0:7:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911036:0:7:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    },
+    {
+      "a": "2911061:0:7:14",
+      "b": "2911010:0:3:14",
+      "draws": 0,
+      "round": 14,
+      "trials": 2,
+      "wins_a": 2,
+      "wins_b": 0,
+      "p_win_a": 1.0,
+      "p_win_a_ci95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "pair_weight": 0.006944444444444444
+    }
+  ],
+  "source_mode": "captured_population",
+  "weight_source": "equal_committed_lines",
+  "uncertainty": {
+    "method": "stratified_two_way_endpoint_board_bootstrap_percentile",
+    "confidence": 0.95,
+    "bootstrap_replicates": 200,
+    "bootstrap_seed": 91407,
+    "resampling_unit": "whole board, shared across all opponent results and both endpoints",
+    "scope": "descriptive conditional field uncertainty; not policy, lobby-seed, or independent-fight inference",
+    "self_pairs": "unobserved original self pairs excluded, including repeated draws of the same board",
+    "fight_trials_resampled": false,
+    "low_n_threshold": 10,
+    "very_low_n_threshold": 5,
+    "low_n_caution": "Few boards give unstable intervals; one board cannot estimate its own line's board variation. More fight trials do not repair this."
+  },
+  "missing_lines": {
+    "10": [],
+    "12": [],
+    "14": []
+  }
+}

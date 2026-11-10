@@ -1,0 +1,66 @@
+{
+  "source_commit": "31aa42734872f93c81c313490c9f85188b536265",
+  "local": true,
+  "jobs": 3,
+  "seeds": [
+    2911001,
+    2911064
+  ],
+  "lobbies_per_preset": 64,
+  "presets": {
+    "B": {
+      "library_path": "/home/alex/code/Bramble-ideation-b9measure/build/b9-a4/final/B/checkpoint-B.json.gz",
+      "library_sha256": "dfe8bf567fc656deef58cecff619c24b4d323741ce6bd3bd1d8d6ef258cd1106",
+      "library_source_commit": "31aa42734872f93c81c313490c9f85188b536265",
+      "top4_trajectories": 256,
+      "represented_library_lines": 12,
+      "field_fights": 396,
+      "field_boards_by_round": {
+        "10": 12,
+        "12": 12,
+        "14": 12
+      },
+      "max_fights_per_line_per_round": 22,
+      "capture_seal": {
+        "source_commit": "31aa42734872f93c81c313490c9f85188b536265",
+        "sha256": {
+          "lines.fights.jsonl": "47fd3a9805ee5c69802bb16b4b7ca2f3e2ebee21d2954be2aaab72c544721cf3",
+          "lines.players.csv": "db74ff702db5b10647dde55ae7c4068da4e20ac673628db228919a7900067759"
+        }
+      },
+      "library_load_and_session_create": "pass",
+      "dropped_seeds": {}
+    },
+    "C": {
+      "library_path": "/home/alex/code/Bramble-ideation-b9measure/build/b9-a4/final/C/checkpoint-C.json.gz",
+      "library_sha256": "653ff6b506ac6cfded2128da96e45c2c3a95359cdafd24339a0e1fcd4b26940a",
+      "library_source_commit": "31aa42734872f93c81c313490c9f85188b536265",
+      "top4_trajectories": 256,
+      "represented_library_lines": 12,
+      "field_fights": 396,
+      "field_boards_by_round": {
+        "10": 12,
+        "12": 12,
+        "14": 12
+      },
+      "max_fights_per_line_per_round": 22,
+      "capture_seal": {
+        "source_commit": "31aa42734872f93c81c313490c9f85188b536265",
+        "sha256": {
+          "lines.fights.jsonl": "96e161d6174f929643867be7924e015a56a5324098d6e9ee1abbc2937bc51b82",
+          "lines.players.csv": "e8d06f16d9ae23b173d15a72e28cc07e74d7aac19b61fcf0aaa6d4ba2d248909"
+        }
+      },
+      "library_load_and_session_create": "pass",
+      "dropped_seeds": {}
+    }
+  },
+  "validation": {
+    "docs_only_command": "scripts/check.sh --docs-only --base 31aa4273",
+    "result": "pass",
+    "python_tests": 202,
+    "line_report_reproduction": "exact",
+    "field_matrix_reproduction": "exact",
+    "godot_test_suite_run": false
+  }
+}

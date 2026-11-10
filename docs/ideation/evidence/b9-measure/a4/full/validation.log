@@ -1,0 +1,40 @@
+==> docs-size
+docs-size: passed (2 MB per introduced blob; 30 MB total distinct introduced blobs)
+PASS docs-size (0s)
+
+==> tools
+godot 4.7.2, gdtoolkit 4.5.0, ruff 0.16.8, version: 0.11.0
+PASS tools (0s)
+
+==> versions
+versions: ok (no drift from tools/versions.env)
+PASS versions (0s)
+
+==> shell
+PASS shell (1s)
+
+==> python
+All checks passed!
+39 files already formatted
+Ran 202 tests in 5.690s
+
+OK
+PASS python (6s)
+
+==> content
+check_units: 167 files, 111 pool units by tier [22, 20, 22, 20, 14, 13], 0 problem(s)
+PASS content (0s)
+
+==> format
+726 files would be left unchanged
+PASS format (30s)
+
+==> lint
+Success: no problems found
+Success: no problems found
+PASS lint (30s)
+
+docs-only: skipped import, compile, parity and tests (only docs/ changed, none read by code)
+==> Summary
+passed: docs-size tools versions shell python content format lint
+check.sh: docs-only steps passed (Godot steps skipped)
