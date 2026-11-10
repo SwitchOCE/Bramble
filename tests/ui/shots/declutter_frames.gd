@@ -438,7 +438,9 @@ func _observe_lunge_peaks(screen: CombatScreen, tick: int) -> void:
 		if Settings.reduce_motion and tick > CoreUtil.to_int(attack["flash_deadline_tick"]):
 			continue
 		var home_values: Array = peak["home"]
-		var home: Vector2 = Vector2(float(home_values[0]), float(home_values[1]))
+		var home: Vector2 = Vector2(
+			CoreUtil.to_float(home_values[0]), CoreUtil.to_float(home_values[1])
+		)
 		var distance: float = card.position.distance_squared_to(home)
 		var flash: float = card.modulate.r + card.modulate.g + card.modulate.b
 		var farther: bool = distance > CoreUtil.to_float(peak["distance_squared"]) + 0.000001
@@ -461,7 +463,8 @@ func _observe_lunge_peaks(screen: CombatScreen, tick: int) -> void:
 
 
 func _pin_lunge_peaks(interval: Dictionary, attack: Dictionary) -> void:
-	var uniform: Array = interval["sample_ticks"].duplicate()
+	var uniform: Array = interval["sample_ticks"]
+	uniform = uniform.duplicate()
 	var samples: Array = uniform.duplicate()
 	var peaks: Array = attack["lunge_peaks"]
 	var required: Array[int] = []
