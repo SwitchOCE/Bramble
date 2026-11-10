@@ -4,7 +4,7 @@
     "climb_matches": true,
     "paper_save_rule": "Spend out every turn, except keep what next turn's scheduled Tier up needs beyond next turn's income (rounds 3, 6, 9 and 11). Hold every Larder item: cash one only to pay a scheduled Tier up, or to buy alderman_dozey, dr_urchin, squire_lollop or goodman_hayward. From round 12, refresh freely with spare gold.",
     "implemented_save": "Actual next discounted tier-up cost minus next income and promised income, including low-health seats. Native committed lines prevent spend-all spells and paid powers from consuming this reserve; ordinary Hard retains its existing policy.",
-    "status": "Implemented; follow-up Godot and same-cohort measurement pending.",
+    "status": "Implemented; targeted tests pass and same-32-seed B rerun completed on dec5f2c9.",
     "refresh_policy": "Ordinary Hard limit before R12; from R12 refresh freely subject to available gold, climb savings and the shared 60-action recruit budget. The refresh price is unchanged.",
     "sergeant_policy": "Cash below an available Stash, or below an available Great Hoard for a target holding over one third of enemy stats, only when the enemy across the Sergeant exceeds three times our median body. A private snapshot of the legitimate pre-turn scout supplies this named decision; placement and search remain blind. The snapshot is cleared after placement. Wake-turn feeding remains first, so ammunition is prepared from items still held afterwards.",
     "fuel_policy": "First Partner remains an R1\u2013R3 purchase and is played into B1 without moving another clock. Pym remains a buy through R6; completing triples retain their exception. Declared engines, Partner, Pym and Dozey are excluded from generic Belly routing on both purchase and hand-play paths. Held Larder policy starts before the first Hedgerow body. No offer forcing, new draw weights or rate changes."
@@ -14,7 +14,7 @@
     "climb_matches": true,
     "paper_save_rule": "Spend out every turn; keep only what next turn's scheduled Tier up needs beyond next turn's income. Refresh up to twice a turn, more only to find standing_committee at tier 5 or squire_lollop at tier 6.",
     "implemented_save": "Actual next discounted tier-up cost minus next income and promised income, including low-health seats. Native committed lines prevent spend-all spells and paid powers from consuming this reserve; ordinary Hard retains its existing policy.",
-    "status": "Implemented; follow-up Godot and same-cohort measurement pending.",
+    "status": "Implemented; targeted tests pass and same-32-seed B rerun completed on dec5f2c9.",
     "refresh_policy": "At most two per turn; additional refreshes only while Committee is missing at tier 5, or Lollop is missing at tier 6. Re-evaluated after every purchase."
   },
   "followup_audit": {
@@ -154,7 +154,30 @@
         "source_json_path": "hedgerow.lines.line_hedgerow_parish.metrics.active_stats.matched_medians_primary"
       }
     },
-    "followup_growth": "Pending coordinated measurement; baseline figures are not reused as follow-up results.",
+    "followup_growth": {
+      "line_hedgerow_parish": {
+        "estimate": 1.6633822236790736,
+        "ci90": [
+          1.544360359804494,
+          1.8840084352778457
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 19,
+        "r14_n": 19,
+        "cohort_n": 19
+      },
+      "line_hedgerow_supper": {
+        "estimate": 1.575619961073419,
+        "ci90": [
+          1.4963869574537878,
+          1.6975094902393972
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 19,
+        "r14_n": 19,
+        "cohort_n": 19
+      }
+    },
     "confirmed_opener_gap": "The committed engine opener buys Rainy Day for one gold before considering units. At R1 with three gold this makes an offered three-gold Partner unaffordable. Native Supper now prioritizes an actually offered, affordable first Partner within its existing R1\u2013R3 window; other and frozen-line openers remain unchanged. The directed actual-pipeline case fails before this guard. Per-card baseline offers are absent, so the number of historical seats affected is not claimed.",
     "median_convention": "Sergeant and post-wake carry placement use the statistical median of all active friendly bodies, averaging the two central bodies on even boards, matching BotBog. The Sergeant fixed case has bodies 3,6,7,9 and a 20-stat target, so the threshold is 19.5 rather than upper-middle 21.",
     "baseline_interval_method": {
@@ -163,6 +186,12 @@
       "method": "90% percentile intervals (5th/95th, linear type-7 quantiles), sampling with replacement. Primary and individual diagnostic resample matched (seed, seat) R8/R14 pairs together, using the same sampled pairs for both metrics and estimates. These are seats observed alive entering R14, not inferred final winners. Changing-survivor estimates resample whole lobby seeds with both endpoints, preserving within-lobby observations and missing/eliminated seats. All recorded lobby seeds participate, including early-ended lobbies. No absent seats become zeros. Null/zero starting medians produce undefined draws; intervals use valid draws only and disclose their count. Individual growth omits zero-start pairs. No cross-arm difference interval is implied.",
       "bootstrap_draws": 20000,
       "bootstrap_seed": 20261110
+    },
+    "measured_route_outcomes": {
+      "supper_partner_r3_r6": "8 of32 seats in each round, versus7 before; no offer forcing.",
+      "supper_r8_larder": "Median2 gold, n32, unchanged from baseline and still below paper16\u201317.",
+      "parish_r9_gold": "Median3, n32. Four observed seats still belowT6 atR10; prior banks3,2,3,0. The zero case282028seat7 is Jill Down-the-Tree (legal tier-down power); source rows showT5\u2192T4. Other surviving late seats retained savings, so lateness is not equated to a zero-bank leak.",
+      "paper_fidelity_limit": "Better policy does not guarantee on-time Partner/Dozey offers or paper fuel. Constructed board is explicitly planted; it lost32/32 against one median-sized Hard opponent for each fuel level."
     }
   }
 }

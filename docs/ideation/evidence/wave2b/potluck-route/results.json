@@ -40,9 +40,40 @@
   "decision": "AB does not beat control on either same-cohort growth or R12 active median; neither saving nor priority promotion adopted. No card change.",
   "arms": {
     "control": {
-      "primary_matched_r14_median_growth": 1.3352254792405367,
-      "median_individual_growth_diagnostic": 1.3313033655027624,
-      "survivor_median_growth": 1.3594211526782793,
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.3352254792405367,
+        "ci90": [
+          1.2427699394472236,
+          1.4126607668590814
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.3313033655027624,
+        "ci90": [
+          1.2539525210999236,
+          1.4075939200705179
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 12,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "survivor_median_growth": {
+        "estimate": 1.3594211526782793,
+        "ci90": [
+          1.2750816212757368,
+          1.4438540366256316
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 12,
+        "lobby_seed_n": 32
+      },
       "survivor_counts": {
         "r8": 32,
         "r12": 23,
@@ -81,9 +112,40 @@
       }
     },
     "A": {
-      "primary_matched_r14_median_growth": 1.2611828673549519,
-      "median_individual_growth_diagnostic": 1.2637333181040107,
-      "survivor_median_growth": 1.2784414370171415,
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.2611828673549519,
+        "ci90": [
+          1.211166545858013,
+          1.31454346430323
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.2637333181040107,
+        "ci90": [
+          1.2527001782677132,
+          1.3026787109770532
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 11,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "survivor_median_growth": {
+        "estimate": 1.2784414370171415,
+        "ci90": [
+          1.2386835951161077,
+          1.3502541995982826
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 11,
+        "lobby_seed_n": 32
+      },
       "survivor_counts": {
         "r8": 32,
         "r12": 24,
@@ -122,9 +184,40 @@
       }
     },
     "B": {
-      "primary_matched_r14_median_growth": 1.2709271655353265,
-      "median_individual_growth_diagnostic": 1.2878802346051563,
-      "survivor_median_growth": 1.3014331184482149,
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.2709271655353265,
+        "ci90": [
+          1.2209000663249265,
+          1.3791694143428792
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.2878802346051563,
+        "ci90": [
+          1.2135885204718089,
+          1.3684875825616276
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 11,
+        "r8_n": 11,
+        "r14_n": 11,
+        "cohort_n": 11
+      },
+      "survivor_median_growth": {
+        "estimate": 1.3014331184482149,
+        "ci90": [
+          1.2562315839869462,
+          1.4117476057652496
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 11,
+        "lobby_seed_n": 32
+      },
       "survivor_counts": {
         "r8": 32,
         "r12": 24,
@@ -163,9 +256,40 @@
       }
     },
     "AB": {
-      "primary_matched_r14_median_growth": 1.3042034583950484,
-      "median_individual_growth_diagnostic": 1.28133415719806,
-      "survivor_median_growth": 1.3221642402208116,
+      "primary_matched_r14_median_growth": {
+        "estimate": 1.3042034583950484,
+        "ci90": [
+          1.2323529636257957,
+          1.3555369202670686
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "median_individual_growth_diagnostic": {
+        "estimate": 1.28133415719806,
+        "ci90": [
+          1.2479429358081058,
+          1.3255308765328944
+        ],
+        "valid_bootstrap_draws": 20000,
+        "eligible_positive_start_n": 12,
+        "r8_n": 12,
+        "r14_n": 12,
+        "cohort_n": 12
+      },
+      "survivor_median_growth": {
+        "estimate": 1.3221642402208116,
+        "ci90": [
+          1.258116770084668,
+          1.3824237249026239
+        ],
+        "valid_bootstrap_draws": 20000,
+        "r8_n": 32,
+        "r14_n": 12,
+        "lobby_seed_n": 32
+      },
       "survivor_counts": {
         "r8": 32,
         "r12": 23,

@@ -575,3 +575,54 @@ compatibility, Hedgerow rules and unchanged frozen normal replay. New tests are
 fixed states only. All four repository lint/format commands and 26 CPU tests pass.
 Final cap counts: recruit 995, brain 993, session 974, recruit screen 982.
 The rerun and constructed diagnostic outcomes are pending below.
+
+### A2 follow-up B rerun: same-cohort growth first
+
+Same 32 seeds, committed source **dec5f2c9**, 362.6s. All intervals below are 90%
+bootstrap intervals (20,000 draws); cohorts contain seats observed entering R14,
+using those same seats for both endpoint medians. Both lines still exceed ×1.3.
+
+| Line | Old same-cohort growth [90% interval], cohort | New same-cohort growth [90% interval], cohort | R12 active median |
+| --- | --- | --- | ---: |
+| Supper | ×1.542 [1.380, 1.696], n=19 | ×1.576 [1.496, 1.698], n=19 | 788 |
+| Parish | ×1.738 [1.538, 1.829], n=20 | ×1.663 [1.544, 1.884], n=19 | 1028.0 |
+
+Including Bellies gives the same matched medians/intervals/cohort sizes for both
+lines. All changing-survivor and median-individual growth estimates have their
+own counts and intervals in `a2-followup/results.json`. These distinct reads are
+not substituted for the same-cohort primary estimate. R8/R12/R14 counts are
+Supper 32/27/19 and Parish 32/24/19; both have 19/32 (59.4%) entering R14.
+
+Supper R14 survivors grouped by active Dozey:
+
+| Group | Old same-cohort growth [90% interval], cohort | New same-cohort growth [90% interval], cohort |
+| --- | --- | --- |
+| With Dozey | ×1.429 [1.380, 1.604], n=11 | ×1.700 [1.399, 1.778], n=9 |
+| Without Dozey | ×1.625 [1.347, 1.856], n=8 | ×1.533 [1.456, 1.612], n=10 |
+
+The point ordering reverses; intervals overlap and this is not a causal card
+comparison. No Dozey rate/card change was made. Partner is present on 8/32 seats
+in each R3–R6 round, versus 7/32 before. R8 Larder median remains2 (n=32), below
+paper 16–17: the opener repair is real but does not close the availability/fuel gap.
+Parish R9 bank median is 3 (n=32). Four observed seats remain below T6 at R10; their
+R9 banks are 3, 2, 3, 0. The zero case is Jill Down-the-Tree, whose legal tier-down
+power explains the recorded T5→T4. Savings alone do not force every climb.
+
+The planted R8 Supper board has 105 active stats, gold 0, tier 4 and actual
+Hoard+Acorn 17 / Hoard 16. Each had 0 wins and 32 losses (16 paired seeds, two orientations) against
+one actual median-size Hard board with 100 active stats. This diagnoses one
+matchup, not a field win rate. Unspent fuel is inert in that fight; the separate
+native wake test verifies feeding and Partner/Beadle-before-double timing. This
+plant is a paper-state proof, not an attainable native recruit history claim.
+
+Reported-only: pooled R12 median **923** (n=51) against 900. Supper 788/979 paper
+=0.805 and 788/900=0.876; Parish 1028/870=1.182 and 1028/900=1.142. Native Hard
+Hedgerow splash is 120/2,898 unique off-build offers (4.141%), versus 357/652
+own-build (54.755%); this measures adoption, not splash benefit.
+
+Evidence: `evidence/wave2b/hedgerow/a2-followup/`. Compact line rows and results
+are committed; raw fights/CSVs remain in `build/wave2b/hedgerow/a2-followup/`.
+All requested non-lobby fixes, the rerun, live golden Burdock tests and main merge
+are complete. Remaining limits are paper fuel/availability and the constructed
+matchup loss, plus Pot Luck's previously recorded costed-route mismatch. No
+card redesign was made in response to those diagnostics. No push was performed.
