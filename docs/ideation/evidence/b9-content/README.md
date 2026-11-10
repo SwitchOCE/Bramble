@@ -44,6 +44,16 @@ Fairy Ring rises from **394** immediately before its change to **471**, below **
 | oozes_engine | 1,204.5 |
 | oozes_tempo | 990.0 |
 
+## Field effects by stage
+
+| Line | Build-8 reference | Archived Soup-fifth | After Mallow | After Sally |
+|---|---:|---:|---:|---:|
+| Hedgerow Supper | 1,313 | 1,207.5 | 1,104.5 | 592 |
+| Hunters Open Season | 790 | 699 | 637 | 669.5 |
+| Hunters Pack | 1,074 | 1,031.5 | 578 | 629 |
+
+These are mostly indirect field effects that the planned measurement run will re-read, with no further content refit.
+
 ## Evidence and reproduction
 
 Local raw captures and all logs stay under `build/b9-content/`. Checked-in evidence contains all-line metrics (`ooze-results.json`, `fairy-results.json`), top-seat source attribution (`ooze-attribution.json`), coverage/uptime summaries, configs, and capture counts/SHA-256s (`capture-proof.json`). The raw eating/Elder ledger reports gross grants including transfers, not conserved net-new stats. `diagnose.py` also reports the pre/post-start distinction without changing the criterion.
@@ -69,3 +79,5 @@ python3 -m unittest discover -s tools/checks/tests -t .
 **335/335 GUT tests in 21 affected/adjacent core files pass**, including both old-fixture replay files, both overflow regressions, native/legacy Fairies, Mallow, bot rules, path and dial tests. After adding explicit Sally normal/golden face assertions, its 30-test file passes again. **193/193 Python gate tests pass**, including sim driver tests. Ruff check/format, gdlint and gdformat --check pass on all touched code; content check reports 167 files, 111 pool units, zero problems. No full Godot suite runs. Logs: `targeted.log`, `fairy-faces.log`, `python-gate.log`, `gdformat.log`, `content-check.log` under `build/b9-content`.
 
 No B/C dial or numeric path endpoint changes were necessary, so the existing path pins remain unchanged and pass. The final evidence/face-test commit changes no gameplay relative to the confirming source.
+
+Follow-up: the [complete-game re-pin proof](field-repin.md) isolates seed 20261109 to Sally’s R3 target change; the other three game pins remain unchanged. The normal-game regression and native Fairy tests pass **31/31**, with GDScript lint/format clean.
