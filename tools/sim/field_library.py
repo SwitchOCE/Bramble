@@ -57,8 +57,11 @@ def gameplay(value, *, root=True, schema=False):
                 continue
             result[key] = gameplay(item, root=False)
         return result
-    if isinstance(value, float) and value.is_integer():
-        return int(value)
+    if isinstance(value, float):
+        # Godot's default JSON.stringify uses 15 significant digits for nonintegral
+        # numbers. Match runtime gameplay hashes, including thirds in current rates.
+        value = float(format(value, ".15g"))
+        return int(value) if value.is_integer() else value
     return value
 
 
@@ -93,8 +96,29 @@ def source_data(commit, *, cwd=None):
             heroes[hero["id"]] = hero["name"]
     if not hashes or not heroes:
         raise ValueError("source commit needs units, spells and heroes")
+    return revision, hashes, heroes, source_profiles(revision, cwd=cwd)
+
+
+def source_profiles(revision, *, cwd=None):
     profiles = json.loads(git_output("show", f"{revision}:tools/sim/line_profiles.committed.json", cwd=cwd))
-    return revision, hashes, heroes, profiles
+    paths = git_output("ls-tree", "-r", "--name-only", revision, "tools/sim/lines", cwd=cwd).decode().splitlines()
+    tribe_names = {entry["tribe"].lower().split(" ")[0]: entry["tribe"] for entry in profiles.values()}
+    for path in sorted(paths):
+        if not path.endswith(".json"):
+            continue
+        table = json.loads(git_output("show", f"{revision}:{path}", cwd=cwd))
+        tribes = {entry["tribe"].lower().split(" ")[0] for entry in table.values()}
+        profiles = {key: entry for key, entry in profiles.items() if entry["tribe"].lower().split(" ")[0] not in tribes}
+        profiles.update(
+            {
+                key if key.startswith("line_") else "line_" + key: {
+                    **entry,
+                    "tribe": tribe_names.get(entry["tribe"].lower().split(" ")[0], entry["tribe"]),
+                }
+                for key, entry in table.items()
+            }
+        )
+    return profiles
 
 
 def player_files(captures, explicit=None):
@@ -180,7 +204,10 @@ def read_trajectories(captures, source_seats, hero_names):
                     snapshot = record["combat_start"][side]
                     if snapshot.get("layout") != "blind":
                         raise ValueError("field inputs need blind final layouts")
-                    line = snapshot.get("policy")
+                    policy = snapshot.get("policy")
+                    # Ordinary Hard keeps its aggregate label; committed lines retain their
+                    # initial identity even when native play pivots (for example Birds tempo).
+                    line = "hard" if policy == "hard" else snapshot.get("starting_line", policy)
                     if not isinstance(line, str) or not line:
                         raise ValueError(f"seat policy missing: {key}")
                     metadata = source_seats.get(key, {})

@@ -128,3 +128,9 @@ From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterio
 - **Give an extreme-miss check a round, a ratio and a population.**
 - **Beside any "tribe X is N× tribe Y", give the head-to-head win rate at equal totals.** At equal totals, Quilboar's wide gem board wins 18–25%, and our tribes range from 43% to 62%.
 - **Raw captures stay under `build/`,** their hashes go in committed receipts, and a commit that adds more than a few MB of evidence gets flagged.
+
+## Orchestrator (10 Nov, repository size and pushes)
+
+- **Evidence images bloat the clone.** By 10 Nov, ideation/main's history was about 490 MB on disk, 317 MB of it declutter evidence PNGs. Batch 2 would have added 195 MB more. Every cloud session clones all of it, and deleting the files later doesn't shrink history. Evidence goes in as JPEG, with one copy of each image; raw masters go in `build/` (gitignored); a branch heavy with evidence is squash-merged after slimming. A `check.sh` size guard enforces this from batch 2's slim step on.
+- **This machine's GitHub token has no `workflow` scope.** A push whose net change touches `.github/workflows/` is refused, gate branches included. Restoring the file in the merge commit makes the push go through, as the S3 merge showed. A branch that adds a workflow needs the scope (`gh auth refresh -h github.com -s workflow`).
+- **`check.sh --docs-only` sees untracked files.** A stray `error.log` written by `codex cloud` made it refuse. Chain the check and the push with `&&`, never `;`.

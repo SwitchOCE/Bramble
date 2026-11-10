@@ -273,7 +273,7 @@ class FieldLibraryTests(unittest.TestCase):
                 self.assertEqual(args[2], "baseline^{commit}")
                 return ("c" * 40 + "\n").encode()
             if args[0] == "ls-tree":
-                return files
+                return b"" if args[-1] == "tools/sim/lines" else files
             if args[-1].endswith("line_profiles.committed.json"):
                 return b'{"line_frogs_tempo":{"tribe":"Frogs"}}'
             if args[-1].endswith("heroes/frog.json"):

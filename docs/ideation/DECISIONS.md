@@ -4,6 +4,129 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 2: second cold reader passes; evidence slimmed before merge
+**Source:** `evidence/declutter/batch2-cold/reader2/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` b97d4644, and a separate Sol scorer marked it against `technical/`.
+
+**Score:** 16 of 16 sequence-speed runs pass. B's swallow, D's lent-target relationship and F's departure now read at both speeds. No board teaching text or static pointers were found (09e).
+
+**Left for later, not blocking:**
+- the Belly badge's meaning;
+- the away portrait's crescent;
+- D's gold target frame, which first reads as an upgrade;
+- overlapping copies in A and E.
+These are the scorer's ranked glyph fixes, kept for the next declutter pass.
+
+**Picked:** merge, but not as it stands.
+- **The evidence is too big.** Batch 2 tracks 338 evidence files (194.6 MB, mostly PNG). ideation/main's history is already about 490 MB, 317 MB of it declutter evidence, and every cloud session clones it. A Sol worker on `ideation/declutter-b2-slim` converts to JPEG, deduplicates, and moves raw masters to `build/`, aiming under 25 MB. It also adds a `check.sh` guard: a new file over 2 MB under `docs/`, or over 30 MB in total, fails unless allowlisted.
+- **Batch 2 lands as one squashed commit**, so the PNG blobs never enter ideation/main's history. Its 26 commits stay on the local branch.
+- **Then** a fresh code review and the gate.
+- **The Hedgerow re-face** follows once wave 2b has merged.
+
+**Agreed by:** the scorer's marks. The size figures are from `git ls-tree` and `git cat-file`.
+
+### 10 Nov 2026 — A3.5 dials: review calls
+**Source:** a fresh Sol review of `ideation/c-a35-dials` `839f9de7..6ebb7c7c` (gated: PASS): 6 cut, 4 keep.
+
+**Picked:**
+- Five cuts go to a Sol worker on `ideation/a35-dials-fix`, which has ideation/main merged in:
+  - Monarch is 3/4 in both presets;
+  - the Birds bot hints read their dials (Chiffchaff, Stork, Golden Egg, Monarch);
+  - the Ooze food choice uses the multiplier's real return;
+  - the golden flight reminder text matches the 3× homecoming;
+  - known-answer behaviour tests run each dialled rule at t=0 and t=3, normal and golden.
+- **The Hedgerow cut is deferred, not dropped.** The brief kept Hedgerow's files with wave 2b. Its four dials (Mallow, both Dozey dials, Treasurer) land after wave 2b merges, and the inventory test lists them as pending, so they can't be forgotten.
+- A3.5 run 1 waits for both.
+
+**Agreed by:** the review.
+
+### 10 Nov 2026 — Sim job (S4): review calls
+**Source:** a fresh Sol review of `ideation/c-sim-job` `ce50d9d7..41428960`: 9 cut, 1 simplify, 2 keep.
+
+**Cuts:**
+- `sim-run.sh --wait` reports a failed run as done.
+- An entirely failed line run passes.
+- The soak merge doesn't reconcile seeds or require complete shard reports.
+- Uneven shard splits crash.
+- Field soaks read bots that `FieldRivals.setup()` removed.
+- The no-set check misses units that appear only in combat.
+- Field fights and designed setups are missing as run kinds.
+- The acceptance runs aren't met: the committed 200-game soak shows 198 violations.
+- Part 0's timing warning is hidden, and `test_times.json` is stale.
+
+**Simplify:** move job orchestration out of `tools/sim/`.
+
+**Picked:** all ten go to a Sol worker on `ideation/sim-job-fix`, which has ideation/main merged in, not back to the Claude routine (10b). Each violation kind in the 198 is classed as a checker bug, fixed there, or a real rule break, reported to the orchestrator with an example. The worker may push only `ideation/sim/<id>` branches, through `sim-run.sh`, for the acceptance runs.
+
+**Blocked on the owner for the merge:** the sim job adds `sim.yml`, and this machine's token can't push workflow changes.
+
+**Agreed by:** the review. The routine's own report claimed done.
+
+### 10 Nov 2026 — S5b/S10b: review calls
+**Source:** a fresh Sol review of `bcb30012..d0b918ec` (gated: PASS): 1 cut, 1 simplify, 2 ask, 3 keep.
+
+**Picked:**
+- **Cut:** exported builds record an empty build id, so `replay-log` rejects the owner's exported games. The export script (S3, now merged) supplies the commit, proved by one export whose log replays.
+- **Simplify:** the cache test compares `_by_id` with itself; compare against `copied._units`.
+- **Asks:** A4's strong-field render check becomes an A7 prerequisite, and W-d's handoff gets the `--field-library` argument, both in `plan-to-done.md`. The planted-bug base stays labelled as inferred: the deleted branch can't be recovered, and the timing evidence is confirmed from Actions artifacts.
+
+All of this goes back to the same Sol author on `ideation/s5b-s10b`, with ideation/main merged in.
+
+**Agreed by:** the review.
+
+### 10 Nov 2026 — S3 merged
+**Source:** the narrow Sol review of `fb659fc3`, `d9b228c6` (w8: 5 keep, 0 cut, 1 simplify, 2 ask), then the Actions gate.
+
+**Picked:**
+- Merged as `8b64da69`, gated PASS.
+- **Simplify taken:** `ci.yml` stays as ideation/main had it. The duplicate preflight is gone, and this machine can't push workflow changes anyway.
+- **Both asks kept:** the S1 ownership exception (`field_rivals.gd` and its test) and the smoke probe with its docs. Both support lazy loading and the new smoke contract.
+- **The first gate failed** on `test_source_fingerprints_use_requested_git_commit`. Its git mock answered the new `tools/sim/lines` lookup with the content list. That was fixed in the merge, and the second gate passed. The worker's targeted run (32 Python tests) had missed it; the gate's full Python run caught it.
+
+**Agreed by:** w8's review and the gate.
+
+### 10 Nov 2026 — Codex Cloud handoff merged; this machine can't see the environment yet
+**Source:** `ideation/codex-cloud-handoff` be5f8e84, from the owner's Codex Cloud setup worker. It is docs-only: a new `CODEX_CLOUD.md`, and the placeholder in `ORCHESTRATION.md` filled in.
+
+**Picked:** merged after the docs-only check (4f76716e). Its question was whether `codex cloud` on this machine can select the published Bramble environment, and with what `--env` id. **Not yet:**
+- Here the CLI is signed in to the owner's Personal workspace (Pro).
+- `codex cloud list` works and shows 0 tasks.
+- Any `codex cloud exec --env <id>` answers "no cloud environments are available for this workspace". The lookup by repo (SwitchOCE/Bramble) finds none either.
+
+So the Bramble environment sits in another workspace, or it isn't one the CLI lists. **Owner's check:** the Codex environments page, in the Personal workspace. Until then, cloud work stays on Actions and local workers. If steering a running cloud task turns out to matter, the Tailscale link the owner is setting up (10 Nov) is the route.
+
+**Also found:**
+- The GitHub token on this machine has no `workflow` scope. So any push whose net change touches `.github/workflows/` is refused, gate branches included.
+- S3's CI preflight was dropped (see S3's entry), which keeps `ci.yml` unchanged.
+- `codex cloud` writes an `error.log` into the current directory.
+
+**Agreed by:** the CLI's own output on this machine.
+
+### 10 Nov 2026 — Declutter batch 2, first cold reader: fail, three fixes
+**Source:** `evidence/declutter/batch2-cold/reader1/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` 7a9f69d0, and a separate Sol scorer marked it against `technical/`.
+
+**Score:** 10 of 16 sequence-speed runs pass, and nothing on the board breaks 09e. Three actions fail at both speeds:
+- **B:** a swallow into a Belly reads as stacking, and the Belly badge reads as equipment.
+- **D:** the lent-target preview's paired gold highlights don't show a target relationship.
+- **F:** Fly South's departure has no convincing arrival in the away tray.
+
+**Picked:** back to w4's thread on `ideation/declutter-b2`, taking the scorer's smallest fixes, motion or glyph only (09e):
+- **B:** shrink the purchase into the Belly glyph, retire its overlay, then pulse the count once.
+- **D:** keep a distinct selection treatment, and stamp a brief quarry glyph on the previewed target.
+- **F:** dissolve the departing card into the away portrait, then pulse its countdown.
+- **If cheap**, the reduce-motion overlays left in B, E and F's last frames, and items 4–7: E's overlapping copies, C's route over occupied portraits, G's acorns over the digits, and H's new price shown before the payment settles.
+- **Then the Hedgerow re-face** once wave 2b merges.
+- **A fresh reader and scorer** follow. Batch 2 merges only when every run passes.
+
+**Agreed by:** the scorer's marks, checked against frames and JSON. It also caught one reader misreading (G's gold flicker, which doesn't happen).
+
+### 10 Nov 2026 — Worker cap 5, Astra allowed, Codex Cloud wanted (owner, 10c)
+**Source:** owner note `2026-11-10c-cap-astra-and-codex-cloud.md`.
+
+**Picked:**
+- **Bridge cap 3 → 5** (`CODEX_BRIDGE_MAX` for this project). RAM is the limit: 14 GB, about 300 MB per worker, and 2 Godot slots capped at 3 GB each. It loads at the next bridge restart, taken when no worker is mid-turn. More parallelism than that goes to Codex Cloud, not this machine.
+- **Astra at medium or high effort** runs alongside Sol for parallel work with spare usage, and replaces Sol if Sol's limit is reached. Sol keeps the hardest work. This is written into the bridge's served instructions and README. Whether Astra has its own pool gets checked on its first run.
+- **Codex Cloud** uses the same GitHub repo and the same `scripts/cloud-setup.sh` as the Claude environment. The owner creates the environment, and the orchestrator then submits bounded jobs with `codex cloud exec` and applies the diffs onto `ideation/*` (calls in "Codex Cloud: calls").
+
 ### 10 Nov 2026 — Faster suite (S10): review calls
 **Source:** the scope review of `ideation/c-faster-suite` `3d96ce3f..3deb96f2` (`evidence/review-faster-suite.md`): 16 keep, 0 cut, 0 simplify, 3 ask. Confirmed: the diff is tests only, with nothing under `src/`; no leak path was found in the cache; and the three planted bugs still fail the suite.
 
