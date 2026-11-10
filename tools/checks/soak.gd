@@ -1,12 +1,17 @@
 extends SceneTree
 ## QA soak: plays bot-only full games on the full pool and checks rules invariants after every
 ## fight and every round. Crashes and rules bugs only; no balance numbers.
-## Seeds take turns: seed % 3 == 0 plays GameConfig.defaults() on the old library; 1 plays the real
-## game, full_game() with the slice's cards, half its players on SoakBot (random legal play), and
-## reports which slice cards and keywords never fired (one such game in three hands out extra
-## Acorns, since a game rarely reaches a Stash on its own); 2 plays spells and heroes with
-## SoakContent, so every trigger, effect, Discover and slot effect comes up.
-## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1] [plant=fault]
+## Every game is a real lobby: GameConfig.full_game() with the slice's cards, half its players on
+## SoakBot (random legal play) and the rest on the real bots, reporting which slice cards and
+## keywords never fired (one game in nine hands out extra Acorns, since a game rarely reaches a
+## Stash on its own). Seeds take turns by seed % 5: 0-2 play the chosen preset, 3 the other preset
+## (B for A and C, C for B), and 4 the chosen preset with field rivals from the given library.
+## Field games are skipped and counted when no library is given. No unit without a "set" may
+## appear in any of these lobbies.
+## synthetic=K adds K more games on SoakContent's synthetic cards (spells and heroes, so every
+## trigger, effect, Discover and slot effect comes up), counted separately from the real games.
+## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=200] [first_seed=1]
+##   [preset=B] [library=res://...json.gz] [synthetic=0] [plant=fault]
 ## A planted fault (SoakPlant) must turn the run red: tools/checks/soak_plant.sh proves each one.
 ## tools/checks/soak.sh wraps it and also fails on any ERROR / SCRIPT ERROR line in the log.
 ## Exit code 1 if any violation was found.
@@ -28,6 +33,10 @@ var _library: UnitLibrary
 var _plain_library: UnitLibrary
 var _full_library: UnitLibrary
 var _plant: String = ""
+var _preset: String = ""
+var _field_library: String = ""
+var _field_skipped: int = 0
+var _mix: Dictionary = {}
 var _chaos_rng := RandomNumberGenerator.new()
 ## Coverage of the recruit side: how often each log type and each named effect happened.
 var _recruit_log: Dictionary = {}
@@ -37,6 +46,9 @@ var _session: GameSession = null
 ## Whether this game plays the slice, so its cards count toward coverage.
 var _slice_game: bool = false
 var _violations: Array[String] = []
+## Violations in synthetic-card games, reported apart from the real lobbies'.
+var _synthetic_violations: Array[String] = []
+var _in_synthetic: bool = false
 var _limit_fights: Array[String] = []
 var _game_seed: int = 0
 var _fights: int = 0
@@ -49,10 +61,35 @@ var _event_types: Dictionary = {}
 
 
 func _initialize() -> void:
-	var args: PackedStringArray = OS.get_cmdline_user_args()
-	var games: int = 200 if args.size() < 1 else args[0].to_int()
-	var first_seed: int = 1 if args.size() < 2 else args[1].to_int()
-	_plant = "" if args.size() < 3 else args[2]
+	var options: Dictionary = {
+		"games": "200",
+		"first_seed": "1",
+		"preset": Pass3Rates.default_preset(),
+		"library": "",
+		"synthetic": "0",
+		"plant": "",
+	}
+	for arg: String in OS.get_cmdline_user_args():
+		var key: String = arg.get_slice("=", 0)
+		if not options.has(key) or not arg.contains("="):
+			printerr(
+				"soak: unknown argument %s (want key=value: %s)" % [arg, ", ".join(options.keys())]
+			)
+			quit(2)
+			return
+		options[key] = arg.substr(key.length() + 1)
+	var games: int = str(options["games"]).to_int()
+	var first_seed: int = str(options["first_seed"]).to_int()
+	var synthetic_games: int = str(options["synthetic"]).to_int()
+	_plant = str(options["plant"])
+	_preset = str(options["preset"])
+	_field_library = str(options["library"])
+	var rates: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(Pass3Rates.PATH))
+	var presets: Dictionary = rates.get("presets", {})
+	if not presets.has(_preset):
+		printerr("soak: no preset %s" % _preset)
+		quit(2)
+		return
 	BoardUpkeep.aura_observer = _coverage.note_aura
 	_plain_library = UnitLibrary.load_dir()
 	for problem: String in SoakCopyCheck.problems(_plain_library):
@@ -70,14 +107,34 @@ func _initialize() -> void:
 	var rounds: int = 0
 	var slowest_ms: int = 0
 	var started: int = Time.get_ticks_msec()
+	var played: int = 0
 	for game_seed: int in range(first_seed, first_seed + games):
 		var game_started: int = Time.get_ticks_msec()
-		rounds += _play(game_seed)
+		var kind: String = _kind(game_seed)
+		if kind == "field" and _field_library == "":
+			_field_skipped += 1
+			continue
+		rounds += _play(game_seed, kind)
+		played += 1
+		_mix[kind] = CoreUtil.to_int(_mix.get(kind, 0)) + 1
 		slowest_ms = maxi(slowest_ms, Time.get_ticks_msec() - game_started)
+	for game_seed: int in range(first_seed, first_seed + synthetic_games):
+		rounds += _play(game_seed, "synthetic")
 	var total_ms: int = Time.get_ticks_msec() - started
 	if _fights == 0:
 		_violation(0, "no fights ran")
-	print("soak: games %d (seeds %d-%d)" % [games, first_seed, first_seed + games - 1])
+	print(
+		(
+			"soak: games %d (seeds %d-%d), played %d"
+			% [games, first_seed, first_seed + games - 1, played]
+		)
+	)
+	print(
+		(
+			"soak: mix %s; preset %s, other %s; field skipped %d (no library); synthetic games %d"
+			% [str(_sorted(_mix)), _preset, _other_preset(), _field_skipped, synthetic_games]
+		)
+	)
 	print("soak: rounds %d, fights %d, reasons %s" % [rounds, _fights, str(_reasons)])
 	print("soak: max events per fight %d (%s)" % [_max_events, _max_events_at])
 	print(
@@ -111,20 +168,41 @@ func _initialize() -> void:
 	print("soak: slice keywords never fired %s" % str(_coverage.keywords_silent()))
 	for line: String in _limit_fights:
 		print("soak: no-winner fight: %s" % line)
+	print("soak: synthetic violations %d" % _synthetic_violations.size())
+	for line: String in _synthetic_violations.slice(0, 20):
+		print("soak: SYNTHETIC VIOLATION %s" % line)
 	print("soak: violations %d" % _violations.size())
 	for line: String in _violations.slice(0, 50):
 		print("soak: VIOLATION %s" % line)
-	quit(1 if not _violations.is_empty() else 0)
+	quit(1 if not (_violations.is_empty() and _synthetic_violations.is_empty()) else 0)
 
 
-func _play(game_seed: int) -> int:
+## Which game a seed plays: "preset" (3 in 5), "other" (the other preset) or "field" (1 in 5 each).
+func _kind(game_seed: int) -> String:
+	match posmod(game_seed, 5):
+		3:
+			return "other"
+		4:
+			return "field"
+	return "preset"
+
+
+func _other_preset() -> String:
+	return "C" if _preset == "B" else "B"
+
+
+func _play(game_seed: int, kind: String) -> int:
 	_game_seed = game_seed
-	var slice: bool = game_seed % 3 == 1
-	var synthetic: bool = game_seed % 3 == 2
-	var full: bool = slice or synthetic
+	var synthetic: bool = kind == "synthetic"
+	_in_synthetic = synthetic
+	var slice: bool = not synthetic
 	_chaos_rng.seed = game_seed
 	_library = _full_library if synthetic else _plain_library
-	var config := GameConfig.full_game() if full else GameConfig.defaults()
+	var config := GameConfig.full_game()
+	config.set_value("pass3_preset", _other_preset() if kind == "other" else _preset)
+	if kind == "field":
+		config.set_value("opponents", "field")
+		config.set_value("field_library", _field_library)
 	if synthetic:
 		config.set_value("pool_filter", "all")
 		config.set_value(
@@ -132,6 +210,9 @@ func _play(game_seed: int) -> int:
 		)
 	config.set_value("human_bot", "balanced")
 	var session := GameSession.create(game_seed, _library, config)
+	if session == null:
+		_violation(0, "GameSession.create failed (%s game)" % kind)
+		return 0
 	_session = session
 	_slice_game = slice
 	session.fight_observer = _check_fight
@@ -140,8 +221,7 @@ func _play(game_seed: int) -> int:
 		player.log_observer = _note_recruit.bind(player.id)
 		if slice:
 			_coverage.note_hero(player.hero)
-	if synthetic:
-		_check_heroes(session)
+	_check_heroes(session)
 	if slice:
 		_seat_soak_bots(session)
 	var start_total: int = _copies_accounted(session)
@@ -149,8 +229,7 @@ func _play(game_seed: int) -> int:
 	var turns: int = 0
 	while not session.is_over() and turns < MAX_TURNS:
 		var round_number: int = session.get_state()["round"]
-		if full:
-			_chaos(session)
+		_chaos(session)
 		if slice and game_seed % 9 == 1:
 			_hand_out_acorns(session)
 		_plant_fault(session)
@@ -166,6 +245,7 @@ func _play(game_seed: int) -> int:
 		for player: PlayerState in session._players:
 			_check_player(round_number, player, config)
 			if slice:
+				_check_sets(round_number, player, config)
 				_coverage.note_board(player)
 	if not session.is_over():
 		_violation(turns, "game not over after %d turns" % MAX_TURNS)
@@ -432,6 +512,24 @@ func _check_player(round_number: int, player: PlayerState, config: GameConfig) -
 			_violation(round_number, "%s holds 3 copies of %s untripled (7.3.1)" % [who, def_id])
 
 
+## Plan §1.2: no unit outside the game's card set (the 38 prototype bodies) in a full_game lobby.
+func _check_sets(round_number: int, player: PlayerState, config: GameConfig) -> void:
+	var held: Array[RecruitUnit] = player.all_units()
+	held.append_array(player.shop)
+	if _plant == "no_set" and not held.is_empty():
+		held.append(RecruitUnit.make(_library.get_unit("fox_cub"), 99999))
+	for unit: RecruitUnit in held:
+		var data: Dictionary = _library.get_unit(unit.def_id())
+		if not data.is_empty() and str(data.get("set", "")) != config.card_set():
+			_violation(
+				round_number,
+				(
+					"player %d holds %s, which has no set '%s' (plan 1.2)"
+					% [player.id, unit.def_id(), config.card_set()]
+				)
+			)
+
+
 func _check_recruit_unit(round_number: int, who: String, unit: RecruitUnit) -> void:
 	var base_attack: int = CoreUtil.to_int(unit.def["attack"])
 	var base_health: int = CoreUtil.to_int(unit.def["health"])
@@ -679,4 +777,8 @@ static func _sorted(counts: Dictionary) -> Dictionary:
 
 
 func _violation(round_number: int, text: String) -> void:
-	_violations.append("seed %d round %d: %s" % [_game_seed, round_number, text])
+	var line: String = "seed %d round %d: %s" % [_game_seed, round_number, text]
+	if _in_synthetic:
+		_synthetic_violations.append(line)
+	else:
+		_violations.append(line)

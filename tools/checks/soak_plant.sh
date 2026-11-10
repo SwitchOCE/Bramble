@@ -19,12 +19,13 @@ PLANTS=(
   "discover_repeat|offered .* twice"
   "discover_tier|at tier"
   "log|log places player"
+  "no_set|which has no set"
 )
 failed=0
 for entry in "${PLANTS[@]}"; do
   fault="${entry%%|*}"
   want="${entry#*|}"
-  out="$(timeout 120 "${GODOT:-godot}" --headless -s res://tools/checks/soak.gd -- "$GAMES" 1 "$fault" 2>&1)"
+  out="$(timeout 120 "${GODOT:-godot}" --headless -s res://tools/checks/soak.gd -- "games=$GAMES" "plant=$fault" "synthetic=2" 2>&1)"
   status=$?
   if [ "$status" -ne 0 ] && echo "$out" | grep -E "VIOLATION.*$want" >/dev/null; then
     echo "soak_plant: $fault: caught"

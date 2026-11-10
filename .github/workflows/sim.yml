@@ -1,8 +1,8 @@
 # The Actions sim job (docs/CLOUD_SETUP.md, "The sim job on Actions"). A push of ideation/sim/<id>
 # whose tree holds sim/<id>.json runs that config: the seeds are dealt across up to 8 shard jobs,
-# each runs tools/sim/sim_job.py shard (the same bench.gd entry point local runs use), and the
-# merge job commits compact results to sim/<id>/ on the same branch. Raw fight captures and logs
-# stay as artifacts for 7 days. scripts/sim-run.sh pushes a config and waits for the results.
+# each runs tools/sim/sim_job.py shard (the same bench.gd or soak.sh entry points local runs use),
+# and the merge job commits compact results to sim/<id>/ on the same branch. Raw fight captures and
+# logs stay as artifacts for 7 days. scripts/sim-run.sh pushes a config and waits for the results.
 name: Sim
 
 on:
@@ -126,10 +126,14 @@ jobs:
           now="$(date -u +%s)"
           pushed="$(date -u -d "$PUSHED" +%s)"
           timing="config commit to merge $((now - pushed)) s; run $RUN_URL"
+          # A soak with violations or crashes still commits its results, then fails the run.
+          status=0
           python3 tools/sim/sim_job.py merge "sim/${ID}.json" build/sim-shards "sim/${ID}" \
-            --commit "$GITHUB_SHA" --timing "$timing"
+            --commit "$GITHUB_SHA" --timing "$timing" || status=$?
+          [ -f "sim/${ID}/summary.json" ] || exit 1
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "sim/${ID}"
           git commit -q -m "sim ${ID}: results [skip ci]" -m "Run: $RUN_URL"
           git push origin "HEAD:${GITHUB_REF_NAME}"
+          exit "$status"

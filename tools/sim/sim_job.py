@@ -17,6 +17,14 @@ quilboar_h1_report.summarize. "preset" is that harness's arm (B, C, uncut, uncut
 sets pass3_preset for B and C. "rates" are GameConfig overrides of content/pass3/rates.json dials.
 Seeds are dealt round-robin across shards, so each shard gets a similar mix.
 
+kind "soak" runs tools/checks/soak.sh on contiguous seed blocks, one per shard:
+    {"kind": "soak", "preset": "B", "first_seed": 1, "lobbies": 200, "shards": 8,
+     "library": "", "synthetic": 0}
+"preset" is a rates.json preset; "library" a field library for the field games (skipped and
+counted without one); "synthetic" extra synthetic-card games, run on shard 1 and counted
+separately. The merge sums games, the mix, violations (each distinct line once, with its count)
+and crashes, and exits 1 after writing the results if there were any.
+
 A chunk that fails is retried seed by seed. A seed that still fails is dropped and listed in the
 results README with its reason; nothing is resampled.
 """
@@ -26,6 +34,7 @@ from __future__ import annotations
 import argparse
 import gzip
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -38,7 +47,7 @@ sys.path.insert(0, str(ROOT / "tools" / "sim"))
 
 from evidence_io import read_json, write_json  # noqa: E402
 
-KINDS = ("lines",)
+KINDS = ("lines", "soak")
 MAX_SHARDS = 8
 CHUNK = 4
 SECONDS_PER_LOBBY_LIMIT = 300
@@ -64,6 +73,14 @@ def load_config(path):
     if not isinstance(rates, dict):
         raise ValueError("rates must be an object of dial: value")
     config = {**config, "seeds": seeds, "shards": min(shards, len(seeds)), "rates": rates}
+    if kind == "soak":
+        presets = read_json(ROOT / "content/pass3/rates.json")["presets"]
+        if config.get("preset") not in presets:
+            raise ValueError(f"preset must be one of {sorted(presets)}")
+        if sorted(seeds) != list(range(seeds[0], seeds[0] + len(seeds))):
+            raise ValueError("a soak's seeds must be one contiguous range")
+        config.setdefault("library", "")
+        config["synthetic"] = int(config.get("synthetic", 0))
     if kind == "lines":
         from quilboar_h1 import ARMS
 
@@ -76,6 +93,9 @@ def load_config(path):
 
 
 def shard_seeds(config, index):
+    if config["kind"] == "soak":
+        size = -(-len(config["seeds"]) // config["shards"])
+        return sorted(config["seeds"])[(index - 1) * size : index * size]
     return config["seeds"][index - 1 :: config["shards"]]
 
 
@@ -153,8 +173,57 @@ def run_chunk(config, out_dir, first, count):
     return lobbies, dropped
 
 
+def soak_shard(config, index, work):
+    """One soak.sh run over this shard's block; the receipt holds its parsed report lines."""
+    seeds = shard_seeds(config, index)
+    log = work / "soak.log"
+    args = ["tools/checks/soak.sh", str(len(seeds)), "--preset", config["preset"], "--first-seed", str(seeds[0])]
+    args += ["--log", str(log)]
+    if config["library"]:
+        args += ["--library", config["library"]]
+    if index == 1 and config["synthetic"]:
+        args += ["--synthetic", str(config["synthetic"])]
+    tick = time.monotonic()
+    done = subprocess.run(args, cwd=ROOT, capture_output=True, text=True)
+    report = done.stdout.splitlines()
+    (work / "soak.out").write_text(done.stdout + done.stderr)
+
+    def number(prefix, pattern):
+        for line in report:
+            if line.startswith(prefix):
+                return int(re.search(pattern, line)[1])
+        return None
+
+    mix = next((line for line in report if line.startswith("soak: mix ")), "")
+    return {
+        "shard": index,
+        "seeds": seeds,
+        "exit": done.returncode,
+        "played": number("soak: games ", r"played (\d+)"),
+        "field_skipped": number("soak: mix ", r"field skipped (\d+)"),
+        "synthetic": number("soak: mix ", r"synthetic games (\d+)"),
+        "mix": json.loads(re.search(r"mix (\{.*?\});", mix)[1]) if mix else {},
+        "violations": number("soak: violations ", r"violations (\d+)"),
+        "violation_lines": [line.removeprefix("soak: VIOLATION ") for line in report if "soak: VIOLATION " in line],
+        "synthetic_violations": number("soak: synthetic violations ", r"violations (\d+)"),
+        "synthetic_violation_lines": [
+            line.removeprefix("soak: SYNTHETIC VIOLATION ") for line in report if "SYNTHETIC VIOLATION " in line
+        ],
+        "crashes": [line for line in report if line.startswith("soak: CRASH")],
+        "log_problems": "soak: log problems:" in report,
+        "dropped": {},
+        "seconds": round(time.monotonic() - tick, 1),
+    }
+
+
 def shard(config, index, out_dir):
     work = out_dir / f"shard-{index}"
+    if config["kind"] == "soak":
+        work.mkdir(parents=True, exist_ok=True)
+        receipt = soak_shard(config, index, work)
+        write_json(out_dir / f"shard-{index}.receipt.json", receipt)
+        write_json(out_dir / f"shard-{index}.lobbies.json.gz", [])
+        return receipt
     work.mkdir(parents=True, exist_ok=True)
     tick = time.monotonic()
     lobbies, dropped = [], {}
@@ -178,6 +247,47 @@ def shard(config, index, out_dir):
     return receipt
 
 
+def merge_soak(config, receipts, result_dir):
+    from collections import Counter
+
+    lines = Counter(line for r in receipts for line in r["violation_lines"])
+    crashes = [f"shard {r['shard']}: {c}" for r in receipts for c in r["crashes"]]
+    crashes += [
+        f"shard {r['shard']}: exit {r['exit']}" for r in receipts if r["exit"] not in (0, 1) and not r["crashes"]
+    ]
+    mix = Counter()
+    for r in receipts:
+        mix.update(r["mix"])
+    summary = {
+        "kind": "soak",
+        "preset": config["preset"],
+        "games": len(config["seeds"]),
+        "played": sum(r["played"] or 0 for r in receipts),
+        "mix": dict(sorted(mix.items())),
+        "field_skipped": sum(r["field_skipped"] or 0 for r in receipts),
+        "synthetic": sum(r["synthetic"] or 0 for r in receipts),
+        "violations": sum(r["violations"] or 0 for r in receipts),
+        "distinct_violations": dict(lines.most_common()),
+        "violation_lines_capped": any((r["violations"] or 0) > len(r["violation_lines"]) for r in receipts),
+        "synthetic_violations": sum(r["synthetic_violations"] or 0 for r in receipts),
+        "synthetic_violation_lines": dict(
+            Counter(line for r in receipts for line in r["synthetic_violation_lines"]).most_common()
+        ),
+        "crashes": crashes,
+        "log_problems": [r["shard"] for r in receipts if r["log_problems"]],
+        "sim_job": {
+            "config": {k: v for k, v in config.items() if k != "seeds"},
+            "seeds": [config["seeds"][0], config["seeds"][-1]],
+            "shard_seconds": {r["shard"]: r["seconds"] for r in receipts},
+            "dropped": {},
+        },
+    }
+    # The real lobbies decide; synthetic-card games are reported beside them.
+    summary["passes"] = not summary["violations"] and not crashes and not summary["log_problems"]
+    write_json(result_dir / "summary.json", summary)
+    return summary
+
+
 def merge(config, shards_dir, result_dir):
     from quilboar_h1_report import summarize
 
@@ -188,6 +298,9 @@ def merge(config, shards_dir, result_dir):
             raise ValueError(f"shard {index} left no receipt")
         receipts.append(read_json(receipt_path))
         lobbies += read_json(receipt_path.with_name(f"shard-{index}.lobbies.json.gz"))
+    result_dir.mkdir(parents=True, exist_ok=True)
+    if config["kind"] == "soak":
+        return merge_soak(config, receipts, result_dir), receipts
     dropped = {seed: why for receipt in receipts for seed, why in receipt["dropped"].items()}
     got = sorted(game["seed"] for game in lobbies)
     if sorted(got + [int(s) for s in dropped]) != sorted(config["seeds"]):
@@ -220,7 +333,38 @@ def line_table(summary):
     return rows
 
 
+def soak_readme(config, summary, commit, timing):
+    verdict = "PASS" if summary["passes"] else "FAIL"
+    lines = [
+        f"- Commit: `{commit}`",
+        f"- Kind: soak, preset {config['preset']}, library {config['library'] or 'none'}",
+        f"- Timing: {timing}",
+        "",
+        f"**Verdict: {verdict}.** {summary['violations']} violations, {len(summary['crashes'])} crashes, "
+        f"log problems in shards {summary['log_problems'] or 'none'}.",
+        "",
+        f"- Games: {summary['games']} seeds, {summary['played']} played; mix {summary['mix']}; "
+        f"field games skipped (no library) {summary['field_skipped']}; synthetic games {summary['synthetic']} "
+        "(separate).",
+        "",
+        "Distinct violation lines (count across shards; a directed check repeats once per shard):",
+        "",
+    ]
+    lines += [f"- {n}x `{line}`" for line, n in summary["distinct_violations"].items()] or ["- none"]
+    lines += [f"- crash: {c}" for c in summary["crashes"]]
+    lines += ["", f"Synthetic-card games: {summary['synthetic_violations']} violations (reported, not the verdict)."]
+    lines += [f"- {n}x `{line}`" for line, n in summary["synthetic_violation_lines"].items()]
+    if summary["violation_lines_capped"]:
+        lines.append("- (soak.gd prints at most 50 violation lines per shard; totals above are complete)")
+    return lines
+
+
 def write_readme(config, summary, result_dir, commit, timing):
+    if config["kind"] == "soak":
+        lines = [f"# Sim run `{result_dir.name}`", "", *soak_readme(config, summary, commit, timing)]
+        lines += ["", "Raw logs are the workflow run's `sim-raw-<i>` artifacts (7 days)."]
+        (result_dir / "README.md").write_text("\n".join(lines) + "\n")
+        return
     lines = [
         f"# Sim run `{result_dir.name}`",
         "",
@@ -276,6 +420,9 @@ def main(argv):
     elif args.command == "merge":
         summary, _ = merge(config, args.shards, args.result)
         write_readme(config, summary, args.result, args.commit, args.timing)
+        if config["kind"] == "soak":
+            print((args.result / "README.md").read_text())
+            return 0 if summary["passes"] else 1
         print(json.dumps(line_table(summary), indent=1))
     else:
         tick = time.monotonic()
@@ -284,7 +431,8 @@ def main(argv):
         commit = subprocess.check_output(["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True).strip()
         summary, _ = merge(config, args.out / "shards", args.out / "result")
         write_readme(config, summary, args.out / "result", commit, f"{time.monotonic() - tick:.0f} s local")
-        print(json.dumps(line_table(summary), indent=1))
+        print((args.out / "result" / "README.md").read_text())
+        return 0 if summary.get("passes", True) else 1
     return 0
 
 
