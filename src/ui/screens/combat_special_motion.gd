@@ -595,29 +595,30 @@ static func wait_action(screen: Control, unit: CardView, target_uid: int = -1) -
 		relation.tween_interval(0.31)
 		relation.tween_property(link, "modulate:a", 0.0, 0.15)
 		relation.tween_callback(link.queue_free)
-	var stamp := Panel.new()
+	# Pause bars sit above the actor triangle; no disc or weapon covers the portrait.
+	var stamp := Control.new()
 	stamp.name = "Waiting_%d" % unit.uid()
 	stamp.set_meta("self_pause_uid", unit.uid())
+	stamp.set_meta("pause_bars", true)
 	stamp.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stamp.add_theme_stylebox_override("panel", UiTheme.flat_box(UiTheme.CREAM, UiTheme.INK, 4, 44))
-	stamp.size = Vector2.ONE * 88
+	stamp.size = Vector2(44, 36)
 	_overlay(screen).add_child(stamp)
-	stamp.position = _local(screen, unit.get_global_rect().get_center()) - stamp.size / 2
-	var sword := TextureRect.new()
-	sword.texture = Icons.icon("sword", 80)
-	sword.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	sword.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	sword.position = Vector2(4, 4)
-	sword.size = Vector2.ONE * 80
-	sword.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	stamp.add_child(sword)
-	for width: int in [11, 6]:
-		var slash := Line2D.new()
-		slash.points = PackedVector2Array([Vector2(16, 72), Vector2(72, 16)])
-		slash.width = width
-		slash.default_color = UiTheme.INK if width == 11 else UiTheme.HEALTH
-		slash.antialiased = true
-		stamp.add_child(slash)
+	var actor: Rect2 = unit.get_global_rect()
+	var toward_top: bool = Data.i(unit.unit, "side") == CoreUtil.to_int(screen.get("bottom_side"))
+	var above: float = 14.0 if toward_top else 4.0
+	var top: float = maxf(2.0, actor.position.y - above - stamp.size.y)
+	stamp.position = (
+		_local(screen, Vector2(actor.get_center().x, top)) - Vector2(stamp.size.x / 2, 0)
+	)
+	for index: int in 2:
+		var bar := Panel.new()
+		bar.name = "LeftBar" if index == 0 else "RightBar"
+		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bar.position = Vector2(5 + index * 20, 2)
+		bar.size = Vector2(14, 32)
+		bar.add_theme_stylebox_override("panel", UiTheme.flat_box(UiTheme.CREAM, UiTheme.INK, 2, 2))
+		stamp.add_child(bar)
+
 	stamp.hide()
 	var hold: Tween = _tween(screen, stamp)
 	hold.tween_interval(0.12)

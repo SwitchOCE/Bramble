@@ -7,6 +7,7 @@ const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
 const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -31,6 +32,13 @@ func _first_empty_slot(state: Dictionary) -> int:
 		if board[slot] == null:
 			return slot
 	return -1
+
+
+func _end_turn(screen: RecruitScreen) -> void:
+	screen.call("_on_end_turn")
+	var motion: RecruitMotion = screen.get("_motion")
+	motion.finish()
+	await wait_process_frames(2)
 
 
 func test_several_rounds_of_buy_play_end_turn() -> void:
@@ -106,7 +114,7 @@ func test_app_flow_on_the_core() -> void:
 	app.setup(_port())
 	app.start_game()
 	assert_true(app.current is RecruitScreen)
-	(app.current as RecruitScreen).call("_on_end_turn")
+	await _end_turn(app.current as RecruitScreen)
 	assert_true(app.current is CombatScreen, "end turn shows the core's fight")
 	var combat: CombatScreen = app.current as CombatScreen
 	combat.skip_to_end()
@@ -126,9 +134,10 @@ func test_bot_only_game_reaches_game_over_screen() -> void:
 	app.start_game()
 	var turns: int = 0
 	while app.current is RecruitScreen and turns < 60:
-		(app.current as RecruitScreen).call("_on_end_turn")
+		await _end_turn(app.current as RecruitScreen)
 		if app.current is CombatScreen:
 			(app.current as CombatScreen).finished.emit()
+		await wait_process_frames(2)
 		turns += 1
 	assert_true(app.current is GameOverScreen, "game over once the human is out (%d turns)" % turns)
 	assert_true(app.human_is_out())

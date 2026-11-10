@@ -1,25 +1,10 @@
 extends "res://src/ui/screens/recruit_layout.gd"
-## Guard recruit actions before they mutate state; the screen supplies its ordinary toast.
-
-var _pending_shy: String = ""
-var _shy_notice: Callable
+## Recruit action adapters and presentation sounds.
 
 
-## A second identical action confirms a precise warning. A changed state requires a fresh warning.
-func _allow_shy(action: String, first: int = -1, second: int = -1) -> bool:
-	var warning: String = port.shy_warning(action, first, second)
-	if warning.is_empty():
-		_pending_shy = ""
-		return true
-	var key: String = (
-		"%s:%d:%d:%d" % [action, first, second, JSON.stringify(port.get_state()).hash()]
-	)
-	if key == _pending_shy:
-		_pending_shy = ""
-		return true
-	_pending_shy = key
-	_shy_notice.call(warning)
-	return false
+## Shy is a one-press action. Its departure and queued acorns explain the committed result.
+func _allow_shy(_action: String, _first: int = -1, _second: int = -1) -> bool:
+	return true
 
 
 func _safe_item(index: int, slot: int = -1) -> String:
@@ -60,6 +45,19 @@ func _safe_buy_play(index: int, slot: int) -> String:
 
 ## What the board and purse did by themselves: a sale's coins are in its own sound.
 func _play_change_sounds(old_state: Dictionary, sound: String) -> void:
+	if not RecruitView.combine_note(old_state, state).is_empty():
+		Sfx.play("acorns_combine")
+	var before: Dictionary = RecruitView.copies(old_state)
+	var after: Dictionary = RecruitView.copies(state)
+	var gold_before: Dictionary = RecruitView.copies(old_state, true)
+	var gold_after: Dictionary = RecruitView.copies(state, true)
+	for id: String in before:
+		if (
+			Data.i(before, id) - Data.i(after, id) >= 2
+			and Data.i(gold_after, id) > Data.i(gold_before, id)
+		):
+			Sfx.play("triple")
+			break
 	if sound != "sell" and Data.i(state, "gold", 0) > Data.i(old_state, "gold", 0):
 		Sfx.play("gold")
 	if RecruitView.ring_words(state) != RecruitView.ring_words(old_state):

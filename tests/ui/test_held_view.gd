@@ -108,13 +108,15 @@ func test_the_sky_card_lists_birds_away_and_on_the_doorstep() -> void:
 	assert_true(RecruitHeld.sky_card({}).is_empty(), "nobody out: no card")
 
 
-func test_every_keyword_has_a_reminder_and_a_chip() -> void:
+func test_every_keyword_has_a_reminder_and_needs_no_word_chip() -> void:
 	for word: String in ["Belly", "Fly South", "Nest", "Swoop"]:
 		assert_false(KeywordRules.text(word).is_empty(), word)
 	var ooze: Dictionary = {"text": "Belly 1. Something.", "keywords": ["Belly"]}
-	assert_eq(CardView.chip_text(ooze), "Belly 1")
+	assert_eq(CardView.chip_text(ooze), "")
+	assert_true(KeywordRules.named_on(ooze).has("Belly"))
 	var bird: Dictionary = {"text": "Fly South. Something.", "keywords": ["Fly South"]}
-	assert_eq(CardView.chip_text(bird), "Fly South")
+	assert_eq(CardView.chip_text(bird), "")
+	assert_true(KeywordRules.named_on(bird).has("Fly South"))
 
 
 func test_copies_inside_a_belly_count_for_triples_and_plain_ones_dont() -> void:

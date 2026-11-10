@@ -61,13 +61,10 @@ func setup(
 	kiss_progress = posmod(kiss_count, kiss_period)
 	kiss_pips.clear()
 	if (
-		in_combat
-		and (
-			view.has("kisses")
-			or view.has("recruit_kisses")
-			or Data.d(view, "counters").has("kisses")
-			or view.has("bog_kiss_period")
-		)
+		view.has("kisses")
+		or view.has("recruit_kisses")
+		or Data.d(view, "counters").has("kisses")
+		or view.has("bog_kiss_period")
 	):
 		var spacing: float = minf(22.0, (size.x - 16.0) / kiss_period)
 		_kiss_radius = minf(5.0, spacing * 0.3)
@@ -77,7 +74,7 @@ func setup(
 			)
 	pending_attack = Data.i(view, "pending_attack")
 	pending_health = Data.i(view, "pending_health")
-	pending_visible = in_combat and (pending_attack != 0 or pending_health != 0)
+	pending_visible = (pending_attack != 0 or pending_health != 0)
 	pending_rect = Rect2(Vector2((size.x - 42.0) / 2.0, 33.0), Vector2(42, 38))
 	marked_keywords.clear()
 	marked_statuses.clear()
@@ -94,7 +91,7 @@ func setup(
 		and not marked_statuses.has("shield")
 	):
 		marked_statuses.append("shield")
-	if in_combat:
+	if true:
 		for keyword: Variant in Data.a(view, "keywords"):
 			if str(keyword) in ["Mire", "Quarry", "Swoop"]:
 				marked_keywords.append(str(keyword))
@@ -102,10 +99,10 @@ func setup(
 			marked_keywords.append("Quarry")
 		if Data.b(view, "mire_granted") and not marked_keywords.has("Mire"):
 			marked_keywords.append("Mire")
-	glyph_kind = trigger_kind(view) if in_combat else ""
+	glyph_kind = trigger_kind(view) if in_combat else recruit_trigger_kind(view)
 	counter_kind = ""
 	var count: String = ""
-	if in_combat:
+	if true:
 		var pip: Dictionary = counter_value(view)
 		counter_kind = Data.s(pip, "kind")
 		count = Data.s(pip, "number")
@@ -115,9 +112,28 @@ func setup(
 	glyph.position = Vector2((size.x - GLYPH) / 2.0, size.y - GLYPH + 6.0)
 	counter.visible = not count.is_empty()
 	counter.text = count
-	_counter_rect = Rect2((size.x - COUNTER_WIDTH) / 2.0, size.y - 48.0, COUNTER_WIDTH, 52.0)
+	# Keep the occupied glyph spot inside the face and between the two stat beads.
+	# A phone reader narrows board cards, so a fixed 64px box can cover both beads.
+	var gap_left: float = maxf(2.0, _attack.end.x + 4.0)
+	var gap_right: float = minf(size.x - 2.0, _health.position.x - 4.0)
+	var needed: float = 40.0
+	if counter.visible:
+		needed = clampf(
+			StatNumbers.minimum_width(int(count), counter.get_theme_font("font")) + 8.0,
+			40.0,
+			COUNTER_WIDTH
+		)
+	var width: float = minf(COUNTER_WIDTH, maxf(needed, gap_right - gap_left))
+	var number_height: float = maxf(37.0, counter.get_minimum_size().y)
+	var pip_height: float = 15.0 + number_height + 2.0
+	var top: float = size.y - pip_height - 2.0
+	if gap_right - gap_left < needed:
+		# Very small scout/hand faces have no room between their beads.
+		width = needed
+		top = minf(_attack.position.y, _health.position.y) - pip_height - 2.0
+	_counter_rect = Rect2((size.x - width) / 2.0, maxf(2.0, top), width, pip_height)
 	counter.position = _counter_rect.position + Vector2(0, 15)
-	counter.size = Vector2(COUNTER_WIDTH, 37)
+	counter.size = Vector2(width, number_height)
 	counter.pivot_offset = counter.size / 2.0
 	if counter.visible:
 		StatNumbers.fit(counter, counter.size.x, UiTheme.MIN_FONT, int(count))
@@ -158,6 +174,18 @@ static func trigger_kind(view: Dictionary) -> String:
 		"after you summon a unit",
 	]:
 		if words.contains(phrase):
+			return "spark"
+	return ""
+
+
+## Recruit sparks describe timing only; On play has no standing glyph.
+static func recruit_trigger_kind(view: Dictionary) -> String:
+	var fight: String = trigger_kind(view)
+	if not fight.is_empty():
+		return fight
+	var text: String = Data.s(view, "text").to_lower()
+	for phrase: String in ["start of turn", "end of turn", "after ", "when ", "whenever "]:
+		if text.contains(phrase) and not text.begins_with("when played"):
 			return "spark"
 	return ""
 
@@ -311,19 +339,51 @@ func _draw_pending() -> void:
 
 
 func _draw_counter() -> void:
+	if counter_kind == "belly":
+		_draw_stomach(_counter_rect)
+		return
 	draw_style_box(UiTheme.flat_box(UiTheme.INK, UiTheme.CREAM, 2, 15), _counter_rect)
-	var icon_rect: Rect2 = Rect2(_counter_rect.position + Vector2(21, -1), Vector2(22, 22))
+	var icon_rect: Rect2 = Rect2(
+		_counter_rect.position + Vector2((_counter_rect.size.x - 22.0) / 2.0, -1), Vector2(22, 22)
+	)
 	match counter_kind:
-		"belly":
-			draw_arc(icon_rect.get_center(), 9, 0.0, TAU, 20, UiTheme.CREAM, 3, true)
-			draw_line(
-				icon_rect.position + Vector2(7, 2),
-				icon_rect.position + Vector2(15, 2),
-				UiTheme.INK,
-				4
-			)
 		"hex":
 			draw_arc(icon_rect.get_center(), 9, 0.0, TAU * 0.8, 20, UiTheme.NIGHTSHADE, 4, true)
 			draw_circle(icon_rect.get_center(), 3, UiTheme.CREAM)
 		_:
 			_draw_icon(counter_kind, icon_rect)
+
+
+## The swallowing route lands in the organ above its current count.
+func belly_point() -> Vector2:
+	return _counter_rect.position + Vector2(_counter_rect.size.x / 2.0, 10.0)
+
+
+func _draw_stomach(rect: Rect2) -> void:
+	var outline: PackedVector2Array = []
+	# The organ is the counter itself: open neck, right pouch and left outlet.
+	# Its lower pouch contains the existing number without adding another framed badge.
+	for point: Vector2 in [
+		Vector2(0.43, 0.0),
+		Vector2(0.43, 0.20),
+		Vector2(0.35, 0.34),
+		Vector2(0.19, 0.43),
+		Vector2(0.13, 0.50),
+		Vector2(0.02, 0.50),
+		Vector2(0.02, 0.65),
+		Vector2(0.13, 0.65),
+		Vector2(0.13, 0.81),
+		Vector2(0.25, 0.97),
+		Vector2(0.75, 0.97),
+		Vector2(0.95, 0.81),
+		Vector2(0.98, 0.60),
+		Vector2(0.98, 0.37),
+		Vector2(0.89, 0.24),
+		Vector2(0.74, 0.23),
+		Vector2(0.60, 0.34),
+		Vector2(0.57, 0.22),
+		Vector2(0.57, 0.0)
+	]:
+		outline.append(rect.position + point * rect.size)
+	draw_colored_polygon(outline, UiTheme.INK)
+	draw_polyline(outline, UiTheme.CREAM, 2.0, true)

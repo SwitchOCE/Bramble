@@ -285,3 +285,21 @@ func test_toll_then_live_pending_gain_has_a_separate_numeric_landing_without_sta
 			_advance(screen, 0.7)
 			await get_tree().process_frame
 			assert_false(is_instance_valid(popup))
+
+
+func test_transfers_stay_below_other_units_stat_chips_but_hit_numbers_stay_above() -> void:
+	var screen: Screen = _screen()
+	screen.set_speed(4.0)
+	screen._play_event({"type": "bog_toll", "side": 0, "source": 2, "amount": 1, "total": 1}, true)
+	for child: Node in screen._overlay.get_children():
+		if not child is Control or not child.has_meta("bog_toll_side"):
+			continue
+		var splash: Control = child
+		for uid: int in screen._cards:
+			var card: CardView = screen._cards[uid]
+			assert_gt(card.attack_bead().z_index, splash.z_index)
+			assert_gt(card.health_bead().z_index, splash.z_index)
+	var recipient: CardView = screen._cards[1]
+	screen._motion.call("_damage_pop", recipient, 3)
+	var hit: Control = recipient.get_node("DamagePop")
+	assert_gt(hit.z_index, recipient.health_bead().z_index, "the hit still prints over its bead")

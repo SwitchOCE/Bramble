@@ -68,7 +68,7 @@ func _slice_units(port: CorePort) -> Array[Dictionary]:
 	return out
 
 
-func test_every_slice_card_keeps_its_portrait_and_readable_rules_or_chip_on_desktop() -> void:
+func test_every_slice_card_keeps_its_portrait_and_rules_in_the_reader_on_desktop() -> void:
 	CardView.window_override = DESKTOP
 	var holder: Control = _holder()
 	var units: Array[Dictionary] = _slice_units(_port())
@@ -78,75 +78,52 @@ func test_every_slice_card_keeps_its_portrait_and_readable_rules_or_chip_on_desk
 		await get_tree().process_frame
 		var art: ArtFrame = card.get("_art")
 		assert_true(art.visible, "%s keeps its portrait" % def["name"])
-		assert_true(
-			card.rules_shown or not card.chip_shown.is_empty(),
-			"%s has rules or a keyword" % def["name"]
-		)
+		assert_false(card.rules_shown)
+		assert_eq(card.chip_shown, "")
+		assert_false(CardDetail.full_text_bbcode(card.unit).is_empty(), str(def["name"]))
 		assert_eq(LayoutCheck.problems(card, str(def["name"])), PackedStringArray())
 		card.queue_free()
 
 
-func test_at_the_phone_minimum_long_rules_go_to_a_tap_and_short_ones_stay() -> void:
-	CardView.window_override = PHONE
-	var port: CorePort = _port()
-	var holder: Control = _holder()
-	var long: Dictionary = UnitViews.from_def(port.library.get_unit(LONG_RULES))
-	var card: CardView = _tile(holder, long)
-	assert_false(card.rules_shown, "too long at 31")
-	assert_false(card.chip_shown.is_empty(), "the tile still says its keyword or Ability")
-	var short: Dictionary = long.duplicate()
-	short["text"] = "Rainbow."
-	var other: CardView = _tile(holder, short)
-	assert_true(other.rules_shown, "short rules fit at 31")
-	var rules: Label = other.get("_rules")
-	assert_eq(rules.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-
-
-func test_name_and_card_word_stay_apart_on_a_short_tile_without_rules() -> void:
-	CardView.window_override = PHONE
-	var holder: Control = _holder()
-	var card: CardView = CardView.new()
-	var long: String = "Play for 1 gold. Three Acorns combine into a Stash."
-	var item: Dictionary = {"name": "Acorn", "kind": "item", "gold_value": 1, "text": long}
-	card.show_unit(item, CardView.Mode.SHOP)
-	card.set_card_size(Vector2(CardView.SHOP_WIDTH, RecruitScreen.HAND_TWO_H))
-	holder.add_child(card)
-	assert_false(card.rules_shown)
-	var words: Label = card.get("_name_label")
-	var kind: Label = card.get("_type_label")
-	assert_lte(words.position.y + words.size.y, kind.position.y)
-
-
-func test_long_shop_names_wrap_completely_above_stat_badges_at_both_sizes() -> void:
+func test_long_and_short_rules_are_read_in_the_reader_at_both_sizes() -> void:
 	var port: CorePort = _port()
 	var holder: Control = _holder()
 	for window: Vector2 in [DESKTOP, PHONE]:
 		CardView.window_override = window
-		for width: float in [122.0, 168.0, CardView.SHOP_WIDTH]:
-			for id: String in ["his_highness", "jenny_greenteeth"]:
-				var definition: Dictionary = port.library.get_unit(id)
-				assert_false(definition.is_empty(), id)
-				var card: CardView = _tile(holder, UnitViews.from_def(definition), width)
-				await get_tree().process_frame
-				var words: Label = card.get("_name_label")
-				assert_eq(words.get_visible_line_count(), words.get_line_count(), id)
-				assert_gte(words.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
-				for key: String in ["_attack_badge", "_health_badge"]:
-					var badge: Control = card.get(key)
-					assert_lte(words.get_global_rect().end.y, badge.global_position.y, id + key)
-				card.queue_free()
+		for text: String in ["Rainbow.", "End of Turn: your touching units gain +1/+1."]:
+			var view: Dictionary = UnitViews.from_def(port.library.get_unit(LONG_RULES))
+			view["text"] = text
+			var card: CardView = _tile(holder, view)
+			assert_false(card.rules_shown)
+			assert_eq(card.chip_shown, "")
+			assert_false(CardDetail.full_text_bbcode(view).is_empty())
 
 
-func test_two_cards_in_hand_at_desktop_show_their_rules() -> void:
-	CardView.window_override = DESKTOP
+func test_item_face_is_art_and_cost_without_name_or_card_word() -> void:
 	var holder: Control = _holder()
-	var card: CardView = CardView.new()
-	card.show_unit(
-		{"name": "Acorn", "kind": "item", "text": "Play for 1 gold."}, CardView.Mode.SHOP
-	)
-	card.set_card_size(Vector2(CardView.SHOP_WIDTH, RecruitScreen.HAND_TWO_H))
-	holder.add_child(card)
-	assert_true(card.rules_shown)
+	var card: CardView = _tile(holder, {"name": "Acorn", "kind": "item", "gold_value": 1})
+	for key: String in ["_name_label", "_type_label", "_rules"]:
+		var label: Control = card.get(key)
+		assert_false(label.visible, key)
+	var cost: Label = card.get("_tier_label")
+	assert_eq(cost.text, "1")
+
+
+func test_fallback_names_stay_visible_until_portraits_can_identify_units() -> void:
+	var holder: Control = _holder()
+	for window: Vector2 in [DESKTOP, PHONE]:
+		CardView.window_override = window
+		for view: Dictionary in [
+			{"def_id": "missing_portrait", "name": "Old Tansy", "attack": 2, "health": 3},
+			{"def_id": "brock", "name": "Brock", "attack": 2, "health": 3},
+			{"def_id": "field_vole", "name": "Field Vole", "attack": 2, "health": 3},
+		]:
+			var card: CardView = _tile(holder, view, 209)
+			var label: Label = card.get("_name_label")
+			assert_eq(label.visible, CardView.needs_name(view))
+			if label.visible:
+				assert_false(label.text.is_empty())
+				assert_gte(label.get_theme_font_size("font_size"), UiTheme.MIN_FONT)
 
 
 func test_acorn_sizes_have_their_own_portrait_and_read_their_worth() -> void:
@@ -228,7 +205,7 @@ func test_frozen_offers_keep_their_stats_visible() -> void:
 		assert_true(card.frost, where + ": frost rim on")
 		assert_eq(card.outline, Color.TRANSPARENT, where + ": no outline instead")
 		assert_eq(card.modulate, Color.WHITE, where + ": not tinted or faded")
-		for key: String in ["_attack_label", "_health_label", "_name_label"]:
+		for key: String in ["_attack_label", "_health_label"]:
 			var label: Label = card.get(key)
 			if CardView.is_spell(card.unit) and key != "_name_label":
 				continue

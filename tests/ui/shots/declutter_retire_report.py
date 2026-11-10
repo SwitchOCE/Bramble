@@ -8,11 +8,13 @@ from pathlib import Path
 from declutter_strips import validate_interval_sampling, write_sheet
 from PIL import Image
 
+from declutter_evidence import read_json
+
 
 def assemble(packet: Path, frames: Path, revision: str) -> None:
-    before = json.loads((packet / "before-timings.json").read_text())
-    cleanup = json.loads((packet / "after-cleanup-timings.json").read_text())
-    final = json.loads((packet / "after-final-timings.json").read_text())
+    before = read_json(packet / "before-timings.json")
+    cleanup = read_json(packet / "after-cleanup-timings.json")
+    final = read_json(packet / "after-final-timings.json")
     old_runs = {(x["scenario"], x["speed"]): x for x in before["runs"]}
     cleanup_runs = {(x["scenario"], x["speed"]): x for x in cleanup["runs"]}
     final_runs = {(x["scenario"], x["speed"]): x for x in final["runs"]}
@@ -46,8 +48,9 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
             }
         )
     sheets = []
+    content_audits = []
     for source in sorted(frames.glob("*/manifest.json")):
-        manifest = json.loads(source.read_text())
+        manifest = read_json(source)
         scenario = manifest["scenario"]
         selected = [17, 25] if scenario == "bog" else [45]
         assert manifest["speed"] in {1.0, 4.0}
@@ -67,18 +70,31 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
         for interval in manifest["attacks"]:
             assert interval["event_index"] in selected
             validate_interval_sampling(interval, manifest["events"][interval["event_index"]])
+            assert interval["sampling"]["mode"] == "uniform-plus-observed-lunge-peaks"
             assert all(x["ancillary_text_nodes"] <= 10 for x in interval["frames"])
             interval["strip"] = write_sheet(
                 source.parent, destination, manifest["pixels"], interval, manifest["fixed_step"]
             )
             with Image.open(destination / interval["strip"]) as picture:
-                assert picture.size == (6752, 1640)
+                assert picture.size == (6752, 820 * ((len(interval["frames"]) + 3) // 4))
+            if scenario == "combat_mid" and interval["event_index"] == 45:
+                receipts = [
+                    {"frame": frame["file"], "tick": frame["tick"], **receipt}
+                    for frame in interval["frames"]
+                    for receipt in frame.get("damage_receipts", [])
+                    if (receipt["recipient_uid"], receipt["text"]) in {(9, "\u22125"), (2, "\u22124")}
+                ]
+                if manifest["speed"] == 1.0:
+                    assert receipts, "combat_mid045 x1/reduce must retain a sampled post-hit damage number"
+                content_audits.append({"run": source.parent.name, "post_hit_damage_number_witnesses": receipts})
             sheets.append(
                 {
                     "run": source.parent.name,
                     "strip": str((destination / interval["strip"]).relative_to(packet)),
                     "attack_event_index": interval["event_index"],
-                    "frames": 8,
+                    "frames": len(interval["frames"]),
+                    "uniform_frames_preserved": 8,
+                    "appended_peak_ticks": interval["sampling"]["appended_peak_ticks"],
                     "peak_actor_uids": [p["uid"] for p in interval["sampling"]["lunge_peaks"]],
                     "ancillary_labels": [
                         min(x["ancillary_text_nodes"] for x in interval["frames"]),
@@ -86,13 +102,8 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
                     ],
                 }
             )
-        manifest["production_revision"] = revision if scenario == "bog" else "d577853d"
-        manifest["render_provenance"] = (
-            "Bog numeric popup layering repair; complete timing and state unchanged."
-            if scenario == "bog"
-            else "Retained d577853d render: this fixture has no gain_pending or bog_toll events, "
-            "so the later Wave numeric-label layering patch cannot affect its pixels."
-        )
+        manifest["production_revision"] = revision
+        manifest["render_provenance"] = "Fresh uniform-plus-peak render on the stated production revision."
         manifest["whole_fight_seconds"] = manifest["ticks"] * manifest["fixed_step"]
         manifest["final_model_state_sha256"] = timing["final_state_sha256"]
         (destination / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
@@ -101,21 +112,22 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
         "before_revision": before["production_revision"],
         "cleanup_after_revision": cleanup["production_revision"],
         "final_after_revision": revision,
-        "render_sources": {"bog": revision, "combat_mid": "d577853d"},
+        "render_sources": {"bog": revision, "combat_mid": revision},
         "before_images_captured": 0,
         "new_after_sheets": 9,
-        "new_after_frames": 72,
+        "new_after_frames": sum(sheet["frames"] for sheet in sheets),
         "method": (
             "Whole-fight durations count fixed120Hz advances through automatic return, with two identical "
             "timing passes. "
             "Cleanup-only comparison is isolated at its own source revision. Final sheets sample Bog017/025 and "
-            "combat_mid045 at x1/x4/reduce: eight native1688x780 frames, initially uniform then adjusted to "
-            "include each "
-            "actor's observed lunge peak or reduced-motion held-pose/source-flash peak. Full events/order/model/Health "
+            "combat_mid045 at x1/x4/reduce: preserve all eight uniform native1688x780 samples and append "
+            "each distinct actor peak, including each Pack actor. No original sample is replaced. "
+            "Reduced motion appends held-pose/source-flash peaks. Full events/order/model/Health "
             "match all heads. Within-head discovery and render replay match event ticks and return. Historical packets "
             "and accepted d400831e Bog before images are unchanged."
         ),
         "duration_pairs": pairs,
+        "content_audits": content_audits,
         "sheets": sheets,
     }
     (packet / "report.json").write_text(json.dumps(report, indent=2) + "\n")
@@ -131,7 +143,7 @@ def assemble(packet: Path, frames: Path, revision: str) -> None:
             "final",
             pair["final_source_seconds"],
         )
-    print("Nine after sheets / 72 native frames; peaks, full events, order, model and playback checks pass")
+    print("Nine after sheets; all uniform and peak frames, full events, order, model and playback checks pass")
 
 
 if __name__ == "__main__":

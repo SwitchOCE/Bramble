@@ -944,7 +944,7 @@
   "keywords": {
     "Acorn": "Play for gold: Acorn {acorn}, Stash {stash}, Great Hoard {great_hoard}. Three make the next size.",
     "Spill": "If a summon from this has no room, get an Acorn instead.",
-    "Pass": "Pass X: your last unit, other than this, gains X",
+    "Pass": "Pass X: your rightmost unit, other than this, gains X.",
     "Ring": "Whoever stands on this slot gains your Ring size for each Ring here.",
     "Rainbow": "A unit played into an empty slot paints it, until that unit moves or leaves.",
     "Shy": "Only a spell aimed at this buffs it. Then it leaves: get 2 gold next turn.",

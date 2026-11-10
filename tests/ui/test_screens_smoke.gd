@@ -7,6 +7,7 @@ const App := preload("res://src/ui/app.gd")
 const MainScene: PackedScene = preload("res://src/main/main.tscn")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const RecruitMotion := preload("res://src/ui/screens/recruit_motion.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
@@ -19,6 +20,13 @@ func _app() -> App:
 	add_child_autofree(app)
 	app.setup(FixturePort.new())
 	return app
+
+
+func _end_turn(screen: RecruitScreen) -> void:
+	screen.call("_on_end_turn")
+	var motion: RecruitMotion = screen.get("_motion")
+	motion.finish()
+	await wait_process_frames(2)
 
 
 func _cards_in(node: Node, zone: String) -> int:
@@ -77,7 +85,7 @@ func test_recruit_tap_select_and_refused_action_shows_reason() -> void:
 func test_end_turn_plays_combat_then_next_recruit_then_game_over() -> void:
 	var app: App = _app()
 	app.start_game()
-	(app.current as RecruitScreen).call("_on_end_turn")
+	await _end_turn(app.current as RecruitScreen)
 	assert_true(app.current is CombatScreen, "end turn shows the fight")
 	var combat: CombatScreen = app.current as CombatScreen
 	combat.skip_to_end()
@@ -85,7 +93,7 @@ func test_end_turn_plays_combat_then_next_recruit_then_game_over() -> void:
 	assert_eq(_cards_in(combat, "combat"), 1, "only Belladonna Sprite survives")
 	combat.finished.emit()
 	assert_true(app.current is RecruitScreen, "back to recruit")
-	(app.current as RecruitScreen).call("_on_end_turn")
+	await _end_turn(app.current as RecruitScreen)
 	(app.current as CombatScreen).finished.emit()
 	assert_true(app.current is GameOverScreen, "game over after the last state")
 
@@ -93,7 +101,7 @@ func test_end_turn_plays_combat_then_next_recruit_then_game_over() -> void:
 func test_combat_plays_back_over_time() -> void:
 	var app: App = _app()
 	app.start_game()
-	(app.current as RecruitScreen).call("_on_end_turn")
+	await _end_turn(app.current as RecruitScreen)
 	var combat: CombatScreen = app.current as CombatScreen
 	assert_true(combat.is_processing())
 	combat.set_speed(4.0)

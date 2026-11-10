@@ -1,0 +1,141 @@
+{
+  "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c",
+  "sheets": [
+    {
+      "reader_label": "A",
+      "action": "play",
+      "mode": "reduce",
+      "duration": 0.36,
+      "reader_sheet": "A-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "A",
+      "action": "play",
+      "mode": "x1",
+      "duration": 0.36,
+      "reader_sheet": "A-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "B",
+      "action": "ooze",
+      "mode": "reduce",
+      "duration": 0.54,
+      "reader_sheet": "B-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "B",
+      "action": "ooze",
+      "mode": "x1",
+      "duration": 0.54,
+      "reader_sheet": "B-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "C",
+      "action": "buy",
+      "mode": "reduce",
+      "duration": 0.54,
+      "reader_sheet": "C-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "C",
+      "action": "buy",
+      "mode": "x1",
+      "duration": 0.54,
+      "reader_sheet": "C-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "D",
+      "action": "scout",
+      "mode": "reduce",
+      "duration": 0.4,
+      "reader_sheet": "D-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "D",
+      "action": "scout",
+      "mode": "x1",
+      "duration": 0.4,
+      "reader_sheet": "D-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "E",
+      "action": "triple",
+      "mode": "reduce",
+      "duration": 0.54,
+      "reader_sheet": "E-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "E",
+      "action": "triple",
+      "mode": "x1",
+      "duration": 0.54,
+      "reader_sheet": "E-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "F",
+      "action": "bird",
+      "mode": "reduce",
+      "duration": 0.5800000000000001,
+      "reader_sheet": "F-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "F",
+      "action": "bird",
+      "mode": "x1",
+      "duration": 0.5800000000000001,
+      "reader_sheet": "F-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "G",
+      "action": "sell",
+      "mode": "reduce",
+      "duration": 0.54,
+      "reader_sheet": "G-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "G",
+      "action": "sell",
+      "mode": "x1",
+      "duration": 0.54,
+      "reader_sheet": "G-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "H",
+      "action": "tier-up",
+      "mode": "reduce",
+      "duration": 0.56,
+      "reader_sheet": "H-reduce.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    },
+    {
+      "reader_label": "H",
+      "action": "tier-up",
+      "mode": "x1",
+      "duration": 0.56,
+      "reader_sheet": "H-x1.jpg",
+      "production_revision": "58e836078b79af4ff7085b667a5ea06d1a11443c"
+    }
+  ],
+  "native_frames": 128,
+  "same_actual_core_events_and_states_across_modes": true,
+  "resting_rows": 44,
+  "zero_unexpected_tile_words_all_rows": true,
+  "all_last_frames_action_helper_inactive_and_no_visible_action_overlay": true,
+  "cold_reader_performed": false,
+  "reader_packet": "reader/",
+  "technical_answer_key": "technical/"
+}

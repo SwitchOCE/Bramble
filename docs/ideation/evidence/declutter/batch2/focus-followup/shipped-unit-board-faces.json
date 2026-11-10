@@ -1,0 +1,1089 @@
+{
+  "production_revision": "4c5c2900",
+  "card_set": "slice",
+  "unit_count": 120,
+  "fallback_names": [],
+  "method": "Exact rendered cells from all-unit-board-faces.jpg, filtered by full_game card_set and repacked offline.",
+  "source_entries": [
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "bridge_toad",
+      "fallback_name_shown": false,
+      "index": 0,
+      "name": "Bridge Toad",
+      "row": 0
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "chiffchaff",
+      "fallback_name_shown": false,
+      "index": 1,
+      "name": "Chiffchaff",
+      "row": 0
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "drip",
+      "fallback_name_shown": false,
+      "index": 3,
+      "name": "Drip",
+      "row": 0
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "nest_egg",
+      "fallback_name_shown": false,
+      "index": 4,
+      "name": "Egg",
+      "row": 0
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "hedge_witch",
+      "fallback_name_shown": false,
+      "index": 10,
+      "name": "Hedge Witch",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "kit",
+      "fallback_name_shown": false,
+      "index": 12,
+      "name": "Kit",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "lamp_moth",
+      "fallback_name_shown": false,
+      "index": 13,
+      "name": "Lamp Moth",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "little_dollop",
+      "fallback_name_shown": false,
+      "index": 14,
+      "name": "Little Dollop",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "little_nip",
+      "fallback_name_shown": false,
+      "index": 15,
+      "name": "Little Nip",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "mouse",
+      "fallback_name_shown": false,
+      "index": 17,
+      "name": "Mouse",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "mr_crumb",
+      "fallback_name_shown": false,
+      "index": 18,
+      "name": "Mr Crumb",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "mrs_burdock",
+      "fallback_name_shown": false,
+      "index": 19,
+      "name": "Mrs Burdock, Expecting Again",
+      "row": 1
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "mrs_dunnock",
+      "fallback_name_shown": false,
+      "index": 20,
+      "name": "Mrs Dunnock",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "mrs_posset",
+      "fallback_name_shown": false,
+      "index": 21,
+      "name": "Mrs Posset",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "nan_toadstool",
+      "fallback_name_shown": false,
+      "index": 22,
+      "name": "Nan Toadstool",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "nymph",
+      "fallback_name_shown": false,
+      "index": 23,
+      "name": "Nymph",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "one_swallow",
+      "fallback_name_shown": false,
+      "index": 24,
+      "name": "One Swallow",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "peatling",
+      "fallback_name_shown": false,
+      "index": 25,
+      "name": "Peatling",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "pennywort_snail",
+      "fallback_name_shown": false,
+      "index": 26,
+      "name": "Pennywort Snail",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "pill_bug",
+      "fallback_name_shown": false,
+      "index": 27,
+      "name": "Pill Bug",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "rainbow_chaser",
+      "fallback_name_shown": false,
+      "index": 29,
+      "name": "Rainbow Chaser",
+      "row": 2
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "shrewlet",
+      "fallback_name_shown": false,
+      "index": 30,
+      "name": "Shrewlet",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "slice",
+      "fallback_name_shown": false,
+      "index": 31,
+      "name": "Slice",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "sleeping_partner",
+      "fallback_name_shown": false,
+      "index": 32,
+      "name": "The Sleeping Partner",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "warty_nan",
+      "fallback_name_shown": false,
+      "index": 33,
+      "name": "Warty Nan",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "wee_wobbly",
+      "fallback_name_shown": false,
+      "index": 34,
+      "name": "Wee Wobbly",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "wick",
+      "fallback_name_shown": false,
+      "index": 35,
+      "name": "Wick",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "wisp",
+      "fallback_name_shown": false,
+      "index": 36,
+      "name": "Wisp",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "young_brock",
+      "fallback_name_shown": false,
+      "index": 38,
+      "name": "Young Brock",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "young_pretender",
+      "fallback_name_shown": false,
+      "index": 39,
+      "name": "Young Pretender",
+      "row": 3
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "cricket_busker",
+      "fallback_name_shown": false,
+      "index": 40,
+      "name": "Cricket Busker",
+      "row": 4
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "dishwater_nell",
+      "fallback_name_shown": false,
+      "index": 41,
+      "name": "Dishwater Nell",
+      "row": 4
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "earwig_mother",
+      "fallback_name_shown": false,
+      "index": 42,
+      "name": "Earwig Mother",
+      "row": 4
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "hob_in_the_hearth",
+      "fallback_name_shown": false,
+      "index": 46,
+      "name": "Hob-in-the-Hearth",
+      "row": 4
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "madame_bufo",
+      "fallback_name_shown": false,
+      "index": 48,
+      "name": "Madame Bufo",
+      "row": 4
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "mistress_russet",
+      "fallback_name_shown": false,
+      "index": 50,
+      "name": "Mistress Russet",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "moss_ooze",
+      "fallback_name_shown": false,
+      "index": 51,
+      "name": "Moss Ooze",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "mr_pym",
+      "fallback_name_shown": false,
+      "index": 52,
+      "name": "Mr Pym",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "mr_redbreast",
+      "fallback_name_shown": false,
+      "index": 53,
+      "name": "Mr Redbreast",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "mrs_clover",
+      "fallback_name_shown": false,
+      "index": 54,
+      "name": "Mrs Clover, Midwife",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "mrs_jay",
+      "fallback_name_shown": false,
+      "index": 55,
+      "name": "Mrs Jay",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "mrs_sorrel",
+      "fallback_name_shown": false,
+      "index": 56,
+      "name": "Mrs Sorrel, Harassed",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "old_moth_annis",
+      "fallback_name_shown": false,
+      "index": 58,
+      "name": "Old Moth Annis",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "redwing",
+      "fallback_name_shown": false,
+      "index": 59,
+      "name": "Redwing",
+      "row": 5
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "sable",
+      "fallback_name_shown": false,
+      "index": 60,
+      "name": "Sable",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "sally_spore",
+      "fallback_name_shown": false,
+      "index": 61,
+      "name": "Sally Spore",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "stone_soup",
+      "fallback_name_shown": false,
+      "index": 63,
+      "name": "Stone Soup",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "toll_bard",
+      "fallback_name_shown": false,
+      "index": 64,
+      "name": "The Lane-Bard",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "peat_cutter",
+      "fallback_name_shown": false,
+      "index": 65,
+      "name": "The Peat Cutter",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "turnip_scarecrow",
+      "fallback_name_shown": false,
+      "index": 66,
+      "name": "Turnip Scarecrow",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "vaulting_hopkin",
+      "fallback_name_shown": false,
+      "index": 67,
+      "name": "Vaulting Hopkin",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "alderman_dozey",
+      "fallback_name_shown": false,
+      "index": 68,
+      "name": "Alderman Dozey",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "aunt_aspic",
+      "fallback_name_shown": false,
+      "index": 69,
+      "name": "Aunt Aspic",
+      "row": 6
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "ballooning_spider",
+      "fallback_name_shown": false,
+      "index": 70,
+      "name": "Ballooning Spider",
+      "row": 7
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "brother_wolf",
+      "fallback_name_shown": false,
+      "index": 72,
+      "name": "Brother Wolf",
+      "row": 7
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "bubble_and_squeak",
+      "fallback_name_shown": false,
+      "index": 74,
+      "name": "Bubble and Squeak",
+      "row": 7
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "cluricaun",
+      "fallback_name_shown": false,
+      "index": 76,
+      "name": "Cluricaun",
+      "row": 7
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "dr_urchin",
+      "fallback_name_shown": false,
+      "index": 78,
+      "name": "Dr Urchin",
+      "row": 7
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "gideon",
+      "fallback_name_shown": false,
+      "index": 80,
+      "name": "Gideon, Basso Profundo",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "jack_daw",
+      "fallback_name_shown": false,
+      "index": 81,
+      "name": "Jack Daw",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "lob_lie_by_the_fire",
+      "fallback_name_shown": false,
+      "index": 82,
+      "name": "Lob-Lie-by-the-Fire",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "money_spider",
+      "fallback_name_shown": false,
+      "index": 83,
+      "name": "Money Spider",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "old_lutra",
+      "fallback_name_shown": false,
+      "index": 84,
+      "name": "Old Lutra",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "old_tern",
+      "fallback_name_shown": false,
+      "index": 85,
+      "name": "Old Tern",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "sergeant_at_conkers",
+      "fallback_name_shown": false,
+      "index": 86,
+      "name": "Sergeant-at-Conkers",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "sexton_beetle",
+      "fallback_name_shown": false,
+      "index": 88,
+      "name": "Sexton Beetle",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "silky",
+      "fallback_name_shown": false,
+      "index": 89,
+      "name": "Silky",
+      "row": 8
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "spitfire_sal",
+      "fallback_name_shown": false,
+      "index": 90,
+      "name": "Spitfire Sal",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "lodger",
+      "fallback_name_shown": false,
+      "index": 91,
+      "name": "The Lodger",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "natterjack_chorus",
+      "fallback_name_shown": false,
+      "index": 92,
+      "name": "The Natterjack Chorus",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "sixpenny_pie",
+      "fallback_name_shown": false,
+      "index": 93,
+      "name": "The Sixpenny Pie",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "tom_tit",
+      "fallback_name_shown": false,
+      "index": 94,
+      "name": "Tom Tit",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "barn_owl",
+      "fallback_name_shown": false,
+      "index": 97,
+      "name": "Barn Owl",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "beadle_warrenby",
+      "fallback_name_shown": false,
+      "index": 98,
+      "name": "Beadle Warrenby",
+      "row": 9
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "changeling",
+      "fallback_name_shown": false,
+      "index": 101,
+      "name": "Changeling",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "charcoal_burner",
+      "fallback_name_shown": false,
+      "index": 102,
+      "name": "Charcoal Burner",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "cradle_fetch",
+      "fallback_name_shown": false,
+      "index": 103,
+      "name": "Cradle Fetch",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "figgy_duff",
+      "fallback_name_shown": false,
+      "index": 105,
+      "name": "Figgy Duff",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "frumenty",
+      "fallback_name_shown": false,
+      "index": 106,
+      "name": "Frumenty",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "grey_agnes",
+      "fallback_name_shown": false,
+      "index": 107,
+      "name": "Grey Agnes",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "his_highness",
+      "fallback_name_shown": false,
+      "index": 109,
+      "name": "His Highness, Allegedly",
+      "row": 10
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "ichneumon_wasp",
+      "fallback_name_shown": false,
+      "index": 110,
+      "name": "Ichneumon Wasp",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "madame_ermeline",
+      "fallback_name_shown": false,
+      "index": 111,
+      "name": "Madame Ermeline",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "mag_pye",
+      "fallback_name_shown": false,
+      "index": 112,
+      "name": "Mag Pye",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "mr_syllabub",
+      "fallback_name_shown": false,
+      "index": 114,
+      "name": "Mr Syllabub",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "mrs_mallow",
+      "fallback_name_shown": false,
+      "index": 115,
+      "name": "Mrs Mallow, Feeding Them Up",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "mrs_stork",
+      "fallback_name_shown": false,
+      "index": 116,
+      "name": "Mrs Stork",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "old_brock",
+      "fallback_name_shown": false,
+      "index": 117,
+      "name": "Old Brock",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "signor_ranocchio",
+      "fallback_name_shown": false,
+      "index": 118,
+      "name": "Signor Ranocchio, Tenor",
+      "row": 11
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "cuckoo",
+      "fallback_name_shown": false,
+      "index": 120,
+      "name": "The Cuckoo",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "honorary_treasurer",
+      "fallback_name_shown": false,
+      "index": 121,
+      "name": "The Honorary Treasurer",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "prince_restored",
+      "fallback_name_shown": false,
+      "index": 122,
+      "name": "The Prince Restored",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "tiddy_mun",
+      "fallback_name_shown": false,
+      "index": 123,
+      "name": "Tiddy Mun",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "will_o_the_wisp",
+      "fallback_name_shown": false,
+      "index": 124,
+      "name": "Will-o'-the-Wisp",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "elder_ooze",
+      "fallback_name_shown": false,
+      "index": 126,
+      "name": "Elder Ooze",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "goodman_hayward",
+      "fallback_name_shown": false,
+      "index": 129,
+      "name": "Goodman Hayward",
+      "row": 12
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "grizel",
+      "fallback_name_shown": false,
+      "index": 131,
+      "name": "Grizel",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "hasty_pudding",
+      "fallback_name_shown": false,
+      "index": 132,
+      "name": "Hasty Pudding",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "jenny_greenteeth",
+      "fallback_name_shown": false,
+      "index": 133,
+      "name": "Jenny Greenteeth",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "belladonna",
+      "fallback_name_shown": false,
+      "index": 134,
+      "name": "Lady Belladonna",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "mother_goose",
+      "fallback_name_shown": false,
+      "index": 135,
+      "name": "Mother Goose",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "pipistrelle_echo",
+      "fallback_name_shown": false,
+      "index": 137,
+      "name": "Pipistrelle Echo",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "reel_mistress",
+      "fallback_name_shown": false,
+      "index": 138,
+      "name": "Reel-Mistress",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "great_lump",
+      "fallback_name_shown": false,
+      "index": 139,
+      "name": "The Great Lump",
+      "row": 13
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "mountain_glutton",
+      "fallback_name_shown": false,
+      "index": 140,
+      "name": "The Mountain Glutton",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "prima_donna",
+      "fallback_name_shown": false,
+      "index": 141,
+      "name": "The Prima Donna",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "standing_committee",
+      "fallback_name_shown": false,
+      "index": 142,
+      "name": "The Standing Committee",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "cut_and_come_again",
+      "fallback_name_shown": false,
+      "index": 144,
+      "name": "Cut-and-Come-Again",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "fairy_monarch",
+      "fallback_name_shown": false,
+      "index": 145,
+      "name": "Fairy Monarch",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "granny_stir_up",
+      "fallback_name_shown": false,
+      "index": 146,
+      "name": "Granny Stir-Up",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 8,
+      "def_id": "old_isegrim",
+      "fallback_name_shown": false,
+      "index": 148,
+      "name": "Old Isegrim",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 9,
+      "def_id": "old_mother_mast",
+      "fallback_name_shown": false,
+      "index": 149,
+      "name": "Old Mother Mast",
+      "row": 14
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 0,
+      "def_id": "queen_of_elfland",
+      "fallback_name_shown": false,
+      "index": 150,
+      "name": "Queen of Elfland",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 1,
+      "def_id": "squire_lollop",
+      "fallback_name_shown": false,
+      "index": 151,
+      "name": "Squire Lollop, Lord of the Manor",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 2,
+      "def_id": "gabble_ratchet",
+      "fallback_name_shown": false,
+      "index": 152,
+      "name": "The Gabble Ratchet",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 3,
+      "def_id": "laird_of_sett",
+      "fallback_name_shown": false,
+      "index": 153,
+      "name": "The Laird of the Sett",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 4,
+      "def_id": "lantern_man",
+      "fallback_name_shown": false,
+      "index": 154,
+      "name": "The Lantern Man",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 5,
+      "def_id": "peat_king",
+      "fallback_name_shown": false,
+      "index": 155,
+      "name": "The Peat King",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 6,
+      "def_id": "seven_whistlers",
+      "fallback_name_shown": false,
+      "index": 156,
+      "name": "The Seven Whistlers",
+      "row": 15
+    },
+    {
+      "art_rect_share": 0.7741838873914345,
+      "column": 7,
+      "def_id": "whirligig_beetle",
+      "fallback_name_shown": false,
+      "index": 157,
+      "name": "Whirligig Beetle",
+      "row": 15
+    }
+  ]
+}

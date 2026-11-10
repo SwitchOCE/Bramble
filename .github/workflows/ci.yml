@@ -15,6 +15,11 @@ on:
     # Docs and the art/research tools don't touch the build.
     paths-ignore: ["docs/**", "**/*.md", "tools/art/**", "tools/research/**", "tools/folio/**"]
   workflow_dispatch:
+    inputs:
+      docs_base:
+        description: "Explicit commit before the changes to inspect (required for the docs size guard)"
+        required: true
+        type: string
 
 # A newer push cancels the older run. Label events get their own group, so adding the "exports"
 # label right after a push can't cancel that push's gate.
@@ -34,6 +39,30 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # The docs size guard inspects the entire explicit review range.
+
+      - name: Resolve docs comparison base
+        env:
+          DOCS_EVENT: ${{ github.event_name }}
+          DOCS_BASE_REQUEST: ${{ github.event.pull_request.base.sha || inputs.docs_base }}
+        run: |
+          if [ "$DOCS_EVENT" = push ]; then
+            git fetch --no-tags origin ideation/main:refs/remotes/origin/ideation/main || {
+              echo "Cannot fetch the explicit gate comparison branch origin/ideation/main"; exit 2;
+            }
+            base="$(git merge-base HEAD refs/remotes/origin/ideation/main)" || {
+              echo "No docs comparison base with origin/ideation/main"; exit 2;
+            }
+          else
+            base="$(git rev-parse --verify "${DOCS_BASE_REQUEST}^{commit}")" || {
+              echo "An explicit, available docs base commit is required"; exit 2;
+            }
+          fi
+          [ "$base" != "$(git rev-parse HEAD)" ] || {
+            echo "Docs comparison base equals HEAD; the review range would be empty"; exit 2;
+          }
+          echo "DOCS_BASE_SHA=$base" >> "$GITHUB_ENV"
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
@@ -77,7 +106,7 @@ jobs:
         run: echo "$HOME/godot" >> "$GITHUB_PATH"
 
       - name: check.sh
-        run: ./scripts/check.sh --keep-going
+        run: ./scripts/check.sh --keep-going --base "$DOCS_BASE_SHA"
 
       - name: Upload logs
         if: failure()
@@ -95,6 +124,30 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # The docs size guard inspects the entire explicit review range.
+
+      - name: Resolve docs comparison base
+        env:
+          DOCS_EVENT: ${{ github.event_name }}
+          DOCS_BASE_REQUEST: ${{ github.event.pull_request.base.sha || inputs.docs_base }}
+        run: |
+          if [ "$DOCS_EVENT" = push ]; then
+            git fetch --no-tags origin ideation/main:refs/remotes/origin/ideation/main || {
+              echo "Cannot fetch the explicit gate comparison branch origin/ideation/main"; exit 2;
+            }
+            base="$(git merge-base HEAD refs/remotes/origin/ideation/main)" || {
+              echo "No docs comparison base with origin/ideation/main"; exit 2;
+            }
+          else
+            base="$(git rev-parse --verify "${DOCS_BASE_REQUEST}^{commit}")" || {
+              echo "An explicit, available docs base commit is required"; exit 2;
+            }
+          fi
+          [ "$base" != "$(git rev-parse HEAD)" ] || {
+            echo "Docs comparison base equals HEAD; the review range would be empty"; exit 2;
+          }
+          echo "DOCS_BASE_SHA=$base" >> "$GITHUB_ENV"
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
@@ -123,7 +176,7 @@ jobs:
         run: echo "$HOME/godot" >> "$GITHUB_PATH"
 
       - name: check.sh --no-tests
-        run: ./scripts/check.sh --keep-going --no-tests
+        run: ./scripts/check.sh --keep-going --no-tests --base "$DOCS_BASE_SHA"
 
       - name: Upload logs
         if: failure()
@@ -147,6 +200,30 @@ jobs:
     name: gate-tests (shard ${{ matrix.shard }}/4)
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0 # The docs size guard inspects the entire explicit review range.
+
+      - name: Resolve docs comparison base
+        env:
+          DOCS_EVENT: ${{ github.event_name }}
+          DOCS_BASE_REQUEST: ${{ github.event.pull_request.base.sha || inputs.docs_base }}
+        run: |
+          if [ "$DOCS_EVENT" = push ]; then
+            git fetch --no-tags origin ideation/main:refs/remotes/origin/ideation/main || {
+              echo "Cannot fetch the explicit gate comparison branch origin/ideation/main"; exit 2;
+            }
+            base="$(git merge-base HEAD refs/remotes/origin/ideation/main)" || {
+              echo "No docs comparison base with origin/ideation/main"; exit 2;
+            }
+          else
+            base="$(git rev-parse --verify "${DOCS_BASE_REQUEST}^{commit}")" || {
+              echo "An explicit, available docs base commit is required"; exit 2;
+            }
+          fi
+          [ "$base" != "$(git rev-parse HEAD)" ] || {
+            echo "Docs comparison base equals HEAD; the review range would be empty"; exit 2;
+          }
+          echo "DOCS_BASE_SHA=$base" >> "$GITHUB_ENV"
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"
@@ -168,7 +245,7 @@ jobs:
         run: echo "$HOME/godot" >> "$GITHUB_PATH"
 
       - name: check.sh --shard ${{ matrix.shard }}/4
-        run: ./scripts/check.sh --shard ${{ matrix.shard }}/4
+        run: ./scripts/check.sh --shard ${{ matrix.shard }}/4 --base "$DOCS_BASE_SHA"
 
       # Uploads never fail the job; check.sh is the verdict.
       - name: Upload gut.xml
@@ -203,6 +280,8 @@ jobs:
         android_debug.apk android_source.zip
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2 # docs size guard compares the commit with its first parent.
 
       - name: Load tools/versions.env
         run: grep -E '^[A-Z0-9_]+=' tools/versions.env >> "$GITHUB_ENV"

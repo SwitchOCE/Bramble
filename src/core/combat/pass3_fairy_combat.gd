@@ -219,15 +219,21 @@ static func dance(combat: Combat, attacker: CombatUnit) -> bool:
 	_sync_totals(to)
 	combat.trigger(mistress, "reel_mistress")
 	var total: Vector2i = BoardUpkeep.ring_value(moved)
-	combat.emit_event(
-		"ring_dance",
-		{
-			"side": attacker.side,
-			"from": attacker.slot,
-			"to": next,
-			"attack": total.x,
-			"health": total.y
-		}
+	(
+		combat
+		. emit_event(
+			"ring_dance",
+			{
+				"side": attacker.side,
+				"from": attacker.slot,
+				"to": next,
+				"attack": total.x,
+				"health": total.y,
+				"moved_count": CoreUtil.to_int(CombatMoves.ring_state(moved)["count"]),
+				"from_ring": CombatMoves.ring_state(from),
+				"to_ring": CombatMoves.ring_state(to),
+			}
+		)
 	)
 	combat._recalc_auras(true)
 	combat._resolve_deaths(attacker.side)

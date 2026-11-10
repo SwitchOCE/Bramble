@@ -169,10 +169,27 @@ static func _tick_timers(player: PlayerState, unit: RecruitUnit) -> void:
 			continue
 		var attack: int = timer["attack"]
 		var health: int = timer["health"]
+		var before := Vector2i(unit.attack, unit.health)
 		unit.add_permanent(attack, health)
-		player.log_event(
-			"buff",
-			{"target": unit.def_id(), "attack": attack, "health": health, "duration": "permanent"}
+		(
+			player
+			. log_event(
+				"buff",
+				{
+					"target": unit.def_id(),
+					"attack": attack,
+					"health": health,
+					"duration": "permanent",
+					"target_iid": unit.iid,
+					"source_slot": player.board.find(unit),
+					"source": unit.def_id(),
+					"trigger": "end_of_turn",
+					"before_attack": before.x,
+					"before_health": before.y,
+					"after_attack": unit.attack,
+					"after_health": unit.health,
+				}
+			)
 		)
 		player.log_event("trigger", {"mechanic": "wait_in_slot", "source": unit.def_id()})
 	unit.timers = waiting
@@ -193,11 +210,24 @@ static func resolve_passes(rules: RecruitRules, player: PlayerState) -> void:
 				exclude = slot
 				break
 		var landing: int = BoardGeometry.pass_landing(player.occupied(), exclude)
-		player.log_event("pass", {"from": start, "to": landing})
+		var recipient: RecruitUnit = player.board[landing] if landing >= 0 else null
+		var pass_event: Dictionary = {
+			"from": start,
+			"to": landing,
+			"source_iid": entry["iid"],
+			"target_iid": recipient.iid if recipient != null else 0,
+			"attack": entry["attack"],
+			"health": entry["health"],
+			"before_attack": recipient.attack if recipient != null else 0,
+			"before_health": recipient.health if recipient != null else 0,
+		}
 		player.log_event("trigger", {"mechanic": "pass", "source": "mr_crumb"})
 		if landing >= 0:
 			var unit: RecruitUnit = player.board[landing]
 			ctx.buff(unit, CoreUtil.to_int(entry["attack"]), CoreUtil.to_int(entry["health"]), "")
+			pass_event["after_attack"] = unit.attack
+			pass_event["after_health"] = unit.health
+		player.log_event("pass", pass_event)
 
 
 ## Where a waiting Pass would start right now.

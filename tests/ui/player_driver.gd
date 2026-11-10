@@ -428,8 +428,11 @@ func _play_card(screen: RecruitScreen, at: int, card: Dictionary) -> void:
 		_count("spell with no target")
 		_cant_play[name_of] = true
 		var detail: CardDetail = screen.get("_detail")
-		var hint: Label = detail.get("_hint")
-		expect(viewport == null or hint.text == no_target, "%s: no target, no word why" % name_of)
+		var unavailable: Button = detail.actions.get_child(0) as Button
+		expect(
+			viewport == null or (unavailable.disabled and unavailable.text == no_target),
+			"%s: no target, no disabled action explaining why" % name_of
+		)
 		tap(screen, "hand", at)
 		return
 	_count("play spell")

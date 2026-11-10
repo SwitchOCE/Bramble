@@ -8,12 +8,14 @@ const Settings := preload("res://src/ui/settings.gd")
 const Sfx := preload("res://src/ui/sfx.gd")
 const GamePort := preload("res://src/ui/adapter/game_port.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
+const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const AwayTray := preload("res://src/ui/widgets/away_tray.gd")
+const HandFan := preload("res://src/ui/widgets/hand_fan.gd")
 const TribeBonuses := preload("res://src/ui/widgets/tribe_bonuses.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
 const Interactive := preload("res://src/ui/widgets/interactive.gd")
@@ -48,8 +50,8 @@ const WRAP_MIN: float = 101.0
 const END_H: float = 189.0
 const LEAF_H: float = 128.0
 const TOAST_SECONDS: float = 3.5
-## Past this many cards the hand shows five and a "+N more" button.
-const HAND_SHOWN: int = 6
+## The full hand is always represented by real tiles.
+const HAND_SHOWN: int = 10
 const HOVER_SECONDS: float = 0.2
 ## How long a hovered card's panel waits for the pointer to reach it before closing.
 const LEAVE_SECONDS: float = 0.3
@@ -79,7 +81,7 @@ var _board: BoardView
 var _hand_zone: Interactive
 var _hand_panel: WoodPanel
 var _hand_count: Label
-var _hand_cards: GridContainer
+var _hand_cards: HandFan
 var _away_tray: AwayTray
 var _gold: GoldPlaque
 var _tier_icon: TextureRect
@@ -116,6 +118,7 @@ func _layout() -> void:
 	var left: float = WRAP_MIN + maxf(0.0, (right_x - WRAP_MIN - content) / 2.0)
 	_lobby.position = Vector2(20, 17)
 	_lobby.size = Vector2(w - 54.0, LobbyStrip.HEIGHT)
+	_lobby.visible = not _scout.visible
 	var token: float = tap_size()
 	var late_status: bool = false
 	for plaque: Control in _lobby.plaques:
@@ -125,6 +128,8 @@ func _layout() -> void:
 	_menu_token.size = Vector2(token, token + 9.0)
 	_scout_token.position = Vector2(8, tools_top + token + 16.0)
 	_scout_token.size = Vector2(token, token + 9.0)
+	_scout_token.visible = _scout.visible
+	_who_token.visible = false
 	_who_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
 	_who_token.size = Vector2(token, token + 9.0)
 	_shop_cards.add_theme_constant_override(
@@ -163,9 +168,11 @@ func _layout() -> void:
 	_size_toast()
 	if _scout.visible:
 		_layout_scouting(left, right_x)
-	_lanes.visible = _scout.visible
+	_lanes.visible = false
 	_shelf.visible = not _scout.visible
-	_shop_scroll.visible = _scout.visible
+	_shop_cards.visible = not _scout.visible
+	_shop_zone.visible = not _scout.visible
+	_shop_scroll.visible = false
 	if not _scout.visible:
 		if _shop_cards.get_parent() != _stage:
 			_shop_cards.reparent(_stage, false)
@@ -176,51 +183,17 @@ func _layout() -> void:
 				card.set_card_width(_tile_width(offers))
 
 
-## Their board takes the shop's place; the shop's small tiles stand beside it, so your board, your
-## hand and every button stay where they were.
+## Scouting focuses the two boards. The shop and lobby return on the close token.
 func _layout_scouting(left: float, right_x: float) -> void:
 	_scout.set_column_pitch(_board.pocket.x + _board.gap)
 	var offset: float = (
 		_board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
 	)
 	var x: float = left + offset
-	var room: float = right_x - 20.0 - x
 	_scout.position = Vector2(x, SCOUT_TOP)
-	var heading_top: float = SCOUT_TOP
-	for plaque: Control in _lobby.plaques:
-		if plaque.has_node("LastStand"):
-			var status: Control = plaque.get_node("LastStand")
-			heading_top = maxf(
-				heading_top,
-				_lobby.position.y + plaque.position.y + status.position.y + status.size.y + 8.0
-			)
-	_scout.heading_offset = heading_top - SCOUT_TOP
-	_scout.size = Vector2(room, _scout.tray_height())
+	_scout.heading_offset = 0.0
+	_scout.size = Vector2(right_x - 20.0 - x, _scout.tray_height())
 	_scout.call("_layout")
-	# The scroll container starts 16px above shop_top, so include that inset plus an 8px gap.
-	var shop_top: float = maxf(SCOUT_SHOP_TOP, heading_top + ScoutPanel.TITLE_H + 24.0)
-	var shop_x: float = x + _scout.tray_width() + 30.0
-	var room_x: float = right_x - shop_x - 12.0
-	var max_columns: int = maxi(floori((room_x + MINI_GAP_X) / (tap_size() + MINI_GAP_X)), 1)
-	var columns: int = mini(maxi(ceili(_shop_cards.get_child_count() / 2.0), 1), max_columns)
-	_shop_cards.columns = columns
-	var rows: int = maxi(ceili(float(_shop_cards.get_child_count()) / columns), 1)
-	# Late shops wrap rather than squeezing their targets; keep the last row above the hand.
-	var gap_y: int = MINI_GAP_Y if rows <= 2 else 8
-	_shop_cards.add_theme_constant_override("v_separation", gap_y)
-	var tile: float = minf(MINI_TILE, floorf((room_x - (columns - 1) * MINI_GAP_X) / columns))
-	if _shop_cards.get_parent() != _shop_scroll:
-		_shop_cards.reparent(_shop_scroll, false)
-	_shop_scroll.position = Vector2(shop_x - 16.0, shop_top - 16.0)
-	_shop_scroll.size = Vector2(right_x - shop_x + 16.0, HAND_TOP - shop_top + 16.0)
-	for child: Node in _shop_cards.get_children():
-		var card: CardView = child as CardView
-		if card != null:
-			card.set_card_width(tile)
-	_shop_cards.position = Vector2.ZERO
-	_shop_cards.size = Vector2.ZERO
-	_shop_zone.position = Vector2(shop_x - 20.0, shop_top - 10.0)
-	_shop_zone.size = Vector2(right_x - shop_x, HAND_TOP - shop_top)
 
 
 ## The smallest comfortable tap target at this window's shape, in canvas units.
@@ -238,26 +211,35 @@ func _layout_hero(right_edge: float) -> void:
 
 
 func _layout_hand(x: float) -> void:
+	var right_edge: float = size.x - 30.0 - RIGHT_W
+	if _split_detail():
+		right_edge -= DETAIL_W + DETAIL_GAP
+	x = minf(x, right_edge - HAND_W - 24.0)
 	var count: int = Data.a(state, "hand").size()
-	var away: bool = not RecruitHeld.sky_card(state).is_empty()
-	var bottom: float = 905.0 if count <= 1 else 1000.0
-	if away:
-		bottom = HAND_TOP + (100.0 if count == 0 else 210.0 if count <= 2 else 366.0)
+	var card: Vector2 = _hand_card_size(count)
+	var columns: int = 1 if count <= 2 else 2
+	var rows: int = ceili(count / float(columns))
+	# Reserving the same journey row keeps hand tiles and fan spacing stable when Birds fly.
+	var maximum: float = CANVAS_H - 24.0 - HAND_TOP - 12.0 - _away_tray.row_height()
+	var wanted: float = (
+		tap_size()
+		if count == 0
+		else 66.0 + HandFan.FOCUS_LIFT + rows * card.y + maxf(0, rows - 1) * HandFan.ROW_GAP + 12.0
+	)
+	var height: float = minf(maximum, wanted)
 	_hand_zone.position = Vector2(x, HAND_TOP)
-	_hand_zone.size = Vector2(HAND_W, bottom - HAND_TOP)
+	_hand_zone.size = Vector2(HAND_W, height)
 	_hand_panel.position = Vector2.ZERO
 	_hand_panel.size = _hand_zone.size
-	_hand_count.position = Vector2(30, 12)
-	_hand_count.size = Vector2(HAND_W - 60.0, 44)
-	var card_w: float = _hand_card_size(count).x
-	var columns: int = 2 if count >= (2 if away else 3) else 1
-	var gap: float = 43.0 if columns == 2 else 0.0
-	var grid_w: float = card_w * columns + gap * (columns - 1)
-	_hand_cards.position = Vector2((HAND_W - grid_w) / 2.0, 66)
-	_hand_cards.size = Vector2(grid_w, 0)
-	_away_tray.position = Vector2(x, bottom + 12.0)
+	var has_larder: bool = Data.i(state, "larder") > 0
+	_hand_count.position = Vector2(30 if has_larder else 170, 8)
+	_hand_count.size = Vector2(HAND_W - (60.0 if has_larder else 200.0), 44)
+	_hand_cards.position = Vector2(0, 66)
+	_hand_cards.size = Vector2(HAND_W, maxf(0.0, height - 66.0 - 12.0))
+	_hand_cards.arrange()
+	_away_tray.position = Vector2(x, HAND_TOP + height + 12.0)
 	var away_w: float = minf(HAND_W, size.x - 30.0 - RIGHT_W - x - 12.0)
-	_away_tray.size = Vector2(away_w, CANVAS_H - 24.0 - bottom - 12.0)
+	_away_tray.size = Vector2(away_w, _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
@@ -304,11 +286,19 @@ func _layout_right(x: float, w: float) -> void:
 		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
 		_end_button.size.y = CardDetail.SIDE_ACTION_H
 		_end_button.set_label_size(UiTheme.FONT_LEAF)
-	var clear: bool = not _detail.visible or _split_detail()
+	if not CardView.is_phone() and _detail.visible:
+		_detail.position = Vector2(
+			clampf(get_local_mouse_position().x + 30.0, 20.0, w - DETAIL_W - 20.0), 110
+		)
+		_detail.size = Vector2(DETAIL_W, 740)
+		if _reader_is_hand():
+			_detail.position.x = maxf(20.0, _hand_zone.position.x - DETAIL_W - 24.0)
+	var clear: bool = not _detail.visible or _split_detail() or not CardView.is_phone()
 	for node: Control in [
 		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
 	]:
 		node.visible = clear
+	_gold.visible = true
 	_kin_button.visible = clear and kin
 
 
@@ -340,8 +330,6 @@ func _tile_width(offers: int) -> float:
 
 
 func _hand_card_size(count: int) -> Vector2:
-	if not RecruitHeld.sky_card(state).is_empty():
-		return Vector2(130, 130)
 	if count <= 1:
 		return Vector2(CardView.SHOP_WIDTH, CardView.SHOP_HEIGHT)
 	if count == 2:
@@ -436,6 +424,8 @@ func _leaf(colour: LeafButton.Colour, on_press: Callable) -> LeafButton:
 ## The card as the full text shows it: what a third copy would do, what a fresh golden brings.
 func _full_view(zone: String, view: Dictionary) -> Dictionary:
 	var full: Dictionary = RecruitView.full_view(zone, view, state).duplicate(true)
+	if zone == "board":
+		full = RecruitOozes.reader_view(_board, full)
 	if zone != "board" or not _scout.visible:
 		full.erase("soak_preview")
 		full.erase("hunter_take_preview")
@@ -475,3 +465,84 @@ func _hover_ring_aim(selection: Dictionary, zone: String, slot: int, inside: boo
 			"%s: %s" % [RecruitView.SLOT_NAMES[slot], RecruitView.ring_preview(state, item, slot)]
 		)
 	_detail.show_unit(_ring_aim_card(item), note)
+
+
+## Build the trays here; the screen supplies their interaction callbacks.
+func _build_shop(wire: Callable) -> void:
+	_shelf = ShelfPlank.new()
+	_stage.add_child(_shelf)
+	_shop_zone = Interactive.new()
+	_shop_zone.zone = "shop"
+	_shop_zone.index = -1
+	wire.call(_shop_zone)
+	_stage.add_child(_shop_zone)
+	_shop_scroll = ScrollContainer.new()
+	_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_shop_scroll.add_theme_stylebox_override("panel", UiTheme.slip_box(Color.TRANSPARENT, 0, 16))
+	_stage.add_child(_shop_scroll)
+	_shop_cards = GridContainer.new()
+	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.add_child(_shop_cards)
+
+
+func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
+	_board = BoardView.new()
+	_board.configure("board", BOARD_POCKET, true, true, true)
+	for slot: Interactive in _board.slots:
+		wire.call(slot)
+	_stage.add_child(_board)
+	_hero = HeroPlaque.new()
+	_hero.visible = false
+	_hero.power_pressed.connect(power)
+	_hero.portrait_pressed.connect(portrait)
+	_stage.add_child(_hero)
+
+
+func _build_hand(wire: Callable) -> void:
+	_hand_zone = Interactive.new()
+	_hand_zone.zone = "hand"
+	_hand_zone.index = -1
+	wire.call(_hand_zone)
+	_stage.add_child(_hand_zone)
+	_hand_panel = WoodPanel.new(WoodPanel.Kind.OAK)
+	_hand_zone.add_child(_hand_panel)
+	_hand_count = UiTheme.number("", UiTheme.FONT_SMALL)
+	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	_hand_count.tooltip_text = "Larder: the gold held in your Acorns, Stashes and Great Hoards."
+	_hand_zone.add_child(_hand_count)
+	_hand_cards = HandFan.new()
+	_hand_zone.add_child(_hand_cards)
+	_away_tray = AwayTray.new()
+	_stage.add_child(_away_tray)
+
+
+func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable) -> void:
+	_menu_token = TokenButton.new("", "gear")
+	_menu_token.pressed.connect(menu)
+	_stage.add_child(_menu_token)
+	_scout_token = TokenButton.new("", "close", UiTheme.FONT_SMALL)
+	_scout_token.tooltip_text = "Close scouting"
+	_scout_token.pressed.connect(scout)
+	_stage.add_child(_scout_token)
+	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
+	_who_token.pressed.connect(who)
+	_who_token.visible = false
+	_stage.add_child(_who_token)
+	_dev_token = TokenButton.new("Dev")
+	_dev_token.pressed.connect(dev)
+	_stage.add_child(_dev_token)
+	_dev_token.visible = Settings.show_dev_panel
+
+
+## A floating hand reader sits left of the fan, including before its focus signal arrives.
+func _reader_is_hand() -> bool:
+	var shown: Dictionary = _detail.shown
+	for card: CardView in _hand_cards.cards:
+		if Data.i(shown, "iid", -1) > 0 and Data.i(card.unit, "iid", -2) == Data.i(shown, "iid"):
+			return true
+		if (
+			Data.i(shown, "card_index", -1) >= 0
+			and Data.i(card.unit, "card_index", -2) == Data.i(shown, "card_index")
+		):
+			return true
+	return false

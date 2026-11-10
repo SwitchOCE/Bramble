@@ -10,6 +10,7 @@ const CombatModel := preload("res://src/ui/screens/combat_model.gd")
 const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const RecruitScreen := preload("res://src/ui/screens/recruit_screen.gd")
+const RecruitActionMotion := preload("res://src/ui/screens/recruit_action_motion.gd")
 const DevPanel := preload("res://src/ui/widgets/dev_panel.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const GameOverScreen := preload("res://src/ui/screens/game_over_screen.gd")
@@ -111,7 +112,11 @@ func test_a_triple_through_the_ui_shows_the_golden_then_the_reward() -> void:
 	assert_eq(_count(hand, "field_vole", true), 1, "one golden Field Vole")
 	assert_eq(_count(hand, "field_vole", false), 0, "the three copies are gone")
 	var toast: Label = screen.get("_toast")
-	assert_string_contains(toast.text, "Triple! Golden Field Vole")
+	assert_eq(toast.text, "", "the golden result and gathering motion convey the triple")
+	var motion: RecruitActionMotion = screen.get("_action_motion")
+	assert_eq(motion.kind, "triple")
+	assert_true(motion.active, "the copies gather into the golden")
+	assert_gt(motion.tracks.size(), 0)
 	var golden_index: int = -1
 	for i: int in hand.size():
 		if Data.b(Data.entry(hand, i), "golden", false):
@@ -122,7 +127,8 @@ func test_a_triple_through_the_ui_shows_the_golden_then_the_reward() -> void:
 	var after: Array = Data.a(port.get_state(), "hand")
 	assert_eq(after.size(), 1, "the Triple Reward arrived in hand")
 	assert_eq(Data.s(Data.entry(after, 0), "origin"), "created")
-	assert_string_starts_with(toast.text, "Triple Reward: ")
+	assert_eq(toast.text, "", "the created reward arrives without a prose toast")
+	assert_false(Data.s(Data.entry(after, 0), "name").is_empty(), "the reward is identifiable")
 
 
 func test_real_fights_for_every_mechanic_play_back_with_a_line_per_event() -> void:
@@ -194,7 +200,7 @@ func test_whistle_only_boards_end_with_no_attacks_and_say_so() -> void:
 	assert_string_contains(last_line, "No unit left can attack")
 
 
-func test_a_real_shop_buy_that_makes_a_triple_toasts_it() -> void:
+func test_a_real_shop_buy_that_makes_a_triple_shows_gathering_motion() -> void:
 	var port: CorePort = _core()
 	port.new_game(8)
 	var screen: RecruitScreen = RecruitScreen.new()
@@ -213,7 +219,11 @@ func test_a_real_shop_buy_that_makes_a_triple_toasts_it() -> void:
 	var hand: Array = Data.a(port.get_state(), "hand")
 	assert_eq(_count(hand, def_id, true), 1, "the buy combined a golden")
 	var toast: Label = screen.get("_toast")
-	assert_string_starts_with(toast.text, "Triple! Golden ")
+	assert_eq(toast.text, "")
+	var motion: RecruitActionMotion = screen.get("_action_motion")
+	assert_eq(motion.kind, "triple")
+	assert_true(motion.active, "buying the third copy animates the golden result")
+	assert_gt(motion.tracks.size(), 0)
 
 
 func test_a_golden_dev_spawn_is_not_announced_as_a_triple() -> void:

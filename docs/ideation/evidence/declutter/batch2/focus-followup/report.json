@@ -1,0 +1,115 @@
+{
+  "production_revision": "4c5c2900",
+  "parent_baseline_unchanged": true,
+  "stills": "pairs.json",
+  "budget_breakdown": "budget-breakdown.json.gz",
+  "motion_runs": [
+    {
+      "run": "end-turn-reduce",
+      "strip": "end-turn-reduce/end-turn.jpg",
+      "duration": 0.44999999999999996,
+      "frames": 8,
+      "labels": [
+        36,
+        36
+      ]
+    },
+    {
+      "run": "end-turn-x1",
+      "strip": "end-turn-x1/end-turn.jpg",
+      "duration": 0.76,
+      "frames": 8,
+      "labels": [
+        36,
+        36
+      ]
+    },
+    {
+      "run": "end-turn-x4",
+      "strip": "end-turn-x4/end-turn.jpg",
+      "duration": 0.19,
+      "frames": 8,
+      "labels": [
+        36,
+        36
+      ]
+    },
+    {
+      "run": "scout-reach-reduce",
+      "strip": "scout-reach-reduce/scout-reach.jpg",
+      "duration": 0.4,
+      "frames": 8,
+      "labels": [
+        21,
+        21
+      ]
+    },
+    {
+      "run": "scout-reach-x1",
+      "strip": "scout-reach-x1/scout-reach.jpg",
+      "duration": 0.4,
+      "frames": 8,
+      "labels": [
+        21,
+        21
+      ]
+    },
+    {
+      "run": "scout-reach-x4",
+      "strip": "scout-reach-x4/scout-reach.jpg",
+      "duration": 0.1,
+      "frames": 8,
+      "labels": [
+        21,
+        21
+      ]
+    }
+  ],
+  "end_turn_events_sha256": "01bfdf3cb7c6781c0caeac4c6e8a9fa347107037f514e5f0b55bbb6a7e887ec9",
+  "face_unit_count": 158,
+  "shipped_face_unit_count": 120,
+  "shipped_contact_sheet": "shipped-unit-board-faces.jpg",
+  "shipped_fallback_names": [],
+  "legacy_unit_count": 38,
+  "fallback_names": [
+    "dewdrop_ooze",
+    "field_vole",
+    "fox_cub",
+    "fox_notary",
+    "garden_snail",
+    "hazel_dormouse",
+    "hoglet",
+    "marsh_frog",
+    "pixie_scout",
+    "worker_bee",
+    "fieldfare",
+    "hedge_sprite",
+    "hedgehog_twin",
+    "hoglet_mother",
+    "marmot_lookout",
+    "mudwallow_toad",
+    "still_water_heron",
+    "bramble_ooze",
+    "brownie_porter",
+    "carrion_crow",
+    "common_toad",
+    "drumming_woodpecker",
+    "sett_warden",
+    "weasel_second",
+    "wood_mouse_guard",
+    "bog_ooze",
+    "buzzard",
+    "crested_newt",
+    "hedgerow_elder",
+    "moth_fairy",
+    "stoat_captain",
+    "bitter_toad",
+    "ermine_duellist",
+    "fairy_knight",
+    "great_ooze",
+    "old_badger",
+    "belladonna_sprite",
+    "old_crane"
+  ],
+  "fresh_cold_reader_run": false
+}

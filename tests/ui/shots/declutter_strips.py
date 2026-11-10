@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Assemble native eight-frame attack, opening cause-group and complete-result strips."""
+"""Assemble native uniform-plus-peak attack strips; retain legacy eight-frame support."""
 
 import argparse
 import json
@@ -8,18 +8,22 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
+from declutter_evidence import read_json
+
 
 def validate_interval_sampling(interval: dict, event: dict | None = None) -> None:
-    """Old manifests remain uniform; explicit new manifests pin observed actor peaks."""
+    """Legacy eight-frame layouts and both explicit peak policies remain readable."""
     ticks = interval["sample_ticks"]
     frames = interval["frames"]
-    assert len(ticks) == len(frames) == 8
+    assert len(ticks) == len(frames)
+    assert len(frames) >= 8
     assert ticks == sorted(set(ticks))
     assert [frame["tick"] for frame in frames] == ticks
     sampling = interval.get("sampling")
     if sampling is None:
+        assert len(frames) == 8
         return
-    assert sampling["mode"] == "uniform-with-observed-lunge-peaks"
+    assert sampling["mode"] in {"uniform-with-observed-lunge-peaks", "uniform-plus-observed-lunge-peaks"}
     expected = [
         interval["start_tick"] + round(i * (interval["end_tick"] - interval["start_tick"]) / 7) for i in range(8)
     ]
@@ -30,11 +34,18 @@ def validate_interval_sampling(interval: dict, event: dict | None = None) -> Non
     assert len(uids) == len(peaks)
     if event is not None:
         assert uids == {event["attacker"], *event.get("joiners", [])}
-    reconstructed = list(expected)
-    for replacement in sampling["replacements"]:
-        reconstructed.remove(replacement["uniform_tick"])
-        reconstructed.append(replacement["peak_tick"])
-    assert sorted(reconstructed) == ticks
+    if sampling["mode"] == "uniform-plus-observed-lunge-peaks":
+        required = {peak["tick"] for peak in peaks}
+        assert set(expected).issubset(ticks)
+        assert set(sampling["appended_peak_ticks"]) == required - set(expected)
+        assert sorted(set(expected) | required) == ticks
+    else:
+        assert len(frames) == 8
+        reconstructed = list(expected)
+        for replacement in sampling["replacements"]:
+            reconstructed.remove(replacement["uniform_tick"])
+            reconstructed.append(replacement["peak_tick"])
+        assert sorted(reconstructed) == ticks
     for peak in peaks:
         assert peak["tick"] in ticks
         frame = next(frame for frame in frames if frame["tick"] == peak["tick"])
@@ -48,9 +59,10 @@ def write_sheet(source: Path, destination: Path, pixels: list, interval: dict, s
     width, height = pixels
     frames = interval["frames"]
     validate_interval_sampling(interval)
-    assert len(frames) == 8
+    assert len(frames) >= 8
     assert [frame["tick"] for frame in frames] == interval["sample_ticks"]
-    strip = Image.new("RGB", (width * 4, (height + 40) * 2), "#eee4c6")
+    rows = (len(frames) + 3) // 4
+    strip = Image.new("RGB", (width * 4, (height + 40) * rows), "#eee4c6")
     draw = ImageDraw.Draw(strip)
     for index, frame in enumerate(frames):
         x = index % 4 * width
@@ -59,7 +71,7 @@ def write_sheet(source: Path, destination: Path, pixels: list, interval: dict, s
             assert image.size == (width, height)
             strip.paste(image.convert("RGB"), (x, y + 40))
         relative = frame["seconds"] - interval["start_tick"] * step
-        draw.text((x + 12, y + 10), f"{index + 1}/8  +{relative:.3f} s", fill="#2d271c")
+        draw.text((x + 12, y + 10), f"{index + 1}/{len(frames)}  +{relative:.3f} s", fill="#2d271c")
     kind = interval["kind"]
     filename = f"{kind}-{interval['event_index']:03}.jpg" if kind in {"attack", "opening-event"} else f"{kind}.jpg"
     strip.save(destination / filename, quality=70, optimize=True, progressive=True)
@@ -74,7 +86,7 @@ def main() -> None:
     args.output.mkdir(parents=True, exist_ok=True)
     summary = []
     for source in sorted(args.frames.glob("*/manifest.json")):
-        manifest = json.loads(source.read_text())
+        manifest = read_json(source)
         assert manifest["timing_passes_equal"]
         destination = args.output / source.parent.name
         destination.mkdir(parents=True, exist_ok=True)
@@ -110,7 +122,7 @@ def main() -> None:
                 "phase_sheets": len(phases),
                 "opening_effect_sheets": len(opening_effects),
                 "sheets": len(intervals),
-                "frames": len(intervals) * 8,
+                "frames": sum(len(interval["frames"]) for interval in intervals),
                 "speed": manifest["speed"],
                 "reduce_motion": manifest["reduce_motion"],
                 "final_health_text": manifest["final_health_text"],

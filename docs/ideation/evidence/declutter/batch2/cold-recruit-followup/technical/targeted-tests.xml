@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="GutTests" failures="0" tests="57" >
+  <testsuite name="tests/ui/test_recruit_actions_motion.gd" tests="2" failures="0" skipped="0" time="6.773309" >
+      <testcase name="test_real_actions_normal_motion_finish_at_canonical_state" assertions="235" status="pass" classname="tests/ui/test_recruit_actions_motion.gd" time="3.465335" >
+      </testcase>
+      <testcase name="test_real_actions_reduced_motion_finish_at_canonical_state" assertions="233" status="pass" classname="tests/ui/test_recruit_actions_motion.gd" time="3.307974" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_scout_reach.gd" tests="7" failures="0" skipped="0" time="3.902327" >
+      <testcase name="test_native_brock_loans_his_across_to_a_hunter_in_another_column" assertions="2" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.479975" >
+      </testcase>
+      <testcase name="test_native_own_quarry_beats_brock_loan_and_non_hunters_get_no_loan" assertions="2" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.589923" >
+      </testcase>
+      <testcase name="test_isegrim_marks_biggest_then_lends_beside_or_next_to_when_golden" assertions="6" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.884624" >
+      </testcase>
+      <testcase name="test_reach_flashes_the_resolved_lent_pocket_then_returns_to_rest" assertions="4" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.835393" >
+      </testcase>
+      <testcase name="test_reach_flash_paints_above_an_occupied_card_and_leaves_no_mark" assertions="5" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.105306" >
+      </testcase>
+      <testcase name="test_lent_quarry_stamps_only_the_resolved_target_and_keeps_a_distinct_aimer" assertions="20" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.999673" >
+      </testcase>
+      <testcase name="test_non_quarry_relations_never_acquire_a_quarry_stamp_and_clearing_retires_it" assertions="3" status="pass" classname="tests/ui/test_scout_reach.gd" time="0.007433" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_combat_face.gd" tests="12" failures="0" skipped="0" time="0.036601" >
+      <testcase name="test_combat_face_has_only_stats_and_independent_wordless_marks" assertions="14" status="pass" classname="tests/ui/test_combat_face.gd" time="0.002728" >
+      </testcase>
+      <testcase name="test_held_count_replaces_the_glyph_and_old_slip_without_words" assertions="8" status="pass" classname="tests/ui/test_combat_face.gd" time="0.002545" >
+      </testcase>
+      <testcase name="test_swallow_anchor_tracks_the_stomach_above_its_count_at_both_sizes" assertions="10" status="pass" classname="tests/ui/test_combat_face.gd" time="0.005933" >
+      </testcase>
+      <testcase name="test_on_play_has_no_trigger_mark_and_recruit_uses_wordless_marks" assertions="8" status="pass" classname="tests/ui/test_combat_face.gd" time="0.002478" >
+      </testcase>
+      <testcase name="test_recruit_only_triggers_have_no_combat_spark" assertions="10" status="pass" classname="tests/ui/test_combat_face.gd" time="0.000393" >
+      </testcase>
+      <testcase name="test_fight_triggers_keep_sparks_including_borrowed_or_mixed_rules" assertions="9" status="pass" classname="tests/ui/test_combat_face.gd" time="0.000385" >
+      </testcase>
+      <testcase name="test_unknown_combat_counters_are_not_guessed_from_rules_text" assertions="4" status="pass" classname="tests/ui/test_combat_face.gd" time="0.000592" >
+      </testcase>
+      <testcase name="test_printed_shield_has_the_same_bubble_in_recruit_and_consumes_in_combat" assertions="2" status="pass" classname="tests/ui/test_combat_face.gd" time="0.002605" >
+      </testcase>
+      <testcase name="test_granted_quarry_and_mire_use_the_printed_keyword_frame_marks" assertions="1" status="pass" classname="tests/ui/test_combat_face.gd" time="0.002187" >
+      </testcase>
+      <testcase name="test_configured_kiss_pips_read_initial_and_replayed_state_at_both_sizes" assertions="30" status="pass" classname="tests/ui/test_combat_face.gd" time="0.008533" >
+      </testcase>
+      <testcase name="test_kiss_pips_accept_both_top_level_fields_and_default_period" assertions="6" status="pass" classname="tests/ui/test_combat_face.gd" time="0.002779" >
+      </testcase>
+      <testcase name="test_pending_hourglass_refreshes_without_labels_and_stays_clear_of_other_marks" assertions="88" status="pass" classname="tests/ui/test_combat_face.gd" time="0.005443" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_away_tokens.gd" tests="6" failures="0" skipped="0" time="0.228869" >
+      <testcase name="test_resting_tokens_show_only_live_countdowns_at_both_sizes" assertions="28" status="pass" classname="tests/ui/test_away_tokens.gd" time="0.047233" >
+      </testcase>
+      <testcase name="test_one_tap_reads_exact_stats_homecoming_countdown_and_nest_without_mutating_state" assertions="11" status="pass" classname="tests/ui/test_away_tokens.gd" time="0.002407" >
+      </testcase>
+      <testcase name="test_arrival_targets_the_exact_birds_portrait_not_its_outer_token" assertions="8" status="pass" classname="tests/ui/test_away_tokens.gd" time="0.016361" >
+      </testcase>
+      <testcase name="test_overflow_scrolls_without_dropping_any_birds_and_clears_when_empty" assertions="5" status="pass" classname="tests/ui/test_away_tokens.gd" time="0.042136" >
+      </testcase>
+      <testcase name="test_opponent_tiers_leave_resting_plaques_and_remain_exact_in_hero_readers" assertions="9" status="pass" classname="tests/ui/test_away_tokens.gd" time="0.118727" >
+      </testcase>
+      <testcase name="test_next_tap_scouts_then_opens_the_hero_reader_and_other_taps_only_read" assertions="3" status="pass" classname="tests/ui/test_away_tokens.gd" time="0.002005" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_counter_layout.gd" tests="1" failures="0" skipped="0" time="0.05579" >
+      <testcase name="test_counter_box_and_number_clear_stat_beads_at_narrow_and_full_card_sizes" assertions="240" status="pass" classname="tests/ui/test_counter_layout.gd" time="0.05579" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_recruit_declutter.gd" tests="12" failures="0" skipped="0" time="7.072544" >
+      <testcase name="test_scripted_recruit_and_scout_keep_all_visible_text_within_forty" assertions="4" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.534796" >
+      </testcase>
+      <testcase name="test_real_seeded_recruit_uses_the_same_forty_node_budget" assertions="6" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.89922" >
+      </testcase>
+      <testcase name="test_evidence_recruit_and_scout_states_obey_the_same_budget_at_both_sizes" assertions="15" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="2.344562" >
+      </testcase>
+      <testcase name="test_counter_includes_names_numbers_buttons_and_rich_text_and_rejects_forty_one" assertions="5" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.010353" >
+      </testcase>
+      <testcase name="test_shop_and_board_faces_leave_rules_in_reader_and_keep_stats" assertions="21" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.009614" >
+      </testcase>
+      <testcase name="test_lent_quarry_reach_pulses_its_actual_recipient_then_leaves_no_standing_mark" assertions="20" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="1.211318" >
+      </testcase>
+      <testcase name="test_scout_focus_clears_selected_reader_and_pending_hover_without_changing_state" assertions="13" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.301576" >
+      </testcase>
+      <testcase name="test_modified_refresh_prices_remain_visible_while_the_standard_price_uses_its_tooltip" assertions="26" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.574877" >
+      </testcase>
+      <testcase name="test_ring_stacks_leave_the_floor_but_both_occupied_and_empty_slot_readers_keep_exact_values" assertions="24" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.428161" >
+      </testcase>
+      <testcase name="test_standard_spell_and_item_prices_leave_the_face_while_changed_prices_remain" assertions="63" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.035488" >
+      </testcase>
+      <testcase name="test_one_gold_spell_reader_and_buy_action_retain_the_exact_price" assertions="7" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.201379" >
+      </testcase>
+      <testcase name="test_away_tokens_keep_the_complete_forecast_in_one_tap_readers_at_both_sizes" assertions="50" status="pass" classname="tests/ui/test_recruit_declutter.gd" time="0.5212" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_tile_words.gd" tests="6" failures="0" skipped="0" time="6.155886" >
+      <testcase name="test_word_tokens_keep_words_and_slot_tags_but_not_stat_numbers" assertions="3" status="pass" classname="tests/ui/test_tile_words.gd" time="0.000463" >
+      </testcase>
+      <testcase name="test_tile_ownership_includes_strips_and_rejects_a_new_word_without_counting_hud_or_reader" assertions="5" status="pass" classname="tests/ui/test_tile_words.gd" time="0.019818" >
+      </testcase>
+      <testcase name="test_five_packet_states_and_the_full_hand_have_zero_tile_words_at_both_sizes" assertions="58" status="pass" classname="tests/ui/test_tile_words.gd" time="3.326544" >
+      </testcase>
+      <testcase name="test_legacy_missing_portrait_names_are_reported_and_still_count" assertions="12" status="pass" classname="tests/ui/test_tile_words.gd" time="0.718283" >
+      </testcase>
+      <testcase name="test_all_shipped_units_are_wordless_in_each_tile_zone" assertions="961" status="pass" classname="tests/ui/test_tile_words.gd" time="2.084297" >
+      </testcase>
+      <testcase name="test_hand_overlap_exception_keeps_other_zones_fonts_taps_and_bounds_checked" assertions="5" status="pass" classname="tests/ui/test_tile_words.gd" time="0.006481" >
+      </testcase>
+  </testsuite>
+  <testsuite name="tests/ui/test_phone_layout.gd" tests="11" failures="0" skipped="0" time="2.861442" >
+      <testcase name="test_birds_away_leave_gold_tier_and_refresh_available_until_a_nest_is_tapped" assertions="7" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.221729" >
+      </testcase>
+      <testcase name="test_long_bird_and_belly_help_fit_above_the_actions" assertions="16" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.012718" >
+      </testcase>
+      <testcase name="test_phone_scout_columns_match_and_shop_returns_unchanged_after_focus" assertions="12" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.256336" >
+      </testcase>
+      <testcase name="test_nests_and_rings_keep_floor_state_without_slot_codes_or_captions" assertions="11" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.249591" >
+      </testcase>
+      <testcase name="test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line" assertions="37" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.316071" >
+      </testcase>
+      <testcase name="test_scout_slot_labels_clear_every_stat_badge" assertions="16" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.21189" >
+      </testcase>
+      <testcase name="test_selected_phone_posset_counters_do_not_overlap" assertions="9" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.315152" >
+      </testcase>
+      <testcase name="test_phone_scout_hero_names_wrap_at_the_minimum_without_clipping" assertions="23" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.311024" >
+      </testcase>
+      <testcase name="test_eight_phone_shop_offers_keep_finger_targets_with_a_board_card_selected" assertions="18" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.230375" >
+      </testcase>
+      <testcase name="test_late_scout_focus_restores_all_shop_offers_at_both_sizes" assertions="62" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.608236" >
+      </testcase>
+      <testcase name="test_phone_attack_order_guide_is_decorative_like_other_guide_boards" assertions="12" status="pass" classname="tests/ui/test_phone_layout.gd" time="0.12832" >
+      </testcase>
+  </testsuite>
+</testsuites>

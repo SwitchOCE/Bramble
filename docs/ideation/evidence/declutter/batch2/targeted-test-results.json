@@ -1,0 +1,47 @@
+[
+  {
+    "file": "test_recruit_declutter.gd",
+    "tests": "6",
+    "passed": "4",
+    "assertions": "60/68",
+    "time": "4.623s",
+    "runtime_errors": false,
+    "log": "build/declutter/b2-tests/final-test_recruit_declutter.log"
+  },
+  {
+    "file": "test_recruit_motion.gd",
+    "tests": "5",
+    "passed": "5",
+    "assertions": "55",
+    "time": "0.508s",
+    "runtime_errors": false,
+    "log": "build/declutter/b2-tests/final-test_recruit_motion.log"
+  },
+  {
+    "file": "test_scout_reach.gd",
+    "tests": "4",
+    "passed": "4",
+    "assertions": "14",
+    "time": "2.724s",
+    "runtime_errors": false,
+    "log": "build/declutter/b2-tests/final-test_scout_reach.log"
+  },
+  {
+    "file": "test_cards.gd",
+    "tests": "15",
+    "passed": "15",
+    "assertions": "3520",
+    "time": "3.31s",
+    "runtime_errors": false,
+    "log": "build/declutter/b2-tests/final-test_cards.log"
+  },
+  {
+    "file": "test_phone_layout.gd",
+    "tests": "11",
+    "passed": "9",
+    "assertions": "189/193",
+    "time": "3.015s",
+    "runtime_errors": false,
+    "log": "build/declutter/b2-tests/final-test_phone_layout.log"
+  }
+]

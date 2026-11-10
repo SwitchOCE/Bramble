@@ -126,9 +126,25 @@ func test_statuses_golden_and_created_name_their_word_and_keep_the_meaning_a_tap
 		"origin": "created",
 		"statuses": [{"status": "nightshade", "data": {}}],
 	}
+	var detail := CardDetail.new()
+	add_child_autofree(detail)
+	detail.size = Vector2(620, 1000)
+	detail.show_unit(view)
+	var type_line: RichTextLabel = detail.get("_type")
+	var notes: RichTextLabel = detail.get("_notes")
 	var state: String = CardDetail.state_bbcode(view)
-	for word: String in ["Golden", "Created", "Nightshade"]:
-		assert_string_contains(state, "[url=kw:%s]" % word)
+	assert_string_contains(state, "[url=kw:Nightshade]")
+	for word: String in ["Golden", "Created"]:
+		assert_string_contains(type_line.text, "[url=kw:%s]" % word)
+		assert_false(
+			state.contains("[url=kw:%s]" % word), "identity appears once, in the type line"
+		)
+		type_line.meta_hover_started.emit("kw:" + word)
+		assert_true(detail.reminder.visible)
+		assert_eq(detail.reminder.keyword, word)
+	notes.meta_hover_started.emit("kw:Nightshade")
+	assert_true(detail.reminder.visible)
+	assert_eq(detail.reminder.keyword, "Nightshade")
 	assert_false(_plain(state).contains("first loses half"), "the meaning is not on the card")
 	assert_string_contains(CardDetail.reminder_for("Golden", view), "Double stats")
 	assert_string_contains(CardDetail.reminder_for("Created", view), "not bought")

@@ -1,0 +1,1817 @@
+[
+  {
+    "original": "after/lobby-1688x780.png",
+    "image": "after/lobby-1688x780.jpg",
+    "original_sha256": "7fc8e24f67c1edb4cfd1c0fd4fc53d660dacde27045b7f862bc94768b9c60767",
+    "tracked_sha256": "2b99cbf103f22b81232229101d37765e6d3f9e93ab09cc8a033893ee0a260a32",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "after/lobby-1920x1080.png",
+    "image": "after/lobby-1920x1080.jpg",
+    "original_sha256": "891833f7ed6879b4fb7285188bdd1c05ba75a2260705da2c286dd1207c0c255c",
+    "tracked_sha256": "a2291c945e2bb01edb4aad5e5f1cd8f95d671f0c17d391661349028c054e874c",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "after/natural-birds-1688x780.png",
+    "image": "after/natural-birds-1688x780.jpg",
+    "original_sha256": "270ba1225eba6074bccb706bc72bc7cdf7553a62a9b085e9a3b74814ad94225c",
+    "tracked_sha256": "6e27183f309dd498b849d2c43d52d41c9e10a381b84eb6d1fade9501488f3691",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "after/natural-birds-1920x1080.png",
+    "image": "after/natural-birds-1920x1080.jpg",
+    "original_sha256": "a690e156e6c753049b6db6a94f97ab8ce5e51f09419dbb513e7da0a6aca42994",
+    "tracked_sha256": "293906ab5ab1f4582606795955a2b2b5aaeabc60d27814e233467cd82eecb0d8",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "after/overview-1688x780.png",
+    "image": "after/overview-1688x780.jpg",
+    "original_sha256": "cb132c4f2bd76d1f45eff67e8bb8db7896b165853d7e410cc432b77ea908f11e",
+    "tracked_sha256": "6c6cb6659b523e276d4ca4e28a2f14edf00b30b765ba4aea44bffc94171c3205",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "after/overview-1920x1080.png",
+    "image": "after/overview-1920x1080.jpg",
+    "original_sha256": "a5537d8a3f3eba0a05941d0b69308f2618ea63b7a4f35b207cad529360de4575",
+    "tracked_sha256": "3f7b3e804408f45641de89270ffe3bb0945e697a844899227815d4ac52f070fe",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "after/reader-reel_mistress-golden-1688x780.png",
+    "image": "after/reader-reel_mistress-golden-1688x780.jpg",
+    "original_sha256": "15a172730fe66bd60b52978a7d353aea6e20b8f8b8473cf8205e285b1f37e2c7",
+    "tracked_sha256": "358dd517eb193476932d2dc1b252485468760b247065a120263601fea4340304",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "after/reader-reel_mistress-golden-1920x1080.png",
+    "image": "after/reader-reel_mistress-golden-1920x1080.jpg",
+    "original_sha256": "27fc13a97ff6d8a80d6875bb86ceecdf5d7fd2df3e77b64251c84e29630e935a",
+    "tracked_sha256": "280b831c173d92846f384d3e0ac4f27c59a1b60122cecd87b25195f08c2e5017",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "after/scout-1688x780.png",
+    "image": "after/scout-1688x780.jpg",
+    "original_sha256": "5068a469863a3dfdbb95f046212dd16f7c08aff879425183078646f077f99944",
+    "tracked_sha256": "db9250567aec57ffb9c521b499215517f88edfb99c25e6c1f5b0b10fef63ed6e",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "after/scout-1920x1080.png",
+    "image": "after/scout-1920x1080.jpg",
+    "original_sha256": "c567b09d669c5988c0180b3805980ee9a6b5ee19ab20babf5d5923a30a9bff7f",
+    "tracked_sha256": "718400861a0c7caa2e5044bab181233ee501d64ff5e2ca4658ced1cf468da49b",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "all-unit-board-faces.png",
+    "image": "all-unit-board-faces.jpg",
+    "original_sha256": "0f323690cbec5f0120be3815dadfcbd40b4a0436111b68768ad9b7833691649a",
+    "tracked_sha256": "ce48f9b4ecd7fbf31deca0d8466be0ed8ff49ca1ba10304d093a1ba6981623e1",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      2190,
+      3904
+    ],
+    "display_pixels": [
+      720,
+      1284
+    ]
+  },
+  {
+    "original": "before/lobby-1688x780.png",
+    "image": "before/lobby-1688x780.jpg",
+    "original_sha256": "aa3e9f300885b06d70452450361b9d77fed300339a794dfb3e4a90525a1fe2c5",
+    "tracked_sha256": "9992f088f553ed7ac9b79843c26fac8065c3d4cb434c95159b4497271ef906cd",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "before/lobby-1920x1080.png",
+    "image": "before/lobby-1920x1080.jpg",
+    "original_sha256": "779dea6be4e969247260e084b121658cbb90fd26420cba82d55bc2d76e0057f6",
+    "tracked_sha256": "85d50cd841056225f029f0ebd1361c1ccef422eef055833d84333b8a96ea59cc",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "before/natural-birds-1688x780.png",
+    "image": "before/natural-birds-1688x780.jpg",
+    "original_sha256": "fc52c6979155cd4b4051c5bf9acf6edbb6a32883d6870a9f30dc4e181a3ab987",
+    "tracked_sha256": "856f6d9e59f8938a79ab87352e1ca6ffedc18b9636357d7be0a237fdb75cffe7",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "before/natural-birds-1920x1080.png",
+    "image": "before/natural-birds-1920x1080.jpg",
+    "original_sha256": "4ad05a3fad4bbfae358bf843df243cdf32a910b4fe30cbdc31863b321f052342",
+    "tracked_sha256": "2a7959b42595b1682fed5ffb24815e905eff75dbeffe5d0e77b2d79c9046b068",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "before/overview-1688x780.png",
+    "image": "before/overview-1688x780.jpg",
+    "original_sha256": "324f61ebfafda8bf8660fe2b629519d6b4c58b178cb484917c47dce8cbb3dc69",
+    "tracked_sha256": "a6b04b2aef7069b31afe17e7bc71613a9f1c5620a352408197f495aa4347bb96",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "before/overview-1920x1080.png",
+    "image": "before/overview-1920x1080.jpg",
+    "original_sha256": "4c4f4d3728a408e70cb8a963b283bcba700ffa36c3ac3115e1cce1c316fa453d",
+    "tracked_sha256": "b51c443f2d8747916b9e33811372ddad4475a2d1a361e35c36fae8659b6bad5d",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "before/reader-reel_mistress-golden-1688x780.png",
+    "image": "before/reader-reel_mistress-golden-1688x780.jpg",
+    "original_sha256": "3553bfeb59a04a48acd4bb3f9d2741c598773868280ae28a25d74db7b6442aa9",
+    "tracked_sha256": "296c7d56a72549c66127dc2361a16c67566ed9c40f1b3b3073658c627d67f1b4",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "before/reader-reel_mistress-golden-1920x1080.png",
+    "image": "before/reader-reel_mistress-golden-1920x1080.jpg",
+    "original_sha256": "20160fddaf58c757bdea3b5b40b99ca260783d45c7c5897ca194b76d569e3a99",
+    "tracked_sha256": "485cf51ae97c0312c23418dc3a8bed3c22c23303cfa724791373fbe11df5aaca",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "before/scout-1688x780.png",
+    "image": "before/scout-1688x780.jpg",
+    "original_sha256": "cc63a7f7d8a2b338f8d581a81d4052d56812c2dfce46a0d4aa14037730a3fcd1",
+    "tracked_sha256": "b4fdb598b02288a9030a70a6592d359dc141e6efc54b40f065e84bb370b71019",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "before/scout-1920x1080.png",
+    "image": "before/scout-1920x1080.jpg",
+    "original_sha256": "c6af869a53b8458ec991737561de06609977fd00b89e8227f544c63911723c25",
+    "tracked_sha256": "611c8355e69d4faddca13209a6a2a990b10aa18c5438c4a69559ff79da0accb1",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/A-reduce.jpg",
+    "image": "cold-recruit-followup/reader/A-reduce.jpg",
+    "original_sha256": "db121d117aef37c12f4a36d8962c5142097c67aa24be9554095865247ff48760",
+    "tracked_sha256": "db121d117aef37c12f4a36d8962c5142097c67aa24be9554095865247ff48760",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/A-x1.jpg",
+    "image": "cold-recruit-followup/reader/A-x1.jpg",
+    "original_sha256": "c2083b77845e6acec7336b53ac58ec5ff71cab0609ed1a4651476b8d082e1cdb",
+    "tracked_sha256": "c2083b77845e6acec7336b53ac58ec5ff71cab0609ed1a4651476b8d082e1cdb",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/B-reduce.jpg",
+    "image": "cold-recruit-followup/reader/B-reduce.jpg",
+    "original_sha256": "c25e3a9999f8fbdf596af673b20d3255188b89b99954925de925cb1dbc23564b",
+    "tracked_sha256": "c25e3a9999f8fbdf596af673b20d3255188b89b99954925de925cb1dbc23564b",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/B-x1.jpg",
+    "image": "cold-recruit-followup/reader/B-x1.jpg",
+    "original_sha256": "0b262f2a11ee6467a0753e0d93e7b246379b744833312ba2bfb2e26d368f77b7",
+    "tracked_sha256": "0b262f2a11ee6467a0753e0d93e7b246379b744833312ba2bfb2e26d368f77b7",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/C-reduce.jpg",
+    "image": "cold-recruit-followup/reader/C-reduce.jpg",
+    "original_sha256": "18cd6d0f049d41c476ae4f35f8149865ac1927d947b2c13d0c12e546a141ccb5",
+    "tracked_sha256": "18cd6d0f049d41c476ae4f35f8149865ac1927d947b2c13d0c12e546a141ccb5",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/C-x1.jpg",
+    "image": "cold-recruit-followup/reader/C-x1.jpg",
+    "original_sha256": "b8e59ddf01b95b8336ffb6137772cfe287547128f5a7a4b68d08c89cff70e940",
+    "tracked_sha256": "b8e59ddf01b95b8336ffb6137772cfe287547128f5a7a4b68d08c89cff70e940",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/D-reduce.jpg",
+    "image": "cold-recruit-followup/reader/D-reduce.jpg",
+    "original_sha256": "ac4244c9c6f63af4ae4307e09ad95f8c3309462acdc3cd6a27e0d7e11a774eed",
+    "tracked_sha256": "ac4244c9c6f63af4ae4307e09ad95f8c3309462acdc3cd6a27e0d7e11a774eed",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/D-x1.jpg",
+    "image": "cold-recruit-followup/reader/D-x1.jpg",
+    "original_sha256": "68e3985745467d69e60f3572958768ebf9cb8a6d5ded3dc22f73d773d92bb1ac",
+    "tracked_sha256": "68e3985745467d69e60f3572958768ebf9cb8a6d5ded3dc22f73d773d92bb1ac",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/E-reduce.jpg",
+    "image": "cold-recruit-followup/reader/E-reduce.jpg",
+    "original_sha256": "1468e0f95f6d1ccc003ba7e1d2b360a851d1ec588d91ba6ae7eda51b9be6b297",
+    "tracked_sha256": "1468e0f95f6d1ccc003ba7e1d2b360a851d1ec588d91ba6ae7eda51b9be6b297",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/E-x1.jpg",
+    "image": "cold-recruit-followup/reader/E-x1.jpg",
+    "original_sha256": "0663e6ca307463b235cafaec1bbcf06693ef0078b52f9f13d08990c681cd9b0c",
+    "tracked_sha256": "0663e6ca307463b235cafaec1bbcf06693ef0078b52f9f13d08990c681cd9b0c",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/F-reduce.jpg",
+    "image": "cold-recruit-followup/reader/F-reduce.jpg",
+    "original_sha256": "edf51493d747a19b4f3ce7c56128b43ad9a5b30d78d2f80d76cca5dd5ea7575e",
+    "tracked_sha256": "edf51493d747a19b4f3ce7c56128b43ad9a5b30d78d2f80d76cca5dd5ea7575e",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/F-x1.jpg",
+    "image": "cold-recruit-followup/reader/F-x1.jpg",
+    "original_sha256": "3b7fce541361fe794baa5a5d35b3b73b6f451d0971f8c2de9654cf37fd6005d7",
+    "tracked_sha256": "3b7fce541361fe794baa5a5d35b3b73b6f451d0971f8c2de9654cf37fd6005d7",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/G-reduce.jpg",
+    "image": "cold-recruit-followup/reader/G-reduce.jpg",
+    "original_sha256": "ece3f3e645ae93f742773873109cfd58afe0de5a8e5b5a2e4e0d82d5081f6215",
+    "tracked_sha256": "ece3f3e645ae93f742773873109cfd58afe0de5a8e5b5a2e4e0d82d5081f6215",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/G-x1.jpg",
+    "image": "cold-recruit-followup/reader/G-x1.jpg",
+    "original_sha256": "b188da0034cb80958f06a2f6a41b1ccce5371869b325d92903a0863a2b210ed8",
+    "tracked_sha256": "b188da0034cb80958f06a2f6a41b1ccce5371869b325d92903a0863a2b210ed8",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/H-reduce.jpg",
+    "image": "cold-recruit-followup/reader/H-reduce.jpg",
+    "original_sha256": "5aee3ca5c2645eb225ce4ef0a9a9b4b6f8e3e137f017df3b12a42ab5b4d1cdd6",
+    "tracked_sha256": "5aee3ca5c2645eb225ce4ef0a9a9b4b6f8e3e137f017df3b12a42ab5b4d1cdd6",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/H-x1.jpg",
+    "image": "cold-recruit-followup/reader/H-x1.jpg",
+    "original_sha256": "e2a0260d6426666bfa8b72531d4b5d3868627da3f0ac8e4ff510f4c0a86b955b",
+    "tracked_sha256": "e2a0260d6426666bfa8b72531d4b5d3868627da3f0ac8e4ff510f4c0a86b955b",
+    "encoding": "original JPEG",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      6752,
+      1640
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/01.png",
+    "image": "cold-recruit-followup/reader/rules/01.jpg",
+    "original_sha256": "48f958b75f119f8c40042fa7cf74db49e0a2d11e7091a66bc00572c1d2b7ca0a",
+    "tracked_sha256": "f7f7f173a8c3f8635c3ce3d187f8cbd51c138e840505150d8d0ef179f1c4f8be",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/02.png",
+    "image": "cold-recruit-followup/reader/rules/02.jpg",
+    "original_sha256": "7d69b6632b4ee5a58d22730ef8b2cfe72aa18849f345afd393f3ff45ff209b9f",
+    "tracked_sha256": "2a76688be44ba7fa9655b2c7f14fe8160d5b1ab8e060b99088afc71d1e9204c1",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/03.png",
+    "image": "cold-recruit-followup/reader/rules/03.jpg",
+    "original_sha256": "1bd9cb072c5ef2c61029586bcaeba1e91a48e8bc1fa15ed1284e6d5121442620",
+    "tracked_sha256": "7119130aafb8959d53325be3356978caad9e4e260ee3374ba258d70ec6f0f584",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/04.png",
+    "image": "cold-recruit-followup/reader/rules/04.jpg",
+    "original_sha256": "a2021fe16679b300e26de7397f5ce79200779259cfbd0310b4f91edb542edfe8",
+    "tracked_sha256": "0376231ddae776e2366e82f1691e48586c558d4e33842be25cc2675593228dd4",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/05.png",
+    "image": "cold-recruit-followup/reader/rules/05.jpg",
+    "original_sha256": "d5971b1a746db35fd68bfab4409860c84236c48abf29931c88fefac6ca7116e6",
+    "tracked_sha256": "c0318c1f0ab62e28451560d87953ca11f7cd3cd7b97cf39578022dd751560421",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/06.png",
+    "image": "cold-recruit-followup/reader/rules/06.jpg",
+    "original_sha256": "0be9ba3a6cfdfef85b2014f7170c8cf80b7d431a918b7ebc0bff402418f22554",
+    "tracked_sha256": "63c0b6d4c09e46b5d7e3473a11a8e94f71e8228c2bc35b39ff5b1c6c84d6195b",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/07.png",
+    "image": "cold-recruit-followup/reader/rules/07.jpg",
+    "original_sha256": "36d740e30ca867d9aebf5992c73d2986de7ee7b96528259eb444ecf0ef0d1672",
+    "tracked_sha256": "a1a607ec156216a6e6022f36e24c02c971bc85037eb28f6d75ee4b980f19ed2e",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/08.png",
+    "image": "cold-recruit-followup/reader/rules/08.jpg",
+    "original_sha256": "df13a19bfda1a06e292f1ae27658416f6a21643d75c7ad760f36d440f85b03b9",
+    "tracked_sha256": "267cd3f666a277daa629c8dd0d70867bb6ba8a6cafc64473ac3d89e9538973b4",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/09.png",
+    "image": "cold-recruit-followup/reader/rules/09.jpg",
+    "original_sha256": "0ff8b0e21494af8af58661bfee8108f51a3bc307b3f9d98299931692645e175d",
+    "tracked_sha256": "048146db26e4c03fc7e67ce56f7dbea1d4403309939febbd19f7cd88df485251",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/10.png",
+    "image": "cold-recruit-followup/reader/rules/10.jpg",
+    "original_sha256": "66a16b272bc064c4f2a556dd3af7e42541b8210190609f4bfb63bf4c6c66aa97",
+    "tracked_sha256": "501cdcaedc9cb7c1a79c1c2513c5602efcf8611d5a0d7edb94a4ca36dae5ea28",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/11.png",
+    "image": "cold-recruit-followup/reader/rules/11.jpg",
+    "original_sha256": "dc12b26b18b8e9c33c02581d1c0b19eec161565434d99dc5c431eb50f633a0bd",
+    "tracked_sha256": "00c91b1e87ce73a1ab737764fa8d3b26e22f00da7e50bf9f32f79e08ea548947",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/12.png",
+    "image": "cold-recruit-followup/reader/rules/12.jpg",
+    "original_sha256": "814800a0bb02ee6830b15953793e8d3ace87fa6135125644200c8a3e01d69565",
+    "tracked_sha256": "9fd931eaa1b36b9df6107ce19479f3decec38f7c4fca7fb0d97c831afc43cc9f",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/13.png",
+    "image": "cold-recruit-followup/reader/rules/13.jpg",
+    "original_sha256": "42df2b5bf4206b64423b8e25d042919eabb986829cf54160659eeea08bb23fc9",
+    "tracked_sha256": "7bce0ff7f7963dff2651e5ca4e0df600cb29a8a77f85b39399dcb6ad4e80d1c0",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/reader/rules/14.png",
+    "image": "cold-recruit-followup/reader/rules/14.jpg",
+    "original_sha256": "8e6d196bbf88911afdd8d5ca32d3ecb59936bb4acd7561cc7ce923a69a4ae542",
+    "tracked_sha256": "432d6d0f031a2a786c2ee2322701601dbd9ed2380a183996569832fb274df8d3",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/all-unit-board-faces.png",
+    "image": "cold-recruit-followup/technical/all-unit-board-faces.jpg",
+    "original_sha256": "41ef10675a755de4ef218a98aaaa13f3362fa990ca3890dec51a4e1d9fe95583",
+    "tracked_sha256": "d2868b509b2e995e7c249d98b2e4ec041c90c3ff1516f9c6ffaed29f0c033b4a",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      2190,
+      3904
+    ],
+    "display_pixels": [
+      2190,
+      3904
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/shipped-unit-board-faces.png",
+    "image": "cold-recruit-followup/technical/shipped-unit-board-faces.jpg",
+    "original_sha256": "1d822f3cf01219fa6207d617b06584e2eec89eac69a5b742eea2fe025d0f063b",
+    "tracked_sha256": "47cece94b9c65d609432567b894493dca47a39c0b2ce0c6dd9c3daf44732ac5c",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      2190,
+      2928
+    ],
+    "display_pixels": [
+      2190,
+      2928
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/A-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/A-after-1688x780.jpg",
+    "original_sha256": "768065b8de342e3d72c00fbcf5072b8324d15d07669c2ec26ed5bad9edd99449",
+    "tracked_sha256": "90b634dcab1ae01897f2a83578c0e190d1659b4474106ad6c45536d95e1edf66",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/A-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/A-after-1920x1080.jpg",
+    "original_sha256": "45fed1670702d0bbcc1e7f0e48cd11d53eae3fceb703627e7355cb3368fab64c",
+    "tracked_sha256": "653071168a760cbeebda368d3de1bced5840699abc29ad9a4be4667d09e5a521",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/A-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/A-before-1688x780.jpg",
+    "original_sha256": "e16266b765a6d9fd9ec51183cb28b264fd92192965dbfed91d0155174c9e151f",
+    "tracked_sha256": "76e3f6de65ce40e46504137e707fcf0ab762956f636b799307ab2786ed5751a0",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/A-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/A-before-1920x1080.jpg",
+    "original_sha256": "9ac5d15f7f6b9e4f0f951b415b9b1d7cad74d0abd2b424e81ffbc449af34f3bb",
+    "tracked_sha256": "b7da09b262b993fc7e133331e7844912bff325d8539eed5c54dfdcff2e0ce988",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/B-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/B-after-1688x780.jpg",
+    "original_sha256": "f9314e6aae324554fb4fd3f0885d88abbdb5c0f3a9b09ad9fbda336a1e5e1ce4",
+    "tracked_sha256": "315b6c581bdfaf81dd583e6524e6755ecfe07c3ba2a63205571de77dc998f131",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/B-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/B-after-1920x1080.jpg",
+    "original_sha256": "eea72ffd3a162565a7a687c0f3ef0de111f96e54c4545d01ba66d81d1272b85a",
+    "tracked_sha256": "7c089014437ee17b3a9f58c3c13473066100fd820cf6743cc0f0eab9b85f7adb",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/B-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/B-before-1688x780.jpg",
+    "original_sha256": "899de4bdd7bcfcff05658b8df12cdd4e4d908b24f7ea13551b20ce99d36e6727",
+    "tracked_sha256": "34a8a685e27cee09385c864cb0c6905d8cffed116dff5297708e637a691babb9",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/B-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/B-before-1920x1080.jpg",
+    "original_sha256": "c6f0c1b66aa5afe323381d8b1ded697982ffe97fa5890ac53d8d51914b2a80ed",
+    "tracked_sha256": "2638974739d72c4fac695d14ea1f5fb5198e4e9616f93a200d6807f039dd6fe4",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/C-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/C-after-1688x780.jpg",
+    "original_sha256": "a15a69a841e1ebeb6821511592cde09a6dd826d5ecc1ddfa126ec821bfbcec6e",
+    "tracked_sha256": "16eff9e8a959fc1fdada896ecea672a47553979d0fd280c205795f3b9d399b3f",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/C-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/C-after-1920x1080.jpg",
+    "original_sha256": "2a41cee9ab367a0cddf29101df31fc33e033c6ab7796d14a2c335907f256f448",
+    "tracked_sha256": "d4b8f791e9d08de671e3858ff9547dfb507735d832962d4e790480f5af8f66de",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/C-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/C-before-1688x780.jpg",
+    "original_sha256": "44c3a379cb921c0bb27e60b12d8a99d379785d79b2e68d65a9fdc6481d10d35f",
+    "tracked_sha256": "ffdb9a895f9daec081c0740a392b5af5c93ee1c9f83e76ac17e00b2421f8b431",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/C-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/C-before-1920x1080.jpg",
+    "original_sha256": "e7d2e73b5f4d715ea4ffbd22d58d669e4f9b3876cc7e18c421c4568e1871ce63",
+    "tracked_sha256": "26d2d7c70e9332e2c9f5bd7442c90ae8dc89e49468c652ea4f914961d3201e2a",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/D-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/D-after-1688x780.jpg",
+    "original_sha256": "3597b28de5f7ff24bec00e7b346f2e780655a19170bcb81a4ba4c6f097ce94bb",
+    "tracked_sha256": "e7eea4d63c6053fa314408cf149911605755fa8da952066f0358466b68427421",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/D-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/D-after-1920x1080.jpg",
+    "original_sha256": "242055dd761f7e2161dccada5a7f4da51e726fb64b32f598ed8ec5e7e69148ec",
+    "tracked_sha256": "ec45bac34f5ae2a92e882ada35e598e6c14a0f5086ffe9b36d0273a7ab1852a0",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/D-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/D-after-1688x780.jpg",
+    "original_sha256": "3597b28de5f7ff24bec00e7b346f2e780655a19170bcb81a4ba4c6f097ce94bb",
+    "tracked_sha256": "e7eea4d63c6053fa314408cf149911605755fa8da952066f0358466b68427421",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/D-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/D-after-1920x1080.jpg",
+    "original_sha256": "242055dd761f7e2161dccada5a7f4da51e726fb64b32f598ed8ec5e7e69148ec",
+    "tracked_sha256": "ec45bac34f5ae2a92e882ada35e598e6c14a0f5086ffe9b36d0273a7ab1852a0",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/E-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/E-after-1688x780.jpg",
+    "original_sha256": "6ba7672c1da140f876273a063cdf8fe440d6eee34315c3b958843cc5ea4a7fe6",
+    "tracked_sha256": "6cf4cec53dcddadf17e6cae4a33c06fbbf2835b4196a168fc090f8b958a82655",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/E-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/E-after-1920x1080.jpg",
+    "original_sha256": "2c322ff630fdf3fd5a4d699090c222fdd697274ff4fa2d612de842b30bc43a25",
+    "tracked_sha256": "0e7de5c2d0c662efef1273745e9b668a2da04f2327826b6262a6285ce558ec59",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/E-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/E-before-1688x780.jpg",
+    "original_sha256": "f7699540963798397218da938214e86e04904c1c38380063d63a0046318fd142",
+    "tracked_sha256": "3c35b61e4a74a583663ff2a3a5950cb6e3f1dbe7d09dab1cbd5bfa46f95fe480",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/E-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/E-before-1920x1080.jpg",
+    "original_sha256": "2b2e8ed7040bedfef4e8a040c0613cb99a7cbec9cad86048a41978c460a5e30a",
+    "tracked_sha256": "0da7c95daadebd3862964b5d7793ed77ce3949f0931387d988794fff15eb5f9c",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/F-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/F-after-1688x780.jpg",
+    "original_sha256": "bebc054d8e5000e0ad10226d1638c2897ba14d306134b8bb79c3794beca9d633",
+    "tracked_sha256": "c35700c84aa11369d1426fb9ae28a08549c06bfa6c1f4b4b7eee2655fd7956c7",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/F-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/F-after-1920x1080.jpg",
+    "original_sha256": "8fbfd743f7fffc272abc906dfaad0aa26ee4635c36b946710386c7c8b160056b",
+    "tracked_sha256": "66407ff90ddbd1ad2eaacb10ea272a2f5b779edeb22be446ac5929abc543541b",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/F-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/F-before-1688x780.jpg",
+    "original_sha256": "278aa22a6290b902fa830e3f7a12565a67a819aa8ac3854c01f915acca00008e",
+    "tracked_sha256": "15b6c8e4333eef315bef6cf26838b208ed4aae28901f314991f724a76092e04d",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/F-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/F-before-1920x1080.jpg",
+    "original_sha256": "8c416666db56e22a19e6cc40cd23848c0e1794a79700939fdb53d1bd69c5a0ed",
+    "tracked_sha256": "0bd9be321144794862386dfa05e04fd21bf91ad94ba5968f14bdc0c0a808dcc0",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/G-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/G-after-1688x780.jpg",
+    "original_sha256": "e076de2e8f7706f0f4f06a6de9176fa907049857bad41e5ec57b44b1ae3b95f3",
+    "tracked_sha256": "38ce30ec78653b44767d35bfe1e384bcfec877819c02e4f3db5c5c973dc75288",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/G-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/G-after-1920x1080.jpg",
+    "original_sha256": "5aa35fc7592ea0570cdf20aad2662a9685a8487e06390ea74d4b7230aec6a9a4",
+    "tracked_sha256": "f821db5fe4b1dd9865f8ccb798d578940a1f88530960e7ef68382294f008970e",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/G-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/A-after-1688x780.jpg",
+    "original_sha256": "768065b8de342e3d72c00fbcf5072b8324d15d07669c2ec26ed5bad9edd99449",
+    "tracked_sha256": "90b634dcab1ae01897f2a83578c0e190d1659b4474106ad6c45536d95e1edf66",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/G-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/A-after-1920x1080.jpg",
+    "original_sha256": "45fed1670702d0bbcc1e7f0e48cd11d53eae3fceb703627e7355cb3368fab64c",
+    "tracked_sha256": "653071168a760cbeebda368d3de1bced5840699abc29ad9a4be4667d09e5a521",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/H-after-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/H-after-1688x780.jpg",
+    "original_sha256": "17187f5f6873fc749d2a59c97b37d595861a35203d2ebc324c24dcbd2ba5b1d3",
+    "tracked_sha256": "9325692462ec11b7f43cd3ef682eaa23806eebb9c391da5402b3021d77825627",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/H-after-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/H-after-1920x1080.jpg",
+    "original_sha256": "fbb1166a63e0fdc6a9856668faceec5a3d33388ae7f303fcbd27677d6aa643e3",
+    "tracked_sha256": "f27ba40b2cbbca3a44de1f172459a728640fd43399a19d3da036cc583447967f",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/H-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/C-before-1688x780.jpg",
+    "original_sha256": "44c3a379cb921c0bb27e60b12d8a99d379785d79b2e68d65a9fdc6481d10d35f",
+    "tracked_sha256": "ffdb9a895f9daec081c0740a392b5af5c93ee1c9f83e76ac17e00b2421f8b431",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/H-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/C-before-1920x1080.jpg",
+    "original_sha256": "e7d2e73b5f4d715ea4ffbd22d58d669e4f9b3876cc7e18c421c4568e1871ce63",
+    "tracked_sha256": "26d2d7c70e9332e2c9f5bd7442c90ae8dc89e49468c652ea4f914961d3201e2a",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/fan10-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/fan10-before-1688x780.jpg",
+    "original_sha256": "51aaf2c3bdd97a2f2f06ca9594ec59ec92a13798c3830bbb5baafc7053206652",
+    "tracked_sha256": "cc7c8e1d74711641059e15a25b9d348ba351182dd92448813eb09e6f693a837f",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/fan10-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/fan10-before-1920x1080.jpg",
+    "original_sha256": "3f3a2af2df5361a6725c1f9452b2a2aed9ab98d83b92bf221a9e7f1ec443a0f4",
+    "tracked_sha256": "4bb3649febb8c09ff8da06814cf9116f0c8cfe51b8e79b9ca76278ccd80baf7b",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-lobby-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/spec-lobby-before-1688x780.jpg",
+    "original_sha256": "16c7601223aaf6c4acabb05042e93258771e7c011b1898b8b91e97aa2cbc1df1",
+    "tracked_sha256": "2912e7781a620c8e618871b97483419b01617e627261e3fa5f15ec6d763fcedb",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-lobby-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/spec-lobby-before-1920x1080.jpg",
+    "original_sha256": "7ddf213639eb84f0e68675b17eae6172e878c9ce96afda5af7c8211eb2cf2017",
+    "tracked_sha256": "2d2aa577a7dfa7ff4e09c1d9a777b5e6593bca6a1becce533dd427f2425d2a05",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-natural-birds-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/spec-natural-birds-before-1688x780.jpg",
+    "original_sha256": "4804c7b8857e8bacc6f095b925ca5a31aefbe7396c5a050d666898d2b9b02d2c",
+    "tracked_sha256": "b57872a99149b4ebb70951edfe39bf9f7d1ebb3426b86a4134b4dd36b1f0d19e",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-natural-birds-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/spec-natural-birds-before-1920x1080.jpg",
+    "original_sha256": "6656bcdd6273eb920ead791d87f9023af83ea14d98db45e58912024f685910ab",
+    "tracked_sha256": "20900c4d6adaa4ee5db803da1f96cb2dd0e8218317b77ff599041fbb8f4e6925",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-overview-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/spec-overview-before-1688x780.jpg",
+    "original_sha256": "4786cda8729523f0345c060812582a067b61382947785ae453a11d687cce6a71",
+    "tracked_sha256": "a375baa44b51278a4438e4029ab7a607c67547932ce771515f11b9c894c0418d",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-overview-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/spec-overview-before-1920x1080.jpg",
+    "original_sha256": "1838d6971543fb0c9829ecd735efea0ca89268a77ae5403dd14a2667f97fcaba",
+    "tracked_sha256": "438916d7a69f1af2fbb2d7f90b9b45acae282e91dbf925472d401baf1d72820e",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-reader-reel_mistress-golden-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/spec-reader-reel_mistress-golden-before-1688x780.jpg",
+    "original_sha256": "3def5c6824211bfb59e4543818505697b5ab9bdff77f7e62e446cb9cc0ed4b05",
+    "tracked_sha256": "70bed5cec84185ddb3cacd7fde02344ebcfbe77c4c1599efa18d31390cc79ccd",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-reader-reel_mistress-golden-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/spec-reader-reel_mistress-golden-before-1920x1080.jpg",
+    "original_sha256": "8cb504cc0835aa34bdd773eb1ecd8901ee0ac12754cfded785aaf21a6dd0a17c",
+    "tracked_sha256": "7bfa073a4f8803ede9acc0f584b689cb6726ef1d664acd022436005f5390940f",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-scout-before-1688x780.png",
+    "image": "cold-recruit-followup/technical/stills/spec-scout-before-1688x780.jpg",
+    "original_sha256": "c459d0af21438a99840729203734d8ca770abe31ed8e0e774e5eb670f8f2ed6e",
+    "tracked_sha256": "83908f9066ace36ce51b1e1d3324caab68208ec48e6f14db3978384157de3cf3",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      1688,
+      780
+    ]
+  },
+  {
+    "original": "cold-recruit-followup/technical/stills/spec-scout-before-1920x1080.png",
+    "image": "cold-recruit-followup/technical/stills/spec-scout-before-1920x1080.jpg",
+    "original_sha256": "e4a5b663df11a245b84598ac60c5e5ffa2c1a0e213f839083fe70c390ca5b155",
+    "tracked_sha256": "7f0ef178a1122bb77042654917be0776ec95bf2f84330426e8e25df9b1ff5b06",
+    "encoding": "JPEG quality 85",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "original": "focus-followup/after/lobby-1688x780.png",
+    "image": "focus-followup/after/lobby-1688x780.jpg",
+    "original_sha256": "075c897b2223edc26febd21b76ea013d1de8f77c830047378a1a3c2b7635d76a",
+    "tracked_sha256": "2425eaa1862f9e87bf6e8023445a3feba5a15e1ba21330dab156e3d28c6afd14",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "focus-followup/after/lobby-1920x1080.png",
+    "image": "focus-followup/after/lobby-1920x1080.jpg",
+    "original_sha256": "391a60874cb9c320dfd0405cc3fc62f3294639fa8b86653bdbb0f5fa98f97058",
+    "tracked_sha256": "cf7e51e012fd97badcd2e076be86d7f0067e63fba7a3661deb2eb756c45464b8",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "focus-followup/after/natural-birds-1688x780.png",
+    "image": "focus-followup/after/natural-birds-1688x780.jpg",
+    "original_sha256": "0d2e7ca424f3783d82383a9eea3253cff70e35553fd56badc0d6f94e6768ebce",
+    "tracked_sha256": "9fb9ac5ae5b6ed73b6c9c4d09d6a46a30a8c9d993a34b9bdcc0ccb5ffd1995d1",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "focus-followup/after/natural-birds-1920x1080.png",
+    "image": "focus-followup/after/natural-birds-1920x1080.jpg",
+    "original_sha256": "6a389a96c229387a4a0eab13cdb33656e4e0bcdecf138aa6d175e539e87c07b9",
+    "tracked_sha256": "62d4b44e1ef76eed9becc2dc0981ce70e6d6a9b816ab346333ee3af58c6a5cb8",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "focus-followup/after/overview-1688x780.png",
+    "image": "focus-followup/after/overview-1688x780.jpg",
+    "original_sha256": "b3b4b68dde3b6a576bd3381ec168c9f828fd7d38d6f88955e75a2d71e1e2a51a",
+    "tracked_sha256": "6ec4690a5c332ac5308479c780c36a5a0d343b6c35c7b7dfac22885e66fc6dd8",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "focus-followup/after/overview-1920x1080.png",
+    "image": "focus-followup/after/overview-1920x1080.jpg",
+    "original_sha256": "8f8d175209e999090470d835072bdd2a9899ecceafc683fe70a5bebff80de848",
+    "tracked_sha256": "932a9031de560e2e8873d9f8c0bcc424e29bd91ba59468ab5659c8ccc51e143b",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "focus-followup/after/reader-reel_mistress-golden-1688x780.png",
+    "image": "focus-followup/after/reader-reel_mistress-golden-1688x780.jpg",
+    "original_sha256": "76dd6970f1c3558f8e7408672f03f620603c62748a2d546d67d033d5fa7649a8",
+    "tracked_sha256": "228826ebe76782814d6d08330a2390244baa0c71347b647ce37f9c99b3d980ca",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "focus-followup/after/reader-reel_mistress-golden-1920x1080.png",
+    "image": "focus-followup/after/reader-reel_mistress-golden-1920x1080.jpg",
+    "original_sha256": "fd32ca9405d29084acf3b9c8c71b1a53977aae57f10eb5919aec0451e8f87782",
+    "tracked_sha256": "395737a905da7cb1e6f416dfc920852f19ca3e90c6d54a4f4f23a3937fc427ee",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "focus-followup/after/scout-1688x780.png",
+    "image": "focus-followup/after/scout-1688x780.jpg",
+    "original_sha256": "d31937ed13c5d7e165f8a317e605f6ade04628089c765ea4ce02f946a37cfbcd",
+    "tracked_sha256": "e3e5784d6007aad7cde7852278613302b59083b4e9e11dc58ec740ec04304034",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1688,
+      780
+    ],
+    "display_pixels": [
+      720,
+      333
+    ]
+  },
+  {
+    "original": "focus-followup/after/scout-1920x1080.png",
+    "image": "focus-followup/after/scout-1920x1080.jpg",
+    "original_sha256": "1b26543d260a1b6e7778ab42180f06e289a3da46f34a9ed98acda4361f1e635f",
+    "tracked_sha256": "433908b7655e587e9ea3e630f29afea95197b94a80eb32c61c951c4530edcce5",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      1920,
+      1080
+    ],
+    "display_pixels": [
+      720,
+      405
+    ]
+  },
+  {
+    "original": "focus-followup/all-unit-board-faces.png",
+    "image": "focus-followup/all-unit-board-faces.jpg",
+    "original_sha256": "2318201877d9280da892d1839b894d013ce98327276c453600998d0815fb164d",
+    "tracked_sha256": "33b5bab4612ae8b799f6f581b4a0b0184bbdab48bd5b908fb988675da62e1920",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      2190,
+      3904
+    ],
+    "display_pixels": [
+      720,
+      1284
+    ]
+  },
+  {
+    "original": "focus-followup/shipped-unit-board-faces.png",
+    "image": "focus-followup/shipped-unit-board-faces.jpg",
+    "original_sha256": "b137d03e1b9a7cc69cecf2494ce91c43d914c194e031d1297d43931d5835444c",
+    "tracked_sha256": "dfe4ab5729e7203d0ef95efc6c48f279cc1f5010f9614afe0ad51b401ea323d2",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      2190,
+      2928
+    ],
+    "display_pixels": [
+      720,
+      963
+    ]
+  },
+  {
+    "original": "focus-followup/strips/end-turn-reduce/end-turn.jpg",
+    "image": "focus-followup/strips/end-turn-reduce/end-turn.jpg",
+    "original_sha256": "a0affe9b141f6c9d5198c474f8b169c87363519b537cfb6f9f2a6fa939c171a2",
+    "tracked_sha256": "931667d7874d621be10c41311f6a3188da6df0b53eec5413f9c08db2c6eb39de",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "focus-followup/strips/end-turn-x1/end-turn.jpg",
+    "image": "focus-followup/strips/end-turn-x1/end-turn.jpg",
+    "original_sha256": "9c08d0cfb765b015c912ecb2f470f23f624ef54a852fc26f0bd1ad7666228774",
+    "tracked_sha256": "2ec4ba9ae0913d22c722c216ecdaea5221af6e26607869d85934e9270b1608dc",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "focus-followup/strips/end-turn-x4/end-turn.jpg",
+    "image": "focus-followup/strips/end-turn-x4/end-turn.jpg",
+    "original_sha256": "e5329c94358933b410e9303228ec6ed1335b13bb9c775b654c8e14cb5b564e6a",
+    "tracked_sha256": "9bca2f558687c264d2b88df8686c4d761bd6c0c15a7d8910a88ad04e83f7715d",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "focus-followup/strips/scout-reach-reduce/scout-reach.jpg",
+    "image": "focus-followup/strips/scout-reach-reduce/scout-reach.jpg",
+    "original_sha256": "723720c2a1a9c011d09c83d980dd211690043065e7830798833d8d8c095a3261",
+    "tracked_sha256": "c38ab7b08003b70b713e10e70e6f48cd4b71e650fd8bba4d31612022158876b1",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "focus-followup/strips/scout-reach-x1/scout-reach.jpg",
+    "image": "focus-followup/strips/scout-reach-x1/scout-reach.jpg",
+    "original_sha256": "f39a4dd3659d05b669094e47c9268dd102883de3137aefe3b47a8ba8975903a6",
+    "tracked_sha256": "6d8841bcf3f5a4d085eb85cd342e6e742b7969c89fdb0989ad03ef8d430bfbb0",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "focus-followup/strips/scout-reach-x4/scout-reach.jpg",
+    "image": "focus-followup/strips/scout-reach-x4/scout-reach.jpg",
+    "original_sha256": "245b5b6f742432aba94facef1dd2fedd1a8f45a593c7fef399ca55ec9c18726a",
+    "tracked_sha256": "e65d2693fded9197705d2de816b512e21526699531f4e6d2edf03848d049dd96",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "strips/end-turn-reduce/end-turn.jpg",
+    "image": "strips/end-turn-reduce/end-turn.jpg",
+    "original_sha256": "c7cebb6dcf80244b193ec93bf20d4f60a904a9592e67a1bf8b4a7184d127f700",
+    "tracked_sha256": "494c458854d9e1dfe512244d0d41f59738d3f3be918493c8946c9a797938e79a",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "strips/end-turn-x1/end-turn.jpg",
+    "image": "strips/end-turn-x1/end-turn.jpg",
+    "original_sha256": "68dee2850a69a6e3cd2f66335b819211a16b60c1b7b20e57917ad4fcb70ebe1f",
+    "tracked_sha256": "254fd5798ad802a7e6c2145608b9f6e4f1f854705c39d46527b9367d05951253",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "strips/end-turn-x4/end-turn.jpg",
+    "image": "strips/end-turn-x4/end-turn.jpg",
+    "original_sha256": "1214eeb7220d54be6504d3e81c84d98504c9485757cd67d08826e608b7efc2ac",
+    "tracked_sha256": "5da89b687fce2b03812c8f2100cd872e02e8cc0a405653c60f018977f841d918",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "strips/scout-reach-reduce/scout-reach.jpg",
+    "image": "strips/scout-reach-reduce/scout-reach.jpg",
+    "original_sha256": "2ac4cd49a68d0048ba95dc2c2b01faf8c7a78715bba7ab1366ff56ff88a5f864",
+    "tracked_sha256": "28f4d959e02f23d57857913beb07db128921dd497a49aa68657613010dbd4d17",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "strips/scout-reach-x1/scout-reach.jpg",
+    "image": "strips/scout-reach-x1/scout-reach.jpg",
+    "original_sha256": "3850fe364477daac16b291121902a30cb4690e1b2ebcc88355e1671de373919a",
+    "tracked_sha256": "9fbfc944251843d0fdcbad6f41ae3f076b5f0f7d83c657e277964362605aecbc",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  },
+  {
+    "original": "strips/scout-reach-x4/scout-reach.jpg",
+    "image": "strips/scout-reach-x4/scout-reach.jpg",
+    "original_sha256": "ed874cc48241cd075dc511aa6202ab8a0e40a4911add597a91ec1189e5c3e2ab",
+    "tracked_sha256": "252fe71f85180357bbdc08f98afae14f4ee2087ff48cda3c167c9e75172e30d8",
+    "encoding": "JPEG quality 85; display derivative downscaled to 720 px wide",
+    "capture_pixels": [
+      6752,
+      1640
+    ],
+    "display_pixels": [
+      720,
+      175
+    ]
+  }
+]

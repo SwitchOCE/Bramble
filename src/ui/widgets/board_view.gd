@@ -1,18 +1,14 @@
 extends Control
-## The 4-3 brick (.wc-board): an oak tray cut to the shape, four front pockets and three back ones
-## offset by half a pocket (rulebook 8.1), with dotted grooves from each back pocket to the two
-## front pockets in front of it. Pockets are fixed and always drawn. Tiles are placed by hand so
-## combat playback can move them freely.
-##
-## `front_toward_top` puts the front row on top (your board) or at the bottom (the enemy's, facing
-## you). Slot indices are SPEC's: 0-3 front, 4-6 back. With `with_labels` each pocket has a name
-## strip (recruit); without, a slot chip sits on its bottom edge (combat).
+## The 4-3 brick: an oak tray with a mossy play surface, four front pockets and three back
+## pockets. Pockets stay carved and wordless. Cards can move freely for combat and recruit cues.
+## `front_toward_top` faces the front row upward for your board and downward for the enemy.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const SlotView := preload("res://src/ui/widgets/slot_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const SlotMarks := preload("res://src/ui/widgets/slot_marks.gd")
+const Settings := preload("res://src/ui/settings.gd")
 
 const SLOTS: int = 7
 const FRONT: int = 4
@@ -35,7 +31,7 @@ var combat_mode: bool = false:
 	set(value):
 		combat_mode = value
 		for slot: SlotView in slots:
-			slot.wordless = value
+			slot.wordless = true
 		if _marks != null:
 			_marks.call("_place")
 		_layout()
@@ -46,6 +42,9 @@ var cards: Array[CardView] = []
 ## Cards detached but still drawn here (dying, or halfway through a swap): clear() frees them too.
 var _loose: Array[CardView] = []
 var _relations: Array[int] = []
+var _reach_tween: Tween
+var _lean_tween: Tween
+var _lean_origins: Dictionary = {}
 
 var _labels: Array[Panel] = []
 var _label_names: Array[Label] = []
@@ -104,25 +103,28 @@ func _slot_chip(words: String) -> Label:
 	return chip
 
 
-## `labels`: a name strip per pocket (recruit), else a slot chip on its edge (combat).
+## Historical label arguments remain accepted for callers; geometry is wordless in every phase.
 func configure(
 	board_zone: String,
 	pocket_width: float,
 	front_on_top: bool,
-	labels: bool = false,
-	notes: bool = false
+	_labels_requested: bool = false,
+	_notes_requested: bool = false
 ) -> void:
 	zone = board_zone
-	pocket = Vector2(pocket_width, roundf(pocket_width * 112.0 / 124.0))
+	pocket = Vector2(
+		pocket_width,
+		roundf(pocket_width * 112.0 / 124.0) + (40.0 if board_zone == "board" else 0.0)
+	)
 	gap = roundf(pocket_width * 14.0 / 124.0)
 	pad = roundf(pocket_width * 16.0 / 124.0)
 	front_toward_top = front_on_top
-	with_labels = labels and not combat_mode
-	with_notes = notes and not combat_mode
+	with_labels = false
+	with_notes = false
 	for i: int in SLOTS:
 		slots[i].set_slot(zone, i)
-		slots[i].wordless = combat_mode
-		slots[i].with_note = notes and not combat_mode
+		slots[i].wordless = true
+		slots[i].with_note = false
 		_labels[i].visible = false
 		_chips[i].visible = false
 		if cards[i] != null:
@@ -180,7 +182,9 @@ func slot_global_center(slot: int) -> Vector2:
 ## Where a tile sits inside its pocket (raised a little, as in the mock).
 func card_position(slot: int) -> Vector2:
 	var width: float = tile_width()
-	var tile_h: float = CardView.size_for(width, CardView.Mode.BOARD).y
+	var tile_h: float = (
+		CardView.size_for(width, CardView.Mode.BOARD).y + (40.0 if zone == "board" else 0.0)
+	)
 	return slot_position(slot) + Vector2((pocket.x - width) / 2.0, (pocket.y - tile_h) / 2.0 - 6.0)
 
 
@@ -203,6 +207,12 @@ func _layout() -> void:
 		slots[i].size = pocket
 		var card: CardView = cards[i]
 		if card != null:
+			card.set_card_size(
+				(
+					CardView.size_for(tile_width(), CardView.Mode.BOARD)
+					+ Vector2(0, 40 if zone == "board" else 0)
+				)
+			)
 			card.position = card_position(i)
 		_place_label(i)
 	if _marks != null:
@@ -211,51 +221,12 @@ func _layout() -> void:
 
 
 func _place_label(i: int) -> void:
-	var strip: Panel = _labels[i]
-	var card: CardView = cards[i]
-	if combat_mode:
-		strip.visible = false
-		_chips[i].visible = false
-		return
-	strip.visible = with_labels and card != null
-	var mark: Dictionary = _marks.marks[i] if i < _marks.marks.size() else {}
-	var nest: bool = mark.get("nest", false) == true
-	var empty_mark: bool = card == null and (nest or mark.get("has_ring", false) == true)
-	var chip_on: bool = (not with_labels and card != null and not nest) or empty_mark
-	if not with_labels and nest:
-		chip_on = false
-	_chips[i].visible = chip_on
-	if strip.visible:
-		var front: bool = i < FRONT
-		var at: Vector2 = slot_position(i)
-		var y: float = at.y - LABEL_H - LABEL_GAP if front else at.y + pocket.y + LABEL_GAP
-		strip.position = Vector2(at.x - 4.0, y)
-		strip.size = Vector2(pocket.x + 8.0, LABEL_H)
-		var ring: bool = mark.get("has_ring", false) == true
-		var chip: Label = strip.get_child(0) as Label
-		var chip_face: StyleBoxFlat = chip.get_theme_stylebox("normal") as StyleBoxFlat
-		chip_face.content_margin_left = 2 if ring else 6
-		chip_face.content_margin_right = 2 if ring else 6
-		chip.size = Vector2(44 if ring else 54, LABEL_H)
-		var words: Label = _label_names[i]
-		words.position = Vector2(48 if ring else 60, -1)
-		words.size = Vector2(strip.size.x - words.position.x - (2.0 if ring else 6.0), LABEL_H)
-		if ring:
-			words.size.x = maxf(0.0, words.size.x - _marks.header_width(i) - 4.0)
-		words.text = fit_name(str(card.unit.get("name", "")), words)
-	if chip_on:
-		var chip: Label = _chips[i]
-		chip.size = Vector2(52, 42)
-		chip.position = slot_position(i) + Vector2((pocket.x - 52.0) / 2.0, pocket.y - 26.0)
-		if zone == "scout":
-			chip.position.y = slot_position(i).y + pocket.y + 12.0
-		elif nest:
-			chip.position = slot_position(i)
-		elif empty_mark:
-			chip.position.y = slot_position(i).y + pocket.y / 2.0
+	# Names belong to cards while their art is shared. Pockets never carry tutorial labels.
+	_labels[i].visible = false
+	_chips[i].visible = false
 
 
-## The existing name strip also holds a compact Ring counter, keeping it attached to its slot.
+## Legacy name-strip rectangle for older inspection callers; strips are no longer rendered.
 func label_rect(slot: int) -> Rect2:
 	return _labels[slot].get_rect()
 
@@ -301,12 +272,12 @@ func set_marks(slot_marks: Array) -> void:
 		_place_label(i)
 
 
-## Preview slot, -1 for no recipient, or -2 to restore the permanent end mark.
+## Legacy selection API. Pass has no resting mark or destination preview.
 func set_pass_landing(slot: int) -> void:
 	_marks.pass_slot = slot
 
 
-## Oak faces cut to the brick, the carved edge below, then the grooves between the rows.
+## A mossy recruit surface inside the carved oak edge, with no geometry links.
 func _draw() -> void:
 	var top: Rect2 = row_rect(front_toward_top)
 	var bottom: Rect2 = row_rect(not front_toward_top)
@@ -314,7 +285,9 @@ func _draw() -> void:
 	draw_style_box(under, Rect2(top.position + Vector2(0, EDGE), top.size))
 	draw_style_box(under, Rect2(bottom.position + Vector2(0, EDGE), bottom.size))
 	for rect: Rect2 in [row_rect(true), row_rect(false)]:
-		draw_style_box(_row_box(UiTheme.OAK, UiTheme.INK, BORDER), rect)
+		draw_style_box(
+			_row_box(UiTheme.OAK if combat_mode else Color("425348"), UiTheme.INK, BORDER), rect
+		)
 	# The narrower row's join: the wood runs through with no line across.
 	var narrow: Rect2 = row_rect(false)
 	var seam_y: float = top.end.y
@@ -324,13 +297,16 @@ func _draw() -> void:
 		narrow.size.x - BORDER * 2.0,
 		24.0 + BORDER * 2.0
 	)
-	draw_rect(join, UiTheme.OAK)
+	draw_rect(join, UiTheme.OAK if combat_mode else Color("425348"))
 	for rect: Rect2 in [row_rect(true), row_rect(false)]:
 		var inset: float = 12.0
 		var grain: Rect2 = rect.grow_individual(-BORDER, -inset, -BORDER, -inset)
-		draw_texture_rect(Icons.tile("oak"), grain, true)
-	if not combat_mode:
-		_draw_grooves()
+		draw_texture_rect(
+			Icons.tile("oak"),
+			grain,
+			true,
+			Color.WHITE if combat_mode else Color(0.55, 0.65, 0.55, 0.22)
+		)
 
 
 func _row_box(fill: Color, line: Color, width: float) -> StyleBoxFlat:
@@ -345,26 +321,6 @@ func _row_box(fill: Color, line: Color, width: float) -> StyleBoxFlat:
 	box.corner_radius_bottom_left = round_corner
 	box.corner_radius_bottom_right = round_corner
 	return box
-
-
-func _draw_grooves() -> void:
-	for back: int in range(FRONT, SLOTS):
-		var back_at: Vector2 = slot_position(back)
-		var from_y: float = back_at.y + (pocket.y if back_at.y < slot_position(0).y else 0.0)
-		var from: Vector2 = Vector2(back_at.x + pocket.x / 2.0, from_y)
-		for front: int in [back - FRONT, back - FRONT + 1]:
-			# Each groove is a link of the zigzag: lit when units stand at both ends.
-			var lit: bool = with_labels and cards[back] != null and cards[front] != null
-			var dot: Color = UiTheme.ACORN if lit else Color(UiTheme.INK, 0.9)
-			var front_at: Vector2 = slot_position(front)
-			var to_y: float = front_at.y + (pocket.y if front_at.y < back_at.y else 0.0)
-			var to: Vector2 = Vector2(front_at.x + pocket.x / 2.0, to_y)
-			var steps: int = maxi(2, roundi(from.distance_to(to) / 22.0))
-			for step: int in steps + 1:
-				var at: Vector2 = from.lerp(to, float(step) / steps)
-				if lit:
-					draw_circle(at, 9.0, UiTheme.INK)
-				draw_circle(at, 6.0, dot)
 
 
 ## Puts a card into a slot (replacing whatever was there). The board owns it from now on.
@@ -382,7 +338,12 @@ func place_card(card: CardView, slot: int) -> void:
 		for chip: Label in _chips:
 			move_child(chip, -1)
 	card.mode = CardView.Mode.BOARD
-	card.set_card_width(tile_width())
+	card.set_card_size(
+		(
+			CardView.size_for(tile_width(), CardView.Mode.BOARD)
+			+ Vector2(0, 40 if zone == "board" else 0)
+		)
+	)
 	card.position = card_position(slot)
 	slots[slot].filled = true
 	_place_label(slot)
@@ -448,28 +409,85 @@ func slot_of_card(card: CardView) -> int:
 
 
 func clear_highlights() -> void:
-	for slot: int in _relations:
-		_labels[slot].add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.BIRCH, 3, 8))
-	_relations.clear()
+	if _reach_tween != null and _reach_tween.is_valid():
+		_reach_tween.kill()
 	for slot: SlotView in slots:
 		slot.highlight = Color.TRANSPARENT
+		slot.reach_flash = 0.0
+		slot.quarry_preview = false
+	_relations.clear()
 	for card: CardView in cards:
 		if card != null:
 			card.outline = Color.TRANSPARENT
 			card.selected = false
 
 
-## Highlight read geometry separately from legal move/drop targets, including occupied slots.
-func show_relations(related: Array[int]) -> void:
+## A relation is revealed once on demand, never held while the reader stays open.
+func show_relations(
+	related: Array[int], candidate: int = -1, quarry_targets: Array[int] = []
+) -> void:
+	if candidate >= 0:
+		_lean_reach(related, candidate)
+	else:
+		_pulse_reach(related, quarry_targets)
+
+
+func _pulse_reach(related: Array[int], quarry_targets: Array[int] = []) -> void:
+	if _reach_tween != null and _reach_tween.is_valid():
+		_reach_tween.kill()
 	for slot: int in _relations:
-		_labels[slot].add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.BIRCH, 3, 8))
-		if slots[slot].highlight == Color(UiTheme.GILT, 0.45):
-			slots[slot].highlight = Color.TRANSPARENT
-		if cards[slot] != null and cards[slot].outline == UiTheme.GILT:
-			cards[slot].outline = Color.TRANSPARENT
-	_relations = related.duplicate()
+		slots[slot].reach_flash = 0.0
+		slots[slot].quarry_preview = false
+	_relations.clear()
 	for slot: int in related:
-		_labels[slot].add_theme_stylebox_override("panel", UiTheme.slip_box(UiTheme.GILT, 3, 8))
-		slots[slot].highlight = Color(UiTheme.GILT, 0.45)
-		if cards[slot] != null:
-			cards[slot].outline = UiTheme.GILT
+		if slot >= 0 and slot < SLOTS and not _relations.has(slot):
+			_relations.append(slot)
+			slots[slot].quarry_preview = quarry_targets.has(slot)
+	if _relations.is_empty() or not is_inside_tree():
+		return
+	var duration: float = 0.4 / maxf(1.0, Settings.fight_speed)
+	_reach_tween = create_tween()
+	if Settings.reduce_motion:
+		for slot: int in _relations:
+			slots[slot].reach_flash = 1.0
+		_reach_tween.tween_interval(duration)
+		_reach_tween.tween_callback(_set_reach_flash.bind(0.0))
+	else:
+		_reach_tween.tween_method(_set_reach_flash, 0.0, 1.0, duration * 0.25)
+		_reach_tween.tween_method(_set_reach_flash, 1.0, 0.0, duration * 0.75)
+
+
+func _set_reach_flash(value: float) -> void:
+	for slot: int in _relations:
+		slots[slot].reach_flash = value
+
+
+## Candidate changes while dragging give the affected units one short lean.
+func _lean_reach(related: Array[int], candidate: int) -> void:
+	if _lean_tween != null and _lean_tween.is_valid():
+		_lean_tween.kill()
+	for card: CardView in _lean_origins:
+		if is_instance_valid(card):
+			card.position = _lean_origins[card]
+	_lean_origins.clear()
+	if Settings.reduce_motion:
+		_pulse_reach(related)
+		return
+	if candidate < 0 or candidate >= SLOTS or not is_inside_tree():
+		return
+	_lean_tween = null
+	var duration: float = 0.15 / maxf(1.0, Settings.fight_speed)
+	var toward: Vector2 = slot_position(candidate) + pocket / 2.0
+	for slot: int in related:
+		if slot < 0 or slot >= SLOTS or cards[slot] == null:
+			continue
+		if _lean_tween == null:
+			_lean_tween = create_tween().set_parallel(true)
+		var card: CardView = cards[slot]
+		var origin: Vector2 = card.position
+		_lean_origins[card] = origin
+		var offset: Vector2 = (toward - origin - card.card_size / 2.0).normalized() * 6.0
+		_lean_tween.tween_property(card, "position", origin + offset, duration * 0.5)
+		_lean_tween.tween_property(card, "position", origin, duration * 0.5).set_delay(
+			duration * 0.5
+		)

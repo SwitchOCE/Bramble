@@ -1,9 +1,9 @@
 extends "res://src/ui/widgets/interactive.gd"
-## One fixed board slot (F1-F4, B1-B3), a carved pocket in the tray (.wc-pocket). Always shown, so
-## the 4-3 brick and its gaps read at a glance. Empty, it says its name and where it sits ("behind
-## F3 & F4"), and it lights up as a drop or tap target.
+## One fixed board pocket in the 4-3 brick. It remains carved and wordless when empty, and
+## breathes as an action target or flashes once when the reader reveals a spatial reach.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const QuarryPreview := preload("res://src/ui/widgets/quarry_preview.gd")
 const SLOT_NAMES: PackedStringArray = ["F1", "F2", "F3", "F4", "B1", "B2", "B3"]
 
 ## Highlight colour (valid target); transparent for none.
@@ -18,7 +18,7 @@ var with_note: bool = false:
 		with_note = value
 		_refresh_labels()
 ## A combat pocket is a carved shape, including when empty or marked.
-var wordless: bool = false:
+var wordless: bool = true:
 	set(value):
 		wordless = value
 		_refresh_labels()
@@ -29,10 +29,27 @@ var filled: bool = false:
 		_refresh_labels()
 		queue_redraw()
 
+## Independent of legal targets, a demand-only reach flash fades completely.
+var reach_flash: float = 0.0:
+	set(value):
+		reach_flash = value
+		if _reach_face != null:
+			_reach_face.visible = value > 0.001
+			_reach_face.modulate.a = value
+		if _quarry_stamp != null:
+			_quarry_stamp.visible = quarry_preview and value > 0.001
+			_quarry_stamp.modulate.a = value
+		queue_redraw()
+
+var quarry_preview: bool = false
+var _target_age: float = 0.0
+
 var _name_label: Label
 var _empty_label: Label
 var _note: Label
 var _note_box: Panel
+var _reach_face: Panel
+var _quarry_stamp: Control
 
 
 func _init() -> void:
@@ -52,6 +69,21 @@ func _init() -> void:
 	_note_box.add_child(_note)
 	resized.connect(_refresh_labels)
 	ready.connect(_refresh_labels)
+	# Occupied cards are later board siblings; the demand-only cue must paint above them.
+	_reach_face = Panel.new()
+	_reach_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_reach_face.z_index = 20
+	var flash: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.GILT, 0.15), UiTheme.GILT, 8, 24)
+	flash.shadow_color = Color(UiTheme.GILT, 0.4)
+	flash.shadow_size = 10
+	_reach_face.add_theme_stylebox_override("panel", flash)
+	add_child(_reach_face)
+	_reach_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_reach_face.hide()
+	_quarry_stamp = QuarryPreview.new()
+	_quarry_stamp.z_index = 21
+	add_child(_quarry_stamp)
+	_quarry_stamp.hide()
 
 
 func set_slot(slot_zone: String, slot: int) -> void:
@@ -75,6 +107,8 @@ static func note(slot: int) -> String:
 func _refresh_labels() -> void:
 	if _name_label == null:
 		return
+	if _quarry_stamp != null:
+		_quarry_stamp.position = (size - _quarry_stamp.size) / 2.0
 	var empty: bool = not filled and not wordless
 	_name_label.visible = empty
 	_empty_label.visible = empty and not with_note
@@ -96,11 +130,20 @@ func _refresh_labels() -> void:
 	_name_label.size = Vector2(size.x, name_h)
 
 
+func _process(delta: float) -> void:
+	if highlight.a <= 0.0:
+		_target_age = 0.0
+		return
+	_target_age += delta
+	queue_redraw()
+
+
 func _draw() -> void:
 	var rect: Rect2 = Rect2(Vector2.ZERO, size)
 	var fill: Color = UiTheme.CARVE
 	if highlight.a > 0.0:
 		fill = highlight
+		fill.a *= 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
 	draw_style_box(UiTheme.flat_box(fill, Color.TRANSPARENT, 0, 24), rect)
 	# The pocket's shadowed top edge.
 	var shade: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.INK, 0.45), Color.TRANSPARENT, 0, 24)

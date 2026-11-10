@@ -61,10 +61,14 @@ func test_all_frogs_show_the_shared_counter_and_configured_period() -> void:
 		view["bog_kiss_period"] = 5
 		card.show_unit(view, CardView.Mode.BOARD)
 		card.set_card_width(210)
-		assert_string_contains(card.chip_shown, "Kiss 4/5")
+		var face: Control = card.get("_combat_marks")
+		assert_eq(card.chip_shown, "")
+		assert_eq(face.get("kiss_progress"), 4)
+		assert_eq(face.get("kiss_period"), 5)
 		assert_string_contains(CardDetail.full_text_bbcode(view), "Shared kisses: 4 (4/5)")
 		CombatLanesView.sync_bog_state(card, {"kisses": 5, "bog_kiss_period": 5})
-		assert_string_contains(card.chip_shown, "Kiss 0/5")
+		assert_eq(card.chip_shown, "")
+		assert_eq(face.get("kiss_progress"), 0)
 
 
 func test_selected_scout_reader_uses_supplied_per_bite_gain_without_own_power_math() -> void:
@@ -96,12 +100,15 @@ func test_selected_scout_reader_uses_supplied_per_bite_gain_without_own_power_ma
 		var detail: CardDetail = screen.get("_detail")
 		assert_false(CardDetail.full_text_bbcode(detail.shown).contains("per bite"))
 		screen.toggle_scout()
+		assert_false(detail.visible, "changing scout mode closes the previous reader")
+		screen.call("_on_tapped", "board", 0)
 		await wait_process_frames(2)
 		var text: String = CardDetail.full_text_bbcode(detail.shown)
 		assert_string_contains(text, "Across Boar: +2/+2 per bite")
 		assert_string_contains(text, "Across Empty-Handed Vole: +0/+0 per bite")
 		assert_eq(LayoutCheck.problems(detail, "Bog scout reader"), PackedStringArray())
 		screen.toggle_scout()
+		screen.call("_on_tapped", "board", 0)
 		assert_false(CardDetail.full_text_bbcode(detail.shown).contains("per bite"))
 
 

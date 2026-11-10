@@ -1,6 +1,7 @@
 extends GutTest
 ## Review Ask 1: recruit placement exposes the current Bitter sum and persistent kiss counter.
 
+const CombatFace := preload("res://src/ui/widgets/combat_face.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const LaneProjection := preload("res://src/ui/lane_projection.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -28,7 +29,7 @@ func test_bitter_counts_native_and_both_adjacent_golden_auras_without_mutation()
 	assert_eq(Data.i(projected, "recruit_bitter"), 6, "Bufo 2 + golden Nan 2 + golden Chorus 2")
 	assert_eq(Data.i(projected, "recruit_bitter_printed"), 2)
 	assert_eq(Data.i(projected, "recruit_bitter_borrowed"), 4)
-	assert_eq(CardView.chip_text(projected), "Mire\nBitter 6")
+	assert_eq(CombatFace.counter_value(projected), {"kind": "berry", "number": "6"})
 	assert_string_contains(CardDetail.full_text_bbcode(projected), "2 base + 4 from beside")
 	assert_eq(board, before, "a forecast never changes recruit units or their counters")
 
@@ -71,10 +72,11 @@ func test_kisses_read_persistent_counters_and_bitter_does_not_hide_them() -> voi
 	var board: Array = States.board()
 	var projection: LaneProjection = _legacy_projection()
 	var frog: Dictionary = projection.recruit_unit(board, 4)
-	assert_eq(CardView.chip_text(frog), "Bitter 1\nKiss 2/3")
+	assert_eq(CombatFace.counter_value(frog), {"kind": "berry", "number": "1"})
 	assert_string_contains(CardDetail.full_text_bbcode(frog), "Kisses: 2/3")
 	board[5] = null
-	assert_eq(CardView.chip_text(projection.recruit_unit(board, 4)), "Snap\nKiss 2/3")
+	assert_eq(CombatFace.counter_value(projection.recruit_unit(board, 4)), {})
+	assert_eq(Data.i(projection.recruit_unit(board, 4), "recruit_kisses"), 2)
 	board[4] = States.unit("his_highness", 6, true)
 	assert_eq(
 		Data.i(projection.recruit_unit(board, 4), "recruit_kisses"),
@@ -113,8 +115,12 @@ func test_phone_tray_chip_and_selected_detail_fit_and_refresh_after_a_move() -> 
 	screen.setup(port)
 	screen.call("_on_tapped", "board", 4)
 	await wait_process_frames(2)
-	assert_eq(screen._board.cards[1].chip_shown, "Mire\nBitter 6")
-	assert_eq(screen._board.cards[4].chip_shown, "Bitter 1\nKiss 2/3")
+	var bufo: Control = screen._board.cards[1].get("_combat_marks")
+	var bitter: Label = bufo.get("counter")
+	assert_eq(bitter.text, "6")
+	var frog: CombatFace = screen._board.cards[4].get("_combat_marks")
+	assert_eq(frog.kiss_progress, 2)
+	assert_eq(frog.counter_kind, "berry")
 	var detail: CardDetail = screen.get("_detail")
 	assert_string_contains(CardDetail.full_text_bbcode(detail.shown), "Kisses: 2/3")
 	assert_eq(LayoutCheck.problems(screen, "Bog recruit preview"), PackedStringArray())
@@ -122,7 +128,7 @@ func test_phone_tray_chip_and_selected_detail_fit_and_refresh_after_a_move() -> 
 	board[5] = null
 	screen.render()
 	await wait_process_frames(2)
-	assert_eq(
-		screen._board.cards[4].chip_shown, "Snap\nKiss 2/3", "the old aura total does not linger"
-	)
+	var changed: CombatFace = screen._board.cards[4].get("_combat_marks")
+	assert_eq(changed.counter_kind, "", "the old aura total does not linger")
+	assert_eq(changed.kiss_progress, 2)
 	screen.free()

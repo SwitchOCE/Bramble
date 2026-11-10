@@ -581,14 +581,14 @@ func _take(event: Dictionary) -> void:
 	claim.set_meta("quarry_point", quarry_point)
 	(
 		_tween()
-		. tween_callback(_mote.bind(quarry_point, hunter_point, "acorn", Color.WHITE, 0.18))
+		. tween_callback(_mote.bind(quarry_point, hunter_point, "spark", Color.WHITE, 0.18))
 		. set_delay(0.18)
 	)
 	var hero: Control = _plaque(Data.i(view, "side"))
 	var hero_point: Vector2 = hero.get_global_rect().get_center() + Vector2(0, hero.size.y * 0.8)
 	(
 		_tween()
-		. tween_callback(_mote.bind(hunter_point, hero_point, "acorn", Color.WHITE, 0.22))
+		. tween_callback(_mote.bind(hunter_point, hero_point, "spark", Color.WHITE, 0.22))
 		. set_delay(0.36)
 	)
 	_effect_barrier(1.2)
@@ -658,6 +658,7 @@ func _damage_pop(card: CardView, amount: int, offset: Vector2 = Vector2.ZERO) ->
 		card.health_bead().get_global_rect().get_center() + offset, amount
 	)
 	pop.name = "DamagePop"
+	pop.z_index = 2
 	pop.set_meta("recipient_uid", card.uid())
 	pop.reparent(card)
 	pop.position = card.health_bead().position + card.health_bead().size / 2 + offset - pop.size / 2

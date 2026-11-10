@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 # The quality gate. Same script locally, in cloud sessions and in CI.
-#   ./scripts/check.sh               run every step, stop at the first failure
-#   ./scripts/check.sh --keep-going  run every step, report all failures at the end
+#   ./scripts/check.sh --base <sha> run every step, stop at the first failure
+#   --base <sha> is required in every mode: inspect every docs blob introduced since <sha>,
+#                                    plus staged, unstaged and untracked files; never infer a base.
+#   ./scripts/check.sh --keep-going --base <sha>
+#                                    run every step, report all failures at the end
 #   ./scripts/check.sh --docs-only   skip import, compile, parity and tests, and never start Godot;
-#                                    refused unless every change since the upstream branch is under
+#                                    refused unless every change since --base is under
 #                                    docs/ and not read by the game or tests
 #                                    (tools/checks/docs_only_paths.py). Run it without the Godot lock.
 #   ./scripts/check.sh --docs-only --base <sha>
-#                                    the same, but compares against <sha> instead of the upstream
+#                                    compare against the explicitly chosen commit <sha>
 #   ./scripts/check.sh --no-tests    every step but tests (the sharded Actions gate's static job);
 #                                    may follow --keep-going
 #   ./scripts/check.sh --shard <i>/<n>
@@ -21,7 +24,7 @@
 # BRAMBLE_SLOT_HELD=1 says the caller holds one. The static steps run without a slot. Where
 # systemd-run --user works, each Godot step runs in a scope capped at MemoryMax=3G.
 # The tests step writes JUnit XML to build/check/gut.xml and prints the 20 slowest scripts.
-# Steps: tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
+# Steps: docs-size, tools, versions, shell, python, content, format, lint, import, compile, parity, tests.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -47,38 +50,37 @@ DOCS_ONLY=0
 DOCS_BASE=""
 NO_TESTS=0
 SHARD=""
-case "${1:-}" in
-  --keep-going)
-    KEEP_GOING=1
-    [ "${2:-}" = "--no-tests" ] && { NO_TESTS=1; shift; }
-    ;;
-  --no-tests) NO_TESTS=1 ;;
-  --shard)
-    [ -n "${2:-}" ] || { echo "--shard needs i/n, such as 2/4"; exit 2; }
-    SHARD="$2"
-    out="$(python3 "$ROOT/tools/checks/test_shards.py" list "$SHARD")" || { echo "$out"; exit 2; }
-    shift
-    ;;
-  --docs-only)
-    DOCS_ONLY=1
-    if [ "${2:-}" = "--base" ]; then
-      [ -n "${3:-}" ] || { echo "--base needs a commit"; exit 2; }
-      DOCS_BASE="$3"
-      shift 2
-    fi
-    ;;
-  -h | --help)
-    sed -n '2,/^set /{/^#/s/^# \{0,1\}//p}' "$ROOT/scripts/check.sh"
-    exit 0
-    ;;
-  "") ;;
-  *)
-    echo "unknown option: $1 (try --help)"
-    exit 2
-    ;;
-esac
-if [ "$#" -gt 1 ]; then
-  echo "unknown option: $2 (try --help)"
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --keep-going) KEEP_GOING=1 ;;
+    --no-tests) NO_TESTS=1 ;;
+    --shard)
+      [ -n "${2:-}" ] || { echo "--shard needs i/n, such as 2/4"; exit 2; }
+      SHARD="$2"
+      shift
+      ;;
+    --docs-only) DOCS_ONLY=1 ;;
+    --base)
+      [ -n "${2:-}" ] || { echo "--base needs a commit"; exit 2; }
+      DOCS_BASE="$2"
+      shift
+      ;;
+    -h | --help)
+      sed -n '2,/^set /{/^#/s/^# \{0,1\}//p}' "$ROOT/scripts/check.sh"
+      exit 0
+      ;;
+    *) echo "unknown option: $1 (try --help)"; exit 2 ;;
+  esac
+  shift
+done
+[ -n "$DOCS_BASE" ] || { echo "check.sh requires --base <commit>; no comparison base is inferred"; exit 2; }
+base="$(git rev-parse --verify -q "${DOCS_BASE}^{commit}")" || {
+  echo "--base: '$DOCS_BASE' is not a commit"
+  exit 2
+}
+if { [ "$DOCS_ONLY" -eq 1 ] && { [ "$NO_TESTS" -eq 1 ] || [ -n "$SHARD" ]; }; } ||
+  { [ "$NO_TESTS" -eq 1 ] && [ -n "$SHARD" ]; }; then
+  echo "--docs-only, --no-tests and --shard are mutually exclusive"
   exit 2
 fi
 
@@ -91,25 +93,10 @@ fi
 FAILED=()
 PASSED=()
 
-# --docs-only is allowed only when every change since the upstream branch, committed or not, is
+# --docs-only is allowed only when every change since the explicit base, committed or not, is
 # under docs/ and not read by the game or tests (tools/checks/docs_only_paths.py decides).
 # --base <sha> compares against that commit instead.
 if [ "$DOCS_ONLY" -eq 1 ]; then
-  if [ -n "$DOCS_BASE" ]; then
-    base="$(git rev-parse --verify -q "${DOCS_BASE}^{commit}")" || {
-      echo "--docs-only --base: '$DOCS_BASE' is not a commit"
-      exit 2
-    }
-  else
-    upstream="$(git rev-parse --verify -q '@{upstream}')" || {
-      echo "--docs-only needs an upstream branch to compare against (or --base <sha>)"
-      exit 2
-    }
-    base="$(git merge-base "$upstream" HEAD)" || {
-      echo "--docs-only: no common ancestor with the upstream branch"
-      exit 2
-    }
-  fi
   if ! needs="$(python3 "$ROOT/tools/checks/docs_only_paths.py" "$base" "$ROOT")"; then
     echo "--docs-only refused: these changes need the Godot steps:"
     echo "$needs"
@@ -376,6 +363,15 @@ step_tests() {
   fi
 }
 
+# This guard also runs in docs-only and shard modes, before any Godot process starts.
+step_docs_size() {
+  python3 tools/checks/docs_size.py --base "$base"
+}
+
+run_step "docs-size" step_docs_size
+if [ -n "$SHARD" ]; then
+  out="$(python3 "$ROOT/tools/checks/test_shards.py" list "$SHARD")" || { echo "$out"; exit 2; }
+fi
 run_step "tools" step_tools
 if [ -n "$SHARD" ]; then
   slot_take

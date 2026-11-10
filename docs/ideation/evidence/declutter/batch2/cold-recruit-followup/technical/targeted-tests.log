@@ -1,0 +1,146 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+---  GUT  ---
+[1m[INFO]:  [0musing [/tmp/declutter-b2-fixes-data/godot/app_userdata/Bramble] for temporary output.
+Godot version:  4.7.2
+GUT version:  9.7.1
+[4m
+
+res://tests/ui/test_recruit_actions_motion.gd
+[0m* test_real_actions_normal_motion_finish_at_canonical_state
+* test_real_actions_reduced_motion_finish_at_canonical_state
+[1m2/2 passed.
+[0m[4m
+
+res://tests/ui/test_scout_reach.gd
+[0m* test_native_brock_loans_his_across_to_a_hunter_in_another_column
+* test_native_own_quarry_beats_brock_loan_and_non_hunters_get_no_loan
+* test_isegrim_marks_biggest_then_lends_beside_or_next_to_when_golden
+* test_reach_flashes_the_resolved_lent_pocket_then_returns_to_rest
+* test_reach_flash_paints_above_an_occupied_card_and_leaves_no_mark
+* test_lent_quarry_stamps_only_the_resolved_target_and_keeps_a_distinct_aimer
+* test_non_quarry_relations_never_acquire_a_quarry_stamp_and_clearing_retires_it
+[1m7/7 passed.
+[0m[4m
+
+res://tests/ui/test_combat_face.gd
+[0m* test_combat_face_has_only_stats_and_independent_wordless_marks
+* test_held_count_replaces_the_glyph_and_old_slip_without_words
+* test_swallow_anchor_tracks_the_stomach_above_its_count_at_both_sizes
+* test_on_play_has_no_trigger_mark_and_recruit_uses_wordless_marks
+* test_recruit_only_triggers_have_no_combat_spark
+* test_fight_triggers_keep_sparks_including_borrowed_or_mixed_rules
+* test_unknown_combat_counters_are_not_guessed_from_rules_text
+* test_printed_shield_has_the_same_bubble_in_recruit_and_consumes_in_combat
+* test_granted_quarry_and_mire_use_the_printed_keyword_frame_marks
+* test_configured_kiss_pips_read_initial_and_replayed_state_at_both_sizes
+* test_kiss_pips_accept_both_top_level_fields_and_default_period
+* test_pending_hourglass_refreshes_without_labels_and_stays_clear_of_other_marks
+[1m12/12 passed.
+[0m[4m
+
+res://tests/ui/test_away_tokens.gd
+[0m* test_resting_tokens_show_only_live_countdowns_at_both_sizes
+* test_one_tap_reads_exact_stats_homecoming_countdown_and_nest_without_mutating_state
+* test_arrival_targets_the_exact_birds_portrait_not_its_outer_token
+* test_overflow_scrolls_without_dropping_any_birds_and_clears_when_empty
+* test_opponent_tiers_leave_resting_plaques_and_remain_exact_in_hero_readers
+* test_next_tap_scouts_then_opens_the_hero_reader_and_other_taps_only_read
+[1m6/6 passed.
+[0m[4m
+
+res://tests/ui/test_counter_layout.gd
+[0m* test_counter_box_and_number_clear_stat_beads_at_narrow_and_full_card_sizes
+[1m1/1 passed.
+[0m[4m
+
+res://tests/ui/test_recruit_declutter.gd
+[0m* test_scripted_recruit_and_scout_keep_all_visible_text_within_forty
+declutter recruit label budget: slice recruit (1688, 780) = 30/40 {"costs_and_controls":6,"fallback_names":3,"hero_health":5,"other":2,"unit_stats":14}
+declutter recruit label budget: slice scout (1688, 780) = 28/40 {"costs_and_controls":6,"fallback_names":4,"hero_health":0,"other":2,"unit_stats":16}
+declutter recruit label budget: slice recruit (1920, 1080) = 30/40 {"costs_and_controls":6,"fallback_names":3,"hero_health":5,"other":2,"unit_stats":14}
+declutter recruit label budget: slice scout (1920, 1080) = 28/40 {"costs_and_controls":6,"fallback_names":4,"hero_health":0,"other":2,"unit_stats":16}
+* test_real_seeded_recruit_uses_the_same_forty_node_budget
+declutter recruit label budget: seed72 recruit (1688, 780) = 22/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":8,"other":3,"unit_stats":8}
+declutter recruit label budget: seed72 recruit (1920, 1080) = 22/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":8,"other":3,"unit_stats":8}
+* test_evidence_recruit_and_scout_states_obey_the_same_budget_at_both_sizes
+declutter recruit label budget: overview (1688, 780) = 40/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":8,"other":5,"unit_stats":24}
+declutter recruit label budget: overview (1920, 1080) = 40/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":8,"other":5,"unit_stats":24}
+declutter recruit label budget: natural-birds (1688, 780) = 30/40 {"costs_and_controls":4,"fallback_names":0,"hero_health":8,"other":4,"unit_stats":14}
+declutter recruit label budget: natural-birds (1920, 1080) = 30/40 {"costs_and_controls":4,"fallback_names":0,"hero_health":8,"other":4,"unit_stats":14}
+declutter recruit label budget: lobby (1688, 780) = 39/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":8,"other":4,"unit_stats":24}
+declutter recruit label budget: lobby (1920, 1080) = 39/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":8,"other":4,"unit_stats":24}
+declutter recruit label budget: scout (1688, 780) = 30/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":0,"other":3,"unit_stats":24}
+declutter recruit label budget: scout (1920, 1080) = 30/40 {"costs_and_controls":3,"fallback_names":0,"hero_health":0,"other":3,"unit_stats":24}
+* test_counter_includes_names_numbers_buttons_and_rich_text_and_rejects_forty_one
+* test_shop_and_board_faces_leave_rules_in_reader_and_keep_stats
+* test_lent_quarry_reach_pulses_its_actual_recipient_then_leaves_no_standing_mark
+* test_scout_focus_clears_selected_reader_and_pending_hover_without_changing_state
+* test_modified_refresh_prices_remain_visible_while_the_standard_price_uses_its_tooltip
+* test_ring_stacks_leave_the_floor_but_both_occupied_and_empty_slot_readers_keep_exact_values
+* test_standard_spell_and_item_prices_leave_the_face_while_changed_prices_remain
+* test_one_gold_spell_reader_and_buy_action_retain_the_exact_price
+* test_away_tokens_keep_the_complete_forecast_in_one_tap_readers_at_both_sizes
+[1m12/12 passed.
+[0m[4m
+
+res://tests/ui/test_tile_words.gd
+[0m* test_word_tokens_keep_words_and_slot_tags_but_not_stat_numbers
+* test_tile_ownership_includes_strips_and_rejects_a_new_word_without_counting_hud_or_reader
+* test_five_packet_states_and_the_full_hand_have_zero_tile_words_at_both_sizes
+declutter tile words: overview [1688, 780] = 0, legacy=0, unexpected=0, rawlabels=40
+declutter tile words: overview [1920, 1080] = 0, legacy=0, unexpected=0, rawlabels=40
+declutter tile words: natural-birds [1688, 780] = 0, legacy=0, unexpected=0, rawlabels=30
+declutter tile words: natural-birds [1920, 1080] = 0, legacy=0, unexpected=0, rawlabels=30
+declutter tile words: lobby [1688, 780] = 0, legacy=0, unexpected=0, rawlabels=39
+declutter tile words: lobby [1920, 1080] = 0, legacy=0, unexpected=0, rawlabels=39
+declutter tile words: scout [1688, 780] = 0, legacy=0, unexpected=0, rawlabels=30
+declutter tile words: scout [1920, 1080] = 0, legacy=0, unexpected=0, rawlabels=30
+declutter tile words: reader-reel_mistress-golden [1688, 780] = 0, legacy=0, unexpected=0, rawlabels=51
+declutter tile words: reader-reel_mistress-golden [1920, 1080] = 0, legacy=0, unexpected=0, rawlabels=51
+declutter tile words: fan10 [1688, 780] = 0, legacy=0, unexpected=0, rawlabels=61
+declutter tile words: fan10 [1920, 1080] = 0, legacy=0, unexpected=0, rawlabels=61
+* test_legacy_missing_portrait_names_are_reported_and_still_count
+declutter tile words: legacy-slice-recruit [1688, 780] = 6, legacy=6, unexpected=0, rawlabels=30
+declutter tile words: legacy-slice-scout [1688, 780] = 8, legacy=8, unexpected=0, rawlabels=28
+declutter tile words: legacy-slice-recruit [1920, 1080] = 6, legacy=6, unexpected=0, rawlabels=30
+declutter tile words: legacy-slice-scout [1920, 1080] = 8, legacy=8, unexpected=0, rawlabels=28
+* test_all_shipped_units_are_wordless_in_each_tile_zone
+* test_hand_overlap_exception_keeps_other_zones_fonts_taps_and_bounds_checked
+[1m6/6 passed.
+[0m[4m
+
+res://tests/ui/test_phone_layout.gd
+[0m* test_birds_away_leave_gold_tier_and_refresh_available_until_a_nest_is_tapped
+* test_long_bird_and_belly_help_fit_above_the_actions
+* test_phone_scout_columns_match_and_shop_returns_unchanged_after_focus
+* test_nests_and_rings_keep_floor_state_without_slot_codes_or_captions
+* test_selected_bird_keeps_economy_visible_and_shows_every_rule_and_hint_line
+* test_scout_slot_labels_clear_every_stat_badge
+* test_selected_phone_posset_counters_do_not_overlap
+* test_phone_scout_hero_names_wrap_at_the_minimum_without_clipping
+* test_eight_phone_shop_offers_keep_finger_targets_with_a_board_card_selected
+* test_late_scout_focus_restores_all_shop_offers_at_both_sizes
+* test_phone_attack_order_guide_is_decorative_like_other_guide_boards
+[1m11/11 passed.
+[0mgut_strict: ok (no risky or pending tests)
+
+
+
+
+[33m==============================================
+[0m[33m= Run Summary
+[0m[33m==============================================
+[0m
+Totals
+------
+Scripts               8
+Tests                57
+Passing Tests        57
+Asserts            2527
+Time              27.648s
+
+
+[32m---- All tests passed! ----
+[0m
+Results saved to /tmp/declutter-b2-fixes-junit.xml

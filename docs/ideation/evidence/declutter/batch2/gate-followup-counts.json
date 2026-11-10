@@ -1,0 +1,200 @@
+{
+  "main_input": "bc9ee571",
+  "replay_proof_commit": "f216e973",
+  "targeted_tests": 128,
+  "assertions": 6481,
+  "seconds": 122.237,
+  "projection_boundary_tests": 3,
+  "python_tests": 27,
+  "tier_representation": "one visible numeral per living opponent",
+  "captures": [
+    {
+      "scenario": "overview",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 47,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5"
+    },
+    {
+      "scenario": "overview",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 47,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5"
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 37,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7"
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 37,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7"
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 46,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc"
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 46,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc"
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc"
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 30,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc"
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 58,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9"
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 58,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9"
+    },
+    {
+      "scenario": "fan10",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 68,
+      "state_sha256": "1ad524a02538a06ee31786e2079c5183f4fff219ebd9362d657bc0b95ce3ec53"
+    },
+    {
+      "scenario": "fan10",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 0,
+      "raw_visible_text_count": 68,
+      "state_sha256": "1ad524a02538a06ee31786e2079c5183f4fff219ebd9362d657bc0b95ce3ec53"
+    },
+    {
+      "scenario": "legacy-slice-recruit",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 6,
+      "raw_visible_text_count": 34,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf"
+    },
+    {
+      "scenario": "legacy-slice-scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "word_count": 8,
+      "raw_visible_text_count": 28,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf"
+    },
+    {
+      "scenario": "legacy-slice-recruit",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 6,
+      "raw_visible_text_count": 34,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf"
+    },
+    {
+      "scenario": "legacy-slice-scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "word_count": 8,
+      "raw_visible_text_count": 28,
+      "state_sha256": "37fbcbecc6fcb1b650c2b23e522e2d7e92ca11b920013e496b696f505b516acf"
+    }
+  ],
+  "log_hashes": {
+    "build/declutter-b2-review/targeted-verified.log": "38fdbb3bab70fc828e0487d067abe79e320fd0a6399ea2f3162cd51086a142ee",
+    "build/declutter-b2-review/targeted-verified.xml": "bccae6ca72d60d54bf5e2d7864ae8512d55e7ec36828a82844fd0587f5722ecd",
+    "build/declutter-b2-review/contract-pass.log": "6d6a2cba70ab1eb9a6a14f287e9e7043d24c80e4bd66e28c6d3585cccc1a9a2f",
+    "build/declutter-b2-review/ui-final-verified.log": "f56004032d3ed3fdf89aeac33acab8577b87d6ea47a827225f493ee71bfe41f7",
+    "build/declutter-b2-review/ui-final-verified.xml": "1b3586827a3870c1e3ce4714d29dd7d00d58529857b47bb6c14d53403b07958e"
+  },
+  "label_caps": {
+    "overview": 47,
+    "lobby": 46,
+    "other_gated_states": 40
+  },
+  "latest_ui_run": {
+    "tests": 46,
+    "assertions": 2087,
+    "seconds": 23.23,
+    "strict": "clean"
+  },
+  "size_guard": {
+    "base": "bc9ee571",
+    "code_fix_head": "1ab6929c7771734932f92943757f59331c471332",
+    "unsquashed_exit": 1,
+    "unsquashed_introduced_bytes": 159740262,
+    "projected_squash": "f1ea3ad22dc561ce559ab9e1106583bcb70273f6",
+    "projected_squash_exit": 0,
+    "history_rewritten": false,
+    "allowlist_changed": false
+  }
+}

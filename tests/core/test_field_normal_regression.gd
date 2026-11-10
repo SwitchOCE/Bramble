@@ -2,6 +2,7 @@ extends GutTest
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
 const FrozenContent := preload("res://tests/core/field_frozen_content.gd")
+const ReplayContract := preload("res://tests/core/replay_contract.gd")
 
 var _fights: Array = []
 var _keys: Array = []
@@ -56,9 +57,9 @@ func test_normal_lobby_matches_complete_games_after_a35_dial_aware_bot_valuation
 		}
 		assert_eq(_fights.size(), CoreUtil.to_int(recorded["fight_count"]))
 		assert_eq(
-			FightCapture.canonical(game).sha256_text(),
+			FightCapture.canonical(ReplayContract.gameplay(game)).sha256_text(),
 			str(recorded["sha256"]),
-			"all inputs, all raw results/events, standings and log match seed %s" % recorded["seed"]
+			"all gameplay inputs/results/events, standings and log match seed %s" % recorded["seed"]
 		)
 
 

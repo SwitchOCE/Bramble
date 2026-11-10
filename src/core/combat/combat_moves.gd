@@ -195,18 +195,47 @@ static func dance_rings(combat: Combat, attacker: CombatUnit) -> void:
 	var to: Array = row[next_slot]
 	to.append(moved)
 	combat.trigger(mistress, REEL)
-	combat._emit(
-		"ring_dance",
-		{
-			"side": side,
-			"from": attacker.slot,
-			"to": next_slot,
-			"attack": moved["attack"],
-			"health": moved["health"]
-		}
+	(
+		combat
+		. _emit(
+			"ring_dance",
+			{
+				"side": side,
+				"from": attacker.slot,
+				"to": next_slot,
+				"attack": moved["attack"],
+				"health": moved["health"],
+				"moved_count": CoreUtil.to_int(moved.get("count", 1)),
+				"from_ring": ring_state(from),
+				"to_ring": ring_state(to),
+			}
+		)
 	)
 	combat._recalc_auras(true)
 	combat._resolve_deaths(side)
+
+
+## Authoritative presentation snapshot: legacy Ring entries each represent one Ring.
+static func ring_state(effects: Array) -> Dictionary:
+	var count: int = 0
+	var attack: int = 0
+	var health: int = 0
+	var slot_attack: int = 0
+	var slot_health: int = 0
+	for effect: Dictionary in effects:
+		slot_attack += CoreUtil.to_int(effect.get("attack", 0))
+		slot_health += CoreUtil.to_int(effect.get("health", 0))
+		if str(effect.get("name", "")) == BoardUpkeep.RING:
+			count += CoreUtil.to_int(effect.get("count", 1))
+			attack += CoreUtil.to_int(effect.get("attack", 0))
+			health += CoreUtil.to_int(effect.get("health", 0))
+	return {
+		"count": count,
+		"attack": attack,
+		"health": health,
+		"slot_attack": slot_attack,
+		"slot_health": slot_health
+	}
 
 
 ## The slot effects of a fight are shared with the recruit board until something changes them.

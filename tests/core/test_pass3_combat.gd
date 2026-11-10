@@ -4,6 +4,7 @@ extends GutTest
 
 const KIT := preload("res://tests/core/recruit_kit.gd")
 const CK := preload("res://tests/core/combat_kit.gd")
+const ReplayContract := preload("res://tests/core/replay_contract.gd")
 var kit: KIT
 
 
@@ -532,7 +533,8 @@ func test_diagnostic_old_order_exactly_replays_c74c2b9_other_tribes_and_neutrals
 		combat.side_rules = entry["side_rules"]
 		var result: Dictionary = combat.run(entry["boards"], [5, 5], [0, 1], 0)
 		assert_true(
-			JSON.stringify(result) == str(entry["result"]), "exact replay seed %d" % entry["seed"]
+			JSON.stringify(ReplayContract.gameplay(result)) == str(entry["result"]),
+			"exact gameplay replay seed %d" % entry["seed"]
 		)
 
 

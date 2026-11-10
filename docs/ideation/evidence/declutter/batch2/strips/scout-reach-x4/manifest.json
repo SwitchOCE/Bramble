@@ -1,0 +1,3050 @@
+{
+  "duration": 0.1,
+  "expected_target_slot": 5,
+  "fixed_step": 0.008333333333333333,
+  "fixture": "Native current cards: Old Brock at scouted slot5 lends its own across quarry to adjacent Wick at slot2. Opening Wick reader pulses your slot5 rather than straight across slot2.",
+  "frames": [
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-000.png",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 0,
+      "time": 0.0,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-001.jpg",
+      "reach_values": {
+        "expected_target5": 0.6666666865348816,
+        "straight_across2": 0.0
+      },
+      "tick": 2,
+      "time": 0.016666666666666666,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-002.jpg",
+      "reach_values": {
+        "expected_target5": 1.0,
+        "straight_across2": 0.0
+      },
+      "tick": 3,
+      "time": 0.025,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-003.jpg",
+      "reach_values": {
+        "expected_target5": 0.7777777761220932,
+        "straight_across2": 0.0
+      },
+      "tick": 5,
+      "time": 0.041666666666666664,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-004.jpg",
+      "reach_values": {
+        "expected_target5": 0.5555555522441864,
+        "straight_across2": 0.0
+      },
+      "tick": 7,
+      "time": 0.058333333333333334,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-005.jpg",
+      "reach_values": {
+        "expected_target5": 0.3333333730697632,
+        "straight_across2": 0.0
+      },
+      "tick": 9,
+      "time": 0.075,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-006.jpg",
+      "reach_values": {
+        "expected_target5": 0.22222226858139038,
+        "straight_across2": 0.0
+      },
+      "tick": 10,
+      "time": 0.08333333333333333,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    },
+    {
+      "board_stats": [
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 2
+        },
+        {
+          "attack": 2,
+          "health": 3,
+          "iid": -1,
+          "slot": 5
+        }
+      ],
+      "file": "frame-007.jpg",
+      "reach_values": {
+        "expected_target5": 0.0,
+        "straight_across2": 0.0
+      },
+      "tick": 12,
+      "time": 0.1,
+      "visible_text_count": 52,
+      "visible_text_nodes": [
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3060/@Control@3057/@Label@3058",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3062/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3068/@Control@3065/@Label@3066",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3070/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3076/@Control@3073/@Label@3074",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3078/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3084/@Control@3081/@Label@3082",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3086/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3092/@Control@3089/@Label@3090",
+          "primary_stat": false,
+          "text": "34"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3094/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3101/@Control@3097/@Label@3098",
+          "primary_stat": false,
+          "text": "40"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3103/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3109/@Control@3106/@Label@3107",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3111/TierKnot",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2395/@Control@3117/@Control@3114/@Label@3115",
+          "primary_stat": false,
+          "text": "39"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3125/@Label@3126",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3136/@Control@3127/@Label@3128",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3144/@Label@3145",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3155/@Control@3146/@Label@3147",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Label@3157",
+          "primary_stat": false,
+          "text": "Agnes"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3163/@Label@3164",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3174/@Control@3165/@Label@3166",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3182/@Label@3183",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3193/@Control@3184/@Label@3185",
+          "primary_stat": false,
+          "text": "6"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3201/@Label@3202",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3212/@Control@3203/@Label@3204",
+          "primary_stat": false,
+          "text": "5"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3231/@Control@3218/@Label@3219",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@ScrollContainer@2402/@GridContainer@2403/@Control@3250/@Control@3237/@Label@3238",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Label@3252",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3258/@Label@3259",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3269/@Control@3260/@Label@3261",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Label@3271",
+          "primary_stat": false,
+          "text": "Field Vole"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3277/@Label@3278",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2518/@Control@3288/@Control@3279/@Label@3280",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2536/@GridContainer@2539/@Control@3307/@Control@3294/@Label@3295",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2551/@Label@2547",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2553",
+          "primary_stat": false,
+          "text": "4"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Label@2554",
+          "primary_stat": false,
+          "text": "Turn 2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2564/@HBoxContainer@2555/@PanelContainer@2563/@HBoxContainer@2560/@Label@2562",
+          "primary_stat": false,
+          "text": "10"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2574/@HBoxContainer@2565/@PanelContainer@2573/@HBoxContainer@2570/@Label@2572",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Button@2594/@HBoxContainer@2585/@VBoxContainer@2587/@Label@2588",
+          "primary_stat": false,
+          "text": "End turn"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Panel@2619/@Label@2620",
+          "primary_stat": false,
+          "text": "Wick"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2623",
+          "primary_stat": false,
+          "text": "HUNTERS"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@RichTextLabel@2626",
+          "primary_stat": false,
+          "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.\nDetails"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2632/@Label@2633",
+          "primary_stat": false,
+          "text": "1"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2634/@Label@2635",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2639/@Control@2636/@Label@2637",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3315/@Label@3316",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3326/@Control@3317/@Label@3318",
+          "primary_stat": false,
+          "text": "2"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Label@3328",
+          "primary_stat": false,
+          "text": "Old Brock"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3334/@Label@3335",
+          "primary_stat": false,
+          "text": "3"
+        },
+        {
+          "path": "/root/@Control@2797/@Control@2394/@Control@2759/@Control@2754/@Control@3345/@Control@3336/@Label@3337",
+          "primary_stat": false,
+          "text": "6"
+        }
+      ]
+    }
+  ],
+  "lender_slot": 5,
+  "name": "scout-reach-x4",
+  "pixels": [
+    1688,
+    780
+  ],
+  "sample_ticks": [
+    0,
+    2,
+    3,
+    5,
+    7,
+    9,
+    10,
+    12
+  ],
+  "source_slot": 2,
+  "state": {
+    "armor": 0,
+    "ask_for_kin_enabled": false,
+    "away": [],
+    "band_count": 0,
+    "bands": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ],
+    "base_damage": 0,
+    "birds_homecoming_multiplier": 2,
+    "birds_lump_multiplier": 1,
+    "board": [
+      null,
+      null,
+      {
+        "attack": 2,
+        "counters": {},
+        "def_id": "field_vole",
+        "golden": false,
+        "health": 3,
+        "keyword_text": [],
+        "keywords": [],
+        "max_health": 3,
+        "name": "Field Vole",
+        "statuses": [],
+        "text": "",
+        "tier": 1,
+        "tribes": [
+          "Hedgerow folk"
+        ],
+        "uid": 102
+      },
+      null,
+      null,
+      {
+        "attack": 2,
+        "counters": {},
+        "def_id": "field_vole",
+        "golden": false,
+        "health": 3,
+        "keyword_text": [],
+        "keywords": [],
+        "max_health": 3,
+        "name": "Field Vole",
+        "statuses": [],
+        "text": "",
+        "tier": 1,
+        "tribes": [
+          "Hedgerow folk"
+        ],
+        "uid": 105
+      },
+      null
+    ],
+    "buys_left": -1,
+    "can_ask_for_kin": false,
+    "damage_cap": 0,
+    "damage_mode": "v05",
+    "debt": 0,
+    "debt_payment": 0,
+    "doorstep": [],
+    "early_spoils_income": 1,
+    "early_spoils_next_turn": 0,
+    "fairies_fetch_share": 0.5,
+    "free_refreshes": 0,
+    "freezes_left": 5,
+    "frozen": false,
+    "gold": 10,
+    "gold_next_turn": 0,
+    "gold_spent_turn": 0,
+    "hand": [],
+    "hand_items": [
+      {
+        "aim": "none",
+        "combines_into": "stash",
+        "cost": 0,
+        "def_id": "acorn",
+        "gold_value": 1,
+        "iid": 124,
+        "keyword_text": [
+          {
+            "keyword": "Acorn",
+            "text": "Play for gold: Acorn 1, Stash 5, Great Hoard 16. Three make the next size."
+          }
+        ],
+        "keywords": [
+          "Acorn"
+        ],
+        "kind": "item",
+        "name": "Acorn",
+        "sample": false,
+        "text": "Play for 1 gold. Three combine into a Stash.",
+        "tier": 1
+      }
+    ],
+    "hand_limit": 10,
+    "harvest_supper_used": false,
+    "health": 40,
+    "hero": {
+      "aim": "none",
+      "armor": 0,
+      "cost": 0,
+      "id": "brother_bracken",
+      "kind": "passive",
+      "last_stand_used": false,
+      "name": "Brother Bracken",
+      "sample": false,
+      "text": "Start of Combat: with 5 or fewer units, they gain +1/+1 per tier, up to +5/+5.\nLast Stand: unused.",
+      "usable": true,
+      "uses_left": 0,
+      "uses_per_turn": 0
+    },
+    "larder": 1,
+    "last_combat": {
+      "damage": 6,
+      "opponent_id": 4,
+      "round": 1,
+      "winner": 0
+    },
+    "last_stand_active": false,
+    "last_stand_enabled": true,
+    "last_stand_used": false,
+    "lobby_tribes": [
+      "Birds",
+      "Bog folk",
+      "Fairies",
+      "Hunters",
+      "Oozes"
+    ],
+    "midsummer_left": 0,
+    "next_opponent_hero": {
+      "aim": "none",
+      "armor": 0,
+      "cost": 0,
+      "id": "dame_farthing",
+      "kind": "passive",
+      "last_stand_used": false,
+      "name": "Dame Farthing",
+      "sample": false,
+      "text": "Start of Turn: get 1 gold for every 4 you carried over.\nLast Stand: unused.",
+      "usable": true,
+      "uses_left": 0,
+      "uses_per_turn": 0
+    },
+    "next_opponent_id": 5,
+    "next_opponent_last_board": [
+      null,
+      null,
+      {
+        "attack": 2,
+        "configured_details": "Shares read bell stats, rounded down, at least +1/+1. Gains arrive at your next Start of Turn, even if this died making the Take.",
+        "counters": {},
+        "def_id": "wick",
+        "golden": false,
+        "health": 2,
+        "keyword_text": [
+          {
+            "keyword": "Pack",
+            "text": "When a unit beside this attacks, this joins in, using up its own attack."
+          }
+        ],
+        "keywords": [
+          "Pack"
+        ],
+        "max_health": 2,
+        "name": "Wick",
+        "statuses": [],
+        "text": "Pack. After this joins a kill: gain a third of the target's stats permanently.",
+        "tier": 1,
+        "tribes": [
+          "Hunters"
+        ],
+        "uid": 202
+      },
+      null,
+      null,
+      {
+        "attack": 3,
+        "configured_details": "Only Hunters without their own quarry take the lent hunt; golden does not widen it.",
+        "counters": {},
+        "def_id": "old_brock",
+        "golden": false,
+        "health": 6,
+        "keyword_text": [],
+        "keywords": [],
+        "max_health": 6,
+        "name": "Old Brock",
+        "statuses": [],
+        "text": "Hunters next to this hunt the enemy across from this, wherever it stands.",
+        "tier": 4,
+        "tribes": [
+          "Hunters"
+        ],
+        "uid": 205
+      },
+      null
+    ],
+    "next_opponent_last_nests": [],
+    "next_opponent_last_slot_effects": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "next_turn_income": 5,
+    "paid_refreshes": 0,
+    "pass3_content": true,
+    "pending_choice": null,
+    "pending_passes": [],
+    "phase": "recruit",
+    "placement": null,
+    "player_id": 0,
+    "poached": [],
+    "recruit_log": [
+      {
+        "name": "Ring",
+        "slot": 4,
+        "type": "slot_effect"
+      },
+      {
+        "due": 3,
+        "slot": 2,
+        "type": "fly_south",
+        "unit": "one_swallow"
+      },
+      {
+        "mechanic": "fly_south",
+        "source": "one_swallow",
+        "type": "trigger"
+      },
+      {
+        "name": "Ring",
+        "slot": 4,
+        "type": "slot_effect"
+      },
+      {
+        "mechanic": "jay",
+        "source": "mrs_jay",
+        "type": "trigger"
+      },
+      {
+        "card": "acorn",
+        "type": "card"
+      },
+      {
+        "due": 4,
+        "slot": 3,
+        "type": "fly_south",
+        "unit": "mrs_jay"
+      },
+      {
+        "mechanic": "fly_south",
+        "source": "mrs_jay",
+        "type": "trigger"
+      },
+      {
+        "slot": 2,
+        "type": "play",
+        "unit": "great_lump"
+      },
+      {
+        "name": "Ring",
+        "slot": 4,
+        "type": "slot_effect"
+      },
+      {
+        "type": "sell",
+        "unit": "cluricaun"
+      },
+      {
+        "slot": 6,
+        "type": "play",
+        "unit": "hob_in_the_hearth"
+      }
+    ],
+    "refresh_cost": 1,
+    "ring_size": 1.25,
+    "round": 2,
+    "round_toll": 0,
+    "shop": [
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "madame_ermeline",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 6,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 85,
+        "keyword_text": [],
+        "keywords": [],
+        "name": "Madame Ermeline",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 6,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Hunters"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "his_highness",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 86,
+        "keyword_text": [
+          {
+            "keyword": "Snap",
+            "text": "Attacks the Mired enemy with the most Attack."
+          }
+        ],
+        "keywords": [
+          "Snap"
+        ],
+        "name": "His Highness, Allegedly",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Snap. After a Mired enemy dies: get a kiss, once a fight. Third kiss: become The Prince Restored.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Bog folk"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 2,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "grey_agnes",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 87,
+        "keyword_text": [
+          {
+            "keyword": "Pack",
+            "text": "When a unit beside this attacks, this joins in, using up its own attack."
+          }
+        ],
+        "keywords": [
+          "Pack"
+        ],
+        "name": "Grey Agnes",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 2,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Pack. The unit after this in the row has Pack and +1 Attack.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Hunters"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "madame_ermeline",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 6,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 88,
+        "keyword_text": [],
+        "keywords": [],
+        "name": "Madame Ermeline",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 6,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "After each fight: your next Tier up costs 1 less per Take. At tier 6, get gold instead.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Hunters"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      },
+      {
+        "attack": 3,
+        "belly": 0,
+        "belly_discount": 0,
+        "cost": 3,
+        "counters": {},
+        "def_id": "jenny_greenteeth",
+        "eats_items": false,
+        "egged": false,
+        "fly_south": 0,
+        "golden": false,
+        "health": 5,
+        "held": [],
+        "hex_amount": 0,
+        "hex_stored": 0,
+        "iid": 89,
+        "keyword_text": [
+          {
+            "keyword": "Mire",
+            "text": "Start of Combat: the enemy across must attack this while this lives. This waits for it, once."
+          }
+        ],
+        "keywords": [
+          "Mire"
+        ],
+        "name": "Jenny Greenteeth",
+        "origin": "bought",
+        "pass3_content": false,
+        "plain_copy": false,
+        "played_round": 0,
+        "poached": false,
+        "reward_pending": false,
+        "sell_value": 1,
+        "shy": false,
+        "stat_layers": {
+          "aura_attack": 0,
+          "aura_health": 0,
+          "base_attack": 3,
+          "base_health": 5,
+          "combat_attack": 0,
+          "combat_health": 0,
+          "perm_attack": 0,
+          "perm_health": 0,
+          "tribe_attack": 0,
+          "tribe_health": 0
+        },
+        "text": "Mire. Its Mired enemy has -2 Attack. After that enemy attacks this: your highest-Attack unit beside this attacks it.",
+        "tier": 4,
+        "timers": [],
+        "tribe_bonuses": {},
+        "tribes": [
+          "Bog folk"
+        ],
+        "turns_goal": 0,
+        "turns_in_slot": 0
+      }
+    ],
+    "shop_size": 5,
+    "shop_spells": [
+      {
+        "aim": "none",
+        "combines_into": "",
+        "cost": 1,
+        "def_id": "rainy_day",
+        "gold_value": 0,
+        "iid": 90,
+        "keyword_text": [],
+        "keywords": [],
+        "kind": "spell",
+        "name": "Rainy Day",
+        "sample": false,
+        "text": "Next turn: get 1 gold, or 3 if you lose your next fight.",
+        "tier": 1
+      },
+      {
+        "aim": "none",
+        "combines_into": "",
+        "cost": 1,
+        "def_id": "a_leg_up",
+        "gold_value": 0,
+        "iid": 91,
+        "keyword_text": [],
+        "keywords": [],
+        "kind": "spell",
+        "name": "A Leg Up",
+        "sample": false,
+        "text": "Your next Tier up costs 2 less.",
+        "tier": 1
+      }
+    ],
+    "slot_effects": [
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      []
+    ],
+    "standings": [
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "Brother Bracken",
+        "is_human": true,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "You",
+        "personality": "human",
+        "placement": null,
+        "player_id": 0,
+        "tier": 4
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "Hob Mumblecrust",
+        "is_human": false,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 1 (hard)",
+        "personality": "hard:bog_bitter",
+        "placement": null,
+        "player_id": 1,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 39,
+        "hero": "Little King Wren",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 2 (hard)",
+        "personality": "hard:neutrals_low_roll",
+        "placement": null,
+        "player_id": 2,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "The March Hare",
+        "is_human": false,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 3 (hard)",
+        "personality": "hard:bog_borrowed",
+        "placement": null,
+        "player_id": 3,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 34,
+        "hero": "Dame Hoolet",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 4 (hard)",
+        "personality": "hard:bog_tongues",
+        "placement": null,
+        "player_id": 4,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 40,
+        "hero": "Dame Farthing",
+        "is_human": false,
+        "last_result": "win",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 5 (hard)",
+        "personality": "hard:birds_summer_winter",
+        "placement": null,
+        "player_id": 5,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 39,
+        "hero": "Pipkin",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 6 (hard)",
+        "personality": "hard:fairies_rings",
+        "placement": null,
+        "player_id": 6,
+        "tier": 1
+      },
+      {
+        "alive": true,
+        "armor": 0,
+        "health": 39,
+        "hero": "Old Mother Mousewife",
+        "is_human": false,
+        "last_result": "loss",
+        "last_stand_active": false,
+        "last_stand_enabled": true,
+        "last_stand_used": false,
+        "name": "Bot 7 (hard)",
+        "personality": "hard:oozes_rude_awakening",
+        "placement": null,
+        "player_id": 7,
+        "tier": 1
+      }
+    ],
+    "takes_last_fight": 0,
+    "tier": 4,
+    "tier_up_cost": 10,
+    "tribe_bonuses": {}
+  },
+  "lent_quarry_target_only_and_then_clears": true,
+  "strip": "scout-reach.jpg",
+  "method": "Fixed1/120s explicit animation advance; eight evenly spaced native1688x780 frames, no image scaling, assembled6752x1640 as batch1. Actual core End-of-Turn events, or the real reader-open reach pulse with manually stepped native Tween.",
+  "production_revision": "8ef164b5"
+}

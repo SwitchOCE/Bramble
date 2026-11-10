@@ -24,10 +24,11 @@ func _player(rules: RecruitRules) -> PlayerState:
 	return player
 
 
-func test_behind_f2_lights_both_back_slots() -> void:
+func test_behind_f2_keeps_geometry_without_a_standing_highlight_note() -> void:
 	var card: Dictionary = {"text": "Units behind this gain +1/+1."}
 	assert_eq(View.related_slots(card, 1), [4, 5] as Array[int])
-	assert_eq(View.geometry_note(card, 1), "Highlighted: B1 and B2.")
+	# Declutter §2.2 replaces the standing Highlighted prose with a reader reach pulse.
+	assert_eq(View.geometry_note(card, 1), "", "reach remains geometry, not a reminder caption")
 	assert_eq(View.related_slots(card, 4), [] as Array[int], "nothing behind a back slot")
 
 
@@ -82,7 +83,7 @@ func test_sergeant_next_acorn_uses_actual_smallest_item_and_golden_multiplier() 
 	assert_true("earlier Sergeants throw first" in str(view["text"]))
 
 
-func test_shy_action_warns_before_mutation_and_repeat_confirms() -> void:
+func test_shy_action_commits_on_one_press_without_a_warning_step() -> void:
 	const CorePort := preload("res://src/ui/adapter/core_port.gd")
 	const Actions := preload("res://src/ui/screens/recruit_actions.gd")
 	var config: GameConfig = GameConfig.full_game()
@@ -97,12 +98,7 @@ func test_shy_action_warns_before_mutation_and_repeat_confirms() -> void:
 	var actions: Actions = Actions.new()
 	add_child_autofree(actions)
 	actions.port = port
-	var notices: Array[String] = []
-	actions._shy_notice = func(words: String) -> void: notices.append(words)
-	assert_eq(actions._safe_item(0, 4), "Shy warning: repeat to confirm")
-	assert_not_null(player.board[4], "first tap leaves the actual unit in place")
-	assert_eq(player.items.size(), 1, "and keeps the spell")
-	assert_eq(notices.size(), 1)
-	assert_true("Hob-in-the-Hearth" in notices[0])
+	# Declutter §2.3 makes Shy one press; departure feedback follows the committed action.
 	assert_eq(actions._safe_item(0, 4), "")
-	assert_null(player.board[4], "repeat confirms")
+	assert_null(player.board[4], "the aimed action commits its Shy departure immediately")
+	assert_eq(player.items.size(), 0, "the spell is consumed by the same action")

@@ -1,0 +1,307 @@
+{
+  "calm_space_method": "Semantic free-surface proxy, measured in native viewport pixels. Occupied mask is the union of visible nonempty text-control rectangles, card face rectangles, action-button rectangles, art frames, stat/cost badges and gold plaque. Remaining pixels are counted as calm; plain tray/playmat/shop surfaces and empty pockets count as calm. Masks are white=calm, black=occupied. Bounds use floor/ceil then clip to viewport. Mask region paths/rectangles are saved with each capture for audit.",
+  "calm_space_limitations": "This measures free surface, not perceptual complexity: floor marks, tray carving and background grain are not separately subtracted; text rectangles include padding. It is an explicit, identical before/after proxy, not a claim that the perceptual 35-40% target passed. Reader-open rows are reported separately and are not resting-budget scenarios.",
+  "pairs": [
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "before": {
+        "image": "before/lobby-1688x780.jpg",
+        "labels": 127,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.45237878235508566,
+        "mask": "before/lobby-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/lobby-1688x780.jpg",
+        "labels": 55,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.5145408008263459,
+        "mask": "after/lobby-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "before": {
+        "image": "before/scout-1688x780.jpg",
+        "labels": 136,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.5206009235630089,
+        "mask": "before/scout-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/scout-1688x780.jpg",
+        "labels": 64,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.6324925568112771,
+        "mask": "after/scout-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "overview",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "source": "wave1/redbreast-label/ui-after-overview; wave1/screenshots-1920x1080.json: ring-carry-away-birds",
+      "before": {
+        "image": "before/overview-1688x780.jpg",
+        "labels": 134,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.44673335156155064,
+        "mask": "before/overview-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/overview-1688x780.jpg",
+        "labels": 59,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.5051373192368454,
+        "mask": "after/overview-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "source": "wave1/screenshots-1920x1080.json: reader-reel_mistress-golden",
+      "before": {
+        "image": "before/reader-reel_mistress-golden-1688x780.jpg",
+        "labels": 145,
+        "pocket_canvas": [
+          180,
+          163
+        ],
+        "calm_space_share": 0.3045092052497266,
+        "mask": "before/reader-reel_mistress-golden-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/reader-reel_mistress-golden-1688x780.jpg",
+        "labels": 68,
+        "pocket_canvas": [
+          180.0,
+          203.0
+        ],
+        "calm_space_share": 0.3558710049823794,
+        "mask": "after/reader-reel_mistress-golden-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1688,
+        780
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "source": "wave1/screenshots-1920x1080.json: natural-birds-ring-and-away",
+      "before": {
+        "image": "before/natural-birds-1688x780.jpg",
+        "labels": 103,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.4944935593632276,
+        "mask": "before/natural-birds-1688x780-calm-mask.png"
+      },
+      "after": {
+        "image": "after/natural-birds-1688x780.jpg",
+        "labels": 39,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.5556363166848949,
+        "mask": "after/natural-birds-1688x780-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "lobby",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "before": {
+        "image": "before/lobby-1920x1080.jpg",
+        "labels": 128,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.3971629050925926,
+        "mask": "before/lobby-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/lobby-1920x1080.jpg",
+        "labels": 55,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.4435054976851852,
+        "mask": "after/lobby-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "scout",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "853a2e954cc81a22abdacb0b6f1a13cae8ef84bc3568f3453c29a852e8337afc",
+      "source": "Explicit reconstruction: strong-field seed72 round8 recorded combat boards, floor marks, tiers and prior-round standings; shop/economy shell from saved wave1 overview. Original v1 field library unavailable. Exact same reconstruction replayed before/after; not the original historical full-screen scenario.",
+      "before": {
+        "image": "before/scout-1920x1080.jpg",
+        "labels": 136,
+        "pocket_canvas": [
+          209.0,
+          189.0
+        ],
+        "calm_space_share": 0.44841338734567904,
+        "mask": "before/scout-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/scout-1920x1080.jpg",
+        "labels": 64,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.5254046103395061,
+        "mask": "after/scout-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "overview",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "d03c58dd51778324ba7517e21f97e3f43b045aaebc3924b5e9811c63034763b5",
+      "source": "wave1/redbreast-label/ui-after-overview; wave1/screenshots-1920x1080.json: ring-carry-away-birds",
+      "before": {
+        "image": "before/overview-1920x1080.jpg",
+        "labels": 135,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.3573804012345679,
+        "mask": "before/overview-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/overview-1920x1080.jpg",
+        "labels": 59,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.40057725694444446,
+        "mask": "after/overview-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "reader-reel_mistress-golden",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "8d810f53f874adffec987df7542e0f602251c8b316765cd7d3a64875c65750e9",
+      "source": "wave1/screenshots-1920x1080.json: reader-reel_mistress-golden",
+      "before": {
+        "image": "before/reader-reel_mistress-golden-1920x1080.jpg",
+        "labels": 135,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.35062355324074074,
+        "mask": "before/reader-reel_mistress-golden-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/reader-reel_mistress-golden-1920x1080.jpg",
+        "labels": 68,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.3506963734567901,
+        "mask": "after/reader-reel_mistress-golden-1920x1080-calm-mask.png"
+      }
+    },
+    {
+      "scenario": "natural-birds",
+      "pixels": [
+        1920,
+        1080
+      ],
+      "same_serialized_state": true,
+      "state_sha256": "e60b51dde345de6a9f6d1b62ded681fffaee5641f8e33315f6a09d6d0d62f4b7",
+      "source": "wave1/screenshots-1920x1080.json: natural-birds-ring-and-away",
+      "before": {
+        "image": "before/natural-birds-1920x1080.jpg",
+        "labels": 103,
+        "pocket_canvas": [
+          209,
+          189
+        ],
+        "calm_space_share": 0.4191869212962963,
+        "mask": "before/natural-birds-1920x1080-calm-mask.png"
+      },
+      "after": {
+        "image": "after/natural-birds-1920x1080.jpg",
+        "labels": 39,
+        "pocket_canvas": [
+          209.0,
+          229.0
+        ],
+        "calm_space_share": 0.48585744598765435,
+        "mask": "after/natural-birds-1920x1080-calm-mask.png"
+      }
+    }
+  ],
+  "production_revision": "8ef164b5"
+}
