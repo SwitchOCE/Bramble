@@ -4,6 +4,33 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Done means: re-check calls
+**Source:** a fresh re-check of the fidelity fixes at `34d8397e` (`evidence/plan-to-done/done-means-recheck.md`).
+- Closed: cuts 2 and 3, and asks 1, 3 and 5.
+- Mostly or partly closed: ask 2 and ask 4.
+- Partly closed: cut 1.
+- New gaps: untestable "still binds" lines, bars that could loosen through a file edit, an uneven veto, and stale pointers.
+
+**Picked:** all taken, in PLAN.md's governing section.
+- **Cut 1, the fight half of the declutter line:** the cold reader must read who hits, what triggered and why it died from motion and marks that end with their moment. A moment read only from a static label, a lasting arrow or a running log doesn't count.
+- **Filler:** a unit fails only if 2+ final reviewers call it filler. That matches the re-skin rule and 06a. The brief lists every unit without rules text, and one nobody calls filler counts as a deliberate vanilla body. This removes the unreachable "vanilla body" clause and the single-reviewer veto.
+- **Worth beating:** Done fails if most final reviewers answer "no" to "were the opponents worth beating?". The fail word now matches the question.
+- **Reasons:**
+  - Row 2 now cites 06a: shared findings are the unit.
+  - Row 7 gives C4's own reason: without it, the pass rule can loop.
+- **The field:**
+  - The committed lines are frozen at A4's commit.
+  - Hedgerow's line lands with wave 2b, before A4.
+  - A designed board is scored against the whole field.
+- **"Still binds" status:**
+  - A left-out 6 Nov line is a checklist item unless it is named as reported.
+  - The 6 Nov text's own stand-ins apply: the scripted UI games and `tools/play/` stand in for "a human … through the real UI", and economy by hand is a reported brief question.
+  - "Full text one tap away" is checked in the scripted UI run.
+- **Silent loosening:** changing a `layout_check.gd` threshold, the lines in `tools/sim/lines/` after A4, or the final brief's questions now needs a DECISIONS entry first.
+- **Not changed:** DM5's deciding item 2 stays one cold reader doing two reading jobs on the same build. The default-opponent fact stays on the checklist, since it is a fact about what ships, not a judgement.
+
+**Agreed by:** the re-check.
+
 ### 10 Nov 2026 — Strong field memory budget failed: try loading only the dealt rivals
 **Source:** S3 (w7) on `ideation/measure` `00ed62b9`, `evidence/builds/memory-budget.md` (scope review running). On the Linux export, a field start adds 665.4 MB median peak RSS over a normal start, against Done criterion 4's 300 MB. The throwaway library is 14 lines and 480 trajectories: 1.6 MB stored and 37 MB of JSON.
 
@@ -68,7 +95,7 @@ Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (th
   - The circular Birds reason in `plan-to-done.md` §1.12 is struck.
   - `plan-to-done.md` §4 points at PLAN.md, which wins where they differ.
 
-**Agreed by:** the fidelity check, with no cut left open.
+**Agreed by:** the fidelity check. A fresh re-check of these fixes found cut 1 only partly closed and raised new gaps; see "Done means: re-check calls".
 
 ### 10 Nov 2026 — Declutter batch 1, sixth cold reader: merge, with two fixes for batch 2
 **Source:** the sixth fresh cold reader and its scorer on the cue-retirement reshoots, Bog 017/025 and combat_mid 045 at ×1, ×4 and reduce motion (`evidence/declutter/batch1-independent/reader6/`).
