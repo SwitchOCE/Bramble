@@ -4,6 +4,24 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 2, first cold reader: fail, three fixes
+**Source:** `evidence/declutter/batch2-cold/reader1/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` 7a9f69d0, and a separate Sol scorer marked it against `technical/`.
+
+**Score:** 10 of 16 sequence-speed runs pass, and nothing on the board breaks 09e. Three actions fail at both speeds:
+- **B:** a swallow into a Belly reads as stacking, and the Belly badge reads as equipment.
+- **D:** the lent-target preview's paired gold highlights don't show a target relationship.
+- **F:** Fly South's departure has no convincing arrival in the away tray.
+
+**Picked:** back to w4's thread on `ideation/declutter-b2`, taking the scorer's smallest fixes, motion or glyph only (09e):
+- **B:** shrink the purchase into the Belly glyph, retire its overlay, then pulse the count once.
+- **D:** keep a distinct selection treatment, and stamp a brief quarry glyph on the previewed target.
+- **F:** dissolve the departing card into the away portrait, then pulse its countdown.
+- **If cheap**, the reduce-motion overlays left in B, E and F's last frames, and items 4–7: E's overlapping copies, C's route over occupied portraits, G's acorns over the digits, and H's new price shown before the payment settles.
+- **Then the Hedgerow re-face** once wave 2b merges.
+- **A fresh reader and scorer** follow. Batch 2 merges only when every run passes.
+
+**Agreed by:** the scorer's marks, checked against frames and JSON. It also caught one reader misreading (G's gold flicker, which doesn't happen).
+
 ### 10 Nov 2026 — Worker cap 5, Astra allowed, Codex Cloud wanted (owner, 10c)
 **Source:** owner note `2026-11-10c-cap-astra-and-codex-cloud.md`.
 
