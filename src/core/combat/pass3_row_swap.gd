@@ -17,6 +17,9 @@ static func improves_ring(combat: Combat, unit: CombatUnit, destination: int) ->
 static func configure(card: Dictionary, config: GameConfig) -> void:
 	if str(card.get("id", "")) != "whirligig_beetle" or not config.get_bool("pass3_content"):
 		return
+	for entry: Dictionary in card.get("mechanics", []):
+		if str(entry.get("id", "")) == "pass3_neutral":
+			return
 	for golden: bool in [false, true]:
 		var damage: int = 0
 		for entry: Dictionary in card.get("mechanics", []):

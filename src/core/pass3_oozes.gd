@@ -113,8 +113,8 @@ static func soup_bonus(player: PlayerState) -> Vector2i:
 			attack += target.attack
 			health += target.health
 		# Sum in 64-bit scalars: six legal capped bodies exceed Vector2i's range.
-		total.x = mini(BoardUnit.STAT_CLAMP, total.x + floori(attack * share))
-		total.y = mini(BoardUnit.STAT_CLAMP, total.y + floori(health * share))
+		total.x = mini(BoardUnit.STAT_CLAMP, total.x + ceili(attack * share))
+		total.y = mini(BoardUnit.STAT_CLAMP, total.y + ceili(health * share))
 	return total
 
 
@@ -191,7 +191,7 @@ static func start_turn(rules: RecruitRules, player: PlayerState, frozen: bool) -
 				break
 			commit_shop(meal)
 			player.shop.erase(meal)
-			eat(rules, player, eater, meal)
+			eat(rules, player, eater, meal, "nell")
 	for source: RecruitUnit in player.board:
 		if source == null or not has(source, "cut_and_come_again"):
 			continue
@@ -215,6 +215,7 @@ static func start_turn(rules: RecruitRules, player: PlayerState, frozen: bool) -
 			player.log_event(
 				"card", {"card": "slice", "attack": stats.x, "health": maxi(1, stats.y)}
 			)
+			rules.check_triples(player)
 
 
 static func lowest_unfrozen(player: PlayerState, frozen: bool = false) -> RecruitUnit:
@@ -229,7 +230,11 @@ static func lowest_unfrozen(player: PlayerState, frozen: bool = false) -> Recrui
 
 ## One meal event, shared by Digest and Nell. No sale, buy, or play event is fabricated.
 static func eat(
-	rules: RecruitRules, player: PlayerState, eater: RecruitUnit, meal: RecruitUnit
+	rules: RecruitRules,
+	player: PlayerState,
+	eater: RecruitUnit,
+	meal: RecruitUnit,
+	cause: String = ""
 ) -> void:
 	var was_biggest: bool = biggest(player) == eater
 	var stats: Vector2i = own_stats(meal)
@@ -244,17 +249,17 @@ static func eat(
 		while eater.last_meals.size() > maxi(0, keep):
 			eater.last_meals.pop_front()
 	rules.pool.give_back(meal.pool_id(), meal.pool_copies)
-	player.log_event(
-		"eat",
-		{
-			"source": eater.def_id(),
-			"target": meal.def_id(),
-			"attack": gained.x,
-			"health": gained.y,
-			"meal_attack": stats.x,
-			"meal_health": stats.y
-		}
-	)
+	var fields: Dictionary = {
+		"source": eater.def_id(),
+		"target": meal.def_id(),
+		"attack": gained.x,
+		"health": gained.y,
+		"meal_attack": stats.x,
+		"meal_health": stats.y
+	}
+	if cause != "":
+		fields["cause"] = cause
+	player.log_event("eat", fields)
 	if was_biggest and receives_bonuses:
 		_share(rules, player, eater, stats)
 	rules.board_changed(player)

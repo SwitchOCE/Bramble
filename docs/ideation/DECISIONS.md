@@ -4,6 +4,75 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Neutrals (A3) and the soak's Egg and release fixes merged
+**Source:** `ideation/neutrals` aecf96a8, which merged `ideation/soak-bugs` 450098d8, merged as `4df1c876` (gate PASS on 2202a70e, run 42760315894).
+
+**Picked:** merged. It brings:
+- the neutral units;
+- Click's three valuation fixes and the six Stone Soup fixes;
+- generated Slices forming triples;
+- the 38 prototypes retired from the live pool, with QA tools that refuse an empty pool;
+- the soak's three real bugs fixed: Egg offered on a non-Bird, Egg reused, and a held unit released into a taken slot after Changeling traded its holder (rulebook 12.1.4c and 8.4.1–8.4.5).
+
+**On the way:** the first combined gate (748833ba) failed three tests where the two branches met A3.5's dial tests. All three were stale fixtures, not game bugs: Soup's expected numbers were floor-rounded while the rule and its face round up; a Russet test poached a retired vole; a UI test drew from the empty legacy pool.
+
+**Agreed by:** fresh Sol reviews of `2b2e00d7..3e7fd23c` (two cuts, fixed), `3c6e8aaf..9b61a243` with the soak fix (MERGE), and the fixture fix `23850fee..aecf96a8` (MERGE: no test was weakened).
+
+### 10 Nov 2026 — Declutter batch 2: opponent tiers come back as numerals
+**Source:** the batch 2 author's question while fixing the code review's cuts. Restoring the opponents' tier knots, which §2.5 of the batch plan keeps, takes the overview from 40 to 47 text nodes and the lobby from 39 to 46.
+
+**Picked:** numerals, with the overview cap raised to 47 and the lobby cap to 46, for this one kept state only. Pips (1–6 dots) would have kept the old cap.
+
+**Why:** the node cap is the agents' own proxy for clutter, not the owner's rule. One numeral per opponent is less to read than up to six dots each across seven opponents, and a numeral reads at a glance.
+
+**Agreed by:** the orchestrator's call.
+
+### 10 Nov 2026 — Oozes: preset C becomes the probe's arm c
+**Source:** a fresh Sol review of `ideation/ooze-probe` e286d539: 2 cut, 1 ask, 3 keep. All 24 Ooze B dials equal arm b, the faces match the rule, and no non-Ooze B value moved.
+
+**Cuts (back to the probe's worker):**
+- `quilboar_h1.py` now requires a `health_after` field that an existing Python test fixture lacks, so the ordinary gate would fail.
+- Granny's separate overflow clamp has no test, and it changes results below the stat maximum.
+
+**Ask (picked):** raising six C values to B's made every Ooze dial identical in both presets, so the A3.5 path is flat and run 1 can't fit the Oozes' C target of 1,800. Preset C becomes arm c's overrides, clamped to each dial's limit. The path then runs from arm b (t=0) to arm c (t=1), and run 1 solves C's t. B stays arm b.
+
+**Why:** run 1 needs a slope to fit. Arm c is the measured upper end (R12 median 17,990), so the solved t lands between two measured points instead of being extrapolated.
+
+**Agreed by:** the review raised it; the orchestrator's call.
+
+### 10 Nov 2026 — Declutter batch 2: the Ring count stays in the reader
+**Source:** the batch 2 author's follow-up (c1394db4), on the code review's cut asking to restore Ring stack counts on the board.
+
+**Picked:** the cut is dropped. The spec (`ui-declutter-spec.md` §2.2) moves exact stack counts and totals into the one-tap reader. The Ring frame shows presence on the board, and a changed Ring animates.
+
+**Why:** the review misread the spec, and the owner's 9 Nov direction (no static reminders on the main screen) is the spec's source.
+
+**Agreed by:** the spec text; the orchestrator's call.
+
+### 10 Nov 2026 — A3.5 dials merged
+**Source:** `ideation/a35-dials-fix` 4c8bb077, merged as `c5e65925` (gate PASS on 0778d693, run 42757367671).
+
+**Picked:** merged. It adds Hedgerow's four dials (Mallow's multiplier, both Dozey wake multipliers and Treasurer's gold rate) on top of the five fixed earlier. Each is read by its rule, its printed text and its bot. The inventory test now requires every dial.
+
+**Agreed by:** a fresh Sol review of `80dcc35a..4c8bb077`: MERGE, no cut or ask items. Its checks of preset B against main, preset C against the printed text, and the bot reads were each traced end to end.
+
+### 10 Nov 2026 — Neutrals (A3): the Soup arrival bar is dropped as a merge condition
+**Source:** w16's turn on `ideation/neutrals` (a7ddebfc, cb004ab7, 3e7fd23c) and `content/pass3/neutrals-build.md`.
+
+**Found:**
+- **The shop can't meet the bar.** The chance of a first Soup offer by R6 is 53.2% (90% interval 46.9–59.3%), below the 62.5% bar. On the 32 seeds, 18 saw Soup and 17 bought it. The one miss came while the bot was saving gold.
+- **The other two Soup bars pass.**
+- **The Slice triple bug is fixed:** generated Slices now check for a triple after each one arrives fully buffed, including copies inside a Belly. Three regressions fail before the fix and pass after.
+- **All 38 prototypes are out of the live pool:** 13 newly retired, 25 already were. They stay available to the legacy test archives.
+
+**Picked:**
+- The arrival bar no longer blocks the merge. The worker's proposed bot change (freeze the first Soup while saving) stays out.
+- A3 merges after a fresh review of `a2206273..3e7fd23c` and the gate.
+
+**Why:** the Ooze probe ("Oozes: the problem is the numbers") reaches the target with Soup on only 8 of 28 surviving engine boards, so Soup's arrival no longer decides whether the tribe works. Changing the bot just to clear a bar would shape the test rather than the game.
+
+**Agreed by:** the orchestrator's call, on the worker's odds audit.
+
 ### 10 Nov 2026 — Oozes: the problem is the numbers
 **Source:** the owner's request in `2026-11-10e`; the overbuff probe (`ideation/ooze-probe` 02d4a1bf, three arms on the same 32 B seeds); three blind redesigns from the design skill's surgical, bottom-up mechanical and top-down mechanical routes. All in `evidence/ooze-level/`.
 

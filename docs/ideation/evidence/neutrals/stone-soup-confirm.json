@@ -1,0 +1,1417 @@
+{
+  "all_bars_pass": false,
+  "all_seat_nell_soup_meals": 6,
+  "bars": {
+    "eliminated_before_r12": {
+      "other_engine_seats": {
+        "out": 4,
+        "rate": 0.26666666666666666,
+        "seats": 15
+      },
+      "passes": true,
+      "qualification": "Descriptive ever-fielded-before-R12 cohorts; exposure is survival-dependent, not a causal survival estimate.",
+      "soup_cohort": {
+        "out": 2,
+        "rate": 0.11764705882352941,
+        "seats": 17
+      }
+    },
+    "fielded_by_r6": {
+      "count": 17,
+      "denominator": 32,
+      "minimum": 20,
+      "passes": false
+    },
+    "soup_on_r12_engine_boards": {
+      "count": 15,
+      "denominator": 26,
+      "passes": true,
+      "share": 0.5769230769230769
+    }
+  },
+  "cohort_definition": "Engine seats only. Soup cohort ever fielded Stone Soup in combat rounds 1-11; out before R12 means elimination round <12. R12 prevalence counts actual pre-start engine boards, not eliminated seats.",
+  "cohort_sensitivity": {
+    "by_r10": {
+      "cohort": "Soup fielded by R10",
+      "other_engine_seats": {
+        "out": 4,
+        "rate": 0.26666666666666666,
+        "seats": 15
+      },
+      "soup": {
+        "out": 2,
+        "rate": 0.11764705882352941,
+        "seats": 17
+      }
+    },
+    "by_r11": {
+      "cohort": "Soup fielded by R11",
+      "other_engine_seats": {
+        "out": 4,
+        "rate": 0.26666666666666666,
+        "seats": 15
+      },
+      "soup": {
+        "out": 2,
+        "rate": 0.11764705882352941,
+        "seats": 17
+      }
+    },
+    "by_r6": {
+      "cohort": "Soup fielded by R6",
+      "other_engine_seats": {
+        "out": 4,
+        "rate": 0.26666666666666666,
+        "seats": 15
+      },
+      "soup": {
+        "out": 2,
+        "rate": 0.11764705882352941,
+        "seats": 17
+      }
+    }
+  },
+  "compaction": "All-seat details remain in the raw report. Per-engine detail retains Soup, Nell and Dollop counters; aggregate engine counters retain every card.",
+  "engine_card_totals": {
+    "buys_by_card": {
+      "alderman_dozey": 6,
+      "aunt_aspic": 18,
+      "ballooning_spider": 4,
+      "beadle_warrenby": 2,
+      "belladonna": 12,
+      "bridge_toad": 11,
+      "brother_wolf": 7,
+      "bubble_and_squeak": 14,
+      "charcoal_burner": 4,
+      "click_beetle": 2,
+      "cluricaun": 1,
+      "cradle_fetch": 2,
+      "cricket_busker": 2,
+      "cuckoo": 4,
+      "cut_and_come_again": 12,
+      "dishwater_nell": 12,
+      "dr_urchin": 2,
+      "earwig_mother": 1,
+      "elder_ooze": 26,
+      "fairy_monarch": 8,
+      "figgy_duff": 12,
+      "frumenty": 8,
+      "gabble_ratchet": 2,
+      "gideon": 5,
+      "goodman_hayward": 2,
+      "granny_stir_up": 22,
+      "great_lump": 13,
+      "grey_agnes": 4,
+      "grizel": 15,
+      "hasty_pudding": 12,
+      "hedge_witch": 8,
+      "his_highness": 3,
+      "hob_in_the_hearth": 4,
+      "honorary_treasurer": 2,
+      "jenny_greenteeth": 3,
+      "laird_of_sett": 7,
+      "lantern_man": 2,
+      "little_dollop": 30,
+      "little_nip": 3,
+      "lob_lie_by_the_fire": 3,
+      "lodger": 6,
+      "madame_bufo": 1,
+      "madame_ermeline": 7,
+      "mag_pye": 1,
+      "mistress_russet": 1,
+      "money_spider": 7,
+      "moss_ooze": 12,
+      "mother_goose": 9,
+      "mountain_glutton": 4,
+      "mr_crumb": 4,
+      "mr_pym": 3,
+      "mr_redbreast": 3,
+      "mr_syllabub": 9,
+      "mrs_burdock": 1,
+      "mrs_clover": 4,
+      "mrs_dunnock": 3,
+      "mrs_jay": 2,
+      "mrs_mallow": 4,
+      "mrs_posset": 13,
+      "mrs_stork": 2,
+      "nan_toadstool": 2,
+      "natterjack_chorus": 4,
+      "old_brock": 2,
+      "old_isegrim": 20,
+      "old_lutra": 8,
+      "old_moth_annis": 4,
+      "old_mother_mast": 4,
+      "peat_cutter": 1,
+      "peat_king": 4,
+      "pennywort_snail": 2,
+      "pill_bug": 5,
+      "pipistrelle_echo": 4,
+      "prima_donna": 5,
+      "queen_of_elfland": 10,
+      "rainbow_chaser": 2,
+      "redwing": 1,
+      "reel_mistress": 7,
+      "sable": 8,
+      "sally_spore": 3,
+      "seven_whistlers": 4,
+      "sexton_beetle": 3,
+      "shieldbug": 7,
+      "signor_ranocchio": 1,
+      "silky": 6,
+      "sixpenny_pie": 9,
+      "sleeping_partner": 1,
+      "spitfire_sal": 1,
+      "squire_lollop": 2,
+      "standing_committee": 8,
+      "stone_soup": 19,
+      "tiddy_mun": 5,
+      "toll_bard": 6,
+      "tom_tit": 2,
+      "turnip_scarecrow": 1,
+      "vaulting_hopkin": 1,
+      "warty_nan": 3,
+      "wee_wobbly": 22,
+      "whirligig_beetle": 4,
+      "wick": 4,
+      "young_brock": 6,
+      "young_pretender": 3
+    },
+    "nell_meals_by_card": {
+      "aunt_aspic": 1,
+      "ballooning_spider": 1,
+      "brother_wolf": 2,
+      "bubble_and_squeak": 2,
+      "charcoal_burner": 1,
+      "chiffchaff": 1,
+      "click_beetle": 1,
+      "cluricaun": 1,
+      "cradle_fetch": 1,
+      "cricket_busker": 4,
+      "cuckoo": 1,
+      "dishwater_nell": 1,
+      "dr_urchin": 1,
+      "figgy_duff": 2,
+      "frumenty": 1,
+      "goodman_hayward": 1,
+      "great_lump": 1,
+      "grey_agnes": 1,
+      "hasty_pudding": 1,
+      "honorary_treasurer": 1,
+      "ichneumon_wasp": 3,
+      "jack_daw": 2,
+      "jenny_greenteeth": 2,
+      "little_dollop": 2,
+      "little_nip": 1,
+      "lob_lie_by_the_fire": 1,
+      "lodger": 1,
+      "madame_bufo": 1,
+      "madame_ermeline": 1,
+      "mistress_russet": 1,
+      "money_spider": 3,
+      "moss_ooze": 1,
+      "mr_crumb": 3,
+      "mr_pym": 2,
+      "mr_redbreast": 1,
+      "mr_syllabub": 2,
+      "mrs_burdock": 2,
+      "mrs_clover": 2,
+      "mrs_dunnock": 1,
+      "mrs_jay": 1,
+      "mrs_mallow": 2,
+      "mrs_posset": 1,
+      "mrs_sorrel": 1,
+      "nan_toadstool": 1,
+      "natterjack_chorus": 1,
+      "old_lutra": 2,
+      "one_swallow": 2,
+      "peat_cutter": 1,
+      "pennywort_snail": 1,
+      "pill_bug": 1,
+      "rainbow_chaser": 1,
+      "reel_mistress": 1,
+      "sable": 1,
+      "sergeant_at_conkers": 1,
+      "sixpenny_pie": 1,
+      "sleeping_partner": 1,
+      "spitfire_sal": 1,
+      "stone_soup": 1,
+      "toll_bard": 1,
+      "tom_tit": 1,
+      "turnip_scarecrow": 1,
+      "warty_nan": 3,
+      "wick": 3,
+      "will_o_the_wisp": 1,
+      "young_brock": 2,
+      "young_pretender": 1
+    },
+    "offers_by_card": {
+      "alderman_dozey": 27,
+      "aunt_aspic": 34,
+      "ballooning_spider": 23,
+      "beadle_warrenby": 28,
+      "belladonna": 48,
+      "bridge_toad": 25,
+      "brother_wolf": 26,
+      "bubble_and_squeak": 27,
+      "changeling": 35,
+      "charcoal_burner": 29,
+      "chiffchaff": 22,
+      "click_beetle": 57,
+      "cluricaun": 16,
+      "cradle_fetch": 31,
+      "cricket_busker": 18,
+      "cuckoo": 18,
+      "cut_and_come_again": 36,
+      "dishwater_nell": 18,
+      "dr_urchin": 25,
+      "earwig_mother": 20,
+      "elder_ooze": 58,
+      "fairy_monarch": 40,
+      "figgy_duff": 26,
+      "frumenty": 22,
+      "gabble_ratchet": 23,
+      "gideon": 10,
+      "goodman_hayward": 53,
+      "granny_stir_up": 46,
+      "great_lump": 48,
+      "grey_agnes": 25,
+      "grizel": 62,
+      "hasty_pudding": 62,
+      "hedge_witch": 17,
+      "his_highness": 24,
+      "hob_in_the_hearth": 16,
+      "honorary_treasurer": 19,
+      "ichneumon_wasp": 28,
+      "jack_daw": 12,
+      "jenny_greenteeth": 31,
+      "laird_of_sett": 42,
+      "lamp_moth": 29,
+      "lantern_man": 22,
+      "little_dollop": 40,
+      "little_nip": 25,
+      "lob_lie_by_the_fire": 22,
+      "lodger": 24,
+      "madame_bufo": 19,
+      "madame_ermeline": 32,
+      "mag_pye": 13,
+      "mistress_russet": 20,
+      "money_spider": 38,
+      "moss_ooze": 21,
+      "mother_goose": 54,
+      "mountain_glutton": 48,
+      "mr_crumb": 31,
+      "mr_pym": 15,
+      "mr_redbreast": 13,
+      "mr_syllabub": 30,
+      "mrs_burdock": 22,
+      "mrs_clover": 23,
+      "mrs_dunnock": 15,
+      "mrs_jay": 11,
+      "mrs_mallow": 17,
+      "mrs_posset": 30,
+      "mrs_sorrel": 14,
+      "mrs_stork": 15,
+      "nan_toadstool": 24,
+      "natterjack_chorus": 18,
+      "old_brock": 25,
+      "old_isegrim": 52,
+      "old_lutra": 27,
+      "old_moth_annis": 14,
+      "old_mother_mast": 42,
+      "old_tern": 14,
+      "one_swallow": 19,
+      "peat_cutter": 13,
+      "peat_king": 25,
+      "pennywort_snail": 34,
+      "pill_bug": 18,
+      "pipistrelle_echo": 51,
+      "prima_donna": 31,
+      "queen_of_elfland": 47,
+      "rainbow_chaser": 31,
+      "redwing": 11,
+      "reel_mistress": 50,
+      "sable": 16,
+      "sally_spore": 23,
+      "sergeant_at_conkers": 21,
+      "seven_whistlers": 20,
+      "sexton_beetle": 19,
+      "shieldbug": 17,
+      "signor_ranocchio": 12,
+      "silky": 22,
+      "sixpenny_pie": 38,
+      "sleeping_partner": 25,
+      "spitfire_sal": 13,
+      "squire_lollop": 40,
+      "standing_committee": 55,
+      "stone_soup": 30,
+      "tiddy_mun": 21,
+      "toll_bard": 25,
+      "tom_tit": 13,
+      "turnip_scarecrow": 19,
+      "vaulting_hopkin": 18,
+      "warty_nan": 23,
+      "wee_wobbly": 33,
+      "whirligig_beetle": 48,
+      "wick": 31,
+      "will_o_the_wisp": 28,
+      "young_brock": 28,
+      "young_pretender": 18
+    },
+    "swallows_by_card": {
+      "alderman_dozey": 6,
+      "ballooning_spider": 1,
+      "beadle_warrenby": 2,
+      "belladonna": 11,
+      "brother_wolf": 5,
+      "charcoal_burner": 3,
+      "click_beetle": 2,
+      "cluricaun": 1,
+      "cradle_fetch": 1,
+      "cuckoo": 3,
+      "dr_urchin": 2,
+      "fairy_monarch": 5,
+      "gabble_ratchet": 2,
+      "gideon": 1,
+      "goodman_hayward": 2,
+      "great_lump": 13,
+      "grey_agnes": 3,
+      "grizel": 11,
+      "hedge_witch": 3,
+      "hob_in_the_hearth": 3,
+      "honorary_treasurer": 2,
+      "jenny_greenteeth": 1,
+      "laird_of_sett": 7,
+      "lantern_man": 1,
+      "little_dollop": 15,
+      "lob_lie_by_the_fire": 3,
+      "lodger": 4,
+      "madame_bufo": 1,
+      "madame_ermeline": 6,
+      "mag_pye": 1,
+      "mistress_russet": 1,
+      "money_spider": 3,
+      "mother_goose": 9,
+      "mountain_glutton": 3,
+      "mr_crumb": 1,
+      "mr_pym": 2,
+      "mrs_clover": 3,
+      "mrs_dunnock": 1,
+      "mrs_jay": 2,
+      "mrs_mallow": 1,
+      "mrs_stork": 2,
+      "nan_toadstool": 1,
+      "natterjack_chorus": 2,
+      "old_brock": 1,
+      "old_isegrim": 20,
+      "old_lutra": 7,
+      "old_moth_annis": 3,
+      "old_mother_mast": 4,
+      "peat_king": 4,
+      "pennywort_snail": 1,
+      "pill_bug": 3,
+      "pipistrelle_echo": 3,
+      "prima_donna": 2,
+      "queen_of_elfland": 11,
+      "rainbow_chaser": 2,
+      "redwing": 1,
+      "reel_mistress": 7,
+      "sable": 2,
+      "sally_spore": 1,
+      "seven_whistlers": 4,
+      "sexton_beetle": 1,
+      "shieldbug": 4,
+      "signor_ranocchio": 1,
+      "silky": 6,
+      "slice": 27,
+      "spitfire_sal": 1,
+      "squire_lollop": 1,
+      "standing_committee": 6,
+      "tiddy_mun": 3,
+      "toll_bard": 4,
+      "tom_tit": 2,
+      "whirligig_beetle": 4,
+      "wick": 1,
+      "young_brock": 3,
+      "young_pretender": 2
+    }
+  },
+  "engine_seat_details": [
+    {
+      "buys_by_card": {
+        "little_dollop": 2
+      },
+      "elimination_round": null,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 2,
+        "stone_soup": 2
+      },
+      "out_before_r12": false,
+      "placement": 1,
+      "reached_r12": true,
+      "seat": 7,
+      "seed": 280001,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": 4,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 3,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 5,
+      "reached_r12": true,
+      "seat": 6,
+      "seed": 280002,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 9,
+      "first_soup_fielded_round": 5,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": true,
+      "placement": 8,
+      "reached_r12": false,
+      "seat": 5,
+      "seed": 280005,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": 3,
+      "nell_meals_by_card": {
+        "little_dollop": 1
+      },
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 3
+      },
+      "out_before_r12": false,
+      "placement": 4,
+      "reached_r12": true,
+      "seat": 5,
+      "seed": 280006,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 4,
+        "stone_soup": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": 2,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 4,
+        "stone_soup": 3
+      },
+      "out_before_r12": false,
+      "placement": 6,
+      "reached_r12": true,
+      "seat": 7,
+      "seed": 280009,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1
+      },
+      "elimination_round": 10,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1
+      },
+      "out_before_r12": true,
+      "placement": 8,
+      "reached_r12": false,
+      "seat": 1,
+      "seed": 280010,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 12,
+      "first_soup_fielded_round": 5,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 8,
+      "reached_r12": true,
+      "seat": 5,
+      "seed": 280011,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1
+      },
+      "elimination_round": 12,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 2
+      },
+      "out_before_r12": false,
+      "placement": 7,
+      "reached_r12": true,
+      "seat": 5,
+      "seed": 280012,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 14,
+      "first_soup_fielded_round": 5,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 5,
+      "reached_r12": true,
+      "seat": 1,
+      "seed": 280013,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 2
+      },
+      "out_before_r12": false,
+      "placement": 5,
+      "reached_r12": true,
+      "seat": 7,
+      "seed": 280014,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 2
+      },
+      "elimination_round": null,
+      "first_soup_fielded_round": 2,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 2,
+        "stone_soup": 3
+      },
+      "out_before_r12": false,
+      "placement": 1,
+      "reached_r12": true,
+      "seat": 7,
+      "seed": 280015,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": null,
+      "first_soup_fielded_round": 3,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 1,
+      "reached_r12": true,
+      "seat": 1,
+      "seed": 280016,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {},
+      "elimination_round": 13,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {},
+      "out_before_r12": false,
+      "placement": 6,
+      "reached_r12": true,
+      "seat": 7,
+      "seed": 280017,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1
+      },
+      "elimination_round": 12,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1
+      },
+      "out_before_r12": false,
+      "placement": 6,
+      "reached_r12": true,
+      "seat": 4,
+      "seed": 280019,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {},
+      "elimination_round": 10,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1
+      },
+      "out_before_r12": true,
+      "placement": 8,
+      "reached_r12": false,
+      "seat": 1,
+      "seed": 280021,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 19,
+      "first_soup_fielded_round": 19,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 2,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 2,
+      "reached_r12": true,
+      "seat": 4,
+      "seed": 280022,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1
+      },
+      "elimination_round": 11,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": true,
+      "placement": 8,
+      "reached_r12": false,
+      "seat": 5,
+      "seed": 280023,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1
+      },
+      "offers_by_card": {
+        "dishwater_nell": 2,
+        "little_dollop": 1
+      },
+      "out_before_r12": false,
+      "placement": 5,
+      "reached_r12": true,
+      "seat": 0,
+      "seed": 280024,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 20,
+      "first_soup_fielded_round": 5,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 2,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 2,
+      "reached_r12": true,
+      "seat": 0,
+      "seed": 280026,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1
+      },
+      "elimination_round": 12,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1
+      },
+      "out_before_r12": false,
+      "placement": 7,
+      "reached_r12": true,
+      "seat": 4,
+      "seed": 280027,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 3,
+        "stone_soup": 1
+      },
+      "elimination_round": 15,
+      "first_soup_fielded_round": 3,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 3,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 3,
+      "reached_r12": true,
+      "seat": 6,
+      "seed": 280028,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1
+      },
+      "out_before_r12": false,
+      "placement": 6,
+      "reached_r12": true,
+      "seat": 2,
+      "seed": 280029,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 2,
+        "stone_soup": 1
+      },
+      "elimination_round": 16,
+      "first_soup_fielded_round": 5,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 3,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 4,
+      "reached_r12": true,
+      "seat": 4,
+      "seed": 280030,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {
+        "little_dollop": 2
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 16,
+      "first_soup_fielded_round": 2,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 4,
+      "reached_r12": true,
+      "seat": 0,
+      "seed": 280031,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 18,
+      "first_soup_fielded_round": 2,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 2,
+      "reached_r12": true,
+      "seat": 1,
+      "seed": 280032,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1
+      },
+      "elimination_round": 13,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 2
+      },
+      "out_before_r12": false,
+      "placement": 6,
+      "reached_r12": true,
+      "seat": 5,
+      "seed": 280033,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1
+      },
+      "elimination_round": 12,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "dishwater_nell": 1
+      },
+      "out_before_r12": false,
+      "placement": 7,
+      "reached_r12": true,
+      "seat": 6,
+      "seed": 280034,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "stone_soup": 1
+      },
+      "elimination_round": 15,
+      "first_soup_fielded_round": 3,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 2
+      },
+      "out_before_r12": false,
+      "placement": 4,
+      "reached_r12": true,
+      "seat": 0,
+      "seed": 280035,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1
+      },
+      "elimination_round": 11,
+      "first_soup_fielded_round": null,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1
+      },
+      "out_before_r12": true,
+      "placement": 8,
+      "reached_r12": false,
+      "seat": 2,
+      "seed": 280037,
+      "soup_before_r12": false,
+      "soup_by_r6": false,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {}
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 11,
+      "first_soup_fielded_round": 5,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": true,
+      "placement": 8,
+      "reached_r12": false,
+      "seat": 4,
+      "seed": 280040,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": false,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": 15,
+      "first_soup_fielded_round": 2,
+      "nell_meals_by_card": {},
+      "offers_by_card": {
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "out_before_r12": false,
+      "placement": 3,
+      "reached_r12": true,
+      "seat": 6,
+      "seed": 280041,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {
+        "little_dollop": 1
+      }
+    },
+    {
+      "buys_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 1
+      },
+      "elimination_round": null,
+      "first_soup_fielded_round": 2,
+      "nell_meals_by_card": {
+        "stone_soup": 1
+      },
+      "offers_by_card": {
+        "dishwater_nell": 1,
+        "little_dollop": 1,
+        "stone_soup": 3
+      },
+      "out_before_r12": false,
+      "placement": 1,
+      "reached_r12": true,
+      "seat": 1,
+      "seed": 280042,
+      "soup_before_r12": true,
+      "soup_by_r6": true,
+      "soup_on_r12_board": true,
+      "swallows_by_card": {}
+    }
+  ],
+  "engine_seats": 32,
+  "engine_soup_seen_any_round_seats": 20,
+  "implementation_commit": "a2504fee33240bfb7870d6efe9a75feab933fe6a",
+  "preset": "B",
+  "raw_report": "build/neutrals/soup-confirm.summary.json",
+  "resolved_rates": {
+    "birds_cuckoo_share": 0.1,
+    "birds_dunnock_targets": 1.0,
+    "birds_dunnock_turns": 1.0,
+    "birds_golden_egg_enabled": true,
+    "birds_golden_egg_multiplier": 2.0,
+    "birds_golden_homecoming_multiplier": 2.0,
+    "birds_golden_tern_trip_turns": 1.0,
+    "birds_homecoming_multiplier": 2.0,
+    "birds_jack_daw_permanent": true,
+    "birds_jack_daw_share": 0.25,
+    "birds_lump_multiplier": 1.0,
+    "birds_ratchet_multiplier": 1.0,
+    "birds_redbreast_share": 0.125,
+    "birds_redwing_share": 0.5,
+    "birds_redwing_targets": 2.0,
+    "birds_stork_gold_step": 6.0,
+    "birds_stork_recalls": 1.0,
+    "birds_swallow_trip_turns": 1.0,
+    "birds_tom_tit_reduction": 50.0,
+    "birds_tom_tit_targets": 1.0,
+    "birds_trip_turns": 2.0,
+    "birds_whistlers_flock_count": 7.0,
+    "birds_whistlers_loss_share": 0.5,
+    "bog_bitter_round_up": true,
+    "bog_bitter_share": 0.25,
+    "bog_bufo_halvings": 1.0,
+    "bog_capstone_gain_toll": false,
+    "bog_chorus_lends": 2.0,
+    "bog_cutter_gold": 1.0,
+    "bog_frog_doubles_per_turn": 1.0,
+    "bog_frog_multiplier": 2.0,
+    "bog_gideon_hitbacks": 1.0,
+    "bog_golden_frog_multiplier": 3.0,
+    "bog_golden_nan_share": 1.0,
+    "bog_golden_ranocchio_share": 1.0,
+    "bog_golden_soak_keep": 4.0,
+    "bog_golden_tiddy_share": 1.0,
+    "bog_hopkin_share": 0.25,
+    "bog_jenny_pulls": 1.0,
+    "bog_king_peatlings": 2.0,
+    "bog_kiss_period": 3.0,
+    "bog_kisses_per_fight": 1.0,
+    "bog_lantern_lures": 1.0,
+    "bog_nan_share": 0.5,
+    "bog_peatling_stat_share": 1.0,
+    "bog_pretender_gold": 1.0,
+    "bog_prima_donna_patches": 3.0,
+    "bog_ranocchio_share": 0.5,
+    "bog_sal_toll_multiplier": 1.0,
+    "bog_soak_keep": 2.0,
+    "bog_soak_mired_only": true,
+    "bog_tiddy_share": 0.5,
+    "fairies_annis_rings": 1.0,
+    "fairies_annis_sale": true,
+    "fairies_chaser_gold": 1.0,
+    "fairies_fetch_share": 1.0,
+    "fairies_golden_monarch_multiplier": 3.0,
+    "fairies_initial_ring_size": 4.0,
+    "fairies_lob_growth": 1.0,
+    "fairies_lob_turns": 2.0,
+    "fairies_monarch_multiplier": 2.0,
+    "fairies_monarch_period": 2.0,
+    "fairies_nan_rings": 2.0,
+    "fairies_queen_period": 1.0,
+    "fairies_queen_rings": 1.0,
+    "fairies_reel_moves": 2.0,
+    "fairies_ring_growth": 2.0,
+    "fairies_sally_rings": 1.0,
+    "fairies_silky_growth": 1.0,
+    "fairies_wisp_attack": 1.0,
+    "fairies_wisp_health": 1.0,
+    "hedgerow_beadle_pass": 2.0,
+    "hedgerow_burdock_kits": 1.0,
+    "hedgerow_clover_share": 1.0,
+    "hedgerow_committee_share": 0.25,
+    "hedgerow_crumb_pass": 1.0,
+    "hedgerow_crumb_sell_share": 1.0,
+    "hedgerow_dozey_food_per_gold": 2.0,
+    "hedgerow_dozey_period": 3.0,
+    "hedgerow_dozey_wake_multiplier": 2.0,
+    "hedgerow_golden_dozey_wake_multiplier": 2.0,
+    "hedgerow_hayward_per_gold": 1.0,
+    "hedgerow_larder_gold": [
+      1.0,
+      5.0,
+      16.0
+    ],
+    "hedgerow_lollop_share": 0.1,
+    "hedgerow_mallow_multiplier": 2.0,
+    "hedgerow_mallow_targets": 2.0,
+    "hedgerow_mast_cap": 5.0,
+    "hedgerow_mast_gold_step": 5.0,
+    "hedgerow_partner_acorns": 2.0,
+    "hedgerow_partner_period": 3.0,
+    "hedgerow_pym_pass": 3.0,
+    "hedgerow_sergeant_share_per_gold": 0.1,
+    "hedgerow_sergeant_throws": 1.0,
+    "hedgerow_sorrel_summons": 1.0,
+    "hedgerow_treasurer_per_gold": 1.0,
+    "hedgerow_urchin_bristle": 2.0,
+    "hedgerow_urchin_hunker_targets": 1.0,
+    "hunters_agnes_hit_back": 0.5,
+    "hunters_ermeline_pelts": 1.0,
+    "hunters_glutton_share": 0.6666666666666666,
+    "hunters_golden_agnes_hit_back": 0.25,
+    "hunters_golden_ermeline_pelts": 2.0,
+    "hunters_golden_laird_multiplier": 3.0,
+    "hunters_golden_lane_bard_gold": 2.0,
+    "hunters_golden_russet_buff_share": 1.0,
+    "hunters_golden_sable_strike": 2.0,
+    "hunters_golden_take_multiplier": 2.0,
+    "hunters_grizel_share": 0.3333333333333333,
+    "hunters_isegrim_health_cut": 0.0,
+    "hunters_laird_multiplier": 2.0,
+    "hunters_lane_bard_gold": 1.0,
+    "hunters_lane_bard_triggers": 2.0,
+    "hunters_lodger_share": 0.6666666666666666,
+    "hunters_lutra_share": 0.6666666666666666,
+    "hunters_nip_share": 0.6666666666666666,
+    "hunters_pelt_share": 0.3333333333333333,
+    "hunters_russet_buff_share": 0.6666666666666666,
+    "hunters_russet_copies": 1.0,
+    "hunters_sable_share": 0.6666666666666666,
+    "hunters_sable_strike": 1.0,
+    "hunters_take_floor": 1.0,
+    "hunters_trophies_after_fight": true,
+    "hunters_wick_share": 0.3333333333333333,
+    "hunters_young_brock_share": 1.0,
+    "neutrals_burner_above": 5.0,
+    "neutrals_burner_cap": 6.0,
+    "neutrals_burner_share": 0.05,
+    "neutrals_click_repeats": 2.0,
+    "neutrals_golden_click_repeats": 3.0,
+    "neutrals_golden_whirligig_health_share": 0.2,
+    "neutrals_whirligig_health_share": 0.1,
+    "oozes_aspic_bonus": 0.5,
+    "oozes_bubble_belly": 1.0,
+    "oozes_bubble_splits": 1.0,
+    "oozes_dollop_belly": 1.0,
+    "oozes_dollop_discount": 1.0,
+    "oozes_elder_share": 0.5,
+    "oozes_frumenty_meals": 1.0,
+    "oozes_golden_aspic_multiplier": 2.0,
+    "oozes_golden_elder_multiplier": 2.0,
+    "oozes_golden_soup_reads": 2.0,
+    "oozes_granny_attack_multiplier": 1.0,
+    "oozes_hasty_release_deaths": 3.0,
+    "oozes_hasty_share": 0.2,
+    "oozes_hasty_swallows": 1.0,
+    "oozes_moss_golden_reduction": 25.0,
+    "oozes_nell_meals": 1.0,
+    "oozes_pie_gold": 1.0,
+    "oozes_posset_loss_share": 0.5,
+    "oozes_slice_count": 1.0,
+    "oozes_slice_share": 0.2,
+    "oozes_soup_share": 0.125,
+    "oozes_syllabub_fires": 1.0,
+    "oozes_wobbly_drip": 1.0,
+    "scale_hero_spell_percent": 10.0
+  },
+  "rounds": {
+    "10": {
+      "engine_boards_observed": 31,
+      "engine_eliminated_before_round": 1,
+      "engine_without_board_not_eliminated": 0,
+      "soup_boards": 16,
+      "survivor_median_active_stats": 174,
+      "survivor_median_including_bellies": 206
+    },
+    "12": {
+      "engine_boards_observed": 26,
+      "engine_eliminated_before_round": 6,
+      "engine_without_board_not_eliminated": 0,
+      "soup_boards": 15,
+      "survivor_median_active_stats": 398.0,
+      "survivor_median_including_bellies": 402.5
+    },
+    "14": {
+      "engine_boards_observed": 13,
+      "engine_eliminated_before_round": 19,
+      "engine_without_board_not_eliminated": 0,
+      "soup_boards": 11,
+      "survivor_median_active_stats": 962,
+      "survivor_median_including_bellies": 1059
+    },
+    "6": {
+      "engine_boards_observed": 32,
+      "engine_eliminated_before_round": 0,
+      "engine_without_board_not_eliminated": 0,
+      "soup_boards": 17,
+      "survivor_median_active_stats": 52.5,
+      "survivor_median_including_bellies": 58.0
+    },
+    "8": {
+      "engine_boards_observed": 32,
+      "engine_eliminated_before_round": 0,
+      "engine_without_board_not_eliminated": 0,
+      "soup_boards": 17,
+      "survivor_median_active_stats": 94.0,
+      "survivor_median_including_bellies": 116.5
+    }
+  },
+  "seed_count": 32,
+  "seeds": [
+    280001,
+    280002,
+    280005,
+    280006,
+    280009,
+    280010,
+    280011,
+    280012,
+    280013,
+    280014,
+    280015,
+    280016,
+    280017,
+    280019,
+    280021,
+    280022,
+    280023,
+    280024,
+    280026,
+    280027,
+    280028,
+    280029,
+    280030,
+    280031,
+    280032,
+    280033,
+    280034,
+    280035,
+    280037,
+    280040,
+    280041,
+    280042
+  ],
+  "sources": {
+    "/home/alex/code/Bramble-ideation-balance/docs/ideation/evidence/wave2b/oozes-final.jsonl": "2cb67f165c6e5224ff85e904ab6f6aa10be3e676abe1ebc8f77bd376441dcdfb",
+    "build/neutrals/soup-confirm.line-metrics.jsonl": "1cfc3c4f1bf1dd23d9b29bf9c16cd115c136477a71723118d47bee2fcc5449a8"
+  },
+  "survival_definition": "Medians describe observed surviving boards. Eliminations and non-eliminated missing boards are displayed beside each median; no survivor imputation.",
+  "timing": {
+    "lobbies": 32,
+    "mean_seconds_per_lobby": 14.44721875,
+    "raw_job_log": "build/neutrals/review-fixes/confirm.log",
+    "sum_lobby_seconds": 462.311
+  },
+  "version": 1
+}

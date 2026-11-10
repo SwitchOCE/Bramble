@@ -1,0 +1,32 @@
+{
+  "id": "click_beetle",
+  "name": "Click Beetle",
+  "set": "slice",
+  "tier": 5,
+  "attack": 3,
+  "health": 7,
+  "tribes": [],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "mechanics": [
+    {
+      "id": "pass3_neutral",
+      "ability": "click_beetle",
+      "factor": 1,
+      "repeats": 2,
+      "golden_repeats": 3
+    }
+  ],
+  "text": "Your When played effects trigger twice.",
+  "golden_text": "Your When played effects trigger three times.",
+  "details": "Only the strongest Click Beetle counts. Every Bird homecoming also replays its When played effects before homecoming growth. Extra triggers cannot repeat multiplication or advance a countdown.",
+  "golden_details": "Only the strongest Click Beetle counts. Every Bird homecoming also replays its When played effects before homecoming growth. Extra triggers cannot repeat multiplication or advance a countdown.",
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/content/pass3/cross-tribe.md",
+    "note": "Pass 3 neutrals, section 8; orchestrator-adopted Click homecomings and Charcoal body-only readings in DECISIONS."
+  }
+}

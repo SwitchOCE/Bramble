@@ -8,6 +8,7 @@ const KIT := preload("res://tests/core/recruit_kit.gd")
 const CK := preload("res://tests/core/combat_kit.gd")
 const WORDS := preload("res://tests/core/test_pass3_path.gd")
 const ENDPOINTS: Array[float] = [0.0, 3.0]
+const OOZE_ENDPOINTS: Array[float] = [0.0, 1.0]
 const FLIERS: Array[String] = ["one_swallow", "chiffchaff", "mrs_jay", "old_tern", "mother_goose"]
 const SOAKERS: Array[String] = [
 	"bridge_toad",
@@ -355,11 +356,13 @@ func test_russet_printed_buff_share_matches_the_poached_copy_payload() -> void:
 			var share: float = 1.0 if golden or t == 3.0 else 2.0 / 3.0
 			_face("mistress_russet", golden, "with ?(.*?) ?(?:of )?its buffs", share)
 			var combat: Combat = _fight(
-				{0: _spec("mistress_russet", golden)}, {0: CK.plain(122, 243)}
+				{0: _spec("mistress_russet", golden)}, {0: CK.u("young_brock", 122, 243)}
 			)
 			_kill(combat, 1, 0)
 			var copies: Array = _changes(combat, "poach")
 			assert_eq(copies.size(), 1)
+			if copies.size() != 1:
+				continue
 			assert_eq(
 				Vector2i(copies[0]["perm_attack"], copies[0]["perm_health"]),
 				Vector2i(roundi(120 * share), roundi(240 * share))
@@ -399,31 +402,36 @@ func test_ermeline_printed_count_and_pelt_share_match_award_and_spell_effect() -
 
 
 func test_soup_printed_share_matches_live_shop_stats_normal_and_golden() -> void:
-	for t: float in ENDPOINTS:
+	for t: float in OOZE_ENDPOINTS:
 		for golden: bool in [false, true]:
 			_setup(t)
-			var share: float = 0.3 if t == 3.0 else 0.125
-			_face("stone_soup", golden, "gain ?(.*?) ?(?:of )?your (?:two )?biggest", share)
+			var share: float = 0.9 if t == 1.0 else 0.3
+			_face("stone_soup", golden, "gain ?(.*?) ?(?:of )?your (?:\\w+ )?biggest", share)
+			var card: Dictionary = kit.library.get_unit("stone_soup")
+			assert_true(str(card["golden_text" if golden else "text"]).ends_with(", rounded up."))
 			kit.put("stone_soup", 4, golden)
-			_body(kit.put("little_dollop", 0), 100, 200)
-			_body(kit.put("bubble_and_squeak", 1), 50, 100)
+			_body(kit.put("little_dollop", 0), 101, 201)
+			_body(kit.put("bubble_and_squeak", 1), 51, 101)
+			_body(kit.put("little_dollop", 2), 9, 19)
+			_body(kit.put("little_dollop", 3), 7, 17)
+			_body(kit.put("little_dollop", 5), 5, 15)
 			var offer: RecruitUnit = kit.shop("field_vole")
 			kit.rules.board_changed(kit.player)
 			var expected: Vector2i
-			if t == 3.0:
-				expected = Vector2i(45, 90) if golden else Vector2i(30, 60)
+			if t == 1.0:
+				expected = Vector2i(160, 324) if golden else Vector2i(91, 181)
 			else:
-				expected = Vector2i(18, 37) if golden else Vector2i(12, 25)
+				expected = Vector2i(46, 91) if golden else Vector2i(31, 61)
 			assert_eq(Vector2i(offer.attack, offer.health) - Pass3Oozes.own_stats(offer), expected)
 			assert_eq(kit.rules.buy(kit.player, 0), "")
 			assert_eq(Vector2i(offer.perm_attack, offer.perm_health), expected)
 
 
 func test_elder_printed_share_matches_redistribution_of_original_meal_stats() -> void:
-	for t: float in ENDPOINTS:
+	for t: float in OOZE_ENDPOINTS:
 		for golden: bool in [false, true]:
 			_setup(t)
-			var share: float = (1.0 if t == 3.0 else 0.5) * (2.0 if golden else 1.0)
+			var share: float = 2.0 if golden else 1.0
 			_face("elder_ooze", golden, "Oozes gain ?(.*?) ?(?:of )?its stats", share)
 			var eater: RecruitUnit = kit.put("little_dollop", 0)
 			_body(eater, 500, 600)
@@ -439,34 +447,50 @@ func test_elder_printed_share_matches_redistribution_of_original_meal_stats() ->
 
 
 func test_hasty_printed_share_matches_each_swallowed_enemy_including_golden() -> void:
-	for t: float in ENDPOINTS:
+	for t: float in OOZE_ENDPOINTS:
 		for golden: bool in [false, true]:
 			_setup(t)
-			var share: float = 1.0 if t == 3.0 else 1.0 / 3.0
+			var share: float = 1.0
 			_face("hasty_pudding", golden, "gains (.*?) of (?:it|each)\\.", share)
 			var carry_spec: Dictionary = CK.u("little_dollop", 600, 800)
 			carry_spec["iid"] = 104
 			var combat: Combat = _fight(
 				{0: _spec("hasty_pudding", golden), 4: carry_spec},
-				{0: CK.plain(120, 240), 1: CK.plain(60, 120), 6: CK.plain(1, 1)}
+				{
+					0: CK.plain(120, 240),
+					1: CK.plain(100, 200),
+					2: CK.plain(80, 160),
+					3: CK.plain(60, 120),
+					4: CK.plain(40, 80),
+					5: CK.plain(20, 40),
+					6: CK.plain(1, 1),
+				}
 			)
 			var hasty: CombatUnit = combat.unit_at(0, 0)
-			assert_eq(hasty.inside.size(), 2 if golden else 1)
+			var count: int = (3 if t == 1.0 else 1) * (2 if golden else 1)
+			assert_eq(hasty.inside.size(), count)
 			var gains: Array = _changes(combat, "buff")
-			assert_eq(gains.size(), 2 if golden else 1)
-			var first := Vector2i(120, 240) if t == 3.0 else Vector2i(40, 80)
-			assert_eq(Vector2i(gains[0]["attack"], gains[0]["health"]), first)
-			var total: Vector2i = first
-			if golden:
-				var second := Vector2i(60, 120) if t == 3.0 else Vector2i(20, 40)
-				assert_eq(Vector2i(gains[1]["attack"], gains[1]["health"]), second)
-				total += second
+			assert_eq(gains.size(), count)
+			var expected_gains: Array[Vector2i] = [
+				Vector2i(120, 240),
+				Vector2i(100, 200),
+				Vector2i(80, 160),
+				Vector2i(60, 120),
+				Vector2i(40, 80),
+				Vector2i(20, 40),
+			]
+			var total := Vector2i.ZERO
+			for index: int in count:
+				assert_eq(
+					Vector2i(gains[index]["attack"], gains[index]["health"]), expected_gains[index]
+				)
+				total += expected_gains[index]
 			var carry: CombatUnit = combat.unit_at(0, 4)
 			assert_eq(Vector2i(carry.attack, carry.health), Vector2i(600, 800) + total)
 
 
 func test_aspic_printed_bonus_matches_eating_with_the_current_printed_multiplier() -> void:
-	for t: float in ENDPOINTS:
+	for t: float in OOZE_ENDPOINTS:
 		for golden: bool in [false, true]:
 			_setup(t)
 			if golden:
@@ -474,10 +498,10 @@ func test_aspic_printed_bonus_matches_eating_with_the_current_printed_multiplier
 					"aunt_aspic",
 					true,
 					"gain (double|[\\w.]+ times as many) stats",
-					4.6 if t == 3.0 else 2.5
+					11.8 if t == 1.0 else 4.6
 				)
 			else:
-				_face("aunt_aspic", false, "gain ([\\d.]+%) more", 1.8 if t == 3.0 else 0.75)
+				_face("aunt_aspic", false, "gain ([\\d.]+%) more", 5.4 if t == 1.0 else 1.8)
 			var eater: RecruitUnit = kit.put("little_dollop", 1)
 			kit.put("aunt_aspic", 4, golden)
 			kit.card("dial_meal", [], [], 20, 40)
@@ -486,15 +510,15 @@ func test_aspic_printed_bonus_matches_eating_with_the_current_printed_multiplier
 			meal.add_permanent(4, 8)
 			Pass3Oozes.eat(kit.rules, kit.player, eater, meal)
 			var expected: Vector2i
-			if t == 3.0:
-				expected = Vector2i(662, 1324) if golden else Vector2i(403, 806)
+			if t == 1.0:
+				expected = Vector2i(5003, 10006) if golden else Vector2i(2713, 5427)
 			else:
-				expected = Vector2i(110, 220) if golden else Vector2i(77, 154)
+				expected = Vector2i(662, 1324) if golden else Vector2i(403, 806)
 			assert_eq(Vector2i(eater.perm_attack, eater.perm_health), expected)
 
 
 func test_eat_reminder_matches_non_ooze_printed_stats_and_preserves_ooze_meals() -> void:
-	for t: float in ENDPOINTS:
+	for t: float in OOZE_ENDPOINTS:
 		for golden: bool in [false, true]:
 			for golden_meal: bool in [false, true]:
 				_setup(t)
@@ -504,17 +528,17 @@ func test_eat_reminder_matches_non_ooze_printed_stats_and_preserves_ooze_meals()
 					if str(entry["keyword"]) == "Eat":
 						reminder = str(entry["text"])
 				assert_string_contains(
-					reminder, "printed stats × 7" if t == 3.0 else "printed stats doubled"
+					reminder, "printed stats × 21" if t == 1.0 else "printed stats × 7"
 				)
 				var meal: RecruitUnit = kit.put("field_vole", -1, golden_meal)
 				kit.player.hand.erase(meal)
 				meal.add_permanent(5, 6)
 				Pass3Oozes.eat(kit.rules, kit.player, eater, meal)
 				var expected: Vector2i
-				if t == 3.0:
-					expected = Vector2i(33, 48) if golden_meal else Vector2i(19, 27)
+				if t == 1.0:
+					expected = Vector2i(89, 132) if golden_meal else Vector2i(47, 69)
 				else:
-					expected = Vector2i(13, 18) if golden_meal else Vector2i(9, 12)
+					expected = Vector2i(33, 48) if golden_meal else Vector2i(19, 27)
 				assert_eq(Vector2i(eater.perm_attack, eater.perm_health), expected)
 				var ooze: RecruitUnit = kit.put("little_dollop", -1, golden_meal)
 				kit.player.hand.erase(ooze)

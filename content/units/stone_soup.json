@@ -2,14 +2,14 @@
   "id": "stone_soup",
   "name": "Stone Soup",
   "set": "slice",
-  "tier": 2,
+  "tier": 1,
   "attack": 2,
   "health": 3,
   "tribes": [
     "Oozes"
   ],
-  "text": "Shop units gain three tenths of your biggest Ooze's stats.",
-  "golden_text": "Shop units gain three tenths of your two biggest Oozes' stats.",
+  "text": "Shop units gain three tenths of your biggest Ooze's stats, rounded up.",
+  "golden_text": "Shop units gain three tenths of your two biggest Oozes' combined stats, rounded up.",
   "mechanics": [
     {
       "ability": "stone_soup",
@@ -27,6 +27,6 @@
   "source": {
     "kind": "slice",
     "doc": "docs/ideation/content/pass3/oozes-pass3.md",
-    "note": "Pass 3; provisional paper B/C rates in content/pass3/rates.json."
+    "note": "Pass 3; Stone Soup triage calls in DECISIONS: tier 1 and Soup-only rounding up. B/C share rates stay unchanged."
   }
 }

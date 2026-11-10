@@ -899,6 +899,17 @@
       "golden_reads": "threshold",
       "meals": "number"
     },
+    "pass3_neutral": {
+      "ability": "string",
+      "factor": "number",
+      "health_share": "scalar",
+      "golden_health_share": "scalar",
+      "cap": "scalar",
+      "above": "threshold",
+      "share": "scalar",
+      "repeats": "scalar",
+      "golden_repeats": "scalar"
+    },
     "pass3_hedgerow": {
       "ability": "string",
       "factor": "number",
@@ -1052,6 +1063,15 @@
       "targets",
       "throws",
       "share_per_gold"
+    ],
+    "pass3_neutral": [
+      "health_share",
+      "golden_health_share",
+      "cap",
+      "above",
+      "share",
+      "repeats",
+      "golden_repeats"
     ]
   },
   "size_cap_overlay": {
@@ -1325,6 +1345,23 @@
       ],
       "mrs_burdock": [],
       "mrs_sorrel": []
+    },
+    "pass3_neutral": {
+      "ballooning_spider": [],
+      "shieldbug": [],
+      "whirligig_beetle": [
+        "health_share",
+        "golden_health_share"
+      ],
+      "charcoal_burner": [
+        "cap",
+        "above",
+        "share"
+      ],
+      "click_beetle": [
+        "repeats",
+        "golden_repeats"
+      ]
     }
   }
 }

@@ -6,7 +6,7 @@ const BODIES: Dictionary = {
 	"little_dollop": [1, 1, 2],
 	"mrs_posset": [1, 2, 1],
 	"wee_wobbly": [1, 1, 4],
-	"stone_soup": [2, 2, 3],
+	"stone_soup": [1, 2, 3],
 	"dishwater_nell": [2, 2, 3],
 	"moss_ooze": [2, 2, 4],
 	"aunt_aspic": [3, 2, 4],
@@ -56,7 +56,7 @@ func test_sixteen_native_oozes_have_the_designed_tiers_and_bodies() -> void:
 			var factor: int = 2 if golden else 1
 			assert_eq(unit.attack, CoreUtil.to_int(card["attack"]) * factor, id)
 			assert_eq(unit.health, CoreUtil.to_int(card["health"]) * factor, id)
-	assert_eq(counts, [3, 3, 3, 3, 2, 2])
+	assert_eq(counts, [4, 2, 3, 3, 2, 2])
 	assert_true(library.unbuilt_units().is_empty())
 
 
@@ -93,8 +93,11 @@ func test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_d
 	config.set_value("pass3_preset", "C")
 	var soup: Dictionary = library.get_unit("stone_soup").duplicate(true)
 	Pass3OozeText.configure(soup, config)
-	assert_eq(soup["text"], "Shop units gain 9 tenths of your biggest Ooze's stats.")
-	assert_eq(soup["golden_text"], "Shop units gain 9 tenths of your six biggest Oozes' stats.")
+	assert_eq(soup["text"], "Shop units gain 9 tenths of your biggest Ooze's stats, rounded up.")
+	assert_eq(
+		soup["golden_text"],
+		"Shop units gain 9 tenths of your six biggest Oozes' combined stats, rounded up."
+	)
 	var elder: Dictionary = library.get_unit("elder_ooze").duplicate(true)
 	Pass3OozeText.configure(elder, config)
 	assert_eq(
@@ -161,7 +164,7 @@ func test_native_count_rates_widen_golden_targets_but_keep_compounding_fractions
 	assert_eq(_params(library.get_unit("mrs_posset"), "pass3_ooze", true)["loss_share"], 0.5)
 
 
-func test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_part_four() -> void:
+func test_slice_is_a_created_tribeless_textless_body_and_prototypes_are_retired() -> void:
 	var slice: Dictionary = library.get_unit("slice")
 	assert_false(slice["pool"])
 	assert_eq(slice["tribes"], [])
@@ -169,7 +172,7 @@ func test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_par
 	assert_eq(slice["text"], "")
 	assert_eq(slice["golden_text"], "")
 	for id: String in ["dewdrop_ooze", "bramble_ooze", "bog_ooze", "great_ooze"]:
-		assert_true(library.get_unit(id)["pool"], id + " retires in the final separate commit")
+		assert_false(library.get_unit(id)["pool"], id + " is retired from the live pool")
 
 
 func test_reviewed_reader_details_match_current_stats_shy_and_elder_spacing() -> void:

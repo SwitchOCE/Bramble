@@ -14,7 +14,7 @@ func before_each() -> void:
 	var config := GameConfig.defaults()
 	config.set_value("spells_in_shop", true)
 	_kit = KIT.new()
-	_kit.setup(config)
+	_kit.setup(config, false, LegacyPrototypes.library())
 	_player = _kit.player
 	_rules = _kit.rules
 

@@ -250,14 +250,13 @@ func test_frumenty_remembers_last_meal_after_it_is_gone_and_replaces_it() -> voi
 	Pass3Oozes.eat(kit.rules, kit.player, frum, _meal(8, 10, "ballooning_spider"))
 	assert_true(frum.held.is_empty())
 	assert_true(frum.combat_spec().has("grants"))
-	assert_eq(str(frum.borrowed_text()[0]["entry"]["id"]), "back_strike")
+	assert_eq(str(frum.borrowed_text()[0]["entry"]["id"]), "pass3_neutral")
+	assert_eq(str(frum.borrowed_text()[0]["entry"]["ability"]), "ballooning_spider")
 	Pass3Oozes.eat(kit.rules, kit.player, frum, _meal(8, 10, "stone_soup"))
 	assert_true(Pass3Oozes.has(frum, "stone_soup"))
-	assert_false(
-		frum.borrowed_text().any(
-			func(grant: Dictionary) -> bool: return str(grant["entry"]["id"]) == "back_strike"
-		)
-	)
+	for grant: Dictionary in frum.borrowed_text():
+		var entry: Dictionary = grant["entry"]
+		assert_ne(str(entry.get("ability", "")), "ballooning_spider")
 
 
 func test_golden_frumenty_keeps_two_meals_excludes_digest_and_borrows_split() -> void:
@@ -337,3 +336,23 @@ func test_frumenty_really_uses_figgys_last_meal_text_without_a_cooldown() -> voi
 		assert_true(kit.player.hand[0].golden)
 		kit.player.hand.clear()
 		kit.player.round_number += 1
+
+
+func test_soup_rounds_up_small_bodies_normal_and_golden_and_sums_before_rounding() -> void:
+	for golden: bool in [false, true]:
+		before_each()
+		kit.put("stone_soup", 4, golden)
+		if golden:
+			kit.put("little_dollop", 0)
+		var offer: RecruitUnit = kit.shop("field_vole")
+		var base: Vector2i = _body(offer)
+		kit.rules.board_changed(kit.player)
+		assert_eq(Pass3Oozes.soup_bonus(kit.player), Vector2i(1, 1))
+		assert_eq(Vector2i(offer.attack, offer.health), base + Vector2i(1, 1))
+		assert_eq(kit.rules.buy(kit.player, 0), "")
+		assert_eq(_body(offer), base + Vector2i(1, 1))
+		assert_eq(
+			Pass3Oozes._portion(Vector2i(2, 3), 0.125),
+			Vector2i.ZERO,
+			"the general Elder/Slice rounding helper remains floor-based"
+		)
