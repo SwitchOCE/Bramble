@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Compare a portrait folder with current art at exactly 150px, grouped by tribe.
 
-python tools/art/contact_sheet.py assets/portraits_inkglow \
-  --fallbacks assets/ui/portraits_inkglow --out build/inkglow-contact.png
+python tools/art/contact_sheet.py assets/portraits \
+  --fallbacks assets/ui/portraits --current <old portraits> --current-fallbacks <old fallbacks> --out build/inkglow-contact.png
 
 Only reads content metadata. Writes one PNG plus a JSON index of image positions.
 Requires Pillow. Unknown identities and missing originals fail instead of being skipped.

@@ -24,8 +24,8 @@ tools/art/run-codex-image.sh \
 Review a whole repaint folder alongside current art, at exactly 150px per portrait, grouped by first gameplay tribe (untribed assets under Neutral; asset kind remains labelled):
 
 ```sh
-python tools/art/contact_sheet.py assets/portraits_inkglow \
-  --fallbacks assets/ui/portraits_inkglow \
+python tools/art/contact_sheet.py assets/portraits \
+  --fallbacks assets/ui/portraits --current <old portraits> --current-fallbacks <old fallbacks> \
   --out build/inkglow/contact-sheet.png
 ```
 
