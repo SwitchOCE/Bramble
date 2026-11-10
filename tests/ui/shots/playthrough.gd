@@ -308,7 +308,10 @@ func _watch_fight(app: App, combat: CombatScreen, where: String, replay: bool) -
 	var frames: int = 0
 	while is_instance_valid(combat) and app.current == combat and frames < 4000:
 		var pending: Array = combat.get("_tweens")
-		if combat.model.finished and not checked_end and pending.is_empty():
+		var moving: bool = false
+		for tween: Tween in pending:
+			moving = moving or (tween.is_valid() and tween.get_loops_left() != 0)
+		if combat.model.finished and not checked_end and not moving:
 			await _check(combat, where + " combat end")
 			checked_end = true
 		if frames == 40 and not combat.model.finished:
