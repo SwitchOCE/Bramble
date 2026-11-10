@@ -22,9 +22,10 @@ from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFilter, ImageFo
 ROOT = Path(__file__).resolve().parents[2]
 SIZES = [(1920, 1080), (1688, 780)]
 OPTIONS = {
-    "woodland-table": ("Woodland Table", "One surface; a stable central stack.", "mosswood-mist"),
+    "woodland-table": ("Woodland Table", "Large pieces on a single illuminated stump top.", "mosswood-mist"),
     "sidecar-market": ("Sidecar Market", "Shop left; formation right; opposing ranks face across the gap.", "weald-glow"),
-    "rootbridge-diorama": ("Rootbridge Diorama", "A perspective stage with upright pieces and a distant merchant.", "fen-wisplight"),
+    "rootbridge-diorama": ("Rootbridge Diorama", "Perspective woodland stage; distant pieces retain their size floor.", "fen-wisplight"),
+    "bazaar-stack": ("Bazaar Stack", "Merchant above, formation central, hero and actions in one bottom bar.", "highcrown-rays"),
 }
 INK = (37, 33, 24, 255)
 CREAM = (245, 235, 207, 255)
@@ -38,6 +39,26 @@ def font(size, bold=False):
 
 def cover(image, size):
     return ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+
+
+def perspective_plane(texture, corners, size):
+    """Map one bitmap onto a plane; coefficients map output pixels back to source UVs."""
+    source = [(0, 0), (texture.width, 0), (texture.width, texture.height), (0, texture.height)]
+    matrix = []
+    for (x, y), (u, v) in zip(corners, source):
+        matrix.append([x, y, 1, 0, 0, 0, -u*x, -u*y, u])
+        matrix.append([0, 0, 0, x, y, 1, -v*x, -v*y, v])
+    for column in range(8):
+        pivot = max(range(column, 8), key=lambda row: abs(matrix[row][column]))
+        matrix[column], matrix[pivot] = matrix[pivot], matrix[column]
+        value = matrix[column][column]
+        matrix[column] = [n/value for n in matrix[column]]
+        for row in range(8):
+            if row != column:
+                factor = matrix[row][column]
+                matrix[row] = [a-factor*b for a, b in zip(matrix[row], matrix[column])]
+    coefficients = [row[-1] for row in matrix]
+    return texture.transform(size, Image.Transform.PERSPECTIVE, coefficients, Image.Resampling.BICUBIC)
 
 
 class Study:
@@ -92,226 +113,272 @@ class Study:
                                 "bbox": bbox, "native_size": native_size, "rotation": rotation})
         return target
 
-    def surface(self, box, moss=True, radius=38, thickness=25):
-        x, y, w, h = box
-        sh = Image.new("RGBA", self.im.size)
-        sd = ImageDraw.Draw(sh)
-        sd.rounded_rectangle((x - 8, y + 16, x + w + 18, y + h + 48), radius, fill=(9, 20, 14, 130))
-        self.im = Image.alpha_composite(self.im, sh.filter(ImageFilter.GaussianBlur(22)))
+    def surface(self, box, moss=True, radius=32, thickness=22):
+        """A painted stump/plank surface, softly lit at its centre; never felt."""
+        x, y, w, h = map(round, box)
+        shadow = Image.new("RGBA", self.im.size)
+        ImageDraw.Draw(shadow).rounded_rectangle((x-8, y+10, x+w+12, y+h+35), radius, fill=(8, 18, 12, 155))
+        self.im = Image.alpha_composite(self.im, shadow.filter(ImageFilter.GaussianBlur(18)))
         d = ImageDraw.Draw(self.im)
-        d.rounded_rectangle((x, y + thickness, x + w, y + h + thickness), radius, fill=(66, 45, 26), outline=INK, width=5)
-        d.rounded_rectangle((x, y, x + w, y + h), radius, fill=(161, 122, 68), outline=INK, width=5)
-        d.rounded_rectangle((x + 8, y + 5, x + w - 8, y + h - 8), radius - 5,
-                            outline=(211, 179, 116), width=3)
-        rng = random.Random(42)
-        for row in range(5):
-            yy = y + 10 + row * (h - 20) / 4
-            points = [(x + 15 + i * (w - 30) / 20, yy + math.sin(i * .6 + row) * 3 + rng.random() * 2) for i in range(21)]
-            d.line(points, fill=(116, 84, 46, 100), width=2)
-        if moss:
-            d.rounded_rectangle((x + 22, y + 20, x + w - 22, y + h - 20), radius - 12,
-                                fill=(62, 85, 66), outline=(42, 53, 36), width=3)
-            d.rounded_rectangle((x + 27, y + 25, x + w - 27, y + h - 25), radius - 15,
-                                outline=(99, 114, 77), width=2)
-
-    def pad(self, x, y, width, height):
+        d.rounded_rectangle((x, y+thickness, x+w, y+h+thickness), radius,
+                            fill=(65, 45, 30), outline=(37, 31, 23), width=4)
+        material = cover(Image.open(ROOT / "tools/mockup/art/woodland-top.jpg").convert("RGBA"), (w, h))
+        if not moss:
+            material = ImageEnhance.Color(material).enhance(.75)
+        mask = Image.new("L", (w, h))
+        ImageDraw.Draw(mask).rounded_rectangle((0, 0, w-1, h-1), radius, fill=255)
+        material.putalpha(mask)
+        self.im.alpha_composite(material, (x, y))
+        # Quiet rim, no high-contrast inlay competing with Ink-B silhouettes.
         d = ImageDraw.Draw(self.im)
-        d.rounded_rectangle((x - 5, y + 7, x + width + 5, y + height + 11), 17,
-                            fill=(41, 61, 45), outline=(91, 106, 71), width=2)
+        d.rounded_rectangle((x+2, y+2, x+w-2, y+h-2), radius, outline=(60, 49, 31), width=4)
+        d.rounded_rectangle((x+7, y+6, x+w-7, y+h-7), max(8, radius-5), outline=(156, 132, 82), width=2)
 
-    def card(self, group, key, x, y, width, height=None, lift=0):
-        if height is None:
-            height = width * .91
-        self.pad(x, y, width, height)
-        if key not in (self.rec if group == "recruit" else self.fight):
+    def light_pool(self, center, radius=(600, 400), strength=40):
+        layer = Image.new("RGBA", self.im.size)
+        x, y = center
+        rx, ry = radius
+        ImageDraw.Draw(layer).ellipse((x-rx, y-ry, x+rx, y+ry), fill=(255, 222, 150, strength))
+        self.im = Image.alpha_composite(self.im, layer.filter(ImageFilter.GaussianBlur(100)))
+
+    def tile(self, group, key, x, y, face=210, lift=0):
+        # Face means the real CardView rectangle, excluding its projecting badges and shadow.
+        # Phone 210 * 780 / 1080 = 151.7 px. Shop footprint is >= build-8's 270 px on PC.
+        manifest = self.rec if group == "recruit" else self.fight
+        if key not in manifest:
+            # Empty combat positions expose the wood, rather than permanent slot markers.
             return
-        # Mid-fight carries the captured state; a lifted active piece is a positional study.
+        piece, _bbox, native = self.part(group, key)
+        width = piece.width * face / (native[0]-64)
         is_attacker = group == "fight" and self.fight.get("attacker_key") == key
-        self.paste(group, key, x, y - lift - (26 if is_attacker else 0), width=width,
-                   shadow=18 if self.option == "rootbridge-diorama" else 6)
+        self.paste(group, key, x, y-lift-(16 if is_attacker else 0), width=width, shadow=12)
+        self.placements[-1]["face_width"] = face
+        self.placements[-1]["role"] = "shop" if key.startswith(("shop_", "spell_")) else "hand" if key.startswith("hand_") else "board"
 
     def lobby(self, vertical=False):
         if vertical:
-            x, y = 55, 154
-            self.surface((x - 5, y - 22, 126, 787), moss=True, radius=44, thickness=12)
             for i in range(8):
-                self.paste("recruit", f"lobby_{i}", x + 9, y + i * 95, width=98)
+                self.paste("recruit", f"lobby_{i}", 12, 105+i*106, width=84)
         else:
-            x = self.cx - 500
-            self.surface((x - 20, 18, 1040, 115), moss=True, radius=48, thickness=10)
             for i in range(8):
-                self.paste("recruit", f"lobby_{i}", x + 8 + i * 125, 30, width=106)
+                self.paste("recruit", f"lobby_{i}", self.cx-410+i*105, 10, width=84)
 
-    def hand(self, center, y, width=920):
-        count = len([k for k in self.rec if k.startswith("hand_")])
-        self.surface((center - width / 2 - 20, y - 12, width + 40, 121), moss=False, radius=24, thickness=12)
-        tile_w = min(92, (width - 18 * (count - 1)) / count)
-        pitch = min(tile_w + 18, (width - tile_w) / max(1, count - 1))
-        left = center - (pitch * (count - 1) + tile_w) / 2
+    def shop_row(self, center, y=67):
+        # Large art fills the merchant zone. Only badge margins overlap, never portrait faces.
+        for i in range(6):
+            self.tile("recruit", f"shop_{i}" if i<5 else "spell_0", center-850+i*284, y, face=270)
+
+    def rank(self, center, y, front, group="recruit", side=1, face=210, pitch=247):
+        count = 4 if front else 3
+        width = 267 * face / 240
+        left = center - ((count-1)*pitch+width)/2
         for i in range(count):
-            self.paste("recruit", f"hand_{i}", left + i * pitch, y, width=tile_w)
+            slot = i if front else i+4
+            key = f"board_{slot}" if group == "recruit" else f"side_{side}_slot_{slot}"
+            self.tile(group, key, left+i*pitch, y, face=face)
 
-    def actions(self, x, y):
-        self.paste("recruit", "gold", x + 22, y, width=218)
-        self.paste("recruit", "tier", x + 40, y + 110, height=34)
-        self.paste("recruit", "round", x + 111, y + 111, height=30)
-        self.paste("recruit", "tier_up", x, y + 175, width=260)
-        self.paste("recruit", "refresh", x + 10, y + 292, width=240)
-        self.paste("recruit", "freeze", x + 10, y + 415, width=240)
-        self.paste("recruit", "end_turn", x - 5, 899, width=270)
+    def hand(self, center, y, width=1540, pouch=False):
+        count = len([k for k in self.rec if k.startswith("hand_")])
+        if pouch:
+            left = center-240
+            self.surface((left-12, y-12, 494, 435), moss=False, radius=28, thickness=15)
+            # Same full-size cards as the board, stacked like build 8's full hand. Upper cards
+            # paint last, exposing every lower numeric foot; tap expands the selected tile.
+            for i in reversed(range(count)):
+                self.tile("recruit", f"hand_{i}", left+(i%2)*245, y+(i//2)*46, face=210)
+        else:
+            self.surface((center-width/2-12, y-10, width+24, 232), moss=False, radius=26, thickness=12)
+            pitch = (width-234)/max(1, count-1)
+            for i in range(count):
+                self.tile("recruit", f"hand_{i}", center-width/2+i*pitch, y, face=210)
+
+    def actions(self, x, y, width=310):
+        self.paste("recruit", "gold", x+25, y, width=width-50)
+        self.paste("recruit", "tier", x+32, y+108, height=30)
+        self.paste("recruit", "round", x+(125 if width>=260 else 72), y+109, height=28 if width>=260 else 24)
+        self.paste("recruit", "tier_up", x, y+163, width=width)
+        if width>=260:
+            self.paste("recruit", "refresh", x+4, y+282, width=width/2-12)
+            self.paste("recruit", "freeze", x+width/2+8, y+282, width=width/2-12)
+            self.paste("recruit", "end_turn", x, y+378, width=width)
+        else:
+            self.paste("recruit", "refresh", x+8, y+265, width=width-16)
+            self.paste("recruit", "freeze", x+8, y+371, width=width-16)
+            self.paste("recruit", "end_turn", x, y+482, width=width)
 
     def fight_controls(self, x, y):
-        self.surface((x - 15, y - 10, 215, 107), moss=True, radius=40, thickness=10)
-        self.paste("fight", "pause", x, y, width=82)
-        self.paste("fight", "speed", x + 102, y, width=82)
+        self.paste("fight", "pause", x, y, width=78)
+        self.paste("fight", "speed", x+92, y, width=78)
+
+    def foliage(self):
+        sprite_path = ROOT / "tools/mockup/art/foreground.png"
+        if not sprite_path.exists():
+            return
+        plants = Image.open(sprite_path).convert("RGBA")
+        # Foreground is restricted to non-interactive screen corners. It overlaps the table's
+        # outer edge but is kept away from every tile and button.
+        plants = plants.resize((245, 245), Image.Resampling.LANCZOS)
+        layer = Image.new("RGBA", self.im.size)
+        layer.alpha_composite(plants, (-75, 860))
+        right = ImageOps.mirror(plants)
+        layer.alpha_composite(right, (round(self.w)-170, 860))
+        canopy = plants.rotate(180)
+        layer.alpha_composite(canopy, (-90, -120))
+        layer.alpha_composite(ImageOps.mirror(canopy), (round(self.w)-155, -120))
+        alpha = layer.getchannel("A")
+        d = ImageDraw.Draw(alpha)
+        for item in self.placements:
+            x, y = item["xy"]
+            l, t, r, b = item["bbox"]
+            d.rectangle((x-12,y-12,x+(r-l)*item["ratio"]+12,y+(b-t)*item["ratio"]+12), fill=0)
+        layer.putalpha(alpha)
+        self.im = Image.alpha_composite(self.im, layer)
 
     def woodland(self):
-        center = self.cx + 10
-        self.lobby(vertical=True)
-        self.surface((center - 640, 201 if self.state == "recruit" else 167, 1280, 776 if self.state == "recruit" else 810))
+        center = self.cx+32
         if self.state == "recruit":
-            for i in range(6):
-                key = f"shop_{i}" if i < 5 else "spell_0"
-                self.paste("recruit", key, center - 563 + i * 190, 245, width=169)
-            d = ImageDraw.Draw(self.im)
-            d.line((center - 606, 464, center + 606, 464), fill=(151, 144, 95), width=2)
-            for i in range(4):
-                self.card("recruit", f"board_{i}", center - 373 + i * 195, 500, 161)
-            for i in range(3):
-                self.card("recruit", f"board_{i + 4}", center - 275 + i * 195, 699, 161)
-            self.paste("recruit", "hero", center - 603, 654, width=114)
-            self.hand(center, 917)
-            self.actions(center + 666, 242)
+            self.surface((center-880, 49, 1760, 1005), thickness=28)
+            self.light_pool((center-100, 490), (700, 440), 28)
+            self.lobby(vertical=True)
+            self.shop_row(center, 62)
+            self.rank(center-215, 405, True)
+            self.rank(center-215, 630, False)
+            self.paste("recruit", "hero", self.cx-815, 570, width=122)
+            self.actions(self.cx+618, 393, width=308)
+            self.hand(self.cx-110, 850, width=1400)
         else:
-            for side in range(2):
-                for row in range(2):
-                    front = row == (1 if side == 0 else 0)
-                    count = 4 if front else 3
-                    y = (215 if side == 0 else 604) + row * 179
-                    for i in range(count):
-                        key = f"side_{side}_slot_{i if front else i + 4}"
-                        self.card("fight", key, center - (count * 181 - 31) / 2 + i * 181, y, 150)
-                self.paste("fight", f"hero_{side}", center - 595, 253 if side == 0 else 745, width=122)
-            self.fight_controls(center + 676, 902)
-        self.paste("recruit", "gear", self.w - 109, 48, width=76)
+            center = self.cx+15
+            self.surface((center-545, 43, 1090, 943), thickness=30)
+            self.light_pool((center, 510), (500, 440), 28)
+            self.lobby(vertical=True)
+            self.rank(center, 62, False, "fight", 0)
+            self.rank(center, 289, True, "fight", 0)
+            self.rank(center, 524, True, "fight", 1)
+            self.rank(center, 752, False, "fight", 1)
+            self.paste("fight", "hero_0", center-722, 135, width=132)
+            self.paste("fight", "hero_1", center-722, 750, width=132)
+            self.fight_controls(center+620, 916)
+        self.paste("recruit", "gear", self.w-95, 8, width=64)
 
     def sidecar(self):
-        self.lobby()
-        # Rank rotation is deliberate and shared by recruit and fight: four front pieces in
-        # the inward column, three back pieces in the outward column. Nothing changes rules.
-        board_center = self.cx + 370
-        self.surface((board_center - 237, 196, 488, 718), radius=36)
-        for front in (True, False):
-            count = 4 if front else 3
-            x = board_center - 195 if front else board_center + 35
-            for i in range(count):
-                y = 227 + i * 164 + (0 if front else 82)
-                slot = i if front else i + 4
-                self.card("recruit" if self.state == "recruit" else "fight",
-                          f"board_{slot}" if self.state == "recruit" else f"side_1_slot_{slot}", x, y, 150)
         if self.state == "recruit":
-            left = self.cx - 700
-            self.surface((left, 245, 535, 610), moss=False, thickness=35)
+            offset = self.cx-960
+            self.surface((123+offset, 33, 1772, 1010), thickness=30)
+            self.light_pool((self.cx, 530), (840, 450), 24)
+            left = 145+offset
             for i in range(6):
-                key = f"shop_{i}" if i < 5 else "spell_0"
-                self.paste("recruit", key, left + 52 + (i % 2) * 238, 277 + (i // 2) * 184, width=171)
-            self.paste("recruit", "gold", left + 150, 155, width=215)
-            self.paste("recruit", "tier_up", left - 3, 908, width=225)
-            self.paste("recruit", "refresh", left + 217, 917, width=147)
-            self.paste("recruit", "freeze", left + 377, 917, width=147)
-            self.paste("recruit", "hero", board_center + 300, 642, width=118)
-            self.hand(board_center - 5, 941, width=870)
-            self.paste("recruit", "end_turn", board_center + 300, 813, width=240)
-            self.paste("recruit", "tier", left + 26, 195, height=34)
-            self.paste("recruit", "round", left + 383, 190, height=30)
+                self.tile("recruit", f"shop_{i}" if i<5 else "spell_0", left+(i%2)*304, 42+(i//2)*336, face=270)
+            center = self.cx+467
+            self.rank(center, 252, True, pitch=235)
+            self.rank(center, 506, False, pitch=235)
+            self.paste("recruit", "hero", center-56, 109, width=84)
+            self.hand(center, 808, width=930)
+            self.actions(766+offset, 176, width=170)
         else:
-            enemy_center = self.cx - 370
-            self.surface((enemy_center - 251, 196, 488, 718), radius=36)
-            for front in (True, False):
-                count = 4 if front else 3
-                x = enemy_center + 45 if front else enemy_center - 185
-                for i in range(count):
-                    y = 227 + i * 164 + (0 if front else 82)
-                    slot = i if front else i + 4
-                    self.card("fight", f"side_0_slot_{slot}", x, y, 150)
-            self.paste("fight", "hero_0", self.cx - 825, 485, width=122)
-            self.paste("fight", "hero_1", self.cx + 699, 485, width=122)
-            self.fight_controls(self.cx - 92, 948)
-        self.paste("recruit", "gear", self.w - 109, 48, width=76)
-
-    def project(self, x, z):
-        # Pinhole projection of a horizontal plane. z=0 is the near edge; z=1 the far edge.
-        # In Godot this is a Camera3D viewing a flat mesh, with Sprite3D billboards for tiles.
-        k = 1 / (1 + .68 * z)
-        return self.cx + x * k, 1000 - 720 * z * k * 1.68, k
+            center = self.cx
+            self.surface((center-558, 62, 1116, 940), thickness=30)
+            self.light_pool((center, 530), (570, 460), 24)
+            for side in range(2):
+                for front in (True, False):
+                    count = 4 if front else 3
+                    x = center-275 if side==0 and front else center-525 if side==0 else center+20 if front else center+270
+                    for i in range(count):
+                        slot = i if front else i+4
+                        self.tile("fight", f"side_{side}_slot_{slot}", x, 85+i*227+(0 if front else 113), face=210)
+            self.paste("fight", "hero_0", center-745, 440, width=138)
+            self.paste("fight", "hero_1", center+623, 440, width=138)
+            self.fight_controls(center-85, 986)
+        self.lobby(vertical=True)
+        self.paste("recruit", "gear", self.w-95, 8, width=64)
 
     def stage(self):
-        far_l = self.project(-735, 1)[:2]
-        far_r = self.project(735, 1)[:2]
-        near_l = self.project(-735, 0)[:2]
-        near_r = self.project(735, 0)[:2]
-        corners = [far_l, far_r, near_r, near_l]
-        sh = Image.new("RGBA", self.im.size)
-        ImageDraw.Draw(sh).polygon([(x + 12, y + 35) for x, y in corners], fill=(7, 20, 19, 160))
-        self.im = Image.alpha_composite(self.im, sh.filter(ImageFilter.GaussianBlur(24)))
+        # Perspective is carried by the world mesh and projected contacts, while billboard
+        # scaling has a floor. No distant gameplay tile is made smaller to sell the depth.
+        far = 550 if self.state == "fight" else 625
+        near = 700 if self.state == "fight" else 878
+        corners = [(self.cx-far, 180), (self.cx+far, 180), (self.cx+near, 1015), (self.cx-near, 1015)]
+        shadow = Image.new("RGBA", self.im.size)
+        ImageDraw.Draw(shadow).polygon([(x+8,y+25) for x,y in corners], fill=(5,17,13,170))
+        self.im = Image.alpha_composite(self.im, shadow.filter(ImageFilter.GaussianBlur(23)))
+        texture = Image.open(ROOT/"tools/mockup/art/woodland-top.jpg").convert("RGBA")
+        # A real projective warp: the grain converges with the mesh, as in Godot's UV mapping.
+        paint = perspective_plane(texture, corners, self.im.size)
+        mask = Image.new("L", self.im.size)
+        ImageDraw.Draw(mask).polygon(corners, fill=255)
+        paint.putalpha(mask)
         d = ImageDraw.Draw(self.im)
-        d.polygon([near_l, near_r, (near_r[0] + 3, 1045), (near_l[0] - 3, 1045)], fill=(75, 54, 35), outline=INK, width=5)
-        d.polygon(corners, fill=(131, 109, 72), outline=INK, width=5)
-        inner = [self.project(x, z)[:2] for x, z in [(-695, .97), (695, .97), (695, .03), (-695, .03)]]
-        d.polygon(inner, fill=(60, 88, 77), outline=(187, 169, 115), width=3)
-        for x in (-490, -245, 0, 245, 490):
-            d.line([self.project(x, 1)[:2], self.project(x, 0)[:2]], fill=(82, 104, 84), width=2)
-        for z in (.22, .48, .75):
-            d.line([self.project(-695, z)[:2], self.project(695, z)[:2]], fill=(82, 104, 84), width=2)
-
-    def depth_rank(self, group, side, front, z):
-        count = 4 if front else 3
-        for i in range(count):
-            x, y, k = self.project((i - (count - 1) / 2) * 245, z)
-            width = 205 * k
-            key = f"board_{i if front else i + 4}" if group == "recruit" else f"side_{side}_slot_{i if front else i + 4}"
-            # Contact footprints lie on the plane. Upright, empty card-shaped panels would
-            # incorrectly hover above the far edge and make the perspective ambiguous.
-            d = ImageDraw.Draw(self.im)
-            d.ellipse((x - width * .45, y - width * .10, x + width * .45, y + width * .13),
-                      fill=(42, 65, 55), outline=(109, 124, 87), width=2)
-            if key in (self.rec if group == "recruit" else self.fight):
-                lift = 26 if group == "fight" and self.fight.get("attacker_key") == key else 0
-                self.paste(group, key, x - width / 2, y - width * .88 - lift, width=width, shadow=24)
+        d.polygon([corners[2],corners[3],(corners[3][0],1051),(corners[2][0],1051)], fill=(65,47,31), outline=INK, width=4)
+        self.im = Image.alpha_composite(self.im, paint)
+        d = ImageDraw.Draw(self.im)
+        d.line(corners+[corners[0]], fill=(132,111,67), width=6)
+        for x in [-520,-260,0,260,520]:
+            d.line([(self.cx+x*.71,180),(self.cx+x,1015)], fill=(101,84,51), width=2)
+        self.light_pool((self.cx,575),(630,410),30)
 
     def diorama(self):
-        self.lobby()
         self.stage()
+        self.lobby(vertical=True)
         if self.state == "recruit":
-            self.surface((self.cx - 535, 195, 1070, 219), moss=False, radius=32, thickness=38)
-            for i in range(6):
-                self.paste("recruit", f"shop_{i}" if i < 5 else "spell_0", self.cx - 490 + i * 171, 214, width=141)
-            self.depth_rank("recruit", 1, True, .45)
-            self.depth_rank("recruit", 1, False, .14)
-            self.paste("recruit", "hero", self.cx - 639, 710, width=129, shadow=30)
-            self.hand(self.cx, 944, width=925)
-            self.actions(self.cx + 666, 282)
+            self.surface((self.cx-845, 48, 1740, 315), moss=False, thickness=38)
+            self.shop_row(self.cx+12, 59)
+            center = self.cx-115
+            self.rank(center, 405, True, face=210, pitch=251)
+            self.rank(center+5, 630, False, face=210, pitch=276)
+            self.paste("recruit", "hero", self.cx-815, 570, width=128)
+            self.actions(self.cx+634, 391, width=292)
+            self.hand(self.cx-130, 850, width=1400)
         else:
-            self.depth_rank("fight", 0, False, .93)
-            self.depth_rank("fight", 0, True, .69)
-            self.depth_rank("fight", 1, True, .34)
-            self.depth_rank("fight", 1, False, .06)
-            self.paste("fight", "hero_0", self.cx - 490, 309, width=108, shadow=24)
-            self.paste("fight", "hero_1", self.cx - 659, 773, width=143, shadow=35)
-            self.fight_controls(self.cx + 640, 890)
-        # The original painting already has foreground silhouettes. Bring only its extreme
-        # corners in front of the near rim, a static occlusion layer with no extra generation.
-        paint = cover(Image.open(ROOT / "docs/ideation/ui/backdrops/backdrop-fen-wisplight.jpg").convert("RGBA"), self.im.size)
-        mask = Image.new("L", self.im.size)
-        md = ImageDraw.Draw(mask)
-        md.polygon([(0, 865), (175, 1005), (320, 1080), (0, 1080)], fill=255)
-        md.polygon([(self.w, 865), (self.w - 160, 1015), (self.w - 290, 1080), (self.w, 1080)], fill=255)
-        paint.putalpha(mask.filter(ImageFilter.GaussianBlur(2)))
-        self.im = Image.alpha_composite(self.im, paint)
-        self.paste("recruit", "gear", self.w - 109, 48, width=76)
+            self.rank(self.cx, 61, False, "fight", 0, face=210, pitch=247)
+            self.rank(self.cx, 287, True, "fight", 0, face=210, pitch=247)
+            self.rank(self.cx, 518, True, "fight", 1, face=215, pitch=258)
+            self.rank(self.cx, 754, False, "fight", 1, face=220, pitch=267)
+            self.paste("fight", "hero_0", self.cx-735, 215, width=130)
+            self.paste("fight", "hero_1", self.cx-810, 788, width=145)
+            self.fight_controls(self.cx+660, 945)
+        self.paste("recruit", "gear", self.w-95, 8, width=64)
+
+    def bottom_bar(self):
+        self.surface((132, 967, self.w-160, 94), moss=False, radius=26, thickness=10)
+        hero_center = self.cx+24
+        self.paste("recruit", "hero", hero_center-57, 872, width=114)
+        self.paste("recruit", "gold", 180, 981, width=190)
+        self.paste("recruit", "tier_up", 411, 985, width=215)
+        self.paste("recruit", "refresh", 654, 983, width=130)
+        self.paste("recruit", "freeze", 790, 983, width=120)
+        self.paste("recruit", "end_turn", self.w-360, 970, width=300)
+        self.paste("recruit", "tier", hero_center+135, 997, height=30)
+        self.paste("recruit", "round", hero_center+214, 997, height=28)
+
+    def bazaar(self):
+        center = self.cx-100
+        self.lobby(vertical=True)
+        if self.state == "recruit":
+            # One coherent counter: raised merchant lip, central formation and slim hero bar.
+            self.surface((self.cx-837, 45, 1772, 900), thickness=30)
+            self.surface((self.cx-821, 48, 1738, 315), moss=False, thickness=25)
+            self.light_pool((center,520),(720,410),26)
+            self.shop_row(self.cx+24, 59)
+            self.rank(center-5, 405, True, pitch=240)
+            self.rank(center-5, 635, False, pitch=240)
+            self.hand(self.cx+690, 424, pouch=True)
+            self.bottom_bar()
+        else:
+            center = self.cx+12
+            self.surface((center-540, 44, 1080, 912), thickness=28)
+            self.light_pool((center,500),(500,410),28)
+            self.rank(center, 60, False, "fight", 0)
+            self.rank(center, 282, True, "fight", 0)
+            self.rank(center, 508, True, "fight", 1)
+            self.rank(center, 730, False, "fight", 1)
+            self.surface((132, 974, self.w-160, 86), moss=False, radius=24, thickness=10)
+            self.paste("fight", "hero_0", center-715, 128, width=132)
+            self.paste("fight", "hero_1", center-44, 980, width=80)
+            self.fight_controls(self.w-278, 980)
+        self.paste("recruit", "gear", self.w-95, 8, width=64)
 
     def save(self):
-        getattr(self, {"woodland-table": "woodland", "sidecar-market": "sidecar", "rootbridge-diorama": "diorama"}[self.option])()
+        getattr(self, {"woodland-table": "woodland", "sidecar-market": "sidecar", "rootbridge-diorama": "diorama", "bazaar-stack": "bazaar"}[self.option])()
+        self.foliage()
         # All source paintings were image-generated, so every still carries the concept label.
         d = ImageDraw.Draw(self.im)
         d.rounded_rectangle((20, 22, 179, 69), 14, fill=(24, 42, 35, 235))
@@ -325,7 +392,7 @@ class Study:
         self.im = self.im.resize(self.size, Image.Resampling.LANCZOS)
         self.im.convert("RGB").save(dest / f"{stem}.jpg", quality=94, subsampling=0)
         # A placement manifest lets the table option also be rendered as actual Godot nodes.
-        (dest / f"{stem}.json").write_text(json.dumps({"logical_size": self.logical_size, "placements": self.placements}, indent=2))
+        (dest / f"{stem}.json").write_text(json.dumps({"logical_size": self.logical_size, "placements": self.placements, "revision": "large-tiles-woodland"}, indent=2))
         return {"option": self.option, "state": self.state, "size": list(self.size),
                 "file": f"{self.option}/{stem}.jpg", "concept": True}
 
@@ -360,13 +427,13 @@ def gallery(out):
                          for w, h in SIZES for state in ("recruit", "fight"))
         images += f'<a href="{key}/reader_1688x780.jpg"><figure><img loading="lazy" src="{key}/reader_1688x780.jpg"><figcaption>Phone · tap reader open</figcaption></figure></a>'
         option_notes = notes.split(f"## {name}\n", 1)[1].split("\n## ", 1)[0]
-        critique = re.search(r"\*\*Fresh critic:\*\* (.+)", option_notes)
-        critic_text = f'<p><strong>Fresh critic:</strong> {html.escape(critique.group(1))}</p>' if critique else ""
+        critique = re.search(r"\*\*Tradeoffs:\*\* (.+)", option_notes)
+        critic_text = f'<p><strong>Tradeoffs:</strong> {html.escape(critique.group(1))}</p>' if critique else ""
         sections.append(f'<section><h2>{name}</h2><p>{html.escape(idea)}</p>{critic_text}<div class="grid">{images}</div></section>')
     (out / "index.html").write_text('''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Bramble · Layout options</title><style>body{margin:0;background:#14221d;color:#f0e7ce;font:18px/1.5 system-ui}main{max-width:1500px;margin:auto;padding:24px}h1,h2{line-height:1.1}h2{font-size:36px}section{margin:55px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}a{color:#d9ca94}figure{margin:0}img{width:100%;display:block}figcaption{padding:8px 0;color:#c7c9b3}p{max-width:70ch}@media(max-width:700px){.grid{grid-template-columns:1fr}}</style><main>
 <h1>Bramble · Layout options</h1><p>Static layout concepts using real Godot tiles, portraits and controls. Painted worlds are concepts. Tap a still to open it at native size. No motion-dependent depth.</p>
-<p><a href="sheet.jpg">Open the Bazaar comparison sheet</a> · <a href="notes.md">Option details and fresh critic notes</a></p>'''
+<p><a href="sheet.jpg">Open the Bazaar comparison sheet</a> · <a href="notes.md">Option details and tradeoffs</a></p>'''
         + "".join(sections) + '</main></html>')
 
 
@@ -399,7 +466,7 @@ def main():
                 if args.finalize:
                     target = args.out / option / f"{stem}.jpg"
                     native = target.with_suffix(".png")
-                    if native.exists():
+                    if native.exists() and native.stat().st_mtime >= target.with_suffix(".json").stat().st_mtime:
                         Image.open(native).convert("RGB").save(target, quality=94, subsampling=0)
                     manifest.append({"option": option, "state": state, "size": list(size),
                                      "file": f"{option}/{stem}.jpg", "concept": True})
@@ -418,7 +485,7 @@ def main():
     (args.out / "manifest.json").write_text(json.dumps({"stills": manifest,
         "sources": {"busy": {"file": str(refs["busy"]), "source": "https://store.steampowered.com/app/1617400/", "timestamp": "00:01:33.000"},
                     "fight": {"file": str(refs["fight"]), "source": "https://store.steampowered.com/app/1617400/", "timestamp": "00:01:44.500"}},
-        "method": "Godot alpha widget captures; scripted surfaces, shadows and pinhole projection; source paintings are concepts",
+        "method": "Real Godot widgets; generated woodland material and foliage; projective plane, shadows and a native tile-size floor",
         "motion": "None: all depth is visible in stills", "combat_event_index": json.loads((args.assets / "fight/parts.json").read_text())["event_index"]}, indent=2))
     print(f"Wrote {len(manifest)} native-size stills, comparison sheet and gallery to {args.out}")
 

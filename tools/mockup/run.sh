@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Rebuild local alpha sources, the twelve stills, tap-reader studies and the comparison sheet.
+# Rebuild local alpha sources, sixteen stills, tap-reader studies and the comparison sheet.
 # This writes only build/. Publishing the requested gallery directory is a separate copy.
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
@@ -10,6 +10,7 @@ export LP_NUM_THREADS=1
 export GODOT_SLOT_CLASS=worker
 godot_bin="${GODOT:-godot}"
 mkdir -p build/layout-parts/recruit build/layout-parts/fight build/layouts
+if [ "${1:-}" != --reuse-captures ]; then
 scripts/godot_slot.sh "$godot_bin" --headless --editor --path . --import --quit >build/layouts/import.log 2>&1
 for group in recruit fight; do
   state=recruit_late
@@ -21,6 +22,7 @@ for group in recruit fight; do
     exit 1
   fi
 done
+fi
 python3 tools/mockup/layouts.py
 for size in 1920x1080 1688x780; do
   export LAYOUT_PLAN="$(realpath "build/layouts/woodland-table/recruit_$size.json")"

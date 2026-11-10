@@ -24,6 +24,11 @@ for still in manifest["stills"]:
         left, top, right, bottom = part["bbox"]
         w, h = (right - left) * part["ratio"], (bottom - top) * part["ratio"]
         assert x >= 0 and y >= 0 and x + w <= width + 1 and y + h <= height + 1, (path, part["key"], x, y, w, h)
+        if "face_width" in part:
+            native_face = part["face_width"] * still["size"][1] / 1080
+            assert native_face >= 150, (path, part["key"], native_face)
+            if part["role"] == "shop" and still["size"][0] == 1920:
+                assert part["face_width"] >= 270, (path, part["key"], part["face_width"])
     if still["state"] == "recruit":
         keys = [part["key"] for part in plan["placements"]]
         assert all(f"shop_{i}" in keys for i in range(5)), path
@@ -40,4 +45,6 @@ for key in OPTIONS:
         im.verify()
 assert (out / "sheet.jpg").is_file()
 assert (out / "index.html").is_file()
-print("PASS: all twelve stills, three reader studies, dimensions, checksums, widget bounds and required recruit controls")
+assert "Fresh critic" not in (ROOT / "docs/ideation/ui/layouts.md").read_text()
+assert all((ROOT / "tools/mockup/art" / file).is_file() for file in ("woodland-top.jpg", "foreground.png"))
+print("PASS: sixteen stills, four reader studies, native tile-size floors, checksums, widget bounds and required controls")
