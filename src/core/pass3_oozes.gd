@@ -80,8 +80,8 @@ static func ranked(
 
 static func own_stats(unit: RecruitUnit) -> Vector2i:
 	return Vector2i(
-		maxi(0, unit.base_attack_now() + unit.perm_attack),
-		maxi(0, unit.base_health_now() + unit.perm_health)
+		clampi(unit.base_attack_now() + unit.perm_attack, 0, BoardUnit.STAT_CLAMP),
+		clampi(unit.base_health_now() + unit.perm_health, 0, BoardUnit.STAT_CLAMP)
 	)
 
 
@@ -107,10 +107,14 @@ static func soup_bonus(player: PlayerState) -> Vector2i:
 	var share: float = CoreUtil.to_float(player.pass3_rates.get("oozes_soup_share", 0.125))
 	var total := Vector2i.ZERO
 	for count: int in sources:
-		var stats := Vector2i.ZERO
+		var attack: int = 0
+		var health: int = 0
 		for target: RecruitUnit in targets.slice(0, count):
-			stats += Vector2i(target.attack, target.health)
-		total += _portion(stats, share)
+			attack += target.attack
+			health += target.health
+		# Sum in 64-bit scalars: six legal capped bodies exceed Vector2i's range.
+		total.x = mini(BoardUnit.STAT_CLAMP, total.x + floori(attack * share))
+		total.y = mini(BoardUnit.STAT_CLAMP, total.y + floori(health * share))
 	return total
 
 
@@ -232,11 +236,13 @@ static func eat(
 	var receives_bonuses: bool = not meal.has_tribe("Oozes") or not player.pass3_loop_guards
 	var multiplier: float = 1.0 + (aspic_bonus(player, eater) if receives_bonuses else 0.0)
 	var gained: Vector2i = _portion(meal_stats(player, meal), multiplier)
+	var before_attack: int = eater.perm_attack
+	var before_health: int = eater.perm_health
 	eater.add_permanent(gained.x, gained.y)
+	var accepted: int = eater.perm_attack - before_attack + eater.perm_health - before_health
 	if player.has_meta("ooze_probe"):
 		eater.set_meta(
-			"probe_eat_credit",
-			CoreUtil.to_int(eater.get_meta("probe_eat_credit", 0)) + gained.x + gained.y
+			"probe_eat_credit", CoreUtil.to_int(eater.get_meta("probe_eat_credit", 0)) + accepted
 		)
 	if has(eater, "frumenty"):
 		eater.last_meals.append({"def": meal.def, "golden": meal.golden})
@@ -252,6 +258,7 @@ static func eat(
 			"source_iid": eater.iid,
 			"meal_iid": meal.iid,
 			"recycled_credit": CoreUtil.to_int(meal.get_meta("probe_eat_credit", 0)),
+			"accepted": accepted,
 			"target": meal.def_id(),
 			"attack": gained.x,
 			"health": gained.y,
@@ -359,7 +366,11 @@ static func recruit_hook(_ctx: RecruitContext) -> void:
 
 
 static func _portion(stats: Vector2i, fraction: float) -> Vector2i:
-	return Vector2i(floori(stats.x * fraction), floori(stats.y * fraction))
+	# Apply the existing game maximum before converting back to a 32-bit vector.
+	return Vector2i(
+		mini(BoardUnit.STAT_CLAMP, floori(stats.x * fraction)),
+		mini(BoardUnit.STAT_CLAMP, floori(stats.y * fraction))
+	)
 
 
 ## Probe-only attribution metadata; it never enters combat rules or bot evaluation.
