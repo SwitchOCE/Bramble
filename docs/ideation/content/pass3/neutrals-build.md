@@ -134,3 +134,45 @@ no warnings. `./scripts/check.sh --no-tests` passes, including formatting, lint,
 content, import, compilation and parity. The import also generated missing UIDs
 for five field scripts brought in by the main merge; those metadata files are
 tracked. The Stone Soup part remains a separate commit below.
+
+## A3 review follow-up: Stone Soup triage
+
+All six calls in DECISIONS "Stone Soup triage: calls" are implemented, without
+changing B/C rate values:
+
+1. Soup is tier 1, 2/3 (4/6 golden). This deliberately changes the Ooze tier
+   distribution to 4/2/3/3/2/2; parity reports that deviation but passes.
+2. Before the first on-board Digest carry, Dollop receives the higher of the
+   declared Dollop/Soup priorities and Soup the lower; the normal written order
+   resumes with a carry. Both line files state the conditional route. The +12
+   Soup commitment bonus requires that carry.
+3. Soup alone rounds each share up, after summing golden's recipients. Authored
+   and generated faces, Details and rulebook 12.1.9 say so. Elder/Slice still use
+   the unchanged floor helper. Normal and golden tiny-body tests prove +1/+1,
+   retained exactly once on purchase; Shy remains excluded.
+4. Native Ooze Hard and line seats can buy off-tribe bodies without a Digest
+   carry. The exception requires native Ooze content, not merely the shared pool
+   flag: the first broader test caught a frozen pass 2 replay regression, and
+   this guard restores all three exact hashes without changing the fixture.
+5. A second plain Soup is priced at body plus pair bonus, without build, future
+   or repeated engine bonuses. Golden/third-copy opportunities retain their
+   separate value. Directed fixed-board tests cover both Hard and both lines.
+6. Line telemetry logs unique offers, purchases, swallows and Nell meals by card,
+   plus placement/elimination round. Nell's existing eat event carries an explicit
+   `cause: nell`; Digest event shapes remain unchanged. Observers chain prior
+   listeners and bind seat IDs, avoiding self-reference cycles. The report places
+   elimination counts beside survivor medians and validates the original 32 seeds.
+
+The broader affected selection plus corrected-script reruns passes 387 tests in
+35 scripts. The new Soup bot script passes 7/7, native recruit 21/21, and the
+frozen full-game replay passes. The Frumenty memory test now expects Spider's
+new printed aura rather than its former self-Swoop. Four fast report tests pass.
+`./scripts/check.sh --no-tests` passes after the last code edit, including ruff,
+gdformat, gdlint, content, import, compilation and parity. No full local GUT gate
+was run. Raw check logs are under `build/neutrals/review-fixes/`.
+
+The confirmation measurement uses B and exactly the original 32 seeds from
+`oozes-final.jsonl`, one engine and one tempo seat against six varied Hard seats.
+Its results will be appended after the committed implementation is measured.
+Prototype retirement is deferred to its own turn; all 38 no-set definitions are
+still present, with 13 remaining in their legacy pool.

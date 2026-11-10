@@ -8,6 +8,10 @@ var _next_candidate: int = 0
 var _line_metrics: FileAccess
 var _seen_offers: Dictionary = {}
 var _offered: Dictionary = {}
+var _offered_cards: Dictionary = {}
+var _bought_cards: Dictionary = {}
+var _swallowed_cards: Dictionary = {}
+var _nell_cards: Dictionary = {}
 var _rows: Array[Dictionary] = []
 
 
@@ -60,6 +64,10 @@ func _play(suite: String, requested_seed: int) -> void:
 	_starting_policies.clear()
 	_seen_offers.clear()
 	_offered.clear()
+	_offered_cards.clear()
+	_bought_cards.clear()
+	_swallowed_cards.clear()
+	_nell_cards.clear()
 	_rows.clear()
 	var session: GameSession = GameSession.create(
 		game_seed, _library, config, BenchSuites.create_bot
@@ -69,6 +77,12 @@ func _play(suite: String, requested_seed: int) -> void:
 	for player: PlayerState in session._players:
 		_starting_policies[player.id] = session.build_of(player.id)
 		_offered[player.id] = {}
+		_offered_cards[player.id] = {}
+		_bought_cards[player.id] = {}
+		_swallowed_cards[player.id] = {}
+		_nell_cards[player.id] = {}
+		var previous: Callable = player.log_observer
+		player.log_observer = _observe_recruit.bind(player.id, previous)
 		_observe_shop(player)
 	session._rules.shop_observer = _observe_shop
 	session.fight_observer = _on_fight
@@ -87,6 +101,19 @@ func _play(suite: String, requested_seed: int) -> void:
 		)
 	var shopping: Array[Dictionary] = []
 	for player: PlayerState in session._players:
+		var first_soup: int = 0
+		var board_r12: Array = []
+		var reached_r12: bool = false
+		for snapshot: Dictionary in _rows:
+			if CoreUtil.to_int(snapshot["seat"]) != player.id:
+				continue
+			var cards: Array = snapshot["cards"]
+			var number: int = CoreUtil.to_int(snapshot["round"])
+			if cards.has("stone_soup") and (first_soup == 0 or number < first_soup):
+				first_soup = number
+			if number == 12:
+				reached_r12 = true
+				board_r12 = cards.duplicate()
 		(
 			shopping
 			. append(
@@ -96,6 +123,18 @@ func _play(suite: String, requested_seed: int) -> void:
 					"build": session.build_of(player.id),
 					"offers_by_tribe": _offered[player.id],
 					"buys_by_tribe": player.bought_by_tribe.duplicate(true),
+					"offers_by_card": _offered_cards[player.id],
+					"buys_by_card": _bought_cards[player.id],
+					"swallows_by_card": _swallowed_cards[player.id],
+					"nell_meals_by_card": _nell_cards[player.id],
+					"placement": player.placement,
+					"elimination_round":
+					CoreUtil.int_or_null(0 if player.alive else player.round_number, 0),
+					"first_soup_fielded_round": CoreUtil.int_or_null(first_soup, 0),
+					"soup_by_r6": first_soup > 0 and first_soup <= 6,
+					"soup_before_r12": first_soup > 0 and first_soup < 12,
+					"reached_r12": reached_r12,
+					"board_r12": board_r12,
 				}
 			)
 		)
@@ -144,16 +183,35 @@ func _observe_shop(player: PlayerState) -> void:
 	if not _offered.has(player.id):
 		_offered[player.id] = {}
 	var offered: Dictionary = _offered[player.id]
+	if not _offered_cards.has(player.id):
+		_offered_cards[player.id] = {}
+	var offered_cards: Dictionary = _offered_cards[player.id]
 	for unit: RecruitUnit in player.shop:
 		var key: String = "%d:%d" % [player.id, unit.iid]
 		if _seen_offers.has(key):
 			continue
 		_seen_offers[key] = true
+		_count_card(offered_cards, unit.def_id())
 		var tribes: Array = unit.tribes()
 		if tribes.is_empty():
 			offered["neutral"] = CoreUtil.to_int(offered.get("neutral", 0)) + 1
 		for tribe: String in tribes:
 			offered[tribe] = CoreUtil.to_int(offered.get(tribe, 0)) + 1
+
+
+static func _count_card(counts: Dictionary, card: String) -> void:
+	counts[card] = CoreUtil.to_int(counts.get(card, 0)) + 1
+
+
+func _observe_recruit(type: String, fields: Dictionary, seat: int, previous: Callable) -> void:
+	if previous.is_valid():
+		previous.call(type, fields)
+	if type == "buy":
+		_count_card(_bought_cards[seat], str(fields["unit"]))
+	elif type == "swallow":
+		_count_card(_swallowed_cards[seat], str(fields["unit"]))
+	elif type == "eat" and str(fields.get("cause", "")) == "nell":
+		_count_card(_nell_cards[seat], str(fields["target"]))
 
 
 func _capture_line(input: Dictionary, result: Dictionary, combat: Combat) -> void:

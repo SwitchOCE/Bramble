@@ -53,6 +53,51 @@ static func carry(player: PlayerState, room: bool = false) -> RecruitUnit:
 	return best
 
 
+## A native Ooze seat still needs real bodies until its first on-board Digest carry exists.
+static func no_digest_flex(player: PlayerState, value: BotEval) -> bool:
+	return (
+		player != null
+		and player.pass3_content
+		and build(value)
+		and value.library != null
+		and Pass3OozeText.is_native(value.library.get_unit("stone_soup"))
+		and carry(player) == null
+	)
+
+
+## Swap just these two declared priorities for the opening phase, then restore the written route.
+static func priority_weight(card: Dictionary, player: PlayerState, value: BotEval) -> float:
+	var weights: Dictionary = value.strategy.get("units", {})
+	var id: String = str(card.get("id", ""))
+	var normal: float = BotEval._number(weights.get(id, 0))
+	if not no_digest_flex(player, value) or id not in ["little_dollop", "stone_soup"]:
+		return normal
+	var dollop: float = BotEval._number(weights.get("little_dollop", 0))
+	var soup: float = BotEval._number(weights.get("stone_soup", 0))
+	return maxf(dollop, soup) if id == "little_dollop" else minf(dollop, soup)
+
+
+static func soup_pair_only(player: PlayerState, unit: RecruitUnit) -> bool:
+	return (
+		player != null
+		and not unit.golden
+		and has(unit, "stone_soup")
+		and BotEval.copies_of(player, unit.def_id()) == 1
+		and not player.owned_units().has(unit)
+	)
+
+
+static func redundant_soup(player: PlayerState, unit: RecruitUnit) -> bool:
+	return (
+		player != null
+		and not unit.golden
+		and has(unit, "stone_soup")
+		and BotEval.copies_of(player, unit.def_id()) >= 2
+		and player.owned_units().has(unit)
+		and not _best_copy(player, unit)
+	)
+
+
 static func wants_hasty(player: PlayerState) -> bool:
 	if player.scout.is_empty():
 		return false
@@ -115,6 +160,8 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 	var factor: int = unit.golden_factor()
 	var committed: bool = build(value)
 	if has(unit, "stone_soup"):
+		if soup_pair_only(player, unit) or redundant_soup(player, unit):
+			return 0.0
 		var read_size: int = size
 		if unit.golden:
 			var oozes: Array[RecruitUnit] = Pass3Oozes.ranked(player)
@@ -124,7 +171,7 @@ static func text_value(unit: RecruitUnit, player: PlayerState, value: BotEval) -
 				read_size += _body(ooze)
 		return (
 			read_size * _rate(player, "oozes_soup_share", 0.125) * 4.0
-			+ (12.0 if committed else 0.0)
+			+ (12.0 if committed and carry(player) != null else 0.0)
 		)
 	if has(unit, "dishwater_nell"):
 		return (maxf(6.0, size * 0.15) * factor) if biggest != null else 0.0

@@ -6,7 +6,7 @@ const BODIES: Dictionary = {
 	"little_dollop": [1, 1, 2],
 	"mrs_posset": [1, 2, 1],
 	"wee_wobbly": [1, 1, 4],
-	"stone_soup": [2, 2, 3],
+	"stone_soup": [1, 2, 3],
 	"dishwater_nell": [2, 2, 3],
 	"moss_ooze": [2, 2, 4],
 	"aunt_aspic": [3, 2, 4],
@@ -55,7 +55,7 @@ func test_sixteen_native_oozes_have_the_designed_tiers_and_bodies() -> void:
 			var factor: int = 2 if golden else 1
 			assert_eq(unit.attack, CoreUtil.to_int(card["attack"]) * factor, id)
 			assert_eq(unit.health, CoreUtil.to_int(card["health"]) * factor, id)
-	assert_eq(counts, [3, 3, 3, 3, 2, 2])
+	assert_eq(counts, [4, 2, 3, 3, 2, 2])
 	assert_true(library.unbuilt_units().is_empty())
 
 
@@ -90,8 +90,10 @@ func test_soup_and_elder_c_faces_name_the_wider_shares_without_golden_fraction_d
 	config.set_value("pass3_preset", "C")
 	var soup: Dictionary = library.get_unit("stone_soup").duplicate(true)
 	Pass3OozeText.configure(soup, config)
-	assert_eq(soup["text"], "Shop units gain a sixth of your biggest Ooze's stats.")
-	assert_eq(soup["golden_text"], "Shop units gain a sixth of your two biggest Oozes' stats.")
+	assert_eq(soup["text"], "Shop units gain a sixth of your biggest Ooze's stats, rounded up.")
+	assert_eq(
+		soup["golden_text"], "Shop units gain a sixth of your two biggest Oozes' stats, rounded up."
+	)
 	var elder: Dictionary = library.get_unit("elder_ooze").duplicate(true)
 	Pass3OozeText.configure(elder, config)
 	assert_eq(

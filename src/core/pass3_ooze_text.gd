@@ -154,7 +154,7 @@ static func face(card: Dictionary, config: GameConfig, golden: bool = false) -> 
 				"your biggest Ooze's" if reads == 1 else "your %s biggest Oozes'" % _word(reads)
 			)
 			return (
-				"Shop units gain %s."
+				"Shop units gain %s, rounded up."
 				% Pass3Text._stats(Pass3Rates.number(config, "oozes_soup_share"), noun)
 			)
 		"dishwater_nell":
@@ -307,7 +307,7 @@ static func details(card: Dictionary, config: GameConfig, _golden: bool = false)
 			words = (
 				"Shown live and kept when bought. Shy gets none. Only your best Stone Soup counts. "
 				+ (
-					"Shares round down. Golden reads the sum of your %s biggest Oozes."
+					"Shares round up. Golden reads the sum of your %s biggest Oozes."
 					% _word(Pass3Rates.integer(config, "oozes_golden_soup_reads"))
 				)
 			)
