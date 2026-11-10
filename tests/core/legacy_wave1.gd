@@ -68,7 +68,7 @@ static func with_hunters(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return out
+	return LegacyPrototypes.restore(out)
 
 
 ## A deep copy of with_oozes(UnitLibrary.load_dir()), built once a run.
@@ -102,7 +102,7 @@ static func with_oozes(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for hero: Dictionary in current.all_heroes():
 		out.register_hero(hero)
-	return out
+	return LegacyPrototypes.restore(out)
 
 
 ## Historical Hedgerow tests can keep the other five current tribes.
@@ -121,7 +121,7 @@ static func with_hedgerow(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for card: Dictionary in current.all_heroes():
 		out.register_hero(card)
-	return out
+	return LegacyPrototypes.restore(out)
 
 
 ## A deep copy of the original neutrals over current tribes, built once per run.
@@ -149,4 +149,4 @@ static func with_neutrals(current: UnitLibrary) -> UnitLibrary:
 		out.register_card(card)
 	for card: Dictionary in current.all_heroes():
 		out.register_hero(card)
-	return out
+	return LegacyPrototypes.restore(out)

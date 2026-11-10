@@ -3,8 +3,7 @@
 Built on `a0878668`, then rebased onto the wave2b strict-warning repair
 `125db4df`. Wave2b is left at that repair. This part changes three neutrals,
 adds Shieldbug and Click Beetle, and retains Pipistrelle Echo. The nine other
-neutrals keep their rules. Prototype retirement is the next part, not included
-here. Counts rise 158→160 definitions and 109→111 slice shop units, solely for
+neutrals keep their rules. The final prototype-retirement follow-up below completes the pool. Counts rise 158→160 definitions and 109→111 slice shop units, solely for
 the two additions. Their existing portraits are used.
 
 ## Rules and readings
@@ -109,8 +108,9 @@ no warnings. No local full gate was run.
 
 Raw fights, paired samples, recruit event logs and test logs remain under
 `build/neutrals/`; only recipes, compact summaries and validation are committed.
-No instruction was declined. Nothing from the later prototype-retirement part
-or an unissued Stone Soup card-change call is included.
+At this initial checkpoint no instruction was declined, and neither prototype
+retirement nor an unissued Stone Soup card-change call was included. Retirement
+is completed in the follow-up below.
 
 New fixed test script times (JUnit): content 0.02 s; recruit 0.67 s; combat
 0.57 s; bot 0.77 s; role recipes 14.48 s; UI preview 0.58 s. None adds a
@@ -174,8 +174,8 @@ was run. Raw check logs are under `build/neutrals/review-fixes/`.
 The confirmation measurement uses B and exactly the original 32 seeds from
 `oozes-final.jsonl`, one engine and one tempo seat against six varied Hard seats.
 Its results will be appended after the committed implementation is measured.
-Prototype retirement is deferred to its own turn; all 38 no-set definitions are
-still present, with 13 remaining in their legacy pool.
+At that checkpoint retirement was deferred: 13 of the 38 no-set definitions
+remained in their legacy pool. The final follow-up below retires them.
 
 ### Stone Soup confirmation: one bar remains unmet
 
@@ -208,7 +208,7 @@ That bar remains open for the orchestrator's next call.
 The R12 active median is 44.2% of 900; the payout gap is not claimed fixed.
 The new seven-test bot script takes 0.68 seconds, and the four Python report tests
 0.006 seconds. Checks, fixture hashes and source remain unchanged after measuring.
-Prototype retirement was not started within this turn's 45-minute budget.
+Retirement was not started during that confirmation turn; it is completed below.
 
 ## Immediate Slice triples: soak follow-up
 
@@ -224,3 +224,33 @@ All three fixed regressions fail without the line and pass with it: normal
 The broader affected run passes 41/41; `check.sh --no-tests` passes with formatting,
 lint, content, imports and compilation. [Evidence](../../evidence/neutrals/slice-triples.json)
 records the red/green results and links the 48 historical soak violations.
+
+## Soup arrival odds and final prototype retirement
+
+The [arrival audit](../../evidence/neutrals/stone-soup-odds.md) estimates a
+53.22% first-offer probability by R6 on the actual climb and refresh routes
+(90% bootstrap interval 46.91–59.31%). This is a route estimate, not a universal
+shop ceiling. The unchanged trace exposes Soup to 18/32 engine seats by R6;
+17/32 buy it. Thus even perfect purchasing on this trace cannot reach 20/32.
+The single missed purchase is the seed 280023 reserve conflict; freezing that
+first Soup while saving is proposed only, and has not been implemented.
+
+All 38 no-set prototypes are now absent from the live pool: 25 were already
+retired and this commit flips the remaining 13 pool flags. The 160 definitions
+stay loadable, and the 111 native/slice pool definitions are unchanged. No
+other production content or gameplay logic changes in this retirement commit.
+
+An explicit test-only archive retains the previous thirteen prototype bodies
+for historical pool, recruit and UI fixtures. Legacy tribal wrappers restore
+those thirteen without overwriting their older tribal archives. Tests that
+exercise the old default prototype shop select that archive explicitly; the
+shared current library stays live. The Ooze content test now expects retirement.
+Frozen field fixture bytes, hashes and exact replay assertions remain unchanged.
+
+The final affected selection passes 1,135 unique tests in 103 scripts,
+after correcting legacy empty-shop fixtures and rerunning each affected script.
+The three new fixed retirement tests take 0.752 seconds.
+`check.sh --no-tests` passes after the last code edit, including ruff checks,
+gdformat, gdlint, content, imports and compilation. No local full GUT gate was
+run. [Compact evidence](../../evidence/neutrals/prototype-retirement.json) records
+the IDs and validation; raw logs remain in `build/neutrals/retirement/`.

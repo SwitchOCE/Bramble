@@ -27,8 +27,10 @@ func _play_out(session: GameSession) -> void:
 
 
 func _rules() -> RecruitRules:
+	# This helper tests original prototype recruits; full-game sessions above stay live.
+	var library: UnitLibrary = LegacyPrototypes.library()
 	var config: GameConfig = GameConfig.defaults()
-	return RecruitRules.create(_library, config, UnitPool.create(_library, config))
+	return RecruitRules.create(library, config, UnitPool.create(library, config))
 
 
 func _placed(rules: RecruitRules, player: PlayerState, ids: Array) -> void:

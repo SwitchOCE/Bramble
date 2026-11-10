@@ -15,17 +15,13 @@ func test_loads_every_unit_file_without_errors() -> void:
 		160,
 		"160 loadable definitions: two A3 neutrals, retired prototypes and created Slice"
 	)
-	assert_eq(
-		_library.pool_units().size(),
-		13,
-		"twelve Bird/Fairy, five Bog and seven Hunter prototypes retired"
-	)
+	assert_eq(_library.pool_units().size(), 0, "all thirty-eight no-set prototypes are retired")
 	assert_eq(
 		_library.pool_units("slice").size(),
 		111,
 		"the slice's shop units include Shieldbug and Click Beetle"
 	)
-	assert_eq(_library.pool_units().size(), 13, "tokens stay out of the pool")
+	assert_eq(_library.pool_units().size(), 0, "prototypes and tokens stay out of the pool")
 
 
 func test_sorted_by_tier_then_name() -> void:

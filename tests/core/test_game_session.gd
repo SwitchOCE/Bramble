@@ -1,4 +1,5 @@
 extends GutTest
+## Prototype supply is an explicit test fixture; the live library keeps all prototypes retired.
 ## GameSession: the state format of SPEC section 6 against the fixtures, the human's actions,
 ## end of turn, matchmaking (2.1.2, 2.3), hero damage and elimination (chapter 10).
 # Assertions take Variants; GUT's untyped parameters count as unsafe arguments in 4.7.
@@ -86,7 +87,7 @@ const STANDING_ADDED: Array = [
 	"armor", "hero", "last_stand_active", "last_stand_enabled", "last_stand_used"
 ]
 
-var _library: UnitLibrary = TestLibraries.current()
+var _library: UnitLibrary = LegacyPrototypes.library()
 
 
 func _fixture(path: String) -> Dictionary:

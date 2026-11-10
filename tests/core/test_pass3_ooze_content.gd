@@ -160,7 +160,7 @@ func test_native_count_rates_widen_golden_targets_but_keep_compounding_fractions
 	assert_eq(_params(library.get_unit("mrs_posset"), "pass3_ooze", true)["loss_share"], 0.5)
 
 
-func test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_part_four() -> void:
+func test_slice_is_a_created_tribeless_textless_body_and_prototypes_are_retired() -> void:
 	var slice: Dictionary = library.get_unit("slice")
 	assert_false(slice["pool"])
 	assert_eq(slice["tribes"], [])
@@ -168,7 +168,7 @@ func test_slice_is_a_created_tribeless_textless_body_and_prototypes_wait_for_par
 	assert_eq(slice["text"], "")
 	assert_eq(slice["golden_text"], "")
 	for id: String in ["dewdrop_ooze", "bramble_ooze", "bog_ooze", "great_ooze"]:
-		assert_true(library.get_unit(id)["pool"], id + " retires in the final separate commit")
+		assert_false(library.get_unit(id)["pool"], id + " is retired from the live pool")
 
 
 func test_reviewed_reader_details_match_current_stats_shy_and_elder_spacing() -> void:
