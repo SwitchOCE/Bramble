@@ -4,6 +4,14 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Worker cap 5, Astra allowed, Codex Cloud wanted (owner, 10c)
+**Source:** owner note `2026-11-10c-cap-astra-and-codex-cloud.md`.
+
+**Picked:**
+- **Bridge cap 3 → 5** (`CODEX_BRIDGE_MAX` for this project). RAM is the limit: 14 GB, about 300 MB per worker, and 2 Godot slots capped at 3 GB each. It loads at the next bridge restart, taken when no worker is mid-turn. More parallelism than that goes to Codex Cloud, not this machine.
+- **Astra at medium or high effort** runs alongside Sol for parallel work with spare usage, and replaces Sol if Sol's limit is reached. Sol keeps the hardest work. This is written into the bridge's served instructions and README. Whether Astra has its own pool gets checked on its first run.
+- **Codex Cloud** uses the same GitHub repo and the same `scripts/cloud-setup.sh` as the Claude environment. The owner creates the environment, and the orchestrator then submits bounded jobs with `codex cloud exec` and applies the diffs onto `ideation/*` (calls in "Codex Cloud: calls").
+
 ### 10 Nov 2026 — Faster suite (S10): review calls
 **Source:** the scope review of `ideation/c-faster-suite` `3d96ce3f..3deb96f2` (`evidence/review-faster-suite.md`): 16 keep, 0 cut, 0 simplify, 3 ask. Confirmed: the diff is tests only, with nothing under `src/`; no leak path was found in the cache; and the three planted bugs still fail the suite.
 
