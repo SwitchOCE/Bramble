@@ -1,0 +1,5 @@
+# Growth is an aggregate shape, not a per-round rule (10 Nov 2026)
+
+The owner's words in the ideation orchestrator session. Transcribed: dictation errors and filler removed, punctuation added. *[Editor notes in italic brackets.]*
+
+By the way, growth doesn't have to be exactly linear multipliers across every round. And not every round will experience the exact same level of growth, especially if there's key turns that just make more sense economically to level up than others. You would expect there to be less growth occurring on some turns, or none. I'm referring to an average growth rate in the end game, or an acceptable growth rate that's somewhat standardized and predictable. It doesn't even need to necessarily follow an exact 1.3× trend always. It could be more, could be less, and it doesn't need to conform, especially around the individual runs. Only the expectation on aggregate, and even then it's more about the shape of the data and the distribution of the sample more than the average or the median.

@@ -64,7 +64,7 @@ const DIALS: Array[Dictionary] = [
 		"plus": 1.0
 	},
 	{"key": "oozes_eat_printed_multiplier", "tribe": "oozes", "snap": "int", "min": 1.0},
-	# Hedgerow joins when wave 2b lands its keys in rates.json; until then these are skipped.
+	# Wave 2b supplies all four Hedgerow dials; both wake twins follow their own path.
 	{"key": "hedgerow_mallow_multiplier", "tribe": "hedgerow", "snap": "half", "above": 1.0},
 	{"key": "hedgerow_dozey_wake_multiplier", "tribe": "hedgerow", "snap": "half", "above": 1.0},
 	{

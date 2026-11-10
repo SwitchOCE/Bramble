@@ -45,6 +45,6 @@ for size in "${sizes[@]}"; do
   grep '^render:' "$log" || true
 done
 commit="$(git rev-parse HEAD)"
-git diff --quiet HEAD -- src content tools/play project.godot || commit="$commit (with uncommitted changes)"
+[ -z "$(git status --porcelain -- src content assets tools/play project.godot)" ] || commit="$commit (with uncommitted changes)"
 python3 "$ROOT/tools/play/render_index.py" "$out" "$save" "$commit" "${pick[*]}"
 echo "Index: $out/index.md"

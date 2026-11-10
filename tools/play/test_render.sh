@@ -16,8 +16,9 @@ for action in "choose 1" "buy 2" "play @3 F1" "end" "buy 0" "end"; do
   "$PLAY" "$save" $action >/dev/null
 done
 "$PLAY" "$save" log >"$work/log.txt"
+"$PLAY" "$save" hash | tail -n 1 >"$work/hash.txt"
 "$ROOT/tools/play/render.sh" "$save" --all
 mv "$ROOT/build/render/render-test" "$work/first"
 "$ROOT/tools/play/render.sh" "$save" --all
 mv "$ROOT/build/render/render-test" "$work/second"
-python3 "$ROOT/tools/play/render_check.py" "$work/first" "$work/second" "$work/log.txt"
+python3 "$ROOT/tools/play/render_check.py" "$work/first" "$work/second" "$work/log.txt" "$work/hash.txt"
