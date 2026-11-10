@@ -4,6 +4,21 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — The run resumes, smaller: build 9 is the build 8 v3 planned (owner, 10i)
+**Source:** owner note `2026-11-10i-resume-bounded.md`: "go back to the polishing and all the stuff that I asked you to stop … Keep it smaller and keep it more bounded. Less fan-outs, less cloud utilization … use the PC's full resources" and "Get it to the spot where you would have gotten build 8 to if I hadn't intervened earlier."
+
+**Picked:** `plan-build9.md`, approved after a fresh plan interrogation (`evidence/plan-build9/interrogation.md`), with all of its corrections applied:
+- The strong field isn't the default in build 8 yet, so step 4 turns it on.
+- C from run 1's points is provisional and gets one confirming run.
+- Local runs are capped by the Godot slots, which go from 2 to 3.
+- The plan gets an overall budget and one repair round per failed check.
+
+The run is seven steps: the Ooze tail, the Fairy Ring line, C, the preset setting with the default opponents, a smaller A4, checkpoint 1 and the build 9 export. At most three Codex workers run at once. Sims and soaks run locally. Cloud use is the gate, at most two Actions sims and checkpoint 1's three testers. No Workflows, despite the ultracode reminder, because the owner's words come first. The 10g/10h stop is lifted. `PROCESS-PROPOSAL.md` still waits on the owner.
+
+**Why:** the owner's words. Build 8 as v3 planned it is A3.5–A6, and build 8 shipped without C, A5's cuts, A4, checkpoint 1, the preset setting or the default strong field.
+
+**Agreed by:** the plan interrogation (Codex, fresh); the orchestrator.
+
 ### 10 Nov 2026 — Build 8 ships; the run ends (10g)
 **Source:** owner notes 10g and 10h, and the owner's "Put it in. Get it working. If it has recommendations, do it." `ideation/build8` 3432eeea, merged as 6cb1c68c, exported as `ideation-build-8`.
 

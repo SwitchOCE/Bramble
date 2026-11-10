@@ -1,15 +1,12 @@
 # Ideation plan
 
 <!-- status -->
-- **In short:** Build 8 is out and the run has stopped, as you asked in note 10g. Read `END-OF-RUN.md`, play build 8, and say yes or no to `PROCESS-PROPOSAL.md`.
-- **Status:** done (the run ended at build 8)
-- **Last step done:** 10 Nov:
-  - Build 8 was exported from 6cb1c68c (tag `ideation-build-8`) to `/data/bramble-builds/1110-1947-ideation8`, and `latest` points to it.
-  - It holds the measured preset B for every tribe, Soup at a fifth, and the bug fixes found while preparing it.
-  - Its checks: the cloud gate, the 200-game soak, the 4-game UI run, memory, and the export checks.
-- **Next step:** nothing until you've played build 8. Then the next loop's goals come from what you find.
-- **Waiting on you:** play build 8. Read the end-of-run report (`END-OF-RUN.md`). Say yes or no to the process proposal (`PROCESS-PROPOSAL.md`).
-- **Scope:** the run is stopped. Parked work: `PARKED.md`.
+- **In short:** Build 8 is out. On your word (note 10i), the run resumes in a smaller form: build 9 will be the build 8 the old plan aimed at, with preset C, the Ooze and Fairy fixes, a preset setting, the strong field as default opponents, and the checkpoint testers' pick.
+- **Status:** active
+- **Last step done:** 10 Nov: build 8 exported (6cb1c68c, `ideation-build-8`). Then `plan-build9.md` was written and interrogated, and its corrections applied.
+- **Next step:** three workers side by side: the Ooze tail then the Fairy Ring line; the Godot slot change and a provisional C; the preset setting and the default opponents. Then the smaller A4, checkpoint 1 and the build 9 export.
+- **Waiting on you:** nothing. Play build 8 whenever you like. `PROCESS-PROPOSAL.md` waits for your yes or no.
+- **Scope:** `plan-build9.md`. About two days, at most three Codex workers, sims on this PC. Parked work: `PARKED.md`.
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`, worktrees at `~/code/Bramble-ideation*`. **It never merges into `main` without the owner's say-so** (CLAUDE.md).
