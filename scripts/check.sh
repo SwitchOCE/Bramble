@@ -239,7 +239,7 @@ step_python() {
   local out
   out="$(python3 -m unittest discover -s tools/checks/tests -t . 2>&1)"
   status=$?
-  grep -E "^test_times: WARNING" <<<"$out"
+  grep -oE "test_times: WARNING.*" <<<"$out"
   tail -n 3 <<<"$out"
   return "$status"
 }

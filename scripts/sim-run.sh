@@ -63,15 +63,28 @@ wait_for() {
   local id="$1" branch="ideation/sim/$1" state out t0=$SECONDS seen_success=0
   out="build/sim/$id"
   while true; do
+    state="$(run_state "$branch")"
     if git fetch -q origin "refs/heads/$branch" 2>/dev/null \
       && git cat-file -e "FETCH_HEAD:sim/$id/summary.json" 2>/dev/null; then
       rm -rf "$out" && mkdir -p "$out"
       git archive FETCH_HEAD "sim/$id" | tar -x -C "$out" --strip-components=2
-      echo "SIM $id DONE $(git rev-parse FETCH_HEAD) after $((SECONDS - t0)) s of waiting"
-      echo "$out/summary.json"
-      return 0
+      case "$state" in
+        "completed success "*)
+          if ! python3 -c 'import json,sys; sys.exit(json.load(open(sys.argv[1])).get("passes", True) is False)' \
+            "$out/summary.json"; then
+            echo "SIM $id FAILED: summary verdict ($out/summary.json)"
+            return 1
+          fi
+          echo "SIM $id DONE $(git rev-parse FETCH_HEAD) after $((SECONDS - t0)) s of waiting"
+          echo "$out/summary.json"
+          return 0
+          ;;
+        completed*)
+          echo "SIM $id FAILED: $state (results: $out/summary.json)"
+          return 1
+          ;;
+      esac
     fi
-    state="$(run_state "$branch")"
     case "$state" in
       # The merge job pushes before the run completes, so one more fetch must find it.
       "completed success "*)
