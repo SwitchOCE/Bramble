@@ -888,9 +888,12 @@
       "original": "build/loop1/batch0/current/tribes/birds.jpg",
       "target": "assets/ui/portraits/birds.jpg",
       "original_sha256": "888f71e200c86997ea072e6dda327e3648c33b29a5d79844acebcc3d5263473d",
-      "state": "pending",
+      "state": "accepted",
       "note": "TRIBE FALLBACK ID birds is CURRENTLY a RED SQUIRREL scholar, not a bird: preserve the referenced squirrel identity exactly. Rust red squirrel with big curled tail, green embroidered-edge cape/clover brooch, open engraved slate tablet held upright, small pack. Woodland/stone clearing. Simplify tablet marks to broad decorative spirals, no letters. Use Birds warm sky-grey background.",
-      "family": "Birds"
+      "family": "Birds",
+      "source": "frozen-header",
+      "accepted_sha256": "8bc042d099a1627827216450ffa720acb6b8f37dd1cc6120f96849f691ff0233",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "bog",
@@ -902,9 +905,12 @@
       "original": "build/loop1/batch0/current/tribes/bog.jpg",
       "target": "assets/ui/portraits/bog.jpg",
       "original_sha256": "40ca822977799be7130d599890c839e0771f66a61af95c06af64e59d87d43f17",
-      "state": "pending",
+      "state": "accepted",
       "note": "TRIBE FALLBACK: brown OTTER/long-bodied mustelid in broad straw reed hat, teal tunic with cream crossed sash, wooden walking staff, calm friendly face, broad reed marsh. Preserve otter identity, hat and staff. Warm reed/lichen background.",
-      "family": "Bog folk"
+      "family": "Bog folk",
+      "source": "frozen-header",
+      "accepted_sha256": "71f285e65898b3276d4f4acf19af3fe6c26f5cd4c286c7aaf6d060cf3960f1a5",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "hedgerow",
@@ -916,9 +922,12 @@
       "original": "build/loop1/batch0/current/tribes/hedgerow.jpg",
       "target": "assets/ui/portraits/hedgerow.jpg",
       "original_sha256": "32b406fb16318bb9e47df639fedb44cf2046a16187abb24f07c769cefa988405",
-      "state": "pending",
-      "note": "TRIBE FALLBACK: friendly golden/cream MOUSE engineer, round ears, burgundy knitted cap with red pompom, russet vest over cream sleeves, holding golden cogwheel and red pencil. Keep gear and pencil, simplify knit/no texture, quiet oat background.",
-      "family": "Hedgerow folk"
+      "state": "accepted",
+      "note": "TRIBE FALLBACK: friendly golden/cream MOUSE engineer, round ears, burgundy knitted cap with red pompom, russet vest over cream sleeves, holding golden cogwheel and red-handled precision tool. Keep gear and small tool, simplify knit/no texture, quiet oat background.",
+      "family": "Hedgerow folk",
+      "source": "frozen-header",
+      "accepted_sha256": "6582be1699959404e4635ee61474e0af288fa20a04c8dd4e640551ada14f8dae",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "hunters",
@@ -930,9 +939,12 @@
       "original": "build/loop1/batch0/current/tribes/hunters.jpg",
       "target": "assets/ui/portraits/hunters.jpg",
       "original_sha256": "0dddb43a9b10d2f8e960b8f08975ef25b9e77acb4e0a25d10be97b579a5119dd",
-      "state": "pending",
+      "state": "accepted",
       "note": "TRIBE FALLBACK: RED SQUIRREL scholar, huge curled rust tail, green cape with clover brooch and simplified decorative edging, holding engraved grey slate tablet, small pack. Preserve squirrel not wolf; simplify tablet marks to broad spirals, no text. Silver-blue woodland planes.",
-      "family": "Hunters"
+      "family": "Hunters",
+      "source": "frozen-header",
+      "accepted_sha256": "b21a0d62047f10db9a4df073cdf8d37721e43c4a38b6afbadf34a6891c852f79",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "neutral",
@@ -944,9 +956,12 @@
       "original": "build/loop1/batch0/current/tribes/neutral.jpg",
       "target": "assets/ui/portraits/neutral.jpg",
       "original_sha256": "9fea3f708ee64813edf16f05c988b7fefd9885d12acdb317b44ecaac6a19da53",
-      "state": "pending",
+      "state": "accepted",
       "note": "TRIBE FALLBACK: friendly plump brown MARMOT hiker, green alpine hat with pale flower, green backpack, hiking staff and gold cowbell at neck; simplified distant mountains and wooden alpine hut. Keep marmot, hat flower, bell, pack and staff. Clay-rose family, subdued scene.",
-      "family": "Neutral"
+      "family": "Neutral",
+      "source": "frozen-header",
+      "accepted_sha256": "d5382fb82a67412a7dfbff15ff4d61bfe372d6b6342c4b4479f7d3e9645a4cf9",
+      "review": "150px paired comparison passed; identity retained"
     },
     {
       "id": "oozes",
@@ -958,9 +973,12 @@
       "original": "build/loop1/batch0/current/tribes/oozes.jpg",
       "target": "assets/ui/portraits/oozes.jpg",
       "original_sha256": "7394ed2c2fd96bf91140588205ef0239b3a979ddab413c2194229d2e031ea5a9",
-      "state": "pending",
+      "state": "accepted",
       "note": "TRIBE FALLBACK: cute olive-green mottled OOZE with huge shiny dark eyes, small dark mouth, plum knitted cap and small purple heather sprig held in its hands. Keep green colour, hat, huge eyes and heather. Reduce spots to a few LARGE quiet green wash shapes, no mottled surface texture. Pearl seafoam background.",
-      "family": "Oozes"
+      "family": "Oozes",
+      "source": "frozen-header",
+      "accepted_sha256": "e3530cb8026d54a126fd9927bae35e34422f92611e99b4cdb69259554df62b70",
+      "review": "150px paired comparison passed; identity retained"
     }
   ]
 }
