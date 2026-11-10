@@ -41,3 +41,27 @@ Record in `CorePort`, as `tools/play/README.md` ("Game logs from the UI") descri
 
 ## Gate
 After merging ideation/main (e32bfd8e), every static step passed: tools, versions, shell, python, content, format, lint (src, tools, tests), import, compile and parity. The single-process tests step timed out at its 1,200 s cap in this 4-core cloud container. Run as `./scripts/check.sh --shard i/4`, all 4 shards passed: 545 + 578 + 644 + 559 = 2,326 tests, with 0 failing, 0 risky and 0 pending. That is ideation/main's 2,317 plus the 9 new ones. `ruff check` and `ruff format --check` pass on `tools/play/*.py`.
+
+## S5b review follow-ups (10 Nov 2026)
+
+All seven simplifies from `review-play-tools.md` are implemented:
+
+- **S1:** `reveal` is absent from the CLI usage; the orchestrator's README instructions remain.
+- **S2:** `_start --variant` refuses any explicit `--field-library`, for both string and object map entries. The map alone selects the library.
+- **S3:** the README uses neutral `x.json` filenames and explains the diagnostic/path leak. Blind saves now seal the field reference (path, SHA-256 and strength) as well as the preset; older plain field references still load.
+- **S4:** the UI hook list includes all four dev calls; recorded dev words are still refused on replay.
+- **S5:** `GameRecordLog.dir` is a static variable, read at write time. Render redirects it to `user://render_games`; the writer test redirects it and restores it.
+- **S6:** the render index's dirty mark uses `git status --porcelain -- src content assets tools/play project.godot`, including untracked assets.
+- **S7:** a wrong screenshot size exits 1; the draw loop cannot subsequently overwrite that result with success.
+
+**A1:** `test_render.sh` obtains `play.sh <save> hash`. The checker compares it with the last moment in every manifest from both renders. Three Python tests cover a match, agreeing-but-wrong render hashes, and a missing final moment. The real render run exposed the retired `_fight_name` label; render now checks the name held by the current fight screen's hero reader/log.
+
+**A2:** each log records `final_state_hash` and `build` (full commit SHA). `replay-log` refuses a different or missing build, a changed final hash, a changed placement, or a different hero. Tests reach game over for the final checks; another replays a field log with a relocated library and refuses changed library bytes. Source-tree logs resolve Git HEAD. Exported builds must supply `application/config/build_commit` or `BRAMBLE_BUILD_COMMIT`; there is no exporter change in this owned scope. A replay without an identifiable build is refused.
+
+**A3:** the checkpoint brief uses X/Y only, drops the preset sizes/names, and forbids `reveal`, opening saves, reading `content/pass3/rates.json` and reading the variant map. The seal remains obfuscation for good-faith testers.
+
+**Gaps:** the blind scrub test now plays a synthetic current-content field library through game over, confirms the unsanitized summary contains the source/switch keys, and checks screen/log/JSON and the save for preset/path leaks. It also replays the sealed field save to the same hash. The changed-map assertion that could not fail is removed. An explicit round trip compares direct API calls with `PlayGame.run(GameRecordLog.words(...))` on equal hand-built states for choose, buy, buy_spell, play, play_item (no target, board target and shop target), swallow (hand, board and shop), power (targeted and untargeted), sell, move, refresh, Ask for kin, freeze, tier up and end. CLI `_start --variant`, `_from_log` and the library/preset mismatch refusal have direct tests.
+
+Focused validation: **14 play tests / 324 assertions**, **2 cache tests / 12 assertions**, and **3 render-checker Python tests** pass. Whole-game replay and combat smoke tests also passed their focused run (48 tests / 859 assertions). The final full-suite/static/render counts are recorded in the S5b/S10b hand-back.
+
+**A4 remains the scheduled build-8/A7 prerequisite:** this follow-up's render check does not replace the requested strong-field render on the eventual build-8 commit.
