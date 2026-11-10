@@ -175,6 +175,11 @@ static func bitter(combat: Combat, defender: CombatUnit, attacker: CombatUnit) -
 		attacker.counters["bitter_borrowed"] = loss
 	combat.trigger(defender, "bitter")
 	combat.buff(attacker, -loss, 0, defender, false, "Bitter")
+	# Above the unit ceiling, the requested debuff can remove less displayed Attack.
+	# Borrowed attacks use the same declaration read, including their Bitter deduction.
+	loss = mini(loss, maxi(0, attack - combat._strike_attack(attacker)))
+	if loss <= 0:
+		return true
 	var toll: Array = combat.notes.get("bog_toll", [0, 0])
 	toll[defender.side] += loss
 	combat.notes["bog_toll"] = toll
