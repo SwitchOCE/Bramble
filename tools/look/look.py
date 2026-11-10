@@ -9,6 +9,7 @@ import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 import uuid
 from contextlib import suppress
@@ -18,6 +19,45 @@ ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
 STATE = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "bramble/look"
 SIZES = {"pc": "1920x1080", "phone": "1688x780"}
+
+
+def state_directory():
+    override = os.environ.get("BRAMBLE_LOOK_DIR")
+    default = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local/state")) / "bramble/look"
+    candidates = (
+        [Path(override).expanduser()]
+        if override
+        else [default, Path(tempfile.gettempdir()) / f"bramble-look-{os.getuid()}"]
+    )
+    for path in candidates:
+        try:
+            path.mkdir(parents=True, exist_ok=True, mode=0o700)
+            # A real write probe also detects read-only agent sandboxes (access() may not).
+            with tempfile.TemporaryFile(dir=path):
+                pass
+            if not override and path != default:
+                print(f"look: {default} is not writable; using {path}", file=sys.stderr)
+            return path.resolve()
+        except OSError:
+            continue
+    raise ValueError("Look output directory is not writable; set BRAMBLE_LOOK_DIR to a writable folder")
+
+
+def prune_sessions():
+    live = {path for path, _data in sessions()}
+    cutoff = time.time() - 7 * 86400
+    for path in STATE.iterdir():
+        if (
+            path.is_symlink()
+            or not path.is_dir()
+            or path in live
+            or not re.fullmatch(r"\d{8}-\d{6}-[0-9a-f]{6}", path.name)
+        ):
+            continue
+        activity = path / "activity"
+        modified = max(path.stat().st_mtime, activity.stat().st_mtime if activity.exists() else 0)
+        if modified < cutoff:
+            shutil.rmtree(path)
 
 
 def run(args, **kwargs):
@@ -58,12 +98,7 @@ def selected(session_id):
 
 
 def states():
-    return (HERE / "states.txt").read_text().split()
-
-
-def check_state(name):
-    if name not in states() and not re.fullmatch(r"commit_[a-z_]+", name):
-        raise ValueError(f"Unknown state: {name}; run tools/look/look states")
+    return (HERE / "states.txt").read_text().rstrip()
 
 
 def dependencies():
@@ -112,6 +147,7 @@ def serve(directory, size, state):
     env = os.environ.copy()
     env["LP_NUM_THREADS"] = env.get("LP_NUM_THREADS", "1")
     env["XDG_DATA_HOME"] = str(directory / "data")
+    env["XDG_CONFIG_HOME"] = str(directory / "config")
     children = []
 
     def terminate(_signum, _frame):
@@ -180,8 +216,8 @@ def serve(directory, size, state):
 
 
 def start(args):
-    check_state(args.state)
     dependencies()
+    prune_sessions()
     directory = new_directory()
     with (directory / "supervisor.log").open("ab") as log:
         process = subprocess.Popen(
@@ -288,8 +324,6 @@ def clip(args):
             raise ValueError("Custom clip script must be a .gd file inside this worktree")
         script = "res://" + str(path.relative_to(ROOT))
         state = "recruit"
-    else:
-        check_state(state)
     directory = new_directory()
     # Godot initializes MovieWriter before SceneTree._initialize and uses the project's
     # window overrides for its capture buffer (ignoring a later window_set_size).
@@ -361,9 +395,12 @@ def clip(args):
     if subprocess.run([python, "-c", "from PIL import Image"], capture_output=True).returncode:
         python = "/usr/bin/python3"
     run([python, HERE / "media.py", directory, str(args.fps), str(round(args.seconds * args.fps))])
+    if not args.keep_frames:
+        shutil.rmtree(frames)
 
 
 def main():
+    global STATE
     if len(sys.argv) > 1 and sys.argv[1] == "_serve":
         serve(Path(sys.argv[2]), sys.argv[3], sys.argv[4])
         return
@@ -389,11 +426,15 @@ def main():
     p.add_argument("--seconds", type=float, required=True)
     p.add_argument("--fps", type=int, default=30)
     p.add_argument("--size", choices=SIZES, default="phone")
+    p.add_argument("--keep-frames", action="store_true", help="keep raw PNG frames after making GIF/contact sheet")
     args = parser.parse_args()
+    if args.command != "states":
+        STATE = state_directory()
+        os.environ["BRAMBLE_LOOK_DIR"] = str(STATE)
     if args.command == "start":
         start(args)
     elif args.command == "states":
-        print("\n".join(states()) + "\ncommit_<unit_id> (see tests/ui/commitment_states.gd)")
+        print(states())
     elif args.command == "list":
         for path, data in sessions():
             print(f"{path.name}  {data['display']}  {data['size']}  {data['state']}  {data['repo']}")

@@ -7,7 +7,7 @@ landscape **1688×780**. No desktop or window manager is needed.
 If a shot catches an animation, take another before choosing the next coordinates: controls can reflow.
 
 Prerequisites: `godot`, Xvfb (`xvfb-run`), xdotool, scrot, Python 3 and Pillow.
-Restricted agent sandboxes need permission to access host X11 processes and the session output directory.
+Some agent sandboxes need permission to access host X11 processes; output automatically uses a writable folder.
 On a fresh checkout import once: `scripts/godot_slot.sh godot --headless --editor --import`.
 
 ```bash
@@ -23,15 +23,21 @@ tools/look/look list                               # live IDs, displays, sizes, 
 tools/look/look stop                               # close game and Xvfb, release slot
 ```
 
-`start --state combat_mid` jumps into a paused fight: use the on-screen Play/Step/Skip
-controls. `start --size pc --state game_over` jumps to the result screen. Jumps create
+`start --state last_fight` opens a staged round-14 recruit at 1 Health: click **End turn**
+to lose the final fight and reach game-over through play (Play/Skip can advance the fight).
+`combat_mid`, `combat_held` and `sandbox_fight` pause partway through a fight; use Play/Step/Skip.
+Playback normally auto-returns to recruit or game-over when finished. `combat_end` holds the
+completed fight instead. `start --size pc --state game_over` opens the result directly. Jumps create
 new sessions. With two sessions open, choose explicitly: `tools/look/look --session ID shot`
 (or `export BRAMBLE_LOOK_SESSION=ID`). Commands otherwise select the only live session.
 No more than two look games/recordings run at once; they use separate locks from the gate.
 An unused live session closes after 30 minutes. `stop` keeps its images and logs.
+Each `start` deletes inactive look session folders older than 7 days.
 
-Shots land in `${XDG_STATE_HOME:-~/.local/state}/bramble/look/<session>/001-before.png`,
-then `002-after.png`, etc. Labels are optional and use letters, digits, `_` and `-`.
+Output defaults to `${XDG_STATE_HOME:-~/.local/state}/bramble/look/`; if that is not writable,
+it falls back to `/tmp/bramble-look-<uid>/` (or the system temporary directory). Override with
+`export BRAMBLE_LOOK_DIR=/tmp/my-bramble-look` and keep it set for every command.
+Shots land in `<output>/<session>/001-before.png`, then `002-after.png`, etc. Labels are optional and use letters, digits, `_` and `-`.
 `game.log`, `xvfb.log` and `supervisor.log` are alongside them. Nothing goes into git.
 
 ```bash
@@ -41,7 +47,8 @@ tools/look/look clip combat_held --seconds 6 --size pc    # choose the recording
 ```
 
 Clips print paths to `contact.png` (12 timed thumbnails) and `clip.gif`; full-resolution
-fixed-rate PNGs remain in that recording's `frames/` directory. Setup frames are excluded
+fixed-rate PNGs are deleted after conversion unless you pass `--keep-frames`, e.g.
+`tools/look/look clip combat_mid --seconds 2 --keep-frames` keeps the `frames/` directory. Setup frames are excluded
 from the GIF/contact sheet. Duration is simulated seconds; rendering may take longer.
 **Movie mode advances fixed frame time: live xdotool input cannot reliably drive a clip.**
 `recruit_turn` uses `tests/ui/player_driver.gd`; state clips use staged playback. For a custom

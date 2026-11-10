@@ -1,6 +1,28 @@
 extends "res://tests/ui/shots/screenshot.gd"
 ## Uses the existing shot builders, but leaves their App alive for real mouse/keyboard input.
 
+const LookStates := preload("res://tests/ui/shots/look_states.gd")
+
+
+func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
+	if screen_name not in ["last_fight", "combat_end"]:
+		await super._run(screen_name, window_size, out_path)
+		return
+	await process_frame
+	var app: App = App.new()
+	root.add_child(app)
+	_bot_game(app, BOT_ROUNDS)
+	if screen_name == "last_fight":
+		LookStates.last_fight(app.port as CorePort)
+		app.show_recruit()
+	else:
+		app.show_game_combat()
+		var combat: CombatScreen = app.current as CombatScreen
+		combat.auto_return = false
+		combat.skip_to_end()
+		combat.call("_set_playing", false)
+	await _shoot(window_size, out_path)
+
 
 func _play_until(combat: CombatScreen, index: int) -> void:
 	await super._play_until(combat, index)

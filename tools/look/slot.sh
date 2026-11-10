@@ -6,6 +6,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 . "$ROOT/scripts/godot_slot.sh"
 GODOT_SLOT_LOCKS=(/tmp/bramble-look-1.lock /tmp/bramble-look-2.lock)
 export GODOT_SLOT_CLASS=look
+if [ -n "${BRAMBLE_LOOK_DIR:-}" ]; then
+  GODOT_SLOT_LOG="$BRAMBLE_LOOK_DIR/godot-slots.csv"
+fi
 cap=()
 if systemd-run --user --scope -q -p MemoryMax=3G true >/dev/null 2>&1; then
   cap=(systemd-run --user --scope -q -p MemoryMax=3G)

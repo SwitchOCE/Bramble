@@ -1,74 +1,76 @@
-clarity_buy
-clarity_discover
-clarity_discover_live
-clarity_income
-clarity_pack
-clarity_sell
-combat_end
-combat_held
-combat_lanes
-combat_lanes_after
-combat_mid
-combat_reminder
-commit_bonus
-commit_harvest
-commit_mrs_jay
-commit_nest
-commit_nest_tile
-dev
-discover
-engines_blow
-engines_hero
-engines_lobby
-engines_lobby_locked
-feedback5_log
-game_over
-ghost_next
-guide_1
-guide_10
-guide_11
-guide_12
-guide_13
-guide_14
-guide_2
-guide_3
-guide_4
-guide_5
-guide_6
-guide_7
-guide_8
-guide_9
-hero_choice
-menu
-menu_records
-new_game
-new_game_2
-pass_drag
-pause
-recruit
-recruit_bog_preview
-recruit_bog_preview_select
-recruit_bog_preview_wall
-recruit_frozen
-recruit_held
-recruit_held_bird
-recruit_held_ooze
-recruit_late
-recruit_poached
-recruit_select
-recruit_slice
-recruit_spells
-recruit_triple
-reminder
-sandbox
-sandbox_fight
-sandbox_scenarios
-scout
-scout_bog_preview
-scout_held
-scout_lanes
-scout_lanes_select
-scout_live
-scout_live_select
-scout_long_name
-settings
+clarity_buy                Simple recruit board with a shop unit selected for purchase.
+clarity_discover           Two-card test pool with a pending Discover choice.
+clarity_discover_live      Tier-4 Discover choice from the real card pool.
+clarity_income             Simple recruit board with 10 gold for the income display.
+clarity_pack               Single-card Discover picker showing Brother Wolf.
+clarity_sell               Simple recruit board with a unit selected for sale.
+combat_end                 Completed real fight, held on its result without auto-return.
+combat_held                Fight paused around a unit emerging from a Belly.
+combat_lanes               Staged fight showing bog patches, quarries and a pack attack.
+combat_lanes_after         Staged lane-effect fight after its maker dies.
+combat_mid                 Real fight paused partway through its opening events.
+combat_reminder            Paused real fight with a keyword reminder open.
+commit_<unit_id>           Named real unit selected in the commitment fixture (unit ID required).
+commit_bonus               Recruit board staged with tribe commitment bonuses.
+commit_harvest             Harvest Supper selected in a staged commitment hand.
+commit_mrs_jay             Mrs Jay selected on a staged commitment board.
+commit_nest                Nest selected on a staged commitment board.
+commit_nest_tile           Nest and slot effects on a staged commitment board.
+dev                        Recruit screen with the developer panel open and extra gold.
+discover                   Fixture recruit screen with a pending Discover choice.
+engines_blow               Completed staged fight showing the damage/health display.
+engines_hero               Recruit screen with the hero details open.
+engines_lobby              Four-player lobby showing used Last Stand and tribe bonuses.
+engines_lobby_locked       Eight-player lobby before Last Stand becomes active.
+feedback5_log              Staged fight advanced through all feedback/log events.
+game_over                  Finished real game with placement, final board and standings.
+ghost_next                 Fixture scouting screen with a ghost as the next opponent.
+guide_1                    How-to-play page 1: Build a band, then watch them fight.
+guide_10                   How-to-play page 10: Stay standing to win.
+guide_11                   How-to-play page 11: Make room for your tribe.
+guide_12                   How-to-play page 12: Oozes hold; Birds travel.
+guide_13                   How-to-play page 13: Follow the zigzag.
+guide_14                   How-to-play page 14: Give your band a good start.
+guide_2                    How-to-play page 2: A little more gold each round.
+guide_3                    How-to-play page 3: Shape your next shop.
+guide_4                    How-to-play page 4: Your hero and your spells.
+guide_5                    How-to-play page 5: Help your favourites grow.
+guide_6                    How-to-play page 6: Your board is a brick wall.
+guide_7                    How-to-play page 7: The front row takes the hits.
+guide_8                    How-to-play page 8: Who attacks when.
+guide_9                    How-to-play page 9: Scout who you fight next.
+hero_choice                Fixture recruit screen with a three-hero choice open.
+last_fight                 Round-14 recruit at 1 Health; End turn loses the final fight and reaches game-over.
+menu                       Main menu with cleared screenshot records.
+menu_records               Main menu with three staged placement records.
+new_game                   Fresh seeded game awaiting its initial hero choice.
+new_game_2                 Fresh seeded recruit turn with the first hero chosen.
+pass_drag                  Fixture recruit board showing a pass/drag preview.
+pause                      Pause menu over a real recruit screen.
+recruit                    Real recruit turn after six bot-played rounds.
+recruit_bog_preview        Fixture recruit board with bog and hunter preview effects.
+recruit_bog_preview_select Bog-preview fixture with a board unit selected.
+recruit_bog_preview_wall   Bog-preview fixture with its wall unit selected.
+recruit_frozen             Real recruit screen with the shop frozen.
+recruit_held               Staged board and hand with Bellies, Birds, Nests and an Ooze.
+recruit_held_bird          Held-unit fixture with a Bird selected.
+recruit_held_ooze          Held-unit fixture with a Belly unit selected.
+recruit_late               Tier-6 recruit with a full board and hand, including golden units.
+recruit_poached            Lane-effects recruit fixture with a shop unit selected.
+recruit_select             Real recruit screen with the first shop unit selected.
+recruit_slice              Recruit layout populated from the slice test fixture.
+recruit_spells             Fixture recruit screen with spells and no pending choice.
+recruit_triple             Real recruit with a developer-spawned golden triple selected.
+reminder                   Real recruit screen with a card keyword reminder open.
+sandbox                    Staged sandbox armies with an enemy unit selected.
+sandbox_fight              Staged sandbox fight paused during its opening events.
+sandbox_scenarios          Sandbox Scenarios tab with Nightshade Tall loaded.
+scout                      Scouting overlay on the slice recruit fixture.
+scout_bog_preview          Scouting overlay on the bog-preview fixture.
+scout_held                 Scouting overlay showing the opponent's Nests.
+scout_lanes                Scouting overlay on the lane-effects recruit fixture.
+scout_lanes_select         Lane-effects scouting fixture with a shop unit selected.
+scout_live                 Scouting overlay in a real game after six rounds.
+scout_live_select          Real scouting overlay with an opponent unit selected.
+scout_long_name            Fixture scouting details for an opponent with a long hero name.
+settings                   Settings screen opened from the main menu.

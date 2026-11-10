@@ -34,11 +34,11 @@ trap 'rm -f "$paths"' EXIT
 failed=0
 while IFS= read -r -d '' file; do
   case "$file" in
-    src/core/* | content/* | tools/sim/* | tests/core/*)
+    src/core/* | content/* | tools/sim/* | tests/core/* | tests/sim/*)
       printf 'scope-fence: forbidden: %s\n' "$file"
       failed=1
       ;;
-    .github/* | scripts/cloud-gate.sh | tools/checks/*)
+    .github/* | scripts/cloud-gate.sh | scripts/check.sh | tools/checks/*)
       if [ "$gate" -eq 1 ]; then
         printf 'scope-fence: forbidden gate file: %s\n' "$file"
         failed=1
