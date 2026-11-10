@@ -50,12 +50,14 @@ The map is JSON the tester never sees. Each of `X` and `Y` names a preset in `co
 
 ```json
 {"X": "C", "Y": "B"}
-{"X": {"preset": "C", "field_library": "res://build/fields/c.json", "field_strength": "top4"}, "Y": "B"}
+{"X": {"preset": "C", "field_library": "res://build/fields/x.json", "field_strength": "top4"}, "Y": "B"}
 ```
+
+Use neutral library filenames such as `x.json`: paths can appear in diagnostics, so a preset name in the filename would unblind testers. `--variant` always refuses `--field-library`; the orchestrator supplies the library through the map.
 
 With no map, `--variant` is refused. A library captured on another preset is refused too, without naming either preset.
 
-The save keeps the variant letter and the preset in a base64 seal, so it replays without the map and doesn't change if the map does. Nothing a tester is shown names the preset: not the screen, `log`, `--json`, nor the save's path. The seal hides the preset from a glance, not from a tester who decodes their own save, so testers play through the commands and don't open saves.
+The save keeps the variant letter and seals both the preset and any field-library reference in base64, so it replays without the map and doesn't change if the map does. Nothing a tester is shown names the preset: not the screen, `log`, `--json`, nor the save's path. The seal hides the preset from a glance, not from a tester who decodes their own save, so testers play through the commands and don't open saves.
 
 The orchestrator reads it with:
 
@@ -83,18 +85,18 @@ A turn takes about 30 seconds per size on one Mesa thread; `LP_NUM_THREADS=4` is
 
 ## Game logs from the UI
 
-When a game ends, the UI writes `user://games/<timestamp>-<seed>.json`: the seed, the settings (preset, field library path and SHA-256, strength, Ask for kin), the hero, the placement, and every action in the words above. Replay one with:
+When a game ends, the UI writes `user://games/<timestamp>-<seed>.json`: the seed, the settings (preset, field library path and SHA-256, strength, Ask for kin), the hero, the placement, the final state hash, the build commit, and every action in the words above. Replay one with:
 
 ```sh
 tools/play/play.sh replay-log <file> [--save path] [--field-library path]
 ```
 
-It prints the final screen and state hash and keeps a save (`build/play/replay-<stem>.json` unless `--save` says), which `render.sh` can draw. `--field-library` points at the library when it isn't at the recorded path; its SHA-256 must still match. A log that names a different hero from the one its actions pick is refused.
+It prints the final screen and state hash and keeps a save (`build/play/replay-<stem>.json` unless `--save` says), which `render.sh` can draw. `--field-library` points at the library when it isn't at the recorded path; its SHA-256 must still match. Replay refuses a different build commit, final state hash, placement or hero, with a message naming the mismatch. Source-tree games read the commit from Git; exports supply `application/config/build_commit` or `BRAMBLE_BUILD_COMMIT`. A missing build id is refused on replay.
 
 **The UI hook** (`src/ui/game_record_log.gd`, `GameRecordLog`):
 
 1. Keep an `actions` array per game, emptied when a game starts.
-2. Before each GamePort call that changes the game (`buy`, `buy_spell`, `sell`, `move`, `play`, `play_item`, `swallow`, `refresh`, `ask_for_kin`, `toggle_freeze`, `tier_up`, `use_power`, `choose`, `end_turn`), take `var before := port.get_state()`. If the call returns `""`, append `GameRecordLog.words(method, args, before)`. The screens call the port from several places, so `CorePort`, which every call passes through, is the natural place for this.
+2. Before each GamePort call that changes the game (`buy`, `buy_spell`, `sell`, `move`, `play`, `play_item`, `swallow`, `refresh`, `ask_for_kin`, `toggle_freeze`, `tier_up`, `use_power`, `choose`, `end_turn`, `dev_add_gold`, `dev_spawn_to_hand`, `dev_set_tier`, `dev_skip_turn`), take `var before := port.get_state()`. If the call returns `""`, append `GameRecordLog.words(method, args, before)`. The screens call the port from several places, so `CorePort`, which every call passes through, is the natural place for this.
 3. When the game ends (the game-over screen), call `GameRecordLog.write(port, actions)` once. It returns the path, or `""` if the file couldn't be written.
 
 Dev-panel calls are recorded under their own names, and replay refuses them by name: a game that used the dev panel can't be replayed.

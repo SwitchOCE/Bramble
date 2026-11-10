@@ -11,7 +11,6 @@ extends RefCounted
 
 const FORMAT: String = "bramble-game-log"
 const VERSION: int = 1
-const DIR: String = "user://games"
 ## Port methods that take no arguments -> the tools/play word.
 const BARE_WORDS: Dictionary = {
 	"refresh": "refresh",
@@ -20,6 +19,8 @@ const BARE_WORDS: Dictionary = {
 	"tier_up": "tier",
 	"end_turn": "end",
 }
+
+static var dir: String = "user://games"
 
 
 ## The tools/play words for one GamePort call. state_before is the state just before the call:
@@ -58,13 +59,15 @@ static func words(method: String, args: Array, state_before: Dictionary) -> Arra
 ## Writes the record and returns its path, or "" if it couldn't be written.
 ## port is the CorePort (get_seed(), get_state() and its config are read); actions is the list
 ## words() built.
-static func write(port: Object, actions: Array, dir: String = DIR) -> String:
+static func write(port: Object, actions: Array, directory: String = "") -> String:
 	var config: GameConfig = port.get("config")
 	var state: Dictionary = port.call("get_state")
 	var record: Dictionary = make(CoreUtil.to_int(port.call("get_seed")), config, state, actions)
-	DirAccess.make_dir_recursive_absolute(dir)
+	if directory == "":
+		directory = dir
+	DirAccess.make_dir_recursive_absolute(directory)
 	var stamp: String = Time.get_datetime_string_from_system(true).replace(":", "").replace("-", "")
-	var path: String = dir.path_join("%s-%d.json" % [stamp, CoreUtil.to_int(record["seed"])])
+	var path: String = directory.path_join("%s-%d.json" % [stamp, CoreUtil.to_int(record["seed"])])
 	var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		return ""
@@ -91,8 +94,30 @@ static func make(
 		"settings": settings,
 		"hero": hero_id(state),
 		"placement": state.get("placement"),
+		"final_state_hash": JSON.stringify(state, "", true).sha256_text(),
+		"build": build_id(),
 		"actions": actions.duplicate(true),
 	}
+
+
+## Source-tree games use this checkout's commit. Exports supply the same SHA in the project
+## setting application/config/build_commit (or BRAMBLE_BUILD_COMMIT at launch).
+static func build_id() -> String:
+	var supplied: String = str(ProjectSettings.get_setting("application/config/build_commit", ""))
+	if supplied == "":
+		supplied = OS.get_environment("BRAMBLE_BUILD_COMMIT")
+	if supplied != "":
+		return supplied
+	if OS.has_feature("editor"):
+		var output: Array = []
+		if (
+			OS.execute(
+				"git", ["-C", ProjectSettings.globalize_path("res://"), "rev-parse", "HEAD"], output
+			)
+			== 0
+		):
+			return str(output[0]).strip_edges()
+	return ""
 
 
 ## The chosen hero's id; "" before the pick.
@@ -113,6 +138,12 @@ static func to_save(record: Dictionary, field_override: String = "") -> Dictiona
 		return {"error": "Game log version %s isn't supported." % str(record.get("version"))}
 	if not record.get("settings") is Dictionary:
 		return {"error": "Game log needs its settings."}
+	var current_build: String = build_id()
+	var recorded_build: String = str(record.get("build", ""))
+	if current_build == "" or recorded_build == "" or recorded_build != current_build:
+		return {
+			"error": "Build mismatch: recorded %s, current %s" % [recorded_build, current_build]
+		}
 	var settings: Dictionary = record["settings"]
 	var save: Dictionary = {"seed": record.get("seed"), "actions": record.get("actions")}
 	if str(settings.get("preset", "")) != "":

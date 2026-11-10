@@ -1,6 +1,6 @@
 """Checks two renders of one save agree, and that each fight strip shows the logged fight.
 
-Usage: render_check.py <first render dir> <second render dir> <play.sh log output file>
+Usage: render_check.py <first render dir> <second render dir> <play.sh log output file> <play.sh hash output file>
 """
 
 import json
@@ -32,11 +32,16 @@ def logged_results(log_text: str) -> dict:
 def main() -> int:
     first, second = manifests(Path(sys.argv[1])), manifests(Path(sys.argv[2]))
     logged = logged_results(Path(sys.argv[3]).read_text())
+    expected_hash = Path(sys.argv[4]).read_text().strip()
     problems = []
     if not first or first.keys() != second.keys():
         problems.append("the two renders have different sizes")
     for name, one in first.items():
         two = second.get(name, {})
+        for label, manifest in (("first", one), ("second", two)):
+            moments = manifest.get("moments", [])
+            if not moments or moments[-1]["hash"] != expected_hash:
+                problems.append(f"{name}: {label} render's final hash differs from play.sh hash")
         if [m["hash"] for m in one["moments"]] != [m["hash"] for m in two.get("moments", [])]:
             problems.append(f"{name}: state hashes differ between renders")
         if one["files"] != two.get("files"):
@@ -54,7 +59,7 @@ def main() -> int:
                 problems.append(f"R{round_number}: log says {logged.get(round_number)}, fight {fight['result']}")
             if shown.get("events") != fight["events"]:
                 problems.append(f"R{round_number}: the strip played other events")
-            # The plaque shows the short name ("Farthing" for "Dame Farthing"), maybe trimmed.
+            # Older manifests used a shortened plaque name; the current UI uses the hero reader name.
             plaque = shown.get("opponent", "").rstrip(".…")
             if not plaque or plaque not in fight["opponent"]:
                 problems.append(f"R{round_number}: the strip shows {shown.get('opponent')}")

@@ -17,7 +17,7 @@ Earlier local evidence, retained for context: **931.0 s → 508.7 s, −45.4%** 
 
 ## Criterion 2: three planted bugs
 
-The recorded plants used the measured faster-suite tree `4c572c86f9382f69074e3b9f35d807ce3cf9488e`, the parent of evidence commit `cafdc88018c91df57cfc8b17ece9603701465229`. Each was planted on a throwaway local branch (never pushed, deleted after) and the whole GUT suite run. The surviving evidence identifies the measured tree and the results, but contains no individual throwaway branch SHAs; the base attribution follows that commit history. They were not rerun on da20e53e for this follow-up.
+The planted-bug base is inferred to be the measured faster-suite tree `4c572c86f9382f69074e3b9f35d807ce3cf9488e`, the parent of evidence commit `cafdc88018c91df57cfc8b17ece9603701465229`. Each was planted on a throwaway local branch (never pushed, deleted after) and the whole GUT suite run. The surviving evidence identifies the measured tree and the results, but contains no individual throwaway branch SHAs; the base attribution follows that commit history. They were not rerun on da20e53e for this follow-up.
 
 | Planted bug | Where | Failing tests | Caught by (among others) |
 |---|---|---|---|
