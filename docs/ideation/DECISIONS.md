@@ -4,6 +4,30 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — A3.5 dials merged
+**Source:** `ideation/a35-dials-fix` 4c8bb077, merged as `c5e65925` (gate PASS on 0778d693, run 42757367671).
+
+**Picked:** merged. It adds Hedgerow's four dials (Mallow's multiplier, both Dozey wake multipliers and Treasurer's gold rate) on top of the five fixed earlier. Each is read by its rule, its printed text and its bot. The inventory test now requires every dial.
+
+**Agreed by:** a fresh Sol review of `80dcc35a..4c8bb077`: MERGE, no cut or ask items. Its checks of preset B against main, preset C against the printed text, and the bot reads were each traced end to end.
+
+### 10 Nov 2026 — Neutrals (A3): the Soup arrival bar is dropped as a merge condition
+**Source:** w16's turn on `ideation/neutrals` (a7ddebfc, cb004ab7, 3e7fd23c) and `content/pass3/neutrals-build.md`.
+
+**Found:**
+- **The shop can't meet the bar.** The chance of a first Soup offer by R6 is 53.2% (90% interval 46.9–59.3%), below the 62.5% bar. On the 32 seeds, 18 saw Soup and 17 bought it. The one miss came while the bot was saving gold.
+- **The other two Soup bars pass.**
+- **The Slice triple bug is fixed:** generated Slices now check for a triple after each one arrives fully buffed, including copies inside a Belly. Three regressions fail before the fix and pass after.
+- **All 38 prototypes are out of the live pool:** 13 newly retired, 25 already were. They stay available to the legacy test archives.
+
+**Picked:**
+- The arrival bar no longer blocks the merge. The worker's proposed bot change (freeze the first Soup while saving) stays out.
+- A3 merges after a fresh review of `a2206273..3e7fd23c` and the gate.
+
+**Why:** the Ooze probe ("Oozes: the problem is the numbers") reaches the target with Soup on only 8 of 28 surviving engine boards, so Soup's arrival no longer decides whether the tribe works. Changing the bot just to clear a bar would shape the test rather than the game.
+
+**Agreed by:** the orchestrator's call, on the worker's odds audit.
+
 ### 10 Nov 2026 — Oozes: the problem is the numbers
 **Source:** the owner's request in `2026-11-10e`; the overbuff probe (`ideation/ooze-probe` 02d4a1bf, three arms on the same 32 B seeds); three blind redesigns from the design skill's surgical, bottom-up mechanical and top-down mechanical routes. All in `evidence/ooze-level/`.
 
