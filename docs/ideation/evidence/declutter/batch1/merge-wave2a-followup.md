@@ -320,3 +320,48 @@ half fade, deletion inside 0.1 s, no late Toll/pending callbacks and exact state
 `build/declutter/retire-test_combat_cue_lifetime.log` (or the focused lifetime log).
 Before/cleanup-only/final-reader timing measurements are recorded separately so
 new reader cues do not get attributed to this pacing correction.
+
+
+### Whole-fight timing, before and after cue retirement
+
+Two deterministic 120 Hz passes per case, measured at `62c6cc76` (old barrier)
+and `bda3f1d2` (cleanup only), including automatic return:
+
+| Fight | Speed | Before | Cleanup only | Saved |
+| --- | --- | ---: | ---: | ---: |
+| Bog | ×1 | 9.833333 s | 9.725000 s | 0.108333 s |
+| Bog | ×4 | 6.558333 s | 5.641667 s | 0.916666 s |
+| combat_mid | ×1 | 27.333333 s | 25.766667 s | 1.566666 s |
+| combat_mid | ×4 | 22.000000 s | 20.200000 s | 1.800000 s |
+
+Source events, their order, final model hashes and final hero Health match in
+every pair. `strips/cue-retirement/before-timings.json` and
+`after-cleanup-timings.json` preserve these measurements independently of the
+subsequent reader-cue changes. The accepted d400831e before images are unchanged.
+
+
+### Reader 5 follow-up: amounts, destinations and waiting actor
+
+The orchestrator supplied the independent `reader5/score.md` and `answers.md`
+from `ideation/main`. Its Toll, queued gain, kiss and Mire answers failed at ×1
+and reduce motion. The moving cues now address those specific ambiguities:
+
+- Toll carries its event amount, then briefly pops it at the hero. This distinguishes
+  the current `+1` from the cumulative Toll retained in the hero reader.
+- Pending gain launches one short beat after Toll and briefly shows the pending
+  total on the live tag (`+2/+2` in Bog 017). Fighting stats remain unchanged.
+  The rulebook already says “A fight shows the amounts pending”; no second wording
+  change was needed. These labels disappear with the event and add no standing mark.
+- A kiss begins at the dead unit's canonical board pocket, including when death
+  interrupts a lunge. Its heart lands on the newly filled crown pip, which pulses.
+  Travel fits the existing kiss beat at ×1/×4; the full portrait no longer pulses.
+- Mire wait puts the gold frame on the waiting actor and uses the standard directed
+  route with a destination arrowhead. The short line and stamp fade within the beat.
+- Death clears that actor's gold frame, including direct/skip playback, while
+  preserving any surviving joint actor's frame.
+- Toll routes, pending sparks/amounts and Prince pip rings all use the screen's
+  deterministic overlay clock. The next attack or Mire wait retires them in 0.08 s.
+  No additional scheduler barrier or wait was introduced for these reader fixes.
+
+Focused coverage is in `test_combat_wave2a.gd`, `test_combat_reader5_motion.gd`
+and `test_combat_cue_lifetime.gd`; final results and reshot manifests follow below.

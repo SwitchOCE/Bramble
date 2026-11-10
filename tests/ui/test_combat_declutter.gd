@@ -887,11 +887,12 @@ func test_mire_wait_briefly_links_the_waiting_unit_to_its_real_target() -> void:
 		var screen: CombatScreen = _screen(false, true)
 		screen._play_event({"type": "mire_wait", "uid": 8, "target": 1, "side": 1}, true)
 		_advance(screen, 0.3)
-		var link: Line2D = screen._overlay.get_node("MireWaitLink_8") as Line2D
+		var link: EffectPath = screen._overlay.get_node("MireWaitLink_8") as EffectPath
 		assert_true(link.visible)
 		assert_eq(CoreUtil.to_int(link.get_meta("waiting_uid")), 8)
 		assert_eq(CoreUtil.to_int(link.get_meta("waiting_for_uid")), 1)
-		assert_eq(link.points.size(), 2)
+		assert_ne(link.from_point, link.to_point)
+		assert_true(link.arrived, "the relation has the standard destination arrowhead")
 		_advance(screen, 0.7)
 		await get_tree().process_frame
 		assert_false(is_instance_valid(link), "no Mire relation line remains at rest")

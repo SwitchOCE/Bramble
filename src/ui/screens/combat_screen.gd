@@ -735,12 +735,15 @@ func _relocate(uid: int, animate: bool) -> void:
 
 func _death(uid: int, animate: bool) -> void:
 	var card: CardView = _cards.get(uid)
+	_motion.clear_actor_attack_source(uid)
 	_cards.erase(uid)
 	if card == null:
 		return
-	_last_death = card.get_global_rect().get_center()
 	var board: BoardView = card.get_parent() as BoardView
 	var slot: int = board.slot_of_card(card) if board != null else -1
+	_last_death = (
+		board.slot_global_center(slot) if slot >= 0 else card.get_global_rect().get_center()
+	)
 	if slot >= 0:
 		board.detach_card(slot)
 	if animate:

@@ -161,6 +161,8 @@ func _cause(kind: String) -> Dictionary:
 				"attack_delta": 3,
 				"health_delta": 0,
 			}
+		"kiss":
+			return {"type": "kiss", "target": 1, "side": 0, "count": 1, "period": 3}
 		"toll":
 			return {"type": "bog_toll", "side": 0, "source": 8, "total": 7, "amount": 2}
 	return {
@@ -201,7 +203,12 @@ func _assert_retirement(kind: String, boundary: String, speed: float, reduced: b
 	if kind == "dead_pending":
 		screen._play_event({"type": "death", "uid": 1}, false)
 	screen._play_event(_cause(kind), true)
-	_advance(screen, 0.2)
+	var lead: float = 0.2
+	if kind == "toll":
+		lead = maxf(0.04, 0.18 / speed) * 0.5
+	elif kind == "pending":
+		lead = maxf(0.04, 0.15 / speed) * 0.5
+	_advance(screen, lead)
 	var context: String = "%s -> %s x%s reduced=%s" % [kind, boundary, speed, reduced]
 	var routes: Array[EffectPath] = _routes(screen)
 	assert_gt(routes.size(), 0, context + ": a real visible route precedes the boundary")
@@ -294,6 +301,15 @@ func _assert_retirement(kind: String, boundary: String, speed: float, reduced: b
 			CoreUtil.to_int(initial_unit.get("health")),
 			"queued gains do not become combat Health"
 		)
+	if kind == "pending":
+		assert_false(
+			screen._overlay.has_node("PendingLanding_1"),
+			"preempted queued numbers cannot appear later"
+		)
+	if kind == "toll":
+		assert_false(
+			screen._overlay.has_node("TollLanding_0"), "preempted Toll numbers cannot appear later"
+		)
 	if kind == "dead_pending":
 		assert_false(screen._cards.has(1), "retiring the reserve cannot resurrect its recipient")
 		assert_false(screen._overlay.has_node("KeptGain_1"))
@@ -329,7 +345,7 @@ func test_toll_and_pending_routes_do_not_add_a_wait_before_the_next_action() -> 
 	for mode: int in 3:
 		var speed: float = 4.0 if mode == 1 else 1.0
 		Settings.reduce_motion = mode == 2
-		for kind: String in ["toll", "pending", "dead_pending"]:
+		for kind: String in ["toll", "pending", "dead_pending", "kiss"]:
 			for boundary: String in ["attack", "mire_wait"]:
 				var screen: CombatScreen = _screen()
 				screen.set_speed(speed)
@@ -354,3 +370,154 @@ func test_toll_and_pending_routes_do_not_add_a_wait_before_the_next_action() -> 
 					"the route tail adds no new boundary wait"
 				)
 				await get_tree().process_frame
+
+
+func _assert_landed_picture_retires(
+	kind: String, boundary: String, speed: float, reduced: bool
+) -> void:
+	Settings.reduce_motion = reduced
+	var screen: CombatScreen = _screen()
+	screen.set_speed(speed)
+	if kind == "kiss":
+		var library: UnitLibrary = UnitLibrary.load_dir()
+		var prince: Dictionary = UnitViews.from_def(library.get_unit("prince_restored"), false, 1)
+		screen._play_event({"type": "transform", "target": 1, "unit": prince}, false)
+	var initial_unit: Dictionary = screen.model.unit(1).duplicate(true)
+	screen._play_event(_cause(kind), true)
+	var node_name: String = (
+		"KissPip_1_0"
+		if kind == "kiss"
+		else "PendingLanding_1" if kind == "pending" else "TollLanding_0"
+	)
+	var cue: Control = screen._overlay.get_node_or_null(node_name) as Control
+	var context: String = "%s landing -> %s x%s reduced=%s" % [kind, boundary, speed, reduced]
+	assert_not_null(cue, context + ": the event really creates its landing picture")
+	if cue == null:
+		return
+	var elapsed: float = 0.0
+	for tick: int in 48:
+		if cue.visible:
+			break
+		screen.advance_playback(STEP)
+		elapsed += STEP
+	assert_true(
+		cue.is_visible_in_tree(), context + ": the landing must actually appear before retirement"
+	)
+	assert_lte(elapsed, 0.4 + STEP)
+	screen.advance_playback(STEP)
+	if not reduced:
+		assert_gt(
+			cue.scale.x, 1.0, context + ": the ring or number really pops before the next action"
+		)
+	if kind == "kiss":
+		var card: CardView = screen._cards[1]
+		var marks: Control = card.get("_combat_marks")
+		var pips: Array[Vector2] = marks.get("kiss_pips")
+		var point: Vector2 = cue.get_meta("kiss_pip_point")
+		assert_eq(
+			point,
+			marks.get_global_transform() * pips[0],
+			"the Prince cue belongs to the newly filled pip"
+		)
+		assert_eq(CoreUtil.to_int(cue.get_meta("kiss_count")), 1)
+		assert_eq(CoreUtil.to_int(cue.get_meta("kiss_target_uid")), 1)
+	else:
+		var number: Label = cue as Label
+		assert_eq(number.text, "+2/+3" if kind == "pending" else "+2")
+	var units: Dictionary = screen.model.units.duplicate(true)
+	var toll: Dictionary = screen.model.bog_toll.duplicate(true)
+	var frozen: Transform2D = cue.get_global_transform()
+	screen._play_event(_boundary(boundary), true)
+	var retiring: Control = screen.get("_retiring_cues")
+	assert_true(retiring.is_ancestor_of(cue), context + ": the actual landed cue retires too")
+	assert_false(screen._overlay.is_ancestor_of(cue))
+	assert_gt(_alpha(cue), 0.9, context + ": the landed cue is not just hidden")
+	_advance(screen, 0.04)
+	assert_true(is_instance_valid(cue))
+	if is_instance_valid(cue):
+		assert_gt(_alpha(cue), 0.05)
+		assert_lt(_alpha(cue), 0.9)
+		assert_eq(
+			cue.get_global_transform(),
+			frozen,
+			context + ": only retirement alpha can keep changing"
+		)
+	_advance(screen, 0.06)
+	await get_tree().process_frame
+	assert_false(is_instance_valid(cue), context + ": no landed cue remains after .1 second")
+	_advance(screen, 0.6)
+	assert_false(
+		screen._overlay.has_node(node_name), context + ": no late callback recreates the cue"
+	)
+	assert_eq(screen.model.units, units)
+	assert_eq(screen.model.bog_toll, toll)
+	_assert_card_numbers_match_model(screen, context)
+	var current: Dictionary = screen.model.unit(1)
+	assert_eq(CoreUtil.to_int(current.get("attack")), CoreUtil.to_int(initial_unit.get("attack")))
+	assert_eq(CoreUtil.to_int(current.get("health")), CoreUtil.to_int(initial_unit.get("health")))
+	if kind == "kiss":
+		assert_eq(str(current["def_id"]), "prince_restored")
+		assert_eq(CoreUtil.to_int(current.get("kisses")), 1)
+	elif kind == "pending":
+		assert_eq(CoreUtil.to_int(current.get("pending_attack")), 2)
+		assert_eq(CoreUtil.to_int(current.get("pending_health")), 3)
+
+
+func test_prince_kiss_pip_ring_freezes_and_fades_at_the_next_action() -> void:
+	for mode: int in 3:
+		for boundary: String in ["attack", "mire_wait"]:
+			await _assert_landed_picture_retires(
+				"kiss", boundary, 4.0 if mode == 1 else 1.0, mode == 2
+			)
+
+
+func test_queued_gain_and_toll_landing_numbers_freeze_and_fade_at_the_next_action() -> void:
+	for mode: int in 3:
+		for kind: String in ["pending", "toll"]:
+			for boundary: String in ["attack", "mire_wait"]:
+				await _assert_landed_picture_retires(
+					kind, boundary, 4.0 if mode == 1 else 1.0, mode == 2
+				)
+
+
+func test_preempted_toll_and_queued_gain_numbers_never_land_during_the_next_action() -> void:
+	for mode: int in 3:
+		Settings.reduce_motion = mode == 2
+		for boundary: String in ["attack", "mire_wait"]:
+			var screen: CombatScreen = _screen()
+			screen.set_speed(4.0 if mode == 1 else 1.0)
+			screen._play_event(_cause("toll"), true)
+			screen._play_event(_cause("pending"), true)
+			var toll_popup: Control = screen._overlay.get_node_or_null("TollLanding_0") as Control
+			var pending_popup: Control = (
+				screen._overlay.get_node_or_null("PendingLanding_1") as Control
+			)
+			assert_not_null(toll_popup)
+			assert_not_null(pending_popup)
+			if toll_popup == null or pending_popup == null:
+				continue
+			screen.advance_playback(STEP)
+			assert_gt(
+				_routes(screen).size(), 0, "a real Toll flight precedes the queued number timers"
+			)
+			assert_false(toll_popup.visible)
+			assert_false(pending_popup.visible)
+			var units: Dictionary = screen.model.units.duplicate(true)
+			var toll: Dictionary = screen.model.bog_toll.duplicate(true)
+			screen._play_event(_boundary(boundary), true)
+			var retiring: Control = screen.get("_retiring_cues")
+			assert_true(retiring.is_ancestor_of(toll_popup))
+			assert_true(retiring.is_ancestor_of(pending_popup))
+			_advance(screen, 0.1)
+			await get_tree().process_frame
+			assert_false(is_instance_valid(toll_popup))
+			assert_false(is_instance_valid(pending_popup))
+			_advance(screen, 0.7)
+			assert_false(
+				screen._overlay.has_node("TollLanding_0"),
+				"a cancelled number cannot appear on the next action"
+			)
+			assert_false(screen._overlay.has_node("PendingLanding_1"))
+			assert_eq(screen.model.units, units)
+			assert_eq(screen.model.bog_toll, toll)
+			_assert_card_numbers_match_model(screen, "preempted Toll and queued gain")

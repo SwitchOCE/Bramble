@@ -105,7 +105,7 @@ func test_bog_toll_travels_to_hero_then_fades_and_keeps_exact_reader_total() -> 
 		assert_false(screen._plaques[1].has_node("BogToll"), "there is no standing plaque badge")
 		assert_true(screen._overlay.has_node("TriggerSource_8"))
 		assert_eq(screen.model.bog_toll[1], 1234567)
-		assert_eq(Capture.budget_nodes(screen).size(), 0)
+		assert_eq(Capture.budget_nodes(screen).size(), 1, "only the travelling amount is visible")
 		var found: bool = false
 		for child: Node in screen._overlay.get_children():
 			if child.has_meta("bog_toll_side"):
@@ -115,7 +115,7 @@ func test_bog_toll_travels_to_hero_then_fades_and_keeps_exact_reader_total() -> 
 					child.get_meta("effect_to"), screen._plaques[1].get_global_rect().get_center()
 				)
 		assert_true(found, "the splash travels from its source to its own hero")
-		_advance(screen, 0.4)
+		_advance(screen, 0.23)
 		assert_gt(screen._plaques[1].modulate.g, 1.0, "arrival pulses the hero")
 		_advance(screen, 1.0)
 		await get_tree().process_frame
@@ -149,7 +149,8 @@ func test_dropped_action_chips_retain_a_held_source_cue_in_both_motion_modes() -
 			var screen: Screen = _screen()
 			screen._play_event(event, true)
 			_advance(screen, 0.4)
-			var ring: Control = screen._overlay.get_node_or_null("TriggerSource_1")
+			var cue_name: String = "KissPip_1_4" if event["type"] == "kiss" else "TriggerSource_1"
+			var ring: Control = screen._overlay.get_node_or_null(cue_name)
 			assert_not_null(ring, str(event))
 			if ring != null:
 				assert_true(ring.visible, str(event))
@@ -218,9 +219,68 @@ func test_repeated_kept_gain_refreshes_hold_without_an_old_fade_hiding_it() -> v
 func test_replay_during_toll_pulse_resets_hero_pose_and_tint() -> void:
 	var screen: Screen = _screen()
 	screen._play_event({"type": "bog_toll", "side": 1, "source": 8, "amount": 1, "total": 1}, true)
-	_advance(screen, 0.4)
+	_advance(screen, 0.23)
 	assert_gt(screen._plaques[1].scale.x, 1.0)
 	screen.restart()
 	assert_eq(screen._plaques[1].scale, Vector2.ONE)
 	assert_eq(screen._plaques[1].modulate, Color.WHITE)
 	await get_tree().process_frame
+
+
+func test_toll_amount_travels_then_pops_at_hero_without_standing_text() -> void:
+	for reduced: bool in [false, true]:
+		Settings.reduce_motion = reduced
+		var screen: Screen = _screen()
+		screen._play_event(
+			{"type": "bog_toll", "side": 1, "source": 8, "amount": 1, "total": 7}, true
+		)
+		var popup: Label = screen._overlay.get_node("TollLanding_1") as Label
+		assert_eq(popup.text, "+1", "the event amount is distinct from total Toll")
+		assert_false(popup.visible, "the amount has not landed yet")
+		_advance(screen, 0.23)
+		assert_true(popup.visible)
+		assert_eq(screen.model.bog_toll[1], 7)
+		_advance(screen, 0.7)
+		await get_tree().process_frame
+		assert_false(is_instance_valid(popup), "no numeric Toll mark remains")
+
+
+func test_toll_then_live_pending_gain_has_a_separate_numeric_landing_without_stat_changes() -> void:
+	for fight_speed: float in [1.0, 4.0]:
+		for reduced: bool in [false, true]:
+			Settings.reduce_motion = reduced
+			var screen: Screen = _screen()
+			screen.set_speed(fight_speed)
+			screen.events = [
+				{"type": "bog_toll", "side": 0, "source": 1, "amount": 1, "total": 1},
+				{"type": "gain_pending", "source": 1, "target": 1, "attack": 2, "health": 2},
+				{"type": "attack", "attacker": 8, "defender": 1, "joiners": []}
+			]
+			screen.next_index = 0
+			screen._wait = 0.0
+			var elapsed: float = 0.0
+			while screen.next_index < 2 and elapsed < 2.0:
+				screen.advance_playback(1.0 / 120.0)
+				elapsed += 1.0 / 120.0
+			assert_eq(
+				screen.next_index, 2, "the real event clock delivered Toll before queued gain"
+			)
+			assert_eq(
+				screen._effect_remaining, 0.0, "queued feedback adds no wait for the next action"
+			)
+			var popup: Label = screen._overlay.get_node("PendingLanding_1") as Label
+			assert_eq(popup.text, "+2/+2", "the current pending total lands on the live tag")
+			assert_false(popup.visible)
+			_advance(screen, maxf(0.04, 0.15 / fight_speed) + 0.01)
+			assert_true(popup.visible, "pending feedback lands within the existing event beat")
+			assert_eq(screen.model.unit(1)["attack"], 4)
+			assert_eq(screen.model.unit(1)["health"], 6)
+			assert_eq(screen.model.unit(1)["pending_attack"], 2)
+			assert_eq(screen.model.unit(1)["pending_health"], 2)
+			var attack_label: Label = screen._cards[1].get("_attack_label")
+			var health_label: Label = screen._cards[1].get("_health_label")
+			assert_eq(attack_label.text, "4")
+			assert_eq(health_label.text, "6")
+			_advance(screen, 0.7)
+			await get_tree().process_frame
+			assert_false(is_instance_valid(popup))
