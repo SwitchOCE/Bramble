@@ -4,6 +4,52 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Plan to Done v3 approved, with its twelve calls
+**Source:** `plan-to-done.md`, built by the plan-to-done-v2 workflow:
+- plan v2;
+- a fresh plan-interrogate pass (`evidence/plan-to-done/interrogate-v2.md`), whose must-fixes v3 applies (§9);
+- the critique (`critic.md`);
+- three skeptic checks of the Quilboar lessons.
+
+The plan's §1 changes (A3.5, Done means loosenings with reasons, the pass rule, Actions sims) are logged by this entry, as written there.
+
+**Picked (the §11 calls, all as recommended):**
+- **C1:** A3.5 run 1 goes right after A1 and A1b, on the five pass 3 tribes. Run 2 after A3 is the confirmation. The owner gets a per-tribe scale answer days sooner.
+- **C2:** the fit uses R12. In run 2, a tribe whose same-cohort R15 median is over 3× the median of the other tribes' R15 medians steps its t back halfway.
+- **C3:** the Actions sim job comes before the soak rework, because A1b and A3.5 need it first.
+- **C4:** an agreed item counts as a problem if at least one reviewer who raised it says it should change before this playtest. Other agreed items go in PLAYTEST as known issues.
+- **C5:** the Quilboar answer goes to the owner now that `reference/quilboar/lessons.md` has landed.
+- **C6:** one small early-rounds triage (W-i) runs after A3.5 run 1, on existing reports and logs. Its fix waits for round 6.
+- **C7:** the Claude cost of workflows is counted in §7, and small tooling merges share scope reviews.
+- **C8:** the A4 report states A3.5's method and assumptions (09a).
+- **C9:** the Quilboar D1, D4 and D5 setups don't run now. They reopen if round 6 agrees on early flex or wide against tall.
+- **C10:** the rulebook follows the code, so T6 costs 13. Every realized target was measured at 13. Rulebook 4.6.2 changes, and the paper models note the 7%.
+- **C11:** the faster suite (`4c572c86`) merges now that A1 has. Its cloud session resolves the two Ooze test conflicts first.
+- **C12:** the gate shards (`e6b9783f`) get a scope review and merge now.
+
+**Why:**
+- The plan was interrogated by a fresh agent that didn't write it. All its must-fixes are applied.
+- Each step keeps at most two deciding criteria (09i).
+- Each loosening of Done means sits beside the 6 Nov text with its reason (§4).
+
+**Agreed by:** the plan-interrogate pass and the critique. Two of the interrogation's proposals are declined, with reasons (§10).
+
+### 10 Nov 2026 — Portraits for the last 12 pool units: review calls
+**Source:** the scope review of `ideation/portraits3` at 99374707 (`evidence/review-portraits3.md`): 7 keep, 2 cut, 0 simplify, 0 ask.
+
+**Picked:**
+- **Both cuts applied in the squash `91a5e443`:**
+  - `test_portraits.gd` stays as it is on ideation/main, with its pending fallback.
+  - The Slice copy and prompt item 13 are dropped; wave 2b already brought in the identical file.
+  - The 12 portraits and the empty pending list stay. It merges once its gate passes.
+- **Open question 1 (the gate still fails; the names left are look-alikes):** re-roll the look-alikes in the art stream (w5). Every shipped unit now has its own art, so a name that stays is only there because two portraits look alike. Brock and Old Brock, Sable and Russet, and the four grey wolves (Brother Wolf, Grizel, Grey Agnes, Old Isegrim) each get a silhouette or palette of their own at 96 px. While we're at it, Lollop's seven medallions go, since the new text no longer counts to seven. The re-roll removes at most about five names per dense state. The rest of the batch 2 cap still comes from w4's opponent tier numbers and the Birds' away text, plus the scout focus view.
+- **Open question 2 (Agnes and Isegrim as look-alikes):** a cold reader decides at real tile size, after the re-roll. Until then, they keep no name.
+- **Gaps:**
+  - `hedgerow-pass3.md:791` is fixed in the squash.
+  - `ui-declutter-spec.md:45` and the dead `SHORT_NAMES` entries on declutter-b2 go to w4.
+
+**Agreed by:** the scope review. Its cuts are applied.
+
 ### 10 Nov 2026 — Wave 2b part 1 merged: narrow check calls
 **Source:** the narrow scope check of `a2f4295f..ba80977e` and the merge `53ff356a` (`evidence/review-wave2b-part1-fixes.md`): 22 keep, 0 cut, 0 simplify, 1 ask. Gate: 53ff356a passed (run 42724276794).
 

@@ -97,3 +97,18 @@ The Quilboar merge (92cbce1f) passed every test on Actions and failed lint: `gam
 ## A safety filter stopped three analysis agents once (10 Nov)
 
 Three of five triage agents were stopped by Anthropic's safety filter (`reasoning_extraction`), a false positive. The prompt had asked each agent to "write your full working notes" and spell out its thinking per hypothesis. A one-off, and nothing to overlearn (owner, 10 Nov): just ask for findings, justification and evidence rather than "working notes" or step-by-step thinking.
+
+## What the Quilboar reference taught our methods (10 Nov)
+
+From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterion (09i); they change how a bar is checked before it decides, and what is reported beside the two criteria.
+- **Test a bar on a known case before it decides.** The 0.5–2× accounting band had already failed 3 of 4 wave 1 lines when the H1 plan froze it, so it couldn't tell a bad port from a bad model. Put a known-good and a known-bad case through any new bar first (the checks' rule: plant one fault before trusting a clean run).
+- **Paper against real, three ways:** the engine on paper's scripted arrivals (port and rules), an arrival replay (shop), and the bot against the script on the same seeds (bot policy). Report rounds behind beside the ratio. All four Quilboar engine pieces arrived on paper's schedule in 1 of 150 seats.
+- **A triage's "where else" is a grep.** When a triage finds a flaw in a method, search every frozen plan, brief and criterion that uses the method, and label or amend each one before its next run.
+- **Paper models read constants from `GameConfig.full_game()`,** not the rulebook (T6 costs 13 in code, against 11 in rulebook 4.6.2).
+- **Bot rules carry a number from the research they cite,** checked by a smoke run of a few lobbies before the frozen run (for example board fill at R4 within one unit of Hard's).
+- **Before a rerun, read the fix's largest plausible effect off paper's sensitivity table,** and rerun every arm you will compare.
+- **A step meant to teach decides on whether the lesson can be read,** and runs designed setups before bot lobbies (09d).
+- **Beside a late survivor median, give the share of seats alive and the all-seat median.** Survivor medians put Quilboar 3.17× ahead of Birds at R15, against 1.28× on all seats.
+- **Give an extreme-miss check a round, a ratio and a population.**
+- **Beside any "tribe X is N× tribe Y", give the head-to-head win rate at equal totals.** At equal totals, Quilboar's wide gem board wins 18–25%, and our tribes range from 43% to 62%.
+- **Raw captures stay under `build/`,** their hashes go in committed receipts, and a commit that adds more than a few MB of evidence gets flagged.

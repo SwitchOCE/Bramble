@@ -97,7 +97,7 @@ Some state here goes stale within hours: shas, gate runs and worker turns. Check
 
 ### The original problem (owner 09a): the scale is too low and flat. Not fixed yet.
 - **Bot lobbies at preset B:** the median grows about ×1.42 a round (×1.38 at the wave 2a head in 8 games), against a ×1.3 bar. The R12 median is about 290–400, against the 900 target. Committed lines' R12 medians are Homecoming 367, Tempo 359, Ring 306 and Court 402.
-- **Wave 1 accounting:** in 640 lobbies, real R12 boards reach 0.17–0.44× of paper: Homecoming 0.44, Ring 0.27, Court 0.17 (Tempo, at 0.72, is the outlier). Paper assumed guaranteed arrivals.
+- **Wave 1 accounting:** in 640 lobbies, real R12 boards reach 0.17–0.72× of paper: Homecoming 0.44, Ring 0.27, Court 0.17, Tempo 0.72. Paper assumed guaranteed arrivals.
 - **The Quilboar reference (H1), after the one cycle-fix rerun** (`docs/ideation/reference/quilboar/h1.md` on `ideation/quilboar`, tip `6bb7c730`):
   - **Both criteria failed, and tuning stopped** as DECISIONS "Quilboar H1" said it would.
   - **Accounting:** budgeted Quilboar at B realizes 0.45×, 0.23× and 0.70× of paper at R9, R12 and R15 (R12 median 259). C kept its pre-fix result: 0.22× at R12 (median 422).
