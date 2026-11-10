@@ -113,6 +113,22 @@ A push to `ideation/gate/**` runs the gate on that exact commit, with no exports
 - `./scripts/check.sh --docs-only --base <sha>` is the docs-only path against a gated commit instead of the upstream. It doesn't check that `<sha>` was gated: run `scripts/cloud-gate.sh --check <sha>` first.
 - A failure that looks flaky: `gh run rerun <run id> --failed`, then `scripts/cloud-gate.sh --check <commit>`. Pushing the same commit again starts no new run.
 
+### The sim job on Actions
+
+Sims and soaks run on Actions, off the two local Godot slots. `.github/workflows/sim.yml` runs when `ideation/sim/<id>` is pushed with a config at `sim/<id>.json` in its tree, and commits compact results back to `sim/<id>/` on that branch.
+
+```json
+{"kind": "lines", "suite": "quilboar_h1", "preset": "B", "first_seed": 2911001, "lobbies": 32,
+ "rates": {"bog_soak_keep": 3}, "shards": 8}
+```
+
+- **Config:** `kind` is `lines`. `preset` is the harness arm (`B`, `C`, `uncut`, `uncut_frozen`); for B and C it also sets `pass3_preset`. Seeds are `seeds: [...]` or `first_seed` plus `lobbies`. `rates` (optional) overrides `content/pass3/rates.json` dials as GameConfig values, for A3.5's t-paths. `shards` is 1 to 8. The parser is `tools/sim/sim_job.py`; `sim_job.py matrix <config>` validates a config without running anything.
+- **Kind `lines`:** the committed-line lobbies of `tools/sim/quilboar_h1.py`. One of each engine line plus a Hard anchor, through the same `bench.gd` entry point, compacted by that harness's `compact_chunk` and summarized by `quilboar_h1_report.summarize`. There is no second analysis path.
+- **Jobs:** `plan` reads the config, then up to 8 `shard` jobs run at once (`max-parallel: 8`, since GitHub Free runs 20 jobs at once across the repo and a gate takes 5), then `merge`. Seeds are dealt round-robin across shards. A failed chunk is retried seed by seed. A seed that still fails is dropped and listed in the README; nothing is resampled.
+- **Results** in `sim/<id>/`: `summary.json` (the harness summary plus a `sim_job` block with the config, seeds, dropped seeds and shard seconds), `<preset>.lobbies.json.gz` (the compact per-lobby records), and `README.md` (commit, config, timing, dropped trials and a per-line R12 and growth table). The results commit carries `[skip ci]`. Raw fight captures and logs are the run's `sim-raw-<i>` artifacts, kept 7 days and never in git.
+- **`scripts/sim-run.sh <config.json> [--base <commit>]`** commits the config as `sim/<id>.json` on top of the commit (default `HEAD`) without touching the working tree, and pushes `ideation/sim/<id>`. The id is the file name without `.json`; an id already on origin is refused. **`scripts/sim-run.sh --wait <id>`** waits, copies `sim/<id>/` to `build/sim/<id>/` and prints the summary's path, or exits 1 if the run failed. It uses `gh` when logged in, otherwise the public REST API.
+- **Locally:** `GODOT_SLOT_CLASS=probe scripts/godot_slot.sh python3 tools/sim/sim_job.py local <config> <dir> [--jobs J]` runs the same shards and merge on this machine. On the same commit and seeds, its summary and compact records are identical to the job's (10 Nov: 32 B lobbies, every line's R12 median and growth equal).
+
 ### Godot slots
 
 The local machine has two Godot slots, flocks on `/tmp/bramble-godot.lock` and `/tmp/bramble-harness-godot.lock`. Sims take the harness lock themselves. Gates, tests and probes go through `GODOT_SLOT_CLASS=<gate|review|worker|probe> scripts/godot_slot.sh <command...>`, which logs start, class, slot, wait, hold, exit code and command to `~/.local/state/bramble/godot-slots.csv` and sets `BRAMBLE_SLOT_HELD=1` for the child. `check.sh` takes a slot itself, only from import through tests, so the wrapper runs it without one; with `BRAMBLE_SLOT_HELD=1` it doesn't lock again. Don't wrap `check.sh` in an outer `flock` on either lock: it would wait for a second slot. Where `systemd-run --user` works, the wrapper's command and each of `check.sh`'s Godot steps run under `MemoryMax=3G`. The tests step also prints the 20 slowest test scripts from `gut.xml`.
