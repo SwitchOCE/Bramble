@@ -4,6 +4,29 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Declutter batch 1, fifth cold reader (follow-up reshoots): not yet; four cues to fix
+**Source:** a fresh cold reader and a scorer on the `cea9d0e2` reshoots (workflow wf_1c7d0562-094; `evidence/declutter/batch1-independent/reader5/`).
+- **What reads:** every who-hit, hit and death answer is right in all seven strips. ×4 passes. The Pounce cue reads. The kept-gain portrait lands and fades, so that cut holds.
+- **What fails at ×1 and under reduce motion:**
+  - the Bog ports: the Toll, the queued gain and the kiss;
+  - the Mire wait;
+  - two marks that stay after their moment.
+
+**Picked (all to w4, then one more fresh reader on the same moments):**
+- **Toll:** the splash carries its amount ("+1") and pops it briefly at the hero.
+- **Queued gain:** one beat after the Toll, "+2/+2" lands briefly on the tag, as the dead-unit portrait already does. Rulebook: "A fight shows the amounts pending."
+- **Kiss:**
+  - The heart starts at the dead unit's slot, not from a point stored mid-lunge (`combat_screen.gd:734`).
+  - It lands on the crown pip, and the pip pulses.
+- **Mire wait:** the gold attacker frame sits on the waiting unit for the beat, and the line gets the arrowhead the other routes use.
+- **Marks that stay after their moment** (the Toll line, the queued-gain spark and the Prince's ring all carry into the next attack): these end at the next action, following the follow-ups call ("end the old cues when the next attack starts"). That call covers `gain_pending` and `bog_toll` as well as stat routes. The scorer suggested giving both a wait barrier. That isn't taken, because we chose no added wait.
+- **The attacker frame on an empty slot:** clear it when the attacker dies.
+- **Lunges between samples:** the strip tool takes one frame at each lunge's peak, so a reader can see it. This is a capture fix, not a game change.
+
+**Why:** 09e asks that "Animations should, by player feel, capture how a game is and how it plays". Each fix is a short moving cue that ends with its moment. None adds a standing mark.
+
+**Agreed by:** the reader and the scorer.
+
 ### 10 Nov 2026 — Plan to Done v3 approved, with its twelve calls
 **Source:** `plan-to-done.md`, built by the plan-to-done-v2 workflow:
 - plan v2;
