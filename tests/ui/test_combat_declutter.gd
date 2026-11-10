@@ -13,6 +13,8 @@ const UnitViews := preload("res://src/ui/unit_views.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const Capture := preload("res://tests/ui/shots/declutter_capture.gd")
 const LayoutCheck := preload("res://tests/ui/layout_check.gd")
+const Special := preload("res://src/ui/screens/combat_special_motion.gd")
+const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 
 const STEP: float = 0.001
 
@@ -893,3 +895,81 @@ func test_mire_wait_briefly_links_the_waiting_unit_to_its_real_target() -> void:
 		_advance(screen, 0.7)
 		await get_tree().process_frame
 		assert_false(is_instance_valid(link), "no Mire relation line remains at rest")
+
+
+func test_solo_and_joint_lunges_reach_their_actual_contact_depth_at_each_speed() -> void:
+	Settings.reduce_motion = false
+	for fight_speed: float in [1.0, 4.0]:
+		for joint: bool in [false, true]:
+			var actors: Array[int] = [8]
+			if joint:
+				actors.append(9)
+			for actor_uid: int in actors:
+				var screen: CombatScreen = _screen(false, true)
+				screen.set_speed(fight_speed)
+				var actor: CardView = screen._cards[actor_uid]
+				var defender: CardView = screen._cards[1]
+				var parent: Control = actor.get_parent() as Control
+				var target: Vector2 = (
+					parent.get_global_transform().affine_inverse()
+					* defender.get_global_rect().get_center()
+				)
+				var home: Vector2 = actor.position
+				var direction: float = signf(home.y - target.y)
+				screen._play_event(
+					{
+						"type": "attack",
+						"attacker": 8,
+						"defender": 1,
+						"joiners": [9] if joint else [],
+						"strikes": 1
+					},
+					true
+				)
+				# contact_time includes lift, declaration holds and full travel. The joint
+				# follower leaves 40ms later; sample inside that actor's hit-stop, before return.
+				var actor_delay: float = 0.04 if actor_uid == 9 else 0.0
+				_advance(screen, screen._motion.contact_time() + actor_delay + 0.005)
+				var actual_center: Vector2 = actor.position + actor.card_size / 2.0
+				var actual_depth: float = (
+					(actual_center.y - target.y) / (direction * actor.card_size.y)
+				)
+				assert_almost_eq(
+					actual_depth,
+					0.35 if joint else 0.85,
+					0.001,
+					(
+						"actual contact depth: actor %d at x%s, joint=%s"
+						% [actor_uid, fight_speed, joint]
+					)
+				)
+				assert_almost_eq(
+					actual_center.x, target.x, 0.01, "the lunge reaches its target column"
+				)
+				assert_gt(actor.position.distance_to(home), 20.0, "the actor left its home pocket")
+
+
+func test_dead_gain_landing_uses_portrait_override_instead_of_definition_art() -> void:
+	var screen: CombatScreen = _screen(false)
+	var view: Dictionary = screen.model.unit(1)
+	view["def_id"] = "mrs_posset"
+	view["portrait_id"] = "mrs_jay"
+	screen._play_event({"type": "death", "uid": 1}, false)
+	var landing: Control = Special.kept_gain(screen, {"target": 1, "attack": 2, "health": 3})
+	var portrait: ArtFrame = null
+	for child: Node in landing.get_children():
+		if child is ArtFrame:
+			portrait = child as ArtFrame
+	assert_not_null(portrait, "a dead recipient's travelling reward has its portrait")
+	if portrait == null:
+		return
+	assert_not_null(portrait.texture)
+	if portrait.texture == null:
+		return
+	assert_eq(
+		portrait.texture.resource_path,
+		"res://assets/portraits/mrs_jay.jpg",
+		"the actual texture follows portrait_id rather than def_id"
+	)
+	assert_false(screen._cards.has(1), "the portrait cue does not restore a fighting card")
+	await get_tree().process_frame
