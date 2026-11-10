@@ -84,35 +84,54 @@
   },
   "findings": {
     "1": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Wait requires terminal Actions success and a successful summary, while preserving failed results.",
+      "claim_checked": true
     },
     "2": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Persistent execution errors remain recorded and force failure, including zero surviving lobbies.",
+      "claim_checked": true
     },
     "3": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Require exactly one receipt per shard, assigned seeds, complete totals and exact played/skipped/mix reconciliation.",
+      "claim_checked": true
     },
     "4": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Balanced nonempty contiguous soak partitions; all sizes 1 through 33 tested.",
+      "claim_checked": true
     },
     "5": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Preserve field rivals, ignore display-only identifiers, and reconcile field pool reservations.",
+      "claim_checked": true
     },
     "6": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Audit recruitment, shop, combat entry, summon and transform; real lobby recruit/combat prototype plants.",
+      "claim_checked": true
     },
     "7": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Field and designed adapters use native field_fights.gd and existing field/designed readers.",
+      "claim_checked": true
     },
     "8": {
-      "status": "incomplete",
-      "why": "Zero-violation soak cannot pass while real game defects remain. Game code is off limits; current acceptance rerun and same-commit parity pending."
+      "status": "not done",
+      "resolution": "Line parity met exactly; zero-violation soak NOT met because 96 real rule/API violations remain off limits.",
+      "claim_checked": true
     },
     "9": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Expose progress-dot-prefixed warnings and refresh timings from passing Actions run 42746520925 merged into ideation/main.",
+      "claim_checked": true
     },
     "10": {
-      "status": "fixed"
+      "status": "fixed",
+      "resolution": "Job orchestration/report handling moved to tools/checks; tools/sim/sim_job.py is a 12-line compatibility adapter.",
+      "claim_checked": true
     }
   },
   "workflow_files_changed": [],
@@ -142,12 +161,202 @@
       "tests": 199,
       "failures": 2,
       "errors": 1,
-      "status": "fails in unchanged measurement files; baseline confirmation pending",
+      "status": "Three failures reproduced on original e907ffdb base; unrelated and unchanged.",
       "cases": [
         "test_line_bans.LineBansTest.test_prepare_rejects_a_known_unseated_line_before_godot",
         "test_real_designed.RealDesignedTests.test_known_recipes_cover_committed_rounds_and_two_documented_payoffs",
         "test_skilled_birds.SkilledBirdsTest.test_only_flight_call_changes_in_native_turn_flow"
+      ],
+      "baseline_commit": "e907ffdbff85cb411beb78733c0fccd9d3fa42a5",
+      "baseline_reproduction_tests": 3,
+      "baseline_failures": 2,
+      "baseline_errors": 1,
+      "logs": [
+        "sim-job-fix/harness-python-current.log.gz",
+        "sim-job-fix/harness-python-base.log.gz"
       ]
     }
+  },
+  "historical_result_commit": "a882277e1ec9656304917a31a1aecf7f4274f1e2",
+  "historical_summary_sha256": "c165c1ff4ee669c181a9caccdf07af381414c391ff908e95b29c2b7a3cfcb515",
+  "line_parity": {
+    "source_commit": "044e9cff4a8c4368a11309c38381435f8da87cec",
+    "actions_result_commit": "a7687753a8f6822e6d5554667e633543aa507e74",
+    "run_url": "https://github.com/SwitchOCE/Bramble/actions/runs/42749357371",
+    "config": {
+      "kind": "lines",
+      "suite": "quilboar_h1",
+      "preset": "B",
+      "first_seed": 2911001,
+      "lobbies": 32,
+      "shards": 8,
+      "rates": {}
+    },
+    "seeds": [
+      2911001,
+      2911002,
+      2911003,
+      2911004,
+      2911005,
+      2911006,
+      2911007,
+      2911008,
+      2911009,
+      2911010,
+      2911011,
+      2911012,
+      2911013,
+      2911014,
+      2911015,
+      2911016,
+      2911017,
+      2911018,
+      2911019,
+      2911020,
+      2911021,
+      2911022,
+      2911023,
+      2911024,
+      2911025,
+      2911026,
+      2911027,
+      2911028,
+      2911029,
+      2911030,
+      2911031,
+      2911032
+    ],
+    "lobbies": 32,
+    "dropped_actions": {},
+    "dropped_local": {},
+    "all_game_records_identical_except_elapsed_seconds": true,
+    "line_tables_identical": true,
+    "actions": {
+      "B hard": {
+        "r12_median": 253,
+        "r12_boards": 31,
+        "growth_r8_r14": 1.4058778243539842
+      },
+      "B line_birds_homecoming": {
+        "r12_median": 353.5,
+        "r12_boards": 30,
+        "growth_r8_r14": 1.3849718799318051
+      },
+      "B line_bog_engine": {
+        "r12_median": 108,
+        "r12_boards": 11,
+        "growth_r8_r14": 1.1582490941158097
+      },
+      "B line_fairies_ring": {
+        "r12_median": 314.0,
+        "r12_boards": 30,
+        "growth_r8_r14": 1.370299572115392
+      },
+      "B line_hedgerow_engine": {
+        "r12_median": 234,
+        "r12_boards": 27,
+        "growth_r8_r14": 1.4125945366472723
+      },
+      "B line_hunters_engine": {
+        "r12_median": 99,
+        "r12_boards": 9,
+        "growth_r8_r14": null
+      },
+      "B line_oozes_engine": {
+        "r12_median": 241.0,
+        "r12_boards": 30,
+        "growth_r8_r14": 1.3308790362069949
+      },
+      "B line_quilboar_engine": {
+        "r12_median": 305.5,
+        "r12_boards": 20,
+        "growth_r8_r14": 1.572085139396506
+      }
+    },
+    "local": {
+      "B hard": {
+        "r12_median": 253,
+        "r12_boards": 31,
+        "growth_r8_r14": 1.4058778243539842
+      },
+      "B line_birds_homecoming": {
+        "r12_median": 353.5,
+        "r12_boards": 30,
+        "growth_r8_r14": 1.3849718799318051
+      },
+      "B line_bog_engine": {
+        "r12_median": 108,
+        "r12_boards": 11,
+        "growth_r8_r14": 1.1582490941158097
+      },
+      "B line_fairies_ring": {
+        "r12_median": 314.0,
+        "r12_boards": 30,
+        "growth_r8_r14": 1.370299572115392
+      },
+      "B line_hedgerow_engine": {
+        "r12_median": 234,
+        "r12_boards": 27,
+        "growth_r8_r14": 1.4125945366472723
+      },
+      "B line_hunters_engine": {
+        "r12_median": 99,
+        "r12_boards": 9,
+        "growth_r8_r14": null
+      },
+      "B line_oozes_engine": {
+        "r12_median": 241.0,
+        "r12_boards": 30,
+        "growth_r8_r14": 1.3308790362069949
+      },
+      "B line_quilboar_engine": {
+        "r12_median": 305.5,
+        "r12_boards": 20,
+        "growth_r8_r14": 1.572085139396506
+      }
+    },
+    "hunters_growth_qualification": "Unsupported in both runs: no positive R14 endpoint; null is not a growth estimate.",
+    "config_to_merge_step_seconds": 110,
+    "config_commit_to_result_commit_seconds": 119,
+    "local_wall_seconds_including_shared_slot_wait": 574,
+    "local_compact": "sim-job-fix/B.lobbies.json.gz",
+    "local_readme": "sim-job-fix/README.local.md"
+  },
+  "soak_acceptance": {
+    "source_commit": "1a8a5f829e7075ede1910ab51f5350af5cfc4fe8",
+    "actions_result_commit": "b6faf198afa6d1465d5e862c845ab75717c1a7bc",
+    "run_url": "https://github.com/SwitchOCE/Bramble/actions/runs/42749685216",
+    "config_to_merge_step_seconds": 223,
+    "config_commit_to_result_commit_seconds": 224,
+    "assigned": 200,
+    "played": 160,
+    "field_skipped": 40,
+    "skip_reason": "No measured compatible field library supplied, as allowed by brief; field plumbing separately tested with a current test fixture.",
+    "mix": {
+      "other": 40,
+      "preset": 120
+    },
+    "violations": 96,
+    "violation_kinds": {
+      "Golden Egg non-Bird listed as legal": 45,
+      "untripled Slice": 48,
+      "Belly release overwrites occupied slot": 2,
+      "Golden Egg reused Bird listed as legal": 1
+    },
+    "crashes": 0,
+    "report_problems": [],
+    "log_problems": [],
+    "passes": false,
+    "wait_exit": 1,
+    "game_code_changed": false
+  },
+  "ownership_exception": "Small optional explicit-seeds input in tools/sim/field_fights.gd, needed to shard the existing native field/designed entry point without duplicating combat or analysis.",
+  "artifact_sha256": {
+    "sim-job-fix/B.lobbies.json.gz": "0981389adde477dc1e76be8ac72a33c675fa027344495a0f652ed5620977c12a",
+    "sim-job-fix/README.local.md": "06fce45d57912357f9ac3b26b000f4445bee2ca37ec3382cc0a5e07633a2cb17",
+    "sim-job-fix/check.log.gz": "aec0efcaada9275e53a8bcf11f4815ac5ddd990333018a44af2838cf7ce72fb6",
+    "sim-job-fix/gut.xml.gz": "5e16870205c96e25286185b015a2020b77e2cf80619aefb4a0f96ed2d03b113d",
+    "sim-job-fix/harness-python-base.log.gz": "0831bc28f196bb35e49a1486aeebaa3048af776cdb372261d60535bb118f4620",
+    "sim-job-fix/harness-python-current.log.gz": "7cc45d511def6c847de4bf9efe561801605a417d2563bc704c2769d0e64affbc"
   }
 }
