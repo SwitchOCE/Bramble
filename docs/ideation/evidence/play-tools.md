@@ -38,3 +38,6 @@ Record in `CorePort`, as `tools/play/README.md` ("Game logs from the UI") descri
 ## Not done
 - `play.sh --tutorial`: later, per the brief.
 - Speed: a turn takes about 30 seconds per size on one Mesa thread, so a 15-turn game at both sizes takes about 15 minutes. `LP_NUM_THREADS` can raise it.
+
+## Gate
+After merging ideation/main (e32bfd8e), every static step passed: tools, versions, shell, python, content, format, lint (src, tools, tests), import, compile and parity. The single-process tests step timed out at its 1,200 s cap in this 4-core cloud container. Run as `./scripts/check.sh --shard i/4`, all 4 shards passed: 545 + 578 + 644 + 559 = 2,326 tests, with 0 failing, 0 risky and 0 pending. That is ideation/main's 2,317 plus the 9 new ones. `ruff check` and `ruff format --check` pass on `tools/play/*.py`.
