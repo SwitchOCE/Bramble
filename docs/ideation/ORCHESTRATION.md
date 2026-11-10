@@ -39,6 +39,8 @@ timeout 3300 codex exec -C <worktree> -s workspace-write -c sandbox_workspace_wr
 # Codex Cloud (needs an environment id).
 codex cloud exec --env <id> --branch ideation/main --attempts 1 "<self-contained brief>"
 codex cloud list --json; codex cloud status <task>; codex cloud diff <task>; codex cloud apply <task>
+# codex cloud writes error.log into the current directory: run it from build/.
+# This machine's GitHub token has no workflow scope: a push that changes .github/workflows/ is refused.
 ```
 
 **Codex bridge tools** (MCP, `~/code/codex-bridge`; its served instructions hold the model rules):

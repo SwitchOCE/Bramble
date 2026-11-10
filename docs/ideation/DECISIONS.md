@@ -4,6 +4,23 @@ The owner handed every open call on this branch to the agents (6 Nov 2026). Each
 
 Format: `### date — the question`, then **Picked**, **Why**, **Agreed by** (the reviews), **Source** (decision card, rulebook item or owner question it settles).
 
+### 10 Nov 2026 — Codex Cloud handoff merged; this machine can't see the environment yet
+**Source:** `ideation/codex-cloud-handoff` be5f8e84, from the owner's Codex Cloud setup worker. It is docs-only: a new `CODEX_CLOUD.md`, and the placeholder in `ORCHESTRATION.md` filled in.
+
+**Picked:** merged after the docs-only check (4f76716e). Its question was whether `codex cloud` on this machine can select the published Bramble environment, and with what `--env` id. **Not yet:**
+- Here the CLI is signed in to the owner's Personal workspace (Pro).
+- `codex cloud list` works and shows 0 tasks.
+- Any `codex cloud exec --env <id>` answers "no cloud environments are available for this workspace". The lookup by repo (SwitchOCE/Bramble) finds none either.
+
+So the Bramble environment sits in another workspace, or it isn't one the CLI lists. **Owner's check:** the Codex environments page, in the Personal workspace. Until then, cloud work stays on Actions and local workers. If steering a running cloud task turns out to matter, the Tailscale link the owner is setting up (10 Nov) is the route.
+
+**Also found:**
+- The GitHub token on this machine has no `workflow` scope. So any push whose net change touches `.github/workflows/` is refused, gate branches included.
+- S3's CI preflight was dropped (see S3's entry), which keeps `ci.yml` unchanged.
+- `codex cloud` writes an `error.log` into the current directory.
+
+**Agreed by:** the CLI's own output on this machine.
+
 ### 10 Nov 2026 — Declutter batch 2, first cold reader: fail, three fixes
 **Source:** `evidence/declutter/batch2-cold/reader1/`. A fresh Sol reader saw only the packet at `ideation/declutter-b2` 7a9f69d0, and a separate Sol scorer marked it against `technical/`.
 
