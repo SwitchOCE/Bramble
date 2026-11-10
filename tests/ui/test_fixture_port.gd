@@ -54,8 +54,8 @@ func test_library_has_every_unit_sorted_by_tier() -> void:
 		units.size(),
 		158,
 		(
-			"37 library units, the Hoglet, 109 shop units, "
-			+ "10 created slice cards including Slice and retired Barn Owl"
+			"37 library units, the Hoglet, 109 shop units, 10 created slice cards"
+			+ " including Slice and retired Barn Owl"
 		)
 	)
 	var last_tier: int = 0

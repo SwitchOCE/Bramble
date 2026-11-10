@@ -1,0 +1,30 @@
+{
+  "id": "qb_turbo_hogrider",
+  "name": "Turbo Hogrider",
+  "set": "slice",
+  "tier": 6,
+  "attack": 6,
+  "health": 8,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "After you play a Choose One card: play a Blood Gem on each of your other Quilboar.",
+  "golden_text": "After you play a Choose One card: play 2 Blood Gems on each of your other Quilboar.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "turbo_hogrider",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "back",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

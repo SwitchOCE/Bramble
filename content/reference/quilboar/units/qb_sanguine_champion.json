@@ -1,0 +1,30 @@
+{
+  "id": "qb_sanguine_champion",
+  "name": "Sanguine Champion",
+  "set": "slice",
+  "tier": 6,
+  "attack": 9,
+  "health": 4,
+  "tribes": [
+    "quilboar"
+  ],
+  "text": "When played, and when this dies: your Blood Gems give an extra +1/+½ this game.",
+  "golden_text": "When played, and when this dies: your Blood Gems give an extra +2/+1 this game.",
+  "mechanics": [
+    {
+      "id": "reference_quilboar",
+      "kind": "sanguine_champion",
+      "factor": 1
+    }
+  ],
+  "keywords": [],
+  "row_hint": "front",
+  "pool": true,
+  "priority": null,
+  "skeleton": false,
+  "source": {
+    "kind": "slice",
+    "doc": "docs/ideation/reference/quilboar/quilboar-port.md",
+    "note": "TEST-ONLY reference; never included in release exports."
+  }
+}

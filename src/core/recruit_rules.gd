@@ -39,7 +39,7 @@ static func create(
 	rules.events = RecruitEvents.create(rules)
 	if game_config.get_bool("spells_in_shop"):
 		rules.spell_pool = UnitPool.from_cards(
-			unit_library.pool_spells(game_config.card_set()),
+			rules.library.pool_spells(game_config.card_set()),
 			game_config,
 			"spell_copies_by_tier",
 			PackedStringArray()
@@ -55,6 +55,7 @@ func new_iid() -> int:
 
 func setup_player(player: PlayerState) -> void:
 	Pass3Birds.setup(self, player)
+	ReferenceQuilboar.setup(self, player)
 	player.card_size_caps = config.get_bool("card_size_caps")
 	player.card_rate_limits = config.get_bool("card_rate_limits")
 	player.health = config.get_int("starting_health")
@@ -351,6 +352,7 @@ func play(player: PlayerState, hand_index: int, slot: int) -> String:
 	board_changed(player)
 	if player.board[slot] == unit:
 		events.fire(player, "on_play", {"subject": unit})
+		QuilboarChoices.begin(self, player, unit.def, unit)
 	board_changed(player)
 	HeldUnits.drain_doorstep(self, player)
 	return ""
@@ -507,6 +509,10 @@ func combine(player: PlayerState, copies: Array, reward: bool) -> void:
 		var copy: RecruitUnit = entry
 		golden.add_permanent(copy.perm_attack, copy.perm_health)
 		golden.add_combat(copy.combat_attack, copy.combat_health)
+		golden.gem_attack += copy.gem_attack
+		golden.gem_health += copy.gem_health
+		golden.combat_gem_attack += copy.combat_gem_attack
+		golden.combat_gem_health += copy.combat_gem_health
 		golden.pool_copies += copy.pool_copies
 		if copy.pool_origin != "":
 			golden.pool_origin = copy.pool_origin
@@ -702,6 +708,9 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		spell_pool.give_back(item.def_id(), item.pool_copies)
 	var fields: Dictionary = _aim_fields(player, item.aim(), slot)
 	fields["card_def"] = item.def
+	fields["created_free_spell"] = (
+		item.is_spell() and item.cost() == 0 and item.paid_cost < 0 and item.pool_copies == 0
+	)
 	var ctx: RecruitContext = RecruitContext.make(self, player, "cast", fields)
 	var thanked: RecruitUnit = null
 	if (
@@ -712,18 +721,20 @@ func play_item(player: PlayerState, index: int, slot: int = -1) -> String:
 		thanked = player.board[slot]
 	ctx.params = item.def
 	player.log_event("cast", {"card": item.def_id(), "slot": slot})
-	if item.def_id() == "golden_egg":
-		Pass3Birds.golden_egg(self, player, player.board[slot])
-	else:
-		EffectRunner.run(item.def, ctx)
-	if item.def_id() != "golden_egg":
-		RecruitExtras.echo(self, player, item, slot, ctx)
-	if item.is_spell():
-		events.fire(player, "on_spell_cast", fields)
-		if thanked != null:
-			ShyRule.thank(self, player, thanked)
-	else:
-		events.fire(player, "on_item_played", fields)
+	var choosing: bool = QuilboarChoices.begin(self, player, item.def, null, fields)
+	if not choosing:
+		if item.def_id() == "golden_egg":
+			Pass3Birds.golden_egg(self, player, player.board[slot])
+		else:
+			EffectRunner.run(item.def, ctx)
+		if item.def_id() != "golden_egg":
+			RecruitExtras.echo(self, player, item, slot, ctx)
+		if item.is_spell():
+			events.fire(player, "on_spell_cast", fields)
+			if thanked != null:
+				ShyRule.thank(self, player, thanked)
+		else:
+			events.fire(player, "on_item_played", fields)
 	board_changed(player)
 	HeldUnits.drain_doorstep(self, player)
 	return ""
@@ -837,23 +848,7 @@ func discover(player: PlayerState, step: Dictionary) -> void:
 ## Makes the oldest waiting choice. 5.3.3: the chosen card stays out of the pool, the others go
 ## back; it arrives Created (4.3.2), and is lost with its copy returned on a full hand (7.1.2).
 func choose(player: PlayerState, index: int) -> String:
-	if not player.is_choosing():
-		return "Nothing to choose"
-	var choice: Dictionary = player.pending[0]
-	var options: PackedStringArray = choice["options"]
-	if options.is_empty():
-		player.pending.remove_at(0)
-		return ""
-	if index < 0 or index >= options.size():
-		return "No such option"
-	player.pending.remove_at(0)
-	var from_spells: bool = choice["spells"]
-	var source_pool: UnitPool = spell_pool if from_spells else pool
-	for other: int in options.size():
-		if other != index:
-			source_pool.give_back(options[other])
-	_receive_discovered(player, options[index], from_spells, source_pool)
-	return ""
+	return RecruitDiscover.choose(self, player, index)
 
 
 func _receive_discovered(

@@ -1,0 +1,9 @@
+suite,seed,seat,bot,level,strategy,focus,place,rounds,hero,offered,tier6_turn,bought_at_t6,final_units,final_attack,final_health,gold_spent,fights,acorns,acorn_gold,leg,side,candidate,incumbent,comparison,final_tribe,plurality_tribe,plurality_share,lobby_tribes,no_tribe_reason
+quilboar_h1,2910002,0,line_hunters_engine,line_hunters_engine,line_hunters_engine,0,4,15,brother_bracken,brother_bracken+hob_mumblecrust+march_hare,12,8,5,50,56,135,15,0,0,0,,,,,Hunters,Hunters,1.000000,,
+quilboar_h1,2910002,1,line_bog_engine,line_bog_engine,line_bog_engine,0,5,13,dame_farthing,pipkin+old_mother_mousewife+dame_farthing,8,5,6,66,102,82,13,0,0,0,,,,,no_tribe,Bog folk,0.166667,,mixed
+quilboar_h1,2910002,2,line_quilboar_engine,line_quilboar_engine,quilboar_choose_one,0,1,18,little_king_wren,jill_down_the_tree+little_king_wren+dame_hoolet,11,13,7,4374,4179,197,18,0,0,0,,,,,quilboar,quilboar,1.000000,,
+quilboar_h1,2910002,3,line_oozes_engine,line_oozes_engine,line_oozes_engine,0,7,11,pipkin,pipkin,0,0,7,32,44,88,11,0,0,0,,,,,Oozes,Oozes,0.714286,,
+quilboar_h1,2910002,4,line_fairies_ring,line_fairies_ring,line_fairies_ring,0,3,16,dame_hoolet,dame_hoolet+jill_down_the_tree,11,6,2,120,120,146,16,0,0,0,,,,,Fairies,Fairies,1.000000,,
+quilboar_h1,2910002,5,line_hedgerow_engine,line_hedgerow_engine,line_hedgerow_engine,0,8,10,hob_mumblecrust,old_mother_mousewife+hob_mumblecrust+march_hare,9,6,7,27,41,80,10,0,0,0,,,,,Hedgerow folk,Hedgerow folk,0.714286,,
+quilboar_h1,2910002,6,line_birds_homecoming,line_birds_homecoming,line_birds_homecoming,0,2,18,old_mother_mousewife,old_mother_mousewife+march_hare,12,17,7,417,480,191,18,0,0,0,,,,,Birds,Birds,1.000000,,
+quilboar_h1,2910002,7,hard:varied,hard,hedgerow_treasury,0,6,13,jill_down_the_tree,jill_down_the_tree,11,14,7,52,68,124,13,3,3,0,,,,,no_tribe,Hedgerow folk,0.428571,,mixed

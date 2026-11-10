@@ -500,3 +500,11 @@ Recruit support shares explicit source-stat snapshots, resolves Passes before a
 late Dozey wake, tracks repeatable slot clocks, and keeps Hayward's standing
 bonus separate from Harvest Supper. Combat support recalculates Urchin's Hunker
 aura and spends actual Larder ammunition across Sergeant's separate throws.
+
+### Test-only Quilboar reference
+
+Behind the default-off `reference_quilboar` flag, `gem` plays counted Gems without
+casting a spell, `gem_size_add` changes future Gem size in integer half-stat units,
+and `steal_gems` transfers only adjacent units' Gem-ledger stats. A real Choose One
+play queues modes independently of When played; `on_choose_one_played` fires after
+mode resolution. Trailblazer uses its own `both_per_turn` dial. The reference resources are excluded from player exports.

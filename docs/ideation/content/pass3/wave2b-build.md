@@ -410,3 +410,28 @@ R14-surviving seats' matched R8/R14 medians, with survivor-median growth and
 share alive beside it. No arm has been measured yet. The orchestrator's specified
 main-merge resolutions (combat gem/replay union, checker union, wrapped fixture
 message) are recorded for the next merge; no merge was performed here.
+
+### Main merge d9462c84 before Pot Luck probes
+
+Merged the requested main revision. `combat_unit.gd` preserves main's exact gem
+ledger/replay-flag union; FixturePort preserves main's wrapped message.
+`DECISIONS.md` is byte-identical to main. The checker keeps main's reference/Ooze
+union and retains Hedgerow's new namespace/validation. Both engine-guide sections
+are preserved. Bot targeting keeps main's cohesive `BotAim` extraction, including
+Hedgerow's priority aim, instead of growing the brain back above its cap.
+
+Merged line counts: recruit rules **995**, bot brain **981**, game session **974**,
+combat screen **999**, recruit screen **1,000**. None exceeds 1,000. The BotAim
+helper resolves the only conflicted oversized union to approximately 985 lines.
+Targeted merge tests: **326/326 across 27 files, 219.499s**, including reference
+opt-in/isolation, core recruit/combat/scaling/captures, Hedgerow and all seven
+content-wide files. Four repository-wide lint/format checks pass; Python checker
+cases **28/28**, content check zero problems. Original game hashes remain exact.
+Evidence: `evidence/wave2b/merge-main-d9462c84/`. No local full gate ran.
+
+The plan's current Hedgerow deciding read is R14 same-cohort growth: use each
+line's seats alive entering R14 for BOTH endpoint medians. This is **×1.542 for
+Supper** (186→2,500, 19 seats) and **×1.738 for Parish** (167→4,600, 20 seats).
+These are growth of matched medians, distinct from the **median individual seat
+growth**, ×1.480/×1.723, and the changing-survivor median read, ×1.615/×1.848.
+Both lines pass ×1.3 under the new deciding read too.

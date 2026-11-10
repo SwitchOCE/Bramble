@@ -78,3 +78,37 @@ Three designers who each rank against the pre-pass benchmark produce ranks that 
 ## Gate before push, in one command (9 Nov)
 
 A merge was pushed while its gate had failed, because the push ran after the gate in a chain that didn't check the result. Run the gate and push together, pushing only on "all steps passed". Merging a measurement branch after a balance change also breaks fixture tests that pinned the old numbers (Hedge Witch Hex 6 → 5).
+
+## A committed line must play the route its paper costed (10 Nov)
+
+Pot Luck missed ×1.3 (×1.251), but the line file wasn't playing its paper route. It never held 3 gold before a climb, while the paper route and the engine line both did. It also put Little Dollop 13th of 16 against the route's R1–4 step. Half the gap to the engine line fell on the climb rounds. When a line is built, check its gold and save rules and its written priority against its paper route, and log gold and shop tier in line lobbies, so the next triage can see them. The keystone-removed paper row didn't catch this (`evidence/potluck-triage/`).
+
+## Workers' targeted checks skip ruff format (10 Nov)
+
+Two gates failed today on Python formatting alone, after every Godot test passed: wave 2b (`check_units.py`) and the Quilboar squash (two test files). Each failure cost a ~15-minute re-gate. Workers run targeted GUT files and their Python tests, but not `ruff format --check`, which the gate's python step runs first. Every worker hand-off check now includes `ruff check` and `ruff format --check` on `tools/`.
+
+Also: two `cloud-gate.sh` runs started in the same second can collide on the push (the second one exits with "push failed", silently if its output is filtered). Start gates a few seconds apart, and don't filter their output down to the verdict line.
+
+## The 1,000-line lint cap bites at merges (10 Nov)
+
+The Quilboar merge (92cbce1f) passed every test on Actions and failed lint: `game_session.gd` reached 1,006 lines and `bot_brain.gd` 1,008. Each branch had kept its own file just under gdlint's `max-file-lines` cap, so the merge of two of them went over. On ideation/main and the wave 2b tip, `game_session.gd`, `combat_screen.gd` and `recruit_screen.gd` are at 999, `bot_brain.gd` at 1,000 and `recruit_rules.gd` at 996.
+**Next time:** a branch that adds code to a file near the cap moves its feature's code into its own helper and leaves one-line calls, and extracts a cohesive static helper to leave room (target about 985). Before merging two branches that both grew the same file, count its lines on the merged tree.
+
+## A safety filter stopped three analysis agents once (10 Nov)
+
+Three of five triage agents were stopped by Anthropic's safety filter (`reasoning_extraction`), a false positive. The prompt had asked each agent to "write your full working notes" and spell out its thinking per hypothesis. A one-off, and nothing to overlearn (owner, 10 Nov): just ask for findings, justification and evidence rather than "working notes" or step-by-step thinking.
+
+## What the Quilboar reference taught our methods (10 Nov)
+
+From `reference/quilboar/lessons.md` §4. None of these adds a deciding criterion (09i); they change how a bar is checked before it decides, and what is reported beside the two criteria.
+- **Test a bar on a known case before it decides.** The 0.5–2× accounting band had already failed 3 of 4 wave 1 lines when the H1 plan froze it, so it couldn't tell a bad port from a bad model. Put a known-good and a known-bad case through any new bar first (the checks' rule: plant one fault before trusting a clean run).
+- **Paper against real, three ways:** the engine on paper's scripted arrivals (port and rules), an arrival replay (shop), and the bot against the script on the same seeds (bot policy). Report rounds behind beside the ratio. All four Quilboar engine pieces arrived on paper's schedule in 1 of 150 seats.
+- **A triage's "where else" is a grep.** When a triage finds a flaw in a method, search every frozen plan, brief and criterion that uses the method, and label or amend each one before its next run.
+- **Paper models read constants from `GameConfig.full_game()`,** not the rulebook (T6 costs 13 in code, against 11 in rulebook 4.6.2).
+- **Bot rules carry a number from the research they cite,** checked by a smoke run of a few lobbies before the frozen run (for example board fill at R4 within one unit of Hard's).
+- **Before a rerun, read the fix's largest plausible effect off paper's sensitivity table,** and rerun every arm you will compare.
+- **A step meant to teach decides on whether the lesson can be read,** and runs designed setups before bot lobbies (09d).
+- **Beside a late survivor median, give the share of seats alive and the all-seat median.** Survivor medians put Quilboar 3.17× ahead of Birds at R15, against 1.28× on all seats.
+- **Give an extreme-miss check a round, a ratio and a population.**
+- **Beside any "tribe X is N× tribe Y", give the head-to-head win rate at equal totals.** At equal totals, Quilboar's wide gem board wins 18–25%, and our tribes range from 43% to 62%.
+- **Raw captures stay under `build/`,** their hashes go in committed receipts, and a commit that adds more than a few MB of evidence gets flagged.
