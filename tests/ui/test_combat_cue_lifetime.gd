@@ -557,7 +557,7 @@ func test_automatic_return_waits_for_the_final_motion_to_finish() -> void:
 	screen.finished.connect(func() -> void: returns.append(true))
 	screen.advance_playback(0.02)
 	assert_true(returns.is_empty(), "the result does not cut off a live motion")
-	for frame: int in 30:
+	for frame: int in 40:
 		screen.advance_playback(0.02)
 	assert_eq(returns.size(), 1, "automatic return still completes exactly once")
 	assert_eq(marker.position, Vector2(40, 0), "the final motion reached its destination")

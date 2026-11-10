@@ -85,6 +85,7 @@ var _defender_uid: int = -1
 var _last_death: Vector2 = Vector2.ZERO
 var _resume_reader: bool = false
 var _complete: bool = false
+var _return_ready: bool = false
 var _title: String = ""
 var _event_before: Dictionary = {}
 
@@ -340,6 +341,11 @@ func advance_playback(delta: float) -> void:
 		if _return_wait <= 0 and auto_return and not _complete:
 			if _has_active_tweens():
 				# The final death/return lunge can outlast the result's nominal hold.
+				_return_ready = false
+				_return_wait = 0.1
+			elif not _return_ready:
+				# Paint the settled result for a frame before replacing the screen.
+				_return_ready = true
 				_return_wait = 0.1
 			else:
 				_complete = true
@@ -762,6 +768,7 @@ func _death(uid: int, animate: bool) -> void:
 
 
 func _show_result(animate: bool = true) -> void:
+	_return_ready = false
 	_set_playing(false)
 	_motion.result(animate)
 	_return_wait = 1.0 if animate else 0.1
