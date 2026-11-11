@@ -1,6 +1,8 @@
 # Cloud toolchain proof
 
-The first proof session. Its brief is in the history of [CLOUD_SETUP.md](CLOUD_SETUP.md) at `8cde7ad`, section 2; item numbers follow that brief. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/inspiring-faraday-x45a8n`, which was cut from `build/toolchain` at `8cde7ad`.
+> **Archived 11 November 2026.** This was `docs/build.md`. The runs below are finished. What they proved is summed up in [CLOUD_SETUP.md](../CLOUD_SETUP.md), section 2, and what is still unproved is in [STATUS.md](../STATUS.md). A re-run of the short proof adds its report at the end of this file.
+
+The first proof session. Its brief is in the history of [CLOUD_SETUP.md](../CLOUD_SETUP.md) at `8cde7ad`, section 2; item numbers follow that brief. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/inspiring-faraday-x45a8n`, which was cut from `build/toolchain` at `8cde7ad`.
 
 **In short:** the tools work in the cloud when the hook is run by hand. Four toolchain problems turned up and are fixed: a false JDK warning, an unpinned ruff shadowing the pinned one, the AAB's HTTP 429s from Maven Central (fixed with a mirror), and setup times that were lost.
 
@@ -144,7 +146,7 @@ Also:
 - `uploads.github.com` itself is reachable: `curl https://uploads.github.com/` reached GitHub with HTTP 400. But with no release to attach to, the asset upload, the rendering in a PR comment and the deletion are all **untested**.
 - **Open question:** whether the gateway also refuses asset uploads to a release that someone else created. Its wording ("creating, editing, or deleting releases") suggests it might.
 
-**Options considered.** The owner chose an orphan `screens` branch on 6 November ([CLOUD_SETUP.md](CLOUD_SETUP.md), Screenshots).
+**Options considered.** The owner chose an orphan `screens` branch on 6 November ([CLOUD_SETUP.md](../CLOUD_SETUP.md), Screenshots).
 1. **The owner creates the `screens` pre-release once by hand** (GitHub → Releases → Draft a new release, tag `screens`, tick "Set as a pre-release"). A later session then tests only the upload and delete. It may still be refused.
 2. **CI uploads screenshots.** A workflow job with `contents: write` renders the scene under xvfb, uploads to the release, and comments on the PR with the URL. This moves the release write out of the session. It needs a workflow change and its own proof.
 3. **Commit screenshots to a dedicated branch** (say `screens`) and link `raw.githubusercontent.com` URLs. It needs no release permissions, but pushing it from a session wasn't tried here, and every screenshot stays in the repository's history until the branch is reset.
@@ -158,7 +160,7 @@ Also:
 
 ## Short proof: session A
 
-The brief is in the history of [CLOUD_SETUP.md](CLOUD_SETUP.md) at `6d87af5`, section 2; item numbers follow it. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/ecstatic-bell-122yef`, cut from `main` at `6d87af5`, before the owner re-pasted the current setup script. `scripts/session-start.sh` was not run by hand.
+The brief is in the history of [CLOUD_SETUP.md](../CLOUD_SETUP.md) at `6d87af5`, section 2; item numbers follow it. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/ecstatic-bell-122yef`, cut from `main` at `6d87af5`, before the owner re-pasted the current setup script. `scripts/session-start.sh` was not run by hand.
 
 **In short:** the hook fires as a real SessionStart hook and its warning reaches the agent. Its variables load, `check.sh` passes and its `tests` step fails on an empty test folder. Pushing a new `screens` branch, opening and merging a PR, and reading CI job logs all work through the session. **Deleting a branch does not:** both `git push --delete` and the REST ref delete are refused with HTTP 403, so the three throwaway branches are still on GitHub for the owner to delete.
 
@@ -275,7 +277,7 @@ A throwaway routine on `main`, 6 November 2026, to test launching workers this w
 
 - **Notifications frame the message as "not user input".** The worker's own tool notes tell it to report, rather than do, anything that changes something outside the session unless the user's instructions already call for it. The commands in this probe stayed inside the VM. So whether a worker pushes a fix on a mailbox message isn't shown yet. The pilot tests that.
 - **Not tried:** the owner pressing Stop on the session's page while a worker is mid-run.
-- **The AAB run probably closes a "not proved" item in [STATUS.md](STATUS.md):** the one combining the mirror, an empty Gradle cache and a fresh template. Setup doesn't warm the cache and the template is gitignored, so it should have started with neither, but nothing in this probe inspected them. STATUS.md keeps the item until a run does.
+- **The AAB run probably closes a "not proved" item in [STATUS.md](../STATUS.md):** the one combining the mirror, an empty Gradle cache and a fresh template. Setup doesn't warm the cache and the template is gitignored, so it should have started with neither, but nothing in this probe inspected them. STATUS.md keeps the item until a run does.
 
 ## Pilot
 

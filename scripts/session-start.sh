@@ -86,7 +86,7 @@ for tool in gdformat gdlint ruff shellcheck xvfb-run; do
 done
 
 # Gradle (the AAB export) gets HTTP 429 from Maven Central through the cloud's proxy; this init
-# script sends those downloads to a mirror. Cloud sessions only (docs/build.md, item 6).
+# script sends those downloads to a mirror. Cloud sessions only (docs/archive/cloud-toolchain-proof.md, item 6).
 gradle_init="${GRADLE_USER_HOME:-$HOME/.gradle}/init.d"
 if ! { mkdir -p "$gradle_init" \
   && cp scripts/gradle/maven-mirror.init.gradle "$gradle_init/bramble-maven-mirror.gradle"; }; then
