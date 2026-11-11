@@ -1,12 +1,12 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** The Bazaar Stack layout and the new art are in: units and woodland now painted in one ink-and-wash style. Next, play goes on its own surfaces with the world as a frame, and recruit feel lands.
+- **In short:** Building your journey lab's layout into the game: your board stays put, units are one size, and the hand holds 4. You play it when it lands.
 - **Status:** active
-- **Last step done:** 11 Nov: the art merged: every portrait, tribe image and backdrop repainted in ink with wash and glow (gate passed, 0 problems in the 4-game UI run).
-- **Next step:** frame play on its own surfaces (A2), recruit feel (B), and a trial of units one notch more painted; mid-loop update to you when A2 lands.
-- **Waiting on you:** nothing. Loop 1 ends when you play its build, or 13 Nov 23:22.
-- **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
+- **Last step done:** 11 Nov: your journey lab reviewed against our build; its layout is now the base, and the hand holds 4 (note 11c).
+- **Next step:** merge recruit feel (B); then A3 (the lab's arrangement) and A4 (hex units) in parallel; then the build checks and the playtest note.
+- **Waiting on you:** nothing. Loop 1 ends when you play the build with the lab's layout.
+- **Scope:** UI, UX, look and feel. Rules change only where the UI needs it (note 11c).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`. **Nothing reaches `main` without the owner's say-so** (CLAUDE.md). Build 8 is the latest build; run 1's balance work is parked (`PARKED.md`).

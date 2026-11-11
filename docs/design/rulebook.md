@@ -373,7 +373,7 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 ### 7.1 Hand
 
-**7.1.1** [BG] The hand holds up to 10 cards (uncertain in HSBG — see rules.md §5.3).
+**7.1.1** [PROPOSED ideation] The hand holds up to 4 cards. HSBG holds 10 (uncertain — see rules.md §5.3). *Why:* the owner, 11 Nov (note `2026-11-11c`): "If 4's what fits, let's do 4". At one unit size everywhere, four is what fits in a tray beside the board.
 
 **7.1.2** [BG] A card gained while the hand is full is lost, unless the effect says it waits for space (uncertain in HSBG — see rules.md §5.3; keywords.md §C). Example: HSBG's Spellcraft.
 
@@ -898,7 +898,7 @@ The values an engine should read from configuration rather than hard-code.
 | Pool copies per unit by tier | 15, 15, 13, 11, 9, 7, 5 | 5.1.2 | BG |
 | Shop cards by tier (units) | 4 (3), 5 (4), 5 (4), 6 (5), 6 (5), 7 (6) | 6.1.1 | BG |
 | Tribes per lobby | open | 5.2.5 | OPEN |
-| Hand limit | 10 | 7.1.1 | BG |
+| Hand limit | 4 (ideation, note 11c; HSBG 10) | 7.1.1 | PROPOSED ideation |
 | Board slots, front / back | 4 / 3 | 8.1.2 | BRAMBLE |
 | Damage cap by turn | 5 (1–3), 10 (4–7), 15 (8+), off at top 4 | 10.1.4 | BG |
 | Attack limit per combat | 200 | 9.10.1 | PROPOSED |
