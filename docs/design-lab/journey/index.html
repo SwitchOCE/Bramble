@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journey Round</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f4efe3; --ink: #1f1b16; --soft: #5d554a; --line: #ddd3bf; --card: #fffaf0; --accent: #3f6b2f; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #14130f; --ink: #efe8d8; --soft: #b3a993; --line: #353026; --card: #1d1b16; --accent: #9ccc78; } }
+  :root[data-theme="dark"] { --bg: #14130f; --ink: #efe8d8; --soft: #b3a993; --line: #353026; --card: #1d1b16; --accent: #9ccc78; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.55 Inter, system-ui, sans-serif; }
+  main { max-width: 1240px; margin: 0 auto; padding: 48px 20px 80px; }
+  .eyebrow { font: 600 13px Inter; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
+  h1 { font: 800 52px/1.05 Fraunces, Georgia, serif; margin: 8px 0 14px; }
+  .lede { max-width: 760px; font-size: 19px; color: var(--soft); }
+  .lede b { color: var(--ink); font-weight: 600; }
+  .route { display: flex; gap: 10px; margin: 26px 0 40px; flex-wrap: wrap; }
+  .route figure { margin: 0; flex: 1 1 160px; }
+  .route img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; display: block; }
+  .route figcaption { font-size: 13px; color: var(--soft); margin-top: 6px; }
+  .route figcaption b { color: var(--ink); }
+  section.v { display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; padding: 34px 0; border-top: 1px solid var(--line); }
+  section.v h2 { font: 800 34px/1.1 Fraunces, Georgia, serif; margin: 0 0 4px; }
+  section.v .num { font: 600 13px Inter; letter-spacing: .14em; color: var(--soft); text-transform: uppercase; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .shots a:first-child { grid-column: 1 / -1; }
+  .shots img { width: 100%; border-radius: 10px; display: block; border: 1px solid var(--line); }
+  ul { padding-left: 20px; margin: 10px 0; } li { margin: 5px 0; }
+  .open { display: inline-block; margin-top: 12px; background: var(--accent); color: var(--bg); text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 10px; }
+  .keys { margin-top: 34px; padding: 16px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-size: 15px; color: var(--soft); }
+  kbd { font: 600 13px Inter; background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--ink); }
+  @media (max-width: 860px) { section.v { grid-template-columns: 1fr; } h1 { font-size: 38px; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Bramble · design lab · journey round · 11 Nov 2026</div>
+  <h1>The board on a journey</h1>
+  <p class="lede">Three lab looks redone around one idea: <b>painted art surrounds the board, and the place changes as the game goes on.</b> The play area sits in the middle, opaque enough to read (as in The Bazaar); the painting frames it. Every two turns the band moves to a new area. Rules are ignored on purpose: these are looks to react to, not proposals for the game.</p>
+
+  <div class="route">
+    <figure><img src="world/weald.jpg" alt=""><figcaption><b>1 · Weald Glow</b> · turns 1–2</figcaption></figure>
+    <figure><img src="world/canopy.jpg" alt=""><figcaption><b>2 · Highcrown Canopy</b> · 3–4</figcaption></figure>
+    <figure><img src="world/mosswood.jpg" alt=""><figcaption><b>3 · Mosswood Mist</b> · 5–6</figcaption></figure>
+    <figure><img src="world/rays.jpg" alt=""><figcaption><b>4 · Highcrown Rays</b> · 7–8</figcaption></figure>
+    <figure><img src="world/fen.jpg" alt=""><figcaption><b>5 · Fen Wisplight</b> · 9+</figcaption></figure>
+  </div>
+
+  <section class="v">
+    <div class="shots">
+      <a href="arena/index.html?stop=3"><img src="shots/arena-recruit-3.jpg" alt="Clean Arena recruit in Mosswood Mist"></a>
+      <a href="arena/index.html?stop=3&flip=madame_bufo"><img src="shots/arena-flipped-3.jpg" alt="Clean Arena with one card flipped"></a>
+      <a href="arena/index.html?stop=4&mode=fight"><img src="shots/arena-fight-4.jpg" alt="Clean Arena fight"></a>
+    </div>
+    <div>
+      <div class="num">Lab #5</div>
+      <h2>Clean Arena, art first</h2>
+      <ul>
+        <li>The picture is the card. On top: tier, Attack (amber diamond), Health (red circle), and a bolt if it has a trigger (a ring if it has an always-on ability).</li>
+        <li><b>Click</b> a card to flip it: name, tribe, rules, and Buy / Sell / Play. <b>Hover</b> shows a quick reader. The lab dock switches between flip, hover or both.</li>
+        <li>The board floats on frosted glass; the hand, gold and actions share one bar at the bottom.</li>
+        <li>Travel: the camera walks right into the next place, with a big area title. Fights darken and lean in on the painting.</li>
+        <li>Dropped on purpose: the 4–3 brick (one row of seven), names on cards, slot labels.</li>
+      </ul>
+      <a class="open" href="arena/index.html">Open Clean Arena</a>
+    </div>
+  </section>
+
+  <section class="v">
+    <div class="shots">
+      <a href="storybook/index.html?stop=5"><img src="shots/storybook-recruit-5.jpg" alt="Storybook Ink recruit in Fen Wisplight"></a>
+      <a href="storybook/index.html?stop=1"><img src="shots/storybook-recruit-1.jpg" alt="Storybook Ink, chapter one"></a>
+      <a href="storybook/index.html?stop=4&mode=fight"><img src="shots/storybook-fight-4.jpg" alt="Storybook Ink fight"></a>
+    </div>
+    <div>
+      <div class="num">Lab #4</div>
+      <h2>Storybook Ink, the open book</h2>
+      <ul>
+        <li>The game is a storybook lying open in the painted wood. Each area is a chapter; travelling turns the page.</li>
+        <li>Left page: the market and the actions. Right page: your band walking a dotted trail. The hand is tucked in at the bottom edge ("In your satchel"); hover lifts a card out.</li>
+        <li>A fight is the two bands facing each other across the spine, ending in an inked stamp.</li>
+        <li>"End turn" is a paper tag: <i>Turn the page</i>. Hover a card for a handwritten note with its rules.</li>
+        <li>Dropped on purpose: rows and slots (the trail has an order, not a grid).</li>
+      </ul>
+      <a class="open" href="storybook/index.html">Open Storybook Ink</a>
+    </div>
+  </section>
+
+  <section class="v">
+    <div class="shots">
+      <a href="nouveau/index.html?stop=5"><img src="shots/nouveau-recruit-5.jpg" alt="Woodland Nouveau recruit in Fen Wisplight"></a>
+      <a href="nouveau/index.html?stop=1"><img src="shots/nouveau-recruit-1.jpg" alt="Woodland Nouveau, first station"></a>
+      <a href="nouveau/index.html?stop=4&mode=fight"><img src="shots/nouveau-fight-4.jpg" alt="Woodland Nouveau fight"></a>
+    </div>
+    <div>
+      <div class="num">Lab #7 · second shot</div>
+      <h2>Woodland Nouveau, the halo</h2>
+      <ul>
+        <li>Round 1 lost the information under ornament. This time the painting is the poster and the gilt only frames it: a thin line with whiplash corners.</li>
+        <li>Your band stands in an arc around your hero, like the halo behind a Mucha figure. The market hangs from a gilt vine.</li>
+        <li>Jewels carry the numbers: sapphire diamond for Attack, garnet for Health. Tiers are plain numbers now, not Roman.</li>
+        <li>A fight is two halos facing each other. Travel opens the next area through an arch rising from the bottom.</li>
+        <li>End turn is an arched door.</li>
+      </ul>
+      <a class="open" href="nouveau/index.html">Open Woodland Nouveau</a>
+    </div>
+  </section>
+
+  <div class="keys">
+    <b>In every look:</b> <kbd>→</kbd> travel to the next area · <kbd>←</kbd> go back · <kbd>F</kbd> recruit / fight · End turn plays a short mock fight, then offers to travel on. The small dock bottom-right jumps to any area (1–5). Clicking a shop card buys it into the hand; clicking a hand card plays it.<br>
+    <b>Art:</b> units are the ink-and-glow repaint from <code>ideation/ui-art-inkglow</code>; the five areas are the loop-1 painted backdrops and the runtime Highcrown Canopy. Unit names and text come from <code>ideation/main</code> content.
+  </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* Clean Arena, journey round. Flat, high-contrast, numbers first, but the art
+   now leads: the picture fills the card and only three things sit on top. */
+:root {
+  --ink: #f5f3ec; --dim: #9aa39c; --glass: rgba(14, 18, 17, .58); --line: rgba(255,255,255,.10);
+  --atk: #ffb31a; --hp: #ff4b5c; --go: #2fd68a; --ice: #4cc3ff;
+  --num: 'Barlow Condensed', system-ui, sans-serif; --txt: 'Inter', system-ui, sans-serif;
+}
+body { font-family: var(--txt); color: var(--ink); }
+.jy-shade { background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgba(5,10,8,.55) 100%); }
+html[data-mode="fight"] .jy-bg.on { transform: scale(1.12); filter: brightness(.62) saturate(.8); }
+html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 50%, rgba(0,0,0,.1) 30%, rgba(0,0,0,.7) 100%); }
+
+.jy-stage { transition: opacity .38s ease, filter .38s; }
+.jy-stage.leaving { opacity: 0; filter: blur(6px); }
+
+/* ---- Route: five round windows onto the areas ---------------------------- */
+.route { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 0; }
+.node { width: 46px; height: 46px; border-radius: 50%; background: center/cover; border: 3px solid rgba(255,255,255,.5); box-shadow: 0 4px 14px rgba(0,0,0,.4); transition: all .5s; }
+.node.past { filter: saturate(.5) brightness(.8); border-color: rgba(255,255,255,.35); }
+.node.ahead { filter: grayscale(1) brightness(.55); border-color: rgba(255,255,255,.25); }
+.node.here { width: 74px; height: 74px; border: 4px solid var(--ink); box-shadow: 0 0 0 4px rgba(0,0,0,.35), 0 0 28px color-mix(in srgb, var(--tint) 80%, transparent); }
+.path { width: 34px; height: 4px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.7) 0 6px, transparent 6px 11px); }
+.route-label { position: absolute; top: 50%; left: calc(100% + 22px); transform: translateY(-50%); white-space: nowrap; font: 600 18px var(--txt); color: var(--ink); text-shadow: 0 2px 8px rgba(0,0,0,.8); }
+.route-label b { font: 800 22px var(--num); letter-spacing: .04em; text-transform: uppercase; }
+
+.turnmark { position: absolute; top: 30px; left: 40px; display: flex; align-items: baseline; gap: 12px; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+.turnmark b { font: 800 52px/1 var(--num); }
+.turnmark span { font: 700 22px var(--num); letter-spacing: .12em; color: var(--go); }
+.turnmark span.red { color: var(--hp); }
+
+/* ---- Lobby: portraits on the painting, nothing else ----------------------- */
+.lobby { position: absolute; left: 34px; top: 130px; display: flex; flex-direction: column; gap: 14px; }
+.pl { position: relative; width: 86px; height: 86px; }
+.pl img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,.55); box-shadow: 0 6px 16px rgba(0,0,0,.45); }
+.pl.you img { border-color: var(--go); box-shadow: 0 0 0 3px rgba(47,214,138,.35), 0 6px 16px rgba(0,0,0,.45); }
+.pl.next img { border-color: var(--hp); }
+.pl.out { opacity: .35; filter: grayscale(1); }
+.php { position: absolute; right: -8px; bottom: -4px; min-width: 38px; height: 38px; padding: 0 6px; border-radius: 19px; background: var(--hp); color: #fff; font: 800 24px/38px var(--num); text-align: center; box-shadow: 0 0 0 3px #1a1010; }
+.ptier { position: absolute; left: -6px; bottom: -4px; width: 28px; height: 28px; border-radius: 50%; background: #111; color: var(--ink); font: 800 17px/28px var(--num); text-align: center; box-shadow: 0 0 0 2px rgba(255,255,255,.4); }
+
+/* ---- The arena: frosted glass in the middle of the world ------------------ */
+.arena { position: absolute; left: 50%; top: 128px; transform: translateX(-50%); width: 1564px; padding: 18px 26px 26px;
+  background: var(--glass); border: 1px solid var(--line); border-radius: 30px;
+  backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08); }
+.row-label { display: flex; justify-content: space-between; font: 700 18px var(--num); letter-spacing: .18em; color: var(--ink); margin: 4px 6px 10px; }
+.row-label .dim { color: var(--dim); }
+.row { display: flex; gap: 14px; justify-content: center; min-height: 268px; }
+.row.shop { margin-bottom: 18px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.slot { width: 200px; height: 268px; border-radius: 18px; border: 2px dashed rgba(255,255,255,.16); background: rgba(255,255,255,.03); }
+
+/* ---- Card: the picture is the card ------------------------------------------ */
+.card { position: relative; width: 200px; height: 268px; perspective: 1100px; cursor: pointer; flex: none; }
+.flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3,.7,.2,1); }
+.card.flipped .flip { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; border-radius: 18px; backface-visibility: hidden; overflow: hidden; }
+.front { background: #222; box-shadow: 0 10px 22px rgba(0,0,0,.45), 0 0 0 3px rgba(255,255,255,.9); transition: transform .18s, box-shadow .18s; }
+.front img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.04); }
+.front::after { content: ''; position: absolute; inset: auto 0 0 0; height: 4px; background: var(--tc); }
+.card:hover .front { transform: translateY(-6px); box-shadow: 0 18px 30px rgba(0,0,0,.5), 0 0 0 3px #fff; }
+.card .tier { position: absolute; top: 8px; left: 8px; width: 30px; height: 30px; border-radius: 50%; background: rgba(12,14,13,.82); color: var(--ink); font: 800 19px/30px var(--num); text-align: center; }
+.card .ico { position: absolute; top: 8px; right: 8px; width: 32px; height: 32px; border-radius: 50%; background: rgba(12,14,13,.82); display: grid; place-items: center; }
+.card .ico svg { width: 20px; height: 20px; }
+.card .bolt svg { fill: #ffd43a; }
+.card .aura svg { fill: #bfe9ff; stroke: #bfe9ff; }
+.atk, .hp { font: 800 40px/1 var(--num); color: #1a1208; display: grid; place-items: center; }
+.front .atk, .front .hp { position: absolute; bottom: 10px; width: 58px; height: 58px; box-shadow: 0 4px 10px rgba(0,0,0,.45); }
+.front .hp { right: 8px; background: var(--hp); border-radius: 50%; color: #fff; }
+/* Attack is a diamond, Health a circle: shape, not just colour, tells them apart. */
+.front .atk { left: 8px; background: none; box-shadow: none; isolation: isolate; }
+.front .atk::before { content: ''; position: absolute; inset: 6px; background: var(--atk); border-radius: 8px; transform: rotate(45deg); box-shadow: 0 4px 10px rgba(0,0,0,.45); z-index: -1; }
+
+.card.golden .front { box-shadow: 0 10px 22px rgba(0,0,0,.45), 0 0 0 4px #ffd75e, 0 0 26px 4px rgba(255,215,94,.55); }
+.card.frozen .front::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(160deg, rgba(160,225,255,.55), rgba(76,195,255,.2) 50%, rgba(200,240,255,.5)); border: 3px solid var(--ice); border-radius: 18px; }
+
+.back { transform: rotateY(180deg); background: #151917; border: 3px solid rgba(255,255,255,.9); padding: 12px 12px 10px; display: flex; flex-direction: column; }
+.back .thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .14; filter: blur(2px); }
+.back > * { position: relative; }
+.b-name { font: 800 21px/1.02 var(--num); letter-spacing: .02em; text-transform: uppercase; }
+.b-tribe { font: 600 12px var(--txt); color: var(--dim); margin: 5px 0 6px; display: flex; align-items: center; gap: 6px; }
+.b-tribe i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.b-text { font: 500 15px/1.32 var(--txt); margin: 0; flex: 1; overflow: hidden; }
+.b-text b { color: #fff; font-weight: 800; }
+.b-text em { font-style: normal; color: #ffd43a; font-weight: 700; }
+.b-foot { display: flex; gap: 6px; align-items: center; }
+.b-foot .atk, .b-foot .hp { width: 34px; height: 30px; border-radius: 7px; font-size: 22px; }
+.b-foot .atk { background: var(--atk); }
+.b-foot .hp { background: var(--hp); color: #fff; border-radius: 15px; }
+.b-act { all: unset; margin-left: auto; background: var(--go); color: #062314; font: 800 15px/30px var(--num); letter-spacing: .06em; padding: 0 10px; border-radius: 8px; cursor: pointer; }
+
+.reader { position: absolute; z-index: 50; width: 330px; padding: 16px 18px; background: rgba(14,18,17,.94); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,.5); pointer-events: none; }
+.reader .b-name { font-size: 28px; }
+.reader .b-text { font-size: 16px; }
+
+/* ---- Bottom bar: gold, three actions, the hand, End turn ----------------------- */
+.bar { position: absolute; left: 50%; transform: translateX(-50%); bottom: 22px; width: 1564px; height: 150px; display: flex; align-items: center; gap: 14px; padding: 0 18px;
+  background: var(--glass); border: 1px solid var(--line); border-radius: 28px; backdrop-filter: blur(14px); box-shadow: 0 20px 50px rgba(0,0,0,.4); }
+.bar .gold { background: none; border: 0; backdrop-filter: none; padding: 0 10px 0 4px; }
+.btn.sq { width: 104px; height: 104px; flex-direction: column; justify-content: center; gap: 4px; padding: 0; font-size: 34px; }
+.btn.sq em { font: 800 22px var(--num); }
+.bar .hand { position: static; transform: none; flex: 1; justify-content: center; align-self: flex-end; margin-bottom: 18px; }
+.bar .btn.end { margin: 0; width: 300px; height: 112px; }
+.hand .card { width: 136px; height: 182px; margin-top: -60px; }
+.hand .card .front .atk, .hand .card .front .hp { width: 42px; height: 42px; font-size: 28px; }
+.hand .card:nth-child(odd) { transform: rotate(-3deg); }
+.hand .card:nth-child(even) { transform: rotate(3deg) translateY(4px); }
+.hand .b-text { font-size: 11px; }
+.hand .b-name { font-size: 16px; }
+
+/* ---- Right side: gold and the four actions ------------------------------------ */
+.side { position: absolute; right: 40px; top: 170px; bottom: 40px; width: 250px; display: flex; flex-direction: column; gap: 14px; }
+.gold { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: var(--glass); backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid var(--line); }
+.gold .acorn svg { width: 48px; height: 48px; fill: var(--atk); }
+.gold b { font: 800 76px/1 var(--num); color: var(--atk); }
+.gold small { font: 700 16px var(--num); letter-spacing: .2em; color: var(--dim); align-self: flex-end; margin-bottom: 12px; }
+.btn { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; height: 66px; border-radius: 16px; background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--line); font: 800 24px var(--num); letter-spacing: .08em; transition: transform .12s, background .2s; }
+.btn:hover { transform: translateY(-2px); background: rgba(30,36,34,.8); }
+.btn em { font-style: normal; display: flex; align-items: center; gap: 4px; color: var(--atk); }
+.btn em svg { width: 22px; height: 22px; fill: var(--atk); }
+.btn.freeze { color: var(--ice); border-color: rgba(76,195,255,.45); }
+.btn.end { margin-top: auto; height: 116px; background: var(--go); color: #062314; flex-direction: column; justify-content: center; border: 0; font-size: 40px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.btn.end small { font: 700 16px var(--num); letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
+
+/* ---- Fight ---------------------------------------------------------------------- */
+.fightpanel { top: 50%; transform: translate(-50%, -46%); padding: 24px 26px; }
+.fightpanel .row { min-height: 268px; }
+.vs { height: 2px; margin: 26px 40px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); }
+.hero { position: absolute; right: -150px; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 108px; }
+.hero.foe { top: 30px; } .hero.me { bottom: 30px; }
+.hero img { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; border: 4px solid var(--hp); box-shadow: 0 8px 22px rgba(0,0,0,.5); }
+.hero.me img { border-color: var(--go); }
+.hero b { font: 800 16px var(--num); letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 6px #000; text-align: center; }
+.hero .php { right: -2px; top: 70px; bottom: auto; }
+.result { position: absolute; right: 40px; bottom: 40px; width: 300px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; animation: rise .5s ease; }
+.result > b { font: 800 96px/1 var(--num); text-align: right; text-shadow: 0 4px 20px rgba(0,0,0,.6); }
+.result > b.you { color: var(--go); } .result > b.them { color: var(--hp); }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } }
+
+/* ---- Arrival title ---------------------------------------------------------------- */
+.arrive { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 60;
+  padding: 26px 70px; background: rgba(10,13,12,.7); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid var(--line);
+  animation: arrive 2.6s cubic-bezier(.2,.7,.2,1) both; }
+.arrive small { display: block; font: 700 16px var(--num); letter-spacing: .3em; color: var(--dim); text-transform: uppercase; }
+.arrive b { display: block; font: 800 88px/1.05 var(--num); text-transform: uppercase; letter-spacing: .03em; color: var(--tint); }
+.arrive span { font: 500 22px var(--txt); }
+.arrive.go { opacity: 0; transition: opacity .6s; }
+@keyframes arrive { 0% { opacity: 0; transform: translate(-50%, -40%) scale(.96); } 18% { opacity: 1; transform: translate(-50%, -50%); } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+.card.deal { animation: deal .45s cubic-bezier(.2,.8,.2,1.2) both; }
+@keyframes deal { from { opacity: 0; transform: translateY(-30px) rotateY(90deg); } }
+
+/* Narrow-height screens (phone landscape): the stage is wider, so give the glass room */
+html.jy-phone .lobby { gap: 8px; top: 120px; }
+
+/* Arrival beat: the board steps aside so you see the new place, then returns. */
+.jy-stage.arriving .arena, .jy-stage.arriving .bar, .jy-stage.arriving .lobby { animation: board-return 2.8s ease both; }
+@keyframes board-return { 0%, 55% { opacity: 0; transform: translateX(-50%) translateY(24px); } 100% { opacity: 1; } }
+.jy-stage.arriving .lobby { animation-name: lobby-return; }
+@keyframes lobby-return { 0%, 55% { opacity: 0; } 100% { opacity: 1; } }

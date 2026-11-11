@@ -1,0 +1,133 @@
+/* Woodland Nouveau, journey round (second shot). Off-style on purpose:
+   the painting is the poster, gilt only frames it, jewels carry the numbers. */
+:root {
+  --ivory: #f7efdc; --ivory2: #efe1bf; --malachite: #0e3a31; --mal2: #15513f; --garnet: #9a1f33; --sapphire: #23439a; --amethyst: #6b3f8f;
+  --gold: linear-gradient(135deg, #fff1b8 0%, #d7ad4f 35%, #9c7124 70%, #f4d77f 100%);
+  --goldc: #d1a54a; --inkn: #2a1c12;
+  --deco: 'Cinzel Decorative', serif; --cap: 'Cinzel', serif; --serif: 'Cormorant Garamond', Georgia, serif;
+}
+body { font-family: var(--serif); color: var(--inkn); }
+.jy-shade { background: radial-gradient(110% 90% at 50% 40%, transparent 45%, rgba(10,30,24,.45) 100%); }
+html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rotate(-6deg); transform: scale(1.08); }
+
+/* Travel: the next place opens through an arch rising from the bottom. */
+.jy-bg.enter { opacity: 1; transform: scale(1.06); clip-path: ellipse(0% 0% at 50% 100%); transition: none; z-index: 2; }
+.jy-bg.on { clip-path: ellipse(120% 140% at 50% 100%); transition: opacity 1.4s, clip-path 1.5s cubic-bezier(.5,0,.2,1), transform 1.6s, filter 1s; }
+.jy-bg.leave { opacity: 1; transform: scale(1.02); z-index: 0; clip-path: none; transition: transform 1.6s; }
+.jy-stage { transition: opacity .5s ease; }
+.jy-stage.leaving { opacity: 0; }
+
+/* ---- The frame: a thin gilt line with whiplash corners ------------------------------- */
+.frame { position: absolute; inset: 14px; border: 3px solid var(--goldc); border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 1px rgba(60,40,10,.4), inset 0 0 0 1px rgba(60,40,10,.4); }
+.frame::after { content: ''; position: absolute; inset: 7px; border: 1px solid rgba(241,215,127,.6); border-radius: 6px; }
+.frame .c { position: absolute; width: 150px; height: 150px; }
+.frame .c svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 3px rgba(0,0,0,.4)); }
+.frame .tl { left: -10px; top: -10px; } .frame .tr { right: -10px; top: -10px; transform: scaleX(-1); }
+.frame .bl { left: -10px; bottom: -10px; transform: scaleY(-1); } .frame .br { right: -10px; bottom: -10px; transform: scale(-1); }
+
+/* ---- Title cartouche ----------------------------------------------------------------- */
+.cartouche { position: absolute; left: 50%; top: 22px; transform: translateX(-50%); text-align: center; padding: 6px 60px 10px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(14,58,49,.9), rgba(14,58,49,.72)); border-radius: 0 0 140px 140px / 0 0 60px 60px; border: 2px solid var(--goldc); border-top: 0; color: var(--ivory); }
+.cartouche small { display: block; font: 700 12px var(--cap); letter-spacing: .32em; text-transform: uppercase; color: #f1d78a; }
+.cartouche b { display: block; font: 900 44px/1.05 var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 rgba(0,0,0,.35)); }
+.cartouche i { font: 600 italic 18px var(--serif); color: var(--ivory2); }
+
+/* ---- Market: arched cards hanging from a gilt vine ------------------------------------- */
+.rail { position: absolute; left: 50%; top: 128px; transform: translateX(-50%); height: 40px; }
+.rail svg { width: 100%; height: 100%; display: block; }
+.rail span { position: absolute; left: -10px; top: -26px; font: 700 15px var(--cap); letter-spacing: .3em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px rgba(0,0,0,.7); }
+.market { position: absolute; left: 50%; top: 156px; transform: translateX(-50%); display: flex; justify-content: space-between; }
+.market .card { position: relative; transform: rotate(var(--r)); transform-origin: 50% -40px; }
+.market .card::before { content: ''; position: absolute; left: 50%; top: -30px; width: 2px; height: 34px; background: var(--goldc); }
+.market .card:hover { transform: rotate(0) translateY(6px); }
+
+/* ---- Card: an arch with a halo, jewels for numbers ------------------------------------ */
+.card { width: 170px; height: 236px; cursor: pointer; transition: transform .2s; z-index: 2; }
+.disc ~ .card, .fightcards .card { position: absolute; transform: translate(-50%, -50%) rotate(var(--r)); }
+.disc ~ .card:hover { transform: translate(-50%, -56%) rotate(0); z-index: 10; }
+.card .arch { position: relative; height: 196px; border-radius: 85px 85px 8px 8px; padding: 4px; background: var(--gold); box-shadow: 0 10px 22px rgba(0,0,0,.45); }
+.card .arch img { position: relative; width: 100%; height: 100%; object-fit: cover; object-position: 50% 26%; border-radius: 81px 81px 5px 5px; display: block; }
+.card .halo { position: absolute; inset: 4px; border-radius: 81px 81px 5px 5px; background: radial-gradient(circle at 50% 34%, transparent 38%, rgba(241,215,127,.0) 39%); z-index: 1; pointer-events: none;
+  box-shadow: inset 0 0 0 2px rgba(255,241,184,.7); }
+.card .arch::after { content: ''; position: absolute; left: 50%; top: 18px; width: 110px; height: 110px; transform: translateX(-50%); border-radius: 50%; border: 1.5px solid rgba(255,236,170,.5); box-shadow: 0 0 0 5px rgba(255,236,170,.1); pointer-events: none; }
+.card .tier { position: absolute; left: 50%; top: -12px; transform: translateX(-50%); width: 34px; height: 34px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; font: 900 18px var(--cap); color: var(--inkn); box-shadow: 0 2px 6px rgba(0,0,0,.5); z-index: 3; }
+.card .sigil { position: absolute; right: 8px; top: 30px; width: 30px; height: 30px; border-radius: 50%; background: var(--malachite); border: 2px solid var(--goldc); color: #ffe39a; display: grid; place-items: center; font-size: 17px; z-index: 3; }
+.card .name { position: relative; margin: -16px 26px 0; z-index: 3; text-align: center; background: var(--ivory); border: 2px solid var(--goldc); border-radius: 4px; padding: 3px 3px 2px;
+  font: 800 11px/1.05 var(--cap); letter-spacing: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; box-shadow: 0 3px 6px rgba(0,0,0,.35); }
+.gem { position: absolute; bottom: 26px; width: 50px; height: 50px; display: grid; place-items: center; z-index: 4; }
+.gem b { position: relative; font: 900 26px var(--cap); color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,.6); }
+.gem.atk { left: -12px; } .gem.hp { right: -12px; }
+.gem.atk::before { content: ''; position: absolute; inset: 5px; transform: rotate(45deg); border-radius: 5px; background: radial-gradient(circle at 35% 30%, #8fb0ff, var(--sapphire) 55%, #10245e); border: 3px solid #e6c56a; box-shadow: 0 3px 6px rgba(0,0,0,.5); }
+.gem.hp::before { content: ''; position: absolute; inset: 1px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; box-shadow: 0 3px 6px rgba(0,0,0,.5); }
+.card.golden .arch { box-shadow: 0 0 0 3px #fff1b8, 0 0 30px 8px rgba(255,220,120,.6), 0 10px 22px rgba(0,0,0,.45); }
+.card.frozen .arch img { filter: saturate(.4) brightness(1.15) hue-rotate(160deg); }
+.card.frozen .arch::before { content: '❄'; position: absolute; z-index: 3; left: 50%; top: 40%; transform: translate(-50%,-50%); font-size: 54px; color: #e8f6ff; text-shadow: 0 0 12px #6ac3ff; }
+
+/* ---- The halo: malachite disc, your band in an arc over your hero ---------------------- */
+.disc { position: absolute; left: 50%; bottom: -560px; width: 1500px; height: 1200px; transform: translateX(-50%); border-radius: 50%;
+  background: radial-gradient(circle at 50% 50%, rgba(14,58,49,.82) 0 52%, rgba(14,58,49,.55) 66%, rgba(14,58,49,0) 72%);
+  pointer-events: none; }
+.disc::before { content: ''; position: absolute; inset: 7%; border-radius: 50%; border: 3px solid rgba(215,173,79,.85); box-shadow: 0 0 0 10px rgba(215,173,79,.12), inset 0 0 0 1px rgba(255,241,184,.5); }
+.disc::after { content: ''; position: absolute; inset: 22%; border-radius: 50%; border: 2px dashed rgba(215,173,79,.4); }
+.disc.top { bottom: auto; top: -620px; }
+
+.hero { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); width: 200px; height: 200px; z-index: 3; }
+.hero .rings { position: absolute; inset: -22px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(241,215,127,.9) 0 2deg, transparent 2deg 10deg); -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); animation: spin 60s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 6px solid transparent; background: var(--gold) border-box; box-shadow: 0 0 40px rgba(255,220,130,.45); }
+.hero b { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font: 900 28px var(--cap); color: #fff;
+  background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; box-shadow: 0 4px 10px rgba(0,0,0,.5); }
+.hero.foe { bottom: auto; top: -70px; }
+.hero.foe b { bottom: -6px; }
+
+.jewels { position: absolute; bottom: 40px; display: flex; gap: 18px; z-index: 3; }
+.jewels.left { right: calc(50% + 150px); } .jewels.right { left: calc(50% + 150px); }
+.jewel { all: unset; box-sizing: border-box; width: 112px; height: 112px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
+  background: radial-gradient(circle at 40% 30%, #1d6a55, var(--malachite) 70%); border: 3px solid var(--goldc); box-shadow: 0 0 0 5px rgba(14,58,49,.6), 0 8px 18px rgba(0,0,0,.45); color: var(--ivory); transition: transform .15s; }
+.jewel:hover { transform: translateY(-3px); }
+.jewel b { font: 900 40px/1 var(--cap); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.jewel small { font: 700 12px var(--cap); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
+.jewel.gold { background: radial-gradient(circle at 40% 30%, #fff3c4, #d9ac48 55%, #8a5f1a); color: var(--inkn); }
+.jewel.gold b { font-size: 50px; background: none; color: var(--inkn); -webkit-background-clip: initial; }
+.jewel.ice b { background: linear-gradient(#eaf8ff, #8fd0ff); -webkit-background-clip: text; background-clip: text; }
+
+/* ---- Hand, lobby, the door ----------------------------------------------------------------- */
+.hand { position: absolute; left: 44px; bottom: 40px; display: flex; gap: 14px; align-items: flex-end; z-index: 4; }
+.hand > span { position: absolute; top: -30px; left: 2px; font: 700 14px var(--cap); letter-spacing: .3em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
+.hand .card { position: relative; transform: scale(.82); transform-origin: bottom left; margin-right: -30px; }
+.hand .card:hover { transform: scale(.9) translateY(-10px); }
+.lobby { position: absolute; left: 46px; top: 128px; display: flex; flex-direction: column; gap: 10px; z-index: 3; }
+.medal { position: relative; width: 64px; height: 64px; }
+.medal img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--goldc); box-shadow: 0 0 0 3px rgba(14,58,49,.7), 0 4px 10px rgba(0,0,0,.4); }
+.medal b { position: absolute; right: -10px; bottom: -4px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 900 16px var(--cap); color: #fff;
+  background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 2px solid #e6c56a; }
+.medal.you img { border-color: #fff1b8; box-shadow: 0 0 0 3px #d7ad4f, 0 0 18px rgba(255,220,130,.7); }
+.medal.next img { box-shadow: 0 0 0 3px var(--amethyst), 0 0 18px rgba(160,110,220,.7); }
+.medal.out { opacity: .35; filter: grayscale(1); }
+
+.door { all: unset; cursor: pointer; position: absolute; right: 54px; bottom: 44px; width: 220px; height: 280px; z-index: 4; text-align: center; box-sizing: border-box; padding: 120px 16px 0;
+  border-radius: 110px 110px 12px 12px; background: radial-gradient(ellipse at 50% 20%, #2a7a62, var(--malachite) 75%); border: 4px solid var(--goldc);
+  box-shadow: 0 0 0 6px rgba(14,58,49,.5), inset 0 0 0 6px rgba(215,173,79,.25), 0 14px 30px rgba(0,0,0,.5); color: var(--ivory); transition: transform .15s; }
+.door::before { content: ''; position: absolute; left: 50%; top: 22px; width: 90px; height: 90px; transform: translateX(-50%); border-radius: 50%; border: 2px solid var(--goldc);
+  background: radial-gradient(circle, rgba(255,236,170,.35), transparent 70%); }
+.door:hover { transform: translateY(-4px); }
+.door b { display: block; font: 900 30px/1.05 var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.door small { display: block; font: 600 italic 18px var(--serif); margin-top: 8px; }
+
+/* ---- Fight --------------------------------------------------------------------------------- */
+html[data-mode="fight"] .card { width: 150px; height: 210px; }
+html[data-mode="fight"] .card .arch { height: 174px; border-radius: 75px 75px 8px 8px; }
+html[data-mode="fight"] .card .arch img { border-radius: 71px 71px 5px 5px; }
+html[data-mode="fight"] .card .arch::after { width: 96px; height: 96px; }
+.verdict { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 20; font: 900 110px var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 10px rgba(0,0,0,.6)); animation: verdict .8s ease both; }
+@keyframes verdict { from { opacity: 0; letter-spacing: .4em; } }
+.disc ~ .card.jy-lunge { animation-name: nv-lunge; }
+@keyframes nv-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
+
+/* ---- Reader --------------------------------------------------------------------------------- */
+.reader { position: absolute; z-index: 60; width: 360px; padding: 18px 22px 20px; background: var(--ivory); border: 3px solid var(--goldc); border-radius: 60px 60px 10px 10px / 40px 40px 10px 10px; box-shadow: 0 0 0 6px rgba(14,58,49,.75), 0 20px 40px rgba(0,0,0,.5); text-align: center; pointer-events: none; }
+.reader small { font: 700 12px var(--cap); letter-spacing: .24em; text-transform: uppercase; color: #8a6420; }
+.reader b { display: block; font: 900 26px/1.1 var(--deco); margin: 4px 0 8px; }
+.reader p { font: 600 20px/1.3 var(--serif); margin: 0; }
+.reader p b { display: inline; font: 800 18px var(--cap); margin: 0; color: var(--amethyst); }
+.reader p em { font-style: italic; color: var(--garnet); font-weight: 700; }

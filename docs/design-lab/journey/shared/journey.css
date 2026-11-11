@@ -1,0 +1,75 @@
+/* Shared world layers for the journey round. Each page styles its own UI. */
+:root { --px: 0; --py: 0; --tint: #ffd27a; --hue: 38; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1a14; }
+* { box-sizing: border-box; }
+
+.jy-world { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+.jy-bg {
+  position: absolute; inset: -4%;
+  background: center / cover no-repeat;
+  opacity: 0;
+  transform: translate(calc(var(--px) * -18px), calc(var(--py) * -10px)) scale(1.04);
+  transition: opacity 1.4s ease, transform 1.6s cubic-bezier(.2,.7,.2,1), filter 1.2s ease;
+  animation: jy-drift 40s ease-in-out infinite alternate;
+}
+.jy-bg.on { opacity: 1; }
+/* Default travel: the camera walks right into the next place. */
+.jy-bg.enter { opacity: 0; transform: translateX(8%) scale(1.12); transition: none; }
+.jy-bg.leave { opacity: 1; transform: translateX(-10%) scale(1.06); z-index: 0; }
+.jy-bg.on { z-index: 1; }
+@keyframes jy-drift { from { background-position: 46% 50%; } to { background-position: 54% 46%; } }
+
+.jy-shade { position: absolute; inset: 0; transition: background 1s ease; }
+
+.jy-fern { position: absolute; bottom: -2%; width: 30vmax; max-width: 640px; opacity: .96;
+  transform: translate(calc(var(--px) * -40px), calc(var(--py) * -14px)); transition: transform .4s ease-out, filter 1s; }
+.jy-fern.l { left: -3%; }
+.jy-fern.r { right: -3%; transform: translate(calc(var(--px) * -40px), calc(var(--py) * -14px)) scaleX(-1); }
+
+.jy-motes { position: absolute; inset: 0; }
+.jy-motes i {
+  position: absolute; width: var(--sz); height: var(--sz); border-radius: 50%;
+  background: var(--tint); box-shadow: 0 0 10px 3px color-mix(in srgb, var(--tint) 70%, transparent);
+  opacity: 0; animation: jy-mote var(--d) ease-in-out var(--delay) infinite;
+  transition: background 1.2s, box-shadow 1.2s;
+}
+@keyframes jy-mote {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: .85; }
+  60% { opacity: .5; }
+  100% { opacity: 0; transform: translate(40px, -120px); }
+}
+
+.jy-stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; z-index: 2; }
+
+/* Fight feel */
+.jy-lunge { animation: jy-lunge .52s cubic-bezier(.3,.0,.2,1); z-index: 30 !important; position: relative; }
+@keyframes jy-lunge {
+  0% { transform: none; }
+  45% { transform: translate(var(--dx), var(--dy)) scale(1.06); }
+  100% { transform: none; }
+}
+.jy-hurt { animation: jy-hurt .4s ease; }
+@keyframes jy-hurt { 0%,100% { transform: none; filter: none; } 25% { transform: translateX(-6px); filter: brightness(1.6) saturate(.6); } 60% { transform: translateX(5px); } }
+.jy-dmg {
+  position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%);
+  font: 900 64px/1 system-ui, sans-serif; color: #fff;
+  -webkit-text-stroke: 3px #7a0d12; paint-order: stroke fill;
+  text-shadow: 0 6px 18px rgba(0,0,0,.5);
+  animation: jy-dmg .7s ease-out forwards; pointer-events: none; z-index: 40;
+}
+@keyframes jy-dmg { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.6); } 25% { opacity: 1; transform: translate(-50%, -60%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(1); } }
+.jy-dead { transition: opacity .5s ease .1s, transform .6s ease, filter .5s; opacity: 0; transform: scale(.85) translateY(12px); filter: grayscale(1); pointer-events: none; }
+
+/* Lab dock: not part of any design, deliberately plain */
+.jy-dock { position: fixed; right: 10px; bottom: 10px; z-index: 100; display: flex; gap: 6px; align-items: center;
+  font: 600 12px/1 system-ui, sans-serif; background: rgba(15,18,16,.72); color: #ddd; padding: 6px; border-radius: 10px;
+  backdrop-filter: blur(6px); opacity: .55; transition: opacity .2s; }
+.jy-dock:hover { opacity: 1; }
+.jy-dock a { color: #cfe; text-decoration: none; padding: 4px 6px; }
+.jy-seg { display: flex; background: rgba(255,255,255,.08); border-radius: 7px; overflow: hidden; }
+.jy-seg button { all: unset; cursor: pointer; padding: 5px 8px; color: #ccc; }
+.jy-seg button.on { background: #e8e2cf; color: #111; }
+
+html.jy-static *, html.jy-static *::before, html.jy-static *::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .jy-bg { animation: none; } .jy-motes { display: none; } }
