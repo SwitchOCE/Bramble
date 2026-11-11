@@ -3,7 +3,7 @@
 <!-- status -->
 - **In short:** The Bazaar Stack layout and the new art are in: units and woodland now painted in one ink-and-wash style. Next, play goes on its own surfaces with the world as a frame, and recruit feel lands.
 - **Status:** active
-- **Last step done:** 11 Nov: the art merged: every portrait, tribe image and backdrop repainted in ink with wash and glow (gate passed, 0 problems in the 4-game UI run).
+- **Last step done:** 11 Nov: the units went one notch more painted: all 162 portraits and tribe images repainted and merged (gate passed, 0 problems in the 4-game UI run).
 - **Next step:** frame play on its own surfaces (A2), recruit feel (B), and a trial of units one notch more painted; mid-loop update to you when A2 lands.
 - **Waiting on you:** nothing. Loop 1 ends when you play its build, or 13 Nov 23:22.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
