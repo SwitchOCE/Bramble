@@ -2,7 +2,7 @@
 
 Made by `tests/ui/full_ui_run.sh 2 1000` on a838bed6 (ideation/ui-arena), 2026-11-11.
 
-**0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
+**0 failed out of 2 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|

@@ -11,7 +11,7 @@ var highlight: Color = Color.TRANSPARENT:
 	set(value):
 		highlight = value
 		_refresh_labels()
-		queue_redraw()
+		_sync_target()
 ## Show the "behind F3 & F4" note when empty.
 var with_note: bool = false:
 	set(value):
@@ -39,6 +39,8 @@ var reach_flash: float = 0.0:
 		if _quarry_stamp != null:
 			_quarry_stamp.visible = quarry_preview and value > 0.001
 			_quarry_stamp.modulate.a = value
+		if _reach_face != null:
+			_reach_face.queue_redraw()
 		queue_redraw()
 
 var quiet: bool = false:
@@ -53,12 +55,14 @@ var _name_label: Label
 var _empty_label: Label
 var _note: Label
 var _note_box: Panel
-var _reach_face: Panel
+var _target_face: Control
+var _reach_face: Control
 var _quarry_stamp: Control
 
 
 func _init() -> void:
 	super()
+	hex_hit_test = true
 	_name_label = UiTheme.number("", 47, Color(UiTheme.CREAM, 0.92))
 	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_name_label)
@@ -74,14 +78,20 @@ func _init() -> void:
 	_note_box.add_child(_note)
 	resized.connect(_refresh_labels)
 	ready.connect(_refresh_labels)
+	# Targets must remain visible for tap placement and above later occupied-card siblings.
+	_target_face = Control.new()
+	_target_face.name = "TargetFace"
+	_target_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_target_face.z_index = 19
+	_target_face.draw.connect(_draw_target)
+	add_child(_target_face)
+	_target_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_sync_target()
 	# Occupied cards are later board siblings; the demand-only cue must paint above them.
-	_reach_face = Panel.new()
+	_reach_face = Control.new()
 	_reach_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_reach_face.z_index = 20
-	var flash: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.GILT, 0.15), UiTheme.GILT, 8, 24)
-	flash.shadow_color = Color(UiTheme.GILT, 0.4)
-	flash.shadow_size = 10
-	_reach_face.add_theme_stylebox_override("panel", flash)
+	_reach_face.draw.connect(_draw_reach)
 	add_child(_reach_face)
 	_reach_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_reach_face.hide()
@@ -112,6 +122,8 @@ static func note(slot: int) -> String:
 func _refresh_labels() -> void:
 	if _name_label == null:
 		return
+	if _target_face != null:
+		_target_face.queue_redraw()
 	if _quarry_stamp != null:
 		_quarry_stamp.position = (size - _quarry_stamp.size) / 2.0
 	var empty: bool = not filled and not wordless
@@ -140,55 +152,25 @@ func _process(delta: float) -> void:
 		_target_age = 0.0
 		return
 	_target_age += delta
-	queue_redraw()
+	_target_face.queue_redraw()
 
 
-func _draw() -> void:
-	if quiet:
-		_draw_target()
+func _sync_target() -> void:
+	if _target_face == null:
 		return
-	var rect: Rect2 = Rect2(Vector2.ZERO, size)
-	var fill: Color = UiTheme.CARVE
-	if highlight.a > 0.0:
-		fill = highlight
-		fill.a *= 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
-	draw_style_box(UiTheme.flat_box(fill, Color.TRANSPARENT, 0, 24), rect)
-	# The pocket's shadowed top edge.
-	var shade: StyleBoxFlat = UiTheme.flat_box(Color(UiTheme.INK, 0.45), Color.TRANSPARENT, 0, 24)
-	shade.corner_radius_bottom_left = 0
-	shade.corner_radius_bottom_right = 0
-	draw_style_box(shade, Rect2(0, 0, size.x, 14))
-	if filled:
-		draw_style_box(UiTheme.flat_box(Color.TRANSPARENT, UiTheme.INK, 5, 24), rect)
-		return
-	var line: Color = UiTheme.ACORN if highlight.a > 0.0 else UiTheme.INK
-	_dashed_round_rect(rect.grow(-2.5), 24.0, line)
+	_target_face.visible = highlight.a > 0.0
+	_target_face.modulate = highlight.lightened(0.45)
+	_target_face.queue_redraw()
 
 
-func _dashed_round_rect(rect: Rect2, corner: float, colour: Color) -> void:
-	var left: float = rect.position.x
-	var top: float = rect.position.y
-	var right: float = rect.end.x
-	var bottom: float = rect.end.y
-	var dash: float = 10.0
-	draw_dashed_line(Vector2(left + corner, top), Vector2(right - corner, top), colour, 5.0, dash)
-	draw_dashed_line(
-		Vector2(left + corner, bottom), Vector2(right - corner, bottom), colour, 5.0, dash
-	)
-	draw_dashed_line(Vector2(left, top + corner), Vector2(left, bottom - corner), colour, 5.0, dash)
-	draw_dashed_line(
-		Vector2(right, top + corner), Vector2(right, bottom - corner), colour, 5.0, dash
-	)
-	draw_arc(Vector2(left + corner, top + corner), corner, PI, PI * 1.5, 8, colour, 5.0, true)
-	draw_arc(Vector2(right - corner, top + corner), corner, PI * 1.5, TAU, 8, colour, 5.0, true)
-	draw_arc(Vector2(right - corner, bottom - corner), corner, 0.0, PI * 0.5, 8, colour, 5.0, true)
-	draw_arc(Vector2(left + corner, bottom - corner), corner, PI * 0.5, PI, 8, colour, 5.0, true)
+func _draw_reach() -> void:
+	var rect: Rect2 = face_rect()
+	_reach_face.draw_colored_polygon(HexShape.polygon(rect), Color(UiTheme.GILT, 0.15))
+	_reach_face.draw_polyline(HexShape.closed(rect), UiTheme.GILT, 3.0, true)
 
 
 func _draw_target() -> void:
-	if highlight.a <= 0.0:
-		return
 	var pulse: float = 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
-	var fill: Color = Color(highlight, highlight.a * pulse * 0.22)
-	var rim: Color = Color(UiTheme.ACORN, pulse)
-	draw_style_box(UiTheme.flat_box(fill, rim, 3, 20), Rect2(Vector2.ZERO, size))
+	var rect: Rect2 = face_rect()
+	_target_face.draw_colored_polygon(HexShape.polygon(rect), Color(1, 1, 1, pulse * 0.22))
+	_target_face.draw_polyline(HexShape.closed(rect), Color(1, 1, 1, pulse), 3.0, true)

@@ -155,7 +155,11 @@ func test_reduce_motion_flashes_source_then_destination_without_intermediate_tra
 	_advance(screen, 0.1)
 	var destination_points: PackedVector2Array = ring.dot_points()
 	assert_ne(destination_points, source_points)
-	assert_eq(destination_points[0], ring.to_rect.position, "destination flash has no route")
+	assert_eq(
+		destination_points[0],
+		RingTravel.HexShape.perimeter_point(RingTravel.HexShape.fit(ring.to_rect), 0.0),
+		"destination flash sits on the actual hex, with no route"
+	)
 	_advance(screen, 0.15)
 	await get_tree().process_frame
 	assert_false(is_instance_valid(ring))

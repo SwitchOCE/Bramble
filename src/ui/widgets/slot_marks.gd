@@ -9,6 +9,8 @@ const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const RingTravel := preload("res://src/ui/widgets/ring_travel.gd")
 
+const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
+
 const BAND_COLOURS: Array[Color] = [
 	Color("c8372d"),
 	Color("e2852b"),
@@ -362,12 +364,14 @@ func _draw() -> void:
 		if mark.get("horseshoe", false) == true:
 			_draw_horseshoe(Rect2(at, pocket))
 		if mark.get("band", false) == true:
-			var band: Rect2 = Rect2(
-				at + Vector2(pocket.x * 0.27, pocket.y - 8.0), Vector2(pocket.x * 0.46, 16)
-			)
-			draw_rect(band.grow(3.0), UiTheme.INK)
-			band.size.x *= _band_reveal.get(i, 1.0)
-			draw_rect(band, BAND_COLOURS[i])
+			var frame: Rect2 = HexShape.fit(Rect2(at, pocket).grow(-4.0))
+			var band: PackedVector2Array = HexShape.closed(frame).slice(16, 33)
+			var reveal: float = _band_reveal.get(i, 1.0)
+			if reveal > 0.0:
+				band = band.slice(0, maxi(2, roundi(band.size() * reveal)))
+				draw_polyline(band, UiTheme.INK, 6.0, true)
+				draw_polyline(band, BAND_COLOURS[i], 3.5, true)
+
 	if board.get("combat_mode") == true:
 		_draw_combat_marks()
 
@@ -408,15 +412,22 @@ func _draw_nest(rect: Rect2, slot: int) -> void:
 	if not occupied:
 		if _egg == null:
 			_egg = load(EGG_ART)
-		var art_rect: Rect2 = rect.grow(-14.0)
-		art_rect.size.y -= EGG_BEAD * 0.32
-		draw_texture_rect(_egg, art_rect, false)
-	var radius: Vector2 = rect.size / 2.0 - Vector2(5, 5)
+		var art_rect: Rect2 = HexShape.fit(rect.grow(-14.0))
+		var points: PackedVector2Array = HexShape.polygon(art_rect)
+		var art: Vector2 = _egg.get_size()
+		var fit: float = maxf(art_rect.size.x / art.x, art_rect.size.y / art.y)
+		var shown: Vector2 = art_rect.size / fit
+		var origin: Vector2 = (art - shown) / 2.0
+		var uvs: PackedVector2Array = []
+		for point: Vector2 in points:
+			uvs.append((origin + (point - art_rect.position) / fit) / art)
+		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, _egg)
+	var frame: Rect2 = HexShape.fit(rect.grow(-5.0))
 	for twig: int in NEST_TWIGS:
-		var angle: float = TAU * twig / NEST_TWIGS
-		var along: Vector2 = Vector2(cos(angle), sin(angle))
-		var across: Vector2 = Vector2(-along.y, along.x) * (12.0 if twig % 2 == 0 else -12.0)
-		var mid: Vector2 = rect.get_center() + along * radius
+		var fraction: float = float(twig) / NEST_TWIGS
+		var mid: Vector2 = HexShape.perimeter_point(frame, fraction)
+		var next: Vector2 = HexShape.perimeter_point(frame, fraction + 0.005)
+		var across: Vector2 = (next - mid).normalized() * (12.0 if twig % 2 == 0 else -12.0)
 		draw_line(mid - across, mid + across, TWIG_DARK, 5.0 if occupied else 7.0)
 		draw_line(mid - across, mid + across, TWIG, 2.0 if occupied else 4.0)
 
@@ -431,22 +442,10 @@ func _draw_toadstool(at: Vector2) -> void:
 
 ## Dots stay outside the portrait and read as one quiet floor frame.
 func _draw_ring(rect: Rect2, slot: int) -> void:
-	var perimeter: float = (rect.size.x + rect.size.y) * 2.0
 	var reveal: float = _ring_reveal.get(slot, 1.0)
 	var limit: int = roundi(RING_DOTS * reveal)
-	for dot: int in RING_DOTS:
-		if dot >= limit:
-			continue
-		var along: float = perimeter * dot / RING_DOTS
-		var point: Vector2 = rect.position
-		if along < rect.size.x:
-			point += Vector2(along, 0)
-		elif along < rect.size.x + rect.size.y:
-			point += Vector2(rect.size.x, along - rect.size.x)
-		elif along < rect.size.x * 2.0 + rect.size.y:
-			point += Vector2(rect.size.x * 2.0 + rect.size.y - along, rect.size.y)
-		else:
-			point += Vector2(0, perimeter - along)
+	for dot: int in limit:
+		var point: Vector2 = HexShape.perimeter_point(HexShape.fit(rect), float(dot) / RING_DOTS)
 		draw_circle(point, 5.0, UiTheme.INK)
 		draw_circle(point, 3.5, RING)
 

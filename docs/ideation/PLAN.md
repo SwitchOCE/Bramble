@@ -3,8 +3,8 @@
 <!-- status -->
 - **In short:** Building your journey lab's layout into the game: your board stays put, units are one size, and the hand holds 4. You play it when it lands.
 - **Status:** active
-- **Last step done:** 12 Nov: recruit feel merged (B); the hand of 4 is in the rules and every test follows it.
-- **Next step:** your lab's arrangement (A3) and hex units (A4), building in parallel; then the build checks and the playtest note.
+- **Last step done:** 12 Nov: hex units merged (A4): your lab's rounded hex, the back row tucked in, golden and selected clearly different.
+- **Next step:** join your lab's arrangement (A3) with the hex units and let units grow into the spare height; then the build checks and the playtest note.
 - **Waiting on you:** nothing. Loop 1 ends when you play the build with the lab's layout.
 - **Scope:** UI, UX, look and feel. Rules change only where the UI needs it (note 11c).
 <!-- /status -->

@@ -13,6 +13,50 @@ const SandboxScreen := preload("res://src/ui/screens/sandbox_screen.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const Data := preload("res://src/ui/view_data.gd")
+const Interactive := preload("res://src/ui/widgets/interactive.gd")
+
+
+func test_general_interactive_zones_keep_rectangular_taps_and_drops() -> void:
+	var zone := Interactive.new()
+	add_child_autofree(zone)
+	zone.size = Vector2(500, 150)
+	var corner := Vector2(8, 8)
+	assert_true(zone._has_point(corner), "wide hand and hero zones include their corners")
+	assert_false(zone._has_point(Vector2(-1, 8)))
+	var taps: Array = []
+	var drops: Array = []
+	zone.tapped.connect(func(_zone: String, _index: int) -> void: taps.append(true))
+	zone.can_drop_fn = func(_data: Variant, _zone: String, _index: int) -> bool: return true
+	zone.drop_fn = func(data: Variant, _zone: String, _index: int) -> void: drops.append(data)
+	for pressed: bool in [true, false]:
+		var click := InputEventMouseButton.new()
+		click.button_index = MOUSE_BUTTON_LEFT
+		click.pressed = pressed
+		click.position = corner
+		zone._gui_input(click)
+	assert_eq(taps.size(), 1)
+	assert_true(zone._can_drop_data(corner, "hand"))
+	zone._drop_data(corner, "hand")
+	assert_eq(drops, ["hand"])
+
+
+func test_drag_keeps_a_valid_hex_press_after_pointer_leaves_the_face() -> void:
+	var card := CardView.new()
+	add_child_autofree(card)
+	card.set_card_size(Vector2(176, 226))
+	card.drag_data_fn = func(_zone: String, _index: int) -> Variant: return {"index": 0}
+	var outside: Vector2 = card.face_rect().position + Vector2(2, 2)
+	assert_false(card._has_point(outside))
+	assert_true(card._get_drag_data(outside) == null, "an unpressed cut corner cannot start a drag")
+	var press := InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.position = card.face_rect().get_center()
+	card._gui_input(press)
+	assert_true(
+		card._get_drag_data(outside) is Dictionary,
+		"Godot's delayed drag request preserves a press that began on the face"
+	)
 
 
 ## A stand-alone stub port (no core): buy() puts a golden at the front of the hand with a fresh

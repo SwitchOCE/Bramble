@@ -123,7 +123,6 @@ func show_board(
 			var view: Dictionary = Data.entry(units, slot)
 			var card: CardView = CardView.new()
 			card.chip_hidden = true
-			card.selection_color = UiTheme.RIME
 			card.show_unit(view, CardView.Mode.BOARD)
 			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			card.set_meta("overlap_checked", true)
