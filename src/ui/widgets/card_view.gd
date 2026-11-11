@@ -79,6 +79,8 @@ var chip_shown: String = ""
 ## Full rules are always one tap away.
 var rules_shown: bool = false
 
+var _visual_attack: int = 0
+var _visual_health: int = 0
 var _focus_rim: Control
 var _combat_marks: CombatFace
 var _poached_badge: PoachedBadge
@@ -388,11 +390,16 @@ func _place_parts(_spell: bool) -> void:
 
 
 ## The badge widens for three digits; its height and the lower-corner anchors stay stable.
-func _place_beads() -> void:
+func _place_beads(attack_value: int = -1, health_value: int = -1) -> void:
 	var face: Rect2 = face_rect()
 	var bead: float = clampf(face.size.x * 0.34, 38.0, 76.0)
 	var stat_font: int = maxi(UiTheme.MIN_FONT, roundi(bead * 0.60))
-	var values: Array[int] = [Data.i(unit, "attack"), maxi(Data.i(unit, "health"), 0)]
+	var values: Array[int] = [
+		attack_value if attack_value >= 0 else Data.i(unit, "attack"),
+		health_value if health_value >= 0 else maxi(Data.i(unit, "health"), 0)
+	]
+	_visual_attack = values[0]
+	_visual_health = values[1]
 	var badges: Array[ShapeBadge] = [_attack_badge, _health_badge]
 	var labels: Array[Label] = [_attack_label, _health_label]
 	var widths: Array[float] = []
@@ -587,7 +594,8 @@ func animate_frost(on: bool, delay: float, speed: float, reduced: bool) -> void:
 
 ## Animation values can be wider than either endpoint; refit each displayed frame.
 func show_stat(stat: String, value: int) -> void:
-	var number: Label = _attack_label if stat == "attack" else _health_label
-	var badge: ShapeBadge = _attack_badge if stat == "attack" else _health_badge
-	var preferred: int = maxi(UiTheme.MIN_FONT, roundi(badge.size.y * 0.54))
-	StatNumbers.fit(number, badge.inner_width(), preferred, maxi(0, value))
+	if stat == "attack":
+		_place_beads(maxi(0, value), _visual_health)
+	else:
+		_place_beads(_visual_attack, maxi(0, value))
+	_refresh_combat_marks()

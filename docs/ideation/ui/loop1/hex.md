@@ -14,8 +14,11 @@ show drop outlines only during a drag. Nest portraits cover-crop into a hex.
 Three-digit badges widen. Tiny legacy scout boxes step Attack up when two wide
 badges cannot fit abreast; neither badge covers the other or leaves its box.
 Specific Mire, Quarry and Swoop marks remain, as do defence/counter marks.
+Rainbow bands follow the lower hex rim. The transient attack-source outline
+uses the same contour and ink weight. Animated stat rolls resize their badges.
 
-All 155 portraits were inspected at 176×226 on five full-size contact sheets.
+All 155 portraits were inspected first at 176×226 on five full-size contact
+sheets. Final sheets use the current combat board box, 199×255.
 Small source-relative pans correct cropped faces/props on old_isegrim,
 signor_ranocchio, madame_bufo, gable_ratchet, grizel, grey_agnes, mrs_jay,
 sergeant_conkers and pennyworth_snail. No portrait files were repainted.
@@ -30,6 +33,11 @@ Tests rewritten:
 - `test_scout_reach.gd`: the foreground cue is a drawn hex Control, replacing a
   rectangular Panel; its lifetime and foreground assertions remain.
 
+- `test_combat_face.gd`: pending-gain clearance is checked in the card's coordinate
+  space, accounting for the inset hex face.
+- `test_ring_travel.gd`: the reduced-motion destination is the actual hex's first
+  perimeter point, replacing the old rectangle corner; no-route checks remain.
+
 New `test_hex_units.gd` checks arbitrary boxes, contour hits/drops, actual Godot
 GUI picking at tucked corners, opposing row packing, real overlap detection,
 foreground focus and exact three-digit badges.
@@ -40,7 +48,10 @@ widgets with a staged full shop, seven units and four hand cards, and core-gener
 
 ## Integration and verification
 
-Pending final runs. The current screen layout predates A3. Its combat `POCKET=220`
+Final focused run: 67/68 tests pass across 11 scripts. The remaining test is the
+unchanged combat-screen bounds assertion in `test_big_numbers.gd`. Exact stats,
+font minimums, native input, recruit motion, attack/death/replay cues and Ring
+travel checks pass. Formatting and lint pass. Final gate/UI run pending. The current screen layout predates A3. Its combat `POCKET=220`
 produces a 1025×541 tray and places the lower board beyond the 1080 canvas. A3 must
 supply its common unit box and screen anchors; no screen files were changed here.
 `CardView.set_card_size` fits the exact caller box; `size_for` offers 0.78:1 in all

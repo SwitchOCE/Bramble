@@ -364,12 +364,14 @@ func _draw() -> void:
 		if mark.get("horseshoe", false) == true:
 			_draw_horseshoe(Rect2(at, pocket))
 		if mark.get("band", false) == true:
-			var band: Rect2 = Rect2(
-				at + Vector2(pocket.x * 0.27, pocket.y - 8.0), Vector2(pocket.x * 0.46, 16)
-			)
-			draw_rect(band.grow(3.0), UiTheme.INK)
-			band.size.x *= _band_reveal.get(i, 1.0)
-			draw_rect(band, BAND_COLOURS[i])
+			var frame: Rect2 = HexShape.fit(Rect2(at, pocket).grow(-4.0))
+			var band: PackedVector2Array = HexShape.closed(frame).slice(16, 33)
+			var reveal: float = _band_reveal.get(i, 1.0)
+			if reveal > 0.0:
+				band = band.slice(0, maxi(2, roundi(band.size() * reveal)))
+				draw_polyline(band, UiTheme.INK, 6.0, true)
+				draw_polyline(band, BAND_COLOURS[i], 3.5, true)
+
 	if board.get("combat_mode") == true:
 		_draw_combat_marks()
 

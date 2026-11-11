@@ -1,6 +1,7 @@
 extends SceneTree
 ## A4 evidence: real screen widgets with full 7/4/7 state, and every shipped portrait.
 
+const Board := preload("res://src/ui/widgets/board_view.gd")
 const Card := preload("res://src/ui/widgets/card_view.gd")
 const Recruit := preload("res://src/ui/screens/recruit_screen.gd")
 const Fight := preload("res://src/ui/screens/combat_screen.gd")
@@ -9,7 +10,7 @@ const Views := preload("res://src/ui/unit_views.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const IDS: PackedStringArray = [
-	"little_nip", "mrs_jay", "wick", "field_vole", "old_brock", "prima_donna", "mother_goose"
+	"little_nip", "mrs_jay", "wick", "young_brock", "old_brock", "prima_donna", "mother_goose"
 ]
 const OUT: String = "res://build/loop1/hex/"
 
@@ -55,11 +56,15 @@ func _run(kind: String) -> void:
 		await _portraits()
 	elif kind == "states":
 		await _states()
+	elif kind == "packing":
+		await _packing()
 	elif kind == "recruit":
 		var port := Fixture.new()
 		port.use_state_file("res://tests/ui/data/recruit_slice.json")
 		var state: Dictionary = port.get_state()
 		state["board"] = _boards()[0]
+		state["slot_effects"] = [[], [], [], [], [], [], []]
+		state["pending_passes"] = []
 		state["hand"] = []
 		state["hand_items"] = []
 		state["hand_limit"] = 4
@@ -87,18 +92,27 @@ func _run(kind: String) -> void:
 		var fight: Dictionary = engine.run(_boards(), [6, 6], [0, 1], 0)
 		screen.setup(fight, ["You", "Them"], 0, "Round 12", 30)
 		if kind == "movie":
+			for frame: int in 4:
+				await process_frame
+			assert(DirAccess.make_dir_recursive_absolute(OUT + "frames") == OK)
 			for frame: int in 180:
 				screen.advance_playback(1.0 / 30.0)
 				await process_frame
+				await RenderingServer.frame_post_draw
+				var image: Image = root.get_texture().get_image()
+				assert(image.get_size() == _size, "movie frames must retain native resolution")
+				assert(image.save_jpg(OUT + "frames/frame-%03d.jpg" % frame, 0.94) == OK)
+			print("hex evidence: 180 native-resolution movie frames at 30 FPS")
 		else:
 			screen.playing = false
-			for event: Dictionary in screen.events:
-				screen._play_event(event, str(event["type"]) == "attack")
+			while screen.next_index < screen.events.size():
+				var event: Dictionary = screen.events[screen.next_index]
 				if str(event["type"]) == "attack":
+					screen.step_once()
 					break
-			screen.playing = true
-			screen.advance_playback(0.08)
-			screen.playing = false
+				screen._play_event(event, false)
+				screen.next_index += 1
+			screen.advance_playback(0.20)
 			await _save("fight-mid-attack")
 
 	quit(0)
@@ -120,7 +134,7 @@ func _portraits() -> void:
 		if file.ends_with(".jpg"):
 			ids.append(file.get_basename())
 	var page: int = 0
-	for first: int in range(0, ids.size(), 32):
+	for first: int in range(0, ids.size(), 24):
 		var sheet := Control.new()
 		sheet.theme = UiTheme.get_theme()
 		root.add_child(sheet)
@@ -128,18 +142,18 @@ func _portraits() -> void:
 		background.color = Color("3d4540")
 		background.size = Vector2(_size)
 		sheet.add_child(background)
-		for index: int in mini(32, ids.size() - first):
+		for index: int in mini(24, ids.size() - first):
 			var id: String = ids[first + index]
 			var card := Card.new()
 			card.show_unit(
 				{"def_id": id, "portrait_id": id, "kind": "unit", "attack": 12, "health": 19},
 				Card.Mode.BOARD
 			)
-			card.set_card_size(Vector2(176, 226))
-			card.position = Vector2(50 + (index % 8) * 228, 10 + floori(index / 8.0) * 266)
+			card.set_card_size(Card.size_for(199))
+			card.position = Vector2(50 + (index % 8) * 228, 10 + floori(index / 8.0) * 342)
 			sheet.add_child(card)
 			var label: Label = UiTheme.label(id, 20, Color.WHITE)
-			label.position = card.position + Vector2(-10, 226)
+			label.position = card.position + Vector2(-10, card.card_size.y)
 			label.size = Vector2(218, 32)
 			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 			sheet.add_child(label)
@@ -147,7 +161,7 @@ func _portraits() -> void:
 		await _save("portraits-%02d" % page)
 		root.remove_child(sheet)
 		sheet.queue_free()
-	print("hex evidence: all ", ids.size(), " portraits at 176x226")
+	print("hex evidence: all ", ids.size(), " portraits at the current 199x255 combat box")
 
 
 func _states() -> void:
@@ -175,3 +189,19 @@ func _states() -> void:
 		card.selected = index == 0
 		sheet.add_child(card)
 	await _save("golden-stats-keywords-types")
+
+
+func _packing() -> void:
+	Settings.reduce_motion = true
+	var board := Board.new()
+	board.theme = UiTheme.get_theme()
+	board.configure("board", 196, true)
+	board.position = Vector2(480, 250)
+	root.add_child(board)
+	for index: int in 7:
+		var card := Card.new()
+		card.show_unit(_unit(IDS[index], index + 1), Card.Mode.BOARD)
+		board.place_card(card, index)
+	board.cards[1].selected = true
+	board.cards[4].call("_set_hover_lift", true)
+	await _save("tucked-selection-hover")

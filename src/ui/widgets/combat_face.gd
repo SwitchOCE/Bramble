@@ -80,6 +80,10 @@ func setup(
 	pending_rect = Rect2(
 		Vector2((size.x - 42.0) / 2.0, size.y * 0.27), Vector2(42, minf(38.0, size.y * 0.22))
 	)
+	if pending_rect.intersects(_attack):
+		var room: float = maxf(16.0, size.x - _attack.end.x - 3.0)
+		pending_rect.size.x = minf(42.0, room)
+		pending_rect.position.x = size.x - pending_rect.size.x
 	marked_keywords.clear()
 	marked_statuses.clear()
 	for entry: Variant in Data.a(view, "statuses"):
@@ -251,7 +255,7 @@ func _draw_icon(key: String, rect: Rect2) -> void:
 
 
 func _draw_reeds() -> void:
-	var foot: Vector2 = Vector2(size.x * 0.24, size.y * 0.70)
+	var foot: Vector2 = Vector2(size.x * 0.12, size.y * 0.60)
 	for index: int in 3:
 		var root: Vector2 = foot + Vector2(index * 8, 0)
 		var tip: Vector2 = root + Vector2(-4 + index * 3, -24 - index % 2 * 8)
