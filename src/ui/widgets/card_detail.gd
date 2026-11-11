@@ -316,7 +316,9 @@ func _place_arena_overlay(
 	if _arena_anchor == anchor:
 		return
 	_arena_anchor = anchor
-	var free: Rect2 = _free_band(Rect2(Vector2(12, 12), stage.size - Vector2(24, 24)), protected)
+	var free: Rect2 = _free_band(
+		Rect2(Vector2(12, 12), stage.size - Vector2(24, 24)), protected, 530.0, 300.0
+	)
 	if not free.has_area():
 		return
 	free.size.x = minf(free.size.x, 530.0)
@@ -332,7 +334,9 @@ static func _clear_of(rect: Rect2, protected: Array[Rect2]) -> bool:
 
 ## Boundaries come from the live rows. This also finds the space between a shop and a hand
 ## when a held spell targets the shop: both its source and its tap targets remain exposed.
-static func _free_band(bounds: Rect2, protected: Array[Rect2]) -> Rect2:
+static func _free_band(
+	bounds: Rect2, protected: Array[Rect2], max_width: float = INF, min_height: float = 0.0
+) -> Rect2:
 	var xs: Array[float] = [bounds.position.x, bounds.end.x]
 	var ys: Array[float] = [bounds.position.y, bounds.end.y]
 	for row: Rect2 in protected:
@@ -347,7 +351,9 @@ static func _free_band(bounds: Rect2, protected: Array[Rect2]) -> Rect2:
 				continue
 			for top: float in ys:
 				for bottom: float in ys:
-					var band := Rect2(left, top, right - left, bottom - top)
+					if bottom - top < min_height:
+						continue
+					var band := Rect2(left, top, minf(right - left, max_width), bottom - top)
 					if (
 						bottom > top
 						and band.get_area() > largest.get_area()

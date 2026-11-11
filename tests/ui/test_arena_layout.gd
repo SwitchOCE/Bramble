@@ -229,6 +229,25 @@ func test_market_controls_are_inside_market_and_reader_clears_source_and_purchas
 			var reader: Control = screen.get("_detail")
 			assert_true(reader.visible)
 			assert_true(screen.get_viewport_rect().encloses(reader.get_global_rect()))
+			var notes: RichTextLabel = reader.get("_notes")
+			var panel: Control = reader.get("_panel")
+			assert_true(notes.is_visible_in_tree(), zone + ": rules viewport is visible")
+			assert_gte(notes.size.y, 40.0, zone + ": rules retain a usable reading height")
+			assert_gte(
+				notes.size.y,
+				minf(
+					notes.get_content_height(), notes.get_theme_font_size("normal_font_size") * 3.0
+				),
+				zone + ": rules fit or expose at least three lines for scrolling"
+			)
+			assert_true(
+				reader.get_global_rect().encloses(notes.get_global_rect()),
+				zone + ": rules stay in reader"
+			)
+			assert_true(
+				panel.get_global_rect().encloses(notes.get_global_rect()),
+				zone + ": rules stay on paper"
+			)
 			var source: Control = screen._card_at(zone, 0)
 			assert_false(reader.get_global_rect().intersects(source.get_global_rect()), zone)
 			var own: Control = screen.get("_board")
