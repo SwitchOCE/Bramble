@@ -263,14 +263,21 @@ func test_phone_scout_hero_name_lives_in_the_reader() -> void:
 		assert_eq(str(detail.shown["name"]), words, "the full identity remains readable")
 
 
-func test_eight_phone_shop_offers_remain_in_place_while_the_reader_floats() -> void:
+func _set_shop_spell(raw: Dictionary) -> void:
+	raw["shop_spells"] = [
+		{"name": "Acorn", "kind": "spell", "def_id": "acorn", "text": "Gain 1 gold.", "cost": 1}
+	]
+
+
+func test_maximum_phone_shop_offers_remain_full_sized_while_the_reader_floats() -> void:
 	var screen: RecruitScreen = _screen(_phone())
 	var raw: Dictionary = screen.port.get_state()
 	var offers: Array = raw["shop"]
-	while offers.size() < 8:
+	while offers.size() < 6:
 		var offer: Dictionary = offers[0]
 		offers.append(offer.duplicate(true))
-	raw["shop_size"] = 8
+	raw["shop_size"] = 6
+	_set_shop_spell(raw)
 	screen.render()
 	await get_tree().process_frame
 	var shop: GridContainer = screen.get("_shop_cards")
@@ -282,8 +289,8 @@ func test_eight_phone_shop_offers_remain_in_place_while_the_reader_floats() -> v
 	assert_true(detail.visible)
 	for child: Node in shop.get_children():
 		var card: CardView = child as CardView
-		assert_gte(card.size.x, 122.0, "every offer stays finger sized")
-	assert_eq(shop.get_child_count(), 8)
+		assert_eq(card.card_size, Vector2(176, 226), "maximum market never shrinks offers")
+	assert_eq(shop.get_child_count(), 7)
 	assert_eq(shop.get_global_rect(), before, "reading a card never squeezes the merchant")
 
 
@@ -296,11 +303,16 @@ func test_late_scout_focus_restores_all_shop_offers_at_both_sizes() -> void:
 		var screen: RecruitScreen = _screen(viewport)
 		var raw: Dictionary = screen.port.get_state()
 		var offers: Array = raw["shop"]
-		while offers.size() < 8:
+		while offers.size() < 6:
 			var offer: Dictionary = offers[0]
 			offers.append(offer.duplicate(true))
-		raw["shop_size"] = 8
+		raw["shop_size"] = 6
+		_set_shop_spell(raw)
+		raw["frozen"] = true
 		screen.render()
+		var before: Dictionary = screen.port.get_state().duplicate(true)
+		var board: Control = screen.get("_board")
+		var own_rect: Rect2 = board.get_global_rect()
 		screen.toggle_scout()
 		screen.call("_on_tapped", "scout", 0)
 		await get_tree().process_frame
@@ -309,18 +321,27 @@ func test_late_scout_focus_restores_all_shop_offers_at_both_sizes() -> void:
 		var scroll: ScrollContainer = screen.get("_shop_scroll")
 		assert_false(shop.is_visible_in_tree(), "scout focus collapses all shop offers")
 		assert_false(scroll.is_visible_in_tree(), "the old shop sidebar is collapsed")
-		assert_eq(shop.get_child_count(), 8, "focus preserves all eight offers")
+		assert_eq(shop.get_child_count(), 7, "focus preserves six units and the spell")
 		assert_eq(LayoutCheck.problems(screen, "late scout focus"), PackedStringArray())
-		screen.toggle_scout()
+		var back: Button = screen.get("_market_return")
+		assert_true(back.is_visible_in_tree(), "scouting has an explicit route back to market")
+		back.pressed.emit()
 		await get_tree().process_frame
 		await get_tree().process_frame
+		assert_eq(
+			screen.port.get_state(),
+			before,
+			"scouting preserves gold, freeze and all buying context"
+		)
+		assert_eq(
+			board.get_global_rect(), own_rect, "returning to market keeps the formation anchored"
+		)
 		assert_true(shop.is_visible_in_tree(), "closing focus restores shop decisions")
-		assert_eq(shop.get_child_count(), 8)
+		assert_eq(shop.get_child_count(), 7)
 		for child: Node in shop.get_children():
 			var card: CardView = child as CardView
 			assert_true(card.is_visible_in_tree())
-			assert_gte(card.size.x, screen.tap_size(), "restored offer stays finger sized")
-			assert_gte(card.size.y, screen.tap_size())
+			assert_eq(card.card_size, Vector2(176, 226), "restored offer keeps full unit size")
 		assert_eq(LayoutCheck.problems(screen, "restored late shop"), PackedStringArray())
 
 
@@ -466,7 +487,7 @@ func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -
 		CardView.window_override = pixels
 		var screen: RecruitScreen = _screen(viewport)
 		await wait_process_frames(3)
-		var icon: Control = screen.get("_tier_icon")
+		var icon: Control = screen.get("_tier_label")
 		var button: Control = screen.get("_tier_button")
 		var original: Vector2 = icon.get_global_rect().get_center()
 		for pass_index: int in 12:
@@ -476,5 +497,7 @@ func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -
 				original,
 				"layout never drifts the coin destination"
 			)
-			assert_almost_eq(original.x, button.get_global_rect().get_center().x, 0.01)
-			assert_almost_eq(original.y, button.get_global_rect().get_center().y, 0.01)
+			assert_true(
+				button.get_global_rect().encloses(icon.get_global_rect()),
+				"tier animation lands on the button tier"
+			)

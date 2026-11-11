@@ -56,13 +56,13 @@ func _fan(viewport: SubViewport) -> Fan:
 	var fan := Fan.new()
 	viewport.add_child(fan)
 	fan.position = Vector2(100, 100)
-	fan.size = Vector2(1600, 174)
+	fan.size = Vector2(392, 510)
 	var hand: Array = hand_views()
 	for index: int in hand.size():
 		var card := Card.new()
 		var view: Dictionary = hand[index]
 		card.show_unit(view, Card.Mode.MINI)
-		card.set_card_size(Vector2(130, 130))
+		card.set_card_size(Vector2(176, 226))
 		card.zone = "hand"
 		card.index = index
 		card.drag_data_fn = func(zone: String, at: int) -> Variant:
@@ -101,7 +101,7 @@ func test_full_hand_keeps_canonical_indices_after_each_focus() -> void:
 	for index: int in _hand_limit():
 		var card: Card = fan.card_at(index)
 		assert_true(card.is_visible_in_tree())
-		assert_eq(card.card_size, Vector2(130, 130))
+		assert_eq(card.card_size, Vector2(176, 226))
 		assert_true(fan.get_global_rect().encloses(card.get_global_rect()))
 		fan.focus(index)
 		assert_eq(
@@ -300,8 +300,9 @@ func test_hand_and_bar_text_keep_the_minimum_after_all_parent_scales() -> void:
 		tribes.call("show_bonuses", ["Birds"], {"Birds": 12})
 		screen.call("_layout")
 		await wait_process_frames(2)
-		var bar: Control = screen.get("_bar_contents")
-		assert_gt(_assert_displayed_fonts(bar), 5, "bar values were exercised")
+		for key: String in ["_gold", "_hero", "_tribes", "_tier_button"]:
+			var control: Control = screen.get(key)
+			assert_gt(_assert_displayed_fonts(control), 0, key + " values were exercised")
 		var hand: Control = screen.get("_hand_cards")
 		assert_gte(
 			_assert_displayed_fonts(hand),

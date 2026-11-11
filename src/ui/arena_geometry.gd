@@ -39,6 +39,7 @@ static func size_board(board: Control, zone: String, front_on_top: bool) -> void
 	board.set("gap", 16.0)
 	board.set("pad", 26.0)
 	board.custom_minimum_size = board.call("tray_size")
+	board.update_minimum_size()
 	board.size = board.custom_minimum_size
 	board.call("_layout")
 	fit_cards(board)
@@ -54,4 +55,6 @@ static func fit_cards(board: Control) -> void:
 
 static func place_board(board: Control, canvas: Vector2, opponent: bool = false) -> void:
 	var frame: Rect2 = board_rect(canvas, opponent)
+	board.update_minimum_size()
+	board.size = board.call("tray_size")
 	board.position = frame.position + (frame.size - board.size) / 2.0

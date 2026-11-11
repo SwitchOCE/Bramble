@@ -169,7 +169,7 @@ func _start_by_clicks(app: App, game_seed: int, where: String) -> void:
 ## is, a small shop tile, and now and then a purchase through that tile.
 func _tour_scouting(recruit: RecruitScreen, driver: PlayerDriver, where: String) -> void:
 	var scout: Control = recruit.get("_scout")
-	var token: Button = recruit.get("_scout_token")
+	var token: Button = recruit.get("_market_return")
 	var hero: Control = scout.get("_hero")
 	var detail: Control = recruit.get("_detail")
 	var lobby: Control = recruit.get("_lobby")

@@ -90,6 +90,7 @@ var _hero: HeroPlaque
 var _toast: Label
 var _dev: DevPanel
 var _scout: ScoutPanel
+var _scout_snapshot: Dictionary = {}
 var _scout_token: TokenButton
 var _who_token: TokenButton
 var _market_controls: Control
@@ -301,7 +302,14 @@ func _highlight_bellies(view: Dictionary) -> Array[int]:
 	return bellies
 
 
+func _show_drop_targets() -> bool:
+	var pocket: Control = get("_drop_pocket")
+	return get_viewport().gui_is_dragging() or (is_instance_valid(pocket) and pocket.visible)
+
+
 func _highlight_empty_slots() -> void:
+	if not _show_drop_targets():
+		return
 	for slot: int in BoardView.SLOTS:
 		if _board.cards[slot] == null:
 			_board.slots[slot].highlight = UiTheme.DROP_OK
@@ -324,18 +332,20 @@ func _highlight_item(item: Dictionary) -> void:
 		var has_unit: bool = _board.cards[slot] != null
 		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
 		if not RecruitView.item_lands(item, target, slot, state):
-			if RecruitView.ring_preview(state, item, slot) == "Full":
+			if RecruitView.ring_preview(state, item, slot) == "Full" and _show_drop_targets():
 				_board.slots[slot].highlight = UiTheme.OUT_FACE
 				if has_unit:
 					_board.cards[slot].outline = UiTheme.OUT_MARK
 			continue
 		if has_unit:
 			_board.cards[slot].outline = UiTheme.DROP_OK
-		else:
+		elif _show_drop_targets():
 			_board.slots[slot].highlight = UiTheme.DROP_OK
 
 
 func _highlight_other_slots(from_slot: int) -> void:
+	if not _show_drop_targets():
+		return
 	for slot: int in BoardView.SLOTS:
 		if slot == from_slot:
 			continue
@@ -397,7 +407,7 @@ func _full_view(zone: String, view: Dictionary) -> Dictionary:
 
 
 func _show_their_bare_slot(slot: int) -> void:
-	var effects: Array = Data.a(state, "next_opponent_last_slot_effects")
+	var effects: Array = Data.a(_scout_snapshot, "slot_effects")
 	var mark: Dictionary = Data.entry(RecruitView.slot_marks({"slot_effects": effects}), slot)
 	var note: String = RecruitView.slot_note(mark, slot)
 	if not note.is_empty():

@@ -52,7 +52,6 @@ var hero_views: Array[Dictionary] = [{}, {}]
 var hero_health: Array[int] = [-1, -1]
 var hero_health_after: Array = []
 var floor_marks: Array = []
-## Supplies only the player's previously recorded public board. Playback never changes game state.
 var scout_provider: Callable
 var _log_text: CombatLog = CombatLog.new()
 var _fight_bar: PlayFrame
@@ -130,7 +129,9 @@ func _init() -> void:
 	_lobby.scout_requested.connect(show_scout)
 	_lobby.hero_requested.connect(_scout.show_lobby_hero)
 	_stage.add_child(_lobby)
-	_round_label = UiTheme.head("", UiTheme.FONT_BODY)
+	_round_label = UiTheme.head("", UiTheme.FONT_BODY, UiTheme.CREAM)
+	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_round_label.add_theme_constant_override("outline_size", 5)
 	_stage.add_child(_round_label)
 	_retiring_cues = Control.new()
 	_retiring_cues.name = "RetiringCues"
@@ -163,7 +164,6 @@ func _init() -> void:
 	)
 	for side: int in 2:
 		var plaque := TokenButton.new()
-		# The portrait itself is the button face, matching recruit's hero beside the frame.
 		plaque.self_modulate.a = 0.0
 		plaque.pressed.connect(_show_hero.bind(side))
 		_stage.add_child(plaque)

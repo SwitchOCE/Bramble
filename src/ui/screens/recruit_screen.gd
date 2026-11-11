@@ -40,7 +40,6 @@ var _released_card: Dictionary = {}
 var _drag_committed: bool = false
 var _reader_pinned: bool = false
 var _scout_player_id: int = -2
-var _scout_snapshot: Dictionary = {}
 
 
 func setup(game_port: GamePort) -> void:
