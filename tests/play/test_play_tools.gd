@@ -393,6 +393,8 @@ func test_every_action_kind_round_trips_through_play_game_run() -> void:
 
 func _action_state(method: String, args: Array) -> PlayGame:
 	var config := GameConfig.full_game()
+	# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+	config.set_value("hand_limit", 10)
 	config.set_value("ask_for_kin", true)
 	config.set_value("bots", ["naive", "naive", "naive", "naive", "naive", "naive", "naive"])
 	var game := PlayGame.new()

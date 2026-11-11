@@ -256,6 +256,8 @@ func test_lollop_copies_freeze_biggest_and_never_feed_it_guard_off_counterexampl
 
 
 func test_mast_caps_each_source_and_caps_off_counterexample() -> void:
+	# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+	kit.config.set_value("hand_limit", 10)
 	kit.put("old_mother_mast", 4)
 	for _held: int in 2:
 		kit.rules.give_card(kit.player, "great_hoard")
