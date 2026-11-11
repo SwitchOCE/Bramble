@@ -5,6 +5,11 @@ extends Control
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 
+var face_visible: bool = true:
+	set(value):
+		face_visible = value
+		queue_redraw()
+
 var selling: bool = false:
 	set(value):
 		selling = value
@@ -27,7 +32,8 @@ func _init() -> void:
 
 
 func _draw() -> void:
-	Surface.paint(self, Rect2(0, -20, size.x, 64), 18.0)
+	if face_visible:
+		Surface.paint(self, Rect2(0, -20, size.x, 64), 18.0, Surface.Finish.STALL)
 	if selling:
 		draw_style_box(
 			UiTheme.flat_box(Color(UiTheme.HEALTH, 0.8), Color.TRANSPARENT, 0, 18),

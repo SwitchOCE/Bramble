@@ -31,6 +31,9 @@ const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
 const WaveMotion := preload("res://src/ui/screens/combat_wave_motion.gd")
 
+const PlayFrame := preload("res://src/ui/widgets/play_frame.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
+
 const CANVAS_H: float = 1080.0
 const POCKET: float = 220.0
 const TRAY_GAP: float = 18.0
@@ -50,7 +53,7 @@ var hero_health: Array[int] = [-1, -1]
 var hero_health_after: Array = []
 var floor_marks: Array = []
 var _log_text: CombatLog = CombatLog.new()
-var _fight_bar: Control
+var _fight_bar: PlayFrame
 var _stage: Control
 var _boards: Array[BoardView] = []
 var _cards: Dictionary[int, CardView] = {}
@@ -98,7 +101,7 @@ func _init() -> void:
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
-	_fight_bar = preload("res://src/ui/widgets/stack_surface.gd").new()
+	_fight_bar = PlayFrame.new()
 	_stage.add_child(_fight_bar)
 	for i: int in 2:
 		var board := BoardView.new()
@@ -229,28 +232,33 @@ func _layout() -> void:
 	_boards[1].position = Vector2(x, 28 + tray.y + TRAY_GAP)
 	for board: BoardView in _boards:
 		board.size = tray
-	_fight_bar.position = Vector2(x - 180, 966)
-	_fight_bar.size = Vector2(tray.x + 360, 94)
+	_fight_bar.position = Vector2.ZERO
+	_fight_bar.size = _stage.size
+	_fight_bar.clear_regions()
+	_fight_bar.add_region(Rect2(x - 32, 10, tray.x + 64, tray.y * 2 + 42), Surface.Finish.BARK, 12)
+	for board: BoardView in _boards:
+		_fight_bar.add_region(
+			Rect2(board.position - Vector2(18, 10), tray + Vector2(36, -2)), Surface.Finish.MOSS
+		)
 	for side: int in 2:
 		var board: BoardView = board_for_side(side)
 		var plaque: Control = _plaques[side]
-		plaque.position = board.position + Vector2(-205, tray.y / 2.0 - 86)
-		plaque.size = Vector2(180, 189)
+		plaque.position = board.position + Vector2(-220, tray.y / 2.0 - 97)
+		plaque.size = Vector2(184, 194)
 		var art: Control = plaque.get_node("Portrait")
 		art.size = Vector2(162, 162)
 		var hip: Control = _health_labels[side].get_parent() as Control
 		hip.position = Vector2(102, 112)
 		hip.size = Vector2(82, 82)
 		_health_labels[side].add_theme_font_size_override("font_size", 44)
-		if side == bottom_side:
-			plaque.position = Vector2(size.x / 2.0 - 74, 928)
-			plaque.size = Vector2(148, 148)
-			art.size = Vector2(130, 130)
-			hip.position = Vector2(84, 68)
+		_fight_bar.add_region(
+			Rect2(plaque.position - Vector2(18, 18), Vector2(220, 230)), Surface.Finish.BAR
+		)
+	_fight_bar.add_region(Rect2(size.x / 2.0 - 226, 944, 452, 122), Surface.Finish.BAR)
 	var tap: float = 122.0
 	var controls: Array[Control] = [_speed_button, _play_button, _skip_button]
 	for i: int in controls.size():
-		controls[i].position = Vector2(size.x / 2.0 + 240 + i * (tap + 16), 944)
+		controls[i].position = Vector2(size.x / 2.0 - 199 + i * (tap + 16), 944)
 		controls[i].size = Vector2(tap, tap + 9)
 	_step_button.position = _speed_button.position
 	_step_button.size = _speed_button.size

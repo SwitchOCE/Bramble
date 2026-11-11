@@ -418,14 +418,17 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 	var received: Array[int] = []
 	for index: int in [5, 6]:
 		board.cards[index].tapped.connect(func(_zone: String, at: int) -> void: received.append(at))
-	# Exact pointer origins and failed click coordinates from the 1920x1080 game logs.
+	# Retain the reported pointer origins and last attempted hit fraction as the table moves.
 	for failure: Array in [
-		[5, Vector2(627, 400), Vector2(1113.8, 568.2)],
-		[6, Vector2(1025, 400), Vector2(1360.8, 568.2)],
+		[5, Vector2(627, 400)],
+		[6, Vector2(1025, 400)],
 	]:
 		var index: int = failure[0]
 		var card: CardView = board.cards[index]
-		for at: Vector2 in [card.get_global_rect().get_center(), failure[2]]:
+		for at: Vector2 in [
+			card.get_global_rect().get_center(),
+			card.get_global_rect().position + card.size * Vector2(0.9, 0.2)
+		]:
 			var motion := InputEventMouseMotion.new()
 			motion.position = failure[1]
 			motion.global_position = failure[1]
@@ -434,7 +437,7 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 			await wait_process_frames(2)
 			assert_true(detail.visible)
 			assert_eq(detail._notes.mouse_filter, Control.MOUSE_FILTER_PASS)
-			assert_true(card.get_global_rect().has_point(at), "the logged point is on the unit")
+			assert_true(card.get_global_rect().has_point(at), "the attempted point is on the unit")
 			assert_false(
 				detail.get_global_rect().intersects(card.get_global_rect()),
 				"reading keeps the whole occupied rear slot visible"
