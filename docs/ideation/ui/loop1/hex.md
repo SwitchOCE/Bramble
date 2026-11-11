@@ -51,27 +51,18 @@ screen-zone and delayed-drag regressions. Existing behavior assertions remain.
 ## Verification
 
 - Bounds/input regression selection: **94/94 tests pass** (7 scripts, 4,758 assertions).
-- Formatting, lint, import, compile and parity pass.
-- Full gate and full UI run: final results pending below.
+- Full `./scripts/check.sh --keep-going --base origin/ideation/main`: **all steps pass**,
+  **2,753/2,753 tests**, 269 scripts, 72,751 assertions; core and play included.
+- Full UI run: final result pending below (first full game: zero problems/errors).
 - Scope review: UI/widgets, two screen bounds guards, UI tests and evidence/step note.
 
-The owner identified these nine baseline hand-limit failures and is fixing them
-separately; they are reported rather than edited here:
+Baseline updated to `ce242a92` by fetching and rebasing this unpublished branch
+(worker rules prohibit merges). The hand-of-4 test fixes are included. The final
+gate now requires **zero failures in core, play and UI**; the earlier nine baseline
+failures are no longer treated as exceptions.
 
-| Script | Test |
-|---|---|
-| `tests/core/test_pass3_birds_recruit.gd` | `test_homecoming_full_hand_waits_on_doorstep_and_doubles_once` |
-| `tests/core/test_pass3_dial_behaviour.gd` | `test_ermeline_printed_count_and_pelt_share_match_award_and_spell_effect` |
-| `tests/core/test_pass3_hedge_recruit.gd` | `test_mast_caps_each_source_and_caps_off_counterexample` |
-| `tests/core/test_pass3_hedge_shares.gd` | `test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns` |
-| `tests/core/test_pass3_presets.gd` | `test_optional_bird_dials_can_be_swept_and_captured_from_b` |
-| `tests/core/test_pass3_slice_triples.gd` | `test_golden_first_slice_triple_frees_hand_room_for_its_second_slice` |
-| `tests/core/test_quilboar.gd` | `test_trailblazer_combines_one_card_per_turn_and_golden_combines_two` |
-| `tests/core/test_review3_mast.gd` | `test_buying_mast_does_not_pay_but_playing_it_then_buying_does` |
-| `tests/play/test_play_tools.gd` | `test_every_action_kind_round_trips_through_play_game_run` |
-
-Automatic approval review refused cleanup of three untracked importer-generated
-identifiers: `src/core/combat/combat_events.gd.uid`,
-`tests/core/pass3_original_b.gd.uid`, `tests/core/test_replay_contract.gd.uid`.
-Owner approval to remove only those generated files is pending; the scope fence
-still reports them. They are not committed.
+Automatic approval review initially refused cleanup of three untracked Godot
+UID sidecars under fenced paths. Review approved cleanup after the files were
+verified as 19–20-byte `uid://` identifiers rather than tracked source. They were
+removed before the final gate and are removed again if its import regenerates
+them. Godot config/data/state use writable temporary directories.
