@@ -1,7 +1,9 @@
 extends RefCounted
-## Quiet ink contours and translucent colour washes, drawn without photographic grain.
+## The world's painted stump under quiet ink contours and translucent colour washes.
 
 enum Finish { BARK, STALL, MOSS, CLOTH, BAR }
+
+const STUMP: Texture2D = preload("res://assets/ui/world/stump.jpg")
 
 const INK := Color("17231e")
 const KEY_LIGHT := Color("dfd2a4")
@@ -33,6 +35,13 @@ static func paint(
 		var at: Vector2 = (point - rect.position) / rect.size
 		var warmth: float = at.x * (1.0 - at.y)
 		colours.append(base.darkened(0.08 * (1.0 - at.x)).lerp(KEY_LIGHT, warmth * 0.12))
+	if material in [Finish.BARK, Finish.STALL, Finish.BAR, Finish.MOSS]:
+		var uv: PackedVector2Array = []
+		for point: Vector2 in contour:
+			uv.append((point - rect.position) / rect.size)
+		canvas.draw_polygon(contour, PackedColorArray([Color.WHITE]), uv, STUMP)
+		for index: int in colours.size():
+			colours[index].a = 0.90 if material == Finish.MOSS else 0.76
 	canvas.draw_polygon(contour, colours)
 	# Large feathered washes provide material variation without competing with the card art.
 	_wash(canvas, rect, Vector2(0.68, 0.29), Vector2(0.29, 0.23), Color(KEY_LIGHT, 0.13))

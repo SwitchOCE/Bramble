@@ -248,3 +248,53 @@ func test_all_twenty_hand_stat_text_rects_remain_readable_in_the_resting_fan() -
 						)
 				labels_checked += 1
 		assert_eq(labels_checked, 20, "every Attack and Health value was checked at rest")
+
+
+func _assert_displayed_fonts(node: Control) -> int:
+	if not node.is_visible_in_tree():
+		return 0
+	var checked: int = 0
+	var label: Label = node as Label
+	if label != null and not label.text.is_empty():
+		var basis: Vector2 = label.get_global_transform().get_scale().abs()
+		var actual: float = label.get_theme_font_size("font_size") * minf(basis.x, basis.y)
+		assert_gte(actual + 0.01, 31.0, "displayed text stays at the canvas minimum: " + label.text)
+		checked += 1
+	for child: Node in node.get_children():
+		if child is Control:
+			checked += _assert_displayed_fonts(child as Control)
+	return checked
+
+
+func test_hand_and_bar_text_keep_the_minimum_after_all_parent_scales() -> void:
+	for pixels: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
+		var screen: Screen = _screen(pixels, 10, false)
+		await wait_process_frames(3)
+		# Include less frequent live values: armor, income change, power cost and tribe bonus.
+		var hero: Control = screen.get("_hero")
+		var cost: Control = hero.get("_cost")
+		cost.show()
+		var cost_label: Label = hero.get("_cost_label")
+		cost_label.text = "2"
+		var raw: Dictionary = screen.port.get_state()
+		for standing: Dictionary in raw["standings"]:
+			if standing.get("is_human", false):
+				standing["armor"] = 12
+		var gold: Control = screen.get("_gold")
+		gold.call("show_income", "", 2)
+		var tribes: Control = screen.get("_tribes")
+		tribes.call("show_bonuses", ["Birds"], {"Birds": 12})
+		screen.call("_layout")
+		await wait_process_frames(2)
+		var bar: Control = screen.get("_bar_contents")
+		assert_gt(_assert_displayed_fonts(bar), 5, "bar values were exercised")
+		var hand: Control = screen.get("_hand_cards")
+		assert_gte(_assert_displayed_fonts(hand), 20, "all ten Attack/Health pairs were exercised")
+		assert_eq(LayoutCheck.problems(screen, "actual scaled text"), PackedStringArray())
+		var tier: Label = screen.get("_tier_label")
+		var first_size: int = tier.get_theme_font_size("font_size")
+		for pass_index: int in 8:
+			screen.call("_layout")
+		assert_eq(
+			tier.get_theme_font_size("font_size"), first_size, "layout never compounds font growth"
+		)

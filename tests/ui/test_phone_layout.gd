@@ -457,3 +457,24 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 				assert_eq(received[received.size() - 1], index)
 			received.clear()
 			await wait_process_frames(2)
+
+
+func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -> void:
+	for pixels: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
+		var viewport: SubViewport = _phone()
+		viewport.size = Vector2i(roundi(1080.0 * pixels.x / pixels.y), 1080)
+		CardView.window_override = pixels
+		var screen: RecruitScreen = _screen(viewport)
+		await wait_process_frames(3)
+		var icon: Control = screen.get("_tier_icon")
+		var button: Control = screen.get("_tier_button")
+		var original: Vector2 = icon.get_global_rect().get_center()
+		for pass_index: int in 12:
+			screen.call("_layout")
+			assert_eq(
+				icon.get_global_rect().get_center(),
+				original,
+				"layout never drifts the coin destination"
+			)
+			assert_almost_eq(original.x, button.get_global_rect().get_center().x, 0.01)
+			assert_almost_eq(original.y, button.get_global_rect().get_center().y, 0.01)

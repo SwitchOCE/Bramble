@@ -113,7 +113,6 @@ func _layout() -> void:
 	_scout_token.size = Vector2(122, 131)
 	_scout_token.visible = _scout.visible
 	_who_token.visible = false
-	_shelf.face_visible = false
 	_shelf.position = Vector2(left, 276)
 	_shelf.size = Vector2(main_w, 45)
 	_shop_zone.position = Vector2(left, 44)
@@ -195,8 +194,7 @@ func _layout_hand(x: float) -> void:
 	_hand_count.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_hand_count.add_theme_constant_override("outline_size", 5)
 	_hand_cards.position = Vector2.ZERO
-	_hand_cards.scale = Vector2.ONE * _hand_scale()
-	_hand_cards.size = _hand_zone.size / _hand_scale()
+	_hand_cards.size = _hand_zone.size
 	_hand_cards.arrange()
 	_away_tray.position = Vector2(x + 26, 618)
 	var away_width: float = minf(340, maxf(122, _board.position.x - x - 52))
@@ -218,6 +216,8 @@ func _layout_right(x: float, w: float) -> void:
 	_tier_button.compact_cost()
 	_tier_button.position = Vector2(x + 160, 944)
 	_tier_button.size = Vector2(200, 122)
+	_tier_icon.position = _tier_button.position + Vector2(77, 38)
+	_tier_icon.size = Vector2(46, 46)
 	_tier_icon.hide()
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_refresh_button.compact_cost()
@@ -269,12 +269,7 @@ func _tile_width(offers: int) -> float:
 
 func _hand_card_size(_count: int) -> Vector2:
 	var width: float = floorf((_play_width() - 36.0 - 9.0 * 12.0) / 10.0)
-	return Vector2(width, 152.0) / _hand_scale()
-
-
-func _hand_scale() -> float:
-	var width: float = floorf((_play_width() - 36.0 - 9.0 * 12.0) / 10.0)
-	return minf(1.0, width / 180.0)
+	return Vector2(width, 152.0)
 
 
 func _size_toast() -> void:
@@ -519,6 +514,19 @@ func _fit_bar(left: float, width: float) -> void:
 		if widget.get_parent() != _bar_contents:
 			widget.reparent(_bar_contents, false)
 		widget.position -= origin
+	_fit_bar_text(_bar_contents, ceili(UiTheme.MIN_FONT / factor))
+
+
+## Keep the shared minimum in canvas units, including the bar's parent transform.
+func _fit_bar_text(node: Node, minimum: int) -> void:
+	var label: Label = node as Label
+	if label != null:
+		if not label.has_meta("bar_authored_font"):
+			label.set_meta("bar_authored_font", label.get_theme_font_size("font_size"))
+		var authored: int = label.get_meta("bar_authored_font")
+		label.add_theme_font_size_override("font_size", maxi(authored, minimum))
+	for child: Node in node.get_children():
+		_fit_bar_text(child, minimum)
 
 
 func _layout_frame(left: float, width: float) -> void:
@@ -534,5 +542,6 @@ func _layout_frame(left: float, width: float) -> void:
 		_frame.add_region(Rect2(left, 52, width, 250), Surface.Finish.STALL)
 		_frame.add_region(Rect2(left, 310, width, 438), Surface.Finish.MOSS)
 		_frame.add_region(Rect2(left, 758, width, 176), Surface.Finish.CLOTH)
-		_frame.add_region(Rect2(left + width - 180, 726, 160, 64), Surface.Finish.CLOTH)
+		if _hand_count.visible:
+			_frame.add_region(Rect2(left + width - 180, 726, 160, 64), Surface.Finish.CLOTH)
 	_frame.add_region(Rect2(left - 2, 944, width + 4, 120), Surface.Finish.BAR)

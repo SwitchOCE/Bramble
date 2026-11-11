@@ -1,15 +1,7 @@
 extends Control
-## The plank the shop's tiles stand on (.wr-shelf): oak with a carved edge and two pegs. While a
-## board unit is being dragged it turns red and says where to drop it.
+## The temporary sell feedback over the merchant surface while dragging a board unit.
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
-const Surface := preload("res://src/ui/widgets/painted_surface.gd")
-
-var face_visible: bool = true:
-	set(value):
-		face_visible = value
-		queue_redraw()
-
 var selling: bool = false:
 	set(value):
 		selling = value
@@ -21,7 +13,6 @@ var _sell_label: Label
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
-	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 	_sell_label = UiTheme.head("Drop here to sell", UiTheme.FONT_BODY + 6, UiTheme.CREAM)
 	_sell_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_sell_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -32,8 +23,6 @@ func _init() -> void:
 
 
 func _draw() -> void:
-	if face_visible:
-		Surface.paint(self, Rect2(0, -20, size.x, 64), 18.0, Surface.Finish.STALL)
 	if selling:
 		draw_style_box(
 			UiTheme.flat_box(Color(UiTheme.HEALTH, 0.8), Color.TRANSPARENT, 0, 18),
