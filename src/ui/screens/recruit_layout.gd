@@ -36,7 +36,6 @@ const LaneProjection := preload("res://src/ui/lane_projection.gd")
 
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
-const DETAIL_W: float = 500.0
 const BOARD_POCKET: float = 209.0
 const SHELF_H: float = 57.0
 const TILE_GAP: float = 44.0
@@ -244,9 +243,11 @@ func _layout_right(x: float, w: float) -> void:
 	_detail.position = Vector2(w - RIGHT_W - 30, 0 if CardView.is_phone() else 112)
 	_detail.size = Vector2(RIGHT_W, CANVAS_H - 112.0 - 24.0 if CardView.is_phone() else 740.0)
 	_detail.set_action_column()
-	if not CardView.is_phone() and _detail.visible:
-		_detail.position.x = clampf(get_local_mouse_position().x + 30, 150, w - DETAIL_W - 20)
-		_detail.size.x = DETAIL_W
+	if not CardView.is_phone() and not _scout.visible:
+		# Read over the merchant, keeping every formation and reserve target exposed.
+		_detail.position = Vector2(150, 12)
+		_detail.size = Vector2(w - 670, 270)
+		_detail.set_action_column(Rect2(_detail.size.x + 20, 0, 340, 244))
 	_gold.show()
 
 
