@@ -43,8 +43,16 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 
 /* ---- Card: an arch with a halo, jewels for numbers ------------------------------------ */
 .card { width: 170px; height: 236px; cursor: pointer; transition: transform .2s; z-index: 2; }
-.disc ~ .card, .fightcards .card { position: absolute; transform: translate(-50%, -50%) rotate(var(--r)); }
-.disc ~ .card:hover { transform: translate(-50%, -56%) rotate(0); z-index: 10; }
+/* ---- The band: 4 in front, 3 behind, standing in the halo ---------------------------- */
+.band { position: absolute; left: 50%; transform: translateX(-50%); top: 418px; z-index: 2; }
+.band .brick { --row-gap: 10px; --slot-gap: 30px; }
+.band .card, .band .slot { position: relative; width: 150px; height: 206px; flex: none; }
+.band .card .arch { height: 170px; border-radius: 75px 75px 8px 8px; }
+.band .card .arch img, .band .card .halo { border-radius: 71px 71px 5px 5px; }
+.band .card .arch::after { width: 96px; height: 96px; }
+.band .card:hover { transform: translateY(-6px); z-index: 10; }
+.slot { border-radius: 75px 75px 8px 8px; border: 2px dashed rgba(241,215,127,.45); height: 170px !important; background: rgba(14,58,49,.25); display: grid; place-items: center; }
+.slot span { font: 700 18px var(--cap); letter-spacing: .1em; color: rgba(241,215,127,.55); }
 .card .arch { position: relative; height: 196px; border-radius: 85px 85px 8px 8px; padding: 4px; background: var(--gold); box-shadow: 0 10px 22px rgba(0,0,0,.45); }
 .card .arch img { position: relative; width: 100%; height: 100%; object-fit: cover; object-position: 50% 26%; border-radius: 81px 81px 5px 5px; display: block; }
 .card .halo { position: absolute; inset: 4px; border-radius: 81px 81px 5px 5px; background: radial-gradient(circle at 50% 34%, transparent 38%, rgba(241,215,127,.0) 39%); z-index: 1; pointer-events: none;
@@ -64,24 +72,26 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .card.frozen .arch::before { content: '❄'; position: absolute; z-index: 3; left: 50%; top: 40%; transform: translate(-50%,-50%); font-size: 54px; color: #e8f6ff; text-shadow: 0 0 12px #6ac3ff; }
 
 /* ---- The halo: malachite disc, your band in an arc over your hero ---------------------- */
-.disc { position: absolute; left: 50%; bottom: -560px; width: 1500px; height: 1200px; transform: translateX(-50%); border-radius: 50%;
+.disc { position: absolute; left: 50%; bottom: -510px; width: 1500px; height: 1200px; transform: translateX(-50%); border-radius: 50%;
   background: radial-gradient(circle at 50% 50%, rgba(14,58,49,.82) 0 52%, rgba(14,58,49,.55) 66%, rgba(14,58,49,0) 72%);
   pointer-events: none; }
 .disc::before { content: ''; position: absolute; inset: 7%; border-radius: 50%; border: 3px solid rgba(215,173,79,.85); box-shadow: 0 0 0 10px rgba(215,173,79,.12), inset 0 0 0 1px rgba(255,241,184,.5); }
 .disc::after { content: ''; position: absolute; inset: 22%; border-radius: 50%; border: 2px dashed rgba(215,173,79,.4); }
 .disc.top { bottom: auto; top: -620px; }
 
-.hero { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); width: 200px; height: 200px; z-index: 3; }
+.hero { position: absolute; left: 50%; bottom: 30px; transform: translateX(-50%); width: 150px; height: 150px; z-index: 3; }
 .hero .rings { position: absolute; inset: -22px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(241,215,127,.9) 0 2deg, transparent 2deg 10deg); -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); animation: spin 60s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 6px solid transparent; background: var(--gold) border-box; box-shadow: 0 0 40px rgba(255,220,130,.45); }
 .hero b { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; font: 900 28px var(--cap); color: #fff;
   background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; box-shadow: 0 4px 10px rgba(0,0,0,.5); }
-.hero.foe { bottom: auto; top: -70px; }
-.hero.foe b { bottom: -6px; }
+.hero b { width: 54px; height: 54px; font-size: 24px; }
+.hero i { position: absolute; top: calc(100% + 44px); left: 50%; transform: translateX(-50%); white-space: nowrap; font: 700 15px var(--cap); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
+html[data-mode="fight"] .hero { left: calc(50% + 470px); transform: none; width: 140px; height: 140px; }
+.hero.foe { bottom: auto; top: 150px; } .hero.me { bottom: auto; top: 640px; }
 
 .jewels { position: absolute; bottom: 40px; display: flex; gap: 18px; z-index: 3; }
-.jewels.left { right: calc(50% + 150px); } .jewels.right { left: calc(50% + 150px); }
+.jewels.left { right: calc(50% + 130px); } .jewels.right { left: calc(50% + 130px); }
 .jewel { all: unset; box-sizing: border-box; width: 112px; height: 112px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
   background: radial-gradient(circle at 40% 30%, #1d6a55, var(--malachite) 70%); border: 3px solid var(--goldc); box-shadow: 0 0 0 5px rgba(14,58,49,.6), 0 8px 18px rgba(0,0,0,.45); color: var(--ivory); transition: transform .15s; }
 .jewel:hover { transform: translateY(-3px); }
@@ -115,13 +125,17 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .door small { display: block; font: 600 italic 18px var(--serif); margin-top: 8px; }
 
 /* ---- Fight --------------------------------------------------------------------------------- */
-html[data-mode="fight"] .card { width: 150px; height: 210px; }
-html[data-mode="fight"] .card .arch { height: 174px; border-radius: 75px 75px 8px 8px; }
-html[data-mode="fight"] .card .arch img { border-radius: 71px 71px 5px 5px; }
-html[data-mode="fight"] .card .arch::after { width: 96px; height: 96px; }
+/* Two bands, front rows facing across a gilt line. */
+html[data-mode="fight"] .band.foe { top: 64px; } html[data-mode="fight"] .band:not(.foe) { top: 556px; }
+html[data-mode="fight"] .band .brick { --row-gap: 8px; --slot-gap: 26px; }
+html[data-mode="fight"] .band .card, html[data-mode="fight"] .band .slot { width: 136px; height: 190px; }
+html[data-mode="fight"] .band .card .arch, html[data-mode="fight"] .band .slot { height: 156px !important; border-radius: 68px 68px 8px 8px; }
+html[data-mode="fight"] .band .card .arch img, html[data-mode="fight"] .band .card .halo { border-radius: 64px 64px 5px 5px; }
+html[data-mode="fight"] .slot { border-color: rgba(241,215,127,.18); background: none; } html[data-mode="fight"] .slot span { display: none; }
+.fightline { position: absolute; left: 50%; top: 538px; width: 760px; height: 3px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, var(--goldc), transparent); z-index: 2; }
 .verdict { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 20; font: 900 110px var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 10px rgba(0,0,0,.6)); animation: verdict .8s ease both; }
 @keyframes verdict { from { opacity: 0; letter-spacing: .4em; } }
-.disc ~ .card.jy-lunge { animation-name: nv-lunge; }
+.band .card.jy-lunge { animation-name: nv-lunge; }
 @keyframes nv-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
 
 /* ---- Reader --------------------------------------------------------------------------------- */

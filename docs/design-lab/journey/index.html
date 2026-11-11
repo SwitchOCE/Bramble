@@ -38,7 +38,7 @@
 <main>
   <div class="eyebrow">Bramble · design lab · journey round · 11 Nov 2026</div>
   <h1>The board on a journey</h1>
-  <p class="lede">Three lab looks redone around one idea: <b>painted art surrounds the board, and the place changes as the game goes on.</b> The play area sits in the middle, opaque enough to read (as in The Bazaar); the painting frames it. Every two turns the band moves to a new area. Rules are ignored on purpose: these are looks to react to, not proposals for the game.</p>
+  <p class="lede">Three lab looks redone around one idea: <b>painted art surrounds the board, and the place changes as the game goes on.</b> The play area sits in the middle, opaque enough to read (as in The Bazaar); the painting frames it. Every two turns the band moves to a new area. Rules are ignored on purpose, with one exception: <b>every board is 4 slots in front and 3 behind, the back row offset half a slot</b> (rulebook 8.1). Empty slots stay where they are. These are looks to react to, not proposals for the game.</p>
 
   <div class="route">
     <figure><img src="world/weald.jpg" alt=""><figcaption><b>1 · Weald Glow</b> · turns 1–2</figcaption></figure>
@@ -62,7 +62,8 @@
         <li><b>Click</b> a card to flip it: name, tribe, rules, and Buy / Sell / Play. <b>Hover</b> shows a quick reader. The lab dock switches between flip, hover or both.</li>
         <li>The board floats on frosted glass; the hand, gold and actions share one bar at the bottom.</li>
         <li>Travel: the camera walks right into the next place, with a big area title. Fights darken and lean in on the painting.</li>
-        <li>Dropped on purpose: the 4–3 brick (one row of seven), names on cards, slot labels.</li>
+        <li>Your band is the 4–3 brick under the market; empty slots show their label (F1–B3). In a fight the two bricks face each other, front row to front row, with the back rows on the outside.</li>
+        <li>Dropped on purpose: names on cards.</li>
       </ul>
       <a class="open" href="arena/index.html">Open Clean Arena</a>
     </div>
@@ -79,10 +80,9 @@
       <h2>Storybook Ink, the open book</h2>
       <ul>
         <li>The game is a storybook lying open in the painted wood. Each area is a chapter; travelling turns the page.</li>
-        <li>Left page: the market and the actions. Right page: your band walking a dotted trail. The hand is tucked in at the bottom edge ("In your satchel"); hover lifts a card out.</li>
-        <li>A fight is the two bands facing each other across the spine, ending in an inked stamp.</li>
+        <li>Left page: the market and the actions. Right page: your band, 4 in front and 3 behind, each card set down by hand at a slight tilt; empty slots are pencilled outlines. The hand is tucked in at the bottom edge ("In your satchel"); hover lifts a card out.</li>
+        <li>A fight is the two bands facing each other across the spine: each brick stands sideways, front row against the spine, back row towards the outer edge, with each hero's portrait beside it. It ends in an inked stamp.</li>
         <li>"End turn" is a paper tag: <i>Turn the page</i>. Hover a card for a handwritten note with its rules.</li>
-        <li>Dropped on purpose: rows and slots (the trail has an order, not a grid).</li>
       </ul>
       <a class="open" href="storybook/index.html">Open Storybook Ink</a>
     </div>
@@ -99,9 +99,9 @@
       <h2>Woodland Nouveau, the halo</h2>
       <ul>
         <li>Round 1 lost the information under ornament. This time the painting is the poster and the gilt only frames it: a thin line with whiplash corners.</li>
-        <li>Your band stands in an arc around your hero, like the halo behind a Mucha figure. The market hangs from a gilt vine.</li>
+        <li>Your band stands 4 in front and 3 behind inside a malachite halo, with your hero below, like the halo behind a Mucha figure. Empty slots are gilt-outlined arches. The market hangs from a gilt vine.</li>
         <li>Jewels carry the numbers: sapphire diamond for Attack, garnet for Health. Tiers are plain numbers now, not Roman.</li>
-        <li>A fight is two halos facing each other. Travel opens the next area through an arch rising from the bottom.</li>
+        <li>A fight is two bricks facing across a gilt line, front rows in the middle, heroes to the side. Travel opens the next area through an arch rising from the bottom.</li>
         <li>End turn is an arched door.</li>
       </ul>
       <a class="open" href="nouveau/index.html">Open Woodland Nouveau</a>
@@ -109,7 +109,7 @@
   </section>
 
   <div class="keys">
-    <b>In every look:</b> <kbd>→</kbd> travel to the next area · <kbd>←</kbd> go back · <kbd>F</kbd> recruit / fight · End turn plays a short mock fight, then offers to travel on. The small dock bottom-right jumps to any area (1–5). Clicking a shop card buys it into the hand; clicking a hand card plays it.<br>
+    <b>In every look:</b> <kbd>→</kbd> travel to the next area · <kbd>←</kbd> go back · <kbd>F</kbd> recruit / fight · End turn plays a short mock fight, then offers to travel on. The small dock bottom-right jumps to any area (1–5). Clicking a shop card buys it into the hand; clicking a hand card plays it into the first empty slot (front row first). Selling leaves the slot empty. In fights, units take turns in slot order and hit the front row while it lives; the rest is mock.<br>
     <b>Art:</b> units are the ink-and-glow repaint from <code>ideation/ui-art-inkglow</code>; the five areas are the loop-1 painted backdrops and the runtime Highcrown Canopy. Unit names and text come from <code>ideation/main</code> content.
   </div>
 </main>

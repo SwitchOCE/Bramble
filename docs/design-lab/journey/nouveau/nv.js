@@ -1,6 +1,6 @@
 // Woodland Nouveau, journey round (second shot). The painting is the poster:
 // a thin gilt frame holds the world, the market hangs from a gilt vine, and
-// your band stands in a halo arc around your hero, as in a Mucha poster.
+// your band stands 4 in front and 3 behind inside the halo, your hero beneath.
 // Travel opens the next area through an arched wipe.
 (function () {
   const stage = document.getElementById('stage');
@@ -29,16 +29,8 @@
     </div>`;
   }
 
-  // Units on an arc. up=true: a crown over the hero; false: hanging from the top.
-  function arc(units, where, cx, cy, R, up, spread) {
-    const n = units.length, span = spread || 144;
-    return units.map((u, i) => {
-      const a = (n === 1 ? 0 : -span / 2 + (span * i) / (n - 1));
-      const rad = ((up ? -90 : 90) + a) * Math.PI / 180;
-      const x = cx + R * Math.cos(rad), y = cy + R * Math.sin(rad);
-      return card(u, where, `left:${x.toFixed(0)}px;top:${y.toFixed(0)}px;--r:${(up ? a : -a) * 0.35}deg`);
-    }).join('');
-  }
+  // The band: 4 in front, 3 behind. Empty slots are gilt-outlined arches.
+  const band = (slots, where, cls) => `<div class="band ${cls || ''}">${J.brick(slots, (u) => card(u, where), (k) => `<div class="slot"><span>${J.SLOTS[k]}</span></div>`, cls)}</div>`;
 
   function frame() { return `<div class="frame"><i class="c tl">${CURL}</i><i class="c tr">${CURL}</i><i class="c bl">${CURL}</i><i class="c br">${CURL}</i></div>`; }
   function title() { return `<div class="cartouche"><small>${['First', 'Second', 'Third', 'Fourth', 'Fifth'][S.stop]} Station of the Journey</small><b>${G.area.name}</b><i>${G.area.sub} · turn ${G.turn}</i></div>`; }
@@ -47,14 +39,13 @@
   }
 
   function recruit() {
-    const W = stage.offsetWidth || 1920, cx = W / 2;
     const me = G.lobby.find((p) => p.you);
     const shopW = G.shop.length * 196;
     return `${DEFS}${frame()}${title()}${lobby()}
       <div class="rail" style="width:${shopW + 120}px"><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 20 C 60 4, 100 36, 160 20 S 260 4, 320 20 S 380 34, 400 18" fill="none" stroke="url(#gilt)" stroke-width="4"/></svg><span>The Market</span></div>
       <div class="market" style="width:${shopW}px">${G.shop.map((u, i) => card(u, 'shop', `--r:${(i - (G.shop.length - 1) / 2) * 1.5}deg`)).join('')}</div>
       <div class="disc"></div>
-      ${arc(G.board, 'board', cx, 1012, 512, true, 128)}
+      ${band(G.board, 'board')}
       <div class="hero"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b></div>
       <div class="jewels left"><div class="jewel gold"><b>${G.gold}</b><small>Gold</small></div><button class="jewel btn"><b>${Math.min(6, G.tier + 1)}</b><small>Tier up · ${Math.max(0, 7 - G.stop)}</small></button></div>
       <div class="jewels right"><button class="jewel btn" data-act="refresh"><b>↻</b><small>Refresh · 1</small></button><button class="jewel btn ice"><b>❄</b><small>Freeze</small></button></div>
@@ -63,14 +54,14 @@
   }
 
   function fight() {
-    const W = stage.offsetWidth || 1920, cx = W / 2;
     const me = G.lobby.find((p) => p.you), foe = G.enemyHero;
     return `${DEFS}${frame()}${lobby()}
       <div class="disc top"></div><div class="disc"></div>
-      <div class="hero foe"><div class="rings"></div><img src="${J.por(foe.id)}" alt=""><b>${foe.hp}</b></div>
-      ${arc(G.enemy, 'enemy', cx, 30, 400, false, 150)}
-      ${arc(G.board, 'mine', cx, 1050, 400, true, 150)}
-      <div class="hero"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b></div>
+      <div class="hero foe"><div class="rings"></div><img src="${J.por(foe.id)}" alt=""><b>${foe.hp}</b><i>${J.esc(foe.name)}</i></div>
+      ${band(G.enemy, 'enemy', 'foe')}
+      <div class="fightline"></div>
+      ${band(G.board, 'mine')}
+      <div class="hero me"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b><i>You</i></div>
       <div class="verdict" hidden></div>
       <button class="door" data-act="travel" hidden><b>${S.stop === J.STOPS.length - 1 ? 'Begin Again' : 'Journey On'}</b><small>${S.stop === J.STOPS.length - 1 ? J.STOPS[0].name : 'to ' + J.STOPS[S.stop + 1].name}</small></button>`;
   }
@@ -102,7 +93,7 @@
     setTimeout(() => { stage.classList.remove('leaving'); render(); }, J.reduced ? 0 : 700);
   }
 
-  const find = (uid) => [...G.shop, ...G.board, ...G.hand, ...G.enemy].find((u) => u.uid === uid);
+  const find = (uid) => [...G.shop, ...G.board, ...G.hand, ...G.enemy].find((u) => u && u.uid === uid);
   stage.addEventListener('click', (e) => {
     const a = e.target.closest('[data-act]');
     if (a) {
@@ -114,7 +105,7 @@
     const c = e.target.closest('.card'); if (!c || S.mode === 'fight') return;
     const u = find(c.dataset.uid);
     if (c.dataset.where === 'shop' && G.hand.length < 3) { G.shop = G.shop.filter((x) => x !== u); G.hand.push(u); render(); }
-    else if (c.dataset.where === 'hand' && G.board.length < 7) { G.hand = G.hand.filter((x) => x !== u); G.board.push(u); render(); }
+    else if (c.dataset.where === 'hand' && J.firstEmpty(G.board) >= 0) { G.hand = G.hand.filter((x) => x !== u); G.board[J.firstEmpty(G.board)] = u; render(); }
   });
 
   let t;
@@ -137,7 +128,6 @@
 
   J.mountWorld({ ferns: false });
   J.fit(stage);
-  addEventListener('resize', () => render());
   J.setArea(S.stop, 'instant');
   render();
 })();

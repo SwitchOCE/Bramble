@@ -37,7 +37,8 @@
       </div>
     </div>`;
   }
-  const empty = (n) => Array.from({ length: n }, () => '<div class="slot"></div>').join('');
+  const slot = (k) => `<div class="slot"><span>${J.SLOTS[k]}</span></div>`;
+  const brick = (slots, where, cls) => J.brick(slots, (u) => card(u, where), slot, cls);
 
   function route() {
     return `<div class="route">${J.STOPS.map((s, i) => `
@@ -52,15 +53,15 @@
   }
 
   function recruit() {
-    const board = G.board.map((u) => card(u, 'board')).join('') + empty(7 - G.board.length);
     return `${route()}
       <div class="turnmark"><b>TURN ${G.turn}</b><span>RECRUIT</span></div>
       ${lobby()}
       <section class="arena">
-        <div class="row-label"><span>MARKET</span><span class="dim">TIER ${G.tier}</span></div>
-        <div class="row shop">${G.shop.map((u) => card(u, 'shop')).join('')}</div>
-        <div class="row-label"><span>YOUR BAND</span><span class="dim">${G.board.length}/7</span></div>
-        <div class="row board">${board}</div>
+        <div class="zone"><div class="row-label"><span>MARKET</span><span class="dim">TIER ${G.tier}</span></div>
+          <div class="row shop">${G.shop.map((u) => card(u, 'shop')).join('')}</div></div>
+        <div class="zone band"><div class="row-label"><span>YOUR BAND</span><span class="dim">${J.count(G.board)}/7</span></div>
+          <div class="tags"><i>FRONT</i><i>BACK</i></div>
+          ${brick(G.board, 'board')}</div>
       </section>
       <footer class="bar">
         <div class="gold"><span class="acorn">${ACORN}</span><b>${G.gold}</b></div>
@@ -79,9 +80,9 @@
       ${lobby()}
       <section class="arena fightpanel">
         <div class="hero foe"><img src="${J.por(foe.id)}" alt=""><b>${J.esc(foe.name)}</b><span class="php">${foe.hp}</span></div>
-        <div class="row enemy">${G.enemy.map((u) => card(u, 'enemy')).join('')}</div>
+        ${brick(G.enemy, 'enemy', 'foe')}
         <div class="vs"></div>
-        <div class="row board">${G.board.map((u) => card(u, 'mine')).join('')}</div>
+        ${brick(G.board, 'mine')}
         <div class="hero me"><img src="${J.por(me.id)}" alt=""><b>You</b><span class="php">${me.hp}</span></div>
       </section>
       <div class="result" hidden></div>`;
@@ -125,7 +126,7 @@
   }
 
   // ---- Interactions ----------------------------------------------------------
-  const find = (uid) => [...G.shop, ...G.board, ...G.hand, ...G.enemy].find((u) => u.uid === uid);
+  const find = (uid) => [...G.shop, ...G.board, ...G.hand, ...G.enemy].find((u) => u && u.uid === uid);
   stage.addEventListener('click', (e) => {
     const act = e.target.closest('[data-act]');
     if (act) {
@@ -140,8 +141,9 @@
     if (b && c) {
       const u = find(c.dataset.uid), w = c.dataset.where;
       if (w === 'shop' && G.hand.length < 4) { G.shop = G.shop.filter((x) => x !== u); G.hand.push(u); }
-      if (w === 'hand' && G.board.length < 7) { G.hand = G.hand.filter((x) => x !== u); G.board.push(u); }
-      if (w === 'board') G.board = G.board.filter((x) => x !== u);
+      const k = J.firstEmpty(G.board);
+      if (w === 'hand' && k >= 0) { G.hand = G.hand.filter((x) => x !== u); G.board[k] = u; }
+      if (w === 'board') G.board[G.board.indexOf(u)] = null;
       hideReader(); render(); return;
     }
     if (c && S.details !== 'hover') { c.classList.toggle('flipped'); hideReader(); }

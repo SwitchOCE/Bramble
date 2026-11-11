@@ -1,7 +1,7 @@
 // Bramble design lab, journey round: a shared engine for the three lab pages.
 // It owns the world (painted areas you travel through), the stage scaling, the
 // mock run (boards that grow along the journey) and a purely visual fight loop.
-// Rules are ignored on purpose: this is about look and feel, not the game.
+// Rules are ignored on purpose, except the board: 4 slots in front, 3 behind.
 (function () {
   const J = (window.J = {});
   const qs = new URLSearchParams(location.search);
@@ -81,6 +81,23 @@
   }
   function have(id) { return !!byId[id]; }
 
+  // ---- The board: 7 fixed slots, 4 in front and 3 behind (rulebook 8.1) ------
+  // This one rule holds in every lab look. A board is an array of 7, F1-F4 then
+  // B1-B3, with null for an empty slot. Units never slide to fill a gap.
+  J.SLOTS = ['F1', 'F2', 'F3', 'F4', 'B1', 'B2', 'B3'];
+  // Where a mock band of n stands: front first, with a gap now and then.
+  const LAYOUT = { 0: [], 1: [1], 2: [1, 2], 3: [1, 2, 5], 4: [0, 1, 2, 5], 5: [0, 1, 2, 3, 5], 6: [0, 1, 2, 3, 4, 6], 7: [0, 1, 2, 3, 4, 5, 6] };
+  J.slotted = (units) => { const s = Array(7).fill(null); (LAYOUT[units.length] || []).forEach((k, i) => (s[k] = units[i])); return s; };
+  J.count = (slots) => slots.filter(Boolean).length;
+  J.firstEmpty = (slots) => slots.findIndex((u) => !u);
+  // The brick: front row of 4, back row of 3 offset by half a slot.
+  // cardFn(unit, slotIndex) and emptyFn(slotIndex) return HTML. cls: extra classes
+  // ('foe' puts the back row on top so the two front rows face each other).
+  J.brick = function (slots, cardFn, emptyFn, cls) {
+    const cell = (k) => (slots[k] ? cardFn(slots[k], k) : emptyFn(k));
+    return `<div class="brick ${cls || ''}"><div class="brow brow-f">${[0, 1, 2, 3].map(cell).join('')}</div><div class="brow brow-b">${[4, 5, 6].map(cell).join('')}</div></div>`;
+  };
+
   J.state = function (stop) {
     stop = Math.max(0, Math.min(J.STOPS.length - 1, stop));
     const r = rng(4242 + stop * 97);
@@ -102,7 +119,7 @@
       return { id: h, name: (window.HEROES || []).find((x) => x.id === h)?.name || h, hp: Math.max(0, 40 - lost - (i === 7 ? stop * 6 : 0)), tier: Math.min(6, tierAt[stop] + (er() < 0.3 ? 1 : 0)), you: i === 0, next: i === 3 };
     });
     lobby.sort((a, b) => b.hp - a.hp);
-    return { stop, area: st, turn, tier: tierAt[stop], gold: Math.min(10, 2 + turn), board, shop, hand, enemy, lobby, enemyHero: lobby.find((p) => p.next) };
+    return { stop, area: st, turn, tier: tierAt[stop], gold: Math.min(10, 2 + turn), board: J.slotted(board), shop, hand, enemy: J.slotted(enemy), lobby, enemyHero: lobby.find((p) => p.next) };
   };
 
   // ---- Stage scaling: the UI is designed at 1080 tall and stretches sideways --
@@ -187,19 +204,28 @@
     return t;
   };
 
-  // ---- A visual fight loop. No rules: someone hits someone, numbers pop. ----
-  // opts.find(uid) -> element; opts.side(uid) -> 'you'|'them'; opts.onEnd(winner)
+  // ---- A visual fight loop on the two bricks. Mostly not the rules: units take
+  // turns in slot order (front row, then back), and hit the front row while it lives.
+  // you/them are 7-slot boards. opts.find(uid) -> element; opts.onEnd(winner)
   J.fight = function (you, them, opts) {
-    const r = rng(31 + you.length * 7 + them.length);
+    const r = rng(31 + J.count(you) * 7 + J.count(them));
     let turn = 0, stopped = false;
-    const alive = (arr) => arr.filter((u) => u.hp > 0);
+    const live = (u) => u && u.hp > 0;
+    const ptr = [-1, -1];
+    function nextAttacker(side, k) {
+      for (let n = 1; n <= side.length; n++) { const i = (ptr[k] + n) % side.length; if (live(side[i])) { ptr[k] = i; return side[i]; } }
+    }
+    function target(side) {
+      const front = side.slice(0, 4).filter(live), pool = front.length ? front : side.filter(live);
+      return pool[Math.floor(r() * pool.length)];
+    }
     function step() {
       if (stopped) return;
-      const A = alive(you), B = alive(them);
+      const A = you.filter(live), B = them.filter(live);
       if (!A.length || !B.length) { opts.onEnd && opts.onEnd(A.length ? 'you' : B.length ? 'them' : 'draw'); return; }
-      const atkSide = turn++ % 2 === 0 ? A : B, defSide = atkSide === A ? B : A;
-      const att = atkSide[Math.floor(r() * Math.min(atkSide.length, 3))];
-      const def = defSide[Math.floor(r() * defSide.length)];
+      const k = turn++ % 2;
+      const att = nextAttacker(k === 0 ? you : them, k);
+      const def = target(k === 0 ? them : you);
       const ea = opts.find(att.uid), ed = opts.find(def.uid);
       if (!ea || !ed) return setTimeout(step, 50);
       const ra = ea.getBoundingClientRect(), rd = ed.getBoundingClientRect();

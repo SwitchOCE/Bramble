@@ -42,6 +42,15 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1a14; }
 
 .jy-stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; z-index: 2; }
 
+/* The brick: 4 front, 3 behind. Equal slots and gaps, both rows centred, so the
+   back row sits exactly half a slot over. Fixed in every look (rulebook 8.1). */
+.brick { display: flex; flex-direction: column; align-items: center; gap: var(--row-gap, 12px); }
+.brick.foe { flex-direction: column-reverse; }
+.brow { display: flex; justify-content: center; gap: var(--slot-gap, 14px); }
+/* Sideways brick (two bands facing across a line): rows become columns. */
+.brick.side { flex-direction: row; } .brick.side.foe { flex-direction: row-reverse; }
+.brick.side .brow { flex-direction: column; gap: var(--slot-gap, 14px); }
+
 /* Fight feel */
 .jy-lunge { animation: jy-lunge .52s cubic-bezier(.3,.0,.2,1); z-index: 30 !important; position: relative; }
 @keyframes jy-lunge {
