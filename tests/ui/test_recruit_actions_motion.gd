@@ -392,26 +392,6 @@ func test_reader_protects_each_whole_row_in_a_stacked_arrangement() -> void:
 	await wait_process_frames(1)
 
 
-func test_board_into_belly_drag_uses_the_explicit_tap_mode_instead_of_swapping() -> void:
-	var screen := Screen.new()
-	add_child_autofree(screen)
-	var port: CorePort = Fixture.make("ooze")
-	screen.setup(port)
-	await wait_process_frames(1)
-	screen.call("_on_tapped", "board", 0)
-	screen.call("_on_into_belly")
-	assert_true(screen._can_drop({"zone": "board", "index": 0}, "board", 1))
-	screen._drop({"zone": "board", "index": 0}, "board", 1)
-	var state: Dictionary = port.get_state()
-	var board: Array = state["board"]
-	var eater: Dictionary = board[1]
-	var held: Array = eater["held"]
-	assert_true(board[0] == null)
-	assert_eq(held.size(), 1)
-	assert_eq(str(eater["def_id"]), "figgy_duff")
-	await wait_process_frames(1)
-
-
 func test_reader_name_fitting_does_not_step_below_the_existing_minimum() -> void:
 	var reader := Detail.new()
 	add_child_autofree(reader)
@@ -443,3 +423,21 @@ func test_explicit_reader_survives_hover_exit_until_another_tap() -> void:
 	screen.call("_on_tapped", "table", -1)
 	assert_false(reader.visible)
 	await wait_process_frames(1)
+
+
+func test_reader_backing_follows_rules_actions_and_keyword_content() -> void:
+	var reader := Detail.new()
+	add_child_autofree(reader)
+	reader.place_overlay(Rect2(150, 20, 430, 680))
+	reader.show_unit({"name": "Short card", "text": "Four short lines.\nSecond.\nThird.\nFourth."})
+	await wait_process_frames(2)
+	var short_height: float = reader.size.y
+	var notes: RichTextLabel = reader.get("_notes")
+	assert_almost_eq(notes.size.y, float(notes.get_content_height()), 1.0)
+	reader.add_action("Buy", func() -> void: pass, 3)
+	await wait_process_frames(2)
+	assert_gt(reader.size.y, short_height, "actions have room without a standing empty backing")
+	reader.show_unit({"name": "Long card", "text": "A longer line of card rules.\n".repeat(20)})
+	await wait_process_frames(2)
+	assert_eq(reader.size.y, 680.0, "long rules use the available band and scroll")
+	assert_gt(float(notes.get_content_height()), notes.size.y)

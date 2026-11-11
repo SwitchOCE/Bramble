@@ -65,7 +65,9 @@ func _movie_actions(app: App) -> void:
 	var label: String = "phone" if DisplayServer.window_get_size().x == 1688 else "pc"
 	root.get_texture().get_image().save_png("res://build/loop1/recruit-feel/reader-%s.png" % label)
 	var detail: CardDetail = screen.get("_detail")
-	_click(detail._close)
+	_move(screen._stage.get_global_transform() * Vector2(12, 12))
+	_button(true)
+	_button(false)
 	await _movie_frames(8)
 	await _drag(screen._card_at("shop", 0), board.slots[2])
 	await _drag(screen._card_at("shop", 0), screen._hand_zone)

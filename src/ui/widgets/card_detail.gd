@@ -4,8 +4,6 @@ extends Control
 ## (PC) or tap (phone) shows what one means on a ReminderSlip docked under the rules.
 ## Recruit places this over free space away from the inspected row, without reflow.
 
-signal close_requested
-
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -44,8 +42,8 @@ var read_zone: String = "":
 var reminder: ReminderSlip
 
 var _anchor: Callable
-var _close: Button
 var _overlay: bool = false
+var _overlay_limit: Vector2
 var _panel: WoodPanel
 var _art: ArtFrame
 var _banner: Panel
@@ -130,13 +128,6 @@ func _init() -> void:
 	actions = VBoxContainer.new()
 	actions.add_theme_constant_override("separation", 6)
 	add_child(actions)
-	_close = Button.new()
-	_close.text = "×"
-	_close.flat = true
-	_close.add_theme_font_size_override("font_size", 44)
-	_close.pressed.connect(func() -> void: close_requested.emit())
-	_close.visible = false
-	add_child(_close)
 	resized.connect(_layout)
 	ready.connect(_layout)
 
@@ -249,7 +240,7 @@ func place_recruit_overlay(
 	var width: float = maxf(430.0, maxf(top.size.x, end.size.x))
 	var start := Vector2(end.end.x - width, minf(top.position.y, stage.size.y * 0.1))
 	var bottom: float = minf(end.position.y, stage.size.y * 0.84)
-	var rect := Rect2(start, Vector2(width, maxf(stage.size.y * 0.6, bottom - start.y - 12.0)))
+	var rect := Rect2(start, Vector2(width, maxf(0.0, bottom - start.y - 12.0)))
 	var protected: Array[Rect2] = [
 		Rect2(0, end.position.y, stage.size.x, stage.size.y - end.position.y)
 	]
@@ -308,10 +299,10 @@ static func _free_band(bounds: Rect2, protected: Array[Rect2]) -> Rect2:
 ## Recruit supplies a live anchor; this panel never asks surrounding controls for space.
 func place_overlay(rect: Rect2) -> void:
 	_overlay = true
+	_overlay_limit = rect.size
 	position = rect.position
 	size = rect.size
 	set_action_column()
-	_close.visible = true
 	_layout()
 
 
@@ -322,10 +313,9 @@ func _layout() -> void:
 	# Shallow free bands read across, leaving the inspected row and its neighbours untouched.
 	var across: bool = w >= 800.0 and (_overlay or size.y < 500.0)
 	if _overlay and across:
-		var close_size: float = 122.0 if CardView.is_phone() else 88.0
-		w -= 340.0 + close_size + 30.0
+		w -= 340.0 + 30.0
 		_action_column = Rect2(w + 12.0, 12, 340, size.y - 24.0)
-	var compact: bool = _overlay and not across and (size.y < 800.0 or size.x < 430.0)
+	var compact: bool = _overlay and not across and (_overlay_limit.y < 800.0 or size.x < 430.0)
 	if _overlay:
 		_art.visible = not compact and not Data.s(shown, "def_id").is_empty()
 		_tier.visible = not compact and Data.s(shown, "type_word").is_empty()
@@ -348,10 +338,6 @@ func _layout() -> void:
 	var bottom: float = size.y if side_actions else size.y - action_h
 	_panel.position = Vector2.ZERO
 	_panel.size = size if _overlay else Vector2(w, bottom - 14.0)
-	if _close != null:
-		var close_size: float = 122.0 if CardView.is_phone() else 88.0
-		_close.position = Vector2(size.x - close_size - 6.0, 6.0)
-		_close.size = Vector2(close_size, close_size)
 	var art: float = 176.0 if _art.visible else 0.0
 	_art.position = Vector2(24, 24)
 	_art.size = Vector2(art, art)
@@ -361,9 +347,8 @@ func _layout() -> void:
 		_banner.position.y = 130.0
 		_banner.size.y = 88.0
 	if compact:
-		var close_size: float = 122.0 if CardView.is_phone() else 88.0
 		_banner.position = Vector2(16, 12)
-		_banner.size = Vector2(w - close_size - 36.0, 88)
+		_banner.size = Vector2(w - 32.0, 88)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
 	_fit_name()
@@ -396,7 +381,6 @@ func _layout() -> void:
 	var hint_h: float = 0.0
 	if _hint.visible:
 		hint_h = maxf(84.0, _wrapped_height(_hint, heading_w - 48.0))
-		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 		_hint.size = Vector2(heading_w - 48.0, hint_h)
 	var notes_left: float = heading_w + 24.0 if across else 26.0
 	var notes_top: float = 24.0 if across else (248.0 if _art.visible else 186.0)
@@ -407,6 +391,21 @@ func _layout() -> void:
 			else maxf(notes_top, _type.position.y + _type.size.y + 8.0)
 		)
 	var notes_w: float = w - notes_left - 26.0
+	_notes.size.x = notes_w
+	if _overlay:
+		var rules_h: float = maxf(40.0, _notes.get_content_height())
+		var reminder_h: float = (
+			reminder.height_for(notes_w + 12.0) + 10.0 if reminder.visible else 0.0
+		)
+		var body_h: float = notes_top + rules_h + reminder_h + 30.0 + hint_h
+		var heading_h: float = _type.position.y + _type.size.y + 20.0
+		var content_h: float = maxf(body_h, heading_h)
+		content_h = maxf(content_h, action_h + 24.0) if side_actions else content_h + action_h
+		size.y = minf(_overlay_limit.y, content_h)
+		bottom = size.y if side_actions else size.y - action_h
+		_panel.size = size
+	if _hint.visible:
+		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 	var text_bottom: float = bottom - 30.0 - (0.0 if across else hint_h)
 	var slip_h: float = 0.0
 	if reminder.visible:

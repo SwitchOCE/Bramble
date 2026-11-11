@@ -242,10 +242,6 @@ func _layout_right(x: float, _w: float) -> void:
 	_gold.show()
 
 
-func _on_detail_shown() -> void:
-	_layout()
-
-
 ## Every offer at full width, or less when a high tier's six offers need the room.
 func _shop_width() -> float:
 	var offers: int = maxi(Data.i(state, "shop_size", 4), 4)

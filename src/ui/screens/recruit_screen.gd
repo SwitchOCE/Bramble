@@ -82,7 +82,6 @@ func _init() -> void:
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
 	_detail.add_child(preload("res://src/ui/widgets/reader_scroll.gd").new(_detail._notes))
-	_detail.close_requested.connect(func() -> void: _on_tapped("table", -1))
 	var rules_links: RichTextLabel = _detail.get("_notes")
 	rules_links.meta_clicked.connect(
 		func(meta: Variant) -> void:
@@ -715,7 +714,7 @@ func show_pass_preview(from_zone: String, from_index: int, zone: String, index: 
 
 
 func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bool) -> bool:
-	if from_zone == "board" and not _selected.has("into_belly"):
+	if from_zone == "board":
 		return slot != from_index
 	var card: Dictionary = _unit_at(from_zone, from_index)
 	if CardView.is_spell(card):
@@ -724,7 +723,7 @@ func _can_drop_on_board(from_zone: String, from_index: int, slot: int, empty: bo
 			and RecruitView.item_lands(card, _unit_at("board", slot), slot, state)
 		)
 	if RecruitHeld.can_swallow(_unit_at("board", slot), card):
-		return from_zone in ["hand", "shop", "board"]
+		return from_zone in ["hand", "shop"]
 	return from_zone in ["hand", "shop"] and empty
 
 
@@ -742,7 +741,7 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 			"mode": _drag_card.mode,
 		}
 	_drag_committed = true
-	if zone == "board" and _try_swallow(from_zone, from_index, index):
+	if zone == "board" and from_zone != "board" and _try_swallow(from_zone, from_index, index):
 		return
 	_selected = {}
 	match [from_zone, zone]:
