@@ -13,7 +13,9 @@ button { all: unset; box-sizing: border-box; cursor: pointer; }
 .seg button.on { background: var(--ink); color: #111; }
 
 /* The shape list (left) */
-.list { position: absolute; left: 30px; top: 64px; width: 320px; display: flex; flex-direction: column; gap: 8px; }
+.list { position: absolute; left: 30px; top: 64px; width: 320px; display: flex; flex-direction: column; gap: 6px; }
+.list h4 { margin: 6px 4px 0; font: 800 14px var(--num); letter-spacing: .2em; text-transform: uppercase; color: var(--dim); }
+.list button { padding: 9px 16px !important; }
 .list button { display: block; padding: 12px 16px; border-radius: 14px; background: rgba(12,16,14,.72); border: 2px solid transparent; }
 .list button.on { border-color: var(--go); background: rgba(12,26,20,.9); }
 .list b { display: block; font: 800 24px var(--num); letter-spacing: .04em; text-transform: uppercase; }

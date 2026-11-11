@@ -24,12 +24,17 @@
       good: ['Crisp and angular for almost no art lost.', 'Where four slots meet, the gaps form small diamonds, a hint of weave.'],
       bad: ['Doesn\'t tuck: same height as the plain card.', 'On its own, it reads as a style choice more than a shape.'],
       vary: ['Cut only the corners that face the next row.', 'Cut the corners deeper, until it is nearly an octagon.'] },
-    { id: 'longhex', name: 'Tall hex', a: { bu: .75, lr: .75 }, t: .17,
+    { id: 'longhex', name: 'Tall hex', pick: true, a: { bu: .75, lr: .75 }, t: .17,
       line: 'A card with a point at each end. The points lock into the next row.',
       good: ['Keeps a card\'s tall shape and most of the art.', 'The back row tucks in a little: at the same unit width, the board is about a tenth shallower.', 'Rows read as one locked block.'],
       bad: ['The tip of each point crops the art (ears and hats).', 'Numbers sit on the slanted corners, slightly tighter.'],
       vary: ['Point only toward the enemy (a spearhead).', 'A sharper point, partway to the near-diamond.'] },
-    { id: 'honey', name: 'Honeycomb', a: { bu: .866, lr: 1.155 }, t: .25,
+    { id: 'midhex', name: 'Mid hex', pick: true, a: { bu: .81, lr: .81 }, t: .21,
+      line: 'Between the two: taller than a regular hexagon, squatter than the tall hex.',
+      good: ['Keeps a portrait shape while tucking in almost as far as the honeycomb.', 'Stays taller than wide in both layouts, so it never turns on its side.', 'Faces sit in a wider middle band than in the tall hex.'],
+      bad: ['Not a true tessellation of the regular kind, so it reads less instantly as "honeycomb".', 'Still crops ears and hats in the top corners.'],
+      vary: ['Round the six corners slightly.', 'The same proportions with a flat top on the front row (toward the enemy).'] },
+    { id: 'honey', name: 'Honeycomb', pick: true, a: { bu: .866, lr: 1.155 }, t: .25,
       line: 'Regular hexagons. A 4-3 board is a piece of honeycomb: it tessellates exactly.',
       good: ['The offset rows stop looking like a compromise; they are what a honeycomb is.', 'The back row tucks in by a quarter: at the same unit width, the board is about a quarter shorter.', 'Fits a woodland theme (bees, cells, combs).'],
       bad: ['Each hex is wider than a card, so in a wide zone it runs out of width first and the units come out smaller. It pays off in a zone that is narrower and shorter.', 'In the left-right layout the hexes turn on their side, so the units are wider than tall.'],
@@ -50,7 +55,26 @@
       bad: ['Leaning pictures can feel unstable.', 'Doesn\'t tuck: same height as the plain card.'],
       vary: ['Lean only the empty slots, as a woven mat under upright cards.', 'A gentler slant, enough to suggest the weave.'] },
   ];
+  // The owner's picks lead (11 Nov): honeycomb, the in-between hex, the tall hex.
+  const ORDER = ['honey', 'midhex', 'longhex', 'card', 'chamfer', 'lozenge', 'shield', 'weave'];
+  SHAPES.sort((x, y) => ORDER.indexOf(x.id) - ORDER.indexOf(y.id));
   const byId = Object.fromEntries(SHAPES.map((s) => [s.id, s]));
+
+  // Placing the picture. Portraits are square and the face sits about 30% down.
+  // Scale to cover the whole unit (never stretched), zoom in a touch on hexes, then
+  // pan so the face lands in the hex's wide middle band, clear of the top point.
+  // The bottom crops first: that is the body, where the numbers sit anyway.
+  const FACE = 0.30;
+  function art(sh, lay, W, H) {
+    // A unit wider than tall (the honeycomb on its side) already crops top and
+    // bottom: no zoom, and keep the top edge so heads and hats stay whole.
+    const wide = W > H, pointy = sh.t && lay === 'bu';
+    const zoom = sh.round || wide ? 1 : pointy ? 1.1 : 1.04;
+    const side = Math.max(W, H) * zoom;
+    const target = pointy ? Math.max(0.36, sh.t + 0.14) : 0.34;
+    const y = wide ? 0 : Math.min(0, Math.max(H - side, target * H - FACE * side));
+    return { x: (W - side) / 2, y, side };
+  }
 
   function poly(sh, row) {
     if (sh.weave) { const s = sh.weave; return row === 'f' ? [[s, 0], [1, 0], [1 - s, 1], [0, 1]] : [[0, 0], [1 - s, 0], [1, 1], [s, 1]]; }
@@ -104,10 +128,11 @@
     const pos = `left:${x.toFixed(1)}px;top:${y.toFixed(1)}px;width:${W.toFixed(1)}px;height:${H.toFixed(1)}px`;
     if (!u) return `<div class="u empty" style="${pos}"><svg viewBox="0 0 ${W} ${H}"><path d="${d}" class="dash"/></svg></div>`;
     const b = Math.max(30, Math.min(54, Math.min(W, H) * .3));
+    const im = art(sh, lay, W, H);
     const yl = H * .84, [l, r] = span(pts, W, yl), [tl] = span(pts, W, H * .14);
     return `<div class="u ${u.golden ? 'golden' : ''}" style="${pos};--b:${b.toFixed(0)}px">
       <svg viewBox="0 0 ${W} ${H}"><defs><clipPath id="${id}"><path d="${d}"/></clipPath></defs>
-        <image href="${J.por(u.id)}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice" clip-path="url(#${id})"/>
+        <image href="${J.por(u.id)}" x="${im.x.toFixed(1)}" y="${im.y.toFixed(1)}" width="${im.side.toFixed(1)}" height="${im.side.toFixed(1)}" preserveAspectRatio="none" clip-path="url(#${id})"/>
         <path d="${d}" class="edge"/></svg>
       <span class="tier" style="left:${(tl + b * .42).toFixed(0)}px;top:${(H * .14).toFixed(0)}px">${u.tier}</span>
       <span class="atk" style="left:${(l + b * .3).toFixed(0)}px;top:${yl.toFixed(0)}px">${u.atk}</span>
@@ -158,7 +183,7 @@
       ${seg('lay', [['bu', 'Bottom-up'], ['lr', 'Left-right']])}${seg('view', [['one', 'One shape, in a fight'], ['all', 'All shapes']])}</header>`;
   }
   function list() {
-    return `<nav class="list">${SHAPES.map((s) => { const z = size(s, S.lay); return `<button data-shape="${s.id}" class="${S.shape === s.id ? 'on' : ''}"><b>${s.name}${s.tag ? ` <i>${s.tag}</i>` : ''}</b><span>Units ${z.pct}% size · board ${z.deep}% ${S.lay === 'bu' ? 'height' : 'width'}</span></button>`; }).join('')}</nav>`;
+    return `<nav class="list">${SHAPES.map((s, i) => { const z = size(s, S.lay); return `${i === 0 ? '<h4>Your picks</h4>' : s.id === 'card' ? '<h4>Others</h4>' : ''}<button data-shape="${s.id}" class="${S.shape === s.id ? 'on' : ''}"><b>${s.name}${s.tag ? ` <i>${s.tag}</i>` : ''}${s.pick ? ' <i>pick</i>' : ''}</b><span>Units ${z.pct}% size · board ${z.deep}% ${S.lay === 'bu' ? 'height' : 'width'}</span></button>`; }).join('')}</nav>`;
   }
   function notes(sh) {
     const z = size(sh, S.lay);
