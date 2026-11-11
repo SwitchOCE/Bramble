@@ -224,10 +224,10 @@ func attach_recruit_overlay(
 ) -> void:
 	_anchor = func() -> void: place_recruit_overlay(stage, gold, end_button, rows)
 	visibility_changed.connect(_anchor)
-	gold.item_rect_changed.connect(_anchor)
-	end_button.item_rect_changed.connect(_anchor)
+	gold.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
+	end_button.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
 	for row: Control in rows.values():
-		row.item_rect_changed.connect(_anchor)
+		row.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
 
 
 ## Protect the entire inspected row. Hand inspection also leaves every play destination clear.

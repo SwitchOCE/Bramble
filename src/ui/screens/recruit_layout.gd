@@ -24,7 +24,8 @@ const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
-const StackSurface := preload("res://src/ui/widgets/stack_surface.gd")
+const PlayFrame := preload("res://src/ui/widgets/play_frame.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 const ShelfPlank := preload("res://src/ui/widgets/shelf_plank.gd")
 const GoldPlaque := preload("res://src/ui/widgets/gold_plaque.gd")
 const HeroPlaque := preload("res://src/ui/widgets/hero_plaque.gd")
@@ -56,8 +57,8 @@ var port: GamePort
 var state: Dictionary = {}
 
 var _lanes: LaneOverlay
-var _player_surface: Control
-var _bar_surface: Control
+var _frame: PlayFrame
+var _bar_contents: Control
 var _stage: Control
 var _tribes: TribeBonuses
 var _lobby: LobbyStrip
@@ -97,20 +98,14 @@ func _layout() -> void:
 	var w: float = size.x
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
 	_stage.size = Vector2(w, CANVAS_H)
-	var main_w: float = minf(w - 300.0, 1900.0)
-	var left: float = (w + 130.0 - main_w) / 2.0
+	var main_w: float = _play_width()
+	var left: float = (w - main_w) / 2.0
 	var center: float = left + main_w / 2.0
 	_board.configure("board", 222.0, true)
 	_board.position = Vector2(center - _board.tray_size().x / 2.0, 302)
 	_board.size = _board.tray_size()
-	_player_surface.position = Vector2(left, 300)
-	_player_surface.size = Vector2(main_w, 642)
-	_player_surface.set("formation_size", _board.tray_size())
-	_player_surface.queue_redraw()
-	_bar_surface.position = Vector2(left - 16, 944)
-	_bar_surface.size = Vector2(main_w + 32, 120)
-	_lobby.position = Vector2(8, 8)
-	_lobby.size = Vector2(122, 1040)
+	_lobby.position = Vector2(8, 40)
+	_lobby.size = Vector2(122, 1032)
 	_lobby.visible = not _scout.visible
 	_menu_token.position = Vector2(w - 142, 12)
 	_menu_token.size = Vector2(122, 131)
@@ -118,14 +113,15 @@ func _layout() -> void:
 	_scout_token.size = Vector2(122, 131)
 	_scout_token.visible = _scout.visible
 	_who_token.visible = false
-	_shelf.position = Vector2(left, 252)
+	_shelf.position = Vector2(left, 276)
 	_shelf.size = Vector2(main_w, 45)
-	_shop_zone.position = Vector2(left, 10)
-	_shop_zone.size = Vector2(main_w, 287)
+	_shop_zone.position = Vector2(left, 44)
+	_shop_zone.size = Vector2(main_w, 266)
 	_shop_cards.add_theme_constant_override("h_separation", int(_shop_gap()))
 	var offers: int = _shop_cards.get_child_count()
 	var shop_width: float = offers * _tile_width(offers) + maxf(0, offers - 1) * _shop_gap()
-	_shop_cards.position = Vector2(center - shop_width / 2.0, 28)
+	_shop_cards.scale = Vector2.ONE * minf(1.0, (main_w - 56.0) / maxf(shop_width, 1.0))
+	_shop_cards.position = Vector2(center - shop_width * _shop_cards.scale.x / 2.0, 54)
 	_shop_cards.size = Vector2(shop_width, 245)
 	_shelf.position.x = center - (shop_width + 56) / 2.0
 	_shelf.size.x = shop_width + 56
@@ -138,8 +134,9 @@ func _layout() -> void:
 		if card != null:
 			card.set_card_size(Vector2(_tile_width(offers), 245))
 	_layout_hand(left)
-	_layout_hero(center)
+	_layout_hero(left + maxf(main_w, 1620.0) / 2.0)
 	_layout_right(left, w)
+	_fit_bar(left, main_w)
 	_dev_token.position = Vector2(w - 118, 138)
 	_dev_token.size = Vector2(122, 131)
 	_dev.position = Vector2(left, 112)
@@ -148,6 +145,7 @@ func _layout() -> void:
 	_lanes.hide()
 	if _scout.visible:
 		_layout_scouting(left, left + main_w)
+	_layout_frame(left, main_w)
 
 
 ## Scouting replaces merchant and reserve with opposing formations on the same surface.
@@ -157,15 +155,11 @@ func _layout_scouting(left: float, right_x: float) -> void:
 	theirs.compact = true
 	_board.configure("board", 190.0, true)
 	theirs.configure("scout", 190.0, false)
-	_scout.position = Vector2(center - theirs.tray_size().x / 2.0, 32)
+	_scout.position = Vector2(center - theirs.tray_size().x / 2.0, 52)
 	_scout.size = theirs.tray_size()
 	_scout.heading_offset = 0.0
 	_scout.call("_layout")
-	_board.position = Vector2(center - _board.tray_size().x / 2.0, 485)
-	_player_surface.position.y = 475
-	_player_surface.size.y = 467
-	_player_surface.set("formation_size", _board.tray_size())
-	_player_surface.queue_redraw()
+	_board.position = Vector2(center - _board.tray_size().x / 2.0, 477)
 	_hand_zone.hide()
 	_away_tray.hide()
 
@@ -189,7 +183,7 @@ func _layout_hero(center: float) -> void:
 
 
 func _layout_hand(x: float) -> void:
-	var width: float = _player_surface.size.x
+	var width: float = _play_width()
 	_hand_zone.show()
 	_hand_zone.position = Vector2(x + 18, 760)
 	_hand_zone.size = Vector2(width - 36, 174)
@@ -209,7 +203,8 @@ func _layout_hand(x: float) -> void:
 
 
 func _layout_right(x: float, _w: float) -> void:
-	var center: float = x + _player_surface.size.x / 2.0
+	var bar_width: float = maxf(_play_width(), 1620.0)
+	var center: float = x + bar_width / 2.0
 	_gold.position = Vector2(x + 10, 984)
 	_gold.size = Vector2(205, 80)
 	_round_label.position = Vector2(x + 26, 944)
@@ -221,6 +216,8 @@ func _layout_right(x: float, _w: float) -> void:
 	_tier_button.compact_cost()
 	_tier_button.position = Vector2(x + 160, 944)
 	_tier_button.size = Vector2(200, 122)
+	_tier_icon.position = _tier_button.position + Vector2(77, 38)
+	_tier_icon.size = Vector2(46, 46)
 	_tier_icon.hide()
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_refresh_button.compact_cost()
@@ -233,7 +230,7 @@ func _layout_right(x: float, _w: float) -> void:
 	_kin_button.position = Vector2(x + 630, 944)
 	_kin_button.size = Vector2(122, 122)
 	_kin_button.compact_cost()
-	_end_button.position = Vector2(x + _player_surface.size.x - 280, 944)
+	_end_button.position = Vector2(x + bar_width - 280, 944)
 	_end_button.size = Vector2(280, 122)
 	_end_button.set_label_size(UiTheme.FONT_LEAF)
 	_tribes.position = Vector2(center + 208, 967)
@@ -253,12 +250,12 @@ func _shop_gap() -> float:
 
 
 func _tile_width(offers: int) -> float:
-	var room: float = minf(size.x - 300.0, 1900.0) - 56.0 - maxf(0, offers - 1) * _shop_gap()
-	return minf(230.0, floorf(room / maxf(offers, 1.0)))
+	var room: float = _play_width() - 56.0 - maxf(0, offers - 1) * _shop_gap()
+	return clampf(floorf(room / maxf(offers, 1.0)), 180.0, 230.0)
 
 
 func _hand_card_size(_count: int) -> Vector2:
-	var width: float = floorf((_player_surface.size.x - 36.0 - 9.0 * 12.0) / 10.0)
+	var width: float = floorf((_play_width() - 36.0 - 9.0 * 12.0) / 10.0)
 	return Vector2(width, 152.0)
 
 
@@ -421,12 +418,9 @@ func _build_shop(wire: Callable) -> void:
 
 
 func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
-	_player_surface = StackSurface.new()
-	_stage.add_child(_player_surface)
-	_stage.move_child(_player_surface, 0)
-	_bar_surface = StackSurface.new()
-	_stage.add_child(_bar_surface)
-	_stage.move_child(_bar_surface, 1)
+	_frame = PlayFrame.new()
+	_stage.add_child(_frame)
+	_stage.move_child(_frame, 0)
 	_board = BoardView.new()
 	_board.compact = true
 	_board.surface_visible = false
@@ -476,4 +470,65 @@ func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable)
 	_stage.add_child(_dev_token)
 	_dev_token.visible = Settings.show_dev_panel
 
-## Identify the hand reader before the fan focus signal arrives.
+
+func _play_width() -> float:
+	return minf(size.x - 400.0, 1900.0) if CardView.is_phone() else floorf(size.x * 0.74) - 32.0
+
+
+## Scale the shared bar parent so its widgets keep their ordinary animation scales.
+func _fit_bar(left: float, width: float) -> void:
+	var factor: float = minf(1.0, width / 1620.0)
+	var origin := Vector2(left, 944)
+	if _bar_contents == null:
+		_bar_contents = Control.new()
+		_bar_contents.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_stage.add_child(_bar_contents)
+	_bar_contents.position = origin
+	_bar_contents.size = Vector2(maxf(width, 1620.0), 136)
+	_bar_contents.scale = Vector2.ONE * factor
+	for widget: Control in [
+		_gold,
+		_round_label,
+		_tier_icon,
+		_tier_button,
+		_refresh_button,
+		_freeze_button,
+		_kin_button,
+		_end_button,
+		_hero,
+		_tribes
+	]:
+		if widget.get_parent() != _bar_contents:
+			widget.reparent(_bar_contents, false)
+		widget.position -= origin
+	_fit_bar_text(_bar_contents, ceili(UiTheme.MIN_FONT / factor))
+
+
+## Keep the shared minimum in canvas units, including the bar's parent transform.
+func _fit_bar_text(node: Node, minimum: int) -> void:
+	var label: Label = node as Label
+	if label != null:
+		if not label.has_meta("bar_authored_font"):
+			label.set_meta("bar_authored_font", label.get_theme_font_size("font_size"))
+		var authored: int = label.get_meta("bar_authored_font")
+		label.add_theme_font_size_override("font_size", maxi(authored, minimum))
+	for child: Node in node.get_children():
+		_fit_bar_text(child, minimum)
+
+
+func _layout_frame(left: float, width: float) -> void:
+	_frame.size = _stage.size
+	_frame.clear_regions()
+	if _lobby.visible:
+		_frame.add_region(Rect2(0, 38, 142, 1034), Surface.Finish.BARK)
+	_frame.add_region(Rect2(left - 16, 44, width + 32, 1024), Surface.Finish.BARK, 10)
+	if _scout.visible:
+		_frame.add_region(Rect2(left, 52, width, 398), Surface.Finish.MOSS)
+		_frame.add_region(Rect2(left, 468, width, 466), Surface.Finish.MOSS)
+	else:
+		_frame.add_region(Rect2(left, 52, width, 250), Surface.Finish.STALL)
+		_frame.add_region(Rect2(left, 310, width, 438), Surface.Finish.MOSS)
+		_frame.add_region(Rect2(left, 758, width, 176), Surface.Finish.CLOTH)
+		if _hand_count.visible:
+			_frame.add_region(Rect2(left + width - 180, 726, 160, 64), Surface.Finish.CLOTH)
+	_frame.add_region(Rect2(left - 2, 944, width + 4, 120), Surface.Finish.BAR)

@@ -418,14 +418,17 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 	var received: Array[int] = []
 	for index: int in [5, 6]:
 		board.cards[index].tapped.connect(func(_zone: String, at: int) -> void: received.append(at))
-	# Exact pointer origins and failed click coordinates from the 1920x1080 game logs.
+	# Retain the reported pointer origins and last attempted hit fraction as the table moves.
 	for failure: Array in [
-		[5, Vector2(627, 400), Vector2(1113.8, 568.2)],
-		[6, Vector2(1025, 400), Vector2(1360.8, 568.2)],
+		[5, Vector2(627, 400)],
+		[6, Vector2(1025, 400)],
 	]:
 		var index: int = failure[0]
 		var card: CardView = board.cards[index]
-		for at: Vector2 in [card.get_global_rect().get_center(), failure[2]]:
+		for at: Vector2 in [
+			card.get_global_rect().get_center(),
+			card.get_global_rect().position + card.size * Vector2(0.9, 0.2)
+		]:
 			var motion := InputEventMouseMotion.new()
 			motion.position = failure[1]
 			motion.global_position = failure[1]
@@ -434,7 +437,7 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 			await wait_process_frames(2)
 			assert_true(detail.visible)
 			assert_eq(detail._notes.mouse_filter, Control.MOUSE_FILTER_PASS)
-			assert_true(card.get_global_rect().has_point(at), "the logged point is on the unit")
+			assert_true(card.get_global_rect().has_point(at), "the attempted point is on the unit")
 			assert_false(
 				detail.get_global_rect().intersects(card.get_global_rect()),
 				"reading keeps the whole occupied rear slot visible"
@@ -454,3 +457,24 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 				assert_eq(received[received.size() - 1], index)
 			received.clear()
 			await wait_process_frames(2)
+
+
+func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -> void:
+	for pixels: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
+		var viewport: SubViewport = _phone()
+		viewport.size = Vector2i(roundi(1080.0 * pixels.x / pixels.y), 1080)
+		CardView.window_override = pixels
+		var screen: RecruitScreen = _screen(viewport)
+		await wait_process_frames(3)
+		var icon: Control = screen.get("_tier_icon")
+		var button: Control = screen.get("_tier_button")
+		var original: Vector2 = icon.get_global_rect().get_center()
+		for pass_index: int in 12:
+			screen.call("_layout")
+			assert_eq(
+				icon.get_global_rect().get_center(),
+				original,
+				"layout never drifts the coin destination"
+			)
+			assert_almost_eq(original.x, button.get_global_rect().get_center().x, 0.01)
+			assert_almost_eq(original.y, button.get_global_rect().get_center().y, 0.01)
