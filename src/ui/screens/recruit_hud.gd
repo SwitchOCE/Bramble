@@ -13,7 +13,7 @@ static func populate(ui: RecruitLayout) -> bool:
 		RecruitView.income_note(state),
 		Data.i(state, "gold_next_turn") - Data.i(state, "debt_payment")
 	)
-	ui._tier_label.text = "%d" % Data.i(state, "tier", 1)
+	ui._tier_label.text = "TIER %d" % Data.i(state, "tier", 1)
 	ui._round_label.text = "Turn %d" % Data.i(state, "round", 1)
 	var tier_cost: Variant = state.get("tier_up_cost")
 	if tier_cost == null:

@@ -117,18 +117,18 @@ func _run() -> void:
 		await _frames()
 		if round_number == 8:
 			await _shoot("lobby", round_number, opponent, recruit)
-			_driver.press(_button(recruit, "_scout_token"), "Scout")
+			_open_scout(recruit)
 			await _frames()
 			var scout: Control = recruit.get("_scout")
 			assert(scout.visible)
 			await _shoot("scout", round_number, opponent, recruit)
-			_driver.press(_button(recruit, "_scout_token"), "Close")
+			_driver.press(_button(recruit, "_market_return"), "Market")
 			await _frames(2)
 		if ghost:
-			_driver.press(_button(recruit, "_scout_token"), "Scout")
+			_open_scout(recruit)
 			await _frames()
 			await _shoot("ghost-scout", round_number, opponent, recruit)
-			_driver.press(_button(recruit, "_scout_token"), "Close")
+			_driver.press(_button(recruit, "_market_return"), "Market")
 			await _frames(2)
 		var expected: Dictionary = FieldRivals.side(port.session, opponent)
 		_driver.end_turn(recruit)
@@ -193,6 +193,16 @@ func _run() -> void:
 	main.queue_free()
 	await _frames(2)
 	quit(0)
+
+
+func _open_scout(recruit: RecruitScreen) -> void:
+	var lobby: Control = recruit.get("_lobby")
+	for plaque: Control in lobby.get("plaques"):
+		if CoreUtil.to_bool(plaque.get("is_next")):
+			var tap: Control = plaque.get("tap")
+			assert(_driver._click_control(tap, "tapped", "Scout portrait"))
+			return
+	assert(false, "the next opponent has a standings portrait")
 
 
 func _button(node: Node, key: String) -> Button:

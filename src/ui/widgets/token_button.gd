@@ -22,9 +22,11 @@ var quiet: bool = false:
 	set(value):
 		quiet = value
 		if _glyph != null:
+			set_icon_name(_icon_name)
 			_place()
 		queue_redraw()
 
+var _icon_name: String = ""
 var _word: Label
 var _glyph: TextureRect
 
@@ -54,9 +56,10 @@ func _init(word: String = "", icon_name: String = "", word_size: int = UiTheme.F
 
 
 func set_icon_name(icon_name: String) -> void:
+	_icon_name = icon_name
 	_glyph.visible = not icon_name.is_empty()
 	if _glyph.visible:
-		_glyph.texture = Icons.icon(icon_name, 48.0)
+		_glyph.texture = Icons.icon(icon_name, 48.0, UiTheme.CREAM if quiet else UiTheme.INK)
 
 
 func set_word(word: String) -> void:

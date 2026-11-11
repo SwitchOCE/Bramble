@@ -82,7 +82,7 @@ func _init() -> void:
 	_kin_button = _leaf(
 		LeafButton.Colour.BIRCH, func() -> void: _act(port.ask_for_kin(), "refresh")
 	)
-	_build_tools(_open_pause, toggle_scout, _show_opponent, toggle_dev_panel)
+	_build_tools(_open_pause, toggle_dev_panel)
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
 	_detail.add_child(preload("res://src/ui/widgets/reader_scroll.gd").new(_detail._notes))
@@ -188,7 +188,6 @@ func toggle_scout() -> void:
 	_scout.visible = not _scout.visible
 	if _scout.visible:
 		_scout_player_id = Data.i(state, "next_opponent_id", -2)
-	_scout_token.lit = _scout.visible
 	render()
 	if _scout.visible and RecruitView.is_ghost_next(state):
 		_show_opponent()

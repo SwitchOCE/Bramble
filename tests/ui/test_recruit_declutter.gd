@@ -72,10 +72,10 @@ func _screen(pixels: Vector2i, port: GamePort) -> RecruitScreen:
 func _assert_budget(screen: RecruitScreen, scenario: String) -> void:
 	var tier: Label = screen.get("_tier_label")
 	assert_true(tier.is_visible_in_tree(), "A3 keeps your market tier visible")
-	assert_eq(tier.text, str(screen.port.get_state().get("tier", 1)))
+	assert_eq(tier.text, "TIER %d" % CoreUtil.to_int(screen.port.get_state().get("tier", 1)))
 	var refresh: Control = screen.get("_refresh_button")
 	var price: Label = refresh.get("_cost_label")
-	assert_true(price.is_visible_in_tree(), "A3 keeps the refresh cost visible")
+	assert_eq(price.is_visible_in_tree(), not screen._scout.visible, "refresh waits for the market")
 	assert_eq(price.text, str(screen.port.get_state().get("refresh_cost", 1)))
 	var breakdown: Dictionary = _record_breakdown(screen, scenario)
 	var labels: Array[Dictionary] = breakdown["visible_text_nodes"]

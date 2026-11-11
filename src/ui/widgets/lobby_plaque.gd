@@ -2,7 +2,6 @@ extends Control
 ## A portrait with current Health and an opponent tier numeral; full hero state is one tap away.
 ## The next opponent has a red rim; a ghost is grey and has no Health.
 
-signal next_requested
 signal scout_requested(player_id: int)
 signal hero_requested(standing: Dictionary)
 
@@ -41,6 +40,7 @@ var _stand_used: bool = false
 var _ghost_time: float = 0.0
 var _stand_mark: Control
 var _standing: Dictionary = {}
+var _interactive: bool = true
 
 
 func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
@@ -231,14 +231,20 @@ static func _portrait_id(standing: Dictionary) -> String:
 	return str(_hero_portraits.get(Data.s(standing, "hero", Data.s(standing, "name")), ""))
 
 
+func set_interactive(on: bool) -> void:
+	_interactive = on
+	tap.mouse_filter = Control.MOUSE_FILTER_STOP if on else Control.MOUSE_FILTER_IGNORE
+	tap.tooltip_text = UiTheme.player_name(_standing) if on else ""
+
+
 func _on_tapped(_zone: String, _index: int) -> void:
+	if not _interactive:
+		return
 	scout_requested.emit(-1 if is_ghost else Data.i(_standing, "player_id", -1))
-	if is_next:
-		next_requested.emit()
 
 
 func _on_hovered(_zone: String, _index: int, inside: bool) -> void:
-	if inside and not is_next and not _phone():
+	if _interactive and inside and not is_next and not _phone():
 		hero_requested.emit(_standing.duplicate(true))
 
 

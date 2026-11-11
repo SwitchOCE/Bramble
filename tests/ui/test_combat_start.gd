@@ -84,3 +84,35 @@ func test_core_port_exposes_ids_from_real_start_after_a_prefixed_event() -> void
 	var ids: Array = Events.start(events)["player_ids"]
 	events.push_front({"type": "status", "target": 999, "status": "lent_swoop", "on": true})
 	assert_eq(port.get_last_combat()["player_ids"], ids)
+
+
+func test_core_port_captures_all_standings_before_fights_and_app_rewatch_keeps_them() -> void:
+	var port := CorePort.new()
+	port.setup(GameConfig.full_game())
+	assert_eq(port.new_game(11), "")
+	assert_eq(port.choose(0), "")
+	var state: Dictionary = port.get_state()
+	var standings: Array = state["standings"]
+	var before: Array = standings.duplicate(true)
+	assert_eq(port.end_turn(), "")
+	var combat: Dictionary = port.get_last_combat()
+	assert_eq(
+		combat["standings_before"], before, "every seat is captured before any fight resolves"
+	)
+	var app := App.new()
+	add_child_autofree(app)
+	app.setup(port)
+	app.show_game_combat()
+	var screen: Screen = app.current as Screen
+	assert_not_null(screen)
+	var lobby: Control = screen.get("_lobby")
+	for plaque: Control in lobby.get("plaques"):
+		var standing: Dictionary = plaque.get("_standing")
+		for original: Dictionary in before:
+			if original["player_id"] == standing["player_id"]:
+				assert_eq(standing["health"], original["health"])
+				assert_eq(standing["alive"], original["alive"])
+	combat["standings_before"][0]["health"] = -999
+	assert_eq(
+		port.get_last_combat()["standings_before"], before, "snapshot is detached from callers"
+	)

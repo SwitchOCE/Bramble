@@ -91,8 +91,7 @@ var _toast: Label
 var _dev: DevPanel
 var _scout: ScoutPanel
 var _scout_snapshot: Dictionary = {}
-var _scout_token: TokenButton
-var _who_token: TokenButton
+var _tool_strip: Panel
 var _market_controls: Control
 var _market_return: LeafButton
 var _market_title: Label
@@ -114,8 +113,8 @@ func _layout() -> void:
 	_lobby.visible = not _scout.visible
 	_menu_token.position = Vector2(16, 112)
 	_menu_token.size = Vector2.ONE * ArenaGeometry.control_height(_stage.size)
-	_scout_token.hide()
-	_who_token.hide()
+	_tool_strip.position = _menu_token.position + Vector2(0, (_menu_token.size.y - 52) / 2.0)
+	_tool_strip.size = Vector2(_menu_token.size.x, 52)
 	_shop_zone.position = market.position
 	_shop_zone.size = market.size
 	_shop_zone.visible = not _scout.visible
@@ -146,7 +145,7 @@ func _layout() -> void:
 	_layout_frame(market.position.x, market.size.x)
 
 
-## Only the top zone swaps. The hand, own formation, hero and purchase context stay anchored.
+## Only the top zone swaps. Buying resumes after returning to the market.
 func _layout_scouting(_left: float, _right_x: float) -> void:
 	var theirs: BoardView = _scout.get("_board")
 	ArenaGeometry.size_board(theirs, "scout", false)
@@ -207,7 +206,9 @@ func _layout_right(x: float, _w: float) -> void:
 	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_round_label.add_theme_constant_override("outline_size", 5)
 	_market_title.position = Vector2(x + 32, 28)
-	_market_title.size = Vector2(520, 68)
+	_market_title.size = Vector2(240, 68)
+	_tier_label.position = Vector2(x + 280, 28)
+	_tier_label.size = Vector2(220, 68)
 	_market_title.visible = not _scout.visible
 	_market_controls.position = Vector2(size.x / 2.0 - 350, 330)
 	_market_controls.size = Vector2(700, ArenaGeometry.control_height(_stage.size))
@@ -216,13 +217,15 @@ func _layout_right(x: float, _w: float) -> void:
 	_tier_button.size = Vector2(220, _market_controls.size.y)
 	_tier_icon.hide()
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_refresh_button.visible = not _scout.visible
+	_freeze_button.visible = not _scout.visible
 	_refresh_button.compact_cost()
 	_refresh_button.position = _market_controls.position + Vector2(236, 0)
 	_refresh_button.size = Vector2(140, _market_controls.size.y)
 	_freeze_button.position = _market_controls.position + Vector2(392, 0)
 	_freeze_button.size = Vector2(140, _market_controls.size.y)
 	_freeze_button.set_pressed_no_signal(Data.b(state, "frozen"))
-	_kin_button.visible = Data.b(state, "ask_for_kin_enabled")
+	_kin_button.visible = Data.b(state, "ask_for_kin_enabled") and not _scout.visible
 	_kin_button.position = _market_controls.position + Vector2(548, 0)
 	_kin_button.size = Vector2(140, _market_controls.size.y)
 	_kin_button.compact_cost()
@@ -240,12 +243,9 @@ func _layout_right(x: float, _w: float) -> void:
 		_market_return.position = Vector2(side_x, 24)
 		_market_controls.position = Vector2(side_x, 160)
 		_market_controls.size = Vector2(392, 260)
-		for button: Control in [_tier_button, _refresh_button, _freeze_button, _kin_button]:
-			button.size.y = 122.0
-		_tier_button.position = Vector2(side_x, 160)
-		_refresh_button.position = Vector2(side_x + 236, 160)
-		_freeze_button.position = Vector2(side_x, 296)
-		_kin_button.position = Vector2(side_x + 156, 296)
+		_tier_label.position = Vector2(side_x, 160)
+		_tier_button.size.y = 122.0
+		_tier_button.position = Vector2(side_x, 236)
 		_gold.position = Vector2(side_x, 440)
 	_gold.show()
 
@@ -374,16 +374,13 @@ func _build_right(
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_stage.add_child(_round_label)
 	_tier_button = _leaf(LeafButton.Colour.ACORN, on_tier)
-	var stack_icon: Control = _tier_button.get("_icon")
-	_tier_label.reparent(stack_icon, false)
-	_tier_label.position = Vector2.ZERO
-	_tier_label.size = Vector2(50, 50)
 	_tier_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_tier_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	_tier_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
+	_tier_label.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL)
 	_tier_label.add_theme_color_override("font_color", UiTheme.CREAM)
-	_tier_label.add_theme_color_override("font_outline_color", UiTheme.INK)
-	_tier_label.add_theme_constant_override("outline_size", 4)
+	_tier_label.add_theme_stylebox_override(
+		"normal", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color.TRANSPARENT, 0, 8)
+	)
 	_refresh_button = _leaf(LeafButton.Colour.BIRCH, on_refresh)
 	_freeze_button = _leaf(LeafButton.Colour.FROST, on_freeze)
 	_end_button = _leaf(LeafButton.Colour.MOSS, on_end)
@@ -507,19 +504,17 @@ func _build_hand(wire: Callable) -> void:
 	_stage.add_child(_away_tray)
 
 
-func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable) -> void:
+func _build_tools(menu: Callable, dev: Callable) -> void:
+	_tool_strip = Panel.new()
+	_tool_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tool_strip.add_theme_stylebox_override(
+		"panel", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color(UiTheme.CREAM, 0.16), 1, 10)
+	)
+	_stage.add_child(_tool_strip)
 	_menu_token = TokenButton.new("", "gear")
 	_menu_token.quiet = true
 	_menu_token.pressed.connect(menu)
 	_stage.add_child(_menu_token)
-	_scout_token = TokenButton.new("", "close", UiTheme.FONT_SMALL)
-	_scout_token.tooltip_text = "Close scouting"
-	_scout_token.pressed.connect(scout)
-	_stage.add_child(_scout_token)
-	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
-	_who_token.pressed.connect(who)
-	_who_token.visible = false
-	_stage.add_child(_who_token)
 	_dev_token = TokenButton.new("Dev")
 	_dev_token.pressed.connect(dev)
 	_stage.add_child(_dev_token)

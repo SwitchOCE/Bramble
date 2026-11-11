@@ -1,8 +1,6 @@
 extends Control
 ## A slim, centred rail of portraits. Each whole seat opens its player's recorded board.
 
-## The next opponent's plaque was tapped.
-signal next_tapped
 signal scout_requested(player_id: int)
 signal hero_requested(standing: Dictionary)
 
@@ -15,6 +13,11 @@ const HEIGHT: float = 122.0
 ## Each plaque's rectangle, for tests.
 var plaques: Array[Control] = []
 var selected_player_id: int = -9
+var interactive: bool = true:
+	set(value):
+		interactive = value
+		for plaque: Control in plaques:
+			plaque.call("set_interactive", value)
 
 
 func _init() -> void:
@@ -45,7 +48,7 @@ func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int
 		var plaque: Plaque = Plaque.new(standing, is_next, ghost)
 		add_child(plaque)
 		plaques.append(plaque)
-		plaque.next_requested.connect(func() -> void: next_tapped.emit())
+		plaque.set_interactive(interactive)
 		plaque.scout_requested.connect(func(id: int) -> void: scout_requested.emit(id))
 		plaque.hero_requested.connect(
 			func(details: Dictionary) -> void: hero_requested.emit(details)

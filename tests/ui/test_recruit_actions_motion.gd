@@ -155,7 +155,7 @@ func _check_actions(reduced: bool) -> void:
 		var value: Label = gold.get("_value")
 		assert_eq(value.text, str(after["gold"]), "skip/finish shows the exact committed gold")
 		var tier: Label = screen.get("_tier_label")
-		assert_eq(tier.text, str(after["tier"]))
+		assert_eq(tier.text, "TIER %d" % CoreUtil.to_int(after["tier"]))
 		_cards_restored(screen)
 		assert_eq(port.get_state(), after, "finish has no hidden model state")
 		viewport.free()

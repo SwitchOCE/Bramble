@@ -191,14 +191,17 @@ static var _cache: Dictionary[String, ImageTexture] = {}
 
 
 ## The named icon on a 40 x 40 box, rasterised for `pixels` canvas units.
-static func icon(icon_name: String, pixels: float) -> ImageTexture:
+static func icon(icon_name: String, pixels: float, ink: Color = Color(INK)) -> ImageTexture:
 	var size: int = ceili(pixels * OVERSAMPLE)
-	var key: String = "%s@%d" % [icon_name, size]
+	var key: String = "%s@%d:%s" % [icon_name, size, ink.to_html()]
 	if _cache.has(key):
 		return _cache[key]
+	var paths: String = str(ICONS.get(icon_name, ""))
+	paths = paths.replace(INK, "#" + ink.to_html(false))
+	paths = paths.replace(INK.to_lower(), "#" + ink.to_html(false))
 	var svg: String = (
 		'<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">'
-		+ ICONS.get(icon_name, "")
+		+ paths
 		+ "</svg>"
 	)
 	var texture: ImageTexture = _raster(svg, float(size) / 40.0)

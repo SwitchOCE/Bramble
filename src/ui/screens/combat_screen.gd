@@ -30,8 +30,6 @@ const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
 const WaveMotion := preload("res://src/ui/screens/combat_wave_motion.gd")
 const Arena := preload("res://src/ui/arena_geometry.gd")
 const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
-const LobbyPlaque := preload("res://src/ui/widgets/lobby_plaque.gd")
-const CombatScout := preload("res://src/ui/screens/combat_scout.gd")
 
 const PlayFrame := preload("res://src/ui/widgets/play_frame.gd")
 const Surface := preload("res://src/ui/widgets/painted_surface.gd")
@@ -52,9 +50,9 @@ var hero_views: Array[Dictionary] = [{}, {}]
 var hero_health: Array[int] = [-1, -1]
 var hero_health_after: Array = []
 var floor_marks: Array = []
-var scout_provider: Callable
 var _log_text: CombatLog = CombatLog.new()
 var _fight_bar: PlayFrame
+var _tools_strip: Panel
 var _stage: Control
 var _boards: Array[BoardView] = []
 var _cards: Dictionary[int, CardView] = {}
@@ -95,12 +93,6 @@ var _title: String = ""
 var _event_before: Dictionary = {}
 var _lobby: LobbyStrip
 var _round_label: Label
-var _scout_board: BoardView
-var _scout: CombatScout
-var _scout_view: Dictionary = {}
-var _scouting: bool = false
-var _resume_scout: bool = false
-var _scout_previous_health: String = ""
 
 
 func _init() -> void:
@@ -123,11 +115,8 @@ func _init() -> void:
 	_lanes = LaneOverlay.new()
 	_lanes.combat_mode = true
 	_stage.add_child(_lanes)
-	_scout = CombatScout.new(self)
-	_scout_board = _scout.board
 	_lobby = LobbyStrip.new()
-	_lobby.scout_requested.connect(show_scout)
-	_lobby.hero_requested.connect(_scout.show_lobby_hero)
+	_lobby.interactive = false
 	_stage.add_child(_lobby)
 	_round_label = UiTheme.head("", UiTheme.FONT_BODY, UiTheme.CREAM)
 	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
@@ -186,6 +175,12 @@ func _init() -> void:
 		health.set_anchors_preset(Control.PRESET_FULL_RECT)
 		hip.add_child(health)
 		_health_labels.append(health)
+	_tools_strip = Panel.new()
+	_tools_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tools_strip.add_theme_stylebox_override(
+		"panel", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color(UiTheme.CREAM, 0.16), 1, 10)
+	)
+	_stage.add_child(_tools_strip)
 	_speed_button = TokenButton.new("", "speed_1")
 	_speed_button.tooltip_text = "Fight speed"
 	_speed_button.pressed.connect(_cycle_speed)
@@ -200,8 +195,6 @@ func _init() -> void:
 	_stage.add_child(_step_button)
 	_skip_button = TokenButton.new("", "skip")
 	_skip_button.tooltip_text = "Skip fight"
-	var skip_glyph: TextureRect = _skip_button.get("_glyph")
-	skip_glyph.self_modulate = UiTheme.INK
 	_skip_button.pressed.connect(skip_to_end)
 	_stage.add_child(_skip_button)
 	_gear = TokenButton.new("", "gear")
@@ -286,71 +279,21 @@ func _layout() -> void:
 		controls[i].position = Vector2(12 + i * (tap + 12), 112)
 		controls[i].size = Vector2(tap, tap)
 		controls[i].quiet = true
+	_tools_strip.position = Vector2(12, 112 + (tap - 52) / 2.0)
+	_tools_strip.size = Vector2(controls.size() * tap + (controls.size() - 1) * 12, 52)
 	var lobby_rect: Rect2 = Arena.lobby_rect(canvas)
 	_lobby.position = lobby_rect.position
 	_lobby.size = lobby_rect.size
 	_lanes.boards = [board_for_side(0), board_for_side(1)]
 	_reader.position = _stage.position + Vector2(16, 330)
 	_reader.size = Vector2(left_width, 734)
-	_scout.layout(canvas)
 
 
 func set_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int = -9) -> void:
 	_lobby.show_standings(standings, next_opponent_id, ghost_owner_id)
 
 
-func show_scout(player_id: int) -> void:
-	if not scout_provider.is_valid():
-		return
-	var result: Variant = scout_provider.call(player_id)
-	if not result is Dictionary:
-		return
-	var scout: Dictionary = result
-	if scout.is_empty():
-		return
-	if not _scouting:
-		_resume_scout = playing or _resume_reader
-		_resume_reader = false
-		_scout_previous_health = _health_labels[1 - bottom_side].text
-		_set_playing(false)
-		_retire_older_cues()
-		_step_motion_remaining = 0.0
-	_scout_view = scout
-	_scout.populate(_scout_view)
-	_scout_visibility(true)
-	var standing: Dictionary = Data.d(_scout_view, "standing")
-	_populate_hero(1 - bottom_side, Data.d(_scout_view, "hero"), Data.i(standing, "health", -1))
-	_lobby.select_player(player_id)
-	_reader.show_empty()
-	_layout()
-
-
-func close_scout() -> void:
-	if not _scouting:
-		return
-	_scout_visibility(false)
-	_scout_view = {}
-	_scout_board.clear()
-	_lobby.select_player()
-	_populate_hero(1 - bottom_side, hero_views[1 - bottom_side], hero_health[1 - bottom_side])
-	_health_labels[1 - bottom_side].text = _scout_previous_health
-	_reader.show_empty()
-	_set_playing(_resume_scout)
-
-
-func _scout_visibility(on: bool) -> void:
-	_scouting = on
-	_scout.set_visible(on)
-	_boards[0].visible = not on
-	_lanes.visible = not on
-	_overlay.visible = not on
-	_retiring_cues.visible = not on
-	for button: Button in [_step_button, _play_button, _speed_button, _skip_button]:
-		button.disabled = on
-
-
 func restart() -> void:
-	close_scout()
 	_kill_tweens()
 	CombatLanesView.reset_floor_state(self)
 	_motion = CombatMotion.new(self)
@@ -438,11 +381,7 @@ func attack_duration() -> float:
 
 
 func advance_playback(delta: float) -> void:
-	if (
-		_scouting
-		or _pause_open
-		or (not playing and not model.finished and _step_motion_remaining <= 0)
-	):
+	if _pause_open or (not playing and not model.finished and _step_motion_remaining <= 0):
 		return
 	for tween: Tween in _tweens.duplicate():
 		if tween.is_valid():
@@ -754,11 +693,6 @@ func _close_reader() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and key.keycode == KEY_ESCAPE and _scouting:
-		close_scout()
-		accept_event()
-		return
 	var click: InputEventMouseButton = event as InputEventMouseButton
 	if click != null and click.pressed:
 		if model.finished:
@@ -806,11 +740,6 @@ func _slot_notes(side: int, slot: int) -> PackedStringArray:
 
 func _show_hero(side: int) -> void:
 	_open_reader()
-	if _scouting and side != bottom_side:
-		_reader.show_unit(
-			LobbyPlaque.reader_card(Data.d(_scout_view, "standing"), Data.d(_scout_view, "hero"))
-		)
-		return
 	var hero: Dictionary = hero_views[side]
 	_reader.show_unit(
 		{

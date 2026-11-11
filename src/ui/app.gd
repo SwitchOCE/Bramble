@@ -214,7 +214,6 @@ func show_game_combat() -> void:
 	var title: String = "Turn %d" % Data.i(combat, "round", 0)
 	var ids: Array = Data.a(start, "player_ids")
 	var screen: CombatScreen = CombatScreen.new()
-	screen.scout_provider = port.scout_player
 	screen.finished.connect(show_recruit)
 	screen.guide_requested.connect(open_guide)
 	screen.settings_requested.connect(open_settings)
@@ -243,16 +242,21 @@ func _game_combat_standings(combat: Dictionary, state: Dictionary, start: Dictio
 	var round_number: int = Data.i(combat, "round", -1)
 	if _combat_standings_round == round_number and not _combat_standings.is_empty():
 		return _combat_standings.duplicate(true)
+	var recorded: Array = Data.a(combat, "standings_before")
 	var source: Dictionary = state
-	var before_fight: bool = false
+	var before_fight: bool = not recorded.is_empty()
 	if current is RecruitScreen:
 		var recruit_state: Dictionary = (current as RecruitScreen).state
 		if Data.i(recruit_state, "round", -2) == round_number:
 			source = recruit_state
 			before_fight = true
-	_combat_standings = Data.a(source, "standings").duplicate(true)
+	_combat_standings = (
+		(recorded if not recorded.is_empty() else Data.a(source, "standings")).duplicate(true)
+	)
 	_combat_standings_round = round_number
-	_combat_ghost_owner_id = Data.i(RecruitView.ghost_owner(source), "player_id", -9)
+	var ghost_state: Dictionary = source.duplicate()
+	ghost_state["standings"] = _combat_standings
+	_combat_ghost_owner_id = Data.i(RecruitView.ghost_owner(ghost_state), "player_id", -9)
 	if not before_fight:
 		var ids: Array = Data.a(start, "player_ids")
 		var health_before: Array = Data.a(combat, "hero_health_before")

@@ -1,11 +1,8 @@
 extends Control
 
 signal hero_pressed
-## The next opponent's board as it fought last round, by slot, in the shop's place at the top of the
-## screen. Their front row faces your board underneath, as in a fight. The shop shrinks to small
-## tiles beside it, so their board, what you might buy, your board and your hand are all in view at
-## once. Their slots are tap targets the recruit screen wires up: the full text lands in the card
-## panel, where every other full text lands.
+## A standings seat's last recorded board replaces the market. Their slots and portrait
+## open the shared reader; buying and refreshing resume after returning to the market.
 
 const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
 
@@ -21,7 +18,7 @@ const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
 ## The smallest pocket whose height still makes a finger's tap target on a phone (122).
 const POCKET: float = 136.0
-const TITLE_H: float = 54.0
+const TITLE_H: float = 94.0
 
 ## Units on show, for tests.
 var unit_count: int = 0
@@ -44,6 +41,10 @@ func _init() -> void:
 	add_child(_board)
 	_title = UiTheme.head("", UiTheme.FONT_SMALL)
 	_title.add_theme_color_override("font_color", UiTheme.CREAM)
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_title.add_theme_stylebox_override(
+		"normal", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color.TRANSPARENT, 0, 8)
+	)
 	_title.clip_text = true
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.set_meta("ellipsis_ok", true)
@@ -173,7 +174,7 @@ func pulse_reach(own_board: SharedBoardView, bindings: Dictionary, source_slot: 
 func _layout() -> void:
 	var tray: Vector2 = _board.tray_size()
 	_board.position = Vector2.ZERO
-	_title.position = Vector2(tray.x + 36, 70)
+	_title.position = Vector2(tray.x + 36, 20)
 	_title.size = Vector2(270.0, TITLE_H)
 	_empty.position = Vector2(50, tray.y / 2.0 - 70.0)
 	_empty.size = Vector2(tray.x - 100.0, 140)

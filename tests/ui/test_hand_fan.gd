@@ -300,7 +300,7 @@ func test_hand_and_bar_text_keep_the_minimum_after_all_parent_scales() -> void:
 		tribes.call("show_bonuses", ["Birds"], {"Birds": 12})
 		screen.call("_layout")
 		await wait_process_frames(2)
-		for key: String in ["_gold", "_hero", "_tribes", "_tier_button"]:
+		for key: String in ["_gold", "_hero", "_tribes", "_tier_label"]:
 			var control: Control = screen.get(key)
 			assert_gt(_assert_displayed_fonts(control), 0, key + " values were exercised")
 		var hand: Control = screen.get("_hand_cards")

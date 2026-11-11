@@ -1,5 +1,5 @@
 extends GutTest
-## Phase changes preserve the formation, object size, and live purchasing context.
+## Phase changes preserve the formation and object size; scouting returns to the market to buy.
 
 const Card := preload("res://src/ui/widgets/card_view.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
@@ -214,52 +214,71 @@ func test_standings_remain_a_centred_right_portrait_strip_in_recruit_and_fight()
 		_assert_strip(fight)
 
 
-func test_fight_standings_scouting_preserves_own_board_and_restores_playback() -> void:
+func test_fight_standings_are_display_only_and_keep_the_supplied_health() -> void:
 	for phone: bool in [false, true]:
 		var viewport: SubViewport = _viewport(phone)
-		var recruit: Recruit = _recruit(viewport)
-		recruit.hide()
-		var standings: Array = recruit.state["standings"]
+		var standings: Array = [
+			{"player_id": 0, "is_human": true, "health": 38, "alive": true},
+			{"player_id": 1, "health": 21, "alive": true},
+		]
 		var fight: CombatScreen = _fight(viewport, standings)
 		await wait_process_frames(2)
 		var own: Control = fight.board_for_side(0)
 		var enemy: Control = fight.board_for_side(1)
 		var own_rect: Rect2 = own.get_global_rect()
-		var enemy_rect: Rect2 = enemy.get_global_rect()
 		var enemy_card: Card = enemy.get("cards")[0]
-		fight.scout_provider = func(player_id: int) -> Dictionary:
-			return {
-				"board": [_unit(901)],
-				"name": "Scouted player",
-				"standing": {"player_id": player_id, "health": 21}
-			}
 		var strip: Control = fight.get("_lobby")
-		strip.emit_signal("scout_requested", 1)
-		await wait_process_frames(2)
-		var scouted: Control = fight.get("_scout_board")
-		assert_true(scouted.is_visible_in_tree(), "the standings selection opens scouting")
-		assert_false(enemy.is_visible_in_tree())
-		assert_true(own.is_visible_in_tree())
-		assert_eq(own.get_global_rect(), own_rect)
-		assert_eq(scouted.get_global_rect(), enemy_rect)
-		_assert_unit_sizes(scouted)
-		assert_false(fight.playing, "scouting pauses the fight")
-		var scout_controller: RefCounted = fight.get("_scout")
-		scout_controller.call("_show_detail", 0)
-		await wait_process_frames(2)
-		var reader: Control = fight.get("_reader")
-		assert_true(reader.visible)
-		assert_false(reader.get_global_rect().intersects(own_rect))
-		var source: Card = scouted.get("cards")[0]
-		assert_false(reader.get_global_rect().intersects(source.get_global_rect()))
-		fight.close_scout()
-		await wait_process_frames(2)
-		assert_false(scouted.is_visible_in_tree())
+		var requests: Array = []
+		strip.connect("scout_requested", func(id: int) -> void: requests.append(id))
+		strip.connect("hero_requested", func(view: Dictionary) -> void: requests.append(view))
+		for plaque: Control in strip.get("plaques"):
+			var tap: Control = plaque.get("tap")
+			assert_eq(tap.mouse_filter, Control.MOUSE_FILTER_IGNORE)
+			assert_eq(tap.tooltip_text, "")
+			plaque.call("_on_tapped", "lobby", 1)
+			plaque.call("_on_hovered", "lobby", 1, true)
+			var standing: Dictionary = plaque.get("_standing")
+			if CoreUtil.to_int(standing["player_id"]) == 1:
+				var hip: Control = plaque.get("_hip")
+				assert_eq((hip.get_child(0) as Label).text, "21")
+		assert_true(requests.is_empty(), "fight seats never open scouting or live hero details")
+		assert_true(fight.playing)
 		assert_true(enemy.is_visible_in_tree())
-		var restored_cards: Array[Card] = enemy.get("cards")
-		assert_eq(restored_cards[0], enemy_card, "the live fight formation survives scouting")
+		var enemy_cards: Array[Card] = enemy.get("cards")
+		assert_eq(enemy_cards[0], enemy_card)
 		assert_eq(own.get_global_rect(), own_rect)
-		assert_true(fight.playing, "closing scouting resumes the previously running fight")
+		var reader: Control = fight.get("_reader")
+		assert_false(reader.visible)
+
+
+func test_scout_hides_offer_actions_and_return_restores_market_header_and_controls() -> void:
+	for phone: bool in [false, true]:
+		var screen: Recruit = _recruit(_viewport(phone))
+		var before: Dictionary = screen.port.get_state().duplicate(true)
+		var tier: Label = screen.get("_tier_label")
+		var market: Control = screen.get("_shop_zone")
+		assert_eq(tier.text, "TIER %d" % CoreUtil.to_int(before["tier"]))
+		assert_true(market.get_global_rect().encloses(tier.get_global_rect()))
+		screen.scout_player(CoreUtil.to_int(before["next_opponent_id"]))
+		await wait_process_frames(2)
+		for key: String in ["_shop_cards", "_refresh_button", "_freeze_button", "_kin_button"]:
+			var control: Control = screen.get(key)
+			assert_false(control.is_visible_in_tree(), key)
+		var gold: Control = screen.get("_gold")
+		assert_true(gold.is_visible_in_tree())
+		var scout: Control = screen.get("_scout")
+		var nameplate: Label = scout.get("_title")
+		assert_true(nameplate.is_visible_in_tree())
+		assert_true(nameplate.has_theme_stylebox_override("normal"))
+		assert_false(nameplate.text.is_empty())
+		var back: Button = screen.get("_market_return")
+		back.pressed.emit()
+		await wait_process_frames(2)
+		assert_eq(screen.port.get_state(), before)
+		for key: String in ["_shop_cards", "_refresh_button", "_freeze_button"]:
+			var control: Control = screen.get(key)
+			assert_true(control.is_visible_in_tree(), key)
+		assert_true(market.get_global_rect().encloses(tier.get_global_rect()))
 
 
 func _assert_empty_slot_targets(board: Control, active: bool) -> void:
@@ -350,6 +369,24 @@ func test_ghost_scout_keeps_its_identity_in_the_reader() -> void:
 	)
 
 
+func _assert_cream_glyph(button: Control) -> void:
+	var glyph: TextureRect = button.get("_glyph")
+	var picture: Image = glyph.texture.get_image()
+	var color_sum := Vector3.ZERO
+	var painted: int = 0
+	for y: int in picture.get_height():
+		for x: int in picture.get_width():
+			var pixel: Color = picture.get_pixel(x, y)
+			if pixel.a > 0.8:
+				color_sum += Vector3(pixel.r, pixel.g, pixel.b)
+				painted += 1
+	assert_gt(painted, 0, "every tool has a visible glyph")
+	var average: Vector3 = color_sum / maxi(painted, 1)
+	assert_gt(average.x, 0.8, "tool ink stays cream against the dark strip")
+	assert_gt(average.y, 0.8)
+	assert_gt(average.z, 0.7)
+
+
 func test_gears_and_fight_tools_are_quiet_icons_clear_of_turn() -> void:
 	for phone: bool in [false, true]:
 		var viewport: SubViewport = _viewport(phone)
@@ -359,6 +396,7 @@ func test_gears_and_fight_tools_are_quiet_icons_clear_of_turn() -> void:
 		var turn: Control = recruit.get("_round_label")
 		assert_true(turn.is_visible_in_tree())
 		assert_false(gear.get_global_rect().intersects(turn.get_global_rect()))
+		_assert_cream_glyph(gear)
 		var glyph: Control = gear.get("_glyph")
 		assert_lte(glyph.get_global_rect().size.x, 32.0, "the gear draws as a small icon")
 		assert_gte(gear.size.x, 122.0 if phone else 88.0, "the quiet icon keeps its input target")
@@ -368,12 +406,16 @@ func test_gears_and_fight_tools_are_quiet_icons_clear_of_turn() -> void:
 		await wait_process_frames(2)
 		turn = fight.get("_round_label")
 		assert_true(turn.is_visible_in_tree())
+		var strip: Panel = fight.get("_tools_strip")
+		assert_true(strip.is_visible_in_tree())
 		var row_y: float = -1.0
 		for key: String in [
 			"_gear", "_step_button", "_play_button", "_skip_button", "_speed_button"
 		]:
 			var button: Control = fight.get(key)
+			_assert_cream_glyph(button)
 			glyph = button.get("_glyph")
+			assert_true(strip.get_global_rect().encloses(glyph.get_global_rect()))
 			assert_true(CoreUtil.to_bool(button.get("quiet")))
 			assert_lte(glyph.get_global_rect().size.x, 32.0, key + " stays visually quiet")
 			assert_false(button.get_global_rect().intersects(turn.get_global_rect()), key)
@@ -381,6 +423,11 @@ func test_gears_and_fight_tools_are_quiet_icons_clear_of_turn() -> void:
 			if row_y >= 0.0:
 				assert_eq(button.position.y, row_y, "the fight tools form a slim row")
 			row_y = button.position.y
+
+		for speed: float in [1.0, 2.0, 4.0]:
+			fight.set_speed(speed)
+			var speed_button: Control = fight.get("_speed_button")
+			_assert_cream_glyph(speed_button)
 
 
 func test_market_surface_fits_its_offers_and_control_row() -> void:

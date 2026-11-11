@@ -163,7 +163,7 @@ func present(ui: Layout, before: Dictionary, action: String) -> void:
 		_pulse(ui._gold.get("_big"), 0.36 / _rate)
 	if _final_tier != Data.i(old_state, "tier", 1):
 		kind = "tier_up"
-		_tier.text = str(Data.i(old_state, "tier", 1))
+		_tier.text = "TIER %d" % Data.i(old_state, "tier", 1)
 		_price.text = str(Data.i(old_state, "tier_up_cost"))
 		duration = maxf(duration, 0.56 / _rate)
 	active = duration > 0.0
@@ -235,7 +235,7 @@ func advance(delta: float) -> void:
 		_gold.text = str(roundi(lerpf(_old_gold, _final_gold, landing)))
 	if is_instance_valid(_tier) and kind == "tier_up":
 		if elapsed * _rate >= 0.36:
-			_tier.text = str(_final_tier)
+			_tier.text = "TIER %d" % _final_tier
 			_price.text = _final_price
 		_tier.pivot_offset = _tier.size / 2
 		var tier_beat: float = clampf((elapsed * _rate - 0.36) / 0.2, 0.0, 1.0)
@@ -268,7 +268,7 @@ func finish() -> void:
 	if is_instance_valid(_gold):
 		_gold.text = str(_final_gold)
 	if is_instance_valid(_tier):
-		_tier.text = str(_final_tier)
+		_tier.text = "TIER %d" % _final_tier
 		_tier.scale = Vector2.ONE
 	active = false
 	set_process(false)

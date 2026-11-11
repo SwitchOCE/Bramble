@@ -480,7 +480,7 @@ func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
 			await wait_process_frames(2)
 
 
-func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -> void:
+func test_tier_animation_anchor_stays_on_its_header_through_repeated_layouts() -> void:
 	for pixels: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
 		var viewport: SubViewport = _phone()
 		viewport.size = Vector2i(roundi(1080.0 * pixels.x / pixels.y), 1080)
@@ -488,7 +488,7 @@ func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -
 		var screen: RecruitScreen = _screen(viewport)
 		await wait_process_frames(3)
 		var icon: Control = screen.get("_tier_label")
-		var button: Control = screen.get("_tier_button")
+		var market: Control = screen.get("_shop_zone")
 		var original: Vector2 = icon.get_global_rect().get_center()
 		for pass_index: int in 12:
 			screen.call("_layout")
@@ -498,6 +498,6 @@ func test_tier_animation_anchor_stays_on_its_button_through_repeated_layouts() -
 				"layout never drifts the coin destination"
 			)
 			assert_true(
-				button.get_global_rect().encloses(icon.get_global_rect()),
-				"tier animation lands on the button tier"
+				market.get_global_rect().encloses(icon.get_global_rect()),
+				"tier animation lands on the visible market header"
 			)
