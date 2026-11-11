@@ -24,7 +24,15 @@ func test_scouting_shows_the_last_board_by_slot_from_the_next_plaque() -> void:
 	var scout: Control = screen.get("_scout")
 	assert_false(scout.visible, "closed until asked for")
 	var lobby: Control = screen.get("_lobby")
-	lobby.emit_signal("next_tapped")
+	var plaques: Array = lobby.get("plaques")
+	var tapped_next: bool = false
+	for plaque: Control in plaques:
+		if plaque.get("is_next"):
+			var tap: Control = plaque.get("tap")
+			tap.emit_signal("tapped", "lobby", CoreUtil.to_int(screen.state["next_opponent_id"]))
+			tapped_next = true
+			break
+	assert_true(tapped_next, "the next opponent has an interactive standings seat")
 	assert_true(scout.visible, "one tap on the next opponent's plaque")
 	var shown: int = scout.get("unit_count")
 	assert_eq(shown, 4)

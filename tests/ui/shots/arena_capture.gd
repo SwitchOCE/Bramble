@@ -52,7 +52,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		var rival: PlayerState = port.session._players[1]
 		for slot: int in 7:
 			rival.board[slot] = RecruitUnit.make(port.library.get_unit(ids[6 - slot]), 7000 + slot)
-		port.set("_fight_health", [player.health, rival.health])
+		port._fight_health.assign([player.health, rival.health])
 		port.set("_fight_ids", [0, 1])
 		port.session._fight(0, 1, port.session._damage_cap())
 		app.show_game_combat()

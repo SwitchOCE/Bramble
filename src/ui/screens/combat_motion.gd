@@ -974,7 +974,7 @@ func result(animate: bool) -> void:
 		var after: int = maxi(0, old_health - model.damage)
 		var final_health: Array = _screen.get("hero_health_after")
 		if final_health.size() > 1 - winner:
-			after = CoreUtil.to_int(final_health[1 - winner])
+			after = maxi(0, CoreUtil.to_int(final_health[1 - winner]))
 		if Data.a(model.result_rules, "last_stand_sides").has(1 - winner):
 			after = 1
 			_emit("ring", target, UiTheme.GILT)

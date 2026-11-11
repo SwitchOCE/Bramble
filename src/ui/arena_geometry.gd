@@ -3,7 +3,7 @@ extends RefCounted
 
 const UNIT := Vector2(176, 226)
 const BOARD := Vector2(820, 510)
-const MARKET := Vector2(1400, 510)
+const MARKET := Vector2(1400, 414)
 const TOP: float = 16.0
 const LOW: float = 554.0
 
@@ -13,7 +13,13 @@ static func board_rect(canvas: Vector2, opponent: bool = false) -> Rect2:
 
 
 static func market_rect(canvas: Vector2) -> Rect2:
-	return Rect2(Vector2((canvas.x - MARKET.x) / 2.0, TOP), MARKET)
+	return Rect2(
+		Vector2((canvas.x - MARKET.x) / 2.0, TOP), Vector2(MARKET.x, 326.0 + control_height(canvas))
+	)
+
+
+static func control_height(canvas: Vector2) -> float:
+	return 122.0 if canvas.x / maxf(canvas.y, 1.0) > 2.0 else 88.0
 
 
 static func hand_rect(canvas: Vector2) -> Rect2:

@@ -59,6 +59,7 @@ var _health: ShapeBadge
 var _health_label: Label
 var _action_column: Rect2 = Rect2()
 var _last_view: Dictionary = {}
+var _arena_anchor: Array = []
 
 
 func _init() -> void:
@@ -237,7 +238,7 @@ func attach_recruit_overlay(
 func _anchor_recruit(
 	stage_ref: WeakRef, gold_ref: WeakRef, end_ref: WeakRef, row_refs: Dictionary
 ) -> void:
-	if not is_inside_tree() or is_queued_for_deletion():
+	if not is_inside_tree() or is_queued_for_deletion() or not visible:
 		return
 	var targets: Array[Control] = [stage_ref.get_ref(), gold_ref.get_ref(), end_ref.get_ref()]
 	for target: Control in targets:
@@ -301,6 +302,10 @@ func _place_arena_overlay(
 		var row: Control = rows.get(zone)
 		if row != null and row.is_visible_in_tree():
 			protected.append((inverse * row.get_global_rect()).grow(12))
+	var anchor: Array = [stage.size, read_zone, protected]
+	if _arena_anchor == anchor:
+		return
+	_arena_anchor = anchor
 	var free: Rect2 = _free_band(Rect2(Vector2(12, 12), stage.size - Vector2(24, 24)), protected)
 	if not free.has_area():
 		return

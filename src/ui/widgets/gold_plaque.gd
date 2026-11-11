@@ -1,5 +1,5 @@
 extends "res://src/ui/widgets/wood_panel.gd"
-## Acorns and income on the shared hero bar.
+## Acorns and income within the market header.
 
 var gold: int = 0
 
@@ -37,6 +37,16 @@ func _init() -> void:
 	_income_icon.modulate.a = 0.45
 	_income_icon.visible = false
 	add_child(_income_icon)
+
+
+func fit_market() -> void:
+	_big.position = Vector2(4, 12)
+	_big.size = Vector2(40, 40)
+	_value.position = Vector2(48, 0)
+	_value.size = Vector2(76, 64)
+	_income.position = Vector2(130, 10)
+	_income.size = Vector2(70, 44)
+	_income_icon.hide()
 
 
 func show_gold(amount: int) -> void:

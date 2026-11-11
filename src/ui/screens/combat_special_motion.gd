@@ -605,7 +605,14 @@ static func wait_action(screen: Control, unit: CardView, target_uid: int = -1) -
 	_overlay(screen).add_child(stamp)
 	var actor: Rect2 = unit.get_global_rect()
 	var toward_top: bool = Data.i(unit.unit, "side") == CoreUtil.to_int(screen.get("bottom_side"))
-	var above: float = 14.0 if toward_top else 4.0
+	var growth: float = 0.0 if Settings.reduce_motion else actor.size.y * 0.04
+	var above: float = (14.0 if toward_top else 4.0) + growth
+	var art: Control = unit.get("_art")
+	var peak: float = 1.0 if Settings.reduce_motion else 1.08
+	var art_top: float = (
+		actor.get_center().y + (art.get_global_rect().position.y - actor.get_center().y) * peak
+	)
+	stamp.size.y = minf(stamp.size.y, maxf(12.0, art_top - 6.0))
 	var top: float = maxf(2.0, actor.position.y - above - stamp.size.y)
 	stamp.position = (
 		_local(screen, Vector2(actor.get_center().x, top)) - Vector2(stamp.size.x / 2, 0)
@@ -615,7 +622,7 @@ static func wait_action(screen: Control, unit: CardView, target_uid: int = -1) -
 		bar.name = "LeftBar" if index == 0 else "RightBar"
 		bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		bar.position = Vector2(5 + index * 20, 2)
-		bar.size = Vector2(14, 32)
+		bar.size = Vector2(minf(14.0, (stamp.size.y - 4.0) * 0.4), stamp.size.y - 4.0)
 		bar.add_theme_stylebox_override("panel", UiTheme.flat_box(UiTheme.CREAM, UiTheme.INK, 2, 2))
 		stamp.add_child(bar)
 

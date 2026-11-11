@@ -205,7 +205,7 @@ func test_opponent_tier_knots_show_exact_numerals_and_reader_numbers() -> void:
 	assert_string_contains(str(override["text"]), "Configured power: 17.")
 
 
-func test_next_tap_only_scouts_and_other_taps_read() -> void:
+func test_every_seat_tap_scouts_and_other_seat_hover_reads() -> void:
 	Card.window_override = Vector2(1920, 1080)
 	var strip := Strip.new()
 	add_child_autofree(strip)
@@ -217,19 +217,28 @@ func test_next_tap_only_scouts_and_other_taps_read() -> void:
 		],
 		1
 	)
-	var order: Array[String] = []
-	strip.next_tapped.connect(func() -> void: order.append("scout"))
-	strip.hero_requested.connect(func(_standing: Dictionary) -> void: order.append("reader"))
+	var requested: Array[int] = []
+	var readers: Array[int] = []
+	var legacy_next: Array[bool] = []
+	strip.scout_requested.connect(func(id: int) -> void: requested.append(id))
+	strip.next_tapped.connect(func() -> void: legacy_next.append(true))
+	strip.hero_requested.connect(
+		func(standing: Dictionary) -> void: readers.append(CoreUtil.to_int(standing["player_id"]))
+	)
 	var next: Plaque = strip.plaques[1]
 	next.tap.tapped.emit("lobby", 1)
-	assert_eq(order, ["scout"])
-	order.clear()
+	assert_eq(requested, [1], "the next seat requests its own board")
+	assert_eq(legacy_next.size(), 1, "the next seat retains its compatibility signal")
+	assert_true(readers.is_empty(), "tapping scouts without opening a hero reader")
 	var other: Plaque = strip.plaques[0]
 	other.tap.tapped.emit("lobby", 0)
-	assert_eq(order, ["reader"])
-	order.clear()
+	assert_eq(requested, [1, 0], "every standings seat requests its own board")
+	assert_eq(legacy_next.size(), 1, "other seats do not emit the next-only compatibility signal")
+	assert_true(readers.is_empty())
+	other.tap.hovered.emit("lobby", 0, true)
+	assert_eq(readers, [0], "desktop hover keeps the other hero's details available")
 	next.tap.hovered.emit("lobby", 1, true)
-	assert_eq(order, [], "hover leaves the scouting target unobstructed")
+	assert_eq(readers, [0], "hover leaves the next scouting target unobstructed")
 
 
 func test_all_six_tiers_have_one_counted_numeral_and_nonopponent_knots_stay_hidden() -> void:

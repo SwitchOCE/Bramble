@@ -308,3 +308,97 @@ func test_scout_bare_slot_reader_uses_selected_players_ring_snapshot() -> void:
 	var shown: Dictionary = reader.get("shown")
 	assert_string_contains(str(shown["text"]), "+7/+9")
 	assert_false(str(shown["text"]).contains("+2/+3"), "another player's Ring is never substituted")
+
+
+func test_knocked_out_hero_health_stays_zero_and_fits_its_badge() -> void:
+	var viewport: SubViewport = _viewport(false)
+	var fight: CombatScreen = _fight(viewport, [])
+	fight.hero_health = [40, 3]
+	fight.hero_health_after = [40, -17]
+	fight._play_event(
+		{"type": "combat_end", "winner": 0, "damage": 20, "survivors": [[], []]}, true
+	)
+	for frame: int in 60:
+		fight.advance_playback(1.0 / 60.0)
+	var labels: Array[Label] = fight.get("_health_labels")
+	assert_eq(labels[1].text, "0", "post-fight overkill never overflows the hero's Health badge")
+
+
+func test_ghost_scout_keeps_its_identity_in_the_reader() -> void:
+	var screen: Recruit = _recruit(_viewport(false))
+	var raw: Dictionary = screen.port.get_state()
+	raw["next_opponent_id"] = -1
+	raw["next_opponent_hero"] = null
+	raw["standings"] = [
+		{"player_id": 0, "is_human": true, "alive": true, "health": 30},
+		{"player_id": 7, "alive": false, "health": 0, "placement": 8, "hero": "Brother Bracken"},
+	]
+	screen.render()
+	var lobby: Control = screen.get("_lobby")
+	var plaques: Array = lobby.get("plaques")
+	for plaque: Control in plaques:
+		if CoreUtil.to_bool(plaque.get("is_ghost")):
+			plaque.call("_on_tapped", "lobby", 7)
+	assert_eq(
+		CoreUtil.to_int(screen.get("_scout_player_id")), -1, "the ghost seat requests its snapshot"
+	)
+	var reader: Control = screen.get("_detail")
+	var shown: Dictionary = reader.get("shown")
+	assert_true(reader.visible)
+	assert_true(
+		(str(shown.get("name", "")) + str(shown.get("text", ""))).to_lower().contains("ghost")
+	)
+
+
+func test_gears_and_fight_tools_are_quiet_icons_clear_of_turn() -> void:
+	for phone: bool in [false, true]:
+		var viewport: SubViewport = _viewport(phone)
+		var recruit: Recruit = _recruit(viewport)
+		await wait_process_frames(2)
+		var gear: Control = recruit.get("_menu_token")
+		var turn: Control = recruit.get("_round_label")
+		assert_true(turn.is_visible_in_tree())
+		assert_false(gear.get_global_rect().intersects(turn.get_global_rect()))
+		var glyph: Control = gear.get("_glyph")
+		assert_lte(glyph.get_global_rect().size.x, 32.0, "the gear draws as a small icon")
+		assert_gte(gear.size.x, 122.0 if phone else 88.0, "the quiet icon keeps its input target")
+		recruit.hide()
+		var fight_standings: Array = recruit.state["standings"]
+		var fight: CombatScreen = _fight(viewport, fight_standings)
+		await wait_process_frames(2)
+		turn = fight.get("_round_label")
+		assert_true(turn.is_visible_in_tree())
+		var row_y: float = -1.0
+		for key: String in [
+			"_gear", "_step_button", "_play_button", "_skip_button", "_speed_button"
+		]:
+			var button: Control = fight.get(key)
+			glyph = button.get("_glyph")
+			assert_true(CoreUtil.to_bool(button.get("quiet")))
+			assert_lte(glyph.get_global_rect().size.x, 32.0, key + " stays visually quiet")
+			assert_false(button.get_global_rect().intersects(turn.get_global_rect()), key)
+			assert_gte(button.size.x, 122.0 if phone else 88.0)
+			if row_y >= 0.0:
+				assert_eq(button.position.y, row_y, "the fight tools form a slim row")
+			row_y = button.position.y
+
+
+func test_market_surface_fits_its_offers_and_control_row() -> void:
+	for phone: bool in [false, true]:
+		var screen: Recruit = _recruit(_viewport(phone))
+		await wait_process_frames(2)
+		var market: Control = screen.get("_shop_zone")
+		var offers: Control = screen.get("_shop_cards")
+		var controls: Control = screen.get("_market_controls")
+		var market_box: Rect2 = market.get_global_rect()
+		assert_lt(
+			market_box.size.y,
+			510.0,
+			"the recruit market no longer fills a fight formation's height"
+		)
+		assert_true(market_box.encloses(offers.get_global_rect()))
+		assert_true(market_box.encloses(controls.get_global_rect()))
+		var gap: float = controls.get_global_rect().position.y - offers.get_global_rect().end.y
+		assert_gte(gap, 0.0, "buttons never cover the offers")
+		assert_lte(gap, 12.0, "the control row follows the offers without empty wood")
+		assert_lte(market_box.end.y - controls.get_global_rect().end.y, 16.0)

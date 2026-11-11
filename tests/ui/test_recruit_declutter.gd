@@ -18,8 +18,8 @@ const LaneStates := preload("res://tests/ui/lane_states.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 const LIMIT: int = 40
-# The orchestrator restored seven opponent tier numerals, explicitly kept by spec §2.5.
-const KEPT_TIER_LIMITS: Dictionary = {"overview": 47, "lobby": 46}
+# Seven opponent tier numerals remain, plus A3's own tier and always-visible refresh cost.
+const KEPT_TIER_LIMITS: Dictionary = {"overview": 49, "lobby": 48}
 var _breakdown_records: Array[Dictionary] = []
 
 
@@ -70,6 +70,13 @@ func _screen(pixels: Vector2i, port: GamePort) -> RecruitScreen:
 
 
 func _assert_budget(screen: RecruitScreen, scenario: String) -> void:
+	var tier: Label = screen.get("_tier_label")
+	assert_true(tier.is_visible_in_tree(), "A3 keeps your market tier visible")
+	assert_eq(tier.text, str(screen.port.get_state().get("tier", 1)))
+	var refresh: Control = screen.get("_refresh_button")
+	var price: Label = refresh.get("_cost_label")
+	assert_true(price.is_visible_in_tree(), "A3 keeps the refresh cost visible")
+	assert_eq(price.text, str(screen.port.get_state().get("refresh_cost", 1)))
 	var breakdown: Dictionary = _record_breakdown(screen, scenario)
 	var labels: Array[Dictionary] = breakdown["visible_text_nodes"]
 	var limit: int = CoreUtil.to_int(KEPT_TIER_LIMITS.get(scenario.get_slice(" ", 0), LIMIT))
@@ -275,8 +282,7 @@ func test_scout_focus_clears_selected_reader_and_pending_hover_without_changing_
 	assert_eq(port.get_state(), before, "both focus transitions leave every recruit value intact")
 
 
-func test_modified_refresh_prices_remain_visible_while_the_standard_price_uses_its_tooltip(
-) -> void:
+func test_every_refresh_price_remains_visible_including_standard_and_free_refreshes() -> void:
 	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
 		var port := FixturePort.new()
 		port.use_state_file("res://tests/ui/data/recruit_slice.json")
@@ -289,11 +295,10 @@ func test_modified_refresh_prices_remain_visible_while_the_standard_price_uses_i
 			var refresh: Control = screen.get("_refresh_button")
 			var pill: Control = refresh.get("_cost_pill")
 			var label: Label = refresh.get("_cost_label")
-			assert_eq(pill.is_visible_in_tree(), cost != 1)
+			assert_true(pill.is_visible_in_tree(), "the market always shows its refresh cost")
 			assert_string_contains(refresh.tooltip_text, "%d gold" % cost)
-			if cost != 1:
-				assert_true(label.is_visible_in_tree())
-				assert_eq(label.text, str(cost), "a changed refresh price is decision state")
+			assert_true(label.is_visible_in_tree())
+			assert_eq(label.text, str(cost), "the exact refresh price is decision state")
 			assert_eq(port.get_state(), before, "rendering the price never changes recruit state")
 
 
@@ -351,7 +356,7 @@ func test_standard_spell_and_item_prices_leave_the_face_while_changed_prices_rem
 			assert_eq(tile.unit, sample, "hiding a standard-price reminder preserves its value")
 
 
-func test_one_gold_spell_compact_reader_keeps_the_exact_buy_price() -> void:
+func test_one_gold_spell_reader_keeps_exact_buy_price_in_roomy_and_compact_bands() -> void:
 	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
 		var port := FixturePort.new()
 		port.use_state_file("res://tests/ui/data/recruit_slice.json")
@@ -363,19 +368,26 @@ func test_one_gold_spell_compact_reader_keeps_the_exact_buy_price() -> void:
 		await wait_process_frames(2)
 
 		screen._on_tapped("shop", 0)
+		await wait_process_frames(2)
 		var reader: CardDetail = screen.get("_detail")
 		assert_true(reader.visible)
 		assert_eq(CoreUtil.to_int(reader.shown["cost"]), 1)
 		var reader_price: Label = reader.get("_tier_label")
-		assert_false(
-			reader_price.is_visible_in_tree(), "the compact reader omits the duplicate price badge"
-		)
 		assert_eq(reader_price.text, "1")
 		var buy: Button = reader.actions.get_child(0)
 		var action_price: Label = buy.get("_cost_label")
 		assert_true(action_price.is_visible_in_tree())
 		assert_eq(action_price.text, "1")
-		assert_eq(port.get_state(), before)
+		assert_eq(port.get_state(), before, "reading the live market price preserves state")
+		# The arena has a roomy side band; explicitly exercise the narrow compact variant too.
+		reader.place_overlay(Rect2(reader.position, Vector2(392, 600)))
+		assert_false(
+			reader_price.is_visible_in_tree(), "the compact reader omits the duplicate price badge"
+		)
+		assert_eq(reader_price.text, "1")
+		assert_true(action_price.is_visible_in_tree())
+		assert_eq(action_price.text, "1", "the compact buy action retains the exact price")
+		assert_eq(port.get_state(), before, "compact presentation also preserves state")
 
 
 func test_away_tokens_keep_the_complete_forecast_in_one_tap_readers_at_both_sizes() -> void:

@@ -189,7 +189,6 @@ func toggle_scout() -> void:
 	if _scout.visible:
 		_scout_player_id = Data.i(state, "next_opponent_id", -2)
 	_scout_token.lit = _scout.visible
-	_who_token.visible = false
 	render()
 	if _scout.visible and RecruitView.is_ghost_next(state):
 		_show_opponent()
@@ -205,6 +204,8 @@ func scout_player(player_id: int) -> void:
 	_scout_player_id = player_id
 	_scout.show()
 	render()
+	if player_id < 0 and RecruitView.is_ghost_next(state):
+		_show_opponent()
 
 
 func _refresh_scout() -> void:
@@ -228,7 +229,7 @@ func _show_opponent() -> void:
 		LobbyPlaque.reader_card(
 			Data.d(_scout_snapshot, "standing"), Data.d(_scout_snapshot, "hero")
 		)
-		if _scout.visible and not _scout_snapshot.is_empty()
+		if _scout.visible and not _scout_snapshot.is_empty() and _scout_player_id >= 0
 		else RecruitView.opponent_card(state)
 	)
 	if not card.is_empty():
@@ -289,7 +290,7 @@ func _render_hand() -> void:
 	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 4)
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
-	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP
+	var mode: CardView.Mode = CardView.Mode.SHOP
 	for index: int in count:
 		var view: Dictionary = hand[index]
 		var card: CardView = _make_card(view, "hand", index, card_size.x, mode)

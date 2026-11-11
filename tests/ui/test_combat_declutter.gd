@@ -1,5 +1,5 @@
 extends GutTest
-## The fight carries state in tiles and motion; words live in a reader or the log.
+## The fight carries state in tiles and motion; the turn is its only resting heading.
 
 const AttackCue := preload("res://src/ui/widgets/combat_attack_cue.gd")
 const EffectPath := preload("res://src/ui/widgets/combat_effect_path.gd")
@@ -58,6 +58,8 @@ func _screen(phone: bool = true, full: bool = false) -> CombatScreen:
 	viewport.add_child(screen)
 	screen.setup({"events": []}, PackedStringArray(["You", "Opponent"]), 0, "Round 3", 40)
 	screen._play_event(_start(full), false)
+	assert_true(screen._round_label.is_visible_in_tree(), "the turn heading remains visible")
+	assert_eq(screen._round_label.text, "Round 3", "the heading identifies this turn")
 	return screen
 
 
@@ -73,22 +75,33 @@ func _tap_background(screen: CombatScreen) -> void:
 	screen._unhandled_input(tap)
 
 
+func _without_round_label(screen: CombatScreen, records: Array[Dictionary]) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	for record: Dictionary in records:
+		if str(record["path"]) != str(screen._round_label.get_path()):
+			found.append(record)
+	return found
+
+
 func test_full_boards_keep_all_stats_and_health_within_wordless_label_budget() -> void:
 	var alphabet: RegEx = RegEx.create_from_string("[A-Za-z]")
 	for phone: bool in [false, true]:
 		var screen: CombatScreen = _screen(phone, true)
 		await get_tree().process_frame
 		await get_tree().process_frame
-		var labels: Array[Dictionary] = Capture.text_nodes(screen)
-		var ancillary: Array[Dictionary] = Capture.budget_nodes(screen)
+		var raw_labels: Array[Dictionary] = Capture.text_nodes(screen)
+		var labels: Array[Dictionary] = _without_round_label(screen, raw_labels)
+		var ancillary: Array[Dictionary] = _without_round_label(
+			screen, Capture.budget_nodes(screen)
+		)
 		print(
 			(
 				"declutter label budget: %s = %d/10 (raw %d)"
-				% ["phone" if phone else "desktop", ancillary.size(), labels.size()]
+				% ["phone" if phone else "desktop", ancillary.size(), raw_labels.size()]
 			)
 		)
 		assert_lte(ancillary.size(), 10, "combat ancillary text-node budget")
-		assert_eq(ancillary.size(), 0, "primary stats are the only resting text")
+		assert_eq(ancillary.size(), 0, "only primary stats remain after the turn heading")
 		assert_eq(labels.size(), 30, "14 pairs of stats and both hero Health numbers remain")
 		for label: Dictionary in labels:
 			assert_null(alphabet.search(str(label["text"])), "resting word: " + str(label["text"]))
@@ -133,11 +146,17 @@ func test_phone_tap_reader_pauses_and_background_tap_restores_playback_state() -
 	card.tapped.emit("combat", 1)
 	assert_true(screen._reader.visible)
 	assert_false(screen.playing, "reading pauses the fight")
-	assert_lt(
-		screen._reader.get_global_rect().end.y,
-		screen._play_button.get_global_rect().position.y,
-		"phone reader clears the entire control row"
-	)
+	for control: Control in [
+		screen._step_button,
+		screen._play_button,
+		screen._speed_button,
+		screen._skip_button,
+		screen._gear
+	]:
+		assert_false(
+			screen._reader.get_global_rect().intersects(control.get_global_rect()),
+			"phone reader clears every fight control"
+		)
 	assert_eq(str(screen._reader.shown.get("name", "")), "Field Vole")
 	_tap_background(screen)
 	assert_false(screen._reader.visible)
@@ -425,7 +444,7 @@ func test_dead_unit_reward_lands_in_a_retained_reserve_without_resurrecting_it()
 		_advance(screen, 1.5)
 		await get_tree().process_frame
 		assert_false(is_instance_valid(kept), "the landed gain portrait fades and is freed")
-		assert_eq(Capture.budget_nodes(screen).size(), 0)
+		assert_eq(_without_round_label(screen, Capture.budget_nodes(screen)).size(), 0)
 
 
 func test_counter_damage_pop_follows_its_recipient_through_the_return() -> void:
@@ -482,7 +501,7 @@ func test_budget_excludes_primary_stats_but_counts_pocket_and_held_numbers() -> 
 		{"type": "slot_mark", "owner_side": 1, "side": 0, "slot": 4, "damage": 3, "source": 8},
 		false
 	)
-	var ancillary: Array[Dictionary] = Capture.budget_nodes(screen)
+	var ancillary: Array[Dictionary] = _without_round_label(screen, Capture.budget_nodes(screen))
 	assert_gte(ancillary.size(), 3, "held count, Hex and trap must all consume the budget")
 	assert_lte(ancillary.size(), 10)
 	for entry: Dictionary in ancillary:
@@ -569,7 +588,9 @@ func test_mire_wait_marks_its_own_paused_action_without_pausing_the_fight() -> v
 			stamps += 1
 	assert_eq(stamps, 1)
 	assert_true(screen.playing, "a unit waiting does not pause the whole fight")
-	assert_eq(Capture.budget_nodes(screen).size(), 0, "waiting has no text")
+	assert_eq(
+		_without_round_label(screen, Capture.budget_nodes(screen)).size(), 0, "waiting has no text"
+	)
 
 
 func test_hero_transfer_cues_clear_before_the_final_health_frame() -> void:
@@ -663,7 +684,7 @@ func test_mire_wait_is_a_separate_beat_after_the_neighbouring_hit() -> void:
 	var waiting: Control = screen._overlay.get_node("Waiting_8")
 	assert_true(waiting.visible)
 	assert_true(screen.playing)
-	assert_eq(Capture.budget_nodes(screen).size(), 0)
+	assert_eq(_without_round_label(screen, Capture.budget_nodes(screen)).size(), 0)
 	_advance(screen, 0.8)
 	assert_eq(screen.next_index, 3, "the next action waits for the complete wait beat")
 

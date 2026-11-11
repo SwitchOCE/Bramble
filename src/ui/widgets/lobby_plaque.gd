@@ -232,7 +232,7 @@ static func _portrait_id(standing: Dictionary) -> String:
 
 
 func _on_tapped(_zone: String, _index: int) -> void:
-	scout_requested.emit(Data.i(_standing, "player_id", -1))
+	scout_requested.emit(-1 if is_ghost else Data.i(_standing, "player_id", -1))
 	if is_next:
 		next_requested.emit()
 

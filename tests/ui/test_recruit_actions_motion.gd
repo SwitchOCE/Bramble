@@ -289,11 +289,18 @@ func test_reader_overlays_without_reflow_at_both_sizes() -> void:
 				"the inspected row stays exposed"
 			)
 			for protected_row: Control in [
-				screen._shop_cards, screen._board, screen._bar_contents, screen._lobby
+				screen._shop_cards,
+				screen._board,
+				screen._lobby,
+				screen._gold,
+				screen._tier_button,
+				screen._refresh_button,
+				screen._freeze_button,
+				screen._end_button
 			]:
 				assert_false(
 					reader.get_global_rect().intersects(protected_row.get_global_rect()),
-					"merchant targets, board, rail and bottom bar stay exposed"
+					"merchant targets, board, rail and market actions stay exposed"
 				)
 			if zone == "hand":
 				assert_false(

@@ -113,7 +113,7 @@ func _layout() -> void:
 	_lobby.size = rail.size
 	_lobby.visible = not _scout.visible
 	_menu_token.position = Vector2(16, 112)
-	_menu_token.size = Vector2(122, 131)
+	_menu_token.size = Vector2.ONE * ArenaGeometry.control_height(_stage.size)
 	_scout_token.hide()
 	_who_token.hide()
 	_shop_zone.position = market.position
@@ -123,7 +123,7 @@ func _layout() -> void:
 	var offers: int = _shop_cards.get_child_count()
 	var shop_width: float = offers * ArenaGeometry.UNIT.x + maxf(0, offers - 1) * _shop_gap()
 	_shop_cards.scale = Vector2.ONE
-	_shop_cards.position = Vector2((size.x - shop_width) / 2.0, 142)
+	_shop_cards.position = Vector2((size.x - shop_width) / 2.0, 96)
 	_shop_cards.size = Vector2(shop_width, ArenaGeometry.UNIT.y)
 	_shop_cards.visible = not _scout.visible
 	_shop_scroll.hide()
@@ -197,8 +197,9 @@ func _layout_hand(_x: float) -> void:
 
 func _layout_right(x: float, _w: float) -> void:
 	var board: Rect2 = ArenaGeometry.board_rect(_stage.size)
-	_gold.position = Vector2(x + ArenaGeometry.MARKET.x - 246, 30)
-	_gold.size = Vector2(222, 80)
+	_gold.position = Vector2(x + ArenaGeometry.MARKET.x - 246, 24)
+	_gold.size = Vector2(222, 64)
+	_gold.fit_market()
 	_round_label.position = Vector2(24, 28)
 	_round_label.size = Vector2(230, 60)
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -208,22 +209,22 @@ func _layout_right(x: float, _w: float) -> void:
 	_market_title.position = Vector2(x + 32, 28)
 	_market_title.size = Vector2(520, 68)
 	_market_title.visible = not _scout.visible
-	_market_controls.position = Vector2(size.x / 2.0 - 350, 394)
-	_market_controls.size = Vector2(700, 122)
+	_market_controls.position = Vector2(size.x / 2.0 - 350, 330)
+	_market_controls.size = Vector2(700, ArenaGeometry.control_height(_stage.size))
 	_tier_button.compact_cost()
 	_tier_button.position = _market_controls.position
-	_tier_button.size = Vector2(220, 122)
+	_tier_button.size = Vector2(220, _market_controls.size.y)
 	_tier_icon.hide()
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_refresh_button.compact_cost()
 	_refresh_button.position = _market_controls.position + Vector2(236, 0)
-	_refresh_button.size = Vector2(140, 122)
+	_refresh_button.size = Vector2(140, _market_controls.size.y)
 	_freeze_button.position = _market_controls.position + Vector2(392, 0)
-	_freeze_button.size = Vector2(140, 122)
+	_freeze_button.size = Vector2(140, _market_controls.size.y)
 	_freeze_button.set_pressed_no_signal(Data.b(state, "frozen"))
 	_kin_button.visible = Data.b(state, "ask_for_kin_enabled")
 	_kin_button.position = _market_controls.position + Vector2(548, 0)
-	_kin_button.size = Vector2(140, 122)
+	_kin_button.size = Vector2(140, _market_controls.size.y)
 	_kin_button.compact_cost()
 	_end_button.position = Vector2(board.end.x + 36, 936)
 	_end_button.size = Vector2(270, 122)
@@ -239,6 +240,8 @@ func _layout_right(x: float, _w: float) -> void:
 		_market_return.position = Vector2(side_x, 24)
 		_market_controls.position = Vector2(side_x, 160)
 		_market_controls.size = Vector2(392, 260)
+		for button: Control in [_tier_button, _refresh_button, _freeze_button, _kin_button]:
+			button.size.y = 122.0
 		_tier_button.position = Vector2(side_x, 160)
 		_refresh_button.position = Vector2(side_x + 236, 160)
 		_freeze_button.position = Vector2(side_x, 296)
@@ -506,6 +509,7 @@ func _build_hand(wire: Callable) -> void:
 
 func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable) -> void:
 	_menu_token = TokenButton.new("", "gear")
+	_menu_token.quiet = true
 	_menu_token.pressed.connect(menu)
 	_stage.add_child(_menu_token)
 	_scout_token = TokenButton.new("", "close", UiTheme.FONT_SMALL)

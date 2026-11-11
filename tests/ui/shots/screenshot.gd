@@ -609,6 +609,7 @@ func _shoot(window_size: Vector2i, out_path: String) -> void:
 		_replace_tables(root)
 	for i: int in 20:
 		await process_frame
+	await RenderingServer.frame_post_draw
 	var image: Image = root.get_texture().get_image()
 	if image.get_size() != window_size:
 		printerr("screenshot: got %s, wanted %s" % [image.get_size(), window_size])

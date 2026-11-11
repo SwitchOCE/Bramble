@@ -276,16 +276,16 @@ func _layout() -> void:
 		hip.size = Vector2(68, 68)
 		_health_labels[side].add_theme_font_size_override("font_size", 40)
 	var left_width: float = Arena.board_rect(canvas).position.x - 32.0
-	_round_label.position = Vector2(160, 24)
-	_round_label.size = Vector2(left_width - 144.0, 64)
-	var tap: float = 122.0
-	var controls: Array[Control] = [_step_button, _play_button, _speed_button, _skip_button]
+	_round_label.position = Vector2(24, 24)
+	_round_label.size = Vector2(230, 64)
+	var tap: float = Arena.control_height(canvas)
+	var controls: Array[TokenButton] = [
+		_gear, _step_button, _play_button, _skip_button, _speed_button
+	]
 	for i: int in controls.size():
-		controls[i].position = Vector2(12 + i * (tap + 12), 172)
-		controls[i].size = Vector2(tap, tap + 9)
-	_gear.position = Vector2(12, 16)
-	_gear.size = Vector2(122, 131)
-	_fight_bar.add_region(Rect2(4, 162, 540, 150), Surface.Finish.BAR)
+		controls[i].position = Vector2(12 + i * (tap + 12), 112)
+		controls[i].size = Vector2(tap, tap)
+		controls[i].quiet = true
 	var lobby_rect: Rect2 = Arena.lobby_rect(canvas)
 	_lobby.position = lobby_rect.position
 	_lobby.size = lobby_rect.size

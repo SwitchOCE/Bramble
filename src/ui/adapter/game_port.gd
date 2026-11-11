@@ -43,7 +43,7 @@ func scout_player(player_id: int) -> Dictionary:
 			standing = entry.duplicate(true)
 	var is_next: bool = player_id == CoreUtil.to_int(state.get("next_opponent_id", -2))
 	return {
-		"name": UiTheme.player_name(standing),
+		"name": UiTheme.player_name(standing) if player_id >= 0 else "Ghost",
 		"standing": standing,
 		"board": state.get("next_opponent_last_board", []) if is_next else [],
 		"slot_effects": state.get("next_opponent_last_slot_effects", []) if is_next else [],
