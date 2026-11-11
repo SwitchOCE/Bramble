@@ -5,7 +5,7 @@ const LookStates := preload("res://tests/ui/shots/look_states.gd")
 
 
 func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
-	if screen_name not in ["last_fight", "combat_end"]:
+	if screen_name not in ["last_fight", "combat_end", "combat_start"]:
 		await super._run(screen_name, window_size, out_path)
 		return
 	await process_frame
@@ -19,7 +19,15 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 		app.show_game_combat()
 		var combat: CombatScreen = app.current as CombatScreen
 		combat.auto_return = false
-		combat.skip_to_end()
+		if screen_name == "combat_end":
+			combat.skip_to_end()
+		else:
+			while combat.next_index < combat.events.size():
+				var event: Dictionary = Data.entry(combat.events, combat.next_index)
+				combat.call("_play_event", event, false)
+				combat.next_index += 1
+				if Data.s(event, "type") == "combat_start":
+					break
 		combat.call("_set_playing", false)
 	await _shoot(window_size, out_path)
 

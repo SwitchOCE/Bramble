@@ -8,6 +8,7 @@ const CardView := preload("res://src/ui/widgets/card_view.gd")
 const SlotView := preload("res://src/ui/widgets/slot_view.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 const SlotMarks := preload("res://src/ui/widgets/slot_marks.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 const SLOTS: int = 7
@@ -17,6 +18,9 @@ const LABEL_H: float = 44.0
 const LABEL_GAP: float = 6.0
 const EDGE: float = 15.0
 const SLOT_NAMES: PackedStringArray = SlotView.SLOT_NAMES
+
+var compact: bool = false
+var surface_visible: bool = true
 
 var zone: String = "board"
 ## Pocket size (recruit 209 x 189, combat 189 x 169).
@@ -114,7 +118,10 @@ func configure(
 	zone = board_zone
 	pocket = Vector2(
 		pocket_width,
-		roundf(pocket_width * 112.0 / 124.0) + (40.0 if board_zone == "board" else 0.0)
+		(
+			roundf(pocket_width * 112.0 / 124.0)
+			+ (40.0 if board_zone == "board" and not compact else 0.0)
+		)
 	)
 	gap = roundf(pocket_width * 14.0 / 124.0)
 	pad = roundf(pocket_width * 16.0 / 124.0)
@@ -146,13 +153,13 @@ func tray_size() -> Vector2:
 
 func _row_height(front: bool) -> float:
 	var strip: float = LABEL_H + LABEL_GAP if with_labels else 0.0
-	var inner: float = 38.0 if not front else 20.0
+	var inner: float = 6.0 if compact else 38.0 if not front else 20.0
 	return BORDER + _outer() + strip + pocket.y + inner
 
 
 ## Wood between the tray's outer edge and the pockets (or name strips).
 func _outer() -> float:
-	return 8.0 if with_labels else 18.0
+	return 6.0 if compact else 8.0 if with_labels else 18.0
 
 
 ## Top-left of a slot's pocket in this board's local coordinates.
@@ -166,10 +173,10 @@ func slot_position(slot: int) -> Vector2:
 		if front:
 			y = BORDER + _outer() + strip
 		else:
-			y = _row_height(true) + 38.0
+			y = _row_height(true) + (6.0 if compact else 38.0)
 	else:
 		if front:
-			y = _row_height(false) + 20.0
+			y = _row_height(false) + (6.0 if compact else 20.0)
 		else:
 			y = BORDER + _outer()
 	return Vector2(x, y)
@@ -183,7 +190,8 @@ func slot_global_center(slot: int) -> Vector2:
 func card_position(slot: int) -> Vector2:
 	var width: float = tile_width()
 	var tile_h: float = (
-		CardView.size_for(width, CardView.Mode.BOARD).y + (40.0 if zone == "board" else 0.0)
+		CardView.size_for(width, CardView.Mode.BOARD).y
+		+ (40.0 if zone == "board" and not compact else 0.0)
 	)
 	return slot_position(slot) + Vector2((pocket.x - width) / 2.0, (pocket.y - tile_h) / 2.0 - 6.0)
 
@@ -203,6 +211,7 @@ func row_rect(front: bool) -> Rect2:
 
 func _layout() -> void:
 	for i: int in SLOTS:
+		slots[i].set("quiet", compact or combat_mode)
 		slots[i].position = slot_position(i)
 		slots[i].size = pocket
 		var card: CardView = cards[i]
@@ -210,7 +219,7 @@ func _layout() -> void:
 			card.set_card_size(
 				(
 					CardView.size_for(tile_width(), CardView.Mode.BOARD)
-					+ Vector2(0, 40 if zone == "board" else 0)
+					+ Vector2(0, 40 if zone == "board" and not compact else 0)
 				)
 			)
 			card.position = card_position(i)
@@ -277,36 +286,10 @@ func set_pass_landing(slot: int) -> void:
 	_marks.pass_slot = slot
 
 
-## A mossy recruit surface inside the carved oak edge, with no geometry links.
+## The formation sits directly on a thin painted stump surface.
 func _draw() -> void:
-	var top: Rect2 = row_rect(front_toward_top)
-	var bottom: Rect2 = row_rect(not front_toward_top)
-	var under: StyleBoxFlat = _row_box(UiTheme.CARVE, UiTheme.INK, BORDER)
-	draw_style_box(under, Rect2(top.position + Vector2(0, EDGE), top.size))
-	draw_style_box(under, Rect2(bottom.position + Vector2(0, EDGE), bottom.size))
-	for rect: Rect2 in [row_rect(true), row_rect(false)]:
-		draw_style_box(
-			_row_box(UiTheme.OAK if combat_mode else Color("425348"), UiTheme.INK, BORDER), rect
-		)
-	# The narrower row's join: the wood runs through with no line across.
-	var narrow: Rect2 = row_rect(false)
-	var seam_y: float = top.end.y
-	var join: Rect2 = Rect2(
-		narrow.position.x + BORDER,
-		seam_y - BORDER - 12.0,
-		narrow.size.x - BORDER * 2.0,
-		24.0 + BORDER * 2.0
-	)
-	draw_rect(join, UiTheme.OAK if combat_mode else Color("425348"))
-	for rect: Rect2 in [row_rect(true), row_rect(false)]:
-		var inset: float = 12.0
-		var grain: Rect2 = rect.grow_individual(-BORDER, -inset, -BORDER, -inset)
-		draw_texture_rect(
-			Icons.tile("oak"),
-			grain,
-			true,
-			Color.WHITE if combat_mode else Color(0.55, 0.65, 0.55, 0.22)
-		)
+	if surface_visible:
+		Surface.paint(self, Rect2(Vector2.ZERO, tray_size() - Vector2(0, EDGE)), 12.0)
 
 
 func _row_box(fill: Color, line: Color, width: float) -> StyleBoxFlat:
@@ -341,7 +324,7 @@ func place_card(card: CardView, slot: int) -> void:
 	card.set_card_size(
 		(
 			CardView.size_for(tile_width(), CardView.Mode.BOARD)
-			+ Vector2(0, 40 if zone == "board" else 0)
+			+ Vector2(0, 40 if zone == "board" and not compact else 0)
 		)
 	)
 	card.position = card_position(slot)

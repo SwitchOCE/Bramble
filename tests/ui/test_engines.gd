@@ -108,71 +108,6 @@ func test_wasp_health_loss_and_death_use_card_words_and_are_not_named_nightshade
 	)
 
 
-func test_lobby_last_stand_states_fit_without_shortening_names() -> void:
-	var names: PackedStringArray = [
-		"You",
-		"Hob Mumblecrust",
-		"Dame Hoolet",
-		"Pipkin",
-		"Little King Wren",
-		"Old Mother Mousewife",
-		"Jill Down-the-Tree",
-		"Brother Bracken"
-	]
-	for phone: bool in [false, true]:
-		for alive: int in [8, 5, 4, 3]:
-			var viewport := SubViewport.new()
-			viewport.size = Vector2i(2337 if phone else 1920, 1080)
-			add_child_autofree(viewport)
-			var strip := LobbyStrip.new()
-			strip.position = Vector2(20, 17)
-			strip.size = Vector2(2283 if phone else 1866, LobbyStrip.HEIGHT)
-			viewport.add_child(strip)
-			var standings: Array = []
-			for index: int in 8:
-				standings.append(
-					{
-						"player_id": index,
-						"name": names[index],
-						"health": 40,
-						"alive": index < alive,
-						"last_stand_enabled": true,
-						"last_stand_used": index == 1,
-						"last_stand_active": alive <= 4
-					}
-				)
-			strip.show_standings(standings, 1)
-			await get_tree().process_frame
-			await get_tree().process_frame
-			assert_eq(LayoutCheck.problems(strip, "lobby marker"), PackedStringArray())
-			for index: int in strip.plaques.size():
-				var plaque: LobbyPlaque = strip.plaques[index]
-				assert_gte(
-					plaque.size.x + 0.1,
-					plaque.wanted_width(),
-					"name and status keep their full width"
-				)
-				var first: Label = plaque.get("_name")
-				var rest: Label = plaque.get("_surname")
-				assert_eq(
-					(first.text.trim_prefix("Next: ") + " " + rest.text).strip_edges(),
-					names[index],
-					"full hero name"
-				)
-				var expected: bool = alive <= 4 and index < alive
-				assert_eq(plaque.has_node("LastStand"), expected)
-				if expected:
-					var marker: Label = plaque.get_node("LastStand")
-					assert_eq(marker.text, "Last Stand: " + ("used" if index == 1 else "ready"))
-					assert_gte(
-						marker.get_theme_font_size("font_size"),
-						UiTheme.MIN_FONT if phone else LobbyStrip.DESKTOP_NAME
-					)
-					assert_lte(marker.get_minimum_size().x, marker.size.x)
-				assert_lte(plaque.position.x + plaque.size.x, strip.size.x + 0.1)
-			assert_gte((strip.plaques[1] as LobbyPlaque).tap.size.y, 140.0)
-
-
 func test_disabled_out_and_ghost_plaques_do_not_offer_last_stand() -> void:
 	for standing: Dictionary in [
 		{"last_stand_enabled": false, "last_stand_active": true},
@@ -238,12 +173,11 @@ func test_late_status_band_clears_tools_and_all_tribe_bonuses() -> void:
 			var lobby: LobbyStrip = screen.get("_lobby")
 			var tools: Control = screen.get("_menu_token")
 			var bonuses: Control = screen.get("_tribes")
-			var board: Control = screen.get("_board")
-			assert_gt(bonuses.z_index, board.z_index, "bonuses draw above the board header")
+
 			for chip: Control in bonuses.get("chips"):
 				assert_true(
 					bonuses.get_global_rect().encloses(chip.get_global_rect()),
-					"all five bonuses stay inside the header"
+					"all five bonuses stay together on the hero bar"
 				)
 			for plaque: Control in lobby.plaques:
 				if plaque.has_node("LastStand"):

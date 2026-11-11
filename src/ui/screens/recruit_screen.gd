@@ -50,7 +50,7 @@ func setup(game_port: GamePort) -> void:
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "recruit")
 	var blank: Interactive = Interactive.new()
 	blank.set_anchors_preset(Control.PRESET_FULL_RECT)
 	blank.zone = "table"
@@ -59,11 +59,11 @@ func _init() -> void:
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
-	_lobby = LobbyStrip.new()
+	_lobby = preload("res://src/ui/widgets/lobby_strip.gd").new()
 	_lobby.next_tapped.connect(toggle_scout)
 	_lobby.hero_requested.connect(_show_lobby_hero)
 	_stage.add_child(_lobby)
-	_tribes = TribeBonuses.new()
+	_tribes = preload("res://src/ui/widgets/tribe_bonuses.gd").new()
 	_stage.add_child(_tribes)
 	_build_shop(_wire)
 	_build_board(_wire, _on_hero_power, _on_hero_tapped)
@@ -76,6 +76,7 @@ func _init() -> void:
 	_build_tools(_open_pause, toggle_scout, _show_opponent, toggle_dev_panel)
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
+	_detail.add_child(preload("res://src/ui/widgets/reader_scroll.gd").new(_detail._notes))
 	_detail.visibility_changed.connect(_on_detail_shown)
 	var rules_links: RichTextLabel = _detail.get("_notes")
 	rules_links.meta_clicked.connect(
@@ -151,6 +152,7 @@ func render() -> void:
 	_render_shop(frozen)
 	_render_board()
 	_render_hand()
+	_layout()
 	_hero.show_hero(Data.d(state, "hero"), Data.i(state, "gold", 0))
 	_show_selection()
 	_render_discover()
@@ -231,6 +233,8 @@ func _render_shop(frozen: bool) -> void:
 	for i: int in shop.size():
 		var view: Dictionary = shop[i]
 		var card: CardView = _make_card(view, "shop", i, width, mode)
+		if not small:
+			card.set_card_size(Vector2(width, 245))
 		card.frost = frozen
 		if frozen and i == 0 and not small:
 			card.show_frost_tag(true)
@@ -287,6 +291,9 @@ func _make_card(
 	card.zone = zone
 	card.index = index
 	_wire(card)
+	var caption: Label = card.get("_name_label")
+	caption.clip_text = true
+	caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	return card
 
 
@@ -341,6 +348,9 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 
 
 func _show_selection() -> void:
+	_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_detail._notes.mouse_filter = Control.MOUSE_FILTER_PASS
+	_detail._type.mouse_filter = Control.MOUSE_FILTER_PASS
 	_board.clear_highlights()
 	_board.set_pass_landing(-2)
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
@@ -507,7 +517,7 @@ func _end_hover() -> void:
 	_board.set_pass_landing(-2)
 	_board.show_relations([])
 	_detail.show_empty()
-	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
+	_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _on_leave_check() -> void:
@@ -527,6 +537,8 @@ func _show_hover() -> void:
 		elif _hover_zone == "board":
 			_board.show_relations(RecruitView.related_slots(_hover_view, _hover_index))
 		_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_detail._notes.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		_detail._type.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _on_tapped(zone: String, index: int) -> void:

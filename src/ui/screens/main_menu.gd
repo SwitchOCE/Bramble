@@ -37,16 +37,17 @@ var _leaves: Array[LeafButton] = []
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
-	_plaque = WoodPanel.new(WoodPanel.Kind.OAK)
+	UiTheme.add_world(self, "recruit")
+	_plaque = WoodPanel.new(WoodPanel.Kind.PAINTED)
 	add_child(_plaque)
 	_title = UiTheme.label("Bramble", TITLE_SIZE)
 	_title.name = "Title"
+	_title.add_theme_color_override("font_color", UiTheme.CREAM)
 	_title.add_theme_font_override("font", UiTheme.title_font())
 	_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_plaque.add_child(_title)
-	_tray = WoodPanel.new(WoodPanel.Kind.OAK)
+	_tray = WoodPanel.new(WoodPanel.Kind.PAINTED)
 	add_child(_tray)
 	for entry: Array in FACES:
 		var face: ArtFrame = ArtFrame.new()

@@ -241,7 +241,7 @@ func test_feedback_and_end_of_turn_motion_survive_freed_nodes() -> void:
 	assert_true(sources.is_empty(), "freed end-of-turn glyphs are retired")
 
 
-func test_desktop_hand_reader_leaves_every_board_destination_uncovered() -> void:
+func test_desktop_hand_reader_does_not_move_board_destinations() -> void:
 	Card.window_override = Vector2(1920, 1080)
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(1920, 1080)
@@ -250,12 +250,10 @@ func test_desktop_hand_reader_leaves_every_board_destination_uncovered() -> void
 	viewport.add_child(screen)
 	screen.setup(Fixture.make("play"))
 	await wait_process_frames(2)
+	var board: Control = screen.get("_board")
+	var before: Rect2 = board.get_global_rect()
 	screen.call("_on_tapped", "hand", 0)
 	await wait_process_frames(2)
 	var reader: Control = screen.get("_detail")
-	var board: Control = screen.get("_board")
 	assert_true(reader.visible)
-	assert_false(
-		reader.get_global_rect().intersects(board.get_global_rect()),
-		"reading a hand card must leave all seven play destinations tappable"
-	)
+	assert_eq(board.get_global_rect(), before, "the floating reader never reflows destinations")

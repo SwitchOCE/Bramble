@@ -41,6 +41,11 @@ var reach_flash: float = 0.0:
 			_quarry_stamp.modulate.a = value
 		queue_redraw()
 
+var quiet: bool = false:
+	set(value):
+		quiet = value
+		queue_redraw()
+
 var quarry_preview: bool = false
 var _target_age: float = 0.0
 
@@ -139,6 +144,9 @@ func _process(delta: float) -> void:
 
 
 func _draw() -> void:
+	if quiet:
+		_draw_target()
+		return
 	var rect: Rect2 = Rect2(Vector2.ZERO, size)
 	var fill: Color = UiTheme.CARVE
 	if highlight.a > 0.0:
@@ -175,3 +183,12 @@ func _dashed_round_rect(rect: Rect2, corner: float, colour: Color) -> void:
 	draw_arc(Vector2(right - corner, top + corner), corner, PI * 1.5, TAU, 8, colour, 5.0, true)
 	draw_arc(Vector2(right - corner, bottom - corner), corner, 0.0, PI * 0.5, 8, colour, 5.0, true)
 	draw_arc(Vector2(left + corner, bottom - corner), corner, PI * 0.5, PI, 8, colour, 5.0, true)
+
+
+func _draw_target() -> void:
+	if highlight.a <= 0.0:
+		return
+	var pulse: float = 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
+	var fill: Color = Color(highlight, highlight.a * pulse * 0.22)
+	var rim: Color = Color(UiTheme.ACORN, pulse)
+	draw_style_box(UiTheme.flat_box(fill, rim, 3, 20), Rect2(Vector2.ZERO, size))

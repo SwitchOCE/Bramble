@@ -171,6 +171,7 @@ var _terms: RichTextLabel
 var _terms_slip: ReminderSlip
 var _count: Label
 var _demo: Control
+var _demo_surface: WoodPanel
 var _next: LeafButton
 var _previous: LeafButton
 var _skip: LeafButton
@@ -183,7 +184,9 @@ func _init() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 50
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "recruit")
+	_demo_surface = WoodPanel.new(WoodPanel.Kind.PAINTED)
+	add_child(_demo_surface)
 	_demo = Control.new()
 	_demo.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_demo)
@@ -278,6 +281,8 @@ func _layout() -> void:
 	var demo_w: float = w - note_w - 56.0
 	_demo.position = Vector2(28, top + 28.0)
 	_demo.size = Vector2(demo_w, 860)
+	_demo_surface.position = _demo.position
+	_demo_surface.size = _demo.size
 	var leaf_y: float = top + 910.0
 	_skip.position = Vector2(40, leaf_y)
 	_skip.size = Vector2(330, 136)
@@ -383,7 +388,7 @@ func _demo_shop() -> void:
 	acorn.position = Vector2(gap, 500)
 	acorn.size = Vector2(105, 105)
 	_demo.add_child(acorn)
-	var words: Label = UiTheme.head("3 gold buys any unit", UiTheme.FONT_TITLE)
+	var words: Label = UiTheme.head("3 gold buys any unit", UiTheme.FONT_TITLE, UiTheme.CREAM)
 	words.position = Vector2(gap + 120.0, 516)
 	_demo.add_child(words)
 
@@ -517,7 +522,7 @@ func _demo_lanes() -> void:
 
 ## Short examples use the same prices and cards as recruiting.
 func _example_line(words: String, y: float) -> void:
-	var label: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4)
+	var label: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4, UiTheme.CREAM)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.position = Vector2(26, y)
@@ -548,7 +553,7 @@ func _demo_tools() -> void:
 		button.position = Vector2(12, 40 + index * 190)
 		button.size = Vector2(width, 144)
 		_demo.add_child(button)
-		var label: Label = UiTheme.head(str(entry[3]), UiTheme.FONT_BODY)
+		var label: Label = UiTheme.head(str(entry[3]), UiTheme.FONT_BODY, UiTheme.CREAM)
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		label.position = Vector2(width + 30, button.position.y + 36)
 		label.size = Vector2(_demo.size.x - width - 46, 130)

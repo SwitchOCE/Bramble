@@ -48,16 +48,16 @@ func _init() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 50
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "recruit")
 	_back = LeafButton.new()
 	_back.flipped = true
 	_back.colour = LeafButton.Colour.ACORN
 	_back.set_face("Back")
 	_back.pressed.connect(_close)
 	add_child(_back)
-	_plaque = WoodPanel.new(WoodPanel.Kind.OAK)
+	_plaque = WoodPanel.new(WoodPanel.Kind.PAINTED)
 	add_child(_plaque)
-	var title: Label = UiTheme.label("Settings", UiTheme.FONT_TITLE + 14)
+	var title: Label = UiTheme.label("Settings", UiTheme.FONT_TITLE + 14, UiTheme.CREAM)
 	title.add_theme_font_override("font", UiTheme.title_font())
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
@@ -65,16 +65,16 @@ func _init() -> void:
 	title.offset_bottom = -6.0
 	_plaque.add_child(title)
 	for i: int in 2:
-		var panel: WoodPanel = WoodPanel.new(WoodPanel.Kind.OAK)
+		var panel: WoodPanel = WoodPanel.new(WoodPanel.Kind.PAINTED)
 		add_child(panel)
 		_panels.append(panel)
 	_build_fights(_panels[0])
 	_build_more(_panels[1])
-	_sound = WoodPanel.new(WoodPanel.Kind.OAK)
+	_sound = WoodPanel.new(WoodPanel.Kind.PAINTED)
 	add_child(_sound)
 	_build_sound(_sound)
 	if Settings.field_mode_enabled:
-		_tray = WoodPanel.new(WoodPanel.Kind.OAK)
+		_tray = WoodPanel.new(WoodPanel.Kind.PAINTED)
 		add_child(_tray)
 		_build_opponents()
 	resized.connect(_layout)
@@ -89,7 +89,7 @@ func _head(panel: WoodPanel, words: String, icon_name: String, y: float) -> void
 	icon.position = Vector2(32, y)
 	icon.size = Vector2(46, 46)
 	panel.add_child(icon)
-	var head: Label = UiTheme.burned(words, UiTheme.FONT_SMALL)
+	var head: Label = UiTheme.burned(words, UiTheme.FONT_SMALL, UiTheme.CREAM)
 	head.position = Vector2(90, y + 2.0)
 	panel.add_child(head)
 
@@ -113,7 +113,7 @@ func _build_fights(panel: WoodPanel) -> void:
 
 func _build_sound(panel: WoodPanel) -> void:
 	_head(panel, "Sound", "speaker", 14.0)
-	_master_head = UiTheme.head("Master", UiTheme.FONT_BODY + 4)
+	_master_head = UiTheme.head("Master", UiTheme.FONT_BODY + 4, UiTheme.CREAM)
 	_master_head.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	panel.add_child(_master_head)
 	master_groove = VolumeGroove.new()
@@ -140,7 +140,7 @@ func _build_more(panel: WoodPanel) -> void:
 	)
 	var words: String = _version_words()
 	words += " (testing tools on)" if Settings.show_dev_panel else ""
-	_version = UiTheme.label(words, UiTheme.FONT_SMALL, UiTheme.INK)
+	_version = UiTheme.label(words, UiTheme.FONT_SMALL, UiTheme.CREAM)
 	_version.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	panel.add_child(_version)
 	version_tap = Interactive.new()
@@ -149,7 +149,7 @@ func _build_more(panel: WoodPanel) -> void:
 
 
 func _build_opponents() -> void:
-	_opponents_head = UiTheme.head("Opponents", UiTheme.FONT_BODY + 4)
+	_opponents_head = UiTheme.head("Opponents", UiTheme.FONT_BODY + 4, UiTheme.CREAM)
 	_tray.add_child(_opponents_head)
 	var labels: Array[String] = ["Bots", "Strong field"]
 	for index: int in labels.size():
@@ -177,9 +177,9 @@ func _on_opponents(value: String) -> void:
 
 
 func _row(panel: WoodPanel, latch: Control, words: String, note: String) -> Dictionary:
-	var head: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4)
+	var head: Label = UiTheme.head(words, UiTheme.FONT_BODY + 4, UiTheme.CREAM)
 	panel.add_child(head)
-	var sub: Label = UiTheme.label(note, UiTheme.FONT_SMALL)
+	var sub: Label = UiTheme.label(note, UiTheme.FONT_SMALL, UiTheme.CREAM)
 	sub.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	panel.add_child(sub)
 	return {"panel": panel, "latch": latch, "head": head, "sub": sub}

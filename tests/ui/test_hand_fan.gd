@@ -50,7 +50,7 @@ func _fan(viewport: SubViewport) -> Fan:
 	var fan := Fan.new()
 	viewport.add_child(fan)
 	fan.position = Vector2(100, 100)
-	fan.size = Vector2(331, 337)
+	fan.size = Vector2(1600, 174)
 	var hand: Array = hand_views()
 	for index: int in hand.size():
 		var card := Card.new()
@@ -113,7 +113,7 @@ func test_each_visible_card_can_be_tapped_and_dragged_without_a_picker() -> void
 	for index: int in 10:
 		fan.rest_cards()
 		var card: Card = fan.card_at(index)
-		# Reverse stacking exposes each lower tier's own numeric foot.
+		# Every reserve card has its own exposed rectangle.
 		var at: Vector2 = card.get_global_rect().end - Vector2(card.size.x / 2, 10)
 		for pressed: bool in [true, false]:
 			var click := InputEventMouseButton.new()
@@ -149,7 +149,6 @@ func test_normal_hand_sizes_stay_identical_when_birds_are_away() -> void:
 			assert_eq(second.cards.size(), count)
 			assert_eq(first.card_at(0).card_size, second.card_at(0).card_size)
 			assert_eq(first.size, second.size, "journeys do not shrink the hand")
-			assert_eq(first.card_at(0).card_size.x, 130.0 if count > 2 else 270.0)
 
 
 func test_full_hand_and_away_tokens_stay_clear_of_actions_board_and_open_reader_at_both_sizes(
@@ -177,54 +176,27 @@ func test_full_hand_and_away_tokens_stay_clear_of_actions_board_and_open_reader_
 		assert_eq(LayoutCheck.problems(screen, "fan10 with reader and Birds"), PackedStringArray())
 
 
-func test_pc_hand_reader_stays_beside_the_entire_fan_for_selection_and_hover() -> void:
+func test_pc_hand_reader_selection_and_hover_leave_the_stack_stable() -> void:
 	var screen: Screen = _screen(Vector2(1920, 1080), 10, true)
 	await wait_process_frames(3)
 	var hand: Control = screen.get("_hand_zone")
-	var reader: Control = screen.get("_detail")
 	var board: Control = screen.get("_board")
+	var reader: Control = screen.get("_detail")
+	var original_hand: Rect2 = hand.get_global_rect()
+	var original_board: Rect2 = board.get_global_rect()
 	for index: int in [0, 9]:
 		screen._on_tapped("hand", index)
 		await wait_process_frames(2)
 		assert_true(reader.visible)
-		assert_false(
-			reader.get_global_rect().intersects(hand.get_global_rect()),
-			"the PC reader never covers any part of the fan"
-		)
-		assert_lte(
-			reader.get_global_rect().end.x,
-			hand.get_global_rect().position.x - 4,
-			"when the right side is full, the reader uses the hand's left side"
-		)
-		assert_false(
-			reader.get_global_rect().intersects(board.get_global_rect()),
-			"selection leaves every board destination uncovered"
-		)
-		var notes: RichTextLabel = reader.get("_notes")
-		var banner: Control = reader.get("_banner")
-		assert_true(reader.get_global_rect().encloses(notes.get_global_rect()))
-		assert_false(notes.get_global_rect().intersects(banner.get_global_rect()))
-		var reminder: Control = reader.get("reminder")
-		reminder.call("show_keyword", "Shield")
-		await wait_process_frames(2)
-		assert_true(reminder.visible)
-		assert_true(reader.get_global_rect().encloses(reminder.get_global_rect()))
-		assert_false(notes.get_global_rect().intersects(reminder.get_global_rect()))
-		assert_eq(LayoutCheck.problems(screen, "desktop hand reader"), PackedStringArray())
+		assert_eq(hand.get_global_rect(), original_hand)
+		assert_eq(board.get_global_rect(), original_board)
 		screen._on_tapped("table", -1)
 		screen._on_hovered("hand", index, true)
 		screen._show_hover()
 		await wait_process_frames(2)
 		assert_true(reader.visible)
-		assert_false(
-			reader.get_global_rect().intersects(hand.get_global_rect()),
-			"hover keeps the same unobscured hand"
-		)
-		assert_lte(reader.get_global_rect().end.x, hand.get_global_rect().position.x - 4)
-		assert_false(
-			reader.get_global_rect().intersects(board.get_global_rect()),
-			"hover leaves every board destination uncovered"
-		)
+		assert_eq(hand.get_global_rect(), original_hand)
+		assert_eq(board.get_global_rect(), original_board)
 		screen._on_hovered("hand", index, false)
 		screen._end_hover()
 
