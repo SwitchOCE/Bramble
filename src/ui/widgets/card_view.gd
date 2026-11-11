@@ -19,8 +19,14 @@ const Settings := preload("res://src/ui/settings.gd")
 const SHOP_WIDTH: float = 270.0
 const SHOP_HEIGHT: float = 297.0
 const BOARD_RATIO: float = 102.0 / 112.0
-const LINE: int = 5
-const EDGE: float = 12.0
+const LINE: int = 4
+const EDGE: float = 4.0
+## Highcrown's cream light enters from upper right; the thin edge shades lower left.
+const PAPER: Color = Color("eee5ca")
+const BARK_EDGE: Color = Color("899078")
+const PAPER_INK: Color = UiTheme.INK
+const PAPER_LIGHT: Color = Color("fff4d9")
+const CONTACT: Color = Color(0.06, 0.12, 0.10, 0.18)
 ## Public portrait floor used by layout checks.
 const ART_MIN: float = 40.0
 const ART_SHARE: float = 0.68
@@ -364,6 +370,7 @@ func _place_parts(spell: bool) -> void:
 	_rules.visible = false
 	rules_shown = false
 	_art.radius = 44.0 if spell else 15.0
+	_art.line = float(_ink_width())
 	if named:
 		# Legacy shared portraits keep the reserved name line until their own art arrives.
 		_place(_art, Rect2(12, 12, w - 24, h - 104))
@@ -473,7 +480,12 @@ func _face() -> Color:
 		return UiTheme.FROST_FACE
 	if Data.b(unit, "golden", false):
 		return UiTheme.GILT
-	return UiTheme.BIRCH
+	return PAPER
+
+
+## Follow the painted contour's scale without making small cards' outlines too heavy.
+func _ink_width() -> int:
+	return clampi(roundi(LINE * card_size.x / SHOP_WIDTH), 2, LINE)
 
 
 func _tile_box(fill: Color, line: Color, width: int) -> StyleBoxFlat:
@@ -496,18 +508,38 @@ func _draw() -> void:
 	if ring.a > 0.0:
 		draw_style_box(_tile_box(UiTheme.INK, Color.TRANSPARENT, 0), rect.grow(19))
 		draw_style_box(_tile_box(ring, Color.TRANSPARENT, 0), rect.grow(15))
-	var under: Color = UiTheme.BRASS if golden else UiTheme.CARVE
+	var under: Color = UiTheme.BRASS if golden else BARK_EDGE
 	if frost:
 		under = UiTheme.RIME
 	elif is_spell(unit):
 		under = UiTheme.NIGHTSHADE
-	var shadow := UiTheme.flat_box(Color(0, 0, 0, 0.22), Color.TRANSPARENT, 0, 24)
-	shadow.shadow_color = Color(0, 0, 0, 0.2)
-	shadow.shadow_size = 22 if _hovering else 12
-	draw_style_box(shadow, Rect2(rect.position + Vector2(0, EDGE + 6), rect.size))
-	var drop: Rect2 = Rect2(Vector2(0, EDGE), card_size)
-	draw_style_box(_tile_box(under, UiTheme.INK, LINE), drop)
-	draw_style_box(_tile_box(_face(), UiTheme.INK, LINE), rect)
+	var shadow := _tile_box(CONTACT, Color.TRANSPARENT, 0)
+	shadow.shadow_color = CONTACT
+	shadow.shadow_size = 16 if _hovering else 7
+	draw_style_box(shadow, Rect2(Vector2(-5, EDGE + 4), rect.size))
+	var drop := Rect2(Vector2(-1, EDGE), card_size)
+	var ink_width: int = _ink_width()
+	draw_style_box(_tile_box(under, PAPER_INK, ink_width), drop)
+	draw_style_box(_tile_box(_face(), PAPER_INK, ink_width), rect)
+	# A single quiet lit edge, with no grain or extra decoration at token size.
+	var corner: float = 70.0 if is_spell(unit) else 24.0
+	draw_line(
+		Vector2(maxf(corner, card_size.x * 0.42), 2),
+		Vector2(card_size.x - corner, 2),
+		PAPER_LIGHT,
+		2,
+		true
+	)
+	draw_arc(
+		Vector2(card_size.x - corner, corner), corner - 2, -PI / 2, 0, 12, PAPER_LIGHT, 2, true
+	)
+	draw_line(
+		Vector2(card_size.x - 2, corner),
+		Vector2(card_size.x - 2, card_size.y - 24),
+		Color(PAPER_LIGHT, 0.55),
+		2,
+		true
+	)
 
 
 ## A small lift separates the interactive tile from its surface without a standing mark.
