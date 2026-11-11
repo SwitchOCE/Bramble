@@ -29,7 +29,7 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .route-label b { font: 800 22px var(--num); letter-spacing: .04em; text-transform: uppercase; }
 
 /* ---- Leaderboard: the other players, top-right ---------------------------------- */
-.lobby { position: absolute; right: 24px; top: 16px; width: var(--side-up); display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 20px; background: rgba(10,14,12,.62); }
+.lobby { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); width: var(--side-up); display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 20px; background: rgba(10,14,12,.62); }
 .lobby h4 { margin: 0 4px 4px; font: 800 16px var(--num); letter-spacing: .22em; color: var(--dim); text-transform: uppercase; }
 .pl { position: relative; display: flex; align-items: center; gap: 10px; height: 58px; padding: 0 12px 0 6px; border-radius: 14px; background: rgba(255,255,255,.05); }
 .pl .rank { font: 800 18px var(--num); color: var(--dim); width: 18px; text-align: center; font-style: normal; }
@@ -46,7 +46,7 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
    phase. Above it, centred: the market (recruit) or the opponent's board (fight).
    Sides: left holds the turn, route, your hero and the hand; right holds the
    leaderboard and End turn. */
-:root { --zw: 830px; --zh: 510px; --shopw: 1060px; --zgap: 28px; --top: 16px;
+:root { --uw: 176px; --uh: 226px; --zw: 820px; --zh: 510px; --shopw: 1160px; --zgap: 28px; --top: 16px;
   --low: calc(var(--top) + var(--zh) + var(--zgap));
   --side-up: calc(50% - var(--shopw) / 2 - 52px);
   --side-low: calc(50% - var(--zw) / 2 - 52px); }
@@ -61,9 +61,8 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .boardframe.foe .tab { top: auto; bottom: -18px; left: auto; right: 26px; border-color: rgba(255,75,92,.75); }
 .tab span { color: var(--dim); }
 /* Hex board units: 180 x 231. The back row tucks 30px into the front row's points. */
-.boardframe .brick { --row-gap: 0px; --slot-gap: 16px; --tuck: -30px; }
-.boardframe .brick .card, .boardframe .brick .slot { width: 180px; height: 231px; }
-.boardframe .front .atk, .boardframe .front .hp { width: 54px; height: 54px; font-size: 37px; }
+/* The back row tucks into the front row's points: minus a fifth of a unit, plus the gap. */
+.boardframe .brick { --row-gap: 0px; --slot-gap: 16px; --tuck: -29px; }
 
 /* The market: an amber stall above your board, with its gold and buttons inside. */
 .shopframe { position: absolute; left: calc(50% - var(--shopw) / 2); width: var(--shopw); top: var(--top); height: var(--zh); display: flex; flex-direction: column;
@@ -77,9 +76,7 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .awning .gold { margin-left: auto; gap: 6px; padding: 2px 14px; background: #2a1a04; border: 0; border-radius: 14px; backdrop-filter: none; }
 .awning .gold .acorn svg { width: 30px; height: 30px; } .awning .gold b { font-size: 46px; }
 .shopgrid { flex: 1; display: flex; gap: 12px; justify-content: center; align-items: center; padding: 14px 18px 0; }
-.shopgrid .card { width: 160px; height: 205px; }
-.shopgrid .front .atk, .shopgrid .front .hp { width: 48px; height: 48px; font-size: 32px; }
-.shopgrid .b-text { font-size: 11px; } .shopgrid .b-name { font-size: 15px; }
+
 .shopbtns { display: flex; gap: 12px; padding: 14px 0 16px; border-top: 2px solid rgba(255,179,26,.3); margin: 0 18px; }
 .shopbtns .btn.sq { flex: 1; height: 76px; width: auto; flex-direction: column; justify-content: center; gap: 2px; padding: 0; font-size: 28px; }
 .shopbtns .btn em { font: 800 17px var(--num); letter-spacing: .1em; }
@@ -89,16 +86,17 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
   background: rgba(14,18,17,.5); border: 1px dashed rgba(255,255,255,.22); border-radius: 22px; }
 .handtray .lbl { font: 800 18px var(--num); letter-spacing: .24em; color: var(--dim); }
 .handtray .hand { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 18px 16px; }
-.hand .card { width: 152px; height: 195px; }
-.hand .card .front .atk, .hand .card .front .hp { width: 44px; height: 44px; font-size: 30px; }
-.hand .b-text { font-size: 11px; } .hand .b-name { font-size: 15px; }
+
 .hand .none { font: 600 16px var(--txt); color: var(--dim); font-style: normal; margin-top: 40px; }
 .slot { position: relative; flex: none; display: grid; place-items: center; --hx-edge: rgba(255,255,255,.18); --hx-bw: 2px; }
 .slot .hx-art { background: rgba(10,16,14,.92); }
 .slot span { position: relative; font: 700 24px var(--num); letter-spacing: .1em; color: rgba(255,255,255,.25); }
 
 /* ---- Card: a hex picture, numbers on top --------------------------------------------- */
-.card { position: relative; width: 180px; height: 231px; perspective: 1100px; cursor: pointer; flex: none; }
+/* Every unit on screen is the same size, wherever it is: it is the same object
+   when it moves from the market to the hand to the board. */
+.card, .slot { width: var(--uw); height: var(--uh); }
+.card { position: relative; perspective: 1100px; cursor: pointer; flex: none; }
 .flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3,.7,.2,1); }
 .card.flipped .flip { transform: rotateY(180deg); }
 .face { position: absolute; inset: 0; backface-visibility: hidden; }
@@ -195,3 +193,40 @@ html[data-mode="fight"] .hero.me { top: calc(var(--low) + 120px); width: var(--s
 .result[hidden] { display: none; }
 .btn.end { height: 196px; font-size: 46px; }
 .btn.freeze em { color: var(--ice); }
+
+/* ---- Layout variants (lab dock: Layout A-D). Small moves around the same layout. ----------
+   A  Baseline: scoreboard rows centred on the right; End turn bottom-right; your hero
+      top-left under the turn and route; the hand bottom-left beside your board.
+   B  Portrait scoreboard: a slim strip of portraits on the right edge, centred; your hero
+      and End turn move into the right column, beside your board.
+   C  End turn on the board: a tall End turn bar fixed to your board's right edge, so the
+      right column holds only the scoreboard, centred over the full height.
+   D  Quiet sides: B's portrait strip plus C's End turn bar; your hero sits between them. */
+
+/* B and D: the scoreboard becomes a slim strip of portraits. */
+html[data-layout="b"] .lobby, html[data-layout="d"] .lobby { width: 96px; padding: 10px 8px; gap: 10px; }
+html[data-layout="b"] .lobby h4, html[data-layout="d"] .lobby h4 { font-size: 12px; letter-spacing: .1em; text-align: center; margin: 0; }
+html[data-layout="b"] .pl, html[data-layout="d"] .pl { height: 74px; padding: 0; justify-content: center; background: none; }
+html[data-layout="b"] .pl .rank, html[data-layout="d"] .pl .rank, html[data-layout="b"] .pl .pname, html[data-layout="d"] .pl .pname { display: none; }
+html[data-layout="b"] .pl img, html[data-layout="d"] .pl img { width: 66px; height: 66px; }
+html[data-layout="b"] .pl .php, html[data-layout="d"] .pl .php { position: absolute; right: -4px; bottom: -4px; min-width: 32px; height: 32px; font-size: 20px; line-height: 32px; }
+html[data-layout="b"] .pl .ptier, html[data-layout="d"] .pl .ptier { position: absolute; left: -2px; bottom: -2px; width: 26px; height: 26px; font-size: 15px; line-height: 26px; }
+html[data-layout="b"] .pl.you img, html[data-layout="d"] .pl.you img { box-shadow: 0 0 0 4px rgba(47,214,138,.4); }
+
+/* B: your hero and End turn in the right column, beside your board. */
+html[data-layout="b"] .btn.end { right: 140px; width: calc(var(--side-low) - 116px); }
+html[data-layout="b"] .result { right: 140px; width: calc(var(--side-low) - 116px); }
+html[data-layout="b"][data-mode="recruit"] .hero.me { left: auto; right: 140px; width: calc(var(--side-low) - 116px); top: calc(var(--low) + 20px); }
+html[data-layout="b"][data-mode="fight"] .hero.foe { left: auto; right: 140px; width: calc(var(--side-up) - 116px); top: 140px; }
+html[data-layout="b"][data-mode="fight"] .hero.me { left: auto; right: 140px; width: calc(var(--side-low) - 116px); top: calc(var(--low) + 20px); }
+
+/* C and D: End turn is a tall bar on your board's right edge, the same height as the board. */
+html[data-layout="c"] .btn.end, html[data-layout="d"] .btn.end { right: auto; left: calc(50% + var(--zw) / 2 + 14px); width: 124px; top: var(--low); bottom: auto; height: var(--zh); padding: 0 8px; text-align: center; font-size: 40px; line-height: 1; }
+html[data-layout="c"] .btn.end small, html[data-layout="d"] .btn.end small { margin-top: 10px; font-size: 13px; line-height: 1.2; }
+html[data-layout="c"] .result, html[data-layout="d"] .result { right: auto; left: calc(50% + var(--zw) / 2 + 14px); width: 160px; top: var(--low); bottom: auto; height: var(--zh); padding: 14px; justify-content: center; }
+html[data-layout="c"] .result > b, html[data-layout="d"] .result > b { font-size: 56px; }
+html[data-layout="c"] .result .btn.end, html[data-layout="d"] .result .btn.end { position: static; width: auto; height: 120px; font-size: 26px; padding: 0; }
+
+/* D: your hero between the End turn bar and the portrait strip. */
+html[data-layout="d"][data-mode="recruit"] .hero.me, html[data-layout="d"][data-mode="fight"] .hero.me { left: auto; right: 140px; width: calc(var(--side-low) - 260px); top: calc(var(--low) + 140px); }
+html[data-layout="d"][data-mode="fight"] .hero.foe { left: auto; right: 140px; width: calc(var(--side-up) - 116px); top: 140px; }

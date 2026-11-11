@@ -10,6 +10,7 @@
     mode: P.get('mode') || 'recruit',
     details: P.get('details') || 'both',
     flip: P.get('flip') || '',
+    layout: P.get('layout') || 'a',
   };
   let G, fightRun;
 
@@ -107,13 +108,15 @@
     if (fightRun) fightRun.stop();
     G = G && G.stop === S.stop && !arrive ? G : J.state(S.stop);
     document.documentElement.dataset.mode = S.mode;
+    document.documentElement.dataset.layout = S.layout;
     stage.classList.toggle('swap', !!swap && !J.static);
     stage.innerHTML = (S.mode === 'fight' ? fight() : recruit()) + '<div class="reader" hidden></div>' +
       (arrive ? `<div class="arrive"><small>Area ${S.stop + 1} of ${J.STOPS.length}</small><b>${G.area.name}</b><span>${G.area.sub}</span></div>` : '');
     J.labDock({
       stop: S.stop, mode: S.mode,
       onStop: (i) => travel(i), onMode: (m) => { S.mode = m; G = null; render(false, true); },
-      extra: [{ options: [['both', 'Flip + hover'], ['flip', 'Flip'], ['hover', 'Hover']], value: S.details, on: (v) => { S.details = v; render(); } }],
+      extra: [{ options: [['both', 'Flip + hover'], ['flip', 'Flip'], ['hover', 'Hover']], value: S.details, on: (v) => { S.details = v; render(); } },
+        { options: [['a', 'Layout A'], ['b', 'B'], ['c', 'C'], ['d', 'D']], value: S.layout, on: (v) => { S.layout = v; const q = new URLSearchParams(location.search); q.set('layout', v); history.replaceState(null, '', '?' + q); render(); } }],
     });
     if (S.mode === 'fight' && !J.static) {
       fightRun = J.fight(G.board, G.enemy, {
