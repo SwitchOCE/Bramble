@@ -1,5 +1,10 @@
 # Frozen inkglow recipe
 
+**Which header each class uses (11 Nov, after the one-notch repaint):**
+- **Portraits and tribe images** (`assets/portraits/`, `assets/ui/portraits/`): `header-notch.txt`, with four references in order: the current portrait (identity), `anchors/mrs_mallow.jpg`, `anchors/lantern_man.jpg`, and one pilot from `anchors-notch/` (`dame_hoolet` for heroes, `pinch_of_dust` for spells and items, `wisp` for glowing or night subjects, `mrs_mallow` otherwise). Composed prompts: `notch-<id>.txt` and `notch-study.txt`. A new portrait uses this recipe.
+- **World art** (`assets/ui/world/`): `header.txt` with the environment adaptation below (`world-*.txt`), as painted on 11 Nov. A new world asset uses this recipe, so it matches the existing four.
+- The earlier `header.txt` portrait prompts (`batch*`, `round2-*`) are history: the portraits they made were replaced by the notch set.
+
 `header.txt` is the reusable header. Append an asset's kind, background family and short identity paragraph. The `round2-*.txt` files are the exact composed prompts used for the coverage study; `round2.json` records source, destination and visual family. Do not infer gameplay tribes for heroes, spells or items: their family is an art direction choice. For units, use the first tribe in content; empty tribe lists use Neutral.
 
 Every generation batch must pass these three references in this order:
