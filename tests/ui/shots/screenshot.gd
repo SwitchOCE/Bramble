@@ -176,7 +176,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			player.gold = 10
 		player.board[0] = RecruitUnit.make(port.library.get_unit("mr_crumb"), 901)
 		player.board[0].origin = RecruitUnit.ORIGIN_BOUGHT
-		player.board[4] = RecruitUnit.make(port.library.get_unit("field_vole"), 902)
+		player.board[4] = RecruitUnit.make(port.library.get_unit("mrs_burdock"), 902)
 		app.show_recruit()
 		var screen: RecruitScreen = app.current as RecruitScreen
 		if screen_name == "clarity_sell":
@@ -185,7 +185,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			screen.call("_on_tapped", "shop", 0)
 		elif screen_name == "clarity_discover":
 			var cards: Array[Dictionary] = [
-				port.library.get_unit("field_vole"), port.library.get_unit("mr_crumb")
+				port.library.get_unit("mrs_burdock"), port.library.get_unit("mr_crumb")
 			]
 			port.session._rules.pool = UnitPool.from_cards(
 				cards, port.config, "pool_copies_by_tier", PackedStringArray()
@@ -219,10 +219,10 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				session._players[index].alive = false
 		session._players[0].health = 5
 		session._players[1].tier = 6
-		session._players[1].board[0] = RecruitUnit.make(port.library.get_unit("field_vole"), 900)
+		session._players[1].board[0] = RecruitUnit.make(port.library.get_unit("mrs_burdock"), 900)
 		if screen_name == "engines_blow":
 			session._players[0].board[0] = RecruitUnit.make(
-				port.library.get_unit("field_vole"), 901
+				port.library.get_unit("mrs_burdock"), 901
 			)
 			session._players[1].board[0].perm_attack = 0
 			session._players[1].board[0].perm_health = 0
@@ -355,7 +355,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			var panel: Object = triple_screen.get("_dev")
 			var ids: PackedStringArray = panel.get("_ids")
 			var options: OptionButton = panel.get("_units")
-			options.select(ids.find("field_vole"))
+			options.select(ids.find("mrs_burdock"))
 			for i: int in 3:
 				panel.call("_on_spawn")
 			var hand: Array = Data.a(app.port.get_state(), "hand")
@@ -490,15 +490,15 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			app.setup(port)
 			app.show_sandbox()
 			var sandbox: SandboxScreen = app.sandbox
-			sandbox.place(1, 0, "stoat_captain", false)
-			sandbox.place(1, 1, "old_badger", true)
-			sandbox.place(1, 2, "sett_warden", false)
+			sandbox.place(1, 0, "grey_agnes", false)
+			sandbox.place(1, 1, "grizel", true)
+			sandbox.place(1, 2, "brother_wolf", false)
 			sandbox.place(1, 5, "fairy_monarch", false)
-			sandbox.place(0, 1, "hoglet_mother", false)
-			sandbox.place(0, 2, "bitter_toad", false)
-			sandbox.place(0, 5, "belladonna_sprite", false)
+			sandbox.place(0, 1, "mrs_sorrel", false)
+			sandbox.place(0, 2, "jenny_greenteeth", false)
+			sandbox.place(0, 5, "belladonna", false)
 			sandbox.place(1, 3, "hedge_witch", false)
-			sandbox.place(0, 3, "garden_snail", false)
+			sandbox.place(0, 3, "pill_bug", false)
 			sandbox.set_stats(1, 1, 40, 70)
 			if screen_name == "sandbox":
 				sandbox.call("_on_tapped", "enemy", 1)
