@@ -101,7 +101,8 @@ func _layout() -> void:
 	var main_w: float = _play_width()
 	var left: float = (w - main_w) / 2.0
 	var center: float = left + main_w / 2.0
-	_board.configure("board", 222.0, true)
+	_board.compact = false
+	_board.configure("board", 222.0, true, false, false, 760.0 - 302.0 - 12.0)
 	_board.position = Vector2(center - _board.tray_size().x / 2.0, 302)
 	_board.size = _board.tray_size()
 	_lobby.position = Vector2(8, 40)
@@ -153,13 +154,15 @@ func _layout_scouting(left: float, right_x: float) -> void:
 	var center: float = (left + right_x) / 2.0
 	var theirs: BoardView = _scout.get("_board")
 	theirs.compact = true
-	_board.configure("board", 190.0, true)
-	theirs.configure("scout", 190.0, false)
-	_scout.position = Vector2(center - theirs.tray_size().x / 2.0, 52)
+	_board.compact = true
+	var board_height: float = (944.0 - 28.0 - 18.0 - 12.0) / 2.0
+	_board.configure("board", 190.0, true, false, false, board_height)
+	theirs.configure("scout", 190.0, false, false, false, board_height)
+	_scout.position = Vector2(center - theirs.tray_size().x / 2.0, 28)
 	_scout.size = theirs.tray_size()
 	_scout.heading_offset = 0.0
 	_scout.call("_layout")
-	_board.position = Vector2(center - _board.tray_size().x / 2.0, 477)
+	_board.position = Vector2(center - _board.tray_size().x / 2.0, 28 + theirs.tray_size().y + 18)
 	_hand_zone.hide()
 	_away_tray.hide()
 

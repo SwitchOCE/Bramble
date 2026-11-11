@@ -226,6 +226,12 @@ func _layout() -> void:
 		return
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
 	_stage.size = Vector2(size.x, CANVAS_H)
+	# Reserve the footer and a little motion clearance before fitting the two formations.
+	var board_height: float = (944.0 - 28.0 - TRAY_GAP - 12.0) / 2.0
+	for i: int in _boards.size():
+		_boards[i].configure(
+			"enemy" if i == 0 else "own", POCKET, i == 1, false, false, board_height
+		)
 	var tray: Vector2 = _boards[0].tray_size()
 	var x: float = (size.x - tray.x) / 2.0
 	_boards[0].position = Vector2(x, 28)

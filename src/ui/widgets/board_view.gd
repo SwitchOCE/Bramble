@@ -25,8 +25,8 @@ var compact: bool = false
 var surface_visible: bool = true
 
 var zone: String = "board"
-## Pocket size (recruit 209 x 189, combat 189 x 169).
-var pocket: Vector2 = Vector2(209, 189)
+## Caller-supplied pocket width; its depth follows the shared hex face.
+var pocket: Vector2 = Vector2(209, CardView.size_for(189).y + 12.0)
 var gap: float = 24.0
 var pad: float = 27.0
 var front_toward_top: bool = true
@@ -115,12 +115,13 @@ func configure(
 	pocket_width: float,
 	front_on_top: bool,
 	_labels_requested: bool = false,
-	_notes_requested: bool = false
+	_notes_requested: bool = false,
+	height_limit: float = INF
 ) -> void:
 	zone = board_zone
-	pocket = Vector2(pocket_width, CardView.size_for(roundf(pocket_width * 112.0 / 124.0)).y + 12.0)
-	gap = roundf(pocket_width * 14.0 / 124.0)
-	pad = roundf(pocket_width * 16.0 / 124.0)
+	_set_pocket_width(pocket_width)
+	while tray_size().y > height_limit and pocket.x > 1.0:
+		_set_pocket_width(pocket.x - 1.0)
 	front_toward_top = front_on_top
 	with_labels = false
 	with_notes = false
@@ -135,6 +136,12 @@ func configure(
 	custom_minimum_size = tray_size()
 	size = custom_minimum_size
 	_layout()
+
+
+func _set_pocket_width(width: float) -> void:
+	pocket = Vector2(width, CardView.size_for(roundf(width * 112.0 / 124.0)).y + 12.0)
+	gap = roundf(width * 14.0 / 124.0)
+	pad = roundf(width * 16.0 / 124.0)
 
 
 ## The tile that stands in a pocket.
@@ -159,7 +166,7 @@ func _row_height(_front: bool) -> float:
 
 
 func _outer() -> float:
-	return 18.0
+	return 6.0 if compact else 18.0
 
 
 ## Stable 4-front / 3-back anchors; the enemy reverses depth, never the slot order.

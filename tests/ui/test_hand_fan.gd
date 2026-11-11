@@ -123,8 +123,10 @@ func test_each_visible_card_can_be_tapped_and_dragged_without_a_picker() -> void
 	for index: int in _hand_limit():
 		fan.rest_cards()
 		var card: Card = fan.card_at(index)
-		# Every reserve card has its own exposed rectangle.
-		var at: Vector2 = card.get_global_rect().end - Vector2(card.size.x / 2, 10)
+		# Every reserve card has its own exposed painted face.
+		var local: Vector2 = card.face_rect().get_center()
+		var at: Vector2 = card.get_global_transform() * local
+		var taps_before: int = tapped.size()
 		for pressed: bool in [true, false]:
 			var click := InputEventMouseButton.new()
 			click.button_index = MOUSE_BUTTON_LEFT
@@ -132,14 +134,14 @@ func test_each_visible_card_can_be_tapped_and_dragged_without_a_picker() -> void
 			click.position = at
 			click.global_position = at
 			viewport.push_input(click, true)
-		assert_false(tapped.is_empty(), "the viewport tap reaches a card")
+		assert_eq(tapped.size(), taps_before + 1, "each viewport tap reaches its card")
 		if not tapped.is_empty():
 			assert_eq(
 				CoreUtil.to_int(tapped.back()),
 				index,
 				"a real viewport tap selects every exposed card"
 			)
-		var drag: Variant = card._get_drag_data(Vector2(20, 20))
+		var drag: Variant = card._get_drag_data(local)
 		assert_true(drag is Dictionary)
 		if drag is Dictionary:
 			var data: Dictionary = drag

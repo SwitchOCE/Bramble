@@ -128,6 +128,13 @@ func _save(label: String) -> void:
 
 
 func _portraits() -> void:
+	var probe := Fight.new()
+	root.add_child(probe)
+	for frame: int in 2:
+		await process_frame
+	var box: Vector2 = Card.size_for(probe.board_for_side(0).tile_width())
+	root.remove_child(probe)
+	probe.queue_free()
 	var files: PackedStringArray = DirAccess.get_files_at("res://assets/portraits")
 	var ids: PackedStringArray = []
 	for file: String in files:
@@ -149,7 +156,7 @@ func _portraits() -> void:
 				{"def_id": id, "portrait_id": id, "kind": "unit", "attack": 12, "health": 19},
 				Card.Mode.BOARD
 			)
-			card.set_card_size(Card.size_for(199))
+			card.set_card_size(box)
 			card.position = Vector2(50 + (index % 8) * 228, 10 + floori(index / 8.0) * 342)
 			sheet.add_child(card)
 			var label: Label = UiTheme.label(id, 20, Color.WHITE)
@@ -161,7 +168,7 @@ func _portraits() -> void:
 		await _save("portraits-%02d" % page)
 		root.remove_child(sheet)
 		sheet.queue_free()
-	print("hex evidence: all ", ids.size(), " portraits at the current 199x255 combat box")
+	print("hex evidence: all ", ids.size(), " portraits at the current combat box ", box)
 
 
 func _states() -> void:

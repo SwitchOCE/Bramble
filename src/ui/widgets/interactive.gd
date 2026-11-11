@@ -14,6 +14,8 @@ const TAP_SLOP: float = 18.0
 ## Where this lives on the screen ("shop", "hand", "board", "enemy", "library", ...) and its index.
 var zone: String = ""
 var index: int = -1
+## Cards and slots opt into their painted contour; general screen zones stay rectangular.
+var hex_hit_test: bool = false
 ## func(zone: String, index: int) -> Variant: drag data, or null to refuse. Unset: not draggable.
 var drag_data_fn: Callable = Callable()
 ## func(data: Variant, zone: String, index: int) -> bool
@@ -34,13 +36,15 @@ func _init() -> void:
 	mouse_exited.connect(_on_mouse_exited)
 
 
-## All interactive faces use exactly the same rounded contour as their paint.
+## Hex faces use exactly the same rounded contour as their paint.
 func face_rect() -> Rect2:
 	return HexShape.fit(Rect2(Vector2.ZERO, size).grow(-6.0))
 
 
 func _has_point(point: Vector2) -> bool:
-	return HexShape.contains(face_rect(), point)
+	if hex_hit_test:
+		return HexShape.contains(face_rect(), point)
+	return Rect2(Vector2.ZERO, size).has_point(point)
 
 
 func _gui_input(event: InputEvent) -> void:
@@ -63,7 +67,9 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _get_drag_data(at_position: Vector2) -> Variant:
-	if not _has_point(at_position) or not drag_data_fn.is_valid():
+	# Godot requests drag data after the pointer crosses its movement threshold. A press
+	# that began on the face remains valid when that movement leaves the face's edge.
+	if (not _pressing and not _has_point(at_position)) or not drag_data_fn.is_valid():
 		return null
 	var data: Variant = drag_data_fn.call(zone, index)
 	if data == null:

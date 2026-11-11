@@ -160,6 +160,7 @@ static func set_unbuilt(ids: PackedStringArray) -> void:
 
 func _init() -> void:
 	super()
+	hex_hit_test = true
 	_build()
 
 
@@ -376,8 +377,7 @@ func _place_parts(_spell: bool) -> void:
 	_art.line = float(_ink_width())
 	_place(_art, face.grow(-float(_ink_width()) - 3.0))
 	_place(
-		_name_label,
-		Rect2(face.position + Vector2(8, face.size.y * 0.55), Vector2(face.size.x - 16, 40))
+		_name_label, Rect2(face.position + Vector2(0, face.size.y * 0.55), Vector2(face.size.x, 40))
 	)
 	var knot: float = clampf(face.size.x * 0.23, 37.0, 50.0)
 	_place(

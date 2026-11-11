@@ -61,6 +61,7 @@ var _quarry_stamp: Control
 
 func _init() -> void:
 	super()
+	hex_hit_test = true
 	_name_label = UiTheme.number("", 47, Color(UiTheme.CREAM, 0.92))
 	_name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	add_child(_name_label)
