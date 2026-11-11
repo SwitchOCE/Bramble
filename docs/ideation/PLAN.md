@@ -1,10 +1,10 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** You picked Bazaar Stack. Three workers are building loop 1: the layout in its painted world, recruit feel, and units brought toward the world.
+- **In short:** You picked Bazaar Stack and asked for cards and backgrounds to meet in the middle, with the background as a frame. Workers are building the layout, recruit feel, and the art for both.
 - **Status:** active
-- **Last step done:** 11 Nov: the owner picked Bazaar Stack and left the focus items to the orchestrator (A, B, and units toward the world; DECISIONS).
-- **Next step:** build the three focus items; mid-loop gallery when the first ones land.
+- **Last step done:** 11 Nov: the owner's steer: cards and backgrounds meet in the middle, and the background frames play (note 11b; DECISIONS).
+- **Next step:** merge the layout (A), then frame play on its own surfaces (A2), recruit feel (B), and repaint backdrops to meet the new unit art; mid-loop gallery when they land.
 - **Waiting on you:** nothing. Loop 1 ends when you play its build, or 13 Nov 23:22.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
 <!-- /status -->
