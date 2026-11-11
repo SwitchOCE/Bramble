@@ -1,17 +1,17 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 2 1000` on 15145f83 (ideation/ui-hex), 2026-11-11.
+Made by `tests/ui/full_ui_run.sh 1 1000` on 13686999 (ideation/ui-hex), 2026-11-11.
 
-**0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
+**0 failed out of 2 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
-| Games reaching turn 12 | 10 | 3 |
-| Games reaching turn 15 | 3 | 1 |
+| Games reaching turn 12 | 10 | 1 |
+| Games reaching turn 15 | 3 | 0 |
 | Games won | 1 | 0 |
-| Ghost fights | 3 | 1 |
-| Games reaching tier 5 in play | 2 | 4 |
-| Games reaching tier 6 in play | 2 | 4 |
+| Ghost fights | 3 | 0 |
+| Games reaching tier 5 in play | 2 | 2 |
+| Games reaching tier 6 in play | 2 | 2 |
 
 Smallest text on screen: phone size 31 canvas units (the minimum is 31); desktop size 31, where tile rules and lobby names may go down to 22.
 
@@ -25,10 +25,8 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 7 | 11 | 0 | 6 | 0 | 0 | 0 | 431 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 2 | 20 | 1 | 6 | 0 | 0 | 0 | 830 | ok |
-| 1688x780 | 1100 | naive | skilled | 5 | 12 | 0 | 6 | 0 | 0 | 0 | 409 | ok |
-| 1688x780 | 1101 | naive | cap3 | 7 | 12 | 0 | 6 | 0 | 0 | 0 | 343 | ok |
+| 1920x1080 | 1000 | naive | skilled | 7 | 11 | 0 | 6 | 0 | 0 | 0 | 390 | ok |
+| 1688x780 | 1100 | naive | skilled | 5 | 12 | 0 | 6 | 0 | 0 | 0 | 397 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 

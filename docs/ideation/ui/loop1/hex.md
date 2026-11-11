@@ -11,7 +11,7 @@ The board packs four front and three behind, half a slot offset, with a 29/226
 face-height tuck. Empty slots paint only as drag targets. Nest art cover-crops
 inside a hex; Rainbow bands follow the lower rim.
 
-The owner's follow-up required fixing bounds before completion. `BoardView.configure`
+The earlier follow-up required fixing bounds before completion. `BoardView.configure`
 now accepts a caller's height limit and fits the pocket width without shrinking
 fonts. Compact boards recover their compact padding. Small guards in
 `combat_screen.gd` and `recruit_layout.gd` reserve the existing footer/hand zones;
@@ -48,7 +48,7 @@ New `test_hex_units.gd` covers contour input/drop, native picking at tucked corn
 packing, focus and exact three-digit badges. `test_review_fixes.gd` adds rectangular
 screen-zone and delayed-drag regressions. Existing behavior assertions remain.
 
-## Verification
+## Verification before the follow-ups
 
 - Bounds/input regression selection: **94/94 tests pass** (7 scripts, 4,758 assertions).
 - Full `./scripts/check.sh --keep-going --base origin/ideation/main`: **all steps pass**,
@@ -98,4 +98,7 @@ paint nodes and their draw connections. `test_hex_units.gd` checks separate
 selection, hover and gilt cues; `test_scout_reach.gd` now expects cream selection.
 All **59 affected tests pass** (11 scripts, 7,633 assertions), with no skipped
 scripts or parse errors. Format, lint and scope checks pass. The requested
-`tests/ui/full_ui_run.sh 1 1000` is running in the background; result pending.
+`tests/ui/full_ui_run.sh 1 1000` passed: **two full games and two late-game
+checks, zero PROBLEM lines and zero errors**. Each late check retained seven
+units and a hand of four through five rounds. The requested focused checks
+covered these UI follow-ups; the whole suite was not rerun.
