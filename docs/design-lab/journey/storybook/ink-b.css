@@ -1,0 +1,132 @@
+/* Storybook Ink on layout B. A skin over Clean Arena (arena.css): colours, fonts,
+   edges and shadows only. No zone or unit changes place or size here, so the
+   layout is exactly the Arena's. Cream paper, bold even ink, flat fills. */
+:root {
+  --paper: #f3e7cf; --card: #fbf5e8; --shade: #e2d0ac; --pen: #2b2320; --pensoft: #5e4e41;
+  --mustard: #dd9a26; --berry: #b5372d; --lemon: #f7de6e; --moss: #4f6e2c; --leaf: #6e9a3c; --sky: #9cc3da; --heather: #5e3f74;
+  --fleck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='%23D9C6A2'%3E%3Ccircle cx='12' cy='19' r='1.2'/%3E%3Ccircle cx='61' cy='8' r='.9'/%3E%3Ccircle cx='38' cy='52' r='1.1'/%3E%3Ccircle cx='80' cy='70' r='1.3'/%3E%3Ccircle cx='20' cy='78' r='.8'/%3E%3C/g%3E%3C/svg%3E");
+  --squiggle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q10 0 20 5 T40 5' fill='none' stroke='%232b2320' stroke-width='2.5'/%3E%3C/svg%3E");
+  /* Arena's variables, remapped. --ink is Arena's light text colour. */
+  --num: 'Fraunces', Georgia, serif; --txt: 'Nunito', 'Trebuchet MS', sans-serif;
+  --ink: #fbf5e8; --dim: #5e4e41; --atk: #dd9a26; --hp: #b5372d; --go: #6e9a3c; --ice: #9cc3da; --line: #2b2320;
+}
+body { font-weight: 700; }
+.jy-shade { background: radial-gradient(100% 80% at 50% 55%, rgba(40,25,10,.18) 30%, rgba(20,12,4,.55) 100%); }
+html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(.9) sepia(.15); }
+.turnmark b, .route-label b, .tab b, .awning > b, .b-name, .reader .b-name, .arrive b, .result > b, .btn.end span { font-variation-settings: 'SOFT' 100; }
+
+/* ---- Turn and route: inked labels on the painting ------------------------------------- */
+.turnmark b { font-weight: 900; color: var(--card); text-shadow: 0 3px 0 var(--pen), 0 0 14px rgba(0,0,0,.5); }
+.turnmark span { font: 900 20px var(--txt); color: var(--lemon); text-shadow: 0 2px 0 var(--pen); }
+.turnmark span.red { color: #ffb0a6; }
+.node { border: 3px solid var(--pen); box-shadow: 3px 4px 0 rgba(43,35,32,.45); }
+.node.here { border: 4px solid var(--pen); box-shadow: 0 0 0 4px var(--card), 4px 6px 0 4px rgba(43,35,32,.45); }
+.path { background: repeating-linear-gradient(90deg, var(--card) 0 6px, transparent 6px 11px); }
+.route-label { font: 800 17px var(--txt); color: var(--card); text-shadow: 0 2px 0 var(--pen), 0 0 8px rgba(0,0,0,.6); }
+.route-label b { font: 900 italic 21px var(--num); text-transform: none; letter-spacing: 0; }
+
+/* ---- Frames: paper plots with an inked double edge -------------------------------------- */
+.boardframe { background: var(--paper) var(--fleck); border: 3px solid var(--pen); border-radius: 26px 18px 30px 20px;
+  box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px rgba(79,110,44,.6), inset 0 0 0 500px rgba(111,154,60,.12), 6px 8px 0 rgba(43,35,32,.45); }
+.boardframe.foe { border-color: var(--pen);
+  box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px rgba(181,55,45,.55), inset 0 0 0 500px rgba(181,55,45,.08), 6px 8px 0 rgba(43,35,32,.45); }
+.tab { background: var(--card); border: 3px solid var(--pen); border-radius: 12px; box-shadow: 3px 4px 0 var(--pen); color: var(--pen); transform: rotate(-1.5deg); }
+.tab b { font: 900 italic 22px var(--num); letter-spacing: .02em; text-transform: none; }
+.tab span { font: 800 16px var(--txt); color: var(--pensoft); }
+.boardframe.foe .tab { border-color: var(--pen); transform: rotate(1.5deg); }
+.slot { --hx-edge: rgba(94,78,65,.4); }
+.slot .hx-art { background: rgba(251,245,232,.7); }
+.slot span { font: 700 italic 22px var(--num); color: rgba(94,78,65,.5); letter-spacing: 0; }
+
+/* ---- Units: inked hexes, round stats ---------------------------------------------------- */
+.front { --hx-edge: var(--pen); --hx-bw: 3px; }
+.front::before { inset: 5px -4px -5px 4px; background: rgba(43,35,32,.3); }
+.card .tier { background: var(--pen); color: var(--card); font: 900 18px/30px var(--txt); box-shadow: 0 0 0 2px var(--card); }
+.card .ico { background: var(--lemon); border: 3px solid var(--pen); }
+.card .bolt svg { fill: var(--pen); }
+.card .aura svg { fill: var(--pen); stroke: var(--pen); }
+.front .atk, .front .hp { font: 900 30px/1 var(--txt); }
+.front .atk { color: var(--pen); }
+.front .atk::before { inset: 4px; background: var(--mustard); border: 3px solid var(--pen); border-radius: 50%; transform: none; box-shadow: 0 3px 0 var(--pen); }
+.front .hp { background: var(--berry); border: 3px solid var(--pen); box-shadow: 0 3px 0 var(--pen); }
+.front .nm { display: block; position: absolute; left: 22px; right: 22px; bottom: 25%; background: var(--card); border: 3px solid var(--pen); border-radius: 8px; text-align: center;
+  font: 900 14px/1.1 var(--num); font-variation-settings: 'SOFT' 100; color: var(--pen); padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.card.golden .front { --hx-edge: var(--mustard); --hx-bw: 6px; }
+.card.golden .front::before { background: rgba(247,222,110,.7); inset: -4px -4px -6px; }
+.card.frozen .front .hx-art::after { background: linear-gradient(160deg, rgba(156,195,218,.65), rgba(156,195,218,.25) 50%, rgba(220,240,250,.6)); }
+.card.frozen .front { --hx-edge: #2b6f9a; }
+
+.back { --hx-edge: var(--pen); }
+.back-in { background: var(--card) var(--fleck) !important; color: var(--pen); }
+.b-name { font: 900 18px/1.05 var(--num); text-transform: none; letter-spacing: 0; }
+.b-tribe { font: 800 11px var(--txt); color: var(--pensoft); }
+.b-text { font: 700 13px/1.3 var(--txt); }
+.b-text b { color: var(--heather); font-weight: 900; }
+.b-text em { color: var(--berry); }
+.b-foot .atk { background: var(--mustard); color: var(--pen); border: 2px solid var(--pen); }
+.b-foot .hp { background: var(--berry); border: 2px solid var(--pen); }
+.b-act { background: var(--leaf); color: #fff; border: 3px solid var(--pen); box-shadow: 0 3px 0 var(--pen); font: 900 15px/26px var(--num); }
+
+.reader { background: #fffbe9 var(--fleck); border: 3px solid var(--pen); border-radius: 12px 16px 12px 18px; box-shadow: 5px 6px 0 rgba(43,35,32,.4); color: var(--pen); transform: rotate(-1deg); }
+.reader .b-name { font-size: 26px; }
+.reader .b-text { font-size: 17px; }
+
+/* ---- The market: a stall with a berry awning and a wooden counter ------------------------ */
+.shopframe { background: var(--paper) var(--fleck); border: 3px solid var(--pen); border-radius: 22px; box-shadow: 6px 8px 0 rgba(43,35,32,.45); }
+.awning { color: var(--pen); border-bottom: 3px solid var(--pen); border-radius: 19px 19px 0 0;
+  background: repeating-linear-gradient(90deg, var(--berry) 0 50px, var(--card) 50px 100px); }
+.awning::after { bottom: -15px; height: 15px; background: radial-gradient(circle at 25px 0, var(--berry) 22px, transparent 23px) 0 0 / 100px 15px repeat-x, radial-gradient(circle at 75px 0, var(--card) 22px, transparent 23px) 0 0 / 100px 15px repeat-x;
+  filter: drop-shadow(0 3px 0 var(--pen)); }
+.awning > b { background: var(--card); border: 3px solid var(--pen); border-radius: 10px; padding: 0 14px; font: 900 italic 30px var(--num); letter-spacing: .02em; box-shadow: 3px 3px 0 var(--pen); }
+.tierbadge { background: var(--lemon); color: var(--pen); border: 3px solid var(--pen); font: 900 15px var(--txt); }
+.awning .gold { background: var(--lemon); border: 3px solid var(--pen); border-radius: 999px; box-shadow: 0 3px 0 var(--pen); padding: 0 14px; }
+.awning .gold .acorn svg { fill: var(--pen); }
+.awning .gold b { color: var(--pen); font: 900 40px/1.1 var(--num); }
+.shopbtns { border-top: 0; margin: 0; padding: 14px 18px 16px; background: #c08a52; border-radius: 0 0 19px 19px; box-shadow: inset 0 3px 0 var(--pen), inset 0 -8px 0 rgba(43,35,32,.2); }
+
+/* ---- Buttons: paper pills with an ink drop ------------------------------------------------- */
+.btn { background: var(--card); border: 3px solid var(--pen); color: var(--pen); backdrop-filter: none; box-shadow: 0 5px 0 var(--pen); border-radius: 18px; font: 900 24px var(--num); letter-spacing: .02em; }
+.btn:hover { background: #fffdf3; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--pen); }
+.btn em, .shopbtns .btn em { color: var(--pen); font: 900 15px var(--txt); letter-spacing: .04em; }
+.btn em svg { fill: var(--mustard); }
+.btn.tierup { background: var(--lemon); }
+.btn.freeze { background: var(--sky); color: var(--pen); border-color: var(--pen); }
+.btn.freeze em { color: var(--pen); }
+.btn.end { background: var(--leaf); color: #fff; border: 3px solid var(--pen); box-shadow: 0 7px 0 var(--pen); border-radius: 18px 18px 22px 14px; text-shadow: 0 2px 0 rgba(43,35,32,.5); }
+.btn.end span { font: 900 40px/1 var(--num); }
+.btn.end small { font: 800 14px var(--txt); letter-spacing: .06em; text-transform: none; opacity: .95; }
+
+/* ---- Hand: a satchel tray on paper ---------------------------------------------------------- */
+.handtray { background: rgba(243,231,207,.88) var(--fleck); border: 3px dashed var(--pen); border-radius: 22px; }
+.handtray .lbl { font: 900 italic 22px var(--num); letter-spacing: .02em; color: var(--pensoft); text-transform: none; }
+.handtray .lbl::after { content: ''; display: block; height: 8px; margin-top: 2px; background: var(--squiggle) repeat-x center; opacity: .45; }
+.hand .none { font: 700 italic 17px var(--num); color: var(--pensoft); }
+
+/* ---- Players: a paper strip of inked portraits ------------------------------------------------ */
+.lobby { background: var(--paper) var(--fleck); border: 3px solid var(--pen); box-shadow: 4px 5px 0 rgba(43,35,32,.45); }
+.lobby h4 { font: 900 12px var(--txt); color: var(--pensoft); }
+.pl img { border: 3px solid var(--pen); }
+.pl.you img { border-color: var(--pen); box-shadow: 0 0 0 4px var(--lemon) !important; }
+.pl.next img { box-shadow: 0 0 0 4px #c9a6e6; }
+.php { background: var(--berry); border: 2px solid var(--pen); font-family: var(--txt); font-weight: 900; }
+.ptier { background: var(--pen); color: var(--card); box-shadow: 0 0 0 2px var(--card); font-family: var(--txt); font-weight: 900; }
+html:not([data-layout="b"]):not([data-layout="d"]) .pl { background: var(--card); border: 2px solid var(--pen); color: var(--pen); }
+html:not([data-layout="b"]):not([data-layout="d"]) .pl.you { background: var(--lemon); }
+
+/* ---- Heroes -------------------------------------------------------------------------------- */
+.hero img { border: 4px solid var(--pen); box-shadow: 5px 6px 0 rgba(43,35,32,.45), 0 0 0 4px var(--leaf); }
+.hero.foe img { box-shadow: 5px 6px 0 rgba(43,35,32,.45), 0 0 0 4px var(--berry); }
+.hero b { font: 900 italic 22px var(--num); text-transform: none; letter-spacing: 0; color: var(--card); text-shadow: 0 2px 0 var(--pen), 0 0 8px rgba(0,0,0,.6); }
+.hero .php { box-shadow: 0 3px 0 var(--pen); }
+
+/* ---- Result: a stamped verdict on a paper slip ----------------------------------------------- */
+.result { background: var(--paper) var(--fleck); border: 3px solid var(--pen); box-shadow: 6px 8px 0 rgba(43,35,32,.45); }
+.result > b { font: 900 84px/1 var(--num); color: var(--berry); transform: rotate(-6deg); }
+.result > b.you { color: var(--moss); } .result > b.them { color: var(--berry); }
+
+/* ---- Arrival: a chapter title on a paper tag ------------------------------------------------ */
+.arrive { background: var(--card) var(--fleck); border: 3px solid var(--pen); box-shadow: 6px 8px 0 var(--pen); backdrop-filter: none; color: var(--pen); }
+.arrive small { font: 900 16px var(--txt); color: var(--berry); }
+.arrive b { font: 900 76px/1.05 var(--num); color: var(--pen); text-transform: none; letter-spacing: 0; }
+.arrive span { font: 700 italic 22px var(--num); color: var(--pensoft); }

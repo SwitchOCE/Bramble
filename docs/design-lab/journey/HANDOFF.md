@@ -10,7 +10,8 @@ For a model building UI in the engine. This page sums up what the owner decided 
 | All four layouts side by side, in recruit and fight | `layouts.html` |
 | Unit-shape study | `shapes/` |
 | Shared hex masks, 4-3 board packing, stage scaling, game state | `shared/journey.js`, `shared/journey.css` |
-| Same ideas in two other looks (left-right layouts) | `storybook/`, `nouveau/` |
+| Layout B in the Storybook and Nouveau looks: skins over the Arena page, same places and sizes | `storybook/stacked.html` + `ink-b.css`, `nouveau/stacked.html` + `nv-b.css` |
+| The earlier left-right versions of those two looks | `storybook/index.html`, `nouveau/index.html` |
 | Hub page with links to everything | `index.html` |
 
 To run it: start `python docs/design-lab/serve.py 8771` from the repo root, then open `http://localhost:8771/journey/`. URL options on the Arena page:

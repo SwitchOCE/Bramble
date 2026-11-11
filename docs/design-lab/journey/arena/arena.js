@@ -21,12 +21,6 @@
 
   // A unit is a hex (owner's pick, 11 Nov): picture first, numbers on top.
   // Click flips it for the details; hover shows a quick reader.
-  // A unit is a hex (owner's pick, 11 Nov): picture first, numbers on top.
-  // Click flips it for the details; hover shows a quick reader.
-  // A unit is a hex (owner's pick, 11 Nov): picture first, numbers on top.
-  // Click flips it for the details; hover shows a quick reader.
-  // A unit is a hex (owner's pick, 11 Nov): picture first, numbers on top.
-  // Click flips it for the details; hover shows a quick reader.
   function card(u, where) {
     const t = J.TRIBE[u.tribe] || J.TRIBE.Neutral;
     const icon = u.trig ? '<span class="ico bolt" title="Trigger">' + BOLT + '</span>' : (u.kw && u.kw.length) || (u.text && !/^No text/.test(u.text)) ? '<span class="ico aura" title="Ability">' + AURA + '</span>' : '';
@@ -35,7 +29,7 @@
       <div class="flip">
         <div class="face front">${J.hex(u.id)}
           <span class="tier">${u.tier}</span>${icon}
-          <span class="atk" data-atk>${u.atk}</span><span class="hp" data-hp>${u.hp}</span>
+          <span class="nm">${J.esc(u.name)}</span><span class="atk" data-atk>${u.atk}</span><span class="hp" data-hp>${u.hp}</span>
         </div>
         <div class="face back"><i class="hx-frame"></i><i class="hx-hit"></i><div class="hx-art back-in">
           <div class="b-name">${J.esc(u.name)}</div>

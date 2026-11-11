@@ -34,8 +34,9 @@
 <body>
 <header>
   <a href="index.html">Lab ↩</a>
-  <h1>Clean Arena · four layouts</h1>
+  <h1>Four layouts</h1>
   <span class="sub">Same units, same board position; only the sides change. <b style="color:#2fd68a">B is the chosen layout (11 Nov).</b> Click a layout to open it.</span>
+  <div class="seg" id="look"><button data-v="arena" class="on">Clean Arena</button><button data-v="storybook">Storybook</button><button data-v="nouveau">Nouveau</button></div>
   <div class="seg" id="mode"><button data-v="recruit" class="on">Recruit</button><button data-v="fight">Fight</button></div>
   <div class="seg" id="stop"><button data-v="1">Area 1</button><button data-v="2">2</button><button data-v="3" class="on">3</button><button data-v="4">4</button><button data-v="5">5</button></div>
 </header>
@@ -47,9 +48,11 @@
     ['c', 'End turn on the board', 'End turn is a tall bar on your board\'s right edge. The right column holds only the scoreboard.'],
     ['d', 'Quiet sides', 'The portrait strip plus the End turn bar, your hero between them. The most painting shows.'],
   ];
-  const S = { mode: 'recruit', stop: '3' };
+  const S = { look: 'arena', mode: 'recruit', stop: '3' };
+  // Storybook and Nouveau are skins over the Arena page, so every layout matches it exactly.
+  const PAGE = { arena: 'arena/index.html', storybook: 'storybook/stacked.html', nouveau: 'nouveau/stacked.html' };
   const grid = document.getElementById('grid');
-  function url(l, full) { return `arena/index.html?layout=${l}&stop=${S.stop}${S.mode === 'fight' ? '&mode=fight' : ''}${full ? '' : '&static'}`; }
+  function url(l, full) { return `${PAGE[S.look]}?layout=${l}&stop=${S.stop}${S.mode === 'fight' ? '&mode=fight' : ''}${full ? '' : '&static'}`; }
   // Build the four frames once; switching recruit/fight or the area only changes
   // each frame's address, so nothing is torn down and rebuilt.
   function build() {
@@ -66,7 +69,7 @@
   // Scale each 1920 x 1080 frame to its cell's width.
   function fit() { document.querySelectorAll('.frame').forEach((f) => { f.querySelector('iframe').style.transform = `scale(${f.clientWidth / 1920})`; }); }
   addEventListener('resize', fit);
-  ['mode', 'stop'].forEach((k) => document.getElementById(k).addEventListener('click', (e) => {
+  ['look', 'mode', 'stop'].forEach((k) => document.getElementById(k).addEventListener('click', (e) => {
     const b = e.target.closest('button'); if (!b) return;
     S[k] = b.dataset.v;
     document.querySelectorAll(`#${k} button`).forEach((x) => x.classList.toggle('on', x === b));

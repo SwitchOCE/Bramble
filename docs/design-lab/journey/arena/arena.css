@@ -117,6 +117,8 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .front .atk { left: -8px; background: none; isolation: isolate; }
 .front .atk::before { content: ''; position: absolute; inset: 6px; background: var(--atk); border-radius: 8px; transform: rotate(45deg); box-shadow: 0 4px 10px rgba(0,0,0,.45); z-index: -1; }
 
+/* The name plate is hidden in Clean Arena (art first); the Storybook and Nouveau skins show it. */
+.front .nm { display: none; }
 .card.golden .front { --hx-edge: #ffd75e; --hx-bw: 5px; }
 .card.golden .front::before { background: rgba(255,215,94,.55); inset: -5px -5px -9px; }
 .card.frozen .front .hx-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(160,225,255,.6), rgba(76,195,255,.25) 50%, rgba(200,240,255,.55)); }
