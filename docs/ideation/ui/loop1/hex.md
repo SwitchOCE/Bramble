@@ -1,64 +1,77 @@
 # A4: rounded hex faces
 
-Shared rounded 0.78:1 contour, with points 19% deep, for card paint, portraits,
-native mouse/touch picking, drops, floor Rings and Ring travel. Units, spells and
-items fit their caller's box. Spells have a violet double rim; items have brass
-rivets. Paper, bark edge, cream upper-right light and soft contact shadow remain.
-Ink scales from 2–4 canvas units. Selection/hover rims paint above neighbours on
-an independent layer; combat keeps its animation ordering.
+Shared rounded 0.78:1 contour, points 19% deep, for portraits, paper frames,
+mouse/touch picking, drops, Rings, Ring travel and attack-source outlines. Spells
+use a violet double rim; items have brass rivets. Paper, olive-bark edge, cream
+upper-right light and contact shadow remain, with 2–4 px ink. Selection and hover
+paint above tucked neighbours. Three-digit badges widen; animated numbers refit
+at every frame. Specific keyword and defence marks remain.
 
-Board rows remain four front, three behind, offset half a slot, with the painted
-back row tucked by 29/226 of the face height. Opposing front rows face each other.
-Recruit's extra 40 px per card is removed. Empty slots have no resting paint and
-show drop outlines only during a drag. Nest portraits cover-crop into a hex.
-Three-digit badges widen. Tiny legacy scout boxes step Attack up when two wide
-badges cannot fit abreast; neither badge covers the other or leaves its box.
-Specific Mire, Quarry and Swoop marks remain, as do defence/counter marks.
-Rainbow bands follow the lower hex rim. The transient attack-source outline
-uses the same contour and ink weight. Animated stat rolls resize their badges.
+The board packs four front and three behind, half a slot offset, with a 29/226
+face-height tuck. Empty slots paint only as drag targets. Nest art cover-crops
+inside a hex; Rainbow bands follow the lower rim.
 
-All 155 portraits were inspected first at 176×226 on five full-size contact
-sheets. Final sheets use the current combat board box, 199×255.
-Small source-relative pans correct cropped faces/props on old_isegrim,
-signor_ranocchio, madame_bufo, gable_ratchet, grizel, grey_agnes, mrs_jay,
-sergeant_conkers and pennyworth_snail. No portrait files were repainted.
+The owner's follow-up required fixing bounds before completion. `BoardView.configure`
+now accepts a caller's height limit and fits the pocket width without shrinking
+fonts. Compact boards recover their compact padding. Small guards in
+`combat_screen.gd` and `recruit_layout.gd` reserve the existing footer/hand zones;
+scouting retains matching columns and separates both formations. A3 can supply
+its common unit box through the existing size/configure calls.
 
-Tests rewritten:
-- `test_card_art_layout.gd`: full hex art replaces the rectangular 68% art window.
-- `layout_check.gd`: transformed polygon intersections replace rectangle overlaps;
-  actual overlapping hexes still fail.
-- `test_big_numbers.gd`: badges must not intersect and must stay in their caller's
-  box, replacing the old horizontal-only placement assertion. Font/precision and
-  recruit/combat behaviour checks remain.
-- `test_scout_reach.gd`: the foreground cue is a drawn hex Control, replacing a
-  rectangular Panel; its lifetime and foreground assertions remain.
+Bare Interactive screen zones retain rectangular input; cards and slots opt into
+hex input. A valid press remains draggable after the pointer leaves its face.
+Fallback names use the wide band rather than unnecessary side padding.
 
-- `test_combat_face.gd`: pending-gain clearance is checked in the card's coordinate
-  space, accounting for the inset hex face.
-- `test_ring_travel.gd`: the reduced-motion destination is the actual hex's first
-  perimeter point, replacing the old rectangle corner; no-route checks remain.
+## Portraits and evidence
 
-New `test_hex_units.gd` checks arbitrary boxes, contour hits/drops, actual Godot
-GUI picking at tucked corners, opposing row packing, real overlap detection,
-foreground focus and exact three-digit badges.
+All 155 portraits were inspected on seven full-size sheets at the fitted combat
+box (168×215.38). Small source-relative pans: old_isegrim, signor_ranocchio,
+madame_bufo, gable_ratchet, grizel, grey_agnes, mrs_jay, sergeant_conkers,
+pennyworth_snail. Portrait assets were not repainted.
 
-Evidence: `build/loop1/hex/`; `tests/ui/shots/hex_evidence.gd` uses real screen
-widgets with a staged full shop, seven units and four hand cards, and core-generated
-7-v-7 combat for the still and clip. The portrait sheets include every JPG.
+`build/loop1/hex/` contains native 1920×1080 and 1688×780 recruit captures (7 board,
+4 hand, 7 shop), core-generated 7-v-7 mid-lunge fights, golden/999/keyword/type
+studies, tucked selection/hover studies, portrait sheets and a six-second
+1920×1080 MP4. Every still and sampled clip frames were inspected at full size.
 
-## Integration and verification
+## UI tests updated
 
-Final focused run: 67/68 tests pass across 11 scripts. The remaining test is the
-unchanged combat-screen bounds assertion in `test_big_numbers.gd`. Exact stats,
-font minimums, native input, recruit motion, attack/death/replay cues and Ring
-travel checks pass. Formatting and lint pass. Final gate/UI run pending. The current screen layout predates A3. Its combat `POCKET=220`
-produces a 1025×541 tray and places the lower board beyond the 1080 canvas. A3 must
-supply its common unit box and screen anchors; no screen files were changed here.
-`CardView.set_card_size` fits the exact caller box; `size_for` offers 0.78:1 in all
-modes. Board `configure` retains its existing pocket-width argument and tile-width
-mapping (112/124); no recruit-only height is added.
+- `test_card_art_layout.gd`: full hex art replaces the rectangular 68% window.
+- `test_big_numbers.gd`: actual badge separation/containment replaces horizontal-only placement.
+- `test_combat_face.gd`: pending-gain clearance uses the card's coordinate space.
+- `test_ring_travel.gd`: reduced-motion endpoint follows the hex rather than a rectangle corner.
+- `test_scout_reach.gd`: foreground cue is a hex Control rather than a Panel.
+- `test_hand_fan.gd`: taps and drags sample painted faces and verify each tap arrives.
+- `layout_check.gd`: transformed polygon intersections detect overlap; real overlapping hexes still fail.
 
-The first required gate stops at three importer-generated, untracked `.uid` files
-under fenced paths. Automatic approval review refused cleanup; owner approval is
-pending. These files are not staged or committed. Remaining checks run through the
-gate's existing `--keep-going` option.
+New `test_hex_units.gd` covers contour input/drop, native picking at tucked corners,
+packing, focus and exact three-digit badges. `test_review_fixes.gd` adds rectangular
+screen-zone and delayed-drag regressions. Existing behavior assertions remain.
+
+## Verification
+
+- Bounds/input regression selection: **94/94 tests pass** (7 scripts, 4,758 assertions).
+- Formatting, lint, import, compile and parity pass.
+- Full gate and full UI run: final results pending below.
+- Scope review: UI/widgets, two screen bounds guards, UI tests and evidence/step note.
+
+The owner identified these nine baseline hand-limit failures and is fixing them
+separately; they are reported rather than edited here:
+
+| Script | Test |
+|---|---|
+| `tests/core/test_pass3_birds_recruit.gd` | `test_homecoming_full_hand_waits_on_doorstep_and_doubles_once` |
+| `tests/core/test_pass3_dial_behaviour.gd` | `test_ermeline_printed_count_and_pelt_share_match_award_and_spell_effect` |
+| `tests/core/test_pass3_hedge_recruit.gd` | `test_mast_caps_each_source_and_caps_off_counterexample` |
+| `tests/core/test_pass3_hedge_shares.gd` | `test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns` |
+| `tests/core/test_pass3_presets.gd` | `test_optional_bird_dials_can_be_swept_and_captured_from_b` |
+| `tests/core/test_pass3_slice_triples.gd` | `test_golden_first_slice_triple_frees_hand_room_for_its_second_slice` |
+| `tests/core/test_quilboar.gd` | `test_trailblazer_combines_one_card_per_turn_and_golden_combines_two` |
+| `tests/core/test_review3_mast.gd` | `test_buying_mast_does_not_pay_but_playing_it_then_buying_does` |
+| `tests/play/test_play_tools.gd` | `test_every_action_kind_round_trips_through_play_game_run` |
+
+Automatic approval review refused cleanup of three untracked importer-generated
+identifiers: `src/core/combat/combat_events.gd.uid`,
+`tests/core/pass3_original_b.gd.uid`, `tests/core/test_replay_contract.gd.uid`.
+Owner approval to remove only those generated files is pending; the scope fence
+still reports them. They are not committed.
