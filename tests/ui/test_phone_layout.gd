@@ -398,3 +398,59 @@ func test_empty_world_slots_receive_real_viewport_taps() -> void:
 			[0, 1, 2, 3, 4, 5, 6],
 			"every quiet cell receives an exposed tap with a reader open"
 		)
+
+
+func test_pc_reader_leaves_occupied_rear_slots_fully_tappable() -> void:
+	CardView.window_override = Vector2(1920, 1080)
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(1920, 1080)
+	viewport.gui_disable_input = false
+	add_child_autofree(viewport)
+	var screen: RecruitScreen = _screen(viewport)
+	var state: Dictionary = screen.port.get_state()
+	var units: Array = state["board"]
+	for index: int in BoardView.SLOTS:
+		units[index] = UnitViews.from_def(TestLibraries.current().get_unit("old_moth_annis"))
+	screen.render()
+	await wait_process_frames(2)
+	var board: BoardView = screen.get("_board")
+	var detail: CardDetail = screen.get("_detail")
+	var received: Array[int] = []
+	for index: int in [5, 6]:
+		board.cards[index].tapped.connect(func(_zone: String, at: int) -> void: received.append(at))
+	# Exact pointer origins and failed click coordinates from the 1920x1080 game logs.
+	for failure: Array in [
+		[5, Vector2(627, 400), Vector2(1113.8, 568.2)],
+		[6, Vector2(1025, 400), Vector2(1360.8, 568.2)],
+	]:
+		var index: int = failure[0]
+		var card: CardView = board.cards[index]
+		for at: Vector2 in [card.get_global_rect().get_center(), failure[2]]:
+			var motion := InputEventMouseMotion.new()
+			motion.position = failure[1]
+			motion.global_position = failure[1]
+			viewport.push_input(motion, true)
+			screen.call("_read_external", board.cards[0].unit)
+			await wait_process_frames(2)
+			assert_true(detail.visible)
+			assert_eq(detail._notes.mouse_filter, Control.MOUSE_FILTER_PASS)
+			assert_true(card.get_global_rect().has_point(at), "the logged point is on the unit")
+			assert_false(
+				detail.get_global_rect().intersects(card.get_global_rect()),
+				"reading keeps the whole occupied rear slot visible"
+			)
+			motion.position = at
+			motion.global_position = at
+			viewport.push_input(motion, true)
+			for pressed: bool in [true, false]:
+				var event := InputEventMouseButton.new()
+				event.button_index = MOUSE_BUTTON_LEFT
+				event.pressed = pressed
+				event.position = at
+				event.global_position = at
+				viewport.push_input(event, true)
+			assert_false(received.is_empty(), "the unit receives the tap, without an edge search")
+			if not received.is_empty():
+				assert_eq(received[received.size() - 1], index)
+			received.clear()
+			await wait_process_frames(2)
