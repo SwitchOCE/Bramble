@@ -36,6 +36,7 @@ Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oc
 | 6.1.4 | PROPOSED | No eligible copies left: shop slot stays empty | Unknown | Accept |
 | 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
 | 7.3.5 | BRAMBLE | Golden doubles every effect number; thresholds unchanged | Per-card golden text | Decided 27 Oct (N6) |
+| 7.1.1 | PROPOSED ideation | The hand holds 4, so it fits beside the board at one unit size (owner, note 11c) | 10 (uncertain) | Decided 11 Nov (11c) |
 | 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |

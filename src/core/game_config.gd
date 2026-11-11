@@ -70,7 +70,7 @@ static func defaults() -> GameConfig:
 		"upgrade_discount_per_turn": 1,
 		"pool_copies_by_tier": [15, 15, 13, 11, 9, 7],
 		"shop_units_by_tier": [3, 4, 4, 5, 5, 6],
-		"hand_limit": 10,
+		"hand_limit": 4,
 		"damage_cap_by_turn": [5, 5, 5, 10, 10, 10, 10, 15],
 		"damage_cap_off_at_alive": 4,
 		"hero_damage_floor": 0,

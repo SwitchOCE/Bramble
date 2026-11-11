@@ -1,12 +1,12 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** Paused at your word. Your journey lab's layout B is reviewed and becomes the base layout; the plan to build it waits for you to say resume.
-- **Status:** paused (owner, 11 Nov)
-- **Last step done:** 11 Nov: step A2 merged; your journey lab reviewed against our build (`ui/loop1/journey-lab/README.md`).
-- **Next step:** on resume: fix B's failing test and merge B; then A3 (layout B's arrangement in the game) and A4 (hex units).
-- **Waiting on you:** say resume, and whether the build you play waits for layout B (about two days after resuming) or ships on 13 Nov as Bazaar Stack.
-- **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
+- **In short:** Building your journey lab's layout into the game: your board stays put, units are one size, and the hand holds 4. You play it when it lands.
+- **Status:** active
+- **Last step done:** 11 Nov: your journey lab reviewed against our build; its layout is now the base, and the hand holds 4 (note 11c).
+- **Next step:** merge recruit feel (B); then A3 (the lab's arrangement) and A4 (hex units) in parallel; then the build checks and the playtest note.
+- **Waiting on you:** nothing. Loop 1 ends when you play the build with the lab's layout.
+- **Scope:** UI, UX, look and feel. Rules change only where the UI needs it (note 11c).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`. **Nothing reaches `main` without the owner's say-so** (CLAUDE.md). Build 8 is the latest build; run 1's balance work is parked (`PARKED.md`).
