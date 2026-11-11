@@ -77,7 +77,9 @@ func setup(
 	pending_attack = Data.i(view, "pending_attack")
 	pending_health = Data.i(view, "pending_health")
 	pending_visible = (pending_attack != 0 or pending_health != 0)
-	pending_rect = Rect2(Vector2((size.x - 42.0) / 2.0, size.y * 0.27), Vector2(42, 38))
+	pending_rect = Rect2(
+		Vector2((size.x - 42.0) / 2.0, size.y * 0.27), Vector2(42, minf(38.0, size.y * 0.22))
+	)
 	marked_keywords.clear()
 	marked_statuses.clear()
 	for entry: Variant in Data.a(view, "statuses"):
@@ -302,7 +304,8 @@ func _draw_kisses() -> void:
 
 ## Folded waiting tag: the hourglass signals later, dots identify the queued stats.
 func _draw_pending() -> void:
-	var at: Vector2 = pending_rect.position
+	draw_set_transform(pending_rect.position, 0.0, pending_rect.size / Vector2(42, 38))
+	var at: Vector2 = Vector2.ZERO
 	var outline: PackedVector2Array = [
 		at, at + Vector2(32, 0), at + Vector2(42, 10), at + Vector2(42, 38), at + Vector2(0, 38), at
 	]
@@ -334,6 +337,8 @@ func _draw_pending() -> void:
 		draw_circle(at + Vector2(14, 30), 4, UiTheme.ACORN)
 	if pending_health != 0:
 		draw_circle(at + Vector2(28, 30), 4, UiTheme.HEALTH)
+
+	draw_set_transform(Vector2.ZERO)
 
 
 func _draw_counter() -> void:

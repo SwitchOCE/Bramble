@@ -323,6 +323,9 @@ func _refresh() -> void:
 	var spell: bool = is_spell(unit)
 	var golden: bool = Data.b(unit, "golden", false)
 	_art.texture = UiTheme.portrait_for(Data.s(unit, "portrait_id", Data.s(unit, "def_id")), tribes)
+	_art.portrait_offset = ArtFrame.PORTRAIT_OFFSETS.get(
+		Data.s(unit, "portrait_id", Data.s(unit, "def_id")), Vector2.ZERO
+	)
 	_art.gilded = false
 	_star.visible = false
 	_name_label.text = Data.s(unit, "name")
@@ -387,24 +390,27 @@ func _place_parts(_spell: bool) -> void:
 ## The badge widens for three digits; its height and the lower-corner anchors stay stable.
 func _place_beads() -> void:
 	var face: Rect2 = face_rect()
-	var bead: float = clampf(face.size.x * 0.34, 46.0, 76.0)
+	var bead: float = clampf(face.size.x * 0.34, 38.0, 76.0)
 	var stat_font: int = maxi(UiTheme.MIN_FONT, roundi(bead * 0.60))
 	var values: Array[int] = [Data.i(unit, "attack"), maxi(Data.i(unit, "health"), 0)]
 	var badges: Array[ShapeBadge] = [_attack_badge, _health_badge]
 	var labels: Array[Label] = [_attack_label, _health_label]
+	var widths: Array[float] = []
 	for i: int in 2:
 		var needed: float = StatNumbers.preferred_width(
 			values[i], labels[i].get_theme_font("font"), 84.0 * 0.8
 		)
-		var width: float = maxf(bead, minf(84.0, ceilf(needed / 0.8)))
-		var x: float = face.position.x if i == 0 else face.end.x - width
+		widths.append(maxf(bead, minf(84.0, ceilf(needed / 0.8))))
+	var stagger: bool = widths[0] + widths[1] + 4.0 > face.size.x
+	for i: int in 2:
+		var x: float = face.position.x if i == 0 else face.end.x - widths[i]
+		var y: float = face.position.y + face.size.y * 0.79 - bead * 0.5
+		# Tiny legacy scout boxes cannot hold two three-digit badges abreast at 31 px.
+		# Keep both honest and inside the caller's box by stepping Attack up one bead.
+		if stagger:
+			y = face.end.y - bead - 5.0 - (bead + 4.0 if i == 0 else 0.0)
 		_place_bead(
-			badges[i],
-			Vector2(x, face.position.y + face.size.y * 0.79 - bead * 0.5),
-			Vector2(width, bead),
-			labels[i],
-			values[i],
-			stat_font
+			badges[i], Vector2(x, y), Vector2(widths[i], bead), labels[i], values[i], stat_font
 		)
 
 
@@ -485,7 +491,7 @@ func _face() -> Color:
 
 ## Follow the painted contour's scale without making small cards' outlines too heavy.
 func _ink_width() -> int:
-	return clampi(roundi(LINE * card_size.x / SHOP_WIDTH), 2, LINE)
+	return clampi(roundi(LINE * face_rect().size.x / SHOP_WIDTH), 2, LINE)
 
 
 func _paint_hex(

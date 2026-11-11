@@ -10,6 +10,18 @@ const Icons := preload("res://src/ui/widgets/icons.gd")
 const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
 
 const CORNER_STEPS: int = 5
+## Fractions of the source image: only contact-sheet crops that lose a face or defining prop.
+const PORTRAIT_OFFSETS: Dictionary[String, Vector2] = {
+	"old_isegrim": Vector2(-0.09, -0.04),
+	"signor_ranocchio": Vector2(0.05, -0.12),
+	"madame_bufo": Vector2(-0.02, -0.06),
+	"gable_ratchet": Vector2(0.04, -0.06),
+	"grizel": Vector2(0.07, -0.02),
+	"grey_agnes": Vector2(-0.07, 0.0),
+	"mrs_jay": Vector2(-0.08, 0.0),
+	"sergeant_conkers": Vector2(0.07, 0.0),
+	"pennyworth_snail": Vector2(0.06, -0.06),
+}
 
 var hexagonal: bool = false
 var portrait_offset: Vector2 = Vector2.ZERO
@@ -58,6 +70,9 @@ func _draw() -> void:
 	)
 	draw_colored_polygon(points, fill)
 	if texture != null:
+		texture_repeat = (
+			CanvasItem.TEXTURE_REPEAT_DISABLED if hexagonal else CanvasItem.TEXTURE_REPEAT_ENABLED
+		)
 		var uvs: PackedVector2Array = _cover_uvs(points)
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, texture)
 	if frost_progress > 0.0:
@@ -101,7 +116,7 @@ func _cover_uvs(points: PackedVector2Array) -> PackedVector2Array:
 	if hexagonal:
 		origin.y = clampf(art.y * 0.30 - shown.y * 0.36, 0.0, art.y - shown.y)
 		origin += portrait_offset * art
-		origin = origin.clamp(Vector2.ZERO, art - shown)
+		origin = origin.clamp(Vector2(0.0, -art.y * 0.12), art - shown)
 	var uvs: PackedVector2Array = []
 	for point: Vector2 in points:
 		uvs.append((origin + point / fit) / art)

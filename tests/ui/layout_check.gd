@@ -61,6 +61,8 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 			if _same_hand_fan(cards[i], cards[j]):
 				continue
 			var shared: float = _shared_face_area(cards[i], cards[j])
+			if shared <= 0.0:
+				continue
 			if (
 				shared
 				> (
@@ -92,6 +94,8 @@ static func _polygon_area(points: PackedVector2Array) -> float:
 
 
 static func _shared_face_area(a: CardView, b: CardView) -> float:
+	if not a.get_global_rect().intersects(b.get_global_rect()):
+		return 0.0
 	var area: float = 0.0
 	for polygon: PackedVector2Array in Geometry2D.intersect_polygons(
 		_face_polygon(a), _face_polygon(b)

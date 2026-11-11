@@ -410,15 +410,22 @@ func _draw_nest(rect: Rect2, slot: int) -> void:
 	if not occupied:
 		if _egg == null:
 			_egg = load(EGG_ART)
-		var art_rect: Rect2 = rect.grow(-14.0)
-		art_rect.size.y -= EGG_BEAD * 0.32
-		draw_texture_rect(_egg, art_rect, false)
-	var radius: Vector2 = rect.size / 2.0 - Vector2(5, 5)
+		var art_rect: Rect2 = HexShape.fit(rect.grow(-14.0))
+		var points: PackedVector2Array = HexShape.polygon(art_rect)
+		var art: Vector2 = _egg.get_size()
+		var fit: float = maxf(art_rect.size.x / art.x, art_rect.size.y / art.y)
+		var shown: Vector2 = art_rect.size / fit
+		var origin: Vector2 = (art - shown) / 2.0
+		var uvs: PackedVector2Array = []
+		for point: Vector2 in points:
+			uvs.append((origin + (point - art_rect.position) / fit) / art)
+		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, _egg)
+	var frame: Rect2 = HexShape.fit(rect.grow(-5.0))
 	for twig: int in NEST_TWIGS:
-		var angle: float = TAU * twig / NEST_TWIGS
-		var along: Vector2 = Vector2(cos(angle), sin(angle))
-		var across: Vector2 = Vector2(-along.y, along.x) * (12.0 if twig % 2 == 0 else -12.0)
-		var mid: Vector2 = rect.get_center() + along * radius
+		var fraction: float = float(twig) / NEST_TWIGS
+		var mid: Vector2 = HexShape.perimeter_point(frame, fraction)
+		var next: Vector2 = HexShape.perimeter_point(frame, fraction + 0.005)
+		var across: Vector2 = (next - mid).normalized() * (12.0 if twig % 2 == 0 else -12.0)
 		draw_line(mid - across, mid + across, TWIG_DARK, 5.0 if occupied else 7.0)
 		draw_line(mid - across, mid + across, TWIG, 2.0 if occupied else 4.0)
 

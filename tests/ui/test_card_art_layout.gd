@@ -7,7 +7,7 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 
 func _assert_art(card: CardView, context: String) -> void:
-	var art: Control = card.get("_art")
+	var art: CardView.ArtFrame = card.get("_art")
 	var face: Rect2 = card.face_rect()
 	var share: float = art.size.x * art.size.y / face.get_area()
 	assert_gte(share, 0.70, context + ": portrait covers the hex inside its paper rim")

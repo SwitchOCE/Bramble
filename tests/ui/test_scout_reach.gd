@@ -103,7 +103,7 @@ func test_reach_flash_paints_above_an_occupied_card_and_leaves_no_mark() -> void
 	var pulse: Tween = board.get("_reach_tween")
 	pulse.pause()
 	pulse.custom_step(0.1)
-	var foreground: Panel = board.slots[5].get("_reach_face")
+	var foreground: Control = board.slots[5].get("_reach_face")
 	assert_true(foreground.visible, "the occupied target has an actual foreground cue")
 	assert_gt(foreground.z_index, card.z_index, "the portrait cannot cover the reach pulse")
 	assert_gt(foreground.modulate.a, 0.5)

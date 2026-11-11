@@ -22,6 +22,6 @@ func _draw() -> void:
 		return
 	var gap: float = minf(16.0, size.x / (period + 2.0))
 	for index: int in period:
-		var centre := Vector2(size.x * 0.5 + (index - (period - 1) * 0.5) * gap, size.y - 10.0)
+		var centre := Vector2(size.x * 0.5 + (index - (period - 1) * 0.5) * gap, size.y * 0.64)
 		draw_circle(centre, 5.0, UiTheme.INK)
 		draw_circle(centre, 3.0, UiTheme.ACORN if index < progress else UiTheme.CREAM)

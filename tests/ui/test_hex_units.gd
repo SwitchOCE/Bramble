@@ -95,3 +95,33 @@ func test_native_gui_picking_ignores_the_neighbours_cut_corner() -> void:
 	a.selected = true
 	var rim: Control = a.get("_focus_rim")
 	assert_gt(rim.z_index, b.z_index, "focus ink paints above the tucked neighbour")
+
+
+func test_three_digit_badges_widen_without_losing_exact_digits_or_the_font_floor() -> void:
+	var card := Card.new()
+	card.theme = preload("res://src/ui/ui_theme.gd").get_theme()
+	add_child_autofree(card)
+	card.show_unit({"def_id": "mrs_jay", "attack": 1, "health": 1}, Card.Mode.BOARD)
+	card.set_card_size(Vector2(176, 226))
+	var narrow: float = card.attack_bead().size.x
+	card.set_stats(999, 888, 888)
+	assert_gt(card.attack_bead().size.x, narrow)
+	for field: String in ["_attack_label", "_health_label"]:
+		var number: Label = card.get(field)
+		assert_eq(number.text, "999" if field == "_attack_label" else "888")
+		assert_gte(number.get_theme_font_size("font_size"), 31)
+		var badge: Card.ShapeBadge = number.get_parent()
+		assert_lte(
+			(
+				number
+				. get_theme_font("font")
+				. get_string_size(
+					number.text,
+					HORIZONTAL_ALIGNMENT_LEFT,
+					-1,
+					number.get_theme_font_size("font_size")
+				)
+				. x
+			),
+			badge.inner_width()
+		)

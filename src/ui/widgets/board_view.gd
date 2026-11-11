@@ -149,7 +149,9 @@ func tray_size() -> Vector2:
 
 ## About 29 px of tuck at a 226 px face, with room for ink and focus rims.
 func _row_stride() -> float:
-	return pocket.y - CardView.size_for(tile_width()).y * (29.0 / 226.0)
+	var tile: Vector2 = CardView.size_for(tile_width())
+	var height: float = HexShape.fit(Rect2(Vector2.ZERO, tile).grow(-6.0)).size.y
+	return height * (1.0 - 29.0 / 226.0)
 
 
 func _row_height(_front: bool) -> float:
