@@ -257,6 +257,9 @@ func _anchor_recruit(
 func place_recruit_overlay(
 	stage: Control, gold: Control, end_button: Control, rows: Dictionary
 ) -> void:
+	if stage.has_meta("arena_layout"):
+		_place_arena_overlay(stage, gold, end_button, rows)
+		return
 	var inverse: Transform2D = stage.get_global_transform().affine_inverse()
 	var top: Rect2 = inverse * gold.get_global_rect()
 	var end: Rect2 = inverse * end_button.get_global_rect()
@@ -283,6 +286,26 @@ func place_recruit_overlay(
 			)
 			rect = Rect2(start, Vector2(width, minf(rect.size.y, free.size.y)))
 	place_overlay(rect)
+
+
+## Keep B's content-fitted reader, selecting a side band from the new live arena rectangles.
+func _place_arena_overlay(
+	stage: Control, gold: Control, end_button: Control, rows: Dictionary
+) -> void:
+	var inverse: Transform2D = stage.get_global_transform().affine_inverse()
+	var protected: Array[Rect2] = [
+		(inverse * gold.get_global_rect()).grow(12),
+		(inverse * end_button.get_global_rect()).grow(12),
+	]
+	for zone: String in ["board", "shop", "scout", "lobby", "market_controls", read_zone]:
+		var row: Control = rows.get(zone)
+		if row != null and row.is_visible_in_tree():
+			protected.append((inverse * row.get_global_rect()).grow(12))
+	var free: Rect2 = _free_band(Rect2(Vector2(12, 12), stage.size - Vector2(24, 24)), protected)
+	if not free.has_area():
+		return
+	free.size.x = minf(free.size.x, 530.0)
+	place_overlay(free)
 
 
 static func _clear_of(rect: Rect2, protected: Array[Rect2]) -> bool:

@@ -1,5 +1,5 @@
 extends Control
-## The hero portrait, live Health and power share the bottom action bar.
+## The hero portrait, live Health and power sit together beside the formation.
 
 signal power_pressed
 signal portrait_pressed
@@ -82,7 +82,7 @@ func _layout() -> void:
 	if _art == null:
 		return
 	_art.radius = 62
-	_art.position = Vector2(0, -22)
+	_art.position = Vector2.ZERO
 	_art.size = Vector2(120, 120)
 	_tap.position = _art.position
 	_tap.size = _art.size

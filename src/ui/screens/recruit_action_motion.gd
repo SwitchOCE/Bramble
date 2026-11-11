@@ -57,7 +57,7 @@ func snapshot(ui: Layout) -> Dictionary:
 		"cards": cards,
 		"state": ui.state.duplicate(true),
 		"gold": _point(ui._gold.get("_big")),
-		"tier": _point(ui._tier_icon),
+		"tier": _point(ui._tier_label),
 	}
 
 

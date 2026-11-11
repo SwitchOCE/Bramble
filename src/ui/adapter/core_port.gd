@@ -52,6 +52,23 @@ func setup(game_config: GameConfig = null) -> void:
 				_field_library_path = args[index + 1]
 
 
+## Adapt the core's existing public last-fight snapshot for any standings seat.
+func scout_player(player_id: int) -> Dictionary:
+	var out: Dictionary = super(player_id)
+	if session == null or Data.d(out, "standing").is_empty():
+		return out
+	var snapshot: Dictionary = session._scout_of(player_id)
+	out["board"] = Data.a(snapshot, "views").duplicate(true)
+	out["slot_effects"] = Data.a(snapshot, "slots").duplicate(true)
+	out["nests"] = Data.a(snapshot, "nests").duplicate(true)
+	var hero_name: String = Data.s(Data.d(out, "standing"), "hero")
+	for hero: Dictionary in library.all_heroes():
+		if Data.s(hero, "name") == hero_name:
+			out["hero"] = hero.duplicate(true)
+			break
+	return out
+
+
 func new_game(game_seed: int) -> String:
 	recorded_actions.clear()
 	_fight_floor.clear()

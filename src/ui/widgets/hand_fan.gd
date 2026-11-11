@@ -1,5 +1,5 @@
 extends Control
-## Every reserve card has a real tile and its normal input handlers in one exposed row.
+## Every reserve card has a real tile and its normal input handlers in a two-by-two tray.
 
 const Data := preload("res://src/ui/view_data.gd")
 
@@ -54,11 +54,13 @@ func arrange() -> void:
 	if cards.is_empty() or size.x <= 0.0:
 		return
 	var tile: Vector2 = cards[0].card_size
-	var pitch: float = tile.x + 12.0
-	var left: float = maxf(0.0, (size.x - (cards.size() * pitch - 12.0)) / 2.0)
+	var columns: int = mini(2, cards.size())
+	var left: float = maxf(0.0, (size.x - columns * tile.x - (columns - 1) * 16.0) / 2.0)
 	for index: int in cards.size():
 		var card: CardView = cards[index]
-		var at := Vector2(left + index * pitch, FOCUS_LIFT)
+		var at := Vector2(
+			left + (index % 2) * (tile.x + 16.0), floorf(index / 2.0) * (tile.y + 12.0)
+		)
 		_homes[card] = at
 		card.position = at
 		card.rotation = 0.0

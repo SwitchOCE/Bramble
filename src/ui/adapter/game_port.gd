@@ -32,6 +32,24 @@ func is_over() -> bool:
 	return false
 
 
+## Read-only public scouting: the recorded board, never an opponent's current hand or recruit state.
+func scout_player(player_id: int) -> Dictionary:
+	var state: Dictionary = get_state()
+	var standing: Dictionary = {}
+	for entry: Dictionary in state.get("standings", []):
+		if CoreUtil.to_int(entry.get("player_id", -2)) == player_id:
+			standing = entry.duplicate(true)
+	var is_next: bool = player_id == CoreUtil.to_int(state.get("next_opponent_id", -2))
+	return {
+		"name": str(standing.get("name", standing.get("hero", "Opponent"))),
+		"standing": standing,
+		"board": state.get("next_opponent_last_board", []) if is_next else [],
+		"slot_effects": state.get("next_opponent_last_slot_effects", []) if is_next else [],
+		"nests": state.get("next_opponent_last_nests", []) if is_next else [],
+		"hero": state.get("next_opponent_hero", {}) if is_next else {},
+	}
+
+
 func buy(_shop_index: int) -> String:
 	return NOT_AVAILABLE
 

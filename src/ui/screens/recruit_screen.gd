@@ -39,6 +39,8 @@ var _drop_pocket: RecruitHeld.DropPocket
 var _released_card: Dictionary = {}
 var _drag_committed: bool = false
 var _reader_pinned: bool = false
+var _scout_player_id: int = -2
+var _scout_snapshot: Dictionary = {}
 
 
 func setup(game_port: GamePort) -> void:
@@ -64,13 +66,16 @@ func _init() -> void:
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
+	_stage.set_meta("arena_layout", true)
+	_bar_contents = _stage
 	_lobby = preload("res://src/ui/widgets/lobby_strip.gd").new()
-	_lobby.next_tapped.connect(toggle_scout)
+	_lobby.scout_requested.connect(scout_player)
 	_lobby.hero_requested.connect(_show_lobby_hero)
 	_stage.add_child(_lobby)
 	_tribes = preload("res://src/ui/widgets/tribe_bonuses.gd").new()
 	_stage.add_child(_tribes)
 	_build_shop(_wire)
+	_market_return.pressed.connect(toggle_scout)
 	_build_board(_wire, _on_hero_power, _on_hero_tapped)
 	_build_hand(_wire)
 	_away_tray.bird_requested.connect(_show_away_bird)
@@ -99,7 +104,14 @@ func _init() -> void:
 		_stage,
 		_gold,
 		_end_button,
-		{"shop": _shop_cards, "board": _board, "hand": _hand_zone, "scout": _scout, "lobby": _lobby}
+		{
+			"shop": _shop_cards,
+			"board": _board,
+			"hand": _hand_zone,
+			"scout": _scout,
+			"lobby": _lobby,
+			"market_controls": _market_controls
+		}
 	)
 	_motion = RecruitMotion.new()
 	_stage.add_child(_motion)
@@ -175,6 +187,8 @@ func toggle_scout() -> void:
 	_selected = {}
 	_detail.show_empty()
 	_scout.visible = not _scout.visible
+	if _scout.visible:
+		_scout_player_id = Data.i(state, "next_opponent_id", -2)
 	_scout_token.lit = _scout.visible
 	_who_token.visible = false
 	render()
@@ -182,19 +196,42 @@ func toggle_scout() -> void:
 		_show_opponent()
 
 
+func scout_player(player_id: int) -> void:
+	_reader_pinned = false
+	_hover_timer.stop()
+	_leave_timer.stop()
+	_selected = {}
+	_hover_view = {}
+	_detail.show_empty()
+	_scout_player_id = player_id
+	_scout.show()
+	render()
+
+
 func _refresh_scout() -> void:
-	if _scout.visible:
-		var units: Array = Data.a(state, "next_opponent_last_board")
-		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
-		var nests: Array = Data.a(state, "next_opponent_last_nests")
-		_scout.show_board(
-			RecruitView.next_name(state), units, slots, nests, Data.d(state, "next_opponent_hero")
-		)
-		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
+	if not _scout.visible:
+		return
+	_scout_snapshot = port.scout_player(_scout_player_id)
+	var units: Array = Data.a(_scout_snapshot, "board")
+	_scout.show_board(
+		Data.s(_scout_snapshot, "name", RecruitView.next_name(state)),
+		units,
+		Data.a(_scout_snapshot, "slot_effects"),
+		Data.a(_scout_snapshot, "nests"),
+		Data.d(_scout_snapshot, "hero")
+	)
+	_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
+	_layout()
 
 
 func _show_opponent() -> void:
-	var card: Dictionary = RecruitView.opponent_card(state)
+	var card: Dictionary = (
+		LobbyPlaque.reader_card(
+			Data.d(_scout_snapshot, "standing"), Data.d(_scout_snapshot, "hero")
+		)
+		if _scout.visible and not _scout_snapshot.is_empty()
+		else RecruitView.opponent_card(state)
+	)
 	if not card.is_empty():
 		_read_external(card)
 
@@ -226,35 +263,6 @@ func _show_lobby_hero(standing: Dictionary) -> void:
 	_read_external(LobbyPlaque.reader_card(standing, hero))
 
 
-func _render_shop(frozen: bool) -> void:
-	_clear(_shop_cards)
-	var shop: Array = Data.a(state, "shop")
-	var small: bool = _scout.visible
-	var width: float = MINI_TILE if small else _tile_width(shop.size())
-	var mode: CardView.Mode = CardView.Mode.MINI if small else CardView.Mode.SHOP
-	_shop_cards.columns = maxi(ceili(shop.size() / 2.0), 1) if small else maxi(shop.size(), 1)
-	_shop_cards.add_theme_constant_override(
-		"h_separation", MINI_GAP_X if small else int(_shop_gap())
-	)
-	_shop_cards.add_theme_constant_override("v_separation", MINI_GAP_Y)
-	_shelf.selling = false
-	_shop_cards.modulate = Color.WHITE
-	for i: int in shop.size():
-		var view: Dictionary = shop[i]
-		var card: CardView = _make_card(view, "shop", i, width, mode)
-		if not small:
-			card.set_card_size(Vector2(width, 245))
-		card.frost = frozen
-		if frozen and i == 0 and not small:
-			card.show_frost_tag(true)
-		if not RecruitView.triple_warning(state, view).is_empty():
-			card.outline = UiTheme.GILT
-		_shop_cards.add_child(card)
-	if small:
-		# A grid keeps the size it had for the bigger tiles until told otherwise.
-		_shop_cards.size = Vector2.ZERO
-
-
 func _render_board() -> void:
 	_board.clear()
 	var board: Array = Data.a(state, "board")
@@ -275,11 +283,11 @@ func _render_hand() -> void:
 	_hand_cards.clear_cards()
 	var hand: Array = Data.a(state, "hand")
 	_hand_zone.tooltip_text = Data.s(RecruitView.larder_card(state), "text")
-	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
+	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 4)]
 	var larder: int = Data.i(state, "larder")
 	if larder > 0:
 		_hand_count.text = "%dg · %s" % [larder, _hand_count.text]
-	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
+	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 4)
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
 	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP
@@ -346,7 +354,7 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 		"board":
 			items = Data.a(state, "board")
 		"scout":
-			items = Data.a(state, "next_opponent_last_board")
+			items = Data.a(_scout_snapshot, "board")
 	return Data.entry(items, index)
 
 
@@ -451,13 +459,6 @@ func _card_at(zone: String, index: int) -> CardView:
 		"scout":
 			return _scout.card_at(index)
 	return null
-
-
-func _highlight_bellies(view: Dictionary) -> Array[int]:
-	var bellies: Array[int] = RecruitHeld.bellies_for(Data.a(state, "board"), view)
-	for slot: int in bellies:
-		_board.cards[slot].outline = UiTheme.DROP_OK
-	return bellies
 
 
 func _try_swallow(from_zone: String, from_index: int, slot: int) -> bool:
@@ -668,7 +669,7 @@ func _drag_preview(zone: String, index: int) -> Control:
 	if zone == "board":
 		view = _projection.recruit_unit(Data.a(state, "board"), index)
 	card.show_unit(view, CardView.Mode.BOARD)
-	card.set_card_width(_board.tile_width())
+	card.set_card_size(ArenaGeometry.UNIT)
 	holder.hold(card, CardView.is_phone())
 	return holder
 

@@ -46,6 +46,9 @@ var _new_best: bool = false
 ## A replay uses the fight's pairing, not the next recruit screen's pairing.
 var _combat_round: int = -1
 var _combat_side_names: PackedStringArray = []
+var _combat_standings_round: int = -1
+var _combat_standings: Array = []
+var _combat_ghost_owner_id: int = -9
 
 
 func _init() -> void:
@@ -103,6 +106,9 @@ func start_game(chosen_seed: int = -1) -> void:
 	round_log.clear()
 	_combat_round = -1
 	_combat_side_names.clear()
+	_combat_standings_round = -1
+	_combat_standings.clear()
+	_combat_ghost_owner_id = -9
 	_recorded = false
 	_new_best = false
 	var reason: String = port.new_game(game_seed)
@@ -191,6 +197,7 @@ func show_game_combat() -> void:
 	var start: Dictionary = Events.start(events)
 	var state: Dictionary = port.get_state()
 	var names: PackedStringArray = _game_combat_names(combat, state)
+	var standings: Array = _game_combat_standings(combat, state, start)
 	var me: int = player_side(start, Data.i(state, "player_id", 0))
 	if me < 0:
 		push_error("Cannot show a fight without the player in combat_start.player_ids")
@@ -206,10 +213,8 @@ func show_game_combat() -> void:
 		note_round(combat, me)
 	var title: String = "Turn %d" % Data.i(combat, "round", 0)
 	var ids: Array = Data.a(start, "player_ids")
-	var health: int = -1
-	if ids.size() > 1 - me:
-		health = _health_before(state, combat, Data.as_int(ids[1 - me]), me)
 	var screen: CombatScreen = CombatScreen.new()
+	screen.scout_provider = port.scout_player
 	screen.finished.connect(show_recruit)
 	screen.guide_requested.connect(open_guide)
 	screen.settings_requested.connect(open_settings)
@@ -217,15 +222,52 @@ func show_game_combat() -> void:
 	_swap(screen)
 	for side: int in 2:
 		var id: int = Data.as_int(ids[side]) if ids.size() > side else -1
-		for entry: Variant in Data.a(state, "standings"):
+		for entry: Variant in standings:
 			var standing: Dictionary = entry
-			if Data.i(standing, "player_id", -2) == id:
+			var ghost: bool = (
+				id == -1 and Data.i(standing, "player_id", -2) == _combat_ghost_owner_id
+			)
+			if Data.i(standing, "player_id", -2) == id or ghost:
 				var hero_name: String = Data.s(standing, "hero")
 				screen.hero_views[side] = _hero_named(hero_name)
 				if side == me:
 					screen.hero_views[side] = Data.d(state, "hero")
-				screen.hero_health[side] = _health_before(state, combat, id, 1 - side)
-	screen.setup(combat, names, me, title, health)
+				screen.hero_health[side] = -1 if ghost else Data.i(standing, "health", -1)
+	screen.set_standings(standings, Data.i(combat, "opponent_id", -2), _combat_ghost_owner_id)
+	screen.setup(combat, names, me, title, screen.hero_health[1 - me])
+
+
+## Core has resolved every fight before playback opens. Keep the recruit rail's snapshot, including
+## players who are eliminated by this round, rather than showing future damage beside the fight.
+func _game_combat_standings(combat: Dictionary, state: Dictionary, start: Dictionary) -> Array:
+	var round_number: int = Data.i(combat, "round", -1)
+	if _combat_standings_round == round_number and not _combat_standings.is_empty():
+		return _combat_standings.duplicate(true)
+	var source: Dictionary = state
+	var before_fight: bool = false
+	if current is RecruitScreen:
+		var recruit_state: Dictionary = (current as RecruitScreen).state
+		if Data.i(recruit_state, "round", -2) == round_number:
+			source = recruit_state
+			before_fight = true
+	_combat_standings = Data.a(source, "standings").duplicate(true)
+	_combat_standings_round = round_number
+	_combat_ghost_owner_id = Data.i(RecruitView.ghost_owner(source), "player_id", -9)
+	if not before_fight:
+		var ids: Array = Data.a(start, "player_ids")
+		var health_before: Array = Data.a(combat, "hero_health_before")
+		for side: int in mini(2, ids.size()):
+			var player_id: int = Data.as_int(ids[side])
+			for standing: Dictionary in _combat_standings:
+				if Data.i(standing, "player_id", -2) != player_id:
+					continue
+				standing["health"] = (
+					Data.as_int(health_before[side])
+					if health_before.size() > side
+					else _health_before(state, combat, player_id, 1 - side)
+				)
+				standing["alive"] = Data.i(standing, "health") > 0
+	return _combat_standings.duplicate(true)
 
 
 func _game_combat_names(combat: Dictionary, state: Dictionary) -> PackedStringArray:

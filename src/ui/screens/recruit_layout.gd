@@ -12,7 +12,7 @@ const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
-const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const BoardView := preload("res://src/ui/screens/arena_board.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const AwayTray := preload("res://src/ui/widgets/away_tray.gd")
 const HandFan := preload("res://src/ui/widgets/hand_fan.gd")
@@ -35,6 +35,8 @@ const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
 const LaneProjection := preload("res://src/ui/lane_projection.gd")
 
+const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
+
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
 const BOARD_POCKET: float = 209.0
@@ -43,7 +45,7 @@ const TILE_GAP: float = 44.0
 const LEAF_H: float = 128.0
 const TOAST_SECONDS: float = 3.5
 ## The full hand is always represented by real tiles.
-const HAND_SHOWN: int = 10
+const HAND_SHOWN: int = 4
 const HOVER_SECONDS: float = 0.2
 ## How long a hovered card's panel waits for the pointer to reach it before closing.
 const LEAVE_SECONDS: float = 0.3
@@ -90,173 +92,196 @@ var _dev: DevPanel
 var _scout: ScoutPanel
 var _scout_token: TokenButton
 var _who_token: TokenButton
+var _market_controls: Control
+var _market_return: LeafButton
+var _market_title: Label
 
 
 func _layout() -> void:
 	if _stage == null or size.x < 10.0:
 		return
-	var w: float = size.x
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
-	_stage.size = Vector2(w, CANVAS_H)
-	var main_w: float = _play_width()
-	var left: float = (w - main_w) / 2.0
-	var center: float = left + main_w / 2.0
-	_board.configure("board", 222.0, true)
-	_board.position = Vector2(center - _board.tray_size().x / 2.0, 302)
-	_board.size = _board.tray_size()
-	_lobby.position = Vector2(8, 40)
-	_lobby.size = Vector2(122, 1032)
+	_stage.size = Vector2(size.x, CANVAS_H)
+	if _bar_contents != null:
+		_bar_contents.scale = Vector2.ONE
+	var market: Rect2 = ArenaGeometry.market_rect(_stage.size)
+	ArenaGeometry.size_board(_board, "board", true)
+	ArenaGeometry.place_board(_board, _stage.size)
+	var rail: Rect2 = ArenaGeometry.lobby_rect(_stage.size)
+	_lobby.position = rail.position
+	_lobby.size = rail.size
 	_lobby.visible = not _scout.visible
-	_menu_token.position = Vector2(w - 142, 12)
+	_menu_token.position = Vector2(16, 112)
 	_menu_token.size = Vector2(122, 131)
-	_scout_token.position = Vector2(20, 24)
-	_scout_token.size = Vector2(122, 131)
-	_scout_token.visible = _scout.visible
-	_who_token.visible = false
-	_shelf.position = Vector2(left, 276)
-	_shelf.size = Vector2(main_w, 45)
-	_shop_zone.position = Vector2(left, 44)
-	_shop_zone.size = Vector2(main_w, 266)
+	_scout_token.hide()
+	_who_token.hide()
+	_shop_zone.position = market.position
+	_shop_zone.size = market.size
+	_shop_zone.visible = not _scout.visible
 	_shop_cards.add_theme_constant_override("h_separation", int(_shop_gap()))
 	var offers: int = _shop_cards.get_child_count()
-	var shop_width: float = offers * _tile_width(offers) + maxf(0, offers - 1) * _shop_gap()
-	_shop_cards.scale = Vector2.ONE * minf(1.0, (main_w - 56.0) / maxf(shop_width, 1.0))
-	_shop_cards.position = Vector2(center - shop_width * _shop_cards.scale.x / 2.0, 54)
-	_shop_cards.size = Vector2(shop_width, 245)
-	_shelf.position.x = center - (shop_width + 56) / 2.0
-	_shelf.size.x = shop_width + 56
+	var shop_width: float = offers * ArenaGeometry.UNIT.x + maxf(0, offers - 1) * _shop_gap()
+	_shop_cards.scale = Vector2.ONE
+	_shop_cards.position = Vector2((size.x - shop_width) / 2.0, 142)
+	_shop_cards.size = Vector2(shop_width, ArenaGeometry.UNIT.y)
 	_shop_cards.visible = not _scout.visible
-	_shelf.visible = not _scout.visible
-	_shop_zone.visible = not _scout.visible
 	_shop_scroll.hide()
+	_shelf.hide()
 	for child: Node in _shop_cards.get_children():
 		var card: CardView = child as CardView
 		if card != null:
-			card.set_card_size(Vector2(_tile_width(offers), 245))
-	_layout_hand(left)
-	_layout_hero(left + maxf(main_w, 1620.0) / 2.0)
-	_layout_right(left, w)
-	_fit_bar(left, main_w)
-	_dev_token.position = Vector2(w - 118, 138)
+			card.set_card_size(ArenaGeometry.UNIT)
+	_layout_hand(0)
+	_layout_hero(0)
+	_layout_right(market.position.x, size.x)
+	_dev_token.position = Vector2(16, 250)
 	_dev_token.size = Vector2(122, 131)
-	_dev.position = Vector2(left, 112)
-	_toast.position = Vector2(center - 250, 8)
+	_dev.position = Vector2(148, 112)
+	_toast.position = Vector2(size.x / 2.0 - 250, 530)
 	_size_toast()
 	_lanes.hide()
 	if _scout.visible:
-		_layout_scouting(left, left + main_w)
-	_layout_frame(left, main_w)
+		_layout_scouting(0, 0)
+	_layout_frame(market.position.x, market.size.x)
 
 
-## Scouting replaces merchant and reserve with opposing formations on the same surface.
-func _layout_scouting(left: float, right_x: float) -> void:
-	var center: float = (left + right_x) / 2.0
+## Only the top zone swaps. The hand, own formation, hero and purchase context stay anchored.
+func _layout_scouting(_left: float, _right_x: float) -> void:
 	var theirs: BoardView = _scout.get("_board")
-	theirs.compact = true
-	_board.configure("board", 190.0, true)
-	theirs.configure("scout", 190.0, false)
-	_scout.position = Vector2(center - theirs.tray_size().x / 2.0, 52)
-	_scout.size = theirs.tray_size()
+	ArenaGeometry.size_board(theirs, "scout", false)
+	var frame: Rect2 = ArenaGeometry.board_rect(_stage.size, true)
+	_scout.position = frame.position + (frame.size - theirs.size) / 2.0
+	_scout.size = theirs.size
 	_scout.heading_offset = 0.0
 	_scout.call("_layout")
-	_board.position = Vector2(center - _board.tray_size().x / 2.0, 477)
-	_hand_zone.hide()
-	_away_tray.hide()
 
 
-## The smallest comfortable tap target at this window's shape, in canvas units.
 func tap_size() -> float:
-	var view: Vector2 = get_viewport_rect().size if is_inside_tree() else size
-	return 122.0 if view.x / maxf(view.y, 1.0) > 2.0 else 104.0
+	return 122.0
 
 
-func _layout_hero(center: float) -> void:
-	_hero.position = Vector2(center - 64.0, 958)
-	_hero.size = Vector2(260, 122)
+func _layout_hero(_center: float) -> void:
+	var rect: Rect2 = ArenaGeometry.hero_rect(_stage.size)
+	_hero.position = rect.position
+	_hero.size = rect.size
 	var health: int = 0
 	var armor: int = 0
 	for entry: Dictionary in Data.a(state, "standings"):
 		if Data.b(entry, "is_human"):
 			health = Data.i(entry, "health")
 			armor = Data.i(entry, "armor")
-	_hero.call("show_health", health, armor)
+	_hero.show_health(health, armor)
 
 
-func _layout_hand(x: float) -> void:
-	var width: float = _play_width()
+func _layout_hand(_x: float) -> void:
+	var rect: Rect2 = ArenaGeometry.hand_rect(_stage.size)
 	_hand_zone.show()
-	_hand_zone.position = Vector2(x + 18, 760)
-	_hand_zone.size = Vector2(width - 36, 174)
+	_hand_zone.position = rect.position
+	_hand_zone.size = rect.size
 	_hand_panel.hide()
-	_hand_count.position = Vector2(width - 148, -32)
-	_hand_count.size = Vector2(100, 44)
+	_hand_count.position = Vector2(16, 0)
+	_hand_count.size = Vector2(rect.size.x - 32, 40)
 	_hand_count.add_theme_color_override("font_color", UiTheme.CREAM)
 	_hand_count.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_hand_count.add_theme_constant_override("outline_size", 5)
-	_hand_cards.position = Vector2.ZERO
-	_hand_cards.size = _hand_zone.size
+	_hand_cards.position = Vector2(12, 38)
+	_hand_cards.size = Vector2(rect.size.x - 24, 472)
+	for card: CardView in _hand_cards.cards:
+		card.set_card_size(ArenaGeometry.UNIT)
 	_hand_cards.arrange()
-	_away_tray.position = Vector2(x + 26, 618)
-	var away_width: float = minf(340, maxf(122, _board.position.x - x - 52))
-	_away_tray.size = Vector2(away_width, _away_tray.row_height())
+	_away_tray.position = Vector2(ArenaGeometry.board_rect(_stage.size).end.x + 36, 788)
+	_away_tray.size = Vector2(270, _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
 func _layout_right(x: float, _w: float) -> void:
-	var bar_width: float = maxf(_play_width(), 1620.0)
-	var center: float = x + bar_width / 2.0
-	_gold.position = Vector2(x + 10, 984)
-	_gold.size = Vector2(205, 80)
-	_round_label.position = Vector2(x + 26, 944)
-	_round_label.size = Vector2(160, 42)
+	var board: Rect2 = ArenaGeometry.board_rect(_stage.size)
+	_gold.position = Vector2(x + ArenaGeometry.MARKET.x - 246, 30)
+	_gold.size = Vector2(222, 80)
+	_round_label.position = Vector2(24, 28)
+	_round_label.size = Vector2(230, 60)
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_round_label.add_theme_color_override("font_color", UiTheme.CREAM)
 	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_round_label.add_theme_constant_override("outline_size", 5)
+	_market_title.position = Vector2(x + 32, 28)
+	_market_title.size = Vector2(520, 68)
+	_market_title.visible = not _scout.visible
+	_market_controls.position = Vector2(size.x / 2.0 - 350, 394)
+	_market_controls.size = Vector2(700, 122)
 	_tier_button.compact_cost()
-	_tier_button.position = Vector2(x + 160, 944)
-	_tier_button.size = Vector2(200, 122)
-	_tier_icon.position = _tier_button.position + Vector2(77, 38)
-	_tier_icon.size = Vector2(46, 46)
+	_tier_button.position = _market_controls.position
+	_tier_button.size = Vector2(220, 122)
 	_tier_icon.hide()
 	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_refresh_button.compact_cost()
-	_refresh_button.position = Vector2(x + 370, 944)
-	_refresh_button.size = Vector2(122, 122)
-	_freeze_button.position = Vector2(x + 502, 944)
-	_freeze_button.size = Vector2(122, 122)
+	_refresh_button.position = _market_controls.position + Vector2(236, 0)
+	_refresh_button.size = Vector2(140, 122)
+	_freeze_button.position = _market_controls.position + Vector2(392, 0)
+	_freeze_button.size = Vector2(140, 122)
 	_freeze_button.set_pressed_no_signal(Data.b(state, "frozen"))
 	_kin_button.visible = Data.b(state, "ask_for_kin_enabled")
-	_kin_button.position = Vector2(x + 630, 944)
-	_kin_button.size = Vector2(122, 122)
+	_kin_button.position = _market_controls.position + Vector2(548, 0)
+	_kin_button.size = Vector2(140, 122)
 	_kin_button.compact_cost()
-	_end_button.position = Vector2(x + bar_width - 280, 944)
-	_end_button.size = Vector2(280, 122)
+	_end_button.position = Vector2(board.end.x + 36, 936)
+	_end_button.size = Vector2(270, 122)
 	_end_button.set_label_size(UiTheme.FONT_LEAF)
-	_tribes.position = Vector2(center + 208, 967)
-	_tribes.size = Vector2(344, 88)
-	_tribes.visible = not _tribes.tribes.is_empty()
+	_tribes.position = Vector2(board.end.x + 36, 554)
+	_tribes.size = Vector2(312, 88)
+	_tribes.visible = not _tribes.chips.is_empty()
+	_market_return.position = Vector2(x + 24, 30)
+	_market_return.size = Vector2(270, 122)
+	_market_return.visible = _scout.visible
+	if _scout.visible:
+		var side_x: float = ArenaGeometry.hand_rect(_stage.size).position.x
+		_market_return.position = Vector2(side_x, 24)
+		_market_controls.position = Vector2(side_x, 160)
+		_market_controls.size = Vector2(392, 260)
+		_tier_button.position = Vector2(side_x, 160)
+		_refresh_button.position = Vector2(side_x + 236, 160)
+		_freeze_button.position = Vector2(side_x, 296)
+		_kin_button.position = Vector2(side_x + 156, 296)
+		_gold.position = Vector2(side_x, 440)
 	_gold.show()
 
 
-## Every offer at full width, or less when a high tier's six offers need the room.
+func _render_shop(frozen: bool) -> void:
+	call("_clear", _shop_cards)
+	var shop: Array = Data.a(state, "shop")
+	_shop_cards.columns = maxi(shop.size(), 1)
+	_shop_cards.add_theme_constant_override("h_separation", int(_shop_gap()))
+	_shop_cards.add_theme_constant_override("v_separation", 16)
+	_shelf.selling = false
+	_shop_cards.modulate = Color.WHITE
+	for index: int in shop.size():
+		var view: Dictionary = shop[index]
+		var card: CardView = call(
+			"_make_card", view, "shop", index, ArenaGeometry.UNIT.x, CardView.Mode.SHOP
+		)
+		card.set_card_size(ArenaGeometry.UNIT)
+		card.frost = frozen
+		if frozen and index == 0:
+			card.show_frost_tag(true)
+		if not RecruitView.triple_warning(state, view).is_empty():
+			card.outline = UiTheme.GILT
+		_shop_cards.add_child(card)
+
+
 func _shop_width() -> float:
-	var offers: int = maxi(Data.i(state, "shop_size", 4), 4)
-	return offers * CardView.SHOP_WIDTH + (offers - 1) * TILE_GAP + 60.0
+	return ArenaGeometry.MARKET.x
 
 
 func _shop_gap() -> float:
-	return 20.0
+	return 16.0
 
 
-func _tile_width(offers: int) -> float:
-	var room: float = _play_width() - 56.0 - maxf(0, offers - 1) * _shop_gap()
-	return clampf(floorf(room / maxf(offers, 1.0)), 180.0, 230.0)
+func _tile_width(_offers: int) -> float:
+	return ArenaGeometry.UNIT.x
 
 
 func _hand_card_size(_count: int) -> Vector2:
-	var width: float = floorf((_play_width() - 36.0 - 9.0 * 12.0) / 10.0)
-	return Vector2(width, 152.0)
+	return ArenaGeometry.UNIT
 
 
 func _size_toast() -> void:
@@ -267,6 +292,13 @@ func _size_toast() -> void:
 
 
 # --- what a selection lights up ---------------------------------------------------------------
+
+
+func _highlight_bellies(view: Dictionary) -> Array[int]:
+	var bellies: Array[int] = RecruitHeld.bellies_for(Data.a(state, "board"), view)
+	for slot: int in bellies:
+		_board.cards[slot].outline = UiTheme.DROP_OK
+	return bellies
 
 
 func _highlight_empty_slots() -> void:
@@ -412,6 +444,15 @@ func _build_shop(wire: Callable) -> void:
 	_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_shop_scroll.add_theme_stylebox_override("panel", UiTheme.slip_box(Color.TRANSPARENT, 0, 16))
 	_stage.add_child(_shop_scroll)
+	_market_controls = Control.new()
+	_market_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.add_child(_market_controls)
+	_market_title = UiTheme.head("Market", UiTheme.FONT_BODY + 4)
+	_market_title.add_theme_color_override("font_color", UiTheme.CREAM)
+	_stage.add_child(_market_title)
+	_market_return = LeafButton.new()
+	_market_return.set_face("Market", "close")
+	_stage.add_child(_market_return)
 	_shop_cards = GridContainer.new()
 	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.add_child(_shop_cards)
@@ -472,63 +513,23 @@ func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable)
 
 
 func _play_width() -> float:
-	return minf(size.x - 400.0, 1900.0) if CardView.is_phone() else floorf(size.x * 0.74) - 32.0
+	return ArenaGeometry.MARKET.x
 
 
-## Scale the shared bar parent so its widgets keep their ordinary animation scales.
-func _fit_bar(left: float, width: float) -> void:
-	var factor: float = minf(1.0, width / 1620.0)
-	var origin := Vector2(left, 944)
-	if _bar_contents == null:
-		_bar_contents = Control.new()
-		_bar_contents.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_stage.add_child(_bar_contents)
-	_bar_contents.position = origin
-	_bar_contents.size = Vector2(maxf(width, 1620.0), 136)
-	_bar_contents.scale = Vector2.ONE * factor
-	for widget: Control in [
-		_gold,
-		_round_label,
-		_tier_icon,
-		_tier_button,
-		_refresh_button,
-		_freeze_button,
-		_kin_button,
-		_end_button,
-		_hero,
-		_tribes
-	]:
-		if widget.get_parent() != _bar_contents:
-			widget.reparent(_bar_contents, false)
-		widget.position -= origin
-	_fit_bar_text(_bar_contents, ceili(UiTheme.MIN_FONT / factor))
-
-
-## Keep the shared minimum in canvas units, including the bar's parent transform.
-func _fit_bar_text(node: Node, minimum: int) -> void:
-	var label: Label = node as Label
-	if label != null:
-		if not label.has_meta("bar_authored_font"):
-			label.set_meta("bar_authored_font", label.get_theme_font_size("font_size"))
-		var authored: int = label.get_meta("bar_authored_font")
-		label.add_theme_font_size_override("font_size", maxi(authored, minimum))
-	for child: Node in node.get_children():
-		_fit_bar_text(child, minimum)
-
-
-func _layout_frame(left: float, width: float) -> void:
+func _layout_frame(_left: float, _width: float) -> void:
 	_frame.size = _stage.size
 	_frame.clear_regions()
-	if _lobby.visible:
-		_frame.add_region(Rect2(0, 38, 142, 1034), Surface.Finish.BARK)
-	_frame.add_region(Rect2(left - 16, 44, width + 32, 1024), Surface.Finish.BARK, 10)
+	_frame.add_region(ArenaGeometry.board_rect(_stage.size), Surface.Finish.MOSS)
 	if _scout.visible:
-		_frame.add_region(Rect2(left, 52, width, 398), Surface.Finish.MOSS)
-		_frame.add_region(Rect2(left, 468, width, 466), Surface.Finish.MOSS)
+		_frame.add_region(ArenaGeometry.board_rect(_stage.size, true), Surface.Finish.MOSS)
+		_frame.add_region(
+			Rect2(ArenaGeometry.hand_rect(_stage.size).position.x - 12, 16, 416, 510),
+			Surface.Finish.STALL
+		)
 	else:
-		_frame.add_region(Rect2(left, 52, width, 250), Surface.Finish.STALL)
-		_frame.add_region(Rect2(left, 310, width, 438), Surface.Finish.MOSS)
-		_frame.add_region(Rect2(left, 758, width, 176), Surface.Finish.CLOTH)
-		if _hand_count.visible:
-			_frame.add_region(Rect2(left + width - 180, 726, 160, 64), Surface.Finish.CLOTH)
-	_frame.add_region(Rect2(left - 2, 944, width + 4, 120), Surface.Finish.BAR)
+		_frame.add_region(ArenaGeometry.market_rect(_stage.size), Surface.Finish.STALL)
+	if not _hand_cards.cards.is_empty():
+		_frame.add_region(ArenaGeometry.hand_rect(_stage.size), Surface.Finish.CLOTH)
+	_frame.add_region(Rect2(_hero.position - Vector2(12, 8), Vector2(300, 140)), Surface.Finish.BAR)
+	if _lobby.visible:
+		_frame.add_region(ArenaGeometry.lobby_rect(_stage.size), Surface.Finish.BARK)

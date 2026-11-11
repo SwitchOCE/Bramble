@@ -23,7 +23,7 @@ static func populate(ui: RecruitLayout) -> bool:
 		ui._tier_button.set_face("", "tier", Data.as_int(tier_cost))
 		ui._tier_button.disabled = false
 	var refresh_cost: int = Data.i(state, "refresh_cost", 1)
-	ui._refresh_button.set_face("", "refresh", refresh_cost if refresh_cost != 1 else -1)
+	ui._refresh_button.set_face("", "refresh", refresh_cost)
 	ui._kin_button.set_face("", "refresh", 2)
 	ui._kin_button.tooltip_text = (
 		"2 gold, once a turn: refresh with at least two units sharing your tribes. "

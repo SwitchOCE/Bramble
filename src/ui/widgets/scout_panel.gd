@@ -7,9 +7,11 @@ signal hero_pressed
 ## once. Their slots are tap targets the recruit screen wires up: the full text lands in the card
 ## panel, where every other full text lands.
 
+const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
+
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
-const BoardView := preload("res://src/ui/widgets/board_view.gd")
+const BoardView := preload("res://src/ui/screens/arena_board.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
@@ -39,7 +41,8 @@ func _init() -> void:
 	_board = BoardView.new()
 	_board.configure("scout", POCKET, false)
 	add_child(_board)
-	_title = UiTheme.head("", UiTheme.FONT_BODY + 2)
+	_title = UiTheme.head("", UiTheme.FONT_SMALL)
+	_title.add_theme_color_override("font_color", UiTheme.CREAM)
 	_title.clip_text = true
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.set_meta("ellipsis_ok", true)
@@ -123,10 +126,12 @@ func show_board(
 			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			card.set_meta("overlap_checked", true)
 			_board.place_card(card, slot)
+			card.set_card_size(ArenaGeometry.UNIT)
 			card.turns_shown = RecruitView.tile_slip(view)
 			unit_count += 1
 	_empty.visible = false
-	_title.visible = false
+	_title.text = _opponent
+	_title.visible = true
 	show_hero(hero)
 	var marks: Array = RecruitView.slot_marks({"slot_effects": slot_effects})
 	_board.set_marks(RecruitHeld.with_their_nests(marks, nests))
@@ -167,12 +172,11 @@ func pulse_reach(own_board: BoardView, bindings: Dictionary, source_slot: int) -
 func _layout() -> void:
 	var tray: Vector2 = _board.tray_size()
 	_board.position = Vector2.ZERO
-	var title_x: float = tray.x + 16.0
-	_title.position = Vector2(title_x, heading_offset)
-	_title.size = Vector2(maxf(size.x - title_x, 10.0), TITLE_H)
+	_title.position = Vector2(tray.x + 36, 70)
+	_title.size = Vector2(270.0, TITLE_H)
 	_empty.position = Vector2(50, tray.y / 2.0 - 70.0)
 	_empty.size = Vector2(tray.x - 100.0, 140)
 	var side: float = 122.0 if CardView.is_phone() else 90.0
-	_hero.position = Vector2(tray.x - side * 0.7, -side * 0.1)
+	_hero.position = Vector2(tray.x + 36, 150)
 	_hero.size = Vector2(side, side)
 	_hero_art.size = _hero.size

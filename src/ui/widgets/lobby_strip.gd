@@ -1,10 +1,9 @@
 extends Control
-## The lobby across the top (.wr-lobby): one carved plaque per player with a tier knot, name and
-## rosehip health. You are moss, the next opponent walnut with a red rim and Next prefix, and anyone
-## out is struck through on a dashed, pale plaque. Reads SPEC 6.4 standings and next_opponent_id.
+## A slim, centred rail of portraits. Each whole seat opens its player's recorded board.
 
 ## The next opponent's plaque was tapped.
 signal next_tapped
+signal scout_requested(player_id: int)
 signal hero_requested(standing: Dictionary)
 
 const Data := preload("res://src/ui/view_data.gd")
@@ -15,6 +14,7 @@ const HEIGHT: float = 122.0
 
 ## Each plaque's rectangle, for tests.
 var plaques: Array[Control] = []
+var selected_player_id: int = -9
 
 
 func _init() -> void:
@@ -46,9 +46,11 @@ func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int
 		add_child(plaque)
 		plaques.append(plaque)
 		plaque.next_requested.connect(func() -> void: next_tapped.emit())
+		plaque.scout_requested.connect(func(id: int) -> void: scout_requested.emit(id))
 		plaque.hero_requested.connect(
 			func(details: Dictionary) -> void: hero_requested.emit(details)
 		)
+		plaque.selected = player_id == selected_player_id
 	_place()
 
 	if not is_inside_tree() or preload("res://src/ui/settings.gd").reduce_motion:
@@ -76,13 +78,22 @@ func _place() -> void:
 		return
 	var ordered: Array[Control] = plaques.duplicate()
 	ordered.sort_custom(_ahead)
-	var y: float = 0.0
+	var available: float = size.y if size.y > 0.0 else 1000.0
+	var height: float = minf(122.0, (available - 8.0 * (ordered.size() - 1)) / ordered.size())
+	var used: float = height * ordered.size() + 8.0 * (ordered.size() - 1)
+	var y: float = (available - used) / 2.0
 	for plaque: Control in ordered:
 		# Eliminated faces shrink inside the same easy-to-tap, non-overlapping seat.
-		var height: float = 122.0
 		plaque.position = Vector2(0, y)
-		plaque.size = Vector2(122, height)
+		plaque.size = Vector2(size.x if size.x > 0.0 else 108.0, height)
 		y += height + 8.0
+
+
+func select_player(player_id: int = -9) -> void:
+	selected_player_id = player_id
+	for plaque: Control in plaques:
+		var standing: Dictionary = plaque.get("_standing")
+		plaque.set("selected", Data.i(standing, "player_id", -1) == player_id)
 
 
 func _ahead(a: Control, b: Control) -> bool:
