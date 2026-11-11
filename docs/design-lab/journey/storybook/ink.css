@@ -29,7 +29,7 @@ h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100;
 .page.left .folio { left: 30px; } .page.right .folio { right: 30px; }
 
 /* ---- Units: inked hexes, points left and right, round stats on top ----------------- */
-:root { --hex: var(--hex-h); }
+:root { --hex: var(--hex-h); --hex-clip: var(--hex-clip-h); }
 .card { position: relative; width: 170px; height: 218px; flex: none; cursor: pointer; transition: transform .18s; --hx-edge: var(--ink); --hx-bw: 3px;
   filter: drop-shadow(4px 5px 0 rgba(43,35,32,.28)); transform: rotate(var(--rot, 0deg)); }
 .card:hover { transform: translateY(-6px); z-index: 10; }

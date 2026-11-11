@@ -11,6 +11,7 @@
     details: P.get('details') || 'both',
     flip: P.get('flip') || '',
     layout: P.get('layout') || 'b', // the owner's pick (11 Nov)
+    flipped: new Set(), // uids of units turned over to show their rules
   };
   let G, fightRun;
 
@@ -30,13 +31,13 @@
     const t = J.TRIBE[u.tribe] || J.TRIBE.Neutral;
     const icon = u.trig ? '<span class="ico bolt" title="Trigger">' + BOLT + '</span>' : (u.kw && u.kw.length) || (u.text && !/^No text/.test(u.text)) ? '<span class="ico aura" title="Ability">' + AURA + '</span>' : '';
     const act = where === 'shop' ? 'Buy · 3' : where === 'board' ? 'Sell · 1' : where === 'hand' ? 'Play' : '';
-    return `<div class="card ${u.golden ? 'golden' : ''} ${u.frozen ? 'frozen' : ''} ${S.flip === u.id ? 'flipped' : ''}" data-uid="${u.uid}" data-where="${where}" style="--tc:${t.c}">
+    return `<div class="card ${u.golden ? 'golden' : ''} ${u.frozen ? 'frozen' : ''} ${S.flip === u.id || S.flipped.has(u.uid) ? 'flipped' : ''}" data-uid="${u.uid}" data-where="${where}" style="--tc:${t.c}">
       <div class="flip">
         <div class="face front">${J.hex(u.id)}
           <span class="tier">${u.tier}</span>${icon}
           <span class="atk" data-atk>${u.atk}</span><span class="hp" data-hp>${u.hp}</span>
         </div>
-        <div class="face back"><i class="hx-frame"></i><div class="hx-art back-in">
+        <div class="face back"><i class="hx-frame"></i><i class="hx-hit"></i><div class="hx-art back-in">
           <div class="b-name">${J.esc(u.name)}</div>
           <div class="b-tribe"><i style="background:${t.c}"></i>${u.tribe} · T${u.tier}</div>
           <p class="b-text">${J.rich(u)}</p>
@@ -106,6 +107,7 @@
 
   function render(arrive, swap) {
     if (fightRun) fightRun.stop();
+    clearTimeout(hoverT); // a pending reader must not land on a card this render removes
     G = G && G.stop === S.stop && !arrive ? G : J.state(S.stop);
     document.documentElement.dataset.mode = S.mode;
     document.documentElement.dataset.layout = S.layout;
@@ -135,7 +137,7 @@
 
   function travel(i) {
     if (i === S.stop && G) { S.mode = 'recruit'; G = null; render(); return; }
-    S.stop = (i + J.STOPS.length) % J.STOPS.length; S.mode = 'recruit'; G = null;
+    S.stop = (i + J.STOPS.length) % J.STOPS.length; S.mode = 'recruit'; G = null; S.flipped.clear();
     stage.classList.add('leaving');
     setTimeout(() => {
       J.setArea(S.stop);
@@ -163,9 +165,14 @@
       const k = J.firstEmpty(G.board);
       if (w === 'hand' && k >= 0) { G.hand = G.hand.filter((x) => x !== u); G.board[k] = u; }
       if (w === 'board') G.board[G.board.indexOf(u)] = null;
+      S.flipped.delete(u.uid); // a unit that moved is shown face up again
       hideReader(); render(); return;
     }
-    if (c && S.details !== 'hover') { c.classList.toggle('flipped'); hideReader(); }
+    if (c && S.details !== 'hover') {
+      const on = c.classList.toggle('flipped');
+      S.flipped[on ? 'add' : 'delete'](c.dataset.uid);
+      hideReader();
+    }
   });
 
   const reader = () => stage.querySelector('.reader');
@@ -177,6 +184,7 @@
     if (!c || c.classList.contains('flipped') || c.contains(e.relatedTarget)) return;
     clearTimeout(hoverT);
     hoverT = setTimeout(() => {
+      if (!c.isConnected || c.classList.contains('flipped')) return;
       const u = find(c.dataset.uid); if (!u) return;
       const r = reader(); const t = J.TRIBE[u.tribe] || J.TRIBE.Neutral;
       r.innerHTML = `<div class="b-name">${J.esc(u.name)}</div><div class="b-tribe"><i style="background:${t.c}"></i>${u.tribe} · Tier ${u.tier}</div><p class="b-text">${J.rich(u)}</p>`;

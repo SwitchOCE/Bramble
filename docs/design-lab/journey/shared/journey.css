@@ -17,7 +17,7 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1a14; }
 .jy-bg.enter { opacity: 0; transform: translateX(8%) scale(1.12); transition: none; }
 .jy-bg.leave { opacity: 1; transform: translateX(-10%) scale(1.06); z-index: 0; }
 .jy-bg.on { z-index: 1; }
-@keyframes jy-drift { from { background-position: 46% 50%; } to { background-position: 54% 46%; } }
+@keyframes jy-drift { from { scale: 1; } to { scale: 1.035; } }
 
 .jy-shade { position: absolute; inset: 0; transition: background 1s ease; }
 
@@ -102,3 +102,14 @@ html.jy-static *, html.jy-static *::before, html.jy-static *::after { animation:
 .brick.hex.foe .brow-b { margin-top: 0; margin-bottom: var(--tuck, 0px); }
 .brick.side.hex .brow-b { margin: 0 0 0 var(--tuck, 0px); }
 .brick.side.hex.faces-right .brow-b, .brick.side.hex.foe .brow-b { margin: 0 var(--tuck, 0px) 0 0; }
+
+/* ---- Hit testing and hover (bug fixes, 11 Nov) -----------------------------------------
+   Packed hexes overlap as rectangles. Units take the mouse only through a hit layer clipped
+   to the hex; empty slots never take it. A hovered unit rises above its neighbours. */
+:root { --hex-clip-v: polygon(50% 0, 100% 19%, 100% 81%, 50% 100%, 0 81%, 0 19%);
+  --hex-clip-h: polygon(0 50%, 19% 0, 81% 0, 100% 50%, 81% 100%, 19% 100%); --hex-clip: var(--hex-clip-v); }
+.card { pointer-events: none; }
+.card .hx-hit { position: absolute; inset: 0; clip-path: var(--hex-clip); pointer-events: auto; cursor: pointer; }
+.card button { pointer-events: auto; }
+.slot, .spot { pointer-events: none; }
+.card:hover { z-index: 20; }

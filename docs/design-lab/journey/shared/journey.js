@@ -89,7 +89,9 @@
   const LAYOUT = { 0: [], 1: [1], 2: [1, 2], 3: [1, 2, 5], 4: [0, 1, 2, 5], 5: [0, 1, 2, 3, 5], 6: [0, 1, 2, 3, 4, 6], 7: [0, 1, 2, 3, 4, 5, 6] };
   J.slotted = (units) => { const s = Array(7).fill(null); (LAYOUT[units.length] || []).forEach((k, i) => (s[k] = units[i])); return s; };
   // A hex unit's two layers: the frame (edge colour) and the art inside it.
-  J.hex = (id) => `<i class="hx-frame"></i><i class="hx-art"><img src="${J.por(id)}" alt="" draggable="false"></i>`;
+  // The hit layer is clipped to the hex, so packed units overlap only visually:
+  // the mouse always picks the unit you see under it.
+  J.hex = (id) => `<i class="hx-frame"></i><i class="hx-art"><img src="${J.por(id)}" alt="" draggable="false"></i><i class="hx-hit"></i>`;
   J.count = (slots) => slots.filter(Boolean).length;
   J.firstEmpty = (slots) => slots.findIndex((u) => !u);
   // The brick: front row of 4, back row of 3 offset by half a slot.
@@ -160,12 +162,16 @@
       m.style.setProperty('--sz', (3 + r() * 6).toFixed(1) + 'px');
       motes.appendChild(m);
     }
+    // Parallax. The variables live on the world layer only (setting them on the page
+    // root restyled every unit on every mouse move), and update at most once a frame.
     if (!J.reduced) {
+      let px = 0, py = 0, queued = false;
       addEventListener('pointermove', (e) => {
-        const x = e.clientX / innerWidth - 0.5, y = e.clientY / innerHeight - 0.5;
-        document.documentElement.style.setProperty('--px', x.toFixed(3));
-        document.documentElement.style.setProperty('--py', y.toFixed(3));
-      });
+        px = e.clientX / innerWidth - 0.5; py = e.clientY / innerHeight - 0.5;
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => { queued = false; w.style.setProperty('--px', px.toFixed(3)); w.style.setProperty('--py', py.toFixed(3)); });
+      }, { passive: true });
     }
     return w;
   };

@@ -4,13 +4,24 @@
     {
       "name": "design-lab",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8771", "--bind", "127.0.0.1", "--directory", "docs/design-lab"],
+      "runtimeArgs": [
+        "docs/design-lab/serve.py",
+        "8771"
+      ],
       "port": 8771
     },
     {
       "name": "folio",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "docs/folio"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "docs/folio"
+      ],
       "port": 8765
     }
   ]

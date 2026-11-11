@@ -97,6 +97,7 @@
 
   function render() {
     if (fightRun) fightRun.stop();
+    clearTimeout(t); // a pending note must not land on a card this render removes
     if (!G || G.stop !== S.stop) G = J.state(S.stop);
     document.documentElement.dataset.mode = S.mode;
     stage.innerHTML = (S.mode === 'fight' ? fight() : recruit()) + '<div class="note" hidden></div>';
@@ -152,6 +153,7 @@
     const c = e.target.closest('.card'); if (!c || c.contains(e.relatedTarget)) return;
     clearTimeout(t);
     t = setTimeout(() => {
+      if (!c.isConnected) return; // the card was replaced by a render
       const u = find(c.dataset.uid); if (!u) return;
       const n = stage.querySelector('.note');
       n.innerHTML = `<b>${J.esc(u.name)}</b><small>${u.tribe} · tier ${u.tier}</small><p>${J.rich(u)}</p>`;

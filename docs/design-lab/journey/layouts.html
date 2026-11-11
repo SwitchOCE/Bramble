@@ -50,10 +50,17 @@
   const S = { mode: 'recruit', stop: '3' };
   const grid = document.getElementById('grid');
   function url(l, full) { return `arena/index.html?layout=${l}&stop=${S.stop}${S.mode === 'fight' ? '&mode=fight' : ''}${full ? '' : '&static'}`; }
-  function draw() {
+  // Build the four frames once; switching recruit/fight or the area only changes
+  // each frame's address, so nothing is torn down and rebuilt.
+  function build() {
     grid.innerHTML = LAYOUTS.map(([l, name, line]) => `
-      <figure><div class="frame"><iframe src="${url(l)}" loading="lazy" title="Layout ${l.toUpperCase()}" tabindex="-1"></iframe><a class="open" href="${url(l, true)}" aria-label="Open layout ${l.toUpperCase()}"></a></div>
+      <figure><div class="frame"><iframe data-l="${l}" title="Layout ${l.toUpperCase()}" tabindex="-1"></iframe><a class="open" data-l="${l}" aria-label="Open layout ${l.toUpperCase()}"></a></div>
         <figcaption><b><i>${l.toUpperCase()}</i> ${name}</b><span>${line}</span></figcaption></figure>`).join('');
+    draw();
+  }
+  function draw() {
+    grid.querySelectorAll('iframe').forEach((f) => { const u = url(f.dataset.l); if (f.getAttribute('src') !== u) f.setAttribute('src', u); });
+    grid.querySelectorAll('a.open').forEach((a) => a.setAttribute('href', url(a.dataset.l, true)));
     fit();
   }
   // Scale each 1920 x 1080 frame to its cell's width.
@@ -65,7 +72,7 @@
     document.querySelectorAll(`#${k} button`).forEach((x) => x.classList.toggle('on', x === b));
     draw();
   }));
-  draw();
+  build();
 </script>
 </body>
 </html>

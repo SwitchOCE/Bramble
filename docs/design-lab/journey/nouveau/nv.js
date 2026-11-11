@@ -85,6 +85,7 @@
 
   function render(swap) {
     if (fightRun) fightRun.stop();
+    clearTimeout(t); // a pending note must not land on a card this render removes
     if (!G || G.stop !== S.stop) G = J.state(S.stop);
     document.documentElement.dataset.mode = S.mode;
     stage.classList.toggle('swap', !!swap && !J.static);
@@ -131,6 +132,7 @@
     const c = e.target.closest('.card'); if (!c || c.contains(e.relatedTarget)) return;
     clearTimeout(t);
     t = setTimeout(() => {
+      if (!c.isConnected) return; // the card was replaced by a render
       const u = find(c.dataset.uid); if (!u) return;
       const r = stage.querySelector('.reader');
       r.innerHTML = `<small>${u.tribe} · Tier ${u.tier}</small><b>${J.esc(u.name)}</b><p>${J.rich(u)}</p>`;
