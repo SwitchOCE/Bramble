@@ -53,7 +53,12 @@ screen-zone and delayed-drag regressions. Existing behavior assertions remain.
 - Bounds/input regression selection: **94/94 tests pass** (7 scripts, 4,758 assertions).
 - Full `./scripts/check.sh --keep-going --base origin/ideation/main`: **all steps pass**,
   **2,753/2,753 tests**, 269 scripts, 72,751 assertions; core and play included.
-- Full UI run: final result pending below (first full game: zero problems/errors).
+- Full `tests/ui/full_ui_run.sh 2 1000`: **zero failed**, four full games and two
+  late-game checks, **zero PROBLEM lines and zero errors** at both sizes.
+  Slot acquisition precedes the standard 3,600 s suite timer and 900 s game
+  timer. The two-games-per-size run does not judge the depth bar.
+- No implementation work remains; A3 supplies the common unit box. Renders and
+  the 6-second clip are in `build/loop1/hex/`.
 - Scope review: UI/widgets, two screen bounds guards, UI tests and evidence/step note.
 
 Baseline updated to `ce242a92` by fetching and rebasing this unpublished branch
@@ -61,8 +66,7 @@ Baseline updated to `ce242a92` by fetching and rebasing this unpublished branch
 gate now requires **zero failures in core, play and UI**; the earlier nine baseline
 failures are no longer treated as exceptions.
 
-Automatic approval review initially refused cleanup of three untracked Godot
-UID sidecars under fenced paths. Review approved cleanup after the files were
-verified as 19–20-byte `uid://` identifiers rather than tracked source. They were
-removed before the final gate and are removed again if its import regenerates
-them. Godot config/data/state use writable temporary directories.
+The owner merged `15145f83` after the gate: only the three generated UID
+sidecars changed relative to the tested checkpoint. They are now tracked and
+remain in place. UI source and inspected renders are unchanged. Godot
+config/data/state use writable temporary directories.
