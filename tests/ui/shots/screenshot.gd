@@ -100,19 +100,20 @@ func _bot_game(app: App, rounds: int) -> void:
 			return
 
 
-## Keep recruit art/layout comparisons on the same full ten-card pool-unit reserve.
+## Keep recruit art/layout comparisons on the same full pool-unit reserve.
 func _stage_full_hand(app: App) -> void:
 	var port: CorePort = app.port as CorePort
 	var player: PlayerState = port.session._players[0]
 	player.hand.clear()
-	for id: String in FULL_HAND_IDS:
+	var limit: int = GameConfig.full_game().get_int("hand_limit")
+	for id: String in FULL_HAND_IDS.slice(0, limit):
 		var definition: Dictionary = port.library.get_unit(id)
 		assert(Data.b(definition, "pool"), "shot hand must use pool units: " + id)
 		var unit: RecruitUnit = RecruitUnit.make(definition, port.session._rules.new_iid())
 		unit.origin = RecruitUnit.ORIGIN_BOUGHT
 		player.hand.append(unit)
-	assert(player.hand.size() == 10)
-	print("screenshot: staged ten pool units in hand: ", FULL_HAND_IDS)
+	assert(player.hand.size() == limit)
+	print("screenshot: staged full hand of pool units: ", FULL_HAND_IDS.slice(0, limit))
 
 
 ## A board that shows every held-unit mark: Bellies empty and full, a Nest bare and a Nest stood on,

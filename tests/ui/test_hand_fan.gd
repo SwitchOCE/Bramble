@@ -1,5 +1,5 @@
 extends GutTest
-## All ten tiles remain directly accessible; a fan changes stacking, never canonical hand indices.
+## All hand tiles remain directly accessible; a fan changes stacking, never canonical hand indices.
 
 const Fan := preload("res://src/ui/widgets/hand_fan.gd")
 const Card := preload("res://src/ui/widgets/card_view.gd")
@@ -25,7 +25,13 @@ func after_each() -> void:
 	Card.window_override = Vector2.ZERO
 
 
-static func hand_views(count: int = 10) -> Array:
+static func _hand_limit() -> int:
+	return GameConfig.full_game().get_int("hand_limit")
+
+
+static func hand_views(count: int = -1) -> Array:
+	if count < 0:
+		count = _hand_limit()
 	var library: UnitLibrary = UnitLibrary.load_dir()
 	var hand: Array = []
 	for index: int in count:
@@ -86,20 +92,24 @@ func _screen(pixels: Vector2, count: int, away: bool) -> Screen:
 	return screen
 
 
-func test_ten_real_cards_fit_and_keep_canonical_indices_after_each_focus() -> void:
+func test_full_hand_keeps_canonical_indices_after_each_focus() -> void:
 	var viewport: SubViewport = _viewport(Vector2(1688, 780))
 	var fan: Fan = _fan(viewport)
 	await wait_process_frames(2)
-	assert_eq(fan.cards.size(), 10)
-	assert_eq(fan.get_child_count(), 10, "there is no +N picker hiding hand cards")
-	for index: int in 10:
+	assert_eq(fan.cards.size(), _hand_limit())
+	assert_eq(fan.get_child_count(), _hand_limit(), "there is no +N picker hiding hand cards")
+	for index: int in _hand_limit():
 		var card: Card = fan.card_at(index)
 		assert_true(card.is_visible_in_tree())
 		assert_eq(card.card_size, Vector2(130, 130))
 		assert_true(fan.get_global_rect().encloses(card.get_global_rect()))
 		fan.focus(index)
-		assert_eq(fan.get_child(9), card, "the focused card owns input and drawing precedence")
-		for canonical: int in 10:
+		assert_eq(
+			fan.get_child(_hand_limit() - 1),
+			card,
+			"the focused card owns input and drawing precedence"
+		)
+		for canonical: int in _hand_limit():
 			assert_eq(fan.card_at(canonical).index, canonical, "focus never changes action indices")
 
 
@@ -110,7 +120,7 @@ func test_each_visible_card_can_be_tapped_and_dragged_without_a_picker() -> void
 	var tapped: Array[int] = []
 	for card: Card in fan.cards:
 		card.tapped.connect(func(_zone: String, index: int) -> void: tapped.append(index))
-	for index: int in 10:
+	for index: int in _hand_limit():
 		fan.rest_cards()
 		var card: Card = fan.card_at(index)
 		# Every reserve card has its own exposed rectangle.
@@ -139,7 +149,7 @@ func test_each_visible_card_can_be_tapped_and_dragged_without_a_picker() -> void
 
 func test_normal_hand_sizes_stay_identical_when_birds_are_away() -> void:
 	for pixels: Vector2 in [Vector2(1688, 780), Vector2(1920, 1080)]:
-		for count: int in [1, 2, 10]:
+		for count: int in [1, 2, _hand_limit()]:
 			var home: Screen = _screen(pixels, count, false)
 			var away: Screen = _screen(pixels, count, true)
 			await wait_process_frames(2)
@@ -154,7 +164,7 @@ func test_normal_hand_sizes_stay_identical_when_birds_are_away() -> void:
 func test_full_hand_and_away_tokens_stay_clear_of_actions_board_and_open_reader_at_both_sizes(
 ) -> void:
 	for pixels: Vector2 in [Vector2(1688, 780), Vector2(1920, 1080)]:
-		var screen: Screen = _screen(pixels, 10, true)
+		var screen: Screen = _screen(pixels, _hand_limit(), true)
 		await wait_process_frames(3)
 		var fan: Fan = screen.get("_hand_cards")
 		var hand_zone: Control = screen.get("_hand_zone")
@@ -168,23 +178,25 @@ func test_full_hand_and_away_tokens_stay_clear_of_actions_board_and_open_reader_
 			var action: Control = screen.get(key)
 			assert_false(hand_zone.get_global_rect().intersects(action.get_global_rect()), key)
 			assert_false(tray.get_global_rect().intersects(action.get_global_rect()), key)
-		screen._on_tapped("hand", 9)
+		screen._on_tapped("hand", _hand_limit() - 1)
 		await wait_process_frames(2)
-		assert_eq(fan.cards.size(), 10, "opening a reader never replaces the fan")
-		for index: int in 10:
+		assert_eq(fan.cards.size(), _hand_limit(), "opening a reader never replaces the fan")
+		for index: int in _hand_limit():
 			assert_true(screen._card_at("hand", index) == fan.card_at(index))
-		assert_eq(LayoutCheck.problems(screen, "fan10 with reader and Birds"), PackedStringArray())
+		assert_eq(
+			LayoutCheck.problems(screen, "full hand with reader and Birds"), PackedStringArray()
+		)
 
 
 func test_pc_hand_reader_selection_and_hover_leave_the_stack_stable() -> void:
-	var screen: Screen = _screen(Vector2(1920, 1080), 10, true)
+	var screen: Screen = _screen(Vector2(1920, 1080), _hand_limit(), true)
 	await wait_process_frames(3)
 	var hand: Control = screen.get("_hand_zone")
 	var board: Control = screen.get("_board")
 	var reader: Control = screen.get("_detail")
 	var original_hand: Rect2 = hand.get_global_rect()
 	var original_board: Rect2 = board.get_global_rect()
-	for index: int in [0, 9]:
+	for index: int in [0, _hand_limit() - 1]:
 		screen._on_tapped("hand", index)
 		await wait_process_frames(2)
 		assert_true(reader.visible)
@@ -215,9 +227,9 @@ func _number_text_rect(label: Label) -> Rect2:
 	return Rect2(label.get_global_rect().get_center() - text_size / 2, text_size)
 
 
-func test_all_twenty_hand_stat_text_rects_remain_readable_in_the_resting_fan() -> void:
+func test_all_full_hand_stat_text_rects_remain_readable_in_the_resting_fan() -> void:
 	for pixels: Vector2 in [Vector2(1688, 780), Vector2(1920, 1080)]:
-		var screen: Screen = _screen(pixels, 10, true)
+		var screen: Screen = _screen(pixels, _hand_limit(), true)
 		await wait_process_frames(3)
 		var fan: Fan = screen.get("_hand_cards")
 		fan.rest_cards()
@@ -247,7 +259,9 @@ func test_all_twenty_hand_stat_text_rects_remain_readable_in_the_resting_fan() -
 							)
 						)
 				labels_checked += 1
-		assert_eq(labels_checked, 20, "every Attack and Health value was checked at rest")
+		assert_eq(
+			labels_checked, _hand_limit() * 2, "every Attack and Health value was checked at rest"
+		)
 
 
 func _assert_displayed_fonts(node: Control) -> int:
@@ -268,7 +282,7 @@ func _assert_displayed_fonts(node: Control) -> int:
 
 func test_hand_and_bar_text_keep_the_minimum_after_all_parent_scales() -> void:
 	for pixels: Vector2 in [Vector2(1920, 1080), Vector2(1688, 780)]:
-		var screen: Screen = _screen(pixels, 10, false)
+		var screen: Screen = _screen(pixels, _hand_limit(), false)
 		await wait_process_frames(3)
 		# Include less frequent live values: armor, income change, power cost and tribe bonus.
 		var hero: Control = screen.get("_hero")
@@ -289,7 +303,11 @@ func test_hand_and_bar_text_keep_the_minimum_after_all_parent_scales() -> void:
 		var bar: Control = screen.get("_bar_contents")
 		assert_gt(_assert_displayed_fonts(bar), 5, "bar values were exercised")
 		var hand: Control = screen.get("_hand_cards")
-		assert_gte(_assert_displayed_fonts(hand), 20, "all ten Attack/Health pairs were exercised")
+		assert_gte(
+			_assert_displayed_fonts(hand),
+			_hand_limit() * 2,
+			"all Attack/Health pairs were exercised"
+		)
 		assert_eq(LayoutCheck.problems(screen, "actual scaled text"), PackedStringArray())
 		var tier: Label = screen.get("_tier_label")
 		var first_size: int = tier.get_theme_font_size("font_size")

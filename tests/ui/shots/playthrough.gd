@@ -375,7 +375,10 @@ func _boost(recruit: RecruitScreen, rng: RandomNumberGenerator, where: String) -
 ## A full board (no empty slot) and a hand at the state's hand_limit.
 static func _is_full(state: Dictionary) -> bool:
 	var hand: int = Data.a(state, "hand").size()
-	return not Data.a(state, "board").has(null) and hand >= Data.i(state, "hand_limit", 10)
+	return (
+		not Data.a(state, "board").has(null)
+		and hand >= Data.i(state, "hand_limit", GameConfig.full_game().get_int("hand_limit"))
+	)
 
 
 func _fill_hand(recruit: RecruitScreen, rng: RandomNumberGenerator) -> void:
@@ -392,7 +395,9 @@ func _fill_hand(recruit: RecruitScreen, rng: RandomNumberGenerator) -> void:
 		var tier: int = units.get_item_text(i).substr(1, 1).to_int()
 		if tier >= 4 and in_game.has(ids[i]):
 			late_units.append(i)
-	var limit: int = Data.i(recruit.state, "hand_limit", 10)
+	var limit: int = Data.i(
+		recruit.state, "hand_limit", GameConfig.full_game().get_int("hand_limit")
+	)
 	for attempt: int in limit + 4:
 		if Data.a(recruit.state, "hand").size() >= limit or late_units.is_empty():
 			return
@@ -537,7 +542,9 @@ func _check_full(recruit: RecruitScreen, driver: PlayerDriver, where: String) ->
 		)
 	)
 	if not _is_full(recruit.state):
-		var limit: int = Data.i(recruit.state, "hand_limit", 10)
+		var limit: int = Data.i(
+			recruit.state, "hand_limit", GameConfig.full_game().get_int("hand_limit")
+		)
 		_problem("%s: late check not full (board %d/7, hand %d/%d)" % [where, placed, hand, limit])
 	await _check(recruit, where + " recruit, full board and hand")
 	driver.tap(recruit, "hand", 0)

@@ -222,12 +222,35 @@ func set_action_column(rect: Rect2 = Rect2()) -> void:
 func attach_recruit_overlay(
 	stage: Control, gold: Control, end_button: Control, rows: Dictionary
 ) -> void:
-	_anchor = func() -> void: place_recruit_overlay(stage, gold, end_button, rows)
+	var row_refs: Dictionary = {}
+	for zone: String in rows:
+		row_refs[zone] = weakref(rows[zone])
+	_anchor = _anchor_recruit.bind(weakref(stage), weakref(gold), weakref(end_button), row_refs)
 	visibility_changed.connect(_anchor)
 	gold.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
 	end_button.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
 	for row: Control in rows.values():
 		row.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
+
+
+## The deferred callable belongs to this reader; none of its targets keeps a node alive.
+func _anchor_recruit(
+	stage_ref: WeakRef, gold_ref: WeakRef, end_ref: WeakRef, row_refs: Dictionary
+) -> void:
+	if not is_inside_tree() or is_queued_for_deletion():
+		return
+	var targets: Array[Control] = [stage_ref.get_ref(), gold_ref.get_ref(), end_ref.get_ref()]
+	for target: Control in targets:
+		if target == null or not target.is_inside_tree() or target.is_queued_for_deletion():
+			return
+	var rows: Dictionary = {}
+	for zone: String in row_refs:
+		var ref: WeakRef = row_refs[zone]
+		var row: Control = ref.get_ref()
+		if row == null or not row.is_inside_tree() or row.is_queued_for_deletion():
+			return
+		rows[zone] = row
+	place_recruit_overlay(targets[0], targets[1], targets[2], rows)
 
 
 ## Protect the entire inspected row. Hand inspection also leaves every play destination clear.
