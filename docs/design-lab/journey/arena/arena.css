@@ -195,6 +195,7 @@ html[data-mode="fight"] .hero.me { top: calc(var(--low) + 120px); width: var(--s
 .btn.freeze em { color: var(--ice); }
 
 /* ---- Layout variants (lab dock: Layout A-D). Small moves around the same layout. ----------
+   B is the owner's pick (11 Nov) and the default.
    A  Baseline: scoreboard rows centred on the right; End turn bottom-right; your hero
       top-left under the turn and route; the hand bottom-left beside your board.
    B  Portrait scoreboard: a slim strip of portraits on the right edge, centred; your hero

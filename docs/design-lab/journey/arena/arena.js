@@ -10,7 +10,7 @@
     mode: P.get('mode') || 'recruit',
     details: P.get('details') || 'both',
     flip: P.get('flip') || '',
-    layout: P.get('layout') || 'a',
+    layout: P.get('layout') || 'b', // the owner's pick (11 Nov)
   };
   let G, fightRun;
 
