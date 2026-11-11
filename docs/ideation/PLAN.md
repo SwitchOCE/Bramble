@@ -1,11 +1,11 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** Your journey lab's layout is in the game with hex units and a hand of 4; the build you play is being checked and packed.
-- **Status:** active
-- **Last step done:** 12 Nov: your lab's arrangement merged with the hex units (A3): your board stays put, one unit size, the shop holds its buttons.
-- **Next step:** the build checks (soak running), build 9 and its playtest note.
-- **Waiting on you:** nothing. Loop 1 ends when you play the build with the lab's layout.
+- **In short:** Build 9 is ready for you: your journey lab's layout in the game, hex units, a hand of 4 and the repainted art. Loop 1 ends when you've played it.
+- **Status:** waiting on you
+- **Last step done:** 12 Nov: build 9 exported (`/data/bramble-builds/1112-0603-ideation9`, on the portal's builds page), after the gate, a 200-game soak, the 4-game UI run, the memory check and the export checks passed.
+- **Next step:** your playtest; loop 2 starts from what you say.
+- **Waiting on you:** play build 9 (`PLAYTEST.md`, "Returning after build 8").
 - **Scope:** UI, UX, look and feel. Rules change only where the UI needs it (note 11c).
 <!-- /status -->
 
