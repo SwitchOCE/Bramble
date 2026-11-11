@@ -1,11 +1,11 @@
 extends RefCounted
-## One formation anchor in every phase. Canvas height is 1080; wide phones gain side space.
+## One height-fitted hex formation in every phase; wide phones gain side-column space.
 
-const UNIT := Vector2(176, 226)
-const BOARD := Vector2(820, 510)
-const MARKET := Vector2(1400, 414)
+const UNIT := Vector2(201, 201.0 / 0.78)
+const BOARD := Vector2(1035, 522)
+const MARKET := Vector2(7 * UNIT.x + 6 * 16 + 64, 80 + UNIT.y + 8 + 88 + 12)
 const TOP: float = 16.0
-const LOW: float = 554.0
+const LOW: float = TOP + BOARD.y + 12.0
 
 
 static func board_rect(canvas: Vector2, opponent: bool = false) -> Rect2:
@@ -13,9 +13,8 @@ static func board_rect(canvas: Vector2, opponent: bool = false) -> Rect2:
 
 
 static func market_rect(canvas: Vector2) -> Rect2:
-	return Rect2(
-		Vector2((canvas.x - MARKET.x) / 2.0, TOP), Vector2(MARKET.x, 326.0 + control_height(canvas))
-	)
+	var height: float = 80 + UNIT.y + 8 + control_height(canvas) + 12
+	return Rect2(Vector2((canvas.x - MARKET.x) / 2.0, LOW - 12 - height), Vector2(MARKET.x, height))
 
 
 static func control_height(canvas: Vector2) -> float:
@@ -23,12 +22,22 @@ static func control_height(canvas: Vector2) -> float:
 
 
 static func hand_rect(canvas: Vector2) -> Rect2:
-	return Rect2(Vector2(board_rect(canvas).position.x - 420.0, LOW), Vector2(392, 510))
+	var width: float = 2 * UNIT.x + 12 + 8
+	var left: float = board_rect(canvas).position.x - width - 12
+	if canvas.x / maxf(canvas.y, 1.0) > 2.0:
+		left = 64.0
+		width = board_rect(canvas).position.x - left - 12
+	return Rect2(Vector2(left, LOW - 12), Vector2(width, 2 * UNIT.y + 12 + 8))
+
+
+static func side_width(canvas: Vector2) -> float:
+	return clampf(lobby_rect(canvas).position.x - board_rect(canvas).end.x - 36, 270, 400)
 
 
 static func hero_rect(canvas: Vector2, opponent: bool = false) -> Rect2:
 	return Rect2(
-		Vector2(board_rect(canvas).end.x + 36.0, 150 if opponent else 650), Vector2(270, 140)
+		Vector2(board_rect(canvas).end.x + 24.0, 150.0 if opponent else LOW + 96.0),
+		Vector2(side_width(canvas), 140)
 	)
 
 
@@ -36,21 +45,13 @@ static func lobby_rect(canvas: Vector2) -> Rect2:
 	return Rect2(canvas.x - 134.0, 24, 122, 1032)
 
 
-## Supply sizes through the board's existing public geometry, without changing its row packing.
+## Native hex packing owns the pocket, row stride, input contour and unit face size.
 static func size_board(board: Control, zone: String, front_on_top: bool) -> void:
 	board.set("compact", true)
 	board.set("surface_visible", false)
-	board.call("configure", zone, 195.0, front_on_top, false, false, BOARD.y)
+	board.call("configure", zone, 222.0, front_on_top, false, false, BOARD.y)
 	board.update_minimum_size()
 	board.size = board.call("tray_size")
-
-
-## Preserve the board's slot centres when a face is sized independently of its legacy ratio.
-static func fit_cards(board: Control) -> void:
-	for card: Control in board.get("cards"):
-		if card == null:
-			continue
-		card.call("set_card_size", UNIT)
 
 
 static func place_board(board: Control, canvas: Vector2, opponent: bool = false) -> void:

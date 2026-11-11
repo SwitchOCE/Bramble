@@ -122,7 +122,7 @@ func _layout() -> void:
 	var offers: int = _shop_cards.get_child_count()
 	var shop_width: float = offers * ArenaGeometry.UNIT.x + maxf(0, offers - 1) * _shop_gap()
 	_shop_cards.scale = Vector2.ONE
-	_shop_cards.position = Vector2((size.x - shop_width) / 2.0, 96)
+	_shop_cards.position = Vector2((size.x - shop_width) / 2.0, market.position.y + 80)
 	_shop_cards.size = Vector2(shop_width, ArenaGeometry.UNIT.y)
 	_shop_cards.visible = not _scout.visible
 	_shop_scroll.hide()
@@ -179,24 +179,26 @@ func _layout_hand(_x: float) -> void:
 	_hand_zone.position = rect.position
 	_hand_zone.size = rect.size
 	_hand_panel.hide()
-	_hand_count.position = Vector2(16, 0)
+	_hand_count.position = Vector2(4, -38)
+	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_hand_count.size = Vector2(rect.size.x - 32, 40)
 	_hand_count.add_theme_color_override("font_color", UiTheme.CREAM)
 	_hand_count.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_hand_count.add_theme_constant_override("outline_size", 5)
-	_hand_cards.position = Vector2(12, 38)
-	_hand_cards.size = Vector2(rect.size.x - 24, 472)
+	_hand_cards.position = Vector2(4, 4)
+	_hand_cards.size = rect.size - Vector2(8, 8)
 	for card: CardView in _hand_cards.cards:
 		card.set_card_size(ArenaGeometry.UNIT)
 	_hand_cards.arrange()
-	_away_tray.position = Vector2(ArenaGeometry.board_rect(_stage.size).end.x + 36, 788)
-	_away_tray.size = Vector2(270, _away_tray.row_height())
+	_away_tray.position = Vector2(ArenaGeometry.board_rect(_stage.size).end.x + 24, 788)
+	_away_tray.size = Vector2(ArenaGeometry.side_width(_stage.size), _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
 func _layout_right(x: float, _w: float) -> void:
 	var board: Rect2 = ArenaGeometry.board_rect(_stage.size)
-	_gold.position = Vector2(x + ArenaGeometry.MARKET.x - 246, 24)
+	var market: Rect2 = ArenaGeometry.market_rect(_stage.size)
+	_gold.position = Vector2(market.end.x - 246, market.position.y + 8)
 	_gold.size = Vector2(222, 64)
 	_gold.fit_market()
 	_round_label.position = Vector2(24, 28)
@@ -205,12 +207,14 @@ func _layout_right(x: float, _w: float) -> void:
 	_round_label.add_theme_color_override("font_color", UiTheme.CREAM)
 	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
 	_round_label.add_theme_constant_override("outline_size", 5)
-	_market_title.position = Vector2(x + 32, 28)
+	_market_title.position = market.position + Vector2(32, 12)
 	_market_title.size = Vector2(240, 68)
-	_tier_label.position = Vector2(x + 280, 28)
+	_tier_label.position = market.position + Vector2(280, 12)
 	_tier_label.size = Vector2(220, 68)
 	_market_title.visible = not _scout.visible
-	_market_controls.position = Vector2(size.x / 2.0 - 350, 330)
+	_market_controls.position = Vector2(
+		size.x / 2.0 - 350, market.position.y + 80 + ArenaGeometry.UNIT.y + 8
+	)
 	_market_controls.size = Vector2(700, ArenaGeometry.control_height(_stage.size))
 	_tier_button.compact_cost()
 	_tier_button.position = _market_controls.position
@@ -229,11 +233,11 @@ func _layout_right(x: float, _w: float) -> void:
 	_kin_button.position = _market_controls.position + Vector2(548, 0)
 	_kin_button.size = Vector2(140, _market_controls.size.y)
 	_kin_button.compact_cost()
-	_end_button.position = Vector2(board.end.x + 36, 936)
+	_end_button.position = Vector2(board.end.x + 24, 936)
 	_end_button.size = Vector2(270, 122)
 	_end_button.set_label_size(UiTheme.FONT_LEAF)
-	_tribes.position = Vector2(board.end.x + 36, 554)
-	_tribes.size = Vector2(312, 88)
+	_tribes.position = Vector2(board.end.x + 24, ArenaGeometry.LOW)
+	_tribes.size = Vector2(ArenaGeometry.side_width(_stage.size), 88)
 	_tribes.visible = not _tribes.chips.is_empty()
 	_market_return.position = Vector2(x + 24, 30)
 	_market_return.size = Vector2(270, 122)
@@ -466,7 +470,7 @@ func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
 	_board = BoardView.new()
 	_board.compact = true
 	_board.surface_visible = false
-	_board.configure("board", BOARD_POCKET, true, true, true)
+	ArenaGeometry.size_board(_board, "board", true)
 	for slot: Interactive in _board.slots:
 		wire.call(slot)
 	_stage.add_child(_board)
@@ -523,7 +527,12 @@ func _layout_frame(_left: float, _width: float) -> void:
 	if _scout.visible:
 		_frame.add_region(ArenaGeometry.board_rect(_stage.size, true), Surface.Finish.MOSS)
 		_frame.add_region(
-			Rect2(ArenaGeometry.hand_rect(_stage.size).position.x - 12, 16, 416, 510),
+			Rect2(
+				ArenaGeometry.hand_rect(_stage.size).position.x,
+				16,
+				ArenaGeometry.hand_rect(_stage.size).size.x,
+				ArenaGeometry.BOARD.y
+			),
 			Surface.Finish.STALL
 		)
 	else:
@@ -533,3 +542,17 @@ func _layout_frame(_left: float, _width: float) -> void:
 	_frame.add_region(Rect2(_hero.position - Vector2(12, 8), Vector2(300, 140)), Surface.Finish.BAR)
 	if _lobby.visible:
 		_frame.add_region(ArenaGeometry.lobby_rect(_stage.size), Surface.Finish.BARK)
+
+
+func _card_at(zone: String, index: int) -> CardView:
+	match zone:
+		"board":
+			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
+		"hand":
+			return _hand_cards.card_at(index)
+		"shop":
+			if index >= 0 and index < _shop_cards.get_child_count():
+				return _shop_cards.get_child(index) as CardView
+		"scout":
+			return _scout.card_at(index)
+	return null

@@ -6,7 +6,9 @@ const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const Fixture := preload("res://src/ui/adapter/fixture_port.gd")
 const Recruit := preload("res://src/ui/screens/recruit_screen.gd")
 const Views := preload("res://src/ui/unit_views.gd")
-const UNIT := Vector2(176, 226)
+const Arena := preload("res://src/ui/arena_geometry.gd")
+const LayoutCheck := preload("res://tests/ui/layout_check.gd")
+const UNIT := Arena.UNIT
 
 
 func after_each() -> void:
@@ -75,6 +77,7 @@ func _fight(viewport: SubViewport, standings: Array) -> CombatScreen:
 
 func _assert_unit_sizes(board: Control) -> void:
 	var found: int = 0
+	var cards: Array[Card] = board.get("cards")
 	for card: Card in board.get("cards"):
 		if card != null:
 			assert_eq(card.card_size, UNIT, "the same unit object size in every formation")
@@ -83,6 +86,17 @@ func _assert_unit_sizes(board: Control) -> void:
 			)
 			found += 1
 	assert_gt(found, 0, "size checks exercise occupied units")
+	for index: int in cards.size():
+		if cards[index] == null:
+			continue
+		for other: int in range(index + 1, cards.size()):
+			if cards[other] != null:
+				assert_almost_eq(
+					LayoutCheck._shared_face_area(cards[index], cards[other]),
+					0.0,
+					0.01,
+					"formation hex faces never overlap"
+				)
 
 
 func test_own_formation_is_identical_in_recruit_scout_and_fight_at_both_sizes() -> void:
@@ -92,10 +106,10 @@ func test_own_formation_is_identical_in_recruit_scout_and_fight_at_both_sizes() 
 		await wait_process_frames(2)
 		var own: Control = recruit.get("_board")
 		var initial: Rect2 = own.get_global_rect()
-		var frame := Rect2((viewport.size.x - 820.0) / 2.0, 554, 820, 510)
+		var frame: Rect2 = Arena.board_rect(Vector2(viewport.size))
 		assert_true(frame.encloses(initial), "the lab formation fits its fixed lower surface")
 		assert_almost_eq(initial.get_center().x, viewport.size.x / 2.0, 0.01)
-		assert_almost_eq(initial.get_center().y, 809.0, 0.01)
+		assert_almost_eq(initial.get_center().y, frame.get_center().y, 0.01)
 		_assert_unit_sizes(own)
 		recruit.toggle_scout()
 		await wait_process_frames(2)
@@ -104,7 +118,11 @@ func test_own_formation_is_identical_in_recruit_scout_and_fight_at_both_sizes() 
 		var theirs: Control = scout.get("_board")
 		assert_eq(theirs.size, own.size)
 		assert_almost_eq(theirs.get_global_rect().get_center().x, initial.get_center().x, 0.01)
-		assert_almost_eq(theirs.get_global_rect().get_center().y, 271.0, 0.01)
+		assert_almost_eq(
+			theirs.get_global_rect().get_center().y,
+			Arena.board_rect(Vector2(viewport.size), true).get_center().y,
+			0.01
+		)
 		_assert_unit_sizes(theirs)
 		recruit.hide()
 		var standings: Array = recruit.state["standings"]
@@ -113,7 +131,10 @@ func test_own_formation_is_identical_in_recruit_scout_and_fight_at_both_sizes() 
 		assert_eq(
 			fight.board_for_side(0).get_global_rect(), initial, "fight uses the recruit anchor"
 		)
-		assert_eq(fight.board_for_side(1).get_global_rect(), theirs.get_global_rect())
+		assert_almost_eq(
+			fight.board_for_side(1).global_position, theirs.global_position, Vector2.ONE * 0.01
+		)
+		assert_almost_eq(fight.board_for_side(1).size, theirs.size, Vector2.ONE * 0.01)
 		_assert_unit_sizes(fight.board_for_side(0))
 		_assert_unit_sizes(fight.board_for_side(1))
 
@@ -131,6 +152,8 @@ func test_maximum_market_and_four_mixed_hand_tiles_keep_the_same_full_size() -> 
 			assert_eq(card.get_global_rect().size, UNIT, "shop and hand retain full displayed size")
 			assert_true(market.get_global_rect().encloses(card.get_global_rect()))
 		var hand: Control = screen.get("_hand_zone")
+		assert_eq(hand.get_global_rect(), Arena.hand_rect(Vector2(viewport.size)))
+		assert_true(viewport.get_visible_rect().encloses(hand.get_global_rect()))
 		var tray: Control = screen.get("_hand_cards")
 		var cards: Array[Card] = tray.get("cards")
 		assert_eq(cards.size(), 4, "hand_items share the four-card tray with units")
@@ -139,8 +162,16 @@ func test_maximum_market_and_four_mixed_hand_tiles_keep_the_same_full_size() -> 
 			assert_eq(card.card_size, UNIT)
 			assert_eq(card.get_global_rect().size, UNIT, "shop and hand retain full displayed size")
 			assert_true(hand.get_global_rect().encloses(card.get_global_rect()))
+			assert_true(
+				viewport.get_visible_rect().encloses(card.get_global_rect()), "whole hand tile fits"
+			)
 			for other: int in range(index + 1, cards.size()):
-				assert_false(card.get_global_rect().intersects(cards[other].get_global_rect()))
+				assert_almost_eq(
+					LayoutCheck._shared_face_area(card, cards[other]),
+					0.0,
+					0.01,
+					"hand faces never overlap"
+				)
 		assert_eq(cards[0].position.y, cards[1].position.y, "two tiles across")
 		assert_eq(cards[2].position.y, cards[3].position.y)
 		assert_gt(cards[2].position.y, cards[0].position.y, "two rows")
@@ -149,8 +180,10 @@ func test_maximum_market_and_four_mixed_hand_tiles_keep_the_same_full_size() -> 
 		if phone:
 			var first: Card = cards[0]
 			var physical: Vector2 = first.get_global_rect().size * 780.0 / viewport.size.y
-			assert_almost_eq(physical.x, 127.11, 0.01)
-			assert_almost_eq(physical.y, 163.22, 0.01)
+			assert_eq(physical, UNIT * 780.0 / viewport.size.y)
+			assert_gt(
+				physical.x, 176.0 * 780.0 / 1080.0, "phone tiles are larger than the old units"
+			)
 
 
 func test_market_controls_are_inside_market_and_reader_clears_source_and_purchasing() -> void:
@@ -286,10 +319,10 @@ func _assert_empty_slot_targets(board: Control, active: bool) -> void:
 	assert_eq(slots.size(), 7, "exercise every empty formation cell")
 	for slot: Control in slots:
 		var highlight: Color = slot.get("highlight")
-		assert_eq(highlight.a > 0.0, active, "drop targets appear only during a drag")
+		assert_eq(highlight.a > 0.0, active, "legal targets track hand selection and dragging")
 
 
-func test_hand_reader_keeps_empty_slots_quiet_until_drag_and_clears_targets_on_drag_end() -> void:
+func test_hand_selection_and_drag_show_targets_and_cancel_keeps_empty_slots_quiet() -> void:
 	for phone: bool in [false, true]:
 		var screen: Recruit = _recruit(_viewport(phone))
 		var formation: Array = screen.port.get_state()["board"]
@@ -301,16 +334,26 @@ func test_hand_reader_keeps_empty_slots_quiet_until_drag_and_clears_targets_on_d
 		screen._on_tapped("hand", 0)
 		await wait_process_frames(2)
 		var reader: Control = screen.get("_detail")
-		assert_true(reader.visible, "the hand card remains readable without lighting empty cells")
+		assert_true(reader.visible, "the selected hand card remains readable")
+		_assert_empty_slot_targets(board, true)
+		screen._on_tapped("table", -1)
 		_assert_empty_slot_targets(board, false)
+		screen._on_tapped("hand", 0)
 		screen._on_drag_started("hand", 0)
 		var pocket: Control = screen.get("_drop_pocket")
 		assert_true(pocket.is_visible_in_tree(), "the drag presents its real drop indicator")
 		_assert_empty_slot_targets(board, true)
 		screen.notification(Control.NOTIFICATION_DRAG_END)
 		await wait_process_frames(2)
-		_assert_empty_slot_targets(board, false)
+		_assert_empty_slot_targets(board, true)
 		assert_true(reader.visible, "cancelling a drag preserves the selected card reader")
+		screen._on_tapped("table", -1)
+		_assert_empty_slot_targets(board, false)
+		screen._on_drag_started("hand", 0)
+		_assert_empty_slot_targets(board, true)
+		screen.notification(Control.NOTIFICATION_DRAG_END)
+		await wait_process_frames(2)
+		_assert_empty_slot_targets(board, false)
 
 
 func test_scout_bare_slot_reader_uses_selected_players_ring_snapshot() -> void:
@@ -438,11 +481,11 @@ func test_market_surface_fits_its_offers_and_control_row() -> void:
 		var offers: Control = screen.get("_shop_cards")
 		var controls: Control = screen.get("_market_controls")
 		var market_box: Rect2 = market.get_global_rect()
-		assert_lt(
-			market_box.size.y,
-			510.0,
-			"the recruit market no longer fills a fight formation's height"
-		)
+		var canvas: Vector2 = screen.get_viewport_rect().size
+		assert_eq(market_box, Arena.market_rect(canvas))
+		var seam: float = Arena.board_rect(canvas).position.y - market_box.end.y
+		assert_gte(seam, 0.0, "market never covers the stationary formation")
+		assert_lte(seam, 16.0, "market meets the own board without an empty band")
 		assert_true(market_box.encloses(offers.get_global_rect()))
 		assert_true(market_box.encloses(controls.get_global_rect()))
 		var gap: float = controls.get_global_rect().position.y - offers.get_global_rect().end.y

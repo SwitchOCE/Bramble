@@ -1,6 +1,7 @@
 extends GutTest
 ## All hand tiles remain directly accessible; a fan changes stacking, never canonical hand indices.
 
+const Arena := preload("res://src/ui/arena_geometry.gd")
 const Fan := preload("res://src/ui/widgets/hand_fan.gd")
 const Card := preload("res://src/ui/widgets/card_view.gd")
 const Views := preload("res://src/ui/unit_views.gd")
@@ -55,14 +56,15 @@ func _viewport(pixels: Vector2) -> SubViewport:
 func _fan(viewport: SubViewport) -> Fan:
 	var fan := Fan.new()
 	viewport.add_child(fan)
-	fan.position = Vector2(100, 100)
-	fan.size = Vector2(392, 510)
+	var frame: Rect2 = Arena.hand_rect(Vector2(viewport.size))
+	fan.position = frame.position
+	fan.size = frame.size
 	var hand: Array = hand_views()
 	for index: int in hand.size():
 		var card := Card.new()
 		var view: Dictionary = hand[index]
 		card.show_unit(view, Card.Mode.MINI)
-		card.set_card_size(Vector2(176, 226))
+		card.set_card_size(Arena.UNIT)
 		card.zone = "hand"
 		card.index = index
 		card.drag_data_fn = func(zone: String, at: int) -> Variant:
@@ -101,8 +103,12 @@ func test_full_hand_keeps_canonical_indices_after_each_focus() -> void:
 	for index: int in _hand_limit():
 		var card: Card = fan.card_at(index)
 		assert_true(card.is_visible_in_tree())
-		assert_eq(card.card_size, Vector2(176, 226))
+		assert_eq(card.card_size, Arena.UNIT)
 		assert_true(fan.get_global_rect().encloses(card.get_global_rect()))
+		assert_true(viewport.get_visible_rect().encloses(card.get_global_rect()))
+		for other: Card in fan.cards:
+			if other != card:
+				assert_almost_eq(LayoutCheck._shared_face_area(card, other), 0.0, 0.01)
 		fan.focus(index)
 		assert_eq(
 			fan.get_child(_hand_limit() - 1),
@@ -246,9 +252,20 @@ func test_all_full_hand_stat_text_rects_remain_readable_in_the_resting_fan() -> 
 				for higher: Card in fan.cards:
 					if higher.get_index() <= card.get_index():
 						continue
-					var face: Rect2 = higher.get_global_rect().grow_individual(0, 0, 0, Card.EDGE)
-					assert_false(
-						text.intersects(face),
+					var text_polygon := PackedVector2Array(
+						[
+							text.position,
+							Vector2(text.end.x, text.position.y),
+							text.end,
+							Vector2(text.position.x, text.end.y)
+						]
+					)
+					assert_true(
+						(
+							Geometry2D
+							. intersect_polygons(text_polygon, LayoutCheck._face_polygon(higher))
+							. is_empty()
+						),
 						"hand %d %s is not covered by a higher card face" % [card.index, stat]
 					)
 					for other_stat: String in ["_attack_label", "_health_label"]:

@@ -99,18 +99,24 @@ func _init() -> void:
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
-	_detail.attach_recruit_overlay(
-		_stage,
-		_gold,
-		_end_button,
-		{
-			"shop": _shop_cards,
-			"board": _board,
-			"hand": _hand_zone,
-			"scout": _scout,
-			"lobby": _lobby,
-			"market_controls": _market_controls
-		}
+	var reader_source: Callable = func() -> Control:
+		return _card_at(_detail.read_zone, Data.i(_selected, "index", _hover_index))
+	(
+		_detail
+		. attach_recruit_overlay(
+			_stage,
+			_gold,
+			_end_button,
+			{
+				"shop": _shop_cards,
+				"board": _board,
+				"hand": _hand_zone,
+				"scout": _scout,
+				"lobby": _lobby,
+				"market_controls": _market_controls,
+				"source": reader_source,
+			}
+		)
 	)
 	_motion = RecruitMotion.new()
 	_stage.add_child(_motion)
@@ -444,20 +450,6 @@ func _show_selection() -> void:
 		"scout":
 			_detail.show_unit(RecruitHeld.with_inside(view))
 			_scout.pulse_reach(_board, _lanes.bindings, index)
-
-
-func _card_at(zone: String, index: int) -> CardView:
-	match zone:
-		"board":
-			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
-		"hand":
-			return _hand_cards.card_at(index)
-		"shop":
-			if index >= 0 and index < _shop_cards.get_child_count():
-				return _shop_cards.get_child(index) as CardView
-		"scout":
-			return _scout.card_at(index)
-	return null
 
 
 func _try_swallow(from_zone: String, from_index: int, slot: int) -> bool:

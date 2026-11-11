@@ -2,6 +2,7 @@ extends GutTest
 ## Phone regressions: birds away keep the shop controls, long sell help fits the detail panel,
 ## opposing scout columns line up, and slot marks leave the board's captions readable.
 
+const Arena := preload("res://src/ui/arena_geometry.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
@@ -289,7 +290,7 @@ func test_maximum_phone_shop_offers_remain_full_sized_while_the_reader_floats() 
 	assert_true(detail.visible)
 	for child: Node in shop.get_children():
 		var card: CardView = child as CardView
-		assert_eq(card.card_size, Vector2(176, 226), "maximum market never shrinks offers")
+		assert_eq(card.card_size, Arena.UNIT, "maximum market never shrinks offers")
 	assert_eq(shop.get_child_count(), 7)
 	assert_eq(shop.get_global_rect(), before, "reading a card never squeezes the merchant")
 
@@ -341,7 +342,7 @@ func test_late_scout_focus_restores_all_shop_offers_at_both_sizes() -> void:
 		for child: Node in shop.get_children():
 			var card: CardView = child as CardView
 			assert_true(card.is_visible_in_tree())
-			assert_eq(card.card_size, Vector2(176, 226), "restored offer keeps full unit size")
+			assert_eq(card.card_size, Arena.UNIT, "restored offer keeps full unit size")
 		assert_eq(LayoutCheck.problems(screen, "restored late shop"), PackedStringArray())
 
 

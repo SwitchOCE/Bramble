@@ -272,15 +272,16 @@ func _layout() -> void:
 	_round_label.position = Vector2(24, 24)
 	_round_label.size = Vector2(230, 64)
 	var tap: float = Arena.control_height(canvas)
+	var tool_gap: float = clampf((Arena.board_rect(canvas).position.x - 1 - 5 * tap) / 4, 0, 12)
 	var controls: Array[TokenButton] = [
 		_gear, _step_button, _play_button, _skip_button, _speed_button
 	]
 	for i: int in controls.size():
-		controls[i].position = Vector2(12 + i * (tap + 12), 112)
+		controls[i].position = Vector2(i * (tap + tool_gap), 112)
 		controls[i].size = Vector2(tap, tap)
 		controls[i].quiet = true
-	_tools_strip.position = Vector2(12, 112 + (tap - 52) / 2.0)
-	_tools_strip.size = Vector2(controls.size() * tap + (controls.size() - 1) * 12, 52)
+	_tools_strip.position = Vector2(0, 112 + (tap - 52) / 2.0)
+	_tools_strip.size = Vector2(controls.size() * tap + (controls.size() - 1) * tool_gap, 52)
 	var lobby_rect: Rect2 = Arena.lobby_rect(canvas)
 	_lobby.position = lobby_rect.position
 	_lobby.size = lobby_rect.size

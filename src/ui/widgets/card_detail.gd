@@ -60,6 +60,7 @@ var _health_label: Label
 var _action_column: Rect2 = Rect2()
 var _last_view: Dictionary = {}
 var _arena_anchor: Array = []
+var _source_getter: Callable
 
 
 func _init() -> void:
@@ -223,14 +224,17 @@ func set_action_column(rect: Rect2 = Rect2()) -> void:
 func attach_recruit_overlay(
 	stage: Control, gold: Control, end_button: Control, rows: Dictionary
 ) -> void:
+	_source_getter = rows.get("source", Callable())
 	var row_refs: Dictionary = {}
 	for zone: String in rows:
-		row_refs[zone] = weakref(rows[zone])
+		if zone != "source":
+			row_refs[zone] = weakref(rows[zone])
 	_anchor = _anchor_recruit.bind(weakref(stage), weakref(gold), weakref(end_button), row_refs)
 	visibility_changed.connect(_anchor)
 	gold.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
 	end_button.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
-	for row: Control in rows.values():
+	for zone: String in row_refs:
+		var row: Control = rows[zone]
 		row.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
 
 
@@ -251,6 +255,7 @@ func _anchor_recruit(
 		if row == null or not row.is_inside_tree() or row.is_queued_for_deletion():
 			return
 		rows[zone] = row
+	rows["source"] = _source_getter
 	place_recruit_overlay(targets[0], targets[1], targets[2], rows)
 
 
@@ -298,10 +303,15 @@ func _place_arena_overlay(
 		(inverse * gold.get_global_rect()).grow(12),
 		(inverse * end_button.get_global_rect()).grow(12),
 	]
-	for zone: String in ["board", "shop", "scout", "lobby", "market_controls", read_zone]:
+	for zone: String in ["board", "scout", "lobby", "market_controls"]:
 		var row: Control = rows.get(zone)
 		if row != null and row.is_visible_in_tree():
 			protected.append((inverse * row.get_global_rect()).grow(12))
+	var source_fn: Callable = rows.get("source", Callable())
+	if source_fn.is_valid():
+		var source: Control = source_fn.call()
+		if source != null and source.is_visible_in_tree():
+			protected.append((inverse * source.get_global_rect()).grow(12))
 	var anchor: Array = [stage.size, read_zone, protected]
 	if _arena_anchor == anchor:
 		return

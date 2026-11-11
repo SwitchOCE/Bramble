@@ -55,11 +55,11 @@ func arrange() -> void:
 		return
 	var tile: Vector2 = cards[0].card_size
 	var columns: int = mini(2, cards.size())
-	var left: float = maxf(0.0, (size.x - columns * tile.x - (columns - 1) * 16.0) / 2.0)
+	var left: float = maxf(0.0, (size.x - columns * tile.x - (columns - 1) * 12.0) / 2.0)
 	for index: int in cards.size():
 		var card: CardView = cards[index]
 		var at := Vector2(
-			left + (index % 2) * (tile.x + 16.0), floorf(index / 2.0) * (tile.y + 12.0)
+			left + (index % 2) * (tile.x + 12.0), floorf(index / 2.0) * (tile.y + 12.0)
 		)
 		_homes[card] = at
 		card.position = at

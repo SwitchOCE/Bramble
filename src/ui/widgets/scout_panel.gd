@@ -9,7 +9,6 @@ const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
-const SharedBoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
@@ -148,7 +147,7 @@ func show_hero(hero: Dictionary) -> void:
 
 ## Forecast carries the resolved quarry destination, including a neighbour's lent mark.
 ## `bindings` is LaneProjection.forecast([your_board, scouted_board]), not inferred across.
-func pulse_reach(own_board: SharedBoardView, bindings: Dictionary, source_slot: int) -> void:
+func pulse_reach(own_board: BoardView, bindings: Dictionary, source_slot: int) -> void:
 	# The source keeps its blue selection; only the destination gets a gold target beat.
 	_board.show_relations([])
 	var targets: Array[int] = []
@@ -173,11 +172,11 @@ func pulse_reach(own_board: SharedBoardView, bindings: Dictionary, source_slot: 
 func _layout() -> void:
 	var tray: Vector2 = _board.tray_size()
 	_board.position = Vector2.ZERO
-	_title.position = Vector2(tray.x + 36, 20)
+	_title.position = Vector2(tray.x + 24, 20)
 	_title.size = Vector2(270.0, TITLE_H)
 	_empty.position = Vector2(50, tray.y / 2.0 - 70.0)
 	_empty.size = Vector2(tray.x - 100.0, 140)
 	var side: float = 122.0 if CardView.is_phone() else 90.0
-	_hero.position = Vector2(tray.x + 36, 150)
+	_hero.position = Vector2(tray.x + 24, 150)
 	_hero.size = Vector2(side, side)
 	_hero_art.size = _hero.size
