@@ -1,10 +1,10 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** The Bazaar Stack layout and the new art are in: units and woodland now painted in one ink-and-wash style. Next, play goes on its own surfaces with the world as a frame, and recruit feel lands.
+- **In short:** Layout, art and framing are in: one painted woodland, play on its own surfaces with the world as a frame. Recruit feel lands next, then the build you play.
 - **Status:** active
-- **Last step done:** 11 Nov: the units went one notch more painted: all 162 portraits and tribe images repainted and merged (gate passed, 0 problems in the 4-game UI run).
-- **Next step:** frame play on its own surfaces (A2), recruit feel (B), and a trial of units one notch more painted; mid-loop update to you when A2 lands.
+- **Last step done:** 11 Nov: step A2 merged: play on its own painted surfaces, the world as a frame (gate passed, 0 problems in the 4-game UI run).
+- **Next step:** merge recruit feel (B); then the merge freeze (12 Nov evening), integration checks and the playtest note on 13 Nov.
 - **Waiting on you:** nothing. Loop 1 ends when you play its build, or 13 Nov 23:22.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
 <!-- /status -->
