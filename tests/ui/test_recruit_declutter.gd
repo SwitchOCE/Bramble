@@ -351,27 +351,31 @@ func test_standard_spell_and_item_prices_leave_the_face_while_changed_prices_rem
 			assert_eq(tile.unit, sample, "hiding a standard-price reminder preserves its value")
 
 
-func test_one_gold_spell_reader_and_buy_action_retain_the_exact_price() -> void:
-	var port := FixturePort.new()
-	port.use_state_file("res://tests/ui/data/recruit_slice.json")
-	port.get_state()["shop"] = [
-		{"def_id": "ring", "name": "Ring", "kind": "spell", "cost": 1, "text": "A Ring."}
-	]
-	var before: Dictionary = port.get_state().duplicate(true)
-	var screen: RecruitScreen = _screen(Vector2i(1688, 780), port)
-	await wait_process_frames(2)
-	screen._on_tapped("shop", 0)
-	var reader: CardDetail = screen.get("_detail")
-	assert_true(reader.visible)
-	assert_eq(CoreUtil.to_int(reader.shown["cost"]), 1)
-	var reader_price: Label = reader.get("_tier_label")
-	assert_true(reader_price.is_visible_in_tree())
-	assert_eq(reader_price.text, "1")
-	var buy: Button = reader.actions.get_child(0)
-	var action_price: Label = buy.get("_cost_label")
-	assert_true(action_price.is_visible_in_tree())
-	assert_eq(action_price.text, "1")
-	assert_eq(port.get_state(), before)
+func test_one_gold_spell_compact_reader_keeps_the_exact_buy_price() -> void:
+	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
+		var port := FixturePort.new()
+		port.use_state_file("res://tests/ui/data/recruit_slice.json")
+		port.get_state()["shop"] = [
+			{"def_id": "ring", "name": "Ring", "kind": "spell", "cost": 1, "text": "A Ring."}
+		]
+		var before: Dictionary = port.get_state().duplicate(true)
+		var screen: RecruitScreen = _screen(pixels, port)
+		await wait_process_frames(2)
+
+		screen._on_tapped("shop", 0)
+		var reader: CardDetail = screen.get("_detail")
+		assert_true(reader.visible)
+		assert_eq(CoreUtil.to_int(reader.shown["cost"]), 1)
+		var reader_price: Label = reader.get("_tier_label")
+		assert_false(
+			reader_price.is_visible_in_tree(), "the compact reader omits the duplicate price badge"
+		)
+		assert_eq(reader_price.text, "1")
+		var buy: Button = reader.actions.get_child(0)
+		var action_price: Label = buy.get("_cost_label")
+		assert_true(action_price.is_visible_in_tree())
+		assert_eq(action_price.text, "1")
+		assert_eq(port.get_state(), before)
 
 
 func test_away_tokens_keep_the_complete_forecast_in_one_tap_readers_at_both_sizes() -> void:
