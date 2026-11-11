@@ -58,11 +58,14 @@ func _run(kind: String) -> void:
 		await _states()
 	elif kind == "packing":
 		await _packing()
-	elif kind == "recruit":
+	elif kind in ["recruit", "targets"]:
 		var port := Fixture.new()
 		port.use_state_file("res://tests/ui/data/recruit_slice.json")
 		var state: Dictionary = port.get_state()
 		state["board"] = _boards()[0]
+		if kind == "targets":
+			var units: Array = state["board"]
+			units[1] = null
 		state["slot_effects"] = [[], [], [], [], [], [], []]
 		state["pending_passes"] = []
 		state["hand"] = []
@@ -80,7 +83,9 @@ func _run(kind: String) -> void:
 		var screen := Recruit.new()
 		root.add_child(screen)
 		screen.setup(port)
-		await _save("recruit-full")
+		if kind == "targets":
+			screen._card_at("hand", 0).tapped.emit("hand", 0)
+		await _save("tap-placement-targets" if kind == "targets" else "recruit-full")
 	else:
 		var screen := Fight.new()
 		screen.manual_playback = true
@@ -172,6 +177,7 @@ func _portraits() -> void:
 
 
 func _states() -> void:
+	Settings.reduce_motion = true
 	var sheet := Control.new()
 	sheet.theme = UiTheme.get_theme()
 	root.add_child(sheet)
@@ -195,6 +201,8 @@ func _states() -> void:
 		card.position = Vector2(230 + index * 250, 300)
 		card.selected = index == 0
 		sheet.add_child(card)
+		if index == 2:
+			card._set_hover_lift(true)
 	await _save("golden-stats-keywords-types")
 
 
@@ -207,8 +215,9 @@ func _packing() -> void:
 	root.add_child(board)
 	for index: int in 7:
 		var card := Card.new()
-		card.show_unit(_unit(IDS[index], index + 1), Card.Mode.BOARD)
+		card.show_unit(_unit(IDS[index], index + 1, index == 3), Card.Mode.BOARD)
 		board.place_card(card, index)
 	board.cards[1].selected = true
 	board.cards[4].call("_set_hover_lift", true)
+	board.cards[6].outline = UiTheme.TRIPLE_WARN
 	await _save("tucked-selection-hover")

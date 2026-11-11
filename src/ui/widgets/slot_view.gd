@@ -11,7 +11,7 @@ var highlight: Color = Color.TRANSPARENT:
 	set(value):
 		highlight = value
 		_refresh_labels()
-		queue_redraw()
+		_sync_target()
 ## Show the "behind F3 & F4" note when empty.
 var with_note: bool = false:
 	set(value):
@@ -55,6 +55,7 @@ var _name_label: Label
 var _empty_label: Label
 var _note: Label
 var _note_box: Panel
+var _target_face: Control
 var _reach_face: Control
 var _quarry_stamp: Control
 
@@ -77,6 +78,15 @@ func _init() -> void:
 	_note_box.add_child(_note)
 	resized.connect(_refresh_labels)
 	ready.connect(_refresh_labels)
+	# Targets must remain visible for tap placement and above later occupied-card siblings.
+	_target_face = Control.new()
+	_target_face.name = "TargetFace"
+	_target_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_target_face.z_index = 19
+	_target_face.draw.connect(_draw_target)
+	add_child(_target_face)
+	_target_face.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_sync_target()
 	# Occupied cards are later board siblings; the demand-only cue must paint above them.
 	_reach_face = Control.new()
 	_reach_face.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -112,6 +122,8 @@ static func note(slot: int) -> String:
 func _refresh_labels() -> void:
 	if _name_label == null:
 		return
+	if _target_face != null:
+		_target_face.queue_redraw()
 	if _quarry_stamp != null:
 		_quarry_stamp.position = (size - _quarry_stamp.size) / 2.0
 	var empty: bool = not filled and not wordless
@@ -140,11 +152,15 @@ func _process(delta: float) -> void:
 		_target_age = 0.0
 		return
 	_target_age += delta
-	queue_redraw()
+	_target_face.queue_redraw()
 
 
-func _draw() -> void:
-	_draw_target()
+func _sync_target() -> void:
+	if _target_face == null:
+		return
+	_target_face.visible = highlight.a > 0.0
+	_target_face.modulate = highlight.lightened(0.45)
+	_target_face.queue_redraw()
 
 
 func _draw_reach() -> void:
@@ -154,9 +170,7 @@ func _draw_reach() -> void:
 
 
 func _draw_target() -> void:
-	if highlight.a <= 0.0 or not get_viewport().gui_is_dragging():
-		return
 	var pulse: float = 0.8 + 0.2 * sin(TAU * _target_age / 0.8)
 	var rect: Rect2 = face_rect()
-	draw_colored_polygon(HexShape.polygon(rect), Color(highlight, highlight.a * pulse * 0.22))
-	draw_polyline(HexShape.closed(rect), Color(UiTheme.ACORN, pulse), 3.0, true)
+	_target_face.draw_colored_polygon(HexShape.polygon(rect), Color(1, 1, 1, pulse * 0.22))
+	_target_face.draw_polyline(HexShape.closed(rect), Color(1, 1, 1, pulse), 3.0, true)

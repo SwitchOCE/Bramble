@@ -57,8 +57,8 @@ screen-zone and delayed-drag regressions. Existing behavior assertions remain.
   late-game checks, **zero PROBLEM lines and zero errors** at both sizes.
   Slot acquisition precedes the standard 3,600 s suite timer and 900 s game
   timer. The two-games-per-size run does not judge the depth bar.
-- No implementation work remains; A3 supplies the common unit box. Renders and
-  the 6-second clip are in `build/loop1/hex/`.
+- A3 supplies the common unit box. Renders and the 6-second clip are in
+  `build/loop1/hex/`.
 - Scope review: UI/widgets, two screen bounds guards, UI tests and evidence/step note.
 
 Baseline updated to `ce242a92` by fetching and rebasing this unpublished branch
@@ -66,7 +66,36 @@ Baseline updated to `ce242a92` by fetching and rebasing this unpublished branch
 gate now requires **zero failures in core, play and UI**; the earlier nine baseline
 failures are no longer treated as exceptions.
 
-The owner merged `15145f83` after the gate: only the three generated UID
+The orchestrator merged `15145f83` after the gate: only the three generated UID
 sidecars changed relative to the tested checkpoint. They are now tracked and
 remain in place. UI source and inspected renders are unchanged. Godot
 config/data/state use writable temporary directories.
+
+## Follow-up: Mire bars
+
+Removed `LaneOverlay._draw_patch()` and its rectangular ground pills. These
+standing Mire marks painted at z=14 across tucked neighbours, including during
+attacks. Removal applies to fight, recruit and scouting at every size. Specific
+Mire/Mired face marks, pause cues, bindings and scouting relationship links remain.
+`test_round4_finish.gd` retires the old Mire-pill/Hex separation assertion; its Hex
+readability and hidden slot-chip checks remain. Refreshed fight stills at both
+sizes and the clip samples were inspected: the bars are gone.
+
+## Follow-up: placement, gilt and focus
+
+Tap-armed placement/moves and hero aims show their legal target paint as well as
+drags; empty slots remain quiet at rest. Golden units have a full, heavier gilt
+rim outside the portrait and warmer paper. Selection is cream-white, including
+scouting; triple warnings are violet. Hover uses a raised face and larger contact
+shadow, with no ring. Tap targets use a lighter tint so their outline reads on
+the green board. Refreshed golden, selected/hovered and fight stills at both
+sizes were inspected side by side, along with tap-placement stills and clip
+samples. The warm gilt frame remains distinct from the cream selection rim.
+
+New `test_slot_target_visibility.gd` drives real hand placement/cancel/play,
+board swaps/drag cancellation and hero aims at both sizes, checking visible
+paint nodes and their draw connections. `test_hex_units.gd` checks separate
+selection, hover and gilt cues; `test_scout_reach.gd` now expects cream selection.
+All **59 affected tests pass** (11 scripts, 7,633 assertions), with no skipped
+scripts or parse errors. Format, lint and scope checks pass. The requested
+`tests/ui/full_ui_run.sh 1 1000` is running in the background; result pending.

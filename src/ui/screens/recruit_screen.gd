@@ -248,7 +248,7 @@ func _render_shop(frozen: bool) -> void:
 		if frozen and i == 0 and not small:
 			card.show_frost_tag(true)
 		if not RecruitView.triple_warning(state, view).is_empty():
-			card.outline = UiTheme.GILT
+			card.outline = UiTheme.TRIPLE_WARN
 		_shop_cards.add_child(card)
 	if small:
 		# A grid keeps the size it had for the bigger tiles until told otherwise.

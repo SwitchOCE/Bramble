@@ -23,6 +23,7 @@ const LINE: int = 4
 const EDGE: float = 4.0
 ## Highcrown's cream light enters from upper right; the thin edge shades lower left.
 const PAPER: Color = Color("eee5ca")
+const GOLDEN_PAPER: Color = Color("f4d698")
 const BARK_EDGE: Color = Color("899078")
 const PAPER_INK: Color = UiTheme.INK
 const PAPER_LIGHT: Color = Color("fff4d9")
@@ -52,13 +53,18 @@ var selected: bool = false:
 		selected = value
 		if _hedge_marks != null:
 			_hedge_marks.show_state(unit, selected)
+		_refresh_focus()
 		queue_redraw()
 ## Scout selection differs from a target pulse and from a golden unit's rim.
-var selection_color: Color = UiTheme.SELECT
+var selection_color: Color = UiTheme.SELECT:
+	set(value):
+		selection_color = value
+		_refresh_focus()
 ## A ring round the tile: the drop-target moss, an attacker's acorn or a target's red.
 var outline: Color = Color.TRANSPARENT:
 	set(value):
 		outline = value
+		_refresh_focus()
 		queue_redraw()
 ## Frozen in the shop: frost rim, rime over the art only. Stats stay clear.
 var frost: bool = false:
@@ -104,6 +110,10 @@ var _frost_tag: Panel
 var _star: TextureRect
 var _hover_tween: Tween
 var _hovering: bool = false
+var _hover_lift: float = 0.0:
+	set(value):
+		_hover_lift = value
+		queue_redraw()
 
 
 static func size_for(width: float, _card_mode: Mode = Mode.SHOP) -> Vector2:
@@ -304,6 +314,7 @@ func _build() -> void:
 	_focus_rim.z_index = 24
 	_focus_rim.draw.connect(_draw_focus)
 	add_child(_focus_rim)
+	_refresh_focus()
 	_combat_marks = CombatFace.new()
 	add_child(_combat_marks)
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -375,7 +386,10 @@ func _place_parts(_spell: bool) -> void:
 	_rules.visible = false
 	rules_shown = false
 	_art.line = float(_ink_width())
-	_place(_art, face.grow(-float(_ink_width()) - 3.0))
+	var inset: float = (
+		float(_ink_width()) * 2.5 + 3.0 if Data.b(unit, "golden") else float(_ink_width()) + 3.0
+	)
+	_place(_art, face.grow(-inset))
 	_place(
 		_name_label, Rect2(face.position + Vector2(0, face.size.y * 0.55), Vector2(face.size.x, 40))
 	)
@@ -492,7 +506,7 @@ func _face() -> Color:
 	if frost:
 		return UiTheme.FROST_FACE
 	if Data.b(unit, "golden", false):
-		return UiTheme.GILT
+		return GOLDEN_PAPER
 	return PAPER
 
 
@@ -514,10 +528,13 @@ func _draw() -> void:
 	var golden: bool = Data.b(unit, "golden")
 	var ink: float = float(_ink_width())
 	# The contour fits its caller's box. A narrow outer rim leaves the tuck's air intact.
-	_focus_rim.queue_redraw()
-	for spread: int in range(5, 0, -1):
+	_refresh_focus()
+	var shadow_spread: int = roundi(lerpf(5.0, 11.0, _hover_lift))
+	var shadow_offset: Vector2 = Vector2(-2, 4).lerp(Vector2(-3, 8), _hover_lift)
+	for spread: int in range(shadow_spread, 0, -1):
 		_paint_hex(
-			Rect2(rect.position + Vector2(-2, 4), rect.size).grow(spread), Color(CONTACT, 0.025)
+			Rect2(rect.position + shadow_offset, rect.size).grow(spread),
+			Color(CONTACT, lerpf(0.025, 0.033, _hover_lift))
 		)
 	var under: Color = UiTheme.BRASS if golden else BARK_EDGE
 	if frost:
@@ -529,9 +546,11 @@ func _draw() -> void:
 	# Cream light follows the upper-right slope and shoulder.
 	var contour: PackedVector2Array = HexShape.polygon(rect.grow(-ink))
 	draw_polyline(contour.slice(6, 20), PAPER_LIGHT, maxf(1.0, ink * 0.55), true)
-	if golden or is_spell(unit):
-		var edge: Color = UiTheme.GILT if golden else under
-		draw_polyline(HexShape.closed(rect.grow(-ink - 1)), edge, ink * 1.6, true)
+	if golden:
+		# The portrait is inset beyond the whole gilt stroke, so it cannot cover this rim.
+		draw_polyline(HexShape.closed(rect.grow(-ink - 2)), UiTheme.GILT, ink * 2.5, true)
+	elif is_spell(unit):
+		draw_polyline(HexShape.closed(rect.grow(-ink - 1)), under, ink * 1.6, true)
 	if Data.s(unit, "kind") == "item":
 		# Brass corner rivets distinguish items from the violet double rim of spells.
 		for side: float in [0.0, 1.0]:
@@ -543,8 +562,14 @@ func _draw() -> void:
 
 
 ## Paint above neighbouring faces without changing the card's animation z-order.
+func _refresh_focus() -> void:
+	if _focus_rim != null:
+		_focus_rim.visible = selected or outline.a > 0.0
+		_focus_rim.queue_redraw()
+
+
 func _draw_focus() -> void:
-	var ring: Color = selection_color if selected or _hovering else outline
+	var ring: Color = selection_color if selected else outline
 	if ring.a <= 0.0:
 		return
 	var path: PackedVector2Array = HexShape.closed(face_rect().grow(3))
@@ -569,11 +594,15 @@ func _set_hover_lift(on: bool) -> void:
 	_hovering = on
 	if _hover_tween != null and _hover_tween.is_valid():
 		_hover_tween.kill()
+	var raised: float = 1.0 if on else 0.0
+	var raised_scale: Vector2 = Vector2.ONE * (1.025 if on else 1.0)
 	if Settings.reduce_motion or not is_inside_tree():
-		scale = Vector2.ONE
+		scale = raised_scale
+		_hover_lift = raised
 	else:
-		_hover_tween = create_tween()
-		_hover_tween.tween_property(self, "scale", Vector2.ONE * (1.025 if on else 1.0), 0.1)
+		_hover_tween = create_tween().set_parallel(true)
+		_hover_tween.tween_property(self, "scale", raised_scale, 0.1)
+		_hover_tween.tween_property(self, "_hover_lift", raised, 0.1)
 	queue_redraw()
 
 

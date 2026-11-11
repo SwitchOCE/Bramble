@@ -125,3 +125,36 @@ func test_three_digit_badges_widen_without_losing_exact_digits_or_the_font_floor
 			),
 			badge.inner_width()
 		)
+
+
+func test_selection_hover_and_golden_have_separate_visible_cues() -> void:
+	Settings.reduce_motion = true
+	var card := Card.new()
+	add_child_autofree(card)
+	card.show_unit({"def_id": "mrs_jay", "attack": 3, "health": 3})
+	card.set_card_width(176)
+	var plain_art: Rect2 = card._art.get_rect()
+	assert_false(card._focus_rim.visible, "rest has no focus ring")
+	card._set_hover_lift(true)
+	assert_false(card._focus_rim.visible, "hover never acquires a selection ring")
+	assert_gt(card.scale.x, 1.0, "hover raises the face")
+	assert_gt(card._hover_lift, 0.0, "hover also expands the contact shadow")
+	card.selected = true
+	assert_true(card._focus_rim.visible, "selection has an actual foreground paint layer")
+	assert_eq(card.selection_color, Card.UiTheme.SELECT)
+	assert_gt(card.selection_color.r, 0.95)
+	assert_gt(card.selection_color.g, 0.95)
+	assert_ne(card.selection_color, Card.UiTheme.GILT)
+	card.selected = false
+	card._set_hover_lift(false)
+	assert_false(card._focus_rim.visible)
+	assert_eq(card.scale, Vector2.ONE)
+	assert_eq(card._hover_lift, 0.0)
+	card.show_unit({"def_id": "mrs_jay", "attack": 6, "health": 6, "golden": true})
+	assert_false(card._focus_rim.visible, "gilt is permanent material, not a focus ring")
+	assert_gt(card._art.position.x, plain_art.position.x, "portrait leaves room for full gilt")
+	assert_eq(card._face(), Card.GOLDEN_PAPER)
+	card.outline = Card.UiTheme.TRIPLE_WARN
+	assert_true(card._focus_rim.visible, "triple warning has actual foreground paint")
+	assert_ne(card.outline, card.selection_color)
+	assert_ne(card.outline, Card.UiTheme.GILT)
