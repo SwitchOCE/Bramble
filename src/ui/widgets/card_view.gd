@@ -19,12 +19,12 @@ const Settings := preload("res://src/ui/settings.gd")
 const SHOP_WIDTH: float = 270.0
 const SHOP_HEIGHT: float = 297.0
 const BOARD_RATIO: float = 102.0 / 112.0
-const LINE: int = 2
+const LINE: int = 4
 const EDGE: float = 4.0
 ## Highcrown's cream light enters from upper right; the thin edge shades lower left.
 const PAPER: Color = Color("eee5ca")
 const BARK_EDGE: Color = Color("899078")
-const PAPER_INK: Color = Color("515747")
+const PAPER_INK: Color = UiTheme.INK
 const PAPER_LIGHT: Color = Color("fff4d9")
 const CONTACT: Color = Color(0.06, 0.12, 0.10, 0.18)
 ## Public portrait floor used by layout checks.
@@ -37,7 +37,6 @@ const NAME_EXCEPTIONS: Dictionary[String, String] = {}
 static var unbuilt: Dictionary = {}
 ## Tests set this to try a window shape. Zero reads the real window.
 static var window_override: Vector2 = Vector2.ZERO
-static var _portrait_shader: Shader
 
 var unit: Dictionary = {}
 ## The size this card is laid out for (see LEARNINGS, 4 Nov: size lags behind the minimum size).
@@ -249,25 +248,6 @@ func show_frost_tag(_on: bool) -> void:
 
 func _build() -> void:
 	_art = ArtFrame.new()
-	if _portrait_shader == null:
-		_portrait_shader = Shader.new()
-		_portrait_shader.code = """
-shader_type canvas_item;
-varying vec4 tint;
-void vertex() {
-	tint = COLOR;
-}
-void fragment() {
-	vec4 portrait = texture(TEXTURE, UV);
-	float value = dot(portrait.rgb, vec3(0.2126, 0.7152, 0.0722));
-	vec3 ink = mix(vec3(value), portrait.rgb, 0.89);
-	ink *= vec3(1.015, 1.0, 0.955);
-	COLOR = tint * vec4(ink, portrait.a);
-}
-"""
-	var grade := ShaderMaterial.new()
-	grade.shader = _portrait_shader
-	_art.material = grade
 	add_child(_art)
 	_hedge_marks = HedgeMarks.new()
 	_art.add_child(_hedge_marks)
@@ -390,7 +370,7 @@ func _place_parts(spell: bool) -> void:
 	_rules.visible = false
 	rules_shown = false
 	_art.radius = 44.0 if spell else 15.0
-	_art.line = 2.5
+	_art.line = float(_ink_width())
 	if named:
 		# Legacy shared portraits keep the reserved name line until their own art arrives.
 		_place(_art, Rect2(12, 12, w - 24, h - 104))
@@ -503,6 +483,11 @@ func _face() -> Color:
 	return PAPER
 
 
+## Follow the painted contour's scale without making small cards' outlines too heavy.
+func _ink_width() -> int:
+	return clampi(roundi(LINE * card_size.x / SHOP_WIDTH), 2, LINE)
+
+
 func _tile_box(fill: Color, line: Color, width: int) -> StyleBoxFlat:
 	var box: StyleBoxFlat = UiTheme.flat_box(fill, line, width, 24)
 	if is_spell(unit):
@@ -533,8 +518,9 @@ func _draw() -> void:
 	shadow.shadow_size = 16 if _hovering else 7
 	draw_style_box(shadow, Rect2(Vector2(-5, EDGE + 4), rect.size))
 	var drop := Rect2(Vector2(-1, EDGE), card_size)
-	draw_style_box(_tile_box(under, PAPER_INK, LINE), drop)
-	draw_style_box(_tile_box(_face(), PAPER_INK, LINE), rect)
+	var ink_width: int = _ink_width()
+	draw_style_box(_tile_box(under, PAPER_INK, ink_width), drop)
+	draw_style_box(_tile_box(_face(), PAPER_INK, ink_width), rect)
 	# A single quiet lit edge, with no grain or extra decoration at token size.
 	var corner: float = 70.0 if is_spell(unit) else 24.0
 	draw_line(
