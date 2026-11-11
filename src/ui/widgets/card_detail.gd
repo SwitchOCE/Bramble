@@ -303,7 +303,7 @@ func _place_arena_overlay(
 		(inverse * gold.get_global_rect()).grow(12),
 		(inverse * end_button.get_global_rect()).grow(12),
 	]
-	for zone: String in ["board", "scout", "lobby", "market_controls"]:
+	for zone: String in ["board", "shop", "scout", "lobby", "market_controls"]:
 		var row: Control = rows.get(zone)
 		if row != null and row.is_visible_in_tree():
 			protected.append((inverse * row.get_global_rect()).grow(12))
@@ -343,7 +343,7 @@ static func _free_band(bounds: Rect2, protected: Array[Rect2]) -> Rect2:
 	var largest := Rect2()
 	for left: float in xs:
 		for right: float in xs:
-			if right - left < 320.0:
+			if right - left < 270.0:
 				continue
 			for top: float in ys:
 				for bottom: float in ys:

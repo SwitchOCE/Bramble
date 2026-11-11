@@ -147,6 +147,15 @@ func test_maximum_market_and_four_mixed_hand_tiles_keep_the_same_full_size() -> 
 		var market: Control = screen.get("_shop_zone")
 		var shop: Control = screen.get("_shop_cards")
 		assert_eq(shop.get_child_count(), 7, "configured maximum is six units and one spell")
+		var third_copy: Card = shop.get_child(0) as Card
+		assert_eq(
+			third_copy.outline, Card.UiTheme.TRIPLE_WARN, "two owned copies warn on the offer"
+		)
+		assert_ne(
+			third_copy.outline, Card.UiTheme.GILT, "third-copy warning never claims golden material"
+		)
+		assert_eq(third_copy.selection_color, Card.UiTheme.SELECT)
+		assert_ne(third_copy.outline, third_copy.selection_color)
 		for card: Card in shop.get_children():
 			assert_eq(card.card_size, UNIT)
 			assert_eq(card.get_global_rect().size, UNIT, "shop and hand retain full displayed size")
@@ -184,6 +193,24 @@ func test_maximum_market_and_four_mixed_hand_tiles_keep_the_same_full_size() -> 
 			assert_gt(
 				physical.x, 176.0 * 780.0 / 1080.0, "phone tiles are larger than the old units"
 			)
+		var selected: Card = cards[0]
+		selected._set_hover_lift(true)
+		await wait_seconds(0.12)
+		assert_gt(selected.scale.x, 1.0, "the live hand face lifts on hover")
+		assert_false(selected._focus_rim.visible, "hover alone never paints selection")
+		selected.tapped.emit("hand", 0)
+		assert_true(selected.selected, "the real hand tap selects its card")
+		assert_true(selected._focus_rim.visible)
+		assert_eq(selected.selection_color, Card.UiTheme.SELECT)
+		assert_gt(selected.selection_color.r, 0.95, "live selection stays white")
+		assert_gt(selected.selection_color.g, 0.95)
+		assert_ne(selected.selection_color, Card.UiTheme.GILT)
+		assert_ne(selected.selection_color, third_copy.outline)
+		selected._set_hover_lift(false)
+		await wait_seconds(0.12)
+		assert_true(selected._focus_rim.visible, "ending hover preserves selection paint")
+		screen._on_tapped("table", -1)
+		assert_false(selected._focus_rim.visible, "cancelling selection removes its paint")
 
 
 func test_market_controls_are_inside_market_and_reader_clears_source_and_purchasing() -> void:

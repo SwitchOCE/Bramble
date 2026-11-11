@@ -416,7 +416,7 @@ func test_a_full_size_offer_buys_after_returning_from_scouting() -> void:
 	_return_to_market(screen)
 	var tile: CardView = screen.call("_card_at", "shop", 0)
 	assert_eq(tile.mode, CardView.Mode.SHOP)
-	assert_eq(tile.size, Vector2(176, 226))
+	assert_eq(tile.size, preload("res://src/ui/arena_geometry.gd").UNIT)
 	screen.call("_on_tapped", "shop", 0)
 	var driver: PlayerDriver = PlayerDriver.new(1)
 	driver.call("_press_detail_action", screen, "Buy")
