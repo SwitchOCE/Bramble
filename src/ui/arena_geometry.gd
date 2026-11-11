@@ -40,15 +40,9 @@ static func lobby_rect(canvas: Vector2) -> Rect2:
 static func size_board(board: Control, zone: String, front_on_top: bool) -> void:
 	board.set("compact", true)
 	board.set("surface_visible", false)
-	board.call("configure", zone, 176.0, front_on_top)
-	board.set("pocket", UNIT)
-	board.set("gap", 16.0)
-	board.set("pad", 26.0)
-	board.custom_minimum_size = board.call("tray_size")
+	board.call("configure", zone, 195.0, front_on_top, false, false, BOARD.y)
 	board.update_minimum_size()
-	board.size = board.custom_minimum_size
-	board.call("_layout")
-	fit_cards(board)
+	board.size = board.call("tray_size")
 
 
 ## Preserve the board's slot centres when a face is sized independently of its legacy ratio.

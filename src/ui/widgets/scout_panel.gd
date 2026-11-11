@@ -8,7 +8,7 @@ const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
-const BoardView := preload("res://src/ui/screens/arena_board.gd")
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const SharedBoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const RecruitView := preload("res://src/ui/screens/recruit_view.gd")

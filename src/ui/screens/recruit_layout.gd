@@ -12,7 +12,7 @@ const RecruitOozes := preload("res://src/ui/screens/recruit_oozes.gd")
 const RecruitHeld := preload("res://src/ui/screens/recruit_held.gd")
 const ScoutPanel := preload("res://src/ui/widgets/scout_panel.gd")
 const CardView := preload("res://src/ui/widgets/card_view.gd")
-const BoardView := preload("res://src/ui/screens/arena_board.gd")
+const BoardView := preload("res://src/ui/widgets/board_view.gd")
 const CardDetail := preload("res://src/ui/widgets/card_detail.gd")
 const AwayTray := preload("res://src/ui/widgets/away_tray.gd")
 const HandFan := preload("res://src/ui/widgets/hand_fan.gd")
@@ -305,14 +305,7 @@ func _highlight_bellies(view: Dictionary) -> Array[int]:
 	return bellies
 
 
-func _show_drop_targets() -> bool:
-	var pocket: Control = get("_drop_pocket")
-	return get_viewport().gui_is_dragging() or (is_instance_valid(pocket) and pocket.visible)
-
-
 func _highlight_empty_slots() -> void:
-	if not _show_drop_targets():
-		return
 	for slot: int in BoardView.SLOTS:
 		if _board.cards[slot] == null:
 			_board.slots[slot].highlight = UiTheme.DROP_OK
@@ -335,20 +328,18 @@ func _highlight_item(item: Dictionary) -> void:
 		var has_unit: bool = _board.cards[slot] != null
 		var target: Dictionary = _board.cards[slot].unit if has_unit else {}
 		if not RecruitView.item_lands(item, target, slot, state):
-			if RecruitView.ring_preview(state, item, slot) == "Full" and _show_drop_targets():
+			if RecruitView.ring_preview(state, item, slot) == "Full":
 				_board.slots[slot].highlight = UiTheme.OUT_FACE
 				if has_unit:
 					_board.cards[slot].outline = UiTheme.OUT_MARK
 			continue
 		if has_unit:
 			_board.cards[slot].outline = UiTheme.DROP_OK
-		elif _show_drop_targets():
+		else:
 			_board.slots[slot].highlight = UiTheme.DROP_OK
 
 
 func _highlight_other_slots(from_slot: int) -> void:
-	if not _show_drop_targets():
-		return
 	for slot: int in BoardView.SLOTS:
 		if slot == from_slot:
 			continue
