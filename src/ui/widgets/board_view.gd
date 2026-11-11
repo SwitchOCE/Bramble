@@ -11,6 +11,8 @@ const SlotMarks := preload("res://src/ui/widgets/slot_marks.gd")
 const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
+const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
+
 const SLOTS: int = 7
 const FRONT: int = 4
 const BORDER: float = 7.0
@@ -116,13 +118,7 @@ func configure(
 	_notes_requested: bool = false
 ) -> void:
 	zone = board_zone
-	pocket = Vector2(
-		pocket_width,
-		(
-			roundf(pocket_width * 112.0 / 124.0)
-			+ (40.0 if board_zone == "board" and not compact else 0.0)
-		)
-	)
+	pocket = Vector2(pocket_width, CardView.size_for(roundf(pocket_width * 112.0 / 124.0)).y + 12.0)
 	gap = roundf(pocket_width * 14.0 / 124.0)
 	pad = roundf(pocket_width * 16.0 / 124.0)
 	front_toward_top = front_on_top
@@ -148,37 +144,30 @@ func tile_width() -> float:
 
 func tray_size() -> Vector2:
 	var width: float = FRONT * pocket.x + (FRONT - 1) * gap + pad * 2.0 + BORDER * 2.0
-	return Vector2(width, _row_height(true) + _row_height(false) + EDGE)
+	return Vector2(width, pocket.y + _row_stride() + 2.0 * (BORDER + _outer()) + EDGE)
 
 
-func _row_height(front: bool) -> float:
-	var strip: float = LABEL_H + LABEL_GAP if with_labels else 0.0
-	var inner: float = 6.0 if compact else 38.0 if not front else 20.0
-	return BORDER + _outer() + strip + pocket.y + inner
+## About 29 px of tuck at a 226 px face, with room for ink and focus rims.
+func _row_stride() -> float:
+	return pocket.y - CardView.size_for(tile_width()).y * (29.0 / 226.0)
 
 
-## Wood between the tray's outer edge and the pockets (or name strips).
+func _row_height(_front: bool) -> float:
+	return (tray_size().y - EDGE) / 2.0
+
+
 func _outer() -> float:
-	return 6.0 if compact else 8.0 if with_labels else 18.0
+	return 18.0
 
 
-## Top-left of a slot's pocket in this board's local coordinates.
+## Stable 4-front / 3-back anchors; the enemy reverses depth, never the slot order.
 func slot_position(slot: int) -> Vector2:
 	var front: bool = slot < FRONT
 	var column: float = float(slot) if front else float(slot - FRONT) + 0.5
 	var x: float = BORDER + pad + column * (pocket.x + gap)
-	var strip: float = LABEL_H + LABEL_GAP if with_labels else 0.0
-	var y: float
-	if front_toward_top:
-		if front:
-			y = BORDER + _outer() + strip
-		else:
-			y = _row_height(true) + (6.0 if compact else 38.0)
-	else:
-		if front:
-			y = _row_height(false) + (6.0 if compact else 20.0)
-		else:
-			y = BORDER + _outer()
+	var y: float = BORDER + _outer()
+	if front != front_toward_top:
+		y += _row_stride()
 	return Vector2(x, y)
 
 
@@ -189,11 +178,8 @@ func slot_global_center(slot: int) -> Vector2:
 ## Where a tile sits inside its pocket (raised a little, as in the mock).
 func card_position(slot: int) -> Vector2:
 	var width: float = tile_width()
-	var tile_h: float = (
-		CardView.size_for(width, CardView.Mode.BOARD).y
-		+ (40.0 if zone == "board" and not compact else 0.0)
-	)
-	return slot_position(slot) + Vector2((pocket.x - width) / 2.0, (pocket.y - tile_h) / 2.0 - 6.0)
+	var tile_h: float = CardView.size_for(width).y
+	return slot_position(slot) + Vector2((pocket.x - width) / 2.0, (pocket.y - tile_h) / 2.0)
 
 
 ## The tray's rectangle for one row: [front, back] joined at the shared edge.
@@ -216,12 +202,7 @@ func _layout() -> void:
 		slots[i].size = pocket
 		var card: CardView = cards[i]
 		if card != null:
-			card.set_card_size(
-				(
-					CardView.size_for(tile_width(), CardView.Mode.BOARD)
-					+ Vector2(0, 40 if zone == "board" and not compact else 0)
-				)
-			)
+			card.set_card_size(CardView.size_for(tile_width(), CardView.Mode.BOARD))
 			card.position = card_position(i)
 		_place_label(i)
 	if _marks != null:
@@ -321,12 +302,7 @@ func place_card(card: CardView, slot: int) -> void:
 		for chip: Label in _chips:
 			move_child(chip, -1)
 	card.mode = CardView.Mode.BOARD
-	card.set_card_size(
-		(
-			CardView.size_for(tile_width(), CardView.Mode.BOARD)
-			+ Vector2(0, 40 if zone == "board" and not compact else 0)
-		)
-	)
+	card.set_card_size(CardView.size_for(tile_width(), CardView.Mode.BOARD))
 	card.position = card_position(slot)
 	slots[slot].filled = true
 	_place_label(slot)

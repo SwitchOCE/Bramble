@@ -9,6 +9,8 @@ const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Settings := preload("res://src/ui/settings.gd")
 const RingTravel := preload("res://src/ui/widgets/ring_travel.gd")
 
+const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
+
 const BAND_COLOURS: Array[Color] = [
 	Color("c8372d"),
 	Color("e2852b"),
@@ -431,22 +433,10 @@ func _draw_toadstool(at: Vector2) -> void:
 
 ## Dots stay outside the portrait and read as one quiet floor frame.
 func _draw_ring(rect: Rect2, slot: int) -> void:
-	var perimeter: float = (rect.size.x + rect.size.y) * 2.0
 	var reveal: float = _ring_reveal.get(slot, 1.0)
 	var limit: int = roundi(RING_DOTS * reveal)
-	for dot: int in RING_DOTS:
-		if dot >= limit:
-			continue
-		var along: float = perimeter * dot / RING_DOTS
-		var point: Vector2 = rect.position
-		if along < rect.size.x:
-			point += Vector2(along, 0)
-		elif along < rect.size.x + rect.size.y:
-			point += Vector2(rect.size.x, along - rect.size.x)
-		elif along < rect.size.x * 2.0 + rect.size.y:
-			point += Vector2(rect.size.x * 2.0 + rect.size.y - along, rect.size.y)
-		else:
-			point += Vector2(0, perimeter - along)
+	for dot: int in limit:
+		var point: Vector2 = HexShape.perimeter_point(HexShape.fit(rect), float(dot) / RING_DOTS)
 		draw_circle(point, 5.0, UiTheme.INK)
 		draw_circle(point, 3.5, RING)
 

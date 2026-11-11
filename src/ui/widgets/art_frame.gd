@@ -7,7 +7,12 @@ extends Control
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 
+const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
+
 const CORNER_STEPS: int = 5
+
+var hexagonal: bool = false
+var portrait_offset: Vector2 = Vector2.ZERO
 
 var texture: Texture2D:
 	set(value):
@@ -46,7 +51,11 @@ func _draw() -> void:
 	if gilded:
 		_ring(Rect2(Vector2.ZERO, size).grow(9.0), UiTheme.INK, radius + 8.0)
 		_ring(Rect2(Vector2.ZERO, size).grow(5.0), UiTheme.GILT, radius + 5.0)
-	var points: PackedVector2Array = rounded_rect(Rect2(Vector2.ZERO, size), radius)
+	var points: PackedVector2Array = (
+		HexShape.polygon(Rect2(Vector2.ZERO, size))
+		if hexagonal
+		else rounded_rect(Rect2(Vector2.ZERO, size), radius)
+	)
 	draw_colored_polygon(points, fill)
 	if texture != null:
 		var uvs: PackedVector2Array = _cover_uvs(points)
@@ -61,7 +70,9 @@ func _draw() -> void:
 
 
 func _ring(rect: Rect2, colour: Color, corner: float) -> void:
-	draw_colored_polygon(rounded_rect(rect, corner), colour)
+	draw_colored_polygon(
+		HexShape.polygon(rect) if hexagonal else rounded_rect(rect, corner), colour
+	)
 
 
 func _draw_frost(points: PackedVector2Array) -> void:
@@ -71,32 +82,26 @@ func _draw_frost(points: PackedVector2Array) -> void:
 	for point: Vector2 in points:
 		uvs.append(point / tile_size)
 	draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, tile)
-	# Icicles hanging from the top edge of the portrait.
-	var step: float = 30.0
-	var x: float = 4.0
-	while x + step <= size.x - 2.0:
-		var ice: PackedVector2Array = [
-			Vector2(x, 0),
-			Vector2(x + step, 0),
-			Vector2(x + step * 0.72, 7),
-			Vector2(x + step * 0.55, 23),
-			Vector2(x + step * 0.38, 9),
-			Vector2(x + step * 0.2, 14),
-		]
-		draw_colored_polygon(ice, Color.WHITE)
-		var outline: PackedVector2Array = ice.duplicate()
-		outline.append(ice[0])
-		draw_polyline(outline, UiTheme.RIME, 2.5, true)
-		x += step
+	# Crystals follow the contour, so nothing spills through the cut corners.
+	for index: int in 12:
+		var at: Vector2 = HexShape.perimeter_point(Rect2(Vector2.ZERO, size).grow(-3), index / 12.0)
+		if not hexagonal:
+			at = Vector2(size.x * index / 12.0, 3)
+		var tip: Vector2 = at.move_toward(size / 2.0, 12.0 + (index % 3) * 4.0)
+		draw_line(at, tip, Color.WHITE, 3.0, true)
 
 
 ## Cover-crop UVs: the texture fills the window; the crop sits a little above centre (the mock's
 ## background-position: center 30%).
 func _cover_uvs(points: PackedVector2Array) -> PackedVector2Array:
 	var art: Vector2 = texture.get_size()
-	var fit: float = maxf(size.x / art.x, size.y / art.y)
+	var fit: float = maxf(size.x / art.x, size.y / art.y) * (1.06 if hexagonal else 1.0)
 	var shown: Vector2 = size / fit
 	var origin: Vector2 = Vector2((art.x - shown.x) * 0.5, (art.y - shown.y) * 0.2)
+	if hexagonal:
+		origin.y = clampf(art.y * 0.30 - shown.y * 0.36, 0.0, art.y - shown.y)
+		origin += portrait_offset * art
+		origin = origin.clamp(Vector2.ZERO, art - shown)
 	var uvs: PackedVector2Array = []
 	for point: Vector2 in points:
 		uvs.append((origin + point / fit) / art)

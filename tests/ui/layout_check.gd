@@ -60,10 +60,17 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 		for j: int in range(i + 1, cards.size()):
 			if _same_hand_fan(cards[i], cards[j]):
 				continue
-			var a: Rect2 = cards[i].get_global_rect()
-			var b: Rect2 = cards[j].get_global_rect()
-			var shared: float = a.intersection(b).get_area()
-			if shared > OVERLAP_SHARE * minf(a.get_area(), b.get_area()):
+			var shared: float = _shared_face_area(cards[i], cards[j])
+			if (
+				shared
+				> (
+					OVERLAP_SHARE
+					* minf(
+						_polygon_area(_face_polygon(cards[i])),
+						_polygon_area(_face_polygon(cards[j]))
+					)
+				)
+			):
 				out.append(
 					(
 						"%s: cards overlap: %s and %s"
@@ -71,6 +78,26 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 					)
 				)
 	return out
+
+
+static func _face_polygon(card: CardView) -> PackedVector2Array:
+	return card.get_global_transform() * Interactive.HexShape.polygon(card.face_rect())
+
+
+static func _polygon_area(points: PackedVector2Array) -> float:
+	var total: float = 0.0
+	for i: int in points.size():
+		total += points[i].cross(points[(i + 1) % points.size()])
+	return absf(total) / 2.0
+
+
+static func _shared_face_area(a: CardView, b: CardView) -> float:
+	var area: float = 0.0
+	for polygon: PackedVector2Array in Geometry2D.intersect_polygons(
+		_face_polygon(a), _face_polygon(b)
+	):
+		area += _polygon_area(polygon)
+	return area
 
 
 ## Only sibling hand tiles intentionally overlap. Their bounds/fonts/taps were still checked.
