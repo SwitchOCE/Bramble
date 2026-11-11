@@ -16,14 +16,15 @@
   const HEART = (n) => `<span class="heart"><svg viewBox="0 0 40 36"><path d="M20 34S2 23 2 11.5C2 5.6 6.6 2 11.3 2c4 0 6.8 2.4 8.7 5.4C21.9 4.4 24.7 2 28.7 2 33.4 2 38 5.6 38 11.5 38 23 20 34 20 34z"/></svg><b data-hp>${n}</b></span>`;
   const ATK = (n) => `<span class="paw"><b data-atk>${n}</b></span>`;
 
+  // A unit is an inked hex (owner's pick, 11 Nov), points left and right so the
+  // two columns of a sideways band pack together. Rules text lives in the hover note.
   function card(u, where, k) {
     const t = J.TRIBE[u.tribe] || J.TRIBE.Neutral;
     const small = where !== 'shop';
-    const style = k != null ? `--rot:${TILT[k]}deg;` : '';
+    const style = where === 'hand' && k != null ? `--rot:${TILT[k]}deg;` : '';
     return `<div class="card ${small ? 'small' : ''} ${u.golden ? 'golden' : ''} ${u.frozen ? 'frozen' : ''}" data-uid="${u.uid}" data-where="${where}" style="${style}--tc:${t.c}">
-      <div class="window"><img src="${J.por(u.id)}" alt="" draggable="false"></div>
+      ${J.hex(u.id)}
       <div class="name">${J.esc(u.name.replace(/,.*$/, ''))}</div>
-      ${small ? '' : `<p class="text">${J.rich(u)}</p><div class="tribe">${u.tribe}</div>`}
       ${STAR(u.tier)}${ATK(u.atk)}${HEART(u.hp)}
       ${u.trig ? '<span class="quill" title="Has a trigger">✦</span>' : ''}
     </div>`;
@@ -40,7 +41,7 @@
   // The band: 4 in front, 3 behind, standing sideways in an inked clearing.
   // Yours is always on the left page, front row towards the spine.
   function band(slots, where, cls) {
-    return J.brick(slots, (u, k) => card(u, where, k), (k) => `<div class="spot" style="--rot:${TILT[k]}deg"><span>${J.SLOTS[k]}</span></div>`, cls);
+    return J.brick(slots, (u, k) => card(u, where, k), (k) => `<div class="spot"><i class="hx-frame"></i><i class="hx-art"></i><span>${J.SLOTS[k]}</span></div>`, 'hex ' + cls);
   }
   const portrait = (p, label) => `<div class="portrait"><img src="${J.por(p.id)}" alt=""><b>${p.hp}</b><span>${label}</span></div>`;
 
@@ -53,7 +54,7 @@
       <div class="page left">
         <h2>Your band <span class="hint">${J.count(G.board)} of 7 · turn ${G.turn}</span></h2>
         ${portrait(me, 'hearts')}
-        <div class="satchel"><i>In your satchel</i>${G.hand.map((u) => card(u, 'hand')).join('') || '<em>empty</em>'}</div>
+        <div class="satchel"><i>In your satchel</i>${G.hand.map((u, i) => card(u, 'hand', i)).join('') || '<em>empty</em>'}</div>
         <div class="clearing pin">${band(G.board, 'board', 'side faces-right')}</div>
         <span class="folio">${S.stop * 2 + 1}</span>
       </div>

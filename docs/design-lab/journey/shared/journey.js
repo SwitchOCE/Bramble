@@ -88,6 +88,8 @@
   // Where a mock band of n stands: front first, with a gap now and then.
   const LAYOUT = { 0: [], 1: [1], 2: [1, 2], 3: [1, 2, 5], 4: [0, 1, 2, 5], 5: [0, 1, 2, 3, 5], 6: [0, 1, 2, 3, 4, 6], 7: [0, 1, 2, 3, 4, 5, 6] };
   J.slotted = (units) => { const s = Array(7).fill(null); (LAYOUT[units.length] || []).forEach((k, i) => (s[k] = units[i])); return s; };
+  // A hex unit's two layers: the frame (edge colour) and the art inside it.
+  J.hex = (id) => `<i class="hx-frame"></i><i class="hx-art"><img src="${J.por(id)}" alt="" draggable="false"></i>`;
   J.count = (slots) => slots.filter(Boolean).length;
   J.firstEmpty = (slots) => slots.findIndex((u) => !u);
   // The brick: front row of 4, back row of 3 offset by half a slot.

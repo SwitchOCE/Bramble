@@ -1,6 +1,7 @@
 // Woodland Nouveau, journey round (second shot). The painting is the poster:
 // a thin gilt frame holds the world, the market hangs from a gilt vine, and
-// your band stands sideways in a tall altar that never moves between phases.
+// your band stands sideways in a tall altar, centred top to bottom, that never
+// moves between phases. The leaderboard is on the right.
 // Travel opens the next area through an arched wipe.
 (function () {
   const stage = document.getElementById('stage');
@@ -18,10 +19,12 @@
   const DEFS = `<svg width="0" height="0" style="position:absolute"><defs>
     <linearGradient id="gilt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff1b8"/><stop offset=".35" stop-color="#d7ad4f"/><stop offset=".7" stop-color="#9c7124"/><stop offset="1" stop-color="#f4d77f"/></linearGradient></defs></svg>`;
 
+  // A unit is a gilt-framed hex (owner's pick, 11 Nov), points left and right so
+  // the two columns of a sideways band pack together. Jewels carry the numbers.
   function card(u, where, style) {
     const t = J.TRIBE[u.tribe] || J.TRIBE.Neutral;
     return `<div class="card ${u.golden ? 'golden' : ''} ${u.frozen ? 'frozen' : ''}" data-uid="${u.uid}" data-where="${where}" style="${style || ''};--tc:${t.c}">
-      <div class="arch"><div class="halo"></div><img src="${J.por(u.id)}" alt="" draggable="false"></div>
+      ${J.hex(u.id)}
       <div class="tier">${u.tier}</div>
       ${u.trig ? '<div class="sigil" title="Has a trigger">✧</div>' : ''}
       <div class="name">${J.esc(u.name.replace(/,.*$/, '').replace(/^The /, ''))}</div>
@@ -29,8 +32,8 @@
     </div>`;
   }
 
-  // The band: 4 in front, 3 behind. Empty slots are gilt-outlined arches.
-  const band = (slots, where, cls) => `<div class="band ${cls || ''}">${J.brick(slots, (u) => card(u, where), (k) => `<div class="slot"><span>${J.SLOTS[k]}</span></div>`, cls)}</div>`;
+  // The band: 4 in front, 3 behind, packed. Empty slots are faint gilt hexes.
+  const band = (slots, where, cls) => `<div class="band">${J.brick(slots, (u) => card(u, where), (k) => `<div class="slot"><i class="hx-frame"></i><i class="hx-art"></i><span>${J.SLOTS[k]}</span></div>`, 'hex ' + (cls || ''))}</div>`;
 
   function frame() { return `<div class="frame"><i class="c tl">${CURL}</i><i class="c tr">${CURL}</i><i class="c bl">${CURL}</i><i class="c br">${CURL}</i></div>`; }
   function title() { return `<div class="cartouche"><small>${['First', 'Second', 'Third', 'Fourth', 'Fifth'][S.stop]} Station of the Journey</small><b>${G.area.name}</b><i>${G.area.sub} · turn ${G.turn}</i></div>`; }

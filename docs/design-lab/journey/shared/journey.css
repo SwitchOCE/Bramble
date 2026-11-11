@@ -83,3 +83,22 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1a14; }
 html.jy-static *, html.jy-static *::before, html.jy-static *::after { animation: none !important; transition: none !important; }
 @media (prefers-reduced-motion: reduce) { .jy-bg { animation: none; } .jy-motes { display: none; } }
 .brick.side.faces-right { flex-direction: row-reverse; }
+
+/* ---- Hex units (owner's pick, 11 Nov): between the mid hex and the tall hex ---------
+   0.78 wide to 1 tall, points a fifth deep, corners rounded. --hex-v points up and down
+   (stacked layouts); --hex-h points left and right (left-right layouts). A unit is a
+   frame layer (the edge colour) and an art layer inset inside it, both masked. */
+:root { --hex-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 78 100' preserveAspectRatio='none'%3E%3Cpath d='M45.29 3.07 L71.71 15.93 Q78.00 19.00 78.00 26.00 L78.00 74.00 Q78.00 81.00 71.71 84.07 L45.29 96.93 Q39.00 100.00 32.71 96.93 L6.29 84.07 Q0.00 81.00 0.00 74.00 L0.00 26.00 Q0.00 19.00 6.29 15.93 L32.71 3.07 Q39.00 0.00 45.29 3.07 Z'/%3E%3C/svg%3E");
+  --hex-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 78 100' preserveAspectRatio='none'%3E%3Cpath d='M1.99 43.29 L12.83 6.71 Q14.82 0.00 21.82 0.00 L56.18 0.00 Q63.18 0.00 65.17 6.71 L76.01 43.29 Q78.00 50.00 76.01 56.71 L65.17 93.29 Q63.18 100.00 56.18 100.00 L21.82 100.00 Q14.82 100.00 12.83 93.29 L1.99 56.71 Q0.00 50.00 1.99 43.29 Z'/%3E%3C/svg%3E");
+  --hex: var(--hex-v); }
+.hx-frame, .hx-art { position: absolute; -webkit-mask: var(--hex) center / 100% 100% no-repeat; mask: var(--hex) center / 100% 100% no-repeat; }
+.hx-frame { inset: 0; background: var(--hx-edge, #fff); }
+.hx-art { inset: var(--hx-bw, 3px); background: var(--tc, #333); overflow: hidden; }
+.hx-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; transform: scale(1.06); transform-origin: 50% 25%; }
+
+/* Packing: the back row tucks into the front row's points. --tuck is negative:
+   minus the point depth, plus a little for the gap. Set it per look. */
+.brick.hex .brow-b { margin-top: var(--tuck, 0px); }
+.brick.hex.foe .brow-b { margin-top: 0; margin-bottom: var(--tuck, 0px); }
+.brick.side.hex .brow-b { margin: 0 0 0 var(--tuck, 0px); }
+.brick.side.hex.faces-right .brow-b, .brick.side.hex.foe .brow-b { margin: 0 var(--tuck, 0px) 0 0; }

@@ -5,7 +5,7 @@
 (function () {
   const stage = document.getElementById('stage');
   const P = J.params;
-  const S = { shape: P.get('shape') || 'honey', lay: P.get('lay') || 'bu', view: P.get('view') || 'one' };
+  const S = { shape: P.get('shape') || 'chosen', lay: P.get('lay') || 'bu', view: P.get('view') || 'one' };
   const G = J.state(4);
   const GAP = 16;
 
@@ -29,6 +29,11 @@
       good: ['Keeps a card\'s tall shape and most of the art.', 'The back row tucks in a little: at the same unit width, the board is about a tenth shallower.', 'Rows read as one locked block.'],
       bad: ['The tip of each point crops the art (ears and hats).', 'Numbers sit on the slanted corners, slightly tighter.'],
       vary: ['Point only toward the enemy (a spearhead).', 'A sharper point, partway to the near-diamond.'] },
+    { id: 'chosen', name: 'Chosen', tag: 'in the looks', pick: true, a: { bu: .78, lr: .78 }, t: .19,
+      line: 'Between the mid hex and the tall hex: the shape all three looks now use (with rounded corners there).',
+      good: ['Keeps a portrait shape and packs the rows together.', 'Stays taller than wide in both layouts.'],
+      bad: ['Crops the top corners of the picture, where ears and hats sit.'],
+      vary: ['Rounder corners for a softer look.', 'A slightly deeper point to pack tighter.'] },
     { id: 'midhex', name: 'Mid hex', pick: true, a: { bu: .81, lr: .81 }, t: .21,
       line: 'Between the two: taller than a regular hexagon, squatter than the tall hex.',
       good: ['Keeps a portrait shape while tucking in almost as far as the honeycomb.', 'Stays taller than wide in both layouts, so it never turns on its side.', 'Faces sit in a wider middle band than in the tall hex.'],
@@ -56,7 +61,7 @@
       vary: ['Lean only the empty slots, as a woven mat under upright cards.', 'A gentler slant, enough to suggest the weave.'] },
   ];
   // The owner's picks lead (11 Nov): honeycomb, the in-between hex, the tall hex.
-  const ORDER = ['honey', 'midhex', 'longhex', 'card', 'chamfer', 'lozenge', 'shield', 'weave'];
+  const ORDER = ['chosen', 'honey', 'midhex', 'longhex', 'card', 'chamfer', 'lozenge', 'shield', 'weave'];
   SHAPES.sort((x, y) => ORDER.indexOf(x.id) - ORDER.indexOf(y.id));
   const byId = Object.fromEntries(SHAPES.map((s) => [s.id, s]));
 
