@@ -1,5 +1,7 @@
 # Loop 1: units toward the woodland
 
+*Superseded by `art-inkglow.md`: this was the first study. Its paper card stayed; its portrait grade and sample sets did not, and the folders and scripts it names were removed.*
+
 The card uses warm paper, a thin olive-bark edge, an upper-right cream highlight and a soft lower-left contact shadow. Portraits receive uniform restrained colour grading. Badges, keywords, frost, selection and golden states keep their existing symbols and anchors. Card-only colours stay in `card_view.gd`; no shared theme changed.
 
 Owner choice: current portraits, plain-ground repaints (`assets/portraits_v2/`), or scene-kept repaints (`assets/portraits_v2b/`), then **all units like this?** Both sample sets contain Mrs Mallow, Lob-Lie-by-the-Fire, Wee Wobbly, Grey Agnes, the Lantern Man, Mrs Jay, the Lane-Bard and Pill Bug.

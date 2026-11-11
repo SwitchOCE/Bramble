@@ -8,7 +8,7 @@ Every generation batch must pass these three references in this order:
 2. `anchors/mrs_mallow.jpg` — approachable character, strong ink, cream key.
 3. `anchors/lantern_man.jpg` — light direction, silhouette separation, local glow.
 
-The anchors are independent frozen copies of finished first-round portraits. The header deliberately reduces their interior marks and texture, and replaces their dark teal backgrounds with the supplied hue family. Neither anchor supplies the subject. Keep these anchor bytes fixed through rollout; hashes are in `anchors/sha256.txt`.
+The anchors are independent frozen copies of finished first-round portraits. The header deliberately reduces their interior marks and texture, and replaces their dark teal backgrounds with the supplied hue family. Neither anchor supplies the subject. Keep these anchor files unchanged; git pins their bytes.
 
 Run a composed prompt using the existing Codex image wrapper:
 
