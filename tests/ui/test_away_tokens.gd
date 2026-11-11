@@ -205,7 +205,7 @@ func test_opponent_tier_knots_show_exact_numerals_and_reader_numbers() -> void:
 	assert_string_contains(str(override["text"]), "Configured power: 17.")
 
 
-func test_next_tap_scouts_then_opens_the_hero_reader_and_other_taps_only_read() -> void:
+func test_next_tap_only_scouts_and_other_taps_read() -> void:
 	Card.window_override = Vector2(1920, 1080)
 	var strip := Strip.new()
 	add_child_autofree(strip)
@@ -222,14 +222,14 @@ func test_next_tap_scouts_then_opens_the_hero_reader_and_other_taps_only_read() 
 	strip.hero_requested.connect(func(_standing: Dictionary) -> void: order.append("reader"))
 	var next: Plaque = strip.plaques[1]
 	next.tap.tapped.emit("lobby", 1)
-	assert_eq(order, ["scout", "reader"])
+	assert_eq(order, ["scout"])
 	order.clear()
 	var other: Plaque = strip.plaques[0]
 	other.tap.tapped.emit("lobby", 0)
 	assert_eq(order, ["reader"])
 	order.clear()
 	next.tap.hovered.emit("lobby", 1, true)
-	assert_eq(order, ["reader"], "desktop hover reads without toggling scouting")
+	assert_eq(order, [], "hover leaves the scouting target unobstructed")
 
 
 func test_all_six_tiers_have_one_counted_numeral_and_nonopponent_knots_stay_hidden() -> void:

@@ -17,8 +17,8 @@ const P3: Vector2 = Vector2(292, 46)
 const P4: Vector2 = Vector2(200, 96)
 const P5: Vector2 = Vector2(70, 96)
 const SEGMENTS: int = 20
-const LINE: float = 6.5
-const SHADOW_DROP: float = 13.0
+const LINE: float = 4.0
+const SHADOW_DROP: float = 7.0
 
 var colour: Colour = Colour.BIRCH:
 	set(value):
@@ -121,6 +121,17 @@ func set_face(words: String, icon_name: String = "", cost: int = -1, note: Strin
 	_cost_pill.visible = cost >= 0
 	_cost_label.text = str(cost)
 	_place_face()
+
+
+## A compact secondary action keeps its cost numeral beside the icon.
+func compact_cost() -> void:
+	_icon.custom_minimum_size = Vector2(40, 40)
+	_face.add_theme_constant_override("separation", 6)
+	var pill: StyleBoxFlat = UiTheme.flat_box(UiTheme.INK, Color.TRANSPARENT, 0, 30)
+	pill.set_content_margin_all(5)
+	_cost_pill.add_theme_stylebox_override("panel", pill)
+	_cost_pill.get_child(0).get_child(0).set("visible", false)
+	_cost_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
 
 
 ## The size of the big label (End turn is larger).

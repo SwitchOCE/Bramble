@@ -48,7 +48,7 @@ var _menu: LeafButton
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "fight")
 	_plaque = WoodPanel.new(WoodPanel.Kind.OAK)
 	add_child(_plaque)
 	_placement = UiTheme.label("", UiTheme.FONT_HUGE + 34)
@@ -222,16 +222,16 @@ func _layout() -> void:
 	var tray: Vector2 = _board.tray_size()
 	var left_x: float = 40.0
 	_plaque.position = Vector2(left_x, top + 24.0)
-	_plaque.size = Vector2(tray.x, 226)
+	_plaque.size = Vector2(tray.x, 258)
 	_placement.position = Vector2(0, 2)
 	_placement.size = Vector2(tray.x, 150)
 	_summary.position = Vector2(0, 152)
 	_summary.size = Vector2(tray.x, 48)
 	_best.size = _best.get_minimum_size()
-	_best.position = Vector2(tray.x - _best.size.x - 22.0, 150)
-	_board.position = Vector2(left_x, top + 268.0)
+	_best.position = Vector2((tray.x - _best.size.x) / 2.0, 204)
+	_board.position = Vector2(left_x, top + 300.0)
 	_board.size = tray
-	_rounds_panel.position = Vector2(left_x, top + 268.0 + tray.y + 16.0)
+	_rounds_panel.position = Vector2(left_x, top + 300.0 + tray.y + 16.0)
 	_rounds_head.position = Vector2(BOX_PAD, 10)
 	_rounds_head.size = Vector2(tray.x - BOX_PAD * 2.0, 42)
 	_rounds.position = Vector2(BOX_PAD, 56)
@@ -320,7 +320,7 @@ func _layout_moments(tray_w: float) -> void:
 		tall += line.y + LINE_GAP
 	_moments.position = Vector2(BOX_PAD, _rounds.position.y + _rounds.size.y + 4.0)
 	_moments.size = Vector2(wide, tall)
-	var room: float = 1080.0 - 268.0 - _board.tray_size().y - 16.0 - 28.0
+	var room: float = 1080.0 - 300.0 - _board.tray_size().y - 16.0 - 28.0
 	var wanted: float = _moments.position.y + tall + 22.0
 	_rounds_panel.size = Vector2(tray_w, minf(wanted, room))
 

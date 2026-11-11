@@ -24,6 +24,7 @@ const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
+const StackSurface := preload("res://src/ui/widgets/stack_surface.gd")
 const ShelfPlank := preload("res://src/ui/widgets/shelf_plank.gd")
 const GoldPlaque := preload("res://src/ui/widgets/gold_plaque.gd")
 const HeroPlaque := preload("res://src/ui/widgets/hero_plaque.gd")
@@ -35,19 +36,9 @@ const LaneProjection := preload("res://src/ui/lane_projection.gd")
 
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
-const DETAIL_W: float = 500.0
-const DETAIL_GAP: float = 24.0
-const READING_POCKET: float = 180.0
 const BOARD_POCKET: float = 209.0
-const HAND_W: float = 331.0
-const HAND_TOP: float = 489.0
-const SHOP_TOP: float = 152.0
-const SHELF_Y: float = 384.0
 const SHELF_H: float = 57.0
 const TILE_GAP: float = 44.0
-const READING_TILE_GAP: float = 20.0
-const WRAP_MIN: float = 101.0
-const END_H: float = 189.0
 const LEAF_H: float = 128.0
 const TOAST_SECONDS: float = 3.5
 ## The full hand is always represented by real tiles.
@@ -59,15 +50,14 @@ const LEAVE_SECONDS: float = 0.3
 const MINI_TILE: float = 130.0
 const MINI_GAP_X: int = 30
 const MINI_GAP_Y: int = 30
-const SCOUT_TOP: float = 98.0
-const SCOUT_SHOP_TOP: float = 160.0
 ## Two cards in hand stay tall enough for their rules.
-const HAND_TWO_H: float = 215.0
 
 var port: GamePort
 var state: Dictionary = {}
 
 var _lanes: LaneOverlay
+var _player_surface: Control
+var _bar_surface: Control
 var _stage: Control
 var _tribes: TribeBonuses
 var _lobby: LobbyStrip
@@ -107,93 +97,77 @@ func _layout() -> void:
 	var w: float = size.x
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
 	_stage.size = Vector2(w, CANVAS_H)
-	var reading: bool = _split_detail()
-	var pocket_width: float = READING_POCKET if reading else BOARD_POCKET
-	if not is_equal_approx(_board.pocket.x, pocket_width):
-		_board.configure("board", pocket_width, true, true, true)
-	var board_w: float = _board.tray_size().x
-	var content: float = board_w + 51.0 + HAND_W
-	var economy_x: float = w - 30.0 - RIGHT_W
-	var right_x: float = economy_x - DETAIL_W - DETAIL_GAP if reading else economy_x
-	var left: float = WRAP_MIN + maxf(0.0, (right_x - WRAP_MIN - content) / 2.0)
-	_lobby.position = Vector2(20, 17)
-	_lobby.size = Vector2(w - 54.0, LobbyStrip.HEIGHT)
+	var main_w: float = minf(w - 300.0, 1900.0)
+	var left: float = (w + 130.0 - main_w) / 2.0
+	var center: float = left + main_w / 2.0
+	_board.configure("board", 222.0, true)
+	_board.position = Vector2(center - _board.tray_size().x / 2.0, 302)
+	_board.size = _board.tray_size()
+	_player_surface.position = Vector2(left, 300)
+	_player_surface.size = Vector2(main_w, 642)
+	_player_surface.set("formation_size", _board.tray_size())
+	_player_surface.queue_redraw()
+	_bar_surface.position = Vector2(left - 16, 944)
+	_bar_surface.size = Vector2(main_w + 32, 120)
+	_lobby.position = Vector2(8, 8)
+	_lobby.size = Vector2(122, 1040)
 	_lobby.visible = not _scout.visible
-	var token: float = tap_size()
-	var late_status: bool = false
-	for plaque: Control in _lobby.plaques:
-		late_status = late_status or plaque.has_node("LastStand")
-	var tools_top: float = 140.0 if late_status else 108.0
-	_menu_token.position = Vector2(8, tools_top)
-	_menu_token.size = Vector2(token, token + 9.0)
-	_scout_token.position = Vector2(8, tools_top + token + 16.0)
-	_scout_token.size = Vector2(token, token + 9.0)
+	_menu_token.position = Vector2(w - 142, 12)
+	_menu_token.size = Vector2(122, 131)
+	_scout_token.position = Vector2(20, 24)
+	_scout_token.size = Vector2(122, 131)
 	_scout_token.visible = _scout.visible
 	_who_token.visible = false
-	_who_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
-	_who_token.size = Vector2(token, token + 9.0)
-	_shop_cards.add_theme_constant_override(
-		"h_separation", MINI_GAP_X if _scout.visible else int(_shop_gap())
-	)
-	var shop_w: float = maxf(_shop_width(), board_w + 300.0)
-	shop_w = minf(shop_w, right_x - left - 20.0)
-	_shelf.position = Vector2(left, SHELF_Y)
-	_shelf.size = Vector2(shop_w, SHELF_H)
-	_tribes.position = Vector2(left + 20, 93)
-	_tribes.visible = not _scout.visible and not _tribes.tribes.is_empty()
-	_tribes.size = Vector2(right_x - left - 40, TribeBonuses.HEIGHT)
-	_tribes.z_index = _board.z_index + 1 if late_status else 0
-	if late_status:
-		_tribes.position = Vector2(left + 12, HAND_TOP + 8)
-		_tribes.size.x = board_w - 24.0
-	_shop_zone.position = Vector2(left, SHOP_TOP - 40.0)
-	_shop_zone.size = Vector2(shop_w, SHELF_Y + SHELF_H - SHOP_TOP + 40.0)
-	_shop_cards.position = Vector2(left + 30.0, SHOP_TOP)
-	_shop_cards.size = Vector2(shop_w - 60.0, CardView.SHOP_HEIGHT)
-	var narrow: bool = left < token + 60.0
-	_board.position = Vector2(left, HAND_TOP)
-	_board.size = _board.tray_size()
-	var back: Rect2 = _board.row_rect(false)
-	_layout_hero(left + back.position.x - 52.0)
-	_layout_hand(left + board_w + 51.0)
-	_layout_right(economy_x, w)
-	if _dev_token.visible:
-		_dev_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
-		_dev_token.size = Vector2(token, token + 9.0)
-		if narrow:
-			_dev_token.position = Vector2(8, SHELF_Y + 70.0)
-	_dev.position = Vector2(left, 112)
-	# Over the lobby strip: it never covers the shop's badges, and the strip is back in a moment.
-	_toast.position = Vector2(left + 200.0, 12)
-	_size_toast()
-	if _scout.visible:
-		_layout_scouting(left, right_x)
-	_lanes.visible = false
-	_shelf.visible = not _scout.visible
+	_shelf.position = Vector2(left, 252)
+	_shelf.size = Vector2(main_w, 45)
+	_shop_zone.position = Vector2(left, 10)
+	_shop_zone.size = Vector2(main_w, 287)
+	_shop_cards.add_theme_constant_override("h_separation", int(_shop_gap()))
+	var offers: int = _shop_cards.get_child_count()
+	var shop_width: float = offers * _tile_width(offers) + maxf(0, offers - 1) * _shop_gap()
+	_shop_cards.position = Vector2(center - shop_width / 2.0, 28)
+	_shop_cards.size = Vector2(shop_width, 245)
+	_shelf.position.x = center - (shop_width + 56) / 2.0
+	_shelf.size.x = shop_width + 56
 	_shop_cards.visible = not _scout.visible
+	_shelf.visible = not _scout.visible
 	_shop_zone.visible = not _scout.visible
-	_shop_scroll.visible = false
-	if not _scout.visible:
-		if _shop_cards.get_parent() != _stage:
-			_shop_cards.reparent(_stage, false)
-		var offers: int = _shop_cards.get_child_count()
-		for child: Node in _shop_cards.get_children():
-			var card: CardView = child as CardView
-			if card != null:
-				card.set_card_width(_tile_width(offers))
+	_shop_scroll.hide()
+	for child: Node in _shop_cards.get_children():
+		var card: CardView = child as CardView
+		if card != null:
+			card.set_card_size(Vector2(_tile_width(offers), 245))
+	_layout_hand(left)
+	_layout_hero(center)
+	_layout_right(left, w)
+	_dev_token.position = Vector2(w - 118, 138)
+	_dev_token.size = Vector2(122, 131)
+	_dev.position = Vector2(left, 112)
+	_toast.position = Vector2(center - 250, 8)
+	_size_toast()
+	_lanes.hide()
+	if _scout.visible:
+		_layout_scouting(left, left + main_w)
 
 
-## Scouting focuses the two boards. The shop and lobby return on the close token.
+## Scouting replaces merchant and reserve with opposing formations on the same surface.
 func _layout_scouting(left: float, right_x: float) -> void:
-	_scout.set_column_pitch(_board.pocket.x + _board.gap)
-	var offset: float = (
-		_board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
-	)
-	var x: float = left + offset
-	_scout.position = Vector2(x, SCOUT_TOP)
+	var center: float = (left + right_x) / 2.0
+	var theirs: BoardView = _scout.get("_board")
+	theirs.compact = true
+	_board.configure("board", 190.0, true)
+	theirs.configure("scout", 190.0, false)
+	_scout.position = Vector2(center - theirs.tray_size().x / 2.0, 32)
+	_scout.size = theirs.tray_size()
 	_scout.heading_offset = 0.0
-	_scout.size = Vector2(right_x - 20.0 - x, _scout.tray_height())
 	_scout.call("_layout")
+	_board.position = Vector2(center - _board.tray_size().x / 2.0, 485)
+	_player_surface.position.y = 475
+	_player_surface.size.y = 467
+	_player_surface.set("formation_size", _board.tray_size())
+	_player_surface.queue_redraw()
+	_hand_zone.hide()
+	_away_tray.hide()
 
 
 ## The smallest comfortable tap target at this window's shape, in canvas units.
@@ -202,117 +176,79 @@ func tap_size() -> float:
 	return 122.0 if view.x / maxf(view.y, 1.0) > 2.0 else 104.0
 
 
-func _layout_hero(right_edge: float) -> void:
-	var width: float = clampf(right_edge - 12.0, 150.0, 200.0)
-	if _split_detail():
-		width = 170.0
-	_hero.position = Vector2(maxf(12.0, right_edge - width), 770)
-	_hero.size = Vector2(width, 300)
+func _layout_hero(center: float) -> void:
+	_hero.position = Vector2(center - 64.0, 958)
+	_hero.size = Vector2(260, 122)
+	var health: int = 0
+	var armor: int = 0
+	for entry: Dictionary in Data.a(state, "standings"):
+		if Data.b(entry, "is_human"):
+			health = Data.i(entry, "health")
+			armor = Data.i(entry, "armor")
+	_hero.call("show_health", health, armor)
 
 
 func _layout_hand(x: float) -> void:
-	var right_edge: float = size.x - 30.0 - RIGHT_W
-	if _split_detail():
-		right_edge -= DETAIL_W + DETAIL_GAP
-	x = minf(x, right_edge - HAND_W - 24.0)
-	var count: int = Data.a(state, "hand").size()
-	var card: Vector2 = _hand_card_size(count)
-	var columns: int = 1 if count <= 2 else 2
-	var rows: int = ceili(count / float(columns))
-	# Reserving the same journey row keeps hand tiles and fan spacing stable when Birds fly.
-	var maximum: float = CANVAS_H - 24.0 - HAND_TOP - 12.0 - _away_tray.row_height()
-	var wanted: float = (
-		tap_size()
-		if count == 0
-		else 66.0 + HandFan.FOCUS_LIFT + rows * card.y + maxf(0, rows - 1) * HandFan.ROW_GAP + 12.0
-	)
-	var height: float = minf(maximum, wanted)
-	_hand_zone.position = Vector2(x, HAND_TOP)
-	_hand_zone.size = Vector2(HAND_W, height)
-	_hand_panel.position = Vector2.ZERO
-	_hand_panel.size = _hand_zone.size
-	var has_larder: bool = Data.i(state, "larder") > 0
-	_hand_count.position = Vector2(30 if has_larder else 170, 8)
-	_hand_count.size = Vector2(HAND_W - (60.0 if has_larder else 200.0), 44)
-	_hand_cards.position = Vector2(0, 66)
-	_hand_cards.size = Vector2(HAND_W, maxf(0.0, height - 66.0 - 12.0))
+	var width: float = _player_surface.size.x
+	_hand_zone.show()
+	_hand_zone.position = Vector2(x + 18, 760)
+	_hand_zone.size = Vector2(width - 36, 174)
+	_hand_panel.hide()
+	_hand_count.position = Vector2(width - 148, -32)
+	_hand_count.size = Vector2(100, 44)
+	_hand_count.add_theme_color_override("font_color", UiTheme.CREAM)
+	_hand_count.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_hand_count.add_theme_constant_override("outline_size", 5)
+	_hand_cards.position = Vector2.ZERO
+	_hand_cards.size = _hand_zone.size
 	_hand_cards.arrange()
-	_away_tray.position = Vector2(x, HAND_TOP + height + 12.0)
-	var away_w: float = minf(HAND_W, size.x - 30.0 - RIGHT_W - x - 12.0)
-	_away_tray.size = Vector2(away_w, _away_tray.row_height())
+	_away_tray.position = Vector2(x + 26, 618)
+	var away_width: float = minf(340, maxf(122, _board.position.x - x - 52))
+	_away_tray.size = Vector2(away_width, _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
 func _layout_right(x: float, w: float) -> void:
-	var leaf_x: float = x
-	var leaf_w: float = RIGHT_W
-	_gold.position = Vector2(x + 6.0, 122)
-	_gold.size = Vector2(RIGHT_W - 12.0, 152)
-	_tier_icon.position = Vector2(x + 22.0, 298)
-	_tier_icon.size = Vector2(46, 46)
-	_tier_label.position = Vector2(x + 76.0, 294)
-	_tier_label.size = Vector2(170, 54)
-	_round_label.position = Vector2(w - 30.0 - 180.0 - 16.0, 294)
-	_round_label.size = Vector2(180, 54)
-	var y: float = 362.0
-	var tools: Array[LeafButton] = [_tier_button, _refresh_button, _freeze_button]
-	var kin: bool = Data.b(state, "ask_for_kin_enabled") and not _detail.visible
-	if kin:
-		tools.append(_kin_button)
-	var tool_h: float = CardDetail.SIDE_ACTION_H if kin else LEAF_H
-	for leaf: LeafButton in tools:
-		leaf.position = Vector2(leaf_x, y)
-		leaf.size = Vector2(leaf_w, tool_h)
-		y += tool_h + (2.0 if kin else 22.0)
-	_end_button.position = Vector2(leaf_x, CANVAS_H - 24.0 - END_H)
-	_end_button.size = Vector2(leaf_w, END_H)
-	_detail.position = Vector2(x, 112)
-	_detail.size = Vector2(RIGHT_W, _end_button.position.y - 112.0 - 8.0)
+	var center: float = x + _player_surface.size.x / 2.0
+	_gold.position = Vector2(x + 10, 984)
+	_gold.size = Vector2(205, 80)
+	_round_label.position = Vector2(x + 26, 944)
+	_round_label.size = Vector2(160, 42)
+	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_round_label.add_theme_color_override("font_color", UiTheme.CREAM)
+	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_round_label.add_theme_constant_override("outline_size", 5)
+	_tier_button.compact_cost()
+	_tier_button.position = Vector2(x + 160, 944)
+	_tier_button.size = Vector2(200, 122)
+	_tier_icon.hide()
+	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_refresh_button.compact_cost()
+	_refresh_button.position = Vector2(x + 370, 944)
+	_refresh_button.size = Vector2(122, 122)
+	_freeze_button.position = Vector2(x + 502, 944)
+	_freeze_button.size = Vector2(122, 122)
+	_freeze_button.set_pressed_no_signal(Data.b(state, "frozen"))
+	_kin_button.visible = Data.b(state, "ask_for_kin_enabled")
+	_kin_button.position = Vector2(x + 630, 944)
+	_kin_button.size = Vector2(122, 122)
+	_kin_button.compact_cost()
+	_end_button.position = Vector2(x + _player_surface.size.x - 280, 944)
+	_end_button.size = Vector2(280, 122)
+	_end_button.set_label_size(UiTheme.FONT_LEAF)
+	_tribes.position = Vector2(center + 208, 967)
+	_tribes.size = Vector2(344, 88)
+	_tribes.visible = not _tribes.tribes.is_empty()
+	# The reader floats. These coordinates never change any card, board or action position.
+	_detail.position = Vector2(w - RIGHT_W - 30, 0 if CardView.is_phone() else 112)
+	_detail.size = Vector2(RIGHT_W, CANVAS_H - 112.0 - 24.0 if CardView.is_phone() else 740.0)
 	_detail.set_action_column()
-	_end_button.set_label_size(61)
-	if _split_detail():
-		_detail.position.x = x - DETAIL_W - DETAIL_GAP
-		_detail.size = Vector2(DETAIL_W, CANVAS_H - 112.0 - 24.0)
-		_gold.position.y = 108.0
-		_tier_icon.position.y = 270.0
-		_tier_label.position.y = 266.0
-		_round_label.position.y = 266.0
-		var tools_y: float = 322.0
-		for leaf: LeafButton in tools:
-			leaf.position.y = tools_y
-			leaf.size.y = CardDetail.SIDE_ACTION_H
-			tools_y += leaf.size.y
-		_detail.set_action_column(Rect2(DETAIL_W + DETAIL_GAP, tools_y - 112.0, RIGHT_W, 244))
-		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
-		_end_button.size.y = CardDetail.SIDE_ACTION_H
-		_end_button.set_label_size(UiTheme.FONT_LEAF)
-	if not CardView.is_phone() and _detail.visible:
-		_detail.position = Vector2(
-			clampf(get_local_mouse_position().x + 30.0, 20.0, w - DETAIL_W - 20.0), 110
-		)
-		_detail.size = Vector2(DETAIL_W, 740)
-		if _reader_is_hand():
-			# Read across the shop space, left of the whole fan and above every destination.
-			_detail.position = Vector2(20, 110)
-			_detail.size = Vector2(_hand_zone.position.x - 44.0, HAND_TOP - 122.0)
-			# Actions keep their full targets in the economy column, clear of both trays.
-			_detail.set_action_column(Rect2(x - 20.0, 252, RIGHT_W, 244))
-	var clear: bool = (
-		not _detail.visible
-		or _split_detail()
-		or (not CardView.is_phone() and not _reader_is_hand())
-	)
-	for node: Control in [
-		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
-	]:
-		node.visible = clear
-	_gold.visible = true
-	_kin_button.visible = clear and kin
-
-
-## Wide phones keep a reader beside the economy column, with every board slot still tappable.
-func _split_detail() -> bool:
-	return _detail != null and _detail.visible and size.x >= 2200.0
+	if not CardView.is_phone() and not _scout.visible:
+		# Read over the merchant, keeping every formation and reserve target exposed.
+		_detail.position = Vector2(150, 12)
+		_detail.size = Vector2(w - 670, 270)
+		_detail.set_action_column(Rect2(_detail.size.x + 20, 0, 340, 244))
+	_gold.show()
 
 
 func _on_detail_shown() -> void:
@@ -326,23 +262,17 @@ func _shop_width() -> float:
 
 
 func _shop_gap() -> float:
-	var offers: int = Data.a(state, "shop").size()
-	if _split_detail() or (not CardView.is_phone() and offers >= 6):
-		return READING_TILE_GAP
-	return TILE_GAP
+	return 20.0
 
 
 func _tile_width(offers: int) -> float:
-	var room: float = _shelf.size.x - 60.0 - (offers - 1) * _shop_gap()
-	return minf(CardView.SHOP_WIDTH, floorf(room / maxf(offers, 1.0)))
+	var room: float = minf(size.x - 300.0, 1900.0) - 56.0 - maxf(0, offers - 1) * _shop_gap()
+	return minf(230.0, floorf(room / maxf(offers, 1.0)))
 
 
-func _hand_card_size(count: int) -> Vector2:
-	if count <= 1:
-		return Vector2(CardView.SHOP_WIDTH, CardView.SHOP_HEIGHT)
-	if count == 2:
-		return Vector2(CardView.SHOP_WIDTH, HAND_TWO_H)
-	return Vector2(130, 130)
+func _hand_card_size(_count: int) -> Vector2:
+	var width: float = floorf((_player_surface.size.x - 36.0 - 9.0 * 12.0) / 10.0)
+	return Vector2(width, 152.0)
 
 
 func _size_toast() -> void:
@@ -415,6 +345,16 @@ func _build_right(
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_stage.add_child(_round_label)
 	_tier_button = _leaf(LeafButton.Colour.ACORN, on_tier)
+	var stack_icon: Control = _tier_button.get("_icon")
+	_tier_label.reparent(stack_icon, false)
+	_tier_label.position = Vector2.ZERO
+	_tier_label.size = Vector2(50, 50)
+	_tier_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_tier_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_tier_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
+	_tier_label.add_theme_color_override("font_color", UiTheme.CREAM)
+	_tier_label.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_tier_label.add_theme_constant_override("outline_size", 4)
 	_refresh_button = _leaf(LeafButton.Colour.BIRCH, on_refresh)
 	_freeze_button = _leaf(LeafButton.Colour.FROST, on_freeze)
 	_end_button = _leaf(LeafButton.Colour.MOSS, on_end)
@@ -494,7 +434,15 @@ func _build_shop(wire: Callable) -> void:
 
 
 func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
+	_player_surface = StackSurface.new()
+	_stage.add_child(_player_surface)
+	_stage.move_child(_player_surface, 0)
+	_bar_surface = StackSurface.new()
+	_stage.add_child(_bar_surface)
+	_stage.move_child(_bar_surface, 1)
 	_board = BoardView.new()
+	_board.compact = true
+	_board.surface_visible = false
 	_board.configure("board", BOARD_POCKET, true, true, true)
 	for slot: Interactive in _board.slots:
 		wire.call(slot)
@@ -541,16 +489,4 @@ func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable)
 	_stage.add_child(_dev_token)
 	_dev_token.visible = Settings.show_dev_panel
 
-
 ## Identify the hand reader before the fan focus signal arrives.
-func _reader_is_hand() -> bool:
-	var shown: Dictionary = _detail.shown
-	for card: CardView in _hand_cards.cards:
-		if Data.i(shown, "iid", -1) > 0 and Data.i(card.unit, "iid", -2) == Data.i(shown, "iid"):
-			return true
-		if (
-			Data.i(shown, "card_index", -1) >= 0
-			and Data.i(card.unit, "card_index", -2) == Data.i(shown, "card_index")
-		):
-			return true
-	return false

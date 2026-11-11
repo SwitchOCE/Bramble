@@ -11,11 +11,7 @@ const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Plaque := preload("res://src/ui/widgets/lobby_plaque.gd")
 
-const HEIGHT: float = 74.0
-const GAP: float = 12.0
-## Under this width (a desktop's canvas, never a phone's) names use DESKTOP_NAME.
-const DESKTOP_WIDTH: float = 2000.0
-const DESKTOP_NAME: int = 26
+const HEIGHT: float = 122.0
 
 ## Each plaque's rectangle, for tests.
 var plaques: Array[Control] = []
@@ -30,6 +26,13 @@ func _init() -> void:
 ## `ghost_owner_id`: whose board the ghost would be, marked as next when next_opponent_id is the
 ## ghost's (-1). There is no plaque of its own: it's that player's plaque, back for one more fight.
 func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int = -9) -> void:
+	var positions: Dictionary = {}
+	var health: Dictionary = {}
+	for plaque: Control in plaques:
+		var entry: Dictionary = plaque.get("_standing")
+		var id: int = Data.i(entry, "player_id", -1)
+		positions[id] = plaque.position
+		health[id] = Data.i(entry, "health")
 	for child: Node in get_children():
 		remove_child(child)
 		child.queue_free()
@@ -48,42 +51,47 @@ func show_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int
 		)
 	_place()
 
+	if not is_inside_tree() or preload("res://src/ui/settings.gd").reduce_motion:
+		return
+	for plaque: Control in plaques:
+		var entry: Dictionary = plaque.get("_standing")
+		var id: int = Data.i(entry, "player_id", -1)
+		if positions.has(id) and positions[id] != plaque.position:
+			var destination: Vector2 = plaque.position
+			plaque.position = positions[id]
+			create_tween().tween_property(plaque, "position", destination, 0.3)
+		if health.has(id) and Data.as_int(health[id]) != Data.i(entry, "health"):
+			var hip: Control = plaque.get("_hip")
+			var label: Label = hip.get_child(0) as Label
+			create_tween().bind_node(plaque).tween_method(
+				func(value: int) -> void: label.text = str(value),
+				Data.as_int(health[id]),
+				maxi(0, Data.i(entry, "health")),
+				0.3
+			)
 
-## Plaques size to both lines of the full name and the separate status tag, sharing any slack.
+
 func _place() -> void:
 	if plaques.is_empty():
 		return
-	var room: float = size.x - GAP * (plaques.size() - 1)
-	if size.x > 10.0 and size.x < DESKTOP_WIDTH:
-		for plaque: Control in plaques:
-			(plaque as Plaque).use_desktop_size(DESKTOP_NAME)
-	var total: float = 0.0
-	var widths: Array[float] = []
-	for plaque: Control in plaques:
-		var wanted: float = (plaque as Plaque).wanted_width()
-		widths.append(wanted)
-		total += wanted
-	var extra: float = minf((room - total) / plaques.size(), 36.0)
-	var x: float = 0.0
-	var most: float = _widest_allowed(widths, room)
-	for i: int in plaques.size():
-		var width: float = widths[i] + extra if extra > 0.0 else minf(widths[i], most)
-		plaques[i].position = Vector2(x, 0)
-		plaques[i].size = Vector2(width, HEIGHT)
-		x += width + GAP
+	var ordered: Array[Control] = plaques.duplicate()
+	ordered.sort_custom(_ahead)
+	var y: float = 0.0
+	for plaque: Control in ordered:
+		# Eliminated faces shrink inside the same easy-to-tap, non-overlapping seat.
+		var height: float = 122.0
+		plaque.position = Vector2(0, y)
+		plaque.size = Vector2(122, height)
+		y += height + 8.0
 
 
-## The width no plaque may pass for the row to fit in `room`.
-func _widest_allowed(widths: Array[float], room: float) -> float:
-	var low: float = 0.0
-	var high: float = room
-	for step: int in 16:
-		var cap: float = (low + high) / 2.0
-		var total: float = 0.0
-		for width: float in widths:
-			total += minf(width, cap)
-		if total > room:
-			high = cap
-		else:
-			low = cap
-	return low
+func _ahead(a: Control, b: Control) -> bool:
+	var first: Dictionary = a.get("_standing")
+	var second: Dictionary = b.get("_standing")
+	var a_alive: bool = Data.b(first, "alive", true)
+	var b_alive: bool = Data.b(second, "alive", true)
+	if a_alive != b_alive:
+		return a_alive
+	var a_health: int = Data.i(first, "health")
+	var b_health: int = Data.i(second, "health")
+	return a_health > b_health

@@ -32,8 +32,8 @@ const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
 const WaveMotion := preload("res://src/ui/screens/combat_wave_motion.gd")
 
 const CANVAS_H: float = 1080.0
-const POCKET: float = 189.0
-const TRAY_GAP: float = 76.0
+const POCKET: float = 220.0
+const TRAY_GAP: float = 18.0
 const SPEEDS: Array[float] = [1.0, 2.0, 4.0]
 
 var model: CombatModel = CombatModel.new()
@@ -50,6 +50,7 @@ var hero_health: Array[int] = [-1, -1]
 var hero_health_after: Array = []
 var floor_marks: Array = []
 var _log_text: CombatLog = CombatLog.new()
+var _fight_bar: Control
 var _stage: Control
 var _boards: Array[BoardView] = []
 var _cards: Dictionary[int, CardView] = {}
@@ -93,12 +94,16 @@ var _event_before: Dictionary = {}
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "fight")
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
+	_fight_bar = preload("res://src/ui/widgets/stack_surface.gd").new()
+	_stage.add_child(_fight_bar)
 	for i: int in 2:
 		var board := BoardView.new()
+		board.compact = true
+		board.surface_visible = false
 		board.combat_mode = true
 		board.configure("enemy" if i == 0 else "own", POCKET, i == 1)
 		for slot: SlotView in board.slots:
@@ -220,24 +225,40 @@ func _layout() -> void:
 	_stage.size = Vector2(size.x, CANVAS_H)
 	var tray: Vector2 = _boards[0].tray_size()
 	var x: float = (size.x - tray.x) / 2.0
-	_boards[0].position = Vector2(x, 18)
-	_boards[1].position = Vector2(x, 18 + tray.y + TRAY_GAP)
+	_boards[0].position = Vector2(x, 28)
+	_boards[1].position = Vector2(x, 28 + tray.y + TRAY_GAP)
 	for board: BoardView in _boards:
 		board.size = tray
+	_fight_bar.position = Vector2(x - 180, 966)
+	_fight_bar.size = Vector2(tray.x + 360, 94)
 	for side: int in 2:
 		var board: BoardView = board_for_side(side)
-		_plaques[side].position = board.position + Vector2(-170, tray.y / 2.0 - 70)
-		_plaques[side].size = Vector2(148, 157)
-	var tap: float = 122.0 if size.x >= 2200 else 90.0
-	var controls: Array[Control] = [_gear, _speed_button, _play_button, _skip_button]
+		var plaque: Control = _plaques[side]
+		plaque.position = board.position + Vector2(-205, tray.y / 2.0 - 86)
+		plaque.size = Vector2(180, 189)
+		var art: Control = plaque.get_node("Portrait")
+		art.size = Vector2(162, 162)
+		var hip: Control = _health_labels[side].get_parent() as Control
+		hip.position = Vector2(102, 112)
+		hip.size = Vector2(82, 82)
+		_health_labels[side].add_theme_font_size_override("font_size", 44)
+		if side == bottom_side:
+			plaque.position = Vector2(size.x / 2.0 - 74, 928)
+			plaque.size = Vector2(148, 148)
+			art.size = Vector2(130, 130)
+			hip.position = Vector2(84, 68)
+	var tap: float = 122.0
+	var controls: Array[Control] = [_speed_button, _play_button, _skip_button]
 	for i: int in controls.size():
-		controls[i].position = Vector2(size.x - (4 - i) * (tap + 14), CANVAS_H - tap - 18)
+		controls[i].position = Vector2(size.x / 2.0 + 240 + i * (tap + 16), 944)
 		controls[i].size = Vector2(tap, tap + 9)
 	_step_button.position = _speed_button.position
 	_step_button.size = _speed_button.size
+	_gear.position = Vector2(size.x - 142, 12)
+	_gear.size = Vector2(122, 131)
 	_lanes.boards = [board_for_side(0), board_for_side(1)]
 	_reader.position = Vector2(clampf(x + tray.x + 20, 12, size.x - 550), 28)
-	_reader.size = Vector2(530, CANVAS_H - tap - 18 - _reader.position.y - 16)
+	_reader.size = Vector2(530, 890)
 
 
 func restart() -> void:

@@ -33,6 +33,7 @@ const DESKTOP_RULES_FONT: int = 22
 ## The smallest text size seen in any check since the last reset, in canvas units. On a desktop
 ## that includes text marked desktop_text, which may go down to DESKTOP_RULES_FONT.
 static var smallest_text: int = 9999
+static var _name_library: UnitLibrary = UnitLibrary.load_dir()
 
 
 ## The smallest allowed font size, in canvas units.
@@ -197,7 +198,12 @@ static func _check_rich(rich: RichTextLabel, where: String, out: PackedStringArr
 ## Text that doesn't fit: "wider than its box" / "cut to N of M lines" for plain labels, and
 ## "trimmed" for labels that clip or add an ellipsis (the card's own text fitting).
 static func _check_label(label: Label, where: String, out: PackedStringArray) -> void:
-	if label.text.is_empty() or label.has_meta("ellipsis_ok"):
+	var card: CardView = label.get_parent() as CardView
+	if card != null and label == card.get("_name_label") and CardView.needs_name(card.unit):
+		var definition: Dictionary = _name_library.get_unit(str(card.unit.get("def_id", "")))
+		if not definition.is_empty() and not CoreUtil.to_bool(definition.get("pool", true)):
+			return
+	if label.text.is_empty() or (label.has_meta("ellipsis_ok") and card == null):
 		return
 	var trims: bool = (
 		label.clip_text or label.text_overrun_behavior != TextServer.OVERRUN_NO_TRIMMING

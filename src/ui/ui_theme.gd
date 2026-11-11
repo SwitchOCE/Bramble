@@ -438,6 +438,16 @@ static func add_table(parent: Control) -> Control:
 	return table
 
 
+## Recruit and fight each load their painting from one stable asset path.
+static func add_world(parent: Control, phase: String) -> Control:
+	var script: GDScript = load("res://src/ui/widgets/world_background.gd")
+	var world: Control = script.new()
+	world.set("backdrop_path", "res://assets/ui/world/%s_backdrop.jpg" % phase)
+	world.set_anchors_preset(Control.PRESET_FULL_RECT)
+	parent.add_child(world)
+	return world
+
+
 ## A wooden button for dev and sandbox tools (players see leaf buttons).
 static func button(text: String, min_width: int = 0, size: int = FONT_BODY) -> Button:
 	var node: Button = Button.new()

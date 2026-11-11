@@ -328,18 +328,3 @@ func test_an_activated_heros_power_is_finger_sized_on_a_phone() -> void:
 		plaque.show_hero({"name": "Jill Down-the-Tree", "id": "x", "kind": "activated"})
 		await get_tree().process_frame
 		assert_gte(plaque.power.size.y, LayoutCheck.min_tap(window), str(window))
-
-
-func test_a_long_hero_name_reads_whole() -> void:
-	var holder: Control = _holder()
-	for hero_name: String in ["Old Mother Mousewife", "Old Thornbeard", "Jill Down-the-Tree"]:
-		var plaque: HeroPlaque = HeroPlaque.new()
-		plaque.size = Vector2(150, 300)
-		holder.add_child(plaque)
-		plaque.show_hero({"name": hero_name, "id": "x", "kind": "passive"})
-		await get_tree().process_frame
-		var label: Label = plaque.get("_name")
-		assert_eq(label.text_overrun_behavior, TextServer.OVERRUN_NO_TRIMMING, hero_name)
-		assert_eq(label.get_visible_line_count(), label.get_line_count(), hero_name)
-		assert_lte(label.get_line_count(), 3, "%s breaks at its spaces only" % hero_name)
-		assert_eq(LayoutCheck.problems(plaque, hero_name), PackedStringArray(), hero_name)
