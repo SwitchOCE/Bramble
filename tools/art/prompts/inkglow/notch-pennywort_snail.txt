@@ -11,6 +11,6 @@ Paint a simple spatial setting, not a flat hue panel: one near object/ground pla
 Square edge-to-edge illustration, generous subject scale. One focal subject, with only essential subordinate story figures. No frame, UI, lettering, logo or watermark. No named-artist imitation.
 
 JOB: pennywort_snail; asset type: unit; visual background family: Neutral.
-IDENTITY: Happy peach-gold snail, tall stalk eyes, closed smiling mouth, orange-brown spiral shell. Three broad scalloped green pennywort leaves stacked on its shell and a tied green leaf neck bow. Preserve the leaf stack, shell spiral and bow as distinct objects. 
+IDENTITY: Happy peach-gold snail, tall stalk eyes, closed smiling mouth, orange-brown spiral shell. Three broad scalloped green pennywort leaves stacked on its shell and a tied green leaf neck bow. Preserve the leaf stack, shell spiral and bow as distinct objects.
 
 Model the curved shell, soft snail body and layered leaves with upper-right light, broad cool shadows and restrained moist highlights.
