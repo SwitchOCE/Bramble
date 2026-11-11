@@ -375,6 +375,8 @@ func test_ermeline_printed_count_and_pelt_share_match_award_and_spell_effect() -
 	for t: float in ENDPOINTS:
 		for golden: bool in [false, true]:
 			_setup(t)
+			# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+			kit.config.set_value("hand_limit", 10)
 			var count: int = (10 if golden else 8) if t == 3.0 else (2 if golden else 1)
 			var share: float = 1.0 if t == 3.0 else 1.0 / 3.0
 			_face("madame_ermeline", golden, "get (\\w+) Pelts? of", count)

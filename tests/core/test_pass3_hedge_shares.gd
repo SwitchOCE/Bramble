@@ -53,6 +53,8 @@ func test_lollop_normal_and_golden_reads_biggest_other_tribe_once_at_start() -> 
 func test_mast_normal_and_golden_caps_pay_five_or_ten_actual_acorns() -> void:
 	for golden: bool in [false, true]:
 		before_each()
+		# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+		kit.config.set_value("hand_limit", 10)
 		kit.put("old_mother_mast", 4, golden)
 		for _item: int in 4:
 			kit.rules.give_card(kit.player, "great_hoard")

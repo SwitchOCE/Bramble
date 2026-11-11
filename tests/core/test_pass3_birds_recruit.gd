@@ -118,7 +118,7 @@ func test_tern_homecoming_calls_only_birds_that_missed_a_fight() -> void:
 
 func test_homecoming_full_hand_waits_on_doorstep_and_doubles_once() -> void:
 	var bird: RecruitUnit = _fly("one_swallow")
-	for _index: int in 10:
+	for _index: int in _kit.config.get_int("hand_limit"):
 		_kit.put("field_vole", -1, true)
 	_kit.pass_turn()
 	assert_true(_kit.player.doorstep.has(bird))
