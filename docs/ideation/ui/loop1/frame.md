@@ -10,4 +10,4 @@ Look in `build/loop1/frame/` for recruit and fight stills and short clips at PC 
 
 Tests rewritten: only `tests/ui/test_phone_layout.gd::test_pc_reader_leaves_occupied_rear_slots_fully_tappable`. The occupied rear-slot checks retain centre and attempted hit-fraction taps while following the centred table, instead of hardcoding coordinates from the old placement. No tests deleted; label limits unchanged. Focused layout/declutter/hand/reader group: 117 tests pass.
 
-The pre-art gate passed all 2,740 tests. Fresh stills and recruit-to-fight clips at both sizes now use the merged art. Post-merge full gate and one-game-per-size UI run are pending. Drag and reader behaviour are untouched.
+`./scripts/check.sh --keep-going --base 8fe9f7d1` passes after the art merge: every step and all 2,740 tests. `full_ui_run.sh 1 1000` passes: PC seed 1000, phone seed 1100 and both late checks report zero problems and zero errors. Fresh stills, recruit-to-fight GIFs, contact sheets and validation logs are in `build/loop1/frame/`. Drag and reader behaviour are untouched; no new gameplay bugs were found.
