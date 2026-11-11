@@ -35,6 +35,18 @@ const LaneStates := preload("res://tests/ui/lane_states.gd")
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
 const GAME_OVER_ROUNDS: int = 60
+const FULL_HAND_IDS: Array[String] = [
+	"mrs_mallow",
+	"grey_agnes",
+	"wee_wobbly",
+	"mrs_jay",
+	"lantern_man",
+	"lob_lie_by_the_fire",
+	"pill_bug",
+	"toll_bard",
+	"chiffchaff",
+	"mrs_burdock",
+]
 
 var _backdrop: ImageTexture
 
@@ -86,6 +98,21 @@ func _bot_game(app: App, rounds: int) -> void:
 				app.note_round(combat, me)
 		if rounds >= GAME_OVER_ROUNDS or port.get_state().get("placement") == null:
 			return
+
+
+## Keep recruit art/layout comparisons on the same full ten-card pool-unit reserve.
+func _stage_full_hand(app: App) -> void:
+	var port: CorePort = app.port as CorePort
+	var player: PlayerState = port.session._players[0]
+	player.hand.clear()
+	for id: String in FULL_HAND_IDS:
+		var definition: Dictionary = port.library.get_unit(id)
+		assert(Data.b(definition, "pool"), "shot hand must use pool units: " + id)
+		var unit: RecruitUnit = RecruitUnit.make(definition, port.session._rules.new_iid())
+		unit.origin = RecruitUnit.ORIGIN_BOUGHT
+		player.hand.append(unit)
+	assert(player.hand.size() == 10)
+	print("screenshot: staged ten pool units in hand: ", FULL_HAND_IDS)
 
 
 ## A board that shows every held-unit mark: Bellies empty and full, a Nest bare and a Nest stood on,
@@ -428,6 +455,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			scouting.call("_on_tapped", "scout", 1)
 		"recruit", "recruit_select", "recruit_frozen", "dev", "pause":
 			_bot_game(app, BOT_ROUNDS)
+			_stage_full_hand(app)
 			app.show_recruit()
 			var recruit: RecruitScreen = app.current as RecruitScreen
 			if screen_name == "recruit_select":

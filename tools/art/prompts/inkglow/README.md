@@ -30,3 +30,13 @@ python tools/art/contact_sheet.py assets/portraits \
 ```
 
 The result is one PNG and a JSON index with identity, tribe, source paths and exact 150px rectangles. It fails on missing current art, unknown identities and duplicate IDs. `--columns` changes the number of pairs per row, without shrinking portraits. Pillow is the only dependency. A full 155-portrait folder was checked during the second study. PNG masters and review outputs stay in ignored `build/`.
+
+## Backdrops and world surfaces
+
+Use the SAME unchanged `header.txt` and both frozen portrait anchors. Compose the shared header with an environment adaptation and the asset's preservation notes; exact jobs are `world-*.txt`. References remain: (1) current world asset, (2) Mrs Mallow, (3) Lantern Man. Fight may also receive the accepted recruit repaint as reference 4 to keep the same canopy and rendering treatment.
+
+The environment adaptation overrides portrait-only subject framing, the square canvas for the two wide backdrops, and tribe-specific portrait grounds. It keeps the shared ink, broad simple washes, sparse interior lines, cream upper-right key/rim and restrained local glow. Retain the current woodland palette, tree arch, door and dwelling positions, perspective and quiet clearing. Near trunks, architecture and big leaf clumps get sparse confident contours; distant trees use two or three quieter planes. Remove fine bark/leaf detail and most light shafts/bloom. Edges and corners carry the place; the centre stays calm for play surfaces. No characters, cards or UI are painted in.
+
+Runtime assets are `assets/ui/world/recruit_backdrop.jpg`, `fight_backdrop.jpg`, `foreground.png` and `stump.jpg`. Keep existing canvas proportions and dimensions when exporting. The foreground remains a genuinely transparent left/bottom corner cutout, mirrored by the renderer; never flatten it onto a matte. The stump remains a top-down material with a few broad seams and muted wash planes. Preserve PNG masters and pre-repaint originals under ignored `build/loop1/art/backdrop/`; commit only the runtime exports and prompts.
+
+Review in the actual layout at phone and PC sizes. Stage the same ten pool-unit hand before both old/new recruit captures so the side-by-side compares art, not scene contents. Keep composition and alpha checks alongside those captures, and run the full project gate before committing.
