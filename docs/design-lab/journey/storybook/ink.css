@@ -160,3 +160,6 @@ h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100;
 .btn em { font-style: normal; width: 32px; height: 32px; border-radius: 50%; background: var(--lemon); border: 2.5px solid var(--ink); display: grid; place-items: center; font: 900 16px var(--body); }
 .btn.mustard { background: var(--lemon); } .btn.mustard em { background: var(--card); }
 .btn.sky { background: var(--sky); }
+
+/* Your band never moves: the turning page passes under it. */
+.clearing.pin { z-index: 45; }

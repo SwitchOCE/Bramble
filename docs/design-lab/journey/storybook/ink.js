@@ -1,7 +1,7 @@
 // Storybook Ink, journey round: the game is a storybook lying open in the
-// painted wood. Each area is a chapter; travelling turns the page. The market is
-// the left page, your band stands 4 in front and 3 behind on the right page, the hand is tucked
-// under the book, and a fight is the two bands facing across the spine.
+// painted wood. Each area is a chapter; travelling turns the page. You are always
+// the left page: your band stands 4 in front and 3 behind in a plot that never moves,
+// and the turning page passes under it. The right page is the market, or the opponent.
 (function () {
   const stage = document.getElementById('stage');
   const P = J.params;
@@ -54,7 +54,7 @@
         <h2>Your band <span class="hint">${J.count(G.board)} of 7 · turn ${G.turn}</span></h2>
         ${portrait(me, 'hearts')}
         <div class="satchel"><i>In your satchel</i>${G.hand.map((u) => card(u, 'hand')).join('') || '<em>empty</em>'}</div>
-        <div class="clearing">${band(G.board, 'board', 'side faces-right')}</div>
+        <div class="clearing pin">${band(G.board, 'board', 'side faces-right')}</div>
         <span class="folio">${S.stop * 2 + 1}</span>
       </div>
       <div class="page right stall">
@@ -82,7 +82,7 @@
       <div class="page left">
         <h2>Your band <span class="hint">${G.area.name} · turn ${G.turn}</span></h2>
         ${portrait(me, 'hearts')}
-        <div class="clearing">${band(G.board, 'mine', 'side faces-right')}</div>
+        <div class="clearing pin">${band(G.board, 'mine', 'side faces-right')}</div>
       </div>
       <div class="page right">
         <h2>${J.esc(foe.name)}'s band</h2>

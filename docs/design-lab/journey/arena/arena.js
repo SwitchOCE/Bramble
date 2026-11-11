@@ -1,6 +1,7 @@
 // Clean Arena, journey round: art first. A card is its picture plus Attack,
 // Health and a bolt if it has a trigger. Click flips it for the details;
-// hover shows a quick reader. The board floats on frosted glass over the world.
+// hover shows a quick reader. Your board never moves: same place and size in
+// the recruit and the fight; the market and the opponent swap in above it.
 (function () {
   const stage = document.getElementById('stage');
   const P = J.params;
@@ -42,8 +43,8 @@
 
   function route() {
     return `<div class="route">${J.STOPS.map((s, i) => `
-      <div class="node ${i < S.stop ? 'past' : i === S.stop ? 'here' : 'ahead'}" style="background-image:url(${J.world(s.img)})" title="${s.name}"></div>${i < J.STOPS.length - 1 ? '<i class="path"></i>' : ''}`).join('')}
-      <div class="route-label"><b>${G.area.name}</b> · turn ${G.turn}</div></div>`;
+      <div class="node ${i < S.stop ? 'past' : i === S.stop ? 'here' : 'ahead'}" style="background-image:url(${J.world(s.img)})" title="${s.name}"></div>${i < J.STOPS.length - 1 ? '<i class="path"></i>' : ''}`).join('')}</div>
+      <div class="route-label"><b>${G.area.name}</b> · turn ${G.turn}</div>`;
   }
   function lobby() {
     return `<div class="lobby">${G.lobby.map((p) => `
@@ -52,18 +53,24 @@
       </div>`).join('')}</div>`;
   }
 
-  // Two zones that never blur together: your board (green frame, left, gets the
-  // height) and the market (amber stall, right, with its own gold and buttons).
-  function recruit() {
-    return `${route()}
-      <div class="turnmark"><b>TURN ${G.turn}</b><span>RECRUIT</span></div>
-      ${lobby()}
-      <section class="boardframe">
+  // Your board: one frame, one place, one size, in the recruit and the fight.
+  // Everything else on screen swaps around it.
+  function myBoard(where) {
+    return `<section class="boardframe me pin">
         <header class="tab"><b>YOUR BAND</b><span>${J.count(G.board)}/7</span></header>
         <div class="tags"><i>FRONT</i><i>BACK</i></div>
-        ${brick(G.board, 'board')}
-      </section>
-      <div class="handtray"><span class="lbl">HAND</span><div class="hand">${G.hand.map((u) => card(u, 'hand')).join('')}</div></div>
+        ${brick(G.board, where)}
+      </section>`;
+  }
+  function corner(mode) {
+    return `<div class="corner"><div class="turnmark"><b>TURN ${G.turn}</b><span class="${mode === 'fight' ? 'red' : ''}">${mode === 'fight' ? 'FIGHT' : 'RECRUIT'}</span></div>${route()}</div>`;
+  }
+
+  // Bottom-up: your board bottom-left. Above it, the market (recruit) or the
+  // opponent's board (fight). The right side holds the hand, your hero and End turn.
+  function recruit() {
+    const me = G.lobby.find((p) => p.you);
+    return `${lobby()}${corner('recruit')}
       <section class="shopframe">
         <header class="awning"><b>MARKET</b><span class="tierbadge">TIER ${G.tier}</span>
           <div class="gold"><span class="acorn">${ACORN}</span><b>${G.gold}</b></div></header>
@@ -74,34 +81,33 @@
           <button class="btn sq freeze" title="Freeze"><span>❄</span><em>FREEZE</em></button>
         </div>
       </section>
+      ${myBoard('board')}
+      <div class="handtray"><span class="lbl">HAND</span><div class="hand">${G.hand.map((u) => card(u, 'hand')).join('') || '<em class="none">empty</em>'}</div></div>
+      <div class="hero me side"><img src="${J.por(me.id)}" alt=""><b>You</b><span class="php">${me.hp}</span></div>
       <button class="btn end" data-act="end"><span>END TURN</span><small>fight ${J.esc(G.enemyHero.name)}</small></button>`;
   }
 
-  // The fight keeps your board on the left; the right column holds the heroes.
+  // The fight: the opponent's board takes the market's place, front rows facing.
   function fight() {
     const foe = G.enemyHero, me = G.lobby.find((p) => p.you);
-    return `${route()}
-      <div class="turnmark"><b>TURN ${G.turn}</b><span class="red">FIGHT</span></div>
-      ${lobby()}
-      <section class="boardframe fightframe foe"><header class="tab"><b>${J.esc(foe.name).toUpperCase()}</b></header>${brick(G.enemy, 'enemy', 'foe')}</section>
-      <section class="boardframe fightframe me"><header class="tab"><b>YOUR BAND</b></header>${brick(G.board, 'mine')}</section>
-      <aside class="heroes">
-        <div class="hero foe"><img src="${J.por(foe.id)}" alt=""><b>${J.esc(foe.name)}</b><span class="php">${foe.hp}</span></div>
-        <div class="vsmark">VS</div>
-        <div class="hero me"><img src="${J.por(me.id)}" alt=""><b>You</b><span class="php">${me.hp}</span></div>
-        <div class="result" hidden></div>
-      </aside>`;
+    return `${lobby()}${corner('fight')}
+      <section class="boardframe foe"><header class="tab"><b>${J.esc(foe.name).toUpperCase()}</b></header>${brick(G.enemy, 'enemy', 'foe')}</section>
+      ${myBoard('mine')}
+      <div class="hero foe side"><img src="${J.por(foe.id)}" alt=""><b>${J.esc(foe.name)}</b><span class="php">${foe.hp}</span></div>
+      <div class="hero me side"><img src="${J.por(me.id)}" alt=""><b>You</b><span class="php">${me.hp}</span></div>
+      <div class="result" hidden></div>`;
   }
 
-  function render(arrive) {
+  function render(arrive, swap) {
     if (fightRun) fightRun.stop();
     G = G && G.stop === S.stop && !arrive ? G : J.state(S.stop);
     document.documentElement.dataset.mode = S.mode;
+    stage.classList.toggle('swap', !!swap && !J.static);
     stage.innerHTML = (S.mode === 'fight' ? fight() : recruit()) + '<div class="reader" hidden></div>' +
       (arrive ? `<div class="arrive"><small>Area ${S.stop + 1} of ${J.STOPS.length}</small><b>${G.area.name}</b><span>${G.area.sub}</span></div>` : '');
     J.labDock({
       stop: S.stop, mode: S.mode,
-      onStop: (i) => travel(i), onMode: (m) => { S.mode = m; G = null; render(); },
+      onStop: (i) => travel(i), onMode: (m) => { S.mode = m; G = null; render(false, true); },
       extra: [{ options: [['both', 'Flip + hover'], ['flip', 'Flip'], ['hover', 'Hover']], value: S.details, on: (v) => { S.details = v; render(); } }],
     });
     if (S.mode === 'fight' && !J.static) {
@@ -136,7 +142,7 @@
     const act = e.target.closest('[data-act]');
     if (act) {
       const a = act.dataset.act;
-      if (a === 'end') { S.mode = 'fight'; G = J.state(S.stop); render(); }
+      if (a === 'end') { S.mode = 'fight'; G = J.state(S.stop); render(false, true); }
       if (a === 'travel') travel(S.stop + 1);
       if (a === 'refresh') { const r = J.rng(Date.now() & 0xffff); G.shop.forEach((u, k) => { const pool = UNITS.filter((x) => x.pool && x.tier <= G.tier); const n = pool[Math.floor(r() * pool.length)]; G.shop[k] = Object.assign({}, n, { uid: 'r' + k + Date.now(), text: n.text || 'No text.' }); }); render(); stage.querySelectorAll('.shop .card').forEach((c, k) => { c.style.animationDelay = k * 60 + 'ms'; c.classList.add('deal'); }); }
       return;
@@ -174,7 +180,7 @@
   });
   stage.addEventListener('pointerout', (e) => { const c = e.target.closest('.card'); if (c && !c.contains(e.relatedTarget)) hideReader(); });
 
-  J.keys({ ArrowRight: () => travel(S.stop + 1), ArrowLeft: () => travel(S.stop - 1), f: () => { S.mode = S.mode === 'fight' ? 'recruit' : 'fight'; G = null; render(); } });
+  J.keys({ ArrowRight: () => travel(S.stop + 1), ArrowLeft: () => travel(S.stop - 1), f: () => { S.mode = S.mode === 'fight' ? 'recruit' : 'fight'; G = null; render(false, true); } });
 
   J.mountWorld();
   J.fit(stage);

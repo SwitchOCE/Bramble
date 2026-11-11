@@ -1,0 +1,62 @@
+/* Slot shapes: lab experiment page, drawn in the Clean Arena style. */
+:root { --ink: #f5f3ec; --dim: #a4aca6; --atk: #ffb31a; --hp: #ff4b5c; --go: #2fd68a; --num: 'Barlow Condensed', system-ui, sans-serif; --txt: 'Inter', system-ui, sans-serif; }
+body { font-family: var(--txt); color: var(--ink); }
+.jy-shade { background: rgba(6,10,8,.55); }
+button { all: unset; box-sizing: border-box; cursor: pointer; }
+
+.top { position: absolute; left: 30px; right: 30px; top: 10px; height: 44px; display: flex; align-items: center; gap: 18px; }
+.top h1 { margin: 0; font: 800 32px var(--num); letter-spacing: .08em; text-transform: uppercase; }
+.top .sub { font: 500 16px var(--txt); color: var(--dim); margin-right: auto; }
+.top .back { color: #cfe; text-decoration: none; font: 700 16px var(--txt); }
+.seg { display: flex; background: rgba(0,0,0,.45); border-radius: 10px; padding: 3px; }
+.seg button { padding: 8px 14px; border-radius: 8px; font: 700 15px var(--txt); color: var(--dim); }
+.seg button.on { background: var(--ink); color: #111; }
+
+/* The shape list (left) */
+.list { position: absolute; left: 30px; top: 64px; width: 320px; display: flex; flex-direction: column; gap: 8px; }
+.list button { display: block; padding: 12px 16px; border-radius: 14px; background: rgba(12,16,14,.72); border: 2px solid transparent; }
+.list button.on { border-color: var(--go); background: rgba(12,26,20,.9); }
+.list b { display: block; font: 800 24px var(--num); letter-spacing: .04em; text-transform: uppercase; }
+.list b i { font: 700 13px var(--txt); letter-spacing: .06em; color: var(--go); font-style: normal; text-transform: none; }
+.list span { font: 600 14px var(--txt); color: var(--dim); }
+
+/* Zones: the same frames as the looks */
+.zone { position: absolute; border-radius: 24px; background: rgba(8,14,12,.82); border: 3px solid rgba(47,214,138,.75); box-shadow: 0 24px 60px rgba(0,0,0,.45); }
+.zone.foe { border-color: rgba(255,75,92,.75); }
+.zone .inner { position: absolute; }
+.ztag { position: absolute; left: 22px; top: -14px; padding: 3px 12px; border-radius: 8px; background: #0d1512; border: 2px solid rgba(47,214,138,.75); font: 800 15px var(--num); letter-spacing: .16em; }
+.zone.foe .ztag { border-color: rgba(255,75,92,.75); top: auto; bottom: -14px; left: auto; right: 22px; }
+html[data-lay="lr"] .zone.foe .ztag { top: -14px; bottom: auto; }
+
+/* A unit: SVG shape with the portrait clipped inside, numbers on top */
+.u { position: absolute; }
+.u svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 8px 12px rgba(0,0,0,.45)); }
+.u .edge { fill: none; stroke: rgba(255,255,255,.92); stroke-width: 3.5; stroke-linejoin: round; }
+.u.golden .edge { stroke: #ffd75e; stroke-width: 5; }
+.u .dash { fill: rgba(255,255,255,.035); stroke: rgba(255,255,255,.22); stroke-width: 2; stroke-dasharray: 7 6; stroke-linejoin: round; }
+.u span { position: absolute; transform: translate(-50%, -50%); display: grid; place-items: center; font: 800 calc(var(--b) * .66)/1 var(--num); }
+.u .tier { width: calc(var(--b) * .62); height: calc(var(--b) * .62); border-radius: 50%; background: rgba(12,14,13,.85); font-size: calc(var(--b) * .4); }
+.u .hp { width: var(--b); height: var(--b); border-radius: 50%; background: var(--hp); color: #fff; box-shadow: 0 3px 8px rgba(0,0,0,.45); }
+.u .atk { width: var(--b); height: var(--b); color: #1a1208; isolation: isolate; }
+.u .atk::before { content: ''; position: absolute; inset: 14%; background: var(--atk); border-radius: 6px; transform: rotate(45deg); box-shadow: 0 3px 8px rgba(0,0,0,.45); z-index: -1; }
+
+/* Notes (right) */
+.notes { position: absolute; right: 30px; top: 64px; bottom: 30px; width: 520px; padding: 22px 26px; border-radius: 20px; background: rgba(12,16,14,.84); overflow: hidden; }
+.notes h2 { margin: 0; font: 800 40px var(--num); text-transform: uppercase; letter-spacing: .04em; }
+.notes .line { font: 500 18px/1.4 var(--txt); margin: 6px 0 16px; }
+.notes .stats { display: flex; gap: 14px; margin-bottom: 8px; }
+.notes .stats div { flex: 1; min-width: 0; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,.06); }
+.notes .stats b { display: block; font: 800 36px/1 var(--num); color: var(--go); }
+.notes .stats span { font: 600 13px var(--txt); color: var(--dim); }
+.notes h3 { margin: 16px 0 4px; font: 800 18px var(--num); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); }
+.notes ul { margin: 0; padding-left: 20px; font: 500 16px/1.42 var(--txt); }
+.notes li { margin: 3px 0; }
+html[data-lay="lr"] .notes { width: 560px; }
+
+/* All shapes */
+.grid { position: absolute; left: 30px; right: 30px; top: 80px; display: flex; flex-wrap: wrap; gap: 26px 26px; justify-content: center; }
+.cell { display: flex; flex-direction: column; gap: 4px; padding: 10px; border-radius: 16px; background: rgba(12,16,14,.6); border: 2px solid transparent; }
+.cell.on { border-color: var(--go); }
+.cell .mini { position: relative; transform-origin: 0 0; }
+.cell b { font: 800 22px var(--num); letter-spacing: .04em; text-transform: uppercase; }
+.cell span { font: 600 14px var(--txt); color: var(--dim); }

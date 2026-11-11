@@ -1,6 +1,6 @@
 // Woodland Nouveau, journey round (second shot). The painting is the poster:
 // a thin gilt frame holds the world, the market hangs from a gilt vine, and
-// your band stands 4 in front and 3 behind inside the halo, your hero beneath.
+// your band stands sideways in a tall altar that never moves between phases.
 // Travel opens the next area through an arched wipe.
 (function () {
   const stage = document.getElementById('stage');
@@ -38,18 +38,20 @@
     return `<div class="lobby">${G.lobby.map((p) => `<div class="medal ${p.you ? 'you' : ''} ${p.next ? 'next' : ''} ${p.hp <= 0 ? 'out' : ''}" title="${J.esc(p.name)}"><img src="${J.por(p.id)}" alt=""><b>${p.hp}</b></div>`).join('')}</div>`;
   }
 
-  // Two zones: the altar (dark malachite, arched, left) holds your band and hero;
-  // the cabinet (ivory, right) holds the market with its gold and jewels.
-  function recruit() {
+  // Left-right. Your altar is pinned on the left: same place, same size, in every
+  // phase, your band standing sideways with the front column facing right.
+  // To its right: the market cabinet (recruit) or the opponent's altar (fight).
+  function myAltar(where) {
+    return `<section class="altar me pin"><span class="count">Your band · ${J.count(G.board)} of 7</span>${band(G.board, where, 'side faces-right')}</section>`;
+  }
+  function myHero() {
     const me = G.lobby.find((p) => p.you);
-    return `${DEFS}${frame()}${lobby()}
-      <section class="altar">
-        ${title()}
-        <span class="count">${J.count(G.board)} of 7</span>
-        ${band(G.board, 'board')}
-        <div class="hero"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b></div>
-      </section>
-      <div class="hand"><span>In hand</span>${G.hand.map((u) => card(u, 'hand')).join('')}</div>
+    return `<div class="hero me"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b><i>You</i></div>`;
+  }
+
+  function recruit() {
+    return `${DEFS}${frame()}${lobby()}${title()}
+      ${myAltar('board')}${myHero()}
       <section class="cabinet">
         <header><span>The Market</span><i>Tier ${G.tier}</i></header>
         <div class="rail"><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 20 C 60 4, 100 36, 160 20 S 260 4, 320 20 S 380 34, 400 18" fill="none" stroke="url(#gilt)" stroke-width="4"/></svg></div>
@@ -61,29 +63,30 @@
           <button class="jewel btn ice"><b>❄</b><small>Freeze</small></button>
         </div>
       </section>
+      <div class="hand"><span>In hand</span>${G.hand.map((u) => card(u, 'hand')).join('')}</div>
       <button class="door" data-act="end"><b>End Turn</b><small>to battle ${J.esc(G.enemyHero.name)}</small></button>`;
   }
 
-  // The fight: both bands framed on the left, front rows facing; heroes on the right.
+  // The fight: the opponent's altar takes the cabinet's place, front columns facing.
   function fight() {
-    const me = G.lobby.find((p) => p.you), foe = G.enemyHero;
-    return `${DEFS}${frame()}${lobby()}
-      <section class="altar fightframe foe"><span class="count">${J.esc(foe.name)}</span>${band(G.enemy, 'enemy', 'foe')}</section>
-      <section class="altar fightframe me"><span class="count">Your band</span>${band(G.board, 'mine')}</section>
+    const foe = G.enemyHero;
+    return `${DEFS}${frame()}${lobby()}${title()}
+      ${myAltar('mine')}${myHero()}
+      <section class="altar foe"><span class="count">${J.esc(foe.name)}</span>${band(G.enemy, 'enemy', 'side')}</section>
       <aside class="heroes">
         <div class="hero foe"><div class="rings"></div><img src="${J.por(foe.id)}" alt=""><b>${foe.hp}</b><i>${J.esc(foe.name)}</i></div>
         <div class="verdict" hidden></div>
-        <div class="hero me"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b><i>You</i></div>
       </aside>
       <button class="door" data-act="travel" hidden><b>${S.stop === J.STOPS.length - 1 ? 'Begin Again' : 'Journey On'}</b><small>${S.stop === J.STOPS.length - 1 ? J.STOPS[0].name : 'to ' + J.STOPS[S.stop + 1].name}</small></button>`;
   }
 
-  function render() {
+  function render(swap) {
     if (fightRun) fightRun.stop();
     if (!G || G.stop !== S.stop) G = J.state(S.stop);
     document.documentElement.dataset.mode = S.mode;
+    stage.classList.toggle('swap', !!swap && !J.static);
     stage.innerHTML = (S.mode === 'fight' ? fight() : recruit()) + '<div class="reader" hidden></div>';
-    J.labDock({ stop: S.stop, mode: S.mode, onStop: (i) => travel(i), onMode: (m) => { S.mode = m; G = null; render(); } });
+    J.labDock({ stop: S.stop, mode: S.mode, onStop: (i) => travel(i), onMode: (m) => { S.mode = m; G = null; render(true); } });
     if (S.mode === 'fight') {
       const door = stage.querySelector('.door');
       if (J.static) { door.hidden = false; return; }
@@ -109,7 +112,7 @@
   stage.addEventListener('click', (e) => {
     const a = e.target.closest('[data-act]');
     if (a) {
-      if (a.dataset.act === 'end') { S.mode = 'fight'; G = J.state(S.stop); render(); }
+      if (a.dataset.act === 'end') { S.mode = 'fight'; G = J.state(S.stop); render(true); }
       if (a.dataset.act === 'travel') travel(S.stop + 1);
       if (a.dataset.act === 'refresh') { const r = J.rng(Date.now() & 0xffff); G.shop = G.shop.map((u, k) => { const pool = UNITS.filter((x) => x.pool && x.tier <= G.tier); const n = pool[Math.floor(r() * pool.length)]; return Object.assign({}, n, { uid: 'r' + k + Date.now(), text: n.text || 'No text.' }); }); render(); }
       return;
@@ -136,7 +139,7 @@
   });
   stage.addEventListener('pointerout', (e) => { const c = e.target.closest('.card'); if (c && !c.contains(e.relatedTarget)) { clearTimeout(t); stage.querySelector('.reader').hidden = true; } });
 
-  J.keys({ ArrowRight: () => travel(S.stop + 1), ArrowLeft: () => travel(S.stop - 1), f: () => { S.mode = S.mode === 'fight' ? 'recruit' : 'fight'; G = null; render(); } });
+  J.keys({ ArrowRight: () => travel(S.stop + 1), ArrowLeft: () => travel(S.stop - 1), f: () => { S.mode = S.mode === 'fight' ? 'recruit' : 'fight'; G = null; render(true); } });
 
   J.mountWorld({ ferns: false });
   J.fit(stage);

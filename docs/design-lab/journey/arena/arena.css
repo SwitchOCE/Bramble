@@ -10,26 +10,26 @@ body { font-family: var(--txt); color: var(--ink); }
 html[data-mode="fight"] .jy-bg.on { transform: scale(1.12); filter: brightness(.62) saturate(.8); }
 html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 50%, rgba(0,0,0,.1) 30%, rgba(0,0,0,.7) 100%); }
 
-.jy-stage { transition: opacity .38s ease, filter .38s; }
-.jy-stage.leaving { opacity: 0; filter: blur(6px); }
+.jy-stage > * { transition: opacity .38s ease, filter .38s; }
+.jy-stage.leaving > :not(.pin) { opacity: 0; filter: blur(6px); }
 
-/* ---- Route: five round windows onto the areas ---------------------------- */
-.route { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 0; }
-.node { width: 46px; height: 46px; border-radius: 50%; background: center/cover; border: 3px solid rgba(255,255,255,.5); box-shadow: 0 4px 14px rgba(0,0,0,.4); transition: all .5s; }
-.node.past { filter: saturate(.5) brightness(.8); border-color: rgba(255,255,255,.35); }
-.node.ahead { filter: grayscale(1) brightness(.55); border-color: rgba(255,255,255,.25); }
-.node.here { width: 74px; height: 74px; border: 4px solid var(--ink); box-shadow: 0 0 0 4px rgba(0,0,0,.35), 0 0 28px color-mix(in srgb, var(--tint) 80%, transparent); }
-.path { width: 34px; height: 4px; background: repeating-linear-gradient(90deg, rgba(255,255,255,.7) 0 6px, transparent 6px 11px); }
-.route-label { position: absolute; top: 50%; left: calc(100% + 22px); transform: translateY(-50%); white-space: nowrap; font: 600 18px var(--txt); color: var(--ink); text-shadow: 0 2px 8px rgba(0,0,0,.8); }
-.route-label b { font: 800 22px var(--num); letter-spacing: .04em; text-transform: uppercase; }
-
-.turnmark { position: absolute; top: 30px; left: 40px; display: flex; align-items: baseline; gap: 12px; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+/* ---- Top-right corner: turn and route ----------------------------------- */
+.corner { position: absolute; right: 36px; top: 16px; width: var(--col-w); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.turnmark { display: flex; align-items: baseline; gap: 12px; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
 .turnmark b { font: 800 52px/1 var(--num); }
 .turnmark span { font: 700 22px var(--num); letter-spacing: .12em; color: var(--go); }
 .turnmark span.red { color: var(--hp); }
+.route { display: flex; align-items: center; }
+.node { width: 40px; height: 40px; border-radius: 50%; background: center/cover; border: 3px solid rgba(255,255,255,.5); box-shadow: 0 4px 14px rgba(0,0,0,.4); transition: all .5s; flex: none; }
+.node.past { filter: saturate(.5) brightness(.8); border-color: rgba(255,255,255,.35); }
+.node.ahead { filter: grayscale(1) brightness(.55); border-color: rgba(255,255,255,.25); }
+.node.here { width: 64px; height: 64px; border: 4px solid var(--ink); box-shadow: 0 0 0 4px rgba(0,0,0,.35), 0 0 28px color-mix(in srgb, var(--tint) 80%, transparent); }
+.path { width: 24px; height: 4px; flex: none; background: repeating-linear-gradient(90deg, rgba(255,255,255,.7) 0 6px, transparent 6px 11px); }
+.route-label { white-space: nowrap; font: 600 18px var(--txt); color: var(--ink); text-shadow: 0 2px 8px rgba(0,0,0,.8); }
+.route-label b { font: 800 22px var(--num); letter-spacing: .04em; text-transform: uppercase; }
 
 /* ---- Lobby: portraits on the painting, nothing else ----------------------- */
-.lobby { position: absolute; left: 34px; top: 130px; display: flex; flex-direction: column; gap: 14px; }
+.lobby { position: absolute; left: 34px; top: 24px; display: flex; flex-direction: column; gap: 14px; }
 .pl { position: relative; width: 86px; height: 86px; }
 .pl img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,.55); box-shadow: 0 6px 16px rgba(0,0,0,.45); }
 .pl.you img { border-color: var(--go); box-shadow: 0 0 0 3px rgba(47,214,138,.35), 0 6px 16px rgba(0,0,0,.45); }
@@ -38,32 +38,32 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .php { position: absolute; right: -8px; bottom: -4px; min-width: 38px; height: 38px; padding: 0 6px; border-radius: 19px; background: var(--hp); color: #fff; font: 800 24px/38px var(--num); text-align: center; box-shadow: 0 0 0 3px #1a1010; }
 .ptier { position: absolute; left: -6px; bottom: -4px; width: 28px; height: 28px; border-radius: 50%; background: #111; color: var(--ink); font: 800 17px/28px var(--num); text-align: center; box-shadow: 0 0 0 2px rgba(255,255,255,.4); }
 
-/* ---- Zones: the board (green frame) and the market (amber stall) --------------- */
-/* Shop column on the right; the board takes everything left of it, full height. */
-:root { --shop-w: 560px; --zone-l: 150px; --zone-r: calc(var(--shop-w) + 70px); }
-.boardframe { position: absolute; left: var(--zone-l); right: var(--zone-r); top: 112px; padding: 34px 24px 22px;
+/* ---- Zones ---------------------------------------------------------------------------
+   Bottom-up. Your board is pinned bottom-left: same place, same size, in every phase.
+   Above it: the market (recruit) or the opponent's board (fight). Right of it: the hand
+   (recruit) or the heroes (fight), and a column for the turn, the route and End turn. */
+:root { --zone-l: 150px; --zw: 830px; --zh: 510px; --zgap: 28px; --col-w: 400px; --top: 16px;
+  --low: calc(var(--top) + var(--zh) + var(--zgap)); --side-l: calc(var(--zone-l) + var(--zw) + var(--zgap)); }
+.boardframe { position: absolute; left: var(--zone-l); width: var(--zw); height: var(--zh); padding: 30px 24px 18px; display: grid; place-items: center;
   background: rgba(8, 14, 12, .80); border: 3px solid rgba(47,214,138,.75); border-radius: 26px;
   box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(47,214,138,.22); }
+.boardframe.me { top: var(--low); }
+.boardframe.foe { top: var(--top); padding: 18px 24px 30px; border-color: rgba(255,75,92,.75);
+  box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(255,75,92,.2); }
 .tab { position: absolute; top: -18px; left: 26px; display: flex; gap: 12px; align-items: baseline; padding: 6px 16px; border-radius: 10px;
   background: #0d1512; border: 2px solid rgba(47,214,138,.75); font: 800 20px var(--num); letter-spacing: .16em; }
+.boardframe.foe .tab { top: auto; bottom: -18px; left: auto; right: 26px; border-color: rgba(255,75,92,.75); }
 .tab span { color: var(--dim); }
-.tags { position: absolute; right: 18px; top: 34px; bottom: 22px; display: flex; flex-direction: column; justify-content: space-around; font: 700 15px var(--num); letter-spacing: .24em; color: var(--dim); }
+.tags { position: absolute; right: 16px; top: 30px; bottom: 18px; display: flex; flex-direction: column; justify-content: space-around; font: 700 15px var(--num); letter-spacing: .24em; color: var(--dim); }
 .tags i { font-style: normal; writing-mode: vertical-rl; transform: rotate(180deg); }
-.boardframe .brick { --row-gap: 16px; --slot-gap: 18px; }
-.boardframe .brick .card, .boardframe .brick .slot { width: 232px; height: 310px; }
-.boardframe .front .atk, .boardframe .front .hp { width: 62px; height: 62px; font-size: 42px; }
+.boardframe .brick { --row-gap: 14px; --slot-gap: 18px; }
+.boardframe .brick .card, .boardframe .brick .slot { width: 168px; height: 224px; }
+.boardframe .front .atk, .boardframe .front .hp { width: 54px; height: 54px; font-size: 37px; }
 
-.handtray { position: absolute; left: var(--zone-l); right: var(--zone-r); bottom: 16px; height: 196px; display: flex; align-items: center; gap: 18px; padding: 0 24px;
-  background: rgba(14,18,17,.5); border: 1px dashed rgba(255,255,255,.22); border-radius: 22px; }
-.handtray .lbl { font: 800 18px var(--num); letter-spacing: .2em; color: var(--dim); writing-mode: vertical-rl; transform: rotate(180deg); }
-.handtray .hand { display: flex; gap: 14px; }
-.hand .card { width: 132px; height: 176px; }
-.hand .card .front .atk, .hand .card .front .hp { width: 40px; height: 40px; font-size: 27px; }
-.hand .b-text { font-size: 11px; } .hand .b-name { font-size: 16px; }
-
-.shopframe { position: absolute; right: 36px; width: var(--shop-w); top: 112px; padding: 0 0 18px;
+/* The market: an amber stall above your board, with its gold and buttons inside. */
+.shopframe { position: absolute; left: var(--zone-l); right: calc(var(--col-w) + 36px + var(--zgap)); top: var(--top); height: var(--zh); display: flex; flex-direction: column;
   background: rgba(34, 24, 10, .84); border: 3px solid var(--atk); border-radius: 26px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
-.awning { display: flex; align-items: center; gap: 12px; height: 70px; padding: 0 18px; color: #2a1a04; border-radius: 22px 22px 0 0;
+.awning { display: flex; align-items: center; gap: 12px; height: 64px; flex: none; padding: 0 18px; color: #2a1a04; border-radius: 22px 22px 0 0;
   background: repeating-linear-gradient(90deg, var(--atk) 0 46px, #ffc95a 46px 92px); position: relative; }
 .awning::after { content: ''; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px;
   background: radial-gradient(circle at 23px 0, var(--atk) 22px, transparent 23px) 0 0 / 92px 12px repeat-x, radial-gradient(circle at 69px 0, #ffc95a 22px, transparent 23px) 0 0 / 92px 12px repeat-x; }
@@ -71,14 +71,23 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .tierbadge { font: 800 17px var(--num); letter-spacing: .14em; background: #2a1a04; color: var(--atk); padding: 4px 10px; border-radius: 8px; }
 .awning .gold { margin-left: auto; gap: 6px; padding: 2px 14px; background: #2a1a04; border: 0; border-radius: 14px; backdrop-filter: none; }
 .awning .gold .acorn svg { width: 30px; height: 30px; } .awning .gold b { font-size: 46px; }
-.shopgrid { display: grid; grid-template-columns: repeat(3, 160px); gap: 16px; justify-content: center; padding: 30px 0 0; min-height: 490px; align-content: start; }
-.shopgrid .card { width: 160px; height: 214px; }
-.shopgrid .front .atk, .shopgrid .front .hp { width: 46px; height: 46px; font-size: 31px; }
+.shopgrid { flex: 1; display: flex; gap: 16px; justify-content: center; align-items: center; padding: 14px 18px 0; }
+.shopgrid .card { width: 168px; height: 224px; }
+.shopgrid .front .atk, .shopgrid .front .hp { width: 50px; height: 50px; font-size: 34px; }
 .shopgrid .b-text { font-size: 12.5px; } .shopgrid .b-name { font-size: 18px; }
-.shopbtns { display: flex; gap: 12px; padding: 18px 0 0; border-top: 2px solid rgba(255,179,26,.3); margin: 0 18px; }
-.shopbtns .btn.sq { flex: 1; height: 88px; width: auto; }
-.shopbtns .btn em { font: 800 18px var(--num); letter-spacing: .1em; }
-.row { display: flex; gap: 14px; justify-content: center; }
+.shopbtns { display: flex; gap: 12px; padding: 14px 0 16px; border-top: 2px solid rgba(255,179,26,.3); margin: 0 18px; }
+.shopbtns .btn.sq { flex: 1; height: 76px; width: auto; flex-direction: column; justify-content: center; gap: 2px; padding: 0; font-size: 28px; }
+.shopbtns .btn em { font: 800 17px var(--num); letter-spacing: .1em; }
+
+/* The hand: a tray beside your board. */
+.handtray { position: absolute; left: var(--side-l); right: calc(var(--col-w) + 36px + var(--zgap)); top: var(--low); height: var(--zh); display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px;
+  background: rgba(14,18,17,.5); border: 1px dashed rgba(255,255,255,.22); border-radius: 22px; }
+.handtray .lbl { font: 800 18px var(--num); letter-spacing: .24em; color: var(--dim); }
+.handtray .hand { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 16px; }
+.hand .card { width: 150px; height: 200px; }
+.hand .card .front .atk, .hand .card .front .hp { width: 44px; height: 44px; font-size: 30px; }
+.hand .b-text { font-size: 11px; } .hand .b-name { font-size: 16px; }
+.hand .none { font: 600 16px var(--txt); color: var(--dim); font-style: normal; margin-top: 40px; }
 .slot { position: relative; flex: none; border-radius: 18px; border: 2px dashed rgba(255,255,255,.2); background: rgba(255,255,255,.035); display: grid; place-items: center; }
 .slot span { font: 700 24px var(--num); letter-spacing: .1em; color: rgba(255,255,255,.25); }
 
@@ -98,7 +107,6 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .card .aura svg { fill: #bfe9ff; stroke: #bfe9ff; }
 .atk, .hp { font: 800 40px/1 var(--num); color: #1a1208; display: grid; place-items: center; }
 .front .atk, .front .hp { position: absolute; bottom: 8px; width: 54px; height: 54px; font-size: 37px; box-shadow: 0 4px 10px rgba(0,0,0,.45); }
-.fightpanel .front .atk, .fightpanel .front .hp { width: 48px; height: 48px; font-size: 33px; }
 .front .hp { right: 8px; background: var(--hp); border-radius: 50%; color: #fff; }
 /* Attack is a diamond, Health a circle: shape, not just colour, tells them apart. */
 .front .atk { left: 8px; background: none; box-shadow: none; isolation: isolate; }
@@ -136,26 +144,21 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .btn em { font-style: normal; display: flex; align-items: center; gap: 4px; color: var(--atk); }
 .btn em svg { width: 22px; height: 22px; fill: var(--atk); }
 .btn.freeze { color: var(--ice); border-color: rgba(76,195,255,.45); }
-.btn.end { position: absolute; right: 36px; width: var(--shop-w); bottom: 16px; height: 150px; background: var(--go); color: #062314; flex-direction: column; justify-content: center; border: 0; font-size: 40px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.btn.end { position: absolute; right: 36px; width: var(--col-w); bottom: 16px; height: 150px; background: var(--go); color: #062314; flex-direction: column; justify-content: center; border: 0; font-size: 40px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
 .btn.end small { font: 700 16px var(--num); letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
 
-/* ---- Fight: two framed boards on the left, heroes in the right column ---------- */
-.fightframe { padding: 24px 24px 16px; }
-.fightframe.foe { top: 106px; border-color: rgba(255,75,92,.75); box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(255,75,92,.2); }
-.fightframe.foe .tab { border-color: rgba(255,75,92,.75); }
-.fightframe.me { top: auto; bottom: 16px; }
-.fightframe .brick { --row-gap: 10px; --slot-gap: 14px; }
-.fightframe .brick .card, .fightframe .brick .slot { width: 150px; height: 200px; }
-.fightframe .front .atk, .fightframe .front .hp { width: 46px; height: 46px; font-size: 31px; }
-.fightframe .slot { border-color: rgba(255,255,255,.08); background: none; } .fightframe .slot span { display: none; }
-.heroes { position: absolute; right: 36px; width: var(--shop-w); top: 106px; bottom: 16px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
-.hero { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.hero img { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 5px solid var(--hp); box-shadow: 0 8px 22px rgba(0,0,0,.5); }
-.hero.me { margin-top: auto; } .hero.me img { border-color: var(--go); }
+/* ---- Heroes beside the boards; the result over the right side ------------------------ */
+.hero.side { position: absolute; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hero img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--hp); box-shadow: 0 8px 22px rgba(0,0,0,.5); }
+.hero.me img { border-color: var(--go); }
 .hero b { font: 800 22px var(--num); letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 6px #000; }
-.hero .php { right: 0; top: 120px; bottom: auto; min-width: 54px; height: 54px; font-size: 32px; line-height: 54px; border-radius: 27px; }
-.vsmark { font: 800 64px var(--num); color: var(--ink); opacity: .8; text-shadow: 0 4px 16px #000; margin-top: 30px; }
-.result { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -30%); width: 340px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; animation: rise .5s ease;
+.hero .php { right: 0; top: 106px; bottom: auto; min-width: 50px; height: 50px; font-size: 30px; line-height: 50px; border-radius: 25px; }
+/* Recruit: your hero sits in the right column above End turn. Fight: heroes beside their boards. */
+html[data-mode="recruit"] .hero.me { right: calc(36px + var(--col-w) / 2); transform: translateX(50%); bottom: 240px; }
+html[data-mode="fight"] .hero.side { left: calc(var(--side-l) + 40px); }
+html[data-mode="fight"] .hero.foe { top: calc(var(--top) + 60px); }
+html[data-mode="fight"] .hero.me { top: calc(var(--low) + 230px); }
+.result { position: absolute; left: calc(var(--side-l) + 260px); right: 36px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 14px; align-items: stretch; animation: rise .5s ease;
   background: rgba(10,13,12,.88); padding: 20px; border-radius: 22px; border: 1px solid var(--line); z-index: 5; }
 .result .btn.end { position: static; width: auto; height: 110px; }
 .result > b { font: 800 96px/1 var(--num); text-align: center; }
@@ -163,7 +166,7 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 @keyframes rise { from { opacity: 0; } }
 
 /* ---- Arrival title ---------------------------------------------------------------- */
-.arrive { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 60;
+.arrive { position: absolute; left: calc(var(--zone-l) + var(--zw) / 2); top: calc(var(--top) + var(--zh) / 2); transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 60;
   padding: 26px 70px; background: rgba(10,13,12,.7); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid var(--line);
   animation: arrive 2.6s cubic-bezier(.2,.7,.2,1) both; }
 .arrive small { display: block; font: 700 16px var(--num); letter-spacing: .3em; color: var(--dim); text-transform: uppercase; }
@@ -176,14 +179,15 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 @keyframes deal { from { opacity: 0; transform: translateY(-30px) rotateY(90deg); } }
 
 /* Narrow-height screens (phone landscape): the stage is wider, so give the glass room */
-html.jy-phone .lobby { gap: 8px; top: 120px; }
+html.jy-phone .lobby { gap: 8px; }
 
-/* Arrival beat: the board steps aside so you see the new place, then returns. */
-.jy-stage.arriving .boardframe, .jy-stage.arriving .shopframe, .jy-stage.arriving .handtray, .jy-stage.arriving > .btn.end, .jy-stage.arriving .lobby { animation: board-return 2.8s ease both; }
+/* Arrival and phase change: everything except your board steps in around it. */
+.jy-stage.arriving > :not(.pin):not(.arrive) { animation: board-return 2.8s ease both; }
 @keyframes board-return { 0%, 55% { opacity: 0; translate: 0 24px; } 100% { opacity: 1; } }
-.jy-stage.arriving .lobby { animation-name: lobby-return; }
-@keyframes lobby-return { 0%, 55% { opacity: 0; } 100% { opacity: 1; } }
+.jy-stage.swap > .shopframe, .jy-stage.swap > .boardframe.foe { animation: zone-in .45s cubic-bezier(.2,.8,.2,1) both; }
+.jy-stage.swap > .handtray, .jy-stage.swap > .hero, .jy-stage.swap > .btn.end { animation: side-in .45s ease both; }
+@keyframes zone-in { from { opacity: 0; translate: 0 -40px; } }
+@keyframes side-in { from { opacity: 0; translate: 40px 0; } }
 .result[hidden] { display: none; }
-.shopbtns .btn.sq { flex-direction: column; justify-content: center; gap: 4px; padding: 0; font-size: 30px; }
 .btn.end { height: 196px; font-size: 46px; }
 .btn.freeze em { color: var(--ice); }

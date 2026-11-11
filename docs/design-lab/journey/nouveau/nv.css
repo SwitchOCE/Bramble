@@ -14,8 +14,8 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .jy-bg.enter { opacity: 1; transform: scale(1.06); clip-path: ellipse(0% 0% at 50% 100%); transition: none; z-index: 2; }
 .jy-bg.on { clip-path: ellipse(120% 140% at 50% 100%); transition: opacity 1.4s, clip-path 1.5s cubic-bezier(.5,0,.2,1), transform 1.6s, filter 1s; }
 .jy-bg.leave { opacity: 1; transform: scale(1.02); z-index: 0; clip-path: none; transition: transform 1.6s; }
-.jy-stage { transition: opacity .5s ease; }
-.jy-stage.leaving { opacity: 0; }
+.jy-stage > * { transition: opacity .5s ease; }
+.jy-stage.leaving > :not(.pin) { opacity: 0; }
 
 /* ---- The frame: a thin gilt line with whiplash corners ------------------------------- */
 .frame { position: absolute; inset: 14px; border: 3px solid var(--goldc); border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 1px rgba(60,40,10,.4), inset 0 0 0 1px rgba(60,40,10,.4); }
@@ -53,41 +53,50 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .reader p b { display: inline; font: 800 18px var(--cap); margin: 0; color: var(--amethyst); }
 .reader p em { font-style: italic; color: var(--garnet); font-weight: 700; }
 
-/* ---- Zones: altar (your band, left, full height) and cabinet (market, right) ---------------- */
-:root { --shop-w: 600px; --zone-l: 140px; --zone-r: calc(var(--shop-w) + 80px); }
-.altar { position: absolute; left: var(--zone-l); right: var(--zone-r); top: 70px; height: 760px; z-index: 2;
-  border-radius: 360px 360px 22px 22px / 150px 150px 22px 22px; border: 3px solid var(--goldc);
-  background: radial-gradient(ellipse at 50% 30%, rgba(21,81,63,.92), rgba(14,58,49,.92) 60%, rgba(8,34,28,.94));
+/* ---- Zones -----------------------------------------------------------------------------------
+   Left-right. Your altar is pinned on the left, full height, band standing sideways.
+   To its right: the cabinet (recruit) or the opponent's altar (fight). */
+:root { --zone-l: 150px; --aw: 430px; --zgap: 30px; --right-l: calc(var(--zone-l) + var(--aw) + var(--zgap)); }
+.altar { position: absolute; left: var(--zone-l); width: var(--aw); top: 40px; height: 1000px; z-index: 2; display: grid; place-items: center;
+  border-radius: 215px 215px 22px 22px / 96px 96px 22px 22px; border: 3px solid var(--goldc);
+  background: radial-gradient(ellipse at 50% 40%, rgba(21,81,63,.92), rgba(14,58,49,.92) 60%, rgba(8,34,28,.94));
   box-shadow: 0 0 0 6px rgba(14,58,49,.55), inset 0 0 0 8px rgba(14,58,49,.9), inset 0 0 0 9px rgba(241,215,127,.55), 0 30px 70px rgba(0,0,0,.5); }
-.altar::before { content: ''; position: absolute; left: 50%; top: 42%; width: 760px; height: 760px; transform: translate(-50%, -50%); border-radius: 50%;
-  border: 2px solid rgba(215,173,79,.28); box-shadow: 0 0 0 26px rgba(215,173,79,.05); pointer-events: none; }
-.altar .count { position: absolute; left: 34px; bottom: 22px; font: 700 15px var(--cap); letter-spacing: .24em; text-transform: uppercase; color: #f1d78a; }
-.cartouche { position: absolute; left: 50%; top: -48px; transform: translateX(-50%); text-align: center; padding: 6px 56px 10px; white-space: nowrap; z-index: 3;
+.altar.foe { left: var(--right-l); background: radial-gradient(ellipse at 50% 40%, rgba(122,28,46,.92), rgba(74,7,20,.94)); }
+.altar .count { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font: 700 14px var(--cap); letter-spacing: .24em; text-transform: uppercase; color: #f1d78a; }
+.cartouche { position: absolute; left: var(--right-l); right: 40px; top: 14px; margin: 0 auto; width: max-content; text-align: center; padding: 6px 56px 10px; white-space: nowrap; z-index: 3;
   background: radial-gradient(ellipse at 50% 0%, #15513f, #0e3a31); border-radius: 0 0 140px 140px / 0 0 60px 60px; border: 2px solid var(--goldc); color: var(--ivory); box-shadow: 0 8px 20px rgba(0,0,0,.4); }
+html[data-mode="fight"] .cartouche { left: calc(var(--right-l) + var(--aw) + var(--zgap)); }
 .cartouche small { display: block; font: 700 12px var(--cap); letter-spacing: .32em; text-transform: uppercase; color: #f1d78a; }
 .cartouche b { display: block; font: 900 40px/1.05 var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 rgba(0,0,0,.35)); }
 .cartouche i { font: 600 italic 17px var(--serif); color: var(--ivory2); }
 
-/* The band: 4 in front, 3 behind, inside the altar. */
-.band { position: absolute; left: 50%; top: 104px; transform: translateX(-50%); }
-.band .brick { --row-gap: 14px; --slot-gap: 34px; }
+/* The band: 4 in front, 3 behind, standing sideways in the altar. One size everywhere. */
+.band .brick { --row-gap: 34px; --slot-gap: 16px; }
 .band .card, .band .slot { position: relative; flex: none; }
 .band .card:hover { transform: translateY(-6px); z-index: 10; }
-.slot { width: 170px; height: 196px; border-radius: 85px 85px 8px 8px; border: 2px dashed rgba(241,215,127,.45); background: rgba(0,0,0,.18); display: grid; place-items: center; margin-bottom: 40px; }
+.card, .slot { width: 150px; height: 206px; }
+.card .arch { height: 170px; border-radius: 75px 75px 8px 8px; }
+.card .arch img, .card .halo { border-radius: 71px 71px 5px 5px; }
+.card .arch::after { width: 96px; height: 96px; }
+.slot { height: 206px; border: 0; background: none; display: grid; place-items: center; padding-bottom: 36px; box-sizing: border-box; }
+.slot::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 170px; border: 2px dashed rgba(241,215,127,.45); background: rgba(0,0,0,.18); border-radius: 75px 75px 8px 8px; box-sizing: border-box; }
+.slot span { position: relative; }
 .slot span { font: 700 18px var(--cap); letter-spacing: .1em; color: rgba(241,215,127,.55); }
 .card.jy-lunge { animation-name: nv-lunge; }
 @keyframes nv-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
 
-.hero { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); width: 132px; height: 132px; z-index: 3; }
-.hero .rings { position: absolute; inset: -18px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(241,215,127,.9) 0 2deg, transparent 2deg 10deg); -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); animation: spin 60s linear infinite; }
+/* Your hero: under the lobby, bottom-left, in every phase. */
+.hero { position: absolute; width: 112px; height: 112px; z-index: 3; }
+.hero.me { left: 22px; bottom: 74px; }
+.hero .rings { position: absolute; inset: -16px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(241,215,127,.9) 0 2deg, transparent 2deg 10deg); -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); animation: spin 60s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hero img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 5px solid transparent; background: var(--gold) border-box; box-shadow: 0 0 40px rgba(255,220,130,.45); }
-.hero b { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; font: 900 23px var(--cap); color: #fff;
+.hero b { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font: 900 21px var(--cap); color: #fff;
   background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; box-shadow: 0 4px 10px rgba(0,0,0,.5); }
-.hero i { position: absolute; top: calc(100% + 44px); left: 50%; transform: translateX(-50%); white-space: nowrap; font: 700 16px var(--cap); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
+.hero i { position: absolute; top: calc(100% + 40px); left: 50%; transform: translateX(-50%); white-space: nowrap; font: 700 15px var(--cap); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
 
 /* ---- The cabinet: an ivory market with its own gold and jewels -------------------------------- */
-.cabinet { position: absolute; right: 40px; width: var(--shop-w); top: 70px; height: 760px; z-index: 2; padding: 0 22px;
+.cabinet { position: absolute; left: var(--right-l); right: 40px; top: 136px; height: 560px; z-index: 2; padding: 0 22px;
   background: linear-gradient(180deg, rgba(250,243,226,.95), rgba(239,225,191,.95)); border: 3px solid var(--goldc); border-radius: 22px;
   box-shadow: 0 0 0 6px rgba(120,84,30,.35), inset 0 0 0 7px rgba(250,243,226,.9), inset 0 0 0 8px rgba(209,165,74,.7), 0 30px 70px rgba(0,0,0,.45); }
 .cabinet header { display: flex; align-items: baseline; justify-content: center; gap: 16px; padding: 22px 0 0; }
@@ -95,11 +104,11 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .cabinet header i { font: 700 14px var(--cap); letter-spacing: .24em; text-transform: uppercase; font-style: normal; color: #8a6420; }
 .cabinet .rail { height: 34px; margin: 4px 6px 0; }
 .cabinet .rail svg { width: 100%; height: 100%; display: block; }
-.market { display: grid; grid-template-columns: repeat(3, 170px); gap: 40px 20px; justify-content: center; padding-top: 12px; height: 532px; align-content: start; }
+.market { display: flex; gap: 26px; justify-content: center; padding-top: 30px; height: 312px; }
 .market .card { position: relative; transform: rotate(var(--r)); transform-origin: 50% -30px; }
 .market .card::before { content: ''; position: absolute; left: 50%; top: -24px; width: 2px; height: 26px; background: var(--goldc); }
 .market .card:hover { transform: rotate(0) translateY(6px); }
-.jewels { display: flex; justify-content: space-between; padding: 0 6px; }
+.jewels { display: flex; justify-content: center; gap: 40px; padding: 0 6px; }
 .jewel { all: unset; box-sizing: border-box; width: 116px; height: 116px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
   background: radial-gradient(circle at 40% 30%, #1d6a55, var(--malachite) 70%); border: 3px solid var(--goldc); box-shadow: 0 0 0 4px rgba(209,165,74,.25), 0 8px 18px rgba(0,0,0,.35); color: var(--ivory); transition: transform .15s; }
 .jewel:hover { transform: translateY(-3px); }
@@ -109,12 +118,12 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .jewel.gold b { font-size: 50px; background: none; color: var(--inkn); -webkit-background-clip: initial; }
 .jewel.ice b { background: linear-gradient(#eaf8ff, #8fd0ff); -webkit-background-clip: text; background-clip: text; }
 
-/* ---- Hand (under the altar), lobby, the door (under the cabinet) ------------------------------- */
-.hand { position: absolute; left: var(--zone-l); bottom: 26px; display: flex; gap: 14px; align-items: flex-end; z-index: 4; padding-left: 30px; }
-.hand > span { position: absolute; left: 0; bottom: 50px; writing-mode: vertical-rl; transform: rotate(180deg); font: 700 14px var(--cap); letter-spacing: .3em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
-.hand .card { position: relative; transform: scale(.74); transform-origin: bottom left; margin-right: -40px; }
-.hand .card:hover { transform: scale(.82) translateY(-10px); }
-.lobby { position: absolute; left: 46px; top: 128px; display: flex; flex-direction: column; gap: 10px; z-index: 3; }
+/* ---- Hand and the door: under the cabinet ------------------------------------------------------ */
+.hand { position: absolute; left: calc(var(--right-l) + 30px); bottom: 40px; display: flex; gap: 22px; align-items: flex-end; z-index: 4; padding-left: 34px; }
+.hand > span { position: absolute; left: 0; bottom: 60px; writing-mode: vertical-rl; transform: rotate(180deg); font: 700 14px var(--cap); letter-spacing: .3em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
+.hand .card { position: relative; }
+.hand .card:hover { transform: translateY(-10px); }
+.lobby { position: absolute; left: 46px; top: 60px; display: flex; flex-direction: column; gap: 10px; z-index: 3; }
 .medal { position: relative; width: 64px; height: 64px; }
 .medal img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--goldc); box-shadow: 0 0 0 3px rgba(14,58,49,.7), 0 4px 10px rgba(0,0,0,.4); }
 .medal b { position: absolute; right: -10px; bottom: -4px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 900 16px var(--cap); color: #fff;
@@ -122,29 +131,22 @@ html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rot
 .medal.you img { border-color: #fff1b8; box-shadow: 0 0 0 3px #d7ad4f, 0 0 18px rgba(255,220,130,.7); }
 .medal.next img { box-shadow: 0 0 0 3px var(--amethyst), 0 0 18px rgba(160,110,220,.7); }
 .medal.out { opacity: .35; filter: grayscale(1); }
-.door { all: unset; cursor: pointer; position: absolute; right: 40px; width: var(--shop-w); bottom: 30px; height: 190px; z-index: 4; text-align: center; box-sizing: border-box; padding: 54px 16px 0;
+.door { all: unset; cursor: pointer; position: absolute; right: 40px; width: 520px; bottom: 40px; height: 190px; z-index: 4; text-align: center; box-sizing: border-box; padding: 54px 16px 0;
   border-radius: 300px 300px 14px 14px / 120px 120px 14px 14px; background: radial-gradient(ellipse at 50% 10%, #2a7a62, var(--malachite) 75%); border: 4px solid var(--goldc);
   box-shadow: 0 0 0 6px rgba(14,58,49,.5), inset 0 0 0 6px rgba(215,173,79,.25), 0 14px 30px rgba(0,0,0,.5); color: var(--ivory); transition: transform .15s; }
 .door:hover { transform: translateY(-4px); }
 .door b { display: block; font: 900 44px/1.05 var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .door small { display: block; font: 600 italic 20px var(--serif); margin-top: 6px; }
 
-/* ---- Fight: two framed bands on the left, front rows facing; heroes on the right ---------------- */
-.fightframe { height: 470px; border-radius: 22px; }
-.fightframe::before { display: none; }
-.fightframe.foe { top: 40px; background: radial-gradient(ellipse at 50% 60%, rgba(122,28,46,.9), rgba(74,7,20,.92)); }
-.fightframe.me { top: auto; bottom: 40px; }
-.fightframe .count { left: 30px; top: 18px; bottom: auto; }
-.fightframe .band { top: 36px; }
-.fightframe.foe .band { top: 26px; }
-.fightframe .brick { --row-gap: 6px; --slot-gap: 30px; }
-.fightframe .card, .fightframe .slot { width: 150px; height: 206px; }
-.fightframe .card .arch, .fightframe .slot { height: 170px; border-radius: 75px 75px 8px 8px; }
-.fightframe .slot { margin-bottom: 36px; border-color: rgba(241,215,127,.16); background: none; } .fightframe .slot span { display: none; }
-.fightframe .card .arch img, .fightframe .card .halo { border-radius: 71px 71px 5px 5px; }
-.fightframe .card .arch::after { width: 96px; height: 96px; }
-.heroes { position: absolute; right: 40px; width: var(--shop-w); top: 40px; bottom: 260px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 40px 0 70px; }
-.heroes .hero { position: relative; left: auto; bottom: auto; transform: none; width: 160px; height: 160px; }
+/* ---- Fight: the opponent's hero and the verdict to the right of the two altars ---------------- */
+.heroes { position: absolute; left: calc(var(--right-l) + var(--aw) + var(--zgap)); right: 40px; top: 150px; bottom: 260px; display: flex; flex-direction: column; align-items: center; gap: 70px; padding-top: 30px; }
+.heroes .hero { position: relative; width: 160px; height: 160px; }
 .verdict { font: 900 92px var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 10px rgba(0,0,0,.6)); animation: verdict .8s ease both; }
 .verdict[hidden] { display: none; }
+/* Phase change: everything except your altar steps in around it. */
+.jy-stage.swap > .cabinet, .jy-stage.swap > .altar.foe { animation: zone-in .5s cubic-bezier(.2,.8,.2,1) both; }
+.jy-stage.swap > .hand, .jy-stage.swap > .door, .jy-stage.swap > .heroes, .jy-stage.swap > .cartouche { animation: fade-in .5s ease both; }
+@keyframes zone-in { from { opacity: 0; translate: 60px 0; } }
+@keyframes fade-in { from { opacity: 0; } }
 @keyframes verdict { from { opacity: 0; letter-spacing: .4em; } }
+.hero.me i { top: -40px; }
