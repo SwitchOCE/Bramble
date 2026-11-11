@@ -4,20 +4,23 @@ This is the Bramble-specific companion to the general `game-design-process` skil
 
 *Status: 10 Nov 2026 (runaway-growth rule and breaker review added). In the repo on `ideation/main`. The general skill is `.claude/skills/game-design-process/`, used only when a user or an orchestrator says so. Codex workers are given the file path to read.*
 
-## Runaway growth: flag it for balance watch (owner, 10–11 Nov 2026)
+## Runaway growth: two quick checks, then the data (owner, 10–11 Nov 2026)
 
-Every time Battlegrounds has had exponential scaling, it has had to be removed (owner). We don't try to prove a card safe before it's built. One quick check flags the cards that could run away; data and replays decide, and flagged cards are brought to the owner.
+Every time Battlegrounds has had exponential scaling, it has had to be removed (owner). Two fresh Opus checks catch it before a card is built; cards that pass them can still be caught by data and replays. Missing a runaway is worse than flagging one that turns out fine.
 
-**The flag.** A card goes on balance watch if a breaker can name a line, with pieces that exist in the pool, where some number grows by a share of itself turn after turn, or doubles without limit inside one fight. Rare, slow or many-piece lines are still flagged: how often they happen is for the data to show. Two linear things multiplied together (units × buff per unit) aren't flagged.
-
-**Broken.** Only the egregious kind is flagged broken instead: cheap or common pieces, growth of about ×2 a turn or more (or unlimited within a turn, like gold that pays for itself), and a player who assembles it wins nearly every fight from then on. The breaker uses it only when very confident, and broken cards go to the owner first.
-
-**The check.** One fresh Opus breaker per batch of new or changed cards, with the whole pool and the brief in `breaker-audit/balance-watch-brief.md`. It works backwards: what would make this card loop, then a search of the pool for those pieces by mechanic. Flagging something that turns out fine is cheaper than missing a runaway.
+**What counts:** a line, with pieces that exist in the pool, in which some number grows by a share of itself turn after turn with no cap, or grows without limit inside one turn or one fight. Rare pieces, a gold cost, a period ("every 3 turns") and needing several cards don't excuse it: Battlegrounds removed rare loops too. Linear growth, and two linear things multiplied together (units × buff per unit), don't count.
 - Pass: Honorary Treasurer reads the gold in the Larder; his stats never raise that gold.
-- Flag: Squire Lollop skips your biggest unit, but a receiver overtakes it and becomes the next source. Costs, periods and exclusions don't stop this.
-- Pin a loop on the card that closes it: the one whose gain raises its own source. Aunt Aspic multiplies what an Ooze eats; Stone Soup makes the meal a share of the eater, so Soup is flagged and Aspic isn't.
+- Counts: Squire Lollop skips your biggest unit, but a receiver overtakes it and becomes the next source.
+- Pin a loop on the card that closes it: the one whose gain raises its own source. Aunt Aspic multiplies what an Ooze eats; Stone Soup makes the meal a share of the eater, so Soup is pinned and Aspic isn't.
 
-**Each flag records** the line and its pieces, the growth per turn, the card that closes the loop, and what to watch: which pieces show up together, and the unit's stats by a given turn. Flags go in `docs/design/balance-watch.md`. Sims and playtest replays look for the line, judged on strong play: bots under-play engines, so a quiet sim median doesn't clear a card. If the line shows up, the owner decides the change. A card that wasn't flagged isn't cleared: a runaway seen in replays adds it.
+**1. Flag check,** one per batch of new or changed cards (`breaker-audit/balance-watch-brief.md`): it works backwards from what would make each card loop, searches the pool and the code for the pieces, and flags each card:
+- **BROKEN:** the line works as written (every step checked against text and code) and grows about ×1.3 a turn or more, or without limit in a turn or a fight.
+- **WATCH:** a step couldn't be confirmed, or the loop is slower than ×1.3 a turn but has no cap.
+- **CLEAR:** no such line.
+
+**2. Second check** on every WATCH card (`breaker-audit/second-check-brief.md`): a fresh agent checks each step in the code, looks for a substitute piece where a step fails, settles the open question (no printed limit means none), scripts six turns, and decides BROKEN or KEEP. It asks the owner only when one rules question decides it and the text or code can't.
+
+**After the checks.** BROKEN cards go to the owner with the line, the closer, the numbers and how rare it is. Cards kept after a second check go in `docs/design/balance-watch.md` with what to watch; sims and playtest replays look for the line, judged on strong play (bots under-play engines, so a quiet sim median doesn't clear a card). A runaway seen in replays adds a card, whatever the checks said.
 
 ## Where the specifics live
 | Need | Source |

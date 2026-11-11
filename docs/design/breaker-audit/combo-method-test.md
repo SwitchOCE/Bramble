@@ -76,3 +76,22 @@ Same brief and clean snapshots, three Opus runs of about ten cards each. 19 card
 - About a third of long-lived cards get WATCH, and 5 of those 7 run through one enabler (Jandice's swap, Mutanus's sell, Kelp Keeper). Listing a flag under the enabler, with the cards beneath it, would cut what the owner reads.
 - Runs also flagged loops outside their list without being asked (Private Investigator gold, Titanic Guardian pairs, Mutanus with Windfall Tornado).
 - Cost: 134k to 187k tokens and 5 to 9 minutes per batch of ten (the batch with four older pools was the dearest).
+
+## Two-pass check: catching what has to go (11 Nov)
+
+Owner: "nothing being flagged as broken is a problem... We want to catch stuff that's unhealthy and needs to be removed... watch cards need to then be caught and removed when on a second check. And I need to have confidence this process will do that."
+
+The BROKEN bar above asked for cheap, common pieces, so it excused exactly the rare loops Battlegrounds removed. New bar: the line works as written and grows about ×1.3 a turn or more, or without limit in a turn or a fight; rarity, cost, periods and piece count don't excuse it. A second fresh Opus check takes every WATCH card: it checks each step in the code, looks for a substitute where one fails, settles the open question, scripts six turns, and decides BROKEN or KEEP. Briefs: `balance-watch-brief.md`, `second-check-brief.md`.
+
+| Set | First check | Second check | Final |
+|---|---|---|---|
+| Bramble, 18 cards (10 must catch, 8 must keep), two runs of 9 | 18/18 right; no WATCH | (not needed) | 18/18 |
+| Bramble second-check test: 4 WATCH lines written for the test (Redbreast's Fly South keyword, Golden Egg re-egging, Cuckoo, Lollop) | – | Redbreast KEEP (never flies in code), Golden Egg KEEP (egged mark blocks it), Cuckoo BROKEN, Lollop BROKEN at 4+ copies (one copy ×1.07) | 4/4 |
+| Battlegrounds known-broken: Slamma (2023), Chronormu, Behemoth, Shadowy Construct, Nathanos | Chronormu, Behemoth, Nathanos BROKEN; Slamma, Construct WATCH | Slamma BROKEN (Drek'Thar prints no limit: ×2 per summon in a fight); Construct BROKEN (golden Graverobber supplies the second copy; ×1.27–1.78 a turn in 4,000 sims) | 5/5 |
+| Battlegrounds staples: Brann, Drakkari, Kalecgos, Champion of Sargeras, Utility Drone, Stone Age Slab, Flaming Enforcer | 5 CLEAR; Slab and Enforcer BROKEN through Jandice's swap (plus Zar'jira for Enforcer) | – | 5/7; both flags name the Jandice enabler, and both lines work as written |
+
+- Every loop card that had to go ends BROKEN. The Fly South homecoming rule was found unprompted in three runs (×1.36 a turn from a tier 1 Bird; ×1.58 with One Swallow).
+- The checks also turned up code mismatches: Redbreast and Cuckoo carry the Fly South keyword but can't fly; Lollop's code shares the biggest unit's stats where the text says "its"; Mallow and Dozey JSON say ×2 where preset B says ×3.
+- Fix made after the run: a loop with no cap but slower than ×1.3 a turn is WATCH, not CLEAR, so a slow loop (one Lollop at ×1.07) always gets the second check instead of passing silently.
+- Cost: first check 133k–165k tokens and 6–8 minutes per batch of 6–9 cards; second check 85k–112k tokens and 3–5 minutes.
+- Limits: one run per batch. The Bramble answer key was known to me when writing the brief's examples (Treasurer, Lollop, Aspic and Soup are in the guidance, not in the brief). The Battlegrounds staples' Jandice flags are unverified against live play.
