@@ -131,6 +131,23 @@ static func egg_card(mark: Dictionary) -> Dictionary:
 	}
 
 
+## A held shop-targeted spell needs a real unit offer, not the merchant's empty surface.
+static func shop_aim_fits(card: Dictionary, target: Dictionary, index: int) -> bool:
+	return (
+		index >= 0
+		and Data.s(card, "aim") == "shop_unit"
+		and Data.s(target, "kind") not in ["spell", "item"]
+	)
+
+
+## A bare slot reads its Egg first, then its changing slot state.
+static func slot_card(mark: Dictionary, note: String) -> Dictionary:
+	var egg: Dictionary = egg_card(mark)
+	if not egg.is_empty() or note.is_empty():
+		return egg
+	return {"name": "On this slot", "kind": "spell", "type_word": "Slot", "text": note}
+
+
 ## A Great Lump dragged to a slot reads its Bird, before Egg auras, and that slot's Rings.
 ## Remove the old aura first so moving between Nests never adds the borrowed body twice.
 static func lump_preview(unit: Dictionary, mark: Dictionary) -> Dictionary:

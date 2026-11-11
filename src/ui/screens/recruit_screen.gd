@@ -38,6 +38,7 @@ var _drag_source: CardView
 var _drop_pocket: RecruitHeld.DropPocket
 var _released_card: Dictionary = {}
 var _drag_committed: bool = false
+var _reader_pinned: bool = false
 
 
 func setup(game_port: GamePort) -> void:
@@ -81,9 +82,6 @@ func _init() -> void:
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
 	_detail.add_child(preload("res://src/ui/widgets/reader_scroll.gd").new(_detail._notes))
-	_detail.attach_recruit_overlay(
-		_stage, _gold, _end_button, {"shop": _shop_cards, "board": _board, "hand": _hand_zone}
-	)
 	_detail.close_requested.connect(func() -> void: _on_tapped("table", -1))
 	var rules_links: RichTextLabel = _detail.get("_notes")
 	rules_links.meta_clicked.connect(
@@ -98,6 +96,12 @@ func _init() -> void:
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
+	_detail.attach_recruit_overlay(
+		_stage,
+		_gold,
+		_end_button,
+		{"shop": _shop_cards, "board": _board, "hand": _hand_zone, "scout": _scout, "lobby": _lobby}
+	)
 	_motion = RecruitMotion.new()
 	_stage.add_child(_motion)
 	_action_motion = RecruitActionMotion.new()
@@ -165,6 +169,7 @@ func render() -> void:
 
 
 func toggle_scout() -> void:
+	_reader_pinned = false
 	_hover_timer.stop()
 	_leave_timer.stop()
 	_hover_view = {}
@@ -191,13 +196,12 @@ func _refresh_scout() -> void:
 
 func _show_opponent() -> void:
 	var card: Dictionary = RecruitView.opponent_card(state)
-	_selected = {}
-	_show_selection()
 	if not card.is_empty():
-		_detail.show_unit(card)
+		_read_external(card)
 
 
 func _read_external(view: Dictionary) -> void:
+	_reader_pinned = true
 	_hover_timer.stop()
 	_leave_timer.stop()
 	_hover_view = {}
@@ -213,6 +217,8 @@ func _show_away_bird(view: Dictionary, nest: int) -> void:
 
 
 func _show_lobby_hero(standing: Dictionary) -> void:
+	if _scout.visible:
+		return
 	var hero: Dictionary = {}
 	if Data.b(standing, "is_human"):
 		hero = Data.d(state, "hero")
@@ -342,16 +348,10 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 			items = Data.a(state, "board")
 		"scout":
 			items = Data.a(state, "next_opponent_last_board")
-	if index < 0 or index >= items.size():
-		return {}
-	var entry: Variant = items[index]
-	return entry if entry is Dictionary else {}
+	return Data.entry(items, index)
 
 
 func _show_selection() -> void:
-	_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_detail._notes.mouse_filter = Control.MOUSE_FILTER_PASS
-	_detail._type.mouse_filter = Control.MOUSE_FILTER_PASS
 	_board.clear_highlights()
 	_board.set_pass_landing(-2)
 	for card: Node in _shop_cards.get_children() + _hand_cards.get_children():
@@ -385,10 +385,8 @@ func _show_selection() -> void:
 		card.selected = true
 	match zone:
 		"shop":
-			var shop_bellies: Array[int] = _highlight_bellies(view)
-			_detail.show_unit(
-				_full_view(zone, view), "Or tap an Ooze to buy it in" if shop_bellies else ""
-			)
+			_highlight_bellies(view)
+			_detail.show_unit(_full_view(zone, view))
 			var cost: int = Data.i(view, "cost", -1)
 			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
@@ -405,15 +403,8 @@ func _show_selection() -> void:
 				_detail.show_unit(_ring_aim_card(view))
 				_highlight_item(view)
 			else:
-				var into_belly: bool = not _highlight_bellies(view).is_empty()
-				_detail.show_unit(
-					_full_view(zone, view),
-					(
-						"Tap a slot to play it, or an Ooze to swallow it"
-						if into_belly
-						else "Tap an empty slot to play it"
-					)
-				)
+				_highlight_bellies(view)
+				_detail.show_unit(_full_view(zone, view))
 				_highlight_empty_slots()
 		"board":
 			var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), index)
@@ -487,8 +478,13 @@ func _on_into_belly() -> void:
 
 
 func _on_hovered(zone: String, index: int, inside: bool) -> void:
+	if not is_instance_valid(_leave_timer) or not _leave_timer.is_inside_tree():
+		return
 	if CardView.is_phone() or get_viewport().gui_is_dragging():
 		return
+	if _reader_pinned and (not inside or _unit_at(zone, index).is_empty()):
+		return
+	_reader_pinned = false
 	if not _selected.is_empty():
 		_hover_ring_aim(_selected, zone, index, inside)
 		return
@@ -520,6 +516,8 @@ func _end_hover() -> void:
 
 
 func _on_leave_check() -> void:
+	if _reader_pinned:
+		return
 	if not _hover_view.is_empty() or not _selected.is_empty() or not _detail.visible:
 		return
 	if _detail.get_global_rect().has_point(get_global_mouse_position()):
@@ -529,7 +527,7 @@ func _on_leave_check() -> void:
 
 
 func _show_hover() -> void:
-	if not _hover_view.is_empty() and _selected.is_empty():
+	if not _reader_pinned and not _hover_view.is_empty() and _selected.is_empty():
 		_detail.read_zone = _hover_zone
 		_detail.show_unit(_hover_view)
 		if _hover_zone == "scout":
@@ -539,6 +537,7 @@ func _show_hover() -> void:
 
 
 func _on_tapped(zone: String, index: int) -> void:
+	_reader_pinned = false
 	_hover_timer.stop()
 	if zone != "table":
 		Sfx.tap()
@@ -594,27 +593,18 @@ func _tap_without_swallow(zone: String, index: int) -> void:
 
 
 func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
-	var card: Dictionary = _unit_at("hand", hand_index)
-	return (
-		shop_index >= 0
-		and Data.s(card, "aim") == "shop_unit"
-		and not CardView.is_spell(_unit_at("shop", shop_index))
+	return RecruitHeld.shop_aim_fits(
+		_unit_at("hand", hand_index), _unit_at("shop", shop_index), shop_index
 	)
 
 
 func _show_bare_slot(slot: int) -> void:
 	var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), slot)
-	var egg: Dictionary = RecruitHeld.egg_card(mark)
-	if not egg.is_empty():
-		_detail.show_unit(egg)
-		return
-	var note: String = RecruitView.slot_note(mark, slot)
-	if note.is_empty():
+	var view: Dictionary = RecruitHeld.slot_card(mark, RecruitView.slot_note(mark, slot))
+	if view.is_empty():
 		_show_selection()
 	else:
-		var card: Dictionary = {"name": "On this slot", "kind": "spell", "type_word": "Slot"}
-		card["text"] = note
-		_detail.show_unit(card)
+		_detail.show_unit(view)
 
 
 func _on_buy_selected() -> void:
@@ -661,6 +651,7 @@ func _on_hero_tapped() -> void:
 func _drag_data(zone: String, index: int) -> Variant:
 	if zone not in ["shop", "hand", "board"] or _unit_at(zone, index).is_empty():
 		return null
+	_reader_pinned = false
 	_hover_timer.stop()
 	_leave_timer.stop()
 	_hover_view = {}

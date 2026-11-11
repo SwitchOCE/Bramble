@@ -1,6 +1,7 @@
 extends GutTest
 ## Production action callbacks present actual state without delaying or changing core actions.
 
+const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Detail := preload("res://src/ui/widgets/card_detail.gd")
 const Fixture := preload("res://tests/ui/shots/declutter_cold_fixture.gd")
 const Screen := preload("res://src/ui/screens/recruit_screen.gd")
@@ -287,6 +288,11 @@ func test_reader_overlays_without_reflow_at_both_sizes() -> void:
 				reader.get_global_rect().intersects(row.get_global_rect()),
 				"the inspected row stays exposed"
 			)
+			for protected_row: Control in [screen._shop_cards, screen._board, screen._bar_surface]:
+				assert_false(
+					reader.get_global_rect().intersects(protected_row.get_global_rect()),
+					"merchant targets, board and bottom bar stay exposed"
+				)
 			if zone == "hand":
 				assert_false(
 					reader.get_global_rect().intersects(screen._board.get_global_rect()),
@@ -335,9 +341,9 @@ func test_reader_protects_each_whole_row_in_a_stacked_arrangement() -> void:
 	add_child_autofree(stage)
 	var rows: Dictionary = {}
 	var rectangles: Dictionary = {
-		"shop": Rect2(80, 100, 1760, 280),
-		"board": Rect2(280, 420, 1000, 430),
-		"hand": Rect2(1420, 420, 430, 430),
+		"shop": Rect2(535, 28, 980, 245),
+		"board": Rect2(510, 302, 1030, 450),
+		"hand": Rect2(230, 760, 1600, 174),
 		"gold": Rect2(120, 940, 200, 100),
 		"end": Rect2(1480, 940, 350, 100),
 	}
@@ -403,4 +409,37 @@ func test_board_into_belly_drag_uses_the_explicit_tap_mode_instead_of_swapping()
 	assert_true(board[0] == null)
 	assert_eq(held.size(), 1)
 	assert_eq(str(eater["def_id"]), "figgy_duff")
+	await wait_process_frames(1)
+
+
+func test_reader_name_fitting_does_not_step_below_the_existing_minimum() -> void:
+	var reader := Detail.new()
+	add_child_autofree(reader)
+	reader.place_overlay(Rect2(150, 20, 354, 648))
+	reader.show_unit({"name": "The Standing Committee"})
+	var name_label: Label = reader.get("_name_label")
+	assert_gte(name_label.get_theme_font_size("font_size"), UiTheme.FONT_SMALL)
+
+
+func test_explicit_reader_survives_hover_exit_until_another_tap() -> void:
+	var screen := Screen.new()
+	add_child_autofree(screen)
+	screen.setup(Fixture.make("scout"))
+	await wait_process_frames(2)
+	screen.toggle_scout()
+	screen.call("_read_external", {"name": "Ghost", "text": "Ghost opponent"})
+	screen.call("_on_hovered", "board", 0, false)
+	screen.call("_show_hover")
+	screen.call("_on_leave_check")
+	var reader: Detail = screen.get("_detail")
+	assert_true(reader.visible)
+	assert_eq(str(reader.shown["name"]), "Ghost")
+	assert_false(reader.get_global_rect().intersects(screen._scout.get_global_rect()))
+	screen.call("_show_lobby_hero", {"is_human": true, "name": "Hidden lobby hover"})
+	assert_eq(str(reader.shown["name"]), "Ghost", "hidden lobby events cannot replace scouting")
+	screen.call("_on_hovered", "board", 2, true)
+	screen.call("_show_hover")
+	assert_ne(str(reader.shown["name"]), "Ghost", "a fresh card hover can read another unit")
+	screen.call("_on_tapped", "table", -1)
+	assert_false(reader.visible)
 	await wait_process_frames(1)

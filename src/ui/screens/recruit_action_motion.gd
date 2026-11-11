@@ -116,7 +116,7 @@ func present(ui: Layout, before: Dictionary, action: String) -> void:
 			if not source.is_empty():
 				_fly(source, target, 0.36)
 				if Data.s(target, "zone") == "hand" and not source.get("released", false):
-					tracks[-1]["via"] = _hand_route(source, target)
+					tracks[-1]["route"] = _hand_route(source, target, _rect(ui._board))
 				_settle(target.get("card"), tracks[-1]["seconds"])
 	elif action == "sell":
 		for source: Dictionary in removed:
@@ -195,8 +195,8 @@ func advance(delta: float) -> void:
 		var extent: Vector2 = from.size.lerp(to.size, shrink)
 		node.scale = extent / from.size
 		node.position = from.get_center().lerp(to.get_center(), travel) - extent / 2.0
-		if track.has("via") and not _reduced:
-			_hand_position(node, from, to, track["via"], phase)
+		if track.has("route") and not _reduced:
+			_hand_position(node, from, to, track["route"], phase)
 		elif not _reduced:
 			node.position.y -= (
 				sin(phase * PI) * minf(32.0, from.get_center().distance_to(to.get_center()) * 0.12)
@@ -437,22 +437,39 @@ func _pulse(target: Control, start: float, hide_before: bool = false) -> void:
 	duration = maxf(duration, start + 0.18 / _rate)
 
 
-func _hand_route(source: Dictionary, target: Dictionary) -> Vector2:
-	# Cross the shop/board gutter before descending through the hand column.
+func _hand_route(source: Dictionary, target: Dictionary, board: Rect2) -> Array[Vector2]:
 	var from: Rect2 = source["rect"]
 	var to: Rect2 = target["rect"]
-	return Vector2(to.get_center().x, from.end.y + 18.0)
+	var half_width: float = maxf(from.size.x, to.size.x) / 2.0 + 18.0
+	var gutter: float = board.position.x - half_width
+	if from.get_center().x > board.get_center().x:
+		gutter = board.end.x + half_width
+	return [
+		from.get_center(),
+		Vector2(gutter, from.get_center().y),
+		Vector2(gutter, to.get_center().y),
+		to.get_center(),
+	]
 
 
-func _hand_position(node: Control, from: Rect2, to: Rect2, via: Vector2, phase: float) -> void:
-	# Keep the portrait recognisable: travel across the shop, then down into the hand.
-	var turn := Vector2(via.x, from.get_center().y - 16.0)
-	var leg: float = clampf(phase / 0.55 if phase < 0.55 else (phase - 0.55) / 0.45, 0.0, 1.0)
-	leg = leg * leg * (3.0 - 2.0 * leg)
-	var center: Vector2 = (
-		from.get_center().lerp(turn, leg) if phase < 0.55 else turn.lerp(to.get_center(), leg)
-	)
-	var extent: Vector2 = from.size.lerp(to.size, phase)
+func _hand_position(node: Control, from: Rect2, to: Rect2, route: Array, phase: float) -> void:
+	# Cross beside the formation, then along the real reserve row; never through residents.
+	var length: float = 0.0
+	for i: int in range(1, route.size()):
+		var previous: Vector2 = route[i - 1]
+		length += previous.distance_to(route[i])
+	var progress: float = phase * phase * (3.0 - 2.0 * phase)
+	var remaining: float = length * progress
+	var center: Vector2 = to.get_center()
+	for i: int in range(1, route.size()):
+		var previous: Vector2 = route[i - 1]
+		var next: Vector2 = route[i]
+		var leg: float = previous.distance_to(next)
+		if remaining <= leg:
+			center = previous.lerp(next, remaining / maxf(leg, 0.001))
+			break
+		remaining -= leg
+	var extent: Vector2 = from.size.lerp(to.size, progress)
 	node.position = center - extent / 2.0
 	node.scale = extent / from.size
 

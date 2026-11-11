@@ -250,14 +250,13 @@ func place_recruit_overlay(
 	var start := Vector2(end.end.x - width, minf(top.position.y, stage.size.y * 0.1))
 	var bottom: float = minf(end.position.y, stage.size.y * 0.84)
 	var rect := Rect2(start, Vector2(width, maxf(stage.size.y * 0.6, bottom - start.y - 12.0)))
-	var protected: Array[Rect2] = []
-	var row: Control = rows.get(read_zone)
-	if row != null:
-		protected.append((inverse * row.get_global_rect()).grow(16.0))
-	if read_zone in ["hand", "power"]:
-		var target_zone: String = "shop" if Data.s(shown, "aim") == "shop_unit" else "board"
-		var target: Control = rows.get(target_zone)
-		protected.append((inverse * target.get_global_rect()).grow(16.0))
+	var protected: Array[Rect2] = [
+		Rect2(0, end.position.y, stage.size.x, stage.size.y - end.position.y)
+	]
+	for zone: String in ["board", "shop", "lobby", "scout", read_zone]:
+		var row: Control = rows.get(zone)
+		if row != null and row.visible:
+			protected.append((inverse * row.get_global_rect()).grow(12.0))
 	if not _clear_of(rect, protected):
 		var margin: float = stage.size.y * 0.02
 		var floor_y: float = end.position.y if end.position.y > stage.size.y * 0.6 else stage.size.y
@@ -292,7 +291,7 @@ static func _free_band(bounds: Rect2, protected: Array[Rect2]) -> Rect2:
 	var largest := Rect2()
 	for left: float in xs:
 		for right: float in xs:
-			if right - left < 430.0:
+			if right - left < 320.0:
 				continue
 			for top: float in ys:
 				for bottom: float in ys:
@@ -326,6 +325,12 @@ func _layout() -> void:
 		var close_size: float = 122.0 if CardView.is_phone() else 88.0
 		w -= 340.0 + close_size + 30.0
 		_action_column = Rect2(w + 12.0, 12, 340, size.y - 24.0)
+	var compact: bool = _overlay and not across and (size.y < 800.0 or size.x < 430.0)
+	if _overlay:
+		_art.visible = not compact and not Data.s(shown, "def_id").is_empty()
+		_tier.visible = not compact and Data.s(shown, "type_word").is_empty()
+		_attack.visible = not compact and not CardView.is_spell(shown)
+		_health.visible = _attack.visible
 	var side_actions: bool = _action_column.has_area()
 	var heading_w: float = 500.0 if across else w
 	var gap: int = 0 if side_actions else 6
@@ -355,6 +360,10 @@ func _layout() -> void:
 	if _overlay and not across:
 		_banner.position.y = 130.0
 		_banner.size.y = 88.0
+	if compact:
+		var close_size: float = 122.0 if CardView.is_phone() else 88.0
+		_banner.position = Vector2(16, 12)
+		_banner.size = Vector2(w - close_size - 36.0, 88)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
 	_fit_name()
@@ -363,6 +372,10 @@ func _layout() -> void:
 	if _overlay and not across:
 		_type.position = Vector2(24, 224)
 		_type.size = Vector2(w - 48.0, 44.0)
+	if compact:
+		_type.position = Vector2(16, 104)
+		_type.size = Vector2(_banner.size.x, 40.0)
+		_type.size.y = maxf(40.0, _type.get_content_height())
 	_tier.position = Vector2(4, 4)
 	_tier.size = Vector2(58, 58)
 	# A familiar whole-million label may need slightly more than the usual 76-unit badge.
@@ -388,7 +401,11 @@ func _layout() -> void:
 	var notes_left: float = heading_w + 24.0 if across else 26.0
 	var notes_top: float = 24.0 if across else (248.0 if _art.visible else 186.0)
 	if _overlay and not across:
-		notes_top = maxf(notes_top, _type.position.y + _type.size.y + 8.0)
+		notes_top = (
+			_type.position.y + _type.size.y + 8.0
+			if compact
+			else maxf(notes_top, _type.position.y + _type.size.y + 8.0)
+		)
 	var notes_w: float = w - notes_left - 26.0
 	var text_bottom: float = bottom - 30.0 - (0.0 if across else hint_h)
 	var slip_h: float = 0.0
@@ -429,7 +446,7 @@ func _fit_name() -> void:
 		)
 		if height <= _name_label.size.y:
 			break
-		font_size -= 2
+		font_size = maxi(UiTheme.FONT_SMALL, font_size - 2)
 	_name_label.add_theme_font_size_override("font_size", font_size)
 
 
