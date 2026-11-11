@@ -82,3 +82,4 @@ html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1a14; }
 
 html.jy-static *, html.jy-static *::before, html.jy-static *::after { animation: none !important; transition: none !important; }
 @media (prefers-reduced-motion: reduce) { .jy-bg { animation: none; } .jy-motes { display: none; } }
+.brick.side.faces-right { flex-direction: row-reverse; }

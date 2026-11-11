@@ -35,18 +35,30 @@
         <img src="${J.por(p.id)}" alt=""><span>${p.you ? 'You' : J.esc(p.name.replace(/^The /, '').replace(/-/g, ' '))}</span><b>${p.hp}</b>
       </div>`).join('')}</div>`;
   }
-  function chapter() {
-    return `<div class="chapter"><small>Chapter ${ROMAN[S.stop] || S.stop + 1}</small><b>${G.area.name}</b><i>${G.area.sub} · turn ${G.turn}</i></div>`;
-  }
-  // The band: 4 in front, 3 behind. Empty slots are pencilled outlines.
+  // A paper tab on the book's top edge: the chapter, or "versus" in a fight.
+  function tab(text) { return `<div class="tabmark">${text}</div>`; }
+  // The band: 4 in front, 3 behind, standing sideways in an inked clearing.
+  // Yours is always on the left page, front row towards the spine.
   function band(slots, where, cls) {
     return J.brick(slots, (u, k) => card(u, where, k), (k) => `<div class="spot" style="--rot:${TILT[k]}deg"><span>${J.SLOTS[k]}</span></div>`, cls);
   }
+  const portrait = (p, label) => `<div class="portrait"><img src="${J.por(p.id)}" alt=""><b>${p.hp}</b><span>${label}</span></div>`;
 
+  // Left page: you (portrait, satchel, your band). Right page: the market stall.
   function recruit() {
-    return `${chapter()}${lobby()}
+    const me = G.lobby.find((p) => p.you);
+    return `${lobby()}
     <div class="book">
+      ${tab(`Chapter ${ROMAN[S.stop] || S.stop + 1} · ${G.area.name}`)}
       <div class="page left">
+        <h2>Your band <span class="hint">${J.count(G.board)} of 7 · turn ${G.turn}</span></h2>
+        ${portrait(me, 'hearts')}
+        <div class="satchel"><i>In your satchel</i>${G.hand.map((u) => card(u, 'hand')).join('') || '<em>empty</em>'}</div>
+        <div class="clearing">${band(G.board, 'board', 'side faces-right')}</div>
+        <span class="folio">${S.stop * 2 + 1}</span>
+      </div>
+      <div class="page right stall">
+        <div class="awning"></div>
         <h2>The Market <span class="hint">Tier ${G.tier}</span></h2>
         <div class="shop">${G.shop.map((u) => card(u, 'shop')).join('')}</div>
         <div class="actions">
@@ -55,34 +67,28 @@
           <button class="btn" data-act="refresh">Refresh <em>1</em></button>
           <button class="btn sky">Freeze</button>
         </div>
-        <span class="folio">${S.stop * 2 + 1}</span>
-      </div>
-      <div class="page right">
-        <h2>Your band <span class="hint">${J.count(G.board)} of 7</span></h2>
-        <div class="rows">${band(G.board, 'board')}</div>
         <span class="folio">${S.stop * 2 + 2}</span>
       </div>
-      <div class="satchel">${G.hand.map((u) => card(u, 'hand')).join('')}</div>
     </div>
     <button class="turnpage" data-act="end"><b>Turn the page</b><span>fight ${J.esc(G.enemyHero.name)}</span><i>→</i></button>`;
   }
 
+  // Left page: you, as in the recruit. Right page: the opponent, facing you across the spine.
   function fight() {
-    const foe = G.enemyHero;
-    const me = G.lobby.find((p) => p.you);
+    const foe = G.enemyHero, me = G.lobby.find((p) => p.you);
     return `${lobby()}
     <div class="book fightbook">
+      ${tab('versus')}
       <div class="page left">
-        <h2>${J.esc(foe.name)}'s band</h2>
-        <div class="portrait"><img src="${J.por(foe.id)}" alt=""><b>${foe.hp}</b><span>hearts</span></div>
-        ${band(G.enemy, 'enemy', 'side foe')}
+        <h2>Your band <span class="hint">${G.area.name} · turn ${G.turn}</span></h2>
+        ${portrait(me, 'hearts')}
+        <div class="clearing">${band(G.board, 'mine', 'side faces-right')}</div>
       </div>
       <div class="page right">
-        <h2>Your band <span class="hint">${G.area.name} · turn ${G.turn}</span></h2>
-        <div class="portrait"><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b><span>hearts</span></div>
-        ${band(G.board, 'mine', 'side')}
+        <h2>${J.esc(foe.name)}'s band</h2>
+        ${portrait(foe, 'hearts')}
+        <div class="clearing foe">${band(G.enemy, 'enemy', 'side')}</div>
       </div>
-      <div class="versus">versus</div>
       <div class="stamp" hidden></div>
     </div>
     <button class="turnpage" data-act="travel" hidden><b>${S.stop === J.STOPS.length - 1 ? 'The end' : 'Next chapter'}</b><span>${S.stop === J.STOPS.length - 1 ? 'begin again' : J.STOPS[S.stop + 1].name}</span><i>→</i></button>`;

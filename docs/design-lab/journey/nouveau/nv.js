@@ -38,31 +38,43 @@
     return `<div class="lobby">${G.lobby.map((p) => `<div class="medal ${p.you ? 'you' : ''} ${p.next ? 'next' : ''} ${p.hp <= 0 ? 'out' : ''}" title="${J.esc(p.name)}"><img src="${J.por(p.id)}" alt=""><b>${p.hp}</b></div>`).join('')}</div>`;
   }
 
+  // Two zones: the altar (dark malachite, arched, left) holds your band and hero;
+  // the cabinet (ivory, right) holds the market with its gold and jewels.
   function recruit() {
     const me = G.lobby.find((p) => p.you);
-    const shopW = G.shop.length * 196;
-    return `${DEFS}${frame()}${title()}${lobby()}
-      <div class="rail" style="width:${shopW + 120}px"><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 20 C 60 4, 100 36, 160 20 S 260 4, 320 20 S 380 34, 400 18" fill="none" stroke="url(#gilt)" stroke-width="4"/></svg><span>The Market</span></div>
-      <div class="market" style="width:${shopW}px">${G.shop.map((u, i) => card(u, 'shop', `--r:${(i - (G.shop.length - 1) / 2) * 1.5}deg`)).join('')}</div>
-      <div class="disc"></div>
-      ${band(G.board, 'board')}
-      <div class="hero"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b></div>
-      <div class="jewels left"><div class="jewel gold"><b>${G.gold}</b><small>Gold</small></div><button class="jewel btn"><b>${Math.min(6, G.tier + 1)}</b><small>Tier up · ${Math.max(0, 7 - G.stop)}</small></button></div>
-      <div class="jewels right"><button class="jewel btn" data-act="refresh"><b>↻</b><small>Refresh · 1</small></button><button class="jewel btn ice"><b>❄</b><small>Freeze</small></button></div>
+    return `${DEFS}${frame()}${lobby()}
+      <section class="altar">
+        ${title()}
+        <span class="count">${J.count(G.board)} of 7</span>
+        ${band(G.board, 'board')}
+        <div class="hero"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b></div>
+      </section>
       <div class="hand"><span>In hand</span>${G.hand.map((u) => card(u, 'hand')).join('')}</div>
+      <section class="cabinet">
+        <header><span>The Market</span><i>Tier ${G.tier}</i></header>
+        <div class="rail"><svg viewBox="0 0 400 40" preserveAspectRatio="none"><path d="M0 20 C 60 4, 100 36, 160 20 S 260 4, 320 20 S 380 34, 400 18" fill="none" stroke="url(#gilt)" stroke-width="4"/></svg></div>
+        <div class="market">${G.shop.map((u, i) => card(u, 'shop', `--r:${((i % 3) - 1) * 1.5}deg`)).join('')}</div>
+        <div class="jewels">
+          <div class="jewel gold"><b>${G.gold}</b><small>Gold</small></div>
+          <button class="jewel btn"><b>${Math.min(6, G.tier + 1)}</b><small>Tier up · ${Math.max(0, 7 - G.stop)}</small></button>
+          <button class="jewel btn" data-act="refresh"><b>↻</b><small>Refresh · 1</small></button>
+          <button class="jewel btn ice"><b>❄</b><small>Freeze</small></button>
+        </div>
+      </section>
       <button class="door" data-act="end"><b>End Turn</b><small>to battle ${J.esc(G.enemyHero.name)}</small></button>`;
   }
 
+  // The fight: both bands framed on the left, front rows facing; heroes on the right.
   function fight() {
     const me = G.lobby.find((p) => p.you), foe = G.enemyHero;
     return `${DEFS}${frame()}${lobby()}
-      <div class="disc top"></div><div class="disc"></div>
-      <div class="hero foe"><div class="rings"></div><img src="${J.por(foe.id)}" alt=""><b>${foe.hp}</b><i>${J.esc(foe.name)}</i></div>
-      ${band(G.enemy, 'enemy', 'foe')}
-      <div class="fightline"></div>
-      ${band(G.board, 'mine')}
-      <div class="hero me"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b><i>You</i></div>
-      <div class="verdict" hidden></div>
+      <section class="altar fightframe foe"><span class="count">${J.esc(foe.name)}</span>${band(G.enemy, 'enemy', 'foe')}</section>
+      <section class="altar fightframe me"><span class="count">Your band</span>${band(G.board, 'mine')}</section>
+      <aside class="heroes">
+        <div class="hero foe"><div class="rings"></div><img src="${J.por(foe.id)}" alt=""><b>${foe.hp}</b><i>${J.esc(foe.name)}</i></div>
+        <div class="verdict" hidden></div>
+        <div class="hero me"><div class="rings"></div><img src="${J.por(me.id)}" alt=""><b>${me.hp}</b><i>You</i></div>
+      </aside>
       <button class="door" data-act="travel" hidden><b>${S.stop === J.STOPS.length - 1 ? 'Begin Again' : 'Journey On'}</b><small>${S.stop === J.STOPS.length - 1 ? J.STOPS[0].name : 'to ' + J.STOPS[S.stop + 1].name}</small></button>`;
   }
 

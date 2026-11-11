@@ -52,40 +52,45 @@
       </div>`).join('')}</div>`;
   }
 
+  // Two zones that never blur together: your board (green frame, left, gets the
+  // height) and the market (amber stall, right, with its own gold and buttons).
   function recruit() {
     return `${route()}
       <div class="turnmark"><b>TURN ${G.turn}</b><span>RECRUIT</span></div>
       ${lobby()}
-      <section class="arena">
-        <div class="zone"><div class="row-label"><span>MARKET</span><span class="dim">TIER ${G.tier}</span></div>
-          <div class="row shop">${G.shop.map((u) => card(u, 'shop')).join('')}</div></div>
-        <div class="zone band"><div class="row-label"><span>YOUR BAND</span><span class="dim">${J.count(G.board)}/7</span></div>
-          <div class="tags"><i>FRONT</i><i>BACK</i></div>
-          ${brick(G.board, 'board')}</div>
+      <section class="boardframe">
+        <header class="tab"><b>YOUR BAND</b><span>${J.count(G.board)}/7</span></header>
+        <div class="tags"><i>FRONT</i><i>BACK</i></div>
+        ${brick(G.board, 'board')}
       </section>
-      <footer class="bar">
-        <div class="gold"><span class="acorn">${ACORN}</span><b>${G.gold}</b></div>
-        <button class="btn sq tierup" title="Tier up"><span>▲ ${Math.min(6, G.tier + 1)}</span><em>${ACORN}${Math.max(0, 7 - G.stop)}</em></button>
-        <button class="btn sq refresh" data-act="refresh" title="Refresh"><span>⟳</span><em>${ACORN}1</em></button>
-        <button class="btn sq freeze" title="Freeze"><span>❄</span><em>&nbsp;</em></button>
-        <div class="hand">${G.hand.map((u) => card(u, 'hand')).join('')}</div>
-        <button class="btn end" data-act="end"><span>END TURN</span><small>fight ${J.esc(G.enemyHero.name)}</small></button>
-      </footer>`;
+      <div class="handtray"><span class="lbl">HAND</span><div class="hand">${G.hand.map((u) => card(u, 'hand')).join('')}</div></div>
+      <section class="shopframe">
+        <header class="awning"><b>MARKET</b><span class="tierbadge">TIER ${G.tier}</span>
+          <div class="gold"><span class="acorn">${ACORN}</span><b>${G.gold}</b></div></header>
+        <div class="shopgrid">${G.shop.map((u) => card(u, 'shop')).join('')}</div>
+        <div class="shopbtns">
+          <button class="btn sq tierup" title="Tier up"><span>▲ ${Math.min(6, G.tier + 1)}</span><em>${ACORN}${Math.max(0, 7 - G.stop)}</em></button>
+          <button class="btn sq refresh" data-act="refresh" title="Refresh"><span>⟳</span><em>${ACORN}1</em></button>
+          <button class="btn sq freeze" title="Freeze"><span>❄</span><em>FREEZE</em></button>
+        </div>
+      </section>
+      <button class="btn end" data-act="end"><span>END TURN</span><small>fight ${J.esc(G.enemyHero.name)}</small></button>`;
   }
 
+  // The fight keeps your board on the left; the right column holds the heroes.
   function fight() {
     const foe = G.enemyHero, me = G.lobby.find((p) => p.you);
     return `${route()}
       <div class="turnmark"><b>TURN ${G.turn}</b><span class="red">FIGHT</span></div>
       ${lobby()}
-      <section class="arena fightpanel">
+      <section class="boardframe fightframe foe"><header class="tab"><b>${J.esc(foe.name).toUpperCase()}</b></header>${brick(G.enemy, 'enemy', 'foe')}</section>
+      <section class="boardframe fightframe me"><header class="tab"><b>YOUR BAND</b></header>${brick(G.board, 'mine')}</section>
+      <aside class="heroes">
         <div class="hero foe"><img src="${J.por(foe.id)}" alt=""><b>${J.esc(foe.name)}</b><span class="php">${foe.hp}</span></div>
-        ${brick(G.enemy, 'enemy', 'foe')}
-        <div class="vs"></div>
-        ${brick(G.board, 'mine')}
+        <div class="vsmark">VS</div>
         <div class="hero me"><img src="${J.por(me.id)}" alt=""><b>You</b><span class="php">${me.hp}</span></div>
-      </section>
-      <div class="result" hidden></div>`;
+        <div class="result" hidden></div>
+      </aside>`;
   }
 
   function render(arrive) {

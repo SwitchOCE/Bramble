@@ -38,25 +38,49 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .php { position: absolute; right: -8px; bottom: -4px; min-width: 38px; height: 38px; padding: 0 6px; border-radius: 19px; background: var(--hp); color: #fff; font: 800 24px/38px var(--num); text-align: center; box-shadow: 0 0 0 3px #1a1010; }
 .ptier { position: absolute; left: -6px; bottom: -4px; width: 28px; height: 28px; border-radius: 50%; background: #111; color: var(--ink); font: 800 17px/28px var(--num); text-align: center; box-shadow: 0 0 0 2px rgba(255,255,255,.4); }
 
-/* ---- The arena: frosted glass in the middle of the world ------------------ */
-.arena { position: absolute; left: 50%; top: 104px; transform: translateX(-50%); width: 1440px; padding: 16px 26px 18px;
-  background: var(--glass); border: 1px solid var(--line); border-radius: 30px;
-  backdrop-filter: blur(14px) saturate(1.1); box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08); }
-/* Labels sit in the left margin of each zone so the rows get all the height. */
-.zone { position: relative; }
-.zone.band { margin-top: 14px; padding-top: 16px; border-top: 1px solid var(--line); }
-.row-label { position: absolute; left: 4px; top: 4px; display: flex; flex-direction: column; gap: 4px; font: 700 18px var(--num); letter-spacing: .18em; color: var(--ink); }
-.row-label .dim { color: var(--dim); }
+/* ---- Zones: the board (green frame) and the market (amber stall) --------------- */
+/* Shop column on the right; the board takes everything left of it, full height. */
+:root { --shop-w: 560px; --zone-l: 150px; --zone-r: calc(var(--shop-w) + 70px); }
+.boardframe { position: absolute; left: var(--zone-l); right: var(--zone-r); top: 112px; padding: 34px 24px 22px;
+  background: rgba(8, 14, 12, .80); border: 3px solid rgba(47,214,138,.75); border-radius: 26px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(47,214,138,.22); }
+.tab { position: absolute; top: -18px; left: 26px; display: flex; gap: 12px; align-items: baseline; padding: 6px 16px; border-radius: 10px;
+  background: #0d1512; border: 2px solid rgba(47,214,138,.75); font: 800 20px var(--num); letter-spacing: .16em; }
+.tab span { color: var(--dim); }
+.tags { position: absolute; right: 18px; top: 34px; bottom: 22px; display: flex; flex-direction: column; justify-content: space-around; font: 700 15px var(--num); letter-spacing: .24em; color: var(--dim); }
+.tags i { font-style: normal; writing-mode: vertical-rl; transform: rotate(180deg); }
+.boardframe .brick { --row-gap: 16px; --slot-gap: 18px; }
+.boardframe .brick .card, .boardframe .brick .slot { width: 232px; height: 310px; }
+.boardframe .front .atk, .boardframe .front .hp { width: 62px; height: 62px; font-size: 42px; }
+
+.handtray { position: absolute; left: var(--zone-l); right: var(--zone-r); bottom: 16px; height: 196px; display: flex; align-items: center; gap: 18px; padding: 0 24px;
+  background: rgba(14,18,17,.5); border: 1px dashed rgba(255,255,255,.22); border-radius: 22px; }
+.handtray .lbl { font: 800 18px var(--num); letter-spacing: .2em; color: var(--dim); writing-mode: vertical-rl; transform: rotate(180deg); }
+.handtray .hand { display: flex; gap: 14px; }
+.hand .card { width: 132px; height: 176px; }
+.hand .card .front .atk, .hand .card .front .hp { width: 40px; height: 40px; font-size: 27px; }
+.hand .b-text { font-size: 11px; } .hand .b-name { font-size: 16px; }
+
+.shopframe { position: absolute; right: 36px; width: var(--shop-w); top: 112px; padding: 0 0 18px;
+  background: rgba(34, 24, 10, .84); border: 3px solid var(--atk); border-radius: 26px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+.awning { display: flex; align-items: center; gap: 12px; height: 70px; padding: 0 18px; color: #2a1a04; border-radius: 22px 22px 0 0;
+  background: repeating-linear-gradient(90deg, var(--atk) 0 46px, #ffc95a 46px 92px); position: relative; }
+.awning::after { content: ''; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px;
+  background: radial-gradient(circle at 23px 0, var(--atk) 22px, transparent 23px) 0 0 / 92px 12px repeat-x, radial-gradient(circle at 69px 0, #ffc95a 22px, transparent 23px) 0 0 / 92px 12px repeat-x; }
+.awning > b { font: 800 34px var(--num); letter-spacing: .14em; }
+.tierbadge { font: 800 17px var(--num); letter-spacing: .14em; background: #2a1a04; color: var(--atk); padding: 4px 10px; border-radius: 8px; }
+.awning .gold { margin-left: auto; gap: 6px; padding: 2px 14px; background: #2a1a04; border: 0; border-radius: 14px; backdrop-filter: none; }
+.awning .gold .acorn svg { width: 30px; height: 30px; } .awning .gold b { font-size: 46px; }
+.shopgrid { display: grid; grid-template-columns: repeat(3, 160px); gap: 16px; justify-content: center; padding: 30px 0 0; min-height: 490px; align-content: start; }
+.shopgrid .card { width: 160px; height: 214px; }
+.shopgrid .front .atk, .shopgrid .front .hp { width: 46px; height: 46px; font-size: 31px; }
+.shopgrid .b-text { font-size: 12.5px; } .shopgrid .b-name { font-size: 18px; }
+.shopbtns { display: flex; gap: 12px; padding: 18px 0 0; border-top: 2px solid rgba(255,179,26,.3); margin: 0 18px; }
+.shopbtns .btn.sq { flex: 1; height: 88px; width: auto; }
+.shopbtns .btn em { font: 800 18px var(--num); letter-spacing: .1em; }
 .row { display: flex; gap: 14px; justify-content: center; }
-.row.shop .card { width: 164px; height: 220px; }
-.tags { position: absolute; right: 8px; top: 16px; bottom: 0; display: flex; flex-direction: column; justify-content: space-around; font: 700 15px var(--num); letter-spacing: .24em; color: var(--dim); text-align: right; }
-.arena .brick { --row-gap: 12px; --slot-gap: 14px; }
-.arena .brick .card, .arena .brick .slot { width: 176px; height: 234px; }
-.fightpanel .brick { --row-gap: 10px; --slot-gap: 12px; }
-.fightpanel .brick .card, .fightpanel .brick .slot { width: 152px; height: 202px; }
-.slot { position: relative; flex: none; border-radius: 18px; border: 2px dashed rgba(255,255,255,.18); background: rgba(255,255,255,.035); display: grid; place-items: center; }
-.slot span { font: 700 20px var(--num); letter-spacing: .1em; color: rgba(255,255,255,.22); }
-.fightpanel .slot { border-color: rgba(255,255,255,.08); background: none; } .fightpanel .slot span { display: none; }
+.slot { position: relative; flex: none; border-radius: 18px; border: 2px dashed rgba(255,255,255,.2); background: rgba(255,255,255,.035); display: grid; place-items: center; }
+.slot span { font: 700 24px var(--num); letter-spacing: .1em; color: rgba(255,255,255,.25); }
 
 /* ---- Card: the picture is the card ------------------------------------------ */
 .card { position: relative; width: 200px; height: 268px; perspective: 1100px; cursor: pointer; flex: none; }
@@ -102,24 +126,7 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .reader .b-name { font-size: 28px; }
 .reader .b-text { font-size: 16px; }
 
-/* ---- Bottom bar: gold, three actions, the hand, End turn ----------------------- */
-.bar { position: absolute; left: 50%; transform: translateX(-50%); bottom: 14px; width: 1440px; height: 124px; display: flex; align-items: center; gap: 14px; padding: 0 18px;
-  background: var(--glass); border: 1px solid var(--line); border-radius: 28px; backdrop-filter: blur(14px); box-shadow: 0 20px 50px rgba(0,0,0,.4); }
-.bar .gold { background: none; border: 0; backdrop-filter: none; padding: 0 10px 0 4px; }
-.btn.sq { width: 96px; height: 96px; flex-direction: column; justify-content: center; gap: 4px; padding: 0; font-size: 34px; }
-.btn.sq em { font: 800 22px var(--num); }
-.bar .hand { position: static; transform: none; flex: 1; display: flex; gap: 12px; justify-content: center; align-self: flex-end; margin-bottom: 12px; }
-.bar .btn.end { margin: 0; width: 290px; height: 98px; }
-.hand .card { width: 118px; height: 158px; }
-.hand .card .front .atk, .hand .card .front .hp { width: 38px; height: 38px; font-size: 26px; }
-.hand .card .tier, .hand .card .ico { transform: scale(.8); transform-origin: top left; } .hand .card .ico { transform-origin: top right; }
-.hand .card:nth-child(odd) { transform: rotate(-3deg); }
-.hand .card:nth-child(even) { transform: rotate(3deg) translateY(4px); }
-.hand .b-text { font-size: 11px; }
-.hand .b-name { font-size: 16px; }
-
 /* ---- Right side: gold and the four actions ------------------------------------ */
-.side { position: absolute; right: 40px; top: 170px; bottom: 40px; width: 250px; display: flex; flex-direction: column; gap: 14px; }
 .gold { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: var(--glass); backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid var(--line); }
 .gold .acorn svg { width: 48px; height: 48px; fill: var(--atk); }
 .gold b { font: 800 76px/1 var(--num); color: var(--atk); }
@@ -129,22 +136,31 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 .btn em { font-style: normal; display: flex; align-items: center; gap: 4px; color: var(--atk); }
 .btn em svg { width: 22px; height: 22px; fill: var(--atk); }
 .btn.freeze { color: var(--ice); border-color: rgba(76,195,255,.45); }
-.btn.end { margin-top: auto; height: 116px; background: var(--go); color: #062314; flex-direction: column; justify-content: center; border: 0; font-size: 40px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.btn.end { position: absolute; right: 36px; width: var(--shop-w); bottom: 16px; height: 150px; background: var(--go); color: #062314; flex-direction: column; justify-content: center; border: 0; font-size: 40px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
 .btn.end small { font: 700 16px var(--num); letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
 
-/* ---- Fight ---------------------------------------------------------------------- */
-.fightpanel { top: 100px; width: 1040px; padding: 20px 26px; }
-.vs { height: 2px; margin: 16px 60px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.35), transparent); }
-.hero { position: absolute; right: 34px; display: flex; flex-direction: column; align-items: center; gap: 4px; width: 108px; }
-.hero.foe { top: 40px; } .hero.me { bottom: 40px; }
-.hero img { width: 104px; height: 104px; border-radius: 50%; object-fit: cover; border: 4px solid var(--hp); box-shadow: 0 8px 22px rgba(0,0,0,.5); }
-.hero.me img { border-color: var(--go); }
-.hero b { font: 800 16px var(--num); letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 6px #000; text-align: center; }
-.hero .php { right: -2px; top: 70px; bottom: auto; }
-.result { position: absolute; right: 40px; bottom: 40px; width: 300px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; animation: rise .5s ease; }
-.result > b { font: 800 96px/1 var(--num); text-align: right; text-shadow: 0 4px 20px rgba(0,0,0,.6); }
+/* ---- Fight: two framed boards on the left, heroes in the right column ---------- */
+.fightframe { padding: 24px 24px 16px; }
+.fightframe.foe { top: 106px; border-color: rgba(255,75,92,.75); box-shadow: 0 20px 60px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(255,75,92,.2); }
+.fightframe.foe .tab { border-color: rgba(255,75,92,.75); }
+.fightframe.me { top: auto; bottom: 16px; }
+.fightframe .brick { --row-gap: 10px; --slot-gap: 14px; }
+.fightframe .brick .card, .fightframe .brick .slot { width: 150px; height: 200px; }
+.fightframe .front .atk, .fightframe .front .hp { width: 46px; height: 46px; font-size: 31px; }
+.fightframe .slot { border-color: rgba(255,255,255,.08); background: none; } .fightframe .slot span { display: none; }
+.heroes { position: absolute; right: 36px; width: var(--shop-w); top: 106px; bottom: 16px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+.hero { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hero img { width: 170px; height: 170px; border-radius: 50%; object-fit: cover; border: 5px solid var(--hp); box-shadow: 0 8px 22px rgba(0,0,0,.5); }
+.hero.me { margin-top: auto; } .hero.me img { border-color: var(--go); }
+.hero b { font: 800 22px var(--num); letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 6px #000; }
+.hero .php { right: 0; top: 120px; bottom: auto; min-width: 54px; height: 54px; font-size: 32px; line-height: 54px; border-radius: 27px; }
+.vsmark { font: 800 64px var(--num); color: var(--ink); opacity: .8; text-shadow: 0 4px 16px #000; margin-top: 30px; }
+.result { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -30%); width: 340px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; animation: rise .5s ease;
+  background: rgba(10,13,12,.88); padding: 20px; border-radius: 22px; border: 1px solid var(--line); z-index: 5; }
+.result .btn.end { position: static; width: auto; height: 110px; }
+.result > b { font: 800 96px/1 var(--num); text-align: center; }
 .result > b.you { color: var(--go); } .result > b.them { color: var(--hp); }
-@keyframes rise { from { opacity: 0; transform: translateY(20px); } }
+@keyframes rise { from { opacity: 0; } }
 
 /* ---- Arrival title ---------------------------------------------------------------- */
 .arrive { position: absolute; left: 50%; top: 42%; transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 60;
@@ -163,7 +179,11 @@ html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 5
 html.jy-phone .lobby { gap: 8px; top: 120px; }
 
 /* Arrival beat: the board steps aside so you see the new place, then returns. */
-.jy-stage.arriving .arena, .jy-stage.arriving .bar, .jy-stage.arriving .lobby { animation: board-return 2.8s ease both; }
-@keyframes board-return { 0%, 55% { opacity: 0; transform: translateX(-50%) translateY(24px); } 100% { opacity: 1; } }
+.jy-stage.arriving .boardframe, .jy-stage.arriving .shopframe, .jy-stage.arriving .handtray, .jy-stage.arriving > .btn.end, .jy-stage.arriving .lobby { animation: board-return 2.8s ease both; }
+@keyframes board-return { 0%, 55% { opacity: 0; translate: 0 24px; } 100% { opacity: 1; } }
 .jy-stage.arriving .lobby { animation-name: lobby-return; }
 @keyframes lobby-return { 0%, 55% { opacity: 0; } 100% { opacity: 1; } }
+.result[hidden] { display: none; }
+.shopbtns .btn.sq { flex-direction: column; justify-content: center; gap: 4px; padding: 0; font-size: 30px; }
+.btn.end { height: 196px; font-size: 46px; }
+.btn.freeze em { color: var(--ice); }

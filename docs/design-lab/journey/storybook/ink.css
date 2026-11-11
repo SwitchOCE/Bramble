@@ -11,15 +11,8 @@ body { font-family: var(--body); color: var(--ink); font-weight: 700; }
 html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(.9) sepia(.15); }
 h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100; }
 
-/* ---- Chapter heading: a paper label above the book --------------------------- */
-.chapter { position: absolute; left: 50%; top: 18px; transform: translateX(-50%) rotate(-1deg); text-align: center; z-index: 5;
-  background: var(--card) var(--fleck); border: 3px solid var(--ink); border-radius: 16px 22px 14px 20px; padding: 8px 40px 10px; box-shadow: 5px 6px 0 rgba(43,35,32,.55); }
-.chapter small { display: block; font: 900 15px var(--body); letter-spacing: .25em; text-transform: uppercase; color: var(--berry); }
-.chapter b { display: block; font: 900 46px/1 var(--display); font-variation-settings: 'SOFT' 100; }
-.chapter i { font: 700 italic 16px var(--display); color: var(--inksoft); }
-
 /* ---- The book ------------------------------------------------------------------ */
-.book { position: absolute; left: 50%; top: 146px; width: 1480px; height: 836px; transform: translateX(-50%); display: flex; perspective: 2600px; }
+.book { position: absolute; left: 50%; top: 40px; width: 1480px; height: 1000px; transform: translateX(-50%); display: flex; perspective: 2600px; }
 .book::before { /* the cover and page stack under the paper */
   content: ''; position: absolute; inset: -14px -16px -22px; border-radius: 26px; background: #5b2f2a;
   border: 4px solid var(--ink); box-shadow: 0 30px 70px rgba(0,0,0,.5), inset 0 0 0 6px #7a3d34; z-index: -1; }
@@ -68,35 +61,6 @@ h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100;
 .card.small .star { width: 38px; height: 38px; top: -12px; left: -12px; } .card.small .star b { font-size: 14px; }
 .card.small .paw, .card.small .heart { width: 46px; height: 46px; font-size: 24px; bottom: -14px; }
 
-/* ---- Left page: market and the actions row -------------------------------------- */
-.shop { display: grid; grid-template-columns: repeat(3, 206px); gap: 26px 18px; justify-content: center; padding: 14px 0 0; }
-.actions { position: absolute; left: 30px; right: 30px; bottom: 34px; display: flex; align-items: center; gap: 14px; }
-.coin { width: 86px; height: 86px; border-radius: 50%; background: var(--lemon); border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink), inset 0 0 0 6px #ecc94a; display: grid; place-items: center; align-content: center; }
-.coin b { font: 900 40px/1 var(--display); } .coin small { font: 900 11px var(--body); letter-spacing: .1em; margin-top: -2px; }
-.btn { all: unset; cursor: pointer; font: 900 23px var(--display); font-variation-settings: 'SOFT' 100; background: var(--card); border: 3px solid var(--ink); border-radius: 999px;
-  padding: 0 20px; height: 60px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 0 var(--ink); transition: transform .1s, box-shadow .1s; }
-.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
-.btn em { font-style: normal; width: 32px; height: 32px; border-radius: 50%; background: var(--lemon); border: 2.5px solid var(--ink); display: grid; place-items: center; font: 900 16px var(--body); }
-.btn.mustard { background: var(--lemon); } .btn.mustard em { background: var(--card); }
-.btn.sky { background: var(--sky); }
-
-/* ---- Right page: the band, 4 in front and 3 behind ------------------------------------ */
-.rows { position: relative; margin-top: 46px; }
-.page .brick { --row-gap: 40px; --slot-gap: 28px; }
-.page.right .brick .card.small, .page.right .brick .spot { width: 148px; }
-.spot { position: relative; flex: none; width: 156px; height: 210px; border: 3px dashed rgba(94,78,65,.4); border-radius: 14px; transform: rotate(var(--rot)); display: grid; place-items: center; }
-.spot span { font: 700 italic 22px var(--display); color: rgba(94,78,65,.45); }
-
-/* ---- The satchel: hand cards tucked under the book ---------------------------------- */
-.satchel { position: absolute; left: 1010px; bottom: -176px; display: flex; gap: 14px; z-index: 3; }
-.satchel::before { content: 'In your satchel'; position: absolute; top: -30px; left: 4px; font: 700 italic 17px var(--display); color: var(--inksoft); }
-.satchel .card { position: relative; }
-.satchel .card { transform: rotate(4deg); width: 170px; height: 230px; }
-.satchel .card:nth-child(2) { transform: rotate(-3deg); }
-.satchel .card .window { height: 120px; } .satchel .card .text { display: none; } .satchel .card .tribe { display: none; }
-.satchel .card:hover { transform: translateY(-120px) rotate(0); z-index: 20; }
-.page.right { overflow: hidden; }
-
 /* ---- Lobby: inked name tags down the left ---------------------------------------- */
 .lobby { position: absolute; left: 18px; top: 150px; display: flex; flex-direction: column; gap: 10px; width: 190px; }
 .lobby-h { font: 900 14px var(--body); letter-spacing: .14em; text-transform: uppercase; color: var(--card); text-shadow: 0 2px 6px rgba(0,0,0,.8); }
@@ -115,28 +79,6 @@ h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100;
 .turnpage span { display: block; font: 800 14px var(--body); margin-top: 6px; opacity: .9; }
 .turnpage i { display: block; font: 900 40px/1 var(--display); font-style: normal; margin-top: 4px; }
 
-/* ---- Fight: two bands facing across the spine -------------------------------------- */
-/* The book opens taller; each band stands sideways, front column at the spine. */
-.fightbook { top: 40px; height: 1000px; }
-.fightbook .page { padding: 24px 34px; }
-.fightbook .brick { position: absolute; top: 96px; bottom: 30px; --row-gap: 30px; --slot-gap: 18px; }
-.fightbook .page.left .brick { right: 30px; } .fightbook .page.right .brick { left: 30px; }
-.fightbook .card.small, .fightbook .spot { width: 150px; height: 200px; }
-.fightbook .card.small .window { height: 142px; }
-.fightbook .spot { border-color: rgba(94,78,65,.18); } .fightbook .spot span { display: none; }
-.portrait { position: absolute; top: 300px; width: 230px; text-align: center; }
-.page.left .portrait { left: 40px; } .page.right .portrait { right: 40px; }
-.portrait img { width: 220px; height: 220px; border-radius: 50%; border: 4px solid var(--ink); object-fit: cover; box-shadow: 5px 6px 0 rgba(43,35,32,.35); }
-.portrait b { display: block; font: 900 64px/1 var(--display); color: var(--berry); margin-top: 8px; }
-.portrait span { font: 700 italic 20px var(--display); color: var(--inksoft); }
-.versus { position: absolute; left: 50%; top: -14px; transform: translate(-50%, -50%) rotate(-6deg); font: 900 italic 30px var(--display); background: var(--card); border: 3px solid var(--ink); padding: 4px 16px; border-radius: 12px; box-shadow: 3px 4px 0 var(--ink); z-index: 6; }
-.stamp { position: absolute; left: 50%; top: 60%; transform: translate(-50%, -50%) rotate(-10deg); z-index: 50; font: 900 110px/1 var(--display); color: var(--berry); border: 8px solid var(--berry); border-radius: 26px; padding: 6px 30px;
-  background: rgba(251,245,232,.85); animation: stamp .35s cubic-bezier(.3,1.6,.5,1) both; }
-.stamp.you { color: var(--moss); border-color: var(--moss); }
-@keyframes stamp { from { opacity: 0; transform: translate(-50%, -50%) rotate(-10deg) scale(2.2); } }
-.fightbook .jy-lunge { animation-name: ink-lunge; }
-@keyframes ink-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
-
 /* ---- Page turn ------------------------------------------------------------------- */
 .leaf { position: absolute; left: 50%; top: 0; width: 50%; height: 100%; transform-origin: 0 50%; transform-style: preserve-3d; z-index: 40; transition: transform .95s cubic-bezier(.45,.05,.3,1); }
 .leaf.turn { transform: rotateY(-180deg); }
@@ -152,3 +94,69 @@ h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100;
 .note small { font: 800 13px var(--body); color: var(--inksoft); text-transform: uppercase; letter-spacing: .1em; }
 .note p { font: 700 17px/1.35 var(--body); margin: 8px 0 0; }
 .note p b { display: inline; font: 900 17px var(--body); color: var(--heather); } .note p em { font-style: normal; color: var(--berry); }
+
+/* ---- The chapter tab on the book's top edge ------------------------------------------- */
+.tabmark { position: absolute; left: 50%; top: -18px; transform: translateX(-50%) rotate(-2deg); z-index: 6; white-space: nowrap;
+  font: 900 italic 26px var(--display); background: var(--card); border: 3px solid var(--ink); padding: 4px 18px; border-radius: 12px; box-shadow: 3px 4px 0 var(--ink); }
+
+/* ---- Left page: you. Portrait, satchel, and your band in an inked clearing ------------- */
+.portrait { position: absolute; top: 96px; width: 250px; text-align: center; }
+.page.left .portrait { left: 34px; } .page.right .portrait { right: 34px; }
+.portrait img { width: 190px; height: 190px; border-radius: 50%; border: 4px solid var(--ink); object-fit: cover; box-shadow: 5px 6px 0 rgba(43,35,32,.35); }
+.portrait b { display: block; font: 900 52px/1 var(--display); color: var(--berry); margin-top: 6px; }
+.portrait span { font: 700 italic 18px var(--display); color: var(--inksoft); }
+
+/* The clearing frames the band: a green-washed plot with an inked double edge. */
+.clearing { position: absolute; top: 88px; bottom: 26px; width: 372px; display: grid; place-items: center;
+  border: 3px solid var(--ink); border-radius: 26px 18px 30px 20px; background: rgba(111,154,60,.14);
+  box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px rgba(79,110,44,.55), 4px 5px 0 rgba(43,35,32,.25); }
+.page.left .clearing { right: 22px; } .page.right .clearing { left: 22px; }
+.clearing.foe { background: rgba(181,55,45,.10); box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px rgba(181,55,45,.5), 4px 5px 0 rgba(43,35,32,.25); }
+.clearing .brick { --row-gap: 34px; --slot-gap: 20px; }
+.clearing .card.small, .clearing .spot { width: 140px; height: 190px; }
+.clearing .card.small .window { height: 132px; }
+.clearing .card.small .name { font-size: 14px; }
+.spot { position: relative; flex: none; border: 3px dashed rgba(94,78,65,.4); border-radius: 14px; transform: rotate(var(--rot)); display: grid; place-items: center; }
+.spot span { font: 700 italic 22px var(--display); color: rgba(94,78,65,.45); }
+.fightbook .spot { border-color: rgba(94,78,65,.16); } .fightbook .spot span { display: none; }
+
+/* The satchel: your hand, under your portrait. */
+.satchel { position: absolute; left: 30px; bottom: 34px; width: 268px; display: grid; grid-template-columns: repeat(2, 124px); gap: 20px 16px;
+  padding: 40px 0 0; justify-content: center; }
+.satchel > i { position: absolute; top: 0; left: 0; right: 0; text-align: center; font: 700 italic 19px var(--display); color: var(--inksoft); }
+.satchel > i::after { content: ''; display: block; height: 8px; margin: 4px 30px 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q10 0 20 5 T40 5' fill='none' stroke='%232b2320' stroke-width='2.5'/%3E%3C/svg%3E") repeat-x center; opacity: .45; }
+.satchel > em { grid-column: 1 / -1; text-align: center; font: 700 italic 17px var(--display); color: var(--inksoft); opacity: .7; padding: 20px 0; }
+.satchel .card.small { width: 124px; height: 166px; transform: rotate(3deg); }
+.satchel .card.small:nth-of-type(even) { transform: rotate(-2deg); }
+.satchel .card.small .window { height: 112px; }
+.satchel .card.small .name { font-size: 13px; }
+.satchel .card.small:hover { transform: translateY(-8px) rotate(0); }
+
+/* ---- Right page: the market stall. Awning on top, wares, and a counter for the coin. --- */
+.stall { padding-top: 70px; }
+.awning { position: absolute; left: -3px; right: -3px; top: -3px; height: 58px; border: 3px solid var(--ink); border-radius: 4px 20px 0 0;
+  background: repeating-linear-gradient(90deg, var(--berry) 0 50px, var(--card) 50px 100px); }
+.awning::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 18px;
+  background: radial-gradient(circle at 25px 0, var(--berry) 23px, transparent 24px) 0 0 / 100px 18px repeat-x, radial-gradient(circle at 75px 0, var(--card) 23px, transparent 24px) 0 0 / 100px 18px repeat-x;
+  filter: drop-shadow(0 3px 0 var(--ink)); }
+.shop { display: grid; grid-template-columns: repeat(3, 206px); gap: 30px 18px; justify-content: center; padding: 18px 0 0; }
+.actions { position: absolute; left: 22px; right: 22px; bottom: 30px; display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+  background: #c08a52; border: 3px solid var(--ink); border-radius: 14px; box-shadow: inset 0 -8px 0 rgba(43,35,32,.2), 0 5px 0 var(--ink); }
+.actions::before { content: ''; position: absolute; left: 16px; right: 16px; top: 8px; height: 3px; background: rgba(255,255,255,.25); border-radius: 2px; }
+.coin { width: 86px; height: 86px; border-radius: 50%; background: var(--lemon); border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink), inset 0 0 0 6px #ecc94a; display: grid; place-items: center; align-content: center; flex: none; }
+.coin b { font: 900 40px/1 var(--display); } .coin small { font: 900 11px var(--body); letter-spacing: .1em; margin-top: -2px; }
+
+/* ---- Fight -------------------------------------------------------------------------------- */
+.stamp { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) rotate(-10deg); z-index: 50; font: 900 110px/1 var(--display); color: var(--berry); border: 8px solid var(--berry); border-radius: 26px; padding: 6px 30px;
+  background: rgba(251,245,232,.88); animation: stamp .35s cubic-bezier(.3,1.6,.5,1) both; }
+.stamp.you { color: var(--moss); border-color: var(--moss); }
+@keyframes stamp { from { opacity: 0; transform: translate(-50%, -50%) rotate(-10deg) scale(2.2); } }
+.fightbook .jy-lunge { animation-name: ink-lunge; }
+@keyframes ink-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
+.btn { all: unset; cursor: pointer; font: 900 22px var(--display); font-variation-settings: 'SOFT' 100; background: var(--card); border: 3px solid var(--ink); border-radius: 999px;
+  padding: 0 18px; height: 58px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 0 var(--ink); transition: transform .1s, box-shadow .1s; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.btn em { font-style: normal; width: 32px; height: 32px; border-radius: 50%; background: var(--lemon); border: 2.5px solid var(--ink); display: grid; place-items: center; font: 900 16px var(--body); }
+.btn.mustard { background: var(--lemon); } .btn.mustard em { background: var(--card); }
+.btn.sky { background: var(--sky); }
