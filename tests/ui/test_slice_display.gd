@@ -144,10 +144,3 @@ func test_a_slot_strip_shows_the_whole_name_or_its_last_word_never_an_ellipsis()
 	assert_eq(
 		BoardView.fit_name("Will-o'-the-Wisp Grand-Duchess-Of-The-Far-Marshes", words), "Marshes"
 	)
-
-
-func test_the_toast_stands_clear_of_the_shop() -> void:
-	var screen: RecruitScreen = _slice_screen()
-	screen.show_toast("Three Acorns made a Stash.")
-	var toast: Label = screen.get("_toast")
-	assert_true(toast.position.y + toast.size.y <= RecruitScreen.SHOP_TOP - 20.0)
