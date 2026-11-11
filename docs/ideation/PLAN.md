@@ -1,11 +1,11 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** Layout, art and framing are in: one painted woodland, play on its own surfaces with the world as a frame. Recruit feel lands next, then the build you play.
-- **Status:** active
-- **Last step done:** 11 Nov: step A2 merged: play on its own painted surfaces, the world as a frame (gate passed, 0 problems in the 4-game UI run).
-- **Next step:** merge recruit feel (B); then the merge freeze (12 Nov evening), integration checks and the playtest note on 13 Nov.
-- **Waiting on you:** nothing. Loop 1 ends when you play its build, or 13 Nov 23:22.
+- **In short:** Paused at your word. Your journey lab's layout B is reviewed and becomes the base layout; the plan to build it waits for you to say resume.
+- **Status:** paused (owner, 11 Nov)
+- **Last step done:** 11 Nov: step A2 merged; your journey lab reviewed against our build (`ui/loop1/journey-lab/README.md`).
+- **Next step:** on resume: fix B's failing test and merge B; then A3 (layout B's arrangement in the game) and A4 (hex units).
+- **Waiting on you:** say resume, and whether the build you play waits for layout B (about two days after resuming) or ships on 13 Nov as Bazaar Stack.
 - **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
 <!-- /status -->
 
