@@ -40,4 +40,4 @@ Branch `arch/godot-notes`. One agent writes `docs/architecture/godot-notes.md`: 
 
 - The gauntlet and its judges are the quality gate for the visuals. The scope reviewer checks the gallery and the architecture notes against the owner's words before they're called done.
 - Shares the machine with the prototype: Playwright and Codex are light, but at most 4 generators run at once.
-- No new standing rules. Learnings go in `docs/prototype/LEARNINGS.md` on `proto/main`, which the orchestrator copies in.
+- No new standing rules. Learnings go in `docs/prototype/LEARNINGS.md` in the tag `archive/proto-2026-11-13` (was `proto/main`), which the orchestrator copies in.
