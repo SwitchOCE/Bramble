@@ -31,6 +31,7 @@ docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card l
 docs/folio/                      The Woodland Folio: research and ideation page with art
 tools/art/                       Codex image-generation runner and the prompts used so far
 tools/research/                  Re-runnable scripts that build the card data libraries
+tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
 scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
