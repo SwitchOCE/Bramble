@@ -2,12 +2,12 @@
 
 Last updated 12 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are on the prototype and ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
 
-**Current phase on `main`: fundamentals:** research, the rulebook and power budgeting. Content design waits until those exist.
+**Current phase on `main`: fundamentals.** Research, the rulebook and power budgeting. Content design waits until those exist.
 
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Owner notes from 27 October and 1 November 2026. Later notes aren't on `main` yet: 11 from 2 November (on `proto/main` and `ideation/main`) and 28 from 6 to 11 November (on `ideation/main`).
+- Owner notes from 27 October and 1 November 2026. Later notes, from 2 November on, aren't on `main` yet. They are on the branches under [Elsewhere](#elsewhere-ideation-and-other-branches), most of them on `ideation/main`.
 - A plannable summary with open questions.
 - An architecture recommendation.
 
@@ -60,16 +60,18 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 ## Elsewhere: ideation and other branches
 
-Work that isn't on `main`. Nothing from these branches comes to `main` without the owner's say-so. Each plan's status block says where that work stands; the date is when the plan was last updated.
+Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` without the owner's say-so (owner, 12 November 2026; the note, `2026-11-12a-archive-on-main.md`, is on `design/tribes-and-budget`). The date is when each plan was last updated.
 
 | Work | Branch | Plan | Plan updated |
 |---|---|---|---|
 | Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
-| Prototype: superseded by the ideation builds; its build 4 and its 16 open questions are dropped (owner, 12 Nov 2026) | `proto/main` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
+| Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026) | `proto/main` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
+| Rules and power budget: rulebook v0.5, waiting on the owner | `design/tribes-and-budget` | `docs/workstreams/rules-and-budget.md` | 8 Nov 2026 |
+| Mechanics library: paused | `design/tribes-and-budget` | `docs/workstreams/mechanics-library.md` | 4 Nov 2026 |
 | Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | `archive/design-lab` (tag `archive/design-lab-2026-11-12`) | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
 | Portal (the owner's site on the Optiplex): to be archived for now; a separate session is working out a better method with the owner (12 Nov 2026) | `portal/main` | `docs/portal/PLAN.md` | 4 Nov 2026 |
 
-Builds are in `/data/bramble-builds` on the Optiplex and on the portal's builds page.
+Builds are in `/data/bramble-builds` on the Optiplex.
 
 ## Next
 
