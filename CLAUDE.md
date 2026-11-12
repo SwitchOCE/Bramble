@@ -20,7 +20,7 @@ Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules a
 
 **While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. If the owner says a note misheard them, fix it. A changed instruction gets a new note that says what it replaces. The old note is removed if none of it holds.
 
-**Transcribing:** remove dictation errors, filler words and repeats, and add punctuation. Reordering into sections is allowed. Mark any interpretation of yours as *[italic bracketed editor notes]*.
+**Transcribing:** remove filler words, repeats and clear dictation errors, and add punctuation. Reordering into sections is allowed. Keep a word you aren't sure of as heard and add your guess as *[probably "…"]*. Before committing, show the owner any guess that would change what agents do. Mark any other interpretation of yours as *[italic bracketed editor notes]*.
 
 ## Layout
 
