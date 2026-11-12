@@ -1,6 +1,6 @@
 # Other games: positioning, bounded economies and recurring archetypes
 
-**Status: research for the design pass, 2 November 2026.** Task R4 of the pass the owner set out in [owner-notes/2026-11-02-pre-development-design-pass.md](../design/sources/2026-11-02-pre-development-design-pass.md). It answers three questions only:
+**Status: research for the design pass, 2 November 2026.** Task R4 of the pass the owner set out in [sources/2026-11-02-pre-development-design-pass.md](../design/sources/2026-11-02-pre-development-design-pass.md). It answers three questions only:
 
 1. What positioning and adjacency add to decisions and strategy variety, and what they cost.
 2. How games without a turn timer, or with async fights, keep economy and turn length bounded.

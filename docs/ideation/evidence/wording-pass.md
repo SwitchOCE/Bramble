@@ -1,6 +1,6 @@
 # Wording pass: before and after
 
-The owner, 8 Nov 2026 (`CLAUDE.md`, "Clear, short wording in the game"): "Clear and concise wording. Make complicated things simple." Effects, numbers, mechanics JSON and art are unchanged. Only the words changed. Base: `4b109c8`. Style rules: `docs/ideation/wording-guide.md`. The counts come from `python3 tools/research/word_counts.py --ref 4b109c8`.
+The owner, 8 Nov 2026 (the full dictation: `2026-11-08e-text-too-wordy.md`, removed 13 Nov 2026, in git history; the rule: `CLAUDE.md`, "Clear, short wording in the game"): "Clear and concise wording. Make complicated things simple." Effects, numbers, mechanics JSON and art are unchanged. Only the words changed. Base: `4b109c8`. Style rules: `docs/ideation/wording-guide.md`. The counts come from `python3 tools/research/word_counts.py --ref 4b109c8`.
 
 
 ## Pass 3 (`ideation/c-wording2`): the two reviews' items

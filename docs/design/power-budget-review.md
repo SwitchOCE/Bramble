@@ -1,6 +1,6 @@
 # Power budget review: immediate power against scaling and economy
 
-**Status: for the owner's review, 27 October 2026.** This answers the owner's question in [owner-notes/archive/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md):
+**Status: for the owner's review, 27 October 2026.** This answers the owner's question in [sources/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md):
 
 > How many turns would it take for the scaling card to realistically catch up and be better than the immediate power card? At what level of econ?
 

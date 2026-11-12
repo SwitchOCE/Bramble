@@ -2,7 +2,7 @@
 
 **Status: research for the design pass, 2 November 2026 (task R3).** This catalogues the Battlegrounds engines that ran very long or without end in one turn. For each it says what the loop spends, what stops it, how Blizzard answered it, and how it would behave in Bramble. Bramble has no turn timer, and only the paid Refresh gets dearer within a turn (rulebook 3.1.2, 4.4). It ends with the loop shapes Bramble's content design must police. The guardrails it first proposed (G2–G10) and its rule gaps now live in one list, [economy-bounding.md](../../design/economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding").
 
-The owner's problem statement is [owner-notes/2026-11-02-pre-development-design-pass.md](../../design/sources/2026-11-02-pre-development-design-pass.md):
+The owner's problem statement is [sources/2026-11-02-pre-development-design-pass.md](../../design/sources/2026-11-02-pre-development-design-pass.md):
 
 > In our game, I want it to go for a very, very long time, but not infinitely.
 

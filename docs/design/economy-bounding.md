@@ -2,7 +2,7 @@
 
 **Status: for the owner's review, 2 November 2026 (task S1, revision 2).** This answers how long one Recruit Phase can run when nothing but gold ends it. It compares refresh price schedules, checks whether engines reach the 20–30-shop target in normal play, sets content limits for free refreshes, effect refreshes and gold-back engines, and gives recommended answers to B5 and B6 from [power-budget-review.md](power-budget-review.md) (decision points 5 and 6); B5's answer has since moved to [power-budget.md](power-budget.md) 4.1. Section 7 is the one list of economy guardrails.
 
-The owner's problem statement is [owner-notes/archive/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md):
+The owner's problem statement is [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md):
 
 > In our game, I want it to go for a very, very long time, but not infinitely.
 
