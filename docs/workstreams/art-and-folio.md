@@ -8,4 +8,4 @@
 - **Waiting on you:** Review the folio's faction seeds against the Battlegrounds direction and star the ones to draw.
 <!-- /status -->
 
-The Woodland Folio (`docs/folio/woodland-folio.html`) and concept art made with `tools/art/`. The decision record is `docs/design/owner-notes/2026-11-01-art-style-decision.md`.
+The Woodland Folio (`docs/folio/woodland-folio.html`) and concept art made with `tools/art/`. The decision record is `docs/design/sources/2026-11-01-art-style-decision.md`.

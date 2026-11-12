@@ -34,6 +34,7 @@ docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPE
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
 docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/owner-notes/         Dated owner instructions (don't reword)
+docs/design/sources/             The owner's words behind the rulebook and taste guide (not instructions)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/folio/                      The Woodland Folio: research and ideation page with art
