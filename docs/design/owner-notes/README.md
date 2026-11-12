@@ -20,7 +20,7 @@ The owner's dictated words, kept short (owner, 10 Nov 2026; the rule is in `CLAU
 | `2026-11-11a-full-authority-over-the-look.md` | On `ideation/*` the orchestrator decides the whole look, art style included (main keeps 01's Ink + flat B) |
 | `2026-11-11b-art-meets-in-the-middle-and-framing.md` | Cards and backgrounds meet in the middle (cards less cartoony, backgrounds less polished); the background frames play, and each area of the screen reads as its own |
 | `2026-11-11c-ui-can-change-rules-hand-of-four.md` | Where the UI can't support a rule, change the rule (the game is early); the hand holds 4; the orchestrator makes the calls the owner doesn't follow (amends `10j`'s look-only scope) |
-| `2026-11-12a-tier-guide-designs-and-less-review.md` | Tribe designers get the whole tier guide, numbers included (replaces `02f`'s "no power budget"); fewer and shorter reviews on design content, so more unreviewed designs reach the owner; balance comes after |
+| `2026-11-12a-tier-guide-designs-and-less-review.md` | Tribe designers get the whole tier guide, numbers included (replaces `02f`'s "no power budget"); fewer and shorter reviews on design content, so more unreviewed designs reach the owner; balance comes after. Design content only: code steps keep their gates (owner confirmed, 12 Nov) |
 
 ## Archived (34 notes, in `archive/`)
 
