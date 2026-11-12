@@ -8,11 +8,11 @@
 
 **How to use it.** Use it as a lens, not a veto. Each principle is something to aim for and to explain your design against. Per the working rules, don't cut a design because it seems to break one. Say which principle it strains, and propose a version that keeps the design's core. The principle wording is Claude's synthesis, and each one cites the owner's words. Where the owner hasn't decided, this page says so.
 
-**Status against the rules.** The rulebook (v0.5, 8 Nov) now reflects this page in several places:
-- **Damage:** base damage for the round + 1 per surviving starting unit, with no cap (10.1).
+**Status against the rules.** The rulebook (v0.6, 12 Nov) now reflects this page in several places:
+- **Damage:** 40 starting health; a loss deals the round + 1, up to 10, and 3 more if the loser didn't kill half the winner's starting units (2.2.5, 10.1). Set on 12 Nov, replacing the 8 Nov rule of 1 per surviving starting unit.
 - **Stat scale:** about double Battlegrounds (1.2.5).
 - **Shop:** a fixed 5-card shop as the working value to experiment from (6.1.1).
-- **Still open:** starting health, the pool, tier weighting, shop-slot upgrades and multiple-copy strategies (2.2.5, 5.1.4, 6.1.6, 6.1.7, 7.3.8).
+- **Still open:** the pool, tier weighting, shop-slot upgrades and multiple-copy strategies (5.1.4, 6.1.6, 6.1.7, 7.3.8).
 
 See [rulebook-deltas.md](rulebook-deltas.md).
 

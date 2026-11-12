@@ -1,16 +1,15 @@
 # Rulebook deltas
 
-Every rule in [rulebook.md](rulebook.md) (v0.5 draft, 8 Nov 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
+Every rule in [rulebook.md](rulebook.md) (v0.6 draft, 12 Nov 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
 
 - **PROPOSED**: a gap Bramble's differences create. A default is filled in; it needs your yes or a change.
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 - **EXAMPLE**: an HSBG or Galaxy mechanic kept to show what the rules must handle. Not a Bramble mechanic, and nothing to decide ([N9](owner-notes/2026-11-02e-mechanics-are-examples.md)).
 
-Counts: 105 [BG], 35 [BRAMBLE], 47 [PROPOSED], 13 [OPEN], 26 [EXAMPLE]. v0.5 (8 Nov) applies the owner's notes [N11](owner-notes/2026-11-08-autobattler-systems-thoughts.md), [N12](owner-notes/2026-11-08b-taste-answers.md) and [N13](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](owner-notes/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](owner-notes/2026-11-02e-mechanics-are-examples.md)).
+Counts: 105 [BG], 37 [BRAMBLE], 47 [PROPOSED], 11 [OPEN], 26 [EXAMPLE]. v0.6 (12 Nov) sets damage and starting health from the owner's decision in chat (rulebook source C12): 40 health, a small loss of the round + 1 up to 10, and +3 for a big loss. v0.5 (8 Nov) applies the owner's notes [N11](owner-notes/2026-11-08-autobattler-systems-thoughts.md), [N12](owner-notes/2026-11-08b-taste-answers.md) and [N13](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](owner-notes/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](owner-notes/2026-11-02e-mechanics-are-examples.md)).
 
 **Most in need of a decision:**
-- **10.1.3 base damage and 2.2.5 starting health.** Set them together, by simulation.
 - **The power-budget rescale** for 1.2.5, before any content is costed.
 
 The rest are edge cases with sensible defaults, or open questions to settle by experiment.
@@ -23,16 +22,16 @@ The rest are edge cases with sensible defaults, or open questions to settle by e
 | Rule | Status | Bramble rule | HSBG equivalent | Decision needed |
 |---|---|---|---|---|
 | 1.2.5 | BRAMBLE | Stat scale about 2× HSBG (working value); room to tune upgraded and scaling effects | Base scale | Decided 8 Nov (N12, N13); power budget needs rescaling |
-| 2.2.5 | OPEN | Starting health: 30 as a working value, set together with base damage | 30 | Decide with 10.1.3 |
+| 2.2.5 | BRAMBLE | Starting health 40 by default; heroes may differ for balance (direction open: maybe only upward) | 30 | Decided 12 Nov (C12) |
 | 5.1.4 | OPEN | Keep a copy-count pool, or draw by set chances in async play | Shared pool | Decide (N11 §5.5) |
 | 6.1.1 | PROPOSED | Shop shows 5 cards (1 spell) at every tier; experiment 3–7 | 4–7 cards, growing with tier | Experiment (N11 §5.2) |
 | 6.1.6 | OPEN | Extra shop slots as a separately bought upgrade | Slots come with tier | Decide (N11 §5.3) |
 | 6.1.7 | OPEN | Shop draws flat by copies, or weighted toward your tier | Flat by copies | Decide (N11 §5.4) |
 | 7.3.8 | OPEN | Multiple-copy strategies (TFT stars) or HSBG's single triple | Single triple | Decide (N11 §5.6) |
-| 10.1.1 | BRAMBLE | Loser takes base damage for the round + 1 per winner's surviving starting unit; tiers don't count | Winner's tier + tiers of surviving units | Decided 8 Nov (N11 §4, N13) |
-| 10.1.2 | PROPOSED | Starting units: on board when combat begins; summons never count; returns count; only the winner's own | — | Accept |
-| 10.1.3 | OPEN | Base damage by round, and the split with performance damage (significant, not the majority) | Caps 5/10/15 | Set by simulation with 2.2.5 |
-| 10.1.4 | PROPOSED | No damage cap | 5/10/15 by turn, off at top 4 | Accept, or revisit after simulation |
+| 10.1.1 | BRAMBLE | Small loss if the loser killed at least half the winner's starting units; otherwise a big loss, +3; tiers don't count | Winner's tier + tiers of surviving units | Decided 12 Nov (C12), replacing the 8 Nov rule |
+| 10.1.2 | PROPOSED | Starting units: on board when combat begins; killed unless alive on the winner's side at the end; summons never count; returns count | — | Accept |
+| 10.1.3 | BRAMBLE | Small loss = round + 1, up to 10; big loss 3 more. Intent: spend gold early; tunable, with fallbacks listed | Caps 5/10/15 | Decided 12 Nov (C12) |
+| 10.1.4 | PROPOSED | No cap beyond 10.1.3's cap of 10 (most a loss can deal: 13) | 5/10/15 by turn, off at top 4 | Accept |
 | 1.2.3 | PROPOSED | One board order, F1–F4 then B1–B3, for every "left to right" resolution | Left to right in one row | Accept reading order everywhere |
 | 1.2.4 | PROPOSED | Integer stats, clamp at 1,000,000,000, condensed display | Condensed display only | Accept clamp value |
 | 2.1.3 | PROPOSED | Game ends after round 50; place by health + armor | Turn limit exists, value unknown | Accept 50 or set a value |

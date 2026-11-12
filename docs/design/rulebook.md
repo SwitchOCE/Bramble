@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.5 draft, 8 Nov 2026 (damage, starting health, shop size, pool, stat scale and combining updated from the owner's 8 Nov notes, N11–N13), baseline HSBG patch 36.6.3**
+**v0.6 draft, 12 Nov 2026 (damage and starting health set by the owner on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -40,6 +40,7 @@ Every numbered rule carries exactly one tag:
 | N11 | [owner-notes/2026-11-08-autobattler-systems-thoughts.md](owner-notes/2026-11-08-autobattler-systems-thoughts.md) (damage, shop, pool, combining) |
 | N12 | [owner-notes/2026-11-08b-taste-answers.md](owner-notes/2026-11-08b-taste-answers.md) (stat scale, taste) |
 | N13 | [owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md) (go-ahead for the v0.5 changes) |
+| C12 | The owner's decision in chat, 12 Nov 2026: damage (10.1.1, 10.1.3), draws (10.1.6) and starting health (2.2.5). No owner note was written; the intent is recorded in 10.1.3. |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -121,7 +122,9 @@ Note: the power budget ([power-budget.md](power-budget.md)) is built on HSBG-sca
 
 **2.2.4** [BG] Heroes whose power depends on a tribe are not offered in lobbies without that tribe (rules.md §2).
 
-**2.2.5** [OPEN] **Starting health.** Working value: 30, HSBG's number, until the damage values (10.1.3) are set. The two are set together. The owner wants a number that fits Bramble's damage system and doesn't feel wrong. For reference: HSBG uses 30, TFT 100, and many games 10 (N11 §4.7). A hero may define a different starting value (rules.md §2).
+**2.2.5** [BRAMBLE] **Starting health.** Heroes start with **40 health** by default (C12). A hero may define a different starting value, as a balance lever (rules.md §2). It goes with the damage values in 10.1.3. HSBG uses 30.
+
+Note: the direction of per-hero adjustments is open. The owner's lean: the strongest heroes get 40 and weaker heroes get more, so adjustments might only ever go up from 40. Lowering the strongest heroes below 40 is still possible (C12).
 
 **2.2.6** [BG] Each hero has a fixed armor value, set per hero for balance. Armor absorbs damage before health and is not restored (rules.md §2).
 
@@ -674,41 +677,71 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 ### 10.1 Damage
 
-**10.1.1** [BRAMBLE] **What damage measures.** The loser of a fight takes:
-- **base damage** for the round, which grows with the round number (10.1.3); plus
-- **performance damage**: 1 for each of the winner's starting units (10.1.2) still alive at the end of the fight.
+**10.1.1** [BRAMBLE] **Small and big losses.** The loser of a fight takes the round's loss damage (10.1.3). The loss is:
+- a **small loss** if the loser killed at least half of the winner's starting units (10.1.2), that is, if kills × 2 ≥ starting units;
+- a **big loss** otherwise. A big loss deals **3 more** than a small loss.
 
-The tiers of units and the winner's tier don't count. The owner frames this as the system to try first (N11 §4.6).
+Examples: against 7 starting units, a small loss needs 4 kills. Against 3, it needs 2. Against 2, it needs 1. The tiers of units and the winner's tier don't count (C12).
 
-*Why:* the owner's reasons (N11 §4.1–4.5):
-- **HSBG's formula** punishes the loser for the *tier* of the units left alive, which says nothing about how close the fight was. It also measures game length only indirectly, through tiers.
-- **Every HSBG damage cap** treated the symptom. A player who is 80% to win a fight still often takes 15 in the 20% they lose.
-- **Damage should reflect the player's goals:** having a chance to win the fight, and killing as many enemy units as possible. A player who clears most of the enemy board and narrowly loses should take less than one who gets stomped. Game length should be measured directly.
-- **Based on TFT's surviving-unit count.** Counting only starting units stops combat summons from inflating the count. In HSBG, seven Recurring Nightmares (tier 7) could deal 49 from units alone.
-- **Fallbacks, if this doesn't work:** modifying damage by tier, or summing the Attack or Health left on the board. The owner finds the latter less readable, since a player can't work it out on the fly.
-
-*HSBG:* winner's tier + total tier of surviving units, capped (rules.md §12).
+*Why:*
+- **The owner's reasons for measuring the fight, not tiers** (N11 §4.1–4.5):
+  - HSBG's formula punishes the loser for the *tier* of the units left alive, which says nothing about how close the fight was.
+  - Every HSBG damage cap treated the symptom.
+  - Damage should reflect having a chance to win and killing enemy units.
+- **Why two levels instead of 1 per surviving unit (C12).** Late in an HSBG game, a loss is almost always 15 or 0. The owner wants damage that is less binary and more predictable. A count of surviving units is a poor measure of how the fight went, and tokens warp it. "Did you kill half their starting board or not" is easy to read and can't be stacked by a wide board.
+- *HSBG:* winner's tier + total tier of surviving units, capped (rules.md §12).
 
 **10.1.2** [PROPOSED] **Starting units.** A starting unit is one on the winner's board when combat begins, before any Start of Combat effect. Golden units count as 1, like any other.
-- Units summoned or created during combat never count.
-- A starting unit that dies and returns (9.8) counts if it is alive at the end.
-- Only the winner's own starting units count. A unit taken from the enemy during combat doesn't count for the winner, and a starting unit that ends on the other side doesn't count either.
+- A starting unit counts as **killed** unless it is alive on the winner's side at the end of the fight.
+- A starting unit that dies and returns (9.8) and is alive at the end is not killed.
+- A starting unit that ends the fight on the loser's side counts as killed.
+- Units summoned or created during combat never count, on either side. A unit the winner takes from the loser during combat isn't one of the winner's starting units.
 
-*Why:* starting units exist to stop combat summons inflating damage (N11 §4.5). A return is the same unit coming back, not a new body, and returns are capped (9.10.3).
+*Why:* starting units stop combat summons from changing the result (N11 §4.5). Tokens played before combat are starting units like any other; the half-board test keeps them from adding damage beyond the +3. A return is the same unit coming back, not a new body, and returns are capped (9.10.3).
 
-**10.1.3** [OPEN] **Base damage and the split.** Base damage grows with the round number. The values aren't set.
+**10.1.3** [BRAMBLE] **Loss damage by round.** A small loss deals **the round number + 1, up to 10**. A big loss deals 3 more (C12).
 
-The owner's constraints (N11 §4.7):
-- Performance damage should be a significant share of the damage from a loss, but not the majority. Many games deal a flat amount per loss whatever the margin, and the owner said something close to that might be better.
-- The values depend on starting health (2.2.5) and should be set together with it, by simulation.
+| Round | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9+ |
+|---|---|---|---|---|---|---|---|---|---|
+| Small loss | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+| Big loss | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 |
 
-Note: with 7 board slots (8.1.1), performance damage is at most 7.
+With 40 starting health (2.2.5), a late small loss is a quarter of a hero's starting health and a late big loss about a third.
 
-**10.1.4** [PROPOSED] **No damage cap.** HSBG's per-turn caps are removed. *Why:* they patched a formula that could deal 30–49 in one fight (N11 §4.2). Here performance damage is at most 7, so the base-damage schedule (10.1.3) sets the ceiling. Revisit if simulations show early losses ending games. *HSBG:* at most 5 damage on turns 1–3, 10 on turns 4–7 and 15 from turn 8, with the cap removed once 4 or fewer players are left (rules.md §12).
+Note: **design intent.** The system exists to make players spend their gold early instead of saving it. The owner's picture of round 1:
+- A player can buy up to 2 units on round 1.
+- A player who buys no unit on round 1 should take the 5 at once.
+- A player with 2 units who can't kill even 1 enemy unit has greeded, and is punished for it.
+- Players always have the choice not to greed, so the values are set assuming players **can** avoid big losses. Big losses are the penalty for greed and for falling far behind; small losses set the game's length.
+
+The game-length aims behind the values (owner, 12 Nov):
+- The winner plays about 13–14 fights, with a range of roughly 12–16, and some games run long.
+- A player at a reasonable level who isn't outplayed should survive 8–9 fights.
+- Nobody should go out after only 2 losses.
+- Damage grows so that long games close out.
+
+Note: **what the values gave in a toy lobby** (8 live players, simulated; Damage Lab, archived in `docs/archive/damage-lab/` on `main`):
+
+| Big losses | Typical game (10th–90th percentile) | First player out | Out after 3 losses or fewer |
+|---|---|---|---|
+| All avoided | 16 fights (15–19) | round 8 | 0% |
+| None avoided (about 60% of losses big) | 14 (13–17) | round 7 | 0% |
+
+Note: **tunable, with fallbacks.** Every value here is tunable (Appendix A): starting health, the round-1 value, the growth per round, the cap of 10, the +3 and the half-board test. If the system produces bad results, other versions were explored on 12 Nov:
+- a big loss as a percentage of the small loss (×1.5) instead of a flat +3;
+- a closing ramp: extra growth per round from a set round;
+- 1 damage per surviving starting unit on top of round damage (the v0.5 rule, as in TFT);
+- 100 health with a percentage curve (4%, +2% a round, up to 20%).
+
+The v0.5 fallbacks also still stand: damage modified by tier, or by the Attack or Health left on the board, which is less readable (N11 §4.5).
+
+Note: **dependency on the economy.** The round-1 picture assumes a player can buy 2 units on round 1. Under the current economy (4.1.1, 4.2.1: 3 gold on round 1, units cost 3) they can buy only 1. The economy rules are being redesigned.
+
+**10.1.4** [PROPOSED] **No other cap.** HSBG's per-turn caps are removed. The most a single loss can deal is 13 (10.1.3). *Why:* the caps patched a formula that could deal 30–49 in one fight (N11 §4.2). Here the cap of 10 in 10.1.3 is the ceiling. *HSBG:* at most 5 damage on turns 1–3, 10 on turns 4–7 and 15 from turn 8, with the cap removed once 4 or fewer players are left (rules.md §12).
 
 **10.1.5** [BG] Armor absorbs damage first; the rest comes off health (rules.md §12).
 
-**10.1.6** [BG] A tie deals no damage (rules.md §11.9).
+**10.1.6** [BG] A tie (a draw) deals no damage to either player (rules.md §11.9; the owner confirmed it for Bramble, C12).
 
 **10.1.7** [BG] A ghost board (2.1.2) deals damage normally when it wins, and damage dealt to it has no effect (rules.md §1).
 
@@ -879,7 +912,7 @@ The values an engine should read from configuration rather than hard-code.
 | Players per lobby | 8 | 2.1.1 | BG |
 | Heroes offered | 2 | 2.2.2 | BG |
 | Stat scale | about 2× HSBG | 1.2.5 | BRAMBLE |
-| Starting hero health | 30 (working value) | 2.2.5 | OPEN |
+| Starting hero health | 40 by default; heroes may differ | 2.2.5 | BRAMBLE |
 | Income by turn | 3, +1 per turn, max 10 | 4.1.1 | BG |
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
 | Unit price | 3 | 4.2.1 | BG |
@@ -894,9 +927,10 @@ The values an engine should read from configuration rather than hard-code.
 | Tribes per lobby | open | 5.2.5 | OPEN |
 | Hand limit | 10 | 7.1.1 | BG |
 | Board slots, front / back | 4 / 3 | 8.1.2 | BRAMBLE |
-| Performance damage per surviving starting unit | 1 | 10.1.1 | BRAMBLE |
-| Base damage by round | open | 10.1.3 | OPEN |
-| Damage cap | none | 10.1.4 | PROPOSED |
+| Small loss by round | round + 1, up to 10 | 10.1.3 | BRAMBLE |
+| Big loss extra damage | +3 | 10.1.1 | BRAMBLE |
+| Kills needed for a small loss | half of the winner's starting units | 10.1.1 | BRAMBLE |
+| Damage cap | none beyond the cap of 10 in 10.1.3 | 10.1.4 | PROPOSED |
 | Attack limit per combat | 200 | 9.10.1 | PROPOSED |
 | Trigger limit per combat / per action | 10,000 / 1,000 | 9.10.2 | PROPOSED |
 | Returns per unit per combat | 5 | 9.10.3 | PROPOSED |
