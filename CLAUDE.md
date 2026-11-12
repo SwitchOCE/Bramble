@@ -7,7 +7,7 @@
 This checkout is `ideation/main` or one of its `ideation/*` branches. The owner handed ideation's decisions to the agents on 6 Nov (`docs/design/owner-notes/2026-11-06a-ideation-branch.md`). Since 10 Nov (note `2026-11-10j`) it runs a **look-and-feel phase**: UI, UX and how the game looks and feels on screen, and nothing on rules, numbers, bots or content. On `ideation/*` only:
 
 - **The plan is `docs/ideation/PLAN.md`;** its reading list says what to read first. The calls in force are the one-page `docs/ideation/DECISIONS.md`.
-- **Agents decide; they don't wait on the owner,** except where the plan asks the owner to pick (the focus items and the layout from the day-1 gallery). Each call is one line in DECISIONS. Where this file or `~/.claude/CLAUDE.md` says to ask the owner, the orchestrator decides instead, unless the plan says the owner picks.
+- **Agents decide; they don't wait on the owner,** except where the plan asks the owner to pick (the focus items and the layout from the day-1 gallery). Each call is one line in DECISIONS. Where this file or `~/.claude/CLAUDE.md` says to ask the owner, the orchestrator decides instead, unless the plan says the owner picks. Owner notes are the exception (below).
 - **Each step:** the test gate plus one fresh scope review. No numeric scores for looks, and no new bars or measurement plans unless the owner asks.
 - **Who runs where:** Codex workers on the Optiplex do the building; Claude keeps the judgment; the gate runs on Actions (owner notes 7 Nov and `2026-11-10b`).
 - **Run 1's process is archived** in `docs/ideation/archive/run1/`. It's history, not instructions: don't follow its plans, briefs, review rounds or "Done means".
@@ -33,6 +33,8 @@ Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules a
 **While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. If the owner says a note misheard them, fix it. A changed instruction gets a new note that says what it replaces. The old note is removed if none of it holds.
 
 **Transcribing:** remove filler words, repeats and clear dictation errors, and add punctuation. Reordering into sections is allowed. Keep a word you aren't sure of as heard and add your guess as *[probably "…"]*. Before committing, show the owner any guess that would change what agents do. Mark any other interpretation of yours as *[italic bracketed editor notes]*.
+
+On `ideation/*` too, the owner decides which notes are removed and settles any guess that would change what agents do. The orchestrator doesn't decide these for the owner (owner, 12 Nov).
 
 `owner-notes/archive/` holds notes from before 12 Nov. Nothing new goes in. Notes leave it by the removal steps above.
 
