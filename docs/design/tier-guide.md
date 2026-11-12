@@ -4,7 +4,7 @@ A short guide for designing and costing units. It replaces strict per-card budge
 
 The owner's words (12 Nov): "more important than the budget is just having it be like, instead of being really strict, have it be like pretty simplistic." Tier 6 "needs to be big, impactful … a capstone. Like a pivotal engine piece or a big scaling payoff for an engine." Tier 5 needs to be "strong enough to give you strategic direction or a lot of tempo to buy you time to find strategic direction." Tier 4 needs to be "a strong player in a composition that sets up future things, enables, gives you some stats."
 
-**Who reads which part.** Designers get Part 1 (the jobs and the shape of a tribe). The costing reviewer uses Parts 1 and 2. That keeps the standing rule that designers work without the numbers, so their ideas aren't narrowed to what Battlegrounds already does.
+**Who reads which part.** Designers get Part 1 (the jobs and the shape of a tribe). The costing reviewer uses Parts 1 and 2. Part 2 is in ratios, so it holds when Bramble's economy and stat scale change. That keeps the standing rule that designers work without the numbers, so their ideas aren't narrowed to what Battlegrounds already does.
 
 ## Part 1: what each tier is for
 
@@ -35,24 +35,30 @@ Change the shape when the tribe's idea needs it, and say why.
    - Brann (T5) repeats every Battlecry, where Kelp Keeper (T4) repeats one: +72 against +24.
    - Nadina (T6) gives three shields, where Glowscale (T5) gives one: 120 against 40 a fight.
 
-## Part 2: rough numbers (for the costing reviewer)
+## Part 2: the curve, as ratios (for the costing reviewer)
 
-On Battlegrounds' scale, for a normal (non-golden) copy in a good setup: the tribe's composition is mostly assembled, around turn 9. **Permanent** stats stay on the board turn after turn. **In fight** means stat value inside one fight, which starts again each fight. **Once** means a one-off permanent buff. A unit usually gives one of the three, not all of them.
+Bramble's economy and stat scale will change (owner, 12 Nov), so the guide is anchored to **ratios, the curve and each tier's job**, not to Battlegrounds' gold or stat numbers. The owner: "as long as it's not like anchored to Battleground's economy numbers and more about like the ratio and the curve and the kind of like strategic parts they play."
 
-| Tier | Permanent / turn | Or in fight | Or once | Ceiling with goldens |
-|---|---|---|---|---|
-| 1 | ~2 | ~3 | ~4 | ×2 |
-| 2 | 2–7 | ~6 | ~8 | ×2 |
-| 3 | ~5 | 5–10 | 6–10 | ×2 |
-| 4 | ~12 | ~20 | ~18 | ×2–4 (~25–50 a turn) |
-| 5 | ~20 (top ~50) | ~40 | ~25 | ×2–4 (~40–80; top 100–200) |
-| 6 | ~50 (top ~120) | ~80 | ~70 | ×2–4 (~100–200; top 250–500) |
+**The unit of measure is a body:** the median printed stats (Attack + Health) of a vanilla unit at the same tier, in whatever scale Bramble uses. Every target below is in bodies, so it moves with the scale.
 
-- **Goldens.** One golden key piece usually doubles its effect. Two golden key pieces, or a golden multiplier (a golden Brann triggers three times), double it again. The owner (12 Nov): "With a single golden unit, you can start doubling things, and you get multiple copies of goldens, you can start doubling things." The Battlegrounds values above were measured on normal copies, so their top end is understated. Cost the normal copy against the table, and check that the golden ceiling is a high roll worth chasing, not a runaway.
-- **Economy** converts at about 3–4 stats per gold at Tiers 4–6.
-- **Well outside** means about twice the tier's number, or half of it, with no reason written down. Flag those and propose a change that keeps the card's core idea.
-- **Bramble's own scale.** These are Battlegrounds' numbers. The owner has said Bramble's are too small and too spread out (9 Nov), so new tribes aim for this scale, not for today's Bramble cards.
+The targets are for a normal (non-golden) copy in a good setup, meaning the tribe's composition is mostly assembled, around two-thirds of the way through a game. **Permanent** stats stay on the board. **In fight** is stat value inside one fight, starting again each fight. **Once** is a one-off permanent buff. A unit usually gives one of the three.
+
+| Tier | Body grows (vs T1) | Permanent / turn | Or in fight | Or once | Ceiling with goldens |
+|---|---|---|---|---|---|
+| 1 | 1.0 | ~0.4 body | ~0.6 | ~1 | ×2 |
+| 2 | 1.3 | 0.3–1 body | ~1 | ~1.3 | ×2 |
+| 3 | 1.6 | ~0.8 body | 0.7–1.4 | ~1–1.4 | ×2 |
+| 4 | 2.0 | ~1.3 bodies | ~2 | ~2 | ×2–4 |
+| 5 | 2.2 | ~2 bodies (top ~5) | ~4 | ~2.5 | ×2–4 |
+| 6 | 2.8 | ~4 bodies (top ~10) | ~6 | ~6 | ×2–4 |
+
+**The curve in one line:** bodies grow about ×1.2 a tier, while what a unit adds grows about ×2 a tier from Tier 3, so by Tier 6 a unit adds about four of its own bodies a turn.
+
+- **Goldens.** One golden key piece usually doubles its effect. Two golden key pieces, or a golden multiplier (a golden Brann triggers three times), double it again. The owner (12 Nov): "With a single golden unit, you can start doubling things, and you get multiple copies of goldens, you can start doubling things." The Battlegrounds values were measured on normal copies, so their top end is understated. Cost the normal copy against the table, and check that the golden ceiling is a high roll worth chasing, not a runaway.
+- **Economy.** Price gold against what it buys at that stage: one gold is worth the share of a unit purchase it pays for (in Battlegrounds, a third of a unit). Don't use a fixed stats-per-gold rate, because Bramble's economy will change.
+- **Well outside** means about twice the tier's target, or half of it, with no reason written down. Flag those and propose a change that keeps the card's core idea.
 - **Runaway growth is a separate check.** This table prices growth that adds a set amount each turn. A unit whose gain feeds its own source goes through the two-pass runaway check in `bramble-design-guidance.md`.
+- **Battlegrounds' own numbers,** for reference only. The bodies are 4.5 / 6 / 7 / 9 / 10 / 12.5 stats at Tiers 1–6. Median permanent growth a turn is 2 / 2 / 5.5 / 12 / 20 / 53, and in fight it is 2.5 / 6 / 4.5 / 20 / 42 / 80.
 
 ## Where the numbers come from
 
