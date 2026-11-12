@@ -78,7 +78,7 @@ Builds are in `/data/bramble-builds` on the Optiplex.
 The owner, 12 November 2026: "The next steps are somewhat entangled. I need to re-evaluate." The steps planned before that:
 
 - the owner works through the power-budget review points B1–B7 in [design/review-queue.md](design/review-queue.md), then the remaining proposed defaults;
-- the answers are recorded as owner notes and the rulebook moves to v1;
+- the answers are recorded in the rulebook, quoting the owner's words, and it moves to v1;
 - a headless rules simulation validates the power budget, in GDScript.
 
 ## Open decisions
