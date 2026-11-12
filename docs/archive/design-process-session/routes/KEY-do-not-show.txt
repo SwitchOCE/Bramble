@@ -1,0 +1,5 @@
+A=surgical
+B=bottom-up mechanical
+C=top-down flavor
+D=bottom-up flavor
+E=top-down mechanical

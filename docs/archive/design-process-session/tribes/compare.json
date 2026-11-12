@@ -1,0 +1,215 @@
+{
+  "summary": "Tribes 1, 2 and 4 share one core: your highest-Attack minion of any type is the Chieftain, and Usurp fires when a minion takes the crown. Tribes 1 and 4 also share Tribute as 'buff your Chieftain'. Where they differ is the tie rule and the second system: 1 adds an Heir and alternating Two-Headed effects, 2 adds Bicker swaps and Grog that ferments in hand, 4 adds Crowned text and a crown that moves only when strictly exceeded. Tribes 3 and 5 have no crown at all: 3 is built on selling the minions next to an Ogre (its Tribute means something entirely different) and on empty board spaces, and 5 is built on Devour, Ogres eating smaller friendly minions through Activate. All five use Gordok Green Grog, King Gordok and the same lore names, but each gives those names different effects, and no tribe uses Dark Gifts.",
+  "fromBrief": [
+    "Gordok Green Grog: all five (Tribe 5 calls it Green Grog), each with different rules",
+    "Might makes right, as a highest-Attack crown: Tribes 1, 2, 4",
+    "Challenges for the crown / kill the king, become king (Usurp): Tribes 1, 2, 4",
+    "Tribute as a keyword: Tribes 1 and 4 (buff the Chieftain), Tribe 3 (sell a neighbour)",
+    "Tribute in names only: Tribe 2 (Tribute-Bearer, Tribute Chest), Tribe 5 (Tribute-Taker)",
+    "Tribute chest trinket: Tribes 1, 2, 3, 4",
+    "Two heads that disagree: Tribe 1 Two-Headed, Tribe 2 Bicker, Tribe 3 left/right, Tribes 4 and 5 stat swaps",
+    "Bickering two-headed magus that swaps Attack and Health: Tribes 2, 4, 5",
+    "Appetite and eating: Tribe 5 Devour, Tribe 3 sells its own board, Tribes 1 and 2 sell or destroy to feed the king",
+    "Mercenaries serving other tribes: all five (1, 2, 4 crown non-Ogres; 3 type-fixing; 5 eats them)",
+    "Highmaul arena / gladiators: all five (Challenger, Pit Fighter, Ringmaster, Champion cards)",
+    "Altars of Storms: Tribe 2 (spell), Tribe 3 (trinket), Tribe 4 (Twinhead), Tribe 5 (Altar-Born Magus)",
+    "Twilight's Hammer as Ogre/Aberration dual type: Tribes 1, 2, 3 (Tribe 5's Ritualist is Ogre only)",
+    "Mok'nathal as Ogre/Beast dual type: Tribes 1, 3 (Tribe 2 uses Bladespire breeding to add the Ogre type)",
+    "Dire Maul court (King Gordok, Kromcrush, Cho'Rush): King Gordok in all five; Kromcrush in 1, 2, 4; Cho'Rush in 1, 2, 3, 4",
+    "Raid bosses (Gog, Mar'gok, Butcher, Phemos and Pol, Ko'ragh, Maulgar, Cho'gall, Gruul): every tribe uses most of them, as different cards",
+    "Clan names as card prefixes (Gordunni, Dunemaul, Crushridge, Bladespire and others): all five"
+  ],
+  "tribes": {
+    "1": {
+      "hook": "Ogres feed whichever minion wears the crown, of any type.",
+      "coreRule": "Your highest-Attack minion of any type is the Chieftain, and on a tie the current holder keeps the crown. Tribute gives the Chieftain stats, permanently in the Recruit Phase and for that combat only in combat. Usurp fires when the crown passes to a minion, at most once per Recruit turn and once per combat.",
+      "keywords": [
+        {"name": "Chieftain", "text": "your minion with the highest Attack, of any type, shown with a crown. It is checked again after every effect and every death. On a tie, the current Chieftain keeps the crown. If none of the tied minions holds it, the leftmost takes it."},
+        {"name": "Heir", "text": "the minion that would be Chieftain if the Chieftain were gone."},
+        {"name": "Tribute", "text": "Tribute +X/+Y: give your Chieftain +X/+Y. Tribute in the Recruit Phase is permanent. Tribute in combat lasts for that combat only, unless the card says otherwise."},
+        {"name": "Usurp", "text": "triggers when the crown passes to this minion from another minion, whether that minion died, lost Attack or was overtaken. It does not trigger at the start of combat or when this is your only minion. Each minion's Usurp triggers at most once per Recruit turn and once per combat."},
+        {"name": "Two-Headed", "text": "the card has a Brute head and a Cunning head. They take turns each time the effect triggers, starting with Brute. A golden Two-Headed minion triggers both heads every time. If an effect is repeated (a doubled Deathrattle, Reborn, and so on), the second trigger uses the other head."},
+        {"name": "Brute", "text": "One of a Two-Headed card's two heads. They take turns each time the effect triggers, starting with Brute."},
+        {"name": "Cunning", "text": "One of a Two-Headed card's two heads. They take turns each time the effect triggers, starting with Brute."},
+        {"name": "Gordok Green Grog", "text": "(0 Gold): Give a minion +4 Attack until the end of your turn. End-of-turn effects still see the Attack, and it wears off after them. Only Ogre cards make it, and you can pass it to your teammate in Duos."}
+      ],
+      "distinct": [
+        "An Heir (second in line) that cards buff and that inherits stats",
+        "Two-Headed: Brute and Cunning effects alternate on each trigger; golden fires both",
+        "Gordunni Challenger attacks your own Chieftain at Start of Combat",
+        "Dire Maul Champion: your Chieftain challenges a Tavern minion and takes its stats"
+      ],
+      "playPattern": "Buy Ogres that pour Tribute into one carry, often a non-Ogre, and use 0-Gold Grog to choose who gets that turn's end-of-turn Tribute. Or line up heirs in Attack order so each king death in combat fires another Usurp."
+    },
+    "2": {
+      "hook": "A crown that changes hands through swaps and fermenting Grog.",
+      "coreRule": "Your highest-Attack minion is Chieftain, ties go to the leftmost, and it is rechecked constantly in both phases. Usurp fires when a minion becomes Chieftain, once per Recruit turn and once per combat. Bicker swaps a minion's Attack and Health at end of turn, which moves the crown without adding stats.",
+      "keywords": [
+        {"name": "Chieftain", "text": "Your Chieftain is your minion with the highest Attack. If two are tied, the leftmost one is Chieftain. The Chieftain is rechecked at once whenever Attack changes or a minion arrives or dies, in the Recruit Phase and in combat, and a crown icon marks it. A minion of any type can be Chieftain."},
+        {"name": "Usurp", "text": "Triggers when this minion becomes your Chieftain. It triggers at most once per turn in the Recruit Phase, where its effect is permanent, and once per combat. When a Chieftain dies in combat, the next-highest minion takes the crown, and that counts as becoming Chieftain."},
+        {"name": "Bicker", "text": "At the end of your turn, swap this minion's Attack and Health. The two heads take turns to be in charge."},
+        {"name": "Gordok Green Grog", "text": "(token spell, 0 Gold): Give a minion +1 Attack. Ferments: gains +1 Attack at the start of each of your turns while it is in your hand."},
+        {"name": "Ferments", "text": "gains +1 Attack at the start of each of your turns while it is in your hand."},
+        {"name": "Pol", "text": "(token, Ogre): created by Phemos. It has Phemos's current stats swapped."}
+      ],
+      "distinct": [
+        "Grog ferments: gains +1 Attack each turn you keep it in hand",
+        "Bicker: an automatic end-of-turn Attack and Health swap",
+        "Mog'dorg inverts the rule: your lowest-Attack minion is Chieftain and has Taunt",
+        "Bladespire Fleshshaper makes any friendly minion an Ogre as well"
+      ],
+      "playPattern": "Order Grog casts, swaps, sells and Mercenary Activates so the crown moves several times a turn and each Usurp and King Gordok fires. The other line feeds one king through sells and The Butcher."
+    },
+    "3": {
+      "hook": "Sell minions next to Ogres; every sale feeds the neighbours.",
+      "coreRule": "Tribute is a keyword meaning 'after you sell a minion next to this', with adjacency checked at the moment of the sale. There is no crown or Chieftain, and seating on the board is the core resource. A second theme pays off the empty board spaces that selling leaves.",
+      "keywords": [
+        {"name": "Tribute", "text": "Tribute: [effect] means \"after you sell a minion next to this, [effect].\" In Duos, passing a minion next to it to your teammate also counts. Adjacency is checked at the moment of the sale. A minion sold between two Tribute Ogres triggers both, and when the board closes the gap the next minion slides in, so one Ogre can take tribute from a whole row in turn."},
+        {"name": "Once per turn", "text": "\"Once per turn\" limits reset each Recruit Phase."},
+        {"name": "Pit Fighter", "text": "(token, 1/1, no type): \"Selling this gives no Gold.\""},
+        {"name": "Mound Whelp", "text": "(token, Ogre, 3/3)."},
+        {"name": "Gordok Green Grog", "text": "(Tavern spell token, 0 Gold): \"Give a minion +2/+2.\""}
+      ],
+      "distinct": [
+        "Adjacency and seating order as the core system",
+        "Empty board spaces as a payoff (Hermit, Mar'gok, Ko'ragh, Mound-Matron)",
+        "Pit Fighter fodder tokens that sell for no Gold",
+        "Gordunni Fence copies sold minions into the Tavern; Ringmaster lets a smaller board attack first"
+      ],
+      "playPattern": "Each turn, buy or summon cheap fodder, seat it beside Tribute Ogres and sell in the right order. Then choose between refilling the board and keeping gaps for the empty-space payoffs."
+    },
+    "4": {
+      "hook": "Feed one crowned king, or keep the crown moving for Usurps.",
+      "coreRule": "Your highest-Attack minion is Chieftain, but the crown moves only when another minion strictly exceeds it, or when the Chieftain dies or is sold. Tribute (X) gives the Chieftain +X/+X, Usurp fires on becoming Chieftain, and Crowned text works only while the minion is Chieftain. A design rule says no Crowned effect changes another minion's Attack, so the crown cannot loop.",
+      "keywords": [
+        {"name": "Chieftain", "text": "Your Chieftain is your minion with the highest Attack. It can be any minion type. A crown icon marks it in both phases. The crown moves only when another minion's Attack goes strictly above the Chieftain's, or when the Chieftain dies or is sold. Then the highest remaining minion takes it (leftmost wins a tie)."},
+        {"name": "Tribute", "text": "Tribute (X): Give your Chieftain +X/+X. A minion can pay Tribute to itself if it is the Chieftain."},
+        {"name": "Usurp", "text": "Triggers when this minion becomes your Chieftain. A minion's Usurp can fire at most once per Recruit Phase and once per combat."},
+        {"name": "Crowned", "text": "This text works only while this minion is your Chieftain."},
+        {"name": "Gordok Green Grog", "text": "(Tier 2, 1 Gold): Give a friendly minion just enough Attack to become your Chieftain (at most +6)."}
+      ],
+      "distinct": [
+        "Crowned: effects such as Taunt or Windfury that work only while Chieftain",
+        "Strict-exceed rule: matching the king's Attack never moves the crown",
+        "Cho'gall adds a second crown on your lowest-Attack minion",
+        "Grog is a 1-Gold Tavern spell that crowns its target; no tokens at all"
+      ],
+      "playPattern": "Stack Tribute on one king, often a non-Ogre, and protect it with Ko'ragh, or use swaps, Grog and Magus Activates to set up who is crowned next so Usurps keep firing."
+    },
+    "5": {
+      "hook": "Ogres eat smaller friendly minions and keep their stats.",
+      "coreRule": "Devour destroys a friendly minion with strictly less Attack, and the Ogre permanently gains its Attack and Health. It is a real death, so Deathrattles and Reborn fire in the Recruit Phase and what they give stays. Most Devourers use Activate (0), so each one eats once per turn.",
+      "keywords": [
+        {"name": "Devour", "text": "Destroy a friendly minion with less Attack than this. This permanently gains its Attack and Health. The target must have strictly less Attack than the Devourer. The check uses current Attack, including temporary Attack. A Devour in the Recruit Phase fires the eaten minion's Deathrattle and Reborn. Anything they summon or give stays, because no combat ends to undo it. You never get the 1 Gold you would have got for selling. The slot is freed either way."},
+        {"name": "Talbuk Calf", "text": "1/1 Beast token (none)."},
+        {"name": "Leftovers", "text": "Tavern spell token, 0 Gold: Give a minion +X/+Y (set when made)."},
+        {"name": "Green Grog", "text": "Tavern spell token, 0 Gold: Give a minion +4 Attack until the end of your turn. (It still counts for end-of-turn effects.)"}
+      ],
+      "distinct": [
+        "No crown: eating replaces selling as the way to spend spare minions",
+        "Turns combat Deathrattles and Reborn into permanent Recruit-Phase effects",
+        "Altar-Born Magus takes the eaten minion's card text",
+        "Leftovers spell stores unused stats; King Gordok lets Ogres eat from the Tavern"
+      ],
+      "playPattern": "Each turn, decide which minions to keep and which to eat, and order the Devours so Attack climbs past the next meal, using Grog, Goader and swaps to clear the threshold."
+    }
+  },
+  "matrix": [
+    {"feature": "Chieftain / crown rule", "cells": {
+      "1": "Highest Attack, any type; ties keep the current king",
+      "2": "Highest Attack, any type; ties go to leftmost",
+      "3": "",
+      "4": "Moves only when strictly exceeded, or king dies or sold",
+      "5": ""}},
+    {"feature": "New keywords and terms", "cells": {
+      "1": "Tribute, Usurp, Two-Headed, Heir",
+      "2": "Usurp, Bicker, Ferments",
+      "3": "Tribute (sell-a-neighbour)",
+      "4": "Tribute (X), Usurp, Crowned",
+      "5": "Devour"}},
+    {"feature": "What 'Tribute' means", "cells": {
+      "1": "Keyword: give your Chieftain +X/+Y",
+      "2": "Names only; Tribute-Bearer buffs Chieftain when sold",
+      "3": "Keyword: triggers when you sell an adjacent minion",
+      "4": "Keyword: give your Chieftain +X/+X",
+      "5": "Name only; Tribute-Taker gives Gold after Devours"}},
+    {"feature": "Usurp", "cells": {
+      "1": "On crown passing; not at Start of Combat",
+      "2": "On becoming Chieftain; once per phase",
+      "3": "",
+      "4": "On becoming Chieftain; King Gordok doubles it",
+      "5": ""}},
+    {"feature": "Two-heads mechanic", "cells": {
+      "1": "Two-Headed: Brute/Cunning effects alternate per trigger",
+      "2": "Bicker: swap own Attack and Health each end of turn",
+      "3": "Left vs right neighbour effects (Twohead, Bickering Magi)",
+      "4": "Swap effects; Cho'gall adds a second, low crown",
+      "5": "Bickering Magus swaps; golden Altar-Born keeps two texts"}},
+    {"feature": "Gordok Green Grog", "cells": {
+      "1": "0-Gold token: +4 Attack until end of turn",
+      "2": "0-Gold token: +1 Attack, ferments +1 per turn",
+      "3": "0-Gold token: permanent +2/+2",
+      "4": "Tier 2 spell, 1 Gold: just enough to crown (max +6)",
+      "5": "0-Gold token 'Green Grog': +4 Attack this turn"}},
+    {"feature": "Other tokens and Tavern spells", "cells": {
+      "1": "",
+      "2": "Pol token; Altar of Storms spell (gives Bicker)",
+      "3": "Pit Fighter, Mound Whelp; Chain Gang spell",
+      "4": "",
+      "5": "Talbuk Calf; Leftovers spell token"}},
+    {"feature": "King Gordok", "cells": {
+      "1": "T5: new Chieftain gains half the dead king's stats",
+      "2": "T5: each Chieftain change gives Ogres +1/+1",
+      "3": "T6: any sale triggers every Tribute",
+      "4": "T6: Usurp effects trigger twice",
+      "5": "T6: Ogres can Devour Tavern minions"}},
+    {"feature": "Cho'gall", "cells": {
+      "1": "T6: Two-Headed fire both heads; end-of-turn buffs",
+      "2": "T6: swaps other minions' stats each turn, then +2/+2",
+      "3": "T5 Ogre/Aberration: discards trigger neighbours' Tribute",
+      "4": "T6: lowest-Attack minion is also a Chieftain",
+      "5": ""}},
+    {"feature": "Phemos and Pol", "cells": {
+      "1": "T5 Two-Headed Rally: Tribute or buff the Heir",
+      "2": "T4 Phemos: Deathrattle summons swapped-stat Pol",
+      "3": "T5: has adjacent Ogres' Tribute effects",
+      "4": "T5 Usurp: +3/+3 and attacks immediately",
+      "5": "T5: Ogres use each Activate twice per turn"}},
+    {"feature": "The Butcher", "cells": {
+      "1": "T5: Chieftain also damages the target's neighbours",
+      "2": "T4 Battlecry: destroy friendly, its stats to Chieftain",
+      "3": "T6: Tributes also trigger in combat on neighbour deaths",
+      "4": "",
+      "5": "T4 Devour: split stats among your other Ogres"}},
+    {"feature": "Interaction with other tribes", "cells": {
+      "1": "Feeds any-type king; Ogre/Beast and Ogre/Aberration duals",
+      "2": "Crowns any type; Fleshshaper adds Ogre type; Aberration dual",
+      "3": "Fence, Bodyguard type-copying; Beast, Pirate, Aberration duals",
+      "4": "Crowns any type; bonuses for a non-Ogre king",
+      "5": "Eats other tribes' minions as ingredients; no dual types"}},
+    {"feature": "Activate", "cells": {
+      "1": "",
+      "2": "Crushridge Mercenary: 1 Gold, +3 Attack",
+      "3": "",
+      "4": "Ogre Magus: 1 Gold, swap Attack and Health",
+      "5": "Core: most Devourers use Activate (0); Pitfighter Activate (1)"}},
+    {"feature": "Selling", "cells": {
+      "1": "Glopgut Glutton Tributes the sold minion's Attack",
+      "2": "Tribute-Bearer and Kromcrush pay off on sell",
+      "3": "Core: selling a neighbour triggers Tribute",
+      "4": "Kromcrush passes a sold king's Attack to the next",
+      "5": "Devour replaces selling; Stewpot trinket pays on sell"}},
+    {"feature": "Trinkets (no tribe uses Dark Gifts)", "cells": {
+      "1": "Tribute Chest (per Ogre); Highmaul Sigil (Usurp twice)",
+      "2": "Grog Barrel (faster ferment); Tribute Chest (unspent Gold)",
+      "3": "Altar of Storms (first Tribute twice); Tribute Chest (per sale)",
+      "4": "Crude Crown (Chieftain Taunt); Tribute Chest; no costs given",
+      "5": "Gordunni Stewpot (Leftovers on sell); Gog's Gronn-Tooth"}},
+    {"feature": "Tier spread", "cells": {
+      "1": "1:4 2:5 3:5 4:4 5:3 6:3",
+      "2": "1:4 2:5 3:5 4:4 5:4 6:2",
+      "3": "1:4 2:4 3:5 4:4 5:4 6:3",
+      "4": "1:3 2:4 3:5 4:5 5:4 6:3",
+      "5": "1:3 2:5 3:5 4:4 5:4 6:3"}}
+  ]
+}

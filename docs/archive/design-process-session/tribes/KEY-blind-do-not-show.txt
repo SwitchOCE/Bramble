@@ -1,0 +1,5 @@
+Tribe-1=S
+Tribe-2=Q
+Tribe-3=R
+Tribe-4=P
+Tribe-5=T
