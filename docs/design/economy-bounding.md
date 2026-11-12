@@ -2,13 +2,13 @@
 
 **Status: for the owner's review, 2 November 2026 (task S1, revision 2).** This answers how long one Recruit Phase can run when nothing but gold ends it. It compares refresh price schedules, checks whether engines reach the 20–30-shop target in normal play, sets content limits for free refreshes, effect refreshes and gold-back engines, and gives recommended answers to B5 and B6 from [power-budget-review.md](power-budget-review.md) (decision points 5 and 6); B5's answer has since moved to [power-budget.md](power-budget.md) 4.1. Section 7 is the one list of economy guardrails.
 
-The owner's problem statement is [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md):
+The owner's problem statement is [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md):
 
 > In our game, I want it to go for a very, very long time, but not infinitely.
 
 Fixed points from that note: no turn timer; only the paid refresh escalates ("Refreshes only"); free refreshes and gold-spent engines are bounded by content design ([content-guardrails.md](content-guardrails.md) G1); the strongest engines see "about 20–30 shops" in a turn (deferred, see below); strong economy should exist across the game ("everybody has them"); tolerance is ±25% for economy and engine cards.
 
-**Owner direction, later on 2 Nov ([owner-notes/2026-11-02c-bounding-fallback-and-stage-2.md](owner-notes/2026-11-02c-bounding-fallback-and-stage-2.md)):**
+**Owner direction, later on 2 Nov (`2026-11-02c-bounding-fallback-and-stage-2.md` (removed 13 Nov 2026, in git history)):**
 
 > I think as long as we have rising reroll costs and no way of achieving infinite free rerolls, all turns should eventually be bounded. That's our fallback. How long and how ambitious our economy effects go, we can determine later.
 
@@ -40,7 +40,7 @@ Claims are marked **[data]** (model run, card library or cited source) or **[jud
 
 ## The owner's schedule (decided 2 Nov)
 
-The owner set the paid refresh price: 1 gold for refreshes 1–15 of a turn, then +1 gold every 5 (16–20 cost 2, 21–25 cost 3, and so on), with no cap ([owner note](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md); rulebook 4.4.2–4.4.3). It is `owner_15_plus1_5` in `budget_model.py bound`. It replaces the recommendation in section 4.1. The owner also expects to keep moving the target as turns are playtested.
+The owner set the paid refresh price: 1 gold for refreshes 1–15 of a turn, then +1 gold every 5 (16–20 cost 2, 21–25 cost 3, and so on), with no cap ([owner note](sources/2026-11-02d-refresh-schedule-and-free-refreshes.md); rulebook 4.4.2–4.4.3). It is `owner_15_plus1_5` in `budget_model.py bound`. It replaces the recommendation in section 4.1. The owner also expects to keep moving the target as turns are playtested.
 
 Shops seen at tier 6, median (90th percentile), longest-turn policy, against the old 1/2/3 at 10/20 [data: bound_packages.csv]:
 

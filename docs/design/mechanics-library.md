@@ -1,6 +1,6 @@
 # Mechanics library
 
-**Status: ideas, 2 November 2026. Nothing is adopted.** Built by `tools/research/build_mechanics_library.py` from the designer and review files in `mechanics-library-src/`; change those and rerun the build, not this file. Four goldfish designers rewrote the 65 mechanics of [mechanics-ideas.md](mechanics-ideas.md) (the first-round record) with example units, a play scene and variations, following the owner's directions ([02h](owner-notes/2026-11-02h-checkpoint-read-through.md), [02i](owner-notes/2026-11-02i-reactions-are-directions.md)). A rules reviewer and a budget reviewer then checked them; budget flags use only the tier curve and tolerance bands ([02g](owner-notes/2026-11-02g-stage-2-checkpoint-scope.md)). The owner reads the formatted page, mechanics-library.html.
+**Status: ideas, 2 November 2026. Nothing is adopted.** Built by `tools/research/build_mechanics_library.py` from the designer and review files in `mechanics-library-src/`; change those and rerun the build, not this file. Four goldfish designers rewrote the 65 mechanics of [mechanics-ideas.md](mechanics-ideas.md) (the first-round record) with example units, a play scene and variations, following the owner's directions ([02h](sources/2026-11-02h-checkpoint-read-through.md), [02i](owner-notes/2026-11-02i-reactions-are-directions.md)). A rules reviewer and a budget reviewer then checked them; budget flags use only the tier curve and tolerance bands (02g). The owner reads the formatted page, mechanics-library.html.
 
 ## A. How much damage a hit does
 

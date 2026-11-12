@@ -31,7 +31,7 @@ Part II, research:
 
 The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
 
-**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
+**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/sources/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
 
 ## Foundations (v0, awaiting owner review)
 
