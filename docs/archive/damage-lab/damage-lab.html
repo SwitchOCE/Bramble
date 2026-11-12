@@ -1,0 +1,517 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bramble Damage Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap">
+<style>
+/* Layout: control rail on the left (stacks on phones), summary tiles, then a two-column grid of charts. */
+:root {
+  --bg: #f6f7f4;
+  --panel: #ffffff;
+  --ink: #161a14;
+  --ink-2: #4c5447;
+  --ink-3: #7b8475;
+  --rule: #dfe3da;
+  --grid: #eceee8;
+  --accent: #3f6b2f;
+  --accent-soft: #e6eedf;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+  --s5: #e87ba4; --s6: #008300; --s7: #6250d6; --s8: #e34948;
+  --f-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121510; --panel: #1a1e17; --ink: #eef1ea; --ink-2: #c0c7b8; --ink-3: #8c9585;
+    --rule: #2c3328; --grid: #242a20; --accent: #8fc173; --accent-soft: #24301e;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+    --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121510; --panel: #1a1e17; --ink: #eef1ea; --ink-2: #c0c7b8; --ink-3: #8c9585;
+  --rule: #2c3328; --grid: #242a20; --accent: #8fc173; --accent-soft: #24301e;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+  --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 14px; line-height: 1.5; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 28px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+header { display: grid; gap: 6px; margin-bottom: 22px; }
+.eyebrow { font: 600 11px/1 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+h1 { font: 700 30px/1.15 var(--f-display); margin: 0; text-wrap: balance; }
+h2 { font: 600 16px/1.3 var(--f-display); margin: 0; text-wrap: balance; }
+.lede { color: var(--ink-2); max-width: 70ch; margin: 0; }
+.layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 880px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.rail { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; display: grid; gap: 18px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+@media (max-width: 880px) { .rail { position: static; } }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button, .btn { font: 500 13px var(--f-body); color: var(--ink); background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 10px; cursor: pointer; }
+.presets button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--panel); }
+.presets button:hover, .btn:hover { border-color: var(--accent); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ctl { display: grid; gap: 4px; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; font-weight: 500; }
+.ctl label output { font-variant-numeric: tabular-nums; color: var(--accent); font-weight: 600; }
+.ctl .hint { color: var(--ink-3); font-size: 12px; }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+select { font: 14px var(--f-body); padding: 5px 6px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); }
+.group-title { font: 600 11px/1 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); }
+.group { display: grid; gap: 12px; }
+.main { display: grid; gap: 16px; min-width: 0; }
+.tiles { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 1080px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tile { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; display: grid; gap: 2px; align-content: start; }
+.tile .k { color: var(--ink-2); font-size: 12px; }
+.tile .v { font: 600 26px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.tile .s { color: var(--ink-3); font-size: 12px; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 99px; background: var(--accent-soft); color: var(--accent); margin-left: 4px; vertical-align: 2px; }
+.charts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 1080px) { .charts { grid-template-columns: minmax(0, 1fr); } }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; display: grid; gap: 8px; min-width: 0; }
+.card.wide { grid-column: 1 / -1; }
+.card .sub { color: var(--ink-2); font-size: 13px; margin: 0; max-width: 75ch; }
+.card-head { display: flex; justify-content: space-between; align-items: start; gap: 12px; flex-wrap: wrap; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend i.box { height: 10px; width: 10px; border-radius: 2px; }
+.legend i.dash { background: repeating-linear-gradient(90deg, currentColor 0 4px, transparent 4px 7px) !important; }
+.chart { position: relative; width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { fill: var(--ink-3); font: 11px var(--f-body); font-variant-numeric: tabular-nums; }
+.chart .axis-title { fill: var(--ink-2); font-size: 11px; }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 7px 9px; font-size: 12px; color: var(--ink); box-shadow: 0 4px 14px rgb(0 0 0 / .12); white-space: nowrap; z-index: 5; }
+.tip b { font-weight: 600; }
+.tip .row { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+.tip i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: 13px; }
+th, td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--rule); }
+th:first-child, td:first-child { text-align: left; }
+th { font-weight: 600; color: var(--ink-2); font-size: 12px; }
+.notes { color: var(--ink-2); font-size: 13px; display: grid; gap: 6px; }
+.notes ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+.row-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bramble · health and damage</div>
+    <h1>Damage Lab</h1>
+    <p class="lede">The rulebook's system: heroes start on 40 health. A loss costs the round number + 1, up to 10. It's a <b>small</b> loss when you killed at least half of the winner's starting units; otherwise it's a <b>big</b> loss and costs 3 more. A draw costs both players nothing. Move the sliders and the lobbies re-run in your browser.</p>
+  </header>
+
+  <div class="layout">
+    <aside class="rail" aria-label="Damage settings">
+      <div class="group">
+        <div class="group-title">Presets</div>
+        <div class="presets" id="presets"></div>
+        <div class="hint" id="presetNote" style="color:var(--ink-3);font-size:12px"></div>
+      </div>
+      <div class="group">
+        <div class="group-title">Health and losses</div>
+        <div class="ctl">
+          <label for="H">Starting health <output id="HOut"></output></label>
+          <input type="range" id="H" min="20" max="80" step="1">
+        </div>
+        <div class="ctl">
+          <label for="s1">Small loss on round 1 <output id="s1Out"></output></label>
+          <input type="range" id="s1" min="1" max="6" step="1">
+        </div>
+        <div class="ctl">
+          <label for="a">Growth per round <output id="aOut"></output></label>
+          <input type="range" id="a" min="0" max="3" step="0.5">
+        </div>
+        <div class="ctl">
+          <label for="cap">Highest small loss <output id="capOut"></output></label>
+          <input type="range" id="cap" min="4" max="20" step="1">
+        </div>
+        <div class="ctl">
+          <label for="bonus">Extra damage for a big loss <output id="bonusOut"></output></label>
+          <input type="range" id="bonus" min="0" max="8" step="1">
+        </div>
+      </div>
+      <div class="group">
+        <div class="group-title">How players play</div>
+        <div class="ctl">
+          <label for="avoid">Big losses players avoid <output id="avoidOut"></output></label>
+          <input type="range" id="avoid" min="0" max="100" step="10">
+          <div class="hint">100% means nobody greeds: every loss that would be big is played down to a small one. At 0%, about 60% of losses are big in this model.</div>
+        </div>
+      </div>
+      <div class="group">
+        <div class="group-title">Draws</div>
+        <div class="ctl">
+          <label for="dr">Fights that draw <output id="drOut"></output></label>
+          <input type="range" id="dr" min="0" max="20" step="1">
+          <div class="hint">The closest fights become draws. Both players take 0.</div>
+        </div>
+      </div>
+      <div class="group">
+        <div class="group-title">Simulation</div>
+        <div class="ctl">
+          <label for="n">Lobbies per run</label>
+          <select id="n"><option value="500">500</option><option value="1500" selected>1,500</option><option value="4000">4,000</option></select>
+        </div>
+        <div class="row-btns">
+          <button class="btn" id="rerun" type="button">Run again</button>
+          <button class="btn" id="newLobby" type="button">New sample lobby</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="tiles" aria-label="Summary">
+        <div class="tile"><span class="k">Fights in a typical game</span><span class="v" id="tLen">–</span><span class="s" id="tLenS"></span></div>
+        <div class="tile"><span class="k">First player out</span><span class="v" id="tFirst">–</span><span class="s" id="tFirstS"></span></div>
+        <div class="tile"><span class="k">Out after only 3 losses or fewer</span><span class="v" id="tFew">–</span><span class="s" id="tFewS"></span></div>
+        <div class="tile"><span class="k">Bad late loss</span><span class="v" id="tBad">–</span><span class="s">90th-percentile loss from round 12, and its share of starting health</span></div>
+        <div class="tile"><span class="k">Fights drawn</span><span class="v" id="tDraw">–</span><span class="s">Both players take 0</span></div>
+      </section>
+
+      <section class="charts">
+        <div class="card wide">
+          <div class="card-head">
+            <div><h2>Health in one sample lobby</h2>
+            <p class="sub">Each line is one player. Steep drops show the closing ramp; the spread shows how sharply people fall out.</p></div>
+            <div class="legend" id="lgHealth"></div>
+          </div>
+          <div class="chart" id="cHealth"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><h2>What a loss costs, by round</h2>
+            <p class="sub">The two rules, and the average loss players actually took.</p></div>
+            <div class="legend">
+              <span><i style="background:var(--s1)"></i>Big loss</span>
+              <span><i style="background:var(--s2)"></i>Small loss</span>
+              <span><i class="box" style="background:var(--s3)"></i>Average loss</span>
+            </div>
+          </div>
+          <div class="chart" id="cCurve"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><h2>When games end and the first player goes out</h2>
+            <p class="sub">Share of games, by round.</p></div>
+            <div class="legend">
+              <span><i class="box" style="background:var(--s1)"></i>Game ends</span>
+              <span><i class="box" style="background:var(--s2)"></i>First player out</span>
+            </div>
+          </div>
+          <div class="chart" id="cLen"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><h2>How many losses it takes to go out</h2>
+            <p class="sub">Every eliminated player, by their number of losses.</p></div>
+          </div>
+          <div class="chart" id="cLoss"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><h2>Does a big loss mean you were outclassed?</h2>
+            <p class="sub">Share of losses that were big. A good rule gives close fights mostly small losses and lopsided fights mostly big ones.</p></div>
+            <div class="legend">
+              <span><i class="box" style="background:var(--s1)"></i>Close fight</span>
+              <span><i class="box" style="background:var(--s2)"></i>Loser outclassed</span>
+            </div>
+          </div>
+          <div class="chart" id="cFair"></div>
+        </div>
+
+        <div class="card wide">
+          <h2>The numbers behind the charts</h2>
+          <div class="tbl-wrap"><table id="tbl"></table></div>
+        </div>
+
+        <div class="card wide notes">
+          <h2>What this model assumes</h2>
+          <ul>
+            <li>8 players in a live lobby, paired at random each round. With an odd number left, one player fights a ghost, which deals damage but takes none. Bramble's async model is still open, so treat the results as shapes, not final values.</li>
+            <li>Every player has a fixed skill plus a board strength that drifts each round. The fight's winner is decided by the strength gap plus luck.</li>
+            <li>Boards start with 2 units on round 1 and grow by one a round to 7 on round 6. The winner's survivors grow with how lopsided the fight was.</li>
+            <li>Only starting units count, so units summoned during combat never add to a loss. Tokens played before combat count like any unit, but the rule only asks "did you kill half or not", so a wide board can't stack extra damage.</li>
+            <li>With 7 starting units you need 4 kills for a small loss; with 2 units, 1 kill. Draws are the closest fights by margin; the slider sets roughly how many.</li>
+            <li>Small losses are rounded to whole numbers: the starting value plus the growth per round, up to the highest small loss.</li>
+            <li>"Close fight" means the strength gap before the fight was small; "outclassed" means it was large. The same thresholds are used for every curve.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+(() => {
+const RB = { H: 40, s1: 2, a: 1, cap: 10, bonus: 3, dr: 5 };
+const PRESETS = {
+  "Rulebook, no greed": { ...RB, avoid: 100, note: "The rulebook values. Every player avoids big losses." },
+  "Rulebook, some greed": { ...RB, avoid: 50, note: "The rulebook values. Half of big losses are avoided." },
+  "Rulebook, all greed": { ...RB, avoid: 0, note: "The rulebook values. Nobody avoids big losses." }
+};
+const ids = ["H", "s1", "a", "cap", "bonus", "avoid", "dr"];
+const fmt = { H: v => v, s1: v => v, a: v => "+" + v, cap: v => v, bonus: v => "+" + v, avoid: v => v + "%", dr: v => "about " + v + "%" };
+const $ = id => document.getElementById(id);
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SERIES = ["--s1","--s2","--s3","--s4","--s5","--s6","--s7","--s8"];
+let current = "A", runSeed = 1, lobbySeed = 11, last = null;
+
+// ---------- simulation ----------
+function rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function gauss(R) { let u = 0, v = 0; while (u === 0) u = R(); v = R(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
+const UNITS = t => Math.min(7, t + 1);
+function params() { const p = {}; ids.forEach(k => p[k] = +$(k).value); return p; }
+function smallAt(p, t) { return Math.min(p.cap, Math.round(p.s1 + p.a * (t - 1) + 1e-9)); }
+const bigAt = (p, t) => smallAt(p, t) + p.bonus;
+function lobby(p, R, track) {
+  const skill = [], walk = new Array(8).fill(0), hp = new Array(8).fill(p.H), losses = new Array(8).fill(0);
+  for (let i = 0; i < 8; i++) skill.push(gauss(R) * 0.6);
+  const alive = new Set([...Array(8).keys()]), out = {}; const rec = []; const hist = track ? [hp.slice()] : null;
+  let t = 0, fights = 0, draws = 0; const delta = p.dr / 100 * 2.2;
+  while (alive.size > 1 && t < 40) {
+    t++;
+    alive.forEach(i => walk[i] += gauss(R) * 0.35);
+    const a = [...alive]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(R() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    const pairs = []; for (let k = 0; k + 1 < a.length; k += 2) pairs.push([a[k], a[k + 1]]);
+    if (a.length % 2) pairs.push([a[a.length - 1], null]);
+    for (const [x, y] of pairs) {
+      const py = y !== null ? skill[y] + walk[y] : gauss(R) * 0.6;
+      const gap = skill[x] + walk[x] - py, m = gap + gauss(R);
+      fights++;
+      if (Math.abs(m) < delta) { draws++; continue; }
+      const lose = m > 0 ? y : x;
+      if (lose === null) continue;
+      const n = UNITS(t), surv = Math.max(1, Math.min(n, Math.round(Math.abs(m) * 2.2 + R() * 1.5)));
+      // small loss needs at least half of the winner's starting units killed; "avoid" turns that share of big losses into small ones
+      const isBig = surv * 2 > n && R() * 100 >= p.avoid;
+      const d = isBig ? bigAt(p, t) : smallAt(p, t);
+      hp[lose] -= d; losses[lose]++;
+      rec.push([t, d, isBig ? 1 : 0, Math.abs(gap)]);
+    }
+    alive.forEach(i => { if (hp[i] <= 0) { alive.delete(i); out[i] = t; } });
+    if (track) hist.push(hp.map((h, i) => (out[i] !== undefined && out[i] < t) ? null : Math.max(0, h)));
+  }
+  const outs = Object.values(out);
+  return { len: t, first: outs.length ? Math.min(...outs) : t, lossOut: Object.keys(out).map(i => losses[i]), rec, hist, out, winner: [...alive][0], fights, draws };
+}
+function simulate(p, n, seed) {
+  const R = rng(seed); const len = [], first = [], lo = [], rec = []; let fights = 0, draws = 0;
+  for (let i = 0; i < n; i++) { const g = lobby(p, R, false); len.push(g.len); first.push(g.first); lo.push(...g.lossOut); for (const r of g.rec) rec.push(r); fights += g.fights; draws += g.draws; }
+  return { len, first, lo, rec, drawShare: fights ? draws / fights : 0 };
+}
+const q = (arr, p) => { const s = [...arr].sort((a, b) => a - b); return s[Math.min(s.length - 1, Math.floor(p * s.length))]; };
+
+// ---------- charts ----------
+const NS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, parent) { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+function niceMax(v) { if (v <= 0) return 1; const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p; return 10 * p; }
+function frame(host, H, xLabel, yLabel) {
+  host.innerHTML = "";
+  const W = Math.max(300, host.clientWidth || 600);
+  const M = { l: 44, r: 14, t: 10, b: 36 };
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" }, host);
+  const tip = document.createElement("div"); tip.className = "tip"; tip.hidden = true; host.appendChild(tip);
+  if (xLabel) el("text", { x: M.l + (W - M.l - M.r) / 2, y: H - 4, "text-anchor": "middle", class: "axis-title" }, svg).textContent = xLabel;
+  if (yLabel) { const t = el("text", { x: 12, y: M.t + (H - M.t - M.b) / 2, "text-anchor": "middle", class: "axis-title", transform: `rotate(-90 12 ${M.t + (H - M.t - M.b) / 2})` }, svg); t.textContent = yLabel; }
+  return { svg, tip, W, H, M, iw: W - M.l - M.r, ih: H - M.t - M.b };
+}
+function yAxis(f, yMax, ticks, fmtY) {
+  for (let i = 0; i <= ticks; i++) {
+    const v = yMax * i / ticks, y = f.M.t + f.ih - f.ih * v / yMax;
+    el("line", { x1: f.M.l, x2: f.M.l + f.iw, y1: y, y2: y, stroke: css("--grid"), "stroke-width": 1 }, f.svg);
+    el("text", { x: f.M.l - 6, y: y + 4, "text-anchor": "end" }, f.svg).textContent = fmtY(v);
+  }
+}
+function showTip(f, html, px, py) {
+  f.tip.innerHTML = html; f.tip.hidden = false;
+  const host = f.tip.parentElement, scale = host.clientWidth / f.W;
+  let x = px * scale + 12, y = py * scale - 10;
+  const tw = f.tip.offsetWidth; if (x + tw > host.clientWidth) x = px * scale - tw - 12;
+  f.tip.style.left = Math.max(0, x) + "px"; f.tip.style.top = Math.max(0, y) + "px";
+}
+function lineChart(host, { xs, series, yMax, H = 250, xLabel, yLabel, fmtY = v => v + "%", refs = [], bars = null, tipTitle }) {
+  const f = frame(host, H, xLabel, yLabel);
+  yMax = niceMax(yMax);
+  yAxis(f, yMax, 4, fmtY);
+  const xMin = xs[0], xMax = xs[xs.length - 1];
+  const X = x => f.M.l + f.iw * (x - xMin) / Math.max(1, xMax - xMin);
+  const Y = v => f.M.t + f.ih - f.ih * Math.min(v, yMax) / yMax;
+  const step = Math.max(1, Math.ceil(xs.length / Math.max(4, Math.floor(f.iw / 38))));
+  xs.forEach((x, i) => { if (i % step === 0 || i === xs.length - 1) el("text", { x: X(x), y: f.M.t + f.ih + 16, "text-anchor": "middle" }, f.svg).textContent = x; });
+  el("line", { x1: f.M.l, x2: f.M.l + f.iw, y1: f.M.t + f.ih, y2: f.M.t + f.ih, stroke: css("--rule"), "stroke-width": 1 }, f.svg);
+  refs.forEach(r => {
+    el("line", { x1: f.M.l, x2: f.M.l + f.iw, y1: Y(r.v), y2: Y(r.v), stroke: css("--ink-3"), "stroke-width": 1, "stroke-dasharray": "3 4" }, f.svg);
+    el("text", { x: f.M.l + f.iw - 2, y: Y(r.v) - 5, "text-anchor": "end" }, f.svg).textContent = r.label;
+  });
+  if (bars) {
+    const bw = Math.max(3, f.iw / xs.length * 0.42);
+    xs.forEach((x, i) => { const v = bars.values[i]; if (v == null) return;
+      const y = Y(v), h = f.M.t + f.ih - y; if (h <= 0) return;
+      el("rect", { x: X(x) - bw / 2, y, width: bw, height: h, rx: Math.min(3, bw / 2), fill: css(bars.color), opacity: 0.85 }, f.svg); });
+  }
+  series.forEach(s => {
+    let d = "", pen = false;
+    xs.forEach((x, i) => { const v = s.values[i]; if (v == null) { pen = false; return; } d += (pen ? "L" : "M") + X(x).toFixed(1) + " " + Y(v).toFixed(1); pen = true; });
+    el("path", { d, fill: "none", stroke: css(s.color), "stroke-width": s.width || 2, "stroke-linejoin": "round", "stroke-linecap": "round", "stroke-dasharray": s.dash || "" }, f.svg);
+    if (s.endDot) { let li = -1; s.values.forEach((v, i) => { if (v != null) li = i; });
+      if (li >= 0) el("circle", { cx: X(xs[li]), cy: Y(s.values[li]), r: 3.5, fill: css(s.color), stroke: css("--panel"), "stroke-width": 2 }, f.svg); }
+  });
+  const cross = el("line", { y1: f.M.t, y2: f.M.t + f.ih, stroke: css("--ink-3"), "stroke-width": 1, opacity: 0 }, f.svg);
+  const hit = el("rect", { x: f.M.l, y: f.M.t, width: f.iw, height: f.ih, fill: "transparent" }, f.svg);
+  const move = ev => {
+    const pt = f.svg.getBoundingClientRect(), px = (ev.clientX - pt.left) * f.W / pt.width;
+    let i = Math.round((px - f.M.l) / f.iw * (xMax - xMin)); i = Math.max(0, Math.min(xs.length - 1, i));
+    cross.setAttribute("x1", X(xs[i])); cross.setAttribute("x2", X(xs[i])); cross.setAttribute("opacity", 0.6);
+    let rows = series.filter(s => s.values[i] != null).map(s => ({ name: s.name, v: s.values[i], c: s.color }));
+    if (bars && bars.values[i] != null) rows.push({ name: bars.name, v: bars.values[i], c: bars.color });
+    if (series.length > 4) rows.sort((a, b) => b.v - a.v);
+    const html = `<b>${tipTitle ? tipTitle(xs[i]) : "Round " + xs[i]}</b>` + rows.map(r => `<div class="row"><i style="background:var(${r.c})"></i>${r.name}: ${fmtY(Math.round(r.v * 10) / 10)}</div>`).join("") + (rows.length ? "" : "<div>No data</div>");
+    showTip(f, html, X(xs[i]), (ev.clientY - pt.top) * f.W / pt.width);
+  };
+  hit.addEventListener("pointermove", move); hit.addEventListener("pointerleave", () => { f.tip.hidden = true; cross.setAttribute("opacity", 0); });
+}
+function barChart(host, { cats, series, yMax, H = 240, xLabel, yLabel, fmtY = v => v + "%", tipTitle = c => c }) {
+  const f = frame(host, H, xLabel, yLabel);
+  yMax = niceMax(yMax); yAxis(f, yMax, 4, fmtY);
+  const band = f.iw / cats.length, gapOuter = band * 0.18, inner = band - gapOuter * 2;
+  const bw = Math.max(2, (inner - 2 * (series.length - 1)) / series.length);
+  const Y = v => f.M.t + f.ih - f.ih * Math.min(v, yMax) / yMax;
+  const step = Math.max(1, Math.ceil(cats.length / Math.max(4, Math.floor(f.iw / 34))));
+  cats.forEach((c, i) => {
+    const x0 = f.M.l + band * i + gapOuter;
+    if (i % step === 0) el("text", { x: f.M.l + band * (i + 0.5), y: f.M.t + f.ih + 16, "text-anchor": "middle" }, f.svg).textContent = c;
+    series.forEach((s, j) => {
+      const v = s.values[i] || 0, y = Y(v), h = f.M.t + f.ih - y;
+      if (h > 0.5) {
+        const x = x0 + j * (bw + 2), r = Math.min(4, bw / 2, h);
+        el("path", { d: `M${x} ${y + h}V${y + r}Q${x} ${y} ${x + r} ${y}H${x + bw - r}Q${x + bw} ${y} ${x + bw} ${y + r}V${y + h}Z`, fill: css(s.colorAt ? s.colorAt(i) : s.color) }, f.svg);
+      }
+    });
+    const hit = el("rect", { x: f.M.l + band * i, y: f.M.t, width: band, height: f.ih, fill: "transparent" }, f.svg);
+    hit.addEventListener("pointermove", ev => {
+      const pt = f.svg.getBoundingClientRect();
+      const html = `<b>${tipTitle(c)}</b>` + series.map(s => `<div class="row"><i style="background:var(${s.color})"></i>${s.name}: ${fmtY(Math.round((s.values[i] || 0) * 10) / 10)}</div>`).join("");
+      showTip(f, html, f.M.l + band * (i + 0.5), (ev.clientY - pt.top) * f.W / pt.width);
+    });
+    hit.addEventListener("pointerleave", () => f.tip.hidden = true);
+  });
+  el("line", { x1: f.M.l, x2: f.M.l + f.iw, y1: f.M.t + f.ih, y2: f.M.t + f.ih, stroke: css("--rule"), "stroke-width": 1 }, f.svg);
+}
+
+// ---------- render ----------
+function render() {
+  const p = params();
+  ids.forEach(k => $(k + "Out").textContent = fmt[k](p[k]));
+  const n = +$("n").value;
+  const S = simulate(p, n, runSeed);
+  last = { p, S };
+  draw();
+}
+function draw() {
+  if (!last) return; const { p, S } = last;
+  // tiles
+  $("tLen").textContent = q(S.len, .5); $("tLenS").textContent = `Middle 80% of games: ${q(S.len, .1)}–${q(S.len, .9)}`;
+  $("tFirst").textContent = "Round " + q(S.first, .5); $("tFirstS").textContent = `Middle 80%: rounds ${q(S.first, .1)}–${q(S.first, .9)}`;
+  const few = S.lo.filter(l => l <= 3).length / S.lo.length, two = S.lo.filter(l => l <= 2).length / S.lo.length;
+  $("tFew").textContent = (few * 100).toFixed(1) + "%"; $("tFewS").textContent = `After only 2 or fewer: ${(two * 100).toFixed(1)}%`;
+  const late = S.rec.filter(r => r[0] >= 12).map(r => r[1]);
+  $("tBad").textContent = late.length ? Math.round(q(late, .9)) + " (" + Math.round(q(late, .9) / p.H * 100) + "%)" : "–";
+  $("tDraw").textContent = (S.drawShare * 100).toFixed(1) + "%";
+
+  // curve
+  const maxR = Math.max(16, Math.min(24, q(S.len, .97)));
+  const xs = Array.from({ length: maxR }, (_, i) => i + 1);
+  const avg = xs.map(t => { const s = S.rec.filter(r => r[0] === t); return s.length >= 30 ? s.reduce((a, r) => a + r[1], 0) / s.length : null; });
+  const bigs = xs.map(t => bigAt(p, t)), smalls = xs.map(t => smallAt(p, t));
+  lineChart($("cCurve"), { xs, yMax: Math.max(p.H * 0.3, ...bigs), xLabel: "Round", yLabel: "Health lost", fmtY: v => +(+v).toFixed(1),
+    series: [{ name: "Big loss", color: "--s1", values: bigs }, { name: "Small loss", color: "--s2", values: smalls }],
+    bars: { name: "Average loss", color: "--s3", values: avg }, refs: [{ v: p.H / 4, label: "a quarter of starting health" }] });
+
+  // length & first out
+  const top = Math.max(q(S.len, .995), 18), lo = Math.max(1, Math.min(q(S.first, .005), 5));
+  const cats = []; for (let t = lo; t <= top; t++) cats.push(t);
+  const share = (arr, t) => arr.filter(v => v === t).length / arr.length * 100;
+  const lenV = cats.map(t => share(S.len, t)), firstV = cats.map(t => share(S.first, t));
+  barChart($("cLen"), { cats, yMax: Math.max(...lenV, ...firstV), xLabel: "Round", yLabel: "Share of games", tipTitle: c => "Round " + c,
+    series: [{ name: "Game ends", color: "--s1", values: lenV }, { name: "First player out", color: "--s2", values: firstV }] });
+
+  // losses at elimination
+  const lc = []; for (let l = 1; l <= Math.max(10, q(S.lo, .995)); l++) lc.push(l);
+  const lv = lc.map(l => S.lo.filter(v => v === l).length / S.lo.length * 100);
+  barChart($("cLoss"), { cats: lc, yMax: Math.max(...lv), xLabel: "Losses when eliminated", yLabel: "Share of players", tipTitle: c => c + (c === 1 ? " loss" : " losses"),
+    series: [{ name: "Eliminated players", color: "--s1", values: lv }] });
+
+  // fairness by phase
+  const phases = [[1, 4, "Rounds 1–4"], [5, 8, "Rounds 5–8"], [9, 12, "Rounds 9–12"], [13, 99, "Round 13 on"]];
+  const bigShare = s => s.length ? s.filter(r => r[2]).length / s.length * 100 : 0;
+  const closeV = [], outV = [], rows = [];
+  phases.forEach(([a, b, name]) => {
+    const s = S.rec.filter(r => r[0] >= a && r[0] <= b);
+    const close = s.filter(r => r[3] < 0.5), outc = s.filter(r => r[3] > 1.0);
+    closeV.push(bigShare(close)); outV.push(bigShare(outc));
+    const ds = s.map(r => r[1]);
+    const e2 = Math.min(b, a + 3);
+    rows.push([name, `${smallAt(p, a)}–${smallAt(p, e2)} / ${bigAt(p, a)}–${bigAt(p, e2)}`, ds.length ? (ds.reduce((x, y) => x + y, 0) / ds.length).toFixed(1) : "–", ds.length ? Math.round(q(ds, .9)) : "–", bigShare(s).toFixed(0) + "%", bigShare(close).toFixed(0) + "%", bigShare(outc).toFixed(0) + "%"]);
+  });
+  barChart($("cFair"), { cats: phases.map(x => x[2]), yMax: 100, yLabel: "Losses that were big", tipTitle: c => c,
+    series: [{ name: "Close fight", color: "--s1", values: closeV }, { name: "Loser outclassed", color: "--s2", values: outV }] });
+  $("tbl").innerHTML = "<thead><tr><th>Phase</th><th>Small / big loss</th><th>Average loss</th><th>Bad loss (90th pct)</th><th>Losses that were big</th><th>Big, close fights</th><th>Big, outclassed</th></tr></thead><tbody>" +
+    rows.map(r => "<tr>" + r.map(c => `<td>${c}</td>`).join("") + "</tr>").join("") + "</tbody>";
+
+  drawLobby();
+}
+function drawLobby() {
+  const { p } = last;
+  const g = lobby(p, rng(lobbySeed), true);
+  const order = Object.keys(g.out).map(Number).sort((a, b) => g.out[b] - g.out[a]);
+  const place = {}; place[g.winner] = 1; order.forEach((i, k) => place[i] = k + 2);
+  const xs = g.hist.map((_, t) => t);
+  const players = [...Array(8).keys()].sort((a, b) => place[a] - place[b]);
+  const series = players.map((i, k) => ({ name: `${ord(place[i])}`, color: SERIES[k], values: g.hist.map(h => h[i]), endDot: true }));
+  lineChart($("cHealth"), { xs, series, yMax: p.H, H: 280, xLabel: "Round (0 = start)", yLabel: "Health", fmtY: v => Math.round(v), tipTitle: t => t === 0 ? "Start" : "After round " + t });
+  $("lgHealth").innerHTML = players.map((i, k) => `<span><i style="background:var(${SERIES[k]})"></i>${ord(place[i])}${place[i] > 1 ? " · out round " + g.out[i] : " · won"}</span>`).join("");
+}
+const ord = n => n + (n === 1 ? "st" : n === 2 ? "nd" : n === 3 ? "rd" : "th");
+
+// ---------- controls ----------
+const pBox = $("presets");
+Object.keys(PRESETS).forEach(name => {
+  const b = document.createElement("button"); b.type = "button"; b.textContent = name; b.setAttribute("aria-pressed", "false");
+  b.addEventListener("click", () => applyPreset(name)); pBox.appendChild(b);
+});
+function applyPreset(name) {
+  current = name; const pr = PRESETS[name];
+  ids.forEach(k => $(k).value = pr[k]);
+  [...pBox.children].forEach(b => b.setAttribute("aria-pressed", b.textContent === name ? "true" : "false"));
+  $("presetNote").textContent = pr.note; render();
+}
+let timer = null;
+ids.forEach(k => $(k).addEventListener("input", () => {
+  $(k + "Out").textContent = fmt[k](+$(k).value);
+  [...pBox.children].forEach(b => b.setAttribute("aria-pressed", "false")); $("presetNote").textContent = "Custom settings.";
+  clearTimeout(timer); timer = setTimeout(render, 120);
+}));
+$("n").addEventListener("change", render);
+$("rerun").addEventListener("click", () => { runSeed++; render(); });
+$("newLobby").addEventListener("click", () => { lobbySeed++; drawLobby(); });
+let rt = null; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(draw, 150); });
+if (window.matchMedia) matchMedia("(prefers-color-scheme: dark)").addEventListener("change", draw);
+new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+applyPreset("Rulebook, no greed");
+})();
+</script>
