@@ -7,7 +7,6 @@ signal guide_requested
 signal settings_requested
 signal menu_requested
 
-const Numbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 const Settings := preload("res://src/ui/settings.gd")
@@ -20,7 +19,6 @@ const CombatLog := preload("res://src/ui/screens/combat_log.gd")
 const CombatSounds := preload("res://src/ui/screens/combat_sounds.gd")
 const CombatMotion := preload("res://src/ui/screens/combat_motion.gd")
 const Sfx := preload("res://src/ui/sfx.gd")
-const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 const ShapeBadge := preload("res://src/ui/widgets/shape_badge.gd")
 const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
@@ -30,10 +28,13 @@ const CombatLanesView := preload("res://src/ui/screens/combat_lanes_view.gd")
 const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 const FightLogPage := preload("res://src/ui/screens/fight_log_page.gd")
 const WaveMotion := preload("res://src/ui/screens/combat_wave_motion.gd")
+const Arena := preload("res://src/ui/arena_geometry.gd")
+const LobbyStrip := preload("res://src/ui/widgets/lobby_strip.gd")
+
+const PlayFrame := preload("res://src/ui/widgets/play_frame.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 
 const CANVAS_H: float = 1080.0
-const POCKET: float = 189.0
-const TRAY_GAP: float = 76.0
 const SPEEDS: Array[float] = [1.0, 2.0, 4.0]
 
 var model: CombatModel = CombatModel.new()
@@ -50,6 +51,8 @@ var hero_health: Array[int] = [-1, -1]
 var hero_health_after: Array = []
 var floor_marks: Array = []
 var _log_text: CombatLog = CombatLog.new()
+var _fight_bar: PlayFrame
+var _tools_strip: Panel
 var _stage: Control
 var _boards: Array[BoardView] = []
 var _cards: Dictionary[int, CardView] = {}
@@ -88,19 +91,23 @@ var _complete: bool = false
 var _return_ready: bool = false
 var _title: String = ""
 var _event_before: Dictionary = {}
+var _lobby: LobbyStrip
+var _round_label: Label
 
 
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "fight")
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
+	_fight_bar = PlayFrame.new()
+	_stage.add_child(_fight_bar)
 	for i: int in 2:
 		var board := BoardView.new()
 		board.combat_mode = true
-		board.configure("enemy" if i == 0 else "own", POCKET, i == 1)
+		Arena.size_board(board, "enemy" if i == 0 else "own", i == 1)
 		for slot: SlotView in board.slots:
 			slot.tapped.connect(_on_slot_tapped.bind(i))
 		_stage.add_child(board)
@@ -108,6 +115,13 @@ func _init() -> void:
 	_lanes = LaneOverlay.new()
 	_lanes.combat_mode = true
 	_stage.add_child(_lanes)
+	_lobby = LobbyStrip.new()
+	_lobby.interactive = false
+	_stage.add_child(_lobby)
+	_round_label = UiTheme.head("", UiTheme.FONT_BODY, UiTheme.CREAM)
+	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_round_label.add_theme_constant_override("outline_size", 5)
+	_stage.add_child(_round_label)
 	_retiring_cues = Control.new()
 	_retiring_cues.name = "RetiringCues"
 	_retiring_cues.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -139,11 +153,13 @@ func _init() -> void:
 	)
 	for side: int in 2:
 		var plaque := TokenButton.new()
+		plaque.self_modulate.a = 0.0
 		plaque.pressed.connect(_show_hero.bind(side))
 		_stage.add_child(plaque)
 		_plaques.append(plaque)
 		var art := ArtFrame.new()
 		art.name = "Portrait"
+		art.radius = 62.0
 		art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		art.position = Vector2(9, 9)
 		art.size = Vector2(122, 122)
@@ -159,21 +175,30 @@ func _init() -> void:
 		health.set_anchors_preset(Control.PRESET_FULL_RECT)
 		hip.add_child(health)
 		_health_labels.append(health)
+	_tools_strip = Panel.new()
+	_tools_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tools_strip.add_theme_stylebox_override(
+		"panel", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color(UiTheme.CREAM, 0.16), 1, 10)
+	)
+	_stage.add_child(_tools_strip)
 	_speed_button = TokenButton.new("", "speed_1")
+	_speed_button.tooltip_text = "Fight speed"
 	_speed_button.pressed.connect(_cycle_speed)
 	_stage.add_child(_speed_button)
 	_play_button = TokenButton.new("", "pause")
+	_play_button.tooltip_text = "Pause or play"
 	_play_button.pressed.connect(toggle_play)
 	_stage.add_child(_play_button)
 	_step_button = TokenButton.new("", "step")
+	_step_button.tooltip_text = "Step"
 	_step_button.pressed.connect(step_once)
 	_stage.add_child(_step_button)
 	_skip_button = TokenButton.new("", "skip")
-	var skip_glyph: TextureRect = _skip_button.get("_glyph")
-	skip_glyph.self_modulate = UiTheme.INK
+	_skip_button.tooltip_text = "Skip fight"
 	_skip_button.pressed.connect(skip_to_end)
 	_stage.add_child(_skip_button)
 	_gear = TokenButton.new("", "gear")
+	_gear.tooltip_text = "Menu"
 	_gear.pressed.connect(_open_pause)
 	_stage.add_child(_gear)
 	_motion = CombatMotion.new(self)
@@ -194,17 +219,14 @@ func setup(
 	bottom_side = clampi(bottom, 0, 1)
 	_log_text.side_names = side_names
 	_title = title
+	_round_label.text = title
 	hero_health[1 - bottom_side] = opponent_health
 	var health_before: Array = Data.a(combat, "hero_health_before")
 	for side: int in mini(2, health_before.size()):
 		hero_health[side] = Data.as_int(health_before[side])
 	hero_health_after = Data.a(combat, "hero_health_after")
 	for side: int in 2:
-		var art: ArtFrame = _plaques[side].get_node("Portrait")
-		art.texture = UiTheme.portrait_for(Data.s(hero_views[side], "id"), [])
-		_health_labels[side].text = str(hero_health[side])
-		var hip: Control = _health_labels[side].get_parent() as Control
-		hip.visible = hero_health[side] >= 0
+		_populate_hero(side, hero_views[side], hero_health[side])
 	_layout()
 	restart()
 
@@ -213,31 +235,63 @@ func board_for_side(side: int) -> BoardView:
 	return _boards[1] if side == bottom_side else _boards[0]
 
 
+func _populate_hero(side: int, hero: Dictionary, health: int) -> void:
+	var art: ArtFrame = _plaques[side].get_node("Portrait")
+	art.texture = UiTheme.portrait_for(Data.s(hero, "id"), [])
+	_health_labels[side].text = str(health)
+	var hip: Control = _health_labels[side].get_parent() as Control
+	hip.visible = health >= 0
+
+
 func _layout() -> void:
 	if _stage == null or size.x < 10.0:
 		return
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
 	_stage.size = Vector2(size.x, CANVAS_H)
-	var tray: Vector2 = _boards[0].tray_size()
-	var x: float = (size.x - tray.x) / 2.0
-	_boards[0].position = Vector2(x, 18)
-	_boards[1].position = Vector2(x, 18 + tray.y + TRAY_GAP)
-	for board: BoardView in _boards:
-		board.size = tray
+	var canvas: Vector2 = _stage.size
+	Arena.place_board(_boards[0], canvas, true)
+	Arena.place_board(_boards[1], canvas)
+	_fight_bar.position = Vector2.ZERO
+	_fight_bar.size = _stage.size
+	_fight_bar.clear_regions()
+	for opponent: bool in [true, false]:
+		_fight_bar.add_region(Arena.board_rect(canvas, opponent), Surface.Finish.MOSS)
 	for side: int in 2:
-		var board: BoardView = board_for_side(side)
-		_plaques[side].position = board.position + Vector2(-170, tray.y / 2.0 - 70)
-		_plaques[side].size = Vector2(148, 157)
-	var tap: float = 122.0 if size.x >= 2200 else 90.0
-	var controls: Array[Control] = [_gear, _speed_button, _play_button, _skip_button]
+		var plaque: Control = _plaques[side]
+		var hero_rect: Rect2 = Arena.hero_rect(canvas, side != bottom_side)
+		plaque.position = hero_rect.position
+		plaque.size = Vector2(140, 140)
+		var art: Control = plaque.get_node("Portrait")
+		art.position = Vector2.ZERO
+		art.size = Vector2(120, 120)
+		var hip: Control = _health_labels[side].get_parent() as Control
+		hip.position = Vector2(72, 49)
+		hip.size = Vector2(68, 68)
+		_health_labels[side].add_theme_font_size_override("font_size", 40)
+	var left_width: float = Arena.board_rect(canvas).position.x - 32.0
+	_round_label.position = Vector2(24, 24)
+	_round_label.size = Vector2(230, 64)
+	var tap: float = Arena.control_height(canvas)
+	var tool_gap: float = clampf((Arena.board_rect(canvas).position.x - 1 - 5 * tap) / 4, 0, 12)
+	var controls: Array[TokenButton] = [
+		_gear, _step_button, _play_button, _skip_button, _speed_button
+	]
 	for i: int in controls.size():
-		controls[i].position = Vector2(size.x - (4 - i) * (tap + 14), CANVAS_H - tap - 18)
-		controls[i].size = Vector2(tap, tap + 9)
-	_step_button.position = _speed_button.position
-	_step_button.size = _speed_button.size
+		controls[i].position = Vector2(i * (tap + tool_gap), 112)
+		controls[i].size = Vector2(tap, tap)
+		controls[i].quiet = true
+	_tools_strip.position = Vector2(0, 112 + (tap - 52) / 2.0)
+	_tools_strip.size = Vector2(controls.size() * tap + (controls.size() - 1) * tool_gap, 52)
+	var lobby_rect: Rect2 = Arena.lobby_rect(canvas)
+	_lobby.position = lobby_rect.position
+	_lobby.size = lobby_rect.size
 	_lanes.boards = [board_for_side(0), board_for_side(1)]
-	_reader.position = Vector2(clampf(x + tray.x + 20, 12, size.x - 550), 28)
-	_reader.size = Vector2(530, CANVAS_H - tap - 18 - _reader.position.y - 16)
+	_reader.position = _stage.position + Vector2(16, 330)
+	_reader.size = Vector2(left_width, 734)
+
+
+func set_standings(standings: Array, next_opponent_id: int, ghost_owner_id: int = -9) -> void:
+	_lobby.show_standings(standings, next_opponent_id, ghost_owner_id)
 
 
 func restart() -> void:
@@ -251,6 +305,8 @@ func restart() -> void:
 	for plaque: Control in _plaques:
 		plaque.modulate = Color.WHITE
 		plaque.scale = Vector2.ONE
+	for side: int in 2:
+		_populate_hero(side, hero_views[side], hero_health[side])
 	_cards.clear()
 	_log.clear()
 	_log.set_title(_title)
@@ -271,8 +327,6 @@ func restart() -> void:
 func _set_playing(on: bool) -> void:
 	playing = on
 	_play_button.set_icon_name("pause" if on else "play")
-	_speed_button.visible = on
-	_step_button.visible = not on
 
 
 func toggle_play() -> void:
@@ -625,6 +679,7 @@ func _show_detail(uid: int) -> void:
 
 
 func _open_reader() -> void:
+	_reader.clear_actions()
 	_step_motion_remaining = 0
 	if CardView.is_phone() and not _reader.visible:
 		_resume_reader = playing
@@ -812,7 +867,6 @@ func _retire_older_cues() -> void:
 			if child.has_meta("recipient_uid") and not child.is_queued_for_deletion():
 				child.set_meta("cue_retired", true)
 				child.reparent(_retiring_cues)
-		# Cancelled rolls/status arrivals leave the exact already-applied model state visible.
 		_sync_unit(uid)
 		card.modulate = Color.WHITE
 		card.self_modulate = Color.WHITE

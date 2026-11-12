@@ -4,6 +4,7 @@ clarity_discover_live      Tier-4 Discover choice from the real card pool.
 clarity_income             Simple recruit board with 10 gold for the income display.
 clarity_pack               Single-card Discover picker showing Brother Wolf.
 clarity_sell               Simple recruit board with a unit selected for sale.
+combat_start              Real fight paused before its first event.
 combat_end                 Completed real fight, held on its result without auto-return.
 combat_held                Fight paused around a unit emerging from a Belly.
 combat_lanes               Staged fight showing bog patches, quarries and a pack attack.

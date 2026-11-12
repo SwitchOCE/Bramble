@@ -198,6 +198,8 @@ func test_optional_bird_dials_drive_real_recruits_without_changing_b() -> void:
 
 func test_optional_bird_dials_can_be_swept_and_captured_from_b() -> void:
 	var config := GameConfig.full_game()
+	# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+	config.set_value("hand_limit", 10)
 	config.set_value("birds_chiffchaff_gain", 5)
 	config.set_value("birds_goose_eggs", 3)
 	config.set_value("birds_swallow_gold", 2)

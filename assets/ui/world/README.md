@@ -1,0 +1,3 @@
+# Shared woodland world
+
+`recruit_backdrop.jpg` and `fight_backdrop.jpg` are the only runtime backdrop paths, with `stump.jpg` and the alpha-preserving `foreground.png`. All four were repainted on 11 Nov in the units' "ink with wash and glow" recipe (`tools/art/prompts/inkglow/README.md`, backdrop section), keeping the Highcrown Canopy composition: cream light from the upper right, ink contours, simpler wash shapes. The background fills the window with a centred cover crop. The four are one set: replace them together or not at all. The earlier high-detail canopy paintings are kept for reference in `docs/ideation/ui/backdrops/` and are never loaded by the game.

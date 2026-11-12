@@ -173,7 +173,11 @@ func _buy_best(screen: RecruitScreen) -> bool:
 		_buy_at(screen, best)
 		return true
 	var hand: int = Data.a(state, "hand").size()
-	if spell >= 0 and _cant_play.is_empty() and hand < Data.i(state, "hand_limit", 10):
+	if (
+		spell >= 0
+		and _cant_play.is_empty()
+		and hand < Data.i(state, "hand_limit", GameConfig.full_game().get_int("hand_limit"))
+	):
 		_buy_at(screen, spell)
 		return true
 	return false
@@ -344,7 +348,10 @@ func _buy_one(screen: RecruitScreen) -> bool:
 	var state: Dictionary = screen.state
 	var shop: Array = Data.a(state, "shop")
 	var hand: Array = Data.a(state, "hand")
-	if shop.is_empty() or hand.size() >= Data.i(state, "hand_limit", 10):
+	if (
+		shop.is_empty()
+		or hand.size() >= Data.i(state, "hand_limit", GameConfig.full_game().get_int("hand_limit"))
+	):
 		return false
 	var index: int = rng.randi_range(0, shop.size() - 1)
 	if Data.i(Data.entry(shop, index), "cost", 3) > Data.i(state, "gold"):

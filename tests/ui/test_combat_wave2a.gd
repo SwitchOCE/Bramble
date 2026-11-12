@@ -41,7 +41,17 @@ func _screen() -> Screen:
 			)
 		boards.append(slots)
 	screen._play_event({"type": "combat_start", "boards": boards}, false)
+	assert_true(screen._round_label.is_visible_in_tree(), "the turn heading remains visible")
+	assert_eq(screen._round_label.text, "Round 3", "the heading identifies this turn")
 	return screen
+
+
+func _effect_labels(screen: Screen) -> Array[Dictionary]:
+	var found: Array[Dictionary] = []
+	for record: Dictionary in Capture.budget_nodes(screen):
+		if str(record["path"]) != str(screen._round_label.get_path()):
+			found.append(record)
+	return found
 
 
 func _advance(screen: Screen, seconds: float) -> void:
@@ -68,7 +78,7 @@ func test_pending_gain_has_a_source_and_its_dead_recipient_landing_fades() -> vo
 		assert_eq(screen.model.unit(1)["attack"], 4, "queued gains do not change fighting stats")
 		var marks: Control = screen._cards[1].get("_combat_marks")
 		assert_true(marks.get("pending_visible"))
-		assert_eq(Capture.budget_nodes(screen).size(), 0, "the live tag adds no labels")
+		assert_eq(_effect_labels(screen).size(), 0, "the live tag adds no labels")
 		assert_true(screen._overlay.has_node("TriggerSource_8"))
 		screen._play_event({"type": "death", "uid": 1}, false)
 		screen._play_event(
@@ -105,7 +115,7 @@ func test_bog_toll_travels_to_hero_then_fades_and_keeps_exact_reader_total() -> 
 		assert_false(screen._plaques[1].has_node("BogToll"), "there is no standing plaque badge")
 		assert_true(screen._overlay.has_node("TriggerSource_8"))
 		assert_eq(screen.model.bog_toll[1], 1234567)
-		assert_eq(Capture.budget_nodes(screen).size(), 1, "only the travelling amount is visible")
+		assert_eq(_effect_labels(screen).size(), 1, "only the travelling amount is visible")
 		var found: bool = false
 		for child: Node in screen._overlay.get_children():
 			if child.has_meta("bog_toll_side"):
@@ -182,9 +192,7 @@ func test_many_kept_gains_fade_and_hold_the_ten_label_cap() -> void:
 			screen._play_event(event, true)
 		for tick: int in 180:
 			screen.advance_playback(1.0 / 120.0)
-			assert_lte(
-				Capture.budget_nodes(screen).size(), 10, "all transient and reserve labels count"
-			)
+			assert_lte(_effect_labels(screen).size(), 10, "all transient and reserve labels count")
 		await get_tree().process_frame
 		for child: Node in screen._overlay.get_children():
 			assert_false(child.has_meta("kept_target_uid") and child is Panel, "no reserve remains")

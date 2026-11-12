@@ -164,7 +164,16 @@ func test_mire_pause_bars_stay_above_the_actor_triangle_and_outside_art() -> voi
 				)
 				assert_false(
 					pause.get_global_rect().intersects(art.get_global_rect()),
-					"the paused actor's art remains unobscured"
+					(
+						"the paused actor's art remains unobscured (reduced=%s, back=%s, uid=%d; pause=%s, art=%s)"
+						% [
+							reduced,
+							back_rows,
+							waiting,
+							pause.get_global_rect(),
+							art.get_global_rect()
+						]
+					)
 				)
 				var held: Array = screen._motion.get("_held_sources")
 				var frame: Control = held[0]
@@ -178,7 +187,9 @@ func test_mire_pause_bars_stay_above_the_actor_triangle_and_outside_art() -> voi
 				)
 				var left: Control = pause.get_node("LeftBar")
 				var right: Control = pause.get_node("RightBar")
-				assert_eq(left.size, right.size)
+				assert_true(
+					left.size.is_equal_approx(right.size), "both pause bars have the same size"
+				)
 				assert_gt(left.size.y, left.size.x, "each bar is a vertical stroke")
 				assert_gt(
 					right.position.x, left.get_rect().end.x, "the bars remain visibly separate"

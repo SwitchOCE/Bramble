@@ -2,7 +2,6 @@ extends GutTest
 
 const CardView := preload("res://src/ui/widgets/card_view.gd")
 const BoardView := preload("res://src/ui/widgets/board_view.gd")
-const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
 const CombatScreen := preload("res://src/ui/screens/combat_screen.gd")
 const UnitViews := preload("res://src/ui/unit_views.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -63,15 +62,12 @@ func test_default_play_text_shows_stable_handles_before_legacy_numbers() -> void
 	assert_true(lines[1].begins_with("  @123 "))
 
 
-func test_hex_and_mire_fit_without_slot_code_chips_in_recruit_scout_and_guide() -> void:
+func test_hex_fits_without_slot_code_chips_in_recruit_scout_and_guide() -> void:
 	var library: UnitLibrary = TestLibraries.current()
 	for zone: String in ["board", "scout", "guide"]:
 		var board := BoardView.new()
 		board.configure(zone, 130.0 if zone != "board" else 209.0, true, zone == "board")
 		add_child_autofree(board)
-		var overlay := LaneOverlay.new()
-		overlay.boards = [board, board]
-		add_child_autofree(overlay)
 		for slot: int in BoardView.SLOTS:
 			var card := CardView.new()
 			card.show_unit(UnitViews.from_def(library.get_unit("field_vole")), CardView.Mode.BOARD)
@@ -85,8 +81,4 @@ func test_hex_and_mire_fit_without_slot_code_chips_in_recruit_scout_and_guide() 
 			assert_false(chips[slot].visible)
 			var hex_label: Label = hexes[slot]
 			assert_true(hex_label.visible)
-			assert_false(
-				overlay.patch_rect(0, slot).intersects(hex_label.get_rect()),
-				"%s %d Mire and Hex" % [zone, slot]
-			)
 			assert_string_contains(hex_label.text, "2")

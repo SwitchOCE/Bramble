@@ -1,12 +1,12 @@
 # Look-and-feel phase
 
 <!-- status -->
-- **In short:** Agents can now see and play the game headless (step 0 merged). The reference frames, painted backdrops and layout options for the day-1 gallery are being made.
-- **Status:** active
-- **Last step done:** 10 Nov: step 0 merged: the headless look tool (`tools/look/`) and the scope-fence check in the gate; gate passed, one scope review, proven by a fresh agent playing by clicks alone.
-- **Next step:** finish step 0b (Battlegrounds, TFT and Everdell frames; layout options and their critic), then the day-1 gallery.
-- **Waiting on you:** nothing yet. The day-1 gallery will ask you to pick two or three focus items and a layout.
-- **Scope:** UI, UX, look and feel. Nothing on rules, numbers, bots or content.
+- **In short:** Build 9 is ready for you: your journey lab's layout in the game, hex units, a hand of 4 and the repainted art. Loop 1 ends when you've played it.
+- **Status:** waiting on you
+- **Last step done:** 12 Nov: build 9 exported (`/data/bramble-builds/1112-0603-ideation9`, on the portal's builds page), after the gate, a 200-game soak, the 4-game UI run, the memory check and the export checks passed.
+- **Next step:** your playtest; loop 2 starts from what you say.
+- **Waiting on you:** play build 9 (`PLAYTEST.md`, "Returning after build 8").
+- **Scope:** UI, UX, look and feel. Rules change only where the UI needs it (note 11c).
 <!-- /status -->
 
 Branch family `ideation/*`, merged into `ideation/main`. **Nothing reaches `main` without the owner's say-so** (CLAUDE.md). Build 8 is the latest build; run 1's balance work is parked (`PARKED.md`).

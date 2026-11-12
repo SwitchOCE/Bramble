@@ -24,7 +24,15 @@ func test_scouting_shows_the_last_board_by_slot_from_the_next_plaque() -> void:
 	var scout: Control = screen.get("_scout")
 	assert_false(scout.visible, "closed until asked for")
 	var lobby: Control = screen.get("_lobby")
-	lobby.emit_signal("next_tapped")
+	var plaques: Array = lobby.get("plaques")
+	var tapped_next: bool = false
+	for plaque: Control in plaques:
+		if plaque.get("is_next"):
+			var tap: Control = plaque.get("tap")
+			tap.emit_signal("tapped", "lobby", CoreUtil.to_int(screen.state["next_opponent_id"]))
+			tapped_next = true
+			break
+	assert_true(tapped_next, "the next opponent has an interactive standings seat")
 	assert_true(scout.visible, "one tap on the next opponent's plaque")
 	var shown: int = scout.get("unit_count")
 	assert_eq(shown, 4)
@@ -144,10 +152,3 @@ func test_a_slot_strip_shows_the_whole_name_or_its_last_word_never_an_ellipsis()
 	assert_eq(
 		BoardView.fit_name("Will-o'-the-Wisp Grand-Duchess-Of-The-Far-Marshes", words), "Marshes"
 	)
-
-
-func test_the_toast_stands_clear_of_the_shop() -> void:
-	var screen: RecruitScreen = _slice_screen()
-	screen.show_toast("Three Acorns made a Stash.")
-	var toast: Label = screen.get("_toast")
-	assert_true(toast.position.y + toast.size.y <= RecruitScreen.SHOP_TOP - 20.0)

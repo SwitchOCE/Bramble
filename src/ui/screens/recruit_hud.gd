@@ -13,7 +13,7 @@ static func populate(ui: RecruitLayout) -> bool:
 		RecruitView.income_note(state),
 		Data.i(state, "gold_next_turn") - Data.i(state, "debt_payment")
 	)
-	ui._tier_label.text = "%d" % Data.i(state, "tier", 1)
+	ui._tier_label.text = "TIER %d" % Data.i(state, "tier", 1)
 	ui._round_label.text = "Turn %d" % Data.i(state, "round", 1)
 	var tier_cost: Variant = state.get("tier_up_cost")
 	if tier_cost == null:
@@ -23,7 +23,7 @@ static func populate(ui: RecruitLayout) -> bool:
 		ui._tier_button.set_face("", "tier", Data.as_int(tier_cost))
 		ui._tier_button.disabled = false
 	var refresh_cost: int = Data.i(state, "refresh_cost", 1)
-	ui._refresh_button.set_face("", "refresh", refresh_cost if refresh_cost != 1 else -1)
+	ui._refresh_button.set_face("", "refresh", refresh_cost)
 	ui._kin_button.set_face("", "refresh", 2)
 	ui._kin_button.tooltip_text = (
 		"2 gold, once a turn: refresh with at least two units sharing your tribes. "

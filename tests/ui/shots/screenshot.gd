@@ -14,6 +14,7 @@ extends SceneTree
 ## clarity_discover_live is a tier-4 Discover from the real pool.
 ## commit_bonus, commit_harvest and commit_<unit id> stage the commitment package.
 ## tests/ui/render_screens.sh renders them all and converts them to JPEG.
+## Dev-only: BACKDROP=<image path> replaces table backgrounds with a centered cover image.
 
 const CorePort := preload("res://src/ui/adapter/core_port.gd")
 const App := preload("res://src/ui/app.gd")
@@ -26,6 +27,7 @@ const FixturePort := preload("res://src/ui/adapter/fixture_port.gd")
 const MainMenu := preload("res://src/ui/screens/main_menu.gd")
 const CommitmentStates := preload("res://tests/ui/commitment_states.gd")
 const HowToPlay := preload("res://src/ui/screens/how_to_play.gd")
+const TableBackground := preload("res://src/ui/widgets/table_background.gd")
 
 const ReviewBogStates := preload("res://tests/ui/review_bog_states.gd")
 const LaneStates := preload("res://tests/ui/lane_states.gd")
@@ -33,6 +35,20 @@ const LaneStates := preload("res://tests/ui/lane_states.gd")
 const SEED: int = 20261104
 const BOT_ROUNDS: int = 6
 const GAME_OVER_ROUNDS: int = 60
+const FULL_HAND_IDS: Array[String] = [
+	"mrs_mallow",
+	"grey_agnes",
+	"wee_wobbly",
+	"mrs_jay",
+	"lantern_man",
+	"lob_lie_by_the_fire",
+	"pill_bug",
+	"toll_bard",
+	"chiffchaff",
+	"mrs_burdock",
+]
+
+var _backdrop: ImageTexture
 
 
 func _initialize() -> void:
@@ -42,6 +58,14 @@ func _initialize() -> void:
 		printerr("usage: -- <screen> <WxH> <out.png>")
 		quit(2)
 		return
+	var backdrop_path: String = OS.get_environment("BACKDROP")
+	if not backdrop_path.is_empty():
+		var backdrop_image: Image = Image.new()
+		if backdrop_image.load(backdrop_path) != OK:
+			printerr("screenshot: cannot load BACKDROP: %s" % backdrop_path)
+			quit(2)
+			return
+		_backdrop = ImageTexture.create_from_image(backdrop_image)
 	var dims: PackedStringArray = args[1].split("x")
 	var window_size: Vector2i = Vector2i(int(dims[0]), int(dims[1]))
 	DisplayServer.window_set_size(window_size)
@@ -74,6 +98,22 @@ func _bot_game(app: App, rounds: int) -> void:
 				app.note_round(combat, me)
 		if rounds >= GAME_OVER_ROUNDS or port.get_state().get("placement") == null:
 			return
+
+
+## Keep recruit art/layout comparisons on the same full pool-unit reserve.
+func _stage_full_hand(app: App) -> void:
+	var port: CorePort = app.port as CorePort
+	var player: PlayerState = port.session._players[0]
+	player.hand.clear()
+	var limit: int = GameConfig.full_game().get_int("hand_limit")
+	for id: String in FULL_HAND_IDS.slice(0, limit):
+		var definition: Dictionary = port.library.get_unit(id)
+		assert(Data.b(definition, "pool"), "shot hand must use pool units: " + id)
+		var unit: RecruitUnit = RecruitUnit.make(definition, port.session._rules.new_iid())
+		unit.origin = RecruitUnit.ORIGIN_BOUGHT
+		player.hand.append(unit)
+	assert(player.hand.size() == limit)
+	print("screenshot: staged full hand of pool units: ", FULL_HAND_IDS.slice(0, limit))
 
 
 ## A board that shows every held-unit mark: Bellies empty and full, a Nest bare and a Nest stood on,
@@ -164,7 +204,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			player.gold = 10
 		player.board[0] = RecruitUnit.make(port.library.get_unit("mr_crumb"), 901)
 		player.board[0].origin = RecruitUnit.ORIGIN_BOUGHT
-		player.board[4] = RecruitUnit.make(port.library.get_unit("field_vole"), 902)
+		player.board[4] = RecruitUnit.make(port.library.get_unit("mrs_burdock"), 902)
 		app.show_recruit()
 		var screen: RecruitScreen = app.current as RecruitScreen
 		if screen_name == "clarity_sell":
@@ -173,7 +213,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			screen.call("_on_tapped", "shop", 0)
 		elif screen_name == "clarity_discover":
 			var cards: Array[Dictionary] = [
-				port.library.get_unit("field_vole"), port.library.get_unit("mr_crumb")
+				port.library.get_unit("mrs_burdock"), port.library.get_unit("mr_crumb")
 			]
 			port.session._rules.pool = UnitPool.from_cards(
 				cards, port.config, "pool_copies_by_tier", PackedStringArray()
@@ -207,10 +247,10 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 				session._players[index].alive = false
 		session._players[0].health = 5
 		session._players[1].tier = 6
-		session._players[1].board[0] = RecruitUnit.make(port.library.get_unit("field_vole"), 900)
+		session._players[1].board[0] = RecruitUnit.make(port.library.get_unit("mrs_burdock"), 900)
 		if screen_name == "engines_blow":
 			session._players[0].board[0] = RecruitUnit.make(
-				port.library.get_unit("field_vole"), 901
+				port.library.get_unit("mrs_burdock"), 901
 			)
 			session._players[1].board[0].perm_attack = 0
 			session._players[1].board[0].perm_health = 0
@@ -343,7 +383,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			var panel: Object = triple_screen.get("_dev")
 			var ids: PackedStringArray = panel.get("_ids")
 			var options: OptionButton = panel.get("_units")
-			options.select(ids.find("field_vole"))
+			options.select(ids.find("mrs_burdock"))
 			for i: int in 3:
 				panel.call("_on_spawn")
 			var hand: Array = Data.a(app.port.get_state(), "hand")
@@ -416,6 +456,7 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			scouting.call("_on_tapped", "scout", 1)
 		"recruit", "recruit_select", "recruit_frozen", "dev", "pause":
 			_bot_game(app, BOT_ROUNDS)
+			_stage_full_hand(app)
 			app.show_recruit()
 			var recruit: RecruitScreen = app.current as RecruitScreen
 			if screen_name == "recruit_select":
@@ -478,15 +519,15 @@ func _run(screen_name: String, window_size: Vector2i, out_path: String) -> void:
 			app.setup(port)
 			app.show_sandbox()
 			var sandbox: SandboxScreen = app.sandbox
-			sandbox.place(1, 0, "stoat_captain", false)
-			sandbox.place(1, 1, "old_badger", true)
-			sandbox.place(1, 2, "sett_warden", false)
+			sandbox.place(1, 0, "grey_agnes", false)
+			sandbox.place(1, 1, "grizel", true)
+			sandbox.place(1, 2, "brother_wolf", false)
 			sandbox.place(1, 5, "fairy_monarch", false)
-			sandbox.place(0, 1, "hoglet_mother", false)
-			sandbox.place(0, 2, "bitter_toad", false)
-			sandbox.place(0, 5, "belladonna_sprite", false)
+			sandbox.place(0, 1, "mrs_sorrel", false)
+			sandbox.place(0, 2, "jenny_greenteeth", false)
+			sandbox.place(0, 5, "belladonna", false)
 			sandbox.place(1, 3, "hedge_witch", false)
-			sandbox.place(0, 3, "garden_snail", false)
+			sandbox.place(0, 3, "pill_bug", false)
 			sandbox.set_stats(1, 1, 40, 70)
 			if screen_name == "sandbox":
 				sandbox.call("_on_tapped", "enemy", 1)
@@ -564,8 +605,11 @@ func _plain_app(app: App) -> void:
 
 
 func _shoot(window_size: Vector2i, out_path: String) -> void:
+	if _backdrop != null:
+		_replace_tables(root)
 	for i: int in 20:
 		await process_frame
+	await RenderingServer.frame_post_draw
 	var image: Image = root.get_texture().get_image()
 	if image.get_size() != window_size:
 		printerr("screenshot: got %s, wanted %s" % [image.get_size(), window_size])
@@ -574,3 +618,23 @@ func _shoot(window_size: Vector2i, out_path: String) -> void:
 	image.save_png(out_path)
 	print("screenshot: saved %s %s" % [out_path, image.get_size()])
 	quit(0)
+
+
+## Only replace the painted table surface; board trays, panels and unit art stay intact.
+## Loading an Image directly also supports external files without Godot's import pipeline.
+func _replace_tables(parent: Node) -> void:
+	for child: Node in parent.get_children():
+		if child.get_script() == TableBackground:
+			var table: Control = child as Control
+			var backdrop: TextureRect = TextureRect.new()
+			backdrop.name = "ShotBackdrop"
+			backdrop.texture = _backdrop
+			backdrop.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			backdrop.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			backdrop.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			parent.add_child(backdrop)
+			parent.move_child(backdrop, table.get_index())
+			backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			table.hide()
+		else:
+			_replace_tables(child)

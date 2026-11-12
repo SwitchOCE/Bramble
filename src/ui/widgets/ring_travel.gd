@@ -1,6 +1,8 @@
 extends Control
 ## One travelling floor frame; no labels, static links or autonomous clock.
 
+const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
+
 const DOTS: int = 26
 const INK: Color = Color("30291f")
 const GOLD: Color = Color("e9c75a")
@@ -33,16 +35,7 @@ func dot_points() -> PackedVector2Array:
 			from_rect.position.lerp(to_rect.position, phase),
 			from_rect.size.lerp(to_rect.size, phase)
 		)
-		var along: float = (rect.size.x + rect.size.y) * 2.0 * dot / DOTS
-		var point: Vector2 = rect.position
-		if along < rect.size.x:
-			point += Vector2(along, 0)
-		elif along < rect.size.x + rect.size.y:
-			point += Vector2(rect.size.x, along - rect.size.x)
-		elif along < rect.size.x * 2.0 + rect.size.y:
-			point += Vector2(rect.size.x * 2.0 + rect.size.y - along, rect.size.y)
-		else:
-			point += Vector2(0, (rect.size.x + rect.size.y) * 2.0 - along)
+		var point: Vector2 = HexShape.perimeter_point(HexShape.fit(rect), float(dot) / DOTS)
 		if not reduced:
 			point.y -= sin(phase * PI) * 28.0
 		points.append(point)

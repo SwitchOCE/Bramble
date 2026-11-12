@@ -2,7 +2,7 @@ extends Control
 ## The full card, one tap or hover away: a pinned note with the art, the name on an oak banner, the
 ## type line, the whole rules text, any actions (Buy, Sell). Keywords in the text are links: hover
 ## (PC) or tap (phone) shows what one means on a ReminderSlip docked under the rules.
-## It lands on the right-hand column, so the shop, board and hand stay visible while you read it.
+## Recruit places this over free space away from the inspected row, without reflow.
 
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const Data := preload("res://src/ui/view_data.gd")
@@ -33,9 +33,17 @@ const BURNER_GOLDEN: String = "Double printed Attack and Health. Its burn limit 
 var actions: VBoxContainer
 ## The unit shown ({} when empty), for tests.
 var shown: Dictionary = {}
+var read_zone: String = "":
+	set(value):
+		read_zone = value
+		if _anchor.is_valid():
+			_anchor.call()
 ## The open keyword's reminder, docked under the rules text.
 var reminder: ReminderSlip
 
+var _anchor: Callable
+var _overlay: bool = false
+var _overlay_limit: Vector2
 var _panel: WoodPanel
 var _art: ArtFrame
 var _banner: Panel
@@ -51,6 +59,8 @@ var _health: ShapeBadge
 var _health_label: Label
 var _action_column: Rect2 = Rect2()
 var _last_view: Dictionary = {}
+var _arena_anchor: Array = []
+var _source_getter: Callable
 
 
 func _init() -> void:
@@ -167,6 +177,8 @@ func show_unit(view: Dictionary, hint: String = "") -> void:
 		reminder.hide_slip()
 	_last_view = view
 	_notes.text = full_text_bbcode(view)
+	if _overlay and _anchor.is_valid():
+		_anchor.call()
 	_layout()
 
 
@@ -208,13 +220,175 @@ func set_action_column(rect: Rect2 = Rect2()) -> void:
 	_layout()
 
 
+## Re-anchor only this overlay when its live controls move; never relayout the screen.
+func attach_recruit_overlay(
+	stage: Control, gold: Control, end_button: Control, rows: Dictionary
+) -> void:
+	_source_getter = rows.get("source", Callable())
+	var row_refs: Dictionary = {}
+	for zone: String in rows:
+		if zone != "source":
+			row_refs[zone] = weakref(rows[zone])
+	_anchor = _anchor_recruit.bind(weakref(stage), weakref(gold), weakref(end_button), row_refs)
+	visibility_changed.connect(_anchor)
+	gold.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
+	end_button.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
+	for zone: String in row_refs:
+		var row: Control = rows[zone]
+		row.item_rect_changed.connect(_anchor, CONNECT_DEFERRED)
+
+
+## The deferred callable belongs to this reader; none of its targets keeps a node alive.
+func _anchor_recruit(
+	stage_ref: WeakRef, gold_ref: WeakRef, end_ref: WeakRef, row_refs: Dictionary
+) -> void:
+	if not is_inside_tree() or is_queued_for_deletion() or not visible:
+		return
+	var targets: Array[Control] = [stage_ref.get_ref(), gold_ref.get_ref(), end_ref.get_ref()]
+	for target: Control in targets:
+		if target == null or not target.is_inside_tree() or target.is_queued_for_deletion():
+			return
+	var rows: Dictionary = {}
+	for zone: String in row_refs:
+		var ref: WeakRef = row_refs[zone]
+		var row: Control = ref.get_ref()
+		if row == null or not row.is_inside_tree() or row.is_queued_for_deletion():
+			return
+		rows[zone] = row
+	rows["source"] = _source_getter
+	place_recruit_overlay(targets[0], targets[1], targets[2], rows)
+
+
+## Protect the entire inspected row. Hand inspection also leaves every play destination clear.
+func place_recruit_overlay(
+	stage: Control, gold: Control, end_button: Control, rows: Dictionary
+) -> void:
+	if stage.has_meta("arena_layout"):
+		_place_arena_overlay(stage, gold, end_button, rows)
+		return
+	var inverse: Transform2D = stage.get_global_transform().affine_inverse()
+	var top: Rect2 = inverse * gold.get_global_rect()
+	var end: Rect2 = inverse * end_button.get_global_rect()
+	var width: float = maxf(430.0, maxf(top.size.x, end.size.x))
+	var start := Vector2(end.end.x - width, minf(top.position.y, stage.size.y * 0.1))
+	var bottom: float = minf(end.position.y, stage.size.y * 0.84)
+	var rect := Rect2(start, Vector2(width, maxf(0.0, bottom - start.y - 12.0)))
+	var protected: Array[Rect2] = [
+		Rect2(0, end.position.y, stage.size.x, stage.size.y - end.position.y)
+	]
+	for zone: String in ["board", "shop", "lobby", "scout", read_zone]:
+		var row: Control = rows.get(zone)
+		if row != null and row.visible:
+			protected.append((inverse * row.get_global_rect()).grow(12.0))
+	if not _clear_of(rect, protected):
+		var margin: float = stage.size.y * 0.02
+		var floor_y: float = end.position.y if end.position.y > stage.size.y * 0.6 else stage.size.y
+		var bounds := Rect2(margin, margin, stage.size.x - margin * 2, floor_y - margin * 2)
+		var free: Rect2 = _free_band(bounds, protected)
+		if free.has_area():
+			width = minf(1550.0, free.size.x) if free.size.y < 600.0 else minf(width, free.size.x)
+			start = Vector2(
+				clampf(end.end.x - width, free.position.x, free.end.x - width), free.position.y
+			)
+			rect = Rect2(start, Vector2(width, minf(rect.size.y, free.size.y)))
+	place_overlay(rect)
+
+
+## Keep B's content-fitted reader, selecting a side band from the new live arena rectangles.
+func _place_arena_overlay(
+	stage: Control, gold: Control, end_button: Control, rows: Dictionary
+) -> void:
+	var inverse: Transform2D = stage.get_global_transform().affine_inverse()
+	var protected: Array[Rect2] = [
+		(inverse * gold.get_global_rect()).grow(12),
+		(inverse * end_button.get_global_rect()).grow(12),
+	]
+	for zone: String in ["board", "shop", "scout", "lobby", "market_controls"]:
+		var row: Control = rows.get(zone)
+		if row != null and row.is_visible_in_tree():
+			protected.append((inverse * row.get_global_rect()).grow(12))
+	var source_fn: Callable = rows.get("source", Callable())
+	if source_fn.is_valid():
+		var source: Control = source_fn.call()
+		if source != null and source.is_visible_in_tree():
+			protected.append((inverse * source.get_global_rect()).grow(12))
+	var anchor: Array = [stage.size, read_zone, protected]
+	if _arena_anchor == anchor:
+		return
+	_arena_anchor = anchor
+	var free: Rect2 = _free_band(
+		Rect2(Vector2(12, 12), stage.size - Vector2(24, 24)), protected, 530.0, 300.0
+	)
+	if not free.has_area():
+		return
+	free.size.x = minf(free.size.x, 530.0)
+	place_overlay(free)
+
+
+static func _clear_of(rect: Rect2, protected: Array[Rect2]) -> bool:
+	for row: Rect2 in protected:
+		if rect.intersects(row):
+			return false
+	return true
+
+
+## Boundaries come from the live rows. This also finds the space between a shop and a hand
+## when a held spell targets the shop: both its source and its tap targets remain exposed.
+static func _free_band(
+	bounds: Rect2, protected: Array[Rect2], max_width: float = INF, min_height: float = 0.0
+) -> Rect2:
+	var xs: Array[float] = [bounds.position.x, bounds.end.x]
+	var ys: Array[float] = [bounds.position.y, bounds.end.y]
+	for row: Rect2 in protected:
+		xs.append(clampf(row.position.x, bounds.position.x, bounds.end.x))
+		xs.append(clampf(row.end.x, bounds.position.x, bounds.end.x))
+		ys.append(clampf(row.position.y, bounds.position.y, bounds.end.y))
+		ys.append(clampf(row.end.y, bounds.position.y, bounds.end.y))
+	var largest := Rect2()
+	for left: float in xs:
+		for right: float in xs:
+			if right - left < 270.0:
+				continue
+			for top: float in ys:
+				for bottom: float in ys:
+					if bottom - top < min_height:
+						continue
+					var band := Rect2(left, top, minf(right - left, max_width), bottom - top)
+					if (
+						bottom > top
+						and band.get_area() > largest.get_area()
+						and _clear_of(band, protected)
+					):
+						largest = band
+	return largest
+
+
+## Recruit supplies a live anchor; this panel never asks surrounding controls for space.
+func place_overlay(rect: Rect2) -> void:
+	_overlay = true
+	_overlay_limit = rect.size
+	position = rect.position
+	size = rect.size
+	set_action_column()
+	_layout()
+
+
 func _layout() -> void:
 	var w: float = size.x
 	if w < 10.0:
 		return
+	# Shallow free bands read across, leaving the inspected row and its neighbours untouched.
+	var across: bool = w >= 800.0 and (_overlay or size.y < 500.0)
+	if _overlay and across:
+		w -= 340.0 + 30.0
+		_action_column = Rect2(w + 12.0, 12, 340, size.y - 24.0)
+	var compact: bool = _overlay and not across and (_overlay_limit.y < 800.0 or size.x < 430.0)
+	if _overlay:
+		_art.visible = not compact and not Data.s(shown, "def_id").is_empty()
+		_tier.visible = not compact and Data.s(shown, "type_word").is_empty()
+		_attack.visible = not compact and not CardView.is_spell(shown)
+		_health.visible = _attack.visible
 	var side_actions: bool = _action_column.has_area()
-	# A desktop hand reader fits above the board: portrait left, scrollable rules right.
-	var across: bool = w >= 800.0 and size.y < 500.0
 	var heading_w: float = 500.0 if across else w
 	var gap: int = 0 if side_actions else 6
 	var button_h: float = SIDE_ACTION_H if side_actions else ACTION_H
@@ -230,17 +404,30 @@ func _layout() -> void:
 		action_h += height + gap
 	var bottom: float = size.y if side_actions else size.y - action_h
 	_panel.position = Vector2.ZERO
-	_panel.size = Vector2(w, bottom - 14.0)
+	_panel.size = size if _overlay else Vector2(w, bottom - 14.0)
 	var art: float = 176.0 if _art.visible else 0.0
 	_art.position = Vector2(24, 24)
 	_art.size = Vector2(art, art)
 	_banner.position = Vector2(art + 36.0 if _art.visible else 24.0, 28)
 	_banner.size = Vector2(heading_w - _banner.position.x - 18.0, 104)
+	if _overlay and not across:
+		_banner.position.y = 130.0
+		_banner.size.y = 88.0
+	if compact:
+		_banner.position = Vector2(16, 12)
+		_banner.size = Vector2(w - 32.0, 88)
 	_name_label.position = Vector2(4, 0)
 	_name_label.size = Vector2(_banner.size.x - 8.0, _banner.size.y)
 	_fit_name()
-	_type.position = Vector2(_banner.position.x, 136)
+	_type.position = Vector2(_banner.position.x, _banner.position.y + 108.0)
 	_type.size = Vector2(_banner.size.x, 92)
+	if _overlay and not across:
+		_type.position = Vector2(24, 224)
+		_type.size = Vector2(w - 48.0, 44.0)
+	if compact:
+		_type.position = Vector2(16, 104)
+		_type.size = Vector2(_banner.size.x, 40.0)
+		_type.size.y = maxf(40.0, _type.get_content_height())
 	_tier.position = Vector2(4, 4)
 	_tier.size = Vector2(58, 58)
 	# A familiar whole-million label may need slightly more than the usual 76-unit badge.
@@ -261,11 +448,31 @@ func _layout() -> void:
 	var hint_h: float = 0.0
 	if _hint.visible:
 		hint_h = maxf(84.0, _wrapped_height(_hint, heading_w - 48.0))
-		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 		_hint.size = Vector2(heading_w - 48.0, hint_h)
 	var notes_left: float = heading_w + 24.0 if across else 26.0
 	var notes_top: float = 24.0 if across else (248.0 if _art.visible else 186.0)
+	if _overlay and not across:
+		notes_top = (
+			_type.position.y + _type.size.y + 8.0
+			if compact
+			else maxf(notes_top, _type.position.y + _type.size.y + 8.0)
+		)
 	var notes_w: float = w - notes_left - 26.0
+	_notes.size.x = notes_w
+	if _overlay:
+		var rules_h: float = maxf(40.0, _notes.get_content_height())
+		var reminder_h: float = (
+			reminder.height_for(notes_w + 12.0) + 10.0 if reminder.visible else 0.0
+		)
+		var body_h: float = notes_top + rules_h + reminder_h + 30.0 + hint_h
+		var heading_h: float = _type.position.y + _type.size.y + 20.0
+		var content_h: float = maxf(body_h, heading_h)
+		content_h = maxf(content_h, action_h + 24.0) if side_actions else content_h + action_h
+		size.y = minf(_overlay_limit.y, content_h)
+		bottom = size.y if side_actions else size.y - action_h
+		_panel.size = size
+	if _hint.visible:
+		_hint.position = Vector2(24, bottom - 14.0 - hint_h - 8.0)
 	var text_bottom: float = bottom - 30.0 - (0.0 if across else hint_h)
 	var slip_h: float = 0.0
 	if reminder.visible:
@@ -291,19 +498,22 @@ func _wrapped_height(label: Label, width: float) -> float:
 	)
 
 
-## A name that would take more than two lines drops to the smallest size, where it fits the banner.
+## Fit complete names to the available banner before they can be clipped by it.
 func _fit_name() -> void:
-	var big: int = UiTheme.FONT_BODY + 4
+	var font_size: int = UiTheme.FONT_BODY + 4
 	var font: Font = UiTheme.head_font()
-	var tall: float = (
-		font
-		. get_multiline_string_size(
-			_name_label.text, HORIZONTAL_ALIGNMENT_CENTER, _name_label.size.x, big
+	while font_size > UiTheme.FONT_SMALL:
+		var height: float = (
+			font
+			. get_multiline_string_size(
+				_name_label.text, HORIZONTAL_ALIGNMENT_CENTER, _name_label.size.x, font_size
+			)
+			. y
 		)
-		. y
-	)
-	var long: bool = tall > font.get_height(big) * 2.5
-	_name_label.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL if long else big)
+		if height <= _name_label.size.y:
+			break
+		font_size = maxi(UiTheme.FONT_SMALL, font_size - 2)
+	_name_label.add_theme_font_size_override("font_size", font_size)
 
 
 ## The rules text in full with each keyword a link, then what's true of this card right now. No

@@ -16,6 +16,31 @@ Start with 40 Health. Lose a fight: take the round base plus 1 per enemy startin
 
 Last Blow decides mutual wipes by the final attack or effect and deals only the base. Start of Combat wipes stay ties. Last Stand still saves one lethal loss to a living hero from 2+ Health in the last four, leaving 1 Health after Armor.
 
+## Returning after build 8
+
+Build 9 is the look-and-feel build. The rules and numbers are build 8's, apart from the hand.
+
+**What changed:**
+- **Your journey lab's layout.** Your board sits in one place and never moves: the shop is above it while you buy, another player's board takes the shop's place while you scout, and your opponent's takes it in the fight. Every unit is the same size in the shop, your hand and every board. The shop holds your gold, tier, tier-up, refresh and freeze. Your hand is a 2×2 tray on the left; your hero, Health and End turn are on the right; the other players are a slim strip down the right edge.
+- **Hex units** in your lab's shape, with the back row tucked into the front row's points. Golden units have a heavy gold rim; a selected unit has a cream-white rim; hovering lifts a unit.
+- **The hand holds 4**, counting items. Cards that hand out several cards at once (Mast, Madame Ermeline, Mother Goose, Thorned Trailblazer, Crater Miner, One Swallow's Homecoming, Cut-and-Come-Again) do less, because fewer fit. They haven't been redesigned for it yet.
+- **New art.** Every card picture is repainted in one style, ink with watercolour wash and glow, and the woodland behind the table is repainted to match.
+- **Cards feel physical.** They lift and tilt as you drag, settle when they land, and the spot they'll land on lights up, by drag or by tap.
+
+**Try:**
+- Buy, play and rearrange a full turn by dragging, then the same by tapping.
+- Tap a player on the right to see their last board, then come back to the shop.
+- Fill your hand to 4 and see whether 4 feels tight or fine.
+- Watch a few fights at normal speed: can you follow who hits whom?
+- If you can, play a game on your phone.
+
+**Tell us:**
+- Does the screen now feel like your lab?
+- Do the characters' cartoon proportions still bother you next to the painted world? The rendering moved toward the world, but the drawings' proportions are unchanged; changing them means redrawing every character.
+- Anything that's hard to read, hard to tap, or in the way.
+
+There are no settings to compare in this build. No real phone has been tested.
+
 ## Returning after build 7
 
 Every tribe has bigger stats. New neutrals replace 38 prototypes; tier 1 Stone Soup now shares a fifth. Shop and board tiles are wordless: tap for rules. The hand fans out; Rings animate travel.

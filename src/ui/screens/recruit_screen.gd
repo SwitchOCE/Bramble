@@ -34,6 +34,12 @@ var _hover_index: int = -1
 var _landing_round: int = -1
 var _ending: bool = false
 var _drag_card: CardView
+var _drag_source: CardView
+var _drop_pocket: RecruitHeld.DropPocket
+var _released_card: Dictionary = {}
+var _drag_committed: bool = false
+var _reader_pinned: bool = false
+var _scout_player_id: int = -2
 
 
 func setup(game_port: GamePort) -> void:
@@ -50,22 +56,25 @@ func setup(game_port: GamePort) -> void:
 func _init() -> void:
 	theme = UiTheme.get_theme()
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_table(self)
+	UiTheme.add_world(self, "recruit")
 	var blank: Interactive = Interactive.new()
 	blank.set_anchors_preset(Control.PRESET_FULL_RECT)
 	blank.zone = "table"
-	blank.tapped.connect(_on_tapped)
+	_wire(blank)
 	add_child(blank)
 	_stage = Control.new()
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_stage)
-	_lobby = LobbyStrip.new()
-	_lobby.next_tapped.connect(toggle_scout)
+	_stage.set_meta("arena_layout", true)
+	_bar_contents = _stage
+	_lobby = preload("res://src/ui/widgets/lobby_strip.gd").new()
+	_lobby.scout_requested.connect(scout_player)
 	_lobby.hero_requested.connect(_show_lobby_hero)
 	_stage.add_child(_lobby)
-	_tribes = TribeBonuses.new()
+	_tribes = preload("res://src/ui/widgets/tribe_bonuses.gd").new()
 	_stage.add_child(_tribes)
 	_build_shop(_wire)
+	_market_return.pressed.connect(toggle_scout)
 	_build_board(_wire, _on_hero_power, _on_hero_tapped)
 	_build_hand(_wire)
 	_away_tray.bird_requested.connect(_show_away_bird)
@@ -73,10 +82,10 @@ func _init() -> void:
 	_kin_button = _leaf(
 		LeafButton.Colour.BIRCH, func() -> void: _act(port.ask_for_kin(), "refresh")
 	)
-	_build_tools(_open_pause, toggle_scout, _show_opponent, toggle_dev_panel)
+	_build_tools(_open_pause, toggle_dev_panel)
 	_detail = CardDetail.new()
 	_stage.add_child(_detail)
-	_detail.visibility_changed.connect(_on_detail_shown)
+	_detail.add_child(preload("res://src/ui/widgets/reader_scroll.gd").new(_detail._notes))
 	var rules_links: RichTextLabel = _detail.get("_notes")
 	rules_links.meta_clicked.connect(
 		func(meta: Variant) -> void:
@@ -90,6 +99,25 @@ func _init() -> void:
 	for slot: Interactive in _scout.slots():
 		_wire(slot)
 	_stage.add_child(_scout)
+	var reader_source: Callable = func() -> Control:
+		return _card_at(_detail.read_zone, Data.i(_selected, "index", _hover_index))
+	(
+		_detail
+		. attach_recruit_overlay(
+			_stage,
+			_gold,
+			_end_button,
+			{
+				"shop": _shop_cards,
+				"board": _board,
+				"hand": _hand_zone,
+				"scout": _scout,
+				"lobby": _lobby,
+				"market_controls": _market_controls,
+				"source": reader_source,
+			}
+		)
+	)
 	_motion = RecruitMotion.new()
 	_stage.add_child(_motion)
 	_action_motion = RecruitActionMotion.new()
@@ -139,9 +167,6 @@ func _wire(node: Interactive) -> void:
 	node.preview_fn = _drag_preview
 
 
-# --- rendering -----------------------------------------------------------------------------
-
-
 func render() -> void:
 	state = RecruitView.with_cards(port.get_state()) if port != null else {}
 	if state.is_empty():
@@ -151,6 +176,7 @@ func render() -> void:
 	_render_shop(frozen)
 	_render_board()
 	_render_hand()
+	_layout()
 	_hero.show_hero(Data.d(state, "hero"), Data.i(state, "gold", 0))
 	_show_selection()
 	_render_discover()
@@ -159,39 +185,64 @@ func render() -> void:
 
 
 func toggle_scout() -> void:
+	_reader_pinned = false
 	_hover_timer.stop()
 	_leave_timer.stop()
 	_hover_view = {}
 	_selected = {}
 	_detail.show_empty()
 	_scout.visible = not _scout.visible
-	_scout_token.lit = _scout.visible
-	_who_token.visible = false
+	if _scout.visible:
+		_scout_player_id = Data.i(state, "next_opponent_id", -2)
 	render()
 	if _scout.visible and RecruitView.is_ghost_next(state):
 		_show_opponent()
 
 
+func scout_player(player_id: int) -> void:
+	_reader_pinned = false
+	_hover_timer.stop()
+	_leave_timer.stop()
+	_selected = {}
+	_hover_view = {}
+	_detail.show_empty()
+	_scout_player_id = player_id
+	_scout.show()
+	render()
+	if player_id < 0 and RecruitView.is_ghost_next(state):
+		_show_opponent()
+
+
 func _refresh_scout() -> void:
-	if _scout.visible:
-		var units: Array = Data.a(state, "next_opponent_last_board")
-		var slots: Array = Data.a(state, "next_opponent_last_slot_effects")
-		var nests: Array = Data.a(state, "next_opponent_last_nests")
-		_scout.show_board(
-			RecruitView.next_name(state), units, slots, nests, Data.d(state, "next_opponent_hero")
-		)
-		_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
+	if not _scout.visible:
+		return
+	_scout_snapshot = port.scout_player(_scout_player_id)
+	var units: Array = Data.a(_scout_snapshot, "board")
+	_scout.show_board(
+		Data.s(_scout_snapshot, "name", RecruitView.next_name(state)),
+		units,
+		Data.a(_scout_snapshot, "slot_effects"),
+		Data.a(_scout_snapshot, "nests"),
+		Data.d(_scout_snapshot, "hero")
+	)
+	_lanes.bindings = _projection.forecast([Data.a(state, "board"), units])
+	_layout()
 
 
 func _show_opponent() -> void:
-	var card: Dictionary = RecruitView.opponent_card(state)
-	_selected = {}
-	_show_selection()
+	var card: Dictionary = (
+		LobbyPlaque.reader_card(
+			Data.d(_scout_snapshot, "standing"), Data.d(_scout_snapshot, "hero")
+		)
+		if _scout.visible and not _scout_snapshot.is_empty() and _scout_player_id >= 0
+		else RecruitView.opponent_card(state)
+	)
 	if not card.is_empty():
-		_detail.show_unit(card)
+		_read_external(card)
 
 
 func _read_external(view: Dictionary) -> void:
+	_reader_pinned = true
 	_hover_timer.stop()
 	_leave_timer.stop()
 	_hover_view = {}
@@ -207,39 +258,14 @@ func _show_away_bird(view: Dictionary, nest: int) -> void:
 
 
 func _show_lobby_hero(standing: Dictionary) -> void:
+	if _scout.visible:
+		return
 	var hero: Dictionary = {}
 	if Data.b(standing, "is_human"):
 		hero = Data.d(state, "hero")
 	elif Data.i(standing, "player_id", -9) == Data.i(state, "next_opponent_id", -2):
 		hero = Data.d(state, "next_opponent_hero")
 	_read_external(LobbyPlaque.reader_card(standing, hero))
-
-
-func _render_shop(frozen: bool) -> void:
-	_clear(_shop_cards)
-	var shop: Array = Data.a(state, "shop")
-	var small: bool = _scout.visible
-	var width: float = MINI_TILE if small else _tile_width(shop.size())
-	var mode: CardView.Mode = CardView.Mode.MINI if small else CardView.Mode.SHOP
-	_shop_cards.columns = maxi(ceili(shop.size() / 2.0), 1) if small else maxi(shop.size(), 1)
-	_shop_cards.add_theme_constant_override(
-		"h_separation", MINI_GAP_X if small else int(_shop_gap())
-	)
-	_shop_cards.add_theme_constant_override("v_separation", MINI_GAP_Y)
-	_shelf.selling = false
-	_shop_cards.modulate = Color.WHITE
-	for i: int in shop.size():
-		var view: Dictionary = shop[i]
-		var card: CardView = _make_card(view, "shop", i, width, mode)
-		card.frost = frozen
-		if frozen and i == 0 and not small:
-			card.show_frost_tag(true)
-		if not RecruitView.triple_warning(state, view).is_empty():
-			card.outline = UiTheme.GILT
-		_shop_cards.add_child(card)
-	if small:
-		# A grid keeps the size it had for the bigger tiles until told otherwise.
-		_shop_cards.size = Vector2.ZERO
 
 
 func _render_board() -> void:
@@ -262,14 +288,14 @@ func _render_hand() -> void:
 	_hand_cards.clear_cards()
 	var hand: Array = Data.a(state, "hand")
 	_hand_zone.tooltip_text = Data.s(RecruitView.larder_card(state), "text")
-	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 10)]
+	_hand_count.text = "%d/%d" % [hand.size(), Data.i(state, "hand_limit", 4)]
 	var larder: int = Data.i(state, "larder")
 	if larder > 0:
 		_hand_count.text = "%dg · %s" % [larder, _hand_count.text]
-	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 10)
+	_hand_count.visible = hand.size() >= Data.i(state, "hand_limit", 4)
 	var count: int = hand.size()
 	var card_size: Vector2 = _hand_card_size(count)
-	var mode: CardView.Mode = CardView.Mode.MINI if count > 2 else CardView.Mode.SHOP
+	var mode: CardView.Mode = CardView.Mode.SHOP
 	for index: int in count:
 		var view: Dictionary = hand[index]
 		var card: CardView = _make_card(view, "hand", index, card_size.x, mode)
@@ -287,6 +313,9 @@ func _make_card(
 	card.zone = zone
 	card.index = index
 	_wire(card)
+	var caption: Label = card.get("_name_label")
+	caption.clip_text = true
+	caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	return card
 
 
@@ -320,9 +349,6 @@ func _on_discover_picked(index: int) -> void:
 	_act(port.choose(index), "place")
 
 
-# --- selection and the detail panel -------------------------------------------------------
-
-
 func _unit_at(zone: String, index: int) -> Dictionary:
 	var items: Array = []
 	match zone:
@@ -333,11 +359,8 @@ func _unit_at(zone: String, index: int) -> Dictionary:
 		"board":
 			items = Data.a(state, "board")
 		"scout":
-			items = Data.a(state, "next_opponent_last_board")
-	if index < 0 or index >= items.size():
-		return {}
-	var entry: Variant = items[index]
-	return entry if entry is Dictionary else {}
+			items = Data.a(_scout_snapshot, "board")
+	return Data.entry(items, index)
 
 
 func _show_selection() -> void:
@@ -351,9 +374,11 @@ func _show_selection() -> void:
 			_scout.card_at(slot).selected = false
 	_detail.clear_actions()
 	if _selected.is_empty():
-		_show_sky()
+		_detail.show_empty()
+		_away_tray.show_state(state)
 		return
 	var zone: String = _selected["zone"]
+	_detail.read_zone = zone
 	var index: int = _selected["index"]
 	if zone == "power":
 		var hero: Dictionary = Data.d(state, "hero")
@@ -372,10 +397,8 @@ func _show_selection() -> void:
 		card.selected = true
 	match zone:
 		"shop":
-			var shop_bellies: Array[int] = _highlight_bellies(view)
-			_detail.show_unit(
-				_full_view(zone, view), "Or tap an Ooze to buy it in" if shop_bellies else ""
-			)
+			_highlight_bellies(view)
+			_detail.show_unit(_full_view(zone, view))
 			var cost: int = Data.i(view, "cost", -1)
 			_detail.add_action("Buy", _on_buy_selected, cost)
 		"hand":
@@ -392,15 +415,8 @@ func _show_selection() -> void:
 				_detail.show_unit(_ring_aim_card(view))
 				_highlight_item(view)
 			else:
-				var into_belly: bool = not _highlight_bellies(view).is_empty()
-				_detail.show_unit(
-					_full_view(zone, view),
-					(
-						"Tap a slot to play it, or an Ooze to swallow it"
-						if into_belly
-						else "Tap an empty slot to play it"
-					)
-				)
+				_highlight_bellies(view)
+				_detail.show_unit(_full_view(zone, view))
 				_highlight_empty_slots()
 		"board":
 			var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), index)
@@ -436,32 +452,6 @@ func _show_selection() -> void:
 			_scout.pulse_reach(_board, _lanes.bindings, index)
 
 
-func _card_at(zone: String, index: int) -> CardView:
-	match zone:
-		"board":
-			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
-		"hand":
-			return _hand_cards.card_at(index)
-		"shop":
-			if index >= 0 and index < _shop_cards.get_child_count():
-				return _shop_cards.get_child(index) as CardView
-		"scout":
-			return _scout.card_at(index)
-	return null
-
-
-func _show_sky() -> void:
-	_detail.show_empty()
-	_away_tray.show_state(state)
-
-
-func _highlight_bellies(view: Dictionary) -> Array[int]:
-	var bellies: Array[int] = RecruitHeld.bellies_for(Data.a(state, "board"), view)
-	for slot: int in bellies:
-		_board.cards[slot].outline = UiTheme.DROP_OK
-	return bellies
-
-
 func _try_swallow(from_zone: String, from_index: int, slot: int) -> bool:
 	var moved: Dictionary = _unit_at(from_zone, from_index)
 	if not RecruitHeld.can_swallow(_unit_at("board", slot), moved):
@@ -479,6 +469,13 @@ func _on_into_belly() -> void:
 
 
 func _on_hovered(zone: String, index: int, inside: bool) -> void:
+	if not is_instance_valid(_leave_timer) or not _leave_timer.is_inside_tree():
+		return
+	if CardView.is_phone() or get_viewport().gui_is_dragging():
+		return
+	if _reader_pinned and (not inside or _unit_at(zone, index).is_empty()):
+		return
+	_reader_pinned = false
 	if not _selected.is_empty():
 		_hover_ring_aim(_selected, zone, index, inside)
 		return
@@ -507,10 +504,11 @@ func _end_hover() -> void:
 	_board.set_pass_landing(-2)
 	_board.show_relations([])
 	_detail.show_empty()
-	_detail.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func _on_leave_check() -> void:
+	if _reader_pinned:
+		return
 	if not _hover_view.is_empty() or not _selected.is_empty() or not _detail.visible:
 		return
 	if _detail.get_global_rect().has_point(get_global_mouse_position()):
@@ -520,16 +518,17 @@ func _on_leave_check() -> void:
 
 
 func _show_hover() -> void:
-	if not _hover_view.is_empty() and _selected.is_empty():
+	if not _reader_pinned and not _hover_view.is_empty() and _selected.is_empty():
+		_detail.read_zone = _hover_zone
 		_detail.show_unit(_hover_view)
 		if _hover_zone == "scout":
 			_scout.pulse_reach(_board, _lanes.bindings, _hover_index)
 		elif _hover_zone == "board":
 			_board.show_relations(RecruitView.related_slots(_hover_view, _hover_index))
-		_detail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func _on_tapped(zone: String, index: int) -> void:
+	_reader_pinned = false
 	_hover_timer.stop()
 	if zone != "table":
 		Sfx.tap()
@@ -585,25 +584,18 @@ func _tap_without_swallow(zone: String, index: int) -> void:
 
 
 func _aimed_at_shop(hand_index: int, shop_index: int) -> bool:
-	var card: Dictionary = _unit_at("hand", hand_index)
-	return (
-		Data.s(card, "aim") == "shop_unit" and not CardView.is_spell(_unit_at("shop", shop_index))
+	return RecruitHeld.shop_aim_fits(
+		_unit_at("hand", hand_index), _unit_at("shop", shop_index), shop_index
 	)
 
 
 func _show_bare_slot(slot: int) -> void:
 	var mark: Dictionary = Data.entry(RecruitView.slot_marks(state), slot)
-	var egg: Dictionary = RecruitHeld.egg_card(mark)
-	if not egg.is_empty():
-		_detail.show_unit(egg)
-		return
-	var note: String = RecruitView.slot_note(mark, slot)
-	if note.is_empty():
+	var view: Dictionary = RecruitHeld.slot_card(mark, RecruitView.slot_note(mark, slot))
+	if view.is_empty():
 		_show_selection()
 	else:
-		var card: Dictionary = {"name": "On this slot", "kind": "spell", "type_word": "Slot"}
-		card["text"] = note
-		_detail.show_unit(card)
+		_detail.show_unit(view)
 
 
 func _on_buy_selected() -> void:
@@ -647,29 +639,29 @@ func _on_hero_tapped() -> void:
 		_detail.add_action("Watch again", func() -> void: watch_fight_requested.emit())
 
 
-# --- drag and drop -------------------------------------------------------------------------
-
-
 func _drag_data(zone: String, index: int) -> Variant:
 	if zone not in ["shop", "hand", "board"] or _unit_at(zone, index).is_empty():
 		return null
+	_reader_pinned = false
 	_hover_timer.stop()
+	_leave_timer.stop()
+	_hover_view = {}
 	_detail.show_empty()
+	_drag_committed = false
 	return {"zone": zone, "index": index}
 
 
 func _drag_preview(zone: String, index: int) -> Control:
-	var holder: Control = Control.new()
+	var holder := RecruitHeld.DragLift.new()
 	var card: CardView = CardView.new()
 	_drag_card = card
+	_drag_source = _card_at(zone, index)
 	var view: Dictionary = _unit_at(zone, index)
 	if zone == "board":
 		view = _projection.recruit_unit(Data.a(state, "board"), index)
 	card.show_unit(view, CardView.Mode.BOARD)
-	card.set_card_width(_board.tile_width())
-	card.modulate = Color(1, 1, 1, 0.9)
-	card.position = -card.card_size / 2.0
-	holder.add_child(card)
+	card.set_card_size(ArenaGeometry.UNIT)
+	holder.hold(card, CardView.is_phone())
 	return holder
 
 
@@ -681,14 +673,25 @@ func _can_drop(data: Variant, zone: String, index: int) -> bool:
 	var from_index: int = Data.i(drag, "index", -1)
 	show_pass_preview(from_zone, from_index, zone, index)
 	var target_empty: bool = _unit_at(zone, index).is_empty()
+	var allowed: bool = false
 	match zone:
 		"board":
-			return _can_drop_on_board(from_zone, from_index, index, target_empty)
+			allowed = _can_drop_on_board(from_zone, from_index, index, target_empty)
 		"hand":
-			return from_zone == "shop"
+			allowed = from_zone == "shop"
 		"shop":
-			return from_zone == "board"
-	return false
+			allowed = (
+				from_zone == "board" or (from_zone == "hand" and _aimed_at_shop(from_index, index))
+			)
+		"table":
+			allowed = (
+				from_zone == "hand"
+				and CardView.is_spell(_unit_at(from_zone, from_index))
+				and Data.s(_unit_at(from_zone, from_index), "aim", "none") == "none"
+			)
+	if is_instance_valid(_drop_pocket):
+		_drop_pocket.aim_recruit(_board, _hand_zone, _shop_zone, zone, index, allowed)
+	return allowed
 
 
 func show_pass_preview(from_zone: String, from_index: int, zone: String, index: int) -> void:
@@ -720,9 +723,19 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 	var drag: Dictionary = data
 	var from_zone: String = str(drag.get("zone", ""))
 	var from_index: int = Data.i(drag, "index", -1)
-	_selected = {}
+	_released_card = {}
+	if is_instance_valid(_drag_card):
+		_released_card = {
+			"zone": from_zone,
+			"index": from_index,
+			"rect":
+			_action_motion.get_global_transform().affine_inverse() * _drag_card.get_global_rect(),
+			"mode": _drag_card.mode,
+		}
+	_drag_committed = true
 	if zone == "board" and from_zone != "board" and _try_swallow(from_zone, from_index, index):
 		return
+	_selected = {}
 	match [from_zone, zone]:
 		["shop", "hand"]:
 			_act(_buy_at(from_index), "buy")
@@ -735,6 +748,12 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 				_act(_safe_item(Data.i(card, "card_index", -1), index), "keyword")
 			else:
 				_act_placed(_safe_play(from_index, index), card)
+		["hand", "shop"]:
+			var item: Dictionary = _unit_at("hand", from_index)
+			_act(_safe_item(Data.i(item, "card_index", -1), index), "keyword")
+		["hand", "table"]:
+			var item: Dictionary = _unit_at("hand", from_index)
+			_act(_safe_item(Data.i(item, "card_index", -1)), "keyword")
 		["board", "board"]:
 			_act(_safe_move(from_index, index), "place")
 		["board", "shop"]:
@@ -742,6 +761,11 @@ func _drop(data: Variant, zone: String, index: int) -> void:
 
 
 func _on_drag_started(zone: String, index: int) -> void:
+	_action_motion.finish()
+	if is_instance_valid(_drag_source):
+		_drag_source.modulate.a = 0.22
+	_drop_pocket = RecruitHeld.DropPocket.new()
+	_stage.add_child(_drop_pocket)
 	_board.clear_highlights()
 	match zone:
 		"shop", "hand":
@@ -754,8 +778,19 @@ func _on_drag_started(zone: String, index: int) -> void:
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_DRAG_END and port != null:
+		if is_instance_valid(_drag_source):
+			_drag_source.modulate.a = 1.0
+		if is_instance_valid(_drop_pocket):
+			_drop_pocket.hide()
+			_drop_pocket.queue_free()
 		_drag_card = null
-		render()
+		_drag_source = null
+		_released_card = {}
+		_shelf.selling = false
+		_shop_cards.modulate = Color.WHITE
+		if not _drag_committed:
+			_show_selection()
+		_drag_committed = false
 
 
 func toggle_dev_panel() -> void:
@@ -805,9 +840,6 @@ func _on_turn_skipped() -> void:
 	_dev.refresh()
 
 
-# --- actions -------------------------------------------------------------------------------
-
-
 func _act(reason: String, sound: String = "") -> void:
 	if reason == "Shy warning: repeat to confirm":
 		return
@@ -831,6 +863,15 @@ func _after_change(rewards: bool = true, sound: String = "") -> void:
 	_feedback.finish()
 	_action_motion.finish()
 	var before: Dictionary = _action_motion.snapshot(self)
+	for source: Dictionary in Data.a(before, "cards"):
+		if (
+			Data.s(source, "zone") == Data.s(_released_card, "zone")
+			and Data.i(source, "index", -1) == Data.i(_released_card, "index", -2)
+		):
+			source["rect"] = _released_card["rect"]
+			source["mode"] = _released_card["mode"]
+			source["released"] = true
+	_released_card = {}
 	var old_state: Dictionary = state
 	render()
 	_action_motion.present(self, before, sound)

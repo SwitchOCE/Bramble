@@ -17,6 +17,16 @@ var lit: bool = false:
 		_place()
 		queue_redraw()
 
+## Screen tools can draw as a small icon while retaining a comfortable input rectangle.
+var quiet: bool = false:
+	set(value):
+		quiet = value
+		if _glyph != null:
+			set_icon_name(_icon_name)
+			_place()
+		queue_redraw()
+
+var _icon_name: String = ""
 var _word: Label
 var _glyph: TextureRect
 
@@ -46,9 +56,10 @@ func _init(word: String = "", icon_name: String = "", word_size: int = UiTheme.F
 
 
 func set_icon_name(icon_name: String) -> void:
+	_icon_name = icon_name
 	_glyph.visible = not icon_name.is_empty()
 	if _glyph.visible:
-		_glyph.texture = Icons.icon(icon_name, 48.0)
+		_glyph.texture = Icons.icon(icon_name, 48.0, UiTheme.CREAM if quiet else UiTheme.INK)
 
 
 func set_word(word: String) -> void:
@@ -57,6 +68,8 @@ func set_word(word: String) -> void:
 
 
 func _face_rect() -> Rect2:
+	if quiet:
+		return Rect2((size - Vector2(52, 52)) / 2.0, Vector2(52, 52))
 	var side: float = minf(size.x, size.y - EDGE)
 	var x: float = (size.x - side) / 2.0
 	var y: float = EDGE if lit else 0.0
@@ -67,13 +80,19 @@ func _place() -> void:
 	var face: Rect2 = _face_rect()
 	_word.position = face.position
 	_word.size = face.size
-	var inset: float = face.size.x * 0.22
+	var inset: float = 10.0 if quiet else face.size.x * 0.22
 	_glyph.position = face.position + Vector2(inset, inset)
 	_glyph.size = face.size - Vector2(inset, inset) * 2.0
 
 
 func _draw() -> void:
 	var face: Rect2 = _face_rect()
+	if quiet:
+		if is_hovered() or button_pressed or lit:
+			draw_style_box(
+				UiTheme.flat_box(Color(UiTheme.BIRCH, 0.3), Color.TRANSPARENT, 0, 8), face
+			)
+		return
 	var box: StyleBoxFlat = UiTheme.flat_box(UiTheme.CARVE, UiTheme.INK, int(RIM), 200)
 	box.corner_detail = 16
 	if not lit:

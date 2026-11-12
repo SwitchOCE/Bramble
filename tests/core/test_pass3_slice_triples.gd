@@ -36,11 +36,14 @@ func test_golden_first_slice_triple_frees_hand_room_for_its_second_slice() -> vo
 	_engine(true)
 	_slice(20, 20)
 	_slice(20, 20)
-	for _index: int in 7:
+	var hand_limit: int = kit.config.get_int("hand_limit")
+	for _index: int in hand_limit - 3:
 		kit.put("field_vole", -1, true)
-	assert_eq(kit.player.hand.size(), 9)
+	assert_eq(kit.player.hand.size(), hand_limit - 1)
 	_start()
-	assert_eq(kit.player.hand.size(), 9, "the first copy's triple makes room for the second")
+	assert_eq(
+		kit.player.hand.size(), hand_limit - 1, "the first copy's triple makes room for the second"
+	)
 	assert_eq(_slice_cards(), 2, "both golden-source arrivals are generated")
 	var golden_count: int = 0
 	var normal_count: int = 0
@@ -57,7 +60,9 @@ func test_golden_first_slice_triple_frees_hand_room_for_its_second_slice() -> vo
 	assert_eq(normal_count, 1)
 	kit.put("field_vole", -1, true)
 	_start()
-	assert_eq(kit.player.hand.size(), 10, "a hand already full still loses generated Slices")
+	assert_eq(
+		kit.player.hand.size(), hand_limit, "a hand already full still loses generated Slices"
+	)
 	assert_eq(_slice_cards(), 2)
 
 

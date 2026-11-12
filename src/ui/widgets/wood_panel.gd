@@ -3,9 +3,10 @@ extends Control
 ## burned grain, an ink outline, and optional nails. OAK is the plaque, PAPER a pinned note, BIRCH a
 ## smooth pale board, PURPLE the "this hit" panel, OUT no shadow and a pale face.
 
-enum Kind { OAK, PAPER, BIRCH, PURPLE }
+enum Kind { OAK, PAPER, BIRCH, PURPLE, PAINTED }
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
 
 var kind: Kind = Kind.OAK:
@@ -45,6 +46,9 @@ func edge_colour() -> Color:
 
 
 func _draw() -> void:
+	if kind == Kind.PAINTED:
+		Surface.paint(self, Rect2(Vector2.ZERO, size), edge)
+		return
 	var rect: Rect2 = Rect2(Vector2.ZERO, size)
 	if edge > 0.0:
 		var under: Rect2 = Rect2(Vector2(0, edge), size)

@@ -170,6 +170,14 @@ func test_five_packet_states_and_the_full_hand_have_zero_tile_words_at_both_size
 
 func test_legacy_missing_portrait_names_are_reported_and_still_count() -> void:
 	var state: Dictionary = FixturePort.load_json("res://tests/ui/data/recruit_slice.json")
+	# Keep a legacy portrait fallback in the hand when scouting collapses the market.
+	var legacy_shop: Array = state["shop"]
+	var legacy_card: Dictionary = legacy_shop[0]
+	assert_true(CardView.needs_name(legacy_card), "the fixture exercises a missing portrait")
+	state["hand"] = [legacy_card.duplicate(true)]
+	var items: Array = state["hand_items"]
+	state["hand_items"] = items.slice(0, 3)
+	state["hand_limit"] = 4
 	for pixels: Vector2i in [Vector2i(1688, 780), Vector2i(1920, 1080)]:
 		var screen: RecruitScreen = _screen(state, pixels)
 		await wait_process_frames(3)
@@ -197,7 +205,7 @@ func test_all_shipped_units_are_wordless_in_each_tile_zone() -> void:
 				if zone == "shop":
 					mode = CardView.Mode.SHOP
 				elif zone == "hand":
-					mode = CardView.Mode.MINI
+					mode = CardView.Mode.SHOP
 				card.show_unit(UnitViews.from_def(definition, golden), mode)
 				var report: Dictionary = Capture.tile_words(card)
 				var words: Array = report["words"]

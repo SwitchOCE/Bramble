@@ -7,6 +7,8 @@ const Icons := preload("res://src/ui/widgets/icons.gd")
 const StatNumbers := preload("res://src/ui/stat_numbers.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
 
+const HexShape := preload("res://src/ui/widgets/hex_shape.gd")
+
 const GLYPH: float = 44.0
 const COUNTER_WIDTH: float = 64.0
 const PALE: Color = Color("dcf0ed")
@@ -70,12 +72,18 @@ func setup(
 		_kiss_radius = minf(5.0, spacing * 0.3)
 		for index: int in kiss_period:
 			kiss_pips.append(
-				Vector2(size.x / 2.0 + (index - (kiss_period - 1) / 2.0) * spacing, 15)
+				Vector2(size.x / 2.0 + (index - (kiss_period - 1) / 2.0) * spacing, size.y * 0.19)
 			)
 	pending_attack = Data.i(view, "pending_attack")
 	pending_health = Data.i(view, "pending_health")
 	pending_visible = (pending_attack != 0 or pending_health != 0)
-	pending_rect = Rect2(Vector2((size.x - 42.0) / 2.0, 33.0), Vector2(42, 38))
+	pending_rect = Rect2(
+		Vector2((size.x - 42.0) / 2.0, size.y * 0.27), Vector2(42, minf(38.0, size.y * 0.22))
+	)
+	if pending_rect.intersects(_attack):
+		var room: float = maxf(16.0, size.x - _attack.end.x - 3.0)
+		pending_rect.size.x = minf(42.0, room)
+		pending_rect.position.x = size.x - pending_rect.size.x
 	marked_keywords.clear()
 	marked_statuses.clear()
 	for entry: Variant in Data.a(view, "statuses"):
@@ -109,7 +117,7 @@ func setup(
 	glyph.visible = not glyph_kind.is_empty() and count.is_empty()
 	if glyph.visible:
 		glyph.texture = Icons.icon(glyph_kind, GLYPH)
-	glyph.position = Vector2((size.x - GLYPH) / 2.0, size.y - GLYPH + 6.0)
+	glyph.position = Vector2((size.x - GLYPH) / 2.0, size.y - GLYPH - 2.0)
 	counter.visible = not count.is_empty()
 	counter.text = count
 	# Keep the occupied glyph spot inside the face and between the two stat beads.
@@ -214,18 +222,14 @@ static func counter_value(view: Dictionary) -> Dictionary:
 func _draw() -> void:
 	var tile: Rect2 = Rect2(Vector2.ZERO, size)
 	if "nightshade" in marked_statuses:
-		draw_style_box(
-			UiTheme.flat_box(Color(UiTheme.NIGHTSHADE, 0.14), Color.TRANSPARENT, 0, 18), tile
-		)
+		draw_colored_polygon(HexShape.polygon(tile), Color(UiTheme.NIGHTSHADE, 0.14))
 		_draw_icon("berry", Rect2(_health.position + Vector2(-4, -12), Vector2(30, 30)))
 	if "shell" in marked_statuses:
-		draw_style_box(UiTheme.flat_box(Color.TRANSPARENT, PALE, 5, 18), tile.grow(-7))
+		draw_polyline(HexShape.closed(tile.grow(-7)), PALE, 3, true)
 	if "shield" in marked_statuses:
-		draw_style_box(
-			UiTheme.flat_box(Color(UiTheme.FROST, 0.08), Color(UiTheme.FROST, 0.95), 5, 38),
-			tile.grow(9)
-		)
-		draw_arc(Vector2(size.x * 0.33, size.y * 0.26), 19, PI, PI * 1.55, 14, PALE, 4, true)
+		draw_colored_polygon(HexShape.polygon(tile), Color(UiTheme.FROST, 0.08))
+		draw_polyline(HexShape.closed(tile.grow(-2)), Color(UiTheme.FROST, 0.95), 3, true)
+		draw_arc(Vector2(size.x * 0.33, size.y * 0.26), 19, PI, PI * 1.55, 14, PALE, 3, true)
 	if "waiting" in marked_statuses:
 		_draw_waiting()
 	if "warned" in marked_statuses:
@@ -251,7 +255,7 @@ func _draw_icon(key: String, rect: Rect2) -> void:
 
 
 func _draw_reeds() -> void:
-	var foot: Vector2 = Vector2(size.x * 0.26, size.y - 6)
+	var foot: Vector2 = Vector2(size.x * 0.12, size.y * 0.60)
 	for index: int in 3:
 		var root: Vector2 = foot + Vector2(index * 8, 0)
 		var tip: Vector2 = root + Vector2(-4 + index * 3, -24 - index % 2 * 8)
@@ -261,13 +265,13 @@ func _draw_reeds() -> void:
 
 func _draw_claw() -> void:
 	for index: int in 3:
-		var start: Vector2 = Vector2(size.x - 10 - index * 8, 9)
+		var start: Vector2 = Vector2(size.x * 0.83 - index * 8, size.y * 0.22)
 		draw_line(start, start + Vector2(-6, 20), UiTheme.INK, 7, true)
 		draw_line(start, start + Vector2(-6, 20), UiTheme.CREAM, 3, true)
 
 
 func _draw_wing() -> void:
-	var at: Vector2 = Vector2(9, 16)
+	var at: Vector2 = Vector2(size.x * 0.12, size.y * 0.31)
 	var points: PackedVector2Array = [
 		at, at + Vector2(24, -3), at + Vector2(13, 8), at + Vector2(7, 20)
 	]
@@ -277,7 +281,7 @@ func _draw_wing() -> void:
 
 func _draw_waiting() -> void:
 	for index: int in 2:
-		var center: Vector2 = Vector2(size.x * 0.45 + index * 22, 25 - index * 10)
+		var center: Vector2 = Vector2(size.x * 0.45 + index * 22, size.y * 0.26 - index * 10)
 		draw_arc(center, 8, 0.15, PI * 1.7, 18, PALE, 3, true)
 
 
@@ -304,7 +308,8 @@ func _draw_kisses() -> void:
 
 ## Folded waiting tag: the hourglass signals later, dots identify the queued stats.
 func _draw_pending() -> void:
-	var at: Vector2 = pending_rect.position
+	draw_set_transform(pending_rect.position, 0.0, pending_rect.size / Vector2(42, 38))
+	var at: Vector2 = Vector2.ZERO
 	var outline: PackedVector2Array = [
 		at, at + Vector2(32, 0), at + Vector2(42, 10), at + Vector2(42, 38), at + Vector2(0, 38), at
 	]
@@ -336,6 +341,8 @@ func _draw_pending() -> void:
 		draw_circle(at + Vector2(14, 30), 4, UiTheme.ACORN)
 	if pending_health != 0:
 		draw_circle(at + Vector2(28, 30), 4, UiTheme.HEALTH)
+
+	draw_set_transform(Vector2.ZERO)
 
 
 func _draw_counter() -> void:

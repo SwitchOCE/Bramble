@@ -27,6 +27,7 @@ var _launch_error: String = ""
 var _fight_floor: Array = []
 var _fight_health: Array[int] = []
 var _fight_ids: Array = []
+var _fight_standings: Array = []
 
 
 ## Loads the unit library, for the full game unless a config says otherwise (tests use human_bot).
@@ -52,11 +53,29 @@ func setup(game_config: GameConfig = null) -> void:
 				_field_library_path = args[index + 1]
 
 
+## Adapt the core's existing public last-fight snapshot for any standings seat.
+func scout_player(player_id: int) -> Dictionary:
+	var out: Dictionary = super(player_id)
+	if session == null or Data.d(out, "standing").is_empty():
+		return out
+	var snapshot: Dictionary = session._scout_of(player_id)
+	out["board"] = Data.a(snapshot, "views").duplicate(true)
+	out["slot_effects"] = Data.a(snapshot, "slots").duplicate(true)
+	out["nests"] = Data.a(snapshot, "nests").duplicate(true)
+	var hero_name: String = Data.s(Data.d(out, "standing"), "hero")
+	for hero: Dictionary in library.all_heroes():
+		if Data.s(hero, "name") == hero_name:
+			out["hero"] = hero.duplicate(true)
+			break
+	return out
+
+
 func new_game(game_seed: int) -> String:
 	recorded_actions.clear()
 	_fight_floor.clear()
 	_fight_health.clear()
 	_fight_ids.clear()
+	_fight_standings.clear()
 	if library == null:
 		setup()
 	if _launch_error != "":
@@ -113,6 +132,7 @@ func get_last_combat() -> Dictionary:
 	var combat: Dictionary = session.get_last_combat().duplicate(true)
 	var start: Dictionary = Events.start(Data.a(combat, "events"))
 	combat["player_ids"] = Data.a(start, "player_ids").duplicate()
+	combat["standings_before"] = _fight_standings.duplicate(true)
 	combat["floor_marks"] = _fight_floor.duplicate(true)
 	combat["hero_health_before"] = _fight_health.duplicate()
 	combat["hero_health_after"] = _health_for_ids(_fight_ids)
@@ -225,6 +245,7 @@ func tier_up() -> String:
 func end_turn() -> String:
 	if session == null:
 		return NOT_AVAILABLE
+	var standings_before: Array = Data.a(get_state(), "standings").duplicate(true)
 	# Observe the exact fight inputs without changing any rules or taking over evidence hooks.
 	var previous: Callable = session.fight_capture_observer
 	session.fight_capture_observer = func(
@@ -255,6 +276,8 @@ func end_turn() -> String:
 			previous.call(input, result, fight)
 	var reason: String = _record("end_turn", [], session.end_turn)
 	session.fight_capture_observer = previous
+	if reason.is_empty():
+		_fight_standings = standings_before
 	return _after(reason)
 
 

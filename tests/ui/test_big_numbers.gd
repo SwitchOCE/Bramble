@@ -53,7 +53,15 @@ func _badges_fit(card: CardView) -> void:
 		assert_lte(badge.size.x, 84.0, "large values cannot grow into another pocket")
 	var attack: ShapeBadge = card.get("_attack_badge")
 	var health: ShapeBadge = card.get("_health_badge")
-	assert_lte(attack.position.x + attack.size.x + 4.0, health.position.x)
+	assert_false(
+		attack.get_rect().grow(1.0).intersects(health.get_rect()),
+		"readable badges never cover each other"
+	)
+	for badge: ShapeBadge in [attack, health]:
+		assert_true(
+			Rect2(Vector2.ZERO, card.card_size).encloses(badge.get_rect()),
+			"badge stays inside the caller box"
+		)
 
 
 func test_compact_cutoff_rounding_suffix_promotion_and_exact_values() -> void:

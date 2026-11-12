@@ -1,11 +1,10 @@
 extends Control
 
 signal hero_pressed
-## The next opponent's board as it fought last round, by slot, in the shop's place at the top of the
-## screen. Their front row faces your board underneath, as in a fight. The shop shrinks to small
-## tiles beside it, so their board, what you might buy, your board and your hand are all in view at
-## once. Their slots are tap targets the recruit screen wires up: the full text lands in the card
-## panel, where every other full text lands.
+## A standings seat's last recorded board replaces the market. Their slots and portrait
+## open the shared reader; buying and refreshing resume after returning to the market.
+
+const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
 
 const Data := preload("res://src/ui/view_data.gd")
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -18,7 +17,7 @@ const Interactive := preload("res://src/ui/widgets/interactive.gd")
 
 ## The smallest pocket whose height still makes a finger's tap target on a phone (122).
 const POCKET: float = 136.0
-const TITLE_H: float = 54.0
+const TITLE_H: float = 94.0
 
 ## Units on show, for tests.
 var unit_count: int = 0
@@ -39,7 +38,12 @@ func _init() -> void:
 	_board = BoardView.new()
 	_board.configure("scout", POCKET, false)
 	add_child(_board)
-	_title = UiTheme.head("", UiTheme.FONT_BODY + 2)
+	_title = UiTheme.head("", UiTheme.FONT_SMALL)
+	_title.add_theme_color_override("font_color", UiTheme.CREAM)
+	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_title.add_theme_stylebox_override(
+		"normal", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color.TRANSPARENT, 0, 8)
+	)
 	_title.clip_text = true
 	_title.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_title.set_meta("ellipsis_ok", true)
@@ -118,15 +122,16 @@ func show_board(
 			var view: Dictionary = Data.entry(units, slot)
 			var card: CardView = CardView.new()
 			card.chip_hidden = true
-			card.selection_color = UiTheme.RIME
 			card.show_unit(view, CardView.Mode.BOARD)
 			card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			card.set_meta("overlap_checked", true)
 			_board.place_card(card, slot)
+			card.set_card_size(ArenaGeometry.UNIT)
 			card.turns_shown = RecruitView.tile_slip(view)
 			unit_count += 1
 	_empty.visible = false
-	_title.visible = false
+	_title.text = _opponent
+	_title.visible = true
 	show_hero(hero)
 	var marks: Array = RecruitView.slot_marks({"slot_effects": slot_effects})
 	_board.set_marks(RecruitHeld.with_their_nests(marks, nests))
@@ -167,12 +172,11 @@ func pulse_reach(own_board: BoardView, bindings: Dictionary, source_slot: int) -
 func _layout() -> void:
 	var tray: Vector2 = _board.tray_size()
 	_board.position = Vector2.ZERO
-	var title_x: float = tray.x + 16.0
-	_title.position = Vector2(title_x, heading_offset)
-	_title.size = Vector2(maxf(size.x - title_x, 10.0), TITLE_H)
+	_title.position = Vector2(tray.x + 24, 20)
+	_title.size = Vector2(270.0, TITLE_H)
 	_empty.position = Vector2(50, tray.y / 2.0 - 70.0)
 	_empty.size = Vector2(tray.x - 100.0, 140)
 	var side: float = 122.0 if CardView.is_phone() else 90.0
-	_hero.position = Vector2(tray.x - side * 0.7, -side * 0.1)
+	_hero.position = Vector2(tray.x + 24, 150)
 	_hero.size = Vector2(side, side)
 	_hero_art.size = _hero.size

@@ -1,15 +1,15 @@
 # Scripted full UI run
 
-Made by `tests/ui/full_ui_run.sh 2 1000` on 5c050a4c (ideation/build8), 2026-11-10.
+Made by `tests/ui/full_ui_run.sh 2 1000` on 889e28dc (ideation/ui-arena), 2026-11-11.
 
 **0 failed out of 4 games and 2 late-game checks. Depth bar: not judged: under 10 games a size.**
 
 | Depth | Needed | Got |
 |---|---|---|
 | Games reaching turn 12 | 10 | 3 |
-| Games reaching turn 15 | 3 | 0 |
+| Games reaching turn 15 | 3 | 1 |
 | Games won | 1 | 0 |
-| Ghost fights | 3 | 2 |
+| Ghost fights | 3 | 1 |
 | Games reaching tier 5 in play | 2 | 4 |
 | Games reaching tier 6 in play | 2 | 4 |
 
@@ -25,10 +25,10 @@ What it isn't: a real phone or a real finger. Agents can only measure layouts at
 
 | Size | Seed | Bots | Player | Place | Turns | Ghost fights | Top tier | Problems | Errors | Exit | Seconds | Verdict |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| 1920x1080 | 1000 | naive | skilled | 8 | 11 | 0 | 6 | 0 | 0 | 0 | 202 | ok |
-| 1920x1080 | 1001 | naive | cap3 | 8 | 12 | 0 | 6 | 0 | 0 | 0 | 259 | ok |
-| 1688x780 | 1100 | naive | skilled | 6 | 13 | 1 | 6 | 0 | 0 | 0 | 297 | ok |
-| 1688x780 | 1101 | naive | cap3 | 4 | 14 | 1 | 6 | 0 | 0 | 0 | 208 | ok |
+| 1920x1080 | 1000 | naive | skilled | 7 | 11 | 0 | 6 | 0 | 0 | 0 | 323 | ok |
+| 1920x1080 | 1001 | naive | cap3 | 2 | 20 | 1 | 6 | 0 | 0 | 0 | 638 | ok |
+| 1688x780 | 1100 | naive | skilled | 5 | 12 | 0 | 6 | 0 | 0 | 0 | 339 | ok |
+| 1688x780 | 1101 | naive | cap3 | 7 | 12 | 0 | 6 | 0 | 0 | 0 | 240 | ok |
 
 Late-game layout, forced to tier 6 with a full board and hand:
 

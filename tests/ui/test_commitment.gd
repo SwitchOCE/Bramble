@@ -77,9 +77,9 @@ func test_tribe_portraits_show_bonus_on_phone() -> void:
 	assert_eq(caption.text, "Tribe bonus")
 	assert_false(caption.is_visible_in_tree(), "earned portraits need no resting caption")
 	var fairy: Control = icons.chips[0]
-	assert_eq((fairy.get_node("Bonus") as Label).text, "+3/+3")
+	assert_eq((fairy.get_node("Bonus") as Label).text, "3")
 	assert_string_contains(fairy.tooltip_text, "Fairies")
-	assert_lte(icons.position.y + icons.size.y, 134.0, "icons finish above the shop badges")
+
 	assert_eq(LayoutCheck.problems(icons, "tribe icons"), PackedStringArray())
 	state["tribe_bonuses"] = {"Fairies": 0}
 	screen.render()

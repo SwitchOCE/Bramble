@@ -232,7 +232,10 @@ func test_pending_hourglass_refreshes_without_labels_and_stays_clear_of_other_ma
 			assert_true(Rect2(Vector2.ZERO, tile_size).encloses(marks.pending_rect))
 			for key: String in ["_attack_badge", "_health_badge"]:
 				var badge: Control = tile.get(key)
-				assert_false(marks.pending_rect.intersects(badge.get_rect()), key)
+				var pending_on_card := Rect2(
+					marks.position + marks.pending_rect.position, marks.pending_rect.size
+				)
+				assert_false(pending_on_card.intersects(badge.get_rect()), key)
 			assert_false(marks.pending_rect.intersects(marks.glyph.get_rect()))
 			for pip: Vector2 in marks.kiss_pips:
 				assert_false(marks.pending_rect.grow(7).has_point(pip))

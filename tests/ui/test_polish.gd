@@ -232,12 +232,14 @@ func test_keywords_named_only_in_a_rules_line_are_found() -> void:
 	assert_false(words.has("Hex"))
 
 
-func test_scout_shows_hex_and_both_boards_while_hiding_shop_and_lobby() -> void:
+func test_scout_shows_hex_and_both_boards_with_hand_while_collapsing_market_and_standings() -> void:
 	var screen: RecruitScreen = _slice_screen()
 	var raw: Dictionary = screen.port.get_state()
 	var theirs: Array = raw["next_opponent_last_board"]
 	var hexer: Dictionary = theirs[0]
 	hexer["counters"] = {"hex": 7}
+	var board_before_node: Control = screen.get("_board")
+	var board_before: Rect2 = board_before_node.get_global_rect()
 	screen.toggle_scout()
 	await get_tree().process_frame
 	var scout: Control = screen.get("_scout")
@@ -249,22 +251,23 @@ func test_scout_shows_hex_and_both_boards_while_hiding_shop_and_lobby() -> void:
 	var theirs_tray: Control = scout.get("_board")
 	var tray: Rect2 = theirs_tray.get_global_rect()
 	assert_gt(shop.get_child_count(), 0)
-	var shelf: Control = screen.get("_shelf")
 	var lobby: Control = screen.get("_lobby")
-	assert_false(shelf.visible, "the scout uses the shop's space")
-	assert_false(lobby.visible, "the two boards have focus while scouting")
+	assert_false(shop.visible, "the scout uses the market's top zone")
+	assert_false(lobby.visible, "scouting collapses the standings beside the two boards")
 	assert_true(board.visible)
-	assert_true(hand.visible)
+	assert_true(hand.visible, "the full-size hand stays beside your board")
+	assert_eq(board.get_global_rect(), board_before, "scouting keeps your board exactly still")
 	assert_false(tray.intersects(board.get_global_rect()), "your board stays under it")
-	assert_false(tray.intersects(hand.get_global_rect()), "your hand stays clear")
-	assert_true((shop.get_child(0) as CardView).mode == CardView.Mode.MINI)
-	screen.call("_on_tapped", "shop", 0)
-	var selected: Dictionary = screen.get("_selected")
-	assert_eq(str(selected["zone"]), "shop", "the small tiles still buy")
-	screen.toggle_scout()
-	assert_true(shelf.visible, "closing scouting restores the shop")
-	assert_true(lobby.visible, "closing scouting restores the lobby")
-	assert_true((shop.get_child(0) as CardView).mode == CardView.Mode.SHOP, "closing restores it")
+	var offer: CardView = shop.get_child(0)
+	assert_eq(offer.mode, CardView.Mode.SHOP, "market context retains full-size offers")
+	assert_eq(offer.size, card.size, "scouted units and market offers use one size")
+	var market_return: BaseButton = screen.get("_market_return")
+	assert_true(market_return.visible, "the return to the market is obvious")
+	market_return.pressed.emit()
+	assert_true(shop.visible, "returning restores the market")
+	assert_true(lobby.visible)
+	assert_false(scout.visible)
+	assert_eq((shop.get_child(0) as CardView).mode, CardView.Mode.SHOP)
 
 
 func test_a_word_clipped_by_a_round_token_fails_the_layout_check() -> void:
@@ -393,28 +396,38 @@ func _live_screen() -> RecruitScreen:
 	return screen
 
 
-func _hand_after_buying_the_first_mini_tile(screen: RecruitScreen) -> int:
+func _return_to_market(screen: RecruitScreen) -> void:
+	var before: Dictionary = screen.state.duplicate(true)
 	screen.toggle_scout()
+	var shop: Control = screen.get("_shop_cards")
+	assert_false(shop.visible, "the market collapses while scouting")
+	var market_return: BaseButton = screen.get("_market_return")
+	assert_true(market_return.visible)
+	market_return.pressed.emit()
+	assert_true(shop.visible, "the market returns with its buying context")
+	var scout: Control = screen.get("_scout")
+	assert_false(scout.visible)
+	assert_eq(screen.state, before, "scouting and returning preserve the buying context")
+
+
+func test_a_full_size_offer_buys_after_returning_from_scouting() -> void:
+	var screen: RecruitScreen = _live_screen()
+	var before: int = Data.a(screen.state, "hand").size()
+	_return_to_market(screen)
 	var tile: CardView = screen.call("_card_at", "shop", 0)
-	assert_eq(tile.mode, CardView.Mode.MINI, "the shop is small while scouting")
+	assert_eq(tile.mode, CardView.Mode.SHOP)
+	assert_eq(tile.size, preload("res://src/ui/arena_geometry.gd").UNIT)
 	screen.call("_on_tapped", "shop", 0)
 	var driver: PlayerDriver = PlayerDriver.new(1)
 	driver.call("_press_detail_action", screen, "Buy")
-	return Data.a(screen.state, "hand").size()
+	assert_eq(Data.a(screen.state, "hand").size(), before + 1)
 
 
-func test_a_mini_tile_buys_while_scouting() -> void:
+func test_a_full_size_offer_drags_to_the_board_after_returning_from_scouting() -> void:
 	var screen: RecruitScreen = _live_screen()
-	var before: int = Data.a(screen.state, "hand").size()
-	assert_eq(_hand_after_buying_the_first_mini_tile(screen), before + 1)
-	var scout: Control = screen.get("_scout")
-	assert_true(scout.visible, "scouting stays open")
-
-
-func test_a_mini_tile_drags_to_the_board_while_scouting() -> void:
-	var screen: RecruitScreen = _live_screen()
-	screen.toggle_scout()
+	_return_to_market(screen)
 	var tile: CardView = screen.call("_card_at", "shop", 0)
+	assert_eq(tile.mode, CardView.Mode.SHOP)
 	var data: Variant = tile.drag_data_fn.call("shop", 0)
 	assert_true(data is Dictionary, "a tile can be picked up")
 	var drag: Dictionary = data

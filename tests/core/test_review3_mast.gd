@@ -8,6 +8,8 @@ func test_buying_mast_does_not_pay_but_playing_it_then_buying_does() -> void:
 	for hoard: bool in [false, true]:
 		var kit := Kit.new()
 		kit.setup(GameConfig.full_game(), false, LegacyWave1.with_hedgerow(UnitLibrary.load_dir()))
+		# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+		kit.config.set_value("hand_limit", 10)
 		kit.player.gold = 30
 		if hoard:
 			kit.rules.give_card(kit.player, "great_hoard")

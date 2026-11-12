@@ -144,6 +144,8 @@ func test_scale_doubler_repeats_gem_rat_end_of_turn() -> void:
 
 
 func test_trailblazer_combines_one_card_per_turn_and_golden_combines_two() -> void:
+	# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+	_kit.config.set_value("hand_limit", 10)
 	_kit.put("qb_thorned_trailblazer", 0)
 	_kit.play("qb_crater_miner", 1)
 	if _player.is_choosing():
@@ -154,6 +156,8 @@ func test_trailblazer_combines_one_card_per_turn_and_golden_combines_two() -> vo
 	assert_eq(_kit.item_ids().count("qb_blood_gem"), 4)
 	assert_eq(_kit.item_ids().count("qb_gem_day"), 1, "second card receives only its chosen mode")
 	_setup()
+	# This card's example needs more than the 4-card hand (rulebook 7.1.1).
+	_kit.config.set_value("hand_limit", 10)
 	_kit.put("qb_thorned_trailblazer", 0, true)
 	for slot: int in [1, 2]:
 		_kit.play("qb_crater_miner", slot)

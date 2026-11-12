@@ -1,0 +1,74 @@
+[
+  {
+    "id": "pill_bug",
+    "kind": "unit",
+    "family": "Neutral",
+    "original": "assets/portraits/pill_bug.jpg",
+    "target": "assets/portraits_inkglow/pill_bug.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-pill_bug.txt"
+  },
+  {
+    "id": "grey_agnes",
+    "kind": "unit",
+    "family": "Hunters",
+    "original": "assets/portraits/grey_agnes.jpg",
+    "target": "assets/portraits_inkglow/grey_agnes.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-grey_agnes.txt"
+  },
+  {
+    "id": "wee_wobbly",
+    "kind": "unit",
+    "family": "Oozes",
+    "original": "assets/portraits/wee_wobbly.jpg",
+    "target": "assets/portraits_inkglow/wee_wobbly.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-wee_wobbly.txt"
+  },
+  {
+    "id": "beltane_bonfire",
+    "kind": "spell",
+    "family": "Fairies",
+    "original": "assets/portraits/beltane_bonfire.jpg",
+    "target": "assets/portraits_inkglow/beltane_bonfire.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-beltane_bonfire.txt"
+  },
+  {
+    "id": "elderflower_cordial",
+    "kind": "spell",
+    "family": "Neutral",
+    "original": "assets/portraits/elderflower_cordial.jpg",
+    "target": "assets/portraits_inkglow/elderflower_cordial.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-elderflower_cordial.txt"
+  },
+  {
+    "id": "dame_hoolet",
+    "kind": "hero",
+    "family": "Birds",
+    "original": "assets/portraits/dame_hoolet.jpg",
+    "target": "assets/portraits_inkglow/dame_hoolet.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-dame_hoolet.txt"
+  },
+  {
+    "id": "brother_bracken",
+    "kind": "hero",
+    "family": "Hunters",
+    "original": "assets/portraits/brother_bracken.jpg",
+    "target": "assets/portraits_inkglow/brother_bracken.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-brother_bracken.txt"
+  },
+  {
+    "id": "stash",
+    "kind": "item",
+    "family": "Neutral",
+    "original": "assets/portraits/stash.jpg",
+    "target": "assets/portraits_inkglow/stash.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-stash.txt"
+  },
+  {
+    "id": "fairies",
+    "kind": "fallback",
+    "family": "Fairies",
+    "original": "assets/ui/portraits/fairies.jpg",
+    "target": "assets/ui/portraits_inkglow/fairies.jpg",
+    "prompt": "tools/art/prompts/inkglow/round2-fairies.txt"
+  }
+]

@@ -10,6 +10,8 @@ extends RefCounted
 ## (SPEC section 7) one to one; the extra methods are new_game(), library_units()
 ## sandbox_fight(), scenarios() and load_scenario().
 
+const UiTheme := preload("res://src/ui/ui_theme.gd")
+
 const NOT_AVAILABLE: String = "Not available"
 
 
@@ -30,6 +32,24 @@ func get_last_combat() -> Dictionary:
 
 func is_over() -> bool:
 	return false
+
+
+## Read-only public scouting: the recorded board, never an opponent's current hand or recruit state.
+func scout_player(player_id: int) -> Dictionary:
+	var state: Dictionary = get_state()
+	var standing: Dictionary = {}
+	for entry: Dictionary in state.get("standings", []):
+		if CoreUtil.to_int(entry.get("player_id", -2)) == player_id:
+			standing = entry.duplicate(true)
+	var is_next: bool = player_id == CoreUtil.to_int(state.get("next_opponent_id", -2))
+	return {
+		"name": UiTheme.player_name(standing) if player_id >= 0 else "Ghost",
+		"standing": standing,
+		"board": state.get("next_opponent_last_board", []) if is_next else [],
+		"slot_effects": state.get("next_opponent_last_slot_effects", []) if is_next else [],
+		"nests": state.get("next_opponent_last_nests", []) if is_next else [],
+		"hero": state.get("next_opponent_hero", {}) if is_next else {},
+	}
 
 
 func buy(_shop_index: int) -> String:

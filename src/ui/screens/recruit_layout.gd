@@ -24,6 +24,8 @@ const WoodPanel := preload("res://src/ui/widgets/wood_panel.gd")
 const LeafButton := preload("res://src/ui/widgets/leaf_button.gd")
 const TokenButton := preload("res://src/ui/widgets/token_button.gd")
 const Icons := preload("res://src/ui/widgets/icons.gd")
+const PlayFrame := preload("res://src/ui/widgets/play_frame.gd")
+const Surface := preload("res://src/ui/widgets/painted_surface.gd")
 const ShelfPlank := preload("res://src/ui/widgets/shelf_plank.gd")
 const GoldPlaque := preload("res://src/ui/widgets/gold_plaque.gd")
 const HeroPlaque := preload("res://src/ui/widgets/hero_plaque.gd")
@@ -33,25 +35,17 @@ const PauseMenu := preload("res://src/ui/widgets/pause_menu.gd")
 const LaneOverlay := preload("res://src/ui/widgets/lane_overlay.gd")
 const LaneProjection := preload("res://src/ui/lane_projection.gd")
 
+const ArenaGeometry := preload("res://src/ui/arena_geometry.gd")
+
 const CANVAS_H: float = 1080.0
 const RIGHT_W: float = 442.0
-const DETAIL_W: float = 500.0
-const DETAIL_GAP: float = 24.0
-const READING_POCKET: float = 180.0
 const BOARD_POCKET: float = 209.0
-const HAND_W: float = 331.0
-const HAND_TOP: float = 489.0
-const SHOP_TOP: float = 152.0
-const SHELF_Y: float = 384.0
 const SHELF_H: float = 57.0
 const TILE_GAP: float = 44.0
-const READING_TILE_GAP: float = 20.0
-const WRAP_MIN: float = 101.0
-const END_H: float = 189.0
 const LEAF_H: float = 128.0
 const TOAST_SECONDS: float = 3.5
 ## The full hand is always represented by real tiles.
-const HAND_SHOWN: int = 10
+const HAND_SHOWN: int = 4
 const HOVER_SECONDS: float = 0.2
 ## How long a hovered card's panel waits for the pointer to reach it before closing.
 const LEAVE_SECONDS: float = 0.3
@@ -59,15 +53,14 @@ const LEAVE_SECONDS: float = 0.3
 const MINI_TILE: float = 130.0
 const MINI_GAP_X: int = 30
 const MINI_GAP_Y: int = 30
-const SCOUT_TOP: float = 98.0
-const SCOUT_SHOP_TOP: float = 160.0
 ## Two cards in hand stay tall enough for their rules.
-const HAND_TWO_H: float = 215.0
 
 var port: GamePort
 var state: Dictionary = {}
 
 var _lanes: LaneOverlay
+var _frame: PlayFrame
+var _bar_contents: Control
 var _stage: Control
 var _tribes: TribeBonuses
 var _lobby: LobbyStrip
@@ -97,252 +90,206 @@ var _hero: HeroPlaque
 var _toast: Label
 var _dev: DevPanel
 var _scout: ScoutPanel
-var _scout_token: TokenButton
-var _who_token: TokenButton
+var _scout_snapshot: Dictionary = {}
+var _tool_strip: Panel
+var _market_controls: Control
+var _market_return: LeafButton
+var _market_title: Label
 
 
 func _layout() -> void:
 	if _stage == null or size.x < 10.0:
 		return
-	var w: float = size.x
 	_stage.position = Vector2(0, maxf(0.0, (size.y - CANVAS_H) / 2.0))
-	_stage.size = Vector2(w, CANVAS_H)
-	var reading: bool = _split_detail()
-	var pocket_width: float = READING_POCKET if reading else BOARD_POCKET
-	if not is_equal_approx(_board.pocket.x, pocket_width):
-		_board.configure("board", pocket_width, true, true, true)
-	var board_w: float = _board.tray_size().x
-	var content: float = board_w + 51.0 + HAND_W
-	var economy_x: float = w - 30.0 - RIGHT_W
-	var right_x: float = economy_x - DETAIL_W - DETAIL_GAP if reading else economy_x
-	var left: float = WRAP_MIN + maxf(0.0, (right_x - WRAP_MIN - content) / 2.0)
-	_lobby.position = Vector2(20, 17)
-	_lobby.size = Vector2(w - 54.0, LobbyStrip.HEIGHT)
+	_stage.size = Vector2(size.x, CANVAS_H)
+	if _bar_contents != null:
+		_bar_contents.scale = Vector2.ONE
+	var market: Rect2 = ArenaGeometry.market_rect(_stage.size)
+	ArenaGeometry.size_board(_board, "board", true)
+	ArenaGeometry.place_board(_board, _stage.size)
+	var rail: Rect2 = ArenaGeometry.lobby_rect(_stage.size)
+	_lobby.position = rail.position
+	_lobby.size = rail.size
 	_lobby.visible = not _scout.visible
-	var token: float = tap_size()
-	var late_status: bool = false
-	for plaque: Control in _lobby.plaques:
-		late_status = late_status or plaque.has_node("LastStand")
-	var tools_top: float = 140.0 if late_status else 108.0
-	_menu_token.position = Vector2(8, tools_top)
-	_menu_token.size = Vector2(token, token + 9.0)
-	_scout_token.position = Vector2(8, tools_top + token + 16.0)
-	_scout_token.size = Vector2(token, token + 9.0)
-	_scout_token.visible = _scout.visible
-	_who_token.visible = false
-	_who_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
-	_who_token.size = Vector2(token, token + 9.0)
-	_shop_cards.add_theme_constant_override(
-		"h_separation", MINI_GAP_X if _scout.visible else int(_shop_gap())
-	)
-	var shop_w: float = maxf(_shop_width(), board_w + 300.0)
-	shop_w = minf(shop_w, right_x - left - 20.0)
-	_shelf.position = Vector2(left, SHELF_Y)
-	_shelf.size = Vector2(shop_w, SHELF_H)
-	_tribes.position = Vector2(left + 20, 93)
-	_tribes.visible = not _scout.visible and not _tribes.tribes.is_empty()
-	_tribes.size = Vector2(right_x - left - 40, TribeBonuses.HEIGHT)
-	_tribes.z_index = _board.z_index + 1 if late_status else 0
-	if late_status:
-		_tribes.position = Vector2(left + 12, HAND_TOP + 8)
-		_tribes.size.x = board_w - 24.0
-	_shop_zone.position = Vector2(left, SHOP_TOP - 40.0)
-	_shop_zone.size = Vector2(shop_w, SHELF_Y + SHELF_H - SHOP_TOP + 40.0)
-	_shop_cards.position = Vector2(left + 30.0, SHOP_TOP)
-	_shop_cards.size = Vector2(shop_w - 60.0, CardView.SHOP_HEIGHT)
-	var narrow: bool = left < token + 60.0
-	_board.position = Vector2(left, HAND_TOP)
-	_board.size = _board.tray_size()
-	var back: Rect2 = _board.row_rect(false)
-	_layout_hero(left + back.position.x - 52.0)
-	_layout_hand(left + board_w + 51.0)
-	_layout_right(economy_x, w)
-	if _dev_token.visible:
-		_dev_token.position = Vector2(8, tools_top + (token + 16.0) * 2.0)
-		_dev_token.size = Vector2(token, token + 9.0)
-		if narrow:
-			_dev_token.position = Vector2(8, SHELF_Y + 70.0)
-	_dev.position = Vector2(left, 112)
-	# Over the lobby strip: it never covers the shop's badges, and the strip is back in a moment.
-	_toast.position = Vector2(left + 200.0, 12)
-	_size_toast()
-	if _scout.visible:
-		_layout_scouting(left, right_x)
-	_lanes.visible = false
-	_shelf.visible = not _scout.visible
-	_shop_cards.visible = not _scout.visible
+	_menu_token.position = Vector2(16, 112)
+	_menu_token.size = Vector2.ONE * ArenaGeometry.control_height(_stage.size)
+	_tool_strip.position = _menu_token.position + Vector2(0, (_menu_token.size.y - 52) / 2.0)
+	_tool_strip.size = Vector2(_menu_token.size.x, 52)
+	_shop_zone.position = market.position
+	_shop_zone.size = market.size
 	_shop_zone.visible = not _scout.visible
-	_shop_scroll.visible = false
-	if not _scout.visible:
-		if _shop_cards.get_parent() != _stage:
-			_shop_cards.reparent(_stage, false)
-		var offers: int = _shop_cards.get_child_count()
-		for child: Node in _shop_cards.get_children():
-			var card: CardView = child as CardView
-			if card != null:
-				card.set_card_width(_tile_width(offers))
+	_shop_cards.add_theme_constant_override("h_separation", int(_shop_gap()))
+	var offers: int = _shop_cards.get_child_count()
+	var shop_width: float = offers * ArenaGeometry.UNIT.x + maxf(0, offers - 1) * _shop_gap()
+	_shop_cards.scale = Vector2.ONE
+	_shop_cards.position = Vector2((size.x - shop_width) / 2.0, market.position.y + 80)
+	_shop_cards.size = Vector2(shop_width, ArenaGeometry.UNIT.y)
+	_shop_cards.visible = not _scout.visible
+	_shop_scroll.hide()
+	_shelf.hide()
+	for child: Node in _shop_cards.get_children():
+		var card: CardView = child as CardView
+		if card != null:
+			card.set_card_size(ArenaGeometry.UNIT)
+	_layout_hand(0)
+	_layout_hero(0)
+	_layout_right(market.position.x, size.x)
+	_dev_token.position = Vector2(16, 250)
+	_dev_token.size = Vector2(122, 131)
+	_dev.position = Vector2(148, 112)
+	_toast.position = Vector2(size.x / 2.0 - 250, 530)
+	_size_toast()
+	_lanes.hide()
+	if _scout.visible:
+		_layout_scouting(0, 0)
+	_layout_frame(market.position.x, market.size.x)
 
 
-## Scouting focuses the two boards. The shop and lobby return on the close token.
-func _layout_scouting(left: float, right_x: float) -> void:
-	_scout.set_column_pitch(_board.pocket.x + _board.gap)
-	var offset: float = (
-		_board.slot_position(0).x + _board.pocket.x / 2.0 - _scout.first_column_center()
-	)
-	var x: float = left + offset
-	_scout.position = Vector2(x, SCOUT_TOP)
+## Only the top zone swaps. Buying resumes after returning to the market.
+func _layout_scouting(_left: float, _right_x: float) -> void:
+	var theirs: BoardView = _scout.get("_board")
+	ArenaGeometry.size_board(theirs, "scout", false)
+	var frame: Rect2 = ArenaGeometry.board_rect(_stage.size, true)
+	_scout.position = frame.position + (frame.size - theirs.size) / 2.0
+	_scout.size = theirs.size
 	_scout.heading_offset = 0.0
-	_scout.size = Vector2(right_x - 20.0 - x, _scout.tray_height())
 	_scout.call("_layout")
 
 
-## The smallest comfortable tap target at this window's shape, in canvas units.
 func tap_size() -> float:
-	var view: Vector2 = get_viewport_rect().size if is_inside_tree() else size
-	return 122.0 if view.x / maxf(view.y, 1.0) > 2.0 else 104.0
+	return 122.0
 
 
-func _layout_hero(right_edge: float) -> void:
-	var width: float = clampf(right_edge - 12.0, 150.0, 200.0)
-	if _split_detail():
-		width = 170.0
-	_hero.position = Vector2(maxf(12.0, right_edge - width), 770)
-	_hero.size = Vector2(width, 300)
+func _layout_hero(_center: float) -> void:
+	var rect: Rect2 = ArenaGeometry.hero_rect(_stage.size)
+	_hero.position = rect.position
+	_hero.size = rect.size
+	var health: int = 0
+	var armor: int = 0
+	for entry: Dictionary in Data.a(state, "standings"):
+		if Data.b(entry, "is_human"):
+			health = Data.i(entry, "health")
+			armor = Data.i(entry, "armor")
+	_hero.show_health(health, armor)
 
 
-func _layout_hand(x: float) -> void:
-	var right_edge: float = size.x - 30.0 - RIGHT_W
-	if _split_detail():
-		right_edge -= DETAIL_W + DETAIL_GAP
-	x = minf(x, right_edge - HAND_W - 24.0)
-	var count: int = Data.a(state, "hand").size()
-	var card: Vector2 = _hand_card_size(count)
-	var columns: int = 1 if count <= 2 else 2
-	var rows: int = ceili(count / float(columns))
-	# Reserving the same journey row keeps hand tiles and fan spacing stable when Birds fly.
-	var maximum: float = CANVAS_H - 24.0 - HAND_TOP - 12.0 - _away_tray.row_height()
-	var wanted: float = (
-		tap_size()
-		if count == 0
-		else 66.0 + HandFan.FOCUS_LIFT + rows * card.y + maxf(0, rows - 1) * HandFan.ROW_GAP + 12.0
-	)
-	var height: float = minf(maximum, wanted)
-	_hand_zone.position = Vector2(x, HAND_TOP)
-	_hand_zone.size = Vector2(HAND_W, height)
-	_hand_panel.position = Vector2.ZERO
-	_hand_panel.size = _hand_zone.size
-	var has_larder: bool = Data.i(state, "larder") > 0
-	_hand_count.position = Vector2(30 if has_larder else 170, 8)
-	_hand_count.size = Vector2(HAND_W - (60.0 if has_larder else 200.0), 44)
-	_hand_cards.position = Vector2(0, 66)
-	_hand_cards.size = Vector2(HAND_W, maxf(0.0, height - 66.0 - 12.0))
+func _layout_hand(_x: float) -> void:
+	var rect: Rect2 = ArenaGeometry.hand_rect(_stage.size)
+	_hand_zone.show()
+	_hand_zone.position = rect.position
+	_hand_zone.size = rect.size
+	_hand_panel.hide()
+	_hand_count.position = Vector2(4, -38)
+	_hand_count.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_hand_count.size = Vector2(rect.size.x - 32, 40)
+	_hand_count.add_theme_color_override("font_color", UiTheme.CREAM)
+	_hand_count.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_hand_count.add_theme_constant_override("outline_size", 5)
+	_hand_cards.position = Vector2(4, 4)
+	_hand_cards.size = rect.size - Vector2(8, 8)
+	for card: CardView in _hand_cards.cards:
+		card.set_card_size(ArenaGeometry.UNIT)
 	_hand_cards.arrange()
-	_away_tray.position = Vector2(x, HAND_TOP + height + 12.0)
-	var away_w: float = minf(HAND_W, size.x - 30.0 - RIGHT_W - x - 12.0)
-	_away_tray.size = Vector2(away_w, _away_tray.row_height())
+	_away_tray.position = Vector2(ArenaGeometry.board_rect(_stage.size).end.x + 24, 788)
+	_away_tray.size = Vector2(ArenaGeometry.side_width(_stage.size), _away_tray.row_height())
 	_away_tray.show_state(state)
 
 
-func _layout_right(x: float, w: float) -> void:
-	var leaf_x: float = x
-	var leaf_w: float = RIGHT_W
-	_gold.position = Vector2(x + 6.0, 122)
-	_gold.size = Vector2(RIGHT_W - 12.0, 152)
-	_tier_icon.position = Vector2(x + 22.0, 298)
-	_tier_icon.size = Vector2(46, 46)
-	_tier_label.position = Vector2(x + 76.0, 294)
-	_tier_label.size = Vector2(170, 54)
-	_round_label.position = Vector2(w - 30.0 - 180.0 - 16.0, 294)
-	_round_label.size = Vector2(180, 54)
-	var y: float = 362.0
-	var tools: Array[LeafButton] = [_tier_button, _refresh_button, _freeze_button]
-	var kin: bool = Data.b(state, "ask_for_kin_enabled") and not _detail.visible
-	if kin:
-		tools.append(_kin_button)
-	var tool_h: float = CardDetail.SIDE_ACTION_H if kin else LEAF_H
-	for leaf: LeafButton in tools:
-		leaf.position = Vector2(leaf_x, y)
-		leaf.size = Vector2(leaf_w, tool_h)
-		y += tool_h + (2.0 if kin else 22.0)
-	_end_button.position = Vector2(leaf_x, CANVAS_H - 24.0 - END_H)
-	_end_button.size = Vector2(leaf_w, END_H)
-	_detail.position = Vector2(x, 112)
-	_detail.size = Vector2(RIGHT_W, _end_button.position.y - 112.0 - 8.0)
-	_detail.set_action_column()
-	_end_button.set_label_size(61)
-	if _split_detail():
-		_detail.position.x = x - DETAIL_W - DETAIL_GAP
-		_detail.size = Vector2(DETAIL_W, CANVAS_H - 112.0 - 24.0)
-		_gold.position.y = 108.0
-		_tier_icon.position.y = 270.0
-		_tier_label.position.y = 266.0
-		_round_label.position.y = 266.0
-		var tools_y: float = 322.0
-		for leaf: LeafButton in tools:
-			leaf.position.y = tools_y
-			leaf.size.y = CardDetail.SIDE_ACTION_H
-			tools_y += leaf.size.y
-		_detail.set_action_column(Rect2(DETAIL_W + DETAIL_GAP, tools_y - 112.0, RIGHT_W, 244))
-		_end_button.position.y = CANVAS_H - 24.0 - CardDetail.SIDE_ACTION_H
-		_end_button.size.y = CardDetail.SIDE_ACTION_H
-		_end_button.set_label_size(UiTheme.FONT_LEAF)
-	if not CardView.is_phone() and _detail.visible:
-		_detail.position = Vector2(
-			clampf(get_local_mouse_position().x + 30.0, 20.0, w - DETAIL_W - 20.0), 110
-		)
-		_detail.size = Vector2(DETAIL_W, 740)
-		if _reader_is_hand():
-			# Read across the shop space, left of the whole fan and above every destination.
-			_detail.position = Vector2(20, 110)
-			_detail.size = Vector2(_hand_zone.position.x - 44.0, HAND_TOP - 122.0)
-			# Actions keep their full targets in the economy column, clear of both trays.
-			_detail.set_action_column(Rect2(x - 20.0, 252, RIGHT_W, 244))
-	var clear: bool = (
-		not _detail.visible
-		or _split_detail()
-		or (not CardView.is_phone() and not _reader_is_hand())
+func _layout_right(x: float, _w: float) -> void:
+	var board: Rect2 = ArenaGeometry.board_rect(_stage.size)
+	var market: Rect2 = ArenaGeometry.market_rect(_stage.size)
+	_gold.position = Vector2(market.end.x - 246, market.position.y + 8)
+	_gold.size = Vector2(222, 64)
+	_gold.fit_market()
+	_round_label.position = Vector2(24, 28)
+	_round_label.size = Vector2(230, 60)
+	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_round_label.add_theme_color_override("font_color", UiTheme.CREAM)
+	_round_label.add_theme_color_override("font_outline_color", UiTheme.INK)
+	_round_label.add_theme_constant_override("outline_size", 5)
+	_market_title.position = market.position + Vector2(32, 12)
+	_market_title.size = Vector2(240, 68)
+	_tier_label.position = market.position + Vector2(280, 12)
+	_tier_label.size = Vector2(220, 68)
+	_market_title.visible = not _scout.visible
+	_market_controls.position = Vector2(
+		size.x / 2.0 - 350, market.position.y + 80 + ArenaGeometry.UNIT.y + 8
 	)
-	for node: Control in [
-		_gold, _tier_icon, _tier_label, _round_label, _tier_button, _refresh_button, _freeze_button
-	]:
-		node.visible = clear
-	_gold.visible = true
-	_kin_button.visible = clear and kin
+	_market_controls.size = Vector2(700, ArenaGeometry.control_height(_stage.size))
+	_tier_button.compact_cost()
+	_tier_button.position = _market_controls.position
+	_tier_button.size = Vector2(220, _market_controls.size.y)
+	_tier_icon.hide()
+	_tier_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_refresh_button.visible = not _scout.visible
+	_freeze_button.visible = not _scout.visible
+	_refresh_button.compact_cost()
+	_refresh_button.position = _market_controls.position + Vector2(236, 0)
+	_refresh_button.size = Vector2(140, _market_controls.size.y)
+	_freeze_button.position = _market_controls.position + Vector2(392, 0)
+	_freeze_button.size = Vector2(140, _market_controls.size.y)
+	_freeze_button.set_pressed_no_signal(Data.b(state, "frozen"))
+	_kin_button.visible = Data.b(state, "ask_for_kin_enabled") and not _scout.visible
+	_kin_button.position = _market_controls.position + Vector2(548, 0)
+	_kin_button.size = Vector2(140, _market_controls.size.y)
+	_kin_button.compact_cost()
+	_end_button.position = Vector2(board.end.x + 24, 936)
+	_end_button.size = Vector2(270, 122)
+	_end_button.set_label_size(UiTheme.FONT_LEAF)
+	_tribes.position = Vector2(board.end.x + 24, ArenaGeometry.LOW)
+	_tribes.size = Vector2(ArenaGeometry.side_width(_stage.size), 88)
+	_tribes.visible = not _tribes.chips.is_empty()
+	_market_return.position = Vector2(x + 24, 30)
+	_market_return.size = Vector2(270, 122)
+	_market_return.visible = _scout.visible
+	if _scout.visible:
+		var side_x: float = ArenaGeometry.hand_rect(_stage.size).position.x
+		_market_return.position = Vector2(side_x, 24)
+		_market_controls.position = Vector2(side_x, 160)
+		_market_controls.size = Vector2(392, 260)
+		_tier_label.position = Vector2(side_x, 160)
+		_tier_button.size.y = 122.0
+		_tier_button.position = Vector2(side_x, 236)
+		_gold.position = Vector2(side_x, 440)
+	_gold.show()
 
 
-## Wide phones keep a reader beside the economy column, with every board slot still tappable.
-func _split_detail() -> bool:
-	return _detail != null and _detail.visible and size.x >= 2200.0
+func _render_shop(frozen: bool) -> void:
+	call("_clear", _shop_cards)
+	var shop: Array = Data.a(state, "shop")
+	_shop_cards.columns = maxi(shop.size(), 1)
+	_shop_cards.add_theme_constant_override("h_separation", int(_shop_gap()))
+	_shop_cards.add_theme_constant_override("v_separation", 16)
+	_shelf.selling = false
+	_shop_cards.modulate = Color.WHITE
+	for index: int in shop.size():
+		var view: Dictionary = shop[index]
+		var card: CardView = call(
+			"_make_card", view, "shop", index, ArenaGeometry.UNIT.x, CardView.Mode.SHOP
+		)
+		card.set_card_size(ArenaGeometry.UNIT)
+		card.frost = frozen
+		if frozen and index == 0:
+			card.show_frost_tag(true)
+		if not RecruitView.triple_warning(state, view).is_empty():
+			card.outline = UiTheme.TRIPLE_WARN
+		_shop_cards.add_child(card)
 
 
-func _on_detail_shown() -> void:
-	_layout()
-
-
-## Every offer at full width, or less when a high tier's six offers need the room.
 func _shop_width() -> float:
-	var offers: int = maxi(Data.i(state, "shop_size", 4), 4)
-	return offers * CardView.SHOP_WIDTH + (offers - 1) * TILE_GAP + 60.0
+	return ArenaGeometry.MARKET.x
 
 
 func _shop_gap() -> float:
-	var offers: int = Data.a(state, "shop").size()
-	if _split_detail() or (not CardView.is_phone() and offers >= 6):
-		return READING_TILE_GAP
-	return TILE_GAP
+	return 16.0
 
 
-func _tile_width(offers: int) -> float:
-	var room: float = _shelf.size.x - 60.0 - (offers - 1) * _shop_gap()
-	return minf(CardView.SHOP_WIDTH, floorf(room / maxf(offers, 1.0)))
+func _tile_width(_offers: int) -> float:
+	return ArenaGeometry.UNIT.x
 
 
-func _hand_card_size(count: int) -> Vector2:
-	if count <= 1:
-		return Vector2(CardView.SHOP_WIDTH, CardView.SHOP_HEIGHT)
-	if count == 2:
-		return Vector2(CardView.SHOP_WIDTH, HAND_TWO_H)
-	return Vector2(130, 130)
+func _hand_card_size(_count: int) -> Vector2:
+	return ArenaGeometry.UNIT
 
 
 func _size_toast() -> void:
@@ -353,6 +300,13 @@ func _size_toast() -> void:
 
 
 # --- what a selection lights up ---------------------------------------------------------------
+
+
+func _highlight_bellies(view: Dictionary) -> Array[int]:
+	var bellies: Array[int] = RecruitHeld.bellies_for(Data.a(state, "board"), view)
+	for slot: int in bellies:
+		_board.cards[slot].outline = UiTheme.DROP_OK
+	return bellies
 
 
 func _highlight_empty_slots() -> void:
@@ -415,6 +369,13 @@ func _build_right(
 	_round_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	_stage.add_child(_round_label)
 	_tier_button = _leaf(LeafButton.Colour.ACORN, on_tier)
+	_tier_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_tier_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_tier_label.add_theme_font_size_override("font_size", UiTheme.FONT_SMALL)
+	_tier_label.add_theme_color_override("font_color", UiTheme.CREAM)
+	_tier_label.add_theme_stylebox_override(
+		"normal", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color.TRANSPARENT, 0, 8)
+	)
 	_refresh_button = _leaf(LeafButton.Colour.BIRCH, on_refresh)
 	_freeze_button = _leaf(LeafButton.Colour.FROST, on_freeze)
 	_end_button = _leaf(LeafButton.Colour.MOSS, on_end)
@@ -441,7 +402,7 @@ func _full_view(zone: String, view: Dictionary) -> Dictionary:
 
 
 func _show_their_bare_slot(slot: int) -> void:
-	var effects: Array = Data.a(state, "next_opponent_last_slot_effects")
+	var effects: Array = Data.a(_scout_snapshot, "slot_effects")
 	var mark: Dictionary = Data.entry(RecruitView.slot_marks({"slot_effects": effects}), slot)
 	var note: String = RecruitView.slot_note(mark, slot)
 	if not note.is_empty():
@@ -488,14 +449,28 @@ func _build_shop(wire: Callable) -> void:
 	_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_shop_scroll.add_theme_stylebox_override("panel", UiTheme.slip_box(Color.TRANSPARENT, 0, 16))
 	_stage.add_child(_shop_scroll)
+	_market_controls = Control.new()
+	_market_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.add_child(_market_controls)
+	_market_title = UiTheme.head("Market", UiTheme.FONT_BODY + 4)
+	_market_title.add_theme_color_override("font_color", UiTheme.CREAM)
+	_stage.add_child(_market_title)
+	_market_return = LeafButton.new()
+	_market_return.set_face("Market", "close")
+	_stage.add_child(_market_return)
 	_shop_cards = GridContainer.new()
 	_shop_cards.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.add_child(_shop_cards)
 
 
 func _build_board(wire: Callable, power: Callable, portrait: Callable) -> void:
+	_frame = PlayFrame.new()
+	_stage.add_child(_frame)
+	_stage.move_child(_frame, 0)
 	_board = BoardView.new()
-	_board.configure("board", BOARD_POCKET, true, true, true)
+	_board.compact = true
+	_board.surface_visible = false
+	ArenaGeometry.size_board(_board, "board", true)
 	for slot: Interactive in _board.slots:
 		wire.call(slot)
 	_stage.add_child(_board)
@@ -524,33 +499,60 @@ func _build_hand(wire: Callable) -> void:
 	_stage.add_child(_away_tray)
 
 
-func _build_tools(menu: Callable, scout: Callable, who: Callable, dev: Callable) -> void:
+func _build_tools(menu: Callable, dev: Callable) -> void:
+	_tool_strip = Panel.new()
+	_tool_strip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tool_strip.add_theme_stylebox_override(
+		"panel", UiTheme.flat_box(Color(UiTheme.INK, 0.9), Color(UiTheme.CREAM, 0.16), 1, 10)
+	)
+	_stage.add_child(_tool_strip)
 	_menu_token = TokenButton.new("", "gear")
+	_menu_token.quiet = true
 	_menu_token.pressed.connect(menu)
 	_stage.add_child(_menu_token)
-	_scout_token = TokenButton.new("", "close", UiTheme.FONT_SMALL)
-	_scout_token.tooltip_text = "Close scouting"
-	_scout_token.pressed.connect(scout)
-	_stage.add_child(_scout_token)
-	_who_token = TokenButton.new("Who?", "", UiTheme.FONT_SMALL)
-	_who_token.pressed.connect(who)
-	_who_token.visible = false
-	_stage.add_child(_who_token)
 	_dev_token = TokenButton.new("Dev")
 	_dev_token.pressed.connect(dev)
 	_stage.add_child(_dev_token)
 	_dev_token.visible = Settings.show_dev_panel
 
 
-## Identify the hand reader before the fan focus signal arrives.
-func _reader_is_hand() -> bool:
-	var shown: Dictionary = _detail.shown
-	for card: CardView in _hand_cards.cards:
-		if Data.i(shown, "iid", -1) > 0 and Data.i(card.unit, "iid", -2) == Data.i(shown, "iid"):
-			return true
-		if (
-			Data.i(shown, "card_index", -1) >= 0
-			and Data.i(card.unit, "card_index", -2) == Data.i(shown, "card_index")
-		):
-			return true
-	return false
+func _play_width() -> float:
+	return ArenaGeometry.MARKET.x
+
+
+func _layout_frame(_left: float, _width: float) -> void:
+	_frame.size = _stage.size
+	_frame.clear_regions()
+	_frame.add_region(ArenaGeometry.board_rect(_stage.size), Surface.Finish.MOSS)
+	if _scout.visible:
+		_frame.add_region(ArenaGeometry.board_rect(_stage.size, true), Surface.Finish.MOSS)
+		_frame.add_region(
+			Rect2(
+				ArenaGeometry.hand_rect(_stage.size).position.x,
+				16,
+				ArenaGeometry.hand_rect(_stage.size).size.x,
+				ArenaGeometry.BOARD.y
+			),
+			Surface.Finish.STALL
+		)
+	else:
+		_frame.add_region(ArenaGeometry.market_rect(_stage.size), Surface.Finish.STALL)
+	if not _hand_cards.cards.is_empty():
+		_frame.add_region(ArenaGeometry.hand_rect(_stage.size), Surface.Finish.CLOTH)
+	_frame.add_region(Rect2(_hero.position - Vector2(12, 8), Vector2(300, 140)), Surface.Finish.BAR)
+	if _lobby.visible:
+		_frame.add_region(ArenaGeometry.lobby_rect(_stage.size), Surface.Finish.BARK)
+
+
+func _card_at(zone: String, index: int) -> CardView:
+	match zone:
+		"board":
+			return _board.cards[index] if index >= 0 and index < BoardView.SLOTS else null
+		"hand":
+			return _hand_cards.card_at(index)
+		"shop":
+			if index >= 0 and index < _shop_cards.get_child_count():
+				return _shop_cards.get_child(index) as CardView
+		"scout":
+			return _scout.card_at(index)
+	return null

@@ -33,6 +33,7 @@ const DESKTOP_RULES_FONT: int = 22
 ## The smallest text size seen in any check since the last reset, in canvas units. On a desktop
 ## that includes text marked desktop_text, which may go down to DESKTOP_RULES_FONT.
 static var smallest_text: int = 9999
+static var _name_library: UnitLibrary = UnitLibrary.load_dir()
 
 
 ## The smallest allowed font size, in canvas units.
@@ -59,10 +60,19 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 		for j: int in range(i + 1, cards.size()):
 			if _same_hand_fan(cards[i], cards[j]):
 				continue
-			var a: Rect2 = cards[i].get_global_rect()
-			var b: Rect2 = cards[j].get_global_rect()
-			var shared: float = a.intersection(b).get_area()
-			if shared > OVERLAP_SHARE * minf(a.get_area(), b.get_area()):
+			var shared: float = _shared_face_area(cards[i], cards[j])
+			if shared <= 0.0:
+				continue
+			if (
+				shared
+				> (
+					OVERLAP_SHARE
+					* minf(
+						_polygon_area(_face_polygon(cards[i])),
+						_polygon_area(_face_polygon(cards[j]))
+					)
+				)
+			):
 				out.append(
 					(
 						"%s: cards overlap: %s and %s"
@@ -70,6 +80,28 @@ static func problems(root: Control, where: String, overlap: bool = true) -> Pack
 					)
 				)
 	return out
+
+
+static func _face_polygon(card: CardView) -> PackedVector2Array:
+	return card.get_global_transform() * Interactive.HexShape.polygon(card.face_rect())
+
+
+static func _polygon_area(points: PackedVector2Array) -> float:
+	var total: float = 0.0
+	for i: int in points.size():
+		total += points[i].cross(points[(i + 1) % points.size()])
+	return absf(total) / 2.0
+
+
+static func _shared_face_area(a: CardView, b: CardView) -> float:
+	if not a.get_global_rect().intersects(b.get_global_rect()):
+		return 0.0
+	var area: float = 0.0
+	for polygon: PackedVector2Array in Geometry2D.intersect_polygons(
+		_face_polygon(a), _face_polygon(b)
+	):
+		area += _polygon_area(polygon)
+	return area
 
 
 ## Only sibling hand tiles intentionally overlap. Their bounds/fonts/taps were still checked.
@@ -197,7 +229,12 @@ static func _check_rich(rich: RichTextLabel, where: String, out: PackedStringArr
 ## Text that doesn't fit: "wider than its box" / "cut to N of M lines" for plain labels, and
 ## "trimmed" for labels that clip or add an ellipsis (the card's own text fitting).
 static func _check_label(label: Label, where: String, out: PackedStringArray) -> void:
-	if label.text.is_empty() or label.has_meta("ellipsis_ok"):
+	var card: CardView = label.get_parent() as CardView
+	if card != null and label == card.get("_name_label") and CardView.needs_name(card.unit):
+		var definition: Dictionary = _name_library.get_unit(str(card.unit.get("def_id", "")))
+		if not definition.is_empty() and not CoreUtil.to_bool(definition.get("pool", true)):
+			return
+	if label.text.is_empty() or (label.has_meta("ellipsis_ok") and card == null):
 		return
 	var trims: bool = (
 		label.clip_text or label.text_overrun_behavior != TextServer.OVERRUN_NO_TRIMMING

@@ -7,10 +7,12 @@ const UiTheme := preload("res://src/ui/ui_theme.gd")
 
 
 func _assert_art(card: CardView, context: String) -> void:
-	var art: Control = card.get("_art")
-	var share: float = art.size.x * art.size.y / (card.card_size.x * card.card_size.y)
-	assert_gte(share, 0.65, context + ": portrait area meets the lower bound")
-	assert_lte(share, 0.70, context + ": a calm foot remains below the portrait")
+	var art: CardView.ArtFrame = card.get("_art")
+	var face: Rect2 = card.face_rect()
+	var share: float = art.size.x * art.size.y / face.get_area()
+	assert_gte(share, 0.70, context + ": portrait covers the hex inside its paper rim")
+	assert_true(art.hexagonal, context + ": portrait uses the shared contour")
+	assert_almost_eq(face.size.x / face.size.y, 0.78, 0.001)
 	assert_gte(art.size.y, CardView.ART_MIN)
 	assert_true(Rect2(Vector2.ZERO, card.card_size).encloses(art.get_rect()), context)
 	for field: String in ["_name_label", "_type_label", "_rules", "_chip", "_status_tag"]:
@@ -69,6 +71,6 @@ func test_all_shipped_units_keep_wordless_art_share_and_fixed_stats_with_golden_
 		assert_gt(attack.z_index, marks.z_index, "status drawings stay behind combat stats")
 		assert_gt(health.z_index, marks.z_index)
 		assert_lt(attack.position.x, card.card_size.x * 0.2)
-		assert_gt(health.position.x, card.card_size.x * 0.6)
+		assert_almost_eq(health.get_rect().end.x, card.face_rect().end.x, 0.01)
 		card.queue_free()
 	await get_tree().process_frame

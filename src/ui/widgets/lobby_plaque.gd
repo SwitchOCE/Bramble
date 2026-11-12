@@ -2,7 +2,7 @@ extends Control
 ## A portrait with current Health and an opponent tier numeral; full hero state is one tap away.
 ## The next opponent has a red rim; a ghost is grey and has no Health.
 
-signal next_requested
+signal scout_requested(player_id: int)
 signal hero_requested(standing: Dictionary)
 
 const UiTheme := preload("res://src/ui/ui_theme.gd")
@@ -21,6 +21,10 @@ var is_me: bool = false
 var is_next: bool = false
 var is_out: bool = false
 var is_ghost: bool = false
+var selected: bool = false:
+	set(value):
+		selected = value
+		queue_redraw()
 var _prefix: String = ""
 var _font_size: int = UiTheme.FONT_SMALL
 var _words: PackedStringArray = []
@@ -36,6 +40,7 @@ var _stand_used: bool = false
 var _ghost_time: float = 0.0
 var _stand_mark: Control
 var _standing: Dictionary = {}
+var _interactive: bool = true
 
 
 func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
@@ -89,7 +94,7 @@ func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	health.set_anchors_preset(Control.PRESET_FULL_RECT)
 	health.offset_top = 5.0
 	_hip.add_child(health)
-	_hip.visible = not is_out and not is_ghost
+	_hip.visible = not is_me and not is_out and not is_ghost
 	_knot.visible = not is_me and not is_out and not is_ghost
 	if (
 		Data.b(standing, "last_stand_enabled")
@@ -127,6 +132,7 @@ func _init(standing: Dictionary, next_up: bool, ghost: bool = false) -> void:
 	tap = Interactive.new()
 	tap.zone = "lobby"
 	tap.index = Data.i(standing, "player_id", -1)
+	tap.tooltip_text = UiTheme.player_name(standing)
 	tap.tapped.connect(_on_tapped)
 	tap.hovered.connect(_on_hovered)
 	add_child(tap)
@@ -151,15 +157,15 @@ func wanted_width() -> float:
 
 
 func _layout() -> void:
-	var diameter: float = minf(74.0, size.y)
+	var diameter: float = minf(86.0, minf(size.x - 24.0, size.y - 20.0))
 	if is_out and not is_ghost:
 		diameter *= 0.5
 	_portrait.size = Vector2.ONE * diameter
 	_portrait.position = Vector2((size.x - diameter) / 2.0, (size.y - diameter) / 2.0)
-	_knot.size = Vector2(46, 46)
-	_knot.position = _portrait.position + Vector2(-18, diameter - 35)
-	_hip.size = Vector2(62, 62)
-	_hip.position = _portrait.position + Vector2(diameter - 38, diameter - 46)
+	_knot.size = Vector2(40, 40)
+	_knot.position = Vector2(0, _portrait.position.y + diameter - 32)
+	_hip.size = Vector2(54, 54)
+	_hip.position = Vector2(size.x - 54, _portrait.position.y + diameter - 40)
 	_stand_mark.position = _hip.position
 	_stand_mark.size = _hip.size
 	_stand_mark.queue_redraw()
@@ -171,8 +177,8 @@ func _layout() -> void:
 	if _last_stand != null:
 		_last_stand.size = Vector2(size.x, 44)
 	if tap != null:
-		tap.position = Vector2(0, -17)
-		tap.size = Vector2(size.x, maxf(size.y + 66.0, 122.0))
+		tap.position = Vector2.ZERO
+		tap.size = size
 	queue_redraw()
 
 
@@ -184,11 +190,15 @@ func _draw() -> void:
 	var rim: Color = UiTheme.HEALTH if is_next else UiTheme.MOSS if is_me else UiTheme.INK
 	draw_circle(center + Vector2(0, 5), radius + 3.0, Color(0, 0, 0, 0.18))
 	draw_circle(center, radius, rim)
+	if selected:
+		draw_arc(center, radius + 4.0, 0, TAU, 48, UiTheme.GILT, 3.0, true)
 
 
 func _draw_stand_mark() -> void:
 	if _stand_ready and _hip.visible:
-		_stand_mark.draw_arc(Vector2(31, 31), 34.0, 0, TAU, 40, UiTheme.GILT, 2.0, true)
+		_stand_mark.draw_arc(
+			_hip.size / 2.0, _hip.size.x / 2.0 + 3.0, 0, TAU, 40, UiTheme.GILT, 2.0, true
+		)
 	if _stand_used and _hip.visible:
 		_stand_mark.draw_polyline(
 			PackedVector2Array([Vector2(20, 4), Vector2(29, 13), Vector2(24, 18)]),
@@ -221,14 +231,20 @@ static func _portrait_id(standing: Dictionary) -> String:
 	return str(_hero_portraits.get(Data.s(standing, "hero", Data.s(standing, "name")), ""))
 
 
+func set_interactive(on: bool) -> void:
+	_interactive = on
+	tap.mouse_filter = Control.MOUSE_FILTER_STOP if on else Control.MOUSE_FILTER_IGNORE
+	tap.tooltip_text = UiTheme.player_name(_standing) if on else ""
+
+
 func _on_tapped(_zone: String, _index: int) -> void:
-	if is_next:
-		next_requested.emit()
-	hero_requested.emit(_standing.duplicate(true))
+	if not _interactive:
+		return
+	scout_requested.emit(-1 if is_ghost else Data.i(_standing, "player_id", -1))
 
 
 func _on_hovered(_zone: String, _index: int, inside: bool) -> void:
-	if inside and not _phone():
+	if _interactive and inside and not is_next and not _phone():
 		hero_requested.emit(_standing.duplicate(true))
 
 

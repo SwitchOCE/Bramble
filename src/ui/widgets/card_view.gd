@@ -17,10 +17,17 @@ const ArtFrame := preload("res://src/ui/widgets/art_frame.gd")
 const Settings := preload("res://src/ui/settings.gd")
 
 const SHOP_WIDTH: float = 270.0
-const SHOP_HEIGHT: float = 297.0
-const BOARD_RATIO: float = 102.0 / 112.0
-const LINE: int = 5
-const EDGE: float = 12.0
+const SHOP_HEIGHT: float = SHOP_WIDTH / HexShape.RATIO
+const BOARD_RATIO: float = 1.0 / HexShape.RATIO
+const LINE: int = 4
+const EDGE: float = 4.0
+## Highcrown's cream light enters from upper right; the thin edge shades lower left.
+const PAPER: Color = Color("eee5ca")
+const GOLDEN_PAPER: Color = Color("f4d698")
+const BARK_EDGE: Color = Color("899078")
+const PAPER_INK: Color = UiTheme.INK
+const PAPER_LIGHT: Color = Color("fff4d9")
+const CONTACT: Color = Color(0.06, 0.12, 0.10, 0.18)
 ## Public portrait floor used by layout checks.
 const ART_MIN: float = 40.0
 const ART_SHARE: float = 0.68
@@ -46,13 +53,18 @@ var selected: bool = false:
 		selected = value
 		if _hedge_marks != null:
 			_hedge_marks.show_state(unit, selected)
+		_refresh_focus()
 		queue_redraw()
 ## Scout selection differs from a target pulse and from a golden unit's rim.
-var selection_color: Color = UiTheme.SELECT
+var selection_color: Color = UiTheme.SELECT:
+	set(value):
+		selection_color = value
+		_refresh_focus()
 ## A ring round the tile: the drop-target moss, an attacker's acorn or a target's red.
 var outline: Color = Color.TRANSPARENT:
 	set(value):
 		outline = value
+		_refresh_focus()
 		queue_redraw()
 ## Frozen in the shop: frost rim, rime over the art only. Stats stay clear.
 var frost: bool = false:
@@ -73,6 +85,9 @@ var chip_shown: String = ""
 ## Full rules are always one tap away.
 var rules_shown: bool = false
 
+var _visual_attack: int = 0
+var _visual_health: int = 0
+var _focus_rim: Control
 var _combat_marks: CombatFace
 var _poached_badge: PoachedBadge
 var _hedge_marks: HedgeMarks
@@ -95,15 +110,14 @@ var _frost_tag: Panel
 var _star: TextureRect
 var _hover_tween: Tween
 var _hovering: bool = false
+var _hover_lift: float = 0.0:
+	set(value):
+		_hover_lift = value
+		queue_redraw()
 
 
-static func size_for(width: float, card_mode: Mode = Mode.SHOP) -> Vector2:
-	match card_mode:
-		Mode.SHOP:
-			return Vector2(width, SHOP_HEIGHT)
-		Mode.BOARD:
-			return Vector2(width, roundf(width * BOARD_RATIO))
-	return Vector2(width, width)
+static func size_for(width: float, _card_mode: Mode = Mode.SHOP) -> Vector2:
+	return Vector2(width, width / HexShape.RATIO)
 
 
 ## Tiles are read through art and state; full rules live in CardDetail.
@@ -156,6 +170,7 @@ static func set_unbuilt(ids: PackedStringArray) -> void:
 
 func _init() -> void:
 	super()
+	hex_hit_test = true
 	_build()
 
 
@@ -242,6 +257,7 @@ func show_frost_tag(_on: bool) -> void:
 
 func _build() -> void:
 	_art = ArtFrame.new()
+	_art.hexagonal = true
 	add_child(_art)
 	_hedge_marks = HedgeMarks.new()
 	_art.add_child(_hedge_marks)
@@ -293,6 +309,12 @@ func _build() -> void:
 	add_child(_star)
 	_poached_badge = PoachedBadge.new()
 	add_child(_poached_badge)
+	_focus_rim = Control.new()
+	_focus_rim.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_focus_rim.z_index = 24
+	_focus_rim.draw.connect(_draw_focus)
+	add_child(_focus_rim)
+	_refresh_focus()
 	_combat_marks = CombatFace.new()
 	add_child(_combat_marks)
 	size_flags_horizontal = Control.SIZE_SHRINK_CENTER
@@ -315,7 +337,10 @@ func _refresh() -> void:
 	var spell: bool = is_spell(unit)
 	var golden: bool = Data.b(unit, "golden", false)
 	_art.texture = UiTheme.portrait_for(Data.s(unit, "portrait_id", Data.s(unit, "def_id")), tribes)
-	_art.gilded = golden
+	_art.portrait_offset = ArtFrame.PORTRAIT_OFFSETS.get(
+		Data.s(unit, "portrait_id", Data.s(unit, "def_id")), Vector2.ZERO
+	)
+	_art.gilded = false
 	_star.visible = false
 	_name_label.text = Data.s(unit, "name")
 	_type_label.text = card_word(unit) if spell else UiTheme.short_tribe(tribes)
@@ -350,60 +375,64 @@ func _refresh() -> void:
 
 
 ## Positions every part for card_size and mode.
-func _place_parts(spell: bool) -> void:
-	var w: float = card_size.x
-	var h: float = card_size.y
-	var knot: float = 57.0
+func _place_parts(_spell: bool) -> void:
+	var face: Rect2 = face_rect()
 	var named: bool = not combat_face and needs_name(unit)
 	_name_label.visible = named
 	_name_label.text = short_name(unit)
 	_name_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	_name_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
-	_art.visible = true
 	_type_label.visible = false
 	_rules.visible = false
 	rules_shown = false
-	_art.radius = 44.0 if spell else 15.0
-	if named:
-		# Legacy shared portraits keep the reserved name line until their own art arrives.
-		_place(_art, Rect2(12, 12, w - 24, h - 104))
-	else:
-		# A responsive rim keeps small faces recognisable and leaves a calm foot below
-		# the portrait. Stat/target/defence anchors remain independent of the art crop.
-		var inset: float = clampf(minf(w, h) * 0.05, 6.0, 12.0)
-		var art_width: float = w - inset * 2.0
-		var art_height: float = clampf(w * h * ART_SHARE / art_width, ART_MIN, h - inset * 2.0)
-		_place(_art, Rect2(inset, inset, art_width, art_height))
-	_place(_name_label, Rect2(4, h - 98, w - 8, 40))
-	_place(_tier_badge, Rect2(-knot * 0.2, -knot * 0.2, knot, knot))
+	_art.line = float(_ink_width())
+	var inset: float = (
+		float(_ink_width()) * 2.5 + 3.0 if Data.b(unit, "golden") else float(_ink_width()) + 3.0
+	)
+	_place(_art, face.grow(-inset))
+	_place(
+		_name_label, Rect2(face.position + Vector2(0, face.size.y * 0.55), Vector2(face.size.x, 40))
+	)
+	var knot: float = clampf(face.size.x * 0.23, 37.0, 50.0)
+	_place(
+		_tier_badge,
+		Rect2(face.position + Vector2(face.size.x * 0.12, face.size.y * 0.15), Vector2.ONE * knot)
+	)
 	_tier_label.add_theme_font_size_override("font_size", UiTheme.MIN_FONT)
 	_place_beads()
 	_poached_badge.visible = false
 
 
-## Compact first; only the smallest beads need a bounded width increase at the font minimum.
-func _place_beads() -> void:
-	var bead: float = 84.0
-	if mode == Mode.BOARD:
-		bead = clampf(card_size.x * 0.46, 60.0, 84.0)
-	elif mode == Mode.MINI:
-		bead = 62.0
-	var stat_font: int = maxi(UiTheme.MIN_FONT, roundi(bead * 0.54))
-	var attack: int = Data.i(unit, "attack", 0)
-	var health: int = maxi(Data.i(unit, "health", 0), 0)
-	var needed: float = maxf(
-		StatNumbers.preferred_width(attack, _attack_label.get_theme_font("font"), 84.0 * 0.74),
-		StatNumbers.preferred_width(health, _health_label.get_theme_font("font"), 84.0 * 0.74)
-	)
-	bead = maxf(bead, minf(84.0, ceilf(needed / 0.74)))
-	var w: float = card_size.x
-	var h: float = card_size.y
-	for number: Label in [_attack_label, _health_label]:
-		number.add_theme_font_size_override("font_size", stat_font)
-	# Keep a clear center even on the narrowest supported card (96 canvas units).
-	var inset: float = minf(bead * 0.76, (w - 4.0) / 2.0)
-	_place_bead(_attack_badge, Vector2(inset - bead, h - bead * 0.72), bead, _attack_label, attack)
-	_place_bead(_health_badge, Vector2(w - inset, h - bead * 0.72), bead, _health_label, health)
+## The badge widens for three digits; its height and the lower-corner anchors stay stable.
+func _place_beads(attack_value: int = -1, health_value: int = -1) -> void:
+	var face: Rect2 = face_rect()
+	var bead: float = clampf(face.size.x * 0.34, 38.0, 76.0)
+	var stat_font: int = maxi(UiTheme.MIN_FONT, roundi(bead * 0.60))
+	var values: Array[int] = [
+		attack_value if attack_value >= 0 else Data.i(unit, "attack"),
+		health_value if health_value >= 0 else maxi(Data.i(unit, "health"), 0)
+	]
+	_visual_attack = values[0]
+	_visual_health = values[1]
+	var badges: Array[ShapeBadge] = [_attack_badge, _health_badge]
+	var labels: Array[Label] = [_attack_label, _health_label]
+	var widths: Array[float] = []
+	for i: int in 2:
+		var needed: float = StatNumbers.preferred_width(
+			values[i], labels[i].get_theme_font("font"), 84.0 * 0.8
+		)
+		widths.append(maxf(bead, minf(84.0, ceilf(needed / 0.8))))
+	var stagger: bool = widths[0] + widths[1] + 4.0 > face.size.x
+	for i: int in 2:
+		var x: float = face.position.x if i == 0 else face.end.x - widths[i]
+		var y: float = face.position.y + face.size.y * 0.79 - bead * 0.5
+		# Tiny legacy scout boxes cannot hold two three-digit badges abreast at 31 px.
+		# Keep both honest and inside the caller's box by stepping Attack up one bead.
+		if stagger:
+			y = face.end.y - bead - 5.0 - (bead + 4.0 if i == 0 else 0.0)
+		_place_bead(
+			badges[i], Vector2(x, y), Vector2(widths[i], bead), labels[i], values[i], stat_font
+		)
 
 
 func _place(node: Control, rect: Rect2) -> void:
@@ -413,11 +442,11 @@ func _place(node: Control, rect: Rect2) -> void:
 
 ## Stat numerals compact before fitting, and never fall below the shared font minimum.
 func _place_bead(
-	badge: ShapeBadge, top_left: Vector2, bead: float, number: Label, value: int
+	badge: ShapeBadge, top_left: Vector2, extent: Vector2, number: Label, value: int, preferred: int
 ) -> void:
-	badge.size = Vector2(bead, bead)
+	badge.size = extent
 	badge.position = top_left
-	StatNumbers.fit(number, badge.inner_width(), number.get_theme_font_size("font_size"), value)
+	StatNumbers.fit(number, badge.inner_width(), preferred, value)
 	# The rosehip's body sits low in its box, under the crown.
 	number.offset_top = 4.0 if badge.shape.begins_with("rosehip") else 0.0
 
@@ -456,8 +485,13 @@ func _refresh_status() -> void:
 func _refresh_combat_marks() -> void:
 	if _combat_marks == null:
 		return
+	_combat_marks.position = face_rect().position
 	_combat_marks.setup(
-		unit, card_size, combat_face, _attack_badge.get_rect(), _health_badge.get_rect()
+		unit,
+		face_rect().size,
+		combat_face,
+		Rect2(_attack_badge.position - face_rect().position, _attack_badge.size),
+		Rect2(_health_badge.position - face_rect().position, _health_badge.size)
 	)
 
 
@@ -472,42 +506,75 @@ func _face() -> Color:
 	if frost:
 		return UiTheme.FROST_FACE
 	if Data.b(unit, "golden", false):
-		return UiTheme.GILT
-	return UiTheme.BIRCH
+		return GOLDEN_PAPER
+	return PAPER
 
 
-func _tile_box(fill: Color, line: Color, width: int) -> StyleBoxFlat:
-	var box: StyleBoxFlat = UiTheme.flat_box(fill, line, width, 24)
-	if is_spell(unit):
-		box.corner_radius_top_left = 70
-		box.corner_radius_top_right = 70
-		box.corner_detail = 12
-	return box
+## Follow the painted contour's scale without making small cards' outlines too heavy.
+func _ink_width() -> int:
+	return clampi(roundi(LINE * face_rect().size.x / SHOP_WIDTH), 2, LINE)
+
+
+func _paint_hex(
+	rect: Rect2, fill: Color, ink: Color = Color.TRANSPARENT, weight: float = 0.0
+) -> void:
+	draw_colored_polygon(HexShape.polygon(rect), fill)
+	if ink.a > 0.0 and weight > 0.0:
+		draw_polyline(HexShape.closed(rect), ink, weight, true)
 
 
 func _draw() -> void:
-	var rect: Rect2 = Rect2(Vector2.ZERO, card_size)
-	var golden: bool = Data.b(unit, "golden", false)
-	if golden:
-		draw_style_box(_tile_box(Color(UiTheme.GILT, 0.55), Color.TRANSPARENT, 0), rect.grow(12))
-	if frost:
-		draw_style_box(_tile_box(UiTheme.RIME, Color.TRANSPARENT, 0), rect.grow(10))
-	var ring: Color = selection_color if selected else outline
-	if ring.a > 0.0:
-		draw_style_box(_tile_box(UiTheme.INK, Color.TRANSPARENT, 0), rect.grow(19))
-		draw_style_box(_tile_box(ring, Color.TRANSPARENT, 0), rect.grow(15))
-	var under: Color = UiTheme.BRASS if golden else UiTheme.CARVE
+	var rect: Rect2 = face_rect()
+	var golden: bool = Data.b(unit, "golden")
+	var ink: float = float(_ink_width())
+	# The contour fits its caller's box. A narrow outer rim leaves the tuck's air intact.
+	_refresh_focus()
+	var shadow_spread: int = roundi(lerpf(5.0, 11.0, _hover_lift))
+	var shadow_offset: Vector2 = Vector2(-2, 4).lerp(Vector2(-3, 8), _hover_lift)
+	for spread: int in range(shadow_spread, 0, -1):
+		_paint_hex(
+			Rect2(rect.position + shadow_offset, rect.size).grow(spread),
+			Color(CONTACT, lerpf(0.025, 0.033, _hover_lift))
+		)
+	var under: Color = UiTheme.BRASS if golden else BARK_EDGE
 	if frost:
 		under = UiTheme.RIME
 	elif is_spell(unit):
-		under = UiTheme.NIGHTSHADE
-	var shadow := UiTheme.flat_box(Color(0, 0, 0, 0.22), Color.TRANSPARENT, 0, 24)
-	shadow.shadow_color = Color(0, 0, 0, 0.2)
-	shadow.shadow_size = 22 if _hovering else 12
-	draw_style_box(shadow, Rect2(rect.position + Vector2(0, EDGE + 6), rect.size))
-	var drop: Rect2 = Rect2(Vector2(0, EDGE), card_size)
-	draw_style_box(_tile_box(under, UiTheme.INK, LINE), drop)
-	draw_style_box(_tile_box(_face(), UiTheme.INK, LINE), rect)
+		under = UiTheme.ACORN if Data.s(unit, "kind") == "item" else UiTheme.NIGHTSHADE
+	_paint_hex(Rect2(rect.position + Vector2(-1, 3), rect.size), under, PAPER_INK, ink)
+	_paint_hex(rect, _face(), PAPER_INK, ink)
+	# Cream light follows the upper-right slope and shoulder.
+	var contour: PackedVector2Array = HexShape.polygon(rect.grow(-ink))
+	draw_polyline(contour.slice(6, 20), PAPER_LIGHT, maxf(1.0, ink * 0.55), true)
+	if golden:
+		# The portrait is inset beyond the whole gilt stroke, so it cannot cover this rim.
+		draw_polyline(HexShape.closed(rect.grow(-ink - 2)), UiTheme.GILT, ink * 2.5, true)
+	elif is_spell(unit):
+		draw_polyline(HexShape.closed(rect.grow(-ink - 1)), under, ink * 1.6, true)
+	if Data.s(unit, "kind") == "item":
+		# Brass corner rivets distinguish items from the violet double rim of spells.
+		for side: float in [0.0, 1.0]:
+			draw_circle(
+				rect.position + Vector2(rect.size.x * side, rect.size.y * 0.5),
+				ink * 1.3,
+				UiTheme.GILT
+			)
+
+
+## Paint above neighbouring faces without changing the card's animation z-order.
+func _refresh_focus() -> void:
+	if _focus_rim != null:
+		_focus_rim.visible = selected or outline.a > 0.0
+		_focus_rim.queue_redraw()
+
+
+func _draw_focus() -> void:
+	var ring: Color = selection_color if selected else outline
+	if ring.a <= 0.0:
+		return
+	var path: PackedVector2Array = HexShape.closed(face_rect().grow(3))
+	_focus_rim.draw_polyline(path, UiTheme.INK, float(_ink_width()) + 4.0, true)
+	_focus_rim.draw_polyline(path, ring, float(_ink_width()), true)
 
 
 ## A small lift separates the interactive tile from its surface without a standing mark.
@@ -527,11 +594,15 @@ func _set_hover_lift(on: bool) -> void:
 	_hovering = on
 	if _hover_tween != null and _hover_tween.is_valid():
 		_hover_tween.kill()
+	var raised: float = 1.0 if on else 0.0
+	var raised_scale: Vector2 = Vector2.ONE * (1.025 if on else 1.0)
 	if Settings.reduce_motion or not is_inside_tree():
-		scale = Vector2.ONE
+		scale = raised_scale
+		_hover_lift = raised
 	else:
-		_hover_tween = create_tween()
-		_hover_tween.tween_property(self, "scale", Vector2.ONE * (1.025 if on else 1.0), 0.1)
+		_hover_tween = create_tween().set_parallel(true)
+		_hover_tween.tween_property(self, "scale", raised_scale, 0.1)
+		_hover_tween.tween_property(self, "_hover_lift", raised, 0.1)
 	queue_redraw()
 
 
@@ -552,7 +623,8 @@ func animate_frost(on: bool, delay: float, speed: float, reduced: bool) -> void:
 
 ## Animation values can be wider than either endpoint; refit each displayed frame.
 func show_stat(stat: String, value: int) -> void:
-	var number: Label = _attack_label if stat == "attack" else _health_label
-	var badge: ShapeBadge = _attack_badge if stat == "attack" else _health_badge
-	var preferred: int = maxi(UiTheme.MIN_FONT, roundi(badge.size.y * 0.54))
-	StatNumbers.fit(number, badge.inner_width(), preferred, maxi(0, value))
+	if stat == "attack":
+		_place_beads(maxi(0, value), _visual_health)
+	else:
+		_place_beads(_visual_attack, maxi(0, value))
+	_refresh_combat_marks()
