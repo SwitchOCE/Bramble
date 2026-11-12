@@ -76,6 +76,8 @@ Model: `gold-models/model2.js` and `v2test.js`; output in [results/gold-models-r
 
 - **Gold lost on a sale** at tiers 1–6 is 1, 2, 2, 3, 3 and 4.
 - **The late-game pile-up was gone.**
+*[The numbers in the next three bullets come from runs reported in chat that day. Their outputs weren't saved; `v2test.js` reruns the same price sets with different summary columns.]*
+
 - **The 2-3-4-5 discount barely separated two pacings:** tiering up 2 turns in a row was only 3 gold dearer than every other turn. To make back-to-back hurt, the on-pace price had to be about a whole turn's income.
 - **Prices of 9/14/18/21/23** left a back-to-back player 3 gold short, and put 48% of all gold into tier-ups by turn 10. A rush still reached tier 6 on turn 8.
 - **The rhythm:** players alternated a tier-up turn with a buying turn, and their boards lagged about 1.7 tiers behind their shop tier mid-game.
@@ -113,7 +115,7 @@ The owner asked:
 | 11 | 5, 5, 5, 11, 11 | 49 | 101 |
 | 12 | 2, 6, 6, 6, 12 | 45 | 126 |
 
-**The burst.** Every best line waits while the discount builds up, then tiers up several times in one turn. A 5-turn wait takes 15 off, which makes the tier-3 tier-up free. With at most one tier-up a turn (`--one-per-turn`), tier 6 is still possible on turn 7, at 6–8 more gold for each speed.
+**The burst.** Every best line waits while the discount builds up, then tiers up several times in one turn. A 5-turn wait takes 15 off, which makes the tier-3 tier-up free. With at most one tier-up a turn (`--one-per-turn`), tier 6 is still possible on turn 7, at 5–8 more gold for each speed.
 
 ## 6. Higher prices, judged on gold alone
 
@@ -220,7 +222,7 @@ The work was given to a Fable advisor, which handed the coding and the runs to c
 | 8/12/16/19/31 | 81% | 17% | 1.3 | 15 | 32% / 1% |
 | 8/12/17/22/27 | 53% | 11% | 0.9 | 14 | 21% / 1% |
 | 8/13/19/25/31 | 40% | 3% | 0.2 | 15 | 5% / 0% |
-| A 8/14/22/30/38 | 17% | 0% | 0 | — | 0% / 0% |
+| A 8/14/22/30/38 | 17% | 0.2% | 0 | 18 | 0% / 0% |
 
 - **8/12/16/19/26 met the target best.** Nearly 9 in 10 players reach tier 5, around turn 7–8. Tier 6 comes late, about 2 a lobby, almost all of them in the top four.
 - **Tiers 4 and 5 are sensitive.** Adding just 1 to tier 4's price and 3 to tier 5's (8/12/17/22/27) cuts tier 5 from 88% to 53%.
@@ -244,11 +246,8 @@ The work was given to a Fable advisor, which handed the coding and the runs to c
 - **The power gap between tiers.** This decides whether tiering up is worth paying for at all. In v2, setting tiers 1.7× apart instead of 1.5× lifts tier 5 from 53% to 83% (at 8/12/17/22/27); 1.35× drops it to 18%. **Prices can't be final until real units set this gap.**
 - **Economy units.** Strong ones (`econStrong`) lift tier 5 from 53% to 84% at 8/12/17/22/27. If they turn out strong, 8/12/16/19/31 is the safer price set.
 - **Spells.** They add power without taking a board slot, which may let players skip tier-ups. Halving them under A changed little (reach tier 5 went from 17% to 21%).
-- **Proposed defaults written into the rulebook, not yet confirmed by the owner:**
-  - the discount stays at 5 a turn after the fifth turn;
-  - it starts on turn 2;
-  - several tier-ups in one turn stay allowed;
-  - Discovered and Triple Reward units sell for 0, as tokens do.
+- **A proposed default written into the rulebook, not yet confirmed by the owner:** the discount stays at 5 a turn after the fifth turn (4.6.6).
+- **Shop-size experiments:** the shop is now 5 units and 2 spells at every tier; whether the 3–7 card experiments of 8 Nov (N11 §5.2) still run is the owner's call.
 
 ### Damage is the linked lever
 

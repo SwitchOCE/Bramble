@@ -288,7 +288,7 @@ The owner chose these from simulated lobbies: "8, 12, 16, 19, 26" (C13). *HSBG:*
 | 5 | 19 | 18 | 16 | 13 | 9 | 4 |
 | 6 | 26 | 25 | 23 | 20 | 16 | 11 |
 
-**4.6.4** [BG] After an upgrade, the cost resets to the base cost of the next tier, and the discount starts again from 0. The owner confirmed the reset: "The discount should reset back to 0" (C13). A player may upgrade more than once in a turn if they can pay.
+**4.6.4** [BRAMBLE] After an upgrade, the cost resets to the base cost of the next tier, and the discount starts again from 0. The owner: "The discount should reset back to 0" (C13). A player may upgrade more than once in a turn if they can pay, as in HSBG.
 
 **4.6.5** [BG] Upgrading doesn't refill the shop. Draws made after the upgrade use the new tier (not in rules.md).
 
@@ -362,7 +362,7 @@ The results rest on guessed unit power, scaling and economy units. Recheck them 
 
 ### 6.1 The shop
 
-**6.1.1** [BRAMBLE] **Shop size.** The shop shows **5 units and 2 spells at every tier**. Tiers change only the odds of what appears (6.1.7), not the number of offers. The owner: "I want the shop to always have 5 units and 2 spells… It will not change with tier. What will change is the shop odds and the chances of finding effects of specific rarities" (C13). This settles the shop-size experiments of N11 §5.2.
+**6.1.1** [BRAMBLE] **Shop size.** The shop shows **5 units and 2 spells at every tier**. Tiers change only the odds of what appears (6.1.7), not the number of offers. The owner: "I want the shop to always have 5 units and 2 spells… It will not change with tier. What will change is the shop odds and the chances of finding effects of specific rarities" (C13). The shop-size experiments planned in N11 §5.2 (3 to 7 cards, fixed or growing) predate this decision; whether they still run is the owner's call.
 
 Note: 7 offers at once is up from the earlier working value of 5 cards, 1 of them a spell, so the shop layout needs checking. N11 §5.2 noted that seven at once can feel overwhelming. Fewer offers push design toward generally useful units, which costs asymmetry and strategic variety. *HSBG:* grows with tier (rules.md §5.2):
 
@@ -890,7 +890,7 @@ Each term points to the rule that defines it.
 | Term | Meaning | Rule |
 |---|---|---|
 | **Unit** | A card with Attack, Health and a type line that can be on the board. HSBG's *minion*. | 1.1.1, 5.2.1 |
-| **Bought** | A unit taken from the shop by paying, or (proposed) drawn from the pool by an effect. Sells for half its tier, rounded up. | 4.3.1, 4.3.2, 4.3.3 |
+| **Bought** | A unit taken from the shop by paying. Sells for half its tier, rounded up. | 4.3.1, 4.3.3 |
 | **Created** | A unit that came any other way: summoned, generated, copied, given. Sells for 0 gold. | 4.3.1 |
 | **Token** | A Created unit that is not a pool card. | 4.3.1 |
 | **Origin** | Whether a unit is Bought or Created. | 4.3.1 |

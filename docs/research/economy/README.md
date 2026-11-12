@@ -57,6 +57,7 @@ From `lobby-v2`, the adaptive and evolved bots, averaged over 3 seeds:
 | Spells | 3 gold for 36% of a unit of your tier, no board slot | May let players skip tier-ups |
 | Fight luck | σ 0.082 (90 vs 85 wins about 68%) | More luck slightly helps weaker plans |
 | Shop odds | the TFT-like table (not decided) | Shapes how fast a tier pays off |
+| Units per tier in a lobby | 14, 14, 14, 12, 12, 10 | Sets how often a pair or triple turns up; lobby unit counts matter as much as the odds |
 
 **Weak signals:**
 - **Staying on tier 4 as the safer plan.** Capping at tier 4 gives a slightly steadier placing (spread ±1.95) than pushing to tier 5 (±2.4). The averages are close.
@@ -65,11 +66,8 @@ From `lobby-v2`, the adaptive and evolved bots, averaged over 3 seeds:
 
 - **Shop odds** (rulebook 6.1.7 and 5.1.4): the owner asked to revisit them now that the economy is set.
 - **Damage:** games run about 16 fights against the 13–14 target. Less health also shuts players out of tiers (at 34 health, tier 5 drops to 40% at the old prices), so damage and tier prices have to be tuned together. See [the record](2026-11-12-economy-and-tier-prices.md#damage-is-the-linked-lever).
-- **Proposed defaults, not yet confirmed by the owner:**
-  - the discount stays at 5 a turn after the fifth turn;
-  - it starts on turn 2;
-  - several tier-ups in one turn are allowed;
-  - Discovered and Triple Reward units sell for 0.
+- **Proposed default, not yet confirmed by the owner:** the discount stays at 5 a turn after the fifth turn (4.6.6).
+- **Shop-size experiments:** whether the 8 Nov experiments (N11 §5.2) still run now that the shop is 5 units and 2 spells.
 
 ## When to redo this
 
@@ -78,7 +76,7 @@ From `lobby-v2`, the adaptive and evolved bots, averaged over 3 seeds:
 - **If damage or income changes:** any change to 10.1 or 4.1 should go through `lobby-v2` before it is decided.
 - **Once the game is playable:** check real games against the targets: most players reach tier 5, and tier 6 goes mostly to the top 3–4 late in the game.
 
-To rerun the decided set in a scratch folder (about 2 minutes per seed):
+To rerun the decided set, from the repo root (it only prints; about 2 minutes per seed):
 
 ```bash
 node tools/research/economy/lobby-v2/lobby2.js '{"tierBase":[8,12,16,19,26]}' "decided"

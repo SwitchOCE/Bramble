@@ -50,7 +50,7 @@ The main keys:
 ## Sweeps (v2)
 
 - `gen.js` and `gen2.js` write the config lists for rounds 1 and 2 (`configs.json` and `configs2.json`).
-- `sweep.js` (round 1, one seed) and `sweep2.js` (any seeds, averaged) run a list four processes at a time. They write `results*.md` and `results*.json` into the folder you run them from, so run them from a scratch folder, not this one.
+- `sweep.js` (round 1, one seed) and `sweep2.js` (any seeds, averaged) run a list four processes at a time. They are the only scripts that write files: `results*.md` and `results*.json`, into the folder you run them from. Run them from a scratch folder, giving the script's full path, so this folder stays clean. Every other script only prints.
 - **Before a big sweep,** check the machine's load. Four processes is well under half of this machine's 24 cores. The project rule is at most half the cores and half the free memory without asking.
 
 Quick check that v2 works (a few seconds):
