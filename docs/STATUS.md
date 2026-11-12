@@ -40,6 +40,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - **Research:**
   - `research/battlegrounds/`: rules (patch 36.6.3), patch history, keywords, card library (patch 37.0.0, pool history since 2019).
   - `research/galaxy/`: rules, patch history, all 698 cards, design notes.
+  - `research/economy/`: the 12 Nov economy and tier-price research, with re-runnable sims in `tools/research/economy/`.
 
 ## Next
 

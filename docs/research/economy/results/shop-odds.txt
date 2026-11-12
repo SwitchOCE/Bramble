@@ -1,0 +1,49 @@
+### node odds.js
+
+bg  (per tier: top-tier % per slot | P(>=1 top-tier unit in a 5-slot shop) | P(>=1 of top two tiers) | shops to see one SPECIFIC unit of the top tier, n=8/12/16 such units in a lobby | specific tier-1 unit, n=12)
+  tier 2:  60% |  99% | 100% | 3.1 / 4.4 / 5.7 | 6.4
+  tier 3:  39% |  92% | 100% | 4.5 / 6.6 / 8.6 | 10.0
+  tier 4:  31% |  84% |  99% | 5.6 / 8.2 / 10.7 | 14.5
+  tier 5:  19% |  65% |  94% | 8.8 / 13.0 / 17.2 | 17.5
+  tier 6:   8% |  34% |  78% | 20.4 / 30.4 / 40.4 | 18.9
+
+tftlike  (per tier: top-tier % per slot | P(>=1 top-tier unit in a 5-slot shop) | P(>=1 of top two tiers) | shops to see one SPECIFIC unit of the top tier, n=8/12/16 such units in a lobby | specific tier-1 unit, n=12)
+  tier 2:  40% |  92% | 100% | 4.4 / 6.4 / 8.4 | 4.4
+  tier 3:  25% |  76% |  99% | 6.8 / 10.0 / 13.2 | 7.3
+  tier 4:  18% |  63% |  97% | 9.3 / 13.7 / 18.2 | 12.4
+  tier 5:  13% |  50% |  92% | 12.7 / 18.9 / 25.0 | 20.4
+  tier 6:  10% |  41% |  84% | 16.4 / 24.4 / 32.4 | 34.7
+
+steep  (per tier: top-tier % per slot | P(>=1 top-tier unit in a 5-slot shop) | P(>=1 of top two tiers) | shops to see one SPECIFIC unit of the top tier, n=8/12/16 such units in a lobby | specific tier-1 unit, n=12)
+  tier 2:  50% |  97% | 100% | 3.6 / 5.2 / 6.8 | 5.2
+  tier 3:  35% |  88% | 100% | 5.0 / 7.3 / 9.6 | 10.0
+  tier 4:  30% |  83% |  99% | 5.7 / 8.4 / 11.1 | 24.4
+  tier 5:  22% |  71% |  98% | 7.7 / 11.3 / 15.0 | 48.4
+  tier 6:  17% |  61% |  95% | 9.8 / 14.5 / 19.2 | 80.4
+
+TFT (long-standing table, 5 slots): top-cost-at-level
+  L3: cost 2 at 25% -> P(>=1)/shop 76%; 4- or 5-cost 0%
+  L4: cost 3 at 15% -> P(>=1)/shop 56%; 4- or 5-cost 0%
+  L5: cost 4 at 2% -> P(>=1)/shop 10%; 4- or 5-cost 10%
+  L6: cost 4 at 5% -> P(>=1)/shop 23%; 4- or 5-cost 23%
+  L7: cost 5 at 1% -> P(>=1)/shop 5%; 4- or 5-cost 44%
+  L8: cost 5 at 3% -> P(>=1)/shop 14%; 4- or 5-cost 76%
+  L9: cost 5 at 10% -> P(>=1)/shop 41%; 4- or 5-cost 95%
+  L10: cost 5 at 25% -> P(>=1)/shop 76%; 4- or 5-cost 99%
+
+BG with its real unit slots:
+  tier 2: 60% x 4 slots -> P(>=1 top)/shop 97%
+  tier 3: 39% x 4 slots -> P(>=1 top)/shop 86%
+  tier 4: 31% x 5 slots -> P(>=1 top)/shop 84%
+  tier 5: 19% x 5 slots -> P(>=1 top)/shop 65%
+  tier 6: 8% x 6 slots -> P(>=1 top)/shop 39%
+
+Shops a player sees if they put G gold into rolls (current schedule 15 at 1, then +1 per 5):
+  5 gold -> 5 shops
+  10 gold -> 10 shops
+  15 gold -> 15 shops
+  20 gold -> 17 shops
+  25 gold -> 20 shops
+  30 gold -> 21 shops
+  40 gold -> 25 shops
+  50 gold -> 27 shops
