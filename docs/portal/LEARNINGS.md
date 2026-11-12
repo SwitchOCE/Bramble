@@ -35,3 +35,32 @@ Gotchas found while building the portal. Newest at the bottom.
 - **A source with no `#n` is a document, not a question.** The first version looked it up as a question item with no number, so it always read "not found", even for files that exist. Such sources are now background reading, checked with `rev-parse`. A test covers both real paths, which are on branches with slashes in their names.
 - **The real cards are part of the gate.** `test/real-cards.test.js` copies the cards from `portal/main` (or, until merge, `portal/decisions-content`) into a temp folder. It checks that every card parses cleanly, every page renders, and every picture is a real image.
 - **A plain `#<n>` is ambiguous in long docs.** `power-budget.md` numbers its changelog, its validation plan and its owner questions, so `#1` finds the changelog's first item. Cards use `#9.1` to mean "numbered item 1 under `## 9.`". `#B8` also finds a `### B8.` heading, at any level. The heading's block runs to the next heading of the same or a higher level, and an `**Answered` marker inside it counts. Heading items are used only for lookup, so the open-question counts don't change.
+
+## Pilot: one commentable review page (12–13 Nov 2026)
+
+The pilot from `PLAN.md`: build 9's playtest as one Claude page (https://claude.ai/artifact/9SpEW6zxTviux5GrdTHR8a), to be commented on sentence by sentence and on pictures. The owner closed it on 13 Nov, after step 1, with the page published and no comments left on it.
+
+### What the owner said
+
+> "I think the big issue with this model, and I guess these models in general, is that I can't dictate. But I don't know a way of solving that really without like installing like first-party Whisper or something. Maybe that's what I have to do. Because yeah, like I typing is too slow when interacting with agents. I have so much stuff to do that I need to be able to dictate and just get my thoughts out immediately."
+
+Offered Windows voice typing (Win+H): "Windows h is so bad, I consider it to be a virus. I'm never pressing that key ever again." Then: "Close the pilot."
+
+### Is the grain right?
+
+- **Untested by the owner, and not the bottleneck.** Comments at any grain have to be typed, and typing is too slow. The first portal failed partly for the same reason: everything the owner actually said since 4 Nov came by dictation or chat, not by typing into a box (see the diagnosis in the archive).
+- **So the input mode comes before the grain.** Any review surface, a Claude page or the Optiplex site, is only useful once the owner can dictate into it. A desktop dictation tool (local Whisper or similar, not Win+H) is being looked at in its own session. Phone keyboards can already dictate, but this pilot didn't test commenting from a phone.
+- **Don't build the rest of the method yet** (home page changes, the twice-daily check, notifications). Retry the pilot, unchanged, once desktop dictation works.
+
+### What was checked
+
+- **Publishing and watching work.** On publish, the watch connected with comment replies armed.
+- **A restarted session got its watch back.** The session was restarted overnight; on 13 Nov the watch listed "re-armed when this session was resumed, auto-replies armed". So a session that comes back keeps listening. Not tested: a comment sent while the session was stopped, or a fresh session finding the page from a plan link. Those still decide whether the twice-daily check is needed.
+- **Not tested at all:** a sentence comment, a picture comment, a reply in a thread, whether Claude can read a comment that wasn't sent to it, and whether comments survive a republish.
+
+### Gotchas for whoever retries
+
+- **Build 9 already had screen captures**, made by the ideation workstream at its final hex-arena code: on the Optiplex under `~/code/Bramble-ideation/.worktrees/ui-arena/build/loop1/arena/` (`recruit_*`, `scouting-*`, `fight-*` and `reader-*` at 1920×1080 and 1688×780, plus `recruit-turn.mp4` and `fight.mp4`). After them, the only code change before the build was the card reader, and its shots were redone after that fix. Look for the newest workstream's own captures before rendering new ones. The shots in `build/screens/` are older (10 Nov).
+- **The tag `ideation-build-9` exists only in the Optiplex checkout**; it isn't on GitHub. Cite the commit, `a232314a`.
+- **The page's pictures go in as published files** (`files: {"img/recruit.jpg": …}`); a 1600-pixel JPEG at quality 82 is about 280 KB.
+- **The owner's playtest answer came in chat, not on the page:** "I am happy with the where things are at. Build 9 is good for now, right? We can improve the UI more later and make changes again later, but this is a good spot to be in for now." That belongs to the ideation workstream, and was handed back to the session that started the pilot to pass on.
