@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: menu</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.mn-wrap { position: absolute; inset: 0 0 0 64px; display: flex; align-items: center; justify-content: space-evenly; padding: 0 40px; }
+.mn-cover {
+  position: relative; width: 680px; height: 900px; border-radius: 10px 22px 22px 10px; flex: none;
+  background: #3E5634;
+  background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.035) 0 2px, transparent 2px 5px), repeating-linear-gradient(-45deg, rgba(0,0,0,.06) 0 2px, transparent 2px 6px);
+  box-shadow: 0 18px 30px rgba(30,30,10,.35), inset 18px 0 0 rgba(0,0,0,.18), inset 22px 0 0 rgba(255,255,255,.06);
+  transform: rotate(-1.2deg);
+}
+.mn-corner { position: absolute; width: 90px; height: 90px; background: #6B4A2E; }
+.mn-corner.tr { top: 0; right: 0; clip-path: polygon(0 0, 100% 0, 100% 100%); border-top-right-radius: 22px; }
+.mn-corner.br { bottom: 0; right: 0; clip-path: polygon(100% 0, 100% 100%, 0 100%); border-bottom-right-radius: 22px; }
+.mn-band { position: absolute; top: -6px; bottom: -6px; right: 86px; width: 22px; background: #2A2A24; box-shadow: 2px 0 3px rgba(0,0,0,.3); }
+.mn-stitch { position: absolute; inset: 22px 30px 22px 44px; border: 3px dashed rgba(230,220,180,.45); border-radius: 6px 14px 14px 6px; }
+.mn-plate {
+  position: absolute; left: 110px; top: 150px; width: 420px; padding: 26px 24px 22px; text-align: center;
+  background: var(--fj-card); border: 3px solid #2A2A24; box-shadow: 0 0 0 7px var(--fj-card), 0 0 0 10px #2A2A24, 0 10px 14px rgba(0,0,0,.35);
+}
+.mn-plate small { display: block; font: 700 18px/1 'Courier Prime', monospace; letter-spacing: .3em; color: var(--fj-pencil); }
+.mn-plate h1 { margin: 14px 0 10px; font: 400 74px/1 'Special Elite', monospace; letter-spacing: .06em; }
+.mn-plate .fj-anno { font-size: 32px; }
+.mn-plate .mn-rule { border-top: 2px solid var(--fj-ink); margin: 10px 30px; }
+.mn-spec { position: absolute; left: 150px; top: 520px; width: 340px; background: #fff; padding: 12px 12px 14px; box-shadow: 0 8px 14px rgba(0,0,0,.35); transform: rotate(3deg); }
+.mn-spec img { display: block; width: 100%; height: 230px; object-fit: cover; object-position: 50% 30%; border: 2px solid var(--fj-ink); }
+.mn-spec .fj-anno { font-size: 26px; margin-top: 8px; color: var(--fj-ink); }
+.mn-spec i { font: italic 500 20px/1 'Crimson Pro', serif; color: var(--fj-pencil); }
+.mn-spec::before, .mn-spec::after { content: ''; position: absolute; top: -14px; width: 92px; height: 30px; background: rgba(201,184,222,.85); }
+.mn-spec::before { left: -24px; transform: rotate(-30deg); } .mn-spec::after { right: -24px; transform: rotate(28deg); }
+.mn-page { position: relative; width: 820px; flex: none; }
+.mn-page .fj-type-h { font-size: 30px; letter-spacing: .14em; }
+.mn-page .mn-sub { font-size: 32px; margin: 2px 0 22px; }
+.mn-item { position: relative; display: flex; align-items: center; gap: 22px; min-height: 120px; padding: 0 26px; margin-bottom: 18px;
+  background: var(--fj-card); border: 3px solid var(--fj-ink); border-radius: 8px; box-shadow: 0 4px 0 rgba(34,40,31,.85); }
+.mn-item .mn-num { font: 700 34px/1 'Zilla Slab', serif; width: 56px; color: var(--fj-pencil); }
+.mn-item b { font: 700 44px/1 'Courier Prime', monospace; }
+.mn-item .mn-dots { flex: 1; border-bottom: 3px dotted #8a8f80; margin: 0 6px; transform: translateY(10px); }
+.mn-item .fj-anno { font-size: 30px; white-space: nowrap; }
+.mn-item.mn-play { background: var(--fj-moss); color: #fff; }
+.mn-item.mn-play .mn-num, .mn-item.mn-play .fj-anno { color: #E6EBD9; }
+.mn-item.mn-play .mn-dots { border-color: rgba(230,235,217,.6); }
+.mn-tab { position: absolute; right: -58px; top: 18px; width: 52px; height: 80px; border: 3px solid var(--fj-ink); border-left: 0; border-radius: 0 10px 10px 0; background: var(--k); }
+.mn-foot { margin-top: 26px; display: flex; align-items: center; justify-content: space-between; font: 700 18px/1 'Courier Prime', monospace; color: var(--fj-pencil); }
+.mn-leaf { position: absolute; right: -10px; top: -96px; transform: rotate(24deg); }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="mn-wrap">
+    <div class="mn-cover">
+      <div class="mn-stitch"></div>
+      <div class="mn-corner tr"></div><div class="mn-corner br"></div><div class="mn-band"></div>
+      <!-- Title area: "Bramble" is a code name; swap the plate's contents for the real title. -->
+      <div class="mn-plate" data-title-area>
+        <small>FIELD JOURNAL OF</small>
+        <h1>BRAMBLE</h1>
+        <div class="mn-rule"></div>
+        <div class="fj-anno">a woodland auto-battler</div>
+      </div>
+      <div class="mn-spec"><img src="../../../folio/art/web/trials/ink-b-fairy-hollowdeep.jpg" alt="">
+        <div class="fj-anno">specimen of the day: Belladonna Sprite</div><i>Atropa pixia &middot; tier 6 &middot; Fairies</i></div>
+    </div>
+    <div class="mn-page">
+      <svg class="mn-leaf" width="150" height="190" viewBox="0 0 120 150"><path d="M60 145 C58 110 60 70 62 8" stroke="#5c6b3d" stroke-width="3" fill="none"/><path d="M61 20 C30 22 18 46 30 58 C14 66 12 88 34 94 C20 106 30 126 58 120 C88 128 100 108 86 96 C108 90 106 68 90 60 C104 46 92 22 61 20 Z" fill="#9aae6c" fill-opacity=".75" stroke="#5c6b3d" stroke-width="2.5"/><path d="M61 40 L44 52 M61 62 L38 78 M60 86 L42 104 M62 40 L80 52 M62 62 L84 76 M61 86 L80 102" stroke="#5c6b3d" stroke-width="2" fill="none"/></svg>
+      <div class="fj-type-h">CONTENTS</div>
+      <div class="fj-anno mn-sub">where to next?</div>
+      <div class="mn-item mn-play"><span class="mn-num">I</span><b>Play</b><span class="mn-dots"></span><span class="fj-anno">find a lobby of 8</span><span class="mn-tab" style="--k:#B3BE86"></span></div>
+      <div class="mn-item"><span class="mn-num">II</span><b>Continue</b><span class="mn-dots"></span><span class="fj-anno">Day 6 vs Old Tansy</span><span class="mn-tab" style="--k:#A9C4D4"></span></div>
+      <div class="mn-item"><span class="mn-num">III</span><b>Collection</b><span class="mn-dots"></span><span class="fj-anno">all specimens</span><span class="mn-tab" style="--k:#D4B48C"></span></div>
+      <div class="mn-item"><span class="mn-num">IV</span><b>How to play</b><span class="mn-dots"></span><span class="fj-anno">rules &amp; keywords</span><span class="mn-tab" style="--k:#C9B8DE"></span></div>
+      <div class="mn-item"><span class="mn-num">V</span><b>Settings</b><span class="mn-dots"></span><span class="fj-anno">sound, speed</span><span class="mn-tab" style="--k:#E4C055"></span></div>
+      <div class="mn-foot"><span>mock-up &middot; design lab r1</span><div class="fj-btn" style="min-height:104px;padding:0 44px;font-size:28px">Quit</div></div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>FJ.stage(1000);</script>
+</body></html>

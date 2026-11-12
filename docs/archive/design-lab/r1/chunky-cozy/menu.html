@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chunky Cozy · Menu</title>
+<link rel="stylesheet" href="cozy.css">
+<style>
+  #stage { background:
+    radial-gradient(circle at 12px 12px, rgba(255,255,255,.55) 3px, transparent 3.5px) 0 0 / 34px 34px,
+    radial-gradient(70% 40% at 20% 108%, #7FCF95 0 60%, transparent 60.5%),
+    radial-gradient(60% 38% at 85% 112%, #9ADBA9 0 60%, transparent 60.5%),
+    radial-gradient(50% 50% at 75% 40%, #FFE4F2 0 30%, transparent 70%),
+    linear-gradient(180deg, #BFEAFF 0%, #DDF6FF 40%, var(--meadow) 100%); }
+  .cloud { position: absolute; background: #fff; border-radius: 999px; box-shadow: 0 8px 0 rgba(77,142,240,.15); }
+  .cloud::before, .cloud::after { content: ""; position: absolute; background: #fff; border-radius: 50%; }
+  .cloud::before { width: 50%; height: 160%; left: 15%; bottom: 20%; } .cloud::after { width: 38%; height: 130%; right: 14%; bottom: 25%; }
+  /* Title slot: "Bramble" is a code name. Swap the contents of .title-slot for the real logo. */
+  .title-slot { position: absolute; left: 70px; top: 54px; }
+  .logo { display: flex; font-family: var(--font-display); font-weight: 700; font-size: 150px; line-height: 1; }
+  .logo span { display: inline-block; color: var(--c); -webkit-text-stroke: 10px #fff; paint-order: stroke fill;
+    text-shadow: 0 12px 0 var(--cocoa), 0 18px 20px rgba(74,46,42,.35); }
+  .logo span:nth-child(odd) { transform: rotate(-5deg) translateY(4px); } .logo span:nth-child(even) { transform: rotate(4deg) translateY(-6px); }
+  .codename { margin: 18px 0 0 10px; display: inline-flex; gap: 8px; align-items: center; font-weight: 800; font-size: 17px; color: var(--cocoa-soft);
+    background: rgba(255,255,255,.75); border-radius: 999px; padding: 4px 14px; border: 2px dashed rgba(74,46,42,.3); }
+  .menu { position: absolute; left: 80px; top: 330px; display: flex; flex-direction: column; gap: 22px; align-items: flex-start; }
+  .btn.play { min-width: 380px; height: 124px; font-size: 56px; border-radius: 44px; }
+  .btn.play svg { width: 60px; height: 60px; }
+  .row2 { display: flex; gap: 18px; }
+  .row2 .btn { min-width: 180px; height: 96px; font-size: 26px; flex-direction: column; gap: 2px; }
+  .row2 .btn svg { width: 40px; height: 40px; }
+  .hero { position: absolute; right: 90px; top: 60px; width: 470px; height: 470px; border-radius: 50%;
+    background: radial-gradient(circle at 50% 45%, #fff 0 30%, #FFE4F2 60%, #FFC9E3 100%); border: 14px solid #fff;
+    box-shadow: 0 16px 0 #E59BC2, 0 28px 40px rgba(74,46,42,.25); overflow: hidden; }
+  .hero img { width: 100%; height: 100%; object-fit: cover; }
+  .sparkle { width: 54px; height: 54px; }
+  .peek { position: absolute; bottom: -30px; display: flex; gap: 10px; left: 50%; transform: translateX(-20%); }
+  .peek .p { width: 130px; height: 130px; border-radius: 50%; overflow: hidden; border: 8px solid #fff; box-shadow: 0 8px 0 var(--drop); }
+  .peek .p img { width: 100%; height: 100%; object-fit: cover; }
+  .profile { position: absolute; right: 24px; top: 20px; display: flex; gap: 10px; }
+  .profile .btn { min-height: 64px; min-width: 64px; font-size: 20px; padding: 0 18px; border-radius: 22px; }
+  .ver { position: absolute; left: 24px; bottom: 16px; font-size: 14px; font-weight: 800; color: var(--cocoa-soft); }
+</style></head>
+<body><div id="stage">
+  <div class="cloud" style="left:540px;top:70px;width:190px;height:54px"></div>
+  <div class="cloud" style="left:860px;top:300px;width:130px;height:40px;opacity:.85"></div>
+  <div class="title-slot" id="title">
+    <div class="logo" aria-label="Bramble"></div>
+    <div class="codename">working title · code name</div>
+  </div>
+  <div class="hero" id="hero"></div>
+  <div class="menu">
+    <button class="btn go play" id="play"></button>
+    <div class="row2">
+      <button class="btn" id="coll"></button>
+      <button class="btn" id="sett"></button>
+      <button class="btn gold" id="stand"></button>
+    </div>
+  </div>
+  <div class="peek" id="peek"></div>
+  <div class="ver">Design lab · Chunky Cozy · mock</div>
+</div>
+<script src="data.js"></script><script src="ui.js"></script>
+<script>
+  const { I } = CZ, $ = id => document.getElementById(id);
+  const cols = ['#F0435E', '#FF8A2A', '#FFCB3D', '#3DBB63', '#26A99A', '#4D8EF0', '#8A3FD1'];
+  document.querySelector('.logo').innerHTML = [...'Bramble'].map((ch, i) => `<span style="--c:${cols[i]}">${ch}</span>`).join('');
+  $('hero').innerHTML = `<img src="${PORTRAITS['Belladonna Sprite']}" alt="Belladonna Sprite">`;
+  $('stage').insertAdjacentHTML('beforeend', `<div class="sparkle" style="position:absolute;right:520px;top:90px">${I.sparkle}</div><div class="sparkle" style="position:absolute;right:80px;top:420px;width:40px;height:40px">${I.sparkle}</div>`);
+  $('play').innerHTML = I.play + 'Play';
+  $('coll').innerHTML = I.book + 'Collection';
+  $('sett').innerHTML = I.gear + 'Settings';
+  $('stand').innerHTML = I.trophy + 'Standings';
+  $('peek').innerHTML = ['Bear Cub', 'Hedge Doctor', 'Garden Snail', 'Robin Redbreast', 'Mudwallow Toad'].map(n => `<div class="p"><img src="${PORTRAITS[n]}" alt="${n}"></div>`).join('');
+  CZ.fit();
+</script></body></html>

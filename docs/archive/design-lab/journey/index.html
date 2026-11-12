@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Journey Round</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #f4efe3; --ink: #1f1b16; --soft: #5d554a; --line: #ddd3bf; --card: #fffaf0; --accent: #3f6b2f; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #14130f; --ink: #efe8d8; --soft: #b3a993; --line: #353026; --card: #1d1b16; --accent: #9ccc78; } }
+  :root[data-theme="dark"] { --bg: #14130f; --ink: #efe8d8; --soft: #b3a993; --line: #353026; --card: #1d1b16; --accent: #9ccc78; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 17px/1.55 Inter, system-ui, sans-serif; }
+  main { max-width: 1240px; margin: 0 auto; padding: 48px 20px 80px; }
+  .eyebrow { font: 600 13px Inter; letter-spacing: .16em; text-transform: uppercase; color: var(--soft); }
+  h1 { font: 800 52px/1.05 Fraunces, Georgia, serif; margin: 8px 0 14px; }
+  .lede { max-width: 760px; font-size: 19px; color: var(--soft); }
+  .lede b { color: var(--ink); font-weight: 600; }
+  .route { display: flex; gap: 10px; margin: 26px 0 40px; flex-wrap: wrap; }
+  .route figure { margin: 0; flex: 1 1 160px; }
+  .route img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 10px; display: block; }
+  .route figcaption { font-size: 13px; color: var(--soft); margin-top: 6px; }
+  .route figcaption b { color: var(--ink); }
+  section.v { display: grid; grid-template-columns: 1.5fr 1fr; gap: 28px; padding: 34px 0; border-top: 1px solid var(--line); }
+  section.v h2 { font: 800 34px/1.1 Fraunces, Georgia, serif; margin: 0 0 4px; }
+  section.v .num { font: 600 13px Inter; letter-spacing: .14em; color: var(--soft); text-transform: uppercase; }
+  .shots { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .shots a:first-child { grid-column: 1 / -1; }
+  .shots img { width: 100%; border-radius: 10px; display: block; border: 1px solid var(--line); }
+  ul { padding-left: 20px; margin: 10px 0; } li { margin: 5px 0; }
+  .open { display: inline-block; margin-top: 12px; background: var(--accent); color: var(--bg); text-decoration: none; font-weight: 600; padding: 10px 18px; border-radius: 10px; }
+  .keys { margin-top: 34px; padding: 16px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; font-size: 15px; color: var(--soft); }
+  kbd { font: 600 13px Inter; background: var(--bg); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; color: var(--ink); }
+  @media (max-width: 860px) { section.v { grid-template-columns: 1fr; } h1 { font-size: 38px; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Bramble · design lab · journey round · 11 Nov 2026</div>
+  <h1>The board on a journey</h1>
+  <p class="lede">Three lab looks redone around one idea: <b>painted art surrounds the board, and the place changes as the game goes on.</b> <b>Your board never moves, and it is centred:</b> horizontally in the stacked look (Clean Arena), top to bottom in the left-right looks (Storybook, Nouveau). It sits in the same place, at the same size, in the recruit, the fight and on travel; everything else changes around it. <b>Every unit is a rounded hex</b> between the mid hex and the tall hex, so the back row tucks into the front row. The leaderboard sits on the right in every look. Every two turns the band moves to a new area. Rules are ignored on purpose, with one exception: <b>every board is 4 slots in front and 3 behind, the back row offset half a slot</b> (rulebook 8.1). Empty slots stay where they are. These are looks to react to, not proposals for the game.</p>
+  <p class="lede"><b>Handing this on?</b> <a href="HANDOFF.md">HANDOFF.md</a> lists the owner's layout rules and where each piece lives.</p>
+
+  <div class="route">
+    <figure><img src="world/weald.jpg" alt=""><figcaption><b>1 · Weald Glow</b> · turns 1–2</figcaption></figure>
+    <figure><img src="world/canopy.jpg" alt=""><figcaption><b>2 · Highcrown Canopy</b> · 3–4</figcaption></figure>
+    <figure><img src="world/mosswood.jpg" alt=""><figcaption><b>3 · Mosswood Mist</b> · 5–6</figcaption></figure>
+    <figure><img src="world/rays.jpg" alt=""><figcaption><b>4 · Highcrown Rays</b> · 7–8</figcaption></figure>
+    <figure><img src="world/fen.jpg" alt=""><figcaption><b>5 · Fen Wisplight</b> · 9+</figcaption></figure>
+  </div>
+
+  <section class="v">
+    <div class="shots">
+      <a href="arena/index.html?stop=3"><img src="shots/arena-recruit-3.jpg" alt="Clean Arena recruit in Mosswood Mist"></a>
+      <a href="arena/index.html?stop=3&flip=madame_bufo"><img src="shots/arena-flipped-3.jpg" alt="Clean Arena with one card flipped"></a>
+      <a href="arena/index.html?stop=4&mode=fight"><img src="shots/arena-fight-4.jpg" alt="Clean Arena fight"></a>
+    </div>
+    <div>
+      <div class="num">Lab #5</div>
+      <h2>Clean Arena, art first</h2>
+      <ul>
+        <li><b>The layout to build on (owner, 11 Nov).</b> Your board is centred at the bottom; above it, centred, the market in the recruit or the opponent's board in the fight. Your board doesn't move a pixel between them.</li>
+        <li><b>Every unit is the same size everywhere</b> (176 × 226): market, hand, your board and the opponent's. A unit stays the same object as it moves from the market to the hand to the board.</li>
+        <li><b>The scoreboard is centred top to bottom</b> on the right.</li>
+        <li><b>Layout B in the other two looks</b> (12 Nov): <a href="storybook/stacked.html?stop=3">Storybook</a> · <a href="nouveau/stacked.html?stop=3">Nouveau</a>. Each is a skin over this page: colours, fonts and frames change; every zone and unit keeps the Arena's place and size. The comparison page has a look switch.</li>
+        <li><b>Chosen: layout B</b> (owner, 11 Nov), now the default: the scoreboard is a slim strip of portraits on the right edge, and your hero and End turn sit beside your board. <b>Four small layout variants</b> — <a href="layouts.html"><b>compare all four side by side</b></a> (or dock: Layout A–D, or the links):
+          <a href="arena/index.html?layout=a&stop=3">A</a> baseline: scoreboard rows on the right, End turn bottom-right, your hero top-left, the hand beside your board ·
+          <a href="arena/index.html?layout=b&stop=3">B</a> a slim strip of portraits for the scoreboard; your hero and End turn beside your board on the right ·
+          <a href="arena/index.html?layout=c&stop=3">C</a> End turn is a tall bar on your board's right edge; the right column holds only the scoreboard ·
+          <a href="arena/index.html?layout=d&stop=3">D</a> quiet sides: the portrait strip plus the End turn bar.</li>
+        <li>Units are hex pictures; <b>click</b> flips one for its rules and Buy / Sell / Play, <b>hover</b> shows a reader.</li>
+      </ul>
+      <a class="open" href="arena/index.html">Open Clean Arena</a>
+    </div>
+  </section>
+
+  <section class="v">
+    <div class="shots">
+      <a href="storybook/index.html?stop=5"><img src="shots/storybook-recruit-5.jpg" alt="Storybook Ink recruit in Fen Wisplight"></a>
+      <a href="storybook/index.html?stop=1"><img src="shots/storybook-recruit-1.jpg" alt="Storybook Ink, chapter one"></a>
+      <a href="storybook/index.html?stop=4&mode=fight"><img src="shots/storybook-fight-4.jpg" alt="Storybook Ink fight"></a>
+    </div>
+    <div>
+      <div class="num">Lab #4</div>
+      <h2>Storybook Ink, the open book</h2>
+      <ul>
+        <li><b>You are always the left page; your band is centred top to bottom and never moves.</b> The right page is the market, or the opponent in a fight. On travel the page turns <i>under</i> your band.</li>
+        <li>Units are inked hexes with points left and right, so the two columns pack together. The name sits on a paper tag; Attack and Health on the bottom corners; the rules are in the hover note.</li>
+        <li>Right page: a market stall with a striped awning, and a wooden counter holding the gold and Tier up / Refresh / Freeze. Fellow travellers (the leaderboard) stand to the right of the book.</li>
+      </ul>
+      <a class="open" href="storybook/index.html">Open Storybook Ink</a>
+    </div>
+  </section>
+
+  <section class="v">
+    <div class="shots">
+      <a href="nouveau/index.html?stop=5"><img src="shots/nouveau-recruit-5.jpg" alt="Woodland Nouveau recruit in Fen Wisplight"></a>
+      <a href="nouveau/index.html?stop=1"><img src="shots/nouveau-recruit-1.jpg" alt="Woodland Nouveau, first station"></a>
+      <a href="nouveau/index.html?stop=4&mode=fight"><img src="shots/nouveau-fight-4.jpg" alt="Woodland Nouveau fight"></a>
+    </div>
+    <div>
+      <div class="num">Lab #7 · second shot</div>
+      <h2>Woodland Nouveau, the altar</h2>
+      <ul>
+        <li><b>Left-right, your altar centred top to bottom</b>, just left of the screen's centre line. Right of the line: the ivory market cabinet in the recruit, the opponent's garnet altar in the fight.</li>
+        <li>Units are gilt hexes, points left and right, packed in two columns; jewels carry the numbers along the bottom edge.</li>
+        <li>Your hero and the hand on the left; the leaderboard medals on the right edge; the End turn door under the cabinet.</li>
+      </ul>
+      <a class="open" href="nouveau/index.html">Open Woodland Nouveau</a>
+    </div>
+  </section>
+
+  <section class="v">
+    <div class="shots">
+      <a href="shapes/index.html?shape=honey&lay=bu"><img src="shots/shapes-honey-bu.jpg" alt="Honeycomb units in a bottom-up fight"></a>
+      <a href="shapes/index.html?shape=midhex&lay=bu"><img src="shots/shapes-midhex-bu.jpg" alt="Mid hex units in a bottom-up fight"></a>
+      <a href="shapes/index.html?shape=honey&lay=lr"><img src="shots/shapes-honey-lr.jpg" alt="Honeycomb units, left-right"></a>
+    </div>
+    <div>
+      <div class="num">Experiment</div>
+      <h2>Slot shapes</h2>
+      <ul>
+        <li><b>The chosen shape leads (between the mid hex and the tall hex, now in all three looks), then your picks: honeycomb, mid hex, tall hex.</b> The others stay for comparison: card, cut corners, near-diamond, shield wall and woven. Both layouts, the same zone sizes as the looks.</li>
+        <li>Pictures are placed by hand, never stretched: scaled to cover the shape, zoomed a touch on hexes, and panned so the face sits in the hex's wide middle band. Units wider than tall (the honeycomb on its side) keep the top of the picture, so heads and hats stay whole.</li>
+        <li>Shapes that point into the next row let the back row tuck in, so the board gets shallower. Bottom-up, at today's unit width: honeycomb 76% of the height, mid hex 83%, tall hex 91%.</li>
+        <li>Each shape shows its unit size in the same zone, how much of the picture survives, what works, what to watch, and variations.</li>
+      </ul>
+      <a class="open" href="shapes/index.html">Open Slot shapes</a>
+    </div>
+  </section>
+
+  <div class="keys">
+    <b>In every look:</b> <kbd>→</kbd> travel to the next area · <kbd>←</kbd> go back · <kbd>F</kbd> recruit / fight · End turn plays a short mock fight, then offers to travel on. The small dock bottom-right jumps to any area (1–5). Clicking a shop card buys it into the hand; clicking a hand card plays it into the first empty slot (front row first). Selling leaves the slot empty. In fights, units take turns in slot order and hit the front row while it lives; the rest is mock.<br>
+    <b>Art:</b> units are the ink-and-glow repaint from <code>ideation/ui-art-inkglow</code>; the five areas are the loop-1 painted backdrops and the runtime Highcrown Canopy. Unit names and text come from <code>ideation/main</code> content.
+  </div>
+</main>
+</body>
+</html>

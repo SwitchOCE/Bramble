@@ -1,0 +1,238 @@
+/* Clean Arena, journey round. Flat, high-contrast, numbers first, but the art
+   now leads: the picture fills the card and only three things sit on top. */
+:root {
+  --ink: #f5f3ec; --dim: #9aa39c; --glass: rgba(14, 18, 17, .58); --line: rgba(255,255,255,.10);
+  --atk: #ffb31a; --hp: #ff4b5c; --go: #2fd68a; --ice: #4cc3ff;
+  --num: 'Barlow Condensed', system-ui, sans-serif; --txt: 'Inter', system-ui, sans-serif;
+}
+body { font-family: var(--txt); color: var(--ink); }
+.jy-shade { background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgba(5,10,8,.55) 100%); }
+html[data-mode="fight"] .jy-bg.on { transform: scale(1.12); filter: brightness(.62) saturate(.8); }
+html[data-mode="fight"] .jy-shade { background: radial-gradient(90% 80% at 50% 50%, rgba(0,0,0,.1) 30%, rgba(0,0,0,.7) 100%); }
+
+.jy-stage > * { transition: opacity .38s ease, filter .38s; }
+.jy-stage.leaving > :not(.pin) { opacity: 0; filter: blur(6px); }
+
+/* ---- Top-left: turn and route ---------------------------------------------- */
+.corner { position: absolute; left: 24px; top: 16px; width: var(--side-up); display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.turnmark { display: flex; align-items: baseline; gap: 12px; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+.turnmark b { font: 800 52px/1 var(--num); }
+.turnmark span { font: 700 22px var(--num); letter-spacing: .12em; color: var(--go); }
+.turnmark span.red { color: var(--hp); }
+.route { display: flex; align-items: center; }
+.node { width: 40px; height: 40px; border-radius: 50%; background: center/cover; border: 3px solid rgba(255,255,255,.5); box-shadow: 0 4px 14px rgba(0,0,0,.4); transition: all .5s; flex: none; }
+.node.past { filter: saturate(.5) brightness(.8); border-color: rgba(255,255,255,.35); }
+.node.ahead { filter: grayscale(1) brightness(.55); border-color: rgba(255,255,255,.25); }
+.node.here { width: 64px; height: 64px; border: 4px solid var(--ink); box-shadow: 0 0 0 4px rgba(0,0,0,.35), 0 0 28px color-mix(in srgb, var(--tint) 80%, transparent); }
+.path { width: 24px; height: 4px; flex: none; background: repeating-linear-gradient(90deg, rgba(255,255,255,.7) 0 6px, transparent 6px 11px); }
+.route-label { white-space: nowrap; font: 600 18px var(--txt); color: var(--ink); text-shadow: 0 2px 8px rgba(0,0,0,.8); }
+.route-label b { font: 800 22px var(--num); letter-spacing: .04em; text-transform: uppercase; }
+
+/* ---- Leaderboard: the other players, top-right ---------------------------------- */
+.lobby { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); width: var(--side-up); display: flex; flex-direction: column; gap: 6px; padding: 12px; border-radius: 20px; background: rgba(10,14,12,.62); }
+.lobby h4 { margin: 0 4px 4px; font: 800 16px var(--num); letter-spacing: .22em; color: var(--dim); text-transform: uppercase; }
+.pl { position: relative; display: flex; align-items: center; gap: 10px; height: 58px; padding: 0 12px 0 6px; border-radius: 14px; background: rgba(255,255,255,.05); }
+.pl .rank { font: 800 18px var(--num); color: var(--dim); width: 18px; text-align: center; font-style: normal; }
+.pl img { width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,.5); }
+.pl .pname { flex: 1; font: 700 15px var(--txt); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pl.you { background: rgba(47,214,138,.16); } .pl.you img { border-color: var(--go); }
+.pl.next { background: rgba(255,75,92,.14); } .pl.next img { border-color: var(--hp); }
+.pl.out { opacity: .35; filter: grayscale(1); }
+.php { min-width: 38px; height: 38px; padding: 0 6px; border-radius: 19px; background: var(--hp); color: #fff; font: 800 24px/38px var(--num); text-align: center; }
+.ptier { width: 30px; height: 30px; border-radius: 50%; background: #111; color: var(--ink); font: 800 17px/30px var(--num); text-align: center; box-shadow: 0 0 0 2px rgba(255,255,255,.3); }
+
+/* ---- Zones ---------------------------------------------------------------------------
+   Stacked. Your board is pinned, centred at the bottom: same place and size in every
+   phase. Above it, centred: the market (recruit) or the opponent's board (fight).
+   Sides: left holds the turn, route, your hero and the hand; right holds the
+   leaderboard and End turn. */
+:root { --uw: 176px; --uh: 226px; --zw: 820px; --zh: 510px; --shopw: 1160px; --zgap: 28px; --top: 16px;
+  --low: calc(var(--top) + var(--zh) + var(--zgap));
+  --side-up: calc(50% - var(--shopw) / 2 - 52px);
+  --side-low: calc(50% - var(--zw) / 2 - 52px); }
+.boardframe { position: absolute; left: calc(50% - var(--zw) / 2); width: var(--zw); height: var(--zh); padding: 30px 24px 18px; display: grid; place-items: center;
+  background: rgba(8, 14, 12, .80); border: 3px solid rgba(47,214,138,.75); border-radius: 26px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(47,214,138,.22); }
+.boardframe.me { top: var(--low); }
+.boardframe.foe { top: var(--top); padding: 18px 24px 30px; border-color: rgba(255,75,92,.75);
+  box-shadow: 0 30px 80px rgba(0,0,0,.5), inset 0 0 0 6px rgba(8,14,12,.9), inset 0 0 0 7px rgba(255,75,92,.2); }
+.tab { position: absolute; top: -18px; left: 26px; display: flex; gap: 12px; align-items: baseline; padding: 6px 16px; border-radius: 10px;
+  background: #0d1512; border: 2px solid rgba(47,214,138,.75); font: 800 20px var(--num); letter-spacing: .16em; }
+.boardframe.foe .tab { top: auto; bottom: -18px; left: auto; right: 26px; border-color: rgba(255,75,92,.75); }
+.tab span { color: var(--dim); }
+/* Hex board units: 180 x 231. The back row tucks 30px into the front row's points. */
+/* The back row tucks into the front row's points: minus a fifth of a unit, plus the gap. */
+.boardframe .brick { --row-gap: 0px; --slot-gap: 16px; --tuck: -29px; }
+
+/* The market: an amber stall above your board, with its gold and buttons inside. */
+.shopframe { position: absolute; left: calc(50% - var(--shopw) / 2); width: var(--shopw); top: var(--top); height: var(--zh); display: flex; flex-direction: column;
+  background: rgba(34, 24, 10, .84); border: 3px solid var(--atk); border-radius: 26px; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
+.awning { display: flex; align-items: center; gap: 12px; height: 64px; flex: none; padding: 0 18px; color: #2a1a04; border-radius: 22px 22px 0 0;
+  background: repeating-linear-gradient(90deg, var(--atk) 0 46px, #ffc95a 46px 92px); position: relative; }
+.awning::after { content: ''; position: absolute; left: 0; right: 0; bottom: -12px; height: 12px;
+  background: radial-gradient(circle at 23px 0, var(--atk) 22px, transparent 23px) 0 0 / 92px 12px repeat-x, radial-gradient(circle at 69px 0, #ffc95a 22px, transparent 23px) 0 0 / 92px 12px repeat-x; }
+.awning > b { font: 800 34px var(--num); letter-spacing: .14em; }
+.tierbadge { font: 800 17px var(--num); letter-spacing: .14em; background: #2a1a04; color: var(--atk); padding: 4px 10px; border-radius: 8px; }
+.awning .gold { margin-left: auto; gap: 6px; padding: 2px 14px; background: #2a1a04; border: 0; border-radius: 14px; backdrop-filter: none; }
+.awning .gold .acorn svg { width: 30px; height: 30px; } .awning .gold b { font-size: 46px; }
+.shopgrid { flex: 1; display: flex; gap: 12px; justify-content: center; align-items: center; padding: 14px 18px 0; }
+
+.shopbtns { display: flex; gap: 12px; padding: 14px 0 16px; border-top: 2px solid rgba(255,179,26,.3); margin: 0 18px; }
+.shopbtns .btn.sq { flex: 1; height: 76px; width: auto; flex-direction: column; justify-content: center; gap: 2px; padding: 0; font-size: 28px; }
+.shopbtns .btn em { font: 800 17px var(--num); letter-spacing: .1em; }
+
+/* The hand: a tray to the left of your board. */
+.handtray { position: absolute; left: 24px; width: var(--side-low); top: var(--low); height: var(--zh); display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 18px 16px;
+  background: rgba(14,18,17,.5); border: 1px dashed rgba(255,255,255,.22); border-radius: 22px; }
+.handtray .lbl { font: 800 18px var(--num); letter-spacing: .24em; color: var(--dim); }
+.handtray .hand { display: flex; flex-wrap: wrap; justify-content: center; align-content: flex-start; gap: 18px 16px; }
+
+.hand .none { font: 600 16px var(--txt); color: var(--dim); font-style: normal; margin-top: 40px; }
+.slot { position: relative; flex: none; display: grid; place-items: center; --hx-edge: rgba(255,255,255,.18); --hx-bw: 2px; }
+.slot .hx-art { background: rgba(10,16,14,.92); }
+.slot span { position: relative; font: 700 24px var(--num); letter-spacing: .1em; color: rgba(255,255,255,.25); }
+
+/* ---- Card: a hex picture, numbers on top --------------------------------------------- */
+/* Every unit on screen is the same size, wherever it is: it is the same object
+   when it moves from the market to the hand to the board. */
+.card, .slot { width: var(--uw); height: var(--uh); }
+.card { position: relative; perspective: 1100px; cursor: pointer; flex: none; }
+.flip { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .55s cubic-bezier(.3,.7,.2,1); }
+.card.flipped .flip { transform: rotateY(180deg); }
+.face { position: absolute; inset: 0; backface-visibility: hidden; }
+.front { --hx-edge: rgba(255,255,255,.95); --hx-bw: 3px; transition: transform .18s; }
+/* A flat offset shadow drawn as its own masked layer (no filter inside the 3D flip). */
+.front::before { content: ''; position: absolute; inset: 8px 0 -8px; background: rgba(0,0,0,.38); -webkit-mask: var(--hex) center / 100% 100% no-repeat; mask: var(--hex) center / 100% 100% no-repeat; }
+.card:hover .front { transform: translateY(-6px); }
+.card .tier { position: absolute; top: 9%; left: 2px; width: 30px; height: 30px; border-radius: 50%; background: rgba(12,14,13,.88); color: var(--ink); font: 800 19px/30px var(--num); text-align: center; }
+.card .ico { position: absolute; top: 9%; right: 2px; width: 32px; height: 32px; border-radius: 50%; background: rgba(12,14,13,.88); display: grid; place-items: center; }
+.card .ico svg { width: 20px; height: 20px; }
+.card .bolt svg { fill: #ffd43a; }
+.card .aura svg { fill: #bfe9ff; stroke: #bfe9ff; }
+.atk, .hp { font: 800 40px/1 var(--num); color: #1a1208; display: grid; place-items: center; }
+/* The lower corners of a hex are cut, so the numbers sit on them, half outside. */
+.front .atk, .front .hp { position: absolute; bottom: 9%; width: 54px; height: 54px; font-size: 37px; }
+.front .hp { right: -8px; background: var(--hp); border-radius: 50%; color: #fff; box-shadow: 0 4px 10px rgba(0,0,0,.45); }
+/* Attack is a diamond, Health a circle: shape, not just colour, tells them apart. */
+.front .atk { left: -8px; background: none; isolation: isolate; }
+.front .atk::before { content: ''; position: absolute; inset: 6px; background: var(--atk); border-radius: 8px; transform: rotate(45deg); box-shadow: 0 4px 10px rgba(0,0,0,.45); z-index: -1; }
+
+/* The name plate is hidden in Clean Arena (art first); the Storybook and Nouveau skins show it. */
+.front .nm { display: none; }
+.card.golden .front { --hx-edge: #ffd75e; --hx-bw: 5px; }
+.card.golden .front::before { background: rgba(255,215,94,.55); inset: -5px -5px -9px; }
+.card.frozen .front .hx-art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(160,225,255,.6), rgba(76,195,255,.25) 50%, rgba(200,240,255,.55)); }
+.card.frozen .front { --hx-edge: var(--ice); }
+
+.back { transform: rotateY(180deg); --hx-edge: rgba(255,255,255,.95); --hx-bw: 3px; }
+.back-in { background: #151917 !important; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20% 14px 18%; }
+.back-in > * { position: relative; }
+.b-name { font: 800 19px/1.02 var(--num); letter-spacing: .02em; text-transform: uppercase; }
+.b-tribe { font: 600 11px var(--txt); color: var(--dim); margin: 4px 0 5px; display: flex; align-items: center; gap: 5px; }
+.b-tribe i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.b-text { font: 500 13px/1.28 var(--txt); margin: 0; flex: 1; overflow: hidden; }
+.b-text b { color: #fff; font-weight: 800; }
+.b-text em { font-style: normal; color: #ffd43a; font-weight: 700; }
+.b-foot { display: flex; gap: 6px; align-items: center; justify-content: center; margin-top: 4px; }
+.b-foot .atk, .b-foot .hp { width: 34px; height: 30px; border-radius: 7px; font-size: 22px; }
+.b-foot .atk { background: var(--atk); }
+.b-foot .hp { background: var(--hp); color: #fff; border-radius: 15px; }
+.b-act { all: unset; margin-top: 6px; background: var(--go); color: #062314; font: 800 15px/30px var(--num); letter-spacing: .06em; padding: 0 10px; border-radius: 8px; cursor: pointer; }
+
+.reader { position: absolute; z-index: 50; width: 330px; padding: 16px 18px; background: rgba(14,18,17,.94); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 20px 50px rgba(0,0,0,.5); pointer-events: none; }
+.reader .b-name { font-size: 28px; }
+.reader .b-text { font-size: 16px; }
+
+/* ---- Right side: gold and the four actions ------------------------------------ */
+.gold { display: flex; align-items: center; gap: 12px; padding: 12px 18px; background: var(--glass); backdrop-filter: blur(12px); border-radius: 20px; border: 1px solid var(--line); }
+.gold .acorn svg { width: 48px; height: 48px; fill: var(--atk); }
+.gold b { font: 800 76px/1 var(--num); color: var(--atk); }
+.gold small { font: 700 16px var(--num); letter-spacing: .2em; color: var(--dim); align-self: flex-end; margin-bottom: 12px; }
+.btn { all: unset; box-sizing: border-box; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0 18px; height: 66px; border-radius: 16px; background: var(--glass); backdrop-filter: blur(12px); border: 1px solid var(--line); font: 800 24px var(--num); letter-spacing: .08em; transition: transform .12s, background .2s; }
+.btn:hover { transform: translateY(-2px); background: rgba(30,36,34,.8); }
+.btn em { font-style: normal; display: flex; align-items: center; gap: 4px; color: var(--atk); }
+.btn em svg { width: 22px; height: 22px; fill: var(--atk); }
+.btn.freeze { color: var(--ice); border-color: rgba(76,195,255,.45); }
+.btn.end { position: absolute; right: 24px; width: var(--side-up); bottom: 16px; height: 150px; background: var(--go); color: #062314; flex-direction: column; justify-content: center; border: 0; font-size: 40px; box-shadow: 0 12px 30px rgba(0,0,0,.4); }
+.btn.end small { font: 700 16px var(--num); letter-spacing: .14em; text-transform: uppercase; opacity: .8; }
+
+/* ---- Heroes on the left, beside the boards; the result bottom-right -------------------- */
+.hero { position: absolute; left: 24px; width: var(--side-up); display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.hero img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 5px solid var(--hp); box-shadow: 0 8px 22px rgba(0,0,0,.5); }
+.hero.me img { border-color: var(--go); }
+.hero b { font: 800 22px var(--num); letter-spacing: .06em; text-transform: uppercase; text-shadow: 0 2px 6px #000; }
+.hero .php { position: absolute; left: calc(50% + 44px); top: 104px; min-width: 50px; height: 50px; font-size: 30px; line-height: 50px; border-radius: 25px; box-shadow: 0 0 0 3px #1a1010; }
+html[data-mode="recruit"] .hero.me { top: 220px; }
+html[data-mode="fight"] .hero.foe { top: 220px; }
+html[data-mode="fight"] .hero.me { top: calc(var(--low) + 120px); width: var(--side-low); }
+.result { position: absolute; right: 24px; width: var(--side-up); bottom: 16px; display: flex; flex-direction: column; gap: 14px; align-items: stretch; animation: rise .5s ease;
+  background: rgba(10,13,12,.88); padding: 20px; border-radius: 22px; border: 1px solid var(--line); z-index: 5; }
+.result .btn.end { position: static; width: auto; height: 110px; }
+.result > b { font: 800 96px/1 var(--num); text-align: center; }
+.result > b.you { color: var(--go); } .result > b.them { color: var(--hp); }
+@keyframes rise { from { opacity: 0; } }
+
+/* ---- Arrival title ---------------------------------------------------------------- */
+.arrive { position: absolute; left: 50%; top: calc(var(--top) + var(--zh) / 2); transform: translate(-50%, -50%); text-align: center; pointer-events: none; z-index: 60;
+  padding: 26px 70px; background: rgba(10,13,12,.7); backdrop-filter: blur(10px); border-radius: 24px; border: 1px solid var(--line);
+  animation: arrive 2.6s cubic-bezier(.2,.7,.2,1) both; }
+.arrive small { display: block; font: 700 16px var(--num); letter-spacing: .3em; color: var(--dim); text-transform: uppercase; }
+.arrive b { display: block; font: 800 88px/1.05 var(--num); text-transform: uppercase; letter-spacing: .03em; color: var(--tint); }
+.arrive span { font: 500 22px var(--txt); }
+.arrive.go { opacity: 0; transition: opacity .6s; }
+@keyframes arrive { 0% { opacity: 0; transform: translate(-50%, -40%) scale(.96); } 18% { opacity: 1; transform: translate(-50%, -50%); } 80% { opacity: 1; } 100% { opacity: 0; } }
+
+.card.deal { animation: deal .45s cubic-bezier(.2,.8,.2,1.2) both; }
+@keyframes deal { from { opacity: 0; transform: translateY(-30px) rotateY(90deg); } }
+
+/* Narrow-height screens (phone landscape): the stage is wider, so give the glass room */
+
+
+/* Arrival and phase change: everything except your board steps in around it. */
+.jy-stage.arriving > :not(.pin):not(.arrive) { animation: board-return 1.1s ease both; }
+@keyframes board-return { 0%, 30% { opacity: 0; translate: 0 24px; } 100% { opacity: 1; } }
+.jy-stage.swap > .shopframe, .jy-stage.swap > .boardframe.foe { animation: zone-in .45s cubic-bezier(.2,.8,.2,1) both; }
+.jy-stage.swap > .handtray, .jy-stage.swap > .hero, .jy-stage.swap > .btn.end { animation: side-in .45s ease both; }
+@keyframes zone-in { from { opacity: 0; translate: 0 -40px; } }
+@keyframes side-in { from { opacity: 0; } }
+.result[hidden] { display: none; }
+.btn.end { height: 196px; font-size: 46px; }
+.btn.freeze em { color: var(--ice); }
+
+/* ---- Layout variants (lab dock: Layout A-D). Small moves around the same layout. ----------
+   B is the owner's pick (11 Nov) and the default.
+   A  Baseline: scoreboard rows centred on the right; End turn bottom-right; your hero
+      top-left under the turn and route; the hand bottom-left beside your board.
+   B  Portrait scoreboard: a slim strip of portraits on the right edge, centred; your hero
+      and End turn move into the right column, beside your board.
+   C  End turn on the board: a tall End turn bar fixed to your board's right edge, so the
+      right column holds only the scoreboard, centred over the full height.
+   D  Quiet sides: B's portrait strip plus C's End turn bar; your hero sits between them. */
+
+/* B and D: the scoreboard becomes a slim strip of portraits. */
+html[data-layout="b"] .lobby, html[data-layout="d"] .lobby { width: 96px; padding: 10px 8px; gap: 10px; }
+html[data-layout="b"] .lobby h4, html[data-layout="d"] .lobby h4 { font-size: 12px; letter-spacing: .1em; text-align: center; margin: 0; }
+html[data-layout="b"] .pl, html[data-layout="d"] .pl { height: 74px; padding: 0; justify-content: center; background: none; }
+html[data-layout="b"] .pl .rank, html[data-layout="d"] .pl .rank, html[data-layout="b"] .pl .pname, html[data-layout="d"] .pl .pname { display: none; }
+html[data-layout="b"] .pl img, html[data-layout="d"] .pl img { width: 66px; height: 66px; }
+html[data-layout="b"] .pl .php, html[data-layout="d"] .pl .php { position: absolute; right: -4px; bottom: -4px; min-width: 32px; height: 32px; font-size: 20px; line-height: 32px; }
+html[data-layout="b"] .pl .ptier, html[data-layout="d"] .pl .ptier { position: absolute; left: -2px; bottom: -2px; width: 26px; height: 26px; font-size: 15px; line-height: 26px; }
+html[data-layout="b"] .pl.you img, html[data-layout="d"] .pl.you img { box-shadow: 0 0 0 4px rgba(47,214,138,.4); }
+
+/* B: your hero and End turn in the right column, beside your board. */
+html[data-layout="b"] .btn.end { right: 140px; width: calc(var(--side-low) - 116px); }
+html[data-layout="b"] .result { right: 140px; width: calc(var(--side-low) - 116px); }
+html[data-layout="b"][data-mode="recruit"] .hero.me { left: auto; right: 140px; width: calc(var(--side-low) - 116px); top: calc(var(--low) + 20px); }
+html[data-layout="b"][data-mode="fight"] .hero.foe { left: auto; right: 140px; width: calc(var(--side-up) - 116px); top: 140px; }
+html[data-layout="b"][data-mode="fight"] .hero.me { left: auto; right: 140px; width: calc(var(--side-low) - 116px); top: calc(var(--low) + 20px); }
+
+/* C and D: End turn is a tall bar on your board's right edge, the same height as the board. */
+html[data-layout="c"] .btn.end, html[data-layout="d"] .btn.end { right: auto; left: calc(50% + var(--zw) / 2 + 14px); width: 124px; top: var(--low); bottom: auto; height: var(--zh); padding: 0 8px; text-align: center; font-size: 40px; line-height: 1; }
+html[data-layout="c"] .btn.end small, html[data-layout="d"] .btn.end small { margin-top: 10px; font-size: 13px; line-height: 1.2; }
+html[data-layout="c"] .result, html[data-layout="d"] .result { right: auto; left: calc(50% + var(--zw) / 2 + 14px); width: 160px; top: var(--low); bottom: auto; height: var(--zh); padding: 14px; justify-content: center; }
+html[data-layout="c"] .result > b, html[data-layout="d"] .result > b { font-size: 56px; }
+html[data-layout="c"] .result .btn.end, html[data-layout="d"] .result .btn.end { position: static; width: auto; height: 120px; font-size: 26px; padding: 0; }
+
+/* D: your hero between the End turn bar and the portrait strip. */
+html[data-layout="d"][data-mode="recruit"] .hero.me, html[data-layout="d"][data-mode="fight"] .hero.me { left: auto; right: 140px; width: calc(var(--side-low) - 260px); top: calc(var(--low) + 140px); }
+html[data-layout="d"][data-mode="fight"] .hero.foe { left: auto; right: 140px; width: calc(var(--side-up) - 116px); top: 140px; }

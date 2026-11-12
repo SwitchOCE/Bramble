@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Night Wood · Menu</title>
+<link rel="stylesheet" href="nw.css">
+<style>
+  body { display: grid; grid-template-columns: 1fr 1fr; align-items: center; height: 100vh; padding: 0 7vw; gap: 4vw; }
+  .left { display: flex; flex-direction: column; gap: 5.5vh; }
+  /* the title area is one self-contained block so a final name or logo drops in */
+  .title-slot { position: relative; padding: 2.4vh 0 2vh; }
+  .title-slot .cn { font: 800 clamp(10px, 1.3vh, 15px)/1 var(--sans); letter-spacing: .3em; text-transform: uppercase; color: var(--mist); }
+  .title-slot h1 { margin: 1.2vh 0 0; font: 900 clamp(56px, 15vh, 190px)/.9 var(--serif); letter-spacing: -.02em; color: var(--moonink); text-shadow: 0 0 .25em rgba(111,242,194,.18); }
+  .title-slot h1 span { color: var(--glowcap); text-shadow: 0 0 .3em rgba(111,242,194,.6); }
+  .title-slot .sub { margin-top: 1.6vh; font: 600 clamp(12px, 2.1vh, 22px)/1.3 var(--sans); color: var(--mist); }
+  .menu { display: flex; flex-direction: column; gap: 1.6vh; width: min(460px, 100%); }
+  .menu .btn { justify-content: flex-start; gap: 16px; min-height: max(48px, 7.4vh); font-size: clamp(15px, 2.5vh, 26px); border-radius: 999px; padding: 0 28px; }
+  .menu .btn .ico { width: 1.1em; height: 1.1em; }
+  .menu .btn.primary { font-size: clamp(18px, 3.4vh, 34px); min-height: max(56px, 9.6vh); }
+  .menu .btn small { margin-left: auto; font: 700 .55em var(--sans); color: var(--mist); letter-spacing: .14em; text-transform: uppercase; }
+  .menu .btn.primary small { color: rgba(11,22,24,.7); }
+  .right { position: relative; display: grid; place-items: center; height: 100%; }
+  .moonwin { position: relative; width: min(74vh, 40vw); aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: .5vh solid rgba(230,239,230,.85); box-shadow: 0 0 10vh rgba(159,201,192,.35), 0 0 0 1.6vh rgba(230,239,230,.06), 0 0 0 3.2vh rgba(230,239,230,.03); }
+  .moonwin img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7) brightness(.85); }
+  .moonwin::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, transparent 40%, rgba(11,22,24,.55)), linear-gradient(180deg, rgba(60,110,150,.15), rgba(11,22,24,.35)); }
+  .fly { position: absolute; width: 1.6vh; height: 1.6vh; border-radius: 50%; background: radial-gradient(circle, #FFE9A8 0 25%, rgba(255,203,87,.6) 45%, transparent 70%); box-shadow: 0 0 2vh rgba(255,203,87,.6); }
+  .ring { position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%); display: flex; gap: 2.2vw; }
+  .ring .ico { width: 4vh; height: 4vh; color: var(--glowcap); filter: drop-shadow(0 0 1.2vh rgba(111,242,194,.8)); }
+  .ring .ico:nth-child(even) { width: 2.8vh; height: 2.8vh; margin-top: 1.4vh; }
+  .corner { position: fixed; right: 2vw; top: 2.4vh; display: flex; gap: 10px; }
+  .foot { position: fixed; left: 7vw; bottom: 3vh; font: 600 clamp(10px, 1.4vh, 14px) var(--sans); color: var(--mist); }
+  @media (max-height: 520px) {
+    body { padding: 0 5vw; }
+    .left { gap: 3vh; }
+    .menu .btn { padding: 0 18px; }
+  }
+</style></head>
+<body>
+<div class="left">
+  <div class="title-slot" data-replaceable="title">
+    <div class="cn">Code name</div>
+    <h1>Bramble<span>.</span></h1>
+    <div class="sub">An auto-battler of the night wood</div>
+  </div>
+  <nav class="menu">
+    <button class="btn primary"><svg class="ico"><use href="#i-play"/></svg>Play<small>8 players</small></button>
+    <button class="btn"><svg class="ico"><use href="#i-lantern"/></svg>Collection</button>
+    <button class="btn"><svg class="ico"><use href="#i-star"/></svg>Standings</button>
+    <button class="btn"><svg class="ico"><use href="#i-gear"/></svg>Settings</button>
+  </nav>
+</div>
+<div class="right">
+  <div class="moonwin"><img id="hero" alt="Belladonna Sprite"></div>
+  <span class="fly" style="left:12%;top:20%"></span><span class="fly" style="left:84%;top:14%"></span><span class="fly" style="left:90%;top:64%"></span><span class="fly" style="left:6%;top:72%"></span><span class="fly" style="left:52%;top:6%"></span>
+  <div class="ring"><svg class="ico"><use href="#i-cap"/></svg><svg class="ico"><use href="#i-cap"/></svg><svg class="ico"><use href="#i-cap"/></svg><svg class="ico"><use href="#i-cap"/></svg><svg class="ico"><use href="#i-cap"/></svg></div>
+</div>
+<div class="foot">Mock-up · Night Wood direction · art: Ink B trial portrait</div>
+<script src="fixture.js"></script>
+<script src="nw.js"></script>
+<script>document.getElementById('hero').src = NW.ART + NW.PORTRAIT[FX.hero_card.name] + '.jpg';</script>
+</body></html>

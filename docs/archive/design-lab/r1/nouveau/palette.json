@@ -1,0 +1,163 @@
+{
+  "direction": "nouveau (Woodland Nouveau)",
+  "colours": [
+    {
+      "name": "Malachite Night",
+      "hex": "#0E2621",
+      "use": "Page and table background; text on it is Pale Gilt or Vellum"
+    },
+    {
+      "name": "Verdigris",
+      "hex": "#24564B",
+      "use": "Panels, rails, empty-slot wells; the Hunters tribe accent"
+    },
+    {
+      "name": "Vellum",
+      "hex": "#F2E6C8",
+      "use": "Card face and body-text ground"
+    },
+    {
+      "name": "Oak-gall Ink",
+      "hex": "#24180F",
+      "use": "Body text and contour lines on Vellum"
+    },
+    {
+      "name": "Gold Leaf",
+      "hex": "#B88A2E",
+      "use": "Gilt frames, whiplash ornament, the gold currency"
+    },
+    {
+      "name": "Pale Gilt",
+      "hex": "#F0D58A",
+      "use": "Headings and labels on dark grounds; golden-unit highlight"
+    },
+    {
+      "name": "Garnet",
+      "hex": "#9A1F35",
+      "use": "Health gem (heart cabochon); damage numbers; negative"
+    },
+    {
+      "name": "Sapphire",
+      "hex": "#26449A",
+      "use": "Attack gem (lozenge cabochon)"
+    },
+    {
+      "name": "Belladonna",
+      "hex": "#4E2268",
+      "use": "Nightshade status: aura, badge, the halving callout"
+    },
+    {
+      "name": "Wisteria",
+      "hex": "#B08ADB",
+      "use": "Fairies tribe accent; Nightshade glow and text on dark"
+    },
+    {
+      "name": "Kingfisher",
+      "hex": "#1F7F92",
+      "use": "Birds tribe accent; the Freeze pane tint"
+    },
+    {
+      "name": "Amber",
+      "hex": "#C9821A",
+      "use": "Hive tribe accent; tier roundel"
+    },
+    {
+      "name": "Moss",
+      "hex": "#5E7F2C",
+      "use": "Bog folk tribe accent; positive (won, buffs)"
+    },
+    {
+      "name": "Umber",
+      "hex": "#6E4227",
+      "use": "Great beasts and Hedgerow folk accents; Neutral uses Oak-gall Ink at 60%"
+    }
+  ],
+  "contrast_checks_wcag": "Text pairings below 4.5:1 (Kingfisher and Moss on Vellum) are used only for fills, rules and icons, never for text.",
+  "contrast": [
+    {
+      "text": "Oak-gall Ink",
+      "on": "Vellum",
+      "ratio": 13.96
+    },
+    {
+      "text": "Pale Gilt",
+      "on": "Malachite Night",
+      "ratio": 11.07
+    },
+    {
+      "text": "Vellum",
+      "on": "Malachite Night",
+      "ratio": 12.85
+    },
+    {
+      "text": "Vellum",
+      "on": "Verdigris",
+      "ratio": 6.75
+    },
+    {
+      "text": "Pale Gilt",
+      "on": "Verdigris",
+      "ratio": 5.82
+    },
+    {
+      "text": "Vellum",
+      "on": "Garnet",
+      "ratio": 6.46
+    },
+    {
+      "text": "Vellum",
+      "on": "Sapphire",
+      "ratio": 7.13
+    },
+    {
+      "text": "Vellum",
+      "on": "Belladonna",
+      "ratio": 9.66
+    },
+    {
+      "text": "Wisteria",
+      "on": "Malachite Night",
+      "ratio": 5.69
+    },
+    {
+      "text": "Oak-gall Ink",
+      "on": "Gold Leaf",
+      "ratio": 5.54
+    },
+    {
+      "text": "Oak-gall Ink",
+      "on": "Pale Gilt",
+      "ratio": 12.03
+    },
+    {
+      "text": "Belladonna",
+      "on": "Vellum",
+      "ratio": 9.66
+    },
+    {
+      "text": "Garnet",
+      "on": "Vellum",
+      "ratio": 6.46
+    },
+    {
+      "text": "Umber",
+      "on": "Vellum",
+      "ratio": 6.85
+    },
+    {
+      "text": "Kingfisher",
+      "on": "Vellum",
+      "ratio": 3.75
+    },
+    {
+      "text": "Moss",
+      "on": "Vellum",
+      "ratio": 3.72
+    },
+    {
+      "text": "Oak-gall Ink",
+      "on": "Amber",
+      "ratio": 5.52
+    }
+  ]
+}

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: combat</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+/* Stage: 940 tall on desktop, 900 on phone. One geometry for both; phone gets bigger side-column type. */
+.cb-grid { position: absolute; inset: 0 0 0 58px; display: grid; grid-template-columns: minmax(260px, 1fr) 1010px minmax(260px, 1fr); column-gap: 26px; padding: 0 26px 0 6px; }
+.cb-left, .cb-right { position: relative; display: flex; flex-direction: column; }
+.cb-center { position: relative; height: 884px; align-self: center; }
+
+/* player tags: Old Tansy level with her tray, You level with yours */
+.cb-ptag { position: relative; display: flex; align-items: center; gap: 12px; background: var(--fj-card); border: 2px solid #b9b08f; border-radius: 4px; padding: 12px 14px; box-shadow: 0 2px 4px rgba(0,0,0,.15); }
+.cb-ptag b { font: 700 28px/1 'Zilla Slab', serif; }
+.cb-ptag .cb-t { font: 22px/1 'Special Elite', monospace; color: var(--fj-pencil); }
+.cb-ptag .cb-h { margin-left: auto; font: 700 30px/1 'Zilla Slab', serif; color: var(--fj-hp); }
+.cb-ptag.cb-you { background: #E3EBD4; border-color: var(--fj-moss); }
+.cb-ptag-l { font: 20px/1 'Special Elite', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--fj-pencil); margin: 0 0 8px 2px; }
+.cb-left .cb-top { margin-top: 26px; }
+.cb-left .cb-bot { margin-top: auto; margin-bottom: 30px; }
+.cb-left .cb-bot .cb-ptag-l { margin: 8px 0 0 2px; }
+
+/* combat log: three short lines, the current one highlighted */
+.cb-log { position: relative; margin-top: 46px; background: #FDFBF3; border: 1px solid #cfc5a8; box-shadow: 0 3px 8px rgba(0,0,0,.18); padding: 50px 14px 14px 16px; transform: rotate(-.5deg); }
+.cb-log::before { content: 'COMBAT LOG'; position: absolute; top: 14px; left: 16px; font: 20px/1 'Special Elite', monospace; letter-spacing: .1em; color: var(--fj-pencil); }
+.cb-log::after { content: ''; position: absolute; top: -14px; left: 50%; width: 110px; height: 28px; margin-left: -55px; background: rgba(201,184,222,.9); transform: rotate(3deg); }
+.cb-entry { display: grid; grid-template-columns: 62px 1fr; gap: 4px; font: 600 23px/1.18 'Crimson Pro', serif; color: var(--fj-pencil); padding: 6px 0; border-top: 1px solid rgba(120,150,170,.4); }
+.cb-entry i { font: 700 24px/1.1 'Caveat', cursive; font-style: normal; text-align: right; padding-right: 6px; }
+.cb-entry.cb-now { color: var(--fj-ink); background: rgba(228,192,85,.38); margin: 0 -8px; padding: 8px 8px; font-size: 25px; }
+.cb-entry.cb-now b { font-family: 'Zilla Slab', serif; }
+
+/* trays cut to the 4-3 brick (Woodcraft's tray, as on the recruit board) */
+.cb-tray { position: absolute; left: 0; width: 1010px; }
+.cb-tray > svg { position: absolute; inset: 0; overflow: visible; }
+.cb-slot { position: absolute; width: 200px; height: 166px; }
+.cb-slot .fj-size-board { height: 166px; padding: .45em .45em 0; }
+.cb-slot .fj-size-board .fj-plate { height: 3.2em; }
+.cb-slot .fj-size-board .fj-label { margin-top: .45em; }
+.cb-slot .fj-size-board .fj-name { font-size: 1.55em; line-height: 1.02; }
+.cb-slot .fj-size-board .fj-chip { top: 2.25em; font-size: 1.15em; }
+.cb-slot .fj-size-board .fj-stat { width: 3.9em; height: 3.9em; bottom: -.8em; }
+.cb-slot .fj-size-board .fj-stat span { font-size: 2.5em; }
+.cb-slot .fj-size-board .fj-tier { font-size: .95em; }
+.cb-slot .fj-empty { width: 200px; height: 166px; font-size: 28px; }
+.cb-enemy .fj-empty { border-color: #958ea0; background: rgba(255,255,255,.18); }
+.cb-enemy .fj-empty .fj-pin { display: none; }
+.cb-row-label { position: absolute; writing-mode: vertical-rl; transform: rotate(180deg); font: 21px/1 'Special Elite', monospace; letter-spacing: .14em; color: var(--fj-pencil); }
+
+/* the target: Nightshade tape, a violet ring on its Health, the hit's splat on the card */
+.cb-shadetape { position: absolute; z-index: 6; left: -.6em; right: -.6em; top: 1.35em; transform: rotate(-4deg); background: var(--fj-shade); color: #fff;
+  font: 700 1.05em/1.65 'Zilla Slab', serif; letter-spacing: .16em; text-align: left; padding-left: 1.1em; clip-path: polygon(0 0, 2% 50%, 0 100%, 100% 100%, 98% 50%, 100% 0); }
+.cb-target .fj-hp { border-color: var(--fj-ink); box-shadow: 0 0 0 .22em #C9B8DE, 0 0 0 .34em var(--fj-shade); }
+.cb-splat { position: absolute; z-index: 9; right: -26px; top: -22px; width: 92px; height: 92px; display: grid; place-items: center; transform: rotate(8deg); }
+.cb-splat svg { position: absolute; inset: 0; }
+.cb-splat b { position: relative; font: 700 42px/1 'Zilla Slab', serif; color: #fff; }
+
+/* the attacker: lifted, ringed in red pencil, labelled on its own card */
+.cb-attacker .fj-card { transform: translateY(-8px) rotate(-2.5deg); box-shadow: 0 14px 20px rgba(40,30,10,.38); }
+.cb-ring { position: absolute; z-index: 0; inset: -18px -16px -22px -16px; border: solid var(--fj-red); border-width: 5px 4px 5px 6px; border-radius: 46% 52% 50% 48%; transform: rotate(-4deg); }
+.cb-attlabel { position: absolute; z-index: 9; left: -150px; top: 46px; font: 700 40px/1 'Caveat', cursive; color: var(--fj-red); transform: rotate(-8deg); white-space: nowrap; }
+
+/* the hit, worked out in pencil: a fixed breakdown between the boards */
+.cb-sum { position: absolute; z-index: 12; left: 436px; width: 574px; height: 96px; display: grid; grid-template-columns: 84px 1fr 84px 1fr 96px; align-items: center;
+  background: #FDFBF3; border: 2.5px solid var(--fj-ink); border-radius: 4px; padding: 0 12px; box-shadow: 0 3px 6px rgba(0,0,0,.18); transform: rotate(-.6deg); }
+.cb-sum::before { content: attr(data-tag); position: absolute; left: 14px; top: -15px; background: #E4C055; padding: 2px 12px; font: 18px/1.3 'Special Elite', monospace; letter-spacing: .08em; text-transform: uppercase;
+  clip-path: polygon(0 0, 4% 50%, 0 100%, 100% 100%, 96% 50%, 100% 0); }
+.cb-n { position: relative; text-align: center; font: 700 56px/1 'Zilla Slab', serif; color: var(--fj-hp); }
+.cb-n.cb-old { color: #7c7378; }
+.cb-n.cb-old::after { content: ''; position: absolute; left: 4px; right: 4px; top: 50%; height: 5px; background: var(--fj-red); border-radius: 3px; transform: rotate(-14deg); opacity: .9; }
+.cb-n.cb-new::before { content: ''; position: absolute; inset: -12px -2px -10px -4px; border: solid var(--fj-red); border-width: 4px 3px 4px 5px; border-radius: 50%; transform: rotate(-6deg); }
+.cb-op { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; }
+.cb-op .cb-o { font: 700 46px/.9 'Caveat', cursive; }
+.cb-op svg { display: block; margin: 0 0 2px; }
+.cb-op .cb-w { font: 600 24px/1 'Zilla Slab', serif; color: var(--fj-pencil); }
+.cb-op.cb-ns .cb-o { color: var(--fj-shade); }
+.cb-op.cb-hit .cb-o { color: var(--fj-red); }
+.cb-svg { position: absolute; inset: 0; z-index: 11; pointer-events: none; overflow: visible; }
+
+/* right: speed, skip, the Nightshade slip */
+.cb-right .fj-label-s { font-size: 21px; margin-top: 26px; }
+.cb-speed { display: grid; grid-template-columns: 1fr 1fr 1fr; margin-top: 10px; border: 3px solid var(--fj-ink); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 0 rgba(34,40,31,.85); }
+.cb-speed div { min-height: 108px; display: grid; place-items: center; font: 700 36px/1 'Zilla Slab', serif; background: var(--fj-card); border-left: 3px solid var(--fj-ink); }
+.cb-speed div:first-child { border-left: 0; }
+.cb-speed .cb-on { background: var(--fj-moss); color: #fff; }
+.cb-skip { margin-top: 30px; min-height: 108px; justify-content: space-between; }
+.cb-slip { margin-top: 34px; background: #FDFBF3; border: 1px solid #cfc5a8; padding: 16px 16px 14px; box-shadow: 0 3px 6px rgba(0,0,0,.15); transform: rotate(.8deg); }
+.cb-slip h4 { margin: 0 0 8px; font: 700 26px/1 'Zilla Slab', serif; color: var(--fj-shade); }
+.cb-slip p { margin: 0; font: 600 22px/1.2 'Crimson Pro', serif; }
+.cb-sprig { float: right; margin: -6px -6px 4px 8px; }
+
+/* phone: the side columns are wider here, so their type grows to ~11 CSS px and up */
+.fj-phone .cb-ptag b { font-size: 32px; }
+.fj-phone .cb-ptag .cb-t, .fj-phone .cb-ptag-l, .fj-phone .cb-log::before, .fj-phone .cb-right .fj-label-s { font-size: 26px; }
+.fj-phone .cb-entry { font-size: 27px; grid-template-columns: 70px 1fr; }
+.fj-phone .cb-entry i { font-size: 28px; }
+.fj-phone .cb-entry.cb-now { font-size: 29px; }
+.fj-phone .cb-slip p { font-size: 27px; }
+.fj-phone .cb-slip h4 { font-size: 30px; }
+.fj-phone .cb-slot .fj-size-board .fj-chip { font-size: 1.45em; top: 1.05em; }
+.fj-phone .cb-slot .fj-goldstamp { display: none; } /* too cramped at phone board size: golden reads by its foil */
+.fj-phone .cb-sum::before { font-size: 24px; top: -20px; }
+.fj-phone .cb-op .cb-w { font-size: 26px; }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="cb-grid">
+    <div class="cb-left">
+      <div class="cb-top"><div class="cb-ptag-l">their board</div><div class="cb-ptag" id="opp"></div></div>
+      <div class="cb-log" id="log"></div>
+      <div class="cb-bot"><div class="cb-ptag cb-you" id="you"></div><div class="cb-ptag-l">your board</div></div>
+    </div>
+    <div class="cb-center" id="center">
+      <div class="cb-tray cb-enemy" id="etray"></div>
+      <div class="cb-sum" id="sum" data-tag="Tusker Boar's Health"></div>
+      <div class="cb-tray" id="mtray"></div>
+      <svg class="cb-svg" id="svg"></svg>
+    </div>
+    <div class="cb-right">
+      <div class="fj-label-s">Speed</div>
+      <div class="cb-speed"><div class="cb-on">1&times;</div><div>2&times;</div><div>4&times;</div></div>
+      <div class="fj-btn cb-skip"><span>Skip fight<small>jump to result</small></span>
+        <svg width="56" height="44" viewBox="0 0 56 44"><path d="M4 4 L24 22 L4 40 Z M26 4 L46 22 L26 40 Z" fill="#22281F"/><rect x="47" y="4" width="6" height="36" fill="#22281F"/></svg></div>
+      <div class="cb-slip">
+        <svg class="cb-sprig" width="56" height="74" viewBox="0 0 64 84"><path d="M30 82 C30 60 34 40 40 18" stroke="#4d5b33" stroke-width="2.5" fill="none"/><path d="M33 52 C18 50 8 40 10 30 C22 32 30 40 33 52Z M37 36 C48 30 56 32 58 40 C50 46 42 44 37 36Z" fill="#7d9358" stroke="#4d5b33" stroke-width="1.5"/><circle cx="40" cy="14" r="7" fill="#2a1d33"/><circle cx="50" cy="22" r="6" fill="#2a1d33"/><circle cx="31" cy="12" r="5.5" fill="#2a1d33"/></svg>
+        <h4>Nightshade</h4>
+        <p id="ns"></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(940, 900);
+const F = FJ_FIX, C = F.combat, R = F.recruit, L = F.lobby;
+const opp = L.find(p => p.name === C.opponent), you = L.find(p => p.name === 'You');
+const ptag = p => '<b>' + p.name + '</b><span class="cb-t">T' + p.tier + '</span><span class="cb-h">&hearts;' + p.health + '</span>';
+document.getElementById('opp').innerHTML = ptag(opp);
+document.getElementById('you').innerHTML = ptag(you);
+document.getElementById('ns').textContent = F.hero_card.keyword_reminder.replace('Nightshade: ', '').replace(/^./, c => c.toUpperCase());
+
+// log: short lines; the current one is the sum in words
+const log = [
+  ['start', 'Belladonna Sprite gives Tusker Boar Nightshade.'],
+  ['&dagger;', 'Hornet Scout dies. Hornetling takes B1.'],
+  ['atk 2', '<b>Hornetling hits Tusker Boar: 26 &rarr; 13 &rarr; 12.</b>', true]
+];
+document.getElementById('log').innerHTML = log.map(e => '<div class="cb-entry ' + (e[2] ? 'cb-now' : 'cb-old') + '"><i>' + e[0] + '</i><span>' + e[1] + '</span></div>').join('');
+
+// geometry (stage px): both trays cut to the 4-3 brick, front rows facing each other across the sum
+const X0 = 76, PITCH = 236, SW = 200, SH = 166, TW = 1010;
+const ROW_A = 16, ROW_B = ROW_A + SH + 20, TH = ROW_B + SH + 14;   // rows inside a tray
+const ET = 4, SUM_Y = ET + TH + 10, MT = SUM_Y + 96 + 6;   // tray tops
+const BL = X0 + PITCH / 2 - 26, BR = X0 + 2 * PITCH + PITCH / 2 + SW + 26;
+const DIV = ROW_A + SH + 12;
+function trayPath(backOnTop) {
+  if (backOnTop) // enemy: back row (inset) on top, front row (full) nearest the middle
+    return 'M' + BL + ' 3 H' + BR + ' V' + DIV + ' H' + (TW - 3) + ' V' + (TH - 3) + ' H3 V' + DIV + ' H' + BL + ' Z';
+  return 'M3 3 H' + (TW - 3) + ' V' + DIV + ' H' + BR + ' V' + (TH - 3) + ' H' + BL + ' V' + DIV + ' H3 Z';
+}
+function tray(id, top, backOnTop, fill, stroke) {
+  const t = document.getElementById(id);
+  t.style.top = top + 'px'; t.style.height = TH + 'px';
+  t.innerHTML = '<svg viewBox="0 0 ' + TW + ' ' + TH + '" width="' + TW + '" height="' + TH + '"><path d="' + trayPath(backOnTop) + '" fill="' + fill + '" stroke="' + stroke + '" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M' + (X0 - 8) + ' ' + DIV + ' H' + (TW - 14) + '" stroke="rgba(80,90,70,.45)" stroke-width="2" stroke-dasharray="9 7"/></svg>';
+  const fy = backOnTop ? ROW_B : ROW_A, by = backOnTop ? ROW_A : ROW_B;
+  t.insertAdjacentHTML('beforeend', '<div class="cb-row-label" style="left:18px;top:' + (fy + 30) + 'px">FRONT</div><div class="cb-row-label" style="left:' + (BR + 10) + 'px;top:' + (by + 34) + 'px">BACK</div>');
+  return { el: t, fy, by };
+}
+function put(T, u, slot, i, row, opts) {
+  const d = document.createElement('div');
+  d.className = 'cb-slot';
+  d.style.left = (X0 + i * PITCH + (row === 'back' ? PITCH / 2 : 0)) + 'px';
+  d.style.top = (row === 'front' ? T.fy : T.by) + 'px';
+  d.innerHTML = '<span class="fj-slotid">' + slot + '</span>' + (!u ? FJ.emptySlot() : FJ.card(u, 'board', Object.assign({ slot }, opts || {})));
+  T.el.appendChild(d);
+  return d;
+}
+const E = tray('etray', ET, true, 'rgba(232,226,236,.6)', '#3b3346');
+const M = tray('mtray', MT, false, 'rgba(251,247,234,.6)', '#22281F');
+document.getElementById('sum').style.top = SUM_Y + 'px';
+
+let boarEl, attEl;
+['F1', 'F2', 'F3', 'F4'].forEach((s, i) => {
+  const u = C.enemy_front.find(x => x.slot === s);
+  if (u) {
+    boarEl = put(E, u, s, i, 'front', { hp: 12, cls: 'cb-target', chip: '', extra: '<div class="cb-shadetape">NIGHTSHADE</div>' });
+    boarEl.insertAdjacentHTML('beforeend', '<div class="cb-splat"><svg viewBox="0 0 112 112"><path d="M56 4 L66 34 L98 18 L80 46 L108 58 L78 68 L92 100 L62 82 L50 108 L42 80 L10 94 L28 66 L4 52 L32 44 L16 14 L46 32 Z" fill="#A8362A" stroke="#22281F" stroke-width="3" stroke-linejoin="round"/></svg><b>&minus;1</b></div>');
+  } else put(E, null, s, i, 'front');
+});
+['B1', 'B2', 'B3'].forEach((s, i) => put(E, C.enemy_back.find(x => x.slot === s), s, i, 'back'));
+
+R.board.front.forEach((u, i) => put(M, u.empty ? null : u, u.slot, i, 'front'));
+const myBack = [C.hornetling, R.board.back[1], F.hero_card];
+myBack.forEach((u, i) => {
+  const at = u.name === 'Hornetling';
+  const d = put(M, u, 'B' + (i + 1), i, 'back', at ? { chip: 'token', noTilt: true } : {});
+  if (at) { attEl = d; d.classList.add('cb-attacker'); d.insertAdjacentHTML('afterbegin', '<div class="cb-ring"></div>'); d.insertAdjacentHTML('beforeend', '<div class="cb-attlabel">attacking &rarr;</div>'); }
+});
+
+// the sum: 26, halved by Nightshade, 13, hit for 1, 12
+const arrow = '<svg width="96" height="16" viewBox="0 0 96 16"><path d="M3 9 C30 6 60 10 88 8" fill="none" stroke="#4F554A" stroke-width="3" stroke-linecap="round"/><path d="M78 2 L90 8 L78 14" fill="none" stroke="#4F554A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+document.getElementById('sum').innerHTML =
+  '<span class="cb-n cb-old">26</span>' +
+  '<span class="cb-op cb-ns"><span class="cb-o">&frac12;</span>' + arrow + '<span class="cb-w">Nightshade</span></span>' +
+  '<span class="cb-n cb-old">13</span>' +
+  '<span class="cb-op cb-hit"><span class="cb-o">&minus;1</span>' + arrow + '<span class="cb-w">Hornetling</span></span>' +
+  '<span class="cb-n cb-new">12</span>';
+
+// red-pencil arrow: up from the Hornetling through the F1/F2 gap, onto the boar
+window.addEventListener('load', () => {
+  const x1 = X0 + PITCH / 2 + SW / 2, y1 = MT + M.by - 22;
+  const x2 = X0 + PITCH + 84, y2 = ET + E.fy + SH + 4;
+  const mx = x1 - 90, my = (y1 + y2) / 2 + 30;
+  const ang = Math.atan2(y2 - my, x2 - mx), h = 30;
+  const p1 = [x2 - h * Math.cos(ang - .45), y2 - h * Math.sin(ang - .45)], p2 = [x2 - h * Math.cos(ang + .45), y2 - h * Math.sin(ang + .45)];
+  const d = 'M' + x1 + ' ' + y1 + ' Q' + mx + ' ' + my + ' ' + x2 + ' ' + y2;
+  document.getElementById('svg').innerHTML =
+    '<path d="' + d + '" fill="none" stroke="#FDFBF3" stroke-width="18" stroke-linecap="round" opacity=".85"/>' +
+    '<path d="' + d + '" fill="none" stroke="#A8362A" stroke-width="8" stroke-linecap="round"/>' +
+    '<path d="M' + p1.join(' ') + ' L' + x2 + ' ' + y2 + ' L' + p2.join(' ') + '" fill="none" stroke="#A8362A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>';
+});
+</script>
+</body></html>

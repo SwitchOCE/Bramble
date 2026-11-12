@@ -1,0 +1,387 @@
+<title>Bramble Design Lab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap">
+<style>
+/* Layout: a quiet slate-and-moss frame so the eight directions' own colours lead; ranked sections, each a screen switcher over desktop + phone shots. */
+:root {
+  --bg: #eef0ec;
+  --surface: #ffffff;
+  --ink: #1d2420;
+  --muted: #5b655f;
+  --line: #d3d8d2;
+  --moss: #3f6b3a;
+  --moss-soft: #dfe9db;
+  --berry: #8a2f4a;
+  --bar: #9fb89a;
+  --shade: rgba(20, 26, 22, .86);
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #151a17; --surface: #1e2521; --ink: #e6ebe5; --muted: #a2ada5; --line: #333d37;
+    --moss: #9cc68f; --moss-soft: #263427; --berry: #e48aa5; --bar: #557a4f; --shade: rgba(0, 0, 0, .9);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #151a17; --surface: #1e2521; --ink: #e6ebe5; --muted: #a2ada5; --line: #333d37;
+  --moss: #9cc68f; --moss-soft: #263427; --berry: #e48aa5; --bar: #557a4f; --shade: rgba(0, 0, 0, .9);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 16px/1.55 var(--body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 32px 64px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; display: grid; gap: 48px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -.01em; }
+h2 { font-size: 1.6rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; max-width: 68ch; }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+header { display: grid; gap: 14px; }
+.lede { color: var(--muted); }
+.picks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.pick { display: inline-flex; gap: 6px; align-items: baseline; padding: 6px 12px; border-radius: 999px; background: var(--moss-soft); color: var(--ink); text-decoration: none; font-weight: 700; }
+.pick small { font-weight: 400; color: var(--muted); }
+.pick.wild { background: transparent; border: 1.5px dashed var(--berry); }
+a { color: var(--moss); }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 14px; }
+.table-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { font-size: .75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+td.num, th.num { text-align: right; }
+td.dir a { font-weight: 700; color: var(--ink); text-decoration: none; }
+td.dir a:hover { text-decoration: underline; }
+.totalbar { display: flex; align-items: center; gap: 8px; }
+.totalbar span.b { display: block; height: 8px; border-radius: 4px; background: var(--bar); }
+.cell-hi { color: var(--moss); font-weight: 700; }
+.cell-lo { color: var(--berry); }
+.legend { font-size: .85rem; color: var(--muted); }
+
+.borrow { display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.borrow li { display: grid; gap: 2px; }
+.borrow b { font-family: var(--display); }
+
+.dir-section { display: grid; gap: 16px; scroll-margin-top: 16px; }
+.dir-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 16px; }
+.rank { font-family: var(--display); font-size: 1.1rem; color: var(--muted); }
+.score { font-variant-numeric: tabular-nums; color: var(--muted); }
+.tag { font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; background: var(--moss-soft); color: var(--moss); }
+.tag.wild { background: transparent; border: 1.5px dashed var(--berry); color: var(--berry); }
+.tag.off { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+.idea { color: var(--muted); }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs button {
+  font: 700 .85rem var(--body); padding: 7px 12px; min-height: 36px; border-radius: 6px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.round-label { align-self: center; font-size: .75rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); min-width: 4.8rem; }
+.r2note { max-width: none; border-left: 3px solid var(--berry); padding-left: 12px; }
+.tabs button[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.shots { display: grid; grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+.shots figure { margin: 0; display: grid; gap: 4px; min-width: 0; }
+.shots figcaption { font-size: .78rem; color: var(--muted); }
+.shots button.shot { padding: 0; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; background: var(--line); cursor: zoom-in; display: block; width: 100%; }
+.shots img { display: block; width: 100%; height: auto; max-width: 100%; }
+.notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; }
+.note { display: grid; gap: 2px; min-width: 0; }
+.note .who { font-size: .78rem; font-weight: 700; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+.fix { border-left: 3px solid var(--moss); padding-left: 12px; }
+.fix .who { color: var(--moss); }
+@media (max-width: 760px) {
+  .shots, .notes { grid-template-columns: minmax(0, 1fr); }
+}
+
+dialog { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
+dialog::backdrop { background: var(--shade); }
+dialog img { max-width: 96vw; max-height: 88vh; display: block; border-radius: 6px; }
+dialog .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: #fff; padding: 8px 2px; font-size: .9rem; }
+dialog button { font: 700 .9rem var(--body); background: #fff; color: #1d2420; border: 0; border-radius: 6px; padding: 8px 14px; min-height: 40px; cursor: pointer; }
+footer { color: var(--muted); font-size: .9rem; }
+@media (prefers-reduced-motion: no-preference) {
+  .shots img { transition: opacity .15s; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Bramble · design lab · round 1 · 4 Nov 2026</div>
+    <h1>Eight looks for the woodland</h1>
+    <p class="lede">Eight UI directions, each drawn from the same mock game: the same shop, the 4–3 brick board, the hand, the lobby, and one combat moment (a Hornetling hits a boar marked with Nightshade, which halves its Health first). Four judges with different tastes scored them blind, from screenshots only. They are agent judges, so treat the ranking as a starting point for your own reaction. The top three and the wildcard then had one refinement pass on the recruit screen and card, fixing the judges' notes and borrowing each other's best ideas, and a third pass on combat and a settings menu. Their sections open on round 2; rounds 1 and 3 are one tap away.</p>
+    <div class="picks" id="picks"></div>
+  </header>
+
+  <section class="panel" aria-labelledby="t-scores">
+    <h2 id="t-scores">Scores</h2>
+    <p class="legend">Each criterion is summed over four judges (4–40). The total is out of 280. Green marks the best direction on a criterion and red the worst. "Top 3" counts the judges who put it in their top three.</p>
+    <div class="table-scroll"><table id="scores"></table></div>
+    <p class="legend">Judges: a storybook art director, a casual phone player who has never played Battlegrounds, a high-MMR Battlegrounds veteran, and a UX and accessibility designer for mobile games.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="t-borrow">
+    <h2 id="t-borrow">Ideas worth borrowing</h2>
+    <ul class="borrow" id="borrow"></ul>
+  </section>
+
+  <section class="panel" aria-labelledby="t-game" id="in-the-game">
+    <h2 id="t-game">In the playable build</h2>
+    <p>Build 4 of the Godot prototype can switch between three looks from its main menu: Plain, the default, and the gauntlet's top two. These screenshots are rendered from the real game, not mock-ups. Next to the mock-ups below, they show how much of each direction survived the port.</p>
+    <div class="tabs" id="game-looks" role="group" aria-label="Look"></div>
+    <div class="tabs" id="game-screens" role="group" aria-label="Screen"></div>
+    <div class="shots" id="game-shots"></div>
+  </section>
+
+  <div id="dirs" class="wrap" style="gap:56px"></div>
+
+  <footer>Sources: <code>docs/design-lab/</code> on the <code>design-lab/main</code> branch. Each direction's HTML mock and its note live in <code>r1/&lt;id&gt;/</code>, the scores in <code>r1/scores.json</code>, and rounds 2 and 3 in <code>r2/&lt;id&gt;/</code> and <code>r3/&lt;id&gt;/</code>. Rounds 2 and 3 weren't re-judged: which direction, or which mix, goes further is your call.</footer>
+</div>
+
+<dialog id="lb" aria-label="Full-size screenshot">
+  <div class="bar"><span id="lb-cap"></span><button type="button" id="lb-close">Close</button></div>
+  <img id="lb-img" alt="">
+</dialog>
+
+<script>
+const CRIT = ["Phone", "Board", "Cards", "Combat", "Distinct", "Woodland", "Taste"];
+const SCREENS = [["recruit", "Recruit"], ["combat", "Combat"], ["cards", "Cards"], ["menu", "Menu"], ["standings", "Standings"], ["moodboard", "Moodboard"], ["settings", "Settings"]];
+const R1_SCREENS = SCREENS.filter(x => x[0] !== "settings");
+const R3 = {
+  "folk-print": "Combat shows each hit as a strip of heart stamps: ♥26, ① plum ½, ♥13, ② red −1, ♥12. The ① and ② marks are pinned to the edges of the boar's own frame, so they cover no slot label. “Attacking” is on the Hornetling and “Target” on the boar. Both boards are paper trays with stitches; the enemy's are plum. Settings mock works: switches print On or Off, and the colour-blind aid adds a cut pattern per tribe. On phone some combat text is still under 11 px (keyword chips about 9.7 px).",
+  "woodcraft": "Combat hangs an acorn “Attacking” tag under the Hornetling, with red yarn tied to it that runs between the trays and into the boar, so no empty slot is labelled. Only the boar wears the purple Nightshade tag. Ability chips now say “Hunts Nightshade” and “Gives Nightshade”. A fixed “This hit” plaque shows 26, ½, 13, −1, 12 as rosehip beads. Settings meets 11 px text and 44 px controls on phone. The combat tray tags are 8–9 px on phone.",
+  "field-journal": "Combat puts a taped slip under the boar: 26 → ½ → 13 → −1 → 12 in big slab numbers, with 26 and 13 crossed out and 12 circled, so the pencil voice reads as five symbols, not a sentence. The attack-order note and long log sentences are gone. Settings is five taped index cards; text size shows the phone name size each setting gives (11, 12.5, 14 px). Tribe tape and tier labels are still tiny on phone (5–6 px).",
+  "storybook-ink": "Combat has a “This hit” row of three hearts: 26 before, a purple ½, 13 halved, a red −1, 12 after. It now shows on phone too. The Hornetling is back in B1, where the fixture puts it (round 1 had it in F1), and its arrow runs up through the F1/F2 gap to show why it can attack. Settings is an open storybook with a bookmark, and the colour-blind aid is shown seen normally and through a red-green filter. On phone a long name is still clipped and the toggles are 34 px tall."
+};
+const DIRS = [
+  { id: "folk-print", name: "Folk Print", letter: "H", total: 226, c: [31, 31, 32, 35, 36, 30, 31], top3: 4, status: "top",
+    idea: "European folk art: linocut and woodcut in three inks on unbleached paper, with papercut borders that mark tribes and statuses.",
+    notes: {
+      "Art director": "Bold, unmistakable folk print: papercut arched cards, an eight-point tier star, a numbered “This attack” box. But busy: the black plates and heavy red compete with the art.",
+      "Casual phone player": "The most distinctive at thumbnail size. The big black shield and red heart read instantly. The black board plate feels heavy.",
+      "Battlegrounds veteran": "Punchy and readable at a glance, and the numbered steps (① Nightshade 26→13, ② hit 13→12) are the cleanest combat. Phone shop text gets cut off.",
+      "UX and accessibility": "The strongest colour-blind coding: the stat shapes differ in brightness, not only hue. Board names are tiny, and the damage burst covers a slot label."
+    },
+    fix: "Lighten the black board plates. Enlarge names on board cards. Phone shop cards show keyword chips, with the full text on tap. Anchor the damage burst on the target.",
+    r2: "The board is now unbleached paper cut to the 4–3 shape, with black kept for lines and the Attack shield, and vermilion stitches from each back slot to its front slots. Board names are larger and wrap to two lines instead of shrinking. Phone shop cards show keyword and trigger chips, and tapping a card opens a printed slip with the full rules (shown open on the cards page). Borrowed: Woodcraft's tray, three of Field Journal's plain notes (“behind F3 · F4”, “then fight Old Tansy”), and Chunky Cozy's full text on tap." },
+  { id: "woodcraft", name: "Hedgerow Woodcraft", letter: "E", total: 225, c: [29, 34, 30, 31, 34, 36, 31], top3: 4, status: "top",
+    idea: "A tabletop diorama: a carved wooden tray with seven slots, wooden tiles for cards, acorns for gold, leaves for buttons.",
+    notes: {
+      "Art director": "The most Brambly Hedge world: a carved oak tray, leaf buttons, acorn gold, a red-yarn attack path and cribbage-peg standings. The walnut is too dark beside cream art.",
+      "Casual phone player": "The tray is cut to the brick shape, so front and back read without labels. The frozen Snail hides its stats, and some labels vanish brown-on-brown.",
+      "Battlegrounds veteran": "A literal brick with slot labels, and combat clear at speed. The lobby strip lacks tiers, and the table is heavy.",
+      "UX and accessibility": "The most ownable board, with stats told apart by shape. “Attacking” sits on the empty slot, and the frozen tint washes out the stats."
+    },
+    fix: "Lighten the walnut to pale oak or limewood. Make Frozen a frost tint that keeps stats visible. Put “Attacking” on the attacker. Show opponents' tiers in the lobby strip.",
+    r2: "The table is now pale limewood, with the oak tray as the darker object on it and wider cream mats round the art. Frozen is a frost rim and icicles over the portrait only, with a “kept next turn” tag, so the stats stay at full contrast. Every label on the table is ink. Lobby plaques show each opponent's tier. Attack (lighter nut) and Health (darker rosehip) now differ in brightness as well as shape. Borrowed: burned grooves from each back pocket to its two front pockets, plain notes in empty pockets, and a keyword slip on tap. The Attacking-label fix is for the combat screen, which this round didn't cover." },
+  { id: "field-journal", name: "Field Journal", letter: "G", total: 220, c: [25, 34, 31, 33, 35, 31, 31], top3: 3, status: "top",
+    idea: "A naturalist's notebook: graph paper, tape, specimen labels with Latin-ish names, pencil annotations.",
+    notes: {
+      "Art director": "The most charming and explanatory: pencil workings (“26 Nightshade ½ → 13”) and margin notes (“B3 sits behind F3 & F4”). The phone text gets small.",
+      "Casual phone player": "Every button says what it does (“End turn → fight Old Tansy”, “Freeze keep shop”). The typewriter names are tiny on phone.",
+      "Battlegrounds veteran": "The best idea for teaching the brick, but cluttered: I'd be reading, not deciding. Keep 2–3 notes as onboarding.",
+      "UX and accessibility": "The most learnable card anatomy, and the notes teach rules where they apply. Phone text is tiny, and three yellows sit side by side."
+    },
+    fix: "Bolder, larger names and buttons on phone (a slab or serif, not typewriter). Cut the notes to 2–3. Drop the Latin name at board size.",
+    r2: "Names, buttons and numbers are now a bold slab, with the typewriter face kept for small labels, and everything renders 11–16% larger on phone. Three notes stay: “next fight!”, “B3 sits behind F3 & F4” and “tier up: 7 − 6 = 1 left”. The Latin name is on the full card only. The three yellows are split: gold is a brown acorn, attack a lighter amber, golden a striped foil. The lobby says WON, LOST and OUT. A kingfisher-blue bookmark carries the turn number. Borrowed: Woodcraft's tray and acorn gold, full text on tap, and Folk Print's brightness-coded stats." },
+  { id: "storybook-ink", name: "Storybook Ink", letter: "F", total: 206, c: [29, 30, 31, 32, 25, 29, 30], top3: 0, status: "wild",
+    idea: "The decided Ink + flat B style played straight: cream paper, bold even ink lines, flat fills, one hard shadow.",
+    notes: {
+      "Art director": "The purest home for ink B: the art shown large, round stat shapes, a clean “This hit” panel, a book menu with a ribbon. Somewhat plain.",
+      "Casual phone player": "The most inviting first look. The brick reads as two plain rows at a glance.",
+      "Battlegrounds veteran": "Close to ink B and clean. From one screenshot it could be any cozy indie card game.",
+      "UX and accessibility": "The cleanest ink B. Recruit shows no gold number, and the phone board drops unit names. Both are fixable layout bugs."
+    },
+    fix: "Show the gold count on recruit. Add one signature material, such as a tray, notes or a hedgerow border. Make the back row's offset stronger.",
+    r2: "A large lemon coin now shows the gold count beside the shop. Names are back on the phone board. The board is one inked tray cut to the 4–3 step, and its signature is an inked bramble stem with thorns, leaves and blackberries round the tray. The tier star is bigger and solid ink, and gold and attack are now clearly different yellows. Borrowed: Woodcraft's tray, Field Journal's notes as storybook captions, Chunky Cozy's keyword bubble on tap, and Folk Print's greyscale stat check. On phone the bramble reads more as a thorny line than as leaves." },
+  { id: "clean-arena", name: "Clean Arena", letter: "B", total: 180, c: [35, 34, 27, 37, 15, 10, 22], top3: 1, status: "off",
+    idea: "Off-style on purpose: modern competitive mobile, flat and high-contrast, numbers first.",
+    notes: {
+      "Art director": "The clearest numbers in the gauntlet (“26 BEFORE → ½ NS → 13 HALVED → −1 → 12”). No woodland at all.",
+      "Casual phone player": "Clear, but it looks like an esports stats tool and nothing makes me want to tap.",
+      "Battlegrounds veteran": "The best combat math, and big stat chips. It has no soul, but it's in my top 3 for clarity.",
+      "UX and accessibility": "The most readable phone. Attack and Health share one chip shape, which is weak for colour-blind players."
+    } },
+  { id: "night-wood", name: "Night Wood", letter: "C", total: 180, c: [22, 27, 25, 30, 27, 26, 23], top3: 0, status: "",
+    idea: "Dark mode: a moonlit wood, pale ink on deep blue-green, glowing fungi and fireflies for highlights.",
+    notes: {
+      "Art director": "A restrained moonlit wood with fairy-ring empty slots. Better as a night or combat variant than as the base theme.",
+      "Casual phone player": "The most atmospheric, but small mint text on a dark page is hard to read on a train.",
+      "Battlegrounds veteran": "Night mood with real clarity. Board cards are tiny on phone.",
+      "UX and accessibility": "Each stat has its own shape, and the hints teach. Contrast is too low, and names are truncated."
+    } },
+  { id: "nouveau", name: "Woodland Nouveau", letter: "A", total: 179, c: [18, 25, 23, 28, 31, 32, 22], top3: 0, status: "off",
+    idea: "Off-style on purpose: Art Nouveau vines, arched card frames, jewel tones and gold leaf.",
+    notes: {
+      "Art director": "The most cohesive mood: a painted foxglove menu and a “Chronicle” log. But ornament beats information.",
+      "Casual phone player": "It feels premium, but on phone the ornate text and Roman-numeral tiers crowd each other.",
+      "Battlegrounds veteran": "The Chronicle log tells the whole hit. The Roman-numeral tiers are slow to read.",
+      "UX and accessibility": "Stat shapes differ, but the tiers are Roman numerals and the buttons are low-contrast gold on gold."
+    } },
+  { id: "chunky-cozy", name: "Chunky Cozy", letter: "D", total: 175, c: [33, 27, 26, 29, 22, 17, 21], top3: 0, status: "off",
+    idea: "Off-style on purpose: bright casual mobile, chunky rounded shapes, soft shading, big bouncy buttons.",
+    notes: {
+      "Art director": "Very readable on phone, but generic mobile-casual: nothing says European storybook.",
+      "Casual phone player": "My wildcard: the only one I'd download from the store thumbnail, with huge buttons and plain-English callouts.",
+      "Battlegrounds veteran": "Great phone ergonomics and long-press reminders. It could be any mobile game.",
+      "UX and accessibility": "The best touch targets. The lobby badges overlap the player circles, which risks a misread."
+    } }
+];
+const BORROW = [
+  ["A fixed breakdown of each hit", "Before, then halved, then after the hit: Clean Arena's panel, Folk Print's numbered steps, Field Journal's crossed-out pencil strip. Three judges named it."],
+  ["A brick you read in half a second", "Woodcraft's tray cut to the 4–3 shape with slot labels, plus the lines from each back slot to the two front slots in front of it (Clean Arena, Storybook Ink). Three judges named it."],
+  ["Plain-language notes on the screen itself", "Field Journal's “B3 sits behind F3 & F4”, “next fight!” and “End turn → fight Old Tansy”. All four judges named it, two as onboarding hints."],
+  ["Named once each", "Folk Print's stat shapes, which differ in brightness for colour-blind players; Chunky Cozy's big touch targets and long-press reminders; Woodcraft's in-world objects (peg-board standings, leaf buttons, acorn gold)."]
+];
+
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v; else if (k === "text") n.textContent = v; else n.setAttribute(k, v);
+  }
+  for (const k of kids) n.append(k);
+  return n;
+};
+
+// Picks row
+const picks = document.getElementById("picks");
+DIRS.filter(d => d.status === "top" || d.status === "wild").forEach((d, i) => {
+  const a = el("a", { class: "pick" + (d.status === "wild" ? " wild" : ""), href: "#" + d.id });
+  a.append(d.status === "wild" ? "Wildcard · " : (i + 1) + " · ", d.name, " ", el("small", { text: d.total + "/280" }));
+  picks.append(a);
+});
+picks.append(el("a", { class: "pick wild", href: "#in-the-game", text: "In the playable build →" }));
+
+// Scores table
+const t = document.getElementById("scores");
+const head = el("tr");
+["#", "Direction"].forEach(h => head.append(el("th", { text: h })));
+CRIT.forEach(h => head.append(el("th", { class: "num", text: h })));
+head.append(el("th", { text: "Total" }), el("th", { class: "num", text: "Top 3" }));
+t.append(el("thead", {}, head));
+const body = el("tbody");
+const hi = CRIT.map((_, i) => Math.max(...DIRS.map(d => d.c[i])));
+const lo = CRIT.map((_, i) => Math.min(...DIRS.map(d => d.c[i])));
+let lastTotal = null, lastRank = 0;
+DIRS.forEach((d, i) => {
+  const rank = d.total === lastTotal ? lastRank : i + 1; lastTotal = d.total; lastRank = rank;
+  const tr = el("tr");
+  tr.append(el("td", { class: "num", text: rank }));
+  tr.append(el("td", { class: "dir" }, el("a", { href: "#" + d.id, text: d.name })));
+  d.c.forEach((v, j) => tr.append(el("td", { class: "num" + (v === hi[j] ? " cell-hi" : v === lo[j] ? " cell-lo" : ""), text: v })));
+  const bar = el("span", { class: "b" }); bar.style.width = Math.round((d.total - 150) * 1.4) + "px";
+  tr.append(el("td", {}, el("span", { class: "totalbar" }, el("b", { text: d.total }), bar)));
+  tr.append(el("td", { class: "num", text: d.top3 }));
+  body.append(tr);
+});
+t.append(body);
+
+// Borrow list
+const bl = document.getElementById("borrow");
+BORROW.forEach(([h, p]) => bl.append(el("li", {}, el("b", { text: h }), el("span", { text: p }))));
+
+// Direction sections
+const lb = document.getElementById("lb"), lbImg = document.getElementById("lb-img"), lbCap = document.getElementById("lb-cap");
+document.getElementById("lb-close").addEventListener("click", () => lb.close());
+lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+const open = (src, cap) => { lbImg.src = src; lbImg.alt = cap; lbCap.textContent = cap; lb.showModal(); };
+
+// In the playable build
+(() => {
+  const LOOKS = [["plain", "Plain"], ["folk_print", "Folk Print"], ["woodcraft", "Woodcraft"]];
+  const GSCREENS = [["recruit", "Recruit"], ["combat_mid", "Combat"], ["sandbox_scenarios", "Sandbox scenarios"]];
+  const state = { look: "folk_print", screen: "recruit" };
+  const looksEl = document.getElementById("game-looks"), screensEl = document.getElementById("game-screens"), shotsEl = document.getElementById("game-shots");
+  const figs = [["1920x1080", "Desktop 1920×1080"], ["1688x780", "Phone, landscape"]].map(([size, cap]) => {
+    const fig = el("figure"), btn = el("button", { class: "shot", type: "button" });
+    const img = el("img", { loading: "lazy", width: size.split("x")[0], height: size.split("x")[1] });
+    btn.append(img); fig.append(btn, el("figcaption", { text: cap }));
+    btn.addEventListener("click", () => open(img.src, img.alt));
+    shotsEl.append(fig);
+    return { size, img };
+  });
+  const render = () => {
+    const lookName = LOOKS.find(x => x[0] === state.look)[1], scrName = GSCREENS.find(x => x[0] === state.screen)[1];
+    figs.forEach(f => { f.img.src = `game/${state.look}_${state.screen}_${f.size}.jpg`; f.img.alt = `Playable build, ${lookName}, ${scrName}, ${f.size}`; });
+    looksEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === state.look ? "true" : "false"));
+    screensEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === state.screen ? "true" : "false"));
+  };
+  looksEl.append(el("span", { class: "round-label", text: "Look" }));
+  LOOKS.forEach(([k, label]) => { const b = el("button", { type: "button", "data-k": k, "aria-pressed": "false", text: label }); b.addEventListener("click", () => { state.look = k; render(); }); looksEl.append(b); });
+  screensEl.append(el("span", { class: "round-label", text: "Screen" }));
+  GSCREENS.forEach(([k, label]) => { const b = el("button", { type: "button", "data-k": k, "aria-pressed": "false", text: label }); b.addEventListener("click", () => { state.screen = k; render(); }); screensEl.append(b); });
+  render();
+})();
+
+const dirs = document.getElementById("dirs");
+lastTotal = null; lastRank = 0;
+DIRS.forEach((d, i) => {
+  const rank = d.total === lastTotal ? lastRank : i + 1; lastTotal = d.total; lastRank = rank;
+  const s = el("section", { class: "dir-section", id: d.id, "aria-labelledby": "h-" + d.id });
+  const headRow = el("div", { class: "dir-head" },
+    el("span", { class: "rank", text: "#" + rank }),
+    el("h2", { id: "h-" + d.id, text: d.name }),
+    el("span", { class: "score", text: d.total + "/280 · judged as " + d.letter }));
+  if (d.status === "top") headRow.append(el("span", { class: "tag", text: "Round 2" }));
+  if (d.status === "wild") headRow.append(el("span", { class: "tag wild", text: "Round 2 · wildcard" }));
+  if (d.status === "off") headRow.append(el("span", { class: "tag off", text: "Off-style on purpose" }));
+  s.append(headRow, el("p", { class: "idea", text: d.idea }));
+
+  const tabs = el("div", { class: "tabs", role: "group", "aria-label": d.name + " screens" });
+  const shots = el("div", { class: "shots" });
+  const mk = kind => {
+    const fig = el("figure");
+    const btn = el("button", { class: "shot", type: "button" });
+    const img = el("img", { loading: i < 2 ? "eager" : "lazy", width: kind === "desktop" ? "1920" : "1688", height: kind === "desktop" ? "1080" : "780" });
+    btn.append(img); fig.append(btn, el("figcaption"));
+    btn.addEventListener("click", () => open(img.src, img.alt));
+    return { fig, img, cap: fig.querySelector("figcaption") };
+  };
+  const dk = mk("desktop"), ph = mk("phone");
+  shots.append(dk.fig, ph.fig);
+  const show = (key, round) => {
+    const label = SCREENS.find(x => x[0] === key)[1];
+    const r = "Round " + round;
+    dk.img.src = `r${round}/${d.id}/shots/${key}-desktop.jpg`; dk.img.alt = `${d.name}, ${r}, ${label}, desktop 1920×1080`; dk.cap.textContent = `${r} · desktop 1920×1080`;
+    ph.img.src = `r${round}/${d.id}/shots/${key}-phone.jpg`; ph.img.alt = `${d.name}, ${r}, ${label}, phone landscape`; ph.cap.textContent = `${r} · phone, landscape`;
+    s.querySelectorAll(".tabs button").forEach(b => b.setAttribute("aria-pressed", b.dataset.k === key && b.dataset.r === String(round) ? "true" : "false"));
+  };
+  const addTabs = (group, round, list) => list.forEach(([k, label]) => {
+    const b = el("button", { type: "button", "data-k": k, "data-r": String(round), "aria-pressed": "false", text: label });
+    b.addEventListener("click", () => show(k, round));
+    group.append(b);
+  });
+  let tabs2 = null, tabs3 = null;
+  if (d.r2) {
+    tabs2 = el("div", { class: "tabs", role: "group", "aria-label": d.name + " round 2 screens" });
+    tabs2.append(el("span", { class: "round-label", text: "Round 2" }));
+    addTabs(tabs2, 2, SCREENS.filter(x => x[0] === "recruit" || x[0] === "cards"));
+    tabs.append(el("span", { class: "round-label", text: "Round 1" }));
+  }
+  if (R3[d.id]) {
+    tabs3 = el("div", { class: "tabs", role: "group", "aria-label": d.name + " round 3 screens" });
+    tabs3.append(el("span", { class: "round-label", text: "Round 3" }));
+    addTabs(tabs3, 3, SCREENS.filter(x => x[0] === "combat" || x[0] === "settings"));
+  }
+  addTabs(tabs, 1, R1_SCREENS);
+  if (tabs2) s.append(tabs2);
+  if (tabs3) s.append(tabs3);
+  s.append(tabs, shots);
+  if (d.r2) s.append(el("p", { class: "r2note" }, el("b", { text: "What round 2 changed. " }), d.r2));
+  if (R3[d.id]) s.append(el("p", { class: "r2note" }, el("b", { text: "Round 3, combat and settings. " }), R3[d.id]));
+  show("recruit", d.r2 ? 2 : 1);
+
+  const notes = el("div", { class: "notes" });
+  Object.entries(d.notes).forEach(([who, text]) => notes.append(el("div", { class: "note" }, el("span", { class: "who", text: who }), el("span", { text }))));
+  if (d.fix) notes.append(el("div", { class: "note fix" }, el("span", { class: "who", text: "To fix in round 2" }), el("span", { text: d.fix })));
+  s.append(notes);
+  dirs.append(s);
+});
+</script>

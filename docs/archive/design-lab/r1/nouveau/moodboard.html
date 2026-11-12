@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Moodboard · Woodland Nouveau</title>
+<link rel="stylesheet" href="nv.css"><link rel="stylesheet" href="screens.css">
+<script src="data.js"></script><script src="nv.js"></script>
+</head><body>
+<div class="nv-stage nv-mb">
+  <header class="nv-mb-head"><h1 class="nv-h">Woodland Nouveau</h1><p>Mucha's woodland: whiplash vines, arched gilt frames, jewel-set stats and a halo behind every portrait. Low density, very high ornament.</p></header>
+  <section class="nv-mb-sw" id="nv-sw"></section>
+  <section class="nv-mb-mid">
+    <div class="nv-panel nv-mb-type">
+      <span class="nv-t1">Federant · Lobby</span><small>display: titles, End Turn, menu</small>
+      <span class="nv-t2">Marcellus SC · Front · Back</span><small>labels, unit names, keywords</small>
+      <span class="nv-t3">Cinzel 0123456789 · VI</span><small>stat numerals and tiers</small>
+      <span class="nv-t4">Alegreya: Whenever this survives being attacked, your back-row units gain +1 Attack this combat.</span><small>rules and body text</small>
+    </div>
+    <div class="nv-panel nv-mb-icons" id="nv-icons"></div>
+    <div class="nv-mb-tex">
+      <div class="nv-stage-pat" style="background: var(--nv-night) url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 180 180' fill='none' stroke='%23B88A2E' stroke-opacity='.6' stroke-width='2.4'%3E%3Cpath d='M0 150C30 148 40 120 62 112 88 102 98 128 120 118 142 108 132 80 150 72c12-5 22 4 16 14-5 7-14 4-13-3'/%3E%3Cpath d='M180 30C150 32 140 60 118 68 92 78 82 52 60 62 38 72 48 100 30 108c-12 5-22-4-16-14 5-7 14-4 13 3'/%3E%3C/svg%3E&quot;)"><span class="nv-lt">whiplash ground</span></div>
+      <div style="background: repeating-radial-gradient(circle at 50% 70%, #B88A2E 0 2px, #24564B 2px 12px)"><span class="nv-lt">halo rings</span></div>
+      <div style="background: var(--nv-goldgrad)"><span>gold leaf</span></div>
+      <div style="background: repeating-linear-gradient(60deg, rgba(255,255,255,0) 0 12px, rgba(255,255,255,.5) 12px 13.5px), repeating-linear-gradient(-60deg, rgba(255,255,255,0) 0 15px, rgba(255,255,255,.45) 15px 16.5px), linear-gradient(180deg, #bfe6ee, #1F7F92)"><span>frost pane</span></div>
+    </div>
+    <div class="nv-panel nv-mb-legend" id="nv-legend"></div>
+  </section>
+  <section class="nv-mb-right">
+    <div class="nv-crop"><img src="shots/recruit-desktop.jpg" style="object-position: 40% 70%" alt=""><span>recruit · the brick</span></div>
+    <div class="nv-crop"><img src="shots/combat-desktop.jpg" style="object-position: 52% 30%" alt=""><span>combat · Nightshade</span></div>
+    <div class="nv-crop"><img src="assets/sheet-a.jpg" alt=""><span>portraits · Codex</span></div>
+    <div class="nv-crop"><img src="assets/menu-glade.jpg" style="object-position: 50% 30%" alt=""><span>menu glade · Codex</span></div>
+  </section>
+</div>
+<script>
+const NV_PAL = [{"name": "Malachite Night", "hex": "#0E2621", "use": "Page and table background; text on it is Pale Gilt or Vellum"}, {"name": "Verdigris", "hex": "#24564B", "use": "Panels, rails, empty-slot wells; the Hunters tribe accent"}, {"name": "Vellum", "hex": "#F2E6C8", "use": "Card face and body-text ground"}, {"name": "Oak-gall Ink", "hex": "#24180F", "use": "Body text and contour lines on Vellum"}, {"name": "Gold Leaf", "hex": "#B88A2E", "use": "Gilt frames, whiplash ornament, the gold currency"}, {"name": "Pale Gilt", "hex": "#F0D58A", "use": "Headings and labels on dark grounds; golden-unit highlight"}, {"name": "Garnet", "hex": "#9A1F35", "use": "Health gem (heart cabochon); damage numbers; negative"}, {"name": "Sapphire", "hex": "#26449A", "use": "Attack gem (lozenge cabochon)"}, {"name": "Belladonna", "hex": "#4E2268", "use": "Nightshade status: aura, badge, the halving callout"}, {"name": "Wisteria", "hex": "#B08ADB", "use": "Fairies tribe accent; Nightshade glow and text on dark"}, {"name": "Kingfisher", "hex": "#1F7F92", "use": "Birds tribe accent; the Freeze pane tint"}, {"name": "Amber", "hex": "#C9821A", "use": "Hive tribe accent; tier roundel"}, {"name": "Moss", "hex": "#5E7F2C", "use": "Bog folk tribe accent; positive (won, buffs)"}, {"name": "Umber", "hex": "#6E4227", "use": "Great beasts and Hedgerow folk accents; Neutral uses Oak-gall Ink at 60%"}];
+NV.ready(() => {
+  const light = ['Vellum', 'Pale Gilt', 'Wisteria', 'Gold Leaf', 'Amber'];
+  document.getElementById('nv-sw').innerHTML = NV_PAL.map(c => '<div class="nv-sw" style="background:' + c.hex + ';color:' + (light.includes(c.name) ? '#24180F' : '#F2E6C8') + '"><b>' + c.name + '</b><code>' + c.hex + '</code></div>').join('');
+  const I = NV.icon;
+  document.getElementById('nv-icons').innerHTML = [['gold', 'Gold'], ['tier', 'Tier'], ['health', 'Health'], ['attack', 'Attack'], ['refresh', 'Refresh'], ['freeze', 'Freeze'], ['nightshade', 'Nightshade']]
+    .map(([k, l]) => '<div>' + I[k] + l + '</div>').join('');
+  document.getElementById('nv-legend').innerHTML = I.attack + I.health + '<span>Attack is a sapphire lozenge and Health a garnet cabochon, so the two read by shape as well as colour. Tier sits on the arch apex as a Roman numeral; tribe is the enamel dot and the inner line.</span>';
+});
+</script>
+</body></html>

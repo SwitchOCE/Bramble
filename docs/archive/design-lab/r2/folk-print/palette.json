@@ -1,0 +1,34 @@
+{
+  "direction": "folk-print",
+  "idea": "Three printing inks (black, vermilion, ochre) on unbleached paper, plus four papercut colours used only as flat layers for tribes and statuses.",
+  "colours": [
+    { "name": "Unbleached paper", "hex": "#F3EAD6", "use": "Page background, card panels, text on dark inks" },
+    { "name": "Kraft", "hex": "#E3D1AE", "use": "Second paper layer: panels, trays, Neutral tribe band" },
+    { "name": "Lamp-black ink", "hex": "#1D1A1E", "use": "All lines and body text; the Attack shield; Hunters tribe" },
+    { "name": "Plate paper", "hex": "#E9DBBB", "use": "Board tray (round 2): unbleached paper cut to the 4–3 brick, black only for linework" },
+    { "name": "Vermilion ink", "hex": "#BF2F1B", "use": "Health heart, damage, primary buttons, the next-opponent mark, keywords, Great beasts tribe" },
+    { "name": "Ochre ink", "hex": "#DEA526", "use": "Gold, tier stars, golden units, Hive tribe (always with black text)" },
+    { "name": "Meadow green", "hex": "#22684A", "use": "Papercut layer: Hedgerow folk tribe, positive results (won)" },
+    { "name": "Moss", "hex": "#5A6A2A", "use": "Papercut layer: Bog folk tribe" },
+    { "name": "Cobalt", "hex": "#24479A", "use": "Papercut layer: Birds tribe, freeze button and frozen stamp" },
+    { "name": "Belladonna plum", "hex": "#5D2A6B", "use": "Nightshade status and the halving seal, Fairies tribe" },
+    { "name": "Frost", "hex": "#C6D9EB", "use": "Frozen overprint tint on shop offers (black or cobalt text on it)" },
+    { "name": "Rose", "hex": "#E58C9B", "use": "Small papercut accents in ornament only; never carries meaning" },
+    { "name": "Ash", "hex": "#615950", "use": "Eliminated players, disabled controls, empty-slot labels (5.8:1 on paper, 4.6:1 on kraft)" }
+  ],
+  "contrast_checked": {
+    "ink on paper": 14.4,
+    "ink on kraft": 11.5,
+    "paper on vermilion": 4.82,
+    "ink on ochre": 7.81,
+    "paper on green": 5.58,
+    "paper on moss": 4.97,
+    "paper on cobalt": 7.18,
+    "paper on plum": 8.74,
+    "ink on frost": 11.92,
+    "cobalt on frost": 5.95,
+    "vermilion on paper": 4.82,
+    "paper on ink": 14.4,
+    "_rule": "Every text pairing above passes WCAG AA for body text (4.5:1). Ochre never carries paper-coloured text. Ash is used for disabled or eliminated text and checked separately."
+  }
+}

@@ -1,0 +1,115 @@
+/* Shared world layers for the journey round. Each page styles its own UI. */
+:root { --px: 0; --py: 0; --tint: #ffd27a; --hue: 38; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: #0d1a14; }
+* { box-sizing: border-box; }
+
+.jy-world { position: fixed; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+.jy-bg {
+  position: absolute; inset: -4%;
+  background: center / cover no-repeat;
+  opacity: 0;
+  transform: translate(calc(var(--px) * -18px), calc(var(--py) * -10px)) scale(1.04);
+  transition: opacity 1.4s ease, transform 1.6s cubic-bezier(.2,.7,.2,1), filter 1.2s ease;
+  animation: jy-drift 40s ease-in-out infinite alternate;
+}
+.jy-bg.on { opacity: 1; }
+/* Default travel: the camera walks right into the next place. */
+.jy-bg.enter { opacity: 0; transform: translateX(8%) scale(1.12); transition: none; }
+.jy-bg.leave { opacity: 1; transform: translateX(-10%) scale(1.06); z-index: 0; }
+.jy-bg.on { z-index: 1; }
+@keyframes jy-drift { from { scale: 1; } to { scale: 1.035; } }
+
+.jy-shade { position: absolute; inset: 0; transition: background 1s ease; }
+
+.jy-fern { position: absolute; bottom: -2%; width: 30vmax; max-width: 640px; opacity: .96;
+  transform: translate(calc(var(--px) * -40px), calc(var(--py) * -14px)); transition: transform .4s ease-out, filter 1s; }
+.jy-fern.l { left: -3%; }
+.jy-fern.r { right: -3%; transform: translate(calc(var(--px) * -40px), calc(var(--py) * -14px)) scaleX(-1); }
+
+.jy-motes { position: absolute; inset: 0; }
+.jy-motes i {
+  position: absolute; width: var(--sz); height: var(--sz); border-radius: 50%;
+  background: var(--tint); box-shadow: 0 0 10px 3px color-mix(in srgb, var(--tint) 70%, transparent);
+  opacity: 0; animation: jy-mote var(--d) ease-in-out var(--delay) infinite;
+  transition: background 1.2s, box-shadow 1.2s;
+}
+@keyframes jy-mote {
+  0% { opacity: 0; transform: translate(0, 0); }
+  20% { opacity: .85; }
+  60% { opacity: .5; }
+  100% { opacity: 0; transform: translate(40px, -120px); }
+}
+
+.jy-stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; z-index: 2; }
+
+/* The brick: 4 front, 3 behind. Equal slots and gaps, both rows centred, so the
+   back row sits exactly half a slot over. Fixed in every look (rulebook 8.1). */
+.brick { display: flex; flex-direction: column; align-items: center; gap: var(--row-gap, 12px); }
+.brick.foe { flex-direction: column-reverse; }
+.brow { display: flex; justify-content: center; gap: var(--slot-gap, 14px); }
+/* Sideways brick (two bands facing across a line): rows become columns. */
+.brick.side { flex-direction: row; } .brick.side.foe { flex-direction: row-reverse; }
+.brick.side .brow { flex-direction: column; gap: var(--slot-gap, 14px); }
+
+/* Fight feel */
+.jy-lunge { animation: jy-lunge .52s cubic-bezier(.3,.0,.2,1); z-index: 30 !important; position: relative; }
+@keyframes jy-lunge {
+  0% { transform: none; }
+  45% { transform: translate(var(--dx), var(--dy)) scale(1.06); }
+  100% { transform: none; }
+}
+.jy-hurt { animation: jy-hurt .4s ease; }
+@keyframes jy-hurt { 0%,100% { transform: none; filter: none; } 25% { transform: translateX(-6px); filter: brightness(1.6) saturate(.6); } 60% { transform: translateX(5px); } }
+.jy-dmg {
+  position: absolute; left: 50%; top: 38%; transform: translate(-50%, -50%);
+  font: 900 64px/1 system-ui, sans-serif; color: #fff;
+  -webkit-text-stroke: 3px #7a0d12; paint-order: stroke fill;
+  text-shadow: 0 6px 18px rgba(0,0,0,.5);
+  animation: jy-dmg .7s ease-out forwards; pointer-events: none; z-index: 40;
+}
+@keyframes jy-dmg { 0% { opacity: 0; transform: translate(-50%, -20%) scale(.6); } 25% { opacity: 1; transform: translate(-50%, -60%) scale(1.15); } 100% { opacity: 0; transform: translate(-50%, -140%) scale(1); } }
+.jy-dead { transition: opacity .5s ease .1s, transform .6s ease, filter .5s; opacity: 0; transform: scale(.85) translateY(12px); filter: grayscale(1); pointer-events: none; }
+
+/* Lab dock: not part of any design, deliberately plain */
+.jy-dock { position: fixed; right: 10px; bottom: 10px; z-index: 100; display: flex; gap: 6px; align-items: center;
+  font: 600 12px/1 system-ui, sans-serif; background: rgba(15,18,16,.72); color: #ddd; padding: 6px; border-radius: 10px;
+  backdrop-filter: blur(6px); opacity: .55; transition: opacity .2s; }
+.jy-dock:hover { opacity: 1; }
+.jy-dock a { color: #cfe; text-decoration: none; padding: 4px 6px; }
+.jy-seg { display: flex; background: rgba(255,255,255,.08); border-radius: 7px; overflow: hidden; }
+.jy-seg button { all: unset; cursor: pointer; padding: 5px 8px; color: #ccc; }
+.jy-seg button.on { background: #e8e2cf; color: #111; }
+
+html.jy-static *, html.jy-static *::before, html.jy-static *::after { animation: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { .jy-bg { animation: none; } .jy-motes { display: none; } }
+.brick.side.faces-right { flex-direction: row-reverse; }
+
+/* ---- Hex units (owner's pick, 11 Nov): between the mid hex and the tall hex ---------
+   0.78 wide to 1 tall, points a fifth deep, corners rounded. --hex-v points up and down
+   (stacked layouts); --hex-h points left and right (left-right layouts). A unit is a
+   frame layer (the edge colour) and an art layer inset inside it, both masked. */
+:root { --hex-v: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 78 100' preserveAspectRatio='none'%3E%3Cpath d='M45.29 3.07 L71.71 15.93 Q78.00 19.00 78.00 26.00 L78.00 74.00 Q78.00 81.00 71.71 84.07 L45.29 96.93 Q39.00 100.00 32.71 96.93 L6.29 84.07 Q0.00 81.00 0.00 74.00 L0.00 26.00 Q0.00 19.00 6.29 15.93 L32.71 3.07 Q39.00 0.00 45.29 3.07 Z'/%3E%3C/svg%3E");
+  --hex-h: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 78 100' preserveAspectRatio='none'%3E%3Cpath d='M1.99 43.29 L12.83 6.71 Q14.82 0.00 21.82 0.00 L56.18 0.00 Q63.18 0.00 65.17 6.71 L76.01 43.29 Q78.00 50.00 76.01 56.71 L65.17 93.29 Q63.18 100.00 56.18 100.00 L21.82 100.00 Q14.82 100.00 12.83 93.29 L1.99 56.71 Q0.00 50.00 1.99 43.29 Z'/%3E%3C/svg%3E");
+  --hex: var(--hex-v); }
+.hx-frame, .hx-art { position: absolute; -webkit-mask: var(--hex) center / 100% 100% no-repeat; mask: var(--hex) center / 100% 100% no-repeat; }
+.hx-frame { inset: 0; background: var(--hx-edge, #fff); }
+.hx-art { inset: var(--hx-bw, 3px); background: var(--tc, #333); overflow: hidden; }
+.hx-art img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; transform: scale(1.06); transform-origin: 50% 25%; }
+
+/* Packing: the back row tucks into the front row's points. --tuck is negative:
+   minus the point depth, plus a little for the gap. Set it per look. */
+.brick.hex .brow-b { margin-top: var(--tuck, 0px); }
+.brick.hex.foe .brow-b { margin-top: 0; margin-bottom: var(--tuck, 0px); }
+.brick.side.hex .brow-b { margin: 0 0 0 var(--tuck, 0px); }
+.brick.side.hex.faces-right .brow-b, .brick.side.hex.foe .brow-b { margin: 0 var(--tuck, 0px) 0 0; }
+
+/* ---- Hit testing and hover (bug fixes, 11 Nov) -----------------------------------------
+   Packed hexes overlap as rectangles. Units take the mouse only through a hit layer clipped
+   to the hex; empty slots never take it. A hovered unit rises above its neighbours. */
+:root { --hex-clip-v: polygon(50% 0, 100% 19%, 100% 81%, 50% 100%, 0 81%, 0 19%);
+  --hex-clip-h: polygon(0 50%, 19% 0, 81% 0, 100% 50%, 81% 100%, 19% 100%); --hex-clip: var(--hex-clip-v); }
+.card { pointer-events: none; }
+.card .hx-hit { position: absolute; inset: 0; clip-path: var(--hex-clip); pointer-events: auto; cursor: pointer; }
+.card button { pointer-events: auto; }
+.slot, .spot { pointer-events: none; }
+.card:hover { z-index: 20; }

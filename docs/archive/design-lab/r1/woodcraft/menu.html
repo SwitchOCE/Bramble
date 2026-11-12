@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Woodcraft Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@700&family=Grenze:wght@600;700;800&family=Alegreya+Sans:wght@500;700;800&family=Bitter:wght@800;900&display=block" rel="stylesheet">
+<link rel="stylesheet" href="wc.css">
+<style>
+.wm-left { position: absolute; left: 60px; top: 0; width: 600px; height: 640px; }
+.wm-rope { position: absolute; top: 0; width: 8px; height: 58px; background: repeating-linear-gradient(160deg, #C9A46A 0 6px, #8C5A2E 6px 10px); border-left: 2px solid var(--wc-ink); border-right: 2px solid var(--wc-ink); }
+/* Title area: one replaceable block. Swap the text in .wm-title for the final name. */
+.wm-sign { position: absolute; left: 30px; top: 52px; width: 540px; height: 210px; padding: 0; overflow: hidden; }
+.wm-sign .wc-chipband { position: absolute; left: 0; right: 0; }
+.wm-title { position: absolute; left: 0; right: 0; top: 34px; text-align: center; font: 700 112px/1 var(--wc-title); color: var(--wc-ink); text-shadow: 0 3px 0 #E2B27A; }
+.wm-sub { position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; font: 700 17px/1 var(--wc-head); letter-spacing: .32em; text-transform: uppercase; color: #5A3A20; }
+.wm-code { position: absolute; left: 440px; top: 262px; transform: rotate(-4deg); border: 2px solid var(--wc-acorn); font: 800 11px/1 var(--wc-body); letter-spacing: .14em; text-transform: uppercase; background: var(--wc-ink); color: var(--wc-acorn); padding: 4px 7px; border-radius: 5px; }
+.wm-play { position: absolute; left: 70px; top: 300px; width: 460px; height: 132px; font-size: 54px; }
+.wm-row { position: absolute; left: 0; top: 466px; width: 600px; display: flex; gap: 14px; }
+.wm-row .wc-leaf { flex: 1; height: 86px; font-size: 25px; }
+.wm-row .wc-leaf-in { padding: 0 14% 0 12%; }
+.wm-quit { position: absolute; left: 230px; top: 572px; width: 140px; height: 50px; font-size: 19px; }
+.wm-right { position: absolute; top: 0; height: 640px; width: 520px; }
+.wm-hero { position: absolute; left: 110px; top: 60px; transform: rotate(3deg); }
+.wm-t2 { position: absolute; left: 20px; top: 330px; transform: rotate(-8deg); }
+.wm-t3 { position: absolute; left: 350px; top: 400px; transform: rotate(10deg); }
+.wm-ac { position: absolute; width: 54px; height: 54px; }
+.wm-foot { position: absolute; left: 18px; bottom: 14px; font: 600 14px/1 var(--wc-body); color: #B79572; }
+</style></head>
+<body>
+<div class="wc-stage wc-table" id="stage">
+  <div class="wm-left" id="left">
+    <div class="wm-rope" style="left:120px"></div><div class="wm-rope" style="left:480px"></div>
+    <div class="wm-sign wc-plaque">
+      <div class="wc-chipband" style="top:0"></div><div class="wc-chipband" style="bottom:0"></div>
+      <span class="wc-nail" style="left:90px;top:26px"></span><span class="wc-nail" style="right:52px;top:26px"></span>
+      <div class="wm-title">Bramble</div>
+      <div class="wm-sub">A hedgerow auto-battler</div>
+    </div>
+    <div class="wm-code">Code name</div>
+    <div id="btns"></div>
+  </div>
+  <div class="wm-right" id="right"></div>
+  <div class="wm-foot">Design lab r1 · Hedgerow Woodcraft</div>
+</div>
+<script src="data.js"></script>
+<script src="wc.js"></script>
+<script>
+WC.start(() => {
+  const st = document.getElementById('stage');
+  const place = () => {
+    const w = parseFloat(st.style.width), gap = (w - 600 - 520) / 3;
+    document.getElementById('left').style.left = gap + 'px';
+    document.getElementById('right').style.left = (gap * 2 + 600) + 'px';
+  };
+  place(); addEventListener('resize', place);
+  document.getElementById('btns').innerHTML =
+    WC.leaf('Play', 'wc-leaf--moss wm-play') +
+    `<div class="wm-row">${WC.leaf('Collection')}${WC.leaf('Standings', 'wc-leaf--acorn')}${WC.leaf('Settings')}</div>` +
+    WC.leaf('Quit', 'wm-quit');
+  const R = FIX.recruit;
+  const hero = FIX.hero_card;
+  const txt = 'Start of Combat: give the enemy with the highest Health <span class="wc-key">Nightshade</span>.';
+  document.getElementById('right').innerHTML =
+    `<div class="wm-t2">${WC.tile(R.board.back[1], 'shop')}</div>` +
+    `<div class="wm-t3">${WC.tile(R.shop[0], 'shop')}</div>` +
+    `<div class="wm-hero">${WC.tile(hero, 'hero', { text: txt, rem: hero.keyword_reminder })}</div>` +
+    [[30, 560, -20], [112, 574, 15], [86, 520, 40], [330, 560, -30], [450, 300, 20]].map(([x, y, r]) =>
+      `<div class="wm-ac" style="left:${x}px;top:${y}px;transform:rotate(${r}deg)">${WC.icon.acorn}</div>`).join('');
+});
+</script>
+</body></html>

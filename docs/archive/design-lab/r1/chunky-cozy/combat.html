@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chunky Cozy · Combat</title>
+<link rel="stylesheet" href="cozy.css">
+<style>
+  #stage { background:
+    radial-gradient(circle at 12px 12px, rgba(255,255,255,.5) 3px, transparent 3.5px) 0 0 / 34px 34px,
+    linear-gradient(180deg, #FFE1EA 0%, #FCEFD9 46%, #FCEFD9 54%, var(--meadow) 100%); }
+  .field { position: absolute; left: 290px; right: 150px; top: 0; bottom: 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 14px 0 16px; }
+  .tray { zoom: .84; padding: 12px 40px 16px 84px; }
+  .tray.enemy { background: radial-gradient(circle at 20px 20px, rgba(255,255,255,.35) 4px, transparent 4.5px) 0 0 / 40px 40px, #F7C3CF;
+    box-shadow: inset 0 0 0 10px #fff, 0 12px 0 #E39AAE, 0 18px 26px var(--drop); }
+  .tray .row + .row { margin-top: 6px; }
+  .tray.enemy .row + .row { margin-top: 24px; }
+  .midline { width: 100%; display: flex; align-items: center; gap: 12px; justify-content: flex-end; padding-right: 10px; }
+  .vs { white-space: nowrap; font-family: var(--font-display); font-weight: 700; font-size: 22px; color: #fff; background: var(--cocoa); border-radius: 999px; padding: 4px 14px; }
+  .logline { font-size: 21px; font-weight: 800; background: #fff; border-radius: 22px; padding: 10px 20px; box-shadow: 0 5px 0 var(--drop); max-width: 600px; line-height: 1.25; position: relative; z-index: 8; text-align: center; }
+  .logline .kw { font-size: .95em; }
+  .who { position: absolute; left: 20px; top: 16px; display: flex; align-items: center; gap: 10px; }
+  .who .av { width: 70px; height: 70px; border-radius: 50%; background: var(--strawberry); border: 5px solid #fff; display: grid; place-items: center; color: #fff;
+    font-family: var(--font-display); font-weight: 700; font-size: 32px; box-shadow: 0 5px 0 var(--drop); }
+  .who .nm { font-family: var(--font-display); font-weight: 700; font-size: 26px; }
+  .who .sub { font-weight: 800; font-size: 16px; color: var(--cocoa-soft); }
+  .log { position: absolute; left: 20px; top: 112px; width: 254px; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .log .label { margin-bottom: 2px; }
+  .ent { font-size: 16.5px; font-weight: 800; line-height: 1.25; padding: 10px 12px; border-radius: 18px; background: #F6EEE2; }
+  .ent.now { background: #F1E6FB; box-shadow: inset 0 0 0 4px var(--berry); }
+  .ent .n { display: inline-block; font-family: var(--font-display); font-weight: 700; font-size: 13px; color: #fff; background: var(--cocoa-soft); border-radius: 8px; padding: 0 6px; margin-right: 4px; }
+  .ctrl { position: absolute; right: 14px; top: 14px; bottom: 16px; width: 124px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .ctrl .label { font-size: 13px; }
+  .speed { display: flex; flex-direction: column; gap: 8px; background: rgba(255,255,255,.6); padding: 8px; border-radius: 30px; }
+  .speed .btn { min-width: 96px; min-height: 76px; font-size: 26px; padding: 0; }
+  .speed .btn.on { --c: var(--butter); --cd: #D99A12; }
+  .btn.skip { width: 108px; height: 108px; padding: 0; flex-direction: column; gap: 0; font-size: 20px; margin-top: auto; border-radius: 36px; }
+  /* the moment */
+  .lunge { transform: translateY(-46px) rotate(-8deg) scale(1.08); z-index: 6; }
+  .lunge .ring { box-shadow: 0 0 0 6px #fff, 0 0 0 12px var(--butter), 0 14px 18px var(--drop); }
+  .target .ring { animation: none; }
+  .fx { position: absolute; z-index: 20; pointer-events: none; }
+  .halve { display: flex; align-items: center; gap: 8px; background: var(--berry); color: #fff; border: 5px solid #fff; border-radius: 26px; padding: 6px 16px 6px 8px;
+    box-shadow: 0 6px 0 #5E2496, 0 0 30px rgba(138,63,209,.7); font-family: var(--font-display); font-weight: 700; font-size: 30px; white-space: nowrap; }
+  .halve .half { width: 50px; height: 50px; border-radius: 50%; background: #fff; color: var(--berry); display: grid; place-items: center; font-size: 30px; }
+  .halve s { opacity: .75; text-decoration-thickness: 4px; }
+  .dmg { font-size: 74px; }
+  .dmg .num { color: #fff; -webkit-text-stroke: .14em #B52640; text-shadow: 0 6px 0 #B52640, 0 0 20px rgba(240,67,94,.6); }
+  .burst { position: absolute; width: 120px; height: 120px; z-index: 19; }
+  svg.arc { position: absolute; left: 0; top: 0; z-index: 5; overflow: visible; pointer-events: none; }
+  .tray .tname { display: none; }
+  .side { font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: .1em; color: var(--cocoa-soft); }
+</style></head>
+<body><div id="stage">
+  <div class="who"><div class="av">T</div><div><div class="nm" id="opp"></div><div class="sub" id="oppsub"></div></div></div>
+  <div class="log panel"><div class="label">Combat log</div><div id="log" style="display:flex;flex-direction:column;gap:10px"></div></div>
+  <div class="field" id="field">
+    <div class="tray enemy" id="etray">
+      <div class="row back" id="eback"><span class="rowtag back">BACK</span></div>
+      <div class="row front" id="efront"><span class="rowtag front">FRONT</span></div>
+    </div>
+    <div class="midline"><span class="vs">ATTACK 2</span><div class="logline" id="logline"></div></div>
+    <div class="tray" id="ytray">
+      <div class="row front" id="yfront"><span class="rowtag front">FRONT</span></div>
+      <div class="row back" id="yback"><span class="rowtag back">BACK</span></div>
+    </div>
+  </div>
+  <div class="ctrl">
+    <span class="label">Speed</span>
+    <div class="speed"><button class="btn">1×</button><button class="btn on">2×</button><button class="btn">4×</button></div>
+    <button class="btn skip blue" id="skip"></button>
+  </div>
+</div>
+<script src="data.js"></script><script src="ui.js"></script>
+<script>
+  const C = FX.combat, R = FX.recruit, { I } = CZ, $ = id => document.getElementById(id);
+  const opp = FX.lobby.find(p => p.name === C.opponent);
+  $('opp').textContent = C.opponent;
+  $('oppsub').innerHTML = `Tier ${opp.tier} · ${opp.health} health`;
+  $('skip').innerHTML = I.skip + 'Skip';
+  const hero = Object.assign({ slot: 'B3' }, FX.hero_card);
+  const hornetling = { name: 'Hornetling', attack: 1, health: 1, tribe: 'Hive', text: 'This attacks an enemy with Nightshade whenever there is one it can attack.' };
+  const yourFront = [Object.assign({ slot: 'F1' }, hornetling), R.board.front[1], R.board.front[2], { slot: 'F4', empty: true }];
+  const yourBack = [{ slot: 'B1', empty: true }, R.board.back[1], hero];
+  const boar = C.enemy_front[0];
+  const enemyFront = ['F1', 'F2', 'F3', 'F4'].map(s => C.enemy_front.find(u => u.slot === s) || { slot: s, empty: true });
+  const enemyBack = ['B1', 'B2', 'B3'].map(s => C.enemy_back.find(u => u.slot === s) || { slot: s, empty: true });
+  const put = (list, el, r, opts = () => ({})) => list.forEach(u => el.insertAdjacentHTML('beforeend', u.empty ? CZ.empty(u.slot, r) : CZ.token(u, Object.assign({ noname: true }, opts(u)))));
+  put(enemyBack, $('eback'), 'B'); put(enemyFront, $('efront'), 'F', u => u === boar ? { ns: true, hp: 12, hpcls: 'low', cls: 'target' } : {});
+  put(yourFront, $('yfront'), 'F', u => u.name === 'Hornetling' ? { cls: 'lunge', nokw: true } : {});
+  put(yourBack, $('yback'), 'B');
+  $('logline').innerHTML = `<b>Hornetling</b> attacks <b>Tusker Boar</b>. ${CZ.kwText('Nightshade')} halves it 26 → 13, then it takes 1.`;
+  const log = [
+    ['Start', `${CZ.kwText('Start of Combat')}: Belladonna Sprite gives Tusker Boar ${CZ.kwText('Nightshade')}.`],
+    ['1', 'Hornet Scout dies. A 1/1 Hornetling is summoned into F1.'],
+    ['2', `Hornetling attacks Tusker Boar: ${CZ.kwText('Nightshade')} 26 → 13, then 1 damage. 12 left.`]
+  ];
+  $('log').innerHTML = log.map((l, i) => `<div class="ent ${i === log.length - 1 ? 'now' : ''}"><span class="n">${l[0]}</span>${l[1]}</div>`).join('');
+  CZ.fit();
+  // effects positioned from the laid-out tokens
+  const st = $('stage'), s = st.getBoundingClientRect().width / st.offsetWidth;
+  const box = el => { const r = el.getBoundingClientRect(), o = st.getBoundingClientRect(); return { x: (r.left - o.left) / s, y: (r.top - o.top) / s, w: r.width / s, h: r.height / s }; };
+  const a = box(document.querySelector('.lunge')), t = box(document.querySelector('.target'));
+  const ax = a.x + a.w / 2, ay = a.y + 10, tx = t.x + t.w / 2, ty = t.y + t.h - 6;
+  st.insertAdjacentHTML('beforeend', `<svg class="arc" width="10" height="10"><defs><marker id="ah" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto"><path d="M0 0L5 2.5 0 5z" fill="#4A2E2A"/></marker></defs>
+    <path d="M${ax} ${ay} Q ${(ax + tx) / 2 - 90} ${(ay + ty) / 2} ${tx - 14} ${ty + 16}" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round"/>
+    <path d="M${ax} ${ay} Q ${(ax + tx) / 2 - 90} ${(ay + ty) / 2} ${tx - 14} ${ty + 16}" fill="none" stroke="#4A2E2A" stroke-width="7" stroke-dasharray="2 16" stroke-linecap="round" marker-end="url(#ah)"/></svg>`);
+  st.insertAdjacentHTML('beforeend', `<div class="fx halve" style="left:${t.x + t.w + 4}px;top:${t.y - 4}px"><span class="half">½</span><s>26</s> → 13</div>
+    <div class="fx dmg" style="left:${t.x + t.w + 8}px;top:${t.y + t.h * .5}px"><span class="num">−1</span></div>`);
+</script></body></html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clean Arena · Cards</title>
+<link rel="stylesheet" href="arena.css">
+<style>
+  .stage { flex-direction: row; gap: .6rem; align-items: center; padding: .8rem 1.2rem; }
+  .left { font-size: .84rem; position: relative; flex: none; margin: 0 2.2rem 0 2.4rem; }
+  .left .full { position: relative; }
+  .dot { position: absolute; width: 1.9rem; height: 1.9rem; border-radius: 50%; background: var(--moss); color: var(--ink); display: grid; place-items: center; font: 800 1.15rem/1 var(--cond); box-shadow: 0 0 0 .2rem var(--graphite); z-index: 4; }
+  .right { flex: 1; display: flex; flex-direction: column; gap: 1.2rem; min-width: 0; }
+  h1 { font: 800 2.4rem/1 var(--cond); text-transform: uppercase; letter-spacing: .02em; }
+  h1 span { color: var(--moss); }
+  .sizes { display: flex; gap: 1.4rem; align-items: flex-end; }
+  .sz { display: flex; flex-direction: column; gap: .5rem; align-items: flex-start; }
+  .sz .cap { font: 700 .95rem/1.15 var(--cond); letter-spacing: .1em; text-transform: uppercase; color: var(--mist); }
+  .sz .cap b { color: var(--chalk); display: block; font-size: 1.1rem; }
+  .anat { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem 1.4rem; background: var(--slate); border-radius: .9rem; padding: .9rem 1.1rem; }
+  .anat div { display: flex; gap: .6rem; align-items: baseline; font: 500 1.05rem/1.3 var(--sans); color: var(--mist); }
+  .anat div b { color: var(--chalk); font-weight: 700; }
+  .anat .n { width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--moss); color: var(--ink); font: 800 1rem/1.7rem var(--cond); text-align: center; flex: none; }
+</style></head>
+<body>
+<div class="stage">
+  <div class="left" id="full"></div>
+  <div class="right">
+    <h1>Card anatomy <span>· Belladonna Sprite</span></h1>
+    <div class="sizes" id="sizes"></div>
+    <div class="anat" id="anat"></div>
+  </div>
+</div>
+<script src="data.js"></script><script src="arena.js"></script>
+<script>
+  const H = FX.hero_card, ic = CA.icon;
+  const rules = H.text.replace('Start of Combat:', '<span class="trig">Start of Combat:</span>').replace('Nightshade.', '<span class="kwchip">Nightshade</span>.');
+  const [kwName, ...rem] = H.keyword_reminder.split(': ');
+  const full = (u, golden) => `<div class="full ${golden ? 'golden' : ''}" style="${CA.tribeVar(u.tribe)}">
+    <div class="portrait"><img src="${CA.PORTRAIT[u.name]}" alt=""><div class="tierbadge"><span class="hex">${u.tier}</span><small>TIER</small></div></div>
+    <div class="body">
+      <h2>${u.name}</h2>
+      <div class="typeline"><span>${u.type_line}</span><b>${ic(u.tribe)} ${u.tribe}</b></div>
+      <div class="rules">${rules}</div>
+      <div class="reminder"><b>${kwName}:</b> ${rem.join(': ')}</div>
+    </div>
+    <div class="stats"><div class="stat atk">${ic('attack')}<span class="n">${u.attack}</span><small>Attack</small></div><div class="stat hp">${ic('health')}<span class="n">${u.health}</span><small>Health</small></div></div>
+  </div>`;
+  document.getElementById('full').innerHTML = full(H);
+  const ANAT = [['.tierbadge .hex', 'Tier', 'hexagon, top left'], ['h2', 'Name', 'Barlow Condensed caps, two lines at most on small sizes'],
+    ['.typeline span', 'Type line', 'species, left of the rule'], ['.typeline b', 'Tribe', 'icon, name and the left edge stripe (bloom: flyers, bark: ground folk)'],
+    ['.rules', 'Rules + keyword', 'keyword as a Nightshade chip, reminder text below'], ['.stat.atk', 'Attack', 'amber chip, thorn icon, ink number'], ['.stat.hp', 'Health', 'red chip, leaf icon, ink number']];
+  document.fonts.ready.then(() => {
+    const box = document.getElementById('full'), B = box.getBoundingClientRect();
+    ANAT.forEach(([sel], i) => {
+      const r = box.querySelector(sel).getBoundingClientRect(), d = document.createElement('span');
+      d.className = 'dot'; d.textContent = i + 1;
+      const right = sel === '.typeline b' || sel === '.stat.hp', u = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      d.style.left = (right ? B.width + .5 * u : -2.4 * u) + 'px'; d.style.top = (r.top - B.top + r.height / 2 - .95 * u) + 'px';
+      box.append(d);
+    });
+  });
+  const golden = { ...H, attack: H.attack * 2, health: H.health * 2, golden: true };
+  const bear = FX.recruit.board.front[0];
+  document.getElementById('sizes').innerHTML = `
+    <div class="sz" style="font-size:1rem">${CA.shopCard(H)}<div class="cap"><b>Shop</b>126 × 116 px on phone</div></div>
+    <div class="sz" style="font-size:1rem">${CA.token(H, { slot: 'B3' })}<div class="cap"><b>Board</b>120 × 96 px on phone</div></div>
+    <div class="sz" style="font-size:1rem">${CA.token(golden, { slot: 'B3' })}<div class="cap"><b>Golden</b>Stats doubled. No number<br>in the text to double.</div></div>
+    <div class="sz" style="font-size:1rem">${CA.token(bear)}<div class="cap"><b>Plain unit</b>Bear Cub, keyword only</div></div>`;
+  document.getElementById('anat').innerHTML = ANAT.map(([, k, v], i) => `<div><span class="n">${i + 1}</span><span><b>${k}</b> · ${v}</span></div>`).join('');
+</script>
+</body></html>

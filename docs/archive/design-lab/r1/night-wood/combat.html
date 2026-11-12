@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Night Wood · Combat</title>
+<link rel="stylesheet" href="nw.css">
+<style>
+  body { display: grid; grid-template-rows: 70px 1fr; height: 100vh; }
+  .top { display: flex; align-items: center; gap: 20px; padding: 0 28px; background: linear-gradient(180deg, rgba(11,22,24,.92), rgba(11,22,24,.4)); border-bottom: 2px solid rgba(230,239,230,.14); }
+  .top .vs { font: 900 1.5rem/1 var(--serif); } .top .vs em { font-style: normal; color: var(--nightshade); text-shadow: 0 0 12px rgba(192,139,255,.5); }
+  .top .step { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .top .step b { font: 900 1.3rem/1 var(--serif); }
+  main { display: grid; grid-template-columns: 1fr auto 1fr; gap: 24px; padding: 14px 28px 18px; min-height: 0; position: relative; }
+  .field { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; font-size: 14.2px; position: relative; }
+  .side-name { font: 800 .78rem/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--mist); align-self: flex-start; margin-left: 3.2em; }
+  .side-name.enemy { color: var(--nightshade); }
+  .boardbox { padding: .2em 0 .2em 3em; }
+  .boardbox.enemy { padding-top: 1.8em; }
+  .boardbox.mine { padding-bottom: 2.3em; }
+  .boardbox.enemy .slot-empty, .boardbox.enemy .slot-id { opacity: .45; }
+  .boardbox.enemy .slot-empty { border-color: rgba(192,139,255,.5); background: none; }
+  .fightline { width: 112%; display: flex; align-items: center; gap: 14px; margin: 1.3em 0 1.5em; }
+  .fightline::before, .fightline::after { content: ''; flex: 1; height: 2px; background: repeating-linear-gradient(90deg, rgba(230,239,230,.35) 0 8px, transparent 8px 16px); }
+  .caption { padding: 10px 18px; border-radius: 14px; background: rgba(11,22,24,.85); border: 2px solid rgba(192,139,255,.55); font: 600 1.02rem/1.3 var(--sans); max-width: 760px; text-align: center; box-shadow: 0 0 20px rgba(192,139,255,.25); }
+  .caption b { font-family: var(--serif); font-weight: 900; }
+  .ns { color: var(--nightshade); } .dmg { color: var(--rosehip); } .pos { color: var(--glowcap); }
+
+  /* attack moment overlays */
+  .card.attacker { transform: translateY(-.6em); }
+  .tag-sum { position: absolute; left: 50%; top: -1.25em; transform: translateX(-50%); background: var(--glowcap); color: var(--night); font: 900 .7em/1 var(--sans); padding: .3em .6em; border-radius: 999px; letter-spacing: .1em; text-transform: uppercase; z-index: 6; white-space: nowrap; }
+  .burst { position: absolute; z-index: 8; font: 900 3.2em/1 var(--serif); pointer-events: none; -webkit-text-stroke: .08em var(--night); paint-order: stroke fill; }
+  .burst.half { right: calc(100% + .5em); left: auto; top: 1.4em; text-align: right; color: var(--nightshade); text-shadow: 0 0 .4em rgba(192,139,255,.8); }
+  .burst.half small { display: block; font: 900 .28em/1 var(--sans); letter-spacing: .12em; -webkit-text-stroke: 0; text-shadow: none; background: var(--nightshade); color: var(--night); padding: .3em .5em; border-radius: 99px; margin-top: .25em; width: max-content; margin-left: auto; }
+  .burst.hit { left: calc(100% + .3em); top: 2.2em; color: var(--rosehip); font-size: 2.8em; text-shadow: 0 0 .4em rgba(255,94,115,.7); }
+  .card.shaded .stat.hp { animation: none; }
+  .card .hpwas { position: absolute; right: 2.6em; bottom: -.45em; font: 900 1.05em/1 var(--serif); color: var(--mist); text-decoration: line-through; text-decoration-color: var(--nightshade); text-decoration-thickness: .12em; z-index: 4; }
+  svg.arrow { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 7; overflow: visible; }
+  svg.arrow path.glow { stroke: rgba(111,242,194,.35); stroke-width: 14; fill: none; stroke-linecap: round; }
+  svg.arrow path.core { stroke: var(--glowcap); stroke-width: 4; fill: none; stroke-linecap: round; stroke-dasharray: 2 10; }
+
+  .rightcol { display: flex; flex-direction: column; gap: 14px; align-items: flex-end; justify-content: space-between; }
+  .halving { display: flex; flex-direction: column; gap: 12px; padding: 16px 18px; align-self: flex-end; margin-top: 140px; }
+  .halving .steps { display: flex; align-items: center; gap: 10px; }
+  .halving .hv { display: grid; place-items: center; min-width: 58px; height: 58px; border-radius: 50%; background: var(--rosehip); color: var(--night); font: 900 1.6rem/1 var(--serif); }
+  .halving .hv.old { background: transparent; border: 3px solid var(--rosehip); color: var(--rosehip); }
+  .halving .op { display: flex; flex-direction: column; align-items: center; gap: 3px; font: 900 .9rem/1 var(--sans); }
+  .halving .op b { font: 900 1.3rem/1 var(--serif); }
+  .halving .op .ico { width: 22px; height: 22px; }
+
+  .log { padding: 18px 20px; display: flex; flex-direction: column; gap: 10px; align-self: start; max-width: 400px; justify-self: end; }
+  .log h4 { margin: 0 0 4px; } .log ol { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .log li { font-size: .95rem; line-height: 1.4; color: var(--mist); padding-left: 14px; border-left: 3px solid rgba(230,239,230,.2); }
+  .log li.now { color: var(--moonink); border-left-color: var(--glowcap); background: rgba(111,242,194,.06); padding: 8px 10px 8px 14px; border-radius: 0 10px 10px 0; }
+  .log li b { color: var(--moonink); }
+  .controls { display: flex; gap: 10px; align-items: center; }
+  .seg { display: flex; border: 2px solid rgba(230,239,230,.4); border-radius: 999px; overflow: hidden; }
+  .seg button { min-width: 64px; min-height: 52px; border: 0; background: var(--canopy); color: var(--moonink); font: 900 1.05rem var(--serif); }
+  .seg button.on { background: var(--moonink); color: var(--night); }
+  .controls .btn { min-height: 56px; min-width: 56px; } .controls .btn .ico { width: 22px; height: 22px; }
+  .info { display: flex; flex-direction: column; gap: 14px; align-self: start; }
+  .legend { padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; font-size: .9rem; max-width: 300px; }
+  .legend .ico { width: 26px; height: 26px; flex: none; }
+  .legend div { display: flex; gap: 10px; align-items: center; }
+
+  @media (max-height: 520px) {
+    body { grid-template-rows: 36px 1fr; }
+    .top { padding: 0 10px; gap: 10px; } .top .vs { font-size: 1rem; } .top .label { font-size: .55rem; } .top .step b { font-size: .95rem; }
+    main { grid-template-columns: 196px auto 1fr; gap: 10px; padding: 4px 10px 6px; }
+    .field { font-size: 6.9px; }
+    .field .card.board { --h: 10em; --art: 64%; }
+    .field .slot-empty { height: 10em; }
+    .field .slot-id, .side-name, .legend { display: none; }
+    .boardbox { padding: 0 0 0 2.8em; } .boardbox.enemy { padding-top: .6em; } .boardbox.mine { padding-bottom: .9em; }
+    .row-tag { font-size: .95em; right: calc(100% + .2em); padding: .4em .2em; }
+    .brick { --rowgap: 1.3em; }
+    .fightline { margin: .7em 0 .9em; width: 100%; }
+    .fightline .caption { display: none; }
+    .burst { font-size: 3.3em; } .burst.hit { font-size: 3em; }
+    .halving { display: none; }
+    .log { padding: 8px 10px; gap: 6px; max-width: none; justify-self: stretch; }
+    .log h4 { display: none; }
+    .log li { font-size: .7rem; line-height: 1.3; padding-left: 8px; }
+    .log li:not(.now) { display: none; } .log li.prev { display: block; }
+    .log li.now { padding: 6px 8px; }
+    .mhalv { display: flex !important; }
+    .controls { flex-direction: column; align-items: stretch; gap: 8px; } .rightcol { justify-content: center; }
+    .seg { flex-direction: column; border-radius: 14px; } .seg button { min-height: 46px; min-width: 72px; font-size: .9rem; }
+    .controls .btn { min-height: 48px; border-radius: 14px; font-size: .8rem; }
+    .info { gap: 8px; }
+  }
+  .mhalv { display: none; align-items: center; justify-content: space-between; gap: 4px; padding: 6px 8px; }
+  .mhalv .hv { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--rosehip); color: var(--night); font: 900 1rem/1 var(--serif); }
+  .mhalv .hv.old { background: transparent; border: 2px solid var(--rosehip); color: var(--rosehip); }
+  .mhalv .op { font: 900 .62rem/1.1 var(--sans); text-align: center; } .mhalv .op b { font: 900 .95rem/1 var(--serif); display: block; }
+</style></head>
+<body>
+<header class="top">
+  <div><div class="label">Combat · turn 6</div><div class="vs">You vs <em id="opp"></em></div></div>
+  <div class="step"><span class="label">You attack first</span><b>Attack 2</b></div>
+</header>
+<main>
+  <div class="info">
+    <div class="panel log"><h4 class="label">Combat log</h4><ol id="log"></ol></div>
+    <div class="panel mhalv" aria-label="Nightshade halving">
+      <span class="hv old">26</span><span class="op ns"><b>½</b>Night­shade</span><span class="hv" style="background:var(--nightshade)">13</span><span class="op dmg"><b>−1</b>hit</span><span class="hv">12</span>
+    </div>
+    <div class="panel legend">
+      <div><svg class="ico" style="color:var(--nightshade)"><use href="#i-night"/></svg>Nightshade: each time this unit is attacked, it first loses half its current Health, rounded down.</div>
+      <div><span style="width:20px;height:20px;border-radius:50%;border:3px dotted var(--glowcap);flex:none"></span>Glowing trail: the attack happening now.</div>
+    </div>
+  </div>
+
+  <section class="field" id="field">
+    <span class="side-name enemy" id="ename"></span>
+    <div class="boardbox enemy" id="enemy"></div>
+    <div class="fightline"><div class="caption" id="caption"></div></div>
+    <div class="boardbox mine" id="mine"></div>
+    <span class="side-name">Your board</span>
+    <svg class="arrow" id="arrow"></svg>
+  </section>
+
+  <div class="rightcol">
+    <div class="panel halving" id="halving">
+      <span class="label">Tusker Boar's Health, this attack</span>
+      <div class="steps">
+      <span class="hv old">26</span>
+      <span class="op ns"><svg class="ico"><use href="#i-night"/></svg><b>½</b>Nightshade</span>
+      <span class="hv" style="background:var(--nightshade)">13</span>
+      <span class="op dmg"><b>−1</b>Hornetling</span>
+      <span class="hv">12</span>
+      </div>
+    </div>
+  <div class="controls">
+    <button class="btn" aria-label="Pause"><svg class="ico"><use href="#i-pause"/></svg></button>
+    <div class="seg"><button>1×</button><button class="on">2×</button><button>4×</button></div>
+    <button class="btn"><svg class="ico"><use href="#i-skip"/></svg>Skip</button>
+  </div>
+  </div>
+</main>
+<script src="fixture.js"></script>
+<script src="nw.js"></script>
+<script>
+  const C = FX.combat, R = FX.recruit, $ = id => document.getElementById(id);
+  $('opp').textContent = C.opponent; $('ename').textContent = C.opponent + "'s board";
+  const hornetling = { slot: 'B1', name: 'Hornetling', attack: 1, health: 1, tribe: 'Hive', text: 'This attacks an enemy with Nightshade whenever there is one it can attack.' };
+  // Summons take the dying unit's slot (rulebook), so the Hornetling sits in the Hornet Scout's B1.
+  const mine = { front: R.board.front, back: [hornetling, R.board.back[1], Object.assign({ slot: 'B3' }, FX.hero_card)] };
+  const ef = ['F1','F2','F3','F4'].map(s => C.enemy_front.find(u => u.slot === s) || { slot: s, empty: true });
+  const eb = ['B1','B2','B3'].map(s => C.enemy_back.find(u => u.slot === s) || { slot: s, empty: true });
+  $('enemy').innerHTML = NW.board({ front: ef, back: eb }, 'down', { per: { F2: { hp: 12 } } });
+  $('mine').innerHTML = NW.board(mine, 'up', { per: { B1: { cls: 'sel attacker' } } });
+  // decorate the moment
+  const boar = document.querySelector('#enemy [data-slot="F2"] .card');
+  boar.insertAdjacentHTML('beforeend', '<div class="burst half">−13<small>½ NIGHTSHADE</small></div><div class="burst hit">−1</div>');
+  const att = document.querySelector('#mine [data-slot="B1"] .card');
+  att.insertAdjacentHTML('beforeend', '<span class="tag-sum">Attacking</span>');
+  $('caption').innerHTML = `<b>Hornetling</b> attacks <b>Tusker Boar</b> · <span class="ns">Nightshade halves it, 26 → 13</span> · <span class="dmg">then 1 damage, 13 → 12</span>`;
+  $('log').innerHTML = `
+    <li><span class="ns">Start of Combat</span> · <b>Belladonna Sprite</b> gives <b>Tusker Boar</b> <span class="ns">Nightshade</span>.</li>
+    <li class="prev"><b>Hornet Scout</b> died · <b>Hornetling</b> summoned into its slot, B1.</li>
+    <li class="now"><b>Attack 2</b> · <b>Hornetling</b> → <b>Tusker Boar</b>. <span class="ns">Nightshade: 26 → 13.</span> <span class="dmg">Hornetling deals 1: 13 → 12.</span></li>`;
+  function place() {
+    const f = $('field').getBoundingClientRect(), a = att.getBoundingClientRect(), b = boar.getBoundingClientRect();
+    const x1 = a.left + a.width / 2 - f.left, y1 = a.top - f.top + 6, x2 = b.left + b.width * 0.42 - f.left, y2 = b.bottom - f.top + 4;
+    const cx = x1, cy = y2 + (y1 - y2) * 0.3; // rises through the brick gap between F1 and F2
+    const d = `M${x1} ${y1} Q${cx} ${cy} ${x2} ${y2}`;
+    $('arrow').innerHTML = `<path class="glow" d="${d}"/><path class="core" d="${d}"/><circle cx="${x2}" cy="${y2}" r="9" fill="var(--glowcap)"/>`;
+  }
+  window.addEventListener('load', place); document.fonts.ready.then(place); place();
+</script>
+</body></html>

@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: settings</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+/* Stage: 900 tall on desktop, 860 on phone (phone renders ~5% larger). Rows are 100+ stage px = 44+ CSS px on phone. */
+.st-grid { position: absolute; inset: 0 0 0 58px; display: grid; grid-template-columns: 1fr 580px 1.2fr; grid-template-rows: 118px 1fr; column-gap: 30px; padding: 0 30px 0 10px; }
+.st-head { grid-column: 1 / 4; display: flex; align-items: center; gap: 30px; }
+.st-back { min-height: 100px; min-width: 230px; justify-content: flex-start; }
+.st-back svg { flex: none; }
+.st-title .fj-label-s { font-size: 21px; }
+.st-title b { display: block; font: 700 56px/1 'Zilla Slab', serif; margin-top: 4px; }
+.st-ribbon { position: absolute; top: 0; right: 60px; width: 64px; height: 120px; background: var(--fj-ribbon); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 84%, 0 100%); box-shadow: inset 6px 0 0 rgba(255,255,255,.14); }
+
+/* taped index cards, one per group */
+.st-col { display: flex; flex-direction: column; gap: 30px; padding-bottom: 24px; }
+.st-card { position: relative; background: #FDFBF3; border: 1px solid #cfc5a8; box-shadow: 0 3px 8px rgba(0,0,0,.16); padding: 40px 22px 14px; }
+.st-card::after { content: ''; position: absolute; top: -13px; left: 50%; width: 100px; height: 26px; margin-left: -50px; background: var(--tp, rgba(214,208,190,.9)); transform: rotate(-2deg); }
+.st-card h3 { position: absolute; top: 12px; left: 22px; margin: 0; font: 22px/1 'Special Elite', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--fj-pencil); }
+.st-row { display: flex; align-items: center; gap: 16px; min-height: 100px; border-top: 1px solid rgba(120,150,170,.4); }
+.st-row:first-of-type { border-top: 0; }
+.st-name { font: 700 28px/1.1 'Zilla Slab', serif; }
+.st-sub { display: block; font: 600 22px/1.15 'Crimson Pro', serif; color: var(--fj-pencil); }
+.st-val { margin-left: auto; font: 700 28px/1 'Zilla Slab', serif; }
+
+/* volume: a pencil-ruled scale with a brass tack for the thumb */
+.st-slider { display: block; min-height: 112px; padding: 14px 0 10px; border-top: 1px solid rgba(120,150,170,.4); }
+.st-slider:first-of-type { border-top: 0; }
+.st-slider .st-top { display: flex; align-items: baseline; }
+.st-track { position: relative; height: 50px; margin: 6px 26px 0 8px; }
+.st-track::before { content: ''; position: absolute; left: 0; right: 0; top: 22px; height: 6px; background: #d5cdb3; border: 1.5px solid var(--fj-ink); border-radius: 3px; }
+.st-track i { position: absolute; left: 0; top: 22px; height: 6px; width: var(--v); background: var(--fj-moss); border: 1.5px solid var(--fj-ink); border-radius: 3px; }
+.st-track s { position: absolute; left: 0; right: 0; top: 34px; height: 10px; background: repeating-linear-gradient(90deg, var(--fj-pencil) 0 1.5px, transparent 1.5px 10%); opacity: .55; }
+.st-track b { position: absolute; left: var(--v); top: 2px; width: 46px; height: 46px; margin-left: -23px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #e8cd7a, #9C7A1E 70%); border: 3px solid var(--fj-ink); box-shadow: 0 3px 0 rgba(34,40,31,.6); }
+
+/* segmented choices (combat speed, text size) */
+.st-seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; border: 3px solid var(--fj-ink); border-radius: 8px; overflow: hidden; box-shadow: 0 4px 0 rgba(34,40,31,.85); margin: 6px 0 10px; }
+.st-seg div { min-height: 100px; display: grid; place-items: center; text-align: center; font: 700 32px/1 'Zilla Slab', serif; background: var(--fj-card); border-left: 3px solid var(--fj-ink); }
+.st-seg div:first-child { border-left: 0; }
+.st-seg .on { background: var(--fj-moss); color: #fff; }
+.st-seg small { display: block; font: 600 22px/1 'Crimson Pro', serif; margin-top: 4px; }
+
+/* toggles: a journal tick-box, with the state written beside it */
+.st-tick { position: relative; flex: none; width: 62px; height: 62px; border: 3px solid var(--fj-ink); border-radius: 4px; background: #fff; }
+.st-tick.on::after { content: ''; position: absolute; left: 10px; top: -6px; width: 24px; height: 46px; border: solid var(--fj-moss); border-width: 0 9px 9px 0; transform: rotate(40deg); }
+.st-state { margin-left: auto; font: 700 22px/1 'Zilla Slab', serif; letter-spacing: .08em; padding: 7px 10px 5px; border: 2px solid; border-radius: 3px; }
+.st-state.on { color: #fff; background: var(--fj-moss); border-color: var(--fj-moss); }
+.st-state.off { color: var(--fj-pencil); }
+
+/* text size previews: the same board card at each size */
+.st-sizes { display: grid; grid-template-columns: repeat(3, 1fr); align-items: end; gap: 0; margin: 12px 0 4px; height: 268px; }
+.st-sizes > div { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; }
+.st-sizes .fj-size-board { width: 10.8em; height: 12.4em; }
+.st-sizes .fj-size-board .fj-plate { height: 5.6em; }
+.st-sizes .fj-size-board .fj-chip { top: 5.0em; }
+.st-sizes .fj-size-board .fj-label { margin-top: .6em; }
+.st-sizes .fj-size-board .fj-name { font-size: 1.4em; line-height: 1.02; }
+.st-sizes .fj-size-board .fj-stat { width: 3.7em; height: 3.7em; bottom: -.8em; }
+.st-sizes .fj-size-board .fj-stat span { font-size: 2.4em; }
+.st-cap { margin-top: 24px; text-align: center; font: 600 22px/1.1 'Crimson Pro', serif; color: var(--fj-pencil); }
+.st-cap b { font: 700 24px/1 'Zilla Slab', serif; color: var(--fj-ink); }
+.st-ring { position: absolute; z-index: 9; inset: -14px -2px 54px -2px; border: solid var(--fj-red); border-width: 4px 3px 4px 5px; border-radius: 46% 52% 50% 48%; transform: rotate(-3deg); pointer-events: none; }
+
+/* colour-blind aid: patterned tribe tape, darker rimmed Health, heavier Attack edge */
+.st-cbdemo { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; align-items: center; margin: 10px 0 6px; }
+.st-cbdemo .st-h { font: 20px/1.1 'Special Elite', monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--fj-pencil); text-align: center; }
+.st-cbdemo .st-side { grid-column: 1 / 3; font: 600 20px/1.05 'Crimson Pro', serif; color: var(--fj-pencil); border-top: 1px solid rgba(120,150,170,.4); padding-top: 6px; }
+.st-cbdemo .st-pair { display: flex; justify-content: center; gap: 6px; padding: 12px 0 14px; }
+.st-cbdemo .fj-size-board { font-size: 10px; width: 12.5em; height: 13em; }
+.st-cbdemo .fj-size-board .fj-plate { height: 6em; }
+.st-cbdemo .fj-size-board .fj-chip { display: none; }
+.st-cbdemo .fj-size-board .fj-tape { font-size: 1.15em; }
+.st-cbdemo .fj-size-board .fj-name { font-size: 1.5em; }
+.st-sim { filter: url(#deutan); }
+.fj-cb .fj-hp { background: #5E1620; box-shadow: inset 0 0 0 .14em #fff; }
+.fj-cb .fj-atk::before { inset: .3em; }
+/* aid on: tribe tape keeps its name on plain tape and gets a printed pattern at both ends */
+.fj-cb .fj-tape, .fj-cb .st-tp { background-image: linear-gradient(var(--tape), var(--tape)), var(--pat, none); background-clip: content-box, padding-box; background-size: auto, var(--ps, auto); padding-left: 1.6em; padding-right: 1.6em; }
+.st-tapes { display: flex; flex-wrap: wrap; gap: 10px 10px; margin: 8px 0 6px; }
+.st-tp { position: relative; font: 18px/1.7 'Special Elite', monospace; text-transform: uppercase; letter-spacing: .06em; padding: 0 12px; background-color: var(--tape); color: var(--fj-ink);
+  clip-path: polygon(0 0, 3% 25%, 0 50%, 3% 75%, 0 100%, 100% 100%, 97% 75%, 100% 50%, 97% 25%, 100% 0); }
+.fj-t-birds { --pat: repeating-linear-gradient(0deg, rgba(34,40,31,.8) 0 2px, transparent 2px 6px); }
+.fj-t-hive { --pat: radial-gradient(circle, rgba(34,40,31,.85) 2px, transparent 2.6px); --ps: 7px 7px; }
+.fj-t-fairies { --pat: repeating-linear-gradient(45deg, rgba(34,40,31,.8) 0 2px, transparent 2px 7px); }
+.fj-t-hunters { --pat: repeating-linear-gradient(90deg, rgba(34,40,31,.8) 0 2px, transparent 2px 7px); }
+.fj-t-beasts { --pat: repeating-linear-gradient(45deg, rgba(34,40,31,.7) 0 1.5px, transparent 1.5px 7px), repeating-linear-gradient(-45deg, rgba(34,40,31,.7) 0 1.5px, transparent 1.5px 7px); }
+.fj-t-bog { --pat: radial-gradient(circle, transparent 2.5px, rgba(34,40,31,.8) 3px, rgba(34,40,31,.8) 4px, transparent 4.5px); --ps: 11px 11px; }
+.fj-t-hedgerow { --pat: linear-gradient(135deg, rgba(34,40,31,.8) 25%, transparent 25%), linear-gradient(225deg, rgba(34,40,31,.8) 25%, transparent 25%); --ps: 9px 6px; }
+.fj-t-neutral { --pat: none; }
+/* simulated view: just the tape and the two stats */
+.st-mini { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px; padding: 14px 0 12px; }
+.st-mini .fj-stat { position: relative; left: auto; right: auto; bottom: auto; }
+.st-mini .st-tp { font-size: 17px; }
+.st-cbnote { font: 600 22px/1.2 'Crimson Pro', serif; margin: 0 0 6px; }
+.st-cbnote li { margin: 2px 0; }
+
+
+.st-lang { display: flex; align-items: center; gap: 14px; min-height: 100px; }
+.st-select { display: flex; align-items: center; gap: 20px; min-height: 92px; padding: 0 22px; border: 3px solid var(--fj-ink); border-radius: 8px; background: var(--fj-card); font: 700 30px/1 'Zilla Slab', serif; box-shadow: 0 4px 0 rgba(34,40,31,.85); }
+.st-select svg { flex: none; }
+.st-ph { font: 700 26px/1.05 'Caveat', cursive; color: var(--fj-pencil); }
+
+/* phone: helper text up to ~11 CSS px */
+.fj-phone .st-sub, .fj-phone .st-cap, .fj-phone .st-cbnote, .fj-phone .st-seg small { font-size: 25px; }
+.fj-phone .st-card h3, .fj-phone .st-cbdemo .st-h, .fj-phone .st-title .fj-label-s { font-size: 24px; }
+.fj-phone .st-cbdemo .st-side { font-size: 24px; }
+.fj-phone .st-state { font-size: 25px; }
+.fj-phone .st-tp, .fj-phone .st-mini .st-tp { font-size: 24px; }
+.fj-phone .st-tapes { gap: 8px 6px; }
+.fj-phone .st-tapes .st-tp { padding-left: 1.1em; padding-right: 1.1em; }
+.fj-phone .st-cbdemo .st-pair { padding: 8px 0 10px; }
+.fj-phone .st-mini { padding: 8px 0 6px; }
+.fj-phone .st-cap b { font-size: 27px; }
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute"><filter id="deutan" color-interpolation-filters="linearRGB"><feColorMatrix type="matrix" values="0.367 0.861 -0.228 0 0  0.280 0.673 0.047 0 0  -0.012 0.043 0.969 0 0  0 0 0 1 0"/></filter></svg>
+<div class="fj-stage">
+  <div class="st-ribbon"></div>
+  <div class="st-grid">
+    <div class="st-head">
+      <div class="fj-btn st-back"><svg width="46" height="40" viewBox="0 0 46 40"><path d="M20 4 L4 20 L20 36 M5 20 H42" fill="none" stroke="#22281F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Back<small>to the game</small></span></div>
+      <div class="st-title"><div class="fj-label-s">Field journal</div><b>Settings</b></div>
+    </div>
+
+    <div class="st-col">
+      <div class="st-card" style="--tp:rgba(169,196,212,.9)"><h3>Sound</h3>
+        <div class="st-slider"><div class="st-top"><span class="st-name">Sound effects</span><span class="st-val">80%</span></div>
+          <div class="st-track" style="--v:80%"><i></i><s></s><b></b></div></div>
+        <div class="st-slider"><div class="st-top"><span class="st-name">Music</span><span class="st-val">45%</span></div>
+          <div class="st-track" style="--v:45%"><i></i><s></s><b></b></div></div>
+      </div>
+      <div class="st-card" style="--tp:rgba(228,192,85,.85)"><h3>Combat</h3>
+        <div class="st-name" style="margin-top:6px">Combat speed</div>
+        <div class="st-seg"><div class="on">1&times;</div><div>2&times;</div><div>4&times;</div></div>
+        <div class="st-row"><span class="st-tick"></span><span><span class="st-name">Skip my fights</span><span class="st-sub">jump to the result</span></span><span class="st-state off">OFF</span></div>
+        <div class="st-row"><span class="st-tick on"></span><span><span class="st-name">Skip others' fights</span><span class="st-sub">when you watch other players</span></span><span class="st-state on">ON</span></div>
+      </div>
+    </div>
+
+    <div class="st-col">
+      <div class="st-card" style="--tp:rgba(201,184,222,.9)"><h3>Text size</h3>
+        <div class="st-seg"><div>Standard</div><div class="on">Large</div><div>Largest</div></div>
+        <div class="st-sizes" id="sizes"></div>
+        <div class="st-cap" style="margin:4px 0 8px">name size on a phone board</div>
+      </div>
+      <div class="st-card" style="--tp:rgba(179,190,134,.9)"><h3>Language</h3>
+        <div class="st-lang"><div class="st-select">English<svg width="26" height="18" viewBox="0 0 26 18"><path d="M3 3 L13 14 L23 3" fill="none" stroke="#22281F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="st-ph">placeholder: more<br>languages later</span></div>
+      </div>
+    </div>
+
+    <div class="st-col">
+      <div class="st-card" style="--tp:rgba(205,174,142,.9)"><h3>Colour-blind aid</h3>
+        <div class="st-row"><span class="st-tick on"></span><span class="st-name">Colour-blind aid</span><span class="st-state on">ON</span></div>
+        <div class="st-cbdemo" id="cb"></div>
+        <div class="st-cbnote">Aid on: Health goes dark with a white rim, Attack gets a heavier edge, and each tribe's tape gets a pattern (Neutral stays plain):</div>
+        <div class="st-tapes fj-cb" id="tapes"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(900, 860);
+const F = FJ_FIX, R = F.recruit;
+// text size: the same board card at each step; caption gives the name size on a phone board
+const hero = Object.assign({}, F.hero_card);
+const sizes = [['Standard', 13, 11], ['Large', 14.6, 12.5], ['Largest', 16.4, 14]];
+document.getElementById('sizes').innerHTML = sizes.map((s, i) => {
+  const c = FJ.card(hero, 'board', { noTilt: true, chip: 'Start of Combat' }).replace('class="fj-card', 'style="font-size:' + s[1] + 'px" class="fj-card');
+  return '<div>' + (i === 1 ? '<div class="st-ring"></div>' : '') + c + '<div class="st-cap"><b>' + s[2] + ' px</b></div></div>';
+}).join('');
+// colour-blind aid: off and on, as seen, then through a red-green (deuteranopia) simulation
+const a = R.shop[0], b = R.board.back[0];   // Birds and Hive
+const mini = cb => '<div class="st-sim"><div class="st-mini' + (cb ? ' fj-cb' : '') + '"><span class="st-tp fj-t-hive" style="--tape:#E4C055">Hive</span><div class="fj-stat fj-atk"><span>3</span></div><div class="fj-stat fj-hp"><span>2</span></div></div></div>';
+const pair = cb => '<div class="st-pair">' + [b].map(u => FJ.card(u, 'board', { noTilt: true, cls: cb ? 'fj-cb' : '' })).join('') + '</div>';
+document.getElementById('cb').innerHTML =
+  '<span class="st-h">aid off</span><span class="st-h">aid on</span>' +
+  '<span class="st-side">as seen</span>' + pair(false) + pair(true) +
+  '<span class="st-side">seen with red-green colour blindness (simulated)</span>' + mini(false) + mini(true);
+document.getElementById('tapes').innerHTML = [['Birds','birds','#A9C4D4'],['Hive','hive','#E4C055'],['Fairies','fairies','#C9B8DE'],['Hunters','hunters','#A9BC95'],['Great beasts','beasts','#CDAE8E'],['Bog folk','bog','#B3BE86'],['Hedgerow folk','hedgerow','#D4B48C']].map(t => '<span class="st-tp fj-t-' + t[1] + '" style="--tape:' + t[2] + '">' + t[0] + '</span>').join('');
+</script>
+</body></html>

@@ -1,0 +1,148 @@
+/* Woodland Nouveau, journey round (second shot). Off-style on purpose:
+   the painting is the poster, gilt only frames it, jewels carry the numbers. */
+:root {
+  --ivory: #f7efdc; --ivory2: #efe1bf; --malachite: #0e3a31; --mal2: #15513f; --garnet: #9a1f33; --sapphire: #23439a; --amethyst: #6b3f8f;
+  --gold: linear-gradient(135deg, #fff1b8 0%, #d7ad4f 35%, #9c7124 70%, #f4d77f 100%);
+  --goldc: #d1a54a; --inkn: #2a1c12;
+  --deco: 'Cinzel Decorative', serif; --cap: 'Cinzel', serif; --serif: 'Cormorant Garamond', Georgia, serif;
+}
+body { font-family: var(--serif); color: var(--inkn); }
+.jy-shade { background: radial-gradient(110% 90% at 50% 40%, transparent 45%, rgba(10,30,24,.45) 100%); }
+html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rotate(-6deg); transform: scale(1.08); }
+
+/* Travel: the next place opens through an arch rising from the bottom. */
+.jy-bg.enter { opacity: 1; transform: scale(1.06); clip-path: ellipse(0% 0% at 50% 100%); transition: none; z-index: 2; }
+.jy-bg.on { clip-path: ellipse(120% 140% at 50% 100%); transition: opacity 1.4s, clip-path 1.5s cubic-bezier(.5,0,.2,1), transform 1.6s, filter 1s; }
+.jy-bg.leave { opacity: 1; transform: scale(1.02); z-index: 0; clip-path: none; transition: transform 1.6s; }
+.jy-stage > * { transition: opacity .5s ease; }
+.jy-stage.leaving > :not(.pin) { opacity: 0; }
+
+/* ---- The frame: a thin gilt line with whiplash corners ------------------------------- */
+.frame { position: absolute; inset: 14px; border: 3px solid var(--goldc); border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 1px rgba(60,40,10,.4), inset 0 0 0 1px rgba(60,40,10,.4); }
+.frame::after { content: ''; position: absolute; inset: 7px; border: 1px solid rgba(241,215,127,.6); border-radius: 6px; }
+.frame .c { position: absolute; width: 150px; height: 150px; }
+.frame .c svg { width: 100%; height: 100%; filter: drop-shadow(0 2px 3px rgba(0,0,0,.4)); }
+.frame .tl { left: -10px; top: -10px; } .frame .tr { right: -10px; top: -10px; transform: scaleX(-1); }
+.frame .bl { left: -10px; bottom: -10px; transform: scaleY(-1); } .frame .br { right: -10px; bottom: -10px; transform: scale(-1); }
+
+/* ---- Card: a gilt hex, points left and right, jewels for numbers ---------------------- */
+:root { --hex: var(--hex-h); --hex-clip: var(--hex-clip-h); }
+.card { position: relative; width: 160px; height: 205px; cursor: pointer; transition: transform .2s; z-index: 2; flex: none; --hx-edge: var(--gold); --hx-bw: 4px;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,.45)); }
+.card .tier { position: absolute; left: 50%; top: -12px; transform: translateX(-50%); width: 34px; height: 34px; border-radius: 50%; background: var(--gold); display: grid; place-items: center; font: 900 18px var(--cap); color: var(--inkn); box-shadow: 0 2px 6px rgba(0,0,0,.5); z-index: 3; }
+.card .sigil { position: absolute; right: 22px; top: 8px; width: 28px; height: 28px; border-radius: 50%; background: var(--malachite); border: 2px solid var(--goldc); color: #ffe39a; display: grid; place-items: center; font-size: 16px; z-index: 3; }
+.card .name { position: absolute; left: 22px; right: 22px; bottom: 34px; z-index: 3; text-align: center; background: var(--ivory); border: 2px solid var(--goldc); border-radius: 4px; padding: 3px 3px 2px;
+  font: 800 11px/1.05 var(--cap); letter-spacing: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; box-shadow: 0 3px 6px rgba(0,0,0,.35); }
+.gem { position: absolute; bottom: -12px; width: 46px; height: 46px; display: grid; place-items: center; z-index: 4; }
+.gem b { position: relative; font: 900 25px var(--cap); color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,.6); }
+.gem.atk { left: 16px; } .gem.hp { right: 16px; }
+.gem.atk::before { content: ''; position: absolute; inset: 5px; transform: rotate(45deg); border-radius: 5px; background: radial-gradient(circle at 35% 30%, #8fb0ff, var(--sapphire) 55%, #10245e); border: 3px solid #e6c56a; box-shadow: 0 3px 6px rgba(0,0,0,.5); }
+.gem.hp::before { content: ''; position: absolute; inset: 1px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; box-shadow: 0 3px 6px rgba(0,0,0,.5); }
+.card.golden { --hx-bw: 6px; filter: drop-shadow(0 0 14px rgba(255,220,120,.7)) drop-shadow(0 8px 12px rgba(0,0,0,.45)); }
+.card.frozen .hx-art img { filter: saturate(.4) brightness(1.15) hue-rotate(160deg); }
+.card.frozen::after { content: '❄'; position: absolute; z-index: 3; left: 50%; top: 40%; transform: translate(-50%,-50%); font-size: 54px; color: #e8f6ff; text-shadow: 0 0 12px #6ac3ff; }
+
+/* ---- Reader --------------------------------------------------------------------------------- */
+.reader { position: absolute; z-index: 60; width: 360px; padding: 18px 22px 20px; background: var(--ivory); border: 3px solid var(--goldc); border-radius: 60px 60px 10px 10px / 40px 40px 10px 10px; box-shadow: 0 0 0 6px rgba(14,58,49,.75), 0 20px 40px rgba(0,0,0,.5); text-align: center; pointer-events: none; }
+.reader small { font: 700 12px var(--cap); letter-spacing: .24em; text-transform: uppercase; color: #8a6420; }
+.reader b { display: block; font: 900 26px/1.1 var(--deco); margin: 4px 0 8px; }
+.reader p { font: 600 20px/1.3 var(--serif); margin: 0; }
+.reader p b { display: inline; font: 800 18px var(--cap); margin: 0; color: var(--amethyst); }
+.reader p em { font-style: italic; color: var(--garnet); font-weight: 700; }
+
+/* ---- Zones -----------------------------------------------------------------------------------
+   Left-right, centred. Your altar stands full height, centred top to bottom, with its
+   right edge just left of the screen's centre line. Right of the line: the cabinet
+   (recruit) or the opponent's altar (fight). Leaderboard on the far right; your hero
+   and the hand on the left. */
+:root { --aw: 430px; --zgap: 30px; --lob: 130px;
+  --mine-l: calc(50% - var(--zgap) / 2 - var(--aw)); --right-l: calc(50% + var(--zgap) / 2); --left-w: calc(50% - var(--zgap) / 2 - var(--aw) - 60px); }
+.altar { position: absolute; left: var(--mine-l); width: var(--aw); top: 40px; height: 1000px; z-index: 2; display: grid; place-items: center;
+  border-radius: 215px 215px 22px 22px / 96px 96px 22px 22px; border: 3px solid var(--goldc);
+  background: radial-gradient(ellipse at 50% 40%, rgba(21,81,63,.92), rgba(14,58,49,.92) 60%, rgba(8,34,28,.94));
+  box-shadow: 0 0 0 6px rgba(14,58,49,.55), inset 0 0 0 8px rgba(14,58,49,.9), inset 0 0 0 9px rgba(241,215,127,.55), 0 30px 70px rgba(0,0,0,.5); }
+.altar.foe { left: var(--right-l); background: radial-gradient(ellipse at 50% 40%, rgba(122,28,46,.92), rgba(74,7,20,.94)); }
+.altar .count { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; font: 700 14px var(--cap); letter-spacing: .24em; text-transform: uppercase; color: #f1d78a; }
+.cartouche { position: absolute; left: var(--right-l); right: var(--lob); top: 14px; margin: 0 auto; width: max-content; text-align: center; padding: 6px 56px 10px; white-space: nowrap; z-index: 3;
+  background: radial-gradient(ellipse at 50% 0%, #15513f, #0e3a31); border-radius: 0 0 140px 140px / 0 0 60px 60px; border: 2px solid var(--goldc); color: var(--ivory); box-shadow: 0 8px 20px rgba(0,0,0,.4); }
+html[data-mode="fight"] .cartouche { left: 40px; right: auto; margin: 0; }
+.cartouche small { display: block; font: 700 12px var(--cap); letter-spacing: .32em; text-transform: uppercase; color: #f1d78a; }
+.cartouche b { display: block; font: 900 40px/1.05 var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 0 rgba(0,0,0,.35)); }
+.cartouche i { font: 600 italic 17px var(--serif); color: var(--ivory2); }
+
+/* The band: 4 in front, 3 behind, packed sideways. The back column tucks 16px in. */
+.band .brick { --row-gap: 0px; --slot-gap: 16px; --tuck: -16px; }
+.band .card:hover { transform: translateY(-6px); z-index: 10; }
+.slot { position: relative; flex: none; width: 160px; height: 205px; display: grid; place-items: center; --hx-edge: rgba(241,215,127,.4); --hx-bw: 2px; }
+.slot .hx-art { background: rgba(0,0,0,.3); }
+.slot span { position: relative; font: 700 18px var(--cap); letter-spacing: .1em; color: rgba(241,215,127,.55); }
+.card.jy-lunge { animation-name: nv-lunge; }
+@keyframes nv-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
+
+/* Your hero: on the left, beside your altar, in every phase. */
+.hero { position: absolute; width: 130px; height: 130px; z-index: 3; }
+.hero.me { left: calc(var(--mine-l) - 30px - var(--left-w) / 2 - 65px); top: 130px; }
+.hero .rings { position: absolute; inset: -16px; border-radius: 50%; background: repeating-conic-gradient(from 0deg, rgba(241,215,127,.9) 0 2deg, transparent 2deg 10deg); -webkit-mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); mask: radial-gradient(circle, transparent 60%, #000 61%, #000 70%, transparent 71%); animation: spin 60s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.hero img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 5px solid transparent; background: var(--gold) border-box; box-shadow: 0 0 40px rgba(255,220,130,.45); }
+.hero b { position: absolute; left: 50%; bottom: -14px; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; font: 900 21px var(--cap); color: #fff;
+  background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; box-shadow: 0 4px 10px rgba(0,0,0,.5); }
+.hero i { position: absolute; top: calc(100% + 40px); left: 50%; transform: translateX(-50%); white-space: nowrap; font: 700 15px var(--cap); letter-spacing: .14em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
+
+/* ---- The cabinet: an ivory market with its own gold and jewels -------------------------------- */
+.cabinet { position: absolute; left: var(--right-l); right: var(--lob); top: 130px; height: 724px; z-index: 2; padding: 0 22px;
+  background: linear-gradient(180deg, rgba(250,243,226,.95), rgba(239,225,191,.95)); border: 3px solid var(--goldc); border-radius: 22px;
+  box-shadow: 0 0 0 6px rgba(120,84,30,.35), inset 0 0 0 7px rgba(250,243,226,.9), inset 0 0 0 8px rgba(209,165,74,.7), 0 30px 70px rgba(0,0,0,.45); }
+.cabinet header { display: flex; align-items: baseline; justify-content: center; gap: 16px; padding: 22px 0 0; }
+.cabinet header span { font: 900 34px var(--deco); color: var(--malachite); }
+.cabinet header i { font: 700 14px var(--cap); letter-spacing: .24em; text-transform: uppercase; font-style: normal; color: #8a6420; }
+.cabinet .rail { height: 34px; margin: 4px 6px 0; }
+.cabinet .rail svg { width: 100%; height: 100%; display: block; }
+.market { display: flex; flex-wrap: wrap; gap: 34px 26px; justify-content: center; align-content: flex-start; padding: 26px 0 0; height: 510px; max-width: 600px; margin: 0 auto; }
+.market .card { position: relative; transform: rotate(var(--r)); transform-origin: 50% -30px; }
+.market .card::before { content: ''; position: absolute; left: 50%; top: -24px; width: 2px; height: 26px; background: var(--goldc); }
+.market .card:hover { transform: rotate(0) translateY(6px); }
+.jewels { display: flex; justify-content: center; gap: 40px; padding: 0 6px; }
+.jewel { all: unset; box-sizing: border-box; width: 116px; height: 116px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer;
+  background: radial-gradient(circle at 40% 30%, #1d6a55, var(--malachite) 70%); border: 3px solid var(--goldc); box-shadow: 0 0 0 4px rgba(209,165,74,.25), 0 8px 18px rgba(0,0,0,.35); color: var(--ivory); transition: transform .15s; }
+.jewel:hover { transform: translateY(-3px); }
+.jewel b { font: 900 40px/1 var(--cap); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.jewel small { font: 700 12px var(--cap); letter-spacing: .08em; text-transform: uppercase; margin-top: 4px; }
+.jewel.gold { background: radial-gradient(circle at 40% 30%, #fff3c4, #d9ac48 55%, #8a5f1a); color: var(--inkn); }
+.jewel.gold b { font-size: 50px; background: none; color: var(--inkn); -webkit-background-clip: initial; }
+.jewel.ice b { background: linear-gradient(#eaf8ff, #8fd0ff); -webkit-background-clip: text; background-clip: text; }
+
+/* ---- Hand on the left, under your hero; the door under the cabinet ------------------------ */
+.hand { position: absolute; left: 30px; width: var(--left-w); top: 400px; display: flex; flex-wrap: wrap; justify-content: center; gap: 30px 20px; z-index: 4; padding-top: 34px; }
+.hand > span { position: absolute; left: 0; right: 0; top: 0; text-align: center; font: 700 14px var(--cap); letter-spacing: .3em; text-transform: uppercase; color: var(--ivory); text-shadow: 0 2px 6px #000; }
+.hand .card:hover { transform: translateY(-10px); }
+.lobby { position: absolute; right: 40px; top: 60px; display: flex; flex-direction: column; gap: 10px; z-index: 3; }
+.medal { position: relative; width: 64px; height: 64px; }
+.medal img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--goldc); box-shadow: 0 0 0 3px rgba(14,58,49,.7), 0 4px 10px rgba(0,0,0,.4); }
+.medal b { position: absolute; right: -10px; bottom: -4px; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font: 900 16px var(--cap); color: #fff;
+  background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 2px solid #e6c56a; }
+.medal.you img { border-color: #fff1b8; box-shadow: 0 0 0 3px #d7ad4f, 0 0 18px rgba(255,220,130,.7); }
+.medal.next img { box-shadow: 0 0 0 3px var(--amethyst), 0 0 18px rgba(160,110,220,.7); }
+.medal.out { opacity: .35; filter: grayscale(1); }
+.door { all: unset; cursor: pointer; position: absolute; right: var(--lob); width: 560px; bottom: 36px; height: 160px; padding-top: 40px; z-index: 4; text-align: center; box-sizing: border-box; padding: 54px 16px 0;
+  border-radius: 300px 300px 14px 14px / 120px 120px 14px 14px; background: radial-gradient(ellipse at 50% 10%, #2a7a62, var(--malachite) 75%); border: 4px solid var(--goldc);
+  box-shadow: 0 0 0 6px rgba(14,58,49,.5), inset 0 0 0 6px rgba(215,173,79,.25), 0 14px 30px rgba(0,0,0,.5); color: var(--ivory); transition: transform .15s; }
+.door:hover { transform: translateY(-4px); }
+.door b { display: block; font: 900 44px/1.05 var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.door small { display: block; font: 600 italic 20px var(--serif); margin-top: 6px; }
+
+/* ---- Fight: the opponent's hero and the verdict to the right of the two altars ---------------- */
+.heroes { position: absolute; left: calc(var(--right-l) + var(--aw) + var(--zgap)); right: var(--lob); top: 150px; bottom: 260px; display: flex; flex-direction: column; align-items: center; gap: 70px; padding-top: 30px; }
+.heroes .hero { position: relative; width: 160px; height: 160px; }
+.verdict { font: 900 92px var(--deco); background: var(--gold); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 6px 10px rgba(0,0,0,.6)); animation: verdict .8s ease both; }
+.verdict[hidden] { display: none; }
+/* Phase change: everything except your altar steps in around it. */
+.jy-stage.swap > .cabinet, .jy-stage.swap > .altar.foe { animation: zone-in .5s cubic-bezier(.2,.8,.2,1) both; }
+.jy-stage.swap > .hand, .jy-stage.swap > .door, .jy-stage.swap > .heroes, .jy-stage.swap > .cartouche { animation: fade-in .5s ease both; }
+@keyframes zone-in { from { opacity: 0; translate: 60px 0; } }
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes verdict { from { opacity: 0; letter-spacing: .4em; } }
+
+
+/* In the fight the door sits beside the opponent's altar, under the heroes. */
+html[data-mode="fight"] .door { left: calc(var(--right-l) + var(--aw) + var(--zgap)); width: auto; }

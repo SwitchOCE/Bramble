@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Mood board</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .mb { height: 100vh; padding: 28px 36px; display: grid; gap: 22px; grid-template-columns: 520px 1fr 560px; grid-template-rows: auto 1fr 1fr; }
+  .head { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 22px; }
+  .head h1 { font-size: 54px; font-weight: 900; }
+  .head p { font-size: 20px; color: var(--inksoft); }
+  .tile { padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; }
+  .tile h2 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; color: var(--inksoft); font-family: var(--body); }
+  .sw { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .sw div { border: 3px solid var(--ink); border-radius: 12px 14px 10px 12px; height: 70px; padding: 6px 8px; display: flex; flex-direction: column; justify-content: flex-end; font-size: 13px; font-weight: 900; line-height: 1.1; }
+  .sw div small { font-weight: 700; font-size: 11px; opacity: .85; }
+  .types { gap: 6px; }
+  .t1 { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 76px; line-height: .95; }
+  .t2 { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 800; font-size: 34px; }
+  .t3 { font-size: 22px; font-weight: 700; line-height: 1.35; }
+  .t4 { font-weight: 900; font-size: 64px; display: flex; gap: 18px; align-items: center; }
+  .t4 .stat { position: relative; bottom: auto; left: auto; right: auto; width: 78px; height: 78px; font-size: 30px; }
+  .meta { font-size: 14px; color: var(--inksoft); }
+  .icons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 12px; flex: 1; align-content: center; }
+  .icons figure { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 14px; font-weight: 900; }
+  .icons svg { width: 74px; height: 74px; }
+  .tex { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-auto-rows: 1fr; gap: 12px; flex: 1; }
+  .tex div { border: 3px solid var(--ink); border-radius: 14px; position: relative; overflow: hidden; min-height: 110px; }
+  .tex span { z-index: 2; position: absolute; left: 8px; bottom: 6px; font-size: 13px; font-weight: 900; background: var(--card); border: 2px solid var(--ink); border-radius: 999px; padding: 0 8px; }
+  .x-paper { background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='%23C9B48C'%3E%3Ccircle cx='12' cy='19' r='1.6'/%3E%3Ccircle cx='61' cy='8' r='1.2'/%3E%3Ccircle cx='38' cy='52' r='1.5'/%3E%3Ccircle cx='80' cy='70' r='1.7'/%3E%3Ccircle cx='20' cy='78' r='1.1'/%3E%3C/g%3E%3C/svg%3E"); }
+  .x-awning { background: repeating-linear-gradient(90deg, var(--moss) 0 30px, var(--card) 30px 60px); }
+  .x-cel { background: var(--mustard); }
+  .x-cel::before { content: ''; position: absolute; right: -30%; top: -10%; width: 90%; height: 130%; background: #B9821A; border-radius: 50%; }
+  .x-cel::after { content: ''; position: absolute; left: 22%; top: 14%; height: 62%; aspect-ratio: 1; background: var(--berry); border: 4px solid var(--ink); border-radius: 50%; box-shadow: inset -14px -10px 0 #86261F; }
+  .x-frost { background: var(--sky); }
+  .x-frost::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 40%; background: var(--card); clip-path: polygon(0 0, 100% 0, 100% 40%, 92% 90%, 84% 45%, 74% 100%, 64% 40%, 55% 85%, 44% 35%, 34% 95%, 24% 45%, 14% 85%, 6% 40%, 0 70%); }
+  .x-lines { background: var(--card); display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 14px; }
+  .x-lines i { display: block; background: var(--ink); border-radius: 9px; }
+  .x-ns { background: var(--heather); }
+  .x-ns::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 30% 40%, var(--card) 0 7px, transparent 8px) 0 0 / 34px 34px; opacity: .25; }
+  .crops { grid-row: 2 / 4; grid-column: 3; display: grid; grid-template-rows: 1fr 1fr 1fr; gap: 14px; padding: 0; background: none; border: 0; box-shadow: none; }
+  .crop { border: 4px solid var(--ink); border-radius: 18px 22px 16px 20px; overflow: hidden; position: relative; box-shadow: 5px 6px 0 var(--shade); background: var(--shade); }
+  .crop img { position: absolute; width: 1920px; max-width: none; }
+  .crop span { position: absolute; left: 10px; top: 10px; font-size: 14px; font-weight: 900; background: var(--card); border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; }
+  @media (max-height: 500px) {
+    :root { --line: 2px; }
+    .mb { padding: 6px 10px; gap: 6px; grid-template-columns: 250px 1fr 230px; }
+    .head h1 { font-size: 20px; } .head p { font-size: 10px; }
+    .tile { padding: 6px 8px; gap: 4px; border-width: 2px; }
+    .tile h2 { font-size: 9px; }
+    .sw { gap: 4px; } .sw div { height: 30px; border-width: 2px; padding: 2px 3px; font-size: 7.5px; border-radius: 6px; } .sw div small { display: none; }
+    .t1 { font-size: 24px; } .t2 { font-size: 13px; } .t3 { font-size: 10px; } .meta { font-size: 8px; }
+    .t4 { font-size: 24px; gap: 8px; } .t4 .stat { width: 34px; height: 34px; font-size: 13px; }
+    .icons { gap: 4px; } .icons svg { width: 30px; height: 30px; } .icons figure { font-size: 8px; gap: 1px; }
+    .tex { gap: 4px; } .tex div { min-height: 40px; border-width: 2px; border-radius: 8px; } .tex span { font-size: 7px; left: 3px; bottom: 3px; padding: 0 4px; border-width: 1.5px; }
+    .x-lines { gap: 4px; padding: 4px; }
+    .crops { gap: 6px; }
+    .crop { border-width: 2px; border-radius: 10px; box-shadow: 2px 3px 0 var(--shade); }
+    .crop img { width: 760px; }
+    .crop span { font-size: 8px; left: 4px; top: 4px; padding: 0 5px; border-width: 1.5px; }
+  }
+</style></head>
+<body>
+<div class="mb" id="app"></div>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const I = INK.ICON;
+  const sw = [['Paper','#F3E7CF','page'],['Card','#FBF5E8','faces'],['Shade','#E2D0AC','cel shadow'],['Ink','#2B2320','every line',1],
+    ['Mustard','#E3A82B','attack'],['Berry','#B5372D','health',1],['Gilt','#F0C24B','gold · golden'],['Moss','#4F6E2C','positive · go',1],
+    ['Heather','#5E3F74','Nightshade',1],['Sky','#9CC3DA','freeze'],['Peat','#6E5B34','Bog folk',1],['Rust','#A24E28','attacker',1],
+    ['Pine','#2F5E4E','enemy side',1],['Ink Soft','#5E4E41','2nd text',1]];
+  const crop = (src, label, x, y) => `<div class="crop"><img src="shots/${src}-desktop.jpg" style="left:${x};top:${y}" alt=""><span>${label}</span></div>`;
+  document.getElementById('app').innerHTML = `
+  <div class="head"><h1>Storybook Ink</h1><p>Cream paper, one ink, flat fills, one hard shadow. The picture book you read under the covers, made into a game table.</p></div>
+  <div class="ink-box tile"><h2>Palette</h2><div class="sw">${sw.map(s => `<div style="background:${s[1]};color:${s[3] ? 'var(--card)' : 'var(--ink)'}">${s[0]}<small>${s[1]} · ${s[2]}</small></div>`).join('')}</div>
+  </div>
+  <div class="ink-box tile"><h2>Icons</h2>
+    <div class="icons">${[['coin','Gold'],['tier','Tier'],['heart','Health'],['attack','Attack'],['refresh','Refresh'],['freeze','Freeze'],['swords','Next foe'],['berry','Nightshade']].map(([k, n]) => `<figure>${I[k]}<figcaption>${n}</figcaption></figure>`).join('')}</div>
+  </div>
+  <div class="ink-box tile types"><h2>Type</h2>
+    <div class="t1">Belladonna Sprite</div><div class="meta">Fraunces 900, soft axis 100: names, titles, buttons</div>
+    <div class="t2">Tier up · Refresh · End turn</div>
+    <div class="t3"><b class="kw">Start of Combat</b>: give the enemy with the highest Health <b class="kw ns">Nightshade</b>.</div><div class="meta">Nunito 700 / 900: rules text, keywords inked in bold, statuses as a filled tag</div>
+    <div class="t4">${'<div class="stat atk">' + I.atkbadge + '<span>4</span></div><div class="stat hp">' + I.heart + '<span>5</span></div>'}<span class="meta" style="font-size:inherit"></span><span class="meta">Nunito 900 numerals: round = attack, heart = health. Shape and colour both carry it.</span></div>
+  </div>
+  <div class="ink-box tile"><h2>Materials</h2>
+    <div class="tex">
+      <div class="x-paper"><span>paper fleck</span></div>
+      <div class="x-lines"><i style="height:9px"></i><i style="height:5px;width:80%"></i><i style="height:3px;width:60%"></i><span>ink weights 4 · 3 · 2</span></div>
+      <div class="x-cel"><span>one cel shadow per colour</span></div>
+      <div class="x-awning"><span>stall awning</span></div>
+      <div class="x-frost"><span>frozen: ice sheet</span></div>
+      <div class="x-ns"><span>Nightshade wash</span></div>
+    </div>
+  </div>
+  <div class="tile crops">
+    ${crop('recruit', 'Recruit: the brick board', '-430px', '-460px')}
+    ${crop('combat', 'Combat: the halving', '-560px', '-210px')}
+    ${crop('cards', 'Card sizes', '-600px', '-500px')}
+  </div>`;
+  if (matchMedia('(max-height: 500px)').matches) {
+    const pos = [['-170px','-185px'],['-220px','-85px'],['-240px','-200px']];
+    document.querySelectorAll('.crop img').forEach((im, i) => { im.style.left = pos[i][0]; im.style.top = pos[i][1]; });
+  }
+</script>
+</body></html>

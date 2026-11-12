@@ -1,0 +1,9 @@
+# Chunky Cozy (#7): note
+
+- **Idea:** Bramble as a bright casual mobile game: soft-plastic toy portraits, round chunky tokens, outlined bubble numbers, big bouncy 3D-lip buttons, candy woodland colours on a dotted meadow.
+- **For:** casual and younger mobile players who bounce off dense card games; it trades woodland mystery for warmth and instant legibility.
+- **Distinct:** units on the board are round toy "pucks" in a pond-mat tray (not cards); the 4–3 brick reads as staggered pucks with FRONT/BACK ribbons and dashed slot rings; Nightshade is one berry colour used for bubble, glow, keyword pill and the "½ 26 → 13" burst.
+- **Godot 4 cost: low to medium.** Every page is a fixed-height 720 stage scaled to the window, which maps to `canvas_items` stretch with `expand` aspect. Buttons, panels and pills are StyleBoxFlat (corner radius, shadow offset for the 3D lip), with no nine-patch needed. Stat badges are two textures and a Label with outline. Golden shine and the Nightshade glow are each one small CanvasItem shader. Bounce and press are Tweens only.
+- **Art cost:** high. The look depends on soft-shaded 3D-toy portraits, which a human artist or a 3D pipeline costs far more to produce than Ink + flat B. This direction does **not** fit the decided Ink + flat B illustrations: flat ink portraits would look out of place in these glossy frames unless the frames were flattened too.
+- **Risks:** shop rules text is about 6 CSS px on a phone, so it needs a long-press inspector (stats and keyword tags stay readable). It can read as generic "casual mobile". It is busy when every element bounces, so cap concurrent tweens. The candy hues need a colour-blind check (strawberry health vs tangerine attack are told apart by shape: heart vs diamond).
+- **Images:** 3 Codex images (one hero portrait and two sprite sheets cropped into 12 portraits); all units in the fixture have art.
