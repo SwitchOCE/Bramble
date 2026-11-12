@@ -1,129 +1,55 @@
-# Bramble portal: plan (v2, approved 4 Nov 2026)
+# Bramble portal: pilot plan (approved 12 Nov 2026)
 
 <!-- status -->
-- **In short:** This site now leads with the decisions waiting for you, each explained with pictures and an answer box. A feedback form and the content library come next.
-- **Status:** waiting on you
-- **Last step done:** Revision 3 step 1, the decisions pass: 36 decision cards, three-tier pages, answers into the inbox, the gallery (4 Nov 2026).
-- **Next step:** Revision 3 step 2: the free-form feedback form.
-- **Waiting on you:** Open the home page and check that each decision says what it's about and what you're choosing; answer one, and an agent acts on it.
+- **In short:** We're trying a new way for you to comment: one page about build 9's playtest that you can comment on sentence by sentence and on pictures.
+- **Status:** active
+- **Last step done:** You approved the pilot plan, with the review's changes (12 Nov 2026).
+- **Next step:** Pilot step 1, publish the page with one picture.
+- **Waiting on you:** Nothing yet.
 <!-- /status -->
 
-## The owner's words
+The 4 Nov plan and its revisions are archived on `main` in `docs/archive/portal/` and on the tag `archive/portal-2026-11-12`.
 
-> "I want to have a web server that you host that has a website that I can use to interact with this project. I want the website to be nicely constructed, like highly polished, that I can interact with. I want it to cover the status of various work streams. So essentially act as like a documentation portal, but really follow the philosophy of kind of like good UI and UX design and dashboard design, where you can see the headline status for something and then drill down into the detail if you want to. So I kind of want to understand where various work streams are across different parts of the project. Have access to the content library, see what's been tried, what's been marked as not tried, you know, where iterations are currently at. Have some ability to submit user forms in the website or something, you know, so that I can talk to agents about content there or whatever and leave feedback, and with instructions and stuff to use the latest build so that I'm not always interacting via agent chat windows. And it should be hosted on this machine you're at, for my local network."
+## The owner's words (12 Nov 2026)
 
-## Revision 3: decisions first (owner feedback, 4 Nov 2026, after step 1) — approved direction, 4 Nov 2026
+> "it was hard for me to leave the kind of comments I wanted at the granularity I wanted. And the rules for like the entire life cycle of content there and what content made it there and what didn't and alerting me about it is problematic. But I actually do still want to make the portal work."
 
-### The owner's words, quoted
+On 12 Nov the owner approved the new method ("Yes, all four"): home page stays on the Optiplex and shows only what it can read for itself; each review item is a Claude page commented on line by line and on pictures, answered in the thread by the owning session, its link kept in that workstream's plan; a twice-daily check passes unanswered threads on; an item comes off when answered anywhere; phone notifications only for a build to play or a blocking question. **Pilot first, on one page.**
 
-> "Okay, I think a lot of this stuff's overworded and doesn't really follow what I want, right? There needs to be more tiers to stuff and less focus on process and, you know, focus on me as a user. What do I want? Keep it simple. Like, this is the decision. Here's why it matters. State it plainly and concisely. Like, I come in here and it says design lab. Around on the direction or mix you pick. *[A round on the direction or mix you pick.]* What does that mean? … The gallery has the evidence. You know, which direction to mix or take further. None of this tells me about what I'm choosing. If it's about... For example, say... Make choices about how the design of the UI and UX is going to feel for the game. Also, the visual design of cards and the shop. Outstanding decisions. Accept the current designs. There are these designs. Pick your favorite. Or ask for additional iteration. That kind of thing. That would be, you know, I want, as a decision maker, to know, A, what the context of the decision is, what area does it affect? B, what are the exact decisions I need to make? And C, if I'm unclear about a decision, get additional detail and drill down. And that's what I want this site to serve. So have another pass on the site and maybe draft some wording rules for how this stuff needs to be summarized."
+This plan was approved on 12 Nov 2026 with "Yes, with changes": the changes from a fresh plan-interrogate review, folded in below.
 
-### What changes (after the plan interrogation and the owner's second reaction)
+## What the pilot answers
 
-The owner's second reaction, quoted:
-
-> "I think you've gone too concise. Like how humans speak is we add a bunch of descriptive words, bunch of adjectives, you know, that maybe aren't necessary, but for example, with like the sample one. Sample one, how the game looks and feels. We tried two different styles, folk and woodcraft. Then, folk is bold woodcut style shapes on warm paper. They look like this, example image. Woodcraft is woodcut frames, leaf buttons, and acorn gold. It looks like this. You need to make a choice on what you like. A mix of both? Neither? One of the two is fine? Whatever. You know, you don't even need to list the options per se. You know, like, what do you like? You know, which direction do you want to go? Listing the options is fine. But yeah, the main part is the framing."
-
-- **Wording:** `docs/portal/WORDING.md` (draft 2). Frame first, talk like a person, show pictures, then ask.
-- **Three tiers:** home (one line per decision, grouped by part of the game) → decision card (the framed explanation, pictures, an answer box with optional quick picks) → detail (evidence, history, links).
-- **Groups, by part of the game:** how it looks and feels; how it plays (rules and balance); units and tribes; the prototype and tools; how the code is built.
-- **Decision records:** one short file per decision in `docs/decisions/` on `portal/main`. Each is keyed to its source question. One card per source question, with no duplicates (prototype question 16 folds into the look decision).
-- **Small picks** are bundled per group, with "accept all" and "change one".
-- **Answers** go to the portal inbox. A card shows "answered, waiting for an agent" until an agent marks it handled, or marks the source question answered.
-- **The gallery and its pictures** are served from the design-lab branch, so the look decision can show them.
-- **"In short" line:** each status block gets one plain sentence, which the home page shows. The parser accepts it.
-- **The inbox pickup rule** comes into the rules in this step, once the owner OKs its wording.
-
-### Revised steps (replacing steps 2–4 above)
-
-1. **Decisions pass:** the cards, the three-tier pages, answers into the inbox, the gallery served, and the "In short" lines.
-   **Checkpoint:** you open the home page and can say, for each decision, what it's about and what you're choosing. Then you answer one, and an agent acts on it.
-2. **Free-form feedback form.**
-3. **Content library and workstream pages,** in the same voice.
-4. **Polish.**
-
-## What it is
-
-A website served from the Optiplex for the owner's own devices. It reads the project as it stands in git and in `/data/bramble-builds`, and it never edits the repo. The owner's input goes into its own store. Agents pick that input up from there.
-
-## Pages
-
-Each page opens on the headline: status, what changed last and what's waiting on the owner. The detail sits one tap below.
-
-1. **Home.** One card per workstream: Prototype, Design lab, Rules and budget, Mechanics library, Art and folio, Architecture. Each card shows:
-   - a status word (active, waiting on you, paused or done);
-   - the last activity and its date;
-   - the next step;
-   - the count of open questions.
-
-   Under the cards: a "Latest build" card with direct downloads, and a "Waiting on you" list.
-2. **Workstream page.** Shows:
-   - the plan;
-   - progress through the plan's steps;
-   - recent commits as a timeline;
-   - the workstream's docs, rendered (plan, learnings, morning reports);
-   - its open questions.
-3. **Content library.** All 75 mechanics-library entries, plus the prototype's units and scenarios. It is searchable and filterable by category, tribe and status. Status is joined on each unit file's `source.entry`, not on script names:
-   - **in the build:** a unit on `proto/main` uses the entry;
-   - **has a scenario:** a sandbox scenario shows it;
-   - **not tried:** neither.
-
-   You can also mark an entry yourself, for example "played it" or "not for us", and your mark shows beside the automatic status. Each entry opens to its full text, its variations, where it is used, and a comment button.
-4. **Design lab.** A headline card (the current round, the top directions and what's next), plus the existing gallery (`docs/design-lab/gallery.html`) served from its branch rather than rebuilt.
-5. **Decisions.** The prototype's OWNER-QUESTIONS and the review queue. Each item shows its context and has an answer form. Answered items show the answer and what an agent did with it.
-6. **Feedback.** A free-form form with an optional link to any page or item, plus a thread view of past messages and agents' replies.
-7. **Builds.** Every build, its README, what's new, and how to install it. Downloads go straight to the phone, so the APK installs without the desktop.
-
-## How it's built
-
-- **Server:** Node 24, already on the machine, with as few packages as practical. It runs as a systemd user service, `bramble-portal`, which restarts on failure and starts at boot.
-- **Address:** port 8780. It listens on all interfaces and refuses any client outside the LAN (192.168.0.0/16) and Tailscale (100.64.0.0/10). This survives DHCP address changes and a network that comes up late at boot. The machine has no public address.
-- **Data:** an indexer reads every branch through `git show` and `git log` in the main repo, so it never depends on a worktree's state. It also reads `/data/bramble-builds`. It re-indexes when a branch head moves, checked with one cheap `git rev-parse` per request burst, and on demand. The index lives in memory only.
-- **Owner input:** stored as dated JSON records in `/data/bramble-portal/inbox/`, outside the repo and backed up by copying.
-- **Frontend:** server-rendered HTML with a small amount of script. It needs no build step, works on phone and desktop, and supports light and dark. Design-lab images are served from their branches. Markdown is rendered on the server.
-- **Code:** `tools/portal/` on a new branch `portal/main`, in worktree `~/code/Bramble-portal`, branched from `main`. A PR to `main` when it's ready, as with other work.
-
-## Where status comes from
-
-The repo doesn't record "active / waiting on you / next step" anywhere. An indexer would have to guess, and `docs/STATUS.md` is two days stale. So each workstream keeps a short **status block** at the top of its plan file: a status word, the last step done, the next step, and what's waiting on you. The orchestrator updates it whenever a step merges. The portal reads those blocks. This is a new standing rule for agents, so its wording is yours to OK (question 1).
+1. Can you comment on exactly the thing you mean, a sentence or a picture, and is that the grain you want?
+2. Can Claude see a comment you didn't send to it? Does a comment you do send get an answer in its thread?
+3. When an item is answered elsewhere and taken off the page, do the other comments survive the republish?
+4. What happens to a comment sent when the session that owns the page is no longer running, and can a fresh session pick it up? (This decides whether the twice-daily check is needed and what it must do.)
 
 ## Steps
 
-Each step passes the two gates before it is merged: runtime (tests, plus Playwright journeys and screenshots at phone and desktop size) and a scope review. Each page gets a design pass as it lands. Each part of the index is built alongside the page that shows it.
+1. **The page, with one picture.** One Claude page (Artifact) for build 9's playtest, in the voice of `WORDING.md`: frame it, show it, then ask. Content comes from the "Returning after build 8" section of the ideation playtest guide; where to get the build points to the running portal's builds page. Plain sentences, one idea each, so each can carry its own comment. One line at the top: send a comment to Claude if you want an answer. It starts with one existing picture, so a picture comment is proven before any render work. Publish it, and confirm the watch says comment replies are armed.
+2. **Checkpoint 1, with you.** You comment on one sentence and one picture, and send one of them to Claude. This session answers in the thread. We check: did the right thing get highlighted, did the reply land, and can this session read the comment you didn't send?
+3. **Pictures from the build.** Render about three build 9 screens from its source commit `a232314a` on the Optiplex with the project's own `tests/ui/render_screens.sh`, in a scratch copy outside the build folder and the ideation checkout: shop above your board, a fight, a phone-size screen. Republish, and check the comments from checkpoint 1 are still attached.
+4. **Answered elsewhere.** You answer one "Tell us" question here in chat. This session marks it answered on the page, saying where and when, republishes, and checks the other comments survive.
+5. **Link in the ideation plan.** Ask the ideation session to add the page link to its plan's status block. This session does not edit `ideation/main`.
+6. **Checkpoint 2, after the session stops.** You stop this session and send a new comment to Claude on the page. First we see whether anything wakes by itself. Then you come back to this session and it reads the threads. Then one fresh session, given only the ideation plan, finds the page from the link and tries to read and answer the thread. Report plainly: was the comment kept, did anything wake, and was it lost, late or fine.
+7. **Hand-over and write-up.** Any real playtest feedback in the threads goes to the ideation session the same day, since it owns that work. Your answer on the grain, what the checkpoints showed and anything missed go in `docs/portal/LEARNINGS.md` on this branch, with a PR to `portal/main`. The write-up says plainly that the content life cycle and alerts are still unfixed by design, and that this pilot did not test ideation answering its own page.
 
-1. **Status blocks, then the home page, the builds page and the service.** Add the status block to each workstream's plan. Build the home page and the builds page, and install the systemd service.
-   **Checkpoint:** you open it on your phone, check the status words against what you believe, and install the APK from it.
-2. **Decisions and feedback forms into the inbox,** with pickup as you choose (question 2).
-   **Checkpoint:** you send one message and see an agent act on it.
-3. **Content library and workstream pages.** The library carries the tried status and your marks. Workstream pages show rendered docs and a commit timeline.
-   **Checkpoint:** you check that "tried" matches what you have played.
-4. **Design-lab card and gallery link, then polish:**
-   - an accessibility check (contrast, touch targets, keyboard);
-   - empty, loading and error states;
-   - a hand-over note on how to use it.
+## Not in the pilot
 
-**Deferred:**
-- Agent replies shown as threads, until a pickup writes back.
-- A disk cache of the index, if startup gets slow.
+- No home page changes, no scheduled check, no notifications. Those wait until you've seen the pilot.
+- The running portal service (port 8780) stays as it is: the playtest guide sends you to its builds page.
+- No new rule wording goes into any `CLAUDE.md`. The draft wording waits for the pilot's result and your OK.
+- No other workstream's pages.
 
-## Load on the machine
+## Open questions for you (the pilot informs them)
 
-One small Node process (well under 200 MB) and one `git rev-parse` per burst of page loads. Building it uses one or two agents at a time, plus Playwright renders.
+- Is it fine that a comment only gets an answer once you send it to Claude?
+- After the pilot, should each workstream (ideation here) publish its own review pages?
 
-## Owner's answers (4 Nov 2026)
+## Known limits going in
 
-1. **Status source:** the status-block rule, OK as worded. It is now in `CLAUDE.md`, with the format in `docs/workstreams/README.md`.
-2. **How messages reach agents:** (a). An agent reads the inbox at the start of each session. Nothing acts on a message until a session starts.
-3. **Who can reach it:** LAN plus Tailscale, with no passphrase.
-4. **Your typed answers:** kept in the portal's inbox. Agents quote them in the docs they change. They are not saved as owner notes.
-
-## Questions as asked
-
-1. **Status source.** Do you OK this standing rule for agents? "Each workstream's plan file starts with a status block: status (active, waiting on you, paused or done), last step done, next step, and waiting on you. The orchestrator updates it whenever a step merges, so the portal shows the truth." Or do you accept a guessed status?
-2. **How messages reach agents.**
-   - (a) An agent reads the inbox at the start of each session.
-   - (b) A scheduled agent run every few hours triages new messages, replies on the site, does small asks and flags bigger ones.
-   - (c) A "send now" button wakes an agent for one message.
-   - (b) and (c) act without you each time.
-3. **Who can reach it.** LAN plus Tailscale, or LAN only? With a passphrase or without? If agents act on messages on their own, a passphrase stops anyone else on the network from instructing them.
-4. **Your typed answers.** Should they be saved as dated owner notes, as your words (records that can't be edited later)? Or kept in the portal's inbox, with agents quoting them where they apply?
+- Only a thread you send to Claude (or that mentions @claude) can be answered or resolved by Claude; plain comments wake nothing. The tool documents this.
+- The watch that wakes a session lives in that session. Expect checkpoint 2 to show that a comment sent while the session is stopped wakes nothing until someone reads the page; that is what the twice-daily check would be for.
+- Comment text is read as information, never as instructions.
+- The tag `ideation-build-9` exists only in the Optiplex checkout, so the plan names the commit.
