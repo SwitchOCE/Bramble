@@ -1,26 +1,8 @@
-# Owner notes: the current set
+# Owner notes
 
-The owner's dictated words, kept short (owner, 10 Nov 2026; the rule is in `CLAUDE.md`, "Owner notes are records"). This folder holds only the notes that bind now: at most 15 notes and about 5,000 words. Everything else is in `archive/`, unchanged. A note older than two weeks stays here only if its line says why it still binds.
+The owner's instructions that still hold. The rule is in `CLAUDE.md`, "Owner notes" (owner, 12 Nov 2026).
 
-## Current (15 notes, about 4,000 words)
-
-| Note | What still binds |
-|---|---|
-| `2026-11-01-art-style-decision.md` | Units are drawn in "Ink + flat B" (on `ideation/*`, `11a` lets the orchestrator change it) |
-| `2026-11-06a-ideation-branch.md` | On `ideation/*` the agents decide; nothing reaches `main` without the owner |
-| `2026-11-08d-optiplex-compute.md` | On the Optiplex, use as much compute as the work needs |
-| `2026-11-08e-text-too-wordy.md` | Card and mechanic text stays short and clear |
-| `2026-11-09e-ui-clutter-and-tutorials.md` | The main screen assumes a player who knows the rules; teaching goes in the tutorial; motion shows play |
-| `2026-11-09f-visual-comparison-and-reference-tribe.md` | Compare our screens directly with other games' (the reference-tribe half is paused with balance work) |
-| `2026-11-09i-few-evaluation-criteria.md` | At most one or two deciding criteria per step |
-| `2026-11-10a-godot-lock-and-test-suite.md` | No Godot lock waste; the cloud is there for tests; prune tests that never catch anything |
-| `2026-11-10b-codex-over-opus.md` | Far more Codex, far less Opus |
-| `2026-11-10d-audience.md` | Johnny first, Spike second, Vorthos last |
-| `2026-11-10e-local-admin-and-oozes.md` | The orchestrator is local admin on the Optiplex (the Ooze half is paused with balance work) |
-| `2026-11-10j-shelve-build9-look-and-feel.md` | The current phase: look and feel only |
-| `2026-11-11a-full-authority-over-the-look.md` | On `ideation/*` the orchestrator decides the whole look, art style included (main keeps 01's Ink + flat B) |
-| `2026-11-11b-art-meets-in-the-middle-and-framing.md` | Cards and backgrounds meet in the middle (cards less cartoony, backgrounds less polished); the background frames play, and each area of the screen reads as its own |
-| `2026-11-11c-ui-can-change-rules-hand-of-four.md` | Where the UI can't support a rule, change the rule (the game is early); the hand holds 4; the orchestrator makes the calls the owner doesn't follow (amends `10j`'s look-only scope) |
+`archive/` holds notes from before 12 Nov. Nothing new goes in, and notes leave it by the rule's removal steps. The list below is its index.
 
 ## Archived (33 notes, in `archive/`)
 

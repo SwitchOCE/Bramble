@@ -13,7 +13,7 @@ This is the Bramble-specific companion to the general `game-design-process` skil
 | Idea library | `docs/design/mechanics-library.md`, `docs/design/mechanics-ideas.md` |
 | Wording | `docs/ideation/wording-guide.md` |
 | Fundamentals | `docs/ideation/fundamentals.md` |
-| Owner's own words | `docs/design/owner-notes/`, verbatim and dated. Never edit these |
+| Owner's own words | `docs/design/owner-notes/`, the owner's instructions that still hold. Don't reword |
 | Decisions | `docs/ideation/DECISIONS.md` |
 
 ## Audience
