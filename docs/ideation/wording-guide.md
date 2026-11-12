@@ -1,6 +1,6 @@
 # Wording guide
 
-The owner, 8 Nov 2026: "Clear and concise wording. Make complicated things simple... If it's implied, let it be implied and the player can find out in additional details some mechanism elsewhere." And on reminders: "italicized and made smaller and on hover" (`CLAUDE.md`, "Clear, short wording in the game").
+The owner, 8 Nov 2026: "Clear and concise wording. Make complicated things simple... If it's implied, let it be implied and the player can find out in additional details some mechanism elsewhere." And on reminders: "italicized and made smaller and on hover" (the rule: `CLAUDE.md`, "Clear, short wording in the game"; the full dictation: `2026-11-08e-text-too-wordy.md`, removed 13 Nov 2026, in git history).
 
 Effects never change for wording; only words do. The evidence behind these rules is `docs/ideation/wording-study.md` on `ideation/c-wording-study` (ten games) and the counts in `evidence/wording-pass.md`.
 
