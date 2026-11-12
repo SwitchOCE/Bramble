@@ -4,17 +4,23 @@
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
-- The owner's direction: `docs/design/direction-summary.md`, plus the full record in `docs/design/owner-notes/`.
+- The owner's direction: `docs/design/direction-summary.md`, plus the owner's instructions in `docs/design/owner-notes/`.
 - Architecture thinking: `docs/design/architecture-notes.md`.
 
-## Owner notes are records
+## Owner notes
 
-Files in `docs/design/owner-notes/` are the owner's dictated words. Never reword, summarize over or "improve" them. Corrections go in a new dated note or in the summary.
+Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules and "do this" statements to agents. They are not for the owner thinking out loud or talking a design through. That stays in chat, or in the doc it shapes. A design decision goes in the doc it changes, quoting the owner's words.
 
-When transcribing a new dictation:
-- Remove dictation errors, filler words and repeats, and add punctuation.
-- Reordering into sections is allowed.
-- Mark any interpretation of yours as *[italic bracketed editor notes]*.
+**When to write one:**
+- The owner gives a rule, or a big "do this" that agents outside this conversation must follow. A small ask inside a task goes in that task's brief, quoted.
+- The owner asks for something to be recorded as a note.
+- **Propose one:** the orchestrator proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
+
+**When to remove one:** when the work a note was written for is done, or the owner says the session is over, the agent lists the notes written for it, one line each, and asks the owner which still hold. Delete the ones that don't. An agent that later finds a note that is finished or contradicted tells the owner and asks. Before deleting a note, fix the docs that link to it: quote the owner's words there, or drop the link. Git history keeps deleted notes.
+
+**While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. If the owner says a note misheard them, fix it. A changed instruction gets a new note that says what it replaces. The old note is removed if none of it holds.
+
+**Transcribing:** remove filler words, repeats and clear dictation errors, and add punctuation. Reordering into sections is allowed. Keep a word you aren't sure of as heard and add your guess as *[probably "…"]*. Before committing, show the owner any guess that would change what agents do. Mark any other interpretation of yours as *[italic bracketed editor notes]*.
 
 ## Layout
 
@@ -25,7 +31,7 @@ docs/design/architecture-notes.md Recommendation for rule modifiers and layering
 docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
 docs/design/review-queue.md      Decisions waiting on the owner
-docs/design/owner-notes/         Dated owner dictations (records; don't edit)
+docs/design/owner-notes/         Dated owner instructions (don't reword)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/folio/                      The Woodland Folio: research and ideation page with art
