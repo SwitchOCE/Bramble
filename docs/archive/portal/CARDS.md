@@ -12,7 +12,7 @@ The 36 cards in `origin/portal/main:docs/decisions/` (written 4 Nov 2026). "Answ
 | economy-target | How fast should a gold-focused player reach the top shop tier? | still open | B2 is unanswered. `IA:2026-11-09d` gives a direction ("I don't want common situations where economy snowballs") but no tier-6 turn. | rules-and-budget |
 | engine-limit | How much power should the best gold-spending combos make? | answered | `T:owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md` §3, 8 Nov: "I don't necessarily know if we want to put a specific number on it." Also `IA:2026-11-09d`, 9 Nov: "I'm not worried about the top 1% of games having 10 times". Read as: no fixed limit; the owner judges how often engines run away, not how big the best one gets. | — |
 | faction-seeds | Which woodland groups should we draw as character lineups? | still open | The owner hasn't starred seeds or said to wait. `main`'s tribes aren't picked; ideation's tribes are agent picks. | art-and-folio |
-| fight-log-reminders | Keep the keyword reminders in the fight log? | answered | `I:2026-11-09e-ui-clutter-and-tutorials.md`, 9 Nov: "We need to have fewer reminders" and "The job of a tutorial is to tutorialize." This is a general direction, not an answer to this exact item (see unsure). | — |
+| fight-log-reminders | Keep the keyword reminders in the fight log? | superseded | A prototype UI question, like keyword-chip. `I:2026-11-11a` (11 Nov) gave ideation authority over the look, and `I:2026-11-09e-ui-clutter-and-tutorials.md` (9 Nov) sets the direction: "We need to have fewer reminders". | — |
 | filler-units | The prototype's plain stand-in units: keep, cut or replace them? | superseded | The prototype's pool was replaced by the ideation builds' tribe pools (`I:2026-11-06a-ideation-branch.md`: a vanilla game built on ideation). | — |
 | growth-caps | A speed limit on how fast cards can grow at each tier | still open | B4 is unanswered. Its caps (0.8–3.8 a turn) use the old stat scale; rulebook 1.2.5 (v0.5) now doubles stats, so they need re-deriving. | rules-and-budget |
 | hero-choices | Should players get extra hero choices or rerolls? | still open | Rulebook 2.2.3 is still [OPEN] in v0.6. | rules-and-budget |
@@ -45,6 +45,6 @@ The 36 cards in `origin/portal/main:docs/decisions/` (written 4 Nov 2026). "Answ
 
 ## Totals
 
-- **Answered:** 6 (engine-limit, fight-log-reminders, late-gold, lobby-pace, the-hand, whole-game-bot)
-- **Superseded:** 14 (card-text-overflow, filler-units, keyword-chip, live-lobby, look-direction, phone-card-text, placeholder-portraits, random-seed, scenario-replays, screenshots-in-git, shorter-art-long-text, watch-other-fights, whistle-only-boards, whistle-stalemates)
+- **Answered:** 5 (engine-limit, late-gold, lobby-pace, the-hand, whole-game-bot)
+- **Superseded:** 15 (card-text-overflow, filler-units, fight-log-reminders, keyword-chip, live-lobby, look-direction, phone-card-text, placeholder-portraits, random-seed, scenario-replays, screenshots-in-git, shorter-art-long-text, watch-other-fights, whistle-only-boards, whistle-stalemates)
 - **Still open:** 16 (architecture 1, art-and-folio 1, rules-and-budget 14)

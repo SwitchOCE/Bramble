@@ -17,9 +17,9 @@ Where each card stood on 12 Nov: [CARDS.md](CARDS.md).
 
 ## What replaces it
 
-On 12 Nov 2026 the owner approved a new method, to be piloted on one review page (build 9's playtest) before anything else is built:
+On 12 Nov 2026 the owner approved a new method, to be piloted on one review page (build 9's playtest) before anything else is built. Its plan will be `docs/portal/PLAN.md` on `portal/main`; this summary is a record of what was approved, not the plan to follow.
 - The home page stays on the Optiplex and shows only what it can read for itself: builds, where each active workstream stands, and one "needs you" line each, marked stale after 3 days.
-- Each thing to review is a Claude page the owner can comment on line by line and on pictures. The owning session answers in the thread.
+- Each thing to review is a Claude page the owner can comment on line by line and on pictures. The owning session answers in the thread and keeps the page's link in its plan file.
 - A scheduled check twice a day passes any unanswered thread to the owning workstream.
 - An item comes off when the owner answers it anywhere; whichever session hears the answer strikes it.
 - Phone notifications only for a build to play or a question that blocks work.
