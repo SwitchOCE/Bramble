@@ -2,7 +2,7 @@
 
 **Status: draft for the owner's review, 2 November 2026.** The owner asked for "short pillars": one page of what Bramble values and avoids, drawn from the owner notes ([2026-11-02 note](owner-notes/archive/2026-11-02-pre-development-design-pass.md), answers to the plan check).
 
-Every pillar comes from the owner notes in [owner-notes/](owner-notes/) or from [direction-summary.md](direction-summary.md). Quotes are the owner's words **[data]**. The grouping and the "meaning" lines are Claude's reading **[judgement]**. If a pillar and a record disagree, the record wins. Pillars the owner hasn't stated are not here; they are open questions for the owner.
+Every pillar comes from the owner notes in [owner-notes/](owner-notes/) or from [direction-summary.md](direction-summary.md). Quotes are the owner's words **[data]**. The grouping and the "meaning" lines are Claude's reading **[judgement]**. If a pillar and the owner's words disagree, the owner's words win. Pillars the owner hasn't stated are not here; they are open questions for the owner.
 
 Note names below are short: `10-27` is [2026-10-27-battlegrounds-direction.md](owner-notes/archive/2026-10-27-battlegrounds-direction.md), `10-27b` to `10-27f` are the other 27 October notes, `11-01b`/`11-01c` are the art notes, `11-02` is the pre-development design pass.
 
