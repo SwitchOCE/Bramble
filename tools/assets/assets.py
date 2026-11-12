@@ -122,7 +122,7 @@ class Wrangler:
 
 
 def wrangler_error(text: str) -> str:
-    text = re.sub(r"\[[0-9;]*m", "", text)  # colour codes
+    text = re.sub(r"\x1b\[[0-9;]*m", "", text)  # colour codes
     lines = [l.strip() for l in text.splitlines() if l.strip()]
     errors = [l for l in lines if "ERROR" in l or "error" in l.lower().split(":")[0]]
     if errors:
