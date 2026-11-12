@@ -26,7 +26,9 @@ Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules a
 **When to write one:**
 - The owner gives a rule, or a big "do this" that agents outside this conversation must follow. A small ask inside a task goes in that task's brief, quoted.
 - The owner asks for something to be recorded as a note.
-- **Propose one:** the orchestrator proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
+- **Propose one:** the agent talking to the owner proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
+
+Commit a new note on the working branch and give workers its path. Answers typed in the portal inbox stay in the inbox and don't become notes.
 
 **When to remove one:** when the work a note was written for is done, or the owner says the session is over, the agent lists the notes written for it, one line each, and asks the owner which still hold. Delete the ones that don't. An agent that later finds a note that is finished or contradicted tells the owner and asks. Before deleting a note, fix the docs that link to it: quote the owner's words there, or drop the link. Git history keeps deleted notes.
 
