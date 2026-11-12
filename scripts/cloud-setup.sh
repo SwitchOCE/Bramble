@@ -32,6 +32,9 @@ GUT_VERSION=9.7.1
 GDTOOLKIT_VERSION=4.5.0
 RUFF_VERSION=0.16.8
 
+# Cloudflare's CLI, used by tools/assets/assets.py when no R2 keys are set.
+WRANGLER_VERSION=4.160.1
+
 # Android. The SDK levels come from config.gradle inside the export templates'
 # android_source.zip for the Godot version above; re-read them on every Godot upgrade.
 JDK_MAJOR=17

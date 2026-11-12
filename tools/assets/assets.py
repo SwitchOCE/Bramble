@@ -9,13 +9,14 @@ be gitignored.
   python tools/assets/assets.py push PATH...      upload files or folders, record them
   python tools/assets/assets.py pull [PREFIX...]  download what the list names
   python tools/assets/assets.py status [PREFIX...] show what is missing or changed
+  python tools/assets/assets.py prune [--delete]   remove stored files no branch or tag lists
 
 Two ways in, picked automatically:
   - S3 keys: set R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY and R2_ACCOUNT_ID
     (needs `pip install boto3`). For agents away from the owner's PC.
   - Otherwise wrangler, using the Cloudflare login on this machine
     (`npx wrangler login`), or CLOUDFLARE_API_TOKEN if set.
-Set ASSETS_BUCKET to use another bucket (default: bramble-assets).
+The bucket name is in tools/assets/bucket; ASSETS_BUCKET overrides it.
 Files over 25 MB are refused unless pushed with --allow-large.
 """
 import argparse
@@ -29,21 +30,44 @@ import sys
 import tempfile
 from pathlib import Path
 
-BUCKET = os.environ.get("ASSETS_BUCKET") or os.environ.get("BRAMBLE_ASSETS_BUCKET") or "bramble-assets"
-# Files over this size are refused unless pushed with --allow-large. Large files should be rare:
-# only when they clearly improve the result. See tools/assets/README.md.
+# Files over LARGE_MB are refused unless pushed with --allow-large; files over NOTICE_MB, and PNGs,
+# get a reminder to shrink them. Large files should be rare: only when they clearly improve the result.
 LARGE_MB = 25
-WRANGLER_VERSION = "4.160.1"
+NOTICE_MB = 5
 HEADER = "# sha256\tbytes\tpath   (files kept in Cloudflare R2; see tools/assets/README.md)\n"
 
 
 def repo_root() -> Path:
     out = subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True, check=True)
-    return Path(out.stdout.strip())
+    return Path(out.stdout.strip()).resolve()
 
 
 ROOT = repo_root()
-MANIFEST = ROOT / "tools" / "assets" / "manifest.tsv"
+HERE = ROOT / "tools" / "assets"
+MANIFEST = HERE / "manifest.tsv"
+MANIFEST_REL = "tools/assets/manifest.tsv"
+
+
+def bucket_name() -> str:
+    name = os.environ.get("ASSETS_BUCKET")
+    if not name and (HERE / "bucket").exists():
+        name = (HERE / "bucket").read_text(encoding="utf-8").strip()
+    if not name:
+        sys.exit("No bucket named: put its name in tools/assets/bucket, or set ASSETS_BUCKET.")
+    return name
+
+
+BUCKET = None  # set by backend(), so commands that don't touch the bucket don't need it
+
+
+def wrangler_version() -> str:
+    env = ROOT / "tools" / "versions.env"
+    if env.exists():
+        for line in env.read_text(encoding="utf-8").splitlines():
+            key, _, value = line.strip().partition("=")
+            if key == "WRANGLER_VERSION" and value:
+                return value
+    sys.exit("Pin wrangler first: add WRANGLER_VERSION=<version> to tools/versions.env.")
 
 
 def sha256(path: Path) -> str:
@@ -99,13 +123,16 @@ class S3:
     def get(self, key, path):
         self.client.download_file(BUCKET, key, str(path))
 
+    def delete(self, key):
+        self.client.delete_object(Bucket=BUCKET, Key=key)
+
 
 class Wrangler:
     def __init__(self):
         npx = shutil.which("npx")
         if not npx:
             sys.exit("Needs Node's npx for wrangler, or R2 keys (see tools/assets/README.md)")
-        self.cmd = [npx, "-y", f"wrangler@{WRANGLER_VERSION}"]
+        self.cmd = [npx, "-y", f"wrangler@{wrangler_version()}"]
 
     def _run(self, args):
         # Wrangler prints UTF-8 (with emoji); Windows' default code page can't decode it.
@@ -119,6 +146,9 @@ class Wrangler:
 
     def get(self, key, path):
         self._run(["r2", "object", "get", f"{BUCKET}/{key}", f"--file={path}", "--remote"])
+
+    def delete(self, key):
+        self._run(["r2", "object", "delete", f"{BUCKET}/{key}", "--remote"])
 
 
 def wrangler_error(text: str) -> str:
@@ -136,6 +166,8 @@ def wrangler_error(text: str) -> str:
 
 
 def backend():
+    global BUCKET
+    BUCKET = bucket_name()
     if all(os.environ.get(k) for k in ("R2_ACCESS_KEY_ID", "R2_SECRET_ACCESS_KEY", "R2_ACCOUNT_ID")):
         return S3()
     return Wrangler()
@@ -144,15 +176,17 @@ def backend():
 # ---- commands -----------------------------------------------------------------
 
 def rel(path: Path) -> str:
-    return path.resolve().relative_to(ROOT.resolve()).as_posix()
+    return path.resolve().relative_to(ROOT).as_posix()
 
 
 def files_under(args) -> list:
     out = []
     for a in args:
-        p = Path(a)
+        p = Path(a).resolve()
+        if p != ROOT and ROOT not in p.parents:
+            sys.exit(f"Not inside this repo: {a}")
         if p.is_dir():
-            out += sorted(f for f in p.rglob("*") if f.is_file())
+            out += sorted(f for f in p.rglob("*") if f.is_file() and ".git" not in f.relative_to(ROOT).parts)
         elif p.is_file():
             out.append(p)
         else:
@@ -209,15 +243,24 @@ def cmd_push(a):
             print(f"  {s / 1048576:.0f} MB  {r}")
         sys.exit("Keep large files rare: shrink them (lower resolution, JPEG/WebP, shorter or re-encoded video), "
                  "or pass --allow-large if they clearly improve the result.")
+    loose = not_ignored([t[0] for t in todo])
+    if loose:
+        print(f"{len(loose)} file(s) are not gitignored, so Git would also pick them up:")
+        for p in loose[:10]:
+            print("  " + p)
+        sys.exit("Add a .gitignore rule for them first.")
     total = sum(t[2] for t in todo)
     if todo:
         print(f"{len(todo)} file(s) to push, {total / 1048576:.1f} MB.")
-    loose = not_ignored([t[0] for t in todo])
-    if loose and not a.force:
-        print("These files are not gitignored, so Git would also pick them up:")
-        for p in loose[:10]:
-            print("  " + p)
-        sys.exit("Add a .gitignore rule for them first, or pass --force.")
+    over = [(r, s) for r, _, s, _ in todo if s > NOTICE_MB * 1024 * 1024]
+    pngs = [r for r, _, _, _ in todo if r.lower().endswith(".png")]
+    if over or pngs:
+        print("Reminder: keep large files rare and small (tools/assets/README.md).")
+        if over:
+            print(f"  {len(over)} file(s) over {NOTICE_MB} MB, the largest {max(s for _, s in over) / 1048576:.0f} MB:"
+                  f" {max(over, key=lambda t: t[1])[0]}")
+        if pngs:
+            print(f"  {len(pngs)} PNG file(s): JPEG or WebP is usually far smaller for screenshots.")
     known = {d for d, _ in entries.values()}
     be = backend()
     failed = 0
@@ -257,6 +300,12 @@ def cmd_pull(a):
             (todo if a.force else kept).append((p, d))
     for p, _ in kept:
         print(f"kept     {p}  (changed here; push it, or pull --force to replace it)")
+    loose = not_ignored([p for p, _ in todo])
+    if loose:
+        print(f"{len(loose)} listed file(s) are not gitignored, so Git would pick them up:")
+        for p in loose[:10]:
+            print("  " + p)
+        sys.exit("Add a .gitignore rule for them first.")
     be = backend()
     failed = 0
 
@@ -302,7 +351,66 @@ def cmd_status(a):
         elif f.stat().st_size != s or sha256(f) != d:
             changed += 1
             print("changed  " + p)
-    print(f"{len(entries)} listed, {len(entries) - missing - changed} here, {missing} missing, {changed} changed.")
+    stored = sum(dict((d, s) for d, s in entries.values()).values())
+    print(f"{len(entries)} listed ({stored / 1048576:.1f} MB stored), "
+          f"{len(entries) - missing - changed} here, {missing} missing, {changed} changed.")
+
+
+def manifest_keys(text: str) -> dict:
+    """Bucket keys named by one manifest's text, with their sizes."""
+    keys = {}
+    for line in text.splitlines():
+        if line and not line.startswith("#"):
+            digest, size, path = line.split("\t", 2)
+            keys[key_for(digest, path)] = int(size)
+    return keys
+
+
+def git(*args) -> str:
+    r = subprocess.run(["git", *args], capture_output=True, cwd=ROOT)
+    if r.returncode != 0:
+        sys.exit(f"git {' '.join(args)} failed: {r.stderr.decode(errors='replace').strip()}")
+    return r.stdout.decode("utf-8", errors="replace")
+
+
+def cmd_prune(a):
+    if subprocess.run(["git", "fetch", "--quiet", "--prune", "--tags", "origin"], cwd=ROOT).returncode != 0:
+        sys.exit("git fetch failed: prune needs every branch and tag on GitHub to know what is still listed.")
+    # Keep everything a branch, tag or this working copy lists.
+    keep = manifest_keys(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() else {}
+    refs = git("for-each-ref", "--format=%(objectname)", "refs/heads", "refs/remotes", "refs/tags").split()
+    for ref in sorted(set(refs)):
+        r = subprocess.run(["git", "show", f"{ref}:{MANIFEST_REL}"], capture_output=True, cwd=ROOT)
+        if r.returncode == 0:
+            keep.update(manifest_keys(r.stdout.decode("utf-8", errors="replace")))
+    # Everything any commit ever listed.
+    ever = {}
+    for c in git("log", "--all", "--format=%H", "--", MANIFEST_REL).split():
+        r = subprocess.run(["git", "show", f"{c}:{MANIFEST_REL}"], capture_output=True, cwd=ROOT)
+        if r.returncode == 0:
+            ever.update(manifest_keys(r.stdout.decode("utf-8", errors="replace")))
+    gone = {k: s for k, s in ever.items() if k not in keep}
+    size = sum(gone.values()) / 1048576
+    if not gone:
+        print("Nothing to prune: every stored file is still listed by a branch or tag.")
+        return
+    if not a.delete:
+        for k in sorted(gone)[:10]:
+            print("  " + k)
+        print(f"{len(gone)} stored file(s), {size:.1f} MB, are no longer listed by any branch or tag. "
+              "Old commits that list them could no longer pull them. Run with --delete to remove them.")
+        return
+    be = backend()
+    failed = 0
+    for i, k in enumerate(sorted(gone), 1):
+        try:
+            be.delete(k)
+            print(f"[{i}/{len(gone)}] deleted {k}")
+        except Exception as e:
+            failed += 1
+            print(f"[{i}/{len(gone)}] FAILED {k}: {e}")
+    print(f"Deleted {len(gone) - failed} file(s), {failed} failed.")
+    sys.exit(1 if failed else 0)
 
 
 def main():
@@ -310,7 +418,6 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("push", help="upload files or folders and record them in the list")
     p.add_argument("paths", nargs="+")
-    p.add_argument("--force", action="store_true", help="push files that are not gitignored")
     p.add_argument("--allow-large", action="store_true", help=f"push files over {LARGE_MB} MB")
     p.add_argument("-j", "--jobs", type=int, default=6)
     p.set_defaults(fn=cmd_push)
@@ -323,6 +430,9 @@ def main():
     p.add_argument("prefixes", nargs="*")
     p.add_argument("-v", "--verbose", action="store_true")
     p.set_defaults(fn=cmd_status)
+    p = sub.add_parser("prune", help="list (or with --delete, remove) stored files no branch or tag lists")
+    p.add_argument("--delete", action="store_true", help="delete them from the bucket")
+    p.set_defaults(fn=cmd_prune)
     a = ap.parse_args()
     a.fn(a)
 
