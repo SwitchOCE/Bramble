@@ -65,7 +65,7 @@ Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` with
 | Work | Branch | Plan | Plan updated |
 |---|---|---|---|
 | Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
-| Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026) | `proto/main` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
+| Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026). The branch was deleted on 13 Nov; its content is the tag `archive/proto-2026-11-13` | tag `archive/proto-2026-11-13` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
 | Rules and power budget: rulebook v0.5, waiting on the owner | `design/tribes-and-budget` | `docs/workstreams/rules-and-budget.md` | 8 Nov 2026 |
 | Mechanics library: paused | `design/tribes-and-budget` | `docs/workstreams/mechanics-library.md` | 4 Nov 2026 |
 | Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | `archive/design-lab` (tag `archive/design-lab-2026-11-12`) | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
