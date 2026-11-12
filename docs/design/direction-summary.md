@@ -1,6 +1,6 @@
 # Direction summary
 
-A summary of the owner's direction, written to plan from. The full records are in [owner-notes/](owner-notes/):
+A summary of the owner's direction, written to plan from. It draws on these [owner notes](owner-notes/):
 
 - [2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md): the direction
 - [2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md): answers and research asks
@@ -9,7 +9,7 @@ A summary of the owner's direction, written to plan from. The full records are i
 - [2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md): economy decisions
 - [2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md): power-budget decisions and the refresh cap
 
-If this summary and a record disagree, the record wins.
+If this summary and the owner's words disagree, the owner's words win.
 
 ## The pitch in one line
 

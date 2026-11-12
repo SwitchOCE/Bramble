@@ -13,7 +13,7 @@ Every numbered rule carries exactly one tag:
 | Tag | Meaning |
 |---|---|
 | **[BG]** | Taken from Battlegrounds unchanged. |
-| **[BRAMBLE]** | An owner decision that differs from Battlegrounds. The owner note is cited. |
+| **[BRAMBLE]** | An owner decision that differs from Battlegrounds. The owner's words or the owner note are cited. |
 | **[PROPOSED]** | A gap that Bramble's differences create, which the owner hasn't decided. It is filled with a proposed default, with the reason and any Once Upon a Galaxy precedent. Needs an owner decision. |
 | **[OPEN]** | Genuinely undecided, with no default. |
 
@@ -38,7 +38,7 @@ Every numbered rule carries exactly one tag:
 | patch-history.md | [../research/battlegrounds/patch-history.md](../research/battlegrounds/patch-history.md) |
 | Galaxy | [../research/galaxy/rules.md](../research/galaxy/rules.md) and [design-notes.md](../research/galaxy/design-notes.md) |
 
-Owner notes win over this rulebook if they disagree.
+The owner's words win over this rulebook if they disagree, whether quoted here or in an owner note.
 
 **Words.** This rulebook says *unit* for HSBG's *minion*, *shop* for the *Tavern*, and *tier* for *Tavern Tier*.
 
