@@ -26,9 +26,9 @@ The design process is the one from the 12 Nov Ogre test, whose designs you prefe
      - **Top-down flavour:** won both with the guide.
      - Bottom-up flavour is dropped: it lost both with the guide. Top-down mechanical is the spare.
    - Each design ends with the **tier check** from the test: one line per tier on how it fits the guide, and where it breaks the guide on purpose.
-   - **Costing: flags only.** A separate reviewer notes cards well outside the guide, with rough numbers. It changes nothing. You balance afterwards.
-   - **Runaway check (Opus).** The two-pass check, against a pool of the version plus today's neutrals. BROKEN and WATCH cards are flagged to you, not changed. The winners you pick are checked again together.
-4. **Gallery.** One page with every version. Each shows its identity, all 19 cards in full text, its builds, its tier check, the costing flags and the runaway flags. A suggested order goes at the top; nothing is hidden.
+   - **No costing review** (owner, 12 Nov, note `12a`: "I want more unreviewed stuff coming to me"). The designer's own tier check is the costing.
+   - **Runaway check (Opus), as a flag only.** This is the two-pass check, against a pool of the version plus today's neutrals. BROKEN and WATCH cards are marked for you and nothing is changed. It runs alongside the gallery and holds nothing up. The winners you pick are checked again together.
+4. **Gallery.** One page with every version. Each shows its identity, all 19 cards in full text, its builds, its tier check and any runaway flags. Designs go to you unreviewed. A suggested order goes at the top; nothing is hidden.
 
 ## Where it runs
 
