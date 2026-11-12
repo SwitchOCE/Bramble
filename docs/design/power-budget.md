@@ -1,6 +1,6 @@
 # Bramble power budget: methodology v0
 
-> **Update, 27 Oct 2026.** The owner decided that random single-target effects can hit either row, and that Taunt only works within the row that can be attacked ([owner note](owner-notes/2026-10-27d-combat-shape-decisions.md)). Back-row protection now applies to attacks only, so the back-row protection values below are upper bounds until the simulation is re-run.
+> **Update, 27 Oct 2026.** The owner decided that random single-target effects can hit either row, and that Taunt only works within the row that can be attacked ([owner note](sources/2026-10-27d-combat-shape-decisions.md)). Back-row protection now applies to attacks only, so the back-row protection values below are upper bounds until the simulation is re-run.
 
 **Status: draft for the owner's review, 27 October 2026.** This is a method, not a card list. The numbers are starting points to be replaced by simulation, and each one is marked as **[data]** (from the Battlegrounds or Galaxy analysis), **[sim]** (from the toy combat simulation) or **[judgement]** (my call, to be tested).
 
@@ -279,8 +279,8 @@ The toy simulation in `tools/research/power_budget.py` is the prototype. The rea
 ## 9. Open questions for the owner
 
 1. **Attack order.** With the front row attacking first, back units mostly attack after the front has fallen. That makes "behind this" auras on front units almost worthless and back-row auras very efficient. Keep front-then-back, or test an interleaved order (F1, B1, F2, B2, …)? This changes every position coefficient.
-2. **Decided 27 Oct: on budget** ([owner note](owner-notes/2026-10-27f-power-budget-decisions.md)). The owner wants an in-depth review of the budget's tempo-versus-scaling and economy assumptions first. **How strong is a unit with no text?** Proposed V(t) is 5/7/8/10/12/14, about 10% above Battlegrounds' medians. Battlegrounds makes vanilla units weak late in the game (Boulderfist Ogre). Should Bramble's plain units be on budget or below it?
-3. **Decided 27 Oct: yes** ([owner note](owner-notes/2026-10-27e-economy-decisions.md)). **Price recruit-phase value more strictly than Battlegrounds?** Proposed: per-turn scaling charged at 100%, economy at 50% of its gold value, against Battlegrounds' near-zero. Battlegrounds' creep went through scaling text.
+2. **Decided 27 Oct: on budget** ([owner note](sources/2026-10-27f-power-budget-decisions.md)). The owner wants an in-depth review of the budget's tempo-versus-scaling and economy assumptions first. **How strong is a unit with no text?** Proposed V(t) is 5/7/8/10/12/14, about 10% above Battlegrounds' medians. Battlegrounds makes vanilla units weak late in the game (Boulderfist Ogre). Should Bramble's plain units be on budget or below it?
+3. **Decided 27 Oct: yes** ([owner note](sources/2026-10-27e-economy-decisions.md)). **Price recruit-phase value more strictly than Battlegrounds?** Proposed: per-turn scaling charged at 100%, economy at 50% of its gold value, against Battlegrounds' near-zero. Battlegrounds' creep went through scaling text.
 4. **Decided 27 Oct: no** (economy note). Free refreshes are guarded by content design instead ([content-guardrails.md](content-guardrails.md) G1). **Do free refreshes, and rerolls granted by cards, count toward the reroll escalation thresholds?** If they don't, they get stronger on big turns.
 5. **Do combat buffs vanish after the fight (Battlegrounds) or persist (Galaxy)?** The method assumes Battlegrounds. Persistent buffs would turn every combat effect into a scaling effect.
 6. **Keep Taunt?** It is worth about zero in the simulation, the front row already acts as a taunt, and Galaxy has none.

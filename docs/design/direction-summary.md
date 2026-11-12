@@ -2,12 +2,12 @@
 
 A summary of the owner's direction, written to plan from. It draws on these [owner notes](owner-notes/):
 
-- [2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md): the direction
-- [2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md): answers and research asks
-- [2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md): packing, token selling and row caps
-- [2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md): combat-shape decisions
-- [2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md): economy decisions
-- [2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md): power-budget decisions and the refresh cap
+- [2026-10-27-battlegrounds-direction.md](sources/2026-10-27-battlegrounds-direction.md): the direction
+- [2026-10-27b-board-answers-and-research.md](sources/2026-10-27b-board-answers-and-research.md): answers and research asks
+- [2026-10-27c-packing-tokens-rows.md](sources/2026-10-27c-packing-tokens-rows.md): packing, token selling and row caps
+- [2026-10-27d-combat-shape-decisions.md](sources/2026-10-27d-combat-shape-decisions.md): combat-shape decisions
+- [2026-10-27e-economy-decisions.md](sources/2026-10-27e-economy-decisions.md): economy decisions
+- [2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md): power-budget decisions and the refresh cap
 
 If this summary and the owner's words disagree, the owner's words win.
 
