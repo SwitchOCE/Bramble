@@ -1,6 +1,6 @@
 # Review queue
 
-Decisions waiting on the owner, most important first. Each item points to where the full reasoning lives. Answer by number. Answers get recorded as owner notes, and the rulebook is updated to match.
+Decisions waiting on the owner, most important first. Each item points to where the full reasoning lives. Answer by number. Answers are recorded in the doc they change, quoting the owner's words, and the rulebook is updated to match. An answer that is an instruction to agents also gets an owner note.
 
 Sources:
 - [rulebook-deltas.md](rulebook-deltas.md): all 45 remaining proposed defaults and 6 open rules
