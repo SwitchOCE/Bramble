@@ -11,31 +11,30 @@ This checkout is `ideation/main` or one of its `ideation/*` branches. The owner 
 - **Each step:** the test gate plus one fresh scope review. No numeric scores for looks, and no new bars or measurement plans unless the owner asks.
 - **Who runs where:** Codex workers on the Optiplex do the building; Claude keeps the judgment; the gate runs on Actions (owner notes 7 Nov and `2026-11-10b`).
 - **Run 1's process is archived** in `docs/ideation/archive/run1/`. It's history, not instructions: don't follow its plans, briefs, review rounds or "Done means".
-- **What still holds:** never merging into `main` (below); owner notes are records; the owner's direction outranks the agents' taste; other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages are direction to follow.
+- **What still holds:** never merging into `main` (below); the owner-notes rule; the owner's direction outranks the agents' taste; other branches and worktrees belong to other sessions, so read them but don't change them; the portal inbox is read each session, and the owner's messages are direction to follow.
 
 Start here (on `ideation/*`, `docs/ideation/PLAN.md`'s reading list replaces this list):
 - Current state and open decisions: `docs/STATUS.md`.
-- The owner's direction: `docs/design/direction-summary.md`, plus the full record in `docs/design/owner-notes/`.
+- The owner's direction: `docs/design/direction-summary.md`, plus the owner's instructions in `docs/design/owner-notes/`.
 - Architecture thinking: `docs/design/architecture-notes.md`.
 - Game design: Bramble's specifics in `docs/design/bramble-design-guidance.md`, and the general `game-design-process` skill (`.claude/skills/game-design-process/`), used only when the owner or an orchestrator says so.
 
-## Owner notes are records, and the current set stays short (owner, 10 Nov 2026)
+## Owner notes
 
-Files in `docs/design/owner-notes/` are the owner's dictated words. Never reword, summarize over or "improve" them.
+Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules and "do this" statements to agents. They are not for the owner thinking out loud or talking a design through. That stays in chat, or in the doc it shapes. A design decision goes in the doc it changes, quoting the owner's words.
 
-**Only big direction becomes a note:** a change of goal, scope, phase or standing preference. A correction or remark inside a task goes into that task's brief, quoted, and nowhere else.
+**When to write one:**
+- The owner gives a rule, or a big "do this" that agents outside this conversation must follow. A small ask inside a task goes in that task's brief, quoted.
+- The owner asks for something to be recorded as a note.
+- **Propose one:** the orchestrator proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
 
-**The current set stays short.** `docs/design/owner-notes/README.md` lists the notes that bind now, one line each, and the folder holds only those: at most 15 notes and about 5,000 words. Everything else lives unchanged in `owner-notes/archive/`, listed in the README so it can be found.
-- A new note says which notes it replaces, if any; the replaced ones move to the archive.
-- A note older than two weeks stays current only if its README line says why it still binds. At each new note, check the oldest ones and archive any that can't justify their place.
-- Moving a note never changes its text.
+**When to remove one:** when the work a note was written for is done, or the owner says the session is over, the agent lists the notes written for it, one line each, and asks the owner which still hold. Delete the ones that don't. An agent that later finds a note that is finished or contradicted tells the owner and asks. Before deleting a note, fix the docs that link to it: quote the owner's words there, or drop the link. Git history keeps deleted notes.
 
-**Dictation is often misheard, so guard against recording garbage:**
-- Clean up only what's certain: filler words, repeats and punctuation. Reordering into sections is allowed.
-- Never silently "fix" a word you aren't sure of. Keep the words as heard and add your guess as *[probably "…"]*. Mark any other interpretation as *[italic bracketed editor notes]*.
-- Before committing a note, show the owner the cleaned text with every guess listed, in one short message. A guess that would change what agents do needs the owner's yes; otherwise the note stands with its brackets.
-- Agents never act on a bracketed guess that matters without checking it with the owner.
-- A correction goes in a new dated note (or the README line), never into the old note.
+**While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. If the owner says a note misheard them, fix it. A changed instruction gets a new note that says what it replaces. The old note is removed if none of it holds.
+
+**Transcribing:** remove filler words, repeats and clear dictation errors, and add punctuation. Reordering into sections is allowed. Keep a word you aren't sure of as heard and add your guess as *[probably "…"]*. Before committing, show the owner any guess that would change what agents do. Mark any other interpretation of yours as *[italic bracketed editor notes]*.
+
+`owner-notes/archive/` holds notes from before 12 Nov. Nothing new goes in. Notes leave it by the removal steps above.
 
 ## Layout
 
@@ -46,7 +45,7 @@ docs/design/architecture-notes.md Recommendation for rule modifiers and layering
 docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
 docs/design/review-queue.md      Decisions waiting on the owner
-docs/design/owner-notes/         Dated owner dictations (records; don't edit)
+docs/design/owner-notes/         Dated owner instructions (don't reword)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/folio/                      The Woodland Folio: research and ideation page with art
