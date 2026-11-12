@@ -1,11 +1,11 @@
-# Bramble portal: pilot plan (approved 12 Nov 2026)
+# Bramble portal: pilot plan (approved 12 Nov 2026, closed 13 Nov 2026)
 
 <!-- status -->
-- **In short:** We're trying a new way for you to comment: one page about build 9's playtest that you can comment on sentence by sentence and on pictures.
-- **Status:** active
-- **Last step done:** You approved the pilot plan, with the review's changes (12 Nov 2026).
-- **Next step:** Pilot step 1, publish the page with one picture.
-- **Waiting on you:** Nothing yet.
+- **In short:** We tried a page you could comment on line by line, and found the real problem is that you can't dictate on the desktop, so the pilot is closed until you can.
+- **Status:** paused
+- **Last step done:** You closed the pilot after step 1 (13 Nov 2026). Findings are in `LEARNINGS.md`.
+- **Next step:** Retry the pilot once desktop dictation works.
+- **Waiting on you:** Nothing.
 <!-- /status -->
 
 The 4 Nov plan and its revisions are archived on `main` in `docs/archive/portal/` and on the tag `archive/portal-2026-11-12`.
