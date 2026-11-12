@@ -21,6 +21,7 @@ Files over 25 MB are refused unless pushed with --allow-large.
 """
 import argparse
 import concurrent.futures as cf
+import datetime
 import hashlib
 import os
 import re
@@ -261,14 +262,17 @@ def cmd_push(a):
                   f" {max(over, key=lambda t: t[1])[0]}")
         if pngs:
             print(f"  {len(pngs)} PNG file(s): JPEG or WebP is usually far smaller for screenshots.")
-    known = {d for d, _ in entries.values()}
+    known = {key_for(d, p) for p, (d, _) in entries.items()}
     be = backend()
     failed = 0
+    uploaded = {}
 
     def up(t):
         r, d, s, f = t
-        if d not in known:
-            be.put(key_for(d, r), f)
+        k = key_for(d, r)
+        if k not in known:
+            be.put(k, f)
+            uploaded[k] = s
         return t
 
     with cf.ThreadPoolExecutor(a.jobs) as pool:
@@ -285,6 +289,15 @@ def cmd_push(a):
             if i % 20 == 0:
                 write_manifest(entries)
     write_manifest(entries)
+    if uploaded:
+        try:
+            index = read_index(be)
+            today = datetime.date.today().isoformat()
+            for k, s in uploaded.items():
+                index.setdefault(k, (s, today))
+            write_index(be, index)
+        except Exception as e:
+            print(f"Warning: could not update the bucket's index ({e}). prune may miss these files.")
     print(f"Pushed {len(todo) - failed} file(s), {failed} failed. Commit tools/assets/manifest.tsv.")
     sys.exit(1 if failed else 0)
 
@@ -373,43 +386,96 @@ def git(*args) -> str:
     return r.stdout.decode("utf-8", errors="replace")
 
 
+INDEX_KEY = "index.tsv"  # every key ever pushed: key, bytes, date first pushed
+
+
+def read_index(be) -> dict:
+    fd, tmp = tempfile.mkstemp(suffix=".tsv")
+    os.close(fd)
+    try:
+        try:
+            be.get(INDEX_KEY, tmp)
+        except Exception as e:
+            if any(w in str(e) for w in ("does not exist", "NoSuchKey", "404", "Not Found")):
+                return {}
+            raise
+        index = {}
+        for line in Path(tmp).read_text(encoding="utf-8").splitlines():
+            if line and not line.startswith("#"):
+                k, s, d = line.split("\t")
+                index[k] = (int(s), d)
+        return index
+    finally:
+        os.remove(tmp)
+
+
+def write_index(be, index: dict) -> None:
+    fd, tmp = tempfile.mkstemp(suffix=".tsv")
+    os.close(fd)
+    try:
+        lines = [f"{k}\t{s}\t{d}\n" for k, (s, d) in sorted(index.items())]
+        Path(tmp).write_text("# key\tbytes\tfirst pushed\n" + "".join(lines), encoding="utf-8", newline="\n")
+        be.put(INDEX_KEY, tmp)
+    finally:
+        os.remove(tmp)
+
+
+def show_manifest(rev: str) -> dict:
+    r = subprocess.run(["git", "show", f"{rev}:{MANIFEST_REL}"], capture_output=True, cwd=ROOT)
+    return manifest_keys(r.stdout.decode("utf-8", errors="replace")) if r.returncode == 0 else {}
+
+
 def cmd_prune(a):
     if subprocess.run(["git", "fetch", "--quiet", "--prune", "--tags", "origin"], cwd=ROOT).returncode != 0:
         sys.exit("git fetch failed: prune needs every branch and tag on GitHub to know what is still listed.")
     # Keep everything a branch, tag or this working copy lists.
     keep = manifest_keys(MANIFEST.read_text(encoding="utf-8")) if MANIFEST.exists() else {}
-    refs = git("for-each-ref", "--format=%(objectname)", "refs/heads", "refs/remotes", "refs/tags").split()
-    for ref in sorted(set(refs)):
-        r = subprocess.run(["git", "show", f"{ref}:{MANIFEST_REL}"], capture_output=True, cwd=ROOT)
-        if r.returncode == 0:
-            keep.update(manifest_keys(r.stdout.decode("utf-8", errors="replace")))
-    # Everything any commit ever listed.
-    ever = {}
+    for ref in sorted(set(git("for-each-ref", "--format=%(objectname)", "refs/heads", "refs/remotes",
+                              "refs/tags").split())):
+        keep.update(show_manifest(ref))
+    # What's stored: the bucket's index of every push, plus anything a commit ever listed
+    # (files pushed before the index existed). The index remembers them once a branch is deleted.
+    be = backend()
+    index = read_index(be)
+    today = datetime.date.today()
+    added = False
     for c in git("log", "--all", "--format=%H", "--", MANIFEST_REL).split():
-        r = subprocess.run(["git", "show", f"{c}:{MANIFEST_REL}"], capture_output=True, cwd=ROOT)
-        if r.returncode == 0:
-            ever.update(manifest_keys(r.stdout.decode("utf-8", errors="replace")))
-    gone = {k: s for k, s in ever.items() if k not in keep}
-    size = sum(gone.values()) / 1048576
+        for k, s in show_manifest(c).items():
+            if k not in index:
+                index[k] = (s, today.isoformat())
+                added = True
+    if added:
+        write_index(be, index)
+    cutoff = (today - datetime.timedelta(days=a.older_than)).isoformat()
+    unlisted = {k: v for k, v in index.items() if k not in keep}
+    gone = {k: s for k, (s, d) in unlisted.items() if d <= cutoff}
+    waiting = len(unlisted) - len(gone)
+    note = (f" {waiting} more unlisted file(s) were pushed in the last {a.older_than} days and are left alone,"
+            " in case they're about to be committed." if waiting else "")
     if not gone:
-        print("Nothing to prune: every stored file is still listed by a branch or tag.")
+        print("Nothing to prune." + note)
         return
     if not a.delete:
         for k in sorted(gone)[:10]:
             print("  " + k)
-        print(f"{len(gone)} stored file(s), {size:.1f} MB, are no longer listed by any branch or tag. "
-              "Old commits that list them could no longer pull them. Run with --delete to remove them.")
+        print(f"{len(gone)} stored file(s), {sum(gone.values()) / 1048576:.1f} MB, are no longer listed by any branch "
+              "or tag. Old commits that list them could no longer pull them. Run with --delete to remove them." + note)
         return
-    be = backend()
     failed = 0
+    deleted = []
     for i, k in enumerate(sorted(gone), 1):
         try:
             be.delete(k)
+            deleted.append(k)
             print(f"[{i}/{len(gone)}] deleted {k}")
         except Exception as e:
             failed += 1
             print(f"[{i}/{len(gone)}] FAILED {k}: {e}")
-    print(f"Deleted {len(gone) - failed} file(s), {failed} failed.")
+    index = read_index(be)  # re-read, in case someone pushed meanwhile
+    for k in deleted:
+        index.pop(k, None)
+    write_index(be, index)
+    print(f"Deleted {len(deleted)} file(s), {failed} failed." + note)
     sys.exit(1 if failed else 0)
 
 
@@ -432,6 +498,8 @@ def main():
     p.set_defaults(fn=cmd_status)
     p = sub.add_parser("prune", help="list (or with --delete, remove) stored files no branch or tag lists")
     p.add_argument("--delete", action="store_true", help="delete them from the bucket")
+    p.add_argument("--older-than", type=int, default=7, metavar="DAYS",
+                   help="leave alone files pushed in the last DAYS days (default 7)")
     p.set_defaults(fn=cmd_prune)
     a = ap.parse_args()
     a.fn(a)

@@ -28,7 +28,11 @@ Large files cost space for every agent that pulls them. Use them when they clear
 
 Each version of a file is stored once, under its hash, and stays until it's pruned. When a file is replaced or its line is removed from the list, the old copy stays in the bucket.
 
-`prune` fetches every branch and tag, and finds stored files that none of them, nor this working copy, lists any more. It only lists them; `prune --delete` removes them. After that, an old commit that lists them can't pull them. Run it after a branch with large files is deleted, or when usage grows.
+`prune` finds stored files that no branch or tag, nor this working copy, lists any more. It fetches every branch and tag first. The bucket also keeps an index of every file ever pushed (`index.tsv`), so files from a deleted branch are still found.
+
+- `prune` only lists them; `prune --delete` removes them. After that, an old commit that lists them can't pull them.
+- Files pushed in the last 7 days are left alone, because another agent may not have committed its list yet. `--older-than DAYS` changes that.
+- Run it after deleting branches that had large files, or when usage grows.
 
 ## Access
 
