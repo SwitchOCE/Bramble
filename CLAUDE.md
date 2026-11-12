@@ -34,9 +34,10 @@ docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/owner-notes/         Dated owner instructions (don't reword)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
+docs/research/economy/           Economy and tier-price research: findings, the full record, saved sim outputs
 docs/folio/                      The Woodland Folio: research and ideation page with art
 tools/art/                       Codex image-generation runner and the prompts used so far
-tools/research/                  Re-runnable scripts that build the card data libraries
+tools/research/                  Re-runnable scripts that build the card data libraries; tools/research/economy/ holds the economy sims
 ```
 
 ## The folio

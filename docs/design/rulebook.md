@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.6 draft, 12 Nov 2026 (damage and starting health set by the owner on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
+**v0.7 draft, 12 Nov 2026 (economy and tier-up prices set by the owner on 12 Nov, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -41,6 +41,7 @@ Every numbered rule carries exactly one tag:
 | N12 | [owner-notes/2026-11-08b-taste-answers.md](owner-notes/2026-11-08b-taste-answers.md) (stat scale, taste) |
 | N13 | [owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md) (go-ahead for the v0.5 changes) |
 | C12 | The owner's decision in chat, 12 Nov 2026: damage (10.1.1, 10.1.3), draws (10.1.6) and starting health (2.2.5). No owner note was written; the intent is recorded in 10.1.3. |
+| C13 | The owner's decisions in chat, 12 Nov 2026: income (4.1.1), unit prices (4.2.1), sell values (4.3.3, 4.3.4), refreshes (4.4.2, 4.4.3), tier-up prices and discount (4.6.2, 4.6.3) and shop size (6.1.1). No owner note was written. The owner's words, the models and the evidence are in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md). |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -186,17 +187,18 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 ### 4.1 Gold
 
-**4.1.1** [BG] **Income.** A player gains 3 gold on turn 1, and 1 more each turn, up to 10 a turn from turn 8 on.
+**4.1.1** [BRAMBLE] **Income.** A player gains 5 gold on turn 1. Income rises by 2 a turn until it reaches 15, then by 1 a turn, with no ceiling. In the owner's words: "Let's go with the Plus 2 income per turn. Let's say that once you get to 15 total income, it increases by 1 per turn after that" (C13). *HSBG:* 3 on turn 1, +1 a turn, up to 10 from turn 8.
 
-| Turn | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8+ |
-|---|---|---|---|---|---|---|---|---|
-| Income | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+| Turn | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11+ |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Income | 5 | 7 | 9 | 11 | 13 | 15 | 16 | 17 | 18 | 19 | +1 a turn |
+| Total so far | 5 | 12 | 21 | 32 | 45 | 60 | 76 | 93 | 111 | 130 | |
 
 **4.1.2** [BRAMBLE] **Carry-over.** Unspent gold carries over between turns. At the start of each Recruit Phase, a player's gold is the gold they had left at the end of the last one plus this turn's income. HSBG discards unspent gold (N1 §2.1).
 
 **4.1.3** [BRAMBLE] **No cap, no interest.** There is no limit on how much gold a player can hold, and holding gold earns nothing. HSBG resets gold to at most 10 each turn (N2 §3).
 
-**4.1.4** [PROPOSED] Effects that raise or lower "maximum gold" change the income ceiling in 4.1.1 (10), not a holding cap. *Why:* in HSBG maximum gold is both the refill and the cap; Bramble has no holding cap, so only the income meaning is left.
+**4.1.4** [PROPOSED] Effects that raise or lower "maximum gold" change the player's income from 4.1.1 by that amount, not a holding cap. *Why:* in HSBG maximum gold is both the refill and the cap. Bramble has no holding cap and no income ceiling, so only the income meaning is left.
 
 **4.1.5** [BG] Gold can't go below 0. An action that costs more gold than the player has can't be taken.
 
@@ -204,7 +206,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 ### 4.2 Buying
 
-**4.2.1** [BG] A player can buy any unit in their shop for 3 gold, whatever its tier. The bought unit goes to the player's hand (rules.md §5.3).
+**4.2.1** [BRAMBLE] **Unit price.** A unit costs its tier + 1 in gold: 2 at tier 1, up to 7 at tier 6. The owner: "Units are going to cost 1 plus their tavern tier" (C13). The bought unit goes to the player's hand (rules.md §5.3). *HSBG:* every unit costs 3.
 
 **4.2.2** [BG] A player with a full hand can't buy (uncertain in HSBG — see rules.md §5.3).
 
@@ -220,9 +222,15 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.3.2** [BRAMBLE] A unit that an effect takes **from the shared pool** without payment, such as a Discover pick or the Triple Reward, counts as **Created** and sells for 0. It is still a real pool copy and returns to the pool when sold (5.3.4). The rule is that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
 
-**4.3.3** [BRAMBLE] **Sell value.** Selling a Bought unit gives 1 gold. Selling a Created unit gives 0 gold. In HSBG every unit sells for 1 (N1 §2.2).
+**4.3.3** [BRAMBLE] **Sell value.** Selling a Bought unit gives half its tier in gold, rounded up: 1 at tiers 1–2, 2 at tiers 3–4, 3 at tiers 5–6. Selling a Created unit gives 0 gold. The owner: "Let's change it so units sell for half its tier rounded up" (C13). *HSBG:* every unit sells for 1.
 
-**4.3.4** [BRAMBLE] A golden unit made by a triple sells for 1 gold, even if some or all of its copies were Created (N3, "Selling created units after a triple").
+| Tier | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| Costs | 2 | 3 | 4 | 5 | 6 | 7 |
+| Sells for | 1 | 1 | 2 | 2 | 3 | 3 |
+| Gold lost on a sale | 1 | 2 | 2 | 3 | 3 | 4 |
+
+**4.3.4** [BRAMBLE] A golden unit made by a triple sells for the sell value of 4.3.3 for each of its copies that was Bought. Created copies add nothing. The owner: "a triple of a 5 would actually sell for 9, not 8", and tokens "don't increase the sell price, even if they're combined into a triple" (C13). A golden made only from Created copies sells for 0. This replaces the 27 Oct rule that a tripled golden always sells for 1 (N3).
 
 **4.3.5** [BRAMBLE] Any other merge of units makes a Bought unit if at least one of the merged units was Bought. In the owner's words, a created unit that "merges with a real unit" sells for money (N3). Example: HSBG's Magnetic.
 
@@ -236,9 +244,9 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.4.1** [BG] **Refresh** replaces every card in the shop with new ones drawn from the pool. The replaced cards return to the pool. Refreshing a frozen shop also unfreezes it (rules.md §5.3; unfreezing not in rules.md).
 
-**4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold for the first 15 paid refreshes of a turn. After that its cost rises by 1 gold every 5 paid refreshes, with no cap. HSBG refreshes always cost 1 (N1 §2.3; N8).
+**4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold for the first 10 paid refreshes of a turn. After that its cost rises by 1 gold every 5 paid refreshes, with no cap. The owner: "change the refreshes to the first 10… And then after that, they go up… one every 5, like before" (C13). HSBG refreshes always cost 1 (N1 §2.3).
 
-**4.4.3** [BRAMBLE] **Steps.** Paid refreshes 1–15 of a turn cost 1, 16–20 cost 2, 21–25 cost 3, 26–30 cost 4, and so on. The first step (after 15) and the step length (5) are tunable parameters (Appendix A). This replaces the 27 October thresholds of 1–10 at 1, 11–20 at 2 and 21+ at 3 (N5 §9; N8).
+**4.4.3** [BRAMBLE] **Steps.** Paid refreshes 1–10 of a turn cost 1, 11–15 cost 2, 16–20 cost 3, 21–25 cost 4, and so on. The first step (after 10) and the step length (5) are tunable parameters (Appendix A). This replaces the 2 Nov schedule of 15 at 1 gold, then +1 every 5 (N8, C13).
 
 **4.4.4** [BRAMBLE] The refresh count resets to 0 at the start of each turn (N2 §3).
 
@@ -262,21 +270,36 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.6.1** [BG] Shop tiers run from 1 to 6. Each player starts at tier 1. Tier 7 can be reached only through specific effects (rules.md §5.1).
 
-**4.6.2** [BG] **Upgrade costs.** The base cost to upgrade to each tier is:
+**4.6.2** [BRAMBLE] **Upgrade costs.** The base cost to upgrade to each tier is:
 
 | Upgrade to | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|
-| Base cost | 5 | 7 | 8 | 11 | 11 |
+| Base cost | 8 | 12 | 16 | 19 | 26 |
 
-(rules.md §5.1, HSBG Solo since 34.2.) The owner chose to base tiers on HSBG and revisit as needed (N2 §4).
+The owner chose these from simulated lobbies: "8, 12, 16, 19, 26" (C13). *HSBG:* 5, 7, 8, 11, 11 (rules.md §5.1, Solo since 34.2).
 
-**4.6.3** [BG] At the start of each Recruit Phase from turn 2 on, the current upgrade cost drops by 1, to a minimum of 0. Example: upgrading to tier 2 costs 4 on turn 2 (the 0 minimum is inferred — see rules.md §5.1).
+**4.6.3** [BRAMBLE] **Discount for waiting.** At the start of each Recruit Phase from turn 2 on, the current upgrade cost drops by 1 more than it dropped the turn before: 1 after one turn waited, then 2, 3, 4 and 5, to a minimum of 0. Over 1 to 5 turns waited, the total discount is 1, 3, 6, 10 and 15. The owner: "1, then 2, then 3, then 4, then 5" (C13). *HSBG:* 1 a turn.
 
-**4.6.4** [BG] After an upgrade, the cost resets to the base cost of the next tier. A player may upgrade more than once in a turn if they can pay.
+| Upgrade to | Now | 1 turn waited | 2 | 3 | 4 | 5 |
+|---|---|---|---|---|---|---|
+| 2 | 8 | 7 | 5 | 2 | 0 | 0 |
+| 3 | 12 | 11 | 9 | 6 | 2 | 0 |
+| 4 | 16 | 15 | 13 | 10 | 6 | 1 |
+| 5 | 19 | 18 | 16 | 13 | 9 | 4 |
+| 6 | 26 | 25 | 23 | 20 | 16 | 11 |
+
+**4.6.4** [BRAMBLE] After an upgrade, the cost resets to the base cost of the next tier, and the discount starts again from 0. The owner: "The discount should reset back to 0" (C13). A player may upgrade more than once in a turn if they can pay, as in HSBG.
 
 **4.6.5** [BG] Upgrading doesn't refill the shop. Draws made after the upgrade use the new tier (not in rules.md).
 
-Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgrade costs and the per-turn discount stand at HSBG values until playtests or the power budget show they need to change.
+**4.6.6** [PROPOSED] After 5 turns waited, the discount stays at 5 a turn: 20 off after 6 turns, 25 after 7. *Why:* the owner's list ends at 5, and stopping the growth there keeps a long wait from paying ever more.
+
+Note: **design intent.** A player who waits on a tier gets gold back for the turns spent without higher-tier units. The owner: "staying multiple turns on one tavern tier needs to be given some money back in return. That's what it's for" (C13). Upgrading 2 turns in a row costs nearly full price, so it means saving or giving up buys. In simulated lobbies these prices gave:
+- most players reaching tier 5, around turn 7–8;
+- about 2 players a lobby reaching tier 6, around turn 14, almost all of them in the top four;
+- rushing to tier 6 losing.
+
+The results rest on guessed unit power, scaling and economy units. Recheck them once real units exist: [../research/economy/README.md](../research/economy/README.md).
 
 ---
 
@@ -339,14 +362,9 @@ Note: carry-over gold (4.1.2) makes early upgrades easier than in HSBG. The upgr
 
 ### 6.1 The shop
 
-**6.1.1** [PROPOSED] **Shop size.** Working value: the shop shows **5 cards at every tier**, one of which is a Tavern spell. *Why:* the owner leans toward a fixed 5, as TFT does. Seven at once can feel overwhelming, and 3 (Galaxy's pick 1 of 3) is probably too simple for Bramble (N11 §5.2). The owner calls shop size a feel question and wants experiments:
-- anywhere from 3 to 7 cards; 8 is too many;
-- fixed against growing with tier;
-- even numbers, which may be fine though odd ones feel right;
-- whether the spell is one of the 5;
-- sizes that don't seem right yet.
+**6.1.1** [BRAMBLE] **Shop size.** The shop shows **5 units and 2 spells at every tier**. Tiers change only the odds of what appears (6.1.7), not the number of offers. The owner: "I want the shop to always have 5 units and 2 spells… It will not change with tier. What will change is the shop odds and the chances of finding effects of specific rarities" (C13). This settles the shop-size experiments of N11 §5.2 (3 to 7 cards, fixed or growing). The owner, 13 Nov: "Yes, it's settled" (C13).
 
-Visual layout affects what feels right. The trade-off to watch: fewer offers push design toward generally useful units, which costs asymmetry and strategic variety (N11 §5.2). *HSBG:* grows with tier (rules.md §5.2):
+Note: 7 offers at once is up from the earlier working value of 5 cards, 1 of them a spell, so the shop layout needs checking. N11 §5.2 noted that seven at once can feel overwhelming. Fewer offers push design toward generally useful units, which costs asymmetry and strategic variety. *HSBG:* grows with tier (rules.md §5.2):
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
@@ -361,7 +379,7 @@ Note: with a fixed shop, upgrading a tier gives access to higher-tier units but 
 
 **6.1.4** [PROPOSED] If the pool has no eligible copies left for a shop slot, that slot stays empty. *Why:* an engine needs an answer; HSBG's isn't documented.
 
-**6.1.5** [BG] **Tavern spells.** One shop slot per refill offers a spell of the player's tier or lower. Spells have their own costs, go to hand, are cast in the Recruit Phase, are single use and can't triple. A frozen spell stays frozen (rules.md §8).
+**6.1.5** [BG] **Tavern spells.** The shop's spell slots (6.1.1) each offer a spell of the player's tier or lower. Spells have their own costs, go to hand, are cast in the Recruit Phase, are single use and can't triple. A frozen spell stays frozen (rules.md §8).
 
 **6.1.6** [OPEN] **Shop slots as their own upgrade.** The owner's idea: extra shop slots as something a player can invest in separately, not tied to tier or anything else (N11 §5.3). It's undecided whether to add it.
 
@@ -372,6 +390,8 @@ Note: the owner's general rule for upgrades (N11 §5.7) is not to bundle two thi
 - **Weighted toward the player's tier, as in TFT:** Galaxy similarly weights toward higher rarity. The cost is that a specific low-tier unit becomes hard to find late, so levelling has a real cost for some strategies (N11 §5.4).
 
 Linked: 5.1.4.
+
+Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come back to the shop odds after the economy (C13). The economy sims used a TFT-like table, given in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md) §2. Its tier-6 row is 7/13/22/27/21/10 % per slot. It is a working assumption, not a decision.
 
 ### 6.2 Discover
 
@@ -735,7 +755,9 @@ Note: **tunable, with fallbacks.** Every value here is tunable (Appendix A): sta
 
 The v0.5 fallbacks also still stand: damage modified by tier, or by the Attack or Health left on the board, which is less readable (N11 §4.5).
 
-Note: **dependency on the economy.** The round-1 picture assumes a player can buy 2 units on round 1. Under the current economy (4.1.1, 4.2.1: 3 gold on round 1, units cost 3) they can buy only 1. The economy rules are being redesigned.
+Note: **dependency on the economy.** The round-1 picture assumes a player can buy 2 units on round 1. Under the v0.7 economy (4.1.1, 4.2.1: 5 gold on round 1, tier-1 units cost 2) they can.
+
+Note: **game length in the economy sims.** In simulated lobbies with the v0.7 economy, games ran about 16 fights in every set-up, against the 13–14 aimed for above. Lowering health to 34 shortened games by only about 1 fight, and it shut many players out of tier 5. So damage and tier prices need tuning together, and the length should be checked again once real units exist ([../research/economy/README.md](../research/economy/README.md)).
 
 **10.1.4** [PROPOSED] **No other cap.** HSBG's per-turn caps are removed. The most a single loss can deal is 13 (10.1.3). *Why:* the caps patched a formula that could deal 30–49 in one fight (N11 §4.2). Here the cap of 10 in 10.1.3 is the ceiling. *HSBG:* at most 5 damage on turns 1–3, 10 on turns 4–7 and 15 from turn 8, with the cap removed once 4 or fewer players are left (rules.md §12).
 
@@ -868,7 +890,7 @@ Each term points to the rule that defines it.
 | Term | Meaning | Rule |
 |---|---|---|
 | **Unit** | A card with Attack, Health and a type line that can be on the board. HSBG's *minion*. | 1.1.1, 5.2.1 |
-| **Bought** | A unit taken from the shop by paying, or (proposed) drawn from the pool by an effect. Sells for 1 gold. | 4.3.1, 4.3.2 |
+| **Bought** | A unit taken from the shop by paying. Sells for half its tier, rounded up. | 4.3.1, 4.3.3 |
 | **Created** | A unit that came any other way: summoned, generated, copied, given. Sells for 0 gold. | 4.3.1 |
 | **Token** | A Created unit that is not a pool card. | 4.3.1 |
 | **Origin** | Whether a unit is Bought or Created. | 4.3.1 |
@@ -913,17 +935,18 @@ The values an engine should read from configuration rather than hard-code.
 | Heroes offered | 2 | 2.2.2 | BG |
 | Stat scale | about 2× HSBG | 1.2.5 | BRAMBLE |
 | Starting hero health | 40 by default; heroes may differ | 2.2.5 | BRAMBLE |
-| Income by turn | 3, +1 per turn, max 10 | 4.1.1 | BG |
+| Income by turn | 5, +2 a turn until 15, then +1 a turn, no ceiling | 4.1.1 | BRAMBLE |
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
-| Unit price | 3 | 4.2.1 | BG |
-| Sell value, Bought / Created | 1 / 0 | 4.3.3 | BRAMBLE |
+| Unit price | tier + 1 | 4.2.1 | BRAMBLE |
+| Sell value, Bought / Created | half the tier, rounded up / 0; a golden sums its Bought copies | 4.3.3, 4.3.4 | BRAMBLE |
 | Refresh costs | 1, then +1 per step, no cap | 4.4.2 | BRAMBLE |
-| Refresh steps | first after 15, then every 5 | 4.4.3 | BRAMBLE |
+| Refresh steps | first after 10, then every 5 | 4.4.3 | BRAMBLE |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
-| Upgrade base costs (to 2–6) | 5, 7, 8, 11, 11 | 4.6.2 | BG |
-| Upgrade discount per turn | 1, minimum 0 | 4.6.3 | BG |
+| Upgrade base costs (to 2–6) | 8, 12, 16, 19, 26 | 4.6.2 | BRAMBLE |
+| Upgrade discount per turn waited | 1, 2, 3, 4, 5, minimum 0; resets at each upgrade | 4.6.3, 4.6.4 | BRAMBLE |
+| Upgrade discount after 5 turns waited | 5 a turn | 4.6.6 | PROPOSED |
 | Pool copies per unit by tier | 15, 15, 13, 11, 9, 7, 5 | 5.1.2 | BG |
-| Shop cards (units) | 5 (4) at every tier; experiment 3–7 | 6.1.1 | PROPOSED |
+| Shop offers | 5 units and 2 spells at every tier | 6.1.1 | BRAMBLE |
 | Tribes per lobby | open | 5.2.5 | OPEN |
 | Hand limit | 10 | 7.1.1 | BG |
 | Board slots, front / back | 4 / 3 | 8.1.2 | BRAMBLE |
