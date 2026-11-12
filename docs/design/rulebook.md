@@ -26,12 +26,12 @@ Every numbered rule carries exactly one tag:
 
 | Key | File |
 |---|---|
-| N1 | [owner-notes/2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md) |
-| N2 | [owner-notes/2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md) |
-| N3 | [owner-notes/2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md) |
-| N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
-| N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
-| N6 | [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md) |
+| N1 | [sources/2026-10-27-battlegrounds-direction.md](sources/2026-10-27-battlegrounds-direction.md) |
+| N2 | [sources/2026-10-27b-board-answers-and-research.md](sources/2026-10-27b-board-answers-and-research.md) |
+| N3 | [sources/2026-10-27c-packing-tokens-rows.md](sources/2026-10-27c-packing-tokens-rows.md) |
+| N4 | [sources/2026-10-27d-combat-shape-decisions.md](sources/2026-10-27d-combat-shape-decisions.md) |
+| N5 | [sources/2026-10-27e-economy-decisions.md](sources/2026-10-27e-economy-decisions.md) |
+| N6 | [sources/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
 | keywords.md | [../research/battlegrounds/keywords.md](../research/battlegrounds/keywords.md) |

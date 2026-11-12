@@ -6,7 +6,7 @@ Every rule in [rulebook.md](rulebook.md) (v0 draft, 27 Oct 2026, baseline HSBG p
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 
-Counts: 129 [BG], 32 [BRAMBLE], 45 [PROPOSED], 6 [OPEN]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/2026-10-27e-economy-decisions.md) and [f](owner-notes/2026-10-27f-power-budget-decisions.md)).
+Counts: 129 [BG], 32 [BRAMBLE], 45 [PROPOSED], 6 [OPEN]. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)).
 
 **Most in need of a decision:** none flagged. The rest are edge cases with sensible defaults.
 
