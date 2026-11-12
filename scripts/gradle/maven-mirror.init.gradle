@@ -1,6 +1,6 @@
 // Gradle init script: fetch Maven Central artifacts from a mirror.
 // Why: through the cloud's egress proxy, Gradle's parallel downloads from repo.maven.apache.org
-// get HTTP 429 Too Many Requests (Autobattler toolchain notes 2.4; reproduced in docs/build.md).
+// get HTTP 429 Too Many Requests (Autobattler toolchain notes 2.4; reproduced in docs/archive/cloud-toolchain-proof.md).
 // Single requests succeed, so it is a rate limit, not a block.
 // How: scripts/session-start.sh copies this file into ~/.gradle/init.d/ in cloud sessions, and
 // Gradle applies everything there to every build, including the gradlew that Godot runs for

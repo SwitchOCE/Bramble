@@ -35,13 +35,18 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 **Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [archive/engine-language.md](archive/engine-language.md).
 
-**Toolchain: built and proved in the cloud, 6 November 2026.** A minimal Godot project, the quality gate, export presets for Windows, Android (APK and AAB) and Linux, CI, and the cloud setup. See [CLOUD_SETUP.md](CLOUD_SETUP.md) and [build.md](build.md). The cloud environment is `Bramble Cloud`. Not proved:
+**Toolchain: built and proved in the cloud, 6 November 2026.** A minimal Godot project, the quality gate, export presets for Windows, Android (APK and AAB) and Linux, CI, and the cloud setup. See [CLOUD_SETUP.md](CLOUD_SETUP.md) and [the proof log](archive/cloud-toolchain-proof.md). The cloud environment is `Bramble Cloud`. Not proved:
 - the Windows and Android builds have been built and inspected, never launched, and all are debug builds;
 - no single AAB run combined the mirror, an empty Gradle cache and a fresh template;
 - the gate has only run on 2 tests;
 - updating an existing `screens` branch from a session, and the screenshot tool and its Action aren't built.
 
-`main` has a ruleset since 6 November 2026: PR required, no force push, no deletion. It can't stop a session merging a PR. The owner approved the worker and orchestrator rules on 7 November 2026: [orchestration/WORKER.md](orchestration/WORKER.md) and [orchestration/ORCHESTRATOR.md](orchestration/ORCHESTRATOR.md). One worker has run the whole loop under them, on one small task; see [build.md](build.md), "Pilot". An orchestrator hasn't run from the server yet, and the owner's Stop button hasn't been tried on a busy worker. Cloud work on this track is paused until the owner chooses a piece from ideation to bring in.
+`main` has a ruleset since 6 November 2026: PR required, no force push, no deletion. It can't stop a session merging a PR. The owner approved the worker and orchestrator rules on 7 November 2026: [orchestration/WORKER.md](orchestration/WORKER.md) and [orchestration/ORCHESTRATOR.md](orchestration/ORCHESTRATOR.md). One worker has run the whole loop under them, on one small task; see [the proof log](archive/cloud-toolchain-proof.md), "Pilot". Cloud work on this track is paused until the owner chooses a piece from ideation to bring in. Not proved yet (from the pilot, 7 November 2026):
+- an orchestrator running from the server;
+- an orchestrator merging on its own under O1;
+- the owner pressing Stop on a busy worker, or a worker obeying `Orchestrator: STOP`;
+- a task that brings a chosen piece across from ideation;
+- more than one small task, or a task that took several rounds of review.
 
 ## Foundations (v0, awaiting owner review)
 
