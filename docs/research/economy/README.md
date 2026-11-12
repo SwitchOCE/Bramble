@@ -67,7 +67,7 @@ From `lobby-v2`, the adaptive and evolved bots, averaged over 3 seeds:
 - **Shop odds** (rulebook 6.1.7 and 5.1.4): the owner asked to revisit them now that the economy is set.
 - **Damage:** games run about 16 fights against the 13–14 target. Less health also shuts players out of tiers (at 34 health, tier 5 drops to 40% at the old prices), so damage and tier prices have to be tuned together. See [the record](2026-11-12-economy-and-tier-prices.md#damage-is-the-linked-lever).
 - **Proposed default, not yet confirmed by the owner:** the discount stays at 5 a turn after the fifth turn (4.6.6).
-- **Shop-size experiments:** whether the 8 Nov experiments (N11 §5.2) still run now that the shop is 5 units and 2 spells.
+- **Shop layout:** 7 cards at once (5 units and 2 spells) needs a layout check; the size itself is settled (owner, 13 Nov).
 
 ## When to redo this
 

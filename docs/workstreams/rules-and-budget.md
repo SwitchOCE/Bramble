@@ -7,7 +7,6 @@
 - **Next step:** Revisit the shop odds with the owner (rulebook 6.1.7 and 5.1.4). Then rescale the power budget for the bigger stats and the new economy, and tune damage with tier prices, since games still run about 16 fights against the 13–14 aim.
 - **Waiting on you:**
   - The shop-odds talk you asked for once the economy was done.
-  - Whether the shop-size experiments of 8 Nov still run, now that the shop is 5 units and 2 spells (6.1.1).
   - Claude's calls still standing: 4.6.6 the discount stays at 5 after five turns, 10.1.2 starting units (now worded as kills), 10.1.4 no other cap.
   - Review points B1–B7 in `docs/design/review-queue.md`.
   - The remaining proposed defaults.

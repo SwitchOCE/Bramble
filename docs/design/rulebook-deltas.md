@@ -29,7 +29,7 @@ The rest are edge cases with sensible defaults, or open questions to settle by e
 | 1.2.5 | BRAMBLE | Stat scale about 2× HSBG (working value); room to tune upgraded and scaling effects | Base scale | Decided 8 Nov (N12, N13); power budget needs rescaling |
 | 2.2.5 | BRAMBLE | Starting health 40 by default; heroes may differ for balance (direction open: maybe only upward) | 30 | Decided 12 Nov (C12) |
 | 5.1.4 | OPEN | Keep a copy-count pool, or draw by set chances in async play | Shared pool | Decide (N11 §5.5) |
-| 6.1.1 | BRAMBLE | Shop shows 5 units and 2 spells at every tier; tiers change only the odds | 4–7 cards, growing with tier | Decided 12 Nov (C13); check the shop layout; say whether the N11 size experiments still run |
+| 6.1.1 | BRAMBLE | Shop shows 5 units and 2 spells at every tier; tiers change only the odds | 4–7 cards, growing with tier | Decided 12 Nov (C13); size settled 13 Nov; check the shop layout |
 | 6.1.6 | OPEN | Extra shop slots as a separately bought upgrade | Slots come with tier | Decide (N11 §5.3) |
 | 6.1.7 | OPEN | Shop draws flat by copies, or weighted toward your tier | Flat by copies | Decide (N11 §5.4) |
 | 7.3.8 | OPEN | Multiple-copy strategies (TFT stars) or HSBG's single triple | Single triple | Decide (N11 §5.6) |

@@ -362,7 +362,7 @@ The results rest on guessed unit power, scaling and economy units. Recheck them 
 
 ### 6.1 The shop
 
-**6.1.1** [BRAMBLE] **Shop size.** The shop shows **5 units and 2 spells at every tier**. Tiers change only the odds of what appears (6.1.7), not the number of offers. The owner: "I want the shop to always have 5 units and 2 spells… It will not change with tier. What will change is the shop odds and the chances of finding effects of specific rarities" (C13). The shop-size experiments planned in N11 §5.2 (3 to 7 cards, fixed or growing) predate this decision; whether they still run is the owner's call.
+**6.1.1** [BRAMBLE] **Shop size.** The shop shows **5 units and 2 spells at every tier**. Tiers change only the odds of what appears (6.1.7), not the number of offers. The owner: "I want the shop to always have 5 units and 2 spells… It will not change with tier. What will change is the shop odds and the chances of finding effects of specific rarities" (C13). This settles the shop-size experiments of N11 §5.2 (3 to 7 cards, fixed or growing). The owner, 13 Nov: "Yes, it's settled" (C13).
 
 Note: 7 offers at once is up from the earlier working value of 5 cards, 1 of them a spell, so the shop layout needs checking. N11 §5.2 noted that seven at once can feel overwhelming. Fewer offers push design toward generally useful units, which costs asymmetry and strategic variety. *HSBG:* grows with tier (rules.md §5.2):
 

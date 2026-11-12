@@ -247,7 +247,7 @@ The work was given to a Fable advisor, which handed the coding and the runs to c
 - **Economy units.** Strong ones (`econStrong`) lift tier 5 from 53% to 84% at 8/12/17/22/27. If they turn out strong, 8/12/16/19/31 is the safer price set.
 - **Spells.** They add power without taking a board slot, which may let players skip tier-ups. Halving them under A changed little (reach tier 5 went from 17% to 21%).
 - **A proposed default written into the rulebook, not yet confirmed by the owner:** the discount stays at 5 a turn after the fifth turn (4.6.6).
-- **Shop-size experiments:** the shop is now 5 units and 2 spells at every tier; whether the 3–7 card experiments of 8 Nov (N11 §5.2) still run is the owner's call.
+- **Shop size is settled.** Asked whether 5 units and 2 spells ends the 3–7 card experiments of 8 Nov (N11 §5.2), the owner said on 13 Nov: "Yes, it's settled". The layout of 7 cards at once still needs checking.
 
 ### Damage is the linked lever
 
