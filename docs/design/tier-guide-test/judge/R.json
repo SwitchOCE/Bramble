@@ -1,0 +1,50 @@
+{
+ "power_for_place": {
+  "better": "A",
+  "why": "A has the more consistent tier progression: early seeds, middle-tier enablers, then meaningful multipliers and capstones. B puts substantial repeatable scaling on cheap cards, while some later pieces offer comparatively little. Estimates below use normal copies and plausible setups; transferred stats are not automatically new board stats.",
+  "A_outliers": [
+   {
+    "unit": "Bloodmaul Clubsmith",
+    "tier": 3,
+    "issue": "Three to five Challenges add 9\u201315 combat damage, versus the T3 in-fight median of 4.5. That is unusually efficient support for an already useful extra-attack mechanic."
+   },
+   {
+    "unit": "Cho'Rush the Observer",
+    "tier": 3,
+    "issue": "Two or three Chieftain deaths distribute 12\u201318 combat stats, versus the T3 median of 4.5. The crown automatically finding another recipient makes this condition fairly dependable."
+   }
+  ],
+  "B_outliers": [
+   {
+    "unit": "Gordunni Glutton",
+    "tier": 1,
+    "issue": "Two or three adjacent sales produce 6\u20139 permanent stats per turn, versus the T1 median of 2. Sales cost resources, but ordinary cycling already exceeds the tier's scaling budget substantially."
+   },
+   {
+    "unit": "Bickering Ogre Magi",
+    "tier": 3,
+    "issue": "With four other Ogres, three adjacent sales add 12 permanent stats, versus the T3 median of 5.5. This becomes the wide engine's scaling backbone unusually early."
+   },
+   {
+    "unit": "Gordunni Challenger",
+    "tier": 4,
+    "issue": "Usually adds roughly 0\u20134 permanent stats per fight, versus the T4 median of 12 per turn. Target selection is valuable, but a 5/6 without an extra attack struggles to kill the highest-Attack enemy and earn even that modest payoff."
+   },
+   {
+    "unit": "High King Maulgar",
+    "tier": 5,
+    "issue": "Ordinary purchased fodder supplies approximately 7\u201312 permanent stats once per turn, around half the T5 median of 20. Selling an already-buffed ally mostly consolidates existing stats. External Tavern buffs can rescue it, but its native scaling is weak for T5."
+   }
+  ],
+  "A_tier_jobs": "T1\u20132 establish feeding, economy and Challenge access. T3 clearly names the compositions, although Clubsmith and Cho'Rush overdeliver. T4 supplies substantial scaling and useful support; Kingmaker's zero net stats have a credible redistribution purpose. T5 adds succession, combat chaining and buff duplication. Gruul, Cho'gall and Mar'gok provide recognizable T6 payoffs.",
+  "B_tier_jobs": "T1\u20132 establish fodder and selling rewards effectively. T3 already contains much of the main engine's scaling. T4 is mixed: Mound-Matron's three 3/3 summons supply 18 combat stats, close to the 20 median, while Challenger lags. T5 offers interesting modifiers but uneven independent value. T6 Gordok transforms the engine; Mar'gok supplies at most 36 permanent stats per turn, respectable but below the 53 median."
+ },
+ "distinctiveness": {
+  "better": "A",
+  "why": "A more thoroughly changes interaction between opposing boards: players deliberately attack the enemy carry, build decoys, and manage crown succession across recruitment and combat. B's empty-space commitment is genuinely bold, but its central buy\u2013sell\u2013multiply engine is closer to familiar transaction-based play. King Gordok also removes the adjacency decision that initially distinguishes Tribute.",
+  "A_core": "Challenge combines deliberate opening attacks with a transferable, type-independent Chieftain. Enforcer, Kingmaker and King Gordok make targeting and leadership manipulable resources. Two-Headed adds a smaller timing layer.",
+  "B_core": "Tribute makes sale order and adjacency productive; empty-space rewards turn board size into a resource. Bickering Ogre Magi makes the side of a sale matter, while Hermit, Ko'ragh and Mar'gok support deliberately keeping fewer bodies."
+ },
+ "A_has_B_lost": "Enforcer lets another tribe's Venomous, Divine Shield or Rally minion become a targeted opening attacker; B's Challenger keeps targeting to itself and grants no opening attack. Kingmaker and King Gordok also create a concrete succession game that B's king lacks.",
+ "B_has_A_lost": "B makes vacancies valuable: Hermit and Mar'gok reward keeping gaps, Ringmaster compensates for fewer attackers, and Ko'ragh converts gaps into Divine Shields. Bickering Ogre Magi also gives left-versus-right placement an immediate economic consequence. A has no comparable reason to keep a smaller board."
+}

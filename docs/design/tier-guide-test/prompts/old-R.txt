@@ -1,0 +1,21 @@
+Design a complete new Hearthstone Battlegrounds minion type: **Ogres**, with **24 minions**. Read /tmp/claude-1000/-home-alex-code/9e31d90b-4cd9-45f0-9afa-f0a36db8e42d/scratchpad/tribes/BRIEF.md first, for the lore and the current game. Read no other file in that folder or under /home/alex/code, and don't use the web.
+
+This is one of several parallel design exercises. Each uses a different design route. Yours is below. Follow it faithfully, even where another route would feel more natural.
+
+**Your route: surgical (middle-out).** In the owner's words: "neither a top-down nor a bottom-up approach... examining the whole system and trying to place a piece surgically inside of it."
+1. Examine the existing game: the current tribes, neutrals, keywords and systems, and how a five-tribe lobby plays.
+2. Find the roles, play patterns and decisions that are under-served.
+3. Decide which gaps this tribe should fill.
+4. Place each card deliberately, by its role (economy, enabler, payoff, stat holder, bridge to other tribes, and so on) and by its tier in the player's progression curve.
+5. Add flavor and names after the slots are set.
+
+**Audience (owner's words):** "Johnny is the more important one to focus on. Cards need to have cool interlapping, interwoven and overlapping effects and synergies... Ways of using them outside of their necessarily intended purpose." Spike is kept happy through balance. Timmy is not the focus.
+
+**Output:** write /tmp/claude-1000/-home-alex-code/9e31d90b-4cd9-45f0-9afa-f0a36db8e42d/scratchpad/tribes/R.md, at most about 2,500 words:
+1. **Identity:** the core mechanic and any new keyword, and one paragraph on how the tribe plays.
+2. **The 24 minions:** a table with name, tier, attack/health, text and golden text, sorted by tier. Add any tokens, Tavern spells or trinkets the tribe needs, kept few, listed separately.
+3. **Builds:** two to four ways to play the tribe, and how it mixes with other tribes in a five-tribe lobby.
+4. **Risks and holes** you can see.
+5. **Design rationale:** the main decisions in the order you made them, one line each with the reason, at most 12 lines. Include the gaps you found in two or three lines.
+
+Leave the route's name out of the file, because the owner will rate the files blind. Your final reply to me is just the file path.

@@ -4,7 +4,7 @@ A short guide for designing and costing units. It replaces strict per-card budge
 
 The owner's words (12 Nov): "more important than the budget is just having it be like, instead of being really strict, have it be like pretty simplistic." Tier 6 "needs to be big, impactful … a capstone. Like a pivotal engine piece or a big scaling payoff for an engine." Tier 5 needs to be "strong enough to give you strategic direction or a lot of tempo to buy you time to find strategic direction." Tier 4 needs to be "a strong player in a composition that sets up future things, enables, gives you some stats."
 
-**Who reads which part.** Designers get Part 1 (the jobs and the shape of a tribe). The costing reviewer uses Parts 1 and 2. Part 2 is in ratios, so it holds when Bramble's economy and stat scale change. That keeps the standing rule that designers work without the numbers, so their ideas aren't narrowed to what Battlegrounds already does.
+**Who reads it.** Designers get the whole guide, numbers included, and end each design with a tier check: one line per tier on how it fits, and where it breaks the guide on purpose. In the 12 Nov Ogre test this gave more distinctive tribes that ran hotter, and the owner preferred them: "They're more creative. They feel more powerful. I can balance them afterwards." The evidence is in `tier-guide-test/`. Part 2 is in ratios, so it holds when Bramble's economy and stat scale change.
 
 ## Part 1: what each tier is for
 
@@ -35,7 +35,7 @@ Change the shape when the tribe's idea needs it, and say why.
    - Brann (T5) repeats every Battlecry, where Kelp Keeper (T4) repeats one: +72 against +24.
    - Nadina (T6) gives three shields, where Glowscale (T5) gives one: 120 against 40 a fight.
 
-## Part 2: the curve, as ratios (for the costing reviewer)
+## Part 2: the curve, as ratios
 
 Bramble's economy and stat scale will change (owner, 12 Nov), so the guide is anchored to **ratios, the curve and each tier's job**, not to Battlegrounds' gold or stat numbers. The owner: "as long as it's not like anchored to Battleground's economy numbers and more about like the ratio and the curve and the kind of like strategic parts they play."
 

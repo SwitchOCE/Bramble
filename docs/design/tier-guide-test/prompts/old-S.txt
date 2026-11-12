@@ -1,0 +1,16 @@
+Design a complete new Hearthstone Battlegrounds minion type: **Ogres**, with **24 minions**. Read /tmp/claude-1000/-home-alex-code/9e31d90b-4cd9-45f0-9afa-f0a36db8e42d/scratchpad/tribes/BRIEF.md first, for the lore and the current game. Read no other file in that folder or under /home/alex/code, and don't use the web.
+
+This is one of several parallel design exercises. Each uses a different design route. Yours is below. Follow it faithfully, even where another route would feel more natural.
+
+**Your route: top-down, flavor-first.** Start from a high-level flavor concept: what ogres are in the world, and what fantasy playing them should give. Pick the themes from the lore that define the tribe. Decide what kinds of effects those themes imply. Work down from there to the tribe's mechanic, and then to each specific card. Mechanics follow from flavor.
+
+**Audience (owner's words):** "Johnny is the more important one to focus on. Cards need to have cool interlapping, interwoven and overlapping effects and synergies... Ways of using them outside of their necessarily intended purpose." Spike is kept happy through balance. Timmy is not the focus.
+
+**Output:** write /tmp/claude-1000/-home-alex-code/9e31d90b-4cd9-45f0-9afa-f0a36db8e42d/scratchpad/tribes/S.md, at most about 2,500 words:
+1. **Identity:** the core mechanic and any new keyword, and one paragraph on how the tribe plays.
+2. **The 24 minions:** a table with name, tier, attack/health, text and golden text, sorted by tier. Add any tokens, Tavern spells or trinkets the tribe needs, kept few, listed separately.
+3. **Builds:** two to four ways to play the tribe, and how it mixes with other tribes in a five-tribe lobby.
+4. **Risks and holes** you can see.
+5. **Design rationale:** the main decisions in the order you made them, one line each with the reason, at most 12 lines.
+
+Leave the route's name out of the file, because the owner will rate the files blind. Your final reply to me is just the file path.

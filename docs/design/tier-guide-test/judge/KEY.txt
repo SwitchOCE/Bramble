@@ -1,0 +1,5 @@
+P: A=v2 B=v1
+Q: A=v1 B=v2
+R: A=v2 B=v1
+S: A=v1 B=v2
+T: A=v1 B=v2
