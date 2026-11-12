@@ -7,5 +7,3 @@ Documents that are finished or no longer current, kept as history. Current docs 
 | [autobattler/](autobattler/README.md) | Lessons from the earlier Autobattler project: toolchain, cloud logs, orchestration, what to reuse | 7 Nov 2026 | Finished research. The toolchain and the worker and orchestrator rules now carry what applies to Bramble. |
 | [engine-language.md](engine-language.md) | Research on which language to write Bramble's Godot code in | 7 Nov 2026 | The owner chose GDScript, typed as strictly as possible, on 2 Nov 2026. |
 | [cloud-toolchain-proof.md](cloud-toolchain-proof.md) | The log of the first cloud toolchain proof, the follow-up sessions, the routine probe and the first worker pilot (6–7 Nov 2026). Was `docs/build.md`. | 11 Nov 2026 | The runs are finished. [CLOUD_SETUP.md](../CLOUD_SETUP.md) sums up what they proved and [STATUS.md](../STATUS.md) lists what is still unproved. |
-
-To archive something: move it here with `git mv`, fix the links that pointed at it, and add a row above.

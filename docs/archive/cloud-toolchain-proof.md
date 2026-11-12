@@ -1,6 +1,6 @@
 # Cloud toolchain proof
 
-> **Archived 11 November 2026.** This was `docs/build.md`. The runs below are finished. What they proved is summed up in [CLOUD_SETUP.md](../CLOUD_SETUP.md), section 2, and what is still unproved is in [STATUS.md](../STATUS.md). A re-run of the short proof adds its report at the end of this file.
+> **Archived 11 November 2026.** This was `docs/build.md`. The runs below are finished. What they proved is summed up in [CLOUD_SETUP.md](../CLOUD_SETUP.md), section 2, and what is still unproved is in [STATUS.md](../STATUS.md).
 
 The first proof session. Its brief is in the history of [CLOUD_SETUP.md](../CLOUD_SETUP.md) at `8cde7ad`, section 2; item numbers follow that brief. It ran on 6 November 2026 in the `Bramble Cloud` environment, on branch `claude/inspiring-faraday-x45a8n`, which was cut from `build/toolchain` at `8cde7ad`.
 

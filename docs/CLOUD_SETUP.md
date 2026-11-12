@@ -77,11 +77,11 @@ Imports, test runs and exports need the longer command timeouts. Put **no secret
 
 These briefs can run again after a toolchain change, once `screens` and both `claude/merge-test-*` branches are deleted from outside a session. Sessions start from `main`, so the change has to be merged first. Session A goes before pasting the changed setup script, so the hook has a real mismatch to warn about:
 
-> Verify the toolchain from main. Change nothing except docs/archive/cloud-toolchain-proof.md, where you add your report as a new dated section at the end, on your own branch and PR. Do not run scripts/session-start.sh by hand. Report for each item the command, the result and the shortest decisive line:
+> Verify the toolchain from main. Change no files. Post your report as a comment on the PR that holds the toolchain change. Do not run scripts/session-start.sh by hand. Report for each item the command, the result and the shortest decisive line:
 > 1. Hook: quote what you can see in your session context from the SessionStart hook: the `Godot:` line and any `WARNING` line. A warning that the setup script differs is expected in this session.
 > 2. Variables: `echo $XDG_DATA_HOME $JAVA_HOME $ANDROID_HOME`; `command -v ruff`; `ruff --version`; `java -version`; `ls ~/.gradle/init.d`.
 > 3. `./scripts/check.sh` passes. Then point `dirs` in .gutconfig.json at an empty folder and show the `tests` step fails, then restore the file.
-> 4. Screenshot push: render with `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3`. Push `/tmp/shot00000002.png` to a new orphan branch `screens`, show its raw.githubusercontent.com URL rendering in a comment on your PR, and leave the branch: sessions can't delete branches, so the owner's side does. If the push is refused, quote the refusal.
+> 4. Screenshot push: render with `xvfb-run -a godot --rendering-driver opengl3 --audio-driver Dummy --write-movie /tmp/shot.png --quit-after 3`. Push `/tmp/shot00000002.png` to a new orphan branch `screens`, show its raw.githubusercontent.com URL rendering in a comment on that PR, and leave the branch: sessions can't delete branches, so the owner's side does. If the push is refused, quote the refusal.
 > 5. Merging: push throwaway branches `claude/merge-test-base` (from main) and `claude/merge-test-head` (one empty commit more), open a PR from head to base with `gh api`, merge it with `gh api -X PUT repos/SwitchOCE/Bramble/pulls/<n>/merge`, and leave both branches. Quote any refusal. Never merge into main.
 > 6. CI logs: read the job steps of a recent CI run with `gh api`, then try its job log with `gh api repos/SwitchOCE/Bramble/actions/jobs/<id>/logs`. Quote any refusal.
 
