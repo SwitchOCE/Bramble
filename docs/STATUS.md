@@ -44,7 +44,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 ## Next
 
 1. The owner works through the rest of [design/review-queue.md](design/review-queue.md). Combat shape, economy and the power-budget basics are answered; next are the power-budget review points B1–B7, then the remaining proposed defaults.
-2. Record the answers as owner notes and move the rulebook to v1.
+2. Record the answers in the rulebook, quoting the owner's words, and move it to v1.
 3. Build a headless rules simulation to validate the power budget. Engine choice comes first, unless the sim is built as a throwaway prototype.
 
 ## Open decisions

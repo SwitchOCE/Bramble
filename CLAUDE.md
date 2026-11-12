@@ -4,17 +4,23 @@
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
-- The owner's direction: `docs/design/direction-summary.md`, plus the full record in `docs/design/owner-notes/`.
+- The owner's direction: `docs/design/direction-summary.md`, plus the owner's instructions in `docs/design/owner-notes/`.
 - Architecture thinking: `docs/design/architecture-notes.md`.
 
-## Owner notes are records
+## Owner notes
 
-Files in `docs/design/owner-notes/` are the owner's dictated words. Never reword, summarize over or "improve" them. Corrections go in a new dated note or in the summary.
+Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules and "do this" statements to agents. They are not for the owner thinking out loud or talking a design through. That stays in chat, or in the doc it shapes.
 
-When transcribing a new dictation:
-- Remove dictation errors, filler words and repeats, and add punctuation.
-- Reordering into sections is allowed.
-- Mark any interpretation of yours as *[italic bracketed editor notes]*.
+**When to write one:**
+- The owner gives a rule or tells agents what to do.
+- The owner asks for something to be recorded as a note.
+- **Propose one:** the orchestrator proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
+
+**When to remove one:** at the end of the session, the agent that wrote the session's notes lists them and asks the owner which still hold. Delete the ones that don't. Git history keeps them.
+
+**While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. A changed instruction gets a new note, and the old one is removed if it no longer holds.
+
+**Transcribing:** remove dictation errors, filler words and repeats, and add punctuation. Reordering into sections is allowed. Mark any interpretation of yours as *[italic bracketed editor notes]*.
 
 ## Layout
 
@@ -25,7 +31,7 @@ docs/design/architecture-notes.md Recommendation for rule modifiers and layering
 docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
 docs/design/review-queue.md      Decisions waiting on the owner
-docs/design/owner-notes/         Dated owner dictations (records; don't edit)
+docs/design/owner-notes/         Dated owner instructions (don't reword)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/folio/                      The Woodland Folio: research and ideation page with art
