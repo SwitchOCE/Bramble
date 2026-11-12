@@ -31,6 +31,7 @@ docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card l
 docs/folio/                      The Woodland Folio: research and ideation page with art
 tools/art/                       Codex image-generation runner and the prompts used so far
 tools/research/                  Re-runnable scripts that build the card data libraries
+tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
 scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
@@ -60,3 +61,4 @@ Lessons so far:
 - **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.
+- **Large files are rare (owner, 12 Nov).** Screenshots, video and other large files go in Cloudflare R2 through `tools/assets/`, never in Git. Use one only when it clearly improves the result, and shrink it first: JPEG or WebP, the smallest size that shows what matters, short re-encoded clips. Purpose: keep the repo and the bucket small and inside the free tier. In the owner's words, "300 megabytes for a file is crazy", but "when they're going to significantly improve the result, we should absolutely use them". Where it doesn't apply: a large file that is really needed is fine; push it with `--allow-large`.

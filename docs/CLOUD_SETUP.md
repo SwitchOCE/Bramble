@@ -40,6 +40,7 @@ uploads.github.com
 - `docs.godotengine.org` was blocked in Autobattler and workers needed it (1).
 - `uploads.github.com` was for screenshot uploads to releases. Nothing uses it now that sessions can't create releases; the owner left it in place on 6 November 2026, as harmless.
 - Gradle's Maven Central downloads go to Google's mirror (`maven-central.storage-download.googleapis.com`), which the default list already allows. The owner chose the mirror alone on 6 November 2026, rather than also warming the Gradle cache in setup, so a fresh session's first AAB downloads about 1.2 GB (about 2 minutes).
+- **Not added yet:** `<account-id>.r2.cloudflarestorage.com`, for large files in Cloudflare R2. Add it here and in the environment when the owner makes the R2 keys, and add `boto3` to the setup script's pip install then ([tools/assets/README.md](../tools/assets/README.md)).
 - This list is the record of what the environment allows. Autobattler's copy drifted from its environment (1).
 
 **Environment variables:**
