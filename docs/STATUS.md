@@ -1,13 +1,13 @@
 # Status
 
-Last updated 2 November 2026. The project is in pre-production: no code yet.
+Last updated 12 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable prototype builds are on the ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
 
-**Current phase: fundamentals.** Research, then the rulebook, then power budgeting. Content design waits until those exist.
+**Current phase on `main`: fundamentals.** Research, then the rulebook, then power budgeting. Content design waits until those exist.
 
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Owner notes from 27 October and 1 November 2026.
+- Owner notes from 27 October and 1 November 2026. Fourteen later notes, from 6 to 11 November, are only on `ideation/main` so far.
 - A plannable summary with open questions.
 - An architecture recommendation.
 
@@ -48,6 +48,8 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - a task that brings a chosen piece across from ideation;
 - more than one small task, or a task that took several rounds of review.
 
+**Archive:** [archive/](archive/README.md) holds finished docs kept as history.
+
 ## Foundations (v0, awaiting owner review)
 
 - **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). 212 rules: 130 from Battlegrounds, 21 owner decisions, 55 proposed defaults, 6 open.
@@ -56,11 +58,26 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
   - `research/battlegrounds/`: rules (patch 36.6.3), patch history, keywords, card library (patch 37.0.0, pool history since 2019).
   - `research/galaxy/`: rules, patch history, all 698 cards, design notes.
 
+## Elsewhere: ideation and other branches
+
+Work that isn't on `main`. Nothing from these branches comes to `main` without the owner's say-so. Each plan's status block says where that work stands; the date is when the plan was last updated.
+
+| Work | Branch | Plan | Plan updated |
+|---|---|---|---|
+| Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
+| Prototype | `proto/main` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
+| Design lab | `design-lab/main`, `design-lab/journey` | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
+| Portal (the owner's site on the Optiplex) | `portal/main` | `docs/portal/PLAN.md` | 4 Nov 2026 |
+
+Builds are in `/data/bramble-builds` on the Optiplex and on the portal's builds page.
+
 ## Next
 
-1. The owner works through the rest of [design/review-queue.md](design/review-queue.md). Combat shape, economy and the power-budget basics are answered; next are the power-budget review points B1–B7, then the remaining proposed defaults.
-2. Record the answers as owner notes and move the rulebook to v1.
-3. Build a headless rules simulation to validate the power budget, in GDScript (decided above).
+The owner is re-evaluating the next steps (12 November 2026), which are "somewhat entangled" between `main` and the ideation branches. The steps planned before that:
+
+- the owner works through the power-budget review points B1–B7 in [design/review-queue.md](design/review-queue.md), then the remaining proposed defaults;
+- the answers are recorded as owner notes and the rulebook moves to v1;
+- a headless rules simulation validates the power budget, in GDScript.
 
 ## Open decisions
 
