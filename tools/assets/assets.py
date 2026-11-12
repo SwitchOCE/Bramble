@@ -291,7 +291,7 @@ def cmd_push(a):
     write_manifest(entries)
     if uploaded:
         try:
-            index = read_index(be)
+            index = add_history(read_index(be))
             today = datetime.date.today().isoformat()
             for k, s in uploaded.items():
                 index.setdefault(k, (s, today))
@@ -425,6 +425,15 @@ def show_manifest(rev: str) -> dict:
     return manifest_keys(r.stdout.decode("utf-8", errors="replace")) if r.returncode == 0 else {}
 
 
+def add_history(index: dict) -> dict:
+    """Add files any commit ever listed (some were pushed before the index existed), dated today."""
+    today = datetime.date.today().isoformat()
+    for c in git("log", "--all", "--format=%H", "--", MANIFEST_REL).split():
+        for k, s in show_manifest(c).items():
+            index.setdefault(k, (s, today))
+    return index
+
+
 def cmd_prune(a):
     if subprocess.run(["git", "fetch", "--quiet", "--prune", "--tags", "origin"], cwd=ROOT).returncode != 0:
         sys.exit("git fetch failed: prune needs every branch and tag on GitHub to know what is still listed.")
@@ -436,16 +445,8 @@ def cmd_prune(a):
     # What's stored: the bucket's index of every push, plus anything a commit ever listed
     # (files pushed before the index existed). The index remembers them once a branch is deleted.
     be = backend()
-    index = read_index(be)
+    index = add_history(read_index(be))
     today = datetime.date.today()
-    added = False
-    for c in git("log", "--all", "--format=%H", "--", MANIFEST_REL).split():
-        for k, s in show_manifest(c).items():
-            if k not in index:
-                index[k] = (s, today.isoformat())
-                added = True
-    if added:
-        write_index(be, index)
     cutoff = (today - datetime.timedelta(days=a.older_than)).isoformat()
     unlisted = {k: v for k, v in index.items() if k not in keep}
     gone = {k: s for k, (s, d) in unlisted.items() if d <= cutoff}
@@ -471,7 +472,7 @@ def cmd_prune(a):
         except Exception as e:
             failed += 1
             print(f"[{i}/{len(gone)}] FAILED {k}: {e}")
-    index = read_index(be)  # re-read, in case someone pushed meanwhile
+    index = add_history(read_index(be))  # re-read, in case someone pushed meanwhile
     for k in deleted:
         index.pop(k, None)
     write_index(be, index)
