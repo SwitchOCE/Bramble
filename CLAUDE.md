@@ -9,16 +9,16 @@ Start here:
 
 ## Owner notes
 
-Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules and "do this" statements to agents. They are not for the owner thinking out loud or talking a design through. That stays in chat, or in the doc it shapes.
+Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules and "do this" statements to agents. They are not for the owner thinking out loud or talking a design through. That stays in chat, or in the doc it shapes. A design decision goes in the doc it changes, quoting the owner's words.
 
 **When to write one:**
-- The owner gives a rule or tells agents what to do.
+- The owner gives a rule, or a big "do this" that agents outside this conversation must follow. A small ask inside a task goes in that task's brief, quoted.
 - The owner asks for something to be recorded as a note.
 - **Propose one:** the orchestrator proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
 
-**When to remove one:** at the end of the session, the agent that wrote the session's notes lists them and asks the owner which still hold. Delete the ones that don't. Git history keeps them.
+**When to remove one:** when the work a note was written for is done, or the owner says the session is over, the agent lists the notes written for it, one line each, and asks the owner which still hold. Delete the ones that don't. An agent that later finds a note that is finished or contradicted tells the owner and asks. Before deleting a note, fix the docs that link to it: quote the owner's words there, or drop the link. Git history keeps deleted notes.
 
-**While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. A changed instruction gets a new note, and the old one is removed if it no longer holds.
+**While a note exists,** it's the owner's words. Never reword, summarize over or "improve" it. If the owner says a note misheard them, fix it. A changed instruction gets a new note that says what it replaces. The old note is removed if none of it holds.
 
 **Transcribing:** remove dictation errors, filler words and repeats, and add punctuation. Reordering into sections is allowed. Mark any interpretation of yours as *[italic bracketed editor notes]*.
 

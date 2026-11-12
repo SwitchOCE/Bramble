@@ -7,7 +7,7 @@ Last updated 2 November 2026. The project is in pre-production: no code yet.
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Owner notes from 27 October and 1 November 2026.
+- Owner notes: the owner's instructions that still hold.
 - A plannable summary with open questions.
 - An architecture recommendation.
 
