@@ -1,0 +1,166 @@
+/* Hedgerow Woodcraft: shared styles. All classes are prefixed wc-. */
+:root {
+  --wc-walnut: #3B2416;
+  --wc-ink: #2B1A0F;
+  --wc-oak: #C08A52;
+  --wc-carve: #8C5A2E;
+  --wc-birch: #EFDDB8;
+  --wc-cream: #F7ECD4;
+  --wc-moss: #41662C;
+  --wc-acorn: #D9A441;
+  --wc-atk: #E0812A;
+  --wc-hp: #B8322A;
+  --wc-shade: #5E3A86;
+  --wc-frost: #A8D4E6;
+  --wc-gilt: #F0C14B;
+  --wc-pine: #F4E9CF;
+  --wc-head: 'Grenze', Georgia, serif;
+  --wc-body: 'Alegreya Sans', 'Segoe UI', sans-serif;
+  --wc-num: 'Bitter', Georgia, serif;
+  --wc-title: 'Grenze Gotisch', 'Grenze', serif;
+  /* flat ink grain, drawn not rendered */
+  --wc-grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='520' height='160'%3E%3Cg fill='none' stroke='%232B1A0F' stroke-width='3' stroke-linecap='round' opacity='.55'%3E%3Cpath d='M0 30 C90 22 160 40 260 30 S430 20 520 32'/%3E%3Cpath d='M0 92 C70 100 150 80 230 90 C300 98 330 70 380 76 C430 82 470 96 520 92'/%3E%3Cpath d='M300 66 c20 -14 52 -12 64 4 c-14 14 -46 14 -64 -4z'/%3E%3Cpath d='M0 132 C120 126 220 140 330 132 S470 126 520 134'/%3E%3C/g%3E%3C/svg%3E");
+  --wc-grain-oak: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='120'%3E%3Cg fill='none' stroke='%238C5A2E' stroke-width='2.5' stroke-linecap='round' opacity='.7'%3E%3Cpath d='M0 20 C80 14 150 28 230 20 S360 14 420 22'/%3E%3Cpath d='M0 62 C60 70 120 52 190 60 C240 66 270 46 310 50 C350 54 390 64 420 62'/%3E%3Cpath d='M240 40 c14 -10 38 -9 46 3 c-10 10 -34 10 -46 -3z'/%3E%3Cpath d='M0 100 C100 96 200 108 300 100 S390 96 420 102'/%3E%3C/g%3E%3C/svg%3E");
+  /* chip-carved band (Kerbschnitt): faceted triangles */
+  --wc-chip: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='16'%3E%3Cpath d='M0 0h28v16H0z' fill='%23C08A52'/%3E%3Cpath d='M0 0 L14 16 L0 16z' fill='%238C5A2E'/%3E%3Cpath d='M14 16 L28 0 L28 16z' fill='%238C5A2E'/%3E%3Cpath d='M0 0 L14 16 L28 0z' fill='%23D9A86E'/%3E%3Cpath d='M14 16 L14 6 L0 0z' fill='%23B07A43'/%3E%3C/svg%3E");
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; overflow: hidden; background: var(--wc-walnut); }
+body { font-family: var(--wc-body); color: var(--wc-cream); }
+
+/* fixed-height stage, scaled to the window; width fills the window */
+.wc-stage { position: absolute; left: 0; top: 0; height: 640px; transform-origin: 0 0; overflow: hidden; }
+.wc-table {
+  background-color: var(--wc-walnut);
+  background-image: var(--wc-grain-dark),
+    repeating-linear-gradient(180deg, transparent 0 156px, var(--wc-ink) 156px 160px),
+    repeating-linear-gradient(180deg, #3B2416 0 160px, #43291A 160px 320px);
+}
+
+/* ---------- wooden surfaces ---------- */
+.wc-oak {
+  background-color: var(--wc-oak);
+  background-image: var(--wc-grain-oak);
+  box-shadow: 0 0 0 4px var(--wc-ink), 0 9px 0 0 var(--wc-carve), 0 9px 0 4px var(--wc-ink);
+  border-radius: 18px;
+  color: var(--wc-ink);
+}
+.wc-burn { font-family: var(--wc-head); font-weight: 800; color: var(--wc-ink); letter-spacing: .04em; text-transform: uppercase; }
+.wc-chipband { height: 16px; background-image: var(--wc-chip); background-size: 28px 16px; border-top: 3px solid var(--wc-ink); border-bottom: 3px solid var(--wc-ink); }
+
+/* ---------- stat beads ---------- */
+.wc-stat { position: absolute; width: 50px; height: 50px; display: grid; place-items: center; z-index: 3; }
+.wc-stat svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.wc-stat b { position: relative; font-family: var(--wc-num); font-weight: 900; font-size: 27px; line-height: 1; margin-top: 2px; }
+.wc-stat.wc-hp b { margin-top: 5px; }
+.wc-stat.wc-atk b { color: var(--wc-ink); }
+.wc-stat.wc-hp b { color: var(--wc-cream); }
+.wc-stat.wc-hurt b { color: var(--wc-cream); }
+
+/* ---------- tiles (units) ---------- */
+.wc-tile {
+  position: relative; border-radius: 14px; background: var(--wc-birch);
+  box-shadow: 0 0 0 3px var(--wc-ink), 0 7px 0 0 var(--wc-carve), 0 7px 0 3px var(--wc-ink);
+  color: var(--wc-ink);
+}
+.wc-tile .wc-art { position: absolute; background-size: cover; background-position: center 30%; border: 3px solid var(--wc-ink); border-radius: 9px; }
+.wc-tile .wc-tier {
+  position: absolute; width: 34px; height: 34px; border-radius: 50%; background: var(--wc-oak);
+  box-shadow: 0 0 0 3px var(--wc-ink), inset 0 0 0 4px var(--wc-carve);
+  display: grid; place-items: center; font: 900 18px/1 var(--wc-num); color: var(--wc-ink); z-index: 3;
+}
+.wc-tile .wc-kw {
+  position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; z-index: 2;
+  background: var(--wc-birch); border: 3px solid var(--wc-ink); border-radius: 8px;
+  font: 700 15px/1 var(--wc-body); padding: 3px 7px 4px; color: var(--wc-ink);
+}
+.wc-tile .wc-kw.wc-kw-shade { background: var(--wc-shade); color: var(--wc-cream); }
+
+/* board size: 112 x 112 face inside a 124 pocket */
+.wc-tile--board { width: 110px; height: 100px; }
+.wc-tile--board .wc-art { left: 6px; right: 6px; top: 6px; bottom: 6px; }
+.wc-tile--board .wc-tier { left: -10px; top: -10px; width: 30px; height: 30px; font-size: 17px; }
+.wc-tile--board .wc-kw { top: 4px; font-size: 14px; padding: 2px 6px 3px; }
+.wc-tile--board .wc-kw.wc-kw-long { font-size: 12px; padding: 2px 4px 3px; left: auto; right: 3px; transform: none; }
+.wc-tile--board .wc-atk { left: -12px; bottom: -14px; }
+.wc-tile--board .wc-hp { right: -12px; bottom: -14px; }
+
+/* shop size */
+.wc-tile--shop { width: 160px; height: 176px; }
+.wc-tile--shop .wc-art { left: 7px; right: 7px; top: 7px; height: 92px; }
+.wc-tile--shop .wc-tier { left: -11px; top: -11px; }
+.wc-tile--shop .wc-name { position: absolute; left: 6px; right: 6px; top: 102px; text-align: center; font: 700 18px/0.95 var(--wc-head); height: 40px; display: flex; align-items: center; justify-content: center; }
+.wc-tile--shop .wc-kw { top: 80px; }
+.wc-tile--shop .wc-atk { left: -12px; bottom: -14px; }
+.wc-tile--shop .wc-hp { right: -12px; bottom: -14px; }
+.wc-tile--shop .wc-tribe { position: absolute; left: 0; right: 0; bottom: 9px; text-align: center; font: 800 10px/1 var(--wc-body); letter-spacing: .02em; text-transform: uppercase; color: var(--wc-carve); }
+
+/* hero / full size */
+.wc-tile--hero { width: 300px; height: 460px; border-radius: 22px; }
+.wc-tile--hero .wc-art { left: 12px; right: 12px; top: 12px; height: 190px; border-radius: 14px; border-width: 4px; }
+.wc-tile--hero .wc-tier { left: -14px; top: -14px; width: 50px; height: 50px; font-size: 27px; }
+.wc-tile--hero .wc-name { position: absolute; left: 22px; right: 22px; top: 180px; height: 46px; z-index: 2; background: var(--wc-oak); background-image: var(--wc-grain-oak); border: 4px solid var(--wc-ink); border-radius: 10px; display: grid; place-items: center; font: 800 25px/1 var(--wc-head); }
+.wc-tile--hero .wc-type { position: absolute; left: 0; right: 0; top: 236px; text-align: center; font: 700 14px/1 var(--wc-body); letter-spacing: .1em; text-transform: uppercase; color: var(--wc-carve); }
+.wc-tile--hero .wc-text { position: absolute; left: 20px; right: 20px; top: 258px; bottom: 48px; font: 500 18px/1.28 var(--wc-body); text-align: center; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+.wc-tile--hero .wc-text p { margin: 0; }
+.wc-tile--hero .wc-text em { font-style: italic; font-size: 14.5px; line-height: 1.25; color: #5A3A20; display: block; border-top: 2px dashed #C08A52; padding-top: 7px; }
+.wc-tile--hero .wc-stat { width: 74px; height: 74px; }
+.wc-tile--hero .wc-stat b { font-size: 44px; }
+.wc-tile--hero .wc-atk { left: -16px; bottom: -18px; }
+.wc-tile--hero .wc-hp { right: -16px; bottom: -18px; }
+.wc-tile--hero .wc-tribe { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font: 800 14px/1 var(--wc-head); letter-spacing: .12em; text-transform: uppercase; }
+.wc-key { font-weight: 800; color: var(--wc-shade); }
+.wc-key-plain { font-weight: 800; }
+
+/* golden: gold leaf face, brass edge */
+.wc-tile.wc-gold { background: var(--wc-gilt); box-shadow: 0 0 0 3px var(--wc-ink), 0 7px 0 0 #A8761E, 0 7px 0 3px var(--wc-ink), 0 0 0 8px rgba(240,193,75,.55); }
+.wc-tile.wc-gold .wc-art { box-shadow: 0 0 0 3px var(--wc-gilt), 0 0 0 5px var(--wc-ink); }
+.wc-tile.wc-gold .wc-tier { background: var(--wc-gilt); box-shadow: 0 0 0 3px var(--wc-ink), inset 0 0 0 4px #A8761E; }
+.wc-tile.wc-gold::after { content: ''; position: absolute; right: 8px; top: 8px; width: 18px; height: 18px; z-index: 4; background: var(--wc-cream); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+/* token: pale pine, dashed burned edge */
+.wc-tile.wc-token { background: var(--wc-pine); }
+.wc-tile.wc-token::before { content: ''; position: absolute; inset: 2px; border: 2px dashed var(--wc-carve); border-radius: 12px; pointer-events: none; }
+/* frozen: frost glaze over the tile */
+.wc-frost { position: absolute; inset: -3px; border-radius: 16px; z-index: 5; pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(168,212,230,.78) 0 14px, rgba(196,228,240,.78) 14px 28px);
+  box-shadow: inset 0 0 0 4px #FFFFFF, inset 0 0 0 7px var(--wc-frost); }
+.wc-frost span { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: var(--wc-frost); border: 3px solid var(--wc-ink); border-radius: 10px; padding: 4px 10px 5px 6px; font: 800 16px/1 var(--wc-head); color: var(--wc-ink); display: flex; gap: 4px; align-items: center; letter-spacing: .06em; text-transform: uppercase; }
+.wc-frost span svg { width: 22px; height: 22px; }
+
+/* ---------- board tray (4-3 brick) ---------- */
+.wc-board { position: relative; }
+.wc-row { position: relative; display: flex; gap: 14px; padding: 10px 16px 6px; background-color: var(--wc-oak); background-image: var(--wc-grain-oak); border: 4px solid var(--wc-ink); }
+.wc-row--front { border-radius: 18px; z-index: 1; }
+.wc-row--back { margin-left: 69px; width: max-content; border-top: none; margin-top: -4px; padding-top: 14px; border-radius: 0 0 18px 18px; z-index: 2; box-shadow: 0 9px 0 0 var(--wc-carve), 0 9px 0 4px var(--wc-ink); }
+.wc-row--front.wc-flip { border-radius: 18px; }
+.wc-board .wc-row--front { box-shadow: 0 9px 0 0 var(--wc-carve), 0 9px 0 4px var(--wc-ink); }
+/* enemy side: back row on top, front row below */
+.wc-board--enemy .wc-row--back { margin-top: 0; margin-bottom: -4px; border-top: 4px solid var(--wc-ink); border-bottom: none; padding-top: 14px; padding-bottom: 14px; border-radius: 18px 18px 0 0; box-shadow: none; }
+.wc-slot { position: relative; width: 124px; display: flex; flex-direction: column; align-items: center; }
+.wc-pocket { width: 124px; height: 112px; border-radius: 14px; background: var(--wc-carve); border: 3px solid var(--wc-ink); box-shadow: inset 0 7px 0 rgba(43,26,15,.45); display: grid; place-items: center; position: relative; }
+.wc-pocket > .wc-tile { margin-top: -6px; }
+.wc-pocket .wc-empty { text-align: center; color: var(--wc-cream); font: 900 28px/1 var(--wc-num); opacity: .9; }
+.wc-pocket .wc-empty small { display: block; font: 700 12px/1 var(--wc-body); letter-spacing: .14em; margin-top: 6px; text-transform: uppercase; }
+.wc-pocket.wc-is-empty { border-style: dashed; }
+.wc-label { margin-top: 5px; height: 16px; font: 700 15px/16px var(--wc-head); color: var(--wc-ink); white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
+.wc-label i { font-style: normal; font-family: var(--wc-num); font-weight: 900; font-size: 13px; opacity: .75; margin-right: 4px; }
+.wc-rowtag { position: absolute; left: -46px; width: 34px; display: grid; place-items: center; writing-mode: vertical-rl; transform: rotate(180deg); font: 800 15px/1 var(--wc-head); letter-spacing: .22em; color: var(--wc-cream); text-transform: uppercase; }
+.wc-links { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 3; overflow: visible; }
+
+/* ---------- leaf buttons ---------- */
+.wc-leaf { position: relative; border: none; background: none; padding: 0; cursor: pointer; font: 800 24px/1 var(--wc-head); color: var(--wc-ink); --leaf: var(--wc-birch); }
+.wc-leaf-bg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.wc-leaf-bg .lf { fill: var(--leaf); stroke: var(--wc-ink); stroke-width: 4px; }
+.wc-leaf-bg .sh { fill: rgba(20,12,6,.55); }
+.wc-leaf-bg .vn { stroke: var(--wc-ink); stroke-width: 4px; stroke-linecap: round; }
+.wc-leaf-in { position: relative; display: flex; align-items: center; justify-content: center; gap: 10px; height: 100%; padding: 0 17% 0 13%; }
+.wc-leaf svg:not(.wc-leaf-bg) { width: 30px; height: 30px; flex: none; }
+.wc-leaf--moss { --leaf: var(--wc-moss); color: var(--wc-cream); }
+.wc-leaf--frost { --leaf: var(--wc-frost); }
+.wc-leaf--acorn { --leaf: var(--wc-acorn); }
+.wc-cost { display: inline-flex; align-items: center; gap: 2px; background: var(--wc-ink); color: var(--wc-acorn); border-radius: 999px; padding: 3px 10px 3px 4px; font: 900 20px/1 var(--wc-num); }
+.wc-cost svg { width: 24px; height: 24px; }
+
+/* plaque: small wooden sign */
+.wc-plaque { position: relative; background-color: var(--wc-oak); background-image: var(--wc-grain-oak); border: 4px solid var(--wc-ink); border-radius: 14px; box-shadow: 0 7px 0 0 var(--wc-carve), 0 7px 0 4px var(--wc-ink); color: var(--wc-ink); }
+.wc-nail { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: #6E6A63; box-shadow: 0 0 0 2px var(--wc-ink); }

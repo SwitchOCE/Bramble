@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chunky Cozy · Standings</title>
+<link rel="stylesheet" href="cozy.css">
+<style>
+  .head { position: absolute; left: 24px; right: 24px; top: 18px; display: flex; align-items: center; gap: 18px; }
+  .head h1 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 48px; color: #fff; -webkit-text-stroke: 9px var(--cocoa); paint-order: stroke fill; text-shadow: 0 6px 0 var(--cocoa); }
+  .head .pill { font-size: 22px; padding: 8px 18px; }
+  .head .btn { min-height: 84px; }
+  .podium { position: absolute; left: 40px; top: 150px; width: 470px; height: 540px; }
+  .pod { position: absolute; bottom: 0; width: 150px; border-radius: 30px 30px 14px 14px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 18px;
+    font-family: var(--font-display); font-weight: 700; box-shadow: inset 0 -10px 0 rgba(0,0,0,.12), inset 0 6px 0 rgba(255,255,255,.5), 0 10px 0 var(--drop); }
+  .pod .rk { font-size: 64px; color: #fff; -webkit-text-stroke: 9px var(--cocoa); paint-order: stroke fill; }
+  .pod .who { position: absolute; bottom: 100%; margin-bottom: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .av { width: 104px; height: 104px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 46px;
+    border: 7px solid #fff; box-shadow: inset 0 -8px 0 rgba(0,0,0,.15), 0 7px 0 var(--drop); position: relative; }
+  .pod .nm { font-size: 22px; background: #fff; padding: 2px 12px; border-radius: 999px; box-shadow: 0 4px 0 var(--drop); white-space: nowrap; }
+  .crown { position: absolute; top: -40px; width: 66px; height: 50px; }
+  .list { position: absolute; left: 550px; right: 30px; top: 116px; bottom: 20px; padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .rowp { position: relative; display: flex; align-items: center; gap: 14px; height: 64px; padding: 0 16px 0 8px; border-radius: 24px; background: #F6EEE2; }
+  .rowp .r { width: 42px; text-align: center; font-family: var(--font-display); font-weight: 700; font-size: 28px; color: var(--cocoa-soft); }
+  .rowp .av { width: 54px; height: 54px; font-size: 22px; border-width: 4px; }
+  .rowp .nm { font-family: var(--font-display); font-weight: 700; font-size: 26px; flex: 1; }
+  .rowp .hp, .rowp .t { position: relative; width: 52px; height: 52px; display: grid; place-items: center; }
+  .rowp .hp svg, .rowp .t svg { position: absolute; inset: 0; } .rowp .num { position: relative; font-size: 24px; } .rowp .t .num { font-size: 20px; margin-top: 4px; }
+  .res { font-family: var(--font-display); font-weight: 700; font-size: 18px; border-radius: 999px; padding: 4px 14px; width: 82px; text-align: center; }
+  .res.won { background: #DDF5E3; color: #17652f; box-shadow: inset 0 0 0 3px var(--moss-lt); }
+  .res.lost { background: #FFE0E5; color: #9A1F35; box-shadow: inset 0 0 0 3px var(--strawberry); }
+  .rowp.you { background: #DDF5E3; box-shadow: inset 0 0 0 5px var(--moss-lt); }
+  .rowp.next { background: #FFE0E5; box-shadow: inset 0 0 0 5px var(--strawberry), 0 5px 0 #B52640; }
+  .rowp .tag { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: #fff; background: var(--strawberry); padding: 4px 12px; border-radius: 12px; box-shadow: 0 3px 0 #B52640; }
+  .rowp.out { opacity: .5; filter: grayscale(1); }
+  .cols { display: flex; gap: 14px; padding: 0 16px 0 8px; font-size: 13px; }
+</style></head>
+<body><div id="stage">
+  <div class="head"><button class="btn" id="back"></button><h1>Standings</h1><span class="pill" id="turn"></span><span style="flex:1"></span><span class="pill" style="font-size:20px" id="nextp"></span></div>
+  <div class="podium" id="podium"></div>
+  <div class="list panel" id="list"></div>
+</div>
+<script src="data.js"></script><script src="ui.js"></script>
+<script>
+  const { I } = CZ, $ = id => document.getElementById(id);
+  $('back').innerHTML = '‹ Back'; $('turn').textContent = 'Turn ' + FX.recruit.turn;
+  const next = FX.lobby.find(p => p.next_opponent);
+  $('nextp').innerHTML = `<span style="color:var(--strawberry)">●</span> Next: ${next.name}`;
+  const col = { 'You': '#3DBB63', 'Bramblecrown': '#C27A4B', 'Mossgrave': '#26A99A', 'Old Tansy': '#F0435E', 'Fernwhistle': '#4D8EF0', 'Hollowmere': '#8A3FD1', 'Quillback': '#FF8A2A', 'Sedgewick': '#B9A79F' };
+  const sorted = [...FX.lobby].sort((a, b) => b.health - a.health);
+  const av = p => `<div class="av" style="background:${col[p.name]}">${p.name === 'You' ? 'You' : p.name[0]}</div>`;
+  const pods = [{ i: 1, x: 0, h: 230, c: '#BFD8FF' }, { i: 0, x: 160, h: 300, c: '#FFCB3D' }, { i: 2, x: 320, h: 180, c: '#F6C9A5' }];
+  $('podium').innerHTML = pods.map(d => { const p = sorted[d.i]; return `<div class="pod" style="left:${d.x}px;height:${d.h}px;background:${d.c}">
+    <div class="who">${d.i === 0 ? `<svg class="crown" viewBox="0 0 66 50"><path d="M6 44L2 10l18 14L33 2l13 22 18-14-4 34z" fill="#FFCB3D" stroke="#4A2E2A" stroke-width="4" stroke-linejoin="round"/></svg>` : ''}${av(p)}<span class="nm">${p.name}</span></div>
+    <span class="rk">${d.i + 1}</span>
+    <div class="rowp" style="background:transparent;height:auto;padding:0;gap:4px"><div class="hp">${I.heart}<span class="num">${p.health}</span></div></div></div>`; }).join('');
+  $('list').innerHTML = `<div class="cols label"><span style="width:42px">#</span><span style="width:54px"></span><span style="flex:1">Player</span><span style="width:52px">Tier</span><span style="width:52px">Health</span><span style="width:82px;text-align:center">Last</span></div>` +
+    sorted.map((p, i) => `<div class="rowp ${p.name === 'You' ? 'you' : ''} ${p.next_opponent ? 'next' : ''} ${p.eliminated ? 'out' : ''}">
+    <span class="r">${p.eliminated ? '–' : i + 1}</span>${av(p)}<span class="nm">${p.name}</span>${p.next_opponent ? '<span class="tag">NEXT</span>' : ''}
+    <div class="t">${I.star}<span class="num">${p.tier}</span></div><div class="hp">${I.heart}<span class="num">${p.health}</span></div>
+    ${p.eliminated ? '<span class="res lost" style="background:#eee;box-shadow:none;color:#555">Out</span>' : `<span class="res ${p.last}">${p.last === 'won' ? 'Won' : 'Lost'}</span>`}</div>`).join('');
+  CZ.fit();
+</script></body></html>

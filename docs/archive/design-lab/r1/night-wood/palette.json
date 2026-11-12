@@ -1,0 +1,23 @@
+{
+  "direction": "night-wood",
+  "mode": "dark only: the whole game is set after moonrise. A light variant would be 'dawn', not designed here.",
+  "contrast_note": "WCAG ratios computed with the standard relative-luminance formula. Body text is moonink or mist on night/canopy/slab; numerals on stat badges are night ink on the badge colour.",
+  "colours": [
+    {"name": "night",      "hex": "#0B1618", "use": "page background, deepest shadow; dark ink for numerals on badges"},
+    {"name": "canopy",     "hex": "#12262A", "use": "panels, rails, button fill"},
+    {"name": "moss-slab",  "hex": "#1A3236", "use": "card body"},
+    {"name": "bark-line",  "hex": "#2C4A4D", "use": "dividers, empty-slot fill, inactive borders (never text)"},
+    {"name": "moonink",    "hex": "#E6EFE6", "use": "primary text and the pale ink lines of frames and icons", "contrast": {"on night": 15.6, "on canopy": 13.4, "on moss-slab": 11.5}},
+    {"name": "mist",       "hex": "#9DB5AE", "use": "secondary text: type lines, labels, slot names", "contrast": {"on canopy": 7.2, "on moss-slab": 6.2}},
+    {"name": "glowcap",    "hex": "#6FF2C2", "use": "bioluminescent fungus: selection, focus, keywords in rules text, positive changes, End Turn", "contrast": {"on canopy": 11.3, "night on glowcap": 13.3}},
+    {"name": "firefly",    "hex": "#FFCB57", "use": "gold (currency) and its glow; costs", "contrast": {"on canopy": 10.4, "night on firefly": 12.2}},
+    {"name": "lantern",    "hex": "#E8B54A", "use": "golden (tripled) unit frame, with firefly sparkles", "contrast": {"on canopy": 8.3, "night on lantern": 9.8}},
+    {"name": "ember",      "hex": "#FF9A4A", "use": "attack badge and attack numbers", "contrast": {"night on ember": 8.7, "on canopy": 7.5}},
+    {"name": "rosehip",    "hex": "#FF5E73", "use": "health badge, damage numbers, negative changes, player health in the lobby", "contrast": {"night on rosehip": 6.2, "on canopy": 5.3}},
+    {"name": "nightshade", "hex": "#C08BFF", "use": "the Nightshade status: berry badge, violet aura, the halving number; also Fairies' tribe accent", "contrast": {"night on nightshade": 7.3, "on canopy": 6.3}},
+    {"name": "hoarfrost",  "hex": "#8FD3FF", "use": "Freeze: the frozen shop card's rime overlay and the freeze button; Birds' tribe accent", "contrast": {"night on hoarfrost": 11.3, "on canopy": 9.7}},
+    {"name": "lichen",     "hex": "#B5D86A", "use": "tribe accent for Hedgerow folk and Bog folk; tier pips on the moon badge", "contrast": {"on canopy": 9.7}}
+  ],
+  "tribe_accents": {"Fairies": "nightshade", "Birds": "hoarfrost", "Hedgerow folk": "lichen", "Bog folk": "lichen", "Great beasts": "ember", "Hunters": "mist", "Hive": "firefly", "Neutral": "mist"},
+  "glow_rule": "Only living, active things glow: gold, the selected card, the next opponent, statuses. Everything else is flat pale ink on dark. Glows are a soft outer shadow of the colour at 35-60% alpha, never a gradient fill."
+}

@@ -1,0 +1,38 @@
+{
+  "direction": "field-journal",
+  "colours": [
+    { "name": "Notebook paper", "hex": "#EDE8D3", "use": "page background under the graph grid" },
+    { "name": "Graph grid", "hex": "#C5D0B9", "use": "grid lines only (drawn at 22-32% opacity); never under text" },
+    { "name": "Index card", "hex": "#FBF7EA", "use": "card body, buttons, labels, tags" },
+    { "name": "Iron-gall ink", "hex": "#22281F", "use": "all body text, outlines, stat outlines" },
+    { "name": "Pencil", "hex": "#4F554A", "use": "annotations, latin names, type line, secondary text" },
+    { "name": "Moss", "hex": "#44613A", "use": "primary buttons (End turn, Play), you, positive results (WON)" },
+    { "name": "Fern", "hex": "#8BA56A", "use": "pressed leaves, icons, tier-up arrow; no text" },
+    { "name": "Ochre thorn", "hex": "#C68A1E", "use": "attack badge (ink numerals)" },
+    { "name": "Rosehip", "hex": "#A3313A", "use": "health badge (white numerals), player health" },
+    { "name": "Brass", "hex": "#CFA53A", "use": "gold coin" },
+    { "name": "Nightshade", "hex": "#4B2C61", "use": "Nightshade status tape and stamps (white text)" },
+    { "name": "Gilt", "hex": "#B88A1C", "use": "golden card edge and stamp border; stamp text uses #6E500B" },
+    { "name": "Frost tape", "hex": "#A9CAD6", "use": "frozen shop offer (ink text)" },
+    { "name": "Red pencil", "hex": "#A8362A", "use": "negative results, damage, attack arrows, keyword underline, next-opponent ring" }
+  ],
+  "tribe_tapes": {
+    "_note": "Washi-tape tints for the tribe label on each card. Ink text on every one.",
+    "Birds": "#A9C4D4", "Hedgerow folk": "#D4B48C", "Bog folk": "#B3BE86", "Neutral": "#D6D0BE",
+    "Great beasts": "#CDAE8E", "Hunters": "#A9BC95", "Hive": "#E4C055", "Fairies": "#C9B8DE"
+  },
+  "contrast_checks_wcag": {
+    "ink on paper": 12.28, "ink on card": 14.08, "pencil on paper": 6.26, "pencil on card": 7.18,
+    "red pencil on paper": 5.30, "white on moss": 6.96, "ink on ochre (attack)": 5.07, "white on rosehip (health)": 6.87,
+    "white on nightshade": 11.46, "#6E500B on golden card #FCF3D2": 6.71, "ink on frost": 8.70,
+    "ink on tribe tapes (lowest: Bog folk)": 7.64,
+    "_result": "all pairs with text pass AA for body text (4.5:1)"
+  },
+  "fonts": {
+    "Courier Prime": "typed labels: unit names, buttons, tags",
+    "Crimson Pro": "rules text and log",
+    "Zilla Slab": "numbers: attack, health, gold, tier",
+    "Caveat": "pencil annotations",
+    "Special Elite": "headings and stamps only"
+  }
+}

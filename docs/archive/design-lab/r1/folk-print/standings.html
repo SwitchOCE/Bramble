@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folk Print · Standings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans+SC:wght@500;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="folk.css">
+<style>
+.st { position: absolute; inset: 0; padding: 14px 24px; display: grid; grid-template-columns: 1fr 820px 1fr; gap: 20px; }
+.st-side { display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.st-side .fp-tree { height: 420px; width: auto; opacity: .95; }
+.st-main { display: flex; flex-direction: column; gap: 10px; }
+.st-head { display: flex; align-items: center; justify-content: space-between; }
+.st-head h1 { margin: 0; font: 44px/1 var(--fp-display); }
+.st-head h1 span { font: 800 20px/1 var(--fp-label); letter-spacing: .18em; color: var(--fp-red); margin-left: 12px; vertical-align: middle; }
+.st-table { position: relative; border: 4px solid var(--fp-ink); border-radius: 18px; background: var(--fp-paper); box-shadow: 6px 7px 0 var(--fp-ink); padding: 8px 14px 12px; }
+.st-cols, .st-row { display: grid; grid-template-columns: 70px 1fr 110px 96px 130px 120px; align-items: center; gap: 8px; }
+.st-cols { font: 800 15px/1 var(--fp-label); letter-spacing: .16em; color: var(--fp-ash); padding: 8px 6px 8px; border-bottom: 3px solid var(--fp-ink); }
+.st-row { height: 56px; padding: 0 6px; border-bottom: 2px dashed rgba(29, 26, 30, .35); }
+.st-row:last-child { border-bottom: 0; }
+.st-place { position: relative; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.st-place svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.st-place b { position: relative; font: 20px/1 var(--fp-display); color: var(--fp-paper); }
+.st-name { font: 800 26px/1 var(--fp-label); letter-spacing: .03em; }
+.st-ic { position: relative; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; }
+.st-ic svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.st-ic b { position: relative; font: 22px/1 var(--fp-display); color: var(--fp-paper); margin-top: -4px; }
+.st-ic.tier b { color: var(--fp-ink); margin-top: 0; }
+.st-stamp { justify-self: start; font: 800 17px/1 var(--fp-label); letter-spacing: .14em; padding: 6px 10px 5px; border: 3px solid currentColor; border-radius: 6px; transform: rotate(-4deg); }
+.st-stamp.won { color: var(--fp-green); }
+.st-stamp.lost { color: var(--fp-red); transform: rotate(3deg); }
+.st-next { justify-self: start; display: inline-flex; align-items: center; gap: 6px; background: var(--fp-red); color: var(--fp-paper); padding: 7px 12px; font: 800 16px/1 var(--fp-label); letter-spacing: .14em;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%); padding-right: 20px; }
+.st-next svg { width: 20px; height: 20px; }
+.st-row.st-you { background: var(--fp-kraft); border-radius: 10px; border-bottom-color: transparent; }
+.st-row.st-isnext { box-shadow: inset 5px 0 0 var(--fp-red); }
+.st-row.st-out { color: var(--fp-ash); }
+.st-row.st-out .st-name { text-decoration: line-through 3px; }
+.st-row.st-out .st-ic svg path { fill: var(--fp-kraft); }
+.st-row.st-out .st-ic b { color: var(--fp-ash); }
+.st-foot { display: flex; gap: 16px; justify-content: flex-end; }
+.st-foot .fp-btn { width: 230px; height: 82px; }
+.fp-phone .st { grid-template-columns: 1fr 980px 1fr; padding: 12px 24px; }
+.fp-phone .st-row { height: 56px; }
+.fp-phone .st-name { font-size: 30px; }
+.fp-phone .st-cols, .fp-phone .st-row { grid-template-columns: 80px 1fr 120px 110px 150px 150px; }
+.fp-phone .st-stamp, .fp-phone .st-next { font-size: 20px; }
+.fp-phone .st-head h1 { font-size: 40px; }
+.fp-phone .st-main { gap: 8px; }
+.fp-phone .st-foot .fp-btn { height: 82px; }
+</style>
+</head>
+<body>
+<div class="fp-stage"><div class="st" id="st"></div></div>
+<script src="data.js"></script>
+<script src="folk.js"></script>
+<script>
+FP.boot(() => {
+  const F = FP.F, I = FP.I;
+  const place = (n, out) => `<div class="st-place"><svg viewBox="-50 -50 100 100">${FP.petals(10, 0, 0, 34, 10, 15, out ? 'var(--fp-ash)' : n === 1 ? 'var(--fp-ochre)' : 'var(--fp-green)')}<circle r="34" fill="${out ? 'var(--fp-ash)' : 'var(--fp-ink)'}"/></svg><b>${n}</b></div>`;
+  const order = F.lobby.slice().sort((a, b) => (a.eliminated - b.eliminated) || b.health - a.health);
+  const rows = order.map((p, i) => `<div class="st-row${p.name === 'You' ? ' st-you' : ''}${p.next_opponent ? ' st-isnext' : ''}${p.eliminated ? ' st-out' : ''}">
+      ${place(i + 1, p.eliminated)}
+      <div class="st-name">${p.name}</div>
+      <div class="st-ic">${I.heart}<b>${p.health}</b></div>
+      <div class="st-ic tier">${I.tier}<b>${p.tier}</b></div>
+      <div>${p.eliminated ? '<span class="st-stamp lost">Out</span>' : `<span class="st-stamp ${p.last}">${p.last === 'won' ? 'Won' : 'Lost'}</span>`}</div>
+      <div>${p.next_opponent ? `<span class="st-next">${I.swords}Next</span>` : ''}</div>
+    </div>`).join('');
+  document.getElementById('st').innerHTML = `
+    <div class="st-side">${FP.tree()}</div>
+    <div class="st-main">
+      <div class="st-head"><h1>Standings<span>Turn ${F.recruit.turn}</span></h1><span class="fp-ribbon fp-red">8 players · 7 left</span></div>
+      <div class="st-table">
+        <div class="st-cols"><span>Place</span><span>Player</span><span>Health</span><span>Tier</span><span>Last fight</span><span>Next</span></div>
+        ${rows}
+      </div>
+      <div class="st-foot"><button class="fp-btn">Back</button><button class="fp-btn fp-btn-red">To the shop</button></div>
+    </div>
+    <div class="st-side">${FP.tree()}</div>`;
+});
+</script>
+</body>
+</html>

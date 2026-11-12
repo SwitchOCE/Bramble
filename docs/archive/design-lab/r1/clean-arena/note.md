@@ -1,0 +1,7 @@
+# Clean Arena (direction 6)
+
+- **Idea:** a competitive mobile HUD with the numbers first: chalk tiles with big ink numbers on amber (attack) and red (health) chips, on a graphite floor. The woodland lives only in the colours (moss, bark, bloom), the icons (acorn coin, thorn, leaf heart, berry) and three flat Codex portraits.
+- **For:** players coming from Battlegrounds, Snap or Clash who read the board in a glance and play fast on a phone. Every stat is at least 19 CSS px on a 390 px-tall phone, and every button is 44 px or more.
+- **Distinct:** no frame, paper or ornament. The 4–3 brick is drawn as data: tinted row bands, a half-slot offset, lines tying each back slot to the two front slots it sits behind, and slot IDs (F1–B3) on every tile. Nightshade gets a numeric breakdown (26 → ½ → 13 → −1 → 12) next to the board, not just an effect.
+- **Godot 4 cost: low.** One Theme (StyleBoxFlat with rounded corners, no nine-patch art), two fonts, Control nodes in containers, a handful of SVG icons. The brick ties are a `_draw()` on the board node. No shaders. Animation is tweens on scale, position and modulate.
+- **Risks:** it can read as generic esports UI, and it doesn't use the decided Ink + flat B style; Ink B portraits would sit inside the art circles but would clash with the flat-geometric tribe glyphs. Rules text is small at shop size on a phone (clipped to 2–3 lines; full text needs a tap-to-inspect). Dark only so far. Two tribe accents for eight tribes rely on the icons doing the real work.

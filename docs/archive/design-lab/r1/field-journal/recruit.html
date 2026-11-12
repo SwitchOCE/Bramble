@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Field Journal: recruit</title>
+<link rel="stylesheet" href="fj.css">
+<style>
+.rc-grid { position: absolute; inset: 0 0 0 64px; display: grid; grid-template-columns: 290px 1010px 290px; grid-template-rows: 106px 1fr; column-gap: 30px; justify-content: space-evenly; padding: 0 28px 0 8px; }
+.rc-left { grid-row: 1 / 3; position: relative; padding-top: 16px; }
+.rc-right { position: relative; }
+.rc-lobbywrap { grid-column: 2 / 4; position: relative; }
+.rc-center { position: relative; display: flex; flex-direction: column; align-items: center; }
+.rc-title .fj-type-h { font-size: 27px; }
+.rc-title .fj-anno { font-size: 36px; margin-top: -2px; }
+.rc-lobby { display: flex; gap: 8px; margin-top: 16px; position: relative; width: 100%; justify-content: space-between; }
+.rc-tag {
+  position: relative; width: 158px; height: 84px; background: var(--fj-card); border: 2px solid #b9b08f; border-radius: 4px 4px 4px 4px;
+  padding: 8px 6px 6px 24px; box-shadow: 0 2px 4px rgba(0,0,0,.15); transform: rotate(var(--r));
+}
+.rc-tag::before { content: ''; position: absolute; left: 7px; top: 50%; width: 11px; height: 11px; margin-top: -6px; border-radius: 50%; border: 2px solid #8b8470; background: var(--fj-paper); }
+.rc-tag b { display: block; font: 700 17.5px/1.1 'Courier Prime', monospace; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rc-tag .rc-tl { display: flex; gap: 10px; align-items: center; margin-top: 6px; font: 700 24px/1 'Zilla Slab', serif; }
+.rc-tag .rc-hp { color: var(--fj-hp); }
+.rc-tag .rc-t { font: 700 15px/1 'Courier Prime', monospace; border: 1.5px solid var(--fj-ink); padding: 3px 4px; }
+.rc-tag .rc-wl { margin-left: auto; font: 700 24px/1 'Caveat', cursive; }
+.rc-tag.rc-you { background: #E3EBD4; border-color: var(--fj-moss); }
+.rc-tag.rc-dead { opacity: .55; }
+.rc-tag.rc-dead b { text-decoration: line-through 2px var(--fj-red); }
+.rc-next-note { position: absolute; font: 700 28px/1 'Caveat', cursive; color: var(--fj-red); white-space: nowrap; }
+.rc-section-h { display: flex; align-items: baseline; gap: 16px; width: 1010px; margin-top: 10px; }
+.rc-section-h .fj-type-h { font-size: 26px; text-transform: uppercase; }
+.rc-section-h .fj-anno { font-size: 27px; }
+.rc-shop { display: flex; gap: 34px; margin-top: 18px; height: 298px; }
+.rc-shop .fj-size-shop { height: 18em; }
+.rc-shop .fj-size-shop .fj-plate { height: 6.7em; }
+.rc-shop .fj-text { font-size: .88em; line-height: 1.12; }
+.rc-tray {
+  position: relative; margin-top: 6px; width: 1010px; height: 500px; border: 3px solid var(--fj-ink); border-radius: 6px;
+  background: rgba(251,247,234,.55); box-shadow: inset 0 0 0 7px rgba(255,255,255,.5);
+}
+.rc-row-label { position: absolute; left: 12px; width: 44px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.rc-row-label span { writing-mode: vertical-rl; transform: rotate(180deg); font: 25px/1 'Special Elite', monospace; letter-spacing: .12em; }
+.rc-row-label i { font: 700 22px/1 'Courier Prime', monospace; font-style: normal; }
+.rc-slot { position: absolute; width: 200px; height: 218px; }
+.rc-slot::before { content: ''; position: absolute; inset: -9px; border: 1.5px solid rgba(80,90,70,.35); border-radius: 8px; }
+.rc-divider { position: absolute; left: 64px; right: 14px; top: 246px; border-top: 2px dashed rgba(80,90,70,.45); }
+.rc-tray-note { position: absolute; font: 700 25px/1.05 'Caveat', cursive; color: var(--fj-pencil); }
+.rc-purse { display: flex; align-items: center; gap: 14px; margin-top: 26px; }
+.rc-purse .fj-coin { font-size: 78px; }
+.rc-purse b { font: 700 96px/1 'Zilla Slab', serif; }
+.rc-purse .fj-anno { font-size: 32px; line-height: 1; }
+.rc-tierrow { display: flex; align-items: center; gap: 14px; margin: 14px 0 8px; }
+.rc-math { font-size: 30px; margin: 0 0 24px 6px; }
+.rc-tiertag { position: relative; font: 700 30px/1 'Zilla Slab', serif; border: 3px solid var(--fj-ink); background: var(--fj-card); padding: 12px 16px 12px 34px;
+  clip-path: polygon(18px 0, 100% 0, 100% 100%, 18px 100%, 0 50%); }
+.rc-tiertag::before { content: ''; position: absolute; left: 14px; top: 50%; width: 10px; height: 10px; margin-top: -5px; border-radius: 50%; background: var(--fj-ink); }
+.rc-btns { display: flex; flex-direction: column; gap: 26px; }
+.rc-btns .fj-btn { justify-content: flex-start; text-align: left; }
+.rc-btns .fj-btn .rc-cost { margin-left: auto; }
+.fj-btn > span { white-space: nowrap; }
+.rc-endturn { flex-direction: column; gap: 2px; }
+.rc-leaf { position: absolute; left: 6px; bottom: 30px; width: 280px; }
+.rc-leaf .fj-anno { font-size: 27px; line-height: 1.05; }
+.rc-key { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.rc-key span { font: 700 13px/1.6 'Courier Prime', monospace; text-transform: uppercase; padding: 0 8px; background: var(--k); }
+.rc-btn-ico { width: 54px; height: 54px; flex: none; }
+.rc-cost { display: inline-flex; align-items: center; gap: 6px; font: 700 27px/1 'Zilla Slab', serif; }
+.rc-cost .fj-coin { font-size: 26px; }
+.rc-hand-box { position: relative; margin-top: 12px; padding: 30px 0 0 26px; height: 380px; border: 2.5px dashed #8a8f80; border-radius: 6px; background: rgba(255,255,255,.22); }
+.rc-right .fj-type-h { font-size: 26px; text-transform: uppercase; }
+.rc-count { font: 700 26px/1 'Courier Prime', monospace; margin-left: 8px; }
+.rc-endturn { position: absolute; left: 0; right: 0; bottom: 22px; min-height: 150px; font-size: 38px; }
+.rc-board-count { margin-top: 18px; font: 700 26px/1.2 'Courier Prime', monospace; }
+.fj-phone .rc-shop .fj-latin, .fj-phone .rc-shop .fj-type, .fj-phone .rc-hand-box .fj-latin, .fj-phone .rc-hand-box .fj-type { display: none; }
+.fj-phone .rc-shop .fj-text, .fj-phone .rc-hand-box .fj-text { font-size: 1.22em; line-height: 1.1; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+</style></head>
+<body>
+<div class="fj-stage">
+  <div class="rc-grid">
+    <div class="rc-left">
+      <div class="rc-title"><div class="fj-type-h">FIELD JOURNAL</div><div class="fj-anno">Day 6 &mdash; recruiting</div></div>
+      <div class="rc-purse"><span class="fj-coin"></span><b id="gold"></b><span class="fj-anno">gold<br>in purse</span></div>
+      <div class="rc-tierrow"><span class="rc-tiertag" id="tier"></span><span class="fj-anno" style="font-size:28px;line-height:1">shop tier</span></div>
+      <div class="fj-anno rc-math">tier up: 7 &minus; 6 = 1 left</div>
+      <div class="rc-leaf">
+        <svg width="96" height="120" viewBox="0 0 120 150" style="transform:rotate(-28deg);margin-left:150px"><path d="M60 145 C58 110 60 70 62 8" stroke="#5c6b3d" stroke-width="3" fill="none"/><path d="M61 20 C30 22 18 46 30 58 C14 66 12 88 34 94 C20 106 30 126 58 120 C88 128 100 108 86 96 C108 90 106 68 90 60 C104 46 92 22 61 20 Z" fill="#9aae6c" fill-opacity=".75" stroke="#5c6b3d" stroke-width="2.5"/><path d="M61 40 L44 52 M61 62 L38 78 M60 86 L42 104 M62 40 L80 52 M62 62 L84 76 M61 86 L80 102" stroke="#5c6b3d" stroke-width="2" fill="none"/></svg>
+        <div class="fj-anno">tape colour = tribe</div>
+        <div class="rc-key" id="key"></div>
+      </div>
+      <div class="rc-btns">
+        <div class="fj-btn" id="tierup"></div>
+        <div class="fj-btn" id="refresh"></div>
+        <div class="fj-btn" id="freeze"></div>
+      </div>
+    </div>
+    <div class="rc-lobbywrap"><div class="rc-lobby" id="lobby"></div></div>
+    <div class="rc-center">
+      <div class="rc-section-h"><span class="fj-type-h">Shop</span><span class="fj-anno">4 offers &middot; drag to buy</span></div>
+      <div class="rc-shop" id="shop"></div>
+      <div class="rc-tray" id="tray">
+        <div class="rc-row-label" style="top:34px"><i>&uarr;</i><span>FRONT ROW</span></div>
+        <div class="rc-row-label" style="top:268px"><span>BACK ROW</span></div>
+        <div class="rc-divider"></div>
+      </div>
+    </div>
+    <div class="rc-right">
+      <div style="margin-top:6px"><span class="fj-type-h">Hand</span><span class="rc-count" id="handcount"></span></div>
+      <div class="rc-hand-box" id="hand"></div>
+      <div class="rc-board-count">Board <span id="boardcount"></span></div>
+      <div class="fj-btn fj-btn-moss rc-endturn">End turn<small>&rarr; fight Old Tansy</small></div>
+    </div>
+  </div>
+</div>
+<script src="data.js"></script>
+<script src="fj.js"></script>
+<script>
+FJ.stage(1000);
+const R = FJ_FIX.recruit;
+document.getElementById('gold').textContent = R.gold;
+document.getElementById('tier').textContent = 'Tier ' + R.tier;
+const coin = n => '<span class="rc-cost"><span class="fj-coin"></span>' + n + '</span>';
+const ico = {
+  up: '<svg class="rc-btn-ico" viewBox="0 0 54 54"><path d="M27 6 L46 28 H35 V48 H19 V28 H8 Z" fill="#8BA56A" stroke="#22281F" stroke-width="3.5" stroke-linejoin="round"/></svg>',
+  re: '<svg class="rc-btn-ico" viewBox="0 0 54 54"><path d="M43 22 A17 17 0 1 0 44 32" fill="none" stroke="#22281F" stroke-width="4.5" stroke-linecap="round"/><path d="M44 9 V23 H30" fill="none" stroke="#22281F" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  fr: '<svg class="rc-btn-ico" viewBox="0 0 54 54"><g stroke="#3d6b80" stroke-width="4" stroke-linecap="round"><path d="M27 5V49M8 16L46 38M8 38L46 16"/><path d="M21 9l6 6 6-6M21 45l6-6 6 6" fill="none"/></g></svg>'
+};
+document.getElementById('tierup').innerHTML = ico.up + '<span>Tier up<small>to tier ' + (R.tier + 1) + '</small></span>' + coin(R.tier_up_cost);
+document.getElementById('refresh').innerHTML = ico.re + '<span>Refresh<small>new offers</small></span>' + coin(R.refresh_cost);
+document.getElementById('freeze').innerHTML = ico.fr + '<span>Freeze<small>keep shop</small></span>';
+document.getElementById('shop').innerHTML = R.shop.map(u => FJ.card(u, 'shop')).join('');
+document.getElementById('hand').innerHTML = R.hand.map(u => FJ.card(u, 'shop')).join('');
+document.getElementById('handcount').textContent = R.hand_count;
+document.getElementById('boardcount').textContent = R.board_count;
+document.getElementById('key').innerHTML = [['Birds','#A9C4D4'],['Hedgerow folk','#D4B48C'],['Bog folk','#B3BE86'],['Great beasts','#CDAE8E'],['Hunters','#A9BC95'],['Hive','#E4C055'],['Neutral','#D6D0BE']].map(k => '<span style="--k:' + k[1] + '">' + k[0] + '</span>').join('');
+
+// lobby strip
+const L = FJ_FIX.lobby;
+document.getElementById('lobby').innerHTML = L.map((p, i) => {
+  const cls = ['rc-tag']; if (p.name === 'You') cls.push('rc-you'); if (p.eliminated) cls.push('rc-dead');
+  const wl = p.eliminated ? '&dagger;' : (p.last === 'won' ? '<span style="color:#44613A">W</span>' : '<span class="fj-red">L</span>');
+  return '<div class="' + cls.join(' ') + '" style="--r:' + ((i % 3) - 1) * .8 + 'deg" ' + (p.next_opponent ? 'id="nextopp"' : '') + '><b>' + p.name + '</b><div class="rc-tl"><span class="rc-hp">&hearts;' + p.health + '</span><span class="rc-t">T' + p.tier + '</span><span class="rc-wl">' + wl + '</span></div></div>';
+}).join('');
+
+// board: 4-3 brick, back row offset by half a slot pitch
+const tray = document.getElementById('tray');
+const X0 = 76, PITCH = 236, FRONT_Y = 22, BACK_Y = 262;
+function put(slotUnit, i, row) {
+  const x = X0 + i * PITCH + (row === 'back' ? PITCH / 2 : 0);
+  const y = row === 'back' ? BACK_Y : FRONT_Y;
+  const d = document.createElement('div');
+  d.className = 'rc-slot'; d.style.left = x + 'px'; d.style.top = y + 'px';
+  d.innerHTML = '<span class="fj-slotid">' + slotUnit.slot + '</span>' + (slotUnit.empty ? FJ.emptySlot(slotUnit.slot) : FJ.card(slotUnit, 'board', { slot: slotUnit.slot }));
+  tray.appendChild(d);
+}
+R.board.front.forEach((u, i) => put(u, i, 'front'));
+R.board.back.forEach((u, i) => put(u, i, 'back'));
+const note = document.createElement('div');
+note.className = 'rc-tray-note';
+note.style.left = "884px"; note.style.top = '300px';
+note.innerHTML = 'B3 sits<br>behind<br>F3 &amp; F4';
+tray.appendChild(note);
+
+// red-pencil ring round the next opponent
+window.addEventListener('load', () => {
+  const t = document.getElementById('nextopp'), box = t.parentNode;
+  const c = document.createElement('div'); c.className = 'fj-circle';
+  c.style.cssText = 'left:' + (t.offsetLeft - 12) + 'px;top:' + (t.offsetTop - 9) + 'px;width:' + (t.offsetWidth + 24) + 'px;height:' + (t.offsetHeight + 18) + 'px;transform:rotate(-3deg)';
+  box.appendChild(c);
+  const n = document.createElement('div'); n.className = 'rc-next-note';
+  n.style.left = (t.offsetLeft + 20) + 'px'; n.style.top = (t.offsetTop + t.offsetHeight + 4) + 'px';
+  n.textContent = 'next fight!';
+  box.appendChild(n);
+});
+</script>
+</body></html>

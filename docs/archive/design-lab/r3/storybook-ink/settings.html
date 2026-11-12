@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Settings (round 3)</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .screen { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+  /* an open storybook: two pages, a gutter, one hard ink shadow */
+  .book { position: relative; width: 1640px; height: 930px; display: grid; grid-template-columns: 1fr 1fr; }
+  .book::before { content: ''; position: absolute; inset: 0; transform: translate(8px, 10px); background: var(--ink); border-radius: 26px 30px 26px 22px; }
+  .page { position: relative; background: var(--card); border: 4px solid var(--ink); padding: 44px 56px 40px; display: flex; flex-direction: column; gap: 26px; }
+  .page.l { border-radius: 26px 6px 6px 22px; border-right-width: 2px; }
+  .page.r { border-radius: 6px 30px 26px 6px; border-left-width: 2px; }
+  .page.l::after, .page.r::after { content: ''; position: absolute; top: 0; bottom: 0; width: 26px; background: var(--shade); }
+  .page.l::after { right: 0; } .page.r::after { left: 0; }
+  .ribbon { position: absolute; right: 34px; top: -4px; width: 40px; height: 120px; background: var(--heather); border: 3px solid var(--ink); border-top: 0; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%); z-index: 2; }
+  #vine { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; z-index: 3; }
+
+  .head { display: flex; align-items: center; gap: 24px; }
+  .back { min-height: 64px; font-size: 24px; padding: 8px 26px 8px 18px; }
+  .back svg { width: 26px; height: 26px; }
+  .head h1 { font-size: 56px; line-height: 1; }
+  .head h1 small { display: block; font-family: var(--display); font-style: italic; font-weight: 600; font-size: 20px; color: var(--inksoft); margin-top: 6px; }
+  section h2 { font-size: 30px; display: flex; align-items: baseline; gap: 14px; margin-bottom: 10px; }
+  section h2 small { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 18px; color: var(--inksoft); }
+  .rowset { display: flex; flex-direction: column; gap: 6px; }
+  .set { display: grid; grid-template-columns: 220px 1fr auto; align-items: center; gap: 22px; min-height: 64px; font-size: 22px; border-bottom: 2px dashed var(--shade); }
+  .set:last-child { border-bottom: 0; }
+  .set.two { grid-template-columns: 1fr auto; }
+  .set.speed { grid-template-columns: 220px 1fr; }
+  .set .lab { font-weight: 800; }
+  .set .lab small { display: block; font-size: 15px; color: var(--inksoft); font-weight: 700; }
+  .set .val { font-weight: 900; min-width: 56px; text-align: right; }
+
+  /* slider: an inked stem, filled moss, a berry knob */
+  .slider { position: relative; height: 44px; display: flex; align-items: center; }
+  .slider .track { position: relative; width: 100%; height: 16px; background: var(--paper); border: 3px solid var(--ink); border-radius: 999px; }
+  .slider .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--moss); border-radius: 999px; }
+  .slider .knob { position: absolute; top: 50%; width: 40px; height: 40px; transform: translate(-50%, -50%); }
+  .slider .knob svg { width: 100%; height: 100%; }
+  /* toggle */
+  .toggle { width: 96px; height: 48px; border: 3px solid var(--ink); border-radius: 999px; background: var(--shade); position: relative; box-shadow: 0 4px 0 var(--ink); }
+  .toggle::after { content: ''; position: absolute; top: 4px; left: 4px; width: 34px; height: 34px; border-radius: 50%; background: var(--card); border: 3px solid var(--ink); }
+  .toggle b { position: absolute; top: 50%; transform: translateY(-50%); font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+  .toggle:not(.on) b { right: 11px; color: var(--inksoft); }
+  .toggle.on { background: var(--moss); } .toggle.on::after { left: auto; right: 4px; } .toggle.on b { left: 13px; color: var(--card); }
+  .seg { display: flex; gap: 10px; }
+  .seg .btn { min-height: 60px; min-width: 84px; font-size: 24px; padding: 6px 12px; }
+  .seg .btn.on { background: var(--ink); color: var(--card); }
+  .select { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 60px; min-width: 260px; padding: 6px 18px 6px 22px; border: 3px solid var(--ink); border-radius: 14px 18px 14px 12px; background: var(--paper); font-size: 22px; font-weight: 800; }
+  .select i { font-style: normal; font-size: 18px; }
+  .lang .lh { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 30px; }
+  .note { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 17px; color: var(--inksoft); line-height: 1.3; }
+
+  /* text size: the same board-size card at each size */
+  .sizes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; align-items: end; }
+  .size { display: flex; flex-direction: column; align-items: center; gap: 22px; padding: 22px 10px 14px; border: 3px solid transparent; border-radius: 18px; }
+  .size.on { border-color: var(--ink); background: var(--paper); box-shadow: 4px 5px 0 var(--shade); }
+  .size .card { --cw: 170px; }
+  .page.r { gap: 40px; }
+  .size .pick { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 22px; min-height: 44px; }
+  .size .pick .dot { width: 28px; height: 28px; border-radius: 50%; border: 3px solid var(--ink); background: var(--card); display: grid; place-items: center; }
+  .size.on .pick .dot::after { content: ''; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); }
+  .ts-s .c-name span { font-size: .47em !important; } .ts-s .c-chips { font-size: .36em !important; } .ts-s .stat span { font-size: .95em !important; }
+  .ts-m .c-name span { font-size: .58em !important; } .ts-m .c-chips { font-size: .44em !important; } .ts-m .stat span { font-size: 1.12em !important; }
+  .ts-l .c-name span { font-size: .72em !important; } .ts-l .c-chips { font-size: .56em !important; } .ts-l .stat span { font-size: 1.34em !important; }
+  .ts-l .stat { width: 2.45em !important; height: 2.45em !important; }
+
+  /* colour-blind aid: stats and tribe marks, off and on, seen normally and as red-green colour blindness */
+  .cbhead { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; } .cbhead h2 { margin: 0; }
+  .size .c-name span { white-space: normal !important; overflow: visible !important; line-height: 1.02 !important; }
+  .size .c-name { margin-top: -1.3em !important; }
+  .cb { display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px 18px; align-items: center; }
+  .cb .colh { font-weight: 900; font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--inksoft); text-align: center; }
+  .cb .rowh { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 17px; line-height: 1.1; }
+  .sample { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--paper); border: 2.5px solid var(--ink); border-radius: 14px; justify-content: center; }
+  .sample.on { background: #FFF; }
+  .sim { filter: url(#deutan); }
+  .sst { position: relative; width: 52px; height: 52px; flex: none; }
+  .sst svg { width: 100%; height: 100%; }
+  .sst b { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 900; font-size: 22px; }
+  .sst.hp b { color: var(--card); padding-bottom: 4px; }
+  .marks { display: flex; gap: 6px; }
+  .mk { width: 34px; height: 34px; flex: none; } .mk svg { width: 100%; height: 100%; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 15px; font-weight: 800; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; } .legend .mk { width: 26px; height: 26px; }
+
+  @media (max-height: 500px) {
+    :root { --line: 2.5px; }
+    .screen { padding: 4px 6px 8px; }
+    .book { width: 100%; height: 100%; grid-template-columns: 330px 1fr; }
+    .book::before { transform: translate(3px, 4px); border-radius: 14px; }
+    .page { border-width: 2.5px; padding: 8px 14px 8px; gap: 4px; }
+    .page.l { border-radius: 14px 4px 4px 12px; border-right-width: 1.5px; padding-right: 22px; }
+    .page.r { border-radius: 4px 16px 14px 4px; border-left-width: 1.5px; padding-left: 22px; gap: 6px; }
+    .page.l::after, .page.r::after { width: 10px; }
+    .ribbon { width: 20px; height: 40px; right: 14px; border-width: 2px; }
+    .head { gap: 10px; }
+    .back { min-height: 44px; font-size: 15px; padding: 2px 12px 2px 8px; gap: 4px; box-shadow: 0 3px 0 var(--ink); }
+    .back svg { width: 16px; height: 16px; }
+    .head h1 { font-size: 24px; } .head h1 small { display: none; }
+    section h2 { font-size: 14px; margin: 2px 0 0; gap: 6px; } section h2 small { font-size: 11px; }
+    .rowset { gap: 0; }
+    .set { grid-template-columns: 92px 1fr auto; gap: 8px; min-height: 44px; font-size: 13px; border-bottom-width: 1.5px; }
+    .set .lab small { display: none; }
+    .lang .lh { font-size: 14px; }
+    .cbhead { margin-bottom: 4px; } .cbhead h2 small { display: none; }
+    .size .c-name { margin-top: -22px !important; }
+    .page.r { gap: 8px; }
+    .set .val { min-width: 30px; font-size: 13px; }
+    .slider .track { height: 11px; border-width: 2px; }
+    .slider .knob { width: 28px; height: 28px; }
+    .toggle { width: 64px; height: 34px; border-width: 2.5px; box-shadow: 0 3px 0 var(--ink); }
+    .toggle::after { width: 22px; height: 22px; top: 3px; left: 3px; border-width: 2px; }
+    .toggle.on::after { right: 3px; }
+    .toggle b { font-size: 11px; } .toggle:not(.on) b { right: 7px; } .toggle.on b { left: 8px; }
+    .set.speed { grid-template-columns: 92px 1fr; }
+    .set.two { grid-template-columns: 1fr auto; }
+    .seg { gap: 5px; }
+    .seg .btn { min-height: 44px; min-width: 0; flex: 1; font-size: 15px; padding: 2px; box-shadow: 0 3px 0 var(--ink); }
+    .select { min-height: 44px; min-width: 0; padding: 2px 10px; font-size: 13px; border-width: 2px; border-radius: 10px; }
+    .select i { font-size: 11px; }
+  .note { font-size: 11px; }
+    .set.lang .note { display: none; }
+    .sizes { gap: 8px; }
+    .size { gap: 9px; padding: 9px 4px 2px; border-width: 2px; border-radius: 12px; flex-direction: row; justify-content: center; }
+    .size .pick { font-size: 13px; gap: 5px; flex-direction: column; min-height: 44px; justify-content: center; }
+    .size .pick .dot { width: 22px; height: 22px; border-width: 2px; } .size.on .pick .dot::after { width: 10px; height: 10px; }
+    .size .card { --cw: 82px; font-size: calc(82px / 7); --lw: 2.5px; }
+    .size .card .c-tier { width: 22px; height: 22px; left: -8px; top: -8px; } .size .card .c-tier span { font-size: 10px; }
+    .size .card .stat { width: 26px; height: 26px; bottom: -8px; } .ts-l .stat { width: 30px !important; height: 30px !important; }
+    .size .card .stat.atk { left: -8px; } .size .card .stat.hp { right: -8px; }
+    .ts-s .c-name span { font-size: 9px !important; } .ts-m .c-name span { font-size: 11px !important; } .ts-l .c-name span { font-size: 13px !important; }
+    .ts-s .c-chips { font-size: 8px !important; } .ts-m .c-chips { font-size: 10px !important; } .ts-l .c-chips { font-size: 12px !important; }
+    .ts-s .stat span { font-size: 12px !important; } .ts-m .stat span { font-size: 14px !important; } .ts-l .stat span { font-size: 17px !important; }
+    .size .card .c-chips .chip { border-width: 1.5px; }
+    .cb { gap: 4px 8px; }
+    .cb .colh { font-size: 11px; letter-spacing: .04em; }
+    .cb .rowh { font-size: 11px; }
+    .sample { gap: 5px; padding: 3px 6px; border-width: 2px; border-radius: 9px; }
+    .sst { width: 30px; height: 30px; } .sst b { font-size: 13px; } .sst.hp b { padding-bottom: 2px; }
+    .marks { gap: 3px; } .mk { width: 22px; height: 22px; }
+    .legend { gap: 2px 10px; font-size: 11px; margin-top: 6px !important; } .legend .mk { width: 18px; height: 18px; }
+    .ts-l .c-name { margin-top: -30px !important; }
+    .set.cbrow .lab small { display: none; }
+  }
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute"><filter id="deutan"><feColorMatrix type="matrix" values="0.367 0.861 -0.228 0 0  0.280 0.673 0.047 0 0  -0.012 0.043 0.969 0 0  0 0 0 1 0"/></filter></svg>
+<div class="screen"><div class="book" id="book"></div><svg id="vine"></svg></div>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const I = INK.ICON, R = FIX.recruit;
+  const knob = '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="var(--berry)" stroke="var(--ink)" stroke-width="2.6"/><circle cx="12" cy="12" r="3" fill="var(--card)"/></svg>';
+  const slider = (lab, sub, v) => `<div class="set"><span class="lab">${lab}<small>${sub}</small></span>
+    <div class="slider" role="slider" aria-label="${lab}" aria-valuenow="${v}"><div class="track"><div class="fill" style="width:${v}%"></div></div><div class="knob" style="left:${v}%">${knob}</div></div>
+    <span class="val">${v}%</span></div>`;
+  const toggle = (lab, sub, on, cls = '') => `<div class="set two ${cls}"><span class="lab">${lab}<small>${sub}</small></span>
+    <button class="toggle ${on ? 'on' : ''}" role="switch" aria-checked="${on}" aria-label="${lab}"><b>${on ? 'On' : 'Off'}</b></button></div>`;
+  const back = '<svg viewBox="0 0 32 32"><path d="M20 5L9 16l11 11" fill="none" stroke="var(--ink)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // Tribe marks for the colour-blind aid: colour plus a shape plus an ink glyph, so tribe never rests on hue alone.
+  const T = [
+    ['Fairies', 'var(--heather)', 'M16 3l3.2 9.8L29 16l-9.8 3.2L16 29l-3.2-9.8L3 16l9.8-3.2z'],
+    ['Birds', 'var(--sky)', 'M16 4L29 27H3z'],
+    ['Hive', 'var(--mustard)', 'M16 3l11.3 6.5v13L16 29 4.7 22.5v-13z'],
+    ['Great beasts', 'var(--rust)', 'M5 5h22v22H5z'],
+    ['Hunters', 'var(--pine)', 'M16 3L29 16 16 29 3 16z'],
+    ['Neutral', 'var(--stone)', 'M16 3a13 13 0 1 0 0 26 13 13 0 1 0 0-26z']
+  ];
+  const mark = (t, aid) => aid
+    ? `<span class="mk" title="${t[0]}"><svg viewBox="0 0 32 32"><path d="${t[2]}" fill="${t[1]}" stroke="var(--ink)" stroke-width="2.6" stroke-linejoin="round"/></svg></span>`
+    : `<span class="mk" title="${t[0]}"><svg viewBox="0 0 32 32"><rect x="5" y="11" width="22" height="10" rx="3" fill="${t[1]}" stroke="var(--ink)" stroke-width="2"/></svg></span>`;
+  // Aid on: attack gets a ring of ink ticks (a texture, not a hue); health gets a white inner line.
+  const atkAid = '<svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13.6" fill="var(--mustard)" stroke="var(--ink)" stroke-width="2.6"/><circle cx="16" cy="16" r="10" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-dasharray="1.6 2.6"/></svg>';
+  const hpAid = I.heart.replace('</svg>', '<path d="M16 24.6C9 19.4 6.4 15.2 6.4 11.6 6.4 9 8.3 7.2 10.6 7.2c2 0 3.6 1.2 5.4 3.6 1.8-2.4 3.4-3.6 5.4-3.6 2.3 0 4.2 1.8 4.2 4.4 0 3.6-2.6 7.8-9.6 13z" fill="none" stroke="var(--card)" stroke-width="1.6"/></svg>');
+  const sample = (aid, sim) => `<div class="sample ${aid ? 'on' : ''} ${sim ? 'sim' : ''}">
+      <span class="sst">${aid ? atkAid : I.atkbadge}<b>2</b></span><span class="sst hp">${aid ? hpAid : I.heart}<b>8</b></span>
+      <span class="marks">${T.slice(0, 4).map(t => mark(t, aid)).join('')}</span></div>`;
+
+  const warden = R.board.front[1];
+  const size = (cls, lab, on) => `<div class="size ${on ? 'on' : ''}"><div class="${cls}">${INK.card(warden, 'board')}</div><span class="pick"><span class="dot"></span>${lab}</span></div>`;
+
+  document.getElementById('book').innerHTML = `
+  <div class="page l">
+    <div class="head"><button class="btn back">${back}Back</button><h1>Settings<small>saved as you change them</small></h1></div>
+    <section><h2>Sound</h2><div class="rowset">
+      ${slider('Sound effects', 'hits, coins, cards', 80)}
+      ${slider('Music', 'the woodland tune', 55)}
+    </div></section>
+    <section><h2>Fights <small>how combat plays out</small></h2><div class="rowset">
+      <div class="set speed"><span class="lab">Fight speed<small>start every fight at</small></span>
+        <div class="seg"><button class="btn">1×</button><button class="btn on">2×</button><button class="btn">4×</button></div></div>
+      ${toggle('Skip my fights', 'show only the result', false)}
+      ${toggle('Skip others’ fights', 'when you watch another player', true)}
+    </div></section>
+    <section class="langsec"><div class="rowset">
+      <div class="set two lang"><span class="lab"><span class="lh">Language</span><small>more languages come later (placeholder)</small></span>
+        <div class="select"><span>English</span><i>▾</i></div></div>
+    </div></section>
+  </div>
+  <div class="page r"><div class="ribbon"></div>
+    <section><h2>Text size <small>names, keywords and stats on cards</small></h2>
+      <div class="sizes">${size('ts-s', 'Small', false)}${size('ts-m', 'Medium', true)}${size('ts-l', 'Large', false)}</div>
+    </section>
+    <section><div class="cbhead"><h2>Colour-blind aid <small>texture on stats, a shape for each tribe</small></h2>
+      <button class="toggle on" role="switch" aria-checked="true" aria-label="Colour-blind aid"><b>On</b></button></div>
+      <div class="cb">
+        <span></span><span class="colh">Aid off</span><span class="colh">Aid on</span>
+        <span class="rowh">Normal<br>vision</span>${sample(false, false)}${sample(true, false)}
+        <span class="rowh">Red-green<br><small>simulated</small></span>${sample(false, true)}${sample(true, true)}
+      </div>
+      <div class="legend" style="margin-top:12px">${T.map(t => `<span>${mark(t, true)}${t[0]}</span>`).join('')}</div>
+    </section>
+  </div>`;
+
+  // The bramble signature runs along the book's foot.
+  function drawVine() {
+    const svg = document.getElementById('vine'); svg.innerHTML = '';
+    const B = document.getElementById('book').getBoundingClientRect(), S = svg.getBoundingClientRect();
+    const phone = innerHeight < 500, k = phone ? .55 : 1.1;
+    const y = B.bottom - S.top + (phone ? 2 : 6), x0 = B.left - S.left + (phone ? 20 : 40), x1 = B.right - S.left - (phone ? 20 : 40);
+    INK.vine(svg, `M${x0} ${y} L${x1} ${y}`, k);
+  }
+  window.addEventListener('load', drawVine); window.addEventListener('resize', drawVine);
+  if (document.fonts) document.fonts.ready.then(drawVine);
+</script>
+</body></html>

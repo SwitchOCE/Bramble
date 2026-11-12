@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folk Print · Combat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans+SC:wght@500;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="folk.css">
+<style>
+.cb { position: absolute; inset: 0; padding: 14px 20px 14px; display: grid; grid-template-columns: 270px 1fr 200px; gap: 20px; }
+.cb-left, .cb-right { display: flex; flex-direction: column; gap: 14px; }
+.cb-mid { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+.cb-vs { display: grid; gap: 8px; }
+.cb-pl { display: flex; align-items: center; gap: 10px; padding: 6px 10px; border: 3px solid var(--fp-ink); border-radius: 30px 30px 8px 8px; background: var(--fp-paper); box-shadow: 3px 4px 0 var(--fp-ink); }
+.cb-pl.cb-foe { background: var(--fp-red); color: var(--fp-paper); }
+.cb-pl span { flex: 1; font: 800 22px/1 var(--fp-label); letter-spacing: .04em; }
+.cb-pl small { display: block; font: 700 14px/1.2 var(--fp-label); letter-spacing: .08em; opacity: .9; }
+.cb-pl .cb-h { position: relative; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; }
+.cb-pl .cb-h svg { position: absolute; inset: 0; }
+.cb-pl .cb-h b { position: relative; font: 21px/1 var(--fp-display); color: var(--fp-paper); margin-top: -4px; }
+.cb-vsmark { text-align: center; font: 22px/1 var(--fp-display); }
+.cb-steps { border: 3px solid var(--fp-ink); border-radius: 14px; background: var(--fp-kraft); padding: 12px 14px; display: grid; gap: 10px; }
+.cb-steps h3, .cb-log h3 { margin: 0; font: 800 17px/1 var(--fp-label); letter-spacing: .14em; }
+.cb-step { display: grid; grid-template-columns: 40px 1fr; gap: 10px; align-items: center; font: 500 17px/1.2 var(--fp-serif); }
+.cb-step i { width: 40px; height: 40px; border-radius: 50%; border: 2.5px solid var(--fp-ink); display: flex; align-items: center; justify-content: center;
+  font: 20px/1 var(--fp-display); font-style: normal; color: var(--fp-paper); }
+.cb-step b { display: block; margin-top: 4px; white-space: nowrap; font: 22px/1 var(--fp-display); }
+.cb-log { flex: 1; border-top: 3px solid var(--fp-ink); padding-top: 10px; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
+.cb-log p { margin: 0; font: 500 15.5px/1.25 var(--fp-serif); color: var(--fp-ash); padding-left: 14px; position: relative; }
+.cb-log p::before { content: ''; position: absolute; left: 0; top: 6px; width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); }
+.cb-log p.cb-now { color: var(--fp-ink); font-weight: 700; }
+.cb-log p.cb-now::before { background: var(--fp-red); }
+.cb-mid .fp-board { box-shadow: 6px 7px 0 var(--fp-red); }
+.cb-mid .fp-board-enemy { box-shadow: 6px 7px 0 var(--fp-plum); }
+.cb-side { position: absolute; left: -2px; font: 800 15px/1 var(--fp-label); letter-spacing: .16em; background: var(--fp-paper); padding: 4px 10px; border: 2px solid var(--fp-ink); z-index: 9; }
+.cb-line { width: 100%; display: flex; align-items: center; gap: 10px; }
+.cb-line .fp-zig { flex: 1; --fp-c: var(--fp-ink); }
+.cb-line span { font: 800 17px/1 var(--fp-label); letter-spacing: .2em; }
+.cb-count { text-align: center; border: 3px solid var(--fp-ink); border-radius: 14px; padding: 10px; background: var(--fp-paper); font: 800 17px/1 var(--fp-label); letter-spacing: .14em; }
+.cb-count b { display: block; font: 46px/1 var(--fp-display); letter-spacing: 0; margin-top: 4px; }
+.cb-speed { display: grid; gap: 10px; }
+.cb-speed .fp-btn { height: 84px; font-size: 32px; }
+.cb-speed .fp-btn.on { background: var(--fp-ink); color: var(--fp-paper); box-shadow: 5px 6px 0 var(--fp-red); }
+.cb-lab { font: 800 16px/1 var(--fp-label); letter-spacing: .16em; text-align: center; }
+.cb-skip { margin-top: auto; }
+
+/* the moment */
+.cb-attacker .fp-card { transform: translateY(-14px) scale(1.06); }
+.cb-attacker .fp-body { box-shadow: 0 0 0 4px var(--fp-red), 0 0 0 7px var(--fp-ink), 6px 8px 0 6px var(--fp-ink); }
+.cb-target .fp-body { box-shadow: 0 0 0 4px var(--fp-plum), 0 0 0 7px var(--fp-ink), 4px 5px 0 6px var(--fp-ink); }
+.cb-over { position: absolute; inset: 0; pointer-events: none; z-index: 40; overflow: visible; }
+.cb-tagline { position: absolute; z-index: 41; font: 800 15px/1 var(--fp-label); letter-spacing: .14em; padding: 4px 10px; border: 2px solid var(--fp-ink); white-space: nowrap; }
+.cb-seal { position: absolute; z-index: 42; width: 150px; display: flex; flex-direction: column; align-items: center; }
+.cb-seal .cb-half { width: 92px; height: 92px; border-radius: 50%; background: var(--fp-plum); color: var(--fp-paper); border: 3px solid var(--fp-ink);
+  display: flex; align-items: center; justify-content: center; font: 50px/1 var(--fp-display); box-shadow: 0 0 0 5px var(--fp-paper), 0 0 0 8px var(--fp-plum), 4px 6px 0 8px var(--fp-ink); }
+.cb-seal .cb-sum { margin-top: 14px; background: var(--fp-paper); border: 3px solid var(--fp-plum); padding: 6px 10px; font: 24px/1 var(--fp-display); white-space: nowrap; }
+.cb-seal .cb-sum s { text-decoration: line-through 3px var(--fp-plum); }
+.cb-seal .cb-sum em { font: 800 15px/1 var(--fp-label); font-style: normal; display: block; color: var(--fp-plum); letter-spacing: .1em; text-align: center; margin-bottom: 4px; }
+.cb-burst { position: absolute; z-index: 43; width: 104px; height: 104px; display: flex; align-items: center; justify-content: center; }
+.cb-burst svg { position: absolute; inset: 0; }
+.cb-burst b { position: relative; font: 40px/1 var(--fp-display); color: var(--fp-paper); }
+.fp-phone .cb { grid-template-columns: 300px 1fr 230px; }
+.fp-phone .cb-step { font-size: 20px; }
+.fp-phone .cb-log p { font-size: 18px; }
+.fp-phone .cb-log p:not(.cb-now) { display: none; }
+</style>
+</head>
+<body>
+<div class="fp-stage"><div class="cb" id="cb"></div></div>
+<script src="data.js"></script>
+<script src="folk.js"></script>
+<script>
+FP.boot(() => {
+  const F = FP.F, C = F.combat, R = F.recruit, I = FP.I;
+  const boar = C.enemy_front[0];
+  const enemy = {
+    front: ['F1', 'F2', 'F3', 'F4'].map(s => C.enemy_front.find(u => u.slot === s) || { slot: s, empty: true }),
+    back: ['B1', 'B2', 'B3'].map(s => C.enemy_back.find(u => u.slot === s) || { slot: s, empty: true })
+  };
+  const mine = {
+    front: R.board.front,
+    back: [Object.assign({}, C.hornetling), R.board.back[1], Object.assign({ slot: 'B3' }, F.hero_card)]
+  };
+  const youP = F.lobby.find(p => p.name === 'You'), foeP = F.lobby.find(p => p.name === C.opponent);
+  const after = boar.current_health - Math.floor(boar.current_health / 2) - C.hornetling.attack;
+  const halved = boar.current_health - Math.floor(boar.current_health / 2);
+  document.getElementById('cb').innerHTML = `
+    <div class="cb-left">
+      <div class="cb-vs">
+        <div class="cb-pl cb-foe"><span>${foeP.name}<small>tier ${foeP.tier}</small></span><div class="cb-h">${I.heart}<b>${foeP.health}</b></div></div>
+        <div class="cb-vsmark">vs</div>
+        <div class="cb-pl"><span>You<small>tier ${youP.tier}</small></span><div class="cb-h">${I.heart}<b>${youP.health}</b></div></div>
+      </div>
+      <div class="cb-steps"><h3>This attack</h3>
+        <div class="cb-step"><i style="background:var(--fp-plum)">1</i><div><span class="fp-kw fp-kw-ns">Nightshade</span>: the boar loses half its Health. <b>${boar.current_health} → ${halved}</b></div></div>
+        <div class="cb-step"><i style="background:var(--fp-red)">2</i><div>Hornetling hits for ${C.hornetling.attack}. <b>${halved} → ${after}</b></div></div>
+      </div>
+      <div class="cb-log"><h3>Combat log</h3>
+        <p>Start of Combat: Belladonna Sprite gives Tusker Boar Nightshade.</p>
+        <p>Hornet Scout dies. Hornetling is summoned into B1.</p>
+        <p class="cb-now">Hornetling attacks Tusker Boar: Nightshade halves ${boar.current_health} to ${halved}, then 1 damage leaves ${after}.</p>
+      </div>
+    </div>
+    <div class="cb-mid" id="mid">
+      ${FP.board(enemy, 'combat', { enemy: true, opts: { F2: { hp: after } } })}
+      <div class="cb-line"><div class="fp-zig" style="flex:3"></div><span>▲ ${C.opponent} &nbsp; ▼ You</span><div class="fp-zig"></div></div>
+      ${FP.board(mine, 'combat')}
+    </div>
+    <div class="cb-right">
+      <div class="cb-count">Attack<b>2</b></div>
+      <div class="cb-lab">Speed</div>
+      <div class="cb-speed"><button class="fp-btn">1×</button><button class="fp-btn on">2×</button><button class="fp-btn">4×</button></div>
+      <button class="fp-btn fp-btn-red cb-skip">${I.skip}Skip</button>
+    </div>`;
+  const mid = document.getElementById('mid');
+  const boards = mid.querySelectorAll('.fp-board');
+  boards[0].querySelector('[data-slot="F2"]').classList.add('cb-target');
+  boards[1].querySelector('[data-slot="B1"]').classList.add('cb-attacker');
+});
+window.fpAfter = () => {
+  const mid = document.getElementById('mid'), boards = mid.querySelectorAll('.fp-board');
+  const st = document.querySelector('.fp-stage');
+  const t = FP.rect(boards[0].querySelector('[data-slot="F2"] .fp-card'));
+  const a = FP.rect(boards[1].querySelector('[data-slot="B1"] .fp-card'));
+  // folk arrow: a fat vermilion quill from the Hornetling up to the boar
+  // B1 sits behind the F1/F2 seam, so the quill rises straight up through that gap, then bends to the boar
+  const x0 = a.x + a.w * .5, y0 = a.y + 4, x1 = t.x + t.w * .5, y1 = t.y + t.h + 14;
+  const c1y = y0 - (y0 - y1) * .62, c2x = x1, c2y = y1 + 70;
+  const ang = Math.atan2(y1 - c2y, x1 - c2x), hx = Math.cos(ang), hy = Math.sin(ang);
+  const head = `${x1},${y1} ${x1 - 30 * hx + 16 * hy},${y1 - 30 * hy - 16 * hx} ${x1 - 30 * hx - 16 * hy},${y1 - 30 * hy + 16 * hx}`;
+  const ex = x1 - 26 * hx, ey = y1 - 26 * hy;
+  st.insertAdjacentHTML('beforeend', `<svg class="cb-over" width="100%" height="100%">
+    <path d="M${x0} ${y0} C${x0} ${c1y} ${c2x} ${c2y} ${ex} ${ey}" stroke="var(--fp-ink)" stroke-width="17" fill="none" stroke-linecap="round"/>
+    <path d="M${x0} ${y0} C${x0} ${c1y} ${c2x} ${c2y} ${ex} ${ey}" stroke="var(--fp-red)" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M${x0} ${y0} C${x0} ${c1y} ${c2x} ${c2y} ${ex} ${ey}" stroke="var(--fp-paper)" stroke-width="2.4" fill="none" stroke-dasharray="2 12"/>
+    <polygon points="${head}" fill="var(--fp-red)" stroke="var(--fp-ink)" stroke-width="4" stroke-linejoin="round"/>
+  </svg>
+  <div class="cb-tagline" style="left:${a.x + a.w / 2}px;top:${a.y + a.h + 4}px;transform:translateX(-50%);background:var(--fp-red);color:var(--fp-paper)">Attacking</div>
+  <div class="cb-seal" style="left:${t.x + t.w + 20}px;top:${t.y - 6}px"><div class="cb-half">½</div><div class="cb-sum"><em>Nightshade</em><s>26</s> → 13</div></div>
+  <div class="cb-burst" style="left:${t.x - 92}px;top:${t.y + 4}px"><svg viewBox="0 0 100 100"><polygon points="${FP.star(12, 49, 32, 50, 50)}" fill="var(--fp-red)" stroke="var(--fp-ink)" stroke-width="4" stroke-linejoin="round"/></svg><b>−1</b></div>`);
+};
+</script>
+</body>
+</html>

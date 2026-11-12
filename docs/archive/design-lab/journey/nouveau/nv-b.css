@@ -1,0 +1,132 @@
+/* Woodland Nouveau on layout B. A skin over Clean Arena (arena.css): colours, fonts,
+   edges and shadows only. No zone or unit changes place or size here, so the
+   layout is exactly the Arena's. Malachite and ivory, gilt edges, jewels for numbers. */
+:root {
+  --ivory: #f7efdc; --ivory2: #efe1bf; --malachite: #0e3a31; --mal2: #15513f; --garnet: #9a1f33; --sapphire: #23439a; --amethyst: #6b3f8f;
+  --gilt: linear-gradient(135deg, #fff1b8 0%, #d7ad4f 35%, #9c7124 70%, #f4d77f 100%);
+  --goldc: #d1a54a; --inkn: #2a1c12;
+  --deco: 'Cinzel Decorative', serif;
+  /* Arena's variables, remapped. --ink is Arena's light text colour. */
+  --num: 'Cinzel', serif; --txt: 'Cormorant Garamond', Georgia, serif;
+  --ink: #f7efdc; --dim: #f1d78a; --atk: #23439a; --hp: #9a1f33; --go: #d1a54a; --ice: #8fd0ff; --line: #d1a54a;
+}
+.jy-shade { background: radial-gradient(110% 90% at 50% 40%, transparent 45%, rgba(10,30,24,.45) 100%); }
+html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(1.1) hue-rotate(-6deg); }
+/* A thin gilt line around the whole screen. */
+.jy-world::after { content: ''; position: absolute; inset: 10px; border: 3px solid var(--goldc); border-radius: 10px; z-index: 5;
+  box-shadow: 0 0 0 1px rgba(60,40,10,.4), inset 0 0 0 1px rgba(60,40,10,.4), inset 0 0 0 7px transparent, inset 0 0 0 8px rgba(241,215,127,.5); }
+
+/* ---- Turn and route: a gilt cartouche feel ------------------------------------------------ */
+.turnmark b { font: 900 46px/1 var(--deco); background: var(--gilt); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 2px rgba(0,0,0,.6)); text-shadow: none; }
+.turnmark span { font: 700 17px var(--num); letter-spacing: .28em; color: var(--ivory); }
+.turnmark span.red { color: #ff9cab; }
+.node { border: 3px solid var(--goldc); box-shadow: 0 0 0 2px rgba(14,58,49,.8), 0 4px 10px rgba(0,0,0,.4); }
+.node.here { border: 4px solid #fff1b8; box-shadow: 0 0 0 3px #9c7124, 0 0 24px rgba(255,220,130,.6); }
+.path { background: repeating-linear-gradient(90deg, var(--goldc) 0 4px, transparent 4px 9px); height: 3px; }
+.route-label { font: 600 italic 19px var(--txt); color: var(--ivory); text-shadow: 0 2px 6px #000; }
+.route-label b { font: 700 18px var(--num); letter-spacing: .16em; }
+
+/* ---- Frames: malachite boards with gilt lines and an arched top ------------------------------ */
+.boardframe { border: 3px solid var(--goldc); border-radius: 120px 120px 22px 22px / 54px 54px 22px 22px;
+  background: radial-gradient(ellipse at 50% 40%, rgba(21,81,63,.94), rgba(14,58,49,.94) 60%, rgba(8,34,28,.96));
+  box-shadow: 0 0 0 6px rgba(14,58,49,.55), inset 0 0 0 8px rgba(14,58,49,.9), inset 0 0 0 9px rgba(241,215,127,.55), 0 30px 70px rgba(0,0,0,.5); }
+.boardframe.foe { border-color: var(--goldc); border-radius: 22px 22px 120px 120px / 22px 22px 54px 54px;
+  background: radial-gradient(ellipse at 50% 60%, rgba(122,28,46,.94), rgba(74,7,20,.96));
+  box-shadow: 0 0 0 6px rgba(74,7,20,.5), inset 0 0 0 8px rgba(74,7,20,.9), inset 0 0 0 9px rgba(241,215,127,.55), 0 30px 70px rgba(0,0,0,.5); }
+.tab { left: 50%; transform: translateX(-50%); background: radial-gradient(ellipse at 50% 0%, var(--mal2), var(--malachite)); border: 2px solid var(--goldc); border-radius: 0 0 60px 60px / 0 0 24px 24px; padding: 4px 30px 7px; }
+.tab b { font: 900 20px var(--deco); letter-spacing: .06em; background: var(--gilt); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tab span { font: 700 14px var(--num); letter-spacing: .2em; color: var(--ivory2); }
+.boardframe.foe .tab { left: auto; right: 80px; transform: none; border-color: var(--goldc); background: radial-gradient(ellipse at 50% 100%, #7a1c2e, #4a0714); border-radius: 60px 60px 0 0 / 24px 24px 0 0; }
+.slot { --hx-edge: rgba(241,215,127,.4); }
+.slot .hx-art { background: rgba(0,0,0,.28); }
+.slot span { font: 700 18px var(--num); color: rgba(241,215,127,.55); }
+
+/* ---- Units: gilt hexes, jewels for numbers --------------------------------------------------- */
+.front { --hx-edge: var(--gilt); --hx-bw: 4px; }
+.front::before { background: rgba(0,0,0,.4); }
+.card .tier { left: 50%; top: -8px; margin-left: -17px; width: 34px; height: 34px; background: var(--gilt); color: var(--inkn); font: 900 18px/34px var(--num); box-shadow: 0 2px 6px rgba(0,0,0,.5); }
+.card .ico { background: var(--malachite); border: 2px solid var(--goldc); }
+.card .bolt svg { fill: #ffe39a; }
+.card .aura svg { fill: #ffe39a; stroke: #ffe39a; }
+.front .atk, .front .hp { font: 900 27px/1 var(--num); color: #fff; text-shadow: 0 2px 2px rgba(0,0,0,.6); }
+.front .atk::before { inset: 6px; border-radius: 6px; background: radial-gradient(circle at 35% 30%, #8fb0ff, var(--sapphire) 55%, #10245e); border: 3px solid #e6c56a; }
+.front .hp { background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 3px solid #e6c56a; }
+.front .nm { display: -webkit-box; position: absolute; left: 24px; right: 24px; bottom: 26%; text-align: center; background: var(--ivory); border: 2px solid var(--goldc); border-radius: 4px; padding: 3px 3px 2px;
+  font: 800 11px/1.05 var(--num); color: var(--inkn); overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; box-shadow: 0 3px 6px rgba(0,0,0,.35); }
+.card.golden .front { --hx-edge: var(--gilt); --hx-bw: 6px; }
+.card.golden .front::before { background: rgba(255,220,120,.6); inset: -5px -5px -9px; }
+.card.frozen .front .hx-art::after { background: linear-gradient(160deg, rgba(200,236,255,.6), rgba(143,208,255,.25) 50%, rgba(230,246,255,.55)); }
+
+.back { --hx-edge: var(--gilt); --hx-bw: 4px; }
+.back-in { background: linear-gradient(180deg, var(--ivory), var(--ivory2)) !important; color: var(--inkn); }
+.b-name { font: 900 15px/1.08 var(--deco); text-transform: none; letter-spacing: 0; }
+.b-tribe { font: 700 10px var(--num); letter-spacing: .14em; text-transform: uppercase; color: #8a6420; }
+.b-text { font: 600 14px/1.22 var(--txt); }
+.b-text b { color: var(--amethyst); font: 800 12px var(--num); }
+.b-text em { color: var(--garnet); font-style: italic; }
+.b-foot .atk { background: var(--sapphire); color: #fff; border: 2px solid #e6c56a; }
+.b-foot .hp { background: var(--garnet); border: 2px solid #e6c56a; }
+.b-act { background: radial-gradient(circle at 40% 30%, #1d6a55, var(--malachite) 70%); color: var(--ivory); border: 2px solid var(--goldc); font: 700 13px/28px var(--num); letter-spacing: .1em; }
+
+.reader { background: var(--ivory); border: 3px solid var(--goldc); border-radius: 60px 60px 10px 10px / 40px 40px 10px 10px; box-shadow: 0 0 0 6px rgba(14,58,49,.75), 0 20px 40px rgba(0,0,0,.5); color: var(--inkn); text-align: center; }
+.reader .b-name { font-size: 24px; }
+.reader .b-tribe { justify-content: center; }
+.reader .b-text { font-size: 19px; }
+
+/* ---- The market: an ivory cabinet with a malachite crown --------------------------------------- */
+.shopframe { background: linear-gradient(180deg, rgba(250,243,226,.96), rgba(239,225,191,.96)); border: 3px solid var(--goldc); border-radius: 22px;
+  box-shadow: 0 0 0 6px rgba(120,84,30,.35), inset 0 0 0 7px rgba(250,243,226,.9), inset 0 0 0 8px rgba(209,165,74,.7), 0 30px 70px rgba(0,0,0,.45); }
+.awning { background: radial-gradient(ellipse at 50% 0%, var(--mal2), var(--malachite)); border-bottom: 2px solid var(--goldc); color: var(--ivory); border-radius: 19px 19px 0 0; }
+.awning::after { display: none; }
+.awning > b { font: 900 32px var(--deco); letter-spacing: .06em; background: var(--gilt); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tierbadge { background: none; border: 1px solid var(--goldc); color: #f1d78a; font: 700 14px var(--num); letter-spacing: .24em; }
+.awning .gold { background: radial-gradient(circle at 40% 30%, #fff3c4, #d9ac48 55%, #8a5f1a); border: 2px solid #9c7124; border-radius: 999px; padding: 0 16px; }
+.awning .gold .acorn svg { fill: var(--inkn); }
+.awning .gold b { color: var(--inkn); font: 900 40px/1.15 var(--num); }
+.shopbtns { border-top: 1px solid rgba(156,113,36,.5); }
+
+/* ---- Buttons: malachite jewels with gilt rims ------------------------------------------------- */
+.btn { background: radial-gradient(circle at 40% 30%, #1d6a55, var(--malachite) 70%); border: 3px solid var(--goldc); color: var(--ivory); backdrop-filter: none;
+  box-shadow: 0 0 0 4px rgba(209,165,74,.25), 0 8px 18px rgba(0,0,0,.35); font: 900 26px var(--num); }
+.btn:hover { background: radial-gradient(circle at 40% 30%, #24806a, var(--mal2) 70%); }
+.btn em, .shopbtns .btn em { color: #f1d78a; font: 700 13px var(--num); letter-spacing: .14em; }
+.btn em svg { fill: #f1d78a; }
+.btn.tierup { background: radial-gradient(circle at 40% 30%, #fff3c4, #d9ac48 55%, #8a5f1a); color: var(--inkn); }
+.btn.tierup em { color: var(--inkn); } .btn.tierup em svg { fill: var(--inkn); }
+.btn.freeze { color: #eaf8ff; background: radial-gradient(circle at 40% 30%, #3a6fb0, #173a6b 70%); border-color: var(--goldc); }
+.btn.freeze em { color: #bfe6ff; }
+/* End turn: a door with an arched top. */
+.btn.end { border-radius: 200px 200px 14px 14px / 90px 90px 14px 14px; border: 4px solid var(--goldc); background: radial-gradient(ellipse at 50% 10%, #2a7a62, var(--malachite) 75%);
+  box-shadow: 0 0 0 6px rgba(14,58,49,.5), inset 0 0 0 6px rgba(215,173,79,.25), 0 14px 30px rgba(0,0,0,.5); padding-top: 26px; }
+.btn.end span { font: 900 36px/1.05 var(--deco); background: var(--gilt); -webkit-background-clip: text; background-clip: text; color: transparent; text-align: center; }
+.btn.end small { font: 600 italic 19px var(--txt); letter-spacing: 0; text-transform: none; color: var(--ivory); }
+
+/* ---- Hand ---------------------------------------------------------------------------------- */
+.handtray { background: rgba(14,58,49,.55); border: 2px solid rgba(209,165,74,.6); border-radius: 22px; box-shadow: inset 0 0 0 5px rgba(14,58,49,.6), inset 0 0 0 6px rgba(241,215,127,.3); }
+.handtray .lbl { font: 700 15px var(--num); letter-spacing: .3em; color: #f1d78a; }
+.hand .none { font: 600 italic 19px var(--txt); color: var(--ivory2); }
+
+/* ---- Players: gilt medals on a malachite strip -------------------------------------------------- */
+.lobby { background: rgba(14,58,49,.8); border: 2px solid var(--goldc); box-shadow: 0 10px 24px rgba(0,0,0,.4); }
+.lobby h4 { font: 700 11px var(--num); color: #f1d78a; }
+.pl img { border: 3px solid var(--goldc); box-shadow: 0 0 0 3px rgba(14,58,49,.7), 0 4px 10px rgba(0,0,0,.4); }
+.pl.you img { border-color: #fff1b8; box-shadow: 0 0 0 3px #d7ad4f, 0 0 18px rgba(255,220,130,.7) !important; }
+.pl.next img { box-shadow: 0 0 0 3px var(--amethyst), 0 0 18px rgba(160,110,220,.7); }
+.php { background: radial-gradient(circle at 35% 30%, #ff8fa0, var(--garnet) 55%, #4a0714); border: 2px solid #e6c56a; font-family: var(--num); font-weight: 900; }
+.ptier { background: var(--gilt); color: var(--inkn); box-shadow: 0 1px 4px rgba(0,0,0,.5); font-family: var(--num); font-weight: 900; }
+.pl .pname { font: 700 16px var(--txt); }
+
+/* ---- Heroes: gilt rings ---------------------------------------------------------------------- */
+.hero img { border: 5px solid transparent; background: var(--gilt) border-box; box-shadow: 0 0 0 3px rgba(14,58,49,.8), 0 0 40px rgba(255,220,130,.45); }
+.hero.foe img { box-shadow: 0 0 0 3px rgba(74,7,20,.9), 0 0 40px rgba(255,120,140,.35); }
+.hero b { font: 700 17px var(--num); letter-spacing: .16em; color: var(--ivory); }
+
+/* ---- Result: a gilt verdict --------------------------------------------------------------------- */
+.result { background: rgba(14,58,49,.92); border: 3px solid var(--goldc); box-shadow: inset 0 0 0 6px rgba(14,58,49,.9), inset 0 0 0 7px rgba(241,215,127,.5); }
+.result > b, .result > b.you, .result > b.them { font: 900 72px/1 var(--deco); background: var(--gilt); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---- Arrival: a cartouche ------------------------------------------------------------------------ */
+.arrive { background: radial-gradient(ellipse at 50% 0%, #15513f, #0e3a31); border: 2px solid var(--goldc); border-radius: 30px 30px 160px 160px / 30px 30px 70px 70px; backdrop-filter: none; }
+.arrive small { font: 700 13px var(--num); letter-spacing: .32em; color: #f1d78a; }
+.arrive b { font: 900 70px/1.1 var(--deco); text-transform: none; background: var(--gilt); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.arrive span { font: 600 italic 24px var(--txt); color: var(--ivory2); }

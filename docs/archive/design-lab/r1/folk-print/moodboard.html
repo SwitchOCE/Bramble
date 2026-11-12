@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folk Print · Mood board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans+SC:wght@500;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="folk.css">
+<style>
+.mb { position: absolute; inset: 0; padding: 14px 24px 18px; display: grid; grid-template-columns: 400px 400px 1fr; grid-template-rows: 48px 1fr; gap: 12px 24px; }
+.mb-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 16px; }
+.mb-head h1 { margin: 0; font: 38px/1 var(--fp-display); }
+.mb-head .fp-zig { flex: 1; --fp-c: var(--fp-red); }
+.mb-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.mb-h { font: 800 15px/1 var(--fp-label); letter-spacing: .18em; display: flex; gap: 8px; align-items: center; }
+.mb-h::before { content: ''; width: 10px; height: 10px; background: var(--fp-red); border: 2px solid var(--fp-ink); transform: rotate(45deg); }
+.mb-sw { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.mb-sw div { height: 70px; border: 2.5px solid var(--fp-ink); border-radius: 30px 30px 6px 6px; padding: 6px 6px; display: flex; flex-direction: column; justify-content: flex-end;
+  font: 800 12px/1.1 var(--fp-label); letter-spacing: .04em; }
+.mb-sw div span { font: 500 11px/1 var(--fp-serif); opacity: .9; }
+.mb-type { border: 3px solid var(--fp-ink); border-radius: 12px; padding: 10px 14px; background: var(--fp-paper); display: grid; gap: 6px; }
+.mb-type .a { font: 46px/1 var(--fp-display); white-space: nowrap; }
+.mb-type .a em { font-style: normal; color: var(--fp-red); }
+.mb-type .b { font: 800 22px/1 var(--fp-label); letter-spacing: .1em; }
+.mb-type .c { font: 500 18px/1.25 var(--fp-serif); }
+.mb-type small { font: 700 12px/1 var(--fp-label); color: var(--fp-ash); letter-spacing: .12em; }
+.mb-pat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.mb-tile { height: 112px; border: 2.5px solid var(--fp-ink); border-radius: 10px; overflow: hidden; position: relative; display: flex; align-items: center; justify-content: center; }
+.mb-tile i { position: absolute; left: 6px; bottom: 5px; font: 800 11px/1 var(--fp-label); font-style: normal; letter-spacing: .1em; background: var(--fp-paper); padding: 3px 5px; border: 1.5px solid var(--fp-ink); }
+.mb-tile .fp-tree { height: 104px; }
+.mb-ic { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.mb-ic div { display: flex; flex-direction: column; align-items: center; gap: 4px; font: 700 11px/1 var(--fp-label); letter-spacing: .06em; }
+.mb-ic svg { width: 44px; height: 44px; }
+.mb-ic .mb-t { color: var(--fp-ink); }
+.mb-tribes { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
+.mb-tribes div { display: flex; flex-direction: column; align-items: center; gap: 3px; font: 700 10.5px/1.05 var(--fp-label); text-align: center; }
+.mb-tribes span.m { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--fp-ink); padding: 6px; background: var(--fp-tb); color: var(--fp-paper); --fp-mc: var(--fp-tb); }
+.mb-tribes .fp-ink-ochre span.m, .mb-tribes .fp-ink-kraft span.m { color: var(--fp-ink); }
+.mb-tribes svg { width: 100%; height: 100%; display: block; }
+.mb-crops { display: grid; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 12px; flex: 1; min-height: 0; }
+.mb-crop { position: relative; border: 3px solid var(--fp-ink); border-radius: 12px; overflow: hidden; box-shadow: 4px 5px 0 var(--fp-red); }
+.mb-crop { min-height: 0; background-repeat: no-repeat; }
+.mb-crop i { position: absolute; left: 8px; top: 8px; font: 800 12px/1 var(--fp-label); font-style: normal; letter-spacing: .12em; background: var(--fp-ink); color: var(--fp-paper); padding: 4px 7px; }
+.fp-phone .mb { grid-template-columns: 430px 430px 1fr; }
+</style>
+</head>
+<body>
+<div class="fp-stage"><div class="mb" id="mb"></div></div>
+<script src="data.js"></script>
+<script src="folk.js"></script>
+<script>
+// palette.json copied in (file:// can't fetch)
+const PAL = [['Unbleached paper', '#F3EAD6', 'ink'], ['Kraft', '#E3D1AE', 'ink'], ['Lamp-black', '#1D1A1E', 'paper'], ['Vermilion', '#BF2F1B', 'paper'],
+  ['Ochre', '#DEA526', 'ink'], ['Meadow green', '#22684A', 'paper'], ['Moss', '#5A6A2A', 'paper'], ['Cobalt', '#24479A', 'paper'],
+  ['Belladonna plum', '#5D2A6B', 'paper'], ['Frost', '#C6D9EB', 'ink'], ['Rose', '#E58C9B', 'ink'], ['Ash', '#615950', 'paper']];
+FP.boot(() => {
+  const I = FP.I, M = FP.MOTIF;
+  const sw = PAL.map(([n, h, t]) => `<div style="background:${h};color:var(--fp-${t})">${n}<span>${h}</span></div>`).join('');
+  const tribes = [['Fairies', 'plum', 'moth'], ['Birds', 'blue', 'bird'], ['Hedgerow folk', 'green', 'leaf'], ['Bog folk', 'moss', 'drop'],
+    ['Great beasts', 'red', 'paw'], ['Hunters', 'ink', 'arrow'], ['Hive', 'ochre', 'hex'], ['Neutral', 'kraft', 'sun']]
+    .map(([n, c, m]) => `<div class="fp-ink-${c}"><span class="m">${M[m]}</span>${n}</div>`).join('');
+  const ic = [['Gold', I.coin], ['Tier', I.tier], ['Health', I.heart], ['Attack', I.shield],
+    ['Refresh', `<span class="mb-t">${I.refresh}</span>`], ['Freeze', `<span style="color:var(--fp-blue)">${I.freeze}</span>`], ['Nightshade', I.berry]]
+    .map(([n, s]) => `<div>${s}${n}</div>`).join('');
+  document.getElementById('mb').innerHTML = `
+    <div class="mb-head"><h1>Folk Print</h1><span class="fp-ribbon fp-red">linocut · papercut · three inks</span><div class="fp-zig"></div></div>
+    <div class="mb-col">
+      <div class="mb-h">Inks and papers</div>
+      <div class="mb-sw">${sw}</div>
+      <div class="mb-h">Type</div>
+      <div class="mb-type">
+        <small>Alfa Slab One · wood type for titles and every number</small>
+        <div class="a">Bramble <em>4</em> 5 <em>12</em></div>
+        <small>Alegreya Sans SC · labels, names, keywords</small>
+        <div class="b">Shop · Tier 3 · <span style="color:var(--fp-red)">Hunker</span></div>
+        <small>Alegreya · rules text</small>
+        <div class="c">${FP.kw('Start of Combat: give the enemy with the highest Health Nightshade.')}</div>
+      </div>
+    </div>
+    <div class="mb-col">
+      <div class="mb-h">Cuts and textures</div>
+      <div class="mb-pat">
+        <div class="mb-tile" style="background:var(--fp-paper)"><div class="fp-scallop" style="position:absolute;top:0;left:0;right:0;height:30px;background-size:24px 30px;background-image:radial-gradient(circle at 50% 0, var(--fp-red) 12px, transparent 12.6px)"></div>
+          <div class="fp-zig" style="position:absolute;bottom:26px;left:0;right:0;--fp-c:var(--fp-green)"></div><i>Scallop · zigzag</i></div>
+        <div class="mb-tile fp-dots" style="--fp-c:var(--fp-plum)"><i>Punched dots</i></div>
+        <div class="mb-tile" style="background:var(--fp-gouge),var(--fp-ink)"><i>Gouge marks</i></div>
+        <div class="mb-tile" style="background:var(--fp-paper)">${FP.rosette(46)}<i>Rosette</i></div>
+        <div class="mb-tile" style="background:var(--fp-kraft)">${FP.tree()}<i>Tree of life</i></div>
+        <div class="mb-tile" style="background:repeating-linear-gradient(-45deg, rgba(36,71,154,.3) 0 3px, transparent 3px 9px), var(--fp-frost)"><div style="width:64px;height:64px;color:var(--fp-blue);background:var(--fp-frost);border:3px solid var(--fp-blue);border-radius:50%;padding:8px">${I.freeze.replace('<svg', '<svg width="100%" height="100%"')}</div><i>Frost overprint</i></div>
+      </div>
+      <div class="mb-h">Icons</div>
+      <div class="mb-ic">${ic}</div>
+      <div class="mb-h">Tribes: one ink, one carved motif</div>
+      <div class="mb-tribes">${tribes}</div>
+    </div>
+    <div class="mb-col">
+      <div class="mb-h">From the screens</div>
+      <div class="mb-crops">
+        <div class="mb-crop" style="background-image:url(shots/recruit-desktop.jpg);background-size:190%;background-position:47% 98%"><i>The 4–3 brick plate</i></div>
+        <div class="mb-crop" style="background-image:url(shots/combat-desktop.jpg);background-size:260%;background-position:52% 25%"><i>Nightshade halving</i></div>
+        <div class="mb-crop" style="background-image:url(shots/menu-desktop.jpg);background-size:200%;background-position:50% 8%"><i>Menu cartouche</i></div>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>

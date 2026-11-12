@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Standings · Woodland Nouveau</title>
+<link rel="stylesheet" href="nv.css"><link rel="stylesheet" href="screens.css">
+<script src="data.js"></script><script src="nv.js"></script>
+</head><body>
+<div class="nv-stage nv-st">
+  <div class="nv-halo" style="width:900px;height:900px;left:-60px;top:-120px"></div>
+  <section class="nv-panel nv-st-board">
+    <div class="nv-st-head"><h1 class="nv-h">The Lobby</h1><small>Standings · turn <b id="nv-turn"></b></small></div>
+    <div class="nv-st-cols"><span>Rank</span><span>Player</span><span>Health</span><span>Tier</span><span>Last fight</span></div>
+    <ol class="nv-st-list" id="nv-list"></ol>
+  </section>
+  <aside class="nv-st-side">
+    <div class="nv-panel nv-st-foe" id="nv-foe"></div>
+    <div class="nv-panel nv-st-me" id="nv-me"></div>
+    <button class="nv-btn">Back to the Market</button>
+  </aside>
+</div>
+<script>
+NV.ready(() => {
+  const F = NV_FX, I = NV.icon;
+  document.getElementById('nv-turn').textContent = NV.roman(F.recruit.turn);
+  const order = F.lobby.slice().sort((a, b) => (a.eliminated - b.eliminated) || b.health - a.health);
+  document.getElementById('nv-list').innerHTML = order.map((p, i) =>
+    '<li class="' + (p.name === 'You' ? 'nv-you ' : '') + (p.next_opponent ? 'nv-next ' : '') + (p.eliminated ? 'nv-out' : '') + '">' +
+    '<span class="nv-st-rank">' + NV.roman(i + 1) + '</span>' +
+    '<span class="nv-st-name">' + p.name + (p.next_opponent ? '<em>next opponent</em>' : '') + '</span>' +
+    '<span class="nv-st-hp">' + I.health + p.health + '</span>' +
+    '<span class="nv-lb-tier">' + NV.roman(p.tier) + '</span>' +
+    '<span class="nv-st-last ' + (p.eliminated ? 'nv-fallen' : 'nv-' + p.last) + '">' + (p.eliminated ? 'Out' : p.last === 'won' ? 'Won' : 'Lost') + '</span></li>').join('');
+  const n = F.lobby.find(p => p.next_opponent);
+  document.getElementById('nv-foe').innerHTML = '<span class="nv-ribbon">Next opponent</span><div class="nv-player-medal"><span>' + n.name[0] + '</span></div>' +
+    '<div class="nv-player-name">' + n.name + '</div><dl><dt>Health</dt><dd>' + n.health + '</dd><dt>Tier</dt><dd>' + NV.roman(n.tier) + '</dd><dt>Last fight</dt><dd>' + (n.last === 'won' ? 'Won' : 'Lost') + '</dd></dl>';
+  const me = order.findIndex(p => p.name === 'You'), y = order[me];
+  document.getElementById('nv-me').innerHTML = '<span class="nv-st-me-rank">' + NV.roman(me + 1) + '<small>of ' + NV.roman(order.length) + '</small></span><span class="nv-st-me-t">Your standing<b>' + y.health + ' health · tier ' + NV.roman(y.tier) + '</b></span>';
+});
+</script>
+</body></html>

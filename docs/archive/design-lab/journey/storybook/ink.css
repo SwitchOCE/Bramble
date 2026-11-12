@@ -1,0 +1,161 @@
+/* Storybook Ink, journey round. Cream paper and bold even ink, now a book
+   lying open in the painted wood. */
+:root {
+  --paper: #f3e7cf; --card: #fbf5e8; --shade: #e2d0ac; --ink: #2b2320; --inksoft: #5e4e41;
+  --mustard: #dd9a26; --berry: #b5372d; --lemon: #f7de6e; --moss: #4f6e2c; --sky: #9cc3da; --heather: #5e3f74;
+  --display: 'Fraunces', Georgia, serif; --body: 'Nunito', 'Trebuchet MS', sans-serif;
+  --fleck: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90'%3E%3Cg fill='%23D9C6A2'%3E%3Ccircle cx='12' cy='19' r='1.2'/%3E%3Ccircle cx='61' cy='8' r='.9'/%3E%3Ccircle cx='38' cy='52' r='1.1'/%3E%3Ccircle cx='80' cy='70' r='1.3'/%3E%3Ccircle cx='20' cy='78' r='.8'/%3E%3C/g%3E%3C/svg%3E");
+}
+body { font-family: var(--body); color: var(--ink); font-weight: 700; }
+.jy-shade { background: radial-gradient(100% 80% at 50% 55%, rgba(40,25,10,.18) 30%, rgba(20,12,4,.55) 100%); }
+html[data-mode="fight"] .jy-bg.on { filter: brightness(.7) saturate(.9) sepia(.15); }
+h2, .display { font-family: var(--display); font-variation-settings: 'SOFT' 100; }
+
+/* ---- The book ------------------------------------------------------------------ */
+.book { position: absolute; left: 50%; top: 40px; width: 1400px; height: 1000px; transform: translateX(-50%); display: flex; perspective: 2600px; }
+.book::before { /* the cover and page stack under the paper */
+  content: ''; position: absolute; inset: -14px -16px -22px; border-radius: 26px; background: #5b2f2a;
+  border: 4px solid var(--ink); box-shadow: 0 30px 70px rgba(0,0,0,.5), inset 0 0 0 6px #7a3d34; z-index: -1; }
+.page { position: relative; width: 50%; height: 100%; background: var(--paper) var(--fleck); border: 3px solid var(--ink); padding: 24px 30px; overflow: visible;
+  box-shadow: 0 6px 0 #e9dbbd, 0 10px 0 var(--ink); }
+.page.left { border-radius: 18px 4px 4px 22px; background-image: var(--fleck), linear-gradient(90deg, transparent 88%, rgba(94,78,65,.22)); }
+.page.right { border-radius: 4px 20px 22px 4px; border-left: 0; background-image: var(--fleck), linear-gradient(270deg, transparent 88%, rgba(94,78,65,.22)); }
+.page h2 { font-size: 34px; font-weight: 900; display: flex; align-items: center; gap: 12px; margin: 0 0 12px; }
+.page h2::after { content: ''; flex: 1; height: 10px; margin-left: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q10 0 20 5 T40 5' fill='none' stroke='%232b2320' stroke-width='2.5'/%3E%3C/svg%3E") repeat-x center; opacity: .5; }
+.hint { order: 3; font: 800 16px var(--body); color: var(--inksoft); }
+.page h2 .hero { width: 52px; height: 52px; border-radius: 50%; border: 3px solid var(--ink); object-fit: cover; }
+.folio { position: absolute; bottom: 10px; font: 700 italic 16px var(--display); color: var(--inksoft); }
+.page.left .folio { left: 30px; } .page.right .folio { right: 30px; }
+
+/* ---- Units: inked hexes, points left and right, round stats on top ----------------- */
+:root { --hex: var(--hex-h); --hex-clip: var(--hex-clip-h); }
+.card { position: relative; width: 170px; height: 218px; flex: none; cursor: pointer; transition: transform .18s; --hx-edge: var(--ink); --hx-bw: 3px;
+  filter: drop-shadow(4px 5px 0 rgba(43,35,32,.28)); transform: rotate(var(--rot, 0deg)); }
+.card:hover { transform: translateY(-6px); z-index: 10; }
+.card .hx-art { background: var(--tc); }
+.card .name { position: absolute; left: 24px; right: 24px; bottom: 30px; background: var(--card); border: 3px solid var(--ink); border-radius: 8px; text-align: center;
+  font: 900 15px/1.1 var(--display); font-variation-settings: 'SOFT' 100; padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.star { position: absolute; top: -10px; left: 50%; margin-left: -21px; width: 42px; height: 42px; }
+.star svg { width: 100%; height: 100%; fill: var(--ink); }
+.star b { position: absolute; inset: 0; display: grid; place-items: center; color: var(--card); font: 900 16px var(--body); padding-top: 3px; }
+.paw, .heart { position: absolute; bottom: -12px; width: 48px; height: 48px; display: grid; place-items: center; font: 900 25px var(--body); }
+.paw { left: 18px; background: var(--mustard); border: 3px solid var(--ink); border-radius: 50%; box-shadow: 0 3px 0 var(--ink); }
+.heart { right: 18px; color: #fff; }
+.heart svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: var(--berry); stroke: var(--ink); stroke-width: 3; }
+.heart b, .paw b { position: relative; }
+.paw b { color: var(--ink); }
+.quill { position: absolute; top: 14px; right: 26px; width: 28px; height: 28px; border-radius: 50%; background: var(--lemon); border: 3px solid var(--ink); display: grid; place-items: center; font-size: 14px; line-height: 1; }
+.card.golden { --hx-edge: var(--mustard); --hx-bw: 6px; filter: drop-shadow(0 0 0 var(--lemon)) drop-shadow(4px 5px 0 rgba(221,154,38,.6)); }
+.card.frozen .hx-art img { filter: saturate(.5) brightness(1.1) hue-rotate(170deg); }
+.card.frozen::after { content: '❄ kept'; position: absolute; top: 40%; left: 0; right: 0; text-align: center; font: 900 20px var(--display); color: #fff; text-shadow: 0 0 6px #2b6f9a, 0 2px 0 var(--ink); }
+
+.card.small { width: 152px; height: 195px; }
+.card.small .name { font-size: 13px; left: 20px; right: 20px; bottom: 28px; }
+.card.small .star { width: 36px; height: 36px; margin-left: -18px; } .card.small .star b { font-size: 13px; }
+.card.small .paw, .card.small .heart { width: 42px; height: 42px; font-size: 22px; bottom: -10px; }
+
+/* ---- Lobby: inked name tags down the left ---------------------------------------- */
+.lobby { position: absolute; right: 16px; top: 150px; display: flex; flex-direction: column; gap: 10px; width: 196px; }
+.lobby-h { font: 900 13px var(--body); letter-spacing: .08em; white-space: nowrap; text-transform: uppercase; color: var(--card); text-shadow: 0 2px 6px rgba(0,0,0,.8); }
+.pl { position: relative; display: flex; align-items: center; gap: 8px; background: var(--card); border: 3px solid var(--ink); border-radius: 40px 14px 14px 40px; padding: 3px 10px 3px 3px; box-shadow: 3px 4px 0 rgba(43,35,32,.5); }
+.pl img { width: 52px; height: 52px; border-radius: 50%; border: 2.5px solid var(--ink); object-fit: cover; flex: none; }
+.pl span { font: 800 13px/1.1 var(--body); flex: 1; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.pl b { font: 900 20px var(--display); color: var(--berry); }
+.pl.you { background: var(--lemon); } .pl.next { background: #e6d4f2; }
+.pl.out { opacity: .45; filter: grayscale(1); }
+
+/* ---- Turn the page: a big paper tag at the right edge ------------------------------ */
+.turnpage { all: unset; cursor: pointer; position: absolute; right: 24px; bottom: 50px; width: 178px; padding: 18px 14px 16px; text-align: center; z-index: 8;
+  background: #6e9a3c; color: #fff; border: 3px solid var(--ink); border-radius: 18px 18px 22px 14px; box-shadow: 0 7px 0 var(--ink); transform: rotate(2deg); transition: transform .15s; }
+.turnpage:hover { transform: rotate(0) translateY(-3px); }
+.turnpage b { display: block; font: 900 30px/1 var(--display); font-variation-settings: 'SOFT' 100; }
+.turnpage span { display: block; font: 800 14px var(--body); margin-top: 6px; opacity: .9; }
+.turnpage i { display: block; font: 900 40px/1 var(--display); font-style: normal; margin-top: 4px; }
+
+/* ---- Page turn ------------------------------------------------------------------- */
+.leaf { position: absolute; left: 50%; top: 0; width: 50%; height: 100%; transform-origin: 0 50%; transform-style: preserve-3d; z-index: 40; transition: transform .95s cubic-bezier(.45,.05,.3,1); }
+.leaf.turn { transform: rotateY(-180deg); }
+.leaf.settle { transform: rotateY(-180deg); opacity: 0; transition: opacity .6s ease; }
+.leaf > div { position: absolute; inset: 0; backface-visibility: hidden; background: var(--paper) var(--fleck); border: 3px solid var(--ink); }
+.leaf-front { border-radius: 4px 20px 22px 4px; box-shadow: inset 30px 0 40px -20px rgba(94,78,65,.35); }
+.leaf-back { transform: rotateY(180deg); border-radius: 18px 4px 4px 22px; display: grid; place-items: center; box-shadow: inset -30px 0 40px -20px rgba(94,78,65,.35); }
+.leaf-title { text-align: center; } .leaf-title small { font: 900 18px var(--body); letter-spacing: .3em; text-transform: uppercase; color: var(--berry); } .leaf-title b { display: block; font: 900 64px var(--display); }
+
+/* ---- Hover note ----------------------------------------------------------------------- */
+.note { position: absolute; z-index: 60; width: 320px; padding: 14px 18px 16px; background: #fffbe9 var(--fleck); border: 3px solid var(--ink); border-radius: 12px 16px 12px 18px; box-shadow: 5px 6px 0 rgba(43,35,32,.4); transform: rotate(-1deg); pointer-events: none; }
+.note b { display: block; font: 900 24px/1.1 var(--display); font-variation-settings: 'SOFT' 100; }
+.note small { font: 800 13px var(--body); color: var(--inksoft); text-transform: uppercase; letter-spacing: .1em; }
+.note p { font: 700 17px/1.35 var(--body); margin: 8px 0 0; }
+.note p b { display: inline; font: 900 17px var(--body); color: var(--heather); } .note p em { font-style: normal; color: var(--berry); }
+
+/* ---- The chapter tab on the book's top edge ------------------------------------------- */
+.tabmark { position: absolute; left: 50%; top: -18px; transform: translateX(-50%) rotate(-2deg); z-index: 6; white-space: nowrap;
+  font: 900 italic 26px var(--display); background: var(--card); border: 3px solid var(--ink); padding: 4px 18px; border-radius: 12px; box-shadow: 3px 4px 0 var(--ink); }
+
+/* ---- Left page: you. Portrait, satchel, and your band in an inked clearing ------------- */
+.portrait { position: absolute; top: 96px; width: 250px; text-align: center; }
+.page.left .portrait { left: 34px; } .page.right .portrait { right: 34px; }
+.portrait img { width: 190px; height: 190px; border-radius: 50%; border: 4px solid var(--ink); object-fit: cover; box-shadow: 5px 6px 0 rgba(43,35,32,.35); }
+.portrait b { display: block; font: 900 52px/1 var(--display); color: var(--berry); margin-top: 6px; }
+.portrait span { font: 700 italic 18px var(--display); color: var(--inksoft); }
+
+/* The clearing frames the band: a green-washed plot with an inked double edge, centred
+   top to bottom on the screen (the book is 1000 tall at 40 from the top). */
+.clearing { position: absolute; top: 70px; bottom: 70px; width: 372px; display: grid; place-items: center;
+  border: 3px solid var(--ink); border-radius: 26px 18px 30px 20px; background: rgba(111,154,60,.14);
+  box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px rgba(79,110,44,.55), 4px 5px 0 rgba(43,35,32,.25); }
+.page.left .clearing { right: 22px; } .page.right .clearing { left: 22px; }
+.clearing.foe { background: rgba(181,55,45,.10); box-shadow: inset 0 0 0 7px var(--paper), inset 0 0 0 9px rgba(181,55,45,.5), 4px 5px 0 rgba(43,35,32,.25); }
+/* Packed sideways: the back column tucks 15px into the front column's points. */
+.clearing .brick { --row-gap: 0px; --slot-gap: 16px; --tuck: -15px; }
+.spot { position: relative; flex: none; width: 152px; height: 195px; display: grid; place-items: center; --hx-edge: rgba(94,78,65,.35); --hx-bw: 2px; }
+.spot .hx-art { background: var(--paper); }
+.spot span { position: relative; font: 700 italic 22px var(--display); color: rgba(94,78,65,.45); }
+.fightbook .spot span { display: none; }
+/* The headings on the left page stay clear of the plot. */
+.page.left h2 { margin-right: 396px; flex-wrap: wrap; font-size: 30px; }
+.page.left h2::after { display: none; }
+
+/* The satchel: your hand, under your portrait. */
+.satchel { position: absolute; left: 30px; bottom: 34px; width: 268px; display: grid; grid-template-columns: repeat(2, 124px); gap: 26px 16px;
+  padding: 40px 0 0; justify-content: center; }
+.satchel > i { position: absolute; top: 0; left: 0; right: 0; text-align: center; font: 700 italic 19px var(--display); color: var(--inksoft); }
+.satchel > i::after { content: ''; display: block; height: 8px; margin: 4px 30px 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='10'%3E%3Cpath d='M0 5 Q10 0 20 5 T40 5' fill='none' stroke='%232b2320' stroke-width='2.5'/%3E%3C/svg%3E") repeat-x center; opacity: .45; }
+.satchel > em { grid-column: 1 / -1; text-align: center; font: 700 italic 17px var(--display); color: var(--inksoft); opacity: .7; padding: 20px 0; }
+.satchel .card.small { width: 124px; height: 159px; }
+.satchel .card.small .name { font-size: 11px; left: 16px; right: 16px; bottom: 22px; }
+.satchel .card.small .paw, .satchel .card.small .heart { width: 36px; height: 36px; font-size: 19px; }
+.satchel .card.small:hover { transform: translateY(-8px) rotate(0); }
+
+/* ---- Right page: the market stall. Awning on top, wares, and a counter for the coin. --- */
+.stall { padding-top: 70px; }
+.awning { position: absolute; left: -3px; right: -3px; top: -3px; height: 58px; border: 3px solid var(--ink); border-radius: 4px 20px 0 0;
+  background: repeating-linear-gradient(90deg, var(--berry) 0 50px, var(--card) 50px 100px); }
+.awning::after { content: ''; position: absolute; left: 0; right: 0; top: 100%; height: 18px;
+  background: radial-gradient(circle at 25px 0, var(--berry) 23px, transparent 24px) 0 0 / 100px 18px repeat-x, radial-gradient(circle at 75px 0, var(--card) 23px, transparent 24px) 0 0 / 100px 18px repeat-x;
+  filter: drop-shadow(0 3px 0 var(--ink)); }
+.shop { display: grid; grid-template-columns: repeat(3, 170px); gap: 40px 34px; justify-content: center; padding: 26px 0 0; }
+.actions { position: absolute; left: 22px; right: 22px; bottom: 30px; display: flex; align-items: center; gap: 14px; padding: 16px 18px;
+  background: #c08a52; border: 3px solid var(--ink); border-radius: 14px; box-shadow: inset 0 -8px 0 rgba(43,35,32,.2), 0 5px 0 var(--ink); }
+.actions::before { content: ''; position: absolute; left: 16px; right: 16px; top: 8px; height: 3px; background: rgba(255,255,255,.25); border-radius: 2px; }
+.coin { width: 86px; height: 86px; border-radius: 50%; background: var(--lemon); border: 3px solid var(--ink); box-shadow: 0 5px 0 var(--ink), inset 0 0 0 6px #ecc94a; display: grid; place-items: center; align-content: center; flex: none; }
+.coin b { font: 900 40px/1 var(--display); } .coin small { font: 900 11px var(--body); letter-spacing: .1em; margin-top: -2px; }
+
+/* ---- Fight -------------------------------------------------------------------------------- */
+.stamp { position: absolute; left: 50%; top: 52%; transform: translate(-50%, -50%) rotate(-10deg); z-index: 50; font: 900 110px/1 var(--display); color: var(--berry); border: 8px solid var(--berry); border-radius: 26px; padding: 6px 30px;
+  background: rgba(251,245,232,.88); animation: stamp .35s cubic-bezier(.3,1.6,.5,1) both; }
+.stamp.you { color: var(--moss); border-color: var(--moss); }
+@keyframes stamp { from { opacity: 0; transform: translate(-50%, -50%) rotate(-10deg) scale(2.2); } }
+.fightbook .jy-lunge { animation-name: ink-lunge; }
+@keyframes ink-lunge { 0% { translate: 0 0; } 45% { translate: var(--dx) var(--dy); } 100% { translate: 0 0; } }
+.btn { all: unset; cursor: pointer; font: 900 22px var(--display); font-variation-settings: 'SOFT' 100; background: var(--card); border: 3px solid var(--ink); border-radius: 999px;
+  padding: 0 18px; height: 58px; display: flex; align-items: center; gap: 10px; box-shadow: 0 5px 0 var(--ink); transition: transform .1s, box-shadow .1s; }
+.btn:active { transform: translateY(4px); box-shadow: 0 1px 0 var(--ink); }
+.btn em { font-style: normal; width: 32px; height: 32px; border-radius: 50%; background: var(--lemon); border: 2.5px solid var(--ink); display: grid; place-items: center; font: 900 16px var(--body); }
+.btn.mustard { background: var(--lemon); } .btn.mustard em { background: var(--card); }
+.btn.sky { background: var(--sky); }
+
+/* Your band never moves: the turning page passes under it. */
+.clearing.pin { z-index: 45; }

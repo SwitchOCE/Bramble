@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Menu</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  body { background-color: var(--moss); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cg fill='none' stroke='%23436026' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M20 30c8-10 18-10 26 0M80 90c8-10 18-10 26 0M70 25l6 8M14 95l6-6'/%3E%3C/g%3E%3C/svg%3E"); }
+  .stage { height: 100vh; display: grid; place-items: center; padding: 40px; }
+  .book { position: relative; display: grid; grid-template-columns: 1fr 1fr; width: min(1560px, 94vw); height: min(900px, 86vh); }
+  .book::before { content: ''; position: absolute; inset: 18px -18px -22px -18px; background: var(--peat); border: 4px solid var(--ink); border-radius: 26px; z-index: 0; }
+  .page { position: relative; z-index: 1; background: var(--paper); border: 4px solid var(--ink); padding: 60px 70px; display: flex; flex-direction: column; }
+  .page.l { border-radius: 18px 6px 6px 22px; border-right-width: 2px; box-shadow: inset -26px 0 0 -12px var(--shade); align-items: center; justify-content: center; gap: 30px; }
+  .page.r { border-radius: 6px 22px 18px 6px; border-left-width: 2px; box-shadow: inset 26px 0 0 -12px var(--shade); align-items: center; justify-content: center; gap: 18px; }
+  .ribbon { position: absolute; z-index: 3; left: calc(50% - 22px); top: -14px; width: 44px; height: 150px; background: var(--berry); border: 4px solid var(--ink); clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%); }
+  .titleplate { position: relative; text-align: center; padding: 24px 60px 30px; border: 4px solid var(--ink); border-radius: 50% 50% 18px 18px / 40% 40% 18px 18px; background: var(--card); box-shadow: 6px 8px 0 var(--shade); }
+  .titleplate h1 { font-size: 132px; font-weight: 900; line-height: .95; letter-spacing: -.01em; }
+  .titleplate .sub { font-size: 21px; color: var(--inksoft); font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin-top: 8px; }
+  .titleplate .code { position: absolute; right: 18px; top: -16px; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: .1em; background: var(--gilt); border: 2.5px solid var(--ink); border-radius: 999px; padding: 1px 10px; }
+  .leaves { display: flex; gap: 10px; }
+  .leaves i { width: 22px; height: 12px; border: 3px solid var(--ink); background: var(--moss); border-radius: 0 100% 0 100%; display: block; }
+  .leaves i:nth-child(2) { background: var(--gilt); } .leaves i:nth-child(3) { background: var(--berry); }
+  nav { display: flex; flex-direction: column; gap: 18px; width: 420px; }
+  nav .btn { font-size: 30px; min-height: 72px; }
+  nav .btn.go { font-size: 44px; min-height: 104px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .frame { width: 560px; height: 600px; border: 5px solid var(--ink); border-radius: 280px 280px 24px 24px; overflow: hidden; box-shadow: 10px 12px 0 var(--shade); background: var(--shade); }
+  .frame img { width: 100%; height: 100%; object-fit: cover; object-position: 45% 30%; }
+  .caption { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 800; font-size: 24px; }
+  .caption small { font-family: var(--body); font-size: 16px; color: var(--inksoft); font-weight: 700; }
+  .foot { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center; font-size: 15px; color: var(--inksoft); font-weight: 800; }
+  @media (max-height: 500px) {
+    .stage { padding: 10px 26px 16px; }
+    .book { width: 100%; height: 100%; }
+    .book::before { inset: 8px -8px -10px -8px; border-width: 2.5px; border-radius: 14px; }
+    .page { padding: 14px 18px; border-width: 2.5px; }
+    .page.l { gap: 10px; } .page.r { gap: 6px; }
+    .ribbon { width: 22px; left: calc(50% - 11px); height: 70px; top: -6px; border-width: 2.5px; }
+    .titleplate { padding: 8px 26px 10px; border-width: 2.5px; box-shadow: 3px 4px 0 var(--shade); }
+    .titleplate h1 { font-size: 52px; } .titleplate .sub { font-size: 10px; margin-top: 2px; }
+    .titleplate .code { font-size: 8px; top: -9px; padding: 0 6px; border-width: 1.5px; }
+    .leaves { display: none; }
+    nav { width: 260px; gap: 8px; }
+    nav .btn { font-size: 16px; min-height: 46px; box-shadow: 0 3px 0 var(--ink); }
+    nav .btn.go { font-size: 24px; min-height: 56px; }
+    .row2 { gap: 8px; }
+    .frame { width: 220px; height: 250px; border-width: 3px; box-shadow: 5px 6px 0 var(--shade); }
+    .caption { font-size: 13px; } .caption small { font-size: 10px; }
+    .foot { display: none; }
+  }
+</style></head>
+<body>
+<div class="stage"><div class="book">
+  <div class="ribbon"></div>
+  <section class="page l">
+    <div class="titleplate"><span class="code">Code name</span><h1>Bramble</h1><div class="sub">A woodland auto-battler</div></div>
+    <div class="leaves"><i></i><i></i><i></i></div>
+    <nav>
+      <button class="btn go">Play</button>
+      <div class="row2"><button class="btn">Collection</button><button class="btn">Settings</button></div>
+      <button class="btn">Quit</button>
+    </nav>
+  </section>
+  <section class="page r">
+    <div class="frame"><img src="../../../folio/art/web/trials/ink-b-fairy-hollowdeep.jpg" alt=""></div>
+    <div class="caption" id="cap"></div>
+  </section>
+</div></div>
+<script src="data.js"></script>
+<script>document.getElementById('cap').innerHTML = `${FIX.hero_card.name} <small>· Tier ${FIX.hero_card.tier} ${FIX.hero_card.type_line}</small>`;</script>
+</body></html>

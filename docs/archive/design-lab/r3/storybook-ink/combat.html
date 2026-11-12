@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storybook Ink: Combat (round 3)</title>
+<link rel="stylesheet" href="ink.css">
+<style>
+  .screen { height: 100vh; display: grid; grid-template-columns: auto 500px; justify-content: center; gap: 70px; padding: 16px 28px 16px 20px; }
+  .field { display: flex; flex-direction: column; justify-content: space-between; min-height: 0; }
+  .side { display: flex; align-items: center; gap: 18px; }
+  .plate { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 130px; flex: none; text-align: center; }
+  .plate .hp { position: relative; width: 66px; height: 66px; } .plate .hp svg { width: 100%; height: 100%; }
+  .plate .hp b { position: absolute; inset: 0; display: grid; place-items: center; color: var(--card); font-weight: 900; font-size: 23px; padding-bottom: 6px; }
+  .plate .nm { font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 25px; line-height: 1; }
+  .plate small { font-size: 14px; color: var(--inksoft); font-weight: 800; }
+  .plate .who { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 15px; color: var(--inksoft); }
+
+  .board { --slot: 124px; --gap: 30px; --rowgap: 26px; --pad: 14px; --tag: 112px; padding: 22px 22px 30px var(--tag); }
+  .row.back { padding-bottom: 34px; }
+  .enemy .board { --tray: #D7DBC4; --tray-step: #C3CAAB; }
+  .enemy .row.back { padding-bottom: 30px; }
+  /* the enemy's back row is on top, so its "behind" lines point down */
+  .enemy .row.back .slot::before { bottom: auto; top: calc(100% - 6px); transform: translateX(-50%) scaleY(-1); }
+  .enemy .row.back .slot.empty::before { top: 100%; }
+  .slot .card.s-board .c-name span { font-size: .66em; white-space: normal; max-width: 98%; line-height: 1.05; }
+  .slot .card.s-board .c-name { margin-top: -1.55em; }
+  .slot .card.s-board .c-name span { overflow: visible; }
+  .slot .card.s-board .c-chips { font-size: .5em; }
+
+  /* attacker and target */
+  .slot:has(.attacker), .slot:has(.target) { z-index: 6; }
+  .attacker { transform: translateY(-10px) rotate(-2.5deg); box-shadow: 0 0 0 6px var(--rust), 0 0 0 9px var(--ink), .3em .4em 0 9px var(--shade) !important; }
+  .target { box-shadow: 0 0 0 6px var(--heather), 0 0 0 9px var(--ink) !important; }
+  .who-tag { position: absolute; z-index: 9; left: 50%; transform: translateX(-50%); white-space: nowrap; display: flex; align-items: center; gap: 5px;
+    font-family: var(--display); font-variation-settings: 'SOFT' 100; font-weight: 900; font-size: 17px; color: var(--card); border: var(--line) solid var(--ink); border-radius: 999px; padding: 1px 12px; box-shadow: 2px 3px 0 var(--ink); }
+  .who-tag.atk { background: var(--rust); top: -27px; }
+  .who-tag.tgt { background: var(--heather); top: -27px; }
+  .splat { position: absolute; z-index: 10; display: grid; place-items: center; font-family: var(--body); font-weight: 900; color: var(--card); }
+  .splat svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .splat b { position: relative; }
+  .splat.half { width: 92px; height: 92px; left: -70px; top: -6px; font-size: 30px; }
+  .splat.dmg { width: 100px; height: 100px; right: -76px; top: 4px; font-size: 38px; }
+  .slot .card.s-board .c-status { bottom: auto; top: .25em; }
+  .slot .card.s-board .status { font-size: .52em; }
+  .enemy .slot .sl i { display: none; }
+  #arrow { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: visible; }
+
+  /* ---------- right rail ---------- */
+  .rail { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+  .chapter { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .chapter h1 { font-size: 30px; line-height: 1; }
+  .chapter h1 small { display: block; font-family: var(--display); font-style: italic; font-weight: 600; font-size: 17px; color: var(--inksoft); margin-top: 4px; }
+  .chapter .no { font-family: var(--display); font-weight: 900; font-size: 18px; background: var(--ink); color: var(--card); border-radius: 999px; padding: 4px 16px; white-space: nowrap; }
+
+  /* the fixed hit breakdown: three hearts, read left to right like a picture-book strip */
+  .hit { position: relative; padding: 26px 18px 14px; margin-top: 14px; }
+  .hit > .tab { position: absolute; left: 16px; top: -17px; background: var(--ink); color: var(--card); font-family: var(--display); font-weight: 900; font-size: 17px; border-radius: 999px; padding: 2px 14px; }
+  .hit .who-line { font-size: 17px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .hit .who-line .a { background: var(--rust); color: var(--card); border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; font-weight: 900; }
+  .hit .who-line .t { background: var(--heather); color: var(--card); border: 2px solid var(--ink); border-radius: 999px; padding: 0 10px; font-weight: 900; }
+  .strip { display: grid; grid-template-columns: 1fr 74px 1fr 74px 1fr; align-items: start; }
+  .beat { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .beat .h { position: relative; width: 76px; height: 76px; }
+  .beat .h svg { width: 100%; height: 100%; }
+  .beat .h b { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 900; font-size: 30px; padding-bottom: 7px; }
+  .beat.past .h svg path:first-child { fill: var(--card); } .beat.past .h svg .cel { fill: var(--shade); }
+  .beat.past .h b { color: var(--ink); }
+  .beat.now .h { width: 92px; height: 92px; margin-top: -8px; }
+  .beat.now .h b { color: var(--card); font-size: 36px; }
+  .beat .c { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 16px; line-height: 1.1; text-align: center; }
+  .beat .c small { display: block; font-family: var(--body); font-style: normal; font-weight: 800; font-size: 14px; color: var(--inksoft); }
+  .step { display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 12px; }
+  .step .op { font-weight: 900; font-size: 20px; color: var(--card); border: var(--line) solid var(--ink); border-radius: 999px; min-width: 52px; text-align: center; padding: 0 6px; box-shadow: 2px 3px 0 var(--ink); }
+  .step .op.ns { background: var(--heather); } .step .op.dm { background: var(--berry); }
+  .step svg { width: 64px; height: 18px; }
+  .step small { font-size: 13px; font-weight: 900; text-align: center; line-height: 1.1; }
+  .rule { margin-top: 12px; border-top: 2px dashed var(--shade); padding-top: 10px; font-family: var(--display); font-style: italic; font-weight: 600; font-size: 16px; line-height: 1.3; color: var(--inksoft); }
+  .rule b { font-style: normal; }
+
+  .log { background: var(--ink); color: var(--paper); border-radius: 16px 22px 14px 20px; padding: 14px 18px; box-shadow: 4px 5px 0 var(--shade); display: flex; flex-direction: column; gap: 6px; }
+  .log h3 { font-size: 17px; color: var(--card); display: flex; justify-content: space-between; }
+  .log h3 small { font-family: var(--body); font-size: 13px; color: #CDBFA8; font-weight: 800; }
+  .log p { font-size: 15px; line-height: 1.35; color: #CDBFA8; font-weight: 700; }
+  .log p.now { font-size: 19px; color: var(--paper); }
+  .log .ns { background: var(--heather); color: var(--card); border-radius: 6px; padding: 0 6px; font-weight: 900; }
+  .log .dmg { color: #F3A79F; font-weight: 900; }
+  .controls { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .controls h3 { font-size: 20px; }
+  .speed { display: grid; grid-template-columns: repeat(3, 1fr) 1.3fr; gap: 10px; }
+  .speed .btn { padding: 6px; font-size: 24px; min-height: 60px; }
+  .speed .btn.on { background: var(--ink); color: var(--card); }
+  .speed .pause { font-size: 20px; }
+  .spacer { flex: 1; }
+  .rail .skip { min-height: 78px; font-size: 30px; }
+  .rail .skip small { font-family: var(--body); font-size: 15px; font-weight: 800; color: var(--inksoft); }
+
+  @media (max-height: 500px) {
+    :root { --line: 2.5px; }
+    .screen { grid-template-columns: auto 1fr; justify-content: stretch; gap: 8px; padding: 4px 8px 4px 4px; }
+    .side { gap: 4px; }
+    .plate { width: 62px; gap: 1px; }
+    .plate .hp { width: 34px; height: 34px; } .plate .hp b { font-size: 13px; padding-bottom: 3px; }
+    .plate .nm { font-size: 12px; } .plate small { font-size: 11px; } .plate .who { display: none; }
+    .board { --slot: 94px; --gap: 12px; --rowgap: 8px; --pad: 4px; --tag: 22px; --vk: .62; --tr: 12px; padding: 9px 7px 9px var(--tag); }
+    .row { padding: var(--pad) var(--pad) calc(var(--pad) + 4px); }
+    .row.back, .enemy .row.back { padding-bottom: calc(var(--pad) + 4px); }
+    .rowtag { writing-mode: vertical-rl; transform: translateY(-50%) rotate(180deg); margin-right: 5px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .row.back .rowtag { margin-right: 10px; }
+    .rowtag small { display: none; }
+    .row.back .slot::before { height: calc(var(--rowgap) + var(--pad) * 2 + 8px); }
+    .slot .card.s-board { font-size: 12px; height: 62px; --lw: 2.5px; }
+    .slot .card.s-board .c-art { height: 44px; margin: 3px 3px 0; }
+    .slot .card.s-board .c-name { margin: -25px -3px 0; }
+    .slot .card.s-board .c-name span { font-size: 11px; line-height: 1; padding: 1px 3px 2px; border-width: 2px; letter-spacing: -.015em; }
+    .slot .card.s-board .stat { width: 27px; height: 27px; bottom: -9px; }
+    .slot .card.s-board .stat span { font-size: 15px; }
+    .slot .card.s-board .stat.atk { left: -8px; } .slot .card.s-board .stat.hp { right: -8px; }
+    .slot .card.s-board .c-tier { width: 22px; height: 22px; left: -8px; top: -8px; }
+    .slot .card.s-board .c-tier span { font-size: 10px; }
+    .slot .card.s-board .c-chips { display: none; }
+    .slot .card .c-status { bottom: auto; top: 2px; } .slot .card.s-board .status { font-size: 11px; padding: 0 5px 0 1px; border-width: 1.5px; }
+    .slot .sl { display: none; }
+    .slot.empty { height: 62px; border-width: 2px; border-radius: 10px; gap: 0; }
+    .slot.empty .sl { display: block; font-size: 16px; }
+    .slot.empty .e, .slot.empty .bh { display: none; }
+    .attacker { transform: translateY(-3px) rotate(-2.5deg); box-shadow: 0 0 0 3px var(--rust), 0 0 0 5px var(--ink) !important; }
+    .target { box-shadow: 0 0 0 3px var(--heather), 0 0 0 5px var(--ink) !important; }
+    .who-tag { font-size: 11px; padding: 0 6px; top: -15px !important; box-shadow: 1px 2px 0 var(--ink); border-width: 2px; }
+    .who-tag.tgt { display: none; }
+    .splat.half { width: 40px; height: 40px; left: -32px; top: -10px; font-size: 14px; }
+    .splat.dmg { width: 44px; height: 44px; right: -34px; top: -4px; font-size: 17px; }
+
+    .rail { gap: 7px; }
+    .chapter h1 { font-size: 15px; } .chapter h1 small { font-size: 11px; margin-top: 1px; }
+    .chapter .no { font-size: 11px; padding: 2px 8px; }
+    .hit { padding: 13px 6px 6px; margin-top: 8px; }
+    .hit > .tab { font-size: 11px; top: -10px; left: 8px; padding: 0 8px; }
+    .hit .who-line { display: none; }
+    .strip { grid-template-columns: 1fr 50px 1fr 50px 1fr; }
+    .beat { gap: 1px; }
+    .beat .h { width: 38px; height: 38px; } .beat .h b { font-size: 15px; padding-bottom: 3px; }
+    .beat.now .h { width: 46px; height: 46px; margin-top: -4px; } .beat.now .h b { font-size: 18px; }
+    .beat .c { font-size: 11px; } .beat .c small { font-size: 11px; }
+    .step { padding-top: 4px; gap: 0; }
+    .step .op { font-size: 12px; min-width: 32px; border-width: 2px; box-shadow: 1px 2px 0 var(--ink); }
+    .step svg { width: 40px; height: 12px; }
+    .step small { display: none; }
+    .rule { display: none; }
+    .log { padding: 6px 9px; gap: 2px; border-radius: 9px; box-shadow: none; }
+    .log h3 { font-size: 11px; } .log h3 small { font-size: 11px; }
+    .log p { display: none; } .log p.now { display: block; font-size: 11.5px; line-height: 1.3; }
+    .controls { padding: 5px 6px; gap: 4px; }
+    .controls h3 { display: none; }
+    .speed { gap: 4px; }
+    .btn { min-height: 44px; font-size: 15px; padding: 2px 6px; box-shadow: 0 3px 0 var(--ink); }
+    .speed .btn { min-height: 44px; font-size: 15px; padding: 2px; } .speed .pause { font-size: 13px; }
+    .rail .skip { min-height: 46px; font-size: 17px; gap: 6px; } .rail .skip small { font-size: 11px; }
+  }
+</style></head>
+<body>
+<div class="screen" id="app"></div>
+<script src="data.js"></script><script src="ink.js"></script>
+<script>
+  const C = FIX.combat, R = FIX.recruit, I = INK.ICON;
+  const tansy = FIX.lobby.find(p => p.name === C.opponent), you = FIX.lobby.find(p => p.name === 'You');
+  const boar = C.enemy_front[0], ling = C.hornetling;
+  // Your board: the recruit board, the Hornetling in B1 where the Hornet Scout died, Belladonna Sprite in B3.
+  const mine = {
+    front: R.board.front,
+    back: [ling, R.board.back[1], Object.assign({ slot: 'B3' }, FIX.hero_card)]
+  };
+  const enemy = {
+    front: ['F1', 'F2', 'F3', 'F4'].map(s => C.enemy_front.find(u => u.slot === s) || { slot: s, empty: true }),
+    back: ['B1', 'B2', 'B3'].map(s => { const u = C.enemy_back.find(x => x.slot === s); return u ? Object.assign({ tribe: 'Neutral' }, u) : { slot: s, empty: true }; })
+  };
+  const before = boar.current_health, halved = Math.floor(before / 2), after = halved - ling.attack;
+  const splat = (cls, fill, txt) => `<div class="splat ${cls}"><svg viewBox="0 0 100 100"><path d="M50 4l9 20 20-12-4 22 22 4-18 13 16 16-22 2 4 22-19-11-8 20-8-20-19 11 4-22-22-2 16-16L3 38l22-4-4-22 20 12z" fill="${fill}" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round"/></svg><b>${txt}</b></div>`;
+  const arrowR = '<svg viewBox="0 0 64 18"><path d="M3 9H52" stroke="var(--ink)" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6"/><path d="M50 2l11 7-11 7z" fill="var(--ink)"/></svg>';
+  const heart = n => `<div class="h">${I.heart}<b>${n}</b></div>`;
+  const plate = (p, label) => `<div class="plate"><div class="hp">${I.heart}<b>${p.health}</b></div><div class="nm">${p.name}</div><small>Tier ${p.tier}</small><div class="who">${label}</div></div>`;
+
+  document.getElementById('app').innerHTML = `
+  <div class="field">
+    <div class="side enemy">${plate(tansy, 'opponent')}
+      ${INK.board(enemy, 'board', { order: 'back-first', per: { F2: { id: 'boar', cls: 'target', hp: after, hpcls: 'hurt' } } })}</div>
+    <div class="side mine">${plate(you, 'your board')}
+      ${INK.board(mine, 'board', { per: { B1: { id: 'atk', cls: 'attacker' } } })}</div>
+  </div>
+  <aside class="rail">
+    <div class="chapter"><h1>Fight with ${C.opponent}<small>you attack first</small></h1><span class="no">Attack 2</span></div>
+    <section class="ink-box hit"><span class="tab">This hit</span>
+      <div class="who-line"><span class="a">${ling.name} ${ling.attack}/${ling.health}</span> attacks <span class="t">${boar.name}</span></div>
+      <div class="strip">
+        <div class="beat past">${heart(before)}<div class="c">before<small>of ${boar.health}</small></div></div>
+        <div class="step"><span class="op ns">½</span>${arrowR}<small>Nightshade</small></div>
+        <div class="beat past">${heart(halved)}<div class="c">halved<small>26 ÷ 2</small></div></div>
+        <div class="step"><span class="op dm">−${ling.attack}</span>${arrowR}<small>${ling.name}</small></div>
+        <div class="beat now">${heart(after)}<div class="c">after hit<small>of ${boar.health}</small></div></div>
+      </div>
+      <p class="rule"><b>Nightshade:</b> each time this unit is attacked, it first loses half its current Health, rounded down.</p>
+    </section>
+    <section class="log"><h3>Combat log <small>newest last</small></h3>
+      <p>Start of Combat: <b>Belladonna Sprite</b> gives <b>Tusker Boar</b> <span class="ns">Nightshade</span>.</p>
+      <p><b>Hornet Scout</b> dies. <b>Hornetling</b> takes its slot, B1.</p>
+      <p class="now"><b>Attack 2:</b> Hornetling attacks Tusker Boar. <span class="ns">Nightshade</span> ${before} → ${halved}, then <span class="dmg">${ling.attack}</span> damage: ${after} left.</p>
+    </section>
+    <section class="ink-box controls"><h3>Fight speed</h3>
+      <div class="speed"><button class="btn on">1×</button><button class="btn">2×</button><button class="btn">4×</button><button class="btn pause">❚❚ Pause</button></div>
+    </section>
+    <div class="spacer"></div>
+    <button class="btn skip">Skip fight ▸▸ <small>see result</small></button>
+  </aside>`;
+  document.body.insertAdjacentHTML('beforeend', '<svg id="arrow"></svg>');
+  const b = document.getElementById('boar'), a = document.getElementById('atk');
+  b.insertAdjacentHTML('beforeend', splat('half', 'var(--heather)', '½') + splat('dmg', 'var(--berry)', '−' + ling.attack) + '<span class="who-tag tgt">Target</span>');
+  a.insertAdjacentHTML('beforeend', '<span class="who-tag atk">▲ Attacking</span>');
+
+  // The arrow runs under the cards: up from the Hornetling through the F1/F2 gap it sits behind, then across to the boar.
+  function drawArrow() {
+    const A = a.getBoundingClientRect(), T = b.getBoundingClientRect();
+    const f1 = document.querySelector('.side.mine .row.front .slot').getBoundingClientRect();
+    const phone = innerHeight < 500, w = phone ? 5 : 10;
+    const y1 = A.top + A.height * .4;
+    const xg = f1.right + (phone ? 6 : 15), x1 = xg, yf = f1.top - (phone ? 6 : 14);
+    const x2 = T.left + T.width * .5, y2 = T.bottom + (phone ? 12 : 26);
+    const ym = (yf + y2) / 2;
+    const d = `M${x1} ${y1} L${xg} ${f1.bottom} L${xg} ${yf} C${xg} ${ym} ${x2} ${ym + (yf - ym) * .3} ${x2} ${y2}`;
+    const h = w * 2.6;
+    const head = `M${x2} ${y2 - h * 1.1} L${x2 + h} ${y2 + h * .3} L${x2 - h} ${y2 + h * .3} Z`;
+    document.getElementById('arrow').innerHTML = `<path d="${d}" fill="none" stroke="var(--ink)" stroke-width="${w + (phone ? 4 : 6)}" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="${d}" fill="none" stroke="var(--rust)" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${w * 2.2} ${w * 1.3}"/>
+      <path d="${head}" fill="var(--rust)" stroke="var(--ink)" stroke-width="${phone ? 2.5 : 4}" stroke-linejoin="round"/>`;
+  }
+  document.addEventListener('ink:trays', drawArrow);
+</script>
+</body></html>

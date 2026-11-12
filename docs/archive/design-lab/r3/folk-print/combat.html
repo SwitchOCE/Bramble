@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Folk Print · Combat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Alegreya:ital,wght@0,500;0,700;0,800;1,500&family=Alegreya+Sans+SC:wght@500;700;800&display=block" rel="stylesheet">
+<link rel="stylesheet" href="folk.css">
+<style>
+.cb { position: absolute; inset: 0; padding: 12px 20px 12px; display: grid; grid-template-columns: 330px 1fr 180px; gap: 18px; }
+.cb-left, .cb-right { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.cb-mid { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: space-between; min-width: 0; }
+
+/* players */
+.cb-vs { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px; align-items: center; }
+.cb-pl { display: flex; align-items: center; gap: 4px; padding: 6px 4px 6px 10px; border: 3px solid var(--fp-ink); border-radius: 26px 26px 8px 8px;
+  background: var(--fp-paper); box-shadow: 3px 4px 0 var(--fp-ink); min-width: 0; }
+.cb-pl.cb-foe { background: var(--fp-red); color: var(--fp-paper); }
+.cb-pl span { flex: 1; min-width: 0; font: 800 18px/1 var(--fp-label); letter-spacing: .03em; white-space: nowrap; }
+.cb-pl small { display: block; font: 700 13px/1.2 var(--fp-label); letter-spacing: .08em; opacity: .9; }
+.cb-pl .cb-h { position: relative; width: 42px; height: 42px; flex: none; display: flex; align-items: center; justify-content: center; }
+.cb-pl .cb-h svg { position: absolute; inset: 0; }
+.cb-pl .cb-h b { position: relative; font: 19px/1 var(--fp-display); color: var(--fp-paper); margin-top: -4px; }
+.cb-vsmark { font: 18px/1 var(--fp-display); }
+
+/* the breakdown: a printed strip of heart stamps with numbered seals between them */
+.cb-hit { border: 3px solid var(--fp-ink); border-radius: 14px; background: var(--fp-kraft); padding: 10px 12px 12px; box-shadow: 4px 5px 0 var(--fp-plum); }
+.cb-hit h3 { margin: 0; display: flex; justify-content: space-between; align-items: baseline; font: 800 17px/1 var(--fp-label); letter-spacing: .14em; }
+.cb-hit h3 b { font: 17px/1 var(--fp-display); letter-spacing: 0; }
+.cb-who { margin: 6px 0 10px; font: 700 16px/1.15 var(--fp-serif); }
+.cb-who em { font-style: normal; color: var(--fp-red); }
+.cb-strip { display: flex; align-items: flex-start; justify-content: space-between; padding: 8px 4px 2px; background: var(--fp-paper);
+  border: 2px solid var(--fp-ink); border-radius: 8px; }
+.cb-hs { display: flex; flex-direction: column; align-items: center; gap: 3px; width: 62px; }
+.cb-hs .cb-heart { position: relative; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
+.cb-hs .cb-heart svg { position: absolute; inset: 0; }
+.cb-hs .cb-heart b { position: relative; font: 26px/1 var(--fp-display); color: var(--fp-paper); margin-top: -5px; }
+.cb-hs.cb-was .cb-heart { opacity: .9; }
+.cb-hs small { font: 800 13px/1 var(--fp-label); letter-spacing: .1em; color: var(--fp-ash); }
+.cb-hs.cb-final small { color: var(--fp-ink); }
+.cb-hs.cb-final .cb-heart { transform: scale(1.12); }
+.cb-op { display: flex; flex-direction: column; align-items: center; gap: 3px; padding-top: 6px; }
+.cb-op .cb-seal { position: relative; width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; color: var(--fp-paper); font: 22px/1 var(--fp-display); }
+.cb-op .cb-seal svg { position: absolute; inset: 0; }
+.cb-op .cb-seal span { position: relative; }
+.cb-op .cb-no { position: absolute; left: -6px; top: -6px; width: 20px; height: 20px; border-radius: 50%; background: var(--fp-paper); color: var(--fp-ink);
+  border: 2px solid var(--fp-ink); font: 12px/16px var(--fp-display); text-align: center; z-index: 2; }
+.cb-op small { font: 800 13px/1 var(--fp-label); letter-spacing: .06em; }
+.cb-op .cb-arr { font: 18px/1 var(--fp-display); color: var(--fp-ink); }
+.cb-steps { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.cb-steps li { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: center; font: 500 16px/1.2 var(--fp-serif); }
+.cb-steps i { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--fp-ink); display: flex; align-items: center; justify-content: center;
+  font: 15px/1 var(--fp-display); font-style: normal; color: var(--fp-paper); }
+
+/* log */
+.cb-log { flex: 1; min-height: 0; border-top: 3px solid var(--fp-ink); padding-top: 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.cb-log h3 { margin: 0; font: 800 16px/1 var(--fp-label); letter-spacing: .14em; }
+.cb-log p { margin: 0; font: 500 15px/1.22 var(--fp-serif); color: var(--fp-ash); padding-left: 14px; position: relative; }
+.cb-log p::before { content: ''; position: absolute; left: 0; top: 6px; width: 7px; height: 7px; background: currentColor; transform: rotate(45deg); }
+.cb-log p.cb-now { color: var(--fp-ink); font-weight: 700; }
+.cb-log p.cb-now::before { background: var(--fp-red); }
+
+/* boards: the round 2 paper trays, enemy shadow in plum */
+.cb-mid .fp-board-enemy .fp-row { box-shadow: 6px 7px 0 var(--fp-plum); }
+.cb-line { width: 100%; display: flex; align-items: center; gap: 10px; }
+.cb-line .fp-zig { flex: 1; --fp-c: var(--fp-ink); height: 8px; }
+.cb-line span { font: 800 16px/1 var(--fp-label); letter-spacing: .18em; white-space: nowrap; }
+
+/* controls */
+.cb-count { text-align: center; border: 3px solid var(--fp-ink); border-radius: 14px; padding: 8px; background: var(--fp-paper); font: 800 16px/1 var(--fp-label); letter-spacing: .14em; }
+.cb-count b { display: block; font: 42px/1 var(--fp-display); letter-spacing: 0; margin-top: 4px; }
+.cb-count small { display: block; font: 700 13px/1 var(--fp-label); color: var(--fp-ash); margin-top: 4px; }
+.cb-lab { font: 800 16px/1 var(--fp-label); letter-spacing: .16em; text-align: center; margin-top: 4px; }
+.cb-speed { display: grid; gap: 10px; }
+.cb-speed .fp-btn { height: 78px; font-size: 30px; }
+.cb-speed .fp-btn.on { background: var(--fp-ink); color: var(--fp-paper); box-shadow: 5px 6px 0 var(--fp-red); }
+.cb-skip { margin-top: auto; height: 92px; flex-direction: column; gap: 2px; font-size: 30px; }
+.cb-skip small { font: italic 500 16px/1 var(--fp-serif); letter-spacing: 0; }
+.cb-skip span { display: flex; align-items: center; gap: 10px; }
+
+/* the moment, anchored on the two units */
+.cb-attacker .fp-card { transform: translateY(-10px) scale(1.06); z-index: 9; }
+.cb-attacker .fp-body { box-shadow: 0 0 0 4px var(--fp-red), 0 0 0 7px var(--fp-ink), 6px 8px 0 6px var(--fp-ink); }
+.cb-target .fp-body { box-shadow: 0 0 0 4px var(--fp-plum), 0 0 0 7px var(--fp-ink), 4px 5px 0 6px var(--fp-ink); }
+.cb-over { position: absolute; inset: 0; pointer-events: none; z-index: 40; overflow: visible; }
+.cb-tag { position: absolute; z-index: 44; font: 800 15px/1 var(--fp-label); letter-spacing: .12em; padding: 4px 10px 5px; border: 2px solid var(--fp-ink); white-space: nowrap;
+  transform: translateX(-50%); box-shadow: 2px 3px 0 var(--fp-ink); }
+.cb-tag-a { background: var(--fp-red); color: var(--fp-paper); }
+.cb-tag-t { background: var(--fp-plum); color: var(--fp-paper); }
+.cb-mark { position: absolute; z-index: 43; display: flex; align-items: center; justify-content: center; transform: translate(-50%, -50%); }
+.cb-mark svg { position: absolute; inset: 0; }
+.cb-mark b { position: relative; font-family: var(--fp-display); font-weight: 400; color: var(--fp-paper); }
+.cb-mark .cb-no { position: absolute; left: -2px; top: -2px; width: 24px; height: 24px; border-radius: 50%; background: var(--fp-paper); color: var(--fp-ink);
+  border: 2px solid var(--fp-ink); font: 14px/20px var(--fp-display); text-align: center; z-index: 2; }
+
+/* phone (stage scale ~0.54): every label at 21 stage px or more */
+.fp-phone .cb { grid-template-columns: 400px 1fr 240px; gap: 22px; }
+.fp-phone .cb-pl span { font-size: 22px; }
+.fp-phone .cb-pl small { font-size: 20px; }
+.fp-phone .cb-pl .cb-h { width: 50px; height: 50px; }
+.fp-phone .cb-pl .cb-h b { font-size: 22px; }
+.fp-phone .cb-vsmark { font-size: 22px; }
+.fp-phone .cb-hit h3, .fp-phone .cb-hit h3 b { font-size: 22px; }
+.fp-phone .cb-who { font-size: 22px; margin: 6px 0 8px; }
+.fp-phone .cb-hs { width: 74px; }
+.fp-phone .cb-hs .cb-heart { width: 70px; height: 70px; }
+.fp-phone .cb-hs .cb-heart b { font-size: 31px; }
+.fp-phone .cb-hs small, .fp-phone .cb-op small { font-size: 21px; letter-spacing: .02em; }
+.fp-phone .cb-op .cb-seal { width: 56px; height: 56px; font-size: 26px; }
+.fp-phone .cb-op .cb-no { width: 26px; height: 26px; font: 16px/22px var(--fp-display); }
+.fp-phone .cb-steps li { font-size: 21px; grid-template-columns: 34px 1fr; }
+.fp-phone .cb-steps i { width: 34px; height: 34px; font-size: 18px; }
+.fp-phone .cb-log h3 { font-size: 21px; }
+.fp-phone .cb-log p { font-size: 21px; }
+.fp-phone .cb-log p:not(.cb-now) { display: none; }
+.fp-phone .cb-line span { font-size: 21px; }
+.fp-phone .cb-count, .fp-phone .cb-lab { font-size: 21px; }
+.fp-phone .cb-count small { font-size: 20px; }
+.fp-phone .cb-speed .fp-btn { height: 84px; font-size: 34px; }
+.fp-phone .cb-skip { height: 100px; font-size: 34px; }
+.fp-phone .cb-skip small { font-size: 21px; }
+.fp-phone .cb-tag { font-size: 20px; }
+.fp-phone .fp-s-combat { --w: 156px; --name: 20px; --stat: 62px; --statn: 34px; --tier: 40px; --tiern: 18px; }
+.fp-phone .fp-board-combat { --sw: 156px; }
+.fp-phone .fp-s-combat.fp-empty { --w: 156px; }
+.fp-phone .fp-s-combat.fp-empty span { font-size: 20px; }
+.fp-phone .fp-s-combat.fp-empty small { font-size: 20px; }
+.fp-phone .fp-ns-tag { font-size: 20px; }
+.fp-phone .fp-token-tag { font-size: 18px; }
+.fp-phone .fp-board-combat .fp-rowlab { font-size: 21px; }
+</style>
+</head>
+<body>
+<div class="fp-stage"><div class="cb" id="cb"></div></div>
+<script src="data.js"></script>
+<script src="folk.js"></script>
+<script>
+FP.boot(() => {
+  const F = FP.F, C = F.combat, R = F.recruit, I = FP.I;
+  const boar = C.enemy_front[0], hl = C.hornetling;
+  const before = boar.current_health, halved = before - Math.floor(before / 2), after = halved - hl.attack;
+  const enemy = {
+    front: ['F1', 'F2', 'F3', 'F4'].map(s => C.enemy_front.find(u => u.slot === s) || { slot: s, empty: true }),
+    back: ['B1', 'B2', 'B3'].map(s => C.enemy_back.find(u => u.slot === s) || { slot: s, empty: true })
+  };
+  const mine = { front: R.board.front, back: [Object.assign({}, hl), R.board.back[1], Object.assign({ slot: 'B3' }, F.hero_card)] };
+  const youP = F.lobby.find(p => p.name === 'You'), foeP = F.lobby.find(p => p.name === C.opponent);
+  const burst = FP.star(12, 49, 32, 50, 50);
+  const heart = (n, lab, cls = '') => `<div class="cb-hs ${cls}"><div class="cb-heart">${I.heart}<b>${n}</b></div><small>${lab}</small></div>`;
+  window.CB = { after, halved, burst };
+  document.getElementById('cb').innerHTML = `
+    <div class="cb-left">
+      <div class="cb-vs">
+        <div class="cb-pl cb-foe"><span>${foeP.name}<small>tier ${foeP.tier}</small></span><div class="cb-h">${I.heart}<b>${foeP.health}</b></div></div>
+        <div class="cb-vsmark">vs</div>
+        <div class="cb-pl"><span>You<small>tier ${youP.tier}</small></span><div class="cb-h">${I.heart}<b>${youP.health}</b></div></div>
+      </div>
+      <div class="cb-hit">
+        <h3>This attack <b>2</b></h3>
+        <div class="cb-who"><em>Hornetling</em> hits Tusker Boar</div>
+        <div class="cb-strip">
+          ${heart(before, 'before', 'cb-was')}
+          <div class="cb-op"><div class="cb-seal"><i class="cb-no">1</i><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14.6" fill="var(--fp-plum)" stroke="var(--fp-ink)" stroke-width="2"/></svg><span>½</span></div><small>halve</small></div>
+          ${heart(halved, 'halved', 'cb-was')}
+          <div class="cb-op"><div class="cb-seal"><i class="cb-no">2</i><svg viewBox="0 0 100 100"><polygon points="${burst}" fill="var(--fp-red)" stroke="var(--fp-ink)" stroke-width="5" stroke-linejoin="round"/></svg><span>−${hl.attack}</span></div><small>hit</small></div>
+          ${heart(after, 'after', 'cb-final')}
+        </div>
+        <ol class="cb-steps">
+          <li><i style="background:var(--fp-plum)">1</i><span><b class="fp-kw fp-kw-ns">Nightshade</b> first: it loses half its Health, rounded down.</span></li>
+          <li><i style="background:var(--fp-red)">2</i><span>Then Hornetling hits for ${hl.attack}.</span></li>
+        </ol>
+      </div>
+      <div class="cb-log"><h3>Combat log</h3>
+        <p>Start of Combat: Belladonna Sprite gives Tusker Boar Nightshade.</p>
+        <p>Hornet Scout dies. Hornetling is summoned into B1.</p>
+        <p class="cb-now">Hornetling attacks Tusker Boar: Nightshade halves ${before} to ${halved}, then ${hl.attack} damage leaves ${after}.</p>
+      </div>
+    </div>
+    <div class="cb-mid" id="mid">
+      ${FP.board(enemy, 'combat', { enemy: true, opts: { F2: { hp: after } } })}
+      <div class="cb-line"><div class="fp-zig" style="flex:3"></div><span>▲ ${C.opponent}</span><div class="fp-zig" style="flex:.25"></div><span>▼ You</span><div class="fp-zig" style="flex:.4"></div></div>
+      ${FP.board(mine, 'combat')}
+    </div>
+    <div class="cb-right">
+      <div class="cb-count">Attack<b>2</b><small>you went first</small></div>
+      <div class="cb-lab">Speed</div>
+      <div class="cb-speed"><button class="fp-btn">1×</button><button class="fp-btn on">2×</button><button class="fp-btn">4×</button></div>
+      <button class="fp-btn fp-btn-red cb-skip"><span>${I.skip}Skip</span><small>to the result</small></button>
+    </div>`;
+  const boards = document.querySelectorAll('#mid .fp-board');
+  boards[0].querySelector('[data-slot="F2"]').classList.add('cb-target');
+  boards[1].querySelector('[data-slot="B1"]').classList.add('cb-attacker');
+});
+window.fpAfter = () => {
+  const boards = document.querySelectorAll('#mid .fp-board');
+  boards.forEach(b => FP.stitch(b, b.classList.contains('fp-board-enemy') ? 'var(--fp-plum)' : 'var(--fp-red)'));
+  const st = document.querySelector('.fp-stage');
+  const t = FP.rect(boards[0].querySelector('[data-slot="F2"] .fp-card'));
+  const a = FP.rect(boards[1].querySelector('[data-slot="B1"] .fp-card'));
+  const phone = document.body.classList.contains('fp-phone');
+  // a fat vermilion quill from the Hornetling up through the F1/F2 seam to the boar
+  const x0 = a.x + a.w * .5, y0 = a.y + 4, x1 = t.x + t.w * .5, y1 = t.y + t.h + 16;
+  const c1y = y0 - (y0 - y1) * .62, c2x = x1, c2y = y1 + 60;
+  const ang = Math.atan2(y1 - c2y, x1 - c2x), hx = Math.cos(ang), hy = Math.sin(ang);
+  const head = `${x1},${y1} ${x1 - 28 * hx + 15 * hy},${y1 - 28 * hy - 15 * hx} ${x1 - 28 * hx - 15 * hy},${y1 - 28 * hy + 15 * hx}`;
+  const ex = x1 - 24 * hx, ey = y1 - 24 * hy;
+  const q = `M${x0} ${y0} C${x0} ${c1y} ${c2x} ${c2y} ${ex} ${ey}`;
+  // the two marks are pinned to the boar's own frame: ½ seal (step 1) on its left edge, −1 burst (step 2) on its right edge
+  const sz = 1;
+  st.insertAdjacentHTML('beforeend', `<svg class="cb-over" width="100%" height="100%">
+    <path d="${q}" stroke="var(--fp-ink)" stroke-width="15" fill="none" stroke-linecap="round"/>
+    <path d="${q}" stroke="var(--fp-red)" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="${q}" stroke="var(--fp-paper)" stroke-width="2.4" fill="none" stroke-dasharray="2 11"/>
+    <polygon points="${head}" fill="var(--fp-red)" stroke="var(--fp-ink)" stroke-width="4" stroke-linejoin="round"/>
+  </svg>
+  <div class="cb-tag cb-tag-a" style="left:${a.x + a.w / 2}px;top:${a.y + a.h - 2}px">Attacking</div>
+  <div class="cb-tag cb-tag-t" style="left:${x1 + (phone ? 68 : 58)}px;top:${t.y + t.h + 1}px">Target</div>
+  <div class="cb-mark" style="left:${t.x - 2}px;top:${t.y + t.h * .46}px;width:${46 * sz}px;height:${46 * sz}px"><i class="cb-no">1</i>
+    <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14.4" fill="var(--fp-plum)" stroke="var(--fp-paper)" stroke-width="3"/><circle cx="16" cy="16" r="15.4" fill="none" stroke="var(--fp-ink)" stroke-width="1.4"/></svg><b style="font-size:${24 * sz}px">½</b></div>
+  <div class="cb-mark" style="left:${t.x + t.w + 2}px;top:${t.y + t.h * .38}px;width:${56 * sz}px;height:${56 * sz}px"><i class="cb-no">2</i>
+    <svg viewBox="0 0 100 100"><polygon points="${CB.burst}" fill="var(--fp-red)" stroke="var(--fp-ink)" stroke-width="5" stroke-linejoin="round"/></svg><b style="font-size:${26 * sz}px">−1</b></div>`);
+};
+</script>
+</body>
+</html>

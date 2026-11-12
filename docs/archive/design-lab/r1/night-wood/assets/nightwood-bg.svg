@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0E2228"/>
+      <stop offset="0.55" stop-color="#0B1A1D"/>
+      <stop offset="1" stop-color="#081113"/>
+    </linearGradient>
+    <radialGradient id="moonglow" cx="0.82" cy="0.12" r="0.5">
+      <stop offset="0" stop-color="#9FC9C0" stop-opacity="0.22"/>
+      <stop offset="0.4" stop-color="#5E8F8A" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#0B1618" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="clearing" cx="0.5" cy="0.62" r="0.5">
+      <stop offset="0" stop-color="#1B3A3A" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#0B1618" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="ff" r="0.5">
+      <stop offset="0" stop-color="#FFE9A8"/>
+      <stop offset="0.25" stop-color="#FFCB57" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#FFCB57" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="cap" r="0.5">
+      <stop offset="0" stop-color="#6FF2C2" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#6FF2C2" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)"/>
+  <rect width="1920" height="1080" fill="url(#moonglow)"/>
+  <rect width="1920" height="1080" fill="url(#clearing)"/>
+  <!-- moon -->
+  <!-- far trunks: pale ink outlines, very faint -->
+  <g fill="none" stroke="#E6EFE6" stroke-width="3" stroke-linecap="round" opacity="0.07">
+    <path d="M140 1080 C150 800 128 500 150 0 M210 1080 C200 760 226 420 206 0"/>
+    <path d="M520 1080 C512 820 540 560 526 0 M566 1080 C574 830 552 520 570 0"/>
+    <path d="M1340 1080 C1330 800 1352 470 1338 0 M1392 1080 C1400 780 1380 500 1396 0"/>
+    <path d="M1760 1080 C1772 760 1744 430 1762 0 M1830 1080 C1822 820 1846 500 1828 0"/>
+  </g>
+  <!-- near trunks at the edges, a little stronger -->
+  <g fill="#0A1416" stroke="#E6EFE6" stroke-width="4" stroke-linejoin="round" opacity="0.5">
+    <path d="M-20 0 L70 0 C60 300 90 700 110 1080 L-20 1080 Z"/>
+    <path d="M1940 0 L1858 0 C1868 320 1840 720 1820 1080 L1940 1080 Z"/>
+  </g>
+  <g fill="none" stroke="#E6EFE6" stroke-width="3" stroke-linecap="round" opacity="0.18">
+    <path d="M78 420 C120 400 160 380 230 300 M96 640 C140 640 190 610 240 560"/>
+    <path d="M1850 360 C1800 340 1760 300 1700 230 M1836 700 C1790 690 1740 660 1700 620"/>
+  </g>
+  <!-- ground line and fungus clusters -->
+  <path d="M0 1040 C400 1010 700 1030 960 1020 C1240 1010 1560 1036 1920 1012" fill="none" stroke="#E6EFE6" stroke-width="3" opacity="0.12"/>
+  <g>
+    <circle cx="96" cy="1020" r="60" fill="url(#cap)"/>
+    <circle cx="1830" cy="1000" r="70" fill="url(#cap)"/>
+    <g fill="#6FF2C2" opacity="0.75">
+      <path d="M78 1022 q14 -26 30 0 z"/><rect x="91" y="1021" width="4" height="16" rx="2"/>
+      <path d="M104 1030 q9 -17 20 0 z"/><rect x="112" y="1029" width="3" height="10" rx="1.5"/>
+      <path d="M1812 1002 q16 -30 34 0 z"/><rect x="1827" y="1001" width="4" height="18" rx="2"/>
+      <path d="M1846 1012 q10 -19 22 0 z"/><rect x="1855" y="1011" width="3" height="11" rx="1.5"/>
+    </g>
+  </g>
+  <!-- fireflies -->
+  <g>
+    <circle cx="320" cy="210" r="14" fill="url(#ff)"/>
+    <circle cx="700" cy="140" r="10" fill="url(#ff)"/>
+    <circle cx="1240" cy="250" r="12" fill="url(#ff)"/>
+    <circle cx="1700" cy="520" r="14" fill="url(#ff)"/>
+    <circle cx="260" cy="760" r="12" fill="url(#ff)"/>
+    <circle cx="1500" cy="880" r="10" fill="url(#ff)"/>
+    <circle cx="980" cy="90" r="9" fill="url(#ff)"/>
+    <circle cx="420" cy="980" r="10" fill="url(#ff)"/>
+  </g>
+</svg>
