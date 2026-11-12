@@ -1,6 +1,6 @@
 # Content guardrails
 
-Rules for content design: what units, spells and modifiers must not do, or must only do carefully. These guardrails stand in for system-level limits. The owner's principle, from [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md):
+Rules for content design: what units, spells and modifiers must not do, or must only do carefully. These guardrails stand in for system-level limits. The owner's principle, from [sources/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md):
 
 > Not every problem needs a system to prevent it, we can have content safeguards as well.
 

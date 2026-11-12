@@ -31,7 +31,7 @@ Part II, research:
 
 The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
 
-**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
+**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/sources/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
 
 **Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [archive/engine-language.md](archive/engine-language.md).
 
@@ -60,7 +60,7 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 ## Elsewhere: ideation and other branches
 
-Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` without the owner's say-so (owner, 12 November 2026; the note, `2026-11-12a-archive-on-main.md`, is on `design/tribes-and-budget`). The date is when each plan was last updated.
+Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` without the owner's say-so (owner, 12 November 2026; the rule is in `CLAUDE.md` on `design/tribes-and-budget`). The date is when each plan was last updated.
 
 | Work | Branch | Plan | Plan updated |
 |---|---|---|---|
