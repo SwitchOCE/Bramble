@@ -32,4 +32,4 @@ We'd suggest yes to both: the tribe answer is your own and the tribe work is bui
 - **The prototype's pick (SPEC §9):** each unit's tribe is the tribe word the mechanics library gives it; snails are neutral. That matches the broad-kind reading.
 - The suggestion is ours.
 
-Sources: `design/tribes-and-budget`: owner notes `2026-11-02-pre-development-design-pass.md`, `2026-10-27-battlegrounds-direction.md`, `2026-11-02g-stage-2-checkpoint-scope.md`, `2026-11-02h-checkpoint-read-through.md`; `docs/design/archetypes.md` §4; `docs/design/rulebook.md` 5.2; `proto/main:docs/prototype/SPEC.md` section 9.
+Sources: `design/tribes-and-budget`: owner notes `2026-11-02-pre-development-design-pass.md`, `2026-10-27-battlegrounds-direction.md`, `2026-11-02g-stage-2-checkpoint-scope.md` (removed 13 Nov 2026, in git history), `2026-11-02h-checkpoint-read-through.md`; `docs/design/archetypes.md` §4; `docs/design/rulebook.md` 5.2; `proto/main:docs/prototype/SPEC.md` section 9.

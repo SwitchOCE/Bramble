@@ -1,6 +1,6 @@
 # Other games: positioning, bounded economies and recurring archetypes
 
-**Status: research for the design pass, 2 November 2026.** Task R4 of the pass the owner set out in [owner-notes/2026-11-02-pre-development-design-pass.md](../design/owner-notes/2026-11-02-pre-development-design-pass.md). It answers three questions only:
+**Status: research for the design pass, 2 November 2026.** Task R4 of the pass the owner set out in [owner-notes/2026-11-02-pre-development-design-pass.md](../design/sources/2026-11-02-pre-development-design-pass.md). It answers three questions only:
 
 1. What positioning and adjacency add to decisions and strategy variety, and what they cost.
 2. How games without a turn timer, or with async fights, keep economy and turn length bounded.
@@ -86,7 +86,7 @@ Other games agree that position depth comes from text and targeting rules, not f
 - **Write the back-row reach keyword into the first content set.** Every comparable game has one. [judgement]
 - **Neighbour synergy (kind B) is the safest win.** It works without seeing the opponent, it suits async, and SAP shows it can carry whole archetypes on a tiny board. [judgement]
 - **Counter-positioning (kind C) depends on a rules choice** about showing the snapshot. [judgement]
-- The owner's test stands: if the position cards in the quick sim don't make smart placement beat random placement, cut the rows ([owner note](../design/owner-notes/2026-11-02-pre-development-design-pass.md), "Positioning").
+- The owner's test stands: if the position cards in the quick sim don't make smart placement beat random placement, cut the rows ([owner note](../design/sources/2026-11-02-pre-development-design-pass.md), "Positioning").
 
 ---
 

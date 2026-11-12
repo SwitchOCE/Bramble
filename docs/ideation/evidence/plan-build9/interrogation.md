@@ -1,6 +1,6 @@
 **The intended finish is step 7: export build 9 for the owner to play, then stop. As written, completion is not assured:** the plan wrongly marks strong-field defaults as shipped, overstates what run 1 can establish about C, and leaves several budgets open.
 
-Provenance matters: the owner authorized “smaller and more bounded” iteration; v3’s machinery and numeric gates were **agent proposals approved by the orchestrator**, not the owner’s words. ([10i](/home/alex/code/Bramble-ideation/docs/design/owner-notes/2026-11-10i-resume-bounded.md:5), [v3 approval](/home/alex/code/Bramble-ideation/docs/ideation/plan-to-done.md:3))
+Provenance matters: the owner authorized “smaller and more bounded” iteration; v3’s machinery and numeric gates were **agent proposals approved by the orchestrator**, not the owner’s words. (10i, [v3 approval](/home/alex/code/Bramble-ideation/docs/ideation/plan-to-done.md:3))
 
 | Step or item | Moves the problem? | Proposed by | Verdict | Why |
 |---|---|---|---|---|

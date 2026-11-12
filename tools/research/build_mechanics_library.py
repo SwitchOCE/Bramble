@@ -97,10 +97,10 @@ def to_md(mechs, qs, tail):
            "**Status: ideas, 2 November 2026. Nothing is adopted.** Built by `tools/research/build_mechanics_library.py` "
            "from the designer and review files in `mechanics-library-src/`; change those and rerun the build, not this file. Four goldfish designers rewrote "
            "the 65 mechanics of [mechanics-ideas.md](mechanics-ideas.md) (the first-round record) with example units, a play "
-           "scene and variations, following the owner's directions ([02h](owner-notes/archive/2026-11-02h-checkpoint-read-through.md), "
+           "scene and variations, following the owner's directions ([02h](sources/2026-11-02h-checkpoint-read-through.md), "
            "[02i](owner-notes/archive/2026-11-02i-reactions-are-directions.md)). A rules reviewer and a budget reviewer then checked "
            "them; budget flags use only the tier curve and tolerance bands "
-           "([02g](owner-notes/archive/2026-11-02g-stage-2-checkpoint-scope.md)). The owner reads the formatted page, "
+           "(02g). The owner reads the formatted page, "
            "mechanics-library.html.", ""]
     group = None
     for m in mechs:

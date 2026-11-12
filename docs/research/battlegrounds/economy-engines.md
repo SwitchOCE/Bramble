@@ -2,7 +2,7 @@
 
 **Status: research for the design pass, 2 November 2026 (task R3).** This catalogues the Battlegrounds engines that ran very long or without end in one turn. For each it says what the loop spends, what stops it, how Blizzard answered it, and how it would behave in Bramble. Bramble has no turn timer, and only the paid Refresh gets dearer within a turn (rulebook 3.1.2, 4.4). It ends with the loop shapes Bramble's content design must police. The guardrails it first proposed (G2–G10) and its rule gaps now live in one list, [economy-bounding.md](../../design/economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding").
 
-The owner's problem statement is [owner-notes/2026-11-02-pre-development-design-pass.md](../../design/owner-notes/2026-11-02-pre-development-design-pass.md):
+The owner's problem statement is [owner-notes/2026-11-02-pre-development-design-pass.md](../../design/sources/2026-11-02-pre-development-design-pass.md):
 
 > In our game, I want it to go for a very, very long time, but not infinitely.
 
@@ -167,7 +167,7 @@ A fourth kind is **not a loop**: start-of-turn gold and "maximum gold" ramps. Th
   - Sly Infiltrator (Quilboar, tier 3): "Choose One - Gain 2 free Refreshes; or Get 3 Blood Gems."
   - Brann Bronzebeard (tier 5): "Your Battlecries trigger twice." Golden: "three times."
   - Retriggers in the pool now or before: Kelp Keeper "Activate (1): Trigger a friendly minion's Battlecry"; Young Murk-Eye "At the end of your turn, trigger the Battlecries of adjacent minions"; Shudderwock hero "Trigger a friendly minion's Battlecry"; Rylak Metalhead; Disco Shuffler; Dreamer's Embrace; Brann's Blessing; Moira Bronzebeard (tier 7); the Echoes of Argus anomaly; Timewarped Deios.
-- **Loop:** each Anomaly bought for 3 (sold back for 1) gives 6 free shops with golden Brann. Free shops may show more Anomalies or Infiltrators. This is the case the owner named in [owner-notes/2026-10-27f](../../design/owner-notes/2026-10-27f-power-budget-decisions.md) and the reason for guardrail G1.
+- **Loop:** each Anomaly bought for 3 (sold back for 1) gives 6 free shops with golden Brann. Free shops may show more Anomalies or Infiltrators. This is the case the owner named in [owner-notes/2026-10-27f](../../design/sources/2026-10-27f-power-budget-decisions.md) and the reason for guardrail G1.
 - **Bound in Battlegrounds:** gold (2 net per source) and the pool: the two sources fill about 1.4% of a tier-6 pool in a lobby with both tribes, so b ≈ 0.5 [data: pool share × 6 free shops]. Not infinite on today's numbers.
 - **Blizzard's answers** [data: [wiki](https://hearthstone.wiki.gg/wiki/Battlegrounds/Refreshing_Anomaly)]:
   - Added 18.4 (Sep 2020) at tier 1 as "Battlecry: Your next Refresh costs (0)." The wiki notes that duplicating this Battlecry gave no extra free refresh. Setting a state ("next refresh costs 0") is immune to retriggers; adding a count is not.

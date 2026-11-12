@@ -1,6 +1,6 @@
 # Generator brief (design lab, round 1)
 
-You make one visual direction for Bramble's UI. Your direction's id, name and idea are in `directions.md`; your message names which one is yours. Read first: `PLAN.md` (this folder), `directions.md`, `fixture.json`, `/home/alex/code/Bramble-design/CLAUDE.md`, `docs/design/direction-summary.md` (the game in brief) and `docs/design/owner-notes/2026-11-01-art-style-decision.md`.
+You make one visual direction for Bramble's UI. Your direction's id, name and idea are in `directions.md`; your message names which one is yours. Read first: `PLAN.md` (this folder), `directions.md`, `fixture.json`, `/home/alex/code/Bramble-design/CLAUDE.md`, `docs/design/direction-summary.md` (the game in brief) and `docs/design/sources/2026-11-01-art-style-decision.md`.
 
 ## What to make
 

@@ -50,6 +50,7 @@ docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPE
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
 docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/owner-notes/         Dated owner instructions (don't reword)
+docs/design/sources/             The owner's words behind the rulebook and taste guide (not instructions)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/folio/                      The Woodland Folio: research and ideation page with art
@@ -90,3 +91,4 @@ Lessons so far:
 - Compute on the Optiplex (this machine): no limit. Use as much of the resources as the work needs (owner, 8 Nov: `docs/design/owner-notes/2026-11-08d-optiplex-compute.md`). The earlier half-the-machine rule was meant for the owner's main computer.
 - Pitch ideas concretely. Every mechanic or tribe idea shown to the owner comes with an example unit with full rules text, how it interacts with other cards, why a player would run it, a situation where it is good, and two or three variations. Where it resembles a design the owner may know from another game, say so in a line. Purpose: the owner can't judge an idea from a one-line summary (2 Nov).
 - Design reactions are directions. When the owner reacts to a design, the reaction sets what to iterate on, not what changes. Never cut a design straight away: explore what it can teach, push back with an example where it works, or propose a version that does. This applies only to evaluating designs. Purpose: early cuts lose ideas, and the owner's comments on designs are mostly suggestions (2 Nov).
+- **Clear, short wording in the game (owner, 8 Nov).** Card, keyword, tooltip and guide text says the main effect plainly, in as few words as it takes, and uses keywords to save sentences, as Battlegrounds does. It doesn't explain edge cases or anything the mechanic implies. Those go in a second layer (reminder text on hover or tap, the guide, the rulebook) or stay implied. Purpose: build 6's text was "far too long, far too wordy", and the point of an explanation is to "make complicated things simple", not "to handle every use case". Where it doesn't apply: the rulebook and engine specs, which must stay exact because they are where the edge cases live.

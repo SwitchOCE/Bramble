@@ -1,6 +1,6 @@
 # Board layout options: packing versus fixed slots
 
-The owner asked for pros and cons of packing versus fixed slots on a 4–3 board ([owner note](owner-notes/archive/2026-10-27c-packing-tokens-rows.md)).
+The owner asked for pros and cons of packing versus fixed slots on a 4–3 board ([owner note](sources/2026-10-27c-packing-tokens-rows.md)).
 
 > **Decision, 27 October 2026:** the owner chose **Option A, fixed slots**, for now. Units go in any slot, gaps are allowed, and nobody moves in combat. This can be revisited after prototyping.
 

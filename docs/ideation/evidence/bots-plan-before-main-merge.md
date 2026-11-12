@@ -2,7 +2,7 @@ Historical branch proposal, preserved verbatim below from e25acf3f0883caf2e4cfff
 
 # Plan: the best bots we can make
 
-The owner, 8 Nov 2026 (`docs/design/owner-notes/2026-11-08a-bots-and-data.md`, `2026-11-08b-remove-easy-medium.md`):
+The owner, 8 Nov 2026 (`2026-11-08a-bots-and-data.md` (removed 13 Nov 2026, in git history), `2026-11-08b-remove-easy-medium.md` (removed 13 Nov 2026, in git history)):
 
 > "I think if we make bots, we should make them the best players we possibly can."
 > "if one strategy is consistently beating other strategies, we should have that bot get better"

@@ -36,7 +36,7 @@ One line per call that still holds. Newest calls go at the bottom of their group
 
 ## Look
 
-- On `ideation/*`, units, heroes, spells, items, tribe images and the world are painted in "ink with wash and glow" (recipe: `tools/art/prompts/inkglow/`). `main` keeps "Ink + flat B" (owner, 1 Nov: `docs/design/owner-notes/2026-11-01-art-style-decision.md`). (orchestrator, 11 Nov, art step review ask)
+- On `ideation/*`, units, heroes, spells, items, tribe images and the world are painted in "ink with wash and glow" (recipe: `tools/art/prompts/inkglow/`). `main` keeps "Ink + flat B" (owner, 1 Nov: `docs/design/sources/2026-11-01-art-style-decision.md`). (orchestrator, 11 Nov, art step review ask)
 - Every pool unit has its own portrait in that style; no fallback names on tiles. (archive, 10 Nov, "Declutter batch 2 WIP")
 
 ## Screen and declutter

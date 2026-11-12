@@ -1,6 +1,6 @@
 # Battlegrounds strategy by era
 
-**Status: research for the pre-development design pass, 2 November 2026.** This is the by-era study the owner approved in [owner-notes/2026-11-02-pre-development-design-pass.md](../../design/owner-notes/2026-11-02-pre-development-design-pass.md) ("A by-era study of tribe strategies: Yes, build it"). It maps each Battlegrounds tribe's strategies in each era and sorts them into the owner's flavours.
+**Status: research for the pre-development design pass, 2 November 2026.** This is the by-era study the owner approved in [owner-notes/2026-11-02-pre-development-design-pass.md](../../design/sources/2026-11-02-pre-development-design-pass.md) ("A by-era study of tribe strategies: Yes, build it"). It maps each Battlegrounds tribe's strategies in each era and sorts them into the owner's flavours.
 
 The owner's flavours, from the same note:
 

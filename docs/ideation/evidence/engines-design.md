@@ -215,7 +215,7 @@ Critic A: "Every loss, though, went to a stat pile," on Rings stacked on tier-1 
 
 ## 6. Bot data or game fact (added 8 Nov, at the orchestrator's request)
 
-Every number above is Hard-bot data, and the owner rates Hard as subpar (`owner-notes/2026-11-08a-bots-and-data.md`). So two testers played eight full Hard games by hand, choosing lines the bots miss: four on the current build (`engines-hand-current.md`, seeds 301–304) and four on the package (`engines-hand-package.md`, seeds 401–404). One game per line points a direction; it measures nothing.
+Every number above is Hard-bot data, and the owner rates Hard as subpar (`2026-11-08a-bots-and-data.md` (removed 13 Nov 2026, in git history)). So two testers played eight full Hard games by hand, choosing lines the bots miss: four on the current build (`engines-hand-current.md`, seeds 301–304) and four on the package (`engines-hand-package.md`, seeds 401–404). One game per line points a direction; it measures nothing.
 
 ### Each cause: game fact or bot weakness?
 
