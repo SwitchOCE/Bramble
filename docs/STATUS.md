@@ -1,13 +1,13 @@
 # Status
 
-Last updated 12 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable prototype builds are on the ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
+Last updated 12 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are on the prototype and ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
 
-**Current phase on `main`: fundamentals.** Research, then the rulebook, then power budgeting. Content design waits until those exist.
+**Current phase on `main`: fundamentals:** research, the rulebook and power budgeting. Content design waits until those exist.
 
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Owner notes from 27 October and 1 November 2026. Fourteen later notes, from 6 to 11 November, are only on `ideation/main` so far.
+- Owner notes from 27 October and 1 November 2026. Later notes aren't on `main` yet: 11 from 2 November (on `proto/main` and `ideation/main`) and 28 from 6 to 11 November (on `ideation/main`).
 - A plannable summary with open questions.
 - An architecture recommendation.
 
@@ -66,14 +66,14 @@ Work that isn't on `main`. Nothing from these branches comes to `main` without t
 |---|---|---|---|
 | Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
 | Prototype | `proto/main` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
-| Design lab | `design-lab/main`, `design-lab/journey` | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
+| Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | `archive/design-lab` (tag `archive/design-lab-2026-11-12`) | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
 | Portal (the owner's site on the Optiplex) | `portal/main` | `docs/portal/PLAN.md` | 4 Nov 2026 |
 
 Builds are in `/data/bramble-builds` on the Optiplex and on the portal's builds page.
 
 ## Next
 
-The owner is re-evaluating the next steps (12 November 2026), which are "somewhat entangled" between `main` and the ideation branches. The steps planned before that:
+The owner, 12 November 2026: "The next steps are somewhat entangled. I need to re-evaluate." The steps planned before that:
 
 - the owner works through the power-budget review points B1–B7 in [design/review-queue.md](design/review-queue.md), then the remaining proposed defaults;
 - the answers are recorded as owner notes and the rulebook moves to v1;
