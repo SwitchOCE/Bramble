@@ -2,9 +2,9 @@
 
 **What this is.** A guide for agents to what the owner thinks makes auto-battler systems good or bad, and why. It pulls together the owner's dictations of 8 November 2026 and adds evidence an agent can check: card text, equations and runnable models. The owner's own words are in the three source notes. Read them for nuance; this page doesn't replace them.
 
-- [owner-notes/2026-11-08-autobattler-systems-thoughts.md](owner-notes/2026-11-08-autobattler-systems-thoughts.md) (N-A): paradigms, damage, shop, pool, combining copies.
-- [owner-notes/2026-11-08b-taste-answers.md](owner-notes/2026-11-08b-taste-answers.md) (N-B): where Bramble should sit, designs the owner likes, Infinite Pirates, depth vs complexity.
-- [owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md) (N-C): rulebook go-ahead, the third scaling factor, engine output.
+- [sources/2026-11-08-autobattler-systems-thoughts.md](sources/2026-11-08-autobattler-systems-thoughts.md) (N-A): paradigms, damage, shop, pool, combining copies.
+- [sources/2026-11-08b-taste-answers.md](sources/2026-11-08b-taste-answers.md) (N-B): where Bramble should sit, designs the owner likes, Infinite Pirates, depth vs complexity.
+- [sources/2026-11-08c-rulebook-go-ahead-and-scaling.md](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md) (N-C): rulebook go-ahead, the third scaling factor, engine output.
 
 **How to use it.** Use it as a lens, not a veto. Each principle is something to aim for and to explain your design against. Per the working rules, don't cut a design because it seems to break one. Say which principle it strains, and propose a version that keeps the design's core. The principle wording is Claude's synthesis, and each one cites the owner's words. Where the owner hasn't decided, this page says so.
 

@@ -1,10 +1,10 @@
 # Design pillars
 
-**Status: draft for the owner's review, 2 November 2026.** The owner asked for "short pillars": one page of what Bramble values and avoids, drawn from the owner notes ([2026-11-02 note](owner-notes/2026-11-02-pre-development-design-pass.md), answers to the plan check).
+**Status: draft for the owner's review, 2 November 2026.** The owner asked for "short pillars": one page of what Bramble values and avoids, drawn from the owner notes ([2026-11-02 note](sources/2026-11-02-pre-development-design-pass.md), answers to the plan check).
 
 Every pillar comes from the owner notes in [owner-notes/](owner-notes/) or from [direction-summary.md](direction-summary.md). Quotes are the owner's words **[data]**. The grouping and the "meaning" lines are Claude's reading **[judgement]**. If a pillar and the owner's words disagree, the owner's words win. Pillars the owner hasn't stated are not here; they are open questions for the owner.
 
-Note names below are short: `10-27` is [2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md), `10-27b` to `10-27f` are the other 27 October notes, `11-01b`/`11-01c` are the art notes, `11-02` is the pre-development design pass.
+Note names below are short: `10-27` is [2026-10-27-battlegrounds-direction.md](sources/2026-10-27-battlegrounds-direction.md), `10-27b` to `10-27f` are the other 27 October notes, `11-01b`/`11-01c` are the art notes, `11-02` is the pre-development design pass.
 
 ---
 
@@ -64,7 +64,7 @@ Work is supervised from the start. Anything that needs human feedback goes to th
 
 **13. Waiting must be a choice.** A design that rewards not taking an action is fine if it is isolated, so the player still has plenty of interesting choices, or time-bounded, so the player waits for a payoff. "Don't move for 3 turns, then X" is good; "don't move to get stats every single turn" is not. It is a delicate balance. *Source: 02h, 02i.*
 
-*[`02h` and `02i` are [2026-11-02h](owner-notes/2026-11-02h-checkpoint-read-through.md) and [2026-11-02i](owner-notes/2026-11-02i-reactions-are-directions.md). The owner agreed this wording on 2 November.]*
+*[`02h` and `02i` are [2026-11-02h](sources/2026-11-02h-checkpoint-read-through.md) and [2026-11-02i](owner-notes/2026-11-02i-reactions-are-directions.md). The owner agreed this wording on 2 November.]*
 
 ## What Bramble avoids
 

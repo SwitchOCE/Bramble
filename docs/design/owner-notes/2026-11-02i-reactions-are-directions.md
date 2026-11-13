@@ -1,6 +1,6 @@
 # Owner corrections: design reactions are directions, not decisions
 
-Said by the owner in chat on 2 November 2026, after reading Claude's "Checkpoint read-through: notes and diff" doc, which had treated the reactions in the [02h note](2026-11-02h-checkpoint-read-through.md) as decisions.
+Said by the owner in chat on 2 November 2026, after reading Claude's "Checkpoint read-through: notes and diff" doc, which had treated the reactions in the [02h note](../sources/2026-11-02h-checkpoint-read-through.md) as decisions.
 
 ## Nothing in design is cut straight away
 

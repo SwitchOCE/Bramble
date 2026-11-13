@@ -27,19 +27,19 @@ Every numbered rule carries exactly one tag:
 
 | Key | File |
 |---|---|
-| N1 | [owner-notes/2026-10-27-battlegrounds-direction.md](owner-notes/2026-10-27-battlegrounds-direction.md) |
-| N2 | [owner-notes/2026-10-27b-board-answers-and-research.md](owner-notes/2026-10-27b-board-answers-and-research.md) |
-| N3 | [owner-notes/2026-10-27c-packing-tokens-rows.md](owner-notes/2026-10-27c-packing-tokens-rows.md) |
-| N4 | [owner-notes/2026-10-27d-combat-shape-decisions.md](owner-notes/2026-10-27d-combat-shape-decisions.md) |
-| N5 | [owner-notes/2026-10-27e-economy-decisions.md](owner-notes/2026-10-27e-economy-decisions.md) |
-| N6 | [owner-notes/2026-10-27f-power-budget-decisions.md](owner-notes/2026-10-27f-power-budget-decisions.md) |
-| N7 | [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md) |
-| N8 | [owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md](owner-notes/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
-| N9 | [owner-notes/2026-11-02e-mechanics-are-examples.md](owner-notes/2026-11-02e-mechanics-are-examples.md) |
+| N1 | [sources/2026-10-27-battlegrounds-direction.md](sources/2026-10-27-battlegrounds-direction.md) |
+| N2 | [sources/2026-10-27b-board-answers-and-research.md](sources/2026-10-27b-board-answers-and-research.md) |
+| N3 | [sources/2026-10-27c-packing-tokens-rows.md](sources/2026-10-27c-packing-tokens-rows.md) |
+| N4 | [sources/2026-10-27d-combat-shape-decisions.md](sources/2026-10-27d-combat-shape-decisions.md) |
+| N5 | [sources/2026-10-27e-economy-decisions.md](sources/2026-10-27e-economy-decisions.md) |
+| N6 | [sources/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md) |
+| N7 | [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md) |
+| N8 | [sources/2026-11-02d-refresh-schedule-and-free-refreshes.md](sources/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
+| N9 | [sources/2026-11-02e-mechanics-are-examples.md](sources/2026-11-02e-mechanics-are-examples.md) |
 | N10 | [owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md](owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
-| N11 | [owner-notes/2026-11-08-autobattler-systems-thoughts.md](owner-notes/2026-11-08-autobattler-systems-thoughts.md) (damage, shop, pool, combining) |
-| N12 | [owner-notes/2026-11-08b-taste-answers.md](owner-notes/2026-11-08b-taste-answers.md) (stat scale, taste) |
-| N13 | [owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md](owner-notes/2026-11-08c-rulebook-go-ahead-and-scaling.md) (go-ahead for the v0.5 changes) |
+| N11 | [sources/2026-11-08-autobattler-systems-thoughts.md](sources/2026-11-08-autobattler-systems-thoughts.md) (damage, shop, pool, combining) |
+| N12 | [sources/2026-11-08b-taste-answers.md](sources/2026-11-08b-taste-answers.md) (stat scale, taste) |
+| N13 | [sources/2026-11-08c-rulebook-go-ahead-and-scaling.md](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md) (go-ahead for the v0.5 changes) |
 | C12 | The owner's decision in chat, 12 Nov 2026: damage (10.1.1, 10.1.3), draws (10.1.6) and starting health (2.2.5). No owner note was written; the intent is recorded in 10.1.3. |
 | C13 | The owner's decisions in chat, 12 Nov 2026: income (4.1.1), unit prices (4.2.1), sell values (4.3.3, 4.3.4), refreshes (4.4.2, 4.4.3), tier-up prices and discount (4.6.2, 4.6.3) and shop size (6.1.1). No owner note was written. The owner's words, the models and the evidence are in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md). |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |

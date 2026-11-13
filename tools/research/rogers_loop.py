@@ -1,6 +1,6 @@
 """Why Infinite Pirates was infinite in Battlegrounds, and whether it would be in Bramble.
 
-Evidence for the owner's Sky Admiral Rogers example (docs/design/owner-notes/2026-11-08b-taste-answers.md
+Evidence for the owner's Sky Admiral Rogers example (docs/design/sources/2026-11-08b-taste-answers.md
 section 4.2). Standard library only. Run:  python -I tools/research/rogers_loop.py
 
 THE MODEL IN ONE PARAGRAPH

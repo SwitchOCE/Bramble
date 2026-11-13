@@ -1,6 +1,6 @@
 # Positioning sim: do the rows add depth?
 
-**Status: for the owner's review, 2 November 2026 (revision 2).** This answers the owner's ask in [owner-notes/2026-11-02-pre-development-design-pass.md](owner-notes/2026-11-02-pre-development-design-pass.md):
+**Status: for the owner's review, 2 November 2026 (revision 2).** This answers the owner's ask in [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md):
 
 > Make sure that our combat rules in terms of positioning actually add a little bit of extra depth compared to Battlegrounds. And if they're not working, we can just cut them.
 
