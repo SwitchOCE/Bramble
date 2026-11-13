@@ -188,7 +188,7 @@ Mutation proof: changing only attack to `tribe_attack * factor` fails at **11 ve
 - Item 4: hide all zero-bonus chips; earned bonuses appear with a readable **Tribe bonus** label. All five earned chips fit on phone. Focused UI/phone/guide checks **19/19, 324 assertions**; inspected [labelled phone strip](commit-build-phone/bonus-labelled.jpg).
 - Item 8: Queen pools only golden-adjusted printed stats plus permanent unit buffs. Tribe bonuses, Rings, other auras and combat bonuses do not enter the pool. A regression injects all excluded layers into a victim displayed at 19/24 and verifies the actual normal pool is 3/5, golden 6/10.
 - Monarch coverage: an optional inert aura observer reports actual nonzero Monarch contributions after aura application. Presence/buying alone, a neutral on a Ring, no Monarch and unchanged recalculations do not count as firing. This measures the aura without inventing combat trigger spam. Queen/coverage focus **33/33 tests, 136 assertions**, content/format/lint clean.
-- Item 7: retain five tribes for **variety**, not for a demonstrated commitment gain. The cited [27 October note](../../design/owner-notes/2026-10-27-battlegrounds-direction.md) says “having a certain number of tribes per game in the pool to keep things varied”. The corrected headline and methodology above retain the review's fixed-round, full-board comparison: round 10 **4.00 versus 4.38**, about half a place. The larger final-board gap remains visible as a confounded descriptive metric.
+- Item 7: retain five tribes for **variety**, not for a demonstrated commitment gain. The cited [27 October note](../../design/sources/2026-10-27-battlegrounds-direction.md) says “having a certain number of tribes per game in the pool to keep things varied”. The corrected headline and methodology above retain the review's fixed-round, full-board comparison: round 10 **4.00 versus 4.38**, about half a place. The larger final-board gap remains visible as a confounded descriptive metric.
 - Round4 A3: retain Normal's shop-spell start at round 12 as an explicit difficulty **tuning knob, not a skill**. No policy change is made under this call.
 
 These are the orchestrator's calls and reasons, recorded by review item; they are not attributed to the owner.
@@ -283,11 +283,11 @@ The requested pre-review merged Hard rungs remain recorded above: Hard/Normal **
 
 ## Binding bot-data direction and final forecast repair
 
-Read `origin/ideation/main:docs/design/owner-notes/2026-11-08a-bots-and-data.md`: “I think that we should be designing around the best bots we can.” No further Easy or Normal tuning is made; Plain/Easy remains **3.34**. All Bird/Burner results above are **Hard bot data, weak evidence**. Earlier descriptive selections do not establish card strength for humans. No further Bird or Burner card change is made.
+Read `2026-11-08a-bots-and-data.md` (removed 13 Nov 2026, in git history): “I think that we should be designing around the best bots we can.” No further Easy or Normal tuning is made; Plain/Easy remains **3.34**. All Bird/Burner results above are **Hard bot data, weak evidence**. Earlier descriptive selections do not establish card strength for humans. No further Bird or Burner card change is made.
 
 The first final checkpoint passes **1,257 tests / 16,094 assertions / 112 scripts**, compiles 368 scripts, then passes soak 100 seeds 371–470 with zero violations. A separate strict Hard probe subsequently catches a two-Burner forecast failure at seed 73420: the empty exclusion sentinel was treated as a recipient. That probe is rejected and its raw logs retained. A guard excludes empty-definition sentinels; a multi-Burner regression checks exact values and unchanged board identity (**14/14, 53 assertions**, lint/format pass). This is a bot calculation fix, not an Egg/card change. Gate and soak are repeated after it; results follow below.
 
-The later removal instruction in `origin/ideation/main:docs/design/owner-notes/2026-11-08b-remove-easy-medium.md` supersedes retaining a difficulty ladder. Step 1 of `docs/ideation/BOTS.md` will be implemented only after this checkpoint's corrected gate, soak and head report. Existing evidence remains history.
+The later removal instruction in `2026-11-08b-remove-easy-medium.md` (removed 13 Nov 2026, in git history) supersedes retaining a difficulty ladder. Step 1 of `docs/ideation/BOTS.md` will be implemented only after this checkpoint's corrected gate, soak and head report. Existing evidence remains history.
 
 
 ## Final frozen Hard probe

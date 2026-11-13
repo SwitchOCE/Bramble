@@ -5,9 +5,9 @@ Every rule in [rulebook.md](rulebook.md) (v0.4 draft, 2 Nov 2026, baseline HSBG 
 - **PROPOSED**: a gap Bramble's differences create. A default is filled in; it needs your yes or a change.
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
-- **EXAMPLE**: an HSBG or Galaxy mechanic kept to show what the rules must handle. Not a Bramble mechanic, and nothing to decide ([N9](owner-notes/archive/2026-11-02e-mechanics-are-examples.md)).
+- **EXAMPLE**: an HSBG or Galaxy mechanic kept to show what the rules must handle. Not a Bramble mechanic, and nothing to decide ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
-Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oct decisions are folded in (owner notes [d](owner-notes/archive/2026-10-27d-combat-shape-decisions.md), [e](owner-notes/archive/2026-10-27e-economy-decisions.md) and [f](owner-notes/archive/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](owner-notes/archive/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](owner-notes/archive/2026-11-02e-mechanics-are-examples.md)).
+Counts: 111 [BG], 33 [BRAMBLE], 44 [PROPOSED], 7 [OPEN], 26 [EXAMPLE]. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](sources/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
 **Most in need of a decision:** none flagged. The rest are edge cases with sensible defaults.
 

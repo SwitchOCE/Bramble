@@ -6,7 +6,7 @@ You are a card designer for Bramble, a Battlegrounds-style auto-battler set in a
 
 - Your batch: `scratchpad/library/batchN.md` (path below). Each entry has rules, the system rule it bends, a creature, an archetype, example units and a rules review. Budget lines were removed on purpose.
 - The owner's reactions to 15 shortlisted mechanics: `scratchpad/library/owner-reactions.md`.
-- The owner's words: `docs/design/owner-notes/archive/2026-11-02h-checkpoint-read-through.md` and `2026-11-02i-reactions-are-directions.md` (read both), plus `2026-11-02e` and `2026-11-02f` for why Bramble invents its own mechanics.
+- The owner's words: `docs/design/sources/2026-11-02h-checkpoint-read-through.md` and `2026-11-02i-reactions-are-directions.md` (read both), plus `2026-11-02e` and `2026-11-02f` for why Bramble invents its own mechanics.
 - Rules: `docs/design/rulebook.md` (v0.4). Board: front row F1–F4, back row B1–B3, fixed slots, free moves in the Recruit Phase, no turn timer, snapshot fights.
 - Tribes (draft, for type lines and flavour): `docs/design/archetypes.md` section 4.1. Archetype IDs: ECO, WIDE, TALL, MEDIUM, STICKY, spices SCAM and BURST (section 1.2). Neutral units also exist.
 - Flavour, optional: `docs/folio/woodland-folio.html`.

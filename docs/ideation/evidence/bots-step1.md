@@ -2,7 +2,7 @@
 
 Checkpoint before this work: **887d9fc**, gate **1,258 tests / 16,100 assertions**, then soak 100 fresh seeds **471–570**, 1,518 rounds / 4,774 fights / zero violations. Reported before step 1 began.
 
-Binding direction: [owner removal note](../../design/owner-notes/2026-11-08b-remove-easy-medium.md) and [BOTS step 1](../BOTS.md). The game keeps today's Hard play at one strength, with no menu choice or level label. Easy/Normal profiles, their teaching-only rules, active tests and bench suites are removed. Naive remains a tools/test yardstick. Records show best placement and wins with no level; legacy saved records migrate safely. Existing evidence files are retained as history, including Plain/Easy **3.34**.
+Binding direction: owner removal note and [BOTS step 1](../BOTS.md). The game keeps today's Hard play at one strength, with no menu choice or level label. Easy/Normal profiles, their teaching-only rules, active tests and bench suites are removed. Naive remains a tools/test yardstick. Records show best placement and wins with no level; legacy saved records migrate safely. Existing evidence files are retained as history, including Plain/Easy **3.34**.
 
 All Bird/Burner observations in commitment evidence are **Hard bot data, weak evidence**; this step makes no card edits or card-strength conclusions. Steps 2–7 are not implemented.
 

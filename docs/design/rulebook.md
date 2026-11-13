@@ -27,15 +27,15 @@ Every numbered rule carries exactly one tag:
 
 | Key | File |
 |---|---|
-| N1 | [owner-notes/archive/2026-10-27-battlegrounds-direction.md](owner-notes/archive/2026-10-27-battlegrounds-direction.md) |
-| N2 | [owner-notes/archive/2026-10-27b-board-answers-and-research.md](owner-notes/archive/2026-10-27b-board-answers-and-research.md) |
-| N3 | [owner-notes/archive/2026-10-27c-packing-tokens-rows.md](owner-notes/archive/2026-10-27c-packing-tokens-rows.md) |
-| N4 | [owner-notes/archive/2026-10-27d-combat-shape-decisions.md](owner-notes/archive/2026-10-27d-combat-shape-decisions.md) |
-| N5 | [owner-notes/archive/2026-10-27e-economy-decisions.md](owner-notes/archive/2026-10-27e-economy-decisions.md) |
-| N6 | [owner-notes/archive/2026-10-27f-power-budget-decisions.md](owner-notes/archive/2026-10-27f-power-budget-decisions.md) |
-| N7 | [owner-notes/archive/2026-11-02-pre-development-design-pass.md](owner-notes/archive/2026-11-02-pre-development-design-pass.md) |
-| N8 | [owner-notes/archive/2026-11-02d-refresh-schedule-and-free-refreshes.md](owner-notes/archive/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
-| N9 | [owner-notes/archive/2026-11-02e-mechanics-are-examples.md](owner-notes/archive/2026-11-02e-mechanics-are-examples.md) |
+| N1 | [sources/2026-10-27-battlegrounds-direction.md](sources/2026-10-27-battlegrounds-direction.md) |
+| N2 | [sources/2026-10-27b-board-answers-and-research.md](sources/2026-10-27b-board-answers-and-research.md) |
+| N3 | [sources/2026-10-27c-packing-tokens-rows.md](sources/2026-10-27c-packing-tokens-rows.md) |
+| N4 | [sources/2026-10-27d-combat-shape-decisions.md](sources/2026-10-27d-combat-shape-decisions.md) |
+| N5 | [sources/2026-10-27e-economy-decisions.md](sources/2026-10-27e-economy-decisions.md) |
+| N6 | [sources/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md) |
+| N7 | [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md) |
+| N8 | [sources/2026-11-02d-refresh-schedule-and-free-refreshes.md](sources/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
+| N9 | [sources/2026-11-02e-mechanics-are-examples.md](sources/2026-11-02e-mechanics-are-examples.md) |
 | N10 | [owner-notes/archive/2026-11-02f-new-effects-and-goldfish-designers.md](owner-notes/archive/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
