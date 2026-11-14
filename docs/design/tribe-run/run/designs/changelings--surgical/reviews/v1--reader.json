@@ -1,0 +1,22 @@
+{
+  "id": "v1--reader",
+  "design_id": "changelings--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Borrowing the best text in the lobby is a treat to draft, but every Changeling carries two texts and the Lady five, so the growing board is hard to read at a glance.",
+    "distinct": "Over a 7 because Exchange trades your units with the shop and Turncoat Hare and Penny Second wear the enemy's text; no tribe today touches the shop or the enemy board, and both play the swap folklore straight."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Three timing rules are unclear as written (Cradle Kit's borrowed When played, stolen Start of Combat text, Exchange's 'a token is removed'); fixing them is wording, not redesign.",
+  "points": [
+    {"pid": "p1", "uid": "u01", "kind": "fix", "text": "Cradle Kit takes its Guise when played; the Guise rule only says a Guise worn when played fires. Say plainly whether the borrowed When played fires on that same play."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "Turncoat Hare and Penny Second take a Guise at Start of Combat; say whether a stolen Start of Combat text fires that fight. The Impostors build and the Keeper assume it does."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "Exchange ends with 'and a token is removed', which no card explains. Name the token or cut the clause."},
+    {"pid": "p4", "uid": u17_placeholder, "kind": "idea", "text": "placeholder"}
+  ],
+  "standouts": [],
+  "weakest": [],
+  "flags": []
+}

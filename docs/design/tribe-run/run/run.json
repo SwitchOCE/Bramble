@@ -97,7 +97,7 @@
     "rot-guild",
     "gale-court"
    ],
-   "status": "running"
+   "status": "done"
   },
   {
    "id": 2,
@@ -115,7 +115,7 @@
     "will-o-wisps",
     "changelings"
    ],
-   "status": "planned"
+   "status": "done"
   }
  ]
 }

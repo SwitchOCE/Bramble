@@ -1,0 +1,290 @@
+{
+ "design_id": "will-o-wisps--bottom-up-flavour",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Will-o'-the-Wisps",
+  "mechanic": "**Lanterns lead attackers astray.** A Wisp doesn't block a hit. It moves it: the enemy follows the light and hits its own side.",
+  "keywords": [
+   {
+    "name": "Lantern N",
+    "text": "when an enemy attacks this, it spends a Lantern and isn't hit; the attack is **led astray**. Lanterns relight at the start of every fight. A unit holds at most 3. \"Gains a Lantern\" lasts the fight; \"gains a Lantern permanently\" raises N."
+   },
+   {
+    "name": "Led astray",
+    "text": "the attack hits a random *other* unit on the attacker's own side instead (any row). Both deal damage, as in any attack, and Cleave, Bristle, Nightshade and the rest apply around the new target. With no other unit to hit, the attack hits nothing. An enemy \"led astray on its next attack\" carries this to that attack, whatever it targets. A led-astray attack can't be led astray again."
+   },
+   {
+    "name": "Drowns",
+    "text": "an enemy drowns when a led-astray attack kills it (the attacker or the unit it hit)."
+   },
+   {
+    "name": "Lost",
+    "text": "the number of enemies you led astray in your last fight, shown on your hero, like Bog folk's Toll. Start of Turn cards spend it."
+   }
+  ],
+  "plays": "You build a front row that carries lights, then decide who the enemy hits: a Lantern on the unit they're most likely to reach, a Barn Owl marking their back row, Old Will turning every misled attack onto their biggest unit. The tribe's damage is borrowed: a misled 30-Attack unit hits its own carry for 30, so the Wisps get stronger the stronger the lobby is. Then you cash in what went wrong for them. Lost pays gold, discounts and buffs; drowned enemies leave treasure; each misled attack feeds Phos and the Foolish Fire. The puzzle is placement. Lanterns only work where attacks land, so the front row, the gaps you leave and which unit holds the most lights are the real decisions."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Hobby Lantern",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Lantern 1.",
+   "golden": "2/6. Lantern 2."
+  },
+  {
+   "uid": "u02",
+   "name": "Little Phos, apprentice who points the wrong way",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Whenever an enemy is led astray, permanently gain +1/+1. Three times a fight.",
+   "golden": "2/4. +2/+2, three times a fight."
+  },
+  {
+   "uid": "u03",
+   "name": "Glim, Signalwoman (glow-worm, keeper of the lamps)",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Start of Combat: give a Lantern to each unit beside this that has none.",
+   "golden": "4/8. Two Lanterns each."
+  },
+  {
+   "uid": "u04",
+   "name": "Foxfire Stump (honey-fungus in rotting wood)",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "When another of your units dies, give a Lantern to your unit nearest its slot. Twice a fight.",
+   "golden": "4/8. Four times a fight."
+  },
+  {
+   "uid": "u05",
+   "name": "Fresh-Ink Mapseller",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Turn: gain 1 gold for every 2 Lost, up to 2.",
+   "golden": "4/6. 2 gold for every 2 Lost, up to 4."
+  },
+  {
+   "uid": "u06",
+   "name": "Gaffer Turncoat, toad ferryman",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Your units can't be led astray. When played: permanently swap a unit's Attack and Health.",
+   "golden": "6/8. Swap two units'."
+  },
+  {
+   "uid": "u07",
+   "name": "Stingy Jack (ember in a turnip)",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: if you have 3 or more unspent gold and no Turnip Lantern in hand, get one.",
+   "golden": "4/10. Get two."
+  },
+  {
+   "uid": "u08",
+   "name": "Mademoiselle Follette, visiting cousin",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Whenever an enemy is led astray, the unit it hits is led astray on its next attack. Twice a fight.",
+   "golden": "6/8. Four times a fight."
+  },
+  {
+   "uid": "u09",
+   "name": "Joan the Wad",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "End of Turn: give your units with a Lantern +1/+1 permanently.",
+   "golden": "6/6. +2/+2."
+  },
+  {
+   "uid": "u10",
+   "name": "Captain Spunkie, head of the Shortcut Office",
+   "tier": 4,
+   "attack": 1,
+   "health": 9,
+   "text": "Never attacks. Lantern 1. Start of Turn: your Tier up costs 1 less for each Lost, up to 3.",
+   "golden": "2/18. Lantern 2. 2 less each, up to 6."
+  },
+  {
+   "uid": "u11",
+   "name": "Glowing Barn Owl (Norfolk, winter 1907)",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Swoop. Whenever this attacks, the enemy it hits is led astray on its next attack.",
+   "golden": "8/8. Its next two attacks."
+  },
+  {
+   "uid": "u12",
+   "name": "Black-Water Reflection",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Your led-astray enemies deal double damage.",
+   "golden": "6/12. Triple damage."
+  },
+  {
+   "uid": "u13",
+   "name": "Brass-Badge Steward (\"This Way\")",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Start of Turn: give your unit with the most Lanterns +1/+1 permanently for each Lost.",
+   "golden": "6/10. +2/+2 for each Lost."
+  },
+  {
+   "uid": "u14",
+   "name": "Hoard Mere Light (the *aarnivalkea*)",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Whenever an enemy drowns, bury half its stats. Start of Turn: give the buried stats to your units, split evenly, permanently.",
+   "golden": "8/16. Bury all its stats."
+  },
+  {
+   "uid": "u15",
+   "name": "Tiddy Mun of the Carrs",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Whenever an enemy kills one of your units, that enemy is led astray on its next attack. Three times a fight.",
+   "golden": "10/14. Six times a fight."
+  },
+  {
+   "uid": "u16",
+   "name": "Keeper of the Seventh Stile",
+   "tier": 5,
+   "attack": 7,
+   "health": 7,
+   "text": "Lantern 1. Enemies that drown stay down: their When-dies effects don't happen, and whatever is in their Belly is lost.",
+   "golden": "14/14. Lantern 2."
+  },
+  {
+   "uid": "u17",
+   "name": "Old Will, founder, still carrying the smith's ember",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "text": "Start of Combat: give your front-row units a Lantern. Your led-astray enemies hit their biggest other unit, not a random one.",
+   "golden": "12/18. Two Lanterns each."
+  },
+  {
+   "uid": "u18",
+   "name": "Sunken Causeway Lights",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Start of Combat: fill your empty slots with 0/1 Stepping Stones with Lantern 1.",
+   "golden": "10/18. Stones have Lantern 2."
+  },
+  {
+   "uid": "u19",
+   "name": "Ignis Fatuus, the Foolish Fire",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Whenever an enemy is led astray, give your other units +1/+1 permanently.",
+   "golden": "14/14. +2/+2."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "trinket",
+   "name": "Turnip Lantern",
+   "text": "(item, from Stingy Jack): give a unit a Lantern permanently. It can go on any unit, any tribe."
+  },
+  {
+   "uid": "x02",
+   "kind": "token",
+   "name": "Stepping Stone",
+   "text": "(0/1 token, Created at Start of Combat by the Causeway Lights): Lantern 1. It's gone after the fight and doesn't count as a unit that started the fight for hero damage."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Lamp Row (wall).",
+   "text": "Hobby Lantern, Glim, Stingy Jack's Turnips, Joan the Wad, Captain Spunkie, the Brass-Badge Steward, then Old Will. You stack permanent Lanterns on the four front units. Joan grows every carrier each turn, and the Steward pours Lost into whichever carrier holds most. The enemy spends its first cycle or two hitting itself. You give up gold to Jack (saving 3 a turn) to get lights that never run out. Turncoat goes in late to flip a 3/20 Lantern carrier into a 20/3: three Lanterns mean nobody gets to its 3 Health until it has struck several times."
+  },
+  {
+   "name": "Drowning (borrowed damage).",
+   "text": "Black-Water Reflection, Mademoiselle Follette, the Glowing Barn Owl, Hoard Mere Light and the Seventh Stile, finished by Old Will and Ignis Fatuus. Every misled attack hits for double. Follette chains it to the unit that was hit. Old Will points it at their biggest unit, so their carry kills their other carry. What drowns stays dead (no Belly, no When-dies) and comes back to you as Hoard Mere's buried stats. It is best against the lobby's biggest boards, which is where Spike wants to win."
+  },
+  {
+   "name": "Stepping Stones (deaths).",
+   "text": "Sunken Causeway Lights, Foxfire Stump, Tiddy Mun, Little Phos. You leave slots empty on purpose, since gaps never close. The Causeway fills them with Stones. Each Stone misleads one attack, then dies to the next. Its death relights a neighbour (Foxfire), and its killer goes astray (Tiddy Mun). One 0/1 Stone becomes two or three misled attacks."
+  },
+  {
+   "name": "Lanterns on other tribes' units (splash).",
+   "text": "Turnip Lanterns can go on anyone, and Joan, Old Will and Glim don't care about tribe."
+  },
+  {
+   "name": "In a lobby",
+   "text": "**Bog folk:** a Turnip Lantern on a **Mire** unit is the strongest splash. The enemy across *must* attack it, so you choose exactly who goes astray.\n**Birds:** Eggs in Nests are free deaths for Foxfire and Tiddy Mun. The Barn Owl's Swoop plays alongside theirs.\n**Oozes:** your Belly units dying give Foxfire Lanterns. Against enemy Oozes, the Seventh Stile turns a drowned Ooze into a lost Belly.\n**Fairies:** a Lantern carrier standing on a Ring takes the Ring size and Joan's growth. It is the safest place on the board for a Ring's stats.\n**Hunters:** an enemy Hunter's Quarry attacks the unit across whenever it can, so put your Lantern there. Each **Pack** join is a separate attack, so each can be misled.\n**Hedgerow folk:** Pass X can feed your main carrier.\n**Enemy Cleave** is a gift: a misled Cleave hits three of its own units, and doubled under the Reflection."
+  }
+ ],
+ "risks": [
+  "**Lock.** Twelve permanent Lanterns on a full front row could mean the enemy never touches you for two cycles. The cap of 3, relighting only once a fight, and the cost of getting there (Jack's saved gold, hand space, and every Turnip one turn apart) are the brakes. If playtests reach the lock, cap a unit at 2 or make Old Will's Lantern replace rather than add.",
+  "**Value swings with the opponent.** Against a wide token board, misled attacks hit 0/1s. Against one tall unit, they hit nothing, which stalls and can tie (a tie deals nothing). The tribe has its own attackers, but a pure Lamp Row may tie too often.",
+  "**Counters are few:** non-attack damage (Start of Combat effects, \"a random enemy\" pings) and Gaffer Turncoat in the mirror. A neutral or two that ignores Lanterns may be needed for Spike.",
+  "**Randomness.** Misled attacks hit a random ally unless Old Will is out. Early outcomes swing on whether the misled unit hits its carry or a token.",
+  "**Readability.** Friendly fire has to be animated clearly (the light moving, the attacker turning) or players won't understand why they lost. Recorded boards make this harder, since you can't watch your opponent's choices.",
+  "**Many cards read the same count.** Lost feeds three Start of Turn cards, and the astray trigger feeds three more. That's the glue, but it may feel samey. Hoard Mere and the Stones give it other routes.",
+  "**Captain Spunkie goes dead at Tier 6.** He becomes a wall that never attacks.",
+  "**Tier 1 may be strong.** A misled attack in rounds 1–3 can trade the enemy's two units. Those rounds deal 0 hero damage, so the harm is limited.",
+  "**Lantern placement is a trap for new players.** Back-row Lanterns do nothing unless the enemy has Swoop or your front row falls. Johnny is fine with this; the tutorial should cover it.",
+  "**The Stones' rules aren't settled:** whether units summoned at Start of Combat change who attacks first. I assumed they don't."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Hobby Lantern (4 stats + 1 Lantern) matches the ~0.6 in-fight target, a little over. Little Phos gives ~2–4 stats a turn early against a ~1.6 target. That's over on purpose: it's the seed. \"Three times a fight\" holds it to 6 a turn late."
+  },
+  {
+   "tier": 2,
+   "note": "Glim's 0–2 Lanterns are about the ~1-body in-fight target, high when both neighbours qualify. Foxfire is about 1–2 Lanterns, conditional on deaths. The Mapseller's 1–2 gold is normal Tier 2 economy. Bodies 5–6, on the median."
+  },
+  {
+   "tier": 3,
+   "note": "Joan gives +1/+1 to 3–4 carriers, 6–8 stats against ~5.6. Follette's two chained misleads fit 0.7–1.4. Turncoat's swap is unpriced utility on a vanilla body. Stingy Jack is the break: one permanent Lantern a turn adds up past a Tier 3. It's paid for with 3 saved gold, so it's a trade, not free power. Watch it."
+  },
+  {
+   "tier": 4,
+   "note": "the Steward gives about 4–6 Lost, so +8–12 stats against ~11. The Barn Owl marks 1–2 enemies, about 2 bodies. The Reflection doubles 3–6 misled hits, about 2 bodies with support. Spunkie's discount is worth up to 3 gold a tier-up. Spunkie's 10-stat body is above the median to make up for \"never attacks.\""
+  },
+  {
+   "tier": 5,
+   "note": "Hoard Mere buries ~2–3 drowned enemies at half stats, about 30+ stats a turn, ~2.5 bodies: a direction card near the top end. Tiddy Mun's three misleads hit the ~4 in-fight target with deaths. The Stile is tempo: 14 stats, a Lantern and a tech line."
+  },
+  {
+   "tier": 6,
+   "note": "Old Will's four Lanterns are ~4–6 bodies, plus targeting, against ~6. That's high on purpose: he's the capstone and the seed's \"decide what the enemy hits\". The Causeway's 2–3 Stones are ~3 bodies alone and ~6 with Foxfire and Tiddy Mun. Ignis gives ~6 misleads × 6 units × 2 = ~70 stats, about 5 bodies against ~4 (top 10). Goldens double each; golden Old Will reaches the cap of 3 fast, which is the natural ceiling."
+  }
+ ],
+ "rationale": [
+  "I started from the horn lantern and the traveller who follows it into the bog. That gave a light on your unit that sends the attack back onto the attacker's own side, so the bad thing happens to *them*, not just nothing to you.",
+  "The ember in Stingy Jack's turnip made Lanterns something you carry and bank. The Turnip item came from it, and \"Stingy\" became paying in saved gold.",
+  "Lanterns relight each fight and cap at 3, so a wall is a build you work towards rather than a lock.",
+  "Glim (lamps beside her), Foxfire (light from dead wood) and the Norfolk barn owl (light carried onto the enemy) became three ways to place lights. Placement became the tribe's puzzle.",
+  "Gaffer Turncoat's inside-out coat became the Attack/Health swap, and the only unit never led astray. It gives Lantern carriers a second use as glass cannons, and it answers the mirror.",
+  "The Mapseller, Captain Spunkie and the brass badges all charge travellers. Their shared count, **Lost**, came out of that, and it keeps three cards' text short.",
+  "Hoard Mere and the Seventh Stile come from what lies under the bog: enemies that die to their own side **drown**, which made a second payoff axis.",
+  "Follette's ring dance became passing the misdirection from partner to partner, capped at twice so it can't loop.",
+  "A reflection in black water doubles the light, so it became the tribe's multiplier: double damage on misled attacks.",
+  "Tiddy Mun's revenge and the stones that aren't there made deaths a third route. That gave the tribe a fodder build that mixes with Oozes and Birds.",
+  "I made Old Will last, as the capstone that turns the seed's \"decide what the enemy hits\" into a rule: the misled hit their biggest unit.",
+  "The Foolish Fire closes the tribe as the payoff that reads every misled attack, so all three routes end in permanent stats."
+ ],
+ "changes": [],
+ "declined": []
+}

@@ -1,0 +1,14 @@
+{
+ "id": "will-o-wisps--bottom-up-flavour",
+ "seed": "will-o-wisps",
+ "route": "bottom-up-flavour",
+ "tribe_name": "The Will-o'-the-Wisps",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Lanterns on your units send enemy attacks onto the attacker's own side.\nYou place the lights, then cash in what went wrong for them: gold, buffs and stats from drowned enemies."
+  }
+ ]
+}
