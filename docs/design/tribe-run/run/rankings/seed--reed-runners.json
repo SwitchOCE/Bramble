@@ -1,0 +1,14 @@
+{
+  "seed": "reed-runners",
+  "order": ["reed-runners--bottom-up-mech", "reed-runners--surgical", "reed-runners--borrow-twist"],
+  "why": [
+    {"design": "reed-runners--bottom-up-mech", "line": "You buy units for 2 gold instead of 3, but they come ashore a turn late, and every arrival grows your board: Tibby Slick, Reedwhistle and Lantern Skipper all pay out, Pebble Jack doubles it and Nan Silverholt copies each arrival. It has the clearest growth engine of the three, and 'buy now or cheaper later' is a real choice every turn."},
+    {"design": "reed-runners--surgical", "line": "The herons park shop units on a Customs House shelf where they age, and the otters buy them back for 2 gold as Contraband that grows the crew. It has the most builds: Grisel fields copies of the shelf in your empty slots, Auctioneer Ardley hands every Contraband unit half of an aged unit's stats, and Honest Ned lets you replay When played effects. The growth is a little more scattered than the first tribe's."},
+    {"design": "reed-runners--borrow-twist", "line": "The boldest idea: every Run is a push-your-luck roll on a Heat gauge, and getting caught sends a unit off to auction to come back bigger. It is the most distinctive and tense, but the growth is mostly small +1/+1 team buffs and Attack that depends on your Heat, and losing a unit for the fight on a bad roll can feel rough."}
+  ],
+  "iteration_helped": [
+    {"design": "reed-runners--bottom-up-mech", "line": "Level, a bit clearer: the keyword that clashed with the tribe name became Smuggler, Kettle gold no longer takes up hand space, and Pebble Jack no longer stacks."},
+    {"design": "reed-runners--surgical", "line": "A little better: the herons' seizes are now optional, so you no longer lose shelf goods you wanted to keep, and Grisel's copies now fire their own Start of Combat text."},
+    {"design": "reed-runners--borrow-twist", "line": "A little better: Lantern Reach Hothead now grows permanently each time you're caught, which gives the hot build a way to grow, and Slipway Champion became its own small push-your-luck game."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+ "seed": "lekking-knights",
+ "order": [
+  "lekking-knights--player-story",
+  "lekking-knights--one-constraint",
+  "lekking-knights--top-down-flavour"
+ ],
+ "why": [
+  {
+   "design": "lekking-knights--player-story",
+   "line": "One simple rule, the bigger unit takes a quarter from the smaller, runs on your board, in the shop and in the fight, so every refresh can feed your champion. Stealing from the shop with Fence-Line Challenger and Pilgrim, then copying every gain onto the champion with Elder of the Centre, is the most exciting growth of the three, and the champion can be any tribe's unit."
+  },
+  {
+   "design": "lekking-knights--one-constraint",
+   "line": "The boldest idea: a Knight next to another Knight goes blank, so you hold three stations and fill the ground between them with hens or other tribes' units that Bilberry Watcher, White-Badge Knight and Bristlebeard charge and drain. It's a great board puzzle with heirs waking mid-fight, but it asks a lot of rules, and it makes you pass on Knights you'd like to buy."
+  },
+  {
+   "design": "lekking-knights--top-down-flavour",
+   "line": "Clear and full of flavour: Proud knights standing alone, empty slots paying the champion, and Sir Gottfried hitting four times his size on a near-empty board. It grows well, but most of it is steady flat buffs, and the Start of Combat hit-across is closer to things players already know."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "lekking-knights--player-story",
+   "line": "Better than the first version: Fence-Line Challenger no longer shrinks itself on bigger shop units, Dame Reisig now rewards buying a unit that beat you, and Grit Pit Elder's fight wins stay, so the fight build grows too."
+  },
+  {
+   "design": "lekking-knights--one-constraint",
+   "line": "A bit better: cards now say Knight or Watcher, the Squires no longer blank the elder they wait behind, and Pennon-Bearer now cares where it stands."
+  },
+  {
+   "design": "lekking-knights--top-down-flavour",
+   "line": "Better and tidier: Refectory Prior no longer hands out free early gold, The Chronicler only destroys a unit if you choose, and Bilberry Hen and Pennon-Squire now give more to Proud knights."
+  }
+ ]
+}

@@ -1,0 +1,36 @@
+{
+ "seed": "great-migration",
+ "order": [
+  "great-migration--bottom-up-mech",
+  "great-migration--top-down-flavour",
+  "great-migration--one-constraint"
+ ],
+ "why": [
+  {
+   "design": "great-migration--bottom-up-mech",
+   "line": "The herd really does grow every round: Kits pile up in an off-board Burrow, and you grow either how many there are or how big they all are, which multiply. Every turn you choose between hoarding them as fight fuel (Front Lemming, Old Mother Lemen) and cashing them into your real units (Raft-builder, Ferrywife), and that keep-or-spend choice is the most fun growth here."
+  },
+  {
+   "design": "great-migration--top-down-flavour",
+   "line": "Easy to pick up and full of ways to grow: fallen Lemmings feed whoever is in front, Brother Onward makes those gifts stick, and Lemenår Herald's Boom grows every Pup each turn but halves when you lose. It's solid and fun, but most of it plays like a familiar dies-and-buffs tribe, so it's less fresh than the Burrow."
+  },
+  {
+   "design": "great-migration--one-constraint",
+   "line": "The boldest idea, where only the Lemming in front gets to use its text, so the order of your line is the whole puzzle. But most of the board sits silent, the early tiers feel flat, and the numbers grow slowly through a single Banner, so it's more of a brain-teaser than a herd you watch swell."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "great-migration--bottom-up-mech",
+   "line": "Better than v1: Herding Council now grows every Kit each turn, Tally pays for a big herd, and Gerd now hits harder with Ole's falling Kits, so more of the cards pull on the same pile."
+  },
+  {
+   "design": "great-migration--one-constraint",
+   "line": "Better than v1: a few Loud Lemmings now work from any slot, and Old Mother Lemen's Kits can no longer steal the front from her, so her build finally works."
+  },
+  {
+   "design": "great-migration--top-down-flavour",
+   "line": "About level, a little clearer: the cards are the same, but the boom-and-crash now has a name, Boom, so you can see what halves when you lose."
+  }
+ ]
+}

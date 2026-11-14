@@ -1,0 +1,36 @@
+{
+ "seed": "ivy-climbers",
+ "order": [
+  "ivy-climbers--top-down-mech",
+  "ivy-climbers--one-constraint",
+  "ivy-climbers--surgical"
+ ],
+ "why": [
+  {
+   "design": "ivy-climbers--top-down-mech",
+   "line": "Climbers copy half of every gain their host makes, and climbers can hang on climbers, so one buff runs down a whole tree, and Lattice Ivy and Lady Hedera turn half into all. You get the most ways to grow: pile onto one big host, spread small trees with Hop Bine, or Bloom on a tiny root like an Ivy Shoot or a Bird's Egg."
+  },
+  {
+   "design": "ivy-climbers--one-constraint",
+   "line": "The boldest idea: Climbers can only grow by copying their host, and they die when it dies, so every buff is a choice of where to aim it. A Grand Oak with four Climbers makes each gain land five times, which is a great high roll, but shop spells are often wasted and losing the hub kills half your board."
+  },
+  {
+   "design": "ivy-climbers--surgical",
+   "line": "Climbers sit in the three back slots and take half of the biggest gain the unit in front of them made that round. It's tidy and makes another tribe's carry stronger, but on its own it grows slowly, there's little room for climbers, and the early turns have almost nothing to rise with."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "ivy-climbers--top-down-mech",
+   "line": "Better than the first version: it now says what happens when a host dies, on triples and with loops, and Old Man's Beard pays out when a Dodder kills its enemy, though Mistletoe Clump now only drains its host and no longer adds stats of its own."
+  },
+  {
+   "design": "ivy-climbers--one-constraint",
+   "line": "A bit better: Hazel Wand now really grows with Climbers around it, Ruin Ivy turns tribe bonuses into hub gains every Climber copies, and you choose who Blooms off Ivy in Flower."
+  },
+  {
+   "design": "ivy-climbers--surgical",
+   "line": "A bit better: climbers now rise at least +1/+1 so the early turns aren't dead, and Woodbine can't be swapped back and forth for its bonus, but the slow start is still there."
+  }
+ ]
+}

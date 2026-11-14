@@ -1,0 +1,14 @@
+{
+  "seed": "rat-king",
+  "order": ["rat-king--borrow-twist", "rat-king--top-down-mech", "rat-king--surgical"],
+  "why": [
+    {"design": "rat-king--borrow-twist", "line": "Rats fill up with Gossip pips, and at three they Blurt and pass news to their neighbours, so one spark runs down the whole board like a fuse. It has the most to play with: Fips throwing news to the far end, the Speaker as a hub, Echo and the Bellringer doubling texts, the Rat King setting off a seven-unit chain every turn, and the Piper turning every Blurt into an extra attack. Each Blurt is small, but there are a lot of them, and choosing between spending pips now and saving them for the fight is a real choice every turn."},
+    {"design": "rat-king--top-down-mech", "line": "Every buff spreads along the Knot and halves at each step, so where you stand a unit matters every turn, and the numbers have the clearest shape: small and local early, then We, the Rattenkönig removes the halving and an Old Gundel turn gives every unit about +14/+7. It's a pure growth tribe, and it's great with other tribes, since Wendelin turns an Ooze's meal into news, but its fights are plainer than the winner's."},
+    {"design": "rat-king--surgical", "line": "Rats are tied together and share every hit, which makes the fights interesting: the Thirty-Two gives the whole knot one big Health pool, the King Enthroned takes everyone's stats, and the Chirper and Gundel gain from every share of damage. But the growth is mostly ordinary wide buffs from the Speaker and the Bell-Ringer plus a quarter skimmed by Gossip, so drafting it feels less special than the other two."}
+  ],
+  "iteration_helped": [
+    {"design": "rat-king--borrow-twist", "line": "A bit better: mostly clearer rules, plus a stronger Tier 1 Taster and Strays that arrive with 2 pips, so they rejoin the fuse."},
+    {"design": "rat-king--top-down-mech", "line": "Better: the Litter now ties its Stray anywhere, the Roll-Caller counts every unit, and the Thirty-Two passes on the biggest news it heard, so mixed boards pay more."},
+    {"design": "rat-king--surgical", "line": "About level: the rules now read clearly, and the Bell-Ringer's vote and Fips's empty-slot bonus add small choices, but the growth shape didn't change."}
+  ]
+}

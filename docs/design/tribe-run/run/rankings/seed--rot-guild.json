@@ -1,0 +1,13 @@
+{
+  "seed": "rot-guild",
+  "order": ["rot-guild--top-down-flavour", "rot-guild--player-story", "rot-guild--bottom-up-mech"],
+  "why": [
+    {"design": "rot-guild--top-down-flavour", "line": "Every friendly death, in the fight or buried in the shop, goes onto one Compost pile, and each Fruit unit eats a quarter of it every turn for good. You grow by adding more deaths (Amanita, Old Fingers), bigger ones (Inkcap, White-Rot Renderer) or more mouths (Sealbearer, Bootlace), so the board keeps getting bigger in a way you can feel, and it's the closest fit to 'lose your own on purpose'."},
+    {"design": "rot-guild--player-story", "line": "Selling counts as dying here, so the shop turns into a funeral: buy a Fruit unit, sell it, sell its Sprout, and Bellows Puffwell, Ludwig and the Sexton all grow from it. The fights are fun too, with each Sprout bigger than the last, but most of that growth is gone when the fight ends, so the lasting growth is thinner than the first pick's."},
+    {"design": "rot-guild--bottom-up-mech", "line": "Deaths add 1 Compost each, and your Fruit cards spend it in board order, so where you put Puffwell or the Button Mushroom decides who gets paid. It's a clever puzzle, but the payoffs are small (+1/+1 or +2/+2 for a handful of Compost), so it plays more like doing sums than watching a board grow."}
+  ],
+  "iteration_helped": [
+    {"design": "rot-guild--player-story", "line": "A little better: Old Fingers' dug-up copies now get Fruit, Hired Mute gains Health when a neighbour dies, and several cards now say plainly what they do, though Lamplighter stopped feeding Sprouts and now grows off the Register instead."},
+    {"design": "rot-guild--bottom-up-mech", "line": "About the same: most changes just make cards clearer (Inkcap now dies when his Health runs out), Button Mushroom gained a bonus for spending your last Compost, and Lantern-bearer's buff got smaller."}
+  ]
+}

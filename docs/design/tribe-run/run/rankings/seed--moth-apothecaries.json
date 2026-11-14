@@ -1,0 +1,36 @@
+{
+  "seed": "moth-apothecaries",
+  "order": [
+    "moth-apothecaries--surgical",
+    "moth-apothecaries--borrow-twist",
+    "moth-apothecaries--bottom-up-mech"
+  ],
+  "why": [
+    {
+      "design": "moth-apothecaries--surgical",
+      "line": "Every Phial casts one shared Recipe, and each apprentice you play adds a line to it, so drafting is literally writing your spell: +1/+1, then Hunker, then Burnet's Nightshade, then a keyword the Alchymist steals from another tribe. That gives the best draft-and-grow feel of the three, and the Herald pouring the whole Recipe over your board at Start of Combat is a capstone worth building to."
+    },
+    {
+      "design": "moth-apothecaries--borrow-twist",
+      "line": "A Lamp that heats up with every spell: stop at exactly 7 for The Spectacle's double buff, or go over and Flare for Burnt-Ring Senior and Atropos. It's the clearest turn-by-turn puzzle here, with two builds pulling on one dial, but Heat resets each turn, so growth is a steady board-wide drip rather than a big climb."
+    },
+    {
+      "design": "moth-apothecaries--bottom-up-mech",
+      "line": "Phials ripen in your hand each turn, merge through Cocoon Spinner into one huge Phial, and copy onto big units through lenses like The Spectacle and Dame Pavonia. The best moments are big (a Phial 14 feeding Burnet three times a fight), but Steep caps, a spell count, multiples of five and copy rules all stack up, and it's the hardest of the three to read."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "moth-apothecaries--surgical",
+      "line": "Better cards than v1: Psyche now pours the Recipe on her neighbours, the Nurse grows the units around each target, Mortar Grinder feeds your lamp and Shipton also strips a keyword, though the new once-a-turn limit on size scaling takes the top off the lamp build's growth."
+    },
+    {
+      "design": "moth-apothecaries--borrow-twist",
+      "line": "Slightly better: The Uncertain's random-strength Phial makes counting to 7 a real gamble, The Old Lady now only stops Flares while recruiting so she fits the fight build, and the rest is clearer wording."
+    },
+    {
+      "design": "moth-apothecaries--bottom-up-mech",
+      "line": "About level: Pestle Grinder now brings a Phial so it isn't dead early, and golden Herald opens a second way to an 8 Phial, but most changes just settle how the copy rules work."
+    }
+  ]
+}
