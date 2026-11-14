@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "gale-court--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Which unit to play last is a real choice every turn, any tribe can be the carry, and the Crier, the Thunderhead and the Gust Page make seating a puzzle.",
+    "distinct": "Gust alone is a familiar extra attack, but Announced brings play order into the shop and Old Föhn turns the enemy's own attacks into your engine, which no tribe today does."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the open points are combo ideas and balance watches the owner can tune later.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Lady High Pressure's cancelled attacks don't happen, so they never set off the Windhover or Bristle. Letting them count as enemy attacks for your cards would join her to the Ill wind build."},
+    {"pid": "p2", "uid": "u03", "kind": "idea", "text": "Red Sky at Night only rewards keeping the same Announced unit. If it also paid the unit that just lost Announced, swapping your carry on purpose would become a choice, like the fickle weathercock."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "The Bag-Bearer just hands out an item. A Bag put on the Announced unit could do more (say, Gust twice), which ties it to play order."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Sir Vane played last becomes the Announced unit while he copies the unit played before him, so he can copy the Swift Courier and soak every Announced buff with no damage. Worth writing up as a named build."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Old Föhn with the Windhover is the best cross-card trick here: three forced enemy Gusts become three snipes before the fight starts. A second card that cares about enemy Gusts would give Ill wind more to draft."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Makes the enemy attack into his thorns, and sets off the Windhover and Bog folk on your side."},
+    {"uid": "u14", "why": "Copies whatever you played last, which can take him out of Gale Court and cut the Crier's line short: a play-order puzzle on one card."},
+    {"uid": "u17", "why": "The Crier can set him off too early, so where he sits inside your own engine is a real choice."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Hands out one Bag of Winds and has no other interaction."},
+    {"uid": "u09", "why": "A gold counter with an Announced fallback. It works but adds no new combo."},
+    {"uid": "u01", "why": "Several Pages just cancel each other; the seating choice it adds is small."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Shutting off enemy Start of Combat effects removes most of a mirror Gale board's Gusts. It is a near-lock in the mirror."},
+    {"uid": "u14", "kind": "watch", "note": "Copying the Warden or the Thunderhead doubles a capstone from Tier 5. Golden Vane on two capstones is a big spike."},
+    {"uid": "u19", "kind": "watch", "note": "With the Helm and a golden Warden or a Vane copy, each Announced unit can gain about 60/60 a fight, permanently."}
+  ]
+}

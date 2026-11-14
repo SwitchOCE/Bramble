@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "gale-court--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Choosing what to play last and where to seat it is a real decision every turn, and the growth goes from Courier and Red Sky early to the Warden's flood late, so the board keeps climbing.",
+    "distinct": "Announced puts the tribe's payoff on any tribe's best unit, and out-of-turn Gusts that you have to sequence play unlike today's tribes. Extra attacks on their own are a familiar auto-battler idea."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every tier does its job and every loop has a per-fight cap; more passes would change the flavour, not improve the climb.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "idea", "text": "The Warden's +20/+20 a fight per Announced unit, doubled by the Helm and again by Sir Vane, makes Tier 6 the whole game. A Tier 5 taste of it, such as a smaller cap, would smooth the climb from Tier 4 to 6."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Gust Page stops working once Bora or the Helm Gusts first. It could gain +1/+1 when it doesn't Gust, so it stays useful in the midgame."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "The Bag-Bearer is thin for Tier 4: one Bag gives 4 stats and one Gust. Putting the Bag straight onto the Announced unit, or giving one each turn it stays, would bring it up to its tier."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Two Thunderheads (a second copy, or Sir Vane copying one) both 'attack after your other units'. A line saying reading order breaks the tie would settle it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Tiers 1 to 3 have little permanent growth outside the Courier and Red Sky, and Bristle punishes early Gusts. One more early buffer would steady the opening."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Counting Thunder and keeping the forecast from setting him off early is a seating puzzle inside the tribe's own engine, and the payoff is loud."},
+    {"uid": "u10", "why": "A second Announced unit eases the play-order squeeze and doubles every Announced payoff; a clear Tier 4 multiplier."},
+    {"uid": "u12", "why": "Making the enemy's biggest units Gust into his thorns turns their strength against them, and it ties into Bog folk and the Windhover."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Low output for Tier 4, and nothing new happens after you play it."},
+    {"uid": "u05", "why": "About half a gold a turn is slow economy, and the Foul Gust only comes every other fight."},
+    {"uid": "u01", "why": "Only the first Gust Page fires, so it falls off quickly and copies don't add up."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Permanent growth capped per fight but not per game; golden Warden plus the Helm plus Sir Vane can add 150+ stats a fight."},
+    {"uid": "u14", "kind": "watch", "note": "Copying a capstone from Tier 5, and golden Vane copying two, is the high roll most likely to run away."},
+    {"uid": "u16", "kind": "watch", "note": "Free Gusts plus +2/+2 per Gust kill, together with the Thunderhead's ten Gusts and Mistral's re-Gusts, stacks a lot of free value."},
+    {"uid": "u18", "kind": "watch", "note": "Shutting off every enemy Start of Combat effect may feel like a lock against Start of Combat builds, Gale mirrors included."},
+    {"uid": "u17", "kind": "unclear", "note": "Attack order between two units that each 'attack after your other units' isn't stated."}
+  ]
+}

@@ -1,37 +1,36 @@
 {
- "id": "v1--combo",
- "design_id": "great-migration--bottom-up-mech",
- "v": 1,
- "member": "combo",
- "ratings": {"fun": 8, "distinct": 7},
- "ratings_why": {
-  "fun": "One pile pulled four ways (fight HP, missiles, stats, slots) plus a free board-or-Burrow move every turn gives real ordering puzzles: Snow Hall Guard before Ole, Kits hidden from Ferrywife, Cantor's big unit kept out of the Banner's path.",
-  "distinct": "The off-board Burrow and spend-rate puzzle are new for Bramble, though the surface is still a familiar token-swarm tribe."
- },
- "verdict": "iterate",
- "verdict_why": "The core works and surprises; two wording fixes (who the front unit is, Raft-builder's target) are needed before it reads cleanly.",
- "points": [
-  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Brother Onward and The Front Lemming never say which unit is the front when F1 is empty, since gaps never close. Define it as your first unit in reading order."},
-  {"pid": "p2", "uid": "u08", "kind": "fix", "text": "Raft-builder's 'give a unit +2/+2 for each' can be read as one unit getting everything or a different unit per Kit. Say which."},
-  {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Gerd's flat Bristle 3 ignores the size axis. Bristle equal to Kit size's Attack would tie him to Tunic Weaver and Snow Hall Guard and give the size build its own payoff."},
-  {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Herding Council is a smaller Ferrywife. Making it fire on the Herd thresholds of 4 that Brood Matron counts would turn the two into a pair you sequence together."},
-  {"pid": "p5", "uid": null, "kind": "idea", "text": "The Tide wins rounds but barely hurts heroes. A late card that lets Onward Kits count as having started the fight would give the Tide a finisher to build towards, not just a downside."}
- ],
- "standouts": [
-  {"uid": "u10", "why": "Identical Cousin turns Kits into triple progress or a second Herald or Litter Keeper; the golden one makes a triple from a single copy. Pure Johnny."},
-  {"uid": "u09", "why": "Ole makes each Kit either a missile or a body, feeds Cantor at Start of Combat, and rewards seating Snow Hall Guard ahead of him."},
-  {"uid": "u18", "why": "Brother Onward's growing Banner plays against Cantor of the Edge (the biggest unit shouldn't be the one dying), so placement really matters."}
- ],
- "weakest": [
-  {"uid": "u03", "why": "Tally is solved by free Kits from turn 2. It's a gold card with no decision."},
-  {"uid": "u05", "why": "Runway Digger does one small job and adds nothing Front Lemming and Old Mother Lemen don't do better."},
-  {"uid": "u11", "why": "Herding Council is a forced small spend that mostly overlaps Ferrywife."}
- ],
- "flags": [
-  {"uid": "u15", "kind": "watch", "note": "Cantor of the Edge with a big Burrow, Old Mother Lemen and Snow Hall Guard could put 100+ stats on one unit per fight, double when golden."},
-  {"uid": "u10", "kind": "watch", "note": "Golden Identical Cousin makes two copies at once, so any single copy of a key unit plus two Kits becomes a triple and a Discover."},
-  {"uid": "u17", "kind": "watch", "note": "Old Mother Lemen plus Gerd and a deep Burrow may stall low-Attack boards into ties."},
-  {"uid": "u06", "kind": "unclear", "note": "'Your front unit' isn't defined when F1 is empty."},
-  {"uid": "u08", "kind": "unclear", "note": "Unclear whether the +2/+2 per Kit goes to one unit or is split."}
- ]
+  "id": "v1--combo",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One pile with three jobs (fight fuel, missiles, stat currency) plus board-versus-Burrow placement and End of Turn order gives a real puzzle every turn, though the low-tier makers are plain.",
+    "distinct": "Token swarms are familiar, but an off-board reserve that is both fight HP and spendable currency, and that you protect by moving Kits onto the board, plays unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "\"Your front unit\" needs a definition before the Banner and Front Lemming can be read; the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Brother Onward and The Front Lemming say \"your front unit\" without defining it: slot F1, or the first living front-row unit in reading order? Gaps never close, so the answer changes who carries the Banner."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Herding Council, Ferrywife, Matron and Nester all fire at End of Turn and the order decides the whole Crossing build; state the reading-order rule on the cards' side, not only in risks."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Tunic Weaver only raises Kit size; let it choose +2 Attack or +2 Health on Kit size, so Ole and Bristle builds want different Weavers."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Tide wins rounds but surfaced Kits deal no hero damage; one late card that counts surfaced Kits that survive would give that line a finisher."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Identical Cousin copying Herald, Litter Keeper or Ferrywife is the tribe's best hidden combo; worth keeping exactly as broad as it is."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Ole makes every Kit a missile-or-body choice, feeds Cantor at Start of Combat, and hits harder if Snow Hall Guard sits earlier in reading order."},
+    {"uid": "u10", "why": "Identical Cousin turns a free token into triple progress or a second engine piece, in any tribe."},
+    {"uid": "u18", "why": "Brother Onward's growing Banner meets Onward Kits at the front and a Mire or Hunker catcher behind, a three-card combo the board shape makes real."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Tunic Weaver does one obvious job with no decision."},
+    {"uid": "u01", "why": "Yellowcoat Squeaker is a plain maker; fine as glue, nothing to discover."},
+    {"uid": "u11", "why": "Herding Council is a smaller Ferrywife doing the same job."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Herald, Litter Keeper and Matron the Burrow settles around 28, so Ferrywife spends about 14 a turn: +14/+14 to each real unit, double when golden."},
+    {"uid": "u18", "kind": "watch", "note": "With Old Mother Lemen every Kit has Onward, so the Banner grows +4/+4 per Kit in a large Burrow; finite, but big."},
+    {"uid": "u17", "kind": "watch", "note": "A deep Burrow of Onward Kits with Gerd's Bristle could stall low-Attack boards into ties."},
+    {"uid": "u06", "kind": "unclear", "note": "\"Your front unit\" is undefined (F1 slot or first living front-row unit)."}
+  ]
 }

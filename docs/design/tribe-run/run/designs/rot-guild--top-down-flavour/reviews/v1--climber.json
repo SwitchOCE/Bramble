@@ -3,35 +3,35 @@
   "design_id": "rot-guild--top-down-flavour",
   "v": 1,
   "member": "climber",
-  "ratings": {"fun": 8, "distinct": 7},
+  "ratings": {"fun": 7, "distinct": 6},
   "ratings_why": {
-    "fun": "Free early losses (0 hero damage in rounds 1-3) fill the pile while the Apprentice grows, and the late game has three clear routes to build toward, so the growth has a shape I'd enjoy climbing with.",
-    "distinct": "A shared death pile shared out by a Fruit keyword plays unlike the Oozes' Eat or a Deathrattle tribe, though dying for value is a familiar auto-battler idea."
+    "fun": "A good growth shape: cheap early losses while hero damage is 0, then the pile and the Fruit count both scale, and you choose each turn whether to bury, add Fruit or add deaths.",
+    "distinct": "The shared overnight pile and Bootlace's run being cut by your own burials feel fresh, but the death-feeds-stats core is close to Battlegrounds Undead and Hearthstone corpses."
   },
-  "verdict": "iterate",
-  "verdict_why": "The core works; Moss-Bier's wording needs a fix, and White-Rot Renderer breaks the printed-only guard the runaway case relies on.",
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken as written; the hot spots are high rolls for the owner to dial, and another pass would mostly reshuffle the same three levers.",
   "points": [
-    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Moss-Bier Bearer's \"it permanently gains +1/+1\" can be read as the dying unit; say \"this permanently gains +1/+1\"."},
-    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "White-Rot Renderer feeds buffed stats into the Compost, so burying a Fruit carry beside Ludwig and a Bootlace run gives back more than it costs. Fine as a high roll, but the rationale's claim that 'growth never feeds its own source' no longer holds, so the owner should know."},
-    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Golden Warden Amanita only doubles Bristle, not her job; let her golden also destroy the units in front of and behind her, so it's worth chasing."},
-    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Rootbinder is dead text on a pure Guild board at Tier 4, the tier that should 'set up future things'; it could also give Fruit to Created Spores beside it, so it works with the Burst too."},
-    {"pid": "p5", "uid": null, "kind": "idea", "text": "Growth is bounded by printed stats, so it rises with tier rather than compounding: a healthy curve. Only golden Mourner turns it quadratic, which makes it the chase card of the tribe."}
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 4 to 7 look thin: hero damage starts, but the only Fruit before Tier 3 is the Apprentice. A Tier 2 Fruit unit or a cheaper Sealbearer would carry the climb into the midgame."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "White-Rot Renderer is where Fruit growth flows back into the pile: bury a pumped unit and every Fruit unit drinks a quarter of it. Keep it hot, but give the owner a lever, such as 'Once a turn' across all your Renderers."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Rootbinder does nothing on a mono-Guild board. 'Units beside this have Fruit; units of other tribes have it twice' keeps the splash pull and stops it being a dead buy."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Spores make Hired Mute free gold every turn from mid-game on. Scaling it (1 gold per 4 deaths, up to 3) would make it a real choice between economy and a board slot."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Show 'tomorrow's Fruit' (a quarter of the pile) next to the Compost tracker in the shop, so the bury-or-keep choice is something you can read."}
   ],
   "standouts": [
-    {"uid": "u02", "why": "Candlesnuff Apprentice is a real seed: a Tier 1 that you keep all game because it drinks the pile every turn."},
-    {"uid": "u17", "why": "Grandmother Bootlace is a capstone the comp is built for, with a placement cost that burials keep fighting."},
-    {"uid": "u15", "why": "Mourner of Three Rains changes the pile's timing, which turns burials into an investment over several turns."}
+    {"uid": "u17", "why": "Grandmother Bootlace is a real capstone, and her touching run clashes with your own burials, so placement becomes the skill test."},
+    {"uid": "u10", "why": "Clerk Inkcap is a clean Tier 4 multiplier with a cost built in: he doubles each fight death and shrinks while he does it."},
+    {"uid": "u06", "why": "Warden Amanita names the comp: she trades board for death triggers before a blow is struck."}
   ],
   "weakest": [
-    {"uid": "u11", "why": "Rootbinder does nothing on a Guild-only board."},
-    {"uid": "u01", "why": "Stumpwick Puffling's 2/1 body (3 stats) is below the Tier 1 body of 4 and loses the early tempo fights it's meant to win."},
-    {"uid": "u05", "why": "Hired Mute is plain economy that Spores trigger almost every turn, with nothing to decide."}
+    {"uid": "u11", "why": "Rootbinder is dead text unless you are splashing another tribe."},
+    {"uid": "u04", "why": "Moss-Bier Bearer is a generic buff from a neighbour's death, with no hook into Compost or Fruit."},
+    {"uid": "u14", "why": "Stumpwick Grandsire makes 1/2 Spores at printed size, a poor Tier 5 unless you have fed it already."}
   ],
   "flags": [
-    {"uid": "u15", "kind": "watch", "note": "Golden Mourner of Three Rains never empties the pile, so every Fruit gains a quarter of a pile that grows every turn: quadratic growth."},
-    {"uid": "u12", "kind": "watch", "note": "White-Rot Renderer composts buffed stats; with Ludwig and many Fruit units one burial returns more than it removes."},
-    {"uid": "u02", "kind": "watch", "note": "Candlesnuff Apprentice gains about 2 bodies a turn by mid-game, far over the Tier 1 target; the designer says it's on purpose."},
-    {"uid": "u18", "kind": "watch", "note": "Golden Old Fingers copies keep all stats, so six full copies of a pumped carry come back each fight."},
-    {"uid": "u04", "kind": "unclear", "note": "It is unclear whether Moss-Bier Bearer or the dying unit gains the +1/+1."}
+    {"uid": "u15", "kind": "watch", "note": "Golden Mourner keeps the whole pile, so it grows every turn and each Fruit unit drinks a quarter of it: quadratic growth, the likeliest runaway."},
+    {"uid": "u12", "kind": "watch", "note": "Renderer burying a Fruit-pumped unit at full stats sends Fruit growth back into the pile; with golden Renderer, Bootlace and Mourner it compounds turn on turn."},
+    {"uid": "u17", "kind": "watch", "note": "Bootlace plus two Sealbearers puts four Fruits on one carry, a big high roll worth the owner's eye."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Old Fingers' copies keep all their stats and re-fire Puffling and Grandsire death text, which is very large even at six times a fight."},
+    {"uid": "u05", "kind": "watch", "note": "Three deaths a turn is easy with Spores, so Hired Mute is near-free gold."}
   ]
 }

@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "gale-court--player-story",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn asks what to play last and where to seat it, and the fight pays off with a visible storm of Gusts and a Thunderhead finish; you'd happily draft it.",
+    "distinct": "Announced (the last unit you played, any tribe) is new and makes play order the shop puzzle; out-of-turn attacks alone are more familiar."
+  },
+  "verdict": "settle",
+  "verdict_why": "The two keywords now read cleanly and the rulings cover the edge cases; what's left is wording polish, not a real fix.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Lady High Pressure's \"after each one, your Announced unit Gusts instead\" reads oddly after attacks that didn't happen; \"each of the enemy's first 3 normal attacks is skipped, and your Announced unit Gusts instead\" says the same thing plainly."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Old Föhn's \"count for none of the enemy's cards\" is hard to parse at a glance; \"the enemy's own cards ignore these Gusts\" carries it in fewer words."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Sir Vane is the best fantasy in the tribe but needs a ruling card to read; show the copied unit's text on his card face in the UI so players never have to remember it."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Gust Page's quarrel (only one of them gets to go first) is lovely flavour, but a second Page is a blank card; maybe the Pages that lose the quarrel gain something small, so the squabble shows on the board."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "A late fight can fire 15 or more Gusts; a visible Gust queue and the Thunder counter matter more for reading this tribe than any card wording."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "The Helm, who mentions his name to everyone, is always Announced: the lore is the rule, and it reads in one line."},
+    {"uid": "u17", "why": "The Thunderhead arrives late and loud, counting the storm, and the Crier setting him off early is a puzzle a player can see coming."},
+    {"uid": "u05", "why": "Mr and Mrs Fair-and-Foul are never home together, and the two-state card says that with gold one turn and a Gust the next."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "The Bag-Bearer is just a delivery for the Bag of Winds; no court character comes through in what it does."},
+    {"uid": "u09", "why": "The Barometer Clerk asks the player to remember last fight's Gust count, with a fallback mode on top; the most bookkeeping for the least story."},
+    {"uid": "u01", "why": "Extra Gust Pages and any earlier Start of Combat Gust turn it into a vanilla 2/3, which may feel like a misread to a new Gale player."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Sir Vane copying a Tier 6 capstone (or golden Vane copying two) is the tribe's biggest swing; the designer already names the fallback."},
+    {"uid": "u19", "kind": "watch", "note": "The Warden with the Helm puts up to +20/+20 a fight on each of two Announced units, more if Sir Vane copies the Warden."}
+  ]
+}

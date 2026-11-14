@@ -1,0 +1,37 @@
+{
+ "id": "v2--climber",
+ "design_id": "great-migration--bottom-up-mech",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Every tier does its job and the growth has a good shape: free bodies early, count against size in the midgame, then three capstones that cash the pile in different ways.",
+  "distinct": "An off-board Burrow that is fight HP, currency and ammo at once, plus a reading-order spending puzzle, plays unlike any of today's tribes, though the Kits themselves are familiar tokens."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real rules gap (two Banners) to close, and the Burrow's size limit is worth deciding before it settles.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Two Brother Onwards (easy with Identical Cousin) give two Banners, and the text says 'the Banner' as if there were one. Say whether they stack on one holder, pass separately, or only one Banner exists."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The Burrow has no limit, so Herald, Matron and Litter Keeper can stock 40+ Kits by the late game, and Old Mother Lemen pours them all out. A cap that rises with tier would bound fight length and sharpen the spend-or-keep choice."},
+  {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Identical Cousin makes Created copies that count for triples, so one bought Tier 6 unit plus two Cousins is a cheap golden capstone and a Discover. Hot and fun; the owner may want a Lemming-only target later."},
+  {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Runway Digger is one Onward on one unit, which fades once Front Lemming and Mother Lemen arrive. Letting it also hand Onward to every Kit played this turn, or grow the Burrow by one, would keep it relevant."},
+  {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Snow Hall Guard is a flat +2/+2 to Kits for the fight, the most generic card here. Tying it to the Burrow count, such as +1/+1 per 4 Burrow Kits, would fit the tribe's thresholds."}
+ ],
+ "standouts": [
+  {"uid": "u11", "why": "Herding Council trades count for size every turn, the tribe's core puzzle in one card, and moving Kits to the board to dodge it is a real decision."},
+  {"uid": "u19", "why": "Ferrywife halves the Burrow into permanent stats, fighting Tally, Herald and the Tide over the same pile: a strong capstone with an ordering puzzle."},
+  {"uid": "u18", "why": "Brother Onward's passing, growing Banner is the 'whoever is in front leads' theme as a mechanic, and it rewards placing a Kit before a sturdy holder."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "One Onward on one unit is a small effect that later cards do better."},
+  {"uid": "u16", "why": "A flat in-fight Kit buff with no hook into the Burrow or thresholds."},
+  {"uid": "u09", "why": "Three Kits at Kit size 1-3 Attack is low damage at Tier 3 unless Tunic Weaver went Attack."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "With no Burrow limit, Old Mother Lemen turns the whole Herd into fight HP; a Burrow of 40 at 4/4 with Gerd's Bristle could make long, stalling fights."},
+  {"uid": "u15", "kind": "watch", "note": "Cantor gives the biggest unit every dead Kit's stats; with a big Burrow that is +100 or more in a fight. In-fight only, so fine, but worth the owner's eye with a golden."},
+  {"uid": "u10", "kind": "watch", "note": "Cheap triples of Tier 5 and 6 units, including other tribes', through Created copies."},
+  {"uid": "u14", "kind": "watch", "note": "Herald plus Litter Keeper and Matron adds about 13 Kits a turn with no Burrow ceiling; linear, but it piles up fast."},
+  {"uid": "u18", "kind": "unclear", "note": "What two Banners do is not stated."}
+ ]
+}

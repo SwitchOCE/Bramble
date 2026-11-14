@@ -3,34 +3,33 @@
   "design_id": "rot-guild--top-down-flavour",
   "v": 1,
   "member": "reader",
-  "ratings": {"fun": 8, "distinct": 7},
+  "ratings": {"fun": 7, "distinct": 6},
   "ratings_why": {
-    "fun": "One shared pile and one keyword make a clear engine: bury tonight, everything with Fruit grows tomorrow, and Bootlace's run gives the board a shape to build toward.",
-    "distinct": "A board-wide stat pile fed by deaths and drunk by Fruit plays unlike today's six tribes, though the death-text half leans on the familiar deathrattle tribe."
+    "fun": "One pile, one keyword and a clear overnight payout give three readable builds, and watching burials turn into stats next turn is a satisfying grow loop.",
+    "distinct": "The shared pile that empties each turn and Fruit as a carry count are fresh, but the core is a familiar sacrifice-and-deathrattle tribe."
   },
-  "verdict": "iterate",
-  "verdict_why": "The engine reads well; two cards have wording a player can misread, and those are real fixes.",
+  "verdict": "settle",
+  "verdict_why": "The cards read cleanly and the funeral-as-harvest fantasy is in the rules; the open items are wording tweaks and UI, not redesign.",
   "points": [
-    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Moss-Bier Bearer's \"it permanently gains +1/+1\" reads as the dying unit gaining stats. Say \"this permanently gains +1/+1\"."},
-    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Ludwig, the Lodger \"gains its stats\" doesn't say printed or current, and with White-Rot Renderer that is the whole difference. Name which one on the card."},
-    {"pid": "p3", "uid": null, "kind": "idea", "text": "Show the Compost as a pile with its quarter beside it, and Fruit as pips on each unit, so the overnight payout is readable before you end the turn."},
-    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "While recruiting, mark Warden Amanita's two neighbours as doomed, so the sacrifice is visible on the board rather than remembered."},
-    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Rootbinder could also give Fruit to Spores beside it, so the mycorrhiza card still does something on a mostly-Guild board without losing its splash hook."}
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Show the Compost tracker as the number each Fruit unit will gain tonight (a quarter), not only the raw pile, so a player sees the payout at a glance."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Printed versus current stats is the tribe's one hard read: when a unit dies, show what it adds to the pile, and badge Spores as always 1/1."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Hired Mute's 'since your last turn' should say plainly that shop burials and fight deaths both count."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Bellows Puffwell could name which pile he shares, e.g. 'your Compost as it stands now', since the pile grows during the fight."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Clerk Inkcap shrinking with each entry is a lovely read; adding 'for this fight' to the Health loss saves a trip to the rule notes."}
   ],
   "standouts": [
-    {"uid": "u17", "why": "Grandmother Bootlace is the network made literal: an unbroken touching run all drinks from the pile, and your own burials cut it."},
-    {"uid": "u10", "why": "Clerk Inkcap writes each death twice and shrinks with every entry; the story is the rule."},
-    {"uid": "u06", "why": "Warden Amanita is the undertaker who caused the death, in one plain line, and it names the fight-side build."}
+    {"uid": "u10", "why": "Clerk Inkcap writes each death twice and grows shorter doing it: the seed's story is the card's rules."},
+    {"uid": "u17", "why": "Grandmother Bootlace is the network made literal, and burials cutting her run is a cost a player sees on the board."},
+    {"uid": "u15", "why": "Mourner of Three Rains turns the 'one rain or three' quarrel into a one-line rule anyone can read."}
   ],
   "weakest": [
-    {"uid": "u05", "why": "Hired Mute is a generic gold condition; the silent mute at the gate doesn't show in what it does."},
-    {"uid": "u04", "why": "Moss-Bier Bearer is a stock grow-when-neighbours-die card with an unclear pronoun."},
-    {"uid": "u11", "why": "Rootbinder is blank on a Guild-only board, so it often reads as a vanilla 4/5."}
+    {"uid": "u04", "why": "Moss-Bier Bearer is a generic 'neighbour dies, gain stats' unit with little Guild flavour of its own."},
+    {"uid": "u11", "why": "Rootbinder is blank text on a Guild-only board, so it reads as dead in most shops."},
+    {"uid": "u05", "why": "Hired Mute is a plain gold counter; the silent-mute fantasy doesn't show in what it does."}
   ],
   "flags": [
-    {"uid": "u15", "kind": "watch", "note": "Golden Mourner of Three Rains keeps the whole pile, so every Fruit gains from a pile that only grows."},
-    {"uid": "u07", "kind": "watch", "note": "Guild Sealbearer stacked with Bootlace and goldens puts four or more Fruit on one carry."},
-    {"uid": "u16", "kind": "unclear", "note": "Ludwig's \"its stats\" could mean printed or current."},
-    {"uid": "u04", "kind": "unclear", "note": "Moss-Bier Bearer's \"it\" could mean the dying unit or this."}
+    {"uid": "u15", "kind": "watch", "note": "Golden Mourner keeps the whole pile, so it grows every turn while every Fruit unit drinks from it."},
+    {"uid": "u07", "kind": "watch", "note": "Stacked Fruit from Sealbearers and Bootlace on one carry has no cap."},
+    {"uid": "u06", "kind": "watch", "note": "Amanita's Start of Combat order versus her neighbours' own Start of Combat needs to be visible to read."}
   ]
 }

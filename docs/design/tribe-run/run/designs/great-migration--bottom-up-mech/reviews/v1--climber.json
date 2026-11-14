@@ -1,38 +1,37 @@
 {
- "id": "v1--climber",
- "design_id": "great-migration--bottom-up-mech",
- "v": 1,
- "member": "climber",
- "ratings": {"fun": 8, "distinct": 7},
- "ratings_why": {
-  "fun": "Every tier has a job, the Burrow is a pile you grow, guard and spend every turn, and the late game has big in-fight payoffs to aim for.",
-  "distinct": "A token swarm is familiar, but an off-board reserve that is fight HP, ammunition and currency at once plays unlike today's tribes."
- },
- "verdict": "iterate",
- "verdict_why": "\"Your front unit\" needs a definition, and Kit size has too few cards to keep the Kits relevant late.",
- "points": [
-  {"pid": "p1", "uid": "u06", "kind": "fix", "text": "The Front Lemming and Brother Onward both say \"your front unit\" with no definition: is it F1 only, or your first living unit in reading order? Define it once as a keyword."},
-  {"pid": "p2", "uid": null, "kind": "idea", "text": "Only Tunic Weaver and Old Mother Lemen raise Kit size, so Kits stay 2/2 to 3/3 while late boards reach 30/30. A Tier 3 or 4 card that grows Kit size each turn would give the size axis a real curve."},
-  {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Herding Council gives about 8 stats a turn for 2 Kits, low for Tier 4. Let it spend up to 6 Kits, +1/+1 per pair."},
-  {"pid": "p4", "uid": null, "kind": "idea", "text": "The Burrow has no cap, so by the late game it can hold 40 or more Kits and fights get long. A visible cap that rises with your tier would keep fights readable without cutting the power."},
-  {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Identical Cousin copies a Tier 6 unit at Tier 4 and builds triples. That's a fun high roll; say whether the copy is ever golden."}
- ],
- "standouts": [
-  {"uid": "u14", "why": "Herald of the Lemenår doubles the Burrow under a cap: a clear Tier 5 direction card that tells you to build the Tide."},
-  {"uid": "u18", "why": "Brother Onward's growing Banner fits the seed and gives the Kit chain a big late payoff you can see."},
-  {"uid": "u08", "why": "Raft-builder lets a Tier 3 cash in the Burrow early, and makes keeping Kits back a decision."}
- ],
- "weakest": [
-  {"uid": "u11", "why": "Herding Council's output is under Tier 4's target, and Ferrywife does the same job better."},
-  {"uid": "u09", "why": "Ole the Learned's damage follows Kit Attack, which barely grows, so it fades after the midgame."},
-  {"uid": "u04", "why": "Tunic Weaver is nearly the only permanent Kit-size card, so it's a must-have early and the axis ends with it."}
- ],
- "flags": [
-  {"uid": "u14", "kind": "watch", "note": "Herald with Litter Keeper makes about 10 Kits a turn, and the Burrow never drains in fights, so fight HP keeps piling up."},
-  {"uid": "u19", "kind": "watch", "note": "With Herald refilling the Burrow, Ferrywife can give each real unit +8/+8 or more a turn, and a golden one doubles it."},
-  {"uid": "u15", "kind": "watch", "note": "Cantor with a 30-Kit Onward chain makes the biggest unit huge within one fight."},
-  {"uid": "u18", "kind": "watch", "note": "With Old Mother Lemen pouring Kits into the front, the Banner can pass 20 or more times and reach +80/+80."},
-  {"uid": "u06", "kind": "unclear", "note": "\"Your front unit\" isn't defined."},
-  {"uid": "x01", "kind": "watch", "note": "An uncapped Burrow with Onward, Bristle and low-Attack Kits could cause long fights and many ties."}
- ]
+  "id": "v1--climber",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every tier does its job and the Burrow gives a real spend-or-keep choice each turn, with three late builds that pull on one pile; Kit size growing only through Tunic Weaver makes the midgame Kits feel flat.",
+    "distinct": "An off-board reserve that is fight HP, currency and ammunition at once plays unlike any of today's tribes, though at heart it is still a token-swarm tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The tier shape is right, but 'your front unit' needs a definition and Kit size needs a second way to grow before the design settles.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Brother Onward and The Front Lemming say 'your front unit' without defining it: slot F1, or the first living front-row unit in reading order? The Banner's path depends on it."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Kit size grows only through Tunic Weaver's When played (plus Harvest Supper), so the size half of 'count times size' stalls after Tier 2. A Tier 3 or 4 card that raises Kit size each turn would give the midgame a growth curve to chase."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "With Herald and Litter Keeper making about 10 Kits a turn, Ferrywife settles near a Burrow of 20 and spends 10 a turn, so every real unit gains +10/+10 a turn. That's a great capstone to chase; the owner may want to know the steady-state number."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Herding Council's +1/+1 for 2 Kits is far below Raft-builder's +2/+2 per Kit a tier lower. Letting it scale with Burrow size, or making it cheaper, would put it in the Crossing build."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Identical Cousin is the most interesting splash card, but golden Cousin turns one key unit into an instant triple. Consider limiting the golden to one copy so it stays a strong roll rather than a sure triple."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "The Front Lemming is a clean Tier 3 card that names the comp and turns the Burrow into fight HP straight away."},
+    {"uid": "u15", "why": "Cantor of the Edge turns a long Kit chain into one giant body, a big fight-only payoff that suits the tide fantasy."},
+    {"uid": "u19", "why": "Ferrywife of the Wide Water makes the Tide-or-Crossing choice concrete every turn and gives the late game its big permanent numbers."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Herding Council is a low rate at Tier 4 and has a trigger condition that Ferrywife does better."},
+    {"uid": "u03", "why": "Tally is trivial inside the tribe (Kits fill the board for free) and generic outside it, so it asks no decision."},
+    {"uid": "u09", "why": "Ole the Learned does 1 to 3 damage per Kit at a typical Kit size, which is small for using up three Burrow Kits."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Ferrywife with Herald and Litter Keeper reaches about +10/+10 a turn on every real unit, and a golden doubles that."},
+    {"uid": "u15", "kind": "watch", "note": "A Burrow of 20 or more with Old Mother Lemen and Snow Hall Guard feeds the biggest unit 100+ stats in one fight; the golden doubles it."},
+    {"uid": "u10", "kind": "watch", "note": "Golden Identical Cousin makes two copies of any adjacent unit, which is an instant triple and Discover, and can copy capstones like Brother Onward."},
+    {"uid": "u17", "kind": "watch", "note": "Old Mother Lemen plus Gerd's Bristle Kits against low-Attack boards could produce long fights and many ties."},
+    {"uid": "u18", "kind": "unclear", "note": "'Your front unit' is not defined (slot F1, or first living front-row unit), and the same goes for The Front Lemming."}
+  ]
 }

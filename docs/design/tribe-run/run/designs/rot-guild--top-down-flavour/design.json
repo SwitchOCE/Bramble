@@ -3,7 +3,7 @@
  "seed": "rot-guild",
  "route": "top-down-flavour",
  "tribe_name": "The Rot Guild",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -15,13 +15,15 @@
     "v1--reader"
    ],
    "ratings": {
-    "fun": 8.0,
-    "distinct": 7.0
+    "fun": 7.0,
+    "distinct": 6.0
    },
    "votes": {
-    "settle": 0,
-    "iterate": 3
+    "settle": 2,
+    "iterate": 1
    }
   }
- ]
+ ],
+ "final_version": 1,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

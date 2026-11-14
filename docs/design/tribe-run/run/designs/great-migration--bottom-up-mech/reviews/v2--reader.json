@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "One pile of Kits pulled three ways (fight fuel, stats, missiles) gives a real choice every turn, and the passing Banner is a great moment to watch.",
+    "distinct": "The Burrow-as-currency and front-unit Banner are fresh, but the core of it reads like a familiar token-and-reborn tribe."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 reading gaps (front unit, turn order, Cousin, Tally) are closed; what's left is taste, not anything broken or unreadable.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Boom and crash, the seed's core theme, is only implied by Herald doubling the Burrow and Ferrywife halving it. Name or reward that rhythm on one card so the lemming year is felt."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Most of the Herd lives as a number on the hero, so the tide of bodies is mostly invisible while recruiting. Show Burrow Kits queued behind the board, not just a counter."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Cantor of the Edge reads better as \"gains that Kit's stats\" and should say Kits can't be the biggest unit it picks."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Identical Cousin is the longest text in the tribe for a simple effect; something like \"A Kit next to this becomes a plain Created copy of another unit next to this\" reads at a glance."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Runway Digger is a plain keyword-giver; a Kit that comes out of a dug runway could gain something, so digging has its own story."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Brother Onward's Banner passing to each new front unit is 'whoever is in front leads' in one readable line, and it grows on screen."},
+    {"uid": "u09", "why": "Ole the Learned literally rains lemmings on the enemy; the lore joke and the effect are the same thing."},
+    {"uid": "u19", "why": "Ferrywife of the Wide Water: half the Burrow crosses and the survivors grow, a clear trade that lands the lake story."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Snow Hall Guard is a generic stat aura with Onward attached; nothing in it says lemming."},
+    {"uid": "u05", "why": "Runway Digger just hands out a keyword; fine glue, no moment."},
+    {"uid": "u10", "why": "Identical Cousin is wordy, positional and mostly a splash triple tool rather than a Migration card."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Herald with Litter Keeper and Herding Council grows count and size together every turn; the caps hold count but size keeps climbing."},
+    {"uid": "u17", "kind": "watch", "note": "Old Mother Lemen with Gerd's Bristle can make a long Kit wall that low-Attack boards can't clear, giving many ties."}
+  ]
+}

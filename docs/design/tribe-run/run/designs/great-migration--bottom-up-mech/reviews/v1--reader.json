@@ -1,37 +1,37 @@
 {
-  "id": "v1--reader",
-  "design_id": "great-migration--bottom-up-mech",
-  "v": 1,
-  "member": "reader",
-  "ratings": {"fun": 8, "distinct": 8},
-  "ratings_why": {
-    "fun": "Watching the Burrow count climb and then pour out through Onward is a clear, satisfying arc, and most cards read in one line.",
-    "distinct": "An off-board reserve that is fight HP, currency and missiles at once plays unlike any of today's tribes or a plain token tribe."
-  },
-  "verdict": "iterate",
-  "verdict_why": "The core reads well; two cards need their wording pinned down (who the front unit is, and what Identical Cousin picks).",
-  "points": [
-    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "\"Your front unit\" is never defined, here or on Brother Onward. Say it is your first unit in reading order (so a back-row unit leads once the front row is empty), or name F1."},
-    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Identical Cousin doesn't say who picks the Kit or the unit to copy when several are next to it. Write \"Choose a Kit next to this and another unit next to this\" and say what \"plain\" keeps."},
-    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Burrow is the tribe's whole story but lives off the board. Show it as a snow-hall strip on the hero with a count both players see, ticking down as Kits come out."},
-    {"pid": "p4", "uid": null, "kind": "idea", "text": "The boom-and-crash theme only shows through spending. A card that pays for letting the Herd crash on purpose (a lemming year) would carry the seed's best idea further."},
-    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Tally's text never mentions Kits, so it reads as a generic gold card. Counting Kits (\"if 3 or more are Kits\") would make the census fox actually count lemmings."}
-  ],
-  "standouts": [
-    {"uid": "u09", "why": "Ole the Learned makes the old myth literal: lemmings fall from the sky onto the enemy, and it reads at a glance."},
-    {"uid": "u18", "why": "Brother Onward's Banner is whoever is in front leads, shown in play, and growing on each death is easy to follow."},
-    {"uid": "u17", "why": "Old Mother Lemen's one line turns the Burrow into an endless tide of great-grandchildren."}
-  ],
-  "weakest": [
-    {"uid": "u03", "why": "Tally works for any full board and says nothing about lemmings."},
-    {"uid": "u10", "why": "Identical Cousin is the hardest card to read and its copy target is ambiguous."},
-    {"uid": "u11", "why": "Herding Council is a plain small buff that does what Ferrywife does better at Tier 6."}
-  ],
-  "flags": [
-    {"uid": "u06", "kind": "unclear", "note": "\"Front unit\" is undefined."},
-    {"uid": "u18", "kind": "unclear", "note": "\"New front unit\" is undefined once the front row empties."},
-    {"uid": "u10", "kind": "unclear", "note": "Doesn't say who chooses the Kit and the unit to copy."},
-    {"uid": "u19", "kind": "watch", "note": "With Herald refilling the Burrow each Start of Turn, Ferrywife gives every real unit +6/+6 or more a turn."},
-    {"uid": "u17", "kind": "watch", "note": "With Gerd's Bristle, a long Onward chain could make fights slow to watch and prone to ties."}
-  ]
+ "id": "v1--reader",
+ "design_id": "great-migration--bottom-up-mech",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "One pile of Kits with three pulls on it (fight HP, missiles, stats) gives a real choice every turn, and the board visibly swells into a tide.",
+  "distinct": "An off-board Burrow that refills each fight and a global Kit size are fresh; Kit makers themselves are familiar token-tribe fare."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The tribe reads well overall, but \"front unit\" and Identical Cousin need a wording fix before players can read them for sure.",
+ "points": [
+  {"pid": "p1", "uid": "u06", "kind": "fix", "text": "\"Your front unit\" is undefined: F1 only, or your first living front-row unit in reading order? The Front Lemming and Brother Onward both hinge on it; define it once as a keyword-style term."},
+  {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Identical Cousin doesn't say who picks the Kit and the unit when several are next to it, or what \"plain\" keeps. Say \"choose\" and \"base stats and text, no buffs\"."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The Burrow is the whole tribe but lives off the board; show it as a count of tents on the hero portrait for both players, so the Tide's real size is readable before the fight."},
+  {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Tally reads as a generic gold card; tie her to the Herd (\"gain 1 gold per 5 Kits in your Herd, at most 2\") so the census fox is actually counting lemmings."},
+  {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Ferrywife's text could name the fantasy: \"Half your Burrow crosses the Wide Water\" reads the trade at a glance and lands the lake-crossing story."}
+ ],
+ "standouts": [
+  {"uid": "u09", "why": "Ole the Learned makes Kits rain on the enemy: the sky-falling myth turned into a one-line, instantly readable effect."},
+  {"uid": "u18", "why": "Brother Onward's passing, growing Banner is \"whoever is in front leads\" played out on screen."},
+  {"uid": "u13", "why": "Gerd the Shouter: tiny Kits that hurt giants back, the tribe's picking-fights-with-giants theme in four words."}
+ ],
+ "weakest": [
+  {"uid": "u03", "why": "Tally's full-board check has nothing to do with lemmings and works in any late comp."},
+  {"uid": "u02", "why": "Snowbed Nester is a plain token maker with no lemming flavour beyond its name."},
+  {"uid": "u11", "why": "Herding Council is a flat spend-for-stats card that overlaps Raft-builder and Ferrywife without a council twist."}
+ ],
+ "flags": [
+  {"uid": "u06", "kind": "unclear", "note": "\"Front unit\" is not defined."},
+  {"uid": "u18", "kind": "unclear", "note": "\"New front unit\" has the same gap; with Onward it is probably the Kit in the same slot, but the text doesn't say."},
+  {"uid": "u10", "kind": "unclear", "note": "Who chooses the Kit and the unit, and what a \"plain\" copy keeps."},
+  {"uid": "u14", "kind": "watch", "note": "Herald with Litter Keeper doubles the Burrow each turn up to the caps; worth a sim with goldens."},
+  {"uid": "u15", "kind": "watch", "note": "Golden Cantor on a long Onward chain with Old Mother Lemen could put very large in-fight stats on one unit."}
+ ]
 }

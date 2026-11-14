@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "One pile with three uses (fight HP, missiles, stats), plus reading-order puzzles like Matron before Ferrywife, gives a real decision every turn.",
+    "distinct": "The off-board Burrow and the passing Banner are fresh, but the core of count times size tokens that come back is familiar from token tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good; two rules texts (Cantor's dead-Kit stats, Front Lemming stacking with Onward) need a wording pass, nothing more.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Cantor of the Edge says the biggest unit gains a dead Kit's stats, but a Kit killed in combat has 0 or less Health. Say it gains Kit size, or the Kit's Attack and starting Health."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "With Old Mother Lemen, a front Kit already has Onward. Say whether The Front Lemming's 3 uses are spent then, since the rules say two Onwards bring out one Kit."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Identical Cousin copying Herald of the Lemenår makes two Heralds in reading order, and the second counts the Burrow the first just filled. List that and the double Mother Lemen aura as builds: they are the tribe's best hidden combos."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Gerd the Shouter only does one thing. Let Ole's falling Kits deal their Bristle too, so Gerd and Ole share a build."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Snow Hall Guard seated before Ole the Learned in reading order makes bigger falling Kits. Say so in the builds, because it makes seating a real choice at Start of Combat as well as End of Turn."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Turns a token into any unit, feeds triples across tribes, and opens copies of Herald, Mother Lemen or Tally."},
+    {"uid": "u18", "why": "The growing Banner rewards seating a Kit at F1 and a Mire or Hunker unit behind it, a real build around one card."},
+    {"uid": "u09", "why": "Ole makes each Kit a choice between missile and body, and the deaths feed Cantor."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A plain body plus a Kit; it does exactly what it says and nothing else."},
+    {"uid": "u13", "why": "A flat aura that only matters when Kits get hit; it never changes how you play."},
+    {"uid": "u05", "why": "Onward on one unit is modest next to Front Lemming and Mother Lemen, which do it better."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "The Burrow has no size limit, so Herald plus Litter Keeper grows a pile that Mother Lemen turns into very long fights."},
+    {"uid": "u10", "kind": "watch", "note": "Copying Old Mother Lemen or Herald doubles the tribe's strongest engines in one play."},
+    {"uid": "u15", "kind": "unclear", "note": "What 'its stats' means for a Kit that died from damage."},
+    {"uid": "u06", "kind": "unclear", "note": "Whether a use is spent on a front unit that already has Onward."}
+  ]
+}

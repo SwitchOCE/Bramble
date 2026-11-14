@@ -15,12 +15,30 @@
     "v1--reader"
    ],
    "ratings": {
-    "fun": 8.0,
-    "distinct": 7.3
+    "fun": 7.0,
+    "distinct": 7.0
    },
    "votes": {
     "settle": 0,
     "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Defined the front unit and the turn order as tribe rules, and made Identical Cousin say who chooses and what the copy keeps.\nHerding Council now grows Kit size, Tally counts the Herd for gold, and Tunic Weaver picks Attack or Health, so the midgame has more to grow and decide.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.3
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
    }
   }
  ]
