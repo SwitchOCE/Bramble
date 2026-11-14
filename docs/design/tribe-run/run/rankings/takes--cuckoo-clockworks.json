@@ -5,15 +5,15 @@
   "takes": [
     {"design": "cuckoo-clockworks--bottom-up-flavour",
      "label": "The chiming combo flood",
-     "line": "Chimes stack and repeat: Ottilie re-runs every Start of Combat on each strike, Red-Mouth makes three chicks per egg; fights flood late.",
+     "line": "Every strike re-fires your Start of Combat effects and eggs can hatch three chicks each, so fights snowball into floods late.",
      "look_if": "huge in-fight combo moments where every clock strike sets off more."},
     {"design": "cuckoo-clockworks--surgical",
      "label": "Feed on their size",
-     "line": "Chicks take a quarter of their host's stats, so it preys on the enemy's biggest units; Gernegroß returns with their stats.",
-     "look_if": "a tribe that punishes tall boards by feeding on their size."},
+     "line": "Every chick takes a quarter of its host's stats, so tall boards feed you; hatches also Discover cards from the host's tribe.",
+     "look_if": "a tribe whose every egg grows with the enemy's size."},
     {"design": "cuckoo-clockworks--bottom-up-mech",
-     "label": "Tune the clock",
-     "line": "Chicks hatch inside the enemy's line and fight there; you set the clock's speed for eggs, sleepers or hour effects.",
-     "look_if": "to tune timing and positioning, with chicks fighting from the enemy's side."}
+     "label": "Chicks behind enemy lines",
+     "line": "Chicks hatch and fight inside the enemy's line; eggs want a fast clock, sleepers a slow one, so you tune the speed.",
+     "look_if": "to tune one clock that your builds want at different speeds."}
   ]
 }

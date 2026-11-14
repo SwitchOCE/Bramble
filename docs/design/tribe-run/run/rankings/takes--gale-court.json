@@ -1,25 +1,25 @@
 {
   "seed": "gale-court",
-  "shared": "All three are a weather court whose units Gust: they make extra attacks out of turn.",
-  "differ": "Each adds a different twist: play-order carries, units fighting from hand, or courtiers giving up attacks.",
+  "shared": "All three are a weather court whose units Gust: extra attacks out of turn that leave permanent stats.",
+  "differ": "They split on where power goes: a last-played carry, a second wave from hand, or the biggest unit.",
   "takes": [
     {
       "design": "gale-court--player-story",
       "label": "Crown your last play",
-      "line": "Your last-played unit, any tribe, is Announced and soaks the Court's buffs, so every shop turn asks who goes last.",
-      "look_if": "a play-order puzzle each shop turn, with any tribe's unit as carry."
+      "line": "Whichever unit you play last, any tribe, takes permanent stats from a stack of Court cards and grows into one huge carry.",
+      "look_if": "to choose your carry by play order, then pump it every turn."
     },
     {
       "design": "gale-court--bottom-up-flavour",
       "label": "The army in hand",
-      "line": "Late units wait in your hand and land mid-fight; Lady High Pressure holds every Gust back, then releases them doubled.",
-      "look_if": "a timing puzzle, with a second army dropping in mid-fight."
+      "line": "Units kept in hand sit out the opening and land mid-fight, so your hand fights as a second board.",
+      "look_if": "fights that turn halfway as reinforcements land and the dead return."
     },
     {
       "design": "gale-court--top-down-mech",
       "label": "Bow to the favourite",
-      "line": "Defer courtiers skip their attacks so your biggest unit Gusts instead, and a Gale dial pays Gusts back as gold and stats.",
-      "look_if": "fights that feed the shop, and one unit doing all the hitting."
+      "line": "Courtiers give up their own attacks so your biggest unit strikes in their place, turning the whole board into one unit's queue.",
+      "look_if": "one huge unit taking every attack while the rest stand back."
     }
   ]
 }

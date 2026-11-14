@@ -1,24 +1,24 @@
 {
   "seed": "moth-apothecaries",
-  "shared": "Moths make free Phial spells and grow the board by casting more spells than any tribe.",
-  "differ": "What powers each cast: a Recipe you write, Heat stopped at 7, or Phials ripening in hand.",
+  "shared": "Moths hand you free Phial spells, and the tribe grows by casting many of them on your units.",
+  "differ": "What drives growth: a spell you keep rewriting, a Heat count hit exactly, or Phials aged in hand.",
   "takes": [
     {
       "design": "moth-apothecaries--surgical",
       "label": "Write your own spell",
-      "line": "Each apprentice adds a line to one shared Recipe, so every Phial grows; the Alchymist steals other tribes' keywords into it.",
-      "look_if": "to build one spell over the game and pour it anywhere."
+      "line": "Playing Moths adds effects, even other tribes' keywords, to the one spell every Phial casts, so all later Phials hit harder.",
+      "look_if": "to write one spell over the game, adding stats and keywords."
     },
     {
       "design": "moth-apothecaries--borrow-twist",
       "label": "Count to seven",
-      "line": "Every spell heats a Lamp that resets each turn: stop at exactly 7 for The Spectacle's double buff, or overshoot to Flare.",
+      "line": "Every spell adds Heat, reset each turn; end on exactly 7 for bigger board buffs, or overshoot and Flare for different ones.",
       "look_if": "a fresh counting puzzle every turn, buffing your whole board."
     },
     {
       "design": "moth-apothecaries--bottom-up-mech",
       "label": "Ripen and merge",
-      "line": "Phials grow while you hold them; Cocoon Spinner merges a full hand into one huge dose, Echoed through lenses onto big units.",
+      "line": "Phials grow each turn you hold them; a full hand merges into one huge Phial, and Echo repeats casts onto other units.",
       "look_if": "to hoard in hand for one giant, planned combo pour."
     }
   ]

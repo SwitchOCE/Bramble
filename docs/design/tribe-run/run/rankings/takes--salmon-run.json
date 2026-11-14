@@ -1,11 +1,11 @@
 {
   "seed": "salmon-run",
-  "shared": "Salmon fill passports with Stamps, and a fish that finishes its run goes home, spending itself for a reward.",
+  "shared": "Fish fill passports with Stamps, then finish the run and Spawn, leaving the board for a reward.",
   "differ": "What earns Stamps and sends fish home: surviving attacks, swapping upstream past bank folk, or climbing mid-fight.",
   "takes": [
     {"design": "salmon-run--bottom-up-flavour",
      "label": "The stat pump",
-     "line": "Back-row fish bank Stamps; step one forward and at end of turn it goes home, pouring its stats into the unit beside it.",
+     "line": "Survive attacks to earn Stamps; put a full fish in the front row and it goes home, splitting its stats between neighbours.",
      "look_if": "to grow one carry by sending fish home beside it."},
     {"design": "salmon-run--player-story",
      "label": "Leapfrog the bank folk",
@@ -13,7 +13,7 @@
      "look_if": "swap combos, and fish you replay from your hand."},
     {"design": "salmon-run--top-down-flavour",
      "label": "The climbing river",
-     "line": "Mid-fight, the run climbs as units ahead die, and Old Kelt drifts back to start it; you set who dies first.",
-     "look_if": "a board that moves during the fight."}
+     "line": "Mid-fight, each death pulls the run upstream, and the first fish to reach the head goes home; you set the order.",
+     "look_if": "a board puzzle that plays itself out mid-fight."}
   ]
 }

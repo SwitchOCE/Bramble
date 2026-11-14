@@ -1,25 +1,25 @@
 {
   "seed": "moon-hares",
   "shared": "Each player has a visible Moon cycling New, Waxing, Full, Waning, and Hares hit hardest at Full.",
-  "differ": "They split on the Moon's job: a wipe you race, a dial you steer, or a clock you wind.",
+  "differ": "Hares grow differently: buffs wiped each cycle, gains every Moon turn, or gifts at each Full Moon.",
   "takes": [
     {
       "design": "moon-hares--one-constraint",
-      "label": "Buffs with a shelf life",
+      "label": "Stats on a timer",
       "line": "Hares never keep stats: their Moonlight goes out each New Moon, so you double it with Chalk-Cutter, spike, then cash the loss.",
       "look_if": "big timed spikes, and buffs that expire on a schedule."
     },
     {
       "design": "moon-hares--top-down-flavour",
       "label": "The Moon you steer",
-      "line": "Each Moon turn grows Hares for good; Dame Waxwell turns it twice or holds it, and Box starts brawls at fight start.",
-      "look_if": "a steady permanent engine and a Moon you steer each turn."
+      "line": "Every Moon turn grows Hares for good; hold the Moon or turn it early to land Full on the fight you need.",
+      "look_if": "permanent growth every Moon turn, and a Moon you can hold."
     },
     {
       "design": "moon-hares--player-story",
-      "label": "The sell-wound clock",
-      "line": "Selling Hares like Old Wat winds the Moon, and at New Moon Grandam turns back-row Leverets into copies of the Hares ahead.",
-      "look_if": "to wind the Moon by selling, and copy your best Hares."
+      "label": "The copy nursery",
+      "line": "Full Moons pay small lasting gifts, and Grandam of the Forms turns back-row babies into real copies of the Hares ahead.",
+      "look_if": "extra copies of your best Hares, grown from New Moon babies."
     }
   ]
 }

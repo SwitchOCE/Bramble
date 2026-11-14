@@ -5,15 +5,15 @@
   "takes": [
     {"design": "trapdoor-lodge--player-story",
      "label": "Ambush beside the bait",
-     "line": "Lurkers spring when the unit beside them dies, so it's a seating puzzle: cheap bait beside ambushers, empty gaps around growers.",
+     "line": "Every hider shares one tripwire: the unit beside it dying. So seating is the puzzle: bait beside ambushers, gaps around growers.",
      "look_if": "a placement puzzle built on neighbours, bait and gaps."},
     {"design": "trapdoor-lodge--one-constraint",
      "label": "Everyone starts hidden",
-     "line": "Every Lodge spider starts every fight hidden, opened by its own event, like the enemy across attacking; other tribes' units stand guard.",
-     "look_if": "a board that's all closed doors until the fight."},
+     "line": "Every Lodge card, support too, starts each fight hidden, each with its own wake-up event; other tribes' units stand in the open.",
+     "look_if": "your whole tribe behind closed doors, each with its own key."},
     {"design": "trapdoor-lodge--surgical",
      "label": "Countdown trapdoors",
-     "line": "Flip spiders face down while shopping; each Lid springs after a count of enemy attacks; Grand Tyler springs cards from hand.",
-     "look_if": "to tune when each ambush fires, and hide cards in hand."}
+     "line": "You flip units face down while shopping, each with a countdown of enemy attacks; one top card springs copies straight from hand.",
+     "look_if": "to dial each ambush's timing yourself, and fight with cards in hand."}
   ]
 }

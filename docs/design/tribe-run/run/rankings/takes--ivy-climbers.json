@@ -1,25 +1,25 @@
 {
   "seed": "ivy-climbers",
-  "shared": "Vines hang on a host unit and grow whenever it grows, so you buff the host, often another tribe's.",
-  "differ": "How the vine copies: half down chains, everything but dying together, or once a turn from the back row.",
+  "shared": "Vines hang on a host and grow when it grows, so you buff the host, often another tribe's.",
+  "differ": "What vines copy: half of each gain, each gain in full, or half the biggest, once a turn.",
   "takes": [
     {
       "design": "ivy-climbers--top-down-mech",
       "label": "Trees of vines",
-      "line": "Climbers hang on climbers, so one buff trickles at half down a whole chain; Bloom makes tiny hosts like Ivy Shoots worth climbing.",
+      "line": "Climbers climb climbers, so one buff trickles at half down a whole chain; vines bigger than their host switch on fight powers.",
       "look_if": "deep combo chains and several different ways to build."
     },
     {
       "design": "ivy-climbers--one-constraint",
       "label": "Rise and fall together",
-      "line": "Climbers copy their host's gains in full but can't be buffed otherwise and die with it; The Grand Oak carries three.",
+      "line": "Vines copy every host gain in full, can't be buffed any other way, and die with their host; big hubs hold several.",
       "look_if": "a move-then-buff puzzle each turn with big swings."
     },
     {
       "design": "ivy-climbers--surgical",
       "label": "Back-row boosters",
       "line": "Climbers sit in the three back slots and, each End of Turn, take half the biggest gain of the unit in front.",
-      "look_if": "board layout to decide things, backing another tribe's carry."
+      "look_if": "a support tribe where back-row placement is the whole game."
     }
   ]
 }

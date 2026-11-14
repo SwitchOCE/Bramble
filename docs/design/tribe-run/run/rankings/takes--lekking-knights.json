@@ -1,19 +1,19 @@
 {
   "seed": "lekking-knights",
   "shared": "Knights grow huge by standing alone, with empty slots feeding one or a few champions.",
-  "differ": "The core rule: bigger units take stats, Knights side by side go blank, or Duels strike before fights.",
+  "differ": "The core rule: the bigger unit takes stats, Knights next to Knights go blank, or pre-fight hits kill.",
   "takes": [
     {"design": "lekking-knights--player-story",
      "label": "Raid the shop",
-     "line": "The bigger unit takes a quarter of the smaller's stats, even in the shop: Pilgrim raids it, so refreshes feed your champion.",
-     "look_if": "refreshing the shop to grow, and a champion from any tribe."},
+     "line": "One rule: the bigger unit takes from the smaller, on your board, in the shop and in fights, so refreshes grow you.",
+     "look_if": "growth from refreshing the shop, and every trade a bet on size."},
     {"design": "lekking-knights--one-constraint",
      "label": "Three lonely stations",
-     "line": "A Knight next to another Knight goes blank; three hold stations, other tribes fill the gaps, and heirs wake when elders die.",
-     "look_if": "a placement puzzle, and heirs waking mid-fight."},
+     "line": "A Knight next to another Knight goes blank; three hold stations, units between are fed or drained, heirs wake when elders die.",
+     "look_if": "Knights that switch each other off, and heirs waking mid-fight."},
     {"design": "lekking-knights--top-down-flavour",
-     "label": "Starve the board",
-     "line": "Start of Combat Duels kill enemies before anyone attacks, gaps pay a vain Champion, and Sir Gottfried grows x4 alone.",
-     "look_if": "pre-fight kills and one giant knight on a near-empty board."}
+     "label": "Pre-fight knockouts",
+     "line": "Before the fight, units trade one hit with the enemy across to kill it; a chequerboard of four lone units all grow.",
+     "look_if": "kills before the fight, and a giant multiplied by every empty slot."}
   ]
 }

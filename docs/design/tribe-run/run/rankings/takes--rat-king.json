@@ -1,19 +1,19 @@
 {
   "seed": "rat-king",
-  "shared": "All three bind Rats into a touching line where position decides what each unit gets.",
-  "differ": "What travels along the line: chain-reaction triggers, shrinking stat gains, or shared damage in fights.",
+  "shared": "All three link neighbouring units into one group, so what happens to one spreads to its neighbours.",
+  "differ": "What spreads: chain-reaction triggers, stat gains that halve each step, or the damage from hits.",
   "takes": [
     {"design": "rat-king--borrow-twist",
      "label": "The lit fuse",
-     "line": "Rats store Gossip pips and Blurt at three, setting off chain reactions; the Rat King fires every unit each turn.",
+     "line": "Units store counters; at three, a unit fires its own text and passes counters on, so one spark sets off a chain.",
      "look_if": "chain-reaction combos and a spend-or-hold choice each turn."},
     {"design": "rat-king--top-down-mech",
      "label": "Ripples that halve",
-     "line": "Each stat gain spreads along the Knot, halving per step, so placement is the puzzle; We, the Rattenkönig stops the halving.",
-     "look_if": "a placement puzzle that also rewards mixing in other tribes."},
+     "line": "Buffs spread from one unit outward, halving each step, so you place where growth starts; a late card ends the halving.",
+     "look_if": "steady stat growth where each unit's spot sets its share."},
     {"design": "rat-king--surgical",
      "label": "One body, shared wounds",
-     "line": "Tied Rats split every hit across the Knot, so fights turn on shared damage; the Thirty-Two gives everyone one Health pool.",
-     "look_if": "the fight itself to change, with hits shared across the board."}
+     "line": "Every Rat, from Tier 1, shares each hit with its whole group, so fights change: damage triggers fire on every share.",
+     "look_if": "fights that play differently, with every Rat sharing the damage."}
   ]
 }

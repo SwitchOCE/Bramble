@@ -1,19 +1,19 @@
 {
   "seed": "grass-snake-players",
   "shared": "Snake actors whose deaths are acts: each death fires its effect, and the body usually gets back up.",
-  "differ": "What a fake death leads to: a count cashed next turn, a whole-cast comeback, or understudies stepping in.",
+  "differ": "How deaths pay off: as stats next turn, in a full-Health cast comeback, or doubled by seating.",
   "takes": [
     {"design": "grass-snake-players--bottom-up-flavour",
-     "label": "The death counter",
-     "line": "You cue deaths yourself, like the Villain's murder; every fake death feeds one count, cashed as permanent stats next turn.",
-     "look_if": "a climbing count you push yourself, paid out next turn."},
+     "label": "Die again and again",
+     "line": "Units fake-die again and again each fight, getting straight back up; next turn, those fake deaths pay out as permanent stats.",
+     "look_if": "units that die several times a fight and cash it next turn."},
     {"design": "grass-snake-players--top-down-flavour",
      "label": "The second act",
-     "line": "Downed units lie limp until the whole cast is down, then all stand up at full Health, bigger from Bufo.",
-     "look_if": "one big comeback where the whole cast rises at once."},
+     "line": "Downed units lie limp and untouchable; when the whole cast is down, all stand up at full Health, keeping their gains.",
+     "look_if": "a comeback built into every unit, not one late card."},
     {"design": "grass-snake-players--surgical",
-     "label": "Leads and understudies",
-     "line": "Back-row Understudies step into fallen leads' slots, the Prompter's Boy doubles whoever stands in front, and Notices count every death all game.",
-     "look_if": "a readable death-effect board where front and back rows matter."}
+     "label": "Who stands behind whom",
+     "line": "Death effects double only for units in front of one card, and a never-spent tally counts every death, any tribe's, all game.",
+     "look_if": "death effects doubled by where units sit, plus a game-long tally."}
   ]
 }

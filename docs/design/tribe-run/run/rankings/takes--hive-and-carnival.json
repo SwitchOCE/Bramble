@@ -5,15 +5,15 @@
   "takes": [
     {"design": "hive-and-carnival--top-down-flavour",
      "label": "Every coin pays twice",
-     "line": "Every 3 gold saved fires Thrift, every 3 spent fires Spree, so both towns grow each turn; Shell Masks swap triggers between towns.",
-     "look_if": "a slow winter build-up, then one huge 30-gold summer turn"},
+     "line": "Saving pays per 3 coins added, not for a bank held; those coins pay again when spent, and units copy others' triggers.",
+     "look_if": "units that grow while held in hand, or copy others' triggers"},
     {"design": "hive-and-carnival--top-down-mech",
      "label": "Save, then splurge",
-     "line": "A strict two-turn rhythm: end with gold left for Hoard, then spend double your income to Splurge; Gate Guard stings for your whole bank.",
-     "look_if": "a clear on-off rhythm, with your saved gold used as a weapon"},
+     "line": "A strict two-turn rhythm: keep gold one turn, spend double your base gold the next; Gate Guard stings for your whole bank.",
+     "look_if": "a clear on-off rhythm with one easy number to count"},
     {"design": "hive-and-carnival--bottom-up-mech",
      "label": "Balancing the books",
-     "line": "Two counters, Spent and Purse, with a different trigger number on each card; Ottavia pays for keeping both level, so exact sums matter.",
-     "look_if": "a puzzle of exact gold counts and unit order"}
+     "line": "Spending cards each fire once at their own number, making each last coin a sum; one pays most when spent matches held.",
+     "look_if": "a puzzle of hitting exact gold numbers, coin by coin"}
   ]
 }

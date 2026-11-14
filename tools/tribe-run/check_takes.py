@@ -7,7 +7,7 @@ With no seeds, checks every takes file. Exit 1 and print each problem if any.
 import json, sys
 from pathlib import Path
 
-SLACK = 3
+SLACK = 0  # the limits in data-format.md are exact
 errs = []
 
 

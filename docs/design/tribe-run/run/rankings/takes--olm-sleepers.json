@@ -5,15 +5,15 @@
   "takes": [
     {"design": "olm-sleepers--bottom-up-flavour",
      "label": "Countdown clockwork",
-     "line": "Units run Vigil countdowns; every finish adds Dripstone that never drops, and Knockers and Netopir make clock timing a puzzle.",
+     "line": "Units run countdowns; every finish raises a never-dropping tally that payoffs grow from, so clock order and speed-ups become a puzzle.",
      "look_if": "a timing puzzle of short clocks feeding long ones."},
     {"design": "olm-sleepers--top-down-mech",
      "label": "Pass the Age",
-     "line": "Untouched units gain Age you can move along the row with Netopir, tipping Awaken thresholds; the Eldest's Awaken 20 doubles your board.",
+     "line": "Age piles on untouched units and passes along the row; one-off thresholds fire as it climbs, up to doubling your board.",
      "look_if": "placement puzzles, routing Age to hit big one-off thresholds."},
     {"design": "olm-sleepers--borrow-twist",
      "label": "Buffs land twice",
-     "line": "Resting units take every permanent buff twice, from any tribe; emptying Rest sets off Wake chains, or the Dragon floods it out.",
+     "line": "Resting units take any tribe's permanent buffs twice; emptying Rest sets off chained wake-ups, or hoarded Rest floods out in fights.",
      "look_if": "to double other tribes' growth through cross-tribe combos."}
   ]
 }

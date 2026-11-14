@@ -1,19 +1,19 @@
 {
   "seed": "shiny-syndicate",
   "shared": "Corvid crime families borrow now, carry Debt with interest, and turn paying it off into permanent buffs.",
-  "differ": "What Debt is to you: fuel for fights, a tab others pay, or a lock on Tier up.",
+  "differ": "What debt is: bills your kills pay, interest that feeds stats, or a lock on Tier up.",
   "takes": [
     {"design": "shiny-syndicate--bottom-up-mech",
      "label": "Kills pay the bill",
-     "line": "Debt repays itself each turn and Skimmers repay it by killing; every repayment fires Repaid: buffs, so fights fund the growth.",
+     "line": "Debt repays itself from your gold each turn, and units that kill pay it off mid-fight; each repayment, however big, triggers buffs.",
      "look_if": "fights where kills pay your bills and buff the flock."},
     {"design": "shiny-syndicate--bottom-up-flavour",
      "label": "Interest feeds the ravens",
-     "line": "Interest grows ravens +1/+1 per gold paid, other people pay your debts, and Uncle Jack pawns units so you replay them.",
-     "look_if": "a running tab, pawn-and-replay tricks, and losers paying your debts."},
+     "line": "Every gold of interest you pay grows your units, so you run a tab; you can pawn a unit, then replay it.",
+     "look_if": "a running tab and units you pawn now and replay later."},
     {"design": "shiny-syndicate--borrow-twist",
      "label": "Debt locks Tier up",
-     "line": "While you owe you can't Tier up, losses cost extra hero damage, and Seven pays off only at exactly 7 Debt.",
+     "line": "While you owe you can't Tier up, interest compounds, losing costs extra hero damage, and a capstone wants exactly 7 Debt.",
      "look_if": "tempo gambles against a tier lock, and exact-number puzzles."}
   ]
 }

@@ -6,20 +6,20 @@
     {
       "design": "salamander-forge--player-story",
       "label": "Heat buys keywords",
-      "line": "Heat unlocks Shield at 4, Cleave at 8, Swoop at 16; Ember-Belly burns your own board for Attack and comebacks.",
-      "look_if": "clear Heat goals and hurting your own board on purpose."
+      "line": "Each heat-up adds +1/+1 and a brief wound; Heat thresholds grant Shield, Cleave, Swoop; you wound your own units for Attack.",
+      "look_if": "keyword goals to chase, and wounding your own board on purpose."
     },
     {
       "design": "salamander-forge--bottom-up-mech",
       "label": "Glass cannon, then harden",
-      "line": "Heat is fight-only Attack with no Health; each turn you Quench it into stats or push to 10 for +3/+3 each.",
-      "look_if": "to decide every turn: bank the Heat now, or keep heating."
+      "line": "Heat itself is fight-only Attack, no Health; cash it into stats now, or hold to 10 Heat for +3/+3 each.",
+      "look_if": "a risky glass cannon you harden at exactly the right moment."
     },
     {
       "design": "salamander-forge--top-down-flavour",
-      "label": "Cooling heat, stacked Reforges",
-      "line": "Heat grows a unit +1/+1 per Heat every turn, then cools; stack extra Reforges, or Ember-Slinger hurls your burns at the enemy.",
-      "look_if": "to ring one hot piece with neighbours, and fling burns at enemies."
+      "label": "Heat grows, then cools",
+      "line": "Heat grows a unit +1/+1 per Heat each turn, then fades; it burns the unit in fights, unless the enemy takes it.",
+      "look_if": "growth that runs itself, with neighbours multiplying one piece."
     }
   ]
 }

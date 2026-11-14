@@ -22,15 +22,18 @@ So the reader has not opened any of the three. They want to know, in a few secon
 - **differ:** the main way they split: the one question the three answer differently (for example what the tribe's resource is, where its power sits, when it peaks, what the player does each turn).
 - **takes:** one per design, in the ranking's order. For each:
   - **label:** a 2 to 4 word nickname that tells the three apart at a glance, built from what the take does (for example "The copy shop", "One giant knight"). Not the tribe's name (two of the three may share it), and never the name of a design method.
-  - **line:** what this take does that the other two don't: its own mechanic and the kind of game it makes. Name its key mechanic or a card.
+  - **line:** what this take does that the other two don't: its own mechanic and the kind of game it makes, in plain mechanics (see the sibling check below before naming any card).
   - **look_if:** finishes "Look at this one if you want…": the reason to open this one over the others. Start it in lower case, without the words "Look at this one if you want".
 - The three must contrast with each other: if a line would fit two of the designs, sharpen it.
+- **Check every line against the other two designs, not only its own.** The three designers worked from the same seed notes, so the same characters and words often turn up as cards in two or all three designs (a card called the same thing may do different things in each). A card name that also appears in a sibling's final version tells the reader nothing, and a mechanic that a sibling also has is not what sets this take apart. So: describe what the take does in plain mechanics; name a card or keyword only if no sibling's final version has a card or keyword of that name, or if you say what it does here that it doesn't do there. Before you finish, search the two sibling version files for each name, keyword and mechanic you used, and rewrite any line that would also be true of a sibling.
+- **A takes file for this seed already exists.** Read it first. A reviewer found that many lines lean on card names the siblings share and that some fields run over their word limits. Keep what passes the rules above; rewrite what doesn't. Keep a label unless it fails.
+- Word limits are exact: the checker allows no extra words.
 - Plain words, short, a person talking. Report what the designs do; no ratings, no ranking talk (the page shows order and ratings itself), and never name the design method or route.
 
 **Check:** cd ${W} && python3 tools/tribe-run/check_takes.py docs/design/tribe-run/run ${seed}
 Fix your file until it reports 0 problems.
 
-Your final reply: the three labels, in order, on one line.`
+Your final reply: the three labels, in order, on one line, then how many of the lines you rewrote.`
 phase('Takes')
 const out = await parallel(args.seeds.map(s => () => agent(prompt(s), { label: `takes:${s}`, phase: 'Takes', model: 'opus', effort: 'high', agentType: 'general-purpose' }).then(r => ({ seed: s, labels: r }))))
 return out

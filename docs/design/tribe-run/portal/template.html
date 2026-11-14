@@ -117,6 +117,7 @@ main.wrap { padding-block: 24px 64px; display: flex; flex-direction: column; gap
 .pick { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; padding: 12px 14px; background: var(--accent-soft); border-radius: var(--r); text-decoration: none; color: var(--ink); }
 .pick .rank { font-family: var(--display); font-weight: 700; font-size: 1.6rem; color: var(--accent); line-height: 1; grid-row: span 2; }
 .pick b { font-family: var(--display); }
+.pick-head { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
 .clamp2 { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 
 /* design rows */
@@ -173,7 +174,10 @@ a.pill:hover { box-shadow: inset 0 0 0 1.5px currentColor; }
 .tk-look i { font-style: normal; color: var(--muted); }
 .tk-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font-size: 0.82rem; color: var(--muted); margin-top: auto; padding-top: 3px; }
 .tk-meta .num { color: var(--ink); font-weight: 700; }
-.tk-meta .pill { font-size: 0.75rem; padding: 0 8px; }
+/* which take a design is, where its seed has a takes file */
+.takeof { font-weight: 500; color: var(--accent); }
+.takeof::before { content: " · "; color: var(--muted); font-weight: 400; }
+.h1-take { display: block; font-family: var(--display); font-weight: 600; font-size: max(1.1rem, 0.58em); line-height: 1.2; color: var(--accent); margin-top: 4px; }
 
 /* role make-up bar (home rows and the card table) */
 .makeup { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 2px; }
@@ -681,8 +685,13 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     PICKS.forEach(function (p) {
       var d = byId[p.design]; if (!d) return;
       var pt = pitchOf(d), hook = pt && S(pt.hook);
-      h += '<li><a class="pick" href="#design-' + esc(d.key) + '"><span class="rank">' + esc(p.rank || "") + "</span><span><b>" + esc(tribeName(d)) + "</b>" + (p.version ? ' <span class="muted">v' + esc(p.version) + "</span>" : "") +
-        '<span class="small muted"> · ' + esc(seedName(d.seed)) + (state.blind ? "" : " · " + esc(routeName(d.route))) + '</span></span><span class="small clamp2">' + fmt(hook || p.line) + "</span></a></li>";
+      // name and take on one line; version, seed (when the tribe isn't named after it) and method under it
+      var sub = [];
+      if (p.version) sub.push("v" + esc(p.version));
+      if (!sameName(d.tribe_name, seedName(d.seed))) sub.push(esc(seedName(d.seed)));
+      if (!state.blind) sub.push(esc(routeName(d.route)));
+      h += '<li><a class="pick" href="#design-' + esc(d.key) + '"><span class="rank">' + esc(p.rank || "") + '</span><span class="pick-head"><b>' + nameTake(d) + "</b>" +
+        (sub.length ? '<span class="small muted">' + sub.join(" · ") + "</span>" : "") + '</span><span class="small clamp2">' + fmt(hook || p.line) + "</span></a></li>";
     });
     return h + "</ol></section>";
   }
@@ -716,7 +725,7 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
   function rowHtml(d) {
     var v1 = ver(d, 1), p = pickFor(d), pt = pitchOf(d);
     var h = '<a class="row" href="#design-' + esc(d.key) + '">';
-    h += '<span class="row-name">' + esc(tribeName(d)) + "</span>";
+    h += '<span class="row-name">' + nameTake(d) + "</span>";
     h += '<span class="meta"><span>' + esc(seedName(d.seed)) + "</span>" + (state.blind ? "" : '<span class="dot">' + esc(routeName(d.route)) + "</span>") + '<span class="dot">' + pill(d) + "</span>" + (p ? '<span class="pill t-accent">pick ' + esc(p.rank) + (p.version ? ", v" + esc(p.version) : "") + "</span>" : "") + "</span>";
     if (pt && S(pt.hook)) {
       h += '<span class="row-hook">' + fmt(pt.hook) + "</span>";
@@ -745,8 +754,15 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var ds = DESIGNS.filter(function (d) { return d.seed === seedId; }).sort(function (a, b) { return at(a) - at(b) || routeOrder(a) - routeOrder(b) || a.id.localeCompare(b.id); });
     return { shared: S(t.shared), differ: S(t.differ), items: ds.map(function (d) { return { d: d, t: byD[d.id] || null }; }) };
   }
+  // the take's nickname, where the seed has a takes file that gives this design one
+  function takeLabel(d) {
+    var t = RANK.takes && RANK.takes[d.seed], x = t ? A(t.takes).find(function (y) { return y && y.design === d.id; }) : null;
+    return x ? plain(S(x.label)) : "";
+  }
+  // the tribe name, then the take's label as a quieter second part, so three designs with one name tell apart
+  function nameTake(d) { var l = takeLabel(d); return esc(tribeName(d)) + (l ? '<span class="takeof">' + esc(l) + "</span>" : ""); }
   function sameName(a, b) { function n(s) { return String(s || "").toLowerCase().replace(/^the\s+/, "").replace(/[^a-z0-9]/g, ""); } return n(a) === n(b); }
-  function takeHtml(d, t) {
+  function takeHtml(d, t, onHome) {
     var rk = seedRank(d), pk = pickFor(d), pt = pitchOf(d);
     var label = t ? S(t.label) : "", line = t ? S(t.line) : "", look = t ? S(t.look_if).replace(/^(?:look at this one\s+)?if you want\s*/i, "").replace(/^…\s*/, "") : "";
     if (!line) { var v1 = ver(d, 1); line = (pt && S(pt.hook)) || (v1 && v1.summary ? String(v1.summary).split("\n")[0] : ""); }
@@ -760,16 +776,16 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     if (!state.blind) sub.push(esc(routeName(d.route)));
     if (sub.length) h += '<span class="tk-sub">' + sub.join(" · ") + "</span>";
     if (line) h += '<span class="tk-line">' + fmt(line) + "</span>";
-    if (look) h += '<span class="tk-look"><i>If you want</i> ' + fmt(look) + "</span>";
+    if (look && !onHome) h += '<span class="tk-look"><i>If you want</i> ' + fmt(look) + "</span>";
     var x = ver(d, ratedV(d)), rates = x && x.ratings ? CRIT.filter(function (c) { return typeof x.ratings[c.id] === "number"; }) : [];
-    h += '<span class="tk-meta">' + (rates.length ? rates.map(function (c) { return "<span>" + esc(critShort(c)) + ' <span class="num">' + r1(x.ratings[c.id]) + "</span></span>"; }).join("") : "<span>No ratings yet</span>") +
-      pill(d) + "</span>";
+    h += '<span class="tk-meta">' + (rates.length ? rates.map(function (c) { return "<span>" + esc(critShort(c)) + ' <span class="num">' + r1(x.ratings[c.id]) + "</span></span>"; }).join("") : "<span>No ratings yet</span>") + "</span>";
     return h + "</a>";
   }
-  function takesBlock(tk) {
+  // onHome: the home page's block leaves out the "If you want" line; the seed page shows it
+  function takesBlock(tk, onHome) {
     var h = "";
     if (tk.shared || tk.differ) h += '<div class="tk-sum">' + (tk.shared ? "<p><b>In common:</b> " + fmt(tk.shared) + "</p>" : "") + (tk.differ ? "<p><b>Where they split:</b> " + fmt(tk.differ) + "</p>" : "") + "</div>";
-    return h + '<ol class="takes">' + tk.items.map(function (x) { return "<li>" + takeHtml(x.d, x.t) + "</li>"; }).join("") + "</ol>";
+    return h + '<ol class="takes">' + tk.items.map(function (x) { return "<li>" + takeHtml(x.d, x.t, onHome) + "</li>"; }).join("") + "</ol>";
   }
 
   function routeOrder(d) { var s = seedById[d.seed]; var i = s && s.routes ? s.routes.indexOf(d.route) : -1; return i < 0 ? 99 : i; }
@@ -803,8 +819,9 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
       var unfiltered = !state.status && (state.blind || !state.method);
       return h + groups.map(function (g) {
         var s = seedById[g.seed] || {}, tk = unfiltered ? takesFor(g.seed) : null;
-        var head = '<div class="group-head"><h2><a href="#seed-' + esc(g.seed) + '">' + esc(s.name || g.seed) + "</a></h2>" + (s.pitch ? '<span class="small muted">' + fmt(s.pitch) + "</span>" : "") + "</div>";
-        if (tk) return '<section class="group seedtakes">' + head + takesBlock(tk) + "</section>";
+        // with the takes block, "In common" says the seed's job, so its pitch line stays on the seed page
+        var head = '<div class="group-head"><h2><a href="#seed-' + esc(g.seed) + '">' + esc(s.name || g.seed) + "</a></h2>" + (s.pitch && !tk ? '<span class="small muted">' + fmt(s.pitch) + "</span>" : "") + "</div>";
+        if (tk) return '<section class="group seedtakes">' + head + takesBlock(tk, true) + "</section>";
         return '<section class="group">' + head + '<div class="rows">' + g.items.map(rowHtml).join("") + "</div></section>";
       }).join("");
     }
@@ -822,7 +839,7 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     h += '<section class="dhead"><span class="label">Seed</span><h1>' + esc(s.name || id) + "</h1>" + (s.pitch ? "<p>" + fmt(s.pitch) + "</p>" : "") +
       (s.folio_ref ? '<p class="small muted">From the Woodland Folio: ' + esc(s.folio_ref) + "</p>" : s.source === "new" ? '<p class="small muted">A new idea, not from the folio.</p>' : "") + "</section>";
     var tk = takesFor(id);
-    if (tk) h += '<section class="seedtakes" aria-labelledby="takes-h"><h2 id="takes-h">The three takes</h2>' + takesBlock(tk) + "</section>";
+    if (tk) h += '<section class="seedtakes" aria-labelledby="takes-h"><h2 id="takes-h">The three takes</h2>' + takesBlock(tk, false) + "</section>";
     if (rk && rk.order && rk.order.length) {
       var why = {}; (rk.why || []).forEach(function (w) { why[w.design] = w.line; });
       var label = {}; if (tk) tk.items.forEach(function (x) { if (x.t && S(x.t.label)) label[x.d.id] = plain(x.t.label) + (sameName(x.d.tribe_name, s.name) ? "" : " (" + tribeName(x.d) + ")"); });
@@ -978,7 +995,8 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
 
   function slideTitle(d, p, pv) {
     var h = '<p class="eyebrow"><span>Seed: <a href="#seed-' + esc(d.seed) + '">' + esc(seedName(d.seed)) + "</a></span>" + (state.blind ? "" : "<span>Method: " + esc(routeName(d.route)) + "</span>") + "</p>";
-    h += "<h1>" + esc(tribeName(d)) + "</h1>";
+    var tl = takeLabel(d);
+    h += "<h1>" + esc(tribeName(d)) + (tl ? '<span class="h1-take">' + esc(tl) + "</span>" : "") + "</h1>";
     if (p && S(p.hook)) h += '<p class="hook">' + fmt(p.hook) + "</p>";
     else {
       var s = ver(d, 1) && ver(d, 1).summary;
@@ -1283,7 +1301,8 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     if (withData.indexOf(fv) < 0) fv = withData[withData.length - 1];
     var mode = vwant && withData.indexOf(vwant) >= 0 ? vwant : (withData.length > 1 && fv !== 1 ? "compare" : (withData[0] || null));
     var h = '<div class="dtop">' + (withData.length ? designTop(d, "full") : '<nav class="back"><a href="#">← All designs</a></nav>') + "</div>";
-    h += '<section class="dhead"><h1>' + esc(tribeName(d)) + "</h1>";
+    var tl = takeLabel(d);
+    h += '<section class="dhead"><h1>' + esc(tribeName(d)) + (tl ? '<span class="h1-take">' + esc(tl) + "</span>" : "") + "</h1>";
     h += '<p class="meta"><span>Seed: <a href="#seed-' + esc(d.seed) + '">' + esc(seedName(d.seed)) + "</a></span>" + (state.blind ? "" : '<span class="dot">Method: ' + esc(routeName(d.route)) + "</span>") + '<span class="dot">' + pill(d) + "</span></p>";
     h += "<p>" + esc(statusSentence(d)) + "</p>";
     var p = pickFor(d);
