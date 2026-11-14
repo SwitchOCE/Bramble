@@ -32,7 +32,7 @@ Every unit, token, spell and trinket has a `uid` that never changes across versi
 {
   "run_id": "tribe-run-2026-11-14",
   "shape": {"1": 2, "2": 3, "3": 4, "4": 4, "5": 3, "6": 3},
-  "min_versions": 2,
+  "min_versions": 1,
   "max_versions": 3,
   "portal_url": "the artifact link, kept so a resumed run republishes to the same page",
   "routes": [{"id": "surgical", "name": "Surgical", "tested": true, "block": "text of the route block"}],

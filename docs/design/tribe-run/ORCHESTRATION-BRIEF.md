@@ -81,7 +81,7 @@ The tested blocks are in `designer-prompt.md`. Bottom-up flavour's block is in `
 
 ## The loop for each design
 
-Stopping rule **(proposal: the owner's "one or two iterations, two at most", read as one revision always and a second only if needed)**: `min_versions` is 2 and `max_versions` is 3 in `run.json`. To let a v1 settle with no revision, set `min_versions` to 1.
+Stopping rule (owner's pick, 14 Nov: "Yes, 0–2 revisions"): `min_versions` is 1 and `max_versions` is 3 in `run.json`. A v1 the committee votes into a good spot stays as it is; otherwise it gets up to two revisions.
 
 1. **Design (v1).** One fresh Opus designer, with the prompt in `designer-prompt.md` as written. Fill its slots with full paths:
    - `<path>/BRIEF.md` becomes `…/docs/design/tribe-run/run/seeds/<seed>.BRIEF.md`;
