@@ -1,0 +1,36 @@
+{
+  "seed": "olm-sleepers",
+  "order": [
+    "olm-sleepers--bottom-up-flavour",
+    "olm-sleepers--top-down-mech",
+    "olm-sleepers--borrow-twist"
+  ],
+  "why": [
+    {
+      "design": "olm-sleepers--bottom-up-flavour",
+      "line": "Every olm sits on a countdown, and each one that finishes adds to Dripstone, a number that only goes up, so Pale Olmlings, \"Baby Dragon\" and the Eldest grow faster every turn: weak early, then huge, just as the seed asks. Drafting is a real puzzle of short clocks feeding long ones, with Guild Knockers, Parkelj and Mother Ribica's golden copies as the big chase."
+    },
+    {
+      "design": "olm-sleepers--top-down-mech",
+      "line": "Units you leave alone gain Age, and you can pass Age along a row with Brother Netopir or Echo Bat to tip a unit over an Awaken threshold, ending on the Eldest's Awaken 20, which doubles your whole board. It is the easiest of the three to read and grows well, but leaving the board untouched for turns can feel passive, and it sits close to the Hedgerow folk's slot clocks."
+    },
+    {
+      "design": "olm-sleepers--borrow-twist",
+      "line": "Resting units take every permanent buff twice, from any tribe, and the tribe splits into hoarding Rest for the Dragon of the Springs to flood out, or spending it as fast as it comes to set off chains of Wakes. The doubling of other tribes' growth is the most original idea here, but the Sleepers' own buffs are small, and the half-doubled buffs and Wake chains take a lot of tracking to enjoy."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "olm-sleepers--bottom-up-flavour",
+      "line": "Better than v1: each countdown now finishes at most once a turn, which stops two Guild Knockers from handing out endless golden copies, and the Pale Olmling got a sturdier 2/2 body for the early fights."
+    },
+    {
+      "design": "olm-sleepers--top-down-mech",
+      "line": "A little better than v1: Mother Ribica and the Lamplighter now say plainly what they repeat and double, and the golden Netopir and golden Echo Bat can no longer grow Age without limit, at the cost of a slightly smaller jackpot."
+    },
+    {
+      "design": "olm-sleepers--borrow-twist",
+      "line": "About level with v1: the order of Wakes is now written down and the Pool Olmling wakes when you play a unit beside it, but Wakes in a fight now give only fight stats, which trims the Dragon's chain a little."
+    }
+  ]
+}

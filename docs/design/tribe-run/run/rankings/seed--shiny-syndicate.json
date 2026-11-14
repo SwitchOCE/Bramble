@@ -1,0 +1,14 @@
+{
+  "seed": "shiny-syndicate",
+  "order": ["shiny-syndicate--bottom-up-mech", "shiny-syndicate--bottom-up-flavour", "shiny-syndicate--borrow-twist"],
+  "why": [
+    {"design": "shiny-syndicate--bottom-up-mech", "line": "You borrow gold now and pay it back next turn, and every repayment buffs your units: Sorrow and Joy, Arne and the Grandchick grow on each one, while Skimmers pay the debt off by killing. It has the clearest way to grow, with four plans that fight each other (many small repayments, one big bill with Mr Magpie, selling through Uncle Jack, a steady Ledger for Corbie), and Seven with the Belfry Mob turns every kill into stats for the whole tribe."},
+    {"design": "shiny-syndicate--bottom-up-flavour", "line": "The most memorable cards of the three: Uncle Jack pawns a unit and gives it back when the IOU is paid, so you replay Father of the Bride's +4/+4, and Seven hides from scouts and pays your interest. Interest feeds the ravens who grow on every coin, but the set pulls in many directions, and cards like the Mirror, the Silver-Spoon Magpie and Sorrow's fence don't grow anything, so the growth is less focused."},
+    {"design": "shiny-syndicate--borrow-twist", "line": "Debt here is mostly a brake: you can't Tier up while you owe anything, interest compounds, and clearing it is mostly paying gold for stats. Seven's 'exactly 7 Debt' puzzle and Silas stealing the enemy's biggest unit are fun, but the tribe feels like paying a bill more than running a racket."}
+  ],
+  "iteration_helped": [
+    {"design": "shiny-syndicate--bottom-up-mech", "line": "Better than v1: Slate-Drinker Rook was a card that only lost you gold and now grows each time you repay, and kills and sales now fill the Ledger, so Corbie pays off for every plan."},
+    {"design": "shiny-syndicate--bottom-up-flavour", "line": "About level: mostly clearer wording, with one small gain in that beating someone now feeds the ravens' growth too."},
+    {"design": "shiny-syndicate--borrow-twist", "line": "A little better: Memory's big payday now gives full stats instead of only Health, Oast Usurer pays more after a win, and Uncle Jack no longer gives a free Tier up every turn."}
+  ]
+}

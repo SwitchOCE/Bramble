@@ -1,0 +1,36 @@
+{
+  "seed": "moon-hares",
+  "order": [
+    "moon-hares--one-constraint",
+    "moon-hares--top-down-flavour",
+    "moon-hares--player-story"
+  ],
+  "why": [
+    {
+      "design": "moon-hares--one-constraint",
+      "line": "Everything a Hare gains is Moonlight that goes out at the New Moon, so you pile it on while Waxing, double it at the Full Moon with Chalk-Cutter and Dame Waxwell, and win big before it drains. Then you cash the lost light as gold or hand it to Old Wat and Mother Meikle Care, who keep it. It's the only one of the three with a growth shape of its own: a sawtooth whose peaks rise each cycle through The Moon-Scour."
+    },
+    {
+      "design": "moon-hares--top-down-flavour",
+      "line": "Every turn of the Moon is a trigger, so Mad March Hare, Suitor Jack and The Hare in the Moon build a steady permanent engine. Dame Waxwell lets you turn, double-turn or hold the Moon, and Box gives Longshanks and Old Wat a fun fight-start brawl. It has the clearest climb of the two moon-winding tribes, but it asks you to learn five ideas at once."
+    },
+    {
+      "design": "moon-hares--player-story",
+      "line": "A moon you wind by selling Moon-Gazer and Old Wat, with Hares that borrow a neighbour's text at the Full Moon and Leverets that Grandam turns into copies of the Hares in front of them. That makes great high rolls, but most of its growth is small +1/+1 Full Moon gifts. The Borrow rule takes a long paragraph to read, and it's a lot like the second design's moon, only with less to grow."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "moon-hares--one-constraint",
+      "line": "Beat v1: Dusk-Runner now guards the real dark turns (New and Waxing), Spring-Ring Jill now rewards a New Moon buy instead of doing nothing then, and The Hare in the Moon's New Moon gift now lasts the whole cycle."
+    },
+    {
+      "design": "moon-hares--top-down-flavour",
+      "line": "Stayed level on fun but got safer: Waxwell, The Hare in the Moon and The Moon-Scour no longer stack with copies, and the lonely Leveret now only minds other Hares, so it sits happily beside another tribe's units."
+    },
+    {
+      "design": "moon-hares--player-story",
+      "line": "Slightly better: Longshanks' bout can no longer go on forever, Spring Jill now grows at each Full Moon, and Grandam's copies count toward triples, though the Borrow rule got even longer."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "seed": "salmon-run",
+  "order": ["salmon-run--bottom-up-flavour", "salmon-run--player-story", "salmon-run--top-down-flavour"],
+  "why": [
+    {"design": "salmon-run--bottom-up-flavour", "line": "Every recruit phase asks a clear question: move a fish to the front row to send it home, or keep it in the back pools to pile up Stamps. Fish that go home pour all their stats into the unit beside them, and Little Jack, the Bend-Wife and Old Bradán turn one homecoming into a chain, so the numbers climb fast and you can see why."},
+    {"design": "salmon-run--player-story", "line": "The most different tribe of the three: fish swap their way up the board past bank folk like the Landlady and the Bear, and a full passport sends the fish home to hand to be played again. Mother Redd turning every homecoming into a free copy for triples, and the Alder swallowing each spawning fish's stats, are great to chase, but most growth is +1/+1 a leap and the swaps are hard to follow."},
+    {"design": "salmon-run--top-down-flavour", "line": "Watching the run climb in the fight as the fish ahead die is the closest to the seed's picture, and Old Kelt drifting down to start the climb is a lovely card. But each fish gets only one Stamp a fight and only one comes home, and its Gift reaches just two neighbours, so the numbers grow slowly next to the other two."}
+  ],
+  "iteration_helped": [
+    {"design": "salmon-run--bottom-up-flavour", "line": "Level, a bit cleaner: homecomings can no longer loop forever, the Fry gets Shield, and the Reunion Secretary reads in one line, with the tribe itself unchanged."},
+    {"design": "salmon-run--player-story", "line": "Slightly better: a full passport now waits for the next leap, so you see a homecoming coming, Old Kelt's laps work, and Fish-Pass Trout gives some stats."},
+    {"design": "salmon-run--top-down-flavour", "line": "Better than the first version: the Gift now adds the fish's tier to its Stamps, so early homecomings pay, and Old Kelt stays at the mouth instead of leaping back, though the Gift now reaches two units rather than the whole chain."}
+  ]
+}

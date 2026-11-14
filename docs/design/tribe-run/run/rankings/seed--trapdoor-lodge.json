@@ -1,0 +1,36 @@
+{
+ "seed": "trapdoor-lodge",
+ "order": [
+  "trapdoor-lodge--player-story",
+  "trapdoor-lodge--one-constraint",
+  "trapdoor-lodge--surgical"
+ ],
+ "why": [
+  {
+   "design": "trapdoor-lodge--player-story",
+   "line": "Spiders hide under Lids and spring out with a free hit when a neighbour dies, and both ways of playing grow for good: Purse-Web Elder banks every Spring as stats, Reader and Mabyn feed the ones that wait. Mabyn then lets one board do both, and the knock is simple enough to plan a board around."
+  },
+  {
+   "design": "trapdoor-lodge--one-constraint",
+   "line": "The boldest take: every Lodge spider starts every fight hidden, so the board you show really isn't the one you fight with, and Mabyn's growth climbs fast as more spiders stay hidden. It comes second because the chain side mostly gives stats that vanish after the fight, and four kinds of knock make long fights hard to follow."
+  },
+  {
+   "design": "trapdoor-lodge--surgical",
+   "line": "Each hidden spider has a countdown you set, and you can flip spiders face down or up while shopping; Grand Tyler springing copies straight from your hand is the best single card in the seed. But most growth is flat buffs to hidden units each turn, and a counter on every Lid is a lot to track."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "trapdoor-lodge--player-story",
+   "line": "A bit better: Tapwell and the Ballot Clerk now pay off whether your spiders spring or wait, though Worshipful Master's card got long."
+  },
+  {
+   "design": "trapdoor-lodge--one-constraint",
+   "line": "Better: Worshipful Master now wakes after four Lids open instead of needing all of them, and the Clerk and Orbweaver now help both ways of playing."
+  },
+  {
+   "design": "trapdoor-lodge--surgical",
+   "line": "A small step up: mostly clearer wording, plus a golden Brother Atypus that now stabs and hides twice as often."
+  }
+ ]
+}

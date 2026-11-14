@@ -1,0 +1,76 @@
+{
+ "picks": [
+  {
+   "design": "moon-hares--one-constraint",
+   "version": 3,
+   "rank": 1,
+   "line": "Everything a Hare gains is moonlight that goes out at the New Moon, so you pile it on while the moon waxes, double it at the Full Moon with Chalk-Cutter and Dame Waxwell, and win big before it drains. Old Wat and Mother Meikle Care keep the lost light for good and The Moon-Scour makes each peak higher than the last, a rise-and-crash growth no other tribe has."
+  },
+  {
+   "design": "great-migration--bottom-up-mech",
+   "version": 3,
+   "rank": 2,
+   "line": "The lemmings breed Kits that pile up in an off-board Burrow, and you grow how many there are or how big they all are, which multiply. Every turn you choose between keeping the herd as fight fuel (Front Lemming, Old Mother Lemen) and cashing it into your real units (Raft-builder, Ferrywife), and you watch the herd swell all game."
+  },
+  {
+   "design": "moth-apothecaries--surgical",
+   "version": 3,
+   "rank": 3,
+   "line": "Every apprentice you play adds a line to one shared Recipe, so drafting is writing your spell: +1/+1, then Hunker, then Burnet's Nightshade, then a keyword The Alchymist takes from another tribe. Phials go on any unit, so the moths make anyone's carry better, and The Herald pouring the whole Recipe over your board is a finish worth building to."
+  },
+  {
+   "design": "olm-sleepers--bottom-up-flavour",
+   "version": 2,
+   "rank": 4,
+   "line": "Each olm sits on a countdown, and every one that finishes adds to Dripstone, a number that only goes up, so Pale Olmlings, \"Baby Dragon\" and The Eldest grow faster every turn. It starts weak and ends huge, with a real puzzle of short clocks feeding long ones and Mother Ribica's golden copies as the big chase."
+  },
+  {
+   "design": "rat-king--borrow-twist",
+   "version": 3,
+   "rank": 5,
+   "line": "Rats fill up with gossip and at three they blurt it to their neighbours, so one spark runs down your board like a fuse and every rat pays out on the way. You build the wire, not the unit: Little Fips throws news to the far end, The Rat King lights the whole line every turn, and The Piper in Motley turns every blurt into an extra attack."
+  },
+  {
+   "design": "ivy-climbers--top-down-mech",
+   "version": 3,
+   "rank": 6,
+   "line": "Climbers copy half of every gain their host makes, and climbers can climb climbers, so one buff runs down a whole tree, and Lattice Ivy and Lady Hedera turn half into all. You can pile onto one big host, spread small trees with Hop Bine, or grow on a tiny root so Ivy in Flower blooms, and any other tribe's growth becomes yours too."
+  },
+  {
+   "design": "lekking-knights--player-story",
+   "version": 3,
+   "rank": 7,
+   "line": "One simple rule, the bigger unit takes a quarter from the smaller, runs on your board, in the shop and in the fight. Fence-Line Challenger and the Pilgrim from Sprucehold steal stats from the shop as you refresh, Elder of the Centre copies every gain onto your champion, and the champion can be any tribe's best unit."
+  },
+  {
+   "design": "hive-and-carnival--top-down-flavour",
+   "version": 2,
+   "rank": 8,
+   "line": "Gold you save grows the Hive, gold you spend grows the Carnival, and saved gold pays again when you blow it, so you hold for a few turns and then have one huge summer. It has the best toys of its three: Maestro Tettix growing in your hand while you save, Lord Fennimore coming back to the shop bigger each time you sell him, and Madame Cigale buffing the board for every 2 gold spent."
+  },
+  {
+   "design": "changelings--top-down-flavour",
+   "version": 3,
+   "rank": 9,
+   "line": "Changelings wear the text of a shop unit or one of yours, and each turn a disguise goes unnoticed it's worth more: let it ride for The Hundred-Year Nurse, or unmask it for the Knowe Usher's buff. It takes some reading, but no two boards look alike, and Wicker Moll carving a second Lady Under the Hill is a great high roll."
+  },
+  {
+   "design": "salmon-run--bottom-up-flavour",
+   "version": 2,
+   "rank": 10,
+   "line": "Each turn you choose which fish to move to the front row to swim home and which to keep resting at the back to pile up stamps. A fish that goes home pours all its stats into the unit beside it, and Little Jack Gravel, the Bend-Wife and Old Bradán turn one homecoming into a chain, so the numbers climb fast and you can see why."
+  },
+  {
+   "design": "will-o-wisps--bottom-up-flavour",
+   "version": 2,
+   "rank": 11,
+   "line": "Lanterns on your units make enemy swings hit their own side, so their big carry kills their other carry, and Old Will makes them hit their biggest. Every misled attack feeds Ignis Fatuus and Little Phos, and Hoard Mere Light hands you half of each drowned enemy, so the Wisps get stronger the stronger the lobby is."
+  },
+  {
+   "design": "dyke-board--top-down-mech",
+   "version": 3,
+   "rank": 12,
+   "line": "You set a water level from 0 to 5, and the flood takes a slice of Health from every front-row unit on both boards, so you float coots and sit units beside a beaver's dike to stay dry. Swinging the level up and down every turn, with the Polder Millwright, Meester Kobus Bles and Hendrika, makes Old Bram Stuw and the Master of the Nine Mills grow the board in big jumps."
+  }
+ ]
+}
