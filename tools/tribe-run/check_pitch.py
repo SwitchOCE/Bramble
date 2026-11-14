@@ -40,7 +40,9 @@ def check(run_dir, did):
         errs.append(f"{where}: v should be the final version, {idx['final_version']}")
     uids = {c["uid"] for c in ver.get("units", []) + ver.get("extras", [])}
     limit(where, "hook", p.get("hook"), 20)
-    limit(where, "verdict", p.get("verdict"), 22)
+    limit(where, "verdict", p.get("verdict"), 18)
+    if any(ch.isdigit() for ch in str(p.get("verdict", ""))):
+        errs.append(f"{where}: verdict should carry no ratings, rank or other numbers (the page shows those)")
     loop = p.get("loop", [])
     if len(loop) != 3:
         errs.append(f"{where}: loop needs exactly 3 steps")

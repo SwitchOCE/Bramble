@@ -30,7 +30,7 @@ const prompt = (id, v) => {
 - **builds:** up to 3, a name and a line each.
 - **liked** and **worries:** up to 2 each, from the three reviews of v${v}: what they agreed was best, and what they most worried about. A broken or watch flag in those reviews belongs in worries, naming the card.
 - **changed:** ${v > 1 ? 'up to 3 lines: the biggest changes since v1.' : 'an empty list (this design was never revised).'}
-- **verdict:** one sentence: where it stands (its ratings, how it ranked among its seed's three, whether it is one of the run's picks if design.json or the ranking says so) and who would enjoy it.
+- **verdict:** one sentence: who would enjoy this tribe and what kind of game it gives them. No ratings, rank or pick number: the page shows those itself.
 
 **Rules:**
 - Plain words, short, a person talking. No process talk, no jargon beyond the game's own terms, and never name the design method or route.

@@ -145,7 +145,7 @@ A short pitch of one design, written by a pitch writer after the design has stop
   "liked": ["at most 14 words"],
   "worries": ["at most 14 words"],
   "changed": ["at most 14 words"],
-  "verdict": "one sentence, at most 22 words: where it stands and who would enjoy it"
+  "verdict": "one sentence, at most 18 words: who would enjoy this tribe and what kind of game it gives them"
 }
 ```
 
@@ -153,4 +153,5 @@ A short pitch of one design, written by a pitch writer after the design has stop
 - `loop` has exactly 3 steps of at most 12 words each. `stars` has exactly 3 cards: the ones that best show what the tribe is.
 - `roles` and `card_short` have one entry for every unit and extra in that version, by uid. Roles: **body** (stats and tempo), **engine** (makes or moves the thing the tribe runs on), **buff** (gives stats), **economy** (gold, the shop, extra cards), **multiplier** (makes other effects bigger or repeat), **payoff** (turns the tribe's build-up into power; capstones), **utility** (protection, targeting and everything else).
 - `builds` has up to 3. `liked` and `worries` have up to 2 each, taken from that version's reviews; a `broken` or `watch` flag that still stands belongs in `worries`. `changed` has up to 3: the biggest changes since v1, or an empty list for a design that was never revised.
+- `verdict` carries no ratings, rank or pick number: the page shows those itself, beside the verdict.
 - The pitch never names the design method, and adds no opinion of its own: it reports the design and what the reviewers and the ranker said.
