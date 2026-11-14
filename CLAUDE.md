@@ -51,6 +51,8 @@ tools/research/                  Re-runnable scripts that build the card data li
 
 Concept art is made by Codex workers using their built-in image tool, as in the Autobattler repo. `tools/art/run-codex-image.ps1 -PromptFile <file> -OutDir <dir>` runs one batch. The prompt files next to it show the format: a fixed header, then numbered `filename -- description` items.
 
+The art direction is "flat figure" (owner, 15 Nov): `docs/design/art-direction/README.md` has the style's rules, examples, prompts and how to make more.
+
 Lessons so far:
 - The image model drifts toward detailed painterly rendering. Flat styles need strict constraints in the prompt ("no gradients, no fur rendering, flat fills").
 - Compress outputs to JPEG for the folio, and keep the PNGs as masters.
