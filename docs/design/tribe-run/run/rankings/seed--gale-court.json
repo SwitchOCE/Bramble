@@ -1,0 +1,36 @@
+{
+ "seed": "gale-court",
+ "order": [
+  "gale-court--player-story",
+  "gale-court--bottom-up-flavour",
+  "gale-court--top-down-mech"
+ ],
+ "why": [
+  {
+   "design": "gale-court--player-story",
+   "line": "Every shop turn asks which unit you play last, because that one is Announced and soaks up Red Sky at Night, the Barometer Clerk and the Warden's +2/+2 per Gust, so one carry from any tribe grows huge. The fights pay off big too: the Forecast Crier sets off a chain of Gusts and the Thunderhead saves up Thunder for a run of up to ten extra hits."
+  },
+  {
+   "design": "gale-court--bottom-up-flavour",
+   "line": "The most original of the three: Late units fight from your hand and land mid-fight, Lady High Pressure holds every Gust back and lets them all go twice when she falls, and the Wild Hunt brings the dead back in. It's a close second, but its stat growth is small and capped until the Tower of the Winds, and the fights take more following."
+  },
+  {
+   "design": "gale-court--top-down-mech",
+   "line": "A tidy plan: a Gale dial counts your Gusts and the next shop pays it back as gold and stats, and Defer courtiers hand their attacks to one favourite. It works, but the Deferring courtiers just stand there, the early turns are thin, and most of the growth is small steps like Pine-Cone Augur and Mackerel Sky."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "gale-court--player-story",
+   "line": "A bit better: Mr and Mrs Fair-and-Foul and the Barometer Clerk now feed the Announced unit, so they join the main plan instead of sitting beside it."
+  },
+  {
+   "design": "gale-court--bottom-up-flavour",
+   "line": "A bit better: the Heron now grows the Late units waiting in your hand, the Windhover rewards spreading Gusts around, and Lady High Pressure can't hold the storm until you lose."
+  },
+  {
+   "design": "gale-court--top-down-mech",
+   "line": "Better, mostly by fixing things: Lady High Pressure no longer makes the favourite Defer too, which had broken its main build, and the Thunderhead and Wild Hunt now trigger reliably."
+  }
+ ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "rat-king--top-down-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Choosing where news starts and watching it ripple out is a satisfying puzzle, and Gundel turns feel like the whole council laughing at once; the step-and-halving math is the cost.",
+    "distinct": "A gain that spreads and shrinks along tied bodies is fresh, but it sits close to Hedgerow's touching-run growth, so it's not a clean break from today's tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 Knot and tie rules now read correctly; what's left is wording polish and a reach preview in the UI, not a design fix.",
+  "points": [
+    {"pid": "p1", "uid": "u01", "kind": "idea", "text": "Little Fips' +1/+1 never leaves him, so in the middle his card says Gossip but nothing spreads. A middle value of +2/+1 would always reach a neighbour and still teach that ends are better."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tie says it counts as touching 'for every card's text', but the Knot says a tie adds only the tied unit, while Hedgerow runs get extended by ties. Put the Knot exception into Tie's own text so a player reads it in one place."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Attack and Health halve separately, so +2/+1 reaches one step with Attack only. That's correct but hard to see at a glance; the reach preview the risks call for should show Attack and Health reach apart."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "The Winter Huddle's text is four rules sentences. Something like 'Hits on your Knot are shared with the units touching the target' plus a reminder tooltip would read faster and feel more like a huddle."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "The Seconder hears a motion and repeats it: the council joke and the mechanic are the same thing, and it's readable."},
+    {"uid": "u14", "why": "Old Gundel's tickle makes everyone gossip at once; one short line, a huge visible turn, and pure folklore."},
+    {"uid": "u16", "why": "Ilse reading back the biggest news is the minute-taker made literal, and a clear late-game decision about what to make biggest."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "In the middle of the Knot his Gossip reaches nobody, so the first Rat a player sees looks like it doesn't do its keyword."},
+    {"uid": "u15", "why": "The longest text in the tribe and the hardest to read; the huddle fantasy gets lost in the share rules."},
+    {"uid": "u13", "why": "Selling a neighbour for news is fine but generic; little of the council or knot comes through."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Each share is a hit, so Bristle and Damage Reduction apply per share; worth testing against Bog folk."},
+    {"uid": "u17", "kind": "watch", "note": "With Mill-Chimney and the Rattenkönig, a 40/40 biggest unit gives every Knot unit +40/+40 in a fight."},
+    {"uid": "u06", "kind": "watch", "note": "Next to an Ooze that eats a big unit, one Eat becomes a very large piece of news, and Ilse can repeat it."}
+  ]
+}

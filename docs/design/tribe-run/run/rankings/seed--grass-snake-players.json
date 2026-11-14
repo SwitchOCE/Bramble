@@ -1,0 +1,36 @@
+{
+  "seed": "grass-snake-players",
+  "order": [
+    "grass-snake-players--bottom-up-flavour",
+    "grass-snake-players--top-down-flavour",
+    "grass-snake-players--surgical"
+  ],
+  "why": [
+    {
+      "design": "grass-snake-players--bottom-up-flavour",
+      "line": "Every fake death adds to one count you can feel climbing: the Barnstormer hams it up three times a fight, Dame Natrix dies three different deaths, the Blood-and-Thunder Man throws bigger splashes as the count rises, and Mr Ardea Grey's rave turns a good show into big permanent stats next turn. It has the most ways to grow, and the most cards that only this troupe could have."
+    },
+    {
+      "design": "grass-snake-players--top-down-flavour",
+      "line": "Its units go limp instead of dying, and when the whole cast is down they all stand up again at full Health, bigger because Bufo fed them while they lay there. That second-act reveal is the best moment in any of the three, and rehearsing Death Scenes in the shop with Old Crest and Sir Hesketh is a fun high roll, but most of its growth is the familiar 'when this dies' buff."
+    },
+    {
+      "design": "grass-snake-players--surgical",
+      "line": "Death Scenes, a second life and understudies who step forward from the back row make a solid, readable tribe, and the Prompter's Boy rewards seating your leads in front of him. It plays a lot like a death-effect tribe you've seen before with theatre names on, and its growth through the Notices count is slow and steady rather than exciting."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "grass-snake-players--bottom-up-flavour",
+      "line": "A little better: the same tribe, but the units are now called Troupers so 'Player' isn't confusing, and Little Anguis's Tails, the Villain and Natrix's three deaths now read clearly."
+    },
+    {
+      "design": "grass-snake-players--top-down-flavour",
+      "line": "Better: more than one Curtain Call can now happen in a fight, the Natterjack pays for units going down instead of for nearly losing, and the Saucer of Milk can rehearse a Death Scene, though Little Anguis lost his Attack gain."
+    },
+    {
+      "design": "grass-snake-players--surgical",
+      "line": "A little better: Little Anguis now leaves a Tail that grows him and the Toad Claque cheers understudies, which ties the back row in, though Old Crest's replay is now capped at once a fight."
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "rat-king--top-down-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn is a real placement puzzle (where news starts, what touches the Mill-Chimney, who Wendelin sits by), but the reading load is heavy and We, the Rattenkönig flattens position right at the top.",
+    "distinct": "8 over 7: ties make every card's \"touching\" a graph you wire yourself, so Rats rewire Hedgerow runs, Chimney doubling and Wendelin's feed across tribes; no tribe today or generic auto-battler tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two Thirty-Two of Altenburg can feed each other's Start of Turn news forever, doubling each turn with a Mill-Chimney; that one loop needs closing.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Two Thirty-Two of Altenburg ping-pong: A's Start of Turn Gossip is heard by B at full, B re-broadcasts it next turn, A hears it back, forever; touching a Mill-Chimney doubles it every turn. Say a Thirty-Two doesn't hear another Thirty-Two's re-broadcast."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "We, the Rattenkönig removes the halving that makes the tribe a puzzle. A version that halves once in total, not per step, keeps distance mattering at the top."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Wheel of Heads makes the Knot a ring for every card, so Hedgerow touching runs could loop; a line on where a looped run starts would let that combo be planned rather than argued."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Ratskeller Landlady triggers almost every turn with no choice. Tying the gold to something positional, such as hearing news from two different units, would give the thin economy a decision."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "One tie rewires Chimney doubling, Wendelin's feed, the Alderman's tribe count, Supper Committee sales and other tribes' touching runs."},
+    {"uid": "u06", "why": "Turns an Ooze's Eat, a Pass or a shop spell into news; the best cross-tribe hook in the set."},
+    {"uid": "u15", "why": "Splitting hits into shares multiplies Bristle and Damage Reduction from other tribes, a combo the designer only half listed."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "One obvious job that fires on its own."},
+    {"uid": "u09", "why": "A plain on-death trigger; the dead-slot rule does more than this card."},
+    {"uid": "u03", "why": "Vanilla Gossip; fine as a teacher but no overlap with anything."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "broken", "note": "Two copies plus a Mill-Chimney: the same news doubles each turn with no new input."},
+    {"uid": "u17", "kind": "watch", "note": "Speaker + Chimney + Rattenkönig with a 40/40 gives every unit +40/+40 in a fight; fight-only, but huge."},
+    {"uid": "u06", "kind": "watch", "note": "An Ooze eating a big unit next to Wendelin, repeated by Ilse and re-broadcast by the Thirty-Two, lands three times."},
+    {"uid": "u12", "kind": "unclear", "note": "How a ring Knot reads for other tribes' touching runs isn't stated."}
+  ]
+}

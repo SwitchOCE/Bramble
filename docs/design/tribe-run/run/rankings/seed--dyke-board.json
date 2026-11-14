@@ -1,0 +1,36 @@
+{
+  "seed": "dyke-board",
+  "order": [
+    "dyke-board--top-down-mech",
+    "dyke-board--one-constraint",
+    "dyke-board--surgical"
+  ],
+  "why": [
+    {
+      "design": "dyke-board--top-down-mech",
+      "line": "You set a water Level from 0 to 5, and the Flood takes a tenth of every front-row unit's Health per Level on both boards, so it still bites late in the game. Each turn has something to do: coots float, beavers' Dikes keep neighbours dry, and swinging the Level with Millwright, Kobus and Hendrika makes Old Bram and the Nine Mills grow the board in big jumps."
+    },
+    {
+      "design": "dyke-board--one-constraint",
+      "line": "The boldest idea: every Board unit shares one Health number, poured into a Pool and split by how many seats you fill, so each buy asks whether you want three walls or seven attackers. Levy-Master, the Miller and Kobus stack into huge Pools, and the Spaarndam Pup's shared damage is new, but boards where every unit has the same Health look alike, and Attack grows more slowly."
+    },
+    {
+      "design": "dyke-board--surgical",
+      "line": "Voting your Level up or down to suit the next opponent is a nice choice, and Dive coots that sink on purpose are fun. But most growth is +1/+1 each time you vote, and the water is a small fixed number that late-game Health climbs past, so the flood matters less just when the board gets big."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "dyke-board--top-down-mech",
+      "line": "Better than v1: Sluice Keeper can now swing the Level either way, Winter Raft pays most at Level 0 so coots fit the drain build too, and the Pup no longer shrugs off enemy Floods."
+    },
+    {
+      "design": "dyke-board--one-constraint",
+      "line": "A little better: Winter Raft and Ledger Coot now read the Level, and the Peilmeester really does drown every unit below the water, as the tribe promises."
+    },
+    {
+      "design": "dyke-board--surgical",
+      "line": "A small step up: the Gauge-Keeper now floods by half its own Health so the water keeps up late, and Schouw-Walker finally pays for raising the Level."
+    }
+  ]
+}

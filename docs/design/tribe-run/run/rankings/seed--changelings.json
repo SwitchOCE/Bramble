@@ -1,0 +1,36 @@
+{
+  "seed": "changelings",
+  "order": [
+    "changelings--top-down-flavour",
+    "changelings--borrow-twist",
+    "changelings--surgical"
+  ],
+  "why": [
+    {
+      "design": "changelings--top-down-flavour",
+      "line": "The best growth shape of the three: each disguise counts up its turns Worn on the card, and you choose between letting it ride for the Hundred-Year Nurse or cashing it in with an Unmask, which makes the Knowe Usher buff every Changeling. The late game has real high rolls too, like Wicker Moll's Stocks keeping their text and a hill of Ladies, and the folklore drives every card."
+    },
+    {
+      "design": "changelings--borrow-twist",
+      "line": "The most fun to shop with: you drag a shop unit onto a Changeling to wear it, and a 1-gold Stock takes its place, so every shop becomes a menu of texts. Growth is steady and wide, from the Nursemaid, Bee Orchid and Bettie paying per disguise, but it has no build-up-and-burst moment like the Worn counters."
+    },
+    {
+      "design": "changelings--surgical",
+      "line": "A solid tribe with a good choice between keeping a disguise (Long-Stay Hollin pays its tier every turn) and swapping it (Grandfer Acorn), plus Bettie growing with every Exchange you make all game. But it has two verbs that pull in different directions and a 'one of each' rule that adds friction, so it feels the least focused."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "changelings--top-down-flavour",
+      "line": "Better: the Keeper of the Lost Hour now lets you pile Worn onto one unit, and a unit wearing the Lady's disguise becomes another Lady, which opened a new big late-game build."
+    },
+    {
+      "design": "changelings--borrow-twist",
+      "line": "Slightly better: cheap Changelings can now wear higher tiers as you tier up and the Stock rules are clear, though Pip Unlike lost its front-and-back and Start-and-End swaps."
+    },
+    {
+      "design": "changelings--surgical",
+      "line": "Slightly better: the Placement Officer now moves a disguise onto the unit you take and the Fetch copies your carry's full text, so both cards gained a real job."
+    }
+  ]
+}

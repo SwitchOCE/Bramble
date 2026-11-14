@@ -3,7 +3,7 @@
  "seed": "rat-king",
  "route": "top-down-mech",
  "tribe_name": "The Rat King",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,17 +45,21 @@
    "v": 3,
    "author": "reviser",
    "reviews": [
-    "v3--climber"
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
    ],
    "ratings": {
     "fun": 7.0,
-    "distinct": 7.0
+    "distinct": 7.3
    },
    "votes": {
-    "settle": 1,
-    "iterate": 0
+    "settle": 2,
+    "iterate": 1
    },
    "summary": "The Thirty-Two now repeats only news heard while recruiting, so Speaker's fight Gossip can't turn permanent and compound; the Knot keyword says a tie adds just the tied unit.\nCold-Shed Litter ties its Stray to itself to teach ties at Tier 1, and Roll-Caller counts every unit in the Knot to reward mixed boards."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }
