@@ -20,7 +20,7 @@ On the six flat-figure images (hedgehog, owl, toad, fairy duellist, fox, ooze):
 
 "Give me 12 more with the same style of art and everything. You need to run on the Optiplex though ... with codecs *[probably "Codex"]* on the Optiplex as well."
 
-## How the owner got there
+## The style
 
 "let's just completely try and do a similar art style to Ori and the Blind Forest, but remove detail ... less color gradients, more like just easier to execute for human artists ... Not as much detail ... Less intricate work."
 

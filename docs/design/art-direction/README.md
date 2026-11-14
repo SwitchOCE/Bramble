@@ -79,10 +79,10 @@ Codex makes every image with its built-in image tool. Keep the PNGs as masters o
 ## What is decided and what is not
 
 Decided by the owner:
-- The style: the rules above, as shown by the six approved images.
+- The style, as the six approved images show it. The written rules above are an agent's description of what produced those images, apart from the lines that quote the owner. The exact figures (65%, 4:5, three background layers and so on) are the agent's.
 - Tribes live in different biomes that are a natural fit for them.
 
-Not decided (an agent's picks, shown to the owner as options):
+Not decided (an agent's picks):
 - Which tribe gets which biome. The pairings in prompts a and b (hedgerow, canopy, bog, bluebell glade, frosted upland, root hollow) were written to test the style.
 - The 12 further creatures and biomes below. The owner asked for "12 more with the same style"; which creatures and places was left to the agent.
 - The tribe list itself. The names in the filenames are labels, not a roster.
