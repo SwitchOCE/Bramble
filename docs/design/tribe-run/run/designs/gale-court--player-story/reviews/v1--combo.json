@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "gale-court--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Gusts feed three payoff families, and Föhn, the Windhover, Mistral and the Wild Hunt cross-wire in ways the builds don't even list, so every board can grow differently.",
+    "distinct": "Announced makes play order a shop decision that reaches across tribes, and Föhn turning enemy attacks into your engine is unlike any tribe today; Gust alone would be a generic extra attack."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is rich and should keep its heat; one real fix is how Lady High Pressure's cancelled attacks interact with Föhn and with a Sir Vane copy.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Lady High Pressure's rules don't settle two of the tribe's own combos: the Föhn ruling calls his forced Gusts enemy attacks, so are they the 3 she cancels (each giving you a Gust instead)? And with Sir Vane copying her, are the first 3 cancelled twice, or the first 6?"},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "The Bag-Bearer just hands out a Gust. If giving a Bag of Winds also Announced the unit, the two keywords would meet in the shop and the Bag would become a way to pick your Announced carry after the fact."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "The Barometer Clerk's stats branch grows only itself; giving that +1/+1 to the Announced unit instead would tie it into the court and make the 4-Gust threshold a real choice."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Once a board is set, Announced can't move back to a unit already in play, so late turns tend toward not playing anything. One small re-Announce outlet beyond the Helm (a card or spell) would keep the play-order puzzle alive late."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Old Föhn makes the enemy's biggest units power your Windhover, Bristle and Bog folk, the best off-label card in the tribe."},
+    {"uid": "u17", "why": "The Thunderhead's 'first time it attacks or Gusts' turns the Crier's forecast into a seating hazard inside your own engine."},
+    {"uid": "u14", "why": "Sir Vane copies any tribe's text and can break or extend the Crier line, so he's a different card on every board."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Red Sky at Night is a plain end-of-turn buffer whose only twist is the shared Announced target."},
+    {"uid": "u13", "why": "The Bag-Bearer is a delivery card with no decision beyond who gets the Bag."},
+    {"uid": "u09", "why": "The Barometer Clerk is filler economy; its stats branch rewards a board that isn't doing the tribe's thing."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Up to +20/+20 per fight on each Announced unit, doubled by the Helm and golden; with the Mistral and Wild Hunt kill chain it's the likeliest runaway."},
+    {"uid": "u14", "kind": "watch", "note": "Sir Vane, and golden Vane above all, copying Tier 6 capstones from Tier 5."},
+    {"uid": "u18", "kind": "unclear", "note": "Unclear whether Föhn's forced enemy Gusts count among the 3 cancelled attacks, and how two copies stack."},
+    {"uid": "u17", "kind": "unclear", "note": "With Sir Vane copying the Thunderhead, two units each 'attack after your other units'; their order isn't said."}
+  ]
+}

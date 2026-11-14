@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "rot-guild--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "One shared pile fed three ways (shop burials, fight deaths, enemy deaths) and drunk by Fruit on any unit gives real choices every turn about who dies, who drinks and where the gaps go.",
+    "distinct": "A board-wide death pile plus a Fruit keyword you can put on other tribes' units feels new, though 'deaths make value' is familiar from Battlegrounds' Undead and deathrattle tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good as it stands; Moss-Bier Bearer's wording needs fixing and a couple of weak cards could take on more jobs.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Moss-Bier Bearer's 'it permanently gains +1/+1' reads as the dying unit gaining stats. Say 'this permanently gains +1/+1'."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Ludwig's 'gains its stats' doesn't say printed or current. The Wake build reads as current; say so, because it decides whether White-Rot Renderer plus Ludwig is a double payout."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Let Rootbinder also give Fruit to Created units beside it, so Spore swarms become mouths and the card isn't blank on a Guild-only board."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Hired Mute's condition is free once Spores are around. Counting only burials, or paying 1 gold for every 3 deaths, would turn it into a choice between burying and keeping the board."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Best overlap the designer didn't list: Warden Amanita's Start of Combat kills count as fight deaths, so Clerk Inkcap doubles them, Moss-Bier Bearer grows from them and Old Fingers digs them up, all before a blow lands."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "White-Rot Renderer moves a big buff from one unit into the pile, then onto every Fruit unit. It's the tribe's best off-label tool."},
+    {"uid": "u17", "why": "Grandmother Bootlace's touching run fights your own burials, so where you bury becomes a puzzle you solve each turn."},
+    {"uid": "u06", "why": "Warden Amanita is negative on her own and wonderful beside Grandsire, a full-Belly Ooze or Old Fingers' targets."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Hired Mute does one obvious job and its condition is almost always met."},
+    {"uid": "u04", "why": "Moss-Bier Bearer is a plain neighbour-death buff with no hook into the Compost or Fruit."},
+    {"uid": "u01", "why": "Stumpwick Puffling is a vanilla 'When this dies: summon' that only matters as fodder."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Mourner of Three Rains keeps the whole pile, and a White-Rot Renderer burial puts a unit's full buffed stats into it, so one burial pays a quarter to every Fruit unit every turn from then on."},
+    {"uid": "u12", "kind": "watch", "note": "White-Rot Renderer is the one way the pile can feed itself: bury a Fruit-grown unit at full stats and seven Fruit units take back more than went in. Each Renderer play only does it once."},
+    {"uid": "u05", "kind": "watch", "note": "Hired Mute is probably free gold every turn once Spores are around."}
+  ]
+}

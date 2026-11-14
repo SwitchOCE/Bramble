@@ -1,0 +1,38 @@
+{
+ "id": "v1--climber",
+ "design_id": "great-migration--bottom-up-mech",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 8, "distinct": 7},
+ "ratings_why": {
+  "fun": "Every tier has a job, the Burrow is a pile you grow, guard and spend every turn, and the late game has big in-fight payoffs to aim for.",
+  "distinct": "A token swarm is familiar, but an off-board reserve that is fight HP, ammunition and currency at once plays unlike today's tribes."
+ },
+ "verdict": "iterate",
+ "verdict_why": "\"Your front unit\" needs a definition, and Kit size has too few cards to keep the Kits relevant late.",
+ "points": [
+  {"pid": "p1", "uid": "u06", "kind": "fix", "text": "The Front Lemming and Brother Onward both say \"your front unit\" with no definition: is it F1 only, or your first living unit in reading order? Define it once as a keyword."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Only Tunic Weaver and Old Mother Lemen raise Kit size, so Kits stay 2/2 to 3/3 while late boards reach 30/30. A Tier 3 or 4 card that grows Kit size each turn would give the size axis a real curve."},
+  {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Herding Council gives about 8 stats a turn for 2 Kits, low for Tier 4. Let it spend up to 6 Kits, +1/+1 per pair."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "The Burrow has no cap, so by the late game it can hold 40 or more Kits and fights get long. A visible cap that rises with your tier would keep fights readable without cutting the power."},
+  {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Identical Cousin copies a Tier 6 unit at Tier 4 and builds triples. That's a fun high roll; say whether the copy is ever golden."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Herald of the Lemenår doubles the Burrow under a cap: a clear Tier 5 direction card that tells you to build the Tide."},
+  {"uid": "u18", "why": "Brother Onward's growing Banner fits the seed and gives the Kit chain a big late payoff you can see."},
+  {"uid": "u08", "why": "Raft-builder lets a Tier 3 cash in the Burrow early, and makes keeping Kits back a decision."}
+ ],
+ "weakest": [
+  {"uid": "u11", "why": "Herding Council's output is under Tier 4's target, and Ferrywife does the same job better."},
+  {"uid": "u09", "why": "Ole the Learned's damage follows Kit Attack, which barely grows, so it fades after the midgame."},
+  {"uid": "u04", "why": "Tunic Weaver is nearly the only permanent Kit-size card, so it's a must-have early and the axis ends with it."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Herald with Litter Keeper makes about 10 Kits a turn, and the Burrow never drains in fights, so fight HP keeps piling up."},
+  {"uid": "u19", "kind": "watch", "note": "With Herald refilling the Burrow, Ferrywife can give each real unit +8/+8 or more a turn, and a golden one doubles it."},
+  {"uid": "u15", "kind": "watch", "note": "Cantor with a 30-Kit Onward chain makes the biggest unit huge within one fight."},
+  {"uid": "u18", "kind": "watch", "note": "With Old Mother Lemen pouring Kits into the front, the Banner can pass 20 or more times and reach +80/+80."},
+  {"uid": "u06", "kind": "unclear", "note": "\"Your front unit\" isn't defined."},
+  {"uid": "x01", "kind": "watch", "note": "An uncapped Burrow with Onward, Bristle and low-Attack Kits could cause long fights and many ties."}
+ ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "gale-court--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three real payoff lanes off one shared Gust supply, and play order is a decision every turn; the early curve is a bit thin before Tier 3.",
+    "distinct": "Extra out-of-turn attacks echo Windfury and Start of Combat attackers, but Announced (last unit played, any tribe) is new and turns the shop into a seating puzzle."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The shape is good; one rules gap (do Gusts count as attacks for Lady High Pressure) needs closing, and the Tier 1 seed has no early Gust source.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Lady High Pressure cancels the enemy's first 3 attacks, and the Föhn ruling says Gusts are attacks. Say whether enemy Gusts count, or a Gale mirror reads two ways."},
+    {"pid": "p2", "uid": "u02", "kind": "idea", "text": "Swift Courier has almost no Gust source before Tier 3 except Hayrick Whirlwind with the Courier Announced. Give it a weak self-Gust (once a fight) so the seed grows from turn 2, not turn 7."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Old Föhn at 3/7 dies to the first big forced Gust late, and the rest don't happen. Let the forced Gusts run even if he dies, or give him Hunker, so Ill wind holds up at Tier 4 and beyond."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Mr and Mrs Fair-and-Foul pays 1 gold every other turn, which rarely changes a turn. A bigger Fair payout (2 gold) keeps the weather-house swing worth seating."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Late fights can run 20+ Gusts with Thunderhead plus Crier. Keep the proposed per-side Gust cap ready for readability, not for power."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Duke Cumulonimbus makes the Crier's forecast a hazard you seat around; a capstone with a real board puzzle and a loud finish."},
+    {"uid": "u19", "why": "Warden of the Tower of the Winds turns every Gust into permanent stats on the Announced carry, a clean late scaling payoff on target for Tier 6."},
+    {"uid": "u14", "why": "Sir Vane copies whatever you played last, so every turn's play order matters; the high roll the owner will want to chase."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Mr and Mrs Fair-and-Foul is light economy and a part-time Gust; easy to skip."},
+    {"uid": "u12", "why": "Old Föhn falls over before his three forced Gusts finish against late boards."},
+    {"uid": "u02", "why": "Swift Courier does nothing alone at Tier 1 and needs pieces that arrive much later."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Sir Vane copying a Tier 6 capstone at Tier 5, and golden Vane copying two, is the tribe's biggest jump."},
+    {"uid": "u19", "kind": "watch", "note": "With The Helm, Warden of the Tower of the Winds gives two carries up to +20/+20 each a fight; Thunderhead Gusts fill all ten triggers easily."},
+    {"uid": "u17", "kind": "watch", "note": "Duke Cumulonimbus with Master of the Wild Hunt makes ten free damage-proof attacks; in-fight only, but very swingy."},
+    {"uid": "u18", "kind": "watch", "note": "Lady High Pressure shuts off every enemy Start of Combat effect, a hard counter to Gale mirrors and other Start of Combat tribes."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether enemy Gusts count among the 3 cancelled attacks is not stated."}
+  ]
+}

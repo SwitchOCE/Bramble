@@ -3,20 +3,24 @@
  "seed": "gale-court",
  "route": "player-story",
  "tribe_name": "The Gale Court",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "A court of wind folk whose units Gust: they make extra attacks out of turn, before and during the fight.\nThe last unit you played is Announced and gets the Court's buffs, so play order and seating become the puzzle each turn.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 8.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

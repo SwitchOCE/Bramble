@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "rot-guild--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "One shared pile and one keyword make a clear engine: bury tonight, everything with Fruit grows tomorrow, and Bootlace's run gives the board a shape to build toward.",
+    "distinct": "A board-wide stat pile fed by deaths and drunk by Fruit plays unlike today's six tribes, though the death-text half leans on the familiar deathrattle tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine reads well; two cards have wording a player can misread, and those are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Moss-Bier Bearer's \"it permanently gains +1/+1\" reads as the dying unit gaining stats. Say \"this permanently gains +1/+1\"."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Ludwig, the Lodger \"gains its stats\" doesn't say printed or current, and with White-Rot Renderer that is the whole difference. Name which one on the card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Show the Compost as a pile with its quarter beside it, and Fruit as pips on each unit, so the overnight payout is readable before you end the turn."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "While recruiting, mark Warden Amanita's two neighbours as doomed, so the sacrifice is visible on the board rather than remembered."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Rootbinder could also give Fruit to Spores beside it, so the mycorrhiza card still does something on a mostly-Guild board without losing its splash hook."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grandmother Bootlace is the network made literal: an unbroken touching run all drinks from the pile, and your own burials cut it."},
+    {"uid": "u10", "why": "Clerk Inkcap writes each death twice and shrinks with every entry; the story is the rule."},
+    {"uid": "u06", "why": "Warden Amanita is the undertaker who caused the death, in one plain line, and it names the fight-side build."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Hired Mute is a generic gold condition; the silent mute at the gate doesn't show in what it does."},
+    {"uid": "u04", "why": "Moss-Bier Bearer is a stock grow-when-neighbours-die card with an unclear pronoun."},
+    {"uid": "u11", "why": "Rootbinder is blank on a Guild-only board, so it often reads as a vanilla 4/5."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Mourner of Three Rains keeps the whole pile, so every Fruit gains from a pile that only grows."},
+    {"uid": "u07", "kind": "watch", "note": "Guild Sealbearer stacked with Bootlace and goldens puts four or more Fruit on one carry."},
+    {"uid": "u16", "kind": "unclear", "note": "Ludwig's \"its stats\" could mean printed or current."},
+    {"uid": "u04", "kind": "unclear", "note": "Moss-Bier Bearer's \"it\" could mean the dying unit or this."}
+  ]
+}

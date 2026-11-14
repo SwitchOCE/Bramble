@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "gale-court--player-story",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Two clear words, Gust and Announced, carry the whole tribe, and choosing what to play last gives every shop turn a small, readable puzzle.",
+    "distinct": "Announced puts the court's precedence into play order and works on any tribe; no current tribe cares which unit you played last."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small wording gaps (Forecast Crier and empty slots, Fair-and-Foul's switch order) need fixing; the core reads well already.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "The Forecast Crier doesn't say whether an empty slot stops the forecast. Gaps never close, so this comes up every game; say gaps are skipped, or that they stop it."},
+    {"pid": "p2", "uid": "u05", "kind": "fix", "text": "Mr and Mrs Fair-and-Foul switch at Start of Turn and Fair also triggers at Start of Turn, so it's unclear whether the switch comes first. Write it as one line, e.g. \"Start of Turn: switch; if now Fair, gain 1 gold.\""},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Duke Cumulonimbus is the hardest card to read: three clauses, and the 'or Gusts' trap is invisible at a glance. A Thunder counter plus a 'ready' or 'spent' mark on the card would show the late, loud finish coming."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Sir Vane should show the copied unit's text and tribe on his own frame, with a little weathercock pointing at that unit, so the fickle herald can be read without the rulings."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Red Sky at Night, Mares' Tails and the Warden are lore names on plain buffer jobs. Tie them to the forecast, e.g. Mares' Tails ('change is coming') buffing only after the wind shifts."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "The Helm, always Announced because he never stops naming himself, is lore and rule in one line."},
+    {"uid": "u18", "why": "Lady High Pressure forbids anything to happen, and the card does exactly that; you can read it in one look."},
+    {"uid": "u12", "why": "Old Föhn gets blamed for everything: the enemy's own biggest units hit his thorns first. A surprising twist that's still easy to read."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "The Bag-Bearer is a plain body that hands out an item, with nothing of the court in it."},
+    {"uid": "u08", "why": "Mares' Tails is a generic 'after a Gust, gain stats' buffer; the cloud lore stays in the name."},
+    {"uid": "u03", "why": "Red Sky at Night is a plain End of Turn buff; nothing about it feels like a forecast."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Empty slots in the forecast line aren't covered."},
+    {"uid": "u05", "kind": "unclear", "note": "The order of the switch and the Fair gold at Start of Turn isn't stated."},
+    {"uid": "u19", "kind": "watch", "note": "Up to +20/+20 a fight on each Announced unit, doubled with the Helm; worth the owner's eye."},
+    {"uid": "u18", "kind": "watch", "note": "Turning off every enemy Start of Combat effect may hard-lock some builds."},
+    {"uid": "u14", "kind": "watch", "note": "A golden Sir Vane copying two capstones is the tribe's high roll."}
+  ]
+}

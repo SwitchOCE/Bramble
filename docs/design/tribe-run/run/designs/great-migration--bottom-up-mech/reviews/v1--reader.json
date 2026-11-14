@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Watching the Burrow count climb and then pour out through Onward is a clear, satisfying arc, and most cards read in one line.",
+    "distinct": "An off-board reserve that is fight HP, currency and missiles at once plays unlike any of today's tribes or a plain token tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well; two cards need their wording pinned down (who the front unit is, and what Identical Cousin picks).",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "\"Your front unit\" is never defined, here or on Brother Onward. Say it is your first unit in reading order (so a back-row unit leads once the front row is empty), or name F1."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Identical Cousin doesn't say who picks the Kit or the unit to copy when several are next to it. Write \"Choose a Kit next to this and another unit next to this\" and say what \"plain\" keeps."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Burrow is the tribe's whole story but lives off the board. Show it as a snow-hall strip on the hero with a count both players see, ticking down as Kits come out."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The boom-and-crash theme only shows through spending. A card that pays for letting the Herd crash on purpose (a lemming year) would carry the seed's best idea further."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Tally's text never mentions Kits, so it reads as a generic gold card. Counting Kits (\"if 3 or more are Kits\") would make the census fox actually count lemmings."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Ole the Learned makes the old myth literal: lemmings fall from the sky onto the enemy, and it reads at a glance."},
+    {"uid": "u18", "why": "Brother Onward's Banner is whoever is in front leads, shown in play, and growing on each death is easy to follow."},
+    {"uid": "u17", "why": "Old Mother Lemen's one line turns the Burrow into an endless tide of great-grandchildren."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Tally works for any full board and says nothing about lemmings."},
+    {"uid": "u10", "why": "Identical Cousin is the hardest card to read and its copy target is ambiguous."},
+    {"uid": "u11", "why": "Herding Council is a plain small buff that does what Ferrywife does better at Tier 6."}
+  ],
+  "flags": [
+    {"uid": "u06", "kind": "unclear", "note": "\"Front unit\" is undefined."},
+    {"uid": "u18", "kind": "unclear", "note": "\"New front unit\" is undefined once the front row empties."},
+    {"uid": "u10", "kind": "unclear", "note": "Doesn't say who chooses the Kit and the unit to copy."},
+    {"uid": "u19", "kind": "watch", "note": "With Herald refilling the Burrow each Start of Turn, Ferrywife gives every real unit +6/+6 or more a turn."},
+    {"uid": "u17", "kind": "watch", "note": "With Gerd's Bristle, a long Onward chain could make fights slow to watch and prone to ties."}
+  ]
+}
