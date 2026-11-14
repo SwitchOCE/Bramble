@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Heating the same piece again and watching the flames and stats climb is a clear, satisfying loop, and Quench gives a real cash-out choice; the six terms cost some reading.",
+    "distinct": "A decaying counter that pays more the hotter it is, with self-burns as its price, plays unlike today's tribes; Regrow and the gold card are more familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Ember-Slinger and Yellowback Spitter leave out rules that the builds depend on, and both can be fixed in one line each.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Ember-Slinger: \"give their Heat ... for this fight\" doesn't say whether your units get their Heat back after the fight and Reforge it next turn. Say so on the card."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Yellowback Spitter: the Shield trick needs a burn that a Shield blocks to still count as burning. The card doesn't say this, so add \"even if it takes no damage\"."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "\"Reforge twice\" on Thiers Grinder and Crater Forge Master reads as if they don't stack, but the rules say they do. Wording like the Curator's (\"Reforge once more\") would read the way it plays."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Mother Atra is the one card whose fantasy lives only in the flavour note. Gold for empty slots touching a Hot unit would tie her to the forge and keep the economy idea."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fifth build's name is broken text (\"Mixing in a lobby.** - **Bog folk:\"). Split it into its own lobby-notes section so it reads cleanly."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "Quench-Bucket Lad: one line, an obvious choice of when to cash out, and the quench bucket is right there in what it does."},
+    {"uid": "u17", "why": "Keeper of the Undying Furnace: four words that change the whole board, and \"the furnace that never goes out\" in rules form."},
+    {"uid": "u03", "why": "Bellows Apprentice: position you can see at a glance, back row blowing on the front."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Mother Atra: off-theme gold, and whether a Bird's Nest counts as empty is left open."},
+    {"uid": "u05", "why": "Slag Picker: a generic sell trigger; the Ingot is good, but the card itself says little about the Forge."},
+    {"uid": "u15", "why": "Ember-Slinger: a great idea, but the hardest card in the tribe to read as written."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Doesn't say whether lent Heat comes back after the fight, or how the enemy's half-Health cap applies."},
+    {"uid": "u09", "kind": "unclear", "note": "Doesn't say whether a burn blocked by a Shield still triggers it."},
+    {"uid": "u19", "kind": "watch", "note": "Masterpiece Hall Curator stacked with Crater Forge Master, Thiers Grinder and the Undying Furnace multiplies Reforges on a climbing Heat; worth a late-game sim."},
+    {"uid": "u18", "kind": "watch", "note": "Ottilie's Regrow with Attack feeds itself across fights, especially with golden Burn-Salve Matron."}
+  ]
+}

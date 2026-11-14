@@ -3,20 +3,24 @@
  "seed": "gale-court",
  "route": "bottom-up-flavour",
  "tribe_name": "The Gale Court",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "A weather court that controls when things happen in a fight: units attack out of turn (Gust) or wait in hand and arrive mid-fight (Late).\nIt grows by counting Gusts, and its capstones hold everything back and release it at once or bring the dead back as arrivals.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

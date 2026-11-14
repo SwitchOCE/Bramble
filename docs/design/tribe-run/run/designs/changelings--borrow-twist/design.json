@@ -3,20 +3,24 @@
  "seed": "changelings",
  "route": "borrow-twist",
  "tribe_name": "The Changelings",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Changelings wear the text and tribe of shop units, keeping their own small bodies, and leave a cheap Stock token behind.\nPayoffs grow units for wearing often and across many tribes, with ladders for copying your own board, sold units and enemies.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

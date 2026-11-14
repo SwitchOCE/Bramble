@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buff becomes a 'who is she on?' question, and watching a hub and its vines grow together is a real joy, though the rule load and daily re-hanging cost some ease.",
+    "distinct": "Over a 7 because one rule ('gains stats no other way') turns every buff in the lobby, even other tribes' engines, into a placement puzzle, and units that live and die with their host; no current tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well and the fantasy lands; Ruin Ivy and Viscum need clearer wording before the design settles.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Ruin Ivy's '(Rising is unaffected)' can be read two ways: do the host's Climbers then rise from the redirected stats or not? Say it plainly, e.g. 'Its Climbers then rise from it as normal.'"},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Viscum's 'also rise with each of your other hosts' is hard to picture: does a Climber copy gains from hosts across the board, and does Grand Oak's doubling apply? Name what a Climber copies, e.g. 'copies the gains of every host you have, not just its own.'"},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy comes through in play, not just names: dodder gatecrashing the enemy's biggest unit, the thrush catching falling Climbers, the dowager's guest-book of hosts. Keep that card-by-card tie when revising."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Hazel Wand says 'for each Climber on it' but holds one unless Hop Bine is out, so the text promises more than it usually does. Giving it Hold 2 would make the line read true from turn 2."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Ivy Solicitor's exception line is the one rule a player must remember mid-turn; a cleaner shape is 'give its host that Climber's stats permanently; this gain isn't copied.'"}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Cousin Dodder reads at a glance and is pure character: he latches onto their biggest unit and his fall feeds you."},
+    {"uid": "u13", "why": "Missel catching the Climbers of a dying host is the thrush guarding his berries, and it answers the tribe's main fear in one line."},
+    {"uid": "u19", "why": "The Grand Oak is the obvious, readable goal of the tribe: the fashionable address everyone wants to climb."}
+  ],
+  "weakest": [
+    {"uid": "u18", "why": "Viscum's effect is the hardest to read in the set and its character (old blood, Pliny) doesn't show in what it does."},
+    {"uid": "u07", "why": "Ruin Ivy's redirect and its parenthesis need a second read, and the card reads as rules plumbing rather than an ivy-clad ruin."},
+    {"uid": "u12", "why": "Ivy Solicitor works on paper but adds an exception players must hold in their head."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Which hosts' gains each Climber copies, and how it stacks with the Grand Oak, isn't clear from the text."},
+    {"uid": "u07", "kind": "unclear", "note": "Whether Climbers rise from the redirected stats is ambiguous."},
+    {"uid": "u18", "kind": "watch", "note": "With Kissing Bough and several hosts, every hosted Climber copies every host's gain each turn; worth the owner's eye."},
+    {"uid": "u19", "kind": "watch", "note": "A golden Oak with Hop Bine and four Climbers is the design's own named high roll."}
+  ]
+}

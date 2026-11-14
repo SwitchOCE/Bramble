@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "lekking-knights--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Shop duels and losing on purpose to buy the winner are fresh, but the early game mostly moves stats around and the lone-champion line plays with gaps for several turns before it pays.",
+    "distinct": "One size-compare verb used on your board, the shop and the enemy is unlike any of today's tribes, and the champion can come from any tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Elder of the Centre loops forever as written and Cantor's text can't be read; both are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Elder of the Centre loops: when the champion gains, it is another friendly unit gaining, so the champion gains again forever. Exclude the champion's own gains."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Cantor's text \"Duels your units start happen twice\" doesn't parse. Say e.g. \"Each duel your units start happens twice\", and whether Pilgrim's and Ottokar's chains each count per duel."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Fence-Line Challenger's Start of Turn duel is forced, so from Tier 4 it loses to the shop every turn and shrinks. Let it only duel units it would beat, like Ottokar."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The lone-champion story has no early stage payoff before Prior at Tier 4, so turns 3-6 are weak with gaps. A small Tier 2 'empty slot beside the champion' bonus would start the shape sooner."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Pilgrim plus Keeper plus Cantor takes about three quarters of every shop unit three times a turn; the refresh cap is the right dial, keep the idea hot."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Edge-Strutter lets you lose on purpose and buy the pumped shop unit, a real decision every time."},
+    {"uid": "u17", "why": "Grand Master Ottokar eats the small enemies and stops by himself against a tall carry: a capstone with built-in counterplay."},
+    {"uid": "u12", "why": "Prior of the Needle Refectory turns empty slots on the zigzag board into a placement puzzle."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Fence-Line Challenger grows early but is forced to lose to the shop later."},
+    {"uid": "u04", "why": "Dame Reisig is a plain 1 gold a turn with a trigger that is almost always met."},
+    {"uid": "u11", "why": "Dawn Herald hands a quarter of your champion to any bigger enemy, so it backfires in the fights that matter most."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "broken", "note": "Infinite loop: the champion's own permanent gain retriggers Elder of the Centre."},
+    {"uid": "u16", "kind": "unclear", "note": "Cantor's rules text can't be read as written."},
+    {"uid": "u18", "kind": "watch", "note": "Pilgrim with Keeper and Cantor can add well past the Tier 6 ceiling each turn."},
+    {"uid": "u17", "kind": "watch", "note": "Ottokar with Keeper and Cantor may decide most fights at Start of Combat against wide boards."},
+    {"uid": "u09", "kind": "watch", "note": "Grit Pit Elder gives permanent stats from in-fight duels too; four a turn caps it, but say whether the fight counts as the turn."}
+  ]
+}

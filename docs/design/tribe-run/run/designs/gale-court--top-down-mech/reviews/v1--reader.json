@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "gale-court--top-down-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Crowning a favourite and stacking Defers onto it is a real seating puzzle, but the Gale readers are four near-identical threshold checks and chained Gusts get hard to follow.",
+    "distinct": "Defer, where weak courtiers hand their attack to the biggest unit of any tribe, plays unlike today's tribes and acts out the court's precedence; the Gust itself is close to familiar extra-attack text."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Lady High Pressure and Sir Vane don't read the way the builds use them; fix those wordings, the rest can stand.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Lady High Pressure gives Defer to every other unit, including the favourite, so the biggest never attacks normally and its turn passes to the second-biggest. Say whether the biggest is exempt, e.g. \"Your other units, except your biggest, have Defer.\""},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Sir Vane's \"your side attacks first\" overrides the more-units rule but says nothing about two Vanes meeting. Put the tiebreak on the card (e.g. \"if both sides have this, the usual rule applies\")."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "\"Once a cycle\" and \"Twice a cycle\" aren't in Bramble's limit words (turn, fight). Define a cycle in the Gust keyword text so the limits read at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Pine-Cone Augur, Red Sky at Night, Cirrus Steward and Mackerel Sky all read \"if your Gale is N or more\". Give one of them a different shape, like a forecast you set before the fight that pays if it comes true, so the readers don't blur."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "The Sí Gaoithe is the fairy host passing on a still day, but its card is a high-Gale check. Paying out after a fight with few Gusts would act out the lore and give the tribe an off-day payoff."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Lady High Pressure stops the whole court so one wind can blow: the sovereign who forbids anything to happen, shown in what she does."},
+    {"uid": "u15", "why": "Old Föhn takes the hits for everyone else's Gusts, so he's literally blamed for everything; a clear, readable protection job."},
+    {"uid": "u03", "why": "Bowing Zephyr bows out of its turn and cheers the favourite on; one line, instantly readable, and it shows the court's manners."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Cirrus Steward is a generic End of Turn buff to the biggest; nothing in it says cirrus or steward."},
+    {"uid": "u13", "why": "The Sí Gaoithe has an opaque name and a dry threshold check, and the item it makes is the real card."},
+    {"uid": "u02", "why": "Pine-Cone Augur is a plain Gale-threshold stat seed; the pine-cone lore isn't in what it does."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Unclear whether the biggest unit also gets Defer, which changes the whole Favourite build."},
+    {"uid": "u07", "kind": "unclear", "note": "Two Sir Vanes in a mirror have no written ruling."},
+    {"uid": "u19", "kind": "unclear", "note": "Golden Wild Hunt counts each Gust three times, so the Gale goes 18 to 21 and can skip \"reaches 20\". Say \"reaches 20 or more\"."},
+    {"uid": "u14", "kind": "watch", "note": "Lord Mistral with Mistral Outrider, Windhover and Couriers makes long out-of-turn chains that may be hard to follow on screen."},
+    {"uid": "u15", "kind": "watch", "note": "Old Föhn, Lady High Pressure and The Swift Couriers together may make a favourite that never takes damage."}
+  ]
+}

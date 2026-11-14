@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "cuckoo-clockworks--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three axes that tangle (Eggs, sleepers, the clock) and a real slot bet every turn, held back from 8 by a weak early game and a heavy rules load.",
+    "distinct": "Earns 8 over 7 because no tribe feeds on the enemy's own size or acts mid-fight on a shared clock; empty slots as nest boxes is new."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is right; a couple of timing rules (Ottilie with hide and sleep effects, when innate sleepers fall asleep) need writing down.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Ottilie's 'happen twice' is unreadable on Little Gernegroß (hide twice?) and Curfew Warden (sleep at the Hour, then wake at the next one?). Say what doubling does to one-off effects."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Asleep says it wakes at the next Hour after it fell asleep, but Jar Dormouse never says when it fell asleep; with Wind 4 does it wake before the first attack? State that innate sleepers fall asleep at Start of Combat."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Key-Turner against your own sleepers is a lovely tension: Wind makes Eggs safe but wakes the jar early. Keep it, and maybe give one Dormouse a payoff for a late Hour so the tension cuts both ways."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Nest-Box Dormouse plus deliberate empty slots plus Mother Rohrsang is the best combo here; a second card that cares where a Chick lands would deepen it."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Frau Wechselbalg's Discover from the host's tribe is a great off-label pivot tool; say what happens when the host is neutral or a Clockworks Chick."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Eats your own temporary Chicks for permanent stats, so where you leave holes becomes a combo choice."},
+    {"uid": "u14", "why": "Doubles any tribe's Start of Combat cards, a bridge into whatever the lobby offers."},
+    {"uid": "u04", "why": "Puts another tribe's carry to sleep, protecting and buffing it: a use well outside the tribe's own theme."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Flat gold for the first Hour; with Wind it always pays and there is no decision."},
+    {"uid": "u03", "why": "A plain End of Turn Brood ticker with nothing to play around."},
+    {"uid": "u10", "why": "Same Brood job as Egg-Painter one tier up, with little new interaction."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Doubles every other tribe's Start of Combat card, triples when golden."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Tower (Hour every attack) with Door Cuckoo spams Eggs and maxes Old Unruh fast."},
+    {"uid": "u15", "kind": "unclear", "note": "Under Ottilie, does he hide twice, and on which host?"},
+    {"uid": "u16", "kind": "watch", "note": "Golden Rohrsang with Little Gernegroß takes twice the host's whole stats."},
+    {"uid": "u02", "kind": "unclear", "note": "When an innate sleeper fell asleep isn't stated, so its wake Hour is ambiguous with Wind."}
+  ]
+}

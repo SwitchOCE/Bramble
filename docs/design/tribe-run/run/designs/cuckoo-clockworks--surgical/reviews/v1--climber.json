@@ -1,0 +1,36 @@
+{
+ "id": "v1--climber",
+ "design_id": "cuckoo-clockworks--surgical",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 6, "distinct": 8},
+ "ratings_why": {
+  "fun": "Feeding Chicks on the enemy's biggest units scales well into tall late boards, but Tiers 1-2 are weak and the tribe's own permanent growth is thin, so the early climb is a grind.",
+  "distinct": "Earns 8 over 7 because it is the only tribe that acts on the enemy board and grows from the opponent's stats, and the mid-fight Hour adds a timing beat no tribe has."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Gernegross's rules don't say what happens when his host dies or what his golden means, and the early tiers could carry more.",
+ "points": [
+  {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Little Gernegross leaves the board as an Egg, but Eggs are lost if the host dies first: does he die too? And the golden's \"Four times\" doesn't say four times what. Spell both out."},
+  {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Grand Horologe Ottilie with Curfew Warden or Gernegross is unclear: a sleeper put down at the first Hour may wake at that same Hour, and Gernegross can't hide twice. Say how delayed Start of Combat effects order against the Hour's wake step."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The Egg side does little before Brood grows: a 1/1 Chick off a 2/3 host. A Tier 1 or 2 card that gives a flat early Chick bonus, or a Brood seed at Tier 1, would make the first five turns feel like this tribe."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "Permanent board growth comes only from Brood, the Keeper, Nest-Box and Unruh. A second way to bank Chick stats permanently (like Nest-Box at Tier 3) would give the long game a curve you can watch climb."},
+  {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Late boards are full, so Chicks mostly shove and fly off. Show the shove as the payoff on screen so a full board still feels like the Eggs did something."}
+ ],
+ "standouts": [
+  {"uid": "u16", "why": "Mother Rohrsang turns every Layer into a bigger counter to tall boards; her golden copying whole hosts is a high roll worth chasing."},
+  {"uid": "u11", "why": "Nest-Box Dormouse turns a borrowed Chick into permanent stats and makes leaving a slot empty a real choice."},
+  {"uid": "u18", "why": "Kasimir the Peddler is a true Tier 6 payoff: an Egg on every enemy, shoves that ignore defences, scaled by Brood."}
+ ],
+ "weakest": [
+  {"uid": "u01", "why": "Dunnock-Line Fledgling's Egg is a 1/1 in the early fights, often hatching after the fight is decided."},
+  {"uid": "u05", "why": "First-Call Herald is plain conditional gold with no tie to growth."},
+  {"uid": "u07", "why": "Key-Turner does nothing alone and two of them make the Warden's sleep end before the first attack."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper (Hour every attack) with Door Cuckoo gives an Egg and a shove every attack; shoves happen even with no room, so room doesn't cap the damage."},
+  {"uid": "u16", "kind": "watch", "note": "Golden Mother Rohrsang with Kasimir makes a full copy of every enemy and shoves each host for its own Attack; a high roll, but check it isn't an auto-win."},
+  {"uid": "u13", "kind": "watch", "note": "Frau Wechselbalg's free Discover nearly every turn is strong Tier 4 economy, worth the owner's eye."},
+  {"uid": "u15", "kind": "unclear", "note": "Little Gernegross: fate when his host dies before the Hour, and the golden \"Four times\", aren't defined."}
+ ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "gale-court--top-down-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Gusts are real attacks, so they fire every other tribe's attack text, and Defer crowns a favourite from any tribe; the seating and 'who is biggest' puzzle changes every turn.",
+    "distinct": "Defer and the Gale carried into the shop are fresh, but the core is still 'extra attacks', which reads close to Windfury."
+  },
+  "verdict": "settle",
+  "verdict_why": "The web of Gust, Defer and biggest already holds; the only real fix is one ruling on Sir Vane, and more rounds would mostly reshuffle the Gale readers.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Sir Vane's 'your side attacks first' has no rule for two Vanes meeting; say that if both sides have one, the usual more-units rule decides."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Windhover still works under Lady High Pressure: a Gust is an attack, so seated right of the favourite it adds a Gust off the Deferred ones. The build notes call this a clash; it's a hidden combo worth saying on the card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Pine-Cone Augur, Red Sky at Night, Mackerel Sky and The Sí Gaoithe all just check a Gale threshold. One of them could read where or by whom Gusts were made, so the shop side also asks a seating question."},
+    {"pid": "p4", "uid": "x01", "kind": "idea", "text": "Gale Warning is the best cross-tribe toy here (Hunter quarry, Cleave neutral, the Shy sell trick); keep it aimed and stackable."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Old Föhn's Defer plus soaking makes him a great back-row anchor; saying whether he also soaks Bristle damage would open a clear answer to the Bog folk counter."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Turning the whole board into Deferrers flips which units you want and clashes with Swift Couriers, a real build choice."},
+    {"uid": "u11", "why": "Reads only its left neighbour, so seating is the decision, and it chains off Gusts as well as normal attacks."},
+    {"uid": "u18", "why": "Defers until the Gale hits 6, so you time opening Gusts to light its fuse before the first normal attack."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "A plain gold reader with one threshold; no decision once Gust Pages are down."},
+    {"uid": "u02", "why": "A threshold stat seed that does the same thing every turn."},
+    {"uid": "u12", "why": "Board-wide stats at a Gale step; strong but only says 'Gust more'."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "unclear", "note": "Two Sir Vanes meeting has no ruling."},
+    {"uid": "u15", "kind": "unclear", "note": "Not clear whether 'damage dealt back' includes Bristle and other on-hit damage."},
+    {"uid": "u19", "kind": "watch", "note": "The mass Gust at 20 plus Lord Mistral's kill chains can make very long fights."},
+    {"uid": "x01", "kind": "watch", "note": "Warnings stack permanently each turn at Gale 8 or more; linear, but worth the owner's eye late."},
+    {"uid": "u17", "kind": "watch", "note": "With Old Föhn and The Swift Couriers, the favourite may be near unkillable."}
+  ]
+}

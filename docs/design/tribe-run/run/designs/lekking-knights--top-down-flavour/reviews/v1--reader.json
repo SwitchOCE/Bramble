@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Three paths that all pour into one vain giant, with a board you shrink on purpose, make a draft you'd happily take; three keywords plus Champion is a lot to learn at once.",
+    "distinct": "Gaps as fuel and Proud as a visible chequerboard use Bramble's fixed slots like no current tribe; Duel itself reads like a familiar pre-combat strike."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The fantasy and shape are there; a few rules a player can't yet read (Proud with Created units, Cork-Pop against Hartmut's cap, Gottfried's percentages) need one pass of wording.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "With Sir Hartmut, it's unclear whether Master of the Cork-Pop's second trigger spends one of Hartmut's 'Twice a fight' uses. Say so on one of the two cards."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Proud doesn't say whether a Created unit beside it (a Bird Egg, a summon mid-fight) breaks it. Since the whole court depends on it, the keyword text should settle it."},
+    {"pid": "p3", "uid": "u18", "kind": "fix", "text": "Sir Gottfried's '+50% of his stats for each empty slot' could read as compounding. Write it as 'gains +50% of his starting stats per empty slot' or show the x4 at six gaps."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "The Chronicler crossing out a name each spring is the tribe's best flavour beat. A 'you may' version keeps it and avoids feel-bad losses, as the designer suggests."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Refectory Prior's '4 or fewer units' is true for everyone early, so it reads as plain gold, not austerity. '3 or fewer' would tie it to the shrinking order."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "The Chronicler turns 'splendid decline' into a turn rhythm: buy a fat unit, watch it be crossed out into the Champion."},
+    {"uid": "u06", "why": "Sir Hartmut, too lost in his song to stop, Duels on after each win; the card is the character."},
+    {"uid": "u08", "why": "Elder of the Centre pays the Champion for every empty slot, one plain line that makes gaps a choice you can see."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Refectory Prior is generic economy with a condition everyone meets early."},
+    {"uid": "u13", "why": "Sprucehold Envoy is a stock Discover with little lek in what it does."},
+    {"uid": "u03", "why": "Pennon-Squire is a plain keyword-and-stats giver; it reads fine but says nothing about knights."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Herald of the Last Dawn with Grand Master Ottokar and Cork-Pop could clear a front row before anyone attacks."},
+    {"uid": "u18", "kind": "watch", "note": "Sir Gottfried at x4 (x7 golden) on a fed Champion, on purpose; worth the owner's eye."},
+    {"uid": "u12", "kind": "unclear", "note": "How Master of the Cork-Pop's doubled triggers count against 'Twice a fight' limits isn't said."}
+  ]
+}

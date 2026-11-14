@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One dial feeds two opposite builds, and the cast order is a real puzzle each turn; Brass, Fanner, Compounder and Pestle Noctuid all stack on the same Phial.",
+    "distinct": "A deterministic push-your-luck count to an exact number is unlike any tribe today; it still leans on the familiar spell-tribe frame."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is sound, but The Old Lady's reach into fights and Burnished Brass's second cast need clear wording.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "The Old Lady says Once a turn, but Flares can happen in a fight. Say whether she also stops in-fight Flares; it decides whether Lamp in the Fight can run her."},
+    {"pid": "p2", "uid": "u13", "kind": "fix", "text": "Burnished Brass: say whether the second cast hits the same unit. It changes how Pestle Noctuid and Lamplit Compounder pay out."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "A mid-fight Flare drops Heat to 0, which shrinks Six-spot Burnet's Bristle and Eyed Hawk-moth's debuff. That anti-synergy is a nice tension; show it in the build notes so players plan around it."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "The Uncertain could make a Phial that Stokes 0 to 2 at random, an uncertain dose that makes the exact-7 count a live choice early."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Skep Pilferer could tie its gold to the Lamp, e.g. gold when you end exactly at the Flashpoint, so it joins one of the builds."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "One card that is a safety net for Simmer and a sell decision for Boil Over."},
+    {"uid": "u14", "why": "Makes cast order matter: cheap Phials first, then the big spell on the right Moth, and it fights Flaring for the same Heat."},
+    {"uid": "u09", "why": "Turns being hit into Heat, so the Lamp can tip over mid-fight and land Burnt-Ring Senior's buff."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Flat gold per cast, no tie to Heat or Flares."},
+    {"uid": "u03", "why": "A random target makes it the one Simmer card with no placement choice."},
+    {"uid": "u02", "why": "A plain Phial supplier; does its job and nothing else."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Old Carbonaria, the designer's own estimate is 150 to 190 stats a turn."},
+    {"uid": "u14", "kind": "watch", "note": "With Burnished Brass and The Herald, each Phial on a Moth lands twice at high Heat."},
+    {"uid": "u06", "kind": "unclear", "note": "Unclear whether Once a turn covers Flares during the fight."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+ "id": "v1--combo",
+ "design_id": "will-o-wisps--bottom-up-flavour",
+ "v": 1,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Placement is a real puzzle and the pieces overlap (Turncoat glass cannons behind Lanterns, Follette chains under the Reflection, Stones feeding Foxfire and Tiddy Mun), but three Lost readers feel samey and tall enemies can stall it.",
+  "distinct": "8 over 7 because its damage is borrowed: the enemy's own Attack does the killing, so it grows with the lobby's strength, which no current tribe or generic auto-battler tribe does."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Two rules a player can't read for sure (what Lost counts, what the Reflection doubles) are worth one pass; the rest should stay hot.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "Lost says \"enemies you led astray\": does one enemy misled three times (Lanterns, Follette, Barn Owl) count once or three times? The Steward, Mapseller and Spunkie all hang on it."},
+  {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Black-Water Reflection: say whether only the led-astray attack is doubled, or also the return hit, and whether an enemy merely marked \"led astray on its next attack\" counts. \"Led-astray attacks deal double damage\" would read cleanly."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Pay off the attack that hits nothing: \"with no other unit to hit, the attacker stumbles into the bog and takes its own Attack.\" That fixes the tall-unit tie and is a new combo line."},
+  {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Gaffer Turncoat's \"can't be led astray\" is blank outside the mirror. A Start of Combat swap on the enemy across would combo with Old Will picking their biggest unit."},
+  {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Captain Spunkie goes dead at Tier 6; let the discount turn into something late (gold or a Turnip) once you can't tier up."}
+ ],
+ "standouts": [
+  {"uid": "u06", "why": "Swap a Lantern carrier into a 20/3 that nobody can reach: an off-label use the tribe invites."},
+  {"uid": "u08", "why": "Chains misdirection from enemy to enemy; with the Reflection and Old Will their carries trade with each other."},
+  {"uid": "u18", "why": "Turns deliberate gaps into Stones that feed Foxfire, Tiddy Mun and Phos; a strange board-shape decision."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "Plain gold from Lost; no decision beyond buying it."},
+  {"uid": "u13", "why": "A third Lost reader; the only choice is where the most Lanterns sit, which you already decided."},
+  {"uid": "u10", "why": "A wall that never attacks and loses its text at Tier 6."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "Ignis Fatuus with Follette, the Barn Owl and Tiddy Mun can reach 10 to 15 misleads a fight, each +1/+1 to every other unit, doubled when golden."},
+  {"uid": "u07", "kind": "watch", "note": "Stingy Jack's permanent Lanterns stack toward the 12-Lantern front row the risks name; worth watching in play."},
+  {"uid": "u17", "kind": "watch", "note": "Old Will plus the Reflection makes their biggest unit eat double hits from their own carries every misled attack."}
+ ]
+}

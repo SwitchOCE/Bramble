@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "gale-court--top-down-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Gust Page and Sir Vane win early fights, the Gale turns fights into shop stats from turn 2, and Lady High Pressure's favourite board is a capstone I'd climb towards.",
+    "distinct": "Defer, which turns a weak unit's attack into your favourite's extra swing, and a fight count that pays out in the shop are fresh; the extra attacks on their own are Windfury in new clothes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mostly playable now, but Sir Vane's mirror case needs a ruling and which unit counts as the favourite fights the Defer plan.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Two Sir Vanes, or Vane against a side with more units, leaves 'your side attacks first' unresolved. Give a tiebreak in the text, such as 'if both sides would, the side with more units goes first'."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "'Biggest' counts Health, so Old Föhn (2/11), The Helm and Bowing Zephyr often become the favourite and Gust for 1 or 2 Attack. Having Defer pick 'your highest-Attack other unit' would make the favourite the hitter the plan wants."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Permanent growth stops climbing late: Cirrus Steward caps at +4/+4 and Mackerel Sky at +2/+2, and no Tier 6 unit grows the board across turns. One Tier 6 unit that turns a big Gale into permanent stats would give the late game a curve to chase."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Bowing Zephyr has nobody to Defer to on turns 2 and 3. Pine-Cone Augur and Gust Page carry the early game alone, so a Tier 2 body that makes a Gust on its own would smooth the start."},
+    {"pid": "p5", "uid": "x01", "kind": "idea", "text": "Gale Warnings stay forever and stack, so a board that holds Gale 8 or more adds one more permanent Gust every turn. That's a fun high roll; say whether it is meant to keep stacking without end."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Lady High Pressure turns the whole board into one favourite's queue of Gusts, a real capstone the comp is built to reach."},
+    {"uid": "u01", "why": "Gust Page is a clean Tier 1 tempo body that starts the Gale on turn 1."},
+    {"uid": "u11", "why": "Windhover makes seating a puzzle: who sits on its left decides who swings twice."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Bowing Zephyr is a 1/5 that does nothing until you have a favourite worth deferring to."},
+    {"uid": "u05", "why": "Red Sky at Night is plain economy with a small body, and it pays most when you're already winning."},
+    {"uid": "u09", "why": "The Helm's Shield on the biggest unit is fine but has no hook of its own beyond Defer."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "Gale Warnings add a permanent Gust each turn the Gale holds 8 or more, which keeps the Gale at 8 or more. Linear, but it never stops."},
+    {"uid": "u15", "kind": "watch", "note": "With Lady High Pressure, Old Föhn soaks every Gust's return damage, so a favourite only gets hurt by enemy attacks. Bog folk and random damage are the counterplay."},
+    {"uid": "u14", "kind": "watch", "note": "Lord Mistral, Mistral Outrider and Windhover chain many Gusts in one fight. Each has a cycle limit, so it's in-fight only, but the fallback cap may be needed."},
+    {"uid": "u07", "kind": "unclear", "note": "Two sides that both 'attack first' have no ruling."}
+  ]
+}

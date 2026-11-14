@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "The curve has a real shape: extra lives win early fights, Barnstormer and Wreath-Layer start a mid-game snowball, and Hesketh, Ardea or Blood-and-Thunder give three different late cash-outs off one death count.",
+    "distinct": "Play Dead reads as Reborn with a counter at first; the fresh parts are cueing your own deaths (Ham, the Villain, Broken Heart) and the shared play-dead count as currency."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Dame Natrix's Broken Heart can loop between two copies as written and Wreath-Layer's 'it' is ambiguous; both are short text fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "With two Dame Natrix, one's Broken Heart makes the other play dead without dying, which may fire her own Broken Heart back, with no end. Say her deaths fire only when a Play Dead charge is used, or Broken Heart once a fight."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Wreath-Layer's 'it permanently gains +1/+1' can mean the Wreath-Layer or the Player that played dead. Write 'that Player'."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Old Crest as written doubles only the dying unit's own effects, so it doubles Natrix's Broken Heart but not Blood-and-Thunder's throws, unlike the risk note. Pick one and say it on the card."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The back row rarely plays dead, so Curtain Call units there sit idle. Wings Understudy playing dead when it swaps would give the back row a cue and fit the wings."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "A Hatchling every End of Turn clogs a 4-card hand fast. Let the Matron put it in an empty board slot when the hand is full."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "The Barnstormer plays dead without dying, so one cheap Tier 3 feeds every count in the tribe and grows itself."},
+    {"uid": "u19", "why": "Mr Ardea Grey's rave-or-pan threshold turns the death count into a visible target you build toward each turn."},
+    {"uid": "u14", "why": "Dame Natrix's three scripted deaths give one card three jobs and the tribe its big mass trigger."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "The Brothers Berus hit your own strongest neighbour and are a 4/3 body; without Žaltys they mostly cost you stats."},
+    {"uid": "u10", "why": "Footlights Keeper is a quiet passive that only matters on big front-row units."},
+    {"uid": "u05", "why": "The Natterjack pays nothing until deaths pile up, so the tribe has little early economy."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "broken", "note": "Two Natrix can trade Broken Hearts forever as written; golden plus Old Crest multiplies it further."},
+    {"uid": "u15", "kind": "watch", "note": "Blood-and-Thunder grows with the square of the death count; the 10-a-throw cap is the only brake once Broken Heart fires."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Ardea's rave is up to +20/+20 on every other Player each turn; a high roll worth the owner's eye."},
+    {"uid": "u13", "kind": "watch", "note": "A free Hatchling a turn makes triples and Discovers steady; check how fast goldens arrive."},
+    {"uid": "u03", "kind": "unclear", "note": "'it' could mean the Wreath-Layer or the Player that played dead."}
+  ]
+}

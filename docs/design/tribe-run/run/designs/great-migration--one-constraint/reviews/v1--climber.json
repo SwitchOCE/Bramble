@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "great-migration--one-constraint",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Choosing who stands in front for plays, sells, End of Turn and the fight is a real decision every turn, but only one engine runs per turn, so permanent growth is thin and the early boards feel quiet.",
+    "distinct": "Earns 8 over 7 because the one-voice rule turns every recruit step into a positioning call and the fight into a queue of leaders; no Battlegrounds tribe or generic auto-battler tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Three cards have rules a player can't settle as written (Herding Council, Old Mother Lemen, Gerd), and those are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Herding Council is a Lemming, so by the herd rule its text works only while it is your Front. Say whether it must be your first Lemming or works from any slot."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Old Mother Lemen: say whether Kits copy her printed body, her current stats, or her stats including the Banner. The Matriarch build assumes the Banner is included."},
+    {"pid": "p3", "uid": "u16", "kind": "fix", "text": "Gerd the Shouter: say whether enemies can reach a back-row Front while the front row still has units. The Matriarch build needs this answered."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Late permanent growth is flat: only one End of Turn text fires a turn, so Herding Elder and the Banner cards add the same amount at Tier 6 as at Tier 4. A Tier 5 or 6 card that lets a second unit speak at End of Turn would give the late curve its doubling."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Snow Hall Digger only works while it is your Front and other Lemmings die behind it, which is rare. Letting it work from anywhere, as the herd's one exception, would make it a real Tier 3 enabler."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Trailbreaker turns a death-free handoff into a relay: buff the next leader and push it forward, bounded by once a fight."},
+    {"uid": "u14", "why": "The Front Lemming is a clean Brann slot that fits the rule: double every later Take the Lead, then step aside."},
+    {"uid": "u18", "why": "Brother Onward is a payoff you build the whole queue around, timing his turn late with Kits as a fuse."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Tally gives about 1 gold a turn and competes for the Front with every other engine; low payoff for the swap."},
+    {"uid": "u07", "why": "Snow Hall Digger rarely fires, because it needs to be the Front while others die."},
+    {"uid": "u13", "why": "Ole the Learned is a Tier 4 that adds only blank 1/1s and often blanks your own opener by filling slots in front."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Cantor with golden The Front Lemming and golden Brother Onward: Banner climbs 4 a death, then four times the Banner goes to every Lemming. In-fight only, but worth the owner's eye."},
+    {"uid": "u17", "kind": "unclear", "note": "Its own text falls under the herd rule; unclear whether it works from any slot."},
+    {"uid": "u19", "kind": "unclear", "note": "Unclear whether Kits copy the Banner bonus she carries as Front."},
+    {"uid": "u16", "kind": "unclear", "note": "Unclear whether 'whenever they can' lets enemies reach a back-row Front."}
+  ]
+}

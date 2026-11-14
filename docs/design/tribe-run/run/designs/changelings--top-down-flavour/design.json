@@ -3,20 +3,24 @@
  "seed": "changelings",
  "route": "top-down-flavour",
  "tribe_name": "The Changelings",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Faceless units that copy other cards' text and tribe (Guise), grow the longer a copy lasts, and cash in when found out.\nThey also carve blank stat copies (Stocks), swap units with the shop, and turn copies into triples.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

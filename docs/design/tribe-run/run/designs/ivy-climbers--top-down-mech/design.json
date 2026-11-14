@@ -3,20 +3,24 @@
  "seed": "ivy-climbers",
  "route": "top-down-mech",
  "tribe_name": "The Ivy and Mistletoe",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Climbers hang on a friendly unit and copy half of every stat it gains, passing gains down chains.\nBuild one big host, many small trees, or tiny roots that let climbers Bloom; Dodders steal from enemies.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

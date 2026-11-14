@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One Lamp dial gives two opposite builds, stop at 7 or blow past it, and each cast is a small push-your-luck call; the thin early game and the exact-7 arithmetic keep it from an 8.",
+    "distinct": "A threshold dial that pays both for hitting it and for overshooting it, carried into the fight, plays unlike any of today's tribes; spell-count scaling itself is familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mostly reads cleanly, but The Old Lady's limit needs to say whether it covers fights, and the Hawk-moth's order gives a confusing zero.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "The Old Lady says \"Once a turn\", but Flares also happen in fights and Bramble's limits are per turn or per fight. Say whether she stops an in-fight Flare, for example \"Once a turn and once a fight\"."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Eyed Hawk-moth Stokes first, so at Heat 7 its own Stoke Flares, Heat drops to 0 and the attacker loses nothing. Reading Heat before the Stoke would match what a player expects."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The flame fantasy reads in play: moths creep toward the Flashpoint, the Old Lady snuffs, the Lamp bursts. Showing the dial on the board with the Flashpoint marked would carry the whole tribe."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "The Herald is a bare Stoke 3; something that ties to announcing the season, such as Stoking more on the turn you Tier up, would give it the moth's character."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Old Carbonaria adds a second counter, Heat gained this turn, and her text doesn't use the peppered moth's colour change. A version that swaps between Simmer and Flare payouts would read as her and drop the extra counter."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "The Old Lady is a safety valve for one build and a sell decision for the other, in one short line."},
+    {"uid": "u17", "why": "Dame Pavonia never eating becomes Can't gain stats, a clear drawback that is pure seed."},
+    {"uid": "u09", "why": "Eyed Hawk-moth flashing its eyes to weaken the attacker is the moth's real trick, read at a glance."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "The Herald is a plain Heat battery with no character in its text."},
+    {"uid": "u04", "why": "Lamp-Fanner is a pure enabler with no stats of its own, a dull buy before Tier 4."},
+    {"uid": "u02", "why": "The Uncertain never sure of a dose would suit a random Phial size; a plain Phial a turn hides the joke."}
+  ],
+  "flags": [
+    {"uid": "u06", "kind": "unclear", "note": "Doesn't say whether \"Once a turn\" covers Flares during the fight."},
+    {"uid": "u18", "kind": "watch", "note": "At Flashpoint 3 with Mother Shipton and Burnt-Ring Senior, in-fight Flares could fire every few hits, each a permanent board buff."},
+    {"uid": "u17", "kind": "watch", "note": "Pavonia doubling Old Carbonaria is the designer's own high roll; worth the owner's eye."}
+  ]
+}

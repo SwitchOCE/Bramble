@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "dyke-board--one-constraint",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buy and sell becomes a vote on the water level, and wide against tall is a real choice you feel all game; Under and seats take some learning.",
+    "distinct": "Earns 8 over 7 because one shared Health number for the whole tribe changes what Health means, and the high water drowns your own outsiders too; no tribe in Battlegrounds or Bramble does that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Peilmeester's text doesn't do what the tribe says it does (drown everything Under), and Mud Hauler's count is ambiguous; both are quick wording fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Peilmeester's 'Level minus its Health' only kills units at half the Level or less, but the builds say everything Under drowns. Make it 'takes damage equal to your Level' so the card reads as it plays."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Mud Hauler: say whether 'each Board unit you have' counts itself."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Hendrika's raise depends on reading order, which a player can't see. 'Start of Combat, before other effects:' removes the question."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Show the water line on every unit: a ripple on each Under unit, on both boards, so drowning is read at a glance rather than worked out."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Under the Spaarndam Pup, let the whole Board's water drop together on each hit, so the shared damage looks like one flood instead of seven small numbers."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "The pup plugging the dike becomes every hit shared across the Board: the fantasy is in the rule."},
+    {"uid": "u14", "why": "Outsiders pay the levy, so each slot is 'pays in' or 'gets a seat'; a clear, thematic tension with Heemraad."},
+    {"uid": "u06", "why": "Giving another tribe's unit a seat on the Board is a readable, flavourful cross-tribe hook."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Winter Raft's +1 Attack a turn is a generic buffer with nothing of the water law in it."},
+    {"uid": "u05", "why": "Ledger Coot is a generic sell-for-gold piece; it only touches the law through 'sold units leave their water'."},
+    {"uid": "u07", "why": "Chicks dilute the Level every turn, so the card fights the tribe's own Health unless you build Old Bram or count cards."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Who dies is hidden arithmetic: Under units between half the Level and the Level survive weakened."},
+    {"uid": "u19", "kind": "unclear", "note": "Which Start of Combat cards see the raised Level depends on slot order."},
+    {"uid": "u16", "kind": "watch", "note": "Kobus with the Miller and Levy-Master pours about 80 a turn at Tier 5; linear, but the high roll to watch."}
+  ]
+}

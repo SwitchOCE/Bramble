@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The cards overlap in ways I want to solve: Paracel and Warden Quench pass the Hottest around, Mother Atra's empty slots fight the Curator's Hot ring, and burns guarantee Smooth Tobias heats himself every fight.",
+    "distinct": "Decaying Heat that pays more when reheated, plus self-burns you choose to suffer, redirect or fire back, plays unlike any of today's tribes; a few cards are plain counter-tribe stuff."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 readability fixes landed and nothing is broken; more passes would change the tribe, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": "u09", "kind": "idea", "text": "Ember-Slinger and Yellowback Spitter cancel out because your unit no longer burns. Letting Spitter fire whenever your Heat burns anyone would make the two a greedy late-game combo instead of a choice."},
+    {"pid": "p2", "uid": "u04", "kind": "idea", "text": "Quench-Bucket Lad could pour the removed Heat into a unit next to the target, so a quench also starts the next piece warming: one more positional hop in the Quench and Reheat line."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Burns make Smooth Tobias take damage every fight, so he heats himself forever. That self-feeding loop is the tribe's best hidden combo; worth naming in the builds."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Slag Picker is the one card with no positional or Heat decision. Tie the Ingot to the sold unit, for example Heat equal to the sold unit's Heat, so selling a hot piece is a choice."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Mirror matches get fun if the enemy's Spitter fires when Ember-Slinger hands it Heat; a line saying whose Spitter counts would settle it."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Masterpiece Hall Curator turns the board into a puzzle: ring the piece with Hot neighbours, against Mother Atra wanting those slots empty."},
+    {"uid": "u09", "why": "Yellowback Spitter makes your own burns a weapon, and the Shield trick uses a keyword against its intended purpose."},
+    {"uid": "u14", "why": "Warden Quench cashes the Hottest and spreads Heat, so with Paracel the Hottest moves every turn and you plan two turns ahead."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Slag Picker is a generic sell-for-item engine with no tie to Heat or position."},
+    {"uid": "u01", "why": "Slag Row Journeyman is a one-time heat-yourself body that drops out fast."},
+    {"uid": "u11", "why": "Burn-Salve Matron is a passive aura whose payoff rounds to almost nothing until Health is high."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Curator plus Crater Forge Master, Thiers Grinder and the Undying Furnace stacks many Reforges on climbing Heat; needs the late-game sim."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Keeper heats every unit each turn with no cooling, so the whole board grows quadratically."},
+    {"uid": "u18", "kind": "watch", "note": "Ottilie's Attack-and-Health Regrow on every unit feeds itself; needs the runaway check."}
+  ]
+}

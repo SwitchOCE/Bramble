@@ -1,0 +1,36 @@
+{
+ "id": "v1--reader",
+ "design_id": "hive-and-carnival--bottom-up-mech",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 6, "distinct": 6},
+ "ratings_why": {
+  "fun": "Save-or-spend, and the big drain turn, give real decisions each turn, but the board grows through plain +1/+1s that a player follows by doing gold sums.",
+  "distinct": "Treating the gold you hold and the gold you spend as two resources is fresh, but in the fight it looks like any stats tribe, and the Hedgerow Larder already rewards holding."
+ },
+ "verdict": "iterate",
+ "verdict_why": "No unit says which town it belongs to, so the cards that buff a town can't be read yet; that needs a fix.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit is tagged Hive, Carnival or Road, so Signora Afide, Old Messor, Maestro Tettix and Madame Cigale can't be read. Print the town on every unit."},
+  {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Madame Cigale's \"a gold beyond this turn's income\" doesn't say which gold counts first. Say \"each gold you spend after your Spent passes your income\"."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The cards act out accounting more than the animals do. Add one or two real animal hooks, such as a worker who stings and dies, or cicada shells left on the Moulting Wall that fight."},
+  {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Lord Fennimore's aura doesn't feel like a drone thrown out every autumn. He could leave when sold and come back to hand to appeal, still lowering the numbers."},
+  {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Ottavia, the Wax Sealer and the Borrower all move or count gold at End of Turn in reading order, which is hard to see. Resolving every effect that moves gold before any effect that counts it would make Ottavia readable."}
+ ],
+ "standouts": [
+  {"uid": "u12", "why": "Winter Cluster: the saved honey keeps the front row warm. It's clear at a glance and true to the bees."},
+  {"uid": "u11", "why": "Tithonus: his Fanfares fire again at double the number, which is easy to read and fits his endless thin singing."},
+  {"uid": "u07", "why": "Tymbal Drummer: the more you spend, the louder he plays. One clear sum and a true cicada image."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Lord Fennimore: a number-changing aura with no drone story in what it does."},
+  {"uid": "u19", "why": "Ottavia: half the smaller of two counters, counted at End of Turn after other units move gold, is arithmetic, not a scout's dance."},
+  {"uid": "u10", "why": "The Borrower: a generic gold swing with no animal or town behind it."}
+ ],
+ "flags": [
+  {"uid": "u13", "kind": "unclear", "note": "Signora Afide names Hive and Carnival units, but no card says which town it is in."},
+  {"uid": "u18", "kind": "unclear", "note": "It's unclear which gold counts as beyond income."},
+  {"uid": "u18", "kind": "watch", "note": "On a drain turn with the Borrower, she gives +1/+1 to every Carnival unit 10 to 20 times."},
+  {"uid": "u17", "kind": "watch", "note": "Mother Melissa with Old Messor and a golden Granary Clerk stacks gold and stats each turn from a float that is never spent."}
+ ]
+}

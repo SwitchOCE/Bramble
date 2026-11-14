@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every recruit phase is a drag-then-buff puzzle with real choices about whom to climb, held back from 8 by heavy rule load, dead shop spells and a thin mono-tribe start.",
+    "distinct": "Earns 8 over 7 because the Climbers grow only by copying a host, so the tribe lives off the lobby: it hangs on Oozes, Hunters or a Pass target, and Cousin Dodder even copies the enemy's fight buffs. No tribe today plays like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken and the open questions are rulings for the owner; another pass would mostly shuffle numbers on a rule that already works.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "idea", "text": "Ruin Ivy turns every stray buff (a Pass, Harvest Supper, a neutral's spray) into a hub gain that all its Climbers then copy. That is the tribe's best hidden combo, so give the tribe bonus case a written ruling and let builds lean on it."},
+    {"pid": "p2", "uid": "u14", "kind": "idea", "text": "Let the player choose which Climber on Ivy in Flower Blooms, not always the biggest. A Bloomed unit gets Hold 1 and becomes a new host, so picking who comes out next is a real decision."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Missel saves Climbers from falling and Old Man's Beard feeds on falls, yet the Gatecrashers build lists both. Either count a Missel catch as a fall for Beard, or keep the tension and drop Missel from that build's list."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "With Hold 1, Hazel Wand only ever gets +1 Health a turn. Make it 'whenever a Climber climbs this, give this +1/+1' so it rewards the re-hanging the tribe is built around."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Most cards point inward at Patrons. One more card at Tier 2 or 3 that pays off climbing another tribe's unit would make the Hangers-on build reachable before Midwinter Belle and Lady Hedera."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Viscum turns separate hosts into one web: every buff anywhere reaches every hosted Climber, so where you hang things matters across the whole board."},
+    {"uid": "u07", "why": "Ruin Ivy breaks the tribe's own rule in a way that makes outside buffs into hub multipliers."},
+    {"uid": "u06", "why": "Cousin Dodder points the rule at the enemy: he copies their fight buffs, and their biggest unit dying pays you."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Hazel Wand is +1 Health a turn with no decision attached."},
+    {"uid": "u09", "why": "Barley-Sugar Twiner does one obvious in-fight job and touches no other card."},
+    {"uid": "u16", "why": "Midwinter Belle is a one-off buff that is small on a mono board, and nothing else in the tribe cares how many tribes you run."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "Ruin Ivy (golden doubles it) with Harvest Supper or Pass funnels every Climber's share into one hub, and then all of them copy it. Worth a sim."},
+    {"uid": "u19", "kind": "watch", "note": "A golden Grand Oak with Hop Bine and Viscum stacks multipliers; the design already marks it as a high roll."},
+    {"uid": "u05", "kind": "watch", "note": "Several Honeysuckle Flatterers on one big Hold-3 or Hold-4 host give 3 to 4 gold a turn from a Tier 2 card."},
+    {"uid": "u06", "kind": "unclear", "note": "Does Cousin Dodder stay in his own slot while he climbs an enemy that isn't next to him, and can his own side's attackers or effects still hit him?"},
+    {"uid": "u13", "kind": "unclear", "note": "When Missel catches Climbers that aren't next to him, do they keep their slots? 'Room or not' covers Hold but not being next to him."}
+  ]
+}

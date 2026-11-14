@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buff you land pays out again down the vine, and picking whom to climb each turn is a real, readable choice; chains of climbers on climbers get hard to follow late.",
+    "distinct": "Over a 7: Bloom makes you want a tiny host under a big climber, the reverse of every stack-one-unit tribe, and the tribe grows off other tribes' gains instead of its own."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core keyword is missing its fall rule and a few cards (Dodder Thread, Lady Hedera, Start of Combat Bloom) don't say what happens; fix the wording, keep the design.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Climb never says what happens when the host dies or leaves; only the rationale says the climber falls onto the biggest unit next to it. Put that in the keyword, since Old Man's Beard and Birds' Fly South depend on it."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Dodder Thread: does it let go of its friendly host, and does the enemy lose the quarter it takes? Say \"steals\" and say its own climbers keep copying it."},
+    {"pid": "p3", "uid": "u17", "kind": "fix", "text": "Lady Hedera climbs your biggest other unit each turn, which may be one of her own climbers, a loop the tribe bans. Add \"that isn't climbing her\"."},
+    {"pid": "p4", "uid": "u16", "kind": "fix", "text": "Ivy in Flower and Viscum Highbough change sizes at Start of Combat, which can switch Bloom on or off mid-fight. Say Bloom is checked once, at Start of Combat."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Half of half down a chain is hard to work out at a glance. Show each climber's copied stats as a separate leaf number, so the board shows what came from the host."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "Mistletoe Clump drains its host as the plant really does, and that drain is what sets up Bloom."},
+    {"uid": "u15", "why": "Cousin Dodder hops from enemy to enemy as each one dies: the gatecrasher you end up feeding, in one line."},
+    {"uid": "u13", "why": "Ruin Ivy holding up its fragile host with Damage Reduction is the ivy-clad ruin, in play."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Hanger-on is a plain gold unit; the biggest-unit check is the only nod to climbing."},
+    {"uid": "u18", "why": "Viscum Highbough is a generic team buff per count; nothing about old blood or oak shows in what it does."},
+    {"uid": "u10", "why": "Hop Bine reads fine but is a standard End of Turn buff that any tribe could carry."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Re-hosting onto her own climber is not covered."},
+    {"uid": "u07", "kind": "unclear", "note": "Whether it leaves its friendly host and whether the stats are stolen is not stated."},
+    {"uid": "u02", "kind": "watch", "note": "Two hosts with the at-least-1 minimum grows well past a Tier 1 seed late."},
+    {"uid": "u19", "kind": "watch", "note": "A huge host dying early can hand five climbers a large share at once."},
+    {"uid": "u12", "kind": "watch", "note": "Full share on a junction under Lady Hedera or a Dodder can stack fast; worth the owner's eye."}
+  ]
+}

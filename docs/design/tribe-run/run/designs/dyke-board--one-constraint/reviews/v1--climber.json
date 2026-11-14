@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "dyke-board--one-constraint",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buy and sell is a seat-count call, growth is smooth and linear from the Kit to Levy-Master, and Miller plus Kobus gives a real chase; Attack growth is thin late.",
+    "distinct": "Over a 7: one shared Health for the whole tribe, where buying a unit lowers everyone and selling raises them, plays unlike any tribe today or any generic buff tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The seated-Bird loop compounds as written and the Spaarndam Pup's split needs an order with Shield and the damage keywords; the rest can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "A Bird seated by Heemraad comes home with doubled Level-sized Health and pours it back, so the Level grows by a share of itself every two turns: a compounding loop. Make Fly South on a Board unit double only its printed Health."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "The Spaarndam Pup's split doesn't say how it meets Shield, Hunker, Damage Reduction, Nightshade or Cleave. Say whether the hit is reduced before or after it is split."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Health climbs well but Attack only gets +1 a turn from Winter Raft and Dike-Walker. A Tier 5 or 6 card that turns the Level into Attack, like a bigger Rearing Coot, would let tall boards finish fights late."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Old Bram Stuw should say which Level he reads in a fight: the one at Start of Combat, or Hendrika's raised one."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Any Board unit bought and sold leaves its Health behind, so buying for water is a steady play from turn 1. Worth leaning into with one early card that rewards it, beyond Ledger Coot."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "A Tier 2 that scales with the whole Pool, so it stays useful into the late game."},
+    {"uid": "u14", "why": "Makes every slot a choice between paying the levy and sitting on the Board; a clear direction card."},
+    {"uid": "u18", "why": "The drowning the seed promises, and it bites your own outsiders too, so seats matter."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "A 1/1 Chick a turn mostly dilutes the Level; it lives only through Ledger Coot and Old Bram."},
+    {"uid": "u12", "why": "Only about 5 net stats a turn at Tier 4, and its Level 6 gate is easy to miss in the wide build where it is meant to go."},
+    {"uid": "u05", "why": "1 gold a turn on a 1/4 body is a thin Tier 2 unless you are already selling Chicks."}
+  ],
+  "flags": [
+    {"uid": "u06", "kind": "broken", "note": "Seated Bird plus Fly South compounds the Level every two turns, with no cap."},
+    {"uid": "u16", "kind": "watch", "note": "Kobus with the Miller and Levy-Master pours about 80 a turn at Tier 5, and far more with goldens. Linear, but the high roll to watch."},
+    {"uid": "u18", "kind": "watch", "note": "With Hendrika's raise it can wipe a wide enemy board at Start of Combat before a single attack."},
+    {"uid": "u17", "kind": "unclear", "note": "Order of the split against Shield, Hunker, Damage Reduction and Nightshade isn't stated."},
+    {"uid": "u13", "kind": "watch", "note": "2 gold a turn at Tier 4, 4 golden, fed cheaply by Biesbosch Kits and the Miller."}
+  ]
+}

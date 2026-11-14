@@ -1,0 +1,334 @@
+{
+ "design_id": "will-o-wisps--top-down-flavour",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Will-o'-the-Wisps",
+  "mechanic": "**The fantasy.** You are the Honourable Company of Fen Guides. You hang lights over the reeds, the enemy follows them, and its army ends up hacking at itself in the fog. Your own units are faint lights that are never quite where the blow lands. You keep the fen wet: the gaps on your board are your home, not a weakness. Treasure comes up where the travellers sank.\n\n**Core keyword: Astray.**\n- *Lead a unit Astray:* its next attack goes Astray. Leading it Astray again adds one more Astray attack.\n- *An attack that goes Astray* hits a random **other unit on the attacker's own side** instead of its target. Both still deal damage as normal, and Cleave, Bristle, Shield, Nightshade and the rest all apply. With no other unit there, the attack is lost. An attack goes Astray at most once: an attack already going Astray lands on whatever it hits. Flit doesn't trigger on it, and a Marsh Light it hits goes out and is Drowned. Astray overrides Mire, Quarry and Snap.\n- Most cards lead **enemies** Astray. Two cards (Little Phos, Gaffer Turncoat) aim at your own unit when they stand in the back row. That second use is on purpose.\n\n**Drowned.** A unit that dies to a hit from its own side is Drowned, on either side. A Marsh Light that goes out to a hit from its own side is Drowned too. This is the tribe's payoff trigger.\n\n**Flit** (keyword). Once a fight, when an enemy attacks this, if a slot next to it is empty, it moves there and the attack goes Astray.\n\n**The fen** (plain words, not a keyword). Many cards count or use **your empty slots**. Flit needs them, Foxfire grows units next to them, the Mapseller aims through them and the Moon fills them. Filling your board (\"draining the fen\") switches the tribe off.",
+  "keywords": [
+   {
+    "name": "Astray",
+    "text": "- *Lead a unit Astray:* its next attack goes Astray. Leading it Astray again adds one more Astray attack.\n- *An attack that goes Astray* hits a random **other unit on the attacker's own side** instead of its target. Both still deal damage as normal, and Cleave, Bristle, Shield, Nightshade and the rest all apply. With no other unit there, the attack is lost. An attack goes Astray at most once: an attack already going Astray lands on whatever it hits. Flit doesn't trigger on it, and a Marsh Light it hits goes out and is Drowned. Astray overrides Mire, Quarry and Snap.\n- Most cards lead **enemies** Astray. Two cards (Little Phos, Gaffer Turncoat) aim at your own unit when they stand in the back row. That second use is on purpose."
+   },
+   {
+    "name": "Drowned",
+    "text": "A unit that dies to a hit from its own side is Drowned, on either side. A Marsh Light that goes out to a hit from its own side is Drowned too. This is the tribe's payoff trigger."
+   },
+   {
+    "name": "Flit",
+    "text": "Once a fight, when an enemy attacks this, if a slot next to it is empty, it moves there and the attack goes Astray."
+   }
+  ],
+  "plays": "Wisp boards often have five or six units with deliberate gaps, so they usually attack second, and the enemy's first wave of attacks is the one that goes Astray. Early on you win with dodging bodies (Flit) and cheap Astray sources. From Tier 3 you choose a direction: dodge-and-grow along your gaps, decoy lights that fill and reopen gaps, or stacking Astray until enemies Drown and feed your growth. You win by deciding what the enemy hits, and much of the skill lies in the Start of Combat order (F1–F4, then B1–B3) and in choosing which slots to leave empty against the next opponent's board, which you can see."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Little Phos",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Start of Combat: lead the unit across this Astray. In the back row: lead the leftmost unit in front of this Astray instead.",
+   "golden": "Same, but lead it Astray twice."
+  },
+  {
+   "uid": "u02",
+   "name": "Hobby Lantern",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Flit.",
+   "golden": "Flit twice a fight."
+  },
+  {
+   "uid": "u03",
+   "name": "Fingerpost Wisp",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Combat: lead the enemy with the most Attack Astray.",
+   "golden": "...the two enemies with the most Attack."
+  },
+  {
+   "uid": "u04",
+   "name": "Glim, Signalwoman",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Whenever an enemy attack goes Astray, give a random other Wisp next to an empty slot +1/+1 permanently. Three times a fight.",
+   "golden": "...+2/+2..."
+  },
+  {
+   "uid": "u05",
+   "name": "Lantern Carr Clerk",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Turn: if you have 2 or more empty slots, gain 1 gold.",
+   "golden": "...gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Marsh-Gas Bubble",
+   "tier": 3,
+   "attack": 1,
+   "health": 5,
+   "text": "Start of Combat: summon a Marsh Light in each of your empty front-row slots (up to 2).",
+   "golden": "...(up to 4)."
+  },
+  {
+   "uid": "u07",
+   "name": "Captain Spunkie",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Flit. The Wisps beside this have Flit.",
+   "golden": "All of these Flit twice a fight."
+  },
+  {
+   "uid": "u08",
+   "name": "Foxfire",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: give each of your Wisps +1/+1 permanently for each empty slot next to it.",
+   "golden": "...+2/+2..."
+  },
+  {
+   "uid": "u09",
+   "name": "Gaffer Turncoat",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Start of Combat: swap the Attack and Health of the unit across this. In the back row: the leftmost unit in front of this instead.",
+   "golden": "...that unit and the units beside it."
+  },
+  {
+   "uid": "u10",
+   "name": "Fresh-Ink Mapseller",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Start of Combat: lead each enemy across one of your empty slots Astray.",
+   "golden": "...Astray twice."
+  },
+  {
+   "uid": "u11",
+   "name": "Jack o' the Turnip",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "A unit whose attack goes Astray deals double damage with it.",
+   "golden": "...triple damage..."
+  },
+  {
+   "uid": "u12",
+   "name": "Glowing Barn Owl",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Swoop. Once a fight, when an enemy is Drowned, give your other Wisps +1/+1 permanently.",
+   "golden": "Twice a fight."
+  },
+  {
+   "uid": "u13",
+   "name": "Hoard-Keeper",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Whenever a unit is Drowned, bury 1 gold (up to 3 a fight). Start of Turn: gain the buried gold.",
+   "golden": "...2 gold (up to 6 a fight)..."
+  },
+  {
+   "uid": "u14",
+   "name": "Mademoiselle Follette",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Your Wisps with Flit can Flit once more each fight. Whenever one Flits, it gains +2/+2 permanently.",
+   "golden": "...twice more each fight...+4/+4."
+  },
+  {
+   "uid": "u15",
+   "name": "Tiddy Mun",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Start of Combat: for each enemy unit beyond three, lead a random enemy Astray.",
+   "golden": "...lead two random enemies Astray."
+  },
+  {
+   "uid": "u16",
+   "name": "Irrlicht",
+   "tier": 5,
+   "attack": 6,
+   "health": 7,
+   "text": "Flit. When this Flits, summon a Marsh Light in the slot it left.",
+   "golden": "Flit twice a fight."
+  },
+  {
+   "uid": "u17",
+   "name": "Old Will",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Start of Combat: lead every enemy Astray.",
+   "golden": "...Astray twice."
+  },
+  {
+   "uid": "u18",
+   "name": "Moon in the Mere",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Start of Combat: summon a Marsh Light in each of your empty slots, with the Attack and Health of your biggest Wisp.",
+   "golden": "...with double that Attack and Health."
+  },
+  {
+   "uid": "u19",
+   "name": "Aarnivalkea, the Hoard-Fire",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Whenever a unit is Drowned, give your Wisps +1/+1 permanently.",
+   "golden": "...+2/+2..."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Marsh Light",
+   "text": "(1/1 Wisp, Created). \"When an enemy attacks this, it goes out and the attack goes Astray. When an attack from its own side hits this, it goes out and is Drowned, and the attack ends.\" It goes out (dies) before damage, so its Health only matters against non-attack damage. Its empty slot is fen again afterwards."
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Lantern Line (Flit and gaps).",
+   "text": "Hobby Lantern, Captain Spunkie, Foxfire, Mademoiselle Follette, Irrlicht. Keep one or two gaps next to your front row, so Flit units dodge the first hits and send them into the enemy's own ranks. Foxfire grows each Wisp once for every gap next to it, and Follette gives each Flit unit one more dodge and turns each one into permanent stats. Positioning is the whole game: a Flit unit in F2 with an empty B1 hops back out of reach, so the next enemy has to hit your Spunkie-flanked F3."
+  },
+  {
+   "name": "B. False Fire (decoy lights).",
+   "text": "Marsh-Gas Bubble, Irrlicht, Moon in the Mere, plus Fresh-Ink Mapseller. Leave slots empty in recruit, then fill them with lights at Start of Combat. Reading order matters: a Mapseller in F1 leads astray the enemies across your gaps *before* a Moon in B2 fills those gaps with lights that copy your biggest Wisp. Each light soaks one attack and sends it Astray, then reopens its slot for a Flit unit to use."
+  },
+  {
+   "name": "C. The Drowning (stacked Astray).",
+   "text": "Little Phos, Fingerpost Wisp, Glim, Tiddy Mun, Jack o' the Turnip, Old Will, then the Drowned payoffs: Glowing Barn Owl, Hoard-Keeper and Aarnivalkea. Stack Astray attacks until the enemy kills its own units, and turn every Drowning into stats or gold. Jack doubles the damage so the Drownings actually happen."
+  },
+  {
+   "name": "Johnny lines (where cards cross and get misused):",
+   "text": "- **Turn the wall, then aim it.** Gaffer in F1 swaps the 2/12 Mire wall across him into a 12/2. Fingerpost in F3 resolves later, sees that unit as the enemy with the most Attack, and sends its 12 Attack into its own side. With Jack it hits for 24.\n- **The back-row wrong way.** Phos or Gaffer in the back row aim at *your* unit. Phos behind your own Ooze makes it hit a friend, maybe a Marsh Light, which Drowns and pays Hoard-Keeper and Aarnivalkea. Gaffer behind your 1/5 Bubble makes it a 5/1 attacker after it has summoned its lights.\n- **Gaffer kills zero-Attack units.** Swapping a 0/1 Bird Egg or any 0-Attack wall gives it 0 Health, and it dies.\n- **Read the next board.** You can see your next opponent's last board, so you choose which of your slots to leave empty to put the Mapseller's Astray onto their Cleave or Bristle unit. An Astray Cleave hits three of its own units; an ally that hits a Bristle unit takes the Bristle damage back.\n- **Gaps against lights.** Bubble and Moon fill the gaps that Flit and Foxfire need. Lights that go out reopen them mid-fight, but Foxfire counts at End of Turn, when the lights don't exist. Deciding which wins on your board is the puzzle.\n- **Jack is symmetric.** Your own back-row self-hits deal double damage too, which is bad on your carry and good when you want your own Ooze cracked open on the first attack."
+  },
+  {
+   "name": "Mixing in a lobby.",
+   "text": "- **Oozes:** your self-hits open your own Belly early. Against Oozes, Astray hits release *their* bellies early, which helps them a little.\n- **Bog folk:** Astray overrides Mire, and Gaffer's swap is at its best on their high-Health walls. Their Bitter units hit by their own allies grow their own Toll, a small leak.\n- **Birds:** their Nests and Eggs fill slots, which works against the fen. Gaffer kills Eggs outright.\n- **Fairies:** a Wisp that Flits into a Ringed slot might pick up the Ring bonus mid-fight. This needs a ruling.\n- **Hunters:** a Quarry led Astray hits its own pack, and Hunter Pack attacks that go Astray could be brutal with Jack.\n- **Neutral Shield units** pair well with Flit (two free hits), and enemy Shields get popped by Astray hits from their own side."
+  }
+ ],
+ "risks": [
+  "**Feel-bad for the opponent.** Watching your army kill itself can feel like you never got to play. Counterplay exists: smaller boards blunt Tiddy Mun and leave Astray attacks with fewer targets, high-Health spreads resist Drowning, and damage that isn't an attack ignores Astray. It still needs a playtest.",
+  "**Readability.** Many redirected attacks per fight. Each Astray attack needs a clear on-screen tell (the attacker turns to follow a light) or fights become noise.",
+  "**Start of Combat order is load-bearing.** Bubble, Mapseller, Moon, Gaffer and Fingerpost all depend on reading order. This is good for Johnny, but it is a hidden rule that new players will lose to.",
+  "**Gaps cost hero damage.** Fewer units means less damage dealt per win, and the tribe may struggle to close out lobbies. Watch whether \"board is HP\" plus deliberate gaps makes the early turns too weak.",
+  "**Old Will, Tiddy Mun and Jack together** could wipe a full enemy board in one wave. That is the tribe's high roll; check a golden Old Will with Jack against the runaway check.",
+  "**Drowned depends on the matchup.** It is strong against glass cannons and weak against Bog walls. Build C may swing too much by lobby.",
+  "**Rulings needed:** do units summoned at Start of Combat count for \"who attacks first\"? Is a Bird's Nest an empty slot? Does a unit get a Ring bonus when it moves into a Ringed slot? Does Astray damage on Bitter units feed the enemy's Toll?",
+  "**Gaffer's swap** is swingy, from nothing to a kill, and is hard to price.",
+  "**Phos's back-row mode** aims at a random friend, so the self-Drown loop is unreliable. That may be fine for a T1 seed, but one more controlled self-hit card may be needed later."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "**T1 (body 4):** Phos at 3 stats pays for one Astray (about 0.6–1 in-fight body, and none when no enemy is across). Hobby Lantern is a full body plus one dodge. On guide."
+  },
+  {
+   "tier": 2,
+   "note": "**T2 (body 6):** bodies 5–6. Fingerpost gives one aimed Astray (about 1 body). Glim gives up to 6 stats a turn (the top of 0.3–1 body). The Clerk gives 1 gold a turn while you keep two gaps. On guide."
+  },
+  {
+   "tier": 3,
+   "note": "**T3 (body 7):** bodies 6–7. Foxfire gives about 12–16 stats a turn with two gaps, about twice the 5.6 target, on purpose: it is the fen build's late reason to keep gaps. Bubble's two decoys sit near the 1.4 top. Spunkie gives up to three Flits. Gaffer breaks the guide on purpose: his swap is worth anything from zero to a kill, because it is the tribe's main Johnny tool."
+  },
+  {
+   "tier": 4,
+   "note": "**T4 (body 8.5):** bodies 8–9. The Mapseller gives about two Astray attacks with two gaps (about 2). Jack is the first multiplier, adding about 1.5–2 bodies. The Owl gives about 10 stats a turn against 11. Hoard-Keeper gives up to 3 gold, one unit's worth."
+  },
+  {
+   "tier": 5,
+   "note": "**T5 (body 12):** bodies 12–13. Tiddy Mun gives four Astray attacks against a full board (about 4). Follette gives about 12–20 stats a turn plus extra dodges (about 2 bodies). Irrlicht is a tempo body with a dodge and a decoy. On guide."
+  },
+  {
+   "tier": 6,
+   "note": "**T6 (body 14):** all at 14. Old Will gives up to seven Astray attacks (about 6 bodies against a full board). Aarnivalkea gives about 36–60 stats a turn against a 56 target. Moon gives about 6 bodies in fight with two or three gaps. Goldens double, which keeps the ceiling at ×2, except where Jack stacks with them (risk 5)."
+  }
+ ],
+ "rationale": [
+  "Fantasy first: the fen guides lead travellers astray, so the tribe's verb is choosing what the enemy hits.",
+  "Astray sends attacks into the enemy's own side, rather than forcing a target, so it doesn't copy Bog folk's Mire and it turns every enemy keyword (Cleave, Bristle, Shield) into a lever.",
+  "Astray stacks, so the capstone Old Will adds to the smaller sources instead of making them useless.",
+  "\"The light always just ahead\" became Flit: a dodge that needs an empty slot next to it.",
+  "\"Home shrinking from drainage\" made empty slots the tribe's resource, with a built-in cost because the board is HP.",
+  "\"False fire\" became one token, the Marsh Light, a one-hit decoy that reopens its slot, giving a gap-versus-light tension.",
+  "\"Treasure under the bog\" became Drowned, a payoff trigger that counts both sides, so self-hits open a deliberate misuse loop.",
+  "\"Pointing the wrong way\" became the back-row rule on Phos and Gaffer: one card, two uses, chosen by position.",
+  "\"Breaking the spell\" and the inside-out coat became Gaffer's Attack/Health swap, which pairs with \"most Attack\" targeting for ordering combos.",
+  "Tiddy Mun's revenge on drainers punishes full enemy boards, which is the natural answer to a tribe that keeps its own board thin.",
+  "Cold fire (Foxfire, Glim, the Owl) carries the permanent growth, so wisps can survive late without big printed bodies.",
+  "Bodies stay at or a little under the tier median, because so much of each unit's value is in what it makes the enemy do.",
+  "**Shape changes:** Tier 3 holds two enablers (Bubble, Spunkie), a buffer (Foxfire) and a combat engine (Gaffer), as the guide suggests. Tier 4 holds a single buffer (the Owl), because the multiplier (Jack) and the economy piece (Hoard-Keeper) both feed the Drowned payoffs."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Astray, Drowned and Flit rules: an already-Astray attack lands where it hits; Flit triggers only on enemy attacks; self-hit Marsh Lights Drown.",
+   "why": "The rules read two ways when your own Astray attack hit a Flit unit or a Marsh Light.",
+   "from": [
+    "v1--combo#p1",
+    "v1--combo#p2",
+    "v1--climber#p1",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "x01",
+   "kind": "changed",
+   "what": "Marsh Light goes out to enemy attacks as before; a hit from its own side Drowns it and ends the attack.",
+   "why": "The token and the self-hit Johnny line disagreed; this keeps the Drowned self-hit line working.",
+   "from": [
+    "v1--combo#p1",
+    "v1--combo#p2",
+    "v1--climber#p1",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Now 'Your Wisps with Flit can Flit once more each fight'; golden twice more.",
+   "why": "It read as granting Flit to every Wisp; it only adds uses, and stacks clearly with golden Flit.",
+   "from": [
+    "v1--climber#p2",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Foxfire gives +1/+1 per empty slot next to each Wisp, not a flat +1/+1.",
+   "why": "Growth was flat late; this gives the fen build a curve and a reason to keep two gaps.",
+   "from": [
+    "v1--climber#p4",
+    "v1--climber#p3"
+   ]
+  },
+  {
+   "uid": "u04",
+   "kind": "changed",
+   "what": "Glim's +1/+1 goes to a random other Wisp next to an empty slot.",
+   "why": "Ties the one generic growth card to the gaps, like Foxfire.",
+   "from": [
+    "v1--reader#p5"
+   ]
+  }
+ ],
+ "declined": []
+}

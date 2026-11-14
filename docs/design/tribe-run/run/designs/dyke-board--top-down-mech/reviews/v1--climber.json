@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Clear growth shape: small change-payers early, Ring-Dike and Heemraad mid, then Hendrika's full swings late; and a Flood that scales as a share of Health stays relevant all game.",
+    "distinct": "One visible Level that floods both front rows makes positioning a fresh slot puzzle, though the change-counting engine itself plays like familiar trigger-count tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works; two rules questions about Raise and Drain need settling before the swing build can be read.",
+  "points": [
+    {"pid": "p1", "uid": "u05", "kind": "fix", "text": "Say whether a Drain that can't move the Level still counts. As written, Sluice Keeper at Level 0 may give 1 gold for nothing, and Ditch-Digger and Master of the Nine Mills may fire on empty Drains. Simplest: Raise and Drain payoffs need a change."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Say whether each extra step from Hendrika counts as a Raise or Drain for Ring-Dike, Ditch-Digger and Nine Mills, or only as a change. The swing build's payoff depends on it."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "The Spaarndam Pup ends the Afloat and Dike puzzle at the top of the game. 'Your Floods can't harm your units' keeps the mirror and enemy Floods a positioning question."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Winter Raft is a plain End of Turn buffer. Paying per change, or per enemy unit the Flood hurt, would tie it to one of the builds."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Hendrika turns one Drain and one Raise into a full 5-to-0-to-5 swing: a capstone you build toward and feel."},
+    {"uid": "u11", "why": "Aaltje lets a board drain for value all turn and still flood in the fight; a smart bridge between builds."},
+    {"uid": "u14", "why": "Tail-Slapper makes your own deaths re-flood, so losing units feeds the fight."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Generic buffer for Afloat units, with no link to Level changes."},
+    {"uid": "u03", "why": "Afloat for another unit is thin outside the tribe; the +3/+3 fallback carries it."},
+    {"uid": "u08", "why": "Random target makes Drain stats hard to aim at your carry."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hendrika plus Kobus Bles plus Nine Mills or Old Bram: about 20 doubled changes a turn, well over 100 stats. Bounded per turn, but far above the Tier 6 target."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Pup floods twice and reaches the back row; with Tail-Slapper at Level 5 an enemy board can lose most of its Health before any attack."},
+    {"uid": "u01", "kind": "watch", "note": "The 'at least 1' floor at Level 1 pops every front-row Shield and kills 1-Health units from turn 1 or 2."},
+    {"uid": "u05", "kind": "unclear", "note": "Can you Drain at Level 0 for the gold?"},
+    {"uid": "u17", "kind": "unclear", "note": "Do Hendrika's extra steps count as Raises or Drains for other cards?"}
+  ]
+}

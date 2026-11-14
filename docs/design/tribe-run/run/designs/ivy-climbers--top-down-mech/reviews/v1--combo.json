@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Building a tree (tiny root, a blooming ivy, a crowd copying it) is a real puzzle every turn, held back from 8 only by how much bookkeeping the vines ask the player to track.",
+    "distinct": "Earns 8 over 7 because it is a parasite layer that turns every other tribe's growth into its own, and Bloom flips it so a small host is the prize; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is rich and should stay hot, but the no-loops rule and what happens when a host dies are only in the rationale, not on the cards.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Put the no-loops rule into Climb. As written, Lady Hedera's Start of Turn re-host or Traveller's Joy can make A climb B while B climbs A, and with full share that gain never ends."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Write in Climb what happens when a host dies or leaves (the rationale says it falls onto the biggest unit next to it). Old Man's Beard triggers on falling, and players can't read that from any card."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Say on Dodder Thread that climbers on it stay on it while it climbs the enemy. Then a whole tree hangs off an enemy for the fight and copies its Start of Combat buffs, which is the best trick in the tribe."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Hanger-on's condition is nearly always met in a Grand Oak. Paying more for a host with many climbers, or for a small blooming root, would make it a choice."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "A second Lady Hedera does nothing. It could add a second re-host at Start of Combat, so the chain can jump to a fresh host mid-setup."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Lattice Ivy is a junction that changes the shape of the whole tree, and it combos with Cousin Dodder's stolen stats."},
+    {"uid": "u04", "why": "Mistletoe Clump does three jobs: drains a host into a Bloom root, grows itself, and hollows out a unit you plan to sell."},
+    {"uid": "u19", "why": "Old Man's Beard turns the tribe's main weakness, the host dying, into a payoff."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Barley-sugar Twiner is a plain host buff; it works only because the keyword copies it."},
+    {"uid": "u01", "why": "Ivy Sprig is a one-off +1/+1 with nothing to decide."},
+    {"uid": "u14", "why": "Missel just picks the obvious biggest tree; there is no decision it creates."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Full share on every climber plus Lattice Ivy and Viscum's board-wide buff (which each climber gets directly and copies again) could stack fast."},
+    {"uid": "u19", "kind": "watch", "note": "A huge host dying early hands a third of it to every climber; the designer already names a cap."},
+    {"uid": "u02", "kind": "watch", "note": "Two hosts at Tier 1, four when golden, copies from the two biggest units late in the game."},
+    {"uid": "u07", "kind": "unclear", "note": "Does Dodder Thread leave its friendly host when it climbs the enemy, and do its own climbers copy the enemy's gains?"},
+    {"uid": "u04", "kind": "unclear", "note": "When Mistletoe Clump takes 1/1 from its host, do the host's other climbers lose the stats they copied (\"for as long as the host keeps them\")?"}
+  ]
+}

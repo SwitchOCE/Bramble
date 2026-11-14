@@ -1,0 +1,35 @@
+{
+  "id": "v1--climber",
+  "design_id": "will-o-wisps--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Choosing which of their units the enemy hits is a real placement puzzle every turn, and growth runs cleanly from Little Phos through Joan to Ignis; Lost-reading cards feel a bit samey and Spunkie goes dead late.",
+    "distinct": "Earns 8 over 7 because its damage is borrowed: a misled enemy carry kills its own board, so the tribe gets stronger as the lobby gets stronger, an axis no current tribe or typical auto-battler tribe has."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Stingy Jack's gold cost is free under uncapped carryover and the Reflection's double damage needs one line of rules; both are small real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Unspent gold carries over uncapped, so holding 3 gold costs nothing after the first turn and Stingy Jack is a free permanent Lantern every turn; holding 3 is always right. Tie it to something that costs, such as gold spent this turn."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Black-Water Reflection: say whether double damage applies only to the misled attacker's hit or also to the unit it hits striking back."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Against one tall enemy a misled attack hits nothing and the Lamp Row stalls into ties. Let a misled attack with no other target walk into the bog and hit the attacker itself."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Captain Spunkie's discount is dead text at Tier 6; let it turn into a free refresh per Lost once you can't tier up."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Will turns the seed into a rule: their carry hits their other carry. A capstone you build towards."},
+    {"uid": "u18", "why": "Sunken Causeway Lights makes leaving gaps a decision, and its Stones feed Foxfire Stump and Tiddy Mun."},
+    {"uid": "u14", "why": "Hoard Mere Light turns the enemy's own deaths into your late-game stats, a fresh payoff."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Captain Spunkie never attacks and his only text dies once you reach Tier 6."},
+    {"uid": "u05", "why": "Fresh-Ink Mapseller is flat gold on a count, with no choice in it."},
+    {"uid": "u06", "why": "Gaffer Turncoat's main line only matters in the mirror; the swap is a one-off."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Ignis Fatuus has no cap: with Old Will, the Causeway and Follette, 10 to 15 misleads a fight give every other unit +10 to +15 each permanently each fight, doubled when golden."},
+    {"uid": "u17", "kind": "watch", "note": "Old Will plus Black-Water Reflection and stacked Lanterns can make the enemy's board kill itself before it touches you; few counters exist outside Start of Combat damage."},
+    {"uid": "u07", "kind": "watch", "note": "Near-free permanent Lanterns from Stingy Jack are the main road to the 12-Lantern front-row lock."},
+    {"uid": "u12", "kind": "unclear", "note": "Double damage on misled attacks: unclear whether the struck unit's return damage doubles too."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Saving for two turns and then blowing a 30-gold summer turn is a great swing to build towards, and the cards read cleanly enough to plan it.",
+    "distinct": "Gold flow as the tribe's axis, a nymph growing in hand and a drone who keeps coming back to the shop play unlike today's tribes, though Hedgerow's Larder already touches gold."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two reading fixes: the cards don't say which town each unit is in, and Clemenza's text is hard to parse.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit says whether it is Hive, Carnival or Road, yet Afide, Olive-Press Hand, Tymbal Drummer, Tettix and Melissa all read towns. Print the town on each card."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Clemenza starts with End of Turn but reads like a rule change, and 'your Thrifts also count the gold you spent' leaves unclear when and how often they fire. Split it into two plain lines, e.g. 'Your Thrift counts gold spent as well as put by.'"},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Shell-Picker's Mask copies nothing from units with no Spree or Thrift, like Fennimore or Gravelle. Make the card say so, or let the Mask show a preview of the line it will copy."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Put by is the one subtle number in the tribe. A live shop counter like 'Spree 2 · put by +4' would make every card in the tribe readable at a glance."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Tithonus, still singing thinly from a basket, would make a fine Carnival unit that keeps its Spree bonus after dying, carrying the fable's ending into the fight."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Lord Fennimore is thrown out and appeals every time: selling him puts him back in the shop bigger. The flavour is the mechanic."},
+    {"uid": "u14", "why": "Maestro Tettix grows in hand like a nymph underground, then pays out in one loud season. The tribe's story on one card."},
+    {"uid": "u16", "why": "Comptroller Gravelle turns the savings bank into a spray of damage. You read it at once and it feels like an audit."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Wax-Seal Banker is plain interest, with no bee or wax in what it does."},
+    {"uid": "u04", "why": "Nurse Bee is a stock back-row buffer; the nursing is only in the name."},
+    {"uid": "u02", "why": "Busker is a generic 'gain Attack per X' opener."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Timing and counting of the two halves can't be read from the text as written."},
+    {"uid": "u19", "kind": "watch", "note": "With Old Messor doubling Thrifts that now count spent gold too, one turn can fire both towns many times."},
+    {"uid": "u17", "kind": "watch", "note": "Melissa plus Messor lays several copies a turn toward triples; the risk list already names it."},
+    {"uid": "x01", "kind": "watch", "note": "Several Tettix Masks with Penniless Tenor grow steeply, as the risk list says."}
+  ]
+}

@@ -14,9 +14,22 @@
     {"pid": "p1", "uid": "u01", "kind": "fix", "text": "Cradle Kit takes its Guise when played; the Guise rule only says a Guise worn when played fires. Say plainly whether the borrowed When played fires on that same play."},
     {"pid": "p2", "uid": "u06", "kind": "fix", "text": "Turncoat Hare and Penny Second take a Guise at Start of Combat; say whether a stolen Start of Combat text fires that fight. The Impostors build and the Keeper assume it does."},
     {"pid": "p3", "uid": null, "kind": "fix", "text": "Exchange ends with 'and a token is removed', which no card explains. Name the token or cut the clause."},
-    {"pid": "p4", "uid": u17_placeholder, "kind": "idea", "text": "placeholder"}
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "The Lady Under the Hill is the best fantasy card and the worst to read. Showing her Guises as tribe icons on the card, with text on hover, would keep her readable."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Pip Unlike's mirror-backwards copy is charming but needs the player to flip text in their head. Showing the mirrored text on the card itself would make it readable."}
   ],
-  "standouts": [],
-  "weakest": [],
-  "flags": []
+  "standouts": [
+    {"uid": "u07", "why": "Wicker Moll leaving a sighing Stock in the sold unit's place is the folklore exactly, and one line long."},
+    {"uid": "u15", "why": "Penny Second steals the enemy's text and, if bigger, the real one loses it: the duchess turned away, readable at a glance."},
+    {"uid": "u12", "why": "Placement Officer makes the shop swap a habit each turn, which is the tribe's freshest idea."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Coat-Peg Steward asks the player to track what buffs the given unit had gained; hard to see on screen."},
+    {"uid": "u04", "why": "Veil-Stitcher is a plain end-of-turn buffer with little of the swap fantasy in it."},
+    {"uid": "u10", "why": "Tam Twice adds a third text to one card, so the board gets harder to read for a familiar 'copy two' effect."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "With four Guised Changelings the Lady carries five texts; she needs a compact display to be read at all."},
+    {"uid": "u06", "kind": "unclear", "note": "Timing of a Guise taken at Start of Combat against the other Start of Combat triggers is not stated."},
+    {"uid": "u16", "kind": "watch", "note": "Keeper of the Lost Hour with the Lady doubles every fight text she wears; the design names this as the high roll."}
+  ]
 }

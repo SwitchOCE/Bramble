@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "One visible number that you vote every turn, plus a slot puzzle of floaters and Dikes, gives each turn a real choice and plenty of permanent growth to watch.",
+    "distinct": "Earns 8 over 7: the Level is a public dial that hurts both front rows before anyone attacks, so where you put coots and beavers matters more than stats, and no tribe today works like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well and fits the theme, but what counts as one Raise or Drain needs defining before the trigger cards can be read the same way by everyone.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "\"Whenever you Raise\" and \"Whenever you Drain\" don't say whether Raise 2 fires once or twice, or whether a Raise blocked at 5 still counts. Ring-Dike Beaver, Ditch-Digger, Master of the Nine Mills and Hendrika all depend on this, so define it once, for example as one trigger per step that moves."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Kees Kowk says \"After the Flood\", but a fight can have your Flood, the enemy's Flood and Tail-Slapper's repeats. Say \"After each Flood\" or \"After your Flood\"."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Show the Flood as a water line on each front-row card, marking the Health it will lose at the current Level, so nobody has to work out tenths."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Objecting Coot raising the Level when you sell is a loose fit. Coots object to boundary lines, so an objection when a unit moves next to it or is played beside it would carry the joke better."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Hendrika's text is long for a capstone. \"Twice a turn, when you Raise or Drain, you may carry it all the way to 5 or 0\" says the same thing."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "The Spaarndam Pup plugging the dike so your Floods only drown the enemy is the seed's story in one clear line."},
+    {"uid": "u04", "why": "Ring-Dike Beaver shows the slot puzzle at Tier 2: keep its neighbours dry and grow them on every Raise."},
+    {"uid": "u06", "why": "Polder Millwright raising and draining every turn is the swinging water board in miniature, and it reads at a glance."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Objecting Coot's sell trigger has little to do with objecting or with water."},
+    {"uid": "u12", "why": "Inspecting Heemraad feeds only the diagonal slots and does nothing in the front row, which players will often get wrong."},
+    {"uid": "u17", "why": "Hendrika's wording is the hardest card to parse, and how her extra steps interact with the Raise and Drain triggers is unclear."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hendrika with Kobus Bles and Old Bram or the Nine Mills gives ten or more doubled changes a turn, a big high roll worth the owner's eye."},
+    {"uid": "u14", "kind": "watch", "note": "Tail-Slapper's repeat Floods, combined with The Spaarndam Pup, could wipe both enemy rows before many attacks happen."},
+    {"uid": "u04", "kind": "unclear", "note": "Whether a Raise of 2, or a Raise blocked at 5, fires \"Whenever you Raise\" is not defined; the same goes for Ditch-Digger and the Nine Mills on Drains."},
+    {"uid": "u09", "kind": "unclear", "note": "\"After the Flood\" doesn't say which Flood when both players and Tail-Slapper flood."}
+  ]
+}

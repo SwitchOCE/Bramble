@@ -3,20 +3,24 @@
  "seed": "rat-king",
  "route": "surgical",
  "tribe_name": "The Rat King",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Rats tied side by side form a Knot that splits incoming damage and shares buffs and gains.\nBuild a wide council, skim others' growth with Gossip, feed on pain, or untie for an opening volley.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

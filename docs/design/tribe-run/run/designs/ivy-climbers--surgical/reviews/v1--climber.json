@@ -1,0 +1,34 @@
+{
+ "id": "v1--climber",
+ "design_id": "ivy-climbers--surgical",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 6, "distinct": 7},
+ "ratings_why": {
+  "fun": "Placing climbers behind the right carry is a real puzzle from Tier 4 on, but the first turns barely grow because half of a +1/+1 rounds to nothing.",
+  "distinct": "A tribe that multiplies another tribe's carry and gives the back row a job plays unlike any of today's six tribes."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Viscum's timing needs one clear sentence and the early rise needs a floor; after that, more passes would only make it different.",
+ "points": [
+  {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Say when The Honourable Viscum Highbough rises: at once in the fight when Cousin Dodder takes, or at End of Turn with everything else. The core rule says End of Turn; his text reads like every gain, at once."},
+  {"pid": "p2", "uid": "u04", "kind": "fix", "text": "Woodbine's +3/+3 for a new host is free to earn by moving it between two back slots every turn, so swapping is always right. Reward a host it has never climbed before, or a host of a new tribe."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Give rising a floor of +1/+1 when the host gained anything, so Tier 1 to 3 climbers visibly rise in rounds 2 to 5 instead of standing still."},
+  {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Young Ivy is a 1/2 that does nothing early. A small fight effect, such as giving its host +1 Health at Start of Combat, would let it hold a slot until it turns adult."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Copies every gain in full but loses his host if he becomes the biggest, so you have to keep feeding the carry: a self-limit that is also a puzzle."},
+  {"uid": "u17", "why": "Moving Lady Hedera behind a new tribe each turn makes a mixed board pay off, and the payoff grows to +10/+10 on every host."},
+  {"uid": "u09", "why": "Apple Mistletoe moves the carry's Attack into the safe back row and makes the host tankier, a fresh way to use both rows."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "A tiny body with no early effect; all its value comes turns later."},
+  {"uid": "u03", "why": "Ivy Bush's +1/+1 per climber is slow and caps at three climbers before Ivy-clad Ruin."},
+  {"uid": "u05", "why": "Hop Bine gives at most one gold a turn and takes one of the three back slots climbers fight over."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Cousin Dodder keeps a quarter of the biggest enemy's stats on every attack, permanently, so it grows with the lobby's best board each fight; with Viscum climbing it, both grow."},
+  {"uid": "u14", "kind": "unclear", "note": "Whether Viscum rises during the fight or at End of Turn is not said."},
+  {"uid": "u16", "kind": "watch", "note": "Barley-Sugar Twiner's repeated gain counts as a new permanent gain, so a golden Twiner with Viscum on the same host quadruples one big Ooze meal."}
+ ]
+}

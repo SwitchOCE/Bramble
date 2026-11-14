@@ -1,0 +1,35 @@
+{
+ "id": "v1--climber",
+ "design_id": "cuckoo-clockworks--bottom-up-mech",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Three builds tune the same clock in different ways and every tier has a clear job, but the hour caps keep the mid-game growth flat, and the Egg build has little lasting growth until the Midsummer Leaver.",
+  "distinct": "8 over 7: Eggs are markers on enemy units that hatch inside their line-up and open the back row, and fight timing is a dial you build. No tribe today plays on when things happen inside a fight."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real rules gap: where a Chick on the enemy's side comes in the attack order. The rest is ideas.",
+ "points": [
+  {"pid": "p1", "uid": "x02", "kind": "fix", "text": "The rules never say when a Chick on the enemy's side attacks, or whether it counts toward 'the side with more units attacks first'. Write its place in the attack order, for example after your last unit in reading order."},
+  {"pid": "p2", "uid": "u18", "kind": "idea", "text": "Little Gernegroß with the Midsummer Leaver hands Gernegroß the enemy's biggest unit's stats permanently on every win. It's a great high roll to chase; the owner should sim it against a late lobby leader."},
+  {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Brood is the Egg build's only lasting scaler before Tier 6. Egg-Painter could also give +1 Brood when an Egg is lost, which turns the feel-bad case into growth."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "The 'first 3 hours' caps on Oil-Can, Jar-Fattener and Ottilie flatten the hour engine late. A Tier 5 or 6 card that raises the cap would give it a ceiling to chase."},
+  {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Seven-Sleeper is a fine slow scaler that also adds hero damage. Its wake on the 7th hour rarely matters; a payoff when it does wake would reward builds that run long fights."}
+ ],
+ "standouts": [
+  {"uid": "u07", "why": "Sleeping-Vault Warden guards any tribe's engine for two hours and pays +4/+4 when it wakes: a strong mixing piece."},
+  {"uid": "u14", "why": "Tower Doorkeeper is a clean Brann for hours, and the caps keep it from running away."},
+  {"uid": "u15", "why": "Kasimir the Peddler puts four Eggs into the enemy's front row and turns their board against itself: a big Tier 5 moment."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "Day-Wage Journeyman is plain economy and pays only in long fights, which a winning board rarely gets."},
+  {"uid": "u11", "why": "Coin-Turner is an enabler on a Tier 4 slot that mostly duplicates Key-Winder."},
+  {"uid": "u01", "why": "Pipit-Line Placer's 1/1 Egg often dies with its host before the hour, so in the early fights it is mostly a 2/1."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "The Midsummer Leaver with Gernegroß turns the enemy's best unit into permanent stats on every win, and doubles it when golden: rich get richer."},
+  {"uid": "u08", "kind": "watch", "note": "Several Egg-Painters stack Brood every turn and lift every Chick, Kasimir's four included; growth is linear but it adds up."},
+  {"uid": "x02", "kind": "unclear", "note": "A Chick's place in the attack order, and whether it counts as a unit for who attacks first, isn't written."}
+ ]
+}

@@ -3,20 +3,24 @@
  "seed": "ivy-climbers",
  "route": "surgical",
  "tribe_name": "The Ivy and Mistletoe",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Climbers in the back row grow with the biggest friendly unit in front of them, of any tribe.\nThey feed, drain or copy that host, making other tribes' carries stronger.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.3,
+    "distinct": 7.3
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

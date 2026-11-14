@@ -1,0 +1,35 @@
+{
+  "id": "v1--climber",
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The save-then-splurge wave is a real decision each turn and the late game spikes hard, but the early tiers are thin and Tettix can flatten the rhythm into one routine.",
+    "distinct": "Reading your gold two ways (kept versus spent) and making Refresh and Tier up into stat plays is unlike any of today's tribes, though Hoard is close to familiar interest economies."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two real fixes: the cards don't say which are Hive and which are Carnival, and Maestro Tettix makes a Splurge every turn with no saving.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "The mechanic says each unit is tagged Hive or Carnival, but no card shows its tag, so Ottavia, Tymbal Drummer, Cluster Nurse, Banner Saint and Melissa can't be read. Print the tag on every unit."},
+    {"pid": "p2", "uid": "u11", "kind": "fix", "text": "With Maestro Tettix, spending a turn's 10 gold on Refresh makes a Tab of 20, a Splurge every turn with no saved turn, so the save-or-spend choice is always 'spend on Refresh'. Let only Tier up count double, or only Refresh gold above your base gold."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Long-Dark Nymph needs two empty turns to reach its first Splurge, so at Tier 1 it is mostly a plain 3/2. A small early hook, such as also growing when you Tier up, would let it seed the Carnival from turn 3."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Once the bank reaches 20, every Hoard fires each turn for free and the Hive stops making choices. A Hive card that pays for refilling the bank after a Splurge would keep crossing the road alive late."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Signora Afide is the crossing in one card: she grows on spending and gets milked into gold when she stands by the Hive."},
+    {"uid": "u14", "why": "Comptroller Gravelle turns a bank into a Start of Combat payoff, so holding gold wins fights instead of only promising later stats."},
+    {"uid": "u18", "why": "Madame Cigale is a capstone you build a whole spike turn around, and her payoff scales with how hard you commit."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Long-Dark Nymph's Splurge is out of reach on the turns when a Tier 1 unit matters."},
+    {"uid": "u03", "why": "Lord Fennimore is a free gold and +1/+1 a turn; low impact and easy to forget."},
+    {"uid": "u07", "why": "Ottavia's +1/+1 to Hive units per Splurge is small for a Tier 3 enabler and fires only on Carnival turns."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Maestro Tettix with Madame Cigale and Banner Saint: refreshing all your gold every turn gives a Splurge, a full board buff twice and a Carnival buff, plus ten shops to find triples."},
+    {"uid": "u16", "kind": "watch", "note": "A golden Mask-Maker on a Tettix every-turn Splurge hands out Shells each turn, which could make triples routine."},
+    {"uid": "u19", "kind": "watch", "note": "Tithonus with Mother Melissa: Tab counts as gold left and Splurge adds a Hoard pass, so a big spend turn fires every Hoard three or four times."},
+    {"uid": null, "kind": "unclear", "note": "No unit shows whether it is Hive or Carnival, so every 'your Hive units' and 'your Carnival units' card is unreadable."}
+  ]
+}

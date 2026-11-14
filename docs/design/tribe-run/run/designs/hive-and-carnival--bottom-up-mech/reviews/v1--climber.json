@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "hive-and-carnival--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The last-gold choice and the drain turn are real climbing decisions, but the first four turns are thin and the late board is mostly +1/+1 piles.",
+    "distinct": "Holding gold as a resource that pays every turn, against a town that pays for going broke, plays unlike any tribe today and unlike a stock auto-battler tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "No unit says which town it belongs to, so Old Messor, Maestro Tettix, Signora Afide and Madame Cigale can't be read as written.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit lists its town (Hive, Carnival or Road), yet Old Messor, Maestro Tettix, Signora Afide and Madame Cigale buff by town. Tag every unit."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Comb Guard is a plain 2/2 on turns 1 to 3, when you can't hold gold and still buy. Give it a flat bonus early, or let it count gold held at the start of the turn too, so it does its tempo job."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Bandstand Horn and Lantern Seller sit idle until you can spend 5 to 7 in one turn. A lower first step (say Fanfare 4) would let the Carnival start its direction at Tier 2."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "A banked float never runs out, so Saint's Day trades away steady Reserve pay for one spike. Paying a bonus when the Purse refills after a drain would make the crossing loop the natural line rather than a rare one."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Winter Cluster's swap idea from the risks list would give the Hive a fight-side surprise beyond stats; worth trying in the next version."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Ottavia turns spend-versus-hold into one exact puzzle every turn, and the payoff is big enough to build for."},
+    {"uid": "u10", "why": "The Borrower is free money to a broke player and a placement puzzle for a saver; one card that splits the towns."},
+    {"uid": "u18", "why": "Madame Cigale makes the drain turn the loudest turn of the game, which is the fable paid out."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Comb Guard is a vanilla 2/2 in the turns a tempo body has to win."},
+    {"uid": "u03", "why": "Wax Sealer does nothing on a Carnival board and is a slow drip on a Hive one."},
+    {"uid": "u13", "why": "Signora Afide needs 16 gold handled in one turn to fire both halves; usually only one half fires."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Mother Melissa with Old Messor on a 16-gold float gives +8/+8 to every Hive unit each turn for no ongoing cost."},
+    {"uid": "u06", "kind": "watch", "note": "Granary Clerk with Mother Melissa, golden, adds 8 gold a turn that feeds Messor, Gravelle and Ottavia; worth a runaway check."},
+    {"uid": "u18", "kind": "watch", "note": "Madame Cigale on a 20-gold drain turn gives +20/+20 to each Carnival unit, more with The Borrower each turn after."},
+    {"uid": "u18", "kind": "unclear", "note": "Say plainly that gold beyond income means each gold spent after this turn's Spent passes income, whatever its source."}
+  ]
+}

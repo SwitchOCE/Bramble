@@ -3,7 +3,7 @@
  "seed": "great-migration",
  "route": "bottom-up-mech",
  "tribe_name": "The Great Migration",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -39,6 +39,20 @@
    "votes": {
     "settle": 1,
     "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Closed three rules gaps: two Brother Onwards give two Banners, Cantor gains a dead Kit's Attack and full Health, and Front Lemming's uses aren't spent on units that already have Onward.\nGerd now boosts Ole's falling Kits, Snow Hall Guard scales with the Burrow, and Runway Digger makes a Kit, so the three weakest cards each join a build.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
    }
   }
  ]

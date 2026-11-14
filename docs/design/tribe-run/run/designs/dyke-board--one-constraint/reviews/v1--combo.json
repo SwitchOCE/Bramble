@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "dyke-board--one-constraint",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every slot is a real vote (seat it, levy it, or let it drown), and Heemraad, Levy-Master and the Peilmeester pull against each other in ways I'd love to solve; a few filler coots and rough early dilution keep it at 7.",
+    "distinct": "8 because the shared-Health law makes board size itself the build decision and Under turns your own off-tribe units into risks; no tribe today or generic auto-battler tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real fix: a seated Bird's Fly South needs a written rule, or it compounds the Pool; the rest can stay as it is.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "A Bird seated by Heemraad that flies south doubles which Health, its printed one or the Level? If it's the Level, each return adds twice the Level to the Pool, which compounds. Write in the Risks lever: it doubles printed Health only."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Winter Raft is a flat +1 Attack a turn. Tie it to the water, e.g. +1 Attack, or +2 to Board units whose Attack is below the Level, so tall and wide boards read it differently."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Ledger Coot does one obvious job. It could pay for the water left behind, e.g. 1 gold, or 2 if the sold unit's share was 10 or more, which links it to Eel-Trap Coot and the high-water sell."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Spells are a hole. One coot that turns the shop spell's Health buff into a Pour across the Board would add a spell route and stack with the Miller."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Hendrika's reading-order raise against the Peilmeester and Rearing Coot is a lovely placement puzzle; say it on the card or in the gauge preview so players find it."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Heemraad seats any outsider, so Oozes, Bog Mire tanks and Rings all feed the whole Board: the tribe's best cross-tribe door."},
+    {"uid": "u18", "why": "The Peilmeester drowns wide enemies and your own thin outsiders alike, which makes every seat and levy choice matter."},
+    {"uid": "u14", "why": "Levy-Master pays for staying outside the Board, in direct tension with Heemraad and the Peilmeester."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Winter Raft is a generic team Attack buff that ignores the water law."},
+    {"uid": "u05", "why": "Ledger Coot is a plain sell-for-gold card."},
+    {"uid": "u07", "why": "Nest-Platform Coot's 1/1 Chicks are mostly sell and death fodder; fine glue, little decision."}
+  ],
+  "flags": [
+    {"uid": "u06", "kind": "watch", "note": "A seated Bird flying south may compound the Pool if it doubles Level-sized Health."},
+    {"uid": "u11", "kind": "watch", "note": "The Miller with Kobus and Levy-Master pours about 80 a turn at Tier 5, ×9 with goldens; linear, but the high roll to watch."},
+    {"uid": "u03", "kind": "unclear", "note": "Mud Hauler: does 'each Board unit you have' count itself?"},
+    {"uid": "u09", "kind": "unclear", "note": "Kees: is Under checked live in the fight as enemies lose Health? The fight needs to show the Level."}
+  ]
+}

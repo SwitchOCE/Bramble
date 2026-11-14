@@ -1,0 +1,34 @@
+{
+  "id": "v1--combo",
+  "design_id": "great-migration--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Line order is a real puzzle every turn: who dies first, who inherits, and Cliff-Singer, Midwife and Rune-Carver chain off each other in ways the builds don't fully list.",
+    "distinct": "A moving Lead title with Onward and Takes the lead is fresh, and any tribe can lead; the Pup-and-deathrattle layer under it is familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Front Lemming's rotating lead clashes with the Lead rule as written, and that is the tribe's key multiplier.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "fix", "text": "The Lead keyword says in a fight it is your first living unit, but The Front Lemming moves it elsewhere. Say whether the lead stays rotated when a unit dies, and where it goes when the current Lead dies mid-lap."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Let Cliff-Singer's stat handoff count as Onward, so Brother Onward makes the sacrifice permanent. That ties the Cliff build into the Front instead of running beside it."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Snow-Hall Midwife putting Pups in F1 already makes every Pup take the lead, which fires Rune-Carver and Route-Map Reader each time; say so in the builds, since it is the best off-label line here."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Lemenår Herald halving on a loss pairs well with The One Who Arrived paying for deaths; a card that rewards the crash itself (a lost fight) would finish the boom-and-crash rhythm."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Killing your own Lead at Start of Combat fires Onward, passes the lead and moves the stats: one card touching every subsystem, plus Ooze bellies off-label."},
+    {"uid": "u10", "why": "Turns one Lead into a rotation, so Takes the lead and Banner-Bearer fire many times a fight; a true multiplier with a choice behind it."},
+    {"uid": "u17", "why": "Rewards stacking deaths in front of a late leader, so where you put your big unit matters."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Plain Start of Turn buff to other Lemmings; does the obvious job with no line-order hook."},
+    {"uid": "u04", "why": "A Pup a turn is fine economy but makes no decision beyond holding it."},
+    {"uid": "u15", "why": "Uncapped damage per death is strong but just counts deaths, with no use of the Lead."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "unclear", "note": "Rotating lead conflicts with the Lead keyword's first-living-unit rule."},
+    {"uid": "u15", "kind": "watch", "note": "No limit: Midwife, Ole and Nest Mother deaths at 4 damage each can clear a board before attacks matter."},
+    {"uid": "u14", "kind": "watch", "note": "With Midwife and Pups dying every fight, each Pup's Onward becomes permanent on the Lead; worth the owner's eye over a long game."}
+  ]
+}

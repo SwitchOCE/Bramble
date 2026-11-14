@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "One dial that splits into Simmer and Boil Over is a real draft fork, but turns 1-4 are thin and Simmer becomes solved arithmetic once assembled.",
+    "distinct": "A press-your-luck Lamp with a movable Flashpoint and in-fight Flares plays unlike any of today's tribes, though 'spells make it grow' echoes a familiar spell tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is sound, but a few timing rules (The Herald at Start of Turn, The Old Lady in a fight) don't work as written yet.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Heat resets at Start of Turn and The Herald Stokes at Start of Turn; the order isn't stated, so The Herald could do nothing. Say the reset comes first."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "The Old Lady says once a turn, but Flares also happen in fights. Say whether she can catch a fight Flare, since Lamp in the Fight depends on it."},
+    {"pid": "p3", "uid": "u08", "kind": "fix", "text": "Pestle Noctuid's 'another random unit next to this' could mean other than the target or other than the Noctuid. Name which."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Turns 1-4 have almost no Heat payoff. A Tier 1 or 2 piece that pays at low Heat (for example at 3 or more) would let the dial matter from the first shop."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "The Spectacle is the tribe's mid-game climb. A second Tier 4 or 5 card that pays at exactly the Flashpoint would make Simmer a build you find, not a single card you need."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "The Alchymist moves the Flashpoint to 3 and changes how both builds play: a real capstone that bends the tribe's rule."},
+    {"uid": "u11", "why": "The Spectacle makes landing exactly on 7 a satisfying target every turn, with a clear double payout."},
+    {"uid": "u15", "why": "Mother Shipton turns end-of-turn Heat into a Start of Combat hit and ties the recruit puzzle to the fight."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Six-spot Burnet has little Heat to read early and only small Bristle later; it is mostly a 2/2."},
+    {"uid": "u09", "why": "Eyed Hawk-moth's Attack drain is small until Heat is high, and it overlaps with Burnet's front-row job."},
+    {"uid": "u05", "why": "Skep Pilferer is plain once-a-turn gold with no link to Heat or Flares."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Old Carbonaria counts all Heat gained, so Flashpoint doesn't cap her; with Lamp-Fanner, Burnished Brass and Dame Pavonia she can pay well over the Tier 6 top end."},
+    {"uid": "u14", "kind": "watch", "note": "Lamplit Compounder with Burnished Brass and a golden copy pays per cast at high Heat; bounded by Phial supply, but worth the owner's eye."},
+    {"uid": "u12", "kind": "unclear", "note": "Start of Turn order against the Heat reset isn't stated."},
+    {"uid": "u06", "kind": "unclear", "note": "'Once a turn' doesn't say if it works on a Flare in a fight."}
+  ]
+}

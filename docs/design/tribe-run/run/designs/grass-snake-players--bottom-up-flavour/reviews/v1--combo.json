@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Above a 7 because one shared count (times played dead) is read by six cards and fed by five, so nearly every pair interacts: Broken Heart with Old Crest drops two Anguis Tails per cast member while Blood-and-Thunder throws bigger each time.",
+    "distinct": "Fake deaths that fire both sides' death triggers and keep the body feel new, though Play Dead itself sits close to Reborn and the Undead deathrattle family."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is there; three cards need their wording fixed before anyone can play them as intended.",
+  "points": [
+    {"pid": "p1", "uid": "u11", "kind": "fix", "text": "Žaltys's \"Never harmed\" is not a defined keyword: can it take damage at all? Spell it out, since an unkillable 2/7 changes every fight."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Wreath-Layer's \"it permanently gains +1/+1\" can read as the Wreath-Layer or the Player who played dead; the builds assume the Player, so name it."},
+    {"pid": "p3", "uid": "u14", "kind": "fix", "text": "Dame Natrix's three deaths have no stated order, and whether Broken Heart comes first or last decides the whole cascade. Fix the order or let the player set it while recruiting."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "With Broken Heart and Old Crest, Little Anguis drops several Tails a fight that share one stat line; leaning into that as a Tail swarm would be a lovely hidden combo, so confirm it is meant."},
+    {"pid": "p5", "uid": "x02", "kind": "idea", "text": "Shed Skin on an Ooze that opens its Belly and keeps fighting is the best cross-tribe trick here; one more Skin source at Tier 2 would let you plan around it earlier."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Dame Natrix's Broken Heart is the mass trigger every payoff wants, and with Old Crest it doubles the whole cast's death effects."},
+    {"uid": "u11", "why": "Žaltys turns the Villain's murder and the adders' duel into free fuel, a lovely misuse of self-damage."},
+    {"uid": "u07", "why": "The Barnstormer plays dead without dying, so he feeds Wreath-Layer, the Musk-Bottle Dresser and the critic all at once."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Heap Hatchling is a plain extra life with no hook of its own beyond the Matron and the pan."},
+    {"uid": "u05", "why": "The Natterjack is a capped gold trickle that only reads the count, with no way to bend it."},
+    {"uid": "u10", "why": "Footlights Keeper is a flat upgrade to the keyword with no decision attached beyond front-row placement."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Mr Ardea Grey's rave hits 10 deaths easily with Broken Heart and the Barnstormer, giving +10/+10 to every other Player each turn."},
+    {"uid": "u15", "kind": "watch", "note": "Blood-and-Thunder with Broken Heart and Old Crest is the n-squared cascade the designer names; golden Natrix is the high roll."},
+    {"uid": "u11", "kind": "unclear", "note": "\"Never harmed\" has no rules meaning yet."},
+    {"uid": "u14", "kind": "unclear", "note": "Order of Drowned, Poisoned and Broken Heart is not stated."}
+  ]
+}

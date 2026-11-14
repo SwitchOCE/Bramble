@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "will-o-wisps--bottom-up-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Placing lights and watching the enemy's carry kill its own board is a joy to grow into, and most cards read in one line.",
+    "distinct": "Over a 7 because the damage is borrowed: the enemy's own Attack is the tribe's weapon, which no tribe today or generic auto-battler does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small reading fixes remain (which Lanterns Joan and the Steward count, and the Steward's tie); the core is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Brass-Badge Steward's \"unit with the most Lanterns\" has no tie rule, and several carriers with 1 Lantern is the normal case. Add \"first in reading order on a tie\", as Foxfire Stump does."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Joan the Wad and the Steward trigger outside fights, so only permanent Lanterns count, but neither card says so. Write \"with a permanent Lantern\" so a player doesn't expect Glim's or Old Will's lights to count."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Card names carry their flavour subtitle (\"Little Phos, apprentice who points the wrong way\"). Keep the short name on the card and move the subtitle to flavour text, so the board reads at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Three kinds of mislead state (fight Lantern, permanent Lantern, \"led astray on its next attack\") need distinct icons: a lit lantern, a brass lantern, and a wisp over the marked enemy."},
+    {"pid": "p5", "uid": "u06", "kind": "idea", "text": "Gaffer Turncoat's two halves don't touch: the mislead immunity matters only in the mirror. Fine as tech, but a line tying the swap to the coat (e.g. only on a Lantern carrier) would read as one idea."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Will turns the seed into one clear rule: the misled hit their biggest unit. Instantly readable and the tribe's fantasy in a line."},
+    {"uid": "u12", "why": "Black-Water Reflection is a reflection that doubles the light, and now says exactly which hits double."},
+    {"uid": "u16", "why": "Keeper of the Seventh Stile: nobody walks back past it, so drowned enemies stay down. Flavour and rule match."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Captain Spunkie is a wall with a discount; the shortcut joke is in the name more than the play."},
+    {"uid": "u05", "why": "Fresh-Ink Mapseller is plain gold-per-count economy; the inked map doesn't show in what it does."},
+    {"uid": "u06", "why": "Gaffer Turncoat's two lines read as two unrelated cards."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "A permanent Lantern every turn for 2 gold stacks a front row to the cap fast; the designer already flags the lock."},
+    {"uid": "u13", "kind": "unclear", "note": "No tie rule for \"most Lanterns\"."},
+    {"uid": "u18", "kind": "watch", "note": "Stones filling every gap may change who attacks first; the rule isn't settled."}
+  ]
+}

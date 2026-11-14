@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "lekking-knights--player-story",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One verb, Duel, reads at once and shows up on board, shop and fight, and raiding the shop or selling squires into the champion gives a clear story to grow.",
+    "distinct": "Duelling shop units and buying the winner, and empty slots counting as survivors, are fresh; the tall-champion end state is familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards have real text problems: Cantor's rule is garbled and Elder of the Centre loops on itself.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Cantor of the Whetting Song reads \"Duels your units start happen twice\", which a player can't parse. Something like \"Duels started by your units happen twice\"."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Elder of the Centre loops: when the champion gains stats it is another friendly unit, so it gains the same again, forever. Add \"other than your champion\"."},
+    {"pid": "p3", "uid": "u10", "kind": "fix", "text": "Sir Brennbart the Mad packs two rules into one card, and the discount covers any of your units' duels, which is easy to miss. Split the discount into its own sentence with \"Your shop duels\" up front."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The fantasy lands well: Brennbart charging the shop, the Chronicler crossing out a sold name, the Refectory's empty seats. Hartmut could lean into deafness, e.g. ignoring the enemy's effects while he duels."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Lord of the Old Lek has two unrelated effects; both serve the lone-champion story, but showing the empty-slot damage on the board would help players see it."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "The Chronicler: sell a unit and the champion takes its stats, short to read and true to crossing out a name each spring."},
+    {"uid": "u15", "why": "Lord of the Old Lek makes the few-unit fantasy work, with empty slots counting for damage."},
+    {"uid": "u08", "why": "Edge-Strutter: one choice of target, on board or in the shop, and losing on purpose is a real play."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Cantor of the Whetting Song's text can't be read as written."},
+    {"uid": "u13", "why": "Keeper of the Gizzard Stones is a plain number change with little woodland flavour in what it does."},
+    {"uid": "u04", "why": "Dame Reisig is a plain gold engine; the hen judging comes through only in the name."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "broken", "note": "Elder of the Centre triggers itself through the champion's own gains: an endless loop as written."},
+    {"uid": "u16", "kind": "unclear", "note": "Cantor's rules text is garbled."},
+    {"uid": "u18", "kind": "watch", "note": "Pilgrim from Sprucehold with Keeper and Cantor takes most of every shop unit three times a turn."},
+    {"uid": null, "kind": "unclear", "note": "The champion can change several times in one turn; players need a crown marker and duel previews to follow it."}
+  ]
+}

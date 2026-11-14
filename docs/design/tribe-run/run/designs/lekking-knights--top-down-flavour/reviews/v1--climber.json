@@ -1,0 +1,39 @@
+{
+ "id": "v1--climber",
+ "design_id": "lekking-knights--top-down-flavour",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Clean curve: Duel bodies win early, Elder and Marshal grow the middle, and three Tier 6 payoffs all feed one Champion you get to watch get absurd.",
+  "distinct": "Leaving gaps on purpose (Proud, empty-slot pay) and a pre-fight Duel rite play unlike any of today's tribes, though 'grow your biggest' and Start of Combat pings are familiar."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The shape is good, but a few rules don't read (Cork-Pop against 'Twice a fight', Duels into an empty front row) and Refectory Prior is a free pick early.",
+ "points": [
+  {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Master of the Cork-Pop doubles Sir Hartmut's re-Duel, but Hartmut is capped 'Twice a fight'. Say whether the extra trigger counts against the cap."},
+  {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Herald of the Last Dawn and Sir Hartmut Duel 'a random front-row enemy'. Say what happens once the front row is dead: fall to the back row, or stop."},
+  {"pid": "p3", "uid": "u05", "kind": "fix", "text": "Refectory Prior pays every board on turns 2 to 4, so it's always the right buy early. Tie it to the tribe's shape, such as 'if you have 2 or more empty slots after Tier 3' or per Proud unit."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "A two-unit board wins fights but deals almost no hero damage. A small hook, such as the Champion counting as 3 survivors, would make the Last Knight pay off in Health as well as fights."},
+  {"pid": "p5", "uid": "u14", "kind": "idea", "text": "The Chronicler needing 4 units while Elder wants few is a good puzzle. A 'you may' version keeps it and avoids the feel-bad turn."}
+ ],
+ "standouts": [
+  {"uid": "u18", "why": "Sir Gottfried is a real capstone: the whole Last Knight build points at him, and an empty board turning into a giant is the fantasy in one card."},
+  {"uid": "u08", "why": "Elder of the Centre makes empty slots pay every turn, so shrinking becomes the engine from Tier 3."},
+  {"uid": "u19", "why": "Sir Altmark grows off the enemy's size, so the Champion keeps pace with the lobby instead of with your own board."}
+ ],
+ "weakest": [
+  {"uid": "u13", "why": "Sprucehold Envoy is a generic Discover with a light board-size nod."},
+  {"uid": "u03", "why": "Pennon-Squire's +1/+1 and Duel is thin for Tier 2; it's mostly a splash tool."},
+  {"uid": "u07", "why": "Fantail Warden gives one Shield and has to stand alone to do it, so it costs a whole Proud slot."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Alone he fights at x4 (x7 golden) on an already-fed Champion; the designer's 'beyond the second slot' fallback is ready if it runs away."},
+  {"uid": "u19", "kind": "watch", "note": "With Cork-Pop and Herald's three Duels, the Champion banks up to half of several enemies each fight, and the bigger Champion wins more Duels next fight."},
+  {"uid": "u16", "kind": "watch", "note": "Herald plus Hartmut, Brennbart and Ottokar's free first Duels could clear a front row before the first attack."},
+  {"uid": "u14", "kind": "watch", "note": "Golden Chronicler gives four times a grown Konrad each turn; bounded by what you feed it, but steep."},
+  {"uid": "u12", "kind": "unclear", "note": "Doubling a trigger whose card says 'Twice a fight': does each doubled trigger use up the cap?"},
+  {"uid": "u19", "kind": "unclear", "note": "'A quarter of the loser's stats': its stats when it died, or before the Duel's damage?"},
+  {"uid": "u05", "kind": "watch", "note": "Free gold for every board early; the designer flags it too."}
+ ]
+}

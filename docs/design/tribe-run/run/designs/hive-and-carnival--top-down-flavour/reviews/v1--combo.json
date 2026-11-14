@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every coin is a real choice, and Masks, a Tettix growing in hand and the Fennimore pump overlap in ways the builds don't fully list; the Tier 1 and Tier 4 Spree readers are plain, though.",
+    "distinct": "Paying out on gold flow (put by against spent) instead of gold held is new next to Acorns, and a unit that grows in hand is fresh; the stat payoffs themselves are standard buffs."
+  },
+  "verdict": "iterate",
+  "verdict_why": "No unit says which town it belongs to, and the Mask's copy rule leaves some lines unclear; both are quick fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit lists its town, yet Tymbal Drummer, Olive-Press Hand, Signora Afide, Maestro Tettix and Mother Melissa all read Hive or Carnival. Add a Hive, Carnival or Road tag to each unit."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "Say whether a Mask copies conditional lines: a Tettix Mask copies \"While this is in your hand, Thrift\", which is dead on the board, and Messor and Cigale have no Spree or Thrift line to copy. The Ottavia example in the builds also calls her Thrift a spender's trigger."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Busker is the one card with no crossing. Something like \"+1 Attack for each Spree, or +1 Health for each Thrift you had last turn\" would make the Tier 1 seed a small choice too."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Tymbal Drummer is a bigger Busker. If it read \"your Sprees plus your Thrifts last turn\", it would reward the Long Wait's swing turn and the turn after it."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Honeypot Ant's sell gold also counts as put by if you keep it, so a Hive player sells an ant to Thrift. Lean into this with a line in the card or the builds: it's the best cross-use in the tribe."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Shell-Picker's Masks move a trigger to a town that never had it: a Spree on the queen, a Tettix copy on a Hive body."},
+    {"uid": "u14", "why": "Maestro Tettix grows in hand as a nymph, so holding a card becomes a plan, and timing when to play him before a roll is a real decision."},
+    {"uid": "u07", "why": "Lord Fennimore is a Hive body used as a Carnival pump: buy, sell and buy back, and he grows each lap."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Busker does exactly one obvious job."},
+    {"uid": "u12", "why": "Tymbal Drummer repeats Busker's read one tier up."},
+    {"uid": "u01", "why": "Forager is a plain grower whose only choice is the shared one: don't spend."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Clemenza with Old Messor and Mother Melissa lays several Hive copies a turn toward triples. The 4-card hand is the natural brake."},
+    {"uid": "x01", "kind": "watch", "note": "Several Tettix Masks with Penniless Tenor stack Carnival buffs steeply, as the designer notes."},
+    {"uid": "u07", "kind": "watch", "note": "Fennimore laps under Madame Cigale give 1.5 Sprees per 2 net gold, each one buffing the whole board; bounded by gold, but steep."},
+    {"uid": "u19", "kind": "unclear", "note": "Clemenza's End of Turn Spree triggers, Thrift and Penniless Tenor all fire at End of Turn; their order changes the result and isn't stated."}
+  ]
+}

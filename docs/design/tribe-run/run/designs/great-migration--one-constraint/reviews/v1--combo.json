@@ -1,0 +1,37 @@
+{
+ "id": "v1--combo",
+ "design_id": "great-migration--one-constraint",
+ "v": 1,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Every turn is a sequencing puzzle (who leads while you play, sell and end the turn), and Herald, Trailbreaker and The Front Lemming chain in ways the builds don't list; Tiers 1-3 feel flat, which holds it at 7.",
+  "distinct": "Earns 8 over 7 because one rule, only your Front speaks, turns reading order into a queue of live texts in the fight and a turn-by-turn ordering puzzle while recruiting; no tribe today or generic auto-battler tribe plays like that."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core is great, but Herding Council, Banner-Stitcher and Old Mother Lemen have rules a player can't resolve as written, and those are worth one pass.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Herding Council's text only works while it is a Front, but it is what makes the second Lemming a Front. If Council stands second, is it a Front? Say whether Council must be first, or that its text always applies."},
+  {"pid": "p2", "uid": "u11", "kind": "fix", "text": "Banner-Stitcher must be Front, yet playing a Lemming ahead of it takes the Front away. Say whether the trigger checks before or after the new unit lands. Either answer is a good puzzle; right now it can't be read."},
+  {"pid": "p3", "uid": "u19", "kind": "fix", "text": "Old Mother Lemen: do the Kits copy her Banner bonus, and what happens to Kit-Minder's buffs and to damage when she dies? The Matriarch build assumes answers the card doesn't give."},
+  {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Herald copying an End of Turn text (Herding Elder, Banner-Bearer) or Herding Council is the tribe's best hidden combo. Pitch it in the builds so the owner sees it, and keep golden Herald copying two texts."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "Tiers 1-3 are one job each, and only one of them speaks at a time. One early card that cares about its place in the queue (for example, gains stats when it takes the lead late) would give the early game a taste of the Relay."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "Herald of the Herd lets two texts speak at once, and what it copies changes with every move, so it is a new card each turn."},
+  {"uid": "u06", "why": "Trailbreaker buffs and hands the lead on in one move, and chained Trailbreakers make a relay with a choice of order."},
+  {"uid": "u14", "why": "The Front Lemming doubles every later Take the Lead and then steps aside, so where you put it decides which leaders get doubled."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "Tally is a gold piece that needs a mid-turn Front swap to sell Kits; it is fiddly for little and doesn't interact with anything else."},
+  {"uid": "u09", "why": "Kit-Minder competes for the End of Turn spot with Banner-Bearer and Herding Elder and mostly loses; its only twist is the Lemen anti-synergy."},
+  {"uid": "u02", "why": "Thaw Nester is a plain Kit maker whose only job is the early economy line."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "watch", "note": "Cantor of the Edge doubled by The Front Lemming may stack two lasting effects, +4 per death, then golden Brother Onward gives twice that to everyone; check the Banner ceiling."},
+  {"uid": "u16", "kind": "unclear", "note": "Gerd's \"enemies attack your Front whenever they can\": can they hit a Front in the back row while the front row lives?"},
+  {"uid": "u17", "kind": "unclear", "note": "Herding Council's text depends on Council being a Front, which its own text decides."},
+  {"uid": "u11", "kind": "unclear", "note": "Banner-Stitcher's timing when the played Lemming becomes the new Front is not stated."},
+  {"uid": "u19", "kind": "unclear", "note": "Whether Old Mother Lemen's Kits copy her Banner bonus is not stated."}
+ ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "moth-apothecaries--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Hold-or-cast with Steep, lens units and counting the Recipe give real decisions every turn, and the growth curve starts small and ends huge, which is a climb I'd happily draft.",
+    "distinct": "Growing spells and a spell counter echo Battlegrounds' Naga, but Steeping in hand, merging Phials and aiming at lenses for Echoes are fresh."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works, but The Old Lady's count with The Alchymist needs a ruling and the Tier 1-2 Phial cards are thin before Show-Globe Keeper arrives.",
+  "points": [
+    {"pid": "p1", "uid": "u11", "kind": "fix", "text": "The Alchymist's Echoes add to the Recipe, but Echoes trigger nothing. Say whether an Echo that lands the Recipe on a multiple of 5 fires The Old Lady."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Dame Pavonia multiplies by (1 + N/10) on every cast, and Old Carbonaria's N rises with the Recipe, so she grows exponentially late. Test the designer's own cap (scale on start-of-turn stats) before the owner balances."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "At Tier 2 you hold one or two small Phials, so Pestle Grinder adds only a few stats. Making it also give a Phial 1 would let it seed the hand as well as ripen it."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Lamp-Circler counts Phials, but early on you hold zero or one, so it's a plain 2/3. Counting total N instead would reward holding and match Burnet."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Bought units also go to the 4-slot hand, so Big Batch's full hand blocks buying. Show what happens on a buy with a full hand, maybe letting Cocoon Spinner fold a Phial in to make room."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Turns a weak cast on a small lens into two scaled Echoes on the big back row, so positioning matters while recruiting."},
+    {"uid": "u07", "why": "Overflow merging past the Steep cap gives the hold build its own goal and feeds Elder and Burnet."},
+    {"uid": "u16", "why": "Big casts leave a half-Phial behind, which links the many-casts and few-big-casts plans neatly."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "A one-off Steep when you hold almost no Phials is a small, forgettable turn."},
+    {"uid": "u02", "why": "Counts Phials at the stage of the game you have fewest; plays as a vanilla 2/3."},
+    {"uid": "u08", "why": "A random +1/+1 per spell last turn is generic and low next to the rest of Tier 3."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Each cast on a lens multiplies her stats; with three to five casts a turn she can grow ×2-3 a turn late."},
+    {"uid": "u14", "kind": "watch", "note": "Recipe feeds N, The Alchymist's Echoes feed the Recipe, and a bigger N scales harder on big units: a loop that speeds up, though it adds only one Phial a turn."},
+    {"uid": "u15", "kind": "watch", "note": "With Cocoon Spinner the merged Phial has no cap and you can hold it forever, so Burnet's damage keeps climbing."},
+    {"uid": "u11", "kind": "unclear", "note": "Unclear whether The Alchymist's counted Echoes can bring the Recipe to a multiple of 5 and fire this."}
+  ]
+}

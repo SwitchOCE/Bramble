@@ -3,12 +3,45 @@
  "seed": "will-o-wisps",
  "route": "bottom-up-flavour",
  "tribe_name": "The Will-o'-the-Wisps",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
-   "summary": "Lanterns on your units send enemy attacks onto the attacker's own side.\nYou place the lights, then cash in what went wrong for them: gold, buffs and stats from drowned enemies."
+   "summary": "Lanterns on your units send enemy attacks onto the attacker's own side.\nYou place the lights, then cash in what went wrong for them: gold, buffs and stats from drowned enemies.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Lost now counts every misled attack, the Reflection doubles both sides of a misled hit, and a misled attack with nobody else to hit strikes itself.\nStingy Jack now costs 2 gold per Turnip, since banked gold was free, and Captain Spunkie gives free Refreshes at Tier 6.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

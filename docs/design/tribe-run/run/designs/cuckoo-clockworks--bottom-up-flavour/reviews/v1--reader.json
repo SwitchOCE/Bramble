@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Laying eggs in the enemy you expect to survive, then watching the hour strike and chicks pile out, is a game you'd happily draft; the hidden clock count takes some learning.",
+    "distinct": "Over a 7: eggs go into the opponent's own units and hatch on one clock both sides share, so you read the next board for who lives three attacks. No current tribe has that timing puzzle."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is clear and the fantasy shows in every card, but Mother Rohrsang's and Little Gernegroß's texts leave real questions a player can't answer.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "fix", "text": "A Chick lands nearest 'the slot across from its host', which for Mother Rohrsang's friendly host points at the enemy side. Say a foster Chick lands nearest its host."},
+    {"pid": "p2", "uid": "u08", "kind": "fix", "text": "Little Gernegroß doesn't say what happens with no enemy across (Lay falls back to a random enemy; he doesn't), or whether his empty slot can be taken by a Chick before he returns. Give him Lay's fallback and say his slot is kept."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Chime counts both sides' attacks, so no card face shows when it strikes. Make the clock dial and its pips a fixed part of the fight screen, so 'Chime:' reads like a countdown."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Seven keywords is a lot to hold. Egg and Heave could be folded into Lay's text, leaving Chime, Wind, Lay, Brood and Doze."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "With Ottilie, Hawk-Barred Hen's target 'wakes' and is put back to sleep at every strike. Showing it simply as 'stays asleep while the Hen lives' would read better on screen."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Little Gernegroß hides in the enemy's nest and comes back three times his size: the cuckoo story in one card."},
+    {"uid": "u15", "why": "The Seven-Sleeper sleeping through the fight while growing is instantly readable and funny, and rewards a fast clock."},
+    {"uid": "u14", "why": "Frau Wechselbalg's changeling copy is one clear sentence that turns a tall enemy board against itself."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Winding Apprentice is a dozing body with Wind 1; it reads fine but does little you'd notice."},
+    {"uid": "u19", "why": "Hour-Bird's +2/+2 on each Chime is a generic team buff; the little doors are in the name, not the play."},
+    {"uid": "u16", "why": "Herald of Spring is another stat buff gated on the first Chime; the spring herald idea doesn't show in what it does."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Ottilie with Red-Mouth and several Hens lays a new round of eggs each strike; the design already names this as its runaway."},
+    {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen plus Ottilie keeps one enemy asleep all fight; counterplay is killing the Hen or the locked unit hitting back."},
+    {"uid": "u10", "kind": "unclear", "note": "Where a foster Chick lands is not stated for a friendly host."},
+    {"uid": "u08", "kind": "unclear", "note": "No rule for an empty slot across, or for his own slot while he's away."}
+  ]
+}

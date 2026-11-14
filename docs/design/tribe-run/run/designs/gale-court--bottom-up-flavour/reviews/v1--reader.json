@@ -1,0 +1,36 @@
+{
+ "id": "v1--reader",
+ "design_id": "gale-court--bottom-up-flavour",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Ordering Gusts and planning who waits in the hand is a real puzzle each turn, but the fights carry a lot of hidden timing to follow.",
+  "distinct": "Over a 7: Late makes the hand a reserve that skips the enemy's Start of Combat and lands mid-fight, and Lady High Pressure holds then releases the whole court. No tribe today plays with when things happen like this."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Two cards don't say what happens in common cases (Mrs Foul's slot, what counts toward High Pressure's sixth attack); fix those and it's ready to settle.",
+ "points": [
+  {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Mrs Foul is Late, so she lands in your first empty slot, but Mr Fair says she takes his slot. The card doesn't say where she lands if Mr Fair is dead, sold or never played."},
+  {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Lady High Pressure holds Gusts, which are attacks, so it's unclear whether held Gusts count toward her 'sixth attack' or toward a held Late unit's third. One line settles it: held Gusts don't count until they happen."},
+  {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Sir Vane's 'last other unit you played' is hidden state that carries across turns. Pointing only at a unit played this turn, or showing his pointer on the board, would make him readable at a glance."},
+  {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Say 'nearest the slot it lands in' on the Swift Couriers; as written, a player has to guess what 'nearest it' means for a unit that never lands."},
+  {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Dew-Pond Heron is a plain Gust counter with little heron in it. Something it does with the dew pond, such as feeding the unit that stood stillest, would carry the fantasy the way the Helm and the Glass do."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Counting lightning to thunder is the fantasy and the rule at once: arrive late, grow with the gap, then strike."},
+  {"uid": "u17", "why": "'Forbids anything to happen' turns into the tribe's best capstone: everything waits, then the storm breaks."},
+  {"uid": "u06", "why": "The Helm won't budge and mentions his name to everyone: a readable rule that is the character."}
+ ],
+ "weakest": [
+  {"uid": "u12", "why": "A generic per-Gust buff to the biggest unit; the heron adds nothing to what it does."},
+  {"uid": "u02", "why": "The windhover's real trick, holding still, doesn't show; it's a plain +1/+1 on a trigger."},
+  {"uid": "u11", "why": "Cleave on the first three Gusts reads fine but is the least court-like card here."}
+ ],
+ "flags": [
+  {"uid": "x01", "kind": "unclear", "note": "Where Mrs Foul lands when Mr Fair isn't on the board isn't said."},
+  {"uid": "u17", "kind": "unclear", "note": "Whether held Gusts count as attacks toward the sixth attack isn't said."},
+  {"uid": "u18", "kind": "watch", "note": "With Black Cloud, every revived unit gains +2/+2 permanently each fight; bounded by deaths but worth the owner's eye."},
+  {"uid": "u15", "kind": "watch", "note": "Steward times High Pressure doubles held Gusts again, ×9 with goldens; fight-only but could wipe boards in one storm."}
+ ]
+}

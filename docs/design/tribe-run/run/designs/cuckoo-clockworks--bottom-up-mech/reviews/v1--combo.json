@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "cuckoo-clockworks--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "One clock dial that Eggs, sleepers and hour engines each want set differently gives a real placement and Wind decision every turn, and cards like Sleeping-Vault Warden cross into other tribes' boards.",
+    "distinct": "Over a 7 because no tribe today builds the timing of the fight itself, and planting your units inside the enemy's line-up to hit their back row plays unlike any auto-battler tribe I know."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is strong; a few overlaps between sleep and Chicks need a written rule before players can read them.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Sleeping-Vault Warden next to a Seven-Sleeper or Old Unruh gives two wake hours; say which one wins (the later one keeps the sleeper's plan alive)."},
+    {"pid": "p2", "uid": "x02", "kind": "fix", "text": "Say whether a Chick on the enemy's side counts as your awake unit (for sleepers waking at once) and as a friendly unit dying (for Old Unruh). Both change what the board does."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "If Chick deaths do feed Old Unruh, that is the best bridge between the Egg and sleeper builds: Kasimir's front-row Chicks die in the enemy's rows and Unruh wakes huge. Worth listing as a build."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "A Warden-slept Tower Doorkeeper doubling hours while untouchable is the tribe's best hidden combo; a sleeper that also gets doubled by Jar-Fattener rewards building the Vault around the Doorkeeper."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Seven-Sleeper fights Ottilie and Wind directly; a version that grows from the hours it slept through (rather than only never waking) would let it join the fast clock instead of only the slow one."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Puts any unit to sleep with its text working: guards a Hedgerow engine, a Fairy or your own Doorkeeper. Use outside its purpose built in."},
+    {"uid": "u18", "why": "Little Gernegroß copies the enemy's biggest unit inside their own line-up, and with Wechselbalg and Midsummer Leaver it becomes a permanent theft."},
+    {"uid": "u06", "why": "Frau Wechselbalg makes every opponent a different puzzle: a Cleave Chick in their back row, a Shield Chick stealing their defence."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Day-Wage Journeyman is a plain gold payout with no combo hook beyond counting hours."},
+    {"uid": "u02", "why": "Bench Dozer is a sturdy body that sleeps one hour; it does one obvious job."},
+    {"uid": "u08", "why": "Egg-Painter is a flat counter tick each turn with no decision attached."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Midsummer Leaver with Little Gernegroß banks a copy of the enemy's biggest unit permanently on every win; strong against the lobby leader and worth a sim."},
+    {"uid": "u07", "kind": "unclear", "note": "Two Asleep durations on one unit have no rule; also 'the unit to the right' at the end of a row."},
+    {"uid": "x02", "kind": "unclear", "note": "Whether an enemy-side Chick counts as your awake or friendly unit is not written."}
+  ]
+}

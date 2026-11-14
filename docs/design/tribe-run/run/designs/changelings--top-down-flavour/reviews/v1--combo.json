@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "changelings--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because the tribe's power comes from whatever this lobby and shop hold, so each game builds a different engine, and run-or-cash Worn is a real choice every turn.",
+    "distinct": "Over a 7 because copying other tribes' text and tribe, plus trading your own units into the shop with Exchange, plays unlike any of today's tribes or a stat-stacking tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Glamour-Veil Seamstress with Glamourer or Foundling makes an endless re-Guise loop, and the Lady/Moll copy rules need one clear line.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "With Glamour-Veil Seamstress, two units can hand a Glamourer Guise back and forth forever; each re-Guise Unmasks and fires Knowe Usher again. Cap it, e.g. each unit can use a copied When played once a turn."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Unclear whether a Stock of the Lady under Wicker Moll counts as a 'copy of her', and whether text Moll grants counts as 'printed'. Write which so two Ladies resolve one way."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Fetch of the Front Rank could keep the copied text as a Guise if it survives the fight, tying it into Worn and Unmask."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Keeper of the Lost Hour only adds a number; letting it also stop Grandfer Acorn from Unmasking one chosen unit would make Long Con and Applause share a board."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Clerk of Exchanges could Exchange a unit you own for one in your next opponent's last board, which fits 'whatever they are traded for'."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Turns every Guise card into a When played repeater, including other tribes' best When played units."},
+    {"uid": "u03", "why": "Mirror-backwards copying turns position text into a puzzle, and Pass to the leftmost is a use nobody planned."},
+    {"uid": "u14", "why": "Guises counting toward triples links copy, Exchange buy-backs and Discover into one chain."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Pure multiplier on a counter; no decision of its own."},
+    {"uid": "u02", "why": "A free Stock is useful glue but plays the same every time."},
+    {"uid": "u19", "why": "Reads one counter and pays stats; the obvious payoff in a tribe full of clever ones."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "broken", "note": "Endless re-Guise loop with Glamourer or Foundling; with Knowe Usher it stacks stats without end."},
+    {"uid": "u14", "kind": "watch", "note": "Glamourer plus Exchange buy-backs may make goldens of carries every turn."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Moll copying the Lady may run away."},
+    {"uid": "u17", "kind": "unclear", "note": "Copies of the Lady via Moll Stocks are not ruled on."}
+  ]
+}

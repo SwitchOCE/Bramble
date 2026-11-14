@@ -1,0 +1,33 @@
+{
+  "id": "v1--reader", "design_id": "dyke-board--surgical", "v": 1, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Voting the water each turn after scouting is a real, readable decision, and the mills paying either way make every vote feel like growth.",
+    "distinct": "Earns 8 over 7 because one shared waterline, set by a scouted vote, reshapes both boards by unit shape; no tribe today or generic auto-battler tribe does that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well, but Tiddy Mun's drowning timing and the two meanings of Raise are real readability fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Tiddy Mun's text drowns enemies once at Start of Combat, but the Drowning keyword says it keeps working all fight. Print one rule on the card, e.g. 'For the fight, enemies at half the water or less drown.'"},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Raise means two things: Raise your Level (a Vote, triggers mills) and Raise the water (fight only, triggers nothing). Ditch Coot reads like a Vote; give the fight-only one its own verb, such as Flood N."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "'Whenever you Vote' and 'Whenever the Level changes' are the same event in this version. Use one wording, or make them differ on purpose so the player knows why."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Put a standing Raise/Lower switch on the gauge staff and draw one waterline number across both boards, so many Votes a turn need no prompts and sunk units read at a glance."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow lowers your Level to raise the water, which reads backwards at first. Show its Overflow as a visible counter on the card, like pumped water waiting."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Master of the Nine Mills: one clean line, pays for any change, and the windmill fantasy is the mechanic."},
+    {"uid": "u08", "why": "Stretch-Holder: the beaver holding its stretch of dike literally keeps its neighbours above water; a static aura anyone can read."},
+    {"uid": "u05", "why": "Ditch Coot: Dive plus a splash of water tells you at once that coots want to sink, and why."}
+  ],
+  "weakest": [
+    {"uid": "u18", "why": "Tiddy Mun: its drowning timing is ambiguous against the keyword."},
+    {"uid": "u11", "why": "Keeper of the Overflow: a new counter and a Lower-to-flood twist, the hardest card here to read cold."},
+    {"uid": "u10", "why": "Heemraad Old Bram Stuw: a Vote that fires on a Level change is a third wording of the same event, and it does little you can see."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Drowns once at Start of Combat, or all fight as the Drowning keyword says?"},
+    {"uid": "u05", "kind": "unclear", "note": "'Raise the water' shares the verb Raise with Votes; players will expect it to change the Level and trigger mills."},
+    {"uid": "u19", "kind": "watch", "note": "With Hendrika, Bram Stuw and Kobus, several Level changes a turn give the whole board +1/+1 each; worth the owner's eye."},
+    {"uid": "u16", "kind": "watch", "note": "Penningmeester with Sluiswacht and Hendrika can pay several gold a turn, and gold carries over uncapped."}
+  ]
+}

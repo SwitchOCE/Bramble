@@ -3,20 +3,24 @@
  "seed": "moth-apothecaries",
  "route": "borrow-twist",
  "tribe_name": "The Moth Apothecaries",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Moths that brew Heat on a Lamp by casting spells: stop at exactly 7 for big End of Turn buffs, or go over to Flare and fire every Flare effect.\nHeat carries into fights, where some Moths Stoke it further and can Flare mid-fight.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.7,
+    "distinct": 7.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

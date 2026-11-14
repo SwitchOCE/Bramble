@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The keep-then-blow-it rhythm is a real choice each turn, but most payoffs are plain +X/+X permanently, so the board grows like any other tribe.",
+    "distinct": "Reading your own gold two ways, kept and spent, makes Refresh and Tier up into tribe plays, which no current tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The cards never say which units are Hive and which are Carnival, and Tithonus's rule can be read two ways; both are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit shows a Hive or Carnival tag, yet Ottavia, Tymbal Drummer, Cluster Nurse, Banner Saint, Signora Afide and Mother Melissa all count on it. Print the tag on every card."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Tithonus: \"count your Tab as gold left\" could mean added to your gold or used in its place. Say \"add your Tab to your gold left for Hoard\" if that is the intent."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Signora Afide's milking is the best fantasy in the tribe but takes three steps of maths. A flat \"loses 2 Attack, you gain 1 gold\" reads at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Only Gate Guard and Gravelle make the Hive fight like a hive. A winter-cluster unit (for example, Hive units next to each other share damage or Hunker) would put the bees on the board, not just in the bank."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Splurge's threshold moves every turn (twice base gold). Show the number on the card, like \"Splurge (20)\", so the player never does the doubling in their head."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Gate Guard is a bee's sting: it hits hard with your bank and dies doing it. Readable and on theme."},
+    {"uid": "u03", "why": "Lord Fennimore, the drone thrown out every autumn who keeps coming back bigger, is the lore told by the rule."},
+    {"uid": "u11", "why": "Maestro Tettix turns a Tier up into a festival in one short line, and opens odd plays."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Lantern Seller is a generic shop-spell maker with no Carnival flavour in what it does."},
+    {"uid": "u12", "why": "Cluster Nurse is a plain team buff; nothing about it feels like a winter cluster."},
+    {"uid": "u02", "why": "Old Messor counting seeds is lovely lore, but the card is just a small Hoard grower."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Tab-as-gold wording has two readings, and its effect lives in other cards' triggers."},
+    {"uid": "u18", "kind": "watch", "note": "Madame Cigale with Maestro Tettix and repeated Refresh is the designer's own named runaway."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Mask-Maker hands out two Shells a Splurge, which may make triples near certain."}
+  ]
+}

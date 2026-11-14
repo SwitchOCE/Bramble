@@ -3,20 +3,24 @@
  "seed": "dyke-board",
  "route": "surgical",
  "tribe_name": "The Dyke Board",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Beavers and coots who vote a shared water level up or down each turn; units at or below the water attack at half strength.\nRaise to sink small enemy boards, Lower for gold and stats, and mills pay for every change.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.7,
+    "distinct": 7.7
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

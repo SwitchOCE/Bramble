@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "hive-and-carnival--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every last gold is a choice between rolling over a Fanfare and keeping a Reserve, and Sealer, Borrower, Fennimore and Tithonus chain in ways that change with board order.",
+    "distinct": "Holding gold as a resource that competes with spending it is new; the fight side is mostly +1/+1s, and spend-gold payoffs exist elsewhere."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The towns aren't marked on any unit and Fennimore's reach is unclear, so town buffs and threshold tricks can't be read yet.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit says whether it is Hive, Carnival or Road, yet Old Messor, Maestro Tettix, Signora Afide and Madame Cigale buff by town. Mark each unit's town."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Next to Old Messor, does Lord Fennimore also lower 'for each 4 gold', and next to Tithonus is the second Fanfare at double the lowered number? Say which numbers he changes."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Once the float is banked, the Hive stops deciding. A Hive card that pays for emptying the jar (the cluster breaks into the field) would make the crossing a Hive choice too, not only a Carnival one."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Wax Sealer is the only card that moves gold from Purse to Spent, and it's the best puzzle here. One or two more Road bridges, such as a refund that lands in the Purse, would give Ottavia and Afide more to play with."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Signora Afide fits Ottavia's balanced build well (8 spent and 8 held fires both). Saying so in a build would show players why she's there."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "A Hive card whose gold counts as Spent: it feeds Bandstand Horn, Tettix and Ottavia's balance depending on where it sits."},
+    {"uid": "u10", "why": "Free gold for the broke, a tax for savers, beyond-income gold for Cigale, and a reading-order puzzle against Reserve units."},
+    {"uid": "u19", "why": "The smaller of two numbers makes every buy and every save matter at once."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "One obvious job, capped at 3 gold, with nothing to combo with."},
+    {"uid": "u12", "why": "Plain Health from the Purse; the same read as Comb Guard with no twist."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Old Messor on a 16-gold float, Mother Melissa gives every Hive unit +8/+8 a turn for free, forever."},
+    {"uid": "u15", "kind": "watch", "note": "A banked 20-gold float makes Comptroller Gravelle deal 30 damage every fight at no ongoing cost."},
+    {"uid": "u18", "kind": "watch", "note": "A 20-gold drain turn fires Madame Cigale 20 times across all Carnival units."},
+    {"uid": "u09", "kind": "unclear", "note": "Which numbers Lord Fennimore lowers on Old Messor and with Tithonus isn't stated."}
+  ]
+}

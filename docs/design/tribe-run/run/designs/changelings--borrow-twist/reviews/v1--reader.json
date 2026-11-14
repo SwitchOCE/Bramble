@@ -1,0 +1,38 @@
+{
+  "id": "v1--reader",
+  "design_id": "changelings--borrow-twist",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Reading the shop as a menu of texts makes every Recruit Phase a fresh puzzle and the board keeps changing, but two layers of text per card slow the glance.",
+    "distinct": "Earns 8 over 7: no tribe today treats the shop itself as the resource, wearing a unit's text without buying it and leaving a 1-gold Stock in its slot, so the folklore swap is the mechanic."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well and fits the fantasy; Pip Unlike, Coat-Peg Steward and Tam Twice need their rules pinned down so a player can read them.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Pip Unlike swaps four things at once (sides, diagonals, rows, Start/End of Turn), so a player can't predict what a worn text does at a glance. Keep only left and right swapping; that is the mirror-backwards joke and it reads instantly."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "Coat-Peg Steward 'also wears its guise': it's unclear whether each fallen Changeling's guise stacks on the Steward or replaces the last one. Say which, for example 'adds its guise; these stack this fight'."},
+    {"pid": "p3", "uid": "u10", "kind": "fix", "text": "Tam Twice wearing a Changeling you own: does it copy that Changeling's own text only, or its guise too? Say so on the card or in the Guise rules."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Inside-Out Tod must re-wear on every sale, which can strip a guise you wanted. 'May wear it' keeps the choice readable and the inside-out coat joke intact."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The woodland fantasy lands in what the cards do: the Stock left in the shop, Penny making the enemy lose its own text, Grandfer stacking old faces. Lean on a guise badge in the UI so the second text is one tap away."}
+  ],
+  "standouts": [
+    {"uid": "x01", "why": "The Stock is the folklore made into a shop rule: you take the original, a log is left behind for 1 gold, and you can see the swap was 'fair'."},
+    {"uid": "u19", "why": "Penny Second is the turned-away duchess as a Start of Combat effect: your Changeling becomes the enemy and the enemy loses its own text. Clear and memorable."},
+    {"uid": "u14", "why": "Wicker Moll turns every Stock into a working copy; one line of text makes a whole build and reads at a glance."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pip Unlike's four-way mirror is the hardest card in the tribe to read and its effect depends on which text it wears."},
+    {"uid": "u01", "why": "Cradle Foundling is just Guise on a body; fine as the seed but has nothing of its own to remember."},
+    {"uid": "u16", "why": "Grandfer Acorn can hold four layers of text, the most a player must read on one card."}
+  ],
+  "flags": [
+    {"uid": "u03", "kind": "unclear", "note": "Four simultaneous swaps on worn text; hard to predict what the guise does."},
+    {"uid": "u15", "kind": "unclear", "note": "Whether gathered guises stack or replace is not stated."},
+    {"uid": "u10", "kind": "unclear", "note": "Wearing an owned Changeling: copies its guise or not?"},
+    {"uid": "u14", "kind": "watch", "note": "1-gold Stocks carrying up to Tier 5 text with +3/+3 can fill a board cheaply."},
+    {"uid": "u19", "kind": "watch", "note": "Wiping up to four enemy texts can feel bad to the opponent; worth the owner's eye, not a lock."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Lady with Grandfer and Glamour-Weaver gives a very high roll; bounded by once-a-turn limits."}
+  ]
+}

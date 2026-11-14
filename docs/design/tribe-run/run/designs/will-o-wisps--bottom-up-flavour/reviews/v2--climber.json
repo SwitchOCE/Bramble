@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "will-o-wisps--bottom-up-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Placement is a real puzzle every turn and the late game pays out big, but the tribe's own stats grow slowly from Tier 3 to Tier 5, so the mid-game climb feels thin.",
+    "distinct": "Earns 8 over 7 because its damage is the enemy's own Attack turned on itself, so it gets stronger as the lobby does; no current tribe or typical auto-battler tribe works like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the hot spots (the Lantern wall, Ignis, the Steward) are tuning for the owner, and more passes would only reshuffle cards.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Permanent stats from Tier 3 to 5 come only from Joan and the Lost readers, so the board can look small against big mid-game boards. One more modest grower for Lantern carriers at Tier 4 would smooth the curve."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Stingy Jack is the engine of the Lamp Row wall. If playtests hit the lock, cap carriers at 2 permanent Lanterns before touching Jack's price, so the 2-gold trade stays."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Old Will with Black-Water Reflection is the climb's best moment: their carry doubles into their other carry. Keep it as the spike; it is what makes the tribe worth reaching Tier 6 for."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Settle with the rules whether Start of Combat Stones change who attacks first; the Stones build's tempo depends on it."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Captain Spunkie's Tier 6 Refreshes fix his dead text well; he is a fine econ piece that mostly gets sold once the capstones arrive."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Will turns random friendly fire into chosen friendly fire: the seed's 'decide what the enemy hits' as one rule."},
+    {"uid": "u12", "why": "Black-Water Reflection is a clean multiplier that scales with the enemy's own power, the right job for Tier 4."},
+    {"uid": "u14", "why": "Hoard Mere Light turns the enemy's drowned stats into yours, so the payoff keeps pace with the lobby's biggest boards."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Fresh-Ink Mapseller is a capped gold trickle with no tie to placement; it does the expected Tier 2 economy job and nothing more."},
+    {"uid": "u06", "why": "Gaffer Turncoat is mostly a mirror tech line plus a one-off swap; in most lobbies it's a vanilla Tier 3."},
+    {"uid": "u02", "why": "Little Phos is a fine seed, but at three times a fight it tops out early and gets sold by Tier 4."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "Turnips plus Old Will can put 3 Lanterns on all four front units: 12 misled attacks before the enemy touches you, while it hits itself. Counters are few."},
+    {"uid": "u19", "kind": "watch", "note": "Ignis Fatuus has no cap: with 12+ misleads a fight it gives about 140 stats a turn, top of the Tier 6 range, and golden doubles it."},
+    {"uid": "u13", "kind": "watch", "note": "Brass-Badge Steward reads uncapped Lost, so a full Lantern wall gives +12/+12 or more a turn at Tier 4, about twice the target."},
+    {"uid": "u14", "kind": "watch", "note": "Half the stats of every drowned enemy, against the lobby's biggest boards, can mean very large buried totals late."}
+  ]
+}

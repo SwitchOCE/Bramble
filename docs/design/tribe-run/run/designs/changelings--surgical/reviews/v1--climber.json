@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "changelings--surgical",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Keep-or-swap and working the shop give real decisions every turn, and the growth climbs from Hob and Veil-Stitcher to Hollin and Bettie; the early fights are thin when the shop rolls weak text.",
+    "distinct": "Earns 8 over 7 because Exchange is the first verb that trades with the shop, and a Guise carrying its tribe makes Changelings count for other tribes' cards; no tribe today plays as a bridge."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Coat-Peg Steward plus buyback copies stats instead of moving them, and golden Steward doubles them each Exchange; that needs a fix.",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Coat-Peg Steward gives the given unit's buffs to the new unit, but you can buy the given unit back with its buffs, so the carry's stats are copied, not moved. Golden, each Exchange doubles them. Have the given unit lose those stats, as the build text says."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Keeper of the Lost Hour can be worn as a Guise by a Kit and by the Lady. Say whether extra copies stack to three or four triggers, or not at all."},
+    {"pid": "p3", "uid": "u17", "kind": "fix", "text": "The Lady's Guises change whenever another Changeling's do. Say whether that counts as her taking a Guise for Grandfer Acorn, and as keeping it all turn for Weeks-Old Hob and Long-Stay Hollin."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Tier 1 has two seeds and no tempo body: a 2/2 Kit and 1/3 Hob lose early fights when the shop's text is weak. A Kit that keeps a small stat bonus when its Guise has no useful text would steady turns 1 to 3."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Bettie Underhill's count only matters late, so show the game's Exchange count on Changeling cards from the first Exchange; it makes the early Clerk and Midnight Swap feel like an investment."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Wicker Moll turns every trade into a body that keeps the old text; the folklore and the engine are the same thing."},
+    {"uid": "u15", "why": "Penny Second rewards reading the visible next board and building one big body; real counterplay against Mire and Quarry."},
+    {"uid": "u14", "why": "Long-Stay Hollin gives the keep line a clean, steep growth curve tied to Guise tier, and makes the keep-or-swap choice bite."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Counter Stand-In needs you to sell a unit with good text, which usually costs more than the Guise is worth; Stocks give it nothing."},
+    {"uid": "u05", "why": "Pip Unlike's mirror only matters for a few directional texts; most games it is a Hob that doesn't grow."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "broken", "note": "Golden Steward with buyback doubles the carry's gained stats each Exchange; with Placement Officer and Midnight Swap that is several doublings a turn."},
+    {"uid": "u19", "kind": "watch", "note": "Pay per turn rises with a count that keeps rising, so growth is quadratic; Clerk Exchanging itself and being bought back adds a count for 3 gold."},
+    {"uid": "u12", "kind": "watch", "note": "Placement Officer Exchanging a Moll Stock gives a free shop unit and a fresh Stock every turn: about one unit of gold a turn."},
+    {"uid": "u16", "kind": "unclear", "note": "Stacking when the Keeper's text is worn as a Guise isn't stated."},
+    {"uid": "u17", "kind": "unclear", "note": "Whether her shifting Guises count as taking or keeping a Guise isn't stated."}
+  ]
+}

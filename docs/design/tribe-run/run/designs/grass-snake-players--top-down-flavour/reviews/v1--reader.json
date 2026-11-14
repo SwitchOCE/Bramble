@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Units go limp in their slot and then the whole cast gets up for the bow. That is a payoff you can see, and the Death Scene buffs grow the board in a way that's easy to follow.",
+    "distinct": "The limp state and the Curtain Call reveal are fresh, but underneath it is a familiar Deathrattle-and-Reborn skeleton: Old Crest is Rivendare and Sir Hesketh is a trigger-all-Deathrattles card."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One rule doesn't work as written: the Curtain Call uses up Play Dead, and that clashes with Dame Natrix and Žilvinas granting extra lives.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Curtain Call says the risen units' Play Dead \"is used up\", but Dame Natrix and Žilvinas give extra lives. Say whether a unit with a life left can go limp again after the bow, and whether a second Curtain Call can come."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Little Anguis stacks three clauses (gain Attack, copy a scene for the fight, a Tail that inherits the copies), so a player can't read it at a glance. Keep one job: copy the neighbour's scene, or drop the tail."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Three trigger words name nearly the same event: \"plays dead\" (Hatchling, Bufo, Maid), \"goes down\" (Anguis) and Death Scene. Settling on two would make the cards quicker to read."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "\"Knock down\" is a new verb that only Coronella and Berus use. Writing Coronella as \"the unit to the left of this goes down\" uses the existing keyword and makes Berus's \"knocked this down\" clearer."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "The Millpond Maid and Old Crest are both \"scenes trigger an extra time\", with different scopes, so a player has to remember which one applies. Giving the Maid a different job, such as acting on units beside her, would separate them."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Coronella the Villain knocks a friend down before the fight, which is pure melodrama and turns seating into the puzzle."},
+    {"uid": "u19", "why": "Mr Ardea Grey eats only the real deaths, so the critic pulls against the whole act in one plain line."},
+    {"uid": "u01", "why": "Chorus Snake at Tier 1 teaches the tribe's keyword in two words."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Little Anguis's text is too dense to read mid-shop."},
+    {"uid": "u13", "why": "The Millpond Maid is a smaller Old Crest that reads almost the same."},
+    {"uid": "u12", "why": "Household Guardian is a generic gold-or-buff item maker. The milk flavour is in the name, not in the play."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Sir Hesketh with Old Crest and the Eft multiplies Death Scenes in fight and in the shop. The designer flags this as the tribe's runaway risk."},
+    {"uid": "u15", "kind": "watch", "note": "The Brothers Berus can destroy twice a fight at Tier 5, a hard counter to big scaled boards."},
+    {"uid": "u05", "kind": "watch", "note": "The Natterjack pays more for nearly losing, so it could reward throwing fights."},
+    {"uid": "u18", "kind": "unclear", "note": "Žilvinas's extra lives clash with Curtain Call's \"Play Dead is used up\"."},
+    {"uid": "u09", "kind": "unclear", "note": "It's unclear which Death Scenes Little Anguis's Tail carries when Anguis has copied one only for the fight."}
+  ]
+}

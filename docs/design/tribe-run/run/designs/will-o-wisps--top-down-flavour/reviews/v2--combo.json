@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Gaps, lights and Start of Combat order make a real puzzle each turn, and Gaffer, Jack and the back-row modes cross in ways the designer only half listed; a few plain cards (Clerk, Owl, Tiddy Mun) keep it from 8.",
+    "distinct": "8 over 7 because the enemy's own keywords become your weapons: an Astray Cleave hits three of its own units, a Bristle ally hurts its friend, and empty slots are the resource, which no current tribe or generic auto-battler tribe does."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 rule gaps are closed and the combo web works as written; what's left are flavour-level ideas that would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Moon in the Mere's lights copy your biggest Wisp's Attack, so they are big attackers as well as decoys, and Foxfire wants those same slots empty at End of Turn. Say this in the build text; it is the tribe's best hidden crossover."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Glowing Barn Owl's Swoop does nothing with the tribe, and once a fight is thin. Its Swoop hits could lead the back-row unit Astray, so it feeds Drowned from the other end."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Lantern Carr Clerk is the one card with no crossover. Paying an extra gold when a light goes out or a Wisp Flits would tie the economy to the fight."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Gaffer Turncoat plus Fingerpost Wisp plus Jack is the tribe's signature combo; a T5 or T6 card that reads 'most Attack' after a swap would give that line a capstone of its own."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The self-Drown line (Phos in the back row, lights, Aarnivalkea) is random about which friend gets hit. One aimed self-hit card would turn it from a lucky roll into a build Johnny can plan."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Gaffer Turncoat swaps a Mire wall into a glass cannon for Fingerpost to aim, kills 0-Attack Eggs, and flips your own Bubble in the back row: three uses from one line."},
+    {"uid": "u11", "why": "Jack o' the Turnip is symmetric, so it doubles enemy self-hits and your own deliberate Ooze-cracking; a multiplier that makes you think about both sides."},
+    {"uid": "u01", "why": "Little Phos is a T1 with two modes chosen by slot, which seeds the misuse line from turn one."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Lantern Carr Clerk is plain gold for keeping gaps, with no fight interaction."},
+    {"uid": "u12", "why": "Glowing Barn Owl's Swoop and once-a-fight buff don't touch the rest of the tribe."},
+    {"uid": "u15", "why": "Tiddy Mun is random Astray that scales with the enemy, not with your choices."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Golden Old Will with Jack sends every enemy's first two attacks into its own side at double damage; worth the owner's eye as the high roll."},
+    {"uid": "u19", "kind": "watch", "note": "Aarnivalkea has no per-fight cap, so Moon filling every gap with lights plus self-Astray sources could stack many Drownings a fight."}
+  ]
+}

@@ -1,0 +1,37 @@
+{
+ "id": "v1--climber",
+ "design_id": "lekking-knights--one-constraint",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Three champions that grow huge, with a real fill-or-leave-empty choice every turn and heirs waking mid-fight; the early turns are thin and awkward, which holds it at 7.",
+  "distinct": "Earns 8 over 7: Knights blank each other, so the zigzag board turns into one fixed lek (F1, B2, F4) with a four-slot Gallery, and every slot becomes a tribe decision that pulls in other tribes. No other tribe works like that."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core works, but the Squire and Watcher tags are missing from the cards, and the succession build doesn't work as written without them.",
+ "points": [
+  {"pid": "p1", "uid": "u02", "kind": "fix", "text": "No card has the Squire keyword. Squire Konrad, Roost-Pine Squire and Rupprecht need \"Squire.\" in their text, or a waiting heir blanks its elder and the Succession Line fails."},
+  {"pid": "p2", "uid": null, "kind": "fix", "text": "No card says which units are Watchers. Print \"Watcher.\" on Heather Hen, Bilberry Watcher, Dame Reisig and The Chronicler so players can read who the Lek ignores."},
+  {"pid": "p3", "uid": "u07", "kind": "fix", "text": "On Roost-Pine Squire, \"the Knight that left\" is unclear when two neighbours could die, or when Station changes for other reasons. Say \"the Knight next to this whose death put this on Station\"."},
+  {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Turns 1-4 have little growth. Pennon-Bearer feeds one or two Knights, and Squire Konrad rarely takes Station that early. A Tier 1 or 2 unit that grows while the ground next to it is empty would start the curve sooner."},
+  {"pid": "p5", "uid": "u05", "kind": "idea", "text": "With Herald of the Old Lek doubling them, Heather Hens pay 8 gold a turn (16 golden). The designer's cap fits, or Herald could double only stat effects."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Sir Einsiedel turns the empty ground into raw power, and the Dame Reisig walk-out for x4 is a great high roll to chase."},
+  {"uid": "u10", "why": "Cork-Pop Herald makes leaving slots empty a real, costed choice against board HP."},
+  {"uid": "u18", "why": "Dame Reisig judges, doubles the champion and leaves: a clean capstone, and the lore lands as play."}
+ ],
+ "weakest": [
+  {"uid": "u03", "why": "Pennon-Bearer is a generic team buff, and it goes blank whenever it stands next to a Knight it is buffing."},
+  {"uid": "u04", "why": "Bristlebeard only moves Attack from the Gallery to himself, which weakens your board's other fighters for little net gain."},
+  {"uid": "u15", "why": "Sir Wendelin needs neighbours to die and only gains for the fight, so it is a narrow piece next to the permanent growers."}
+ ],
+ "flags": [
+  {"uid": "u07", "kind": "watch", "note": "Two Roost-Pine Squires that take turns as elder and heir each gain half of the other every fight: geometric growth, x2 or more a fight with The Chronicler or a golden copy."},
+  {"uid": "u05", "kind": "watch", "note": "Four golden Heather Hens doubled by Herald of the Old Lek make 16 gold a turn, and gold carries over without a cap."},
+  {"uid": "u14", "kind": "watch", "note": "Golden Dame Reisig with golden Sir Einsiedel is x9 in a fight on an already grown champion; it's only in fight, but worth a look."},
+  {"uid": "u07", "kind": "unclear", "note": "Which Knight is \"the Knight that left\" isn't defined when more than one neighbour dies."},
+  {"uid": "u02", "kind": "unclear", "note": "Squire Konrad is named a Squire, but his text doesn't have the Squire keyword."}
+ ]
+}

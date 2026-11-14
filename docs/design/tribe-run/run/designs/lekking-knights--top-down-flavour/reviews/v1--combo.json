@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Real turn puzzles: Chronicler wants 4 units at Start of Turn while Elder and Gottfried want gaps at End of Turn, and Herald, Cork-Pop and Altmark stack into a Champion who eats the enemy before the fight.",
+    "distinct": "Empty slots as fuel and Proud gaps make board shape the resource, and Duel as a rite that skips Mire and Hunker plays unlike today's tribes, though 'grow one carry' is familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good, but Hartmut with Cork-Pop and the open rules holes need one pass so the combos read as written.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "With Master of the Cork-Pop, Sir Hartmut's win triggers twice; say whether each extra Duel spends one of his 'Twice a fight' uses, or the combo can't be read."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Settle the rules holes the design lists, above all whether Created units (Bird Egg, summons) break Proud, since half the tribe checks Proud every turn."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "The Chronicler crossing out a full Ooze to empty its Belly, or a grown Squire Konrad, is the best off-purpose use in the tribe; a card that rewards being crossed out (not just sold) would give it a second feeder."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Bilberry Hen only pays the wide Duel build; if Hens also judged Proud units (say, a win by a Proud unit counts twice), the three builds would braid more."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Refectory Prior is plain gold that every player gets early; tie it to empty slots so it pays the Knights' own shape and not just turn 3."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Crowning any tribe's unit as Champion is a sanctioned off-purpose bridge: a huge Ooze or a returning Bird takes every Knight buff."},
+    {"uid": "u16", "why": "Herald turns empty slots into Champion Duels, and with Cork-Pop, Altmark and Ottokar each one compounds: the tribe's best combo hub."},
+    {"uid": "u14", "why": "Forces a buy-to-destroy rhythm against the Elder's gap rule, a real decision every turn."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Vanilla Duel body; nothing to combine it with beyond the Hen."},
+    {"uid": "u13", "why": "A generic Discover with a size check; it finds pieces but makes no interaction of its own."},
+    {"uid": "u05", "why": "Gold with a threshold everyone meets early; no tie to the tribe's shape."}
+  ],
+  "flags": [
+    {"uid": "u06", "kind": "unclear", "note": "Cap wording against Cork-Pop doubling is unclear."},
+    {"uid": "u16", "kind": "watch", "note": "Herald plus Altmark plus Cork-Pop can wipe a front row and grow the Champion by half of each victim before attacks start."},
+    {"uid": "u18", "kind": "watch", "note": "x4 alone, x7 golden, on an already-fed Champion; the designer marks it broken on purpose."}
+  ]
+}

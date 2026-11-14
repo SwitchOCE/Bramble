@@ -1,0 +1,36 @@
+{
+ "id": "v1--reader",
+ "design_id": "great-migration--one-constraint",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 6, "distinct": 8},
+ "ratings_why": {
+  "fun": "The lead queue and the death handoff are a real puzzle, but Tiers 1-3 are mostly silent bodies and the recruit turn needs a lot of Front swapping.",
+  "distinct": "Earns 8 over 7: one rule silences every Lemming but the Front, so reading order becomes a queue of leaders and each recruit action picks its own speaker; no tribe today plays like that."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core rule reads cleanly, but Herding Council, Old Mother Lemen and doubled swaps leave real rules questions a player can't answer from the cards.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "fix", "text": "With two Fronts, say whether both carry the Banner and whether Gerd, Cantor and Pilgrim count both; as written a player can't tell."},
+  {"pid": "p2", "uid": "u14", "kind": "fix", "text": "The Front Lemming doubling Trailbreaker means two swaps, which puts Trailbreaker back in front; say that a doubled swap happens only once."},
+  {"pid": "p3", "uid": "u19", "kind": "fix", "text": "Old Mother Lemen: say whether Kits copy her printed body or her body plus the Banner; the build says plus the Banner, the card doesn't."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "The seed is the many over the one, but the board shows one voice and six blanks; one or two low-tier cards that react from behind (when your Front takes the lead) would let the herd feel present early."},
+  {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Make Tally a non-Lemming whose text always works: the fox counting the herd reads better, and it shows the rule by contrast."}
+ ],
+ "standouts": [
+  {"uid": "u08", "why": "Next-Cliff Pilgrim reads at a glance and is the cliff cult in one line: it falls so the Banner goes further."},
+  {"uid": "u16", "why": "Gerd the Shouter draws every attack onto the leader, which is the lemming staring down the owl, and it sets the order the queue dies in."},
+  {"uid": "u14", "why": "The Front Lemming is a clear Brann-style multiplier for the tribe's one trigger, and the title fits: it hands the front on."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Kit-Minder only speaks at End of Turn as the Front, where it competes with Banner-Bearer and works against Lemen."},
+  {"uid": "u13", "why": "Ole fills slots ahead of your Front with blank Kits, so the easy play silences your opener."},
+  {"uid": "u05", "why": "A fox tagged Lemming muddles the one rule the tribe asks players to learn."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "unclear", "note": "Two Fronts versus the Banner, Gerd's targeting and Cantor's trigger are undefined."},
+  {"uid": "u06", "kind": "unclear", "note": "A doubled Trailbreaker swaps twice and lands back in front."},
+  {"uid": "u19", "kind": "unclear", "note": "Whether the Kits copy the Banner on top of her body isn't stated."},
+  {"uid": "u18", "kind": "watch", "note": "Golden Brother Onward after Cantor and The Front Lemming gives twice a large Banner to everyone, twice."}
+ ]
+}

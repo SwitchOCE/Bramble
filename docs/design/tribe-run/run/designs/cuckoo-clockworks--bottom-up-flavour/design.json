@@ -3,20 +3,24 @@
  "seed": "cuckoo-clockworks",
  "route": "bottom-up-flavour",
  "tribe_name": "The Cuckoo Clockworks",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Cuckoo hens lay eggs in enemy units; a shared fight clock strikes every 3 attacks, hatching chicks that hit their hosts.\nGrow either the clock (more strikes, Chime effects) or the brood (bigger, more chicks), joined by Ottilie at Tier 6.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

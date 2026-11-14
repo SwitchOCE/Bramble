@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "A hub carrying four Climbers that copy every gain is a great late payoff, but early turns are vanilla bodies waiting for a Patron, and mono growth rests on flat +1/+1s.",
+    "distinct": "Earns 8 over 7 because the tribe grows only by copying its host, so it can farm another tribe's engine and every buff becomes a where-do-they-hang question; no current tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works; Cousin Dodder's enemy climb and the Grand Oak with Viscum need rules that read cleanly before more play.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "Cousin Dodder on an enemy is unreadable: does he leave his slot, can he attack or be attacked, and does he use the enemy's Hold? Say where he stands for the fight."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "The Grand Oak with Viscum is unclear: do Climbers on the Oak rise double from other hosts' gains too? Pick one and print it."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Mono growth is flat (Kissing Bough, Mistletoe Sprig give +1/+1), so a mono board falls behind late. One Patron that grows by a share of its stats would give the hub a curve of its own."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Hazel Wand only ever holds one Climber, so it makes 2 Health a turn. Let it grow by Climbers next to it, or give it Hold 2, so the Tier 1 seed matters."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The first turns have few hosts; a Tier 1 or 2 Climber that does something while unhosted would smooth the opening."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "The capstone the whole tribe is built to reach: one hub, four Climbers, every gain doubled."},
+    {"uid": "u17", "why": "Lady Hedera rewards hopping between neighbours and other tribes; steady growth with a clear story."},
+    {"uid": "u15", "why": "Old Man's Beard turns the tribe's weakness, falling, into an in-fight payoff."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Hold 1 caps it at about 2 Health a turn; a seed that never grows into anything."},
+    {"uid": "u12", "why": "Ivy Solicitor moves stats rather than making them, and its exception line is easy to forget."},
+    {"uid": "u05", "why": "Honeysuckle Flatterer's condition is almost always met, so it is a plain gold card with no decision."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Viscum with Old Man's Beard or Kissing Bough grows as Climbers times hosts each trigger; quadratic, not self-feeding, but worth a sim."},
+    {"uid": "u06", "kind": "unclear", "note": "Where Dodder stands and what he does while on an enemy is not written."},
+    {"uid": "u19", "kind": "unclear", "note": "Whether the Oak's double rise applies to Viscum's other-host gains is not written."},
+    {"uid": "u10", "kind": "watch", "note": "Golden Grand Oak with Hop Bines (four Climbers, triple rise) on another tribe's engine is the big high roll; adjacency caps it at four."}
+  ]
+}

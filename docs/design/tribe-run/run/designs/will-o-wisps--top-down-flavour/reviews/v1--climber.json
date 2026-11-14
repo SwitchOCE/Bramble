@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Astray fights and gap positioning are a good puzzle, but the permanent growth is mostly flat +1/+1 packets, so the board grows slowly and the late game rests on Old Will's one big Start of Combat.",
+    "distinct": "Making the enemy hit its own side, and treating empty slots as a resource, plays unlike any tribe today and unlike a generic stats tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two rules contradict or read two ways (Marsh Light and Drowned, Follette's Flit), and the late growth curve could use one more scaling piece.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Marsh Light goes out before damage, so it can never be Drowned, yet the back-row Johnny line says a self-hit Marsh Light Drowns and pays Hoard-Keeper and Aarnivalkea. Pick one rule and write it on the token."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Mademoiselle Follette's \"Your Wisps can Flit twice a fight\" reads either as giving every Wisp Flit or as doubling Flit on units that have it. Say which."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Growth is flat: Glim, Foxfire and the Barn Owl give +1/+1 that stops mattering by Tier 5. One mid-tier buffer that scales with your empty slots or with Drownings this game would give the board a curve you watch climb."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Foxfire could give +1/+1 per empty slot next to each Wisp, so the fen build gets a real reason to keep two gaps in the late game."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Early turns pay the gap tax (fewer units, less hero damage) with only Phos and Hobby Lantern at Tier 1. A Tier 1 or 2 unit that rewards an empty slot beside it with stats would make the first turns feel like the tribe."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Fresh-Ink Mapseller turns which slots you leave empty into a targeting choice against the board you can see coming."},
+    {"uid": "u09", "why": "Gaffer Turncoat's swap feeding Fingerpost's most-Attack targeting is a real ordering combo, and it answers walls."},
+    {"uid": "u18", "why": "Moon in the Mere fills your gaps with copies of your carry: a capstone that pays off the gap plan in one turn."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Lantern Carr Clerk is a plain gold piece whose condition is free early and costly late; it does little for the tribe's idea."},
+    {"uid": "u12", "why": "Glowing Barn Owl's once-a-fight +1/+1 is small for Tier 4 and Swoop does not connect to anything else here."},
+    {"uid": "u01", "why": "Little Phos does nothing when no enemy is across, and its back-row self-hit is random, so it is a weak seed."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Old Will makes a full enemy board spend a whole wave hitting itself; golden Old Will with Jack o' the Turnip likely wipes it. Counterplay is only small boards, Shields and non-attack damage."},
+    {"uid": "u11", "kind": "watch", "note": "Jack o' the Turnip doubles every Astray hit on both sides, stacking with Old Will and Tiddy Mun into one-wave wipes."},
+    {"uid": "u19", "kind": "watch", "note": "Aarnivalkea is uncapped per Drowning, so an Old Will fight against a full board can give five or more +1/+1 to every Wisp each turn."},
+    {"uid": "x01", "kind": "unclear", "note": "Can a Marsh Light be Drowned? The token text and the Johnny lines disagree."},
+    {"uid": "u14", "kind": "unclear", "note": "Does Follette give Flit to Wisps without it, or only extra uses?"}
+  ]
+}

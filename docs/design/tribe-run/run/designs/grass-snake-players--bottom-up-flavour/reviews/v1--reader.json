@@ -1,0 +1,38 @@
+{
+  "id": "v1--reader",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One shared count (times played dead) feeds every payoff, and watching the Barnstormer collapse at every scratch, then take a bow, is a board you want to grow.",
+    "distinct": "Deaths that keep the body, paid out after the fight by Curtain Calls and the critic's review, play unlike any tribe today, though Play Dead itself reads close to a familiar Reborn."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The flavour lands, but several cards can't be read as written (Natrix's death order, the Lead's 'shed', 'Never harmed', the Player tag); a pass on wording would fix them without changing the design.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "\"Your Players\" reads as the person playing, on every card that names the tribe. Use the designer's own fallback, Troupers."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Dame Natrix Collar says 'a different death each time' but not which comes first. State the order (Drowned, then Poisoned, then Broken Heart) so a player can plan for it."},
+    {"pid": "p3", "uid": "u08", "kind": "fix", "text": "Milky-Eyed Juvenile Lead's 'shed' is not defined: does the Lead itself change or lose anything? Say it, or cut the word and just give the Shed Skin."},
+    {"pid": "p4", "uid": "u11", "kind": "fix", "text": "Žaltys's 'Never harmed' reads like a keyword (can't be damaged?) but does nothing. Make it flavour in italics, and say what 'smallest' means (least Attack plus Health)."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Little Anguis's Tail grows between fights while not on the board. Show the Tail's size on Anguis's card ('Tail: 3/3') so the growth is visible in the shop."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Mr Ardea Grey: the review, rave or pan, is the seed's critic who eats actors, read straight off a visible number."},
+    {"uid": "u07", "why": "The Barnstormer: a ham who plays dead at every scratch is instantly readable and is the fantasy in one line."},
+    {"uid": "u18", "why": "Žilvinas: the Encore brings back the dead for the bow, the repertoire's twist made into a clean, dramatic rule."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Compost Heap Matron just hands out a Hatchling each turn; it does nothing with the tribe's deaths."},
+    {"uid": "u10", "why": "Footlights Keeper is a quiet number change with little of the stage in what it does."},
+    {"uid": "u05", "why": "The Natterjack is a generic gold-per-count card; the barker's call never shows up in play."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "With Dame Natrix's Broken Heart and Old Crest, the splash grows with the square of the deaths, held only by the cap of 10 a throw."},
+    {"uid": "u19", "kind": "watch", "note": "A rave gives every other Player up to +10/+10 a turn; worth the owner's eye once Barnstormers stack deaths."},
+    {"uid": "u14", "kind": "unclear", "note": "Order of her three deaths is not stated."},
+    {"uid": "u08", "kind": "unclear", "note": "'Shed' has no defined effect on the Lead."},
+    {"uid": "u11", "kind": "unclear", "note": "'Never harmed' looks like a rule but isn't one; 'smallest' is undefined."},
+    {"uid": "u17", "kind": "unclear", "note": "'Permanently play dead one more time each fight' is awkward; 'permanently gains one more Play Dead, up to 5' reads better."}
+  ]
+}

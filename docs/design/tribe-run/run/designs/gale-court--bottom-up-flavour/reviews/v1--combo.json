@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Lots of real ordering puzzles that overlap: Squall Gusts at Start of Combat also hurry Late arrivals in, which fire Sir Vane and The Helm, while Black Cloud and the Duke pull in opposite directions; a few timing rules still need pinning down.",
+    "distinct": "Over a 7 because the hand becomes a reserve board that enemy Start of Combat can't touch, timed by counting attacks; no current tribe or typical auto-battler tribe plays the hand during the fight."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good; a few timing rules (Sir Vane's pointer, what counts toward Lady High Pressure's sixth attack, Mrs Foul when Mr Fair is dead) need writing down before it plays as written.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Sir Vane points at the last unit you played, but a Late arrival also turns him. Say whether that turn lasts past the fight, or he points at a hand-only Courier next Start of Combat."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Lady High Pressure holds Gusts, but Late arrivals and her sixth-attack break both count attacks. Say whether held Gusts count toward the six, and whether arrivals after the storm are held again."},
+    {"pid": "p3", "uid": "u09", "kind": "fix", "text": "Mr Fair: say what Mrs Foul does if Mr Fair is already dead or has been lifted out, and whether his going indoors loses his hero-damage count."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Beacon-Keeper plus Gust Pages and Vane can reach three Gusts during Start of Combat, so Late units land before the first normal swing. Lean into it: one card that pays off a Late unit landing before any enemy attack."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "The Sí Gaoithe's drop-back after your third attack is the same clock as Late. A line that lets a lifted enemy land on your side's count (or Gust when it returns) would tie it into the court's timing."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Duke Cumulonimbus turns a fight's tempo into stats, and Black Cloud and the Squall both change his count, so every Late build has a real choice."},
+    {"uid": "u17", "why": "Lady High Pressure ties both keywords into one held storm, and front row versus back row changes when it breaks."},
+    {"uid": "u18", "why": "Master of the Wild Hunt makes the dead count as arrivals, so Vane, The Helm and Black Cloud all fire again: the best hidden overlap in the set."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Windhover is a plain once-a-fight counter with nothing else to do with it."},
+    {"uid": "u12", "why": "Dew-Pond Heron repeats the Gust counter onto the biggest unit; it adds no decision the Tower and Föhn don't."},
+    {"uid": "u05", "why": "Keeper of the Glass is a threshold the Squall build hits anyway, so it's a gold tax rather than a choice."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With the Steward, held Gusts happen four times, nine with goldens; worth the owner's eye for one-sided wipes."},
+    {"uid": "u13", "kind": "watch", "note": "Black Cloud's permanent +2/+2 per arrival stacks every fight on hand-held Late units and on every Wild Hunt revival."},
+    {"uid": "u03", "kind": "unclear", "note": "What Sir Vane points at after a fight where a Late unit turned him."},
+    {"uid": "u04", "kind": "unclear", "note": "\"Never lands\" but arrives in a slot mid-fight; say it can't be played while recruiting, and what 'nearest' means for its Gust."}
+  ]
+}

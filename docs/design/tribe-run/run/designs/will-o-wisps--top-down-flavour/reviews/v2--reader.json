@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Dodging, decoys and watching the enemy hack at itself is a joy to grow into, though some fights will be a blur of redirected hits.",
+    "distinct": "Earns 8 over 7: the enemy's own attacks are the damage source, so their Cleave, Bristle and Shield become your tools, and empty slots are a resource no other tribe uses."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The cards read well and the fantasy lands, but the Marsh Light's own note contradicts how it attacks, which matters for Moon in the Mere.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Marsh Light says its Health only matters against non-attack damage, but it attacks and takes damage back like any unit. Drop that line, or say its stats matter when it attacks, so Moon in the Mere's big lights make sense."},
+    {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Fresh-Ink Mapseller reads more easily as 'lead each enemy across from one of your empty slots Astray'."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Little Phos and Gaffer Turncoat change target by row; show the active line on the card for the row it stands in, so the back-row mode isn't a surprise."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Astray, Flit and Marsh Lights all redirect hits; one shared on-screen tell (the attacker turning to follow a light) would keep busy fights readable."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Jack o' the Turnip doubles Astray hits on both sides; a line on the card saying 'any unit, yours too' would stop players missing the self-hit use."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Gaffer Turncoat's inside-out coat as an Attack/Health swap is the fantasy as a mechanic, and it sets up Fingerpost Wisp combos."},
+    {"uid": "u01", "why": "Little Phos pointing the wrong way from the back row is flavour and a misuse lever on a Tier 1 card."},
+    {"uid": "u17", "why": "Old Will is one clear line that is the whole tribe's fantasy: every enemy follows the light."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Lantern Carr Clerk is plain gold for gaps; it reads fine but shows little of the guides' misdirection."},
+    {"uid": "u15", "why": "Tiddy Mun's 'each enemy beyond three' is easy to read but random, so it feels like a weaker Old Will."},
+    {"uid": "u12", "why": "Glowing Barn Owl's Swoop and once-a-fight Drowned buff are two unrelated halves."}
+  ],
+  "flags": [
+    {"uid": "x01", "kind": "unclear", "note": "Its note says Health only matters against non-attack damage, which is wrong when it attacks."},
+    {"uid": "u17", "kind": "watch", "note": "Old Will with Jack o' the Turnip, especially golden, could wipe a full board before it attacks."},
+    {"uid": "u19", "kind": "watch", "note": "Aarnivalkea grows every Wisp per Drowning with no cap; a big Old Will wave could feed it a lot each fight."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "One verb, Astray, reads at a glance and every source aims it a different way (across, most Attack, gaps, random), so drafting is about choosing how you aim; the growth layer is plainer +1/+1.",
+    "distinct": "Over a 7: the enemy's own board is your damage and your empty slots are your resource, which no current tribe or generic auto-battler tribe does, and the fantasy (follow the light, hit your friend) is the mechanic itself."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wording gaps (Follette's grant, Flit against an attack from its own side) need a line each; the rest should settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Mademoiselle Follette's \"Your Wisps can Flit twice a fight\" can be read as giving every Wisp Flit. Say \"Your Wisps with Flit can Flit twice a fight\", or say plainly that it grants Flit."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "When an attack already going Astray (from Little Phos's back-row mode, say) hits your own Flit unit or Marsh Light, it is unclear whether it Flits or goes out, and where the attack goes, since an attack goes Astray at most once. Add one line, for example \"Flit and Marsh Lights ignore attacks from their own side\"."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Moon in the Mere's lights copy Health that never matters, because a Marsh Light goes out when attacked. \"With the Attack of your biggest Wisp\" reads truer to what the card does: a row of big false fires that strike once and vanish."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "The Glowing Barn Owl's Swoop has nothing to do with the tribe. Glowing in the dark could lead the enemy across it Astray instead, keeping it a Drowned payoff with a fen verb."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "Glim's random +1/+1 is the one growth card that doesn't touch the fen. Giving it to a Wisp next to an empty slot would tie the signal lamps to the gaps the way Foxfire does."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Will is the whole fantasy in five words: every enemy follows the light."},
+    {"uid": "u10", "why": "The Fresh-Ink Mapseller turns your gaps into aim, so leaving a slot empty becomes a readable choice against the board you can see."},
+    {"uid": "u09", "why": "Gaffer Turncoat's inside-out coat as an Attack/Health swap is short, clear, and sets up the best ordering combos in the tribe."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Lantern Carr Clerk is plain gold for gaps; reads fine but has no wisp in it."},
+    {"uid": "u12", "why": "Glowing Barn Owl's Swoop is unrelated to the tribe and its payoff fires only once a fight."},
+    {"uid": "u04", "why": "Glim's random +1/+1 three times a fight is generic and hard to track on screen."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Whether Follette grants Flit or only doubles it."},
+    {"uid": "u17", "kind": "watch", "note": "Old Will with Jack o' the Turnip can make a full enemy board kill itself in one wave; check the feel for the opponent."},
+    {"uid": "u11", "kind": "watch", "note": "Jack doubles every Astray hit on both sides; with Tiddy Mun and Old Will it is the runaway piece."},
+    {"uid": "x01", "kind": "unclear", "note": "Marsh Light against an attack from its own side (Little Phos's back-row mode) is not ruled."}
+  ]
+}

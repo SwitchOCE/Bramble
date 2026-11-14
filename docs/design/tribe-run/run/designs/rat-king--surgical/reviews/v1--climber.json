@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "rat-king--surgical",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Good curve: the knot tanks small early hits for free, Groomer and Cheese-Rind grow it mid game, and Speaker, the Thirty-Two and the Piper give three different late goals worth climbing toward.",
+    "distinct": "Earns 8 over 7 because split damage changes how every fight resolves (no tribe moves damage between units), and Tie plus Gossip make other tribes' growth part of your own engine."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works; a few rules interactions (zero shares, Piper against the Thirty-Two, the King's Health in the pool) need one clear line each.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Say whether a unit whose share rounds to 0 has taken damage. Old Gundel, Ticklish Chirper and the pain build's 14-damage example depend on it, and Mill-Chimney Sweep's 1-damage pokes give everyone else a 0 share."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "The Piper and the Thirty-Two both act at Start of Combat in reading order. Say whether untying ends the shared Health pool, and whether the King's copied stats survive the untie."},
+    {"pid": "p3", "uid": "u17", "kind": "fix", "text": "The King Enthroned's copied Health joins the Thirty-Two's pool, so the same Health counts twice. Say that the pool counts each unit's Health before the King copies it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Knot of Ill Omen mostly makes the enemy tankier against small hits. Adding a payoff, such as your first hit on a tied enemy not being split, would make it a card you take on purpose."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Cold-Shed Tangle is two 1/1s, which lose turn-1 fights. A 1/2 body or a 1/2 Stray would let the seed also hold the early game."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Speaker Brotkrume is a real late-game goal: a full seven-unit knot gaining +3/+3 each every turn is a board you climb toward."},
+    {"uid": "u19", "why": "The Piper flips the tribe's own rules for a huge opening volley and gives a real choice against Quorum 7."},
+    {"uid": "u06", "why": "Runway Gossip turns other tribes' growth into yours, which makes every pivot and tied neutral pay off."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Knot of Ill Omen often helps the enemy, because their knot also spreads your small hits."},
+    {"uid": "u01", "why": "Little Fips is a plain body with no late role."},
+    {"uid": "u02", "why": "Cold-Shed Tangle's two 1/1s lose early fights; it only matters as Quorum count."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Golden Ilse makes every Gossip in her knot gain all the knot's growth, so two or three Gossips multiply the board's growth each turn. A great high roll, but worth the owner's eye."},
+    {"uid": "u17", "kind": "watch", "note": "The Thirty-Two with the King and Old Gundel: a pool counting copied Health, and Attack that keeps rising on units that can't die."},
+    {"uid": "u11", "kind": "watch", "note": "Supper Sniffer spreading Damage Reduction across a knot, applied per share, can make small hits do nothing."},
+    {"uid": "u13", "kind": "unclear", "note": "Mill-Chimney Sweep's 1-damage pokes split into 0 shares; it's unclear what they trigger."}
+  ]
+}

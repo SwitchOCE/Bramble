@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "moth-apothecaries--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "The hold-or-cast choice each turn and the lens units make a real drafting puzzle, but reading a turn means tracking N, three caps, the Recipe and Echo targets.",
+    "distinct": "Steeping Phials in hand and aiming small casts through lenses are fresh; underneath, it is still a cast-spells-to-buff tribe, and the flame and eyespot themes barely show in play."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Dame Pavonia's text clashes with the Echo rule as written, so there is one real fix to make first.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Echo says units spells can't target can't take Echoes, so Dame Pavonia's own Echo fails as written. Add 'Echoes still reach this' to her text, or drop that clause from Echo."},
+    {"pid": "p2", "uid": "u11", "kind": "fix", "text": "The Alchymist's Echoes add to the Recipe, but Echoes aren't spells, so a player can't tell whether one landing on a multiple of 5 sets off The Old Lady. Say which way it goes."},
+    {"pid": "p3", "uid": "x01", "kind": "idea", "text": "Phials carry three limits (Steep stops at 5, at 7 with The Herald, and not at all if made above 5). One cap that cards raise would read faster."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Elder of the Burnt Ring asks for N 8 while the keyword caps at 5, which reads as impossible at a glance. A reminder like 'merge or overflow to reach it' on the card, or a 'past the cap' threshold, would help."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "'Nearer the Flame' never shows up in what the cards do. A front-row or next-to-Lamplighter bonus to Phials, at some risk, would put the moth-to-lamp fantasy on the board."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "Treacle Painter reads in one line: cast on it, the neighbours get painted. It is a clean, fair lens, and it fits the treacle-on-bark fantasy."},
+    {"uid": "u16", "why": "Mother Shipton's leftover half-Phial is easy to read and joins the cast-many and cast-big plans."},
+    {"uid": "u07", "why": "Cocoon Spinner turns a full hand into one big Phial. It is a clear rule, the cocoon fits the moths, and it is the only way past the cap."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Lamp-Circler is a generic count-your-hand body with little moth in it."},
+    {"uid": "u05", "why": "Pestle Grinder is a one-off Steep with no decision after it's played."},
+    {"uid": "u08", "why": "Almanac Seller gives random +1/+1s, which reads as filler and misses the omen fantasy."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Her untargetable clause blocks her own Echoes under the Echo rule."},
+    {"uid": "u11", "kind": "unclear", "note": "It's unclear whether Recipe steps from the Alchymist's Echoes trigger The Old Lady."},
+    {"uid": "u15", "kind": "watch", "note": "Burnet with a merged Phial 14 to 20 hits for 42 to 60 a fight, all from cards held in hand."},
+    {"uid": "u17", "kind": "watch", "note": "Spell scaling on one target that keeps growing compounds every turn."}
+  ]
+}

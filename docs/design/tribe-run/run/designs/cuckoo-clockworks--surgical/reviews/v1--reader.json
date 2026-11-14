@@ -1,0 +1,35 @@
+{
+ "id": "v1--reader",
+ "design_id": "cuckoo-clockworks--surgical",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Watching Chicks fed on the enemy's biggest units heave them over, and a jarred carry waking huge, is a great board story; the three new ideas cost some reading time.",
+  "distinct": "Over a 7: it is the only tribe that plants things on the enemy board and grows from the enemy's size, on a visible mid-fight clock, and the fantasy (cuckoo in the nest, dormice in jars) is in the rules, not the names."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core reads well, but Ottilie and Little Gernegroß don't say what happens in the cases players will hit every game.",
+ "points": [
+  {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Grand Horologe Ottilie Gugger: say where her delayed effects go in the Hour order. Do Eggs she lays at the Hour hatch that same Hour, and does a unit Curfew Warden puts to sleep then wake at once or next Hour?"},
+  {"pid": "p2", "uid": "u15", "kind": "fix", "text": "Little Gernegroß: say what happens if his host dies first (is he gone for the fight?), whether he counts as a unit while hidden, and what 'Four times' on the golden multiplies."},
+  {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Nest-Box Dormouse: say whether the Chick shoves before it is eaten. 'Shoves, then is eaten' reads best and keeps the cuckoo moment."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "The clock counts attacks by both sides, which is hard to follow in your head. Show it as a dial with four marks over the board so the Hour is a beat players can see coming."},
+  {"pid": "p5", "uid": "u06", "kind": "idea", "text": "Reed-Line Journeyman's second sentence is a rule change for all your Eggs; a short name for it (say, 'Early Hatch') would make it easier to spot."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Little Gernegroß is the seed's whole joke in one card: he hides in the biggest enemy, comes back huge and shoves it."},
+  {"uid": "u02", "why": "Jar Dormouse reads at a glance and teaches Asleep on turn 1."},
+  {"uid": "u19", "why": "Old Unruh, asleep since autumn and still marked present, growing through every Hour, is a clear and funny capstone."}
+ ],
+ "weakest": [
+  {"uid": "u07", "why": "Key-Turner does nothing you can see on its own; 'Wind 2' only reads once you know the clock well."},
+  {"uid": "u05", "why": "First-Call Herald is a plain gold card with little cuckoo in it."},
+  {"uid": "u13", "why": "Frau Wechselbalg's payoff happens off the board after the fight, so the changeling idea is hard to see in play."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "unclear", "note": "Timing of her delayed Start of Combat effects inside the Hour is not set."},
+  {"uid": "u15", "kind": "unclear", "note": "Host dying first, unit count while hidden, and the golden's 'Four times' are not defined."},
+  {"uid": "u17", "kind": "watch", "note": "The golden's Hour on every attack with Door Cuckoo makes the fight hard to follow on screen as well as to balance."}
+ ]
+}

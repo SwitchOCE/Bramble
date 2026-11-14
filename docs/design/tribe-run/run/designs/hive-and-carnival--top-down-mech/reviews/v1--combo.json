@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "The crossers (Tithonus, Afide, Tettix, Ottavia) make real save-or-spend turns, but most other units are a flat 'Hoard: +X' or 'Splurge: +X' that does one obvious job.",
+    "distinct": "Reading gold two ways, and gold as fight damage (Gate Guard, Gravelle), is fresh for a tribe, though Hoard is close to familiar interest economics."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Tithonus and Signora Afide need clear wording, and Tettix can turn every late turn into a Splurge, which flattens the rhythm the tribe is built on.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Tithonus: 'count your Tab as gold left' doesn't say whether the Tab replaces gold left or adds to it. That decides whether a 20-gold bank plus a 20-gold spend hits Melissa's 20+ step."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Signora Afide: say whether the halved Attack is lost permanently or only for the turn, and whether being Hive herself matters. The milking loop only reads once that's settled."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "With Maestro Tettix, 10 gold of Refreshes is a Tab of 20, so you Splurge every late turn without saving. Spending all your gold on Refresh is then always the right play. Maybe make his doubling count only for the Splurge check, or only once a turn."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Give the one-job units a second hook into the other town or the board, the way Ottavia pays the Hive on a Splurge. For example, Cluster Nurse could also count Tab, or Long-Dark Nymph could gain more when it's beside a Hive unit."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Gate Guard dies after one sting. A Hive unit that brings it back, or a Carnival unit that refunds gold when it dies, would make the bank-as-weapon loop worth building around."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Tithonus lets one turn be both towns, and with Melissa it stacks Hoard triggers in ways you have to work out."},
+    {"uid": "u10", "why": "Signora Afide grows on spending and is milked into gold that refills the bank, so she sits right on the road between the towns."},
+    {"uid": "u16", "why": "Mask-Maker's Shells reuse the triple rules and work with any tribe's units, so it can be used well beyond its own tribe."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Old Messor is a plain stat ticker with no decision past keeping 3 gold."},
+    {"uid": "u12", "why": "Cluster Nurse does Melissa's job at a smaller size and adds no new interaction."},
+    {"uid": "u01", "why": "Long-Dark Nymph is a plain Splurge ticker, and too easy to grow on turn 2."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Tettix plus Cigale and Banner Saint on Refresh spam is the likely runaway, and it removes the need to save."},
+    {"uid": "u19", "kind": "unclear", "note": "Whether the Tab adds to gold left or replaces it."},
+    {"uid": "u10", "kind": "unclear", "note": "Whether the Attack loss is permanent."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Mask-Maker makes triples very reliable on Splurge turns."}
+  ]
+}

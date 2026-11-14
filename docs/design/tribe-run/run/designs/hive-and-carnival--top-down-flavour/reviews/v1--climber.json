@@ -1,0 +1,38 @@
+{
+  "id": "v1--climber",
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The Long Wait gives a real spike turn to plan for, and the Carnival grows every turn; the Hive's early turns cost a unit and win nothing.",
+    "distinct": "Gold flow as the resource, saved coins paying twice, and Tettix growing in hand play unlike today's tribes, though Spree echoes Battlegrounds' gold-spent cards."
+  },
+  "verdict": "iterate",
+  "verdict_why": "No unit says which town it's in, and several cards read towns; that needs fixing before the design can be judged settled.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No unit is tagged Hive, Carnival or Road, yet Tymbal Drummer, Olive-Press Hand, Signora Afide, Maestro Tettix and Mother Melissa all read towns. Add the town to every unit."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Ottavia's \"freeze it\": does it freeze only that unit or the whole shop? The Long Wait plan depends on which."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Hive has no fighter from Tier 2 to Tier 4, so saving turns just lose fights. The designer's barbed Guard Bee at Tier 2 or 3 would give winter a body."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Mother Melissa with Old Messor and Clemenza lays several copies a turn and is capped only by the 4-card hand; worth a test, and the hand cap may be the right natural limit."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Penniless Tenor could read \"1 gold or less\" so an odd leftover coin doesn't switch it off."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "A nymph that grows in hand while you save, then leads the band on the summer turn: the tribe's arc in one card."},
+    {"uid": "u07", "why": "Lord Fennimore turns a Hive body into a Spree pump that grows each lap, an easy and fun loop to read."},
+    {"uid": "u16", "why": "Comptroller Gravelle makes a held bank fight, giving the Hive its late payoff and an answer to Shields and tokens."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Nurse Bee needs the back row, two units in front and saved gold for a small buff; it rarely earns its slot."},
+    {"uid": "u09", "why": "Olive-Press Hand feeds each town from the other at random, which on most boards means half its text does nothing."},
+    {"uid": "u02", "why": "Busker is a vanilla body on saving turns and small on spending ones."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "With Madame Cigale each Fennimore lap is a Spree and he grows +2/+2 with no cap; bounded by gold, but steep."},
+    {"uid": "u17", "kind": "watch", "note": "Melissa plus Messor plus Clemenza could chain triples and golden Discovers every turn."},
+    {"uid": "u19", "kind": "watch", "note": "Clemenza with Messor makes every coin pay both towns, doubled; a strong capstone, check it against the Tier 6 ceiling."},
+    {"uid": "x01", "kind": "watch", "note": "Several Tettix Masks plus Penniless Tenor grow steeply past the Tier 6 ceiling, as the designer warns."},
+    {"uid": "u10", "kind": "unclear", "note": "Unclear whether \"freeze it\" freezes one unit or the whole shop."},
+    {"uid": "u12", "kind": "unclear", "note": "Can't tell which units are Carnival, so Tymbal Drummer's reach can't be read."}
+  ]
+}

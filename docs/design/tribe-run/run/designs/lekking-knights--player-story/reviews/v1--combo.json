@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "lekking-knights--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One verb in three arenas gives real stacking (Marshal into Grit Pit Elder into Elder of the Centre, Cantor doubling all of it) and deliberate losing (Konrad, Edge-Strutter buying the winner), so the champion grows in ways you plan.",
+    "distinct": "Duelling the shop, empty slots counting as survivors and a hired champion from another tribe play unlike today's tribes, though stat-stealing and a tall carry are familiar at the core."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Elder of the Centre loops with its own champion gain as written; fix that wording and it is ready to settle.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Elder of the Centre: the champion is 'another friendly unit', so its own gain triggers Elder again, forever. Say 'another friendly unit other than your champion'."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Cantor's text 'Duels your units start happen twice' is hard to read; try 'Each duel one of your units starts happens twice'."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Edge-Strutter losing on purpose to a shop unit, then buying it with +3/+3, is the tribe's best Johnny trick; a second card that rewards buying a duel winner would make it a line, not a one-off."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Lord of the Old Lek wants empty neighbours while Lek Marshal and Grit Pit Elder want a second unit to duel; that tension is good, and a Tier 2 or 3 piece that rewards a back-row champion in B2 would sharpen the placement puzzle."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Duels against your next opponent's known biggest unit (Dawn Herald, Ottokar) make reading their last board a real decision; consider one card that picks a duel target by slot, so placement on the zigzag matters even more."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Choose to lose a shop duel, then buy the grown winner: a card used outside its obvious job."},
+    {"uid": "u15", "why": "Empty slots counting as survivors turns 'few units' into a real board-building choice."},
+    {"uid": "u09", "why": "Grit Pit Elder turns every duel source (own board, shop, enemy) into permanent growth, linking all three stories."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Dame Reisig is plain once-a-turn gold with little to combine."},
+    {"uid": "u01", "why": "Pennon-Bearer is a single Start of Combat duel with no hook into the rest of the tribe."},
+    {"uid": "u12", "why": "Prior repeats Lord of the Old Lek's empty-slot idea without adding a new decision."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "broken", "note": "As written, the champion's gain re-triggers Elder of the Centre with no end."},
+    {"uid": "u18", "kind": "watch", "note": "Pilgrim with Keeper of the Gizzard Stones and Cantor takes huge shop stats three times a turn; the designer already flags it."},
+    {"uid": "u17", "kind": "watch", "note": "Ottokar with Cantor and Keeper may decide fights at Start of Combat."},
+    {"uid": "u16", "kind": "unclear", "note": "Cantor's sentence is garbled."}
+  ]
+}

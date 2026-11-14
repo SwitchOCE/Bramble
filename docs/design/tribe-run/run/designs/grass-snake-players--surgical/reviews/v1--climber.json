@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "grass-snake-players--surgical",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Every tier has a clear job and the growth curve rises well: Encore bodies win early, Barnstormer and Natrix turn deaths into permanent stats mid-game, and three different Tier 6 capstones give each build somewhere to go.",
+    "distinct": "Encore and death payoffs read a lot like Battlegrounds Reborn and Deathrattle tribes; the positional Prompter's Boy, Understudy and lobby-wide Notices are the fresh parts."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The curve is good, but Sir Hesketh's mass get-up and recruit-phase Death Scenes have rules gaps that should be written before more tuning.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Sir Hesketh Hiss says units get back up in their own slot, but that slot may hold a summon or an Understudy that stepped in. Say where they go (nearest empty slot) and what happens when the board is full."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "Wreath-Bearer Frog's Encore gift has no duration. Fired in the shop by the Rehearser or Coronella, a player can't tell if it lasts into the next fight or is permanent."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Say whether the Prompter's Boy doubles Death Scenes fired while recruiting. If it does, Rehearser on Dame Natrix in front of it is +2/+2 to the whole board per 3 gold, a strong shop loop worth the owner's eye."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Tier 1-2 are a bit thin on growth: only Bit-Part Lizard grows the board. A Tier 2 buffer that pays on a friendly getting back up would give the Encore start a direction earlier."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Žilvinas reads a game-long total that never falls, so he grows by himself every turn. That fits a payoff; just check the late number in a Bird or Ooze lobby."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "A positional multiplier: who stands in front of the Prompter is a real casting choice each turn."},
+    {"uid": "u13", "why": "The Brothers Berus turn self-damage into a combo with Encore, a fun lever outside its obvious use."},
+    {"uid": "u18", "why": "Old Crest dying last and replaying the whole show is a capstone worth building toward."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Chorus Grass Snake is a plain Reborn body with nothing to draft around later."},
+    {"uid": "u05", "why": "The Natterjack's 1 gold on a low bar is filler; it rarely changes a decision."},
+    {"uid": "u09", "why": "Toad Claque's in-fight bonus is small and only matters in the Curtain Call build."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Old Crest stacks with the Prompter, Encore and Hesketh; with goldens the replays multiply into a dozen-plus Death Scenes a fight."},
+    {"uid": "u04", "kind": "watch", "note": "Smooth Newt Rehearser on Dame Natrix or a Matron in the shop is repeatable permanent value each copy bought, more if the Prompter doubles it."},
+    {"uid": "u19", "kind": "watch", "note": "Žilvinas scales with lobby-wide deaths and never resets; hot in lobbies with Birds and Oozes."},
+    {"uid": "u17", "kind": "unclear", "note": "Slot conflicts when units get back up, and ties where both last units die, are not defined."},
+    {"uid": "u06", "kind": "unclear", "note": "Duration of the Encore it gives is not stated, which matters when fired while recruiting."}
+  ]
+}

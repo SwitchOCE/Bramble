@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "great-migration--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Line order as the puzzle is a good climb, but early turns are thin (Breeder Pups clog hand) and the Front and Tide halves often undercut each other mid-game.",
+    "distinct": "A Lead title that moves, with Onward and Takes the lead as mirror triggers and Front Lemming rotating it, plays unlike any current tribe, though the Tide half is a familiar token-and-death tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Lead rules don't say how Front Lemming's rotation squares with \"first living unit\" and summons taking the lead, which the whole Front build rests on.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "fix", "text": "Front Lemming conflicts with the Lead rule: after it rotates the lead to a back unit, does a death or a Pup summoned in F1 snap the lead back to the first unit, or pass to the next? State one rule."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Lemenar Herald's halving needs a reading: with two Heralds, or after The One Who Arrived buffs Pups, which bonus halves, and do Pups already on board lose stats?"},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 1-4 rest on two T1s and a Breeder whose Pups take hand space; a T2 that fights well on its own (a body that grows when it takes the lead in the shop phase) would smooth the early climb."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Snow-Hall Midwife locks out every Takes-the-lead unit; letting its Pup go to the nearest empty slot instead of the Lead's slot would let the two halves share a board without losing the Tide's refill."},
+    {"pid": "p5", "uid": "u14", "kind": "idea", "text": "Brother Onward is the build-defining T5, but it pays most with Pup deaths into a real Lead; a line on screen showing who will keep the permanent stats would make the choice readable."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Cliff-Singer turns the doom cult into a real enabler: kill a fat Lead, an Ooze or a Nest Mother on purpose and keep the value."},
+    {"uid": "u10", "why": "Front Lemming makes the lead lap the board, turning Banner-Bearer, Gerd and Rune-Carver into repeat triggers: a fresh late-game engine."},
+    {"uid": "u19", "why": "The One Who Arrived turns a bloody fight into permanent herd growth, a clean late-game payoff with a natural brake."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Weeks-Old Breeder adds a 1/1 to a 4-card hand each turn; weak tempo unless Tally or triples are online."},
+    {"uid": "u05", "why": "Herding Councillor's per-neighbour count is small and awkward next to a Lead in F1, which has few neighbours."},
+    {"uid": "u02", "why": "Banner-Bearer is a vanilla 1/3 until Front Lemming or Cliff-Singer make it lead more than once."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Golden Rune-Carver with Front Lemming pays every lap per death so far; fight-only, but a big spike."},
+    {"uid": "u13", "kind": "watch", "note": "Tally plus Breeder plus Pup triples gives gold and tier-up Discovers every few turns; could outpace other tribes' economy."},
+    {"uid": "u14", "kind": "watch", "note": "Brother Onward with Midwife and Ole feeding Pup Onwards into a real Lead makes one permanent giant fast; fine to run hot, owner's eye."},
+    {"uid": "u10", "kind": "unclear", "note": "Rotation versus \"first living unit\" and summons taking the lead is not settled."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Raise-pay, Drain-pay and change-pay cards pull against each other, and Polder Millwright's order choice next to Inspecting Heemraad and Sluice Keeper gives a real puzzle every turn.",
+    "distinct": "A Level both boards can see, with a Flood that hurts your own front row, makes slot choices (Afloat, Dike, who drowns on purpose) unlike any of today's tribes, though the payoffs are mostly plain stat buffs."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good, but whether a multi-step Raise or Drain triggers once or once per step decides how half the cards work, and it has to be written down.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Say whether \"Whenever you Raise/Drain\" fires once per Raise N or once per step. Ring-Dike Beaver, Ditch-Digger and Master of the Nine Mills give 1x or 5x after Hendrika's carry or Aaltje's Raise 2 depending on the answer."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Say whether Meester Kobus Bles's second trigger counts against Minute Coot's \"Twice a turn\" and Tail-Slapper's \"Twice a fight\". As written, a player can't tell if Kobus doubles the cap or just uses it up faster."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "The Spaarndam Pup solves the front-row puzzle instead of rewarding it, and it switches off the drown-your-own-Ooze plus Tail-Slapper line. A version that lets you pick which friendly units the Flood skips would keep that choice alive."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Winter Raft is a generic team buff. Making it pay at Level 0 (frozen canals, skaters) would give the Dry Polder build a reason to run Afloat coots, and connect two builds that now pull apart."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Bench Coot could Raise when sold as well as when played. Then it combos with Objecting Coot (two Raises from one sell) and with Sluice Keeper's Drain on the next turn."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Raise 1 and Drain 1 leaves the Level where it was but gives two changes, and choosing the order with Inspecting Heemraad and Sluice Keeper on board is a real decision."},
+    {"uid": "u17", "why": "Turns one vote into five steps, so Sluice Keeper at Start of Turn and Millwright at End of Turn swing the Level end to end: a true combo capstone."},
+    {"uid": "u14", "why": "Re-Floods on friendly deaths, so drowning your own units, Ooze Bellies and Kees Kowk all start feeding each other in the fight."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Gives Afloat units stats every turn and does nothing else; no decision attached."},
+    {"uid": "u01", "why": "A body with a single Raise, and nothing to combo with after it is played."},
+    {"uid": "u19", "why": "\"Whenever X, buff everyone\" is the most generic capstone shape, though the bonus at Level 0 helps."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Kobus Bles and Master of the Nine Mills or Old Bram, a turn can give 200+ permanent stats, depending on how steps are counted."},
+    {"uid": "u11", "kind": "watch", "note": "Her Raise for this fight sets off Ring-Dike Beaver and Old Bram for permanent stats during the fight; decide if that's intended."},
+    {"uid": "u14", "kind": "unclear", "note": "Unclear whether a re-Flood counts as \"the Flood\" for After the Flood effects such as Kees Kowk; the build text assumes it does."},
+    {"uid": "u18", "kind": "watch", "note": "In the mirror, whoever finds the Pup is immune while the other side melts; could decide mirrors on its own."}
+  ]
+}

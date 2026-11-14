@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "grass-snake-players--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Lots of cards overlap: Berus killing Encore units, Anguis borrowing a Matron's scene, Coronella turning sales into scenes, and Old Crest and Hesketh deciding who should die last. That gives real slot choices every turn.",
+    "distinct": "Encore is Reborn and the Prompter and Old Crest are a familiar deathrattle-multiplier stack. Understudy row-swapping and the cross-tribe Notices bank are what make it fresh."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good as it stands, but a few stacking and timing rules can't be read yet and need one pass to pin down.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Old Crest's replay is unclear: does the Prompter's Boy double a replayed scene, and does a unit that died twice (Encore) replay once or twice? Say which in the text."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "Wreath-Bearer's Encore has no duration. Fired by the Rehearser or Coronella while recruiting, does it last into the next fight or end at once? Say 'this fight' or 'permanently'."},
+    {"pid": "p3", "uid": "u10", "kind": "fix", "text": "Prompter's Boy and Understudy share the back row: when Anguis steps into the front slot ahead of the Prompter, do his copied scenes count as 'in front' and fire twice? Write the answer down."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Notices only ever go up and get read as a total. One card that pays out on Notices gained this fight, such as a mid-fight buff at every 5th death, would turn the bank into an in-fight combo too."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Bit-Part Lizard could feed an Understudy behind it ('give a unit behind this +1/+1, twice if it has Understudy') so the Tier 1 seed points at the wings build."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Little Anguis copies whatever died in front of him, so the slot behind each lead becomes a real casting puzzle."},
+    {"uid": "u18", "why": "Old Crest makes you plan the order of death across the whole board, and he stacks with the Prompter and Hesketh."},
+    {"uid": "u13", "why": "The Brothers Berus use self-damage for a new job: they pop Encore units on purpose and give the bodies that get back up +4 Attack."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "The Natterjack is a flat gold check that offers no decision once it's on the board."},
+    {"uid": "u11", "why": "The Bill-Poster just reads a counter, with no placement or timing hook."},
+    {"uid": "u02", "why": "Bit-Part Lizard gives one small buff to whoever stands behind it, and it fades fast."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hesketh's raise lets Old Crest die a second time and replay everything again, which on top of the Prompter could spiral. Worth a sim."},
+    {"uid": "u19", "kind": "watch", "note": "Encore deaths, Hesketh raises and Berus casualties all add Notices, so Žilvinas may grow far faster than 60 Notices on arrival suggests."},
+    {"uid": "u18", "kind": "unclear", "note": "It's unclear how replays interact with the Prompter's doubling and with units that died twice."},
+    {"uid": "u06", "kind": "unclear", "note": "The Encore it grants has no duration when it fires while recruiting."}
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "changelings--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Copying the shop's best or your own carry and choosing when to cash in Worn is a rich draft, but many cards read as two texts at once, which slows every turn.",
+    "distinct": "Earns 8 over 7 because Worn makes time a resource you choose to spend (let it run or Unmask for applause), and a Guise carries tribe, so a Changeling can become a Bird and Fly South; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Glamourer and Seamstress chain can loop forever as written, and a Stock of the Lady under Wicker Moll is unreadable; both are small, real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Glamour-Veil Seamstress plus a unit Guised as Glamourer of the Knowe loops: each new Guise fires the copied When played, which gives another Guise, which Unmasks and feeds Knowe Usher. Add \"Once a turn per unit\" or say a copied When played can't give a Guise."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Under Wicker Moll a Stock of The Lady Under the Hill has her text, but it's unclear whether that Stock counts as a \"copy of her\". Say so in the Lady's or Moll's text."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "\"Guise X\" (this wears X) and \"give a unit the Guise of X\" (Glamourer) are two phrasings of one verb. Use one form, such as \"wear X's Guise\", so a player never wonders who changes."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Most shop units' text is When played, which a Guise doesn't trigger, so Foundling often copies nothing useful. Let Foundling fire the copied When played once, so the first copy feels like something."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Pip Unlike asks the player to flip left, right, front and behind in their head. Have the card show the flipped text, so the mirror joke reads at a glance."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Penny Second takes your carry's place and sends the real one to the shop: the folklore of the turned-away duchess, done in one play."},
+    {"uid": "u04", "why": "Grandfer Acorn can't help giving himself away every turn, and that cuts against the Long Con build, so keeping him is a real choice."},
+    {"uid": "u09", "why": "Fetch of the Front Rank is the clearest card in the tribe: become the enemy across, and you can plan it from their last board."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pip Unlike is charming, but mirror-flipped copied text is the hardest thing in the tribe to read."},
+    {"uid": "u05", "why": "Clerk of Exchanges is a plain swap with no hook of its own; it only shines next to Stocks or Bettie."},
+    {"uid": "u02", "why": "Wicker Prentice is a blank stat copy; the Stock fantasy only wakes up once Wicker Moll is down."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "broken", "note": "Copied When played that gives a Guise can chain with no limit (see p1)."},
+    {"uid": "u17", "kind": "unclear", "note": "Whether a Stock of the Lady counts as a copy of her isn't stated."},
+    {"uid": "u14", "kind": "watch", "note": "Tam Twice turns every Guise into a triple piece; Discover chains could run away."},
+    {"uid": "u10", "kind": "watch", "note": "Bettie has no cap and fires often with Moll, the Prentice and the Assessor."},
+    {"uid": "u03", "kind": "unclear", "note": "Mirror-backwards text needs the card to show the flipped words, or players misread it."}
+  ]
+}

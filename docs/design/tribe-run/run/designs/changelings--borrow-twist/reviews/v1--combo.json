@@ -1,0 +1,38 @@
+{
+  "id": "v1--combo",
+  "design_id": "changelings--borrow-twist",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because the shop turns into a menu of other tribes' texts, so every refresh is a real choice, and wearing payoff cards (a Changeling in a Bettie or Nursemaid guise) opens combos the designer never listed.",
+    "distinct": "Over a 7 because no tribe today is other tribes: a Changeling counts as an Ooze or Bird for their cards and bonuses, and Grandfer can be three at once, which plays unlike any copy effect in Battlegrounds."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is great as it is, but three cards need one-line rules fixes so players can tell what counts as a wear and when.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Bettie's \"for each guise they put on\" reads two ways: each Changeling's own wears, or all wears together. The tier note means all together, so say \"for each guise your Changelings put on this turn\"."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Say whether a Stock wearing under Wicker Moll or the Alder Whittler counts as \"a Changeling you own wears a unit\" for the Nursemaid, Pedlar and Bettie, and whether Moll's Stocks wear in the shop or when bought."},
+    {"pid": "p3", "uid": "u07", "kind": "fix", "text": "The Hoverfly Guest and Penny Second put on a guise at Start of Combat. Say whether the worn enemy's own Start of Combat text then fires for the Changeling."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Inside-Out Tod's sell wears have no once-a-turn cap, so buy-and-sell turns become a wear engine for Bettie and the Nursemaid. That's a great Johnny line; name it as a build so players find it."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Give Pip Unlike one worked example in the risks or tooltip, such as a mirrored Pass going to your leftmost unit, so the mirror rules read at a glance."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Grandfer Acorn wearing three texts from three tribes is the tribe's best toy: an Ooze, a Bog unit and a Hunter at once."},
+    {"uid": "u10", "why": "Tam Twice copying your own carry, or your own Bettie or Glamour-Weaver, makes two of your best card without a triple."},
+    {"uid": "u13", "why": "Inside-Out Tod turns selling into growth and lets you keep the text of a golden you outgrew."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "The Porter is a plain passive that may become a must-have just to keep early Guise units useful."},
+    {"uid": "u05", "why": "The Leaf-Gold Pedlar is plain economy with no interaction beyond wearing."},
+    {"uid": "u01", "why": "The Cradle Foundling is only the keyword; fine as a seed but nothing to play around."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "Uncapped sell-wears plus Bettie and the Nursemaid; bounded by gold, but worth testing."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Lady with Grandfer gives three texts at x4 numbers on one body."},
+    {"uid": "u19", "kind": "watch", "note": "Wiping up to four enemy texts can decide a fight at Start of Combat."},
+    {"uid": "u18", "kind": "unclear", "note": "\"Each guise they put on\" can be read per Changeling or for all together."},
+    {"uid": "u14", "kind": "unclear", "note": "Unclear whether Stock wears trigger the wear payoffs, and when Moll's Stocks wear."},
+    {"uid": "u07", "kind": "unclear", "note": "Unclear whether a guise taken at Start of Combat fires its own Start of Combat text."}
+  ]
+}

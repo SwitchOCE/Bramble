@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching flame pips stack on one piece and choosing to keep heating, Quench it, or fling the Heat at the enemy is a clear, satisfying growth story.",
+    "distinct": "A decaying counter that pays more the hotter it is, with self-burns as the price, plays unlike today's tribes; the position-based heating echoes Fairies a little."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The fantasy and most cards read well now; Masterpiece Hall Curator's timing still needs one clear sentence.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Masterpiece Hall Curator says End of Turn, but Reforge happens after all End of Turn effects, so it's unclear when its extra Reforges land and which unit is Hottest then. Write it as a standing rule like Thiers Grinder's: \"Your Hottest unit Reforges once more for each Hot unit next to it.\" The risks also mention a cap of 3 that isn't on the card."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Ember-Slinger now reads correctly but is the longest card in the tribe. A shorter version: \"Start of Combat: your Hot units' burns hit the enemy across instead, for twice their Heat.\""},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Regrow rounds to 0 on small Health losses, so Smooth Tobias's first keyword does nothing early on. \"At least 1\" would let a new player see Regrow work on turn 2."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Heat, Reforge, cool, burn, Quench and Regrow are six terms, but they read as one smithing story. The flame pips and a preview of next turn's gain will carry most of it, so give the UI that preview early."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Yellowback Spitter's Shield clause is right, but it's buried mid-sentence. Moving it to the end (\"Shields don't stop this\") would make the trick easier to spot."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "Quench-Bucket Lad is the clearest card in the tribe: one line, a real choice, and the quenching fantasy in what it does."},
+    {"uid": "u15", "why": "Ember-Slinger turns your own burns into the enemy's, which is \"nourish and extinguish\" as a single play."},
+    {"uid": "u17", "why": "Keeper of the Undying Furnace: four words that change the whole board, and a furnace that never goes out is exactly the flavour."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Slag Picker is generic sell-for-an-item text; the Ingot's flavour doesn't come through on the unit."},
+    {"uid": "u19", "why": "Masterpiece Hall Curator is the hardest card to read, with unclear timing and a count of neighbours that moves."},
+    {"uid": "u13", "why": "Mother Atra's text reads fine, but the patient-mother fantasy shows only in a flavour note, not in what she does."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "When the extra Reforges happen, compared with the End of Turn Reforge."},
+    {"uid": "u17", "kind": "watch", "note": "Never cooling, plus Crater Forge Master and the Curator, stacks Reforges on climbing Heat. The owner may want a sim."},
+    {"uid": "u18", "kind": "watch", "note": "Regrow giving Attack too, on every unit, feeds itself over a long game."}
+  ]
+}

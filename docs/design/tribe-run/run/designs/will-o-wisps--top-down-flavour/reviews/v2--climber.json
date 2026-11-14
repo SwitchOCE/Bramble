@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three real routes with a growth curve that kicks in at Foxfire and peaks at Aarnivalkea; you'd happily draft it, but early turns are thin bodies and the Drowning route leans on one card (Jack).",
+    "distinct": "8 over 7 because it wants empty slots: gaps are fuel for Flit, Foxfire, the Mapseller and the Clerk, and choosing them against the visible next board is a decision no current tribe or generic auto-battler tribe asks for."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 rules read cleanly and the growth curve works; what's left is the owner's balancing and playtest calls, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "idea", "text": "Glowing Barn Owl's once-a-fight +1/+1 is the thinnest T4 job next to Hoard-Keeper and Aarnivalkea; letting it trigger on any Drowned unit, or three times a fight, would make it a real Drowning buffer."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "The Drowning route only kills reliably once Jack o' the Turnip arrives at T4; one smaller damage boost at T2 or T3 would give that route an earlier start."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 1 to 4 are mostly dodges and one-off Astray with little permanent growth before Foxfire; a T1 seed that grows from Flits would give the fen line a first-turns hook."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Moon in the Mere's copied stats matter only when the lights attack, since lights go out before damage when hit; saying so on the card would help players read why it is a capstone."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Foxfire turns the gaps into a permanent curve and is the reason to keep the fen open late."},
+    {"uid": "u10", "why": "Fresh-Ink Mapseller uses gaps plus the visible next board to aim Astray at their Cleave or Bristle unit."},
+    {"uid": "u17", "why": "Old Will is a capstone the whole Astray stack builds to, and it adds to the small sources instead of replacing them."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Glowing Barn Owl: one +1/+1 packet a fight, gated on enemy Drownings only."},
+    {"uid": "u01", "why": "Little Phos does nothing when no enemy is across and its back-row mode is a coin flip."},
+    {"uid": "u15", "why": "Tiddy Mun is a fine number but only a bigger Fingerpost; it adds no new decision at T5."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Old Will with Jack o' the Turnip (worse with either golden) can make a full enemy board's first wave kill itself; bounded per fight, but check it."},
+    {"uid": "u19", "kind": "watch", "note": "Aarnivalkea has no per-fight cap and counts both sides, so with Old Will, Jack and Moon's lights it can give many board-wide +1/+1s a fight."},
+    {"uid": "u08", "kind": "watch", "note": "Foxfire is about twice the T3 target on purpose, and a golden doubles that; linear, not a loop."},
+    {"uid": "u13", "kind": "watch", "note": "Hoard-Keeper's 3 gold a turn is a free unit a turn from T4 in the Drowning build."}
+  ]
+}

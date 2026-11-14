@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "rat-king--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Tying in other tribes' best units and skimming their gains with Gossip is a fun draft puzzle, but much of the growth is plain End of Turn +1/+1 buffers.",
+    "distinct": "8 over 7: no tribe splits each hit across a tangled body, so Shield, Damage Reduction and 'takes damage' fire per share and the back row soaks from the first hit; that is the knot itself on the board, not a reskinned buffer tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two reading gaps need a fix: which units are Tied to begin with, and how the split's leftover and zero shares work.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No rat card says Tied, yet the rationale says every rat splits damage and the Piper says 'can't be Tied'. State it on the cards or as a tribe rule ('Rats are Tied'), or a player can't tell which units are in a Knot."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Say whether the unit hit takes its own share plus the leftover, and whether a 0 share counts as taking damage. That decides when Old Gundel, Ticklish Chirper and Shield popping fire on small hits and on Mill-Chimney Sweep's pokes."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Supper Sniffer's six-keyword list is hard to read at a glance; 'copies its neighbours' keywords' with the list in the keyword glossary would read faster and fits sniffing a nestmate's breath."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Nestmate Groomer, Bell-Ringer, Cheese-Rind Keeper and Speaker Brotkrume are all End of Turn buffs; give one a council twist, such as a vote between two buffs, so procedure shows in play, not only in names."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "The Piper is the best flavour-in-mechanics card here; the fight screen should show the reading-order volley clearly, since its puzzle is order."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "The one tune that leads the knot away, made into a real choice: grow tied, fight loose."},
+    {"uid": "u12", "why": "Tying the enemy is a fresh, readable trick that uses the next opponent's visible board."},
+    {"uid": "u17", "why": "One shared Health pool is the Rat King legend in a single line: none dies until all do."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Little Fips is a plain Attack-per-ally body with no late role and nothing of 'the one who sees ahead'."},
+    {"uid": "u05", "why": "Nestmate Groomer is a generic End of Turn buffer; grooming could do something only a knot can."},
+    {"uid": "u09", "why": "Loyal Cagemate is a stock 'summon tokens on death'; freeing the stuck is a theme it doesn't use."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With The King Enthroned's copied Health and Old Gundel's Attack, the shared pool could run away inside a fight."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Ilse makes Gossip take all of the knot's gains; with a tied Ooze Eat that could run away."},
+    {"uid": "u11", "kind": "unclear", "note": "'Of units next to it (highest N)': unclear if it copies from each neighbour of each knot unit or only Sniffer's own neighbours."}
+  ]
+}

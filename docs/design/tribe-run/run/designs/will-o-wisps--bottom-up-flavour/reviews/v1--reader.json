@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "will-o-wisps--bottom-up-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching the enemy's carry kill its own side is a great moment, but much of the board's growth is generic +1/+1 sprays and many fights hinge on random misled targets.",
+    "distinct": "Sending attacks back onto the attacker's own side plays unlike any tribe today, and the fantasy of being pixie-led is in the rules, not just the names."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two keyword-level wordings (what the Reflection doubles, what Lost counts) need a fix before the cards read cleanly.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Black-Water Reflection: \"led-astray enemies deal double damage\" could mean every attack they make this fight. Say it doubles the damage of the misled attack itself, on both units it involves or only the hit."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Lost says \"enemies you led astray\": one enemy misled three times could count once or three times. Say \"attacks led astray\" if that is meant."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Foxfire Stump's \"unit nearest its slot\" needs a tie rule, since two units are often equally near on the zigzag; reading order would do."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Show Lanterns as lit pips on the card and animate the light swinging the attacker round; the whole tribe reads at a glance only if friendly fire is visible."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Captain Spunkie goes dead after the last tier-up; a Tier 6 fallback (Lost becomes gold, say) would keep the Shortcut Office joke alive all game."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Will turns the seed's 'decide what the enemy hits' into one clear rule: their misled unit hits their biggest."},
+    {"uid": "u06", "why": "Gaffer Turncoat's inside-out coat is both the mirror answer and a stat swap that turns a Lantern wall into a glass cannon."},
+    {"uid": "u14", "why": "Hoard Mere Light: drowned enemies become treasure under the bog, flavour and payoff in one line."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Fresh-Ink Mapseller is plain gold-for-a-count; the inked-map joke doesn't reach the text."},
+    {"uid": "u10", "why": "Captain Spunkie never attacks and his discount is dead once you reach Tier 6."},
+    {"uid": "u09", "why": "Joan the Wad is a generic End of Turn spray; nothing in it says pixie or light."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Ignis Fatuus has no per-fight cap; with Follette chains and capped Lanterns on a full row, misleads could run well past the ~6 the tier note assumes."},
+    {"uid": "u07", "kind": "watch", "note": "Stingy Jack adds a permanent Lantern each turn you bank 3 gold; a front row at 3 Lanterns each may stall fights into ties."},
+    {"uid": "u12", "kind": "unclear", "note": "Which damage is doubled is not said: the misled hit only, or all damage from a marked enemy."}
+  ]
+}

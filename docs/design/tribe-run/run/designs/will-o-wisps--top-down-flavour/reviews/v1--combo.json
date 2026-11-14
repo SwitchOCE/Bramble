@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Reading order, slot gaps and the back-row wrong-way mode give real choices each turn; a few cards (Hobby Lantern, Tiddy Mun, Irrlicht) are one-job filler.",
+    "distinct": "Earns 8 over 7 because the enemy's own keywords become your weapon (an Astray Cleave hits three of its own units) and empty slots are the resource, which no current tribe or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Marsh Light's rules don't work as written with Drowned and 'Astray at most once', and the self-hit line depends on that ruling.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Marsh Light goes out before damage, so it's unclear whether it is Drowned when your own Astray attack hits it; the Hoard-Keeper and Aarnivalkea self-hit line relies on it. Say whether going out to an ally's hit counts as Drowned."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "An already-Astray attack that hits a Flit unit or a Marsh Light can't go Astray again. Say what happens: does it land, is it lost, or does the Light still go out?"},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Hobby Lantern is plain Flit. A small cross-hook, such as leaving a Marsh Light behind only when Follette or Spunkie is on board, would give the T1 a reason to stay late."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Tiddy Mun only counts enemy units. Letting it also count your empty slots would tie it into the fen and create a fill-or-leave choice."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Add one controlled self-hit card (aim an ally at your chosen Marsh Light) so the Drowned build has a reliable engine, not just Phos's random back-row mode."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Gaffer Turncoat turns a Mire wall into a 12-Attack glass cannon that Fingerpost then aims at its own side; also kills 0-Attack Eggs and walls."},
+    {"uid": "u10", "why": "Fresh-Ink Mapseller makes your gaps aim: you read the next board and leave the slot across their Cleave or Bristle unit empty."},
+    {"uid": "u11", "why": "Jack o' the Turnip is symmetric, so it is both the Drowning multiplier and a way to crack your own Ooze open early."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Hobby Lantern is a vanilla dodge with no link to the other cards beyond Follette."},
+    {"uid": "u15", "why": "Tiddy Mun is more Astray sources with no decision attached."},
+    {"uid": "u16", "why": "Irrlicht mostly repeats Flit plus Marsh Light already on other cards."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Old Will with Jack and Aarnivalkea can wipe a full enemy board in one wave and pay +1/+1 per Drowning; check golden Old Will."},
+    {"uid": "u19", "kind": "watch", "note": "Aarnivalkea has no per-fight cap and counts both sides, so Moon's many Marsh Lights plus self-hits could stack fast."},
+    {"uid": "x01", "kind": "unclear", "note": "Whether a Marsh Light hit by its own side is Drowned, and what an already-Astray attack does to it."}
+  ]
+}

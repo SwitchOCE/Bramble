@@ -1,0 +1,33 @@
+{
+  "id": "v1--combo", "design_id": "ivy-climbers--surgical", "v": 1, "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Arranging the board to pick hosts, rotating Lady Hedera and stacking Twiner, Honeysuckle and Viscum on one carry give real choices every turn; three back slots and thin early turns keep it from an 8.",
+    "distinct": "Earns the 8 because its payload is another tribe's carry and it turns the back row into an engine room, which no current tribe or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The design holds together; two cards need a wording fix before it settles.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "The Honourable Viscum Highbough doesn't say whether rising in full replaces the normal half rise or comes on top, or whether it counts gains made after End of Turn. Say it replaces Rise."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Young Ivy's '3 times' doesn't say whether the count resets when its host changes, which matters because hosts shift every fight. Say the count is Young Ivy's own and never resets."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Blackcap grafting Climb onto a back-row Bird that then Flies South with doubled echoes is the best cross-tribe trick here; a second graft card at Tier 5 would make 'climb anything' a build."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Woodbine wants a new host each turn and Ivy Bush wants climbers to stay put; that pull is lovely, and one more card that rewards staying (against Lady Hedera's rotation) would sharpen it."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Cousin Dodder as a host is the hidden gem: its permanent takes are gains, so Viscum and Twiner echo enemy stats. Worth naming on the card's flavour so players find it."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Barley-Sugar Twiner repeats the host's biggest gain before Rise, so it doubles both the carry and every climber's echo; two Twiners on F2 is a real build."},
+    {"uid": "u17", "why": "Lady Hedera turns board arrangement into a weekly puzzle: which new tribe can I park in front of her this turn."},
+    {"uid": "u14", "why": "Viscum's self-limit makes you keep the carry ahead of him, a tension you manage every turn."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Dodder Seedling is a plain tempo body that never touches the Climb system."},
+    {"uid": "u07", "why": "Well-Connected Ivy is a one-shot Discover that then just occupies a scarce back slot."},
+    {"uid": "u05", "why": "Hop Bine is one obvious gold job and competes for the same three slots as the engines."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Viscum on an Ooze that eats, or on Cousin Dodder, copies huge single gains in full each turn."},
+    {"uid": "u14", "kind": "unclear", "note": "How full rising interacts with the normal half Rise is not stated."},
+    {"uid": "u02", "kind": "unclear", "note": "Whether the 3-gain count resets on a host change is not stated."},
+    {"uid": "u16", "kind": "watch", "note": "Two Barley-Sugar Twiners on one host plus a golden Ruin or Adult Ivy compound fast; linear, but worth a look."}
+  ]
+}

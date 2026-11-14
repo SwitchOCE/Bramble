@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Lots of real choices that pull on each other: Quench now or keep Reforging, Warden Quench resetting the piece Paracel just heated, burns that feed Regrow and the Spitter, and Ingots to heat other tribes' units.",
+    "distinct": "A Heat counter that cools and burns its owner is fresh, and handing Heat to the enemy is new; but the payoff is still permanent stat growth on one piece, as in many tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One wording fix on Ember-Slinger, and Mother Atra needs a ruling on Nests; the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Ember-Slinger doesn't say whether your units get their Heat back after the fight, or whether that Heat still Reforges at End of Turn. Say it plainly, e.g. 'Your units keep their Heat but don't burn.'"},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "Mother Atra is the only card that ignores Heat. A hook like 'End of Turn: Heat each unit beside an empty slot' would make the gaps part of the forge puzzle, not just gold."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Hallmark Stamper is a flat buff with no decision. It could reward Heat spent instead, e.g. gains when you Quench, to tie it to the burst build."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Nothing in the tribe cares about Heat sitting on enemies after Ember-Slinger. One card that hits Hot enemies would give Slinger a second partner besides neutral Cleave."},
+    {"pid": "p5", "uid": "u14", "kind": "idea", "text": "Keep Warden Quench fighting the Undying Furnace: choosing which piece he resets each turn is the best decision in the tribe."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Quenches the Hottest, then heats its neighbours, so the Hottest moves every turn and fights Paracel and the Furnace in interesting ways."},
+    {"uid": "u09", "why": "Turns your own burns into a weapon, and the Shield trick is a use outside its purpose the player gets to find."},
+    {"uid": "u19", "why": "Rewards a ring of Hot neighbours, so placement around the Masterpiece is a real puzzle."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Plain economy that doesn't touch Heat."},
+    {"uid": "u08", "why": "An obvious flat buff to Hot units, with no choice in it."},
+    {"uid": "u07", "why": "Once a turn on refresh is a small trigger, and it just stacks Heat like the other givers."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "With the Undying Furnace, Heat never cools and the Spitter's damage is not capped, so it could clear a board at Start of Combat late on."},
+    {"uid": "u17", "kind": "watch", "note": "Stacked with Crater Forge Master, Thiers Grinder and the Curator, Reforges multiply a Heat that keeps climbing; the golden ceiling needs the owner's eye."},
+    {"uid": "u15", "kind": "unclear", "note": "Unclear whether your units keep their Heat after the fight and still Reforge."},
+    {"uid": "u13", "kind": "unclear", "note": "Whether a Bird's Nest counts as an empty slot is left open."}
+  ]
+}

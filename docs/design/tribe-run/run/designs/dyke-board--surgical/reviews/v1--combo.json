@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "dyke-board--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three payoff families share one Vote supply, and Dive, Almoner and Overflow each turn the water's downside into a tool, so every turn's Vote is a real call.",
+    "distinct": "Earns 8 over 7 because it is a shared number both players write into, reshaping both boards by Health shape and turning the scouted next opponent into a Raise-or-Lower decision; no tribe today does either."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is right; Tiddy Mun's drowning rule reads two ways and Kees's targeting needs one line, so one more pass is worth it.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Tiddy Mun's text drowns once at Start of Combat, but the Drowning keyword says it keeps working all fight. Say on the card which it is."},
+    {"pid": "p2", "uid": "u01", "kind": "fix", "text": "Kees Kowk 'attacks an Under enemy if it can': say whether that reaches an Under unit in the back row while the front row stands."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Board Almoner wants units at or below your Level while Stretch-Holder lifts their Health by your Level. Lean into that tension: a slot-swap each turn between the two is a lovely puzzle, worth a build note."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Lower pays gold, stats and Overflow, while Raise pays mostly through reads. One small card that pays per Raise would make the Seesaw a two-sided pull rather than Drain with extra steps."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow plus Penningmeester means each Lower is gold and water at once; a Drain board flooding with Tiddy Mun is the tribe's best combo and could be named as its own build."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Turns Lowers into fight water, so Drain and Flood share pieces; the kind of off-purpose bridge combo players hunt for."},
+    {"uid": "u05", "why": "Dive flips the water from a cost to a shelter, so you raise the water to sink your own coots on purpose."},
+    {"uid": "u19", "why": "Pays on every change either way, which makes flip-flopping votes a strategy and ties Pup, Sail-Setter, Bram and Hendrika together."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Generic lowest-Health buffer; it touches the water only by accident."},
+    {"uid": "u14", "why": "Just a bigger number on the water; no decision beyond 'play it in Flood'."},
+    {"uid": "u16", "why": "Plain gold per Lower; it adds pull toward Lower without adding a new interaction."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Drowning keyword (all fight) and card text (Start of Combat) disagree."},
+    {"uid": "u18", "kind": "watch", "note": "With Gauge-Keeper and Overflow, continuous drowning at half the water could wipe wide boards; counterplay is tall units, a negative Level, or Motion Carried."},
+    {"uid": "u01", "kind": "unclear", "note": "Targeting override vs the front-row rule is not stated."},
+    {"uid": "u16", "kind": "watch", "note": "With Sluiswacht and Hendrika, Lowers may pay 6+ gold a turn into uncapped carry-over."}
+  ]
+}

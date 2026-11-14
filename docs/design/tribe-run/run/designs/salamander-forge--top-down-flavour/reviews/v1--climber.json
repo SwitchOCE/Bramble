@@ -1,0 +1,38 @@
+{
+  "id": "v1--climber",
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "The cooling triangle gives a curve I'd want to climb with: small early, a real choice mid-game between Quenching now and waiting, and quadratic late growth once the Furnace lands.",
+    "distinct": "Decaying Heat, self-burns and the Quench cash-out are fresh, but at heart it is still 'stack buffs on one piece by position', which Hedgerow folk and many tribes already do."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works and each tier does its job; Ember-Slinger and the Reforge-stacking rule need clearer wording before more play.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Ember-Slinger says your units 'give' their Heat for this fight; say whether they get it back afterwards, or players can't tell if it costs them their Reforges."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Stacking 'Reforge twice' is unclear: does Crater Forge Master plus Thiers Grinder make 3 Reforges, and does golden 'three times' add two? Write the count rule into each card's reminder text."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Under the Undying Furnace, Heat climbs every turn and Yellowback Spitter's damage is uncapped, so late Start of Combat can wipe a front row. It's a great high roll; the owner may want a sim at turns 10 to 14."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Quench-Bucket Lad beats waiting at 1 to 3 Heat and loses to it above that, and loses badly under the Furnace. That's the tribe's best decision point; more Quench payoffs at Tier 4 would let the burst build climb too."},
+    {"pid": "p5", "uid": null, "kind": "fix", "text": "The last build entry's name is broken markup ('Mixing in a lobby.** - **Bog folk:'), so the lobby notes read as one garbled build."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "A cheap, re-buyable Quench that makes 'cash out now or keep heating' a real choice from Tier 2."},
+    {"uid": "u17", "why": "One line turns the whole tribe's growth from a triangle into a climb, and it fights Warden Quench, so you must choose a lane."},
+    {"uid": "u15", "why": "Turns your own burn cost into an attack on the enemy across; a fresh Tier 5 direction card."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Gold for empty slots works against 'the board is the fight's HP' and barely touches Heat; likely a trap or a must-pick."},
+    {"uid": "u05", "why": "A generic sell trigger; the Ingot is fine but the card has nothing to do with position or reheating."},
+    {"uid": "u11", "why": "A quarter of lost Health rounds to little at mid-game stats, so the injury build's glue is slow until very late."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "Damage equals Heat with no cap; with the Undying Furnace it grows every turn and can clear boards before combat."},
+    {"uid": "u17", "kind": "watch", "note": "No cooling plus Konrad, Bellows and Paracel means Heat grows linearly and stats quadratically; golden heats every unit each turn too."},
+    {"uid": "u19", "kind": "watch", "note": "Up to four extra Reforges on the Hottest unit, multiplied by its Heat, stacks hard with the Furnace and Crater Forge Master."},
+    {"uid": "u18", "kind": "watch", "note": "Regrow giving Attack as well compounds up to x1.25 a fight on every unit, and burns guarantee the loss; needs the runaway check."},
+    {"uid": "u15", "kind": "unclear", "note": "Whether your units keep or regain their Heat after the fight isn't stated."},
+    {"uid": "u16", "kind": "unclear", "note": "How multiple 'Reforge N times' effects add up isn't on the card."}
+  ]
+}

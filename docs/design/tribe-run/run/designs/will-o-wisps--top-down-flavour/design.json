@@ -3,21 +3,45 @@
  "seed": "will-o-wisps",
  "route": "top-down-flavour",
  "tribe_name": "The Will-o'-the-Wisps",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Fen lights that make enemy attacks go Astray and hit their own side, with dodging Flit units and empty board slots as a resource.\nWins come from Drowned payoffs, decoy Marsh Lights and growth along the gaps.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.7,
+    "distinct": 7.7
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Settled the self-hit rules: an already-Astray attack lands where it hits, Flit dodges only enemy attacks, and a Marsh Light hit by its own side Drowns. Follette now clearly adds a Flit use rather than granting Flit.\nFoxfire grows each Wisp per adjacent gap and Glim feeds Wisps next to gaps, so the fen build gets a late growth curve.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
    }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

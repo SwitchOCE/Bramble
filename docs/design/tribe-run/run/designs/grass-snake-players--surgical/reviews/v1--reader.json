@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "grass-snake-players--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Dying and getting back up for the bow reads instantly and pays out every fight, and the four builds give real choices about who stands where and who dies last.",
+    "distinct": "The core is familiar deathrattle-plus-reborn from Battlegrounds, but Understudy, selling as a death and Notices fed by other tribes' deaths are fresh."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Old Crest and the Wreath-Bearer Frog need clearer wording; the rest reads well and should stay as hot as it is.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Old Crest doesn't say whether a unit that died twice (Encore) is replayed once or twice, or whether the Prompter's Boy doubles the replays. Say both on the card."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "\"Without Encore Encore\" makes the reader stop. Try \"Death Scene: give Encore to a random other friendly unit that doesn't have it.\""},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Little Anguis's dropped tail, the one that gets better notices than he does, is missing from his card. A small tail token left behind when he steps in would show that joke in play."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "The Natterjack reads last fight's Notices, but the screen only shows the game total. Show last fight's count next to the total so a player can see the gold coming."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The bluff strike and the musk from the seed are unused. A mouth-shut bluff that only bites for real once would carry the adder's 'one real bite' in what a card does."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Sir Hesketh raising the whole cast when the last one falls is the troupe's fantasy in one line, and a moment players will remember."},
+    {"uid": "u12", "why": "Madame Coronella's farewell tour turns selling into a death scene; clear, funny and a real shop lever."},
+    {"uid": "u15", "why": "The critic who really does kill an actor reads at once and makes self-harm a deliberate, on-theme choice."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Bit-Part Lizard is a plain deathrattle buff any tribe could have."},
+    {"uid": "u11", "why": "Sand Lizard Bill-Poster is a generic counter-reader with no stage in what it does."},
+    {"uid": "u09", "why": "Toad Claque is a flat cheer-on buff; readable but forgettable."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "How many times each death is replayed, and whether the Prompter's Boy doubles it, isn't written."},
+    {"uid": "u06", "kind": "unclear", "note": "Doubled word 'Encore Encore' reads like a typo."},
+    {"uid": "u10", "kind": "watch", "note": "Prompter's Boy with Encore, Old Crest and Sir Hesketh multiplies Death Scenes a lot; the designer already flags it for a sim."}
+  ]
+}

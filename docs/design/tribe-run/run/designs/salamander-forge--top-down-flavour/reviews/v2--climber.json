@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The growth has a good shape: a 3/3 Journeyman on turn 1, positional heating mid-game, then a real fork between Quench, never-cool and injury builds, with a high-roll ceiling worth chasing.",
+    "distinct": "A counter that pays 3+2+1 and burns its owner is fresh, and handing your burns to the enemy across is new; the Reforge payout itself is still plain end-of-turn stats."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the readability problems; what is left is tuning for the owner and sims, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "idea", "text": "The risks say to cut Masterpiece Hall Curator's cap of 'up to 3 more', but the card has no cap (next to allows up to 4 neighbours). Make the card and the risk note agree so a sim tests the same card."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Say what Ember-Slinger does in a Forge mirror: does the Heat it gives add to the enemy's own Heat for the burn, and does it ever Reforge?"},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Burn-Salve Matron gives little until Health is large. A small When played or End of Turn hook (Heat a damaged unit, say) would let her pull her weight on the turn you buy her."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Tiers 2 to 3 hold three generic pieces (Slag Picker, Hallmark Stamper, Quench-Bucket Lad's flat cash-out). One of them leaning on position or burns would carry the tribe's puzzle into the early shop."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Warden Quench cashes out the Hottest unit and reseeds its neighbours, so the hot spot moves every turn: a fresh puzzle each recruit."},
+    {"uid": "u15", "why": "Ember-Slinger turns the tribe's own cost into the weapon and makes the never-cool build a plan instead of a trap."},
+    {"uid": "u12", "why": "Thiers Grinder is a simple positional multiplier that makes 'what sits beside the piece' matter from Tier 4."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Burn-Salve Matron is about 0.8 bodies at mid-game, low for Tier 4, and only glue for one build."},
+    {"uid": "u08", "why": "Hallmark Stamper is a generic end-of-turn buff to Hot units with no decision attached."},
+    {"uid": "u05", "why": "Slag Picker is a stock sell-for-item economy card; the Ingot is good, the trigger is not Forge-specific."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Keeper of the Undying Furnace, Heat only climbs, and Crater Forge Master, Thiers Grinder and the Curator multiply it: gain per turn grows with Heat times Reforges, quadratic and more on goldens. Sim turns 10 to 14."},
+    {"uid": "u18", "kind": "watch", "note": "Ottilie's Regrow adds Attack as well as Health, and burns guarantee Health lost each fight, so stats compound by a share every fight. Not a lock, but worth the two-pass runaway check."},
+    {"uid": "u15", "kind": "watch", "note": "On a high-Heat board Ember-Slinger halves every enemy across before the first attack; the only counterplay is empty slots across."}
+  ]
+}

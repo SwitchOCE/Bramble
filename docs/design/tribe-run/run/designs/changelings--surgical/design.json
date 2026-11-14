@@ -3,20 +3,24 @@
  "seed": "changelings",
  "route": "surgical",
  "tribe_name": "The Changelings",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Small units that borrow another unit's text and tribe, from the shop, your board, sold units or the enemy.\nThey also swap units with the shop, and pay off for keeping or changing what they wear.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

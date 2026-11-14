@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "great-migration--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Line order becomes a real puzzle every round, and the fallen feeding the front is satisfying to watch grow.",
+    "distinct": "The Lead as a moving title is fresh, though under it sit familiar deathrattle buffs and token floods."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Lemenår Herald's boom-and-crash wording needs a fix before it can be read; the rest reads cleanly.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Lemenår Herald doesn't say what halves: the whole stored Pup bonus or one turn's gain, and whether two Heralds share one bonus. Write it as a named herd total, like a tribe bonus, that the card adds to and a loss halves."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Onward and Takes the lead carry the fantasy: a player sees the fallen hand their strength to the front. Keep these two words as the tribe's whole vocabulary."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "The Front Lemming makes the lead hop every attack, so it is the hardest card to follow. A one-line reminder on the card, such as 'the banner moves after each attack', would help the eye follow the banner."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Tent-Striker is a plain buff with no Lead hook. Striking camp could move the herd instead: for example, your Lead gains the buff and passes it back down the line."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Herding Councillor rewards bunching Lemmings next to the Lead, which reads well. It could also say 'onward' in some way, such as also buffing the next Lead."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Cliff-Singer is the doom cult as a mechanic: kill the front, and the next one inherits everything. Instantly readable and on theme."},
+    {"uid": "u06", "why": "Gerd the Shouter puffs up against the biggest enemy: tiny folk picking fights with giants, told in one line."},
+    {"uid": "u14", "why": "Brother Onward turns every death's gift into lasting legend, a clear build-defining Tier 5."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Tent-Striker is a generic Start of Turn tribe buff with no Lead or Onward hook."},
+    {"uid": "u18", "why": "Old Mother Lemen is a familiar 'when a friendly dies, others gain' capstone, with nothing about lineage or the front."},
+    {"uid": "u05", "why": "Herding Councillor is a plain end-of-turn buffer, readable but forgettable."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "unclear", "note": "What halves on a loss, and how several Heralds stack, can't be read from the text."},
+    {"uid": "u10", "kind": "watch", "note": "A Lead that moves after every attack is hard to follow without a strong on-screen banner."},
+    {"uid": "u11", "kind": "watch", "note": "Golden Midwife with Old Mother Lemen and Owl-Scold Chorus stacks many death payoffs in one fight."},
+    {"uid": "u13", "kind": "watch", "note": "Weeks-Old Breeder feeding Tally pays gold every turn; worth the owner's eye on economy."}
+  ]
+}

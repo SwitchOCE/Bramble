@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "changelings--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "The run-or-cash choice on Worn gives every midgame turn a real decision and the Nurse is a payoff worth climbing to, but Tier 2 has no buffer, so early fights feel thin.",
+    "distinct": "8 over 7 because the tribe's power comes from the lobby: Guise copies text and tribe, so the same Changeling board plays differently in every lobby, and the Worn clock adds a timing choice no current tribe has."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Glamour-Veil Seamstress makes an infinite Guise loop with Glamourer, which needs a real fix; the rest can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "With Glamour-Veil Seamstress, a unit Guised as Glamourer of the Knowe fires its When played and gives another unit Glamourer's Guise, which fires again, forever. With Knowe Usher each re-Guise is also an Unmask buff, so stats are infinite during Recruit. Add Once a turn per unit, or say copied When played can't give a Guise."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tier 2 has no buffer, so Changelings may lose the turn 3 to 5 fights. Grandfer Acorn's +1/+1 could go to every Changeling, or Foundling's Unmask could pay out at least +1/+1."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Tam Twice with Glamourer and Stocks can turn one real carry into a golden in a turn or two. That's a fun high roll; say whether a Guise can copy a golden for triples, so players know where the chain stops."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Grandfer Acorn Unmasks every End of Turn, which caps that unit at Worn 1 and works against the Nurse. Letting the player skip a turn (\"may Unmask\") keeps the tension without a trap."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Fetch of the Front Rank copies text only for the fight, so most copied buffs and Recruit text do nothing. Copying its stats too (the golden's effect) at normal rate would make it a tempo piece at Tier 3."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "The Lady Under the Hill is a true capstone: every board you build up to her becomes her text."},
+    {"uid": "u19", "why": "The Hundred-Year Nurse gives the Long Con a clear, capped late-game payoff that reads one number."},
+    {"uid": "u14", "why": "Tam Twice makes \"who is the real one\" a triples engine, the kind of direction card a climber pivots into."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Fetch of the Front Rank only gets value from enemy Start of Combat text; otherwise it's a vanilla body."},
+    {"uid": "u05", "why": "Clerk of Exchanges trades a unit for a shop unit; outside the Stock Yard it is close to a refresh."},
+    {"uid": "u03", "why": "Pip Unlike's mirror is flavourful but rarely changes what a copied text does."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "broken", "note": "Infinite loop with a Glamourer Guise: each copied When played gives the next Guise, unbounded, and with Knowe Usher each step is a buff."},
+    {"uid": "u14", "kind": "watch", "note": "Guise copies count for triples, so goldens and their Discovers may chain several times a game."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Wicker Moll carves a full copy of your carry, with text, every turn; with the Lady copying Moll that's two a turn."},
+    {"uid": "u10", "kind": "watch", "note": "Bettie Underhill has no cap; with Moll, the Lady, Prentice and the Assessor she can fire many times a turn."},
+    {"uid": "u17", "kind": "watch", "note": "The Lady copying Bettie, Keeper or Moll doubles each; a Stock of her under Moll is a second Lady."}
+  ]
+}

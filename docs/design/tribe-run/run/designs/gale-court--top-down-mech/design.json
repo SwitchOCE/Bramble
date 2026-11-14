@@ -3,20 +3,24 @@
  "seed": "gale-court",
  "route": "top-down-mech",
  "tribe_name": "The Gale Court",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Weather courtiers whose units make extra attacks out of turn (Gusts), counted as the Gale.\nThe Gale pays out in the shop as gold, permanent stats and items; some courtiers skip attacks so one favourite strikes again.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.7,
+    "distinct": 6.7
    },
    "votes": {
-    "settle": 0,
-    "iterate": 0
+    "settle": 1,
+    "iterate": 2
    }
   }
  ]

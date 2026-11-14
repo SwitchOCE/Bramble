@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "will-o-wisps--bottom-up-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Old Will, Black-Water Reflection and Follette make their carry kill their carry, and Hoard Mere hands you half of it; the Lost economy cards (Mapseller, Spunkie, Steward) are one-job filler around that chain.",
+    "distinct": "Earns 8 over 7 because the tribe's damage is the enemy's own: every hit goes back onto their side, so it scales with the lobby's biggest boards, which no current tribe or generic auto-battler tribe does."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 rules for Lost, self-hits and the Reflection now read cleanly; further passes would mostly reshuffle the Lost cards, not improve the chains.",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "idea", "text": "Gaffer Turncoat's swap on a 3/20 triple-Lantern carrier is the best off-label trick here; letting the swap also target a Turnip-holding unit from another tribe would push the splash further."},
+    {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Captain Spunkie is a 1/9 that Turncoat turns into a 9/1 that never attacks; a line where swapped Spunkie may attack would turn a dead pairing into a joke combo."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Sunken Causeway Lights makes leaving gaps a real choice, against fewer units deciding who attacks first; that tension is good and worth keeping visible when the Stones' timing is settled."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Three Start of Turn cards read Lost the same way; one of them reading drowns instead of Lost would add another axis without new keywords."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Ignis Fatuus has no cap while Stones, Follette, Tiddy Mun and the Barn Owl all add misleads; that is the hot payoff, so leave it and let the owner tune it."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Will turns every misled attack onto their biggest unit, which links Reflection, Follette and Hoard Mere into one drowning chain."},
+    {"uid": "u12", "why": "Black-Water Reflection doubles both sides of a hit that is all enemy damage; with enemy Cleave it is a board wipe."},
+    {"uid": "u14", "why": "Hoard Mere Light steals half of what their carry did to their other carry; drowning by return hits counts too."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Fresh-Ink Mapseller is plain gold from a count, with no interaction beyond more misleads."},
+    {"uid": "u01", "why": "Hobby Lantern is a vanilla carrier; fine as the base, but it does nothing else."},
+    {"uid": "u13", "why": "Brass-Badge Steward repeats Joan's job off the same Lost count."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Ignis Fatuus gains per mislead with no cap; a Stones and Follette board could give 15+ misleads, about 90+ stats a turn."},
+    {"uid": "u07", "kind": "watch", "note": "Stingy Jack plus Joan and Steward toward a 12-Lantern front row could stall the enemy two cycles; the design names the brake."},
+    {"uid": "x02", "kind": "unclear", "note": "Whether Stepping Stones count toward which side attacks first is not settled."}
+  ]
+}

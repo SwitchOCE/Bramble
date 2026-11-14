@@ -1,0 +1,353 @@
+{
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 2,
+  "identity": {
+    "tribe_name": "The Salamander Forge",
+    "mechanic": "**Core mechanic: Heat.** Heat is a counter on any unit, shown as flames. A unit with Heat is **Hot**. *Heat a unit* means give it 1 Heat. Heat does three things on its own:\n\n- **Reforge.** At End of Turn, after all other End of Turn effects, each Hot unit permanently gains +1/+1 per Heat. Then it **cools**: it loses 1 Heat.\n- **Burn.** At Start of Combat, after all Start of Combat effects, each Hot unit takes damage equal to its Heat, but never more than half its Health.\n- Heat is lost when the unit is sold. A golden unit keeps the highest Heat of its three copies.\n\nSo a unit given 3 Heat gains +3, then +2, then +1. **Heating a piece that's already hot pays more than heating a cold one.** That is the tribe's whole idea in one rule: keep heating the same piece. \"Reforge once more\" means one extra Reforge before cooling. Extra Reforges add up: Crater Forge Master plus Thiers Grinder gives a unit three Reforges.",
+    "keywords": [
+      {
+        "name": "Heat",
+        "text": "**Core mechanic: Heat.** Heat is a counter on any unit, shown as flames. A unit with Heat is **Hot**. *Heat a unit* means give it 1 Heat. Heat does three things on its own:\n\n- **Reforge.** At End of Turn, after all other End of Turn effects, each Hot unit permanently gains +1/+1 per Heat. Then it **cools**: it loses 1 Heat.\n- **Burn.** At Start of Combat, after all Start of Combat effects, each Hot unit takes damage equal to its Heat, but never more than half its Health.\n- Heat is lost when the unit is sold. A golden unit keeps the highest Heat of its three copies.\n\nSo a unit given 3 Heat gains +3, then +2, then +1. **Heating a piece that's already hot pays more than heating a cold one.** That is the tribe's whole idea in one rule: keep heating the same piece. \"Reforge once more\" means one extra Reforge before cooling. Extra Reforges add up: Crater Forge Master plus Thiers Grinder gives a unit three Reforges."
+      },
+      {
+        "name": "Quench",
+        "text": "**Quench** (a verb): remove all Heat from a unit. The card that Quenches says what the unit gains. You cash out now instead of waiting for the slow Reforges, and the burns stop."
+      },
+      {
+        "name": "Regrow",
+        "text": "**Regrow** (keyword): after each fight, this unit permanently gains Health equal to a quarter of the Health it lost in that fight."
+      },
+      {
+        "name": "Hottest",
+        "text": "**Hottest** means the unit with the most Heat. Ties go in reading order. If no unit is Hot, it means your biggest unit."
+      }
+    ],
+    "plays": "Early on, you buy a few strong bodies and start heating them. From Tier 2 the tribe gives Heat by position: Bellows behind the front row, Konrad next to things, Crucible Keeper when you refresh. Then you choose what to do with it. Pile it on one piece and multiply its Reforges. Quench it for big stats now. Let it never cool and hand it to the enemy as burns. Or lean into the injuries and grow back stronger from every fight. Burns are the cost that ties it together. They break your own Shields, weaken your units in fights and feed Regrow. Every build has to decide whether to suffer them, turn them off, or make them pay. Heat works on any unit, so the Forge also heats other tribes' units placed in the right slots."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Slag Row Journeyman",
+      "tier": 1,
+      "attack": 1,
+      "health": 1,
+      "text": "When played: Heat this twice.",
+      "golden": "When played: Heat this four times."
+    },
+    {
+      "uid": "u02",
+      "name": "Smooth Tobias, Apprentice",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "Regrow. After each fight in which this took damage, Heat it.",
+      "golden": "Regrow. After each fight in which this took damage, Heat it twice."
+    },
+    {
+      "uid": "u03",
+      "name": "Bellows Apprentice",
+      "tier": 2,
+      "attack": 1,
+      "health": 4,
+      "text": "End of Turn: Heat the units in front of this. *(Works only from the back row.)*",
+      "golden": "End of Turn: Heat the units in front of this twice."
+    },
+    {
+      "uid": "u04",
+      "name": "Quench-Bucket Lad",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "text": "When played: Quench a friendly unit. It permanently gains +2/+2 per Heat removed.",
+      "golden": "…+4/+4 per Heat removed."
+    },
+    {
+      "uid": "u05",
+      "name": "Slag Picker",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "Once a turn, when you sell a unit, get an Ingot.",
+      "golden": "Once a turn, when you sell a unit, get two Ingots."
+    },
+    {
+      "uid": "u06",
+      "name": "Brother Paracel",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "End of Turn: Heat your Hottest other unit.",
+      "golden": "End of Turn: Heat your Hottest other unit twice."
+    },
+    {
+      "uid": "u07",
+      "name": "Crucible Keeper",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "Once a turn, when you refresh, Heat the units beside this.",
+      "golden": "Twice a turn, when you refresh, Heat the units beside this."
+    },
+    {
+      "uid": "u08",
+      "name": "Hallmark Stamper",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "End of Turn: your Hot units permanently gain +1/+1.",
+      "golden": "…+2/+2."
+    },
+    {
+      "uid": "u09",
+      "name": "Yellowback Spitter",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Whenever a friendly unit burns, even if a Shield stops the damage, deal damage equal to its Heat to the enemy across it (or a random enemy if that slot is empty).",
+      "golden": "Whenever a friendly unit burns, even if a Shield stops the damage, deal damage equal to twice its Heat to the enemy across it (or a random enemy if that slot is empty)."
+    },
+    {
+      "uid": "u10",
+      "name": "Crested Konrad, Journeyman",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "End of Turn: Heat each other unit next to this.",
+      "golden": "End of Turn: Heat each other unit next to this twice."
+    },
+    {
+      "uid": "u11",
+      "name": "Burn-Salve Matron",
+      "tier": 4,
+      "attack": 3,
+      "health": 7,
+      "text": "Your Hot units have Regrow.",
+      "golden": "Your units have Regrow."
+    },
+    {
+      "uid": "u12",
+      "name": "Thiers Grinder",
+      "tier": 4,
+      "attack": 2,
+      "health": 7,
+      "text": "The units beside this Reforge once more. *(Extra Reforges add up, each before cooling.)*",
+      "golden": "The units beside this Reforge twice more. *(Extra Reforges add up, each before cooling.)*"
+    },
+    {
+      "uid": "u13",
+      "name": "Mother Atra",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "Start of Turn: gain 1 gold for each empty slot next to a Hot unit, up to 2. *(A Nest is not empty.)*",
+      "golden": "Start of Turn: gain 2 gold for each empty slot next to a Hot unit, up to 4. *(A Nest is not empty.)*"
+    },
+    {
+      "uid": "u14",
+      "name": "Warden Quench",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Start of Turn: Quench your Hottest unit. It permanently gains +2/+2 per Heat removed. Then Heat each unit next to it.",
+      "golden": "…+4/+4 per Heat removed. Then Heat each unit next to it twice."
+    },
+    {
+      "uid": "u15",
+      "name": "Ember-Slinger",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Start of Combat: each Hot friendly unit with an enemy across it gives that enemy twice its Heat for this fight. That enemy burns (up to half its Health) instead of your unit. Your unit keeps its Heat and Reforges as usual.",
+      "golden": "Start of Combat: each Hot friendly unit with an enemy across it gives that enemy four times its Heat for this fight. That enemy burns (up to half its Health) instead of your unit. Your unit keeps its Heat and Reforges as usual."
+    },
+    {
+      "uid": "u16",
+      "name": "Crater Forge Master",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "Your units Reforge once more. *(Extra Reforges add up, each before cooling.)*",
+      "golden": "Your units Reforge twice more. *(Extra Reforges add up, each before cooling.)*"
+    },
+    {
+      "uid": "u17",
+      "name": "Keeper of the Undying Furnace",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Your units don't cool.",
+      "golden": "Your units don't cool. End of Turn: Heat each friendly unit."
+    },
+    {
+      "uid": "u18",
+      "name": "Guildmistress Ottilie Ashbelly",
+      "tier": 6,
+      "attack": 6,
+      "health": 9,
+      "text": "Your units have Regrow, and Regrow gives as much Attack as Health. After each fight, Heat each friendly unit that died in it.",
+      "golden": "…Heat each friendly unit that died in it twice."
+    },
+    {
+      "uid": "u19",
+      "name": "Masterpiece Hall Curator",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "End of Turn: your Hottest unit Reforges once more for each Hot unit next to it.",
+      "golden": "…twice more for each Hot unit next to it."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Ingot",
+      "text": "(item, from Slag Picker): Heat a unit twice. It is the Forge's \"gear for the board\": a one-use hand card that puts Heat exactly where you want it, on any tribe's unit."
+    },
+    {
+      "uid": "x02",
+      "kind": "other",
+      "name": "Flavour notes",
+      "text": "Mother Atra carries her young for years and calls it patience, so she pays you for not filling the board. Warden Quench, unseen since the rulebook lit the furnace, does his one job only at the start of the day."
+    }
+  ],
+  "builds": [
+    {
+      "name": "One Masterpiece (tall Heat)",
+      "text": "Pick one big unit and build the forge around it. Paracel keeps it the Hottest. Konrad and Bellows feed it from next to it and behind it. Thiers Grinder sits beside it, and Crater Forge Master gives every unit one more Reforge. Masterpiece Hall Curator is the payoff, rewarding a ring of Hot neighbours around the piece. Mother Atra's gold for the empty slots around the Hot piece goes into refreshes for Crucible Keeper. The piece pays for the empty slots. The decisions are about position: what touches the piece, and which neighbours are Hot."
+    },
+    {
+      "name": "Quench and Reheat (burst)",
+      "text": "Heat pieces fast, then Quench them for +2/+2 per Heat with Quench-Bucket Lad (bought again and again for its When played) and, every turn, Warden Quench. Warden then spreads new Heat to the neighbours, so the next Hottest is already warming up. Hallmark Stamper pays out for each Hot unit before it cools. This build keeps burns low and turns Heat into permanent stats sooner. It is the steadier, Spike-friendly line."
+    },
+    {
+      "name": "Scorched Earth (never cool)",
+      "text": "Keeper of the Undying Furnace stops cooling, so Heat piles up and every Reforge keeps growing. The cost is that your units now burn for up to half their Health every fight. You have two answers, and they work against each other. **Ember-Slinger** sends the Heat, doubled, to the enemies across, so they burn at half Health and yours don't. Or **Yellowback Spitter** keeps your burns and fires each one back as damage. Shield units are the trick in the Spitter version: the Shield soaks the burn, but the Spitter still deals the full Heat."
+    },
+    {
+      "name": "The Rebuilt Guild (injury)",
+      "text": "Smooth Tobias, Burn-Salve Matron and Guildmistress Ottilie. Your units want to be hit, and burns make sure they always lose some Health. Ottilie turns every unit that dies into a heated, regrown unit next turn. You play to trade units, and the wins come from boards that grow from losing pieces."
+    },
+    {
+      "name": "Mixing in a lobby",
+      "text": "- **Bog folk:** Mire forces the enemy across to attack the Mire unit, so a Mire unit with Regrow takes all the damage it can grow back from. Bitter and Soak are unaffected.\n- **Nightshade** (neutral keyword): halves the unit's Health when it's attacked. That counts as Health lost, so a Nightshade unit with Regrow grows back big.\n- **Birds:** a sold Bird pays nothing but still triggers Slag Picker, so you get an Ingot as it flies south. A Nest left in a Bird's slot holds an Egg, so it doesn't count as empty for Mother Atra.\n- **Oozes:** a Hot Ooze reforges like anyone else. Eating a Hot unit takes its stats, not its Heat. Units in an Ooze's Belly are inactive and don't burn.\n- **Hedgerow folk:** Pass X goes to your rightmost unit, so put the Masterpiece there.\n- **Hunters:** a Pack unit beside a Thiers Grinder grows twice as fast.\n- **Fairies:** Shy units can't Reforge, because only an aimed spell can buff them. Their Rings make a good home for the Masterpiece.\n- **Neutral Cleave:** finishes off enemies the Ember-Slinger left at half Health."
+    }
+  ],
+  "risks": [
+    "**Cognitive load.** Heat, Reforge, cooling, burns, Quench and Regrow make six terms. The UI needs flame pips with a preview of next turn's gain, or players will lose track of the triangle maths.",
+    "**Stacked Reforges.** Normal Reforge, Crater Forge Master, Thiers Grinder, Curator and Keeper of the Undying Furnace together give Heat × (up to 7) every turn, with Heat itself climbing every turn. It is quadratic, not exponential, but the golden versions push it toward 13 Reforges. It needs a sim at turns 10 to 14 before anyone trusts it. If it's too much, the first thing to cut is the Curator's cap (\"up to 3 more\").",
+    "**Regrow feeds itself.** More Health means more Health lost, which means more Regrow. The cap is +25% Health a fight, which is about ×3.8 over six fights. Ottilie adds that much Attack as well. Golden Matron gives Regrow to every unit. This needs the two-pass runaway check.",
+    "**Flat +1/+1 per Heat** is tied to today's stat scale. If the scale rises, Reforge may need to become a share, for example \"+5% of its stats per Heat, at least +1/+1\".",
+    "**Rounding.** A quarter of a small Health loss rounds down to 0, so Regrow does almost nothing at Tiers 1 and 2. Tobias's Heat trigger carries him until then.",
+    "**Mother Atra and \"the board is the fight's HP.\"** Two empty slots next to a Hot unit are a real cost, and she could be either a trap or the best economy in the game. A Nest is not empty.",
+    "**Burns break Shields,** so neutral Shield support works against Heat. This is on purpose (the Spitter trick), but new players will feel cheated.",
+    "**Ember-Slinger and Yellowback Spitter cancel each other out.** This is on purpose. Make sure the cards make it readable.",
+    "**Paracel and Warden Quench** both target \"Hottest\". Paracel heats it at End of Turn and Warden Quenches it at Start of Turn, so the Hottest unit changes every turn. The interplay is rich, but it may feel random until players learn the order.",
+    "**Back-row Bellows** depends on how back-row access gets settled. If the back row becomes easy to reach, the Bellows' safe spot goes away."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "The Journeyman's printed body is half the guide's (2 against 4) on purpose. Its two Heat make it 3/3 for the first fight and 4/4 after, about +1 body once, a little high, so the whole loop (Reforge, cool, burn) is seen on turn 1. Tobias is a seed at about 0.5 body a turn when hit, close to the 0.4 target."
+    },
+    {
+      "tier": 2,
+      "note": "Bodies 5 to 6, against a guide of 6. Bellows gives about 0.7 body a turn, inside 0.3 to 1. Bucket Lad gives about 1.3 bodies once at 2 to 3 Heat. Slag Picker turns one sale a turn into an Ingot worth about 6 stats, priced as half a unit's gold."
+    },
+    {
+      "tier": 3,
+      "note": "Bodies 7, on the guide. Paracel gives about 0.8 body a turn on a unit with 2 to 3 Heat. Crucible Keeper gives about 0.9 for 1 gold. Hallmark Stamper gives about 1.1 with four Hot units, slightly over. Yellowback Spitter does 0.6 to 1.1 bodies of damage in a fight."
+    },
+    {
+      "tier": 4,
+      "note": "Bodies 9 to 10, against a guide of 8.5. Konrad gives about 1 to 1.5 bodies a turn, and Thiers Grinder about 1.4. The Matron starts low, at about 0.8 bodies at mid-game, and rises as Health grows. That is on purpose, because she is the glue for the injury build. Mother Atra's 2 gold a turn is above the usual Tier 4 economy, paid for with two empty slots."
+    },
+    {
+      "tier": 5,
+      "note": "Bodies 12, on the guide. Warden Quench gives about 2 bodies a turn at Heat 4. Ember-Slinger gives about 3 to 4 bodies in a fight. Crater Forge Master gives about 2 bodies, up to about 5 on a tall Heat board."
+    },
+    {
+      "tier": 6,
+      "note": "Bodies 14 to 15. The Undying Furnace starts near 2 bodies a turn, passes 4 within about three turns, and reaches about 10 in a full Heat board. Ottilie gives about 4 to 6 bodies when many units die, less when you win cleanly. The Curator gives 3 to 6. Stacking Reforges is the deliberate break of the guide: it's the Johnny high roll, flagged above."
+    }
+  ],
+  "rationale": [
+    "**Started from the motto \"nourish and extinguish\" and \"heat the same piece again\".** Fire had to be both the growth and the weapon.",
+    "**Made Heat a counter that cools by 1 a turn.** A triangle payoff (3 Heat gives 3+2+1) makes reheating a hot piece worth more than a fresh one, which is the seed's core promise.",
+    "**Added burns as the cost of Heat.** \"Injury treated as routine\" needed a price, and a price gives every later card something to fix or exploit.",
+    "**Capped burns at half Health.** Lethal self-burns would fight \"the board is the fight's HP\" and make never-cooling a trap.",
+    "**Regrow gives Health only, Heat gives both stats.** \"Cool skin, hot work\": regrowing tissue is defensive, and Ottilie adds Attack as the capstone twist.",
+    "**Quench as a cash-out verb.** It gives a real choice between slow Reforges and stats now, from the Quenching Pools.",
+    "**Heat is given by position (behind, beside, next to).** The guild works in a shop layout, and position gives Johnny puzzles without random targets.",
+    "**Heat works on any unit.** It lets the Forge temper other tribes' units, which is the \"use it outside its purpose\" hook.",
+    "**Rewarded fewer bodies directly** (Mother Atra, Slag Picker, gold put into refreshes). That's the seed's \"buy fewer bodies\".",
+    "**Turned Heat into a weapon at Tiers 5 and 6** (Ember-Slinger, Yellowback Spitter). The late game pays off the \"extinguish\" half of the motto, and the two answers to burns compete with each other.",
+    "**Spread the six named figures across the jobs their stories suggest,** so each card's text can be read from who the character is.",
+    "**Kept the token to one item.** The Ingot carries \"gear for the board\" without adding a new board object."
+  ],
+  "changes": [
+    {
+      "uid": "identity",
+      "kind": "changed",
+      "what": "Heat's rule now says extra Reforges add up, with an example; lobby notes split out of a broken build name.",
+      "why": "Players couldn't tell how Reforge effects stack, and the fifth build read as garbled text.",
+      "from": [
+        "v1--climber#p2",
+        "v1--climber#p5",
+        "v1--reader#p3",
+        "v1--reader#p5"
+      ]
+    },
+    {
+      "uid": "u09",
+      "kind": "changed",
+      "what": "Says a burn stopped by a Shield still counts.",
+      "why": "The Shield trick the builds rely on wasn't on the card.",
+      "from": [
+        "v1--reader#p2"
+      ]
+    },
+    {
+      "uid": "u12",
+      "kind": "changed",
+      "what": "\"Reforge twice\" became \"Reforge once more\" (golden: twice more), with stacking reminder text.",
+      "why": "Same effect, but now reads as adding to other Reforges, as the rules say.",
+      "from": [
+        "v1--climber#p2",
+        "v1--reader#p3"
+      ]
+    },
+    {
+      "uid": "u13",
+      "kind": "changed",
+      "what": "Gold now counts only empty slots next to a Hot unit; a Nest is not empty.",
+      "why": "Ties her gaps to the forge's positioning puzzle and settles the open Nest question.",
+      "from": [
+        "v1--reader#p4",
+        "v1--combo#p2"
+      ]
+    },
+    {
+      "uid": "u15",
+      "kind": "changed",
+      "what": "Rewritten: the enemy across gets twice the Heat and burns; your unit keeps its Heat, Reforges, doesn't burn.",
+      "why": "All three reviews couldn't tell whether your units lose their Heat and Reforges.",
+      "from": [
+        "v1--combo#p1",
+        "v1--climber#p1",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u16",
+      "kind": "changed",
+      "what": "\"Reforge twice\" became \"Reforge once more\" (golden: twice more), with stacking reminder text.",
+      "why": "Same effect, but the stacking with Thiers Grinder and goldens is now readable.",
+      "from": [
+        "v1--climber#p2",
+        "v1--reader#p3"
+      ]
+    }
+  ],
+  "declined": []
+}

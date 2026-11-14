@@ -1,0 +1,35 @@
+{
+  "id": "v1--climber",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Four real builds and a play-order puzzle every turn, with Gust Pages giving clean early tempo; held back from 8 because permanent growth is thin from Tier 3 to 5 before the Tower spikes.",
+    "distinct": "Late turns the hand into a second board that lands mid-fight, out of reach of enemy Start of Combat; no Battlegrounds tribe fights from the hand, which is what lifts it over a 7."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards don't work as written (the Couriers and Lady High Pressure's held Gusts); fix those and it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "The Swift Couriers 'can't be placed on the board' yet arrive Late into a slot, and 'your unit nearest it' has no reference point. Say whether they take a slot and fight, and nearest to what."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Lady High Pressure doesn't say what happens to a held Gust whose unit died before the Storm, or whether held Late units still count toward her sixth attack. State both."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Permanent growth is capped small from Tier 3 to 5 (Föhn, Heron, Black Cloud), then the Tower jumps to 50-100 a turn. A Tier 5 permanent scaler for the Late build would keep mid-game boards climbing."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Keeper of the Glass is the only gold card and only pays after a big Gust fight. A second economy piece tied to Late arrivals would help the Late build tier up on time."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Duke Cumulonimbus counting the gap is a great payoff, and it gives Black Cloud and Lady High Pressure a real tradeoff."},
+    {"uid": "u03", "why": "Sir Vane makes play order a decision every turn, and he ties the Gust and Late halves together."},
+    {"uid": "u17", "why": "Lady High Pressure holding everything and then releasing it doubled is a capstone you build a whole game toward."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Windhover gains +1/+1 once a fight, which falls off fast and doesn't grow with the tribe."},
+    {"uid": "u09", "why": "Mr Fair's swap is fiddly for what it gives, and the End of Turn buff is generic."},
+    {"uid": "u05", "why": "Keeper of the Glass pays little and only when you're already winning fights with Gusts."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "The Tower of the Winds at 8 faces gives +8/+8 to every board unit, over 100 stats a turn, and double that golden. Near the guide's top, and Late units count as faces."},
+    {"uid": "u17", "kind": "watch", "note": "Lady High Pressure with the Steward is x4 Gusts, x9 with goldens; one-sided wipes, plus feel-bad stalls if a wide enemy kills you before the sixth attack."},
+    {"uid": "u18", "kind": "watch", "note": "The Master of the Wild Hunt with Black Cloud gives every revived unit a permanent +2/+2 each fight; bounded by deaths but it repeats every fight."},
+    {"uid": "u04", "kind": "unclear", "note": "The Swift Couriers: 'never lands' conflicts with arriving in a slot, and 'nearest it' is undefined."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "rat-king--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every slot is a wiring choice, and the Piper's untie-for-a-volley versus Speaker's Quorum 7 versus the Thirty-Two's shared pool gives real forks late; a few early cards are plain.",
+    "distinct": "8 over 7 because damage moves between your units and every keyword applies per share, so Shield, DR and 'takes damage' all change meaning, and Knot of Ill Omen turns the same rule against the enemy's board."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is great; the split rule needs two lines of clarity (zero shares, and how it meets the Thirty-Two's pool) before the combos can be read.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Say whether a share of 0 counts as taking damage. It decides whether a small hit pops every Shield in the knot and fires Chirper and Gundel on everyone, or only on the unit hit."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Say whether damage still splits into shares under the Thirty-Two's shared Health. Shield, DR per share and Gundel's triggers all depend on it."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Mill-Chimney Sweep's 1-damage pokes split to 0 shares, so only the poked unit triggers. Let it also poke enemies Tied by Knot of Ill Omen, so the pain build and the curse build cross."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Town-Hall Bell-Ringer is a smaller Speaker Brotkrume. Give it a different hook, such as a trigger when a unit joins the knot, so it rewards rewiring each turn."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Little Fips only counts heads. As the Outermost, he could gain something for each empty slot next to him, which pulls against keeping the knot whole."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Untying the knot for a volley flips the tribe's whole plan, and reading order with The King Enthroned and Supper Sniffer makes it a puzzle."},
+    {"uid": "u12", "why": "Tying the enemy uses the split rule as a weapon: one big hit pops all their Shields, at the cost of your small hits being spread."},
+    {"uid": "u11", "why": "Copying keywords along the knot meets per-share Shield and DR in ways the designer only half listed, both good and self-defeating."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "One obvious job, with no reason to place him anywhere in particular."},
+    {"uid": "u09", "why": "A plain deathrattle; keeping Quorum through deaths is useful but not a decision."},
+    {"uid": "u10", "why": "Overlaps Speaker Brotkrume's job with nothing of its own."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Shared pool plus The King Enthroned's copied Health plus Old Gundel's Attack on units that can't die may run away inside a fight."},
+    {"uid": "u11", "kind": "watch", "note": "Spreading Damage Reduction per share across a knot can make small hits do nothing."},
+    {"uid": "u17", "kind": "unclear", "note": "How the shared Health total meets the split rule is not stated."}
+  ]
+}

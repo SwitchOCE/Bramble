@@ -1,0 +1,34 @@
+{
+  "id": "v1--combo",
+  "design_id": "changelings--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because a Guise brings its tribe, so every lobby makes new combos: a Kit in a Bird's Guise flies south, Pip mirrors Pass into a second lane, the Lady stacks Belly, Mire and Pass on one body.",
+    "distinct": "Over a 7 because no tribe trades with the shop or reads the enemy's text; Exchange (freeze as an eighth slot, buy back to replay When played) and Penny's steal-and-silence are new verbs."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real loop to close (Coat-Peg Steward copying stats on each round-trip Exchange) and one unclear line in Exchange; the rest should stay as it is.",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Coat-Peg Steward copies the given unit's gains while that unit keeps them in the shop. Exchange the new unit back for it and it comes home with 2X+2, so each Exchange doubles. Make the Steward move the stats (the given unit loses them)."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Exchange ends with \"and a token is removed\", which a player can't read. Say which token, or cut the clause."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Matron of the Exchange Room buffs a random unit per tribe. Buffing the Changeling that brings each tribe would make Guise choice steer the growth."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Wicker Moll plus Counter Stand-In turns one sale into two copies of the sold text; that is the best hidden combo here, and a build line could name it."}
+  ],
+  "standouts": [
+    {"uid": "u05", "why": "Pip Unlike's mirror turns one-sided texts like Pass into a new lane; a small card with many off-label uses."},
+    {"uid": "u15", "why": "Penny Second steals the enemy's key text and silences it, and the visible next board makes her placement a real decision."},
+    {"uid": "u17", "why": "The Lady Under the Hill pays off every Guise you chose all game in one body."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Veil-Stitcher is a plain team buffer with a Guise check; no decision beyond wearing one."},
+    {"uid": "u19", "why": "Bettie Underhill just counts Exchanges; the payoff is a number, not a new interaction."},
+    {"uid": "u14", "why": "Long-Stay Hollin is a straight keep-your-Guise buffer; the keep-or-swap choice is already carried by the Hob."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "broken", "note": "Round-trip Exchanges with Placement Officer or Midnight Swap double a unit's gained stats each time."},
+    {"uid": "u16", "kind": "watch", "note": "Keeper of the Lost Hour with the Lady doubles every stolen fight trigger on one body; fine in a fight, worth the owner's eye with goldens."},
+    {"uid": "u02", "kind": "unclear", "note": "Weeks-Old Hob beside another Changeling copies its own text only, not its Guise; players may expect the Guise."}
+  ]
+}

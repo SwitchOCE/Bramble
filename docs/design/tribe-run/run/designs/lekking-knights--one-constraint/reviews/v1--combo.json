@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "lekking-knights--one-constraint",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks who stands where and what fills the ground between stations, and the pieces chain (Brennbart blasts the Gallery that Wendelin eats, Reisig leaves so Einsiedel doubles twice); a few flat cards keep it at 7.",
+    "distinct": "8 over 7 because the board's own geometry is the tribe's puzzle: Knights blank each other, so the empty or filled slots between the three stations, often holding other tribes' units, are the real resource, and no current tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good as is, but Squire and Watcher are printed on no card, so a player can't tell which units have them; label them and it can settle.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No card prints Squire or Watcher. The builds imply Konrad, Roost-Pine Squire and Rupprecht are Squires and Heather Hen, Bilberry Watcher, the Chronicler and Dame Reisig are Watchers; put the keyword on each card."},
+    {"pid": "p2", "uid": "u04", "kind": "fix", "text": "Bristlebeard says he 'takes' 2 Attack but not that he gains it; the builds assume he does. Say 'and gain it'."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Herald of the Old Lek doubles any Gallery unit's End of Turn effect, other tribes' included. That cross-tribe Brann is the best combo hook here; a second card that rewards specific outside units in the Gallery would lean into it."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Sir Brennbart can be switched off by parking a blank Knight next to him, and his blast can hit a waiting Squire. Worth one more card that likes its own Gallery dying, so the blast has a second payoff beyond Wendelin."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Pennon-Bearer is a plain buffer that spends a station; letting it buff only Knights it touches through a Gallery unit would make it another positioning puzzle."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Herald of the Old Lek turns any tribe's End of Turn units into Lek parts."},
+    {"uid": "u18", "why": "Dame Reisig doubles then leaves, and her leaving clears Einsiedel's slot for a second doubling: a combo the rule creates on its own."},
+    {"uid": "u15", "why": "Sir Wendelin sits where Brennbart's blast lands, so Gallery units are fuel twice over."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pennon-Bearer does one obvious job and ignores the station geometry."},
+    {"uid": "u01", "why": "Edge-Strutter is a fine tempo body but has no second use."},
+    {"uid": "u11", "why": "White-Badge Knight is a plain Gallery buffer; it only matters through Bristlebeard and Brennbart."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Heather Hens doubled by Herald of the Old Lek can pay a lot of gold a turn, more with goldens."},
+    {"uid": "u19", "kind": "watch", "note": "Rupprecht with the Chronicler gives +10/+10 to every Knight permanently each fight he takes Station; it repeats every round."},
+    {"uid": "u04", "kind": "unclear", "note": "Doesn't say whether Bristlebeard gains the Attack he takes."},
+    {"uid": "u02", "kind": "unclear", "note": "Squire Konrad doesn't print Squire, so it's unclear whether he blanks the elder he waits behind."}
+  ]
+}

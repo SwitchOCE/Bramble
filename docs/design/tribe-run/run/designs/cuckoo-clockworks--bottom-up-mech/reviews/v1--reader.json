@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "cuckoo-clockworks--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Eggs hatching inside the enemy line and dormice dozing through the opening are a joy to watch grow, though the keyword load slows the first few games.",
+    "distinct": "Earns 8 over 7 because your units fight from inside the enemy's board, and one fight-timing dial pulls three builds in different directions; no tribe today does either."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads and plays well; the Chick's 'In the nest' wording needs one clean rewrite so players can follow who it hits and who hits it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "'In the nest' is hard to parse: 'enemies can attack it as if it stood in your front row' swaps sides mid-sentence. Say plainly that the host's side attacks it and it counts as one of your front-row units."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Six keywords plus two counters (clock, Brood) is a lot to read at a glance; folding Brood into Egg-Painter's own text, as the risks suggest, would lighten it."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Kasimir the Peddler's lost Eggs read as 'my card did nothing'; the suggested Brood +1 on a lost Egg keeps the cuckoo fantasy and softens the feel-bad."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Sleeping-Vault Warden says 'to the right of this'; Bramble's words are 'beside'. Naming the slot rule (right in the row, nothing if empty) would read cleaner."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Coin-Turner chains two conversions (gold to Wind, Wind to hours); a line on the card showing how many ticks you'll get would make it readable at the shop."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Little Gernegroß is the brood parasite in one line: the enemy's biggest unit raises your Chick in its own image."},
+    {"uid": "u01", "why": "Pipit-Line Placer is a Tier 1 that teaches the whole Egg idea in five words."},
+    {"uid": "u09", "why": "Seven-Sleeper grows only if it was never needed, a lazy dormouse you can read and love at once."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Key-Winder is a plain dial-turner with no woodland flavour in what it does."},
+    {"uid": "u05", "why": "Day-Wage Journeyman is generic economy behind a counter you must remember from last fight."},
+    {"uid": "u11", "why": "Coin-Turner is hard to read at a glance and its coin-turning folklore barely shows."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Copying a 100-stat golden carry, plus Brood, could swing a fight on its own."},
+    {"uid": "u19", "kind": "watch", "note": "With Gernegroß, the Midsummer Leaver can bank an enemy-sized Chick permanently on each win."},
+    {"uid": null, "kind": "unclear", "note": "'In the nest' wording mixes up whose side and whose front row."}
+  ]
+}

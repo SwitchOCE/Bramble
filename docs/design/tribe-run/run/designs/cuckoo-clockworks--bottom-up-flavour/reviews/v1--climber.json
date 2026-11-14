@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Two real lines (brood and clock) that meet at Ottilie, and reading the next board to place eggs is a skill I'd enjoy; the early turns and the slow board bodies hold it back from 8.",
+    "distinct": "Over a 7 because the tribe's resource lives inside the enemy's units: a shared clock both sides drive and eggs whose survival depends on the opponent's board is unlike any of today's six tribes or a generic auto-battler."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The shape is good; two rules gaps (Gernegroß with no empty slot, Seven-Sleeper's Doze wording) are worth one tidy pass.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "fix", "text": "Little Gernegroß says he hatches into your nearest empty slot, but Chicks or summons may have filled them all. Say what happens then, for example he still Heaves and returns to his old slot or sits out."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "The Seven-Sleeper's 'Dozes until the 7th Chime' overrides the Doze keyword's 'until the next Chime'. Write it as its own rule so players don't expect it to wake at the first strike."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 1-4 are thin: eggs need three attacks and Apprentices Doze, so early fights lean on plain bodies. A Tier 1 or 2 card that lays and Winds at once would give the tribe an early-tempo line."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Chicks add no hero damage, so the tribe wins fights but deals little. A card that lets surviving Chicks count, or turns Chime count into damage, would give the late game a finisher."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Herald of Spring is the tribe's main permanent board growth, and it is a one-of at Tier 5. Ranked players will chase the Bellows beside it; that is a good build-around, worth keeping."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Ottilie joins both halves: every Start of Combat card becomes a Chime card, which rewards the whole board you built."},
+    {"uid": "u04", "why": "Pattern-Book Painter is a clean Tier 2 seed whose Brood growth pays off at every later tier."},
+    {"uid": "u10", "why": "Mother Rohrsang opens the tribe to every other tribe's keywords, and with Wechselbalg makes a high roll worth chasing."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Winding Apprentice is a tempo body that can't attack until the first strike; it only shines with Ottilie."},
+    {"uid": "u11", "why": "Old Unruh speeds the clock for both sides and does nothing alone; a 0-attack Tier 4 slot is a hard sell mid-game."},
+    {"uid": "u03", "why": "Weight-Hanger's Wind 3 on death is one early strike; fine filler, nothing to build around."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie, several Hens and a big Brood gives a dozen Heaves a strike; in-fight only, but it can decide fights in two strikes."},
+    {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen with Ottilie re-dozes the enemy across at every strike, so it never attacks; golden copies lock up to four units. Killing the Hen or Ottilie is the only answer."},
+    {"uid": "u16", "kind": "watch", "note": "Herald of Spring beside the Bellows (or a golden one) doubles or triples a permanent +2/+2 to every Clockwork each fight; it compounds every turn."},
+    {"uid": "u08", "kind": "unclear", "note": "No rule for when Little Gernegroß hatches and there is no empty slot."},
+    {"uid": "u15", "kind": "unclear", "note": "Seven-Sleeper's Doze length contradicts the Doze keyword."}
+  ]
+}

@@ -3,20 +3,24 @@
  "seed": "lekking-knights",
  "route": "one-constraint",
  "tribe_name": "The Lekking Knights",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Knights only work when no other Knight stands next to them, so at most three hold stations with open ground between.\nYou choose each turn whether to leave that ground empty for lone giants or fill it with hens and other tribes' units that the Knights feed on; heirs wake mid-fight when an elder falls.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

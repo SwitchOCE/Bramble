@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because seating and shop order are real choices every turn: who sits left of Coronella, who sits beside Anguis, which scene Eft rehearses, and lending Play Dead to an Ooze to open its Belly early.",
+    "distinct": "Deathrattle-plus-Reborn roots, but going limp in the slot, the Curtain Call reveal and a bluff that fools the enemy too play unlike today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Hesketh and Anguis make an endless loop, and the Curtain Call text contradicts the extra lives; both need a real fix.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Little Anguis (or his Tail) can copy Sir Hesketh's Death Scene; that copy triggers Hesketh's scene, which triggers Anguis's copy again, forever. Say scenes Hesketh triggers can't trigger Hesketh's scene, or copies of it."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Curtain Call says Play Dead is used up, but Dame Natrix plays dead twice and Žilvinas adds lives. Say whether units keep their remaining lives after getting up."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Household Guardian only hands out gold or a life. Let a Saucer also be drunk to trigger one Death Scene, so it joins the rehearsal engine."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "The Natterjack pays most for nearly losing. Paying per unit that went down (capped) would reward Coronella and Wardrobe setups instead of throwing fights."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Tails rehearsed in the shop clutter the board at 0 sell value. Let a new Tail merge into an existing one, adding its stats, to keep the slots for choices."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Coronella turns the left slot into a puzzle: Berus bites early, Hesketh plays the whole repertoire pre-fight, an Ooze opens its Belly."},
+    {"uid": "u09", "why": "Little Anguis copies whatever falls beside him, including other tribes' death effects, so seating decides what he becomes."},
+    {"uid": "u06", "why": "Prompt-Box Eft plays scenes in the shop, which with Old Crest and Hesketh gives a recruit-time engine with real targeting choices."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Household Guardian is a flat resource drip with no tie to seating or scenes."},
+    {"uid": "u01", "why": "Chorus Snake is plain Reborn on a body; fine as a seed but nothing to play around."},
+    {"uid": "u05", "why": "The Natterjack does one job, and it rewards near-losses more than clever setups."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "broken", "note": "Endless loop with Little Anguis or his Tail copying Hesketh's Death Scene."},
+    {"uid": "u16", "kind": "watch", "note": "Old Crest with Hesketh and Eft multiplies scenes in the shop, about 4x and more with goldens."},
+    {"uid": "u05", "kind": "watch", "note": "2 gold per Curtain Call could make losing on purpose pay."},
+    {"uid": "u15", "kind": "watch", "note": "Two destroys a fight at Tier 5, three with Žilvinas, hard-counters big boards."},
+    {"uid": "u14", "kind": "unclear", "note": "How Dame Natrix's second Play Dead interacts with Curtain Call using up Play Dead isn't stated."}
+  ]
+}

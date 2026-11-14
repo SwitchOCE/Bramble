@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "moth-apothecaries--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Earns 8 over 7 because one held Phial feeds three rival payoffs at once (Burnet and Lamplighter in fights, Cocoon's merge toward Elder's N 8, the Recipe count), so every turn asks when, who and what for.",
+    "distinct": "Spell-growth tribes exist (Battlegrounds Naga), but Steeping in hand, lens units that redirect scaled spells, and counting to multiples of 5 play unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is ready; two rules cases need one line each so players can plan the combos the tribe is built on.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Alchymist's Echoes add to the Recipe, but Echoes trigger nothing, so it's unclear whether an Echo landing on 10 sets off The Old Lady or makes her miss that multiple. Say which."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Cocoon Spinner doesn't say what happens when the hand is full of units and holds no Phial. Say the Phial is lost then."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Treacle Painter's flat +1/+1 falls off late; letting it also trigger on Echoes it receives would make Spectacle-into-Painter chains a late-game puzzle, not just an early one."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Counter Clerk plus Shipton leftovers plus Atropos is a neat hidden gold engine; a Tier 5 or 6 card that cashes the Recipe into gold or shop spells would give the Dispensary build a payoff of its own."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "The Herald raises the cap to 7, one short of Elder's 8; that near miss is a nice tease, and a golden Herald reaching 8 would open a second route to Elder besides Cocoon."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Turns the hand-full penalty into the route past the cap, and it sets up Elder, Burnet and Lamplighter at once."},
+    {"uid": "u10", "why": "A lens: a weak cast on a small unit becomes two scaled Echoes on the big units behind it, so slot placement is part of every cast."},
+    {"uid": "u15", "why": "Pays you for holding instead of casting, which makes the hold-or-cast choice real in fights."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Lamp-Circler is a fine tempo body but just counts Phials; it adds no decision."},
+    {"uid": "u05", "why": "Pestle Grinder is a one-off Steep with little to combine with once Phials are already ripe."},
+    {"uid": "u08", "why": "Almanac Seller's random target ignores the tribe's own who-to-aim-at puzzle."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Every spell on a lens multiplies Dame Pavonia by about 1 + 0.1N, so four casts a turn compound fast; the designer flagged it too."},
+    {"uid": "u15", "kind": "watch", "note": "Burnet with a merged Phial 14 to 20 deals 40 to 60 damage a fight."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether Recipe-counting Echoes trigger The Old Lady isn't stated."},
+    {"uid": "u07", "kind": "unclear", "note": "No rule for a full hand that holds no Phial."}
+  ]
+}

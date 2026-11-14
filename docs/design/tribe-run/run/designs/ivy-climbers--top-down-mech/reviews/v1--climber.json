@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Whom to climb is a real choice every turn, and watching one buff ripple down a tree is satisfying; the tribe's own buffs are small, so the late board leans on borrowed growth.",
+    "distinct": "Over a 7 because Climb copies any tribe's growth and turns slot adjacency into a family tree, and Bloom flips it so a tiny host is a strength; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is good, but the Climb text leaves out what happens when a host dies and doesn't ban loops, and Lady Hedera can make a loop as written.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Put the fall rule in the Climb text: when a host dies, its climbers move onto the biggest unit next to them. Old Man's Beard and the Grand Oak weakness depend on it, and today it lives only in the rationale."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Lady Hedera climbs your biggest other unit, which can be one of her own climbers, making a loop that copies gains forever at full share. Add \"a unit can't climb anything that climbs it, directly or down a chain\" to Climb."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Honeysuckle Tendril is a weak turn-1 body; giving it a small When played buff to each host, like Ivy Sprig, would make it a seed that also wins early fights."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Most own-tribe host buffs are +1 sized, so Lady Hedera's full share adds little over the at-least-1 rule; a T5 or T6 card that gives the host one big chunk would give the capstones more to copy."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Hanger-on is almost always on in a Grand Oak; tying it to the number of climbers on the host would make its gold grow with the tree."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Lattice Ivy is a simple junction that makes building a second tier of the tree a real decision."},
+    {"uid": "u16", "why": "Ivy in Flower pays off the small-host Bloom line with a big fight swing, and its gains cascade down the climbers."},
+    {"uid": "u11", "why": "Traveller's Joy fixes bad early placement and rewards a host switch, which keeps the climb choice live through the mid game."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Honeysuckle Tendril does almost nothing in the turns a Tier 1 unit is bought for."},
+    {"uid": "u04", "why": "Mistletoe Clump adds little net stats and drains its own host, so outside the Bloom line it's a dead draw."},
+    {"uid": "u07", "why": "Dodder Thread only steals from whatever is across, which is a coin flip in a random-target game."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "broken", "note": "As written she can climb her own climber and form a loop with full-share copying; needs the no-loop rule."},
+    {"uid": "u10", "kind": "watch", "note": "Hop Bine on a deep chain with full share pays each node once per unit above it, so growth goes with the square of chain depth."},
+    {"uid": "u14", "kind": "watch", "note": "Missel on a five-climber Grand Oak, with copies cascading, could finish the stack well ahead of the curve by turn 8 or 9."},
+    {"uid": "u19", "kind": "watch", "note": "A huge host dying early gives every climber a third of it; the designer's own once-a-fight cap is a good fallback."}
+  ]
+}

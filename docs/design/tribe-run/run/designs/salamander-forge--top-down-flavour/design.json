@@ -3,21 +3,45 @@
  "seed": "salamander-forge",
  "route": "top-down-flavour",
  "tribe_name": "The Salamander Forge",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Fire-walking smiths who keep reheating a few units: Heat grows a unit each turn but burns it in fights.\nBuild one masterpiece, quench Heat for stats now, never cool and burn the enemy, or grow back from injuries.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 6.3
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Clarified the cards players couldn't read: Ember-Slinger now says your units keep their Heat, Spitter counts Shield-blocked burns.\n\"Reforge twice\" became \"Reforge once more\" so stacking reads right, and Mother Atra now pays for gaps next to Hot units.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
    }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

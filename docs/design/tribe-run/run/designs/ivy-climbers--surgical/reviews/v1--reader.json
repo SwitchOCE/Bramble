@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "ivy-climbers--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Hanging climbers on another tribe's carry and watching them rise is a real pleasure, but the first turns are flat and a player has to track each host's biggest gain to know what a climber will get.",
+    "distinct": "A tribe that lives in the back row and grows off other tribes' units plays unlike any of today's tribes, and the woodland fantasy shows in what the cards do: the snob, the flatterer, the gatecrasher, the guest-book."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards have rules a player can't settle from the text (Viscum's timing, Young Ivy's counter); fix those and it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "The Honourable Viscum Highbough doesn't say when he rises (on each gain, or at End of Turn) or whether his full copy replaces his normal half rise or adds to it. Say both on the card."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Young Ivy's '3 times' doesn't say whether the count resets when its host changes, which happens whenever the board shifts. Say whether the count follows Young Ivy or each host."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "'Half of the host's biggest permanent gain this round' is history the board doesn't show. Put the number a climber will rise by on the vine, so a recorded board reads at a glance."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Woodbine's +3/+3 for a new host makes swapping it between two back slots every turn the obvious play. That fits the poet who flatters each new patron, so keep it, but a recorded board can't show who last turn's host was."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Lady Hedera's guest-book is the clearest card in the set: one counter you can see, rising with each new tribe you climb. More cards could carry a visible counter like that."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Guest-book signatures read instantly, feel like the Season, and push you to move her behind a new host each turn."},
+    {"uid": "u08", "why": "Kissing Bough: pick a berry each turn, and when the berries run out the kissing stops. The fantasy and the rule are the same thing."},
+    {"uid": "u09", "why": "Apple Mistletoe draining its host's Attack into the safe back row is the half-parasite in one line, and ignoring Shield is a fun nod to the oath it never swore."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "Blackcap is a 3/4 that hands out Climb. It's a quiet card, and few players will see its value from the text."},
+    {"uid": "u05", "why": "Hop Bine's gold for buying your host's tribe is fine but bland, and it takes one of only three back slots."},
+    {"uid": "u10", "why": "Ivy-clad Ruin's sideways climbing in the front row is the hardest rule in the set to picture on the zigzag board."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "When he rises, and whether the full copy adds to his half rise, isn't stated."},
+    {"uid": "u02", "kind": "unclear", "note": "The 3-gain counter's behaviour when the host changes isn't stated."},
+    {"uid": "u18", "kind": "watch", "note": "Cousin Dodder keeps a quarter of the biggest enemy's stats on every attack, permanently, so he grows with the lobby's carries; Viscum on him multiplies it."},
+    {"uid": "u13", "kind": "unclear", "note": "Traveller's Joy says climbers 'rise' in fights, while Rise says a gain from rising never makes another unit rise. Say whether its fight gains count as rising."}
+  ]
+}

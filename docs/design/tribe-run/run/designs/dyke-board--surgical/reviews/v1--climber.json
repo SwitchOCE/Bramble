@@ -1,0 +1,33 @@
+{
+  "id": "v1--climber", "design_id": "dyke-board--surgical", "v": 1, "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Voting to the scouted opponent is a real choice each turn, but the flood build fades late because the water grows by about 1 a turn while Health grows much faster, and the Drain build is mostly plain stats and gold.",
+    "distinct": "No tribe acts on both boards at once or cares about a unit's Health against a shared waterline, and Dive turning your own sinking into an upside is fresh."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Drowning reads two ways between the keyword and Tiddy Mun, and the Raise build needs a late-game reason to keep flooding.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Drowning keyword says it keeps working all fight, but Tiddy Mun only drowns at Start of Combat. Say on the card whether he gives Drowning for the whole fight."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The water is a sum of Levels that climbs about 1-3 a turn, so by Tier 5-6 most enemy units stand far above it. Let some late payoff raise the water by a share of a unit's stats, so High Water still bites in the late game."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Board Almoner and Stretch-Holder pull against each other: the Holder lifts Health above your Level, which turns off the Almoner. That tension is good; a build line that says so would help players see it."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "The Drain build pays in stats and gold and fights in dry land, so it plays like a generic buffer tribe. One Drain payoff that uses the empty gauge in the fight would keep it on theme."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow is the best bridge in the tribe: draining for stats while still flooding the fight. Consider moving it to Tier 3 so the hybrid line starts earlier."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Master of the Nine Mills pays for every change either way, so the Seesaw build gets a capstone that grows the whole board, with a cap that keeps the golden near x4."},
+    {"uid": "u15", "why": "The Winter Raft turns the enemy sinking into board-wide fight stats, a Tier 5 combat engine that does its job."},
+    {"uid": "u11", "why": "Keeper of the Overflow links the two halves of the tribe in one card."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "Gauge-Keeper of Stillwater only doubles a Level of maybe 6-10 by Tier 5, which is small next to late Health, and it sinks your own short units too."},
+    {"uid": "u05", "why": "Ditch Coot adds 1 water, which rarely matters past the early turns."},
+    {"uid": "u04", "why": "Schouw-Walker is a plain buffer with no tie to the water or the Vote."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hendrika doubles every Vote source; with Nine Mills, Sail-Setter and Kobus that is about 6 changes and +6/+6 to the board each turn. Hot but capped at nine."},
+    {"uid": "u16", "kind": "watch", "note": "Penningmeester Hiske with Sluiswacht and Hendrika can pay 4-6 gold a turn, and uncapped carried gold could chain triples."},
+    {"uid": "u11", "kind": "watch", "note": "Overflow never resets, so a long Drain game can flood every fight while the Level stays below 0."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether Tiddy Mun's drowning lasts all fight, as the keyword says, or happens once at Start of Combat."}
+  ]
+}

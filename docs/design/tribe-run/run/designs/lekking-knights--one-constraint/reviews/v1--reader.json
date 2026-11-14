@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "lekking-knights--one-constraint",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks a clear, flavourful question (fill the ground or leave it bare), and heirs waking mid-fight is great to watch, but five terms make the board slow to read.",
+    "distinct": "Earns 8 over 7 because no tribe today works by switching its own text off: the rule forces one exact lek shape (F1, B2, F4) and turns a dying elder into a mid-fight succession."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is right, but the cards don't say which units are Knights, Watchers or Squires, so a player can't read the rule off the board yet.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No card says whether it is a Knight or a Watcher; the Lek depends on it. Put the type on every card (Heather Hen, Bilberry Watcher, The Chronicler, Dame Reisig as Watchers)."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Squire is a keyword, but no card's text carries it; the builds treat Squire Konrad, Roost-Pine Squire and Rupprecht as Squires. Print Squire on those cards, and say whether two Squires side by side blank each other."},
+    {"pid": "p3", "uid": "u07", "kind": "fix", "text": "Roost-Pine Squire's \"the Knight that left\" is unclear when two Knights next to it die, or when it comes on Station for another reason. Name which one, e.g. the biggest that left."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Herald of the Old Lek's \"This unit's Gallery units'\" reads awkwardly; \"Your units next to this trigger their End of Turn effects twice\" says the same thing plainly."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in play: hens choose the biggest cock, Reisig judges and leaves, Hartmut is deaf to the rule, Einsiedel needs an empty ridge. Keep a lit station marker on F1, B2 and F4 so the lek shape reads at a glance."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Dame Reisig judges, doubles the champion and walks out, and her empty slot can wake Einsiedel's bonus: the lore told in one short line."},
+    {"uid": "u06", "why": "Sir Hartmut the Whetting turns the deaf-while-singing fact into the one Knight the Lek ignores; reads instantly."},
+    {"uid": "u08", "why": "Bilberry Watcher picking the biggest Knight beside her is the hens' choice in play, and it makes where you stand Knights a real decision."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pennon-Bearer is a generic End of Turn buff with no tie to stations, display or the ground between them."},
+    {"uid": "u12", "why": "Sprucehold Envoy is pure rules exception with no picture behind it, and its golden adds a second exception to track."},
+    {"uid": "u11", "why": "White-Badge Knight is a plain Gallery buffer; the badge name does no work in what the card does."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Golden Heather Hens doubled by Herald of the Old Lek pay a lot of gold a turn; the designer's own cap idea is worth a look."},
+    {"uid": "u14", "kind": "watch", "note": "Einsiedel with Dame Reisig is x4 in one fight, x6 or more with goldens; a high roll worth the owner's eye."},
+    {"uid": "u17", "kind": "unclear", "note": "Grand Master Ottokar goes blank himself if a non-Squire Knight stands next to him, which a player may not expect; the card should say so."},
+    {"uid": "u07", "kind": "unclear", "note": "Which Knight \"left\" is not defined when two neighbours die."}
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "changelings--borrow-twist",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Reading the shop as a menu of texts makes every Recruit Phase a real choice, and the payoffs grow wearers steadily, but the tribe's own stats are thin and the Tier 1 wearers fade late.",
+    "distinct": "Earns 8 over 7 because the shop itself becomes the tribe's text pool and a worn unit's tribe counts for other tribes' cards, so the board changes shape every game in a way no current tribe touches."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is sound, but three rules questions (Bettie's count, worn Start of Combat timing, Tam wearing a Changeling) need answers before it can be played.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Say whether Wicker Moll's Stocks and Inside-Out Tod's sale-wears count as guises put on for Bettie Underhill. As written, every buy-and-sell under Tod adds a Bettie stack with no limit."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Hoverfly Guest and Penny Second gain the enemy's text at Start of Combat. Say whether a worn Start of Combat effect fires that same fight."},
+    {"pid": "p3", "uid": "u10", "kind": "fix", "text": "When Tam Twice wears one of your own Changelings, say whether it also takes that unit's guises (for example Grandfer Acorn's three)."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Adopt the designer's fallback (units of shop tier minus two are always wearable) so Cradle Foundling and Ant-Nest Grub keep a job late and the Porter isn't a must-buy."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Wicker Moll turns every guise into a second copy of the text for 1 gold, a clear Tier 5 direction card."},
+    {"uid": "u10", "why": "Tam Twice copying your own carry is the climber's dream: one strong text, twice."},
+    {"uid": "u16", "why": "Grandfer Acorn stacking three guises is a capstone-feeling Tier 5 that rewards planning the shop."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pip Unlike's mirror usually makes a worn text worse, and the four swaps are hard to read on one card."},
+    {"uid": "u01", "why": "Cradle Foundling can wear only Tier 1 units, which barely show up past Tier 3."},
+    {"uid": "u15", "why": "Coat-Peg Steward is fight-only, needs your Changelings to die first, and sits under the Tier 5 in-fight target."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "Inside-Out Tod's sale-wear has no once-a-turn limit, so buy-and-sell turns gold straight into stats, and more so with Bettie."},
+    {"uid": "u14", "kind": "watch", "note": "A 1-gold 3/6 Stock with up to Tier 5 text beats buying the original most of the time."},
+    {"uid": "u17", "kind": "watch", "note": "The Lady's golden text also reaches Moll's Stocks, and her golden doubles worn numbers again, a very high roll."},
+    {"uid": "u19", "kind": "watch", "note": "Penny Second wipes up to four front-row texts; counterplay is moving carries to the back row, worth the owner's eye."},
+    {"uid": "u07", "kind": "unclear", "note": "Unclear whether the worn enemy's Start of Combat text fires that fight."},
+    {"uid": "u18", "kind": "unclear", "note": "Unclear whether Stock wears and Tod's sale-wears count as guises put on."}
+  ]
+}

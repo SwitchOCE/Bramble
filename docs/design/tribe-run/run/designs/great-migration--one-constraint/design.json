@@ -3,20 +3,24 @@
  "seed": "great-migration",
  "route": "one-constraint",
  "tribe_name": "The Great Migration",
- "status": "reviewing",
+ "status": "revising",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Lemmings where only the one in front has working text; each death passes the lead and a shared Banner buff to the next.\nYou order the herd so the right leader speaks while recruiting and in each moment of the fight.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.3,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
   }
  ]

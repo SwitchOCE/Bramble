@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three build axes (clock, brood, foster) that Ottilie and Rohrsang cross-wire, with real seating puzzles each turn; held below 8 because much of the payoff is invisible in-fight and the bodies stay small.",
+    "distinct": "Earns 8 over 7 for the one shared fight clock both sides tick and both can bend, plus eggs that live inside enemy units; no tribe today plays with fight tempo or the enemy's own bodies like this."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is great as it stands, but a few stacking rules (Herald under the Bellows, copies of statics) need writing down before anyone can plan combos around them.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Herald of Spring beside the Bellows-Hall Tuner: does 'the first Chime each fight' trigger twice, doubling the permanent +2/+2? Say so either way, since it is the tribe's biggest permanent line."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Frau Wechselbalg via Mother Rohrsang can copy your own Ottilie, Red-Mouth or Bellows mid-fight. Say whether a copied static stacks, and which of Red-Mouth's three Chicks counts as 'the first'."},
+    {"pid": "p3", "uid": "u08", "kind": "fix", "text": "Little Gernegroß leaves his slot empty while hidden, and Chicks hatching at the same Chime may land there. Say whether he hatches before or after Chicks so players can plan the landing."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Give the brood flood one permanent outlet, such as a unit that grows when your Chicks leave at fight's end; the chick swarm then feeds the board, and the 'parents gone' theme gets a card."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Old Unruh speeds the clock for the enemy too; a card that profits from the enemy's Chime effects or Dozers would turn the shared clock into a mirror-match weapon."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Ottilie makes every Start of Combat a Chime effect: Hens re-lay, Apprentices re-wind, the Hawk re-dozes, and copied Hens join in. The card that ties the whole tribe together."},
+    {"uid": "u10", "why": "Mother Rohrsang turns your own units into hosts, inherits keywords from any tribe, and sets up Wechselbalg twins of your best unit."},
+    {"uid": "u09", "why": "High-Summer Migrant is a buff sink: stack Herald, Pass and spells on her, then sell her into the Brood. A real bank-or-cash-in choice."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Pattern-Book Painter is a plain Brood ticker with no decision attached."},
+    {"uid": "u03", "why": "Weight-Hanger is a one-shot Wind on death; the only choice is putting it in the front row."},
+    {"uid": "u19", "why": "Hour-Bird is a generic team buff on a timer; strong, but its only combo is the Bellows."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth plus Ottilie plus several Hens is the designer's named runaway; it stays in-fight, but it may end fights in two strikes."},
+    {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen plus Ottilie keeps one enemy dozing all fight; killing the Hawk breaks it, but a golden Hawk locks two."},
+    {"uid": "u02", "kind": "watch", "note": "Three Apprentices plus Ottilie make the clock strike after every attack, from the first strike, so eggs almost never get lost."},
+    {"uid": "u16", "kind": "unclear", "note": "Whether the Bellows doubles a once-a-fight Chime effect."},
+    {"uid": "u14", "kind": "unclear", "note": "Whether copied statics (Ottilie, Red-Mouth, Bellows, Unruh) stack with the originals."}
+  ]
+}

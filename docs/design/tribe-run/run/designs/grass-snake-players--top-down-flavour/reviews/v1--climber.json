@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Each tier does its job, and the late stacking of Maid, Old Crest and Hesketh is a spike worth climbing towards; the early turns are plain bodies.",
+    "distinct": "The limp board and Curtain Call reveal are fresh, but the engine is a Deathrattle tribe with a Baron (Old Crest) and a Deathrattle-repeater capstone (Hesketh)."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Copied Death Scenes can trigger each other forever, so the rules need one line before the tribe can be played.",
+  "points": [
+    {"pid": "p1", "uid": "u09", "kind": "fix", "text": "Two Little Anguis beside Sir Hesketh both copy his scene, then each copy triggers the other forever (a Tail carrying it does the same). Add a rule: a Death Scene can't trigger itself, or any scene, twice in one chain."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "The Brothers Berus with extra triggers (Maid, Old Crest) says 'the enemy across', but after the first destroy that slot is empty. Say whether later triggers fizzle or pick a new target."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Growth comes almost all from Tier 4 up; Turns 1-5 are bodies that refuse to die. A Tier 1 or 2 Death Scene that grows itself would give the opening a shape to build on."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Household Guardian is a flat 1 gold or a one-fight life each turn; a Saucer that also feeds Bufo or Wreath-Weaver when used would give it a build."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Coronella answers 'winning cleanly grows less'; a second Start of Combat knock-down at Tier 2 or 3 would let that build start earlier."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Coronella pays Death Scenes before the first attack, so the seating puzzle matters and a clean win still grows."},
+    {"uid": "u09", "why": "Little Anguis copying a neighbour's scene and leaving a Tail that carries it is the best seating card here."},
+    {"uid": "u17", "why": "Sir Hesketh is a real capstone: the comp is built to reach his fall."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Household Guardian is a light, generic economy piece at Tier 4."},
+    {"uid": "u01", "why": "Chorus Snake is a vanilla extra life with nothing to grow."},
+    {"uid": "u02", "why": "Born-in-the-Wings Hatchling only grows Attack and only when others play dead, so it stays small early."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "broken", "note": "Copied Hesketh scenes on two Anguis or a Tail trigger each other with no end."},
+    {"uid": "u17", "kind": "watch", "note": "Hesketh with Old Crest and the Maid fires every scene 4-6 times, in the shop too via Prompt-Box Eft."},
+    {"uid": "u14", "kind": "watch", "note": "Dame Natrix goes down three or four times with Žilvinas, each a board-wide permanent buff that Old Crest and the Maid multiply."},
+    {"uid": "u15", "kind": "watch", "note": "Berus with Maid, Old Crest and Žilvinas can destroy most of an enemy board in one fight."},
+    {"uid": "u15", "kind": "unclear", "note": "What extra triggers do once the enemy across is gone is not said."}
+  ]
+}
