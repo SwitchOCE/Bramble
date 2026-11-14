@@ -126,3 +126,31 @@ Ratings are whole numbers from 1 to 10. A review has at most 5 points, 3 standou
 ```
 
 `overall.json` has `"picks": [{"design": "", "version": 1, "rank": 1, "line": ""}]`, up to 12 picks. A pick can name any version, v1 included.
+
+## `designs/<id>/pitch.json` (the quick-read layer, added 14 Nov)
+
+A short pitch of one design, written by a pitch writer after the design has stopped. It sits on top of the files above and changes none of them: the versions, reviews and rankings stay the record, and the portal's full view still shows them. The portal opens a design with this pitch, so the owner can understand a tribe in two or three minutes. `tools/tribe-run/check_pitch.py` checks it.
+
+```json
+{
+  "design_id": "moss-oozes--surgical", "v": 2,
+  "hook": "one sentence, at most 20 words: what playing this tribe is like",
+  "loop": ["what you do each turn", "what that builds", "how it pays off"],
+  "growth": {"shape": "tall|wide|economy|burst|slow-burn|in-fight|mixed", "line": "at most 18 words on how the numbers grow"},
+  "feel": {"early": "at most 10 words", "mid": "at most 10 words", "late": "at most 10 words"},
+  "stars": [{"uid": "u12", "why": "at most 12 words"}],
+  "roles": {"u01": "body|engine|buff|economy|multiplier|payoff|utility"},
+  "card_short": {"u01": "at most 10 words: what the card does, in plain words"},
+  "builds": [{"name": "", "line": "at most 12 words"}],
+  "liked": ["at most 14 words"],
+  "worries": ["at most 14 words"],
+  "changed": ["at most 14 words"],
+  "verdict": "one sentence, at most 22 words: where it stands and who would enjoy it"
+}
+```
+
+- `v` is the version the pitch describes: the design's final version.
+- `loop` has exactly 3 steps of at most 12 words each. `stars` has exactly 3 cards: the ones that best show what the tribe is.
+- `roles` and `card_short` have one entry for every unit and extra in that version, by uid. Roles: **body** (stats and tempo), **engine** (makes or moves the thing the tribe runs on), **buff** (gives stats), **economy** (gold, the shop, extra cards), **multiplier** (makes other effects bigger or repeat), **payoff** (turns the tribe's build-up into power; capstones), **utility** (protection, targeting and everything else).
+- `builds` has up to 3. `liked` and `worries` have up to 2 each, taken from that version's reviews; a `broken` or `watch` flag that still stands belongs in `worries`. `changed` has up to 3: the biggest changes since v1, or an empty list for a design that was never revised.
+- The pitch never names the design method, and adds no opinion of its own: it reports the design and what the reviewers and the ranker said.
