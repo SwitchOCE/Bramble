@@ -1,0 +1,12 @@
+{
+ "id": "olm-sleepers",
+ "name": "The Olm Sleepers",
+ "source": "folio",
+ "folio_ref": "The Olm Sleepers",
+ "pitch": "Pale cave creatures that live a century: weak for a long time, then devastating, growing from every round they are kept and left alone.",
+ "routes": [
+  "bottom-up-flavour",
+  "top-down-mech",
+  "borrow-twist"
+ ]
+}

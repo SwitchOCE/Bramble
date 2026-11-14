@@ -1,0 +1,12 @@
+{
+ "id": "moon-hares",
+ "name": "The Moon Hares",
+ "source": "folio",
+ "folio_ref": "The Moon Hares",
+ "pitch": "The tribe changes with a moon that waxes and wanes across rounds: you build for the phase that is coming, and the full moon transforms the team.",
+ "routes": [
+  "top-down-flavour",
+  "player-story",
+  "one-constraint"
+ ]
+}

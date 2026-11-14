@@ -1,0 +1,12 @@
+{
+ "id": "trapdoor-lodge",
+ "name": "The Trapdoor Lodge",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Spiders who wait off the board under their trapdoors and spring into the fight when the moment comes: the board you show is not the board you fight with.",
+ "routes": [
+  "player-story",
+  "one-constraint",
+  "surgical"
+ ]
+}

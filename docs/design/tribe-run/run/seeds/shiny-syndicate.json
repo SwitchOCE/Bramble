@@ -1,0 +1,12 @@
+{
+ "id": "shiny-syndicate",
+ "name": "The Shiny Syndicate",
+ "source": "folio",
+ "folio_ref": "The Shiny Syndicate",
+ "pitch": "Crime-family credit: take gold or power now against the future, pay it back with interest, and skim from whoever you beat.",
+ "routes": [
+  "bottom-up-flavour",
+  "borrow-twist",
+  "bottom-up-mech"
+ ]
+}

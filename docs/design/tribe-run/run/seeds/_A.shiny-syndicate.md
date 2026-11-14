@@ -1,0 +1,19 @@
+## Part A: the seed — The Shiny Syndicate
+
+**Who they are.** A corvid crime family in Hedgemoot, the hedgerow shire of small fields inside hawthorn hedges, sunken lanes, cider orchards and round oast houses, where every hedge is a parish border and every wassail a treaty. Magpies fence, jackdaws run the pawnshop, and ravens hold everyone's debts. They are charming crooks, not "the bad animals": polite, sentimental about their own, generous at weddings and wakes, and owed something by nearly everyone. Nobody in the family can resist anything shiny, including evidence.
+
+**The real birds.** Ravens cache food, and a raven watched while hiding it comes back later and moves it. In tests, ravens saved a token to barter with later rather than take a smaller reward at once, and remembered for a month a partner who had cheated them in a trade. Jackdaws, small grey-naped corvids with pale silver eyes, nest in chimneys and church towers, pair for life, share food, and learn a dangerous human's face from each other's scolding calls, so the whole colony knows whom to mob. The Eurasian magpie builds a domed nest roofed with thorny twigs and is one of the few animals to pass the mirror test. Its thieving is folklore: tested at Exeter, magpies were wary of shiny objects. The family calls that study slander.
+
+**Folklore.** "One for sorrow, two for joy, three for a girl, four for a boy, five for silver, six for gold, seven for a secret never to be told." A lone magpie is greeted ("Good morning, Mr Magpie") to ward off bad luck. In Rossini's *La gazza ladra* a servant girl is tried for a silver spoon a magpie took. Ovid's Arne sold her island for gold and became a jackdaw that loves gold still. The Tower of London keeps ravens lest the kingdom fall. Odin's ravens, Thought and Memory, fly out each day and report back.
+
+**Society and what it parodies.** The gangster film moved to an orchard: the don, the favour asked at a wedding, the offer you can't refuse, protection money, the fence, the pawnbroker (old British slang: "uncle"), the loan shark's interest, the debt never quite paid off. Business runs on credit and memory: nothing is written down that a raven can remember, and a raven forgets nothing. Debts pass to children. Protection is paid in cider and soft cheese at wassail time, and stolen goods turn up at the fair, sold back to their owners at a very fair price.
+
+**Notable figures.** **Grandmother Corbie**, raven matriarch, keeper of the Long Ledger. **Thought and Memory**, her collectors: one asks, the other remembers. **Uncle Jack Monedula**, pale-eyed jackdaw pawnbroker in the belfry. **Sorrow and Joy**, magpie fences never seen apart, because a lone magpie is bad for business. **Silas Glint**, a magpie who returns lost property for a finder's fee. **Arne**, the founder, told to every fledgling as a warning. **Seven**, the magpie nobody has met.
+
+**Places.** St Jude's belfry, the jackdaw pawnshop; the Oast, where the ravens keep the books; the Thorn Nest, the fence's showroom; Gallows Lane, where protection is collected; the Michaelmas fair; a hollow ash full of caches nobody admits to.
+
+**Objects and icons.** Three golden balls over the pawnshop door, pawn tickets, IOUs scratched on bark, the Long Ledger, a silver spoon, thimbles, keys, foil, wedding rings, a black feather left as a calling card, the wassail bowl passed round as tribute, a mirror for the magpie who only talks to herself.
+
+**Themes.** Credit and debt, interest and the bill coming due, memory and grudges, protection, family, honour among thieves, omens and luck, things that never stay where you put them, and greed that leaves its own evidence.
+
+**The play it suggests:** Crime-family credit: take gold or power now against the future, pay it back with interest, and skim from whoever you beat.

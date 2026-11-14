@@ -1,0 +1,12 @@
+{
+ "id": "salmon-run",
+ "name": "The Salmon Run",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Fish that work their way up the board fight after fight; the ones that reach the head spawn the next run and are spent.",
+ "routes": [
+  "bottom-up-flavour",
+  "player-story",
+  "top-down-flavour"
+ ]
+}
