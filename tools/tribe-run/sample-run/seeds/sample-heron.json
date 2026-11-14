@@ -1,0 +1,12 @@
+{
+ "id": "sample-heron",
+ "name": "Sample: Heron Wardens",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Patient wading birds that wait out of reach, then strike once at exactly the right moment.",
+ "routes": [
+  "top-down-flavour",
+  "one-constraint",
+  "borrow-twist"
+ ]
+}

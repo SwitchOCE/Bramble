@@ -1,0 +1,101 @@
+{
+ "run_id": "sample-run",
+ "shape": {
+  "1": 2,
+  "2": 3,
+  "3": 4,
+  "4": 4,
+  "5": 3,
+  "6": 3
+ },
+ "min_versions": 1,
+ "max_versions": 3,
+ "portal_url": "",
+ "routes": [
+  {
+   "id": "bottom-up-mech",
+   "name": "Bottom-up mechanical",
+   "tested": true,
+   "block": "(sample) Bottom-up mechanical route."
+  },
+  {
+   "id": "surgical",
+   "name": "Surgical",
+   "tested": true,
+   "block": "(sample) Surgical route."
+  },
+  {
+   "id": "top-down-flavour",
+   "name": "Top-down flavour",
+   "tested": true,
+   "block": "(sample) Top-down flavour route."
+  },
+  {
+   "id": "top-down-mech",
+   "name": "Top-down mechanical",
+   "tested": true,
+   "block": "(sample) Top-down mechanical route."
+  },
+  {
+   "id": "bottom-up-flavour",
+   "name": "Bottom-up flavour",
+   "tested": true,
+   "block": "(sample) Bottom-up flavour route."
+  },
+  {
+   "id": "player-story",
+   "name": "Player story",
+   "tested": false,
+   "block": "(sample) Player story route."
+  },
+  {
+   "id": "one-constraint",
+   "name": "One constraint",
+   "tested": false,
+   "block": "(sample) One constraint route."
+  },
+  {
+   "id": "borrow-twist",
+   "name": "Borrow and twist",
+   "tested": false,
+   "block": "(sample) Borrow and twist route."
+  }
+ ],
+ "committee": [
+  {
+   "id": "combo",
+   "name": "The combo player",
+   "lens": "Interwoven synergies, uses outside a card's intended purpose, real decisions each turn."
+  },
+  {
+   "id": "climber",
+   "name": "The ranked climber",
+   "lens": "Does each tier do its job in the tier guide, and does the number growth have a shape you'd want to play? Flags runaway loops."
+  },
+  {
+   "id": "reader",
+   "name": "The reader",
+   "lens": "Can a player who knows Bramble read each card at a glance, and does the woodland folk fantasy come through in what the cards do?"
+  }
+ ],
+ "criteria": [
+  {
+   "id": "fun",
+   "name": "Fun to draft and grow"
+  },
+  {
+   "id": "distinct",
+   "name": "Distinctive"
+  }
+ ],
+ "waves": [
+  {
+   "id": 1,
+   "seeds": [
+    "sample-moss",
+    "sample-heron"
+   ],
+   "status": "running"
+  }
+ ]
+}

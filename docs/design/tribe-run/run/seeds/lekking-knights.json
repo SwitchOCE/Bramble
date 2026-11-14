@@ -1,0 +1,12 @@
+{
+ "id": "lekking-knights",
+ "name": "The Lekking Knights",
+ "source": "folio",
+ "folio_ref": "The Lekking Knights",
+ "pitch": "Few, vain, enormous knights at their best with the stage to themselves: one champion instead of a crowd.",
+ "routes": [
+  "top-down-flavour",
+  "one-constraint",
+  "player-story"
+ ]
+}

@@ -1,0 +1,41 @@
+{
+ "id": "v1--combo",
+ "design_id": "sample-moss--surgical",
+ "v": 1,
+ "member": "combo",
+ "ratings": {
+  "fun": 8,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "settle",
+ "verdict_why": "More passes would make it different, not better.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u13",
+   "kind": "idea",
+   "text": "Old Root Choir could also trigger on sold moss."
+  }
+ ],
+ "standouts": [
+  {
+   "uid": "u13",
+   "why": "Turns every Spread into a small engine."
+  },
+  {
+   "uid": "u18",
+   "why": "A real cash-out decision."
+  }
+ ],
+ "weakest": [
+  {
+   "uid": "u02",
+   "why": "Rarely worth a slot."
+  }
+ ],
+ "flags": []
+}

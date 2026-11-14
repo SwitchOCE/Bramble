@@ -1,0 +1,29 @@
+{
+ "id": "sample-moss--surgical",
+ "seed": "sample-moss",
+ "route": "surgical",
+ "tribe_name": "Sample: Moss Oozes",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "summary": "Moss that spreads between oozes and survives selling; a slow snowball.",
+   "author": "designer",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
+  }
+ ],
+ "final_version": 1,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

@@ -1,0 +1,38 @@
+{
+ "id": "v1--combo",
+ "design_id": "sample-moss--player-story",
+ "v": 1,
+ "member": "combo",
+ "ratings": {
+  "fun": 7,
+  "distinct": 8
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u09",
+   "kind": "fix",
+   "text": "Silt Mother doubles every turn with no ceiling."
+  }
+ ],
+ "standouts": [
+  {
+   "uid": "u09",
+   "why": "The fight-start moment is great."
+  }
+ ],
+ "weakest": [],
+ "flags": [
+  {
+   "uid": "u09",
+   "kind": "broken",
+   "note": "Exponential."
+  }
+ ]
+}

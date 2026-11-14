@@ -1,0 +1,12 @@
+{
+ "id": "will-o-wisps",
+ "name": "The Will-o'-the-Wisps",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Marsh lights that lead the enemy astray: the play is deciding what the enemy hits, and making it hit the wrong thing.",
+ "routes": [
+  "top-down-flavour",
+  "bottom-up-mech",
+  "bottom-up-flavour"
+ ]
+}

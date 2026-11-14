@@ -1,0 +1,25 @@
+{
+ "id": "v1--reader",
+ "design_id": "sample-heron--top-down-flavour",
+ "v": 1,
+ "member": "reader",
+ "ratings": {
+  "fun": 7,
+  "distinct": 8
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "settle",
+ "verdict_why": "More passes would make it different, not better.",
+ "points": [],
+ "standouts": [
+  {
+   "uid": "u01",
+   "why": "Lovely, simple opener."
+  }
+ ],
+ "weakest": [],
+ "flags": []
+}

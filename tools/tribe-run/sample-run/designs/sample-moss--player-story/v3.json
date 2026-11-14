@@ -1,0 +1,262 @@
+{
+ "design_id": "sample-moss--player-story",
+ "v": 3,
+ "identity": {
+  "tribe_name": "Sample: Bog Choir",
+  "mechanic": "Moss: layers of +1/+1 that spread between your minions and survive being sold.",
+  "keywords": [
+   {
+    "name": "Spread",
+    "text": "Give a random friendly minion a layer of moss (+1/+1). Moss stays when the minion is sold to the shop."
+   }
+  ],
+  "plays": "You buy cheap oozes, coat them in moss, and sell them knowing the moss stays in the shop for later. The board snowballs slowly, then all at once."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Choir First Note",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "**Battlecry:** **Spread** 1.",
+   "golden": "**Battlecry:** **Spread** 2."
+  },
+  {
+   "uid": "u02",
+   "name": "Choir Damp Nibbler",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "At the end of your turn, if you have a mossy minion, gain +1 Health.",
+   "golden": "At the end of your turn, if you have a mossy minion, gain +2 Health."
+  },
+  {
+   "uid": "u03",
+   "name": "Choir Lichen Crawler",
+   "tier": 2,
+   "attack": 2,
+   "health": 5,
+   "text": "**Spread** 1 when this is sold.",
+   "golden": "**Spread** 2 when this is sold."
+  },
+  {
+   "uid": "u04",
+   "name": "Choir Puddle Sop",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Whenever a friendly minion becomes mossy, gain +1 Attack.",
+   "golden": "Whenever a friendly minion becomes mossy, gain +2 Attack."
+  },
+  {
+   "uid": "u05",
+   "name": "Choir Mire Sprout",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "**Battlecry:** Give a mossy minion +2/+2.",
+   "golden": "**Battlecry:** Give a mossy minion +4/+4."
+  },
+  {
+   "uid": "u06",
+   "name": "Choir Bog Lantern",
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "text": "Your mossy minions have +1 Attack.",
+   "golden": "Your mossy minions have +2 Attack."
+  },
+  {
+   "uid": "u07",
+   "name": "Choir Rotwood Hermit",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "**Deathrattle:** **Spread** 2.",
+   "golden": "**Deathrattle:** **Spread** 4."
+  },
+  {
+   "uid": "u08",
+   "name": "Choir Fen Gulper",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "text": "**Battlecry:** Remove moss from a minion to gain its moss as +3/+3 per layer.",
+   "golden": "**Battlecry:** Remove moss from a minion to gain its moss as +6/+6 per layer."
+  },
+  {
+   "uid": "u09",
+   "name": "Choir Silt Mother",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "text": "At the start of combat, **Spread** 1 for each mossy minion (up to 3).",
+   "golden": "At the start of combat, **Spread** 2 for each mossy minion (up to 3)."
+  },
+  {
+   "uid": "u10",
+   "name": "Choir Dew Collector",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "text": "After you buy a minion, if it's mossy, gain 1 Gold next turn.",
+   "golden": "After you buy a minion, if it's mossy, gain 2 Gold next turn."
+  },
+  {
+   "uid": "u11",
+   "name": "Choir Peat Warden",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "text": "**Taunt.** Mossy minions adjacent to this take 1 less damage.",
+   "golden": "**Taunt.** Mossy minions adjacent to this take 2 less damage."
+  },
+  {
+   "uid": "u12",
+   "name": "Choir Canopy Drip",
+   "tier": 4,
+   "attack": 5,
+   "health": 7,
+   "text": "At the end of your turn, give your leftmost mossy minion +2/+2.",
+   "golden": "At the end of your turn, give your leftmost mossy minion +4/+4."
+  },
+  {
+   "uid": "u13",
+   "name": "Choir Old Root Choir",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "The first time you **Spread** each turn, **Spread** 1 again.",
+   "golden": "The first time you **Spread** each turn, **Spread** 2 again."
+  },
+  {
+   "uid": "u14",
+   "name": "Choir Marsh Engine",
+   "tier": 5,
+   "attack": 6,
+   "health": 7,
+   "text": "Your minions with 3 or more moss have **Windfury**.",
+   "golden": "Your minions with 6 or more moss have **Windfury**."
+  },
+  {
+   "uid": "u15",
+   "name": "Choir Moss Queen",
+   "tier": 5,
+   "attack": 5,
+   "health": 8,
+   "text": "Your **Spread** effects add 1 more layer.",
+   "golden": "Your **Spread** effects add 2 more layer."
+  },
+  {
+   "uid": "u16",
+   "name": "Choir Heartwood Ooze",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "**Deathrattle:** Give your minions +1/+1 for each layer of moss they have.",
+   "golden": "**Deathrattle:** Give your minions +2/+2 for each layer of moss they have."
+  },
+  {
+   "uid": "u17",
+   "name": "Choir The Green Tide",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "At the start of combat, **Spread** 3 and give mossy minions +2 Attack.",
+   "golden": "At the start of combat, **Spread** 6 and give mossy minions +4 Attack."
+  },
+  {
+   "uid": "u18",
+   "name": "Choir Moss-Eater Elder",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "**Battlecry:** Strip all moss from your board; gain +4/+4 per layer.",
+   "golden": "**Battlecry:** Strip all moss from your board; gain +8/+8 per layer."
+  },
+  {
+   "uid": "u19",
+   "name": "Choir World-Bog",
+   "tier": 6,
+   "attack": 6,
+   "health": 7,
+   "text": "Your mossy minions keep half their moss (rounded up) when sold.",
+   "golden": "Your mossy minions keep all their moss when sold."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Choir Clump",
+   "text": "A 1/1 that **Spreads** 1 when it dies."
+  }
+ ],
+ "builds": [
+  {
+   "name": "Go wide",
+   "text": "Fill the board early and let the payoffs at Tier 4 scale everything at once."
+  },
+  {
+   "name": "One big carrier",
+   "text": "Pour everything into one minion and protect it with Taunts."
+  }
+ ],
+ "risks": [
+  "Tier 6 may be too swingy against Divine Shield.",
+  "The early game leans on a single Tier 1."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Tier 1 sits close to the guide."
+  },
+  {
+   "tier": 2,
+   "note": "Tier 2 sits close to the guide."
+  },
+  {
+   "tier": 3,
+   "note": "Tier 3 sits close to the guide."
+  },
+  {
+   "tier": 4,
+   "note": "Tier 4 sits close to the guide."
+  },
+  {
+   "tier": 5,
+   "note": "Tier 5 sits close to the guide."
+  },
+  {
+   "tier": 6,
+   "note": "Tier 6 sits close to the guide."
+  }
+ ],
+ "rationale": [
+  "Picked one shared resource so every card speaks the same language."
+ ],
+ "changes": [
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Triggers only on the first Spread each turn.",
+   "why": "Stops the loop with Moss Queen.",
+   "from": [
+    "v1--combo#p1",
+    "v2--combo#p1"
+   ]
+  },
+  {
+   "uid": "u01",
+   "kind": "renamed",
+   "what": "Renamed and given 2 Attack.",
+   "why": "Easier to tell apart, and a better opener.",
+   "from": [
+    "v2--reader#p1",
+    "v1--climber#p1"
+   ]
+  }
+ ],
+ "declined": []
+}

@@ -1,0 +1,12 @@
+{
+ "id": "dyke-board",
+ "name": "The Dyke Board",
+ "source": "folio",
+ "folio_ref": "The Dyke Board",
+ "pitch": "A water board that votes the water level up or down, and the level decides who swims and who drowns, on both boards.",
+ "routes": [
+  "surgical",
+  "top-down-mech",
+  "one-constraint"
+ ]
+}

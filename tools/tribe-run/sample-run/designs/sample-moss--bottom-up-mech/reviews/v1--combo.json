@@ -1,0 +1,49 @@
+{
+ "id": "v1--combo",
+ "design_id": "sample-moss--bottom-up-mech",
+ "v": 1,
+ "member": "combo",
+ "ratings": {
+  "fun": 6,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Not many real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u03",
+   "kind": "fix",
+   "text": "Selling Lichen Crawler for Spread is always right; there's no choice."
+  },
+  {
+   "pid": "p2",
+   "uid": "u10",
+   "kind": "idea",
+   "text": "Dew Collector could pay gold per layer instead."
+  }
+ ],
+ "standouts": [
+  {
+   "uid": "u13",
+   "why": "Chains nicely with sell effects."
+  }
+ ],
+ "weakest": [
+  {
+   "uid": "u03",
+   "why": "Auto-sell."
+  }
+ ],
+ "flags": [
+  {
+   "uid": "u03",
+   "kind": "broken",
+   "note": "Free value every turn with no cost."
+  }
+ ]
+}

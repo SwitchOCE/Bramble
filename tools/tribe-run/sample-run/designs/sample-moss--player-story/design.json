@@ -1,0 +1,65 @@
+{
+ "id": "sample-moss--player-story",
+ "seed": "sample-moss",
+ "route": "player-story",
+ "tribe_name": "Sample: Bog Choir",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "summary": "A choir of oozes whose fights start with a burst of moss.",
+   "author": "designer",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "summary": "Capped Silt Mother and cleared up World-Bog's rounding.",
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "summary": "Broke the Moss Queen loop and sharpened the Tier 1 opener.",
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   }
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}

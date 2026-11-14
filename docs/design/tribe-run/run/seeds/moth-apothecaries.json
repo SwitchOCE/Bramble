@@ -1,0 +1,12 @@
+{
+ "id": "moth-apothecaries",
+ "name": "The Moth Apothecaries",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Night apothecaries who brew by lamplight: the tribe grows by casting spells, and its spells get stronger the more of them it casts.",
+ "routes": [
+  "surgical",
+  "bottom-up-mech",
+  "borrow-twist"
+ ]
+}

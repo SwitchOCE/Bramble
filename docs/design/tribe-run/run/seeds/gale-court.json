@@ -1,0 +1,12 @@
+{
+ "id": "gale-court",
+ "name": "The Gale Court",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Weather that moves in squalls: who strikes first, how often and in what order is theirs to bend.",
+ "routes": [
+  "top-down-mech",
+  "bottom-up-flavour",
+  "player-story"
+ ]
+}

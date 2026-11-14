@@ -1,0 +1,22 @@
+{
+ "picks": [
+  {
+   "design": "sample-moss--bottom-up-mech",
+   "version": 2,
+   "rank": 1,
+   "line": "Selling as a real decision, and a board that grows as one."
+  },
+  {
+   "design": "sample-moss--surgical",
+   "version": 1,
+   "rank": 2,
+   "line": "Reads at a glance and still rewards planning."
+  },
+  {
+   "design": "sample-moss--player-story",
+   "version": 1,
+   "rank": 3,
+   "line": "The first version, for its fight-start moment, before it was tamed."
+  }
+ ]
+}

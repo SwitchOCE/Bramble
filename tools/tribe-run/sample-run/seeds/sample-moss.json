@@ -1,0 +1,12 @@
+{
+ "id": "sample-moss",
+ "name": "Sample: Moss Oozes",
+ "source": "folio",
+ "folio_ref": "Moss Oozes",
+ "pitch": "Slow green oozes that coat each other in moss, so the board grows as one living carpet.",
+ "routes": [
+  "surgical",
+  "bottom-up-mech",
+  "player-story"
+ ]
+}

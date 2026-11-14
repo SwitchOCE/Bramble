@@ -1,0 +1,47 @@
+{
+ "id": "sample-moss--bottom-up-mech",
+ "seed": "sample-moss",
+ "route": "bottom-up-mech",
+ "tribe_name": "Sample: Mosslings",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "summary": "Moss as a currency you bank by selling.",
+   "author": "designer",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 5.7,
+    "distinct": 6.7
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 2,
+   "summary": "Capped the early runaway, made selling a choice, and renamed the unclear card.",
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

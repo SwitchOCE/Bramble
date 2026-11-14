@@ -1,0 +1,12 @@
+{
+ "id": "ivy-climbers",
+ "name": "The Ivy and Mistletoe",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Climbers that don't stand alone: they grow on another unit and rise with their host, and choosing whom to climb is the game.",
+ "routes": [
+  "surgical",
+  "top-down-mech",
+  "one-constraint"
+ ]
+}

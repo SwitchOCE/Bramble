@@ -1,0 +1,12 @@
+{
+ "id": "grass-snake-players",
+ "name": "The Grass Snake Players",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "A melodrama troupe whose leads die spectacularly and get up for the bow: deaths that happen, count and pay out, without losing the body.",
+ "routes": [
+  "top-down-flavour",
+  "surgical",
+  "bottom-up-flavour"
+ ]
+}

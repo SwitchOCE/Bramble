@@ -1,0 +1,33 @@
+{
+ "id": "v1--reader",
+ "design_id": "sample-moss--player-story",
+ "v": 1,
+ "member": "reader",
+ "ratings": {
+  "fun": 7,
+  "distinct": 8
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u19",
+   "kind": "fix",
+   "text": "World-Bog's 'half their moss' rounds unclearly."
+  }
+ ],
+ "standouts": [],
+ "weakest": [],
+ "flags": [
+  {
+   "uid": "u19",
+   "kind": "unclear",
+   "note": "Half of 3 layers?"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "id": "v2--reader",
+ "design_id": "sample-moss--player-story",
+ "v": 2,
+ "member": "reader",
+ "ratings": {
+  "fun": 6,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Not many real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u01",
+   "kind": "idea",
+   "text": "Tier 1 names are hard to tell apart."
+  }
+ ],
+ "standouts": [],
+ "weakest": [
+  {
+   "uid": "u01",
+   "why": "Blends in."
+  }
+ ],
+ "flags": []
+}

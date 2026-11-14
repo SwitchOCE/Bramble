@@ -1,0 +1,232 @@
+{
+ "design_id": "sample-heron--one-constraint",
+ "v": 1,
+ "identity": {
+  "tribe_name": "Sample: Still Herons",
+  "mechanic": "Wading: minions that can't be attacked until they attack.",
+  "keywords": [
+   {
+    "name": "Wade",
+    "text": "Can't be attacked until it attacks. After it attacks, it stops Wading."
+   }
+  ],
+  "plays": "Your herons sit out of reach until they strike. You decide each turn who wades and who stands in the open."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Still Reed Stepper",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "**Wade.**",
+   "golden": "**Wade.**"
+  },
+  {
+   "uid": "u02",
+   "name": "Still Shallows Scout",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "**Battlecry:** Give a **Wading** minion +1/+2.",
+   "golden": "**Battlecry:** Give a **Wading** minion +2/+4."
+  },
+  {
+   "uid": "u03",
+   "name": "Still Mudflat Watcher",
+   "tier": 2,
+   "attack": 2,
+   "health": 5,
+   "text": "While **Wading**, has +2 Attack.",
+   "golden": "While **Wading**, has +4 Attack."
+  },
+  {
+   "uid": "u04",
+   "name": "Still Still Fisher",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "After a **Wading** minion attacks, gain +1/+1.",
+   "golden": "After a **Wading** minion attacks, gain +2/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "Still Grey Sentry",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "**Taunt.** **Wade.**",
+   "golden": "**Taunt.** **Wade.**"
+  },
+  {
+   "uid": "u06",
+   "name": "Still Tide Reader",
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "text": "At the end of your turn, a random minion gains **Wade**.",
+   "golden": "At the end of your turn, a random minion gains **Wade**."
+  },
+  {
+   "uid": "u07",
+   "name": "Still Long-Neck Lookout",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "**Wading** minions can attack from the back row.",
+   "golden": "**Wading** minions can attack from the back row."
+  },
+  {
+   "uid": "u08",
+   "name": "Still Rush Weaver",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "text": "**Battlecry:** Your **Wading** minions gain +1/+1.",
+   "golden": "**Battlecry:** Your **Wading** minions gain +2/+2."
+  },
+  {
+   "uid": "u09",
+   "name": "Still Estuary Elder",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "text": "**Deathrattle:** Give a friendly minion **Wade** and +2/+2.",
+   "golden": "**Deathrattle:** Give a friendly minion **Wade** and +4/+4."
+  },
+  {
+   "uid": "u10",
+   "name": "Still Spear-Beak",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "text": "**Wade.** Deals double damage to minions with **Taunt**.",
+   "golden": "**Wade.** Deals double damage to minions with **Taunt**."
+  },
+  {
+   "uid": "u11",
+   "name": "Still Silt Stalker",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "text": "Whenever this **Wades** out of combat, gain +2/+2.",
+   "golden": "Whenever this **Wades** out of combat, gain +4/+4."
+  },
+  {
+   "uid": "u12",
+   "name": "Still Heron Captain",
+   "tier": 4,
+   "attack": 5,
+   "health": 7,
+   "text": "Your **Wading** minions have +1 Attack.",
+   "golden": "Your **Wading** minions have +2 Attack."
+  },
+  {
+   "uid": "u13",
+   "name": "Still Flood Caller",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "At the start of combat, give all minions **Wade**.",
+   "golden": "At the start of combat, give all minions **Wade**."
+  },
+  {
+   "uid": "u14",
+   "name": "Still Marsh Monarch",
+   "tier": 5,
+   "attack": 6,
+   "health": 7,
+   "text": "**Wading** minions take 1 less damage.",
+   "golden": "**Wading** minions take 2 less damage."
+  },
+  {
+   "uid": "u15",
+   "name": "Still Patient One",
+   "tier": 5,
+   "attack": 5,
+   "health": 8,
+   "text": "Gains +1/+1 at the end of each turn this stays **Wading**.",
+   "golden": "Gains +2/+2 at the end of each turn this stays **Wading**."
+  },
+  {
+   "uid": "u16",
+   "name": "Still Pool Keeper",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "**Battlecry:** Double the stats a **Wading** minion gained this game.",
+   "golden": "**Battlecry:** Double the stats a **Wading** minion gained this game."
+  },
+  {
+   "uid": "u17",
+   "name": "Still The Still Water",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Your **Wading** minions attack first.",
+   "golden": "Your **Wading** minions attack first."
+  },
+  {
+   "uid": "u18",
+   "name": "Still Thousand-Step Heron",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "After a **Wading** minion attacks, it gains **Wade** again.",
+   "golden": "After a **Wading** minion attacks, it gains **Wade** again."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Still Clump",
+   "text": "A 1/1 that **Spreads** 1 when it dies."
+  }
+ ],
+ "builds": [
+  {
+   "name": "Go wide",
+   "text": "Fill the board early and let the payoffs at Tier 4 scale everything at once."
+  },
+  {
+   "name": "One big carrier",
+   "text": "Pour everything into one minion and protect it with Taunts."
+  }
+ ],
+ "risks": [
+  "Tier 6 may be too swingy against Divine Shield.",
+  "The early game leans on a single Tier 1."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Tier 1 sits close to the guide."
+  },
+  {
+   "tier": 2,
+   "note": "Tier 2 sits close to the guide."
+  },
+  {
+   "tier": 3,
+   "note": "Tier 3 sits close to the guide."
+  },
+  {
+   "tier": 4,
+   "note": "Tier 4 sits close to the guide."
+  },
+  {
+   "tier": 5,
+   "note": "Tier 5 sits close to the guide."
+  },
+  {
+   "tier": 6,
+   "note": "Tier 6 sits close to the guide."
+  }
+ ],
+ "rationale": [
+  "Picked one shared resource so every card speaks the same language."
+ ],
+ "changes": [],
+ "declined": []
+}

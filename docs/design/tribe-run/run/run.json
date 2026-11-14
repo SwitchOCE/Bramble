@@ -1,0 +1,121 @@
+{
+ "run_id": "tribe-run-2026-11-14",
+ "shape": {
+  "1": 2,
+  "2": 3,
+  "3": 4,
+  "4": 4,
+  "5": 3,
+  "6": 3
+ },
+ "min_versions": 1,
+ "max_versions": 3,
+ "portal_url": "https://claude.ai/artifact/WUbHDHcwAEiQ1QHthbyQvc",
+ "routes": [
+  {
+   "id": "bottom-up-mech",
+   "name": "Bottom-up mechanical",
+   "tested": true,
+   "block": "**Your route: bottom-up, mechanical-first.** Start from specific, concrete mechanical interactions or player tensions you find interesting: particular numbers puzzles, decisions and trade-offs, not themes. Design cards from those one at a time. Let the tribe's shared mechanic emerge from what the cards have in common, then fill out the tribe from there. Add lore and names last. The owner's example of this route is a leftover-and-efficiency puzzle: a conversion that gives a better rate of return but not what you need right now."
+  },
+  {
+   "id": "surgical",
+   "name": "Surgical",
+   "tested": true,
+   "block": "**Your route: surgical (middle-out).** In the owner's words: \"neither a top-down nor a bottom-up approach... examining the whole system and trying to place a piece surgically inside of it.\"\n1. Examine the existing game: the current tribes, neutrals, keywords and systems, and how a lobby plays.\n2. Find the roles, play patterns and decisions that are under-served.\n3. Decide which gaps this tribe should fill.\n4. Place each card deliberately, by its role (economy, enabler, payoff, stat holder, bridge to other tribes, and so on) and by its tier in the player's progression curve.\n5. Add flavor and names after the slots are set.",
+   "rationale_extra": " Include the gaps you found in two or three lines."
+  },
+  {
+   "id": "top-down-flavour",
+   "name": "Top-down flavour",
+   "tested": true,
+   "block": "**Your route: top-down, flavor-first.** Start from a high-level flavor concept: what <the folk> are in the world, and what fantasy playing them should give. Pick the themes from the seed that define the tribe. Decide what kinds of effects those themes imply. Work down from there to the tribe's mechanic, and then to each specific card. Mechanics follow from flavor."
+  },
+  {
+   "id": "top-down-mech",
+   "name": "Top-down mechanical",
+   "tested": true,
+   "block": "**Your route: top-down, mechanical-first.** Start from the mechanical system the tribe needs:\n1. Define its core mechanic.\n2. List the categories of effect the mechanic needs in order to work (for example generating it, scaling it, converting it, paying off on it, supporting it).\n3. Decide how many cards each category gets and where they sit in the tiers.\n4. Sketch many loose concepts per category.\n5. Fill each slot with a specific card.\nLore and names come last."
+  },
+  {
+   "id": "bottom-up-flavour",
+   "name": "Bottom-up flavour",
+   "tested": true,
+   "block": "**Your route: bottom-up, flavor-first.** Start from specific things in the seed that you like: particular characters, objects, places, customs and moments. Design cards from them one at a time, working out how each specific thing would behave mechanically. Let the tribe's shared mechanic emerge from what those cards have in common, then fill out the tribe from there. The owner's example of this route: \"I really like beer. How would beer work as a resource?\""
+  },
+  {
+   "id": "player-story",
+   "name": "Player story",
+   "tested": false,
+   "block": "**Your route: player-story first.** Before any card, write three short moments a player would tell a friend about after a game with this tribe: one in the shop, one in a fight, one about how the board grew across the game. Then design the cards that make those moments happen, and keep testing each card against them: which moment does it build towards? Let the shared mechanic come from what the moments have in common. Names and lore come last."
+  },
+  {
+   "id": "one-constraint",
+   "name": "One constraint",
+   "tested": false,
+   "block": "**Your route: one hard constraint.** Pick one rule the whole tribe lives under, and make it strong enough to change how you play: for example a limit on board size, stats that only ever move between your units, or buffs that only last if something happens. Design every card inside it. The constraint should create decisions, not just limit them; the tribe's power comes from playing well inside it. Names and lore come last."
+  },
+  {
+   "id": "borrow-twist",
+   "name": "Borrow and twist",
+   "tested": false,
+   "block": "**Your route: borrow and twist.** Take one mechanic from outside auto-battlers (a deckbuilder, a board game, a roguelike, an MMO class, a sport) and make it work in Bramble's shop-and-fight loop. Say in one line where it comes from. Change it until it fits the woodland and the tier guide, then build the tribe around it. Names and lore come last."
+  }
+ ],
+ "committee": [
+  {
+   "id": "combo",
+   "name": "The combo player",
+   "lens": "Interwoven synergies, uses outside a card's intended purpose, real decisions each turn."
+  },
+  {
+   "id": "climber",
+   "name": "The ranked climber",
+   "lens": "Does each tier do its job in the tier guide, and does the number growth have a shape you'd want to play? Flags runaway loops."
+  },
+  {
+   "id": "reader",
+   "name": "The reader",
+   "lens": "Can a player who knows Bramble read each card at a glance, and does the woodland folk fantasy come through in what the cards do?"
+  }
+ ],
+ "criteria": [
+  {
+   "id": "fun",
+   "name": "Fun to draft and grow"
+  },
+  {
+   "id": "distinct",
+   "name": "Distinctive"
+  }
+ ],
+ "waves": [
+  {
+   "id": 1,
+   "seeds": [
+    "great-migration",
+    "rot-guild",
+    "gale-court"
+   ],
+   "status": "running"
+  },
+  {
+   "id": 2,
+   "seeds": [
+    "rat-king",
+    "lekking-knights",
+    "cuckoo-clockworks",
+    "hive-and-carnival",
+    "moth-apothecaries",
+    "salamander-forge",
+    "grass-snake-players",
+    "dyke-board",
+    "reed-runners",
+    "ivy-climbers",
+    "will-o-wisps",
+    "changelings"
+   ],
+   "status": "planned"
+  }
+ ]
+}

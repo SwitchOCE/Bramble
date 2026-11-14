@@ -1,0 +1,12 @@
+{
+ "id": "great-migration",
+ "name": "The Great Migration",
+ "source": "folio",
+ "folio_ref": "The Great Migration",
+ "pitch": "A tide of near-identical small bodies that grows every round: the many are the point, and individuals throw themselves forward so the rest go further.",
+ "routes": [
+  "bottom-up-mech",
+  "top-down-flavour",
+  "one-constraint"
+ ]
+}

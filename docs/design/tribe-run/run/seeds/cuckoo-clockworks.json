@@ -1,0 +1,12 @@
+{
+ "id": "cuckoo-clockworks",
+ "name": "The Cuckoo Clockworks",
+ "source": "folio",
+ "folio_ref": "The Cuckoo Clockworks",
+ "pitch": "Brood parasites who slip their eggs into the opponent's line-up, where they hatch on a timer mid-fight and turn on their hosts.",
+ "routes": [
+  "bottom-up-mech",
+  "surgical",
+  "bottom-up-flavour"
+ ]
+}

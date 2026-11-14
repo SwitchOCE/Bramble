@@ -1,0 +1,12 @@
+{
+ "id": "salamander-forge",
+ "name": "The Salamander Forge",
+ "source": "folio",
+ "folio_ref": "The Salamander Forge",
+ "pitch": "Fire-walking smiths who make gear for the board and keep reforging it: buy fewer bodies, and heat the same pieces until they are worth more than anything new.",
+ "routes": [
+  "bottom-up-mech",
+  "top-down-flavour",
+  "player-story"
+ ]
+}

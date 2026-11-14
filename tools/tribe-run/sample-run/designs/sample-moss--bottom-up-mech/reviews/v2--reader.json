@@ -1,0 +1,32 @@
+{
+ "id": "v2--reader",
+ "design_id": "sample-moss--bottom-up-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {
+  "fun": 7,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u14",
+   "kind": "idea",
+   "text": "Marsh Engine could name the moss count on the card art."
+  }
+ ],
+ "standouts": [
+  {
+   "uid": "u12",
+   "why": "The new name reads well."
+  }
+ ],
+ "weakest": [],
+ "flags": []
+}

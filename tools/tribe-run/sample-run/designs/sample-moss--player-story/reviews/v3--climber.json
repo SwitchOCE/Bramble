@@ -1,0 +1,25 @@
+{
+ "id": "v3--climber",
+ "design_id": "sample-moss--player-story",
+ "v": 3,
+ "member": "climber",
+ "ratings": {
+  "fun": 7,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "settle",
+ "verdict_why": "More passes would make it different, not better.",
+ "points": [],
+ "standouts": [],
+ "weakest": [
+  {
+   "uid": "u02",
+   "why": "Still the weak link."
+  }
+ ],
+ "flags": []
+}

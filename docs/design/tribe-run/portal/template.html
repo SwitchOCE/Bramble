@@ -1,0 +1,876 @@
+<title>Bramble Tribe Run</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: a reading ledger. Home is a list of design rows; a design opens as card sheets, v1 beside the final version. */
+:root {
+  --paper: #eef1ea;
+  --surface: #fbfcf9;
+  --sunk: #e4e9e1;
+  --ink: #1b241f;
+  --muted: #56635a;
+  --line: #cfd8cd;
+  --accent: #6b2752;      /* blackberry */
+  --accent-soft: #f0e1ea;
+  --gold: #7f5c0c;
+  --gold-soft: #f5ecd4;
+  --good: #276236;
+  --good-soft: #dcefdf;
+  --warn: #7f5200;
+  --warn-soft: #f6e8cc;
+  --bad: #9c2c25;
+  --bad-soft: #f6dedb;
+  --info: #285775;
+  --info-soft: #dce9f2;
+  --bar: #9fb4a3;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111714; --surface: #18201c; --sunk: #202a25; --ink: #e2e8e1; --muted: #9aa89f; --line: #2d3a33;
+    --accent: #dba3c6; --accent-soft: #3a2131; --gold: #e2bd63; --gold-soft: #352c19;
+    --good: #8fd09b; --good-soft: #1c3323; --warn: #e6b45c; --warn-soft: #382c14; --bad: #f0958c; --bad-soft: #3d1f1c;
+    --info: #90c3e5; --info-soft: #1b2d39; --bar: #4f6857;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111714; --surface: #18201c; --sunk: #202a25; --ink: #e2e8e1; --muted: #9aa89f; --line: #2d3a33;
+  --accent: #dba3c6; --accent-soft: #3a2131; --gold: #e2bd63; --gold-soft: #352c19;
+  --good: #8fd09b; --good-soft: #1c3323; --warn: #e6b45c; --warn-soft: #382c14; --bad: #f0958c; --bad-soft: #3d1f1c;
+  --info: #90c3e5; --info-soft: #1b2d39; --bar: #4f6857;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+a { color: var(--accent); }
+h1, h2, h3, h4 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(1.7rem, 5vw, 2.4rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.3rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+button, select, input { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 4px; }
+.num, .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; }
+.label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 700; }
+
+/* top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line); }
+.top-in, .wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.top-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+.brand .berry { width: 18px; height: 18px; flex: none; }
+.switch { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem; user-select: none; }
+.switch input { appearance: none; width: 38px; height: 22px; border-radius: 11px; background: var(--sunk); border: 1px solid var(--line); position: relative; cursor: pointer; margin: 0; flex: none; }
+.switch input::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: transform .15s; }
+.switch input:checked { background: var(--accent); border-color: var(--accent); }
+.switch input:checked::after { transform: translateX(16px); background: var(--surface); }
+@media (prefers-reduced-motion: reduce) { .switch input::after { transition: none; } }
+
+main.wrap { padding-block: 24px 64px; display: flex; flex-direction: column; gap: 28px; }
+.intro { display: flex; flex-direction: column; gap: 10px; max-width: 68ch; }
+.intro p { color: var(--ink); }
+
+/* filters */
+.filters { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; padding: 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+.filters label { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 140px; }
+.filters select { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--paper); min-height: 40px; }
+.count { flex-basis: 100%; }
+
+/* picks */
+.picks { display: flex; flex-direction: column; gap: 10px; }
+.picks ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); }
+.pick { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; padding: 12px 14px; background: var(--accent-soft); border-radius: var(--r); text-decoration: none; color: var(--ink); }
+.pick .rank { font-family: var(--display); font-weight: 700; font-size: 1.6rem; color: var(--accent); line-height: 1; grid-row: span 2; }
+.pick b { font-family: var(--display); }
+
+/* design rows */
+.rows { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); }
+.group { display: flex; flex-direction: column; gap: 10px; }
+.group-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+.group-head a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.row { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); text-decoration: none; color: var(--ink); min-width: 0; }
+.row:hover { border-color: var(--accent); }
+.row-name { font-family: var(--display); font-weight: 700; font-size: 1.15rem; line-height: 1.2; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; font-size: 0.9rem; color: var(--muted); }
+.pill { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; background: var(--sunk); color: var(--muted); }
+.t-good { background: var(--good-soft); color: var(--good); }
+.t-warn { background: var(--warn-soft); color: var(--warn); }
+.t-info { background: var(--info-soft); color: var(--info); }
+.t-bad { background: var(--bad-soft); color: var(--bad); }
+.t-gold { background: var(--gold-soft); color: var(--gold); }
+.t-accent { background: var(--accent-soft); color: var(--accent); }
+.empty { padding: 24px; border: 1px dashed var(--line); border-radius: var(--r); color: var(--muted); }
+
+/* rating grid */
+.rgrid { display: grid; gap: 4px 6px; align-items: center; font-size: 0.85rem; }
+.rgrid .rh { color: var(--muted); font-size: 0.75rem; text-align: center; }
+.rgrid .rh.fin { color: var(--accent); font-weight: 700; }
+.rgrid .rl { color: var(--muted); min-width: 0; }
+.cell { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.cell .num { font-size: 0.95rem; }
+.cell .meter { width: 100%; max-width: 54px; height: 4px; background: var(--sunk); border-radius: 2px; overflow: hidden; }
+.cell .meter i { display: block; height: 100%; background: var(--bar); }
+.cell.fin .meter i { background: var(--accent); }
+.cell.fin .num { font-weight: 700; }
+.rgrid.big { font-size: 0.95rem; max-width: 560px; }
+
+/* design page */
+.back { font-size: 0.95rem; display: flex; gap: 12px; flex-wrap: wrap; }
+.dhead { display: flex; flex-direction: column; gap: 12px; max-width: 72ch; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; background: var(--sunk); border-radius: 10px; }
+.seg button { border: 0; background: transparent; padding: 7px 12px; border-radius: 7px; cursor: pointer; font-weight: 700; font-size: 0.9rem; color: var(--muted); min-height: 36px; }
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgb(0 0 0 / 0.12); }
+.switchbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+.compare { display: grid; gap: 24px; grid-template-columns: 1fr; }
+.compare > * { min-width: 0; }
+.side-switch { display: flex; padding-top: 4px; border-top: 1px solid var(--line); }
+@media (min-width: 960px) {
+  .compare.two { grid-template-columns: 1fr 1fr; }
+  .side-switch { display: none; }
+}
+@media (max-width: 959px) {
+  .compare.two[data-side="a"] > .col-b, .compare.two[data-side="b"] > .col-a { display: none; }
+}
+.ver { display: flex; flex-direction: column; gap: 18px; }
+.ver-head { display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+.ver-head h2 { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.block { display: flex; flex-direction: column; gap: 8px; }
+.block ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+.kw { padding: 10px 12px; background: var(--surface); border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; }
+.shape { font-size: 0.9rem; padding: 8px 12px; border-radius: 8px; background: var(--sunk); }
+.shape.off { background: var(--warn-soft); color: var(--warn); }
+.tier-head { display: flex; align-items: baseline; gap: 10px; }
+.tier-head .num { color: var(--muted); font-size: 0.85rem; }
+.cards { display: grid; gap: 10px; grid-template-columns: 1fr; }
+.solo .cards { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+.card { text-align: left; width: 100%; display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); cursor: pointer; color: var(--ink); }
+.card:hover { border-color: var(--accent); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+.card-name { font-family: var(--display); font-weight: 700; font-size: 1.05rem; line-height: 1.2; }
+.stats { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 0.9rem; padding: 1px 8px; border-radius: 6px; background: var(--sunk); white-space: nowrap; }
+.card-text { font-size: 0.98rem; }
+.golden { font-size: 0.92rem; padding: 6px 10px; border-radius: 6px; background: var(--gold-soft); }
+.golden .label { color: var(--gold); margin-right: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chips .pill { font-size: 0.72rem; }
+.hint { font-size: 0.9rem; color: var(--muted); }
+.changes li { padding: 8px 0; border-bottom: 1px solid var(--line); list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.changes ul { padding: 0; gap: 0; }
+.src { font-size: 0.85rem; color: var(--muted); }
+.tiers { display: flex; flex-direction: column; gap: 14px; }
+
+/* reviews */
+details.reviews { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); }
+details.reviews > summary { cursor: pointer; padding: 12px 14px; font-weight: 700; display: flex; flex-direction: column; gap: 2px; }
+details.reviews > summary .small { font-weight: 400; }
+details.reviews[open] > summary { border-bottom: 1px solid var(--line); }
+.revs { display: flex; flex-direction: column; }
+.review { padding: 14px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--line); }
+.review:last-child { border-bottom: 0; }
+.review-head { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+.review-head b { font-family: var(--display); font-size: 1.02rem; }
+.rv-rate { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 0.92rem; }
+.rv-rate .num { font-weight: 700; }
+.pts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.pt { display: flex; flex-direction: column; gap: 4px; }
+.outcome { font-size: 0.88rem; padding: 6px 10px; border-radius: 6px; background: var(--sunk); }
+.outcome.ok { background: var(--good-soft); }
+.outcome.no { background: var(--warn-soft); }
+.notes { display: flex; flex-direction: column; gap: 4px; font-size: 0.92rem; }
+.linkish { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; text-align: left; }
+
+/* story overlay */
+.sheet-bg { position: fixed; inset: 0; background: rgb(10 16 12 / 0.45); z-index: 20; display: flex; justify-content: flex-end; }
+.sheet { background: var(--paper); width: min(100%, 640px); height: 100%; overflow-y: auto; display: flex; flex-direction: column; }
+.sheet-head { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: calc(12px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) 12px 16px; }
+.sheet-body { padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(40px + env(safe-area-inset-bottom, 0px)) 16px; display: flex; flex-direction: column; gap: 18px; }
+.close { border: 1px solid var(--line); background: var(--paper); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-weight: 700; flex: none; }
+.step { display: flex; flex-direction: column; gap: 10px; padding-left: 14px; border-left: 2px solid var(--line); }
+.step h3 { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.diff { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 12px; font-size: 0.93rem; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+.diff dt { color: var(--muted); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; padding-top: 2px; }
+.diff dd { margin: 0; min-width: 0; }
+del { background: var(--bad-soft); color: var(--bad); text-decoration: line-through; border-radius: 3px; padding: 0 2px; }
+ins { background: var(--good-soft); color: var(--good); text-decoration: none; border-radius: 3px; padding: 0 2px; font-weight: 700; }
+.why { padding: 10px 12px; background: var(--surface); border-radius: 8px; border: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+
+/* designer's text */
+.md { max-width: 80ch; display: flex; flex-direction: column; gap: 12px; background: var(--surface); padding: 20px; border-radius: var(--r); border: 1px solid var(--line); }
+.md h2, .md h3, .md h4 { margin-top: 8px; }
+.md ul, .md ol { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 4px; }
+.md code { font-family: var(--mono); font-size: 0.9em; background: var(--sunk); padding: 0 4px; border-radius: 4px; }
+.md pre { overflow-x: auto; background: var(--sunk); padding: 10px; border-radius: 8px; margin: 0; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+.tablewrap table { border-collapse: collapse; font-size: 0.9rem; min-width: 640px; width: 100%; }
+.tablewrap th, .tablewrap td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; text-align: left; }
+.tablewrap th { background: var(--sunk); }
+.md hr { border: 0; border-top: 1px solid var(--line); width: 100%; }
+.foot { color: var(--muted); font-size: 0.85rem; }
+</style>
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#">
+      <svg class="berry" viewBox="0 0 20 20" aria-hidden="true"><g fill="var(--accent)"><circle cx="7" cy="9" r="3"/><circle cx="13" cy="9" r="3"/><circle cx="10" cy="13" r="3"/><circle cx="10" cy="7" r="2.6"/></g><path d="M10 4 C10 2 12 1 14 1" stroke="var(--good)" stroke-width="1.6" fill="none"/></svg>
+      Bramble tribe run
+    </a>
+    <label class="switch" for="blind"><input type="checkbox" id="blind"> Hide the method</label>
+  </div>
+</header>
+<main class="wrap" id="app"></main>
+<div id="sheet" hidden></div>
+
+<script id="run-data" type="application/json">__RUN_DATA__</script>
+<script>
+(function () {
+  "use strict";
+  var DATA;
+  try { DATA = JSON.parse(document.getElementById("run-data").textContent); } catch (e) { DATA = null; }
+  if (!DATA || typeof DATA !== "object") DATA = {};
+  var RUN = DATA.run || {};
+  RUN.routes = RUN.routes || []; RUN.committee = RUN.committee || []; RUN.shape = RUN.shape || {};
+  var CRIT = (RUN.criteria && RUN.criteria.length) ? RUN.criteria : [{ id: "fun", name: "Fun to draft and grow" }, { id: "distinct", name: "Distinctive" }];
+  var SEEDS = DATA.seeds || [];
+  var DESIGNS = (DATA.designs || []).filter(function (d) { return d && d.id; });
+  var RANK = DATA.rankings || {}; RANK.seeds = RANK.seeds || {};
+  var PICKS = ((RANK.overall && RANK.overall.picks) || []).slice().sort(function (a, b) { return (a.rank || 99) - (b.rank || 99); });
+  var byId = {}, byKey = {}, seedById = {};
+  DESIGNS.forEach(function (d) { d.versions = d.versions || []; byId[d.id] = d; byKey[d.key] = d; });
+  SEEDS.forEach(function (s) { seedById[s.id] = s; });
+
+  var state = { blind: false, method: "", status: "", sort: "seed", side: "b" };
+  try { state.blind = localStorage.getItem("tribe-run-blind") === "1"; } catch (e) {}
+
+  // ---------- small helpers ----------
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function fmt(s) { return esc(s).replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br>"); }
+  function plain(s) { return String(s == null ? "" : s).replace(/\*\*/g, ""); }
+  function cap(s) { s = String(s || ""); return s.charAt(0).toUpperCase() + s.slice(1); }
+  function lc(s) { s = String(s || ""); return s.charAt(0).toLowerCase() + s.slice(1); }
+  function r1(x) { return (typeof x === "number" && isFinite(x)) ? x.toFixed(1) : null; }
+  function routeName(id) { var r = RUN.routes.find(function (x) { return x.id === id; }); return (r && r.name) || id || "Unknown method"; }
+  function member(id) { return RUN.committee.find(function (m) { return m.id === id; }) || { id: id, name: cap(id || "A reviewer") }; }
+  function seedName(id) { var s = seedById[id]; return (s && s.name) || id; }
+  function tribeName(d) { return d.tribe_name || "Not named yet"; }
+  function words(n) { return ["no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"][n] || String(n); }
+  function times(n) { return n === 1 ? "once" : n === 2 ? "twice" : words(n) + " times"; }
+  function listJoin(a) { return a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]; }
+  function ver(d, v) { return d.versions.find(function (x) { return x.v === v; }) || null; }
+  function vdata(d, v) { var x = ver(d, v); return x && x.data && typeof x.data === "object" ? x.data : null; }
+  function allCards(data) { return data ? (data.units || []).concat(data.extras || []) : []; }
+  function cardIn(data, uid) { return allCards(data).find(function (c) { return c && c.uid === uid; }) || null; }
+  function lastV(d) { return d.versions.length ? d.versions[d.versions.length - 1].v : null; }
+  function finalV(d) { return d.final_version || lastV(d); }
+  function ratedV(d) {
+    if ((d.status === "settled" || d.status === "capped") && d.final_version) return d.final_version;
+    for (var i = d.versions.length - 1; i >= 0; i--) if ((d.versions[i].reviews || []).length) return d.versions[i].v;
+    return null;
+  }
+  function score(d, crit) {
+    var v = ver(d, ratedV(d)); if (!v || !v.ratings) return null;
+    if (crit === "both") {
+      var xs = CRIT.map(function (c) { return v.ratings[c.id]; }).filter(function (x) { return typeof x === "number"; });
+      return xs.length ? xs.reduce(function (a, b) { return a + b; }, 0) / xs.length : null;
+    }
+    return typeof v.ratings[crit] === "number" ? v.ratings[crit] : null;
+  }
+  function pickFor(d) { return PICKS.find(function (p) { return p.design === d.id; }) || null; }
+
+  var STATUS = {
+    settled: { group: "settled", tone: "t-good", label: function (d) { return "settled at v" + finalV(d); } },
+    capped: { group: "capped", tone: "t-gold", label: function (d) { return "capped at v" + finalV(d); } },
+    revising: { group: "revising", tone: "t-warn", label: function () { return "being revised"; } },
+    reviewing: { group: "reviewing", tone: "t-info", label: function (d) { return lastV(d) > 1 ? "v" + lastV(d) + " being reviewed" : "being reviewed"; } },
+    unreviewed: { group: "unreviewed", tone: "t-info", label: function (d) { return lastV(d) > 1 ? "v" + lastV(d) + " not reviewed yet" : "not reviewed yet"; } },
+    written: { group: "unreviewed", tone: "t-info", label: function () { return "not reviewed yet"; } },
+    designing: { group: "designing", tone: "", label: function () { return "being designed"; } },
+    failed: { group: "failed", tone: "t-bad", label: function () { return "couldn't be finished"; } }
+  };
+  var GROUPS = [["settled", "Settled"], ["capped", "Capped at the limit"], ["revising", "Being revised"], ["reviewing", "Being reviewed"],
+    ["unreviewed", "Not reviewed yet"], ["designing", "Being designed"], ["failed", "Couldn't be finished"]];
+  function st(d) { return STATUS[d.status] || STATUS.designing; }
+  function pill(d) { var s = st(d); return '<span class="pill ' + s.tone + '">' + esc(s.label(d)) + "</span>"; }
+  function statusSentence(d) {
+    var n = lastV(d), v = ver(d, n), got = v ? (v.reviews || []).length : 0, of = RUN.committee.length || 3;
+    switch (d.status) {
+      case "settled": return "Settled at v" + finalV(d) + ": " + lc(d.stop_reason || "the reviewers felt it was in a good spot") + ".";
+      case "capped": return "Stopped at v" + finalV(d) + ", the most versions a design gets.";
+      case "revising": return "The reviewers asked for another pass, so v" + (n + 1) + " is being written.";
+      case "reviewing": return "v" + n + " is with the reviewers now; " + words(got) + " of " + words(of) + " have answered.";
+      case "unreviewed": return "v" + n + " hasn't been reviewed yet.";
+      case "written": return "The designer has finished the write-up below. The card-by-card view and reviews will follow.";
+      case "failed": return "This design couldn't be finished." + (d.stop_reason ? " " + cap(d.stop_reason) + "." : "");
+      default: return "The designer is still working on this one.";
+    }
+  }
+
+  // ---------- rating grid ----------
+  function ratingGrid(d, big) {
+    var vs = d.versions.filter(function (v) { return v.ratings && CRIT.some(function (c) { return typeof v.ratings[c.id] === "number"; }); });
+    if (!vs.length) return '<p class="small muted">' + (d.versions.length ? "No ratings yet." : "") + "</p>";
+    var fin = (d.status === "settled" || d.status === "capped") ? d.final_version : null;
+    var cols = "minmax(0, 1fr) " + vs.map(function () { return big ? "64px" : "52px"; }).join(" ");
+    var h = '<div class="rgrid' + (big ? " big" : "") + '" style="grid-template-columns:' + cols + '" aria-label="Ratings out of 10 at each version">';
+    h += '<span class="rh"></span>' + vs.map(function (v) { return '<span class="rh' + (v.v === fin ? " fin" : "") + '">v' + v.v + (v.v === fin ? " final" : "") + "</span>"; }).join("");
+    CRIT.forEach(function (c) {
+      h += '<span class="rl">' + esc(c.name || c.id) + "</span>";
+      vs.forEach(function (v) {
+        var x = v.ratings[c.id], s = r1(x);
+        h += '<span class="cell' + (v.v === fin ? " fin" : "") + '">' + (s ? '<span class="num">' + s + '</span><span class="meter"><i style="width:' + Math.max(0, Math.min(100, x * 10)) + '%"></i></span>' : '<span class="num muted">–</span>') + "</span>";
+      });
+    });
+    if (big) {
+      h += '<span class="rl">Said it’s in a good spot</span>';
+      vs.forEach(function (v) { var t = v.votes || {}; var n = (v.reviews || []).length; h += '<span class="cell' + (v.v === fin ? " fin" : "") + '"><span class="num">' + (t.settle || 0) + "/" + n + "</span></span>"; });
+    }
+    return h + "</div>";
+  }
+
+  // ---------- home and seed views ----------
+  function intro() {
+    var n = DESIGNS.length, s = SEEDS.length;
+    var names = RUN.committee.map(function (m) { return lc(m.name); });
+    var revs = Math.max(0, (RUN.max_versions || 3) - 1);
+    var h = '<section class="intro"><h1>New tribes for Bramble</h1>';
+    h += "<p>We're trying out new tribes for the game. Each starting idea, or seed, is designed three times over, by designers who each follow a different method. " +
+      (names.length ? "Then " + words(names.length) + " reviewers rate every version and suggest changes: " + listJoin(names) + ". " : "") +
+      "A design is revised at most " + times(revs) + ", and stops sooner once two of the reviewers feel it's in a good spot.</p>";
+    h += "<p>Nothing gets removed. Low-rated and unfinished designs are all here, so you can see what the reviewers think is good and how each design changed along the way.</p>";
+    if (n) {
+      var counts = {};
+      DESIGNS.forEach(function (d) { var g = st(d).group; counts[g] = (counts[g] || 0) + 1; });
+      var bits = [];
+      if (counts.settled) bits.push(counts.settled + " settled");
+      if (counts.capped) bits.push(counts.capped + " capped at the limit");
+      if (counts.revising) bits.push(counts.revising + " being revised");
+      if (counts.reviewing) bits.push(counts.reviewing + " with the reviewers");
+      if (counts.unreviewed) bits.push(counts.unreviewed + " not reviewed yet");
+      if (counts.designing) bits.push(counts.designing + " still being designed");
+      if (counts.failed) bits.push(counts.failed + " that couldn't be finished");
+      h += "<p>So far there " + (n === 1 ? "is one design" : "are " + n + " designs") + " from " + (s === 1 ? "one seed" : s + " seeds") + ": " + listJoin(bits) + ". The numbers on each design are the reviewers' average out of 10, at each version.</p>";
+    } else {
+      h += "<p>No designs yet. They'll appear here as the designers finish them.</p>";
+    }
+    return h + "</section>";
+  }
+
+  function picksBlock() {
+    if (!PICKS.length) return "";
+    var h = '<section class="picks"><h2>The best of the run</h2><p class="muted">Picked after reading every design and each seed’s comparison. A pick names the version that was best, which can be the first.</p><ol>';
+    PICKS.forEach(function (p) {
+      var d = byId[p.design]; if (!d) return;
+      h += '<li><a class="pick" href="#design-' + esc(d.key) + (p.version ? "-v" + p.version : "") + '"><span class="rank">' + esc(p.rank || "") + "</span><span><b>" + esc(tribeName(d)) + "</b>" + (p.version ? ' <span class="muted">v' + esc(p.version) + "</span>" : "") +
+        '<span class="small muted"> · ' + esc(seedName(d.seed)) + (state.blind ? "" : " · " + esc(routeName(d.route))) + "</span></span><span class=\"small\">" + fmt(p.line) + "</span></a></li>";
+    });
+    return h + "</ol></section>";
+  }
+
+  function filters(seedId) {
+    var h = '<section class="filters" aria-label="Filter and sort">';
+    h += '<label><span class="label">Seed</span><select id="f-seed"><option value="">All seeds</option>' + SEEDS.map(function (s) { return '<option value="' + esc(s.id) + '"' + (s.id === seedId ? " selected" : "") + ">" + esc(s.name || s.id) + "</option>"; }).join("") + "</select></label>";
+    if (!state.blind) {
+      var used = {}; DESIGNS.forEach(function (d) { used[d.route] = 1; });
+      var routes = RUN.routes.filter(function (r) { return used[r.id]; });
+      Object.keys(used).forEach(function (id) { if (!routes.some(function (r) { return r.id === id; })) routes.push({ id: id, name: id }); });
+      h += '<label><span class="label">Method</span><select id="f-method"><option value="">All methods</option>' + routes.map(function (r) { return '<option value="' + esc(r.id) + '"' + (r.id === state.method ? " selected" : "") + ">" + esc(r.name || r.id) + "</option>"; }).join("") + "</select></label>";
+    }
+    h += '<label><span class="label">Where it stands</span><select id="f-status"><option value="">Any</option>' + GROUPS.map(function (g) { return '<option value="' + g[0] + '"' + (g[0] === state.status ? " selected" : "") + ">" + g[1] + "</option>"; }).join("") + "</select></label>";
+    h += '<label><span class="label">Order</span><select id="f-sort">' + [["seed", "By seed"], ["fun", "Most fun first"], ["distinct", "Most distinctive first"], ["both", "Best on both first"]].map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === state.sort ? " selected" : "") + ">" + o[1] + "</option>"; }).join("") + "</select></label>";
+    return h + "</section>";
+  }
+
+  function rowHtml(d) {
+    var v1 = ver(d, 1), p = pickFor(d);
+    var h = '<a class="row" href="#design-' + esc(d.key) + '">';
+    h += '<span class="row-name">' + esc(tribeName(d)) + "</span>";
+    h += '<span class="meta"><span>' + esc(seedName(d.seed)) + "</span>" + (state.blind ? "" : '<span class="dot">' + esc(routeName(d.route)) + "</span>") + '<span class="dot">' + pill(d) + "</span>" + (p ? '<span class="pill t-accent">pick ' + esc(p.rank) + (p.version ? ", v" + esc(p.version) : "") + "</span>" : "") + "</span>";
+    if (v1 && v1.summary) h += '<span class="small muted">' + fmt(v1.summary) + "</span>";
+    h += ratingGrid(d, false);
+    return h + "</a>";
+  }
+
+  function routeOrder(d) { var s = seedById[d.seed]; var i = s && s.routes ? s.routes.indexOf(d.route) : -1; return i < 0 ? 99 : i; }
+  function seedOrder(id) { var i = SEEDS.findIndex(function (s) { return s.id === id; }); return i < 0 ? 999 : i; }
+
+  function listDesigns(seedId) {
+    var ds = DESIGNS.filter(function (d) {
+      return (!seedId || d.seed === seedId) && (state.blind || !state.method || d.route === state.method) && (!state.status || st(d).group === state.status);
+    });
+    var rk = seedId && RANK.seeds[seedId] && RANK.seeds[seedId].order;
+    ds.sort(function (a, b) {
+      if (state.sort !== "seed") {
+        var x = score(a, state.sort), y = score(b, state.sort);
+        if (x == null && y != null) return 1; if (y == null && x != null) return -1;
+        if (x != null && y != null && x !== y) return y - x;
+      }
+      if (rk) { var i = rk.indexOf(a.id), j = rk.indexOf(b.id); if (i !== j) return (i < 0 ? 99 : i) - (j < 0 ? 99 : j); }
+      return seedOrder(a.seed) - seedOrder(b.seed) || routeOrder(a) - routeOrder(b) || a.id.localeCompare(b.id);
+    });
+    return ds;
+  }
+
+  function rowsBlock(seedId) {
+    var ds = listDesigns(seedId);
+    var h = '<p class="count small muted" aria-live="polite">' + (ds.length === 1 ? "One design" : ds.length + " designs") + (state.status || (!state.blind && state.method) ? " match" : "") + ".</p>";
+    if (!ds.length) return h + '<div class="empty">' + (DESIGNS.length ? "No designs match these filters." : "No designs yet.") + "</div>";
+    if (state.sort === "seed" && !seedId) {
+      var groups = [];
+      ds.forEach(function (d) { var g = groups[groups.length - 1]; if (!g || g.seed !== d.seed) groups.push(g = { seed: d.seed, items: [] }); g.items.push(d); });
+      return h + groups.map(function (g) {
+        var s = seedById[g.seed] || {};
+        return '<section class="group"><div class="group-head"><h2><a href="#seed-' + esc(g.seed) + '">' + esc(s.name || g.seed) + "</a></h2>" + (s.pitch ? '<span class="small muted">' + fmt(s.pitch) + "</span>" : "") + '</div><div class="rows">' + g.items.map(rowHtml).join("") + "</div></section>";
+      }).join("");
+    }
+    return h + '<div class="rows">' + ds.map(rowHtml).join("") + "</div>";
+  }
+
+  function viewHome() {
+    return intro() + picksBlock() + '<section class="group">' + filters("") + "</section>" + '<div class="group" id="list">' + rowsBlock("") + "</div>" + foot();
+  }
+
+  function viewSeed(id) {
+    var s = seedById[id] || { id: id, name: id };
+    var rk = RANK.seeds[id];
+    var h = '<nav class="back"><a href="#">← All designs</a></nav>';
+    h += '<section class="dhead"><span class="label">Seed</span><h1>' + esc(s.name || id) + "</h1>" + (s.pitch ? "<p>" + fmt(s.pitch) + "</p>" : "") +
+      (s.folio_ref ? '<p class="small muted">From the Woodland Folio: ' + esc(s.folio_ref) + "</p>" : s.source === "new" ? '<p class="small muted">A new idea, not from the folio.</p>' : "") + "</section>";
+    if (rk && rk.order && rk.order.length) {
+      var why = {}; (rk.why || []).forEach(function (w) { why[w.design] = w.line; });
+      h += '<section class="block"><h2>How its designs compare</h2><ol class="pts">';
+      rk.order.forEach(function (did, i) {
+        var d = byId[did];
+        h += '<li class="pt"><span><b class="num">' + (i + 1) + ".</b> " + (d ? '<a href="#design-' + esc(d.key) + '"><b>' + esc(tribeName(d)) + "</b></a>" : esc(did)) + "</span>" + (why[did] ? '<span class="small">' + fmt(why[did]) + "</span>" : "") + "</li>";
+      });
+      h += "</ol>";
+      if ((rk.iteration_helped || []).length) {
+        h += '<h3>Did revising help?</h3><ul class="pts">' + rk.iteration_helped.map(function (x) { var d = byId[x.design]; return '<li class="pt small"><span><b>' + esc(d ? tribeName(d) : x.design) + ":</b> " + fmt(x.line) + "</span></li>"; }).join("") + "</ul>";
+      }
+      h += "</section>";
+    } else {
+      h += '<p class="muted">Once all of this seed’s designs have stopped, they’ll be compared here.</p>';
+    }
+    return h + '<section class="group">' + filters(id) + '</section><div class="group" id="list">' + rowsBlock(id) + "</div>" + foot();
+  }
+
+  function foot() { return '<p class="foot">' + (DATA.built ? "Last updated " + esc(DATA.built) + "." : "") + "</p>"; }
+
+  // ---------- design view ----------
+  function markers(d, v) {
+    var m = {}, x = ver(d, v);
+    function add(uid, k, item) { if (!uid) return; (m[uid] = m[uid] || { standout: [], weakest: [], broken: [], watch: [], unclear: [] })[k].push(item); }
+    ((x && x.reviews) || []).forEach(function (r) {
+      (r.standouts || []).forEach(function (s) { add(s.uid, "standout", { who: r.member, note: s.why }); });
+      (r.weakest || []).forEach(function (s) { add(s.uid, "weakest", { who: r.member, note: s.why }); });
+      (r.flags || []).forEach(function (f) { if (m && ["broken", "watch", "unclear"].indexOf(f.kind) >= 0) add(f.uid, f.kind, { who: r.member, note: f.note }); });
+    });
+    return m;
+  }
+  var MARK = { standout: ["standout", "t-good"], weakest: ["weakest", "t-warn"], broken: ["broken", "t-bad"], watch: ["watch", "t-gold"], unclear: ["unclear", "t-info"] };
+  function chipsFor(mk) {
+    if (!mk) return "";
+    return Object.keys(MARK).filter(function (k) { return mk[k].length; }).map(function (k) { return '<span class="pill ' + MARK[k][1] + '">' + MARK[k][0] + (mk[k].length > 1 ? " ×" + mk[k].length : "") + "</span>"; }).join("");
+  }
+  var FIELDS = ["name", "tier", "attack", "health", "text", "golden"];
+  function differs(a, b) { if (!a || !b) return true; return FIELDS.some(function (f) { return (a[f] == null ? "" : String(a[f])) !== (b[f] == null ? "" : String(b[f])); }); }
+
+  function cardHtml(d, v, c, mk, tag) {
+    var isUnit = c.attack != null || c.health != null;
+    var h = '<button type="button" class="card" data-uid="' + esc(c.uid) + '" aria-label="' + esc(plain(c.name) + ": see how this card changed") + '">';
+    h += '<span class="card-top"><span class="card-name">' + fmt(c.name || "Unnamed") + "</span>" + (isUnit ? '<span class="stats" title="Attack / Health">' + esc(c.attack) + "/" + esc(c.health) + "</span>" : c.kind ? '<span class="pill">' + esc(c.kind) + "</span>" : "") + "</span>";
+    if (c.text) h += '<span class="card-text">' + fmt(c.text) + "</span>";
+    if (c.golden) h += '<span class="golden"><span class="label">Golden</span>' + fmt(c.golden) + "</span>";
+    var chips = (tag ? '<span class="pill t-accent">' + esc(tag) + "</span>" : "") + chipsFor(mk);
+    if (chips) h += '<span class="chips">' + chips + "</span>";
+    return h + "</button>";
+  }
+
+  function shapeLine(data) {
+    var counts = {}; (data.units || []).forEach(function (u) { var t = String(u.tier); counts[t] = (counts[t] || 0) + 1; });
+    var tiers = Object.keys(counts).concat(Object.keys(RUN.shape)).filter(function (t, i, a) { return a.indexOf(t) === i; }).sort(function (a, b) { return a - b; });
+    var same = tiers.every(function (t) { return (counts[t] || 0) === (RUN.shape[t] || 0); });
+    var total = (data.units || []).length;
+    var line = tiers.map(function (t) { return (counts[t] || 0); }).join(" · ");
+    if (same || !Object.keys(RUN.shape).length) return '<p class="shape">' + total + " units, by tier from 1 to " + (tiers[tiers.length - 1] || 6) + ": <span class=\"num\">" + line + "</span>" + (Object.keys(RUN.shape).length ? ", as planned." : ".") + "</p>";
+    var plan = tiers.map(function (t) { return RUN.shape[t] || 0; }).join(" · ");
+    var diffs = tiers.filter(function (t) { return (counts[t] || 0) !== (RUN.shape[t] || 0); }).map(function (t) { return "Tier " + t + " has " + (counts[t] || 0) + " instead of " + (RUN.shape[t] || 0); });
+    return '<p class="shape off"><b>A different shape from the plan.</b> ' + total + ' units, by tier: <span class="num">' + line + '</span> (the plan was <span class="num">' + plan + "</span>). " + esc(listJoin(diffs)) + ".</p>";
+  }
+
+  function pointRef(d, ref) {
+    // "v1--combo#p2" -> {review, point}
+    var m = /^v(\d+)--(.+?)#(.+)$/.exec(ref || ""); if (!m) return null;
+    var x = ver(d, +m[1]); if (!x) return null;
+    var r = (x.reviews || []).find(function (r) { return r.member === m[2] || r.id === "v" + m[1] + "--" + m[2]; });
+    var p = r && (r.points || []).find(function (p) { return p.pid === m[3]; });
+    return { v: +m[1], member: m[2], review: r || null, point: p || null };
+  }
+  function sourceLine(d, from) {
+    var out = (from || []).map(function (f) {
+      if (f === "own") return "the reviser's own idea";
+      var pr = pointRef(d, f); if (!pr) return esc(f);
+      var who = esc(lc(member(pr.member).name));
+      if (!pr.point) return who + " in v" + pr.v;
+      return who + " in v" + pr.v + ' (' + (pr.point.kind === "fix" ? "needs fixing" : "idea") + "): “" + fmt(pr.point.text) + "”";
+    });
+    return out.length ? '<span class="src">Asked for by ' + out.join("; and ") + "</span>" : "";
+  }
+  function cardLabel(data, prev, uid) {
+    if (uid === "identity") return "The tribe as a whole";
+    if (uid == null) return "The tribe as a whole";
+    var c = cardIn(data, uid) || cardIn(prev, uid); return c ? plain(c.name) : "A card";
+  }
+
+  function changesBlock(d, v) {
+    var data = vdata(d, v), prev = vdata(d, v - 1);
+    if (!data || v < 2) return "";
+    var ch = data.changes || [], dec = data.declined || [];
+    var h = '<section class="block changes"><h3>What changed in v' + v + "</h3>";
+    if (!ch.length) h += '<p class="small muted">No changes listed.</p>';
+    else h += "<ul>" + ch.map(function (c) {
+      var kind = c.uid === "identity" ? "" : c.kind ? ' <span class="pill">' + esc(c.kind) + "</span>" : "";
+      var open = (c.uid && c.uid !== "identity") ? ' <button type="button" class="linkish small" data-uid="' + esc(c.uid) + '">its story</button>' : "";
+      return "<li><span><b>" + esc(cardLabel(data, prev, c.uid)) + "</b>" + kind + open + "</span><span>" + fmt(c.what) + "</span>" + (c.why ? '<span class="small"><span class="muted">Why:</span> ' + fmt(c.why) + "</span>" : "") + sourceLine(d, c.from) + "</li>";
+    }).join("") + "</ul>";
+    if (dec.length) {
+      h += '<h3>Suggestions it kept as they were</h3><ul>' + dec.map(function (x) {
+        var pr = pointRef(d, x.point);
+        var what = pr && pr.point ? esc(member(pr.member).name) + ": “" + fmt(pr.point.text) + "”" : esc(x.point);
+        return '<li><span class="small">' + what + "</span><span><span class=\"muted\">Why it stayed:</span> " + fmt(x.why) + "</span></li>";
+      }).join("") + "</ul>";
+    }
+    return h + "</section>";
+  }
+
+  function identityBlock(data) {
+    var idn = data.identity || {};
+    var h = '<section class="block"><h3>The tribe</h3>';
+    if (idn.mechanic) h += "<p>" + fmt(idn.mechanic) + "</p>";
+    (idn.keywords || []).forEach(function (k) { h += '<div class="kw"><b>' + fmt(k.name) + ".</b> " + fmt(k.text) + "</div>"; });
+    if (idn.plays) h += "<p>" + fmt(idn.plays) + "</p>";
+    return h + "</section>";
+  }
+
+  function listBlock(title, items, fn) {
+    if (!items || !items.length) return "";
+    return '<section class="block"><h3>' + title + "</h3><ul>" + items.map(fn).join("") + "</ul></section>";
+  }
+
+  function versionHtml(d, v, opts) {
+    var x = ver(d, v), data = vdata(d, v);
+    var fin = (d.status === "settled" || d.status === "capped") && d.final_version === v;
+    var title = "v" + v + (v === 1 ? ", as first designed" : ", revised") ;
+    var h = '<section class="ver"><header class="ver-head"><h2>' + esc(title) + (fin ? ' <span class="pill t-good">final</span>' : "") + (v === lastV(d) && !fin && d.versions.length > 1 ? ' <span class="pill">latest</span>' : "") + "</h2>";
+    if (x && x.summary) h += "<p>" + fmt(x.summary) + "</p>";
+    h += "</header>";
+    if (!data) return h + '<p class="muted">This version’s file couldn’t be read.</p></section>';
+    h += changesBlock(d, v);
+    h += identityBlock(data);
+    h += shapeLine(data);
+    var mk = markers(d, v), base = opts.base ? vdata(d, opts.base) : null;
+    var byTier = {};
+    (data.units || []).forEach(function (u) { var t = String(u.tier); (byTier[t] = byTier[t] || []).push(u); });
+    h += '<p class="hint">Tap a card to see how it changed and why.</p><div class="tiers">';
+    Object.keys(byTier).sort(function (a, b) { return a - b; }).forEach(function (t) {
+      h += '<section class="block"><div class="tier-head"><h3>Tier ' + esc(t) + '</h3><span class="num">' + byTier[t].length + "</span></div><div class=\"cards\">" +
+        byTier[t].map(function (c) {
+          var tag = "";
+          if (base) { var b = cardIn(base, c.uid); tag = !b ? "new since v" + opts.base : differs(b, c) ? "changed since v" + opts.base : ""; }
+          return cardHtml(d, v, c, mk[c.uid], tag);
+        }).join("") + "</div></section>";
+    });
+    if ((data.extras || []).length) {
+      h += '<section class="block"><h3>Tokens, spells and other extras</h3><div class="cards">' + data.extras.map(function (c) {
+        var tag = ""; if (base) { var b = cardIn(base, c.uid); tag = !b ? "new since v" + opts.base : differs(b, c) ? "changed since v" + opts.base : ""; }
+        return cardHtml(d, v, c, mk[c.uid], tag);
+      }).join("") + "</div></section>";
+    }
+    h += "</div>";
+    h += listBlock("Builds", data.builds, function (b) { return "<li><b>" + fmt(b.name) + ".</b> " + fmt(b.text) + "</li>"; });
+    h += listBlock("Risks and holes", data.risks, function (r) { return "<li>" + fmt(r) + "</li>"; });
+    h += listBlock("Tier check", data.tier_check, function (t) { return "<li><b>Tier " + esc(t.tier) + ":</b> " + fmt(t.note) + "</li>"; });
+    h += reviewsHtml(d, v);
+    return h + "</section>";
+  }
+
+  function outcomeHtml(d, v, rid, pid) {
+    // What the revisers did with a review point: look through every later version, since a point can be acted on later.
+    if (!vdata(d, v + 1)) return "";
+    var full = rid + "#" + pid, out = [], k = v + 1, last = v;
+    for (; vdata(d, k); k++) {
+      var next = vdata(d, k), prev = vdata(d, k - 1); last = k;
+      var applied = (next.changes || []).filter(function (c) { return (c.from || []).indexOf(full) >= 0; });
+      var declined = (next.declined || []).filter(function (x) { return x.point === full; });
+      if (applied.length) out.push('<span class="outcome ok"><b>Taken up in v' + k + ":</b> " + applied.map(function (c) { return (c.uid && c.uid !== "identity" ? esc(cardLabel(next, prev, c.uid)) + ": " : "") + fmt(c.what); }).join(" ") + "</span>");
+      if (declined.length) out.push('<span class="outcome no"><b>Kept as it was in v' + k + ":</b> " + declined.map(function (x) { return fmt(x.why); }).join(" ") + "</span>");
+    }
+    if (out.length) return out.join("");
+    return '<span class="outcome">Not taken up in ' + (last === v + 1 ? "v" + last : "v" + (v + 1) + " to v" + last) + ".</span>";
+  }
+
+  function reviewsHtml(d, v) {
+    var x = ver(d, v), revs = (x && x.reviews) || [], data = vdata(d, v);
+    if (!revs.length) return '<p class="small muted">' + (v === lastV(d) ? "No reviews of v" + v + " yet." : "No reviews were recorded for v" + v + ".") + "</p>";
+    var rs = CRIT.map(function (c) { var s = r1(x.ratings && x.ratings[c.id]); return s ? esc(c.name) + " " + s : null; }).filter(Boolean).join(" · ");
+    var t = x.votes || {};
+    var h = '<details class="reviews"><summary>What the reviewers said about v' + v + '<span class="small muted">' + rs + " · " + (t.settle || 0) + " of " + revs.length + " said it’s in a good spot</span></summary><div class=\"revs\">";
+    revs.forEach(function (r) {
+      var m = member(r.member);
+      var good = r.verdict === "settle";
+      h += '<article class="review"><div class="review-head"><span><b>' + esc(m.name) + "</b>" + (m.lens ? '<br><span class="small muted">' + fmt(m.lens) + "</span>" : "") + '</span><span class="pill ' + (good ? "t-good" : "t-warn") + '">' + (good ? "in a good spot" : r.verdict === "iterate" ? "another pass" : esc(r.verdict || "no verdict")) + "</span></div>";
+      h += '<div class="rv-rate">' + CRIT.map(function (c) { var val = r.ratings && r.ratings[c.id]; return '<span class="num">' + (val == null ? "–" : esc(val)) + '</span><span><span class="muted">' + esc(c.name) + ".</span> " + fmt((r.ratings_why || {})[c.id] || "") + "</span>"; }).join("") + "</div>";
+      if (r.verdict_why) h += '<p class="small">' + fmt(r.verdict_why) + "</p>";
+      if ((r.points || []).length) {
+        h += '<ul class="pts">' + r.points.map(function (p) {
+          var about = p.uid ? '<button type="button" class="linkish" data-uid="' + esc(p.uid) + '">' + esc(cardLabel(data, null, p.uid)) + "</button>" : "The tribe as a whole";
+          return '<li class="pt"><span><span class="pill ' + (p.kind === "fix" ? "t-bad" : "t-info") + '">' + (p.kind === "fix" ? "needs fixing" : "idea") + "</span> <b>" + about + ":</b> " + fmt(p.text) + "</span>" + outcomeHtml(d, v, r.id || ("v" + v + "--" + r.member), p.pid) + "</li>";
+        }).join("") + "</ul>";
+      }
+      var notes = [];
+      (r.standouts || []).forEach(function (s) { notes.push('<span><span class="pill t-good">standout</span> <b>' + esc(cardLabel(data, null, s.uid)) + ":</b> " + fmt(s.why) + "</span>"); });
+      (r.weakest || []).forEach(function (s) { notes.push('<span><span class="pill t-warn">weakest</span> <b>' + esc(cardLabel(data, null, s.uid)) + ":</b> " + fmt(s.why) + "</span>"); });
+      (r.flags || []).forEach(function (f) { var mk = MARK[f.kind] || [f.kind, ""]; notes.push('<span><span class="pill ' + mk[1] + '">' + esc(mk[0]) + "</span> <b>" + esc(cardLabel(data, null, f.uid)) + ":</b> " + fmt(f.note) + "</span>"); });
+      if (notes.length) h += '<div class="notes">' + notes.join("") + "</div>";
+      h += "</article>";
+    });
+    return h + "</div></details>";
+  }
+
+  function viewDesign(key, vwant) {
+    var d = byKey[key];
+    if (!d) return '<nav class="back"><a href="#">← All designs</a></nav><div class="empty">That design isn’t in this run.</div>';
+    var withData = d.versions.filter(function (x) { return vdata(d, x.v); }).map(function (x) { return x.v; });
+    var fv = finalV(d);
+    if (withData.indexOf(fv) < 0) fv = withData[withData.length - 1];
+    var mode = vwant && withData.indexOf(vwant) >= 0 ? vwant : (withData.length > 1 && fv !== 1 ? "compare" : (withData[0] || null));
+    var h = '<nav class="back"><a href="#">← All designs</a><a href="#seed-' + esc(d.seed) + '">' + esc(seedName(d.seed)) + "</a></nav>";
+    h += '<section class="dhead"><h1>' + esc(tribeName(d)) + "</h1>";
+    h += '<p class="meta"><span>Seed: <a href="#seed-' + esc(d.seed) + '">' + esc(seedName(d.seed)) + "</a></span>" + (state.blind ? "" : '<span class="dot">Method: ' + esc(routeName(d.route)) + "</span>") + '<span class="dot">' + pill(d) + "</span></p>";
+    h += "<p>" + esc(statusSentence(d)) + "</p>";
+    var p = pickFor(d);
+    if (p) h += '<p><span class="pill t-accent">pick ' + esc(p.rank) + (p.version ? ", v" + esc(p.version) : "") + "</span> " + fmt(p.line) + "</p>";
+    h += ratingGrid(d, true);
+    if (d.md && withData.length) h += '<p><a href="#text-' + esc(d.key) + '">Read the designer’s own write-up of v1</a></p>';
+    h += "</section>";
+    if (!withData.length) {
+      if (d.md) h += '<section class="block"><h2>The designer’s write-up</h2>' + mdHtml(d.md) + "</section>";
+      return h;
+    }
+    if (withData.length > 1) {
+      h += '<div class="switchbar"><span class="label">Show</span><div class="seg" role="group" aria-label="Which version to show">';
+      if (fv !== 1) h += '<button type="button" data-mode="compare" aria-pressed="' + (mode === "compare") + '">v1 beside v' + fv + "</button>";
+      withData.forEach(function (v) { h += '<button type="button" data-mode="' + v + '" aria-pressed="' + (mode === v) + '">v' + v + "</button>"; });
+      h += "</div></div>";
+    }
+    if (mode === "compare") {
+      h += '<div class="side-switch switchbar"><span class="label">On this screen</span><div class="seg" role="group" aria-label="Which side to show"><button type="button" data-side="a" aria-pressed="' + (state.side === "a") + '">v1</button><button type="button" data-side="b" aria-pressed="' + (state.side === "b") + '">v' + fv + (d.final_version === fv ? " (final)" : " (latest)") + "</button></div></div>";
+      h += '<div class="compare two" data-side="' + state.side + '"><div class="col-a" data-v="1">' + versionHtml(d, 1, {}) + '</div><div class="col-b" data-v="' + fv + '">' + versionHtml(d, fv, { base: 1 }) + "</div></div>";
+    } else {
+      h += '<div class="compare solo"><div data-v="' + mode + '">' + versionHtml(d, mode, { base: mode > 1 ? mode - 1 : null }) + "</div></div>";
+    }
+    return h;
+  }
+
+  function viewText(key) {
+    var d = byKey[key];
+    if (!d) return '<nav class="back"><a href="#">← All designs</a></nav><div class="empty">That design isn’t in this run.</div>';
+    var h = '<nav class="back"><a href="#design-' + esc(d.key) + '">← ' + esc(tribeName(d)) + "</a></nav>";
+    h += '<section class="dhead"><span class="label">The designer’s own write-up of v1</span><h1>' + esc(tribeName(d)) + "</h1><p class=\"muted\">This is the text exactly as the designer wrote it, before any review.</p></section>";
+    return h + (d.md ? mdHtml(d.md) : '<div class="empty">The write-up isn’t here yet.</div>');
+  }
+
+  // ---------- light markdown ----------
+  function inline(s) {
+    return esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+?)\*\*/g, "<strong>$1</strong>").replace(/(^|[^*\w])\*([^*\s][^*]*?)\*(?!\*)/g, "$1<em>$2</em>");
+  }
+  function cells(line) { var t = line.trim(); if (t.charAt(0) === "|") t = t.slice(1); if (t.charAt(t.length - 1) === "|") t = t.slice(0, -1); return t.split("|").map(function (c) { return c.trim(); }); }
+  function mdHtml(md) {
+    var L = String(md).replace(/\r\n?/g, "\n").split("\n"), out = [], para = [], i = 0;
+    function flush() { if (para.length) { out.push("<p>" + inline(para.join(" ")) + "</p>"); para = []; } }
+    while (i < L.length) {
+      var l = L[i];
+      if (/^\s*$/.test(l)) { flush(); i++; continue; }
+      if (/^```/.test(l)) { flush(); var code = []; i++; while (i < L.length && !/^```/.test(L[i])) code.push(L[i++]); i++; out.push("<pre><code>" + esc(code.join("\n")) + "</code></pre>"); continue; }
+      var hm = /^(#{1,6})\s+(.*)$/.exec(l);
+      if (hm) { flush(); var lv = Math.min(4, hm[1].length + 1); out.push("<h" + lv + ">" + inline(hm[2]) + "</h" + lv + ">"); i++; continue; }
+      if (/^\s*(-{3,}|\*{3,})\s*$/.test(l)) { flush(); out.push("<hr>"); i++; continue; }
+      if (/^\s*\|/.test(l)) {
+        flush(); var rows = []; while (i < L.length && /^\s*\|/.test(L[i])) rows.push(L[i++]);
+        var head = null, body = rows;
+        if (rows.length > 1 && /^\s*\|?\s*:?-{2,}/.test(rows[1])) { head = cells(rows[0]); body = rows.slice(2); }
+        var t = '<div class="tablewrap"><table>' + (head ? "<thead><tr>" + head.map(function (c) { return "<th>" + inline(c) + "</th>"; }).join("") + "</tr></thead>" : "") + "<tbody>" + body.map(function (r) { return "<tr>" + cells(r).map(function (c) { return "<td>" + inline(c) + "</td>"; }).join("") + "</tr>"; }).join("") + "</tbody></table></div>";
+        out.push(t); continue;
+      }
+      var lm = /^\s*([-*+]|\d+[.)])\s+/.exec(l);
+      if (lm) {
+        flush(); var ordered = /\d/.test(lm[1]), items = [];
+        while (i < L.length && /^\s*([-*+]|\d+[.)])\s+/.test(L[i])) { var it = L[i].replace(/^\s*([-*+]|\d+[.)])\s+/, ""); i++; while (i < L.length && /^\s{2,}\S/.test(L[i]) && !/^\s*([-*+]|\d+[.)])\s+/.test(L[i])) it += " " + L[i++].trim(); items.push("<li>" + inline(it) + "</li>"); }
+        out.push((ordered ? "<ol>" : "<ul>") + items.join("") + (ordered ? "</ol>" : "</ul>")); continue;
+      }
+      para.push(l.trim()); i++;
+    }
+    flush();
+    return '<article class="md">' + out.join("") + "</article>";
+  }
+
+  // ---------- card story ----------
+  function wordDiff(a, b) {
+    var A = plain(a).split(/(\s+)/).filter(function (x) { return x !== ""; }), B = plain(b).split(/(\s+)/).filter(function (x) { return x !== ""; });
+    if (A.length * B.length > 250000) return "<del>" + esc(plain(a)) + "</del> <ins>" + esc(plain(b)) + "</ins>";
+    var n = A.length, m = B.length, T = [];
+    for (var i = 0; i <= n; i++) { T.push(new Array(m + 1).fill(0)); }
+    for (i = n - 1; i >= 0; i--) for (var j = m - 1; j >= 0; j--) T[i][j] = A[i] === B[j] ? T[i + 1][j + 1] + 1 : Math.max(T[i + 1][j], T[i][j + 1]);
+    var out = [], dl = [], ad = [];
+    function fl() { if (dl.length) out.push("<del>" + esc(dl.join("")) + "</del>"); if (ad.length) out.push("<ins>" + esc(ad.join("")) + "</ins>"); dl = []; ad = []; }
+    i = 0; j = 0;
+    while (i < n && j < m) {
+      if (A[i] === B[j]) { fl(); out.push(esc(A[i])); i++; j++; }
+      else if (T[i + 1][j] >= T[i][j + 1]) dl.push(A[i++]); else ad.push(B[j++]);
+    }
+    while (i < n) dl.push(A[i++]); while (j < m) ad.push(B[j++]); fl();
+    return out.join("");
+  }
+
+  function diffRows(a, b) {
+    var rows = [];
+    if ((a.name || "") !== (b.name || "")) rows.push(["Name", esc(plain(a.name)) + " → <b>" + esc(plain(b.name)) + "</b>"]);
+    if (String(a.tier) !== String(b.tier) && (a.tier != null || b.tier != null)) rows.push(["Tier", '<span class="num">' + esc(a.tier) + " → <b>" + esc(b.tier) + "</b></span>"]);
+    if (String(a.attack) !== String(b.attack) || String(a.health) !== String(b.health)) rows.push(["Stats", '<span class="num">' + esc(a.attack) + "/" + esc(a.health) + " → <b>" + esc(b.attack) + "/" + esc(b.health) + "</b></span>"]);
+    if ((a.text || "") !== (b.text || "")) rows.push(["Text", wordDiff(a.text || "", b.text || "")]);
+    if ((a.golden || "") !== (b.golden || "")) rows.push(["Golden", wordDiff(a.golden || "", b.golden || "")]);
+    if ((a.kind || "") !== (b.kind || "")) rows.push(["Kind", esc(a.kind) + " → <b>" + esc(b.kind) + "</b>"]);
+    return rows.length ? '<dl class="diff">' + rows.map(function (r) { return "<dt>" + r[0] + "</dt><dd>" + r[1] + "</dd>"; }).join("") + "</dl>" : "";
+  }
+
+  function saidAbout(d, v, uid) {
+    var x = ver(d, v), data = vdata(d, v), items = [];
+    ((x && x.reviews) || []).forEach(function (r) {
+      var who = esc(member(r.member).name);
+      (r.points || []).forEach(function (p) { if (p.uid === uid) items.push('<span><span class="pill ' + (p.kind === "fix" ? "t-bad" : "t-info") + '">' + (p.kind === "fix" ? "needs fixing" : "idea") + "</span> <b>" + who + ":</b> " + fmt(p.text) + "</span>" + outcomeHtml(d, v, r.id || ("v" + v + "--" + r.member), p.pid)); });
+      (r.standouts || []).forEach(function (s) { if (s.uid === uid) items.push('<span><span class="pill t-good">standout</span> <b>' + who + ":</b> " + fmt(s.why) + "</span>"); });
+      (r.weakest || []).forEach(function (s) { if (s.uid === uid) items.push('<span><span class="pill t-warn">weakest</span> <b>' + who + ":</b> " + fmt(s.why) + "</span>"); });
+      (r.flags || []).forEach(function (f) { if (f.uid === uid) { var mk = MARK[f.kind] || [f.kind, ""]; items.push('<span><span class="pill ' + mk[1] + '">' + esc(mk[0]) + "</span> <b>" + who + ":</b> " + fmt(f.note) + "</span>"); } });
+    });
+    return items.length ? '<div class="notes"><span class="label">What the reviewers said about it in v' + v + "</span>" + items.join("") + "</div>" : "";
+  }
+
+  function whyBox(d, x) { return '<div class="why"><span><b>' + fmt(x.what) + "</b></span>" + (x.why ? '<span><span class="muted">Why:</span> ' + fmt(x.why) + "</span>" : "") + sourceLine(d, x.from) + "</div>"; }
+  function storyHtml(d, uid) {
+    var vs = d.versions.filter(function (x) { return vdata(d, x.v); }).map(function (x) { return x.v; });
+    var latest = null; vs.forEach(function (v) { latest = cardIn(vdata(d, v), uid) || latest; });
+    var body = "", prevCard = null, prevV = null, seen = false;
+    vs.forEach(function (v) {
+      var data = vdata(d, v), c = cardIn(data, uid), ch = (data.changes || []).filter(function (x) { return x.uid === uid; });
+      var mk = markers(d, v)[uid];
+      if (!seen && !c && !ch.length) return;
+      if (seen && !c && !prevCard && !ch.length) return;
+      var h = '<section class="step"><h3>v' + v + (chipsFor(mk) ? ' <span class="chips">' + chipsFor(mk) + "</span>" : "") + "</h3>";
+      if (!seen) {
+        seen = true;
+        if (v > 1 && c) h += '<p><b>Added in v' + v + ".</b></p>";
+        ch.forEach(function (x) { h += whyBox(d, x); });
+        if (c) h += cardHtml(d, v, c, null, "").replace('<button type="button" class="card"', '<div class="card" style="cursor:default"').replace(/<\/button>$/, "</div>");
+      } else {
+        ch.forEach(function (x) { h += whyBox(d, x); });
+        if (prevCard && !c) h += "<p><b>Removed in v" + v + ".</b></p>";
+        else if (!prevCard && c) h += cardHtml(d, v, c, null, "").replace('<button type="button" class="card"', '<div class="card" style="cursor:default"').replace(/<\/button>$/, "</div>");
+        else if (prevCard && c) {
+          var dr = diffRows(prevCard, c);
+          if (dr) h += '<span class="label">Before and after</span>' + dr;
+          else if (!ch.length) h += '<p class="small muted">No change from v' + prevV + ".</p>";
+        }
+      }
+      h += saidAbout(d, v, uid);
+      body += h + "</section>";
+      prevCard = c; prevV = v;
+    });
+    if (!seen) body = '<p class="muted">This card isn’t in any version of the design.</p>';
+    var name = latest ? plain(latest.name) : (uid === "identity" ? "The tribe" : "A card");
+    return '<div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title"><div class="sheet-head"><div><span class="label">' + esc(tribeName(d)) + '</span><h2 id="sheet-title">' + esc(name) + '</h2><p class="small muted">How this card changed across the versions, and why.</p></div><button type="button" class="close" id="sheet-close">Close</button></div><div class="sheet-body">' + body + "</div></div>";
+  }
+
+  var sheet = document.getElementById("sheet"), lastFocus = null;
+  function openStory(d, uid) {
+    lastFocus = document.activeElement;
+    sheet.className = "sheet-bg"; sheet.innerHTML = storyHtml(d, uid); sheet.hidden = false;
+    document.body.style.overflow = "hidden";
+    var c = document.getElementById("sheet-close"); if (c) c.focus();
+  }
+  function closeStory() {
+    if (sheet.hidden) return;
+    sheet.hidden = true; sheet.innerHTML = ""; document.body.style.overflow = "";
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  sheet.addEventListener("click", function (e) { if (e.target === sheet || e.target.id === "sheet-close") closeStory(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeStory(); });
+
+  // ---------- routing ----------
+  var app = document.getElementById("app"), current = null;
+  function parse() {
+    var h = decodeURIComponent((location.hash || "").replace(/^#/, ""));
+    var m;
+    if ((m = /^design-(.+?)(?:-v(\d+))?$/.exec(h)) && byKey[m[1]]) return { view: "design", key: m[1], v: m[2] ? +m[2] : null };
+    if ((m = /^design-(.+)$/.exec(h))) return { view: "design", key: m[1], v: null };
+    if ((m = /^seed-(.+)$/.exec(h))) return { view: "seed", id: m[1] };
+    if ((m = /^text-(.+)$/.exec(h))) return { view: "text", key: m[1] };
+    return { view: "home" };
+  }
+  function render(keepScroll) {
+    closeStory();
+    var r = parse(); current = r;
+    var y = window.scrollY;
+    if (r.view === "design") app.innerHTML = viewDesign(r.key, r.v);
+    else if (r.view === "seed") app.innerHTML = viewSeed(r.id);
+    else if (r.view === "text") app.innerHTML = viewText(r.key);
+    else app.innerHTML = viewHome();
+    window.scrollTo(0, keepScroll ? y : 0);
+  }
+  function refreshList() {
+    var el = document.getElementById("list"); if (!el) return render(true);
+    el.innerHTML = rowsBlock(current && current.view === "seed" ? current.id : "");
+  }
+  window.addEventListener("hashchange", function () { render(false); });
+
+  app.addEventListener("change", function (e) {
+    var t = e.target;
+    if (t.id === "f-seed") { location.hash = t.value ? "seed-" + t.value : ""; if (!t.value && !location.hash) render(false); return; }
+    if (t.id === "f-method") { state.method = t.value; refreshList(); }
+    if (t.id === "f-status") { state.status = t.value; refreshList(); }
+    if (t.id === "f-sort") { state.sort = t.value; refreshList(); }
+  });
+  app.addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.mode && current && current.view === "design") {
+      var mode = b.dataset.mode, h = "#design-" + current.key + (mode === "compare" ? "" : "-v" + mode);
+      try { history.replaceState(null, "", h); } catch (err) { location.hash = h; return; }
+      render(true); return;
+    }
+    if (b.dataset.side) {
+      state.side = b.dataset.side;
+      var cmp = app.querySelector(".compare.two"); if (cmp) cmp.dataset.side = state.side;
+      app.querySelectorAll(".side-switch button").forEach(function (x) { x.setAttribute("aria-pressed", String(x.dataset.side === state.side)); });
+      return;
+    }
+    if (b.dataset.uid && current && current.view === "design") { var d = byKey[current.key]; if (d) openStory(d, b.dataset.uid); }
+  });
+
+  var blind = document.getElementById("blind");
+  blind.checked = state.blind;
+  blind.addEventListener("change", function () {
+    state.blind = blind.checked; if (state.blind) state.method = "";
+    try { localStorage.setItem("tribe-run-blind", state.blind ? "1" : "0"); } catch (e) {}
+    render(true);
+  });
+  render(false);
+})();
+</script>

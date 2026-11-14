@@ -1,0 +1,222 @@
+{
+ "candidates": [
+  {
+   "id": "great-migration",
+   "name": "The Great Migration",
+   "source": "folio",
+   "folio_ref": "The Great Migration",
+   "kind": "mammal folk",
+   "growth_shape": "wide swarm",
+   "pitch": "A tide of near-identical small bodies that grows every round: the many are the point, and individuals throw themselves forward so the rest go further.",
+   "material": "Rimefell tundra. Real lemming booms and crashes every few years, mass dispersals over ice and water, and the cliff-jumping myth staged for a 1958 film. Norway lemmings are loud, yellow-and-black and pick fights with things far bigger. Cheerful pilgrims sure the next cliff is the promised land; one silhouette, many copies."
+  },
+  {
+   "id": "rat-king",
+   "name": "The Rat King",
+   "source": "folio",
+   "folio_ref": "The Rat King",
+   "kind": "mammal folk",
+   "growth_shape": "linked bodies",
+   "pitch": "Bodies tied together into one knot: what happens to one spreads along the others, so you build the knot, not the unit.",
+   "material": "Beechhold towns. The rat-king folklore of knotted tails (museum specimens such as Altenburg's), the Pied Piper of Hamelin, and real rats' grooming, food-sharing by smell and ticklish 'laughter'. A committee that says 'we', votes on everything and can't agree which way to walk."
+  },
+  {
+   "id": "moon-hares",
+   "name": "The Moon Hares",
+   "source": "folio",
+   "folio_ref": "The Moon Hares",
+   "kind": "mammal folk",
+   "growth_shape": "phase cycle",
+   "pitch": "The tribe changes with a moon that waxes and wanes across rounds: you build for the phase that is coming, and the full moon transforms the team.",
+   "material": "Chalkdown. Mad March boxing (really females fending off males), hares as witches' shapes in folklore, the hare in the moon, shallow forms instead of burrows, leverets left alone all day. Moon-witches whose equinox boxing matches are also rituals."
+  },
+  {
+   "id": "lekking-knights",
+   "name": "The Lekking Knights",
+   "source": "folio",
+   "folio_ref": "The Lekking Knights",
+   "kind": "birds",
+   "growth_shape": "tall and alone",
+   "pitch": "Few, vain, enormous knights at their best with the stage to themselves: one champion instead of a crowd.",
+   "material": "Beechhold's old forests. Capercaillie leks at dawn: fanned tails, popping and gurgling song, displaying males that attack people and even cars; a dwindling, protected bird. A chivalric order that refuses to change and stops mid-battle to display."
+  },
+  {
+   "id": "shiny-syndicate",
+   "name": "The Shiny Syndicate",
+   "source": "folio",
+   "folio_ref": "The Shiny Syndicate",
+   "kind": "birds",
+   "growth_shape": "debt and theft",
+   "pitch": "Crime-family credit: take gold or power now against the future, pay it back with interest, and skim from whoever you beat.",
+   "material": "Hedgemoot. Magpies fence, jackdaws run the pawnshop, ravens hold everyone's debts. Corvids cache and re-cache food when watched, remember faces and hold grudges; the 'one for sorrow' rhyme. Loans, protection money, and nobody can resist anything shiny, including evidence."
+  },
+  {
+   "id": "cuckoo-clockworks",
+   "name": "The Cuckoo Clockworks",
+   "source": "folio",
+   "folio_ref": "The Cuckoo Clockworks",
+   "kind": "birds",
+   "growth_shape": "enemy-board plants",
+   "pitch": "Brood parasites who slip their eggs into the opponent's line-up, where they hatch on a timer mid-fight and turn on their hosts.",
+   "material": "Beechhold clock-towns and Black Forest cuckoo clocks. Real brood parasitism: eggs that mimic the host's, the chick that tips out the host's eggs, small hosts feeding a chick bigger than themselves. Dormice as sleepy apprentices. Punctuality fanatics who are also brood parasites."
+  },
+  {
+   "id": "hive-and-carnival",
+   "name": "The Hive and the Carnival",
+   "source": "folio",
+   "folio_ref": "The Hive and the Carnival",
+   "kind": "insects",
+   "growth_shape": "spend tempo",
+   "pitch": "Two rival towns in one tribe: the Carnival pays for spending everything and buying a lot each turn, the Hive pays for holding back, and the play is when to cross over.",
+   "material": "Sunterrace. Aesop's ant and grasshopper as two rival towns. Bees' waggle dance, honey stores and winter cluster; ants farming aphids; cicadas that spend years underground for one loud summer. One town has a budget, the other has a brass band."
+  },
+  {
+   "id": "salamander-forge",
+   "name": "The Salamander Forge",
+   "source": "folio",
+   "folio_ref": "The Salamander Forge",
+   "kind": "reptiles and amphibians",
+   "growth_shape": "gear crafting",
+   "pitch": "Fire-walking smiths who make gear for the board and keep reforging it: buy fewer bodies, and heat the same pieces until they are worth more than anything new.",
+   "material": "Ashfell. The medieval belief that salamanders live in fire (they crawled out of burning logs), 'salamander wool' that wouldn't burn, real regrowth of lost limbs, newts' warning-orange bellies. Alchemist-smiths for whom safety regulations are a rumour."
+  },
+  {
+   "id": "olm-sleepers",
+   "name": "The Olm Sleepers",
+   "source": "folio",
+   "folio_ref": "The Olm Sleepers",
+   "kind": "reptiles and amphibians",
+   "growth_shape": "late bloom",
+   "pitch": "Pale cave creatures that live a century: weak for a long time, then devastating, growing from every round they are kept and left alone.",
+   "material": "Hollowdeep, the karst caves. Real olms live about a century, go a decade without food and are blind; floods once washed them out of caves and people took them for baby dragons. Cave bats as neighbours. They never correct anyone about the dragon thing."
+  },
+  {
+   "id": "dyke-board",
+   "name": "The Dyke Board",
+   "source": "folio",
+   "folio_ref": "The Dyke Board",
+   "kind": "water folk",
+   "growth_shape": "board terrain",
+   "pitch": "A water board that votes the water level up or down, and the level decides who swims and who drowns, on both boards.",
+   "material": "Lowdike polders. Dutch water boards are among the oldest democratic bodies in Europe; beavers' dams reshape whole valleys; coots squabble endlessly over territory. Sluices, windmills, minutes and motions; polite, procedural and ruthless about drainage, with the water-vole Fen Tigers sabotaging every drain."
+  },
+  {
+   "id": "reed-runners",
+   "name": "The Reed Runners",
+   "source": "folio",
+   "folio_ref": "The Reed Runners",
+   "kind": "water folk",
+   "growth_shape": "off-shop market",
+   "pitch": "Smugglers who buy outside the shop: contraband from a back channel, better than what's on offer, with the customs herons always one step behind.",
+   "material": "Reedmouth estuary. Otters running goods through a thousand channels; holts, mud slides, spraints as messages, pebble juggling. Heron customs men standing motionless for hours. False bottoms, bribes, tip-offs and confiscation; a two-faction comedy pair."
+  },
+  {
+   "id": "rot-guild",
+   "name": "The Rot Guild",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "fungi and plants",
+   "growth_shape": "sacrifice into growth",
+   "pitch": "Mushroom undertakers for whom every fallen friend is compost: lose your own on purpose, and the network under the board fruits from it.",
+   "material": "Deadwood and leaf litter. Fungal threads linking tree roots (the 'wood wide web'), honey fungus spanning a whole forest, mushrooms fruiting overnight after rain, foxfire glowing in rotten logs. A solemn guild of toadstools and cheerful puffballs whose funerals are harvest festivals. (Fairy rings belong to today's Fairies.)"
+  },
+  {
+   "id": "ivy-climbers",
+   "name": "The Ivy and Mistletoe",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "fungi and plants",
+   "growth_shape": "host attachment",
+   "pitch": "Climbers that don't stand alone: they grow on another unit and rise with their host, and choosing whom to climb is the game.",
+   "material": "Hedges and old oaks. Ivy clinging by rootlets, mistletoe as a half-parasite and a kissing custom, honeysuckle twining, dodder; druids cutting mistletoe with a golden sickle. Social climbers who attach themselves to whoever matters and take credit for the view."
+  },
+  {
+   "id": "will-o-wisps",
+   "name": "The Will-o'-the-Wisps",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "fae",
+   "growth_shape": "targeting misdirection",
+   "pitch": "Marsh lights that lead the enemy astray: the play is deciding what the enemy hits, and making it hit the wrong thing.",
+   "material": "Fens and moors at night. Will-o'-the-wisp, jack-o'-lantern and ignis fatuus (real marsh-gas lights); tales of travellers led into bogs, and turning your coat inside out to break the spell. Mischievous lantern-carriers whose light is always just ahead."
+  },
+  {
+   "id": "changelings",
+   "name": "The Changelings",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "fae",
+   "growth_shape": "copy and transform",
+   "pitch": "Swapped-in fae who become what they replace: copy the shop's best, your own carry, or whatever they are traded for.",
+   "material": "Folk tales of fae leaving their own in place of stolen babies, the changeling unmasked by brewing in eggshells ('I'm as old as the oak and never saw beer brewed in an eggshell'), and carved stocks left behind in a sleeper's bed. Copies that are almost right; the swap you notice too late."
+  },
+  {
+   "id": "trapdoor-lodge",
+   "name": "The Trapdoor Lodge",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "insects",
+   "growth_shape": "hidden reserves",
+   "pitch": "Spiders who wait off the board under their trapdoors and spring into the fight when the moment comes: the board you show is not the board you fight with.",
+   "material": "Hedge banks and heath. Europe's purse-web spiders waiting in silk tubes, trapdoor lids, wolf spiders carrying their young on their backs, orb webs strung with dew at dawn. A secret lodge with password doors, patient to the point of rudeness."
+  },
+  {
+   "id": "moth-apothecaries",
+   "name": "The Moth Apothecaries",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "insects",
+   "growth_shape": "spell casting",
+   "pitch": "Night apothecaries who brew by lamplight: the tribe grows by casting spells, and its spells get stronger the more of them it casts.",
+   "material": "Night meadows and lamplight. Moths drawn to flame, the peppered moth turning dark in soot, eyespots that scare off birds, the death's-head hawkmoth that squeaks and raids beehives for honey. Phials, wing-dust and recipes passed on in the dark; omens nobody asked for."
+  },
+  {
+   "id": "salmon-run",
+   "name": "The Salmon Run",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "water folk",
+   "growth_shape": "board journey",
+   "pitch": "Fish that work their way up the board fight after fight; the ones that reach the head spawn the next run and are spent.",
+   "material": "Rivers through the woods. Salmon return to the stream they were born in, leap waterfalls, change colour and grow a hooked jaw on the way, die after spawning and feed the forest. Bears and otters waiting at the falls; the Salmon of Knowledge from Irish myth."
+  },
+  {
+   "id": "grass-snake-players",
+   "name": "The Grass Snake Players",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "reptiles and amphibians",
+   "growth_shape": "false deaths",
+   "pitch": "A melodrama troupe whose leads die spectacularly and get up for the bow: deaths that happen, count and pay out, without losing the body.",
+   "material": "Heath and pond edges. Grass snakes play dead, rolling over with tongue out and even bleeding from the mouth, and flip back over if you turn them upright; they also have a stink defence. Slow-worms shed their tails; adders 'dance' in spring. Curtain calls, death scenes and critics."
+  },
+  {
+   "id": "gale-court",
+   "name": "The Gale Court",
+   "source": "new",
+   "folio_ref": null,
+   "kind": "weather spirits",
+   "growth_shape": "attack order",
+   "pitch": "Weather that moves in squalls: who strikes first, how often and in what order is theirs to bend.",
+   "material": "Ridgeways and hilltops. Europe's named winds (mistral, bora, föhn), weathercocks on church spires, farmers' and sailors' weather lore ('red sky at night'), whirlwinds lifting hay, the Wild Hunt riding the storm. A court of weather spirits: a stately high pressure, squabbling gusts, a thunderhead who arrives late and loud."
+  }
+ ],
+ "recommended_15": [
+  "great-migration",
+  "rat-king",
+  "lekking-knights",
+  "cuckoo-clockworks",
+  "hive-and-carnival",
+  "moth-apothecaries",
+  "salamander-forge",
+  "grass-snake-players",
+  "dyke-board",
+  "reed-runners",
+  "rot-guild",
+  "ivy-climbers",
+  "will-o-wisps",
+  "changelings",
+  "gale-court"
+ ],
+ "note": "Twenty candidates over eight kinds, at most three per kind; the recommended 15 keeps two per kind (one weather) and spans tall, wide, economy, death, spells, position, shop, combat order and targeting. Only 11 are from the folio: it is mostly mammals and birds, and the kind cap leaves no room for more (Peat Wardens and Frog Chorus overlap Bog folk, Gluttons and Gubbio overlap Hunters, Parish Council is today's Hedgerow folk); the recommended pick also adds two more birds and two more fae beside today's Birds and Fairies. Today's tribes already cover: held food as economy, sleeping multipliers and touching runs (Hedgerow); stats on slots and units that leave for gold (Fairies); eating and holding units inside, buffing the shop (Oozes); selling now to come back bigger (Birds); shrinking attackers and raising fallen enemies (Bog folk); marking quarry and taking stats from kills (Hunters)."
+}

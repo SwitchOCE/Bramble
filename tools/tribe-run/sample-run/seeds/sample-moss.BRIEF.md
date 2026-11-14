@@ -1,0 +1,3 @@
+# Sample brief
+
+Placeholder.

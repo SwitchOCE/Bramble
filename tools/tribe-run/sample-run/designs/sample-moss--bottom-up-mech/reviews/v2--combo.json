@@ -1,0 +1,36 @@
+{
+ "id": "v2--combo",
+ "design_id": "sample-moss--bottom-up-mech",
+ "v": 2,
+ "member": "combo",
+ "ratings": {
+  "fun": 8,
+  "distinct": 8
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "settle",
+ "verdict_why": "More passes would make it different, not better.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u03",
+   "kind": "idea",
+   "text": "Lichen Crawler now rewards building wide first."
+  }
+ ],
+ "standouts": [
+  {
+   "uid": "u03",
+   "why": "Now a real choice."
+  },
+  {
+   "uid": "u20",
+   "why": "Nice bridge to Taunt tribes."
+  }
+ ],
+ "weakest": [],
+ "flags": []
+}

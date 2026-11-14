@@ -1,0 +1,12 @@
+{
+ "id": "rot-guild",
+ "name": "The Rot Guild",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Mushroom undertakers for whom every fallen friend is compost: lose your own on purpose, and the network under the board fruits from it.",
+ "routes": [
+  "top-down-flavour",
+  "bottom-up-mech",
+  "player-story"
+ ]
+}

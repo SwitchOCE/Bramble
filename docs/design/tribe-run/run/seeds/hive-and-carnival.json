@@ -1,0 +1,12 @@
+{
+ "id": "hive-and-carnival",
+ "name": "The Hive and the Carnival",
+ "source": "folio",
+ "folio_ref": "The Hive and the Carnival",
+ "pitch": "Two rival towns in one tribe: the Carnival pays for spending everything and buying a lot each turn, the Hive pays for holding back, and the play is when to cross over.",
+ "routes": [
+  "top-down-mech",
+  "top-down-flavour",
+  "bottom-up-mech"
+ ]
+}

@@ -1,0 +1,12 @@
+{
+ "id": "changelings",
+ "name": "The Changelings",
+ "source": "new",
+ "folio_ref": null,
+ "pitch": "Swapped-in fae who become what they replace: copy the shop's best, your own carry, or whatever they are traded for.",
+ "routes": [
+  "surgical",
+  "top-down-flavour",
+  "borrow-twist"
+ ]
+}

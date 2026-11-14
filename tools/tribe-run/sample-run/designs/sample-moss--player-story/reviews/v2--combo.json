@@ -1,0 +1,33 @@
+{
+ "id": "v2--combo",
+ "design_id": "sample-moss--player-story",
+ "v": 2,
+ "member": "combo",
+ "ratings": {
+  "fun": 7,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Lots real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u13",
+   "kind": "fix",
+   "text": "Old Root Choir with Moss Queen loops forever."
+  }
+ ],
+ "standouts": [],
+ "weakest": [],
+ "flags": [
+  {
+   "uid": "u13",
+   "kind": "broken",
+   "note": "Infinite with Moss Queen."
+  }
+ ]
+}

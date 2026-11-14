@@ -1,0 +1,27 @@
+{
+ "id": "sample-heron--top-down-flavour",
+ "seed": "sample-heron",
+ "route": "top-down-flavour",
+ "tribe_name": "Sample: Heron Wardens",
+ "status": "revising",
+ "versions": [
+  {
+   "v": 1,
+   "summary": "Herons that wade out of reach and strike once.",
+   "author": "designer",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.0,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  }
+ ]
+}

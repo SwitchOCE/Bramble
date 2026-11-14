@@ -1,0 +1,55 @@
+{
+ "id": "v1--climber",
+ "design_id": "sample-moss--bottom-up-mech",
+ "v": 1,
+ "member": "climber",
+ "ratings": {
+  "fun": 5,
+  "distinct": 6
+ },
+ "ratings_why": {
+  "fun": "Not many real choices in the shop each turn.",
+  "distinct": "Feels close to an existing tribe."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": "u05",
+   "kind": "fix",
+   "text": "Mire Sprout at Tier 2 gives +2/+2 every turn with no limit: a runaway early."
+  },
+  {
+   "pid": "p2",
+   "uid": "u16",
+   "kind": "idea",
+   "text": "Heartwood Ooze could trade some Attack for Health."
+  },
+  {
+   "pid": "p3",
+   "uid": "u17",
+   "kind": "fix",
+   "text": "The Green Tide wins on its own once it's online."
+  }
+ ],
+ "standouts": [],
+ "weakest": [
+  {
+   "uid": "u05",
+   "why": "Snowballs from turn 3."
+  }
+ ],
+ "flags": [
+  {
+   "uid": "u05",
+   "kind": "broken",
+   "note": "No cap on the buff."
+  },
+  {
+   "uid": "u17",
+   "kind": "watch",
+   "note": "May dominate the late game."
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "seed": "sample-moss",
+ "order": [
+  "sample-moss--bottom-up-mech",
+  "sample-moss--surgical",
+  "sample-moss--player-story"
+ ],
+ "why": [
+  {
+   "design": "sample-moss--bottom-up-mech",
+   "line": "The most real choices per turn once selling stopped being free."
+  },
+  {
+   "design": "sample-moss--surgical",
+   "line": "Clean and readable from the start, but fewer surprises."
+  },
+  {
+   "design": "sample-moss--player-story",
+   "line": "The best moments, but it took three passes to stop breaking."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "sample-moss--bottom-up-mech",
+   "line": "Yes: v2 fixed the early runaway without losing the sell puzzle."
+  },
+  {
+   "design": "sample-moss--player-story",
+   "line": "Partly: v3 is fair, but v1 had more character."
+  }
+ ]
+}

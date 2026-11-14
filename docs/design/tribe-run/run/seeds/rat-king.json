@@ -1,0 +1,12 @@
+{
+ "id": "rat-king",
+ "name": "The Rat King",
+ "source": "folio",
+ "folio_ref": "The Rat King",
+ "pitch": "Bodies tied together into one knot: what happens to one spreads along the others, so you build the knot, not the unit.",
+ "routes": [
+  "surgical",
+  "top-down-mech",
+  "borrow-twist"
+ ]
+}

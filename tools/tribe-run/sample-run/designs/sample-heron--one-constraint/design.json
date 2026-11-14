@@ -1,0 +1,23 @@
+{
+ "id": "sample-heron--one-constraint",
+ "seed": "sample-heron",
+ "route": "one-constraint",
+ "tribe_name": "Sample: Still Herons",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "summary": "Every heron must wade; the tribe lives inside that one rule.",
+   "author": "designer",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

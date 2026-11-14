@@ -1,0 +1,32 @@
+{
+ "id": "v1--climber",
+ "design_id": "sample-heron--top-down-flavour",
+ "v": 1,
+ "member": "climber",
+ "ratings": {
+  "fun": 5,
+  "distinct": 7
+ },
+ "ratings_why": {
+  "fun": "Not many real choices in the shop each turn.",
+  "distinct": "Nothing else plays like it."
+ },
+ "verdict": "iterate",
+ "verdict_why": "There's a real fix to make first.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": null,
+   "kind": "idea",
+   "text": "Tier 2 lacks a way to scale."
+  }
+ ],
+ "standouts": [],
+ "weakest": [
+  {
+   "uid": "u04",
+   "why": "Too slow."
+  }
+ ],
+ "flags": []
+}
