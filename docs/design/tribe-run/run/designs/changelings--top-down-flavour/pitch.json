@@ -1,0 +1,89 @@
+{
+  "design_id": "changelings--top-down-flavour",
+  "v": 3,
+  "hook": "Your faceless units wear other cards' text, and the longer a disguise goes unnoticed, the bigger the payoff.",
+  "loop": [
+    "Wear the Guise of shop or board units, copying their text.",
+    "Worn climbs each turn on every Guise you leave running.",
+    "Unmask to cash Worn in as permanent buffs, then re-Guise."
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Worn rises each Start of Turn; Unmasks and the Nurse pay permanent stats per turn Worn."
+  },
+  "feel": {
+    "early": "Copy shop units; thin Tier 2, little real buffing.",
+    "mid": "Each turn: let Guises run, or Unmask for applause.",
+    "late": "Copies of your carry, easy triples, a hill of Ladies."
+  },
+  "stars": [
+    {"uid": "u01", "why": "The whole loop in one card: wear a Guise, cash in Worn."},
+    {"uid": "u13", "why": "Stack and move Worn: time becomes a resource you spend."},
+    {"uid": "u17", "why": "The capstone wears every face on your board at once."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "buff",
+    "u11": "payoff",
+    "u12": "multiplier",
+    "u13": "multiplier",
+    "u14": "economy",
+    "u15": "engine",
+    "u16": "body",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Wears a shop unit's Guise; Unmasked: grows per turn Worn.",
+    "u02": "Carves a Stock of a shop unit.",
+    "u03": "Wears a Guise with left/right and front/behind flipped.",
+    "u04": "End of Turn: may Unmask your longest-Worn unit, small buff.",
+    "u05": "Swaps one of your units with a shop unit.",
+    "u06": "Gives a friendly unit the Guise of another unit.",
+    "u07": "Carves a half-stat Stock of your biggest other unit.",
+    "u08": "Wears a shop Guise; Unmasked: buffs touching units per Worn.",
+    "u09": "Start of Combat: copies the text of the enemy across.",
+    "u10": "Each Stock carved or Exchange: buffs all your Changelings.",
+    "u11": "Each Unmask buffs your other Changelings per turn Worn.",
+    "u12": "A unit taking a Guise fires the copied When played.",
+    "u13": "Doubles Worn gain; can move one Guise's Worn onto another.",
+    "u14": "Wears your unit's Guise; Guised units count toward triples.",
+    "u15": "Twice a fight: carves a Stock of a Changeling's killer.",
+    "u16": "Wears biggest unit's Guise, half its stats, then Exchanges it.",
+    "u17": "Has the printed text of every other unit you have.",
+    "u18": "Stocks keep their source's text; carves a Stock each turn.",
+    "u19": "Each turn: buffs Changelings by your longest Worn, capped.",
+    "x01": "Textless Changeling token with copied stats; sells for 0.",
+    "x02": "1-gold spell: Unmask a unit."
+  },
+  "builds": [
+    {"name": "The Long Con", "line": "Let Guises run, pile Worn with Keeper, cash in once with Usher."},
+    {"name": "The Stock Yard", "line": "Go wide with Stocks; Bettie buffs every carve, Moll gives them text."},
+    {"name": "A Hill of Ladies", "line": "Guise or Stock copies of the Lady, each running every buff text."}
+  ],
+  "liked": [
+    "Copying other tribes' text and tribe makes a new hybrid every lobby.",
+    "Run-or-cash choice on Worn gives each midgame turn a real decision."
+  ],
+  "worries": [
+    "Knowe Usher is uncapped; Keeper piling Worn makes one Unmask enormous.",
+    "The Lady: each extra Lady multiplies buffs again, bounded only by slots."
+  ],
+  "changed": [
+    "Seamstress loops capped: each unit fires a copied When played once a turn.",
+    "Keeper can now move Worn between Guises; Grandfer's Unmask became optional.",
+    "A unit wearing the Lady's Guise, or a Stock of her, is another Lady."
+  ],
+  "verdict": "Fun 7.3, distinct 7.7, settled by all three reviewers and ranked first of three; for players who love copy combos."
+}

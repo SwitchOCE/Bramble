@@ -1,0 +1,89 @@
+{
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 2,
+  "hook": "Every spell heats your Lamp: stop at exactly 7 for big buffs, or boil over and Flare.",
+  "loop": [
+    "Cast spells and Phials to build Heat, choosing where to stop",
+    "End at your Flashpoint, or go over to Flare",
+    "End of Turn and Flare effects buff every Moth permanently"
+  ],
+  "growth": {
+    "shape": "wide",
+    "line": "From Tier 4, board-wide permanent buffs each turn; Heat resets, so a steady drip, not a climb."
+  },
+  "feel": {
+    "early": "Thin; small bodies and a few Phials",
+    "mid": "Counting to exactly 7 each turn",
+    "late": "Big board buffs, Flares mid-fight, Shipton's opening blast"
+  },
+  "stars": [
+    {"uid": "u11", "why": "Pays double at exactly the Flashpoint: the tribe's idea on one card"},
+    {"uid": "u06", "why": "Stops a Flare for Simmer; sell her to Boil Over"},
+    {"uid": "u18", "why": "Moves the Flashpoint to 3, changing what every card reads"}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "buff",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "utility",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "payoff",
+    "u11": "payoff",
+    "u12": "engine",
+    "u13": "multiplier",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "economy",
+    "u17": "multiplier",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "engine",
+    "x02": "engine"
+  },
+  "card_short": {
+    "u01": "Bristle that grows with your Heat",
+    "u02": "Gives you an Uncertain Phial each turn",
+    "u03": "End of Turn: buffs a random Moth by Heat",
+    "u04": "Each spell you cast Stokes 1 more",
+    "u05": "Gain 1 gold once a turn when you cast",
+    "u06": "Catches one Flare while recruiting; Heat stays at Flashpoint",
+    "u07": "Selling a unit gives you a Phial, twice a turn",
+    "u08": "Spells on a neighbour also buff another neighbour",
+    "u09": "Drains attackers by half your Heat, then Stokes",
+    "u10": "Flare: all other Moths gain permanent stats",
+    "u11": "End of Turn: buffs Moths, double at exactly Flashpoint",
+    "u12": "Stokes 3 each turn, 2 more on Tier up",
+    "u13": "Phials cast twice on the same target",
+    "u14": "Spells on a Moth add stats per Heat",
+    "u15": "Start of Combat: blasts three enemies by Heat",
+    "u16": "Every tribe; a Flare steals a shop unit",
+    "u17": "Can't grow; other Moths' End of Turn effects trigger twice",
+    "u18": "Flashpoint becomes 3; Stokes 1 after each Flare",
+    "u19": "End of Turn: buffs Moths by all Heat gained",
+    "x01": "Free spell: give a unit +1/+1",
+    "x02": "Free spell: +1/+1, then Stoke 0 to 2 at random"
+  },
+  "builds": [
+    {"name": "Simmer at Seven", "line": "Land on exactly 7 every turn; Spectacle, Compounder, Pavonia pay out"},
+    {"name": "Boil Over", "line": "Flare as often as possible; Brass, Senior, Atropos, Alchymist"},
+    {"name": "Lamp in the Fight", "line": "End at 7; Shipton blasts, Hawk-moth Stokes into mid-fight Flares"}
+  ],
+  "liked": [
+    "One dial, two opposite builds: stop at 7 or blow past it",
+    "Cast order with Fanner, Brass and Compounder is a real puzzle"
+  ],
+  "worries": [
+    "Pavonia with Carbonaria runs far above the Tier 6 top end",
+    "Burnt-Ring Senior's in-fight Flares are unlimited with The Alchymist; thin early game"
+  ],
+  "changed": [
+    "The Uncertain's Phial now Stokes 0 to 2 at random",
+    "The Old Lady only stops Flares while recruiting",
+    "Clearer timing: Heat resets first, Hawk-moth drains before Stoking, Herald Stokes on Tier up"
+  ],
+  "verdict": "Rated 7 fun, 7 distinct, ranked second of three; for players who like counting to an exact mark."
+}

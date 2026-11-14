@@ -1,0 +1,87 @@
+{
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 2,
+  "hook": "Bank gold for a quiet winter, then blow it all in one loud summer turn: every saved coin pays twice.",
+  "loop": [
+    "Split your gold: spending fires Spree, saving fires Thrift.",
+    "Hive units grow on saved gold; Carnival units grow on spending.",
+    "Blow the saved pile in one turn for a burst of Sprees."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Every 3 gold saved or spent triggers growth; a 30-gold summer turn gives Carnival units +10/+10."
+  },
+  "feel": {
+    "early": "Carnival climbs early; Hive saves gold and loses fights.",
+    "mid": "Bank grows; Ottavia and Tettix in hand build toward summer.",
+    "late": "One 30-gold summer turn; Gravelle sprays, Clemenza pays both towns."
+  },
+  "stars": [
+    {"uid": "u14", "why": "Grows in hand while you save, then buffs Carnival per Spree."},
+    {"uid": "u07", "why": "Sell him, he returns to the shop bigger: a Spree pump."},
+    {"uid": "u08", "why": "Its Shell Mask lets a unit wear another town's trigger."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "buff",
+    "u06": "economy",
+    "u07": "engine",
+    "u08": "multiplier",
+    "u09": "buff",
+    "u10": "buff",
+    "u11": "economy",
+    "u12": "payoff",
+    "u13": "multiplier",
+    "u14": "payoff",
+    "u15": "multiplier",
+    "u16": "payoff",
+    "u17": "economy",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "multiplier"
+  },
+  "card_short": {
+    "u01": "Hive. Thrift: grows itself permanently.",
+    "u02": "Carnival. In fight, Attack per Spree, Health per saved gold.",
+    "u03": "Hive. Thrift: gains Health; sells for gold per 5 Health.",
+    "u04": "Hive. Thrift: buffs the front-row units in front of it.",
+    "u05": "Carnival. Spree: permanently buffs another random unit.",
+    "u06": "Road. Start of Turn: gold, more next to each town.",
+    "u07": "Hive. Sold, returns to your shop frozen and bigger.",
+    "u08": "Carnival. Sold: Shell Mask copying its left neighbour's triggers.",
+    "u09": "Road. Spree buffs random Hive; Thrift buffs random Carnival.",
+    "u10": "Hive. Thrift: grows and freezes your shop's leftmost unit.",
+    "u11": "Hive. Start of Turn: interest, 1 gold per 5 held.",
+    "u12": "Carnival. Start of Combat: other Carnival units gain per Spree.",
+    "u13": "Carnival. End of Turn near broke: every Spree fires again.",
+    "u14": "Carnival. Spree buffs other Carnival units; grows while in hand.",
+    "u15": "Hive. Your other units' Thrifts trigger twice.",
+    "u16": "Hive. Start of Combat: sprays all enemies by gold held.",
+    "u17": "Hive. Can't attack. Thrift: adds a Hive copy to hand.",
+    "u18": "Carnival. Sprees every 2 gold; Spree buffs all other units.",
+    "u19": "Road. Spent gold feeds Thrift; saved gold fires Spree units.",
+    "x01": "Item. A unit gains another's Spree and Thrift lines."
+  },
+  "builds": [
+    {"name": "Summer", "line": "Spend to 0 every turn; cycle Fennimore, end with Cigale."},
+    {"name": "Winter", "line": "Bank 12-15 gold; Banker interest, Gravelle sprays, Messor and Melissa."},
+    {"name": "The Long Wait", "line": "Save two or three turns, then one 30-gold turn of Sprees."}
+  ],
+  "liked": [
+    "Tettix growing in hand, then leading the summer turn: the tribe in one card.",
+    "Paying for gold both saved and spent plays unlike any other tribe."
+  ],
+  "worries": [
+    "Watch: Mother Melissa with Messor and Clemenza could chain copies into triples.",
+    "Watch: Tettix Shell Masks with Penniless Tenor, and Fennimore with Cigale, grow steeply."
+  ],
+  "changed": [
+    "Every card now prints its town: Hive, Carnival or Road.",
+    "Shell Masks, Ottavia's freeze and Clemenza reworded to read at a glance.",
+    "Busker pays on saving turns; Tenor tolerates one coin; no empty Masks."
+  ],
+  "verdict": "Rated 7 fun and 7 distinct, ranked first of three Hive-and-Carnival designs: for players who love planning one huge spike turn."
+}

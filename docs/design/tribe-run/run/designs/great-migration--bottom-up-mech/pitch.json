@@ -1,0 +1,87 @@
+{
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 3,
+  "hook": "Breed a swelling herd of lemmings, then choose each turn: hoard them as an endless tide or cash them in.",
+  "loop": [
+    "Make Kits; extras that don't fit wait in the Burrow.",
+    "Grow Kit count and Kit size; the two multiply.",
+    "Pour Kits out through Onward, or spend them on real units."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Kit count and Kit size both rise each turn and multiply; spending turns them into permanent stats."
+  },
+  "feel": {
+    "early": "Free Kit bodies fill gaps and attack first.",
+    "mid": "A growing Burrow; every turn a keep-or-spend call.",
+    "late": "Endless Onward tides, a growing Banner, or giant real units."
+  },
+  "stars": [
+    {"uid": "u06", "why": "Names the comp at Tier 3: the Burrow becomes fight HP."},
+    {"uid": "u19", "why": "Drains half the Burrow into stats, pulling against the Onward tide."},
+    {"uid": "u18", "why": "A Banner that grows as each front Kit dies."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "engine",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "engine",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "multiplier",
+    "u13": "multiplier",
+    "u14": "engine",
+    "u15": "payoff",
+    "u16": "buff",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "When played: make a Kit.",
+    "u02": "End of Turn: make a Kit.",
+    "u03": "End of Turn: gold per 5 Herd Kits, at most 2.",
+    "u04": "When played: Kit size +2 Attack or +2 Health.",
+    "u05": "Onward; gives another unit Onward and makes a Kit.",
+    "u06": "Your front unit has Onward, up to 3 times a fight.",
+    "u07": "End of Turn: a Kit per 4 in your Herd.",
+    "u08": "When played: cash up to 3 Burrow Kits into stats.",
+    "u09": "Start of Combat: 3 Burrow Kits fall on enemies as damage.",
+    "u10": "When played: a nearby Kit becomes a copy of a neighbour.",
+    "u11": "End of Turn: spend 2 Burrow Kits, Kit size +1/+1.",
+    "u12": "Each Kit you make brings another into the Burrow.",
+    "u13": "Your Kits have Bristle 3; falling Kits hit harder.",
+    "u14": "Start of Turn: doubles your Burrow, up to 6 Kits.",
+    "u15": "When a Kit dies, your biggest unit gains its stats.",
+    "u16": "Onward. Start of Combat: Kits grow with Burrow size.",
+    "u17": "Your Kits have +1/+1 and Onward.",
+    "u18": "Front unit gets a Banner that grows as holders die.",
+    "u19": "End of Turn: half the Burrow becomes permanent stats.",
+    "x01": "Lemming token at Kit size; overflow waits in the Burrow."
+  },
+  "builds": [
+    {"name": "The Endless Tide", "line": "Build a huge Burrow and pour it out through Onward."},
+    {"name": "The Crossing", "line": "Few strong units, often borrowed, fed Kits by Raft-builder and Ferrywife."},
+    {"name": "The Banner", "line": "Brother Onward's Banner grows as front Kits die; a sturdy catcher behind."}
+  ],
+  "liked": [
+    "Brother Onward's growing Banner: all three named it a standout payoff.",
+    "One pile of Kits pulled several ways gives a real choice every turn."
+  ],
+  "worries": [
+    "Golden Cantor of the Edge can stack huge fight stats on one unit.",
+    "Watch Ferrywife, Herding Council, Herald, Brother Onward growth; Gerd's Bristle Kits risk ties."
+  ],
+  "changed": [
+    "Herding Council now grows Kit size; Tally pays gold for a big Herd.",
+    "Front unit and turn order are now tribe rules; several rules gaps closed.",
+    "Gerd boosts Ole's falling Kits; Snow Hall Guard scales with the Burrow."
+  ],
+  "verdict": "Rated 7 fun and 6.7 distinct, it ranked first of its seed's three; for players who like hoarding, then cashing in."
+}

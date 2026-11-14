@@ -1,0 +1,85 @@
+{
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 3,
+  "hook": "Your board is a river: as fish ahead die, the run climbs, and the first home showers its neighbours with stats.",
+  "loop": [
+    "Set the river: who dies at the Source, who waits at B1",
+    "In the fight the run Leaps upstream, every mover gaining a Stamp",
+    "The fish that came Home Spawns: a lasting Gift, then an Alevin"
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "One Stamp per moving fish per fight; each Spawn permanently gives both neighbours +(Stamps plus tier) stats."
+  },
+  "feel": {
+    "early": "Small Spawns that already pay; Alevins start triples",
+    "mid": "Stamps compound; Old Kelt sends a fish home every fight",
+    "late": "Mother Redd, Bradán or Llyn Llyw: three different finishes"
+  },
+  "stars": [
+    {"uid": "u06", "why": "Drifts to the mouth; the whole run leaps up behind him"},
+    {"uid": "u04", "why": "Stamps neighbours, blocks the way home, and Spawns one when sold"},
+    {"uid": "u17", "why": "Fish stop being spent: the same veteran keeps coming home"}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "utility",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "buff",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "multiplier",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "body",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "Spawn leftover; grows with each Stamp",
+    "u02": "Gains stats this fight when it leaps",
+    "u03": "When played: give a Stamp, then stats per Stamp",
+    "u04": "No Leap. Stamps fish alongside; sold, Spawns one upstream",
+    "u05": "No Leap. Each Spawn adds an Alevin to hand",
+    "u06": "Drifts downstream at Start of Combat, starting the climb",
+    "u07": "Gives Leap to units alongside, any tribe",
+    "u08": "Buffs your units with exactly its Stamp count",
+    "u09": "Gains Attack this fight whenever another unit leaps",
+    "u10": "Start of Turn: buffs a random Salmon per its Stamps",
+    "u11": "Spent: non-Salmon units gain stats per its Stamps",
+    "u12": "Alevins keep all their parent's Stamps, plus one",
+    "u13": "Once a turn, a Spawn's Gift and Spent happen again",
+    "u14": "Every fish reaching the Source comes Home; buffs all",
+    "u15": "Leaps make it attack at once; Cleave at 3 Stamps",
+    "u16": "Leaping into the front row: Shield and stats",
+    "u17": "Spawning fish aren't spent; their Alevin goes to hand",
+    "u18": "Start of Combat: replays every Salmon's Gift for this fight",
+    "u19": "All your units Leap and gain stats per Stamp"
+  },
+  "builds": [
+    {"name": "The Homecoming", "line": "Kelt opens the way; spend fish every fight for Gifts and Alevins"},
+    {"name": "The Long Road", "line": "Block B1 so nobody goes home; pile up Stamps for Llyn Llyw"},
+    {"name": "The Cascade", "line": "Fragile unit at the Source; every death pulls the run and powers leapers"}
+  ],
+  "liked": [
+    "All three: Old Kelt and the Bailiff, the seed's picture made into cards",
+    "Setting the river each turn is a fresh puzzle; the board moves mid-fight"
+  ],
+  "worries": [
+    "Mother Redd with Warden and Jack: a golden Alevin and Discover nearly every turn",
+    "Old Bradán runs about twice the Tier 6 guide in fight (watch)"
+  ],
+  "changed": [
+    "Gift now adds the fish's tier, so early homecomings pay",
+    "Gift reaches only the two river neighbours, not the whole chain",
+    "Old Kelt is now No Leap, staying at the mouth"
+  ],
+  "verdict": "Rated 7 fun, 8 distinct, all three settled; ranked third of three, slower growth. For players who love positioning puzzles."
+}

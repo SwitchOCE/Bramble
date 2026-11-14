@@ -1,0 +1,93 @@
+{
+ "design_id": "trapdoor-lodge--surgical",
+ "v": 2,
+ "hook": "Hide spiders face down as Lids, then watch them burst out mid-fight and strike before the enemy can react.",
+ "loop": [
+  "Flip units face down as Lids and set each Lid's countdown.",
+  "Lids grow while hidden; knock sources tune when they spring.",
+  "Lids spring mid-fight, strike out of turn, and trigger spring payoffs."
+ ],
+ "growth": {
+  "shape": "mixed",
+  "line": "Flat permanent buffs to Lids each turn through Tier 4; Tiers 5-6 grow only inside fights."
+ },
+ "feel": {
+  "early": "Small Lids hide and grow; a free first strike.",
+  "mid": "Knock sources and Retreats tune springs; Jill feeds Discovers.",
+  "late": "Spring chains buff everyone, or all Lids spring at once."
+ },
+ "stars": [
+  {"uid": "u16", "why": "Stabs the enemy across, hides after each kill, springs again."},
+  {"uid": "u17", "why": "Springs copies from your hand; ranked the seed's best card."},
+  {"uid": "u12", "why": "Each empty slot is a knock, or a missing unit."}
+ ],
+ "roles": {
+  "u01": "body",
+  "u02": "body",
+  "u03": "economy",
+  "u04": "buff",
+  "u05": "engine",
+  "u06": "engine",
+  "u07": "engine",
+  "u08": "payoff",
+  "u09": "body",
+  "u10": "buff",
+  "u11": "engine",
+  "u12": "engine",
+  "u13": "economy",
+  "u14": "multiplier",
+  "u15": "multiplier",
+  "u16": "payoff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "body",
+  "x02": "utility",
+  "x03": "utility",
+  "x04": "utility"
+ },
+ "card_short": {
+  "u01": "Lie in Wait 1; grows a little when it springs.",
+  "u02": "Grows permanently each turn it ends as a Lid.",
+  "u03": "Gives gold if it stayed hidden all last fight.",
+  "u04": "Permanently buffs Lids next to it each turn.",
+  "u05": "Knocks on your Lids whenever it attacks; never hides.",
+  "u06": "Gives a unit Lie in Wait, or lowers its N.",
+  "u07": "Knocks whenever an enemy attacks a unit next to it.",
+  "u08": "Twice a fight, a springing unit gains permanent stats.",
+  "u09": "Springs fast, gains stats, hides again once after attacking.",
+  "u10": "Permanently buffs all your Lids each turn.",
+  "u11": "Springs out Nieces as Lids; dying makes three more.",
+  "u12": "Knocks once per empty slot at Start of Combat.",
+  "u13": "After springing, Discover a non-Lodge unit with Lie in Wait.",
+  "u14": "Hidden until last; while hidden, Spring effects trigger twice.",
+  "u15": "Other Lie in Wait units hide again after first attack.",
+  "u16": "Springs instantly, stabs across; hides again after each kill.",
+  "u17": "While hidden, springs hand cards into dead units' slots.",
+  "u18": "Each spring gives your other units +1/+1 for the fight.",
+  "u19": "Lids grow each enemy attack; all spring when wall falls.",
+  "x01": "2/2 token with Lie in Wait 1.",
+  "x02": "No tribe spells; Harvest Supper still reaches Lids.",
+  "x03": "Corkhinge doubles only text starting \"Spring:\".",
+  "x04": "Goldens keep N and limits unless their text says otherwise."
+ },
+ "builds": [
+  {"name": "The Busy Bank", "line": "Knock sources and low-N Lids spring early and strike first."},
+  {"name": "The Long Wait", "line": "Hard face-up wall; Lids grow hidden, then all spring together."},
+  {"name": "Strike and Hide", "line": "Diadem and Corkhinge: spring, strike, retreat, spring again, doubled."}
+ ],
+ "liked": [
+  "Lids change who's hit, who attacks first and what scouting shows.",
+  "Setting each Lid's count against your knocks is a real drafting puzzle."
+ ],
+ "worries": [
+  "Worshipful Master could hit +15/+15 with chained springs; unclear if Lids get it.",
+  "Watch Gossamer Jill's Discover every turn, and Long Wait's hero damage."
+ ],
+ "changed": [
+  "Signora Corkhinge now springs only last, by the fallback; mass springs can't open her.",
+  "Grand Tyler now springs the leftmost hand card, and its Spring effect fires.",
+  "Golden Brother Atypus now retreats six times a fight, not stats only."
+ ],
+ "verdict": "Rated fun 7 and distinct 8, it ranked third of its seed's three; for players who love hidden timing and ambush combos."
+}

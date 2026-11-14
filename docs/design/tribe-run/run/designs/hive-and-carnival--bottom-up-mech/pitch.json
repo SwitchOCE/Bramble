@@ -1,0 +1,99 @@
+{
+ "design_id": "hive-and-carnival--bottom-up-mech",
+ "v": 2,
+ "hook": "Save gold to grow the Hive, then blow it all in one huge Carnival turn.",
+ "loop": [
+  "Choose each gold: spend it for Fanfare, or hold it for Reserve.",
+  "A held float pays Reserve every turn while you spend income.",
+  "Drain the float in one big turn to fire every Fanfare."
+ ],
+ "growth": {
+  "shape": "wide",
+  "line": "Small permanent +1/+1s each turn across a town, spiking on the drain turn when Cigale pays per gold."
+ },
+ "feel": {
+  "early": "Lean: bank a float; Comb Guard holds early fights.",
+  "mid": "Fanfares wake up; reading order and last gold matter.",
+  "late": "The float pays every turn, or one huge drain turn."
+ },
+ "stars": [
+  {"uid": "u18", "why": "Every gold past income buffs the band: the drain-turn payoff."},
+  {"uid": "u19", "why": "Pays for keeping Spent and Purse level; both towns in one build."},
+  {"uid": "u10", "why": "Free gold if you end broke, a tax if you save."}
+ ],
+ "roles": {
+  "u01": "body",
+  "u02": "body",
+  "u03": "buff",
+  "u04": "economy",
+  "u05": "buff",
+  "u06": "economy",
+  "u07": "payoff",
+  "u08": "buff",
+  "u09": "utility",
+  "u10": "economy",
+  "u11": "multiplier",
+  "u12": "buff",
+  "u13": "buff",
+  "u14": "payoff",
+  "u15": "payoff",
+  "u16": "payoff",
+  "u17": "multiplier",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "utility",
+  "x02": "utility",
+  "x03": "utility",
+  "x04": "utility",
+  "x05": "utility",
+  "x06": "utility",
+  "x07": "utility"
+ },
+ "card_short": {
+  "u01": "Hive. Gains up to +3 Attack in fights from Purse.",
+  "u02": "Road. Grows Health on Reserve 3, Attack on Fanfare 6.",
+  "u03": "Hive. End of Turn: spends 1 gold to buff neighbours.",
+  "u04": "Carnival. Fanfare 5: refunds 1 gold.",
+  "u05": "Carnival. Fanfare 7: buffs three random other units.",
+  "u06": "Hive. Reserve 5: interest gold next turn, more at 10.",
+  "u07": "Carnival. Gains stats in fights per 2 gold spent.",
+  "u08": "Hive. Reserve 6: buffs the units next to it.",
+  "u09": "Road. Lowers neighbours' Fanfare and Reserve numbers by 2.",
+  "u10": "Carnival. Gains 2 gold each turn; takes up to 3 back.",
+  "u11": "Carnival. Fanfares fire again at double their number.",
+  "u12": "Hive. Front row gains Health in fights from Purse gold.",
+  "u13": "Road. Fanfare 8 buffs Hive; Reserve 8 buffs Carnival.",
+  "u14": "Hive. Reserve: buffs Hive units per 4 Purse gold.",
+  "u15": "Hive. Start of Combat: 3 damage per 2 Purse gold.",
+  "u16": "Carnival. End of Turn: buffs Carnival units per 4 spent.",
+  "u17": "Hive. Your Reserve effects trigger twice.",
+  "u18": "Carnival. Each gold spent past income buffs every Carnival unit.",
+  "u19": "Road. Buffs all units by half your smaller counter.",
+  "x01": "Rule: income is base gold; Cigale counts gold beyond it.",
+  "x02": "Sealer's gold counts as Spent, can tip Horn or Tettix.",
+  "x03": "Units before the Borrower count the Purse before he takes.",
+  "x04": "Lantern's refund helps reach Tithonus's second Fanfare.",
+  "x05": "Tier up counts as Spent: your biggest Fanfare turn.",
+  "x06": "Last gold: roll to cross Fanfare, or keep for Reserve.",
+  "x07": "Selling grown units gives extra gold Cigale counts."
+ },
+ "builds": [
+  {"name": "The Festival (Carnival)", "line": "End every turn broke; Borrower, Lantern and Tithonus keep the band growing."},
+  {"name": "Saint's Day (crossing)", "line": "Save two or three turns, then drain it all in one turn."},
+  {"name": "Balanced Books (Ottavia)", "line": "Keep Spent equal to Purse; Ottavia and Afide feed both towns."}
+ ],
+ "liked": [
+  "Every last gold is a choice: roll to cross a Fanfare or save it.",
+  "The save-then-drain turn is a real payoff; Ottavia's balanced books stood out."
+ ],
+ "worries": [
+  "Watch: Melissa, Gravelle, Ottavia run hot late; Cigale's drain turn is huge.",
+  "Fights are mostly +1/+1 piles; a banked float stops asking for decisions."
+ ],
+ "changed": [
+  "Every unit now prints its town; Road units count as both.",
+  "Comb Guard is now a 2/3, to win early fights.",
+  "Fennimore, Tithonus and Cigale now say exactly which numbers and gold count."
+ ],
+ "verdict": "Rated 6.7 fun and 7.0 distinct, third of its seed's three; for players who enjoy gold sums and timing."
+}

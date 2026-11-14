@@ -1,0 +1,85 @@
+{
+ "design_id": "shiny-syndicate--bottom-up-flavour",
+ "v": 2,
+ "hook": "Borrow gold now, let the interest feed your ravens, and make the losers pay your debts.",
+ "loop": [
+  "Write IOUs on your Ledger by borrowing gold or playing magpies.",
+  "Every gold of interest or pay-off fires your ravens' Collect.",
+  "Hold debt to power Eldest, or clear it for Grandmother Corbie."
+ ],
+ "growth": {
+  "shape": "mixed",
+  "line": "Each gold paid onto the Ledger is +1/+1 somewhere; capstones turn a full Ledger into whole-tribe buffs."
+ },
+ "feel": {
+  "early": "Strong bodies on credit; borrow to tier up fast.",
+  "mid": "Warden and Thought grow the tab; pawn and replay.",
+  "late": "Hold or clear: Seven and Eldest versus Grandmother Corbie."
+ },
+ "stars": [
+  {"uid": "u10", "why": "Pawn a unit for gold, replay its When-played when paid."},
+  {"uid": "u12", "why": "Other tribes' units pay your debt and get Shield."},
+  {"uid": "u17", "why": "Capstone that pays you to clear debt, against Eldest's hold."}
+ ],
+ "roles": {
+  "u01": "body",
+  "u02": "payoff",
+  "u03": "economy",
+  "u04": "buff",
+  "u05": "buff",
+  "u06": "engine",
+  "u07": "utility",
+  "u08": "economy",
+  "u09": "buff",
+  "u10": "engine",
+  "u11": "buff",
+  "u12": "utility",
+  "u13": "multiplier",
+  "u14": "multiplier",
+  "u15": "utility",
+  "u16": "payoff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff"
+ },
+ "card_short": {
+  "u01": "Solid early body; When played: write an IOU 2.",
+  "u02": "Collect: grows +1/+1, twice a turn and twice a fight.",
+  "u03": "After a win, if alive: Skim. Debt-free: 1 gold.",
+  "u04": "Extra gold you gain becomes +1/+1 on another unit.",
+  "u05": "When played: give a unit +4/+4, write an IOU 2.",
+  "u06": "Start of Turn: Borrow 2 while under 3 IOUs.",
+  "u07": "Feathers enemies that kill yours; feathered deaths pay your debt.",
+  "u08": "After a loss, shop offers the enemy's biggest unit cheap.",
+  "u09": "On each IOU clear, buffs neighbours; more beside Sorrow.",
+  "u10": "Pawn a sold unit: Borrow 3; it returns when cleared.",
+  "u11": "Each Collect passes a +1/+1 bowl along the zigzag.",
+  "u12": "Two non-Syndicate units pay your debt and get Shield.",
+  "u13": "When played: becomes a copy of another friendly unit.",
+  "u14": "Collect and IOU-clear effects trigger twice.",
+  "u15": "Start of Combat: steals Attack and keywords from three enemies.",
+  "u16": "Start of Combat: Syndicate +1/+1 per open IOU.",
+  "u17": "Each IOU clear: Syndicate permanently gain up to +5/+5.",
+  "u18": "Hidden from scouts; pays your interest free; grows on Collect.",
+  "u19": "End of Turn: unspent gold, up to 6, buffs Syndicate."
+ },
+ "builds": [
+  {"name": "Running a tab", "line": "Hold many IOUs; Collect the interest; Memory, Seven and Eldest pay out."},
+  {"name": "The pawnshop", "line": "Pawn When-played units with Uncle Jack, clear the IOU, replay them."},
+  {"name": "The family business", "line": "Another tribe's carry pays your debt under the Enforcer and gets Shield."}
+ ],
+ "liked": [
+  "All three: hold-or-clear debt is a real new choice every turn.",
+  "Uncle Jack's pawnshop, cash a unit and replay it, was every reviewer's standout."
+ ],
+ "worries": [
+  "Watch: Memory, Seven and Grandmother Corbie stacking Collects could run away late.",
+  "Watch: Uncle Jack with Bagman pays out every win; Sorrow, Mirror skip tiers."
+ ],
+ "changed": [
+  "Skim now counts as the loser paying, so every win feeds Collect.",
+  "Memorys no longer stack; Uncle Jack can't pawn on a full Ledger.",
+  "Clearer wording for Clerk, Warden, Jackdaw and Grandmother Corbie's full amount."
+ ],
+ "verdict": "Rated 7 fun, 8 distinct; ranked second of its three, with the most memorable cards; for players who like juggling debt."
+}

@@ -1,0 +1,85 @@
+{
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 3,
+  "hook": "Steer a public Moon so Full lands on the fight that matters, while your Hares wear their neighbours' text.",
+  "loop": [
+    "Bend the Moon with turns and holds; Hares grow each Moonturn.",
+    "Waxing and Waning buffs pile up permanent stats across the board.",
+    "At Full, Hares borrow neighbours' text and Box for a spike."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Permanent buffs every Moonturn, more with extra turns; Full spikes every fourth round; Moonturn doublers take over late."
+  },
+  "feel": {
+    "early": "Simple rhythm; small Full spike on turn 3.",
+    "mid": "Steer the Moon; place Hares beside off-tribe engines.",
+    "late": "Moonturn multipliers and Full capstones; big swings."
+  },
+  "stars": [
+    {"uid": "u06", "why": "Copies the unit on its left at Full; placement is the puzzle."},
+    {"uid": "u12", "why": "Turn once, twice or hold: steering the Moon every turn."},
+    {"uid": "u17", "why": "Brings Full sooner and gives every Hare a borrowed shape."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "multiplier",
+    "u07": "buff",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "buff",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "multiplier",
+    "u14": "payoff",
+    "u15": "utility",
+    "u16": "payoff",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "multiplier"
+  },
+  "card_short": {
+    "u01": "At Full, Boxes the enemy across at Start of Combat.",
+    "u02": "Grows each Moonturn while no other Hare is beside it.",
+    "u03": "When played, may Turn the Moon.",
+    "u04": "Each Moonturn, permanently buffs the unit on its left.",
+    "u05": "Moonturn to Waning: get a Leveret in the Form.",
+    "u06": "At Full, Borrowed shape: copies its left neighbour's text.",
+    "u07": "Holds the Moon; buffs other Hares when it doesn't turn.",
+    "u08": "Waxing End of Turn: other Hares gain +2/+2 permanently.",
+    "u09": "Can't be attacked with a row-mate; alone, grows and Boxes.",
+    "u10": "At Full, Boxes their top attacker; death buffs other Hares.",
+    "u11": "End of Turn: buffs units beside it, double at Waning.",
+    "u12": "Each turn choose: Moon turns once, twice, or holds.",
+    "u13": "Your Moonturn triggers fire twice.",
+    "u14": "Boxes at Start of Combat, again per win; winners grow.",
+    "u15": "Shield; copies the text of the enemy across each fight.",
+    "u16": "Each Moonturn, other Hares gain +2/+1 permanently.",
+    "u17": "Waxing jumps to Full; at Full, other Hares get Borrowed shape.",
+    "u18": "It and its two zigzag neighbours share permanent gains.",
+    "u19": "At Full, doubles stat numbers in other Hares' text."
+  },
+  "builds": [
+    {"name": "Full Moon coven", "line": "Place Changelings right of off-tribe engines; Meikle Care, Moon-Scour finish."},
+    {"name": "Almanac engine", "line": "Stack Moonturns: Waxwell, Hare in the Moon, Mad March Hare."},
+    {"name": "The Ring", "line": "Spring Jill, Old Wat and Longshanks Box at Start of Combat."}
+  ],
+  "liked": [
+    "All three picked Changeling Sister: placement beside off-tribe engines is the puzzle.",
+    "A public Moon you steer plays unlike any of today's tribes."
+  ],
+  "worries": [
+    "Hare in the Moon engine runs hot: about 270 stats a turn golden.",
+    "Also watched: Waxwell, Longshanks, Silverpenny, Three Hares, Moon-Scour; Waxwell's wording unclear."
+  ],
+  "changed": [
+    "Three Hares now names its three; Hare in the Moon and Moon-Scour don't stack.",
+    "Meikle Care turns to Full without overshooting; Waxwell gets one choice, golden capped.",
+    "Borrowed shapes copy printed text only, so copies never chain."
+  ],
+  "verdict": "Rated 7.3 fun and 7.3 distinct, ranked second of three Moon Hare designs; for players who read closely and love combos."
+}

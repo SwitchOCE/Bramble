@@ -1,0 +1,89 @@
+{
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 2,
+  "hook": "Your snake actors play dead, cash in their death scenes, then the whole cast stands up bigger for the bow.",
+  "loop": [
+    "Seat units so the right ones go down beside the right neighbours",
+    "Each fall plays dead and triggers Death Scenes for permanent stats",
+    "Curtain Call: the limp cast rises at full Health, grown"
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Permanent stats each time a unit goes down; from Tier 4, extra triggers multiply every scene, even in the shop."
+  },
+  "feel": {
+    "early": "Cheap Play Dead bodies that refuse to stay down",
+    "mid": "Seating puzzle: Bufo and Mixer grow every fall",
+    "late": "Hesketh and Old Crest replay the whole repertoire"
+  },
+  "stars": [
+    {"uid": "u10", "why": "Knocks a friend down before the fight, so scenes pay early"},
+    {"uid": "u11", "why": "Feeds every limp unit, so the second act rises bigger"},
+    {"uid": "u17", "why": "His fall plays every other Death Scene at once"}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "buff",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "multiplier",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "multiplier",
+    "u10": "engine",
+    "u11": "buff",
+    "u12": "economy",
+    "u13": "multiplier",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "multiplier",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Plain body with Play Dead",
+    "u02": "Gains Attack permanently whenever another friend plays dead",
+    "u03": "Death Scene: permanently buffs the units beside it",
+    "u04": "Start of Combat: lends Play Dead to the unit in front",
+    "u05": "Gold next turn for units that went down, up to 2",
+    "u06": "When played: triggers a friend's Death Scene in the shop",
+    "u07": "When played: permanently gives a friend Play Dead",
+    "u08": "Death Scene: permanently buffs your other Play Dead units",
+    "u09": "Neighbour goes down: summons a Tail carrying its Death Scene",
+    "u10": "Start of Combat: the unit on her left goes down",
+    "u11": "Each friend that plays dead gets permanent stats",
+    "u12": "Start of Turn: get a Saucer of Milk",
+    "u13": "Play Dead; units playing dead trigger their scenes again",
+    "u14": "Plays dead twice; Death Scene permanently buffs all others",
+    "u15": "Play Dead; Death Scene destroys the enemy that downed it",
+    "u16": "All your Death Scenes trigger again, even while recruiting",
+    "u17": "Play Dead; Death Scene triggers all your other scenes",
+    "u18": "Play Dead; your Play Dead units get one more life",
+    "u19": "Permanently eats half the stats of friends that really die",
+    "x01": "1/1 carrying the fallen neighbour's Death Scene",
+    "x02": "Item: 1 gold, lend Play Dead, or trigger a scene"
+  },
+  "builds": [
+    {"name": "The Long Death Scene", "line": "Mixer, Wreath-Weaver, Natrix and Old Crest grow the board permanently; Hesketh caps it"},
+    {"name": "The Second Act", "line": "Chorus Snakes, Bufo and Žilvinas: the whole cast rises again, bigger"},
+    {"name": "The Villain's Prologue", "line": "Coronella downs Berus or Hesketh before the first attack"}
+  ],
+  "liked": [
+    "Coronella, the Villain: all three picked her; scenes pay before combat",
+    "Seating who goes down next to whom is a real puzzle"
+  ],
+  "worries": [
+    "Sir Hesketh with Old Crest and Eft multiplies every scene, even in shop",
+    "Berus destroys outright; Žilvinas's extra lives make fights long and hard to follow"
+  ],
+  "changed": [
+    "Risen units keep spare Play Dead lives, so more Curtain Calls can come",
+    "Little Anguis now just drops a Tail carrying a fallen neighbour's scene",
+    "Natterjack pays per unit down; Saucers can trigger a Death Scene"
+  ],
+  "verdict": "Rated 7 fun, 7 distinct, settled, ranked second of three; for players who love arranging chains of death effects and comebacks."
+}

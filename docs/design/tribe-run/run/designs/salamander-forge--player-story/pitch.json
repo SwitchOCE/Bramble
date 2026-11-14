@@ -1,0 +1,73 @@
+{
+  "design_id": "salamander-forge--player-story",
+  "v": 2,
+  "hook": "Put the same unit back in the fire every turn until it's a burning carry that keeps coming back.",
+  "loop": [
+    "Reforge a few pieces: +1/+1, a Heat and a burn.",
+    "Heat piles up permanently on a few hot units.",
+    "Cash Heat into Shield, Cleave, Swoop, Attack or extra lives."
+  ],
+  "growth": {"shape": "tall", "line": "+1/+1 per Reforge early; Heat payoffs and the Tier 6 Furnace make the hottest unit snowball late."},
+  "feel": {
+    "early": "One newt, heated every turn, small clicks.",
+    "mid": "Heat piles up; burn or heal, cash out or keep.",
+    "late": "Furnace, Nutrisco or Ottilie turn it loose."
+  },
+  "stars": [
+    {"uid": "u07", "why": "Burn your own board on purpose for Attack and comebacks."},
+    {"uid": "u17", "why": "Hot units come back stronger, each comeback a bit weaker."},
+    {"uid": "u14", "why": "Gives Heat clear goals: Shield, then Cleave, then Swoop."}
+  ],
+  "roles": {
+    "u01": "engine", "u02": "engine", "u03": "engine", "u04": "payoff",
+    "u05": "buff", "u06": "engine", "u07": "buff", "u08": "payoff",
+    "u09": "payoff", "u10": "multiplier", "u11": "engine", "u12": "buff",
+    "u13": "payoff", "u14": "payoff", "u15": "payoff", "u16": "engine",
+    "u17": "payoff", "u18": "multiplier", "u19": "payoff",
+    "x01": "utility", "x02": "utility", "x03": "utility", "x04": "utility"
+  },
+  "card_short": {
+    "u01": "Regrow. Reforges itself every End of Turn.",
+    "u02": "When played: Reforge another friendly unit.",
+    "u03": "End of Turn: spends gold to Reforge your hottest unit.",
+    "u04": "Gains Attack for each damage on it.",
+    "u05": "When played: fully heal a unit; healing becomes permanent stats.",
+    "u06": "Each sale Reforges your hottest unit twice.",
+    "u07": "Start of Combat: damages your own units; damaged ones gain Attack.",
+    "u08": "When played: cash a unit's Heat into permanent stats.",
+    "u09": "Start of Combat: pings enemies once per your hottest unit's Heat.",
+    "u10": "Your first 3 Reforges each turn happen twice.",
+    "u11": "Sell a unit: its Heat goes to his right-hand neighbour.",
+    "u12": "End of Turn, last: heals everyone; healed damage becomes Health.",
+    "u13": "Start of Combat: each unit gains Attack per Heat.",
+    "u14": "Heat goals: Shield at 4, Cleave at 8, Swoop at 16.",
+    "u15": "When a unit Regrows, its neighbours gain Attack.",
+    "u16": "End of Turn: Reforges every other friendly unit.",
+    "u17": "Regrow; gives Regrow at 5+ Heat; Regrows give permanent stats.",
+    "u18": "Reforges give more the hotter the unit already is.",
+    "u19": "Start of Combat: hottest unit grows per Heat, per empty slot.",
+    "x01": "Reforge only while recruiting; fight damage is ordinary damage.",
+    "x02": "Two-Tongs repeats don't count towards its 3.",
+    "x03": "Regrow halves Heat, so units can drop below thresholds.",
+    "x04": "Sold units lose Heat, except Birds away on Fly South."
+  },
+  "builds": [
+    {"name": "One Hot Piece", "line": "Pour every Reforge into one carry; swap carries with Konrad."},
+    {"name": "Burn to Rise", "line": "Ember-Belly kills a burnt unit; Ottilie brings it back stronger."},
+    {"name": "The Whole Forge", "line": "Paracel heats the whole board: wide, slow, very hard to kill."}
+  ],
+  "liked": [
+    "All three loved Ember-Belly Newt: hurting your own board on purpose.",
+    "Real choices: cash Heat or keep it, heal burns or stay burnt."
+  ],
+  "worries": [
+    "Burn to Rise needs two Ember-Bellies: Reforge's +1 Health offsets its Scorch.",
+    "Watch: Furnace, Nutrisco, Fumarole Spitter scale wildly with Heat; Konrad copies Heat with Birds."
+  ],
+  "changed": [
+    "Bellows-Boy now always spends what gold it can, up to 2.",
+    "Only one Two-Tongs counts; Wet Cellar Keeper always heals last.",
+    "Burn to Rise named as a build; Furnace got a worked example."
+  ],
+  "verdict": "Fun 7.0, distinct 6.7, ranked first of its seed's three; for players who like chasing Heat goals and comeback combos."
+}

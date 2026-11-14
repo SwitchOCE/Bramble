@@ -1,0 +1,87 @@
+{
+ "design_id": "rat-king--top-down-mech",
+ "v": 3,
+ "hook": "Start news on one unit and watch it ripple down your tied-up board, everyone getting a share.",
+ "loop": [
+  "Place units so Gossip starts where it reaches farthest.",
+  "A tight Knot where each gain spreads, halving per step.",
+  "Late payoffs make the whole Knot gossip at full strength."
+ ],
+ "growth": {
+  "shape": "wide",
+  "line": "Small local Gossip early; Chimney doubling and ties widen reach; late, Gundel and Rattenkönig flood every unit."
+ },
+ "feel": {
+  "early": "Fill the zigzag; Crier's news reaches both neighbours.",
+  "mid": "Placement puzzle: Chimney doubling, ties, borrowed growth.",
+  "late": "Whole board gossips; Gundel and Rattenkönig flood stats."
+ },
+ "stars": [
+  {"uid": "u10", "why": "Makes where you stand the main decision every turn."},
+  {"uid": "u06", "why": "Turns other tribes' growth, like an Ooze's Eat, into news."},
+  {"uid": "u14", "why": "Everyone gossips at once: one line, a huge visible turn."}
+ ],
+ "roles": {
+  "u01": "buff",
+  "u02": "utility",
+  "u03": "buff",
+  "u04": "multiplier",
+  "u05": "economy",
+  "u06": "engine",
+  "u07": "utility",
+  "u08": "buff",
+  "u09": "buff",
+  "u10": "multiplier",
+  "u11": "buff",
+  "u12": "utility",
+  "u13": "engine",
+  "u14": "payoff",
+  "u15": "utility",
+  "u16": "multiplier",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "utility"
+ },
+ "card_short": {
+  "u01": "End of Turn: Gossip, stronger at a Knot end.",
+  "u02": "Summons a Stray anywhere, tied to itself.",
+  "u03": "End of Turn: Gossip +2/+2, reaching both neighbours.",
+  "u04": "Hears: Gossips again. Twice a turn, twice a fight.",
+  "u05": "Hears while recruiting: gain 1 gold, once a turn.",
+  "u06": "Turns non-Gossip gains on neighbours into Gossip, at half.",
+  "u07": "When played: tie two of your units.",
+  "u08": "End of Turn: Gossip more for each tribe touching it.",
+  "u09": "In a fight, when a Knot Rat dies: Gossip. Twice.",
+  "u10": "Doubles Gossip that starts on units touching it.",
+  "u11": "Start of Combat: Gossip more for each Knot unit.",
+  "u12": "Links the Knot's two ends; End of Turn: Gossip.",
+  "u13": "Sell a unit touching it: Gossip by that unit's tier.",
+  "u14": "End of Turn: every other Knot unit Gossips.",
+  "u15": "Hits on your Knot are shared with touching units.",
+  "u16": "Repeats the turn's biggest Gossip at End of Turn.",
+  "u17": "Start of Combat: biggest Knot unit Gossips half its stats.",
+  "u18": "Gossip stops halving: the whole Knot gets the full amount.",
+  "u19": "Hears all Knot Gossip in full; re-broadcasts its biggest gain.",
+  "x01": "A 1/1 Rat token that fills gaps in the Knot."
+ },
+ "builds": [
+  {"name": "Town Meeting", "line": "Gundel, Chimney and Rattenkönig: permanent stats for everyone every turn."},
+  {"name": "The Floor", "line": "Grow one huge unit; Speaker shares its stats at Start of Combat."},
+  {"name": "Tasting Menu", "line": "Wendelin beside other tribes' growth, Ilse repeating the biggest news."}
+ ],
+ "liked": [
+  "All three: choosing where news starts is a real placement puzzle every turn.",
+  "Cross-tribe hooks stand out: Wendelin, ties and Speaker use other tribes' units."
+ ],
+ "worries": [
+  "Broken: two Thirty-Two of Altenburg plus a Mill-Chimney double the same news every turn.",
+  "Watch: big spikes from Speaker, Wendelin, Rattenkönig; Huddle multiplies Bristle per share."
+ ],
+ "changed": [
+  "Thirty-Two now re-broadcasts the biggest gain it heard while recruiting.",
+  "Knot rules pinned down: ties add one unit, ends never move.",
+  "Crier and Seconder news now reaches neighbours; Litter ties its Stray anywhere."
+ ],
+ "verdict": "Rated 7.0 fun and 7.3 distinct, second of three Rat King designs; for players who love placement puzzles and mixed boards."
+}

@@ -1,0 +1,87 @@
+{
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 2,
+  "hook": "Light your empty slots as fake targets, watch enemies swing at nothing, then snuff a fat Hoard into a carry.",
+  "loop": [
+    "Each turn, choose unit or Light for every empty slot.",
+    "Front Lights soak swings; back Lights bank Bury into Hoards.",
+    "Snuff a Hoard into a carry, or let capstones cash Lights in."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Hoards grow under Lights each turn, bigger at Tier 5; snuffing cashes them in; strikes add fight buffs."
+  },
+  "feel": {
+    "early": "Spare slots make Lights free; Phos and Foxfire win fights.",
+    "mid": "Joan and Sexton bank Hoards; pick defence or savings.",
+    "late": "Slots get scarce; three capstones cash the Lights in."
+  },
+  "stars": [
+    {"uid": "u17", "why": "Enemies that strike a Light hit their own side for full Attack."},
+    {"uid": "u18", "why": "Hoards rise as fighters every fight, and the bank stays intact."},
+    {"uid": "u07", "why": "Hops from Hoard to Hoard, leaving a fresh Light behind."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "utility",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "engine",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "economy",
+    "u14": "engine",
+    "u15": "buff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "Played: Light an empty slot. Sold: Light its own slot.",
+    "u02": "Grows permanently whenever your Lights are struck, twice a fight.",
+    "u03": "First attack each fight lands on its nearest Light instead.",
+    "u04": "Played: buff a unit, or Bury under every Light.",
+    "u05": "Gold each turn for your Lights left unstruck last fight.",
+    "u06": "End of Turn: Light your first empty slot.",
+    "u07": "When it snuffs a Light, relights the slot it left.",
+    "u08": "Each struck Light gets stats Buried under it.",
+    "u09": "Deals 3 damage to each enemy that strikes your Lights.",
+    "u10": "Snuffs also give half the Hoard to the snuffer's neighbours.",
+    "u11": "End of Turn: biggest other unit grows per Light you have.",
+    "u12": "Start of Combat: Light every empty front-row slot this fight.",
+    "u13": "Gain gold whenever you snuff a Light, twice a turn.",
+    "u14": "End of Turn: Bury under every Light, double if unstruck.",
+    "u15": "Each struck Light gives your units stats for the fight.",
+    "u16": "Relights struck Lights once; random enemy effects hit Lights instead.",
+    "u17": "Enemies striking Lights hit their own side for their Attack.",
+    "u18": "Start of Combat: Hoards rise as Risen Wisps, Hoard kept.",
+    "u19": "Start of Combat: all units get +3/+3 per lit Light.",
+    "x01": "1/1 that fights with a Hoard's stats added."
+  },
+  "builds": [
+    {"name": "Lantern Fortress", "line": "Units hide behind front Lights; strikes deal damage and buff the team."},
+    {"name": "Hoard Mere", "line": "Bank Hoards under safe back Lights, then snuff or raise them."},
+    {"name": "Few and Bright", "line": "Three big units, four Lights; Old Will and Irrlicht multiply."}
+  ],
+  "liked": [
+    "All three: unit or Light on every slot is a real choice each turn.",
+    "Empty slots become the resource; no other tribe plays on its gaps."
+  ],
+  "worries": [
+    "Watch Tiddy Mun: doubled strikes stack with Barn Owl, and with Ignis Fatuus self-hits.",
+    "Lamplighter's early Bury runs double target; Map-Seller's unstruck rule is unclear."
+  ],
+  "changed": [
+    "Hobby Lantern's swap now lasts the fight and keeps the Light's Hoard.",
+    "Aarnivalkea resolves last at Start of Combat; Risen Wisps cover their Light.",
+    "Random enemy effects pick only units, so Tiddy Mun's redirect now matters."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct, ranked second of three Wisp designs; for players who love positioning and a big Hoard reveal."
+}

@@ -1,0 +1,87 @@
+{
+  "design_id": "rot-guild--top-down-flavour",
+  "v": 1,
+  "hook": "Nothing is wasted: every unit you lose or bury feeds the Compost, and your Fruit units grow from it overnight.",
+  "loop": [
+    "Bury cheap units in the shop and let others die fighting.",
+    "Each death adds its printed stats to your Compost pile.",
+    "Start of Turn: every Fruit unit permanently gains a quarter of it."
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Every Start of Turn, each Fruit gains a quarter of what died; more Fruit, faster growth."
+  },
+  "feel": {
+    "early": "Thin bodies; early losses are cheap and feed you.",
+    "mid": "Thin until Sealbearer and the Tier 4 multipliers arrive.",
+    "late": "Bootlace's Fruit network and Mourner make huge permanent growth."
+  },
+  "stars": [
+    {"uid": "u17", "why": "Fruit for her whole touching run; your burials keep cutting it."},
+    {"uid": "u06", "why": "Kills her neighbours at Start of Combat, firing every death payoff."},
+    {"uid": "u10", "why": "Writes each fight death into the Compost twice, shrinking as he does."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "payoff",
+    "u03": "engine",
+    "u04": "payoff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "multiplier",
+    "u08": "engine",
+    "u09": "buff",
+    "u10": "multiplier",
+    "u11": "multiplier",
+    "u12": "engine",
+    "u13": "engine",
+    "u14": "engine",
+    "u15": "multiplier",
+    "u16": "payoff",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "engine",
+    "x03": "utility"
+  },
+  "card_short": {
+    "u01": "When this dies: summon a Spore.",
+    "u02": "Fruit on a cheap 1/3 body.",
+    "u03": "When played: Lay to Rest one of yours for gold.",
+    "u04": "Permanently grows each time a neighbour dies in a fight.",
+    "u05": "Gains gold at Start of Turn if 3+ units died.",
+    "u06": "Bristle. Start of Combat: destroys the units beside her.",
+    "u07": "When played: give another friendly unit Fruit.",
+    "u08": "Summons a Spore when hit, three times a fight.",
+    "u09": "When you Lay to Rest, its neighbours permanently gain stats.",
+    "u10": "Fight deaths go into the Compost twice; he shrinks.",
+    "u11": "Gives Fruit to other-tribe units beside it.",
+    "u12": "Lay to Rest a unit; Compost gets its full stats.",
+    "u13": "Enemy deaths add half their printed stats to the Compost.",
+    "u14": "When this dies: fill empty slots with quarter-size Spores.",
+    "u15": "Compost keeps half instead of emptying each turn.",
+    "u16": "Fruit; permanently eats the stats of units Laid to Rest.",
+    "u17": "Fruit, and gives Fruit to her whole touching run.",
+    "u18": "Fight deaths come back as printed-stat copies, six times.",
+    "u19": "Dies in fight: board gets a quarter of Compost.",
+    "x01": "1/1 token; always composts as 1/1.",
+    "x02": "1-gold spell: Lay to Rest a friendly unit.",
+    "x03": "Burial summons stay; Inkcap's loss is fight-only."
+  },
+  "builds": [
+    {"name": "The Wake", "line": "Bury cheap units each turn; Sexton, Ludwig and Mourner cash in."},
+    {"name": "The Burst", "line": "Max fight deaths with puffballs, Amanita and Old Fingers; Puffwell cashes out."},
+    {"name": "The Network", "line": "Fewer deaths, more mouths: Sealbearer and Bootlace put Fruit everywhere."}
+  ],
+  "liked": [
+    "Bootlace's run, cut by your own burials, makes placement the skill test.",
+    "One shared pile with three levers: more deaths, bigger entries, more Fruit."
+  ],
+  "worries": [
+    "Watch: golden Mourner keeps the whole pile, so growth turns quadratic.",
+    "Watch: Sealbearers plus Bootlace stack four uncapped Fruit on one carry."
+  ],
+  "changed": [],
+  "verdict": "Rated 7 fun and 6 distinct, ranked first of its seed's three; for players who love sacrifice combos and board puzzles."
+}

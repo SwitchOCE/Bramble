@@ -1,0 +1,89 @@
+{
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 3,
+  "hook": "Every spider starts the fight hidden under a Lid and springs out with a free first strike when something knocks.",
+  "loop": [
+    "Choose which units stand open and which wait under Lids.",
+    "Knocks open Lids for Springs; Lids shut through a win turn Patient.",
+    "Spring chains win fights; Patient units grow permanently each turn."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Wins make units Patient, which grow next turn, fastest with Mabyn; Springs mostly give in-fight stats."
+  },
+  "feel": {
+    "early": "Thin; Patience rarely pays before Tier 3.",
+    "mid": "Placing Lids against the scouted board: fuel or savings.",
+    "late": "Spring chains replay, or a Patient board snowballs."
+  },
+  "stars": [
+    {"uid": "u15", "why": "Stabs the enemy across before each attack, then hides again."},
+    {"uid": "u14", "why": "Hidden aura: powers every Spring from where no enemy reaches."},
+    {"uid": "u17", "why": "Tier 6 payoff: a streak of shut doors becomes a big board."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "body",
+    "u08": "buff",
+    "u09": "buff",
+    "u10": "engine",
+    "u11": "payoff",
+    "u12": "multiplier",
+    "u13": "engine",
+    "u14": "buff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "engine",
+    "x01": "body",
+    "x02": "body"
+  },
+  "card_short": {
+    "u01": "Springs when the enemy across attacks.",
+    "u02": "Opens when a friend dies; grows each turn while Patient.",
+    "u03": "Springs when a neighbour dies, then opens a nearby Lid.",
+    "u04": "When played: permanent buff, doubled on a Patient unit.",
+    "u05": "Gold each turn if units stayed Patient or Lids opened.",
+    "u06": "When played: gives any unit a Lid and +2/+2.",
+    "u07": "Grows Attack under its Lid; opens after three friendly deaths.",
+    "u08": "No Knock. Each turn, buffs every other Patient unit permanently.",
+    "u09": "Springs when a nearby Lid opens; buffs the next Spring.",
+    "u10": "Springs when the enemy across attacks; summons two Nieces.",
+    "u11": "Each turn, permanent stats to Lidded units per Lid opened.",
+    "u12": "Once a fight, closes a Lid again after it Springs.",
+    "u13": "Hides Underneath a friend, Springs with half its stats.",
+    "u14": "Opens last; every other Spring gets +4/+4 first.",
+    "u15": "Stabs the enemy across before it attacks, then closes again.",
+    "u16": "Spring text triggers twice.",
+    "u17": "Opens last; each turn, Patient units grow per Patient unit.",
+    "u18": "After four Lids open, every Sprung unit Springs again.",
+    "u19": "Fills empty slots with Lidded Spiderlings each fight.",
+    "x01": "Summoned open 3/3 bait that dies beside a Lid.",
+    "x02": "Fight-only 4/4 under a Lid; Springs when a neighbour dies."
+  },
+  "builds": [
+    {"name": "Closed Meeting", "line": "Strong open units win; Lids stay shut, turn Patient, grow."},
+    {"name": "Sprung Trap", "line": "Cheap bait in front; one death sets off a Spring chain."},
+    {"name": "Initiates", "line": "Usher and Sexton hide other tribes' best units under Lids."}
+  ],
+  "liked": [
+    "All three: choosing which Lids are fuel and which are savings drives every turn.",
+    "No other tribe hides its fighting board; doors redirect attacks and blind scouts."
+  ],
+  "worries": [
+    "Mabyn plus Diadem could snowball on win streaks; unclear if she counts herself.",
+    "Slit-Mender combo kills before enemies swing; Worshipful Master replays and Jill's slot-filling also flagged."
+  ],
+  "changed": [
+    "Worshipful Master wakes after four Lids open, not all of them.",
+    "Ballot Clerk and Orbweaver now pay off both springing and waiting.",
+    "Rules tightened: Spring hits the knocker first; Past Master doubles only Spring text."
+  ],
+  "verdict": "Fun 7, distinct 8, ranked second of three as the boldest take; for players who love hidden boards and planned chains."
+}

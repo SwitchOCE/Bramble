@@ -1,0 +1,89 @@
+{
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 3,
+  "hook": "Strike before the enemy moves, then drop a second army from your hand into the middle of the fight.",
+  "loop": [
+    "Play Gusters in order; keep Late units waiting in hand.",
+    "Each Gust and Late arrival counts toward permanent growth and gold.",
+    "Payoffs: Duke counts the gap, the Storm breaks, the dead ride back."
+  ],
+  "growth": {
+    "shape": "in-fight",
+    "line": "Small capped permanent gains per Gust until the Tier 6 Tower; the big numbers are in-fight multipliers."
+  },
+  "feel": {
+    "early": "Gust Pages win fights by hitting first",
+    "mid": "Hand becomes a second board; play order matters",
+    "late": "Doubled Gusts, mid-fight arrivals, the dead riding back"
+  },
+  "stars": [
+    {"uid": "u17", "why": "Holds every Gust and arrival, then releases them doubled at once."},
+    {"uid": "u14", "why": "Late unit that grows with every attack before he lands."},
+    {"uid": "u03", "why": "Last unit you play Gusts; play order becomes a decision."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "body",
+    "u05": "economy",
+    "u06": "buff",
+    "u07": "buff",
+    "u08": "engine",
+    "u09": "buff",
+    "u10": "utility",
+    "u11": "multiplier",
+    "u12": "buff",
+    "u13": "buff",
+    "u14": "payoff",
+    "u15": "multiplier",
+    "u16": "utility",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Gusts at Start of Combat; a second Page gains Attack.",
+    "u02": "Grows permanently when different allies Gust, twice a fight.",
+    "u03": "Last unit you played Gusts; Late arrivals Gust too.",
+    "u04": "Late only, never played; on arrival, nearest ally Gusts.",
+    "u05": "Gold next turn for 3+ or 6+ Gusts and arrivals.",
+    "u06": "Can't move; units played or arriving beside him grow.",
+    "u07": "Allies that Gust grow permanently; gains Attack when allies die.",
+    "u08": "Next two units along the touching chain Gust.",
+    "u09": "Adds Mrs Foul; buffs neighbours; swaps out when she arrives.",
+    "u10": "Late; Gusts on arrival; her hits knock targets flat.",
+    "u11": "Your first three Gusts also hit enemies beside the target.",
+    "u12": "Grows leftmost Late unit in hand per last fight's Gusts.",
+    "u13": "Late units arrive sooner and grow permanently on arrival.",
+    "u14": "Late; grows per attack made before he lands, then Gusts.",
+    "u15": "Your Gusts happen twice.",
+    "u16": "Lifts the biggest enemy out; it returns later, knocked flat.",
+    "u17": "Holds your Gusts and arrivals, then releases them doubled.",
+    "u18": "Late; brings back every friendly unit that died, each Gusting.",
+    "u19": "Board grows permanently for each different unit that Gusted.",
+    "x01": "Late token; swaps in for Mr Fair, gives allies Attack.",
+    "x02": "Rules note: nearest ties; Late Gusts count as yours."
+  },
+  "builds": [
+    {"name": "Squall", "line": "Start of Combat Gusts clear the front row; the Tower pays off."},
+    {"name": "Late Entrance", "line": "Fight from hand: Late units land beside The Helm, grow every fight."},
+    {"name": "Calm Before the Storm", "line": "High Pressure holds everything; it breaks doubled, quadrupled with the Steward."}
+  ],
+  "liked": [
+    "Late turns the hand into a second board Start of Combat can't touch.",
+    "Lady High Pressure's held Storm is the capstone; front or back row matters."
+  ],
+  "worries": [
+    "Lady High Pressure plus Steward and goldens: one-burst wipes; her text reads slowly.",
+    "Watch: Wild Hunt with Black Cloud; Tower near the top; Couriers make 10-unit fights."
+  ],
+  "changed": [
+    "Timing rules filled in: High Pressure's Storm, Late arrival order, Vane's pointer.",
+    "Glass now pays for Late arrivals, giving the Late build some gold.",
+    "Heron grows a Late unit in hand; Windhover rewards spreading Gusts."
+  ],
+  "verdict": "Rated fun 7, distinct 8; a close second of three, called the most original; for players who love timing puzzles."
+}

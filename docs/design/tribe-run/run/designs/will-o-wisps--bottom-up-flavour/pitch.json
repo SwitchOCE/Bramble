@@ -1,0 +1,89 @@
+{
+  "design_id": "will-o-wisps--bottom-up-flavour",
+  "v": 2,
+  "hook": "Hang lanterns on your front row and watch the enemy's biggest units smash their own board.",
+  "loop": [
+    "Place Lantern carriers where enemy attacks will land, mostly the front row.",
+    "Each misled attack hits their own side, building Lost and drowns.",
+    "Lost, drowns and misleads pay out gold, discounts and permanent stats."
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Thin mid-game trickle from Joan and Lost; Tier 5–6 payoffs grow permanently per misled attack."
+  },
+  "feel": {
+    "early": "Early misleads trade enemy units into each other.",
+    "mid": "Placement puzzle; stats climb slowly while Lanterns stack.",
+    "late": "Their carry kills their other carry; big payouts."
+  },
+  "stars": [
+    {"uid": "u17", "why": "Misled enemies hit their biggest unit: the tribe's fantasy in one rule."},
+    {"uid": "u12", "why": "Doubles both sides of every misled hit; enemy Cleave becomes a wipe."},
+    {"uid": "u14", "why": "Hands you half of every enemy that drowns on its own side."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "payoff",
+    "u03": "engine",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "utility",
+    "u07": "engine",
+    "u08": "multiplier",
+    "u09": "buff",
+    "u10": "economy",
+    "u11": "engine",
+    "u12": "multiplier",
+    "u13": "buff",
+    "u14": "payoff",
+    "u15": "engine",
+    "u16": "utility",
+    "u17": "payoff",
+    "u18": "engine",
+    "u19": "payoff",
+    "x01": "engine",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Plain body carrying one Lantern.",
+    "u02": "Grows permanently each time an enemy is led astray.",
+    "u03": "Start of Combat: lights the units beside it.",
+    "u04": "When your unit dies, relights the nearest unit.",
+    "u05": "Start of Turn: gold from Lost.",
+    "u06": "Swaps Attack and Health; your side can't be led astray.",
+    "u07": "Spends 2 leftover gold for a Turnip Lantern each turn.",
+    "u08": "Passes the mislead on: the hit unit goes astray next.",
+    "u09": "End of Turn: your Lantern carriers grow permanently.",
+    "u10": "Never attacks; Lost discounts Tier up, later gives free Refreshes.",
+    "u11": "Swoop; the enemy it hits goes astray next attack.",
+    "u12": "Led-astray attacks deal double damage, both ways.",
+    "u13": "Start of Turn: top Lantern carrier grows per Lost.",
+    "u14": "Banks half of each drowned enemy's stats, then shares them.",
+    "u15": "When an enemy kills your unit, that enemy goes astray.",
+    "u16": "Lantern 1; drowned enemies lose When-dies effects and Belly.",
+    "u17": "Lights your front row; misled enemies hit their biggest unit.",
+    "u18": "Fills empty slots with 0/1 Lantern Stepping Stones each fight.",
+    "u19": "Every misled enemy gives your other units +1/+1 permanently.",
+    "x01": "Item: gives any unit a permanent Lantern.",
+    "x02": "0/1 decoy with Lantern 1; gone after the fight."
+  },
+  "builds": [
+    {"name": "Lamp Row", "line": "Stack permanent Lanterns on the front row with Jack, Joan, Steward."},
+    {"name": "Drowning", "line": "Reflection, Follette and Old Will make their carry kill their carry."},
+    {"name": "Stepping Stones", "line": "Leave gaps; Causeway Stones mislead, die, and feed Foxfire and Tiddy Mun."}
+  ],
+  "liked": [
+    "All three: Old Will plus Reflection makes their carry double into their other carry.",
+    "Borrowed damage: it gets stronger as the lobby does; no tribe works like it."
+  ],
+  "worries": [
+    "Watch: Stingy Jack's Turnips can lock out the enemy; Causeway Stones' timing unsettled.",
+    "Watch: uncapped Ignis Fatuus, Steward and Hoard Mere could grow far past targets."
+  ],
+  "changed": [
+    "A misled attack with nobody else to hit now hits itself, ending stalls.",
+    "Lost counts every misled attack and isn't spent; Reflection doubles both ways.",
+    "Stingy Jack now costs 2 gold per Turnip; Spunkie gives Refreshes at Tier 6."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; ranked first of its seed's three; for players who like turning the enemy's strength against it."
+}

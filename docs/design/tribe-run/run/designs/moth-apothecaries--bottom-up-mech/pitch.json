@@ -1,0 +1,87 @@
+{
+  "design_id": "moth-apothecaries--bottom-up-mech",
+  "v": 2,
+  "hook": "Brew Phials that ripen in your hand, then pour one huge dose through a lens onto your carries.",
+  "loop": [
+    "Moths give you Phials; cast one now or hold it to Steep",
+    "Held Phials grow each turn; casts raise your Recipe count",
+    "Merge to a giant Phial, or Echo casts across your board"
+  ],
+  "growth": {
+    "shape": "tall",
+    "line": "Phials gain +1 N a turn while held; spell scaling makes casts on big units multiply."
+  },
+  "feel": {
+    "early": "Small Phials, cast for tempo or held to ripen",
+    "mid": "Hand fills; pick holding and merging or casting everything",
+    "late": "One cast fans out into several Echoes on big units"
+  },
+  "stars": [
+    {"uid": "u07", "why": "A clogged hand merges into one Phial that passes the cap"},
+    {"uid": "u10", "why": "Weak cast on a small lens becomes scaled Echoes behind it"},
+    {"uid": "u16", "why": "Every big cast leaves a leftover Phial for either build"}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "engine",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "multiplier",
+    "u11": "multiplier",
+    "u12": "engine",
+    "u13": "economy",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "engine",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "buff"
+  },
+  "card_short": {
+    "u01": "When played: get a small Phial.",
+    "u02": "Grows in fights for each Phial you hold.",
+    "u03": "Lets you sell Phials for gold.",
+    "u04": "Spell cast on it buffs both neighbours flat.",
+    "u05": "Gives a Phial, then your Phials Steep twice.",
+    "u06": "End of Turn: get a small Phial.",
+    "u07": "Full hand: new Phials merge into your biggest, past the cap.",
+    "u08": "Random unit grows for each spell cast last turn.",
+    "u09": "Fight buff on your weakest unit from your biggest Phial.",
+    "u10": "Spell cast on it Echoes onto units behind.",
+    "u11": "Every fifth Recipe spell Echoes onto its target's neighbours.",
+    "u12": "Phials Steep an extra time, and up to 7.",
+    "u13": "Cheaper shop spells; buying one gives a matching Phial.",
+    "u14": "Start of Turn: a Phial sized by your Recipe.",
+    "u15": "Deals your Phials' total N in damage, up to thrice a fight.",
+    "u16": "Casting a Phial gives a half-size Phial back.",
+    "u17": "Can't be targeted; Echoes every spell you cast elsewhere.",
+    "u18": "Every Phial cast Echoes again on the same unit.",
+    "u19": "A Phial of N 8+ Echoes across its whole row.",
+    "x01": "Hand spell: +N/+N permanently, scaled; Steeps while held."
+  },
+  "builds": [
+    {"name": "Big Batch", "line": "Hold and merge into an N 8+ Phial for Elder and Burnet"},
+    {"name": "Long Recipe", "line": "Cast everything; Shipton and Alchymist push Carbonaria's Phials bigger"},
+    {"name": "Concentrate", "line": "Cast on small lenses so untargetable Dame Pavonia grows from Echoes"}
+  ],
+  "liked": [
+    "Cocoon Spinner turns a clogged hand into the route past the cap",
+    "The Spectacle and Shipton: aiming, placement and leftovers that feed both builds"
+  ],
+  "worries": [
+    "Watch: Dame Pavonia's scaled Echoes compound every turn with no ceiling",
+    "Watch: Burnet with a merged Phial 15-20 can hit 60+ a fight"
+  ],
+  "changed": [
+    "Alchymist's counted Echoes now set off The Old Lady; Pavonia can take Echoes",
+    "Pestle Grinder now gives a Phial, so it does something early",
+    "Golden Herald Steeps to 8, a second route to Elder's N 8"
+  ],
+  "verdict": "Settled at fun 7, distinct 6.3; ranked third of three as hardest to read. For players who love planning big combo turns."
+}

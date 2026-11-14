@@ -1,0 +1,93 @@
+{
+  "design_id": "reed-runners--borrow-twist",
+  "v": 2,
+  "hook": "Smuggle past the herons each turn, pushing your luck on Heat, and even getting caught brings your unit back bigger.",
+  "loop": [
+    "Take optional Runs for goods, each rolling 1-3 Heat",
+    "Stop just under your Limit, or bust and get a unit Seized",
+    "Clean turns buff the crew; busts buy back Tagged units bigger"
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Team +1/+1 per Clean Run or turn; Heat becomes fight Attack; Seized units regain printed stats each Tag"
+  },
+  "feel": {
+    "early": "Thin; a Run or two, little growth",
+    "mid": "Real push-your-luck call every turn",
+    "late": "Run multipliers, big Heat stabs, Nan's huge count"
+  },
+  "stars": [
+    {"uid": "u16", "why": "A push-your-luck game on one card; Seize it to replay"},
+    {"uid": "u07", "why": "Takes the seizure for the crew, cools you, keeps Running"},
+    {"uid": "u11", "why": "Doubles its team buff when Heat lands exactly on the Limit"}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "buff",
+    "u03": "utility",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "economy",
+    "u07": "utility",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "utility",
+    "u11": "buff",
+    "u12": "payoff",
+    "u13": "multiplier",
+    "u14": "buff",
+    "u15": "payoff",
+    "u16": "payoff",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "utility",
+    "x02": "utility",
+    "x03": "utility",
+    "x04": "utility"
+  },
+  "card_short": {
+    "u01": "Run to grow; all your Runs roll 2-3 Heat",
+    "u02": "Clean turn: grows for every two Runs",
+    "u03": "Peek your next Heat roll; skipping gives a Jasmine Tea",
+    "u04": "After Refresh, Run: buff two random Reed Runners",
+    "u05": "Start of Turn, Run: get 1 gold",
+    "u06": "Start of Turn, Run: frozen shop unit from tier above",
+    "u07": "Takes your seizure, cools 4 Heat, you keep Running",
+    "u08": "Each Run buffs a random Runner, more on a 3",
+    "u09": "Attack per Heat in fight; grows permanently when Caught",
+    "u10": "Limit 2 higher; Cool 3 when played",
+    "u11": "Clean turn: buff team, twice if Heat equals Limit",
+    "u12": "Tagged units cost less; buying one buffs the team",
+    "u13": "Your first Run each turn happens twice",
+    "u14": "Every Run you aren't Caught on buffs the team",
+    "u15": "Start of Combat: team gains Attack per Heat",
+    "u16": "Run up to three times, growing each time",
+    "u17": "All your Run effects happen an extra time",
+    "u18": "Hunker; Heat stab steals kills; Seized units get two Tags",
+    "u19": "Start of Combat: grows for every Run this game",
+    "x01": "Item: Cool 2",
+    "x02": "Gentleman Moss and Creel-Weaver stack: first Run triples",
+    "x03": "A Seized golden comes back golden, doubled Tag",
+    "x04": "Bought-back Seized units sell for 1 and count towards triples"
+  },
+  "builds": [
+    {"name": "Clean runner", "line": "Stop just short; land Heat exactly on the Limit for Creeler's double"},
+    {"name": "Hot and Caught", "line": "Bust on purpose; Heat becomes Attack, Grisel stabs, rebuy units Tagged"},
+    {"name": "Back channel", "line": "Gold and tier-up units from any tribe; Nan pays off late"}
+  ],
+  "liked": [
+    "Busting is itself a payoff: Seized units return Tagged and replay When played",
+    "Slipway Champion and Sergeant Squacco: the whole idea on one card"
+  ],
+  "worries": [
+    "Old Wick with Gran and Squacco could see five or six clean Runs",
+    "Golden Grisel and Hackle grow one unit fast; Pilot may pull curve early"
+  ],
+  "changed": [
+    "Hothead now grows permanently each time you're Caught",
+    "Slipway Champion: you decide after each roll whether to Run again",
+    "Grisel's stab is one hit; you choose Run order; Pebble Jack clarified"
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; all three reviewers settled; ranked third of its seed. For players who love push-your-luck gambles."
+}

@@ -1,0 +1,87 @@
+{
+ "design_id": "great-migration--top-down-flavour",
+ "v": 2,
+ "hook": "March a herd in single file: every Lemming that falls makes whoever is in front stronger.",
+ "loop": [
+  "Order your line: who leads, who falls first, who inherits.",
+  "Onward deaths feed the Lead; Takes the lead units wait behind.",
+  "Your last Lead arrives huge, or Pups and Boom flood the board."
+ ],
+ "growth": {
+  "shape": "mixed",
+  "line": "Mostly in fight as Lemmings die; Brother Onward, Tent-Striker and Boom add permanent stats later."
+ },
+ "feel": {
+  "early": "Pilgrims and Banner-Bearer feed a small front.",
+  "mid": "Front Lemming laps the lead; Pups start piling up.",
+  "late": "Death payoffs: Rune-Carver, Old Mother, Chorus hit huge."
+ },
+ "stars": [
+  {"uid": "u10", "why": "Passes the lead down the line, re-firing every Takes the lead card."},
+  {"uid": "u07", "why": "Kill your own Lead; the next one inherits its stats."},
+  {"uid": "u01", "why": "The whole tribe on a Tier 1: fall, push the front forward."}
+ ],
+ "roles": {
+  "u01": "buff",
+  "u02": "body",
+  "u03": "engine",
+  "u04": "economy",
+  "u05": "buff",
+  "u06": "payoff",
+  "u07": "engine",
+  "u08": "engine",
+  "u09": "buff",
+  "u10": "multiplier",
+  "u11": "engine",
+  "u12": "buff",
+  "u13": "economy",
+  "u14": "multiplier",
+  "u15": "payoff",
+  "u16": "buff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "body"
+ },
+ "card_short": {
+  "u01": "Onward: your Lead gains +2/+1.",
+  "u02": "Takes the lead: grows permanently.",
+  "u03": "Onward: summons two Pups.",
+  "u04": "Start of Turn: gives you a Pup in hand.",
+  "u05": "Each turn, Lead grows permanently per Lemming next to it.",
+  "u06": "Takes the lead: gains half the biggest enemy's Attack.",
+  "u07": "Kills your Lead at fight start; next Lead inherits its stats.",
+  "u08": "Twice a fight: a Lemming dies, summon a Pup.",
+  "u09": "Twice a fight: Lemming taking the lead grows permanently.",
+  "u10": "Lead passes down the line after each surviving attack.",
+  "u11": "When your Lead dies, a Pup takes its slot.",
+  "u12": "Start of Turn: your other Lemmings grow permanently.",
+  "u13": "Gold when you get a copy of a unit you own.",
+  "u14": "Stats gained from Onward become permanent.",
+  "u15": "Each Lemming death deals 4 damage to the biggest enemy.",
+  "u16": "Start of Turn: Boom grows, so every Pup grows.",
+  "u17": "New Leads gain stats for each Lemming dead this fight.",
+  "u18": "Each Lemming death buffs your other Lemmings.",
+  "u19": "Lemmings grow permanently from last fight's death count.",
+  "x01": "1/1 Lemming token; Onward: Lead gains +1/+1."
+ },
+ "builds": [
+  {"name": "The Front", "line": "Pile Onward gifts on one Lead; Brother Onward makes them stick."},
+  {"name": "The Tide", "line": "Flood with Pups; Midwife, Chorus and Old Mother pay each death."},
+  {"name": "The Cliff", "line": "Cliff-Singer kills your own Lead to fire Onward and pass stats."}
+ ],
+ "liked": [
+  "Front Lemming's lead rotation re-fires every Takes the lead card; the tribe's best idea.",
+  "Cliff-Singer: a sacrifice that keeps the stats, and works on any tribe's unit."
+ ],
+ "worries": [
+  "No limits on Chorus, Old Mother or Rune-Carver; death engines make huge in-fight ceilings.",
+  "Also watched: golden Front Lemming, Breeder's economy, Herald's Boom, The One Who Arrived."
+ ],
+ "changed": [
+  "Lead rule now says where the lead goes when your Lead dies.",
+  "New Boom keyword: one shared Pup bonus that halves when you lose.",
+  "Front Lemming now passes the lead only if the Lead survives attacking."
+ ],
+ "verdict": "Fun 7.3, distinct 7, ranked second of three in its seed; for players who enjoy line-order puzzles and death triggers."
+}

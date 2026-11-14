@@ -1,0 +1,71 @@
+{
+  "design_id": "gale-court--player-story", "v": 2,
+  "hook": "Pick who you play last, then watch your court strike out of turn in a rising storm of Gusts.",
+  "loop": [
+    "Choose your Announced unit by what you play last, and seat everyone.",
+    "Gusts stack up: extra attacks out of turn, in reading order.",
+    "Gusts pump the Announced carry, leave permanent stats, or fire the Thunderhead."
+  ],
+  "growth": {"shape": "mixed", "line": "Small permanent gains early; from Tier 4 Gusts multiply, and the Tier 6 Warden floods the Announced unit."},
+  "feel": {
+    "early": "Small bodies sneaking a free hit before the fight.",
+    "mid": "Seating puzzle: who's Announced, who Gusts first.",
+    "late": "Fifteen-plus Gusts a fight and a Thunderhead finish."
+  },
+  "stars": [
+    {"uid": "u17", "why": "Saves up Thunder, then unleashes up to ten Gusts; seat him carefully."},
+    {"uid": "u10", "why": "Always Announced too, so two carries and every Announced payoff doubles."},
+    {"uid": "u12", "why": "Forces the enemy's biggest units to Gust into his thorns."}
+  ],
+  "roles": {
+    "u01": "body", "u02": "payoff", "u03": "buff", "u04": "engine", "u05": "economy",
+    "u06": "engine", "u07": "utility", "u08": "buff", "u09": "economy", "u10": "multiplier",
+    "u11": "multiplier", "u12": "utility", "u13": "engine", "u14": "multiplier", "u15": "engine",
+    "u16": "payoff", "u17": "payoff", "u18": "payoff", "u19": "payoff",
+    "x01": "engine", "x02": "utility", "x03": "utility", "x04": "utility"
+  },
+  "card_short": {
+    "u01": "Gusts at Start of Combat if nobody has Gusted yet.",
+    "u02": "Takes no damage while Gusting; grows permanently after Gusting.",
+    "u03": "End of Turn: your Announced unit permanently gains stats.",
+    "u04": "Start of Combat: Announced unit next to this Gusts.",
+    "u05": "Flips each turn: Fair pays gold, Foul makes Announced Gust.",
+    "u06": "Start of Combat: Gusts, and its Gusts hit beside too.",
+    "u07": "After enemy attacks, Gusts at their weakest unit, any row.",
+    "u08": "Units that Gust permanently gain +1/+1, three times a fight.",
+    "u09": "Gold for last fight's Gusts; else grows your Announced unit.",
+    "u10": "Always Announced too; Announced units Gust at Start of Combat.",
+    "u11": "A Gust that kills lets that unit Gust again.",
+    "u12": "Bristle, Hunker; enemy's three biggest Gust into him first.",
+    "u13": "When played: get a Bag of Winds.",
+    "u14": "Copies the tribe and text of your last-played unit.",
+    "u15": "Units after this in reading order Gust, until a non-Gale.",
+    "u16": "Gusting units take no damage; Gust kills give permanent stats.",
+    "u17": "Attacks last; banks Thunder per Gust, then Gusts per Thunder.",
+    "u18": "Shuts off enemy Start of Combat; Announced steals 3 attacks.",
+    "u19": "Every friendly Gust gives Announced units permanent +2/+2, ten times.",
+    "x01": "Item: permanent +2/+2 and a Start of Combat Gust.",
+    "x02": "Ruling: how Sir Vane's copying works with Helm and tribes.",
+    "x03": "Ruling: Föhn's forced Gusts trigger your cards, never the enemy's.",
+    "x04": "Ruling: two High Pressures stop all Start of Combat."
+  },
+  "builds": [
+    {"name": "Storm front", "line": "Crier chains Gusts down the line; the Thunderhead cashes them in."},
+    {"name": "The Announced court", "line": "Any tribe's best unit, played last, soaks Red Sky and Warden buffs."},
+    {"name": "Ill wind", "line": "Föhn and the Windhover punish big attackers before the fight starts."}
+  ],
+  "liked": [
+    "Choosing what to play last and where to seat it is a real puzzle.",
+    "Thunderhead's seating puzzle and Föhn turning enemy attacks into your engine stood out."
+  ],
+  "worries": [
+    "Watch: Sir Vane copying capstones, and Warden with Helm, can run away late.",
+    "Watch: Lady High Pressure near-locks Start of Combat boards; Wild Hunt stacks free value."
+  ],
+  "changed": [
+    "Gust is now an attack but not a normal attack, settling what reacts.",
+    "Old Föhn gains Hunker; his forced Gusts no longer feed enemy cards.",
+    "Fair-and-Foul and the Barometer Clerk now feed the Announced unit."
+  ],
+  "verdict": "Rated 7 fun and 7 distinct by all three reviewers, ranked first of three; for players who love play-order puzzles."
+}

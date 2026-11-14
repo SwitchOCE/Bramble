@@ -1,0 +1,95 @@
+{
+  "design_id": "moon-hares--one-constraint",
+  "v": 3,
+  "hook": "Stack Moonlight on your Hares, double it at the Full Moon, win big, then cash in the wipe.",
+  "loop": [
+    "Buy and buff Hares, timing each buy to your Moon's phase.",
+    "Moonlight piles up through Waxing, then doubles at the Full Moon.",
+    "Win the Full and Waning fights; cash the New Moon wipe."
+  ],
+  "growth": {
+    "shape": "burst",
+    "line": "Sawtooth on a four-turn Moon: spikes at Full, wiped at New; Moon-Scour lifts each peak."
+  },
+  "feel": {
+    "early": "Small buffs; the first New Moon, turn 4, wipes them.",
+    "mid": "Timing buys, seating Cutters, cashing resets as gold or Jacks.",
+    "late": "Huge, rising Full Moon spikes; dark turns need holding."
+  },
+  "stars": [
+    {"uid": "u12", "why": "Doubles neighbours' light at the Full Moon; seating is the puzzle."},
+    {"uid": "u07", "why": "A Jack, not a Hare: keeps the light the coven loses."},
+    {"uid": "u17", "why": "Full Moon gift that grows each cycle, so peaks keep rising."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "buff",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "payoff",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "buff",
+    "u11": "utility",
+    "u12": "multiplier",
+    "u13": "economy",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "body",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility",
+    "x03": "utility",
+    "x04": "utility",
+    "x05": "utility"
+  },
+  "card_short": {
+    "u01": "When played: gains stats, double on a New Moon.",
+    "u02": "Grows each turn; New Moon: lends half its lost light.",
+    "u03": "Buffs your dimmest Hare; all other Hares at Full Moon.",
+    "u04": "When played: Wax the Moon one phase.",
+    "u05": "Once a turn, New Moon: gold for the light lost.",
+    "u06": "Once a turn, selling a Hare Waxes the Moon.",
+    "u07": "Jack: New Moon, keeps half the light its neighbours lost.",
+    "u08": "Buffs three Hares each turn, more the later the cycle.",
+    "u09": "Dying Hares pass half their light on, this fight.",
+    "u10": "Buffs other Hares each turn; triple if this is brightest.",
+    "u11": "Full Moon: becomes a copy of your biggest non-Hare.",
+    "u12": "Full Moon: doubles the light of Hares next to it.",
+    "u13": "Your Hares sell for extra gold by their light.",
+    "u14": "Your Full Moon effects trigger twice.",
+    "u15": "Start of Combat: it and its neighbours share light.",
+    "u16": "Big and Shielded on New and Waxing fights; Shields neighbours.",
+    "u17": "Full Moon: buffs every Hare, more each Full Moon.",
+    "u18": "Every Moon phase change buffs all your Hares.",
+    "u19": "New Moon: summons a Jack; non-Hares keep half lost light.",
+    "x01": "A 2/2 Jack that keeps everything it is given.",
+    "x02": "Rule: Old Wat is in the Hare pool, not a Hare.",
+    "x03": "Rule: slot auras stay; Harvest Supper on Hares is Moonlight.",
+    "x04": "Rule: golden Hares still lose Moonlight at the New Moon.",
+    "x05": "Rule: what Silverpenny copies and when she changes back."
+  },
+  "builds": [
+    {"name": "The Full Moon", "line": "Pure Hares: stack light, double it with Cutters and Waxwell."},
+    {"name": "The Fast Moon", "line": "Sell lit Hares to Wax; more Full Moons, more gold."},
+    {"name": "The Lending House", "line": "Hand Hare light to another tribe's units, who keep it."}
+  ],
+  "liked": [
+    "All three picked Chalk-Cutter and Old Wat: a seating puzzle and a built-in loophole.",
+    "Every buy becomes a timing call; no current tribe treats time like this."
+  ],
+  "worries": [
+    "Dame Waxwell with Chalk-Cutters can hit thousands of light; trigger order is unwritten.",
+    "Mother Meikle Care banks doubled light permanently, more each cycle; also watch Ringside Bookie."
+  ],
+  "changed": [
+    "Dusk-Runner now guards the real dark turns: New and Waxing.",
+    "Spring-Ring Jill rewards a New Moon buy instead of doing nothing.",
+    "The Hare in the Moon's New Moon gift now lasts the whole cycle."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; ranked first of three Moon Hare designs. For players who enjoy timing spikes and seating puzzles."
+}

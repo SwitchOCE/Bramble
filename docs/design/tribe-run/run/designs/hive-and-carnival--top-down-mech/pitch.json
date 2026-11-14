@@ -1,0 +1,89 @@
+{
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 2,
+  "hook": "Save one turn, blow it all the next: the Hive grows on gold kept, the Carnival spikes on gold spent.",
+  "loop": [
+    "Alternate: bank gold to fire Hoard, then spend double to Splurge.",
+    "Both halves stack permanent stats; every 4 Tab pays more.",
+    "Splurge turns win fights; Gate Guard and Gravelle turn the bank into damage."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Steady permanent +1/+1s from Hoard each turn, plus big per-4-Tab spikes on every Splurge turn."
+  },
+  "feel": {
+    "early": "Spend like anyone else; Nymph and Messor grow small.",
+    "mid": "Save-then-splurge rhythm; Drummer makes splurge turns hit hard.",
+    "late": "A bank of 20 feeds Melissa and Gravelle; Cigale buffs everyone."
+  },
+  "stars": [
+    {"uid": "u19", "why": "Makes one turn both: a Splurge that also fires every Hoard."},
+    {"uid": "u11", "why": "Tier up gold counts double, so climbing tiers becomes a Splurge."},
+    {"uid": "u13", "why": "Your whole bank becomes one big sting, then the bee dies."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "buff",
+    "u06": "economy",
+    "u07": "buff",
+    "u08": "economy",
+    "u09": "payoff",
+    "u10": "engine",
+    "u11": "multiplier",
+    "u12": "buff",
+    "u13": "payoff",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "multiplier",
+    "x01": "buff",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Carnival. Grows permanently on Splurge and on each Tier up.",
+    "u02": "Hive. Hoard 3: grows itself permanently.",
+    "u03": "Hive. Sell him for gold; he returns next turn, bigger.",
+    "u04": "Hive. Hoard 4: buffs two units next to it.",
+    "u05": "Carnival. End of Turn: buffs your leftmost unit per 4 Tab.",
+    "u06": "Hive. Interest: 1 gold per 5 kept, up to 2.",
+    "u07": "Hive. Splurge: buffs all your Hive units.",
+    "u08": "Carnival. Adds a Paper Lantern spell to the shop each turn.",
+    "u09": "Carnival. Start of Combat: Carnival units gain Attack per 4 Tab.",
+    "u10": "Both. Grows per 4 Tab; a Hive neighbour milks her for gold.",
+    "u11": "Carnival. Tier up, and later Refreshes, count double on the Tab.",
+    "u12": "Hive. Hoard 6: buffs all your Hive units.",
+    "u13": "Hive. Stings a neighbour's attacker for your gold, then dies.",
+    "u14": "Hive. Start of Combat: blasts the biggest enemy, once per 4 gold.",
+    "u15": "Carnival. Splurge: buffs your Carnival units per 4 Tab.",
+    "u16": "Carnival. Splurge: hands you a Shell of your last buy.",
+    "u17": "Hive. Hoard effects trigger twice, three times at 20+ gold.",
+    "u18": "Carnival. Buffs all your units per 4 Tab; twice on Splurge.",
+    "u19": "Carnival. Hoard counts gold plus Tab; Splurge fires Hoards again.",
+    "x01": "Spell, 2 gold: aimed +2/+2 permanently; its cost goes on the Tab.",
+    "x02": "Blank 1/1 copy that counts toward triples."
+  },
+  "builds": [
+    {"name": "The Granary", "line": "Hold a big bank; the Hoard ladder grows, Gravelle and Guard hit."},
+    {"name": "The Fête", "line": "Save one turn, spend 20+ the next; Drummer, Banner Saint, Cigale spike."},
+    {"name": "Crossing the Road", "line": "Tithonus, Afide and Ottavia let one turn pay both halves."}
+  ],
+  "liked": [
+    "Reading your gold two ways, kept and spent, feels fresh to all three.",
+    "Tithonus and Tettix bend rules: Tier up becomes Splurge, spending counts as saving."
+  ],
+  "worries": [
+    "Watch: Tithonus with Mother Melissa fires every Hoard four times; text still unclear.",
+    "Watch: Golden Mask-Maker makes triples on demand; Tettix plus Cigale makes Refresh huge."
+  ],
+  "changed": [
+    "Every card prints its Hive or Carnival tag, so town-counting cards read clearly.",
+    "Tettix: Refresh counts double only after base gold, so saving still matters.",
+    "Long-Dark Nymph also grows on Tier up; Tithonus and Afide text made exact."
+  ],
+  "verdict": "Settled at fun 6.7, distinct 7.0; ranked second of three: cleanest, flatter Hive. For fans of one huge spending turn."
+}

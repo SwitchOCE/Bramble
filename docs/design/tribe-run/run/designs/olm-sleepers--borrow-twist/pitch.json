@@ -1,0 +1,85 @@
+{
+  "design_id": "olm-sleepers--borrow-twist",
+  "v": 2,
+  "hook": "Leave your Sleepers alone and they bank Rest, so every buff they get, from any card, lands twice.",
+  "loop": [
+    "Leave Sleepers unbought, unplayed and unmoved so they bank Rest.",
+    "Rest makes every permanent buff land twice, from any tribe.",
+    "Cash it in: flood it out in fights, or chain Wakes."
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Each unmoved Sleeper banks 2 Rest a turn; Rest doubles permanent buffs, peaking with Tier 6 cash-ins."
+  },
+  "feel": {
+    "early": "Soft bodies, holding still, little to spend Rest on",
+    "mid": "Cloister and Old Polh make buffs land doubled",
+    "late": "Dragon flood, Robber-Knight lending, or Ribica's copies"
+  },
+  "stars": [
+    {"uid": "u19", "why": "Floods a whole game's Rest into stats every fight."},
+    {"uid": "u08", "why": "Its Wake buffs neighbours, emptying their Rest so they Wake too."},
+    {"uid": "u16", "why": "Eats everyone's Rest: drains the hoard, but drives the Wake chain."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "buff",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "buff",
+    "u11": "engine",
+    "u12": "multiplier",
+    "u13": "economy",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "engine",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "Has Hunker while it holds Rest.",
+    "u02": "Wake: grows and regains Rest; playing beside it wakes it.",
+    "u03": "End of Turn: permanently buffs the units behind it.",
+    "u04": "When played: gives two other units 3 Rest.",
+    "u05": "Gold each turn you moved no units.",
+    "u06": "Neighbours build Rest like Sleepers, plus 1 extra.",
+    "u07": "End of Turn: gives 1 Rest to every Rest-less unit.",
+    "u08": "Wake: permanently buffs the units beside it.",
+    "u09": "Start of Combat: gains Attack per Rest beside it.",
+    "u10": "End of Turn: permanently buffs every unit with Rest.",
+    "u11": "Moved units still build Rest; last moved gains extra.",
+    "u12": "Your Wake texts fire twice.",
+    "u13": "Selling a unit pays gold for its Rest.",
+    "u14": "Whenever a unit Wakes, permanently buff its neighbours.",
+    "u15": "Start of Combat: lends Rest to enemies, cutting their Attack.",
+    "u16": "Can't hold Rest; takes others' Rest to grow permanently.",
+    "u17": "Rest is never used up; gains no longer cause Wakes.",
+    "u18": "Every 12th Wake: copy your biggest Sleeper to hand.",
+    "u19": "Start of Combat: all Rest floods into stats, then Wake."
+  },
+  "builds": [
+    {"name": "The Long Sleep", "line": "Nobody moves; the Eldest keeps Rest climbing, the Dragon cashes it."},
+    {"name": "The Wake Chain", "line": "Keep Rest tiny so every buff Wakes; Kurent, Prior, Ribica spread it."},
+    {"name": "Guest Beds", "line": "Put Rest on another tribe's carries to double their growth."}
+  ],
+  "liked": [
+    "A counter that doubles every buff, then fires when it empties, felt fresh.",
+    "Standouts: Kurent's domino, Dragon's flood, Robber-Knight's lending, Parkelj's anti-synergy engine."
+  ],
+  "worries": [
+    "Mother Ribica (watch): copies may come every turn and feed runaway triples.",
+    "The Eldest (watch): doubling with other tribes' share-based growth may compound."
+  ],
+  "changed": [
+    "Wake timing written: Rest builds last, Wakes queue, fight Wakes are fight-only.",
+    "Pool Olmling also Wakes when you play a unit beside it.",
+    "Echo Nave Choir doubles only Wake texts, counted as one Wake."
+  ],
+  "verdict": "Rated 7.3 fun and 7 distinct, it ranked third of its seed's three; suits players who enjoy tracking cross-tribe combos."
+}

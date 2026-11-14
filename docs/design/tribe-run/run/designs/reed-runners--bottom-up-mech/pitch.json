@@ -1,0 +1,85 @@
+{
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 3,
+  "hook": "Buy cheap now, take delivery tomorrow: every unit that comes Ashore grows your board, and the Hold hides surprises.",
+  "loop": [
+    "Run units for 2 gold, or Seize them free on quiet turns.",
+    "Goods wait a turn in your Hold, then come Ashore.",
+    "Every arrival fires buffs, copies and triples; the board snowballs late."
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Small permanent buffs on every arrival, a few a turn; Pebble Jack and Nan multiply them late."
+  },
+  "feel": {
+    "early": "Shaky: Runs put nothing on board until next turn.",
+    "mid": "Smugglers stack, arrivals pour in, quiet turns tempt.",
+    "late": "Copies, doubled triggers and a hidden fleet snowball."
+  },
+  "stars": [
+    {"uid": "u15", "why": "Fields hidden Hold units in the fight, a bench nobody can scout."},
+    {"uid": "u17", "why": "Copies every arrival, speeding triples and filling your hand."},
+    {"uid": "u06", "why": "Shows a tier-above unit you can only smuggle in."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "buff",
+    "u04": "economy",
+    "u05": "engine",
+    "u06": "economy",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "engine",
+    "u11": "buff",
+    "u12": "payoff",
+    "u13": "economy",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "buff",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "Ashore: gains +2/+2 permanently.",
+    "u02": "Smuggler. Grows whenever any unit comes Ashore.",
+    "u03": "Each unit coming Ashore gets a small permanent buff.",
+    "u04": "Banks 1 spare gold, pays back 2 next turn.",
+    "u05": "When played: Seize a free Tier 1-2 unit.",
+    "u06": "Smuggler. Shop adds a tier-above unit, Run or Seize only.",
+    "u07": "End of a quiet turn: Seize a shop unit free.",
+    "u08": "When played and Ashore: buffs your other Reed Runners.",
+    "u09": "Start of Combat: grows for each unit in your Hold.",
+    "u10": "Discovers, triples, returning Birds go through Hold, arrive bigger.",
+    "u11": "End of Turn: buffs every unit waiting in your Hold.",
+    "u12": "Selling a Created unit buffs all your Reed Runners.",
+    "u13": "Smuggler. Your second Run each turn is free.",
+    "u14": "Ashore effects and arrival triggers happen twice.",
+    "u15": "Start of Combat: fields up to 2 Hold units, buffed.",
+    "u16": "Smuggler. Each arrival buffs your other Reed Runners.",
+    "u17": "Each arrival gives a Created copy, if hand has room.",
+    "u18": "Quiet turn: Seize two shop units, big buff to Hold.",
+    "u19": "Start of Combat: team buff grows with total arrivals."
+  },
+  "builds": [
+    {"name": "The night run", "line": "Run three or four a turn; Nan copies arrivals into triples."},
+    {"name": "Customs patience", "line": "Alternate quiet turns; the herons Seize the best units free."},
+    {"name": "The hidden fleet", "line": "A full hand keeps goods in the Hold; Nyx fields them."}
+  ],
+  "liked": [
+    "All three picked Officer Nyx: hidden Hold units join fights opponents can't scout.",
+    "Now-or-later choice each turn plays unlike any other tribe; hand room is a dial."
+  ],
+  "worries": [
+    "No Hold size cap: Creel Hauler and Grisel's +5/+5 may scale without end.",
+    "Officer Nyx unclear: do returned units come Ashore again, and which ones fight?"
+  ],
+  "changed": [
+    "Closed an endless loop: Nan's copies now skip the Hold.",
+    "Runner keyword renamed Smuggler, so it doesn't blur with the tribe name.",
+    "Pebble Jacks no longer stack; Kettle gold skips the Hold now."
+  ],
+  "verdict": "Fun 6.3, distinct 7, ranked first of its three for the clearest growth engine; for planners who love economy and delayed payoffs."
+}

@@ -1,0 +1,87 @@
+{
+  "design_id": "dyke-board--one-constraint",
+  "v": 2,
+  "hook": "Your whole Board shares one water level: pick three towering walls or seven attackers, and drown whatever sits Under.",
+  "loop": [
+    "Pour Health into the shared Pool and choose how many Board seats",
+    "The Pool splits into your Level, every Board unit's Health",
+    "High water drowns Under units; Attack buffs make each unit hit"
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Pool grows linearly each End of Turn; Miller and Kobus multiply Pours up to x4 from Tier 4-5."
+  },
+  "feel": {
+    "early": "Thin; each new coot dilutes the Level",
+    "mid": "Seat-or-levy votes on every buy and sell",
+    "late": "Huge Pools; the Peilmeester drowns wide boards"
+  },
+  "stars": [
+    {"uid": "u18", "why": "Drowns Under units on both boards, your own outsiders too"},
+    {"uid": "u14", "why": "Other tribes pay the levy, so every slot is a choice"},
+    {"uid": "u12", "why": "Turns water into Attack; lowering the Level becomes a play"}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "body",
+    "u05": "economy",
+    "u06": "utility",
+    "u07": "body",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "engine",
+    "u11": "multiplier",
+    "u12": "buff",
+    "u13": "economy",
+    "u14": "engine",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "Gains Attack for each other Board unit",
+    "u02": "End of Turn: Pour 2",
+    "u03": "When played: Pour for each Board unit",
+    "u04": "Start of Combat: gains a third of your Level as Attack",
+    "u05": "Selling a Board unit pays gold, more at high Level",
+    "u06": "Seats one of your other-tribe units on the Board",
+    "u07": "End of Turn: summons a Coot Chick",
+    "u08": "End of Turn: Board units gain Attack, more if below Level",
+    "u09": "Hunts Under enemies and hits them for double damage",
+    "u10": "End of Turn: Pour per Board unit, give them Attack",
+    "u11": "Your other Pour effects pour twice as much",
+    "u12": "End of Turn: trade Pool water for Attack across the Board",
+    "u13": "Start of Turn: trade 5 Pool water for 2 gold",
+    "u14": "End of Turn: Pour 5 per non-Board unit you have",
+    "u15": "When a Board unit dies, share Level among the rest",
+    "u16": "Board units' End of Turn effects happen twice",
+    "u17": "Damage to one Board unit is split across the Board",
+    "u18": "Start of Combat: Under units on both boards drown",
+    "u19": "Start of Combat: raises your Level by half this fight",
+    "x01": "1/1 Board unit token"
+  },
+  "builds": [
+    {"name": "High Water", "line": "Two or three Board units, outsiders pay the levy, Level soars"},
+    {"name": "Full Benches", "line": "Six or seven Board units; count cards, Aaltje and the Pup finish"},
+    {"name": "Seats for Hire", "line": "Heemraad seats Oozes, Birds or Bog units; their Health becomes everyone's"}
+  ],
+  "liked": [
+    "Every buy and sell is a vote: more seats or higher water",
+    "Shared Health and Under drowning your own outsiders play unlike any tribe"
+  ],
+  "worries": [
+    "Levy-Master with the Miller and Kobus pours about 80 a turn: the high roll",
+    "Peilmeester (with Hendrika) wipes wide boards; Spaarndam Pup swings hero damage"
+  ],
+  "changed": [
+    "A Board unit's own Health is its printed Health, closing the Fly South loop",
+    "The Peilmeester now drowns every Under unit, as the tribe promises",
+    "Winter Raft and Ledger Coot now read the water Level"
+  ],
+  "verdict": "Settled at fun 7.3, distinct 8.3, ranked second of three; for players who love cross-tribe puzzles and big chases."
+}

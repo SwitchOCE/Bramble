@@ -1,0 +1,87 @@
+{
+  "design_id": "rot-guild--bottom-up-mech",
+  "v": 3,
+  "hook": "Every death feeds your Compost pile, and where you place your Fruits decides who feasts on it next turn.",
+  "loop": [
+    "Order your Fruits and sell or bury spares for Compost.",
+    "Fight deaths pile up Compost; Spores refill gaps to keep runs touching.",
+    "Start of Turn, Fruits spend it in lumps for permanent stats."
+  ],
+  "growth": {
+    "shape": "wide",
+    "line": "Small Fruit gains from turn 2; Puffwell's +2/+2 to all at Tier 5, doubled by Bootlace."
+  },
+  "feel": {
+    "early": "Small Fruits grow; cheap units die for Compost.",
+    "mid": "Making change: order Fruits, refill gaps with Spores.",
+    "late": "Puffwell and Bootlace pour stats across the board."
+  },
+  "stars": [
+    {"uid": "u14", "why": "Its slot decides which Fruits get paid first."},
+    {"uid": "u02", "why": "Tier 1 seed that pays a bonus for exact change."},
+    {"uid": "u13", "why": "Buries a unit at Start of Combat, setting off every death card."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "payoff",
+    "u03": "engine",
+    "u04": "payoff",
+    "u05": "buff",
+    "u06": "engine",
+    "u07": "utility",
+    "u08": "payoff",
+    "u09": "buff",
+    "u10": "economy",
+    "u11": "engine",
+    "u12": "buff",
+    "u13": "engine",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "Dies into a 1/1 Spore.",
+    "u02": "Fruit 2: grows itself, more on exact change.",
+    "u03": "Sold units pay Compost equal to their tier, not gold.",
+    "u04": "Grows when touching units die, twice a fight.",
+    "u05": "Fruit 3: permanently buffs the units beside it.",
+    "u06": "When played, buries a neighbour for 4 Compost.",
+    "u07": "Touching units that die leave a Spore in their slot.",
+    "u08": "Touching units' deaths deal 2 damage to the enemy across.",
+    "u09": "Start of Combat: buffs its touching run by Compost held.",
+    "u10": "Fruit 3: gain 2 gold, losing Health until it dies.",
+    "u11": "End of Turn: the pile grows with interest.",
+    "u12": "Front-row deaths permanently grow a unit behind.",
+    "u13": "Start of Combat: kills your weakest; neighbours take its stats.",
+    "u14": "Fruit 6, repeating: all your other units get +2/+2.",
+    "u15": "Mid-fight: 2 Compost turns a death into a 4/4 Spore.",
+    "u16": "Your deaths give double Compost.",
+    "u17": "Every paid Fruit fires twice, the second free.",
+    "u18": "Each death buffs this and its touching run, this fight.",
+    "u19": "Start of Combat: your board gains +1/+1 per 2 Compost.",
+    "x01": "A 1/1 token; most vanish after the fight."
+  },
+  "builds": [
+    {"name": "Harvest Table", "line": "Button, Pallbearer, Puffwell and Bootlace; order Fruits so nothing goes unspent."},
+    {"name": "The Wake", "line": "Front row dies, Spores keep the run whole, back row fattens."},
+    {"name": "The Long Mourning", "line": "Hoard Compost; Lantern-bearer and Ashcake turn the pile into fight stats."}
+  ],
+  "liked": [
+    "All three picked Puffwell: where you place him decides the turn's spending.",
+    "Fruits paying in reading order is a fresh placement puzzle, all three said."
+  ],
+  "worries": [
+    "Watch: Puffwell with Hired Mute, Mourner and Bootlace turns gold into uncapped stats.",
+    "Watch: Inkcap beside Pallbearer pays gold forever; Ashcake's +6/+6 strong early Tier 6."
+  ],
+  "changed": [
+    "Button Mushroom now grows double when it spends your last Compost.",
+    "Lantern-bearer now buffs its touching run, smaller: per 4 Compost, up to +2/+2.",
+    "Clearer wording on Amanita, Bootlace, Old Fingers and Abbess; Inkcap now dies at 0."
+  ],
+  "verdict": "Fun 6.7, distinct 6.7, third of three Rot Guild designs: a clever puzzle, more sums than growth; for fans of placement puzzles."
+}

@@ -1,0 +1,89 @@
+{
+  "design_id": "rot-guild--player-story",
+  "v": 3,
+  "hook": "Sell or lose a Fruit unit and it sprouts back bigger: plan your funerals in shop and fight.",
+  "loop": [
+    "Sell or lose Fruit units; each leaves a Sprout in its slot.",
+    "Each one laid to rest makes later Sprouts bigger and feeds buffs.",
+    "Late, capstones chain refills so dying slots come back huge."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Shop sales give lasting buffs each turn; fight Sprouts grow with each death but vanish after."
+  },
+  "feel": {
+    "early": "Fruit tempo and small Sprouts.",
+    "mid": "Funeral-order puzzle: who dies first.",
+    "late": "Register capstones chain huge refills."
+  },
+  "stars": [
+    {"uid": "u12", "why": "Sprouts inherit half the stats; links the shop and fight builds."},
+    {"uid": "u18", "why": "Chains slot refills with growing Sprouts, six times a fight."},
+    {"uid": "u08", "why": "Buffs friends while burning himself out; Health becomes fuel."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "payoff",
+    "u03": "buff",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "payoff",
+    "u11": "multiplier",
+    "u12": "multiplier",
+    "u13": "economy",
+    "u14": "buff",
+    "u15": "payoff",
+    "u16": "payoff",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Fruit: leaves a Sprout when laid to rest.",
+    "u02": "Grows from each funeral; more when the unit beside fell.",
+    "u03": "Your Sprouts have extra stats.",
+    "u04": "Fruit, and gives another unit Fruit for good.",
+    "u05": "Once a turn, gain 1 gold from a shop funeral.",
+    "u06": "Start of Combat: kills its left neighbour, takes its Attack.",
+    "u07": "Gives Fruit to non-Sprout units beside it.",
+    "u08": "Each funeral buffs a random friend; it loses Health.",
+    "u09": "Start of Combat: grows with the Register.",
+    "u10": "Can't be sold; grows from last turn's funerals.",
+    "u11": "Your Fruit triggers twice.",
+    "u12": "Fruit; Sprouts also get half the dead unit's stats.",
+    "u13": "Shop units grow per shop funeral; bought ones keep it.",
+    "u14": "Shop funerals permanently buff all your other Guild units.",
+    "u15": "Fruit; on death buffs your board by the fight's count.",
+    "u16": "Enemies that kill your units take growing damage.",
+    "u17": "Your Sprouts grow with the Register.",
+    "u18": "In fights, Sprouts have Fruit, up to six times.",
+    "u19": "Start of Combat: copies of your last two fallen fight again.",
+    "x01": "Fills the slot; size is the funeral count so far.",
+    "x02": "Counts every unit laid to rest this game."
+  },
+  "builds": [
+    {"name": "The Procession", "line": "Fruit units in front; each enemy kill refills a bigger slot."},
+    {"name": "The Wake", "line": "Sell on purpose: buy Fruit, sell it, sell its Sprout."},
+    {"name": "The Undertaker's Bargain", "line": "Hand other tribes Fruit; Oozes, Birds and Bog tanks feed funerals."}
+  ],
+  "liked": [
+    "Folding sale and death into one event plays unlike today's tribes.",
+    "Funeral order is a real puzzle; slots visibly refill bigger."
+  ],
+  "worries": [
+    "Watch: Cordwainer combos with Candlesnuff, Pallbearer, Bellows; also Amanita, Bootlace, Old Fingers.",
+    "Unclear: whose sell triggers fire in fights; Pallbearer, Inkcap, Old Fingers wording."
+  ],
+  "changed": [
+    "Old Fingers' copies now have Fruit, set stats, and last one fight.",
+    "Sprout size fixed when summoned; Sprouts now carry hero damage.",
+    "Stinkhorn's free sell loop closed; Lamplighter now grows off the Register."
+  ],
+  "verdict": "Rated 7.0 fun and 6.7 distinct, second of its seed's three; for players who like planning shop-and-fight funerals."
+}

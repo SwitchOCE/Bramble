@@ -1,0 +1,87 @@
+{
+  "design_id": "changelings--borrow-twist",
+  "v": 3,
+  "hook": "Every shop is a menu of texts: your Changelings wear other tribes' units and leave a 1-gold Stock behind.",
+  "loop": [
+    "Use Guise: a Changeling wears a shop unit, leaving a Stock.",
+    "Wearers grow from Nursemaid, Bee Orchid and Mummers; Stocks fill the board.",
+    "Bettie, the Lady and copies of your carry turn wears into power."
+  ],
+  "growth": {
+    "shape": "wide",
+    "line": "Steady, every turn: each wear and each guised Changeling gains permanent stats; Bettie scales late."
+  },
+  "feel": {
+    "early": "Cheap Guise units; tempo hangs on shop luck.",
+    "mid": "Wearing many tribes, Stocks filling the board, steady growth.",
+    "late": "Copied carries, golden texts, Bettie stacks; very high rolls."
+  },
+  "stars": [
+    {"uid": "u10", "why": "Copies your own carry's text; the tribe's best hidden combo."},
+    {"uid": "u14", "why": "Every Stock becomes a second copy of a shop unit's text."},
+    {"uid": "u16", "why": "Three borrowed texts on one body; the oldest falls off."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "utility",
+    "u07": "utility",
+    "u08": "buff",
+    "u09": "engine",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "multiplier",
+    "u13": "engine",
+    "u14": "engine",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "Guise: wears a shop unit's text and tribe.",
+    "u02": "Guise; grows permanently each time it wears a unit.",
+    "u03": "Guise, but the worn text swaps left and right.",
+    "u04": "Each time a Changeling wears a unit, it grows permanently.",
+    "u05": "Once a turn, a wear gives you 1 gold.",
+    "u06": "Your Changelings can wear units one tier higher.",
+    "u07": "Guise; at Start of Combat also wears the enemy across.",
+    "u08": "End of Turn: grows every Changeling that has a guise.",
+    "u09": "Once a turn, a bought Stock wears its replaced unit.",
+    "u10": "Guise that can also copy a unit on your board.",
+    "u11": "End of Turn: grows Changelings for each different tribe worn.",
+    "u12": "Once a turn, a wear triggers its When played text.",
+    "u13": "Guise; may wear units you sell, taking half their stats.",
+    "u14": "Every bought Stock wears its replaced unit and gains +3/+3.",
+    "u15": "When a Changeling dies, takes its guises and +4/+4.",
+    "u16": "Guise; keeps up to three guises at once.",
+    "u17": "Guise; your other Changelings wear golden text.",
+    "u18": "End of Turn: Changelings grow for each guise put on.",
+    "u19": "Start of Combat: front row copies and wipes enemies across.",
+    "x01": "1-gold 0/3 left in the worn unit's shop slot."
+  },
+  "builds": [
+    {"name": "The Masquerade", "line": "Guise units in different tribes; Nursemaid, Bee Orchid, Mummers grow them."},
+    {"name": "The Stock Exchange", "line": "Whittler then Moll make Stocks wear; a full board feeds Bettie."},
+    {"name": "Copy your carry", "line": "Tam and Grandfer copy one strong text; the Lady makes it golden."}
+  ],
+  "liked": [
+    "Every shop becomes a menu of texts; Refresh and Freeze choose what units become.",
+    "Tam Twice copying your own carry is the best hidden combo, now clearly ruled."
+  ],
+  "worries": [
+    "Watch: Bettie, Lady and Grandfer copies stack to hundreds of stats a turn.",
+    "Watch: Moll's 1-gold Stocks, fed to Tod, may make buying Stocks always right."
+  ],
+  "changed": [
+    "Stock no longer wears alone; only Whittler or Moll makes it wear.",
+    "Every Changeling can wear up to your tier minus 2, so early wearers last.",
+    "Pip now mirrors only left and right; Guise timing and counting rules spelled out."
+  ],
+  "verdict": "Rated 7.3 fun and 8 distinct, second of the three Changeling designs; for players who love misusing other tribes' cards."
+}

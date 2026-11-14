@@ -1,0 +1,87 @@
+{
+  "design_id": "cuckoo-clockworks--surgical",
+  "v": 3,
+  "hook": "Hide Eggs on your opponent's biggest units; when the clock strikes, Chicks fed on their stats turn on them.",
+  "loop": [
+    "Place Layers across from big enemies, leaving empty slots as nest boxes.",
+    "Brood grows permanently, so every Chick hatches bigger each turn.",
+    "At the Hour, Chicks hatch from host stats and shove their hosts."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Chicks take a quarter of enemy hosts plus Brood, rising each turn; sleepers grow permanently each Hour."
+  },
+  "feel": {
+    "early": "Thin: tiny Chicks off small hosts, dormice carry.",
+    "mid": "Brood climbs; scout hosts, pick holes, sleep a carry.",
+    "late": "Gernegroß, Kasimir and Old Unruh feast on tall boards."
+  },
+  "stars": [
+    {"uid": "u15", "why": "Hides on the biggest enemy and returns with its stats."},
+    {"uid": "u11", "why": "Eats your own Chick for permanent stats."},
+    {"uid": "u04", "why": "Sleeps any tribe's carry through the opening trades."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "buff",
+    "u04": "utility",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "engine",
+    "u10": "buff",
+    "u11": "payoff",
+    "u12": "engine",
+    "u13": "economy",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "Lays an Egg across; its Chick hatches a bit bigger.",
+    "u02": "Asleep through the opening; wakes with a fight buff.",
+    "u03": "End of Turn: Brood grows permanently.",
+    "u04": "Sleeps the biggest unit next to it; it wakes buffed.",
+    "u05": "Gold next turn when the Hour strikes; more on third.",
+    "u06": "Lays on top-Attack enemy; your Eggs hatch when hosts die.",
+    "u07": "Wind 2: the first Hour strikes sooner.",
+    "u08": "On the Hour: your Asleep units grow permanently, twice.",
+    "u09": "On the Hour: lays an Egg on a random enemy.",
+    "u10": "Each Chick hatching grows Brood permanently, twice a fight.",
+    "u11": "Eats a Chick beside it for permanent stats.",
+    "u12": "Lays an Egg on every enemy back-row unit.",
+    "u13": "After a hatch, Discover from the host's tribe.",
+    "u14": "Delays Start of Combat effects to the Hour, doubled.",
+    "u15": "Hides as an Egg on the biggest enemy; returns huge.",
+    "u16": "Also a Bird; Chick share rises from quarter to half.",
+    "u17": "The Hour strikes every 2 attacks, not 4.",
+    "u18": "Lays an Egg on every enemy.",
+    "u19": "Sleeps all fight, growing each Hour; the alarm wakes him.",
+    "x01": "Fight-only token: Egg stats plus Brood; adds no hero damage."
+  },
+  "builds": [
+    {"name": "The Brood", "line": "Eggs wide with Brood buffs; leave nest boxes, punish tall boards."},
+    {"name": "The Sleeping Vault", "line": "Sleep another tribe's carry beside a Warden; it wakes bigger."},
+    {"name": "Clockwork", "line": "Wind and the Tower speed the clock; Ottilie doubles Start of Combat."}
+  ],
+  "liked": [
+    "All three: only tribe playing on the enemy's board, feeding on its size.",
+    "Little Gernegroß hiding in the biggest enemy and returning huge; Nest-Box eating Chicks."
+  ],
+  "worries": [
+    "Watch: golden Hour-Keeper (every attack) with Door Cuckoo makes many Eggs; needs a sim.",
+    "Watch golden Rohrsang, Ottilie and Herald; Ottilie's text still reads two ways."
+  ],
+  "changed": [
+    "Fledgling's Chick hatches bigger, so the Egg side shows from turn 1.",
+    "Timing spelled out for Ottilie, Gernegroß and Wind; enemies' targeting now skips sleepers.",
+    "Herald pays a second gold when the Hour strikes three times."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; second of three Cuckoo designs, steadier but lower-peaking; for players who scout and punish tall boards."
+}

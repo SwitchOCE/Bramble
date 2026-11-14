@@ -1,0 +1,89 @@
+{
+  "design_id": "changelings--surgical",
+  "v": 3,
+  "hook": "Steal the best text in the shop, on your board or across the fight, and become whatever tribe you're wearing.",
+  "loop": [
+    "Take a Guise from the shop, a friend or the enemy",
+    "Keep or swap Guises, and Exchange units with the shop",
+    "Kept Guises and Exchanges pay permanent stats to every Changeling"
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Small bodies grow each End of Turn for Guises kept, taken or Exchanges made; copied text does the rest."
+  },
+  "feel": {
+    "early": "Borrow the shop's best When played text",
+    "mid": "Keep Guises or keep swapping; work the shop",
+    "late": "The Lady wears every Guise; the Fetch copies your carry"
+  },
+  "stars": [
+    {"uid": "u17", "why": "Belly, Mire and Pass on one body: the two-tribe payoff"},
+    {"uid": "u12", "why": "Moves a Guise onto what you take, tying Exchange to Guise"},
+    {"uid": "u15", "why": "Steals and silences the enemy's key unit, read off their board"}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "engine",
+    "u06": "utility",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "engine",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "economy",
+    "u13": "buff",
+    "u14": "payoff",
+    "u15": "utility",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "economy"
+  },
+  "card_short": {
+    "u01": "When played: wears a shop unit's Guise; it fires too",
+    "u02": "Wears a neighbour's Guise; grows each turn it keeps it",
+    "u03": "When played: Exchange a friendly unit with the shop",
+    "u04": "End of Turn: Changelings wearing a Guise gain stats",
+    "u05": "Copies a friend's Guise with left/right and front/back swapped",
+    "u06": "Start of Combat: wears the enemy across's Guise this fight",
+    "u07": "Selling or Exchanging leaves a Stock wearing that unit's Guise",
+    "u08": "Changelings gain stats whenever they take a Guise while recruiting",
+    "u09": "Whenever you sell a unit, may take its Guise",
+    "u10": "Wears two friendly units' Guises at once",
+    "u11": "End of Turn: buffs one unit per tribe you have",
+    "u12": "Start of Turn: may Exchange; the Guise moves to the new unit",
+    "u13": "Exchange moves the old unit's buffs, plus +2/+2, onto the new",
+    "u14": "Kept Guises pay stats each turn by the copied unit's tier",
+    "u15": "Steals the enemy across's Guise; silences it if bigger",
+    "u16": "Changelings' fight Guise triggers fire twice",
+    "u17": "Wears every Guise your other Changelings wear",
+    "u18": "Start of Combat: a Stock copies your biggest other unit",
+    "u19": "End of Turn: Changelings gain stats per Exchange this game",
+    "x01": "A blank 1/3 Changeling that can wear a Guise",
+    "x02": "Spell: Exchange a friendly unit; any tribe can use it"
+  },
+  "builds": [
+    {"name": "The Masquerade", "line": "Wear a second tribe's best texts; the Lady holds them all"},
+    {"name": "Board of Exchanges", "line": "Swap small units for the shop's best each turn; Bettie pays out"},
+    {"name": "Impostors", "line": "Place Turncoat and Penny across the enemy's key unit; steal its text"}
+  ],
+  "liked": [
+    "A Guise brings its tribe: a Changeling can fly south as a Bird",
+    "Exchange makes the shop a trading partner, which no other tribe does"
+  ],
+  "worries": [
+    "Keeper of the Lost Hour with the Lady doubles fights; Lady is hard to read",
+    "Bettie Underhill keeps climbing late; Midnight Swap gives any tribe a cheap unit"
+  ],
+  "changed": [
+    "Coat-Peg Steward moves stats instead of copying them, closing a buy-back loop",
+    "The Fetch now copies your carry's stats, text and Guises",
+    "Placement Officer moves a Guise onto the unit you take"
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; ranked third of three Changeling designs. For players who love borrowing other tribes' tricks."
+}

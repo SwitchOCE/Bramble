@@ -1,0 +1,85 @@
+{
+  "design_id": "lekking-knights--one-constraint",
+  "v": 2,
+  "hook": "Three proud Knights hold their stations alone; you choose what fills the ground between, and heirs wake when elders fall.",
+  "loop": [
+    "Hold the Lek: Knights on F1, B2, F4, never next to each other.",
+    "Gallery units or empty ground grow three giant Knights permanently.",
+    "In the fight, champions double and heirs Take Station when elders fall."
+  ],
+  "growth": {
+    "shape": "tall",
+    "line": "Permanent End of Turn buffs pile onto three Knights; in the fight they double or heirs inherit."
+  },
+  "feel": {
+    "early": "Lone tempo Knights, cheap hens, waiting Squires.",
+    "mid": "Placement puzzle; shops show Knights you can't field.",
+    "late": "Doubled champions, or breaking the lek with Ottokar."
+  },
+  "stars": [
+    {"uid": "u14", "why": "Doubles while alone: empty ground becomes a real choice."},
+    {"uid": "u18", "why": "Doubles the biggest Knight, then leaves; with Einsiedel that's x4."},
+    {"uid": "u07", "why": "Losing an elder mid-fight turns into permanent growth for the heir."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "buff",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "body",
+    "u07": "payoff",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "buff",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "multiplier",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "engine",
+    "u18": "payoff",
+    "u19": "buff"
+  },
+  "card_short": {
+    "u01": "More Attack for each empty slot beside it.",
+    "u02": "Squire heir: grows permanently each time it Takes Station.",
+    "u03": "End of Turn: buffs other Knights, more beside its Gallery.",
+    "u04": "Start of Combat: drains Attack from its Gallery into itself.",
+    "u05": "Watcher: gold next turn if touching two Knights.",
+    "u06": "Deaf: always on Station; attacks twice once a fight.",
+    "u07": "Squire heir: takes half the fallen elder's stats permanently.",
+    "u08": "Watcher: End of Turn, big buff to biggest Knight beside.",
+    "u09": "Start of Combat: blasts the enemy across and its own neighbours.",
+    "u10": "End of Turn: buffs other Knights per empty slot beside it.",
+    "u11": "End of Turn: permanently buffs each of its Gallery units.",
+    "u12": "Only Knights beside, not in front or behind, blank yours.",
+    "u13": "Watcher: your Takes Station effects trigger twice.",
+    "u14": "Double Attack and Health while nothing stands next to it.",
+    "u15": "Gains, for the fight, the stats of neighbours that die.",
+    "u16": "Non-Knights next to it trigger End of Turn twice.",
+    "u17": "Your Knights not next to it are always on Station.",
+    "u18": "Watcher: Start of Combat, doubles biggest Knight beside, then leaves.",
+    "u19": "Squire heir: Takes Station gives all your Knights +5/+5 permanently."
+  },
+  "builds": [
+    {"name": "The Full Lek", "line": "Watchers fill the ground; hens pay gold, Herald doubles them."},
+    {"name": "The Bare Ridge", "line": "Few huge Knights, empty ground; Einsiedel and Dame Reisig hit x4."},
+    {"name": "The Battery Gallery", "line": "Charge other tribes' units, drain them, then Brennbart blows them up."}
+  ],
+  "liked": [
+    "Dame Reisig doubles Einsiedel, then leaves him alone to double again.",
+    "Station rechecks mid-fight: heirs wake, and no tribe today plays like it."
+  ],
+  "worries": [
+    "Heather Hen gold: four around Herald of the Old Lek pay 8 a turn.",
+    "Watch Ottokar's crowd, and golden Rupprecht or Roost-Pine Squire with golden Chronicler."
+  ],
+  "changed": [
+    "Every card now says Knight or Watcher, so the Lek reads off cards.",
+    "Three heirs now print Squire, so they no longer blank their elder.",
+    "Pennon-Bearer now gives more to Knights next to its Gallery."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; settled, ranked second of its seed's three. For players who love board-placement puzzles."
+}

@@ -1,0 +1,89 @@
+{
+ "design_id": "ivy-climbers--surgical",
+ "v": 2,
+ "hook": "Hang climbers behind another tribe's carry; whenever it grows, they grow too, and your back row finally matters.",
+ "loop": [
+  "Place climbers in back slots behind the front unit you're feeding.",
+  "Each End of Turn they Rise with half their host's biggest gain.",
+  "Capstones copy gains in full or pour climber stats into the front."
+ ],
+ "growth": {
+  "shape": "tall",
+  "line": "Climbers gain half their host's biggest gain each End of Turn; slow early, steep late on big carries."
+ },
+ "feel": {
+  "early": "Thin: Dodder Seedling, Ivy Bush and +1/+1 floors.",
+  "mid": "Arranging hosts; too many climbers for three back slots.",
+  "late": "Viscum, Hedera and Grand Oak turn gains huge."
+ },
+ "stars": [
+  {"uid": "u14", "why": "Copies every host gain in full; drops off if he outgrows it."},
+  {"uid": "u17", "why": "Move her behind new tribes' hosts; every host grows per signature."},
+  {"uid": "u16", "why": "Repeats the host's biggest gain, and Viscum copies both in full."}
+ ],
+ "roles": {
+  "u01": "body",
+  "u02": "engine",
+  "u03": "body",
+  "u04": "buff",
+  "u05": "economy",
+  "u06": "engine",
+  "u07": "economy",
+  "u08": "buff",
+  "u09": "utility",
+  "u10": "multiplier",
+  "u11": "utility",
+  "u12": "buff",
+  "u13": "multiplier",
+  "u14": "payoff",
+  "u15": "payoff",
+  "u16": "multiplier",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "payoff",
+  "x02": "utility"
+ },
+ "card_short": {
+  "u01": "Start of Combat: steals 1 Attack from the enemy across.",
+  "u02": "Climb. Fight Health for host; grows up into Adult Ivy.",
+  "u03": "Host that gains +1/+1 per climber each turn.",
+  "u04": "Climb. Buffs its host each turn; bigger for new hosts.",
+  "u05": "Climb. Gold when you buy its host's tribe.",
+  "u06": "When played: gives a friendly unit Climb permanently.",
+  "u07": "Climb. When played: Discover a unit of its host's tribe.",
+  "u08": "Climb. +3/+3 to host four turns, then sells for 3.",
+  "u09": "Climb. Takes half host's Attack; host gains that as Health.",
+  "u10": "Front-row climbers climb the biggest unit beside them.",
+  "u11": "Shields your two biggest hosts; Swoop enemies must attack it.",
+  "u12": "Climb. End of Turn: every host gets +2/+2.",
+  "u13": "Climb. Climbers share half their host's fight gains.",
+  "u14": "Climbs only your biggest unit; copies its gains in full.",
+  "u15": "Climb. When its host dies, takes the host's stats.",
+  "u16": "Climb. Host repeats its biggest gain this round.",
+  "u17": "Climb. Signs host tribes; every host gets +2/+2 per signature.",
+  "u18": "Each attack, permanently steals a quarter of biggest enemy's stats.",
+  "u19": "Climb. Start of Combat: hosts gain their climbers' stats.",
+  "x01": "Young Ivy grown up: rises with host's two biggest gains.",
+  "x02": "Rules notes: guest-book, neutral units, Cousin Dodder's takes."
+ },
+ "builds": [
+  {"name": "The Patron", "line": "One big carry in F2 or F3, fed and copied by climbers."},
+  {"name": "The Season", "line": "Climbers on three or four tribes; rotate Hedera for signatures."},
+  {"name": "Parasites", "line": "Dodders steal from enemies, Mistletoe drains hosts, Old Man's Beard inherits."}
+ ],
+ "liked": [
+  "Viscum and Lady Hedera were every reviewer's standouts: self-limiting, behaviour-based capstones.",
+  "Only tribe whose payoff is another tribe's carry; board layout becomes the decision."
+ ],
+ "worries": [
+  "Watch Viscum: on an Ooze or Cousin Dodder carry, full copies get huge.",
+  "Watch Cousin Dodder's permanent takes and Hedera's +10/+10; thin early turns."
+ ],
+ "changed": [
+  "Rise now gives at least +1/+1, so early climbers actually grow.",
+  "Viscum copies every host gain in full, but only on your biggest unit.",
+  "Woodbine's +3/+3 now needs a new host, ending free back-and-forth swaps."
+ ],
+ "verdict": "Rated 7 fun, 8 distinct and settled, but ranked third of three; for players who love arranging boards around another tribe's carry."
+}

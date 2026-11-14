@@ -1,0 +1,85 @@
+{
+  "design_id": "lekking-knights--player-story",
+  "v": 3,
+  "hook": "Bet on size: in every Duel the bigger unit takes from the smaller, and it all pours into one champion.",
+  "loop": [
+    "Duel on your own board, in the shop and against the enemy.",
+    "Stats flow up into your champion, standing alone with empty neighbours.",
+    "A huge champion, doubled by Lord of the Old Lek, wins fights alone."
+  ],
+  "growth": {
+    "shape": "tall",
+    "line": "Board duels just move stats; shop and enemy duels add a quarter, half with Keeper, twice with Cantor."
+  },
+  "feel": {
+    "early": "Squires feed one unit; few real gains yet",
+    "mid": "Raid the shop: refreshes and duels become growth",
+    "late": "Pilgrim or Ottokar give a big finish"
+  },
+  "stars": [
+    {"uid": "u08", "why": "Both outcomes pay: grow your unit, or let the shop win and buy it."},
+    {"uid": "u15", "why": "Empty slots become power and hero damage for a lone champion."},
+    {"uid": "u18", "why": "The capstone the shop raid is built to reach."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "economy",
+    "u05": "engine",
+    "u06": "body",
+    "u07": "buff",
+    "u08": "buff",
+    "u09": "buff",
+    "u10": "economy",
+    "u11": "payoff",
+    "u12": "payoff",
+    "u13": "multiplier",
+    "u14": "utility",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "multiplier"
+  },
+  "card_short": {
+    "u01": "Start of Combat: duels the enemy across.",
+    "u02": "Duels your biggest unit each turn; grows if it loses.",
+    "u03": "Duels the biggest shop unit it beats; again on refresh.",
+    "u04": "Gold when you win a duel; buffs bought duel winners.",
+    "u05": "Your biggest duels your second-biggest each turn; winner grows.",
+    "u06": "Duels each target before attacking; first loss each fight free.",
+    "u07": "Selling a unit gives your champion half its stats.",
+    "u08": "When played: duels your pick, board or shop; victor +3/+3.",
+    "u09": "Your duel winners gain +1/+1, also in fights.",
+    "u10": "Duels the shop's biggest on refresh; beaten units cost less.",
+    "u11": "Start of Combat: your champion duels the enemy's biggest.",
+    "u12": "Champion grows each turn for every empty slot beside it.",
+    "u13": "Duel winners take half instead of a quarter.",
+    "u14": "Duels enemy attackers first, three times a fight.",
+    "u15": "Doubles a lone champion; empty slots count for hero damage.",
+    "u16": "Every duel your units start happens twice.",
+    "u17": "Champion duels every enemy, smallest first, until it would lose.",
+    "u18": "Champion duels the whole shop each turn and on refreshes.",
+    "u19": "Copies every other unit's permanent gains onto your champion."
+  },
+  "builds": [
+    {"name": "The Lone Champion", "line": "Squires feed one champion with empty neighbours; Lord doubles it."},
+    {"name": "Raiding the Wagons", "line": "Refreshes become growth; beaten shop units come cheap. Trades tempo for scaling."},
+    {"name": "The Tourney", "line": "Several mid-sized duelists take pieces in fights; Cantor doubles it."}
+  ],
+  "liked": [
+    "Edge-Strutter makes losing on purpose real: let the shop win, then buy it.",
+    "One duel rule on board, shop and fight; unlike any of today's tribes."
+  ],
+  "worries": [
+    "Pilgrim with Keeper and Cantor passes the Tier 6 ceiling; Ottokar may decide fights.",
+    "Lord of the Old Lek: empty slots may make every win deal full damage."
+  ],
+  "changed": [
+    "Elder of the Centre no longer loops; Cantor rewritten so it reads.",
+    "Fence-Line Challenger only duels what it beats; Reisig buffs bought units that beat yours.",
+    "Grit Pit Elder's fight wins now grow permanently; Hartmut's first lost duel is free."
+  ],
+  "verdict": "Rated 7 fun and 7 distinct, it ranked first of its seed's three; for players who love feeding one huge champion."
+}

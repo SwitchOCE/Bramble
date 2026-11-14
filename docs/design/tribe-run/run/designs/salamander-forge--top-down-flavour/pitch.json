@@ -1,0 +1,70 @@
+{
+  "design_id": "salamander-forge--top-down-flavour",
+  "v": 2,
+  "hook": "Keep reheating one masterpiece until it towers, then cash it in or hurl its fire at the enemy.",
+  "loop": [
+    "Heat units by position: behind, beside and next to them.",
+    "Keep reheating one piece; each Heat Reforges +1/+1, then cools.",
+    "Quench it for big stats, or turn the burns on enemies."
+  ],
+  "growth": {"shape": "tall", "line": "Each turn, +1/+1 per Heat, cooling by one; extra Reforges multiply it late."},
+  "feel": {
+    "early": "Hot bodies that burn themselves a little.",
+    "mid": "Positioning puzzle: who sits next to the hot piece.",
+    "late": "Stacked Reforges, or burns flung at the enemy."
+  },
+  "stars": [
+    {"uid": "u14", "why": "Quenches the Hottest and reheats its neighbours, so the hot spot moves."},
+    {"uid": "u15", "why": "Turns your own burns into the enemy's."},
+    {"uid": "u19", "why": "Rewards ringing the masterpiece with Hot neighbours."}
+  ],
+  "roles": {
+    "u01": "body", "u02": "engine", "u03": "engine", "u04": "payoff", "u05": "economy",
+    "u06": "engine", "u07": "engine", "u08": "buff", "u09": "payoff", "u10": "engine",
+    "u11": "buff", "u12": "multiplier", "u13": "economy", "u14": "payoff", "u15": "payoff",
+    "u16": "multiplier", "u17": "multiplier", "u18": "payoff", "u19": "payoff",
+    "x01": "engine", "x02": "utility"
+  },
+  "card_short": {
+    "u01": "When played: Heat itself twice.",
+    "u02": "Regrow; Heats itself after any fight it took damage.",
+    "u03": "End of Turn: Heat units in front; back row only.",
+    "u04": "When played: Quench a unit for +2/+2 per Heat.",
+    "u05": "Sell a unit: get an Ingot, once a turn.",
+    "u06": "End of Turn: Heat your Hottest other unit.",
+    "u07": "Refreshing Heats the units beside it, once a turn.",
+    "u08": "End of Turn: your Hot units gain +1/+1.",
+    "u09": "Your burns also hit the enemy across, even through Shields.",
+    "u10": "End of Turn: Heat every unit next to it.",
+    "u11": "Your Hot units have Regrow.",
+    "u12": "Units beside it Reforge once more.",
+    "u13": "Gold for empty slots next to Hot units, up to 2.",
+    "u14": "Quenches your Hottest each turn, then Heats its neighbours.",
+    "u15": "Hot units give enemies across double Heat; they burn instead.",
+    "u16": "All your units Reforge once more.",
+    "u17": "Your units don't cool.",
+    "u18": "Your units Regrow Attack too; the fallen gain Heat.",
+    "u19": "Hottest Reforges once more per Hot unit next to it.",
+    "x01": "Item: Heat any unit twice.",
+    "x02": "Flavour text for Mother Atra and Warden Quench."
+  },
+  "builds": [
+    {"name": "One Masterpiece", "line": "Pile Heat on one piece; ring it with Hot neighbours and multipliers."},
+    {"name": "Quench and Reheat", "line": "Heat fast, Quench for big stats, keep burns low."},
+    {"name": "Scorched Earth", "line": "Furnace stops cooling; Ember-Slinger or Spitter turns burns on the enemy."}
+  ],
+  "liked": [
+    "Warden Quench moves the Hottest every turn: a fresh positioning puzzle each recruit.",
+    "Ember-Slinger turns the tribe's own burns into the weapon."
+  ],
+  "worries": [
+    "Watch: Undying Furnace, Curator and Crater Forge Master stack Reforges; needs late sim.",
+    "Watch: Ottilie's Regrow feeds itself; Ember-Slinger halves every enemy across."
+  ],
+  "changed": [
+    "Ember-Slinger now says your units keep their Heat and Reforge.",
+    "Mother Atra pays only for empty slots next to Hot units.",
+    "Reforge cards now say \"once more\", so stacking reads right."
+  ],
+  "verdict": "Rated 7 fun, 7 distinct; ranked third of three, neatest idea but more work. For players who love positioning puzzles."
+}

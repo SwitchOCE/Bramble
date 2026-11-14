@@ -1,0 +1,87 @@
+{
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 3,
+  "hook": "Borrow gold to win now, then pay it back with kills and sales, and every repayment buffs your flock.",
+  "loop": [
+    "Borrow gold to buy more, building Debt with interest.",
+    "Debt powers fighters; Skimmers pay it off by killing.",
+    "Every repayment fires Repaid: buffs and fills the Ledger."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Permanent buffs on every repayment, several a round from Skims; Ledger payoffs speed up late."
+  },
+  "feel": {
+    "early": "Borrow for tempo, then a broke turn.",
+    "mid": "Tier 4 multipliers make each repayment count.",
+    "late": "Ledger and Skim capstones snowball the whole tribe."
+  },
+  "stars": [
+    {"uid": "u12", "why": "Move it to choose when the big bill lands."},
+    {"uid": "u08", "why": "Owe more, hit harder, then skim the Debt back."},
+    {"uid": "u03", "why": "Every sale, from any tribe, becomes a repayment."}
+  ],
+  "roles": {
+    "u01": "economy",
+    "u02": "payoff",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "buff",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "payoff",
+    "u09": "buff",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "economy",
+    "u14": "payoff",
+    "u15": "engine",
+    "u16": "engine",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "utility"
+  },
+  "card_short": {
+    "u01": "Borrow when played: gold now, a bigger bill next turn.",
+    "u02": "Grows permanently each repayment, up to twice a round.",
+    "u03": "While in Debt, sales repay Debt instead of giving gold.",
+    "u04": "Adds Debt, then buffs a unit per Debt you have.",
+    "u05": "Repayments of 2 or more buff another Syndicate unit.",
+    "u06": "Skim, and gives Skim to the units beside it.",
+    "u07": "Borrows every End of Turn; grows when repaid.",
+    "u08": "Skim; gains Attack per Debt at Start of Combat.",
+    "u09": "Repays some Debt now; buffs a unit by your Ledger.",
+    "u10": "Your Repaid: effects trigger twice.",
+    "u11": "Each repayment buffs two other Syndicate units permanently.",
+    "u12": "Back row: delays repaying under 10 Debt, gains gold.",
+    "u13": "Skim; gains gold when Syndicate units Skim, twice a fight.",
+    "u14": "Repayments buff the whole tribe, more for bigger lumps.",
+    "u15": "Start of Combat: gives your other units Skim.",
+    "u16": "Start of Combat: Borrow, so Debt is high in fights.",
+    "u17": "End of Turn: buffs the tribe by your Ledger total.",
+    "u18": "Start of Combat: buffs the tribe per Debt you have.",
+    "u19": "Skim; every Syndicate Skim buffs the whole tribe permanently.",
+    "x01": "Rulings: what counts as a repayment, and how."
+  },
+  "builds": [
+    {"name": "The Racket", "line": "Skimmers turn kills into repayments; Seven and Sorrow and Joy buff."},
+    {"name": "The Bill Comes Due", "line": "Mr Magpie holds Debt past 10, then Arne cashes the lump."},
+    {"name": "The Pawnshop", "line": "Uncle Jack turns every sale into a repayment and a buff."}
+  ],
+  "liked": [
+    "All three picked Mr Magpie: moving one unit decides when the bill lands.",
+    "Debt as a fight resource, high in fights, paid off by kills, is new."
+  ],
+  "worries": [
+    "Arne with Thought and Memory on a Mr Magpie bill: a huge one-turn swing.",
+    "Seven, Tower Raven and Sorrow and Joy may snowball won fights with Skims."
+  ],
+  "changed": [
+    "One Repaid: trigger word; every Debt repaid, by kill or sale, fills the Ledger.",
+    "Slate-Drinker Rook now grows when repaid, instead of only losing gold.",
+    "Penny Jackdaw borrows 3 to buy a unit; Mr Magpie needs real Debt."
+  ],
+  "verdict": "Fun 6.7, distinct 7.0, ranked best of three Syndicate designs; for players who like timing borrows, bills and sales."
+}

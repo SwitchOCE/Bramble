@@ -1,0 +1,87 @@
+{
+ "design_id": "rat-king--surgical",
+ "v": 3,
+ "hook": "Tie your rats into one tangled Knot that shares every hit, then grow it as a council each turn.",
+ "loop": [
+  "Place units next to each other to Tie them into a Knot.",
+  "End of Turn buffs and Gossip grow the whole Knot together.",
+  "The Knot splits every hit in fights, or unties for a volley."
+ ],
+ "growth": {
+  "shape": "wide",
+  "line": "From Tier 4, End of Turn buffs hit every Knot unit; a full Knot of seven grows fastest."
+ },
+ "feel": {
+  "early": "Strays and small buffs; little splitting yet",
+  "mid": "Bell-Ringer votes, Gossip skims, the Knot grows together",
+  "late": "Pick an ending: shared Health pool, the King, or Piper"
+ },
+ "stars": [
+  {"uid": "u17", "why": "Whole board fights as one body with one Health pool"},
+  {"uid": "u19", "why": "Unties the Knot for a free opening attack from everyone"},
+  {"uid": "u15", "why": "Every share of a split hit gives that unit Attack"}
+ ],
+ "roles": {
+  "u01": "body",
+  "u02": "engine",
+  "u03": "economy",
+  "u04": "engine",
+  "u05": "buff",
+  "u06": "multiplier",
+  "u07": "buff",
+  "u08": "payoff",
+  "u09": "utility",
+  "u10": "buff",
+  "u11": "multiplier",
+  "u12": "utility",
+  "u13": "engine",
+  "u14": "multiplier",
+  "u15": "payoff",
+  "u16": "buff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "body"
+ },
+ "card_short": {
+  "u01": "Gains Attack per Knot-mate in fight; doubled beside a gap",
+  "u02": "When played, summons a Stray next to it.",
+  "u03": "Each turn one shop unit is cheaper and comes Tied.",
+  "u04": "When played, Ties a neighbour and gives it permanent stats.",
+  "u05": "End of Turn: buffs its Knot's two lowest-Health units.",
+  "u06": "Gossip: skims a quarter of its Knot's gains each turn.",
+  "u07": "End of Turn: +3/+3 to its Knot's biggest unit.",
+  "u08": "Gains Attack for the fight each time it takes damage.",
+  "u09": "When it dies, summons two Strays to patch the Knot.",
+  "u10": "Quorum 5: Knot votes; everyone gains Attack or Health permanently.",
+  "u11": "Start of Combat: Knot units copy their neighbours' keywords.",
+  "u12": "Start of Combat: Ties the enemy across and its neighbours.",
+  "u13": "Start of Combat: pokes its Knot and Tied enemies twice.",
+  "u14": "Gossip, and doubles every Gossip in her Knot.",
+  "u15": "Every Knot unit gains Attack whenever it takes damage.",
+  "u16": "Can't attack. Buffs Knot each turn; Quorum 7 triples it.",
+  "u17": "Quorum 6: Knot gets stats and one shared Health pool.",
+  "u18": "Start of Combat: takes the stats of its whole Knot.",
+  "u19": "Not Tied. Unties everyone; your largest Knot attacks at once.",
+  "x01": "A 1/1 Tied Rat that fills Knot slots."
+ },
+ "builds": [
+  {"name": "Full Council", "line": "Fill all seven slots; Bell-Ringer and Speaker grow everyone, Thirty-Two ends it."},
+  {"name": "Gossip Mill", "line": "Gossip rats skim a buffed carry's gains, and tied Oozes' meals."},
+  {"name": "Knot by day, loose by night", "line": "Grow tied, then the Piper unties for a free opening volley."}
+ ],
+ "liked": [
+  "Split damage rewrites Shield, Damage Reduction and every takes-damage trigger; no tribe does this.",
+  "The Piper: grow tied, fight untied, with a reading-order puzzle."
+ ],
+ "worries": [
+  "Thirty-Two with Old Gundel: units can't die while their Attack keeps climbing.",
+  "Watch golden Ilse and Sniffer, Speaker at Quorum 7, golden King: may run away."
+ ],
+ "changed": [
+  "Clearer split rule: hit unit takes the leftover; a 0 share isn't damage.",
+  "Bell-Ringer now holds a vote: +2 Attack or +2 Health for everyone.",
+  "Fips doubles beside an empty slot; Sweep also pokes Tied enemies."
+ ],
+ "verdict": "Rated fun 7, distinct 8, reviewers call it done; ranked third of three Rat King designs, for players who like fight puzzles."
+}

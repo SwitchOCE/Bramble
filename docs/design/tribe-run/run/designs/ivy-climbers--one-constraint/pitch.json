@@ -1,0 +1,85 @@
+{
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 2,
+  "hook": "Your vines can't be buffed: hang them on one host, buff it, and watch every Climber rise together.",
+  "loop": [
+    "Drag Climbers onto the unit you're about to buff.",
+    "Buff that host; every Climber on it rises the same.",
+    "Stack a big hub so each gain lands four or five times."
+  ],
+  "growth": {
+    "shape": "tall",
+    "line": "Every host gain copies to each Climber on it; Hold and Grand Oak multiply it late."
+  },
+  "feel": {
+    "early": "Small sprigs hunting for a Patron to hang on.",
+    "mid": "Move-then-buff puzzles; hubs and Hold start stacking.",
+    "late": "Huge hubs, or half your board falling at once."
+  },
+  "stars": [
+    {"uid": "u19", "why": "The hub capstone: Climbers on it copy every gain doubled."},
+    {"uid": "u06", "why": "Turns the rule on the enemy: rides their biggest unit."},
+    {"uid": "u07", "why": "Lets spells and tribe bonuses reach a tribe that can't use them."}
+  ],
+  "roles": {
+    "u01": "buff",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "utility",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "buff",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "buff",
+    "u13": "utility",
+    "u14": "engine",
+    "u15": "payoff",
+    "u16": "buff",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "Climber. When played, gives its host +1/+1.",
+    "u02": "Patron. Gains Health each turn per Climber next to it.",
+    "u03": "Patron with Hold 2: two Climbers can hang here.",
+    "u04": "Climber. Gives its host +1/+1 every Start of Turn.",
+    "u05": "Climber. Gold each turn while its host is your biggest.",
+    "u06": "Climber. Rides the biggest enemy each fight, falling with it.",
+    "u07": "Climber. Buffs and spells on your Climbers go to hosts.",
+    "u08": "Climber. Turns its Attack into host Health each turn.",
+    "u09": "Climber. Its host gains +1/+1 per attack, for the fight.",
+    "u10": "Climber. When played, gives a neighbouring non-Climber Hold +1.",
+    "u11": "Climber. End of Turn: every host you have gets +1/+1.",
+    "u12": "Climber. Selling a Climber gives its stats to its host.",
+    "u13": "Patron. Catches Climbers whose host dies next to him.",
+    "u14": "Patron, Hold 2. Blooms one Climber each turn, then grows.",
+    "u15": "Climber. Each fall gives all your hosts +2/+2 this fight.",
+    "u16": "Climber. When played, host grows per different tribe you have.",
+    "u17": "Climber. Fight buff to host for each unit she's climbed.",
+    "u18": "Climber. Hosted Climbers copy every host's gains, not just theirs.",
+    "u19": "Patron, Hold 3. Climbers on it copy its gains doubled."
+  },
+  "builds": [
+    {"name": "The Great House", "line": "One back-row hub, Hold raised, four Climbers copying every gain."},
+    {"name": "The Gatecrashers", "line": "Dodders and Old Man's Beard turn every fall into fight stats."},
+    {"name": "Hangers-on", "line": "Hang Climbers on another tribe's engine and copy its growth."}
+  ],
+  "liked": [
+    "Every buff becomes a choice of host: a move-then-buff puzzle each turn.",
+    "Truly new: units you can never buff, growing off other tribes' engines."
+  ],
+  "worries": [
+    "Watch: Viscum plus Kissing Bough, and golden Grand Oak, may run away.",
+    "Ruin Ivy may loop forever as worded; with Harvest Supper it needs testing."
+  ],
+  "changed": [
+    "Clearer wording on Cousin Dodder, Ruin Ivy, Viscum and how Grand Oak stacks.",
+    "Ruin Ivy now sends tribe bonuses to hosts too, for every Climber to copy.",
+    "Hazel Wand counts nearby Climbers; you pick who Blooms off Ivy in Flower."
+  ],
+  "verdict": "Rated 7 fun and 8 distinct, it ranked second of three, called the boldest; for players who love aiming every buff."
+}

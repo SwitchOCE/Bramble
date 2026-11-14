@@ -1,0 +1,87 @@
+{
+  "design_id": "moon-hares--player-story",
+  "v": 3,
+  "hook": "Wind your own moon by selling Hares, then cash each Full Moon for permanent stats and borrowed powers.",
+  "loop": [
+    "Sell and play Hares to turn the moon toward Full.",
+    "Full Moons pay permanent stats and switch on Borrow.",
+    "Borrowers copy neighbours' text, doubling your best cards in fights."
+  ],
+  "growth": {
+    "shape": "wide",
+    "line": "Small permanent gifts to every Hare at each Full Moon; the Moon-Scour's gift grows with every Full."
+  },
+  "feel": {
+    "early": "Solid bodies for turn 3's natural Full fight.",
+    "mid": "Winding the moon; picking shop and fight phases.",
+    "late": "A fork: Full every turn, or Leverets copying Hares."
+  },
+  "stars": [
+    {"uid": "u08", "why": "Sell him to turn the moon; he comes back every turn."},
+    {"uid": "u03", "why": "Borrows its left neighbour's text at Full Moon; slot order matters."},
+    {"uid": "u18", "why": "Every Full Moon you've wound earlier pays again, bigger each time."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "multiplier",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "engine",
+    "u09": "buff",
+    "u10": "utility",
+    "u11": "engine",
+    "u12": "buff",
+    "u13": "multiplier",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "multiplier"
+  },
+  "card_short": {
+    "u01": "Moonlit: Bristle. Grows permanently at each Full Moon.",
+    "u02": "Sell it to turn the moon.",
+    "u03": "Borrows the text of the unit to its left.",
+    "u04": "Full Moon: permanent stats to the units next to it.",
+    "u05": "New Moon: gain 2 gold, once a turn.",
+    "u06": "Turns the moon when it dies in a fight.",
+    "u07": "New Moon: summons a Leveret in the back row.",
+    "u08": "Sell him to turn the moon; returns next turn.",
+    "u09": "End of Turn: permanent stats behind it; double when Waning.",
+    "u10": "Moonlit, in fights: borrows the text of the enemy across.",
+    "u11": "First Hare you play each turn turns the moon.",
+    "u12": "Full Moon: permanent stats to all your other Hares.",
+    "u13": "Its permanent gains are copied to the units beside it.",
+    "u14": "Your Full Moon and New Moon triggers fire twice.",
+    "u15": "Start of Combat: boxes the enemy across; untouchable when Moonlit.",
+    "u16": "Always borrows your biggest non-Hare unit's text.",
+    "u17": "Moon skips Waning and New; Full Moon buffs all Hares.",
+    "u18": "Full Moon: buffs Hares more for every Full this game.",
+    "u19": "New Moon: summons a Leveret; borrowing Leverets become Hare copies.",
+    "x01": "1/1 token; borrows the text of the unit in front."
+  },
+  "builds": [
+    {"name": "The clock", "line": "Turn the moon three times a shop for a Full every turn."},
+    {"name": "Borrowed shapes", "line": "A few Hares copying another tribe's best units' text."},
+    {"name": "Dark of the moon", "line": "New Moons bring gold and Leverets; Grandam turns them into copies."}
+  ],
+  "liked": [
+    "Winding the moon so shop and fight phases differ: a real choice every turn.",
+    "Old Wat stood out to all three; Borrow plays unlike any of today's tribes."
+  ],
+  "worries": [
+    "Grandam doesn't work as written: she fires at New, Leverets borrow only at Full.",
+    "Watch: Silverpenny copying capstones, Waxwell stacking with Meikle Care, Grandam's triples."
+  ],
+  "changed": [
+    "Grandam's copies now count for triples and never copy a Grandam.",
+    "Borrowed sell and death text now fires, so Leverets can turn the moon free.",
+    "Waxwell now doubles Once a turn triggers; Longshanks' bout ends after 5 hits."
+  ],
+  "verdict": "Rated 7.0 fun and 7.3 distinct, it ranked third of three Moon Hares designs; for players who love positional combo puzzles."
+}

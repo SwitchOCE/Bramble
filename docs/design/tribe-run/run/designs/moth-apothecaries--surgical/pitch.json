@@ -1,0 +1,93 @@
+{
+  "design_id": "moth-apothecaries--surgical",
+  "v": 3,
+  "hook": "Every apprentice adds a line to your shared Recipe; pour it as Phials on any unit, even another tribe's star.",
+  "loop": [
+    "Get Phials and cast them: pile on one lamp or spread wide",
+    "Apprentices add Recipe lines, so every later Phial does more",
+    "The Herald, Psyche and Shipton pour the Recipe out in fights"
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Ramps from about turn 6: a lamp gains about 10% of itself per stat line each turn."
+  },
+  "feel": {
+    "early": "Thin: small bodies and a lone +1/+1 Phial",
+    "mid": "Recipe fills; choose lamp or spread every turn",
+    "late": "Full Recipe, Herald and Pavonia: a lamp grows fast"
+  },
+  "stars": [
+    {"uid": "u03", "why": "Each copy adds a line, so every later Phial grows"},
+    {"uid": "u10", "why": "One Phial splashes three units; slot layout becomes the puzzle"},
+    {"uid": "u18", "why": "Steals another tribe's keyword into the Recipe for every Phial"}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "engine",
+    "u12": "buff",
+    "u13": "economy",
+    "u14": "payoff",
+    "u15": "utility",
+    "u16": "payoff",
+    "u17": "multiplier",
+    "u18": "engine",
+    "u19": "payoff",
+    "x01": "engine",
+    "x02": "utility",
+    "x03": "utility",
+    "x04": "utility"
+  },
+  "card_short": {
+    "u01": "When played: get a Phial",
+    "u02": "Drawn: copies the stats of spells on its neighbours",
+    "u03": "When played: Add a line, +1/+1",
+    "u04": "After you cast the shop's spell or use an item: get a Phial",
+    "u05": "Holding 2+ Phials at Start of Turn: get 1 gold",
+    "u06": "End of Turn: get a Phial",
+    "u07": "When played: Add a line, Hunker or Bristle 2",
+    "u08": "End of Turn: grows the most-Phialed unit per spell cast",
+    "u09": "Drawn. When it dies: casts the Recipe on its neighbours",
+    "u10": "Spells cast on this also hit the units beside it",
+    "u11": "When played: Add a line, Drawn, Swoop or +2 Attack",
+    "u12": "After a Phial, grows the units next to its target",
+    "u13": "Shop's spell costs 1 less and restocks once a turn",
+    "u14": "Drawn. +1/+1 for each spell cast while recruiting",
+    "u15": "Start of Combat Nightshade; adds a Nightshade line to the Recipe",
+    "u16": "Start of Combat: biggest enemy loses your Recipe's stats and a keyword",
+    "u17": "Your Phials are cast twice on their target",
+    "u18": "Each turn: copy a board unit's keyword into the Recipe",
+    "u19": "Start of Combat: casts the Recipe on every other friendly unit",
+    "x01": "Free spell in hand: cast your Recipe on a unit",
+    "x02": "A splash is one cast; Drawn gains once per spell",
+    "x03": "Herald in F1 makes Burnet lines fire; in B3, none",
+    "x04": "A golden copy's lines stay, and golden adds a bigger one"
+  },
+  "builds": [
+    {"name": "The Lamp", "line": "Pour every Phial on one unit, with Drawn moths beside it"},
+    {"name": "The Dispensary", "line": "Fill the Recipe with keywords and spread Phials over the board"},
+    {"name": "The Pharmacy", "line": "A few Phial makers feed another tribe; the Alchymist steals its keywords"}
+  ],
+  "liked": [
+    "Burnt Ring Warden turns slot placement into the tribe's multiplier",
+    "The Alchymist: steal another tribe's keyword into every Phial, different each game"
+  ],
+  "worries": [
+    "Dame Pavonia and Primrose stat lines can still snowball; golden Pavonia needs a sim",
+    "The Alchymist's stolen keywords lack rulings; Treacle Painter hangs on the shop spell's price"
+  ],
+  "changed": [
+    "A unit's Phials scale with its size once a turn, ending the runaway lamp",
+    "Psyche, the Nurse and the Grinder now aim at the lamp and its neighbours",
+    "Shipton also strips a keyword; The Uncertain needs two held Phials"
+  ],
+  "verdict": "Rated 7 fun, 7.3 distinct; ranked first of three Moth designs. For players who love planning slots and writing their own spell."
+}

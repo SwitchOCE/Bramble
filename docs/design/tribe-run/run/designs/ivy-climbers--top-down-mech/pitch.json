@@ -1,0 +1,89 @@
+{
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 3,
+  "hook": "Hang vines on your strongest unit and every buff it gets ripples down a whole tree of climbers.",
+  "loop": [
+    "Play climbers onto a host; Climb copies half its gains.",
+    "Chains of climbers on climbers, or tiny roots that Bloom.",
+    "One buff on the host pays out down the whole tree."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Every host gain copies at half down chains; Lattice and Hedera make it full, late growth snowballs."
+  },
+  "feel": {
+    "early": "Small copied buffs; Sprig and Woodbine carry thin bodies.",
+    "mid": "Choose your tree: one big host, spread, or Bloom.",
+    "late": "Missel, Hedera and Viscum make deep chains grow fast."
+  },
+  "stars": [
+    {"uid": "u07", "why": "Climbs the enemy, steals stats, and feeds its own climbers."},
+    {"uid": "u16", "why": "Blooms on a tiny root, then +4/+4 cascades down chains."},
+    {"uid": "u14", "why": "Counts your tree, grows the root, shields the weak point."}
+  ],
+  "roles": {
+    "u01": "buff",
+    "u02": "engine",
+    "u03": "buff",
+    "u04": "utility",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "utility",
+    "u08": "payoff",
+    "u09": "buff",
+    "u10": "buff",
+    "u11": "engine",
+    "u12": "multiplier",
+    "u13": "utility",
+    "u14": "payoff",
+    "u15": "utility",
+    "u16": "payoff",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Climb; when played, buffs its host permanently.",
+    "u02": "Climbs two hosts at once, copying half from each.",
+    "u03": "Climb; End of Turn, buffs its host permanently.",
+    "u04": "Climb; drains 1/1 from its host each turn.",
+    "u05": "Climb; gold each turn on your biggest, well-climbed host.",
+    "u06": "Climb; sprouts Ivy Shoots climbing it into empty slots.",
+    "u07": "In fight, climbs the enemy across and steals a quarter.",
+    "u08": "Climb; buffs its host once per climber in the tree.",
+    "u09": "Climb; Start of Combat, buffs its host for the fight.",
+    "u10": "Climb; End of Turn, buffs every unit that has a climber.",
+    "u11": "Climb; your other climbers can move onto its host, growing.",
+    "u12": "Climb; its own climbers copy all its gains, not half.",
+    "u13": "Bloom: gains Cleave, gives its host Damage Reduction.",
+    "u14": "Grows your most-climbed unit per climber; gives it Shield.",
+    "u15": "In fight, climbs the biggest enemy, steals; re-climbs on kills.",
+    "u16": "Bloom: Start of Combat, gives your other climbers +4/+4.",
+    "u17": "All your climbers copy full gains; re-climbs your biggest unit.",
+    "u18": "Buffs every friendly unit per blooming climber you have.",
+    "u19": "Climbers whose host dies inherit a third for the fight.",
+    "x01": "A 2/2 token climber made by Ivy Runner.",
+    "x02": "Spell: move one climber onto any friendly unit."
+  },
+  "builds": [
+    {"name": "The Grand Oak", "line": "Pile climbers onto one strong host; Missel and Hedera pay off."},
+    {"name": "The Hedge", "line": "Many small trees with Hop Bine; no single death breaks it."},
+    {"name": "The Overgrown Ruin", "line": "Tiny roots let Ruin Ivy and Ivy in Flower Bloom."}
+  ],
+  "liked": [
+    "Bloom flips the rule: tiny roots like Shoots or Eggs become prized.",
+    "Dodders stealing from enemies, and Cousin Dodder plus Old Man's Beard's kill-and-feast."
+  ],
+  "worries": [
+    "Watch Lady Hedera, Missel, Viscum: full share down deep chains grows very fast.",
+    "Watch Old Man's Beard swinging fights, Hanger-on's easy gold; Cousin Dodder's rules unclear."
+  ],
+  "changed": [
+    "Climb now spells out falling, loops and triples; Hedera can't climb her climbers.",
+    "Dodder Thread now leaves its host, steals, and climbs back after kills.",
+    "Hanger-on pays more on a three-climber host; Mistletoe now only drains."
+  ],
+  "verdict": "Rated 7.3 fun and 7.3 distinct, first of its seed's three; for combo players who love planning a tree."
+}

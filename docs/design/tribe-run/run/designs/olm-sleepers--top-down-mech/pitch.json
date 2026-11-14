@@ -1,0 +1,87 @@
+{
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 3,
+  "hook": "Leave your sleepers untouched to gather Age, then pass it along the row to tip them awake.",
+  "loop": [
+    "Leave Still units untouched; move Age with bats and dormice.",
+    "Age piles up as pips, nearing Awaken thresholds.",
+    "Thresholds land: stats, gold, damage, and the Eldest's board-doubling Awaken."
+  ],
+  "growth": {
+    "shape": "slow-burn",
+    "line": "Age climbs a pip a turn; weak until about turn 8, then stats bend sharply upward."
+  },
+  "feel": {
+    "early": "Pale, thin board; loses fights in rounds 3-6.",
+    "mid": "Thresholds land; route Age to tip Awakens.",
+    "late": "Eldest and Hrošč turn every pip into huge stats."
+  },
+  "stars": [
+    {"uid": "u12", "why": "Placement becomes Age routing; a fresh Eldest beside him is strongest."},
+    {"uid": "u17", "why": "The chase: grows the board from Age, Awaken 20 doubles it."},
+    {"uid": "u01", "why": "The seed in one line: every Age gained becomes stats."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "payoff",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "economy",
+    "u14": "multiplier",
+    "u15": "engine",
+    "u16": "payoff",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "economy"
+  },
+  "card_short": {
+    "u01": "Still. Gains +1/+1 permanently for every Age it gains.",
+    "u02": "When played: gives 1 Age to each neighbour.",
+    "u03": "Selling a unit sends its Age to your youngest unit.",
+    "u04": "Still. End of Turn: oldest unit gains stats from its Age.",
+    "u05": "Still. Start of Turn: cashes up to 2 Age into gold.",
+    "u06": "Still. Gives Still to its neighbours, any tribe.",
+    "u07": "Still. Awaken 4: grows big, gives neighbours 2 Age.",
+    "u08": "Still. Awaken 3: permanently buffs its neighbours.",
+    "u09": "Still. Start of Combat: hits lowest-Health enemy for 2x Age.",
+    "u10": "Neighbours gain 1 extra Age from Still.",
+    "u11": "End of Turn: feeds your youngest stats from oldest's Age.",
+    "u12": "Play beside him: pulls Age from his other side onto it.",
+    "u13": "Still. Awaken 3: get 2 Pilgrim's Hams.",
+    "u14": "Still. Others' Awaken repeats at 2N, 3N and so on.",
+    "u15": "End of Turn: units played or moved gain 1 Age.",
+    "u16": "Start of Combat: hits each enemy for 2x Age across it.",
+    "u17": "Still. Board grows from Age; Awaken 20 doubles the board.",
+    "u18": "Doubles stats and damage counted from Age; not Awaken.",
+    "u19": "Still. Start of Combat: +1/+1 per Age on your board.",
+    "x01": "Use: gain 2 gold, or give a unit 2 Age."
+  },
+  "builds": [
+    {"name": "The Long Sleep", "line": "Never move anything; Hatchlings and Bellman, finish on Eldest and Hrošč."},
+    {"name": "The Relay", "line": "Pass Age with Netopir and Echo Bat to reach Awaken 20."},
+    {"name": "The Hidden Passage", "line": "Start of Combat damage from Age; Parkelj lets you line up."}
+  ],
+  "liked": [
+    "All three named Brother Netopir's Age relay a standout: placement becomes routing.",
+    "Movable, spendable Age with oldest/youngest targeting gives real choices each turn."
+  ],
+  "worries": [
+    "Watch with Hrošč: Robber-Knight, Dragon and Painter numbers; Eldest's Awaken doubles the board.",
+    "Old Polh with Ribica prints Hams forever; Long Sleep has few decisions late."
+  ],
+  "changed": [
+    "Mother Ribica's repeat Awakens now step at 2N, 3N, once a turn.",
+    "Hrošč says plainly what it doubles; copies and Awakens don't stack.",
+    "Golden Echo Bat and Netopir capped so Age can't grow without limit."
+  ],
+  "verdict": "Fun 7.0, distinct 6.3, second of three and easiest to read; for players who love routing Age to big thresholds."
+}

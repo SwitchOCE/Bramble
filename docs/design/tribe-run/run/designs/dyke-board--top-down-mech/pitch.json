@@ -1,0 +1,87 @@
+{
+  "design_id": "dyke-board--top-down-mech",
+  "v": 3,
+  "hook": "You vote the water up or down: coots float, both front rows drown, and every swing grows your board.",
+  "loop": [
+    "Raise or Drain the Level, ideally both, each turn.",
+    "Every change pays stats or gold; Afloat and Dike slots stay dry.",
+    "The Flood takes Health shares from both front rows before attacks."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "+1/+1s per Level change early; Kobus doubles them at Tier 4; Tier 6 swings grow everything in jumps."
+  },
+  "feel": {
+    "early": "Coots raise the Level; Level 1 pings enemy fronts.",
+    "mid": "Front-row slot puzzle: who floats, who sits by Dikes.",
+    "late": "Big swings grow the board; Level 5 halves front rows."
+  },
+  "stars": [
+    {"uid": "u06", "why": "Raise and Drain every turn: two changes, Level unmoved."},
+    {"uid": "u17", "why": "Turns one vote into a full swing to 5 or 0."},
+    {"uid": "u18", "why": "Your Floods spare you and reach the enemy back row."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "buff",
+    "u03": "utility",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "engine",
+    "u12": "buff",
+    "u13": "buff",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "payoff",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "engine"
+  },
+  "card_short": {
+    "u01": "Afloat. Raise when played or sold.",
+    "u02": "Afloat. Grows each time the Level changes, twice a turn.",
+    "u03": "Afloat. Gives a unit Afloat, or stats if already Afloat.",
+    "u04": "Dike. Each Raise buffs the units beside it.",
+    "u05": "Start of Turn: Raise or Drain; gold on a Drain.",
+    "u06": "End of Turn: Raise and Drain, two changes.",
+    "u07": "Afloat. Raise whenever you sell a unit.",
+    "u08": "Dike. Each Drain buffs a random other unit.",
+    "u09": "Afloat. Gains Attack per enemy hurt by each Flood.",
+    "u10": "Afloat. Your Level-change triggers fire twice.",
+    "u11": "Start of Combat: Raise 2 for this fight.",
+    "u12": "End of Turn: buffs front units ahead, more per Level.",
+    "u13": "Afloat. Buffs Afloat units each turn; double at Level 0.",
+    "u14": "Dike. Friendly deaths bring the Flood again, twice a fight.",
+    "u15": "Each Level change gives your smallest unit +3/+3.",
+    "u16": "Afloat. First Flood buffs your Afloat units per enemy hurt.",
+    "u17": "Twice a turn, carry any Raise or Drain all the way.",
+    "u18": "Your Floods spare your units and hit the enemy back row.",
+    "u19": "Each Drain buffs all your units; extra at Level 0.",
+    "x01": "Spell: Raise or Drain 1, twice, choosing each time."
+  },
+  "builds": [
+    {"name": "High Water", "line": "Hold Level 4–5; floating front row cashes in every Flood."},
+    {"name": "The Minutes", "line": "Swing the Level every turn; Kobus and Hendrika multiply change payoffs."},
+    {"name": "Dry Polder", "line": "Drain low for gold and stats; Aaltje still floods in fights."}
+  ],
+  "liked": [
+    "One visible water Level that floods both front rows plays like no other tribe.",
+    "Polder Millwright and Hendrika make every turn's vote a real sequencing puzzle."
+  ],
+  "worries": [
+    "Hendrika with Kobus and Nine Mills gives huge stats every turn; sim it.",
+    "Tail-Slapper's repeat Floods can near-wipe enemy boards; current or full Health is unclear."
+  ],
+  "changed": [
+    "Fight votes now pay permanently; each Level step counts as one Raise or Drain.",
+    "Sluice Keeper can Raise or Drain; Winter Raft pays most at Level 0.",
+    "The Spaarndam Pup now stops only your own Floods, not the enemy's."
+  ],
+  "verdict": "Rated 7 fun and 7.7 distinct, ranked first of its seed's three; for players who love chaining triggers and slot puzzles."
+}

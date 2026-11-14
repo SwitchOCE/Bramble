@@ -1,0 +1,87 @@
+{
+ "design_id": "great-migration--one-constraint",
+ "v": 3,
+ "hook": "Only your Front Lemming speaks: set the queue of leaders, and each death passes the Banner on.",
+ "loop": [
+  "Set your Front for plays, sells and End of Turn.",
+  "Raise the Banner and order a queue of leaders, Kits as timers.",
+  "In the fight, each death passes the Banner; Take the Lead fires."
+ ],
+ "growth": {
+  "shape": "slow-burn",
+  "line": "Banner climbs slowly each turn; Cantor adds 2 per death; Onward gives it to every Lemming."
+ },
+ "feel": {
+  "early": "Plain bodies; one text at a time; Kits for gold.",
+  "mid": "Banner grows; Trailbreaker and Herald make the queue matter.",
+  "late": "Banner cascades down the line; Onward or Lemen cash in."
+ },
+ "stars": [
+  {"uid": "u16", "why": "Makes enemies hit your Front, so you set who dies first."},
+  {"uid": "u06", "why": "The lead visibly changes hands, buffing the next leader."},
+  {"uid": "u18", "why": "Pays the whole game's Banner to every Lemming at once."}
+ ],
+ "roles": {
+  "u01": "body",
+  "u02": "engine",
+  "u03": "engine",
+  "u04": "buff",
+  "u05": "economy",
+  "u06": "engine",
+  "u07": "engine",
+  "u08": "engine",
+  "u09": "buff",
+  "u10": "multiplier",
+  "u11": "engine",
+  "u12": "buff",
+  "u13": "engine",
+  "u14": "multiplier",
+  "u15": "engine",
+  "u16": "utility",
+  "u17": "multiplier",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "body"
+ },
+ "card_short": {
+  "u01": "Take the Lead: gains Attack per other Lemming.",
+  "u02": "End of Turn: summons a Kit into your last slot.",
+  "u03": "End of Turn: raises the Banner by 1.",
+  "u04": "When played as Front: other Lemmings get +1/+1 permanently.",
+  "u05": "Not a Lemming, always works: selling Kits gives gold.",
+  "u06": "Take the Lead: buffs the next Lemming, swaps behind it.",
+  "u07": "Loud. When Lemmings die, summons Kits, twice a fight.",
+  "u08": "When this dies: Banner +2 for the fight.",
+  "u09": "Loud. End of Turn: Kits gain +1/+1 permanently.",
+  "u10": "Copies the printed text of your next Lemming.",
+  "u11": "Raises the Banner when you play Lemmings, twice a turn.",
+  "u12": "End of Turn: other Lemmings gain +1/+1 permanently.",
+  "u13": "Start of Combat: fills empty slots after it with Kits.",
+  "u14": "Take the Lead: your Take the Lead effects trigger twice.",
+  "u15": "Take the Lead: each Front death raises the Banner by 2.",
+  "u16": "Take the Lead: gains Shield; enemies must attack your Front.",
+  "u17": "Loud. Your first two Lemmings are both Fronts.",
+  "u18": "Take the Lead: all Lemmings gain the Banner for the fight.",
+  "u19": "While Front, every Kit copies her body plus Banner.",
+  "x01": "Blank 1/1 Lemming token: a spacer, timer and cheap death."
+ },
+ "builds": [
+  {"name": "The Cliff Cult", "line": "Gerd sets the death order, Cantor grows Banner, Onward cashes it late."},
+  {"name": "The Matriarch", "line": "Lemen leads from the back row behind other tribes; Kits copy her."},
+  {"name": "The Relay", "line": "The Front Lemming doubles Take the Lead; Trailbreakers and Herald repeat it."}
+ ],
+ "liked": [
+  "All three: no tribe plays like this; slot order becomes a queue of leaders.",
+  "Gerd and Trailbreaker stood out: you choose who leads and who dies first."
+ ],
+ "worries": [
+  "Watch: The Front Lemming, Cantor and golden Brother Onward stack to about ×4.",
+  "Watch: Old Mother Lemen's Kit copies are a huge high roll that crashes."
+ ],
+ "changed": [
+  "Added Loud: Digger, Council and Kit-Minder now work from any slot.",
+  "Old Mother Lemen's Kits can't take the Front from her, so her build works.",
+  "Tally became a non-Lemming fox, so the early gold needs no Front swap."
+ ],
+ "verdict": "Fun 6.7, distinct 8; ranked third of three for silent boards and flat early tiers; for players who love ordering puzzles."
+}

@@ -1,0 +1,67 @@
+{
+  "design_id": "olm-sleepers--bottom-up-flavour",
+  "v": 2,
+  "hook": "Set slow countdowns ticking, then watch Dripstone pile up until your sleepy olms wake huge.",
+  "loop": [
+    "Play units with Vigils, and speed their countdowns with Knockers and bells.",
+    "Each Vigil that ends adds Dripstone, which never goes down.",
+    "Olmlings, the Eldest and Ribica cash Dripstone into huge boards and goldens."
+  ],
+  "growth": {"shape": "slow-burn", "line": "Little before turn 4; then Dripstone climbs 3–6 a turn and payoffs grow faster each turn."},
+  "feel": {
+    "early": "Weak and slow; only Kurent and Olmling can fight.",
+    "mid": "Clocks interlock; plan which Vigil ends last for Netopir.",
+    "late": "Dripstone-fed Olmlings and Ribica goldens take over the board."
+  },
+  "stars": [
+    {"uid": "u01", "why": "Tiny seed that grows with every ending into a late carry."},
+    {"uid": "u12", "why": "Repeats whoever ended last, so the order of clocks matters."},
+    {"uid": "u18", "why": "Every short clock speeds her toward a golden copy."}
+  ],
+  "roles": {
+    "u01": "payoff", "u02": "engine", "u03": "economy", "u04": "buff", "u05": "engine",
+    "u06": "economy", "u07": "engine", "u08": "buff", "u09": "payoff", "u10": "buff",
+    "u11": "engine", "u12": "multiplier", "u13": "economy", "u14": "multiplier",
+    "u15": "multiplier", "u16": "payoff", "u17": "payoff", "u18": "payoff", "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "Vigil 3: grows permanently for each Dripstone.",
+    "u02": "When played: your Vigils count down by 1.",
+    "u03": "Vigil 2: gain 2 gold.",
+    "u04": "When a Vigil ends, buff a random unit next to it.",
+    "u05": "When played: gives a unit without a Vigil a growing Vigil.",
+    "u06": "Vigil 3: get a Pale Olmling.",
+    "u07": "Vigil 2: your other Vigils count down by 1.",
+    "u08": "Vigil 2: whole board gains Health or Attack, flipping each time.",
+    "u09": "Start of Combat: gains Attack for each Dripstone.",
+    "u10": "When a Vigil ends, that unit grows permanently.",
+    "u11": "When played: copies a Vigil onto a unit without one.",
+    "u12": "End of Turn: repeats the last Vigil effect that ended.",
+    "u13": "Swoop. Gain 3 gold on turns no Vigil ends.",
+    "u14": "Your Vigils also count down at End of Turn.",
+    "u15": "Other Vigils are 1 longer; their stats and gold double.",
+    "u16": "Start of Combat: Vigil units grow by Dripstone.",
+    "u17": "Deep Vigil 8: your other units grow by Dripstone.",
+    "u18": "Deep Vigil 12: get a golden copy of a unit.",
+    "u19": "Counts as every tribe; grows by Dripstone and every ending."
+  },
+  "builds": [
+    {"name": "The long count", "line": "Many short Vigils pile up Dripstone; Olmlings, Eldest and Dragon cash in."},
+    {"name": "The clutch", "line": "Feed Mother Ribica endings for golden copies of your best unit."},
+    {"name": "The quiet house", "line": "Vigils end together on one loud turn; Robber-Knight pays for quiet ones."}
+  ],
+  "liked": [
+    "Brother Netopir, repeating whoever ended last, makes the order of your clocks a puzzle.",
+    "Short clocks feeding Deep Vigils and Ribica's golden clutch tie every tier together."
+  ],
+  "worries": [
+    "Mother Ribica, repeated by Netopir, may give goldens every turn; Discover rule unwritten.",
+    "Pale Olmling, Sitter, Eldest may run away late; Dragon needs every-tribe checks."
+  ],
+  "changed": [
+    "Each Vigil ends at most once a turn, stopping endless Knocker goldens.",
+    "Pale Olmling went from 1/2 to 2/2 for early fights.",
+    "Netopir, Parkelj, Sitter and lake now spell out exactly what and when."
+  ],
+  "verdict": "Rated 7.0 fun and 6.7 distinct, it ranked first of its seed's three; for players who enjoy timing puzzles and slow payoffs."
+}

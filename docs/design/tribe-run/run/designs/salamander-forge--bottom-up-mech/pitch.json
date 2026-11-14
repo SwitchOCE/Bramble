@@ -1,0 +1,105 @@
+{
+  "design_id": "salamander-forge--bottom-up-mech",
+  "v": 2,
+  "hook": "Heat a unit into a glass cannon, then choose the moment to Quench it into lasting stats.",
+  "loop": [
+    "Heat units through board layout, taking hits and selling shop units.",
+    "Heat piles up as fight-only Attack on a few pieces.",
+    "Quench it into permanent stats, at the best rate at 10 Heat."
+  ],
+  "growth": {
+    "shape": "tall",
+    "line": "Heat piles on one or two units each turn; Quenching at 10 Heat pays +3/+3 per Heat."
+  },
+  "feel": {
+    "early": "Small Heat, fragile boards until Cold Water or Bucket.",
+    "mid": "Arrange bellows and anvils; melt sales into your carry.",
+    "late": "Chase 10 Heat for Grandmaster, or Atra's fight burst."
+  },
+  "stars": [
+    {
+      "uid": "u19",
+      "why": "The 10-Heat target gives the whole game a number to chase."
+    },
+    {
+      "uid": "u15",
+      "why": "Quenching stops spending the fuel, so Quench payoffs fire every turn."
+    },
+    {
+      "uid": "u17",
+      "why": "Extra lives paid in Heat, fighting Quench for the same fuel."
+    }
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "payoff",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "engine",
+    "u12": "engine",
+    "u13": "payoff",
+    "u14": "payoff",
+    "u15": "multiplier",
+    "u16": "multiplier",
+    "u17": "utility",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "payoff"
+  },
+  "card_short": {
+    "u01": "When played: give a unit 2 Heat.",
+    "u02": "Gains Heat when attacked and survives, twice a fight.",
+    "u03": "When attacked, units behind it gain Heat, twice a fight.",
+    "u04": "End of Turn: heats the units on the other row.",
+    "u05": "Selling a hot unit: keep its Heat, gain 1 gold.",
+    "u06": "Selling a unit adds its Attack as Heat to your hottest.",
+    "u07": "End of Turn: hottest unit gains Heat per empty slot.",
+    "u08": "When played: Quench a unit; its neighbours gain Heat.",
+    "u09": "Units in front deal their Heat as damage after attacking.",
+    "u10": "End of Turn: units in front gain half their Heat.",
+    "u11": "End of Turn: units with no Heat gain 3 Heat.",
+    "u12": "Other friendly units gain Heat when attacked and surviving.",
+    "u13": "End of Turn: Quench the hottest unit behind; gold per 4.",
+    "u14": "Start of Combat: hottest unit gains +2/+2 per Heat.",
+    "u15": "Your Quenches leave half the Heat behind.",
+    "u16": "Start of Turn: return a unit behind to hand, +3 Heat.",
+    "u17": "Units with 4+ Heat regrow once a fight, losing half.",
+    "u18": "Your units gain twice as much Heat.",
+    "u19": "End of Turn: Quench units with 10+ Heat at +3/+3.",
+    "x01": "Spell, 1 gold: Quench a unit early."
+  },
+  "builds": [
+    {
+      "name": "One Masterpiece",
+      "line": "Pile Heat on one unit, aim for 10 and the Grandmaster."
+    },
+    {
+      "name": "The hammer line",
+      "line": "Front row gets hotter when hit; Ottilie gives hot units second lives."
+    },
+    {
+      "name": "The melt shop",
+      "line": "Buy units to sell them: Heat for your carry, plus gold."
+    }
+  ],
+  "liked": [
+    "All three: every turn is a real choice, bank the Heat or keep heating.",
+    "Nutrisco, Konrad and Ottilie stood out; Grandmaster's 10-Heat target gives a clear goal."
+  ],
+  "worries": [
+    "Watch: golden Nutrisco plus Grandmaster Quenches the same rising Heat every turn.",
+    "Watch: Crucible Keeper with Birds, and Konrad repeating other tribes' When played."
+  ],
+  "changed": [
+    "Heat always lasts now, so 'permanently' came off the cards.",
+    "Warden Quench's gold capped at 2 a turn, stopping a golden Nutrisco loop.",
+    "Bellows Boy works from either row; Konrad's return is optional and keeps stats."
+  ],
+  "verdict": "Rated 7 fun, 7 distinct, settled by all three reviewers, second of three; for players who like exact numbers and layouts."
+}

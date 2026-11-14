@@ -1,0 +1,87 @@
+{
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 3,
+  "hook": "Starve your order down to one vain giant knight, and watch every empty slot make him grander.",
+  "loop": [
+    "Leave gaps so knights stay Proud, and Duel at Start of Combat.",
+    "Sold squires, empty slots and Duel wins feed your Champion.",
+    "A few huge knights kill enemies before anyone attacks."
+  ],
+  "growth": {
+    "shape": "tall",
+    "line": "Champion gains permanent stats every End of Turn per empty slot and Proud unit; Gottfried multiplies in fight."
+  },
+  "feel": {
+    "early": "Duel bodies kill the enemy across before fights.",
+    "mid": "Pick a feed: Champion, Proud chequerboard or Duel wins.",
+    "late": "Two or three giants on a nearly empty board."
+  },
+  "stars": [
+    {"uid": "u18", "why": "Multiplies himself by your empty slots, up to x4."},
+    {"uid": "u01", "why": "Grows alone in a corner, then sells into the Champion."},
+    {"uid": "u14", "why": "Crosses out your smallest unit to feed the Champion double."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "body",
+    "u07": "utility",
+    "u08": "buff",
+    "u09": "buff",
+    "u10": "utility",
+    "u11": "buff",
+    "u12": "multiplier",
+    "u13": "economy",
+    "u14": "engine",
+    "u15": "buff",
+    "u16": "payoff",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "buff"
+  },
+  "card_short": {
+    "u01": "Grows while Proud; when sold, Champion takes his stats.",
+    "u02": "Plain Duel body for early fights.",
+    "u03": "Gives another unit Duel and stats, more if Proud.",
+    "u04": "Duel winners gain stats permanently, double if Proud.",
+    "u05": "From Tier 3, gold each turn on a small board.",
+    "u06": "Duel; each win starts another Duel, twice a fight.",
+    "u07": "If Proud, gives your Champion Shield at Start of Combat.",
+    "u08": "Champion gains stats each turn per empty slot.",
+    "u09": "If Proud, gets a Gizzard Stone each turn.",
+    "u10": "Duels the enemy's biggest unit, in either row.",
+    "u11": "Your Proud units gain stats every turn.",
+    "u12": "Duel-win effects trigger twice, limits doubled too.",
+    "u13": "Discovers a Knight; two on a small board.",
+    "u14": "May destroy your smallest unit; Champion gains double its stats.",
+    "u15": "Any tribe can be Champion; Champion grows per Proud unit.",
+    "u16": "Champion Duels once per empty slot, up to three.",
+    "u17": "Proud units get Duel; each first Duel takes no damage.",
+    "u18": "In fight, +50% stats per empty slot: x4 when alone.",
+    "u19": "Champion takes a quarter of each Duel loser's stats.",
+    "x01": "Item: stats for a unit, double on your Champion."
+  },
+  "builds": [
+    {"name": "The Last Knight", "line": "Sell and cross out everyone into one Champion; Gottfried finishes."},
+    {"name": "The Proud Court", "line": "Four lone knights in a chequerboard, all grown by Marshal and Reisig."},
+    {"name": "Dawn Duellists", "line": "Full board of Duellers; Hen and Cork-Pop turn wins into growth."}
+  ],
+  "liked": [
+    "Gaps as fuel: a board shape no other tribe asks for.",
+    "Sir Gottfried, a capstone whose price, an empty board, everyone can see."
+  ],
+  "worries": [
+    "Sir Gottfried's x4 on a fed Champion could end fights before they start.",
+    "Master of the Cork-Pop, Hartmut and Herald could wipe a front row pre-fight."
+  ],
+  "changed": [
+    "Refectory Prior now waits for Tier 3, so it's no free early buy.",
+    "The Chronicler's destroy became optional.",
+    "Bilberry Hen and Pennon-Squire give double to Proud knights."
+  ],
+  "verdict": "Rated 7.3 fun and 7 distinct, ranked third of its seed's three; for players who love growing one giant carry."
+}

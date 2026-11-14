@@ -1,0 +1,85 @@
+{
+  "design_id": "shiny-syndicate--borrow-twist",
+  "v": 2,
+  "hook": "Run a corvid crime family: borrow to get ahead, and every loan and repayment sets off a chain of buffs.",
+  "loop": [
+    "Owe Debt for stats, gold or credit buys; pay some off.",
+    "Each clear grows units and your Ledger; held Debt powers carriers.",
+    "Capstones cash in: Corbie's Ledger, Seven's exactly 7, Rookery Don's Skims."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Small permanent buffs per clear each turn; Tier 5-6 capstones scale with Debt held, Ledger or Skims."
+  },
+  "feel": {
+    "early": "Optional loans for stats; Tier up waits.",
+    "mid": "Juggling Debt: pay it, carry it, or Skim through wins.",
+    "late": "Big board-wide buffs from Debt, Ledger or Skims."
+  },
+  "stars": [
+    {"uid": "u18", "why": "Exactly 7 Debt turns every Owe and Pay into aiming."},
+    {"uid": "u11", "why": "Tier up on credit: rush now, owe big, hope you win."},
+    {"uid": "u09", "why": "Sell units to clear Debt; turns other tribes into payments."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "buff",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "economy",
+    "u08": "payoff",
+    "u09": "engine",
+    "u10": "payoff",
+    "u11": "economy",
+    "u12": "buff",
+    "u13": "economy",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "economy",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "When played: may Owe for permanent stats.",
+    "u02": "Grows permanently when you clear Debt, once a turn.",
+    "u03": "Once a turn, buy a unit on credit.",
+    "u04": "Clearing Debt buffs a random friendly unit, twice a turn.",
+    "u05": "Gold each Start of Turn while you have Debt.",
+    "u06": "End of Turn: Owe 1, buff units next to this.",
+    "u07": "Owe each End of Turn; gold back, more after wins.",
+    "u08": "Skim 2; extra Attack in fights per Debt held.",
+    "u09": "Selling a unit clears Debt equal to its tier.",
+    "u10": "End of Turn: board buff per 3 Debt cleared.",
+    "u11": "Tier up on credit, even while you owe.",
+    "u12": "Each Owe gives your other units Attack, twice a turn.",
+    "u13": "Skim 2; Skim with nothing to clear becomes gold.",
+    "u14": "Every Debt cleared counts double for Ledger and counters.",
+    "u15": "Start of Combat: buffs your board per 3 Debt held.",
+    "u16": "After a win, copy the enemy's biggest unit; Owe 4.",
+    "u17": "Start of Combat: buffs your board by your Ledger.",
+    "u18": "Start of Combat: exactly 7 Debt gives others +7/+7.",
+    "u19": "Skim 3; every Skimmed Debt permanently buffs your board."
+  },
+  "builds": [
+    {"name": "The Long Ledger", "line": "Owe each End of Turn, pay it off, grow on every clear."},
+    {"name": "On Tick", "line": "Hold Debt into fights for Attack, gold and Seven's exactly 7."},
+    {"name": "Protection Racket", "line": "Win early so Skim clears Debt free; Rookery Don cashes in."}
+  ],
+  "liked": [
+    "Seven's exactly-7 Debt puzzle: every reviewer's standout, and the best puzzle in the set.",
+    "One IOU pile read three ways (carry, clear, Skim) feels like nothing else."
+  ],
+  "worries": [
+    "Uncle Jack may be every lobby's auto-pick; Arne gets huge at 30 Debt.",
+    "Rookery Don plus Sorrow and Joy runs hot; many Debt rules feel like bookkeeping."
+  ],
+  "changed": [
+    "Debt rules made plannable: card Debt waits a turn, interest payable at once.",
+    "Losing a fight with Debt now costs extra hero damage.",
+    "Uncle Jack no longer lifts the tier lock; Memory now gives full stats."
+  ],
+  "verdict": "Rated 6.7 fun and 8 distinct, third of its seed's three; for players who love sequencing puzzles and tempo gambles."
+}

@@ -1,0 +1,87 @@
+{
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 3,
+  "hook": "Hide spiders under Lids beside cheap fodder, then watch a single death spring the whole ambush.",
+  "loop": [
+    "Place Lurkers beside fodder to ambush, or alone in gaps to wait.",
+    "Hidden Lurkers stay Patient and grow; Springs chain and bank stats.",
+    "A neighbour's death Springs them: free strikes, or a grown second board."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Patient Lurkers grow permanently each Start of Turn; each Spring banks stats; Mabyn merges both late."
+  },
+  "feel": {
+    "early": "Money Spider carries fights; Tapwell grows either way.",
+    "mid": "Arranging gaps and neighbours; first Spring chains appear.",
+    "late": "Mabyn merges builds; Master replays every Spring for the finale."
+  },
+  "stars": [
+    {"uid": "u06", "why": "Hidden, knocked, comes up with Spiderlings that are the next knocks."},
+    {"uid": "u14", "why": "Closes Lids again, so the same knocks fire twice."},
+    {"uid": "u17", "why": "Capstone: Sprang Lurkers count as Patient, merging both builds."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "multiplier",
+    "u10": "multiplier",
+    "u11": "utility",
+    "u12": "payoff",
+    "u13": "buff",
+    "u14": "multiplier",
+    "u15": "multiplier",
+    "u16": "engine",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "multiplier",
+    "x01": "body"
+  },
+  "card_short": {
+    "u01": "Fodder; leaves a Spiderling when it dies, another knock.",
+    "u02": "Lurk. Grows permanently while Patient and whenever it Springs.",
+    "u03": "Gives another friendly unit Lurk permanently.",
+    "u04": "Each turn, buffs your lowest-Attack Lurker permanently.",
+    "u05": "Gold each turn for a Patient Lurker, and for Springs.",
+    "u06": "Lurk. Spring: summons two Spiderlings.",
+    "u07": "Start of Combat: Springs your leftmost other hidden Lurker.",
+    "u08": "Buffs all your Lurkers permanently, or gives one unit Lurk.",
+    "u09": "A Spring wakes neighbouring hidden Lurkers too, with a buff.",
+    "u10": "Neighbouring Lurkers' Spring effects trigger twice.",
+    "u11": "Twice a fight: a hidden Lurker Springs at an attacker.",
+    "u12": "Every Spring permanently buffs the Lurker that Sprang.",
+    "u13": "Each turn, buffs your Patient Lurkers permanently.",
+    "u14": "Lurk. After a Spring attack, the Lurker hides again once.",
+    "u15": "Spring attacks deal double damage and Cleave.",
+    "u16": "Lurk. Spring: summons three Spiderlings that also Lurk.",
+    "u17": "Lurk. Sprang Lurkers stay Patient; buffs Patient Lurkers each turn.",
+    "u18": "Lurk. Springs last, replaying every Spring effect this fight.",
+    "u19": "Gives Lurk; Springing Lurkers repeat their Start of Combat effects.",
+    "x01": "1/1 token; fodder that knocks the Lurkers next to it."
+  },
+  "builds": [
+    {"name": "The Ambush", "line": "Fodder beside Lurkers; each death Springs chains of summons and strikes."},
+    {"name": "The Patient Lodge", "line": "Shown front wins; hidden Lurkers grow in gaps, rising when it breaks."},
+    {"name": "The Open Lodge", "line": "Give Lurk to other tribes' units; Start of Combat effects fire twice."}
+  ],
+  "liked": [
+    "Where Lurkers sit, beside fodder or alone in gaps, is a real puzzle.",
+    "A hidden board woken by neighbours' deaths plays unlike today's tribes; Corkhinge stands out."
+  ],
+  "worries": [
+    "Orbweaver: an all-Lurker board fires double-damage Cleave hits before the enemy moves.",
+    "Worshipful Master: huge with golden Diadem and Corkhinge, and its text is a paragraph."
+  ],
+  "changed": [
+    "Only a Lurker under its Lid can Spring, so chains end.",
+    "Tapwell also grows on Spring; Ballot Clerk now pays the Ambush build too.",
+    "Worshipful Master now Springs only by its own rule; its Lid shows repeats."
+  ],
+  "verdict": "Rated 7.3 fun, 7.0 distinct; ranked first of its seed's three; for players who love positional puzzles and ambush chains."
+}

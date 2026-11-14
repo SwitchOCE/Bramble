@@ -1,0 +1,89 @@
+{
+  "design_id": "salmon-run--player-story",
+  "v": 2,
+  "hook": "Fish swap their way upstream past the bank folk, fill six-stamp passports, then Spawn for rewards and come home.",
+  "loop": [
+    "Leap fish upstream, swapping them past bankside watchers for Stamps.",
+    "Six Stamps fill a passport; its next Leap makes it Spawn.",
+    "Spawns pay out rewards, then the fish comes home to replay."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Mostly +1/+1 per Leap from Parr and bank folk; late, the Alder swallows each Spawning fish."
+  },
+  "feel": {
+    "early": "Cheap shoves and Landlady passes stamp passports.",
+    "mid": "Passports fill; choose who Spawns and when.",
+    "late": "Laps, copies and Bradán's stored Spawn bursts."
+  },
+  "stars": [
+    {"uid": "u04", "why": "Swapped down each pass, she buffs a whole leaping column."},
+    {"uid": "u12", "why": "Forces a Spawn at any Stamp count and takes half."},
+    {"uid": "u19", "why": "Bankside carry that gains each Spawning fish's full stats."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "engine",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "economy",
+    "u10": "engine",
+    "u11": "buff",
+    "u12": "engine",
+    "u13": "multiplier",
+    "u14": "economy",
+    "u15": "utility",
+    "u16": "buff",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "When played: shoves the nearest fish upstream one Leap.",
+    "u02": "Leaps each fight, grows on every Leap; Spawn buffs fish.",
+    "u03": "Bankside. Gold once a turn when a fish leaps past.",
+    "u04": "Bankside. Buffs every fish that leaps past her permanently.",
+    "u05": "End of Turn: buffs the next fish upstream; it Leaps.",
+    "u06": "Leaps whenever another fish dies; Spawn summons three Fry.",
+    "u07": "Start of Combat: back-row fish Leap and gain fight stats.",
+    "u08": "Spawn: your other fish gain stats permanently.",
+    "u09": "When played: Leap. Spawn: gain 3 gold.",
+    "u10": "Start of Combat: this and every fish behind it Leap.",
+    "u11": "Bankside. Buffs fish that Leap into your front row.",
+    "u12": "Bankside. A fish leaping past Spawns now; he takes half.",
+    "u13": "Repeats every other fish's Spawn text.",
+    "u14": "Each Spawn also gives you a base copy, for triples.",
+    "u15": "Spawning fish stay, clear Stamps, move to the Mouth, grow.",
+    "u16": "A fish dies: fish downstream Leap and gain fight stats.",
+    "u17": "Learns every Spawn text; his own Spawn fires them all.",
+    "u18": "Your other fish earn 2 Stamps per Leap.",
+    "u19": "Bankside. Gains each Spawning fish's stats permanently.",
+    "x01": "2/1 fish token; earns no Stamps, deaths still count.",
+    "x02": "Printed rulings for Bradán, Little Jack, Kelt, Llyn Llyw, Redd."
+  },
+  "builds": [
+    {"name": "The Fish Ladder", "line": "Kype sweeps a fish column past one Landlady, buffing each in turn."},
+    {"name": "The Long Road", "line": "Old Kelt keeps Spawning fish fighting; Little Jack and Bradán repeat Spawns."},
+    {"name": "The Next Run", "line": "Bear forces Spawns, Mother Redd copies them home into triples."}
+  ],
+  "liked": [
+    "Landlady sliding down to catch a whole leaping column; all three named her.",
+    "The Bear makes Spawning a choice at any Stamp count, not a wait."
+  ],
+  "worries": [
+    "Watch: Mother Redd with the Bear makes a triple every turn or two.",
+    "Watch: Old Kelt, Llyn Llyw and Weir-Jumper loop Fry in fights, feeding the Alder."
+  ],
+  "changed": [
+    "A full passport now Spawns on its next Leap, so you see it coming.",
+    "Old Kelt's kept fish clear their Stamps, so laps actually work.",
+    "Fish-Pass Trout now gives its leaping fish fight stats, so it earns a pick."
+  ],
+  "verdict": "Fun 7.3, distinct 7.3, ranked second of three and called the most different; for players who love building swap combos."
+}

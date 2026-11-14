@@ -1,0 +1,91 @@
+{
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 3,
+  "hook": "Slip painted eggs into enemy units, then watch the shared clock strike and your chicks heave their hosts apart.",
+  "loop": [
+    "Lay Eggs in enemies likely to survive three attacks.",
+    "Grow the clock with Wind and Chime, or grow your Brood.",
+    "Each Chime hatches Chicks that Heave; Ottilie re-lays every strike."
+  ],
+  "growth": {
+    "shape": "in-fight",
+    "line": "Brood grows permanently turn by turn; most power stays inside fights, exploding late as Chimes multiply."
+  },
+  "feel": {
+    "early": "One egg a fight; small 2/2 chicks land.",
+    "mid": "Choose: speed up the clock or grow the brood.",
+    "late": "Capstones flood fights with Chimes, eggs and Heaves."
+  },
+  "stars": [
+    {"uid": "u17", "why": "Repeats Start of Combat on the hour, joining eggs and clock."},
+    {"uid": "u12", "why": "Doubles Chime effects beside it, so positioning matters every turn."},
+    {"uid": "u01", "why": "Two words of text that teach the whole tribe on turn one."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "payoff",
+    "u07": "utility",
+    "u08": "body",
+    "u09": "buff",
+    "u10": "engine",
+    "u11": "multiplier",
+    "u12": "multiplier",
+    "u13": "engine",
+    "u14": "payoff",
+    "u15": "body",
+    "u16": "buff",
+    "u17": "multiplier",
+    "u18": "multiplier",
+    "u19": "buff",
+    "x01": "utility",
+    "x02": "body",
+    "x03": "utility"
+  },
+  "card_short": {
+    "u01": "Start of Combat: Lay an Egg in the enemy across.",
+    "u02": "Dozes until the first Chime; Winds the clock 1.",
+    "u03": "Sturdy front-liner; when it dies, Winds the clock 3.",
+    "u04": "End of Turn: your Brood permanently grows +1/+1.",
+    "u05": "Lays an Egg; earns gold when his Eggs hatch.",
+    "u06": "Chime: attacks a random enemy.",
+    "u07": "Puts the enemy across to sleep and Lays in it.",
+    "u08": "Hides as an Egg, hatches back at triple stats.",
+    "u09": "Grows each turn; sell her to feed your Brood.",
+    "u10": "Lays in friends; their Chicks copy the host's keywords.",
+    "u11": "Can't attack; clock strikes every 2 attacks while he lives.",
+    "u12": "Chime effects of units beside it trigger an extra time.",
+    "u13": "Chime: Lay in a random enemy, twice a fight.",
+    "u14": "First Chick each fight becomes a copy of its host.",
+    "u15": "Hunker; sleeps until the 7th Chime, growing +4/+4 each Chime.",
+    "u16": "First Chime: other Clockworks and Brood grow permanently.",
+    "u17": "Other Clockworks' Start of Combat effects repeat at each Chime.",
+    "u18": "Each of your Eggs hatches two extra Chicks.",
+    "u19": "Chime: your other units gain +2/+2.",
+    "x01": "Marker on a host; hatches at the next Chime.",
+    "x02": "Brood-sized Clockwork that lands on your side and Heaves.",
+    "x03": "Rules notes: what counts as a Chime effect."
+  },
+  "builds": [
+    {"name": "The May Clutch", "line": "Hens, Kasimir and Brood growth into Red-Mouth and Ottilie; keep slots free."},
+    {"name": "The Tower clock", "line": "Winders, Old Unruh and Chime units around the Bellows for most strikes."},
+    {"name": "The Changeling house", "line": "Rohrsang and Wechselbalg turn your best unit into foster copies."}
+  ],
+  "liked": [
+    "A shared clock and eggs inside enemy units: no tribe plays like it.",
+    "Ottilie joins eggs and clock; the Bellows makes positioning matter."
+  ],
+  "worries": [
+    "Hawk-Barred Hen plus Ottilie keeps one enemy asleep all fight.",
+    "Runaway lines: Herald of Spring beside Bellows, Red-Mouth with Ottilie and Hens."
+  ],
+  "changed": [
+    "Bellows now repeats once-a-fight Chimes like the Herald's; several Bellows stack.",
+    "Clock strikes only after normal attacks, so Chime attacks can't chain strikes.",
+    "Kasimir's gold capped at 2 a turn; Gernegroß keeps his slot, hatches first."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; ranked first of its seed's three. For players who love big in-fight combo moments."
+}

@@ -1,0 +1,89 @@
+{
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 3,
+  "hook": "Your snake actors die on stage again and again, every fake death pays out, and they get back up.",
+  "loop": [
+    "Set Troupers up to Play Dead, often cueing the deaths yourself.",
+    "Every fake death fires death effects and feeds one shared count.",
+    "Cash it in the fight, or permanently next turn through Curtain Calls."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Fight deaths become permanent stats next turn via Curtain Calls; Hesketh and Ardea scale it late."
+  },
+  "feel": {
+    "early": "Extra lives win cheap early fights.",
+    "mid": "Barnstormer and Wreath-Layer start real permanent growth.",
+    "late": "Scripted death cascades and Ardea's rave pay out big."
+  },
+  "stars": [
+    {"uid": "u07", "why": "A ham who plays dead at every scratch: cheap fuel for everything."},
+    {"uid": "u14", "why": "Three scripted deaths in order; Broken Heart drops the whole cast."},
+    {"uid": "u19", "why": "The critic: a big show means big permanent stats, a thin one feeds him."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "body",
+    "u03": "buff",
+    "u04": "utility",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "engine",
+    "u09": "utility",
+    "u10": "utility",
+    "u11": "engine",
+    "u12": "engine",
+    "u13": "economy",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "utility",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "engine"
+  },
+  "card_short": {
+    "u01": "Play Dead: one extra life each fight.",
+    "u02": "Play Dead; drops a Tail; Curtain Call grows its Tails.",
+    "u03": "Troupers that play dead permanently gain +1/+1, four a fight.",
+    "u04": "Back row: swaps in when a front Trouper plays dead.",
+    "u05": "Gold for every 3 fake deaths last fight, max 2.",
+    "u06": "Play Dead; at Start of Combat, trades hits with a neighbour.",
+    "u07": "Plays dead when hit, three times; Curtain Call: +1/+1.",
+    "u08": "Play Dead; Curtain Call gets you a Shed Skin.",
+    "u09": "Enemies that knock a Trouper down lose Attack.",
+    "u10": "Front-row Troupers get up at half Health, not 1.",
+    "u11": "Your own effects can't kill your units; they play dead.",
+    "u12": "Murders your lowest-Health unit; gains Attack per fake death.",
+    "u13": "Gives you a free Heap Hatchling every turn.",
+    "u14": "Dies three set deaths: buffs, poison, then everyone plays dead.",
+    "u15": "Each fake death deals damage equal to deaths so far.",
+    "u16": "Back row: doubles your units' own death effects.",
+    "u17": "Play Dead grows each turn; Curtain Call buffs other Troupers.",
+    "u18": "Play Dead; when wiped out, revives units that played dead.",
+    "u19": "5+ deaths: big permanent Trouper buffs; otherwise eats your smallest.",
+    "x01": "Little Anguis's one-fight token; grows with his Curtain Calls.",
+    "x02": "Item: gives any unit +2/+2 and Play Dead."
+  },
+  "builds": [
+    {"name": "The long run", "line": "Barnstormer and Wreath-Layer, then Hesketh and Ardea: permanent snowball."},
+    {"name": "Blood and thunder", "line": "Cue Natrix's deaths at Start of Combat; Blood-and-Thunder cashes the cascade."},
+    {"name": "The costume rack", "line": "Shed Skins and Žaltys lend Play Dead to other tribes, like Oozes."}
+  ],
+  "liked": [
+    "Dame Natrix's three scripted deaths turn cueing order into a puzzle each fight.",
+    "One shared death count every card feeds; Ardea's rave-or-pan is a clear capstone."
+  ],
+  "worries": [
+    "Blood-and-Thunder with Broken Heart and Old Crest: quadratic damage, capped only per throw.",
+    "Also watched: Ardea's rave maxing every fight, Matron speeding triples, Wreath-Layer early growth."
+  ],
+  "changed": [
+    "Units renamed Troupers, so \"Player\" no longer means the person playing.",
+    "Dame Natrix's deaths go in a fixed order and can't loop.",
+    "Clearer wording: Anguis's Tails last one fight; the Villain can't murder himself."
+  ],
+  "verdict": "Rated 7.3 fun, 7.0 distinct; ranked first of three Grass Snake designs. For players who love scripting death-trigger combos."
+}

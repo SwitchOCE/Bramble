@@ -1,0 +1,85 @@
+{
+  "design_id": "reed-runners--surgical",
+  "v": 3,
+  "hook": "Seize the shop's best units onto your own shelf, let them age, then smuggle them back cheap.",
+  "loop": [
+    "Herons Seize shop units into your Customs House each turn.",
+    "Goods age on the shelf; otters buy them back as Contraband.",
+    "Grisel fields shelf copies, and Contraband payoffs stack late."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Shelf goods gain each turn; Contraband grows per buy-back; Start of Combat payoffs multiply late."
+  },
+  "feel": {
+    "early": "A persistent freeze and cheap 2-gold buy-backs.",
+    "mid": "Hold or run: age the shelf or grow Contraband.",
+    "late": "Grisel, Wenna and the Auctioneer stack huge fights."
+  },
+  "stars": [
+    {"uid": "u17", "why": "Turns the shelf into an army at Start of Combat."},
+    {"uid": "u06", "why": "Launder your own unit to replay its When played effect."},
+    {"uid": "u16", "why": "Steals copies of what it kills onto your shelf."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "buff",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "engine",
+    "u11": "buff",
+    "u12": "economy",
+    "u13": "buff",
+    "u14": "multiplier",
+    "u15": "payoff",
+    "u16": "utility",
+    "u17": "payoff",
+    "u18": "payoff",
+    "u19": "payoff"
+  },
+  "card_short": {
+    "u01": "First hit on it redirects to the attacker's neighbour.",
+    "u02": "When played: Seize a shop unit to your Customs House.",
+    "u03": "Start of Turn: may Seize a unit.",
+    "u04": "Start of Turn: Customs House units gain +1/+1 permanently.",
+    "u05": "Grows itself and each Contraband unit you play.",
+    "u06": "When played: Seize your own unit; it gains +2/+2.",
+    "u07": "End of Turn: may Seize a unit or the spell.",
+    "u08": "Each buy-back buffs it and all your Contraband.",
+    "u09": "Start of Combat: grows for each Customs House unit.",
+    "u10": "Customs House holds one more; its units count for triples.",
+    "u11": "End of Turn: buffs all your Contraband units.",
+    "u12": "Selling Contraband pays 1 extra gold, twice a turn.",
+    "u13": "Burns a shelf unit; your biggest unit gains its stats.",
+    "u14": "Contraband When played effects trigger twice.",
+    "u15": "Start of Combat: Contraband grows per Customs House unit.",
+    "u16": "Start of Combat: hits across twice; kills become shelf copies.",
+    "u17": "Start of Combat: summons Contraband copies of your shelf units.",
+    "u18": "Start of Combat: Contraband grows with the game's buy-backs.",
+    "u19": "Start of Turn: auctions oldest shelf unit; Contraband gains half."
+  },
+  "builds": [
+    {"name": "Bonded warehouse", "line": "Keep the shelf full and aged; Grisel fields copies in empty slots."},
+    {"name": "Free traders", "line": "Buy back every turn; Kit, Molly and Nan grow your Contraband."},
+    {"name": "The informer's replay", "line": "Ned and Dunmore replay any tribe's When played effect for 2 gold."}
+  ],
+  "liked": [
+    "All three: no tribe uses the shop itself; the shelf plays unlike anything.",
+    "Grisel is everyone's standout: seized goods march out as a second board."
+  ],
+  "worries": [
+    "Grisel with Wenna and Nan stacks far above target; Nyx's Seized spell unclear.",
+    "Watch flags: Auctioneer's geometric growth, Keeper's free triples, Fence profit, Dunmore replay loops."
+  ],
+  "changed": [
+    "Grisel's copies are Contraband, arrive first, and fire their own Start of Combat.",
+    "Tide-Waiter and Nyx Seize optionally, so holders keep shelf stock they want.",
+    "Tibby's redirect now trips the attacker into its own neighbour."
+  ],
+  "verdict": "Rated 7.3 fun and 8 distinct, it ranked second of its seed's three; for players who love shop tricks and combos."
+}

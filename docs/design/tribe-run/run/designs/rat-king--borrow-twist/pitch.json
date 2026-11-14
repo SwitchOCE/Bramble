@@ -1,0 +1,89 @@
+{
+  "design_id": "rat-king--borrow-twist",
+  "v": 3,
+  "hook": "Load your Rats with Gossip, light one end, and watch the news blaze down the board like a fuse.",
+  "loop": [
+    "Feed Gossip pips with buys, Refreshes and plays; keep runs touching.",
+    "Units at two pips form a loaded fuse along the zigzag.",
+    "One Blurt sets off a chain; each Rat pays its text."
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "Small Blurt buffs every chain, multiplied at Tiers 5–6; or held pips paid out in fights."
+  },
+  "feel": {
+    "early": "Quiet; Taster and Huddler land the first Blurts.",
+    "mid": "Wire up the fuse; Speaker, Fips and Echo shape chains.",
+    "late": "King's chain every turn, or Piper's all-at-once fight."
+  },
+  "stars": [
+    {"uid": "u17", "why": "A guaranteed full-board chain each turn; Start of Turn order matters."},
+    {"uid": "u07", "why": "Blurts at 1 and fans news out: a hub you place."},
+    {"uid": "u15", "why": "Lights the enemy's fuse; their gaps are the counterplay."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "engine",
+    "u03": "engine",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "engine",
+    "u08": "buff",
+    "u09": "engine",
+    "u10": "payoff",
+    "u11": "multiplier",
+    "u12": "utility",
+    "u13": "economy",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "multiplier",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "utility"
+  },
+  "card_short": {
+    "u01": "Gossip from each buy; Blurt buffs it and a neighbour.",
+    "u02": "When played, Gossip to itself and touching units; Blurt grows.",
+    "u03": "Blurts at 2; throws Gossip to your farthest unit.",
+    "u04": "Blurt: buffs the units touching it.",
+    "u05": "Refreshes give it Gossip; Blurt gives gold, up to 3.",
+    "u06": "Start of Turn: tops up every unit at two pips.",
+    "u07": "Blurts at 1; spreads Gossip to everything next to it.",
+    "u08": "Blurt: buffs every other unit holding two pips.",
+    "u09": "When attacked, Gossip to itself and touching units.",
+    "u10": "Blurt: grows for each unit already Blurted this chain.",
+    "u11": "Touching units use their Blurt text twice.",
+    "u12": "Blurt: summons a Stray beside it, twice per chain.",
+    "u13": "Five-Blurt chain while recruiting: Discover a unit, once a turn.",
+    "u14": "End of Turn: every unit gains stats per Gossip held.",
+    "u15": "Loads enemies with Gossip; each enemy Blurt hurts them.",
+    "u16": "Your other units use their Blurt text twice.",
+    "u17": "Start of Turn: your whole board Blurts as one chain.",
+    "u18": "Copies the Blurt text of every other unit you have.",
+    "u19": "Combat start: Gossip all; Blurting units attack at once.",
+    "x01": "1/1 token with 2 Gossip; Blurt grows it.",
+    "x02": "Spell: one unit Blurts now and keeps its Gossip."
+  },
+  "builds": [
+    {"name": "The Fuse", "line": "Spend while recruiting: long chains, Bean-Counter last, King every turn."},
+    {"name": "Simmer and Boil", "line": "Hold everyone at two pips; Huddle pays, Piper sets off the fight."},
+    {"name": "Bad Omen", "line": "Load the enemy's board and let their own chain hurt them."}
+  ],
+  "liked": [
+    "News running down a seven-slot fuse plays unlike any tribe today.",
+    "Bad Omen lighting the enemy's fuse; spend-or-hold is a real choice."
+  ],
+  "worries": [
+    "Watch: Piper's loaded board may make seven attacks before the enemy acts.",
+    "Watch: golden Thirty-Two runaway; Wall-Runner a free Discover each turn under King."
+  ],
+  "changed": [
+    "Taster and Huddler bring their own pip, so Blurts start by turn 2-3.",
+    "Strays arrive with 2 Gossip and land touching the Tangle, re-lighting the fuse.",
+    "Rules tightened: leftover Gossip, and the Thirty-Two copies printed texts with limits."
+  ],
+  "verdict": "Rated 7.3 fun, 7.7 distinct; ranked first of three Rat King designs. For combo players who love ordering puzzles."
+}

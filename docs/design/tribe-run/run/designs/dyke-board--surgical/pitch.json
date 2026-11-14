@@ -1,0 +1,87 @@
+{
+  "design_id": "dyke-board--surgical",
+  "v": 3,
+  "hook": "Scout your next opponent, then vote the water up to sink their small units, or down for gold.",
+  "loop": [
+    "Vote your Level up or down, after scouting your next opponent.",
+    "Each Vote grows your units; Lowering also pays gold.",
+    "The water halves low-Health enemies' Attack; Tiddy Mun drowns them outright."
+  ],
+  "growth": {
+    "shape": "wide",
+    "line": "Each Vote gives permanent stats, several Votes a turn; Mills buff the whole board late."
+  },
+  "feel": {
+    "early": "Plain bodies, first Votes, little water yet.",
+    "mid": "Choose a side: Raise to sink, Lower for gold.",
+    "late": "Mills grow everything; Tiddy Mun drowns short boards."
+  },
+  "stars": [
+    {"uid": "u08", "why": "Lifts neighbours above the water, so placement becomes the puzzle."},
+    {"uid": "u19", "why": "Every Vote, either way, grows the whole board: the capstone."},
+    {"uid": "u05", "why": "A coot that wants the water: Dives and Floods."}
+  ],
+  "roles": {
+    "u01": "utility",
+    "u02": "engine",
+    "u03": "economy",
+    "u04": "buff",
+    "u05": "engine",
+    "u06": "engine",
+    "u07": "buff",
+    "u08": "utility",
+    "u09": "payoff",
+    "u10": "multiplier",
+    "u11": "engine",
+    "u12": "buff",
+    "u13": "buff",
+    "u14": "payoff",
+    "u15": "payoff",
+    "u16": "economy",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "utility"
+  },
+  "card_short": {
+    "u01": "Attacks Under enemies, even in the back row; grows.",
+    "u02": "Votes when played; gains Health every Vote.",
+    "u03": "Votes each turn; Lowering pays 1 gold.",
+    "u04": "Each Raise buffs your lowest-Health unit permanently.",
+    "u05": "Dive. Floods 1 each fight.",
+    "u06": "Votes each turn; grows +1/+1 every Vote.",
+    "u07": "Each Vote buffs both neighbours permanently.",
+    "u08": "Gives itself and neighbours Health equal to your Level.",
+    "u09": "Dive. Gains Attack each time an enemy goes Under.",
+    "u10": "Once a turn, Votes again after you Vote, either way.",
+    "u11": "Banks each Lower as Overflow, then Floods by it.",
+    "u12": "Buffs your units with Health at or below your Level.",
+    "u13": "Each Lower buffs two random units permanently.",
+    "u14": "Floods by your Level plus half its Health.",
+    "u15": "Dive. Your units grow each time an enemy goes Under.",
+    "u16": "Each Lower pays 1 gold, three times a turn.",
+    "u17": "Every Vote repeats once more, the same way.",
+    "u18": "Floods 4; enemies at half the water or less drown.",
+    "u19": "Every Vote gives your whole board +1/+1 permanently.",
+    "x01": "Shop spell for anyone: Vote twice, an answer to flooding."
+  },
+  "builds": [
+    {"name": "High Water", "line": "Raise every turn; Stretch-Holder keeps yours dry, coots Dive, Tiddy Mun drowns."},
+    {"name": "Drain", "line": "Lower every turn for gold and stats; you fight in no water."},
+    {"name": "The Seesaw", "line": "Vote toward each opponent; Mills and Sail-Setter pay either way."}
+  ],
+  "liked": [
+    "The only tribe that changes both boards at once; scouting becomes a vote each turn.",
+    "Stretch-Holder against Almoner: choosing who stands beside the Holder is a real puzzle."
+  ],
+  "worries": [
+    "Watch: a fed Gauge-Keeper plus Tiddy Mun can drown most of an enemy board.",
+    "Watch: Keeper's Overflow never resets, Penningmeester's gold stacks; Rafting Coot's triggers hard to follow."
+  ],
+  "changed": [
+    "Gauge-Keeper now Floods by half its own Health, so the water keeps up late.",
+    "Raise now pays: Schouw-Walker buffs your lowest-Health unit on each Raise.",
+    "Under halves Attack both ways; fight-only water got its own word, Flood."
+  ],
+  "verdict": "Rated 7 fun and 8 distinct, it ranked last of its seed's three; for players who like scouting and picking a side."
+}

@@ -1,0 +1,87 @@
+{
+ "design_id": "salmon-run--bottom-up-flavour",
+ "v": 2,
+ "hook": "Rest salmon in the back pools piling up Stamps, then send them home to pour their stats into a neighbour.",
+ "loop": [
+  "Each turn, park fish in the back pools or step them forward.",
+  "Survived attacks earn Stamps; full front-row passports come Home and Spawn.",
+  "Spent fish feed neighbours; Bradán, Kype or the Grandfather cash out big."
+ ],
+ "growth": {
+  "shape": "mixed",
+  "line": "Each homecoming spreads permanent stats; hoarded Stamps only climb, so late in-fight Attack gets huge."
+ },
+ "feel": {
+  "early": "Thin: Grilse and Parr teach the loop, little buffing.",
+  "mid": "Bailiff stamps everyone; Hen and Bend-Wife grow the board.",
+  "late": "Bradán fires every Spawn; Llyn Llyw turns Stamps to Attack."
+ },
+ "stars": [
+  {"uid": "u19", "why": "Hold a fish for turns, then send it home: board-wide cash-out."},
+  {"uid": "u17", "why": "Fires every Spawn on the board, then resets instead of dying."},
+  {"uid": "u11", "why": "Doubles the Spawn of whichever fish comes home next to him."}
+ ],
+ "roles": {
+  "u01": "engine",
+  "u02": "buff",
+  "u03": "buff",
+  "u04": "engine",
+  "u05": "economy",
+  "u06": "engine",
+  "u07": "utility",
+  "u08": "buff",
+  "u09": "payoff",
+  "u10": "buff",
+  "u11": "multiplier",
+  "u12": "engine",
+  "u13": "buff",
+  "u14": "economy",
+  "u15": "payoff",
+  "u16": "buff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "payoff",
+  "x01": "engine"
+ },
+ "card_short": {
+  "u01": "Home 3. Spawn: other Run units gain a Stamp.",
+  "u02": "Home 1. Spawn: other Run units get +1/+1.",
+  "u03": "Thrice a turn, a newly Stamped fish gains +1/+1.",
+  "u04": "Neighbours earn a Stamp per attack, even if they die.",
+  "u05": "Home 2. Spawn: gain 2 gold.",
+  "u06": "Stamps all fish each turn; every third, eats the smallest.",
+  "u07": "Gives another unit a passport and Home 3, no Spawn.",
+  "u08": "Fish with matching Stamp counts gain +1/+1 each turn.",
+  "u09": "Gains Attack per Stamp held; strikes at Start of Combat.",
+  "u10": "Home 3. Spawn buffs fish, growing each time; survives twice.",
+  "u11": "Repeats Spawn of fish coming home next to him.",
+  "u12": "Home numbers 1 lower for your other fish.",
+  "u13": "Each Stamp buffs three random units; Home 5 buffs all.",
+  "u14": "Once a turn, copies a spent fish into your hand.",
+  "u15": "Each time another fish Spawns, all fish gain +2/+2.",
+  "u16": "Surviving attackers get +3/+3 this fight; back-row ones get Stamps.",
+  "u17": "Home 5. Spawn: fires every other fish's Spawn, then resets.",
+  "u18": "All units gain Attack per Stamp; back-row fish Stamp faster.",
+  "u19": "Spent fish give all units +1/+1 per Stamp held.",
+  "x01": "Shielded 1/1 left after a homecoming; regrows into the fish."
+ },
+ "builds": [
+  {"name": "The Spawning Run", "line": "Something comes home each turn next to Jack; Bradán fires everything."},
+  {"name": "The Long Road", "line": "Back row hoards Stamps; Kype and Llyn Llyw cash them as Attack."},
+  {"name": "Forest Feed", "line": "Spent fish pour stats into another tribe's carry, like an Ooze."}
+ ],
+ "liked": [
+  "Hold in the back or step forward to spawn: a real choice every turn.",
+  "All three singled out the Grandfather's planned cash-out of hoarded Stamps."
+ ],
+ "worries": [
+  "Llyn Llyw and Kype scale off Stamps that never drop; late fights swing huge.",
+  "Old Kelt's free copies make triples very fast, even of other tribes' units."
+ ],
+ "changed": [
+  "Each slot comes home once a turn, so homecoming chains can't loop forever.",
+  "Fry now has Shield and hatches with no Stamps, softening the tempo hole.",
+  "Reunion Secretary is now one simple line; Veteran stamps back-row fish."
+ ],
+ "verdict": "Rated 7.3 fun, 7.0 distinct and ranked first of three salmon designs; for players who love positioning and chain payoffs."
+}

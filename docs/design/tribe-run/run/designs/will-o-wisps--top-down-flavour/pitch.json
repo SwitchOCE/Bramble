@@ -1,0 +1,87 @@
+{
+  "design_id": "will-o-wisps--top-down-flavour",
+  "v": 2,
+  "hook": "Hang lights in the fog, leave gaps on purpose, and watch the enemy army hack itself apart.",
+  "loop": [
+    "Leave chosen slots empty and set Astray and Flit units around them",
+    "Enemy attacks go Astray into their own side; units Drown",
+    "Gaps and Drownings turn into permanent stats, gold and board wipes"
+  ],
+  "growth": {
+    "shape": "mixed",
+    "line": "From Tier 3, Foxfire grows each Wisp per empty slot beside it; Drownings add board-wide +1/+1s late."
+  },
+  "feel": {
+    "early": "Thin bodies dodging hits with Flit",
+    "mid": "Pick a road: gaps, decoy lights or Drowning",
+    "late": "Old Will turns the whole enemy board on itself"
+  },
+  "stars": [
+    {"uid": "u09", "why": "Flips a 2/12 wall into a 12/2 for Fingerpost to aim"},
+    {"uid": "u08", "why": "Turns your empty slots into a permanent growth curve"},
+    {"uid": "u17", "why": "Every enemy follows the light: the whole Astray stack's capstone"}
+  ],
+  "roles": {
+    "u01": "utility",
+    "u02": "body",
+    "u03": "utility",
+    "u04": "buff",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "utility",
+    "u08": "buff",
+    "u09": "utility",
+    "u10": "utility",
+    "u11": "multiplier",
+    "u12": "payoff",
+    "u13": "economy",
+    "u14": "multiplier",
+    "u15": "utility",
+    "u16": "engine",
+    "u17": "payoff",
+    "u18": "engine",
+    "u19": "payoff",
+    "x01": "utility"
+  },
+  "card_short": {
+    "u01": "Leads the enemy across Astray; from back row, your own",
+    "u02": "Flit: dodges one hit into an empty slot",
+    "u03": "Leads the enemy with most Attack Astray",
+    "u04": "Enemy Astray attacks grow your Wisps next to gaps",
+    "u05": "Gold each turn while you keep two empty slots",
+    "u06": "Fills empty front slots with Marsh Lights at fight start",
+    "u07": "Flit, and gives Flit to the Wisps beside it",
+    "u08": "Each Wisp grows per empty slot next to it",
+    "u09": "Swaps the Attack and Health of the unit across",
+    "u10": "Leads enemies across your empty slots Astray",
+    "u11": "Astray attacks deal double damage, on both sides",
+    "u12": "Swoop; an enemy Drowning buffs your other Wisps once",
+    "u13": "Drownings bury gold you collect next turn",
+    "u14": "Flit units Flit once more and grow each Flit",
+    "u15": "Leads one enemy Astray per enemy unit beyond three",
+    "u16": "Flit, leaving a Marsh Light where it stood",
+    "u17": "Leads every enemy Astray",
+    "u18": "Fills every gap with lights copying your biggest Wisp",
+    "u19": "Every Drowning gives all your Wisps +1/+1",
+    "x01": "One-hit decoy: sends the attack Astray, then goes out"
+  },
+  "builds": [
+    {"name": "The Lantern Line", "line": "Flit units dodge beside gaps; Foxfire and Follette grow them"},
+    {"name": "False Fire", "line": "Fill gaps with decoy lights at fight start; Moon copies your biggest"},
+    {"name": "The Drowning", "line": "Stack Astray with Jack until enemies kill themselves; cash in Drownings"}
+  ],
+  "liked": [
+    "Empty slots as a resource, chosen against the next board you can see",
+    "Enemy Cleave, Bristle and Shield become your weapons; Gaffer combos shine"
+  ],
+  "worries": [
+    "Watch: Old Will plus Jack, golden worse, could wipe a full board",
+    "Watch: Aarnivalkea has no per-fight cap; Drownings could stack many buffs"
+  ],
+  "changed": [
+    "Self-hit rules settled: Astray lands once, Flit dodges only enemy attacks",
+    "Foxfire now grows per adjacent gap, giving the gap build a real curve",
+    "Glim's growth now goes to Wisps next to gaps"
+  ],
+  "verdict": "Rated 7 fun, 8 distinct, settled; ranked third of three Wisps. For players who love tricks and Start of Combat puzzles."
+}

@@ -1,0 +1,87 @@
+{
+ "design_id": "gale-court--top-down-mech",
+ "v": 2,
+ "hook": "Your courtiers bow out of their attacks so one crowned favourite strikes again and again, out of turn.",
+ "loop": [
+  "In the fight, units Gust: extra attacks out of turn order.",
+  "Every Gust adds to the Gale, the dial the next shop reads.",
+  "The Gale pays back as gold, permanent stats and Gale Warnings."
+ ],
+ "growth": {
+  "shape": "mixed",
+  "line": "Small permanent steps each turn off the Gale, plus big in-fight Attack spikes from Gust chains late."
+ },
+ "feel": {
+  "early": "Thin: Gust Page and small bodies.",
+  "mid": "Vane and Bora: your front row swings first.",
+  "late": "A crowned favourite takes the whole court's Gusts."
+ },
+ "stars": [
+  {"uid": "u17", "why": "Everyone else Defers: the board becomes one favourite's queue."},
+  {"uid": "u15", "why": "Takes the return hits for whoever Gusts; the soaker the plan needs."},
+  {"uid": "u10", "why": "Whole front row Gusts before the enemy moves; the T4 spike."}
+ ],
+ "roles": {
+  "u01": "engine",
+  "u02": "buff",
+  "u03": "engine",
+  "u04": "buff",
+  "u05": "economy",
+  "u06": "engine",
+  "u07": "engine",
+  "u08": "buff",
+  "u09": "utility",
+  "u10": "engine",
+  "u11": "engine",
+  "u12": "payoff",
+  "u13": "economy",
+  "u14": "engine",
+  "u15": "utility",
+  "u16": "engine",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "multiplier",
+  "x01": "engine"
+ },
+ "card_short": {
+  "u01": "Gusts at Start of Combat.",
+  "u02": "Grows itself permanently each turn the Gale is up.",
+  "u03": "Defer; the unit that Gusts instead gets extra Attack.",
+  "u04": "Twice a fight, an ally that Gusts grows permanently.",
+  "u05": "Gold each turn if the Gale is 3 or more.",
+  "u06": "After a kill, gains Attack and Gusts.",
+  "u07": "Your side attacks first; your leftmost front unit Gusts.",
+  "u08": "Grows your biggest unit permanently by Gale size.",
+  "u09": "Defer; gives your biggest other unit Shield.",
+  "u10": "Start of Combat: your whole front row Gusts.",
+  "u11": "Once a cycle, the unit on its left Gusts again.",
+  "u12": "Grows your whole board permanently at Gale 5, more at 10.",
+  "u13": "At Gale 8 or more, get a Gale Warning.",
+  "u14": "Any of your units that kills Gusts, once a cycle.",
+  "u15": "Defer; takes the damage your Gusting allies would take.",
+  "u16": "Swoop; Gusts after each normal attack, first one free.",
+  "u17": "Everyone but your biggest unit Defers; biggest grows per Gust.",
+  "u18": "Cleave; Defers until Gale 6, then Gusts and grows per Gust.",
+  "u19": "Gusts count double toward the Gale; at 20, everyone Gusts.",
+  "x01": "Item: give any unit a permanent Start of Combat Gust."
+ },
+ "builds": [
+  {"name": "The Favourite", "line": "Defer courtiers feed one biggest unit, any tribe; Föhn soaks."},
+  {"name": "Squall Line", "line": "Vane, Bora, Windhover, Lord Mistral: the front row swings first."},
+  {"name": "Barometer", "line": "Gale as a resource: Wild Hunt doubles it for every reader."}
+ ],
+ "liked": [
+  "Lady High Pressure: a real capstone that makes 'who is biggest' the decision.",
+  "Defer and a Gale the shop reads back feel fresh; seating is a puzzle."
+ ],
+ "worries": [
+  "Lady High Pressure: when 'biggest' is checked mid-fight isn't stated (one reviewer wants it fixed).",
+  "Watch: Föhn, Lady and Couriers may make an unkillable favourite; Wild Hunt spikes too."
+ ],
+ "changed": [
+  "Lady High Pressure no longer makes the favourite Defer, so the Favourite build works.",
+  "Sir Vane gets a tiebreak when both sides have him.",
+  "Föhn soaks Bristle too; Thunderhead and Wild Hunt now fire at 'or more'."
+ ],
+ "verdict": "Fun 7, distinct 7, two of three said settle; ranked third of three. For players who love seating puzzles and one huge carry."
+}

@@ -1,0 +1,89 @@
+{
+  "design_id": "cuckoo-clockworks--bottom-up-mech",
+  "v": 2,
+  "hook": "Tune one fight clock: Eggs hatch Chicks inside the enemy's line, and your sleepers wake untouched as a second wave.",
+  "loop": [
+    "Lay Eggs in enemies and Wind the clock at Start of Combat.",
+    "Every third attack strikes the hour: Chicks hatch, sleepers wake, effects fire.",
+    "Chicks hit hosts from inside; the Leaver turns survivors into lasting stats."
+  ],
+  "growth": {
+    "shape": "in-fight",
+    "line": "Mostly grows each hour inside a fight; Brood, sleepers and the Leaver add slower permanent stats."
+  },
+  "feel": {
+    "early": "Cheap Eggs and dozing bodies; Wind sets the pace.",
+    "mid": "Pick your speed: early Eggs, late sleepers, or many hours.",
+    "late": "Copy their biggest unit; Chicks bank stats on wins."
+  },
+  "stars": [
+    {"uid": "u18", "why": "Hatches a copy of their biggest unit that hits its host."},
+    {"uid": "u07", "why": "Puts any tribe's unit safely to sleep, then grows it."},
+    {"uid": "u09", "why": "Grows only if never needed, so it fights your own Wind."}
+  ],
+  "roles": {
+    "u01": "engine",
+    "u02": "body",
+    "u03": "buff",
+    "u04": "engine",
+    "u05": "economy",
+    "u06": "buff",
+    "u07": "utility",
+    "u08": "buff",
+    "u09": "payoff",
+    "u10": "engine",
+    "u11": "engine",
+    "u12": "buff",
+    "u13": "buff",
+    "u14": "multiplier",
+    "u15": "engine",
+    "u16": "payoff",
+    "u17": "multiplier",
+    "u18": "payoff",
+    "u19": "payoff",
+    "x01": "utility",
+    "x02": "body"
+  },
+  "card_short": {
+    "u01": "Lays a small Egg in the enemy across.",
+    "u02": "Sturdy body, Asleep until the 1st hour.",
+    "u03": "On the hour: permanently buffs a unit beside it.",
+    "u04": "Wind 2: ticks your clock at Start of Combat.",
+    "u05": "Gold next turn for hours struck last fight.",
+    "u06": "Chicks copy their host's shared keywords, gaining stats each.",
+    "u07": "Sends its right neighbour to sleep; it wakes +4/+4.",
+    "u08": "Brood +1 each turn, and when an Egg is lost.",
+    "u09": "Asleep until the 7th hour; grows each turn unwoken.",
+    "u10": "Egg in their top attacker; Chick gets half its Attack.",
+    "u11": "Winds the clock for gold you left unspent.",
+    "u12": "On the hour: your Chicks gain +1/+1.",
+    "u13": "On the hour: permanently buffs your Asleep units.",
+    "u14": "Your On the hour effects trigger twice.",
+    "u15": "Lays an Egg in every enemy front-row unit.",
+    "u16": "Asleep until the 3rd hour; grows when friends die.",
+    "u17": "Clock strikes every 2nd tick; buffs your Clockworks permanently.",
+    "u18": "Egg in their biggest unit hatches a Chick copying it.",
+    "u19": "Surviving Chicks permanently give their stats to whoever laid them.",
+    "x01": "Marker on an enemy; hatches a Chick on your hour.",
+    "x02": "Your fight-only unit, sized by its Egg plus Brood."
+  },
+  "builds": [
+    {"name": "Brood parasites", "line": "Early hours hatch Eggs before hosts swing; the Leaver banks the Chicks."},
+    {"name": "Clock tower", "line": "Many hours: hour effects, doubled by Doorkeeper, buff even other tribes' carries."},
+    {"name": "Sleeping Vault", "line": "Slow clock: untouchable sleepers grow, then wake as a second wave."}
+  ],
+  "liked": [
+    "One clock that Eggs, sleepers and hour engines each want set differently.",
+    "Sleeping-Vault Warden guards any tribe's engine; Gernegroß turns their best unit against them."
+  ],
+  "worries": [
+    "Watch: Gernegroß plus Midsummer Leaver banks a golden carry's stats every win.",
+    "Watch: Tower Doorkeeper doubles Rohrsang's uncapped buff; Egg-Painter's Brood stacks without limit."
+  ],
+  "changed": [
+    "Chick and sleep rules written plainly: a Chick is always your awake unit.",
+    "Chicks attack after your other units; a unit slept twice wakes later.",
+    "Egg-Painter now turns a lost Egg into Brood once a fight."
+  ],
+  "verdict": "Rated 7 fun, 8 distinct; third of its seed's three and not a run pick. For players who enjoy tuning timing and positioning."
+}

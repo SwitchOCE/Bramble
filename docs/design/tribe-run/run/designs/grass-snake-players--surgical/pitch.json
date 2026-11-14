@@ -1,0 +1,89 @@
+{
+  "design_id": "grass-snake-players--surgical",
+  "v": 3,
+  "hook": "Your troupe dies on cue: each death fires a Death Scene, and the leads get back up for more.",
+  "loop": [
+    "Each turn, seat Death Scene leads in front, helpers behind them.",
+    "Deaths fire Death Scenes twice or more, banking permanent stats and Notices.",
+    "Tier 6 replays every scene, raises the cast, or cashes in Notices."
+  ],
+  "growth": {
+    "shape": "wide",
+    "line": "From Tier 3, deaths spread permanent stats across the board; Notices add slow, steady growth all game."
+  },
+  "feel": {
+    "early": "Encore bodies win fights by refusing to stay down.",
+    "mid": "Pick an engine: permanent scenes, an Encore wall, or Notices.",
+    "late": "Placement decides it: who dies first, who dies last."
+  },
+  "stars": [
+    {"uid": "u07", "why": "Steps into the dead lead's slot and plays their Death Scene."},
+    {"uid": "u10", "why": "Doubles the Death Scenes in front: placement is the decision."},
+    {"uid": "u17", "why": "The curtain call: the whole cast gets back up once more."}
+  ],
+  "roles": {
+    "u01": "body",
+    "u02": "buff",
+    "u03": "body",
+    "u04": "multiplier",
+    "u05": "economy",
+    "u06": "engine",
+    "u07": "multiplier",
+    "u08": "buff",
+    "u09": "buff",
+    "u10": "multiplier",
+    "u11": "payoff",
+    "u12": "engine",
+    "u13": "engine",
+    "u14": "buff",
+    "u15": "engine",
+    "u16": "body",
+    "u17": "payoff",
+    "u18": "multiplier",
+    "u19": "payoff",
+    "x01": "body",
+    "x02": "body"
+  },
+  "card_short": {
+    "u01": "Encore: gets back up once with 1 Health.",
+    "u02": "Death Scene: +1/+1 to a unit behind, doubled for Understudies.",
+    "u03": "Understudy; grows +2/+2 permanently when it steps in.",
+    "u04": "When played: fire a friendly unit's Death Scene.",
+    "u05": "Pays 1 gold after a fight with 4+ Notices.",
+    "u06": "Death Scene: hands Encore to another friendly unit.",
+    "u07": "Understudy; leaves a Tail, copies the fallen unit's Death Scene.",
+    "u08": "Death Scene: two other friendly units get +1/+1 permanently.",
+    "u09": "Units that get back up or step in gain stats.",
+    "u10": "Death Scenes of units in front of it fire twice.",
+    "u11": "End of Turn: two units grow per 10 Notices.",
+    "u12": "Sold units fire their Death Scene and add a Notice.",
+    "u13": "Start of Combat: hurts both neighbours, then gives them Attack.",
+    "u14": "Encore. Death Scene: your other units +1/+1 permanently.",
+    "u15": "Start of Combat: destroys your smallest unit; grows on deaths.",
+    "u16": "Death Scene: summons two 3/3 Hatchlings with Encore.",
+    "u17": "Last unit dies: every fallen unit gets back up.",
+    "u18": "Death Scene: replays every Death Scene from earlier this fight.",
+    "u19": "Encore at full Health; +1/+1 for every 2 Notices.",
+    "x01": "3/3 with Encore, from the Compost-Heap Matron.",
+    "x02": "1/1 left by Anguis; its Death Scene grows him."
+  },
+  "builds": [
+    {"name": "The Repertory", "line": "Leads in front of the Prompter's Boy; deaths become board-wide permanent stats."},
+    {"name": "The Curtain Call", "line": "An Encore wall that keeps getting up; Hesketh raises everyone again."},
+    {"name": "The Notices bank", "line": "Count every death, any tribe's, and cash in for gold and stats."}
+  ],
+  "liked": [
+    "All three picked Little Anguis: stepping in to play the dead lead's part.",
+    "Placement is the decision: the Prompter's Boy doubles whoever stands in front."
+  ],
+  "worries": [
+    "Prompter's Boy, Dame Natrix and Old Crest stack Death Scenes fast; needs a sim.",
+    "Bill-Poster grows faster every turn as Notices pile up; Žilvinas swings by lobby."
+  ],
+  "changed": [
+    "Old Crest capped: once a fight, one replay per unit, never doubled.",
+    "Little Anguis leaves a Tail that grows him when it dies.",
+    "Toad Claque and Bit-Part Lizard now reward Understudies, tying in the back row."
+  ],
+  "verdict": "Fun 7, distinct 6; ranked third of its three: solid, readable, familiar. For players who like chaining death effects."
+}
