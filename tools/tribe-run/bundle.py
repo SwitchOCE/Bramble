@@ -105,9 +105,16 @@ def design(ddir, criteria, members):
         m = re.search(r"^#\s+(.+)$", md, re.M)
         tribe_name = re.sub(r"[*_`]", "", m.group(1)).strip() if m else None
     key = f"{seed}-{hashlib.md5(did.encode()).hexdigest()[:4]}"
+    # The quick-read pitch (data-format.md, "pitch.json"). Optional: a missing or broken one is skipped
+    # and the portal falls back to what the version files give. The page checks each field it uses.
+    pitch = load(ddir / "pitch.json")
+    if pitch is not None and not (isinstance(pitch, dict) and isinstance(pitch.get("v"), int)
+                                  and any(x["v"] == pitch["v"] and x["data"] for x in versions)):
+        problems.append(f"{ddir / 'pitch.json'}: not an object naming a version on disk")
+        pitch = None
     return {"id": did, "key": key, "seed": seed, "route": route, "tribe_name": tribe_name,
             "status": status, "final_version": final, "stop_reason": stop,
-            "md": md, "versions": versions}
+            "md": md, "versions": versions, "pitch": pitch}
 
 
 def bundle(run_dir):

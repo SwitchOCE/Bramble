@@ -1,0 +1,101 @@
+{
+ "design_id": "sample-moss--bottom-up-mech",
+ "v": 2,
+ "hook": "Moss spreads across your whole board, and every sale is a choice about where it goes.",
+ "loop": [
+  "Buy oozes that spread moss onto your board",
+  "Moss layers pile up and survive selling",
+  "Payoffs cash every layer into stats"
+ ],
+ "growth": {
+  "shape": "wide",
+  "line": "Moss spreads evenly, so the whole board grows together rather than one unit."
+ },
+ "feel": {
+  "early": "Seed moss on cheap bodies.",
+  "mid": "Sell carefully to keep the spread going.",
+  "late": "Every unit is big; Windfury finishes it."
+ },
+ "stars": [
+  {
+   "uid": "u20",
+   "why": "A Taunt that shares its moss, so the front line grows too."
+  },
+  {
+   "uid": "u03",
+   "why": "Selling only spreads with three mossy units: a real decision."
+  },
+  {
+   "uid": "u12",
+   "why": "Steady growth for one carrier every turn."
+  }
+ ],
+ "roles": {
+  "u01": "engine",
+  "u02": "body",
+  "u03": "engine",
+  "u04": "body",
+  "u06": "buff",
+  "u07": "engine",
+  "u20": "utility",
+  "u08": "payoff",
+  "u09": "engine",
+  "u10": "economy",
+  "u11": "utility",
+  "u12": "buff",
+  "u13": "multiplier",
+  "u14": "payoff",
+  "u15": "multiplier",
+  "u16": "payoff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "economy",
+  "x01": "engine"
+ },
+ "card_short": {
+  "u01": "When played, spread one layer of moss.",
+  "u02": "Gains Health each turn while you have moss.",
+  "u03": "Spreads moss when you sell it.",
+  "u04": "Gains Attack whenever a friend gets moss.",
+  "u06": "Your mossy units have +1 Attack.",
+  "u07": "Spreads two moss when it dies.",
+  "u20": "Taunt. Shares +1/+1 when it gets moss.",
+  "u08": "Eats one friend's moss for a big body.",
+  "u09": "Spreads moss at fight start for each mossy friend.",
+  "u10": "Mossy buys pay 1 gold next turn.",
+  "u11": "Taunt. Mossy neighbours take less damage.",
+  "u12": "Each turn, your leftmost mossy unit gets +2/+2.",
+  "u13": "Your first spread each turn spreads again.",
+  "u14": "Units with 3+ moss attack twice.",
+  "u15": "Every spread adds one more layer.",
+  "u16": "When it dies, friends grow per moss layer.",
+  "u17": "Fight start: spread three, mossy units +2 Attack.",
+  "u18": "Strips all your moss for +4/+4 per layer.",
+  "u19": "Sold mossy units keep half their moss.",
+  "x01": "A 1/1 that spreads moss when it dies."
+ },
+ "builds": [
+  {
+   "name": "Go wide",
+   "line": "Fill the board early; Tier 4 payoffs scale everything."
+  },
+  {
+   "name": "One big carrier",
+   "line": "Pour all the moss into one unit behind Taunts."
+  }
+ ],
+ "liked": [
+  "Selling became a real decision instead of free value.",
+  "The board grows as one."
+ ],
+ "worries": [
+  "The Green Tide may swing too hard at the start of fights.",
+  "Damp Nibbler is the weakest card."
+ ],
+ "changed": [
+  "Spread now picks a unit without moss first.",
+  "Lichen Crawler only spreads with three mossy units.",
+  "Mire Sprout cut; Damp Ward added at Tier 3."
+ ],
+ "verdict": "Settled at v2 and the run's top pick: for players who enjoy planning every sale."
+}

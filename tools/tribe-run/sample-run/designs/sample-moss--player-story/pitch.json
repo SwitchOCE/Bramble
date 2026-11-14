@@ -1,0 +1,101 @@
+{
+ "design_id": "sample-moss--player-story",
+ "v": 3,
+ "hook": "A choir of oozes that sings moss onto the board at the start of every fight.",
+ "loop": [
+  "Buy oozes that spread moss onto your board",
+  "Moss layers pile up and survive selling",
+  "Payoffs cash every layer into stats"
+ ],
+ "growth": {
+  "shape": "in-fight",
+  "line": "Most growth lands at the start of each fight, then fades after combat."
+ },
+ "feel": {
+  "early": "Quiet: a few layers, small bodies.",
+  "mid": "Fight starts begin to burst with moss.",
+  "late": "Every fight opens with a flood of moss."
+ },
+ "stars": [
+  {
+   "uid": "u09",
+   "why": "The fight-start moment: moss bursts out across the board."
+  },
+  {
+   "uid": "u13",
+   "why": "Now fires once a turn, so it chains without running away."
+  },
+  {
+   "uid": "u01",
+   "why": "A Tier 1 that starts the spread from turn one."
+  }
+ ],
+ "roles": {
+  "u01": "engine",
+  "u02": "body",
+  "u03": "engine",
+  "u04": "body",
+  "u05": "buff",
+  "u06": "buff",
+  "u07": "engine",
+  "u08": "payoff",
+  "u09": "engine",
+  "u10": "economy",
+  "u11": "utility",
+  "u12": "buff",
+  "u13": "multiplier",
+  "u14": "payoff",
+  "u15": "multiplier",
+  "u16": "payoff",
+  "u17": "payoff",
+  "u18": "payoff",
+  "u19": "economy",
+  "x01": "engine"
+ },
+ "card_short": {
+  "u01": "When played, spread one layer of moss.",
+  "u02": "Gains Health each turn while you have moss.",
+  "u03": "Spreads moss when you sell it.",
+  "u04": "Gains Attack whenever a friend gets moss.",
+  "u05": "When played, gives a mossy friend +2/+2.",
+  "u06": "Your mossy units have +1 Attack.",
+  "u07": "Spreads two moss when it dies.",
+  "u08": "Eats one friend's moss for a big body.",
+  "u09": "Spreads moss at fight start for each mossy friend.",
+  "u10": "Mossy buys pay 1 gold next turn.",
+  "u11": "Taunt. Mossy neighbours take less damage.",
+  "u12": "Each turn, your leftmost mossy unit gets +2/+2.",
+  "u13": "Your first spread each turn spreads again.",
+  "u14": "Units with 3+ moss attack twice.",
+  "u15": "Every spread adds one more layer.",
+  "u16": "When it dies, friends grow per moss layer.",
+  "u17": "Fight start: spread three, mossy units +2 Attack.",
+  "u18": "Strips all your moss for +4/+4 per layer.",
+  "u19": "Sold mossy units keep half their moss.",
+  "x01": "A 1/1 that spreads moss when it dies."
+ },
+ "builds": [
+  {
+   "name": "Go wide",
+   "line": "Fill the board early; Tier 4 payoffs scale everything."
+  },
+  {
+   "name": "One big carrier",
+   "line": "Pour all the moss into one unit behind Taunts."
+  }
+ ],
+ "liked": [
+  "The best moments of the three designs.",
+  "Fight starts feel like a performance."
+ ],
+ "worries": [
+  "Damp Nibbler is the weakest card.",
+  "It took three passes to stop breaking."
+ ],
+ "changed": [
+  "Silt Mother capped at three spreads.",
+  "Old Root Choir fires only on the first spread each turn.",
+  "First Note renamed and given 2 Attack."
+ ],
+ "verdict": "Capped at v3: fair now, with big fight-start moments, though v1 had more character."
+}
