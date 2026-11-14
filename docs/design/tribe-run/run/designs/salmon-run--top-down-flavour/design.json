@@ -3,7 +3,7 @@
  "seed": "salmon-run",
  "route": "top-down-flavour",
  "tribe_name": "The Salmon Run",
- "status": "revising",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -40,6 +40,26 @@
     "iterate": 2
    },
    "summary": "Rules made readable: all Salmon have Leap (No Leap wins), the Gift reaches only the two river neighbours, and Spawns use the recruit slot.\nThe Warden's many Homes all Spawn in order, Bradán's replays don't count as Spawning, and Pebble-Carrying Hen gains a Stamp."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   },
+   "summary": "The Gift now adds the spawning fish's tier to its Stamps, so going home pays from the first turns instead of always being worse than blocking B1.\nWording fixes: whose Stamps count (Gift, Silver Smolt), Old Kelt now No Leap so he stays at the mouth, leaps never add or skip attacks, and Mother Redd with a full hand."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

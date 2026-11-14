@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "salmon-run--player-story",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Watching passports fill and fish spawn, come home and go again is a real arc to draft towards, though Leap order and Stamps ask a lot of attention per card.",
+    "distinct": "Over a 7: Leaps swap the unit they pass, so the bank folk slide down and one Landlady catches a whole column; no tribe today has that bank-versus-river plumbing."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 readability problems are fixed in text and rulings; what remains is UI work (stamp pips, the river drawn), not a card fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Leaps in the recruit phase that the player can drag back read as movement but only count as a Stamp; End of Turn Leaps like Tail-Sweep Hen's are where recruit movement really matters, so lean the tribe's recruit Leaps that way."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Bear at the Long Leap's \"Once a turn, fight included\" reads stiffly; \"Once a turn, recruiting or fighting\" says the same thing at a glance."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Old Bradán is the densest card in the tribe; showing the Spawn texts he holds on his card, as the risks say, is what makes him readable."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "The Bailiff's lore is stamping passports, but his card only gives stats; giving a front-row arrival an extra Stamp would make the heron do what he is known for."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "The Salmon of Llyn Llyw carried Arthur's men; its double-Stamp text doesn't show that, where carrying another fish upstream with it would."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "The Landlady reads instantly and the swap rule makes one pub buff a whole column of pilgrims."},
+    {"uid": "u12", "why": "The Bear forces a Spawn and takes half the fish: the hunted narrows of the river, in one card."},
+    {"uid": "u19", "why": "The Alder grows from spent fish, the real sea-nitrogen story, and stays put as a carry."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Uncle Faroe is a Stamp and 3 gold; the boasting emigrant doesn't come through in what he does."},
+    {"uid": "u16", "why": "Spate-Rider is a generic death chain; the flood fantasy is thin next to the rest."},
+    {"uid": "u18", "why": "Llyn Llyw is a pure number multiplier with little of its legend in the text."}
+  ],
+  "flags": [
+    {"uid": "u06", "kind": "watch", "note": "With Old Kelt and Llyn Llyw, Weir-Jumper's Fry deaths refill its passport mid-fight and each lap adds three Fry and feeds the Alder; bounded by board space and enemy attacks."},
+    {"uid": "u14", "kind": "watch", "note": "Mother Redd with the Bear and Llyn Llyw can make a triple and a Discover every turn or two late on."}
+  ]
+}

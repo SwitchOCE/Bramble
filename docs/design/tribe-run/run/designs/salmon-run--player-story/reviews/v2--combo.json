@@ -1,0 +1,33 @@
+{
+  "id": "v2--combo",
+  "design_id": "salmon-run--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because the swap rule makes overlaps the cards don't print: one Landlady catches a whole Kype column, the zigzag river makes Bailiff fire on every other Leap, and Spate-Rider pulls the back row into the gap. Every turn asks which fish to ripen and where the bank folk stand.",
+    "distinct": "Leaping along the zigzag with a six-stamp passport plays unlike today's tribes, but going home to hand with stats kept is close to the Birds' Fly South."
+  },
+  "verdict": "settle",
+  "verdict_why": "The engines interlock and the v1 holes are closed; what's left is rulings and taste, which would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "idea", "text": "Print a sweep ruling: if Old Kelt swaps a fish to the Mouth halfway through a Kype or Spate-Rider sweep, does the unit swapped up still Leap? Suggest: a sweep moves only the units it listed when it began."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Reunion Secretary is the one Spawn text with no position in it. Something like 'Spawn: Run units downstream of where this Spawned gain +3/+3' would make where it ripens a choice."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Ghillie Stoat is flat gold. Tying it to timing would fit the tribe better, for example 2 gold when the passport of the unit leaping past fills up."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "Swapped down one slot per pass, the Landlady becomes the next fish's obstacle. It's the best accidental combo in the tribe."},
+    {"uid": "u12", "why": "The Bear turns a Spawn into a choice at any Stamp count and links up with Mother Redd, Old Kelt, Uncle Faroe and Little Jack."},
+    {"uid": "u17", "why": "Old Bradán's learn-then-burst rewards gathering many Spawn texts, and Little Jack doubles it."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "A flat team buff on Spawn that does one job."},
+    {"uid": "u03", "why": "Once-a-turn gold with no decision attached."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "With the Bear forcing a Spawn each turn, Mother Redd can make a triple, and a Discover, every two turns."},
+    {"uid": "u15", "kind": "watch", "note": "Old Kelt with Llyn Llyw and Weir-Jumper loops on Fry deaths in a fight, and the Alder gains each lap. Only board space and enemy attacks stop it."},
+    {"uid": "u09", "kind": "watch", "note": "Uncle Faroe past the Bear each turn, with Little Jack, makes 6 free gold a turn."},
+    {"uid": "u15", "kind": "unclear", "note": "Old Kelt's swap to the Mouth in the middle of a sweep: it isn't stated whether the swapped unit still Leaps."}
+  ]
+}

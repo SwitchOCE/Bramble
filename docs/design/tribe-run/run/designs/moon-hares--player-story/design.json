@@ -3,7 +3,7 @@
  "seed": "moon-hares",
  "route": "player-story",
  "tribe_name": "The Moon Hares",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -46,17 +46,20 @@
    "author": "reviser",
    "reviews": [
     "v3--combo",
-    "v3--climber"
+    "v3--climber",
+    "v3--reader"
    ],
    "ratings": {
     "fun": 7.0,
-    "distinct": 7.5
+    "distinct": 7.3
    },
    "votes": {
     "settle": 0,
-    "iterate": 2
+    "iterate": 3
    },
    "summary": "Closed the last rules gaps: borrowed sell and death text now fires and means the Borrower, so Leverets behind Moon-Gazer or Old Wat become free moon turns, and Longshanks' bout ends after 5 hits each.\nAlso made the Witch show it needs a Full moon, said the Moon-Scour counts the current Full, and cut Grandam to one readable line."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

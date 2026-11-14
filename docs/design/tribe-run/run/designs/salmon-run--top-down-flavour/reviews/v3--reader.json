@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Setting the river each turn (who opens the way, who waits at B1, who catches the Gift) is a fresh puzzle, and Stamps plus Alevin triples give steady growth you can see.",
+    "distinct": "Over a 7: the board itself is a one-way river and each death moves the whole run up mid-fight, so slot order decides who goes home; no tribe today or in Battlegrounds moves units along a path in the fight."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 readability fixes landed; what's left is wording polish and UI, not a broken or unreadable card.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "idea", "text": "Captain Kype's 'it attacks at once' reads against Leap's 'leaping doesn't add an attack'. Saying 'makes an extra attack' marks it as the exception."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Sea Trout Ferrywife's Leap moves with her as the run climbs, so who has Leap changes mid-fight. 'Units alongside this at Start of Combat have Leap this fight' would fix who gets it."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Old Bradán fires every fish's Gift at once at Start of Combat, which is hard to predict from the board. A preview of each Gift's arrows while recruiting would make him readable."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The fantasy lives in the River, so the board should draw it: a current along the zigzag, Stamp pips on every fish and B1 marked as the next pilgrim with its Gift shown."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Pebble-Carrying Hen is a quiet rules tweak; the pebble from your own redd could do more, such as the Alevin keeping the parent's Spent text."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt drifts to the mouth and the whole run leaps up behind him: the seed's image and the mechanic are one move."},
+    {"uid": "u04", "why": "The Bailiff stamps passports each turn and eats a pilgrim when sold; you can read the heron from the rules alone."},
+    {"uid": "u08", "why": "Reunion Cock turns year-classes into a matching puzzle that the run's shared leaping keeps lined up."}
+  ],
+  "weakest": [
+    {"uid": "u18", "why": "Old Bradán's mass replay at Start of Combat is the hardest card to read at a glance."},
+    {"uid": "u12", "why": "Pebble-Carrying Hen is a small number change with little play of its own."},
+    {"uid": "u07", "why": "Sea Trout Ferrywife's aura shifts as she and her neighbours leap, so who has Leap is hard to track."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Old Bradán's in-fight total is about twice the tier guide by the designer's own count."},
+    {"uid": "u17", "kind": "watch", "note": "Mother Redd with the Warden and Little Jack Gravel can make a golden Alevin, and so a Discover, nearly every turn."}
+  ]
+}

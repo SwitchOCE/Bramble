@@ -3,7 +3,7 @@
  "seed": "salmon-run",
  "route": "player-story",
  "tribe_name": "The Salmon Run",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Old Kelt's kept fish now clear their Stamps so laps work, Bradán's text says how Little Jack's repeats work, and the Bear's once a turn includes the fight. A full passport now Spawns on its next Leap, so players see it coming, and Fish-Pass Trout gives its fish a fight buff so it earns a pick."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

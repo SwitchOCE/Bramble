@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "moon-hares--player-story",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "A moon you can see on the hero and wind yourself is easy to plan around, and Full Moons pay visible permanent growth; Borrow's hidden rules keep it from going higher.",
+    "distinct": "A per-player phase clock plus borrowed text plays unlike any of today's tribes; Borrow itself echoes copy effects players know from other games."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Grandam of the Forms doesn't work as written, and Borrow's Full-moon condition reads differently across cards; both are small rewrites.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Grandam of the Forms fires on New Moon, but Borrow is only on while the moon is Full, so no Leveret is ever \"borrowing a Hare\" when she fires. Say \"each Leveret becomes a copy of the Hare in front of it\"."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Borrow's Full-moon condition is hidden in the keyword: Ribboned Jack and the Leveret don't say Moonlit, Witch in Borrowed Shape does, and Sister Silverpenny opts out. That suggests Jack borrows all the time. Print \"Moonlit: Borrow …\" on every Borrower, and let Silverpenny's exception stand out."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Borrow keyword is a paragraph of edge rules. Keep the card reminder to one line (\"While Full, this also has that unit's text\") and move the rest to a rules glossary."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Dame Waxwell reads more easily as \"Your Full Moon and New Moon triggers fire twice, even Once a turn ones.\""},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Waning has one card, Dusk Nurse. A Waning card would give the phase you pass through on the way to New a reason to show on the board."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Jill Longshanks boxing the enemy across is the seed's March boxing as a mechanic, and you can read the bout at a glance."},
+    {"uid": "u08", "why": "Old Wat, sold, turning the moon and always coming back is the character told in one line."},
+    {"uid": "u13", "why": "The Three Hares sharing their gains with neighbours is the church-roof icon turned into a clear rule."}
+  ],
+  "weakest": [
+    {"uid": "u19", "why": "Grandam of the Forms has the most text and the most hidden rules, and as written her trigger never finds a borrowing Leveret."},
+    {"uid": "u14", "why": "Dame Waxwell's Once-a-turn clause is clumsy to read."},
+    {"uid": "u06", "why": "Moon-Caller is clear but plain; its mid-fight Full is the hard part to follow on screen."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "New Moon trigger refers to Leverets \"borrowing\", which only happens under a Full moon."},
+    {"uid": "u03", "kind": "unclear", "note": "Card text doesn't show that Borrow needs a Full moon, while Witch in Borrowed Shape's does."},
+    {"uid": "u16", "kind": "watch", "note": "Sister Silverpenny copies another tribe's best unit every turn from Tier 5."},
+    {"uid": "u14", "kind": "watch", "note": "Dame Waxwell with Mother Meikle Care stacks many Full Moon payouts per shop, and the log and animation have to keep them readable."}
+  ]
+}

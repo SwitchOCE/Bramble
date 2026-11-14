@@ -13,7 +13,7 @@
  "points": [
   {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Grandam of the Forms fires on New Moon, but Leverets only borrow while the moon is Full, so no Leveret is ever 'borrowing a Hare' then and the copy never happens. Say 'each Leveret with a Hare in front of it' instead."},
   {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Sister Silverpenny's 'biggest non-Hare' isn't timed: in a fight the biggest changes as units die and buff. Say when it is checked, e.g. at Start of Combat and at the start of your turn."},
-  {"pid": "p3", "uid": "u05", "kind": "idea", "text": "The clock build turns the moon three times a shop, so it passes New every turn as well as Full: Silverpenny Doe then pays 2 gold a turn (4 with Waxwell) at Tier 2, well above the economy target. Worth the owner's eye, not a cut."},
+  {"pid": "p3", "uid": "u05", "kind": "idea", "text": "The clock build turns the moon three times a shop, so it passes New every turn as well as Full: Silver Sixpence Doe then pays 2 gold a turn (4 with Waxwell) at Tier 2, well above the economy target. Worth the owner's eye, not a cut."},
   {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Turns 1 and 2 are vanilla: Moon-Gazer is a 1/2 that only matters once payoffs arrive. A small Moonlit line (e.g. Moonlit: +1/+1) would let it help the turn-3 Full fight too."},
   {"pid": "p5", "uid": null, "kind": "idea", "text": "Waning is still only Dusk Nurse. One Tier 2 Waning card would make the clock build choose where to stop, not just spin through every phase."}
  ],

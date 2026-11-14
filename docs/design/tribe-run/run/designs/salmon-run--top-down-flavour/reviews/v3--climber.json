@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Setting the river each turn is a real decision, early Spawns now pay, and the late game has two different payoffs; the Stamp bookkeeping and the Warden trap keep it at 7.",
+    "distinct": "Over a 7 because the fight itself moves your board: deaths pull the run up the zigzag and reaching F1 is the resource, which no current tribe or typical auto-battler tribe does."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 fixes landed and nothing left is broken or unreadable; what remains are tuning ideas the owner can balance later.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "idea", "text": "Warden of the Hazel Well spends every fish that comes Home, so without Mother Redd a long cascade turns your best fish into Alevins. Letting only the first Spawn, with the rest giving just their Gift, would make it a direction card on its own."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Old Kelt with one gap gives a Stamp to the whole run and a homecoming every fight, so in spend builds he may be the default opener. Worth watching whether the lost slot is enough of a price."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Pebble-Carrying Hen is a Tier 4 whose output is about one Stamp per Spawn. It could also let the Alevin keep the Gift it would have caught, so it pays like a Tier 4."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The curve has a good shape: small positive Spawns early, Stamps compounding by Tier 4, then Redd, Bradán or Llyn Llyw as distinct finishes. Keep the Gift's tier term; it is what makes early homecomings worth taking."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt turns one empty slot into a whole-run cascade at Start of Combat; the seed's image as a mechanic."},
+    {"uid": "u04", "why": "The Bailiff is both a Stamp engine and a Spawn-on-demand outlet, and the No Leap heron blocks the way home for the Long Road."},
+    {"uid": "u19", "why": "The Salmon of Llyn Llyw makes the never-go-home plan a real capstone and lets other tribes climb."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Pebble-Carrying Hen adds about one Stamp per Spawn, small for Tier 4."},
+    {"uid": "u07", "why": "Sea Trout Ferrywife only matters for other tribes' units, since Salmon already Leap."},
+    {"uid": "u16", "why": "Claw-Marked Cock is a solid but generic leap-for-stats body next to Kype."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With the Warden, Mother Redd keeps every homecomer and makes a Gift each, around 4-5 times the Tier 6 guide a turn, plus Alevins toward a golden and a Discover; the hand limit is the only brake."},
+    {"uid": "u18", "kind": "watch", "note": "Old Bradán replays every Gift in fight, about twice the Tier 6 guide; golden doubles it. Not a loop, but hot."},
+    {"uid": "u09", "kind": "watch", "note": "Falls-Leaper counts every leap, and cascades pull up to six at once, so +15-20 Attack in fight at Tier 3 is plausible."},
+    {"uid": "u14", "kind": "watch", "note": "Without Mother Redd the Warden can spend most of your board in one turn; check that players don't read it as a trap."}
+  ]
+}

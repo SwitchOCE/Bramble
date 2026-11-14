@@ -1,0 +1,34 @@
+{
+  "id": "v3--combo",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every recruit phase is a real puzzle (who dies at the Source, who waits at B1, whose neighbours catch the Gift), and Bailiff, Kelt, Redd and the Hens chain in ways the builds don't list; a few plain stat cards keep it from 8.",
+    "distinct": "Earns 8 over 7 because the board itself moves in a fight: a death at the head pulls the whole zigzag up a step, swapping rows, and a fish's slot is both its progress and its Spawn spot, which no auto-battler tribe does."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken and the rules now read; what is left is timing rulings and flavour polish, which would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "idea", "text": "Selling the Bailiff is an on-demand Spawn that stacks with Second-Run Hen, Jack and Mother Redd; say whether the leaving Bailiff still catches the Gift as the unit alongside."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Reunion Cock's 'exactly as many' clashes nicely with Pebble-Carrying Hen's +1 and Silver Smolt's Stamp, so tuning a year-class is a real choice; keep it, and show Stamps on the board."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Falls-Leaper only counts leaps for Attack; letting it also gain a Stamp or a permanent stat when the run cascades past it would tie it to the Long Road too."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Brother Grilse is the one T1 that ignores Stamps; a small Stamp hook (gains +1 Attack per Stamp when it leaps) would make him a seed for both builds."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Let Old Bradán resolve after every other Start of Combat effect, so Old Kelt's cascade sets the positions his replayed Gifts use; that turns the reading-order question into a combo."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt turns one empty slot into a Stamp for the whole run and a sure homecoming, and costs a real slot decision."},
+    {"uid": "u04", "why": "The Bailiff stamps neighbours, blocks B1 for the Long Road, and when sold becomes a Spawn button; three jobs in one heron."},
+    {"uid": "u17", "why": "Mother Redd flips the tribe's cost: the same veteran comes home every fight and keeps paying Gifts, with Alevins for triples."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Falls-Leaper is a generic 'gains Attack when others move' card."},
+    {"uid": "u02", "why": "Brother Grilse does one obvious tempo job and reads no Stamps."},
+    {"uid": "u16", "why": "Claw-Marked Cock is a solid stat body; its row-swap trigger is cute but it feeds nothing else."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With the Warden and Little Jack Gravel, Alevins to hand can make a golden and a Discover almost every turn."},
+    {"uid": "u18", "kind": "watch", "note": "Old Bradán's replayed Gifts add the tier, about twice the guide in fight; the designer already names the lever."}
+  ]
+}

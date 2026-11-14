@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "salmon-run--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Clear growth shape: Stamps and Landlady passes early, Spawn decisions mid-game, Alder and Bradán bursts late, and each Spawn is a real cost-or-reward call.",
+    "distinct": "The swap river with bank folk sliding down as obstacles is fresh, but Spawn coming home with stats kept sits close to Birds' Fly South."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real unclear rule (Mother Redd copies into a full hand) is worth a line; the rest plays well as it stands.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Say what happens to Mother Redd's copies when the hand is full: do they wait like a returning fish, or are they lost? With Old Kelt laps she can make several a turn."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Old Kelt with Mother Redd means a fish stays on board and still sends a copy each lap, so they stop being two different answers. Consider whether Kelt's kept Spawns should skip Redd, or leave it as the high roll."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Thumbprint Parr takes six fights to fill on its own Leap, so its Spawn rarely lands before Tier 4. A first-turn Stamp or a bigger Spawn would let the seed pay off on curve."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Ghillie Stoat's once-a-turn gold is thin next to the Landlady; letting it trigger in fights too (paid next turn) would make it a pick in leap boards."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Early turns lean on Brother Grilse and the Hen to make any Leaps at all; a second cheap Start of Combat Leap at Tier 2 would smooth the first three turns."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "The Landlady catching a whole Kype column one fish after another is the tribe's best early moment."},
+    {"uid": "u12", "why": "The Bear turns Spawn from a wait into a choice and grows himself, a strong mid-game pivot."},
+    {"uid": "u19", "why": "The Alder is a stable carry that never leaves, giving the spending fish a place their power lands."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "About 1 gold a turn with a narrow trigger; you take the Landlady instead."},
+    {"uid": "u02", "why": "Grows slowly and its Spawn is small for how long it takes to arrive."},
+    {"uid": "u16", "why": "Big in-fight numbers but only once the front row dies, and nothing permanent."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "With The Salmon of Llyn Llyw and Weir-Jumper, Fry deaths refill a passport mid-fight and each lap leaves three more Fry; only board space and enemy attacks stop it."},
+    {"uid": "u19", "kind": "watch", "note": "With Old Kelt laps, the Alder gains a fish's full stats several times a fight, permanently; could outgrow any Tier 6 target."},
+    {"uid": "u14", "kind": "watch", "note": "Mother Redd with the Bear, or with Kelt laps, can make a triple and a Discover nearly every turn late."},
+    {"uid": "u14", "kind": "unclear", "note": "Copies into a full hand are not ruled."},
+    {"uid": "u09", "kind": "watch", "note": "Uncle Faroe with the Bear and Little Jack is 6 gold a turn plus a replayed Leap; worth the owner's eye on economy."}
+  ]
+}
