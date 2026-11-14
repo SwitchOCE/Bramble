@@ -25,20 +25,27 @@ The platform isn't decided. Check phone size only when asked, and judge only tex
 ## What I Need From You
 
 - **The design**: screenshot, page, Figma URL, or detailed description
-- **Context**: What is this? Who is it for? Which phase (recruit, fight, travel, menu)? What stage (exploration, refinement, final)? Does this round set the layout rules aside on purpose?
+- **Context**: What is this? Who is it for? Which phase (recruit, fight, travel, menu)? What stage (exploration, refinement, final)?
 - **Focus** (optional): "Focus on the fight" or "Just the shop"
 
-## Bramble's Fixed Layout Rules
+## Bramble's Layout Rules
 
-A summary of the owner's decisions of 11 Nov 2026; the full list is `docs/design-lab/journey/HANDOFF.md` on `archive/design-lab`. Check `docs/design/owner-notes/` and CLAUDE.md for anything newer first.
+Check `docs/design/owner-notes/` and CLAUDE.md for anything newer first.
 
-- The board is 4 front and 3 behind, the back row offset half a slot.
-- Your board is framed as its own zone and never moves or resizes between recruit, fight and travel. It is centred horizontally in a stacked layout and vertically in a left-right one, where you are on the left.
+**Fixed (owner, 14 Nov 2026).** A breach is a top finding.
+
+- The board is 4 front and 3 behind, the back row offset half a slot. "I want the board to be 4 and 3 if I possibly can get it. If we really can't do it, okay, I'll reevaluate."
+- Units are tall hexes: "these are the right path."
+
+**Current direction, open to change.** These come from the owner's 11 Nov 2026 layout notes (full list: `docs/design-lab/journey/HANDOFF.md` on `archive/design-lab`). The owner, 14 Nov: they "were just things I suggested for improvements... suggestions that became rules", and "I'm not completely attached to anything." Check the design against them. If one has to break to make the screen work, say which one and why, with the evidence. Breaking one is not a failure.
+
+- Your board never moves or resizes between recruit, fight and travel, and is centred.
 - Every unit is the same size everywhere: shop, hand and both boards.
 - The shop is its own zone, with tier up, refresh and freeze inside it.
-- Vertical space goes to the boards. The leaderboard sits on the right.
+- Vertical space goes to the boards.
+- Open: where the hand, the hero and End turn sit, the hand size limit, and whether the other players show during play.
 
-A breach is a top finding, unless the brief says this round sets the rules aside on purpose; the 4-3 board holds even then. If a rule seems to hurt the screen, flag it for the owner with the evidence.
+What matters most to the owner: "the game's look and feel, its moment-to-moment gameplay is good."
 
 ## Critique Framework
 
@@ -125,7 +132,7 @@ A breach is a top finding, unless the brief says this round sets the rules aside
 ### Layout and Grouping
 | Principle | Issue | Recommendation |
 |-----------|-------|----------------|
-| [Proximity/framing/alignment/stability/fixed rule] | [Issue] | [Fix] |
+| [Proximity/framing/alignment/stability/layout rule] | [Issue] | [Fix] |
 
 ### Consistency
 | Element | Issue | Recommendation |
